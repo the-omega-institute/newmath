@@ -1,0 +1,378 @@
+\chapter{A Concrete Naming Certificate for $\TransportedStationaryWindowSealUp$}
+\label{ch:concrete-instances-transportedstationarywindowseal-namecert}
+\origin{human}
+
+The $\TransportedStationaryWindowSealUp$ interface records the finite seal packet consumed by the transported stationary diagonal path. It packages the transported $\RatUp$ seed classifier, the constant $\StreamNameUp$ window, the $\RegSeqRatUp$ window seal, the $\FiniteWindowEnvelopeUp$ observation boundary, and the $\RealUp$ seal-facing row. It is a finite naming certificate, not a real-completeness theorem.
+
+The transported stationary window-seal packet consumes the constant-window
+route of \autoref{ch:concrete-instances-streamname-namecert}, the regular
+rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the
+finite observation boundary of
+\autoref{ch:concrete-instances-finitewindowenvelope-namecert}, and the
+real-facing seal row of \autoref{ch:concrete-instances-real-namecert} through
+the route $R,S,G,W,E,H,C,P,N$ before any consumer reads the transported seal.
+
+\begin{definition}[Transported stationary window-seal carrier]
+\label{def:transported-stationary-window-seal-carrier}
+A $\TransportedStationaryWindowSealUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $R$ is the transported $\RatUp$ classifier row for the two stationary rational seeds;
+\item $S$ is the constant $\StreamNameUp$ finite-window classifier induced by $R$;
+\item $G$ is the $\RegSeqRatUp$ finite-window seal row read from the same constant stream window;
+\item $W$ is the $\FiniteWindowEnvelopeUp$ packet naming the selected anchor, window, dyadic ledger, regular-rational seal, and endpoint classifier;
+\item $E$ is the $\RealUp$ seal-facing row obtained from $G$ and $W$;
+\item $H$ records the transported stationary diagonal handoff rows that identify the displayed diagonal representatives with the same constant rational route;
+\item $C$ stores the displayed $\hsame$ and $\Cont$ transports for the seed classifier, stream window, regular-rational seal, finite envelope, and real seal;
+\item $P$ is the $\Pkg$ provenance naming $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ source certificates;
+\item $N$ is the local $\NameCert_{\TransportedStationaryWindowSealUp}$ row.
+\end{enumerate}
+The local classifier relates two carriers exactly when their transported $\RatUp$ classifier rows agree and the induced $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, transport, package, and local certificate rows compare componentwise after the displayed routes in $C$.
+\end{definition}
+
+\begin{theorem}[Transported stationary window-seal NameCert obligations]
+\label{thm:transported-stationary-window-seal-namecert-obligations}
+The $\NameCert_{\TransportedStationaryWindowSealUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier: formation of the finite packet of \autoref{def:transported-stationary-window-seal-carrier};
+\item classifier: componentwise comparison of the transported $\RatUp$ seed classifier, constant $\StreamNameUp$ window, $\RegSeqRatUp$ seal, $\FiniteWindowEnvelopeUp$ packet, $\RealUp$ row, transports, package provenance, and local certificate row;
+\item transported window exactness: the $\RatUp$ classifier, constant $\StreamNameUp$ window, and $\RegSeqRatUp$ finite-window seal read the same transported stationary row;
+\item seal exhaustion: every $\RealUp$ consumer read factors through the displayed $\FiniteWindowEnvelopeUp$ packet and the same $\RegSeqRatUp$ seal row;
+\item non-escape: the carrier has no coordinate for quotient streams, host equality, choice, selected host limits, or real completeness.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.TransportedStationaryWindowSealUp.TransportedStationaryWindowSealPacket\_namecert\_obligations}
+\begin{proof}
+Carrier formation is the finite assembly of the displayed tuple. The transported rational classifier supplies $R$, the stationary stream read supplies $S$, the regular-rational boundary supplies $G$, and the finite observation envelope supplies $W$. The real-facing row $E$, transported diagonal rows $H$, route table $C$, provenance row $P$, and local naming row $N$ are all visible coordinates of the same $\BHist$ packet.
+
+For the classifier obligation, compare the packet component by component after applying the displayed $\hsame$ and $\Cont$ routes. The transported $\RatUp$ row determines the constant stream window, the stream window determines the regular-rational finite seal, and the envelope ties the same window and dyadic ledger to the real-facing endpoint row.
+
+Transported window exactness is the stationary diagonal calculation read through a finite window. The transported $\RatUp$ classifier induces the constant $\StreamNameUp$ classifier, and the $\RegSeqRatUp$ row consumes exactly that window with the displayed ledger. Thus the three public readings are the same stationary row at the window boundary.
+
+Seal exhaustion follows by projecting $W$ and $E$. The $\FiniteWindowEnvelopeUp$ packet exposes the selected anchor, finite window, dyadic ledger, regular-rational seal, and endpoint classifier, and the $\RealUp$ row can read only those exposed fields plus the displayed transports and provenance.
+
+The non-escape clause is constructor inspection. None of $R,S,G,W,E,H,C,P,N$ is a quotient stream, a host equality proof, a choice operator, a selected host limit, or a real-completeness witness. Therefore the certificate remains a finite transported window-seal packet.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal readback determinacy]
+\label{thm:transported-stationary-window-seal-readback-determinacy}
+For an accepted $\TransportedStationaryWindowSealUp$ carrier $T=(R,S,G,W,E,H,C,P,N)$, the transported $\RatUp$ classifier row $R$ determines the constant $\StreamNameUp$ window $S$ and the $\RegSeqRatUp$ finite-window seal $G$. If two accepted carriers have the same transported $\RatUp$ classifier after the displayed $\hsame$ and $\Cont$ routes, then their constant stream windows and regular-rational finite-window seals agree at the public readback boundary.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:transported-stationary-window-seal-carrier}. The row $R$ is the transported rational classifier, $S$ is the constant stream window induced by that row, and $G$ is the regular-rational seal read from the same window.
+
+The transported window exactness clause in \autoref{thm:transported-stationary-window-seal-namecert-obligations} states that $R$, $S$, and $G$ read the same transported stationary row. The classifier clause transports these rows only componentwise through the displayed $\hsame$ and $\Cont$ routes.
+
+Hence equality of the transported $\RatUp$ classifier at the displayed route fixes the induced constant $\StreamNameUp$ window and the $\RegSeqRatUp$ seal at the public readback boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.TransportedStationaryWindowSealUp.TransportedStationaryWindowSealPacket\_readback\_determinacy}
+
+\begin{theorem}[Transported stationary window-seal Real factorization]
+\label{thm:transported-stationary-window-seal-real-factorization}
+Every $\RealUp$ read exposed by an accepted $\TransportedStationaryWindowSealUp$ carrier factors through the displayed $\FiniteWindowEnvelopeUp$ packet $W$ and the same $\RegSeqRatUp$ finite-window seal $G$. The real-facing row $E$ may read the selected anchor, finite window, dyadic ledger, regular-rational seal, and endpoint classifier only through $W$ together with the transported seal row $G$ and the displayed transport and provenance rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.TransportedStationaryWindowSealUp.TransportedStationaryWindowSealPacket\_real\_factorization}
+\begin{proof}
+Project the coordinates $G,W,E$ from the carrier tuple. The finite-window envelope $W$ names the anchor, window, dyadic ledger, regular-rational seal, and endpoint classifier, while $E$ is the real-facing row obtained from that envelope and the seal row.
+
+Apply the seal-exhaustion clause of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. It requires every $\RealUp$ consumer read to pass through $W$ and the same $\RegSeqRatUp$ seal row.
+
+The route table $C$ and provenance row $P$ preserve that factorization under the displayed transports. Therefore no $\RealUp$ read bypasses the finite envelope and regular-rational seal.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal uniqueness]
+\label{thm:transported-stationary-window-seal-uniqueness}
+Let $T=(R,S,G,W,E,H,C,P,N)$ and $T'=(R',S',G',W',E',H',C',P',N')$ be accepted $\TransportedStationaryWindowSealUp$ carriers. Suppose they are displayed over the same transported $\RatUp$ row, the same constant $\StreamNameUp$ window, the same $\RegSeqRatUp$ finite seal, the same $\FiniteWindowEnvelopeUp$ packet, and the same $\RealUp$ seal-facing row after the $\hsame$ rows and $\Cont$ routes named by $H,H',C,C'$. Then $T$ and $T'$ expose the same public seal row.
+
+The uniqueness claim is only about the finite public seal row. It does not identify quotient streams, host equalities, selected host limits, or real-completeness data.
+\end{theorem}
+\begin{proof}
+Apply the carrier and classifier clauses of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. They restrict comparison of $T$ and $T'$ to the displayed transported rational row, constant stream window, regular-rational seal, finite envelope, real-facing row, transport rows, continuation routes, provenance, and local naming rows.
+
+Next use \autoref{thm:transported-stationary-window-seal-readback-determinacy}. Agreement of the transported $\RatUp$ row under the displayed $\hsame$ and $\Cont$ routes fixes the constant $\StreamNameUp$ window and the $\RegSeqRatUp$ finite-window seal at the public readback boundary.
+
+Apply \autoref{thm:transported-stationary-window-seal-real-factorization}. Any $\RealUp$ seal-facing read must factor through the same finite envelope $W$ and the same regular-rational seal row $G$, so the public seal row exposed by $T$ and $T'$ is the same row.
+
+Finally, \autoref{thm:transported-stationary-window-seal-ledger-nonescape} blocks the only possible escapes from this finite comparison. Quotient streams, host equality, selected host limits, and real-completeness data are not carrier coordinates, so they cannot refine or split the public seal row.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal ledger non-escape]
+\label{thm:transported-stationary-window-seal-ledger-nonescape}
+An accepted $\TransportedStationaryWindowSealUp$ carrier exports no quotient stream, host equality, choice, selected host limit, or real-completeness datum. Its public surface consists only of the transported $\RatUp$ classifier, constant $\StreamNameUp$ window, $\RegSeqRatUp$ seal, $\FiniteWindowEnvelopeUp$ packet, $\RealUp$ seal-facing row, displayed transports, package provenance, local $\NameCert$ row, and the ambient finite $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Inspect the carrier tuple $T=(R,S,G,W,E,H,C,P,N)$. Each coordinate is one of the finite transported classifier, window, seal, envelope, real-facing, transport, continuation, provenance, or naming rows.
+
+The non-escape clause of \autoref{thm:transported-stationary-window-seal-namecert-obligations} explicitly excludes quotient streams, host equality, choice, selected host limits, and real completeness from that tuple. The readback determinacy and real-factorization statements use only the same visible coordinates.
+
+Consequently the transported stationary window-seal packet has no export path outside the displayed finite BEDC ledger.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal carrier obligation]
+\label{thm:transported-stationary-window-seal-carrier-obligation}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+carrier admission is exactly the finite projection of \autoref{def:transported-stationary-window-seal-carrier}. The admitted rows are the transported $\RatUp$ classifier $R$, the constant $\StreamNameUp$ window $S$, the $\RegSeqRatUp$ finite-window seal $G$, the $\FiniteWindowEnvelopeUp$ packet $W$, the $\RealUp$ seal-facing row $E$, the transported stationary handoff row $H$, the route table $C$, the provenance row $P$, and the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier tuple. The definition lists the complete coordinate inventory of an admitted packet, and \autoref{thm:transported-stationary-window-seal-namecert-obligations} names carrier formation as the first local obligation.
+
+The readback-determinacy theorem then identifies $R,S,G$ as the same transported stationary window read at the public boundary. The Real factorization theorem identifies $W,E$ as the only real-facing seal route.
+
+The uniqueness and ledger non-escape theorems rule out any additional carrier coordinate. Thus carrier admission is precisely the finite row projection displayed above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal seed window readback]
+\label{thm:transported-stationary-window-seal-seed-window-readback}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the transported $\RatUp$ seed row $R$ determines the constant $\StreamNameUp$ window $S$ and the $\RegSeqRatUp$ seal $G$ through the same finite route $H,C,P,N$. The seed-window readback obligation is therefore the public projection of $R,S,G,H,C,P,N$, not a separate stream equality or host-limit claim.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{thm:transported-stationary-window-seal-carrier-obligation}. The rows $R,S,G$ are admitted as the transported seed classifier, constant stream window, and regular-rational finite-window seal of the same packet.
+
+Apply \autoref{thm:transported-stationary-window-seal-readback-determinacy}. Agreement at $R$ fixes the public readback of $S$ and $G$ through the displayed $\hsame$ and $\Cont$ routes.
+
+The support rows $H,C,P,N$ keep that readback inside the finite NameCert surface. Ledger non-escape prevents any stream quotient, host equality, selected limit, or real-completeness coordinate from refining the seed-window read.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real seal route]
+\label{thm:transported-stationary-window-seal-real-seal-route}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+every $\RealUp$ seal read factors through $R,S,G,W,E,H,C,P,N$ and cannot bypass the $\FiniteWindowEnvelopeUp$ row $W$. The Real-facing route reads the transported seed through $R,S,G$, enters the finite envelope at $W$, exposes the seal row $E$, and replays only the displayed transport, route, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:transported-stationary-window-seal-real-factorization}. It forces every $\RealUp$ read exposed by the packet through the $\FiniteWindowEnvelopeUp$ packet $W$ and the same $\RegSeqRatUp$ seal row $G$.
+
+Use \autoref{thm:transported-stationary-window-seal-seed-window-readback} to identify the seed-facing part of the route. The rows $R,S,G$ provide the transported rational seed, the constant window, and the regular-rational seal that feed the finite envelope.
+
+Finally apply carrier admission and ledger non-escape. The admitted route has only $R,S,G,W,E,H,C,P,N$, so no consumer can reach a $\RealUp$ seal by skipping $W$ or by importing quotient streams, host equality, selected limits, choice, or real-completeness data.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal classifier obligation]
+\label{thm:transported-stationary-window-seal-classifier-obligation}
+Let $T=(R,S,G,W,E,H,C,P,N)$ and $T'=(R',S',G',W',E',H',C',P',N')$ be accepted $\TransportedStationaryWindowSealUp$ packets. Any classifier comparison between them is componentwise across the displayed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, and $\RealUp$ rows: $R$ compares with $R'$, $S$ with $S'$, $G$ with $G'$, $W$ with $W'$, and $E$ with $E'$ only through the $\hsame$ rows, $\Cont$ routes, provenance rows, and local naming rows carried by $H,H',C,C',P,P',N,N'$.
+\end{theorem}
+\begin{proof}
+Apply the classifier row of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. It permits only componentwise comparison of the transported seed classifier, the induced stream window, the regular-rational seal, the finite envelope, the real-facing row, and the displayed transport and provenance rows.
+
+Use readback determinacy to keep the $\RatUp$, $\StreamNameUp$, and $\RegSeqRatUp$ comparisons on the same stationary route. Use Real factorization to keep the $\FiniteWindowEnvelopeUp$ and $\RealUp$ comparisons on the same envelope and seal row.
+
+Uniqueness repacks these componentwise comparisons as one public seal row, while ledger non-escape prevents the classifier from reading quotient streams, host equality, selected limits, or real-completeness data.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal ledger obligation]
+\label{thm:transported-stationary-window-seal-ledger-obligation}
+Every consumer read of an accepted $\TransportedStationaryWindowSealUp$ packet factors through the finite rows
+$$
+R,S,G,W,E,H,C,P,N.
+$$
+Requests for quotient streams, host equality, choice, selected limits, or real completeness have no carrier field and therefore cannot be exported by the transported stationary window-seal ledger.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Its non-escape clause states that the packet exports only the finite transported classifier, stream, regular-rational seal, finite envelope, real-facing, transport, route, provenance, and naming rows.
+
+Readback determinacy and Real factorization describe all displayed consumer paths: the stationary window path passes through $R,S,G$, and the real-facing path passes through $W,E$ together with the same transport and provenance rows.
+
+It remains only to exclude hidden completion data. The carrier definition and uniqueness theorem leave no coordinate for quotient streams, host equality, selected limits, or real completeness, so the ledger obligation is exactly the finite non-escape boundary.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal obligation package]
+\label{thm:transported-stationary-window-seal-obligation-package}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the consumer-facing obligation package is the finite conjunction of carrier admission, classifier comparison, transported $\RatUp$-to-$\StreamNameUp$ readback determinacy, $\FiniteWindowEnvelopeUp$ and $\RegSeqRatUp$ factorization of every $\RealUp$ read, public-row uniqueness, and ledger non-escape. The package ranges only over the displayed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $T$.
+\end{theorem}
+\begin{proof}
+First project the carrier and local naming surface. The carrier definition supplies the rows $R,S,G,W,E,H,C,P,N$, while \autoref{thm:transported-stationary-window-seal-namecert-obligations} supplies the local carrier, classifier, transported-window exactness, seal-exhaustion, and non-escape obligations.
+
+Next assemble the readback and Real-facing parts. Apply \autoref{thm:transported-stationary-window-seal-readback-determinacy} to read the transported $\RatUp$ row through the constant $\StreamNameUp$ window and the $\RegSeqRatUp$ finite-window seal. Apply \autoref{thm:transported-stationary-window-seal-real-factorization} to force every $\RealUp$ consumer path through the $\FiniteWindowEnvelopeUp$ packet and the same $\RegSeqRatUp$ seal row.
+
+Finally repack the consumer boundary. The uniqueness theorem identifies the public seal row determined by the displayed components, the carrier-obligation theorem and classifier-obligation theorem expose the finite admission and comparison clauses, and \autoref{thm:transported-stationary-window-seal-ledger-obligation} together with ledger non-escape blocks quotient streams, host equality, selected limits, choice, and real-completeness data.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal selected-tail stability]
+\label{thm:transported-stationary-window-seal-selected-tail-stability}
+Let $T=(R,S,G,W,E,H,C,P,N)$ and $T'=(R',S',G',W',E',H',C',P',N')$ be accepted $\TransportedStationaryWindowSealUp$ packets. Suppose the rows $R,S,G,W$ compare with $R',S',G',W'$ under the displayed $\hsame$ rows and $\Cont$ routes carried by $H,H',C,C'$. Then the selected finite-window tail route used by $G$ and $W$ is stable under the same transport: the transported route selected for $T$ and the route selected for $T'$ expose the same public $\RegSeqRatUp$ finite-window seal and $\FiniteWindowEnvelopeUp$ boundary.
+
+Moreover, every $\RealUp$ seal read through $E$ or $E'$ still factors through the transported rows $R,S,G,W,H,C,P,N$ and $R',S',G',W',H',C',P',N'$. The comparison does not introduce quotient streams, selected host limits, choice, or real-completeness data.
+\end{theorem}
+\begin{proof}
+First use readback determinacy. Agreement of $R$ with $R'$ through the displayed $\hsame$ and $\Cont$ routes fixes the corresponding constant $\StreamNameUp$ windows $S,S'$ and the regular-rational finite-window seals $G,G'$ at the public readback boundary.
+
+Next apply the classifier obligation. Its componentwise comparison keeps $R,S,G,W$ aligned with $R',S',G',W'$ through the same transported rows rather than through an ambient stream equality. Hence the finite tail route selected by $G$ and $W$ is carried to the finite tail route selected by $G'$ and $W'$.
+
+Now apply Real factorization. Any $\RealUp$ read through $E$ must pass through $W$ and $G$, and any read through $E'$ must pass through $W'$ and $G'$, together with the displayed transport, route, provenance, and local naming rows.
+
+Finally use ledger non-escape. Since quotient streams, selected host limits, choice, and real-completeness data are not coordinates of either carrier, transport stability can only assert equality of the displayed finite-window route and its public Real-facing factorization.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal public export certificate]
+\label{thm:transported-stationary-window-seal-public-export-certificate}
+For every accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+\autoref{thm:transported-stationary-window-seal-namecert-obligations}, \autoref{thm:transported-stationary-window-seal-readback-determinacy}, \autoref{thm:transported-stationary-window-seal-real-factorization}, \autoref{thm:transported-stationary-window-seal-uniqueness}, \autoref{thm:transported-stationary-window-seal-ledger-nonescape}, and \autoref{thm:transported-stationary-window-seal-obligation-package} assemble one public export certificate over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every $\RealUp$-facing read factors through the finite public rows $R,S,G,W,E,H,C,P,N$, and the certificate exports no quotient stream, host equality, selected limit, choice principle, or real-completeness datum.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $T=(R,S,G,W,E,H,C,P,N)$. The NameCert obligation theorem supplies the carrier, classifier, transported-window exactness, seal-exhaustion, and non-escape clauses for exactly these rows.
+
+The readback determinacy theorem fixes the $\RatUp$ input, the $\StreamNameUp$ stationary window, and the $\RegSeqRatUp$ seal as one finite route. The Real factorization theorem then sends every $\RealUp$-facing consumer through the $\FiniteWindowEnvelopeUp$ row and that same seal route.
+
+Use uniqueness to identify the public row determined by the displayed carrier and classifier data. The obligation package collects these clauses into one consumer-facing certificate, and ledger non-escape removes every coordinate not present in $R,S,G,W,E,H,C,P,N$.
+
+Thus the exported certificate is public over the listed BEDC kernel and setup objects, while quotient streams, host equality, selected limits, choice, and real-completeness data remain outside its ledger surface.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal obligation readiness]
+\label{thm:transported-stationary-window-seal-obligation-readiness}
+For every accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the checked $\NameCert$ obligations, readback determinacy, and $\RealUp$ factorization rows assemble the obligation-readiness package for the Real and Completion route over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This package consists of carrier admission for $T$, componentwise public readback from $R$ through $S$ and $G$, factorization of every $\RealUp$-facing read through $W$ and $G$, the public export certificate, and ledger non-escape. It does not claim RealUp completeness, quotient-stream equality, host equality, selected limits, or choice.
+\end{theorem}
+\begin{proof}
+The carrier and classifier surface is the checked NameCert obligation row of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. It supplies the finite packet coordinates, the componentwise comparison rule, transported-window exactness, seal exhaustion, and the non-escape boundary.
+
+The readback and real-facing routes are the two other checked rows. Apply \autoref{thm:transported-stationary-window-seal-readback-determinacy} to fix the transported $\RatUp$ row, constant $\StreamNameUp$ window, and $\RegSeqRatUp$ finite-window seal as one public readback route. Apply \autoref{thm:transported-stationary-window-seal-real-factorization} to force every $\RealUp$ read through the displayed $\FiniteWindowEnvelopeUp$ packet and the same regular-rational seal row.
+
+It remains to package these rows as the obligation-readiness surface. The public export certificate of \autoref{thm:transported-stationary-window-seal-public-export-certificate} collects the carrier, readback, factorization, uniqueness, and package clauses over the listed BEDC objects, while \autoref{thm:transported-stationary-window-seal-ledger-nonescape} blocks quotient streams, host equality, choice, selected limits, and real-completeness data. Therefore the accepted packet exposes exactly the finite readiness package stated above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal window source lock]
+\label{thm:transported-stationary-window-seal-window-source-lock}
+For every accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the rows $R,S,G$ form one stationary source route through the displayed transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. The $\RatUp$ classifier row $R$, constant $\StreamNameUp$ window row $S$, and $\RegSeqRatUp$ seal row $G$ cannot be read as separate sources by a downstream $\RealUp$ or $\CompletionUp$ consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $T$. The rows $R$, $S$, and $G$ are listed in the same finite packet as the transport, continuation, provenance, and naming rows.
+
+Apply \autoref{thm:transported-stationary-window-seal-readback-determinacy}. It fixes the transported $\RatUp$ row, the constant $\StreamNameUp$ window, and the $\RegSeqRatUp$ seal as one public readback route.
+
+Now use the package and ledger rows. The route can be transported through $H$, followed through $C$, named by $P$, and exposed by $N$, but there is no carrier coordinate that separates $R$, $S$, or $G$ into an independent source for a downstream consumer.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal stationary diagonal handoff]
+\label{thm:transported-stationary-window-seal-stationary-diagonal-handoff}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the $\FiniteWindowEnvelopeUp$ row $W$ consumes the same stationary source route $R,S,G,H,C,P,N$ before the $\RealUp$ seal row $E$ is read. Thus the diagonal window handoff is ordered:
+$$
+\begin{aligned}
+  (R,S,G,H,C,P,N)
+  \longrightarrow W
+  \longrightarrow E .
+\end{aligned}
+$$
+No consumer may bypass $W$ and read $E$ directly from an ambient stream, quotient equality, selected limit, or completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with the source route of \autoref{thm:transported-stationary-window-seal-window-source-lock}. It identifies the transported rational row, stationary window row, and regular-rational seal row as one displayed route through $H,C,P,N$.
+
+Apply \autoref{thm:transported-stationary-window-seal-real-factorization}. Every $\RealUp$-facing read must factor through the $\FiniteWindowEnvelopeUp$ row $W$ and the same regular-rational seal route.
+
+The seal row $E$ is therefore downstream of $W$. Ledger non-escape rules out a direct route from an ambient stream, quotient equality, selected limit, or completeness datum into $E$, so the displayed handoff has exactly the order stated above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal Real seal non-escape package]
+\label{thm:transported-stationary-window-seal-real-seal-nonescape-package}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the Real and RegSeqRat handoff package is the finite assembly of the carrier row, readback determinacy, Real-facing factorization, uniqueness, public export certificate, and ledger non-escape:
+\begin{enumerate}
+\item the carrier is exactly $R,S,G,W,E,H,C,P,N$;
+\item readback determinacy locks $R,S,G$ to one transported stationary source route;
+\item Real-facing factorization sends every seal read through $W$ and $G$ before $E$;
+\item uniqueness identifies the public row determined by the displayed carrier and classifier data;
+\item the ledger exports no quotient stream, host equality, selected limit, choice principle, or real-completeness datum.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier clause is the packet of \autoref{def:transported-stationary-window-seal-carrier}, and the NameCert obligations are those of \autoref{thm:transported-stationary-window-seal-namecert-obligations}.
+
+Readback determinacy is supplied by \autoref{thm:transported-stationary-window-seal-readback-determinacy}; the source-lock theorem above repackages that determinacy as a single route through $H,C,P,N$.
+
+For the Real-facing side, use \autoref{thm:transported-stationary-window-seal-stationary-diagonal-handoff}. It combines the Real factorization theorem with the $\FiniteWindowEnvelopeUp$ row, forcing the seal row $E$ to be downstream of $W$ and $G$.
+
+Finally apply \autoref{thm:transported-stationary-window-seal-uniqueness}, \autoref{thm:transported-stationary-window-seal-public-export-certificate}, and \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. These give the public row, the export package, and the non-escape boundary, which together form the exact Real and RegSeqRat handoff package stated above.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal envelope window exactness]
+\label{thm:transported-stationary-window-seal-envelope-window-exactness}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the $\FiniteWindowEnvelopeUp$ row $W$ may be read only after the stationary source route
+$$
+\begin{aligned}
+  R \longmapsto S \longmapsto G
+\end{aligned}
+$$
+has been fixed through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The row $W$ is therefore the finite envelope over the transported $\RatUp$ classifier row $R$, the constant $\StreamNameUp$ window row $S$, and the $\RegSeqRatUp$ seal row $G$, and it must be read before the $\RealUp$ seal row $E$ is available to any completion-facing or real-facing consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows available before the envelope are the displayed stationary route $R,S,G$ and its transport, continuation, package, and local naming provenance $H,C,P,N$.
+
+Apply \autoref{thm:transported-stationary-window-seal-window-source-lock}. It binds $R$, $S$, and $G$ as one public source route, so a consumer cannot select an independent stream window or regular-rational seal before reading $W$.
+
+Next use \autoref{thm:transported-stationary-window-seal-stationary-diagonal-handoff}. It places the $\FiniteWindowEnvelopeUp$ row after the stationary route and before the $\RealUp$ seal row.
+
+Finally, \autoref{thm:transported-stationary-window-seal-ledger-nonescape} removes the possible bypasses. Quotient streams, host equality, selected limits, choice, and real-completeness data are not carrier coordinates, so $W$ is exactly the envelope window at the stated boundary.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal constant-window triad]
+\label{thm:transported-stationary-window-seal-constant-window-triad}
+For every accepted $\TransportedStationaryWindowSealUp$ packet $T=(R,S,G,W,E,H,C,P,N)$, the rows $R$, $S$, and $G$ form one constant-window triad under the displayed rows $H,C,P,N$. The transported $\RatUp$ classifier, the constant $\StreamNameUp$ window, and the $\RegSeqRatUp$ finite-window seal are transported, replayed, packaged, and named together; no downstream $\FiniteWindowEnvelopeUp$, $\RealUp$, or $\CompletionUp$ consumer may read one of the three as a separate source.
+\end{theorem}
+\begin{proof}
+Start from the carrier and classifier obligations in \autoref{thm:transported-stationary-window-seal-namecert-obligations}. They admit exactly the rows $R,S,G,W,E,H,C,P,N$ and compare accepted packets componentwise through the displayed transport and continuation rows.
+
+Apply \autoref{thm:transported-stationary-window-seal-readback-determinacy}. It identifies the readback of the transported rational row with the constant stream window and the regular-rational seal, all through the same public route.
+
+Use \autoref{thm:transported-stationary-window-seal-window-source-lock} to repackage that route under $H,C,P,N$. The structural rows can transport, replay, package, and name the triad, but they do not split it into separate source certificates.
+
+The envelope and Real-facing rows consume the triad only through \autoref{thm:transported-stationary-window-seal-envelope-window-exactness} and \autoref{thm:transported-stationary-window-seal-real-factorization}. Thus any completion-facing or real-facing read sees $R,S,G$ as one constant-window triad.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal completion consumer boundary]
+\label{thm:transported-stationary-window-seal-completion-consumer-boundary}
+Every completion-facing or real-facing consumer of an accepted $\TransportedStationaryWindowSealUp$ packet factors through the finite public packet
+$$
+\begin{aligned}
+  R,S,G,W,E,H,C,P,N .
+\end{aligned}
+$$
+The consumer first reads the constant-window triad $R,S,G$, then the envelope row $W$, then the seal row $E$, with $H,C,P,N$ carrying only displayed transport, continuation, package, and local naming data. The packet provides no quotient stream, host equality, selected limit, choice principle, or real-completeness datum.
+\end{theorem}
+\begin{proof}
+First assemble the source side. By \autoref{thm:transported-stationary-window-seal-constant-window-triad}, the transported rational row, constant window row, and regular-rational seal row are one finite source triad under $H,C,P,N$.
+
+Next assemble the envelope side. Apply \autoref{thm:transported-stationary-window-seal-envelope-window-exactness}; it forces each completion-facing or real-facing route to read $W$ after $R,S,G$ and before $E$.
+
+Now apply the checked Real-facing package. The Real factorization theorem, the stationary diagonal handoff theorem, and \autoref{thm:transported-stationary-window-seal-real-seal-nonescape-package} bind the seal read to the same rows $R,S,G,W,E,H,C,P,N$.
+
+Finally close the consumer boundary with \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. Since quotient streams, host equality, selected limits, choice, and real-completeness data are absent from the packet, every consumer route factors through the displayed finite BEDC packet and nothing outside it.
+\end{proof}
+
+\closureat{TransportedStationaryWindowSealUp}{seedStr}
+
+\begin{closurestatus}{\TransportedStationaryWindowSealUp}
+  \constructivestory{A $\TransportedStationaryWindowSealUp$ packet is generated from a transported RatUp classifier, constant StreamNameUp finite window, RegSeqRatUp seal row, FiniteWindowEnvelopeUp observation packet, RealUp seal-facing row, displayed transports, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope registers the finite carrier, componentwise classifier, transported RatUp and RegSeqRat window exactness, RealUp seal exhaustion, and non-escape boundary for transported stationary diagonal window-seal packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close full real completeness, quotient-stream equality, host real equality, selected host limits, or choice principles.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the five displayed rows.}
+\end{closurestatus}

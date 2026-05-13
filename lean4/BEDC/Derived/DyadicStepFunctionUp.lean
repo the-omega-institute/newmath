@@ -1,0 +1,152 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.DyadicStepFunctionUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def DyadicStepFunctionPacket [AskSetup] [PackageSetup]
+    (partition cells values classifier refinement endpoints ledger route provenance nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory partition ∧ UnaryHistory cells ∧ UnaryHistory values ∧
+    UnaryHistory classifier ∧ UnaryHistory refinement ∧ UnaryHistory endpoints ∧
+      UnaryHistory ledger ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+        UnaryHistory nameCert ∧ Cont partition cells values ∧
+          Cont refinement endpoints ledger ∧ hsame classifier ledger ∧
+            PkgSig bundle provenance pkg
+
+theorem DyadicStepFunctionPacket_refinement_stability [AskSetup] [PackageSetup]
+    {partition cells values classifier refinement endpoints ledger route provenance nameCert
+      partition' cells' values' classifier' refinement' endpoints' ledger' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionPacket partition cells values classifier refinement endpoints ledger route
+        provenance nameCert bundle pkg ->
+      hsame partition partition' ->
+        hsame cells cells' ->
+          hsame values values' ->
+            hsame classifier classifier' ->
+              hsame refinement refinement' ->
+                hsame endpoints endpoints' ->
+                  hsame ledger ledger' ->
+                    Cont partition' cells' values' ->
+                      Cont refinement' endpoints' ledger' ->
+                        DyadicStepFunctionPacket partition' cells' values' classifier'
+                          refinement' endpoints' ledger' route provenance nameCert bundle pkg := by
+  intro packet samePartition sameCells sameValues sameClassifier sameRefinement sameEndpoints
+    sameLedger refinedValueRow refinedLedgerRow
+  rcases packet with
+    ⟨partitionUnary, cellsUnary, valuesUnary, classifierUnary, refinementUnary, endpointsUnary,
+      ledgerUnary, routeUnary, provenanceUnary, nameCertUnary, _valueRow, _ledgerRow,
+      classifierLedger, provenancePkg⟩
+  have partitionUnary' : UnaryHistory partition' :=
+    unary_transport partitionUnary samePartition
+  have cellsUnary' : UnaryHistory cells' :=
+    unary_transport cellsUnary sameCells
+  have valuesUnary' : UnaryHistory values' :=
+    unary_transport valuesUnary sameValues
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport classifierUnary sameClassifier
+  have refinementUnary' : UnaryHistory refinement' :=
+    unary_transport refinementUnary sameRefinement
+  have endpointsUnary' : UnaryHistory endpoints' :=
+    unary_transport endpointsUnary sameEndpoints
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_transport ledgerUnary sameLedger
+  have classifierLedger' : hsame classifier' ledger' :=
+    hsame_trans (hsame_symm sameClassifier) (hsame_trans classifierLedger sameLedger)
+  exact
+    ⟨partitionUnary', cellsUnary', valuesUnary', classifierUnary', refinementUnary',
+      endpointsUnary', ledgerUnary', routeUnary, provenanceUnary, nameCertUnary,
+      refinedValueRow, refinedLedgerRow, classifierLedger', provenancePkg⟩
+
+def DyadicStepFunctionCarrier [AskSetup] [PackageSetup]
+    (partition cells values reads refinement endpointLedger ledger route provenance
+      nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory partition ∧ UnaryHistory cells ∧ UnaryHistory values ∧ UnaryHistory reads ∧
+    UnaryHistory refinement ∧ UnaryHistory endpointLedger ∧ UnaryHistory ledger ∧
+      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory nameRow ∧
+        Cont partition cells values ∧ Cont values reads refinement ∧
+          Cont refinement endpointLedger ledger ∧ Cont route provenance nameRow ∧
+            PkgSig bundle nameRow pkg
+
+theorem DyadicStepFunctionCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route exported ->
+        UnaryHistory exported ∧ UnaryHistory ledger ∧ Cont refinement endpointLedger ledger ∧
+          Cont ledger route exported ∧ PkgSig bundle nameRow pkg := by
+  intro carrier exportedRoute
+  obtain ⟨_partitionUnary, _cellsUnary, _valuesUnary, _readsUnary, _refinementUnary,
+    _endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed ledgerUnary routeUnary exportedRoute
+  exact
+    ⟨exportedUnary, ledgerUnary, refinementEndpointLedger, exportedRoute, nameRowPkg⟩
+
+theorem DyadicStepFunctionCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance
+      nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger
+            route provenance nameRow bundle pkg ∧ hsame row nameRow)
+        (fun _row : BHist =>
+          DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger
+            route provenance nameRow bundle pkg ∧ Cont partition cells values ∧
+              Cont refinement endpointLedger ledger ∧ Cont route provenance nameRow)
+        (fun row : BHist => PkgSig bundle nameRow pkg ∧ hsame row nameRow)
+        hsame := by
+  intro carrier
+  have carrierPacket := carrier
+  obtain ⟨_partitionUnary, _cellsUnary, _valuesUnary, _readsUnary, _refinementUnary,
+    _endpointLedgerUnary, _ledgerUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    partitionCellsValues, _valuesReadsRefinement, refinementEndpointLedger,
+    routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro nameRow (And.intro carrierPacket (hsame_refl nameRow))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same source
+        exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨source.left, partitionCellsValues, refinementEndpointLedger,
+          routeProvenanceNameRow⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨nameRowPkg, source.right⟩
+  }
+
+end BEDC.Derived.DyadicStepFunctionUp

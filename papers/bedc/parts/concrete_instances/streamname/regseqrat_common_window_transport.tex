@@ -47,6 +47,50 @@ shared bundle. Therefore the downstream finite-window $\RealUp$
 ledger-boundary rows are the same consumer-facing rows as well.
 \end{proof}
 
+\begin{theorem}[StreamName public RegSeqRat finite-window composition]
+\label{thm:streamname-public-regseqrat-window-composition}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window $\StreamNameUp$
+packages over the same $\mathsf{ProbeBundle}$ $\mathcal P$ and displayed maps
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$. Suppose that the public rows exposed by
+the two packages agree on the finite-window classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$, the
+$\mathsf{InBundle}(-,\mathcal P)$ membership rows, the certified
+$\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ provenance rows.
+
+Then the $\RegSeqRat$ handoff rows read from $\mathcal W_L$ and
+$\mathcal W_R$ agree, and the finite-window $\RealUp$ ledger-boundary rows
+obtained from those handoffs agree, as the same consumer-facing common-window
+surface. The composed surface exports only the listed public StreamName rows,
+the RegSeqRat handoff rows determined by them, and the finite RealUp
+ledger-boundary rows. It exports no $\RegSeqRat$ regularity row, $\RealUp$
+seal classifier, completion object, quotient row, or host-index equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-public-finite-window-interface} to both public
+packages. The interface restricts each finite window to the displayed bundle,
+unary-history, pointwise rational-history classifier, $\hsame$, $\Cont$, and
+$\Pkg$ rows, so both packages present the same public finite-window source
+surface over $\mathcal P$.
+
+Next apply \autoref{thm:streamname-regseqrat-common-window-transport}. Since
+the two public projections expose the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal P)$ and the same
+pointwise provenance rows, the RegSeqRat handoff read from either package is
+the same consumer-facing handoff surface, and the finite RealUp
+ledger-boundary rows obtained from that handoff are the same rows.
+
+Finally use \autoref{thm:streamname-real-regseq-obligation-separation} and
+\autoref{thm:streamname-common-refinement-source-determinacy}. The separation
+theorem keeps regularity, sealing, completion, quotient, and host-index data
+outside the exported finite-window rows, while source determinacy identifies
+the common bundle source read by downstream consumers. Repacking therefore
+keeps exactly the public classifier, membership, unary-history, pointwise
+classifier, $\hsame$, $\Cont$, $\Pkg$, RegSeqRat handoff, and finite RealUp
+ledger-boundary rows.
+\end{proof}
+
 \begin{theorem}[StreamName RegSeqRat dyadic source determinacy]
 \label{thm:streamname-regseqrat-dyadic-source-determinacy}
 Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
@@ -86,4 +130,662 @@ through the endpoint denominator and dyadic source package supplied by the same
 accepted spine. Since the cited boundaries contain no completion, quotient,
 host-index equality, or hidden selector row, the two packages hand the same
 DyadicRatCore source rows to the $\RealUp$ finite-window ledger.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window tail stability]
+\label{thm:streamname-regseqrat-common-window-tail-stability}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
+packages over a shared $\mathsf{ProbeBundle}$ $\mathcal P$. Suppose the two
+packages determine the same $\RegSeqRat$ dyadic source rows through
+\autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. Then every
+certified tail subwindow of $\mathcal P$ exposes the same $\RegSeqRat$ handoff
+rows and the same terminal $\RealUp$ ledger-boundary rows.
+
+The tail restriction is read only through the displayed
+$\mathsf{InBundle}$ membership rows, certified $\mathsf{UnaryHistory}$ rows,
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, DyadicRatCore endpoint rows, and the shared
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance. It does not expose
+regularity, completion, quotient, or host-index data as part of the source
+packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-common-window-transport}. The shared
+bundle and pointwise rational-history transport identify the common-window
+handoff rows before any tail restriction is taken.
+
+Apply \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. The
+hypothesis that the same dyadic source rows are determined fixes the accepted
+$\RegSeqRat$ spine and the DyadicRatCore endpoint rows carried into the
+terminal $\RealUp$ ledger.
+
+Now restrict to a certified tail subwindow. The tail is still a finite subfamily
+of the same $\mathsf{ProbeBundle}$, so the inherited $\mathsf{InBundle}$ and
+$\mathsf{UnaryHistory}$ rows select the same pointwise classifier rows and the
+same endpoint entries.
+
+Finally use \autoref{thm:streamname-real-regseq-obligation-separation}. It
+keeps regularity, completion, quotient, and host-index data outside the source
+packet, so the tail can expose only the already identified $\RegSeqRat$ handoff
+rows and terminal ledger-boundary rows.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window composition handoff]
+\label{thm:streamname-regseqrat-common-window-composition-handoff}
+Let $\mathcal W_0$, $\mathcal W_1$, and $\mathcal W_2$ be finite
+$\StreamNameUp$ windows. Suppose $\mathcal W_0$ and $\mathcal W_1$ share a
+certified common-window transport surface over the $\mathsf{ProbeBundle}$ row
+$\mathcal P_{01}$, and suppose $\mathcal W_1$ and $\mathcal W_2$ share a
+certified common-window transport surface over the $\mathsf{ProbeBundle}$ row
+$\mathcal P_{12}$. Then the composed handoff from $\mathcal W_0$ to
+$\mathcal W_2$ exposes exactly the same consumer-facing rows read by
+$\RegSeqRat$: the $\StreamNameUp$ finite-window classifier, the
+$\mathsf{UnaryHistory}$ rows, the $\mathsf{InBundle}$ rows, the
+$\mathsf{RatHistoryClassifier}$ rows, the DyadicRatCore source rows, and the
+displayed $\hsame/\Cont/\Pkg$ provenance rows.
+
+The composed handoff exports no $\RegSeqRat$ regularity row, $\RealUp$ seal
+classifier, completion datum, quotient row, or host-index equality. Every
+readable downstream row is inherited from the two certified common-window
+surfaces and their certified tail restrictions.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-common-window-transport} to the
+$\mathcal W_0/\mathcal W_1$ surface over $\mathcal P_{01}$. This identifies the
+finite-window classifier, unary-history rows, bundle-membership rows,
+pointwise rational-history rows, and displayed $\hsame/\Cont/\Pkg$ provenance
+read by the first handoff leg.
+
+Apply the same theorem to the $\mathcal W_1/\mathcal W_2$ surface over
+$\mathcal P_{12}$. Since both certified surfaces pass through the same middle
+window $\mathcal W_1$, their visible handoff rows agree at the middle boundary
+before any downstream consumer reads them.
+
+Use \autoref{thm:streamname-regseqrat-dyadic-source-determinacy} on both legs.
+The dyadic source rows supplied to the $\RegSeqRat$ spine and to the terminal
+finite-window $\RealUp$ ledger are determined by the displayed classifier,
+bundle, unary-history, rational-history, $\hsame$, $\Cont$, and $\Pkg$ rows on
+the two certified surfaces.
+
+Finally apply \autoref{thm:streamname-regseqrat-common-window-tail-stability}.
+Certified tail restrictions remain finite subwindows of the displayed bundle
+rows, so composing the two legs cannot add any row outside the inherited
+consumer surface. The separation of regularity, seal, completion, quotient,
+and host-index obligations is therefore preserved by the composed handoff from
+$\mathcal W_0$ to $\mathcal W_2$.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window endpoint exhaustion]
+\label{thm:streamname-regseqrat-common-window-endpoint-exhaustion}
+Let $\mathcal W_L$ and $\mathcal W_R$ be common-window packages over the same
+$\mathsf{ProbeBundle}$ $\mathcal P$ and the same accepted $\RegSeqRat$ spine.
+For any downstream finite-window $\RealUp$ ledger consuming the endpoint
+handoff, every endpoint row it reads is exactly one of the displayed finite
+rows:
+\begin{enumerate}
+  \item the $\mathsf{RatStreamNameFiniteWindowClassifier}$ row;
+  \item the shared $\mathsf{ProbeBundle}$ row, its $\mathsf{InBundle}$ rows,
+  and the certified $\mathsf{UnaryHistory}$ rows;
+  \item the pointwise $\mathsf{RatHistoryClassifier}$ rows selected by the
+  common window;
+  \item the accepted $\RegSeqRat$ spine rows;
+  \item the DyadicRatCore endpoint and radius rows determined from that spine;
+  \item the shared $\Cont$, $\hsame$, $\mathsf{Pkg}$, and
+  $\mathsf{RealLedgerPolicy}$ provenance rows.
+\end{enumerate}
+No hidden selector row, host-index equality, quotient row, completion object,
+or $\RealUp$ seal classifier is part of the endpoint surface.
+\end{theorem}
+\begin{proof}
+First project the common-window packages through
+\autoref{thm:streamname-regseqrat-common-window-transport}. This fixes the
+visible finite-window classifier, shared bundle, bundle-membership,
+unary-history, pointwise rational-history, and displayed provenance rows before
+the downstream endpoint ledger is read.
+
+Next apply \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. The
+accepted $\RegSeqRat$ spine determines the DyadicRatCore endpoint and radius
+rows consumed by the finite-window $\RealUp$ ledger from the same displayed
+source rows; no source-equivalence transport is needed.
+
+Use \autoref{thm:streamname-regseqrat-common-window-tail-stability} to pass to
+the finite tail subwindow actually consumed by the ledger. Tail restriction is
+projection to a finite subfamily of the same $\mathsf{ProbeBundle}$, so it
+cannot expose a new selector, host index, quotient, completion, or seal
+classifier row.
+
+Finally apply \autoref{thm:realup-finite-window-exhaustion-obligation}. The
+terminal $\RealUp$ finite-window consumer reads endpoint data only through the
+displayed endpoint package, DyadicRatCore source rows, and
+$\mathsf{RealLedgerPolicy}$ boundary. Combining the four projections exhausts
+the endpoint surface by exactly the listed rows.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-RealUp source boundary exhaustion]
+\label{thm:streamname-regseqrat-realup-source-boundary-exhaustion}
+Let $\mathcal W$ be a certified common finite $\StreamNameUp$ window over a
+displayed $\mathsf{ProbeBundle}$ $\mathcal P$. Suppose its selected rational
+history rows are read by a $\RegSeqRat$ dyadic-tolerance consumer and then by a
+finite-window $\RealUp$ seal. Then every seal-boundary row consumed by the
+terminal $\RealUp$ package is projected from exactly one of the following
+visible source families:
+\begin{enumerate}
+  \item the $\StreamNameUp$ window rows, namely $\mathsf{ProbeBundle}$,
+  $\mathsf{InBundle}$, certified $\mathsf{UnaryHistory}$, pointwise
+  rational-history classifier rows, $\hsame$ transport, and $\Cont$ readback;
+  \item the $\RegSeqRat$ dyadic endpoint, radius, distance, and regularity rows
+  selected by the accepted dyadic-tolerance spine;
+  \item the finite $\RealUp$ seal ledger rows, including the endpoint
+  denominator package, dyadic source rows, and $\mathsf{RealLedgerPolicy}$
+  boundary.
+\end{enumerate}
+Conversely, any compatible triple of rows from these three families repacks into
+the same boundary package consumed by the finite-window $\RealUp$ seal. The
+boundary contains no quotient sequence, completion object, host index equality,
+or host real equality.
+\end{theorem}
+\begin{proof}
+First project the certified common window through
+\autoref{thm:streamname-regseqrat-common-window-transport}. This fixes the
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+pointwise rational-history classifier, $\hsame$, and $\Cont$ rows available to
+the StreamName face.
+
+Next apply \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. The
+dyadic endpoint rows handed to the downstream consumer are determined by those
+displayed StreamName rows together with the accepted $\RegSeqRat$ spine. Thus
+the endpoint, radius, distance, and regularity rows form the whole RegSeqRat
+source family read by the seal.
+
+Use \autoref{thm:streamname-regseqrat-common-window-composition-handoff} to keep
+the handoff stable under the common-window composition used by downstream
+readback. Then apply
+\autoref{thm:realup-streamname-regseqrat-common-window-pullback} and
+\autoref{thm:realup-streamname-regseqrat-window-correspondence}. These RealUp
+rows state that the finite seal reads the same StreamName-RegSeqRat handoff
+together with the endpoint denominator, dyadic source, and
+$\mathsf{RealLedgerPolicy}$ ledger boundary.
+
+For the reverse direction, start with a compatible triple from the three listed
+families. The StreamName rows repack the finite common window, the RegSeqRat rows
+repack the accepted dyadic-tolerance source, and the RealUp ledger rows repack
+the finite seal boundary. The cited pullback and correspondence theorems then
+identify the repacked package with the original terminal boundary. Since each
+cited boundary explicitly excludes quotient, completion, host-index equality,
+and host real equality rows, no additional source row is available.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat common-window seal functoriality]
+\label{thm:streamname-regseqrat-common-window-seal-functoriality}
+Let $\mathcal W_0$, $\mathcal W_1$, and $\mathcal W_2$ be certified common
+finite $\StreamNameUp$ windows over the same public endpoints and the same
+accepted $\RegSeqRat$ dyadic-tolerance spine. Suppose the displayed transports
+$\mathcal W_0 \to \mathcal W_1$ and $\mathcal W_1 \to \mathcal W_2$ preserve
+the finite-window classifier, the selected unary observations, the pointwise
+rational-history rows, the accepted $\RegSeqRat$ spine, and the DyadicRatCore
+endpoint and radius rows.
+
+Then the $\RealUp$ seal source obtained by applying
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion} after the
+two displayed transports is the same finite source surface as the one obtained
+by first using the common-window composition handoff of
+\autoref{thm:streamname-regseqrat-common-window-composition-handoff} and then
+applying source-boundary exhaustion. The common source surface consists only of
+the displayed StreamName window rows, the accepted RegSeqRat dyadic rows, and
+the finite RealUp seal ledger rows; it contains no quotient row, completion
+row, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the two displayed common-window transports. By
+\autoref{thm:streamname-regseqrat-common-window-composition-handoff}, their
+composition preserves the same classifier, selected unary observations,
+pointwise rational-history rows, accepted $\RegSeqRat$ spine, and DyadicRatCore
+endpoint and radius rows as the single composed transport
+$\mathcal W_0 \to \mathcal W_2$.
+
+Apply
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} to both
+the two-stage transport and the composed transport. In each case the endpoint
+surface is exhausted by the displayed finite window rows and the accepted
+dyadic-tolerance spine, so the downstream endpoint ledger has the same visible
+source families.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. The
+terminal $\RealUp$ seal reads only the StreamName window rows, the RegSeqRat
+dyadic endpoint rows, and the finite seal ledger rows. Since both transport
+routes expose the same rows to this exhaustion theorem, they expose the same
+finite source surface. The cited boundaries leave no coordinate for quotient
+rows, completion rows, or host real equality, so no further source can
+distinguish the two routes.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat finite-window ledger confluence]
+\label{thm:streamname-regseqrat-finite-window-ledger-confluence}
+Let $\mathcal W_0$, $\mathcal W_1$, and $\mathcal W_2$ be finite
+$\StreamNameUp$ windows over the same public endpoints and the same accepted
+$\RegSeqRat$ dyadic-tolerance spine. Suppose the displayed transports
+$\mathcal W_0 \to \mathcal W_1$, $\mathcal W_1 \to \mathcal W_2$, and their
+composed common-window route preserve the shared $\mathsf{ProbeBundle}$ row,
+the $\mathsf{InBundle}$ membership rows, the certified
+$\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted spine, the
+$\mathsf{DyadicRatCore}$ endpoint and radius rows, and the visible
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance.
+
+Then every finite-window $\RealUp$ seal consumer reads the same boundary
+whether it follows the staged route
+$\mathcal W_0 \to \mathcal W_1 \to \mathcal W_2$ or the composed
+common-window route $\mathcal W_0 \to \mathcal W_2$. The common boundary is
+exactly the displayed $\StreamNameUp$ window rows, the $\RegSeqRat$ dyadic
+endpoint and radius rows, and the finite $\RealUp$ seal ledger rows. It
+contains no quotient row, completion object, host-index equality, host
+function, $\mathsf{Classical}$ datum, or host real equality.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-common-window-transport}. It identifies the
+rows preserved by each displayed finite-window transport: the shared
+$\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership, certified
+$\mathsf{UnaryHistory}$, pointwise rational-history classification, accepted
+spine, dyadic endpoint and radius rows, and the visible provenance rows.
+
+Next use \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. The
+endpoint and radius rows delivered to a downstream seal are forced by the
+displayed StreamName rows together with the accepted $\RegSeqRat$ spine, so
+the staged and composed routes cannot expose different dyadic source rows.
+
+Apply
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} and
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. The
+first theorem exhausts the downstream endpoint surface by the common-window
+rows and the accepted spine; the second theorem says a finite $\RealUp$ seal
+consumer reads exactly that exhausted surface together with the finite seal
+ledger rows.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-common-window-seal-functoriality}. It
+identifies the two staged seal readback routes with the composed route before
+the consumer reads the boundary. Since the cited exhaustion results leave no
+coordinate for quotient rows, completion objects, host-index equality, host
+functions, $\mathsf{Classical}$ data, or host real equality, the listed finite
+rows are the whole common boundary.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat terminal window union]
+\label{thm:streamname-regseqrat-terminal-window-union}
+Let $\mathcal W_L$ and $\mathcal W_R$ be two finite $\StreamNameUp$ windows
+feeding a common $\RegSeqRat$ source boundary. If their endpoint rows admit the
+common-window exhaustion packet and their seal routes compose functorially, then
+the union window presents the same terminal $\RegSeqRat$ source to any
+$\RealUp$ boundary consumer.
+
+The union exposes only finite observation rows, dyadic endpoint ledgers,
+$\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the
+$\RegSeqRat$ seal. It exposes no hidden infinite tail, quotient equality,
+completion object, host index equality, or host real equality.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} to
+$\mathcal W_L$ and $\mathcal W_R$. The endpoint rows on both sides are exhausted
+by the same finite observation families, dyadic endpoint ledgers, accepted
+$\RegSeqRat$ spine rows, and displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance.
+
+Next apply
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. It sends
+each exhausted endpoint package to the same finite $\RealUp$ source boundary,
+using only the StreamName window rows, the RegSeqRat dyadic source rows, and the
+finite seal ledger rows.
+
+Finally use
+\autoref{thm:streamname-regseqrat-common-window-seal-functoriality}. The
+functorial seal route identifies the two-stage and union-window routes before
+the terminal boundary consumer reads them. Hence the union window presents the
+same terminal RegSeqRat source, and the listed finite rows are the full
+consumer surface.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat terminal window intersection]
+\label{thm:streamname-regseqrat-terminal-window-intersection}
+Let $\mathcal W_L$ and $\mathcal W_R$ be two finite $\StreamNameUp$ windows
+feeding a common $\RegSeqRat$ source boundary. Suppose both windows restrict to
+a certified common sub-bundle $K$, and suppose the endpoint rows visible on $K$
+admit the common-window exhaustion packet.
+
+Then every finite-window $\RealUp$ boundary consumer reads the same terminal
+$\RegSeqRat$ source from the restricted intersection. The restricted
+intersection exposes exactly the $\mathsf{InBundle}(-,K)$ membership rows, the
+selected rational-history classifier rows, dyadic endpoint ledgers, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$ provenance, and the displayed $\RegSeqRat$ seal. It
+exposes no hidden tail, quotient equality, completion object, host index
+equality, or host real equality.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-window-intersection-exhaustion} to the
+certified common sub-bundle $K$. The intersection surface is exhausted by the
+membership rows $\mathsf{InBundle}(-,K)$, the selected rational-history
+classifier rows, the shared dyadic endpoint ledgers, and the displayed
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ provenance.
+
+Next apply
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} to the
+restricted endpoint rows on $K$. This packages the exposed intersection rows
+as the common-window endpoint surface feeding the accepted $\RegSeqRat$ spine,
+with no additional row for a hidden tail or host index equality.
+
+Apply
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. Every
+finite-window $\RealUp$ consumer reads only the exhausted endpoint surface, the
+dyadic source rows, and the finite seal ledger, so both restricted windows
+present the same visible source families to the consumer.
+
+Finally use
+\autoref{thm:streamname-regseqrat-common-window-seal-functoriality}. The seal
+functoriality identifies the terminal route obtained by restricting through
+$K$ with the route read by the finite boundary consumer. Since the cited
+exhaustion theorems leave no coordinate for quotient equality, completion
+objects, host index equality, or host real equality, the displayed finite rows
+are the full terminal intersection source.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat terminal window cover gluing]
+\label{thm:streamname-regseqrat-terminal-window-cover-gluing}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ windows feeding
+a common accepted $\RegSeqRat$ dyadic-tolerance spine. Suppose their union
+satisfies the terminal-window union boundary of
+\autoref{thm:streamname-regseqrat-terminal-window-union}, and suppose their
+certified common sub-bundle satisfies the terminal-window intersection boundary
+of \autoref{thm:streamname-regseqrat-terminal-window-intersection}.
+
+Then every finite-window $\RealUp$ seal consumer reads one cover-glued terminal
+source surface. That surface is exactly the union of the displayed
+$\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, certified
+$\mathsf{UnaryHistory}$ rows, pointwise $\mathsf{RatHistoryClassifier}$ rows,
+$\mathsf{DyadicRatCore}$ endpoint and radius rows, accepted $\RegSeqRat$ spine
+rows, $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\mathsf{RealLedgerPolicy}$ rows, identified along the intersection agreement.
+It contains no quotient row, completion object, host-index equality, host
+function, $\mathsf{Classical}$ datum, or host real equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-terminal-window-union} to the joined
+window. The union route exposes the displayed finite observation rows, dyadic
+endpoint ledgers, accepted $\RegSeqRat$ spine rows, $\hsame$ transport,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and finite seal policy rows as the
+terminal source boundary for the $\RealUp$ consumer.
+
+Apply \autoref{thm:streamname-regseqrat-terminal-window-intersection} on the
+certified overlap. The intersection route says that the common sub-bundle has
+the same membership, rational-history classifier, dyadic endpoint, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and seal rows on both restrictions, so the two sides
+agree on every row that can be read twice.
+
+Use endpoint exhaustion and source-boundary exhaustion to compare the two
+routes. By
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion}, every
+endpoint coordinate reaching the accepted spine is already among the displayed
+finite StreamName and dyadic rows. By
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}, the
+downstream seal reads only those exhausted rows together with the finite
+$\mathsf{RealLedgerPolicy}$ boundary.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-common-window-seal-functoriality}. It
+identifies the cover-glued readback before the $\RealUp$ consumer reads the
+boundary. Since the union and intersection routes exhaust all readable source
+rows and agree on the overlap, the cover-glued terminal surface is precisely
+the listed finite union modulo the intersection agreement, with no quotient,
+completion, host-index, host-function, $\mathsf{Classical}$, or host-real
+coordinate.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat cover-glued ledger uniqueness]
+\label{thm:streamname-regseqrat-cover-glued-ledger-uniqueness}
+Let $\mathcal W$ be a finite $\StreamNameUp$ union, let $I$ be its certified
+overlap sub-bundle, let $S$ be an accepted $\RegSeqRat$ dyadic-tolerance
+spine, and let $P$ be a finite $\RealUp$ seal policy. Suppose two terminal
+source surfaces are built from the same $\mathcal W$, $I$, $S$, and $P$ by the
+cover-gluing route of
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing}.
+
+Then every terminal ledger row read by a finite-window $\RealUp$ consumer is
+identical as a consumer-facing row in the two presentations. The visible rows
+are exactly the $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership
+rows, certified $\mathsf{UnaryHistory}$ rows, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, $\mathsf{DyadicRatCore}$ endpoint and
+radius rows, accepted $\RegSeqRat$ spine rows, $\hsame$ transport,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\mathsf{RealLedgerPolicy}$ rows. No quotient, completion object, host-index
+equality, host function, $\mathsf{Classical}$ datum, or host real equality is
+exported.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing} to the first
+presentation and again to the second presentation. Both cover-glued terminal
+surfaces are therefore assembled from the same finite union rows and the same
+certified intersection rows, with the same accepted $\RegSeqRat$ spine and the
+same finite $\RealUp$ seal policy.
+
+Next apply
+\autoref{thm:streamname-regseqrat-finite-window-ledger-confluence}. It
+identifies the staged StreamName-to-RegSeqRat route with the composed
+StreamName-to-RegSeqRat-to-RealUp route, so a terminal consumer cannot
+distinguish a row by the route used to present it.
+
+Use \autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} for
+the dyadic endpoint and radius coordinates. Use
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion} for the
+finite seal boundary. Together they show that every readable coordinate is one
+of the displayed finite families.
+
+The two presentations agree on all union rows by hypothesis and agree on all
+intersection rows by the certified overlap. Since the exhaustion theorems leave
+no other consumer-readable coordinate, each terminal ledger read returns the
+same consumer-facing row in both presentations. This is only a uniqueness
+statement for the concrete finite ledger; it does not transport a source
+equivalence and it exports no host-level equality or completion object.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat common-window selection determinacy]
+\label{thm:streamname-regseqrat-common-window-selection-determinacy}
+Let $\mathcal W_L$ and $\mathcal W_R$ be finite $\StreamNameUp$ common-window
+packages over the same $\mathsf{ProbeBundle}$ and the same accepted
+$\RegSeqRat$ dyadic-tolerance spine. Suppose each selected observation row on
+both windows carries matching $\mathsf{InBundle}$ membership, pointwise
+$\mathsf{RatHistoryClassifier}$ transport, $\mathsf{DyadicRatCore}$ endpoint
+and radius rows, and displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance.
+
+Then every terminal $\RegSeqRat$ source read through $\mathcal W_L$, through
+$\mathcal W_R$, through their finite union, through their certified
+intersection, or through the cover-gluing route is the same consumer-readable
+source. The statement introduces no host-index equality, quotient row, hidden
+selector, completion object, or $\RealUp$ arithmetic or order row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-regseqrat-common-window-transport} to each
+selected row. The shared $\mathsf{ProbeBundle}$ membership, pointwise
+rational-history classifier transport, dyadic endpoint data, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ provenance put both windows over the same accepted
+finite source boundary.
+
+Next use \autoref{thm:streamname-regseqrat-dyadic-source-determinacy}. Since
+the accepted dyadic-tolerance spine is common, the transported endpoint and
+radius rows determine one $\RegSeqRat$ source family for every selected
+terminal read.
+
+The union route is handled by
+\autoref{thm:streamname-regseqrat-terminal-window-union}. It reads the same
+displayed source rows after adjoining the finite windows, and
+\autoref{thm:streamname-regseqrat-common-window-endpoint-exhaustion} shows that
+no additional endpoint coordinate is available beyond the displayed finite
+rows.
+
+The intersection route is handled by
+\autoref{thm:streamname-regseqrat-terminal-window-intersection}. The certified
+overlap exposes the same membership, classifier, endpoint, radius, transport,
+continuation, and provenance rows on both restrictions, so the source read on
+the overlap is the source already determined by the common spine.
+
+Finally apply
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing}. The cover
+gluing route is assembled from the terminal union and terminal intersection
+routes along their agreement, so it has no remaining coordinate by which a
+different selected window could yield a different consumer-readable source.
+The excluded host-index, quotient, hidden-selector, completion, and
+$\RealUp$ arithmetic or order rows therefore stay absent throughout the
+comparison.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat tail-stable Real seal]
+\label{thm:streamname-regseqrat-tail-stable-real-seal}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be displayed $\StreamNameUp$ rows,
+let $P$ and $Q$ be finite $\mathsf{ProbeBundle}$ windows, and let
+$\mathcal W$ be their common-window transport surface. Suppose that the
+transport row of \autoref{thm:streamname-regseqrat-common-window-transport},
+the tail-stability row of
+\autoref{thm:streamname-regseqrat-common-window-tail-stability}, the
+finite-window ledger confluence row of
+\autoref{thm:streamname-regseqrat-finite-window-ledger-confluence}, and the
+finite $\RealUp$ seal boundary of
+\autoref{thm:streamname-realup-seal-boundary} all hold on the displayed
+$\mathsf{UnaryHistory}$ rows, $\mathsf{InBundle}$ membership rows, $\hsame$
+transport rows, and
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows selected by
+$\mathcal W$.
+
+Then the certified tail shift of the common window determines the same
+consumer-facing $\RealUp$ finite-window seal package as the original common
+window. The package consists exactly of the displayed StreamName rows, the
+selected unary observations, bundle-membership rows, rational-history
+classifier rows, accepted $\RegSeqRat$ dyadic source rows, DyadicRatCore
+endpoint and radius rows, finite ledger rows, $\hsame$ transport, $\Cont$
+routes, $\mathsf{Pkg}$ provenance, and $\mathsf{RealLedgerPolicy}$ rows. It
+exports no completion object, quotient row, host-index equality, hidden
+selector, host function, or extra $\RegSeqRat$ regularity witness beyond the
+displayed finite-window seal rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-common-window-tail-stability}. The certified
+tail subwindow inherits the same $\mathsf{InBundle}$ membership,
+$\mathsf{UnaryHistory}$ observations, pointwise
+$\mathsf{RatHistoryClassifier}$ rows, accepted $\RegSeqRat$ spine,
+DyadicRatCore endpoint and radius rows, and
+$\Cont/\hsame/\Pkg/\mathsf{RealLedgerPolicy}$ provenance as the original
+common window.
+
+Next use
+\autoref{thm:streamname-regseqrat-common-window-selection-determinacy}. Since
+the selected observations on the original window and on its certified tail
+carry the same displayed classifier and provenance rows, every terminal
+$\RegSeqRat$ source read is the same consumer-readable source.
+
+Apply
+\autoref{thm:streamname-regseqrat-finite-window-ledger-confluence}. The staged
+tail route and the composed common-window route therefore present one finite
+ledger boundary to any downstream $\RealUp$ seal consumer.
+
+Finally invoke \autoref{thm:streamname-realup-seal-boundary}. It reads exactly
+the StreamName source rows, accepted $\RegSeqRat$ pointwise seal rows,
+bundle-membership rows, unary observations, finite ledger entries, and
+provenance rows already identified above. The separation clauses in the
+StreamName handoff chain leave no coordinate for completion objects, quotient
+representatives, host-index equalities, hidden selectors, host functions, or
+additional regularity witnesses, so the tail-stable common window exports the
+same public finite-window $\RealUp$ seal package and nothing outside it.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat glued Real seal uniqueness]
+\label{thm:streamname-regseqrat-glued-real-seal-uniqueness}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be displayed $\StreamNameUp$ rows.
+Let two terminal common-window routes for $s$ and $t$ agree on their
+$\mathsf{InBundle}$ rows, $\UnaryHistory$ rows,
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, accepted $\RegSeqRat$
+dyadic source rows, DyadicRatCore endpoint and radius rows, finite ledger
+rows, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the glued consumer-facing $\RealUp$ finite-window seal package determined
+by those two routes is unique. It consists only of the displayed StreamName
+source rows, selected unary observations, bundle-membership rows,
+rational-history classifier rows, accepted $\RegSeqRat$ dyadic sources,
+DyadicRatCore endpoint and radius rows, ledger entries, $\hsame$ transports,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\mathsf{RealLedgerPolicy}$
+rows. No completion point, quotient representative, host-index equality,
+hidden selector, host function, or extra regularity witness is exported.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-terminal-window-cover-gluing}. The two
+terminal routes glue through the same terminal cover because their displayed
+bundle membership, unary observations, classifiers, dyadic source rows,
+endpoint-radius data, transport, continuation, provenance, and ledger-policy
+rows agree on the common window.
+
+Next use
+\autoref{thm:streamname-regseqrat-cover-glued-ledger-uniqueness}. After the
+cover has been glued, both routes expose the same finite ledger boundary. The
+ledger read is therefore the ledger already present in the displayed
+common-window surface, not a separately chosen downstream object.
+
+Apply
+\autoref{thm:streamname-regseqrat-common-window-selection-determinacy}. Since
+the two glued routes share the displayed classifier, accepted source, endpoint,
+radius, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\mathsf{RealLedgerPolicy}$
+rows, they determine the same terminal consumer-readable $\RegSeqRat$ source.
+
+Finally invoke
+\autoref{thm:streamname-regseqrat-tail-stable-real-seal}. The $\RealUp$ seal
+reads only the glued finite-window package already identified by the preceding
+steps. The separation clauses in the tail-stable seal leave no coordinate for
+a completion point, quotient representative, host-index equality, hidden
+selector, host function, or extra regularity witness, so both terminal routes
+produce one glued consumer-facing finite-window seal package.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat terminal tail subwindow factorization]
+\label{thm:streamname-regseqrat-terminal-tail-subwindow-factorization}
+Let $s,t:\mathsf{BHist}\to\mathsf{BHist}$ be displayed $\StreamNameUp$ rows.
+Let a terminal common-window route for $s$ and $t$ determine the glued
+consumer-facing $\RealUp$ finite-window seal package of
+\autoref{thm:streamname-regseqrat-glued-real-seal-uniqueness}. Let a
+certified tail subwindow of that route preserve the displayed $\UnaryHistory$
+rows, $\mathsf{InBundle}$ rows,
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, accepted $\RegSeqRat$
+spine rows, DyadicRatCore endpoint and radius rows, $\hsame$ transports,
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and
+$\mathsf{RealLedgerPolicy}$ rows.
+
+Then the certified tail subwindow factors through the same consumer-facing
+$\RealUp$ finite-window seal package as the terminal common-window route. The
+factorization exports exactly the displayed StreamName source rows, selected
+unary observations, bundle-membership rows, rational-history classifier rows,
+accepted $\RegSeqRat$ spine rows, DyadicRatCore endpoint and radius rows,
+ledger entries, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and $\mathsf{RealLedgerPolicy}$ rows. It exports no quotient row,
+completion row, host-index row, hidden selector row, arithmetic row, order row,
+or bridge row.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-regseqrat-common-window-tail-stability}. The certified
+tail subwindow has the same displayed unary, bundle, classifier, accepted
+spine, endpoint-radius, transport, continuation, provenance, and ledger-policy
+surface as the terminal route.
+
+Next use \autoref{thm:streamname-regseqrat-tail-stable-real-seal}. The tail
+surface therefore presents the same finite ledger boundary to the $\RealUp$
+seal consumer and contributes no coordinate outside the displayed
+finite-window package.
+
+Finally invoke
+\autoref{thm:streamname-regseqrat-glued-real-seal-uniqueness}. Since the
+terminal route and its certified tail now read the same public rows, uniqueness
+identifies their consumer-facing $\RealUp$ seal packages and yields the stated
+factorization.
 \end{proof}

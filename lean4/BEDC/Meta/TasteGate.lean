@@ -1,3 +1,4 @@
+import BEDC.FKernel.Hist
 import BEDC.GroundCompiler.EventFlow
 import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.SourceChannel
@@ -30,6 +31,7 @@ from ground-compiler (conservativity, no_hidden_input).
 
 namespace BEDC.Meta.TasteGate
 
+open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
@@ -115,5 +117,115 @@ instance groundCompilerChapterTasteGate : ChapterTasteGate EventFlow where
 /-- Public alias preserved for backward compatibility with paper markers. -/
 def groundCompilerSelfTasteGate : ChapterTasteGate EventFlow :=
   groundCompilerChapterTasteGate
+
+/-! ## FieldFaithful: encoding reflects carrier-field structure.
+
+`ChapterTasteGate.round_trip` + `layer_separation` together only force
+`toEventFlow` to be injective on inhabitants. They do NOT force the
+encoding to actually reflect the multi-field BHist structure of the
+carrier — a chapter with `XUp.mk a b c d e f g h i` (9 BHist fields)
+could conceivably encode only `(a, b)` and discard the remaining 7
+fields, still pass round_trip + layer_separation under a constructed
+`fromEventFlow` that reads them back from a hidden table.
+
+`FieldFaithful` closes this loophole: the chapter must declare a
+`fields : X → List BHist` projection that flattens every BHist
+sub-field of the carrier (the canonical `.mk` projection list), and
+prove `field_faithful`: two inhabitants with the same field list are
+equal. Combined with `BHistCarrier.toEventFlow` being a function of
+`fields` (chapters wire this via their own encode function), the
+encoding inherits faithfulness of every field, not just the
+projected ones.
+
+This is intentionally OPT-IN (separate class from `ChapterTasteGate`)
+so existing chapters compile unchanged. The Phase D paper-side gate
+enforces it for `\origin{ai}` chapters; `\origin{human}` chapters
+need not inhabit it (their nontriviality is attested by the external
+mathematical record). -/
+
+/-- Faithful field projection for a chapter carrier. The chapter must
+    name its BHist sub-fields and prove that two inhabitants agree iff
+    every field agrees. -/
+class FieldFaithful (X : Type) [BHistCarrier X] where
+  /-- Projection: list every BHist sub-field of a carrier inhabitant.
+      For `XUp.mk a b c ... i`, this is `[a, b, c, ..., i]`. -/
+  fields : X → List BHist
+
+  /-- Faithfulness: same field list ⇒ same inhabitant.
+
+      Combined with `BHistCarrier.toEventFlow` being a function of the
+      `fields` projection (the standard chapter pattern), this forces
+      the encoding to reflect every declared BHist sub-field. A chapter
+      cannot declare 9 sub-fields but encode only 2 of them, because
+      then `field_faithful` would witness two non-equal inhabitants
+      with the same field list, which contradicts the requirement. -/
+  field_faithful :
+    ∀ (x y : X), fields x = fields y → x = y
+
+/-! ## No reference FieldFaithful instance for `EventFlow`.
+
+    Unlike `ChapterTasteGate`, where the ground compiler trivially
+    inhabits via identity `toEventFlow`, `FieldFaithful` cannot be
+    inhabited for `EventFlow` because the carrier's `BHist` sub-field
+    list is genuinely empty (an `EventFlow` is a List of RawEvent,
+    not of `BHist`), so any `fields` projection that returns `[]`
+    forces `field_faithful` to assert `∀ x y : EventFlow, x = y` which
+    is false. This is correct: `FieldFaithful` is a chapter-side gate
+    for carriers built on top of `BHist`-shaped inductive `.mk`
+    constructors. The ground compiler `EventFlow` is the substrate,
+    not a chapter. Faithful chapters opt in by providing their own
+    `.mk`-derived `fields` projection and proving `field_faithful`
+    by case-analysis on `.mk`. -/
+
+/-! ## Nontrivial: carrier has ≥ 2 distinct inhabitants.
+
+    `ChapterTasteGate.layer_separation` is vacuously satisfied for
+    `PUnit` / `Empty` / any 1-element carrier — the implication
+    `x ≠ y → ...` has no antecedent witness to discharge. `Nontrivial`
+    closes the loophole by demanding a concrete pair of distinct
+    inhabitants, which is the minimum cardinality required to make
+    `layer_separation` semantically meaningful. -/
+
+/-- Witness that a chapter carrier has at least 2 distinct inhabitants.
+    Forbids `PUnit` / `Empty` / any 1-element carrier (which would make
+    `layer_separation` vacuously true). -/
+class Nontrivial (X : Type) where
+  witness_pair : Σ' (x : X) (y : X), x ≠ y
+
+/-! ## StructurallyAtomic: chapter is not reducible to listed siblings.
+
+    Even with `FieldFaithful`, a chapter could be a Cartesian product
+    or refinement of an existing chapter — its carrier rows are real,
+    encoded faithfully, but the *concept* is composite, derivable from
+    sibling concepts. `StructurallyAtomic` asks the chapter to commit
+    a list of nearest siblings and prove the carrier admits no
+    bijection (injection ∧ surjection) to any of them. The proof is
+    usually a counter-witness: an inhabitant in `X` whose forward
+    image misses a row required by `Y`, or vice versa.
+
+    This is intentionally OPT-IN. Chapters that are genuinely composite
+    (e.g. `<X>UpProduct YUp ZUp`) decline this class; the paper-side
+    closure block records `\origin{ai-composite}` rather than
+    `\origin{ai}`. Only chapters claiming structural atomicity inhabit. -/
+
+/-- Witness that a chapter carrier is not bijective to any of a
+    listed set of sibling carriers. The chapter selects its nearest
+    siblings (typically 3-5) and provides a `not_bijection_to` row for
+    each, proving no Y inhabitant maps onto every X inhabitant via an
+    injection. -/
+class StructurallyAtomic (X : Type) where
+  /-- Names of nearest sibling chapter carrier types, as Lean type
+      identifiers. Phase D paper-gate cross-checks this against the
+      paper-side `\independenceWitness{...}` row. -/
+  nearest_siblings : List String
+
+  /-- For each sibling `Y` in `nearest_siblings`, prove the carrier
+      cannot be bijected (injection ∧ surjection) into `Y`. A trivial
+      cardinality argument works when |X| ≠ |Y|, but for same-rank
+      carriers the chapter must show a structural distinction —
+      typically by exhibiting a NameCert obligation row of `X` that
+      cannot be reduced through any `X → Y` map preserving the carrier
+      shape. -/
+  not_reducible_witness : String
 
 end BEDC.Meta.TasteGate

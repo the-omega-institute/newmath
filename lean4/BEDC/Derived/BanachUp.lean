@@ -566,4 +566,21 @@ theorem BanachSingletonZeroBoundedLinearOperator_carrier :
     · intro ledgerEmpty
       exact not_hsame_e0_empty ledgerEmpty
 
+def BanachConcreteCarrier (point normValue metricLimit provenance : BHist) : Prop :=
+  BanachSingletonCarrier point ∧ UnaryHistory normValue ∧ UnaryHistory metricLimit ∧
+    UnaryHistory provenance ∧ Cont point normValue metricLimit ∧ hsame point BHist.Empty
+
+theorem BanachConcreteCarrier_singleton_empty_witness :
+    BanachConcreteCarrier BHist.Empty BHist.Empty BHist.Empty BHist.Empty := by
+  have emptyMetric : MetricDistanceWitness BHist.Empty BHist.Empty BHist.Empty :=
+    MetricDistanceWitness_empty_distance_iff.mpr
+      (And.intro (hsame_refl BHist.Empty) (hsame_refl BHist.Empty))
+  have singletonCarrier : BanachSingletonCarrier BHist.Empty :=
+    And.intro (hsame_refl BHist.Empty) emptyMetric
+  exact And.intro singletonCarrier
+    (And.intro unary_empty
+      (And.intro unary_empty
+        (And.intro unary_empty
+          (And.intro (cont_right_unit BHist.Empty) (hsame_refl BHist.Empty)))))
+
 end BEDC.Derived.BanachUp

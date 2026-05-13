@@ -1,0 +1,147 @@
+\chapter{A Concrete Naming Certificate for $\ExternalityGateUp$}
+\label{ch:concrete-instances-externalitygate-namecert}
+\origin{ai}
+
+The $\ExternalityGateUp$ interface is the concrete gate attached to the
+name-to-gate correspondence of \autoref{prin:apophatic-naming-name-to-gate}. It
+turns a named externality into a finite NameCert packet: a socket-name row, a
+gate-question row, a classifier for visible use, a refusal ledger, an audit
+readback route, transport and continuation rows, package provenance, and a
+local naming certificate. The packet makes the gate question inspectable
+without turning the requested external supply into an internal BEDC object.
+
+\begin{definition}[ExternalityGate carrier]
+\label{def:externality-gate-carrier}
+An $\ExternalityGateUp$ carrier is a finite $\BHist$ packet
+$$
+E=(A,Q,U,R,D,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $A$ is the apophatic-name row naming the externality;
+\item $Q$ is the gate-question row determined by that name;
+\item $U$ is the visible-use classifier row distinguishing cited socket use
+from hidden internalization;
+\item $R$ is the refusal ledger for requests that would make the externality
+available as an internal generator, theorem, axiom, quotient, or host datum;
+\item $D$ is the audit readback row exposing the name, gate question, visible-use
+classifier, and refusal outcome to downstream checks;
+\item $H$ records componentwise $\hsame$ transports for name, gate question,
+classifier, refusal, readback, provenance, and local certificate rows;
+\item $C$ records the $\Cont$ routes by which consumers read the gate question,
+classifier, refusal ledger, and audit readback;
+\item $P$ records $\Pkg$ provenance over $\ApophaticNameUp$,
+$\ApophaticSocketUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ExternalityGateUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for the requested external supply itself.
+\end{definition}
+\leanchecked{BEDC.Derived.ExternalityGateUp.ExternalityGateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ExternalityGate name-to-gate obligations]
+\label{thm:externality-gate-name-to-gate-obligations}
+For every accepted $\ExternalityGateUp$ carrier
+$$
+E=(A,Q,U,R,D,H,C,P,N),
+$$
+the apophatic-name row $A$ determines the gate-question row $Q$ as the public
+question by which hidden internalization is tested. The local
+$\NameCert_{\ExternalityGateUp}$ surface consists of carrier admission, name
+readback, gate-question readback, visible-use classification, refusal-ledger
+exhaustion, audit readback, componentwise transport, continuation routing,
+package provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier. The tuple lists the name row $A$, gate-question row $Q$,
+visible-use classifier $U$, refusal ledger $R$, audit readback $D$, transport
+rows, continuation routes, provenance, and local certificate.
+
+The name-to-gate obligation is the dependency from $A$ to $Q$. A consumer that
+cites the externality must pass through the gate question before it can be
+classified as visible use by $U$ or refused by $R$.
+
+The remaining obligations are the ordinary NameCert routing obligations. The
+readback row $D$ exposes exactly the name, question, classifier, and refusal
+outcome, while $H,C,P,N$ preserve and name those rows without adding an
+internal supply coordinate.
+\end{proof}
+
+\begin{theorem}[ExternalityGate non-internalization]
+\label{thm:externality-gate-non-internalization}
+Every accepted $\ExternalityGateUp$ packet keeps the externality named by $A$
+outside the generated substrate. A downstream consumer may cite $A$, ask the
+gate question $Q$, receive the visible-use classification $U$, read the refusal
+ledger $R$, and replay the audit readback $D$, but it cannot extract an
+internal generator, theorem, axiom, quotient representative, host datum, or
+unrecorded supply from the packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory of
+\autoref{def:externality-gate-carrier}. The requested external supply is not a
+coordinate of $E$; only its name, gate question, classifier, refusal ledger,
+and audit readback are present.
+
+Apply the name-to-gate obligations. Any consumer route must pass through $Q$,
+then through either the visible-use classifier $U$ or the refusal ledger $R$.
+
+The transport and continuation rows preserve the same finite surface. Since no
+route in $C$ targets an internal supply coordinate, no downstream read can
+convert the named externality into generated substrate content.
+\end{proof}
+
+\begin{theorem}[ExternalityGate NameCert surface]
+\label{thm:externality-gate-namecert-surface}
+The public $\NameCert_{\ExternalityGateUp}$ surface is exhausted by the
+apophatic-name row $A$, gate-question row $Q$, visible-use classifier $U$,
+refusal ledger $R$, audit readback row $D$, componentwise $\hsame$ transport,
+displayed $\Cont$ routes, $\Pkg$ provenance, and local certificate row $N$.
+It has no second surface for anonymous external dependence, unmarked proof
+input, hidden setup fields, or host-side recognition content.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of
+\autoref{thm:externality-gate-name-to-gate-obligations}. They list every row
+available to the local certificate.
+
+The non-internalization theorem then removes any possible extra source for the
+named externality. What remains is exactly the finite public surface
+$A,Q,U,R,D,H,C,P,N$.
+
+Thus any consumer that claims an externality gate must cite the displayed rows.
+A route through anonymous dependence or hidden host recognition has no row to
+project and is refused by the ledger.
+\end{proof}
+
+\begin{theorem}[ExternalityGate audit readback]
+\label{thm:externality-gate-audit-readback}
+For an accepted $\ExternalityGateUp$ packet, the audit readback row $D$ reports
+exactly four visible facts: the apophatic name $A$, the gate question $Q$, the
+visible-use classifier result $U$, and the refusal-ledger outcome $R$. The
+readback is stable under the displayed $\hsame$ and $\Cont$ routes and exposes
+no internal supply object beyond those four rows.
+\end{theorem}
+\begin{proof}
+Project the audit readback row $D$ from the carrier. By definition, it is
+attached to $A,Q,U,R$ and not to a hidden external supply coordinate.
+
+Use the componentwise transport rows in $H$ and replay routes in $C$. They move
+the name, gate question, classifier, refusal ledger, and readback together, so
+the audit report remains stable under displayed transport.
+
+Finally apply the NameCert surface theorem. Since the certificate surface is
+exhausted by the listed rows, the audit readback cannot expose any additional
+internal object.
+\end{proof}
+
+\closureat{ExternalityGateUp}{seedStr}
+
+\begin{closurestatus}{\ExternalityGateUp}
+  \constructivestory{An $\ExternalityGateUp$ packet is generated from an apophatic-name row, a gate-question row, a visible-use classifier, a refusal ledger, an audit readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:externality-gate-carrier}, \autoref{thm:externality-gate-name-to-gate-obligations}, \autoref{thm:externality-gate-non-internalization}, \autoref{thm:externality-gate-namecert-surface}, and \autoref{thm:externality-gate-audit-readback} bind the finite name-to-gate carrier, refusal ledger, audit readback, and non-internalization surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close the requested external supply, host recognition content, hidden setup fields, quotient representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, name-to-gate routing, refusal-ledger exhaustion, NameCert surface exactness, and audit-readback stability for the same finite packet.}
+\end{closurestatus}

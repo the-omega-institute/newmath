@@ -1,0 +1,115 @@
+\chapter{A Concrete Naming Certificate for $\TasteGateCompilerWitnessUp$}
+\label{ch:concrete-instances-tastegatecompilerwitness-namecert}
+\origin{ai}
+
+The $\TasteGateCompilerWitnessUp$ packet is the finite compiler-facing NameCert surface for a chapter-level taste gate. It records the candidate chapter token, the $\ChapterTasteGate$ row, the displayed event-flow conservativity row, the no-hidden-input, round-trip, and layer-separation rows, the dependency ledger, the audit result row, transport and replay routes, package provenance, and local naming data in one visible certificate.
+
+\begin{definition}[TasteGateCompilerWitness carrier]
+\label{def:taste-gate-compiler-witness-carrier}
+A $\TasteGateCompilerWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(X,T,E,N,R,L,D,A,H,C,P,Z)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the candidate chapter token, recording the chapter label, declared carrier name, and paper site whose taste-gate status is being certified;
+\item $T$ is the $\ChapterTasteGate$ row, exposing the four chapter-level obligations used by the admission check;
+\item $E$ is the event-flow conservativity row, recording the finite $\GroundCompiler$ event-flow image through which the candidate text and generated declaration surface are read;
+\item $N$ is the no-hidden-input row, stating that every accepted input channel for the candidate is named in the event-flow image and dependency ledger;
+\item $R$ is the round-trip row, recording that the displayed compiler witness can be replayed from the named source tokens to the named certificate rows;
+\item $L$ is the layer-separation row, keeping paper prose, compiler events, Lean declarations, and package provenance in their displayed layers;
+\item $D$ is the dependency ledger, listing the local BEDC rows, ground-compiler theorem references, candidate NameCert rows, and refusal-side gaps used by the witness;
+\item $A$ is the audit result row, recording acceptance or refusal of the witness surface against $T,E,N,R,L,D$;
+\item $H$ stores componentwise $\hsame$ transports for $X,T,E,N,R,L,D,A,C,P,Z$;
+\item $C$ records the displayed $\Cont$ routes by which a reader accesses the taste-gate rows, compiler witness rows, dependency ledger, and audit result;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\NameCert$, $\ChapterTasteGate$, $\GroundCompiler$, compiler event-flow rows, dependency ledgers, audit results, $\hsame$, $\Cont$, and local naming;
+\item $Z$ is the local $\NameCert_{\TasteGateCompilerWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden prompt state, oracle taste, unlisted compiler facts, host-side chapter approval, or a dependency outside $D$.
+\end{definition}
+\leandef{BEDC.Derived.TasteGateCompilerWitnessUp.TasteGateCompilerWitnessUp}
+
+\begin{theorem}[TasteGateCompilerWitness NameCert obligations]
+\label{thm:taste-gate-compiler-witness-namecert-obligations}
+For every accepted $\TasteGateCompilerWitnessUp$ carrier
+$$
+W=(X,T,E,N,R,L,D,A,H,C,P,Z),
+$$
+the local $\NameCert_{\TasteGateCompilerWitnessUp}$ surface consists exactly of carrier exposure for $W$, candidate-token exposure through $X$, $\ChapterTasteGate$ exposure through $T$, compiler event-flow exposure through $E$, no-hidden-input exposure through $N$, round-trip exposure through $R$, layer-separation exposure through $L$, dependency-ledger exposure through $D$, audit-result exposure through $A$, componentwise transport through $H$, replay routes through $C$, package provenance through $P$, and local naming through $Z$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:taste-gate-compiler-witness-carrier}. The tuple lists every row available to a reader of the compiler witness.
+
+The candidate and taste-gate obligations are $X$ and $T$. They identify the chapter token and expose the chapter-level conservativity, no-hidden-input, round-trip, and layer-separation obligations without importing an unnamed chapter object.
+
+The compiler-facing obligations are $E,N,R,L,D,A$. These rows record the displayed event-flow image, the input-channel boundary, replay route, layer boundary, dependency ledger, and audit result as finite data.
+
+The structural obligations are $H,C,P,Z$. Transport, continuation, provenance, and local naming preserve the same witness surface and add no hidden approval channel. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[TasteGateCompilerWitness ground compiler route]
+\label{thm:taste-gate-compiler-witness-ground-compiler-route}
+Every accepted $\TasteGateCompilerWitnessUp$ packet reads the $\ChapterTasteGate$ row only through the ground-compiler route
+$$
+X \longmapsto E \longmapsto (N,R,L) \longmapsto D \longmapsto A.
+$$
+Thus conservativity, no-hidden-input, round-trip, and layer-separation claims are accepted only when the displayed event-flow row, compiler replay row, dependency ledger, and audit result row are all present in the same packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:taste-gate-compiler-witness-carrier}. The only candidate token is $X$, and the only taste-gate row is $T$.
+
+The event-flow row $E$ is the compiler-facing entrance to the witness. A reader cannot inspect $T$ as an ambient judgment; the route to the obligations passes through the displayed compiler image.
+
+The rows $N,R,L$ split the compiler evidence into input-channel, replay, and layer-separation checks. The dependency ledger $D$ then records the named BEDC rows and ground-compiler theorem references used by those checks.
+
+Finally $A$ records the audit result for the same rows. Since transport and replay are componentwise through $H$ and $C$, the accepted route cannot replace the displayed compiler evidence with an unlisted theorem or host-side approval.
+\end{proof}
+
+\begin{theorem}[TasteGateCompilerWitness non-escape]
+\label{thm:taste-gate-compiler-witness-non-escape}
+Every exported read of an accepted $\TasteGateCompilerWitnessUp$ packet factors through
+$$
+(X,T,E,N,R,L,D,A,H,C,P,Z).
+$$
+The read may export the candidate chapter token, $\ChapterTasteGate$ obligations, ground-compiler event-flow evidence, no-hidden-input row, round-trip row, layer-separation row, dependency ledger, audit result, transport routes, package provenance, and local NameCert. It cannot export hidden prompt state, oracle taste, unlisted compiler facts, selected host semantics, or a dependency not named by $D$.
+\end{theorem}
+\begin{proof}
+Project the exported read through the accepted carrier. The tuple gives exactly the rows $X,T,E,N,R,L,D,A,H,C,P,Z$.
+
+Use \autoref{thm:taste-gate-compiler-witness-namecert-obligations} to account for the local naming surface, candidate token, taste-gate row, compiler evidence, ledger, audit result, transport, continuation, and provenance.
+
+Use \autoref{thm:taste-gate-compiler-witness-ground-compiler-route} for the route from the candidate token to the audit result. Every compiler-facing claim is tied to the displayed event-flow and dependency rows.
+
+The carrier has no coordinate for hidden prompt state, oracle taste, unlisted compiler facts, selected host semantics, or a dependency outside $D$. No exported read can therefore supply one.
+\end{proof}
+
+\begin{theorem}[TasteGateCompilerWitness public package]
+\label{thm:taste-gate-compiler-witness-public-package}
+The public package exported by an accepted $\TasteGateCompilerWitnessUp$ carrier is the finite surface
+$$
+\mathsf{Pub}(W)=(X,T,E,N,R,L,D,A,H,C,P,Z).
+$$
+It is a concrete NameCert packet tying $\ChapterTasteGate$ obligations to ground-compiler witness rows, dependency-ledger rows, and audit-result rows. Any AI-origin chapter promotion that cites this package obtains only that finite witness surface and no external admission principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. They provide the exact public row list and identify the local certificate surface as finite $\BHist$ data.
+
+Apply \autoref{thm:taste-gate-compiler-witness-ground-compiler-route}. This binds the taste-gate obligations to the compiler event-flow row, replay row, layer-separation row, dependency ledger, and audit result.
+
+Apply \autoref{thm:taste-gate-compiler-witness-non-escape}. The exported package cannot exceed the displayed rows, so it cannot become an external admission principle or host-side taste judgment.
+
+Thus $\mathsf{Pub}(W)$ is precisely the concrete compiler-witness NameCert packet available to downstream chapter-promotion checks.
+\end{proof}
+
+\closureat{TasteGateCompilerWitnessUp}{seedStr}
+
+\begin{closurestatus}{\TasteGateCompilerWitnessUp}
+  \constructivestory{A $\TasteGateCompilerWitnessUp$ packet is generated from a candidate chapter token, ChapterTasteGate row, compiler event-flow row, no-hidden-input row, round-trip row, layer-separation row, dependency ledger, audit result row, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:taste-gate-compiler-witness-carrier}, \autoref{thm:taste-gate-compiler-witness-namecert-obligations}, \autoref{thm:taste-gate-compiler-witness-ground-compiler-route}, \autoref{thm:taste-gate-compiler-witness-non-escape}, and \autoref{thm:taste-gate-compiler-witness-public-package} bind the seed carrier, local NameCert surface, compiler witness route, non-escape boundary, and public package for TasteGate compiler witnesses.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove the candidate chapter's mathematical content, certify arbitrary host semantics, close bridge checking, or provide Lean verification for the compiler-witness packet.}
+  \upgradepath{Obligation closure requires checked carrier, NameCert-surface, compiler-route, public-package, and non-escape theorems for the same finite witness packet.}
+\end{closurestatus}

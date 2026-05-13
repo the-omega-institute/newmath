@@ -1,0 +1,226 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMapUp$}
+\label{ch:concrete-instances-finitemap-namecert}
+
+\origin{human}
+
+The $\FiniteMapUp$ interface records finite key-value lookup data as displayed BEDC history rows. Its carrier is an association-list presentation over the existing $\ListUp$, $\ProdUp$, and $\OptionUp$ finite-data chapters from \autoref{ch:concrete-instances-list-namecert}, \autoref{ch:concrete-instances-prod-namecert}, and \autoref{ch:concrete-instances-option-namecert}, with finite support read through \autoref{ch:concrete-instances-finset-namecert} when a consumer needs a displayed support boundary.
+
+\section{Finite-map source}
+\label{sec:finitemap-source}
+
+\begin{definition}[FiniteMapUp NameCert source]
+\label{def:finitemap-namecert-source}
+A $\FiniteMapUp$ source is a finite $\ListUp$ spine of $\ProdUp$ rows whose first component is a displayed key history and whose second component is a displayed value history. The empty spine is the empty-map carrier. A lookup query is evaluated by scanning the displayed spine from left to right and returning an $\OptionUp$ classifier witness: $\mathsf{none}$ when no displayed key row matches the query classifier, and $\mathsf{some}$ of the first displayed value row whose key matches the query classifier otherwise.
+
+The source also carries a duplicate-key ledger. Each ledger row records the visible key order, the first-hit lookup position for that key when it exists, the later key rows suppressed by the first hit, and the $\mathsf{BHist}$ source provenance of every displayed key-value row. Thus a finite map is not a host function, a primitive finite set of graph pairs, or a quotient of presentations; it is exactly a finite displayed row spine with an $\OptionUp$ lookup classifier and a suppression ledger.
+\end{definition}
+
+\begin{theorem}[FiniteMapUp carrier and classifier obligations]
+\label{thm:finitemap-carrier-classifier-obligations}
+The $\FiniteMapUp$ carrier described in \autoref{def:finitemap-namecert-source} satisfies the local carrier and classifier obligations for a naming certificate. The carrier is inhabited by the empty $\ListUp$ spine. The lookup classifier is reflexive, symmetric, and transitive because each query is compared through the key classifier and the result is an $\OptionUp$ witness over the first matching $\ProdUp$ row. Carrier rows transport componentwise along $\hsame$ for keys and values, along the displayed $\Cont$ lookup route, and along the recorded $\mathsf{Pkg}$ provenance. No quotient carrier or host-level map equality is part of the obligation surface.
+\end{theorem}
+\begin{proof}
+The empty spine supplies the carrier inhabitant. For a nonempty spine, every row is already a $\ProdUp$ key-value row inside a $\ListUp$ carrier, so the source predicates are inherited componentwise from those chapters.
+
+Reflexivity of lookup compares a query against the same displayed scan. Symmetry and transitivity are inherited from the key classifier and from the $\OptionUp$ classifier on the returned witness, while the first-hit rule fixes the selected value row.
+
+Transport follows the same finite spine. Move each key and value through its $\hsame$ witness, carry the lookup route through $\Cont$, and keep the package row naming the source certificate. Since equality is read only from the displayed scan and its option witness, there is no quotient carrier to construct.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp lookup Option exactness]
+\label{thm:finitemap-lookup-option-exactness}
+For every accepted $\FiniteMapUp$ source and every displayed query key, lookup returns exactly one $\OptionUp$ witness. It returns $\mathsf{none}$ precisely when no displayed key row in the finite spine matches the query classifier. It returns $\mathsf{some}(v)$ precisely when the first displayed key row matching the query classifier has value row $v$, and every later matching key row is recorded only in the duplicate-key ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_lookup\_option\_exactness}
+\begin{proof}
+Proceed by induction on the displayed $\ListUp$ spine. For the empty spine, there is no displayed key row, so the lookup classifier is the single $\mathsf{none}$ witness and the ledger is empty.
+
+For a cons spine, inspect the head $\ProdUp$ row. If its key matches the query classifier, the first-hit rule returns the head value as the unique $\mathsf{some}$ witness, and the tail contributes only suppressed duplicate rows for the same key.
+
+If the head key does not match, apply the induction hypothesis to the tail. A tail $\mathsf{none}$ remains $\mathsf{none}$ for the whole spine, while a tail $\mathsf{some}$ remains the first matching row because the head was rejected. These cases exhaust the displayed finite spine.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp ledger transport]
+\label{thm:finitemap-ledger-transport}
+Let two accepted $\FiniteMapUp$ sources have key and value rows related componentwise by $\hsame$, with lookup continuations related by $\Cont$ and package rows related by $\mathsf{Pkg}$. Then the visible key order, first-hit lookup result, suppressed duplicate-key rows, and source-provenance rows transport together. In particular, lookup and the duplicate-key ledger are preserved by the displayed transport data.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_ledger\_transport}
+\begin{proof}
+Transport the spine row by row. A transported head key has the same classifier outcome against the transported query key, and the transported value row is the value read by the corresponding $\OptionUp$ witness.
+
+The first-hit index is therefore stable under the displayed transport. Rows before it remain nonmatching rows, the selected row remains selected, and rows after it that match the same key remain ledger entries rather than lookup outputs.
+
+The $\Cont$ routes identify the lookup readback, and the $\mathsf{Pkg}$ rows identify the certificate sources used by the scan. Thus the lookup result and the duplicate-key ledger move as one finite displayed object.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp NameCert obligation surface]
+\label{thm:finitemap-namecert-obligation-surface}
+The $\NameCert_{\FiniteMapUp}$ obligation surface consists of five rows: the finite $\ListUp$ carrier of $\ProdUp$ key-value rows from \autoref{def:finitemap-namecert-source}; the lookup classifier into $\OptionUp$ with reflexivity, symmetry, and transitivity from \autoref{thm:finitemap-carrier-classifier-obligations}; lookup exactness from \autoref{thm:finitemap-lookup-option-exactness}; carrier transport along $\hsame$, $\Cont$, and $\mathsf{Pkg}$ from \autoref{thm:finitemap-ledger-transport}; and duplicate-key ledger soundness for visible key order, first-hit selection, suppressed duplicates, and source provenance.
+\end{theorem}
+\begin{proof}
+Collect the carrier row, classifier row, exactness row, transport row, and ledger row. Each is expressed using only the displayed finite spine, product-coded key-value histories, option-valued lookup witness, and finite support boundary supplied by the existing finite-data chapters.
+
+The first four rows are exactly the preceding definition and theorems. The ledger soundness row is the remaining projection of the same source: it records which later rows are suppressed and why the first matching row is the only lookup output.
+
+These five rows are closed under consumer readback because every consumer-visible fact is obtained by scanning the finite displayed spine. No primitive finite-map object, ambient host function, or quotient equality is exported.
+\end{proof}
+
+\begin{definition}[FiniteMapUp displayed support boundary]
+\label{def:finitemap-displayed-support-boundary}
+Let $M$ be an accepted $\FiniteMapUp$ source in the sense of \autoref{def:finitemap-namecert-source}, presented by a finite $\ListUp$ spine $xs$ of $\ProdUp$ key-value rows. Define $\mathsf{KeyRows}(xs):\mathsf{HistSpine}$ by structural readback from the displayed spine: the empty spine maps to $\mathsf{nil}$, and a cons row whose $\ProdUp$ first component is the displayed key history $k$ maps to the cons spine with head $k$ and tail $\mathsf{KeyRows}(xs')$.
+
+The displayed support boundary of $M$ is the $\FinSetUp$ enumeration row
+$$
+\mathsf{FiniteMapSupport}_{A,\sim_A}(M)(z)
+\Longleftrightarrow
+\mathsf{FinSetEnumCarrier}_{A,\sim_A}(\mathsf{KeyRows}(xs))(z),
+$$
+where $A$ and $\sim_A$ are the key-side carrier and classifier consumed by the finite-support read. Its ledger contains, for every position of the original $\ListUp$ spine, the corresponding projected key position in $\mathsf{KeyRows}(xs)$, the $\mathsf{BHist}$ provenance of the original key-value row, and the first-hit or suppressed-duplicate status recorded by the finite-map duplicate-key ledger.
+\end{definition}
+
+\begin{theorem}[FiniteMapUp displayed support readback]
+\label{thm:finitemap-displayed-support-readback}
+Let $M$ be an accepted $\FiniteMapUp$ source with displayed $\ListUp$ spine $xs$ of $\ProdUp$ key-value rows. Reading $M$ through the $\FinSetUp$ support boundary of \autoref{def:finitemap-displayed-support-boundary} exposes exactly the displayed key rows of $xs$:
+$$
+\mathsf{FiniteMapSupport}_{A,\sim_A}(M)(z)
+\Longleftrightarrow
+\exists k:\mathsf{BHist}.\;\mathsf{SpineMember}(k,\mathsf{KeyRows}(xs))\land z\sim_A k.
+$$
+Moreover, if two positions of $xs$ display keys in the same $\sim_A$-class, both projected key positions remain in the support ledger, while the $\OptionUp$ lookup read of \autoref{thm:finitemap-lookup-option-exactness} returns only the value at the first matching position and records the later matching positions as suppressed duplicate-key ledger entries.
+\end{theorem}
+\begin{proof}
+Unfold the support boundary definition. Its carrier is the finite-set enumeration carrier $\mathsf{FinSetEnumCarrier}_{A,\sim_A}(\mathsf{KeyRows}(xs))$. By \autoref{thm:finset-enumeration-membership-exactness}, membership in that carrier is equivalent to finite-spine occurrence in $\mathsf{KeyRows}(xs)$ modulo the key classifier. This gives the displayed equivalence.
+
+It remains to identify the ledger and the duplicate behavior. The map $\mathsf{KeyRows}$ is defined by structural readback from the $\ListUp$ spine. In the empty case, both the finite-map source and the support spine are empty, so there is no support position and no lookup output. In a cons case, the head $\ProdUp$ row exposes one displayed key history $k$ and one displayed value history $v$. The support projection adds exactly the key row $k$ at the corresponding head position and then applies the same projection to the tail. Induction on the finite spine therefore gives a position-preserving ledger from rows of $xs$ to rows of $\mathsf{KeyRows}(xs)$, with no added key row and no omitted displayed key row.
+
+Now suppose a later row of $xs$ has a key in the same $\sim_A$-class as an earlier displayed key. The projected key row is still present as a position of $\mathsf{KeyRows}(xs)$, hence it remains visible in the support ledger. At the carrier level, \autoref{thm:finset-duplicate-insertion-invariant} says that inserting a source-carried key already represented in the finite spine does not change the induced $\FinSetUp$ classifier. Thus duplicate key positions are ledger entries for the same finite-support membership class rather than additional support classes.
+
+Finally apply \autoref{thm:finitemap-lookup-option-exactness}. Lookup scans the original displayed $\ListUp$ spine from left to right, so the first key row matching the query supplies the unique $\mathsf{some}$ value witness, and every later matching key row is recorded only in the duplicate-key ledger. The support boundary and the lookup boundary therefore read the same displayed key positions, but they use them differently: $\FinSetUp$ records finite support by projected key occurrence modulo the key classifier, while $\OptionUp$ lookup emits only the first-hit value and keeps duplicate keys as ledger provenance.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp public support lookup boundary]
+\label{thm:finitemap-public-support-lookup-boundary}
+The public $\FiniteMapUp$ export is exactly the finite $\ListUp$ spine of
+$\ProdUp$ key-value rows together with the $\OptionUp$ first-hit lookup
+witness, the displayed $\FinSetUp$ support boundary, the duplicate-key ledger,
+$\hsame$ transport, $\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance. Every
+public read of lookup or support factors through these rows, and no host finite
+map or quotient graph equality is exported.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_public\_support\_lookup\_boundary}
+\begin{proof}
+Start with \autoref{thm:finitemap-lookup-option-exactness}. It identifies every
+lookup read with the scan of the displayed $\ListUp$ spine and the resulting
+$\OptionUp$ first-hit witness, while later matching keys remain only in the
+duplicate ledger.
+
+Apply \autoref{thm:finitemap-ledger-transport} to move the lookup and duplicate
+rows through the displayed $\hsame$ transports, $\Cont$ lookup routes, and
+$\mathsf{Pkg}$ provenance. These are the only transport rows available to a
+public finite-map read.
+
+Finally use \autoref{thm:finitemap-displayed-support-readback}. The support
+side reads the same displayed key positions through the $\FinSetUp$ support
+boundary. Combining the lookup exactness, ledger transport, and support
+readback rows exhausts the public export, with no host finite map and no
+quotient graph equality left to read.
+\end{proof}
+
+\begin{theorem}[FiniteMapUp support lookup consumer determinacy]
+\label{thm:finitemap-support-lookup-consumer-determinacy}
+Let $M$ and $M'$ be accepted $\FiniteMapUp$ source packets whose displayed
+$\ListUp$ spines of $\ProdUp$ key-value rows agree up to the displayed key
+classifier and value classifier, whose $\OptionUp$ first-hit lookup witnesses
+agree for every displayed query, whose $\FinSetUp$ support boundaries expose the
+same projected key positions, and whose duplicate-key ledger rows, $\hsame$
+transports, $\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance rows agree.
+Then every public lookup/support consumer reads the same finite BEDC surface
+from $M$ and $M'$. In particular, duplicate key rows remain visible as
+support-ledger positions and transport provenance, but only the first displayed
+matching row contributes the $\OptionUp$ value returned to a lookup consumer.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_support\_lookup\_consumer\_determinacy}
+\begin{proof}
+First apply \autoref{thm:finitemap-lookup-option-exactness} to both packets.
+The assumed agreement of displayed $\ListUp$ spines and first-hit witnesses
+forces every public lookup query to reach the same $\OptionUp$ read: absent
+queries read $\mathsf{none}$ on both sides, and present queries read the value
+at the first displayed matching row on both sides.
+
+Next apply \autoref{thm:finitemap-displayed-support-readback}. The public
+support consumer sees only the projected key positions through the
+$\FinSetUp$ boundary. Since those projected positions agree, the two support
+surfaces have the same membership readback modulo the displayed key classifier,
+including later positions whose keys match an earlier row.
+
+The duplicate ledger is then transported by
+\autoref{thm:finitemap-ledger-transport}. Agreement of the $\hsame$ rows,
+$\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance means that every duplicate
+position and every package-origin row has the same public transport account in
+the two packets.
+
+Finally use \autoref{thm:finitemap-public-support-lookup-boundary}. That
+boundary exhausts public lookup/support reads by the displayed spine, first-hit
+lookup witness, support readback, duplicate ledger, transport rows, lookup
+routes, and package provenance. All of these rows agree by the preceding
+steps, so no public consumer can distinguish the two packets. Later duplicate
+keys may still be inspected as support-ledger positions, but the lookup value is
+already fixed by the first matching displayed row.
+\end{proof}
+
+\begin{theorem}[FiniteMap standard schema bridge boundary]
+\label{thm:finitemap-standard-schema-bridge-boundary}
+The public surface of
+\autoref{thm:finitemap-public-support-lookup-boundary} and
+\autoref{thm:finitemap-support-lookup-consumer-determinacy} supplies the
+standard finite-map schema bridge exactly through the finite $\ListUp$ spine of
+$\ProdUp$ key-value rows, the $\OptionUp$ first-hit lookup witness, the
+$\FinSetUp$ displayed support boundary, the duplicate-key ledger, $\hsame$
+transports, $\Cont$ lookup routes, and $\mathsf{Pkg}$ provenance. Every
+standard finite-map consumer read factors through those rows.
+
+The bridge exports no host finite map, quotient graph equality, balanced tree,
+hashing table, or asymptotic cost claim.
+\end{theorem}
+\begin{proof}
+Project lookup exactness through
+\autoref{thm:finitemap-lookup-option-exactness}. The finite $\ListUp$ spine
+and $\ProdUp$ key-value rows determine the first-hit $\OptionUp$ witness, so a
+consumer lookup can read only the displayed first matching row or the displayed
+absence witness.
+
+Project support readback through
+\autoref{thm:finitemap-displayed-support-readback}. The support boundary is
+the displayed $\FinSetUp$ read of the same key projection, and duplicate key
+positions remain ledger rows rather than additional support classes.
+
+Transport the duplicate-key ledger with
+\autoref{thm:finitemap-ledger-transport}. The $\hsame$ rows, $\Cont$ lookup
+routes, and $\mathsf{Pkg}$ provenance carry exactly the visible lookup and
+support rows across accepted replacements.
+
+Finally apply \autoref{thm:finitemap-public-support-lookup-boundary}. Together
+with the consumer determinacy theorem
+\autoref{thm:finitemap-support-lookup-consumer-determinacy}, it exhausts all
+public finite-map reads by the displayed support and lookup rows. Since the
+packet contains no coordinate for host maps, quotient graph equality, balanced
+trees, hashing, or cost, none of those structures is exported by the bridge.
+\end{proof}
+
+\closureat{FiniteMapUp}{seedStr}
+\closureat{FiniteMapUp}{obligationStr}
+\closureat{FiniteMapUp}{scopedStr}
+\closureat{FiniteMapUp}{publicStr}
+\closureat{FiniteMapUp}{bridgedStr}
+
+\begin{closurestatus}{\FiniteMapUp}
+  \constructivestory{A finite-map packet is represented by a finite ListUp spine of ProdUp key-value BHist rows, an OptionUp first-hit lookup witness, a visible duplicate-key ledger, componentwise hsame transport, Cont lookup routes, Pkg provenance, and finite support readback through FinSetUp when needed.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:finitemap-displayed-support-boundary}, \autoref{thm:finitemap-displayed-support-readback}, \autoref{thm:finitemap-public-support-lookup-boundary}, \autoref{thm:finitemap-support-lookup-consumer-determinacy}, and \autoref{thm:finitemap-standard-schema-bridge-boundary} bind the bridge surface from the displayed association-list support and first-hit lookup boundary to public finite-map reads over $\ListUp$, $\ProdUp$, $\OptionUp$, $\FinSetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FiniteMapUp.FiniteMapCarrier\_public\_support\_lookup\_boundary}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close extensional finite-map quotient equality, host functions, balanced trees, hashing, asymptotic cost, or an ambient finite-set graph primitive.}
+  \upgradepath{Formal verification and bridge checking remain the next verification-axis work for the same finite support and lookup surface.}
+\end{closurestatus}

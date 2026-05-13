@@ -1,0 +1,58 @@
+\begin{theorem}[CauchyLimitSeal choice-free selector admission]
+\label{thm:cauchy-limit-seal-choice-free-selector-admission}
+Let
+$$
+Q=(X,S,D,G,E,T,P,N)
+$$
+be an accepted $\CauchyLimitSealUp$ carrier. An accepted $\ChoiceFreeLimitScheduleUp$ row
+$$
+A=(E_A,M_A,W_A,D_A,R_A,S_A,H_A,C_A,P_A,N_A)
+$$
+or an accepted $\LimitSelectorUp$ row
+$$
+K=(R_K,n_K,\mu_K,k_K,W_K,D_K,S_K,H_K,C_K,P_K,N_K)
+$$
+is admitted through $Q$ only when its precision request, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row coincide with the public route packet of $Q$.
+
+For a $\ChoiceFreeLimitScheduleUp$ row this means that $E_A,M_A,W_A,D_A,R_A,S_A,H_A,C_A,P_A,N_A$ read the same scheduled windows, dyadic ledger, regular handoff, seal row, transports, continuation routes, provenance, and naming row as $X,S,D,G,E,T,P,N$. For a $\LimitSelectorUp$ row this means that $n_K,\mu_K,k_K,W_K,D_K,S_K,H_K,C_K,P_K,N_K$ select one of the same finite windows and then read the same dyadic ledger, regular handoff, seal row, transports, continuation routes, provenance, and naming row.
+\end{theorem}
+\begin{proof}
+Start with the CauchyLimitSeal window factorization of \autoref{thm:cauchy-limit-seal-window-factorization} and the public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary}. Together they identify every completion-facing or $\RealUp$-facing read of $Q$ with the projected route packet $X,S,D,G,E,T,P,N$.
+
+For a $\ChoiceFreeLimitScheduleUp$ row, apply the choice-free schedule obligations and non-escape rows of \autoref{thm:choice-free-limit-schedule-namecert-obligations} and \autoref{thm:choice-free-limit-schedule-nonescape}. They force the request, schedule, selected windows, dyadic ledger, regular handoff, seal row, transports, routes, provenance, and local name to be displayed in the finite packet before any completion consumer can read them.
+
+For a $\LimitSelectorUp$ row, apply the selector obligations and finite witness route of \autoref{thm:limit-selector-namecert-obligations} and \autoref{thm:limit-selector-finite-witness-route}. The modulus-selected index only opens a displayed finite $\StreamNameUp$ window, and the following dyadic readback and seal are the rows visible to the selector packet.
+
+Finally use the observation-budget pullback, budgeted tail comparison admission, $\RealObservationBudgetUp$ consumer package, and verification handoff of \autoref{thm:cauchy-limit-seal-observation-budget-pullback}, \autoref{thm:cauchy-limit-seal-budgeted-tail-comparison-admission}, \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}, and \autoref{thm:cauchy-limit-seal-verification-handoff}. These rows admit a selector surface only when it lands on the same public route packet of $Q$, so a selector with any different request, window, ledger, handoff, seal, transport, route, provenance, or local name is outside the seal admission surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_choice\_free\_selector\_admission}
+
+\begin{theorem}[CauchyLimitSeal choice-free selector stability]
+\label{thm:cauchy-limit-seal-choice-free-selector-stability}
+Suppose accepted $\CauchyLimitSealUp$ carriers $Q$ and $Q'$ are related by local classifier transport, and suppose an accepted $\ChoiceFreeLimitScheduleUp$ row or $\LimitSelectorUp$ row is admitted through $Q$ by \autoref{thm:cauchy-limit-seal-choice-free-selector-admission}. Then the transported seal admits the transported selector route componentwise: the same choice-free schedule row or the same modulus-selected finite witness row is carried to $Q'$ through the displayed $\hsame$ transports and $\Cont$ replays, while the selected finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\Pkg$ provenance, and local $\NameCert$ row remain the corresponding rows of the transported public route packet.
+\end{theorem}
+\begin{proof}
+Project the public route packet of $Q$. By \autoref{thm:cauchy-limit-seal-public-route-transport}, classifier transport acts componentwise on the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Use selector admission for $Q$. The admitted $\ChoiceFreeLimitScheduleUp$ or $\LimitSelectorUp$ route has no row outside that public route packet, so each of its request, window, ledger, handoff, seal, transport, replay, provenance, and naming coordinates is already one of the transported coordinates.
+
+For the schedule case, apply \autoref{thm:choice-free-limit-schedule-classifier-transport}; for the selector case, apply the componentwise classifier clause in \autoref{thm:limit-selector-namecert-obligations}. These rows preserve the same finite schedule or selected finite witness under the displayed $\hsame$ comparisons.
+
+The observation-budget pullback and verification handoff of \autoref{thm:cauchy-limit-seal-observation-budget-pullback} and \autoref{thm:cauchy-limit-seal-verification-handoff} then replay the transported route through $Q'$. Hence classifier transport preserves the admitted selector route component by component and keeps the same finite windows as the selected windows of the transported seal packet.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_choice\_free\_selector\_stability}
+
+\begin{theorem}[CauchyLimitSeal choice-free selector non-escape]
+\label{thm:cauchy-limit-seal-choice-free-selector-nonescape}
+An accepted selector route admitted by \autoref{thm:cauchy-limit-seal-choice-free-selector-admission} exports no hidden limit choice, quotient stream equality, host real equality, ambient completeness datum, unbounded schedule, hidden family limit, or alternate seal. Its public export is exhausted by the displayed $\BHist$ packet over the $\ChoiceFreeLimitScheduleUp$ or $\LimitSelectorUp$ row and the $\CauchyLimitSealUp$ public route packet: precision request, selected finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start with selector admission. The admitted route is already identified with the public route packet of the seal, so every exported coordinate is one of the displayed request, window, ledger, handoff, seal, transport, route, provenance, and local naming rows.
+
+Use the selector-side boundaries. The choice-free schedule non-escape theorem \autoref{thm:choice-free-limit-schedule-nonescape} excludes quotient streams, host real equality, countable choice, hidden selectors, and ambient completeness from the schedule route, while the LimitSelector finite witness route and Real seal non-escape theorems, \autoref{thm:limit-selector-finite-witness-route} and \autoref{thm:limit-selector-real-seal-nonescape}, exclude host-selected limits, quotient-stream equality, countable-choice selectors, and ambient completeness from the selector route.
+
+Now apply the seal-side boundaries: public route boundary, observation-budget pullback, budgeted tail comparison admission, RealObservationBudget consumer package, and verification handoff. These rows keep the route on the same finite budget and seal packet, with no field for a hidden family limit, alternate seal, unbounded schedule, host real equality, quotient stream equality, or ambient completeness.
+
+The carrier inventory therefore exhausts the export. Since neither the selector packet nor the admitted CauchyLimitSeal packet contains any of the excluded rows, no downstream $\RealUp$ or completion consumer can recover one from the admitted selector surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_choice\_free\_selector\_nonescape}

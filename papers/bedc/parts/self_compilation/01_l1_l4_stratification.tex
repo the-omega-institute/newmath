@@ -1,0 +1,105 @@
+\section{The L1-L4 Stratification}\label{sec:self-comp-stratification}
+
+The phrase ``BEDC compiles itself'' has several inequivalent readings. The
+paper uses a stratified reading rather than a single slogan. Each layer states
+which object is visible, which checker acts on it, and which ceiling prevents a
+stronger reading.
+
+L1 is static paper-Lean alignment. A paper site names a Lean target through
+`\verb|\leanchecked|', `\verb|\leanvariant|', `\verb|\leanstmt|',
+`\verb|\leandef|', or a closure-status `\verb|\leantarget|'. The external audit
+script `\verb|lean4/scripts/bedc_ci.py audit|' reads those names and checks that
+the referenced Lean declarations exist under `\verb|lean4/BEDC|'. L1 therefore
+does not ask BEDC to prove its own metatheory. It asks the repository to expose a
+typed correspondence between paper claims and Lean declarations, with failed
+name resolution treated as a build-time fault.
+
+L1 has three important limits. First, it is syntactic at the boundary between
+paper and Lean: a marker can name a declaration, but it does not itself explain
+the declaration's proof. Second, the audit is a Python-side repository check,
+not a Lean theorem about LaTeX. Third, the closure axis and the verification axis
+remain distinct: a Lean target can be checked while the paper-side theory claim
+is only scoped, and a paper claim can be theoretically delimited while its
+formal marker is only a target.
+
+L2 is internal base reflection. At this layer BEDC represents selected parts of
+its own kernel vocabulary as Lean data and proves internal self-consistency
+facts about them. The base reflection surface covers package reflection,
+signature-object reflection, domain reflection, token uniqueness replacements,
+and witness-chain descriptions of generated sameness. Its job is not to certify
+the whole Lean kernel. Its job is to show that BEDC can place its own finite
+kernel objects under typed constructors and prove the advertised local
+coherence facts inside CIC.
+
+In symbols, the intended shape of L2 is:
+
+$$
+\begin{aligned}
+\text{finite BEDC object}
+&\longmapsto \text{Lean-coded reflection datum},\\
+\text{reflection datum}
+&\longmapsto \text{local coherence theorem}.
+\end{aligned}
+$$
+
+The arrow is intentionally local. It does not assert that every paper sentence,
+every Lean declaration, or every semantic reading of BEDC is reflected. It
+asserts that the finite kernel interfaces identified by the base-reflection
+surface admit typed internal witnesses.
+
+L3 is the NameCert obligation surface. Here BEDC records that concrete
+mathematical interfaces expose obligation packets rather than finished external
+mathematics. Holonomy, KKT, and SpectralMeasure are representative cases:
+their Lean declarations register the shape of the name-certificate obligation,
+not a public closure theorem for the surrounding domain. The L3 surface is
+therefore a disciplined boundary between a typed internal packet and the
+mathematical work required to discharge a domain-specific certificate.
+
+L3 matters for self-compilation because it prevents reflection from becoming a
+claim-laundering device. A reflected name-certificate packet can say, in Lean,
+which obligations belong to the interface. It cannot, merely by being named,
+turn those obligations into domain theorems. The packet is a typed surface for
+inspection and later discharge; it is not a bridge from syntax to truth.
+
+L4 is not a single level. It splits into four readings, only one of which is
+claimed here.
+
+L4a is an axiom-free completeness theorem for BEDC inside CIC. This would say
+that BEDC internally proves the complete soundness or completeness of the host
+logic sufficient to certify all of its own proof checking. BEDC does not claim
+L4a. Since BEDC is formalized inside the host Calculus of Inductive
+Constructions, Tarski undefinability and Godel's second incompleteness theorem
+block the relevant global truth and consistency assertions from being obtained
+as axiom-free internal theorems of the same strength.
+
+L4-mid is the finite type-checked Manifest of paper-anchored theorems. This is
+the achieved self-compilation surface. BEDC contains a Lean-side manifest whose
+entries pair paper labels, Lean names, propositions, and proof terms. The
+dependent field `\verb|proof : prop|' makes type correctness a kernel obligation
+when the manifest elaborates. The observable theorem
+`\verb|BEDC.Manifest.manifest_wellformed|' then exposes, for every manifest
+entry, a witness of the registered proposition.
+
+L4b is an elaboration-time Lean audit that replaces the external Python name
+audit. Such a layer would move more of L1 from repository tooling into Lean's
+own elaboration and reflection facilities. The present chapter does not claim
+L4b. It isolates the target shape: Lean-visible declarations, Lean-visible
+paper anchors or generated manifest entries, and an elaboration-time failure
+mode when the surface does not match.
+
+L4c is a bijection between the theory-closure axis and the verification-status
+axis. BEDC rejects L4c as a matter of governance. Paper-side closure and
+Lean-side verification are intentionally independent coordinates. Their joint
+reporting is a product condition, not a fixed point:
+
+$$
+\begin{aligned}
+\mathrm{VerifiedGate}(N,c,v)
+  &:= \mathrm{TheoryGate}(N,c) \wedge \mathrm{FormalStatus}(N,v).
+\end{aligned}
+$$
+
+This product form is part of the self-compilation surface. It lets BEDC say
+exactly which fragment is internally checked, which fragment is theoretically
+closed, and which bridge remains absent, without collapsing those statements
+into a single certification number.

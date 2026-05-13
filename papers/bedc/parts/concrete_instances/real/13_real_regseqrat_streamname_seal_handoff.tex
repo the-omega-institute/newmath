@@ -1,0 +1,669 @@
+\begin{theorem}[RealUp RegSeqRat StreamName seal handoff]
+\label{thm:realup-regseqrat-streamname-seal-handoff}
+The rows of \autoref{thm:regseqrat-streamname-scoped-interface}, together
+with the finite-window seal and endpoint readback rows displayed in the
+$\RealUp$ stream-prefix certificate boundary, determine exactly the $\RealUp$
+seal handoff package. Its exported rows are the
+$\mathsf{RatStreamNameClassifier}$ row, the
+$\mathsf{RealUnaryStreamClassifier}$ transport row, the certified unary
+endpoint carriers, the finite-window ledger, and the seal/readback provenance.
+
+No quotient carrier, host equality, real completeness, arithmetic package,
+order package, or metric-completeness row is exported by this handoff.
+\end{theorem}
+\begin{proof}
+First project the scoped stream-name interface. Theorem~\ref{thm:regseqrat-streamname-scoped-interface}
+supplies the $\mathsf{RatStreamNameClassifier}$ row, the transported
+$\mathsf{RealUnaryStreamClassifier}$ row, and the certified unary endpoint
+carrier rows used by the $\RealUp$ stream-prefix certificate.
+
+Next read the finite-window seal boundary. Theorems
+\ref{thm:regseqrat-finite-window-seal-coverage} and
+\ref{thm:regseqrat-finite-window-real-seal-interface} identify the finite
+window, the pointwise dyadic observation rows, and the $\RegSeqRat$ spine
+ledger consumed by the public $\RealUp$ seal.
+
+Finally use the endpoint readback and hidden-data ledger rows of the
+stream-prefix certificate boundary. They repack the displayed classifier,
+transport, endpoint, finite-window, and provenance rows as the stated seal
+handoff package, while excluding every off-table claim: quotient carriers,
+host equality, completeness, arithmetic, order, and metric-completeness data.
+\end{proof}
+
+\begin{theorem}[RealUp open phase seal exactness]
+\label{thm:realup-open-phase-seal-exactness}
+A finite $\RealUp$ seal handoff is accepted precisely when its displayed rows
+factor through one $\mathsf{BHist}$ packet containing the four open-phase
+faces:
+\begin{enumerate}
+  \item the $\DyadicRatCoreUp$ observation rows for the finite unary window;
+  \item the $\StreamNameUp$ finite-window classifier and transported stream
+  name rows;
+  \item the $\RegSeqRatUp$ regularity spine ledger over the same scheduled
+  observations;
+  \item the $\RealUp$ seal, endpoint readback, and provenance ledger.
+\end{enumerate}
+The factorization uses the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows, and it exports no quotient carrier, host equality, real
+completeness, arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with an accepted finite $\RealUp$ seal
+handoff. Theorem~\ref{thm:realup-regseqrat-streamname-seal-handoff} projects
+the seal handoff into its stream-name classifier row, transported RealUp unary
+classifier row, certified unary endpoint carriers, finite-window ledger, and
+seal/readback provenance.
+
+Now separate the four open-phase faces. Theorem~\ref{thm:regseqrat-streamname-scoped-interface}
+supplies the $\StreamNameUp$ classifier, transported stream-name rows, and the
+regular-sequence interface rows. Theorems
+\ref{thm:regseqrat-finite-window-seal-coverage} and
+\ref{thm:regseqrat-finite-window-real-seal-interface} identify the same finite
+window as the place where the $\DyadicRatCoreUp$ observations, the
+$\RegSeqRatUp$ spine ledger, and the $\RealUp$ seal/readback ledger are read.
+Thus every accepted handoff factors through one displayed $\mathsf{BHist}$
+packet with the stated $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+rows.
+
+For the reverse direction, start from such a shared $\mathsf{BHist}$ packet.
+The scoped stream-name interface repacks the $\StreamNameUp$ classifier and
+regularity spine rows, while the finite-window seal coverage theorem attaches
+the dyadic observation rows to that same window.
+
+Finally apply
+\autoref{thm:regseqrat-finite-window-real-seal-interface} and then
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. The first theorem
+turns the shared finite-window packet into the $\RealUp$ seal-facing package,
+and the second identifies that package as the finite seal handoff. Since every
+row used in both directions is one of the displayed four faces, no quotient
+carrier, host equality, completeness, arithmetic, order, or
+metric-completeness datum is introduced.
+\end{proof}
+
+\begin{theorem}[RealUp finite seal source uniqueness]
+\label{thm:realup-finite-seal-source-uniqueness}
+Two finite $\RealUp$ seal handoffs over the same $\StreamNameUp$
+finite-window classifier rows, the same accepted $\RegSeqRatUp$ regularity
+spine ledger, and the same displayed $\RealUp$ seal endpoint and readback
+provenance expose the same finite $\mathsf{BHist}$ seal source surface when
+their $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows agree
+componentwise.
+
+The shared source surface is the finite packet carrying the public
+$\StreamNameUp$ window classifier, the pointwise $\DyadicRatCoreUp$
+observation rows, the accepted $\RegSeqRatUp$ spine rows, and the displayed
+$\RealUp$ seal and readback ledger. No quotient carrier, host equality,
+completeness row, arithmetic package, order package, or metric-completeness
+datum can distinguish the two reads.
+\end{theorem}
+\begin{proof}
+Project both handoffs through
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. The projected rows are
+the same $\StreamNameUp$ classifier, transported unary classifier, endpoint
+carrier rows, finite-window ledger, and seal/readback provenance because the
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows agree
+componentwise.
+
+Apply \autoref{thm:realup-open-phase-seal-exactness} to each projected
+handoff. Each accepted read factors through one finite $\mathsf{BHist}$ packet
+with the four open-phase faces: dyadic observations, stream-name classifier
+rows, the $\RegSeqRatUp$ regularity spine ledger, and the $\RealUp$ seal
+endpoint/readback provenance.
+
+Use \autoref{thm:regseqrat-finite-window-seal-coverage} and
+\autoref{thm:regseqrat-finite-window-real-seal-interface} on the shared
+finite window. These theorems identify the dyadic observation rows and the
+regular-rational spine rows as the same finite seal-facing packet for both
+reads.
+
+Thus the two handoffs expose one finite $\mathsf{BHist}$ seal source surface.
+Every coordinate available to the seal has already been matched
+componentwise, and the off-table quotient, host-equality, completeness,
+arithmetic, order, and metric-completeness data provide no further
+distinguishing row.
+\end{proof}
+
+\begin{theorem}[RealUp seal source factorization boundary]
+\label{thm:realup-seal-source-factorization-boundary}
+Any finite $\RealUp$ seal source consumed by downstream $\RealUp$ or
+$\RegSeqRatUp$ consumers factors through the unique four-face
+$\mathsf{BHist}$ packet consisting of the $\DyadicRatCoreUp$ observation rows,
+the $\StreamNameUp$ finite-window classifier rows, the $\RegSeqRatUp$
+regularity spine rows, and the $\RealUp$ seal and readback provenance rows.
+Componentwise $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ agreement on
+these rows is sufficient to identify the visible seal source for every such
+consumer.
+
+The boundary exports no quotient carrier, host equality, completeness datum,
+arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-open-phase-seal-exactness}. It factors an
+accepted finite seal handoff through the four open-phase faces: dyadic
+observations, stream-name classifier rows, the regular-rational spine, and the
+seal/readback provenance.
+
+Next use \autoref{thm:realup-finite-seal-source-uniqueness}. Componentwise
+agreement of the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+rows identifies the finite $\mathsf{BHist}$ seal source surface for any two
+reads with the same four faces.
+
+Finally cite \autoref{thm:realup-regseqrat-streamname-seal-handoff}. The
+handoff theorem says the finite seal-facing rows are exactly the classifier,
+transport, endpoint, finite-window, and provenance rows consumed by the
+$\RealUp$ and $\RegSeqRatUp$ boundary, so quotient carriers, host equality,
+completeness, arithmetic or order packages, and metric-completeness rows remain
+outside the consumer-visible source.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase four-face pullback]
+\label{thm:realup-open-phase-four-face-pullback}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal-source handoffs. They classify
+as the same consumer-visible handoff precisely when their four open-phase faces
+classify componentwise: the $\DyadicRatCoreUp$ observation rows classify
+together, the $\StreamNameUp$ finite-window classifier rows classify together,
+the $\RegSeqRatUp$ regularity spine rows classify together, and the $\RealUp$
+seal/readback provenance rows classify together. The comparison uses the
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates as its
+only gluing data.
+
+Equivalently, compatible rows on those four faces determine a unique finite
+$\mathsf{BHist}$ pullback packet, and any accepted finite seal-source handoff
+projects to exactly that four-face packet. No quotient carrier, host equality,
+real completeness, arithmetic package, order package, or metric-completeness row
+is part of the classifier, the pullback packet, or any of its four projections.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from two accepted finite seal-source handoffs
+that classify as the same consumer-visible handoff. Apply
+\autoref{thm:realup-seal-source-factorization-boundary} to each handoff. The
+factorization exposes exactly the dyadic observation face, the stream-name
+finite-window classifier face, the regularity-spine face, and the $\RealUp$
+seal/readback provenance face.
+
+The consumer-visible classification is carried only by the displayed $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. Projecting along the four
+factorization faces therefore gives componentwise classification of the
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+For the reverse direction, assume the four projected faces classify
+componentwise through the displayed gluing rows. Apply
+\autoref{thm:realup-open-phase-seal-exactness} to read the compatible rows as
+accepted finite seal-facing packages over the same $\mathsf{BHist}$ source
+shape.
+
+Next apply \autoref{thm:realup-finite-seal-source-uniqueness}. Since the four
+faces agree componentwise through the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows, the two handoffs expose the same finite
+seal-source surface. Thus they classify as the same consumer-visible handoff,
+and the compatible rows determine the unique pullback packet.
+
+The same boundary theorem, together with
+\autoref{thm:realup-open-phase-seal-exactness}, excludes every off-table
+coordinate. Thus quotient carriers, host equality, real completeness,
+arithmetic and order packages, and metric-completeness rows cannot appear in
+the pullback source or in its projected faces.
+\end{proof}
+
+\begin{theorem}[RealUp common-refinement seal consumption]
+\label{thm:realup-common-refinement-seal-consumption}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal-source handoffs, possibly
+displayed over different $\StreamNameUp$ finite windows. Suppose
+$\StreamNameUp$ supplies a common finite refinement window for those two
+displays, and suppose the two handoffs transport to that refinement with the
+same $\DyadicRatCoreUp$ observation rows, the same $\RegSeqRatUp$ regularity
+spine rows, the same $\RealUp$ seal/readback provenance rows, and the same
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+Then every consumer-visible $\RealUp$ seal read from either handoff factors
+through one refined four-face $\mathsf{BHist}$ packet.
+
+The refined consumption route is finite and open-phase. It exports no quotient
+carrier, host equality, selected limit, real-completeness row, arithmetic
+package, order package, Classical-choice row, or metric-completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+First transport both accepted handoffs to the supplied $\StreamNameUp$ common
+finite refinement. Apply \autoref{thm:realup-open-phase-four-face-pullback} to
+the transported displays. The matching dyadic observation rows, regularity
+spine rows, seal/readback provenance rows, and displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ coordinates determine one refined four-face
+$\mathsf{BHist}$ packet.
+
+Next use \autoref{thm:realup-finite-seal-source-uniqueness}. After transport
+to the common refinement, both accepted handoffs expose the same finite
+seal-source surface, because their four projected faces agree componentwise
+through the displayed gluing rows.
+
+Finally apply \autoref{thm:realup-open-phase-seal-route-totality} and
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. Route totality says
+every consumer-visible $\RealUp$ seal read is exhausted by an accepted
+open-phase seal route, and the handoff theorem says those routes are exactly
+the dyadic observation, finite-window, regularity-spine, and provenance rows
+read from the refined packet. Since the boundary has no carrier for the
+off-table coordinates, no consumer read can leave that refined finite packet.
+\end{proof}
+
+\begin{theorem}[RealUp four-face common-window seal uniqueness]
+\label{thm:realup-four-face-common-window-seal-uniqueness}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal-source handoffs. Suppose both
+handoffs classify componentwise on the same displayed $\StreamNameUp$ finite
+window, with the same transported $\DyadicRatCoreUp$ observation rows, the same
+$\RegSeqRatUp$ regularity spine rows, the same $\RealUp$ seal/readback
+provenance rows, and the same displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ coordinates. Then every consumer-visible $\RealUp$ seal read from
+$S$ or $T$ factors through the same finite $\mathsf{BHist}$ route.
+
+This common route is a finite seal-source route only. It includes no quotient
+carrier, host equality, selected limit, real-completeness row, arithmetic
+package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-open-phase-four-face-pullback}. The shared
+$\StreamNameUp$ finite window and the matching dyadic, regularity-spine, and
+seal/readback rows identify one common four-face packet through the displayed
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+Use \autoref{thm:realup-finite-seal-source-uniqueness}. Since the two accepted
+handoffs expose the same four-face packet, their finite seal-source surfaces are
+the same finite $\mathsf{BHist}$ source for consumer-visible reads.
+
+Next apply \autoref{thm:realup-open-phase-seal-route-totality}. Every
+consumer-visible $\RealUp$ seal read is exhausted by one of the accepted finite
+seal-source routes, so no read can bypass the common finite source just
+identified.
+
+Finally use \autoref{thm:realup-regseqrat-streamname-seal-handoff}. The
+handoff boundary says that the shared route is read only through the displayed
+$\RegSeqRatUp$ spine and $\StreamNameUp$ finite-window rows, together with the
+dyadic observation and $\RealUp$ provenance faces. Thus quotient carriers, host
+equality, selected limits, real completeness, arithmetic or order packages, and
+metric-completeness rows are not part of the consumed route.
+\end{proof}
+
+\begin{theorem}[RealUp RegSeqRat seal readback determinacy]
+\label{thm:realup-regseqrat-seal-readback-determinacy}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal packets. Suppose they display
+the same $\RegSeqRatUp$ regular stream carrier, the same $\StreamNameUp$
+finite-window schedule, and the same $\RealUp$ seal/readback row. Then every
+consumer-visible readback route out of $S$ or $T$ factors through the same
+finite dyadic observation window, the same $\RegSeqRatUp$ classifier witness,
+and the same $\RealUp$ seal endpoint.
+
+The common readback boundary is the four-face packet whose rows are the
+$\DyadicRatCoreUp$ observations on the displayed window, the $\StreamNameUp$
+schedule rows, the $\RegSeqRatUp$ regularity spine rows, and the $\RealUp$
+seal/readback provenance rows. It exports no host equality, quotient class,
+completeness row, arithmetic package, or order package.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-regseqrat-streamname-seal-handoff} to both accepted
+packets. The handoff theorem reads their visible data as one package of
+stream-name classifier rows, transported unary classifier rows, endpoint
+carriers, finite-window ledger, and seal/readback provenance.
+
+Next use \autoref{thm:realup-open-phase-seal-exactness}. Since the accepted
+packets have the same displayed $\RegSeqRatUp$ carrier, the same
+$\StreamNameUp$ finite-window schedule, and the same $\RealUp$ seal/readback
+row, exactness restricts both reads to the same four open-phase row set.
+
+Apply \autoref{thm:realup-finite-seal-source-uniqueness} to identify the
+consumer-visible source surface. The shared source contains precisely the
+finite dyadic observation window, the regular-rational classifier witness, and
+the seal endpoint named by the displayed row.
+
+Now route downstream reads through
+\autoref{thm:realup-seal-source-factorization-boundary}. Every consumer of the
+seal source sees only the displayed schedule, the $\RegSeqRatUp$ spine, and the
+$\RealUp$ seal provenance, so no off-table host or completeness coordinate can
+separate the two packets.
+
+Finally apply \autoref{thm:realup-open-phase-four-face-pullback}. The two
+readback routes have the same componentwise four-face boundary, hence the same
+consumer-visible readback boundary, while quotient classes, host equality,
+arithmetic packages, order packages, and completeness rows remain absent.
+\end{proof}
+
+\begin{theorem}[RealUp RegSeqRat StreamName common-window seal fusion]
+\label{thm:real-regseqrat-streamname-seal-common-window-fusion}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal handoffs. Suppose they share
+one displayed $\StreamNameUp$ finite window, the same componentwise
+$\RegSeqRatUp$ regularity-spine rows, the same transported $\DyadicRatCoreUp$
+observation rows, the same $\RealUp$ seal/readback provenance rows, and the
+same displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+Then their consumer-visible $\RealUp$ seal reads fuse through one finite
+$\mathsf{BHist}$ route whose visible boundary consists exactly of those four
+faces.
+
+The fused route exports no quotient carrier, host equality, selected limit,
+real-completeness row, arithmetic package, order package, Classical-choice
+row, or metric-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project both accepted handoffs through
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. This reads the shared
+window as the same stream-name schedule together with the transported dyadic
+observations, the regular-rational spine, and the $\RealUp$ seal/readback
+provenance.
+
+Next use \autoref{thm:realup-open-phase-seal-exactness}. Exactness exposes
+the accepted handoffs as four open-phase faces over the displayed $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates, so no consumer-visible
+seal read has a fifth source row.
+
+Apply \autoref{thm:realup-open-phase-four-face-pullback} to the shared finite
+window and the matching component rows. The pullback identifies one finite
+$\mathsf{BHist}$ route carrying exactly the dyadic observation face, the
+stream-name finite-window face, the $\RegSeqRatUp$ regularity face, and the
+$\RealUp$ seal/readback provenance face.
+
+Finally use \autoref{thm:realup-finite-seal-source-uniqueness} and
+\autoref{thm:realup-regseqrat-seal-readback-determinacy}. Source uniqueness
+identifies the two accepted seal sources, and readback determinacy forces the
+consumer-visible reads to use the same finite route. Since each cited boundary
+has no carrier for quotient representatives, host equality, selected limits,
+real completeness, arithmetic or order packages, Classical choice, or metric
+completeness, the fused route exports none of those coordinates.
+\end{proof}
+
+\begin{theorem}[RealUp StreamName factorization pullback correspondence]
+\label{thm:realup-streamname-factorization-pullback-correspondence}
+Let $S$ be an accepted finite $\RealUp$ seal handoff. The
+$\StreamNameUp$ real-seal factorization boundary holds for $S$ precisely when
+there exists a $\RealUp$ open-phase four-face pullback packet whose projections
+match the same $\DyadicRatCoreUp$ observation rows, the same
+$\StreamNameUp$ finite-window classifier rows, the same $\RegSeqRatUp$
+regularity spine rows, and the same $\RealUp$ seal/readback provenance rows.
+
+The correspondence uses only the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and $\NameCert$ rows of the accepted handoff. It introduces no quotient
+carrier, host equality, real-completeness row, arithmetic package, order
+package, Classical-choice row, or metric-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Assume first that the $\StreamNameUp$ real-seal factorization boundary holds
+for $S$. Apply
+\autoref{thm:streamname-real-seal-factorization-boundary} to expose the
+finite-window stream classifier rows and the real-seal source rows named by the
+handoff.
+
+Next apply \autoref{thm:realup-open-phase-seal-exactness}. Exactness reads the
+accepted seal rows as the visible $\RealUp$ seal/readback provenance surface
+over the same finite $\mathsf{BHist}$ source.
+
+Now use \autoref{thm:realup-open-phase-four-face-pullback}. The dyadic
+observation rows, stream-name classifier rows, regularity-spine rows, and
+seal/readback provenance rows form the four matching faces, so they determine
+the required pullback packet.
+
+Conversely, suppose the four-face pullback packet exists with the displayed
+matching rows. Project its $\StreamNameUp$ face, its $\RegSeqRatUp$ face, and
+its $\RealUp$ seal/readback face through the same $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+Apply \autoref{thm:realup-seal-source-factorization-boundary}. The projected
+faces recover exactly the seal-source factorization rows consumed by the
+$\StreamNameUp$ real-seal boundary, and no off-table coordinate can be inserted
+because neither theorem has a carrier for quotient representatives, host
+equality, real completeness, arithmetic or order packages, Classical choice, or
+metric completeness.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase seal route totality]
+\label{thm:realup-open-phase-seal-route-totality}
+Every finite $\RealUp$ seal consumer route accepted by the open-phase handoff
+is exhausted by the same four-face packet named in
+\autoref{thm:realup-open-phase-seal-exactness}: the $\DyadicRatCoreUp$
+observation rows, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$
+regularity spine, and the $\RealUp$ seal/readback row. Its only gluing data are
+the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Thus a downstream consumer replay cannot branch through any fifth visible
+surface. Quotient representatives, host equality, real completeness, arithmetic
+packages, order packages, and metric-completeness rows are outside the route.
+\end{theorem}
+\begin{proof}
+Start with an accepted finite seal consumer route. Apply
+\autoref{thm:realup-open-phase-seal-exactness} to factor its accepted handoff
+through the four open-phase faces and the displayed transport, continuation,
+package, and certificate rows.
+
+Next use \autoref{thm:realup-finite-seal-source-uniqueness}. Any two reads with
+the same four faces and componentwise $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows expose the same finite $\mathsf{BHist}$ seal source surface.
+
+Finally apply
+\autoref{thm:realup-seal-source-factorization-boundary}. Every downstream
+$\RealUp$ or $\RegSeqRatUp$ consumer route out of that seal source is already a
+route through the same four faces. Since the boundary has no carrier for the
+off-table rows, the finite packet exhausts the replay.
+\end{proof}
+
+\begin{theorem}[RealUp four-face consumer replay]
+\label{thm:realup-four-face-consumer-replay}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal packages. Suppose they display
+the same $\DyadicRatCoreUp$ observation rows, the same $\StreamNameUp$
+finite-window rows, the same $\RegSeqRatUp$ regularity spine, the same $\RealUp$
+seal/readback row, and the same componentwise $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows. Then every consumer-visible replay route
+from $S$ is the same visible route as the corresponding replay route from $T$.
+
+The replay comparison is finite: it is made entirely inside the four-face
+$\mathsf{BHist}$ packet and exports no quotient carrier, host equality,
+completeness row, arithmetic package, order package, Classical-choice row, or
+metric-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-open-phase-seal-route-totality} to the replay routes
+from $S$ and $T$. Each route is exhausted by the same four open-phase faces
+because the displayed observation, stream-window, regularity, seal/readback,
+transport, continuation, package, and certificate rows agree componentwise.
+
+Use \autoref{thm:realup-open-phase-four-face-pullback} to identify the common
+pullback packet. Componentwise agreement on the four projections determines one
+finite $\mathsf{BHist}$ source, so the two packages have the same projected
+consumer boundary.
+
+Now apply
+\autoref{thm:realup-streamname-factorization-pullback-correspondence}. The
+$\StreamNameUp$ factorization boundary and the four-face pullback boundary read
+the same packet through the same rows. Therefore the replay route visible to any
+consumer is the same for $S$ and $T$, and no off-table coordinate can separate
+the two reads.
+\end{proof}
+
+\begin{theorem}[RealUp seal source classifier correspondence]
+\label{thm:realup-seal-source-classifier-correspondence}
+For accepted finite $\RealUp$ seal handoffs $S$ and $T$, the consumer-visible
+seal-source classifier identifies $S$ and $T$ if and only if their four
+open-phase faces classify componentwise: the $\DyadicRatCoreUp$ observation
+rows, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ regularity
+spine rows, and the $\RealUp$ seal/readback rows classify through the displayed
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+This correspondence is exactly the seal-source read seen by consumers. It has
+no coordinate for quotient representatives, host equality, real completeness,
+arithmetic packages, order packages, Classical choice, or metric completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the consumer-visible seal-source classifier
+identifies $S$ and $T$. Apply
+\autoref{thm:realup-seal-source-factorization-boundary} to expose the four
+faces available to that classifier.
+
+Project the classifier along those faces. Since the visible classifier uses only
+the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates,
+the dyadic observation rows, stream-window rows, regularity spine rows, and
+seal/readback rows classify componentwise.
+
+For the reverse direction, assume componentwise classification on the four
+faces. Apply \autoref{thm:realup-open-phase-four-face-pullback} to repack those
+compatible faces into the unique finite pullback packet.
+
+Next use
+\autoref{thm:realup-streamname-factorization-pullback-correspondence} and
+\autoref{thm:realup-open-phase-seal-route-totality}. The correspondence reads
+the pullback packet as the $\StreamNameUp$ factorization boundary, and route
+totality says every consumer replay is exhausted by that packet. Thus the
+consumer-visible seal-source classifier identifies $S$ and $T$.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase four-face NameCert admission]
+\label{thm:realup-open-phase-four-face-namecert-admission}
+Let $P$ be a finite packet whose four displayed faces are
+$\DyadicRatCoreUp$ observation rows, $\StreamNameUp$ finite-window rows,
+$\RegSeqRatUp$ regularity-spine rows, and $\RealUp$ seal/readback rows.
+Suppose the only gluing coordinates of $P$ are the componentwise $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows already displayed on those four
+faces. Then $P$ is admitted as the local $\RealUp$ open-phase $\NameCert$
+surface for the seal handoff.
+
+The admission has no coordinate for quotient carriers, host equality, real
+completeness, arithmetic packages, order packages, Classical choice, or
+metric-completeness rows. Every admitted row is one of the four faces or one of
+the displayed transport, continuation, package, and certificate coordinates.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-open-phase-seal-exactness}. It reads any
+accepted seal/readback row in the packet as a finite open-phase seal surface
+over the same $\mathsf{BHist}$ source and over the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+Next use \autoref{thm:realup-open-phase-four-face-pullback}. The dyadic
+observation face, the stream-name finite-window face, the regularity-spine
+face, and the seal/readback face are compatible along exactly those displayed
+coordinates, so they form the local four-face pullback packet.
+
+Apply \autoref{thm:realup-open-phase-seal-route-totality}. It says every
+consumer-visible route out of the seal handoff is exhausted by the same
+four-face packet, so no fifth surface is available during admission.
+
+Finally use \autoref{thm:realup-seal-source-classifier-correspondence}. The
+classifier seen by consumers is the componentwise classifier on the four faces,
+transported only through $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.
+Thus the finite packet is precisely the local $\RealUp$ open-phase
+$\NameCert$ surface, and the excluded coordinates have no carrier in the
+admission.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase NameCert surface completeness]
+\label{thm:realup-open-phase-namecert-surface-completeness}
+A local $\RealUp$ open-phase $\NameCert$ surface for the seal handoff is
+admitted exactly when it is represented by one finite four-face
+$\mathsf{BHist}$ packet whose faces are the $\DyadicRatCoreUp$ observation
+rows, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$
+regularity-spine rows, and the $\RealUp$ seal/readback provenance rows. The
+only gluing coordinates of that packet are the displayed componentwise
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+The representing packet is unique among compatible four-face packets. The
+surface has no quotient carrier, host-equality coordinate, real-completeness
+row, arithmetic package, order package, Classical-choice row, or
+metric-completeness row.
+\end{theorem}
+\begin{proof}
+For existence, start with the four displayed faces and their componentwise
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates. Apply
+\autoref{thm:realup-open-phase-four-face-namecert-admission}. It admits that
+finite packet as the local $\RealUp$ open-phase $\NameCert$ surface and leaves
+no carrier for any off-table row.
+
+For uniqueness, compare two admitted surfaces with the same displayed faces.
+Use \autoref{thm:realup-open-phase-four-face-pullback}. Compatible dyadic
+observation rows, stream-window rows, regularity-spine rows, and seal/readback
+rows determine exactly one finite $\mathsf{BHist}$ pullback packet over the
+shown coordinates.
+
+The classifier boundary is the same boundary. Apply
+\autoref{thm:realup-seal-source-classifier-correspondence}. The consumer-side
+seal-source classifier is precisely the componentwise classifier on the four
+faces, so no quotient representative, host equality, arithmetic order, or
+completeness coordinate can refine the surface.
+
+Finally apply \autoref{thm:realup-open-phase-seal-route-totality}. Every
+consumer-visible route out of the handoff is exhausted by the four-face
+packet. Therefore the admitted local $\NameCert$ surface is equivalent to that
+unique finite packet, and the listed excluded rows are outside the open-phase
+seal surface.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase window splice non-escape]
+\label{thm:realup-open-phase-window-splice-nonescape}
+Let two finite $\RealUp$ seal handoffs be displayed over the same
+$\StreamNameUp$ finite-window cover, the same $\DyadicRatCoreUp$ observation
+ledger, compatible $\RegSeqRatUp$ regularity-spine rows, and the same
+componentwise $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ gluing rows.
+Then every consumer-visible splice between the two handoffs factors through
+the same four-face $\mathsf{BHist}$ packet.
+
+Consequently the splice exports no quotient carrier, host equality, selected
+limit, real-completeness row, arithmetic package, order package,
+Classical-choice row, or metric-completeness row. Its whole public boundary is
+the shared finite packet consisting of the dyadic observation face, the
+stream-window face, the regularity-spine face, and the seal/readback face.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:realup-open-phase-four-face-pullback} to the two handoffs.
+The common stream-window cover, common dyadic ledger, compatible regularity
+spines, and identical displayed gluing rows determine one finite four-face
+$\mathsf{BHist}$ packet on both sides of the splice.
+
+Next use
+\autoref{thm:realup-open-phase-namecert-surface-completeness}. It identifies
+the admitted local $\NameCert$ surface of each handoff with exactly that
+finite packet, and it lists the only coordinates available to the open-phase
+seal boundary.
+
+It remains to rule out an escaping consumer route. Apply
+\autoref{thm:realup-open-phase-seal-route-totality} to the splice read, and
+then use \autoref{thm:realup-seal-source-classifier-correspondence}. The route
+totality theorem exhausts all consumer-visible reads by the four displayed
+faces, while the classifier correspondence transports only the componentwise
+classifier through $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.
+
+Therefore the splice is a read of the shared packet itself. No quotient
+carrier, host equality, selected limit, completeness row, arithmetic or order
+package, Classical-choice row, or metric-completeness row is present in the
+source packet, so none can be exported by the consumer-visible splice.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase terminal consumer non-escape]
+\label{thm:realup-open-phase-terminal-consumer-nonescape}
+A terminal $\RealUp$ seal consumer boundary is accepted exactly when its route
+factors through the finite four-face packet consisting of the
+$\DyadicRatCoreUp$ observation rows, the $\StreamNameUp$ finite-window rows,
+the $\RegSeqRatUp$ regularity-spine rows, and the $\RealUp$ seal/readback
+rows, glued only by the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ coordinates.
+
+Consequently the terminal boundary exports no quotient carrier, host equality,
+selected limit, completeness row, arithmetic package, order package,
+Classical-choice row, or metric-completeness coordinate. Every accepted
+terminal read is a read of the four displayed faces themselves.
+\end{theorem}
+\begin{proof}
+First identify the admissible surface. Apply
+\autoref{thm:realup-open-phase-namecert-surface-completeness}. It says the
+local $\NameCert$ surface for an open-phase seal is exhausted by the dyadic
+observation face, stream-window face, regularity-spine face, seal/readback
+face, and the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+coordinates.
+
+Now route the terminal consumer read. Apply
+\autoref{thm:realup-open-phase-seal-route-totality}. A consumer-visible
+terminal route out of the seal has no fifth source row; it must pass through
+the same four-face packet before any public read is accepted.
+
+It remains to check that the route is stable under the naming and classifier
+surface. Use \autoref{thm:realup-seal-source-classifier-correspondence} to
+transport seal-source classifiers componentwise, and use
+\autoref{thm:realup-streamname-factorization-pullback-correspondence} to keep
+the stream-name factorization inside the displayed finite-window pullback.
+
+Thus both directions are fixed by the same finite packet: every accepted
+terminal consumer route factors through the four faces, and every route built
+from those faces is accepted by the open-phase $\NameCert$ surface. Since the
+packet contains no quotient carrier, host equality, selected limit,
+completeness row, arithmetic or order package, Classical-choice row, or
+metric-completeness coordinate, none can be exported at the terminal boundary.
+\end{proof}

@@ -316,6 +316,318 @@ AXIS_CONFUSION_PHRASES = (
 )
 
 
+_SIBLING_REF_RE = re.compile(
+    r"\\autoref\{ch:concrete-instances-([a-z][a-z0-9\-]*?)(?:-namecert)?\}"
+)
+_VISION_REF_RE = re.compile(
+    r"\\autoref\{ch:visions-([a-z][a-z0-9\-]*?)\}"
+)
+# Capture the full label tail (greedy). Self-ref classification is done by
+# walking the dashed parts and joining prefixes; the lazy regex used before
+# matched just the first character as the slug, causing every self-ref to
+# look like a cross-ref. See `_label_is_self_ref` below.
+_LABEL_RE = re.compile(
+    r"\\autoref\{(?:thm|def|lem|cor|prop)[A-Za-z]*:([a-z][a-z0-9\-]*)\}"
+)
+# Allow underscores AND digits in slug (e.g.
+# `3939_metacic_subject_reduction_obstruction_namecert_construction.tex` was
+# silently skipped by the underscore-free regex, letting orphan chapters
+# slip past the gate).
+_NAMECERT_FILE_RE = re.compile(
+    r"^papers/bedc/parts/concrete_instances/(?:[^/]+/)?"
+    r"\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$"
+)
+
+
+def _label_is_self_ref(label_tail: str, own_slug_compact: str) -> bool:
+    """Decide whether `label_tail` (dashed, e.g. "subject-reduction-discharge-carrier")
+    starts with this chapter's own slug.
+
+    `own_slug_compact` is the filename slug with underscores stripped (e.g.
+    "subjectreductiondischarge" from a filename of
+    `..._subject_reduction_discharge_namecert_construction.tex` or
+    `..._subjectreductiondischarge_namecert_construction.tex`). We split the
+    dashed label into parts and try every prefix concatenation against the
+    compact slug — if any prefix concat equals own_slug, the label resolves
+    to this chapter and counts as a self-ref.
+    """
+    parts = label_tail.split("-")
+    for i in range(len(parts), 0, -1):
+        if "".join(parts[:i]) == own_slug_compact:
+            return True
+    return False
+
+
+def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
+    """Reject newly-added concrete-instances NameCert chapters that contain
+    zero cross-references to a sibling chapter or vision chapter.
+
+    Background: by 2026-05-13 the dossier dependency graph showed 447 of 652
+    concrete-instances chapters with zero `\\autoref{ch:...}` cross-refs —
+    every newly-generated chapter was a kernel-only float, citing only its
+    own `\\autoref{thm:<self-slug>-...}` labels. The pipeline accumulated a
+    star-graph fan-out from kernel instead of a horizontal lattice between
+    domains.
+
+    A new chapter must show how its content RELATES to existing chapters:
+    either via an explicit `\\autoref{ch:concrete-instances-<sibling>-namecert}`
+    macro, an `\\autoref{ch:visions-<vision>}` anchor back to the originating
+    vision narrative, OR a forward `\\autoref{thm:<sibling-slug>-...}` /
+    `\\autoref{def:<sibling-slug>-...}` cite that resolves to a different
+    sibling slug. Self-refs (slug == own slug) do not count.
+    """
+    if not base_sha:
+        return []
+    # Added (not modified) NameCert chapters in this round
+    added = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+    )
+    added = [p for p in added if p.endswith(".tex")]
+    if not added:
+        return []
+
+    violations: list[str] = []
+    for rel in added:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            # `*_namecert_construction.tex` is the canonical pattern; other
+            # patterns (sub-files for one chapter) are not anchor chapters
+            # and are not gated here.
+            continue
+        # Slug from filename — may contain underscores; compact form is
+        # the underscore-stripped lowercase identifier used to match the
+        # dashed label prefixes via `_label_is_self_ref`.
+        own_slug_compact = m.group(1).replace("_", "")
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+
+        sibling_refs: set[str] = set()
+        for slug in _SIBLING_REF_RE.findall(text):
+            slug_norm = slug.replace("-", "")
+            if slug_norm and slug_norm != own_slug_compact:
+                sibling_refs.add(slug_norm)
+        vision_refs = {v for v in _VISION_REF_RE.findall(text)}
+        thm_def_refs: set[str] = set()
+        for label_tail in _LABEL_RE.findall(text):
+            if not _label_is_self_ref(label_tail, own_slug_compact):
+                thm_def_refs.add(label_tail)
+
+        if not (sibling_refs or vision_refs or thm_def_refs):
+            violations.append(
+                f"{rel}: ORPHAN — new NameCert chapter has zero cross-references "
+                f"to a sibling concrete-instances chapter or vision chapter. "
+                f"Required: at least one `\\autoref{{ch:concrete-instances-"
+                f"<sibling>-namecert}}` (or `\\autoref{{ch:visions-<slug>}}` "
+                f"if vision-anchored, or `\\autoref{{thm:<sibling>-...}}` / "
+                f"`\\autoref{{def:<sibling>-...}}` resolving to a different "
+                f"slug than `{own_slug_compact}`). Self-refs do not count."
+            )
+    return violations
+
+
+_ORIGIN_AI_RE = re.compile(r"\\origin\{ai\}")
+_FIELD_FAITHFUL_INSTANCE_RE = re.compile(
+    r"\binstance\s+\w+FieldFaithful\s*:?\s*FieldFaithful\s+\w+Up\b"
+)
+
+
+def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -> list[str]:
+    """Reject newly-added or newly-marked `\\origin{ai}` chapters whose
+    Lean-side `TasteGate.lean` does not contain a `FieldFaithful <X>Up`
+    instance. Background: TasteGate `round_trip` + `layer_separation`
+    forces injectivity on inhabitants but not field-level faithfulness
+    — a chapter with `XUp.mk a b c ... i` (9 BHist fields) could pass
+    those gates while `toEventFlow` only encodes 2 of the 9 fields.
+    `FieldFaithful` closes that loophole; `\\origin{ai}` chapters MUST
+    inhabit it. `\\origin{human}` chapters are exempt.
+    """
+    if not base_sha:
+        return []
+    # New or modified concrete_instances NameCert chapters in this round
+    changed = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/",
+    )
+    changed = [p for p in changed if p.endswith(".tex")]
+    if not changed:
+        return []
+
+    violations: list[str] = []
+    for rel in changed:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            continue
+        own_slug = m.group(1).replace("_", "")
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        if not _ORIGIN_AI_RE.search(text):
+            continue  # `\origin{human}` or no origin — exempt
+
+        # Locate the chapter's TasteGate.lean. Convention: PascalCase the
+        # compact slug then append `Up/TasteGate.lean`. e.g.
+        # `dyadicprecision` → `DyadicPrecisionUp/TasteGate.lean`. Walk
+        # the BEDC/Derived/ tree case-insensitively to find a folder
+        # whose lowercase name matches `<own_slug>up`.
+        derived_root = worktree / "lean4" / "BEDC" / "Derived"
+        if not derived_root.exists():
+            # Tree not present in this worktree's view — skip gate.
+            continue
+        target_folder = None
+        target_token = own_slug + "up"
+        for child in derived_root.iterdir():
+            if child.is_dir() and child.name.lower() == target_token:
+                target_folder = child
+                break
+        if target_folder is None:
+            # Chapter's Lean folder not created yet. For newly-added
+            # AI chapters this is a violation (the round adding the
+            # paper chapter must also add the Lean scaffold). For
+            # chapters merely re-marked `\origin{ai}`, skip — the
+            # operator may be backfilling.
+            if rel in _changed_files(
+                worktree=worktree, base_sha=base_sha,
+                prefix="papers/bedc/parts/concrete_instances/",
+                diff_filter="A",
+            ):
+                violations.append(
+                    f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — newly-added "
+                    f"\\origin{{ai}} chapter has no `lean4/BEDC/Derived/"
+                    f"<X>Up/TasteGate.lean` folder; the FieldFaithful "
+                    f"instance must be created alongside the paper chapter."
+                )
+            continue
+
+        taste_file = target_folder / "TasteGate.lean"
+        has_ff_instance = False
+        if taste_file.exists():
+            try:
+                taste_text = taste_file.read_text(encoding="utf-8", errors="ignore")
+            except OSError:
+                taste_text = ""
+            if _FIELD_FAITHFUL_INSTANCE_RE.search(taste_text):
+                has_ff_instance = True
+        # Also accept the instance elsewhere in the chapter's folder
+        if not has_ff_instance:
+            for lean_file in target_folder.rglob("*.lean"):
+                try:
+                    body = lean_file.read_text(encoding="utf-8", errors="ignore")
+                except OSError:
+                    continue
+                if _FIELD_FAITHFUL_INSTANCE_RE.search(body):
+                    has_ff_instance = True
+                    break
+
+        if not has_ff_instance:
+            violations.append(
+                f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — `\\origin{{ai}}` "
+                f"chapter has no `instance ... : FieldFaithful <X>Up` in "
+                f"`lean4/BEDC/Derived/{target_folder.name}/`. Add the "
+                f"instance to TasteGate.lean per phase_c.txt §FieldFaithful."
+            )
+    return violations
+
+
+_FALSIFIABLE_PRED_RE = re.compile(r"\\falsifiablePrediction\{")
+_INDEPENDENCE_WITNESS_RE = re.compile(r"\\independenceWitness\{")
+
+
+def detect_ai_chapter_missing_falsifiable_prediction(
+    *, worktree: Path, base_sha: str
+) -> list[str]:
+    """Newly-added `\\origin{ai}` chapters MUST include one
+    `\\falsifiablePrediction{...}` row stating a BEDC-verifiable
+    consequence that, if disproved within N rounds, invalidates the
+    chapter. Without this row, the chapter is not committing to any
+    refutable claim and is therefore a vacuous placeholder."""
+    if not base_sha:
+        return []
+    added = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+    )
+    added = [p for p in added if p.endswith(".tex")]
+    violations: list[str] = []
+    for rel in added:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            continue
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        if not _ORIGIN_AI_RE.search(text):
+            continue  # human chapter — exempt
+        if not _FALSIFIABLE_PRED_RE.search(text):
+            violations.append(
+                f"{rel}: AI MISSING FALSIFIABLE — `\\origin{{ai}}` "
+                f"chapter has no `\\falsifiablePrediction{{...}}` row. "
+                f"Every AI chapter must commit one BEDC-verifiable "
+                f"consequence that, if disproved within N rounds, "
+                f"invalidates the chapter (see preamble.tex / phase_c.txt)."
+            )
+    return violations
+
+
+def detect_ai_chapter_missing_independence_witness(
+    *, worktree: Path, base_sha: str
+) -> list[str]:
+    """Newly-added `\\origin{ai}` chapters claiming structural atomicity
+    (i.e. NOT marked `\\origin{ai-composite}`) MUST include one
+    `\\independenceWitness{...}` row naming 3-5 nearest siblings and
+    explaining why the carrier is not bijective to any of them. This
+    is the BEDC analogue of "this number is prime, not a product of
+    smaller numbers". A chapter that cannot name siblings or justify
+    independence is presumptively derivative."""
+    if not base_sha:
+        return []
+    added = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+    )
+    added = [p for p in added if p.endswith(".tex")]
+    violations: list[str] = []
+    for rel in added:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            continue
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        # Only enforce on bare \origin{ai}, not the composite variant.
+        if not _ORIGIN_AI_RE.search(text):
+            continue
+        if re.search(r"\\origin\{ai-composite\}", text):
+            continue  # composite chapters opt out
+        if not _INDEPENDENCE_WITNESS_RE.search(text):
+            violations.append(
+                f"{rel}: AI MISSING INDEPENDENCE — `\\origin{{ai}}` "
+                f"chapter has no `\\independenceWitness{{...}}` row. "
+                f"Name 3-5 nearest sibling chapter slugs and explain "
+                f"why the carrier is not bijective to any of them. "
+                f"Compositional chapters should use `\\origin{{ai-composite}}` "
+                f"instead to opt out of this gate."
+            )
+    return violations
+
+
 def detect_axis_confusion(*, worktree: Path, base_sha: str) -> list[str]:
     violations: list[str] = []
     for rel in _changed_tex_files(worktree=worktree, base_sha=base_sha):
@@ -339,6 +651,10 @@ GATE_DISPATCH = {
     "oversized": detect_oversized,
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
+    "orphan-new-chapter": detect_orphan_new_chapter,
+    "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
+    "ai-missing-falsifiable": detect_ai_chapter_missing_falsifiable_prediction,
+    "ai-missing-independence": detect_ai_chapter_missing_independence_witness,
 }
 
 

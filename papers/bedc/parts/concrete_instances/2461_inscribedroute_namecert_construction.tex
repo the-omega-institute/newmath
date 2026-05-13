@@ -1,0 +1,48 @@
+\chapter{A Concrete Naming Certificate for $\InscribedRouteUp$}
+\label{ch:concrete-instances-inscribedroute-namecert}
+\origin{ai}
+
+The $\InscribedRouteUp$ surface isolates the reusable proof route carried by an inscription event. It names the finite path from a visible gap through a public statement, a displayed proof route, an accepted record row, and a downstream consumer, while leaving private discovery, host trust, and unrecorded choice outside the packet.
+
+\begin{definition}[InscribedRoute carrier]
+\label{def:inscribed-route-carrier}
+An $\InscribedRouteUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,G,M,R,A,U,L,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the prior $\BHist$ source scope from which the route is read;
+\item $G$ is the visible gap row naming the local theorem, certificate, or consumer boundary that still requires a route;
+\item $M$ is the named statement row, fixing the public binders, hypotheses, and conclusion of the reusable route;
+\item $R$ is the proof-route row, recording the displayed constructor, projection, inversion, transitivity, symmetry, or transport steps that move from $S$ and $G$ to $M$;
+\item $A$ is the acceptance row, recording that the route is admitted as public record data;
+\item $U$ is the downstream consumer row naming the theorem site, citation, audit surface, or certificate boundary that may read the route;
+\item $L$ is the public $\mathsf{GAP}$ ledger row tying the visible gap, named statement, route, acceptance row, and consumer row to the same finite route packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, route-checking data, $\mathsf{GAP}$ ledger data, and local certificate dependencies;
+\item $N$ is the local $\NameCert_{\InscribedRouteUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only $S,G,M,R,A,U,L,P,N$ and their displayed $\hsame$ and $\Cont$ transports. It has no coordinate for hidden psychology, host trust, or an unrecorded route selector.
+\end{definition}
+\leanchecked{BEDC.Derived.InscribedRouteUp.InscribedRouteTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[InscribedRoute NameCert obligations]
+\label{thm:inscribed-route-namecert-obligations}
+The local $\NameCert_{\InscribedRouteUp}$ surface for the carrier of \autoref{def:inscribed-route-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: every accepted route exposes exactly the packet $Q=(S,G,M,R,A,U,L,P,N)$;
+\item route classifier stability: public comparison is restricted to the source scope, visible gap, named statement, proof route, acceptance row, downstream consumer, ledger, package provenance, local naming row, and displayed $\hsame$ and $\Cont$ routes;
+\item proof-route determinacy: the route row $R$ reaches $M$ from $S$ and $G$ only through the displayed $\Cont$ path and the matching $\hsame$ rows;
+\item acceptance-ledger exactness: the acceptance row $A$ and $\mathsf{GAP}$ ledger row $L$ record exactly the admitted route and the downstream consumer boundary that may cite it;
+\item non-escape: the packet exports no hidden psychology, host trust predicate, or unrecorded choice of route.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:inscribed-route-carrier}. The source scope, visible gap, named statement, proof route, acceptance row, downstream consumer, ledger, package provenance, and local naming row are all displayed before the route can be consumed.
+
+Classifier stability and proof-route determinacy are read from the displayed comparison surface. The classifier has access only to $S,G,M,R,A,U,L,P,N$, and the route from $R$ to $M$ is replayed through the recorded $\Cont$ path together with the matching $\hsame$ rows.
+
+Acceptance-ledger exactness follows because $A$ and $L$ are coordinates of the same finite packet. The accepted route and the downstream consumer boundary are therefore ledgered in public data rather than inferred from a host-side process.
+
+The non-escape clause is immediate from the carrier inventory. No row stores hidden psychology, host trust, or an unrecorded choice, so none of these can be exported by the local $\NameCert_{\InscribedRouteUp}$ surface.
+\end{proof}

@@ -1,0 +1,168 @@
+\begin{theorem}[StreamNameUp finite-window cover-refinement classifier]
+\label{thm:streamname-finite-window-cover-refinement-classifier}
+For certified observation maps $s,t:\Hist\to\Hist$ and probe bundles
+$\mathcal{P}_1,\mathcal{P}_2,\mathcal{Q}:\mathsf{ProbeBundle}$, suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}_1)
+\quad\text{and}\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}_2).
+$$
+Assume every requested bundled unary observation of $\mathcal{Q}$ is covered
+by one of the two certified windows:
+$$
+\forall n,\ \mathsf{InBundle}(n,\mathcal{Q})\to
+\mathsf{UnaryHistory}(n)\to
+\mathsf{InBundle}(n,\mathcal{P}_1)\lor
+\mathsf{InBundle}(n,\mathcal{P}_2).
+$$
+Then the requested window is certified:
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q}).
+$$
+Moreover, for any selected $n$ in $\mathcal{Q}$ with
+$\mathsf{UnaryHistory}(n)$ and displayed one-extension endpoints
+$$
+\hsame(s(n),\Eone(a))\quad\text{and}\quad \hsame(t(n),\Eone(b)),
+$$
+the selected observation carries the full endpoint package of
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package}.
+\end{theorem}
+\begin{proof}
+First combine the two certified windows. The union clause of
+\autoref{thm:rat-stream-name-finite-window-structural-laws} repacks the
+$\mathcal{P}_1$ and $\mathcal{P}_2$ classifiers as a classifier on the
+displayed union bundle.
+
+Next restrict the union classifier to the requested bundle. For a bundled
+unary observation $n$ of $\mathcal{Q}$, the cover hypothesis chooses whether
+the membership row comes from $\mathcal{P}_1$ or from $\mathcal{P}_2$. In
+either case the corresponding inclusion into the displayed union bundle gives
+the subwindow map required by the subwindow clause of
+\autoref{thm:rat-stream-name-finite-window-structural-laws}. This yields
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q}).
+$$
+
+Finally fix a selected requested observation $n$ together with its bundle
+membership, unary witness, and displayed one-extension endpoints. Apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+the $\mathcal{Q}$ classifier just constructed. The resulting point classifier,
+positive-denominator rows, unary endpoint rows, empty and zero-headed
+exclusions, and one-tail readback are exactly the full endpoint package for
+the requested observation.
+\end{proof}
+
+\begin{theorem}[StreamName cover-refinement transport closure]
+\label{thm:streamname-cover-refinement-transport-closure}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$ and probe bundles
+$\mathcal{P}_1,\mathcal{P}_2,\mathcal{Q}:\mathsf{ProbeBundle}$, suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}_1)
+\quad\text{and}\quad
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P}_2).
+$$
+Assume every requested bundled unary observation of $\mathcal{Q}$ is covered
+by one of the two certified windows:
+$$
+\forall n,\ \mathsf{InBundle}(n,\mathcal{Q})\to
+\mathsf{UnaryHistory}(n)\to
+\mathsf{InBundle}(n,\mathcal{P}_1)\lor
+\mathsf{InBundle}(n,\mathcal{P}_2).
+$$
+Assume also that the endpoints are transported componentwise on every bundled
+unary observation of $\mathcal{Q}$:
+$$
+\forall n,\ \mathsf{InBundle}(n,\mathcal{Q})\to
+\mathsf{UnaryHistory}(n)\to\hsame(s(n),s'(n))
+$$
+and
+$$
+\forall n,\ \mathsf{InBundle}(n,\mathcal{Q})\to
+\mathsf{UnaryHistory}(n)\to\hsame(t(n),t'(n)).
+$$
+Then
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{Q}).
+$$
+Moreover, for every selected $n$ in $\mathcal{Q}$ with
+$\mathsf{UnaryHistory}(n)$ and histories $a,b:\Hist$ displaying transported
+one-extension endpoints
+$$
+\hsame(s'(n),\Eone(a))\quad\text{and}\quad \hsame(t'(n),\Eone(b)),
+$$
+the selected observation exports the same finite endpoint package to the
+$\RegSeqRat$ and $\RealUp$ handoff surface: the selected point classifier,
+positive-denominator rows, unary endpoint rows, empty and zero-headed
+exclusions, one-tail readback, $\mathsf{InBundle}$ membership, bundled
+$\mathsf{UnaryHistory}$ row, finite $\Cont$ ledger, displayed $\hsame$
+transports, and $\mathsf{Pkg}$ provenance. No host index, quotient
+representative, completion object, metric row, or $\RealUp$ completeness datum
+is introduced.
+\end{theorem}
+\begin{proof}
+First build the classifier on the requested cover. Apply
+\autoref{thm:streamname-finite-window-cover-refinement-classifier} to the two
+certified windows and to the displayed cover of $\mathcal{Q}$. This gives
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{Q}).
+$$
+
+Next transport that classifier along the endpoint rows over $\mathcal{Q}$.
+The endpoint-transport field of
+\autoref{thm:rat-stream-name-finite-window-stability-fields} applies
+componentwise to the two displayed $\hsame$ transport families, yielding
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{Q}).
+$$
+
+Finally fix a selected bundled unary observation and its displayed transported
+one-extension endpoints. Apply
+\autoref{thm:rat-stream-name-finite-window-selected-full-endpoint-package} to
+the transported classifier. The resulting selected endpoint package is the
+finite package consumed by the downstream surface, and
+\autoref{thm:streamname-real-seal-factorization-boundary} records that this
+surface factors only through the listed StreamName, $\RegSeqRat$,
+$\mathsf{ProbeBundle}$, $\mathsf{InBundle}$, $\mathsf{UnaryHistory}$,
+$\Cont$, $\hsame$, and $\mathsf{Pkg}$ rows.
+\end{proof}
+
+\begin{theorem}[StreamName cover-refinement Real seal source invariance]
+\label{thm:streamname-cover-refinement-real-seal-source-invariance}
+For certified observation maps $s,t,s',t':\Hist\to\Hist$ and probe bundles
+$\mathcal{P}_1,\mathcal{P}_2,\mathcal{Q}:\mathsf{ProbeBundle}$, assume the
+two-window cover hypotheses for $\mathcal{P}_1$, $\mathcal{P}_2$, and
+$\mathcal{Q}$ from
+\autoref{thm:streamname-cover-refinement-transport-closure}, together with
+the same componentwise endpoint transports from $s,t$ to $s',t'$ over
+$\mathcal{Q}$. Then every downstream finite-window $\RealUp$ seal read over
+$\mathcal{Q}$ reads the same $\StreamNameUp$ source surface after refinement.
+
+That invariant surface consists exactly of the finite-window classifier, the
+selected $\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership,
+$\mathsf{UnaryHistory}$, the pointwise $\RatHistoryClassifier$, displayed
+$\hsame$ transports, the $\Cont$ ledger, and $\mathsf{Pkg}$ provenance. No
+host index, quotient representative, completion object, metric row, or
+external $\RealUp$ completeness datum becomes available under the covered
+refinement.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-finite-window-cover-refinement-classifier} to the
+two certified windows and the displayed cover of $\mathcal{Q}$. This builds
+the finite-window classifier on the requested probe bundle using only the
+already certified source rows.
+
+Next apply
+\autoref{thm:streamname-cover-refinement-transport-closure}. The
+componentwise endpoint transports carry the classifier to $s',t'$ and keep the
+selected endpoint package on the same $\mathcal{Q}$ bundle, with its
+$\mathsf{InBundle}$ membership, $\mathsf{UnaryHistory}$ row, point classifier,
+$\Cont$ ledger, displayed $\hsame$ rows, and $\mathsf{Pkg}$ provenance.
+
+Finally pass to the $\StreamNameUp$ Real--$\RegSeqRat$ handoff and the
+$\RealUp$ seal factorization boundary. Those results identify exactly the
+consumer rows available to a finite-window seal read, so the refinement can
+transport the source surface but cannot add a host index, quotient
+representative, completion object, metric row, or external completeness
+datum.
+\end{proof}

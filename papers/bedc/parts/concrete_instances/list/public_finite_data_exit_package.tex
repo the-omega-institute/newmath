@@ -115,3 +115,81 @@ turns the classified successor exactness clause into a witness-choice
 independent component package for the public object. Repack the three theorem
 outputs into the seven displayed fields.
 \end{proof}
+
+\begin{theorem}[List finite-data consumer row exhaustion]
+\label{thm:list-finite-data-consumer-row-exhaustion}
+Let $A:\mathsf{BHist}\to\mathsf{Prop}$ be a BEDC history source carrier, let
+$\sim_A$ be a source classifier, and let
+$\mathsf{cert}:\NameCert(A,\sim_A)$. If
+$\mathsf{ListConsBoundaryCoherent}_{A,\sim_A}$ holds, then every public
+consumer read of the $\ListUp$ finite-data package factors through exactly the
+seven rows displayed in
+Theorem~\ref{thm:list-public-finite-data-exit-package}:
+\begin{enumerate}
+  \item semantic certification of the lifted list carrier, pattern, ledger, and
+  classifier;
+  \item exactness of the public carrier against the finite carrier-pattern and
+  carrier-ledger predicates;
+  \item totality and uniqueness of public length;
+  \item sharing and uniqueness of public length along classified endpoint
+  pairs;
+  \item finite spine-ledger exposure for each classified endpoint;
+  \item the nil-or-cons constructor audit for the public classifier;
+  \item independence of the classified successor component readback from the
+  chosen six-tuple witness.
+\end{enumerate}
+No public finite-data consumer obtains an additional row from host list
+equality, quotient representatives, or external sequence objects.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:list-public-finite-data-exit-package}. It presents the
+public finite-data package as the seven displayed rows, so any public consumer
+read first enters through one of those rows.
+
+The exactness rows have no further public exits. Apply
+Theorem~\ref{thm:list-history-carrier-pattern-ledger-equivalence}: the carrier
+read is identified with the finite pattern predicate and the ledger predicate,
+and no separate host-list equality object is introduced by this transport.
+
+The endpoint and constructor rows are likewise exhausted internally. Apply
+Theorem~\ref{thm:list-public-object-constructor-audit} to account for endpoint
+spine-ledger exposure and the nil-or-cons audit. Then apply
+Theorem~\ref{thm:list-classified-successor-component-unique-existence} to make
+the successor component readback independent of the chosen six-tuple witness.
+
+These applications cover the semantic certificate, the two exactness rows, the
+two public length rows, the endpoint exposure row, the constructor audit row,
+and the successor-component independence row. Since none of the cited clauses
+exports quotient representatives or external sequence objects, the displayed
+seven rows form the whole public consumer boundary.
+\end{proof}
+
+\begin{theorem}[List public closure alignment]
+\label{thm:list-index-public-closure-alignment}
+For $\ListUp$ over $\BHist$, $\hsame$, $\Cont$, and $\NameCert$, the public
+finite-data exit package and the consumer row exhaustion theorem jointly supply
+the paper-side Phase Finite Data witness. The witness consists exactly of the
+carrier-pattern and carrier-ledger exactness rows, the public length rows, the
+constructor audit, and the successor-component independence package already
+displayed by
+\autoref{thm:list-public-finite-data-exit-package} and exhausted by
+\autoref{thm:list-finite-data-consumer-row-exhaustion}. It does not add host
+list equality, quotient representatives, or an external sequence object.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:list-public-finite-data-exit-package}. Its displayed fields
+give the finite public object: semantic certification, carrier-pattern and
+carrier-ledger exactness, public length totality and uniqueness, classified
+endpoint length agreement, finite spine exposure, the nil-or-cons constructor
+audit, and successor-component independence.
+
+Apply \autoref{thm:list-finite-data-consumer-row-exhaustion}. It says that any
+public consumer read factors through exactly those rows. Hence the roadmap
+witness is obtained by repackaging the already exposed rows for the
+$\ListUp$ surface over $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+
+The cited package and exhaustion theorem explicitly close off host list
+equality, quotient representatives, and external sequence objects. Therefore
+the alignment is a paper-side finite-data witness rather than a stronger
+formal marker or an additional public carrier.
+\end{proof}

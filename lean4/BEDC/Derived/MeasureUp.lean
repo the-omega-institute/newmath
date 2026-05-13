@@ -24,6 +24,13 @@ def MeasureEventRowCoverage (event union value sum endpoint : BHist) : Prop :=
     MeasureZeroBHistClassifier union BHist.Empty ∧
       MeasureZeroBHistClassifier value sum ∧ MeasureZeroBHistCarrier endpoint
 
+def MeasureClassifierSpecification
+    (event event' value value' endpoint endpoint' ledger ledger' : BHist) : Prop :=
+  MeasureZeroBHistClassifier event event' ∧
+    MeasureZeroBHistClassifier value value' ∧
+      MeasureZeroBHistClassifier endpoint endpoint' ∧
+        Cont event value ledger ∧ Cont event' value' ledger'
+
 def MeasureZeroBHistPrefix (events : Nat -> BHist) : Nat -> BHist
   | Nat.zero => BHist.Empty
   | Nat.succ n => append (MeasureZeroBHistPrefix events n) (events n)
@@ -100,6 +107,25 @@ theorem MeasureZeroBHist_continuation_endpoint_stability
   have endpointsSame : hsame endpoint endpoint' :=
     cont_deterministic endpointCont endpointCont'
   exact And.intro targetHistEmpty (And.intro targetEventEmpty endpointsSame)
+
+theorem MeasureClassifierSpecification_ledger_transport
+    {event event' value value' endpoint endpoint' ledger ledger' : BHist} :
+    MeasureClassifierSpecification event event' value value' endpoint endpoint' ledger ledger' ->
+      hsame ledger ledger' ∧ MeasureZeroBHistCarrier ledger ∧
+        MeasureZeroBHistCarrier ledger' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro specification
+  obtain ⟨eventClassified, valueClassified, _endpointClassified, eventValueLedger,
+    event'Value'Ledger'⟩ := specification
+  have sameLedger : hsame ledger ledger' :=
+    cont_respects_hsame eventClassified.right.right valueClassified.right.right eventValueLedger
+      event'Value'Ledger'
+  have ledgerCarrier : MeasureZeroBHistCarrier ledger :=
+    cont_respects_hsame eventClassified.left valueClassified.left eventValueLedger
+      (cont_left_unit BHist.Empty)
+  have ledger'Carrier : MeasureZeroBHistCarrier ledger' :=
+    hsame_trans (hsame_symm sameLedger) ledgerCarrier
+  exact And.intro sameLedger (And.intro ledgerCarrier ledger'Carrier)
 
 theorem MeasureCountableZeroTail_canonical {tail endpoint : BHist} :
     Cont BHist.Empty BHist.Empty tail -> Cont tail BHist.Empty endpoint ->

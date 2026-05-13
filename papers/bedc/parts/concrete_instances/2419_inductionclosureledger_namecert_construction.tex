@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\InductionClosureLedgerUp$}
+\label{ch:concrete-instances-inductionclosureledger-namecert}
+\origin{ai}
+
+The $\InductionClosureLedgerUp$ surface realizes generator-internal induction as a finite naming certificate. It records the authorized generator rows, the generator-closure classifier rows, the $\Gap$ residue left at every attempted free-floating induction claim, and the transport, continuation, provenance, and naming rows that make the ledger auditable.
+
+\begin{definition}[InductionClosureLedger carrier]
+\label{def:induction-closure-ledger-carrier}
+An $\InductionClosureLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(G,K,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the authorized-generator row, listing the generator names whose closed constructor lists license internal induction;
+\item $K$ is the generator-closure classifier row, recording the finite classifier that decides whether a requested induction step stays inside the closure of a listed generator;
+\item $R$ is the $\Gap$ ledger residue row, recording every refused passage from generator-internal induction to free-floating induction over unspecified objects;
+\item $T$ records componentwise $\hsame$ transport for $G,K,R$, the continuation row, the provenance row, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes that replay generator admission, classifier lookup, residue emission, and NameCert export;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, authorized generator rows, generator-closure classifier rows, $\Gap$ ledger residue, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\InductionClosureLedgerUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It contains no universal induction principle over unnamed objects, no hidden eliminator outside a displayed generator closure, and no route that erases the $\Gap$ residue attached to an out-of-closure request.
+\end{definition}
+
+\begin{theorem}[InductionClosureLedger NameCert obligations]
+\label{thm:induction-closure-ledger-namecert-obligations}
+For the carrier of \autoref{def:induction-closure-ledger-carrier}, the local $\NameCert_{\InductionClosureLedgerUp}$ surface consists exactly of carrier admission for
+$$
+L=(G,K,R,T,C,P,N),
+$$
+authorized-generator exposure, generator-closure classifier lookup, $\Gap$ residue retention, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and NameCert export for the same finite packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.InductionClosureLedgerUp.InductionClosureLedgerTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:induction-closure-ledger-carrier}. The packet exposes only the seven displayed rows $G,K,R,T,C,P,N$.
+
+Generator authority is read from $G$, closure classification from $K$, and refused out-of-closure content from $R$. These three rows determine which induction requests are internal to an authorized generator and which requests leave a recorded residue.
+
+Transport, replay, and provenance are confined by $T,C,P$. The local row $N$ exports only this finite packet as a naming certificate, so no NameCert projection can add a hidden universal induction principle.
+\end{proof}
+
+\begin{theorem}[InductionClosureLedger generator authority]
+\label{thm:induction-closure-ledger-generator-authority}
+Every induction route accepted by an $\InductionClosureLedgerUp$ packet factors through an authorized generator row in $G$ and a generator-closure classifier row in $K$. The route may replay the displayed $\Cont$ evidence for that generator closure, transported by $\hsame$ and recorded under $\Pkg$ provenance and $\NameCert_{\InductionClosureLedgerUp}$ naming, but it cannot claim authority from an unnamed generator.
+\end{theorem}
+\begin{proof}
+Project the authorized-generator row $G$ and classifier row $K$. A replayable induction route is accepted only when the classifier records that the requested step stays inside the closure of a generator listed in $G$.
+
+Use $T$ to transport the listed generator and classifier rows componentwise. Use $C$ to replay the accepted route, and record the read through $P$ and $N$.
+
+An unnamed generator has no coordinate in $L$. Since the carrier has no row from which such authority could be projected, every accepted route is exhausted by the displayed generator and classifier rows.
+\end{proof}
+
+\begin{theorem}[InductionClosureLedger GAP non-escape]
+\label{thm:induction-closure-ledger-gap-nonescape}
+Whenever an induction request is not classified by $K$ as lying inside the closure of an authorized generator in $G$, the $\InductionClosureLedgerUp$ packet records the request only as $\Gap$ residue in $R$. The residue may be transported, replayed as a refusal, packaged, and named, but it cannot be converted into an internal induction theorem.
+\end{theorem}
+\begin{proof}
+Inspect the classifier row $K$. If the request is not accepted by the displayed generator-closure classifier, the only carrier coordinate that records it is the residue row $R$.
+
+Transport of residue through $T$ preserves the residue as residue. Replay through $C$ can expose the refusal and package it through $P$, while $N$ names the same boundary.
+
+No conversion row is present in the carrier. Therefore a recorded $\Gap$ residue cannot escape into an internal induction theorem or a free-floating closure principle.
+\end{proof}
+
+\begin{theorem}[InductionClosureLedger NameCert export]
+\label{thm:induction-closure-ledger-namecert-export}
+The public export of an $\InductionClosureLedgerUp$ packet is exactly the finite NameCert packet over authorized generator rows, generator-closure classifier rows, $\Gap$ ledger residue, $\hsame$ transport, $\Cont$ replay, and $\Pkg$ provenance. A consumer of the export can recover generator authority, classifier status, and residue location, but no object beyond those rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier tuple $L=(G,K,R,T,C,P,N)$. The export row $N$ names this tuple and no larger surface.
+
+A consumer recovers generator authority from $G$, classifier status from $K$, and residue location from $R$. The same consumer uses $T$ for componentwise transport, $C$ for replay, and $P$ for provenance.
+
+These rows exhaust the public export. Since $L$ has no coordinate for an unnamed induction principle, hidden eliminator, or erased residue, the NameCert packet cannot export such content.
+\end{proof}
+
+\closureat{InductionClosureLedgerUp}{seedStr}
+
+\begin{closurestatus}{\InductionClosureLedgerUp}
+  \constructivestory{An $\InductionClosureLedgerUp$ packet is generated from authorized generator rows, generator-closure classifier rows, $\Gap$ ledger residue, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:induction-closure-ledger-carrier}, \autoref{thm:induction-closure-ledger-namecert-obligations}, \autoref{thm:induction-closure-ledger-generator-authority}, \autoref{thm:induction-closure-ledger-gap-nonescape}, and \autoref{thm:induction-closure-ledger-namecert-export} bind the finite carrier, generator authority, closure classifier, residue boundary, and NameCert export.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, a TasteGate-backed carrier, universal induction over unnamed objects, erased GAP residue, or a public standard bridge.}
+  \upgradepath{Promotion beyond seedClosure requires a TasteGate-backed Lean carrier and checked finite theorems for generator authority, classifier stability, residue non-escape, provenance, and NameCert export.}
+\end{closurestatus}

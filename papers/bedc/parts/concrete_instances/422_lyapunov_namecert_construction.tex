@@ -1,0 +1,210 @@
+\chapter{A Concrete Naming Certificate for $\LyapunovUp$}
+\label{ch:concrete-instances-lyapunov-namecert}
+
+The $\LyapunovUp$ interface records the finite stability ledger used by
+Lyapunov arguments for displayed dynamical systems and quadratic matrix
+certificates. In the classical presentation of Khalil, \emph{Nonlinear
+Systems} (2002), the proof reads a positive function and a one-step or
+derivative decrease condition to conclude stability in a stated neighborhood.
+The BEDC certificate below keeps only the finite rows needed to name that
+surface: state rows, transition rows, quadratic certificate rows,
+positive-definite witnesses, one-step decrease rows, transports, continuation
+routes, package provenance, and a local $\NameCert$ row.
+
+\begin{definition}[Lyapunov finite stability carrier]
+\label{def:lyapunov-bhist-carrier}
+A $\LyapunovUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+(X,T,Q,P,D,H,C,G,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is a displayed state-row packet read through $\DynSystemUp$ and
+$\VecSpaceUp$;
+\item $T$ is a displayed transition-row packet for the sampled or one-step
+state motion, with its source and target slots named by $X$;
+\item $Q$ is a quadratic certificate row read through $\MatrixUp$ and the
+scalar boundary of $\RealAlgOrder$;
+\item $P$ is a positive-definite witness row for the displayed quadratic
+certificate on the state rows carried by the packet;
+\item $D$ is a one-step decrease ledger saying that the displayed successor row
+has a nonincreasing, or strictly decreasing when named, quadratic value relative
+to the displayed predecessor row;
+\item $H$ records the componentwise $\hsame$ transports for state, transition,
+quadratic, positivity, and decrease rows;
+\item $C$ records the $\Cont$ routes from predecessor states to successor
+states and from both states to the quadratic-value comparison row;
+\item $G$ is the $\Pkg$ provenance naming $\DynSystemUp$, $\MatrixUp$,
+$\VecSpaceUp$, $\RealAlgOrder$, and $\RiccatiUp$ as the only imported
+certificate boundaries;
+\item $N$ is the local $\NameCert$ row for the resulting finite stability
+surface.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{LyapunovLedger}(X,T,Q,P,D,H,C,G,N)$. Two accepted packets classify
+together only when all nine rows transport by the displayed $\hsame$ data and
+follow the same $\Cont$ routes named in $G$.
+\end{definition}
+\leanchecked{BEDC.Derived.LyapunovUp.taste\_gate}
+
+\begin{theorem}[Lyapunov decrease ledger]
+\label{thm:lyapunov-decrease-ledger}
+Let $L=(X,T,Q,P,D,H,C,G,N)$ be an accepted $\LyapunovUp$ carrier. The decrease
+information exported by $L$ is exactly the finite row $D$: a displayed
+comparison between the quadratic value of the predecessor state row and the
+quadratic value of the successor state row, routed through $C$ and typed by
+$\RealAlgOrder$. The packet exports no differentiability assumption, no
+infinite-time convergence assertion, no analytic limit, and no external
+optimization solver semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lyapunov-bhist-carrier}. The predecessor
+and successor state rows are the visible endpoints of the transition row $T$.
+
+Use the continuation routes in $C$ to read the two quadratic values from the
+same displayed certificate row $Q$. The order comparison between those two
+values is precisely the row $D$, and the positive-definite row $P$ supplies only
+the local sign witness for $Q$ on the named state rows.
+
+The remaining coordinates are transport, provenance, and the local name row.
+None of them contains a derivative, an infinite trajectory, a limiting
+convergence theorem, or a solver state, so the decrease surface is exhausted by
+the finite comparison row described above.
+\end{proof}
+
+\begin{theorem}[Lyapunov NameCert obligation surface]
+\label{thm:lyapunov-namecert-obligation-surface}
+The local $\NameCert_{\LyapunovUp}$ obligation surface consists of five finite
+rows:
+\begin{enumerate}
+\item carrier: the $\mathsf{BHist}$ packet of
+\autoref{def:lyapunov-bhist-carrier};
+\item classifier and stability: the componentwise $\hsame$ transport rule for
+state, transition, quadratic, positivity, decrease, continuation, provenance,
+and local name rows;
+\item certificate ledger: the positive-definite witness row $P$ and the
+one-step decrease row $D$ of
+\autoref{thm:lyapunov-decrease-ledger};
+\item consumer boundary: the finite stability read permitted to downstream
+control packets by \autoref{thm:lyapunov-consumer-boundary};
+\item provenance: the $\Pkg$ row tying the packet to $\DynSystemUp$,
+$\MatrixUp$, $\VecSpaceUp$, $\RealAlgOrder$, and $\RiccatiUp$.
+\end{enumerate}
+These rows form the full public seed surface for the Lyapunov certificate name.
+\end{theorem}
+\leanchecked{BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface}
+\begin{proof}
+The carrier row fixes every coordinate that can be named by the certificate.
+The classifier is the finite membership test on those coordinates, and the
+stability clause is componentwise $\hsame$ transport along the same $\Cont$
+routes.
+
+The certificate ledger consists only of the positive-definite row and the
+decrease row. The consumer boundary then determines which downstream reads are
+available from those rows.
+
+Finally, the package row names every imported BEDC certificate boundary. Since
+the carrier has no coordinate for analytic trajectory convergence, smooth
+derivatives, basin computation, or solver output, the five listed rows exhaust
+the local $\NameCert_{\LyapunovUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[Lyapunov consumer boundary]
+\label{thm:lyapunov-consumer-boundary}
+Every consumer of $\NameCert_{\LyapunovUp}$ may read only the displayed state
+rows, transition rows, quadratic certificate row, positive-definite witness,
+one-step decrease ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ row of
+\autoref{def:lyapunov-bhist-carrier}. A $\DynSystemUp$ consumer may use those
+rows as a finite stability certificate, and a $\RiccatiUp$ or matrix-control
+consumer may reuse the quadratic and order rows, but no consumer obtains a
+basin-of-attraction computation, asymptotic convergence theorem, differentiable
+flow, or external synthesis solver from the certificate alone.
+\end{theorem}
+\begin{proof}
+Read a consumer map as a projection from the accepted carrier. The
+$\DynSystemUp$ projection returns the displayed state and transition rows
+together with the decrease comparison.
+
+The matrix-control projection returns the quadratic row, its positive-definite
+witness, and the $\RealAlgOrder$ comparison row. The $\RiccatiUp$ projection
+can reuse the same finite matrix and order coordinates as a named quadratic
+ledger, without adding any Riccati recursion step.
+
+All other objects named in the statement are absent from the carrier and from
+the package provenance. They therefore cannot be read through
+$\NameCert_{\LyapunovUp}$.
+\end{proof}
+\leanchecked{BEDC.Derived.LyapunovUp.LyapunovPacket\_consumer\_boundary}
+
+\begin{theorem}[Lyapunov stability transport]
+\label{thm:lyapunov-stability-transport}
+Let $L=(X,T,Q,P,D,H,C,G,N)$ be an accepted $\LyapunovUp$ carrier and let
+$L'=(X',T',Q',P',D',H',C',G',N')$ be obtained by displayed $\hsame$ transport of
+all carrier rows, preserving the $\Cont$ routes named by the provenance row.
+Then $L'$ is again an accepted $\LyapunovUp$ carrier, and its finite stability
+read is the transported positive-definite and one-step decrease ledger over
+$X'$, $T'$, and $Q'$.
+\end{theorem}
+\leanchecked{BEDC.Derived.LyapunovUp.LyapunovPacket\_stability\_transport}
+\begin{proof}
+Transport the state and transition rows first. The preserved continuation
+routes identify the successor and predecessor slots of $T'$ with the
+transported state rows in $X'$.
+
+Next transport the quadratic certificate and its positive-definite witness.
+Because the order boundary is the same $\RealAlgOrder$ row carried by the
+provenance, the transported sign witness remains attached to $Q'$ on the
+transported state rows.
+
+Finally transport the decrease ledger, package row, and local name row. Repack
+the nine transported coordinates as
+$\mathsf{LyapunovLedger}(X',T',Q',P',D',H',C',G',N')$. The stability read of
+the new packet is exactly the transported positive-definite and decrease rows,
+since the carrier has no additional stability coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.LyapunovUp.LyapunovLedger\_stability\_transport}
+
+\begin{theorem}[Lyapunov public export]
+\label{thm:lyapunov-public-export}
+The decrease ledger, $\NameCert_{\LyapunovUp}$ obligation surface, consumer
+boundary, and stability transport export exactly the finite state, transition,
+positivity, decrease, transport, continuation, provenance, and naming rows of
+$\LyapunovUp$.
+
+The public export contains no minimizer-existence principle, no global
+asymptotic completeness theorem, no analytic regularity assertion, and no
+standard-model dynamics claim.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:lyapunov-bhist-carrier}. The only
+state and transition data are the rows $X$ and $T$, and the only certificate
+data are the quadratic row, the positivity witness, and the decrease ledger.
+
+Apply \autoref{thm:lyapunov-decrease-ledger} and
+\autoref{thm:lyapunov-namecert-obligation-surface}. These identify the
+decrease row and the local naming surface over the displayed finite packet.
+
+Use \autoref{thm:lyapunov-consumer-boundary} and
+\autoref{thm:lyapunov-stability-transport} to expose the consumer-facing
+rows and their displayed transport behavior. Since all cited rows are
+projections from the same finite carrier, the excluded analytic and
+standard-model claims have no coordinate in the public export.
+\end{proof}
+
+\closureat{LyapunovUp}{seedStr}
+\closureat{LyapunovUp}{obligationStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
+\closureat{LyapunovUp}{scopedStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
+\closureat{LyapunovUp}{publicStr}[BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface]
+
+\begin{closurestatus}{\LyapunovUp}
+  \constructivestory{A Lyapunov stability row is seeded by a finite $\mathsf{BHist}$ packet of state rows, transition rows, a quadratic certificate row, a positive-definite witness row, a one-step decrease ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance naming $\DynSystemUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealAlgOrder$, and $\RiccatiUp$, and a local $\NameCert$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:lyapunov-public-export} binds only the finite state, transition, quadratic, positivity, one-step decrease, transport, continuation, provenance, and name rows listed in \autoref{def:lyapunov-bhist-carrier}.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.LyapunovUp.LyapunovLedger\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close differentiable Lyapunov theory, asymptotic convergence, basin computation, controller synthesis, external solver semantics, or a standard bridge.}
+  \upgradepath{Bridged closure requires a standard bridge over the finite state, transition, positivity, decrease, transport, continuation, provenance, and naming rows.}
+\end{closurestatus}

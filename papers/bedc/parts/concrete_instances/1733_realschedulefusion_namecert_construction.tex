@@ -1,0 +1,216 @@
+\chapter{A Concrete Naming Certificate for $\RealScheduleFusionUp$}
+\label{ch:concrete-instances-realschedulefusion-namecert}
+\origin{ai}
+
+The $\RealScheduleFusionUp$ chapter packages the finite schedule rows used by $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CompletionUp$ into one displayed $\NameCert$ surface. It keeps the window envelope, regular Cauchy readback, observer regularity, real seal, and completion handoff in a single finite packet, so downstream consumers read one row rather than reconstructing the same schedule from several neighboring certificates.
+
+The dependency anchors are $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, and $\ObserverRegularUp$.
+
+The schedule row is read through the countable-window carrier of \autoref{ch:concrete-instances-streamname-namecert}; the regular-rational readback is consumed through the visible real-name packet of \autoref{ch:concrete-instances-regularcauchyname-namecert}; and the seal coordinate is handed to the RealUp surface of \autoref{ch:concrete-instances-real-namecert}. These sibling certificates are the only public routes by which the fusion packet exposes schedule, readback, and seal data to downstream completion consumers.
+
+\begin{definition}[Real schedule fusion carrier]
+\label{def:realschedulefusion-carrier}
+A $\RealScheduleFusionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row, naming the intended finite stream windows and the consumer-facing schedule identity;
+\item $W$ is the finite window ledger, recording the $\FiniteWindowEnvelopeUp$ windows, local window indices, and displayed window inclusions used by schedule consumers;
+\item $R$ is the $\RegSeqRatUp$ readback row, pairing each displayed window with the regular-rational readback supplied by the $\RegularCauchyNameUp$ side;
+\item $E$ is the $\RealUp$ and $\CompletionUp$ seal row, recording the real-name seal and the completion-handoff seal reached from the same readback row;
+\item $H$ stores componentwise $\hsame$ transports for schedule rows, finite windows, regular-rational readbacks, seal rows, provenance, and the local naming row;
+\item $C$ stores the displayed $\Cont$ routes for schedule inspection, window selection, regular-rational readback, real sealing, completion handoff, and local NameCert comparison;
+\item $P$ is the $\Pkg$ provenance row naming $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, $\ObserverRegularUp$, and the consumed local source certificates;
+\item $N$ is the local $\NameCert_{\RealScheduleFusionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets by transporting them to a common schedule row, then comparing the finite window ledger, regular-rational readback row, real and completion seal row, provenance row, and local name. The carrier exports no quotient stream, selected limit, ambient completeness principle, host real equality, or completion object beyond the displayed finite rows.
+\end{definition}
+\leanchecked{BEDC.Derived.RealScheduleFusionUp.RealScheduleFusionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real schedule fusion NameCert obligations]
+\label{thm:realschedulefusion-namecert-obligations}
+The seed $\NameCert_{\RealScheduleFusionUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier habitation: finite schedule rows, window ledgers, regular-rational readbacks, real and completion seals, transports, continuations, provenance, and local naming inhabit the carrier of \autoref{def:realschedulefusion-carrier};
+\item classifier transport: accepted packets are compared only after componentwise transport to a common displayed schedule and window surface;
+\item schedule-readback lock: the $\StreamNameUp$ schedule row and $\RegSeqRatUp$ readback row remain paired through every consumer route;
+\item real-completion handoff: $\RealUp$ and $\CompletionUp$ consumers receive the same finite readback and seal data;
+\item ledger boundary: no consumer route escapes to quotient streams, selected limits, ambient completeness, host real equality, or a host completion witness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is exactly the finite packet displayed in \autoref{def:realschedulefusion-carrier}. The rows name the schedule, window ledger, readback, real and completion seals, transports, continuations, provenance, and local certificate.
+
+Classifier transport uses the row $H$ to move every displayed coordinate to a common schedule surface. The continuation row $C$ then supplies the visible routes by which a consumer reads the finite window, the $\RegSeqRatUp$ readback, and the seal row.
+
+The dependency anchors $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, and $\ObserverRegularUp$ account for the source rows consumed by this packet. Since the carrier has no coordinate for quotient streams, selected limits, ambient completeness, host real equality, or a host completion witness, every obligation stays inside the finite schedule-fusion ledger.
+\end{proof}
+
+\begin{theorem}[StreamName and RegSeqRat schedule lock]
+\label{thm:realschedulefusion-streamname-regseqrat-lock}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, every $\StreamNameUp$ schedule read of $S$ determines the same finite window ledger $W$ and the same $\RegSeqRatUp$ readback row $R$ used by downstream $\RealUp$ and $\CompletionUp$ consumers. The schedule row names the route; it does not create an independent tolerance, readback, quotient stream, or selected limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:realschedulefusion-carrier}. The only schedule-facing coordinate is $S$, and the only displayed windows are the finite entries of $W$.
+
+The route from $S$ to $W$ and then to $R$ is stored in $C$ and transported componentwise by $H$. Thus a $\StreamNameUp$ read cannot bypass the finite ledger or select a different $\RegSeqRatUp$ readback.
+
+The anchors $\FiniteWindowEnvelopeUp$ and $\RegularCauchyNameUp$ identify the finite window and regular Cauchy readback sources, while $\ObserverRegularUp$ supplies the observer-style consumer discipline. None of these anchors adds a carrier coordinate for quotient streams, selected limits, or host equality.
+\end{proof}
+
+\begin{theorem}[Real and completion handoff]
+\label{thm:realschedulefusion-real-completion-handoff}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, every $\RealUp$ seal and every $\CompletionUp$ handoff in $E$ is read from the same $S$, $W$, and $R$ rows through the stored $\hsame$ transports and $\Cont$ routes. The completion-facing consumer receives no data beyond the finite schedule, window, readback, seal, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Begin with a real or completion consumer route. The only seal coordinate is $E$, so the route must reach $E$ through the displayed schedule, window, and readback rows described in \autoref{def:realschedulefusion-carrier}.
+
+The $\RealUp$ seal is tied to the $\RegSeqRatUp$ readback row by the continuation routes in $C$. The $\CompletionUp$ handoff uses the same route and the same transported rows, so it cannot introduce a separate completion witness.
+
+The anchors $\RealUp$ and $\CompletionUp$ specify the consumer side, and $\RegularCauchyNameUp$ supplies the readback source. Because the carrier omits selected limits, ambient completeness, quotient streams, and host real equality, the handoff remains finite.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion ledger non-escape]
+\label{thm:realschedulefusion-ledger-non-escape}
+Every consumer-facing route out of an accepted $\RealScheduleFusionUp$ carrier factors through the finite schedule row $S$, window ledger $W$, regular-rational readback row $R$, real and completion seal row $E$, componentwise transport row $H$, continuation row $C$, package provenance $P$, and local naming row $N$. No route exports a quotient stream, selected limit, ambient completeness proof, host real equality, or host completion witness.
+\end{theorem}
+\begin{proof}
+Take any consumer-facing route and project the finite carrier. The available coordinates are exactly $S$, $W$, $R$, $E$, $H$, $C$, $P$, and $N$.
+
+The schedule, window, readback, and seal rows are the only rows that carry mathematical content to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$. The remaining rows transport, route, record provenance, and name the packet.
+
+Therefore the route is exhausted by the displayed finite ledger. Since the carrier has no coordinate for quotient streams, selected limits, ambient completeness, host real equality, or a host completion witness, none can be exported.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion standard boundary]
+\label{thm:realschedulefusion-standard-boundary}
+The standard boundary of $\RealScheduleFusionUp$ is the finite packet $F=(S,W,R,E,H,C,P,N)$ and the dependency anchors $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompletionUp$, $\FiniteWindowEnvelopeUp$, $\RegularCauchyNameUp$, and $\ObserverRegularUp$. Any public comparison between accepted packets is a comparison of those displayed rows after $\hsame$ transport; it is not a comparison of quotient streams, selected host limits, ambient completeness objects, or host real equality.
+\end{theorem}
+\begin{proof}
+The public boundary is read from the carrier definition. A comparison between accepted packets first transports the schedule, window, readback, seal, provenance, and naming rows by $H$.
+
+After transport, the comparison uses the routes in $C$ to inspect the finite rows named by the dependency anchors. The anchors identify the source certificates, but the packet does not expose their host interpretations or any completion object outside the finite ledger.
+
+Thus the standard boundary is precisely the displayed row comparison. Quotient streams, selected host limits, ambient completeness objects, and host real equality are absent from the carrier and cannot appear in the public comparison.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion TasteGate obligation surface]
+\label{thm:realschedulefusion-tastegate-obligation-surface}
+The $\ChapterTasteGate$ surface for $\RealScheduleFusionUp$ is exactly the single finite carrier $F=(S,W,R,E,H,C,P,N)$ of \autoref{def:realschedulefusion-carrier}. Its visible rows are the $\StreamNameUp$ schedule row $S$, the finite window ledger $W$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ and $\CompletionUp$ seal row $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\RealScheduleFusionUp}$ row $N$.
+
+Consequently any promotion of this chapter beyond seed strength must certify this same carrier surface: no carrier coordinate may be duplicated as a proof step, and no hidden quotient stream, selected limit, ambient completeness proof, host real equality, or host completion witness may be used as a substitute for one of the displayed rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealScheduleFusionUp.taste\_gate}
+\begin{proof}
+The carrier is the tuple displayed in \autoref{def:realschedulefusion-carrier}. Its local naming obligations are the five rows of \autoref{thm:realschedulefusion-namecert-obligations}, so the TasteGate surface has a single finite object to inspect.
+
+The schedule lock is \autoref{thm:realschedulefusion-streamname-regseqrat-lock}. The real and completion handoff is \autoref{thm:realschedulefusion-real-completion-handoff}. Together they force every schedule, readback, real-seal, and completion-facing read to pass through the rows $S,W,R,E,H,C,P,N$.
+
+The ledger boundary is \autoref{thm:realschedulefusion-ledger-non-escape}, and the public boundary is \autoref{thm:realschedulefusion-standard-boundary}. These two boundaries rule out carrier-echo proof text: a proof may cite the finite rows and their routes, but it cannot replace a missing row by repeating the carrier description.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion TasteGate obligation closure]
+\label{thm:realschedulefusion-tastegate-obligation-closure}
+The carrier of \autoref{def:realschedulefusion-carrier}, the NameCert obligations of \autoref{thm:realschedulefusion-namecert-obligations}, the schedule lock of \autoref{thm:realschedulefusion-streamname-regseqrat-lock}, the real and completion handoff of \autoref{thm:realschedulefusion-real-completion-handoff}, the ledger non-escape theorem of \autoref{thm:realschedulefusion-ledger-non-escape}, the standard boundary of \autoref{thm:realschedulefusion-standard-boundary}, and the TasteGate surface of \autoref{thm:realschedulefusion-tastegate-obligation-surface} form the complete obligation closure for the single $\RealScheduleFusionUp$ carrier checked by $\mathsf{RealScheduleFusionTasteGate\_single\_carrier\_alignment}$.
+\end{theorem}
+\begin{proof}
+Use the checked TasteGate marker attached to \autoref{def:realschedulefusion-carrier}. It fixes the chapter to the single carrier surface inspected by the TasteGate, so the closure cannot introduce a second carrier row or an alternate schedule object.
+
+The finite ledger rows are supplied by the displayed theorems. The NameCert obligation rows give carrier habitation, classifier transport, schedule-readback lock, real-completion handoff, and ledger boundary. The schedule-lock, handoff, non-escape, and standard-boundary theorems then account for each consumer-facing route named by those obligations.
+
+Finally apply the TasteGate surface theorem. It states that any stronger chapter reading must certify the same finite carrier surface rather than repeat the carrier as a proof substitute. The listed rows therefore exhaust the obligation surface for the single carrier.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion schedule-lock consumer scope]
+\label{thm:realschedulefusion-schedule-lock-consumer-scope}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, every $\StreamNameUp$ consumer route through the schedule row $S$ reaches the finite window ledger $W$ and the $\RegSeqRatUp$ readback row $R$ only by the displayed $\Cont$ routes in $C$ and the componentwise $\hsame$ transports in $H$. The scope contains no second schedule carrier and no alternate readback row.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:realschedulefusion-carrier}. It has one schedule coordinate $S$, one finite window coordinate $W$, and one regular-rational readback coordinate $R$.
+
+The continuation row $C$ stores the visible route from schedule inspection to window selection and then to regular-rational readback. The transport row $H$ is the only mechanism by which another displayed packet can be compared with those rows.
+
+Thus a $\StreamNameUp$ consumer may reach $W$ and $R$ only through the stored route and transport witnesses. Since the carrier has no second schedule coordinate and no second readback coordinate, no alternate schedule carrier can be read by this chapter.
+\end{proof}
+
+\begin{theorem}[Real and completion consumer scope]
+\label{thm:realschedulefusion-real-completion-consumer-scope}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealScheduleFusionUp$ carrier reads the same seal row $E$ only after $S$, $W$, and $R$ have been fixed by the schedule-lock scope. The real-facing and completion-facing reads therefore share the finite schedule, window, and regular-rational readback rows before any seal or handoff is exposed.
+\end{theorem}
+\begin{proof}
+Begin with a real-facing or completion-facing route. The only seal coordinate in the carrier is $E$, so the route must arrive at that row from the displayed schedule, window, and readback coordinates.
+
+Apply \autoref{thm:realschedulefusion-schedule-lock-consumer-scope}. It fixes $S$, $W$, and $R$ before any downstream consumer can inspect the seal row.
+
+The $\RealUp$ consumer reads the real seal from $E$, and the $\CompletionUp$ consumer reads the completion handoff from the same $E$ row. Because both reads share the fixed upstream rows, neither consumer can introduce a separate completion witness, selected limit, quotient stream, or host equality.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion scoped dependency closure]
+\label{thm:realschedulefusion-scoped-dependency-closure}
+The $\RealScheduleFusionUp$ scoped dependency surface is the schedule-lock consumer scope of \autoref{thm:realschedulefusion-schedule-lock-consumer-scope}, the real and completion consumer scope of \autoref{thm:realschedulefusion-real-completion-consumer-scope}, and the checked TasteGate surface of \autoref{thm:realschedulefusion-tastegate-obligation-surface}. It closes the current Real and Completion dependency row for the single finite carrier without adding a quotient stream, selected limit, ambient completeness proof, host real equality, or second schedule carrier.
+\end{theorem}
+\begin{proof}
+First use the schedule-lock consumer scope. It forces every $\StreamNameUp$ read through $S$ to reach $W$ and $R$ by the displayed continuation routes and componentwise transports.
+
+Next use the real and completion consumer scope. It says that $\RealUp$ and $\CompletionUp$ both read the seal row $E$ only after the same $S$, $W$, and $R$ rows are fixed.
+
+Finally apply the checked TasteGate surface. The TasteGate pins all of these rows to the single finite carrier $F=(S,W,R,E,H,C,P,N)$, so the scoped dependency closure has no place for an alternate schedule object, hidden completion witness, or host-side equality.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion window-merge scope]
+\label{thm:realschedulefusion-window-merge-scope}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, any consumer merge of $\StreamNameUp$ and $\FiniteWindowEnvelopeUp$ rows must pass through the displayed schedule row $S$, finite window ledger $W$, regular-rational readback row $R$, componentwise transport row $H$, continuation row $C$, package provenance $P$, and local naming row $N$. The merge exports no second schedule carrier, hidden window envelope, quotient stream, selected limit, or host equality.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:realschedulefusion-carrier}. It displays one schedule coordinate $S$, one finite window coordinate $W$, one readback coordinate $R$, one transport row $H$, one continuation row $C$, one provenance row $P$, and one local naming row $N$.
+
+Apply \autoref{thm:realschedulefusion-tastegate-obligation-surface}. The checked TasteGate surface fixes these rows as the single visible carrier inspected by the chapter.
+
+Apply \autoref{thm:realschedulefusion-schedule-lock-consumer-scope}. A $\StreamNameUp$ route can reach $W$ and $R$ only through the displayed $\Cont$ routes and componentwise $\hsame$ transports.
+
+Apply \autoref{thm:realschedulefusion-real-completion-consumer-scope} and \autoref{thm:realschedulefusion-scoped-dependency-closure}. They keep downstream real and completion consumers on the same upstream schedule and window rows, so a window merge cannot introduce a second schedule carrier or hidden host-side equality.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion seal-schedule noninterference]
+\label{thm:realschedulefusion-seal-schedule-noninterference}
+For an accepted $\RealScheduleFusionUp$ carrier $F=(S,W,R,E,H,C,P,N)$, every $\RealUp$ seal read and every $\CompletionUp$ handoff read of $E$ leaves the upstream schedule row $S$, finite window ledger $W$, regular-rational readback row $R$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$ unchanged as the displayed readback surface. Seal inspection cannot alter the schedule, window, or readback rows it consumes.
+\end{theorem}
+\begin{proof}
+Read the finite packet in \autoref{def:realschedulefusion-carrier}. The seal coordinate is $E$, while the upstream readback surface is $S,W,R,H,C,P,N$.
+
+Apply \autoref{thm:realschedulefusion-schedule-lock-consumer-scope}. It fixes the schedule row, finite window ledger, and regular-rational readback before a downstream consumer reaches the seal coordinate.
+
+Apply \autoref{thm:realschedulefusion-real-completion-consumer-scope}. It states that both real-facing and completion-facing reads inspect the same $E$ only after the same $S,W,R$ rows have been fixed.
+
+Apply \autoref{thm:realschedulefusion-tastegate-obligation-surface} and \autoref{thm:realschedulefusion-scoped-dependency-closure}. The checked TasteGate and scoped closure leave no coordinate by which a seal read could rewrite the upstream schedule, window, readback, transport, route, provenance, or naming rows.
+\end{proof}
+
+\begin{theorem}[Real schedule fusion ObserverRegular handoff]
+\label{thm:realschedulefusion-observer-regular-handoff}
+Every $\ObserverRegularUp$ consumer of an accepted $\RealScheduleFusionUp$ carrier reads only the displayed observer-regularity rows already packaged by $P$ together with the schedule row $S$, finite window ledger $W$, regular-rational readback row $R$, transport row $H$, continuation row $C$, and local naming row $N$. The handoff exposes observer regularity as finite provenance and route data, not as an ambient regularity predicate outside the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:realschedulefusion-carrier}. The dependency anchors include $\ObserverRegularUp$, and their consumer-facing record is carried by the provenance row $P$ together with the displayed routes in $C$.
+
+Apply \autoref{thm:realschedulefusion-tastegate-obligation-surface}. It identifies the single carrier surface as $S,W,R,E,H,C,P,N$, so observer regularity can be read only through rows already present in that surface.
+
+Apply \autoref{thm:realschedulefusion-schedule-lock-consumer-scope}. The observer handoff shares the same schedule, window, and regular-rational readback rows used by schedule consumers.
+
+Apply \autoref{thm:realschedulefusion-real-completion-consumer-scope} and \autoref{thm:realschedulefusion-scoped-dependency-closure}. Downstream real and completion reads therefore do not enlarge the observer handoff into an ambient regularity predicate outside the finite packet.
+\end{proof}
+
+\closureat{RealScheduleFusionUp}{scopedStr}[BEDC.Derived.RealScheduleFusionUp.taste\_gate]
+
+\begin{closurestatus}{\RealScheduleFusionUp}
+  \constructivestory{A $\RealScheduleFusionUp$ packet is generated by a $\StreamNameUp$ schedule row, a finite window ledger, a $\RegSeqRatUp$ readback row, a $\RealUp$ and $\CompletionUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:realschedulefusion-window-merge-scope}, \autoref{thm:realschedulefusion-seal-schedule-noninterference}, and \autoref{thm:realschedulefusion-observer-regular-handoff} bind the window-merge, seal-schedule, and ObserverRegular consumer scopes to the checked TasteGate surface of \autoref{thm:realschedulefusion-tastegate-obligation-surface} with $\mathsf{BEDC.Derived.RealScheduleFusionUp.taste\_gate}$.}
+  \formalstatus{\auditCleanV}
+  \bridgestatus{none}
+  \origin{ai}
+  \leantarget{BEDC.Derived.RealScheduleFusionUp.RealScheduleFusionTasteGate\_single\_carrier\_alignment}
+  \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, host completion witnesses, or bridge checking.}
+  \upgradepath{Scoped dependency closure requires checked finite-ledger theorems tying the schedule lock, real and completion handoff, non-escape, standard boundary, and TasteGate surface to downstream Real and Completion consumers.}
+\end{closurestatus}

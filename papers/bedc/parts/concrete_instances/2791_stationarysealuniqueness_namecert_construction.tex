@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\StationarySealUniquenessUp$}
+\label{ch:concrete-instances-stationary-seal-uniqueness-namecert}
+\origin{human}
+
+The $\StationarySealUniquenessUp$ surface isolates the finite seal packet obtained when a stationary rational classifier is transported through the constant $\StreamNameUp$ row, the finite $\RegSeqRatUp$ consumption row, the $\DyadicRatCoreUp$ observation ledger, and the $\RealUp$ finite-window boundary. It is a naming certificate for the four public readings of the same stationary seed, not a host-real equality assertion or a completeness principle.
+
+\begin{definition}[Stationary seal uniqueness carrier]
+\label{def:stationary-seal-uniqueness-carrier}
+A $\StationarySealUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(Q,S,G,D,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ stationary seed row, recording two rational history carriers and their transported $\mathsf{RatHistoryClassifier}$ row;
+\item $S$ is the constant $\StreamNameUp$ row read from $Q$;
+\item $G$ is the finite $\RegSeqRatUp$ seal-consumption row that reads the same constant stream through a displayed observation window;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger for the finite window;
+\item $R$ is the $\RealUp$ finite-window classifier row obtained from the same stationary constant-stream data;
+\item $F$ records the selected finite window and the four public projections from $U$ to $D,S,G,R$;
+\item $H$ stores componentwise $\hsame$ transports for the rational seed, stream row, regular-sequence seal row, dyadic ledger, real classifier row, window selector, continuation routes, package provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes from $Q$ to $S$, from $S$ to $G$, from $S$ to $D$, and from $D,S,G$ to the real-facing row $R$;
+\item $P$ records $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\StationarySealUniquenessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient-real equality, selected host limits, non-stationary tails, ambient completeness, or an external comparison relation beyond the displayed four readings.
+\end{definition}
+
+\begin{theorem}[Stationary seal uniqueness NameCert obligations]
+\label{thm:stationary-seal-uniqueness-namecert-obligations}
+The local $\NameCert_{\StationarySealUniquenessUp}$ surface for \autoref{def:stationary-seal-uniqueness-carrier} consists exactly of carrier admission for $U=(Q,S,G,D,R,F,H,C,P,N)$, $\RatUp$ seed exposure, constant $\StreamNameUp$ readback, finite $\RegSeqRatUp$ seal consumption, $\DyadicRatCoreUp$ observation-ledger exposure, $\RealUp$ finite-window classifier exposure, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $U$. The rows $Q,S,G,D,R,F$ supply the rational seed, constant stream, regular-sequence seal consumption, dyadic ledger, real finite-window classifier, and selected window.
+
+The stationary seed obligation is read from $Q$: it contains the two rational carriers and the $\mathsf{RatHistoryClassifier}$ row. The constant $\StreamNameUp$ obligation is read from $S$ by replaying the continuation route from $Q$ to the constant stream.
+
+The finite-window obligations are then forced by the packet order. Row $G$ consumes the selected window as a $\RegSeqRatUp$ seal row, $D$ records the dyadic observations read from that same window, and $R$ exposes the real-facing classifier only after $D,S,G$ have already been displayed.
+
+The remaining data are routing and naming data. Rows $H,C,P,N$ preserve the listed coordinates, replay the finite reads, record the dependency packages, and name the stationary seal packet without adding quotient-real equality, host completeness, or an external real comparison.
+\end{proof}
+
+\begin{theorem}[Stationary seal four-row exhaustion]
+\label{thm:stationary-seal-uniqueness-four-row-exhaustion}
+Let $U=(Q,S,G,D,R,F,H,C,P,N)$ be an accepted $\StationarySealUniquenessUp$ carrier. Every certified finite observation window exported by $U$ has exactly the four public readings $D,S,G,R$: the $\DyadicRatCoreUp$ observation ledger, the constant $\StreamNameUp$ classifier, the finite $\RegSeqRatUp$ seal-consumption row, and the $\RealUp$ finite-window classifier. These four readings are all transported from the same $\RatUp$ seed row $Q$, and any two accepted seal packets with the same $Q,F,H,C,P,N$ expose the same four-row public surface.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier and project the rows $Q,S,G,D,R,F,H,C,P,N$. The selected window is recorded in $F$, and the only continuation routes out of the stationary seed are the routes displayed in $C$.
+
+Read the stream-facing boundary first. The route from $Q$ to $S$ exposes the constant $\StreamNameUp$ classifier induced by the rational seed, so every later finite-window read is already tied to the same $\mathsf{RatHistoryClassifier}$ row.
+
+Next read the two finite observation rows. The $\RegSeqRatUp$ row $G$ consumes the selected constant-stream window, while the $\DyadicRatCoreUp$ row $D$ records the dyadic ledger for that same window. Since both rows are reached through the same selector $F$ and the same continuation routes $C$, neither can introduce an independent seal coordinate.
+
+Finally read the real-facing row $R$. The $\RealUp$ finite-window classifier receives only $D,S,G$ together with the transport, provenance, and local name rows $H,P,N$. Thus the public surface of the seal is exhausted by $D,S,G,R$, and two carriers agreeing on $Q,F,H,C,P,N$ replay the same four readings.
+\end{proof}
+
+\closureat{StationarySealUniquenessUp}{seedStr}
+
+\begin{closurestatus}{\StationarySealUniquenessUp}
+  \constructivestory{A $\StationarySealUniquenessUp$ packet is generated from a stationary $\RatUp$ seed classifier, a constant $\StreamNameUp$ row, a finite $\RegSeqRatUp$ seal-consumption row, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ finite-window classifier, a selected-window projection row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stationary-seal-uniqueness-carrier}, \autoref{thm:stationary-seal-uniqueness-namecert-obligations}, and \autoref{thm:stationary-seal-uniqueness-four-row-exhaustion} bind the stationary finite-window carrier, local naming obligations, and four-reading exhaustion surface over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient-real equality, selected host limits, non-stationary tails, ambient completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, stationary seed exposure, constant-stream readback, finite seal consumption, dyadic ledger exactness, real finite-window exposure, and four-reading exhaustion for the same displayed packet.}
+\end{closurestatus}

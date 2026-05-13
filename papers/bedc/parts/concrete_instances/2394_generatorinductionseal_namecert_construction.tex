@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\GeneratorInductionSealUp$}
+\label{ch:concrete-instances-generatorinductionseal-namecert}
+\origin{ai}
+
+The $\GeneratorInductionSealUp$ surface names the generator-internal induction packet that remains inside an authorized generator while recording every attempted passage to free-floating induction as $\Gap$ residue. It combines the authorized generator row, the continuation witness row required by the generator-closure classifier, the closure classifier row itself, the residue ledger, transport rows, continuation routes, package provenance, and local naming into one finite certificate.
+
+\begin{definition}[Generator induction seal carrier]
+\label{def:generator-induction-seal-carrier}
+A $\GeneratorInductionSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,W,K,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the authorized generator row whose constructor-list provenance supplies the only internal induction authority;
+\item $W$ is the continuation witness row carried by every accepted generator-internal continuation;
+\item $K$ is the closure classifier row that checks whether a continuation remains inside the closure of $G$ with the witness $W$;
+\item $R$ is the $\Gap$ ledger row recording every requested passage from the displayed generator-internal route to an unscoped induction claim;
+\item $H$ records componentwise $\hsame$ transports for $G,W,K,R$, package provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes for reading the generator row, replaying the witness-carrying continuation, consulting the closure classifier, emitting residue, and exporting the local packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, authorized generator rows, continuation witnesses, closure classifier rows, $\Gap$ ledger rows, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\GeneratorInductionSealUp}$ row.
+\end{enumerate}
+The carrier contains no induction rule over unnamed objects, no erased residue, and no route that turns a continuation lacking $W$ into a continuation of $G$.
+\end{definition}
+\leanchecked{BEDC.Derived.GeneratorInductionSealUp.GeneratorInductionSealTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Generator induction seal NameCert obligations]
+\label{thm:generator-induction-seal-namecert-obligations}
+For the carrier of \autoref{def:generator-induction-seal-carrier}, the local $\NameCert_{\GeneratorInductionSealUp}$ surface consists exactly of carrier admission for
+$$
+S=(G,W,K,R,H,C,P,N),
+$$
+authorized-generator exposure, continuation-witness preservation, closure-classifier lookup, $\Gap$ residue retention, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and NameCert export for the same finite packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:generator-induction-seal-carrier}. The packet exposes only the eight displayed rows $G,W,K,R,H,C,P,N$.
+
+Generator authority is read from $G$, witness-carrying continuation from $W$, and closure classification from $K$. These rows determine which induction routes remain internal to the authorized generator.
+
+Residue, transport, replay, and provenance are confined by $R,H,C,P$. The local row $N$ exports only this packet as a naming certificate, so no projection can add a hidden universal induction principle.
+\end{proof}
+
+\begin{theorem}[Generator induction seal continuation witness]
+\label{thm:generator-induction-seal-continuation-witness}
+Every continuation accepted by a $\GeneratorInductionSealUp$ packet carries the displayed witness row $W$ and is checked by the closure classifier row $K$ against the authorized generator row $G$. A continuation that cannot replay $W$ through the displayed $\Cont$ route is not a continuation of this seal.
+\end{theorem}
+\begin{proof}
+Read the proposed continuation through $C$. If it is accepted, the route reaches $G$, replays $W$, and consults $K$ before the local certificate row is exported.
+
+The transport row $H$ preserves the same generator, witness, classifier, residue, package, and naming coordinates. Thus a transported accepted continuation still carries the displayed witness.
+
+If the route cannot replay $W$, no carrier coordinate classifies it as a continuation of $G$. It is therefore outside the seal rather than an induction step of the packet.
+\end{proof}
+
+\begin{theorem}[Generator induction seal GAP non-escape]
+\label{thm:generator-induction-seal-gap-non-escape}
+Whenever a requested continuation is not classified by $K$ as a witness-carrying continuation of the authorized generator row $G$, the $\GeneratorInductionSealUp$ packet records the request only as $\Gap$ residue in $R$. The residue may be transported, replayed as a refusal, packaged, and named, but it cannot become an internal induction theorem.
+\end{theorem}
+\begin{proof}
+Inspect the classifier row $K$. If the request is not accepted as a continuation of $G$ carrying $W$, the only coordinate that records it is the residue row $R$.
+
+Transport through $H$ preserves residue as residue. Replay through $C$ can expose the refusal and package it through $P$, while $N$ names the same boundary.
+
+The carrier has no conversion row from residue to induction authority. Therefore the $\Gap$ ledger cannot export an internal induction theorem or a free-floating closure principle.
+\end{proof}
+
+\begin{theorem}[Generator induction seal public package]
+\label{thm:generator-induction-seal-public-package}
+The public export of a $\GeneratorInductionSealUp$ packet is exactly the finite NameCert packet over the authorized generator row $G$, continuation witness row $W$, closure classifier row $K$, $\Gap$ ledger row $R$, componentwise $\hsame$ transports, displayed $\Cont$ routes, and $\Pkg$ provenance. A consumer can recover generator authority, witness status, classifier status, and residue location, but no induction object beyond those rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier tuple $S=(G,W,K,R,H,C,P,N)$. The export row $N$ names this tuple and no larger surface.
+
+A consumer recovers generator authority from $G$, witness status from $W$, classifier status from $K$, and residue location from $R$. The same consumer uses $H$ for componentwise transport, $C$ for replay, and $P$ for provenance.
+
+These rows exhaust the public package. Since $S$ has no coordinate for an unnamed induction principle, hidden eliminator, or erased residue, the NameCert packet cannot export such content.
+\end{proof}
+
+\closureat{GeneratorInductionSealUp}{seedStr}
+
+\begin{closurestatus}{\GeneratorInductionSealUp}
+  \constructivestory{A $\GeneratorInductionSealUp$ packet is generated from an authorized generator row, a continuation witness row, a closure classifier row, a $\Gap$ ledger row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:generator-induction-seal-carrier}, \autoref{thm:generator-induction-seal-namecert-obligations}, \autoref{thm:generator-induction-seal-continuation-witness}, \autoref{thm:generator-induction-seal-gap-non-escape}, and \autoref{thm:generator-induction-seal-public-package} bind the finite carrier, witness-carrying continuation route, classifier boundary, residue ledger, and NameCert export.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, induction over unnamed objects, erased GAP residue, or continuations outside the displayed generator witness.}
+  \upgradepath{Obligation closure requires a checked carrier and finite theorems for witness preservation, classifier stability, residue non-escape, provenance, and NameCert export.}
+\end{closurestatus}

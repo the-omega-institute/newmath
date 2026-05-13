@@ -49,6 +49,17 @@ import board_context
 import paper_gap_scanner
 import paper_index
 
+try:
+    from logic_discipline import render_prompt_block
+except ModuleNotFoundError:  # pragma: no cover
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from logic_discipline import render_prompt_block
+
+try:
+    import loning_assimilator
+except ModuleNotFoundError:  # pragma: no cover
+    loning_assimilator = None
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
@@ -59,8 +70,10 @@ ORACLE_SERVER = "http://localhost:8767"
 REFILL_TAG = "bedc-deep-board-refill"
 REFILL_TASK_PREFIX = "bedc_board_refill_"
 
-DEFAULT_TIMEOUT = 7200  # 2 hours — oracle can take long on a meta-question
+DEFAULT_TIMEOUT = 14400  # Match oracle server TASK_TIMEOUT; refill prompts can run long.
 DEFAULT_POLL_INTERVAL = 30
+ZERO_EXTRACTION_HANG_SECONDS = 900
+ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 
 
 # ---------------------------------------------------------------------------
@@ -114,6 +127,40 @@ def _has_refill_in_server(status: dict) -> bool:
         if str(task.get("task_id", "")).startswith(REFILL_TASK_PREFIX):
             return True
     return False
+
+
+def _zero_extraction_hang_agents(status: dict) -> list[str]:
+    agents = [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
+    if agents:
+        return agents
+    out: list[str] = []
+    active_tasks = {
+        str(agent_id): str((task or {}).get("task_id") or "")
+        for agent_id, task in (status.get("agents") or {}).items()
+    }
+    for agent_id, rec in (status.get("recent_agents") or {}).items():
+        agent_id = str(agent_id)
+        if not active_tasks.get(agent_id):
+            continue
+        if rec.get("event") != "heartbeat" or not rec.get("recent", False):
+            continue
+        metrics = rec.get("metrics") or {}
+        if str(metrics.get("task_id") or "") != active_tasks[agent_id]:
+            continue
+        try:
+            elapsed = int(metrics.get("elapsed_seconds") or 0)
+            extracted = int(metrics.get("extracted_chars") or 0)
+            page_chars = int(metrics.get("page_chars") or 0)
+        except (TypeError, ValueError):
+            continue
+        if (
+            metrics.get("generating") is True
+            and elapsed >= ZERO_EXTRACTION_HANG_SECONDS
+            and extracted == 0
+            and page_chars >= ZERO_EXTRACTION_MIN_PAGE_CHARS
+        ):
+            out.append(agent_id)
+    return out
 
 
 def _board_content() -> str:
@@ -171,10 +218,19 @@ def build_refill_prompt() -> str:
     template = (PROMPTS_DIR / "oracle_board_refill.txt").read_text(encoding="utf-8")
     board = _board_content()
     paper_coverage = paper_index.render_prompt_summary(max_chars=12000)
+    discipline = render_prompt_block(
+        context="BEDC board refill; oracle may generate candidate targets only, while dedup, schema checks, paper coverage, and deterministic obligation splitting stay local.",
+    )
+    loning_block = ""
+    if loning_assimilator is not None:
+        try:
+            loning_block = loning_assimilator.latest_prompt_block()
+        except Exception:
+            loning_block = ""
     return template.format(
         board_content=_safe(board),
         paper_labels=_safe(paper_coverage),
-    )
+    ) + "\n\n" + discipline + "\n\n" + loning_block + "\n"
 
 
 def _paper_gap_candidates() -> list[dict]:
@@ -243,6 +299,8 @@ def poll_result(
 ) -> Optional[str]:
     start = time.time()
     last_log = start
+    first_zero_extract_ts = 0.0
+    last_zero_extract_log = 0.0
     while time.time() - start < timeout:
         try:
             data = _http_get(f"{server_url}/result/{task_id}", timeout=10)
@@ -255,6 +313,26 @@ def poll_result(
                     flush=True,
                 )
                 return None
+        except Exception:
+            pass
+        try:
+            health = _http_get(f"{server_url}/status", timeout=5)
+            agents = _zero_extraction_hang_agents(health)
+            if agents:
+                now = time.time()
+                if not first_zero_extract_ts:
+                    first_zero_extract_ts = now
+                if now - last_zero_extract_log > 300:
+                    elapsed = int(now - first_zero_extract_ts)
+                    print(
+                        "[board_refill] WARN: zero-extraction hang "
+                        f"agents={','.join(agents)} for {elapsed}s; "
+                        "refresh affected tab(s) only.",
+                        flush=True,
+                    )
+                    last_zero_extract_log = now
+            else:
+                first_zero_extract_ts = 0.0
         except Exception:
             pass
         if time.time() - last_log > 60:

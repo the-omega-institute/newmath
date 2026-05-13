@@ -1160,16 +1160,16 @@ def compute_transition_candidates(horizons: dict[str, dict],
 
 
 def compute_capstone_overlap_map() -> dict:
-    """Build a discovery board of capstone-to-capstone shared coverage.
+    """Build a discovery board of vision-to-vision shared coverage.
 
-    For each pair (and triple) of capstone chapters in
-    `papers/bedc/parts/capstones/`, compute the intersection of the
+    For each pair (and triple) of vision chapters in
+    `papers/bedc/parts/visions/`, compute the intersection of the
     Lean targets they cite via \\leanchecked, \\leanvariant,
     \\leandef, \\leanstmt, \\leansorryd, \\leantarget markers — and
     the kernel-object namespace prefixes those targets fall under.
 
     A pair (or triple) whose intersection is non-empty is an open
-    META-CAPSTONE SLOT unless a fourth capstone already \\autorefs
+    vision slot unless a fourth vision already \\autorefs
     both/all sources and overlaps the shared targets — in which case
     the slot is marked unified_by that fourth capstone.
 
@@ -1178,12 +1178,12 @@ def compute_capstone_overlap_map() -> dict:
     """
     from itertools import combinations
 
-    capstone_dir = ROOT / "papers/bedc/parts/capstones"
+    capstone_dir = ROOT / "papers/bedc/parts/visions"
     marker_re = re.compile(
         r"\\(?:leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
     )
     autoref_re = re.compile(
-        r"\\autoref\{(?:ch|sec|thm|def|cor|rem|lem):capstones-([a-zA-Z0-9_-]+)"
+        r"\\autoref\{(?:ch|sec|thm|def|cor|rem|lem):visions-([a-zA-Z0-9_-]+)"
     )
     kernel_object_patterns = [
         (re.compile(r"(?:\\mathsf\{BHist\}|\\Hist\b|\bBHist\b|\\hsame\b|\bhsame\b)"),

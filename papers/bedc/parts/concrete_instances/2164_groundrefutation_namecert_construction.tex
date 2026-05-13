@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\GroundRefutationUp$}
+\label{ch:concrete-instances-groundrefutation-namecert}
+\origin{human}
+
+The $\GroundRefutationUp$ surface records the permitted contradiction pattern of \autoref{ch:visions-reasoning-by-contradiction-boundary} as a closed ground-loop naming packet. Its refutation is not a meta rule over arbitrary certificates: it is a finite $\BHist$ row whose assumption, falsity route, transports, continuation routes, provenance, and local $\NameCert$ row are all displayed before any negation may be exported.
+
+\begin{definition}[Ground refutation carrier]
+\label{def:ground-refutation-carrier}
+A $\GroundRefutationUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the assumption row admitted only inside the fixed ground loop;
+\item $F$ is the falsity-producing route that sends the displayed assumption row through recorded $\Cont$ steps to the bottom row;
+\item $H$ records the componentwise $\hsame$ transports for the assumption row, falsity route, package provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes used to read $A$, replay $F$, transport the bottom row, and return the exported negation to the same finite packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Cont$, $\hsame$, the bottom row, and the surrounding certificate surface;
+\item $N$ is the local $\NameCert_{\GroundRefutationUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a certificate-indexed truth branch, no excluded-middle split, no undecidable double-negation eliminator, and no existential witness selected by contradiction.
+\end{definition}
+
+\begin{theorem}[GroundRefutation NameCert obligations]
+\label{thm:ground-refutation-namecert-obligations}
+The local $\NameCert_{\GroundRefutationUp}$ surface for the carrier $G=(A,F,H,C,P,N)$ consists of five finite rows:
+\begin{enumerate}
+\item carrier exposure: an accepted object exposes exactly the packet of \autoref{def:ground-refutation-carrier};
+\item classifier row: two accepted packets classify together only when their assumption rows, falsity routes, transports, continuation routes, package provenance, and local naming rows are matched by the displayed $\hsame$ and $\Cont$ data;
+\item stability row: the exported negation remains tied to the same assumption row after every stored $\hsame$ transport;
+\item ledger row: the bottom row reached by $F$ is accountable to the displayed $\Cont$ route and package provenance;
+\item non-escape row: no consumer may read from $G$ a certificate-indexed truth branch, excluded-middle split, undecidable double-negation elimination, or existential witness by contradiction.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the finite packet of \autoref{def:ground-refutation-carrier}. The assumption row, falsity route, transport ledger, continuation routes, provenance, and local naming row are the complete public inventory.
+
+The classifier row compares only those coordinates. A classified pair must replay the same assumption read and the same falsity-producing route through the displayed $\hsame$ and $\Cont$ data.
+
+Stability follows because the exported negation is defined by applying the transported falsity route to the transported assumption row. The route never leaves $A,F,H,C,P,N$, so the negation remains a ground-loop output rather than a meta rule.
+
+The ledger row is the accountability of $F$ inside $C$ and $P$. A bottom row can be consumed only together with the route and provenance that produced it.
+
+Finally, the non-escape row follows from the carrier inventory. None of the six coordinates stores a truth predicate over certificates, an excluded-middle branch, an undecided double-negation eliminator, or an existential selector, so no consumer can project such data from the packet.
+\end{proof}
+
+\begin{theorem}[Ground-loop refutation boundary]
+\label{thm:ground-refutation-ground-loop-boundary}
+Every negation exported by an accepted $\GroundRefutationUp$ packet factors through the fixed certificate's displayed $\Cont$ route and $\hsame$ transport. The packet therefore realizes only the ground-loop rule that the displayed assumption row $A$ leads by the recorded route $F$ to bottom. It does not export a certificate-indexed truth branch, excluded-middle split, undecidable double-negation elimination, or existential witness by contradiction.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet as $G=(A,F,H,C,P,N)$. The only route from an assumed witness of $A$ to bottom is the displayed falsity-producing route $F$ read through $C$.
+
+Transporting the packet uses $H$ componentwise. The assumption row and falsity route therefore move together, and the exported negation is still the same finite route from the transported assumption row to the transported bottom row.
+
+The remaining coordinates $P$ and $N$ record provenance and the local naming ledger for this route. Since the carrier has no field for truth over certificates, excluded middle, undecided double-negation elimination, or witness selection by contradiction, every exported negation stays inside the closed ground loop.
+\end{proof}
+
+\closureat{GroundRefutationUp}{seedStr}
+
+\begin{closurestatus}{\GroundRefutationUp}
+  \constructivestory{A $\GroundRefutationUp$ packet is generated from one displayed assumption row, a falsity-producing continuation route, componentwise $\hsame$ transports, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ground-refutation-carrier}, \autoref{thm:ground-refutation-namecert-obligations}, and \autoref{thm:ground-refutation-ground-loop-boundary} bind the finite carrier, NameCert obligation rows, and ground-loop non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean implementation, bridge status, certificate-indexed truth branch, excluded-middle split, undecided double-negation eliminator, or existential witness by contradiction.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for classifier transport, route stability, ledger accountability, and ground-loop non-escape.}
+\end{closurestatus}

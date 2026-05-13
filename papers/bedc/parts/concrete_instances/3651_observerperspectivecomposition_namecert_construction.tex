@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\ObserverPerspectiveCompositionUp$}
+\label{ch:concrete-instances-observer-perspective-composition-namecert}
+\origin{ai}
+
+The $\ObserverPerspectiveCompositionUp$ surface packages a two-step observer comparison as one finite naming certificate. It composes two $\ObserverPerspectiveClassifierUp$ routes through an $\ObservationCouplingUp$ row and a $\CrossPerspectiveAlignmentUp$ row, so downstream consumers receive a displayed comparison packet rather than a host observer equality, a global spacetime coordinate, or a private $\mathsf{Self}$ row.
+
+\begin{definition}[Observer-perspective-composition carrier]
+\label{def:observer-perspective-composition-carrier}
+An $\ObserverPerspectiveCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(Q_0,Q_1,O,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q_0$ and $Q_1$ are accepted $\ObserverPerspectiveClassifierUp$ rows naming the two comparison routes to be composed;
+\item $O$ is the accepted $\ObservationCouplingUp$ row that couples the observation windows used by the two classifier routes;
+\item $L$ is the accepted $\CrossPerspectiveAlignmentUp$ row that aligns the public observer commitments visible to both routes;
+\item $H$ records componentwise $\hsame$ transports for $Q_0,Q_1,O,L$ and for the package and local naming rows;
+\item $C$ records the displayed $\Cont$ routes that first read $Q_0$, then read $O$ and $L$, then read $Q_1$ through the same finite packet;
+\item $P$ is the $\Pkg$ provenance over $\ObserverPerspectiveClassifierUp$, $\ObservationCouplingUp$, $\CrossPerspectiveAlignmentUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverPerspectiveCompositionUp}$ row.
+\end{enumerate}
+The composition compares observer perspectives only through $Q_0,Q_1,O,L,H,C,P,N$ and the recorded transports and routes.
+\end{definition}
+\leanchecked{BEDC.Derived.ObserverPerspectiveCompositionUp.ObserverPerspectiveCompositionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ObserverPerspectiveComposition NameCert obligations]
+\label{thm:observer-perspective-composition-namecert-obligations}
+For the carrier of \autoref{def:observer-perspective-composition-carrier}, the local $\NameCert_{\ObserverPerspectiveCompositionUp}$ surface has exactly five obligation rows: carrier exposure for $Q=(Q_0,Q_1,O,L,H,C,P,N)$; two classifier-route exposures through $Q_0,Q_1$; observation coupling through $O$; cross-perspective alignment through $L$; and non-escape from host observer equality, global spacetime, private $\mathsf{Self}$ rows, quotient histories, hidden synchronization, and unrecorded comparison evidence.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the finite packet $Q=(Q_0,Q_1,O,L,H,C,P,N)$.
+
+The two route obligations are read from $Q_0$ and $Q_1$. Each route is already an $\ObserverPerspectiveClassifierUp$ row, so it exposes only its displayed observer, locality, $\mathsf{GAP}$, transport, continuation, provenance, and naming data.
+
+The middle obligations are read from $O$ and $L$. The $\ObservationCouplingUp$ row supplies the paired observation-window boundary, while the $\CrossPerspectiveAlignmentUp$ row supplies the public alignment boundary for the observer commitments.
+
+Finally inspect the carrier list. No coordinate names host observer equality, global spacetime, private $\mathsf{Self}$ access, quotient history, hidden synchronization, or unrecorded comparison evidence, so none of those objects is exported by the local naming surface.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveComposition ledger exactness]
+\label{thm:observer-perspective-composition-ledger-exactness}
+Every public read exported by an accepted $\ObserverPerspectiveCompositionUp$ carrier factors through the finite ledger
+$$
+Q_0,Q_1,O,L,H,C,P,N.
+$$
+The ledger is exact: the two classifier routes, the observation-coupling row, the cross-perspective-alignment row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row are available, and no other observer-comparison primitive is available.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The comparison data are the two classifier rows $Q_0,Q_1$, the coupling row $O$, and the alignment row $L$.
+
+The transport row $H$ moves only those displayed coordinates. The continuation row $C$ replays the finite reading order from the first classifier route through the coupling and alignment rows to the second classifier route.
+
+The package row $P$ records provenance for the same displayed sources, and the local naming row $N$ names no additional carrier. Hence every exported read factors through the listed ledger and the ledger is exact for public consumers.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveComposition route associativity]
+\label{thm:observer-perspective-composition-route-associativity}
+Let $Q=(Q_0,Q_1,O,L,H,C,P,N)$ be an accepted $\ObserverPerspectiveCompositionUp$ carrier. Reading $Q_0$ then $O$ then $L$ then $Q_1$ through the displayed $\Cont$ row $C$ gives the same public composition packet as first reading $Q_0$ through the coupling row $O$ and then reading the aligned route $L,Q_1$, because both readings replay the same finite rows under the same componentwise $\hsame$ transport row $H$ and the same $\Pkg$ provenance row $P$.
+\end{theorem}
+\begin{proof}
+Both readings start by projecting the same accepted carrier $Q=(Q_0,Q_1,O,L,H,C,P,N)$. The first bracketing reads the first classifier route, then the coupling row, then the alignment row, then the second classifier route.
+
+The second bracketing reads the first classifier route together with the coupling row, then reads the alignment row together with the second classifier route. No new coordinate is introduced by this regrouping.
+
+The displayed $\Cont$ row $C$ is the only route data available, and the displayed $\hsame$ row $H$ is the only transport data available. Since the provenance row $P$ names the same four source surfaces in both readings, both bracketings expose the same public composition packet.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveComposition non-escape boundary]
+\label{thm:observer-perspective-composition-nonescape}
+An accepted $\ObserverPerspectiveCompositionUp$ carrier exports only two $\ObserverPerspectiveClassifierUp$ rows, one $\ObservationCouplingUp$ row, one $\CrossPerspectiveAlignmentUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. It exports no host observer equality, no global spacetime, no private $\mathsf{Self}$ row, no quotient history, and no completed consciousness claim.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:observer-perspective-composition-carrier}. Every exported row is one of $Q_0,Q_1,O,L,H,C,P,N$.
+
+The positive comparison data remain finite and public: two classifier routes, an observation-coupling boundary, and a cross-perspective-alignment boundary. The rows $H,C,P,N$ transport, route, package, and name those same displayed coordinates.
+
+No listed coordinate is host observer equality, global spacetime, private $\mathsf{Self}$ access, a quotient history, or a completed consciousness witness. Therefore an accepted composition packet cannot export any of those objects.
+\end{proof}
+
+\closureat{ObserverPerspectiveCompositionUp}{seedStr}
+
+\begin{closurestatus}{\ObserverPerspectiveCompositionUp}
+  \constructivestory{An $\ObserverPerspectiveCompositionUp$ packet is generated from two observer-perspective classifier routes, an observation-coupling row, a cross-perspective-alignment row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-perspective-composition-carrier}, \autoref{thm:observer-perspective-composition-namecert-obligations}, \autoref{thm:observer-perspective-composition-ledger-exactness}, \autoref{thm:observer-perspective-composition-route-associativity}, and \autoref{thm:observer-perspective-composition-nonescape} bind the finite two-step observer-comparison packet over classifier, coupling, alignment, transport, route, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global observer identity, metric spacetime, private Self access, quotient-history identity, bridge status, Lean verification, or completed consciousness claims.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, ledger exactness, route associativity, and non-escape theorems for the same finite observer-perspective composition packet.}
+\end{closurestatus}

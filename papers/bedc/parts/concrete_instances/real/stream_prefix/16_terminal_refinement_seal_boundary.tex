@@ -201,6 +201,56 @@ source tuple and exclude quotient rows, completion objects, host-index
 equalities, metric-completeness data, and any extra $\RealUp$ seal classifier.
 \end{proof}
 
+\begin{theorem}[StreamName public window prefix determinacy]
+\label{thm:streamname-public-window-prefix-determinacy}
+Let $s,t : \mathsf{BHist}\to\mathsf{BHist}$ be StreamName rows, and let $B'$
+and $B$ be probe windows. Suppose every certified $\UnaryHistory$ observation
+in $B'$ is carried by $B$. Then every $\RegSeqRat$ terminal consumer, and every
+finite-window $\RealUp$ terminal seal consumer, that reads
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,B)$ through the public
+$\StreamNameUp$ interface has the same terminal BEDC readback after restriction
+to $B'$ as the consumer obtained by reading the certified prefix window
+$B'$ directly.
+
+The common restricted readback consists exactly of the pointwise $\RatUp$
+observation rows, the $\mathsf{InBundle}$ witnesses, the $\hsame$ transports,
+the $\Cont$ routes, and the $\mathsf{Pkg}$ provenance rows exposed by the
+public StreamName interface on $B'$. If two restricted terminal routes have the
+same endpoint package, then their finite BEDC readbacks are identical.
+
+This determinacy statement exports no $\RegSeqRat$ regularity row, no
+$\RealUp$ seal classifier beyond the restricted terminal source surface, no
+quotient row, no host-index equality, and no completion data.
+\end{theorem}
+\begin{proof}
+First read the larger public finite-window package. Apply
+\autoref{thm:streamname-public-finite-window-interface}. It exposes only the
+finite classifier rows, certified unary-history observations, membership
+witnesses, pointwise rational observation rows, and visible transport and
+provenance rows over $B$.
+
+Next restrict that public packet to the certified prefix window. By
+\autoref{thm:streamname-finite-window-restriction-export}, every
+$\UnaryHistory$ observation carried by $B'$ has the same restricted classifier,
+membership witness, $\hsame$ transport, $\Cont$ route, and $\mathsf{Pkg}$
+provenance as its row inside $B$.
+
+Now pass the restricted packet through the consumer-facing handoff. Apply
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. The $\RegSeqRat$ read and
+the terminal finite-window $\RealUp$ read both see the same pointwise $\RatUp$
+observation rows and the same restricted provenance rows from $B'$.
+
+Finally use the terminal source comparison theorems. The source uniqueness
+statement
+\autoref{thm:streamname-real-regseq-terminal-source-uniqueness} identifies any
+two terminal source projections with the same restricted row inventory, and
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy} removes
+the choice of terminal route. Thus two restricted terminal routes with the same
+endpoint package have the same finite BEDC readback, while all regularity,
+seal-classifier, quotient, host-index, and completion data remain outside the
+public prefix surface.
+\end{proof}
+
 \begin{theorem}[RealUp terminal RegSeqRat source coverage]
 \label{thm:realup-terminal-regseqrat-source-coverage}
 Every terminal finite-window $\RealUp$ seal consumer factors through exactly
@@ -338,6 +388,49 @@ packet, and the excluded quotient, completion, host-index, Classical, metric,
 arithmetic, order, and bridge rows remain unread.
 \end{proof}
 
+\begin{theorem}[RealUp dyadic StreamName observation-triangle consumer]
+\label{thm:realup-dyadic-streamname-observation-triangle-consumer}
+Let $R$ be a terminal finite-window $\RealUp$ seal consumer whose source side
+factors through the triangle of
+\autoref{thm:dyadicratcore-streamname-regseqrat-observation-triangle}. Then
+$R$ exposes exactly the common packet listed there: the
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+$\mathsf{DyadicRatCore}$ observation rows, endpoint transport rows, visible
+$\Cont$, $\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+If two such consumer reads agree on the $\StreamNameUp$ finite-window
+restriction and on the $\RegSeqRat$ handoff interface, then they expose the
+same $\mathsf{DyadicRatCore}$ endpoint rows, $\Cont$, $\hsame$, $\Pkg$, and
+$\mathsf{RealLedgerPolicy}$ rows. No quotient row, host index, completion
+datum, arithmetic/order row, or standard bridge row is part of that
+consumer-facing source packet.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:dyadicratcore-streamname-regseqrat-observation-triangle}. The
+factoring hypothesis places the consumer source on the triangle's common
+packet, so its dyadic readback, finite StreamName restriction, and
+$\RegSeqRat$ handoff are all projections of the same displayed source surface.
+
+Apply \autoref{thm:realup-terminal-regseqrat-source-coverage} and
+\autoref{thm:realup-terminal-regseqrat-source-minimality}. Coverage repacks the
+listed rows as a terminal finite-window $\RealUp$ source, while minimality says
+that no further source row can be demanded by such a consumer.
+
+For two reads, use
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. Agreement on
+the StreamName finite-window restriction and the $\RegSeqRat$ handoff fixes the
+common-refinement splice, hence fixes the DyadicRatCore endpoint rows and the
+visible $\Cont$, $\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+The excluded data have no projection from any of these three inputs. Quotient
+rows, host indices, completion data, arithmetic/order rows, and standard bridge
+rows are absent from the triangle packet and remain absent after terminal
+source coverage and splice uniqueness are applied.
+\end{proof}
+
 \begin{theorem}[RealUp terminal common-refinement splice uniqueness]
 \label{thm:realup-terminal-common-refinement-splice-uniqueness}
 Let $C$ be a certified $\StreamNameUp$ common-refinement packet whose displayed
@@ -383,4 +476,250 @@ terminal read boundary. Since the coverage theorem also excludes all rows
 outside that packet, the uniqueness conclusion contains no quotient row, host
 index, host function, $\mathsf{Classical}$ datum, metric-completeness row,
 arithmetic or order row, or standard bridge row.
+\end{proof}
+
+\begin{theorem}[RealUp finite-window seal cofinality]
+\label{thm:realup-finite-window-seal-cofinality}
+Let $\mathcal{F}$ be a finite directed family of terminal finite-window
+$\RealUp$ seal consumers over the same $\StreamNameUp$ source. Suppose
+$\mathcal{F}$ has a cofinal common-refinement read $C$, and suppose the displayed
+$\RegSeqRatUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows of every member of $\mathcal{F}$ agree with the corresponding
+rows read from $C$. Then every member of $\mathcal{F}$ and the cofinal read $C$
+determine the same terminal finite-window $\RealUp$ seal source surface.
+
+The determined source surface consists only of the finite $\StreamNameUp$
+restriction, the accepted $\RegSeqRat$ spine, the $\DyadicRatCore$ observation
+rows, and the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+provenance rows. It exports no quotient stream, host-index equality,
+metric-completion datum, $\RealUp$ completeness row, or additional seal
+classifier.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:realup-streamname-regseqrat-directed-refinement-terminality}.
+Directed terminality
+turns the finite family into a single terminal comparison against the cofinal
+common-refinement read $C$, so each member is read through the same terminal
+source route.
+
+Next apply \autoref{thm:realup-terminal-regseqrat-source-coverage}. The cofinal
+read and every family member factor through the displayed $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+Apply \autoref{thm:realup-terminal-regseqrat-source-minimality} to remove every
+row not present in that finite source inventory.
+
+It remains to identify the member reads with the cofinal read. For each member,
+apply \autoref{thm:realup-terminal-common-refinement-splice-uniqueness} to the
+splice through $C$. The assumed agreement of the displayed rows fixes the
+terminal splice, hence fixes the terminal source surface.
+
+The last paragraph gives the stated boundary: the four cited theorems only
+project the finite StreamName, RegSeqRat, DyadicRatCore, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ rows. There is no constructor in this route that
+exports quotient streams, host-index equalities, metric-completion data,
+$\RealUp$ completeness rows, or a further seal classifier.
+\end{proof}
+
+\begin{theorem}[RegSeqRat terminal tail-refinement seal]
+\label{thm:regseqrat-terminal-tail-refinement-seal}
+Let $S$ be a terminal $\StreamNameUp$ finite-window source and let $T$ be a
+$\RegSeqRat$ stream whose finite-window reads factor through the terminal
+$\RealUp$ source surface determined by $S$. For every certified tail
+refinement $C$ of $T$ over the same public $\mathsf{BHist}$ window, there is a
+unique terminal finite-window seal for $C$.
+
+This seal is determined exactly by the terminal $\StreamNameUp$ source name,
+the restricted $\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$ spine, the
+$\DyadicRatCoreUp$ observation rows, and the visible $\hsame$, $\Cont$,
+$\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows. It is invariant
+under $\hsame$ transport of the displayed history rows and under
+$\Cont$-splicing along the certified common-refinement route. Its ledger is the
+one inherited from the terminal $\StreamNameUp$ source packet, not an
+independent $\RegSeqRat$ or $\RealUp$ ledger.
+
+The terminal seal exposes no quotient stream, host-index equality, host
+function, $\mathsf{Classical}$ datum, metric-completion object, arithmetic or
+order row, standard bridge row, or separate tail-refinement classifier.
+\end{theorem}
+\begin{proof}
+First identify the source from which the tail refinement can be read. Apply
+\autoref{thm:streamname-real-regseq-terminal-source-uniqueness} and
+\autoref{thm:realup-terminal-regseqrat-source-coverage}. The factoring
+hypothesis places every finite window of $T$ on the terminal source packet
+selected by $S$, and the coverage theorem repacks exactly those displayed rows
+as the terminal $\RealUp$ source surface.
+
+Next compare the certified refinement route with the terminal source route.
+Apply \autoref{thm:streamname-common-refinement-terminal-route-determinacy}.
+The common-refinement certificate fixes the same terminal StreamName source
+name, the same restricted classifier rows, the same unary-history and
+membership rows, the same pointwise rational-history rows, and the same
+accepted $\RegSeqRat$ spine before the terminal seal is read.
+
+Now splice the route into the terminal $\RealUp$ consumer. Apply
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. Agreement
+on the StreamName restriction and on the $\RegSeqRat$ handoff fixes the
+$\DyadicRatCoreUp$ observation rows together with the visible $\hsame$,
+$\Cont$, $\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows. Therefore
+transporting the displayed history data by $\hsame$ or changing only the
+$\Cont$-splice representative cannot produce a second terminal seal.
+
+Finally apply \autoref{thm:realup-finite-window-seal-cofinality}. Cofinality
+collapses every certified tail-window refinement of $T$ to the same terminal
+finite-window source surface. Since the only ledger rows in that surface are
+the rows already read from the terminal $\StreamNameUp$ source packet, the seal
+inherits that ledger and has no constructor that could export quotient,
+completion, host, arithmetic, order, bridge, or separate classifier data.
+\end{proof}
+
+\begin{theorem}[RealUp terminal tail-refinement family factorization]
+\label{thm:realup-terminal-tail-refinement-family-factorization}
+Let $S$ be a terminal $\StreamNameUp$ finite-window source, let $T$ be an
+accepted $\RegSeqRat$ packet over $S$, and let
+$C_1,\ldots,C_n$ be a finite family of certified tail refinements of $T$ over
+the same public $\mathsf{BHist}$ window. Suppose the family admits a cofinal
+certified common refinement $C_\ast$ and that all displayed $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and
+$\mathsf{RealLedgerPolicy}$ rows agree after reading along $C_\ast$.
+
+Then every terminal finite-window $\RealUp$ seal for a member $C_i$ factors
+through the single cofinal source surface determined by $C_\ast$. This source
+surface consists exactly of the finite $\StreamNameUp$ restriction, the
+accepted $\RegSeqRat$ spine, the $\DyadicRatCore$ observation rows, and the
+displayed provenance rows $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and
+$\mathsf{RealLedgerPolicy}$.
+
+The factorization exports no quotient stream, host-index equality, host
+function, $\mathsf{Classical}$ datum, metric-completion object, arithmetic or
+order row, standard bridge row, or separate tail-refinement classifier.
+\end{theorem}
+\begin{proof}
+For each family member $C_i$, apply
+\autoref{thm:regseqrat-terminal-tail-refinement-seal}. The seal theorem says
+that the terminal finite-window seal for $C_i$ is read from the terminal
+$\StreamNameUp$ source restriction, the accepted $\RegSeqRat$ spine, the
+$\DyadicRatCoreUp$ observation rows, and the visible transport, package,
+certificate, and ledger rows.
+
+Now use the cofinal certificate $C_\ast$. Apply
+\autoref{thm:realup-finite-window-seal-cofinality} to the finite family
+$C_1,\ldots,C_n$. Cofinality replaces the separate member reads by the single
+terminal read through $C_\ast$, so every member seal has the same finite
+source surface once the displayed rows have been transported to the cofinal
+refinement.
+
+It remains to identify the splice rows on that common read. Apply
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. The assumed
+agreement of the $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$,
+$\Pkg$, $\NameCert$, and $\mathsf{RealLedgerPolicy}$ rows fixes the terminal
+splice over $C_\ast$, hence fixes the factor through the common source
+surface.
+
+The boundary clause follows from the same three cited results: their
+constructors expose only the finite StreamName restriction, the accepted
+RegSeqRat spine, the dyadic observation rows, and the displayed provenance
+rows. None of them constructs quotient, host, classical, completion,
+arithmetic, order, bridge, or separate classifier data.
+\end{proof}
+
+\begin{theorem}[RealUp common-refinement seal pullback]
+\label{thm:streamname-realup-common-refinement-seal-pullback}
+Let $C$ be a certified $\StreamNameUp$ common-refinement package, and let
+$R$ and $R'$ be finite-window $\RealUp$ terminal seal consumers reached from
+$C$ through compatible accepted $\RegSeqRat$ tail-refinement seals. Then
+equality of the common-refinement source tuple is equivalent to equality of the
+visible terminal seal boundary.
+
+The common-refinement source tuple consists exactly of the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the $\mathsf{UnaryHistory}$
+rows, the $\mathsf{ProbeBundle}$ rows, the $\mathsf{InBundle}$ rows, the
+pointwise $\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRat$
+spine, the $\mathsf{DyadicRatCore}$ endpoint rows, the visible $\Cont$,
+$\hsame$, $\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows, and the certified
+$\StreamNameUp$ provenance route in $C$.
+
+The visible terminal seal boundary consists of the same finite
+$\mathsf{BHist}$ ledger rows after the terminal $\RealUp$ consumer read. It
+contains no completion object, quotient row, host index, metric-completeness
+datum, arithmetic row, order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+First assume equality of the common-refinement source tuple. Apply
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy} to the
+two routes out of $C$. The route comparison identifies the restricted
+StreamName classifier rows, probe and unary-history rows, bundle membership,
+pointwise rational-history rows, accepted $\RegSeqRat$ spine, dyadic endpoint
+rows, and visible transport and provenance rows before either terminal
+consumer reads the packet.
+
+Next pass the identified source tuple through the terminal $\RealUp$ surface.
+Apply \autoref{thm:realup-terminal-regseqrat-source-coverage} and
+\autoref{thm:regseqrat-terminal-tail-refinement-seal}. Coverage says that the
+terminal consumer can read only the listed finite source rows, and the
+tail-refinement seal says that compatible accepted $\RegSeqRat$ refinements
+produce the unique terminal seal over those rows. Thus $R$ and $R'$ expose the
+same visible terminal seal boundary.
+
+Conversely assume equality of the visible terminal seal boundary. Apply
+\autoref{thm:streamname-real-regseq-terminal-source-uniqueness}. Equality of
+the terminal boundary reads back exactly the StreamName classifier rows,
+unary-history and bundle rows, pointwise rational-history rows, accepted
+$\RegSeqRat$ spine, dyadic endpoint rows, and visible $\Cont$, $\hsame$,
+$\Pkg$, and $\mathsf{RealLedgerPolicy}$ rows.
+
+It remains to identify the common-refinement route itself. Apply
+\autoref{thm:realup-finite-window-seal-cofinality}. The two compatible
+tail-refinement seals are cofinal over the same certified package $C$, so the
+finite terminal boundary readback recovers the same common-refinement source
+tuple. The cited coverage and seal theorems expose no completion, quotient,
+host, metric, arithmetic, order, or bridge rows, so equality cannot depend on
+any data outside that tuple.
+\end{proof}
+
+\begin{theorem}[RealUp terminal refinement-family pullback exhaustion]
+\label{thm:realup-terminal-refinement-family-pullback-exhaustion}
+Let $C_1,\ldots,C_n$ be a finite family of certified $\StreamNameUp$
+tail-window coverage packets over the same public $\StreamNameUp$ endpoints
+and the same accepted $\RegSeqRatUp$ spine. Assume that each pair
+$C_i,C_j$ admits the common-refinement seal pullback of
+\autoref{thm:streamname-realup-common-refinement-seal-pullback}. Then every
+terminal $\RealUp$ finite-window consumer reached from the family factors
+through one finite family pullback surface.
+
+The family pullback surface exposes exactly the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ rows, the
+$\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the accepted $\RegSeqRatUp$ spine, the
+$\DyadicRatCoreUp$ endpoint rows, the visible $\Cont$, $\hsame$, and
+$\Pkg$ rows, and the $\mathsf{RealLedgerPolicy}$ rows. It exposes no
+completion object, quotient row, host index, host function,
+metric-completeness datum, arithmetic or order row, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Induct on the finite family. The empty and singleton cases are the terminal
+finite-window surfaces supplied by
+\autoref{thm:realup-streamname-regseqrat-directed-refinement-terminality};
+there is then no nontrivial pairwise splice to compare.
+
+For the induction step, suppose the first $k$ packets already factor through a
+single displayed pullback surface and add $C_{k+1}$. Apply
+\autoref{thm:streamname-common-refinement-terminal-route-determinacy} to make
+the route from the accumulated surface to $C_{k+1}$ independent of the chosen
+member route through the public endpoints and accepted $\RegSeqRatUp$ spine.
+
+Next use
+\autoref{thm:realup-terminal-common-refinement-splice-uniqueness}. Pairwise
+availability of the common-refinement seal pullback fixes the splice between
+the accumulated surface and $C_{k+1}$, so all visible classifier, history,
+bundle, spine, endpoint, transport, package, and ledger rows agree on the
+same finite surface.
+
+Finally apply \autoref{thm:streamname-realup-common-refinement-seal-pullback}
+to identify that surface with the terminal consumer boundary. The cited
+terminality, route-determinacy, splice-uniqueness, and pullback results expose
+only the rows listed in the statement, so the factorization cannot read any
+completion, quotient, host, metric, arithmetic, order, or bridge data.
 \end{proof}

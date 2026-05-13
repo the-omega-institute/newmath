@@ -1,0 +1,250 @@
+\chapter{A Concrete Naming Certificate for $\BoundedNormalEqualityCheckerUp$}
+\label{ch:concrete-instances-bounded-normal-equality-checker-namecert}
+\origin{human}
+
+The $\BoundedNormalEqualityCheckerUp$ packet records the normal-equality side of
+\autoref{ch:metacic-decidable-audit-map} as a finite naming certificate. It
+sits between the already-normal exclusion packet of
+\autoref{ch:concrete-instances-normalfalseexclusion-namecert} and the
+closed-normal confluence fragment of
+\autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}: the
+present packet names a bounded comparison surface, while those sibling packets
+keep false-proof exclusion and confluence scopes separate.
+
+The packet is not a global beta-conversion oracle. It exposes bounded
+normalizer output rows, structural \texttt{Term.eq} readback,
+finished-normalization witnesses when they are supplied, closedness rows,
+componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$
+provenance, and a local $\NameCert$ row.
+
+\begin{definition}[BoundedNormalEqualityChecker carrier]
+\label{def:bounded-normal-equality-checker-carrier}
+A $\BoundedNormalEqualityCheckerUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,R,F,N_L,N_R,E,W,C,H,K,P,A)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $L$ and $R$ are the two closed MetaCIC input term rows being compared;
+\item $F$ is the shared unary fuel row for the bounded normalizer;
+\item $N_L$ and $N_R$ are the bounded normalizer output rows obtained from
+the two input terms at fuel $F$;
+\item $E$ is the structural \texttt{Term.eq} readback row comparing $N_L$ and
+$N_R$;
+\item $W$ stores the finished-normalization witnesses for the two outputs
+when such witnesses are part of the input surface;
+\item $C$ records the closedness rows for the inputs and for the named normal
+forms that a finished-soundness consumer may read;
+\item $H$ records componentwise $\hsame$ transports for the input terms,
+fuel, normalizer outputs, equality readback, finished witnesses, closedness
+rows, package row, and local naming row;
+\item $K$ records displayed $\Cont$ routes for running the bounded normalizer,
+reading the structural equality result, replaying finished witnesses, and
+transporting closedness rows;
+\item $P$ is the $\Pkg$ provenance over MetaCIC terms, bounded normalization,
+\texttt{Term.eq}, finished-normalization witnesses, closedness, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $A$ is the local $\NameCert_{\BoundedNormalEqualityCheckerUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a fuel-erased normalizer, no proof that
+every closed term reaches a finished normal form, no arbitrary closed-term
+beta-conversion decider, and no host equality oracle.
+\end{definition}
+
+\begin{definition}[BoundedNormalEqualityChecker classifier]
+\label{def:bounded-normal-equality-checker-classifier}
+Two accepted $\BoundedNormalEqualityCheckerUp$ carriers are classified as the
+same bounded normal-equality packet exactly when their displayed rows compare
+componentwise. Their input rows agree by the closed MetaCIC term classifiers,
+their fuel rows agree by the unary fuel classifier, their bounded normalizer
+outputs agree by the displayed output rows, their equality decision agrees by
+\texttt{Term.eq} readback, their finished-normalization and closedness rows
+agree when those rows are present, and their $\Pkg$ provenance and local
+$\NameCert$ rows name the same packet.
+
+The classifier has no generator for comparing arbitrary beta-conversion
+classes, no generator for choosing a fuel that finishes all closed terms, and
+no generator for replacing structural \texttt{Term.eq} by host equality.
+\end{definition}
+
+\begin{theorem}[BoundedNormalEqualityChecker NameCert obligations]
+\label{thm:bounded-normal-equality-checker-namecert-obligations}
+The carrier and classifier of
+\autoref{def:bounded-normal-equality-checker-carrier} and
+\autoref{def:bounded-normal-equality-checker-classifier} satisfy the local
+$\NameCert_{\BoundedNormalEqualityCheckerUp}$ obligation surface for bounded
+normal equality. Carrier admission reads only the two input term rows, shared
+fuel, bounded normalizer outputs, structural equality readback, optional
+finished-normalization witnesses, closedness rows, $\hsame$ transports,
+displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. Classifier
+stability is componentwise over exactly those rows, and ledger exactness
+rejects every consumer read outside them.
+\end{theorem}
+\begin{proof}
+For carrier admission, project the tuple $Q$. The rows $L,R,F,N_L,N_R,E,W,C$
+are the entire computational surface, and the rows $H,K,P,A$ are the entire
+structural replay surface.
+
+For classifier stability, compare accepted packets row by row. Input terms,
+fuel, normalizer outputs, equality readback, finished witnesses, and
+closedness rows are transported only through the displayed $\hsame$ and
+$\Cont$ rows.
+
+For ledger exactness, inspect a downstream read. It can project a bounded
+normalizer output, a \texttt{Term.eq} result, a supplied finished witness, a
+closedness row, or a structural replay row. Since no carrier coordinate names a
+global conversion oracle or a fuel-selection theorem, such a read cannot
+escape the bounded packet.
+\end{proof}
+
+\begin{theorem}[BoundedNormalEqualityChecker finished soundness boundary]
+\label{thm:bounded-normal-equality-checker-finished-soundness-boundary}
+If an accepted $\BoundedNormalEqualityCheckerUp$ packet carries finished
+closed-normalization witnesses for both bounded normalizer outputs, then a
+true structural \texttt{Term.eq} readback may be consumed as equality of those
+named finished normal forms and as beta-convertibility between those named
+normal forms. The same readback does not prove that arbitrary closed terms
+finish at some fuel, and it does not decide unrestricted beta conversion.
+\end{theorem}
+\begin{proof}
+Read the bounded outputs $N_L$ and $N_R$ through the carrier, and read the
+structural equality result through $E$. The equality claim is tied to those two
+displayed normalizer outputs at the displayed fuel $F$.
+
+When the finished rows in $W$ and the closedness rows in $C$ are present, the
+consumer may replay the finished-soundness route recorded in $K$. That route
+identifies the equality as a statement about the named finished normal forms,
+not about all possible reductions from arbitrary closed terms.
+
+The boundary follows by coordinate exhaustion. The packet has no row proving
+fuel existence for every closed input and no row deciding beta conversion
+outside the displayed bounded outputs.
+\end{proof}
+
+\begin{theorem}[BoundedNormalEqualityChecker consumer non-escape]
+\label{thm:bounded-normal-equality-checker-consumer-nonescape}
+Every consumer of an accepted $\BoundedNormalEqualityCheckerUp$ packet reads
+only the finite rows
+$$
+L,R,F,N_L,N_R,E,W,C,H,K,P,A.
+$$
+The consumer may use the bounded normalizer outputs, the structural
+\texttt{Term.eq} result, and the finished-normalization bridge when its
+witness rows are displayed, but it receives no unrestricted beta-conversion
+decision procedure, no hidden normalizer termination theorem, no quotient
+equality of terms, and no host equality oracle.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The displayed tuple lists all computational,
+structural, provenance, and local naming rows available to a consumer.
+
+Use the NameCert obligations to force each read through the same finite packet.
+Normalizer outputs pass through $N_L$ and $N_R$, equality readback passes
+through $E$, and conditional finished soundness passes through $W,C,H,K,P,A$.
+
+Apply the finished soundness boundary. It permits equality and
+beta-convertibility only for the named finished normal forms supplied by the
+packet, while the absent fuel-existence and global conversion coordinates block
+every stronger read.
+\end{proof}
+
+\begin{theorem}[BoundedNormalEqualityChecker classifier stability row]
+\label{thm:bounded-normal-equality-checker-classifier-stability-row}
+For accepted $\BoundedNormalEqualityCheckerUp$ packets
+$$
+Q=(L,R,F,N_L,N_R,E,W,C,H,K,P,A)
+$$
+and
+$$
+Q'=(L',R',F',N'_L,N'_R,E',W',C',H',K',P',A'),
+$$
+the classifier is stable exactly componentwise over the displayed rows
+$L,R,F,N_L,N_R,E,W,C,H,K,P,A$. In particular, the comparison transports
+the two input term rows, shared fuel row, bounded normalizer outputs,
+structural \texttt{Term.eq} readback, supplied finished witnesses,
+closedness rows, componentwise $\hsame$ data, displayed $\Cont$ routes,
+$\Pkg$ provenance, and the local $\NameCert_{\BoundedNormalEqualityCheckerUp}$
+row. It has no additional coordinate for host equality, fuel erasure, or
+global beta conversion.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers through
+\autoref{def:bounded-normal-equality-checker-carrier}. The classifier of
+\autoref{def:bounded-normal-equality-checker-classifier} lists the same
+coordinates and compares them row by row.
+
+The NameCert obligations of
+\autoref{thm:bounded-normal-equality-checker-namecert-obligations} force
+each computational comparison through the displayed bounded normalizer,
+structural readback, witness, and closedness rows. The consumer non-escape
+result of \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}
+then rules out any stabilizing coordinate beyond the finite tuple.
+\end{proof}
+
+\begin{theorem}[BoundedNormalEqualityChecker ledger exactness row]
+\label{thm:bounded-normal-equality-checker-ledger-exactness-row}
+Every consumer read from an accepted $\BoundedNormalEqualityCheckerUp$ packet
+is exhausted by the bounded normalizer outputs $N_L,N_R$, the structural
+\texttt{Term.eq} row $E$, the supplied finished witness row $W$, the
+closedness row $C$, the componentwise $\hsame$ row $H$, the displayed
+$\Cont$ row $K$, the $\Pkg$ row $P$, and the local
+$\NameCert_{\BoundedNormalEqualityCheckerUp}$ row $A$. The ledger therefore
+contains no global beta-conversion procedure, no hidden termination theorem,
+no quotient equality of terms, and no host equality oracle.
+\end{theorem}
+\begin{proof}
+Read the finite tuple in the order fixed by the carrier definition. The only
+normalization outputs are $N_L$ and $N_R$, and the only equality readback is
+the structural \texttt{Term.eq} row $E$.
+
+Finished soundness is conditional on the displayed rows $W$ and $C$ and is
+bounded by \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}.
+Transport, replay, provenance, and naming then pass through $H,K,P,A$.
+
+Finally apply consumer non-escape from
+\autoref{thm:bounded-normal-equality-checker-consumer-nonescape}. Since every
+consumer read is a projection from the displayed ledger, no global
+conversion, hidden termination, quotient equality, or host equality row can
+be read.
+\end{proof}
+
+\begin{theorem}[BoundedNormalEqualityChecker obligation package]
+\label{thm:bounded-normal-equality-checker-obligation-package}
+The $\BoundedNormalEqualityCheckerUp$ obligation surface is the package
+formed by carrier admission, classifier stability, finished-soundness
+boundary, consumer non-escape, and ledger exactness over the finite carrier
+rows $L,R,F,N_L,N_R,E,W,C,H,K,P,A$. This package is the whole local
+$\NameCert_{\BoundedNormalEqualityCheckerUp}$ surface for bounded normal
+equality, and it does not claim unrestricted beta conversion, hidden
+normalizer termination, quotient equality, or host equality.
+\end{theorem}
+\begin{proof}
+Carrier admission and the local NameCert rows are supplied by
+\autoref{thm:bounded-normal-equality-checker-namecert-obligations}. Classifier
+stability is the rowwise comparison of
+\autoref{thm:bounded-normal-equality-checker-classifier-stability-row}.
+
+The finished-soundness boundary is exactly
+\autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, and
+consumer non-escape is
+\autoref{thm:bounded-normal-equality-checker-consumer-nonescape}.
+
+The remaining ledger clause is
+\autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}. These
+five clauses account for every displayed carrier coordinate, so the package
+contains the obligation-closure surface and no stronger global conversion
+claim.
+\end{proof}
+
+\closureat{BoundedNormalEqualityCheckerUp}{seedStr}
+
+\begin{closurestatus}{\BoundedNormalEqualityCheckerUp}
+  \constructivestory{A $\BoundedNormalEqualityCheckerUp$ packet is generated from two closed MetaCIC term rows, a bounded fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witness rows, componentwise transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-normal-equality-checker-carrier}, \autoref{def:bounded-normal-equality-checker-classifier}, \autoref{thm:bounded-normal-equality-checker-namecert-obligations}, \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}, \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}, \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}, and \autoref{thm:bounded-normal-equality-checker-obligation-package} bind the finite bounded normal-equality checker seed surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close unrestricted beta-conversion, hidden normalizer termination, quotient equality of terms, or host equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, NameCert obligation rows, finished soundness boundary, and consumer non-escape for the displayed finite packet.}
+\end{closurestatus}

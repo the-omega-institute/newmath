@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapFamilyUp$}
+\label{ch:concrete-instances-auditmapfamily-namecert}
+\origin{human}
+
+The $\AuditMapFamilyUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as a finite NameCert surface. It sits beside the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the MetaCIC open-obligation ledger of \autoref{ch:concrete-instances-metacicopenobligationledger-namecert}, and the subject-reduction discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}: those chapters supply concrete local rows, while this chapter binds the family-level inventory, classifier boundary, and template coverage that downstream MetaCIC audit consumers may cite.
+
+\begin{definition}[Audit-map family carrier]
+\label{def:audit-map-family-carrier}
+An $\AuditMapFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+A=(E,C,O,F,X,H,R,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $E$ is the established row, listing checked or otherwise available audit-map content such as closed substitution rows and closed-normal consistency rows;
+\item $C$ is the conditional row, listing results that are usable only through named routes or sockets, including subject-reduction discharge data;
+\item $O$ is the obstruction row, listing no-escape or no-claim boundaries that must stay visible to consumers;
+\item $F$ is the frontier row, listing open handoff points for adjacent MetaCIC modules without treating them as theorem exports;
+\item $X$ is the cross-module row, linking local audit maps, ledgers, and sockets into the family inventory;
+\item $H$ records componentwise $\hsame$ transports for established, conditional, obstruction, frontier, cross-module, route, provenance, and local naming rows;
+\item $R$ records the displayed $\Cont$ routes by which a consumer reads the family rows;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-substitutionauditmap-namecert}, \autoref{ch:concrete-instances-metacicopenobligationledger-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and neighbouring MetaCIC audit chapters;
+\item $N$ is the local $\NameCert_{\AuditMapFamilyUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are established, conditional, obstruction, frontier, cross-module, transport, route, provenance, and local NameCert rows. It exports no hidden proof of a conditional row, no erasure of an obstruction row, no full closed-consistency theorem, no ambient confluence theorem, and no host semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[Audit-map family NameCert obligations]
+\label{thm:audit-map-family-namecert-obligations}
+For the carrier of \autoref{def:audit-map-family-carrier}, the local $\NameCert_{\AuditMapFamilyUp}$ surface consists exactly of carrier admission for
+$$
+A=(E,C,O,F,X,H,R,P,N),
+$$
+established-row readback through $E$, conditional-row readback through $C$, obstruction-row readback through $O$, frontier-row readback through $F$, cross-module readback through $X$, componentwise transport through $H$, displayed continuation through $R$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $A$. The rows $E,C,O,F$ expose the four audit classes before any cross-module use is allowed, so the classifier can distinguish available content, routed content, blocked content, and frontier content.
+
+Read $X,H,R$ next. The cross-module row connects the local audit maps only as displayed neighbours, while transport and continuation replay those same rows rather than adding a theorem-producing coordinate.
+
+Finally inspect $P$ and $N$. Provenance cites the concrete substitution, open-obligation, and subject-reduction socket chapters as row sources, and the local NameCert row names the packet. Thus the NameCert surface is exhausted by the displayed inventory.
+\end{proof}
+
+\begin{theorem}[Audit-map family boundary non-escape]
+\label{thm:audit-map-family-boundary-nonescape}
+For every accepted $\AuditMapFamilyUp$ carrier $A=(E,C,O,F,X,H,R,P,N)$, every downstream consumer read remains inside the displayed established, conditional, obstruction, frontier, cross-module, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. In particular, the packet cannot turn a conditional subject-reduction route into a closed theorem, erase an obstruction row, close a frontier row, or export host-level semantic equality.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. A consumer can enter the family only through the rows $E,C,O,F,X,H,R,P,N$.
+
+Use the NameCert obligations of \autoref{thm:audit-map-family-namecert-obligations}. The obligations keep each audit class tied to its own coordinate, and the continuation routes pass through $R$ without changing a conditional, obstruction, or frontier row into established content.
+
+The provenance row then fixes the boundary. Since $P$ cites concrete sibling chapters only as visible row sources and the packet has no coordinate for hidden closure, every excluded endpoint remains outside the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Audit-map family template coverage]
+\label{thm:audit-map-family-template-coverage}
+Every audit map covered by an accepted $\AuditMapFamilyUp$ carrier is represented by the family template: established content appears in $E$, conditional content appears in $C$, obstruction content appears in $O$, frontier content appears in $F$, and cross-module use appears in $X$. The transport, route, provenance, and local NameCert rows $H,R,P,N$ preserve this coverage as finite BEDC data for downstream consumers.
+\end{theorem}
+\begin{proof}
+Read the local audit-map row through $X$. The family methodology requires exactly the four content classes and the cross-module use class, and the carrier assigns those classes to $E,C,O,F,X$.
+
+For a concrete sibling such as \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the available closed substitution rows land in $E$, while subject-reduction-facing boundaries land outside established content. For \autoref{ch:concrete-instances-metacicopenobligationledger-namecert}, open obligations land in conditional, obstruction, or frontier rows according to their destination boundary. For \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the four discharge rows and the socket boundary land in $C$ and $O$ rather than in a closed theorem row.
+
+The remaining rows preserve the classification. Componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and local naming make the same finite coverage readable by downstream consumers without adding another audit class.
+\end{proof}
+
+\closureat{AuditMapFamilyUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapFamilyUp}
+  \constructivestory{An $\AuditMapFamilyUp$ packet is generated from established, conditional, obstruction, frontier, cross-module, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-family-carrier}, \autoref{thm:audit-map-family-namecert-obligations}, \autoref{thm:audit-map-family-boundary-nonescape}, and \autoref{thm:audit-map-family-template-coverage} bind the audit-map family as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close subject reduction, full closed consistency, ambient confluence, hidden discharge routes, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, row-class readback, cross-module coverage, route replay, provenance, naming, and non-escape for the same finite family packet.}
+\end{closurestatus}

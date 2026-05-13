@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionSetupBundleProjectionUp$}
+\label{ch:concrete-instances-subjectreductionsetupbundleprojection-namecert}
+\origin{human}
+
+The $\SubjectReductionSetupBundleProjectionUp$ packet realizes the setup-to-bundle route of \autoref{ch:sr-discharge-routes} as a finite NameCert object. It sits between the discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and the subject-reduction packet of \autoref{ch:concrete-instances-subjectreduction-namecert}: the socket names the four discharge obligations, the setup route names how those obligations are exposed through $\mathsf{SubjectReductionSetup}$, and this packet records the displayed projection to the bundle shape consumed by downstream subject-reduction reads.
+
+\begin{definition}[Subject-reduction setup-bundle projection carrier]
+\label{def:subject-reduction-setup-bundle-projection-carrier}
+A $\SubjectReductionSetupBundleProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(U,B,R,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\mathsf{SubjectReductionSetup}$ row, naming the four setup fields that expose the discharge obligations;
+\item $B$ is the $\mathsf{SubjectReductionDischargeBundle}$ row obtained by the displayed $\mathsf{SubjectReductionSetup.toBundle}$ projection;
+\item $R$ is the subject-reduction consumer row that reads the bundle-shaped discharge surface;
+\item $O$ is the obligation socket row that names the same four discharge obligations at the boundary of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert};
+\item $H$ records componentwise $\hsame$ transports for the setup fields, the projected bundle fields, the obligation socket, the consumer row, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the setup row, the projection row, the obligation socket, and the subject-reduction packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:sr-discharge-routes}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert};
+\item $N$ is the local $\NameCert_{\SubjectReductionSetupBundleProjectionUp}$ row.
+\end{enumerate}
+The carrier contains no global setup instance for the present closed-CIC substrate, no inhabitant of the four discharge hypotheses, no closed subject-reduction theorem, and no route from setup evidence to a consumer outside the displayed bundle projection.
+\end{definition}
+
+\begin{theorem}[SubjectReductionSetupBundleProjection NameCert obligations]
+\label{thm:subject-reduction-setup-bundle-projection-namecert-obligations}
+For the carrier of \autoref{def:subject-reduction-setup-bundle-projection-carrier}, the local $\NameCert_{\SubjectReductionSetupBundleProjectionUp}$ surface consists exactly of carrier admission for
+$$
+S=(U,B,R,O,H,C,P,N),
+$$
+setup-row visibility for $U$, bundle-projection visibility for $B$, obligation-socket visibility for $O$, subject-reduction consumer visibility for $R$, componentwise transport through $H$, continuation replay through $C$, provenance through $P$, and local naming through $N$. The bundle row $B$ is a displayed projection of the setup row $U$; it is not a second source of discharge evidence.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The setup row $U$ names the four fields, and the bundle row $B$ records the finite projection of those same fields into the bundle-facing order read by consumers.
+
+Read the socket and consumer rows next. The socket row $O$ names the discharge obligations, while the consumer row $R$ records the subject-reduction read that can consume only the projected bundle surface.
+
+Finally inspect $H,C,P,N$. Transport and continuation replay preserve the displayed setup, projection, socket, and consumer rows, while provenance and local naming record where the route is anchored. Since no coordinate supplies a closed inhabitant of the four obligations, these rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[SubjectReductionSetupBundleProjection consumer handoff]
+\label{thm:subject-reduction-setup-bundle-projection-consumer-handoff}
+Every downstream consumer of an accepted $\SubjectReductionSetupBundleProjectionUp$ packet that requests a subject-reduction discharge route must pass through the displayed setup row $U$, the projected bundle row $B$, the obligation socket row $O$, and the consumer row $R$, transported by $H$, replayed through $C$, and accounted for by $P,N$. The handoff exposes the setup route as a bundle-shaped surface for the consumer, without exporting an independent discharge bundle or a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $S=(U,B,R,O,H,C,P,N)$. Its only setup-facing discharge coordinate is $U$, and its only bundle-facing discharge coordinate is the projected row $B$.
+
+The consumer must read the socket through $O$ and then the subject-reduction route through $R$. The transport ledger $H$ and continuation ledger $C$ keep this read on the displayed setup-to-bundle path.
+
+The provenance and naming rows $P,N$ close the public handoff. No carrier coordinate names a separate discharge bundle inhabitant or a closed theorem, so the consumer receives exactly the finite route surface and nothing stronger.
+\end{proof}
+
+\begin{theorem}[SubjectReductionSetupBundleProjection non-escape]
+\label{thm:subject-reduction-setup-bundle-projection-nonescape}
+No accepted $\SubjectReductionSetupBundleProjectionUp$ carrier exports a hidden setup instance, host typeclass search, a closed-CIC inhabitant of the discharge hypotheses, host equality between route implementations, or a closed subject-reduction theorem. Every public read factors through the finite rows
+$$
+U,B,R,O,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Apply the NameCert-obligation theorem to identify every public read with one of the displayed carrier rows.
+
+For a permitted setup-to-bundle read, the consumer starts at $U$, reaches the bundle-shaped row $B$, checks the obligation socket $O$, and then reads the subject-reduction consumer row $R$ through $H,C,P,N$.
+
+For every stronger request, the packet has no coordinate to answer it. In particular, it does not install host typeclass search, inhabit the four discharge obligations, compare route implementations by host equality, or export a closed subject-reduction theorem. The read therefore remains confined to the finite packet.
+\end{proof}
+
+\closureat{SubjectReductionSetupBundleProjectionUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionSetupBundleProjectionUp}
+  \constructivestory{A $\SubjectReductionSetupBundleProjectionUp$ packet is generated from a setup row, projected bundle row, subject-reduction consumer row, obligation socket row, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-setup-bundle-projection-carrier}, \autoref{thm:subject-reduction-setup-bundle-projection-namecert-obligations}, \autoref{thm:subject-reduction-setup-bundle-projection-consumer-handoff}, and \autoref{thm:subject-reduction-setup-bundle-projection-nonescape} bind the finite setup-to-bundle projection packet and its consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not construct a closed-CIC setup instance, inhabit the discharge hypotheses, produce a closed subject-reduction theorem, verify the packet in Lean, or bridge check it.}
+  \upgradepath{Obligation closure requires checked carrier admission, setup projection exactness, socket handoff, consumer replay, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}

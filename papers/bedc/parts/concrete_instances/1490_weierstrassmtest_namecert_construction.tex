@@ -1,0 +1,296 @@
+\chapter{A Concrete Naming Certificate for $\WeierstrassMTestUp$}
+\label{ch:concrete-instances-weierstrassmtest-namecert}
+\origin{human}
+
+The $\WeierstrassMTestUp$ interface names the finite majorant packet behind the Weierstrass M-test as used in Bishop--Bridges constructive analysis: uniform convergence is read from displayed majorant rows and finite tail ledgers. The chapter packages finite majorant rows for uniformly bounded series. It does not assert open-cover compactness, host completeness, quotient equality of function series, or an unrecorded infinite summation object.
+
+The uniform-tail budget is consumed through \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, the regular-sequence handoff through \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-facing seal through \autoref{ch:concrete-instances-real-namecert}. Thus the carrier below records the L10 handoff lattice already used by its majorant, tail, regularity, and real-seal rows rather than treating the M-test packet as a kernel-only island.
+
+\begin{definition}[Weierstrass M-test carrier]
+\label{def:weierstrass-mtest-carrier}
+A $\WeierstrassMTestUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+W=(F,M,B,T,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ is a displayed family of $\FastConvergentSeriesUp$ summand windows, indexed only by the finite inspection rows named by the packet;
+\item $M$ is the majorant $\FastConvergentSeriesUp$ packet whose tail rows supply the common comparison budget;
+\item $B$ is the finite domination ledger, recording each inspected summand-window bound against the corresponding majorant row;
+\item $T$ is the uniform tail ledger obtained by combining the domination ledger $B$ with the fast tail schedule of $M$;
+\item $R$ is the $\RegSeqRatUp$ handoff row that reads the uniform tail ledger as regular rational convergence data;
+\item $E$ is the $\RealUp$ seal row reached through $R$ and through no separate real-facing coordinate;
+\item $H$ records the componentwise $\hsame$ transports for source windows, majorant rows, domination ledgers, tail ledgers, handoff rows, and seal rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the source family, the majorant packet, the domination ledger, the uniform tail ledger, the regular handoff, and the real seal;
+\item $P$ is the $\Pkg$ provenance over $\FastConvergentSeriesUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, and the finite rational comparison rows used by the ledger;
+\item $N$ is the local $\NameCert_{\WeierstrassMTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows and their recorded $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+\end{definition}
+\leandef{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier}
+
+\begin{theorem}[Weierstrass M-test NameCert obligations]
+\label{thm:weierstrass-mtest-namecert-obligations}
+The local $\NameCert_{\WeierstrassMTestUp}$ surface consists of carrier admission, finite majorant domination, uniform tail exactness, $\RegSeqRatUp$ handoff, and $\RealUp$ seal factorization for the carrier of \autoref{def:weierstrass-mtest-carrier}. A consumer may project the displayed source windows, the majorant $\FastConvergentSeriesUp$ packet, the domination ledger, the uniform tail ledger, the regular handoff, the real seal, and the transport, continuation, package, and naming rows, but obtains no open-cover compactness, host completeness, quotient of function series, or selected limiting sum.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission is the projection of the finite packet $W$. The displayed family $F$, majorant packet $M$, domination ledger $B$, tail ledger $T$, handoff row $R$, and seal row $E$ are all stored coordinates.
+
+The majorant obligation projects $B$. Each inspected source summand window is paired with the corresponding comparison row of $M$, so the certificate exposes a finite domination record instead of an ambient boundedness theorem.
+
+Uniform tail exactness projects $T$ and composes it with the $\FastConvergentSeriesUp$ tail surface of $M$ and the $\DyadicTailBoundUp$ budget rows. Repacking $T$ gives the $\RegSeqRatUp$ handoff $R$, and the $\RealUp$ seal $E$ then reads only through that handoff.
+
+The rows $H$, $C$, $P$, and $N$ certify componentwise transport, consumer reads, dependency provenance, and local naming for the same packet. Since no coordinate names compact open covers, host completeness, quotient series, or a selected limiting sum, none can be exported by the certificate.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test majorant tail exactness]
+\label{thm:weierstrass-mtest-majorant-tail-exactness}
+For every accepted carrier
+$$
+W=(F,M,B,T,R,E,H,C,P,N),
+$$
+the uniform tail ledger $T$ is obtained by composing the finite domination ledger $B$ with the tail schedule of the majorant $\FastConvergentSeriesUp$ packet $M$. Every displayed source-family tail comparison consumed from $T$ therefore factors through the same majorant packet, the same finite domination rows, and the same $\DyadicTailBoundUp$ budget surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier\_majorant\_tail\_transport}
+\begin{proof}
+Project $M$ and $B$ from the carrier. The packet $M$ supplies the fast-convergent majorant tail schedule, while $B$ records the inspected domination comparisons between the summand windows in $F$ and the majorant rows.
+
+For a requested uniform precision, read the threshold supplied by $M$ and apply the domination rows in $B$ only over the finite inspected windows. The resulting comparison is recorded as the corresponding row of $T$.
+
+The $\DyadicTailBoundUp$ budget rows certify that the tolerance used by the comparison is the displayed one. Thus a consumer of $T$ cannot replace the majorant packet, domination ledger, or tail budget by unrecorded boundedness data.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test RegSeqRat handoff]
+\label{thm:weierstrass-mtest-regseqrat-handoff}
+For every accepted $\WeierstrassMTestUp$ carrier, the $\RegSeqRatUp$ row $R$ is obtained by repacking the displayed uniform tail ledger $T$ together with the majorant packet $M$ and the domination ledger $B$. A $\RegSeqRatUp$ consumer can read the resulting uniformly convergent name only through those rows and through the stored $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier\_regseqrat\_handoff}
+\begin{proof}
+Read the carrier coordinates $M$, $B$, $T$, and $R$. The row $T$ is already the finite tail ledger produced from the majorant and domination rows by \autoref{thm:weierstrass-mtest-majorant-tail-exactness}.
+
+Repack that ledger as regular rational sequence evidence. The handoff retains the majorant schedule and domination rows because they are stored in the same $\mathsf{BHist}$ packet and reached by the displayed continuation routes.
+
+The transport, package, and local naming rows certify the same finite dependency surface. Hence $R$ is a visible $\RegSeqRatUp$ handoff and not a quotient of function series, a chosen sum, or a completeness argument.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test real-seal factorization]
+\label{thm:weierstrass-mtest-real-seal-factorization}
+For every accepted $\WeierstrassMTestUp$ carrier
+$$
+W=(F,M,B,T,R,E,H,C,P,N),
+$$
+the $\RealUp$ seal row $E$ factors through the $\RegSeqRatUp$ handoff $R$, which is determined by the majorant packet $M$, the domination ledger $B$, and the uniform tail ledger $T$. The rows $H$, $C$, $P$, and $N$ certify transport, continuation readback, package provenance, and local naming, but they do not supply open-cover compactness, ambient completeness, quotient equality of function series, or a selected limiting sum.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier\_real\_seal\_factorization}
+\begin{proof}
+Project the seal row $E$ and the handoff row $R$ from the carrier. By definition, $E$ has no real-facing route except the regular rational readback $R$.
+
+Use \autoref{thm:weierstrass-mtest-regseqrat-handoff} to identify $R$ with the repacking of $M$, $B$, and $T$. Then use \autoref{thm:weierstrass-mtest-majorant-tail-exactness} to bind $T$ to the finite majorant comparison surface and the displayed tail budget.
+
+The remaining rows are transport, continuation, package, and local naming witnesses for those displayed coordinates. Since the carrier has no coordinate for open covers, host completeness, quotient series, or selected sums, the real seal factors only through the finite majorant certificate.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test uniform tail budget scope]
+\label{thm:weierstrass-mtest-uniform-tail-budget-scope}
+Let $W=(F,M,B,T,R,E,H,C,P,N)$ be an accepted $\WeierstrassMTestUp$ carrier whose displayed summand windows in $F$ are dominated by the majorant packet $M$ through the finite ledger $B$. Then the packet carries a single $\mathsf{BHist}$ uniform-tail budget $T$ whose $\RegSeqRatUp$ handoff row $R$ and $\RealUp$ seal row $E$ are transported by the stored $\hsame$ rows and read by the stored $\Cont$ routes along the same package provenance $P$.
+
+Equivalently, a consumer of the $\WeierstrassMTestUp$ seal must pass through the majorant domination ledger, the uniform-tail budget, and the regular-sequence handoff before reaching $E$. No consumer obtains a separate host summation, quotient series, open-cover compactness, or ambient completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier\_uniform\_tail\_budget\_scope}
+\begin{proof}
+First build the uniform-tail budget. Apply \autoref{thm:weierstrass-mtest-majorant-tail-exactness}: the ledger $T$ is produced from the displayed domination rows $B$ and the tail schedule of the majorant packet $M$.
+
+Next route the budget to regular Cauchy data. Apply \autoref{thm:weierstrass-mtest-regseqrat-handoff} to repack $T$, together with $M$ and $B$, as the $\RegSeqRatUp$ handoff row $R$.
+
+Finally route the regular handoff to the real-facing seal. Apply \autoref{thm:weierstrass-mtest-real-seal-factorization}: the seal row $E$ factors through $R$ and keeps the same $H$, $C$, $P$, and $N$ provenance.
+
+The composed route is a single displayed $\mathsf{BHist}$ budget scope. Since each step uses only the carried rows of $W$, no unrecorded summation object, quotient series, compactness principle, or completeness principle is introduced.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test tail majorant ledger]
+\label{thm:weierstrass-mtest-tail-majorant-ledger}
+For every accepted $\WeierstrassMTestUp$ carrier
+$$
+W=(F,M,B,T,R,E,H,C,P,N),
+$$
+each tail comparison recorded in the uniform tail ledger $T$ is pinned to the displayed majorant packet $M$ and the finite domination ledger $B$. The carrier has no alternate route for deriving tail bounds from open-cover compactness, ambient completeness, a quotient series object, or a selected sum.
+\end{theorem}
+\begin{proof}
+Project $M$, $B$, and $T$ from the carrier. These are the only rows that name the majorant schedule, domination evidence, and uniform tail budget.
+
+Apply \autoref{thm:weierstrass-mtest-majorant-tail-exactness}. It identifies every tail read in $T$ with the majorant packet $M$ and the domination ledger $B$.
+
+The remaining rows $H,C,P,N$ only transport, read, package, and locally name those displayed coordinates. Since the carrier has no coordinate for compactness, completeness, quotient series, or selected sums, no such object can supply a competing tail comparison.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test uniform Cauchy handoff]
+\label{thm:weierstrass-mtest-uniform-cauchy-handoff}
+The $\RegSeqRatUp$ row $R$ of an accepted $\WeierstrassMTestUp$ carrier is exactly the uniform Cauchy handoff produced by the rows
+$$
+M,B,T,H,C,P,N.
+$$
+It records the majorant packet, domination ledger, uniform tail budget, transport witnesses, continuation reads, package provenance, and local naming row, and it does not add a separate summation object or host completeness proof.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier\_uniform\_cauchy\_handoff}
+\begin{proof}
+Begin with the ledger boundary. Apply \autoref{thm:weierstrass-mtest-tail-majorant-ledger} to bind the tail budget $T$ to $M$ and $B$.
+
+Next apply \autoref{thm:weierstrass-mtest-regseqrat-handoff}. The handoff repacks the majorant-ledger and tail-budget data as the $\RegSeqRatUp$ row $R$.
+
+Finally use the displayed $H,C,P,N$ rows for transport, continuation readback, package provenance, and local naming. These rows certify the same uniform Cauchy surface and do not create a completed sum or a host completeness argument.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test real seal boundary]
+\label{thm:weierstrass-mtest-real-seal-boundary}
+Every $\RealUp$ seal read of an accepted $\WeierstrassMTestUp$ carrier factors through the uniform Cauchy handoff row $R$ determined by
+$$
+M,B,T,H,C,P,N.
+$$
+The seal row $E$ therefore exposes only the finite majorant-ledger surface and not a quotient series, selected sum, open-cover compactness proof, ambient completeness proof, or host-level uniform convergence theorem.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:weierstrass-mtest-uniform-cauchy-handoff}. This identifies $R$ as the regular rational handoff produced by the majorant, domination, and tail rows together with their transport and naming evidence.
+
+Then apply \autoref{thm:weierstrass-mtest-real-seal-factorization}. The real-facing seal $E$ factors through $R$, so every seal read must pass through the same finite handoff.
+
+The excluded objects are absent from the carrier and from the handoff route. Thus the real seal remains a boundary over the displayed majorant-ledger surface.
+\end{proof}
+
+\begin{definition}[Weierstrass M-test obligation surface]
+\label{def:weierstrass-mtest-obligation-surface}
+For an accepted $\WeierstrassMTestUp$ carrier
+$$
+W=(F,M,B,T,R,E,H,C,P,N),
+$$
+the obligation surface consists of carrier admission, finite majorant domination, uniform tail exactness, $\RegSeqRatUp$ handoff, and $\RealUp$ seal factorization. It is read from the displayed summand windows $F$, majorant packet $M$, domination ledger $B$, uniform tail ledger $T$, regular handoff $R$, real seal $E$, and provenance rows $H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Weierstrass M-test majorant domination package]
+\label{thm:weierstrass-mtest-majorant-domination-package}
+For every accepted $\WeierstrassMTestUp$ carrier $W=(F,M,B,T,R,E,H,C,P,N)$, the carrier-admission and finite majorant-domination obligations of \autoref{def:weierstrass-mtest-obligation-surface} are witnessed by the local NameCert surface and the tail-majorant ledger.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:weierstrass-mtest-namecert-obligations}. It exposes the accepted carrier rows and the local naming obligations over $F,M,B,T,R,E,H,C,P,N$.
+
+Apply \autoref{thm:weierstrass-mtest-tail-majorant-ledger}. It binds the displayed summand windows to the majorant packet through the finite domination ledger $B$.
+
+Thus the majorant-domination package remains a finite BEDC packet over the listed rows.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test uniform-tail obligation package]
+\label{thm:weierstrass-mtest-uniform-tail-obligation-package}
+For every accepted $\WeierstrassMTestUp$ carrier $W=(F,M,B,T,R,E,H,C,P,N)$, the uniform tail and regular-rational handoff obligations of \autoref{def:weierstrass-mtest-obligation-surface} are witnessed by $M,B,T,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:weierstrass-mtest-majorant-tail-exactness}. The majorant tail request is the finite source of the uniform tail budget.
+
+Use \autoref{thm:weierstrass-mtest-uniform-tail-budget-scope}. It keeps the uniform budget inside the displayed tail ledger $T$ and the provenance rows.
+
+Finally use \autoref{thm:weierstrass-mtest-uniform-cauchy-handoff}. The regular-rational handoff row $R$ is therefore read from the same finite majorant and tail rows.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test real-seal obligation package]
+\label{thm:weierstrass-mtest-real-seal-obligation-package}
+For every accepted $\WeierstrassMTestUp$ carrier $W=(F,M,B,T,R,E,H,C,P,N)$, the $\RealUp$ seal-factorization obligation of \autoref{def:weierstrass-mtest-obligation-surface} is the displayed route through $R,E,H,C,P,N$ after the finite majorant and uniform-tail ledgers $M,B,T$ have been read.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:weierstrass-mtest-regseqrat-handoff}. It identifies $R$ as the regular-rational row built from the domination and uniform-tail data.
+
+Apply \autoref{thm:weierstrass-mtest-real-seal-factorization} and \autoref{thm:weierstrass-mtest-real-seal-boundary}. These show that every real-facing seal read factors through $R$ and the same finite majorant-ledger route.
+
+The carrier has no coordinate for open-cover compactness, host completeness, quotient series, or a selected limiting sum, so the obligation remains inside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test obligation closure package]
+\label{thm:weierstrass-mtest-obligation-closure-package}
+Every accepted $\WeierstrassMTestUp$ carrier
+$$
+W=(F,M,B,T,R,E,H,C,P,N)
+$$
+admits the five obligation rows of \autoref{def:weierstrass-mtest-obligation-surface}. The package is read over $\FastConvergentSeriesUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and it exports carrier admission, finite majorant domination, uniform tail exactness, $\RegSeqRatUp$ handoff, and $\RealUp$ seal factorization without open-cover compactness, host completeness, quotient series, or a selected limiting sum.
+\end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassMTestUp.WeierstrassMTestCarrier\_obligation\_closure\_package}
+\begin{proof}
+Project the accepted carrier $W$ and read the displayed rows $F,M,B,T,R,E,H,C,P,N$. The definition of the obligation surface asks only for the five rows named in \autoref{def:weierstrass-mtest-obligation-surface}.
+
+Apply \autoref{thm:weierstrass-mtest-majorant-domination-package}. This supplies carrier admission and finite majorant domination from the local naming surface and the tail-majorant ledger.
+
+Apply \autoref{thm:weierstrass-mtest-uniform-tail-obligation-package}. This supplies the uniform tail row and the regular-rational handoff through $M,B,T,R,H,C,P,N$.
+
+Apply \autoref{thm:weierstrass-mtest-real-seal-obligation-package}. This supplies the real-seal factorization through $R,E,H,C,P,N$ after the finite majorant and uniform-tail ledgers have been read.
+
+The carrier non-escape inventory is exactly the listed packet surface. Since no coordinate names open-cover compactness, host completeness, quotient series, or a selected limiting sum, the combined package closes precisely the displayed obligation rows and no stronger host theorem.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test scoped dependency package]
+\label{thm:weierstrass-mtest-scoped-dependency-package}
+For every accepted $\WeierstrassMTestUp$ carrier
+$$
+W=(F,M,B,T,R,E,H,C,P,N),
+$$
+the finite series packet, dyadic tail bound, fast convergent series row, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\hsame$ transports, $\Cont$ consumer routes, $\Pkg$ provenance, and local $\NameCert_{\WeierstrassMTestUp}$ row exhaust the scoped proof surface. Every domination, uniform tail, regular-sequence handoff, and real-seal read factors through those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier and the obligation package from \autoref{thm:weierstrass-mtest-obligation-closure-package}. The rows $F,M,B,T,R,E,H,C,P,N$ supply the finite summand packet, majorant packet, dyadic tail ledger, uniform-tail route, regular rational handoff, real seal, transport rows, consumer routes, package provenance, and local naming row.
+
+Route the estimates through the existing tail machinery. The dyadic tail bound is read through \autoref{thm:weierstrass-mtest-uniform-tail-obligation-package}, while the fast convergent series and majorant rows are read through \autoref{thm:weierstrass-mtest-majorant-domination-package}.
+
+Route convergence reads through \autoref{thm:weierstrass-mtest-regseqrat-handoff}, \autoref{thm:weierstrass-mtest-real-seal-obligation-package}, and \autoref{thm:weierstrass-mtest-real-seal-boundary}. These results keep the $\RegSeqRatUp$ and $\RealUp$ outputs attached to the same finite package, with no host infinite sum, ambient completeness principle, quotient series, or selected limiting sum in scope.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test public convergence export]
+\label{thm:weierstrass-mtest-public-convergence-export}
+For every accepted $\WeierstrassMTestUp$ carrier
+$$
+W=(F,M,B,T,R,E,H,C,P,N),
+$$
+the finite series packet $F$, majorant packet $M$, dyadic tail ledger $T$, uniform-tail route, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, $\hsame$ rows $H$, $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ form the public M-test consumer surface. The surface exports convergence through the displayed majorant domination, uniform-tail obligation package, regular-rational handoff, and real-seal boundary, and it exports no open-cover compactness, host completeness, quotient equality of function series, or selected limiting sum.
+\end{theorem}
+\begin{proof}
+First compose the scoped dependency package with the obligation closure package. This reads the accepted carrier as one finite packet and exposes exactly the source series, majorant, domination ledger, tail ledger, regular handoff, real seal, transport, continuation, package, and naming rows.
+
+Next apply majorant domination and the uniform-tail obligation package. These rows turn the finite domination ledger and dyadic tail budget into the uniform-tail route consumed by the $\RegSeqRatUp$ handoff.
+
+Finally apply the RegSeqRat handoff, the real-seal obligation package, and the real-seal boundary. They factor every real-facing convergence read through $R$ and $E$, so the public consumer surface remains the displayed $\BHist$ packet and never uses compactness, host completeness, quotient series, or a selected sum.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test bridge majorant seal]
+\label{thm:weierstrass-mtest-bridge-majorant-seal}
+For every accepted $\WeierstrassMTestUp$ carrier $W=(F,M,B,T,R,E,H,C,P,N)$, an accepted majorant-tail package consumed by a $\RealUp$ convergence consumer must pass through the $\RegSeqRatUp$ handoff $R$, the uniform-tail obligation package, the real-seal obligation package, and the $\CauchyLimitSealUp$ boundary before it exports the public convergence row of \autoref{thm:weierstrass-mtest-public-convergence-export}. The bridge exposes only the displayed rows $F,M,B,T,R,E,H,C,P,N$ and no selected sum, quotient series, open-cover compactness, or host completeness.
+\end{theorem}
+\begin{proof}
+Begin with majorant-tail exactness. \autoref{thm:weierstrass-mtest-majorant-tail-exactness} reads the accepted majorant packet and domination ledger as the source of the tail budget, and \autoref{thm:weierstrass-mtest-uniform-tail-obligation-package} packages that budget as the uniform-tail row consumed by the carrier.
+
+Next pass through the regular and real-facing rows. \autoref{thm:weierstrass-mtest-regseqrat-handoff} repacks the uniform-tail data as the $\RegSeqRatUp$ handoff $R$, and \autoref{thm:weierstrass-mtest-real-seal-obligation-package} factors the $\RealUp$ seal read through $R,E,H,C,P,N$.
+
+Finally compare the exported surface with the seal route. \autoref{thm:weierstrass-mtest-public-convergence-export} exposes the public convergence row from the same finite packet, while \autoref{thm:weierstrass-mtest-cauchy-limit-seal-route} identifies the compatible $\CauchyLimitSealUp$ boundary. Hence the public export is reached only after the majorant-tail, uniform-tail, regular-handoff, real-seal, and CauchyLimitSeal rows have been read.
+\end{proof}
+
+\begin{theorem}[Weierstrass M-test CauchyLimitSeal route]
+\label{thm:weierstrass-mtest-cauchy-limit-seal-route}
+For every accepted $\WeierstrassMTestUp$ carrier $W=(F,M,B,T,R,E,H,C,P,N)$, the uniform tail ledger $T$, $\RegSeqRatUp$ handoff $R$, and $\RealUp$ seal $E$ determine a $\CauchyLimitSealUp$-compatible finite route through the displayed $\FastConvergentSeriesUp$ majorant, $\DyadicTailBoundUp$ budget, $\RegSeqRatUp$ row, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The route exports no quotient series, selected sum, host completeness, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+First read the uniform tail budget. By \autoref{thm:weierstrass-mtest-uniform-tail-budget-scope}, the tail ledger $T$ is tied to the displayed majorant and dyadic budget rows, so every tail estimate remains inside the finite M-test packet.
+
+Next pass to the regular rational handoff. The RegSeqRat handoff theorem \autoref{thm:weierstrass-mtest-regseqrat-handoff} routes the same tail data through $R$, and the real-seal factorization of \autoref{thm:weierstrass-mtest-real-seal-factorization} then sends the real-facing read through $E$ with the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally compare this route with the CauchyLimitSeal window and consumer boundaries, \autoref{thm:cauchy-limit-seal-window-factorization} and \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}. Both boundaries require a displayed regular source route before the real seal is consumed, which is exactly the route supplied by $T$, $R$, and $E$. The non-escape clauses in the M-test public export keep quotient series, selected sums, host completeness, and compactness outside the packet.
+\end{proof}
+
+\closureat{WeierstrassMTestUp}{seedStr}
+\closureat{WeierstrassMTestUp}{obligationStr}
+\closureat{WeierstrassMTestUp}{scopedStr}
+\closureat{WeierstrassMTestUp}{publicStr}
+
+\begin{closurestatus}{\WeierstrassMTestUp}
+  \constructivestory{A $\WeierstrassMTestUp$ packet is generated from displayed $\FastConvergentSeriesUp$ summand windows, a majorant $\FastConvergentSeriesUp$ packet, a finite domination ledger, a uniform tail ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface binds the finite series packet, dyadic tail bound, fast convergent series rows, regular-sequence readback, real seal, $\hsame$, $\Cont$, $\Pkg$, local $\NameCert$ rows, and M-test consumer export to one displayed $\mathsf{BHist}$ package.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close open-cover compactness, host completeness, quotient equality of function series, selected limiting sums, or bridge checking.}
+  \upgradepath{Bridged closure requires a standard bridge for the same $\FastConvergentSeriesUp$, $\DyadicTailBoundUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.}
+\end{closurestatus}

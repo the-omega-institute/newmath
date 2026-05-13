@@ -1,0 +1,136 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRoundingUp$}
+\label{ch:concrete-instances-dyadicrounding-namecert}
+\origin{human}
+
+The $\DyadicRoundingUp$ interface names the finite dyadic-grid enclosure used on the constructive real path. Following Bishop and Bridges, \emph{Constructive Analysis}, it records an adjacent dyadic cell around a regular rational or $\RealUp$ read at a displayed unary precision, without invoking a quotient real, selected limit, trichotomy, or host rounding function. The adjacent endpoint rows consume the dyadic arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the handoff row is read by the $\RealUp$ boundary of \autoref{ch:concrete-instances-real-namecert}.
+
+Before exposing any $\RealUp$-facing enclosure, $\DyadicRoundingUp$ consumes the endpoint carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the containment surface of \autoref{ch:concrete-instances-rationalinterval-namecert}, and the tolerance ledger of \autoref{ch:concrete-instances-finiteerrorbudget-namecert}.
+
+\begin{definition}[DyadicRounding carrier]
+\label{def:dyadic-rounding-carrier}
+A $\DyadicRoundingUp$ carrier is a finite $\BHist$ packet
+$$
+D=(x,n,a,b,I,E,L,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $x$ is the source read, either a $\RealUp$ seal route or a $\RegSeqRatUp$ regular rational readback already present on the constructive real path;
+\item $n$ is the $\UnaryHistory$ precision request that fixes the dyadic grid scale;
+\item $a$ and $b$ are adjacent $\DyadicRatCoreUp$ grid endpoints at precision $n$;
+\item $I$ is the $\RationalIntervalUp$ containment row witnessing that the inspected rational approximation of $x$ lies inside the interval with endpoints $a$ and $b$;
+\item $E$ is the $\FiniteErrorBudgetUp$ tolerance row that bounds the readback error at the same precision;
+\item $L$ stores the componentwise $\hsame$ transports for the source read, unary precision, dyadic endpoint rows, interval containment row, and error-budget row;
+\item $C$ stores the $\Cont$ routes for reading the source, inspecting the dyadic grid, transporting containment, and exposing the tolerance ledger;
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\RegSeqRatUp$, $\UnaryHistory$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\FiniteErrorBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DyadicRoundingUp}$ row.
+\end{enumerate}
+The carrier is a finite rounding certificate. It stores no completed real representative, no limiting point, no order trichotomy branch, and no host rounding operation.
+\end{definition}
+
+\begin{theorem}[DyadicRounding NameCert obligations]
+\label{thm:dyadic-rounding-namecert-obligations}
+The local $\NameCert_{\DyadicRoundingUp}$ surface for the carrier of \autoref{def:dyadic-rounding-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet $D$ with source read, unary precision, adjacent dyadic endpoints, interval containment, finite tolerance ledger, transport rows, continuation rows, package provenance, and local naming data;
+\item classifier transport: classified source reads transport the same precision request, adjacent endpoint pair, containment row, error-budget row, and provenance rows componentwise through $L$ and $C$;
+\item grid adjacency: $a$ and $b$ are the displayed adjacent $\DyadicRatCoreUp$ endpoints at precision $n$;
+\item ledger exactness: every tolerance consumed by the containment read is the displayed $\FiniteErrorBudgetUp$ row $E$;
+\item real handoff: every $\DyadicApproximationUp$, $\FiniteErrorBudgetUp$, or $\RealUp$ consumer first reads $x,n,a,b,I,E,L,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-rounding-carrier}. The source row, precision request, endpoint pair, containment row, tolerance row, transport routes, continuation routes, package row, and local naming row are all visible coordinates of $D$.
+
+Classifier transport is componentwise. A transported $\RealUp$ seal route or $\RegSeqRatUp$ readback carries the same unary precision, the same adjacent dyadic endpoint rows, and the same interval and budget ledgers through $L$ and $C$.
+
+The grid and ledger clauses are finite projections. Since the carrier records only the endpoint rows $a,b$, the containment row $I$, and the tolerance row $E$, downstream consumers have no coordinate from which to obtain a quotient real, selected limit, trichotomy split, or host rounding function.
+\end{proof}
+
+\begin{theorem}[DyadicRounding grid sandwich]
+\label{thm:dyadic-rounding-grid-sandwich}
+For every accepted $\DyadicRoundingUp$ carrier $D=(x,n,a,b,I,E,L,C,P,N)$, the source read $x$ is exposed to dyadic-grid consumers only through the displayed sandwich by the adjacent $\DyadicRatCoreUp$ endpoints $a$ and $b$ at precision $n$, together with the $\RationalIntervalUp$ containment row $I$ and the $\FiniteErrorBudgetUp$ tolerance row $E$.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicRoundingUp.DyadicRoundingPacket\_grid\_sandwich}
+\begin{proof}
+Project the accepted carrier. The precision coordinate $n$ fixes the grid scale, and the endpoint coordinates $a$ and $b$ are the only dyadic grid rows available at that scale.
+
+Read containment through $I$. This row places the inspected rational approximation of $x$ inside the displayed interval bounded by $a$ and $b$.
+
+Finally read the tolerance through $E$. The finite error budget is the only permitted widening of the containment row, so the consumer receives the sandwich data $a,I,b,E$ rather than any ambient rounded value or host real comparison.
+\end{proof}
+
+\begin{theorem}[DyadicRounding ledger exactness]
+\label{thm:dyadic-rounding-ledger-exactness}
+Every tolerance, containment, and endpoint read exported by an accepted $\DyadicRoundingUp$ carrier is exhausted by the rows $n,a,b,I,E,L,C,P,N$ of \autoref{def:dyadic-rounding-carrier}. No downstream read may replace these rows by an external modulus, completed-real equality, selected limit, trichotomy decision, or host rounding operation.
+\end{theorem}
+\begin{proof}
+Start with any exported dyadic rounding read. The NameCert obligation surface routes it through the precision request, adjacent endpoint rows, interval containment row, and finite error-budget row.
+
+The transport and continuation rows $L$ and $C$ move only those displayed coordinates. They do not add analytic data beyond the source read and the finite ledgers already recorded in the packet.
+
+Inspecting the carrier inventory completes the exactness claim. Since no coordinate stores an external modulus, completed-real equality, selected limit, trichotomy decision, or host rounding operation, no consumer can read one from the packet.
+\end{proof}
+
+\begin{theorem}[DyadicRounding RealUp handoff]
+\label{thm:dyadic-rounding-realup-handoff}
+Every $\RealUp$-facing handoff from an accepted $\DyadicRoundingUp$ carrier factors through the source row $x$, the unary precision $n$, the adjacent $\DyadicRatCoreUp$ endpoint pair $a,b$, the $\RationalIntervalUp$ containment row $I$, the $\FiniteErrorBudgetUp$ tolerance row $E$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The handoff exposes no quotient real, selected limit, trichotomy branch, or host rounding function.
+\end{theorem}
+\begin{proof}
+First read the source coordinate $x$. If it is already a $\RealUp$ seal route, the handoff remains on that route; if it is a $\RegSeqRatUp$ readback, the regular rational row is inspected only at the displayed precision $n$.
+
+Next apply the grid sandwich theorem. The handoff passes through $a,b,I,E$, so every real-facing approximation is the finite dyadic enclosure with its recorded budget.
+
+Finally apply ledger exactness. The remaining coordinates are provenance and transport rows, not analytic choice data, so the $\RealUp$ consumer receives exactly the finite rounding packet and nothing outside it.
+\end{proof}
+
+\begin{theorem}[DyadicRounding transport stability]
+\label{thm:dyadic-rounding-transport-stability}
+Let $D=(x,n,a,b,I,E,L,C,P,N)$ be an accepted $\DyadicRoundingUp$ carrier. If each displayed coordinate is transported componentwise along the $\hsame$ rows stored in $L$ and then read along the $\Cont$ routes stored in $C$, the resulting packet is accepted by the same $\NameCert_{\DyadicRoundingUp}$ surface and preserves the source read $x$, unary precision $n$, adjacent endpoints $a,b$, containment row $I$, finite budget row $E$, transport ledger $L$, continuation ledger $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory in \autoref{def:dyadic-rounding-carrier}. The only movable data are the displayed source read, unary precision, endpoint pair, containment row, finite budget row, and provenance rows.
+
+Apply \autoref{thm:dyadic-rounding-grid-sandwich} after transport. The same transported precision row still selects the adjacent endpoint pair, and the same containment and budget rows provide the finite sandwich.
+
+Apply \autoref{thm:dyadic-rounding-ledger-exactness} and \autoref{thm:dyadic-rounding-realup-handoff}. The transported packet exposes no extra rounding operation or real comparison, so the original NameCert obligations are preserved componentwise.
+\end{proof}
+
+\begin{theorem}[DyadicRounding finite-grid coverage]
+\label{thm:dyadic-rounding-finite-grid-coverage}
+Every accepted $\RealUp$ or $\RegSeqRatUp$ read at unary precision $n$ from a $\DyadicRoundingUp$ carrier is covered by the displayed adjacent $\DyadicRatCoreUp$ endpoints $a,b$ together with the $\RationalIntervalUp$ containment row $I$ and the $\FiniteErrorBudgetUp$ row $E$ of \autoref{def:dyadic-rounding-carrier}. No accepted read at that precision can require a dyadic endpoint, interval witness, or tolerance ledger outside the displayed packet.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:dyadic-rounding-grid-sandwich}. It places the source read at precision $n$ between the adjacent dyadic endpoints $a$ and $b$ through the containment row $I$.
+
+Next use \autoref{thm:dyadic-rounding-ledger-exactness}. The only widening of that interval read is the finite budget row $E$, and every tolerance consumed by the read is exhausted by the displayed ledger.
+
+Finally apply \autoref{thm:dyadic-rounding-realup-handoff}. A $\RealUp$ read and a $\RegSeqRatUp$ read both pass through the same finite enclosure data before any downstream consumer sees them, so the displayed grid covers every accepted read at precision $n$.
+\end{proof}
+
+\begin{theorem}[DyadicRounding carrier scope]
+\label{thm:dyadic-rounding-carrier-scope}
+The carrier of \autoref{def:dyadic-rounding-carrier} has no coordinate for order trichotomy, host rounding, quotient reals, or selected limits. Its complete analytic surface is the finite grid sandwich of \autoref{thm:dyadic-rounding-grid-sandwich}, the ledger exactness boundary of \autoref{thm:dyadic-rounding-ledger-exactness}, and the $\RealUp$ handoff of \autoref{thm:dyadic-rounding-realup-handoff}.
+\end{theorem}
+\begin{proof}
+Inspect the packet $D=(x,n,a,b,I,E,L,C,P,N)$ from \autoref{def:dyadic-rounding-carrier}. Each coordinate is a finite source, precision, dyadic endpoint, interval, budget, transport, continuation, package, or naming row.
+
+The grid sandwich and ledger exactness theorems identify all analytic data available to consumers: adjacent endpoints, containment, and a finite error budget at the displayed precision.
+
+The $\RealUp$ handoff theorem then accounts for the real-facing route. Since the carrier inventory contains no further coordinate, trichotomy, host rounding, quotient-real data, and selected limits are outside the scoped surface.
+\end{proof}
+
+\closureat{DyadicRoundingUp}{seedStr}[BEDC.Derived.DyadicRoundingUp.DyadicRoundingPacket\_grid\_sandwich]
+\closureat{DyadicRoundingUp}{obligationStr}[BEDC.Derived.DyadicRoundingUp.DyadicRoundingPacket\_grid\_sandwich]
+\closureat{DyadicRoundingUp}{scopedStr}[BEDC.Derived.DyadicRoundingUp.DyadicRoundingPacket\_grid\_sandwich]
+
+\begin{closurestatus}{\DyadicRoundingUp}
+  \constructivestory{A $\DyadicRoundingUp$ packet is generated from a displayed source read, unary precision request, adjacent dyadic endpoint rows, interval containment, finite error budget, componentwise transports, continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:dyadic-rounding-carrier}, \autoref{thm:dyadic-rounding-namecert-obligations}, \autoref{thm:dyadic-rounding-grid-sandwich}, \autoref{thm:dyadic-rounding-ledger-exactness}, and \autoref{thm:dyadic-rounding-realup-handoff} bind the source read, unary precision, dyadic endpoints, interval containment, finite error budget, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the displayed rounding packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.DyadicRoundingUp.DyadicRoundingPacket\_grid\_sandwich}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient reals, selected limits, trichotomy of host order, host rounding operations, or a public standard bridge.}
+  \upgradepath{The next paper grade is a public export theorem for the finite dyadic rounding packet.}
+\end{closurestatus}

@@ -1,0 +1,13 @@
+\begin{theorem}[RationalInterval overlap RegSeqRat handoff exactness]
+\label{thm:rationalinterval-overlap-regseqrat-handoff-exactness}
+Let an accepted $\RationalIntervalUp$ $\mathsf{BHist}$ packet be read by two overlapping finite $\RegSeqRatUp$ consumers, or by two overlapping finite-window $\RealUp$ consumers. Suppose the two reads agree on displayed endpoint rows, endpoint order, containment rows, common-refinement rows, and finite handoff rows.
+
+Then both reads factor through one rational-window packet. Its exact exported rows are the two $\RatUp$ endpoints, the endpoint-order witness, containment ledger, width ledger, directed refinement, displayed $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local $\NameCert_{\RationalIntervalUp}$ rows. The factorization exports no completed $\RealUp$ equality, quotient Cauchy class, located subset, apartness predicate, interval arithmetic operation, or host interval datum.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:rationalinterval-window-overlap-consumer-amalgamation} to the two overlapping reads. This gives the common finite rational window carrying the shared endpoints, order, containment, refinement, $\mathsf{BHist}$ histories, displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert_{\RationalIntervalUp}$ rows.
+
+Use \autoref{thm:rationalinterval-regseqrat-window-coverage} for finite $\RegSeqRatUp$ reads and \autoref{thm:rational-interval-realup-consumer-exactness} for finite-window $\RealUp$ reads. These two consumer exactness results identify the handoff rows as the displayed rational endpoint rows, containment ledger, width ledger, and directed-refinement data of the same window.
+
+Finally cite \autoref{thm:rational-interval-standard-boundary-bridge}. The bridge is conservative over the finite BEDC packet, so the handoff remains internal to the rational-window rows and cannot export completed real equality, quotient Cauchy classes, located subsets, apartness, interval arithmetic, or host interval data.
+\end{proof}

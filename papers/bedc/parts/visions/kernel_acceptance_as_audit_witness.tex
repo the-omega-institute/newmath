@@ -1,0 +1,349 @@
+\chapter{Lean Kernel Acceptance as the Canonical BEDC Audit Witness}
+\label{ch:visions-kernel-acceptance-as-audit-witness}
+
+BEDC repeatedly speaks of audit gates, generator-closure classifiers,
+\NameCert{} verification, and executable ledgers. This chapter identifies the
+concrete mechanism underneath those phrases. Lean 4 kernel acceptance is the
+canonical audit witness for BEDC. It is not a metaphor for audit. It is the
+mechanism by which a proposed definition, theorem, inductive carrier, recursor
+use, and proof object enters the BEDC ledger as checked content.
+
+The claim is intentionally strict. A BEDC audit unit has a generator, a
+classifier, a stamp, and a ledger position. At the Lean boundary, the generator
+is the term-building process that produces an elaborated term. The classifier is
+the kernel type-checking predicate, including definitional reduction and the
+side conditions for accepted recursion and inductive declarations. The stamp is
+kernel acceptance. The ledger position is the declaration entered into the
+environment and later visible to dependency queries such as
+\texttt{\#print axioms}.
+
+\section{The setup}
+\label{sec:kernel-audit-witness-setup}
+
+The paper-side vocabulary is abstract because it must apply across many
+surfaces. A \NameCert{} says that a public name is not decorative: it has a
+source, a classifier, a stability route, and a ledger row. A generator-closure
+classifier says which outputs remain inside the closure of the generator that
+licensed them. An audit gate is the executable refusal rule that rejects a
+record whose source, classifier, or dependency ancestry does not match the
+claim.
+
+Lean kernel acceptance is the place where these abstract units become one
+machine event. When Lean accepts
+\texttt{def f := t}, the environment does not merely store text. It stores a
+name whose type has been checked against an elaborated term. When Lean accepts
+\texttt{theorem T : P := p}, the environment stores a name whose proof term has
+been checked as an inhabitant of $P$. When Lean accepts an
+\texttt{inductive} declaration, it stores a closed constructor signature and
+emits the eliminators permitted by that signature. When Lean accepts a
+structurally recursive definition, it has checked the recursion discipline that
+allows the definition to compute inside the accepted closure.
+
+Thus the BEDC audit unit at the Lean boundary is:
+
+$$
+\begin{aligned}
+\text{term builder}
+&\xrightarrow{\text{elaboration}}
+\text{kernel candidate}\\
+&\xrightarrow{\text{type checking}}
+\text{accepted declaration}\\
+&\xrightarrow{\text{environment entry}}
+\text{ledger row}.
+\end{aligned}
+$$
+
+The same event has the BEDC reading:
+
+$$
+\begin{aligned}
+\text{generator}
+&\xrightarrow{\text{classifier}}
+\text{stamped name}\\
+&\xrightarrow{\text{ledger}}
+\NameCert{}\text{-visible content}.
+\end{aligned}
+$$
+
+There is no second certification channel behind this map. The kernel event is
+the certification channel used by the Lean side of BEDC.
+
+\section{What the Lean kernel does at acceptance}
+\label{sec:kernel-audit-witness-acceptance}
+
+At acceptance time the kernel checks an elaborated object against its claimed
+type. This check includes substitution under binders, universe and type
+compatibility checks, definitional reduction, and the de Bruijn shifting that
+keeps binder structure coherent. For recursive definitions, Lean also requires
+an accepted recursion or termination account. For inductive declarations, Lean
+checks the constructor signature and its positivity discipline before the
+carrier and eliminators enter the environment.
+
+The important feature for BEDC is that the kernel checks a generated object,
+not a prose intention. The object may have been produced by a tactic, by a
+direct term, by a recursive definition, or by elaboration of ordinary syntax.
+Those routes matter as generators, but the acceptance event is the kernel's
+judgment that the generated object has the claimed type inside the current
+environment.
+
+If the check fails, there is no BEDC stamp at that name. If the check succeeds,
+the declaration is entered. This is the exact operational meaning of a checked
+Lean target in the manuscript. The paper marker is not a promise that the prose
+is convincing. It is a pointer to a declaration whose proof term or definition
+has passed kernel acceptance.
+
+\section{NameCert stamping}
+\label{sec:kernel-audit-witness-namecert-stamping}
+
+Each kernel-acceptance event is one \NameCert{} stamping at the relevant Lean
+name. The statement is definitional at the BEDC reading layer:
+
+$$
+\begin{aligned}
+\text{classifier}
+&:= \text{kernel type-checking predicate},\\
+\text{generator}
+&:= \text{term builder that produced the candidate},\\
+\text{stamp}
+&:= \text{kernel acceptance of the candidate},\\
+\text{ledger}
+&:= \text{environment entry under the accepted name}.
+\end{aligned}
+$$
+
+Thus a checked theorem name is not a theorem plus a separate certificate. Its
+checkedness is the certificate surface. A checked definition name is not a
+definition plus a separate permission slip. Its accepted type and body are the
+permission event. A checked inductive carrier is not a carrier plus an external
+authorization story. Its accepted constructor signature and emitted eliminator
+are the authorization.
+
+BEDC uses \NameCert{} vocabulary because it needs a uniform language for these
+events across paper-side certificates, recognized event flows, concrete
+instances, and Lean declarations. At the Lean boundary, the uniform language is
+realized by kernel acceptance. \NameCert{} is the BEDC name for that accepted
+name-bearing closure event.
+
+\section{\texttt{\#print axioms} as audit ledger closure}
+\label{sec:kernel-audit-witness-print-axioms}
+
+A local kernel stamp is necessary, but BEDC also asks whether the accepted
+object imports any forbidden source through its ancestry. Lean exposes this by
+the command \texttt{\#print axioms}. For a theorem, the command reports the
+transitive axiom dependencies of the declaration. This is not a philosophical
+summary. It is a dependency-ledger query over the checked environment.
+
+BEDC's strict purity audit uses that query as a gate. The command
+\texttt{python3 lean4/scripts/bedc\_ci.py axiom-purity --strict} builds the
+relevant Lean-side query surface, runs \texttt{\#print axioms} over BEDC
+declarations, and rejects forbidden dependencies. The target report for a BEDC
+theorem is that the transitive axiom set is empty. The project-level witness is:
+
+$$
+\begin{aligned}
+\texttt{\#print axioms}\; T
+&= \texttt{(no axioms)}.
+\end{aligned}
+$$
+
+This is the strongest audit witness in the project because it does not stop at
+the local declaration surface. It asks whether the whole transitive closure of
+the theorem's proof ancestry contains an ungenerated commitment. A proof that
+looks structurally acceptable locally but depends on \texttt{Classical.choice},
+\texttt{Quot.sound}, or \texttt{propext} fails this ledger reading. The problem
+is not that Lean cannot accept such a proof in a broader environment. The
+problem is that BEDC does not classify such ancestry as BEDC-internal closure.
+
+\section{\texttt{lake build} as ledger instantiation}
+\label{sec:kernel-audit-witness-lake-build}
+
+The command \texttt{cd lean4 \&\& lake build} instantiates the Lean ledger as a
+single execution. Lean loads the project modules in dependency order, elaborates
+the declarations, invokes the kernel, checks recursion and inductive
+authorization at the appropriate sites, and enters accepted declarations into
+the environment. A successful build means the project has replayed the
+kernel-acceptance events required by the Lean modules.
+
+In BEDC terms:
+
+$$
+\begin{aligned}
+\texttt{lake build}
+&= \text{execution of all Lean-side classifier checks},\\
+\text{successful build}
+&= \text{all required kernel stamps obtained},\\
+\text{strict purity pass}
+&= \text{accepted stamps have clean transitive ancestry}.
+\end{aligned}
+$$
+
+This is why build success is more than compilation hygiene for BEDC. It is the
+act by which the audit ledger is populated in a reproducible run. The manuscript
+can cite a Lean target only because the target is replayable through this
+mechanism and its dependency row can be queried afterward.
+
+\concretizedIn{ch:concrete-instances-kernelacceptancewitness-namecert}{Kernel acceptance witness packets realize the Lean boundary as a finite NameCert surface over generated candidates, accepted declarations, environment ledger rows, axiom-query purity, and refusal boundaries.}
+
+\section{Closed-term substitution cross-link}
+\label{sec:kernel-audit-witness-substitution}
+
+\autoref{ch:closed-term-substitution-self-compile} reads closed-term
+substitution as a self-compilation step. The local classifier is
+\texttt{ClosedAt}. The generator is \texttt{substitute}. The closure witness is
+that substitution at the closed boundary is inert:
+
+$$
+\begin{aligned}
+\mathsf{ClosedAt}(d,t)
+&\Rightarrow
+\mathsf{substitute}(d,v,t)=t.
+\end{aligned}
+$$
+
+The corresponding Lean target is
+\leanvariant{BEDC.MetaCIC.substitute\_closed}
+with the companion shifting witness
+\leanvariant{BEDC.MetaCIC.shift\_closed}
+The generator-closure classifier abstraction over both is
+\leanvariant{BEDC.MetaCIC.GeneratorClosureClassifier}
+with concrete instances
+\leanvariant{BEDC.MetaCIC.closed\_under\_substitute\_classifier} and
+\leanvariant{BEDC.MetaCIC.closed\_under\_shift\_classifier};
+each instance is a single kernel-accepted closure proof, and the audit witness reading of this chapter applies pointwise to every such instance.
+
+The present chapter adds the outer audit fact. The theorem can function as a
+BEDC certificate only because the Lean kernel accepts its proof term. The
+paper-side reading says that \texttt{substitute} preserves the closed-term
+classifier on the relevant slice. The kernel-side event says that the proof
+term inhabiting that statement has been checked and entered into the ledger.
+
+The layers are not competitors. The substitution theorem describes a
+generator-closure classifier instance inside MetaCIC. Kernel acceptance is the
+audit instrument that lets that description become checked BEDC content.
+
+\concretizedIn{ch:concrete-instances-generatorauditclosure-namecert}{GeneratorAuditClosureUp realizes generator-closure classifier proofs as finite audit packets over generator rows, accepted closure witnesses, audit-query ledgers, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+
+\section{Recursor cross-link}
+\label{sec:kernel-audit-witness-recursor}
+
+\autoref{ch:recursor-as-authorized-generator} reads the recursor emitted for an
+accepted \texttt{inductive} declaration as an authorized generator. The present
+chapter pins down when that authorization occurs. It occurs at kernel time.
+
+For an \texttt{inductive} declaration $I$, Lean checks the constructor
+signature and its positivity discipline. Only after that acceptance does the
+carrier enter the environment and only then are the eliminators associated with
+$I$ available as legal generators. A later use of $I.\texttt{rec}$ is checked
+again through its motive, branch package, and recursive structure. There is no
+kernel-external licensing authority that blesses the recursor after the fact.
+
+The authorization map is:
+
+$$
+\begin{aligned}
+\text{strictly positive accepted signature}
+&\Longrightarrow \text{closed carrier},\\
+\text{closed carrier}
+&\Longrightarrow \text{emitted recursor},\\
+\text{accepted recursor use}
+&\Longrightarrow \text{checked generator output}.
+\end{aligned}
+$$
+
+This is precisely the \NameCert{} stamping pattern. Constructor signature,
+eliminator generation, branch checking, and output type checking are not
+separate metaphors for BEDC authorization. They are the kernel events whose
+BEDC name is authorization.
+
+\section{Why this is not an infinite regress}
+\label{sec:kernel-audit-witness-not-regress}
+
+The kernel itself is not audited by another BEDC kernel inside the project. It
+is the project trust boundary. BEDC treats the Lean 4 kernel as its minimal
+trusted base, or MTB, for mechanized checking. This is an explicit commitment,
+not an epistemic gap hidden behind the paper vocabulary.
+
+The same boundary appears in Lean projects generally and in neighboring proof
+assistant traditions such as Coq and Agda. A formal development trusts a small
+kernel to check proof objects, then audits what enters through that kernel.
+BEDC's difference is not that it has no trust boundary. The difference is that
+it names the boundary and refuses to let forbidden dependencies cross it
+silently into BEDC theorem content.
+
+Thus the audit story stops at the kernel because the kernel is the instrument,
+not because BEDC has forgotten to audit one more layer. Below that boundary lie
+the implementation language, compiler, runtime, hardware, and human operational
+discipline. Those are real dependencies, but they are outside the BEDC
+theorem-content classifier. Their position is the MTB socket, not an unmarked
+Lean theorem.
+
+\section{Kernel boundary as apophatic socket}
+\label{sec:kernel-audit-witness-apophatic-socket}
+
+Kernel acceptance is apophatic in the precise BEDC sense. The kernel does not
+give a positive philosophical interpretation of the generator output. It checks
+whether the generated object fits the claimed type under the accepted rules and
+environment. It certifies closure without explaining the content as a human
+meaning.
+
+This is exactly why the kernel is the deepest BEDC socket. Downstream audit can
+ask whether a name resolves, whether a theorem builds, whether
+\texttt{\#print axioms} is clean, whether a paper marker points to an existing
+target, and whether an inductive generator was accepted. All those questions
+delegate to the kernel boundary. The boundary says yes or no to a generated
+object. It does not convert that yes into a complete positive interpretation of
+the object.
+
+The apophatic discipline is therefore not outside the engineering. The kernel
+is the last-resort socket through which BEDC receives checked formal content. It
+is a socket because BEDC does not internalize the kernel's own correctness as a
+BEDC theorem. It is apophatic because the acceptance event supplies the audit
+stamp while remaining silent about any interpretation not expressed in the
+checked type.
+
+\section{Boundary: what kernel acceptance does not certify}
+\label{sec:kernel-audit-witness-boundary}
+
+Kernel acceptance is necessary for Lean-side BEDC content, but it is not
+sufficient for every paper-side interpretation. The kernel can accept:
+
+$$
+\begin{aligned}
+\texttt{theorem T : True := True.intro}.
+\end{aligned}
+$$
+
+That declaration is a legal Lean theorem. The kernel has checked that
+\texttt{True.intro} inhabits \texttt{True}. It has not checked that the name
+\texttt{T} carries a deeper intended claim, nor that the surrounding prose has
+earned a strong interpretation. This is the root of the placeholder pattern:
+a theorem with a weak statement can be fully accepted by the kernel while
+carrying little mathematical content.
+
+BEDC therefore uses kernel acceptance as the canonical audit witness, while also
+keeping paper-side closure status, marker discipline, NameCert rows, and purity
+gates separate. The kernel tells the project that the generated Lean object is
+well typed and ledgered. The strict dependency audit tells the project whether
+the object imports forbidden ancestry. The manuscript must still state the
+scope of the claim accurately.
+
+The final equation is:
+
+$$
+\begin{aligned}
+\text{Lean kernel acceptance}
+&= \text{canonical BEDC audit witness},\\
+\text{canonical audit witness}
+&\neq \text{unlimited semantic certification}.
+\end{aligned}
+$$
+
+The first line is the mechanism. The second line is the boundary that keeps the
+mechanism honest.
+
+\concretizedIn{ch:concrete-instances-kernelacceptanceauditwitness-namecert}{Lean kernel acceptance is realized as a finite audit-witness NameCert packet over generated candidate, accepted declaration, environment ledger, axiom-query, build replay, and non-escape rows.}
+\concretizedIn{ch:concrete-instances-kernel-acceptance-build-replay-namecert}{Build replay is realized as a finite NameCert packet over generated candidate, accepted declaration, build command, replay result, axiom-query handoff, route, provenance, and non-escape rows.}
+\concretizedIn{ch:concrete-instances-kernelacceptancetrace-namecert}{Kernel acceptance traces are realized as finite NameCert packets over generated candidates, kernel classifier stamps, environment ledger rows, axiom-dependency reports, hsame transport, Cont replay, Pkg provenance, and local naming.}
+\concretizedIn{ch:concrete-instances-axiomqueryledger-namecert}{Axiom query ledgers realize strict proof-ancestry audit as finite BHist rows for accepted declarations, axiom-query output, forbidden-dependency refusal, replay provenance, and local NameCert naming.}
+\concretizedIn{ch:concrete-instances-kernelsourcechannelledger-namecert}{KernelSourceChannelLedgerUp realizes the source-channel audit ledger separating generated candidates, kernel stamps, accepted declarations, environment ancestry, and axiom-query refusal boundaries.}
+\concretizedIn{ch:concrete-instances-closedgeneratoraudit-namecert}{Closed generator audit packets realize kernel acceptance, authorized recursor output, and closed-term substitution as one finite MetaCIC NameCert audit surface.}

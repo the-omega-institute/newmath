@@ -1,0 +1,105 @@
+\begin{theorem}[RegularCauchyTailMeet root window threshold coverage]
+\label{thm:regular-cauchy-tail-meet-root-window-threshold-coverage}
+Every root consumer request for an accepted $\RegularCauchyTailMeetUp$ packet reaches the shared threshold only through
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau
+$$
+together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The request has no route to the threshold outside the paired source rows, paired window rows, source-modulus rows, and finite transport/provenance surface.
+\end{theorem}
+\begin{proof}
+Start with window-source coverage. The coverage theorem forces every threshold-facing read to expose the two source rows and the two window rows before the shared threshold can be read.
+
+Next use source-modulus exhaustion. It attaches the two modulus rows $M_0,M_1$ to the same route and leaves no separate modulus source for a root consumer request.
+
+Finally apply shared-threshold non-escape and consumer exactness. The displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are therefore the only structural rows through which the threshold is transported to a root consumer.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root modulus route exactness]
+\label{thm:regular-cauchy-tail-meet-root-modulus-route-exactness}
+For an accepted $\RegularCauchyTailMeetUp$ packet, the source-modulus rows are the only admissible route into the shared-threshold ledger. A root threshold read is admitted exactly when it factors through the source-window-modulus route, the shared-threshold transport, and the displayed non-escape boundary.
+\end{theorem}
+\begin{proof}
+Apply ledger exactness first. The shared threshold ledger has only the displayed dyadic threshold coordinate, so a proposed route cannot enter the ledger through an unlisted analytic row.
+
+Next compose with shared-threshold transport. Transport moves the paired source, window, modulus, threshold, comparison, ledger, package, and local naming rows together, preserving the same threshold row for root reads.
+
+Finally use the non-escape exclusions. Since quotient streams, selected limits, trichotomy rows, host equality, and ambient completeness are absent from the carrier, the source-modulus rows are the exact route into the threshold ledger.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root Real seal consumer exhaustion]
+\label{thm:regular-cauchy-tail-meet-root-real-seal-consumer-exhaustion}
+Any $\RegSeqRatUp$ or $\RealUp$ root consumer of an accepted $\RegularCauchyTailMeetUp$ packet reads the finite tail-meet packet before any seal row is consumed. The consumer receives no quotient stream, selected limit, trichotomy row, host equality row, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First apply root window threshold coverage. It routes the root consumer through $R_0,R_1,W_0,W_1,M_0,M_1,\tau$ and the displayed structural rows before the threshold is available.
+
+Next apply root modulus route exactness. The source-modulus route is the only entrance into the threshold ledger, so a regular-rational or real-facing consumer cannot bypass the finite tail-meet packet.
+
+Finally compose with the Real seal handoff and the public shared-threshold certificate. The handoff places seal consumption after the finite packet, while the public certificate exposes only the shared threshold surface and none of quotient streams, selected limits, trichotomy, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root observation-budget entry]
+\label{thm:regular-cauchy-tail-meet-root-observation-budget-entry}
+For an accepted $\RegularCauchyTailMeetUp$ packet, a root threshold read can enter the finite $\RealObservationBudgetUp$ surface of \autoref{ch:concrete-instances-real-observation-budget-namecert} only through the paired source, window, modulus, and threshold rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau
+$$
+together with the displayed comparison, transport, continuation, provenance, ledger, and local $\NameCert$ rows. No budget entry route is supplied outside this finite TailMeet packet.
+\end{theorem}
+\begin{proof}
+Start with root window threshold coverage. It forces every root-facing read to expose the two source rows, two window rows, source modulus rows, shared threshold, and displayed structural rows before the threshold can be consumed.
+
+Next apply root modulus route exactness. The source-modulus rows are the only admissible route into the shared-threshold ledger, so a budget entry cannot bypass $R_0,R_1,W_0,W_1,M_0,M_1,\tau$.
+
+Finally read the target surface through \autoref{ch:concrete-instances-real-observation-budget-namecert}. That chapter admits only finite observation-budget rows, so the TailMeet threshold enters it through the displayed packet and not through quotient streams, host equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root threshold readback determinacy]
+\label{thm:regular-cauchy-tail-meet-root-threshold-readback-determinacy}
+For an accepted $\RegularCauchyTailMeetUp$ packet, any two root threshold readbacks that use the same displayed source-window-modulus route reach the same dyadic threshold row $\tau$. The determinacy is read through
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+and through the finite observation-budget entrance of \autoref{ch:concrete-instances-real-observation-budget-namecert}.
+\end{theorem}
+\begin{proof}
+First use root window threshold coverage to place both readbacks on the paired source rows, paired window rows, source modulus rows, and shared threshold row.
+
+Next use root modulus route exactness. Since the source-window-modulus route is the exact entrance to the threshold ledger, two readbacks with the same displayed route cannot reach different dyadic threshold rows inside the finite packet.
+
+Now apply root observation-budget entry. When the readback is served to $\RealObservationBudgetUp$, the budget side receives only the same displayed TailMeet rows, so it cannot split the dyadic readback by adding a quotient stream, selected limit, host equality, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root seal consumer boundary]
+\label{thm:regular-cauchy-tail-meet-root-seal-consumer-boundary}
+Every $\RealUp$ or $\CompletionUp$ seal consumer of an accepted $\RegularCauchyTailMeetUp$ packet is bounded by the finite observation-budget surface reached from the root threshold route. The consumer can read only the TailMeet rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+and the finite $\RealObservationBudgetUp$ rows admitted by \autoref{ch:concrete-instances-real-observation-budget-namecert}; it receives no quotient stream, host equality, selected limit, trichotomy row, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with root Real seal consumer exhaustion. A $\RegSeqRatUp$ or $\RealUp$ root consumer must read the finite TailMeet packet before any seal row is consumed.
+
+Apply root observation-budget entry and root threshold readback determinacy. Together they route the threshold through the finite observation-budget entrance and make the dyadic readback determined by the displayed source-window-modulus route.
+
+For a $\CompletionUp$ seal consumer, use the same budgeted boundary: it receives the TailMeet threshold only after the observation-budget surface has been displayed. Since both the TailMeet packet and the observation-budget packet are finite NameCert surfaces, no quotient stream, host equality, selected limit, trichotomy row, or ambient completeness row is available to the consumer.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root seal budget synchronization]
+\label{thm:regular-cauchy-tail-meet-root-seal-budget-synchronization}
+For an accepted $\RegularCauchyTailMeetUp$ packet, any root seal read synchronizes the finite threshold route
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+with the finite $\RealObservationBudgetUp$ entrance before any $\RealUp$ or $\CompletionUp$ seal consumer can read the seal. The consumer therefore sees the shared dyadic threshold only through the displayed TailMeet packet and the finite observation-budget rows, with no route through quotient streams, selected limits, host equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply root window threshold coverage and root modulus route exactness. These results put every root threshold read on the paired source rows, paired window rows, source-modulus rows, shared threshold row, rational comparison row, transport row, continuation row, ledger row, and local naming row.
+
+Next apply root observation-budget entry. The same finite route is the only entrance into the $\RealObservationBudgetUp$ surface, so the seal-side consumer cannot receive $\tau$ before the observation-budget packet has been displayed.
+
+Use root threshold readback determinacy to identify all readbacks along that route with the same dyadic threshold row. The budget entrance therefore carries a single determined TailMeet threshold rather than a separate consumer-side threshold.
+
+Finally apply root seal consumer boundary. It places both $\RealUp$ and $\CompletionUp$ seal reads after the finite budgeted route and excludes quotient streams, selected limits, host equality, trichotomy rows, and ambient completeness from the seal consumer surface.
+\end{proof}

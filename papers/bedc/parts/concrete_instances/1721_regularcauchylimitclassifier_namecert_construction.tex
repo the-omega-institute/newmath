@@ -1,0 +1,238 @@
+\chapter{Regular Cauchy Limit Classifier NameCert Construction}
+\label{ch:concrete-instances-regularcauchylimitclassifier-namecert}
+\origin{human}
+
+The $\RegularCauchyLimitClassifierUp$ interface is the finite classifier handoff between the diagonal-limit construction of \autoref{def:real-completeness-diagonal-limit} and the limit-existence target of \autoref{thm:real-completeness-limit-exists-unique}. It packages the selected $\RegSeqRatUp$ diagonal extraction, the $\StreamNameUp$ observation windows, the $\DyadicRatCoreUp$ rational ledgers, and the $\RealUp$ seal row through which a completion consumer sees the candidate limit. The packet is a classifier surface for the limit handoff; it is not an ambient completeness principle and it contains no host selected real.
+
+The classifier is consumed by the finite observation-budget route of \autoref{ch:concrete-instances-real-observation-budget-namecert}. $\RealObservationBudgetUp$ supplies the finite-window, dyadic-ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal boundary through which completion consumers inspect the classifier.
+
+\begin{definition}[Regular Cauchy limit classifier carrier]
+\label{def:regular-cauchy-limit-classifier-carrier}
+A $\RegularCauchyLimitClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the displayed $\RegSeqRatUp$ regular Cauchy input family and $\mu$ is its explicit modulus row;
+\item $\Delta$ is the diagonal extraction row assigning to each unary precision request the selected threshold and diagonal read demanded by \autoref{def:real-completeness-diagonal-limit};
+\item $W$ is the finite $\StreamNameUp$ window family that realizes the selected reads of the regular rational names;
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational observations obtained through $W$;
+\item $D$ is the $\DyadicRatCoreUp$ ledger recording endpoints, radii, comparison rows, and precision rows for those observations;
+\item $E$ is the $\RealUp$ seal handoff row exposing the same diagonal observations as the candidate real-name surface;
+\item $H$ stores componentwise $\hsame$ transports for the input family, modulus row, diagonal extraction, windows, readbacks, ledger, and seal row;
+\item $C$ stores displayed $\Cont$ routes for every consumer read that reaches those rows;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyLimitClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a host real value, a non-displayed limit selector, or an ambient completeness theorem.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier}
+
+\begin{theorem}[Regular Cauchy limit classifier stability]
+\label{thm:regular-cauchy-limit-classifier-stability}
+The local $\NameCert_{\RegularCauchyLimitClassifierUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item $\DyadicRatCoreUp$ ledger exactness: every exported rational observation is the endpoint, radius, comparison, and precision row recorded by $D$;
+\item $\StreamNameUp$ window exactness: each diagonal read uses the finite window named by $W$ and no unrecorded stream access;
+\item $\RegSeqRatUp$ extraction stability: transporting $X$, $\mu$, and $\Delta$ through the displayed $\hsame$ and $\Cont$ rows transports the selected regular-sequence readback $R$;
+\item $\RealUp$ seal discipline: the seal row $E$ is reached only after the displayed window, readback, and dyadic ledger rows have been produced;
+\item package and name closure: $P$ and $N$ record exactly the provenance and local classifier row consumed by downstream Real and Completion certificates.
+\end{enumerate}
+Consequently classifier transport preserves the finite diagonal-limit handoff from source packets to target packets without adding quotient representatives, hidden tail choices, host real equality tests, or ambient completeness assumptions.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_stability}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-limit-classifier-carrier}. The rows $X$, $\mu$, and $\Delta$ determine which regular rational name is read at each precision request, while $W$ records the finite stream window that performs the read.
+
+The $\RegSeqRatUp$ readback $R$ and the $\DyadicRatCoreUp$ ledger $D$ are coordinates of the same packet. Transport by the stored $\hsame$ rows in $H$ and consumer routes in $C$ therefore moves the selected readback together with its displayed endpoint, radius, comparison, and precision data.
+
+The $\RealUp$ row $E$ consumes only the already displayed $W$, $R$, and $D$ rows. Repacking those rows with $P$ and $N$ gives the transported local classifier surface and leaves no coordinate through which a non-displayed limit selector or quotient equality can enter.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit Real seal handoff]
+\label{thm:regular-cauchy-limit-real-seal-handoff}
+Every $\RealUp$ classifier read exported by an accepted $\RegularCauchyLimitClassifierUp$ carrier
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+factors through the displayed diagonal extraction row $\Delta$, the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ ledger $D$, and the seal row $E$. This handoff is the finite NameCert surface by which the Real completeness target sees a candidate limit classifier; it exports no quotient stream equality, selected host limit, host real equality, or ambient completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_real\_seal\_handoff}
+\begin{proof}
+Begin with the stability surface of \autoref{thm:regular-cauchy-limit-classifier-stability}. It identifies the only classifier-visible diagonal observations as the rows produced by $\Delta$, $W$, $R$, and $D$.
+
+The seal row $E$ is downstream of those observations. A consumer read into $\RealUp$ must therefore pass through the finite stream window and dyadic ledger before reaching the real-name handoff.
+
+Finally, the carrier definition lists all coordinates of $Q$. Since none of them is a quotient representative, a host selected limit, a host real equality test, or an ambient completeness field, the exported classifier cannot supply any of those objects.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier diagonal-window public boundary]
+\label{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary}
+Every public completion-facing read exported by an accepted $\RegularCauchyLimitClassifierUp$ carrier
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+factors through the displayed diagonal extraction row $\Delta$, the finite $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ ledger $D$, and the $\RealUp$ seal row $E$. Its provenance is the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$; it exports no quotient stream equality, host selected limit, host real equality, or ambient completeness premise.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_diagonal\_window\_public\_boundary}
+\begin{proof}
+Project the carrier in \autoref{def:regular-cauchy-limit-classifier-carrier}. The public-facing rows are $\Delta,W,R,D,E$ together with the transport, continuation, package, and naming rows $H,C,P,N$.
+
+Apply \autoref{thm:regular-cauchy-limit-classifier-stability}. The stability obligations make $D$ the exact dyadic ledger, make $W$ the finite window family for diagonal reads, and transport $R$ together with the same displayed diagonal extraction data.
+
+Now apply \autoref{thm:regular-cauchy-limit-real-seal-handoff}. It places every $\RealUp$ classifier read downstream of $\Delta,W,R,D,E$, so a completion-facing consumer receives only the sealed diagonal-window route.
+
+The remaining exclusions follow by carrier inspection. Since the packet has no coordinate for quotient stream equality, a host selected limit, host real equality, or ambient completeness, the public boundary cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier public export]
+\label{thm:regular-cauchy-limit-classifier-public-export}
+The public $\NameCert_{\RegularCauchyLimitClassifierUp}$ export of an accepted carrier
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+is exactly the tuple of displayed diagonal extraction data $\Delta$, $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback rows $R$, $\DyadicRatCoreUp$ ledger rows $D$, $\RealUp$ seal row $E$, $\BHist$ history surface, $\hsame$ transports $H$, $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ isolated by \autoref{thm:regular-cauchy-limit-classifier-stability}, \autoref{thm:regular-cauchy-limit-real-seal-handoff}, and \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary}. It exports no quotient stream equality, host selected limit, host real equality, or ambient completeness premise.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_public\_export}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-limit-classifier-stability}. It fixes the displayed diagonal extraction, window, readback, dyadic ledger, transport, package, and local naming rows as the stable classifier surface.
+
+Next apply \autoref{thm:regular-cauchy-limit-real-seal-handoff}. This places the $\RealUp$ seal downstream of the same $\Delta,W,R,D$ rows, so the real-name handoff contributes only the recorded seal row $E$.
+
+Finally use \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary}. It identifies the completion-facing public boundary with the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance already carried by $Q$.
+
+The carrier inventory has no coordinate for quotient stream equality, a host selected limit, host real equality, or ambient completeness. The public export is therefore exactly the displayed tuple and none of those excluded objects.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier bridge source packet]
+\label{thm:regular-cauchy-limit-classifier-bridge-source-packet}
+For every accepted $\RegularCauchyLimitClassifierUp$ carrier, the bridge-facing source packet is exactly
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+with diagonal extraction $\Delta$, finite $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ ledger $D$, $\RealUp$ seal row $E$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and \NameCert{} rows $H,C,P,N$. The source packet exports no quotient stream equality, selected host limit, host real equality, or ambient completeness premise.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_bridge\_source\_packet}
+\begin{proof}
+Begin with the stability theorem \autoref{thm:regular-cauchy-limit-classifier-stability}. It fixes the diagonal extraction, stream-window, regular readback, dyadic ledger, transport, continuation, package, and naming rows as the stable classifier surface.
+
+Next use the Real seal handoff and diagonal-window public boundary, \autoref{thm:regular-cauchy-limit-real-seal-handoff} and \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary}. These rows place the real-facing read downstream of $\Delta,W,R,D,E$ and keep the completion-facing boundary inside the same displayed packet.
+
+Finally project the public export of \autoref{thm:regular-cauchy-limit-classifier-public-export}. The bridge source is therefore the public tuple $Q$ itself, with no additional coordinate for quotient equality, a selected host limit, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier diagonal seal uniqueness]
+\label{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness}
+Let $Q$ and $Q'$ be accepted $\RegularCauchyLimitClassifierUp$ packets. If they share the same diagonal extraction row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback rows, $\DyadicRatCoreUp$ ledger rows, and $\RealUp$ seal row up to the displayed $\hsame$ transports, then every public completion-facing classifier read factors through the same sealed diagonal-window route.
+
+The conclusion is a uniqueness statement for the public readback route only. It does not assert quotient stream equality, select a host limit, identify host real values, or use ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier\_diagonal\_seal\_uniqueness}
+\begin{proof}
+First apply classifier stability from \autoref{thm:regular-cauchy-limit-classifier-stability}. The shared diagonal extraction, stream-window, regular readback, dyadic ledger, and seal rows remain the stable coordinates visible to both packets.
+
+Next use the Real seal handoff of \autoref{thm:regular-cauchy-limit-real-seal-handoff}. It places each real-facing read downstream of the same diagonal extraction, finite windows, readback rows, dyadic ledgers, and seal row.
+
+Now apply the diagonal-window public boundary and public export, \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary} and \autoref{thm:regular-cauchy-limit-classifier-public-export}. They force every completion-facing read through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route attached to those shared rows.
+
+Finally use the bridge source packet of \autoref{thm:regular-cauchy-limit-classifier-bridge-source-packet}. Since the bridge-facing packet has no coordinate for quotient stream equality, a selected host limit, host real equality, or ambient completeness, the shared sealed route is the only public route available to both classifiers.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier observation-budget factorization]
+\label{thm:regular-cauchy-limit-classifier-observation-budget-factorization}
+Let
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLimitClassifierUp$ packet, and let
+$$
+B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet. If the diagonal windows, dyadic ledger, regular readback, and $\RealUp$ seal row of $Q$ are read through the displayed rows of $B$, then every $\RealUp$ seal handoff of $Q$ factors through the observation-budget route
+$$
+E_B \longmapsto W_B \longmapsto D_B \longmapsto R_B \longmapsto S_B.
+$$
+The factorization is a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route; it adds no quotient stream equality, host real equality, selected limit, ambient completeness premise, hidden limit selector, or unbounded schedule.
+\end{theorem}
+\begin{proof}
+Start with the classifier rows. By \autoref{thm:regular-cauchy-limit-classifier-stability} and \autoref{thm:regular-cauchy-limit-real-seal-handoff}, the only $\RealUp$ handoff exported by $Q$ is downstream of $\Delta,W,R,D,E$.
+
+Now read those rows through the observation-budget packet. \autoref{thm:real-observation-budget-finite-window-seal-route-totality} makes every admitted seal read pass through $E_B,W_B,D_B,R_B,S_B$, and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} places both the $\RegSeqRatUp$ and $\RealUp$ consumers on that same finite route.
+
+Finally apply the public boundary and non-escape results. \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary} keeps the classifier read inside the displayed public packet, while \autoref{thm:real-observation-budget-nonescape} rules out quotient streams, host equality, hidden selectors, ambient completeness, and unbounded schedules.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier finite-route exactness]
+\label{thm:regular-cauchy-limit-classifier-finite-route-exactness}
+Under the hypotheses of \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization}, the classifier rows $\Delta,W,R,D,E,H,C,P,N$ and the budget rows $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$ determine the same finite window, dyadic ledger, regular readback, and seal boundary up to the displayed $\hsame$ transports and $\Cont$ routes. Equivalently, any accepted completion-facing read that agrees with both packets on those displayed rows is the same finite route from the diagonal classifier to the observation-budget seal boundary.
+\end{theorem}
+\begin{proof}
+First identify the classifier side. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} says that shared diagonal windows, readbacks, dyadic ledgers, and seal rows force every public completion-facing read through the same sealed diagonal-window route.
+
+Next identify the observation-budget side. \autoref{thm:real-observation-budget-classifier-exactness} confines classifier comparison to $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$, and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} routes every admitted $\RegSeqRatUp$ or $\RealUp$ consumer through those rows.
+
+The factorization theorem now composes the two identifications. The displayed $\hsame$ rows carry row equality, the displayed $\Cont$ rows replay the consumer route, and no additional analytic coordinate is available to distinguish the classifier route from the observation-budget route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier completion-consumer boundary]
+\label{thm:regular-cauchy-limit-classifier-completion-consumer-boundary}
+Composing an accepted $\RegularCauchyLimitClassifierUp$ packet with an accepted $\RealObservationBudgetUp$ packet through the factorization of \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization} gives a completion consumer only the finite rows
+$$
+\Delta,W,R,D,E,H,C,P,N
+$$
+and
+$$
+E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B.
+$$
+It gives no quotient stream equality, host real equality, selected limit, ambient completeness theorem, hidden limit selector, or unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Read the composed packet through the classifier first. \autoref{thm:regular-cauchy-limit-classifier-stability} and \autoref{thm:regular-cauchy-limit-real-seal-handoff} restrict the limit-classifier handoff to $\Delta,W,R,D,E$ with the displayed transport, route, provenance, and local naming rows.
+
+Read the same packet through the budget route next. \autoref{thm:real-observation-budget-finite-window-seal-route-totality} and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} place every admitted consumer on $E_B,W_B,D_B,R_B,S_B$ with $H_B,C_B,P_B,N_B$.
+
+Finally combine diagonal uniqueness with budget non-escape. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} prevents a second public classifier route with the same displayed seal rows, and \autoref{thm:real-observation-budget-nonescape} excludes quotient stream equality, host real equality, hidden selection, ambient completeness, and unbounded schedules from the budget side.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier synchronizer factorization]
+\label{thm:regular-cauchy-limit-classifier-synchronizer-factorization}
+Let
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLimitClassifierUp$ packet, and let
+$$
+Z=(E_Z,S_Z,B_Z,T_Z,D_Z,L_Z,H_Z,C_Z,P_Z,N_Z)
+$$
+be an accepted $\CauchySealBudgetSynchronizerUp$ packet. Suppose that the diagonal window, regular readback, dyadic ledger, and $\RealUp$ seal rows of $Q$ agree componentwise with the selector, budget, shared-threshold, and seal rows displayed by $Z$. Then every completion-facing read of $Q$ factors through the synchronizer route
+$$
+D_Z \longmapsto B_Z \longmapsto T_Z \longmapsto L_Z \longmapsto S_Z.
+$$
+The resulting route is exhausted by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the two packets. It exports no quotient stream, selected host limit, hidden selector, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the observation-budget factorization. \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization} places every $\RealUp$ seal handoff of $Q$ on the finite observation route, and \autoref{thm:regular-cauchy-limit-classifier-finite-route-exactness} identifies that route with the classifier rows visible to completion consumers.
+
+Next read the synchronizer packet. The componentwise agreement hypotheses identify the classifier diagonal window, readback, dyadic ledger, and seal rows with the synchronizer selector, budget, shared-threshold, and seal rows. The synchronizer carrier and obligation rows then force the read through $D_Z,B_Z,T_Z,L_Z,S_Z$ before any completion-facing consumer is served.
+
+Finally apply the completion-consumer boundary of \autoref{thm:regular-cauchy-limit-classifier-completion-consumer-boundary} together with the synchronizer non-escape rows. Since neither packet contains a quotient-stream coordinate, a host limit selector, host real equality, or an ambient completeness premise, the composed handoff exposes only the finite seal-budget synchronization surface.
+\end{proof}
+
+\closureat{RegularCauchyLimitClassifierUp}{seedStr}
+\closureat{RegularCauchyLimitClassifierUp}{obligationStr}
+\closureat{RegularCauchyLimitClassifierUp}{scopedStr}
+\closureat{RegularCauchyLimitClassifierUp}{publicStr}
+\closureat{RegularCauchyLimitClassifierUp}{bridgedStr}
+\closureat{RegularCauchyLimitClassifierUp}{matureStr}
+
+\begin{closurestatus}{\RegularCauchyLimitClassifierUp}
+  \constructivestory{A $\RegularCauchyLimitClassifierUp$ packet is generated by a displayed regular Cauchy input, its modulus row, the diagonal extraction row, finite stream windows, regular-sequence readbacks, dyadic observation ledgers, a RealUp seal row, transport routes, package provenance, and a local naming row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-classifier-carrier}, \autoref{thm:regular-cauchy-limit-classifier-stability}, \autoref{thm:regular-cauchy-limit-real-seal-handoff}, \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary}, \autoref{thm:regular-cauchy-limit-classifier-public-export}, \autoref{thm:regular-cauchy-limit-classifier-bridge-source-packet}, and \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} bind the public limit-classifier handoff, bridge-facing source packet, and uniqueness boundary to the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, a public standard bridge, or a checked Lean target.}
+  \upgradepath{Verification remains the next axis: formal targets are needed for the displayed diagonal-window classifier and seal uniqueness surface.}
+\end{closurestatus}

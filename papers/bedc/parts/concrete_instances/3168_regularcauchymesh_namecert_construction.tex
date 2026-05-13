@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMeshUp$}
+\label{ch:concrete-instances-regular-cauchy-mesh-namecert}
+\origin{ai}
+
+The $\RegularCauchyMeshUp$ packet records the shared finite mesh surface used by regular-Cauchy Real-completeness arguments before a diagonal mesh-budget consumer reads a $\RealUp$ seal. It names a finite family of regular rational observations indexed by mesh rows, together with StreamName windows, dyadic tolerance rows, transport, continuation, provenance, and a local naming certificate. The packet is a mesh-indexed observation carrier, not a completed real, a quotient class of regular sequences, or an ambient completeness principle.
+
+The concrete dependency route is through the finite modulus-window surface of \autoref{ch:concrete-instances-regularcauchywitnessschedule-namecert} and the mesh-cell compatibility surface of \autoref{ch:concrete-instances-dyadicmesh-namecert}. The $\RegularCauchyMeshUp$ packet refines the schedule packet by replacing a single selected window with a finite mesh-index row while preserving the same $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$ handoff, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+\begin{definition}[Regular Cauchy mesh carrier]
+\label{def:regular-cauchy-mesh-carrier}
+A $\RegularCauchyMeshUp$ carrier is a finite $\BHist$ packet
+$$
+G=(a,j,w,r,d,m,e,h,c,p,n)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $a$ is the finite regular-Cauchy request row, recording the requested precision and the finite observation sites to be inspected;
+\item $j$ is the mesh-index row, listing the finite $\DyadicMeshUp$ cells and regular-Cauchy positions selected by the request;
+\item $w$ is the $\StreamNameUp$ window row attached to those mesh cells;
+\item $r$ is the $\RegSeqRatUp$ readback row for the selected regular rational observations;
+\item $d$ is the $\DyadicRatCoreUp$ tolerance ledger, recording dyadic radii, endpoint comparisons, and mesh-cell tolerance bounds;
+\item $m$ is the $\DyadicMeshUp$ compatibility row that states the selected mesh cells are exactly the cells inspected by $j$ and $w$;
+\item $e$ is the $\RealUp$ handoff row reached only after $a,j,w,r,d,m$ have been displayed;
+\item $h$ records componentwise $\hsame$ transports for the request, mesh indices, windows, readbacks, dyadic ledger, mesh compatibility row, handoff row, provenance, and local name;
+\item $c$ records the displayed $\Cont$ routes from $a$ to $j$, from $j$ to $w$, from $w$ to $r$, from $r$ to $d$, from $d$ to $m$, and from $m$ to $e$;
+\item $p$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\RegularCauchyMeshUp}$ row.
+\end{enumerate}
+The carrier contains no infinite mesh, no quotient equality of regular sequences, no host real equality, no chosen limit representative, and no ambient Real completeness theorem.
+\end{definition}
+
+\begin{definition}[Regular Cauchy mesh classifier]
+\label{def:regular-cauchy-mesh-classifier}
+Two $\RegularCauchyMeshUp$ carriers
+$$
+G=(a,j,w,r,d,m,e,h,c,p,n)
+\quad\text{and}\quad
+G'=(a',j',w',r',d',m',e',h',c',p',n')
+$$
+are classified together exactly when the displayed request rows, mesh-index rows, StreamName windows, RegSeqRat readbacks, DyadicRatCore ledgers, DyadicMesh compatibility rows, RealUp handoff rows, componentwise transports, continuation routes, package provenance, and local NameCert rows are matched by the corresponding $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence already carried in the two packets.
+
+The classifier is rowwise and finite. It does not identify completed reals, quotient regular-Cauchy streams, or mesh families outside the displayed cells.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy mesh NameCert obligation sketch]
+\label{thm:regular-cauchy-mesh-namecert-obligation-sketch}
+The local $\NameCert_{\RegularCauchyMeshUp}$ surface for \autoref{def:regular-cauchy-mesh-carrier} has the following five rows:
+\begin{enumerate}
+\item carrier admission for $G=(a,j,w,r,d,m,e,h,c,p,n)$;
+\item finite mesh request exposure through $a$ and mesh-index exposure through $j$;
+\item selected $\StreamNameUp$ windows $w$, $\RegSeqRatUp$ readbacks $r$, $\DyadicRatCoreUp$ tolerance ledger $d$, and $\DyadicMeshUp$ compatibility row $m$;
+\item $\RealUp$ handoff through $e$, componentwise $\hsame$ transport through $h$, and displayed $\Cont$ route replay through $c$;
+\item $\Pkg$ provenance through $p$, local naming through $n$, and non-escape for infinite meshes, quotient regular-Cauchy equality, host real equality, selected limits, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyMeshUp.RegularCauchyMeshTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-mesh-carrier}. The packet exposes the eleven displayed rows and no other mesh-indexed data.
+
+The request and mesh-index rows $a$ and $j$ choose only finitely many cells. The selected windows $w$, readbacks $r$, dyadic ledger $d$, and mesh compatibility row $m$ then give the finite regular-rational observations attached to those cells.
+
+The handoff row $e$ is reached through the displayed transports and continuations in $h$ and $c$, with provenance and local naming recorded by $p$ and $n$. Thus the five rows exhaust the NameCert surface.
+
+The non-escape clauses follow from the carrier inventory. Since no row supplies an infinite mesh, quotient regular-Cauchy equality, host real equality, a selected limiting representative, or an ambient completeness theorem, none of those objects can be exported by the certificate.
+\end{proof}
+
+\closureat{RegularCauchyMeshUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyMeshUp}
+  \constructivestory{A $\RegularCauchyMeshUp$ packet is generated from a finite regular-Cauchy request, finite mesh indices, StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a DyadicMesh compatibility row, a RealUp handoff row, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-mesh-carrier}, \autoref{def:regular-cauchy-mesh-classifier}, and \autoref{thm:regular-cauchy-mesh-namecert-obligation-sketch} bind the seed carrier, rowwise classifier, and five-row NameCert surface for finite mesh-indexed regular-rational observations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RealUp completeness, quotient equality of regular sequences, host real equality, selected limits, infinite mesh selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rowwise classifier stability, finite mesh coverage, RealUp handoff, provenance, and non-escape for the same RegularCauchyMeshUp packet.}
+\end{closurestatus}

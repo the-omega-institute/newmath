@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\ContourSumWindowUp$}
+\label{ch:concrete-instances-contoursumwindow-namecert}
+
+The $\ContourSumWindowUp$ interface gives the contour-integral operation a finite window packet that downstream analytic chapters can inspect without importing a host integration operator. It records one piecewise-linear contour row, one holomorphic input row, a finite subdivision and sample ledger, the resulting Riemann-sum value, the output complex-history row, transport and continuation rows, package provenance, and a local naming row.
+
+\begin{definition}[ContourSumWindow carrier]
+\label{def:contour-sum-window-carrier}
+A $\ContourSumWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(\gamma,f,S,R,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\gamma$ is the $\mathsf{PLContour}$ row naming the finite endpoint list and segment history used by the contour read;
+\item $f$ is the $\HolomorphicUp$ input row on the displayed neighbourhood of $\gamma$;
+\item $S$ is the finite subdivision and sample row, listing the segment subdivision, sample point, and local mesh witness for every segment;
+\item $R$ is the Riemann-sum ledger, recording the finite summands, the mesh comparison, and the value computed from $f$ on the samples of $S$;
+\item $I$ is the output $\ComplexUp$ history row classified as the window value associated to the displayed ledger $R$;
+\item $H$ is the componentwise $\hsame$ transport row for $\gamma$, $f$, $S$, $R$, and $I$;
+\item $C$ is the finite $\Cont$ route row carrying subdivision refinement, contour endpoint transport, holomorphic-input transport, and output readback;
+\item $P$ is the $\Pkg$ provenance over $\mathsf{PLContour}$, $\HolomorphicUp$, finite subdivision rows, Riemann-sum rows, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ContourSumWindowUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[ContourSumWindow NameCert obligations]
+\label{thm:contour-sum-window-namecert-obligations}
+For every accepted $\ContourSumWindowUp$ carrier $W=(\gamma,f,S,R,I,H,C,P,N)$, the local $\NameCert_{\ContourSumWindowUp}$ surface consists exactly of finite carrier admission, subdivision ledger exactness, contour route stability, output readback through $I$, package provenance through $P$, and non-escape from host integration, open-cover compactness, selected limits, quotient values, or unlisted analytic function-space objects.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:contour-sum-window-carrier}. Carrier admission is the display of $\gamma,f,S,R,I,H,C,P,N$ as rows of one finite $\BHist$ packet, so no consumer can read a contour, integrand, subdivision, sum, or output row outside that list.
+
+Read the subdivision and Riemann-sum coordinates next. The row $S$ supplies the finite segment subdivision and sample data, while $R$ supplies the summand ledger and mesh comparison attached to those samples. Exactness is therefore ledger exactness for the listed rows, not convergence in an ambient integration theory.
+
+Finally apply the displayed transport and continuation rows. The $\hsame$ row transports the contour, input, ledger, and output componentwise, and the $\Cont$ row records only the finite routes named in the packet. Since no coordinate names host integration, compactness, selected limits, or quotient values, the local $\NameCert$ exports only the finite window surface.
+\end{proof}
+
+\begin{theorem}[ContourSumWindow Cauchy boundary]
+\label{thm:contour-sum-window-cauchy-boundary}
+Every Cauchy-facing read of an accepted $\ContourSumWindowUp$ carrier factors through the same $\mathsf{PLContour}$ row $\gamma$, the same $\HolomorphicUp$ row $f$, the displayed subdivision row $S$, the Riemann-sum ledger $R$, the $\ComplexUp$ output row $I$, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The boundary exports only finite contour-window data and does not assert a host Cauchy integral theorem, a host contour integral, open-cover compactness, selected limiting values, quotient complex histories, or an ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContourSumWindowUp.ContourSumWindowTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Start with the finite window packet. The only route from the contour and holomorphic input to an output row passes through the subdivision row $S$ and the Riemann-sum ledger $R$ before reaching the $\ComplexUp$ row $I$.
+
+The Cauchy-facing consumer can therefore inspect the displayed ledger and its transports, but it cannot replace the finite ledger by a host integral or by a selected limiting process. Those objects are not coordinates of the carrier.
+
+The non-escape clauses of \autoref{thm:contour-sum-window-namecert-obligations} close the boundary. They keep Cauchy-style cancellation and boundary reads inside the displayed contour, subdivision, Riemann-sum, output, transport, continuation, package, and naming rows, with no open-cover compactness or quotient-value surface added.
+\end{proof}
+
+\closureat{ContourSumWindowUp}{seedStr}
+
+\begin{closurestatus}{\ContourSumWindowUp}
+  \constructivestory{A $\ContourSumWindowUp$ packet is generated from a displayed $\mathsf{PLContour}$ row, a $\HolomorphicUp$ input row, finite subdivision and sample rows, a Riemann-sum ledger, a $\ComplexUp$ output row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contour-sum-window-carrier}, \autoref{thm:contour-sum-window-namecert-obligations}, and \autoref{thm:contour-sum-window-cauchy-boundary} display the finite contour-window carrier, obligation surface, ledger exactness, route stability, and Cauchy-facing boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close host contour integration, Cauchy's integral theorem, open-cover compactness, selected limits, quotient complex values, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subdivision ledger exactness, contour route stability, Cauchy boundary, and non-escape for the same finite packet.}
+\end{closurestatus}

@@ -261,14 +261,14 @@ def detect_schema_only_regions() -> set[str]:
     schema-only horizon. Returns a set of region ids. Combined with
     SCHEMA_ONLY_REGIONS hardcoded list."""
     detected: set[str] = set()
-    capstones_dir = PAPER_INSTANCES.parent / "capstones"
-    for f in capstones_dir.rglob("*.tex") if capstones_dir.exists() else []:
+    visions_dir = PAPER_INSTANCES.parent / "visions"
+    for f in visions_dir.rglob("*.tex") if visions_dir.exists() else []:
         text = f.read_text(encoding="utf-8", errors="ignore")
-        # only flag a capstone as schema-only when it ALSO has zero \leanchecked
+        # only flag a vision as schema-only when it ALSO has zero \leanchecked
         # markers (lots of "schema-only" mentions inside a normal proof chapter
         # would be a false positive otherwise)
         if SCHEMA_HORIZON_HINT.search(text) and "\\leanchecked{" not in text:
-            region = CAPSTONE_FILE_TO_REGION.get(f.stem)
+            region = VISION_FILE_TO_REGION.get(f.stem)
             if region:
                 detected.add(region)
     return detected | SCHEMA_ONLY_REGIONS
@@ -297,9 +297,9 @@ def critical_path_targets() -> dict:
         return {"top": [], "error": str(e)}
 
 
-# Capstone files don't follow the concrete_instances naming convention; map them
+# Vision files don't follow the concrete_instances naming convention; map them
 # to region ids so they show up as nodes in the graph alongside namecert regions.
-CAPSTONE_FILE_TO_REGION: dict[str, str] = {
+VISION_FILE_TO_REGION: dict[str, str] = {
     "observer_hist_identity": "observer",
     "inter_hist_locality": "interhist",
 }
@@ -311,7 +311,26 @@ SCHEMA_ONLY_REGIONS: set[str] = {"interhist", "observer"}
 
 LEAN_IMPORT_RE = re.compile(r"^\s*import\s+([A-Za-z0-9_.]+)", re.MULTILINE)
 PAPER_AUTOREF_RE = re.compile(r"\\autoref\{ch:concrete-instances-([a-z][a-z0-9\-]*?)(?:-namecert)?\}")
-PAPER_CAPSTONE_AUTOREF_RE = re.compile(r"\\autoref\{ch:capstones-([a-z][a-z0-9\-]*?)\}")
+PAPER_VISION_AUTOREF_RE = re.compile(r"\\autoref\{ch:visions-([a-z][a-z0-9\-]*?)\}")
+# Any cross-reference. Resolved against a paper-wide label->region index so
+# `\autoref{thm:foo}` / `\autoref{def:bar}` from one chapter to another
+# contribute real dependency edges, not just the rare `\autoref{ch:...}` form.
+PAPER_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
+PAPER_ANY_REF_RE = re.compile(r"\\(?:autoref|Autoref|cref|Cref|ref)\{([^}]+)\}")
+# `\NameCert_{\VonNeumannAlgUp}` is BEDC's first-class way of declaring "this
+# chapter depends on the VonNeumannAlg namecert". The dependency is structural,
+# not a Lean import: FactorUp.lean takes `vna : BHist` as a parameter and the
+# *paper* asserts that vna must be admitted by `\NameCert_{\VonNeumannAlgUp}`.
+# Far more reliable than `\autoref{ch:...}` for cross-chapter edges.
+PAPER_NAMECERT_RE = re.compile(r"\\NameCert_\{\\([A-Za-z][A-Za-z0-9]*?)Up\}")
+# Many namecert chapters declare cross-region dependencies by writing the
+# *bare* `\XxxUp` macro in prose (10+ occurrences is the norm) without
+# wrapping it in `\NameCert_{...}`. e.g. the BousfieldLocalizationUp chapter
+# mentions `\ModelCatUp` / `\CategoryUp` / `\FunctorUp` repeatedly to discuss
+# the underlying model structure. Treat every bare `\XxxUp` mention from one
+# region's files as a dependency on the XxxUp region (after self-reference
+# filtering by the caller).
+PAPER_BARE_UP_MACRO_RE = re.compile(r"\\([A-Z][A-Za-z0-9]*?)Up\b")
 
 
 # Aliases that fold paper-side and Lean-side spellings into a single region id.
@@ -324,14 +343,13 @@ REGION_ALIASES: dict[str, str] = {
     "criticalstrip":        "critstrip",
     "zetacontinuation":     "zetacont",
     "complexdifferentiability": "complexdiff",
-    # `52_real_analytic_namecert_construction.tex` lives under the real region
-    "realanalytic": "real",
-    # `54_complex_analytic` is the analytic-continuation operation specialized
-    "complexanalytic": "anacont",
-    # `55_complex_topology` extends the complex namecert
-    "complextopology": "complex",
-    # `53_gamma_function` is the schema-only Gamma block inside zeta-continuation
-    "gammafunction": "zetacont",
+    # No more concept-folding aliases below this line. Past entries like
+    # complextopology→complex, realanalytic→real, complexanalytic→anacont,
+    # gammafunction→zetacont merged distinct mathematical objects into one
+    # node and caused (or risked causing) Lean cycles. Each chapter that
+    # introduces a genuinely new namecert now gets its own node, even if
+    # conceptually adjacent to an existing region. Renames above this line
+    # are pure naming normalization, not concept folding.
 }
 
 
@@ -442,7 +460,7 @@ def paper_chapter_to_region(f: Path) -> str | None:
       1. Chapter's Lean targets (canonical via `lean_target_to_region`)
       2. Chapter's self-declared `\\label{ch:concrete-instances-<region>-namecert}`
          (preserves roadmap chapters whose Lean code doesn't exist yet)
-      3. Capstone whitelist for `parts/capstones/*.tex` (declarative chapters
+      3. Vision whitelist for `parts/visions/*.tex` (declarative chapters
          with no Lean refs and no concrete-instances label)
 
     Hub files / framework chapters with none of the above return None.
@@ -459,8 +477,8 @@ def paper_chapter_to_region(f: Path) -> str | None:
         rel = f.relative_to(PAPER_INSTANCES.parent)
     except ValueError:
         return None
-    if rel.parts[0] == "capstones":
-        return CAPSTONE_FILE_TO_REGION.get(f.stem)
+    if rel.parts[0] == "visions":
+        return VISION_FILE_TO_REGION.get(f.stem)
     return None
 
 
@@ -474,11 +492,99 @@ def parse_paper_autorefs(f: Path) -> list[str]:
     refs = []
     for m in PAPER_AUTOREF_RE.finditer(text):
         refs.append(paper_label_to_region(m.group(1)))
-    for m in PAPER_CAPSTONE_AUTOREF_RE.finditer(text):
+    for m in PAPER_VISION_AUTOREF_RE.finditer(text):
         cap = m.group(1).replace("-", "_")
-        if cap in CAPSTONE_FILE_TO_REGION:
-            refs.append(CAPSTONE_FILE_TO_REGION[cap])
+        if cap in VISION_FILE_TO_REGION:
+            refs.append(VISION_FILE_TO_REGION[cap])
     return refs
+
+
+def build_paper_label_index(paper_files: list[Path]) -> dict[str, str]:
+    """Scan every paper .tex once and build a label -> region reverse index.
+
+    Every `\\label{X}` declared inside a file whose chapter resolves to a
+    region R contributes `X -> R`. First definition wins; collisions are
+    rare in practice because label namespaces are chapter-scoped by
+    convention. Used by `parse_paper_refs_via_index` so that an
+    `\\autoref{thm:foo-bar}` from chapter A to chapter B is recorded as a
+    real `A -> B` dependency edge instead of being silently dropped.
+    """
+    index: dict[str, str] = {}
+    for f in paper_files:
+        region = canonical(paper_chapter_to_region(f))
+        if not region:
+            continue
+        text = _read_text_or_none(f)
+        if text is None:
+            continue
+        for m in PAPER_LABEL_RE.finditer(text):
+            index.setdefault(m.group(1), region)
+    return index
+
+
+def parse_paper_refs_via_index(
+    f: Path, label_index: dict[str, str]
+) -> list[str]:
+    """Resolve every `\\autoref` / `\\ref` / `\\cref` in `f` through the
+    paper-wide label index. Returns the list of regions referenced
+    (may contain duplicates; caller dedupes)."""
+    text = f.read_text(encoding="utf-8", errors="ignore")
+    out = []
+    for m in PAPER_ANY_REF_RE.finditer(text):
+        r = label_index.get(m.group(1))
+        if r:
+            out.append(r)
+    return out
+
+
+def resolve_namecert_macro(name: str, regions: set[str]) -> str | None:
+    """Map a `\\XxxUp` macro stem (already lowercased, `Up` stripped) to a
+    canonical region id.
+
+    Strategy, in order:
+      1. Exact match against region set (post-`canonical`).
+      2. Unique prefix / containment match against the region set — handles
+         `vonneumannalg` -> `vonneumannalgebra`, `metricspace` -> `metric`,
+         `continuousfunction` -> `continuous` without a hand-curated alias dict.
+      3. Give up: return None.
+
+    Strategy 2 only fires when there is *exactly one* candidate, so ambiguous
+    matches (e.g. `func` -> `functor` | `functionalanalysis`) are rejected
+    rather than guessed."""
+    direct = canonical(name)
+    if direct and direct in regions:
+        return direct
+    candidates = {r for r in regions if r.startswith(name) or name.startswith(r)}
+    candidates |= {r for r in regions if name in r or r in name}
+    candidates.discard(name)
+    if len(candidates) == 1:
+        return next(iter(candidates))
+    return None
+
+
+def parse_paper_namecerts(f: Path, regions: set[str]) -> list[str]:
+    """Every `\\NameCert_{\\XxxUp}` in `f` declares a structural dependency on
+    the XxxUp region. Returns the list of region ids referenced."""
+    text = f.read_text(encoding="utf-8", errors="ignore")
+    out = []
+    for m in PAPER_NAMECERT_RE.finditer(text):
+        r = resolve_namecert_macro(m.group(1).lower(), regions)
+        if r:
+            out.append(r)
+    return out
+
+
+def parse_paper_bare_up_macros(f: Path, regions: set[str]) -> list[str]:
+    """Every bare `\\XxxUp` macro invocation in `f` (e.g. `\\ModelCatUp`,
+    `\\RealUp`) signals a reference to the XxxUp region. Self-references are
+    not filtered here — the caller already drops `rc == my_region`."""
+    text = f.read_text(encoding="utf-8", errors="ignore")
+    out = []
+    for m in PAPER_BARE_UP_MACRO_RE.finditer(text):
+        r = resolve_namecert_macro(m.group(1).lower(), regions)
+        if r:
+            out.append(r)
+    return out
 
 
 def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
@@ -508,19 +614,25 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
             r = paper_chapter_to_region(f)
             if r:
                 regions.add(canonical(r) or r)
-    capstones_dir = PAPER_INSTANCES.parent / "capstones"
-    if capstones_dir.exists():
-        for f in capstones_dir.rglob("*.tex"):
-            r = CAPSTONE_FILE_TO_REGION.get(f.stem)
+    visions_dir = PAPER_INSTANCES.parent / "visions"
+    if visions_dir.exists():
+        for f in visions_dir.rglob("*.tex"):
+            r = VISION_FILE_TO_REGION.get(f.stem)
             if r:
                 regions.add(r)
 
     # Always include kernel even if FKernel scan finds no .lean (defensive)
     regions.add("kernel")
 
-    deps: dict[str, set[str]] = defaultdict(set)
+    # Lean imports are precise structural dependencies (no false reverse
+    # pairs by construction). Paper TeX cross-refs (autoref, namecert, bare
+    # up-macros) are looser: a "see also" or comparison reference looks the
+    # same as a real dep, which generates spurious A→B when the true edge
+    # is B→A. Build the two graphs separately so paper-side edges that
+    # contradict Lean can be filtered out below.
+    lean_deps: dict[str, set[str]] = defaultdict(set)
+    paper_deps: dict[str, set[str]] = defaultdict(set)
 
-    # Phase 2: collect edges between known regions only
     for f in LEAN_DIR.rglob("*.lean"):
         my_region = lean_file_to_region(f)
         if not my_region or my_region not in regions:
@@ -528,31 +640,148 @@ def derive_dependency_edges() -> tuple[dict[str, set[str]], set[str]]:
         for imp in parse_lean_imports(f):
             dep = lean_module_to_region(imp)
             if dep and dep in regions and dep != my_region:
-                deps[my_region].add(dep)
+                lean_deps[my_region].add(dep)
+
+    # Build the label -> region reverse index once across all paper files
+    # so cross-chapter `\autoref{thm:...}` / `\autoref{def:...}` resolve to
+    # real edges (these vastly outnumber the rare `\autoref{ch:...}` form).
+    all_paper_files: list[Path] = []
+    if PAPER_INSTANCES.exists():
+        all_paper_files.extend(PAPER_INSTANCES.rglob("*.tex"))
+    if visions_dir.exists():
+        all_paper_files.extend(visions_dir.rglob("*.tex"))
+    label_index = build_paper_label_index(all_paper_files)
+
+    def collect_paper_edges(f: Path, my_region: str) -> None:
+        for parser in (
+            parse_paper_autorefs,
+            lambda g: parse_paper_refs_via_index(g, label_index),
+            lambda g: parse_paper_namecerts(g, regions),
+            lambda g: parse_paper_bare_up_macros(g, regions),
+        ):
+            for r in parser(f):
+                rc = canonical(r)
+                if rc and rc in regions and rc != my_region:
+                    paper_deps[my_region].add(rc)
 
     if PAPER_INSTANCES.exists():
         for f in PAPER_INSTANCES.rglob("*.tex"):
-            my_region = canonical(paper_chapter_to_region(f))
-            if not my_region or my_region not in regions:
-                continue
-            for r in parse_paper_autorefs(f):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
+            mr = canonical(paper_chapter_to_region(f))
+            if mr and mr in regions:
+                collect_paper_edges(f, mr)
 
-    if capstones_dir.exists():
-        for f in capstones_dir.rglob("*.tex"):
-            my_region = CAPSTONE_FILE_TO_REGION.get(f.stem)
-            if not my_region:
-                continue
-            for r in parse_paper_autorefs(f):
-                rc = canonical(r)
-                if rc and rc in regions and rc != my_region:
-                    deps[my_region].add(rc)
+    visions_dir = PAPER_INSTANCES.parent / "visions"
+    if visions_dir.exists():
+        for f in visions_dir.rglob("*.tex"):
+            mr = VISION_FILE_TO_REGION.get(f.stem)
+            if mr:
+                collect_paper_edges(f, mr)
+
+    # Reverse-pair pruning. Two rules:
+    #   1. Paper `A → B` contradicts Lean `B → A` → drop the paper edge
+    #      (Lean is the precise source of truth).
+    #   2. Paper `A → B` AND paper `B → A` (no Lean evidence either way)
+    #      → drop both (can't disambiguate which is the real dependency).
+    # Lean-only reverse pairs do not occur in practice (Lean imports are
+    # acyclic by construction), so no rule is needed for them.
+    deps: dict[str, set[str]] = defaultdict(set)
+    for r, ds in lean_deps.items():
+        deps[r] |= ds
+
+    paper_pairs = {(r, t) for r, ts in paper_deps.items() for t in ts}
+    dropped_vs_lean = 0
+    dropped_paper_pairs = 0
+    for r, t in paper_pairs:
+        if r in lean_deps.get(t, ()):
+            dropped_vs_lean += 1
+            continue
+        if (t, r) in paper_pairs:
+            dropped_paper_pairs += 1
+            continue
+        deps[r].add(t)
+    if dropped_vs_lean or dropped_paper_pairs:
+        print(
+            f"[derive_dependency_edges] pruned reverse-pair noise: "
+            f"{dropped_vs_lean} paper edges contradicting Lean, "
+            f"{dropped_paper_pairs} mutual paper↔paper edges with no Lean evidence",
+            file=sys.stderr,
+        )
+
+    # Cycle-breaking pass. Lean imports alone are acyclic (verified at the
+    # top of this function). Any remaining cycle is therefore a paper-only
+    # back-edge: chapter A `\autoref{thm:b-foo}` plus chapter B
+    # `\autoref{thm:c-foo}` plus chapter C `\autoref{thm:a-foo}`, none of
+    # which is a real dependency. For each cycle, drop the paper edge with
+    # the lexicographically smallest (source, target) — deterministic and
+    # never touches Lean.
+    lean_edge_set = {(s, t) for s, ts in lean_deps.items() for t in ts}
+    dropped_cycle_edges = 0
+    while True:
+        adj: dict[str, set[str]] = {n: set(deps.get(n, set())) for n in deps}
+        cycle = _find_cycle(adj)
+        if not cycle:
+            break
+        edges_in_cycle = [
+            (cycle[i], cycle[(i + 1) % len(cycle)]) for i in range(len(cycle))
+        ]
+        # only paper-only edges are candidates (never break a Lean edge)
+        candidates = [e for e in edges_in_cycle if e not in lean_edge_set]
+        if not candidates:
+            # shouldn't happen because Lean is acyclic, but bail out safely
+            print(
+                f"[derive_dependency_edges] cycle {cycle} contains only Lean "
+                f"edges; refusing to break",
+                file=sys.stderr,
+            )
+            break
+        victim = min(candidates)
+        deps[victim[0]].discard(victim[1])
+        dropped_cycle_edges += 1
+    if dropped_cycle_edges:
+        print(
+            f"[derive_dependency_edges] broke {dropped_cycle_edges} paper-only "
+            f"cycles by dropping the lex-smallest non-Lean edge in each",
+            file=sys.stderr,
+        )
 
     for r in regions:
         deps.setdefault(r, set())
     return dict(deps), regions
+
+
+def _find_cycle(adj: dict[str, set[str]]) -> list[str] | None:
+    """Return one cycle as a list of nodes [v0, v1, ..., vk] where there is
+    an edge from each v_i to v_(i+1) and from v_k back to v_0. None if the
+    graph is acyclic. Uses iterative DFS to handle deep graphs without
+    blowing the stack."""
+    color: dict[str, int] = {n: 0 for n in adj}  # 0=white, 1=gray, 2=black
+    parent: dict[str, str | None] = {n: None for n in adj}
+    for root in adj:
+        if color[root] != 0:
+            continue
+        stack: list[tuple[str, iter]] = [(root, iter(sorted(adj[root])))]
+        color[root] = 1
+        while stack:
+            node, it = stack[-1]
+            nxt = next(it, None)
+            if nxt is None:
+                color[node] = 2
+                stack.pop()
+                continue
+            if color.get(nxt, 2) == 1:
+                # found back-edge node -> nxt; reconstruct cycle
+                cyc = [nxt]
+                cur = node
+                while cur != nxt:
+                    cyc.append(cur)
+                    cur = parent[cur]  # type: ignore[assignment]
+                cyc.reverse()
+                return cyc
+            if color.get(nxt, 2) == 0:
+                color[nxt] = 1
+                parent[nxt] = node
+                stack.append((nxt, iter(sorted(adj[nxt]))))
+    return None
 
 
 def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:

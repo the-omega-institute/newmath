@@ -1,0 +1,194 @@
+\section{Substrate Stack Summary}
+\label{sec:self-comp-substrate-stack-summary}
+
+\texttt{BEDC.MetaCIC} is a first-principles substrate for the object calculus
+used by the self-compilation surface. Its stack starts with a closed inductive
+syntax, adds de Bruijn mechanics, reduction, typing, and local metatheory, and
+then exposes concrete examples and BEDC-carrier embeddings. Each layer is a
+Lean module family with a bounded responsibility. No layer imports mathlib,
+adds an axiom, or treats a host-kernel theorem as a theorem about the
+represented object calculus.
+
+\subsection{Layered View}
+\label{subsec:substrate-stack-layered-view}
+
+\begin{center}
+\begin{tabular}{p{0.12\linewidth}p{0.30\linewidth}p{0.46\linewidth}}
+\toprule
+Layer & Lean surface & Role in the stack \\
+\midrule
+5 & \texttt{TypedExamples.*}, \texttt{BHistSubstrate} &
+Concrete typed terms and embeddings from BEDC carrier data into closed
+represented terms. \\
+4 & \texttt{Confluence.*}, \texttt{SubjectReduction.*},
+\texttt{Normalization} &
+Local metatheory: atom diamonds, hypothesis-based subject reduction, and
+fuel-bounded normalization facts. \\
+3 & \texttt{Typing.Core}, \texttt{Typing.SubstitutionSurface},
+\texttt{Typing.ClosedBinderDomains} &
+The represented typing judgment and the guard surfaces needed by binder-aware
+substitution. \\
+2 & \texttt{Beta}, \texttt{ClosurePreservation} &
+One-step beta, finite beta chains, parallel beta, and closure preservation
+under represented reduction. \\
+1 & \texttt{Substitution}, \texttt{ClosedTerm},
+\texttt{ClosedTerm.Helpers} &
+Shift, substitution, closedness at a de Bruijn boundary, and syntactic helper
+facts. \\
+0 & \texttt{Syntax} &
+The term grammar: sort, variable, lambda, Pi, and application. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The arrows in this table point upward. Syntax is the object over which every
+other layer recurses. Substrate mechanics define the admissible movement of
+de Bruijn indices. Reduction consumes those mechanics in beta contraction.
+Typing states the object judgment over the same terms and contexts.
+Metatheory proves local preservation and joining facts over the represented
+relations. Examples and embeddings give concrete closed inhabitants of the
+same substrate.
+
+\subsection{Layer 0: Term Syntax}
+\label{subsec:substrate-layer-term-syntax}
+
+The base layer is \texttt{BEDC.MetaCIC.Syntax}. It defines
+\texttt{Term} as a closed inductive object with five constructors:
+\texttt{sort}, \texttt{var}, \texttt{lam}, \texttt{pi}, and \texttt{app}.
+Binders are de-named. Variable occurrence is represented by a natural-number
+de Bruijn index, so alpha-equivalent presentations have the same constructor
+shape once written in this substrate.
+
+This layer deliberately contains no nominal freshness algebra, no quotient by
+alpha-equivalence, and no host-level binder function. The cost is explicit
+index arithmetic. The gain is that all binder movement is ordinary recursive
+data processing over \texttt{Term}, visible to the Lean kernel and to the
+paper-Lean audit.
+
+\subsection{Layer 1: Substrate Mechanics}
+\label{subsec:substrate-layer-mechanics}
+
+The mechanics layer is split across \texttt{BEDC.MetaCIC.Substitution},
+\texttt{BEDC.MetaCIC.ClosedTerm}, and
+\texttt{BEDC.MetaCIC.ClosedTerm.Helpers}. The two central operations are
+\texttt{shift} and \texttt{substitute}. Shift raises free indices at or above
+a cutoff. Substitution replaces the variable at a selected depth, lowers
+indices above the removed variable, and shifts the inserted term when the
+operation crosses a binder.
+
+\texttt{ClosedAt} records the boundary at which a term has no free variables.
+The helper layer supplies the constructor-local facts that make this boundary
+usable under application, lambda, and Pi shapes. These definitions are the
+substrate's bookkeeping contract: every higher result about beta reduction or
+typing inherits the same de Bruijn boundary discipline.
+
+\subsection{Layer 2: Reduction}
+\label{subsec:substrate-layer-reduction}
+
+Reduction lives in \texttt{BEDC.MetaCIC.Beta}. The primitive relation
+\texttt{BetaStep} has a root beta-contraction rule and congruence rules for
+application heads, application arguments, lambda domains, lambda bodies, Pi
+domains, and Pi codomains. \texttt{BetaStarStep} is the finite
+reflexive-transitive closure used for finite traces. \texttt{BetaParallel} is
+the parallel relation used by the confluence surface.
+
+\texttt{BEDC.MetaCIC.ClosurePreservation} connects reduction back to the
+mechanics layer. A beta contraction is implemented by substitution, so closure
+preservation for reduction depends on the closure-preserving substitution
+facts from Layer 1. This is the first place where the stack forces the algebra
+of binders to match the operational semantics.
+
+\subsection{Layer 3: Typing}
+\label{subsec:substrate-layer-typing}
+
+Typing is centered on \texttt{BEDC.MetaCIC.Typing.Core}. Its main predicate is
+\texttt{HasType}, an inductive relation between contexts, represented terms,
+and represented types. The formation rules cover sorts, variables, Pi types,
+lambdas, and applications over the explicit-context de Bruijn substrate.
+
+The guard surfaces live in
+\texttt{BEDC.MetaCIC.Typing.SubstitutionSurface} and
+\texttt{BEDC.MetaCIC.Typing.ClosedBinderDomains}. They isolate the
+substitution and binder-domain hypotheses needed by typing preservation
+arguments. This matters because a domain introduced outside a binder must be
+read one level deeper inside the body. The typing layer therefore uses the
+same shift-aware interpretation as the syntax and substitution layers, rather
+than treating binder domains as inert annotations.
+
+\subsection{Layer 4: Metatheory}
+\label{subsec:substrate-layer-metatheory}
+
+The confluence surface is in \texttt{BEDC.MetaCIC.Confluence.*}. Atom
+diamonds are mechanized for sort and variable sources, where no real beta fork
+can occur. The full diamond over all compound beta forks is not asserted.
+Application forks need residual reasoning that commutes parallel reduction
+with shift-aware substitution, and that theorem is exactly where the
+represented substrate remains restrictive.
+
+The subject-reduction surface is in
+\texttt{BEDC.MetaCIC.SubjectReduction.*}. It is hypothesis-based: the beta
+case and congruence cases are assembled under the substitution-preservation
+and domain-stability assumptions stated by the typing surface. Thus subject
+reduction is not obtained by importing a host theorem. It is a theorem over
+the represented \texttt{HasType} and \texttt{BetaStep} relations, at the
+strength supported by the current substrate hypotheses.
+
+\texttt{BEDC.MetaCIC.Normalization} supplies a bounded normalizer and atomic
+normal-form facts. The normalizer terminates because its fuel decreases in
+the host recursion, not because the represented calculus has a checked strong
+normalization theorem. The normalization layer is therefore operational and
+finite-trace oriented.
+
+\subsection{Layer 5: Examples and Embeddings}
+\label{subsec:substrate-layer-examples-embeddings}
+
+The example layer is the concrete gallery under
+\texttt{BEDC.MetaCIC.TypedExamples.*}. It contains sort, Pi, identity,
+application, projection, constant-form, and polymorphic witnesses over the
+same \texttt{HasType} relation used by the metatheory. These examples are not
+a separate evaluator surface. They are ordinary represented terms with
+ordinary typing derivations.
+
+\texttt{BEDC.MetaCIC.BHistSubstrate} connects the finite BEDC history carrier
+to the MetaCIC term language. Its embedding sends each generated binary
+history to a closed represented term. This supplies a bridge from raw BEDC
+certificate data into the object calculus without adding a primitive history
+constructor to \texttt{Term}.
+
+\subsection{Cross-Cutting Invariants}
+\label{subsec:substrate-stack-cross-cutting-invariants}
+
+The whole stack is mathlib-free. Its Lean files are built from the Lean 4
+standard environment and project-local inductive definitions, functions, and
+theorems. The project gate rejects \texttt{axiom} declarations and maintains
+the zero-\texttt{sorry} discipline for public theorem bodies.
+
+The stricter purity audit also checks transitive dependencies. It rejects
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}. Thus the
+checked MetaCIC theorems are CIC-derived in the relevant project sense:
+constructive, quotient-free, and not backed by hidden classical or
+extensional host principles.
+
+The paper markers are an independent audit axis. A Lean-side theorem marker
+must name an object that exists under \texttt{lean4/BEDC/}. Conversely, a
+marker does not close an informal theorem by itself. The stack is reported on
+two axes: what the paper claims about the represented calculus, and what Lean
+has checked for the corresponding definitions and theorems.
+
+\subsection{Open Seam}
+\label{subsec:substrate-stack-open-seam}
+
+The limiting algebraic point is substitution composition. In the naive
+zero-depth form, composition is false for the represented operations; the
+counterexample is recorded in
+\autoref{subsec:substrate-open-algebraic-gap}. The failure is not a peripheral
+notation issue. It shows that the substrate must account for closure,
+shifting, and binder depth before a composition theorem can be used safely.
+
+This same constraint reaches the upper layers. Full confluence needs residual
+substitution lemmas for application beta forks. Subject reduction depends on
+substitution preservation at the strength stated by the typing guard surface.
+Strong normalization would need an admissible-type and reducibility
+infrastructure stable under the same binder mechanics. The stack is therefore
+coherent from bottom to top: the highest open metatheory is bounded by the
+lowest shift-aware algebra that the substrate has made available.

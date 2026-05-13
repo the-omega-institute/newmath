@@ -1,0 +1,632 @@
+\chapter{A Concrete Naming Certificate for $\BaireSpaceUp$}
+\label{ch:concrete-instances-bairespace-namecert}
+
+The $\BaireSpaceUp$ interface names Brouwer-style Baire space as a certificate
+for natural-number-indexed streams whose observations are displayed finite
+unary histories. The BEDC surface does not treat infinite sequences as
+primitive histories. It records finite prefix windows, a prefix-cylinder
+classifier, stream-name scheduling rows, and package provenance that can be
+read by $\RegSeqRatUp$ and $\RealUp$ consumers.
+
+\begin{definition}[BaireSpace stream carrier]
+\label{def:baire-space-stream-carrier}
+A $\BaireSpaceUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+B=(s,w,c,l,p)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $s$ is a $\StreamNameUp$ schedule row whose $n$th displayed request
+returns a finite $\mathsf{UnaryHistory}$ answer row;
+\item $w$ is a finite prefix-window ledger listing the requested natural
+indices and the unary answer rows displayed for those indices;
+\item $c$ is the prefix-cylinder classifier row: two packets classify together
+over a displayed window exactly when their listed unary answer rows are paired
+componentwise by $\hsame$ through the same scheduled indices;
+\item $l$ is the local ledger exposing the $\mathsf{BHist}$ packet, the
+$\mathsf{UnaryHistory}$ answer rows, the finite index window, the
+componentwise $\hsame$ comparisons, and the $\Cont$ routes used by prefix
+restriction;
+\item $p$ is the $\Pkg$ provenance row naming the $\NatUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ certificate boundaries
+available to consumers.
+\end{enumerate}
+The carrier predicate is $\mathsf{BairePrefix}(s,w,c,l,p)$. It accepts only
+finite prefix displays of a natural-number-indexed stream; every public read
+is routed through the selected window and the displayed classifier row.
+\end{definition}
+
+\begin{theorem}[BaireSpace prefix-cylinder stability]
+\label{thm:baire-space-prefix-cylinder-stability}
+Let $B=(s,w,c,l,p)$ be an accepted $\BaireSpaceUp$ carrier. If $B'$ is obtained
+from $B$ by transporting the stream schedule, every displayed unary answer in a
+finite prefix window, the classifier row, the local ledger, and the provenance
+row by the $\hsame$ and $\Cont$ data recorded in $l$, then $B'$ is again an
+accepted carrier. The prefix-cylinder classifier for the transported window
+reads exactly the transported unary rows and no tail beyond that window.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireSpaceUp.BaireSpacePrefixPacket\_prefix\_cylinder\_stability}
+\begin{proof}
+Project the carrier of \autoref{def:baire-space-stream-carrier}. The only
+data visible to the classifier are the stream schedule, the finite index
+window, and the unary answer rows listed by that window.
+
+Transport each listed row through the displayed $\hsame$ comparisons in the
+ledger. The $\Cont$ routes in the same ledger restrict the stream readback to
+the transported prefix, so the repacked tuple has the same carrier shape.
+
+The classifier row is a cylinder classifier. It compares exactly the displayed
+prefix entries, and no coordinate in the carrier stores an infinite tail as a
+history object. Thus the transported packet is accepted with the transported
+prefix-cylinder read.
+\end{proof}
+
+\begin{theorem}[BaireSpace prefix-restriction composition]
+\label{thm:baire-space-prefix-restriction-composition}
+Let $B=(s,w,c,l,p)$ be an accepted $\BaireSpaceUp$ carrier. Suppose the ledger
+$l$ displays a prefix restriction from $B$ to $B_1$ and then a second prefix
+restriction from $B_1$ to $B_2$, each recorded by the corresponding $\hsame$
+comparisons and $\Cont$ routes on the stream schedule, finite index window,
+unary answer rows, classifier row, and provenance row. Then the composite
+restriction is again an accepted $\BaireSpaceUp$ prefix packet.
+
+Its visible unary rows are exactly the twice-restricted subwindow of $w$, its
+classifier is the componentwise $\hsame$ restriction of the original
+prefix-cylinder classifier $c$ to that subwindow, and its provenance is still
+the same $\Pkg$ row $p$. The composite packet introduces no hidden infinite
+tail and no host sequence equality.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $B$ through
+\autoref{def:baire-space-stream-carrier}. The first displayed restriction is a
+transport of the schedule, window, unary rows, classifier, ledger, and
+provenance along rows already recorded in $l$.
+
+Use \autoref{thm:baire-space-prefix-cylinder-stability} on this first
+restriction. The result is an accepted prefix packet $B_1$ whose classifier
+reads only the first restricted finite subwindow.
+
+Apply the same stability theorem to the second displayed restriction out of
+$B_1$. The $\Cont$ routes compose inside the displayed ledger, so the resulting
+packet reads precisely the subwindow obtained by restricting the original
+prefix window twice.
+
+It remains to identify the classifier and provenance. The classifier at each
+listed coordinate is obtained by the componentwise $\hsame$ restriction of the
+original cylinder row $c$, and the $\Pkg$ coordinate is transported as the same
+provenance row $p$.
+
+Finally, the ledger coverage statement of
+\autoref{thm:baire-space-ledger-coverage} rules out every consumer read not
+listed in the finite window. Hence the composite construction cannot expose an
+infinite tail or an equality of host sequences.
+\end{proof}
+\leanchecked{BEDC.Derived.BaireSpaceUp.BaireSpacePrefixPacket\_prefix\_restriction\_composition}
+
+\begin{theorem}[BaireSpace NameCert obligations]
+\label{thm:baire-space-namecert-obligations}
+The local $\NameCert_{\BaireSpaceUp}$ obligation surface consists of five
+finite rows:
+\begin{enumerate}
+\item carrier: the stream carrier of
+\autoref{def:baire-space-stream-carrier};
+\item classifier: the prefix-cylinder row comparing displayed unary answers
+componentwise over a finite index window;
+\item stability: prefix-window transport as in
+\autoref{thm:baire-space-prefix-cylinder-stability};
+\item exactness: a public observation is readable from the certificate iff it
+is one of the finite unary rows listed by the selected prefix window;
+\item provenance: downstream reads factor through the displayed $\NatUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ package
+rows carried by $p$.
+\end{enumerate}
+These rows are the complete seed obligation for naming countable stream space
+data over BEDC histories.
+\end{theorem}
+\begin{proof}
+The carrier and classifier rows are the first two projections of
+\autoref{def:baire-space-stream-carrier}. They expose the scheduled stream
+read, the finite index window, and the unary answer rows over that window.
+
+Stability is supplied by
+\autoref{thm:baire-space-prefix-cylinder-stability}. Transporting the
+schedule, window, answer rows, ledger, and provenance repacks the same finite
+prefix surface.
+
+For exactness, inspect the coordinates of the packet. A public observation can
+only be read from the prefix ledger $w$ through the classifier row $c$ and the
+routes in $l$. The provenance row $p$ names the available consumers but does
+not add a second observation channel.
+\end{proof}
+
+\begin{theorem}[BaireSpace real-name handoff]
+\label{thm:baire-space-real-name-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\BaireSpaceUp$
+packet reads the stream only through finite prefix windows. A regular rational
+sequence consumer may read a requested unary index and its scheduled answer
+row, and a real-name consumer may combine that finite read with the
+$\DyadicRatCoreUp$ provenance named by $p$. Neither consumer receives a
+primitive infinite history, a completed real, or an unlogged tail equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireSpaceUp.BaireSpacePrefixPacket\_real\_name\_handoff\_transport}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:baire-space-stream-carrier}. The stream schedule is present only
+through finite request rows, and the answers are the unary histories displayed
+in $w$.
+
+A $\RegSeqRatUp$ consumer therefore obtains a finite index request and the
+corresponding unary answer row. Transport of that read is controlled by the
+prefix-cylinder classifier and the ledger routes.
+
+A $\RealUp$ consumer can additionally use the $\DyadicRatCoreUp$ provenance
+named by $p$ when interpreting the finite answer as a dyadic or regular
+sequence component. The packet still exposes only the selected prefix rows, so
+no completed infinite object is exported.
+\end{proof}
+
+\begin{theorem}[BaireSpace Real stream prefix determinacy]
+\label{thm:bairespace-real-stream-prefix-determinacy}
+Let $B=(s,w,c,l,p)$ and $B'=(s',w',c',l',p')$ be accepted $\BaireSpaceUp$
+packets. Suppose their scheduled finite prefix indices agree and the unary
+answer rows at each displayed index are paired componentwise by $\hsame$.
+Then every $\RegSeqRatUp$ or $\RealUp$ consumer reads the same finite
+stream-prefix boundary from $B$ and $B'$.
+
+The determinacy is only for logged finite prefix rows. It does not identify
+primitive infinite histories, host sequences, completed reals, or unlogged
+tails.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:baire-space-prefix-cylinder-stability} to transport the
+componentwise unary answer rows through the common scheduled prefix indices.
+The transported classifier still reads only the displayed finite window.
+
+Use \autoref{thm:baire-space-prefix-restriction-composition} to compare any
+consumer-requested subwindow of the two packets inside the same restricted
+prefix. The composed restriction preserves the schedule, answer rows,
+classifier, ledger, and provenance rows needed by the consumer.
+
+For $\RegSeqRatUp$ and $\RealUp$ consumers, invoke
+\autoref{thm:baire-space-real-name-handoff}. Those consumers receive only the
+finite prefix requests and unary answer rows, with the $\DyadicRatCoreUp$
+provenance available to the real-name interpretation.
+
+Finally apply \autoref{thm:baire-space-ledger-coverage}. Since the ledger
+covers exactly the displayed stream packet, unary answer rows, prefix window,
+classifier, $\hsame$ comparisons, $\Cont$ routes, and provenance, there is no
+row from which an infinite history, host sequence equality, completed real, or
+unlogged tail could distinguish the two reads.
+\end{proof}
+
+\begin{theorem}[BaireSpace ledger coverage]
+\label{thm:baire-space-ledger-coverage}
+For an accepted carrier $B=(s,w,c,l,p)$, the ledger $l$ covers every public
+row of the $\BaireSpaceUp$ packet: the $\mathsf{BHist}$ stream packet, the
+$\mathsf{UnaryHistory}$ answer rows, the finite prefix window, the
+prefix-cylinder classifier, the componentwise $\hsame$ comparisons, the
+prefix-restriction $\Cont$ routes, and the package provenance. The ledger
+exports no apartness principle, choice functional, host sequence equality, or
+real-completeness assertion.
+\end{theorem}
+\begin{proof}
+Read the packet coordinates one by one. The stream schedule $s$, prefix window
+$w$, classifier $c$, and provenance $p$ are all named fields of the carrier,
+and the ledger $l$ records the comparison and restriction routes among them.
+
+Any public row must be read from one of those fields. Prefix restriction uses
+the displayed $\Cont$ route, while equality of observations uses the displayed
+componentwise $\hsame$ rows in the cylinder classifier.
+
+The omitted objects would require extra coordinates: an apartness principle,
+a choice functional, a host equality on full sequences, or a completeness
+theorem for real names. No such coordinate occurs in the carrier, so the
+ledger coverage is exactly the listed finite surface.
+\end{proof}
+
+\begin{theorem}[BaireSpace cylinder-tail coverage]
+\label{thm:baire-space-cylinder-tail-coverage}
+Every finite prefix-cylinder consumer read from an accepted $\BaireSpaceUp$
+packet factors through the displayed $\StreamNameUp$ schedule, the
+prefix-restriction ledger, $\hsame$ transport, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and the $\RealUp$ handoff boundary. The read exposes no completed
+infinite sequence, no classical topology, and no choice-selected branch.
+\end{theorem}
+\begin{proof}
+Read the stream carrier of \autoref{def:baire-space-stream-carrier}. Its public
+coordinates are the schedule, finite prefix window, prefix-cylinder classifier,
+ledger, and provenance rows, so a cylinder-tail consumer begins with a finite
+window named by that carrier.
+
+Use \autoref{thm:baire-space-prefix-cylinder-stability} to keep the cylinder
+answer stable under displayed prefix reads, and
+\autoref{thm:baire-space-prefix-restriction-composition} to compose the
+restriction ledger. These steps route the consumer through the same $\hsame$
+transport and $\Cont$ paths already recorded in the packet.
+
+The real-facing boundary is exactly the finite handoff of
+\autoref{thm:baire-space-real-name-handoff}, and
+\autoref{thm:baire-space-ledger-coverage} exhausts the remaining public rows.
+No carrier coordinate stores a completed sequence, a topological completion, or
+a choice-selected branch, so such data cannot be exported by a prefix-cylinder
+read.
+\end{proof}
+
+\begin{theorem}[BaireSpace obligation window classifier]
+\label{thm:bairespace-obligation-window-classifier}
+Every accepted $\BaireSpaceUp$ prefix packet supplies the obligation surface
+consisting of the finite $\StreamNameUp$ schedule, $\NatUp$ index rows,
+displayed $\UnaryHistory$ answers, prefix-cylinder classifier, componentwise
+$\hsame$, prefix-restriction $\Cont$, $\mathsf{Pkg}$ provenance, and consumer
+handoff rows for $\RegSeqRatUp$ and $\RealUp$.
+
+The classifier is exhausted by finite windows. It excludes host sequence
+equality, choice-selected branches, and classical topology.
+\end{theorem}
+\begin{proof}
+Project the accepted prefix packet through
+\autoref{def:baire-space-stream-carrier}. The carrier provides the finite
+schedule, index window, displayed unary answers, classifier row, ledger, and
+package provenance.
+
+Use \autoref{thm:baire-space-prefix-cylinder-stability} and
+\autoref{thm:baire-space-prefix-restriction-composition} to keep every
+classifier read inside finite prefix windows under the displayed $\hsame$ and
+$\Cont$ rows.
+
+Apply \autoref{thm:baire-space-namecert-obligations} for the local naming
+surface, \autoref{thm:baire-space-real-name-handoff} for the
+$\RegSeqRatUp/\RealUp$ consumer rows, and \autoref{thm:baire-space-ledger-coverage}
+for exhaustion of the public ledger.
+
+Finally, \autoref{thm:baire-space-cylinder-tail-coverage} rules out any tail
+read not already listed in the finite cylinder packet. Thus the obligation
+surface is exactly the finite window classifier, with no host sequence equality,
+choice-selected branch, or classical topology.
+\end{proof}
+
+\begin{theorem}[BaireSpace finite cylinder stream boundary]
+\label{thm:baire-space-finite-cylinder-stream-boundary}
+Every accepted $\BaireSpaceUp$ packet consumed by $\StreamNameUp$,
+$\RegSeqRatUp$, or $\RealUp$ is exhausted by the finite schedule, $\NatUp$
+index rows, displayed $\UnaryHistory$ answers, prefix-cylinder classifier,
+componentwise $\hsame$ rows, $\Cont$ restriction routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\BaireSpaceUp}$ ledger. These rows are the
+exact finite-cylinder boundary for stream-name, regular-sequence, and
+real-facing consumers.
+
+The boundary excludes host sequence equality, infinite tails, classical
+topology, choice-selected branches, and completed reals.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:baire-space-stream-carrier}. The carrier exposes the finite
+$\StreamNameUp$ schedule, $\NatUp$ index rows, displayed unary answers,
+prefix-cylinder classifier, transport routes, package provenance, and local
+certificate ledger.
+
+Apply \autoref{thm:baire-space-real-name-handoff} to identify the
+$\RegSeqRatUp$ and $\RealUp$ consumer rows reached from that schedule. The
+handoff uses the same finite prefix-cylinder coordinates and introduces no
+completed real or host stream equality.
+
+Use \autoref{thm:baire-space-ledger-coverage} for the remaining package and
+certificate rows, and use
+\autoref{thm:baire-space-cylinder-tail-coverage} to rule out any read from an
+undisplayed infinite tail. The obligation window classifier of
+\autoref{thm:bairespace-obligation-window-classifier} then pins the classifier
+surface to the same finite window.
+
+Thus every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer read is one
+of the projected finite-cylinder rows. Since those rows contain no host
+sequence equality, infinite tail object, classical topological principle,
+choice-selected branch, or completed real, none can appear at the boundary.
+\end{proof}
+
+\begin{theorem}[BaireSpace scoped finite-consumer boundary]
+\label{thm:bairespace-scoped-finite-consumer-boundary}
+Every $\BaireSpaceUp$ consumer read factors through the finite $\StreamNameUp$
+schedule, the $\NatUp$ index rows, displayed $\UnaryHistory$ answers, the
+prefix-cylinder classifier, componentwise $\hsame$, prefix-restriction $\Cont$,
+$\mathsf{Pkg}$ provenance, and the $\RegSeqRatUp$, $\RealUp$, and
+$\DyadicRatCoreUp$ handoff rows.
+
+This finite boundary exhausts the scoped public surface. It exposes no host
+sequence equality, no choice-selected branch, no completed infinite sequence,
+and no classical topology.
+\end{theorem}
+\begin{proof}
+Project the consumer read through the stream carrier of
+\autoref{def:baire-space-stream-carrier}. The only displayed coordinates are
+the schedule, finite index window, unary answer rows, classifier, transport
+ledger, package provenance, and downstream handoff rows.
+
+Apply \autoref{thm:baire-space-prefix-cylinder-stability} to keep the
+prefix-cylinder answer stable under displayed finite reads. Then use
+\autoref{thm:baire-space-prefix-restriction-composition} to compose the
+prefix-restriction $\Cont$ rows along the same componentwise $\hsame$ route.
+
+The real-facing and rational-facing consumer rows are supplied by
+\autoref{thm:baire-space-real-name-handoff}. The remaining public coordinates
+are exhausted by \autoref{thm:baire-space-ledger-coverage} and by the obligation
+window classifier of \autoref{thm:bairespace-obligation-window-classifier}.
+
+Therefore any scoped consumer read is already one of the finite prefix-cylinder
+packet reads listed above. Since none of the cited rows constructs a host
+sequence equality, a choice branch, a completed infinite sequence, or a
+classical topological object, none is available at the scoped boundary.
+\end{proof}
+
+\begin{theorem}[BaireSpace public prefix-cylinder certificate]
+\label{thm:bairespace-public-prefix-cylinder-certificate}
+The stream carrier of \autoref{def:baire-space-stream-carrier}, the obligation
+window classifier of \autoref{thm:bairespace-obligation-window-classifier}, and
+the finite-consumer boundary of
+\autoref{thm:bairespace-scoped-finite-consumer-boundary} export the public
+$\NameCert_{\BaireSpaceUp}$ surface for the same prefix-cylinder packet.
+
+That surface consists exactly of the finite $\StreamNameUp$ schedule, the
+$\NatUp$ index rows, displayed $\UnaryHistory$ answers, the prefix-cylinder
+classifier, componentwise $\hsame$, prefix-restriction $\Cont$,
+$\mathsf{Pkg}$ provenance, and the $\RegSeqRatUp$, $\RealUp$, and
+$\DyadicRatCoreUp$ handoff rows. It excludes host sequence equality,
+choice-selected branches, completed infinite sequences, classical topology,
+apartness on Baire space, and real completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted prefix-cylinder packet and project it through
+\autoref{def:baire-space-stream-carrier}. This gives the finite schedule,
+index rows, displayed unary answers, classifier coordinate, transport routes,
+and package provenance that are available to the public name certificate.
+
+The classifier row is the one identified by
+\autoref{thm:bairespace-obligation-window-classifier}. Its finite-window
+description is stable under the componentwise $\hsame$ and prefix-restriction
+$\Cont$ rows already used by the scoped boundary.
+
+The downstream rows are exactly the rows supplied by
+\autoref{thm:baire-space-real-name-handoff}. The remaining ledger coordinates
+are exhausted by \autoref{thm:baire-space-ledger-coverage}, while
+\autoref{thm:baire-space-cylinder-tail-coverage} prevents a hidden tail read
+from entering the packet.
+
+Finally apply \autoref{thm:bairespace-scoped-finite-consumer-boundary}. It
+states that every consumer read has already factored through this finite
+prefix-cylinder list, so repackaging the same rows as the public
+$\NameCert_{\BaireSpaceUp}$ surface adds no host equality, branch selector,
+completed sequence, topological principle, Baire-space apartness, or real
+completeness field.
+\end{proof}
+
+\begin{theorem}[BaireSpace prefix-stream bridge]\label{thm:bairespace-prefix-stream-bridge}
+The public prefix-cylinder certificate of
+\autoref{thm:bairespace-public-prefix-cylinder-certificate} has a conservative
+stream-name reading: every accepted prefix-cylinder read factors through the
+displayed $\StreamNameUp$ schedule, $\NatUp$ index rows, unary answer rows,
+componentwise $\hsame$, prefix-restriction $\Cont$, $\Pkg$ provenance, and the
+$\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ handoff rows. Reading the
+stream-name packet back recovers exactly those rows.
+
+The bridge adds no host sequence equality, choice-selected branch, completed
+infinite sequence, classical topology, apartness on Baire space, or real
+completeness.
+\end{theorem}
+\begin{proof}
+Project the public certificate through
+\autoref{thm:bairespace-public-prefix-cylinder-certificate}. Its visible rows
+are already the finite schedule, finite index window, unary answers,
+classifier, componentwise transport, prefix-restriction route, package
+provenance, and downstream handoff rows.
+
+Use \autoref{thm:bairespace-scoped-finite-consumer-boundary} to identify every
+standard finite-prefix read with one of these displayed packet rows. This
+prevents a read of an infinite host sequence or a choice-selected branch from
+being inserted into the prefix-cylinder interface.
+
+Apply \autoref{thm:baire-space-cylinder-tail-coverage}. The finite cylinder
+tail is already accounted for by the displayed prefix window, so no completed
+infinite sequence or hidden tail coordinate enters the readback.
+
+For downstream consumers, apply
+\autoref{thm:baire-space-real-name-handoff}. The rational and real-facing
+handoffs remain finite prefix reads and do not require real completeness,
+classical topology, or a Baire-space apartness principle.
+
+Finally use \autoref{thm:baire-space-ledger-coverage} to exhaust the remaining
+ledger rows. Reading the standard finite prefix-cylinder packet back into
+$\BaireSpaceUp$ therefore recovers exactly the displayed carrier and handoff
+surface, with no additional host equality, branch selector, completed
+sequence, topological object, apartness row, or real-completeness row.
+\end{proof}
+
+\begin{theorem}[BaireSpace finite prefix-cylinder coverage]
+\label{thm:bairespace-finite-prefix-cylinder-coverage}
+Every finite stream-name consumer read of a certified $\BaireSpaceUp$ packet
+factors through a displayed prefix-cylinder row.
+
+Compatible nested prefix cylinders share a common finite prefix transport
+through the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert_{\BaireSpaceUp}$ rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:baire-space-prefix-cylinder-stability}. It keeps each
+accepted finite read inside the displayed prefix-cylinder classifier, finite
+$\NatUp$ index rows, unary answer rows, and stream schedule.
+
+For nested cylinders, apply
+\autoref{thm:baire-space-prefix-restriction-composition}. The composed
+restriction route supplies the common finite prefix transport through the same
+$\hsame$, $\Cont$, package, and local certificate rows.
+
+Use \autoref{thm:baire-space-real-name-handoff} for rational and real-facing
+consumers. Those reads remain finite stream-name handoffs rather than
+completed sequences or real-completeness assumptions.
+
+Finally combine \autoref{thm:bairespace-scoped-finite-consumer-boundary} with
+\autoref{thm:bairespace-prefix-stream-bridge}. The scoped boundary exhausts
+the finite consumer rows, and the bridge identifies the same rows with the
+stream-name presentation, yielding the stated finite prefix-cylinder
+coverage.
+\end{proof}
+
+\begin{theorem}[BaireSpace StreamName prefix sieve]
+\label{thm:bairespace-streamname-prefix-sieve}
+Every finite prefix-cylinder read consumed by $\StreamNameUp$, $\RegSeqRatUp$,
+or $\RealUp$ factors through the displayed $\StreamNameUp$ schedule, $\NatUp$
+index rows, $\mathsf{UnaryHistory}$ answer rows, prefix-cylinder classifier,
+componentwise $\hsame$ rows, $\Cont$ restriction routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\BaireSpaceUp}$ ledger.
+
+The sieve exports no choice-selected branch, host sequence equality, completed
+sequence, or real-completeness row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:baire-space-prefix-cylinder-stability}. It keeps each
+finite observation inside the displayed prefix-cylinder classifier and the
+finite $\NatUp$ index and unary answer rows.
+
+Use \autoref{thm:baire-space-prefix-restriction-composition} to compose the
+restriction routes. The resulting read still travels through the same
+$\StreamNameUp$ schedule, componentwise $\hsame$ rows, $\Cont$ routes, package
+provenance, and local naming ledger.
+
+For rational and real consumers, apply
+\autoref{thm:baire-space-real-name-handoff}. The $\RegSeqRatUp$ and $\RealUp$
+rows are therefore finite prefix reads of the displayed stream schedule rather
+than completed host sequences.
+
+Finally invoke \autoref{thm:baire-space-ledger-coverage}. It exhausts the
+remaining certificate rows, so no choice-selected branch, host sequence
+equality, completed sequence, or real-completeness row is exported.
+\end{proof}
+
+\begin{theorem}[BaireSpace finite-prefix consumer completeness]
+\label{thm:bairespace-finite-prefix-consumer-completeness}
+Every accepted finite consumer of the public prefix-cylinder bridge factors
+through one displayed finite prefix window. The window consists exactly of the
+$\StreamNameUp$ schedule, $\NatUp$ index rows, unary answer rows, the
+prefix-cylinder classifier, componentwise $\hsame$ rows, prefix-restriction
+$\Cont$ routes, $\mathsf{Pkg}$ provenance, and the $\RegSeqRatUp$, $\RealUp$,
+and $\DyadicRatCoreUp$ handoff rows.
+
+This factorization exports no host sequence equality, choice branch, completed
+infinite sequence, apartness row, external topology, or real completeness row.
+\end{theorem}
+\begin{proof}
+Start with the public prefix-cylinder certificate of
+\autoref{thm:bairespace-public-prefix-cylinder-certificate}. Its exposed rows
+are already the finite schedule, prefix index window, displayed unary answers,
+classifier coordinate, componentwise transport, prefix-restriction route,
+package provenance, and downstream handoff surface.
+
+Read the same packet through \autoref{thm:bairespace-prefix-stream-bridge}. This
+identifies every bridge consumer with the stream-name presentation over the
+same finite prefix window, so the consumer has no separate access to a host
+sequence or a choice-selected branch.
+
+The remaining coverage is ledger-local. Apply
+\autoref{thm:baire-space-ledger-coverage} to exhaust the certificate rows and
+\autoref{thm:baire-space-cylinder-tail-coverage} to keep tail information inside
+the displayed finite cylinder. No completed infinite sequence or external
+topological row is produced.
+
+Finally apply \autoref{thm:baire-space-real-name-handoff}. The
+$\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ consumers therefore receive
+only the listed handoff rows, not real completeness, apartness on Baire space,
+or any additional host equality principle. Hence every accepted finite consumer
+factors through the displayed finite prefix window.
+\end{proof}
+
+\begin{theorem}[BaireSpace prefix intersection normal form]
+\label{thm:bairespace-prefix-intersection-normal-form}
+Two compatible finite prefix-cylinder consumers of an accepted
+$\BaireSpaceUp$ packet, whose requested $\NatUp$ prefix windows overlap through
+displayed $\hsame$ and $\Cont$ routes, factor through one displayed finite
+prefix window. The normal-form window carries the $\StreamNameUp$ schedule,
+$\NatUp$ index rows, $\mathsf{UnaryHistory}$ answer rows, the prefix-cylinder
+classifier, componentwise $\hsame$ rows, $\Cont$ restrictions, $\mathsf{Pkg}$
+provenance, and the $\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ handoff
+rows.
+
+The intersection read exports no host sequence equality, choice branch,
+completed infinite sequence, apartness row, external topology, or
+real-completeness row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:baire-space-prefix-cylinder-stability} on each consumer. Both
+reads remain inside finite prefix-cylinder rows whose schedule, requested
+$\NatUp$ indices, unary answers, and prefix classifier are displayed in the
+accepted packet.
+
+Apply \autoref{thm:baire-space-prefix-restriction-composition} to the overlap
+routes. Compatibility through $\hsame$ and $\Cont$ lets the two requested
+windows compose to one finite window carrying the common componentwise
+transport, restriction provenance, and $\mathsf{Pkg}$ row.
+
+Read the resulting window through
+\autoref{thm:bairespace-prefix-stream-bridge} and
+\autoref{thm:bairespace-streamname-prefix-sieve}. These identify the
+intersection as a $\StreamNameUp$ schedule read and exhaust the finite prefix
+coordinates before any completed host sequence or choice-selected branch can be
+formed.
+
+Finally invoke
+\autoref{thm:bairespace-finite-prefix-consumer-completeness}. The
+$\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ consumers receive only the
+listed handoff rows, so the compatible intersection has the stated finite
+normal form and exports none of the excluded topology, apartness, or
+real-completeness data.
+\end{proof}
+
+\begin{theorem}[BaireSpace prefix-cylinder separation]
+\label{thm:bairespace-prefix-cylinder-separation}
+Let two accepted $\BaireSpaceUp$ prefix packets have a displayed common finite
+prefix window. If, at the first listed mismatch in that window, one displayed
+$\mathsf{UnaryHistory}$ answer row is not related by the packet classifier to
+the corresponding row of the other packet, then the two packets do not classify
+together through that prefix-cylinder surface.
+
+Later tail rows, host sequence equality, completed infinite sequences,
+external topology, apartness data, and choice-selected branches are irrelevant
+to this separation claim.
+\end{theorem}
+\begin{proof}
+Project both packets to their finite prefix-cylinder carriers. The projected
+rows are the $\StreamNameUp$ schedule, the $\NatUp$ prefix indices, displayed
+$\mathsf{UnaryHistory}$ answers, the prefix classifier, componentwise
+$\hsame$ transport, prefix-restriction $\Cont$ routes, package provenance, and
+the downstream handoff rows.
+
+Use \autoref{thm:baire-space-prefix-cylinder-stability} on both packets. Every
+classifier read that can affect the prefix-cylinder comparison is restricted
+to the displayed unary answer rows inside the common finite window.
+
+Apply \autoref{thm:baire-space-prefix-restriction-composition} and
+\autoref{thm:bairespace-prefix-intersection-normal-form}. These put the two
+packets on one displayed prefix window, with the same visible transport and
+restriction provenance, before any later tail coordinate is consulted.
+
+At the first listed mismatch, the classifier row required for joint
+classification is absent by hypothesis. The packet carrier has no hidden host
+sequence equality, classical topology datum, or tail row that can replace this
+displayed classifier coordinate. Hence the two packets cannot classify
+together through the prefix-cylinder surface.
+\end{proof}
+
+\closureat{BaireSpaceUp}{obligationStr}
+\closureat{BaireSpaceUp}{scopedStr}
+\closureat{BaireSpaceUp}{publicStr}
+\closureat{BaireSpaceUp}{bridgedStr}
+\closureat{BaireSpaceUp}{matureStr}
+
+\begin{closurestatus}{\BaireSpaceUp}
+  \constructivestory{A $\BaireSpaceUp$ packet is generated by a $\StreamNameUp$ schedule, finite $\NatUp$ prefix-window requests, displayed $\mathsf{UnaryHistory}$ answer rows, a prefix-cylinder classifier, componentwise $\hsame$ comparisons, prefix-restriction $\Cont$ routes, and $\Pkg$ provenance for $\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ consumers.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:bairespace-public-prefix-cylinder-certificate}, \autoref{thm:bairespace-prefix-stream-bridge}, and \autoref{thm:bairespace-streamname-prefix-sieve} close the public prefix-cylinder certificate, stream-name readback, and finite prefix-cylinder consumer completeness surface through the $\StreamNameUp$ schedule, $\NatUp$ index rows, displayed unary answers, prefix-cylinder classifier, componentwise $\hsame$, prefix-restriction $\Cont$, $\mathsf{Pkg}$ provenance, and $\RegSeqRatUp$, $\RealUp$, and $\DyadicRatCoreUp$ handoff rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.BaireSpaceUp.BaireSpacePrefixPacket\_real\_name\_handoff\_transport}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close choice sequences as completed host functions, apartness on Baire space, continuity theorems, real completeness, or an external topology of Baire space.}
+  \upgradepath{No further paper theory-axis closure remains for the finite prefix-cylinder bridge; formal and bridge-audit work remains on the verification axis.}
+\end{closurestatus}

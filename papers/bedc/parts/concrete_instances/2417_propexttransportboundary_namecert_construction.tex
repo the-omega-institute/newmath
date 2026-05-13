@@ -1,0 +1,171 @@
+\chapter{A Concrete Naming Certificate for $\PropextTransportBoundaryUp$}
+\label{ch:concrete-instances-propexttransportboundary-namecert}
+\origin{human}
+
+The $\PropextTransportBoundaryUp$ surface records the constructive replacement for proposition-stratum identification. It accepts bidirectional implication evidence between propositions only as direction-indexed transport data, then records how contexts, history sameness, package provenance, continuation replay, and the local naming row consume that transport without producing an equality token $P=Q$.
+
+\begin{definition}[PropextTransportBoundary carrier]
+\label{def:propext-transport-boundary-carrier}
+A $\PropextTransportBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,D,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $B$ is the bidirectional implication evidence for the proposition pair under comparison, recorded as the two directed rows $P\Rightarrow Q$ and $Q\Rightarrow P$;
+\item $D$ records the chosen direction rows through which each consumer reads the implication evidence;
+\item $R$ records context-read replacement routes for the admitted consumers, with no coordinate for equality tokens, global rewrite, or transport through $P=Q$;
+\item $H$ records the $\hsame$ and $\psame$ transport rows that move the proposition labels, implication rows, direction choices, context reads, continuation replay, provenance, and local naming row componentwise;
+\item $C$ records the $\Cont$ replay routes by which a consumer may request the forward read, the reverse read, the selected direction, and the returned context row;
+\item $P$ records $\Pkg$ provenance over the ThreeAxiomsOneClosure schema, the core $\NameCert$ discipline, $\hsame$, $\psame$, and $\Cont$;
+\item $N$ is the local $\NameCert_{\PropextTransportBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no hidden coordinate for proposition equality, propositional extensionality, host rewrite through $P=Q$, or arbitrary proposition-valued context transport.
+\end{definition}
+
+\begin{theorem}[PropextTransportBoundary NameCert obligations]
+\label{thm:propext-transport-boundary-namecert-obligations}
+For every $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\PropextTransportBoundaryUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed bidirectional implication, chosen direction, context-read replacement, transport, continuation, provenance, and naming rows;
+\item direction discipline, requiring each consumer to name a row in $D$ before using either implication row in $B$;
+\item transport discipline, requiring every comparison of boundary packets to move only through the componentwise $\hsame$ and $\psame$ rows in $H$;
+\item replay discipline, requiring every context read to pass through one of the displayed $\Cont$ routes in $C$ and one of the replacement routes in $R$;
+\item non-escape, excluding proposition equality, propositional extensionality, host rewrite through $P=Q$, and arbitrary proposition-valued context transport.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:propext-transport-boundary-carrier}. The packet lists the implication evidence, direction rows, context-read routes, transport rows, replay routes, provenance, and local naming row as finite coordinates.
+
+Direction discipline is local because the only way to consume $B$ is through a row in $D$. A forward consumer reads the $P\Rightarrow Q$ row together with its chosen direction; a reverse consumer reads the $Q\Rightarrow P$ row together with its chosen direction. No consumer obtains an undirected identification from the pair.
+
+Transport discipline follows by reading equality-sensitive movement through $H$. The $\hsame$ and $\psame$ rows preserve the displayed coordinates componentwise, so comparison of two boundary packets can move proposition labels and classifier rows only along the named transport rows.
+
+Replay discipline is then forced by $C$ and $R$. The continuation row selects one of the admitted requests, and the replacement row returns the corresponding context-read output without invoking a global rewrite rule.
+
+The non-escape clause is inspection of the carrier inventory. Since no coordinate names $P=Q$, $\mathsf{propext}$, host rewrite, or arbitrary context transport, the local naming surface cannot export any of them.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary direction determinacy]
+\label{thm:propext-transport-boundary-direction-determinacy}
+For every $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+any consumer of an implication row in $B$ must first select a direction row in $D$. If two accepted packets agree on $D,H,C,P,N$, then the exposed read is determined directionwise: a forward selection exposes the same $P\Rightarrow Q$ read, and a reverse selection exposes the same $Q\Rightarrow P$ read. No unordered identification of the two implication rows, witness of $P=Q$, invocation of $\mathsf{propext}$, host rewrite, or arbitrary proposition-valued context transport is exported by this agreement.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates from \autoref{def:propext-transport-boundary-carrier}. The implication evidence is stored in $B$, but \autoref{thm:propext-transport-boundary-namecert-obligations} makes each use pass through a chosen row of $D$ before either implication row can be read.
+
+Now compare two accepted packets whose $D,H,C,P,N$ coordinates agree. The common $D$ row fixes whether the consumer asks for the forward or reverse implication read. The common $H$ rows move proposition labels and packet coordinates componentwise, while the common $C$ routes replay the selected request through the displayed continuation surface.
+
+The common provenance row $P$ and local naming row $N$ ensure that this replay is still the same named boundary consumption, not a host-side rewrite. Thus a forward request remains the directed $P\Rightarrow Q$ read, and a reverse request remains the directed $Q\Rightarrow P$ read.
+
+Finally inspect the carrier inventory. Since the packet has no coordinate for unordered proposition equality, $\mathsf{propext}$, host rewrite through $P=Q$, or arbitrary proposition-valued context transport, direction agreement cannot export any of these operations.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary non-escape]
+\label{thm:propext-transport-boundary-non-escape}
+For every $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+the exported proposition-stratum replacement surface is exactly the finite packet $T$ together with its displayed projection routes. In particular, reading the boundary cannot construct a witness of $P=Q$, cannot invoke $\mathsf{propext}$, cannot perform host rewrite through $P=Q$, and cannot transport an arbitrary proposition-valued context outside the routes recorded in $R$ and $C$.
+\end{theorem}
+\begin{proof}
+Read the exported surface by projections from $T$. The only implication data are the two directed rows in $B$, and the only permitted uses of those rows are the choices recorded in $D$.
+
+The context side is likewise explicit. A consumer must use a replacement route in $R$ and replay it through $C$; those rows return only the named context-read outputs.
+
+If a witness of $P=Q$, a $\mathsf{propext}$ invocation, a host rewrite, or an arbitrary context transport were exported, it would have to be a coordinate of the finite packet or the output of one of its routes. The carrier contains no such coordinate, and $R$ and $C$ are defined only for displayed replacement reads. Hence none of the excluded operations escapes the boundary.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary ledger exactness]
+\label{thm:propext-transport-boundary-ledger-exactness}
+For every $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+the provenance ledger of the boundary is exactly the displayed $\Pkg$ row $P$ together with the local naming row $N$ and the transport and replay rows $H,C$. Its dependency surface is over ThreeAxiomsOneClosure, core $\NameCert$, $\hsame$, $\psame$, and $\Cont$, and it contains no proposition-equality, propositional-extensionality, or host-rewrite dependency row.
+\end{theorem}
+\begin{proof}
+The ledger-bearing coordinates are displayed in the carrier: $P$ records package provenance, $N$ records the local name, $H$ records transport, and $C$ records replay. These rows are finite coordinates of $T$.
+
+Inspect the support named by $P$. It ranges over the ThreeAxiomsOneClosure schema, the core $\NameCert$ discipline, $\hsame$, $\psame$, and $\Cont$. These are exactly the rows needed to explain the replacement of proposition equality by directed implication transport.
+
+No further ledger row is present. Therefore any proposition-equality, propositional-extensionality, or host-rewrite dependency would require an additional coordinate outside the packet, contradicting the displayed carrier inventory.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary TasteGate handoff]
+\label{thm:propext-transport-boundary-tastegate-handoff}
+Every accepted $\PropextTransportBoundaryUp$ packet gives a finite handoff object for a $\ChapterTasteGate$ consumer: the gate may inspect $B,D,R,H,C,P,N$, accept the directed replacement reads recorded there, and reject any request whose consumption path requires proposition equality, $\mathsf{propext}$, host rewrite through $P=Q$, or arbitrary proposition-valued context transport.
+\end{theorem}
+\begin{proof}
+Build the handoff object by projecting the seven coordinates of the carrier. The gate receives the bidirectional implication rows, the chosen direction rows, the replacement routes, the componentwise transport rows, the replay routes, provenance, and the local naming row.
+
+Acceptance is finite because every permitted read is named by a coordinate of $T$. A request that follows $D$, $R$, $H$, and $C$ is a directed replacement read and can be checked against the displayed provenance in $P$ and the local name in $N$.
+
+Rejection is the complement of this displayed surface. A request requiring $P=Q$, $\mathsf{propext}$, host rewrite, or arbitrary proposition-valued context transport asks for a coordinate absent from $T$, so the $\ChapterTasteGate$ has a concrete reason to refuse it.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary context replacement locality]
+\label{thm:propext-transport-boundary-context-replacement-locality}
+For every accepted $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+each context read exported by the boundary is local to the displayed replacement row $R$ and the displayed $\Cont$ row $C$. A consumer may replay only a named replacement route through $C$, and the replay returns only the context-read output recorded in $R$; it does not create a host rewrite, a witness of $P=Q$, or arbitrary transport for proposition-valued contexts.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:propext-transport-boundary-carrier}. The replacement coordinate is $R$, and the replay coordinate is $C$; no other coordinate is assigned to context transport.
+
+Apply \autoref{thm:propext-transport-boundary-namecert-obligations} to force every context read through the replay discipline. The obligation surface requires a displayed $\Cont$ route and one of the replacement routes in $R$ before any context-read output can be returned.
+
+The direction and non-escape theorems then keep the read local. By \autoref{thm:propext-transport-boundary-direction-determinacy}, implication consumption remains directionwise, and by \autoref{thm:propext-transport-boundary-non-escape}, the packet has no coordinate for equality, propext, host rewrite, or arbitrary proposition-valued transport.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary direction ledger coverage]
+\label{thm:propext-transport-boundary-direction-ledger-coverage}
+For every accepted $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+every accepted implication read is covered by one of the directed rows in $D$. The ledger never records the two implication rows in $B$ as an unordered proposition equality, and no public read of the packet can replace this directed coverage by $P=Q$ or $\mathsf{propext}$.
+\end{theorem}
+\begin{proof}
+The carrier exposes implication evidence only through $B$ together with direction rows $D$. The NameCert obligations of \autoref{thm:propext-transport-boundary-namecert-obligations} require a consumer to name a row in $D$ before using either implication row.
+
+The coverage statement is therefore exactly \autoref{thm:propext-transport-boundary-direction-determinacy} read as a ledger condition. A forward request is covered by the forward row, and a reverse request is covered by the reverse row; there is no third unordered row.
+
+Finally use \autoref{thm:propext-transport-boundary-ledger-exactness} and \autoref{thm:propext-transport-boundary-non-escape}. The provenance ledger contains only the displayed package, naming, transport, and replay rows, and the carrier inventory excludes proposition equality and propext.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary TasteGate refusal exactness]
+\label{thm:propext-transport-boundary-tastegate-refusal-exactness}
+For every accepted $\PropextTransportBoundaryUp$ packet, the $\ChapterTasteGate$ refusal is exact for requests whose consumption path requires a witness of $P=Q$, $\mathsf{propext}$, host rewrite through $P=Q$, or arbitrary proposition-valued context transport. Such a request is refused precisely because no displayed row of $B,D,R,H,C,P,N$ supplies the requested operation, while requests following the directed rows in $D$, replacement row $R$, transport row $H$, replay row $C$, provenance row $P$, and naming row $N$ remain admissible.
+\end{theorem}
+\begin{proof}
+Start from the handoff theorem \autoref{thm:propext-transport-boundary-tastegate-handoff}. The gate receives exactly the displayed carrier coordinates and accepts directed replacement reads recorded by those coordinates.
+
+For an admitted request, \autoref{thm:propext-transport-boundary-context-replacement-locality} supplies the local context route through $R$ and $C$, while \autoref{thm:propext-transport-boundary-direction-ledger-coverage} supplies the directed implication row in $D$. Transport and provenance are then read through $H,P,N$.
+
+For a refused request, inspect the same inventory. By \autoref{thm:propext-transport-boundary-non-escape} and \autoref{thm:propext-transport-boundary-ledger-exactness}, the packet has no equality row, propext row, host-rewrite row, or arbitrary context-transport row. The gate therefore refuses exactly those requests whose path needs one of the absent operations.
+\end{proof}
+
+\closureat{PropextTransportBoundaryUp}{seedStr}
+\closureat{PropextTransportBoundaryUp}{obligationStr}
+
+\begin{closurestatus}{\PropextTransportBoundaryUp}
+  \constructivestory{A $\PropextTransportBoundaryUp$ packet is generated from bidirectional implication evidence, chosen direction rows, context-read replacement routes, componentwise $\hsame$ and $\psame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:propext-transport-boundary-carrier}, \autoref{thm:propext-transport-boundary-namecert-obligations}, \autoref{thm:propext-transport-boundary-direction-determinacy}, \autoref{thm:propext-transport-boundary-non-escape}, \autoref{thm:propext-transport-boundary-ledger-exactness}, and \autoref{thm:propext-transport-boundary-tastegate-handoff} bind the finite proposition-stratum replacement carrier, local naming obligations, direction determinacy, non-escape boundary, provenance ledger, and gate handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim proposition equality, propositional extensionality, host rewrite through $P=Q$, arbitrary proposition-valued context transport, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked coverage over ThreeAxiomsOneClosure, core $\NameCert$ rows, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\ChapterTasteGate$ handoff routes for the boundary packet.}
+\end{closurestatus}

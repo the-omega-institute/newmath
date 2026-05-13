@@ -1,0 +1,269 @@
+\chapter{BEDC as an axiom dependency map of classical CIC}
+\label{ch:bedc-axiom-dependency-map}
+
+\section{The reframing}
+\label{sec:bedc-axiom-dependency-map-reframing}
+
+The relationship between BEDC formalisation and classical CIC formalisation is often misread as a strength comparison: BEDC uses fewer axioms, proves fewer universal theorems, and is therefore a weaker calculus. That framing misses the positive deliverable. BEDC is not a weakened copy of classical CIC. BEDC is a mechanical dependency map from classical CIC universal claims to the axiom supply on which those claims rely.
+
+Classical CIC presents its universal claims after conversion, extensionality, quotient soundness, and classical selection have already been made available as part of the ambient proof environment. BEDC.MetaCIC starts from the opposite end. It keeps the substrate closed, first-principles, and axiom-free, then asks each classical-looking claim what happens when the hidden supply is removed.
+
+The result is not merely a shorter theorem list. It is a different artifact:
+$$
+\phi \mapsto
+(\text{Mode},\text{Witness},\text{Required-Axiom-Set}).
+$$
+Here $\phi$ is a universal claim one would expect from a classical CIC development. The output records whether the claim is internally provable, internally provable only on a restricted surface, or blocked by a mechanical witness that names the missing axiom-supplied content.
+
+This map is the positive contribution. BEDC does not claim that every classical theorem can be replaced by a BEDC theorem. It claims that every contact between a classical universal claim and the BEDC substrate can expose the exact axiom budget required for that claim to pass.
+
+\section{Three modes of engagement}
+\label{sec:bedc-axiom-dependency-map-three-modes}
+
+For a classical CIC universal claim $\phi$, BEDC.MetaCIC has three relevant outcomes.
+
+\subsection{Mode A: completely provable}
+\label{subsec:bedc-axiom-dependency-map-mode-a}
+
+Mode A means that $\phi$ is unconditionally provable on the zero-axiom substrate. Its required axiom set is empty, and its witness is the checked proof term itself:
+$$
+\phi \mapsto
+(\mathrm{A},\text{unconditional proof},\emptyset).
+$$
+
+The closed-syntax algebra gives representative examples. Theorems such as \texttt{shift\_closed}, \texttt{substitute\_closed}, \texttt{betaStep\_preserves\_closed}, and \texttt{no\_closed\_normal\_proof\_of\_false} are not weakened classical statements. They are the fragment of the classical-looking MetaCIC story that needs no extra axiom supply.
+
+Mode A is therefore an isolation result. It says exactly which part of the classical CIC meta-theory is already present in the closed substrate. The important point is not only that the theorem exists, but that the theorem survives the strict axiom-purity gate. BEDC turns the absence of hidden supply into visible information.
+
+\subsection{Mode B: partial discharge}
+\label{subsec:bedc-axiom-dependency-map-mode-b}
+
+Mode B means that $\phi$ is too broad as stated, but a restricted form is provable without importing the missing axiom. Its witness is the checked restricted theorem, and its required supply is trivial only on that restricted surface:
+$$
+\phi \mapsto
+(\mathrm{B},\text{restricted proof},\text{restricted-surface condition}).
+$$
+
+The subject-reduction application case supplies the sharp example. The theorem \texttt{subject\_reduction\_closed\_app\_independent\_codomain} proves the closed application preservation statement when the codomain is closed independently of the argument. On that surface, no conversion oracle is needed to identify the result type before and after the argument step: closed substitution reads back the same codomain.
+
+Mode B is more informative than a binary failure. It says that the classical universal claim contains an internally clean subclaim. BEDC does not merely report that the full statement needs help; it separates the region where literal syntax, closedness, and the represented reduction relation already suffice.
+
+\subsection{Mode C: counterexample plus named obligation}
+\label{subsec:bedc-axiom-dependency-map-mode-c}
+
+Mode C means that the unrestricted $\phi$ is blocked in the present substrate by a mechanical witness. The output is not silence and not an informal caveat. It is a counterexample, together with named obligation sockets for the axiom-supplied content that classical CIC would use:
+$$
+\phi \mapsto
+(\mathrm{C},\text{counterexample plus named socket},\text{specific axiom rows}).
+$$
+
+The same subject-reduction application case gives the canonical witness. The theorem \texttt{subject\_reduction\_closed\_app\_counterexample} exhibits a closed function, a closed reducing argument, a closed application step, and an original type that the reduct does not keep. The obstruction is not a vague warning about dependent types. It is a checked dependent-codomain counterexample.
+
+The corresponding named sockets are the four subject-reduction obligations \texttt{BetaSubstitutionPreservation}, \texttt{AppArgTypeStable}, \texttt{LamDomainSubjectReduction}, and \texttt{PiDomainSubjectReduction}. They mark the precise pieces of axiom-supplied reasoning required before the parameterised subject-reduction route can be read as an unparameterised closed theorem.
+
+Mode C is the place where BEDC's negative-looking material becomes positive data. A documented obstruction is a dependency witness. A named hypothesis is a dependency socket. A counterexample is a mechanical certificate that the universal claim cannot be treated as substrate-internal without extra supply.
+
+\section{The mapping is the deliverable}
+\label{sec:bedc-axiom-dependency-map-deliverable}
+
+The deliverable is the map, not a competition over theorem count. For each classical CIC universal claim $\phi$, BEDC asks for the dependency tuple:
+$$
+\phi \mapsto
+(\text{Mode},\text{Witness},\text{Required-Axiom-Set}).
+$$
+
+The three modes give the interpretation.
+
+\begin{description}
+\item[Mode A.] The required axiom set is empty, and the witness is an unconditional checked proof.
+\item[Mode B.] The required axiom set is empty on a stated restricted surface, and the witness is a checked restricted proof.
+\item[Mode C.] The required axiom set is specific, and the witness is a counterexample together with named hypothesis sockets.
+\end{description}
+
+This tuple is exactly what ordinary classical CIC developments do not usually expose as their primary object. They prove the theorem in a powerful ambient environment. BEDC records what the theorem costs when the ambient environment is not silently available.
+
+The audit-map family of \autoref{ch:audit-map-family-methodology} is the directory form of this deliverable. Each audit map records established content, conditional content, obstruction content, frontier content, and cross-module use. In the present framing, those columns are read as an axiom dependency ledger: which claims need no supply, which claims need a restricted surface, which claims expose an obstruction, and which named socket would have to be filled to move the claim.
+
+\section{How to read a dependency tuple}
+\label{sec:bedc-axiom-dependency-map-read-tuple}
+
+A dependency tuple is not a semantic judgement about the intended
+mathematics of $\phi$. It is a substrate judgement about the proof route
+available to the present formal object. The tuple records what the kernel can
+check from the displayed constructors, definitions, and named fields that are
+actually present.
+
+The three coordinates have separate jobs.
+
+\begin{description}
+\item[Mode.] The mode says how the claim meets the substrate: internal proof,
+restricted internal proof, or obstruction with named supply.
+\item[Witness.] The witness is the mechanical object that makes the mode
+auditable: a proof term, a restricted theorem, a counterexample, a named
+obligation, or a purity-gate refusal.
+\item[Required-Axiom-Set.] The required set names the supply that would have
+to be added or discharged before the broader classical reading could be used
+without qualification.
+\end{description}
+
+The tuple is deliberately local. A Mode A result in one module does not
+upgrade a neighbouring Mode C claim. A Mode B result does not license the
+unrestricted theorem. A Mode C counterexample does not say that the classical
+claim is meaningless; it says that the claim is not substrate-internal without
+the named supply.
+
+This locality is what makes the map useful. Classical presentations often
+compress many local dependencies into one ambient theorem. BEDC expands the
+theorem back into its local dependency structure. The result is a readable
+axiom budget rather than a yes-or-no theorem status.
+
+\section{A worked entry: closed application subject reduction}
+\label{sec:bedc-axiom-dependency-map-worked-entry}
+
+Closed application subject reduction gives a compact instance of the whole
+method. The classical-looking claim is that if a closed application is typed
+and the application reduces, then the reduct keeps the original displayed
+type. BEDC.MetaCIC does not answer this claim with a single status. It splits
+the claim into the three dependency-map rows that the substrate can actually
+justify.
+
+First, the closed syntax and reduction infrastructure around the claim has
+Mode A content. Closedness is preserved by the syntax operations that are
+already in the substrate. The relevant shift, substitution, and beta-closure
+facts are checked without conversion, extensionality, or classical choice.
+This records the zero-supply syntactic core of the classical preservation
+story.
+
+Second, the independent-codomain application surface has Mode B content.
+When the codomain is closed apart from the argument, replacing the argument by
+its reduct does not change the displayed result type. The restricted theorem
+\texttt{subject\_reduction\_closed\_app\_independent\_codomain} is the
+mechanical witness for that row. It says exactly where closed substitution is
+enough and where no conversion oracle is being used.
+
+Third, the dependent-codomain surface has Mode C content. The theorem
+\texttt{subject\_reduction\_closed\_app\_counterexample} supplies the
+mechanical counterexample: a closed application can step to a reduct that does
+not retain the original displayed type. The obstruction is therefore a
+positive dependency record. It points to the missing codomain-stability and
+typing-preservation supply that a classical subject-reduction proof normally
+has available through conversion and related typing infrastructure.
+
+The tuple for the unrestricted closed application claim is therefore not
+``failed''. It is:
+$$
+\phi_{\mathrm{appSR}}
+\mapsto
+(\mathrm{C},
+\text{dependent-codomain counterexample plus four sockets},
+\text{subject-reduction supply}).
+$$
+The companion Mode B row records the strongest zero-supply fragment:
+$$
+\phi_{\mathrm{appSR}}^{\mathrm{independent}}
+\mapsto
+(\mathrm{B},
+\text{independent-codomain proof},
+\text{closed codomain condition}).
+$$
+Together these rows are more informative than either a bare theorem or a bare
+failure. They show where the classical claim is already internal, where it is
+blocked, and which supply must enter to remove the block.
+
+\section{Why this is more informative than classical CIC formalisation}
+\label{sec:bedc-axiom-dependency-map-more-informative}
+
+\concretizedIn{ch:concrete-instances-axiomdependencymap-namecert}{finite dependency tuple packet for the axiom-map reading}
+
+Classical CIC formalisation projects prove many theorems inside an environment where conversion and library-level extensional principles are already available. In Lean-based developments, tools such as \texttt{\#print axioms} can inspect the transitive constants of a theorem after the fact. That inspection is valuable, but it is not the organising principle of the project.
+
+BEDC reverses the organisation. The substrate begins with no project axioms in \texttt{lean4/BEDC/}, forbids \texttt{axiom} declarations, and audits transitive dependencies through \texttt{axiom-purity --strict}. The map is therefore first-class. A theorem that survives the gate records a zero-supply region. A theorem that needs a named hypothesis records a socket. A counterexample records the mechanical failure of the universal claim under the current substrate.
+
+The difference is methodological. A classical development usually asks:
+$$
+\text{Can the theorem be proved in the ambient calculus?}
+$$
+BEDC asks:
+$$
+\text{Which exact supply is needed for the theorem to pass?}
+$$
+The second question produces strictly more dependency information. It does not replace the classical theorem; it explains its axiom budget.
+
+\section{The mapped axiom families}
+\label{sec:bedc-axiom-dependency-map-taxonomy}
+
+The current map covers several families of supply. The point of the list is not to repeat the detailed chapters, but to state how each family appears as dependency-map data.
+
+\subsection{Conversion and definitional equality}
+\label{subsec:bedc-axiom-dependency-map-conversion}
+
+Conversion is the central typing supply of classical CIC. BEDC.MetaCIC does not install it as an ambient rule that can silently identify types after reduction.
+
+The Mode A region consists of literal-AST and closedness facts where no conversion is needed. Closed shift, closed substitution, closure preservation for beta steps, and closed-normal contradiction exclusion belong to this region.
+
+The Mode B region is visible in \texttt{subject\_reduction\_closed\_app\_independent\_codomain}. When the codomain is closed independently of the argument, substitution after the argument step reads back the same type by closedness alone.
+
+The Mode C region is visible in \texttt{subject\_reduction\_closed\_app\_counterexample}. A dependent codomain can observe the argument strongly enough that the reduct does not keep the original displayed type. The four named subject-reduction obligations in \autoref{ch:metacic-subject-reduction-obstruction} are the corresponding sockets.
+
+\subsection{Extensional identification}
+\label{subsec:bedc-axiom-dependency-map-extensional-identification}
+
+Propositional extensionality, function extensionality, and quotient soundness form an extensional identification family. \autoref{ch:visions-transcendental-supply-taxonomy} classifies this as a supply type, and \autoref{ch:visions-three-axioms-one-closure} reads \texttt{Quot.sound} and \texttt{propext} as meta-closure moves at different strata.
+
+BEDC's strict purity gate refuses \texttt{propext} and \texttt{Quot.sound} as transitive dependencies of checked BEDC theorems. The dependency-map reading is direct: whenever a classical proof needs to identify propositions, functions, or quotient representatives by extensional equality, the required supply is not hidden in the substrate. It must appear as an explicit transport, classifier, or named socket.
+
+\subsection{Choice and unwitnessed existence}
+\label{subsec:bedc-axiom-dependency-map-choice}
+
+\texttt{Classical.choice} supplies a selected witness from an existence claim without exposing the witness as generated substrate data. \autoref{ch:visions-three-axioms-one-closure} classifies this as term-stratum meta closure.
+
+The BEDC map treats choice-dependent claims as claims with an unwitnessed-selection dependency. Finite, countable, or explicitly recursive witness routes may become Mode A or Mode B content when the witness is generated. A free classical selection over an arbitrary family becomes Mode C content unless the selection is replaced by displayed witness data.
+
+\subsection{Mathematical induction as transcendental input}
+\label{subsec:bedc-axiom-dependency-map-induction}
+
+\autoref{ch:visions-transcendental-input-and-induction} treats free-floating universal induction over not-yet-observed cases as a transcendental input rather than as internally generated finite observation. The dependency-map reading is again explicit. A concrete finite trace is substrate data. A universal claim over an open-ended domain requires a supply socket unless the relevant induction principle is itself present as an authorised generator for the carrier being used.
+
+This does not make all induction unavailable. It distinguishes generated recursors from untracked universal closure. The map records which generator authorises the proof and which universal use would require supply beyond the displayed substrate.
+
+\section{Permanent and open-ended}
+\label{sec:bedc-axiom-dependency-map-permanent}
+
+BEDC.MetaCIC has a fixed substrate discipline: closed CIC syntax, first-principles definitions, no project axioms, and strict purity auditing. Classical CIC has infinitely many universal claims. Therefore the dependency map is permanent and open-ended. Each time a classical claim touches the BEDC substrate, the project can record one more tuple:
+$$
+\phi \mapsto
+(\text{Mode},\text{Witness},\text{Required-Axiom-Set}).
+$$
+
+This is not a weakness caused by an unfinished theorem list. It is the point of the artifact. A classical formalisation can keep collecting theorems. BEDC can keep cataloguing the axiom budget of those theorems at fine granularity.
+
+The map is also cumulative. Mode A entries expand the zero-supply fragment. Mode B entries sharpen the surfaces where classical claims become internal. Mode C entries add mechanical witnesses for the exact place where an axiom would have to enter. Every entry improves the catalogue even when it does not close the corresponding classical theorem.
+
+\section{Cross-reference}
+\label{sec:bedc-axiom-dependency-map-cross-reference}
+
+The present chapter is a framing chapter. The detailed dependency-map entries live in neighbouring chapters.
+
+\begin{itemize}
+\item \autoref{ch:metacic-subject-reduction-obstruction} gives the concrete Mode B and Mode C entry for closed application subject reduction: independent codomain discharge, dependent-codomain counterexample, and four named obligations.
+\item \autoref{ch:audit-map-family-methodology} gives the paper methodology by which established, conditional, obstruction, frontier, and consumer rows are catalogued.
+\item \autoref{ch:visions-apophatic-naming-as-discipline} gives the epistemic discipline behind named obligations: an open socket is named rather than hidden.
+\item \autoref{ch:visions-three-axioms-one-closure} gives the axiom-family classification for choice, quotient soundness, and propositional extensionality.
+\item \autoref{ch:visions-transcendental-input-and-induction} gives the corresponding reading for universal induction and finite observation.
+\end{itemize}
+
+The chapter therefore does not duplicate the audit-map chapters or the synthesis chapter. It states the positive value proposition that makes those chapters cohere: BEDC is an axiom dependency map of classical CIC.
+
+\section{Boundary}
+\label{sec:bedc-axiom-dependency-map-boundary}
+
+BEDC does not claim to enumerate all dependency tuples for classical CIC. The map is permanent and open-ended because the space of classical universal claims is open-ended.
+
+BEDC also does not claim to replace classical CIC formalisation. Classical developments prove theorems in their chosen ambient systems. BEDC complements them by exposing which parts of those theorems survive without hidden supply, which parts survive only on restricted surfaces, and which parts mechanically witness an axiom dependency.
+
+The boundary is strict. The words \emph{axiom dependency} and \emph{mechanical witness} are not metaphors. A BEDC documented obstruction, counterexample, named hypothesis, purity-gate refusal, or audit-map frontier is an inspectable dependency record. It is the map itself.
+
+\concretizedIn{ch:concrete-instances-axiom-dependency-tuple-namecert}{Axiom-dependency tuples are realized as finite Mode, Witness, Required-Axiom-Set, transport, provenance, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-axiomdependencymap-namecert}{The dependency tuple becomes a finite NameCert packet over claim, mode, witness, required-supply, replay, and non-escape rows.}
+\concretizedIn{ch:concrete-instances-axiomdependencymapledger-namecert}{The axiom dependency map is realized as a finite Mode/Witness/Required-Axiom-Set ledger packet.}
+\concretizedIn{ch:concrete-instances-axiom-dependency-audit-map-namecert}{finite dependency-map packet for mode, witness, and required-axiom rows}

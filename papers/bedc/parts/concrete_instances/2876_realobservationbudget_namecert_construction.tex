@@ -1,0 +1,463 @@
+\chapter{A Concrete Naming Certificate for $\RealObservationBudgetUp$}
+\label{ch:concrete-instances-real-observation-budget-namecert}
+\origin{ai}
+
+The $\RealObservationBudgetUp$ interface records the finite observation packet that a completion-facing consumer may inspect before a $\RealUp$ seal is reached. It keeps the precision request, stream windows, dyadic readbacks and radii, regular-sequence handoff rows, real-seal rows, transports, routes, provenance, and local naming row inside one $\BHist$ surface. It does not export quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
+
+This budget packet is a consumer of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Its substantive dependency path is finite window selection, dyadic readback and radius rows, regular-sequence handoff, and the real-seal boundary.
+
+Whenever a completion-facing $\RealUp$ consumer asks for a synchronized diagonal read, this finite observation route also consumes the diagonal selector surface of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}. The $\CauchyDiagonalBudgetUp$ sibling supplies the finite precision, mesh, and comparison budget that $\RealObservationBudgetUp$ repackages as observation windows, dyadic readbacks, $\RegSeqRatUp$ handoff rows, and $\RealUp$ seal rows.
+
+\begin{definition}[Real observation budget carrier]
+\label{def:real-observation-budget-carrier}
+A $\RealObservationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,W,D,R,S,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $E$ is the unary precision request row naming the finite tolerance level visible to the consumer;
+\item $W$ is the finite family of $\StreamNameUp$ window rows selected for that request;
+\item $D$ records the $\DyadicRatCoreUp$ readbacks together with the displayed dyadic radii attached to the windows in $W$;
+\item $R$ stores the $\RegSeqRatUp$ handoff rows that expose the regular rational sources feeding the observation budget;
+\item $S$ stores the $\RealUp$ seal rows that mark the boundary at which completion-facing consumers receive the finite packet;
+\item $H$ stores componentwise $\hsame$ transports for the precision request, windows, dyadic readbacks and radii, regular-sequence rows, seal rows, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes from $E$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $S$;
+\item $P$ records $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealObservationBudgetUp}$ row.
+\end{enumerate}
+The carrier is finite. It has no coordinate for quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
+\end{definition}
+
+\begin{theorem}[Real observation budget NameCert obligations]
+\label{thm:real-observation-budget-namecert-obligations}
+The local $\NameCert_{\RealObservationBudgetUp}$ surface for \autoref{def:real-observation-budget-carrier} consists exactly of carrier admission, unary precision exposure, finite $\StreamNameUp$ window coverage, $\DyadicRatCoreUp$ readback and radius exposure, $\RegSeqRatUp$ handoff routing, $\RealUp$ seal-boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $B$. The rows $E,W,D,R,S$ provide the precision request, finite windows, dyadic readbacks and radii, regular-sequence handoffs, and real-seal boundary.
+
+The window and dyadic obligations are read directly from $W$ and $D$. The regular-sequence handoff rows in $R$ expose only the rational-source data already routed through those finite observations.
+
+The remaining obligations are the transport, route, provenance, and naming rows $H,C,P,N$. Since the carrier has no coordinate for quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule, the listed rows exhaust the local naming certificate.
+\end{proof}
+
+\begin{theorem}[Real observation budget window coverage]
+\label{thm:real-observation-budget-window-coverage}
+For an accepted $\RealObservationBudgetUp$ carrier, every dyadic readback and displayed radius exported by $D$ is covered by one of the finite $\StreamNameUp$ windows in $W$, and every such window is selected by the unary precision request row $E$ through the displayed routes in $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $B$ and read the precision row $E$, window family $W$, dyadic ledger $D$, transports $H$, and continuation routes $C$.
+
+The route from $E$ to $W$ selects the finite windows visible to the budget. The route from $W$ to $D$ is the only displayed path by which a dyadic readback or radius enters the packet.
+
+Transport rows in $H$ preserve the same precision, window, readback, and radius coordinates when the packet is repacked for a consumer. Therefore every exported dyadic observation is covered by $W$ and no observation can be imported from an unbounded stream schedule.
+\end{proof}
+
+\begin{theorem}[Real observation budget regular-sequence handoff]
+\label{thm:real-observation-budget-regseq-handoff}
+For an accepted $\RealObservationBudgetUp$ carrier, each $\RegSeqRatUp$ handoff row in $R$ is reached only after the unary precision request, finite stream windows, and dyadic readbacks and radii have been read. A downstream $\RegSeqRatUp$ or $\RealUp$ consumer receives the handoff through the finite route
+$$
+E,W,D,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The displayed order of the observation route places $R$ after the precision request, stream windows, and dyadic ledger.
+
+Use window coverage to bind every dyadic readback and radius to the finite windows selected from $E$. The continuation route from $D$ to $R$ then supplies the only path from the observation budget to the regular rational source rows.
+
+The transport and provenance rows repack the same route for consumers. No handoff row can bypass $E,W,D,H,C,P,N$ or appeal to quotient stream equality, hidden limit choice, or host real comparison.
+\end{proof}
+
+\begin{theorem}[Real observation budget seal boundary]
+\label{thm:real-observation-budget-real-seal-boundary}
+Every $\RealUp$ completion-facing consumer of an accepted $\RealObservationBudgetUp$ carrier factors through the seal rows $S$. The seal rows may read only the precision request $E$, finite windows $W$, dyadic readbacks and radii $D$, regular-sequence handoffs $R$, transports $H$, routes $C$, provenance $P$, and local naming row $N$ supplied by the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and inspect the consumer-facing coordinates. The carrier contains a single real-facing boundary coordinate, namely the seal family $S$.
+
+Apply the regular-sequence handoff theorem to force any route into $S$ through $E,W,D,R,H,C,P,N$. The seal rows therefore receive only the finite observations, their radii, the regular rational handoffs, and the bookkeeping rows displayed by the packet.
+
+Since $S$ is reached after those rows and no other real-facing coordinate exists, a completion consumer cannot read a selected completed real, a host equality test, an ambient completeness principle, or a hidden infinite schedule from the budget.
+\end{proof}
+
+\begin{theorem}[Real observation budget non-escape]
+\label{thm:real-observation-budget-nonescape}
+Every downstream consumer of an accepted $\RealObservationBudgetUp$ carrier factors through the finite rows
+$$
+E,W,D,R,S,H,C,P,N.
+$$
+The consumer may inspect exactly the unary precision request, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It cannot inspect quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier of \autoref{def:real-observation-budget-carrier}. The displayed rows of $B$ are exactly $E,W,D,R,S,H,C,P,N$.
+
+Apply the local NameCert obligations to identify those rows as the complete naming surface. Window coverage binds the dyadic readbacks and radii to the finite windows selected by the precision request.
+
+The regular-sequence handoff theorem routes source-facing access through the same finite observations. The seal-boundary theorem then routes every completion-facing consumer through $S$ without exposing any unlisted analytic object.
+
+Thus the observation budget is a finite BEDC packet. Its consumers can use the displayed rows, but the carrier gives them no route to quotient streams, host real equality, ambient completeness, hidden limit selection, or unbounded observation schedules.
+\end{proof}
+
+\begin{theorem}[Real observation budget obligation package]
+\label{thm:real-observation-budget-obligation-package}
+The $\RealObservationBudgetUp$ obligation package is the finite surface
+$$
+B=(E,W,D,R,S,H,C,P,N)
+$$
+over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It packages carrier admission, unary precision exposure, finite window coverage, dyadic readback and radius exposure, $\RegSeqRatUp$ handoff routing, $\RealUp$ seal-boundary exposure, componentwise transport, displayed route replay, provenance, and the local naming row, with no quotient stream equality, host real equality, ambient completeness, hidden limit selection, or unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Start from the carrier and the local NameCert obligation theorem. \autoref{def:real-observation-budget-carrier} supplies exactly $E,W,D,R,S,H,C,P,N$, and \autoref{thm:real-observation-budget-namecert-obligations} reads those rows as the local naming surface.
+
+The window, dyadic, regular-rational, and real-facing clauses are already separated by the existing obligation rows. \autoref{thm:real-observation-budget-window-coverage} binds $D$ to the finite windows $W$, \autoref{thm:real-observation-budget-regseq-handoff} routes $R$ through the finite observation route, and \autoref{thm:real-observation-budget-real-seal-boundary} marks $S$ as the completion-facing boundary.
+
+Finally apply non-escape. \autoref{thm:real-observation-budget-nonescape} rules out every unlisted analytic object, so the obligation package is exhausted by the finite BEDC surface displayed above.
+\end{proof}
+
+\begin{theorem}[Real observation budget transport stability]
+\label{thm:real-observation-budget-transport-stability}
+Classifier transport for the $\RealObservationBudgetUp$ obligation package preserves the same precision request, finite window family, dyadic readbacks and radii, regular-sequence handoff rows, real-seal boundary rows, provenance, and local name. Thus any transported package remains a finite observation-budget surface over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the two classified budget packets to their displayed coordinates. The transport ledger $H$ is componentwise: it transports the precision request, window rows, dyadic ledger, handoff rows, seal rows, provenance, and local name without changing the shape of the packet.
+
+Use the displayed routes $C$ to replay the observation order after transport. The route from $E$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $S$ is part of the same finite package, so transported consumers still read the same obligation surface.
+
+The non-escape theorem excludes hidden replacement data during transport. No transported package can insert quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule because none of those rows exists in the source package.
+\end{proof}
+
+\begin{theorem}[Real observation budget consumer exactness]
+\label{thm:real-observation-budget-consumer-exactness}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of a $\RealObservationBudgetUp$ obligation package reads exactly the finite packet rows required by the observation budget: $E,W,D,R,S,H,C,P,N$. The $\RegSeqRatUp$ side factors through the handoff rows $R$, the $\RealUp$ side factors through the seal rows $S$, and both sides remain inside the obligation package of \autoref{thm:real-observation-budget-obligation-package}.
+\end{theorem}
+\begin{proof}
+First read the source-facing route. \autoref{thm:real-observation-budget-regseq-handoff} forces every regular-sequence handoff through the precision request, finite windows, dyadic readbacks and radii, transports, routes, provenance, and local naming row.
+
+Next read the completion-facing route. \autoref{thm:real-observation-budget-real-seal-boundary} sends every $\RealUp$ consumer through the seal rows $S$, and those seal rows are reached only after $E,W,D,R,H,C,P,N$ have been displayed.
+
+Combine these routes with transport stability and non-escape. The transported package keeps the same finite rows, and \autoref{thm:real-observation-budget-nonescape} blocks any consumer from reading quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule outside the package.
+\end{proof}
+
+\begin{theorem}[Real observation budget request totality]
+\label{thm:real-observation-budget-request-totality}
+Every accepted $\RealObservationBudgetUp$ budget request carries a finite unary precision row $E$, a finite selected $\StreamNameUp$ window family $W$, and matching $\DyadicRatCoreUp$ readback and radius rows $D$. These rows are routed by the displayed $\Cont$ coordinate $C$, so each accepted request exposes a finite path
+$$
+E \longmapsto W \longmapsto D
+$$
+inside the same packet $B=(E,W,D,R,S,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed rows. The carrier definition supplies the precision row $E$, the finite window family $W$, the dyadic ledger $D$, and the continuation coordinate $C$ as components of one finite $\BHist$ packet.
+
+Use window coverage for the request-facing content. \autoref{thm:real-observation-budget-window-coverage} says that every dyadic readback and displayed radius exported by $D$ is covered by one of the finite windows in $W$, and that those windows are selected by $E$ through the routes in $C$.
+
+Finally apply non-escape. Since \autoref{thm:real-observation-budget-nonescape} leaves no coordinate for quotient stream equality, host real equality, hidden limit selection, or an unbounded schedule, an accepted request cannot obtain its readback or radius rows from outside the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Real observation budget route determinacy]
+\label{thm:real-observation-budget-route-determinacy}
+Let two accepted $\RealObservationBudgetUp$ consumer routes display the same rows $E,W,D,R,S,H,C,P,N$. Then they determine the same $\RegSeqRatUp$ and $\RealUp$ observation-budget surface up to the componentwise $\hsame$ transports displayed in $H$.
+\end{theorem}
+\begin{proof}
+Begin with the request and dyadic part. Request totality identifies the finite path from $E$ through $W$ to $D$, and window coverage fixes the dyadic readbacks and radii as the observations selected by those windows.
+
+Pass to the rational-source handoff. \autoref{thm:real-observation-budget-regseq-handoff} routes the $\RegSeqRatUp$ surface through the same $E,W,D,H,C,P,N$ rows, so two routes with the same displayed packet have the same handoff surface after the $\hsame$ transports in $H$ are applied.
+
+Pass to the completion-facing boundary. \autoref{thm:real-observation-budget-real-seal-boundary} forces every $\RealUp$ consumer through the seal rows $S$, and transport stability preserves those seal rows with the same provenance and local name. Non-escape rules out any hidden selector that could separate the two displayed routes.
+\end{proof}
+
+\begin{theorem}[Real observation budget TasteGate-visible surface]
+\label{thm:real-observation-budget-tastegate-visible-surface}
+Any $\ChapterTasteGate$ witness for this AI-origin $\RealObservationBudgetUp$ chapter may inspect only the finite packet rows $E,W,D,R,S,H,C,P,N$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. It may not read quotient streams, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+Read the chapter origin and the carrier together. The chapter is AI-origin, and \autoref{def:real-observation-budget-carrier} gives the complete carrier as the finite packet $B=(E,W,D,R,S,H,C,P,N)$ over the listed BEDC rows.
+
+The request-totality and route-determinacy theorems identify the visible surface available to consumers. The first binds each accepted request to $E,W,D$ through the displayed $\Cont$ route, while the second shows that the $\RegSeqRatUp$ and $\RealUp$ surfaces are determined by the same packet up to the displayed $\hsame$ transports.
+
+Apply the ground-compiler alignment and non-escape results. \autoref{thm:real-observation-budget-tastegate-ground-compiler-alignment} restricts $\ChapterTasteGate$ consumption to displayed rows, and \autoref{thm:real-observation-budget-nonescape} excludes quotient streams, host real equality, ambient completeness, hidden limit selection, and unbounded schedules from the packet.
+\end{proof}
+
+\begin{theorem}[Real observation budget TasteGate ground-compiler alignment]
+\label{thm:real-observation-budget-tastegate-ground-compiler-alignment}
+For an AI-origin $\RealObservationBudgetUp$ packet
+$$
+B=(E,W,D,R,S,H,C,P,N),
+$$
+the rows $E,W,D,R,S,H,C,P,N$ are exactly the single-carrier $\ChapterTasteGate$ surface available to the chapter. The precision request, finite windows, dyadic readbacks and radii, regular-sequence handoff rows, real-seal rows, transports, continuation routes, provenance, and local name must be consumed through the ground-compiler event-flow and no-hidden-input discipline of \autoref{ch:ground-compiler-event-flow}. In particular, a consumer may not replace those rows by hidden prompt state, a host-side limit selector, an unlisted compiler fact, quotient stream equality, host real equality, ambient completeness, or an unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and the local NameCert surface. \autoref{def:real-observation-budget-carrier} exposes exactly $E,W,D,R,S,H,C,P,N$, while \autoref{thm:real-observation-budget-namecert-obligations} reads those coordinates as the whole local certificate.
+
+The ground-compiler boundary is then a consumption rule for the same finite packet. The event-flow and no-hidden-input discipline of \autoref{ch:ground-compiler-event-flow} permits only displayed, recognized rows to enter the compiler-facing read, so the $\ChapterTasteGate$ row cannot import an extra semantic channel.
+
+Finally apply non-escape. \autoref{thm:real-observation-budget-nonescape} already rules out quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules; the ground-compiler reading adds that hidden prompt state and unnamed compiler facts are not admissible input rows either.
+\end{proof}
+
+\begin{theorem}[Real observation budget finite-window seal-route totality]
+\label{thm:real-observation-budget-finite-window-seal-route-totality}
+Every admitted $\RealUp$ seal read of an accepted $\RealObservationBudgetUp$ packet is reached by the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S.
+$$
+The route is carried with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealObservationBudgetUp}$ row. There is no admitted seal read that bypasses the precision request, finite window coverage, dyadic ledger, regular-sequence handoff, or displayed provenance rows.
+\end{theorem}
+\begin{proof}
+First use window coverage. \autoref{thm:real-observation-budget-window-coverage} sends every exported dyadic readback and radius through the precision request $E$, the finite window family $W$, and the dyadic ledger $D$.
+
+Next use the regular-sequence handoff theorem. \autoref{thm:real-observation-budget-regseq-handoff} places the handoff rows $R$ downstream of $E,W,D$ and carries the same transport, route, provenance, and naming data.
+
+Finally apply the real-seal boundary theorem. \autoref{thm:real-observation-budget-real-seal-boundary} makes $S$ the only completion-facing boundary, and transport stability keeps the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows attached to the route.
+\end{proof}
+
+\begin{theorem}[Real observation budget obligation closure readiness]
+\label{thm:real-observation-budget-obligation-closure-readiness}
+The $\RealObservationBudgetUp$ paper-side obligation package consists of the carrier admission of $B=(E,W,D,R,S,H,C,P,N)$, the local $\NameCert$ obligations, finite window coverage, $\RegSeqRatUp$ handoff routing, $\RealUp$ seal-boundary routing, non-escape, transport stability, consumer exactness, $\ChapterTasteGate$ ground-compiler alignment, and finite-window seal-route totality. This package is precisely the obligation surface required before a later closure claim may promote the AI-origin observation budget beyond seed status.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert rows. \autoref{thm:real-observation-budget-obligation-package} assembles carrier admission, local naming, window, handoff, seal, transport, route, provenance, and non-escape obligations into one finite surface.
+
+Add the consumer-facing rows. \autoref{thm:real-observation-budget-transport-stability} preserves the same packet under classifier transport, and \autoref{thm:real-observation-budget-consumer-exactness} says the $\RegSeqRatUp$ and $\RealUp$ consumers read exactly that packet.
+
+Add the AI-origin readiness rows. \autoref{thm:real-observation-budget-tastegate-ground-compiler-alignment} ties the single-carrier $\ChapterTasteGate$ surface to ground-compiler event-flow and no-hidden-input consumption, while \autoref{thm:real-observation-budget-finite-window-seal-route-totality} makes every admitted seal read pass through $E,W,D,R,S$ with the displayed transport and provenance rows.
+\end{proof}
+
+\begin{theorem}[Real observation budget classifier exactness]
+\label{thm:real-observation-budget-classifier-exactness}
+For an accepted $\RealObservationBudgetUp$ packet
+$$
+B=(E,W,D,R,S,H,C,P,N),
+$$
+the classifier is exact on the displayed rows $E,W,D,R,S,H,C,P,N$. Two consumer reads agree at the observation-budget classifier exactly when they agree on the visible precision request $E$, finite window family $W$, dyadic readback and radius rows $D$, regular-sequence handoff rows $R$, real-seal rows $S$, componentwise transports $H$, displayed routes $C$, provenance $P$, and local $\NameCert$ row $N$. The comparison does not inspect hidden prompt state, host real equality, quotient stream equality, ambient completeness, or an unlisted compiler fact.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the local NameCert obligation surface. These expose precisely the rows $E,W,D,R,S,H,C,P,N$ and give no coordinate for a hidden classifier input.
+
+Use consumer exactness and transport stability. Consumer exactness confines the $\RegSeqRatUp$ and $\RealUp$ reads to the displayed packet, while transport stability preserves the same componentwise rows under $\hsame$ replay.
+
+Finally apply the ground-compiler alignment and non-escape theorems. Ground-compiler alignment forbids prompt-state or unnamed compiler facts from entering the classifier, and non-escape excludes quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules.
+\end{proof}
+
+\begin{theorem}[Real observation budget finite-route coverage]
+\label{thm:real-observation-budget-finite-route-coverage}
+Every admitted seal read of an accepted $\RealObservationBudgetUp$ packet
+$$
+B=(E,W,D,R,S,H,C,P,N)
+$$
+is covered by the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S.
+$$
+The route carries the same componentwise transport row $H$, displayed route row $C$, package provenance $P$, and local $\NameCert$ row $N$. No seal read is admitted directly from $E$, $W$, $D$, or $R$, and no seal read bypasses the displayed finite-window and regular-sequence handoff rows.
+\end{theorem}
+\begin{proof}
+First read the precision and finite-window obligations. Window coverage sends each dyadic readback and radius through $E,W,D$ before any regular-sequence handoff is available.
+
+Next apply the regular-sequence handoff theorem. It places $R$ downstream of the precision, window, and dyadic rows, with the same transport, route, provenance, and local naming data attached.
+
+The real-seal boundary then makes $S$ the only completion-facing row. Since non-escape permits no hidden seal coordinate, every admitted seal read follows the displayed route $E \longmapsto W \longmapsto D \longmapsto R \longmapsto S$.
+\end{proof}
+
+\begin{theorem}[Real observation budget root-unblock package]
+\label{thm:real-observation-budget-root-unblock-package}
+The root-unblock package exposed by $\RealObservationBudgetUp$ over
+$$
+B=(E,W,D,R,S,H,C,P,N)
+$$
+consists exactly of carrier admission, local $\NameCert$ obligations, non-escape, finite-route determinacy through $E \longmapsto W \longmapsto D \longmapsto R \longmapsto S$, classifier exactness on displayed rows, and $\ChapterTasteGate$ ground-compiler alignment. This package is the paper-side surface available to downstream $\RealUp$ completion consumers, without claiming a checked TasteGate target.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and local naming. The carrier definition and NameCert obligation theorem give the complete finite packet $B=(E,W,D,R,S,H,C,P,N)$.
+
+Add the route and classifier obligations. Finite-route coverage forces each seal read through $E,W,D,R,S$, and classifier exactness restricts comparison to the same displayed rows.
+
+Finally add non-escape and ground-compiler alignment. These two results prevent hidden prompt state, unlisted compiler facts, quotient stream equality, host real equality, ambient completeness, and unbounded schedules from acting as completion inputs, while leaving the TasteGate Lean target as a separate verification obligation.
+\end{proof}
+
+\begin{theorem}[Real observation budget TasteGate-cited obligation]
+\label{thm:real-observation-budget-tastegate-cited-obligation}
+Any promotion of the AI-origin $\RealObservationBudgetUp$ chapter beyond seed closure must consume the real $\ChapterTasteGate$ declaration \texttt{BEDC.Derived.RealObservationBudgetUp.taste\_gate}. The resolving declaration records the TasteGate citation for the finite carrier rows $E,W,D,R,S,H,C,P,N$ while the remaining observation-budget obligations stay on their paper-side rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealObservationBudgetUp.taste\_gate}
+\begin{proof}
+Read the origin row in the closure status together with the carrier definition. The chapter is AI-origin, and the only displayed observation-budget packet is $B=(E,W,D,R,S,H,C,P,N)$.
+
+Apply the TasteGate-visible surface and ground-compiler alignment theorems. They say that a $\ChapterTasteGate$ consumer may inspect only the displayed observation-budget rows under the ground-compiler event-flow and no-hidden-input discipline.
+
+The paper-Lean name channel is stricter than the paper theorem site. The named Lean declaration supplies the TasteGate citation, while the observation-budget carrier, window, handoff, seal, transport, classifier, and non-escape obligations remain distinct from that citation.
+\end{proof}
+
+\begin{theorem}[Real observation budget AI-origin obligation package]
+\label{thm:real-observation-budget-ai-origin-obligation-package}
+The AI-origin obligation package for $\RealObservationBudgetUp$ is the finite packet consisting of carrier admission, finite window coverage, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary, non-escape, transport stability, consumer exactness, and ground-compiler alignment over $E,W,D,R,S,H,C,P,N$. This package is the whole observation-budget surface carried alongside the resolving TasteGate declaration.
+\end{theorem}
+\begin{proof}
+Start with the carrier and local NameCert obligations. They expose the precision request, finite windows, dyadic readback and radius rows, regular-sequence handoff rows, real-seal rows, transport, routes, provenance, and local name.
+
+Add the analytic-facing obligations. Window coverage, the $\RegSeqRatUp$ handoff, and the $\RealUp$ seal boundary place every completion-facing read on the finite route through $E,W,D,R,S$.
+
+Finally apply non-escape, transport stability, consumer exactness, and ground-compiler alignment. These results preserve the same row set under $\hsame$ transport, exhaust the consumer read, and prevent hidden prompt state, quotient stream equality, host real equality, or ambient completeness from entering the AI-origin package.
+\end{proof}
+
+\begin{theorem}[Real observation budget seed-to-obligation readiness]
+\label{thm:real-observation-budget-seed-to-obligation-readiness}
+The $\RealObservationBudgetUp$ chapter carries an obligation-closure ledger once the TasteGate target is present and the finite rows $E,W,D,R,S,H,C,P,N$ are the sole admissible carrier surface. The paper-side obligations display the observation request, window, dyadic, regular-sequence, real-seal, transport, route, provenance, and naming rows without asserting scoped closure or Lean verification for those rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-observation-budget-ai-origin-obligation-package} to assemble the finite obligation package. It gives exactly the rows $E,W,D,R,S,H,C,P,N$ and the named coverage, handoff, seal, non-escape, transport, consumer, and compiler-alignment obligations.
+
+Use \autoref{thm:real-observation-budget-tastegate-cited-obligation} for the AI-origin gate. It requires the real TasteGate declaration before the paper can cite a checked TasteGate target.
+
+Thus the obligation boundary has two ingredients: the finite row surface remains exhaustive, and the TasteGate target resolves. Together they record the paper-side obligation ledger while keeping the remaining proof and verification axes separate.
+\end{proof}
+
+\begin{theorem}[Real observation budget finite-window ledger resolution]
+\label{thm:real-observation-budget-finite-window-ledger-resolution}
+For an accepted $\RealObservationBudgetUp$ carrier
+$$
+B=(E,W,D,R,S,H,C,P,N),
+$$
+every finite-window ledger read used by a $\RegSeqRatUp$ or $\RealUp$ consumer is resolved by $E,W,D$ together with $H,C,P,N$ before $R$ or $S$ is consumed. No such read may use quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+First read the request and window side. Request totality exposes the finite path from $E$ to $W$ and then to $D$, while window coverage binds every dyadic readback and displayed radius to the windows selected by the unary precision row.
+
+Next use the consumer-facing handoff theorems. The regular-sequence handoff places $R$ downstream of $E,W,D,H,C,P,N$, and the real-seal boundary places $S$ downstream of the same finite route.
+
+Finally apply classifier exactness and non-escape. Classifier exactness confines comparison to the displayed packet rows, and non-escape excludes quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules from the ledger.
+\end{proof}
+
+\begin{theorem}[Real observation budget window-request totalization]
+\label{thm:real-observation-budget-window-request-totalization}
+For an accepted $\RealObservationBudgetUp$ carrier
+$$
+B=(E,W,D,R,S,H,C,P,N),
+$$
+every admitted $\StreamNameUp$ window in $W$, every $\DyadicRatCoreUp$ readback in $D$, and every displayed dyadic radius in $D$ is selected by the unary precision request $E$ through the displayed $\Cont$ route
+$$
+E \longmapsto W \longmapsto D.
+$$
+If such a row is consumed by a $\RegSeqRatUp$ or $\RealUp$ reader, the same finite request route continues through $R$ and $S$ with the stored $\hsame$, $\Pkg$, and local $\NameCert_{\RealObservationBudgetUp}$ rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. \autoref{def:real-observation-budget-carrier} gives the only displayed packet rows $E,W,D,R,S,H,C,P,N$, and the continuation coordinate $C$ records the route from the precision request to windows and then to dyadic readbacks and radii.
+
+Use the window and handoff theorems. \autoref{thm:real-observation-budget-window-coverage} binds every dyadic readback and radius in $D$ to a finite window in $W$ selected by $E$, while \autoref{thm:real-observation-budget-regseq-handoff} sends every regular-rational read through the same request, window, and dyadic rows.
+
+Finally apply finite-route coverage and non-escape. \autoref{thm:real-observation-budget-finite-route-coverage} extends the route to $S$ for admitted seal reads, and \autoref{thm:real-observation-budget-nonescape} prevents any window, readback, radius, handoff, or seal row from being supplied by an unlisted schedule or host-side selector.
+\end{proof}
+
+\begin{theorem}[Real observation budget seal-ledger exhaustion]
+\label{thm:real-observation-budget-seal-ledger-exhaustion}
+Every $\RealUp$ seal read admitted by an accepted $\RealObservationBudgetUp$ carrier factors through the finite ledger rows
+$$
+E,W,D,R,S,H,C,P,N.
+$$
+The seal ledger has no row for host real equality, hidden limit selection, ambient completeness, quotient stream equality, or an unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Project the finite packet from \autoref{def:real-observation-budget-carrier}. The only real-facing coordinate is $S$, and the only rows attached to it are the request, window, dyadic, handoff, transport, route, provenance, and local naming rows.
+
+Apply the seal boundary and route-totality results. \autoref{thm:real-observation-budget-real-seal-boundary} makes $S$ the completion-facing boundary, while \autoref{thm:real-observation-budget-finite-window-seal-route-totality} and \autoref{thm:real-observation-budget-finite-route-coverage} force every admitted seal read through $E \longmapsto W \longmapsto D \longmapsto R \longmapsto S$.
+
+Use non-escape for the exhaustion claim. Since \autoref{thm:real-observation-budget-nonescape} excludes host real equality, hidden limit selection, ambient completeness, quotient stream equality, and unbounded schedules from the carrier, the displayed rows exhaust the seal ledger.
+\end{proof}
+
+\begin{theorem}[Real observation budget NameCert field saturation]
+\label{thm:real-observation-budget-namecert-field-saturation}
+The carrier field, classifier field, componentwise transport field, displayed route field, provenance field, and local $\NameCert_{\RealObservationBudgetUp}$ field of an accepted $\RealObservationBudgetUp$ packet exhaust the paper-side obligation surface. A downstream $\RealUp$ or $\RegSeqRatUp$ consumer can request only the rows $E,W,D,R,S,H,C,P,N$ and their displayed classifier, transport, route, provenance, and naming evidence.
+\end{theorem}
+\begin{proof}
+First read the local certificate. \autoref{thm:real-observation-budget-namecert-obligations} identifies carrier admission, local naming, window coverage, handoff routing, seal-boundary routing, transport, route replay, and provenance as the complete local $\NameCert$ surface.
+
+Next add classifier and transport exactness. \autoref{thm:real-observation-budget-classifier-exactness} confines classifier comparison to the displayed rows, and \autoref{thm:real-observation-budget-transport-stability} preserves the same rows under componentwise $\hsame$ replay.
+
+Finally combine finite-route coverage with the AI-origin obligation package. \autoref{thm:real-observation-budget-finite-route-coverage} routes each seal read through the finite ledger, and \autoref{thm:real-observation-budget-ai-origin-obligation-package} packages exactly these carrier, classifier, transport, route, provenance, and naming fields before any TasteGate citation is available.
+\end{proof}
+
+\begin{theorem}[Real observation budget TasteGate target consumption]
+\label{thm:real-observation-budget-tastegate-target-consumption}
+Any $\RealObservationBudgetUp$ closure claim beyond seed status must consume the resolving $\ChapterTasteGate$ carrier-alignment theorem named \texttt{BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment}. The resolving marker is the TasteGate carrier-alignment theorem for the displayed packet
+$$
+E,W,D,R,S,H,C,P,N.
+$$
+The checked TasteGate marker does not discharge the remaining observation-budget rows, and no downstream $\RealUp$ or $\RegSeqRatUp$ consumer may treat prose, host equality, quotient stream equality, hidden limit selection, ambient completeness, or an unbounded observation schedule as a substitute for those obligations.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Read the AI-origin row together with the carrier definition. The chapter declares its origin as AI, and \autoref{def:real-observation-budget-carrier} gives the only carrier packet $B=(E,W,D,R,S,H,C,P,N)$.
+
+Use the TasteGate-visible surface and the ground-compiler alignment theorem. \autoref{thm:real-observation-budget-tastegate-ground-compiler-alignment} says the $\ChapterTasteGate$ read is confined to the displayed rows under ground-compiler event-flow and no-hidden-input discipline.
+
+Finally apply the paper-Lean marker rule. The resolving theorem named \texttt{BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment} supplies the TasteGate citation required for the AI-origin chapter to record its paper-side obligation surface, while the remaining carrier, window, handoff, seal, transport, classifier, and non-escape proofs stay on their separate obligation rows.
+\end{proof}
+
+\begin{theorem}[Real observation budget RegSeqRat RealUp consumer factorization]
+\label{thm:real-observation-budget-regseq-real-consumer-factorization}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer admitted by an accepted $\RealObservationBudgetUp$ carrier factors through the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S
+$$
+with the displayed $\hsame$ row $H$, $\Cont$ row $C$, $\Pkg$ row $P$, and local $\NameCert_{\RealObservationBudgetUp}$ row $N$. The factorization has no read channel for quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+First compose the request and window coverage. \autoref{thm:real-observation-budget-window-request-totalization} and \autoref{thm:real-observation-budget-window-coverage} route each admitted dyadic readback and radius through $E,W,D$.
+
+Next attach the consumer handoff rows. \autoref{thm:real-observation-budget-regseq-handoff} places $\RegSeqRatUp$ consumption at $R$, while \autoref{thm:real-observation-budget-real-seal-boundary} and \autoref{thm:real-observation-budget-seal-ledger-exhaustion} place $\RealUp$ consumption at the seal row $S$.
+
+Transport stability then preserves the same evidence rows. \autoref{thm:real-observation-budget-transport-stability} keeps the componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ data attached to the route.
+
+Finally use non-escape and classifier exactness. \autoref{thm:real-observation-budget-nonescape} and \autoref{thm:real-observation-budget-classifier-exactness} exclude quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules from every admitted consumer read.
+\end{proof}
+
+\begin{theorem}[Real observation budget L10 gate handoff exactness]
+\label{thm:real-observation-budget-l10-gate-handoff-exactness}
+Every admitted $\RealObservationBudgetUp$ packet exposes the L10 phase handoff exactly through the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S,
+$$
+where $W$ is the $\StreamNameUp$ finite-window surface, $D$ is the $\DyadicRatCoreUp$ readback and radius surface, $R$ is the $\RegSeqRatUp$ handoff surface, and $S$ is the $\RealUp$ seal boundary. No $\RegSeqRatUp$ or $\RealUp$ consumer admitted by the packet may bypass this route by quotient stream equality, host real equality, hidden limit selection, ambient completeness, or an unbounded observation schedule. Thus the L10 gate is a finite BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the observation route. \autoref{thm:real-observation-budget-window-coverage} binds every dyadic readback and radius in $D$ to the finite $\StreamNameUp$ windows $W$ selected by the request row $E$.
+
+Attach the rational handoff and the completion boundary. \autoref{thm:real-observation-budget-regseq-handoff} places the $\RegSeqRatUp$ consumer surface at $R$ downstream of $E,W,D$, and \autoref{thm:real-observation-budget-real-seal-boundary} makes $S$ the only $\RealUp$ seal boundary reachable from that handoff.
+
+Now use the consumer factorization theorem. \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} says every admitted $\RegSeqRatUp$ or $\RealUp$ consumer factors through
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S
+$$
+with the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Finally read the TasteGate target as a boundary condition, not as an extra analytic channel. \autoref{thm:real-observation-budget-tastegate-target-consumption} keeps the checked target attached to the displayed packet and does not add quotient stream equality, host real equality, hidden limit selection, ambient completeness, or an unbounded observation schedule. The L10 handoff is therefore exactly the finite BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{proof}
+
+\begin{theorem}[Real observation budget closure-axis obligation ledger]
+\label{thm:real-observation-budget-closure-axis-obligation-ledger}
+The obligation ledger for $\RealObservationBudgetUp$ consists of carrier admission for $B=(E,W,D,R,S,H,C,P,N)$, the local $\NameCert$ obligations, classifier exactness, $\RegSeqRatUp$ and $\RealUp$ consumer factorization, non-escape, and $\ChapterTasteGate$ target consumption. These rows record the paper-side obligation surface without asserting scoped closure or Lean verification.
+\end{theorem}
+\begin{proof}
+Assemble the carrier and local certificate rows from \autoref{def:real-observation-budget-carrier} and \autoref{thm:real-observation-budget-namecert-obligations}. These rows give the finite packet and its local naming obligations.
+
+Add the consumer and classifier obligations. \autoref{thm:real-observation-budget-classifier-exactness} confines comparison to the displayed rows, and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} supplies the finite $\RegSeqRatUp$ and $\RealUp$ route.
+
+Close the paper-side ledger with non-escape and TasteGate target consumption. \autoref{thm:real-observation-budget-nonescape} rules out hidden analytic input, while \autoref{thm:real-observation-budget-tastegate-target-consumption} keeps Lean-side checking separate from the obligation rows recorded here.
+\end{proof}
+
+\closureat{RealObservationBudgetUp}{seedStr}
+\closureat{RealObservationBudgetUp}{obligationStr}[BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{RealObservationBudgetUp}{scopedStr}[BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{RealObservationBudgetUp}{publicStr}[BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment]
+\closureat{RealObservationBudgetUp}{bridgedStr}[BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\RealObservationBudgetUp}
+  \constructivestory{A $\RealObservationBudgetUp$ packet is generated from a unary precision request, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:real-observation-budget-carrier}, \autoref{thm:real-observation-budget-namecert-obligations}, \autoref{thm:real-observation-budget-window-coverage}, \autoref{thm:real-observation-budget-regseq-handoff}, \autoref{thm:real-observation-budget-real-seal-boundary}, \autoref{thm:real-observation-budget-obligation-package}, \autoref{thm:real-observation-budget-obligation-closure-readiness}, and \autoref{thm:real-observation-budget-tastegate-target-consumption} scope the finite observation-budget carrier, precision windows, dyadic readbacks, $\RegSeqRatUp$ handoffs, $\RealUp$ seal boundary, TasteGate instance \texttt{BEDC.Derived.RealObservationBudgetUp.taste\_gate}, and TasteGate carrier-alignment theorem over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, ambient completeness, hidden limit selection, unbounded observation schedules, or bridge checking.}
+  \upgradepath{Mature treatment requires a standard bridge interface for the same observation-budget packet while preserving the independent verification-axis target.}
+\end{closurestatus}

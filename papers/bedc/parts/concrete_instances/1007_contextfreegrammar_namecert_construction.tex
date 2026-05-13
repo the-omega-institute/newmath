@@ -1,0 +1,341 @@
+\chapter{A Concrete Naming Certificate for $\ContextFreeGrammarUp$}
+\label{ch:concrete-instances-contextfreegrammar-namecert}
+
+The $\ContextFreeGrammarUp$ interface names a context-free grammar through a
+finite grammar packet rather than through a host language set. In the
+Hopcroft--Ullman presentation, a context-free grammar is given by a finite
+terminal alphabet, finite nonterminal carrier, start symbol, and finite
+production relation; here each of those rows is displayed as finite
+$\mathsf{BHist}$ data with $\ListUp$ word rows and explicit provenance toward
+$\RegularLanguageUp$ and $\TuringMachineUp$ consumers.
+
+The yield and bridge boundary is consumed by \autoref{ch:concrete-instances-regularlanguage-namecert} for regular-language comparison and by \autoref{ch:concrete-instances-turingmachine-namecert} for machine-recognizer boundary checks. Thus the grammar packet is read as a finite sibling surface in the language-recognition lattice, not only as a kernel-local carrier.
+
+\begin{definition}[ContextFreeGrammar BHist carrier]
+\label{def:contextfreegrammar-bhist-carrier}
+A $\ContextFreeGrammarUp$ packet is a finite record
+$$
+G=(\Sigma,N,S,P,w,d,y,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Sigma$ is the terminal alphabet row, exposed as finite
+  $\mathsf{BHist}$ data;
+\item $N$ is the nonterminal carrier row, disjoint from the terminal rows by
+  the displayed classifier surface;
+\item $S$ is the start nonterminal row inside $N$;
+\item $P$ is the finite production ledger, whose rows have one nonterminal
+  left side and a $\ListUp$ right side over terminal and nonterminal symbols;
+\item $w$ is the terminal yield word, displayed as a $\ListUp$ row over
+  $\Sigma$;
+\item $d$ is the finite derivation ledger, beginning at $S$ and replacing one
+  displayed nonterminal occurrence by a row of $P$ at each step;
+\item $y$ is the readback row identifying the terminal fringe of the final
+  sentential form with the word row $w$;
+\item $h$ stores componentwise $\hsame$ transports for alphabets,
+  nonterminals, production rows, sentential forms, derivation rows, and yield
+  rows;
+\item $c$ stores the $\Cont$ routes for reading a production row and
+  continuing along the finite derivation ledger;
+\item $p$ stores $\Pkg$ provenance naming $\ListUp$, $\RegularLanguageUp$, and
+  $\TuringMachineUp$ consumer surfaces;
+\item $n$ is the local $\NameCert_{\ContextFreeGrammarUp}$ registration row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{ContextFreeGrammarPacket}(G)$. It exports only the displayed finite
+grammar, production, derivation, yield, transport, continuation, provenance,
+and local naming rows.
+\end{definition}
+
+\begin{theorem}[ContextFreeGrammar production stability]
+\label{thm:contextfreegrammar-production-stability}
+If two accepted $\ContextFreeGrammarUp$ packets classify together by the
+displayed $\hsame$ rows, then every production row of the first packet
+transports to exactly one production row of the second packet with transported
+left nonterminal and transported $\ListUp$ right side. The transport preserves
+terminal and nonterminal tags and introduces no host grammar relation.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_production\_stability}
+\begin{proof}
+Project the packets through
+\autoref{def:contextfreegrammar-bhist-carrier}. A production row is a visible
+entry of the finite ledger $P$ with one nonterminal left side and one displayed
+right-side word.
+
+Use the componentwise $\hsame$ rows in $h$ to transport the left nonterminal,
+the terminal and nonterminal tags, and the $\ListUp$ right side. The $\Cont$
+route in $c$ records that the transported row is read as the same production
+position in the target packet.
+
+The reverse read is the same finite ledger projection in the second packet.
+Since the carrier has no coordinate for a host production relation, only the
+displayed production rows can be transported.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar derivation concatenation]
+\label{thm:contextfreegrammar-derivation-concatenation}
+For an accepted $\ContextFreeGrammarUp$ packet, two derivation ledger segments
+whose endpoint and start sentential forms agree by a displayed $\hsame$ row
+concatenate to a finite derivation ledger over the same production rows. The
+concatenated ledger preserves the $\ListUp$ sentential-form rows,
+$\mathsf{BHist}$ production witnesses, $\Cont$ routes, and $\Pkg$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_derivation\_concatenation}
+\begin{proof}
+Read the two finite derivation segments from the $d$ coordinate of
+\autoref{def:contextfreegrammar-bhist-carrier}. The connecting hypothesis
+identifies the terminal segment endpoint and the next segment start through a
+displayed sentential-form transport row.
+
+Append the second ledger after the first. Each step still reads a production
+row of $P$, so \autoref{thm:contextfreegrammar-production-stability}
+transports the production witnesses along the same packet classifier when
+needed.
+
+The composed $\Cont$ route first consumes the first segment and then the
+second segment. All rows remain inside the finite carrier, so no infinite
+derivation tree or host closure operation is introduced.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar yield readback]
+\label{thm:contextfreegrammar-yield-readback}
+Every accepted terminal yield read of a $\ContextFreeGrammarUp$ packet factors
+through the displayed start row $S$, the finite production ledger $P$, the
+finite derivation ledger $d$, and the $\ListUp$ terminal word row $w$.
+Conversely, a finite derivation ledger ending in a terminal sentential form
+with readback row $y$ repacks as an accepted yield read of the same packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_yield\_readback}
+\begin{proof}
+For the forward direction, project the carrier rows. The yield coordinate is
+the readback row $y$, and it is attached to the final sentential form of the
+finite derivation ledger $d$.
+
+Use \autoref{thm:contextfreegrammar-production-stability} at each derivation
+step to keep the production witness inside the displayed ledger. The terminal
+fringe is then read as the $\ListUp$ word row $w$ through the stored
+continuation route.
+
+For the reverse direction, start with a derivation ledger whose final form has
+the displayed terminal readback row. These are exactly the carrier coordinates
+$S$, $P$, $d$, $y$, and $w$, so they repack as the accepted yield read.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar terminal-yield finite window]
+\label{thm:contextfreegrammar-terminal-yield-window}
+For an accepted $\ContextFreeGrammarUp$ packet
+$$
+G=(\Sigma,N,S,P,w,d,y,h,c,p,n)
+$$
+and a displayed finite derivation window selected by a
+$\mathsf{ProbeBundle}$, suppose the selected production rows are stable under
+the packet's componentwise $\hsame$ rows, the selected derivation segments
+concatenate through their displayed sentential-form endpoints, and the final
+sentential form has the readback row $y$. Then every selected terminal row is
+read through the same $\mathsf{BHist}$ carrier, $\hsame$ transport,
+$\Cont$ route, $\Pkg$ provenance, and $\NameCert_{\ContextFreeGrammarUp}$
+ledger of $G$. No selected nonterminal production row is exposed as a
+terminal yield row.
+\end{theorem}
+\begin{proof}
+Begin with the selected production rows in the finite window. Apply
+\autoref{thm:contextfreegrammar-production-stability} to each selected
+production step, so the left nonterminal, the right-side $\ListUp$ row, and
+the terminal and nonterminal tags remain inside the displayed production
+ledger $P$ with the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ provenance.
+
+Next assemble the selected route. Apply
+\autoref{thm:contextfreegrammar-derivation-concatenation} to the displayed
+derivation segments whose endpoints agree by the packet's sentential-form
+$\hsame$ rows. The concatenated route is still a finite ledger over $P$, so it
+does not introduce a host grammar step or an unlisted production row.
+
+Finally apply \autoref{thm:contextfreegrammar-yield-readback} to the terminal
+sentential form and the readback row $y$. The readback projects only terminal
+rows through the displayed bundle and identifies them with the $\ListUp$ word
+row $w$. Since nonterminal tags are preserved by production stability and the
+readback row is terminal-only, no nonterminal production row escapes as a
+terminal yield.
+\end{proof}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_terminal\_yield\_window}
+
+\begin{theorem}[ContextFreeGrammar NameCert obligation surface]
+\label{thm:contextfreegrammar-namecert-obligation-surface}
+The local $\NameCert_{\ContextFreeGrammarUp}$ obligation surface consists of
+five finite rows:
+\begin{enumerate}
+\item carrier habitation for the terminal alphabet, nonterminal carrier, start
+symbol, finite production ledger, terminal word, derivation ledger, readback
+row, transport rows, continuation routes, provenance, and local registration;
+\item production stability under componentwise $\hsame$ transport by
+\autoref{thm:contextfreegrammar-production-stability};
+\item derivation concatenation for finite ledger segments by
+\autoref{thm:contextfreegrammar-derivation-concatenation};
+\item yield readback from the final terminal sentential form to the displayed
+$\ListUp$ word row by \autoref{thm:contextfreegrammar-yield-readback};
+\item consumer boundary: $\RegularLanguageUp$ and $\TuringMachineUp$ readers
+receive only the displayed grammar packet, finite production and derivation
+ledgers, yield row, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ provenance.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_namecert\_obligation\_surface}
+\begin{proof}
+Carrier habitation is exactly the packet of
+\autoref{def:contextfreegrammar-bhist-carrier}. Its coordinates are finite
+grammar rows, a finite production ledger, a finite derivation ledger, and a
+terminal yield row.
+
+The production and derivation rows are supplied by
+\autoref{thm:contextfreegrammar-production-stability} and
+\autoref{thm:contextfreegrammar-derivation-concatenation}. Together they keep
+every derivation step inside the displayed finite ledger and preserve the
+transport and continuation routes.
+
+The readback row is \autoref{thm:contextfreegrammar-yield-readback}. It
+identifies the terminal fringe with the displayed $\ListUp$ word and repacks
+the same rows as the accepted yield read.
+
+Finally project the provenance row $p$. It names the downstream
+$\RegularLanguageUp$ and $\TuringMachineUp$ consumer surfaces without adding a
+host language quotient, parse-tree infinitary semantics, pumping theorem, or
+recognizer completeness claim.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar RegularLanguage--TuringMachine bridge boundary]
+\label{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}
+The public grammar and yield packet of
+\autoref{def:contextfreegrammar-bhist-carrier} exports to
+$\RegularLanguageUp$ and $\TuringMachineUp$ consumers only the terminal
+alphabet, nonterminal carrier, start row, finite production ledger, finite
+derivation ledger, $\ListUp$ terminal yield row, $\hsame$ transports,
+$\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+The exported boundary does not include ambiguity, parsing completeness,
+pumping arguments, Chomsky normal form, or recognizer completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_regularlanguage\_turingmachine\_bridge\_boundary}
+\begin{proof}
+Project the finite grammar packet of
+\autoref{def:contextfreegrammar-bhist-carrier}. The terminal alphabet,
+nonterminal carrier, start row, production ledger, derivation ledger,
+terminal yield row, transport rows, continuation routes, provenance, and
+naming row are exactly the displayed carrier coordinates.
+
+Use \autoref{thm:contextfreegrammar-production-stability} to keep every
+production witness inside the finite ledger under componentwise transport.
+Use \autoref{thm:contextfreegrammar-derivation-concatenation} to compose
+consumer derivation windows without introducing an infinitary derivation
+object.
+
+Apply \autoref{thm:contextfreegrammar-yield-readback} and
+\autoref{thm:contextfreegrammar-terminal-yield-window}. These identify the
+consumer-visible yield as the same $\ListUp$ terminal word row read through
+the finite derivation ledger and the stored terminal readback surface.
+
+Finally apply
+\autoref{thm:contextfreegrammar-namecert-obligation-surface} and repack the
+rows named by the consumer boundary. Since the packet has no coordinate for
+ambiguity, parsing completeness, pumping arguments, Chomsky normal form, or a
+complete recognizer, none of those structures is exported to
+$\RegularLanguageUp$ or $\TuringMachineUp$ readers.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar consumer boundary determinacy]
+\label{thm:contextfreegrammar-consumer-boundary-determinacy}
+Let $G$ and $H$ be accepted finite $\ContextFreeGrammarUp$ packets. Suppose
+their terminal alphabet rows, nonterminal carrier rows, start rows, production
+ledgers, derivation ledgers, yield rows, $\hsame$ rows, $\Cont$ rows,
+$\mathsf{Pkg}$ provenance rows, and local $\NameCert$ rows agree
+componentwise. Then $G$ and $H$ induce the same consumer-visible boundary for
+both $\RegularLanguageUp$ and $\TuringMachineUp$ readers.
+
+The common boundary is the finite grammar and yield surface exported by
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}.
+It contains no grammar-equivalence quotient, ambiguity row, parsing-completeness
+row, pumping argument, Chomsky-normal-form witness, or recognizer-completeness
+coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_consumer\_boundary\_determinacy}
+\begin{proof}
+Apply \autoref{thm:contextfreegrammar-production-stability} to the equal
+production ledgers. The production witnesses of $G$ and $H$ stay inside the
+same finite terminal and nonterminal rows under the displayed componentwise
+$\hsame$ transports.
+
+Next apply \autoref{thm:contextfreegrammar-derivation-concatenation}. The
+equal derivation ledgers concatenate through the same sentential-form endpoints
+and therefore expose the same finite derivation route to downstream consumers.
+
+Apply \autoref{thm:contextfreegrammar-yield-readback}. Since the terminal yield
+rows agree, both packets read back to the same $\ListUp$ terminal word through
+the same terminal-only surface.
+
+Finally use
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}.
+That boundary is built only from the terminal alphabet, nonterminal carrier,
+start row, production ledger, derivation ledger, yield row, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows. Componentwise equality of exactly
+those rows therefore forces the same $\RegularLanguageUp$ and
+$\TuringMachineUp$ consumer-visible boundary, while the excluded grammar and
+recognizer structures have no exported coordinate.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar parse-tree derivation boundary]
+\label{thm:contextfreegrammar-parse-tree-derivation-boundary}
+Every parse-tree-shaped consumer read of an accepted
+$\ContextFreeGrammarUp$ packet factors through the finite production rows,
+derivation concatenation rows, terminal yield window, $\ListUp$ word row,
+$\TuringMachineUp$ bridge boundary, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+local $\NameCert$ rows of \autoref{def:contextfreegrammar-bhist-carrier}. The
+read exports no infinitary parse-tree semantics, host language quotient,
+pumping theorem, or grammar-equivalence oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:contextfreegrammar-bhist-carrier}. A parse-tree-shaped consumer
+read can name productions, sentential-form steps, and terminal leaves only
+through the displayed finite production ledger, derivation ledger, readback
+row, transport rows, continuation routes, provenance, and local naming row.
+
+Apply \autoref{thm:contextfreegrammar-production-stability} to keep each
+production read inside the finite production ledger. Apply
+\autoref{thm:contextfreegrammar-derivation-concatenation} to assemble the
+tree-shaped read as a finite derivation route whose subderivations meet at
+displayed sentential-form endpoints.
+
+Next apply \autoref{thm:contextfreegrammar-yield-readback} and
+\autoref{thm:contextfreegrammar-terminal-yield-window}. These identify the
+consumer-visible leaves with the terminal yield window and the $\ListUp$ word
+row, while preserving the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ provenance.
+
+Finally apply
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}
+and \autoref{thm:contextfreegrammar-consumer-boundary-determinacy}. The
+bridge exposes only the displayed grammar and yield surface to
+$\TuringMachineUp$ and $\RegularLanguageUp$ readers, and determinacy says
+that agreeing finite rows determine the same consumer-visible boundary.
+
+Since no carrier coordinate stores an infinitary parse-tree semantics, host
+language quotient, pumping theorem, or grammar-equivalence oracle, none of
+those structures is exported by the parse-tree-shaped read.
+\end{proof}
+
+\closureat{ContextFreeGrammarUp}{seedStr}
+\closureat{ContextFreeGrammarUp}{obligationStr}
+\closureat{ContextFreeGrammarUp}{scopedStr}
+\closureat{ContextFreeGrammarUp}{publicStr}
+\closureat{ContextFreeGrammarUp}{bridgedStr}
+
+\begin{closurestatus}{\ContextFreeGrammarUp}
+  \constructivestory{A context-free grammar packet is generated by finite terminal and nonterminal rows, a start row, finite production rows, a ListUp terminal word row, a finite derivation ledger, a terminal yield readback row, displayed transports, continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:contextfreegrammar-bhist-carrier}, \autoref{thm:contextfreegrammar-production-stability}, \autoref{thm:contextfreegrammar-derivation-concatenation}, \autoref{thm:contextfreegrammar-yield-readback}, \autoref{thm:contextfreegrammar-namecert-obligation-surface}, \autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}, \autoref{thm:contextfreegrammar-consumer-boundary-determinacy}, and \autoref{thm:contextfreegrammar-parse-tree-derivation-boundary} bind the carrier, production and derivation rows, yield readback, grammar obligation surface, paper bridge boundary, consumer boundary determinacy, and parse-tree-shaped consumer boundary for the displayed grammar packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close grammar equivalence, ambiguity, parsing completeness, pumping arguments, Chomsky normal form, context-free language closure theorems, or machine bridge verification.}
+  \upgradepath{Machine bridge verification requires a Lean bridge theorem for the displayed grammar packet and its regular-language and Turing-machine consumer surfaces.}
+\end{closurestatus}

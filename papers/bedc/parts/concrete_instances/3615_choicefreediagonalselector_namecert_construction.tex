@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceFreeDiagonalSelectorUp$}
+\label{ch:concrete-instances-choicefreediagonalselector-namecert}
+\origin{ai}
+
+The $\ChoiceFreeDiagonalSelectorUp$ packet records the finite selector boundary used by the Real completeness diagonal route. It binds a precision request, a selected cofinal window, StreamName observations, a RegSeqRat witness, the RealUp seal handoff, and the BEDC transport rows as one inspectable naming certificate. The packet is a finite boundary between cofinal-window schedules and selector-budget packets; it is not a host choice principle, quotient stream, selected host limit, or ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[Choice-free diagonal selector carrier]
+\label{def:choice-free-diagonal-selector-carrier}
+A $\ChoiceFreeDiagonalSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+D=(\varepsilon,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\varepsilon$ is the positive precision request made by the diagonal-limit consumer;
+\item $W$ is the selected cofinal window row, displayed as a finite family of admissible StreamName observation indices;
+\item $S$ is the finite family of $\StreamNameUp$ observation rows opened by the selected cofinal window;
+\item $R$ is the $\RegSeqRatUp$ witness row assembled from those observations for the diagonal handoff;
+\item $E$ is the $\RealUp$ seal row reached only after the RegSeqRat witness has been assembled;
+\item $H$ records componentwise $\hsame$ transports for the request, window, StreamName observations, RegSeqRat witness, RealUp seal, and structural rows;
+\item $C$ records the displayed $\Cont$ routes for request inspection, cofinal-window selection, observation readback, RegSeqRat handoff, RealUp seal delivery, and non-escape inspection;
+\item $P$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ChoiceFreeDiagonalSelectorUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the visible rows $\varepsilon,W,S,R,E,H,C,P,N$.
+\end{definition}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ChoiceFreeDiagonalSelectorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Choice-free diagonal selector window route]
+\label{thm:choice-free-diagonal-selector-window-route}
+Every accepted $\ChoiceFreeDiagonalSelectorUp$ carrier routes a diagonal precision request through the displayed finite cofinal window before any RegSeqRat or RealUp data can be consumed. For
+$$
+D=(\varepsilon,W,S,R,E,H,C,P,N),
+$$
+each StreamName observation in $S$ is opened only inside the selected cofinal window $W$, the RegSeqRat witness $R$ is assembled only from those observations, and the RealUp seal row $E$ is reached only through that witness route.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The request row $\varepsilon$ and selected cofinal window $W$ are displayed before any StreamName, RegSeqRat, or RealUp row is available.
+
+The observation rows $S$ are listed as the finite family opened by $W$. Hence a downstream diagonal consumer can read StreamName data only from the selected cofinal window.
+
+The witness row $R$ appears after those observations, and the seal row $E$ appears after $R$. The structural rows $H,C,P,N$ transport, replay, package, and name the same finite route, so the selector boundary is exactly $\varepsilon,W,S,R,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Choice-free diagonal selector non-escape]
+\label{thm:choice-free-diagonal-selector-nonescape}
+An accepted $\ChoiceFreeDiagonalSelectorUp$ carrier cannot be used to recover data outside the displayed tuple $\varepsilon,W,S,R,E,H,C,P,N$. In particular, it exports no host choice rule, quotient stream equality, selected host limit, hidden cofinal-window selector, unbounded StreamName scan, or ambient completeness principle for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read the displayed tuple in \autoref{def:choice-free-diagonal-selector-carrier}. The content rows are the request, cofinal window, StreamName observations, RegSeqRat witness, and RealUp seal; the remaining rows only provide transport, route replay, provenance, and local naming for those entries.
+
+Apply \autoref{thm:choice-free-diagonal-selector-window-route}. It confines every diagonal read to the selected finite cofinal window and forces the RegSeqRat and RealUp rows to be downstream of that route.
+
+Since the carrier contains no coordinate for host choice, quotient stream equality, selected host limits, hidden selectors, unbounded observation scans, or RealUp completeness, no such object can be recovered from an accepted packet.
+\end{proof}
+
+\closureat{ChoiceFreeDiagonalSelectorUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceFreeDiagonalSelectorUp}
+  \constructivestory{A $\ChoiceFreeDiagonalSelectorUp$ packet is generated from a precision request, selected cofinal window, finite StreamName observations, RegSeqRat witness, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-free-diagonal-selector-carrier}, \autoref{thm:choice-free-diagonal-selector-window-route}, and \autoref{thm:choice-free-diagonal-selector-nonescape} bind the finite choice-free diagonal selector carrier and its local non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host choice, selected host limits, hidden cofinal-window selection, or a public standard bridge.}
+  \upgradepath{Formal closure requires checked carrier admission, cofinal-window selection, StreamName readback, RegSeqRat handoff, RealUp seal delivery, transport stability, route stability, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}

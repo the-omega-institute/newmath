@@ -1,0 +1,709 @@
+\chapter{A Concrete Naming Certificate for $\RationalBallUp$}
+\label{ch:concrete-instances-rational-ball-namecert}
+
+The $\RationalBallUp$ interface names finite rational-radius balls on the
+path from rational intervals and dyadic radius rows to metric and real-name
+consumer windows. In the constructive analysis tradition of Bishop and
+Bridges, a metric ball used here is a located finite witness: a center row,
+a visible nonnegative radius row, and the finite ledgers by which rational
+samples are certified inside the radius. It is not an open-cover topology
+object and it carries no hidden completed real.
+
+\begin{definition}[RationalBall BHist carrier]
+\label{def:rational-ball-bhist-carrier}
+A $\RationalBallUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+B=(c,r,o,h,k,p,n)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $c$ is the center row, a $\RatUp$ carrier displayed in the packet;
+\item $r$ is the dyadic or rational radius row, read through
+  $\DyadicRatCoreUp$ as the radius budget for the ball;
+\item $o$ is the nonnegative radius and order witness row, certifying that
+  the displayed radius is usable as a finite metric bound;
+\item $h$ records the componentwise $\hsame$ transport rows for the center,
+  radius, order witness, containment ledger, consumer-facing metric rows, and
+  real-window handoff coordinates;
+\item $k$ is the containment ledger recording exactly which finite rational
+  sample rows are certified to lie within the displayed radius of $c$;
+\item $p$ is the visible $\Pkg$ provenance row naming the consumed
+  $\RatUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$,
+  $\MetricSpaceUp$, and $\RealUp$ certificate surfaces;
+\item $n$ is the local $\NameCert_{\RationalBallUp}$ registration row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{RationalBallPacket}(c,r,o,h,k,p,n)$. Its classifier compares two
+accepted packets only by transporting the displayed center and radius rows,
+then replaying the finite containment ledger through the same displayed
+$\mathsf{BHist}$ surface.
+\end{definition}
+
+\begin{theorem}[RationalBall NameCert obligations]
+\label{thm:rational-ball-namecert-obligations}
+The local $\NameCert_{\RationalBallUp}$ seed obligation surface consists of
+six finite rows: the carrier of
+\autoref{def:rational-ball-bhist-carrier}, center equality through the
+displayed $\RatUp$ classifier, radius compatibility through
+$\DyadicRatCoreUp$, the nonnegative radius witness, containment ledger
+exactness, and $\hsame$ stability for the $\Cont$ routes that expose the
+$\RationalIntervalUp$, $\RegSeqRatUp$, $\MetricSpaceUp$, and $\RealUp$
+consumer windows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_namecert\_obligations}
+\begin{proof}
+Project the seven carrier coordinates. The center row $c$, radius row $r$,
+and order witness $o$ provide the finite rational-radius data.
+
+The containment surface is exactly the ledger $k$, interpreted with the
+transport rows in $h$. The package row $p$ names the downstream interval,
+regular-sequence, metric, and real-name surfaces, while $n$ supplies the local
+registration row.
+
+These rows account for the stated seed obligations. No coordinate remains for
+an open cover, a completed metric space point, or an ambient real ball.
+\end{proof}
+
+\begin{theorem}[RationalBall containment exactness]
+\label{thm:rational-ball-containment-exactness}
+For an accepted $\RationalBallUp$ packet
+$B=(c,r,o,h,k,p,n)$, every rational containment read is exactly one row of
+$k$ transported by $h$ and interpreted against the displayed center $c$,
+radius $r$, and nonnegative radius witness $o$. Conversely, any row of $k$
+with those carrier, transport, package, and local naming coordinates is
+accepted as a $\RationalBallUp$ containment read.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_containment\_exactness}
+\begin{proof}
+Project $B$ through \autoref{def:rational-ball-bhist-carrier}. The only
+containment coordinate is the ledger $k$, and each row of $k$ is read with
+the displayed center, radius, and order witness.
+
+For the forward direction, a consumer route can only access a row named by
+the carrier. Transporting that row uses the componentwise $\hsame$ data in
+$h$, so the read remains inside the same finite rational-radius packet.
+
+For the reverse direction, start with a displayed row of $k$ together with
+$c$, $r$, $o$, $h$, $p$, and $n$. These are precisely the carrier coordinates
+needed to interpret the row as a rational containment read.
+\end{proof}
+
+\begin{theorem}[RationalBall refinement transport]
+\label{thm:rational-ball-refinement-transport}
+Suppose two accepted $\RationalBallUp$ packets are connected by displayed
+$\hsame$ rows for their centers, radius rows, nonnegative radius witnesses,
+and finite containment ledgers. Then any rational sample accepted by the
+first packet transports to a rational sample accepted by the second packet
+through the same $\Cont$ route surface. The transport introduces no completed
+metric point, no total real equality, and no open-cover refinement principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_radius\_refinement\_transport}
+\begin{proof}
+Use \autoref{thm:rational-ball-containment-exactness} to identify the sample
+read as one displayed ledger row of the first packet. The hypotheses provide
+the matching $\hsame$ rows for the center, radius, order witness, and ledger.
+
+Move the ledger row along those displayed transports. The package row keeps
+the same $\RatUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$,
+$\RegSeqRatUp$, $\MetricSpaceUp$, and $\RealUp$ surfaces visible to the
+consumer.
+
+Apply the reverse direction of
+\autoref{thm:rational-ball-containment-exactness}. The transported row has
+exactly the coordinates required by the second packet, so it is accepted
+there and no external metric completion datum is introduced.
+\end{proof}
+
+\begin{theorem}[RationalBall full packet refinement transport]
+\label{thm:rationalball-full-packet-refinement-transport}
+Let an accepted $\RationalBallUp$ packet be given by center, radius,
+containment ledger, provenance, local name row, generated order row, transport
+row, endpoint row, a probe bundle, and a package row. If componentwise
+$\hsame$ transport is supplied for the center, radius, containment ledger,
+provenance, and local name row, and if the target side regenerates the
+$\Cont$ rows from center to radius to order, from order to containment to
+transport, and from transport to provenance to endpoint together with the
+matching $\Pkg$ row, then the transported data form an accepted
+$\RationalBallUp$ packet. The same construction also produces the derived
+order sameness, transport sameness, and endpoint sameness rows.
+
+The construction is internal to the displayed rational-ball packet: it
+introduces no completed metric point, compactness principle, open-cover
+refinement, or quotient-real equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_refinement\_transport}
+\begin{proof}
+Project the accepted packet into its unary rows, three $\Cont$ routes, and
+package endpoint row. The displayed $\hsame$ hypotheses move the center,
+radius, containment ledger, provenance, and local name row componentwise.
+
+Rebuild the generated order, transport, and endpoint rows using the target
+$\Cont$ routes. The BEDC kernel rule that $\Cont$ respects displayed sameness
+then gives the order sameness, transport sameness, and endpoint sameness rows.
+
+Finally repack the transported unary rows, regenerated $\Cont$ routes, and
+target $\Pkg$ row into the accepted packet. Every object used in the
+construction is already one of the displayed packet coordinates or a
+regenerated route between them, so no completed metric point, compactness,
+open-cover, or quotient-real equality datum is introduced.
+\end{proof}
+
+\begin{theorem}[RationalBall RealUp window handoff]
+\label{thm:rational-ball-real-window-handoff}
+A $\RealUp$ consumer of an accepted $\RationalBallUp$ packet may read only the
+finite rational-radius window recorded by the carrier: the $\RatUp$ center,
+the $\DyadicRatCoreUp$ radius row, the nonnegative radius witness, finite
+rational containment ledger, displayed $\hsame$ transports, $\Cont$ routes,
+$\Pkg$ provenance over $\RatUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$,
+$\RegSeqRatUp$, $\MetricSpaceUp$, and $\RealUp$, and the local
+$\NameCert_{\RationalBallUp}$ row.
+
+The handoff supplies a finite rational-radius seed for real-name consumer
+windows. It does not assert completeness of $\RealUp$, compactness of balls,
+or an open-cover topology theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_realup\_window\_handoff}
+\begin{proof}
+Project the carrier of \autoref{def:rational-ball-bhist-carrier}. The center,
+radius, order witness, containment ledger, transport rows, provenance, and
+local naming row are the only coordinates exposed by the packet.
+
+Use \autoref{thm:rational-ball-containment-exactness} to exhaust the rational
+sample reads available to a downstream consumer. Use
+\autoref{thm:rational-ball-refinement-transport} to see that every such read
+is stable under displayed finite refinements.
+
+Thus a $\RealUp$ consumer receives exactly the finite rational-radius window
+and its provenance through the named BEDC surfaces. Since the packet has no
+coordinate for a completed real, an open cover, or compactness data, none can
+be exported at the handoff.
+\end{proof}
+
+\begin{theorem}[RationalBall interval center containment]
+\label{thm:rationalball-interval-center-containment}
+Let $B=(c,r,o,h,k,p,n)$ be an accepted $\RationalBallUp$ packet, and let
+$I=(l,u,o_I,\kappa,h_I,c_I,p_I,n_I)$ be a displayed
+$\RationalIntervalUp$ window whose center row is the same $\RatUp$ row $c$ and
+whose endpoint rows are the rational-radius endpoints determined by $c$ and
+$r$. For every rational sample row $q$ carried by the same finite
+$\mathsf{BHist}$ surface, $q$ is accepted by the $\RationalBallUp$ containment
+ledger $k$ exactly when its transported row is accepted by the
+$\RationalIntervalUp$ endpoint-containment ledger $\kappa$ under the same
+displayed $\hsame$ transports, $\Cont$ routes, and $\Pkg$ provenance.
+
+The correspondence supplies only finite rational-radius containment data for
+the displayed center window. It does not assert metric completeness,
+compactness of balls, or any open-cover topology principle.
+\end{theorem}
+\begin{proof}
+For the ball-to-interval direction, apply
+\autoref{thm:rational-ball-containment-exactness}. A containment read of $q$
+is one row of $k$ interpreted against the center $c$, radius $r$, order witness
+$o$, transport rows $h$, continuation routes, package provenance, and local
+name row.
+
+Transport that displayed row through the endpoint window. The shared
+$\RatUp$ center and radius endpoints identify the transported sample with the
+endpoint-containment row of $I$. Apply
+\autoref{thm:rational-ball-refinement-transport},
+\autoref{thm:rational-interval-endpoint-order-witness}, and
+\autoref{thm:rational-interval-containment-ledger-exactness} to read the row as
+one accepted $\RationalIntervalUp$ containment fact.
+
+For the interval-to-ball direction, start with the endpoint-containment row in
+$\kappa$. The same endpoint theorem and containment-ledger exactness identify
+it as a finite row over the displayed center, radius endpoints, order witness,
+$\hsame$, $\Cont$, and $\Pkg$ data. Repack that row through
+\autoref{thm:rational-ball-containment-exactness}; the carrier coordinates are
+exactly $c$, $r$, $o$, $h$, $k$, $p$, and $n$.
+
+Finally use the RationalInterval consumer theorems named by the package
+provenance to keep the transported read inside the finite endpoint-window
+surface. No proof step introduces a completed metric point, a compact ball, or
+an open-cover datum.
+\end{proof}
+
+\begin{theorem}[RationalBall carrier-radius obligation]
+\label{thm:rationalball-carrier-radius-obligation}
+Every admitted $\RationalBallUp$ packet consists of a $\RatUp$ center history,
+a positive rational radius row, a containment classifier row over
+$\mathsf{BHist}$ observations, and $\mathsf{Pkg}$ provenance for the displayed
+$\RatUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$,
+$\MetricSpaceUp$, and $\RealUp$ surfaces.
+
+These are the only carrier-radius rows visible to downstream consumers.
+\end{theorem}
+\begin{proof}
+Project the admitted packet through \autoref{def:rational-ball-bhist-carrier}.
+The carrier lists the center, radius, order witness, containment ledger,
+transport rows, package provenance, and local naming row.
+
+Apply \autoref{thm:rational-ball-namecert-obligations}. It isolates the
+center and radius rows as the finite data required by the local
+$\NameCert_{\RationalBallUp}$ surface.
+
+Use \autoref{thm:rational-ball-containment-exactness} to identify the
+containment classifier as the whole ledger over $\mathsf{BHist}$ observations.
+The remaining visible dependency rows are precisely the package coordinates
+named in the carrier.
+\end{proof}
+
+\begin{theorem}[RationalBall center transport obligation]
+\label{thm:rationalball-center-transport-obligation}
+Transporting the center history and radius row along the displayed $\RatUp$
+classifier preserves the $\RationalBallUp$ containment classifier under
+componentwise $\hsame$ and $\Cont$ routes.
+
+The transported packet exposes the same finite rational-radius consumer
+surface and no completed metric point.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_center\_transport\_obligation}
+\begin{proof}
+Begin with the center and radius rows supplied by
+\autoref{def:rational-ball-bhist-carrier}. The displayed $\RatUp$ classifier
+provides the transport route for the center, and the radius row travels with
+the same finite rational-radius packet.
+
+Apply \autoref{thm:rational-ball-refinement-transport}. It moves a containment
+sample through the matching $\hsame$ rows and the displayed $\Cont$ route
+without introducing an external metric completion datum.
+
+Finally use \autoref{thm:rational-ball-containment-exactness} in the target
+packet. The transported center and radius rows determine exactly the same
+containment classifier shape, so the $\RationalBallUp$ consumer surface is
+preserved.
+\end{proof}
+
+\begin{theorem}[RationalBall ledger exactness obligation]
+\label{thm:rationalball-ledger-exactness-obligation}
+The $\RationalBallUp$ ledger exposes exactly the center, radius, containment,
+refinement, $\RealUp$ window handoff, and dependency provenance rows of the
+finite rational-radius packet.
+
+It exposes no compactness theorem, open-cover topology, quotient real
+equality, or completed metric-space point.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_ledger\_exactness\_certificate}
+\begin{proof}
+Project the ledger coordinates from
+\autoref{def:rational-ball-bhist-carrier}. The center and radius rows are the
+carrier entries, and the dependency provenance is the displayed
+$\mathsf{Pkg}$ row.
+
+Apply \autoref{thm:rational-ball-namecert-obligations} to bind those rows to
+the local naming surface. Then use
+\autoref{thm:rational-ball-containment-exactness} and
+\autoref{thm:rational-ball-refinement-transport} to exhaust the containment
+and refinement reads.
+
+Finally apply \autoref{thm:rational-ball-real-window-handoff}. The only
+real-facing consumer data are the finite rational-radius window and its
+provenance, so compactness, open-cover topology, quotient real equality, and
+completed metric points have no ledger coordinate.
+\end{proof}
+
+\begin{theorem}[RationalBall RegSeqRat window obligations]
+\label{thm:rationalball-regseqrat-window-obligations}
+A $\RegSeqRatUp$ consumer of an accepted $\RationalBallUp$ packet reads exactly
+the $\RatUp$ center, $\DyadicRatCoreUp$ radius row, nonnegative-radius witness,
+finite containment ledger, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$
+provenance over $\RationalIntervalUp$, $\RegSeqRatUp$, $\MetricSpaceUp$, and
+$\RealUp$, and the local $\NameCert_{\RationalBallUp}$ row.
+
+The obligation surface exports no real completeness theorem, compactness of
+metric balls, open-cover topology, quotient real equality, or completed metric
+point.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:rational-ball-bhist-carrier}. The
+visible data are the rational center, dyadic radius, nonnegative-radius witness,
+finite containment ledger, transport rows, continuation routes, package
+provenance, and local naming row.
+
+Apply \autoref{thm:rational-ball-namecert-obligations} to bind these rows to
+the accepted $\RationalBallUp$ packet. Then use
+\autoref{thm:rational-ball-containment-exactness} to exhaust the finite
+containment ledger.
+
+Next apply \autoref{thm:rational-ball-refinement-transport}. It preserves the
+same rational-radius window under the displayed $\hsame$ and $\Cont$ routes,
+with package provenance over the rational-interval, regular-sequence, metric,
+and real-facing consumers.
+
+Finally use \autoref{thm:rational-ball-real-window-handoff}. The real-facing
+boundary is only the finite window read by the $\RegSeqRatUp$ consumer, so real
+completeness, compactness, open-cover topology, quotient real equality, and
+completed metric points have no exported row.
+\end{proof}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_regseqrat\_window\_obligations\_certificate}
+
+\begin{theorem}[RationalBall public finite consumer export]
+\label{thm:rational-ball-public-finite-consumer-export}
+Every public $\RationalBallUp$ finite consumer read factors through exactly the
+center $\RatUp$ row, the dyadic or rational radius row, the
+nonnegative-radius witness, the containment ledger, the $\hsame$ transports,
+the $\Cont$ routes, the $\mathsf{Pkg}$ provenance over $\RatUp$,
+$\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\MetricSpaceUp$,
+and $\RealUp$, and the local $\NameCert_{\RationalBallUp}$ row. Conversely,
+those rows repack as the public finite rational-radius consumer surface.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:rational-ball-bhist-carrier}. The
+center row, radius row, nonnegative-radius witness, containment ledger,
+transport rows, continuation routes, package provenance, and local naming row
+are exactly the finite coordinates of an accepted packet.
+
+Apply \autoref{thm:rational-ball-containment-exactness} to exhaust the
+containment reads. Then use
+\autoref{thm:rational-ball-refinement-transport} to carry the same rows through
+the displayed $\hsame$ and $\Cont$ routes.
+
+Next apply \autoref{thm:rational-ball-real-window-handoff} and
+\autoref{thm:rationalball-regseqrat-window-obligations}. These two window
+statements identify the $\RealUp$ and $\RegSeqRatUp$ consumer reads as the same
+finite rational-radius packet surface.
+
+Thus the forward direction factors every public consumer read through the
+listed rows, and the reverse direction repacks those rows as the public
+consumer surface. Completeness, compactness, open-cover topology, quotient real
+equality, and completed metric points are excluded because the carrier has no
+coordinate for them.
+\end{proof}
+
+\begin{theorem}[RationalBall DyadicApproximation window correspondence]
+\label{thm:rationalball-dyadicapproximation-window-correspondence}
+Let $R$ be an accepted $\RationalBallUp$ packet and let $D$ be an accepted
+$\DyadicApproximationUp$ packet. Suppose the two packets share the unary
+precision row, the dyadic endpoint or radius row, the $\StreamNameUp$ window,
+the $\RegSeqRatUp$ readback, the $\RationalIntervalUp$ containment ledger,
+visible $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and the
+local $\NameCert$ rows naming those finite coordinates.
+
+Then $R$ and $D$ determine the same finite $\RealUp$-facing consumer surface.
+Conversely, those shared rows repack as the $\RationalBallUp$ finite consumer
+read.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:rational-ball-public-finite-consumer-export}. It exposes the
+$\RationalBallUp$ public read as the center row, dyadic or rational radius row,
+containment ledger, displayed transports, continuation routes, package
+provenance, and local naming row.
+
+Next apply \autoref{thm:rational-ball-real-window-handoff}. The
+$\RationalBallUp$ real-facing boundary is only the finite window consumed by
+the regular rational readback, so the displayed unary precision, stream name,
+and rational-interval containment rows are sufficient to identify the
+$\RealUp$ surface.
+
+For the dyadic side, use
+\autoref{thm:dyadic-approximation-rational-interval-window-handoff} and
+\autoref{thm:dyadicapproximation-public-finite-window-export}. These identify
+the accepted $\DyadicApproximationUp$ packet with the same finite dyadic
+endpoint or radius row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and
+$\RationalIntervalUp$ containment ledger.
+
+The shared $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows therefore
+give the same $\mathsf{BHist}$ consumer surface on both sides. Reading the
+surface from $R$ gives the forward correspondence; reading the same rows in
+the reverse direction repacks the $\RationalBallUp$ finite consumer read.
+
+No step uses compactness, open-cover topology, quotient real equality, a
+selected limit, or a completed metric point, since none of these is a row of
+the shared finite window.
+\end{proof}
+
+\begin{theorem}[RationalBall standard finite-window bridge]
+\label{thm:rationalball-standard-finite-window-bridge}
+The public finite consumer export, $\RegSeqRatUp$ window obligations,
+$\RealUp$ window handoff, refinement transport, and containment exactness
+assemble the standard finite rational-radius bridge for $\RationalBallUp$.
+The bridge exposes exactly the center row, radius row, nonnegative-radius
+witness, containment ledger, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\RationalBallUp}$ row.
+
+The bridge adds no real completeness, compactness of metric balls, open-cover
+topology, quotient real equality, or completed metric point.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:rational-ball-public-finite-consumer-export}. It fixes
+the public finite consumer rows: center, radius, nonnegative-radius witness,
+containment ledger, transports, continuation routes, package provenance, and
+local naming row.
+
+Apply \autoref{thm:rationalball-regseqrat-window-obligations} and
+\autoref{thm:rational-ball-real-window-handoff}. These identify the regular
+rational source window and real-facing endpoint window as reads of the same
+finite rational-radius packet.
+
+Next use \autoref{thm:rational-ball-refinement-transport}. It preserves the
+packet under the displayed $\hsame$ and $\Cont$ routes while retaining the same
+package provenance.
+
+Finally apply \autoref{thm:rational-ball-containment-exactness}. The
+containment ledger is exhausted by the listed finite rows, so the assembled
+bridge has no coordinate for real completeness, compactness, open-cover
+topology, quotient real equality, or a completed metric point.
+\end{proof}
+
+\begin{theorem}[RationalBall mature finite consumer completeness]
+\label{thm:rationalball-mature-finite-consumer-completeness}
+Every finite consumer read of the standard finite-window bridge for
+$\RationalBallUp$ factors through exactly the $\RatUp$ center row, the
+$\DyadicRatCoreUp$ or $\RatUp$ radius row, the nonnegative-radius witness, the
+containment ledger, the $\hsame$ transports, the $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance over $\RatUp$, $\DyadicRatCoreUp$,
+$\RationalIntervalUp$, $\RegSeqRatUp$, $\MetricSpaceUp$, and $\RealUp$, and
+the local $\NameCert_{\RationalBallUp}$ row. Conversely, those rows repack as
+the mature finite rational-radius consumer surface.
+
+This completeness statement exports no $\RealUp$ completeness theorem,
+compactness of metric balls, open-cover topology, quotient real equality, or
+completed metric point.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rational-ball-public-finite-consumer-export}. It
+identifies every public finite consumer read with the center, radius,
+nonnegative-radius, containment, transport, continuation, package, and local
+naming rows of the accepted packet.
+
+Next apply \autoref{thm:rationalball-regseqrat-window-obligations} and
+\autoref{thm:rational-ball-real-window-handoff}. These two results identify
+the regular rational source window and the real-facing endpoint window as
+reads of the same finite rational-radius packet.
+
+Then use \autoref{thm:rationalball-standard-finite-window-bridge}. The bridge
+packages those public, regular-rational, and real-facing rows without adding a
+new consumer coordinate.
+
+For the converse direction, repack exactly the listed rows as the mature
+finite rational-radius consumer surface. The excluded real-completeness,
+compactness, open-cover, quotient-equality, and completed-point principles
+remain absent because none is a coordinate of the bridge or of the public
+finite consumer export.
+\end{proof}
+
+\begin{theorem}[RationalBall dyadic-radius readback]
+\label{thm:rationalball-dyadic-radius-readback}
+Every accepted $\RationalBallUp$ packet whose radius row is displayed by a
+$\DyadicRatCoreUp$ tolerance window gives a $\RealUp$-facing readback
+determined exactly by the $\RatUp$ center row, the $\DyadicRatCoreUp$ radius
+row, the $\RationalIntervalUp$ containment ledger, the $\RegSeqRatUp$
+observation window, displayed $\hsame$ transports, visible $\Cont$ routes,
+$\mathsf{Pkg}$ provenance, and the local
+$\NameCert_{\RationalBallUp}$ ledger.
+
+The readback exports no metric completion point, open-ball compactness claim,
+open-cover topology, quotient real equality, or $\RealUp$ completeness
+principle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the finite carrier of
+\autoref{def:rational-ball-bhist-carrier}. In the dyadic-radius case, the
+consumer-visible coordinates are the rational center row, dyadic radius row,
+containment ledger, transport rows, continuation routes, package provenance,
+and local naming ledger.
+
+Apply \autoref{thm:rational-ball-containment-exactness}. This identifies the
+center-radius containment row inside the displayed
+$\RationalIntervalUp$ ledger and leaves no separate metric completion
+coordinate.
+
+Use \autoref{thm:rationalball-regseqrat-window-obligations} and
+\autoref{thm:rational-ball-real-window-handoff}. These route the regular
+rational observation window and the $\RealUp$-facing read through the same
+finite dyadic-radius packet.
+
+Finally invoke
+\autoref{thm:rationalball-mature-finite-consumer-completeness}. The mature
+consumer surface is exhausted by the center, dyadic radius, containment,
+observation, transport, continuation, package, and naming rows, so the stated
+readback contains none of the excluded completion, compactness, topology,
+quotient, or real-completeness data.
+\end{proof}
+
+\begin{theorem}[RationalBall metric positive containment transport]
+\label{thm:rationalball-metric-positive-containment-transport}
+An accepted $\RationalBallUp$ packet with nonnegative radius and finite
+containment ledger transports the same positive containment row through the
+$\MetricSpaceUp$ distance consumer. The transported row exposes only the
+$\RatUp$ center, the $\DyadicRatCoreUp$ or $\RatUp$ radius, the finite
+containment ledger, the displayed $\hsame$ transports, the $\Cont$ routes, the
+$\mathsf{Pkg}$ provenance over $\RatUp$, $\DyadicRatCoreUp$,
+$\RationalIntervalUp$, $\RegSeqRatUp$, $\MetricSpaceUp$, and $\RealUp$, and the
+local $\NameCert_{\RationalBallUp}$ row.
+
+The transport adds no real completeness, compactness of metric balls,
+open-cover topology, quotient real equality, or completed metric point.
+\end{theorem}
+\leanchecked{BEDC.Derived.RationalBallUp.RationalBallPacket\_metric\_positive\_containment\_transport}
+\begin{proof}
+First use \autoref{thm:rational-ball-public-finite-consumer-export}. It exposes
+the finite center, radius, nonnegative-radius witness, containment ledger,
+transport rows, continuation routes, package provenance, and local naming row
+of the accepted packet.
+
+Next apply \autoref{thm:rationalball-regseqrat-window-obligations} and
+\autoref{thm:rational-ball-real-window-handoff}. These obligations identify the
+regular rational source window and the real-facing endpoint window as reads of
+the same finite containment ledger.
+
+Then invoke \autoref{thm:rationalball-standard-finite-window-bridge}. The
+bridge carries the public finite rows into the standard rational-radius window
+without adding a completeness, compactness, topology, quotient, or completed
+point coordinate.
+
+Finally read the metric side through
+\autoref{thm:rationalball-mature-finite-consumer-completeness}. The
+$\MetricSpaceUp$ distance consumer receives the same positive containment row,
+with the same $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ provenance, so the transport is exactly finite-window containment
+repacking.
+\end{proof}
+
+\begin{theorem}[RationalBall nested containment consumer composition]
+\label{thm:rationalball-nested-containment-consumer-composition}
+Let $B_0=(c_0,r_0,H_0,R_0,P_0,C_0)$ and
+$B_1=(c_1,r_1,H_1,R_1,P_1,C_1)$ be accepted $\RationalBallUp$ packets, and
+let $q$ be a query history. Suppose the displayed
+$\RationalIntervalUp$ and $\DyadicRatCoreUp$ refinement row says that the
+finite rational ball of $B_1$ is contained in the finite rational ball of
+$B_0$. If $q$ is accepted by the containment row of $B_1$, then $q$ is accepted
+by the containment row of $B_0$.
+
+Moreover every $\RegSeqRatUp$, $\RealUp$, or $\MetricSpaceUp$ consumer receives
+the composed finite containment ledger formed from the two packet ledgers, the
+displayed $\hsame$ transports, the $\Cont$ routes, the $\mathsf{Pkg}$
+provenance over $\RatUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$,
+$\RegSeqRatUp$, $\MetricSpaceUp$, and $\RealUp$, and the two local
+$\NameCert_{\RationalBallUp}$ rows. The composition introduces no host metric,
+choice-selected point, real-completeness row, compactness datum, topology row,
+or quotient real equality.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:rational-ball-refinement-transport}. It transports
+the inner packet $B_1$ through the displayed outer containment row of $B_0$ and
+keeps the containment witness as a finite $\RationalIntervalUp$ and
+$\DyadicRatCoreUp$ ledger row.
+
+Next use \autoref{thm:rationalball-interval-center-containment}. The query
+history $q$ is already accepted by the containment row of $B_1$, and the
+transported refinement row places that accepted read inside the containment row
+of $B_0$.
+
+For regular and real consumers, pass the composed ledger through
+\autoref{thm:rationalball-regseqrat-window-obligations} and
+\autoref{thm:rationalball-standard-finite-window-bridge}. These theorems keep
+the same finite observation windows and standard rational-radius bridge rows,
+so the consumer sees the composed containment ledger rather than a rebuilt host
+argument.
+
+Finally apply
+\autoref{thm:rationalball-metric-positive-containment-transport}. The
+$\MetricSpaceUp$ read is the same positive containment row transported through
+the finite packet data. Since every step used only displayed $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows, no external metric
+structure or choice data enters the composed handoff.
+\end{proof}
+
+\begin{theorem}[RationalBall DyadicApproximation nested window readback]
+\label{thm:rationalball-dyadicapproximation-nested-window-readback}
+Let $B_0,\ldots,B_n$ be nested accepted $\RationalBallUp$ packets with
+displayed inner-to-outer $\RationalIntervalUp$ and $\DyadicRatCoreUp$
+containment rows. Then the composed containment ledger determines the same
+terminal $\DyadicApproximationUp$ finite window as the dyadic-approximation
+correspondence and the terminal refinement theorem.
+
+The terminal window is read from the innermost accepted packet, transported
+through the composed containment ledger, and presented with the same dyadic
+endpoint, precision row, scheduled finite readback, $\RealUp$ handoff, visible
+$\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\RationalBallUp}$ rows. The readback introduces no host metric,
+choice-selected point, compactness datum, topology row, completed real, or
+quotient real equality.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:rationalball-dyadicapproximation-window-correspondence} to the
+terminal accepted rational-ball packet. This supplies the finite
+$\DyadicApproximationUp$ window with its precision, endpoint, scheduled
+readback, handoff ledger, transport, route, provenance, and local certificate
+rows.
+
+Next use
+\autoref{thm:rationalball-nested-containment-consumer-composition}. The
+inner-to-outer containment rows compose into a single finite ledger, and every
+regular, real, metric, or dyadic consumer sees that composed ledger rather than
+a rebuilt host argument.
+
+Apply \autoref{thm:dyadicapproximation-terminal-refinement-window} to identify
+the terminal dyadic window selected by the refinement chain. The terminal
+precision row and dyadic endpoint row are the same rows produced by the
+rational-ball correspondence, transported along the containment ledger.
+
+Finally use \autoref{thm:dyadicapproximation-nested-window-exhaustion}. It
+states that nested dyadic windows exhaust to the terminal finite window through
+the displayed refinement rows. Thus the rational-ball containment ledger and
+the dyadic terminal refinement expose the same finite readback surface, with no
+host metric, choice-selected point, compactness, topology, completed-real, or
+quotient-equality row.
+\end{proof}
+
+\begin{theorem}[RationalBall nested containment refinement monotonicity]
+\label{thm:rationalball-nested-containment-refinement-monotonicity}
+For any finite chain $B_0,\ldots,B_n$ of accepted $\RationalBallUp$ packets
+whose adjacent $\RationalIntervalUp$ and $\DyadicRatCoreUp$ containment rows
+witness that each displayed ball is contained in the preceding displayed ball,
+every query history accepted by the containment row of $B_n$ is accepted by
+the containment row of every earlier $B_i$.
+
+Every $\RegSeqRatUp$, $\RealUp$, or $\MetricSpaceUp$ consumer receives the
+iterated finite containment ledger assembled from the adjacent packet ledgers,
+displayed $\hsame$ transports, displayed $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and local $\NameCert_{\RationalBallUp}$ rows. The finite chain
+exports no host metric, choice-selected point, compactness datum, topology row,
+completed real, or quotient real equality.
+\end{theorem}
+\begin{proof}
+Induct on the finite chain. For the singleton chain, the terminal packet is
+already the initial packet, and the containment read is the packet's displayed
+finite containment row.
+
+For the extension step, assume the statement for a chain ending in $B_n$ and
+append an accepted packet $B_{n+1}$ whose adjacent containment row places it
+inside $B_n$. Apply
+\autoref{thm:rationalball-nested-containment-consumer-composition} to compose
+the accepted read of $B_{n+1}$ with the containment row of $B_n$.
+
+The induction hypothesis then transports the resulting accepted read through
+every earlier containment row. The composed ledger is the finite concatenation
+of the adjacent packet ledgers together with the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows used at each step.
+
+For consumer handoff, use
+\autoref{thm:rationalball-regseqrat-window-obligations},
+\autoref{thm:rationalball-standard-finite-window-bridge}, and
+\autoref{thm:rationalball-metric-positive-containment-transport}. These
+theorems read the same iterated containment ledger for $\RegSeqRatUp$,
+$\RealUp$, and $\MetricSpaceUp$, without adding any host metric, selected
+point, compactness, topology, completed-real, or quotient-equality row.
+\end{proof}
+
+\closureat{RationalBallUp}{seedStr}
+\closureat{RationalBallUp}{obligationStr}
+\closureat{RationalBallUp}{scopedStr}
+\closureat{RationalBallUp}{publicStr}
+\closureat{RationalBallUp}{bridgedStr}
+\closureat{RationalBallUp}{matureStr}
+
+\begin{closurestatus}{\RationalBallUp}
+  \constructivestory{A rational ball packet is generated by a rational center row, a dyadic or rational radius row, a nonnegative radius witness, a finite rational containment ledger, displayed transport rows, package provenance, and a local NameCert row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:rational-ball-bhist-carrier}, \autoref{thm:rationalball-carrier-radius-obligation}, \autoref{thm:rationalball-center-transport-obligation}, \autoref{thm:rationalball-ledger-exactness-obligation}, \autoref{thm:rational-ball-real-window-handoff}, \autoref{thm:rationalball-regseqrat-window-obligations}, \autoref{thm:rational-ball-public-finite-consumer-export}, \autoref{thm:rationalball-dyadicapproximation-window-correspondence}, \autoref{thm:rationalball-standard-finite-window-bridge}, \autoref{thm:rationalball-mature-finite-consumer-completeness}, \autoref{thm:rationalball-metric-positive-containment-transport}, and \autoref{thm:rationalball-nested-containment-consumer-composition} bind the carrier definition, the carrier-radius, center-transport, ledger-exactness, $\RealUp$ window, $\RegSeqRatUp$ window, public finite consumer rows, dyadic-approximation window correspondence, standard finite rational-radius bridge, mature finite consumer completeness, metric positive containment transport, and nested containment composition to $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, $\NameCert$, $\RatUp$, $\DyadicRatCoreUp$, $\RationalIntervalUp$, $\RegSeqRatUp$, $\MetricSpaceUp$, and $\RealUp$ for the finite rational-radius packet.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.RationalBallUp.RationalBallPacket\_refinement\_transport}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close real completeness, compactness of metric balls, open-cover topology, quotient real equality, or machine-checked bridge evidence.}
+  \upgradepath{No further paper-side theory-axis upgrade remains for this finite rational-radius packet; formal verification remains on the verification axis.}
+\end{closurestatus}

@@ -1,0 +1,124 @@
+\chapter{A Concrete Naming Certificate for $\ForbiddenAxiomAncestryUp$}
+\label{ch:concrete-instances-forbidden-axiom-ancestry-namecert}
+\origin{human}
+
+The $\ForbiddenAxiomAncestryUp$ packet gives the strict axiom-purity boundary a finite local certificate. It records a theorem row, its proof-ancestry report, the forbidden host-axiom dependency row, the refusal verdict, displayed audit routes, package provenance, and the local naming row. The packet is the concrete object consumed when a theorem has no source axiom under \texttt{lean4/BEDC/} but its host proof ancestry still attempts to carry \texttt{Classical.choice}, \texttt{Quot.sound}, or \texttt{propext}.
+
+The proof-ancestry report row is consumed through the axiom-dependency tuple surface of \autoref{ch:concrete-instances-axiom-dependency-tuple-namecert}: that sibling supplies the finite dependency-budget packet, while $\ForbiddenAxiomAncestryUp$ specializes the packet to the three forbidden host rows and the refusal verdict.
+
+\begin{definition}[ForbiddenAxiomAncestry carrier]
+\label{def:forbidden-axiom-ancestry-carrier}
+A $\ForbiddenAxiomAncestryUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,A,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the theorem row, naming the public BEDC theorem or lemma whose proof ancestry is being inspected;
+\item $A$ is the proof-ancestry report returned by the host audit query for $T$;
+\item $F$ is the forbidden dependency row for \texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext};
+\item $R$ is the refusal verdict, recording whether the ancestry report is admitted as clean or refused because it meets one of the forbidden dependency rows;
+\item $H$ records displayed $\hsame$ transport for theorem names, ancestry reports, forbidden rows, verdicts, continuation routes, provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ audit routes by which a consumer reads $T$, replays $A$, compares it with $F$, and exposes the verdict $R$;
+\item $P$ is the $\Pkg$ provenance over theorem rows, proof-ancestry reports, strict axiom-purity gates, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ForbiddenAxiomAncestryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for admitting a forbidden host dependency as BEDC theorem content, replacing a refused theorem by a neighboring theorem, or treating source-token purity as sufficient proof-ancestry purity.
+\end{definition}
+
+\begin{theorem}[ForbiddenAxiomAncestry NameCert obligations]
+\label{thm:forbidden-axiom-ancestry-namecert-obligations}
+For every $\ForbiddenAxiomAncestryUp$ carrier
+$$
+Q=(T,A,F,R,H,C,P,N),
+$$
+the local $\NameCert_{\ForbiddenAxiomAncestryUp}$ surface consists of carrier exposure for the theorem row, proof-ancestry report, forbidden dependency row, refusal verdict, componentwise $\hsame$ transport, displayed $\Cont$ audit replay, $\Pkg$ provenance, and local naming row; exactness of the comparison between $A$ and $F$; and non-escape for \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, fuzzy theorem substitution, and source-token-only acceptance.
+\end{theorem}
+\leanchecked{BEDC.Derived.ForbiddenAxiomAncestryUp.ForbiddenAxiomAncestryTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:forbidden-axiom-ancestry-carrier}. The packet lists exactly the rows $T,A,F,R,H,C,P,N$.
+
+The ancestry comparison is local to the displayed audit surface. The row $A$ supplies the reported host dependencies for the theorem row $T$, and the row $F$ supplies the three forbidden dependency names.
+
+The verdict row $R$ records the finite comparison. Transport and replay are confined to $H$ and $C$, so a consumer can inspect or move the same comparison only through the displayed routes.
+
+Finally $P$ and $N$ record provenance and the local naming certificate. Since the excluded objects have no coordinate outside the refusal row, the NameCert surface cannot export them as BEDC theorem content.
+\end{proof}
+\leanchecked{BEDC.Derived.ForbiddenAxiomAncestryUp.ForbiddenAxiomAncestryCarrier\_namecert\_obligations}
+
+\begin{theorem}[ForbiddenAxiomAncestry non-escape]
+\label{thm:forbidden-axiom-ancestry-non-escape}
+For an accepted $\ForbiddenAxiomAncestryUp$ packet, any occurrence of \texttt{Classical.choice}, \texttt{Quot.sound}, or \texttt{propext} in the ancestry report $A$ is confined to the refusal verdict $R$. Downstream consumers may read the theorem row, ancestry report, forbidden dependency row, refusal row, transport, replay, provenance, and local naming certificate, but they cannot turn a refused host dependency into a BEDC theorem dependency or replace the refused row by a nearby resolving theorem name.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $Q=(T,A,F,R,H,C,P,N)$. The theorem row and ancestry report are visible only as the displayed rows $T$ and $A$.
+
+Compare $A$ with the forbidden dependency row $F$. If the report contains one of the listed host dependencies, the result of that comparison is stored in $R$ as refusal content.
+
+The remaining rows do not change that classification. The $\hsame$ row $H$ moves the displayed packet componentwise, the $\Cont$ row $C$ replays the audit read, and $P,N$ record provenance and the local name.
+
+No coordinate stores an admission rule for a forbidden host dependency, and no coordinate stores a fuzzy replacement for the theorem row. Thus refused ancestry cannot escape the packet as BEDC theorem content.
+\end{proof}
+
+\begin{theorem}[ForbiddenAxiomAncestry comparison exactness]
+\label{thm:forbidden-axiom-ancestry-comparison-exactness}
+For an accepted $\ForbiddenAxiomAncestryUp$ packet
+$$
+Q=(T,A,F,R,H,C,P,N),
+$$
+the comparison between the ancestry report $A$ and the forbidden row $F$ is exhausted by the displayed audit route $C$. A consumer may replay $T$, read $A$, compare it with $F$, and expose the verdict $R$ only through $C,H,P,N$, and it cannot read any other host dependency row as part of the comparison.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The theorem row $T$, ancestry report $A$, forbidden row $F$, verdict $R$, transport row $H$, audit route $C$, provenance row $P$, and local name $N$ are the only displayed coordinates.
+
+Use the NameCert obligations. They make the comparison between $A$ and $F$ one of the local certificate rows and place the audit replay in $C$.
+
+Apply non-escape. Any attempted read of a further host dependency row would have to add a coordinate outside $Q$ or reinterpret a refused dependency as BEDC theorem content. Both moves are excluded by the carrier and the refusal boundary, so the comparison is exact.
+\end{proof}
+
+\begin{theorem}[ForbiddenAxiomAncestry refusal determinacy]
+\label{thm:forbidden-axiom-ancestry-refusal-determinacy}
+Let
+$$
+Q=(T,A,F,R,H,C,P,N)
+\quad\text{and}\quad
+Q'=(T,A,F,R',H',C,P',N')
+$$
+be accepted $\ForbiddenAxiomAncestryUp$ packets with the same theorem row, ancestry report, forbidden row, and transported audit route. Then the refusal verdicts agree as displayed verdict rows: $R$ and $R'$ are the same refusal boundary for the comparison of $A$ with $F$.
+\end{theorem}
+\begin{proof}
+Project both accepted packets. Their theorem row, ancestry report, forbidden row, and audit replay route are the same displayed rows $T,A,F,C$.
+
+Apply comparison exactness to each packet. In both packets the verdict is obtained only by replaying $A$ against $F$ through the shared route $C$; no extra host dependency row or substitute theorem row can participate.
+
+Use the NameCert obligations to compare the transported structural rows. The transports, provenance rows, and local names authenticate the same finite comparison route, so the two verdict coordinates record the same refusal boundary.
+\end{proof}
+
+\begin{theorem}[ForbiddenAxiomAncestry transport replay]
+\label{thm:forbidden-axiom-ancestry-transport-replay}
+Componentwise $\hsame$ transport of an accepted $\ForbiddenAxiomAncestryUp$ packet
+$$
+Q=(T,A,F,R,H,C,P,N)
+$$
+preserves the audit replay and the refusal boundary. The transported packet reads the transported theorem row, ancestry report, forbidden row, verdict, structural rows, provenance row, and local name through the transported $H$ and the displayed route $C$, and it exports no additional host dependency row.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise transport row $H$. It transports the theorem row, ancestry report, forbidden row, verdict, audit route, provenance row, and local naming row as components of one packet.
+
+Replay the audit through $C$. The transported theorem row still reads the transported ancestry report before comparison with the transported forbidden row, and the transported verdict remains attached to that replay.
+
+Finally apply comparison exactness and non-escape. Exactness keeps the replay on the displayed route, while non-escape prevents transport from manufacturing a new host dependency row or admitting a refused dependency as BEDC theorem content.
+\end{proof}
+
+\closureat{ForbiddenAxiomAncestryUp}{seedStr}
+
+\begin{closurestatus}{\ForbiddenAxiomAncestryUp}
+  \constructivestory{A $\ForbiddenAxiomAncestryUp$ packet is generated from a theorem row, a proof-ancestry report, a forbidden dependency row for \texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}, a refusal verdict, displayed $\hsame$ transports, displayed $\Cont$ audit routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:forbidden-axiom-ancestry-carrier}, \autoref{thm:forbidden-axiom-ancestry-namecert-obligations}, and \autoref{thm:forbidden-axiom-ancestry-non-escape} specify the finite proof-ancestry carrier, strict forbidden-host-axiom comparison, refusal verdict, transport and audit replay routes, provenance, local naming row, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove global host-kernel purity, arbitrary theorem dependency completeness, source-token axiom scanning, Lean-side formal verification, or bridge checking for $\ForbiddenAxiomAncestryUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, proof-ancestry comparison exactness, refusal determinacy, transport replay, and consumer non-escape for the displayed packet.}
+\end{closurestatus}

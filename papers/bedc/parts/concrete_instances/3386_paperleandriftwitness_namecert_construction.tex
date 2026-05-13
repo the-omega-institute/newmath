@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\PaperLeanDriftWitnessUp$}
+\label{ch:concrete-instances-paper-lean-drift-witness-namecert}
+\origin{human}
+
+The $\PaperLeanDriftWitnessUp$ packet names the finite paper-Lean resolution surface used by the drift audit. It records a paper marker occurrence, the normalized declaration name requested by that marker, the duplicate-label refusal row, the Lean inventory lookup row, the resolution verdict, replay provenance, and the local $\NameCert$ row in one certificate. The packet makes paper-marker resolution a concrete carrier rather than a host-side impression that a nearby Lean declaration exists. Its single-site exact-resolution verdict is a local row consumed by the audit-map dependency routing surface of \autoref{ch:concrete-instances-auditmapdependencyweave-namecert}.
+
+\begin{definition}[Paper-Lean drift witness carrier]
+\label{def:paper-lean-drift-witness-carrier}
+A $\PaperLeanDriftWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,A,L,I,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the paper marker row, recording the exact manuscript site, marker kind, and source spelling of a \texttt{\textbackslash leanchecked}, \texttt{\textbackslash leanvariant}, \texttt{\textbackslash leanstmt}, \texttt{\textbackslash leandef}, or \texttt{\textbackslash leantarget} occurrence;
+\item $A$ is the normalized requested name row obtained from $M$, including underscore normalization and the fully qualified Lean declaration path requested by the paper site;
+\item $L$ is the paper-label ledger row, recording the local label attached to the manuscript site and the duplicate-label refusal verdict for the full paper label inventory;
+\item $I$ is the Lean inventory lookup row, recording the finite declaration table against which $A$ is checked;
+\item $R$ is the resolution verdict row, recording exact resolution, unresolved-name refusal, ambiguous-name refusal, or duplicate-label refusal for the same marker site;
+\item $H$ records componentwise $\hsame$ transport for markers, normalized names, label ledgers, inventory rows, verdicts, replay routes, provenance, and local names;
+\item $C$ records the displayed $\Cont$ routes by which a consumer replays marker parsing, name normalization, duplicate-label comparison, inventory lookup, and verdict exposure;
+\item $P$ is the $\Pkg$ provenance over paper markers, label ledgers, Lean declaration inventory, audit replay, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ source packets;
+\item $N$ is the local $\NameCert_{\PaperLeanDriftWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for approximate name matching, silent marker repair, duplicate-label acceptance, unresolved-name promotion, or a checked-looking paper claim without an exact Lean inventory hit.
+\end{definition}
+
+\begin{theorem}[Paper-Lean drift witness NameCert obligations]
+\label{thm:paper-lean-drift-witness-namecert-obligations}
+For every accepted $\PaperLeanDriftWitnessUp$ carrier
+$$
+W=(M,A,L,I,R,H,C,P,N),
+$$
+the local $\NameCert_{\PaperLeanDriftWitnessUp}$ surface consists exactly of marker-site exposure, normalized requested-name exposure, duplicate-label refusal, Lean inventory lookup, resolution verdict exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. It does not export a separate paper authority for treating a non-resolving marker as checked.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:paper-lean-drift-witness-carrier}. The tuple lists the paper marker row, normalized name row, label ledger, Lean inventory lookup, verdict row, transport, replay, provenance, and local name.
+
+The NameCert obligations are the finite audit obligations on those rows. The marker and name rows expose what the paper asked for; the label ledger and inventory row expose the two finite tables against which the request is checked; the verdict row records the admissible resolution outcome.
+
+Transport and replay are confined to $H$ and $C$, with provenance and naming confined to $P$ and $N$. Since no row stores approximate matching, silent repair, duplicate-label acceptance, or unresolved-name promotion, the local certificate is exhausted by the displayed obligations.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness resolution exactness]
+\label{thm:paper-lean-drift-witness-resolution-exactness}
+If an accepted $\PaperLeanDriftWitnessUp$ packet records an exact-resolution verdict in $R$, then the normalized requested name $A$ is present as the same fully qualified declaration in the Lean inventory row $I$, and the paper label row $L$ is not refused as a duplicate label. The packet never identifies a marker with a neighboring declaration, a spelling variant not present in $I$, or a label site that the duplicate-label ledger refuses.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through the carrier. The exact-resolution verdict is a row of $R$ attached to the same marker $M$, normalized name $A$, label ledger $L$, and inventory row $I$.
+
+The replay route $C$ first normalizes the marker spelling, then compares the label row against the paper ledger, and then looks up the normalized name in the Lean declaration inventory. Exact resolution can therefore be read only after both finite comparisons have admitted the site.
+
+Componentwise transport in $H$ preserves the same marker, label, and inventory rows. Thus a consumer cannot replace the resolved name by a neighboring declaration, a spelling not present in $I$, or a label site that $L$ refuses.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness non-escape]
+\label{thm:paper-lean-drift-witness-nonescape}
+An accepted $\PaperLeanDriftWitnessUp$ packet exports no checked theorem, statement, definition, or closure-status target beyond the exact marker-resolution rows
+$$
+M,A,L,I,R,H,C,P,N.
+$$
+In particular, it exports no unresolved Lean target, no duplicate paper label, no marker-kind coercion, no approximate declaration match, and no host-side permission to treat paper prose as a resolving Lean declaration.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The rows record marker parsing, requested-name normalization, label-ledger comparison, Lean inventory lookup, resolution verdict, transport, replay, provenance, and local naming.
+
+None of these rows is a theorem proof, a definition body, a closure-status upgrade, or a host permission row. The positive content is only the exact resolution verdict attached to a marker whose normalized name occurs in the inventory and whose label row is not refused.
+
+Therefore any unresolved target, duplicate label, marker-kind coercion, approximate match, or prose-only declaration leaves the packet. Such content must be supplied by another explicit certificate and cannot be projected from this drift witness.
+\end{proof}
+
+\begin{theorem}[Paper-Lean drift witness consumer boundary]
+\label{thm:paper-lean-drift-witness-consumer-boundary}
+Every drift-audit consumer of an accepted $\PaperLeanDriftWitnessUp$ packet factors through the paper marker row $M$, normalized requested name $A$, duplicate-label ledger $L$, Lean inventory lookup $I$, resolution verdict $R$, componentwise transport $H$, replay route $C$, provenance row $P$, and local $\NameCert$ row $N$. The consumer receives a finite NameCert surface for exact marker resolution, not a general semantic equivalence between paper claims and Lean declarations.
+\end{theorem}
+\begin{proof}
+Start with the carrier. The audit consumer can project only the nine displayed rows $M,A,L,I,R,H,C,P,N$.
+
+Resolution reads pass through the normalized name and Lean inventory rows. Duplicate-label reads pass through the label ledger. Verdict reads pass through $R$ and can be replayed only by the displayed routes in $C$ under componentwise transport $H$.
+
+The provenance row $P$ and local name row $N$ package this finite read as a NameCert surface. Since the carrier contains no semantic-equivalence row between paper prose and Lean theorem meaning, the consumer obtains exact marker resolution only.
+\end{proof}
+
+\closureat{PaperLeanDriftWitnessUp}{seedStr}
+\closureat{PaperLeanDriftWitnessUp}{obligationStr}
+
+\begin{closurestatus}{\PaperLeanDriftWitnessUp}
+  \constructivestory{A $\PaperLeanDriftWitnessUp$ packet is generated from a paper marker row, normalized requested-name row, duplicate-label ledger, Lean inventory lookup, resolution verdict, componentwise $\hsame$ transport, displayed replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope binds marker parsing, normalized-name exposure, duplicate-label refusal, inventory lookup, resolution verdict, componentwise transport, replay, provenance, and local naming for exact paper-Lean marker resolution.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close semantic equivalence between paper claims and Lean declarations, checked theorem content, bridge checking, or any permission to treat unresolved markers as verified.}
+  \upgradepath{Obligation closure requires checked exact-resolution, duplicate-label refusal, and non-escape rows for the same finite witness packet.}
+\end{closurestatus}

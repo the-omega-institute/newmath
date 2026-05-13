@@ -1,7 +1,7 @@
 \chapter{A Concrete Naming Certificate for $\StackUp$}
 \label{ch:concrete-instances-stack-namecert}
 
-The algebraic-stack interface $\StackUp$ packages a sheaf of groupoids on the étale site of schemes satisfying descent and representability axioms (Artin / Deligne-Mumford). It depends on $\NameCert_{\SheafUp}$ (\autoref{ch:concrete-instances-sheaf-namecert}) and $\NameCert_{\SchemeUp}$ (\autoref{ch:concrete-instances-scheme-namecert}).
+The algebraic-stack interface $\StackUp$ packages a sheaf of groupoids on the \'{e}tale site of schemes satisfying descent and representability axioms (Artin / Deligne-Mumford). It depends on $\NameCert_{\SheafUp}$ (\autoref{ch:concrete-instances-sheaf-namecert}) and $\NameCert_{\SchemeUp}$ (\autoref{ch:concrete-instances-scheme-namecert}).
 
 \section{Carrier definition}
 \label{sec:stack-carrier}
@@ -77,14 +77,16 @@ Carrier transport follows by applying the descent obligation to glued object and
 \section{The certificate}
 \label{sec:stack-certificate}
 \closureat{StackUp}{obligationStr}[BEDC.Derived.StackUp.StackCarrierPacket\_namecert\_obligation\_surface]
+\closureat{StackUp}{scopedStr}[BEDC.Derived.StackUp.StackCarrierPacket\_namecert\_obligation\_surface]
+\closureat{StackUp}{publicStr}[BEDC.Derived.StackUp.StackCarrierPacket\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\StackUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope binds the displayed $\SchemeUp$ site rows, $\SheafUp$ groupoid rows, descent rows, representability rows, ledger rows, $\hsame$ transports, $\Cont$ restriction routes, and $\mathsf{Pkg}$ provenance for the consumed dependency certificates.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public finite $\SchemeUp/\SheafUp$ stack packet binds the displayed stack carrier, descent rows, representability rows, ledger rows, $\NameCert$ obligation surface, $\hsame$ transports, $\Cont$ restriction routes, and $\mathsf{Pkg}$ provenance for the consumed dependency certificates.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.StackUp.StackCarrierPacket\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \constructivestory{A $\StackUp$ packet is assembled from displayed scheme-site rows, groupoid-valued sheaf rows, descent and restriction routes, and dependency provenance; every public read is a projection from this finite carrier packet.}
   \notclaimed{This chapter does not close host quotient stacks or external algebraic-space equality.}
-  \upgradepath{Scoped closure requires binding the checked obligation rows as the public consumer scope for the finite SchemeUp/SheafUp carrier.}
+  \upgradepath{A standard bridge would have to identify this public stack packet with the acceptance-bridge schema without adding host quotient stacks or external algebraic-space equality.}
 \end{closurestatus}

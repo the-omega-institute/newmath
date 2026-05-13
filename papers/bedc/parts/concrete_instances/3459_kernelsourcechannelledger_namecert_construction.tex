@@ -1,0 +1,123 @@
+\chapter{A Concrete Naming Certificate for $\KernelSourceChannelLedgerUp$}
+\label{ch:concrete-instances-kernelsourcechannelledger-namecert}
+\origin{human}
+
+The $\KernelSourceChannelLedgerUp$ packet names the finite source-channel audit surface surrounding a Lean kernel acceptance event. It separates generated candidates, classifier stamps, accepted declarations, environment ancestry, axiom-query refusal rows, compiler routes, and local naming. The packet is a concrete $\NameCert$ carrier over the audit rows already exposed by $\KernelAcceptanceTraceUp$, $\CertificateCompilerUp$, and $\NameCertMorphismUp$; it does not certify the host kernel from inside BEDC and does not replace the displayed ancestry rows by source-text confidence.
+
+\begin{definition}[Kernel source-channel ledger carrier]
+\label{def:kernel-source-channel-ledger-carrier}
+A $\KernelSourceChannelLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,K,A,E,Q,R,T,M,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the generated candidate row supplied by the source-side generator or certificate compiler;
+\item $K$ is the kernel classifier-stamp row attached to the candidate before it is exposed as an accepted declaration;
+\item $A$ is the accepted declaration row read by the local kernel-acceptance trace;
+\item $E$ is the environment ancestry ledger recording the declaration environment visible to the acceptance event;
+\item $Q$ is the displayed \texttt{\#print axioms} query row for $A$;
+\item $R$ is the refusal row for any meeting between $Q$ and the project forbidden-dependency surface;
+\item $T$ is the $\KernelAcceptanceTraceUp$ packet that binds generated candidate, stamp, declaration, ancestry, and query rows;
+\item $M$ is the $\NameCertMorphismUp$ or $\CertificateCompilerUp$ route row that accounts for the source-channel handoff into the accepted certificate surface;
+\item $F$ is the finite channel-separation row distinguishing generated candidates, kernel stamps, accepted declarations, environment ancestry, and refusal output;
+\item $H$ records componentwise $\hsame$ transports for all displayed rows;
+\item $C$ records $\Cont$ replay routes for candidate generation, kernel stamping, declaration exposure, ancestry query, axiom-query comparison, compiler handoff, and consumer reads;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Cont$, $\Pkg$, $\NameCert$, $\KernelAcceptanceTraceUp$, $\CertificateCompilerUp$, and $\NameCertMorphismUp$;
+\item $N$ is the local $\NameCert_{\KernelSourceChannelLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host trust in the generator, unstated kernel soundness, source-text-only acceptance, hidden environment ancestry, implicit axiom-query success, or a compiler correctness claim outside the displayed morphism and compiler rows.
+\end{definition}
+
+\begin{theorem}[Kernel source-channel ledger NameCert obligations]
+\label{thm:kernel-source-channel-ledger-namecert-obligations}
+For every accepted $\KernelSourceChannelLedgerUp$ carrier
+$$
+S=(G,K,A,E,Q,R,T,M,F,H,C,P,N),
+$$
+the local $\NameCert_{\KernelSourceChannelLedgerUp}$ surface consists exactly of generated-candidate exposure, classifier-stamp exposure, accepted-declaration exposure, environment-ancestry exposure, axiom-query and refusal exposure, kernel-trace exposure, compiler or morphism route exposure, channel-separation exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+
+Any downstream audit consumer must read the source channel through the finite packet $S$ and may not identify generated candidates with accepted declarations, kernel stamps with environment ancestry, or clean query output with absent query output.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-source-channel-ledger-carrier}. The rows $G,K,A,E,Q,R,T,M,F,H,C,P,N$ are the only public coordinates available to the local naming certificate.
+
+The acceptance rows are read through $T$. That trace binds the generated candidate, kernel stamp, accepted declaration, environment ledger, axiom-query report, transport, replay, provenance, and local naming data before any consumer sees the source channel.
+
+The compiler side is read through $M$. If the source handoff uses a $\CertificateCompilerUp$ packet, the handoff remains a finite compiler graph over source and target certificate rows. If it uses a $\NameCertMorphismUp$ packet, the handoff remains a finite morphism graph preserving classifier and $\hsame$ rows.
+
+Finally $F,H,C,P,N$ keep the rows separated, transported, replayed, packaged, and named. Since the carrier has no coordinate identifying generation with acceptance or query absence with query success, every audit read must factor through the displayed source-channel ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.KernelSourceChannelLedgerUp.KernelSourceChannelLedgerPacket\_namecert\_obligations}
+
+\begin{theorem}[Kernel source-channel ledger audit boundary]
+\label{thm:kernel-source-channel-ledger-audit-boundary}
+Every public read of an accepted $\KernelSourceChannelLedgerUp$ packet factors through the finite $\BHist$ rows of \autoref{def:kernel-source-channel-ledger-carrier}, the displayed $\Cont$ replay routes, the $\Pkg$ provenance, the local $\NameCert$ row, and the cited $\KernelAcceptanceTraceUp$, $\CertificateCompilerUp$, and $\NameCertMorphismUp$ packets. The boundary exports no hidden source-channel trust, no unstated kernel soundness theorem, no ambient environment scan, no unqueried axiom-purity claim, and no compiler semantics outside the displayed certificate route.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $S$. A consumer can project only the generated candidate, classifier stamp, accepted declaration, environment ancestry, query, refusal, trace, compiler or morphism route, channel-separation, transport, continuation, provenance, and naming rows listed in the carrier.
+
+The trace row $T$ accounts for kernel acceptance as a finite audit event. The route row $M$ accounts for the source-to-certificate handoff through the displayed compiler or morphism surface. The refusal row $R$ accounts for forbidden ancestry by using the printed query row $Q$ rather than a host-side assertion.
+
+It remains to check escape routes. There is no carrier field for trusting a generator directly, no field for a host proof of kernel soundness, no field for an ambient environment scan, no field for clean ancestry without $Q$, and no field for compiler semantics beyond $M$. Thus the audit boundary is exactly the finite source-channel ledger surface.
+\end{proof}
+\leanchecked{BEDC.Derived.KernelSourceChannelLedgerUp.KernelSourceChannelLedgerPacket\_audit\_boundary}
+
+\begin{theorem}[Kernel source-channel ledger trace projection]
+\label{thm:kernel-source-channel-ledger-trace-projection}
+For every accepted $\KernelSourceChannelLedgerUp$ carrier
+$$
+S=(G,K,A,E,Q,R,T,M,F,H,C,P,N),
+$$
+the generated candidate, kernel stamp, accepted declaration, ancestry, query, refusal, trace, and compiler-route rows project only through the displayed finite surface $T,M,F,H,C,P,N$ after the source rows $G,K,A,E,Q,R$ have been read. No public projection may identify generated candidates with accepted declarations or replace the compiler-route row by host environment trust.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source rows $G,K,A,E,Q,R$ expose candidate generation, kernel stamping, declaration exposure, ancestry, query output, and refusal output as separate coordinates.
+
+The trace row $T$ binds those source coordinates into the kernel-acceptance event. The route row $M$ then accounts for the compiler or morphism handoff, while $F$ keeps the channels separated.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite packet. Since every projection has passed through these displayed rows, no consumer can collapse the source channels or replace them by host trust.
+\end{proof}
+
+\begin{theorem}[Kernel source-channel ledger query refusal stability]
+\label{thm:kernel-source-channel-ledger-query-refusal-stability}
+For every accepted $\KernelSourceChannelLedgerUp$ carrier $S=(G,K,A,E,Q,R,T,M,F,H,C,P,N)$, refusal stability is preserved by the displayed \texttt{\#print axioms} query row $Q$ and refusal row $R$ under $\hsame$ transport and $\Cont$ replay. The refusal row cannot be replaced by absent query output, ambient source confidence, or host-side trust in the accepted declaration.
+\end{theorem}
+\begin{proof}
+Read the query and refusal rows first. The row $Q$ records the displayed axiom query for $A$, and $R$ records the comparison against the forbidden-dependency surface.
+
+Transport through $H$ and replay through $C$ preserve those two rows as part of the same accepted packet. The trace row $T$ and channel-separation row $F$ keep the query output distinct from an absent query.
+
+Apply the audit boundary. Because the carrier has no coordinate for ambient confidence or host trust, refusal stability remains the displayed $Q,R$ fact under replay and cannot be supplied by an unstated source-channel assumption.
+\end{proof}
+
+\begin{theorem}[Kernel source-channel ledger source-query separation]
+\label{thm:kernel-source-channel-ledger-source-query-separation}
+For every accepted $\KernelSourceChannelLedgerUp$ carrier
+$$
+S=(G,K,A,E,Q,R,T,M,F,H,C,P,N),
+$$
+the generated candidate row $G$, kernel stamp row $K$, accepted declaration row $A$, environment ancestry row $E$, printed axiom query row $Q$, and refusal row $R$ are separated before any compiler or morphism route $M$ can be read. No consumer may replace the $Q,R$ route by source confidence, ambient environment trust, or absent query output.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-source-channel-ledger-carrier}. The rows $G,K,A,E,Q,R$ are displayed source and query coordinates, while $M$ is only the later compiler or morphism route row.
+
+Apply the NameCert obligations of \autoref{thm:kernel-source-channel-ledger-namecert-obligations}. They require generated-candidate exposure, classifier-stamp exposure, accepted-declaration exposure, environment-ancestry exposure, axiom-query and refusal exposure, and compiler or morphism route exposure as separate finite duties.
+
+Next use query-refusal stability from \autoref{thm:kernel-source-channel-ledger-query-refusal-stability}. The printed query row $Q$ and refusal row $R$ persist under $\hsame$ transport and $\Cont$ replay, so absent query output cannot replace the displayed route.
+
+Finally apply the audit boundary of \autoref{thm:kernel-source-channel-ledger-audit-boundary}. Since the carrier has no coordinate for source confidence or ambient environment trust, every consumer must read the query and refusal rows before using the route row $M$.
+\end{proof}
+
+\closureat{KernelSourceChannelLedgerUp}{seedStr}
+
+\begin{closurestatus}{\KernelSourceChannelLedgerUp}
+  \constructivestory{A $\KernelSourceChannelLedgerUp$ packet is generated from a source candidate, kernel classifier stamp, accepted declaration, environment ancestry ledger, axiom-query row, refusal row, kernel-acceptance trace, certificate compiler or NameCert morphism route, channel-separation row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-source-channel-ledger-carrier}, \autoref{thm:kernel-source-channel-ledger-namecert-obligations}, \autoref{thm:kernel-source-channel-ledger-audit-boundary}, \autoref{thm:kernel-source-channel-ledger-trace-projection}, and \autoref{thm:kernel-source-channel-ledger-query-refusal-stability} specify the finite source-channel ledger carrier, NameCert obligation surface, audit separation rows, replay provenance, trace projection, query-refusal stability, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove host kernel soundness, completeness of all environment scans, compiler semantic correctness outside displayed certificate routes, Lean-side verification, bridge checking, or acceptance of any dependency outside the finite packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace projection, channel-separation determinacy, axiom-query refusal stability, compiler-route exposure, and consumer non-escape for the displayed packet.}
+\end{closurestatus}

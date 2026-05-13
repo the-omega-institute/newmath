@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\HaltingDiagonalUp$}
+\label{ch:concrete-instances-haltingdiagonal-namecert}
+\origin{ai}
+
+The $\HaltingDiagonalUp$ packet turns the halting fixed-point obstruction of \autoref{thm:halting-as-form-of-distinction-fixed-point} into a finite naming-certificate frontier. It records program-certificate data, one input history, the self-reference row, the fixed continuation row, the diagonal-divergence policy row, displayed transports, local routes, package provenance, and local naming obligations. It does not add global halting decidability, universal-machine semantics, a halting oracle, or a total classifier over all certificates.
+
+\begin{definition}[HaltingDiagonal packet]\label{def:halting-diagonal-packet}
+A $\HaltingDiagonalUp$ packet is a finite row
+$$
+Z=(P,h,E,F,D,H,C,K,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $P$ is the program certificate row whose local $\NameCert_P$ supplies the $\Cont_P$ and $\Ext_P$ surface being inspected.
+\item $h$ is the input history row in $\BHist$.
+\item $E$ is the $\Ext$ self-reference row producing the history used by the diagonal read.
+\item $F$ is the fixed $\Cont$ row witnessing the empty-fuel continuation from the self-referential history back to itself.
+\item $D$ is the diagonal-divergence policy row: if the local halting classifier identifies the fixed-point history with its own continuation readback, the policy records the corresponding divergence claim.
+\item $H$ stores the componentwise $\hsame$ transports for $P$, $h$, $E$, $F$, and $D$.
+\item $C$ stores the displayed $\Cont$ routes used by the program row, the fixed-point row, and the diagonal readback.
+\item $K$ is the finite $\Pkg$ provenance ledger tying the packet to the halting fixed-point interface.
+\item $N$ is the local $\NameCert_{\HaltingDiagonalUp}$ row for carrier admission, classifier stability, exactness, ledger, and non-decision boundary obligations.
+\end{enumerate}
+The packet is finite over $\NameCert$, $\BHist$, $\Ext$, $\Cont$, $\hsame$, and $\Pkg$. It has no coordinate for global halting decidability, no universal-machine semantics, and no oracle deciding termination for arbitrary programs.
+\end{definition}
+
+\begin{theorem}[HaltingDiagonal fixed-point package]\label{thm:halting-diagonal-fixed-point-package}
+The rows $P,h,E,F,D,H,C,K,N$ of \autoref{def:halting-diagonal-packet} assemble the local $\HaltingDiagonalUp$ fixed-point package: the program row supplies the inspected certificate surface, $E$ supplies self-reference, $F$ supplies the fixed $\Cont$ row, $D$ supplies the diagonal-divergence policy, $H$ and $C$ supply transport and continuation routes, and $K,N$ supply package provenance and local naming obligations.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The rows $P$ and $h$ identify the certificate and input-history coordinates being inspected, while $E$ identifies the self-reference row used by the diagonal construction.
+
+The fixed-point row is $F$: it is the displayed $\Cont$ route from the self-referential history back to itself. The diagonal policy row is $D$: it records the local implication from classifier agreement at that fixed point to the divergence claim.
+
+Finally, $H$ transports the displayed rows, $C$ records the continuation routes, and $K,N$ record provenance and local naming obligations. Repacking these rows gives the finite fixed-point package without adding a global decision procedure.
+\end{proof}
+
+\begin{theorem}[HaltingDiagonal non-decision boundary]\label{thm:halting-diagonal-non-decision-boundary}
+Every consumer read of an accepted $\HaltingDiagonalUp$ packet factors through the finite rows $P,h,E,F,D,H,C,K,N$. The packet exposes the fixed-point obstruction boundary of \autoref{thm:halting-as-form-of-distinction-fixed-point}; it does not decide halting for arbitrary $\NameCert$ rows, does not supply universal-machine semantics, and does not convert the diagonal-divergence policy into a total classifier.
+\end{theorem}
+\begin{proof}
+Carrier admission reads only the displayed packet rows. Thus a consumer may inspect the program-certificate row, the input history, the self-reference row, the fixed continuation, the diagonal policy, transports, routes, package provenance, and local certificate.
+
+Apply the fixed-point package of \autoref{thm:halting-diagonal-fixed-point-package}. It identifies exactly where the local obstruction lives: the route through $E$ and $F$ and the policy row $D$.
+
+No row in the packet classifies all program-history pairs. Since no universal-machine coordinate or total halting classifier is present, consumer reads remain bounded by the local fixed-point obstruction.
+\end{proof}
+
+\begin{theorem}[HaltingDiagonal NameCert obligations]\label{thm:halting-diagonal-namecert-obligations}
+The local $\NameCert_{\HaltingDiagonalUp}$ row has five obligations: carrier admission for the finite packet of \autoref{def:halting-diagonal-packet}, classifier stability under componentwise $\hsame$ transport of the displayed rows, exactness of the $E$ and $F$ fixed-point readback, ledger provenance through $K$, and the non-decision boundary of \autoref{thm:halting-diagonal-non-decision-boundary}.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet definition. It names every row available to the certificate.
+
+Classifier stability is componentwise: transport $P,h,E,F,D$ along $H$ and route the transported continuations through $C$. Exactness is the statement that the self-reference row and fixed continuation row still read back as the same local diagonal configuration.
+
+The ledger obligation is $K$, and the boundary obligation is \autoref{thm:halting-diagonal-non-decision-boundary}. Together these rows give the local naming package without adding a global halting predicate.
+\end{proof}
+
+\begin{theorem}[HaltingDiagonal carrier exposure obligation]\label{thm:halting-diagonal-carrier-exposure-obligation}
+For every accepted $\HaltingDiagonalUp$ packet $Z=(P,h,E,F,D,H,C,K,N)$, the local carrier exposes exactly the finite rows $P,h,E,F,D,H,C,K,N$. Every consumer read of the diagonal obstruction must begin from those rows, and no extra coordinate supplies a global halting predicate, universal-machine semantics, or oracle access.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:halting-diagonal-packet}. Its carrier rows are precisely the program certificate $P$, input history $h$, self-reference row $E$, fixed continuation row $F$, diagonal-divergence policy $D$, transport rows $H$, continuation routes $C$, provenance ledger $K$, and local naming row $N$.
+
+The carrier definition has no coordinate for a global halting predicate or universal-machine semantics. Therefore every consumer read is bounded by those displayed rows.
+\end{proof}
+
+\begin{theorem}[HaltingDiagonal classifier stability obligation]\label{thm:halting-diagonal-classifier-stability-obligation}
+Let $Z=(P,h,E,F,D,H,C,K,N)$ and $Z'=(P',h',E',F',D',H',C',K',N')$ be accepted $\HaltingDiagonalUp$ packets whose displayed program, history, self-reference, fixed-continuation, and diagonal-policy rows are related componentwise by the $\hsame$ transports recorded in $H$ and $H'$. Then the local classifier read through $N$ transports componentwise across those rows: the accepted carrier exposure, fixed-point readback, diagonal policy, continuation routes, and provenance ledger remain the same named obstruction under the transported packet.
+\end{theorem}
+\begin{proof}
+Use the componentwise transports recorded in $H$ and $H'$ for $P,h,E,F,D$. These transports place the program certificate, input history, self-reference row, fixed continuation row, and diagonal policy row on the same displayed naming surface.
+
+Next read the continuation routes through $C$ and $C'$. The routes expose the transported fixed-point readback and diagonal policy without adding another classifier coordinate.
+
+Finally, package the transported rows through $K,K'$ and the local naming rows $N,N'$. The result is classifier stability for the same finite diagonal obstruction, not a new decision procedure.
+\end{proof}
+
+\begin{theorem}[HaltingDiagonal ledger-boundary obligation]\label{thm:halting-diagonal-ledger-boundary-obligation}
+The provenance ledger $K$ of an accepted $\HaltingDiagonalUp$ packet records only the finite fixed-point obstruction generated by $P,h,E,F,D,H,C,N$. It does not promote the diagonal-divergence policy row $D$ into a total halting classifier, and it does not permit a consumer to decide termination for arbitrary $\NameCert$ rows outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Read $K$ as the package provenance for the displayed packet. Its dependencies are the program row, input history, self-reference row, fixed continuation row, diagonal policy, transports, routes, and local naming certificate.
+
+Apply \autoref{thm:halting-diagonal-non-decision-boundary}. That theorem identifies the consumer boundary: the packet exposes a local fixed-point obstruction but contains no universal classifier row.
+
+Thus the ledger is a boundary ledger. It records the finite obstruction and prevents the diagonal policy from being read as a global halting decision.
+\end{proof}
+
+\begin{theorem}[HaltingDiagonal scoped certificate]\label{thm:halting-diagonal-scoped-certificate}
+The source packet, fixed-point package, non-decision boundary, and NameCert obligations assemble one scoped $\HaltingDiagonalUp$ certificate over program certificate rows, input histories, $\Ext$ self-reference rows, fixed $\Cont$ rows, diagonal-divergence policy rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The certificate excludes global halting decidability, universal-machine semantics, oracle access, and infinite searches through program space.
+\end{theorem}
+\leanvariant{BEDC.Derived.HaltingDiagonalUp.HaltingDiagonalTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Start with the packet definition of \autoref{def:halting-diagonal-packet}. It fixes the finite carrier coordinates and the listed dependency surface.
+
+Use \autoref{thm:halting-diagonal-fixed-point-package} to package the self-reference and fixed continuation rows as the local diagonal readback. Use \autoref{thm:halting-diagonal-namecert-obligations} to bind carrier, classifier, exactness, ledger, and boundary obligations into the local $\NameCert$ row.
+
+The non-decision boundary of \autoref{thm:halting-diagonal-non-decision-boundary} supplies the exclusion clauses. Therefore the certificate is scoped to the finite fixed-point obstruction and does not export a global halting decision mechanism.
+\end{proof}
+
+\closureat{HaltingDiagonalUp}{seedStr}
+
+\begin{closurestatus}{\HaltingDiagonalUp}
+  \constructivestory{A $\HaltingDiagonalUp$ packet is generated from a program certificate row, an input history, an $\Ext$ self-reference row, a fixed $\Cont$ row, a diagonal-divergence policy row, componentwise $\hsame$ transports, displayed continuation routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:halting-diagonal-packet}, \autoref{thm:halting-diagonal-fixed-point-package}, \autoref{thm:halting-diagonal-non-decision-boundary}, \autoref{thm:halting-diagonal-namecert-obligations}, and \autoref{thm:halting-diagonal-scoped-certificate} bind the finite fixed-point obstruction boundary over NameCert, Cont, Ext, hsame, Pkg, and local diagonal ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global halting decidability, universal-machine semantics, oracle access, total classification of all program-history pairs, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, fixed-point exactness, ledger provenance, and non-decision boundary rows for the named packet.}
+\end{closurestatus}

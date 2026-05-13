@@ -53,6 +53,62 @@ no constructor in that source packet, so they cannot be part of the determined
 source surface.
 \end{proof}
 
+\begin{theorem}[StreamName directed common-refinement source associativity]
+\label{thm:streamname-directed-common-refinement-source-associativity}
+Let $\mathcal W_1$, $\mathcal W_2$, $\mathcal W_3$, and $\mathcal W_4$ be
+public finite-window $\StreamNameUp$ packages over the same certified
+endpoint maps $s,t$. Let $\mathcal R_{(12)3,4}$ and $\mathcal R_{1(23),4}$
+be two directed certified common-refinement trees whose visible leaves are the
+same four selected windows, with the first tree grouping
+$((\mathcal W_1,\mathcal W_2),\mathcal W_3)$ before comparison with
+$\mathcal W_4$, and the second tree grouping
+$(\mathcal W_1,(\mathcal W_2,\mathcal W_3))$ before comparison with
+$\mathcal W_4$.
+
+Assume each internal common-refinement package restricts to the selected
+windows named by its children and carries the displayed certified refinement
+ledger. Then the two directed trees expose the same StreamName source tuple:
+the row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$ read from the
+common visible refinement, the displayed $\mathsf{ProbeBundle}$ row, the
+$\mathsf{InBundle}$ membership rows, the selected $\mathsf{UnaryHistory}$
+rows, the pointwise $\mathsf{RatHistoryClassifier}$ rows, and the displayed
+$\hsame/\Cont/\Pkg$ ledger rows.
+
+Regrouping the directed common-refinement tree introduces no $\RegSeqRat$
+regularity row, no $\RealUp$ seal classifier, no quotient row, no completion
+datum, no metric-completeness datum, and no host-index equality. Those rows
+remain outside the StreamName source tuple consumed by downstream
+$\RegSeqRat$ and terminal finite-window $\RealUp$ readback.
+\end{theorem}
+\begin{proof}
+First compare the two triples before the terminal comparison with
+$\mathcal W_4$. Apply
+\autoref{thm:streamname-common-refinement-source-triple-confluence} to the
+triple $(\mathcal W_1,\mathcal W_2,\mathcal W_3)$ as grouped through
+$((\mathcal W_1,\mathcal W_2),\mathcal W_3)$, and apply the same theorem to
+the triple as grouped through
+$(\mathcal W_1,(\mathcal W_2,\mathcal W_3))$. Both applications read the same
+finite-window classifier, bundle, membership, selected history, pointwise
+classifier, and $\hsame/\Cont/\Pkg$ ledger surface from the displayed triple
+refinement.
+
+Next compare the overlap carried by $\mathcal W_1$ and $\mathcal W_2$. Use
+\autoref{thm:streamname-common-refinement-source-confluence}. The overlapping
+pair has one displayed StreamName source tuple, so the intermediate packet
+seen by either triple grouping has the same classifier, bundle, membership,
+selected-history, pointwise-classifier, and provenance rows.
+
+Finally compose the displayed ledger rows by transitivity of the
+$\hsame/\Cont/\Pkg$ provenance. The terminal comparison with $\mathcal W_4$
+therefore receives the same source tuple from either regrouping. Since
+\autoref{thm:streamname-common-refinement-source-confluence} and
+\autoref{thm:streamname-common-refinement-source-triple-confluence} separate
+that source tuple from $\RegSeqRat$ regularity, $\RealUp$ sealing, quotient,
+completion, metric-completeness, and host-index rows, the regrouping cannot
+introduce any such row.
+\end{proof}
+
 \begin{theorem}[StreamName common-refinement source confluence]
 \label{thm:streamname-common-refinement-source-confluence}
 Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
@@ -104,6 +160,109 @@ seal obligation remains separate from the StreamName source tuple. Thus the
 left route and the right route compose to the same downstream
 $\RegSeqRat/\RealUp$ source surface, with no completion, quotient,
 metric-completeness, host-index, or seal-classifier row added to that surface.
+\end{proof}
+
+\begin{theorem}[StreamName common-refinement RealUp seal confluence]
+\label{thm:streamname-common-refinement-real-seal-confluence}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
+$\StreamNameUp$ packages over the same certified endpoint maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose generated window
+restricts to both selected windows. Let $\mathcal E_L$ and $\mathcal E_R$ be
+finite-window $\RealUp$ seal packages induced from $\mathcal R$ through the
+left and right $\RegSeqRat$ routes
+$$
+\mathcal R\longrightarrow \mathcal W_L\longrightarrow \RegSeqRat
+\quad\text{and}\quad
+\mathcal R\longrightarrow \mathcal W_R\longrightarrow \RegSeqRat.
+$$
+Then $\mathcal E_L$ and $\mathcal E_R$ expose the same visible seal source.
+That source is the restricted
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$ row, the
+displayed $\mathsf{ProbeBundle}$ row, the $\mathsf{InBundle}$ membership rows,
+the selected $\mathsf{UnaryHistory}$ rows, the pointwise
+$\mathsf{RatHistoryClassifier}$ rows, the induced $\DyadicRatCore$ endpoint
+rows, and the displayed $\hsame/\Cont/\Pkg$ ledger rows carried by the common
+refinement.
+
+No completion row, quotient row, host-index equality, metric-completeness row,
+or off-ledger $\RealUp$ classifier is part of this visible finite-window seal
+source.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-common-refinement-source-confluence}. The certified
+common-refinement packet gives one StreamName source tuple for the left and
+right selected windows, including the restricted finite-window classifier,
+bundle membership, selected unary histories, pointwise rational classifiers,
+and displayed $\hsame/\Cont/\Pkg$ provenance.
+
+Next read both induced seal packages through
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy}. The two
+$\RegSeqRat$ routes consume the same StreamName tuple and therefore present the
+same accepted finite-window spine, DyadicRatCore endpoint rows, transport
+ledger, and provenance to the $\RealUp$ seal boundary.
+
+Finally use
+\autoref{thm:streamname-regseqrat-realup-seal-source-minimality} for each
+induced package. Minimality says that every visible source row of either seal
+package is one of the displayed finite-window StreamName, $\RegSeqRat$,
+DyadicRatCore, bundle, history, continuation, transport, or provenance rows.
+Since the common-refinement confluence already identifies those rows, no
+completion, quotient, host-index, metric-completeness, or off-ledger
+$\RealUp$ classifier row can distinguish the two seal sources.
+\end{proof}
+
+\begin{theorem}[StreamName common-refinement successor projection]
+\label{thm:streamname-common-refinement-successor-projection}
+Let $\mathcal W_L$ and $\mathcal W_R$ be public finite-window
+$\StreamNameUp$ packages over the same certified endpoint maps $s,t$, and let
+$\mathcal R$ be a certified common-refinement package whose generated
+$\mathsf{ProbeBundle}$ restricts to both selected windows. Let
+$n:\mathsf{BHist}$ be a certified unary observation such that
+$\mathsf{BHist.e1}(n)$ is an $\mathsf{InBundle}$ member of the refinement
+bundle of $\mathcal R$.
+
+Project $\mathcal R$ to the singleton successor window
+$$
+\mathsf{ProbeBundle.Bcons}(\mathsf{BHist.e1}(n),\mathsf{ProbeBundle.Bnil}).
+$$
+Reading this singleton through either selected window determines the same
+$\mathsf{RatStreamNameFiniteWindowClassifier}$ row, the same pointwise
+$\mathsf{RatHistoryClassifier}$ row at $\mathsf{BHist.e1}(n)$, and the same
+downstream source tuple consumed by the $\RegSeqRat$ handoff and by the
+finite-window $\RealUp$ handoff.
+
+The determined source tuple is the successor singleton classifier, the
+singleton $\mathsf{ProbeBundle}$ membership row, the selected
+$\mathsf{UnaryHistory}$ row for $n$, the pointwise rational history classifier,
+and the displayed $\hsame/\Cont/\Pkg$ ledger rows inherited from
+$\mathcal R$. It contains no host index equality, quotient representative,
+completion data, metric row, $\RegSeqRat$ regularity row, or $\RealUp$
+completeness or seal classifier.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:streamname-common-refinement-source-confluence}. The left route
+through $\mathcal W_L$ and the right route through $\mathcal W_R$ expose one
+common StreamName source tuple over $\mathcal R$, so the
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal R)$ row and the
+pointwise $\mathsf{RatHistoryClassifier}$ rows are route independent before
+projection.
+
+Next apply
+\autoref{thm:streamname-successor-window-projection-determinacy} to the
+$\mathsf{InBundle}$ membership row for $\mathsf{BHist.e1}(n)$. The theorem
+restricts the common finite-window classifier to the singleton successor bundle
+and keeps exactly the pointwise rational row indexed by that successor
+observation.
+
+Finally read the downstream boundary through
+\autoref{thm:streamname-regseqrat-pointwise-handoff} and
+\autoref{thm:streamname-real-regseq-obligation-separation}. These rows consume
+the same successor pointwise classifier and the same displayed
+$\hsame/\Cont/\Pkg$ provenance rows from either selected window, while the
+$\RegSeqRat$ regularity obligation and the finite-window $\RealUp$ seal
+obligation remain outside the StreamName source packet.
 \end{proof}
 
 \begin{theorem}[StreamName common-refinement source triple confluence]

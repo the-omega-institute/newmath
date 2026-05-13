@@ -1,0 +1,24 @@
+\subsection{Correctness Claims}\label{subsec:reconstruction-correctness-claims}
+
+The correctness meaning of the \texttt{BEDC.MetaCIC} mechanization is internal
+to the host calculus. \texttt{BEDC.MetaCIC.HasType} is an inductive
+proposition. An inhabitant of this proposition is therefore a derivation object
+accepted by the host kernel. If the host is consistent, such inhabitants are
+real typing derivations for the represented CIC fragment whose rules are given
+by the constructors of \texttt{HasType}.
+
+\texttt{BEDC.MetaCIC.BetaStep} has the same status for one-step reduction. It
+is a host \texttt{inductive Prop}, and each inhabitant is a kernel-checked
+witness of exactly one constructor-generated single-step beta reduction in the
+represented syntax.
+
+The operations \texttt{substitute} and \texttt{shift} are host
+\texttt{def} declarations. Their closed-form values are computed by the host
+kernel through small-step simplification of those definitions, rather than by
+an external evaluator or a meta-level convention.
+
+Consequently, theorems such as \texttt{sort\_in\_empty\_ctx},
+\texttt{id\_sort\_well\_typed}, and the related MetaCIC examples are
+host-verified claims about the represented CIC fragment. Host consistency
+implies the soundness of those BEDC.MetaCIC derivations and reductions within
+that fragment.

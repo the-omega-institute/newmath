@@ -172,7 +172,7 @@ lean4/BEDC/GroundCompiler/TasteGate.lean                              新建 (20
       ├── NatUp / GroupUp / HolomorphicUp / QuantumStateUp (公认真理论)
       └── 1-2 个边界例子 (验证某种应该 reject 的 chapter 确实过不了)
 
-papers/bedc/parts/capstones/theory_stability_taste_gate.tex            新建
+papers/bedc/parts/visions/theory_stability_taste_gate.tex            新建
   └── 描述 framework: 4 条 obligation 的数学含义 + 与 NameCert
       5 obligation 的关系
       (TasteGate 是 cross-chapter / cross-layer, NameCert 是

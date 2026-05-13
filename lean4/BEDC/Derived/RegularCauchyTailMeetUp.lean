@@ -1,0 +1,104 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.RegularCauchyTailMeetUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def RegularCauchyTailMeetPacket [AskSetup] [PackageSetup]
+    (r0 r1 w0 w1 m0 m1 tau q h c l n : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+    UnaryHistory m0 ∧ UnaryHistory m1 ∧ UnaryHistory tau ∧ UnaryHistory q ∧
+      UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory l ∧ UnaryHistory n ∧
+        Cont r0 w0 h ∧ Cont r1 w1 c ∧ Cont m0 m1 tau ∧ Cont tau q l ∧
+          PkgSig bundle l pkg
+
+theorem RegularCauchyTailMeetPacket_classifier_stability [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n r0' r1' w0' w1' m0' m1' tau' q' h' c'
+      l' n' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      hsame r0 r0' ->
+        hsame r1 r1' ->
+          hsame w0 w0' ->
+            hsame w1 w1' ->
+              hsame m0 m0' ->
+                hsame m1 m1' ->
+                  hsame q q' ->
+                    hsame n n' ->
+                      Cont r0' w0' h' ->
+                        Cont r1' w1' c' ->
+                          Cont m0' m1' tau' ->
+                            Cont tau' q' l' ->
+                              PkgSig bundle l' pkg ->
+                                RegularCauchyTailMeetPacket r0' r1' w0' w1' m0' m1'
+                                    tau' q' h' c' l' n' bundle pkg ∧
+                                  hsame tau tau' ∧ hsame l l' := by
+  intro packet r0Same r1Same w0Same w1Same m0Same m1Same qSame nSame
+    r0w0Row r1w1Row m0m1Row tauqRow pkgRow
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, m0Unary, m1Unary, tauUnary,
+    qUnary, hUnary, cUnary, lUnary, nUnary, r0w0Old, r1w1Old, m0m1Old,
+    tauqOld, _pkgOld⟩ := packet
+  have r0Unary' : UnaryHistory r0' :=
+    unary_transport r0Unary r0Same
+  have r1Unary' : UnaryHistory r1' :=
+    unary_transport r1Unary r1Same
+  have w0Unary' : UnaryHistory w0' :=
+    unary_transport w0Unary w0Same
+  have w1Unary' : UnaryHistory w1' :=
+    unary_transport w1Unary w1Same
+  have m0Unary' : UnaryHistory m0' :=
+    unary_transport m0Unary m0Same
+  have m1Unary' : UnaryHistory m1' :=
+    unary_transport m1Unary m1Same
+  have tauUnary' : UnaryHistory tau' :=
+    unary_cont_closed m0Unary' m1Unary' m0m1Row
+  have qUnary' : UnaryHistory q' :=
+    unary_transport qUnary qSame
+  have hUnary' : UnaryHistory h' :=
+    unary_cont_closed r0Unary' w0Unary' r0w0Row
+  have cUnary' : UnaryHistory c' :=
+    unary_cont_closed r1Unary' w1Unary' r1w1Row
+  have lUnary' : UnaryHistory l' :=
+    unary_cont_closed tauUnary' qUnary' tauqRow
+  have nUnary' : UnaryHistory n' :=
+    unary_transport nUnary nSame
+  have tauSame : hsame tau tau' :=
+    cont_respects_hsame m0Same m1Same m0m1Old m0m1Row
+  have lSame : hsame l l' :=
+    cont_respects_hsame tauSame qSame tauqOld tauqRow
+  exact
+    ⟨⟨r0Unary', r1Unary', w0Unary', w1Unary', m0Unary', m1Unary', tauUnary',
+        qUnary', hUnary', cUnary', lUnary', nUnary', r0w0Row, r1w1Row, m0m1Row,
+        tauqRow, pkgRow⟩,
+      tauSame, lSame⟩
+
+theorem RegularCauchyTailMeetPacket_real_seal_handoff [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      Cont l n realSeal ->
+        UnaryHistory tau ∧ UnaryHistory q ∧ UnaryHistory l ∧ UnaryHistory n ∧
+          UnaryHistory realSeal ∧ Cont m0 m1 tau ∧ Cont tau q l ∧
+            Cont l n realSeal ∧ PkgSig bundle l pkg := by
+  intro packet sealRoute
+  obtain ⟨_r0Unary, _r1Unary, _w0Unary, _w1Unary, _m0Unary, _m1Unary,
+    tauUnary, qUnary, _hUnary, _cUnary, lUnary, nUnary, _r0w0Row, _r1w1Row,
+    m0m1Row, tauqRow, pkgRow⟩ := packet
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed lUnary nUnary sealRoute
+  exact
+    ⟨tauUnary, qUnary, lUnary, nUnary, realSealUnary, m0m1Row, tauqRow,
+      sealRoute, pkgRow⟩
+
+end BEDC.Derived.RegularCauchyTailMeetUp

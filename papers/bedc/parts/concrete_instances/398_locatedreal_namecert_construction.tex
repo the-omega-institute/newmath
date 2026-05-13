@@ -1,0 +1,255 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealUp$}
+\label{ch:concrete-instances-locatedreal-namecert-surface}
+
+The $\LocatedRealUp$ surface names constructive located real-name packets between $\RegSeqRatUp$ and later metric or topological real constructions. Following the Bishop--Bridges constructive-analysis treatment of located real data, the chapter keeps interval endpoints, radii, and observation schedules as visible finite rows; it does not identify real names by a quotient or by host real equality.
+
+\section{Carrier and classifier}
+\label{sec:locatedreal-carrier-classifier-surface}
+
+\begin{definition}[LocatedReal carrier surface]
+\label{def:locatedreal-carrier-surface}
+A $\LocatedRealUp$ packet consists of four displayed components:
+\begin{enumerate}
+\item a $\RegSeqRatUp$ real-name source carrying the scheduled regular rational stream, dyadic-radius rows, regularity ledgers, and finite-window transport provenance;
+\item a $\DyadicRatCore$ interval ledger naming dyadic endpoint pairs $(a_r,b_r)$ for each displayed radius row $r$;
+\item a $\StreamNameUp$ finite-observation schedule naming the finite rows at which the regular-sequence window is read;
+\item a locatedness classifier which, for every displayed dyadic radius row, records a certified endpoint pair enclosing the current regular-sequence window.
+\end{enumerate}
+The enclosure row says that each endpoint read selected by the schedule lies inside the displayed dyadic interval for that radius, with the two endpoints read through the same $\DyadicRatCore$ ledger and the same $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+The packet stores only these finite rows. It contains no Dedekind cut, quotient real, trichotomy decision, open-cover compactness datum, or host real equality.
+\end{definition}
+
+\begin{theorem}[LocatedReal dyadic interval obligation]
+\label{thm:locatedreal-dyadic-interval-obligation}
+The local interval obligation for a $\LocatedRealUp$ packet is the finite row that, for every displayed dyadic radius, exposes the $\StreamNameUp$ schedule row, the current $\RegSeqRatUp$ regular-sequence window, the two $\DyadicRatCore$ endpoint rows, and the enclosure ledger proving that all displayed window endpoints lie between them.
+
+The obligation is exhausted by these dyadic endpoint, radius, schedule, regularity, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:locatedreal-carrier-surface}. The schedule determines the finite regular-sequence window, and the interval ledger determines the displayed dyadic endpoint pair for the requested radius.
+
+The locatedness classifier is a finite enclosure row over those same projections. Reading it at the selected radius gives exactly the endpoint pair and the proof that every displayed regular-sequence endpoint lies in the interval.
+
+Since the carrier has no coordinate for a cut, quotient, trichotomy decision, compactness cover, or host real equality, no further row can be read by the interval obligation.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_dyadic\_interval\_obligation}
+
+\begin{theorem}[LocatedReal RegSeqRat classifier stability]
+\label{thm:locatedreal-regseqrat-classifier-stability}
+Let $L$ and $L'$ be accepted $\LocatedRealUp$ packets whose $\RegSeqRatUp$ sources are related by the dyadic-tolerance classifier and whose finite-observation schedules, interval endpoint ledgers, and enclosure rows are transported componentwise by $\hsame$ and the displayed $\Cont$ routes. Then the locatedness classifier of $L$ transports to the locatedness classifier of $L'$ on every displayed dyadic radius row.
+
+The transported classifier reads only the scheduled $\RegSeqRatUp$ windows, the $\DyadicRatCore$ endpoint ledgers, and the visible provenance rows.
+\end{theorem}
+\begin{proof}
+Start with a displayed radius row of $L$. The carrier projection gives a finite $\StreamNameUp$ window and a certified dyadic endpoint pair enclosing the selected $\RegSeqRatUp$ observations.
+
+Transport the regular-sequence window along the stated $\RegSeqRatUp$ classifier row. Transport the endpoint pair and radius ledger along the componentwise $\hsame$ rows, using the displayed $\Cont$ routes to keep the finite schedule aligned.
+
+Repack the transported endpoint pair with the transported regular-sequence observations. The same finite enclosure row now witnesses the locatedness classifier for $L'$ at that radius, and the construction has used only rows already named in the two packets.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_regseqrat\_classifier\_stability}
+
+\begin{theorem}[LocatedReal RealUp seal compatibility]
+\label{thm:locatedreal-realup-seal-compatibility}
+Every accepted $\LocatedRealUp$ packet presents a $\RealUp$ seal-compatible source surface by forgetting only the locatedness interval rows and retaining the underlying $\RegSeqRatUp$ real-name source, $\StreamNameUp$ schedule, dyadic-radius observations, regularity ledgers, finite-window transport rows, and provenance.
+
+Conversely, the locatedness rows may be attached to such a $\RealUp$ seal source only as finite dyadic endpoint enclosures over the already displayed $\RegSeqRatUp$ windows; they do not add a completed real object or an equality principle for real names.
+\end{theorem}
+\begin{proof}
+Use the $\RegSeqRatUp$ component of the carrier surface. It already contains the scheduled stream carrier, dyadic-radius rows, regularity ledger, classifier source rows, and finite-window transport provenance consumed at the $\RealUp$ seal boundary.
+
+Forgetting the interval ledger and locatedness classifier leaves exactly that source surface. No seal consumer can read the forgotten rows, because the retained source has no coordinate for interval endpoints beyond the dyadic observations carried by $\RegSeqRatUp$.
+
+For the converse attachment, choose a displayed seal source window and add only the $\DyadicRatCore$ endpoint pair and enclosure ledger required by \autoref{def:locatedreal-carrier-surface}. This enriches the finite packet with locatedness data while leaving the $\RealUp$ seal source unchanged.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_realup\_seal\_compatibility}
+
+\begin{theorem}[LocatedReal NameCert boundary]
+\label{thm:locatedreal-namecert-boundary}
+The seed $\NameCert_{\LocatedRealUp}$ obligation sketch consists of five rows:
+\begin{enumerate}
+\item carrier inhabitance is witnessed by a constant dyadic $\StreamNameUp$ stream whose $\RegSeqRatUp$ source is the constant regular sequence and whose interval ledger uses the same endpoint on both sides;
+\item classifier reflexivity, symmetry, and transitivity are witnessed by interval refinement of displayed dyadic endpoint pairs;
+\item carrier transport along $\hsame$ repacks the $\RegSeqRatUp$ source, schedule, endpoint ledger, and enclosure classifier componentwise;
+\item ledger exactness says that every interval endpoint used by the locatedness classifier is one of the displayed $\DyadicRatCore$ endpoint rows;
+\item $\RealUp$ seal compatibility is the handoff of \autoref{thm:locatedreal-realup-seal-compatibility}.
+\end{enumerate}
+The boundary claims neither Dedekind cuts, quotient reals, trichotomy, open-cover compactness, nor host real equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealNameCertBoundary\_rows}
+\begin{proof}
+For inhabitance, take the constant dyadic stream. Its $\StreamNameUp$ schedule reads the same dyadic endpoint at every displayed window, the $\RegSeqRatUp$ regularity ledger is the constant-window ledger, and each located interval can use that endpoint as both sides.
+
+For classifier laws, refine finite interval ledgers. Reflexivity keeps the same endpoint pair, symmetry swaps the two classified packets while keeping the common refinement row, and transitivity composes two finite refinements by taking the displayed common endpoint ledger supplied by $\DyadicRatCore$.
+
+For transport, apply componentwise $\hsame$ to the regular-sequence source, observation schedule, endpoint rows, and enclosure classifier. The transported rows satisfy the same finite carrier definition.
+
+Ledger exactness follows by projection from \autoref{def:locatedreal-carrier-surface}: every classifier endpoint is drawn from the stored $\DyadicRatCore$ interval ledger. The $\RealUp$ seal row is then exactly \autoref{thm:locatedreal-realup-seal-compatibility}, so the five rows form the seed boundary without adding any excluded real-number principle.
+\end{proof}
+
+\begin{theorem}[LocatedReal scoped source boundary]
+\label{thm:locatedreal-scoped-source-boundary}
+The scoped $\LocatedRealUp$ boundary is exactly the four carrier components of \autoref{def:locatedreal-carrier-surface} together with the dyadic interval obligation, the $\RegSeqRatUp$ classifier-stability row, the $\RealUp$ seal-compatibility row, and the $\NameCert$ boundary rows. All rows are read through $\RegSeqRatUp$, $\DyadicRatCore$, $\StreamNameUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+This scoped boundary contains no Dedekind cut, quotient real, trichotomy decision, open-cover compactness datum, host real equality, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier definition of \autoref{def:locatedreal-carrier-surface}. It exposes exactly the $\RegSeqRatUp$ source, the dyadic interval ledger, the finite observation schedule, and the locatedness classifier.
+
+Apply \autoref{thm:locatedreal-dyadic-interval-obligation} to obtain the endpoint and radius rows. Apply \autoref{thm:locatedreal-regseqrat-classifier-stability} to transport the scheduled regular-sequence reads, and apply \autoref{thm:locatedreal-realup-seal-compatibility} to identify the seal-facing source surface.
+
+Finally apply \autoref{thm:locatedreal-namecert-boundary} to bind inhabitance, classifier laws, transport, ledger exactness, and seal compatibility to the same displayed provenance. Since the carrier and the cited rows have no coordinate for cuts, quotient reals, trichotomy, compactness, host equality, or a standard bridge, the scoped source boundary exports none of those principles.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_scoped\_source\_boundary}
+
+\begin{theorem}[LocatedReal common refinement gluing]
+\label{thm:locatedreal-common-refinement-gluing}
+Let two $\LocatedRealUp$ packets be displayed through the carrier surface of \autoref{def:locatedreal-carrier-surface}. If their $\StreamNameUp$ schedules admit a common finite observation window and their $\DyadicRatCore$ endpoint ledgers transport along the visible $\hsame$ and $\Cont$ rows to that window, then the two packets determine one repacked locatedness classifier row over the common window.
+
+The repacked row uses only the displayed $\RegSeqRatUp$ source data, the common schedule, the transported dyadic endpoint pairs, the enclosure classifier, and the visible $\mathsf{BHist}$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_common\_refinement\_tail\_empty}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_common\_refinement\_gluing}
+\begin{proof}
+Project both packets to the surface of \autoref{def:locatedreal-carrier-surface}. The hypotheses identify a finite $\StreamNameUp$ window receiving the two schedules and give the endpoint transports needed to view both dyadic interval ledgers over that window.
+
+Use \autoref{thm:locatedreal-dyadic-interval-obligation} to keep the transported endpoint pairs inside the displayed $\DyadicRatCore$ interval ledger. Use \autoref{thm:locatedreal-regseqrat-classifier-stability} to transport the regular-sequence source rows without changing the consumer-visible source surface.
+
+Finally repack the common window, transported endpoint pairs, enclosure classifier, and provenance rows into the locatedness classifier coordinate of \autoref{def:locatedreal-carrier-surface}. The repacking does not introduce any host real equality or completion datum, so it yields exactly one classifier row over the displayed common refinement.
+\end{proof}
+
+\begin{theorem}[LocatedReal common-refinement consumer exactness]
+\label{thm:locatedreal-common-refinement-consumer-exactness}
+Let two accepted $\LocatedRealUp$ packets have a common finite $\StreamNameUp$ observation window and transported $\DyadicRatCore$ endpoint ledgers as in \autoref{thm:locatedreal-common-refinement-gluing}. Every later $\MetricSpaceUp$ or real-order consumer read of their locatedness data factors through the repacked common-window row.
+
+The consumer can read only the $\RegSeqRatUp$ source, the schedule row, the dyadic endpoint pair, the enclosure classifier, and the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. It cannot read quotient reals, host real equality, trichotomy, open-cover compactness, metric completion, or standard bridge data.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:locatedreal-common-refinement-gluing} to repack the two accepted packets over the common finite window. The resulting row has exactly the common schedule, transported endpoint pairs, classifier coordinate, and visible provenance named in the carrier surface.
+
+Apply \autoref{thm:locatedreal-interval-ledger-exactness} to the endpoint side of the repacked row. This exhausts every dyadic endpoint consumed by the locatedness classifier by projection from the displayed $\DyadicRatCore$ interval ledger.
+
+Finally apply \autoref{thm:locatedreal-metric-consumer-handoff}. Its downstream projection bound says that a metric or order consumer reads only the displayed source, schedule, ledger, classifier, and provenance coordinates. Since none of those coordinates contains quotient reals, host real equality, trichotomy, compactness, completion, or standard bridge data, the consumer read is exhausted by the common-window row.
+\end{proof}
+
+\begin{theorem}[LocatedReal interval ledger exactness]
+\label{thm:locatedreal-interval-ledger-exactness}
+Every dyadic endpoint consumed by the $\LocatedRealUp$ locatedness classifier is the projection of an endpoint row from the $\DyadicRatCore$ interval ledger displayed in \autoref{def:locatedreal-carrier-surface}.
+
+Consequently the classifier has no hidden endpoint source beyond the stored dyadic interval ledger, the finite $\StreamNameUp$ observation schedule, and the transported $\RegSeqRatUp$ source rows.
+\end{theorem}
+\begin{proof}
+Unfold the carrier surface of \autoref{def:locatedreal-carrier-surface}. Its locatedness classifier coordinate is attached to the displayed endpoint ledger, so each endpoint read used in a classifier row is obtained by projection from that ledger.
+
+Apply \autoref{thm:locatedreal-dyadic-interval-obligation} to the projected endpoints. The theorem records that the interval rows remain dyadic and are transported through the visible $\hsame$ and $\Cont$ provenance rather than through an ambient real object.
+
+The stability row of \autoref{thm:locatedreal-regseqrat-classifier-stability} accounts for the regular-sequence source data used beside the endpoints. Thus every consumed endpoint is ledger-visible, and no unrecorded endpoint coordinate is available to the classifier.
+\end{proof}
+
+\begin{theorem}[LocatedReal metric consumer handoff]
+\label{thm:locatedreal-metric-consumer-handoff}
+Any later $\MetricSpaceUp$ or real-order consumer of a $\LocatedRealUp$ packet may read only the $\RegSeqRatUp$ source, the $\StreamNameUp$ schedule, the dyadic endpoint and radius rows, the enclosure classifier, and the visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Such a consumer cannot read a quotient-real carrier, host real equality, trichotomy decision, open-cover compactness datum, or metric-completion object from the $\LocatedRealUp$ certificate surface.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_metric\_consumer\_empty\_boundary}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_metric\_consumer\_handoff}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_metric\_consumer\_handoff}
+\begin{proof}
+Begin with the source projection supplied by \autoref{thm:locatedreal-realup-seal-compatibility}. It identifies the $\RealUp$ seal-facing part of the packet with the displayed $\RegSeqRatUp$ source, finite schedule, dyadic radius data, and classifier source rows.
+
+Next use \autoref{thm:locatedreal-interval-ledger-exactness} for endpoint reads and \autoref{thm:locatedreal-common-refinement-gluing} for finite-window repacking. These two rows show that all interval and classifier data consumed downstream are already present in the carrier surface and remain stable under common refinements.
+
+The handoff is therefore the projection of the named finite coordinates from \autoref{def:locatedreal-carrier-surface}. Since that surface has no coordinate for quotient reals, host equality, trichotomy, compactness, or completion, no later metric or order consumer can extract such data from the certificate.
+\end{proof}
+
+\begin{theorem}[LocatedReal scoped RegSeqRat dyadic window]
+\label{thm:locatedreal-scope-regseqrat-dyadic-window}
+Every scoped locatedness read from a $\LocatedRealUp$ packet factors through a displayed finite window: a $\RegSeqRatUp$ regular rational source window, a $\StreamNameUp$ schedule row selecting the observations, and a $\DyadicRatCore$ endpoint ledger naming the dyadic enclosure endpoints. The factorization carries the visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance used by the packet.
+
+Thus the scoped read exposes only finite regular-sequence observations, schedule entries, dyadic endpoint rows, enclosure ledgers, and their named provenance.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:locatedreal-carrier-surface}. It gives the $\RegSeqRatUp$ source, $\StreamNameUp$ schedule, $\DyadicRatCore$ interval ledger, and locatedness classifier as displayed coordinates.
+
+Apply \autoref{thm:locatedreal-regseqrat-classifier-stability} to keep the scheduled regular-sequence reads stable under the visible $\hsame$ and $\Cont$ transports. Apply \autoref{thm:locatedreal-interval-ledger-exactness} to identify every consumed endpoint with a stored dyadic ledger row.
+
+Finally use \autoref{thm:locatedreal-common-refinement-gluing} to repack the finite window when the consumer asks for a common refinement, and use \autoref{thm:locatedreal-realup-seal-compatibility} to keep the seal-facing source equal to the same regular rational surface. No coordinate outside the named carrier surface is introduced.
+\end{proof}
+
+\begin{theorem}[LocatedReal scoped carrier transport]
+\label{thm:locatedreal-scope-carrier-transport}
+Let $L$ be an accepted $\LocatedRealUp$ packet. If its $\RegSeqRatUp$ source, $\StreamNameUp$ schedule, $\DyadicRatCore$ endpoint ledger, and located enclosure row are transported componentwise by the displayed $\hsame$ and $\Cont$ routes, then the transported rows repack as an accepted $\LocatedRealUp$ carrier.
+
+The repacking uses only the transported finite rows and their $\mathsf{BHist}$, $\mathsf{Pkg}$, and $\NameCert$ provenance; it does not use quotient-real data, host real equality, or an ambient completion object.
+\end{theorem}
+\begin{proof}
+Unpack $L$ through \autoref{def:locatedreal-carrier-surface}. The four carrier coordinates are the regular-sequence source, schedule, endpoint ledger, and locatedness classifier.
+
+Transport the source and classifier by \autoref{thm:locatedreal-regseqrat-classifier-stability}. Transport the endpoint reads by \autoref{thm:locatedreal-interval-ledger-exactness}, and use \autoref{thm:locatedreal-common-refinement-gluing} when the transported schedule is read over a common finite window.
+
+The transported rows satisfy the same carrier definition, so they repack as a $\LocatedRealUp$ packet. The $\RealUp$ seal compatibility of \autoref{thm:locatedreal-realup-seal-compatibility} shows that the repacked source surface is still finite regular rational data rather than a quotient real or host equality principle.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedRealUp.LocatedRealCarrierSurface\_scope\_carrier\_transport}
+
+\begin{theorem}[LocatedReal scoped RealUp seal consumer]
+\label{thm:locatedreal-scope-real-seal-consumer}
+A $\RealUp$ seal consumer of a scoped $\LocatedRealUp$ packet may read exactly the $\RegSeqRatUp$ source surface together with the displayed located interval rows. Concretely, it may read the scheduled regular rational windows, dyadic radius and endpoint ledgers, enclosure classifier rows, and the visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+It may not read a Dedekind cut, trichotomy decision, open-cover compactness witness, completion object, quotient-real carrier, or host real equality from the $\LocatedRealUp$ seal boundary.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:locatedreal-realup-seal-compatibility}. It identifies the seal-facing surface with the displayed $\RegSeqRatUp$ source, finite schedule, dyadic-radius observations, regularity ledgers, and transport provenance.
+
+The additional located rows are bounded by \autoref{thm:locatedreal-interval-ledger-exactness}: every endpoint consumed by the classifier is drawn from the displayed $\DyadicRatCore$ ledger. The common-refinement row of \autoref{thm:locatedreal-common-refinement-gluing} keeps later reads inside the same finite window surface.
+
+Together with \autoref{thm:locatedreal-regseqrat-classifier-stability} and \autoref{def:locatedreal-carrier-surface}, these rows exhaust the seal consumer boundary. Since none of the cited surfaces contains cuts, trichotomy, compactness, completion, quotient carriers, or host real equality, the consumer cannot read such data.
+\end{proof}
+
+\begin{theorem}[LocatedReal public RegSeqRat interval handoff]
+\label{thm:locatedreal-public-regseqrat-interval-handoff}
+Every public consumer of $\NameCert_{\LocatedRealUp}$ receives a single finite package consisting of the $\RegSeqRatUp$ source window, the $\StreamNameUp$ observation schedule, the $\DyadicRatCore$ endpoint ledger, the locatedness enclosure row, the $\RealUp$ seal handoff, and the visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+No Dedekind cut, quotient real, trichotomy decision, open-cover compactness witness, host real equality, or completion object is exported by this public handoff.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:locatedreal-scope-regseqrat-dyadic-window} to obtain the finite regular-sequence source window, finite schedule row, and dyadic endpoint ledger. The endpoint visibility needed by a public consumer is exactly the ledger projection of \autoref{thm:locatedreal-interval-ledger-exactness}.
+
+Next apply \autoref{thm:locatedreal-scope-carrier-transport}. It shows that any componentwise transport of the source, schedule, endpoint ledger, and located enclosure rows remains inside the accepted $\LocatedRealUp$ carrier surface, with only displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.
+
+Finally apply \autoref{thm:locatedreal-scope-real-seal-consumer}. The $\RealUp$ seal-facing consumer reads the same finite source and located interval rows, so the public package is the stated single handoff package. The excluded objects have no coordinate in the cited carrier, ledger, transport, or seal-consumer surfaces, hence they are not exported.
+\end{proof}
+
+\begin{theorem}[LocatedReal standard bridge boundary]
+\label{thm:locatedreal-standard-bridge-boundary}
+A $\LocatedRealUp$ packet whose $\RegSeqRatUp$ source row, $\DyadicRatCore$ interval endpoint rows, $\StreamNameUp$ observation schedule, $\RealUp$ seal row, metric handoff row, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance, and classifier-transport rows are exactly the public rows displayed in \autoref{thm:locatedreal-public-regseqrat-interval-handoff} admits the standard bridge surface used by downstream $\LocatedRealUp$ consumers.
+
+Conversely, any such standard bridge packet repacks to the public $\LocatedRealUp$ boundary without adding quotient reals, trichotomy, open-cover compactness, host real equality, or completion data.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:locatedreal-namecert-boundary}. It binds the carrier, classifier transport, interval obligation, seal compatibility, and certificate provenance to the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Next apply \autoref{thm:locatedreal-metric-consumer-handoff}. The metric and order consumer surface can read only the regular rational source, schedule, dyadic endpoint and radius rows, enclosure classifier, and visible provenance. Then apply \autoref{thm:locatedreal-public-regseqrat-interval-handoff} to package those rows with the $\RealUp$ seal handoff as the public boundary.
+
+The reverse direction forgets the bridge wrapper and keeps the same finite rows. The exclusions recorded in the closure status show that quotient reals, trichotomy, open-cover compactness, host real equality, and completion data have no coordinate in the bridge surface, so no off-table object enters during either packing.
+\end{proof}
+
+\closureat{LocatedRealUp}{seedStr}
+\closureat{LocatedRealUp}{obligationStr}
+\closureat{LocatedRealUp}{scopedStr}
+\closureat{LocatedRealUp}{publicStr}[BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_realup\_regseqrat\_boundary]
+\closureat{LocatedRealUp}{bridgedStr}[BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_realup\_regseqrat\_boundary]
+\closureat{LocatedRealUp}{matureStr}[BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_realup\_regseqrat\_boundary]
+
+\begin{closurestatus}{\LocatedRealUp}
+  \constructivestory{A $\LocatedRealUp$ packet is generated from a displayed $\RegSeqRatUp$ real-name source, a $\DyadicRatCore$ dyadic interval endpoint ledger, a finite $\StreamNameUp$ observation schedule, and a locatedness classifier whose rows enclose each scheduled regular-sequence window at the displayed radius.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public boundary names exactly the $\RegSeqRatUp$ source, $\DyadicRatCore$ interval endpoints, $\StreamNameUp$ finite-observation schedule, locatedness classifier, carrier transport, $\RealUp$ seal consumer row, and their visible $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.LocatedRealUp.LocatedRealCarrier\_realup\_regseqrat\_boundary}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not claim Dedekind cuts, quotient reals, trichotomy, open-cover compactness, host real equality, or completion data.}
+  \upgradepath{No further paper theory-axis step is recorded for this chapter; formal and bridge axes remain separate.}
+\end{closurestatus}

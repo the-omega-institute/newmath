@@ -67,3 +67,36 @@ entire consumer surface and neither package contains host tuple equality,
 outside-ledger component projection, or a quotient of pair representatives, no
 consumer can project such data from the public $\ProdUp$ finite-data package.
 \end{proof}
+
+\begin{theorem}[Prod component ledger endpoint determinacy]
+\label{thm:prod-component-ledger-endpoint-determinacy}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers, let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers, let $\mathsf{cert}_L:\NameCert(L,\sim_L)$ and
+$\mathsf{cert}_R:\NameCert(R,\sim_R)$ be source rows, and let
+$\mathsf{coh}:\mathsf{ProdPairRepCoherent}_{L,R,\sim_L,\sim_R}$ be a displayed
+pair-representative coherence witness. If two
+$\mathsf{ProdHistoryLedgerChain}(L,R,\rho,z)$ readbacks from the same raw
+product row $\rho$ expose component pairs $(l,r)$ and $(l',r')$ through
+$\mathsf{ProdPairRep}$, then the public finite-data package forces
+$l\sim_L l'$ and $r\sim_R r'$. Consequently the two visible endpoints are
+related by $\mathsf{ProdHistoryClassifier}(L,R)$, and no further host-level
+tuple equality is needed.
+\end{theorem}
+\begin{proof}
+Apply the displayed component readback to each of the two ledger-chain
+readbacks. Both readbacks start from the same raw product row $\rho$, so the
+only component witnesses they expose are the two displayed
+$\mathsf{ProdPairRep}$ pairs named in the ledger.
+
+Use the coherence witness $\mathsf{coh}$ to compare those two displayed pairs
+componentwise. This yields the source classifier rows $l\sim_L l'$ and
+$r\sim_R r'$ inside the same BEDC history envelope as the source
+$\NameCert$ rows.
+
+Finally repack the two source classifier rows through the product envelope
+classifier. The consumer-row exhaustion theorem identifies that envelope row
+as part of the public finite-data surface, so the endpoint comparison lands in
+$\mathsf{ProdHistoryClassifier}(L,R)$ and exports no outside-ledger component
+projection.
+\end{proof}

@@ -1,0 +1,219 @@
+\chapter{A Concrete Naming Certificate for $\IsometricEmbeddingUp$}
+\label{ch:concrete-instances-isometric-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, and the metric-space treatment in Kreyszig, \emph{Introductory Functional Analysis}, the $\IsometricEmbeddingUp$ interface records a distance-preserving injection only as a finite BEDC certificate. It is a completion-boundary object for $\RealUp$, $\CompletionReflectionUp$, and $\HausdorffCompletionUp$: downstream consumers see displayed metric and distance rows, not a host function equality or a quotient map.
+
+\begin{definition}[IsometricEmbedding carrier]
+\label{def:isometric-embedding-carrier}
+An $\IsometricEmbeddingUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ carrier and classifier row;
+\item $Y$ is the target $\MetricSpaceUp$ carrier and classifier row;
+\item $F$ is the graph row displaying the embedding as a finite BEDC relation from source observations to target observations;
+\item $D_X$ is the source $\mathsf{MetricDistanceWitness}$ row for displayed source endpoints;
+\item $D_Y$ is the target $\mathsf{MetricDistanceWitness}$ row for the displayed target endpoints selected by $F$;
+\item $R$ is the $\RealUp$ distance-reflection row comparing the real-distance read from $D_X$ with the real-distance read from $D_Y$;
+\item $T$ stores the componentwise $\hsame$ transports for $X$, $Y$, $F$, $D_X$, $D_Y$, and $R$;
+\item $Q$ stores the $\Cont$ routes for source reads, graph reads, target reads, and real-distance reflection reads;
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\RealUp$, $\mathsf{MetricDistanceWitness}$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\IsometricEmbeddingUp}$ row.
+\end{enumerate}
+The carrier contains no quotient map, no host function object, no selected representative of a completion class, and no external completion theorem.
+\end{definition}
+\leandef{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier}
+
+\begin{definition}[IsometricEmbedding classifier]
+\label{def:isometric-embedding-classifier}
+For accepted $\IsometricEmbeddingUp$ carriers $I$ and $I'$, the classifier $\mathsf{IsometricEmbeddingClassifier}(I,I')$ compares the packet rows componentwise. The source and target rows compare through their $\MetricSpaceUp$ classifiers, the graph rows compare through the displayed relation row, the two distance-witness rows compare through their $\RealUp$ distance observations, and the distance-reflection row compares only after the same source and target distance reads have been transported.
+
+The classifier has no component for host-level function equality, quotient-map equality, selected representatives, or ambient completion principles. Its entire comparison surface is the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data.
+\end{definition}
+
+\begin{theorem}[IsometricEmbedding NameCert obligations]
+\label{thm:isometric-embedding-namecert-obligations}
+The local $\NameCert_{\IsometricEmbeddingUp}$ surface for the carrier of \autoref{def:isometric-embedding-carrier} consists of five finite rows:
+\begin{enumerate}
+\item carrier admission by the displayed packet $I$;
+\item classifier transport by the componentwise comparison surface of \autoref{def:isometric-embedding-classifier};
+\item distance preservation from the source $\mathsf{MetricDistanceWitness}$ row $D_X$ to the target $\mathsf{MetricDistanceWitness}$ row $D_Y$ through the $\RealUp$ reflection row $R$;
+\item reflection into separated completion-facing consumers through the displayed $\MetricSpaceUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item non-escape from quotient maps, host functions, selected representatives, and external completion theorems.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite packet. The source metric row, target metric row, graph row, two distance-witness rows, real-distance reflection row, transport rows, continuation rows, package provenance, and local naming row are all visible coordinates.
+
+Classifier transport is componentwise. The source and target classifiers move the endpoint rows, the graph row moves the displayed embedding relation, and the distance-witness rows move only along the transported endpoint data.
+
+Distance preservation is then read from $R$. Since $R$ is paired with $D_X$ and $D_Y$ in the carrier, the target distance read cannot be separated from the source distance read that generated it.
+
+The separated completion-facing row consumes the same displayed metric and real-distance data. The package and naming rows record that every downstream read remains inside this surface, so no quotient map, host function, selected representative, or external completion theorem is exported.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding distance reflection]
+\label{thm:isometric-embedding-distance-reflection}
+Let $I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)$ be an accepted $\IsometricEmbeddingUp$ carrier. Any source metric-distance read exposed by $D_X$ reflects through the graph row $F$ into the target metric-distance read exposed by $D_Y$, and the comparison of those distances is made only through the displayed $\RealUp$ row $R$ together with the stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source distance read is stored in $D_X$, and the only target endpoint route attached to it is the displayed graph row $F$.
+
+Read the target distance through $D_Y$. The transport row $T$ keeps the source endpoint, graph endpoint, and target endpoint data aligned, while $Q$ records the continuation route by which the target distance is consumed.
+
+Finally read the real-distance comparison through $R$. The carrier has no separate host function or quotient-map coordinate, so the reflected target distance is the displayed $\RealUp$ comparison attached to $D_X$ and $D_Y$.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding completion boundary]
+\label{thm:isometric-embedding-completion-boundary}
+Every $\CompletionReflectionUp$ or $\HausdorffCompletionUp$ consumer of an accepted $\IsometricEmbeddingUp$ carrier may use the embedding only through the displayed source and target $\MetricSpaceUp$ rows, the source and target $\mathsf{MetricDistanceWitness}$ rows, the $\RealUp$ distance-reflection row, and the stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. No completion-facing consumer receives a quotient map, host function equality, selected representative, or external completion theorem from the packet.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing consumer. Its metric input must read either the source row $X$, the target row $Y$, or the graph row $F$, because those are the only carrier coordinates exposing the embedding.
+
+The distance input is then forced through $D_X$, $D_Y$, and $R$. By \autoref{thm:isometric-embedding-distance-reflection}, this is exactly the displayed source-to-target real-distance reflection route.
+
+Apply the non-escape row of \autoref{thm:isometric-embedding-namecert-obligations}. The packet inventory is exhausted by metric, real-distance, transport, continuation, package, and naming rows, so completion and separated-completion consumers cannot obtain non-displayed quotient, function, representative, or completion-theorem data.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding carrier admission]
+\label{thm:isometric-embedding-carrier-admission}
+Let
+$$
+I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)
+$$
+be an accepted $\IsometricEmbeddingUp$ packet. The carrier admitted by the local $\NameCert_{\IsometricEmbeddingUp}$ surface is exactly the displayed $\mathsf{BHist}$ packet with source and target $\MetricSpaceUp$ rows, graph row, source and target distance witnesses, $\RealUp$ distance-reflection row, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local naming row. No admitted carrier field is a host function, quotient map, completion representative, or external completion theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier definition \autoref{def:isometric-embedding-carrier}. Its ten coordinates are the complete visible inventory of the accepted packet.
+
+Read the carrier-admission row of \autoref{thm:isometric-embedding-namecert-obligations}. That row admits the packet by those coordinates and by no separate analytic object, because the package and local certificate only certify the displayed $\mathsf{BHist}$ surface.
+
+The excluded objects have no coordinate in $I$. Therefore the admitted carrier is precisely the metric, graph, distance, reflection, transport, route, provenance, and naming packet.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding classifier transport]
+\label{thm:isometric-embedding-classifier-transport}
+For accepted packets $I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)$ and $I'=(X',Y',F',D'_X,D'_Y,R',T',Q',P',N')$, any classifier comparison between $I$ and $I'$ is componentwise: source and target rows are compared by their $\MetricSpaceUp$ classifiers, graph rows by the displayed relation row, distance witnesses by their endpoint and $\RealUp$ distance observations, and reflection rows only after the same transported source and target distance reads have been displayed.
+\end{theorem}
+\begin{proof}
+Start from the classifier definition \autoref{def:isometric-embedding-classifier}. It gives no global equality test for the packet and no host function equality; each visible row is compared at its own BEDC surface.
+
+Transport the source and target rows through the corresponding components of $T$ and $T'$. The graph rows then compare the displayed source observations with the displayed target observations, and the distance-witness rows compare only the endpoint data selected by those transported graph rows.
+
+Finally read the reflection rows $R$ and $R'$. Since the classifier waits for the source and target distance observations before comparing the $\RealUp$ reflection data, classifier preservation is componentwise and remains inside the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{proof}
+\leanchecked{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier\_classifier\_transport}
+
+\begin{theorem}[IsometricEmbedding separated consumer route]
+\label{thm:isometric-embedding-separated-consumer-route}
+Every separated completion-facing consumer of an accepted $\IsometricEmbeddingUp$ packet $I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)$ factors through the displayed metric rows $X,Y$, the graph row $F$, the distance witnesses $D_X,D_Y$, the $\RealUp$ reflection row $R$, and the provenance rows $T,Q,P,N$. The consumer receives a distance-preserving route, not a quotient map, host function equality, selected representative, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+Project the consumer route from \autoref{thm:isometric-embedding-completion-boundary}. A completion-facing read can access the embedding only by reading the metric and graph rows of the accepted packet.
+
+Apply \autoref{thm:isometric-embedding-distance-reflection}. The distance data then pass from $D_X$ through the graph row to $D_Y$, and the comparison is consumed only through the $\RealUp$ reflection row $R$.
+
+The package rows $T,Q,P,N$ record transport, continuation, provenance, and local naming for this same finite packet. Since no excluded completion object occurs in the carrier, the separated consumer route is exactly the displayed metric-distance route.
+\end{proof}
+\leanchecked{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier\_separated\_consumer\_route}
+
+\begin{theorem}[IsometricEmbedding distance preservation obligation]
+\label{thm:isometric-embedding-distance-preservation-obligation}
+Let
+$$
+I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)
+$$
+be an accepted $\IsometricEmbeddingUp$ packet. The distance-preservation obligation says that every displayed source-distance read in $D_X$ is transported along the graph row $F$ to the displayed target-distance read in $D_Y$, and the equality of the two distance observations is read only through the $\RealUp$ row $R$ and the provenance rows $T,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier surfaces of \autoref{def:isometric-embedding-carrier} and \autoref{def:isometric-embedding-classifier}. They bind the source metric row $X$, target metric row $Y$, graph row $F$, distance witnesses $D_X,D_Y$, and real-distance row $R$ as one finite packet.
+
+Apply the NameCert obligations of \autoref{thm:isometric-embedding-namecert-obligations}. The distance-preservation row is the clause that pairs the source distance witness with the target distance witness through $R$.
+
+Finally use distance reflection. Since no host function or quotient map is exported, the preservation claim is exactly the displayed source-to-target real-distance comparison.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding completion reflection handoff]
+\label{thm:isometric-embedding-completion-reflection-handoff}
+Every $\CompletionReflectionUp$ consumer of an accepted $\IsometricEmbeddingUp$ packet $I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)$ receives its embedding input through the displayed metric rows $X,Y$, graph row $F$, distance witnesses $D_X,D_Y$, real-distance reflection row $R$, and provenance rows $T,Q,P,N$. The handoff supplies a separated completion-facing route, not a quotient map, host function equality, selected representative, or ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Begin with the completion boundary theorem \autoref{thm:isometric-embedding-completion-boundary}. It restricts every completion-facing consumer to the metric, graph, distance, reflection, transport, route, package, and naming rows of the accepted packet.
+
+Use classifier transport to keep these rows componentwise under the displayed $\hsame$ and $\Cont$ routes. The NameCert obligations then identify the same rows as the local certificate surface.
+
+The separated consumer route theorem supplies the final handoff: downstream consumers obtain a distance-preserving route through the displayed packet and receive no completion object outside it.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding Hausdorff separation boundary]
+\label{thm:isometric-embedding-hausdorff-separation-boundary}
+Every $\HausdorffCompletionUp$ consumer of an accepted $\IsometricEmbeddingUp$ packet can use separatedness only through the displayed rows
+$$
+X,Y,F,D_X,D_Y,R,T,Q,P,N.
+$$
+The packet may certify the finite distance-reflection route needed by a separated consumer, but it does not identify completion classes, choose representatives, export quotient maps, or assert an external Hausdorff-completion theorem.
+\end{theorem}
+\begin{proof}
+Read the packet through the carrier definition. The only rows visible to a Hausdorff separatedness consumer are the source and target metric rows, the graph row, the two distance witnesses, the real-distance reflection row, and the transport and provenance rows.
+
+Apply the distance-preservation obligation and the separated consumer route. Together they give the finite route from source distance data to target distance data and then to the separated completion-facing consumer.
+
+The completion boundary theorem supplies the non-escape boundary. Because the carrier has no quotient map, selected representative, or ambient completion theorem, separatedness remains a consumer boundary over the displayed distance route.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding real-distance route determinacy]
+\label{thm:isometric-embedding-real-distance-route-determinacy}
+For every accepted $\IsometricEmbeddingUp$ packet $I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)$, each source-target distance comparison routes through exactly the displayed metric rows $X,Y$, graph row $F$, distance witnesses $D_X,D_Y$, real-distance row $R$, transport rows $T$, continuation route $Q$, package provenance $P$, and local $\NameCert_{\IsometricEmbeddingUp}$ row $N$. The route exports no host function equality, quotient completion class, or selected representative.
+\end{theorem}
+\begin{proof}
+Start with carrier admission. The admitted packet is precisely the displayed $\mathsf{BHist}$ surface with source and target metric rows, graph row, distance witnesses, real-distance reflection, transport, continuation, package provenance, and local naming.
+
+Apply classifier transport and the distance preservation obligation. Classifier transport keeps packet comparison componentwise, while distance preservation identifies the only source-to-target distance comparison as the passage from $D_X$ through $F$ to $D_Y$ and then to the $\RealUp$ row $R$.
+
+Use the separated consumer route together with the Hausdorff separation boundary. A separated or Hausdorff completion-facing consumer receives only the finite distance route $X,Y,F,D_X,D_Y,R,T,Q,P,N$ and no quotient map, host function equality, selected representative, completion class, or ambient completion theorem.
+
+Therefore the real-distance route is determined by the displayed BEDC rows. Any downstream completion or Hausdorff consumer must cite those rows rather than an external isometry object.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding sibling completion lattice]
+\label{thm:isometric-embedding-sibling-completion-lattice}
+The $\IsometricEmbeddingUp$ packet is read in the concrete-instance lattice after the metric and real-distance witnesses of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-real-namecert}, and before completion-facing consumers in \autoref{ch:concrete-instances-completionreflection-namecert} and \autoref{ch:concrete-instances-hausdorffcompletion-namecert}. Its carrier consumes $\MetricSpaceUp$ endpoint rows and $\RealUp$ distance rows, then exposes only the displayed completion-facing route $X,Y,F,D_X,D_Y,R,T,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and distance-preservation obligation. The source and target rows $X,Y$ are metric rows, while $D_X,D_Y$ and $R$ place their distance comparison in the $\RealUp$ surface.
+
+Apply real-distance route determinacy. It fixes the only source-target comparison route as $X,Y,F,D_X,D_Y,R,T,Q,P,N$, so downstream readers do not receive a host isometry object or a quotient map.
+
+The completion reflection handoff and Hausdorff separation boundary identify the consumers that read this packet. Therefore $\IsometricEmbeddingUp$ sits between the sibling metric and real chapters and the completion-facing chapters as a finite dependency lattice over displayed distance data.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding distance-route reflection lock]
+\label{thm:isometric-embedding-distance-route-reflection-lock}
+Every separated or completion-facing consumer comparing source and target distances in an accepted $\IsometricEmbeddingUp$ packet must route through the displayed metric rows $X,Y$, graph row $F$, distance witnesses $D_X,D_Y$, $\RealUp$ reflection row $R$, transport row $T$, continuation row $Q$, package provenance $P$, and local $\NameCert$ row $N$. The route cannot be replaced by host function equality, a quotient map, a selected representative, or an ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and classifier transport. \autoref{thm:isometric-embedding-carrier-admission} exposes exactly $X,Y,F,D_X,D_Y,R,T,Q,P,N$, and \autoref{thm:isometric-embedding-classifier-transport} keeps comparisons componentwise on those rows.
+
+Apply the distance-preservation obligation. \autoref{thm:isometric-embedding-distance-preservation-obligation} identifies the distance comparison as the displayed passage from the source witness $D_X$ through the graph row $F$ to the target witness $D_Y$ and then to the $\RealUp$ reflection row $R$.
+
+Now use the separated and completion-facing boundaries. \autoref{thm:isometric-embedding-separated-consumer-route}, \autoref{thm:isometric-embedding-completion-boundary}, and \autoref{thm:isometric-embedding-hausdorff-separation-boundary} confine separated and completion-facing consumers to the same finite packet.
+
+Finally invoke real-distance route determinacy. \autoref{thm:isometric-embedding-real-distance-route-determinacy} rules out host function equality, quotient completion classes, selected representatives, quotient maps, and ambient completion theorems as substitutes for the displayed BEDC route.
+\end{proof}
+
+\closureat{IsometricEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\IsometricEmbeddingUp}
+  \constructivestory{An $\IsometricEmbeddingUp$ packet is generated from source and target $\MetricSpaceUp$ rows, a displayed graph row, source and target $\mathsf{MetricDistanceWitness}$ rows, a $\RealUp$ distance-reflection row, componentwise transport, continuation, package provenance, and local naming data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, componentwise classifier, five-row naming-certificate surface, distance reflection, and completion-facing non-escape boundary for displayed isometric embeddings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host-level isometry theorems, quotient maps, selected representatives, ambient completion existence, extension uniqueness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, distance preservation, separated completion-facing reflection, and non-escape for the same packet.}
+\end{closurestatus}

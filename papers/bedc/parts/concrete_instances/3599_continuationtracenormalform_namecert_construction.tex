@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ContinuationTraceNormalFormUp$}
+\label{ch:concrete-instances-continuationtracenormalform-namecert}
+\origin{human}
+
+The $\ContinuationTraceNormalFormUp$ packet joins the finite small-step ledger of $\ContinuationTraceUp$ with the terminal-read surface of $\ContinuationBigStepUp$ and the typed normal-form boundary of $\TypedReductionNormalFormUp$. The terminal-read coordinate is consumed from \autoref{ch:concrete-instances-continuationbigstep-namecert} before the typed normal-form row is read. It records trace replay, terminal stability, typed normal-form readback, transports, routes, provenance, and local naming in one finite $\BHist$ carrier. It does not appeal to a host evaluator, a host conversion check, quotient behaviour, or a normalization oracle outside the displayed BEDC rows.
+
+\begin{definition}[ContinuationTraceNormalForm carrier]
+\label{def:continuation-trace-normal-form-carrier}
+A $\ContinuationTraceNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(S,T,R,Q,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source history row from which replay begins;
+\item $T$ is the finite $\ContinuationTraceUp$ small-step ledger, including its displayed source, mark-and-tail, target, and trace rows;
+\item $R$ is the terminal history row reached by replaying $T$ through the displayed $\Cont$ routes;
+\item $Q$ is the terminal-read witness exposed by the $\ContinuationBigStepUp$ surface;
+\item $V$ is the $\TypedReductionNormalFormUp$ row naming the normal-form classifier for the same terminal history;
+\item $H$ stores componentwise $\hsame$ transports for $S,T,R,Q,V$, provenance, and the local name;
+\item $C$ stores the displayed $\Cont$ routes that replay the trace ledger, reach the terminal row, consume the terminal-read witness, and expose the typed normal-form row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\BMark$, $\ContinuationTraceUp$, $\ContinuationBigStepUp$, $\TypedReductionNormalFormUp$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ContinuationTraceNormalFormUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It contains no host conversion relation, no quotient-normalization proof, no evaluator graph, no global confluence theorem, and no external normalizer.
+\end{definition}
+
+\begin{theorem}[ContinuationTraceNormalForm NameCert obligations]
+\label{thm:continuation-trace-normal-form-namecert-obligations}
+For the carrier of \autoref{def:continuation-trace-normal-form-carrier}, the local $\NameCert_{\ContinuationTraceNormalFormUp}$ surface consists exactly of carrier admission for
+$$
+Z=(S,T,R,Q,V,H,C,P,N),
+$$
+trace replay through the $\ContinuationTraceUp$ ledger, terminal-read exposure through the $\ContinuationBigStepUp$ row, typed normal-form readback through $V$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and non-escape from host conversion, quotient behaviour, evaluator graphs, global confluence, and normalization oracles.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:continuation-trace-normal-form-carrier}. The packet exposes exactly $S,T,R,Q,V,H,C,P,N$.
+
+Trace replay is read from $T$ and $C$. The $\ContinuationTraceUp$ row supplies finite small-step entries, and the displayed continuation route replays those entries from the source row $S$ to the terminal row $R$.
+
+Terminal exposure is then read through $Q$, and typed normal-form readback is read through $V$. The transport row $H$ moves the same displayed rows componentwise, while $P$ and $N$ record package provenance and local naming.
+
+The non-escape clauses follow from the carrier inventory. Since the packet has no coordinate for host conversion, quotient behaviour, an evaluator graph, global confluence, or an external normalizer, no local certificate projection can export one.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm non-escape]
+\label{thm:continuation-trace-normal-form-non-escape}
+Every accepted $\ContinuationTraceNormalFormUp$ packet exposes terminal trace normalization only through the displayed rows
+$$
+S,T,R,Q,V,H,C,P,N.
+$$
+A downstream consumer may read the source history, finite continuation trace, terminal row, terminal-read witness, typed normal-form row, componentwise transports, displayed continuation replay, package provenance, and local naming row. It cannot replace those rows by host conversion, quotient behaviour, a selected evaluator, a global confluence theorem, or a normalization oracle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The only replay data are the finite trace row $T$ and the displayed continuation routes in $C$.
+
+Use \autoref{thm:continuation-trace-normal-form-namecert-obligations}. The terminal row $R$, terminal-read witness $Q$, and normal-form row $V$ are reached only after the replayed trace has been consumed inside the same packet.
+
+Finally inspect the excluded objects. Each would require a separate carrier coordinate or a second consumer route outside $S,T,R,Q,V,H,C,P,N$. Since the accepted packet has neither, the terminal normal-form surface is exactly the displayed finite NameCert packet.
+\end{proof}
+
+\closureat{ContinuationTraceNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\ContinuationTraceNormalFormUp}
+  \constructivestory{A $\ContinuationTraceNormalFormUp$ packet is generated from a source history row, a finite $\ContinuationTraceUp$ ledger, a terminal row, a $\ContinuationBigStepUp$ terminal-read witness, a $\TypedReductionNormalFormUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, and \autoref{thm:continuation-trace-normal-form-non-escape} bind terminal trace normalization as a finite continuation-replay NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, typed subject reduction, global confluence, host conversion, evaluator correctness, quotient behaviour, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace replay, terminal-read exposure, typed normal-form readback, and non-escape for the $\ContinuationTraceNormalFormUp$ packet.}
+\end{closurestatus}

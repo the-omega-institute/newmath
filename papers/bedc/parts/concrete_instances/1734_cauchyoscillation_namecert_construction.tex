@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\CauchyOscillationUp$}
+\label{ch:concrete-instances-cauchyoscillation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the Cauchy oscillation criterion is read here as a finite tail-window object: a real-facing consumer may inspect named rational observations, an explicit modulus schedule, dyadic tolerances, and a displayed ledger of tail comparisons, but it never receives a quotient stream, a chosen limit, host real equality, or an ambient completeness principle. The $\CauchyOscillationUp$ packet is the finite oscillation surface consumed by $\CauchyCriterionUp$, $\UniformCauchyCriterionUp$, and later $\RealUp$ completion certificates.
+
+The $\CauchyOscillationUp$ packet is the single-tail finite-window sibling of $\UniformCauchyCriterionUp$. Its window, modulus, dyadic tolerance, and oscillation ledger rows are consumed by the finite-family route of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert} before any $\RealUp$ seal can be read.
+
+The oscillation packet consumes the $\RegSeqRatUp$ core of \autoref{ch:concrete-instances-regseqrat-namecert}, the threshold schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the dyadic-to-Real handoff of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[CauchyOscillation carrier]
+\label{def:cauchy-oscillation-carrier}
+A $\CauchyOscillationUp$ carrier is a finite $\BHist$ packet
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $W$ is a $\RegSeqRatUp$ or $\StreamNameUp$ finite tail-window row, displaying the named rational observations available to the consumer;
+\item $M$ is the $\CauchyModulusUp$ threshold schedule selecting the tail region inspected for each precision request;
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row whose dyadic budget is used by the oscillation test;
+\item $T$ is the $\DyadicTailBoundUp$ oscillation ledger comparing all named tail observations beyond the threshold supplied by $M$ under the tolerance supplied by $Q$;
+\item $S$ is the $\RealUp$ seal handoff reached only after the finite oscillation ledger has been accepted;
+\item $H$ records the componentwise $\hsame$ transports for the tail window, modulus schedule, dyadic tolerance, oscillation ledger, seal handoff, package row, and local certificate row;
+\item $C$ records the displayed $\Cont$ read routes by which consumers inspect $W,M,Q,T,S,H,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\CauchyCriterionUp$, $\UniformCauchyCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\DyadicTailBoundUp$, and $\RealUp$;
+\item $N$ is the local $\NameCert_{\CauchyOscillationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these displayed rows, their componentwise $\hsame$ transports, their $\Cont$ read routes, their package provenance, and their local naming rows.
+\end{definition}
+\leandef{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier}
+
+\begin{theorem}[CauchyOscillation NameCert obligations]
+\label{thm:cauchy-oscillation-namecert-obligations}
+The local $\NameCert_{\CauchyOscillationUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier habitation: the packet of \autoref{def:cauchy-oscillation-carrier} displays a finite tail-window row, a modulus threshold schedule, a dyadic tolerance row, an oscillation ledger, a $\RealUp$ seal handoff, transport routes, package provenance, and local naming provenance;
+\item common tail-window classifier: accepted packets are compared only by componentwise $\hsame$ and displayed $\Cont$ routes over $W,M,Q,T,S,H,C,P,N$;
+\item oscillation-bound exactness: every accepted comparison in $T$ uses the threshold row $M$, the tolerance row $Q$, and the finite tail observations in $W$ from the same packet;
+\item stability under $\hsame$ and $\Cont$: transported carriers preserve the selected tail window, threshold, tolerance, oscillation ledger, and seal handoff as one finite dependency packet;
+\item ledger non-escape: accepted carriers export no quotient stream, no selected limit, no host real equality, and no ambient completeness principle.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_namecert\_obligations}
+\leanvariant{BEDC.Derived.CauchyOscillationUp.CauchyOscillationPacket\_semantic\_name\_certificate}
+\begin{proof}
+Carrier habitation is the projection of the finite tuple
+$$
+O=(W,M,Q,T,S,H,C,P,N).
+$$
+Each coordinate is a displayed $\BHist$ row or a displayed route between such rows, so the packet supplies the advertised tail window, threshold schedule, tolerance row, oscillation ledger, seal handoff, provenance, and local certificate data.
+
+For the common classifier, compare two accepted packets componentwise through the stored $\hsame$ rows and replay only the $\Cont$ routes recorded in $C$. Because the classifier has no further coordinate, it can read only $W,M,Q,T,S,H,C,P,N$ and cannot substitute an external tail object.
+
+Oscillation-bound exactness is read from the paired rows $M,Q,T$ together with $W$. The threshold selected by $M$ determines which tail observations in $W$ are compared, the dyadic budget in $Q$ determines the comparison radius, and the ledger $T$ records exactly those finite comparisons.
+
+Stability follows by transporting the same rows through $H$ and then replaying the same read routes in $C$. The package row $P$ records the $\CauchyCriterionUp$, $\UniformCauchyCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\DyadicTailBoundUp$, and $\RealUp$ source certificates, while $N$ records the local certificate row.
+
+Finally, the carrier has no coordinate for quotient streams, selected limits, host real equality, or ambient completeness. Repacking the projections therefore gives the five NameCert obligations and the stated non-escape boundary.
+\end{proof}
+
+\closureat{CauchyOscillationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyOscillationUp}
+  \constructivestory{A $\CauchyOscillationUp$ packet is generated from a finite $\RegSeqRatUp$ or $\StreamNameUp$ tail window, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a $\DyadicTailBoundUp$ oscillation ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, common tail-window classifier, oscillation-bound exactness, transport stability, and ledger non-escape for constructive Cauchy oscillation packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, real completeness, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed tail-window, modulus, tolerance, oscillation-ledger, and seal-handoff rows.}
+\end{closurestatus}
+
+\begin{theorem}[CauchyOscillation seal-handoff factorization]
+\label{thm:cauchy-oscillation-seal-handoff-factorization}
+Let
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+be an accepted $\CauchyOscillationUp$ carrier, and suppose that $S$ is the exported $\RealUp$ seal handoff of $O$. Every displayed consumer read in $C$ whose terminal row is $S$ factors through the same finite oscillation surface
+$$
+(W,M,Q,T)
+$$
+of that packet. More explicitly, such a read has a finite prefix reading the tail-window row $W$, the threshold schedule $M$, and the dyadic tolerance row $Q$; it then reads the oscillation ledger $T$ whose comparisons are made exactly from those three rows; only after that ledger prefix is accepted may the terminal projection expose $S$. No consumer read of $S$ may replace this prefix by a quotient stream, a selected limit, host real equality, an ambient completeness principle, or rows taken from a different $\CauchyOscillationUp$ packet.
+\end{theorem}
+\begin{proof}
+By \autoref{def:cauchy-oscillation-carrier}, the carrier has exactly the displayed rows
+$$
+W,M,Q,T,S,H,C,P,N.
+$$
+The row $S$ is not an independent real object: it is the $\RealUp$ seal handoff reached only after the finite oscillation ledger has been accepted. Thus any consumer read whose terminal row is $S$ must be one of the displayed $\Cont$ routes recorded in $C$, and its final step is a projection from the accepted packet rather than an external construction of a real.
+
+It remains to identify the prefix that makes the seal available. The ledger row $T$ is specified as the $\DyadicTailBoundUp$ oscillation ledger comparing the named tail observations in $W$ beyond the threshold supplied by $M$ under the dyadic tolerance supplied by $Q$. Hence a read of $T$ cannot be separated from the same $W$, $M$, and $Q$ coordinates of $O$: the observations, cutoff schedule, and tolerance budget are precisely the data from which the ledger comparisons are recorded.
+
+The NameCert obligations in \autoref{thm:cauchy-oscillation-namecert-obligations} make this dependence stable and exhaustive. Oscillation-bound exactness says that every accepted comparison in $T$ uses the threshold row $M$, the tolerance row $Q$, and the finite tail observations in $W$ from the same packet. Stability under $\hsame$ and $\Cont$ says that transported reads preserve the selected tail window, threshold, tolerance, ledger, and seal handoff as one finite dependency packet. Ledger non-escape says that the accepted carrier exports no quotient stream, selected limit, host real equality, or ambient completeness principle.
+
+Therefore a displayed route to $S$ has no available input other than the accepted packet rows and cannot bypass the accepted ledger. Its terminal seal read factors through the finite prefix $W,M,Q,T$ of the same carrier, with $T$ itself determined by $W$, $M$, and $Q$. This is the asserted handoff factorization.
+\end{proof}

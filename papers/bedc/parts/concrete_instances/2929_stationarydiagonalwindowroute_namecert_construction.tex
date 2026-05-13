@@ -1,0 +1,183 @@
+\chapter{A Concrete Naming Certificate for $\StationaryDiagonalWindowRouteUp$}
+\label{ch:concrete-instances-stationarydiagonalwindowroute-namecert}
+\origin{human}
+
+The $\StationaryDiagonalWindowRouteUp$ packet records the finite route by which a transported stationary $\RatUp$ classifier is read as a $\RealUp$ observation window. It keeps the rational seed, constant $\StreamNameUp$ row, $\RegSeqRatUp$ seal-consumption row, $\DyadicRatCoreUp$ observation ledger, real finite-window row, transport table, continuation routes, provenance, and local naming row in one finite boundary packet. It does not export quotient stream equality, selected limit data, host real equality, or an unbounded completion principle.
+
+\begin{definition}[Stationary diagonal window route carrier]
+\label{def:stationary-diagonal-window-route-carrier}
+A $\StationaryDiagonalWindowRouteUp$ carrier is a finite $\BHist$ packet
+$$
+W=(Q,S,G,D,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $Q$ is the transported stationary $\RatUp$ seed row, including the two rational history carriers and their $\mathsf{RatHistoryClassifier}$ row;
+\item $S$ is the constant $\StreamNameUp$ window row induced by $Q$;
+\item $G$ is the $\RegSeqRatUp$ finite seal-consumption row for the same window;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger read from that window;
+\item $R$ is the $\RealUp$ finite-window classifier row reached from $S,G,D$;
+\item $H$ stores componentwise $\hsame$ transports for $Q,S,G,D,R,P,N$;
+\item $C$ stores the displayed $\Cont$ routes from $Q$ to $S$, from $S$ to $G$, from $S$ to $D$, and from $D,S,G$ to $R$;
+\item $P$ records $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\StationaryDiagonalWindowRouteUp}$ row.
+\end{enumerate}
+The carrier is a finite route packet for stationary window reads. It contains no coordinate for quotient streams, selected real limits, host real equality, non-stationary tails, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Stationary diagonal window route NameCert obligations]
+\label{thm:stationary-diagonal-window-route-namecert-obligations}
+The local $\NameCert_{\StationaryDiagonalWindowRouteUp}$ surface for \autoref{def:stationary-diagonal-window-route-carrier} consists exactly of carrier admission for $W=(Q,S,G,D,R,H,C,P,N)$, stationary $\RatUp$ seed exposure, constant $\StreamNameUp$ window exposure, $\RegSeqRatUp$ seal-consumption exposure, $\DyadicRatCoreUp$ ledger exposure, $\RealUp$ finite-window classifier exposure, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $W$. The rows $Q,S,G,D,R$ expose the stationary rational seed, constant stream window, regular-sequence seal row, dyadic observation ledger, and real-facing finite-window classifier.
+
+The route obligations are read from $C$. They force every stream, regular-sequence, dyadic, and real-facing read to pass through the constant window induced by the same rational seed row $Q$.
+
+The transport, provenance, and naming obligations are the rows $H,P,N$. Since the carrier has no coordinate for quotient streams, selected real limits, host equality, non-stationary tails, or ambient completeness, these displayed rows exhaust the local naming surface.
+\end{proof}
+\leanchecked{BEDC.Derived.StationaryDiagonalWindowRouteUp.StationaryDiagonalWindowRoutePacket\_namecert\_obligations}
+
+\begin{theorem}[Stationary diagonal window route non-escape]
+\label{thm:stationary-diagonal-window-route-nonescape}
+Every transported stationary $\RealUp$ finite-window read exported by an accepted $\StationaryDiagonalWindowRouteUp$ carrier factors through the finite rows
+$$
+Q,S,G,D,R,H,C,P,N.
+$$
+The consumer may inspect the $\RatUp$ seed classifier, constant $\StreamNameUp$ window, $\RegSeqRatUp$ seal-consumption row, $\DyadicRatCoreUp$ ledger, $\RealUp$ finite-window classifier, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and nothing else.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and inspect its consumer-facing rows. The only route out of the stationary rational seed is the displayed continuation from $Q$ to the constant stream window $S$.
+
+The regular-sequence and dyadic reads are then forced by the routes from $S$ to $G$ and from $S$ to $D$. The real-facing finite-window row $R$ receives only those rows together with the transport, provenance, and naming rows.
+
+Thus any certified finite observation of the transported stationary diagonal is exhausted by the displayed route packet. No quotient stream comparison, selected limit, host real equality, non-stationary tail, or ambient completeness datum can escape from the carrier.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route classifier stability]
+\label{thm:stationary-diagonal-window-route-classifier-stability}
+Let $W=(Q,S,G,D,R,H,C,P,N)$ and $W'=(Q',S',G',D',R',H',C',P',N')$ be accepted $\StationaryDiagonalWindowRouteUp$ carriers. If the component rows $Q,S,G,D,R,P,N$ and $Q',S',G',D',R',P',N'$ are related by the displayed $\hsame$ transports stored in $H$ and $H'$, then every classifier-visible comparison of the two route packets is componentwise: it compares the transported $\RatUp$ seed rows, constant $\StreamNameUp$ windows, $\RegSeqRatUp$ seal-consumption rows, $\DyadicRatCoreUp$ ledgers, $\RealUp$ finite-window rows, provenance rows, and local $\NameCert$ rows through those transports and through no other object.
+\end{theorem}
+\begin{proof}
+Project the two carriers with \autoref{def:stationary-diagonal-window-route-carrier}. Their classifier-visible coordinates are exactly the displayed rows $Q,S,G,D,R,H,C,P,N$ and $Q',S',G',D',R',H',C',P',N'$.
+
+Use the local NameCert obligations of \autoref{thm:stationary-diagonal-window-route-namecert-obligations}. They require all stationary seed exposure, constant-window exposure, seal consumption, dyadic ledger exposure, real finite-window exposure, transport, route replay, provenance, and naming reads to pass through the displayed packet rows.
+
+Finally apply \autoref{thm:stationary-diagonal-window-route-nonescape}. Since no quotient stream equality, selected limit, host real equality, non-stationary tail, or ambient completeness coordinate is present, the classifier stability claim is exhausted by componentwise $\hsame$ comparison of the named rows.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route constant-window exactness]
+\label{thm:stationary-diagonal-window-route-constant-window-exactness}
+For an accepted $\StationaryDiagonalWindowRouteUp$ carrier $W=(Q,S,G,D,R,H,C,P,N)$, the $\StreamNameUp$ window row $S$ is exactly the constant window induced by the transported stationary $\RatUp$ seed row $Q$. Every $\RegSeqRatUp$ read through $G$, every $\DyadicRatCoreUp$ ledger read through $D$, and every $\RealUp$ finite-window read through $R$ consumes that same constant window and does not select a non-stationary tail.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The row $Q$ is the transported stationary rational seed, and $S$ is declared as the constant $\StreamNameUp$ window induced by that seed.
+
+Read the route row $C$. The route obligations in \autoref{thm:stationary-diagonal-window-route-namecert-obligations} force the route from $Q$ to $S$, from $S$ to $G$, from $S$ to $D$, and from $D,S,G$ to $R$.
+
+The non-escape theorem then rules out any alternate source for the window. A consumer cannot replace the constant window by quotient stream equality, a selected limit, host real equality, a non-stationary tail, or ambient completeness data, so the window consumed by $G,D,R$ is the one induced by $Q$.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route seal-consumption handoff]
+\label{thm:stationary-diagonal-window-route-seal-consumption-handoff}
+An accepted $\StationaryDiagonalWindowRouteUp$ carrier $W=(Q,S,G,D,R,H,C,P,N)$ hands the $\RegSeqRatUp$ seal-consumption row $G$ to the $\RealUp$ finite-window row $R$ only through the displayed route packet. The handoff consumes $Q,S,G,D,R,H,C,P,N$: the stationary $\RatUp$ seed, constant $\StreamNameUp$ window, seal-consumption row, dyadic ledger, real window row, componentwise transports, continuation routes, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+First project the accepted packet and isolate the handoff rows. The carrier supplies $G$ as the regular-sequence seal-consumption row and $R$ as the real-facing finite-window classifier row.
+
+Next follow the displayed continuation routes. The NameCert obligations route $Q$ to $S$, route $S$ to $G$ and $D$, and route $D,S,G$ to $R$, with $H$ supplying the componentwise transports and $P,N$ supplying provenance and local naming.
+
+The handoff has no further analytic coordinate. By non-escape, it cannot consume quotient streams, selected limits, host real equality, non-stationary tails, or ambient completeness, so the $\RegSeqRatUp$ to $\RealUp$ handoff is exactly the finite packet $Q,S,G,D,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route stationary seed exposure]
+\label{thm:stationary-diagonal-window-route-stationary-seed-exposure}
+For an accepted $\StationaryDiagonalWindowRouteUp$ carrier $W=(Q,S,G,D,R,H,C,P,N)$, the first readable analytic row is the transported stationary $\RatUp$ seed row $Q$. The rows for $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ become readable only after the displayed continuation route from $Q$ to the constant window row $S$ has been exposed in $C$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stationary-diagonal-window-route-carrier}. Its first coordinate is the transported stationary rational seed row $Q$, while the later analytic coordinates are $S,G,D,R$.
+
+Now read the route coordinate $C$. The NameCert obligations in \autoref{thm:stationary-diagonal-window-route-namecert-obligations} display the route from $Q$ to $S$ before any route to $G,D,R$ is available.
+
+The non-escape theorem supplies the boundary check. Since no quotient stream, selected real limit, host equality, non-stationary tail, or ambient completeness coordinate is present, a consumer cannot read a stream, regular-sequence, dyadic, or real row before passing through the stationary seed route in $C$.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route constant-window routing]
+\label{thm:stationary-diagonal-window-route-constant-window-routing}
+For an accepted $\StationaryDiagonalWindowRouteUp$ carrier $W=(Q,S,G,D,R,H,C,P,N)$, the row $S$ is the only constant $\StreamNameUp$ window induced by the transported stationary seed $Q$ inside the packet. The rows $G$ and $D$ are reachable only through the displayed packet coordinates $S,H,C,P,N$, and the finite real-facing row $R$ consumes them only through the same route surface.
+\end{theorem}
+\begin{proof}
+The carrier definition identifies $S$ as the constant stream window induced by $Q$. No second stream-window coordinate occurs in the tuple $W=(Q,S,G,D,R,H,C,P,N)$.
+
+The route coordinate $C$ then fixes the downstream access pattern. The only displayed routes out of the stream row are from $S$ to the seal-consumption row $G$ and from $S$ to the dyadic ledger row $D$, with $H$ carrying componentwise transport and $P,N$ carrying provenance and naming.
+
+Finally apply \autoref{thm:stationary-diagonal-window-route-constant-window-exactness}. It rules out any non-stationary tail or alternate window source for the reads through $G,D,R$, so the constant window route is exactly the one carried by $S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route dyadic ledger exposure]
+\label{thm:stationary-diagonal-window-route-dyadic-ledger-exposure}
+Every $\RealUp$ finite-window read $R$ exported by an accepted $\StationaryDiagonalWindowRouteUp$ carrier consumes the $\DyadicRatCoreUp$ ledger $D$ and the $\RegSeqRatUp$ seal row $G$ through the displayed route
+$$
+Q,S,G,D,R,H,C,P,N.
+$$
+The read exports no quotient stream, selected real limit, host equality, non-stationary tail, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with the handoff theorem \autoref{thm:stationary-diagonal-window-route-seal-consumption-handoff}. It says that the regular-sequence seal row $G$ reaches the real finite-window row $R$ only through the finite route packet.
+
+The dyadic ledger coordinate is tied to the same route. By \autoref{thm:stationary-diagonal-window-route-namecert-obligations}, the route row $C$ displays $S$ to $D$ and $D,S,G$ to $R$, while $H,P,N$ provide transport, provenance, and local naming.
+
+The non-escape theorem completes the exposure claim. The carrier has no coordinate from which a quotient stream, selected limit, host equality, non-stationary tail, or ambient completeness principle could be exported, so the real finite-window read is exactly the displayed dyadic-ledger and seal-consumption route.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route public export]
+\label{thm:stationary-diagonal-window-route-public-export}
+For an accepted $\StationaryDiagonalWindowRouteUp$ carrier
+$$
+W=(Q,S,G,D,R,H,C,P,N),
+$$
+the rows $Q,S,G,D,R,H,C,P,N$ form the public $\RealUp$-and-completion handoff from a transported stationary $\RatUp$ seed through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the $\RealUp$ finite-window classifier. Any consumer of the public export factors through that finite packet before reading a real-facing or completion-facing boundary.
+\end{theorem}
+\begin{proof}
+Start with the row inventory. The NameCert obligations of \autoref{thm:stationary-diagonal-window-route-namecert-obligations} identify $Q,S,G,D,R,H,C,P,N$ as the carrier, stationary seed, constant window, seal-consumption, dyadic ledger, finite real-window, transport, route, provenance, and local naming surface.
+
+Next route the stationary seed through the stream window. By \autoref{thm:stationary-diagonal-window-route-constant-window-exactness}, the row $S$ is exactly the constant $\StreamNameUp$ window induced by $Q$, and every downstream $G,D,R$ read consumes that same window.
+
+Now attach the real-and-completion handoff. The seal-consumption handoff of \autoref{thm:stationary-diagonal-window-route-seal-consumption-handoff} sends $G$ to $R$ only through the displayed packet, while the dyadic ledger exposure of \autoref{thm:stationary-diagonal-window-route-dyadic-ledger-exposure} forces the $D$ row into the same route.
+
+Finally apply non-escape. \autoref{thm:stationary-diagonal-window-route-nonescape} excludes quotient streams, selected limits, host equality, non-stationary tails, and ambient completeness from the carrier, so any public real-facing or completion-facing consumer must factor through the finite rows $Q,S,G,D,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window route formal target]
+\label{thm:stationary-diagonal-window-route-formal-target}
+The public export of \autoref{thm:stationary-diagonal-window-route-public-export} is the formal target for $\StationaryDiagonalWindowRouteUp$: every accepted carrier
+$$
+W=(Q,S,G,D,R,H,C,P,N)
+$$
+exposes the stationary $\RatUp$ seed, constant $\StreamNameUp$ window, $\RegSeqRatUp$ seal row, $\DyadicRatCoreUp$ ledger, $\RealUp$ finite-window row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row as the complete consumer surface.
+\end{theorem}
+\begin{proof}
+Start with the public export theorem. It identifies $Q,S,G,D,R,H,C,P,N$ as the finite real-facing and completion-facing handoff from the transported stationary rational seed through the stream, regular-sequence, dyadic, and real rows.
+
+The dyadic ledger exposure theorem supplies the ledger side of the target surface. It forces every $\RealUp$ finite-window read to consume the $\DyadicRatCoreUp$ ledger $D$ together with the $\RegSeqRatUp$ seal row $G$ through the displayed route.
+
+The seal-consumption handoff supplies the regular-sequence side. It places $G$ on the same finite route to $R$, with $H,C,P,N$ carrying transport, continuation, provenance, and local naming.
+
+Finally apply non-escape. Since the carrier exports no quotient stream, selected limit, host real equality, non-stationary tail, or ambient completeness coordinate, these displayed rows form the complete consumer surface for the later Lean target.
+\end{proof}
+
+\closureat{StationaryDiagonalWindowRouteUp}{seedStr}
+\closureat{StationaryDiagonalWindowRouteUp}{obligationStr}
+\closureat{StationaryDiagonalWindowRouteUp}{scopedStr}
+
+\begin{closurestatus}{\StationaryDiagonalWindowRouteUp}
+  \constructivestory{A $\StationaryDiagonalWindowRouteUp$ packet is generated from a transported stationary $\RatUp$ seed row, a constant $\StreamNameUp$ window row, a $\RegSeqRatUp$ seal-consumption row, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ finite-window classifier, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:stationary-diagonal-window-route-carrier}, \autoref{thm:stationary-diagonal-window-route-namecert-obligations}, \autoref{thm:stationary-diagonal-window-route-nonescape}, \autoref{thm:stationary-diagonal-window-route-stationary-seed-exposure}, \autoref{thm:stationary-diagonal-window-route-constant-window-routing}, and \autoref{thm:stationary-diagonal-window-route-dyadic-ledger-exposure} bind the finite route packet for transported stationary RealUp window reads over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.StationaryDiagonalWindowRouteUp.StationaryDiagonalWindowRoutePacket\_namecert\_obligations}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, selected real limits, host real equality, non-stationary tails, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{The next step is Lean verification for the same stationary $\RatUp$ to $\StreamNameUp$ to $\RegSeqRatUp$ to $\DyadicRatCoreUp$ to $\RealUp$ route packet.}
+\end{closurestatus}

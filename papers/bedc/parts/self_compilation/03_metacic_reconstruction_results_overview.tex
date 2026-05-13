@@ -1,0 +1,28 @@
+\subsection{Results Overview}\label{subsec:reconstruction-results-overview}
+
+The formalized MetaCIC result set covers the main closed reconstruction
+claims needed by this chapter. Closed binder-domain substitute preservation is
+proved by
+$\mathrm{substitute\_preserves\_typing\_closed\_binder\_domains}$, giving the
+complete closed theorem over the shift-aware typing substrate. Subject
+reduction is represented by the main theorem
+$\mathrm{subject\_reduction}$ together with the beta case, the application
+congruence cases such as $\mathrm{subject\_reduction\_congApp1}$, and the
+closed body cases for lambda and Pi constructors.
+
+The confluence layer supplies the parallel reduction framework
+$\mathrm{BetaParallel}$, beta-star transport lemmas
+$\mathrm{betaStarStep\_*}$, and atom-shape diamond components for variables
+and sorts. The normalization layer proves that atoms do not reduce:
+$\mathrm{sort\_no\_beta}$, $\mathrm{closed\_var\_no\_beta}$, and
+$\mathrm{closed\_atom\_normal\_form}$ close the represented normal-form facts
+for the atomic fragment.
+
+The executable demonstration layer contains the closed-atom inference
+theorems $\mathrm{inferAtom\_sort\_sound}$ and
+$\mathrm{inferAtom\_var\_sound}$, plus a concrete typed-term gallery with
+roughly fifteen examples spanning variables, Pi terms, dependent identity
+terms, and applications. All listed results are axiom-free under
+\texttt{\#print axioms}; the audited dependency sets contain no
+\texttt{propext}, \texttt{Classical.choice}, or \texttt{Quot.sound}.
+

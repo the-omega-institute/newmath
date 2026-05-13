@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\ReachabilityGramianUp$}
+\label{ch:concrete-instances-reachabilitygramian-namecert}
+
+\origin{human}
+The $\ReachabilityGramianUp$ interface records the finite reachability Gramian packet of a finite-dimensional linear control system. Its textbook source is the finite-horizon controllability Gramian of Kalman, \emph{On the General Theory of Control Systems} (1960), and the finite matrix-ledger presentation follows the control-theory notation of Kailath, Sayed, and Hassibi, \emph{Linear Estimation} (2000). The BEDC certificate is only the finite discovery surface consumed by $\ControlControllabilityUp$, $\RiccatiUp$, $\LQRUp$, and $\ModelPredictiveControlUp$.
+
+\section{Carrier definition}
+\label{sec:reachability-gramian-carrier}
+
+\begin{definition}[ReachabilityGramianUp finite carrier]
+\label{def:reachability-gramian-carrier}
+A $\ReachabilityGramianUp$ carrier is a finite $\BHist$ packet with rows
+$$
+\begin{aligned}
+(A,B,n,W,L,C,P,N).
+\end{aligned}
+$$
+Here $A$ is the displayed transition-matrix row, $B$ is the displayed control-matrix row, $n$ is a unary finite-horizon row, $W$ is the displayed finite Gramian-sum ledger with summand columns
+$$
+\begin{aligned}
+BB^{\mathsf T},\quad ABB^{\mathsf T}A^{\mathsf T},\quad A^2BB^{\mathsf T}(A^{\mathsf T})^2,\quad \ldots,\quad A^{n-1}BB^{\mathsf T}(A^{\mathsf T})^{n-1},
+\end{aligned}
+$$
+$L$ is the componentwise $\hsame$ transport ledger for the transition, control, horizon, summand, and Gramian endpoint rows, $C$ is the family of $\Cont$ routes reading every multiplication, transpose, column append, and finite sum from displayed $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\DynSystemUp$, and $\ControlControllabilityUp$ rows, $P$ is the package provenance naming those dependency certificates together with $\RiccatiUp$ and $\LQRUp$, and $N$ is the local $\NameCert_{\ReachabilityGramianUp}$ row.
+
+The classifier compares accepted packets only by componentwise $\hsame$ transport of the $A,B,n,W,L,C,P,N$ rows. It does not quotient by a host reachable subspace, analytic trajectory, controllability rank predicate, covariance equation, or external control-system object.
+\end{definition}
+
+\section{Certificate surface}
+\label{sec:reachability-gramian-certificate}
+
+\begin{theorem}[ReachabilityGramianUp NameCert obligations]
+\label{thm:reachability-gramian-namecert-obligations}
+The local $\NameCert_{\ReachabilityGramianUp}$ obligation surface has exactly five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed $A,B,n,W,L,C,P,N$ packet of \autoref{def:reachability-gramian-carrier};
+\item classifier transport under componentwise $\hsame$ of the transition, control, horizon, Gramian, summand-ledger, continuation, package, and local certificate rows;
+\item finite sum ledger exactness, saying that the Gramian endpoint inside $W$ is read only as the finite sum of the displayed summand columns inside $W$;
+\item controllability handoff, saying that the reachability-column surface of $\ControlControllabilityUp$ can consume $A$, $B$, $n$, $W$, and $L$ only through the displayed $\Cont$ and $\Pkg$ rows;
+\item non-escape, saying that no accepted route exports a host reachable subspace, analytic trajectory, rank theorem, infinite-horizon Gramian, covariance process, or external solver.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.ReachabilityGramianUp.ReachabilityGramianBHistCarrier\_namecert\_obligations}
+\begin{proof}
+The carrier row is \autoref{def:reachability-gramian-carrier}. It displays the transition row, control row, unary horizon, Gramian endpoint, summand ledger, continuation routes, package provenance, and local naming row as finite $\BHist$ coordinates.
+
+Classifier transport is componentwise. Replacing each displayed coordinate by an $\hsame$-matched coordinate leaves the same finite packet shape, so the transported packet is again admitted by the carrier.
+
+For the finite sum ledger, inspect $W$. Each summand is a displayed matrix product formed from $A$, $B$, and transposes, and the Gramian endpoint is the finite fold of precisely those rows. The continuation routes in $C$ record every multiplication and the final sum, while $L$ records the permitted componentwise transports, so no extra analytic Gramian object is available.
+
+The controllability handoff is a projection to the shared $A$, $B$, and $n$ rows and to the finite reachability columns named by $W$. Because those rows are already packaged with $\ControlControllabilityUp$ provenance and transported only through $L$, a downstream controllability certificate can read them without importing host semantics.
+
+Non-escape follows from constructor inspection of the carrier. The packet has no coordinate for a host reachable subspace, analytic trajectory, rank theorem, infinite-horizon Gramian, covariance process, or external solver, so none of those objects can be projected by a consumer route.
+\end{proof}
+
+\begin{theorem}[ReachabilityGramianUp controllability handoff]
+\label{thm:reachability-gramian-controllability-handoff}
+Every $\ControlControllabilityUp$, $\RiccatiUp$, $\LQRUp$, or $\ModelPredictiveControlUp$ consumer of an accepted $\ReachabilityGramianUp$ packet can read only the displayed $A$ row, $B$ row, unary horizon row $n$, finite Gramian-summand and endpoint row $W$, $\hsame$ transport ledger $L$, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:reachability-gramian-carrier}. The handoff supplies no host reachable-space quotient, no analytic state trajectory, and no infinite-horizon controllability theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the rows $A,B,n,W,L,C,P,N$. The first three rows are the shared finite control-system coordinates, while $W$ records the finite Gramian discovery ledger and $L$ records the componentwise transport ledger over those same coordinates.
+
+A $\ControlControllabilityUp$ consumer reads reachability columns through the displayed transition, control, horizon, and continuation rows. A $\RiccatiUp$, $\LQRUp$, or $\ModelPredictiveControlUp$ consumer reads only the resulting finite matrix endpoint and the package provenance that names the source certificates.
+
+The carrier contains no row for a host reachable-space quotient, analytic state trajectory, or infinite-horizon controllability theorem. Therefore the handoff is exactly the finite BEDC packet projection and does not add a control-theory semantic bridge.
+\end{proof}
+
+\begin{theorem}[ReachabilityGramianUp ledger non-escape]
+\label{thm:reachability-gramian-ledger-nonescape}
+Every exported route from an accepted $\ReachabilityGramianUp$ packet factors through the finite rows $A,B,n,W,L,C,P,N$ of \autoref{def:reachability-gramian-carrier}. In particular, the packet exports no ambient reachable subspace, no analytic trajectory family, no stochastic covariance process, no infinite-horizon Gramian, no rank-completeness theorem, and no external numerical solver.
+\end{theorem}
+\begin{proof}
+Take an exported consumer route and project the carrier. The available coordinates are exactly the transition row, control row, horizon row, finite Gramian-summand and endpoint row, transport ledger, continuation routes, package provenance, and local certificate row.
+
+The NameCert obligations account for carrier admission, classifier transport, finite sum exactness, controllability handoff, and non-escape. Each obligation is stated over those displayed coordinates and is preserved by the stored $\hsame$ and $\Cont$ routes.
+
+Thus every export factors through the listed finite coordinates. Since the carrier contains no ambient reachable subspace, analytic trajectory family, stochastic covariance process, infinite-horizon Gramian, rank-completeness theorem, or external numerical solver, no accepted route can supply one downstream.
+\end{proof}
+
+\closureat{ReachabilityGramianUp}{seedStr}
+
+\begin{closurestatus}{\ReachabilityGramianUp}
+  \constructivestory{A $\ReachabilityGramianUp$ packet is generated from displayed transition and control matrix rows, a unary finite horizon, the finite Gramian summand and endpoint row, componentwise $\hsame$ transport ledger, $\Cont$ routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, five-row NameCert obligation surface, controllability handoff, and ledger non-escape for reachability Gramian packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host reachable-subspace semantics, analytic trajectories, stochastic covariance theory, infinite-horizon Gramians, rank-completeness, numerical solvers, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked finite-ledger theorems for finite sum exactness, controllability handoff, and non-escape.}
+\end{closurestatus}

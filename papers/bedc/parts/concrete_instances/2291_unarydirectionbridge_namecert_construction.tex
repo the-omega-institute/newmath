@@ -1,0 +1,467 @@
+\chapter{A Concrete Naming Certificate for $\UnaryDirectionBridgeUp$}
+\label{ch:concrete-instances-unarydirectionbridge-namecert}
+\origin{human}
+
+The $\UnaryDirectionBridgeUp$ interface packages the finite bridge by which the unary $\NatUp$ spine and the zero-spine $\AxisNatUp$ surface can be compared without identifying their kernel carriers. Its local certificate records the two source rows, the bridge witness, the one-point kernel intersection, standard-boundary interpretation, ledger policy, and public naming row. The packet is a comparison certificate over displayed BEDC rows; it is not a kernel equality between $\NatUp$ and $\AxisNatUp$.
+
+The dependency anchors are $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the Lean-side bridge object $\mathsf{UnaryDirectionBridge}$.
+
+\begin{definition}[UnaryDirectionBridge NameCert carrier]
+\label{def:unary-direction-bridge-namecert-carrier}
+A $\UnaryDirectionBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+U=(N,A,B,K,S,L,H,C,P,M)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $N$ is the $\NatUp$ unary-spine source row, read through the $\mathsf{Unary}$ predicate over $\Eone$ histories;
+\item $A$ is the $\AxisNatUp$ zero-spine source row, read through the $\mathsf{ZeroSpine}$ predicate over $\Ezero$ histories;
+\item $B$ is the local bridge row naming $\mathsf{UnaryDirectionBridge}$ and its two displayed source carriers;
+\item $K$ is the kernel-distinctness ledger asserting that the unary and zero-spine carriers intersect only at $\emp$;
+\item $S$ is the standard-boundary row, matching nonempty unary histories with nonempty zero-spine histories by length and preserving the $\AddUp/\AxisAddUp$ consumer route at the standard boundary;
+\item $L$ is the ledger policy row, recording that bridge reads must cite $N,A,B,K,S$ before exporting any comparison;
+\item $H$ stores componentwise $\hsame$ transports for the two source rows, bridge row, kernel-distinctness witness, standard-boundary row, ledger policy row, and local naming row;
+\item $C$ stores displayed $\Cont$ routes for unary inspection, zero-spine inspection, bridge comparison, standard-boundary readback, ledger audit, and NameCert comparison;
+\item $P$ is the $\Pkg$ provenance row naming $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and $\mathsf{UnaryDirectionBridge}$;
+\item $M$ is the local $\NameCert_{\UnaryDirectionBridgeUp}$ row.
+\end{enumerate}
+The classifier compares accepted bridge packets only after transporting these rows componentwise. It has no coordinate for a kernel equality between $\NatUp$ and $\AxisNatUp$, no quotient identifying unary and zero-spine histories, and no host-level natural-number equality beyond the displayed standard-boundary row.
+\end{definition}
+
+\begin{theorem}[UnaryDirectionBridge kernel-distinct obligations]
+\label{thm:unary-direction-bridge-kernel-distinct-obligations}
+The local $\NameCert_{\UnaryDirectionBridgeUp}$ obligation surface must expose the $\NatUp$ unary source row $N$, the $\AxisNatUp$ zero-spine source row $A$, the bridge row $B$, and the kernel-distinctness ledger $K$. Every accepted bridge comparison first reads the two source classifiers, then cites $K$ to rule out a kernel-level carrier collapse except at $\emp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_kernel\_distinct\_obligations}
+\begin{proof}
+Project the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. The source rows $N$ and $A$ are separate coordinates, so a comparison cannot begin from a single shared carrier.
+
+The bridge row $B$ names the comparison object, while $K$ records the only permitted kernel intersection. Reading $K$ before the standard-boundary row forces the comparison to treat unary and zero-spine histories as distinct BEDC predicates.
+
+The transport rows $H$ and continuation routes $C$ preserve this separation for downstream consumers. Since the carrier contains no equality coordinate identifying $N$ and $A$, the obligations close exactly as a kernel-distinct bridge surface.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge standard boundary]
+\label{thm:unary-direction-bridge-standard-boundary}
+For an accepted $\UnaryDirectionBridgeUp$ carrier $U=(N,A,B,K,S,L,H,C,P,M)$, the public standard boundary is the displayed row $S$: nonempty unary histories are matched with nonempty zero-spine histories by the same finite length, and the $\AddUp/\AxisAddUp$ consumer route is read only after the source rows and the kernel-distinctness ledger have been transported through $H$ and $C$.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_standard\_boundary\_readout}
+\begin{proof}
+Begin with an accepted bridge packet and project the standard-boundary row $S$. Its inputs are the two already displayed source rows, not an ambient natural-number object.
+
+The row $K$ is read before $S$, so the boundary comparison is licensed only after the paper has recorded the one-point kernel intersection. The transports in $H$ and the routes in $C$ then carry the unary and zero-spine rows to the same public comparison site.
+
+The additive consumers $\AddUp$ and $\AxisAddUp$ are reached through this transported boundary. Because no carrier coordinate identifies the two source predicates, the standard boundary is a public interpretation row rather than a kernel collapse.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge ledger policy]
+\label{thm:unary-direction-bridge-ledger-policy}
+Every consumer-facing route out of an accepted $\UnaryDirectionBridgeUp$ packet factors through the displayed rows $N,A,B,K,S,L,H,C,P,M$. The ledger policy row $L$ rejects any route that compares $\NatUp$ and $\AxisNatUp$ by host equality, by quotienting histories, or by skipping the kernel-distinctness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_ledger\_policy}
+\begin{proof}
+Take any consumer-facing route and inspect the finite packet. The available source, bridge, kernel, standard-boundary, policy, transport, continuation, provenance, and naming rows are exactly $N,A,B,K,S,L,H,C,P,M$.
+
+The policy row $L$ orders the read: source rows first, bridge row second, kernel-distinctness ledger third, and standard-boundary comparison only after those rows are present. The continuation routes in $C$ expose no alternate branch.
+
+Thus the route is exhausted by the displayed ledger. Since the carrier has no coordinate for host equality or quotient identification of histories, neither can be exported by a bridge consumer.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge NameCert surface]
+\label{thm:unary-direction-bridge-namecert-surface}
+The $\NameCert_{\UnaryDirectionBridgeUp}$ surface is the finite bridge packet of \autoref{def:unary-direction-bridge-namecert-carrier} together with the kernel-distinctness obligations of \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}, the standard boundary of \autoref{thm:unary-direction-bridge-standard-boundary}, and the ledger policy of \autoref{thm:unary-direction-bridge-ledger-policy}. It realizes the unary-direction bridge as a NameCert packet while keeping $\NatUp$ and $\AxisNatUp$ distinct inside the kernel.
+\end{theorem}
+\begin{proof}
+Assemble the carrier rows $N,A,B,K,S,L,H,C,P,M$. These rows provide the two source certificates, the bridge object, kernel-distinctness witness, standard-boundary readback, policy ledger, transports, routes, provenance, and local name.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} to bind the two source rows before any comparison. Apply \autoref{thm:unary-direction-bridge-standard-boundary} to expose the length-preserving public boundary. Apply \autoref{thm:unary-direction-bridge-ledger-policy} to rule out routes that bypass the displayed rows.
+
+Repacking these rows gives the local $\NameCert$ surface. The packet therefore realizes the bridge at the paper-certificate level and leaves the kernel carriers separate.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge source obligation inventory]
+\label{thm:unary-direction-bridge-source-obligation-inventory}
+Every accepted $\UnaryDirectionBridgeUp$ packet exposes exactly the source rows needed before any bridge comparison: the $\NatUp$ unary-spine row $N$, the $\AxisNatUp$ zero-spine row $A$, the $\AddUp$ and $\AxisAddUp$ standard-boundary consumer rows read through $S$, the carrier history row $\BHist$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ routes through $C$, package provenance through $P$, and the local $\NameCert$ row $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. The source coordinates are $N$ and $A$, while $S$ is the only displayed row through which $\AddUp/\AxisAddUp$ consumers may read the public boundary.
+
+Use \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} to keep the source rows separate before the boundary is inspected. Then use \autoref{thm:unary-direction-bridge-standard-boundary} and \autoref{thm:unary-direction-bridge-ledger-policy} to account for the boundary, route, and policy rows.
+
+Finally, \autoref{thm:unary-direction-bridge-namecert-surface} repacks the same inventory as the local certificate. Since the carrier has no further coordinate, the listed rows exhaust the source obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_source\_obligation\_inventory}
+
+\begin{theorem}[UnaryDirectionBridge kernel-boundary obligation]
+\label{thm:unary-direction-bridge-kernel-boundary-obligation}
+Any $\UnaryDirectionBridgeUp$ read that reaches the standard-boundary row $S$ must first pass through the kernel-distinctness ledger $K$. Thus a consumer cannot interpret the displayed $\AddUp/\AxisAddUp$ boundary until the unary $\NatUp$ row, the zero-spine $\AxisNatUp$ row, and the one-point kernel-intersection policy have been recorded in the same packet.
+\end{theorem}
+\begin{proof}
+Start from the kernel-distinctness obligations. By \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}, the rows $N,A,B,K$ are read before any comparison is exported.
+
+The standard boundary of \autoref{thm:unary-direction-bridge-standard-boundary} is therefore downstream of $K$. It reads nonempty unary and zero-spine histories through the displayed boundary, but it does not identify the two kernel carriers.
+
+The ledger policy of \autoref{thm:unary-direction-bridge-ledger-policy} rules out a route that skips $K$. Repacking through \autoref{thm:unary-direction-bridge-namecert-surface} gives the required boundary obligation for every accepted packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge standard handoff obligation]
+\label{thm:unary-direction-bridge-standard-handoff-obligation}
+$\AddUp/\AxisAddUp$ consumers of an accepted $\UnaryDirectionBridgeUp$ packet read only the displayed standard-boundary row $S$, the componentwise transport rows $H$, the continuation routes $C$, package provenance $P$, the local $\NameCert$ row $M$, and the source and ledger rows required by $N,A,B,K,L$. They receive no host natural-number equality, quotient of histories, or carrier identity between $\NatUp$ and $\AxisNatUp$.
+\end{theorem}
+\begin{proof}
+First expose the public boundary. \autoref{thm:unary-direction-bridge-standard-boundary} places every $\AddUp/\AxisAddUp$ handoff on $S$ after the source rows and the kernel ledger have been transported.
+
+Next apply the ledger policy. \autoref{thm:unary-direction-bridge-ledger-policy} requires the route to cite $N,A,B,K,S,L,H,C,P,M$ before it can export a comparison to additive consumers.
+
+Finally use the NameCert surface. \autoref{thm:unary-direction-bridge-namecert-surface} packages exactly those rows and keeps $\NatUp$ and $\AxisNatUp$ distinct inside the kernel, so the standard handoff cannot export host equality, quotient identification, or carrier identity.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge AxisAdd handoff obligations]
+\label{thm:unary-direction-bridge-axisadd-handoff-obligations}
+Every $\AddUp/\AxisAddUp$ consumer using the standard-boundary handoff of an
+accepted $\UnaryDirectionBridgeUp$ packet must first read the rows
+$N,A,B,K,S,L,H,C,P,M$. The handoff is licensed only after the source rows,
+bridge row, kernel-distinctness ledger, standard-boundary row, policy row,
+transport row, continuation row, provenance row, and local $\NameCert$ row are
+all present.
+\end{theorem}
+\begin{proof}
+Start from the carrier of
+\autoref{def:unary-direction-bridge-namecert-carrier}. Its displayed rows are
+exactly $N,A,B,K,S,L,H,C,P,M$, so a consumer route has no additional coordinate
+from which to read a boundary.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} before
+the public boundary is used. This binds the source rows and the
+kernel-distinctness ledger.
+
+Apply \autoref{thm:unary-direction-bridge-standard-boundary} and then
+\autoref{thm:unary-direction-bridge-ledger-policy}. The first theorem supplies
+the length-preserving handoff row, and the second requires the policy and route
+rows before export.
+
+Finally, use \autoref{thm:unary-direction-bridge-namecert-surface} to repack
+the read rows as the local certificate. Thus $\AddUp/\AxisAddUp$ consumers reach
+the handoff only through the displayed packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge empty-intersection readback]
+\label{thm:unary-direction-bridge-empty-intersection-readback}
+For an accepted $\UnaryDirectionBridgeUp$ packet, the only kernel intersection
+exposed by the bridge is the empty-history row named by $K$. No consumer-facing
+readback from $B$, $S$, $L$, $H$, $C$, $P$, or $M$ exports a second intersection
+between the $\NatUp$ unary source row and the $\AxisNatUp$ zero-spine source row.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_empty\_intersection\_readback}
+\begin{proof}
+Read the kernel-distinctness obligations. By
+\autoref{thm:unary-direction-bridge-kernel-distinct-obligations}, the bridge
+must cite $K$ before it compares the source rows.
+
+The standard-boundary theorem \autoref{thm:unary-direction-bridge-standard-boundary}
+then interprets nonempty rows only at the public boundary. It does not insert a
+kernel equality between the two predicates.
+
+The ledger-policy theorem \autoref{thm:unary-direction-bridge-ledger-policy}
+rules out host equality, quotienting, and routes that skip $K$. Together with
+\autoref{thm:unary-direction-bridge-namecert-surface}, this leaves the
+empty-history row named by $K$ as the sole exposed kernel intersection.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge consumer normal form]
+\label{thm:unary-direction-bridge-consumer-normal-form}
+Every consumer route out of an accepted $\UnaryDirectionBridgeUp$ packet
+normalizes to the source rows $N,A$, the bridge row $B$, the kernel-distinctness
+ledger $K$, the standard-boundary row $S$, and the local $\NameCert$ row $M$,
+with transport, continuation, provenance, and policy reads occurring only as
+displayed rows of the same packet. No normalized route contains quotient
+identification or host-level natural-number equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_consumer\_normal\_form}
+\begin{proof}
+Inspect the carrier rows given by
+\autoref{def:unary-direction-bridge-namecert-carrier}. A consumer can mention
+only the displayed source, bridge, kernel, standard-boundary, policy, transport,
+route, provenance, and naming rows.
+
+Apply \autoref{thm:unary-direction-bridge-ledger-policy}. It orders every
+consumer-facing route through the source rows, the bridge row, the
+kernel-distinctness ledger, and the standard-boundary row.
+
+Apply \autoref{thm:unary-direction-bridge-standard-boundary} for the public
+handoff and \autoref{thm:unary-direction-bridge-namecert-surface} for the local
+name. The resulting normal form is therefore $N,A,B,K,S,M$ with $L,H,C,P$ as
+the displayed support rows, and it has no quotient or host natural-number
+equality coordinate.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge carrier admission]
+\label{thm:unary-direction-bridge-carrier-admission}
+For the finite packet $U=(N,A,B,K,S,L,H,C,P,M)$ over $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, admission to the $\UnaryDirectionBridgeUp$ surface is exactly admission of the ten displayed rows of \autoref{def:unary-direction-bridge-namecert-carrier}. The admitted packet exposes the unary source row, zero-spine source row, bridge row, kernel-distinctness ledger, standard-boundary row, ledger policy, componentwise transports, continuation routes, package provenance, and local naming row, and it exposes no additional carrier coordinate.
+\end{theorem}
+\begin{proof}
+Start with the carrier description of \autoref{def:unary-direction-bridge-namecert-carrier}. It lists $N,A,B,K,S,L,H,C,P,M$ as the complete finite packet over the named source, bridge, history, transport, continuation, package, and naming surfaces.
+
+Apply the kernel-distinct obligations of \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} and the standard boundary of \autoref{thm:unary-direction-bridge-standard-boundary}. These identify the source rows, the bridge row, the kernel ledger, and the public boundary as displayed rows of the same packet.
+
+Use the ledger policy of \autoref{thm:unary-direction-bridge-ledger-policy}, the NameCert surface of \autoref{thm:unary-direction-bridge-namecert-surface}, and the AxisAdd handoff of \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations}. Together they force every admitted read through the packet rows and leave no extra carrier coordinate.
+
+Finally, the empty-intersection readback of \autoref{thm:unary-direction-bridge-empty-intersection-readback} and the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form} exclude host equality, quotient identification, and a second kernel carrier. Thus admission is exactly the finite ledger packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge classifier stability]
+\label{thm:unary-direction-bridge-classifier-stability}
+For an accepted $\UnaryDirectionBridgeUp$ packet $U=(N,A,B,K,S,L,H,C,P,M)$, componentwise $\hsame$ transport by the stored row $H$ preserves the unary source classifier, the zero-spine source classifier, the bridge classifier, the kernel-distinctness ledger, the standard-boundary route, the ledger policy, the continuation routes, the package provenance, and the local $\NameCert$ row. After transport, the packet still presents the same kernel-distinctness ledger and the same standard-boundary route.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_classifier\_stability}
+\begin{proof}
+Project $H$ from the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. By construction it stores componentwise transports for the two source rows, bridge row, kernel-distinctness witness, standard-boundary row, ledger policy row, and local naming row.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}. Since $K$ remains a transported row rather than an equality coordinate, the transported classifiers cannot collapse the $\NatUp$ and $\AxisNatUp$ carriers.
+
+Use \autoref{thm:unary-direction-bridge-standard-boundary} and \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations} for the boundary route. The transported standard-boundary row is the only route available to $\AddUp/\AxisAddUp$ consumers.
+
+The ledger policy, NameCert surface, empty-intersection readback, and consumer normal form of \autoref{thm:unary-direction-bridge-ledger-policy}, \autoref{thm:unary-direction-bridge-namecert-surface}, \autoref{thm:unary-direction-bridge-empty-intersection-readback}, and \autoref{thm:unary-direction-bridge-consumer-normal-form} then keep every classifier read inside the displayed packet. Hence componentwise transport preserves both the kernel-distinctness ledger and the standard-boundary route.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge ledger exactness]
+\label{thm:unary-direction-bridge-ledger-exactness}
+Every consumer route out of an accepted $\UnaryDirectionBridgeUp$ packet is exhausted by $N,A,B,K,S,L,H,C,P,M$. There is no consumer route through host equality of natural numbers, no quotient identification of histories, and no collapse of the $\NatUp$ unary carrier with the $\AxisNatUp$ zero-spine carrier.
+\end{theorem}
+\begin{proof}
+Begin with the finite carrier in \autoref{def:unary-direction-bridge-namecert-carrier}. Its rows are exactly $N,A,B,K,S,L,H,C,P,M$, so any consumer route must be assembled from these rows.
+
+Apply the kernel-distinct obligations and standard boundary from \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} and \autoref{thm:unary-direction-bridge-standard-boundary}. They require the source rows and $K$ before any public boundary read.
+
+Next use the ledger policy, NameCert surface, and AxisAdd handoff of \autoref{thm:unary-direction-bridge-ledger-policy}, \autoref{thm:unary-direction-bridge-namecert-surface}, and \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations}. These force consumer access through the displayed ledger and then through the local naming row.
+
+Finally apply the empty-intersection readback of \autoref{thm:unary-direction-bridge-empty-intersection-readback} and the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form}. They rule out any second intersection, quotient route, or host equality coordinate, so the displayed finite ledger is exact.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge source-classifier transport]
+\label{thm:unary-direction-bridge-source-classifier-transport}
+For an accepted $\UnaryDirectionBridgeUp$ carrier $U=(N,A,B,K,S,L,H,C,P,M)$, componentwise $\hsame$ transport of $N,A,B,K,S,L,H,C,P,M$ preserves the separate $\NatUp$ unary source classifier and the $\AxisNatUp$ zero-spine source classifier. The transported packet keeps the two source classifiers as distinct rows and does not collapse them into a kernel equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_source\_classifier\_transport}
+\begin{proof}
+Project the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. Rows $N$ and $A$ are separate source rows, while $H$ supplies componentwise transport for those rows together with the bridge, ledger, route, provenance, and local name.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}. The kernel-distinctness row $K$ must be read before any comparison, so transport cannot replace the two classifiers by a shared kernel carrier.
+
+Use \autoref{thm:unary-direction-bridge-empty-intersection-readback} to keep the empty-history row as the only exposed kernel intersection. Thus the transported source classifiers remain the unary $\NatUp$ row and the zero-spine $\AxisNatUp$ row separately.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge additive consumer exactness]
+\label{thm:unary-direction-bridge-additive-consumer-exactness}
+Every $\AddUp/\AxisAddUp$ consumer of an accepted $\UnaryDirectionBridgeUp$ carrier reads the standard-boundary row only after the source rows, bridge row, kernel-distinctness ledger, ledger policy, transports, routes, provenance, and local $\NameCert$ row are present. The consumer receives the rows $N,A,B,K,S,L,H,C,P,M$ in that order of dependence and receives no kernel equality between $\NatUp$ and $\AxisNatUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_additive\_consumer\_exactness}
+\begin{proof}
+Start with the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form}. It limits every consumer route to the source rows, bridge row, kernel-distinctness ledger, standard-boundary row, local name, and the displayed support rows.
+
+Apply \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations}. This requires $N,A,B,K,S,L,H,C,P,M$ to be present before the $\AddUp/\AxisAddUp$ handoff is licensed.
+
+The standard-boundary theorem \autoref{thm:unary-direction-bridge-standard-boundary} supplies the public boundary only after those rows have been transported. The ledger policy of \autoref{thm:unary-direction-bridge-ledger-policy} rules out any consumer route that skips the source rows or exports a host equality.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge NameCert obligation closure]
+\label{thm:unary-direction-bridge-namecert-obligation-closure}
+The carrier, kernel-distinctness obligations, standard boundary, ledger policy, consumer normal form, source-classifier transport, and additive consumer exactness assemble the local $\NameCert_{\UnaryDirectionBridgeUp}$ obligation closure for $U=(N,A,B,K,S,L,H,C,P,M)$. The closure keeps the unary and zero-spine kernels distinct while presenting the finite bridge packet required by downstream additive consumers.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:unary-direction-bridge-namecert-carrier} supplies the finite packet. The kernel-distinctness obligations, standard boundary, ledger policy, and NameCert surface of \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}, \autoref{thm:unary-direction-bridge-standard-boundary}, \autoref{thm:unary-direction-bridge-ledger-policy}, and \autoref{thm:unary-direction-bridge-namecert-surface} bind the basic certificate rows.
+
+Add the handoff obligations and empty-intersection readback from \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations} and \autoref{thm:unary-direction-bridge-empty-intersection-readback}. These keep additive consumers on the displayed standard boundary and prevent a second kernel intersection from appearing.
+
+Finally apply \autoref{thm:unary-direction-bridge-consumer-normal-form}, \autoref{thm:unary-direction-bridge-source-classifier-transport}, and \autoref{thm:unary-direction-bridge-additive-consumer-exactness}. The resulting local NameCert obligation closure is exactly the displayed bridge packet, with no asserted kernel equality.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped source bindings]
+\label{thm:unary-direction-bridge-scoped-source-bindings}
+For an accepted $\UnaryDirectionBridgeUp$ carrier $U=(N,A,B,K,S,L,H,C,P,M)$, the rows $N,A,B,K,S,L,H,C,P,M$ bind the bridge packet to $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The binding is scoped to the displayed carrier rows: $N$ and $A$ are the two source classifiers, $B,K,S,L$ are the bridge, kernel-distinctness, boundary, and policy rows, $H$ and $C$ are the transport and continuation rows, $P$ is the package provenance row, and $M$ is the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. The row list already names the two source surfaces, the bridge object, the kernel ledger, the boundary, the policy, the transport, the route, the package row, and the local $\NameCert$ row.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}. This keeps $N$ and $A$ as separate source classifiers and forces every comparison to cite $K$ before a public boundary is read.
+
+Use \autoref{thm:unary-direction-bridge-standard-boundary} for the $S$ row and \autoref{thm:unary-direction-bridge-ledger-policy} for the $L$ row. The transport and route rows $H,C$ carry these displayed rows without creating a host equality or quotient coordinate.
+
+Finally apply \autoref{thm:unary-direction-bridge-namecert-surface}. The provenance row $P$ and local name $M$ therefore bind the packet to the listed BEDC dependencies as scoped rows of the same finite carrier.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge additive route scope]
+\label{thm:unary-direction-bridge-additive-route-scope}
+Every $\AddUp/\AxisAddUp$ handoff route out of an accepted $\UnaryDirectionBridgeUp$ packet factors through $K,S,H,C,P,M$ together with the source rows $N,A$ and the bridge row $B$. Such a route cannot use host equality of natural numbers, quotient identification of histories, or a second kernel carrier for the unary and zero-spine sources.
+\end{theorem}
+\begin{proof}
+Start with the additive consumer exactness of \autoref{thm:unary-direction-bridge-additive-consumer-exactness}. It says that an $\AddUp/\AxisAddUp$ consumer receives the displayed source, bridge, kernel, policy, transport, route, provenance, and local naming rows before the boundary is used.
+
+Apply the source-classifier transport theorem \autoref{thm:unary-direction-bridge-source-classifier-transport}. The transported packet still has separate $\NatUp$ and $\AxisNatUp$ source rows, so the additive route cannot be reinterpreted as a single kernel carrier.
+
+Use the empty-intersection readback of \autoref{thm:unary-direction-bridge-empty-intersection-readback} and the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form}. These exclude a second kernel intersection, quotient identification, and host equality from the normalized route.
+
+The remaining route is therefore exactly the displayed additive handoff through $K,S,H,C,P,M$, with $N,A,B$ supplying the source and bridge context.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped NameCert package]
+\label{thm:unary-direction-bridge-namecert-scoped-package}
+The scoped source bindings of \autoref{thm:unary-direction-bridge-scoped-source-bindings}, the additive route scope of \autoref{thm:unary-direction-bridge-additive-route-scope}, and the obligation closure of \autoref{thm:unary-direction-bridge-namecert-obligation-closure} assemble the scoped $\NameCert_{\UnaryDirectionBridgeUp}$ package. The package exposes the carrier rows, the obligation closure, the scoped BEDC dependency bindings, and the additive handoff route, while preserving the separation of $\NatUp$ and $\AxisNatUp$ inside the kernel.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_namecert\_scoped\_package}
+\begin{proof}
+Begin with \autoref{thm:unary-direction-bridge-namecert-obligation-closure}. It supplies the local closure of the carrier, kernel-distinctness obligations, standard boundary, ledger policy, consumer normal form, source-classifier transport, and additive consumer exactness.
+
+Apply \autoref{thm:unary-direction-bridge-scoped-source-bindings}. This binds the same finite packet to $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ through displayed carrier rows.
+
+Apply \autoref{thm:unary-direction-bridge-additive-route-scope}. The additive route is then confined to the scoped bridge packet and cannot pass through host equality, quotient identification, or a second kernel carrier.
+
+Repacking these rows gives the scoped local $\NameCert$ package for $\UnaryDirectionBridgeUp$. Its public commitment is the displayed BEDC bridge packet, not an identification of the two source kernels.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge kernel-axis composition]
+\label{thm:unary-direction-bridge-kernel-axis-composition}
+For an accepted $\UnaryDirectionBridgeUp$ carrier $U=(N,A,B,K,S,L,H,C,P,M)$, the kernel-distinct obligations, standard boundary, and $\AxisAddUp$ handoff assemble one $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route from the unary direction row $N$ to the additive consumer row. The route reads $A,B,K,S,L,H,C,P,M$ as displayed support and never identifies the unary and zero-spine classifiers as one kernel carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier and begin with the kernel-distinct obligations of \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}. They force the route to read the $\NatUp$ row $N$, the $\AxisNatUp$ row $A$, the bridge row $B$, and the kernel ledger $K$ before any additive handoff is considered.
+
+Next apply the standard boundary of \autoref{thm:unary-direction-bridge-standard-boundary}. The boundary row $S$ is reached only after the source rows and $K$ have been transported through $H$ and replayed through $C$.
+
+Finally use \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations} and \autoref{thm:unary-direction-bridge-additive-consumer-exactness}. These results place the $\AxisAddUp$ consumer behind the same displayed packet and repack the route through $L,P,M$ as policy, provenance, and local naming data. The resulting composition is a projection-and-route composition, not a carrier equivalence.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge bidirectional readback]
+\label{thm:unary-direction-bridge-bidirectional-readback}
+For accepted left and right direction reads of a $\UnaryDirectionBridgeUp$ packet, if their displayed $\hsame$ rows and $\Cont$ rows agree, then both reads transport to the same empty-intersection readback surface. The common surface is the $K$-licensed intersection row together with the standard boundary and local NameCert rows, not an equivalence between the source classifiers.
+\end{theorem}
+\begin{proof}
+Start with the two direction reads and project their carrier rows. Agreement of the displayed $\hsame$ and $\Cont$ rows means both reads use the same transport $H$ and the same route family $C$.
+
+Apply \autoref{thm:unary-direction-bridge-empty-intersection-readback}. The only kernel intersection exposed by either read is the empty-history row licensed by $K$.
+
+Use \autoref{thm:unary-direction-bridge-source-classifier-transport} to keep the unary and zero-spine classifiers separate after transport. Then apply \autoref{thm:unary-direction-bridge-standard-boundary} and \autoref{thm:unary-direction-bridge-namecert-surface} to place both reads on the same public boundary and local certificate surface.
+
+Thus the left and right reads agree at the empty-intersection readback surface while preserving the source-classifier separation.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge downstream seal]
+\label{thm:unary-direction-bridge-downstream-seal}
+Every downstream $\AxisAddUp$ or $\AxisZeckendorfCannotClaimUp$ consumer reads an accepted $\UnaryDirectionBridgeUp$ packet only through the carrier, kernel-distinct classifier rows, ledger policy, source-classifier transport, and additive consumer exactness rows. The downstream seal exports the bridge as the displayed packet $U=(N,A,B,K,S,L,H,C,P,M)$ and exports no quotient identification, host natural-number equality, or carrier equivalence between $\NatUp$ and $\AxisNatUp$.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and ledger policy, \autoref{thm:unary-direction-bridge-carrier-admission} and \autoref{thm:unary-direction-bridge-ledger-policy}. They restrict every downstream read to the ten displayed rows and order the read through the source, bridge, kernel, boundary, policy, transport, route, provenance, and naming data.
+
+For the classifier side, apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}, \autoref{thm:unary-direction-bridge-classifier-stability}, and \autoref{thm:unary-direction-bridge-source-classifier-transport}. These keep $N$ and $A$ as separate source classifiers under componentwise transport.
+
+For the consumer side, use \autoref{thm:unary-direction-bridge-additive-consumer-exactness} and \autoref{thm:unary-direction-bridge-kernel-axis-composition}. The $\AxisAddUp$ route and any $\AxisZeckendorfCannotClaimUp$ consumer that depends on it can therefore read only the displayed bridge packet.
+
+The empty-intersection readback excludes any second kernel overlap, and the consumer normal form excludes host equality and quotient identification. Hence the downstream seal is the packet route itself, not a carrier/classifier equivalence transport.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped source anchors]
+\label{thm:unary-direction-bridge-scope-source-anchors}
+Every accepted $\UnaryDirectionBridgeUp$ packet $U=(N,A,B,K,S,L,H,C,P,M)$ binds the $\NatUp$ unary source, the $\AxisNatUp$ zero-spine source, the kernel-distinctness ledger, and the standard-boundary row to the displayed support
+$$
+\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The binding is a source-route obligation: $N$ and $A$ remain separate source classifiers, $K$ records their kernel separation, $S$ is the only standard-boundary row, and $L,H,C,P,M$ are the ledger, transport, continuation, provenance, and local certificate rows through which downstream consumers read the packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and carrier admission results, \autoref{def:unary-direction-bridge-namecert-carrier} and \autoref{thm:unary-direction-bridge-carrier-admission}. They make $N,A,B,K,S,L,H,C,P,M$ the complete admitted packet surface and place the source rows, bridge row, ledger row, boundary row, transport rows, route row, package row, and local name in one carrier.
+
+Apply the kernel-distinct obligations and standard boundary, \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} and \autoref{thm:unary-direction-bridge-standard-boundary}. These force every source comparison to read $K$ before $S$ and prevent the unary and zero-spine source classifiers from being merged.
+
+Use the ledger policy, classifier stability, and ledger exactness of \autoref{thm:unary-direction-bridge-ledger-policy}, \autoref{thm:unary-direction-bridge-classifier-stability}, and \autoref{thm:unary-direction-bridge-ledger-exactness}. The only stable transport route is the displayed $H,C,P,M$ route, so every accepted source read is anchored to the listed BEDC support.
+
+Finally apply the obligation closure of \autoref{thm:unary-direction-bridge-namecert-obligation-closure}. It repacks these rows as the local $\NameCert_{\UnaryDirectionBridgeUp}$ obligation surface, with no additional kernel equality or host natural-number route.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped additive route]
+\label{thm:unary-direction-bridge-scope-additive-route}
+Every $\AddUp/\AxisAddUp$ consumer route out of an accepted $\UnaryDirectionBridgeUp$ packet factors through the scoped source anchors of \autoref{thm:unary-direction-bridge-scope-source-anchors} before reaching the standard boundary. Thus the additive route receives the unary source, zero-spine source, bridge row, kernel-distinctness ledger, ledger policy, componentwise $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row before any standard-boundary read.
+\end{theorem}
+\begin{proof}
+First apply the scoped source anchors. They bind $N,A,B,K,S,L,H,C,P,M$ to the finite BEDC support and make $K$ available before the standard-boundary row is consumed.
+
+Next use the additive consumer exactness and additive route scope, \autoref{thm:unary-direction-bridge-additive-consumer-exactness} and \autoref{thm:unary-direction-bridge-additive-route-scope}. These results identify the $\AddUp/\AxisAddUp$ route as a consumer of the displayed packet, not as a separate operation over host equality or quotient histories.
+
+The carrier admission theorem and ledger policy keep the route inside the admitted rows. The standard-boundary theorem then places $S$ after the source and kernel-distinctness anchors, while classifier stability transports the same route through $H,C,P,M$.
+
+Finally the obligation closure repacks the route as a downstream obligation of the same local certificate. The consumer therefore reaches the boundary only through the scoped source anchors and the displayed bridge packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped NameCert transport]
+\label{thm:unary-direction-bridge-scope-namecert-transport}
+Componentwise $\hsame$ transport of an accepted $\UnaryDirectionBridgeUp$ packet preserves the scoped bridge packet of \autoref{thm:unary-direction-bridge-scope-source-anchors} and the additive route of \autoref{thm:unary-direction-bridge-scope-additive-route}. The transported packet cannot collapse the $\NatUp$ unary source classifier and the $\AxisNatUp$ zero-spine source classifier into one kernel row.
+\end{theorem}
+\begin{proof}
+Begin with classifier stability and source-classifier transport, \autoref{thm:unary-direction-bridge-classifier-stability} and \autoref{thm:unary-direction-bridge-source-classifier-transport}. They state that componentwise transport preserves the source rows, bridge row, kernel ledger, standard-boundary row, route rows, package provenance, and local naming row.
+
+Apply the scoped source anchors to the transported packet. The anchors still require $N$ and $A$ as separate source classifiers and still require $K$ before any comparison reaches $S$.
+
+Use ledger exactness, ledger policy, and the standard boundary. These exclude host natural-number equality, quotient identification of histories, and any second kernel carrier as sources for the transported route.
+
+Finally combine the scoped additive route with the obligation closure. The resulting transported $\NameCert_{\UnaryDirectionBridgeUp}$ packet is the same finite bridge surface over $\BHist,\hsame,\Cont,\Pkg,\NameCert$, so transport preserves the route without identifying the two source classifiers.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge standard-boundary consumer factorization]
+\label{thm:unary-direction-bridge-standard-boundary-consumer-factorization}
+Every $\AddUp$ or $\AxisAddUp$ consumer of the standard boundary of an accepted $\UnaryDirectionBridgeUp$ packet
+$$
+U=(N,A,B,K,S,L,H,C,P,M)
+$$
+factors through the displayed unary source row $N$, zero-spine source row $A$, bridge row $B$, kernel-distinctness ledger $K$, standard-boundary row $S$, ledger policy $L$, componentwise transports $H$, continuation routes $C$, package provenance $P$, and local name $M$. The consumer receives no carrier equivalence between $\NatUp$ and $\AxisNatUp$, no host natural-number equality, and no quotient identification of histories.
+\end{theorem}
+\begin{proof}
+Start from carrier admission and the standard-boundary theorem. They make $S$ a row of the accepted packet and place it after the source rows, bridge row, and kernel-distinctness ledger.
+
+Apply the scoped source anchors. They require $N,A,B,K,S,L,H,C,P,M$ before any boundary consumer can read the packet, and they keep the unary and zero-spine source classifiers separate.
+
+Now use the scoped additive route and additive consumer exactness. These route every $\AddUp/\AxisAddUp$ read through the displayed bridge packet rather than through a host-side equality or a quotient transport.
+
+Finally apply scoped NameCert transport. Componentwise transport preserves the same packet surface, so any standard-boundary consumer factors through the displayed rows and through no alternate carrier/classifier equivalence.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge AxisZeckendorf ledger gate]
+\label{thm:unary-direction-bridge-axiszeckendorf-ledger-gate}
+Any $\AxisZeckendorfCannotClaimUp$ consumer of an accepted $\UnaryDirectionBridgeUp$ packet must read the kernel-distinctness ledger $K$ and the additive route through $N,A,B,S,L,H,C,P,M$ before it can see the bridge as a downstream obstruction. In particular, the consumer cannot bypass the ledger by identifying the $\NatUp$ unary source classifier with the $\AxisNatUp$ zero-spine source classifier.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The carrier and kernel-distinct obligations expose $K$ as the row that separates the unary and zero-spine source classifiers.
+
+Use the ledger policy and ledger exactness. They make $K$ and $L$ mandatory for downstream reads and exclude host equality, quotient identification, or a second kernel carrier as substitute evidence.
+
+Apply additive consumer exactness, kernel-axis composition, and the downstream seal. These results route $\AxisZeckendorfCannotClaimUp$ consumers through the additive bridge packet before the obstruction row is visible.
+
+Therefore the bridge can be consumed only after the kernel-distinctness ledger and additive route have been read from the same displayed packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge root-unblock readback package]
+\label{thm:unary-direction-bridge-root-unblock-readback-package}
+The accepted $\UnaryDirectionBridgeUp$ packet $U=(N,A,B,K,S,L,H,C,P,M)$ forms a root-unblock readback package for downstream $\AddUp$, $\AxisAddUp$, and $\AxisZeckendorfCannotClaimUp$ consumers. The package consists exactly of carrier admission, kernel-distinct classifier rows, ledger exactness, the standard-boundary consumer factorization of \autoref{thm:unary-direction-bridge-standard-boundary-consumer-factorization}, the AxisZeckendorf ledger gate of \autoref{thm:unary-direction-bridge-axiszeckendorf-ledger-gate}, scoped NameCert transport, and the downstream seal.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission. It fixes the readback packet as the ten displayed rows $N,A,B,K,S,L,H,C,P,M$.
+
+Add the kernel-distinct obligations and ledger exactness. These make the source classifiers separate at the kernel row and make the ledger the public witness for that separation.
+
+Use standard-boundary consumer factorization to bind $\AddUp/\AxisAddUp$ consumers to the same packet. Use the AxisZeckendorf ledger gate to ensure that obstruction-facing consumers read the ledger and additive route before the bridge can be consumed.
+
+Finally combine scoped NameCert transport with the downstream seal. The assembled package exports the bridge as the displayed finite readback surface and does not export carrier equivalence transport, host natural-number equality, or quotient identification.
+\end{proof}
+
+\closureat{UnaryDirectionBridgeUp}{seedStr}
+\closureat{UnaryDirectionBridgeUp}{obligationStr}
+\closureat{UnaryDirectionBridgeUp}{scopedStr}
+
+\begin{closurestatus}{\UnaryDirectionBridgeUp}
+  \constructivestory{A $\UnaryDirectionBridgeUp$ packet is generated by a $\NatUp$ unary source row, an $\AxisNatUp$ zero-spine source row, the displayed bridge object, kernel-distinctness witness, standard-boundary row, ledger policy, $\hsame$ transports, $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the carrier, obligation closure, scoped source rows for $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, the additive route scope, and the local scoped NameCert package for the unary-direction bridge packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not identify $\NatUp$ and $\AxisNatUp$ inside the kernel, close the full standard-model isomorphism, or provide Lean verification for the NameCert packet.}
+  \upgradepath{Public closure requires a verified public-object surface for the unary-direction bridge package and its downstream additive consumers.}
+\end{closurestatus}

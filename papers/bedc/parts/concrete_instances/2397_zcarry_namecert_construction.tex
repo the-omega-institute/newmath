@@ -1,0 +1,149 @@
+\chapter{A Concrete Naming Certificate for $\ZCarryUp$}
+\label{ch:concrete-instances-zcarry-namecert}
+
+The $\ZCarryUp$ interface packages the displayed Zeckendorf carry row
+$\mathtt{word\_011}\to\mathtt{word\_100}$ as a finite BEDC naming surface. The
+packet records the carry generator, the source non-normality witness, the target
+normality witness, the non-$\hsame$ boundary, transport rows, continuation
+routes, package provenance, and the local naming row. It licenses the carry as a
+classifier and gives no route to treating the two histories as kernel-equal.
+
+\begin{definition}[ZCarry finite carry packet]
+\label{def:zcarry-finite-carry-packet}
+A $\ZCarryUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+Z=(h,k,G,N_h,N_k,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $h$ is the source history row $\mathtt{word\_011}$;
+\item $k$ is the target history row $\mathtt{word\_100}$;
+\item $G$ is the generated carry row $\mathsf{ZCarry}(h,k)$;
+\item $N_h$ is the source ledger row witnessing $\neg\mathsf{ZNormal}(h)$;
+\item $N_k$ is the target ledger row witnessing $\mathsf{ZNormal}(k)$;
+\item $H$ records the non-$\hsame$ boundary $\neg\hsame(h,k)$ together with the componentwise $\hsame$ transports that preserve the displayed rows separately;
+\item $C$ records the displayed $\Cont$ routes for source inspection, target inspection, carry readback, normality readback, non-$\hsame$ readback, and NameCert comparison;
+\item $P$ is the $\Pkg$ provenance row naming $\ZeckendorfNormalUp$, $\ZCarryUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the generated carry row;
+\item $N$ is the local $\NameCert_{\ZCarryUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only by the displayed rows
+$h,k,G,N_h,N_k,H,C,P,N$. No coordinate identifies $h$ and $k$, quotienting
+histories or replacing the carry classifier by $\hsame$.
+\end{definition}
+\leandef{BEDC.Derived.ZCarryUp.ZCarryFiniteCarryPacket}
+
+\begin{theorem}[ZCarry finite NameCert obligations]
+\label{thm:zcarry-finite-namecert-obligations}
+The local $\NameCert_{\ZCarryUp}$ obligation surface consists exactly of carrier
+admission by \autoref{def:zcarry-finite-carry-packet}, the generated carry row
+$G$, the source non-normal row $N_h$, the target normal row $N_k$, the
+non-$\hsame$ boundary row $H$, the displayed $\Cont$ routes $C$, the $\Pkg$
+provenance row $P$, and the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. Each row required by the carry certificate appears as
+a coordinate before any consumer can read the classifier.
+
+The generator row $G$ fixes the only displayed carry window. The two normality
+rows record the source and target sides of that window, while $H$ records that
+the window is not an $\hsame$ identification.
+
+The routes $C$, provenance row $P$, and local naming row $N$ then repack the
+same finite surface as a $\NameCert_{\ZCarryUp}$ obligation surface. Since the
+carrier has no equality or quotient coordinate, no further object can be
+exported by the certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.ZCarryUp.ZCarryFiniteCarryPacket\_obligation\_surface}
+
+\begin{theorem}[ZCarry carry-not-hsame boundary]
+\label{thm:zcarry-carry-not-hsame-boundary}
+For every accepted $\ZCarryUp$ packet $Z=(h,k,G,N_h,N_k,H,C,P,N)$, the carry row
+$G$ is stable only as a classifier row. Its ledger includes $\neg\hsame(h,k)$,
+so the displayed carry from $\mathtt{word\_011}$ to $\mathtt{word\_100}$ cannot
+be consumed as history-sameness.
+\end{theorem}
+\begin{proof}
+Read the generated carry row $G$. By the Zeckendorf carry theorem
+\autoref{thm:zcarry-not-hsame}, every instance of $\mathsf{ZCarry}(h,k)$ carries
+the boundary $\neg\hsame(h,k)$.
+
+The packet stores this boundary in $H$ and routes it through $C$. Therefore a
+consumer can transport the carry classifier only together with the recorded
+non-$\hsame$ witness, so the carry row cannot become a kernel equality.
+\end{proof}
+
+\begin{theorem}[ZCarry normal-target ledger]
+\label{thm:zcarry-normal-target-ledger}
+For every accepted $\ZCarryUp$ packet $Z=(h,k,G,N_h,N_k,H,C,P,N)$, the target
+history is normal and the source history is non-normal. The target row is
+$\mathtt{word\_100}$ with $N_k:\mathsf{ZNormal}(k)$, while the source row is
+$\mathtt{word\_011}$ with $N_h:\neg\mathsf{ZNormal}(h)$.
+\end{theorem}
+\begin{proof}
+The generator row $G$ identifies the displayed carry window. Applying
+\autoref{thm:zcarry-target-normal} reads the target normality witness, and
+applying \autoref{thm:zcarry-source-not-normal} reads the source non-normality
+witness.
+
+The packet stores those two reads as $N_k$ and $N_h$. Transport through $H$ and
+$C$ preserves the target and source ledgers as separate rows, so normality can be
+reported only with the same displayed source-target orientation.
+\end{proof}
+
+\begin{theorem}[ZCarry NameCert assembly]
+\label{thm:zcarry-namecert-assembly}
+The carrier of \autoref{def:zcarry-finite-carry-packet}, the obligation surface
+of \autoref{thm:zcarry-finite-namecert-obligations}, the non-$\hsame$ boundary
+of \autoref{thm:zcarry-carry-not-hsame-boundary}, and the normal-target ledger
+of \autoref{thm:zcarry-normal-target-ledger} assemble the concrete
+$\NameCert_{\ZCarryUp}$ packet for the displayed Zeckendorf carry classifier.
+\end{theorem}
+\begin{proof}
+Bind the carrier rows $h,k,G,N_h,N_k,H,C,P,N$. These rows expose the source,
+target, generator, normality witnesses, non-$\hsame$ boundary, transport routes,
+provenance, and local name.
+
+Apply the finite obligation theorem to identify the public certificate surface.
+Apply the carry-not-$\hsame$ boundary theorem to keep the classifier separate
+from history-sameness. Apply the normal-target ledger theorem to retain the
+target-normal and source-non-normal rows.
+
+Repacking these rows gives the local naming certificate. The assembly is exactly
+the concrete packet recorded by the Lean-side object
+$\mathsf{zCarry\_namecert}$.
+\end{proof}
+\leanchecked{BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert}
+
+\begin{corollary}[ZCarry licensed classifier boundary]
+\label{cor:zcarry-licensed-classifier-boundary}
+The $\ZCarryUp$ interface is licensed by the finite packet of
+\autoref{thm:zcarry-namecert-assembly}. Any downstream use of the displayed
+carry must cite the generated carry row, the normality ledgers, the non-$\hsame$
+boundary, the displayed $\Cont$ routes, the $\Pkg$ provenance, and the local
+$\NameCert$ row; it may not read the carry as $\hsame$ or as a primitive kernel
+rewrite.
+\end{corollary}
+\begin{proof}
+Use the assembled $\NameCert_{\ZCarryUp}$ packet. Its public rows are exactly
+the carrier coordinates and obligation rows named above.
+
+The non-$\hsame$ boundary is part of the exported ledger. Hence a consumer that
+uses the carry classifier also receives the evidence preventing a kernel-equality
+reading, and no primitive rewrite row is available in the packet.
+\end{proof}
+
+\closureat{ZCarryUp}{scopedStr}[BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert]
+\closureat{ZCarryUp}{publicStr}[BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert]
+\closureat{ZCarryUp}{bridgedStr}[BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert]
+\closureat{ZCarryUp}{matureStr}[BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert]
+
+\begin{closurestatus}{\ZCarryUp}
+  \constructivestory{A $\ZCarryUp$ packet is generated from the displayed Zeckendorf carry row, source non-normal ledger, target normal ledger, non-$\hsame$ boundary, componentwise transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The checked $\mathsf{zCarry\_namecert}$ assembly of \autoref{thm:zcarry-namecert-assembly} and the licensed boundary of \autoref{cor:zcarry-licensed-classifier-boundary} bind the public $\ZCarryUp$ classifier boundary to the bridge-readable package rows $G,N_h,N_k,H,C,P,N$ for the displayed Zeckendorf carry.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.AxisZeckendorf.Carry.zCarry\_namecert}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not identify the source and target histories by $\hsame$, does not install quotient rewriting, and does not close arbitrary Zeckendorf carry generation.}
+  \upgradepath{No further theory-axis upgrade is claimed here; remaining work is bridge checking for the same displayed generated-carry, normality, non-$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.}
+\end{closurestatus}

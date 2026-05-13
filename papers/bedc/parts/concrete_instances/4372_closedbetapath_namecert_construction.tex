@@ -1,0 +1,121 @@
+\chapter{A Concrete Naming Certificate for $\ClosedBetaPathUp$}
+\label{ch:concrete-instances-closedbetapath-namecert}
+\origin{human}
+
+The $\ClosedBetaPathUp$ packet realizes the closure-preservation audit map of
+\autoref{ch:metacic-closure-preservation-audit-map} as a finite NameCert route
+object. It sits between the beta inventory of
+\autoref{ch:concrete-instances-metacicbetaaudit-namecert}, the normal-form
+seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert},
+and the closed-normal main-result packet of
+\autoref{ch:concrete-instances-closednormalconsistencymain-namecert}: it names
+the route by which closedness travels along finite beta movement before those
+downstream packets read any closed-normal or beta-audit rows.
+
+\begin{definition}[Closed beta path carrier]
+\label{def:closed-beta-path-carrier}
+A $\ClosedBetaPathUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(s,t,n,B,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $s$ is the source MetaCIC term row;
+\item $t$ is the target MetaCIC term row;
+\item $n$ is the closedness-depth row for the displayed $\mathrm{ClosedAt}$
+boundary;
+\item $B$ is the finite $\mathrm{BetaStarStep}(s,t)$ route row, whose
+one-step edges are $\mathrm{BetaStep}$ constructors;
+\item $K$ is the closure-preservation witness row naming the
+$\mathsf{BEDC.MetaCIC.betaStarStep\_preserves\_closed}$ route from
+$\mathrm{ClosedAt}(n,s)$ to $\mathrm{ClosedAt}(n,t)$;
+\item $H$ records componentwise $\hsame$ transport for the source, target,
+depth, beta-route, closure-witness, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ replay routes by which a consumer reads
+$B$ and then $K$;
+\item $P$ is the $\Pkg$ provenance over $\mathrm{ClosedAt}$,
+$\mathrm{BetaStep}$, $\mathrm{BetaStarStep}$, $\mathsf{shift}$,
+$\mathsf{substitute}$, componentwise transport, and sibling NameCert packets;
+\item $N$ is the local $\NameCert_{\ClosedBetaPathUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for typing preservation, normalization,
+confluence, beta conversion, or closed consistency.
+\end{definition}
+
+\begin{theorem}[Closed beta path NameCert obligations]
+\label{thm:closed-beta-path-namecert-obligations}
+For an accepted $\ClosedBetaPathUp$ carrier
+$$
+Q=(s,t,n,B,K,H,C,P,N),
+$$
+the local $\NameCert_{\ClosedBetaPathUp}$ surface consists exactly of five
+obligations:
+\begin{enumerate}
+\item carrier admission for the displayed finite packet;
+\item preservation of $\mathrm{ClosedAt}(n,\cdot)$ along the finite beta route
+$B$ through the witness row $K$;
+\item exact replay of the route order by first reading $B$ and then reading
+$K$ through the displayed continuation rows;
+\item non-escape from typing, normalization, confluence, beta-conversion, and
+closed-consistency claims not present in the carrier;
+\item ledger exactness for $s,t,n,B,K,H,C,P,N$ and no hidden route coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the packet of
+\autoref{def:closed-beta-path-carrier}. The admitted route row $B$ supplies the
+finite beta chain, and the witness row $K$ supplies the closedness transport
+for exactly that chain.
+
+Continuation replay is ordered by the carrier itself: a consumer first reads
+the beta-star route and then reads the closure witness. Componentwise
+transport through $H$ preserves the same source, target, depth, route, witness,
+provenance, and naming rows.
+
+The remaining coordinates are structural provenance and naming rows. Since no
+coordinate carries typing preservation, normalization, confluence, beta
+conversion, or closed consistency, the five displayed obligations exhaust the
+local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closed beta path closure-preservation factorization]
+\label{thm:closed-beta-path-closure-preservation-factorization}
+Every consumer of an accepted $\ClosedBetaPathUp$ packet that later reads a
+closed-normal packet, a normal-form consistency seal, a closed-normal main
+packet, or a beta-audit packet must first factor its closedness read through
+the $\mathsf{BEDC.MetaCIC.betaStarStep\_preserves\_closed}$ route named by
+$K$. The consumer may then pass the transported closed endpoint to the sibling
+packet it cites, but it cannot use $\ClosedBetaPathUp$ as a typing,
+normalization, confluence, beta-conversion, or consistency certificate.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $Q$. The only row that exports closedness at the
+target endpoint is $K$, and $K$ is tied to the displayed beta-star route $B$.
+Thus every closedness read from $s$ to $t$ passes through the same
+closure-preservation route.
+
+The sibling packets cited by the consumer have their own carriers and local
+NameCert rows. The present packet can hand them the transported closed endpoint
+only after $B$ and $K$ have been replayed through $C$ and accounted for by
+$P,N$.
+
+Because the carrier lacks rows for typing preservation, normalization,
+confluence, beta conversion, and consistency, the factorization cannot be
+strengthened into any of those claims.
+\end{proof}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+
+\closureat{ClosedBetaPathUp}{seedStr}
+\closureat{ClosedBetaPathUp}{obligationStr}
+
+\begin{closurestatus}{\ClosedBetaPathUp}
+  \constructivestory{A $\ClosedBetaPathUp$ packet is generated from a source term, target term, closedness depth, finite BetaStarStep route, beta-star closedness-preservation witness, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:closed-beta-path-carrier}, \autoref{thm:closed-beta-path-namecert-obligations}, and \autoref{thm:closed-beta-path-closure-preservation-factorization} bind the finite closed-beta-route carrier, its five local NameCert obligations, and its closure-preservation factorization boundary.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close MetaCIC subject reduction, normalization, confluence, beta conversion, full closed consistency, or a public standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, route replay exactness, ledger exactness, and non-escape for the same finite closed beta path packet.}
+\end{closurestatus}

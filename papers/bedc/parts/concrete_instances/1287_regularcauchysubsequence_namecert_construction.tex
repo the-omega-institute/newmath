@@ -1,0 +1,225 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySubsequenceUp$}
+\label{ch:concrete-instances-regular-cauchy-subsequence-namecert}
+\origin{human}
+
+The $\RegularCauchySubsequenceUp$ interface records the constructive tail-subsequence and reindexing surface used by regular Cauchy names. Following Bishop and Bridges, \emph{Constructive Analysis}, 1985, it treats a subsequence as certified monotone and cofinal unary reindexing data over finite regular Cauchy rows. It never selects an infinite subsequence by choice and never changes the real seal through quotient streams, host sequence equality, or ambient real completeness.
+
+Its dependency list is $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\RatUp$.
+
+\begin{definition}[RegularCauchySubsequence carrier]
+\label{def:regular-cauchy-subsequence-carrier}
+A $\RegularCauchySubsequenceUp$ source packet is a finite $\BHist$ row
+$$
+G=(S,T,W,R,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is a $\RegularCauchyNameUp$ or $\RegSeqRatUp$ source row;
+\item $T$ is a certified unary reindexing row whose displayed order ledger is monotone and cofinal on the inspected indices;
+\item $W$ records the selected finite $\StreamNameUp$ windows before and after reindexing;
+\item $R$ records the transported $\DyadicRatCoreUp$ radius rows, point observations, and regularity rows;
+\item $E$ is the $\RealUp$ seal boundary read by downstream real-name consumers;
+\item $H$, $C$, $P$, and $N$ are respectively the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchySubsequenceUp}$ provenance rows.
+\end{enumerate}
+The classifier compares two packets only by the source row, the displayed monotone-cofinal reindexing ledger, common finite windows, transported dyadic-radius and regularity rows, the real-seal boundary, and the four provenance coordinates.
+\end{definition}
+
+\begin{theorem}[RegularCauchySubsequence NameCert obligations]
+\label{thm:regular-cauchy-subsequence-namecert-obligations}
+Every accepted $\RegularCauchySubsequenceUp$ packet with carrier \autoref{def:regular-cauchy-subsequence-carrier} carries the NameCert obligation rows for constructive tail-subsequence use:
+\begin{enumerate}
+\item the source row is an accepted $\RegularCauchyNameUp$ or $\RegSeqRatUp$ packet;
+\item the reindexing row is displayed as a monotone and cofinal unary ledger;
+\item every chosen finite $\StreamNameUp$ window is obtained by transporting an inspected source window along that ledger;
+\item the $\DyadicRatCoreUp$ radius and pointwise $\RegSeqRatUp$ comparison rows are transported through the same window route;
+\item the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance exhausts the local certificate ledger.
+\end{enumerate}
+No obligation row contains quotient streams, selected subsequences by choice, host sequence equality, or real completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_namecert\_obligations}
+\begin{proof}
+Read the carrier coordinates. The source coordinate supplies the regular Cauchy or regular rational packet, and the $T$ coordinate supplies a finite monotone-cofinal unary ledger rather than a host-level subsequence selector.
+
+For a $\RegSeqRatUp$ source, use the cofinal-tail rows such as \autoref{thm:regseqrat-tail-cofinal-real-seal-invariance} and \autoref{thm:regseqrat-cofinal-tail-seal-selected-window-uniqueness}. These identify the displayed tail window, the transported dyadic endpoints, the radius rows, and the pointwise regular rational comparisons on a common cofinal refinement.
+
+For a $\RegularCauchyNameUp$ source, use \autoref{thm:regularcauchyname-streamname-handoff} and \autoref{thm:regularcauchyname-obligation-closure-package}. They force each consumer read through a finite $\StreamNameUp$ window and keep the dyadic-radius, pointwise $\RegSeqRatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows visible.
+
+The classifier of \autoref{def:regular-cauchy-subsequence-carrier} admits no additional comparison coordinate. Hence the five obligation rows are exhausted by the displayed source, reindexing, window, transported regularity, and provenance ledgers, with no quotient, choice-selected subsequence, host equality, or completeness datum.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence Real seal boundary]
+\label{thm:regular-cauchy-subsequence-real-seal-boundary}
+The $\RealUp$ seal of an accepted $\RegularCauchySubsequenceUp$ packet is read only after the source packet, monotone-cofinal reindexing ledger, finite $\StreamNameUp$ windows, transported $\DyadicRatCoreUp$ radius rows, and pointwise $\RegSeqRatUp$ comparisons have been displayed. Therefore tail-subsequence reindexing preserves the real-name seal surface as a finite BEDC ledger and does not export quotient-stream equality, a choice-selected subsequence, host sequence equality, or ambient real completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_real\_seal\_boundary}
+\begin{proof}
+Start from an accepted carrier. The $E$ coordinate is placed after the source, reindexing, window, transported radius, regularity, and provenance rows, so the real-facing read is reached only along that displayed route.
+
+Apply \autoref{thm:regular-cauchy-subsequence-namecert-obligations}. It supplies the monotone-cofinal reindexing row, the finite-window transport, and the transported dyadic-radius and pointwise regular rational comparisons needed by the seal.
+
+The seal itself is then the same kind of boundary used by \autoref{thm:regularcauchyname-realup-seal-boundary} and the RegSeqRat cofinal-tail seal rows. Since the packet has no coordinate for a quotient stream, an externally selected infinite subsequence, host sequence equality, or real completeness, no such datum can be read from the $\RealUp$ boundary.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence monotone-cofinal window transport]
+\label{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport}
+Let $G=(S,T,W,R,E,H,C,P,N)$ be an accepted $\RegularCauchySubsequenceUp$ packet, and let $u$ be a unary index whose source window is displayed by $S$. If the reindexing row $T$ records a monotone-cofinal route from $u$ to the selected index $T(u)$, then the packet transports the selected finite $\StreamNameUp$ window at $T(u)$ together with its $\DyadicRatCoreUp$ radius row and pointwise $\RegSeqRatUp$ comparison rows through the same $\mathsf{BHist}$ route. No selected window may be read without that monotone-cofinal row and its transported radius and regularity evidence.
+\end{theorem}
+\begin{proof}
+Project the coordinates $S$, $T$, $W$, and $R$ from the accepted carrier. The row $T$ is the only coordinate that names a reindexing route, so a selected window must be reached through that displayed monotone-cofinal ledger.
+
+Use the window clause of \autoref{thm:regular-cauchy-subsequence-namecert-obligations}. It identifies each selected $\StreamNameUp$ window as the transport of an inspected source window along the same unary route.
+
+The radius and regularity rows are stored in $R$ beside that transported window. Their $\DyadicRatCoreUp$ and $\RegSeqRatUp$ reads therefore move with the window row, and the packet has no coordinate from which an independent subsequence window could be selected.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_monotone\_cofinal\_window\_transport}
+
+\begin{theorem}[RegularCauchySubsequence tail-classifier stability]
+\label{thm:regular-cauchy-subsequence-tail-classifier-stability}
+Let $G$ and $G'$ be accepted $\RegularCauchySubsequenceUp$ packets. Suppose their source rows, monotone-cofinal reindexing ledgers, selected finite windows, dyadic-radius rows, regularity rows, $\RealUp$ seal rows, and $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows are transported componentwise by displayed $\hsame$ routes. Then the local $\RegularCauchySubsequenceUp$ classifier gives the same tail-subsequence comparison for $G$ and $G'$ on every shared finite window.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_tail\_classifier\_stability}
+\begin{proof}
+Unfold the classifier described in \autoref{def:regular-cauchy-subsequence-carrier}. It compares only the source, reindexing ledger, common finite windows, transported radius and regularity rows, real-seal boundary, and visible provenance.
+
+Move those coordinates componentwise along the displayed $\hsame$ routes. The $\Cont$ rows preserve the read paths for the selected windows, while the $\Pkg$ and local $\NameCert$ rows keep the same dependency certificates attached to the transported packet.
+
+Apply \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport} on each shared window. The window, radius, and regularity data remain tied to the same monotone-cofinal route, so the classifier has no remaining coordinate on which the transported comparison could differ.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence Real seal factorization]
+\label{thm:regular-cauchy-subsequence-real-seal-factorization}
+Every $\RealUp$ seal read from an accepted $\RegularCauchySubsequenceUp$ packet factors through the source packet, the monotone-cofinal reindexing ledger, the selected finite $\StreamNameUp$ windows, the transported $\DyadicRatCoreUp$ radius rows, and the $\RegSeqRatUp$ regularity route before it reaches the seal row. Thus the real-facing boundary is a finite tail-reindexing ledger rather than a quotient-stream, choice-selected subsequence, host sequence equality, or completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_real\_seal\_factorization}
+\begin{proof}
+Begin with the seal row $E$ of the accepted packet. By \autoref{thm:regular-cauchy-subsequence-real-seal-boundary}, a consumer reaches $E$ only after the source, reindexing, window, radius, and regularity rows have been displayed.
+
+Apply \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport}. It fixes the route from the source window through the monotone-cofinal ledger to the selected finite window and carries the corresponding dyadic-radius and regularity rows with it.
+
+The remaining read is the $\RealUp$ seal row itself. Since the carrier contains no quotient stream, selected infinite subsequence, host equality, or completeness coordinate, the displayed route exhausts the factorization of every public real-seal read.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence RegSeqRat sibling consumption]
+\label{thm:regular-cauchy-subsequence-regseqrat-sibling-consumption}
+Every accepted $\RegularCauchySubsequenceUp$ packet consumes the $\RegSeqRatUp$ carrier and classifier surface of \autoref{ch:concrete-instances-regseqrat-namecert} and the regular Cauchy name surface of \autoref{ch:concrete-instances-regularcauchyname-namecert} before it exports its subsequence $\RealUp$ seal. The subsequence packet may transport finite windows and tail classifiers, but it cannot present a direct $\RealUp$ seal that bypasses the sibling $\RegSeqRatUp$ packet or the displayed $\RegularCauchyNameUp$ source row.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $G=(S,T,W,R,E,H,C,P,N)$. The source row $S$ is either a $\RegularCauchyNameUp$ row or a $\RegSeqRatUp$ row, and the regularity entries in $R$ are the pointwise $\RegSeqRatUp$ comparison rows attached to the selected finite windows.
+
+Apply the monotone-cofinal window transport theorem. Each selected subsequence window is read through the same reindexing ledger $T$, and the transported dyadic-radius and regularity rows move with that window rather than being selected independently.
+
+Apply tail-classifier stability. Componentwise $\hsame$ transport preserves the source row, transported windows, radius rows, regularity rows, seal row, and provenance rows, so a classifier-facing consumer cannot replace the sibling $\RegSeqRatUp$ surface by an unrecorded real seal.
+
+Finally apply the real seal factorization theorem. The public $\RealUp$ seal is reached only after the source surface, monotone-cofinal ledger, transported finite windows, dyadic-radius rows, and regularity route have been displayed. Thus the sibling $\RegSeqRatUp$ and $\RegularCauchyNameUp$ surfaces are consumed before the seal is exported, and the carrier has no coordinate for a bypassing direct $\RealUp$ seal.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence scoped kernel interface]
+\label{thm:regular-cauchy-subsequence-scoped-kernel-interface}
+For every accepted $\RegularCauchySubsequenceUp$ packet $G=(S,T,W,R,E,H,C,P,N)$, the complete carrier surface exposed to downstream BEDC consumers is exactly the source row $S$, the monotone-cofinal reindexing ledger $T$, the finite $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ radius rows in $R$, the $\RegSeqRatUp$ regularity route in $R$, the $\RealUp$ seal row $E$, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows $H$, $C$, $P$, and $N$. No consumer of the packet can obtain an additional L10 kernel dependency, a quotient-stream representative, a choice-selected subsequence, host sequence equality, or ambient real completeness from the carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_scoped\_kernel\_interface}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-subsequence-carrier}. Its coordinates list the source, reindexing ledger, window ledger, transported dyadic and regularity rows, seal row, and provenance rows, and the classifier compares no further coordinate.
+
+Apply the NameCert obligation rows of \autoref{thm:regular-cauchy-subsequence-namecert-obligations}. They keep the source packet, monotone-cofinal ledger, window transport, dyadic-radius rows, pointwise regular rational comparisons, and provenance ledger visible in the same finite packet.
+
+Use \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport} and \autoref{thm:regular-cauchy-subsequence-tail-classifier-stability}. These keep each selected window and its transported radius and regularity evidence tied to the displayed reindexing row under $\hsame$ and $\Cont$ transport.
+
+Finally apply the seal factorization of \autoref{thm:regular-cauchy-subsequence-real-seal-factorization}. The public real-facing read reaches $E$ only through those displayed rows, so the listed coordinates are the scoped kernel interface and no unlisted dependency can be exported.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence public export]
+\label{thm:regular-cauchy-subsequence-public-export}
+The carrier of \autoref{def:regular-cauchy-subsequence-carrier}, the NameCert obligations of \autoref{thm:regular-cauchy-subsequence-namecert-obligations}, the real seal boundary of \autoref{thm:regular-cauchy-subsequence-real-seal-boundary}, the monotone-cofinal window transport of \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport}, the tail-classifier stability of \autoref{thm:regular-cauchy-subsequence-tail-classifier-stability}, the real seal factorization of \autoref{thm:regular-cauchy-subsequence-real-seal-factorization}, and the scoped kernel interface of \autoref{thm:regular-cauchy-subsequence-scoped-kernel-interface} assemble the public $\RegularCauchySubsequenceUp$ export consumed by $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\RatUp$.
+
+The exported object is finite $\BHist$ reindexing data: a source row, a displayed monotone-cofinal unary ledger, selected finite stream windows, transported dyadic-radius and regularity rows, a real-seal boundary, and visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. It is not a choice-selected infinite subsequence and not host sequence equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_public\_export}
+\begin{proof}
+Project the accepted carrier
+$$
+G=(S,T,W,R,E,H,C,P,N).
+$$
+The carrier and obligation theorems identify the source, monotone-cofinal reindexing ledger, finite windows, transported radius and regularity rows, seal row, and provenance rows.
+
+The boundary, window-transport, classifier-stability, and seal-factorization theorems show that every downstream read travels through those displayed coordinates. The scoped kernel interface then records that no additional dependency is available to a consumer.
+
+Therefore the public export is precisely the finite $\BHist$ reindexing surface consumed by the named regular Cauchy, regular rational, stream, dyadic, real, and rational chapters. Since the carrier has no coordinate for an externally selected infinite subsequence or host sequence equality, those objects are not exported.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence standard bridge source]
+\label{thm:regular-cauchy-subsequence-standard-bridge-source}
+The public export of \autoref{thm:regular-cauchy-subsequence-public-export} supplies the BEDC source side of a standard regular-Cauchy subsequence interface. Its bridge source is exactly the finite packet
+$$
+G=(S,T,W,R,E,H,C,P,N)
+$$
+whose rows are the $\RegularCauchyNameUp$ or $\RegSeqRatUp$ source, the monotone-cofinal unary reindexing ledger, the transported $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ radius rows, the pointwise $\RegSeqRatUp$ regularity rows, the $\RealUp$ seal boundary, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchySubsequenceUp}$ provenance. The standard readback is therefore a regular-Cauchy subsequence presentation whose subsequence map is read only from $T$, whose observations are read only from $W$ and $R$, and whose real-name boundary is read only from $E$ after those rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with the public export. It is assembled from the carrier, obligation, window-transport, classifier-stability, seal-factorization, and scoped-interface rows, so every field of the standard subsequence presentation has a named BEDC source.
+
+The forward bridge read sends the finite packet to the standard presentation by reading the reindexing map from the displayed monotone-cofinal ledger $T$, the selected observations from $W$, and the radius and regularity evidence from $R$. The real-facing endpoint is then read from $E$, after the source and transported window route have already been exposed.
+
+For the reverse read, admit only a standard presentation whose source, reindexing, window, radius, regularity, seal, and provenance fields are these same displayed rows. Repacking those rows gives the original carrier packet $G$, and the public export theorem identifies it as the BEDC source side of the bridge.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_standard\_bridge\_source}
+
+\begin{theorem}[RegularCauchySubsequence bridge non-escape]
+\label{thm:regular-cauchy-subsequence-bridge-non-escape}
+The bridge source of \autoref{thm:regular-cauchy-subsequence-standard-bridge-source} exports no quotient stream, choice-selected infinite subsequence, host sequence equality, host real equality, or ambient real completeness principle. Any standard regular-Cauchy subsequence presentation admitted by the bridge must factor through the same finite $\BHist$ packet, the same componentwise $\hsame$ transport, and the same $\RealUp$ seal boundary used by the public export.
+\end{theorem}
+\begin{proof}
+The carrier contains no coordinate for a quotient stream, host sequence equality, host real equality, or completion object. Its only subsequence datum is the displayed finite monotone-cofinal ledger $T$.
+
+Apply \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport}. It forces every selected finite window to be transported along $T$ together with its dyadic-radius and regularity rows, so a standard presentation cannot read an independently chosen infinite subsequence.
+
+Apply \autoref{thm:regular-cauchy-subsequence-tail-classifier-stability} and \autoref{thm:regular-cauchy-subsequence-real-seal-factorization}. Classifier movement is componentwise $\hsame$ on the displayed rows, and every real-facing read factors through the same finite route before reaching $E$. Thus the bridge has no remaining field through which the excluded host or quotient data could enter.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_bridge\_non\_escape}
+
+\begin{theorem}[RegularCauchySubsequence bridged export]
+\label{thm:regular-cauchy-subsequence-bridged-export}
+The carrier of \autoref{def:regular-cauchy-subsequence-carrier}, the public export of \autoref{thm:regular-cauchy-subsequence-public-export}, the monotone-cofinal window transport of \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport}, the tail-classifier stability of \autoref{thm:regular-cauchy-subsequence-tail-classifier-stability}, the real seal factorization of \autoref{thm:regular-cauchy-subsequence-real-seal-factorization}, the standard bridge source of \autoref{thm:regular-cauchy-subsequence-standard-bridge-source}, and the bridge non-escape result of \autoref{thm:regular-cauchy-subsequence-bridge-non-escape} assemble a bridged $\RegularCauchySubsequenceUp$ export to the standard regular-Cauchy subsequence interface. The bridge preserves exactly the displayed finite source, reindexing, window, radius, regularity, seal, classifier, continuation, package, and naming rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_bridged\_export}
+\begin{proof}
+First assemble the BEDC side. The carrier and public export identify the complete finite packet, while the window transport theorem ties every selected observation to the monotone-cofinal reindexing ledger.
+
+Next preserve the classifier and seal fields. Tail-classifier stability gives componentwise $\hsame$ transport for the source, reindexing, window, radius, regularity, seal, and provenance rows. Seal factorization keeps the real-facing endpoint behind that same finite route.
+
+Finally apply the standard bridge source and bridge non-escape theorems. The forward and reverse reads use only the listed rows, and the excluded quotient, choice, host-equality, and completeness data have no bridge field. Therefore the public finite tail-subsequence export is the bridged regular-Cauchy subsequence interface at the paper level.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequence mature consumer example]
+\label{thm:regular-cauchy-subsequence-mature-consumer-example}
+A $\RealUp$ or $\RegularCauchyNameUp$ consumer using a monotone-cofinal subsequence factors through the displayed $\RegularCauchySubsequenceUp$ finite-window interface: the source row, monotone-cofinal reindexing ledger, finite observation windows, dyadic-radius rows, regularity rows, tail-classifier transport, real-seal row, standard bridge source, $\hsame$ witnesses, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ row. The consumer never selects a quotient representative, a host subsequence function, a host stream equality, or a host real equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_mature\_consumer\_route}
+\begin{proof}
+Begin with the consumer's requested finite window. The carrier and \autoref{thm:regular-cauchy-subsequence-public-export} expose the source, reindexing ledger, selected windows, radius rows, regularity rows, seal row, transport rows, routes, provenance, and local certificate.
+
+Apply \autoref{thm:regular-cauchy-subsequence-monotone-cofinal-window-transport}. It routes the consumer window through the displayed monotone-cofinal ledger and keeps the requested observations attached to the same finite subsequence packet.
+
+Next apply \autoref{thm:regular-cauchy-subsequence-tail-classifier-stability} and \autoref{thm:regular-cauchy-subsequence-real-seal-factorization}. The classifier-facing rows move through $\hsame$ and $\Cont$, and the real-facing read reaches $\RealUp$ only through the stored seal row.
+
+Finally use \autoref{thm:regular-cauchy-subsequence-bridged-export}. The bridge source and non-escape rows admit exactly the finite-window presentation already displayed, so a $\RealUp$ or $\RegularCauchyNameUp$ consumer factors through the packet without selecting quotient representatives or host-level equality data.
+\end{proof}
+
+\closureat{RegularCauchySubsequenceUp}{seedStr}
+\closureat{RegularCauchySubsequenceUp}{obligationStr}
+\closureat{RegularCauchySubsequenceUp}{scopedStr}
+\closureat{RegularCauchySubsequenceUp}{publicStr}
+\closureat{RegularCauchySubsequenceUp}{bridgedStr}[BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_real\_seal\_boundary]
+\closureat{RegularCauchySubsequenceUp}{matureStr}[BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_real\_seal\_boundary]
+
+\begin{closurestatus}{\RegularCauchySubsequenceUp}
+  \constructivestory{A $\RegularCauchySubsequenceUp$ packet is generated from a regular Cauchy or regular rational source, a displayed monotone-cofinal unary reindexing ledger, selected finite stream windows, transported dyadic-radius and regularity rows, a real-seal boundary, and visible provenance.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-subsequence-mature-consumer-example} records the mature consumer surface over the bridged export, carrier, public finite tail-subsequence export, monotone-cofinal finite-window transport, tail-classifier stability, $\RegSeqRatUp$ sibling consumption, $\RealUp$ seal factorization, standard bridge source, and bridge non-escape rows over $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\RatUp$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.RegularCauchySubsequenceUp.RegularCauchySubsequenceCarrier\_public\_export}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close real completeness, quotient stream equality, host sequence equality, host real equality, selected infinite subsequences, uniqueness of limits, or bridge checking.}
+  \upgradepath{No further paper-side theory grade is required for this finite-window consumer surface.}
+\end{closurestatus}

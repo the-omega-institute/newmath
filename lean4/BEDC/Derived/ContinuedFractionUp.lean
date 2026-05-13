@@ -1,0 +1,293 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.ContinuedFractionUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def ContinuedFractionPacket [AskSetup] [PackageSetup]
+    (digits numer denom radius schedule handoff boundary ledger provenance : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory digits ∧ UnaryHistory numer ∧ UnaryHistory denom ∧ UnaryHistory radius ∧
+    UnaryHistory schedule ∧ UnaryHistory handoff ∧ UnaryHistory boundary ∧
+      UnaryHistory ledger ∧ UnaryHistory provenance ∧ Cont schedule numer handoff ∧
+        Cont handoff ledger boundary ∧ Cont boundary schedule provenance ∧
+          PkgSig bundle provenance pkg
+
+theorem ContinuedFractionPacket_recurrence_ledger_transport [AskSetup] [PackageSetup]
+    {digits numer denom radius schedule handoff boundary ledger provenance recurrence recurrence'
+      window window' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numer denom radius schedule handoff boundary ledger provenance
+        bundle pkg ->
+      Cont numer denom recurrence -> hsame recurrence recurrence' ->
+        Cont recurrence radius window -> Cont recurrence' radius window' ->
+          UnaryHistory recurrence' ∧ UnaryHistory window' ∧ hsame window window' ∧
+            PkgSig bundle provenance pkg := by
+  intro packet recurrenceRow sameRecurrence windowRow windowRow'
+  obtain ⟨_digitsUnary, numerUnary, denomUnary, radiusUnary, _scheduleUnary, _handoffUnary,
+    _boundaryUnary, _ledgerUnary, _provenanceUnary, _scheduleNumerRow, _boundaryRow,
+    _provenanceRow, pkgSig⟩ := packet
+  have recurrenceUnary : UnaryHistory recurrence :=
+    unary_cont_closed numerUnary denomUnary recurrenceRow
+  have recurrenceUnary' : UnaryHistory recurrence' :=
+    unary_transport recurrenceUnary sameRecurrence
+  have windowUnary' : UnaryHistory window' :=
+    unary_cont_closed recurrenceUnary' radiusUnary windowRow'
+  have sameWindow : hsame window window' :=
+    cont_respects_hsame sameRecurrence (hsame_refl radius) windowRow windowRow'
+  exact ⟨recurrenceUnary', windowUnary', sameWindow, pkgSig⟩
+
+theorem ContinuedFractionPacket_real_boundary_transport [AskSetup] [PackageSetup]
+    {digits numer denom radius schedule handoff boundary ledger provenance handoff'
+      boundary' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numer denom radius schedule handoff boundary ledger provenance
+        bundle pkg ->
+      hsame handoff handoff' -> Cont handoff' ledger boundary' ->
+      UnaryHistory boundary' ∧ hsame boundary boundary' ∧ PkgSig bundle provenance pkg := by
+  intro packet sameHandoff boundaryRow'
+  obtain ⟨_digitsUnary, _numerUnary, _denomUnary, _radiusUnary, _scheduleUnary, handoffUnary,
+    _boundaryUnary, ledgerUnary, _provenanceUnary, _scheduleNumerRow, boundaryRow,
+    _provenanceRow, pkgSig⟩ := packet
+  have handoffUnary' : UnaryHistory handoff' :=
+    unary_transport handoffUnary sameHandoff
+  have boundaryUnary' : UnaryHistory boundary' :=
+    unary_cont_closed handoffUnary' ledgerUnary boundaryRow'
+  have sameBoundary : hsame boundary boundary' :=
+    cont_respects_hsame sameHandoff (hsame_refl ledger) boundaryRow boundaryRow'
+  exact ⟨boundaryUnary', sameBoundary, pkgSig⟩
+
+theorem ContinuedFractionPacket_regseqrat_handoff [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance consumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont handoff boundary consumer ->
+        PkgSig bundle provenance pkg ->
+          UnaryHistory digits ∧ UnaryHistory numerator ∧ UnaryHistory denominator ∧
+            UnaryHistory radius ∧ UnaryHistory schedule ∧ UnaryHistory handoff ∧
+              UnaryHistory consumer ∧ Cont schedule numerator handoff ∧
+                Cont handoff boundary consumer ∧ PkgSig bundle provenance pkg := by
+  intro packet consumerRow pkgRow
+  obtain ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary,
+    handoffUnary, boundaryUnary, _ledgerUnary, _provenanceUnary, scheduleNumeratorRow,
+    _boundaryRow, _provenanceRow, _storedPkgRow⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary boundaryUnary consumerRow
+  exact ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary, handoffUnary,
+    consumerUnary, scheduleNumeratorRow, consumerRow, pkgRow⟩
+
+theorem ContinuedFractionPacket_finite_handoff_obligation [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance consumer
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont schedule handoff consumer ->
+        Cont consumer provenance readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory schedule ∧ UnaryHistory handoff ∧ UnaryHistory ledger ∧
+              UnaryHistory provenance ∧ UnaryHistory consumer ∧ UnaryHistory readback ∧
+                Cont schedule handoff consumer ∧ Cont consumer provenance readback ∧
+                  PkgSig bundle readback pkg := by
+  intro packet consumerRow readbackRow readbackPkg
+  obtain ⟨_digitsUnary, _numeratorUnary, _denominatorUnary, _radiusUnary, scheduleUnary,
+    handoffUnary, _boundaryUnary, ledgerUnary, provenanceUnary, _scheduleNumeratorRow,
+    _boundaryRow, _provenanceRow, _packetPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed scheduleUnary handoffUnary consumerRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed consumerUnary provenanceUnary readbackRow
+  exact
+    ⟨scheduleUnary, handoffUnary, ledgerUnary, provenanceUnary, consumerUnary, readbackUnary,
+      consumerRow, readbackRow, readbackPkg⟩
+
+theorem ContinuedFractionPacket_digit_tail_stability [AskSetup] [PackageSetup]
+    {digits digits' numer denom radius schedule handoff boundary ledger provenance tail tail' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numer denom radius schedule handoff boundary ledger provenance
+        bundle pkg ->
+      hsame digits digits' -> Cont digits schedule tail -> Cont digits' schedule tail' ->
+        PkgSig bundle tail' pkg ->
+          ContinuedFractionPacket digits' numer denom radius schedule handoff boundary ledger
+              provenance bundle pkg ∧
+            UnaryHistory tail ∧ UnaryHistory tail' ∧ hsame tail tail' ∧
+              PkgSig bundle tail' pkg := by
+  intro packet sameDigits tailRow tailRow' tailPkg
+  obtain ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+    boundaryUnary, ledgerUnary, provenanceUnary, scheduleNumerRow, boundaryRow, provenanceRow,
+    provenancePkg⟩ := packet
+  have digitsUnary' : UnaryHistory digits' :=
+    unary_transport digitsUnary sameDigits
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed digitsUnary scheduleUnary tailRow
+  have tailUnary' : UnaryHistory tail' :=
+    unary_cont_closed digitsUnary' scheduleUnary tailRow'
+  have sameTail : hsame tail tail' :=
+    cont_respects_hsame sameDigits (hsame_refl schedule) tailRow tailRow'
+  exact
+    ⟨⟨digitsUnary', numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+        boundaryUnary, ledgerUnary, provenanceUnary, scheduleNumerRow, boundaryRow,
+        provenanceRow, provenancePkg⟩,
+      tailUnary, tailUnary', sameTail, tailPkg⟩
+
+theorem ContinuedFractionPacket_rational_interval_window_handoff_certificate [AskSetup]
+    [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance interval
+      readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont numerator denominator interval ->
+        Cont interval boundary readback ->
+          PkgSig bundle readback pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                hsame row readback ∧ UnaryHistory row ∧ Cont interval boundary row ∧
+                  PkgSig bundle row pkg)
+              (fun row : BHist =>
+                UnaryHistory digits ∧ UnaryHistory numerator ∧ UnaryHistory denominator ∧
+                  UnaryHistory radius ∧ UnaryHistory interval ∧
+                    Cont numerator denominator interval ∧ Cont interval boundary row)
+              (fun row : BHist =>
+                PkgSig bundle row pkg ∧ UnaryHistory schedule ∧ UnaryHistory handoff ∧
+                  UnaryHistory boundary)
+              (fun row row' : BHist => psame bundle pkg pkg ∧ hsame row row') := by
+  intro packet numeratorDenominatorInterval intervalBoundaryReadback readbackPkg
+  obtain ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary,
+    handoffUnary, boundaryUnary, _ledgerUnary, _provenanceUnary, _scheduleNumeratorRow,
+    _boundaryRow, _provenanceRow, _packetPkg⟩ := packet
+  have intervalUnary : UnaryHistory interval :=
+    unary_cont_closed numeratorUnary denominatorUnary numeratorDenominatorInterval
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed intervalUnary boundaryUnary intervalBoundaryReadback
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro readback
+          ⟨hsame_refl readback, readbackUnary, intervalBoundaryReadback, readbackPkg⟩
+      equiv_refl := by
+        intro row sourceRow
+        exact ⟨PkgSig_psame_intro sourceRow.right.right.right sourceRow.right.right.right
+          (hsame_refl row), hsame_refl row⟩
+      equiv_symm := by
+        intro _row _row' classified
+        exact ⟨classified.left, hsame_symm classified.right⟩
+      equiv_trans := by
+        intro _row _row' _row'' leftClassified rightClassified
+        exact ⟨leftClassified.left, hsame_trans leftClassified.right rightClassified.right⟩
+      carrier_respects_equiv := by
+        intro _row _row' classified sourceRow
+        cases classified.right
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, intervalUnary,
+          numeratorDenominatorInterval, sourceRow.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right.right, scheduleUnary, handoffUnary, boundaryUnary⟩
+  }
+
+theorem ContinuedFractionPacket_real_boundary [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance sealRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont handoff boundary sealRow ->
+        PkgSig bundle sealRow pkg ->
+          UnaryHistory schedule ∧ UnaryHistory handoff ∧ UnaryHistory boundary ∧
+            UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory sealRow ∧
+              Cont schedule numerator handoff ∧ Cont handoff ledger boundary ∧
+                Cont boundary schedule provenance ∧ Cont handoff boundary sealRow ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle sealRow pkg := by
+  intro packet handoffBoundarySeal sealPkg
+  obtain ⟨_digitsUnary, _numeratorUnary, _denominatorUnary, _radiusUnary, scheduleUnary,
+    handoffUnary, boundaryUnary, ledgerUnary, provenanceUnary, scheduleNumeratorHandoff,
+    handoffLedgerBoundary, boundaryScheduleProvenance, provenancePkg⟩ := packet
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed handoffUnary boundaryUnary handoffBoundarySeal
+  exact
+    ⟨scheduleUnary, handoffUnary, boundaryUnary, ledgerUnary, provenanceUnary, sealUnary,
+      scheduleNumeratorHandoff, handoffLedgerBoundary, boundaryScheduleProvenance,
+      handoffBoundarySeal, provenancePkg, sealPkg⟩
+
+theorem ContinuedFractionPacket_real_boundary_scope [AskSetup] [PackageSetup]
+    {digits numer denom radius schedule handoff boundary ledger provenance realRead readback :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numer denom radius schedule handoff boundary ledger provenance
+        bundle pkg ->
+      Cont handoff boundary realRead ->
+        Cont realRead ledger readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory digits ∧ UnaryHistory numer ∧ UnaryHistory denom ∧
+              UnaryHistory radius ∧ UnaryHistory schedule ∧ UnaryHistory handoff ∧
+                UnaryHistory boundary ∧ UnaryHistory ledger ∧ UnaryHistory realRead ∧
+                  UnaryHistory readback ∧ Cont schedule numer handoff ∧
+                    Cont handoff ledger boundary ∧ Cont handoff boundary realRead ∧
+                      Cont realRead ledger readback ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle readback pkg := by
+  intro packet realReadRow readbackRow readbackPkg
+  obtain ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+    boundaryUnary, ledgerUnary, _provenanceUnary, scheduleNumerRow, boundaryRow,
+    _provenanceRow, packetPkg⟩ := packet
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed handoffUnary boundaryUnary realReadRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed realReadUnary ledgerUnary readbackRow
+  exact
+    ⟨digitsUnary, numerUnary, denomUnary, radiusUnary, scheduleUnary, handoffUnary,
+      boundaryUnary, ledgerUnary, realReadUnary, readbackUnary, scheduleNumerRow, boundaryRow,
+      realReadRow, readbackRow, packetPkg, readbackPkg⟩
+
+theorem ContinuedFractionPacket_convergent_window_standard_bridge [AskSetup] [PackageSetup]
+    {digits numerator denominator radius schedule handoff boundary ledger provenance recurrence
+      window consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuedFractionPacket digits numerator denominator radius schedule handoff boundary ledger
+        provenance bundle pkg ->
+      Cont numerator denominator recurrence ->
+        Cont recurrence radius window ->
+          Cont handoff boundary consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory digits ∧ UnaryHistory numerator ∧ UnaryHistory denominator ∧
+                UnaryHistory radius ∧ UnaryHistory schedule ∧ UnaryHistory recurrence ∧
+                  UnaryHistory window ∧ UnaryHistory consumer ∧
+                    Cont schedule numerator handoff ∧ Cont numerator denominator recurrence ∧
+                      Cont recurrence radius window ∧ Cont handoff boundary consumer ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet numeratorDenominatorRecurrence recurrenceRadiusWindow handoffBoundaryConsumer
+    consumerPkg
+  obtain ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary,
+    handoffUnary, boundaryUnary, _ledgerUnary, _provenanceUnary, scheduleNumeratorHandoff,
+    _handoffLedgerBoundary, _boundaryScheduleProvenance, provenancePkg⟩ := packet
+  have recurrenceUnary : UnaryHistory recurrence :=
+    unary_cont_closed numeratorUnary denominatorUnary numeratorDenominatorRecurrence
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed recurrenceUnary radiusUnary recurrenceRadiusWindow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary boundaryUnary handoffBoundaryConsumer
+  exact
+    ⟨digitsUnary, numeratorUnary, denominatorUnary, radiusUnary, scheduleUnary, recurrenceUnary,
+      windowUnary, consumerUnary, scheduleNumeratorHandoff, numeratorDenominatorRecurrence,
+      recurrenceRadiusWindow, handoffBoundaryConsumer, provenancePkg, consumerPkg⟩
+
+end BEDC.Derived.ContinuedFractionUp

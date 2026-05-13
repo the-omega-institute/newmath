@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\TruthTotalReflectionUp$}
+\label{ch:concrete-instances-truthtotalreflection-namecert}
+\origin{ai}
+
+The $\TruthTotalReflectionUp$ interface records the finite boundary certificate associated with the truth-total reflection obstruction of \autoref{def:truth-total-reflection-certificate} and \autoref{thm:reflection-boundary-exact}. It packages sentence-code rows for $\mathrm{CIC}^{*}$, attempted reflection rows, diagonal obstruction rows, transport data, package provenance, and a local naming row. The truth-total reflection packet reads its extension-attempt and refusal boundary against the accepted and refused declaration surface of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, while adding the diagonal obstruction row that prevents a total internal truth classifier. The packet is a boundary witness: it records why a truth-total classifier cannot be exported as an internal BEDC object.
+
+\begin{definition}[Truth-total reflection NameCert carrier]
+\label{def:truth-total-reflection-namecert-carrier}
+A $\TruthTotalReflectionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,A,D,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S$ is a finite row of $\mathrm{CIC}^{*}$ sentence codes, including the code rows inspected by a candidate reflection consumer;
+\item $A$ is the finite extension-attempt row recording the proposed $\Ext_T$ classifier reads against the sentence-code row $S$;
+\item $D$ is the diagonal obstruction row displaying the code for the sentence that reads the negation of its own attempted $\Ext_T$ classification;
+\item $H$ stores the componentwise $\hsame$ transports for the sentence-code, extension-attempt, and diagonal rows;
+\item $C$ stores the displayed $\Cont$ routes by which a consumer reads those rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\mathrm{CIC}^{*}$ sentence coding, diagonal formation, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TruthTotalReflectionUp}$ row.
+\end{enumerate}
+The local classifier relates two such packets exactly when their displayed sentence-code, extension-attempt, diagonal, transport, route, provenance, and naming rows compare componentwise through $H$ and $C$. It has no coordinate for a BEDC-internal truth predicate, a total truth classifier, or a metalanguage able to validate BEDC from inside BEDC.
+\end{definition}
+\leandef{BEDC.Derived.TruthTotalReflectionUp.TruthTotalReflectionUp}
+
+\begin{theorem}[Truth-total reflection boundary certificate]
+\label{thm:truth-total-reflection-namecert-boundary}
+Every accepted $\TruthTotalReflectionUp$ packet records only the finite boundary evidence for truth-total reflection over $\mathrm{CIC}^{*}$ sentence codes. Its public surface consists of the rows $S,A,D,H,C,P,N$ of \autoref{def:truth-total-reflection-namecert-carrier}; therefore any consumer can read the attempted extension classifier and the diagonal obstruction through the displayed $\hsame$ and $\Cont$ routes, but cannot export an internal BEDC truth classifier for all BEDC sentence codes.
+\end{theorem}
+\leanchecked{BEDC.Derived.TruthTotalReflectionUp.TruthTotalReflectionUp\_taste\_gate\_boundary}
+\begin{proof}
+Project the accepted packet to the tuple $T=(S,A,D,H,C,P,N)$. The sentence-code row $S$ supplies the finite $\mathrm{CIC}^{*}$ codes under inspection, and the extension-attempt row $A$ records only the proposed classifier reads attached to those codes.
+
+The diagonal row $D$ is read through the same finite boundary. It records the obstruction used in \autoref{thm:reflection-boundary-exact}: any truth-total reading of the attempted classifier can be turned against its own diagonal code.
+
+Transport and consumer access are exhausted by $H$ and $C$. These rows move and read the displayed sentence-code, extension-attempt, and diagonal coordinates, while $P$ and $N$ record provenance and local naming.
+
+No remaining coordinate stores a BEDC-internal truth predicate or a total classifier over all represented BEDC sentences. Thus the accepted packet is a finite boundary certificate, not an internal truth-total reflection object.
+\end{proof}
+\leanchecked{BEDC.Derived.TruthTotalReflectionUp.TruthTotalReflectionTasteGate\_single\_carrier\_alignment}
+
+\closureat{TruthTotalReflectionUp}{seedStr}
+
+\begin{closurestatus}{\TruthTotalReflectionUp}
+  \constructivestory{A $\TruthTotalReflectionUp$ packet is generated from finite $\mathrm{CIC}^{*}$ sentence-code rows, extension-attempt rows, diagonal obstruction rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:truth-total-reflection-namecert-carrier} and \autoref{thm:truth-total-reflection-namecert-boundary} bind the finite boundary certificate for truth-total reflection attempts over $\mathrm{CIC}^{*}$ sentence codes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close an internal BEDC truth predicate, a truth-total classifier, a host-runtime validator, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, componentwise classifier transport, diagonal obstruction exactness, and consumer-surface exhaustion for the same finite boundary packet.}
+\end{closurestatus}

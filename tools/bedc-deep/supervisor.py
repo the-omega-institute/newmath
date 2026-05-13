@@ -40,12 +40,14 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 STATE_DIR = SCRIPT_DIR / "state"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 STOP_FILE = SCRIPT_DIR / ".stop"
+NETWORK_RESUME_FILE = STATE_DIR / "network_resume.json"
 
 ORACLE_SERVER_URL = "http://localhost:8767"
 SERVER_SCRIPT = SCRIPT_DIR / "bedc_oracle_server.py"
 ORACLE_CLIENT = SCRIPT_DIR / "oracle_client.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
 LONING_WATCH = SCRIPT_DIR / "loning_watch.py"
+LONING_ASSIMILATOR = SCRIPT_DIR / "loning_assimilator.py"
 
 DEFAULT_PARALLEL = 3
 DEFAULT_POLL_INTERVAL = 60
@@ -59,6 +61,7 @@ DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 TAB_STUCK_THRESHOLD_S = 300
+ZERO_EXTRACTION_ALERT_COOLDOWN_S = 600
 COMPLETIONS_PER_CURATOR = 5
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -83,6 +86,48 @@ def supervisor_log(msg: str) -> None:
     print(line, flush=True)
     with open(SUPERVISOR_LOG_DIR / "supervisor.log", "a", encoding="utf-8") as f:
         f.write(line + "\n")
+
+
+def _write_network_resume_checkpoint(kind: str, branch: str, reason: str,
+                                     *, head: str = "", upstream: str = "") -> None:
+    """Persist a resume marker for network-bound work.
+
+    The critical case is: auto-commit succeeded, git push failed because the
+    network dropped. The working tree is then clean, so the normal
+    "commit if changed" path will not retry. This checkpoint lets later
+    supervisor ticks notice that HEAD is still ahead of its upstream and
+    retry the push after connectivity returns.
+    """
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "kind": kind,
+        "branch": branch,
+        "head": head,
+        "upstream": upstream,
+        "reason": reason[:1000],
+        "updated_at": _now_iso(),
+    }
+    if NETWORK_RESUME_FILE.exists():
+        try:
+            old = json.loads(NETWORK_RESUME_FILE.read_text(encoding="utf-8"))
+            if isinstance(old, dict) and old.get("created_at"):
+                payload["created_at"] = old["created_at"]
+        except (OSError, json.JSONDecodeError):
+            pass
+    payload.setdefault("created_at", payload["updated_at"])
+    NETWORK_RESUME_FILE.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _clear_network_resume_checkpoint() -> None:
+    try:
+        NETWORK_RESUME_FILE.unlink()
+    except FileNotFoundError:
+        pass
+    except OSError as exc:
+        supervisor_log(f"network-resume: failed to clear checkpoint: {exc}")
 
 
 # ---------------------------------------------------------------------------
@@ -155,6 +200,10 @@ def queue_stuck_too_long(threshold_seconds: int) -> bool:
         return False
     queued = s.get("queued_tasks") or []
     return any((t.get("age_seconds") or 0) > threshold_seconds for t in queued)
+
+
+def zero_extraction_hang_agents(status: dict) -> list[str]:
+    return [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
 
 
 def stale_cleanup() -> int:
@@ -613,6 +662,38 @@ def run_loning_watch() -> dict | None:
     return data
 
 
+def run_loning_assimilator() -> dict | None:
+    """Summarize loning watch output into local gate advice."""
+    try:
+        proc = subprocess.run(
+            ["python3", str(LONING_ASSIMILATOR)],
+            cwd=str(REPO_ROOT),
+            text=True,
+            capture_output=True,
+            timeout=90,
+        )
+    except subprocess.TimeoutExpired:
+        supervisor_log("loning_assimilator: timed out")
+        return None
+    except OSError as exc:
+        supervisor_log(f"loning_assimilator: failed to launch: {exc}")
+        return None
+    if proc.returncode != 0:
+        err = (proc.stderr or proc.stdout or "").strip()
+        supervisor_log(f"loning_assimilator: rc={proc.returncode} {err[:300]}")
+        return None
+    try:
+        data = json.loads(proc.stdout.strip().splitlines()[-1])
+    except (IndexError, json.JSONDecodeError):
+        supervisor_log(f"loning_assimilator: output not JSON: {(proc.stdout or '')[:300]}")
+        return None
+    supervisor_log(
+        f"loning_assimilator: relevant={data.get('relevant_commits')} "
+        f"advice={data.get('advice_count')}"
+    )
+    return data
+
+
 def trigger_curator(*, no_dev_sync: bool = False) -> None:
     if not no_dev_sync:
         git_sync_dev()
@@ -638,6 +719,129 @@ def _git(args: list[str], capture: bool = True) -> subprocess.CompletedProcess[s
         capture_output=capture,
         text=True,
     )
+
+
+def current_branch_name() -> str:
+    return _git(["branch", "--show-current"]).stdout.strip()
+
+
+def current_head() -> str:
+    return _git(["rev-parse", "HEAD"]).stdout.strip()
+
+
+def current_upstream() -> str:
+    return _git(["rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"]).stdout.strip()
+
+
+def ahead_behind_upstream() -> tuple[int, int] | None:
+    result = _git(["rev-list", "--left-right", "--count", "@{u}...HEAD"])
+    if result.returncode != 0:
+        return None
+    parts = result.stdout.strip().split()
+    if len(parts) != 2:
+        return None
+    try:
+        behind = int(parts[0])
+        ahead = int(parts[1])
+    except ValueError:
+        return None
+    return ahead, behind
+
+
+def merge_current_upstream_for_push(branch: str) -> bool:
+    """Integrate the current branch's upstream before retrying a push.
+
+    This handles the common non-fast-forward case where the bridge lane pushed
+    a small commit to this same branch while the local supervisor accumulated
+    paper-writeback commits. It only runs from clean post-commit states.
+    """
+    dirty = _git(["status", "--porcelain"]).stdout.strip()
+    if dirty:
+        supervisor_log("push-sync: skipped upstream merge because worktree is dirty")
+        return False
+    upstream = current_upstream()
+    if not upstream:
+        supervisor_log("push-sync: skipped upstream merge because upstream is unknown")
+        return False
+    fetch = _git(["fetch", "origin"], capture=False)
+    if fetch.returncode != 0:
+        supervisor_log(f"push-sync: fetch {branch} failed rc={fetch.returncode}")
+        return False
+    merge = _git(["merge", "--no-edit", upstream], capture=False)
+    if merge.returncode == 0:
+        supervisor_log(f"push-sync: merged {upstream} into {branch}")
+        return True
+    supervisor_log(f"push-sync: merge {upstream} failed rc={merge.returncode}; aborting merge")
+    _git(["merge", "--abort"], capture=False)
+    return False
+
+
+def retry_pending_network_push() -> bool:
+    """Resume a push that may have failed during a network outage.
+
+    This also works when the checkpoint file is absent: if the branch is
+    ahead of its upstream, the supervisor has a clean, deterministic action
+    to take. If the branch is behind as well, leave conflict-aware sync to
+    the normal dev-sync path rather than forcing a blind push.
+    """
+    branch = current_branch_name()
+    if not branch:
+        return False
+    relation = ahead_behind_upstream()
+    if relation is None:
+        if NETWORK_RESUME_FILE.exists():
+            _write_network_resume_checkpoint(
+                "upstream_unknown",
+                branch,
+                "could not resolve upstream while checking pending network resume",
+                head=current_head(),
+            )
+            supervisor_log("network-resume: upstream unknown; will retry next tick")
+        return False
+    ahead, behind = relation
+    if ahead == 0:
+        if NETWORK_RESUME_FILE.exists():
+            supervisor_log("network-resume: upstream caught up; clearing checkpoint")
+            _clear_network_resume_checkpoint()
+        return False
+    if behind:
+        supervisor_log(
+            f"network-resume: branch is ahead={ahead} and behind={behind}; "
+            "merging current upstream before push"
+        )
+        if not merge_current_upstream_for_push(branch):
+            reason = f"branch is ahead={ahead} and behind={behind}; upstream merge failed"
+            _write_network_resume_checkpoint(
+                "push_blocked_diverged",
+                branch,
+                reason,
+                head=current_head(),
+                upstream=current_upstream(),
+            )
+            supervisor_log(f"network-resume: {reason}")
+            return False
+        relation = ahead_behind_upstream()
+        if relation is None:
+            return False
+        ahead, behind = relation
+        if behind:
+            supervisor_log(f"network-resume: still behind={behind} after upstream merge")
+            return False
+    supervisor_log(f"network-resume: retrying push of {ahead} commit(s) on {branch}")
+    push = _git(["push", "origin", branch], capture=False)
+    if push.returncode != 0:
+        _write_network_resume_checkpoint(
+            "push_failed",
+            branch,
+            f"git push rc={push.returncode}",
+            head=current_head(),
+            upstream=current_upstream(),
+        )
+        supervisor_log(f"network-resume: push still failing rc={push.returncode}")
+        return False
+    _clear_network_resume_checkpoint()
+    supervisor_log(f"network-resume: push complete on {branch}")
+    return True
 
 
 def commit_and_push_if_changed() -> bool:
@@ -670,12 +874,37 @@ def commit_and_push_if_changed() -> bool:
         if rc != 0:
             supervisor_log("auto-commit: git commit returned non-zero (race or empty)")
             return False
-        branch = _git(["branch", "--show-current"]).stdout.strip()
+        branch = current_branch_name()
+        relation = ahead_behind_upstream()
+        if relation:
+            ahead, behind = relation
+            if behind:
+                supervisor_log(
+                    f"auto-commit: branch behind upstream by {behind}; "
+                    "merging before push"
+                )
+                if not merge_current_upstream_for_push(branch):
+                    _write_network_resume_checkpoint(
+                        "push_blocked_diverged",
+                        branch,
+                        f"branch behind upstream by {behind}; upstream merge failed",
+                        head=current_head(),
+                        upstream=current_upstream(),
+                    )
+                    return False
         push = _git(["push", "origin", branch], capture=False)
         if push.returncode != 0:
             supervisor_log(f"auto-commit: push failed rc={push.returncode}")
+            _write_network_resume_checkpoint(
+                "push_failed_after_commit",
+                branch,
+                f"git push rc={push.returncode}",
+                head=current_head(),
+                upstream=current_upstream(),
+            )
             return False
     supervisor_log(f"auto-commit + push complete on {branch}")
+    _clear_network_resume_checkpoint()
     return True
 
 
@@ -820,6 +1049,7 @@ def main() -> int:
     last_loning_watch_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
+    last_zero_extract_alert_ts = 0.0
     inner: subprocess.Popen | None = None
 
     supervisor_state: dict = {
@@ -904,6 +1134,20 @@ def main() -> int:
                     )
                     last_tab_alert_ts = _now()
 
+            oracle_health = server_status()
+            zero_extract_agents = zero_extraction_hang_agents(oracle_health)
+            if zero_extract_agents and _now() - last_zero_extract_alert_ts > ZERO_EXTRACTION_ALERT_COOLDOWN_S:
+                agents_csv = ",".join(zero_extract_agents)
+                supervisor_log(
+                    "oracle health: zero-extraction hang "
+                    f"agents={agents_csv}; refresh affected tab(s) only"
+                )
+                macos_notify(
+                    "BEDC supervisor: oracle zero extraction",
+                    f"{agents_csv} is generating but extracted 0 chars; refresh only the affected ChatGPT tab.",
+                )
+                last_zero_extract_alert_ts = _now()
+
             clusters = stage2_reject_clusters()
             if clusters:
                 supervisor_log(f"stage2 reject clusters: {clusters} — {stage2_reject_advice(clusters)}")
@@ -912,10 +1156,12 @@ def main() -> int:
                 since_loning_watch_m = (_now() - last_loning_watch_ts) / 60.0
                 if since_loning_watch_m > args.loning_watch_minutes:
                     run_loning_watch()
+                    run_loning_assimilator()
                     last_loning_watch_ts = _now()
 
             if not args.no_auto_commit:
                 try:
+                    retry_pending_network_push()
                     commit_and_push_if_changed()
                 except Exception as exc:
                     supervisor_log(f"auto-commit error: {exc}")

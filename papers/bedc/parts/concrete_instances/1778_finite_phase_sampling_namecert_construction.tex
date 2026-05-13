@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\FinitePhaseSamplingUp$}
+\label{ch:concrete-instances-finite-phase-sampling-namecert}
+\origin{human}
+
+The $\FinitePhaseSamplingUp$ packet is a BEDC-native finite certificate surface. It records only finite phase rows, finite coefficient reads, and explicit aliasing ledgers, so Real and Completion consumers may cite coefficient recovery without importing Haar measure, root-of-unity analysis, quotient streams, or host complex Fourier theory.
+
+\begin{definition}[Finite phase sampling carrier]
+\label{def:finite-phase-sampling-carrier}
+A $\FinitePhaseSamplingUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,K,M,A,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $G$ is the finite phase-grid row, listing the sampled phase marks and the cyclic grid schedule used by the observation packet;
+\item $K$ is the mode-bound row, recording the finite integer modes whose coefficient reads are admitted and the displayed barrier that keeps the requested modes below the grid scale;
+\item $M$ is the finite coefficient-sample row, storing the observed values and the grid sums used to read cosine, sine, or character coefficients;
+\item $A$ is the aliasing ledger, listing exactly which translated mode rows would collide with each requested mode at the chosen grid scale;
+\item $E$ is the $\RegSeqRatUp$ handoff and $\RealUp$ seal row through which downstream real-name consumers read the recovered coefficient data;
+\item $H$ stores the componentwise $\hsame$ transports for $G,K,M,A,E$;
+\item $C$ stores the displayed $\Cont$ routes by which consumers may inspect the finite rows and the real handoff;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\RegSeqRatUp$, $\RealUp$, and the local finite observation rows;
+\item $N$ is the local $\NameCert_{\FinitePhaseSamplingUp}$ provenance row.
+\end{enumerate}
+The classifier compares two carriers only by these displayed finite rows and their stored transports. It does not compare functions on a circle, choose a Haar integral, form a quotient stream, or import a host Fourier object.
+\end{definition}
+
+\begin{theorem}[Finite phase sampling NameCert obligations]
+\label{thm:finite-phase-sampling-namecert-obligations}
+The local $\NameCert_{\FinitePhaseSamplingUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the packet of \autoref{def:finite-phase-sampling-carrier};
+\item classifier laws by componentwise $\hsame$ on the grid row, mode-bound row, coefficient-sample row, aliasing ledger, real handoff row, consumer routes, package provenance, and local certificate row;
+\item grid exactness: every coefficient sample in $M$ is obtained from the displayed phase marks of $G$ and an admitted mode of $K$ by a finite sum in the same packet;
+\item handoff exactness: the $\RegSeqRatUp$ row and the $\RealUp$ seal in $E$ read only the finite coefficient rows accepted by $M$ together with the aliasing ledger $A$;
+\item non-escape: accepted carriers export no Haar-measure object, no root-of-unity theorem, no quotient-stream equality, and no host complex Fourier theory.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed tuple $S=(G,K,M,A,E,H,C,P,N)$. Each coordinate is a finite $\BHist$ row or a route between finite rows.
+
+For the classifier laws, compare the coordinates through $H$ and then read the permitted continuations through $C$. Reflexivity, symmetry, and transitivity are inherited coordinate by coordinate because the local certificate has no hidden coordinate beyond the displayed packet.
+
+Grid exactness is finite ledger inspection. A coefficient row is accepted only when its mode is present in $K$ and its summation entries are the phase observations already listed in $G$ and $M$.
+
+The handoff obligation repacks those finite coefficient rows as the $\RegSeqRatUp$ source for $E$, and the $\RealUp$ seal reads through that source. The aliasing ledger $A$ remains attached to the same request, so the handoff does not introduce an external limiting argument.
+
+Non-escape follows from the carrier definition. Since the packet contains no Haar measure, no analytic root-of-unity theorem, no quotient stream, and no host Fourier space, no consumer route can export one.
+\end{proof}
+
+\begin{theorem}[Finite phase sampling grid recovery]
+\label{thm:finite-phase-sampling-grid-recovery}
+Let $S=(G,K,M,A,E,H,C,P,N)$ be an accepted $\FinitePhaseSamplingUp$ carrier. If a requested coefficient mode $k$ is admitted by $K$ below the displayed grid barrier and the aliasing ledger $A$ has no nonzero colliding translated mode for $k$, then the coefficient row read from $M$ is determined by the finite grid row $G$ alone. Two accepted carriers with matching $G,K,A$ rows therefore transport the same recovered coefficient row through their stored $\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Project the grid row $G$, the mode-bound row $K$, the sample row $M$, and the aliasing ledger $A$ from the carrier. The mode $k$ is accepted only through the finite admission row in $K$.
+
+The no-collision entry of $A$ states that the requested row has no displayed nonzero translated mode at the chosen grid scale. Thus the coefficient read in $M$ is the finite grid sum over the phase marks in $G$ for that single admitted mode.
+
+When two carriers match on $G,K,A$, they have the same admitted mode, the same displayed phase rows, and the same absence entry in the aliasing ledger. The transports in $H$ and consumer routes in $C$ carry this finite read to the matching coefficient row, so no Haar averaging or external character orthogonality is used.
+\end{proof}
+
+\begin{theorem}[Finite phase sampling real handoff]
+\label{thm:finite-phase-sampling-real-handoff}
+For every accepted $\FinitePhaseSamplingUp$ carrier, the $\RegSeqRatUp$ handoff and $\RealUp$ seal row $E$ factors through the finite coefficient-sample row $M$ and the aliasing ledger $A$. Any Real and Completion consumer of $E$ can inspect the recovered coefficient only through $G,K,M,A,H,C,P,N$, and receives no selected real limit, quotient-stream equality, Haar integral, or host complex coefficient.
+\end{theorem}
+\begin{proof}
+Start with an accepted read of $E$. By the handoff exactness obligation in \autoref{thm:finite-phase-sampling-namecert-obligations}, the regular rational source row is assembled from the coefficient samples in $M$ together with the aliasing information in $A$.
+
+The $\RealUp$ seal then reads that $\RegSeqRatUp$ source through the same stored transports $H$ and continuations $C$. The package row $P$ and local certificate row $N$ identify the finite observation source but do not add a further analytic object.
+
+Therefore every consumer of $E$ factors through the finite rows $G,K,M,A,H,C,P,N$. The carrier has no coordinate from which a selected limit, quotient equality, Haar integral, or host complex coefficient could be exported.
+\end{proof}
+
+\begin{theorem}[Finite phase sampling ledger non-escape]
+\label{thm:finite-phase-sampling-ledger-nonescape}
+Every exported route from an accepted $\FinitePhaseSamplingUp$ packet factors through the finite phase-grid row, mode-bound row, coefficient-sample row, aliasing ledger, $\RegSeqRatUp$ handoff and $\RealUp$ seal, componentwise transport row, continuation row, package provenance, and local $\NameCert$ row. The packet exports no ambient circle, no Haar measure, no root-of-unity analysis, no quotient stream, no infinite Fourier series, and no external theorem.
+\end{theorem}
+\begin{proof}
+Take an exported consumer route and project the carrier of \autoref{def:finite-phase-sampling-carrier}. The available coordinates are exactly $G,K,M,A,E,H,C,P,N$.
+
+The NameCert obligations account for carrier admission, classifier transport, grid exactness, real handoff exactness, and non-escape. Each obligation is stated over those displayed rows and is preserved by the stored $\hsame$ and $\Cont$ routes.
+
+Thus every export factors through the listed finite coordinates. Since the carrier contains no ambient circle object, Haar measure, root-of-unity proof, quotient stream, infinite Fourier series, or imported external theorem, no accepted route can supply one downstream.
+\end{proof}
+
+\closureat{FinitePhaseSamplingUp}{seedStr}
+
+\begin{closurestatus}{\FinitePhaseSamplingUp}
+  \constructivestory{A $\FinitePhaseSamplingUp$ packet is generated from a finite phase-grid row, a finite mode-bound row, finite coefficient samples, an aliasing ledger, a $\RegSeqRatUp$ handoff and $\RealUp$ seal, componentwise $\hsame$ transports, $\Cont$ routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local NameCert obligations, grid recovery, real handoff, and ledger non-escape for finite phase sampling packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Haar integration, root-of-unity analysis, quotient streams, infinite Fourier series, host complex Fourier theory, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked finite-ledger theorems for grid recovery, real handoff, and non-escape.}
+\end{closurestatus}

@@ -85,6 +85,7 @@ The exactness statement is obtained by projection and repacking. Any exported ce
 \label{thm:dirichletunit-regulator-consumer-boundary}
 A downstream $\RegulatorUp$ certificate may consume from $\DirichletUnitUp$ only the visible unit rows, inverse/unit-product rows, unary rank witness, finite basis/logarithmic ledger rows, dependency rows, $\Cont$ readbacks, and $\mathsf{Pkg}$ provenance rows described above. It may not read a determinant, an analytic regulator value, or a standard bridge from $\DirichletUnitUp$ alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_regulator\_consumer\_boundary}
 \begin{proof}
 Project the public $\NameCert_{\DirichletUnitUp}$ surface from \autoref{thm:dirichletunit-namecert-surface-obligation}. The listed consumer inputs are exactly the rows present in that surface.
 
@@ -158,6 +159,7 @@ unary rank witness, finite basis/logarithmic ledger rows, dependency rows,
 $\Cont$ readbacks, and $\Pkg$ provenance, but not determinant, analytic
 regulator, or standard-bridge rows from $\DirichletUnitUp$ alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_regulator\_consumer\_threshold\_package}
 \begin{proof}
 First project the unit-facing surface. Apply
 \autoref{thm:dirichletunit-regulator-unit-row-source-exhaustion}; this gives
@@ -257,6 +259,7 @@ Repack the endpoint $u_0\star_{\mathcal{A}}u_1$ with this inverse/unit-product w
 \label{thm:dirichletunit-root-inverse-row-inversion}
 Let $\mathcal{D}=(\mathcal{O},\mathcal{A},u,\iota,\nu,\beta,\rho)$ be an accepted $\DirichletUnitUp$ carrier packet. Any accepted inverse row read from $\mathcal{D}$ is uniquely projected to the visible unit row $u$, the $\NameCert_{\RingOfIntegersUp}$ dependency row $\mathcal{O}$, the inherited $\AbGroupUp$ inverse row carried by $\mathcal{A}$, the finite $\Cont$ readback tying these rows together, and the $\Pkg$ provenance row $\rho$. No other inverse source is available at the root boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_root\_inverse\_row\_inversion}
 \begin{proof}
 Project the accepted packet through \autoref{def:dirichletunit-carrier-packet}. The tuple exposes exactly one visible unit row $u$, exactly one inverse/unit-product witness row $\iota$, and the dependency rows $\mathcal{O}$ and $\mathcal{A}$ to which they are attached.
 
@@ -394,7 +397,7 @@ certificates, $\Cont$, and $\Pkg$.
   \constructivestory{A Dirichlet unit is carried by a finite packet whose entries are a $\RingOfIntegersUp$ dependency row, an $\AbGroupUp$ law row, a visible unit row, an inverse and unit-product witness row, a unary rank witness, a finite basis or logarithmic ledger row, and package provenance. The carrier accepts only packets whose unit-facing rows read back through the ring-of-integers dependency and whose law-facing rows read back through the abelian-group dependency, excluding host unit types, analytic logarithm equalities, determinant rows, regulator values, and bridge rows. Its classifier is componentwise $\hsame$ on the visible unit, inverse, law, rank, basis-ledger, readback, and provenance rows, with dependency provenance transported at the same time. The source specification is the RingOfIntegers-plus-AbGroup packet, the pattern specification is the visible unit group with inverse, product, rank, and finite basis/log-ledger rows, and the ledger keeps raw unit evidence, group-law evidence, and rank evidence visible through the named $\Cont$ readbacks. The five naming-certificate obligations come from the accepted packet as inhabitant, the equivalence laws of $\hsame$, and the classifier-transport theorem that rebuilds the packet after each component has moved to a classified endpoint. A history $h$ lies in the signature GAP of a $\DirichletUnitUp$ token $p$ when the source accepts $h$, the signature relation pairs it with an answer unit packet and evidence ledger, and token introduction names that answer as $p$; unpacked here, $h$ is exactly the packet endpoint whose visible unit, inverse/product row, unary rank row, finite ledger, dependency rows, and package provenance all line up. The chapter registers this construction as $\DirichletUnitUp$ without closing analytic regulator values, determinant formulas, logarithmic embeddings, or a standard bridge.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The visible-unit carrier, inverse and product witnesses, rank-ledger, $\RegulatorUp$ consumer boundary, and unsupported-feature boundary rows are closed as the mature $\DirichletUnitUp$ package surface.}
-  \formalstatus{\auditCleanV}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.DirichletUnitUp.DirichletUnitHistoryCarrier\_visible\_unit\_rows}
   \bridgestatus{none}
   \notclaimed{This does not close analytic regulator values, determinant formulas, logarithmic embeddings, or standard bridge rows.}

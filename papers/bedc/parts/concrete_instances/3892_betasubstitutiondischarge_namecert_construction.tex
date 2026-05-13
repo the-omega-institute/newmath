@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\BetaSubstitutionDischargeUp$}
+\label{ch:concrete-instances-betasubstitutiondischarge-namecert}
+\origin{human}
+
+The $\BetaSubstitutionDischargeUp$ packet isolates the beta-redex row named in \autoref{ch:metacic-subject-reduction-obstruction}. It is narrower than the full $\SubjectReductionUp$ packet of \autoref{ch:concrete-instances-subjectreduction-namecert}: it records only the substitution-across-binder discharge needed by the beta case, while remaining compatible with the type-membership boundary of \autoref{ch:concrete-instances-typeclassifiermembership-namecert} and the compiler-facing handoff of \autoref{ch:concrete-instances-typepreservingcompiler-namecert}.
+
+\begin{definition}[BetaSubstitutionDischarge carrier]
+\label{def:beta-substitution-discharge-carrier}
+A $\BetaSubstitutionDischargeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(G,d,b,a,c,s,h,r,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source context row for the beta redex;
+\item $d$ is the displayed domain row;
+\item $b$ is the body typing row in the context extended by the shifted domain;
+\item $a$ is the argument typing row in the original context;
+\item $c$ is the codomain row whose displayed substitution is read after the argument is supplied;
+\item $s$ is the substitution ledger tying the body, argument, domain, and codomain rows to the beta-redex discharge;
+\item $h$ records componentwise $\hsame$ transports for $G,d,b,a,c,s$ and for the provenance rows;
+\item $r$ records the displayed $\Cont$ routes from the beta step to the substituted body and substituted codomain reads;
+\item $p$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, the MetaCIC beta-step interface, $\SubjectReductionUp$, $\TypeClassifierMembershipUp$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\BetaSubstitutionDischargeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a full closed subject-reduction theorem, no global conversion oracle, no erased derivation representative, and no proof row for any non-beta discharge obligation.
+\end{definition}
+
+\begin{theorem}[BetaSubstitutionDischarge NameCert obligations]
+\label{thm:beta-substitution-discharge-namecert-obligations}
+For an accepted $\BetaSubstitutionDischargeUp$ carrier
+$$
+B=(G,d,b,a,c,s,h,r,p,n),
+$$
+the local $\NameCert_{\BetaSubstitutionDischargeUp}$ surface consists exactly of carrier admission for $B$, beta-redex source coverage through $G,d,b,a,c$, substitution-ledger exactness through $s$, componentwise $\hsame$ stability through $h$, displayed $\Cont$ replay through $r$, package provenance through $p$, and local naming through $n$. A consumer may use the packet only as the $\mathrm{BetaSubstitutionPreservation}$ row consumed by the beta case of the MetaCIC subject-reduction interface.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $G,d,b,a,c$ identify the context, domain, body typing, argument typing, and codomain data of one beta redex, while $s$ is the only substitution ledger in the packet.
+
+The transport and replay rows are then forced. Componentwise $\hsame$ movement through $h$ can carry the displayed rows to an equivalent packet, and the $\Cont$ routes in $r$ replay the beta step to the substituted body and substituted codomain reads. Neither row contains an independent typing theorem.
+
+Finally read $p$ and $n$ as provenance and local naming data. Since the carrier lists no global subject-reduction theorem, no conversion oracle, no erased derivation row, and no non-beta discharge row, every accepted consumer of the packet receives exactly the beta-substitution preservation obligation named by the MetaCIC interface.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionDischarge binder boundary]
+\label{thm:beta-substitution-discharge-binder-boundary}
+For an accepted $\BetaSubstitutionDischargeUp$ carrier $B=(G,d,b,a,c,s,h,r,p,n)$, every binder-crossing read factors through the single substitution ledger $s$ together with the displayed $\BHist$ rows $G,d,b,a,c$. The route may preserve the rows through $h$ and replay them through $r$, but it cannot replace the binder boundary by host substitution, ambient conversion, quotient equality, or a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start with the binder data. The body row $b$ is typed only in the context obtained from $G$ by the displayed domain row $d$, and the argument row $a$ is typed only over the original context row $G$.
+
+The substituted codomain read is controlled by $c$ and $s$. The ledger $s$ is therefore the unique row that crosses the binder boundary from the body and argument data to the beta-redex discharge.
+
+Transport through $h$ and replay through $r$ preserve that inventory. They may move the same rows componentwise and expose the beta route to a $\SubjectReductionUp$ or $\TypeClassifierMembershipUp$ consumer, but they add no host substitution rule, quotient equality, conversion theorem, or closed subject-reduction row.
+
+The package row $p$ and local name row $n$ record the same boundary for downstream certificates, including the $\TypePreservingCompilerUp$ handoff. Hence the binder-crossing read remains the single beta-substitution discharge packet.
+\end{proof}
+
+\closureat{BetaSubstitutionDischargeUp}{seedStr}
+
+\begin{closurestatus}{\BetaSubstitutionDischargeUp}
+  \constructivestory{A $\BetaSubstitutionDischargeUp$ packet is generated from a displayed source context row, domain row, body typing row, argument typing row, codomain row, substitution ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:beta-substitution-discharge-carrier}, \autoref{thm:beta-substitution-discharge-namecert-obligations}, and \autoref{thm:beta-substitution-discharge-binder-boundary} bind the finite beta-substitution discharge carrier, local NameCert obligation surface, and binder-boundary non-escape statement.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, Lean verification, host conversion, quotient equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, substitution-ledger exactness, binder-boundary coverage, componentwise transport stability, replay-route exactness, and public non-escape for the displayed beta-redex packet.}
+\end{closurestatus}

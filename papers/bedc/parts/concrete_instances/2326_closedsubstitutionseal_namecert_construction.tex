@@ -1,0 +1,79 @@
+\chapter{ClosedSubstitutionSeal NameCert Construction}
+\label{ch:concrete-instances-closedsubstitutionseal-namecert}
+\origin{ai}
+
+The $\ClosedSubstitutionSealUp$ interface packages the closed-term substitution boundary as a finite naming certificate over the MetaCIC syntax rows. It records the source term, the closure depth, the substitution payload, the closedness classifier, the inert substitution row, the inert shift row, the audit row, and the self-compilation handoff. The audit row $A$ is read through \autoref{ch:concrete-instances-substitutionauditmap-namecert} before the self-compilation handoff is consumed. A consumer can cite the packet as a local compiler boundary, but it cannot read semantic substitution correctness for open terms, subject reduction for the full evaluator, or a host truth predicate.
+
+\begin{definition}[Closed-term substitution seal carrier]
+\label{def:closed-term-substitution-seal-carrier}
+A $\ClosedSubstitutionSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,D,V,Q,L,M,A,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC \texttt{Term} row consumed by the compiler boundary;
+\item $D$ is the de Bruijn depth row at which the boundary is read;
+\item $V$ is the substitution payload term carried through the traversal;
+\item $Q$ is the \texttt{ClosedAt} classifier row certifying that $T$ is closed at $D$;
+\item $L$ is the inert substitution row displaying $\texttt{substitute}(D,V,T)=T$;
+\item $M$ is the inert shift row displaying the matching closed-boundary shift equality for $T$;
+\item $A$ is the axiom-pure audit row tying the displayed equalities to the records-side MetaCIC proof surface;
+\item $K$ is the self-compilation handoff row by which downstream compiler stages read only $T,D,V,Q,L,M,A$;
+\item $H$ stores componentwise $\hsame$ transports for the term, depth, payload, closedness classifier, inert rows, audit row, and handoff row;
+\item $C$ stores displayed $\Cont$ routes for reading the classifier, the inert substitution row, the inert shift row, the audit row, and the handoff row;
+\item $P$ is the $\Pkg$ provenance over \texttt{Term}, \texttt{ClosedAt}, substitution, shift, audit, self-compilation, $\hsame$, $\Cont$, and \NameCert{};
+\item $N$ is the local $\NameCert_{\ClosedSubstitutionSealUp}$ row.
+\end{enumerate}
+The carrier contains no open-term semantic substitution theorem, no full evaluator subject-reduction theorem, no compiler completeness theorem, and no host truth predicate.
+\end{definition}
+\leanchecked{BEDC.Derived.ClosedSubstitutionSealUp.ClosedSubstitutionSealTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Closed substitution seal boundary]
+\label{thm:closed-substitution-seal-boundary}
+For every accepted $\ClosedSubstitutionSealUp$ packet $S=(T,D,V,Q,L,M,A,K,H,C,P,N)$, the only substitution-facing boundary exported to a downstream consumer is the displayed route through the closedness classifier $Q$, the inert substitution row $L$, the inert shift row $M$, the audit row $A$, the self-compilation handoff $K$, and the transport, continuation, package, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-term-substitution-seal-carrier}. The term, depth, payload, closedness classifier, inert substitution row, inert shift row, audit row, handoff row, transports, continuations, provenance, and local naming row are all explicit coordinates of the same finite packet.
+
+The substitution-facing consumer must therefore read $Q$ before reading $L$. The row $L$ is displayed only at the closed boundary certified by $Q$, while $M$ records the corresponding binder-shift boundary for the same term row.
+
+The remaining rows $A,K,H,C,P,N$ route and name that finite surface. Since the carrier lists no semantic substitution theorem for open terms and no full evaluator theorem, the exported boundary is exactly the closed substitution seal.
+\end{proof}
+
+\begin{theorem}[Closed substitution compile safety]
+\label{thm:closed-substitution-compile-safety}
+Any self-compilation consumer of an accepted $\ClosedSubstitutionSealUp$ packet factors through the handoff row $K$. That row exposes only the source term $T$, depth $D$, payload $V$, closedness classifier $Q$, inert substitution row $L$, inert shift row $M$, audit row $A$, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. It does not expose a route by which the payload $V$ becomes a free name in $T$.
+\end{theorem}
+\begin{proof}
+Start with the handoff coordinate $K$. By definition it is the self-compilation row attached to the same source term, depth, payload, classifier, inert rows, and audit row as the carrier.
+
+The consumer reads $Q$ first. Once $Q$ is fixed, the inert substitution row $L$ states that the substitution attempt at depth $D$ returns $T$, and the inert shift row $M$ states that the corresponding boundary shift spends no extra name budget for that closed term.
+
+Finally route the result through $A,H,C,P,N$. These rows certify audit visibility, componentwise transport, continuation replay, provenance, and local naming; none is a payload-injection coordinate. Thus the compile-facing safety claim is a finite non-escape property of the displayed packet.
+\end{proof}
+
+\begin{theorem}[Closed substitution audit surface]
+\label{thm:closed-substitution-audit-surface}
+The audit surface of a $\ClosedSubstitutionSealUp$ packet is exhausted by the MetaCIC \texttt{Term} row, the \texttt{ClosedAt} classifier, the displayed substitution and shift equalities, the self-compilation handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and the local $\NameCert$ row. It supplies no unchecked semantic equality, no global compiler theorem, no full subject-reduction theorem, and no host-side truth predicate.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{thm:closed-substitution-seal-boundary}. The boundary exposes the term, classifier, inert substitution row, inert shift row, audit row, handoff row, and the rows that transport, replay, package, and name them.
+
+Read the compiler-facing route through \autoref{thm:closed-substitution-compile-safety}. The consumer of self-compilation sees only the closed-boundary handoff and cannot project a free-name injection route for the substitution payload.
+
+These two readings exhaust the carrier inventory from \autoref{def:closed-term-substitution-seal-carrier}. Since none of the displayed coordinates is an unchecked semantic equality, a global compiler theorem, a full subject-reduction theorem, or a host truth predicate, the audit surface is exactly the finite NameCert packet.
+\end{proof}
+
+\closureat{ClosedSubstitutionSealUp}{seedStr}
+
+\begin{closurestatus}{\ClosedSubstitutionSealUp}
+  \constructivestory{A $\ClosedSubstitutionSealUp$ packet is generated from a MetaCIC term row, a depth row, a substitution payload, a \texttt{ClosedAt} classifier, displayed inert substitution and shift rows, an audit row, a self-compilation handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-term-substitution-seal-carrier}, \autoref{thm:closed-substitution-seal-boundary}, \autoref{thm:closed-substitution-compile-safety}, and \autoref{thm:closed-substitution-audit-surface} specify the finite closed-substitution seal carrier, non-escape boundary, compiler handoff, and audit surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close open-term semantic substitution, full evaluator subject reduction, compiler completeness, host truth predicates, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the packet and checked theorems for classifier transport, inert substitution, inert shift, audit visibility, and self-compilation handoff.}
+\end{closurestatus}

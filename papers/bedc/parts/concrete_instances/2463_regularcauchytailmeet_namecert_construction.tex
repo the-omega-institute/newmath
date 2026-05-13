@@ -1,0 +1,690 @@
+\chapter{RegularCauchyTailMeet NameCert construction}
+\label{ch:concrete-instances-regular-cauchy-tail-meet-namecert}
+\origin{human}
+
+The $\RegularCauchyTailMeetUp$ interface packages the finite rows needed when several regular Cauchy consumers must share one dyadic tail threshold. It is a concrete naming certificate for the tail-meet packet used by diagonal real-completion routes; it does not assert quotient equality of streams, a selected limit, trichotomy, or an ambient completeness theorem.
+
+The shared threshold route is the consumer side of the $\CauchyModulusMeetUp$ shared-bound export in \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}. It consumes exactly the two $\StreamNameUp$ rows, the two source $\CauchyModulusUp$ rows, the shared meet row, the $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and the local $\NameCert$ row.
+
+\begin{definition}[RegularCauchyTailMeet carrier]
+\label{def:regular-cauchy-tail-meet-carrier}
+A $\RegularCauchyTailMeetUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two $\RegularCauchyNameUp$ source rows whose tails must be read through one threshold;
+\item $W_0$ and $W_1$ are the paired $\StreamNameUp$ finite-window schedules exposing the two rational tails;
+\item $M_0$ and $M_1$ are the source $\CauchyModulusUp$ or dyadic-radius rows attached to the two regular Cauchy names;
+\item $\tau$ is the shared tail threshold row, displayed as a $\DyadicRatCoreUp$ tolerance ledger sufficient for both source rows;
+\item $Q$ is the paired tail comparison row recording the two scheduled observations at the shared threshold;
+\item $H$ stores componentwise $\hsame$ transports for the two source names, windows, source moduli, shared threshold, paired comparison, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes for reading source windows, source modulus rows, the shared threshold, the paired tail comparison, and the real-facing handoff;
+\item $L$ is the finite ledger over $\RegularCauchyNameUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyTailMeetUp}$ row.
+\end{enumerate}
+The carrier is only the finite shared-tail packet. It has no coordinate for quotient streams, host real equality, selected limits, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyTailMeet NameCert obligations]
+\label{thm:regular-cauchy-tail-meet-namecert-obligations}
+The local $\NameCert_{\RegularCauchyTailMeetUp}$ surface for the carrier of \autoref{def:regular-cauchy-tail-meet-carrier} consists exactly of carrier admission, paired $\RegularCauchyNameUp$ source admission, paired $\StreamNameUp$ scheduling, source modulus readback, shared dyadic tail-threshold exposure, paired tail comparison, componentwise $\hsame$ transport, displayed $\Cont$ routes, finite ledger exactness, package provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $T$. Its coordinates list the two regular Cauchy sources, their windows, their source modulus rows, the shared tail threshold, the comparison row, transport, continuation, ledger, and local name.
+
+The shared threshold is finite. The two schedules expose the rational tail windows before $\tau$ and $Q$ can be read, and the source modulus rows certify that the same tolerance ledger is sufficient for both sides.
+
+The remaining obligations are provenance and routing obligations. The rows $H,C,L,N$ transport the displayed coordinates, route the reads, record package provenance, and name the packet; none of them introduces quotient equality, a selected limit, trichotomy, host real equality, or completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet classifier stability]
+\label{thm:regular-cauchy-tail-meet-classifier-stability}
+For accepted $\RegularCauchyTailMeetUp$ carriers whose displayed coordinates are related componentwise by the stored $\hsame$ rows, the paired tail comparison row $Q$ remains readable through the same shared threshold $\tau$. The classifier is stable under transport of the two source names, two window schedules, two source modulus rows, the threshold ledger, and the local certificate rows.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The only rows that determine the tail classifier are the two source names, their scheduled windows, their source modulus rows, the shared threshold, and the comparison row.
+
+Use the componentwise transport entries in $H$ to move these rows to a common displayed surface. The continuation rows in $C$ then replay the reads from sources to windows, from windows and source bounds to $\tau$, and from $\tau$ to $Q$.
+
+Since the carrier contains no independent classifier coordinate, transported reads must use the same threshold ledger and paired comparison route. Stability follows from the displayed packet itself, not from host real equality or quotient stream equality.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailMeetUp.RegularCauchyTailMeetPacket\_classifier\_stability}
+
+\begin{theorem}[RegularCauchyTailMeet Real seal handoff]
+\label{thm:regular-cauchy-tail-meet-real-seal-handoff}
+Every $\RealUp$ diagonal or completion consumer of an accepted $\RegularCauchyTailMeetUp$ carrier reads tail synchronization only through the paired $\RegularCauchyNameUp$ sources, paired $\StreamNameUp$ schedules, source modulus rows, the shared dyadic threshold $\tau$, the paired comparison row $Q$, displayed $\hsame$ transports, $\Cont$ routes, finite ledger, package provenance, and local $\NameCert_{\RegularCauchyTailMeetUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with a real-facing consumer route. The carrier offers no real-facing data except the handoff reached through the displayed schedules, source modulus rows, and shared threshold ledger.
+
+The consumer first reads the paired windows and source bounds. It then reads the common threshold $\tau$ and the comparison row $Q$, with all movement recorded by $H$ and $C$.
+
+The ledger $L$ and local certificate $N$ record provenance and name the handoff. Because no other coordinate is present, the seal exports tail synchronization without exporting quotient streams, selected limits, trichotomy, host real equality, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyTailMeetUp.RegularCauchyTailMeetPacket\_real\_seal\_handoff}
+
+\begin{theorem}[RegularCauchyTailMeet dyadic absolute-value handoff]
+\label{thm:regular-cauchy-tail-meet-dyadic-absolute-value-handoff}
+Let an accepted $\RegularCauchyTailMeetUp$ carrier have shared threshold row $\tau$. Suppose the displayed row $\tau$ is supplied by an accepted $\DyadicAbsoluteValueUp$ endpoint ledger whose nonnegative dyadic endpoint and tolerance ledger are used as the common tail bound. Then the two scheduled regular-Cauchy tails consume only that displayed nonnegative dyadic endpoint, its tolerance ledger, the componentwise $\hsame$ transports, the displayed $\Cont$ routes, the finite ledgers, package provenance, and the local $\NameCert_{\RegularCauchyTailMeetUp}$ and $\NameCert_{\DyadicAbsoluteValueUp}$ rows.
+
+The handoff exports no quotient streams, selected limits, trichotomy witness, host real equality, ambient completeness, quotient rational, selected real value, or host integer normal form.
+\end{theorem}
+\begin{proof}
+Begin with the $\RealUp$ seal handoff of \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff}. It forces every completion-facing read of the shared tail packet through the paired source rows, paired window schedules, source modulus rows, the shared threshold $\tau$, the comparison row $Q$, the stored transports, continuations, ledger, package provenance, and local name.
+
+Now read $\tau$ through the accepted $\DyadicAbsoluteValueUp$ endpoint ledger. By \autoref{thm:dyadic-absolute-value-nonnegative-bridge}, the endpoint offered to $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ consumers is the displayed nonnegative dyadic endpoint, reached through the endpoint row, tolerance ledger, transports, continuation routes, package provenance, and local dyadic absolute-value name.
+
+Apply \autoref{thm:dyadic-absolute-value-ledger-exactness} to the endpoint source. The finite ledger admits no hidden quotient rational, selected real value, trichotomy proof, host integer normal form, or real-completeness witness. Substituting that endpoint ledger for the shared threshold route leaves the two scheduled tails with exactly the listed finite rows.
+
+Thus the regular-Cauchy tail meet consumes the dyadic absolute-value endpoint as a finite threshold ledger. The route remains a composite of displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so no quotient stream, selected limit, trichotomy, host real equality, or ambient completeness coordinate enters the handoff.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet dyadic endpoint meet]
+\label{thm:regular-cauchy-tail-meet-dyadic-endpoint-meet}
+Let an accepted $\RegularCauchyTailMeetUp$ carrier have source rows $R_0,R_1$, schedules $W_0,W_1$, source modulus rows $M_0,M_1$, shared threshold coordinate $\tau$, and paired comparison row $Q$. Suppose the two scheduled tails receive displayed nonnegative endpoint and tolerance ledgers from accepted $\DyadicAbsoluteValueUp$ packets. If a displayed dyadic row $\tau'$ is strong enough for both endpoint tolerance ledgers through the same source modulus rows $M_0$ and $M_1$, then $\tau'$ is a valid shared threshold for the paired comparison row $Q$ and for the $\RealUp$ seal handoff of the accepted $\RegularCauchyTailMeetUp$ packet.
+
+The meet route uses only the two $\DyadicAbsoluteValueUp$ endpoint rows, their tolerance ledgers, the paired $\RegularCauchyNameUp$ source rows, the schedules, the source modulus rows, the displayed threshold row $\tau'$, the paired comparison row $Q$, the componentwise $\hsame$ transports, displayed $\Cont$ routes, finite ledgers, package provenance, and the local $\NameCert$ rows. It exports no quotient stream, selected limit, trichotomy, host real equality, host integer normal form, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First read the two endpoint packets through the dyadic absolute-value bridges. Apply \autoref{thm:dyadic-absolute-value-nonnegative-bridge} to obtain displayed nonnegative dyadic endpoints for the two scheduled tails, and apply \autoref{thm:dyadic-absolute-value-ledger-exactness} to keep each endpoint route inside its finite endpoint row, tolerance ledger, transports, continuations, provenance, and local dyadic name.
+
+Next pass each endpoint tolerance ledger to the regular-Cauchy tail surface. Apply \autoref{thm:dyadic-absolute-value-tolerance-window-handoff} to make the displayed tolerance rows available to the source modulus reads, and apply \autoref{thm:regular-cauchy-tail-meet-ledger-exactness} to identify the only regular-Cauchy rows that can consume them: $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N$.
+
+The displayed row $\tau'$ is assumed strong enough for both endpoint tolerance ledgers through the same source modulus rows. Apply \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality} with $\tau'$ in place of the carrier threshold route. The paired comparison row $Q$ and the $\RealUp$ handoff therefore factor through $\tau'$ using the already displayed transports, continuations, finite ledger, package provenance, and local name.
+
+All objects used in the construction are named rows in the accepted packets. Since the dyadic endpoint bridges and the tail-meet ledger exactness have no coordinate for quotient streams, selected limits, trichotomy, host real equality, host integer normal forms, or ambient completeness, the finite meet cannot export any such coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet ledger exactness]
+\label{thm:regular-cauchy-tail-meet-ledger-exactness}
+For an accepted $\RegularCauchyTailMeetUp$ carrier, the finite ledger is exact for the route from paired regular Cauchy sources through their windows and source modulus rows to the shared dyadic tail threshold $\tau$, the comparison row $Q$, and the $\RealUp$ handoff. No ledger entry records an independent tail oracle, quotient stream equality, selected limit, trichotomy row, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:regular-cauchy-tail-meet-carrier}. The only tail-threshold data are the two source rows, two scheduled windows, two source modulus rows, the shared threshold row, and the paired comparison row.
+
+Apply the NameCert obligations to bind every accepted read to those rows. Classifier stability then shows that transport cannot replace the shared threshold or comparison row with an external tail oracle.
+
+Finally apply the Real seal handoff. Every real-facing use of the packet factors through the same finite ledger, so the ledger is exact for the displayed route and has no unlisted analytic coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet shared-threshold cofinality]
+\label{thm:regular-cauchy-tail-meet-shared-threshold-cofinality}
+Let an accepted $\RegularCauchyTailMeetUp$ carrier have shared threshold row $\tau$. If a displayed dyadic threshold row $\tau'$ is at least as strong as $\tau$ for both source modulus rows and is transported through the same paired window schedules, then the paired comparison row $Q$ and the $\RealUp$ handoff factor through $\tau'$ using the existing $\hsame$ transports, displayed $\Cont$ routes, finite ledger, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyTailMeetUp}$ row.
+
+This strengthening exports no independent tail oracle, quotient stream, selected limit, host real equality, trichotomy row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The two source modulus rows $M_0$ and $M_1$ are the only rows that certify threshold sufficiency for the paired tails, and the paired schedules $W_0$ and $W_1$ are the only rows that expose the corresponding observations.
+
+Read the displayed strengthening $\tau'$ through those same source modulus rows. The hypothesis that $\tau'$ is at least as strong as $\tau$ for both sources lets each scheduled tail read use $\tau'$ without changing the source rows or window schedules.
+
+Replay the paired schedules through the displayed continuation routes. Transport the comparison row through the componentwise $\hsame$ entries already stored in $H$, so the comparison remains the same carrier-facing row $Q$ with the threshold coordinate refined to $\tau'$.
+
+Finally apply ledger exactness and the Real seal handoff. The finite ledger and seal route already contain the required transports, continuations, provenance, and local name, so the strengthened threshold factors through the same public handoff and adds no unlisted analytic coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet obligation closure package]
+\label{thm:regular-cauchy-tail-meet-obligation-closure-package}
+The carrier, $\NameCert$ obligation surface, classifier stability, $\RealUp$ seal handoff, dyadic absolute-value endpoint handoff, dyadic endpoint meet, ledger exactness, and shared-threshold cofinality jointly form the complete obligation package for the shared regular-Cauchy tail threshold packet over $\RegularCauchyNameUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\DyadicAbsoluteValueUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The package exports no quotient stream, selected limit, trichotomy coordinate, host equality row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the finite carrier of \autoref{def:regular-cauchy-tail-meet-carrier}. It displays the paired regular Cauchy sources, paired stream schedules, source modulus rows, shared threshold ledger, paired comparison row, transports, continuations, ledger, package provenance, and local name.
+
+Add the local obligation surface from \autoref{thm:regular-cauchy-tail-meet-namecert-obligations}. Those obligations certify carrier admission, scheduled source reads, modulus readback, shared-threshold exposure, paired comparison, transport, continuation, ledger exactness, provenance, and naming.
+
+Next use \autoref{thm:regular-cauchy-tail-meet-classifier-stability} and \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff}. They keep the classifier and the real-facing handoff on the same displayed shared threshold and comparison rows.
+
+The dyadic endpoint route is controlled by \autoref{thm:regular-cauchy-tail-meet-dyadic-absolute-value-handoff}. It identifies the shared threshold consumed by the two tails with the displayed nonnegative endpoint and tolerance ledger supplied by the accepted $\DyadicAbsoluteValueUp$ packet.
+
+The two-endpoint meet is controlled by \autoref{thm:regular-cauchy-tail-meet-dyadic-endpoint-meet}. When two endpoint tolerance ledgers must be served by one displayed dyadic threshold row, the same source modulus rows and schedules route the paired comparison and the real-facing handoff through that shared row.
+
+Finally apply \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}. The finite ledger exhausts the route from source rows to shared threshold, comparison, and $\RealUp$ handoff, so the obligation package has no quotient stream, selected limit, trichotomy, host equality, or ambient completeness coordinate.
+
+Shared-threshold cofinality from \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality} adds the permitted refinement step. A stronger displayed dyadic threshold can be routed through the same source modulus rows, schedules, transports, continuations, ledger, provenance, and local name without adding an independent tail oracle.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet diagonal-window threshold handoff]
+\label{thm:regular-cauchy-tail-meet-diagonal-window-threshold-handoff}
+Let an accepted $\RegularCauchyTailMeetUp$ packet supply its shared threshold row $\tau$ as the selected-window threshold for an accepted $\RealDiagonalWindowCoverageUp$ packet. Then the paired regular-Cauchy tails route through the same finite threshold $\tau$ before the $\RealUp$ seal of the diagonal-window packet is read.
+
+The consumer-facing route uses only the paired source rows, scheduled windows, source modulus rows, shared threshold, paired comparison row, componentwise $\hsame$ transports, displayed $\Cont$ routes, finite ledger, $\Pkg$ provenance, the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ observation ledger, and the local $\NameCert$ rows. It exports no independent tail oracle, quotient stream, selected limit, host real equality, trichotomy row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality}. It identifies the shared threshold row consumed by both source tails and keeps the paired comparison and real-facing handoff on the same finite threshold route.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-obligation-closure-package} to expose the complete shared-tail surface: paired sources, windows, source modulus rows, the threshold ledger, comparison row, transports, continuations, ledger, provenance, and local name.
+
+Finally use \autoref{thm:real-diagonal-window-coverage-realup-handoff}. The diagonal-window packet can read its $\RealUp$ seal only after the selected window and dyadic observation ledger have been displayed, so the shared threshold supplied by the tail-meet packet is consumed before the seal-facing row is available.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet public shared-threshold certificate]
+\label{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}
+For an accepted $\RegularCauchyTailMeetUp$ packet, the obligation closure package, shared-threshold cofinality theorem, dyadic endpoint meet, $\RealUp$ seal handoff, and diagonal-window threshold handoff assemble one public shared-threshold certificate consumed by $\RealDiagonalWindowCoverageUp$ and by $\RealUp$-facing diagonal routes.
+
+The certificate reads only the paired $\RegularCauchyNameUp$ sources, paired $\StreamNameUp$ schedules, source modulus rows, shared $\DyadicRatCoreUp$ threshold ledger, paired comparison row, componentwise $\hsame$ transports, displayed $\Cont$ routes, finite ledger, $\Pkg$ provenance, selected diagonal-window data, and local $\NameCert$ rows. It exports no quotient stream, selected limit, trichotomy, host equality, hidden tail oracle, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First collect \autoref{thm:regular-cauchy-tail-meet-obligation-closure-package}. It binds the carrier rows, schedules, source modulus reads, threshold ledger, paired comparison row, transports, continuations, ledger, package provenance, and local name into one obligation surface.
+
+Use \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality}. Cofinal refinement keeps both source tails on the same displayed threshold row and does not introduce an independent tail oracle.
+
+Next apply \autoref{thm:regular-cauchy-tail-meet-dyadic-endpoint-meet} together with \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff}. The dyadic endpoint meet supplies the shared endpoint threshold, and the real-seal handoff keeps the consumer on that finite threshold route.
+
+Finally use \autoref{thm:regular-cauchy-tail-meet-diagonal-window-threshold-handoff}. The selected-window consumer reads the shared threshold before the $\RealUp$ seal route is available, so the assembled rows form the public certificate for $\RealDiagonalWindowCoverageUp$ and diagonal $\RealUp$ consumers while preserving all listed exclusions.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet finite-family threshold absorption]
+\label{thm:regular-cauchy-tail-meet-finite-family-threshold-absorption}
+Let a finite family tail ledger from $\UniformCauchyCriterionUp$ schedule component tails whose displayed component thresholds share the threshold row supplied by an accepted $\RegularCauchyTailMeetUp$ packet. Then the finite-family threshold request factors through the tail-meet rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+The absorbed route is the same shared-threshold row consumed by $\UniformCauchyCriterionUp$, and it introduces no independent tail oracle, quotient stream, selected limit, host equality, trichotomy coordinate, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-tail-meet-window-source-coverage} and \autoref{thm:regular-cauchy-tail-meet-source-modulus-exhaustion}. They force every tail-meet threshold read through the displayed source, window, and source-modulus rows before it reaches $\tau$.
+
+Next apply \autoref{thm:uniform-cauchy-criterion-finite-family-window-exhaustion}. The finite-family ledger has no hidden component window outside the scheduled family rows, so a family threshold request whose component tails share the displayed threshold cannot bypass the listed tail-meet route.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} together with \autoref{thm:regular-cauchy-tail-meet-shared-threshold-transport}. The two transport rows identify the family-facing threshold and the tail-meet threshold as the same transported row, with the exclusions inherited from ledger exactness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet limit-seal threshold handoff]
+\label{thm:regular-cauchy-tail-meet-limit-seal-threshold-handoff}
+Suppose the public shared-threshold certificate of an accepted $\RegularCauchyTailMeetUp$ packet is consumed by a finite-tail diagonal seal route. Then the $\RealUp$ seal read passes through the displayed threshold row $\tau$ before any seal row is available.
+
+The handoff uses only the paired regular-Cauchy source rows, scheduled windows, source modulus rows, shared threshold, comparison row, componentwise $\hsame$ transports, displayed $\Cont$ routes, finite ledger, $\Pkg$ provenance, the finite-tail selected witness row, and the local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+First read the shared row through \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. The certificate exposes $\tau$ as the public threshold consumed by diagonal $\RealUp$ routes while retaining the paired source, window, modulus, comparison, transport, continuation, ledger, package, and naming rows.
+
+Then apply \autoref{thm:finite-tail-diagonal-seal-real-handoff}. The finite-tail diagonal seal can read its $\RealUp$ row only after the precision request, selected window, regular sequence row, and selected finite-tail witness have been fixed.
+
+Combining the two routes places the shared threshold before the seal read. Since neither packet carries quotient streams, host real equality, selected external limits, trichotomy, or ambient completeness, the handoff exports none of those rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet uniform-criterion threshold export]
+\label{thm:regular-cauchy-tail-meet-uniform-criterion-threshold-export}
+For every accepted $\RegularCauchyTailMeetUp$ packet used by $\UniformCauchyCriterionUp$ and by a $\RealUp$-facing diagonal consumer, the exported shared-threshold row is the same row consumed by the finite-family criterion and by the diagonal seal route.
+
+The export is exactly the row $\tau$ routed through
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N,
+$$
+and it exports no quotient stream, selected limit, trichotomy coordinate, host equality row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-tail-meet-finite-family-threshold-absorption} to identify the finite-family $\UniformCauchyCriterionUp$ threshold request with the displayed tail-meet route through $\tau$.
+
+Use \autoref{thm:regular-cauchy-tail-meet-limit-seal-threshold-handoff} to identify the diagonal $\RealUp$ consumer route with the same public shared-threshold certificate before any seal row is read.
+
+Finally apply \autoref{thm:regular-cauchy-tail-meet-consumer-exactness}, \autoref{thm:regular-cauchy-tail-meet-diagonal-consumer-nonescape}, and \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}. These rows exhaust the consumer-facing ledger and block every excluded quotient, limit, trichotomy, host-equality, and completeness coordinate, so the export has exactly the shared threshold route stated above.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet finite-family threshold coverage]
+\label{thm:regular-cauchy-tail-meet-family-threshold-coverage}
+Every finite-family threshold request routed through $\UniformCauchyCriterionUp$ and accepted by a $\RegularCauchyTailMeetUp$ packet factors through the displayed rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+The coverage is a finite $\BHist$ coverage statement over the paired regular-Cauchy sources, paired stream windows, source modulus rows, shared dyadic threshold, comparison row, componentwise $\hsame$ transports, displayed $\Cont$ routes, ledger, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-tail-meet-uniform-criterion-threshold-export}. It identifies the exported row $\tau$ as the row shared by the finite-family criterion and the diagonal-facing consumer.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}. The ledger admits only the displayed route from the two source rows through the two windows and source modulus rows to $\tau$ and $Q$.
+
+Finally use \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. The public certificate packages exactly the same threshold route for consumers, so the finite-family request is covered by the listed rows and no hidden tail source is available.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root-unblock handoff]
+\label{thm:regular-cauchy-tail-meet-root-unblock-handoff}
+Every downstream $\RealUp$ diagonal consumer admitted by the root surface of an accepted $\RegularCauchyTailMeetUp$ packet receives only the shared threshold row and comparison rows already present in that packet. The handoff does not add a selected limit, quotient stream equality, host real equality, trichotomy row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality}. It keeps any stronger diagonal request on the same displayed shared threshold route.
+
+Next apply \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. The consumer-facing package exposes the threshold, comparison row, transports, continuations, ledger, package provenance, and local name already present in the accepted carrier.
+
+The non-escape part is inherited from \autoref{thm:regular-cauchy-tail-meet-uniform-criterion-threshold-export}. Since that export has no quotient, selected-limit, trichotomy, host-equality, or completeness coordinate, the root handoff supplies only the admitted shared rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet diagonal budget consumer]
+\label{thm:regular-cauchy-tail-meet-diagonal-budget-consumer}
+Any diagonal budget consumer using an accepted $\RegularCauchyTailMeetUp$ packet consumes the same finite dyadic threshold ledger
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+and cannot obtain a selected limit, trichotomy, quotient stream, or completeness witness from that packet.
+\end{theorem}
+\begin{proof}
+Read the budget request through \autoref{thm:regular-cauchy-tail-meet-family-threshold-coverage}. The consumer must pass through the displayed source, window, modulus, threshold, comparison, transport, continuation, ledger, and naming rows.
+
+Use \autoref{thm:regular-cauchy-tail-meet-root-unblock-handoff}. The downstream $\RealUp$ diagonal route receives the same shared threshold and comparison data and no additional consumer-specific evidence.
+
+Finally apply \autoref{thm:regular-cauchy-tail-meet-ledger-exactness} together with \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. The exact ledger and public certificate exhaust the finite dyadic budget surface, so selected limits, trichotomy, quotient streams, and completeness witnesses remain outside the packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet window-source coverage]
+\label{thm:regular-cauchy-tail-meet-window-source-coverage}
+For an accepted $\RegularCauchyTailMeetUp$ packet with paired source rows
+$$
+R_0,\ R_1,
+$$
+paired scheduled windows
+$$
+W_0,\ W_1,
+$$
+and source modulus rows
+$$
+M_0,\ M_1,
+$$
+every displayed threshold read for the shared tail factors through the finite route
+$$
+R_0,R_1 \longrightarrow W_0,W_1 \longrightarrow M_0,M_1 \longrightarrow \tau.
+$$
+The source rows are $\RegularCauchyNameUp$ rows, the windows are $\StreamNameUp$ rows, the modulus reads are $\DyadicRatCoreUp$ rows, and the produced threshold $\tau$ is the same dyadic threshold consumed by the public shared-threshold certificate.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates from \autoref{def:regular-cauchy-tail-meet-carrier}. The packet contains the paired regular Cauchy sources, the paired stream schedules, and the paired modulus rows as displayed finite coordinates.
+
+Apply the obligation surface of \autoref{thm:regular-cauchy-tail-meet-namecert-obligations}. It admits only source reads, scheduled-window reads, and modulus readback through the local $\NameCert$ rows.
+
+Use \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}. The ledger routes the source and window data to the shared threshold row, so the threshold coordinate $\tau$ cannot be read without passing through $R_0,R_1,W_0,W_1,M_0,M_1$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet source-modulus exhaustion]
+\label{thm:regular-cauchy-tail-meet-source-modulus-exhaustion}
+For an accepted $\RegularCauchyTailMeetUp$ packet with displayed rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N,
+$$
+every threshold read factors through exactly the source-window-modulus route
+$$
+R_0,R_1 \longrightarrow W_0,W_1 \longrightarrow M_0,M_1 \longrightarrow \tau.
+$$
+No consumer can read the shared threshold directly from $Q$, from a $\RealUp$ seal, from a dyadic endpoint row, or from an unlisted tail oracle.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:regular-cauchy-tail-meet-carrier}. Its only threshold-facing source rows are the paired regular Cauchy names, paired stream windows, paired source modulus rows, and the shared dyadic threshold row.
+
+Apply the local obligations of \autoref{thm:regular-cauchy-tail-meet-namecert-obligations}. They allow source admission, scheduled-window reads, modulus readback, and shared-threshold exposure only through the displayed packet coordinates.
+
+Use window-source coverage from \autoref{thm:regular-cauchy-tail-meet-window-source-coverage}. It identifies the mandatory route from $R_0,R_1$ through $W_0,W_1$ and $M_0,M_1$ to $\tau$.
+
+Finally apply ledger exactness and shared-threshold transport, \autoref{thm:regular-cauchy-tail-meet-ledger-exactness} and \autoref{thm:regular-cauchy-tail-meet-shared-threshold-transport}. The finite ledger records no alternate source for $\tau$, and transport preserves the same displayed threshold row.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet threshold transport coverage]
+\label{thm:regular-cauchy-tail-meet-threshold-transport-coverage}
+Let $T=(R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N)$ be an accepted $\RegularCauchyTailMeetUp$ packet. Every transport of the shared threshold row $\tau$ to a root-facing or $\RealUp$-facing consumer is covered by the displayed componentwise $\hsame$ row $H$, the displayed $\Cont$ route $C$, the finite ledger $L$, and the local $\NameCert$ row $N$, after the source rows $R_0,R_1$, window rows $W_0,W_1$, modulus rows $M_0,M_1$, and comparison row $Q$ have been read.
+
+No accepted transport may replace $\tau$ by an unlisted tail threshold, quotient-stream equality, selected limit, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:regular-cauchy-tail-meet-carrier}. It displays exactly the two source rows, two window rows, two modulus rows, shared threshold row, comparison row, transport row, continuation row, ledger row, and local naming row.
+
+Use the NameCert obligations of \autoref{thm:regular-cauchy-tail-meet-namecert-obligations}. They force every accepted threshold read to pass through $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N$ rather than through an external threshold oracle.
+
+Apply classifier stability and ledger exactness. Classifier stability keeps the transported comparison attached to the same shared-threshold coordinate, while ledger exactness rules out an additional threshold entry in $L$.
+
+Finally use shared-threshold cofinality and the Real seal handoff. They let stronger displayed threshold rows feed the same consumer route, but only through the already named $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet window-pair exhaustion]
+\label{thm:regular-cauchy-tail-meet-window-pair-exhaustion}
+Let $T=(R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N)$ be an accepted $\RegularCauchyTailMeetUp$ packet. The paired window rows $W_0$ and $W_1$ exhaust the window evidence for the shared-tail comparison: every accepted comparison read of $Q$ and every downstream handoff to $\RealUp$ or $\RegularCauchyTailSelectorUp$ must factor through both displayed schedules, their source rows $R_0,R_1$, their source modulus rows $M_0,M_1$, the shared threshold $\tau$, and the structural rows $H,C,L,N$.
+
+The packet has no coordinate for a third scheduled window, an independent tail source, a hidden selector witness, or a host-level stream comparison.
+\end{theorem}
+\begin{proof}
+Read the accepted packet by projection. The carrier exposes two and only two window schedules, namely $W_0$ and $W_1$, together with their source rows and modulus rows.
+
+Apply the NameCert obligations and paired-window ledger coverage. The local certificate requires scheduled-window readback before the shared threshold and comparison row can be consumed, and the ledger records both windows before any real-facing handoff is available.
+
+Use source-modulus exhaustion to identify the route to $\tau$. Every threshold read factors through $R_0,R_1$, then $W_0,W_1$, then $M_0,M_1$, so the comparison row $Q$ cannot be read from a smaller or different window family.
+
+Finally apply selector admission and Real seal handoff. Both downstream consumers inherit the same two-window route and cannot add a third window, selected tail, quotient stream, or host comparison outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet Real seal consumer coverage]
+\label{thm:regular-cauchy-tail-meet-real-seal-consumer-coverage}
+Let $T=(R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N)$ be an accepted $\RegularCauchyTailMeetUp$ packet. Every $\RealUp$ seal consumer, including diagonal and limit-seal consumers, is covered by the same finite handoff route through the paired sources $R_0,R_1$, paired windows $W_0,W_1$, source modulus rows $M_0,M_1$, shared threshold $\tau$, comparison row $Q$, componentwise transports $H$, continuations $C$, ledger $L$, and local name $N$.
+
+Thus Real-facing consumption of the packet never escapes to quotient stream equality, selected limits, independent Cauchy moduli, hidden completeness, host real equality, or an unlisted seal row.
+\end{theorem}
+\begin{proof}
+Start with the Real seal handoff theorem. It presents the completion-facing route as a read through the paired source rows, paired schedules, source modulus rows, shared threshold row, comparison row, transports, continuations, ledger, provenance, and local name.
+
+Use ledger exactness and shared-threshold non-escape. They confine every seal-facing read to $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N$ and exclude quotient streams, selected limits, hidden tail oracles, and ambient completeness data.
+
+Apply seal compatibility for $\CauchyLimitSealUp$ and diagonal $\RealUp$ consumers. The seal receives the same shared threshold and comparison data already carried by the finite packet.
+
+Finally collect threshold transport coverage and window-pair exhaustion. These two obligations show that the transport of $\tau$ and the paired-window evidence are already present before the Real seal route is read, so no independent modulus, host equality, or unlisted seal row can enter.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet threshold-witness determinacy]
+\label{thm:regular-cauchy-tail-meet-threshold-witness-determinacy}
+Let two accepted $\RegularCauchyTailMeetUp$ presentations have componentwise $\hsame$ rows on their paired source rows, paired window rows, source modulus rows, shared threshold rows, comparison rows, ledger rows, package rows, and local naming rows. If both presentations transport the source-window-modulus route to the same public shared-threshold certificate, then they determine the same public threshold row under those componentwise transports.
+\end{theorem}
+\begin{proof}
+Project both accepted presentations through \autoref{def:regular-cauchy-tail-meet-carrier}. Each presentation exposes its threshold only through the displayed source, window, modulus, threshold, comparison, transport, continuation, ledger, provenance, and local naming rows.
+
+Apply source-modulus exhaustion from \autoref{thm:regular-cauchy-tail-meet-source-modulus-exhaustion}. Any threshold witness in either presentation must pass through the same kind of route from paired sources to paired windows, then through paired source modulus rows, and finally to the shared threshold row.
+
+Now use the shared-threshold transport theorem \autoref{thm:regular-cauchy-tail-meet-shared-threshold-transport}. The componentwise $\hsame$ rows move the source, window, modulus, threshold, comparison, ledger, package, and local naming rows together, so the transported threshold row remains the public row read by the certificate.
+
+The NameCert obligations and ledger exactness rule out a second threshold coordinate. Therefore two accepted transported presentations determine the same public threshold row, with no appeal to quotient streams, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet paired-window ledger coverage]
+\label{thm:regular-cauchy-tail-meet-paired-window-ledger-coverage}
+For an accepted $\RegularCauchyTailMeetUp$ packet, the finite ledger accounts for both scheduled windows $W_0$ and $W_1$ before any $\RealUp$ seal handoff is available. The ledger must record the paired source rows, paired window schedules, source modulus rows, shared threshold row, paired comparison row, componentwise transports, displayed continuations, package provenance, and local naming row before a seal-facing consumer can read the shared-tail certificate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-tail-meet-window-source-coverage}. It requires both scheduled windows to appear on the route from the paired regular Cauchy sources to the common threshold.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}. The ledger is exact for the route from source rows through the two scheduled windows and source modulus rows to $\tau$, $Q$, and the $\RealUp$ handoff.
+
+Use the NameCert obligation surface to bind the continuation and provenance rows. The packet can replay the route only through $H,C,L,N$, so the paired windows have already been recorded when a real-facing consumer reaches the comparison row.
+
+Finally apply the Real seal handoff \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff}. The seal-facing read occurs after the shared threshold, comparison row, transports, continuations, ledger, provenance, and local name have been displayed, so it cannot bypass either scheduled window.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet shared-threshold transport]
+\label{thm:regular-cauchy-tail-meet-shared-threshold-transport}
+Let two accepted $\RegularCauchyTailMeetUp$ presentations have componentwise $\hsame$ comparisons on the paired source rows, paired window rows, paired modulus rows, shared threshold rows, comparison rows, ledger rows, package rows, and local naming rows. Then any displayed $\Cont$ route transporting one presentation to the other preserves the public shared-threshold row.
+
+Thus the row serving the tail threshold in the source presentation is transported to the row serving the tail threshold in the target presentation, and the public certificate still reads the same componentwise route through $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N$.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise transport data in the carrier. The $\hsame$ rows identify the two source rows, two scheduled windows, two modulus rows, the threshold row, comparison row, ledger row, package row, and local naming row.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-classifier-stability}. It keeps the classifier boundary stable under those componentwise comparisons and does not introduce a second threshold coordinate.
+
+Use the displayed $\Cont$ route. Since the continuation is attached to the same local packet rows and the public certificate reads its threshold through those rows, the transported certificate consumes the transported threshold row and preserves the shared-threshold route.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet consumer exactness]
+\label{thm:regular-cauchy-tail-meet-consumer-exactness}
+Every $\RealUp$-facing or diagonal-window consumer of the public $\RegularCauchyTailMeetUp$ threshold reads only
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+Here $R_0,R_1$ are the paired $\RegularCauchyNameUp$ source rows, $W_0,W_1$ are the paired $\StreamNameUp$ windows, $M_0,M_1$ are the paired $\DyadicRatCoreUp$ modulus rows, $\tau$ is the shared dyadic threshold, $Q$ is the paired comparison row, $H$ gives componentwise $\hsame$ transport, $C$ gives displayed $\Cont$ continuation, $L$ is the finite ledger, and $N$ is the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+For a $\RealUp$-facing consumer, apply \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff}. The real seal is reached only after the shared threshold, comparison row, transports, continuations, ledger, provenance, and naming rows have been displayed.
+
+For a diagonal-window consumer, apply \autoref{thm:regular-cauchy-tail-meet-diagonal-window-threshold-handoff}. The selected window and dyadic observation route read the same threshold before the $\RealUp$ seal can be used.
+
+Finally use \autoref{thm:regular-cauchy-tail-meet-window-source-coverage}. The threshold itself descends through the paired source rows, window rows, and modulus rows, so every consumer route is exhausted by the listed finite coordinates.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet diagonal consumer non-escape]
+\label{thm:regular-cauchy-tail-meet-diagonal-consumer-nonescape}
+No diagonal-window or $\RealUp$-facing consumer of the public $\RegularCauchyTailMeetUp$ certificate can export a quotient stream, host real equality, hidden limit selection, trichotomy decision, or ambient completeness witness. Every exported datum is routed through the finite rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+\end{theorem}
+\begin{proof}
+Start from consumer exactness in \autoref{thm:regular-cauchy-tail-meet-consumer-exactness}. A consumer can read only the displayed source, window, modulus, threshold, comparison, transport, continuation, ledger, and naming rows.
+
+Inspect those rows through \autoref{def:regular-cauchy-tail-meet-carrier}. None of them is a quotient-stream coordinate, a host real equality coordinate, a selected-limit coordinate, a trichotomy coordinate, or an ambient completeness coordinate.
+
+The bridge-facing and real-facing routes named by \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate} therefore preserve the same exclusion boundary. They can move the public threshold to a consumer, but they cannot manufacture any of the excluded host or quotient data.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet obligation-closure readiness]
+\label{thm:regular-cauchy-tail-meet-obligation-closure-readiness}
+The $\RegularCauchyTailMeetUp$ packet presents the finite obligation package needed by $\RealUp$ and completion-facing diagonal consumers. The package consists of the existing $\NameCert$ obligations, ledger exactness, shared-threshold cofinality, dyadic endpoint meet, public shared-threshold certificate, window-source coverage, shared-threshold transport, consumer exactness, and diagonal consumer non-escape.
+
+Consequently every downstream read of the shared tail threshold is served by the finite coordinates
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N,
+$$
+with no quotient stream, hidden limit selector, host real equality, trichotomy decision, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+First collect the carrier and local naming obligations from \autoref{def:regular-cauchy-tail-meet-carrier} and \autoref{thm:regular-cauchy-tail-meet-namecert-obligations}. These expose the finite packet rows and the local admission surface.
+
+Next apply \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}, \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality}, and \autoref{thm:regular-cauchy-tail-meet-dyadic-endpoint-meet}. They route the source modulus reads to one shared dyadic threshold and keep endpoint refinement inside the displayed ledger.
+
+Use the public shared-threshold certificate together with window-source coverage and shared-threshold transport. These results identify the consumer-facing threshold row and preserve it under componentwise transport.
+
+Finally apply consumer exactness and diagonal consumer non-escape. The downstream diagonal and $\RealUp$ consumers read exactly the listed finite coordinates, and the excluded quotient, host, selection, trichotomy, and completeness data never appear as carrier coordinates or exported rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet bridge package]
+\label{thm:regular-cauchy-tail-meet-bridge-package}
+For an accepted $\RegularCauchyTailMeetUp$ packet, the public shared-threshold certificate, diagonal-window threshold handoff, dyadic endpoint meet, ledger exactness, and $\RealUp$ seal handoff assemble the bridge from the concrete finite packet to the abstract $\RegularCauchyTailMeetUp$ interface consumed by $\RealDiagonalWindowCoverageUp$, $\FiniteCauchyApproximationUp$, and diagonal $\RealUp$ routes.
+
+The bridge package reads only the paired $\RegularCauchyNameUp$ sources, paired $\StreamNameUp$ schedules, source modulus rows, one shared $\DyadicRatCoreUp$ threshold ledger, paired comparison row, componentwise $\hsame$ transports, displayed $\Cont$ routes, finite ledger, $\Pkg$ provenance, selected diagonal-window data, dyadic endpoint rows, and local $\NameCert$ evidence. It exports no quotient stream, selected limit, trichotomy row, host equality, independent tail oracle, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. It packages the concrete shared-threshold data as a public object for diagonal-window and diagonal $\RealUp$ consumers.
+
+Use \autoref{thm:regular-cauchy-tail-meet-diagonal-window-threshold-handoff}. The selected-window consumer reads the displayed shared threshold before the $\RealUp$ seal route, so the abstract interface receives the same finite threshold row that the concrete packet exposes.
+
+Next apply \autoref{thm:regular-cauchy-tail-meet-dyadic-endpoint-meet}. The endpoint route identifies the paired dyadic tolerance ledgers with the single shared threshold row, which is the row consumed by $\FiniteCauchyApproximationUp$ and by the diagonal routes.
+
+Finally use \autoref{thm:regular-cauchy-tail-meet-ledger-exactness} together with the real-seal handoff already named in the public certificate. The finite ledger accounts for every exported route, so the bridge from the concrete packet to the abstract interface carries exactly the listed rows and none of the excluded completeness or quotient data.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet mature downstream examples]
+\label{thm:regular-cauchy-tail-meet-mature-downstream-examples}
+The shared-tail threshold packet exported by $\RegularCauchyTailMeetUp$ is consumed by $\RealDiagonalWindowCoverageUp$, $\FiniteCauchyApproximationUp$, and diagonal $\RealUp$ routes through the existing public shared-threshold certificate and bridge package. Each consumer receives the paired source rows, paired schedules, source modulus rows, one shared $\DyadicRatCoreUp$ threshold ledger, paired comparison row, componentwise $\hsame$ transports, displayed $\Cont$ routes, finite ledger, $\Pkg$ provenance, selected diagonal-window data, dyadic endpoint rows, and local $\NameCert$ evidence, with no quotient stream, selected limit, host equality, independent tail oracle, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the public shared-threshold certificate \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. It presents the shared threshold as a public object for $\RealDiagonalWindowCoverageUp$ and diagonal $\RealUp$ consumers.
+
+Apply the bridge package \autoref{thm:regular-cauchy-tail-meet-bridge-package}. The bridge names $\FiniteCauchyApproximationUp$ as a consumer of the same shared threshold and keeps the route inside the concrete finite packet.
+
+The three consumer examples therefore use one shared-tail threshold surface. Since the certificate and bridge package both preserve the exclusions on quotient streams, selected limits, host equality, independent tail oracles, and ambient completeness, none of those objects is exported to the downstream examples.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet selector admission]
+\label{thm:regular-cauchy-tail-meet-selector-admission}
+An accepted $\RegularCauchyTailMeetUp$ packet admits a $\RegularCauchyTailSelectorUp$ row exactly through the displayed shared-tail route. The selector precision request, stream window, regularity row, dyadic readback, selected-tail witness, componentwise transports, continuations, package provenance, and local $\NameCert$ row must factor through one of the paired source schedules
+$$
+R_0,W_0,M_0
+\qquad\hbox{or}\qquad
+R_1,W_1,M_1
+$$
+and then through the common threshold row $\tau$ of the meet packet.
+
+Conversely, either paired source schedule together with the shared threshold row, comparison row $Q$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, finite ledger $L$, $\Pkg$ row, and local naming row $N$ supplies the complete selector-facing admission route. No quotient stream, selected limit, host real equality, independent tail oracle, or ambient completeness witness is part of this admission surface.
+\end{theorem}
+\begin{proof}
+For the forward direction, read the proposed selector row through \autoref{thm:regular-cauchy-tail-meet-window-source-coverage}. The threshold read must pass through one of the displayed source schedules and then through the shared dyadic threshold $\tau$.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-consumer-exactness}. It bounds all selector-facing precision, window, readback, transport, continuation, package, and local naming data by the finite rows $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N$.
+
+For the reverse direction, choose either paired schedule already displayed in the carrier. The shared-threshold transport theorem keeps the selected schedule attached to the same $\tau$, while the obligation-closure readiness theorem repacks the route as a downstream consumer surface.
+
+The exclusion statement follows from diagonal consumer non-escape. The selector admission has no coordinate for quotient streams, selected limits, host real equality, independent tail oracles, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet source scope]
+\label{thm:regular-cauchy-tail-meet-source-scope}
+Every accepted source read of a $\RegularCauchyTailMeetUp$ packet factors through the paired $\RegularCauchyNameUp$ rows, paired $\StreamNameUp$ windows, source modulus rows, and the displayed shared dyadic threshold before any $\RealUp$ seal row is available. The source-facing surface is therefore exactly the finite route
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N,
+$$
+with the shared threshold $\tau$ serving as the only passage from the two source schedules to the comparison row and the seal-facing handoff.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and local $\NameCert$ obligations. \autoref{def:regular-cauchy-tail-meet-carrier} lists the paired source, window, modulus, threshold, comparison, transport, continuation, ledger, package, and local naming rows, while \autoref{thm:regular-cauchy-tail-meet-namecert-obligations} makes those rows the admissible source-reading surface.
+
+Next apply ledger exactness and shared-threshold cofinality. By \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}, an accepted source read reaches $\tau$ only through the paired windows and source modulus rows; by \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality}, stronger displayed thresholds remain on the same finite route.
+
+Finally use selector admission and seal compatibility together with the real-seal handoff. \autoref{thm:regular-cauchy-tail-meet-selector-admission} keeps selector reads on one paired schedule and the shared threshold, and \autoref{thm:regular-cauchy-tail-meet-seal-compatibility} keeps every $\RealUp$-facing seal read behind the same displayed rows. Thus no seal row is available before the source schedules, modulus rows, and shared threshold have all been displayed.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet classifier scope]
+\label{thm:regular-cauchy-tail-meet-classifier-scope}
+The classifier comparison of an accepted $\RegularCauchyTailMeetUp$ packet is determined by the shared threshold $\tau$, the paired comparison row $Q$, the componentwise $\hsame$ transports in $H$, and the displayed $\Cont$ routes in $C$. It is not determined by quotient stream equality, host real equality, a selected limit, trichotomy, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Read the classifier row through \autoref{def:regular-cauchy-tail-meet-carrier} and \autoref{thm:regular-cauchy-tail-meet-classifier-stability}. The carrier exposes one shared threshold and one paired comparison row, and classifier stability preserves that comparison through the componentwise transports and continuations already stored in the packet.
+
+Use shared-threshold cofinality to compare stronger tail requests. \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality} allows refinement of the displayed threshold without introducing a second threshold coordinate, independent stream equality test, or host real equality test.
+
+The real-seal handoff and seal compatibility keep the same comparison visible to downstream readers. By \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff} and \autoref{thm:regular-cauchy-tail-meet-seal-compatibility}, seal-facing consumers receive the threshold, comparison, transports, and routes as displayed rows, so the classifier surface has exactly the stated scope.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet ledger scope]
+\label{thm:regular-cauchy-tail-meet-ledger-scope}
+The finite ledger of an accepted $\RegularCauchyTailMeetUp$ packet records only the two source schedules, source modulus rows, shared threshold, paired comparison, componentwise transports, displayed continuation routes, package provenance, and local $\NameCert$ row. It records no selected limit, trichotomy row, quotient stream, host real equality, independent tail oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and ledger exactness. \autoref{def:regular-cauchy-tail-meet-carrier} identifies $L$ as the finite ledger attached to the displayed rows, and \autoref{thm:regular-cauchy-tail-meet-ledger-exactness} exhausts the route from the paired source schedules and modulus rows to $\tau$, $Q$, and the real-facing handoff.
+
+Add the naming, selector, and seal rows. The local obligations of \autoref{thm:regular-cauchy-tail-meet-namecert-obligations}, the selector route of \autoref{thm:regular-cauchy-tail-meet-selector-admission}, and the seal route of \autoref{thm:regular-cauchy-tail-meet-seal-compatibility} all read the same ledger entries rather than appending hidden completion data.
+
+The exclusion boundary is the one used by classifier stability and the real-seal handoff. Since \autoref{thm:regular-cauchy-tail-meet-classifier-stability} and \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff} require only the displayed threshold, comparison, transports, continuations, package provenance, and local name, the ledger has no coordinate from which any selected limit, trichotomy, quotient stream, host equality, independent oracle, or ambient completeness witness could be exported.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet seal compatibility]
+\label{thm:regular-cauchy-tail-meet-seal-compatibility}
+Every $\CauchyLimitSealUp$ or diagonal $\RealUp$ consumer that reads a shared $\RegularCauchyTailMeetUp$ threshold must read it through the paired source rows, the common threshold row, the paired comparison row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route of the packet.
+
+Thus seal-facing consumption is compatible with the same finite rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+used by the public shared-threshold certificate and by the bridge package. It introduces no quotient stream, selected limit, host real equality, independent tail oracle, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+Begin with the public shared-threshold certificate. It identifies the threshold consumed by diagonal $\RealUp$ routes with the displayed common threshold row $\tau$ and keeps the consumer on the paired source schedules.
+
+Use the real-seal handoff and the bridge package. The handoff reads the $\RealUp$ seal only through the shared threshold, comparison row, transports, continuations, ledger, provenance, and local naming row; the bridge package preserves those same rows for completion-facing consumers.
+
+For a $\CauchyLimitSealUp$ consumer, follow the same bridge-facing route. The consumer receives the shared threshold and comparison data already carried by the finite packet, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows provide the displayed compatibility path.
+
+Non-escape is inherited from consumer exactness and diagonal consumer non-escape. Since all seal reads are confined to the listed finite rows, no excluded quotient, host, selection, oracle, or completeness datum is available.
+\end{proof}
+
+\input{parts/concrete_instances/regularcauchytailmeet/root_formal_handoff_surface}
+
+\input{parts/concrete_instances/regularcauchytailmeet/root_window_threshold_obligations}
+
+\begin{theorem}[RegularCauchyTailMeet observation-budget factorization]
+\label{thm:regular-cauchy-tail-meet-observation-budget-factorization}
+Any $\RealObservationBudgetUp$ consumer that reads an accepted $\RegularCauchyTailMeetUp$ threshold must first factor its observation request through the TailMeet rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+before it reaches the observation-budget rows. Thus the budget consumer sees the paired $\RegularCauchyNameUp$ sources, paired $\StreamNameUp$ windows, source modulus rows, shared threshold, comparison row, componentwise transports, displayed continuations, finite ledger, provenance, and local $\NameCert$ row as the complete entrance to the finite observation-budget surface of \autoref{ch:concrete-instances-real-observation-budget-namecert}.
+\end{theorem}
+\begin{proof}
+Start with the finite observation-budget route of \autoref{ch:concrete-instances-real-observation-budget-namecert}. A budget consumer can inspect only the precision request, finite window family, dyadic readbacks, regular-sequence handoff, real-seal boundary, transports, continuations, provenance, and local naming rows supplied by its accepted packet.
+
+Next read the TailMeet threshold through shared-threshold non-escape. By \autoref{thm:regular-cauchy-tail-meet-shared-threshold-nonescape}, every admitted shared-threshold read remains inside the displayed threshold, paired stream schedules, source modulus rows, comparison row, componentwise transports, continuation routes, provenance, and local $\NameCert$ evidence.
+
+Finally apply real-seal route totality. \autoref{thm:regular-cauchy-tail-meet-real-seal-route-totality} places every admitted $\RealUp$ seal read behind the same TailMeet window and dyadic endpoint rows, so the observation-budget consumer cannot reach its budget rows before the TailMeet route has exposed $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet selector-budget compatibility]
+\label{thm:regular-cauchy-tail-meet-selector-budget-compatibility}
+Any $\RegularCauchySelectorBudgetUp$ route that shares the accepted $\RegularCauchyTailMeetUp$ threshold consumes that threshold through the selector budget's finite-window and $\RegSeqRatUp$ route. It does not introduce a second selector, a hidden threshold, or an independent tail oracle outside the displayed rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+\end{theorem}
+\begin{proof}
+Read the selector-budget side through \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}. Its finite-window and $\RegSeqRatUp$ rows specify the admissible selector request before any downstream tail read is exported.
+
+Now compose with shared-threshold route determinacy. By \autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}, two shared-threshold reads with the same transported source rows, window rows, and source modulus rows reach the same displayed dyadic threshold ledger.
+
+The selector-budget route therefore consumes the TailMeet threshold through the already displayed finite-window and regular-rational route. Since determinacy leaves no second threshold coordinate and the selector budget supplies no extra selector outside its finite route, the shared threshold cannot be replaced by a hidden threshold or independent tail oracle.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet real-tail agreement consumer surface]
+\label{thm:regular-cauchy-tail-meet-real-tail-agreement-consumer-surface}
+Every $\RealTailAgreementSealUp$ consumer of an accepted $\RegularCauchyTailMeetUp$ packet receives exactly the shared threshold $\tau$, paired comparison row $Q$, componentwise transports $H$, displayed continuations $C$, package provenance, finite ledger $L$, and local $\NameCert$ row $N$, together with the paired source, window, and modulus rows that produce $\tau$.
+
+The consumer surface is therefore the finite TailMeet route
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N,
+$$
+followed by the seal route of \autoref{ch:concrete-instances-realtailagreementseal-namecert}. It includes no quotient stream, selected limit, host equality, independent tail oracle, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First use the observation-budget factorization. \autoref{thm:regular-cauchy-tail-meet-observation-budget-factorization} forces every real-facing observation of the TailMeet threshold through the displayed source, window, modulus, threshold, comparison, transport, continuation, ledger, provenance, and local naming rows before any budget-side read is available.
+
+Next use selector-budget compatibility. \autoref{thm:regular-cauchy-tail-meet-selector-budget-compatibility} keeps selector-facing reads on the same finite-window and $\RegSeqRatUp$ route to the shared threshold, so the real-tail agreement consumer receives the same $\tau$ and $Q$ rather than a second selector or hidden tail threshold.
+
+Finally read the seal side through \autoref{ch:concrete-instances-realtailagreementseal-namecert}. The agreement seal may consume the shared threshold, paired comparison, transports, continuations, provenance, ledger, and local naming evidence already displayed by the TailMeet packet, but the TailMeet carrier and the two preceding consumer theorems provide no coordinate for quotient streams, selected limits, host equality, independent tail oracles, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet budget-family cofinality]
+\label{thm:regular-cauchy-tail-meet-budget-family-cofinality}
+For any finite family of downstream budget requests accepted through a $\RegularCauchyTailMeetUp$ packet, the shared threshold row remains cofinal. Every requested strengthening factors through the same finite route
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+and a stronger displayed dyadic threshold can be chosen inside that route for all members of the family at once. No request introduces a quotient stream, selected limit, host equality, independent tail oracle, trichotomy row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with window-source coverage and source-modulus exhaustion. \autoref{thm:regular-cauchy-tail-meet-window-source-coverage} and \autoref{thm:regular-cauchy-tail-meet-source-modulus-exhaustion} force each family request through the two source rows, two window rows, and two source modulus rows before it reaches $\tau$.
+
+Use shared-threshold cofinality for the finite family. Since \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality} refines the displayed threshold without leaving the carrier route, iterating over the finite family yields one stronger displayed threshold row still carried by the same ledger.
+
+Finally apply ledger exactness and the public shared-threshold certificate. \autoref{thm:regular-cauchy-tail-meet-ledger-exactness} and \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate} keep the refined family threshold inside the finite certificate surface, so none of the excluded completion or quotient data can be exported.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet selector-budget absorption]
+\label{thm:regular-cauchy-tail-meet-selector-budget-absorption}
+Every $\RegularCauchySelectorBudgetUp$ request that enters through an accepted $\RegularCauchyTailMeetUp$ packet is absorbed by the displayed rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+The selector-budget side may choose finite windows and regular-rational readbacks, but the tail-meet threshold it consumes is still the shared threshold row produced by the paired source schedules, source modulus rows, ledger exactness, public certificate, and seal-compatible handoff.
+\end{theorem}
+\begin{proof}
+Read the selector-budget request through selector admission and selector-budget compatibility. \autoref{thm:regular-cauchy-tail-meet-selector-admission} supplies the admitted selector route, and \autoref{thm:regular-cauchy-tail-meet-selector-budget-compatibility} keeps that route on the selector budget's finite-window and $\RegSeqRatUp$ surface.
+
+Next identify the threshold route. Window-source coverage, source-modulus exhaustion, and shared-threshold route determinacy force the selector-budget read through $R_0,R_1,W_0,W_1,M_0,M_1,\tau$ rather than through a second selector or hidden threshold.
+
+The structural rows are then absorbed by consumer exactness and seal compatibility. \autoref{thm:regular-cauchy-tail-meet-consumer-exactness} and \autoref{thm:regular-cauchy-tail-meet-seal-compatibility} add exactly $Q,H,C,L,N$ to the route and exclude quotient streams, selected limits, host equality, independent tail oracles, trichotomy, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet diagonal seal-budget exactness]
+\label{thm:regular-cauchy-tail-meet-diagonal-seal-budget-exactness}
+Every diagonal $\RealUp$ seal-budget read of an accepted $\RegularCauchyTailMeetUp$ packet passes through the same finite shared-threshold route used by the public certificate:
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+The diagonal seal may read the real-facing handoff only after the paired source schedules, source modulus rows, cofinal shared threshold, exact ledger, public shared-threshold certificate, and seal compatibility rows have all been exposed.
+\end{theorem}
+\begin{proof}
+Begin with the diagonal-facing coverage. \autoref{thm:regular-cauchy-tail-meet-diagonal-window-threshold-handoff} and \autoref{thm:regular-cauchy-tail-meet-window-source-exhaustion} route the diagonal read through the displayed source schedules and window rows.
+
+Attach the modulus and threshold rows. Source-modulus exhaustion, shared-threshold cofinality, and source-window-modulus route results identify the only admissible path to $\tau$ and keep stronger diagonal precision requests cofinal inside the same finite ledger.
+
+Now read the seal side. \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}, \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}, and \autoref{thm:regular-cauchy-tail-meet-seal-compatibility} make the diagonal seal consume exactly the listed threshold, comparison, transport, continuation, ledger, provenance, and naming rows, with no additional completion premise.
+\end{proof}
+
+\closureat{RegularCauchyTailMeetUp}{seedStr}
+\closureat{RegularCauchyTailMeetUp}{obligationStr}
+\closureat{RegularCauchyTailMeetUp}{scopedStr}
+\closureat{RegularCauchyTailMeetUp}{publicStr}
+\closureat{RegularCauchyTailMeetUp}{bridgedStr}
+\closureat{RegularCauchyTailMeetUp}{matureStr}
+
+\begin{closurestatus}{\RegularCauchyTailMeetUp}
+  \constructivestory{A $\RegularCauchyTailMeetUp$ packet is generated from two $\RegularCauchyNameUp$ source rows, paired $\StreamNameUp$ schedules, source modulus rows, one shared $\DyadicRatCoreUp$ tail-threshold ledger, a paired comparison row, componentwise $\hsame$ transports, displayed $\Cont$ routes, finite ledger, package provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-meet-carrier}, \autoref{thm:regular-cauchy-tail-meet-namecert-obligations}, \autoref{thm:regular-cauchy-tail-meet-classifier-stability}, \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff}, \autoref{thm:regular-cauchy-tail-meet-dyadic-absolute-value-handoff}, \autoref{thm:regular-cauchy-tail-meet-dyadic-endpoint-meet}, \autoref{thm:regular-cauchy-tail-meet-ledger-exactness}, \autoref{thm:regular-cauchy-tail-meet-shared-threshold-cofinality}, \autoref{thm:regular-cauchy-tail-meet-obligation-closure-package}, \autoref{thm:regular-cauchy-tail-meet-diagonal-window-threshold-handoff}, \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}, \autoref{thm:regular-cauchy-tail-meet-window-source-coverage}, \autoref{thm:regular-cauchy-tail-meet-shared-threshold-transport}, \autoref{thm:regular-cauchy-tail-meet-consumer-exactness}, \autoref{thm:regular-cauchy-tail-meet-diagonal-consumer-nonescape}, \autoref{thm:regular-cauchy-tail-meet-obligation-closure-readiness}, \autoref{thm:regular-cauchy-tail-meet-bridge-package}, \autoref{thm:regular-cauchy-tail-meet-mature-downstream-examples}, \autoref{thm:regular-cauchy-tail-meet-selector-admission}, \autoref{thm:regular-cauchy-tail-meet-source-scope}, \autoref{thm:regular-cauchy-tail-meet-classifier-scope}, \autoref{thm:regular-cauchy-tail-meet-ledger-scope}, \autoref{thm:regular-cauchy-tail-meet-seal-compatibility}, \autoref{thm:regular-cauchy-tail-meet-root-consumer-package}, \autoref{thm:regular-cauchy-tail-meet-root-carrier-admission}, \autoref{thm:regular-cauchy-tail-meet-root-classifier-stability}, \autoref{thm:regular-cauchy-tail-meet-root-ledger-exactness}, \autoref{thm:regular-cauchy-tail-meet-uniform-criterion-consumer-link}, \autoref{thm:regular-cauchy-tail-meet-window-source-exhaustion}, \autoref{thm:regular-cauchy-tail-meet-shared-threshold-nonescape}, \autoref{thm:regular-cauchy-tail-meet-real-seal-route-totality}, \autoref{thm:regular-cauchy-tail-meet-source-window-modulus-route}, \autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}, \autoref{thm:regular-cauchy-tail-meet-public-tail-meet-certificate}, \autoref{thm:regular-cauchy-tail-meet-observation-budget-factorization}, \autoref{thm:regular-cauchy-tail-meet-selector-budget-compatibility}, \autoref{thm:regular-cauchy-tail-meet-real-tail-agreement-consumer-surface}, \autoref{thm:regular-cauchy-tail-meet-budget-family-cofinality}, \autoref{thm:regular-cauchy-tail-meet-selector-budget-absorption}, and \autoref{thm:regular-cauchy-tail-meet-diagonal-seal-budget-exactness} bind the finite shared-tail carrier, paired schedules, source modulus reads, dyadic threshold ledger, dyadic absolute-value endpoint route, dyadic endpoint meet, cofinal threshold refinement, comparison row, transport, continuation, package, real-seal handoff, obligation package, public shared-threshold certificate, window-source coverage, shared-threshold transport, consumer exactness, diagonal consumer non-escape, obligation-closure readiness, bridge package, representative downstream consumers, selector admission, source scope, classifier scope, ledger scope, seal compatibility, root consumer package, root carrier admission, root classifier stability, root ledger exactness, uniform-criterion consumer link, window-source exhaustion, shared-threshold non-escape, real-seal route totality, source-window-modulus route, route determinacy, public tail-meet certificate, observation-budget factorization, selector-budget compatibility, real-tail agreement consumer surface, budget-family cofinality, selector-budget absorption, diagonal seal-budget exactness, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, selected limits, trichotomy, host real equality, ambient completeness, or public bridge checking.}
+  \upgradepath{No further paper-axis theory step remains for this shared-tail packet; formal verification and bridge checking remain separate verification-axis work.}
+\end{closurestatus}

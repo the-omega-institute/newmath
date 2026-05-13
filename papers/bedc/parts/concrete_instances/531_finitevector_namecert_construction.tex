@@ -1,0 +1,310 @@
+\chapter{A Concrete Naming Certificate for $\FiniteVectorUp$}
+\label{ch:concrete-instances-finitevector-namecert}
+
+The $\FiniteVectorUp$ interface names fixed-length finite component data over the already displayed $\NatUp$, $\ListUp$, $\ProdUp$, and optional $\VecSpaceUp$ certificate surfaces. Pierce, Types and Programming Languages (2002), treats length-indexed finite sequences as typed finite data; the BEDC packet below keeps the same finite-index reading at the $\mathsf{BHist}$ level. It records the length row, component spine, index-component pairing rows, componentwise classifier ledger, read continuations, and package provenance, without forming an infinite sequence, quotient vector, basis choice, dimension theorem, or linear-independence principle.
+
+\section{Finite-vector carrier}
+\label{sec:finitevector-carrier}
+
+\begin{definition}[FiniteVector carrier]
+\label{def:finitevector-carrier}
+A $\FiniteVectorUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+V=(n,L,I,C,R,P,H)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $n$ is a $\NatUp$ length row;
+\item $L$ is a $\ListUp$ component spine whose displayed length is $n$;
+\item $I$ is a finite $\ProdUp$ spine of index-component pairing rows, one row for each visible index below $n$;
+\item $C$ is the optional component provenance row, read through $\VecSpaceUp$ exactly when the entries are vector-space rows and omitted otherwise;
+\item $R$ is the componentwise $\hsame$ ledger comparing displayed components at matching indices;
+\item $P$ is the $\Pkg$ provenance tying the packet to the consumed $\NatUp$, $\ListUp$, $\ProdUp$, and optional $\VecSpaceUp$ certificate boundaries;
+\item $H$ is the ledger that hides only unused positions outside the displayed length and records every public component read through the displayed $\Cont$ routes.
+\end{enumerate}
+The carrier predicate is $\mathsf{FiniteVectorPacket}(n,L,I,C,R,P,H)$. It contains no infinite stream, no quotient of component rows, no ambient basis selection, and no dimension or linear-independence datum beyond the displayed finite length.
+\end{definition}
+
+\begin{definition}[FiniteVector classifier]
+\label{def:finitevector-classifier}
+For accepted $\FiniteVectorUp$ carriers $V=(n,L,I,C,R,P,H)$ and $V'=(n',L',I',C',R',P',H')$, the classifier $\mathsf{FiniteVectorSame}(V,V')$ holds exactly when the following finite rows are displayed:
+\begin{enumerate}
+\item an $\hsame$ row comparing the $\NatUp$ length rows $n$ and $n'$;
+\item a $\ListUp$ classifier row comparing the component spines $L$ and $L'$ after length transport;
+\item for each displayed index below the transported length, a $\ProdUp$ classifier row comparing the corresponding index-component pairing rows in $I$ and $I'$;
+\item when vector-space component provenance is present, a $\VecSpaceUp$ classifier row comparing the corresponding component provenance rows $C$ and $C'$;
+\item the same $\Cont$ routes and $\Pkg$ provenance showing that every public read uses the displayed length, spine, pair rows, and componentwise $\hsame$ ledger.
+\end{enumerate}
+No other classifier is exported by the seed packet.
+\end{definition}
+
+\begin{theorem}[FiniteVector length-index stability]
+\label{thm:finitevector-length-index-stability}
+Let $V=(n,L,I,C,R,P,H)$ be an accepted $\FiniteVectorUp$ carrier. If the $\NatUp$ length row, $\ListUp$ component spine, $\ProdUp$ index-component pair rows, optional $\VecSpaceUp$ component provenance, componentwise $\hsame$ ledger, $\Cont$ routes, $\Pkg$ provenance, and outside-length ledger are transported by displayed $\hsame$ along the same public routes named by $P$, then the transported packet $V'=(n',L',I',C',R',P',H')$ is again an accepted $\FiniteVectorUp$ carrier.
+
+Moreover, every public component read at a displayed index below $n$ transports to the matching read below $n'$, and the transported packet hides only positions outside the transported displayed length.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteVectorUp.FiniteVectorPacket\_length\_index\_transport}
+\begin{proof}
+Project the seven coordinates of \autoref{def:finitevector-carrier}. The $\NatUp$ row transports first, so the displayed length of the target packet is fixed before any component read is considered.
+
+Transport the $\ListUp$ spine along that length row and then transport each $\ProdUp$ index-component pair. The pair rows keep the index and the component in the same finite slot, so a read below the displayed length remains below the transported displayed length.
+
+If the component provenance row is present, transport it through the stated $\VecSpaceUp$ classifier; otherwise the packet stays in the component-agnostic branch. The componentwise $\hsame$ ledger then repacks over the transported spine.
+
+Finally transport the $\Cont$ routes, $\Pkg$ provenance, and outside-length ledger. Since $H$ hides only positions outside the displayed length, its transported copy hides only positions outside the transported length, and the result is an accepted $\FiniteVectorUp$ carrier.
+\end{proof}
+
+\begin{theorem}[FiniteVector componentwise ledger exactness]
+\label{thm:finitevector-componentwise-ledger-exactness}
+For accepted $\FiniteVectorUp$ carriers $V$ and $V'$, a proof of $\mathsf{FiniteVectorSame}(V,V')$ is equivalent, as public BEDC data, to the finite componentwise ledger consisting of the transported length row, the transported list spine, the transported index-component pairing rows, the optional transported $\VecSpaceUp$ component provenance, and the displayed $\hsame$ comparison at every visible index.
+
+Consequently, the classifier does not compare hidden positions, does not form a quotient of component spines, and does not add a host vector equality outside the displayed ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteVectorUp.FiniteVectorComponentLedger\_transport}
+\begin{proof}
+From a classifier proof, read off the five rows listed in \autoref{def:finitevector-classifier}. They are exactly the length comparison, spine comparison, pair-row comparisons, optional vector-space provenance comparison, and componentwise $\hsame$ rows.
+
+Conversely, suppose the finite ledger rows are displayed. Repack them in the order required by \autoref{def:finitevector-classifier}: first the length row, then the list spine, then the pair rows, then the optional component provenance row, and finally the shared route and provenance rows.
+
+The outside-length ledger is not part of the component comparison except for recording which positions are not publicly read. Therefore the equivalence exposes precisely the visible component rows and does not introduce a quotient, an infinite tail, or host vector equality.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteVectorUp.FiniteVectorSame\_componentwise\_ledger\_exactness}
+
+\begin{theorem}[FiniteVector NameCert obligation surface]
+\label{thm:finitevector-namecert-obligation-surface}
+The local $\NameCert_{\FiniteVectorUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier: the $\mathsf{BHist}$ packet $(n,L,I,C,R,P,H)$ of \autoref{def:finitevector-carrier};
+\item classifier and stability: the classifier of \autoref{def:finitevector-classifier} together with length-index transport from \autoref{thm:finitevector-length-index-stability};
+\item length-index exactness: the visible $\NatUp$ length row and the assertion that the $\ListUp$ component spine has exactly that displayed length;
+\item componentwise ledger: the $\ProdUp$ index-component pair rows and the $\hsame$ comparisons of \autoref{thm:finitevector-componentwise-ledger-exactness};
+\item downstream consumer boundary: the $\Pkg$ and $\Cont$ rows exposing finite component reads to later vector, matrix, and finite-dimensional certificate consumers while hiding only positions outside the displayed length.
+\end{enumerate}
+These rows are the full public seed surface for the finite-vector name.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteVectorUp.FiniteVectorPacket\_semantic\_name\_certificate}
+\leanchecked{BEDC.Derived.FiniteVectorUp.FiniteVectorPacket\_namecert\_obligation\_surface}
+\begin{proof}
+The carrier row fixes the displayed length, component spine, pair rows, optional component provenance, componentwise ledger, provenance, and outside-length ledger. This gives the source domain of the finite-vector name.
+
+The classifier and stability row is supplied by \autoref{def:finitevector-classifier} and \autoref{thm:finitevector-length-index-stability}. Together they say that every accepted replacement is componentwise $\hsame$ transport along the displayed $\Cont$ routes.
+
+The length-index and componentwise rows are projections of the same carrier. The length row bounds the public read surface, and the pair rows identify which component belongs to each visible index.
+
+Finally the downstream boundary is exactly the $\Pkg$, $\Cont$, and outside-length ledger. Since no coordinate contains an infinite sequence, quotient vector, basis choice, dimension theorem, or linear-independence witness, the five listed rows exhaust the $\NameCert_{\FiniteVectorUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[FiniteVector scoped kernel boundary]
+\label{thm:finitevector-scoped-kernel-boundary}
+The $\FiniteVectorUp$ carrier, classifier, length-index stability,
+componentwise ledger exactness, and $\NameCert_{\FiniteVectorUp}$ obligation
+surface bind the public finite-vector surface exactly to $\NatUp$, $\ListUp$,
+$\ProdUp$, optional $\VecSpaceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$.
+
+The boundary exports no infinite stream, quotient vector, basis choice,
+dimension datum, or linear-independence datum. Later matrix, linear-map, and
+finite-dimensional consumers can read only the displayed finite length, spine,
+index-component rows, componentwise comparisons, routes, provenance, and local
+name certificate.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:finitevector-carrier}. It displays the
+$\NatUp$ length row, $\ListUp$ component spine, $\ProdUp$ index-component
+rows, optional $\VecSpaceUp$ provenance, componentwise ledger, route
+provenance, and outside-length ledger as one finite $\mathsf{BHist}$ packet.
+
+The classifier of \autoref{def:finitevector-classifier} and the transport
+statement of \autoref{thm:finitevector-length-index-stability} identify how
+accepted replacements move along the displayed $\hsame$ and $\Cont$ routes.
+No comparison outside those rows is introduced.
+
+The exactness theorem
+\autoref{thm:finitevector-componentwise-ledger-exactness} shows that visible
+component equality is precisely the finite length, spine, pair-row, optional
+component-provenance, and componentwise $\hsame$ ledger. The
+$\NameCert_{\FiniteVectorUp}$ surface of
+\autoref{thm:finitevector-namecert-obligation-surface} then repacks those
+rows for downstream consumers.
+
+The listed exclusions follow by projection: the carrier has no coordinate for
+an infinite stream, quotient vector, basis choice, dimension witness, or
+linear-independence witness. Therefore the public boundary is exactly the
+displayed kernel surface named above.
+\end{proof}
+
+\begin{theorem}[FiniteVector standard schema bridge boundary]
+\label{thm:finitevector-standard-schema-bridge-boundary}
+The public finite-vector surface of
+\autoref{thm:finitevector-scoped-kernel-boundary} bridges to the standard
+bounded finite-sequence reading exactly through the $\NatUp$ length row, the
+$\ListUp$ component spine, the $\ProdUp$ index-component rows, optional
+$\VecSpaceUp$ component provenance, the componentwise $\hsame$ ledger, $\Cont$
+read routes, $\mathsf{Pkg}$ provenance, and the outside-length hiding ledger.
+
+The bridge exports no infinite stream, quotient vector, basis choice,
+dimension theorem, or linear-independence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finitevector-carrier}. It exposes the
+length row, component spine, index-component rows, optional component
+provenance, componentwise ledger, read routes, package provenance, and
+outside-length ledger as the finite packet.
+
+Use length-index stability from
+\autoref{thm:finitevector-length-index-stability}. The displayed $\NatUp$
+length bounds every public component read, so accepted replacements preserve
+which $\ProdUp$ index-component rows are visible and which positions are hidden
+outside the length.
+
+Apply \autoref{thm:finitevector-componentwise-ledger-exactness}. Componentwise
+equality is exactly the visible $\hsame$ ledger on the displayed component
+spine, transported along the same $\Cont$ read routes and $\mathsf{Pkg}$
+provenance.
+
+Finally use \autoref{thm:finitevector-scoped-kernel-boundary}. The scoped
+kernel boundary exhausts all public finite-vector reads by the rows just
+projected. Since the packet has no coordinate for infinite streams, quotient
+vectors, basis choice, dimension, or linear independence, none of those
+structures is exported by the standard bridge.
+\end{proof}
+
+\closureat{FiniteVectorUp}{seedStr}
+\closureat{FiniteVectorUp}{obligationStr}
+\closureat{FiniteVectorUp}{scopedStr}
+\closureat{FiniteVectorUp}{publicStr}[BEDC.Derived.FiniteVectorUp.FiniteVectorPacket\_semantic\_name\_certificate]
+\closureat{FiniteVectorUp}{bridgedStr}[BEDC.Derived.FiniteVectorUp.FiniteVectorPacket\_semantic\_name\_certificate]
+\closureat{FiniteVectorUp}{matureStr}[BEDC.Derived.FiniteVectorUp.FiniteVectorPacket\_semantic\_name\_certificate]
+
+\begin{theorem}[FiniteVector zero length has empty component-read surface]
+\label{thm:finitevector-zero-length-empty-component-read-surface}
+Let $V=(n,L,I,C,R,P,H)$ be an accepted $\FiniteVectorUp$ carrier. If the displayed $\NatUp$ length row $n$ is the zero row $\emp$ of \autoref{def:unary-history-judgment}, then the public component-read surface of $V$ is empty:
+\begin{enumerate}
+\item the $\ListUp$ component spine $L$ is displayed as the empty spine;
+\item the $\ProdUp$ index-component spine $I$ has no public index-component pair row;
+\item the componentwise ledger $R$ has no public component-comparison row;
+\item the ledger $H$ records only outside-length hiding data and no public component read.
+\end{enumerate}
+Moreover, if $V'=(n',L',I',C',R',P',H')$ is another accepted $\FiniteVectorUp$ carrier whose displayed $\NatUp$ length row is also $\emp$, then a classifier row
+$$
+\mathsf{FiniteVectorSame}(V,V')
+$$
+contains no indexed $\ProdUp$ comparison and no componentwise read comparison. Its public comparison data are exactly the zero length comparison, the empty-spine $\ListUp$ comparison, the displayed provenance rows, the shared $\Cont$ routes, and the outside-length ledgers.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:finitevector-carrier}. The first coordinate says that $n$ is the displayed $\NatUp$ length row, and the hypothesis identifies that row with the zero unary history $\emp$. The same carrier clause says that $L$ is a $\ListUp$ component spine whose displayed length is $n$. Therefore $L$ has displayed length zero. By the zero endpoint exactness of \autoref{thm:list-public-zero-length-and-nonempty-readback}, a zero displayed list length is exactly the empty-spine readback. Thus the component spine contributes no component slot.
+
+The third coordinate of \autoref{def:finitevector-carrier} defines $I$ as a finite $\ProdUp$ spine with one index-component pairing row for each visible index below $n$. There is no visible index below the zero $\NatUp$ row: a visible index below $\emp$ would be a strict predecessor of the zero unary history, while \autoref{def:unary-history-judgment} generates zero as the empty base and generates larger unary rows only by one-extension. Hence the indexing set for $I$ is empty, so the finite $\ProdUp$ spine has no public pair row.
+
+The componentwise ledger $R$ compares displayed components at matching indices. Since the preceding paragraph leaves no displayed index and the first paragraph leaves no component slot, there is no indexed component comparison for $R$ to expose. The last carrier coordinate says that $H$ hides only unused positions outside the displayed length and records every public component read through displayed $\Cont$ routes. A public component read requires a visible index below $n$ together with its index-component row in $I$; both are absent at length zero. Therefore $H$ records only the outside-length hiding data.
+
+For the classifier statement, unfold \autoref{def:finitevector-classifier} for the two accepted zero-length carriers. The length row remains present and compares $n$ with $n'$. The $\ListUp$ row compares the two empty component spines obtained above. The indexed $\ProdUp$ clause ranges over displayed indices below the transported length, but that transported length is again zero, so the clause has no row to display. The optional component provenance coordinate can only contribute its displayed provenance declaration; it does not create an indexed component read because no component slot exists. Finally the $\Cont$, $\Pkg$, and outside-length ledger rows are exactly the remaining public rows named by the classifier. The exactness statement of \autoref{thm:finitevector-componentwise-ledger-exactness} confirms that no hidden position, quotient of spines, or host vector equality is added beyond this displayed ledger.
+\end{proof}
+
+\begin{theorem}[FiniteVector successor length exposes terminal component read]
+\label{thm:finitevector-successor-component-read-surface}
+Let $V=(n,L,I,C,R,P,H)$ be an accepted $\FiniteVectorUp$ carrier. If the displayed $\NatUp$ length row $n$ is a successor row over a predecessor length $m$, then the public component-read surface of $V$ decomposes into the predecessor finite-vector read surface of length $m$ together with exactly one terminal $\ProdUp$ index-component row at the successor boundary.
+
+Equivalently, the displayed $\ListUp$ spine splits into the predecessor component spine and one terminal component slot, the $\ProdUp$ spine $I$ splits into the predecessor index-component rows and the terminal index-component pairing row, the componentwise ledger $R$ splits into the predecessor $\hsame$ comparison rows and the terminal component comparison, and $H$ hides only positions outside the displayed successor length.
+\end{theorem}
+\begin{proof}
+Project the seven carrier coordinates from \autoref{def:finitevector-carrier}. The first coordinate identifies $n$ as the displayed $\NatUp$ length row, and the hypothesis writes that row as the one-step successor of $m$. The zero endpoint of \autoref{thm:finitevector-zero-length-empty-component-read-surface} gives the base boundary for the induction over displayed unary length rows.
+
+For the successor step, split the $\ListUp$ spine along the successor form of the unary length row. The displayed prefix has length $m$, and the one remaining displayed slot is the terminal component slot at the successor boundary. No additional slot is available because the carrier requires the displayed length of $L$ to be exactly $n$.
+
+Now split the finite $\ProdUp$ spine $I$. By the carrier clause, $I$ has one index-component pairing row for each visible index below $n$. The visible indices below the successor row are precisely the predecessor visible indices below $m$ together with the terminal boundary index. Hence $I$ is the predecessor pair-row spine plus exactly one terminal $\ProdUp$ index-component row.
+
+Apply \autoref{thm:finitevector-componentwise-ledger-exactness} to identify the classifier rows exposed by this split. The predecessor part contributes the finite $\hsame$ rows over the predecessor spine, and the terminal pair row contributes exactly the terminal component comparison. The exactness theorem also rules out hidden-position comparisons, quotient spine equality, and host vector equality.
+
+Finally inspect the last carrier coordinate. The ledger $H$ records every public component read through the displayed $\Cont$ routes and hides only unused positions outside the displayed length. Since the displayed length is the successor row over $m$, the predecessor reads and the terminal read are public, while every position beyond that successor length remains hidden.
+\end{proof}
+
+\begin{theorem}[FiniteVector public component recursion boundary]
+\label{thm:finitevector-public-component-recursion-boundary}
+Every public component read of an accepted $\FiniteVectorUp$ packet is
+generated by induction on the displayed $\NatUp$ length row. The zero row is
+exactly the empty component-read surface of
+\autoref{thm:finitevector-zero-length-empty-component-read-surface}; the
+successor row is exactly the predecessor read surface together with one
+terminal $\ProdUp$ index-component row, as in
+\autoref{thm:finitevector-successor-component-read-surface}.
+
+Consequently the public recursion boundary exports the displayed $\NatUp$
+length, the finite $\ListUp$ component spine, the finite $\ProdUp$
+index-component rows, componentwise $\hsame$ ledger rows, $\Cont$ routes, and
+$\mathsf{Pkg}$ provenance. It exports no infinite stream, quotient vector,
+basis choice, dimension theorem, or linear-independence datum.
+\end{theorem}
+\begin{proof}
+Induct on the displayed unary $\NatUp$ length row carried by
+\autoref{def:finitevector-carrier}. In the zero case, apply
+\autoref{thm:finitevector-zero-length-empty-component-read-surface}. The
+component spine, index-component spine, and componentwise ledger then expose no
+public component row.
+
+In the successor case, apply
+\autoref{thm:finitevector-successor-component-read-surface}. The displayed
+packet splits into the predecessor read surface and exactly one terminal
+$\ProdUp$ index-component row at the successor boundary.
+
+Finally use \autoref{thm:finitevector-componentwise-ledger-exactness} to
+identify the classifier ledger exposed by the induction. The ledger records
+precisely the displayed componentwise $\hsame$ rows and the associated
+$\Cont/\mathsf{Pkg}$ provenance, so it cannot supply an infinite stream,
+quotient vector, basis, dimension theorem, or linear-independence witness.
+\end{proof}
+
+\begin{theorem}[FiniteVector standard bridge boundary]
+\label{thm:finitevector-standard-bridge-boundary}
+The public component-recursion packet of
+\autoref{thm:finitevector-public-component-recursion-boundary} interprets as
+the standard finite-vector schema exactly through the displayed
+$\NatUp$ length-index row, terminal component read, componentwise ledger,
+$\ListUp/\NatUp/\VecSpaceUp$ provenance, visible $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and local $\NameCert$ rows.
+
+The bridge carries no basis choice, quotient vector, infinite sequence, or
+dimension theorem. In particular, the standard reading is only the finite
+component packet generated by the displayed length recursion and its terminal
+read boundary.
+\end{theorem}
+\begin{proof}
+First fix the length-index surface. Apply
+\autoref{thm:finitevector-length-index-stability} and
+\autoref{thm:finitevector-namecert-obligation-surface}. These identify the
+displayed $\NatUp$ length row, $\ListUp$ component spine, optional
+$\VecSpaceUp$ provenance, visible routes, package data, and local certificate
+rows used by the finite-vector packet.
+
+Next read the component ledger. Use
+\autoref{thm:finitevector-componentwise-ledger-exactness} to identify visible
+component equality with the componentwise $\hsame$ rows, and use
+\autoref{thm:finitevector-zero-length-empty-component-read-surface} for the
+empty read at length zero.
+
+For the successor boundary, apply
+\autoref{thm:finitevector-successor-component-read-surface}. It supplies the
+unique terminal $\ProdUp$ index-component row beyond the predecessor surface,
+so every displayed finite-vector component read is generated by the length
+recursion.
+
+Finally apply
+\autoref{thm:finitevector-public-component-recursion-boundary}. The public
+recursion boundary repacks the length row, terminal reads, componentwise
+ledger, provenance, visible transports, and certificate rows as the standard
+finite-vector bridge. The carrier has no coordinate for basis choice, quotient
+vectors, infinite sequences, or a dimension theorem, so none is exported.
+\end{proof}
+
+\begin{closurestatus}{\FiniteVectorUp}
+  \constructivestory{A finite-vector packet is generated by a $\NatUp$ length row, a $\ListUp$ component spine, $\ProdUp$ index-component pair rows, optional $\VecSpaceUp$ component provenance, componentwise $\hsame$ rows, $\Cont$ routes for public reads, $\Pkg$ provenance, and a ledger hiding only positions outside the displayed length.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:finitevector-scoped-kernel-boundary}, \autoref{thm:finitevector-standard-schema-bridge-boundary}, \autoref{thm:finitevector-zero-length-empty-component-read-surface}, \autoref{thm:finitevector-successor-component-read-surface}, \autoref{thm:finitevector-public-component-recursion-boundary}, and \autoref{thm:finitevector-standard-bridge-boundary} bind the finite-vector surface to $\NatUp$, $\ListUp$, $\ProdUp$, optional $\VecSpaceUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$, with zero-length and successor-length component-read surfaces serving as mature finite consumer examples.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FiniteVectorUp.FiniteVectorPacket\_semantic\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close infinite sequences, quotient vectors, basis choice, a dimension theorem, or linear independence.}
+  \upgradepath{No further paper-side theory grade remains for this finite length-indexed component package; bridge verification remains on the independent verification axis.}
+\end{closurestatus}

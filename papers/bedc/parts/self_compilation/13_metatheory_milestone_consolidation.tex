@@ -1,0 +1,371 @@
+\section{Metatheory Milestone Consolidation}
+\label{sec:metatheory-milestone-consolidation}
+
+This section gives a single reader-facing account of the metatheory now
+available around \texttt{BEDC.MetaCIC}.  The account is deliberately two-sided.
+On one side it records the checked Lean surface: represented syntax, closure,
+substitution, reduction, confluence components, subject reduction interfaces,
+typed examples, host-gallery transport, and the $\mathsf{BHist}$ embedding.
+On the other side it places that surface next to the standard textbook routes
+for the Calculus of Inductive Constructions and related pure type systems.
+
+The point of the comparison is scope control.  BEDC is not a replacement
+kernel and not a full formalization of CIC.  It is a mathlib-free,
+zero-axiom, zero-sorry represented calculus inside Lean 4, with enough
+first-principles metatheory to support the self-compilation surface used in
+this paper.  The checked pieces are meaningful because they are proved over
+the represented object language itself, not imported from host conversion,
+host normalization, or a library theorem about lambda calculus.
+
+\subsection{What \texttt{BEDC.MetaCIC} Achieves}
+\label{subsec:metatheory-achieves}
+
+The represented substrate is a single-sort dependent-function core.  Its term
+syntax has five constructors: sort, de Bruijn variable, application, lambda,
+and Pi.  Context lookup is a first-principles list lookup.  Shift and
+substitution are native recursive operations on the represented syntax, and
+the closure predicate \texttt{ClosedAt} records exactly which de Bruijn
+variables are in scope at a given boundary.
+
+The substrate is shift-aware in the strict de Bruijn sense.  Descent under a
+binder changes the relevant cutoff, and substitution below a binder shifts the
+inserted term.  This is why closure preservation is a theorem rather than a
+notation convention.  The checked closure layer says that closed terms remain
+closed under shift and substitution at the relevant boundary, and that beta
+reduction preserves the same closure predicate.
+
+\leanvariant{BEDC.MetaCIC.shift\_closed}
+\leanvariant{BEDC.MetaCIC.substitute\_closed}
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_closed\_at}
+\leanvariant{BEDC.MetaCIC.betaStep\_preserves\_closed}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+
+These facts are not cosmetic.  They are the algebraic guardrail that keeps the
+MetaCIC reduction relation inside the intended closed fragment.  In particular,
+the one-step theorem covers beta contraction and all congruence constructors;
+the finite-chain theorem lifts it along the represented reflexive-transitive
+closure \texttt{BetaStarStep}.  Hence every finite represented beta trace
+starting from a closed term remains closed at every displayed point of the
+trace.
+
+The confluence surface is split into atom results and compound-shape
+assemblers.  For atoms, sort and variable sources cannot produce a genuine
+fork.  Their beta-star and parallel-beta forks join at the source itself.  The
+checked atom diamonds record the fully closed part of the confluence story:
+
+\leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_sort}
+\leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_var}
+\leanvariant{BEDC.MetaCIC.betaParallel\_sort\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_var\_diamond}
+
+For compound terms, the checked layer supplies the structural components
+needed by the standard parallel-reduction path.  Application, lambda, and Pi
+diamonds can be assembled from diamonds of their components.  Lambda and Pi
+shape forks reduce to domain-body and domain-codomain obligations.  Application
+forks are exposed by a full inversion theorem, because an application branch
+may either remain an application or contract after the function side exposes a
+lambda.
+
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_lam\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_pi\_diamond\_of\_components}
+\leanvariant{BEDC.MetaCIC.betaParallel\_lam\_shape\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_pi\_shape\_diamond}
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_full\_inv}
+\leanvariant{BEDC.MetaCIC.betaParallel\_app\_shape\_diamond\_from\_substitution}
+\leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_from\_substitution}
+
+The last two targets make the boundary explicit.  A full parallel diamond is
+available from a substitution-compatibility hypothesis.  The Lean theorem does
+not hide that hypothesis; it states exactly where the remaining algebraic
+content must enter.  In textbook prose the missing law is often described as
+``substitution commutes with residual reduction.''  In this substrate it must
+be a concrete law about \texttt{substitute 0} with the same shifts and cutoffs
+used by \texttt{BEDC.MetaCIC.substitute}.
+
+Subject reduction has a similarly explicit shape.  The central theorem is a
+hypothesis-based theorem over the represented typing and beta-step relations.
+Its beta case uses the beta-substitution-preservation interface; its
+congruence cases use the application-argument and binder-domain stability
+interfaces.  This is stronger than a mere statement of intent, because the
+ordinary beta, app, lambda, and Pi cases are checked as Lean theorems over the
+object calculus.
+
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_beta}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congApp1}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congApp2}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congLam}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_congPi}
+\leanvariant{BEDC.MetaCIC.subject\_reduction}
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_retype}
+\leanstmt{BEDC.MetaCIC.BetaSubstitutionPreservation}
+\leanstmt{BEDC.MetaCIC.AppArgTypeStable}
+\leanstmt{BEDC.MetaCIC.LamDomainSubjectReduction}
+\leanstmt{BEDC.MetaCIC.PiDomainSubjectReduction}
+
+The subject-reduction theorem should be read as a precise local theorem, not
+as a disguised claim that all standard preservation obligations have been
+discharged.  The three interfaces identify the required stability facts.  The
+closed-term path is also constrained by the checked obstruction showing that a
+closed outer term may contain a locally open redex argument when the redex is
+examined under binders.
+
+\leanvariant{BEDC.MetaCIC.closedBinderRedexTerm\_closed}
+\leanvariant{BEDC.MetaCIC.closedBinderRedexTerm\_steps}
+\leanvariant{BEDC.MetaCIC.closedBinderRedexTerm\_argument\_not\_closed}
+\leanvariant{BEDC.MetaCIC.closed\_term\_step\_has\_unclosed\_local\_argument}
+
+The normalization surface is intentionally modest.  Operationally, the paper
+uses a bounded normalizer reading: a fuel-indexed host computation follows a
+chosen finite beta path, and closure preservation is carried by the checked
+finite-trace theorems.  The checked atom-level termination content is the
+normal-form behavior of sort and closed variable atoms: no beta successor can
+start from such a source, and a typed closed atom is therefore beta-inert.
+
+\leanvariant{BEDC.MetaCIC.sort\_no\_beta}
+\leanvariant{BEDC.MetaCIC.closed\_var\_no\_beta}
+\leanvariant{BEDC.MetaCIC.closed\_atom\_normal\_form}
+
+This is the atom-level strong-normalization reading used here: for atom
+sources there is no first step, so every beta path is already finished.  It is
+not a global strong-normalization theorem for all well-typed represented terms.
+The reducibility-candidates route is therefore a frontier for the represented
+calculus, not a completed adequacy theorem in the Lean surface.
+
+The typed examples gallery gives concrete pressure on the syntax, typing, and
+reduction definitions.  It contains Church-encoded Booleans, naturals, pairs,
+and options; polymorphic identity, constant, flip, and compose forms; and a
+family of beta-redex witnesses.  The examples are not produced by quotation
+from Lean expressions.  They are represented terms whose typing and reduction
+evidence is constructed inside \texttt{BEDC.MetaCIC}.
+
+\leanvariant{BEDC.MetaCIC.church\_bool\_type}
+\leanvariant{BEDC.MetaCIC.church\_true}
+\leanvariant{BEDC.MetaCIC.church\_false}
+\leanvariant{BEDC.MetaCIC.church\_nat\_type}
+\leanvariant{BEDC.MetaCIC.church\_zero}
+\leanvariant{BEDC.MetaCIC.church\_one}
+\leanvariant{BEDC.MetaCIC.church\_pair\_type}
+\leanvariant{BEDC.MetaCIC.church\_mk\_pair}
+\leanvariant{BEDC.MetaCIC.church\_option\_type}
+\leanvariant{BEDC.MetaCIC.church\_none}
+\leanvariant{BEDC.MetaCIC.church\_some}
+\leanvariant{BEDC.MetaCIC.poly\_identity\_type}
+\leanvariant{BEDC.MetaCIC.poly\_const\_type}
+\leanvariant{BEDC.MetaCIC.poly\_flip\_type}
+\leanvariant{BEDC.MetaCIC.poly\_compose\_type}
+\leanvariant{BEDC.MetaCIC.id\_sort\_redex}
+\leanvariant{BEDC.MetaCIC.id\_sort\_redex\_typed}
+\leanvariant{BEDC.MetaCIC.poly\_id\_two\_step\_redex}
+\leanvariant{BEDC.MetaCIC.poly\_id\_two\_step\_redex\_typed}
+\leanvariant{BEDC.MetaCIC.k\_sort\_two\_step\_redex}
+\leanvariant{BEDC.MetaCIC.k\_sort\_two\_step\_redex\_typed}
+
+The host bridge gives a second view of the same gallery.  Host-side Lean
+definitions record the familiar computational behavior of identity, constant,
+flip, compose, Church constructors, and selected redexes by reflexive
+equalities.  The transport side then points to the represented MetaCIC
+witnesses for corresponding typing and reduction facts.  This is not a kernel
+soundness theorem from host elaboration to MetaCIC.  It is a checked alignment
+gallery: named host examples and named represented examples are paired at the
+level of concrete witnesses.
+
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_identity\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_const\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_flip\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.Host.host\_compose\_beta}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_identity\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_const\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_flip\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_compose\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_true\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_false\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_zero\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_church\_one\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_id\_sort\_redex\_step}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_id\_sort\_redex\_well\_typed}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_poly\_id\_two\_step\_redex\_star}
+\leanvariant{BEDC.HostBridge.MetaCICTransport.transport\_poly\_id\_two\_step\_redex\_well\_typed}
+
+The $\mathsf{BHist}$ bridge connects the self-compilation substrate back to the
+finite-history world of BEDC.  The embedding \texttt{bhistToTerm} turns a
+\texttt{BHistIdx} into a represented MetaCIC term, and the closure theorem says
+that the result is closed at boundary $0$.  This is exactly the kind of bridge
+needed by a closed-atom self-compilation surface: histories can be represented
+as terms without opening a de Bruijn variable.
+
+\leanvariant{BEDC.MetaCIC.BHistSubstrate.bhistToTerm\_closed}
+\leanvariant{BEDC.MetaCIC.BHistSubstrate.bhistToTerm\_injective}
+
+\subsection{Comparison with Textbook CIC Metatheory}
+\label{subsec:metatheory-textbook-comparison}
+
+The textbook metatheory of CIC is usually organized around a rich kernel with
+universes, products, conversion, inductive objects, and a semantic or syntactic
+normalization argument.  Coquand--Werner style presentations are commonly read
+through normalization by evaluation or closely related semantic normalization
+methods.  Those routes exploit a carefully chosen semantic model of terms,
+types, and conversion.  BEDC takes a more direct first-principles path: it
+defines the object syntax, object typing, object beta relation, and object
+metatheory inside Lean 4, then proves local facts about those inductive
+objects.
+
+The difference is not merely aesthetic.  Normalization by evaluation is a
+semantic proof architecture; the evaluator and reifier are part of the proof
+that well-typed terms normalize.  BEDC's bounded normalizer is not such a
+semantic normalization proof.  It is an operational finite approximation whose
+termination comes from host fuel.  The checked theorem around it is closure
+preservation along represented beta traces, not a theorem that all well-typed
+represented terms normalize.
+
+Pure type systems give another useful comparison point.  In the Barendregt
+style, a calculus is presented by a set of sorts, axioms, and product rules.
+The BEDC fragment can be read as a single-sort sub-PTS: it has one represented
+sort, Pi formation, lambda introduction, application elimination, and explicit
+beta reduction, but it does not carry a universe hierarchy, cumulativity, or
+the full set of conversion principles used by CIC kernels.  The single-sort
+choice keeps the object calculus small enough for mathlib-free proof from
+first principles.
+
+Reducibility candidates provide the standard Girard/Tait route to strong
+normalization.  That route interprets types as sets of strongly normalizing
+terms stable under reduction, then proves adequacy by induction on typing
+derivations.  BEDC has the syntactic substrate needed to state this route:
+represented typing, represented beta, closure, finite reduction chains, and
+atom-level normal-form facts.  What is not present is the full adequacy proof:
+an interpretation of every admissible represented type as a candidate and an
+induction showing that every typing derivation lands in the corresponding
+candidate.
+
+The comparison therefore has a precise shape:
+
+\begin{center}
+\begin{tabular}{p{0.26\linewidth}p{0.29\linewidth}p{0.36\linewidth}}
+\hline
+Textbook route & Standard role & BEDC reading \\
+\hline
+Coquand--Werner CIC &
+semantic normalization and kernel-scale conversion metatheory &
+direct object-language proofs over a narrower represented calculus \\
+Pure type systems &
+sorts, axioms, and product rules as a parametric calculus schema &
+single-sort dependent-function sub-PTS with explicit beta only \\
+Tait--Martin-Lof parallel reduction &
+diamond proof route for beta confluence &
+atom diamonds and compound-shape assemblers, with application residuals
+still isolated as substitution compatibility \\
+Girard/Tait reducibility candidates &
+strong-normalization adequacy by semantic interpretation of types &
+frontier over the represented calculus, with atom-level normal-form facts
+already checked \\
+\hline
+\end{tabular}
+\end{center}
+
+This reading keeps the standard references conceptually visible without
+pretending that their full theorems have been imported.  The BEDC theorem names
+are theorem names about the represented calculus.  They do not mention the host
+kernel's own conversion relation, and they do not rely on host metatheory as a
+black box.
+
+\subsection{Frontier}
+\label{subsec:metatheory-frontier}
+
+The first frontier is the full \texttt{BetaParallel} diamond without a
+closed-term precondition.  The checked theorem
+\texttt{betaParallel\_diamond\_from\_substitution} identifies the exact
+remaining input: parallel substitution compatibility.  Proving that input in
+the present de Bruijn substrate requires a binder-aware commutation theorem for
+parallel residuals and substitution.
+
+The second frontier is the complete discharge of the three subject-reduction
+hypotheses in the general form.  The theorem
+\texttt{subject\_reduction} already packages the main induction once beta
+substitution preservation, application-argument stability, lambda-domain
+stability, and Pi-domain stability are available.  The closed-term path is
+natural, but the local-redex obstruction shows why closedness alone does not
+erase all binder bookkeeping.
+
+The third frontier is a strong-normalization theorem for the represented
+calculus.  The current checked facts prove that atoms are beta-inert and that
+finite traces preserve closedness.  A full theorem would require an admissible
+type grammar, reducibility candidates for that grammar, and an adequacy proof
+over represented typing derivations.
+
+The fourth frontier is the weak closed-term form of substitution composition.
+The unrestricted zero-depth equation is refuted by a checked counterexample.
+Positive shape-local facts already exist for closed sort, variable,
+application, lambda-anchor, and Pi-anchor cases, but the theorem needed by the
+application residual proof must be stated in the exact closed form that the
+shift-aware substitution operation satisfies.
+
+\leanvariant{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_unclosed\_counterexample}
+\leanvariant{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_closed\_sort}
+\leanvariant{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_closed\_var}
+\leanvariant{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_closed\_app}
+\leanvariant{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_lam\_closed\_anchor}
+\leanvariant{BEDC.MetaCIC.substitute\_substitute\_zero\_zero\_pi\_closed\_anchor}
+
+\subsection{Boundary Statement}
+\label{subsec:metatheory-boundary-statement}
+
+BEDC does not pursue a universe hierarchy or cumulativity in
+\texttt{BEDC.MetaCIC}.  The represented calculus has a single sort and the
+paper reads it as a universe-zero dependent-function core.  This excludes the
+kernel-scale universe constraints and cumulativity rules that a full CIC
+formalization would need.
+
+BEDC does not pursue inductive families inside the MetaCIC substrate.  The
+object language has no represented inductive declarations, constructors,
+recursors, motive elaboration, or large eliminators.  Church encodings in the
+typed gallery are represented terms in the dependent-function fragment, not
+host inductive datatypes transported into the object calculus.
+
+BEDC does not pursue propositional irrelevance.  The object calculus has no
+separate proof-irrelevant proposition sort and no quotient by proof identity.
+All checked theorems are Lean theorems about the represented syntax and
+relations.
+
+BEDC does not pursue eta-conversion.  The reduction relation is beta-only:
+lambda eta and Pi eta are not reduction constructors, and the confluence and
+subject-reduction surfaces are stated for the beta relation that is actually
+encoded.
+
+BEDC does not pursue pattern matching from inductive types beyond the closed
+atoms and Church-encoded examples displayed in the gallery.  The object
+language has no case tree language and no pattern compiler.  This keeps the
+self-compilation surface tied to the finite closed-term and closed-history
+bridge it needs.
+
+\subsection{Why This Boundary}
+\label{subsec:metatheory-boundary-rationale}
+
+The first reason is axiom purity.  The development is mathlib-free and audited
+against extra axioms.  In particular, the project excludes reliance on
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext} in the
+checked theorem dependency chain.  That restriction rules out many convenient
+shortcuts for quotienting syntax, using classical well-founded arguments, or
+collapsing propositions by extensionality.  The substrate must be built from
+inductive syntax, recursive functions, and explicit constructors.
+
+The second reason is methodological.  The self-compilation chapter values
+substrate coherence over maximal expressivity.  A small represented calculus
+with explicit closure, substitution, beta, typing, and finite examples gives a
+clear audit trail.  A larger calculus with universes, inductives, conversion,
+and pattern matching would be closer to a production kernel, but it would also
+move the paper away from the first-principles invariant that makes every claim
+traceable to a named Lean object.
+
+The third reason is sufficiency for the BEDC goal.  The self-compilation
+surface needs closed-atom and finite-history meta-reasoning, not a full
+mechanization of CIC.  Histories must embed as closed represented terms.
+Gallery witnesses must exercise the dependent-function core.  Reduction traces
+must preserve closedness.  Atom sources must be beta-inert.  These are exactly
+the checked components listed above.  The larger textbook theorems remain the
+right comparison class, but the paper's claim is intentionally narrower.
+
+The resulting boundary is neither a defect nor a hidden theorem.  It is the
+chosen contract for this represented calculus: first-principles syntax and
+local metatheory, checked without additional axioms, supporting the
+self-compilation layer while leaving full CIC metatheory outside the claimed
+surface.

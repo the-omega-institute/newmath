@@ -85,3 +85,95 @@ rows visible as part of the concrete $\mathsf{BHist}$ surface. Since every
 field has been read from the singleton carrier and append ledger, the target
 is the concrete instance itself rather than a parameterized group schema.
 \end{proof}
+
+\begin{definition}[Group finite-word history instance]
+\label{def:group-finite-word-history-instance}
+The finite-word $\GroupUp$ history instance has carrier
+$\mathsf{WordCarrier}_{\GroupUp}$ consisting of finite $\ListUp$ word spines
+whose entries are singleton carried endpoints of
+\autoref{def:group-singleton-empty-history-instance}. Thus a word
+$w=\mathsf{cons}(h_1,\ldots,\mathsf{cons}(h_n,\mathsf{nil}))$ is carried when
+each $h_i$ satisfies $A_{\emp}(h_i)$, with the empty word carried by the nil
+constructor.
+
+The classifier
+$\mathsf{WordClass}_{\GroupUp}(w,w')$ is the componentwise lift of $\hsame$,
+together with equality of the finite word spine. The product is concatenation
+of finite words through the displayed append continuation ledger
+$$
+\mathsf{mul}_{\mathrm{word}}(w,w'):=w\mathbin{+\!\!+}w',
+$$
+the unit is $\mathsf{nil}$, and inverse is reversal with the singleton inverse
+row applied to each component:
+$$
+\mathsf{inv}_{\mathrm{word}}(h_1,\ldots,h_n)
+:=(\mathsf{inv}_{\emp}(h_n),\ldots,\mathsf{inv}_{\emp}(h_1)).
+$$
+No host group operation is exported; every endpoint remains a finite
+$\mathsf{BHist}$ word with its componentwise singleton ledger.
+\end{definition}
+
+\begin{theorem}[Group finite-word operation closure]
+\label{thm:group-finite-word-operation-closure}
+For the finite-word $\GroupUp$ history instance of
+\autoref{def:group-finite-word-history-instance}, concatenation of two carried
+finite-word histories is carried. If $w\sim_{\mathrm{word}}w'$ and
+$v\sim_{\mathrm{word}}v'$, then
+$\mathsf{mul}_{\mathrm{word}}(w,v)\sim_{\mathrm{word}}
+\mathsf{mul}_{\mathrm{word}}(w',v')$. The empty word is a two-sided unit, and
+associativity is the list-spine append associativity row together with the
+singleton append laws of \autoref{thm:group-singleton-empty-history-laws}.
+\end{theorem}
+\begin{proof}
+Induct on the first finite word. In the nil case, concatenation returns the
+second carried word, and the left unit law is the nil append equation. The
+right unit law follows by the corresponding induction on the carried word.
+
+In the cons step, the head is carried by the componentwise carrier hypothesis
+and the tail product is carried by the induction hypothesis. Reattaching the
+head gives a carried concatenation spine, so no endpoint leaves the singleton
+$\mathsf{BHist}$ surface.
+
+Classifier transport is componentwise. The head comparison is the displayed
+$\hsame$ row, while the tail comparison is transported by the induction
+hypothesis. The list-spine equality part records that concatenation preserves
+the finite shape on both sides.
+
+Associativity is the standard finite-list append reassociation, with each
+component endpoint governed by
+\autoref{thm:group-singleton-empty-history-laws}. The local concrete schema
+surface of \autoref{thm:group-concrete-instance-schema-unlock} supplies the same
+append ledger, so the finite-word operation remains the concrete
+$\mathsf{BHist}$ instance rather than an abstract group law.
+\end{proof}
+
+\begin{theorem}[Group finite-word inverse boundary]
+\label{thm:group-finite-word-inverse-boundary}
+For every carried finite-word history $w$, the reversed componentwise singleton
+inverse $\mathsf{inv}_{\mathrm{word}}(w)$ is carried. Moreover,
+$\mathsf{mul}_{\mathrm{word}}(w,\mathsf{inv}_{\mathrm{word}}(w))$ and
+$\mathsf{mul}_{\mathrm{word}}(\mathsf{inv}_{\mathrm{word}}(w),w)$ expose exactly
+the displayed finite cancellation ledger obtained by pairing each component
+with its singleton inverse row; the boundary does not export a host group
+object or an external quotient.
+\end{theorem}
+\begin{proof}
+Induct on the finite word. The nil case is the empty word, whose inverse is
+again nil; both products are the nil append row.
+
+In the cons case, apply
+\autoref{thm:group-singleton-empty-history-laws} to the head endpoint and
+\autoref{thm:group-singleton-empty-history-namecert} to keep the transported
+classifier row inside the singleton certificate. The induction hypothesis gives
+the reversed inverse word for the tail and its carriedness.
+
+Concatenating the word with its reversed inverse produces the visible sequence
+of componentwise singleton cancellation rows. Reassociating this finite append
+spine uses the same append ledger as
+\autoref{thm:group-concrete-instance-schema-unlock}; it only rearranges the
+displayed continuation evidence.
+
+The opposite product is identical after reversing the induction order. Thus the
+inverse boundary is a carried $\ListUp$ word endpoint with a finite cancellation
+ledger, not a transported theorem about an ambient group object.
+\end{proof}

@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionAuditTraceUp$}
+\label{ch:concrete-instances-inscriptionaudittrace-namecert}
+\origin{ai}
+
+The $\InscriptionAuditTraceUp$ surface realizes the audit trace of an inscription event as a finite NameCert packet. It combines the inscription-event source and named-record rows, the GAP-ledger residue rows, and the accepted-check consumer-budget rows into one public audit object. The packet records only the rows that a certificate, citation, theorem site, or $\ChapterTasteGate$ consumer may inspect.
+
+\begin{definition}[Inscription audit trace carrier]
+\label{def:inscription-audit-trace-carrier}
+An $\InscriptionAuditTraceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,M,R,K,U,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source-state row at which the inscription route begins;
+\item $M$ is the named record, theorem site, citation row, or public interface admitted by the route;
+\item $R$ is the displayed route witness from $S$ to $M$;
+\item $K$ is the accepted-check row that admits $R$ as public record data for $M$;
+\item $U$ is the downstream audit consumer row, naming the certificate, citation, theorem site, or $\ChapterTasteGate$ surface that may read the trace;
+\item $Q$ is the GAP residue row left after the accepted route and consumer boundary are exposed;
+\item $H$ records componentwise $\hsame$ transports for $S,M,R,K,U,Q$ together with package and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the source, name, route, accepted check, consumer, and residue rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\InscriptionEventUp$, $\InscriptionGapLedgerUp$, $\InscriptionAcceptanceBudgetUp$, and $\ChapterTasteGate$ surfaces;
+\item $N$ is the local $\NameCert_{\InscriptionAuditTraceUp}$ row.
+\end{enumerate}
+The carrier contains no private agency predicate, host process trace, unrecorded mutation, unchecked route, unbudgeted consumer right, or completed ontology of inscription beyond the displayed audit rows.
+\end{definition}
+
+\begin{theorem}[Inscription audit trace NameCert obligations]
+\label{thm:inscription-audit-trace-namecert-obligations}
+The local $\NameCert_{\InscriptionAuditTraceUp}$ surface for \autoref{def:inscription-audit-trace-carrier} consists of six finite obligations:
+\begin{enumerate}
+\item carrier exposure for $A=(S,M,R,K,U,Q,H,C,P,N)$;
+\item source and named-record locality inherited from the $\InscriptionEventUp$ rows $S,M,R,K,U$;
+\item accepted-check exactness inherited from the $\InscriptionAcceptanceBudgetUp$ row $K$;
+\item GAP-residue exactness inherited from the $\InscriptionGapLedgerUp$ row $Q$;
+\item consumer accountability through $U$ and the displayed $\Cont$ routes in $C$;
+\item package and local naming stability through $H,P,N$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and $\ChapterTasteGate$ surfaces.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed packet. The rows $S,M,R,K,U,Q,H,C,P,N$ are the complete inventory available to the audit trace.
+
+The inscription-event rows supply the source, name, route, accepted-check, and consumer boundary. The acceptance-budget rows identify $K$ as the public check row and keep downstream use inside the consumer surface named by $U$.
+
+The GAP-ledger rows identify $Q$ as the residue left at the accepted route boundary. The transport, continuation, package, and local naming rows then record how a $\ChapterTasteGate$ or certificate consumer reads the same finite packet without importing private agency or host process data.
+\end{proof}
+
+\begin{theorem}[Inscription audit trace route-check residue exhaustion]
+\label{thm:inscription-audit-trace-route-check-residue-exhaustion}
+For every accepted $\InscriptionAuditTraceUp$ carrier $A=(S,M,R,K,U,Q,H,C,P,N)$, the route-check-residue surface is exhausted by the rows $S,M,R,K,Q,H,C,P,N$. A public audit read first reaches the named record $M$ from the source row $S$ through the route witness $R$, then admits the route through the check row $K$, and then records the remaining GAP residue through $Q$.
+
+No audit read may replace these rows by a host checker, hidden proof replay, private agency predicate, raw byte-change identity, or unrecorded route.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate the route-facing rows $S,M,R,K,Q$. These are the only coordinates that connect source state, named record, accepted check, and residue.
+
+Apply the inscription-event surface for the route from $S$ through $R$ to $M$. Apply the acceptance-budget surface to read $K$ as the accepted check, and apply the GAP-ledger surface to read $Q$ as the displayed residue.
+
+The remaining rows $H,C,P,N$ preserve this same route under componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Since the carrier has no host checker, hidden replay, agency predicate, byte-change classifier, or unrecorded route coordinate, the route-check-residue surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Inscription audit trace consumer non-escape]
+\label{thm:inscription-audit-trace-consumer-nonescape}
+Every downstream consumer of an accepted $\InscriptionAuditTraceUp$ carrier factors through the finite rows
+$$
+S,M,R,K,U,Q,H,C,P,N.
+$$
+The consumer may read the source state, named record, route witness, accepted check, intended consumer, GAP residue, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It cannot read private motives, host process traces, unchecked route data, unbudgeted consumer authority, or inscription data outside the finite audit trace.
+\end{theorem}
+\begin{proof}
+Begin with the consumer row $U$ and the continuation row $C$. Together they name the public audit reader and the displayed route by which that reader enters the packet.
+
+Use \autoref{thm:inscription-audit-trace-namecert-obligations}. The local NameCert surface binds the consumer to the inscription-event, GAP-ledger, and acceptance-budget rows visible in the same packet.
+
+Use \autoref{thm:inscription-audit-trace-route-check-residue-exhaustion}. The consumer's route-check-residue read is already exhausted by $S,M,R,K,Q,H,C,P,N$. No additional carrier coordinate remains, so the consumer cannot escape to private motives, host traces, unchecked routes, unbudgeted authority, or outside inscription data.
+\end{proof}
+
+\begin{theorem}[Inscription audit trace TasteGate visible surface]
+\label{thm:inscription-audit-trace-tastegate-visible-surface}
+The $\ChapterTasteGate$-visible surface of an accepted $\InscriptionAuditTraceUp$ carrier is exactly the finite audit packet $A=(S,M,R,K,U,Q,H,C,P,N)$ together with its local $\NameCert_{\InscriptionAuditTraceUp}$ obligations. A gate may inspect the source, named record, route witness, accepted check, consumer row, GAP residue, transports, continuations, package provenance, and local naming row; it receives no hidden approval channel, private agency predicate, host trace, or row not named by the packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.InscriptionAuditTraceUp.InscriptionAuditTraceTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+The gate-facing input is the same carrier from \autoref{def:inscription-audit-trace-carrier}. The carrier lists the rows a $\ChapterTasteGate$ consumer may inspect and supplies no separate admission channel.
+
+Apply \autoref{thm:inscription-audit-trace-namecert-obligations} to expose the local NameCert surface. It ties the inscription-event, GAP-ledger, and acceptance-budget readings to one finite audit packet.
+
+Apply \autoref{thm:inscription-audit-trace-consumer-nonescape}. Since every downstream consumer, including a $\ChapterTasteGate$ consumer, factors through $S,M,R,K,U,Q,H,C,P,N$, the visible gate surface is exactly the displayed audit trace.
+\end{proof}
+
+\closureat{InscriptionAuditTraceUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionAuditTraceUp}
+  \constructivestory{An $\InscriptionAuditTraceUp$ packet is generated from a source state, named record, route witness, accepted check, downstream audit consumer, GAP residue, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-audit-trace-carrier}, \autoref{thm:inscription-audit-trace-namecert-obligations}, \autoref{thm:inscription-audit-trace-route-check-residue-exhaustion}, \autoref{thm:inscription-audit-trace-consumer-nonescape}, and \autoref{thm:inscription-audit-trace-tastegate-visible-surface} bind the inscription audit trace as a finite public NameCert packet over inscription-event, GAP-ledger, acceptance-budget, and TasteGate-visible rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, private agency, host process traces, raw byte-change identity, unchecked route semantics, unbudgeted downstream consumption, or completed inscription ontology.}
+  \upgradepath{Obligation closure requires checked carrier admission, route-check residue exhaustion, consumer non-escape, and TasteGate-visible surface for the same finite audit packet.}
+\end{closurestatus}

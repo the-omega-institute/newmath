@@ -9,6 +9,14 @@ identify the scheduled observations, and a finite ledger witnesses that the
 displayed modulus bound has been consumed by the downstream regular-sequence
 and real-number carriers.
 
+The finite threshold ledger is the upstream rate surface consumed by
+\autoref{ch:concrete-instances-cauchymodulusextraction-namecert}. That route
+reads the tolerance request, finite budget, $\StreamNameUp$ windows,
+$\RegSeqRat$ schedule row, dyadic comparison ledger, and $\RealUp$ handoff only
+after the modulus packet has exposed its $\NatUp$ threshold, $\RatUp$
+tolerance, $\StreamNameUp$ schedule, finite $\Cont$ window, and $\mathsf{Pkg}$
+provenance rows.
+
 \section{Carrier and classifier}
 \label{sec:cauchymodulus-carrier}
 
@@ -112,6 +120,7 @@ comparisons, and the $\mathsf{Pkg}$ provenance rows already present in the two
 windows. The handoff packet introduces no selected limit, quotient stream, or
 hidden threshold selector outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_window\_composition\_handoff}
 \begin{proof}
 Project the two accepted windows by
 \autoref{thm:cauchymodulus-cont-window-closure}. Each projection is finite and
@@ -261,16 +270,99 @@ the naming-certificate fields at the paper surface without adding hidden
 limits or unrecorded threshold choices.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus public consumer boundary]
+\label{thm:cauchymodulus-public-consumer-boundary}
+The public $\CauchyModulusUp$ consumer boundary is exactly the finite
+$\mathsf{BHist}$ package consisting of the carrier rows of
+\autoref{def:cauchymodulus-carrier}, the classifier rows of
+\autoref{def:cauchymodulus-classifier}, the $\hsame$ stability rows, the
+finite $\Cont$ window-closure rows, monotone tail transport, the
+$\RegSeqRat$ regularity handoff, $\RealUp$ classifier transport, and the
+local $\NameCert_{\CauchyModulusUp}$ obligation surface. Thus any
+$\RegSeqRat$ consumer or finite-window $\RealUp$ consumer reads only visible
+$\NatUp$ precision rows, $\RatUp$ tolerance rows, $\StreamNameUp$ scheduled
+observation rows, $\RegSeqRat$ late-pair rows, $\RealUp$ classifier-transport
+rows, $\hsame$ rows, $\Cont$ rows, and $\mathsf{Pkg}$ provenance. It reads no
+selected limit, stream quotient, host index equality, or completion row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_public\_consumer\_boundary}
+\begin{proof}
+Start with the carrier and classifier of
+\autoref{def:cauchymodulus-carrier} and
+\autoref{def:cauchymodulus-classifier}. These rows display the precision,
+tolerance, scheduled observation, comparison, continuation, and provenance
+coordinates available to a consumer.
+
+Apply \autoref{thm:cauchymodulus-hsame-stability} to keep the classifier
+rowwise, and apply \autoref{thm:cauchymodulus-cont-window-closure} to bound
+the finite readback window. Use
+\autoref{thm:cauchymodulus-monotone-tail-obligation} for stronger-tolerance
+transport, and use
+\autoref{thm:cauchymodulus-regseqrat-regularity-obligation} for the
+regular-sequence late-pair handoff.
+
+Now apply \autoref{thm:cauchymodulus-real-classifier-transport-obligation}
+to identify the finite real-classifier transport rows. The dependency stack is
+then the one certified by
+\autoref{thm:cauchymodulus-scoped-dependency-certificate} and exposed by
+\autoref{thm:cauchymodulus-namecert-obligation-surface}.
+
+Finite ledger exhaustion gives the boundary. Every row named in the statement
+is a displayed $\mathsf{BHist}$ coordinate or a displayed transport of one,
+and the carrier has no coordinate for a selected limit, a stream quotient, a
+host index equality, or a completion row.
+\end{proof}
+
+\begin{theorem}[CauchyModulus explicit-modulus standard bridge]
+\label{thm:cauchymodulus-explicit-modulus-standard-bridge}
+The public consumer boundary of
+\autoref{thm:cauchymodulus-public-consumer-boundary} is exactly the standard
+constructive explicit-modulus reading of a regular rational name. It consists
+of a visible precision row, a visible tolerance row, a finite threshold row, a
+scheduled observation window, a late-pair comparison ledger, and provenance
+through $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Under this reading, the $\CauchyModulusUp$ packet exports no selected limit,
+hidden threshold choice, stream quotient, host index equality, or completion
+row.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier rows of
+\autoref{def:cauchymodulus-carrier} and
+\autoref{def:cauchymodulus-classifier}. These rows display the precision,
+tolerance, threshold, scheduled observation, late-pair comparison, transport,
+and provenance coordinates used by the public consumer boundary.
+
+Apply the monotone-tail obligation of
+\autoref{thm:cauchymodulus-monotone-tail-obligation} and the regularity
+obligation of \autoref{thm:cauchymodulus-regseqrat-regularity-obligation}.
+They identify the late-index threshold and the late-pair comparison ledger as
+finite rows, not as hidden choices or quotient data.
+
+Use \autoref{thm:cauchymodulus-public-consumer-boundary} to collect the same
+rows into the public $\RegSeqRatUp/\RealUp$ consumer surface. The source
+certificates through $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ are already displayed in that boundary.
+
+Repack this finite ledger as the standard explicit-rate schema. Since every
+exported coordinate is a visible row of the original boundary, there is no
+coordinate from which to read a selected limit, hidden threshold choice, stream
+quotient, host index equality, or completion row.
+\end{proof}
+
 \closureat{CauchyModulusUp}{scopedStr}[BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_namecert\_obligation\_surface]
+\closureat{CauchyModulusUp}{publicStr}[BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_public\_consumer\_boundary]
+\closureat{CauchyModulusUp}{bridgedStr}
+\closureat{CauchyModulusUp}{matureStr}[BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_public\_consumer\_boundary]
 
 \begin{closurestatus}{\CauchyModulusUp}
   \constructivestory{A $\CauchyModulusUp$ packet is generated from visible $\NatUp$ precision and threshold rows, visible $\RatUp$ tolerance rows, scheduled $\StreamNameUp$ observation rows, and a finite consumption ledger showing how the displayed bound is read by $\RegSeqRat$ and $\RealUp$. This is the Bishop-style explicit-rate object needed for regular rational sequences and real-number convergence, with no stream quotient, ambient limit object, hidden threshold choice, limit selector, or completed real object.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation scope enumerates the carrier, classifier, $\hsame$ stability, finite $\Cont$ window closure, regular-sequence handoff, and local $\NameCert_{\CauchyModulusUp}$ obligation surface.}
-  \formalstatus{\auditCleanV}
-  \leantarget{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_namecert\_obligation\_surface}
-  \bridgestatus{none}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature paper scope is the carrier and classifier, finite-window closure, monotone tail, $\RegSeqRatUp$ regularity, $\RealUp$ classifier transport, public consumer boundary, and explicit-modulus bridge.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.CauchyModulusUp.CauchyModulusPacket\_public\_consumer\_boundary}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{The chapter does not close the formal Lean namespace, the full $\NameCert_{\CauchyModulusUp}$ theorem, $\RealUp$ completeness, a Cauchy completion, quotient equality of real names, or a selected limit.}
-  \upgradepath{Public closure requires a consumer-facing $\CauchyModulusUp$ boundary over the scoped $\NatUp$, $\RatUp$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.}
+  \upgradepath{No further paper theory-axis upgrade is recorded for the explicit-modulus packet; bridge-checked verification remains a separate Lean-side axis.}
 \end{closurestatus}

@@ -142,3 +142,46 @@ lists all rows available at the $\RegSeqRat$ boundary, row exhaustion forces
 every seal-source read to factor through exactly those visible rows and through
 no separate $\RealUp$ completeness datum.
 \end{proof}
+
+\begin{theorem}[RegSeqRat export finite-window row exhaustion]
+\label{thm:regseqrat-export-finite-window-row-exhaustion}
+For carried rational-observation streams $s,t:\Hist\to\Hist$ and a certified
+finite $\mathsf{ProbeBundle}$ window, every finite-window row consumed by the
+downstream $\RealUp$ seal from the $\RegSeqRat$ export factors through exactly
+the listed $\mathsf{RatStreamNameCarrier}(s)$ and
+$\mathsf{RatStreamNameCarrier}(t)$ rows, the
+$\mathsf{RatStreamNameClassifier}(s,t)$ row, the
+$\mathsf{RealUnaryStreamClassifier}(s,t)$ row, the endpoint $\RatUp$ carrier
+and classifier rows, the finite $\mathsf{DyadicRatCore}$ ledger, the displayed
+$\mathsf{BHist}$ rows, the $\hsame$ transports, the $\Cont$ continuation
+routes, the $\mathsf{Pkg}$ provenance, and the local $\NameCert$ rows.
+
+Consequently two certified windows which agree on these rows present the same
+finite-window consumer surface to $\RealUp$. The exhaustion statement exports
+no quotient representative, completed $\RealUp$ equality, metric-completeness
+datum, Classical datum, or standard bridge datum.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-carrier-classifier-export-package}. It identifies the
+stream-name carrier rows, the stream-name classifier row, the pointwise
+RealUnary classifier row, the endpoint $\RatUp$ rows, and the finite dyadic
+ledger as the complete $\RegSeqRat$ export package.
+
+Next apply
+\autoref{thm:regseqrat-export-real-seal-source-determinacy}. The downstream
+$\RealUp$ seal reads its source face from the same exported carrier,
+classifier, endpoint, and dyadic ledger rows, so it has no independent source
+coordinate outside the displayed package.
+
+Finally apply \autoref{thm:realup-regseqrat-finite-window-projection} to the
+certified finite $\mathsf{ProbeBundle}$ window. This restricts the seal read to
+the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local
+$\NameCert$ rows attached to that window.
+
+If two certified windows agree on all listed rows, the three preceding
+identifications give the same projected consumer surface. Since no cited
+boundary contains a field for quotient representatives, completed $\RealUp$
+equality, metric completeness, Classical data, or standard bridge data, those
+objects cannot be consumed by the finite-window seal.
+\end{proof}

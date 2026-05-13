@@ -1,0 +1,711 @@
+\chapter{A Concrete Naming Certificate for $\CertificateCompilerUp$}
+\label{ch:concrete-instances-certificatecompiler-namecert}
+\origin{human}
+
+The $\CertificateCompilerUp$ interface reads compilation as a finite morphism
+between two local naming certificates. It records only the source certificate,
+target certificate, displayed compiler graph, edge landing, continuation
+compatibility, classifier transport, package provenance, and local naming row.
+It does not import a host compiler semantics, a denotational equality of
+programs, or an unbounded trace comparison.
+
+\begin{definition}[CertificateCompiler carrier]
+\label{def:certificate-compiler-carrier}
+A $\CertificateCompilerUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source $\NameCert$ row whose carrier and classifier are the
+inputs read by the compiler graph;
+\item $T$ is the target $\NameCert$ row whose carrier and classifier receive
+the compiled outputs;
+\item $G$ is the finite compiler graph, displaying source-to-target graph
+edges rather than a host-level function space;
+\item $E$ is the edge-landing row, asserting that every displayed graph edge
+starts in the source carrier and lands in the target carrier;
+\item $C$ is the continuation-compatibility row, pairing each source
+$\Cont$ route used by the graph with the corresponding target $\Cont$ route;
+\item $H$ records the componentwise $\hsame$ transports for the source
+certificate, target certificate, graph edge, edge landing, continuation row,
+package row, and local certificate row;
+\item $P$ names $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, the source
+certificate, the target certificate, and the local compiler graph shape;
+\item $N$ is the local $\NameCert_{\CertificateCompilerUp}$ row.
+\end{enumerate}
+The packet is a finite compiler-certificate surface. It contains no ambient
+program equality, no host optimiser theorem, and no semantic model beyond the
+displayed source and target naming certificates.
+\end{definition}
+\leandef{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier}
+
+\begin{definition}[CertificateCompiler classifier]
+\label{def:certificate-compiler-classifier}
+The classifier of a $\CertificateCompilerUp$ packet compares graph edges in
+pairs. Two displayed edges are classifier-compatible when they read the same
+source classifier row in $S$, land through $E$ in the target carrier of $T$,
+and their target classifier rows are connected by the $\hsame$ and $\Cont$
+routes recorded in $H$ and $C$.
+
+Thus classifier membership is not a judgment about arbitrary compiler
+outputs. It is a finite relation on paired graph edges with a common source
+classifier row and an explicitly transported target classifier row.
+\end{definition}
+
+\begin{theorem}[CertificateCompiler endpoint certificate availability]
+\label{thm:certificate-compiler-endpoint-certificate-availability}
+Every displayed compiler edge in an accepted $\CertificateCompilerUp$ packet $K=(S,T,G,E,C,H,P,N)$ exposes both endpoint $\NameCert$ rows before carrier landing is consumed. The source certificate row $S$ supplies the admitted input carrier and classifier row, the target certificate row $T$ supplies the landing carrier and classifier row, and the displayed graph row $G$ has no admissible edge that bypasses either endpoint certificate.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:certificate-compiler-carrier}. The first two visible rows of $K$ are precisely the source certificate $S$ and target certificate $T$, while $G$ is only a displayed finite graph between those certificate rows.
+
+The carrier-landing row $E$ is read after these endpoint rows. Its role is to assert that each graph edge starts in the source carrier named by $S$ and lands in the target carrier named by $T$.
+
+Unfold the classifier of \autoref{def:certificate-compiler-classifier}. A compatible edge comparison also reads the source classifier row in $S$ and the target classifier row in $T$, so endpoint certificates remain available before any carrier landing or paired-edge comparison is accepted.
+
+Since the packet contains no host compiler semantics, program equality, or unbounded trace coordinate, endpoint availability is exhausted by the displayed rows $S,T,G,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler displayed edge witness totality]
+\label{thm:certificate-compiler-displayed-edge-witness-totality}
+Every accepted edge comparison in a $\CertificateCompilerUp$ packet $K=(S,T,G,E,C,H,P,N)$ is witnessed by the displayed graph row $G$, the carrier-landing row $E$, the componentwise $\hsame$ transports in $H$, and the continuation compatibility rows in $C$. No comparison can be witnessed by an external compiler meaning, ambient program equality, or an unlisted target behavior.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:certificate-compiler-carrier}. The only edge source in the packet is the finite graph row $G$, and the only target-carrier landing witness for such an edge is the row $E$.
+
+Unfold \autoref{def:certificate-compiler-classifier}. An accepted comparison must share the source classifier row, land through $E$, and transport the target classifier by the componentwise $\hsame$ entries recorded in $H$.
+
+It remains to account for route compatibility. The classifier definition reads the paired $\Cont$ routes recorded in $C$, so a comparison is not accepted until the displayed source route and displayed target route have both been replayed.
+
+The carrier has no coordinate for host compiler semantics, program equality, or unrecorded target behavior. Thus $G,E,H,C$ are the total displayed witness surface for accepted edge comparison.
+\end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerClassifier\_displayed\_edge\_witness\_totality}
+
+\begin{theorem}[CertificateCompiler consumer replay obligation triad]
+\label{thm:certificate-compiler-consumer-replay-obligation-triad}
+Every consumer replay of an accepted $\CertificateCompilerUp$ packet must read three local obligations before package provenance or local naming is used: carrier landing through $G$ and $E$, classifier transport through $S,T,H$, and continuation compatibility through $C$. Package and $\NameCert_{\CertificateCompilerUp}$ rows may repack only this displayed triad.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:certificate-compiler-carrier}. A consumer replay first sees the graph row $G$ and the landing row $E$, so the replayed edge has a displayed source and a displayed target before any package row is read.
+
+Unfold the classifier of \autoref{def:certificate-compiler-classifier}. The replayed comparison next reads the source classifier row in $S$, the target classifier row in $T$, and the componentwise transport entries in $H$.
+
+The third obligation is route compatibility. The row $C$ pairs the source $\Cont$ route used by the graph with the target $\Cont$ route followed after compiling, and this compatibility is required before the replay can be named locally.
+
+Only after these three obligations have been read may $P$ and $N$ repack the compiler packet. Because no host compiler semantics or program equality coordinate exists in the carrier, package and local naming cannot certify anything beyond carrier landing, classifier transport, and continuation compatibility.
+\end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_consumer\_replay\_obligation\_triad}
+
+\begin{theorem}[CertificateCompiler NameCert obligations]
+\label{thm:certificate-compiler-namecert-obligations}
+For the carrier and classifier of
+\autoref{def:certificate-compiler-carrier} and
+\autoref{def:certificate-compiler-classifier}, the local
+$\NameCert_{\CertificateCompilerUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier landing: every edge of $G$ reads a source row admitted by $S$
+and lands in a target row admitted by $T$ through $E$;
+\item classifier transport: paired graph edges with the same source
+classifier row transport classifier membership to the target classifier row;
+\item continuation compatibility: every source $\Cont$ route used by a graph
+edge is paired in $C$ with the target $\Cont$ route followed after compiling;
+\item identity compiler row: the diagonal graph on a certificate is accepted
+with carrier landing, classifier transport, and continuation compatibility
+read from the same certificate;
+\item composition stability: composable accepted compiler packets compose by
+relational graph composition and preserve the same landing, classifier, and
+continuation rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier landing is the projection of $E$ from the finite packet
+$K=(S,T,G,E,C,H,P,N)$. Since $E$ names the source and target carrier rows for
+each displayed edge, no edge can be consumed without first reading $S$, $T$,
+and the corresponding graph row in $G$.
+
+Classifier transport uses the paired-edge classifier. The common source
+classifier row is read in $S$, and the target classifier row is obtained only
+by replaying the componentwise $\hsame$ entries in $H$ and the displayed
+continuation routes in $C$.
+
+Continuation compatibility is exactly the second projection of $C$. Each
+source route used by a graph edge has a named target route, so a downstream
+consumer cannot substitute an unrecorded control-flow or semantic route.
+
+For the identity row, take $S=T$ and let $G$ be the displayed diagonal graph.
+The landing, classifier, and continuation rows are then the carrier,
+classifier, and route rows already present in the same certificate.
+
+For composition, compose graph edges relationally through the middle
+certificate. The first packet supplies landing and classifier transport into
+the middle row, and the second supplies the same data out of it; composing the
+two continuation rows gives the target route. Repacking these rows gives the
+five local NameCert obligations for the composite packet.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler composition stability]
+\label{thm:certificate-compiler-composition-stability}
+Given accepted $\CertificateCompilerUp$ packets from $S$ to $M$ and from $M$
+to $T$, their relational graph composite is an accepted
+$\CertificateCompilerUp$ packet from $S$ to $T$. The composite reads only the
+two displayed graph rows, their edge-landing rows, continuation-compatible
+routes, componentwise $\hsame$ transports, package provenance, and local
+naming rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_composition\_stability}
+\begin{proof}
+Start with the two accepted packets and project their carrier rows. The first
+packet lands graph edges in the middle certificate, and the second starts from
+that same middle certificate.
+
+Classifier transport composes through the middle row. A common source
+classifier row is transported to the middle classifier by the first packet,
+then from the middle classifier to the target classifier by the second packet.
+
+Continuation compatibility composes in the same order. The source route is
+paired with the middle route by the first packet, and that middle route is
+paired with the target route by the second packet.
+
+The resulting graph, landing row, classifier transport, continuation row,
+transport row, package row, and local naming row are finite projections of the
+two input packets. Therefore the composite exports no host compiler semantics
+and no unrecorded target behavior.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler identity ledger]
+\label{thm:certificate-compiler-identity-ledger}
+For every local naming certificate $S$, the diagonal graph on $S$ is an
+accepted $\CertificateCompilerUp$ identity packet. Its ledger is exhausted by
+the carrier, classifier, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows
+already displayed by $S$.
+\end{theorem}
+\begin{proof}
+Use $S$ as both source and target certificate. The diagonal graph has one
+displayed edge for each admitted source row and lands in the same row.
+
+The classifier transport is the local classifier row of $S$ read twice. The
+required $\hsame$ transport is reflexive at the displayed row, and the
+continuation route is the same route already recorded in $S$.
+
+The package and local naming rows are inherited from $S$ with no further
+coordinate. Hence the identity compiler packet has exactly the stated ledger
+and does not create a separate compiler semantics.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler edge-classifier exactness]
+\label{thm:certificate-compiler-edge-classifier-exactness}
+For an accepted $\CertificateCompilerUp$ packet $K=(S,T,G,E,C,H,P,N)$, a displayed edge comparison is accepted exactly when it reads the source classifier row in $S$, lands through $E$ in the target carrier of $T$, transports the target classifier by the componentwise $\hsame$ entries of $H$, and follows the paired $\Cont$ routes recorded in $C$. No host compiler semantics, program equality, or unrecorded target behavior can witness edge-classifier compatibility.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the paired-edge classifier of \autoref{def:certificate-compiler-classifier}. The source classifier row is the first required comparison coordinate, so two edges cannot be compared after forgetting their source certificate.
+
+Next read the edge-landing row $E$. It supplies the target-carrier landing for each displayed edge and fixes the target certificate row in $T$ that the comparison may inspect.
+
+The remaining data are the transport and route rows. The $\hsame$ entries in $H$ move target classifier rows componentwise, and the $\Cont$ routes in $C$ record the control path followed after compiling. These are exactly the displayed rows named by the classifier definition.
+
+Since the carrier has no coordinate for host compiler semantics, program equality, or unrecorded target behavior, the displayed graph, landing, classifier, and continuation rows exhaust edge-classifier exactness.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler identity and composite ledger exhaustion]
+\label{thm:certificate-compiler-identity-composite-ledger-exhaustion}
+The identity packets of \autoref{thm:certificate-compiler-identity-ledger} and the composite packets of \autoref{thm:certificate-compiler-composition-stability} exhaust their ledgers by displayed graph rows, edge-landing rows, classifier-transport rows, continuation rows, $\Pkg$ provenance, and local $\NameCert$ rows. Triple composites in \autoref{thm:certificate-compiler-triple-composite-associativity} add no further ledger coordinate beyond the three displayed graph edges and their two middle landing matches.
+\end{theorem}
+\begin{proof}
+For the identity packet, use the diagonal graph on the source certificate. The graph, landing, classifier, continuation, provenance, and local naming rows are inherited from the same certificate, as stated in \autoref{thm:certificate-compiler-identity-ledger}.
+
+For a binary composite, apply \autoref{thm:certificate-compiler-composition-stability}. The composite graph is relational graph composition of the two displayed graphs, and its landing, classifier, and continuation rows are obtained by reading the corresponding rows through the middle certificate.
+
+For triple composites, use \autoref{thm:certificate-compiler-triple-composite-associativity}. Both associations expose the same triple of graph edges, the same two middle landing matches, the same ordered classifier transport, and the same continuation endpoint. Repacking with $\Pkg$ and $\NameCert$ rows therefore adds no host compiler coordinate.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler triple composite associativity]\label{thm:certificate-compiler-triple-composite-associativity}
+Let
+$$
+K_{01}=(S_0,S_1,G_{01},E_{01},C_{01},H_{01},P_{01},N_{01}),
+$$
+$$
+K_{12}=(S_1,S_2,G_{12},E_{12},C_{12},H_{12},P_{12},N_{12}),
+$$
+and
+$$
+K_{23}=(S_2,S_3,G_{23},E_{23},C_{23},H_{23},P_{23},N_{23})
+$$
+be accepted $\CertificateCompilerUp$ packets in the sense of
+\autoref{def:certificate-compiler-carrier} and
+\autoref{thm:certificate-compiler-namecert-obligations}. Suppose the displayed
+middle naming rows agree exactly as composability data: the target
+$\NameCert$ row of $K_{01}$ is the source $\NameCert$ row of $K_{12}$, and
+the target $\NameCert$ row of $K_{12}$ is the source $\NameCert$ row of
+$K_{23}$. Then the two iterated relational graph composites
+$$
+(K_{23}\circ K_{12})\circ K_{01}
+\qquad\text{and}\qquad
+K_{23}\circ (K_{12}\circ K_{01})
+$$
+classify by the same displayed $S_0$-to-$S_3$ compiler graph, the same
+edge-landing row, the same classifier-transport row, and the same
+continuation-compatibility row. Their common displayed graph consists exactly
+of triples of graph edges
+$$
+(g_{01},g_{12},g_{23})
+$$
+with $g_{01}$ in $G_{01}$, $g_{12}$ in $G_{12}$, $g_{23}$ in $G_{23}$, the
+landing target of $g_{01}$ equal to the source row read by $g_{12}$ in $S_1$,
+and the landing target of $g_{12}$ equal to the source row read by $g_{23}$ in
+$S_2$.
+\end{theorem}
+\begin{proof}
+Project the three accepted packets to their displayed graph, landing,
+classifier, continuation, transport, provenance, and local naming rows. By the
+composability hypotheses, the middle target row of the first packet is the
+source row consumed by the second packet, and the middle target row of the
+second packet is the source row consumed by the third packet. Thus every edge
+of either iterated composite is represented by the same finite triple
+$(g_{01},g_{12},g_{23})$ with the two displayed middle landings named in the
+statement.
+
+The graph rows agree because relational composition of finite displayed graph
+edges is associative at the level of witnesses. The left association first
+records the pair $(g_{01},g_{12})$ and then appends $g_{23}$; the right
+association first records $(g_{12},g_{23})$ and then prefixes $g_{01}$. After
+forgetting the temporary pairing, both ledgers contain exactly the same triple
+and the same two middle matching rows. No extra graph edge can appear, since
+\autoref{thm:certificate-compiler-composition-stability} forms a composite
+only from displayed edges of the two input packets.
+
+The edge-landing rows agree by the same projection. In the left association,
+$E_{01}$ lands $g_{01}$ in $S_1$, the composite of $E_{12}$ and $E_{23}$
+lands the remaining route in $S_3$, and the $S_2$ match is displayed inside
+that second composite. In the right association, the first composite displays
+the $S_1$ and $S_2$ matches before $E_{23}$ lands in $S_3$. Both descriptions
+therefore expose the identical landing ledger
+$$
+S_0 \xrightarrow{g_{01}} S_1 \xrightarrow{g_{12}} S_2 \xrightarrow{g_{23}} S_3.
+$$
+
+Classifier transport is also independent of the association. Starting from a
+source classifier row in $S_0$, the first packet transports it to the displayed
+classifier row in $S_1$, the second transports that row to $S_2$, and the third
+transports the result to $S_3$. The left association packages the last two
+transports before composing with the first; the right association packages the
+first two transports before composing with the third. Since the classifier of
+\autoref{def:certificate-compiler-classifier} is the paired-edge transport
+read through the componentwise $\hsame$ entries and the displayed
+continuation rows, both packages replay the same three componentwise transport
+entries $H_{01}$, $H_{12}$, and $H_{23}$ in the same source-to-target order.
+
+For continuation compatibility, the three accepted packets provide displayed
+routes from the $S_0$ route to the $S_1$ route, from the $S_1$ route to the
+$S_2$ route, and from the $S_2$ route to the $S_3$ route. The left association
+composes the last two routes and then the first route; the right association
+composes the first two routes and then the last route. By the relational
+continuation associativity of
+\autoref{thm:continuation-associativity-up-to-hsame-proof-standing}, the two
+iterated continuation rows have the same endpoint route up to the displayed
+$\hsame$ transport already recorded in the packets. Hence they classify as the
+same continuation-compatibility row.
+
+Combining the four projections gives one finite $S_0$-to-$S_3$ compiler
+packet surface: the triple graph, the three-step landing ledger, the ordered
+classifier transport through $S_1$ and $S_2$, and the associated continuation
+route. Both iterated composites read exactly this surface, so they classify by
+the same displayed rows and introduce no host compiler semantics, no ambient
+program equality, and no unrecorded target behavior.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler left identity unit]
+\label{thm:certificate-compiler-left-identity-unit}
+Let
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+be an accepted $\CertificateCompilerUp$ packet, and let $I_S$ be the diagonal
+identity packet on the source $\NameCert$ row $S$ supplied by
+\autoref{thm:certificate-compiler-identity-ledger}. Then the source-side
+composite $K\circ I_S$ is classified by the same displayed graph $G$, the same
+edge-landing row $E$, the same paired-edge classifier transport, the same
+continuation-compatibility row $C$, the same $\Pkg$ provenance row $P$, and
+the same local $\NameCert$ row $N$ as $K$.
+
+Thus precomposing an accepted compiler packet with the diagonal source
+identity adds no host compiler semantics, no ambient program equality, and no
+unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:certificate-compiler-identity-ledger} to read $I_S$ as the
+diagonal packet whose graph, landing, classifier, continuation, provenance,
+and local naming rows are all inherited from $S$.
+
+Apply \autoref{thm:certificate-compiler-composition-stability} to the
+composable pair $(I_S,K)$. The composite graph contains exactly the displayed
+edges of $G$, because the diagonal source edge contributes only the source row
+that $G$ already reads.
+
+The classifier of \autoref{def:certificate-compiler-classifier} then transports
+through the same componentwise $\hsame$ entries recorded in $H$, and the
+continuation route is the original route of $C$ with a diagonal prefix. By
+\autoref{thm:continuation-associativity-up-to-hsame-proof-standing}, that
+prefix changes no displayed endpoint route.
+
+Repacking the $\Pkg$ row and the local $\NameCert$ row therefore returns the
+same finite compiler packet surface as $K$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler right identity unit]
+\label{thm:certificate-compiler-right-identity-unit}
+Let
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+be an accepted $\CertificateCompilerUp$ packet, and let $I_T$ be the diagonal
+identity packet on the target $\NameCert$ row $T$ supplied by
+\autoref{thm:certificate-compiler-identity-ledger}. Then the target-side
+composite $I_T\circ K$ is classified by the same displayed graph $G$, the same
+edge-landing row $E$, the same paired-edge classifier transport, the same
+continuation-compatibility row $C$, the same $\Pkg$ provenance row $P$, and
+the same local $\NameCert$ row $N$ as $K$.
+
+Thus postcomposing an accepted compiler packet with the diagonal target
+identity adds no host compiler semantics, no ambient program equality, and no
+unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Read the target identity packet from
+\autoref{thm:certificate-compiler-identity-ledger}. Its displayed graph is
+diagonal on $T$, and its landing, classifier, continuation, provenance, and
+local naming rows are the target-side rows already available to $K$.
+
+Apply \autoref{thm:certificate-compiler-composition-stability} to $(K,I_T)$.
+Every composite edge is an edge of $G$ followed by the diagonal target edge, so
+the finite graph row is again $G$ after forgetting the diagonal witness.
+
+The edge landing remains $E$, since the target identity lands only in the same
+target row. The classifier transport is the row of
+\autoref{def:certificate-compiler-classifier} followed by diagonal
+componentwise $\hsame$ transport, and the continuation route is the row of $C$
+followed by the target diagonal route.
+
+Use \autoref{thm:continuation-associativity-up-to-hsame-proof-standing} to
+identify that diagonal suffix with the original endpoint route. The $\Pkg$ and
+local $\NameCert$ rows are unchanged, so the target-side identity composite
+classifies by the same packet surface as $K$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler finite category surface]
+\label{thm:certificate-compiler-finite-category-surface}
+The accepted $\CertificateCompilerUp$ packets form a finite category-like
+surface over local $\NameCert$ rows: each local row has the diagonal identity
+packet of \autoref{thm:certificate-compiler-identity-ledger}; each composable
+pair has the binary composite packet of
+\autoref{thm:certificate-compiler-composition-stability}; each composable
+triple has the common associative replay surface of
+\autoref{thm:certificate-compiler-triple-composite-associativity}; and every
+accepted packet satisfies the source and target unit laws of
+\autoref{thm:certificate-compiler-left-identity-unit} and
+\autoref{thm:certificate-compiler-right-identity-unit}.
+
+The surface is finite and local: its objects are the displayed local
+$\NameCert$ rows and its morphism packets are exactly the displayed graph,
+landing, classifier-transport, continuation, $\Pkg$, and local $\NameCert$
+rows recorded by the certificate compiler carrier.
+\end{theorem}
+\begin{proof}
+Identities are supplied by the diagonal ledger of
+\autoref{thm:certificate-compiler-identity-ledger}. Binary composition is
+supplied by \autoref{thm:certificate-compiler-composition-stability}, whose
+output is again a displayed compiler packet over the same row types.
+
+Associativity is the finite triple replay statement of
+\autoref{thm:certificate-compiler-triple-composite-associativity}. It says
+that the two iterated composites expose the same graph triple, landing ledger,
+ordered classifier transport, and continuation endpoint.
+
+The unit laws are exactly
+\autoref{thm:certificate-compiler-left-identity-unit} and
+\autoref{thm:certificate-compiler-right-identity-unit}. Both identify the
+identity composite with the original displayed graph, landing, classifier,
+continuation, $\Pkg$, and local $\NameCert$ rows.
+
+These rows are all read through the classifier of
+\autoref{def:certificate-compiler-classifier}. Hence the resulting surface is
+a finite local NameCert-morphism interface rather than a claim about host
+compiler semantics, ambient program equality, optimiser correctness, or
+unrecorded target behavior.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler route replay scope]
+\label{thm:certificate-compiler-route-replay-scope}
+For an accepted $\CertificateCompilerUp$ packet
+$$
+K=(S,T,G,E,C,H,P,N),
+$$
+every accepted compiler read replays through the displayed compiler graph $G$, edge-landing row $E$, paired-edge classifier row, continuation row $C$, transport row $H$, package provenance $P$, and local $\NameCert$ row $N$. No consumer of $K$ can replace that replay by host compiler semantics, ambient program equality, optimiser correctness, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:certificate-compiler-carrier}. Its only displayed compiler coordinates are the source and target naming rows $S,T$, the graph $G$, the landing row $E$, the continuation row $C$, the transport row $H$, the package row $P$, and the local naming row $N$.
+
+Apply the classifier of \autoref{def:certificate-compiler-classifier} and the edge-classifier exactness theorem. They force an accepted read to inspect the graph edge, its source classifier row, its landing in the target carrier, and the componentwise $\hsame$ and $\Cont$ routes.
+
+The identity ledger and composition stability theorems show that replay is stable under identity and binary composition, while \autoref{thm:certificate-compiler-triple-composite-associativity} gives the same replay surface for triple composites. Therefore every accepted compiler read remains inside the displayed finite rows of $K$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler middle-row handoff]
+\label{thm:certificate-compiler-middle-row-handoff}
+Let $K_{01}=(S_0,S_1,G_{01},E_{01},C_{01},H_{01},P_{01},N_{01})$ and $K_{12}=(S_1,S_2,G_{12},E_{12},C_{12},H_{12},P_{12},N_{12})$ be composable accepted $\CertificateCompilerUp$ packets. Their composite can hand off from the first compiler packet to the second only through the displayed middle $\NameCert$ row $S_1$, together with the edge-landing, classifier-transport, and continuation rows that read $S_1$.
+
+The handoff exports no independent middle compiler semantics, program equivalence witness, optimiser correctness proof, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The target naming row of $K_{01}$ and the source naming row of $K_{12}$ are the same displayed row $S_1$, and this is the only middle carrier coordinate available to both packets.
+
+Use \autoref{thm:certificate-compiler-edge-classifier-exactness}. It makes every edge comparison pass through the landing row into the target carrier, the transported classifier row, and the continuation route over the displayed middle certificate.
+
+Composition stability then forms the composite graph only from pairs of displayed edges whose middle landing reads $S_1$. The identity ledger supplies the degenerate case, and triple composite associativity shows that repeated handoffs still expose the same middle rows rather than a hidden compiler coordinate.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler finite-graph nonescape]
+\label{thm:certificate-compiler-finite-graph-nonescape}
+For an accepted $\CertificateCompilerUp$ carrier $K=(S,T,G,E,C,H,P,N)$, every packet exported by the compiler certificate is a finite graph packet over the displayed rows $S,T,G,E,C,H,P,N$. It exports no host compiler semantics, no program equivalence relation, no optimiser correctness theorem, and no target behavior that is absent from the displayed graph, landing, classifier, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier rows. The carrier lists only $S,T,G,E,C,H,P,N$, and the classifier reads graph edges through displayed landing, $\hsame$, and $\Cont$ rows.
+
+The edge-classifier exactness theorem prevents a consumer from accepting an edge by an external compiler semantics. The identity ledger and composition stability theorems keep identity and composite packets inside the same finite graph surface.
+
+Finally apply \autoref{thm:certificate-compiler-triple-composite-associativity}. Triple composites expose only triples of graph edges and their two displayed middle landing matches. Since no excluded compiler or target object appears in those rows, there is no escape from the finite graph packet.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler carrier dependency scope]
+\label{thm:certificate-compiler-carrier-scope}
+For an accepted $\CertificateCompilerUp$ carrier
+$$
+K=(S,T,G,E,C,H,P,N),
+$$
+every carrier read is exhausted by the source and target $\NameCert$ rows
+$S,T$, the displayed graph $G$, edge landing $E$, continuation compatibility
+$C$, componentwise $\hsame$ transport $H$, $\Pkg$ provenance $P$, and the
+local compiler $\NameCert$ row $N$. No additional host compiler semantics,
+program equality, optimiser theorem, decompiler row, or unrecorded target
+behavior is a dependency of the carrier surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:certificate-compiler-carrier}. Its coordinates are
+exactly the source certificate, target certificate, graph, edge landing,
+continuation compatibility, transport, package provenance, and local naming
+rows.
+
+Apply the NameCert obligations of
+\autoref{thm:certificate-compiler-namecert-obligations}. Carrier landing,
+classifier transport, continuation compatibility, identity, and composition
+all read from the same displayed rows.
+
+Use \autoref{thm:certificate-compiler-edge-classifier-exactness} and
+\autoref{thm:certificate-compiler-identity-composite-ledger-exhaustion} to
+exclude further witnesses. They state that accepted edges, identity packets,
+and composites are exhausted by graph, landing, classifier, continuation,
+provenance, and local naming rows, so the carrier has no hidden dependency.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler classifier-route dependency scope]
+\label{thm:certificate-compiler-classifier-route-scope}
+For an accepted $\CertificateCompilerUp$ packet, edge classification depends
+only on the source classifier row read in $S$, the target landing row supplied
+by $E$, componentwise $\hsame$ transport through $H$, and the paired source
+and target $\Cont$ routes recorded in $C$. In particular, a classifier route
+cannot be witnessed by host compiler semantics, program equality, optimiser
+correctness, or a target behavior absent from the displayed landing route.
+\end{theorem}
+\begin{proof}
+Read the classifier definition in
+\autoref{def:certificate-compiler-classifier}. It compares paired graph edges
+by their common source classifier row, their target landing, and the
+transported target classifier row.
+
+Apply \autoref{thm:certificate-compiler-edge-classifier-exactness}. The
+exactness statement identifies the allowed route data as the source
+classifier, edge landing, componentwise $\hsame$ entries, and paired
+$\Cont$ routes.
+
+Composition stability and the identity-composite ledger exhaustion theorem
+show that identity and composite routes use the same dependency list. Thus
+route classification remains inside the displayed compiler packet and cannot
+import an external compiler witness.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler composite dependency scope]
+\label{thm:certificate-compiler-composite-scope}
+Binary composites and triple composites of accepted $\CertificateCompilerUp$
+packets introduce no dependency beyond displayed graph edges, edge-landing
+rows, classifier-transport rows, continuation rows, $\Pkg$ provenance, local
+$\NameCert$ rows, and the middle landing matches required for composition.
+The composite surface therefore has no host compiler semantics, ambient
+program equality, optimiser correctness theorem, or unrecorded target row.
+\end{theorem}
+\begin{proof}
+For a binary composite, apply
+\autoref{thm:certificate-compiler-composition-stability}. The composite graph
+is relational graph composition of the two displayed graphs, and all landing,
+classifier, and continuation data are read through the middle certificate.
+
+For identities and binary ledgers, use
+\autoref{thm:certificate-compiler-identity-ledger} and
+\autoref{thm:certificate-compiler-identity-composite-ledger-exhaustion}. They
+identify the available ledger rows as graph, landing, classifier,
+continuation, package provenance, and local naming rows.
+
+For triple composites, apply
+\autoref{thm:certificate-compiler-triple-composite-associativity}. The two
+associations expose the same three graph edges and the same two middle
+landing matches, so no association can add a host compiler or target-semantic
+coordinate.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler source-target landing exhaustion]
+\label{thm:certificate-compiler-source-target-landing-exhaustion}
+Every accepted $\CertificateCompilerUp$ packet has each accepted compiler
+edge exhausted by the finite rows $S,T,G,E,C,H,P,N$. The source and target
+$\NameCert$ rows $S$ and $T$ are the only admission points for the graph
+edge, the landing row $E$ is the only target-carrier landing, and no accepted
+edge can bypass those rows through host compiler semantics, ambient program
+equality, optimiser correctness, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Start with the carrier coordinates of
+\autoref{def:certificate-compiler-carrier}. An accepted packet displays the
+source row $S$, target row $T$, graph row $G$, landing row $E$,
+continuation row $C$, componentwise transport row $H$, provenance row $P$,
+and local naming row $N$.
+
+Apply the classifier of \autoref{def:certificate-compiler-classifier} and
+\autoref{thm:certificate-compiler-edge-classifier-exactness}. These force an
+accepted edge to be read through its graph entry, source classifier row,
+target landing, transported classifier row, and displayed continuation route.
+
+Use \autoref{thm:certificate-compiler-classifier-route-scope} and
+\autoref{thm:certificate-compiler-composite-scope} to close the route under
+identity, binary composition, and triple composition. The resulting accepted
+edge surface is exactly the displayed source-target landing route and has no
+external compiler coordinate.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler public consumer boundary]
+\label{thm:certificate-compiler-public-consumer-boundary}
+Every downstream consumer of an accepted $\CertificateCompilerUp$ packet
+factors through graph landing, classifier transport, and continuation rows.
+Thus a public read can inspect only the graph row $G$, the target landing row
+$E$, the classifier transport row $H$, the continuation row $C$, the
+$\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$ over the source
+and target naming rows $S,T$.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:certificate-compiler-carrier}. Its public
+surface presents graph, landing, continuation, transport, provenance, and
+local naming rows over the source and target certificates.
+
+Apply \autoref{def:certificate-compiler-classifier},
+\autoref{thm:certificate-compiler-edge-classifier-exactness}, and
+\autoref{thm:certificate-compiler-classifier-route-scope}. They identify the
+consumer-visible classifier route with graph landing, transported classifier
+comparison, and continuation compatibility.
+
+Finally use \autoref{thm:certificate-compiler-composite-scope}. Composite
+consumers read only the same graph-landing and classifier-continuation rows,
+so downstream access factors through the displayed finite packet surface.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler downstream boundary sibling link]
+\label{thm:certificate-compiler-downstream-boundary-sibling-link}
+Every adjacent-stage boundary read in \autoref{ch:concrete-instances-certificate-pipeline-stage-boundary-namecert} consumes two accepted $\CertificateCompilerUp$ packets through their endpoint availability, displayed edge witness totality, and continuation compatibility rows before the middle-stage compatibility row is read. Thus the downstream boundary is a finite sibling consumer of the compiler packets rather than a host compiler semantics, ambient program equivalence, optimizer correctness theorem, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+First expose the endpoints of the two compiler packets. \autoref{thm:certificate-compiler-endpoint-certificate-availability} supplies the source, middle, and target $\NameCert$ rows, while \autoref{thm:certificate-compiler-displayed-edge-witness-totality} forces each displayed edge to land through its graph and edge-landing rows.
+
+Next replay the local consumer obligations. \autoref{thm:certificate-compiler-consumer-replay-obligation-triad} and \autoref{thm:certificate-compiler-public-consumer-boundary} make the boundary read pass through graph landing, classifier transport, and continuation compatibility for each packet before any shared middle row can be inspected.
+
+Finally read the sibling boundary chapter. The adjacent-stage packet in \autoref{ch:concrete-instances-certificate-pipeline-stage-boundary-namecert} consumes the two compiler packets exactly at that middle certificate interface, so its compatibility row has no coordinate from host compiler semantics, ambient program equivalence, optimizer correctness, or unrecorded target behavior.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler finite-route non-escape]
+\label{thm:certificate-compiler-finite-route-non-escape}
+The finite $\CertificateCompilerUp$ route exports no host compiler semantics,
+optimizer correctness theorem, ambient program equality, or unrecorded target
+behavior. Every accepted identity, edge, binary composite, triple composite,
+and downstream consumer read remains inside the displayed rows
+$S,T,G,E,C,H,P,N$ and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ coordinates.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:certificate-compiler-carrier} supplies the finite
+row list $S,T,G,E,C,H,P,N$. No other compiler coordinate is part of the
+accepted packet.
+
+The classifier of \autoref{def:certificate-compiler-classifier}, together
+with \autoref{thm:certificate-compiler-edge-classifier-exactness}, restricts
+edge reads to source classifier comparison, target landing, transported
+classifier rows, and displayed continuation routes.
+
+Apply \autoref{thm:certificate-compiler-classifier-route-scope} and
+\autoref{thm:certificate-compiler-composite-scope}. Identity and composite
+routes keep the same finite dependency surface, so no host compiler,
+optimizer, ambient equality, or unrecorded target behavior is exported.
+\end{proof}
+
+\input{parts/concrete_instances/1965_certificatecompiler_endpoint_routes}
+
+\input{parts/concrete_instances/1965_certificatecompiler_root_unblock_obligations}
+
+\input{parts/concrete_instances/1965_certificatecompiler_bridge_consumers}
+
+\begin{theorem}[CertificateCompiler mature consumer inventory]
+\label{thm:certificate-compiler-mature-consumer-inventory}
+Every mature consumer read of an accepted $\CertificateCompilerUp$ packet factors through endpoint $\NameCert$ rows, displayed graph edges, edge landing, classifier transport, continuation compatibility, $\Pkg$ provenance, and local $\NameCert$ rows. The inventory is exhausted by the identity ledger of \autoref{thm:certificate-compiler-identity-ledger}, the binary composition stability of \autoref{thm:certificate-compiler-composition-stability}, and the triple composite associativity of \autoref{thm:certificate-compiler-triple-composite-associativity}; no additional compiler semantics, optimizer witness, decompiler, program equality, or unrecorded target behavior is available to the consumer.
+\end{theorem}
+\begin{proof}
+First read the endpoint rows. The source and target $\NameCert$ entries supply the only admission points for graph edges, and the carrier records their edge landing, classifier transport, continuation compatibility, provenance, and local naming rows.
+
+Next read identity and binary routes. \autoref{thm:certificate-compiler-identity-ledger} supplies the diagonal endpoint route, while \autoref{thm:certificate-compiler-composition-stability} composes only displayed graph edges through their middle landing and classifier-transport rows.
+
+Finally read triple routes through \autoref{thm:certificate-compiler-triple-composite-associativity}. The two associations preserve the same graph-edge inventory and the same endpoint landing data, so every mature consumer remains inside the finite packet surface listed in the statement.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler route-category boundary]
+\label{thm:certificate-compiler-route-category-boundary}
+Identity and composite $\CertificateCompilerUp$ packets form only a finite route-category boundary over displayed graph composition. Their identities, binary composites, and triple composites are the packet routes described by \autoref{thm:certificate-compiler-identity-ledger}, \autoref{thm:certificate-compiler-composition-stability}, and \autoref{thm:certificate-compiler-triple-composite-associativity}; they do not constitute host compiler semantics, ambient categorical laws, optimizer correctness, or a theory of program equivalence.
+\end{theorem}
+\begin{proof}
+Use the identity ledger for objects. It gives a diagonal packet over a displayed endpoint certificate and records only graph, landing, classifier, continuation, provenance, and local naming rows.
+
+Use composition stability for arrows. Binary composition is graph composition over displayed middle landing data, and its classifier and continuation clauses are read from the same packet rows.
+
+Use triple composite associativity only as a boundary statement. It aligns the two finite replay routes over three displayed graph edges, but it adds no semantic interpretation of compilers, programs, optimizers, or ambient categories.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler formal target surface]
+\label{thm:certificate-compiler-formal-target-surface}
+The Lean-facing formal target for $\CertificateCompilerUp$ is the finite packet surface $S,T,G,E,C,H,P,N$ together with endpoint certificate availability, displayed edge witness totality, the consumer replay obligation triad, composition stability, the identity ledger, edge-classifier exactness, triple composite associativity, the public consumer boundary, and finite-route non-escape. It excludes host compiler semantics, optimizer correctness, ambient program equality, decompiler semantics, and unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:certificate-compiler-carrier}, \autoref{thm:certificate-compiler-endpoint-certificate-availability}, and \autoref{thm:certificate-compiler-displayed-edge-witness-totality} to expose $S,T,G,E,C,H,P,N$, endpoint certificate availability, and displayed edge witness totality.
+
+Apply \autoref{thm:certificate-compiler-consumer-replay-obligation-triad}, \autoref{thm:certificate-compiler-edge-classifier-exactness}, \autoref{thm:certificate-compiler-composition-stability}, \autoref{thm:certificate-compiler-identity-ledger}, and \autoref{thm:certificate-compiler-triple-composite-associativity}. These results keep all formal obligations inside displayed edge, landing, classifier, continuation, transport, provenance, and naming rows.
+
+Finally apply \autoref{thm:certificate-compiler-public-consumer-boundary} and \autoref{thm:certificate-compiler-finite-route-non-escape}. They state that consumers receive only the finite route packet, so host compiler semantics, optimizer correctness, ambient program equality, decompiler semantics, and unrecorded target behavior are outside the formal target.
+\end{proof}
+
+\closureat{CertificateCompilerUp}{obligationStr}
+\closureat{CertificateCompilerUp}{scopedStr}
+\closureat{CertificateCompilerUp}{publicStr}
+\closureat{CertificateCompilerUp}{bridgedStr}
+\closureat{CertificateCompilerUp}{matureStr}
+
+\begin{closurestatus}{\CertificateCompilerUp}
+  \constructivestory{A $\CertificateCompilerUp$ packet is generated from source and target $\NameCert$ rows, a finite compiler graph, edge landing, continuation compatibility, $\hsame$ transports, package provenance, and a local naming row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public compiler-certificate surface binds the finite graph, landing, classifier, continuation, identity, composition, export, triple-composite, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already displayed for certificate compiler packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host compiler semantics, program equivalence, optimiser correctness, decompilation, categorical laws beyond the displayed finite packets, or a checked Lean certificate.}
+  \upgradepath{No further theory-axis upgrade -- chapter at top of closure axis; formal upgrade requires Lean verification of the same finite compiler-certificate graph.}
+\end{closurestatus}

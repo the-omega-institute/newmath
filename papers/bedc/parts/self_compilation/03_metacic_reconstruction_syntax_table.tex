@@ -1,0 +1,16 @@
+\subsection{Syntax Constructor Table}\label{subsec:reconstruction-syntax-table}
+
+\begin{tabular}{l l}
+\hline
+Constructor & Description \\
+\hline
+\verb|Term.var i| & de Bruijn variable, $i \in \mathbb{N}$ \\
+\verb|Term.app f a| & function application $f\ a$ \\
+\verb|Term.lam d b| & abstraction $\lambda x:d.\ b$ with domain $d$ and body $b$ \\
+\verb|Term.pi d c| & dependent product $\Pi x:d.\ c$ \\
+\verb|Term.sort| & single universe sort literal \\
+\hline
+\end{tabular}
+
+Each constructor is a pure inductive constructor, with no host
+metaprogramming.

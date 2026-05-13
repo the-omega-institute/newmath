@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionGapLedgerUp$}
+\label{ch:concrete-instances-inscription-gap-ledger-namecert}
+\origin{ai}
+
+The $\InscriptionGapLedgerUp$ surface isolates the ledger side of inscription. It records the residue left at the accepted route boundary as finite public NameCert data: the prior source scope, the named public record, the route witness, the accepted check row, the intended consumer, and the GAP row that accounts for what the generator replay alone does not discharge. The packet is narrower than the whole inscription event; it is the public residue ledger that downstream audit and supply-socket consumers may read. It is the residue-facing projection of the full inscription event carrier in \autoref{ch:concrete-instances-inscriptionevent-namecert}: the event chapter carries the broader inscription route, while this chapter keeps only source state, public record, route witness, accepted check, consumer, GAP residue, transport, route, provenance, and local name rows.
+
+\begin{definition}[InscriptionGapLedger carrier]
+\label{def:inscription-gap-ledger-carrier}
+An $\InscriptionGapLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,M,R,K,U,Q,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the prior source-state row at which the inscription route begins;
+\item $M$ is the named public record, theorem site, citation row, or interface reached by the route;
+\item $R$ is the displayed route witness from $S$ to $M$;
+\item $K$ is the accepted check row that admits $R$ as public record data;
+\item $U$ is the intended-consumer row naming the downstream reader of the ledger;
+\item $Q$ is the GAP residue row, recording the open commitment socket and the residue not discharged by generator replay alone;
+\item $H$ records componentwise $\hsame$ transport for $S,M,R,K,U,Q$ together with package and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read $S,M,R,K,U,Q$ without leaving the finite packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, accepted check data, GAP residue data, and local certificate dependencies;
+\item $N$ is the local $\NameCert_{\InscriptionGapLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no private intention, hidden agency predicate, raw byte-change identity, unchecked route, host process trace, or complete inscription-event ontology.
+\end{definition}
+
+\begin{theorem}[InscriptionGapLedger NameCert obligations]
+\label{thm:inscription-gap-ledger-namecert-obligations}
+The local $\NameCert_{\InscriptionGapLedgerUp}$ surface for the carrier of \autoref{def:inscription-gap-ledger-carrier} consists of five finite obligations: carrier exposure for $G=(S,M,R,K,U,Q,H,C,P,N)$; source-scope locality for the prior source state $S$; named route compression through $M,R,K$; consumer accountability through $U$ and $C$; and GAP residue exactness through $Q,H,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.InscriptionGapLedgerUp.InscriptionGapLedgerTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier exposure is projection from the displayed packet. Source-scope locality reads only $S$ and the continuation rows in $C$, so the ledger begins at the public record state and not at an unstated host process.
+
+Named route compression is the row chain $S,R,K,M$. The route witness reaches the named public record only through the accepted check row, and the package row records that this is the route admitted into the certificate.
+
+Consumer accountability and residue exactness use $U,Q,H,C,P,N$. A downstream consumer must be one of the displayed readers and obtains the GAP residue through the same transport, continuation, package, and local naming rows. No additional coordinate can supply private intention, hidden agency, raw byte identity, or a complete inscription event.
+\end{proof}
+
+\begin{theorem}[InscriptionGapLedger source boundary]
+\label{thm:inscription-gap-ledger-source-boundary}
+Every accepted $\InscriptionGapLedgerUp$ carrier reads source information only from the prior source-state row $S$, the route witness $R$, and the accepted check row $K$. The GAP residue row $Q$ is attached to that boundary and cannot be used as a second source state, an unchecked route, or a replacement for the named public record $M$.
+\end{theorem}
+\leanchecked{BEDC.Derived.InscriptionGapLedgerUp.InscriptionGapLedger\_source\_boundary}
+\begin{proof}
+Project the carrier rows $S,M,R,K,U,Q,H,C,P,N$. The only source-facing rows are $S,R,K$, with $M$ as the named endpoint reached after acceptance.
+
+The GAP residue $Q$ is recorded beside those rows and transported by $H$ through routes in $C$. It therefore accounts for the displayed residue at the accepted boundary rather than adding another source, another route, or another public name.
+
+Since the carrier has no further source coordinate, every public read of the ledger remains confined to the displayed source boundary.
+\end{proof}
+
+\begin{theorem}[InscriptionGapLedger consumer exhaustion]
+\label{thm:inscription-gap-ledger-consumer-exhaustion}
+Every downstream consumer of an accepted $\InscriptionGapLedgerUp$ carrier is exhausted by the rows $S,M,R,K,U,Q,H,C,P,N$. A theorem site, citation row, audit surface, or supply-socket consumer may read the named route, accepted check, intended-consumer row, and GAP residue, but it receives no hidden mutation, private agency predicate, unchecked route, or host trace.
+\end{theorem}
+\begin{proof}
+Start with a public consumer route and project $U$ and $C$. These rows name the consumer and the displayed continuations into $S,M,R,K,Q$.
+
+The package and local naming rows $P$ and $N$ attach the same route, check, consumer, and residue to one finite certificate. Componentwise transport through $H$ preserves that attachment under accepted comparisons.
+
+Thus the consumer sees exactly the displayed packet. Hidden mutation, private agency, unchecked routing, and host traces are absent from the carrier and cannot be exported by the ledger.
+\end{proof}
+
+\begin{theorem}[InscriptionGapLedger non-escape]
+\label{thm:inscription-gap-ledger-nonescape}
+If two accepted $\InscriptionGapLedgerUp$ carriers agree on the displayed source state, named public record, route witness, accepted check, intended consumer, GAP residue, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows, then every public ledger consumer sees the same GAP-ledger surface. This agreement does not identify complete inscription events, private motives, host process traces, or objects outside the finite residue packet.
+\end{theorem}
+\begin{proof}
+Agreement on the listed rows is agreement on every coordinate of the carrier. The classifier has no additional public input beyond those rows and their displayed transport and continuation evidence.
+
+Every consumer route factors through $U$ and $C$, then reads the route, check, name, and residue rows transported by $H$ and accounted for by $P$ and $N$. Therefore the visible ledger surface is fixed.
+
+The excluded objects are not coordinates of $G$. Complete inscription events, motives, host traces, and outside objects cannot be recovered from equality of the finite residue packet.
+\end{proof}
+
+\closureat{InscriptionGapLedgerUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionGapLedgerUp}
+  \constructivestory{An $\InscriptionGapLedgerUp$ packet is generated from prior source state, a named public record, a route witness, an accepted check row, an intended consumer, a GAP residue row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-gap-ledger-carrier}, \autoref{thm:inscription-gap-ledger-namecert-obligations}, \autoref{thm:inscription-gap-ledger-source-boundary}, \autoref{thm:inscription-gap-ledger-consumer-exhaustion}, and \autoref{thm:inscription-gap-ledger-nonescape} bind the GAP-ledger side of inscription as a finite NameCert residue packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, bridge checking, complete inscription-event ontology, private intention, hidden agency, raw byte-change identity, unchecked route semantics, or host process traces.}
+  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for source boundary, named route compression, consumer exhaustion, and non-escape over the same finite residue packet.}
+\end{closurestatus}

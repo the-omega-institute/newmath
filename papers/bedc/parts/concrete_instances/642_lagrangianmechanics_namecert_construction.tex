@@ -1,0 +1,339 @@
+\chapter{A Concrete Naming Certificate for $\LagrangianMechanicsUp$}
+\label{ch:concrete-instances-lagrangianmechanics-namecert}
+
+The $\LagrangianMechanicsUp$ interface names the finite mechanics surface
+whose action ledger can be consumed by Euler--Lagrange and Noether-facing
+certificates. Following Arnold's \emph{Mathematical Methods of Classical
+Mechanics} and Abraham--Marsden's \emph{Foundations of Mechanics}, the
+standard mathematical story starts from configurations, velocities, an action
+functional, admissible variations, endpoint policy, Euler--Lagrange equations,
+symplectic flow, and conserved-current reads. The BEDC packet below records
+only the finite rows needed to cite that surface.
+
+\begin{definition}[LagrangianMechanicsUp BHist carrier]
+\label{def:lagrangianmechanics-bhist-carrier}
+A $\LagrangianMechanicsUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+L=(Q,V,A,R,E,G,S,J,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $Q$ is the configuration row naming the finite position or field entries
+available to the local mechanics packet;
+\item $V$ is the velocity row naming the displayed tangent or rate entries
+paired with $Q$;
+\item $A$ is the action-functional row recording the finite Lagrangian
+expression, integration route, scalar read, and dependency certificates used
+to evaluate action values;
+\item $R$ is the variation row naming the admissible finite variation family
+and the routes through which the first action variation is read;
+\item $E$ is the endpoint row recording fixed, vanishing, or exposed endpoint
+terms;
+\item $G$ is the Euler--Lagrange row that receives the residual equation
+surface obtained from $A$, $R$, and $E$;
+\item $S$ is the symplectic-flow row naming the finite phase-flow read
+available after the action ledger has selected the displayed dynamics;
+\item $J$ is the Noether-current row naming the finite conserved-current read
+available to a Noether-facing consumer;
+\item $H$ records the $\hsame$ provenance rows for configuration, velocity,
+action, variation, endpoint, Euler--Lagrange, symplectic-flow, and
+Noether-current data;
+\item $C$ records the $\Cont$ provenance routes by which the displayed rows
+are read;
+\item $P$ is the $\Pkg$ provenance row naming the action, variation,
+Euler--Lagrange, symplectic, and Noether dependency certificates used by the
+packet;
+\item $N$ is the $\NameCert$ provenance row registering the packet under
+$\LagrangianMechanicsUp$.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{LagrangianMechanicsPacket}(Q,V,A,R,E,G,S,J,H,C,P,N)$. Two accepted
+packets classify together only when the twelve displayed rows transport
+componentwise by the $\hsame$ witnesses and the same $\Cont$ routes named in
+$C$ and $P$.
+\end{definition}
+
+\begin{theorem}[LagrangianMechanicsUp action ledger obligation]
+\label{thm:lagrangianmechanics-action-ledger-obligation}
+Every accepted $\LagrangianMechanicsUp$ carrier exposes a finite action ledger
+consisting exactly of the configuration row $Q$, velocity row $V$,
+action-functional row $A$, variation row $R$, endpoint row $E$, and the
+displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows that
+connect them. A consumer may read the Lagrangian expression, scalar action
+value, admissible variation family, and endpoint policy only through those
+rows.
+
+The ledger asserts no minimizer existence, no global solution theory, no
+ambient smooth manifold of curves, and no unrecorded regularity condition.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_action\_ledger\_obligation}
+\begin{proof}
+Project the carrier of
+\autoref{def:lagrangianmechanics-bhist-carrier}. The coordinates $Q$, $V$,
+$A$, $R$, and $E$ are the only rows that store the displayed configuration,
+velocity, action, variation, and endpoint data.
+
+The transport and continuation coordinates $H$ and $C$ specify how these rows
+move under $\hsame$ and how they are read by consumers. The package and name
+certificate rows $P$ and $N$ record provenance, but they do not add analytic
+objects beyond the visible packet.
+
+Thus the action ledger is exhausted by the listed finite rows. Any minimizer,
+global dynamics theorem, smooth host manifold, or hidden regularity principle
+would require an additional coordinate absent from the carrier.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanicsUp Euler-Lagrange interface]
+\label{thm:lagrangianmechanics-eulerlagrange-interface}
+For an accepted carrier $L=(Q,V,A,R,E,G,S,J,H,C,P,N)$, the
+Euler--Lagrange-facing interface is the single residual-equation row $G$
+together with the action, variation, endpoint, transport, continuation, and
+provenance rows that feed it. An $\EulerLagrangeUp$ consumer may read only the
+equation surface displayed by $G$ and the finite action ledger named in
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}.
+
+The interface does not claim variational completeness, integration by parts in
+a host calculus, boundary-condition completeness, or equivalence with a
+standard analytic equation model.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_eulerlagrange\_interface}
+\begin{proof}
+Start from the action ledger supplied by
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}. The variation row
+$R$ and endpoint row $E$ determine which first-variation terms remain visible
+to the packet.
+
+The coordinate $G$ records the residual equation surface obtained from those
+rows. Since $G$ is a finite row of the same carrier, its reads are constrained
+by the displayed $\hsame$ and $\Cont$ provenance in $H$ and $C$.
+
+No coordinate stores an ambient variational calculus, a boundary completeness
+principle, or a standard analytic equation model. Therefore the
+Euler--Lagrange-facing interface is exactly the finite row $G$ together with
+the action ledger that feeds it.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanicsUp Noether consumer boundary]
+\label{thm:lagrangianmechanics-noether-consumer-boundary}
+A Noether-facing consumer of an accepted $\LagrangianMechanicsUp$ carrier may
+read only the action ledger rows $Q,V,A,R,E$, the Euler--Lagrange residual row
+$G$, the symplectic-flow row $S$, the Noether-current row $J$, and the
+displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The current
+row $J$ is a finite consumer-facing ledger entry, not a theorem asserting a
+complete Noether correspondence.
+
+The boundary exports no symmetry classification, no conservation-law
+completeness theorem, no Hamiltonian equivalence, and no standard bridge to a
+smooth phase-space model.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_noether\_consumer\_boundary}
+\begin{proof}
+Read the accepted packet through
+\autoref{def:lagrangianmechanics-bhist-carrier}. Its Noether-facing
+coordinates are the action ledger rows, the residual equation row, the
+symplectic-flow row, the current row, and the four provenance rows.
+
+Apply \autoref{thm:lagrangianmechanics-action-ledger-obligation} to identify
+the only action data available to the consumer. Apply
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface} to identify the
+only Euler--Lagrange residual read.
+
+The remaining rows $S$ and $J$ are finite ledgers for phase-flow and current
+reads. Since the carrier has no coordinate for a symmetry classifier,
+Hamiltonian equivalence, conservation-law completeness theorem, or standard
+bridge, the Noether-facing boundary is exactly the stated row list.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanicsUp NameCert obligation surface]
+\label{thm:lagrangianmechanics-namecert-obligation-surface}
+The local $\NameCert_{\LagrangianMechanicsUp}$ seed surface consists of the
+carrier of \autoref{def:lagrangianmechanics-bhist-carrier}, the action ledger
+of \autoref{thm:lagrangianmechanics-action-ledger-obligation}, the
+Euler--Lagrange interface of
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface}, and the Noether
+consumer boundary of
+\autoref{thm:lagrangianmechanics-noether-consumer-boundary}. Its dependency
+surface is the finite $\Pkg$ row naming the action, variation,
+Euler--Lagrange, symplectic, and Noether certificate boundaries, together
+with the displayed $\hsame$, $\Cont$, and $\NameCert$ provenance rows.
+
+The seed surface does not close minimizer existence, global dynamics,
+Hamiltonian equivalence, complete Noether correspondence, analytic regularity,
+or a standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_namecert\_obligation\_surface}
+\begin{proof}
+Assemble the seed surface from the carrier. The definition supplies the
+configuration, velocity, action, variation, endpoint, Euler--Lagrange,
+symplectic-flow, Noether-current, transport, continuation, package, and
+name-certificate rows.
+
+The action-ledger theorem identifies the only action-facing projection. The
+Euler--Lagrange theorem identifies the only residual-equation projection. The
+Noether boundary theorem identifies the only phase-flow and conserved-current
+consumer rows.
+
+These projections cover every coordinate of the finite packet. The exclusions
+follow because none of the rows stores a minimizer, global solution theorem,
+Hamiltonian equivalence, complete Noether correspondence, analytic regularity
+principle, or standard bridge.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanics finite obligation carrier]
+\label{thm:lagrangianmechanics-finite-obligation-carrier}
+The finite $\LagrangianMechanicsUp$ obligation carrier consists of
+$\mathsf{BHist}$ rows for configuration history, velocity history,
+action-density data, a variation token, and visible $\Pkg$ and $\NameCert$
+provenance. Each row is read as part of the carrier of
+\autoref{def:lagrangianmechanics-bhist-carrier}, and no row introduces a
+smooth manifold, a completed path space, or an analytic extremal.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_finite\_obligation\_carrier}
+\begin{proof}
+Project the carrier tuple of
+\autoref{def:lagrangianmechanics-bhist-carrier}. The configuration and
+velocity histories are the rows $Q$ and $V$, while the action-density and
+variation data are read from the action and variation coordinates $A$ and
+$R$.
+
+The provenance rows are the package and local naming coordinates $P$ and $N$.
+Repacking these projected rows gives the finite obligation carrier. Since the
+carrier list contains no host manifold, path-space completion, or analytic
+extremal coordinate, those objects are outside the obligation carrier.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanics action ledger policy]
+\label{thm:lagrangianmechanics-action-ledger-policy}
+The $\LagrangianMechanicsUp$ action ledger exposes only finite
+action-comparison rows, boundary variation rows, and $\Cont$ transport through
+the displayed action, variation, endpoint, and continuation coordinates of
+\autoref{def:lagrangianmechanics-bhist-carrier}. It does not solve an
+Euler--Lagrange equation, select an analytic minimizer, or supply a smooth
+manifold model.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_action\_ledger\_policy}
+\begin{proof}
+Start from the action ledger obligation already identified in
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}. Its readable rows
+are the finite configuration, velocity, action, variation, endpoint,
+transport, continuation, and provenance coordinates.
+
+The comparison data are therefore the finite action rows and the boundary
+variation rows transported along the displayed $\Cont$ routes. Repacking those
+rows yields the ledger policy, and the excluded analytic objects are absent
+from the carrier coordinates.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanics Euler boundary scope]
+\label{thm:lagrangianmechanics-euler-boundary-scope}
+The Euler boundary for $\LagrangianMechanicsUp$ is a scoped obligation over
+the displayed finite variation rows. Its dependencies are exactly the
+$\mathsf{BHist}$ carrier rows, the $\hsame$ transports, the $\Cont$ routes,
+and the visible $\Pkg$ and $\NameCert$ provenance needed to read the
+Euler--Lagrange residual row of
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface}.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_euler\_boundary\_scope}
+\begin{proof}
+Use the Euler--Lagrange interface theorem to identify the residual row $G$ and
+the finite action, variation, endpoint, transport, continuation, and
+provenance rows that feed it. These are all rows of the same
+$\mathsf{BHist}$ carrier.
+
+Transporting the displayed variation rows uses only the $\hsame$ witnesses in
+$H$ and the continuation routes in $C$. Repacking them with $P$ and $N$ gives
+the scoped Euler boundary, with no further analytic equation surface added.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanics public NameCert boundary]
+\label{thm:lagrangianmechanics-public-namecert-boundary}
+For an accepted $\LagrangianMechanicsUp$ carrier, the finite configuration,
+velocity, action, variation, endpoint, Euler--Lagrange residual,
+symplectic-flow read, Noether-current read, $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows assemble the public
+$\NameCert_{\LagrangianMechanicsUp}$ boundary. A downstream mechanics or
+Noether-facing consumer may read the public boundary only through this finite
+packet.
+
+The boundary exports no minimizer existence theorem, no global dynamics model,
+no Hamiltonian equivalence, no complete Noether correspondence, no analytic
+regularity theorem, and no standard bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_public\_namecert\_boundary}
+\begin{proof}
+Start with the action ledger of
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}. It supplies the
+finite configuration, velocity, action, variation, endpoint, transport,
+package, and name-certificate rows.
+
+The Euler--Lagrange interface of
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface} adds the residual row
+that is read from the same action, variation, endpoint, $\hsame$, and $\Cont$
+surface. The Noether consumer boundary of
+\autoref{thm:lagrangianmechanics-noether-consumer-boundary} adds only the
+symplectic-flow and Noether-current rows.
+
+Use \autoref{thm:lagrangianmechanics-namecert-obligation-surface} and
+\autoref{thm:lagrangianmechanics-finite-obligation-carrier} to repack these
+rows as one local certificate carrier. The action ledger policy of
+\autoref{thm:lagrangianmechanics-action-ledger-policy} and the Euler boundary
+scope of \autoref{thm:lagrangianmechanics-euler-boundary-scope} show that the
+public read exposes exactly the same finite packet and no additional analytic
+object.
+\end{proof}
+
+\begin{theorem}[LagrangianMechanics finite standard bridge surface]
+\label{thm:lagrangianmechanics-finite-standard-bridge-surface}
+The public finite action, Euler--Lagrange residual, symplectic-flow read,
+Noether-current read, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows determine the paper-side standard bridge surface for the
+finite $\LagrangianMechanicsUp$ schema. Standard action, residual, flow, and
+current reads may be interpreted only through these displayed rows.
+
+The bridge surface exports no minimizer, global dynamics theorem, Hamiltonian
+equivalence, analytic regularity theorem, or complete Noether correspondence.
+\end{theorem}
+\leanchecked{BEDC.Derived.LagrangianMechanicsUp.LagrangianMechanicsPacket\_finite\_standard\_bridge\_surface}
+\begin{proof}
+Begin with the public boundary of
+\autoref{thm:lagrangianmechanics-public-namecert-boundary}. It already exposes
+the finite action, residual, flow, current, carrier, transport, package, and
+name-certificate rows as the only public mechanics packet.
+
+The standard action read is the action ledger of
+\autoref{thm:lagrangianmechanics-action-ledger-obligation}. The standard
+residual read is the Euler--Lagrange interface of
+\autoref{thm:lagrangianmechanics-eulerlagrange-interface}. The standard flow
+and current reads are the finite rows of
+\autoref{thm:lagrangianmechanics-noether-consumer-boundary}.
+
+Repack these reads with the obligation surface of
+\autoref{thm:lagrangianmechanics-namecert-obligation-surface}, the finite
+carrier of \autoref{thm:lagrangianmechanics-finite-obligation-carrier}, and
+the boundary scope of \autoref{thm:lagrangianmechanics-euler-boundary-scope}.
+The resulting bridge surface uses only the displayed $\mathsf{BHist}$,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows.
+
+Since none of the cited rows contains a minimizer, global dynamics theorem,
+Hamiltonian equivalence, analytic regularity theorem, or complete Noether
+correspondence, the finite standard bridge surface has exactly the stated
+non-claim boundary.
+\end{proof}
+
+\closureat{LagrangianMechanicsUp}{seedStr}
+\closureat{LagrangianMechanicsUp}{obligationStr}
+\closureat{LagrangianMechanicsUp}{scopedStr}
+\closureat{LagrangianMechanicsUp}{publicStr}
+\closureat{LagrangianMechanicsUp}{bridgedStr}
+\closureat{LagrangianMechanicsUp}{matureStr}
+
+\begin{closurestatus}{\LagrangianMechanicsUp}
+  \constructivestory{Lagrangian mechanics is represented by finite rows for configuration, velocity, action functional, variation, endpoint policy, Euler--Lagrange residual, symplectic-flow read, Noether-current read, and provenance.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:lagrangianmechanics-bhist-carrier}, \autoref{thm:lagrangianmechanics-action-ledger-obligation}, \autoref{thm:lagrangianmechanics-eulerlagrange-interface}, \autoref{thm:lagrangianmechanics-noether-consumer-boundary}, \autoref{thm:lagrangianmechanics-namecert-obligation-surface}, \autoref{thm:lagrangianmechanics-euler-boundary-scope}, \autoref{thm:lagrangianmechanics-public-namecert-boundary}, and \autoref{thm:lagrangianmechanics-finite-standard-bridge-surface} bind the public-facing finite action, Euler--Lagrange, symplectic-flow, Noether-current, public NameCert packet boundary, and paper-side finite standard bridge surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close minimizer existence, global dynamics, Hamiltonian equivalence, complete Noether correspondence, analytic regularity, or bridge checking.}
+  \upgradepath{No further paper-axis theory grade remains for this finite bridge surface; Lean verification remains on the formal axis.}
+\end{closurestatus}

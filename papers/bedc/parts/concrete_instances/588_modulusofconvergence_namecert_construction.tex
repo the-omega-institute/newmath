@@ -1,0 +1,468 @@
+\chapter{A Concrete Naming Certificate for $\ModulusOfConvergenceUp$}
+\label{ch:concrete-instances-modulusofconvergence-namecert}
+
+The $\ModulusOfConvergenceUp$ interface names the explicit convergence-rate
+packet used by the Bishop--Bridges constructive-analysis reading of regular
+rational sequences and real completion. It is a support object for
+$\RegSeqRatUp$ and $\RealUp$, adjacent to $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\CauchyModulusUp$, $\FastCauchyUp$, and
+$\NestedDyadicIntervalUp$. It records finite precision requests and late
+observation witnesses; it does not form a quotient completion, choose a limit,
+or appeal to host real equality.
+
+\begin{definition}[ModulusOfConvergence BHist carrier]\label{def:modulusofconvergence-bhist-carrier}
+A $\ModulusOfConvergenceUp$ carrier packet is a finite $\mathsf{BHist}$ row
+package
+$$
+M=(p,u,\mu,s,r,\ell,P)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $p$ is the precision-request history row, read as a unary or dyadic
+precision demand through $\DyadicRatCoreUp$;
+\item $u$ is the unary index selector row that chooses the threshold index bound
+returned for the request $p$;
+\item $\mu$ is the modulus-function row, read as the displayed assignment from
+precision rows to threshold rows;
+\item $s$ is the $\StreamNameUp$ observation schedule whose entries are tested
+after the selected bound;
+\item $r$ is the $\RegSeqRatUp$ late-observation witness row showing that every
+displayed observation past the chosen bound satisfies the requested precision;
+\item $\ell$ is the finite ledger recording the precision request, selected
+bound, late-observation witness, and the dependency anchors
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$;
+\item $P$ is the $\mathsf{Pkg}$ provenance for the same dependency anchors and
+for the local $\NameCert_{\ModulusOfConvergenceUp}$ row.
+\end{enumerate}
+The carrier accepts exactly those finite packets whose listed rows are present
+in one history and are connected by displayed $\Cont$ windows. It contains no
+infinite choice of thresholds, quotient stream, completed real, or hidden limit
+selector.
+\end{definition}
+
+\begin{theorem}[ModulusOfConvergence NameCert obligation surface]\label{thm:modulusofconvergence-namecert-obligation-surface}
+The local $\NameCert_{\ModulusOfConvergenceUp}$ obligation surface consists of
+the carrier packet of \autoref{def:modulusofconvergence-bhist-carrier}, the
+classifier identifying two packets when corresponding unary precision rows
+choose $\hsame$ index bounds and the same late-observation ledger, the
+$\hsame$ transport rows for precision and threshold histories, the $\Cont$
+extension rows for finite observation windows, and the exactness ledger naming
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceBHistCarrier\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_namecert\_obligation\_surface}
+\begin{proof}
+Project an accepted packet to the seven carrier coordinates. The precision row,
+unary selector, modulus row, observation schedule, late-observation witness,
+ledger, and provenance row are all visible in the same finite $\mathsf{BHist}$
+package.
+
+The classifier compares the precision and threshold coordinates through
+$\hsame$ and then compares the late-observation ledger through the displayed
+source certificates. The same ledger rows name the dyadic precision source, the
+stream observation source, the regular-sequence witness, and the real-name
+consumer boundary.
+
+The stability and exactness fields are therefore just the finite transport and
+window-extension rows already carried by the packet. No additional completion,
+choice, or quotient coordinate is available for the local naming certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_semantic\_name\_certificate}
+
+\begin{theorem}[ModulusOfConvergence composition stability]\label{thm:modulusofconvergence-composition-stability}
+If two accepted $\ModulusOfConvergenceUp$ packets have composable $\Cont$
+windows, then their composed packet preserves the precision request, the
+selected threshold bound, the modulus-function row, the scheduled
+$\StreamNameUp$ observations, the $\RegSeqRatUp$ late-observation witness, and
+the dependency ledger through the same $\hsame$ classifier. The composition
+exports only the displayed finite convergence-rate ledger.
+\end{theorem}
+\begin{proof}
+Restrict each packet to the finite rows named by
+\autoref{def:modulusofconvergence-bhist-carrier}. The only data available for
+composition are the precision request, unary selector, modulus row, observation
+schedule, late witness, ledger, and package provenance.
+
+Compose the $\Cont$ windows along their shared displayed histories. The
+composite window keeps the same selected threshold bound for the transported
+precision request and carries forward the same late-observation witness rows.
+
+Finally transport the resulting rows through the componentwise $\hsame$
+classifier of
+\autoref{thm:modulusofconvergence-namecert-obligation-surface}. The composed
+packet has the same carrier shape and no constructor for a chosen limit or
+quotient completion, so composition is stable inside the finite ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_composition\_stability}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceCarrier\_composition\_stability}
+
+\begin{theorem}[ModulusOfConvergence tail restriction stability]\label{thm:modulusofconvergence-tail-restriction-stability}
+For every accepted $\ModulusOfConvergenceUp$ packet and every tail restriction
+whose first index is $\hsame$-above the selected bound, the restricted packet is
+again accepted. Its classifier keeps the same precision request, modulus row,
+late-observation witness, and dependency ledger, while the $\Cont$ window is
+restricted to the displayed tail.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceRatePacket\_tail\_restriction\_stability}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceCarrier\_tail\_restriction\_stability}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_tail\_restriction\_stability}
+\begin{proof}
+Start with the selected threshold bound in the unary index selector. A tail
+whose first index is $\hsame$-above that bound remains inside the late window
+named by the precision request.
+
+Restrict the observation schedule and late-observation witness rows to that
+tail. The dyadic endpoint rows and regular-sequence witness rows are inherited
+from the original packet because the carrier ledger already records them for
+all displayed observations beyond the bound.
+
+Repack the restricted schedule with the same precision request, modulus row,
+ledger, and provenance. The $\Cont$ route is the restricted route, and the
+componentwise $\hsame$ comparisons are unchanged on the retained rows, so the
+tail packet is accepted by the same classifier.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence paired late-window common refinement]\label{thm:modulusofconvergence-paired-late-window-common-refinement}
+Let $M_0$ and $M_1$ be accepted $\ModulusOfConvergenceUp$ packets with
+transported precision requests, selected threshold rows, and displayed
+late-tail restrictions. If both packets are consumed by $\RegSeqRatUp$ or
+$\RealUp$ reads over the same displayed dependency boundary, then there is one
+common displayed late window through which both restricted schedules and both
+late-observation witnesses factor by $\hsame$ and $\Cont$.
+
+The common window exposes only the two precision rows, the transported
+threshold rows, the modulus rows, the observation schedules, the
+late-observation witnesses, the dependency ledgers, the $\mathsf{Pkg}$
+provenance rows, and the local $\NameCert_{\ModulusOfConvergenceUp}$ rows. It
+does not expose quotient completion, a selected real limit, a global threshold
+choice, or host real equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:modulusofconvergence-tail-restriction-stability} to $M_0$
+and $M_1$. Each transported precision request keeps its selected threshold row
+and restricts its observation schedule and late-observation witness to a
+displayed late tail.
+
+Next apply \autoref{thm:modulusofconvergence-composition-stability} to the two
+restricted tails along their displayed $\Cont$ windows. The composite window is
+the common late window, and both restricted schedules factor through it by the
+componentwise $\hsame$ classifier.
+
+Use \autoref{thm:modulusofconvergence-ledger-exactness} to identify the rows
+visible to downstream consumers. The only exposed coordinates are the two
+precision rows, transported thresholds, modulus rows, schedules, witnesses,
+dependency ledgers, package provenance rows, and local naming-certificate rows.
+
+Finally apply \autoref{thm:modulusofconvergence-realup-public-export}. The
+$\RegSeqRatUp$ and $\RealUp$ reads therefore share that finite late-window
+ledger, and no quotient completion, selected real limit, global threshold
+choice, or host real equality is introduced.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence ledger exactness]\label{thm:modulusofconvergence-ledger-exactness}
+An accepted $\ModulusOfConvergenceUp$ packet exposes exactly the precision
+request, selected bound, late-observation witness, and dependency anchors
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ recorded in
+its ledger. Every $\RegSeqRatUp$ or $\RealUp$ consumer of the packet factors
+through those rows and the displayed $\hsame$, $\Cont$, and $\mathsf{Pkg}$
+provenance.
+\end{theorem}
+\begin{proof}
+Read the ledger coordinate $\ell$ of
+\autoref{def:modulusofconvergence-bhist-carrier}. By definition it records the
+precision request, the bound selected by the unary selector, the
+late-observation witness, and the four dependency anchors.
+
+Apply the obligation surface of
+\autoref{thm:modulusofconvergence-namecert-obligation-surface}. It permits
+downstream reads only through the componentwise classifier, finite window
+extension, and package provenance already present in the carrier.
+
+Thus a $\RegSeqRatUp$ or $\RealUp$ consumer can inspect exactly the displayed
+convergence-rate ledger and no extra completion object, quotient equality,
+global modulus choice, or selected real limit.
+\end{proof}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_ledger\_exactness}
+
+\begin{theorem}[ModulusOfConvergence scoped dependency packet]\label{thm:modulusofconvergence-scoped-dependency-packet}
+For an accepted $\ModulusOfConvergenceUp$ packet, the carrier, classifier,
+composition, tail-restriction, and ledger exactness rows form one scoped BEDC
+dependency packet over $\mathsf{BHist}$. Precision and threshold transport are
+read only through $\hsame$, finite observation windows are read only through
+$\Cont$, provenance is read only through $\mathsf{Pkg}$, and the public
+certificate row is read only through
+$\NameCert_{\ModulusOfConvergenceUp}$.
+
+The packet preserves the displayed $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ anchors. It excludes quotient completion,
+selected real limits, and global threshold choice.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceCarrier\_scoped\_dependency\_packet}
+\begin{proof}
+Project the seven carrier coordinates of
+\autoref{def:modulusofconvergence-bhist-carrier}. They are the precision
+request, unary threshold selector, modulus row, observation schedule,
+late-observation witness, dependency ledger, and package/name provenance
+surface.
+
+Apply \autoref{thm:modulusofconvergence-namecert-obligation-surface} to bind
+the accepted packet to the displayed classifier, transport rows, carrier
+obligations, and $\NameCert$ registration.
+
+Apply \autoref{thm:modulusofconvergence-composition-stability} and
+\autoref{thm:modulusofconvergence-tail-restriction-stability}. They keep the
+same $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows stable under
+composition and tail restriction.
+
+Finally apply \autoref{thm:modulusofconvergence-ledger-exactness}. It says
+that every $\RegSeqRatUp$ or $\RealUp$ consumer read factors through the
+listed BEDC rows and keeps the $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ anchors visible. Hence no completion object,
+quotient equality, selected limit, or global threshold choice is exposed by the
+scoped packet.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence RegSeqRat and RealUp public export]\label{thm:modulusofconvergence-realup-public-export}
+An accepted $\ModulusOfConvergenceUp$ packet exports a public consumer package
+for $\RegSeqRatUp$ and $\RealUp$. The package consists exactly of the
+precision request, unary threshold selector, modulus row,
+$\StreamNameUp$ observation schedule, $\RegSeqRatUp$ late-observation witness,
+$\DyadicRatCoreUp$ endpoint ledger, $\hsame$ transports, $\Cont$ windows, and
+$\mathsf{Pkg}$ provenance displayed in this chapter.
+
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of the accepted packet factors
+through this public package. Such a consumer cannot read a completion
+coordinate, quotient equality, selected limit, or global choice of thresholds.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceRatePacket\_semantic\_name\_certificate}
+\begin{proof}
+The seven carrier rows are those of
+\autoref{def:modulusofconvergence-bhist-carrier}: the precision request,
+unary threshold selector, modulus row, observation schedule, late-observation
+witness, dependency ledger, and provenance/certificate surface.
+
+The carrier, classifier, and stability fields are fixed by
+\autoref{thm:modulusofconvergence-namecert-obligation-surface}. Late-window
+stability is supplied by
+\autoref{thm:modulusofconvergence-tail-restriction-stability}, so changing the
+visible observation bound transports only the displayed $\mathsf{BHist}$,
+$\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
+
+Consumer factorization is exactly
+\autoref{thm:modulusofconvergence-ledger-exactness}. The exact BEDC scope is
+then the scope of \autoref{thm:modulusofconvergence-scoped-dependency-packet}:
+the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and
+$\RealUp$ anchors are retained, and no completion coordinate, quotient
+equality, selected limit, or global threshold choice is available.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence finite-rate bridge packet]\label{thm:modulusofconvergence-finite-rate-bridge-packet}
+Any standard bridge for the displayed convergence-rate package may read exactly
+the precision request, unary threshold selector, modulus row,
+$\StreamNameUp$ observation schedule, $\RegSeqRatUp$ late-observation witness,
+$\DyadicRatCoreUp$ endpoint ledger, $\hsame$ transports, $\Cont$ windows, and
+$\mathsf{Pkg}$ provenance isolated by
+\autoref{thm:modulusofconvergence-realup-public-export}. It may not read
+quotient completion, selected real limits, global threshold choice, or host real
+equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceFiniteRateBridge\_rows}
+\begin{proof}
+Project the carrier through \autoref{def:modulusofconvergence-bhist-carrier}.
+The visible rows are the finite precision request, unary threshold selector,
+modulus row, scheduled observations, late-observation witness, endpoint ledger,
+and package/name provenance.
+
+Apply \autoref{thm:modulusofconvergence-namecert-obligation-surface} to bind
+these rows to the accepted $\NameCert_{\ModulusOfConvergenceUp}$ surface. Tail
+restriction through
+\autoref{thm:modulusofconvergence-tail-restriction-stability} keeps the same
+$\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ coordinates when a
+consumer narrows the visible observation window.
+
+Ledger exactness is supplied by
+\autoref{thm:modulusofconvergence-ledger-exactness}. The dependency boundary is
+the packet of \autoref{thm:modulusofconvergence-scoped-dependency-packet}, and
+the public $\RegSeqRatUp$/$\RealUp$ read is exactly
+\autoref{thm:modulusofconvergence-realup-public-export}.
+
+The excluded data are not coordinates of the carrier. A bridge that reads a
+quotient completion, a selected real limit, a global threshold choice, or host
+real equality would therefore leave the displayed finite-rate package rather
+than using the boundary proved here.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence standard bridge]\label{thm:modulusofconvergence-standard-bridge}
+Let $M=(p,u,\mu,s,r,\ell,P)$ be an accepted
+$\ModulusOfConvergenceUp$ $\mathsf{BHist}$ packet. Then $M$ determines the
+standard explicit-modulus-of-convergence schema by reading exactly the
+precision request $p$, selected threshold $u(p)$, modulus row $\mu$,
+$\StreamNameUp$ observations $s$, $\RegSeqRatUp$ late-window witness $r$,
+$\hsame$ transports, $\Cont$ windows, $\mathsf{Pkg}$ provenance, dependency
+ledger $\ell$, and $\NameCert$ row $P$ displayed in this chapter.
+
+Conversely, any displayed standard explicit-modulus package whose rows are
+exactly those BEDC rows repacks as the same $\ModulusOfConvergenceUp$ public
+packet. The bridge exports no quotient completion, no selected real limit, and
+no global choice of thresholds outside the displayed finite threshold row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceStandardBridge\_boundary}
+\begin{proof}
+Project the carrier of $M$ using
+\autoref{def:modulusofconvergence-bhist-carrier}. The precision request,
+selected unary threshold, modulus row, observation schedule, late-window
+witness, ledger, and package/name provenance are already the coordinates of the
+accepted packet.
+
+The naming and obligation surface is the surface of
+\autoref{thm:modulusofconvergence-namecert-obligation-surface}. It fixes the
+classifier, the displayed $\mathsf{BHist}$ rows, the $\hsame$ transports, the
+$\Cont$ windows, the $\mathsf{Pkg}$ provenance, and the $\NameCert$ row without
+adding any host-level completion coordinate.
+
+Composition and tail restriction preserve the same visible package by
+\autoref{thm:modulusofconvergence-composition-stability} and
+\autoref{thm:modulusofconvergence-tail-restriction-stability}. Ledger exactness
+then identifies every consumer read with one of the listed rows, and
+\autoref{thm:modulusofconvergence-realup-public-export} gives the public
+$\RegSeqRatUp$ and $\RealUp$ export surface.
+
+For the converse direction, start from a displayed standard package with
+exactly these BEDC rows. Repack the precision request, threshold row, modulus
+row, observation schedule, late-window witness, ledger, and provenance into the
+carrier tuple $M$. The same NameCert obligation surface and stability rows give
+acceptance, so the repacked object is the original public
+$\ModulusOfConvergenceUp$ packet.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence threshold-ledger completeness]
+\label{thm:modulusofconvergence-threshold-ledger-completeness}
+Every convergence-rate consumer of the $\ModulusOfConvergenceUp$ packet is
+completely determined by the precision request, selected unary threshold,
+modulus row, $\StreamNameUp$ schedule, $\RegSeqRatUp$ late-window witness,
+$\hsame$ transports, $\Cont$ windows, $\mathsf{Pkg}$ provenance, dependency
+ledger, and $\NameCert$ row.
+
+The export contains no quotient completion, selected real limit, global
+threshold choice outside the finite ledger, or host real equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceRatePacket\_threshold\_ledger\_completeness}
+\begin{proof}
+Start with the carrier of
+\autoref{def:modulusofconvergence-bhist-carrier}. It presents the precision
+request, selected unary threshold, modulus row, stream schedule,
+late-window witness, dependency ledger, package provenance, and local naming
+evidence as the only rows in the accepted packet.
+
+Apply \autoref{thm:modulusofconvergence-namecert-obligation-surface} and
+\autoref{thm:modulusofconvergence-composition-stability}. These identify the
+classifier, stability, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+coordinates and show that composition keeps consumer reads on the displayed
+finite threshold-ledger surface.
+
+Tail restriction is handled by
+\autoref{thm:modulusofconvergence-tail-restriction-stability}. Ledger exactness
+then follows from \autoref{thm:modulusofconvergence-ledger-exactness}, so a
+consumer can inspect only the finite request, threshold, schedule,
+late-window, transport, continuation, provenance, and ledger rows.
+
+The public export and standard bridge are exactly
+\autoref{thm:modulusofconvergence-realup-public-export},
+\autoref{thm:modulusofconvergence-finite-rate-bridge-packet}, and
+\autoref{thm:modulusofconvergence-standard-bridge}. Together they show that
+the $\RegSeqRatUp$/$\RealUp$ read and the standard explicit-modulus schema use
+the same finite rows and do not export quotient completion, selected real
+limits, global threshold choice outside the finite ledger, or host real
+equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceCarrier\_threshold\_ledger\_completeness}
+
+\begin{theorem}[ModulusOfConvergence mature tail consumer example]
+\label{thm:modulusofconvergence-mature-tail-consumer-example}
+A $\RegSeqRatUp$ or $\RealUp$ consumer that narrows to a later displayed tail
+reads the same finite convergence-rate package: the precision request, unary
+threshold selector, modulus row, $\StreamNameUp$ observations,
+$\RegSeqRatUp$ late-window witness, $\DyadicRatCoreUp$ endpoint ledger,
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, dependency ledger, and local $\NameCert$
+row.
+
+The tail read contains no quotient completion, selected real limit, global
+threshold choice outside the finite ledger, or host real equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergenceRatePacket\_tail\_consumer\_boundary}
+\begin{proof}
+Start with \autoref{thm:modulusofconvergence-tail-restriction-stability}. It
+keeps a later displayed tail on the same precision request, unary threshold
+selector, modulus row, observation schedule, and late-window witness.
+
+Apply \autoref{thm:modulusofconvergence-ledger-exactness}. The endpoint and
+dependency ledgers exhaust the finite coordinates that the tail consumer can
+inspect.
+
+Next use \autoref{thm:modulusofconvergence-realup-public-export}. This gives
+the $\RegSeqRatUp$ and $\RealUp$ consumer surface over the same finite
+convergence-rate rows, together with $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+local $\NameCert$ evidence.
+
+Finally apply \autoref{thm:modulusofconvergence-standard-bridge}. The standard
+explicit-modulus bridge reads exactly the displayed BEDC rows, so narrowing to
+a later tail cannot introduce quotient completion, a selected real limit, a
+global threshold choice outside the ledger, or host real equality.
+\end{proof}
+
+\begin{theorem}[ModulusOfConvergence synchronized double-tail restriction]
+\label{thm:modulusofconvergence-synchronized-double-tail-restriction}
+Let an accepted $\ModulusOfConvergenceUp$ $\mathsf{BHist}$ packet display a precision
+request, unary threshold selector, modulus row, $\StreamNameUp$ observation
+schedule, $\RegSeqRatUp$ late-window witness, $\DyadicRatCoreUp$ endpoint
+ledger, dependency ledger, $\mathsf{Pkg}$ provenance, and local $\NameCert$
+row. Suppose it also displays two unary tail restrictions, each connected to
+the next packet by concrete $\Cont$ rows. The twice-restricted packet preserves
+the same precision request, selector, modulus row, late-window witness,
+dependency ledger, package provenance, and NameCert row as the original packet.
+
+Moreover, every $\RegSeqRatUp$ or $\RealUp$ consumer of the second tail factors
+through the original accepted packet, using only the two displayed $\Cont$
+windows and the finite rows already present in that packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:modulusofconvergence-tail-restriction-stability} to the
+first displayed tail. This keeps the precision request, unary threshold
+selector, modulus row, late-window witness, dependency ledger, package
+provenance, and local $\NameCert$ row on the restricted packet.
+
+Apply \autoref{thm:modulusofconvergence-tail-restriction-stability} again to
+the restricted packet and its second displayed tail. The same rows are preserved
+through the second restriction, so the twice-restricted packet still reads the
+original finite convergence-rate data.
+
+Use \autoref{thm:modulusofconvergence-composition-stability} to compose the two
+displayed $\Cont$ windows. The composite window identifies the second tail as a
+single displayed restriction of the original packet, without introducing a new
+threshold choice or hidden representative.
+
+Finally combine \autoref{thm:modulusofconvergence-ledger-exactness},
+\autoref{thm:modulusofconvergence-realup-public-export}, and
+\autoref{thm:modulusofconvergence-standard-bridge}. Ledger exactness identifies
+the finite rows available to a consumer, the public export supplies the
+$\RegSeqRatUp$ and $\RealUp$ read surface, and the bridge shows that the second
+tail consumer factors through the original packet rather than through any
+quotient completion, selected real limit, or host real equality.
+\end{proof}
+
+\closureat{ModulusOfConvergenceUp}{obligationStr}
+\closureat{ModulusOfConvergenceUp}{scopedStr}
+\closureat{ModulusOfConvergenceUp}{publicStr}
+\closureat{ModulusOfConvergenceUp}{bridgedStr}
+
+\begin{closurestatus}{\ModulusOfConvergenceUp}
+  \constructivestory{A $\ModulusOfConvergenceUp$ packet is generated by a visible precision request, a unary threshold selector, a displayed modulus row, scheduled $\StreamNameUp$ observations, a $\RegSeqRatUp$ late-observation witness, and a finite dependency ledger naming $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:modulusofconvergence-standard-bridge}, \autoref{thm:modulusofconvergence-threshold-ledger-completeness}, and \autoref{thm:modulusofconvergence-mature-tail-consumer-example} give the standard bridge, complete threshold-ledger consumer surface, and mature tail consumer theorem for the explicit finite convergence-rate package over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.ModulusOfConvergenceUp.ModulusOfConvergencePacket\_semantic\_name\_certificate}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close a quotient completion, a selected real limit, a global threshold choice outside the finite ledger, or a Lean-checked bridge.}
+  \upgradepath{No further paper-side theory-axis upgrade remains for this chapter; formal verification remains the next axis.}
+\end{closurestatus}

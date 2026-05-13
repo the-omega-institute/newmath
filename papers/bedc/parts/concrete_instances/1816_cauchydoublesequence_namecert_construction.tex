@@ -1,0 +1,239 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDoubleSequenceUp$}
+\label{ch:concrete-instances-cauchy-double-sequence-namecert}
+\origin{human}
+
+The $\CauchyDoubleSequenceUp$ interface names the finite certificate used when a two-parameter regular Cauchy array is read through a diagonal cofinal window and then handed to the constructive real-completion path. It records the array, the selected diagonal schedule, tail tolerance data, regular readback, completion consumer, and $\RealUp$ seal provenance without asserting a quotient limit or host double-sequence convergence theorem.
+
+The two-parameter array route consumes the finite $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the seal-facing $\RealUp$ row of \autoref{ch:concrete-instances-real-namecert} before the $\RealCauchyCompletionUp$ consumer is read.
+
+\begin{definition}[CauchyDoubleSequence carrier]\label{def:cauchy-double-sequence-carrier}
+A $\CauchyDoubleSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,\mu,\tau,D,R,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $X$ is a two-parameter $\RegSeqRatUp$ family, read only through finite stream windows and regular rational rows;
+\item $\mu$ is the $\CauchyRateUp$ schedule selecting a diagonal cofinal window in the two indices;
+\item $\tau$ is the $\DyadicTailBoundUp$ tolerance row assigned to the selected diagonal window;
+\item $D$ is the diagonal $\RegSeqRatUp$ readback obtained by applying $\mu$ and $\tau$ to $X$;
+\item $R$ is the $\RealCauchyCompletionUp$ consumer row that reads the diagonal regular name;
+\item $E$ is the $\RealUp$ seal row exposed after the completion consumer reads $D$;
+\item $H$ stores the componentwise $\hsame$ transports for the array, schedule, tolerance, diagonal readback, completion consumer, and real seal rows;
+\item $C$ stores the $\Cont$ routes for reading the array windows, schedule, tail bound, diagonal readback, completion consumer, and seal;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyRateUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyDoubleSequenceUp}$ row.
+\end{enumerate}
+The carrier is a finite diagonal certificate. It contains no coordinate for an ambient double limit, quotient equality of arrays, a selected host limit, or unscoped completeness.
+\end{definition}
+
+\begin{theorem}[CauchyDoubleSequence NameCert obligations]\label{thm:cauchy-double-sequence-namecert-obligations}
+The local $\NameCert_{\CauchyDoubleSequenceUp}$ surface for the carrier of \autoref{def:cauchy-double-sequence-carrier} consists exactly of carrier admission, diagonal schedule admission, tail-bound routing, diagonal $\RegSeqRatUp$ readback, $\RealCauchyCompletionUp$ consumption, $\RealUp$ seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ readback, package provenance, and the local naming row.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyDoubleSequenceUp.CauchyDoubleSequenceCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-double-sequence-carrier}. The coordinates $X,\mu,\tau,D,R,E,H,C,P,N$ give the complete accepted packet.
+
+The schedule, tolerance, and readback obligations are then obtained by reading $\mu$, $\tau$, and $D$ in order. The schedule selects the cofinal diagonal window, the tolerance row bounds that selected window, and the diagonal readback repacks the selected rational rows as a regular Cauchy name.
+
+Finally the completion and seal obligations are projections through $R$ and $E$. The transport, continuation, package, and local naming obligations are the displayed rows $H,C,P,N$, so the certificate has no remaining source from which to read an external limit or quotient array equality.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence diagonal handoff]\label{thm:cauchy-double-sequence-diagonal-handoff}
+Every $\RealCauchyCompletionUp$ or $\RealUp$ consumer read of an accepted $\CauchyDoubleSequenceUp$ carrier factors through the diagonal route
+$$
+X,\mu,\tau \longmapsto D \longmapsto R \longmapsto E.
+$$
+The consumer receives only the two-parameter $\RegSeqRatUp$ family windows selected by $\mu$, the $\DyadicTailBoundUp$ row $\tau$, the diagonal $\RegSeqRatUp$ readback $D$, the completion consumer row $R$, and the seal row $E$ with their displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyDoubleSequenceUp.CauchyDoubleSequenceCarrier\_diagonal\_handoff}
+\begin{proof}
+First project the accepted packet of \autoref{def:cauchy-double-sequence-carrier}. The only array coordinate is $X$, and the only row capable of selecting a cofinal diagonal window is $\mu$.
+
+Next read the tolerance row $\tau$ and the diagonal readback $D$. These rows convert the selected finite windows of $X$ into the regular Cauchy data consumed downstream.
+
+It remains to route the real-facing consumer. The row $R$ reads $D$ as the completion-facing input, and $E$ is the sole $\RealUp$ seal exposed after that read. Thus every handoff factors through the displayed diagonal route and cannot bypass it through an ambient double-limit object.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence Real seal non-escape]\label{thm:cauchy-double-sequence-seal-nonescape}
+An accepted $\CauchyDoubleSequenceUp$ carrier exports no $\RealUp$-facing data except the seal row $E$ obtained from the diagonal $\RegSeqRatUp$ readback $D$ through the $\RealCauchyCompletionUp$ consumer row $R$. In particular, the carrier has no coordinate for host double-sequence convergence, quotient equality of regular arrays, selected limits, or an unscoped real-completeness principle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory in \autoref{def:cauchy-double-sequence-carrier}. The only $\RealUp$ coordinate is $E$, and it appears after the diagonal readback and completion consumer rows.
+
+The preceding handoff theorem fixes the path to $E$ through $D$ and $R$. Transport and continuation rows move this displayed path componentwise; they do not create an additional seal or an ambient comparison operation.
+
+Therefore every real-facing read is exhausted by $X,\mu,\tau,D,R,E,H,C,P,N$. The excluded host convergence, quotient, selected-limit, and unscoped-completeness data have no coordinate in the packet.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence scoped surface]\label{thm:cauchy-double-sequence-scope}
+The scoped $\CauchyDoubleSequenceUp$ surface is the finite $\BHist$ package over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyRateUp$, $\DyadicTailBoundUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ whose only analytic route is the diagonal handoff of \autoref{thm:cauchy-double-sequence-diagonal-handoff} and whose only real-facing escape boundary is \autoref{thm:cauchy-double-sequence-seal-nonescape}.
+\end{theorem}
+\begin{proof}
+Combine the carrier and obligation statements. The carrier fixes the ten displayed coordinates, and the NameCert obligations say that accepted consumers read exactly those coordinates.
+
+The diagonal handoff theorem identifies the unique analytic route from the two-parameter array to the completion consumer. The seal non-escape theorem identifies the unique real-facing boundary after that route.
+
+Hence the chapter surface is scoped to the displayed $\BHist$ package and its named dependencies. No theorem in this surface claims an independent completeness result for double arrays or a public standard bridge.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence window diagonal exhaustion]\label{thm:cauchy-double-sequence-window-diagonal-exhaustion}
+Let $A=(X,\mu,\tau,D,R,E,H,C,P,N)$ be an accepted $\CauchyDoubleSequenceUp$ carrier. Every finite consumer read of the two-parameter array $X$ that contributes to the diagonal readback $D$ factors through a window selected by the schedule row $\mu$ and bounded by the tolerance row $\tau$. Thus no downstream $\RegSeqRatUp$, $\RealCauchyCompletionUp$, or $\RealUp$ read can inspect an array coordinate outside the visible finite windows recorded by $X,\mu,\tau,D,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The array row is $X$, the schedule row is $\mu$, and the tolerance row is $\tau$; no other coordinate can select or bound a two-parameter window.
+
+Apply the diagonal handoff of \autoref{thm:cauchy-double-sequence-diagonal-handoff}. The handoff reads $X$ only after $\mu$ has selected the cofinal window and $\tau$ has supplied the bound used by the diagonal $\RegSeqRatUp$ row $D$.
+
+The completion consumer and real seal appear only after $D$. Therefore every finite consumer read contributing to $D$, $R$, or $E$ is exhausted by the visible schedule and tolerance windows, and no ambient array coordinate can be read outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence two-axis seal factorization]\label{thm:cauchy-double-sequence-two-axis-seal-factorization}
+For an accepted carrier $A=(X,\mu,\tau,D,R,E,H,C,P,N)$, every real-facing read factors as a two-axis path
+$$
+X \xrightarrow{\mu,\tau} D \xrightarrow{R} E.
+$$
+The first axis is finite diagonal-window selection from the array row to the diagonal $\RegSeqRatUp$ readback, and the second axis is completion-consumer access from $D$ to the $\RealUp$ seal row. The factorization is stable under the componentwise $\hsame$ transports and $\Cont$ routes recorded in $H$ and $C$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-double-sequence-window-diagonal-exhaustion} to isolate the first axis. It says that all array information consumed by $D$ is already selected by $\mu$ and bounded by $\tau$.
+
+Use the Real seal non-escape theorem \autoref{thm:cauchy-double-sequence-seal-nonescape} for the second axis. The only real-facing coordinate is $E$, and it is exposed through the completion consumer row $R$ after the diagonal readback.
+
+Finally transport the two axes through $H$ and read them through $C$. These rows preserve the displayed path as $\BHist$ data; they do not introduce a host double limit, a quotient of arrays, or a second real seal.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence schedule-tail exactness]
+\label{thm:cauchy-double-sequence-schedule-tail-exactness}
+For every accepted $\CauchyDoubleSequenceUp$ carrier $A=(X,\mu,\tau,D,R,E,H,C,P,N)$, the diagonal schedule row $\mu$ and the tail-bound row $\tau$ exactly determine the finite array windows consumed by the diagonal readback $D$. The route uses the $\StreamNameUp$ and $\RegSeqRatUp$ array rows, the $\CauchyRateUp$ schedule, the $\DyadicTailBoundUp$ tolerance row, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CauchyDoubleSequenceUp}$ provenance.
+
+No completion consumer may inspect an array coordinate outside the scheduled and tail-bounded windows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyDoubleSequenceUp.CauchyDoubleSequenceCarrier\_schedule\_tail\_exactness}
+\begin{proof}
+Begin with window diagonal exhaustion. It says that every array read contributing to $D$ is selected by $\mu$ and bounded by $\tau$.
+
+Use the diagonal handoff to align those selected windows with the $\RegSeqRatUp$ readback row. The schedule row is the only $\CauchyRateUp$ coordinate, and the tolerance row is the only $\DyadicTailBoundUp$ coordinate.
+
+Transport the route through $H$ and read it through $C$. Package and naming provenance record the same finite schedule-tail path, so no unscheduled array coordinate is available to the completion side.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence completion consumer scope]
+\label{thm:cauchy-double-sequence-completion-consumer-scope}
+Every $\RealCauchyCompletionUp$ or $\RealUp$ consumer of an accepted $\CauchyDoubleSequenceUp$ packet factors through the schedule-tail route
+$$
+(X,\mu,\tau) \longmapsto D \longmapsto R \longmapsto E.
+$$
+The first stage is the finite $\StreamNameUp$ and $\RegSeqRatUp$ window read controlled by $\CauchyRateUp$ and $\DyadicTailBoundUp$ rows; the second stage is the $\RealCauchyCompletionUp$ consumer row; the final stage is the $\RealUp$ seal row, transported through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CauchyDoubleSequenceUp}$.
+
+The consumer receives no host double-limit object, quotient equality of arrays, selected limit, or unscoped completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyDoubleSequenceUp.CauchyDoubleSequenceCarrier\_completion\_consumer\_scope}
+\begin{proof}
+First apply schedule-tail exactness. The completion input $D$ is already exhausted by the scheduled finite windows and their tail-bound row.
+
+Next apply seal non-escape and two-axis seal factorization. They identify $R$ as the only completion consumer row and $E$ as the only real-facing seal available after $D$.
+
+Finally use the scoped surface. It binds the whole route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so every completion consumer remains inside the finite packet.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence real consumer boundary]\label{thm:cauchy-double-sequence-real-consumer-boundary}
+Any downstream consumer that reads a $\CauchyDoubleSequenceUp$ packet as real-completion input receives exactly the diagonal window data, the completion-consumer row, and the seal row displayed by $X,\mu,\tau,D,R,E,H,C,P,N$. Its read factors through \autoref{thm:cauchy-double-sequence-two-axis-seal-factorization} and cannot depend on host double-sequence convergence, quotient equality of arrays, selected limits, or unscoped real completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyDoubleSequenceUp.CauchyDoubleSequenceCarrier\_real\_consumer\_boundary}
+\begin{proof}
+Begin with the scoped surface of \autoref{thm:cauchy-double-sequence-scope}. It restricts the public package to the named $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The two-axis factorization then identifies the only real-facing route. A consumer first receives the finite diagonal windows selected from $X$ by $\mu$ and $\tau$, then the diagonal readback $D$, then the completion row $R$, and finally the seal row $E$.
+
+The excluded host objects are not coordinates of the carrier and are ruled out again by \autoref{thm:cauchy-double-sequence-seal-nonescape}. Hence the consumer boundary is exactly the displayed finite packet and its seal row.
+\end{proof}
+
+\begin{definition}[CauchyDoubleSequence scoped route]
+\label{def:cauchy-double-sequence-scoped-route}
+The scoped diagonal route for an accepted $\CauchyDoubleSequenceUp$ carrier
+$$
+A=(X,\mu,\tau,D,R,E,H,C,P,N)
+$$
+is the finite $\BHist$ route
+$$
+(X,\mu,\tau,H,C,P,N)\longmapsto D\longmapsto R\longmapsto E.
+$$
+Here $X$ is the two-parameter $\RegSeqRatUp$ family, $\mu$ is the $\CauchyRateUp$ diagonal schedule, $\tau$ is the $\DyadicTailBoundUp$ tolerance row, $D$ is the scheduled diagonal $\RegSeqRatUp$ readback, $R$ is the $\RealCauchyCompletionUp$ consumer, and $E$ is the $\RealUp$ seal. The route is scoped by the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CauchyDoubleSequenceUp}$ rows; it is not an ambient convergence theorem for host double sequences.
+\end{definition}
+
+\begin{theorem}[CauchyDoubleSequence scoped diagonal route]
+\label{thm:cauchy-double-sequence-scoped-diagonal-route}
+Every accepted $\CauchyDoubleSequenceUp$ packet binds the two-parameter $\RegSeqRatUp$ family, $\CauchyRateUp$ diagonal schedule, $\DyadicTailBoundUp$ tolerance row, $\RealCauchyCompletionUp$ consumer, and $\RealUp$ seal into the scoped route of \autoref{def:cauchy-double-sequence-scoped-route}. Every real-completion read of the packet factors through this route as a $\BHist$ dependency surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A=(X,\mu,\tau,D,R,E,H,C,P,N)$. The only two-parameter source row is $X$, the only diagonal selector is $\mu$, and the only tolerance row assigned to the selected windows is $\tau$.
+
+Use schedule-tail exactness to identify the windows consumed by $D$. The diagonal $\RegSeqRatUp$ readback is therefore already determined by the displayed array, schedule, and tail-bound rows.
+
+Next use completion consumer scope and two-axis seal factorization. They force every real-completion read through $D$, then through the completion consumer row $R$, and finally through the $\RealUp$ seal row $E$.
+
+The transport, continuation, package, and naming rows $H,C,P,N$ scope the whole route as finite $\BHist$ evidence. Thus the route is a displayed dependency surface, not a host double-sequence convergence principle.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence cofinal-tail stability]
+\label{thm:cauchy-double-sequence-cofinal-tail-stability}
+Let
+$$
+A=(X,\mu,\tau,D,R,E,H,C,P,N)
+$$
+be an accepted $\CauchyDoubleSequenceUp$ carrier. If transported cofinal schedule and tail-bound rows $\mu'$ and $\tau'$ select only diagonal windows no earlier than the displayed $\mu,\tau$ route, then the diagonal readback determined by $\mu'$ and $\tau'$ has the same $\RealCauchyCompletionUp$ consumer row and the same $\RealUp$ seal row, both factoring through the displayed provenance $H,C,P,N$. The statement is only a cofinal-tail stability claim for the finite route; it exports no host double-limit convergence theorem, no quotient equality of arrays, and no selected limit.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-double-sequence-schedule-tail-exactness}. The transported rows $\mu'$ and $\tau'$ are allowed only because their windows lie in the displayed tail selected by $\mu$ and bounded by $\tau$. Hence the new diagonal readback reads the same finite source family $X$ through a later scheduled tail, not through a different array object.
+
+Apply \autoref{thm:cauchy-double-sequence-two-axis-seal-factorization}. Once the diagonal readback is fixed by the scheduled tail, the completion-facing consumer must pass through $R$ and the real-facing consumer must pass through $E$.
+
+Finally use \autoref{thm:cauchy-double-sequence-scoped-diagonal-route}. The transport, continuation, package, and local naming rows $H,C,P,N$ scope both the original route and the cofinal readback route. Since the route has no coordinates for host double-limit convergence, quotient array equality, or selected limits, the stability result cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence scoped non-escape]
+\label{thm:cauchy-double-sequence-scoped-nonescape}
+The scoped diagonal route of \autoref{def:cauchy-double-sequence-scoped-route} exports no host double-sequence convergence theorem, no quotient equality of two-parameter arrays, no selected double limit, and no unscoped real-completeness principle. A downstream $\RealCauchyCompletionUp$ or $\RealUp$ consumer receives only the scheduled diagonal windows, the diagonal $\RegSeqRatUp$ readback, the completion consumer row, the seal row, and the displayed $H,C,P,N$ provenance.
+\end{theorem}
+\begin{proof}
+Begin with the scoped diagonal route theorem. It says that every real-completion read factors through $X,\mu,\tau,D,R,E,H,C,P,N$.
+
+Apply window diagonal exhaustion to the first stage. No consumer can inspect an array coordinate outside the windows selected by $\mu$ and bounded by $\tau$.
+
+Apply real seal non-escape to the final stage. The only real-facing coordinate is $E$, and it is reached through the completion consumer row $R$ after the diagonal readback $D$.
+
+Since the scoped route contains no coordinate for host convergence, quotient equality, selected limits, or unscoped completeness, those objects cannot be extracted from the packet.
+\end{proof}
+
+\begin{theorem}[CauchyDoubleSequence seal-route determinacy]
+\label{thm:cauchy-double-sequence-seal-route-determinacy}
+Let
+$$
+A=(X,\mu,\tau,D,R,E,H,C,P,N)
+$$
+be an accepted $\CauchyDoubleSequenceUp$ packet. Any two $\RealCauchyCompletionUp$ or $\RealUp$ consumer reads of $A$ that use the same displayed rows $X,\mu,\tau,D,R,E,H,C,P,N$ factor through the same scoped diagonal route of \autoref{def:cauchy-double-sequence-scoped-route} and classify at the same $\RealUp$ seal row $E$. Neither read may use host double-sequence convergence, quotient array equality, selected limits, or unscoped completeness to obtain a different seal classification.
+\end{theorem}
+\begin{proof}
+First apply the scoped diagonal route theorem. It sends each accepted real-completion read through the displayed dependency surface
+$$
+(X,\mu,\tau,H,C,P,N)\longmapsto D\longmapsto R\longmapsto E.
+$$
+
+Next use two-axis seal factorization and completion consumer scope. They identify $D$ as the only diagonal readback, $R$ as the only completion-consumer row after $D$, and $E$ as the only real-facing seal row after $R$.
+
+Finally apply scoped non-escape. Since the packet has no coordinate for host convergence, quotient array equality, selected limits, or unscoped completeness, two reads that start from the same displayed rows cannot leave the route to produce different seal classifications.
+\end{proof}
+
+\closureat{CauchyDoubleSequenceUp}{scopedStr}
+
+\begin{closurestatus}{\CauchyDoubleSequenceUp}
+  \constructivestory{A $\CauchyDoubleSequenceUp$ packet is generated from a two-parameter $\RegSeqRatUp$ family, a $\CauchyRateUp$ diagonal schedule, a $\DyadicTailBoundUp$ tolerance row, a diagonal $\RegSeqRatUp$ readback, a $\RealCauchyCompletionUp$ consumer, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-double-sequence-scoped-route}, \autoref{thm:cauchy-double-sequence-scoped-diagonal-route}, \autoref{thm:cauchy-double-sequence-cofinal-tail-stability}, \autoref{thm:cauchy-double-sequence-scoped-nonescape}, and \autoref{thm:cauchy-double-sequence-seal-route-determinacy} bind the finite diagonal-array carrier, schedule, tolerance, readback, completion consumer, real seal, transport, continuation, package, and local naming rows as one scoped dependency surface with a unique real-facing seal classification.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host double-sequence convergence, quotient equality of arrays, selected limits, unscoped real completeness, or a public standard bridge.}
+  \upgradepath{Lean verification requires a checked theorem for the scoped route over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyRateUp$, $\DyadicTailBoundUp$, $\RealCauchyCompletionUp$, and $\RealUp$.}
+\end{closurestatus}

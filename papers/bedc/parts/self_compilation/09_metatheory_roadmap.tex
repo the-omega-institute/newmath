@@ -1,0 +1,175 @@
+\section{MetaCIC Metatheory Roadmap}
+\label{sec:self-comp-metatheory-roadmap}
+
+This section gives a consolidated reading map for the MetaCIC metatheory
+surface. The substrate is \texttt{BEDC.MetaCIC}: a first-principles
+represented dependent-function fragment used by the self-compilation chapter
+as its formal metatheory base. The Lean development for this surface is
+mathlib-free, carries no project axioms, and contains no \texttt{sorry}
+placeholders. The paper side reports only the properties that are represented
+or proved for this object calculus; it does not import host-kernel metatheory
+as a theorem about the represented terms.
+
+\subsection{Setting}
+\label{subsec:metatheory-roadmap-setting}
+
+\texttt{BEDC.MetaCIC} contains the syntax, typing judgment, substitution
+operation, beta relation, beta-star closure, parallel beta relation, closure
+predicate, and finite galleries used by the self-compilation discussion. The
+objects under discussion are represented terms, not Lean elaborator syntax.
+Their binders are de Bruijn indices, and binder transport is handled by the
+explicit \texttt{shift} and \texttt{substitute} functions.
+
+The surrounding siblings have different roles. The representational-adequacy
+section explains how selected host-fragment terms are mirrored by checked
+MetaCIC witnesses. The mechanization dashboard enumerates proved targets,
+statement-level interfaces, and open textbook theorems. The substrate-design
+section explains why the de Bruijn shift discipline is part of the claim. The
+confluence and normalization sections isolate the checked fragments and the
+remaining global metatheory obligations.
+
+\subsection{Mechanized Surface}
+\label{subsec:metatheory-roadmap-mechanized-surface}
+
+The following items are available as checked Lean targets or checked finite
+galleries for the represented calculus.
+
+\begin{itemize}
+  \item Closed atom diamond behavior for beta-star and parallel beta. Atom
+    sources have forced targets, so forks out of \texttt{Term.sort} and
+    \texttt{Term.var i} join at the source shape.
+    \leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_sort}
+    \leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_var}
+    \leanvariant{BEDC.MetaCIC.betaParallel\_sort\_diamond}
+    \leanvariant{BEDC.MetaCIC.betaParallel\_var\_diamond}
+  \item Closure preservation under one-step beta and beta-star. If a term is
+    closed at a boundary, each represented beta step and each finite beta-star
+    trace keeps it closed at the same boundary.
+    \leanvariant{BEDC.MetaCIC.betaStep\_preserves\_closed}
+    \leanvariant{BEDC.MetaCIC.betaStarStep\_preserves\_closed}
+  \item Bounded normalizer safety is a finite-trace safety statement: any
+    concrete beta trace taken by a fuel-indexed run inherits the preceding
+    closure-preservation theorem. It is an operational invariant, not a
+    strong-normalization theorem.
+  \item Representational adequacy is witnessed by checked typed examples for
+    identity, projections, Pi-shaped identity, and function application in the
+    represented dependent-function fragment.
+    \leanvariant{BEDC.MetaCIC.carrier\_identity\_in\_sort\_ctx}
+    \leanvariant{BEDC.MetaCIC.first\_of\_two}
+    \leanvariant{BEDC.MetaCIC.second\_of\_two}
+    \leanvariant{BEDC.MetaCIC.id\_on\_pi\_sort\_sort}
+    \leanvariant{BEDC.MetaCIC.apply\_function\_arg}
+  \item The \texttt{BHist} substrate embedding has checked closedness and
+    injectivity witnesses. The map packages a history object as a MetaCIC term
+    while preserving enough structure to recover the original history from
+    equality of encoded terms.
+    \leanvariant{BEDC.MetaCIC.BHistSubstrate.bhistToTerm\_closed}
+    \leanvariant{BEDC.MetaCIC.BHistSubstrate.bhistToTerm\_injective}
+\end{itemize}
+
+\subsection{Open Statements}
+\label{subsec:metatheory-roadmap-open-statements}
+
+The following entries are mathematical targets for the represented calculus,
+but they are not checked theorems in the MetaCIC surface.
+
+\begin{center}
+\begin{tabular}{p{0.30\linewidth}p{0.58\linewidth}}
+\hline
+Statement & Exact boundary \\
+\hline
+Full \texttt{BetaParallel} diamond &
+Atom cases, component assemblers, lambda and Pi shape assemblers, and
+application inversion are checked; the complete app, lambda, and Pi induction
+over all fork shapes is not packaged as a theorem. \\
+Strong normalization &
+The bounded evaluator is fuel-indexed and total as a host computation, but no
+theorem rules out all infinite represented beta paths for every admissible
+well-typed term. \\
+Subject reduction without hypotheses &
+The assembled theorem is hypothesis-based. Its beta, application-argument,
+lambda-domain, and Pi-domain stability assumptions isolate the substitution
+and domain transport facts needed by the full statement. \\
+Naive substitution composition &
+The direct zero-depth law is false for unclosed anchors. The substrate needs
+closure- and shift-aware composition statements rather than a nominal-looking
+formula. \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Why These Gaps Are Specific}
+\label{subsec:metatheory-roadmap-gap-reasons}
+
+The missing confluence cases are concentrated in the interaction between
+application beta and congruence. A branch may keep an application wrapper while
+another branch exposes a lambda and contracts. Joining those residuals requires
+a statement saying that represented substitution commutes with parallel
+residuals after binder descent. In the chosen substrate, binder descent changes
+the cutoff and shifts the inserted term, so the needed theorem is not the
+ordinary informal substitution slogan.
+
+The same shift-aware issue explains the subject-reduction boundary. The three
+stable interfaces used by the subject-reduction theorem are substitution-level
+and domain-transport properties. They are stated explicitly because the
+project has not collapsed them into a global substitution lemma for the whole
+represented calculus.
+
+Strong normalization has a different shape. Its standard proof route uses
+logical relations or reducibility candidates. That requires an inductive
+predicate of admissible represented types, a semantic interpretation of those
+types, and closure of the interpretation under the represented constructors.
+The MetaCIC layer has syntax, typing, reduction, and finite examples; it does
+not yet carry that reducibility framework.
+
+The false substitution-composition law in the substrate-design section is the
+sanity check for this roadmap. It shows that the open algebra is not a missing
+line of routine rewriting. The correct statement must mention the closure and
+shift hypotheses that make the de Bruijn coordinates stable.
+
+\subsection{Reading Guide}
+\label{subsec:metatheory-roadmap-reading-guide}
+
+\begin{center}
+\begin{tabular}{p{0.24\linewidth}p{0.30\linewidth}p{0.34\linewidth}}
+\hline
+Reader question & Next section & What it supplies \\
+\hline
+What is represented? &
+\autoref{sec:self-comp-metacic-representational-adequacy} &
+Finite typed witnesses for the host-fragment identity, projection, Pi, and
+application patterns. \\
+What is checked? &
+\autoref{sec:metacic-mechanization-status} &
+A dashboard separating encoded definitions, checked theorems,
+statement-level interfaces, and open textbook targets. \\
+Why this binder substrate? &
+\autoref{sec:self-comp-substrate-shift-aware-design} &
+The de Bruijn shift discipline, closure lemmas, and the counterexample to a
+naive substitution-composition law. \\
+How far does confluence go? &
+\autoref{sec:self-comp-metatheory-confluence} &
+Atom diamonds, component and shape assemblers, application inversion, and the
+residual cases needed for full parallel confluence. \\
+How far does normalization go? &
+\autoref{sec:self-comp-metacic-normalization} &
+Fuel-bounded computation, closure preservation along finite traces, atomic
+normal forms, and the boundary of strong normalization. \\
+\hline
+\end{tabular}
+\end{center}
+
+The dependency order is therefore:
+
+\begin{itemize}
+  \item adequacy witnesses depend on the represented syntax and typing rules;
+  \item closure preservation depends on the shift-aware substitution substrate;
+  \item bounded normalizer safety depends on closure preservation for finite
+    beta traces;
+  \item full subject reduction depends on the stable substitution and domain
+    transport interfaces;
+  \item full confluence depends on residual substitution commutation for
+    application beta forks;
+  \item strong normalization depends on a reducibility framework for the
+    admissible represented type fragment.
+\end{itemize}

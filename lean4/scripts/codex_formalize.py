@@ -823,7 +823,14 @@ def _clone_lake_cache(wt_path: Path) -> None:
             logger.warning(f"APFS clone retry failed for .lake/{sub}, falling back to regular copy")
             if dst_sub.exists():
                 shutil.rmtree(dst_sub, ignore_errors=True)
-            shutil.copytree(str(src_sub), str(dst_sub), symlinks=True)
+            shutil.copytree(
+                str(src_sub),
+                str(dst_sub),
+                symlinks=True,
+                ignore=shutil.ignore_patterns(
+                    "*.new_*", "*.tmp", "*.partial", ".DS_Store"
+                ),
+            )
 
     elapsed = time.monotonic() - start
     logger.info(f"Set up .lake in worktree ({elapsed:.1f}s): "

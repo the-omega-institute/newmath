@@ -1,0 +1,426 @@
+\chapter{DyadicStepFunction NameCert Construction}
+\label{ch:concrete-instances-dyadicstepfunction-namecert}
+\origin{human}
+
+The $\DyadicStepFunctionUp$ packet is the finite Real and Completion approximation object sitting between dyadic spline data and regular Cauchy consumers. It uses Bishop-style finite partitions: every cell, endpoint transport, and carried value is a displayed BEDC row, and no measure completion, quotient representative, selected limit, or ambient equality oracle is part of the carrier.
+
+The partition and endpoint rows are consumed from the dyadic mesh and interval carriers of \autoref{ch:concrete-instances-dyadicmesh-namecert} and \autoref{ch:concrete-instances-dyadicinterval-namecert}. The stepwise regular-Cauchy handoff is the finite-cell consumer of the spline rows in \autoref{ch:concrete-instances-dyadicspline-namecert}: a spline packet supplies the knot and carried-value surface, while the step-function packet records the common-refinement cells, endpoint transports, and ledger entries needed before $\RegSeqRatUp$ or $\RealUp$ reads can consume the approximation.
+
+\begin{definition}[Dyadic step function carrier]
+\label{def:dyadic-step-function-carrier}
+A $\DyadicStepFunctionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(\Pi,I,V,R,M,E,L,C,P,N)
+$$
+whose displayed coordinates are as follows:
+\begin{enumerate}
+\item $\Pi$ is a finite dyadic partition supplied by the $\DyadicMeshUp$ route;
+\item $I$ lists the $\DyadicIntervalUp$ cells of $\Pi$, including displayed endpoints and adjacency witnesses;
+\item $V$ assigns to every cell of $I$ one carried value, read either as a $\DyadicRatCoreUp$ row or as the corresponding $\RealUp$ row;
+\item $R$ records the cellwise $\DyadicRatCoreUp$ and $\RealUp$ classifier reads used to compare carried values;
+\item $M$ is the refinement map from any common dyadic refinement back to the cells of $\Pi$;
+\item $E$ is the endpoint-transport ledger for interval bounds, shared endpoints, and subdivision witnesses;
+\item $L$ is the finite $\mathsf{BHist}$ ledger of cell coverage, value reads, refinement reads, and consumer handoff rows;
+\item $C$ is the componentwise $\hsame$ and $\Cont$ route data used by the classifier;
+\item $P$ is the $\Pkg$ provenance naming the $\DyadicMeshUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\DyadicSplineUp$, $\RegSeqRatUp$, and $\RealUp$ dependencies;
+\item $N$ is the local $\NameCert_{\DyadicStepFunctionUp}$ provenance row.
+\end{enumerate}
+Two accepted carriers are classified together exactly when their partitions refine to a displayed common dyadic partition and, on every refined cell, the transported carried values are classified together by the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier row. The comparison is finite and cellwise: it is mediated only by $M$, $E$, $L$, and the displayed $\hsame$ and $\Cont$ routes in $C$.
+\end{definition}
+
+\begin{theorem}[Dyadic step function NameCert obligations]
+\label{thm:dyadic-step-function-namecert-obligations}
+The local $\NameCert_{\DyadicStepFunctionUp}$ obligation surface consists of carrier habitation, refinement-stable classification by common dyadic refinement, exact finite cell coverage, stepwise handoff to $\RegSeqRatUp$ and $\RealUp$ consumers, and ledger exactness for partition refinement, endpoint transport, carried values, finite coverage, and absence of hidden quotient data.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier habitation is the finite packaging operation of \autoref{def:dyadic-step-function-carrier}. The packet displays the dyadic partition, its interval cells, the carried values, the classifier reads, the refinement map, endpoint transport, the finite history ledger, route data, package provenance, and the local certificate row.
+
+The classifier obligation is constructive because two packets are compared by first displaying a common dyadic refinement and then reading finitely many transported cell values. Each read is a $\DyadicRatCoreUp$ or $\RealUp$ classifier read already carried by the packet; the refinement map only selects the parent cell named in $M$.
+
+The consumer obligations are the finite coverage and handoff clauses proved below. Together they show that every point read by a regular Cauchy or real consumer is accounted for by a visible cell, visible endpoints, a visible carried value, and a visible BEDC route.
+\end{proof}
+
+\begin{definition}[Dyadic step function finite window carrier]
+\label{def:dyadic-step-function-window-carrier}
+A $\DyadicStepFunctionUp$ finite-window carrier is the carrier of \autoref{def:dyadic-step-function-carrier} read as the public window
+$$
+W=(I,M,E,V,R,L,C,P,N).
+$$
+Here $I$ exposes the finite partition cells, $M$ exposes endpoint-parent transport under common refinement, $E$ exposes endpoint ledgers, $V$ exposes carried values, $R$ exposes classifier rows, $L$ exposes the finite consumer ledger, $C$ exposes $\hsame$ and $\Cont$ routes, $P$ exposes the $\Pkg$ provenance, and $N$ exposes the local $\NameCert_{\DyadicStepFunctionUp}$ row. The partition coordinate $\Pi$ remains the source of the cells in $I$, but every downstream consumer reads the packet through the displayed window $W$.
+\end{definition}
+
+\begin{theorem}[Dyadic step function finite-window obligations]
+\label{thm:dyadic-step-function-window-obligations}
+For every accepted $\DyadicStepFunctionUp$ finite-window carrier $W=(I,M,E,V,R,L,C,P,N)$, the public obligation surface consists of finite partition-cell coverage, endpoint transport, carried-value exposure, classifier-row exposure, $\RegSeqRatUp$ handoff, $\RealUp$ seal reading, componentwise $\hsame$ and $\Cont$ transport, $\Pkg$ provenance, and local $\NameCert_{\DyadicStepFunctionUp}$ naming. Every $\RegSeqRatUp$, $\RealUp$, or completion-facing consumer read through $W$ must first land on a displayed common-refinement cell and then consume only the rows $I,M,E,V,R,L,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations of \autoref{def:dyadic-step-function-carrier} and \autoref{thm:dyadic-step-function-namecert-obligations}. They expose the partition, cells, endpoint transport, carried values, classifier reads, finite ledger, transport rows, provenance, and local name.
+
+Next route a consumer read through common refinement. Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}: the read lands on one displayed cell in $I$, then uses $M$ for the parent-cell route and $E$ for endpoint transport.
+
+Now bind the value side. Apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the endpoint route with the carried-value route through $V$ and $R$, and apply \autoref{thm:dyadic-step-function-ledger-exactness} to record the read in $L$.
+
+Finally use \autoref{thm:dyadic-step-function-regseqrat-handoff} and \autoref{thm:dyadic-step-function-real-seal-window-exactness}. The regular-sequence handoff and the real seal read consume the same finite rows, while $C,P,N$ supply the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface for replay and naming.
+\end{proof}
+
+\begin{theorem}[Dyadic step function finite-window non-escape]
+\label{thm:dyadic-step-function-nonescape}
+Every accepted $\DyadicStepFunctionUp$ finite-window carrier exports its step-function, $\RegSeqRatUp$, $\RealUp$, and completion-facing behavior only through
+$$
+I,M,E,V,R,L,C,P,N.
+$$
+It exports no hidden host step function, quotient representative, selected limit, measure completion, open-cover compactness, or ambient equality oracle; every downstream read is routed through common-refinement cell coverage and ledger exactness before any handoff or seal row is consumed.
+\end{theorem}
+\begin{proof}
+Project the finite-window carrier through \autoref{def:dyadic-step-function-window-carrier}. The rows $I,M,E,V,R,L,C,P,N$ are the only public coordinates of the window.
+
+Use \autoref{thm:dyadic-step-function-window-obligations} to force each consumer read onto a displayed common-refinement cell. The endpoint route is read from $E$, the parent-cell route from $M$, the carried value from $V$, the classifier row from $R$, and the ledger entry from $L$.
+
+The handoff rows do not add a second surface. By \autoref{thm:dyadic-step-function-regseqrat-handoff} and \autoref{thm:dyadic-step-function-real-seal-window-exactness}, $\RegSeqRatUp$ and $\RealUp$ consumers receive the same finite-cell data after the ledger row has been exposed.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness}. Because every permitted read is already accounted for by the displayed rows and their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, none of the excluded host, quotient, completion, limit, compactness, or equality objects has an escape route.
+\end{proof}
+
+\begin{theorem}[Dyadic step function refinement stability]
+\label{thm:dyadic-step-function-refinement-stability}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ carriers. If their partitions refine to a displayed common dyadic partition and every refined cell transports to parent cells whose carried values are classified together by the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier, then the $\DyadicStepFunctionUp$ classifier identifies $S$ and $T$. The identification is stable under further $\hsame$ and $\Cont$ transport of the displayed partition, endpoint, value, and ledger rows.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:dyadic-step-function-carrier}. The common dyadic refinement supplies a finite list of refined cells, and the refinement maps of the two packets point each refined cell back to one parent cell in the original partitions.
+
+On each refined cell, the hypothesis gives a displayed value comparison through the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier. Endpoint transport is read from the two $E$ ledgers, while the corresponding history rows are read from the two $L$ ledgers.
+
+Further transport by $\hsame$ and $\Cont$ changes only the displayed route data. Since the classifier is defined by the finite refinement list and the componentwise transported value reads, the same finite comparisons witness the transported identification.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionPacket\_refinement\_stability}
+
+\begin{theorem}[Dyadic step function RegSeqRat handoff]
+\label{thm:dyadic-step-function-regseqrat-handoff}
+Every accepted $\DyadicStepFunctionUp$ carrier exports a stepwise constant $\RegSeqRatUp$ handoff and the corresponding $\RealUp$ read by using the carried cell values on the finite dyadic partition. A $\DyadicSplineUp$ or regular Cauchy consumer can inspect the exported stream only through the displayed partition cells, endpoint transport, cell values, classifier reads, and $\mathsf{BHist}$ ledger rows of the carrier.
+\end{theorem}
+\begin{proof}
+For each cell of $\Pi$, choose the carried value already displayed in $V$. The handoff stream is constant on that cell and changes only at endpoints recorded in $E$.
+
+Regularity is witnessed cellwise. A request at a finite precision reads the unique displayed cell covering the request, the transported carried value on that cell, and the corresponding $\DyadicRatCoreUp$ or $\RealUp$ classifier row in $R$.
+
+A $\DyadicSplineUp$ or regular Cauchy consumer therefore receives only a finite stepwise surface. The consumer may refine the partition, but refinement is routed through $M$ and cannot introduce a new cell value, a selected limit, or an unrecorded equality proof.
+\end{proof}
+
+\begin{theorem}[Dyadic step function ledger exactness]
+\label{thm:dyadic-step-function-ledger-exactness}
+For every accepted $\DyadicStepFunctionUp$ carrier, the ledger $L$ accounts for exactly the finite cell coverage of $\Pi$, the endpoint transport recorded in $E$, the refinement-parent relation recorded in $M$, and the carried-value reads recorded in $V$ and $R$. No exported $\RegSeqRatUp$, $\RealUp$, $\DyadicSplineUp$, or completion-facing read factors through a hidden quotient, a measure completion, an unlisted representative, or an ambient choice principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionCarrier\_ledger\_exactness}
+\begin{proof}
+Project the carrier and inspect the finite cell list $I$. Exact coverage means every displayed consumer read names one cell of $I$, and every cell of $I$ has its endpoints, adjacency data, and carried value recorded in the packet.
+
+Endpoint and refinement exactness are the two route checks. Endpoint movement is read from $E$, and refinement movement is read from $M$; both ledgers point back to displayed cells and therefore cannot add an unlisted interval or value.
+
+The exported consumer surfaces are then repacked from the same finite rows. Because the only available reads are $V$, $R$, $M$, $E$, $L$, $C$, $P$, and $N$, every $\RegSeqRatUp$, $\RealUp$, $\DyadicSplineUp$, or completion-facing request remains inside the visible BEDC packet.
+\end{proof}
+
+\begin{theorem}[Dyadic step function common refinement cell coverage]
+\label{thm:dyadic-step-function-common-refinement-cell-coverage}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ carriers, and let a $\RegSeqRatUp$, $\RealUp$, or $\DyadicSplineUp$ consumer compare their exported step-function packets. Every such comparison refines to one displayed dyadic partition cell. On that cell, the consumer read is routed through the visible cell list $I$, refinement map $M$, endpoint ledger $E$, carried values $V$, classifier rows $R$, history ledger $L$, and the componentwise $\hsame$ and $\Cont$ route data of the carriers.
+
+Thus the common-refinement comparison is a finite cell-coverage statement over the displayed BEDC packet. It has no coordinate for an ambient host function, a quotient representative, a selected limit, or an unrecorded equality oracle.
+\end{theorem}
+\begin{proof}
+Project $S$ and $T$ through \autoref{def:dyadic-step-function-carrier}. The displayed partition rows and cell lists give the only cells available to a consumer comparison.
+
+Apply \autoref{thm:dyadic-step-function-refinement-stability}. The comparison first moves both carriers to a common dyadic refinement, and each refined cell is sent back to its parent cell through the recorded refinement maps in $M$.
+
+Apply \autoref{thm:dyadic-step-function-ledger-exactness}. Endpoint movement is read from $E$, carried values from $V$, classifier observations from $R$, and the finite history of the read from $L$. The remaining route data are exactly the displayed $\hsame$ and $\Cont$ entries in $C$, so every consumer read lands on one visible cell and no hidden representative can be inspected.
+\end{proof}
+
+\begin{theorem}[Dyadic step function endpoint value transport determinacy]
+\label{thm:dyadic-step-function-endpoint-value-transport-determinacy}
+For accepted $\DyadicStepFunctionUp$ carriers compared after common dyadic refinement, the transported endpoint rows in $E$ and the transported carried-value rows in $V$ determine the same cellwise read. The determination is made through $I$, $M$, $R$, $L$, $\hsame$, and $\Cont$ only, and does not depend on a hidden representative, a host step function, or an external choice of values.
+\end{theorem}
+\begin{proof}
+Project the accepted carriers through \autoref{def:dyadic-step-function-carrier}. A refined cell has one displayed parent cell, named by $M$, and the endpoints of that parent cell are the rows transported by $E$.
+
+Use \autoref{thm:dyadic-step-function-refinement-stability} to compare the transported parent cells. The carried value read is then the row selected from $V$ and checked by the corresponding classifier row in $R$.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness}. The ledger $L$ records both the endpoint transport and the carried-value read, so the two routes determine the same cellwise observation inside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Dyadic step function RealUp seal window exactness]
+\label{thm:dyadic-step-function-real-seal-window-exactness}
+Every $\RealUp$ seal read exported by an accepted $\DyadicStepFunctionUp$ carrier factors through finite common-refinement cell coverage, endpoint transport, the carried-value classifier, and the displayed ledger before the seal is consumed. Equivalently, a $\RealUp$ consumer reaches the seal only after selecting a displayed cell in $I$, transporting its endpoints through $E$, transporting its parent by $M$, reading its carried value through $V$ and $R$, and recording the read in $L$ with the stored $\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Start with the seal-facing handoff of \autoref{thm:dyadic-step-function-regseqrat-handoff}. The $\RegSeqRatUp$ export and the corresponding $\RealUp$ read are stepwise constant on the displayed finite partition.
+
+Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. Any transported consumer comparison first reduces to a displayed common-refinement cell, so the seal read cannot bypass the finite cell list.
+
+Apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the endpoint route with the carried-value route on that cell. Then apply \autoref{thm:dyadic-step-function-ledger-exactness} to place the resulting read in $L$ before the $\RealUp$ seal is consumed. This exhausts the available carrier coordinates and leaves no path to quotient data, host functions, or selected limits.
+\end{proof}
+
+\begin{theorem}[Dyadic step function cellwise sum closure]
+\label{thm:dyadic-step-function-cellwise-sum-closure}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Suppose they admit a displayed common dyadic refinement whose refined cells are finite $\mathsf{BHist}$ cells, and suppose that on every refined cell the transported carried-value row of $S$, the transported carried-value row of $T$, and the displayed $\DyadicRatCoreUp$ or $\RealUp$ sum row are recorded in the carrier ledger. Then the pointwise cellwise sum repacks as an accepted $\DyadicStepFunctionUp$ packet.
+
+The repacked packet uses only the displayed refined cell list, endpoint transport, carried-value rows, classifier rows, finite ledger rows, and the componentwise $\hsame$ and $\Cont$ route data. It does not introduce a host step function, a quotient representative, a selected limit, or an equality oracle outside the packet.
+\end{theorem}
+\begin{proof}
+Project $S$ and $T$ through \autoref{def:dyadic-step-function-carrier}. The carrier exposes the finite cell list, endpoint rows, carried-value rows, classifier rows, ledger rows, and transport data from which the sum packet must be built.
+
+Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. Every consumer-visible comparison of the two packets first lands on one displayed common-refinement cell, and the finite $\mathsf{BHist}$ list gives the induction spine for checking all cells.
+
+On each refined cell, use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. The endpoint route and the carried-value route determine the same transported read, so the two summand values are the visible rows named by the refined packet data.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness}. The assumed $\DyadicRatCoreUp$ or $\RealUp$ sum row is already recorded in the carrier ledger for that refined cell, and the stored $\hsame$ and $\Cont$ routes transport it componentwise. Repacking those finitely many rows gives the accepted $\DyadicStepFunctionUp$ sum packet with no access to host functions, quotient representatives, selected limits, or hidden equalities.
+\end{proof}
+
+\begin{theorem}[Dyadic step function refinement intersection closure]
+\label{thm:dyadic-step-function-refinement-intersection-closure}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets with displayed common dyadic refinements. Suppose the two refined packets expose finite cell lists in $I$, refinement maps in $M$, endpoint transport in $E$, carried-value rows in $V$, classifier rows in $R$, ledger rows in $L$, continuation rows in $C$, provenance rows in $P$, and names in $N$. Then the finite common cell intersection of the displayed refinements repacks as an accepted $\DyadicStepFunctionUp$ packet.
+
+The repacked packet is built only from $I$, $M$, $E$, $V$, $R$, $L$, $C$, $P$, and $N$. It carries the inherited $\hsame$ and $\Cont$ routes for each intersected cell and does not call a host step function, quotient representative, selected limit, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:dyadic-step-function-carrier}. The two displayed refinements provide finite cell lists, and their common intersections are therefore enumerated by finite $\mathsf{BHist}$ data.
+
+Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. Every consumer-visible comparison first lands on one displayed common-refinement cell, so the intersection packet has a visible cell for each comparison that can be made from $S$ and $T$.
+
+Use \autoref{thm:dyadic-step-function-refinement-stability} to transport each intersected cell back to its parent cells in the two packets. Endpoint transport through $E$ and parent selection through $M$ keep the refined cell attached to the displayed carrier rows.
+
+Finally apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} and \autoref{thm:dyadic-step-function-ledger-exactness}. The carried values and classifier reads are already in $V$, $R$, and $L$, while $C$, $P$, and $N$ replay the same local package. Repacking those finitely many rows gives an accepted intersection packet without adding any external analytic object.
+\end{proof}
+
+\begin{theorem}[Dyadic step function common-refinement normal form]
+\label{thm:dyadic-step-function-common-refinement-normal-form}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets with displayed common dyadic refinements. Every $\RegSeqRatUp$, $\RealUp$, or $\DyadicSplineUp$ consumer comparison between $S$ and $T$ has a normal form consisting of one displayed refined cell, its parent-cell maps through $M$, endpoint transports through $E$, carried-value reads through $V$ and $R$, a ledger entry in $L$, and the stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in $C$, $P$, and $N$.
+
+If two consumer routes name the same displayed refined cell, then their visible normal-form rows are the same $M,E,V,R,L,C,P,N$ rows. The normal form does not inspect a host step function, a quotient representative, a selected limit, or an equality oracle outside the finite common-refinement packet.
+\end{theorem}
+\begin{proof}
+First isolate the finite cell. Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}: every consumer comparison lands on one displayed common-refinement cell before any $\RegSeqRatUp$, $\RealUp$, or $\DyadicSplineUp$ handoff can be read.
+
+Next attach that cell to the packet rows. By \autoref{thm:dyadic-step-function-refinement-stability}, the refined cell carries its parent-cell maps through $M$, and the endpoint transports remain the displayed rows in $E$.
+
+Now bind the value and classifier reads. Use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the transported carried-value reads with the rows in $V$ and $R$, then use \autoref{thm:dyadic-step-function-ledger-exactness} to pin the consumer-facing comparison to the ledger entry in $L$.
+
+Finally apply \autoref{thm:dyadic-step-function-refinement-intersection-closure}. The intersection packet stores the same $C,P,N$ local package rows for the refined cell, so two routes with the same displayed cell replay the same visible normal-form rows before reaching any downstream consumer.
+\end{proof}
+
+\begin{theorem}[Dyadic step function cellwise product closure]
+\label{thm:dyadic-step-function-product-closure}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Suppose they admit a displayed common dyadic refinement whose refined cells are finite $\mathsf{BHist}$ cells, and suppose that on every refined cell the transported carried-value row of $S$, the transported carried-value row of $T$, and the displayed $\DyadicRatCoreUp$ or $\RealUp$ product row are recorded in the carrier ledger. Then the pointwise cellwise product repacks as an accepted $\DyadicStepFunctionUp$ packet.
+
+The repacked packet uses only the displayed refined cell list, endpoint transport, carried-value rows, classifier rows, finite ledger rows, and the componentwise $\hsame$ and $\Cont$ route data. It does not introduce a host step function, a quotient representative, a selected limit, or an equality oracle outside the packet.
+\end{theorem}
+\begin{proof}
+Project $S$ and $T$ through \autoref{def:dyadic-step-function-carrier}. The carrier exposes the same finite partition, endpoint, value, classifier, ledger, transport, and continuation rows used by the sum packet.
+
+Apply \autoref{thm:dyadic-step-function-refinement-intersection-closure}. The product is read on the displayed common cell intersection, so both factors have visible transported carried-value rows on the cell where multiplication is performed.
+
+On each refined cell, use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. The endpoint route and carried-value route determine the same visible read for each factor before the product row is consumed.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness} together with \autoref{thm:dyadic-step-function-real-seal-window-exactness}. The assumed $\DyadicRatCoreUp$ or $\RealUp$ product row is already a ledger entry for that cell, and the seal-facing read cannot escape the displayed finite window. Repacking these rows gives the accepted product packet without invoking host functions, quotient representatives, selected limits, or hidden equalities.
+\end{proof}
+
+\begin{theorem}[Dyadic step function stepwise order window]
+\label{thm:dyadic-step-function-stepwise-order-window}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Any pointwise order comparison between $S$ and $T$ is witnessed after a displayed common dyadic refinement: on each refined cell, the transported carried-value rows and the displayed $\DyadicRatCoreUp$ or $\RealUp$ order row determine the comparison visible to consumers. The order window is finite-cellwise and is recorded by the same $I$, $M$, $E$, $V$, $R$, $L$, $C$, $P$, and $N$ rows as the packets themselves.
+
+Consequently the comparison cannot use a host function, a quotient representative, a selected limit, trichotomy on hidden real representatives, or an equality oracle outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:dyadic-step-function-refinement-intersection-closure}. It gives a finite common-refinement packet whose cells cover all comparisons available from the two accepted packets.
+
+For a fixed refined cell, apply \autoref{thm:dyadic-step-function-refinement-stability}. The cell is transported back to displayed parent cells in $S$ and $T$, and the endpoint rows remain attached to the refinement maps.
+
+Use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the endpoint route with the carried-value route for both packets. The order row being compared is therefore the displayed $\DyadicRatCoreUp$ or $\RealUp$ row named in the ledger, not a host-side comparison.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness} and \autoref{thm:dyadic-step-function-real-seal-window-exactness}. The ledger records each finite-cell order read before any seal-facing consumer can use it, so the comparison remains inside the displayed finite window.
+\end{proof}
+
+\begin{theorem}[Dyadic step function scoped window package]
+\label{thm:dyadic-step-function-scoped-window-package}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Their scoped
+comparison packet is the finite common-refinement window whose cells cover all
+consumer-visible reads, whose endpoint rows are transported through $E$, and
+whose carried-value rows are read through $V$ and $R$. The packet is entirely
+contained in the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows of the two carriers.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}.
+It places every comparison on one displayed cell of a common finite dyadic
+refinement.
+
+Apply \autoref{thm:dyadic-step-function-refinement-stability}. The refinement
+maps send each refined cell back to parent cells, while endpoint data remain
+attached through the displayed endpoint-transport ledgers.
+
+Use \autoref{thm:dyadic-step-function-ledger-exactness} to close the packet.
+All cell coverage, endpoint transport, carried-value reads, and classifier
+observations are recorded in the finite ledger and routed only by $\hsame$ and
+$\Cont$ data.
+\end{proof}
+
+\begin{theorem}[Dyadic step function Real-RegSeqRat scope lock]
+\label{thm:dyadic-step-function-real-regseqrat-scope-lock}
+Every $\RegSeqRatUp$ handoff and every $\RealUp$ seal read exported by an
+accepted $\DyadicStepFunctionUp$ packet is locked to the same finite cell
+window. The seal receives only the displayed partition cells, endpoint
+transport, carried values, classifier rows, ledger entries, and the recorded
+$\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-step-function-regseqrat-handoff}. The regular
+sequence surface is built from the carried cell values on the displayed finite
+partition.
+
+Next apply \autoref{thm:dyadic-step-function-real-seal-window-exactness}. The
+$\RealUp$ seal is reached only after common-refinement coverage, endpoint
+transport, carried-value classification, and ledger recording have occurred.
+
+The two handoffs therefore share the same finite scope. Since
+\autoref{thm:dyadic-step-function-ledger-exactness} excludes hidden quotient
+data, host functions, selected limits, and ambient choices, no seal-facing row
+can escape the displayed window.
+\end{proof}
+
+\begin{theorem}[Dyadic step function refinement ledger scope]
+\label{thm:dyadic-step-function-refinement-ledger-scope}
+The refinement ledger of an accepted $\DyadicStepFunctionUp$ packet is scoped
+by the finite rows $\Pi,I,V,R,M,E,L,C,P,N$. Common-refinement cell coverage,
+endpoint transport, value transport, $\RegSeqRatUp$ handoff, and $\RealUp$
+seal exactness are all read from these rows, and no refinement consumer can
+introduce a host step function or unlisted representative.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-step-function-carrier}. The
+refinement map $M$, endpoint ledger $E$, finite history ledger $L$, and route
+row $C$ are explicit coordinates of the packet.
+
+Apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}.
+On each refined cell, endpoint transport and carried-value transport determine
+the same visible cellwise read.
+
+Finally combine \autoref{thm:dyadic-step-function-scoped-window-package} with
+\autoref{thm:dyadic-step-function-real-regseqrat-scope-lock}. The common
+refinement, regular handoff, and real seal are all ledger reads over
+$\Pi,I,V,R,M,E,L,C,P,N$, so the refinement scope is exact.
+\end{proof}
+
+\begin{theorem}[Dyadic step function scoped obligation package]
+\label{thm:dyadic-step-function-scoped-obligation-package}
+Every accepted $\DyadicStepFunctionUp$ packet assembles a scoped finite obligation package consisting of carrier habitation, refinement stability, $\RegSeqRatUp$ handoff, ledger exactness, common-refinement coverage, endpoint-value transport, $\RealUp$ seal-window exactness, cellwise sum closure, cellwise product closure, and the stepwise order window. The package is over the displayed $\DyadicMeshUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\DyadicSplineUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\DyadicStepFunctionUp}$ rows.
+
+The scoped package exports no measure completion, quotient representative, selected limit, host step function, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+First project the carrier and classifier rows. The finite partition, dyadic interval cells, carried values, common-refinement maps, endpoint routes, classifier rows, ledger entries, continuation rows, package provenance, and local naming row are the only visible coordinates.
+
+Apply the refinement stability, $\RegSeqRatUp$ handoff, ledger exactness, common-refinement coverage, endpoint-value transport, and $\RealUp$ seal-window exactness theorems. These results bind every cellwise read to the displayed mesh, interval, rational, spline, regular-sequence, real, history, transport, continuation, package, and naming rows.
+
+Finally use the cellwise sum, cellwise product, and stepwise order window theorems. They show that the visible finite-cell operations and comparisons repack inside the same scoped rows, so no measure completion, quotient representative, selected limit, host step function, or ambient equality oracle is exported.
+\end{proof}
+
+\begin{theorem}[DyadicStepFunction scope export]\label{thm:dyadicstepfunction-scope-export}
+The scoped obligation package of \autoref{thm:dyadic-step-function-scoped-obligation-package} exports exactly the downstream surface consisting of the $\DyadicRatCoreUp$ partition and value rows, the $\DyadicMeshUp$ and $\DyadicSplineUp$ refinement rows, the $\RegSeqRatUp$ handoff, and the $\RealUp$ seal-window exactness rows. Every downstream step-function consumer must read through those displayed rows together with the carrier's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\DyadicStepFunctionUp}$ coordinates.
+
+No exported scope includes open-cover compactness, a host function space, selected limits, quotient representatives, measure completion, or an ambient equality oracle.
+\end{theorem}
+\begin{proof}
+First read the local scoped package. By \autoref{thm:dyadic-step-function-scoped-obligation-package}, every admitted packet is already restricted to the displayed mesh, interval, value, refinement, endpoint, ledger, continuation, provenance, and local naming rows.
+
+Next isolate the rows visible to downstream consumers. The carrier and refinement ledger scope of \autoref{def:dyadic-step-function-carrier} and \autoref{thm:dyadic-step-function-refinement-ledger-scope} provide the $\DyadicRatCoreUp$ partition and value rows together with the $\DyadicMeshUp$ and $\DyadicSplineUp$ refinement rows.
+
+The analytic handoff is exactly the one already bounded locally. Apply \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock} for the $\RegSeqRatUp$ handoff and \autoref{thm:dyadic-step-function-real-seal-window-exactness} for the $\RealUp$ seal-window exactness.
+
+Finally combine the non-escape clauses of \autoref{thm:dyadic-step-function-ledger-exactness} and \autoref{thm:dyadic-step-function-scoped-window-package}. They exclude open-cover compactness, host function spaces, selected limits, quotient representatives, measure completion, and ambient equality oracles from the exported surface.
+\end{proof}
+
+\begin{theorem}[Dyadic step function refinement boundary coverage]
+\label{thm:dyadic-step-function-refinement-boundary-coverage}
+Every accepted common-refinement consumer read of a $\DyadicStepFunctionUp$ packet is covered by the displayed finite cells, endpoint ledgers, carried-value rows, classifier rows, and $\BHist$ ledger entries of the carrier. Equivalently, a consumer that reads through a common dyadic refinement must first land on one cell of the visible refinement window and then consume only the endpoint transport in $E$, the carried values in $V$, the classifier rows in $R$, the finite ledger $L$, and the stored $\hsame$ and $\Cont$ routes.
+
+The refinement boundary exports no host step function, measure completion, quotient representative, selected limit, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}. It places every accepted consumer comparison on a displayed common-refinement cell and identifies the available read coordinates as $I,M,E,V,R,L,C,P,N$.
+
+Next use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. On the selected cell, endpoint transport and carried-value transport determine the same visible read, so the consumer cannot split the endpoint route from the value route.
+
+Finally apply \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock} and \autoref{thm:dyadic-step-function-refinement-ledger-scope}. These keep $\RegSeqRatUp$ handoffs and $\RealUp$ seal reads inside the same finite ledger before any downstream consumer can inspect them.
+\end{proof}
+
+\begin{theorem}[Dyadic step function scope transport package]
+\label{thm:dyadic-step-function-scope-transport-package}
+The carrier surface, refinement stability, endpoint-value determinacy, $\RealUp$--$\RegSeqRatUp$ scope lock, and refinement ledger scope assemble into one kernel-scoped $\DyadicStepFunctionUp$ package over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package binds every accepted partition cell, common-refinement read, endpoint transport, carried-value row, classifier row, regular-sequence handoff, real seal read, and ledger entry to the displayed finite carrier rows.
+
+This scope transport package is the single packet consumed by downstream step-function, regular Cauchy, and real-facing readers; it has no coordinate for open-cover compactness, host function spaces, quotient representatives, selected limits, measure completion, or ambient equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier data of \autoref{def:dyadic-step-function-carrier}. The packet exposes the finite partition, interval cells, carried values, refinement map, endpoint ledger, finite history ledger, continuation routes, provenance, and local naming row.
+
+Use \autoref{thm:dyadic-step-function-refinement-stability} and \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. They transport common-refinement cells and identify endpoint and carried-value reads by the stored $\hsame$ and $\Cont$ routes.
+
+Next apply \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock} and \autoref{thm:dyadic-step-function-refinement-ledger-scope}. These bind the $\RegSeqRatUp$ handoff, $\RealUp$ seal, and refinement ledger to the same finite rows.
+
+Finally invoke \autoref{thm:dyadic-step-function-scoped-obligation-package}. It packages the carrier, stability, handoff, ledger, coverage, endpoint-value, and seal-window rows into the kernel-scoped obligation surface, so the stated scope transport package has no hidden analytic coordinate.
+\end{proof}
+
+\begin{theorem}[Dyadic step function real-seal public boundary]
+\label{thm:dyadic-step-function-real-seal-public-boundary}
+Every accepted $\DyadicStepFunctionUp$ packet exports its $\RegSeqRatUp$ handoff and $\RealUp$ seal rows as one public boundary over the finite coordinates $I,M,E,V,R,L,C,P,N$. The boundary is assembled from the displayed partition cells, common-refinement maps, endpoint transport, carried values, classifier rows, finite ledger entries, continuation routes, package provenance, and local naming row.
+
+The public boundary exports no open-cover compactness, host step function, selected limit, quotient representative, measure completion, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+First read the finite scope transport package of \autoref{thm:dyadic-step-function-scope-transport-package}. It already binds every partition cell, common-refinement read, endpoint route, value row, classifier row, ledger entry, continuation route, package row, and local naming row to the displayed carrier surface.
+
+Next isolate the analytic handoff rows. Apply \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock} to bind the $\RegSeqRatUp$ handoff to the finite step-function rows, and apply \autoref{thm:dyadic-step-function-real-seal-window-exactness} to bind the $\RealUp$ seal-window read to the same visible cellwise data.
+
+Finally repack those two rows through \autoref{thm:dyadic-step-function-scoped-obligation-package}. The resulting public boundary has exactly the coordinates $I,M,E,V,R,L,C,P,N$, so none of the excluded analytic or quotient objects has an exported coordinate.
+\end{proof}
+
+\begin{theorem}[Dyadic step function common-refinement public route]
+\label{thm:dyadic-step-function-common-refinement-public-route}
+Every public consumer route for common-refinement data in an accepted $\DyadicStepFunctionUp$ packet factors through the displayed coordinates $I,M,E,V,R,L,C,P,N$. A route may read interval cells, mesh refinements, endpoint transport, carried values, classifier rows, finite ledger entries, continuation routes, package provenance, and the local $\NameCert$ row, but it cannot bypass those rows through a host step function, quotient representative, selected limit, measure completion, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+Start with the refinement boundary coverage of \autoref{thm:dyadic-step-function-refinement-boundary-coverage}. It places every accepted common-refinement consumer on a visible cell and identifies the available read coordinates as $I,M,E,V,R,L,C,P,N$.
+
+The endpoint and carried-value routes then agree by \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy}. This prevents a public consumer from splitting the endpoint route away from the value row after entering the common refinement.
+
+The public analytic boundary is supplied by \autoref{thm:dyadic-step-function-real-seal-public-boundary}. It attaches the $\RegSeqRatUp$ handoff and $\RealUp$ seal rows to the same coordinates already exposed by the common-refinement coverage.
+
+Therefore every public consumer route factors through $I,M,E,V,R,L,C,P,N$. The excluded host and quotient objects have no row in that factorization, so they cannot serve as bypass routes.
+\end{proof}
+
+\begin{theorem}[Dyadic step function common-refinement Real correspondence]
+\label{thm:dyadic-step-function-common-refinement-real-regseq-correspondence}
+For accepted $\DyadicStepFunctionUp$ packets compared through a displayed common dyadic refinement, the public consumer route through finite cells, endpoint transport, carried values, classifier rows, and finite ledger entries is the same route consumed by the $\RegSeqRatUp$ handoff and the $\RealUp$ seal-window read. Equivalently, after the common refinement has exposed $I,M,E,V,R,L,C,P,N$, a downstream consumer may pass from the cellwise step-function surface to the regular-Cauchy handoff and to the real seal boundary without introducing any further comparison coordinate.
+
+This correspondence exports no host step function, quotient representative, measure completion, selected limit, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+First expose the common-refinement cells. Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage} to place every accepted comparison on displayed dyadic cells and to keep the visible rows inside $I,M,E,V,R,L,C,P,N$.
+
+Next transport the cell data. Apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} so endpoint reads and carried-value reads follow the same stored $\hsame$ and $\Cont$ routes before any consumer leaves the finite refinement ledger.
+
+The analytic handoff uses no separate route. The $\RegSeqRatUp$ handoff is bounded by \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock}, and the public seal boundary is bounded by \autoref{thm:dyadic-step-function-real-seal-public-boundary}. Both the regular-Cauchy row and the $\RealUp$ seal-window read therefore consume the same cell, endpoint, value, classifier, and ledger rows already exposed by the common refinement.
+
+Thus the public common-refinement route and the $\RegSeqRatUp$--$\RealUp$ route are two readings of the same finite packet surface. The excluded host, quotient, completion, limit, and ambient equality objects have no coordinate in that packet, so they cannot distinguish the two routes.
+\end{proof}
+
+\closureat{DyadicStepFunctionUp}{seedStr}
+\closureat{DyadicStepFunctionUp}{obligationStr}
+\closureat{DyadicStepFunctionUp}{scopedStr}
+
+\begin{closurestatus}{\DyadicStepFunctionUp}
+  \constructivestory{A dyadic step-function packet is generated by a finite dyadic partition, displayed interval cells, carried values, common-refinement maps, endpoint transport, finite consumer ledgers, and visible transport and provenance rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scope is only the displayed finite partition, dyadic interval, carried value, common-refinement, endpoint-transport, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the finite step-function packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, quotient representatives, selected limits, host step functions, or ambient equality oracles.}
+  \upgradepath{Public closure requires a single exported $\DyadicStepFunctionUp$ certificate consuming the scoped finite partition, common-refinement, $\RegSeqRatUp$ handoff, and $\RealUp$ seal rows.}
+\end{closurestatus}

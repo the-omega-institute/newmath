@@ -1,0 +1,45 @@
+\subsection{Typing Inference Rules Table}\label{subsec:reconstruction-typing-rules-table}
+
+\begin{center}
+\begin{tabular}{l p{0.72\linewidth}}
+\hline
+Rule & Conclusion \\
+\hline
+sortRule & $\Gamma \vdash \mathrm{sort} : \mathrm{sort}$ \\
+varRule & $\Gamma.\mathrm{lookup}\ i = \mathrm{some}\ A \Rightarrow \Gamma \vdash \mathrm{var}\ i : A$ \\
+piRule & (shift-aware) $\Gamma \vdash \mathrm{pi}\ d\ c : \mathrm{sort}$ from $\Gamma \vdash d : \mathrm{sort}$, $(\mathrm{shift}\ 0\ 1\ d) :: \Gamma \vdash c : \mathrm{sort}$ \\
+lamRule & (shift-aware) $\Gamma \vdash \mathrm{lam}\ d\ b : \mathrm{pi}\ d\ \mathrm{cod}$ from the same Pi-rule binder slot and body type $\mathrm{cod}$ \\
+appRule & $\Gamma \vdash f\ a : \mathrm{substitute}\ 0\ a\ \mathrm{cod}$ from $\Gamma \vdash f : \mathrm{pi}\ d\ \mathrm{cod}$, $\Gamma \vdash a : d$ \\
+\hline
+\end{tabular}
+\end{center}
+
+The shift-aware binder slot appears in the Pi and lambda rules as
+$(\mathrm{shift}\ 0\ 1\ d) :: \Gamma$, rather than as $d :: \Gamma$.
+
+\subsection{Typing Relation vs Host CIC}\label{subsec:reconstruction-typing-vs-host}
+
+\texttt{BEDC.MetaCIC.HasType} is an inductive proposition inside the host
+calculus. It represents a typing relation for the MetaCIC fragment: an
+inhabitant of $\mathrm{HasType}\ \Gamma\ t\ A$ is a derivation object built
+from the five constructors listed above, not the algorithm that checks Lean
+terms.
+
+The checking algorithm belongs to the host CIC kernel. That kernel elaborates
+and type-checks Lean terms inside the implementation, with executable kernel
+code running in the OCaml/Rust compiler/runtime environment. BEDC does not
+replace that kernel; every theorem about \texttt{HasType} is accepted only
+when the host kernel checks its proof term.
+
+The represented relation is intentionally narrower than host typing. It
+describes the fragment's Pi, lambda, application, variable, and sort rules,
+together with explicit beta reduction. It does not simulate the full host
+reduction and elaboration stack: eta-conversion, universe polymorphism, and
+inductive types beyond the represented Pi/Sort fragment are outside this local
+relation.
+
+The main sanity condition is proof-theoretic. \texttt{HasType} is axiom-free,
+and each displayed \texttt{HasType} derivation is a Lean term checked by the
+host kernel. The strict axiom-purity audit also verifies that the checked
+MetaCIC theorem dependencies do not use \texttt{propext},
+\texttt{Classical.choice}, or \texttt{Quot.sound}.

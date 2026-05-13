@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionBundleTraceUp$}
+\label{ch:concrete-instances-subject-reduction-bundle-trace-namecert}
+
+The $\SubjectReductionBundleTraceUp$ packet concretizes the bundle and typeclass discharge routes of \autoref{ch:sr-discharge-routes} as a finite BEDC trace. It reads the explicit discharge surface of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, the ledger discipline of \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, and the finite continuation route shape of \autoref{ch:concrete-instances-continuationtrace-namecert}. The chapter names the route packet; it does not inhabit the dependent-codomain discharge for the present closed-CIC substrate.
+
+\begin{definition}[SubjectReduction bundle trace carrier]
+\label{def:subject-reduction-bundle-trace-carrier}
+A $\SubjectReductionBundleTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,S,E,L,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $B$ is the four-field subject-reduction discharge bundle row, naming the same obligation surface read by $\SubjectReductionDischargeUp$;
+\item $S$ is the setup-instance row whose public read may be converted to the bundle shape by the typeclass-to-bundle route;
+\item $E$ is the explicit extraction row that records whether the consumer reads the bundle directly or obtains it from the setup row;
+\item $L$ is the finite discharge ledger inherited from $\SubjectReductionDischargeLedgerUp$, with one row for each required subject-reduction discharge hypothesis;
+\item $H$ is the componentwise $\hsame$ transport comparing bundle fields, setup fields, extraction rows, and ledger rows;
+\item $C$ is the displayed $\Cont$ route from the chosen discharge carrier to the subject-reduction theorem consumer, in the finite trace style of $\ContinuationTraceUp$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\NameCert$, $\SubjectReductionDischargeUp$, $\SubjectReductionDischargeLedgerUp$, and the bundle/typeclass route objects;
+\item $N$ is the local $\NameCert_{\SubjectReductionBundleTraceUp}$ row.
+\end{enumerate}
+The carrier exports only these finite rows. It contains no dependent-codomain proof, no hidden setup instance for the present closed-CIC substrate, no host evaluator, and no second subject-reduction principle.
+\end{definition}
+
+\begin{theorem}[SubjectReduction bundle trace NameCert obligations]
+\label{thm:subject-reduction-bundle-trace-namecert-obligations}
+The local $\NameCert_{\SubjectReductionBundleTraceUp}$ surface for \autoref{def:subject-reduction-bundle-trace-carrier} consists of five finite obligations: carrier admission for the displayed packet, classifier stability under componentwise $\hsame$ transport of $B,S,E,L,H,C,P,N$, route readback for direct bundle and setup-to-bundle consumers, non-escape from dependent-codomain discharge evidence not present in the packet, and public export as the finite BEDC route packet for subject-reduction consumers.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:subject-reduction-bundle-trace-carrier}. Each coordinate is a finite BEDC row or a local package and naming row.
+
+Classifier stability is componentwise. A transported packet may compare the bundle row, setup row, extraction row, discharge ledger, transport row, continuation route, provenance, and local name only through the displayed $\hsame$ and $\Cont$ data.
+
+The remaining obligations are supplied by the route readback, non-escape, and public export theorems below. Together they account for every consumer read while keeping the packet on the bundle/typeclass discharge surface described in \autoref{ch:sr-discharge-routes}.
+\end{proof}
+
+\begin{theorem}[SubjectReduction bundle trace route readback]
+\label{thm:subject-reduction-bundle-trace-route-readback}
+Every subject-reduction consumer of an accepted $\SubjectReductionBundleTraceUp$ packet reads one of two finite routes. Either it reads the bundle row $B$ directly and consumes the four discharge rows in $L$, or it reads the setup row $S$, uses the extraction row $E$ to obtain the same bundle shape, and then consumes the same ledger $L$. In both cases the public route factors through $H,C,P,N$ and does not introduce a second discharge surface.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only discharge-bearing rows are the bundle row $B$, the setup row $S$, the extraction row $E$, and the finite ledger $L$.
+
+For the direct route, the consumer reads $B$ and then reads the four required discharge rows from $L$. The rows $H$ and $C$ only transport and route the displayed data, while $P,N$ record provenance and local naming.
+
+For the setup route, the consumer first reads $S$ and then uses $E$ to produce the same bundle-shaped public row. After that extraction, the consumer again reads the four ledger rows in $L$.
+
+Thus both routes terminate at the same finite bundle ledger. No additional subject-reduction principle is available beyond the displayed packet.
+\end{proof}
+
+\begin{theorem}[SubjectReduction bundle trace non-escape]
+\label{thm:subject-reduction-bundle-trace-non-escape}
+An accepted $\SubjectReductionBundleTraceUp$ packet cannot be used to construct a dependent-codomain discharge for the present closed-CIC substrate, a hidden $\mathtt{SubjectReductionSetup}$ instance, a host evaluator, a termination predicate, a quotient of reduction behaviours, or a second subject-reduction theorem. Its public reads are exhausted by $B,S,E,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory. None of the displayed rows is a dependent-codomain proof, a global setup instance, a host evaluator, a termination predicate, a quotient object, or a second theorem.
+
+Apply the route readback theorem. The consumer can follow either the direct bundle route or the setup-to-bundle route, but both routes end in the same four-row discharge ledger $L$ and the same BEDC route and provenance data.
+
+The obstruction boundary from \autoref{ch:sr-discharge-routes} remains external to this packet. Since the carrier contains no row discharging that boundary for the present substrate, no public read can escape the finite route packet.
+\end{proof}
+
+\begin{theorem}[SubjectReduction bundle trace public export]
+\label{thm:subject-reduction-bundle-trace-public-export}
+The public $\SubjectReductionBundleTraceUp$ export is the finite packet of \autoref{def:subject-reduction-bundle-trace-carrier} together with the NameCert obligations of \autoref{thm:subject-reduction-bundle-trace-namecert-obligations}, the route readback of \autoref{thm:subject-reduction-bundle-trace-route-readback}, and the non-escape boundary of \autoref{thm:subject-reduction-bundle-trace-non-escape}. Downstream subject-reduction work may consume it as a BEDC-native route packet for bundle or setup discharge, but not as an inhabitant of any discharge hypothesis not listed in $L$.
+\end{theorem}
+\begin{proof}
+The carrier supplies the finite rows $B,S,E,L,H,C,P,N$. The NameCert obligations bind carrier admission, classifier stability, route readback, non-escape, and public export to those rows.
+
+The readback theorem accounts for the two permitted consumer routes: direct bundle consumption and setup-to-bundle extraction. The non-escape theorem excludes the structures that would make the packet stronger than a route packet.
+
+Repacking these clauses yields the public export. It is the concrete BEDC route packet for the bundle/typeclass discharge interface, with the same four discharge rows visible in both routes and no hidden subject-reduction evidence outside the finite ledger.
+\end{proof}
+
+\closureat{SubjectReductionBundleTraceUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionBundleTraceUp}
+  \constructivestory{A $\SubjectReductionBundleTraceUp$ packet is generated from a carrier row, explicit NameCert obligations, route readback, non-escape, and public export over the finite bundle/typeclass discharge trace.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-bundle-trace-carrier}, \autoref{thm:subject-reduction-bundle-trace-namecert-obligations}, \autoref{thm:subject-reduction-bundle-trace-route-readback}, \autoref{thm:subject-reduction-bundle-trace-non-escape}, and \autoref{thm:subject-reduction-bundle-trace-public-export} bind the carrier, NameCert obligations, route readback, non-escape, and public export theorems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close dependent-codomain discharge evidence, hidden setup instances, host evaluators, termination predicates, quotients, second subject-reduction principles, Lean verification, or a public bridge schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, route readback, non-escape, public export, componentwise transport, provenance, and local naming for the same finite bundle-trace packet.}
+\end{closurestatus}

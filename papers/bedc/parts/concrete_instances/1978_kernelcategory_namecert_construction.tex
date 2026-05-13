@@ -1,0 +1,125 @@
+\chapter{A Concrete Naming Certificate for $\KernelCategoryUp$}
+\label{ch:concrete-instances-kernel-category-namecert}
+\origin{human}
+
+The $\KernelCategoryUp$ packet is the finite naming-certificate surface for
+the unary-continuation categorical reading of $\BHist$. It presents objects,
+displayed homs, identities, composition routes, endpoint transport, package
+provenance, and local naming as rows of the BEDC kernel rather than as a host
+category object.
+
+\begin{definition}[KernelCategory NameCert carrier]
+\label{def:kernel-category-namecert-carrier}
+A $\KernelCategoryUp$ NameCert carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(O,H,I,C,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the object row, accepting exactly unary $\mathsf{BHist}$ objects;
+\item $H$ is the displayed hom row, where an arrow from $a$ to $b$ with tail
+$f$ is accepted by $\mathsf{CategoryHomCarrier}(a,b,f)$;
+\item $I$ is the identity row, storing the empty-tail continuation route for
+each accepted object;
+\item $C$ is the composition route row, storing displayed $\Cont$ routes that
+compose accepted hom tails and return the resulting
+$\mathsf{CategoryHomCarrier}$ row;
+\item $T$ is the endpoint $\hsame$ transport row for objects and displayed hom
+tails;
+\item $P$ is the $\Pkg$ provenance row over $\BHist$, $\Cont$, $\hsame$,
+$\mathsf{CategoryHomCarrier}$, and $\CategoryUp$;
+\item $N$ is the local $\NameCert_{\KernelCategoryUp}$ row naming the carrier,
+classifier, identity, composition, transport, and non-escape clauses.
+\end{enumerate}
+Thus the carrier is a kernel-facing categorical packet: all accepted objects,
+arrows, equalities, identities, composites, and dependency names are visible
+BEDC rows.
+\end{definition}
+
+\begin{theorem}[KernelCategory NameCert obligations]
+\label{thm:kernel-category-namecert-obligations}
+The local $\NameCert_{\KernelCategoryUp}$ obligation surface for the carrier
+of \autoref{def:kernel-category-namecert-carrier} consists of five rows:
+\begin{enumerate}
+\item carrier admission by the finite packet $K=(O,H,I,C,T,P,N)$;
+\item hom classifier transport through componentwise $\hsame$ on endpoints
+and displayed hom tails;
+\item identity route stability through the empty-tail continuation row stored
+in $I$;
+\item composition route stability through the displayed $\Cont$ route stored
+in $C$ and the resulting $\mathsf{CategoryHomCarrier}$ row;
+\item non-escape from host category equality, external standard-category
+semantics, morphism types outside $\mathsf{BHist}$, and hidden categorical
+structure not named by $P$ and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is immediate from the coordinates of
+\autoref{def:kernel-category-namecert-carrier}. The object, hom, identity,
+composition, transport, package, and local naming rows are all finite
+$\mathsf{BHist}$ data.
+
+For hom classifier transport, unpack the displayed hom row
+$\mathsf{CategoryHomCarrier}(a,b,f)$. Endpoint and hom-tail comparison is
+componentwise in $\hsame$, so transported endpoints and transported tails
+remain inside the same carrier coordinates.
+
+Identity stability reads the row $I$. The empty-tail continuation route is
+stored only for accepted object rows, and its transported form is again read
+through $T$ and the same local naming ledger.
+
+Composition stability reads the row $C$. Given accepted displayed hom rows and
+a displayed $\Cont$ composition route, the resulting composite is repacked as
+the carrier's displayed $\mathsf{CategoryHomCarrier}$ row, with provenance kept
+in $P$ and $N$.
+
+The non-escape clause follows by inspection. No coordinate of $K$ is a host
+category equality, an external standard-category semantic object, or a hidden
+morphism type, so every public read remains within the named BEDC rows.
+\end{proof}
+
+\begin{theorem}[KernelCategory Cont-hom exactness]
+\label{thm:kernel-category-cont-hom-exactness}
+Every public hom read of an accepted $\KernelCategoryUp$ carrier factors
+exactly through the displayed continuation route:
+$$
+O \longmapsto H \longmapsto C \longmapsto T \longmapsto P \longmapsto N.
+$$
+For endpoints $a,b$ and displayed tail $f$, the public hom classifier is the
+row $\mathsf{CategoryHomCarrier}(a,b,f)$ together with its $\Cont$ route and
+endpoint $\hsame$ transport. Conversely, any identity or composite route
+accepted by $I$ or $C$ returns to a displayed hom row in $H$. The exactness
+surface exports no host category equality, external associativity theorem, or
+standard-category morphism object outside the kernel packet.
+\end{theorem}
+\begin{proof}
+Start with a public hom read. By the carrier definition, the read must first
+select accepted object endpoints from $O$ and then a displayed hom row from
+$H$, whose classifier is $\mathsf{CategoryHomCarrier}(a,b,f)$.
+
+Next read the continuation route. Identity reads pass through $I$, while
+binary composite reads pass through $C$ and the displayed $\Cont$ route for
+the two hom tails. Endpoint and tail movement is then transported only through
+$T$.
+
+It remains to check readback. Each identity or composite route named by $I$ or
+$C$ is stored precisely so that it returns to the displayed hom row $H$, with
+$P$ and $N$ recording the dependency and local naming provenance.
+
+Since the route never leaves these coordinates, there is no place to export
+host category equality, external standard-category semantics, or a morphism
+object not already represented by a $\mathsf{BHist}$ history.
+\end{proof}
+
+\closureat{KernelCategoryUp}{seedStr}
+
+\begin{closurestatus}{\KernelCategoryUp}
+  \constructivestory{A $\KernelCategoryUp$ packet is generated from unary object histories, displayed $\mathsf{CategoryHomCarrier}$ rows, empty-tail identity routes, displayed $\Cont$ composition routes, endpoint $\hsame$ transport, package provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the concrete BEDC carrier rows for kernel-facing objects, hom carriers, identity routes, composition routes, endpoint transport, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean namespace, arbitrary host categories, categorical limits, functoriality, natural transformations, or standard-category bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, hom classifier transport, identity stability, composition stability, and Cont-hom exactness for the named kernel-category packet.}
+\end{closurestatus}

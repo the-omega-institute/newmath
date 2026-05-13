@@ -1,0 +1,102 @@
+\chapter{ObserverFilterUp NameCert construction}
+\label{ch:concrete-instances-observer-filter-namecert}
+\origin{human}
+
+The $\ObserverFilterUp$ surface packages observer-history identity as a finite selection of $\BHist$ rows together with a ledger for everything the observer does not export. It is a reusable filter carrier: an observer may retain a finite subhistory for downstream naming, while the omitted rows remain visible as a boundary ledger rather than disappearing into host equality, quotient identity, or an unrecorded subject parameter.
+
+\begin{definition}[ObserverFilter BHist carrier]
+\label{def:observer-filter-bhist-carrier}
+An $\ObserverFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(H,S,O,R,L,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $H$ is the source observer-history row;
+\item $S$ is the finite selected subhistory row, listing exactly the $\BHist$ entries retained for public observation;
+\item $O$ is the omitted-row ledger, listing every source row not selected into $S$ together with its local boundary reason;
+\item $R$ records the componentwise $\hsame$ transports between source rows, selected rows, omitted rows, downstream stream-name rows, continuation routes, package provenance, and the local name;
+\item $L$ is the observer ledger tying each retained or omitted row to its source position, observer decision, and local naming boundary;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the source history, retained subhistory, omitted ledger, and downstream handoff rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\ObserverHistoryIdentityUp$, $\StreamNameUp$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ObserverFilterUp}$ row.
+\end{enumerate}
+The classifier for $F$ compares only the retained row $S$, omitted-row ledger $O$, transport row $R$, observer ledger $L$, continuation row $C$, provenance row $P$, and local name row $N$. The carrier has no coordinate for host equality of histories, quotient streams, hidden observer state, or an unledgered deletion.
+\end{definition}
+
+\begin{theorem}[ObserverFilter NameCert obligations]
+\label{thm:observer-filter-namecert-obligations}
+For the carrier of \autoref{def:observer-filter-bhist-carrier}, the local $\NameCert_{\ObserverFilterUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet $F=(H,S,O,R,L,C,P,N)$;
+\item classifier transport by the componentwise $\hsame$ rows in $R$;
+\item observer-ledger exactness for retained and omitted $\BHist$ rows;
+\item downstream handoff through the displayed $\Cont$ routes and $\StreamNameUp$ provenance;
+\item non-escape from host equality of histories, quotient streams, hidden observer state, and unledgered deletion.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observer-filter-bhist-carrier}. The packet displays the source history, selected subhistory, omitted-row ledger, transports, observer ledger, continuation routes, provenance, and local naming row before any classifier read is available.
+
+Classifier transport is componentwise. The row $R$ moves selected and omitted rows to the common $\hsame$ surface, and $C$ supplies the only read routes through which those transported rows can be consumed.
+
+The remaining obligations follow by finite-row cases on whether a source row is selected into $S$ or recorded in $O$. The selected case is named by the observer ledger $L$ and may be handed to downstream consumers; the omitted case is also named by $L$ and stops at the boundary reason recorded in $O$.
+
+No further coordinate is present in the carrier. Thus host history equality, quotient stream equality, hidden observer state, and deletion without a ledger row cannot be exported by the local $\NameCert_{\ObserverFilterUp}$ surface.
+\end{proof}
+
+\begin{theorem}[ObserverFilter identity stability]
+\label{thm:observer-filter-identity-stability}
+Let $F=(H,S,O,R,L,C,P,N)$ and $F'=(H',S',O',R',L',C',P',N')$ be accepted $\ObserverFilterUp$ carriers. If their source rows, selected rows, omitted ledgers, observer ledgers, continuation routes, package rows, and local names are related componentwise by the displayed $\hsame$ transports, then the two carriers determine the same observer-filter identity judgment. The judgment is computed only from the retained subhistory and omitted-row boundary ledger.
+\end{theorem}
+\begin{proof}
+Project both carriers to their displayed rows. The comparison data are exactly $H,S,O,R,L,C,P,N$ and $H',S',O',R',L',C',P',N'$.
+
+Use the $\hsame$ rows in $R$ and $R'$ to transport corresponding selected rows and omitted rows to a common observer-history surface. The routes in $C$ and $C'$ replay the same source, selection, omission, provenance, and local-name reads after transport.
+
+Now inspect each finite source row. A retained row is compared through the matching entry of $S$ and $S'$, while an omitted row is compared through the matching boundary entry of $O$ and $O'$. These two cases exhaust the source ledger.
+
+Therefore the classifier has the same retained public rows and the same omitted boundary rows on both sides. No host equality, quotient identity, or hidden observer-state coordinate is available to distinguish the transported packets.
+\end{proof}
+
+\begin{theorem}[ObserverFilter StreamName handoff]
+\label{thm:observer-filter-streamname-handoff}
+Every $\StreamNameUp$ consumer of an accepted $\ObserverFilterUp$ carrier reads only the selected subhistory row $S$, its observer-ledger entries in $L$, the componentwise $\hsame$ transports in $R$, the displayed $\Cont$ routes in $C$, the package provenance $P$, and the local naming row $N$. Omitted rows in $O$ may certify the boundary of the handoff, but they do not become stream-name data.
+\end{theorem}
+\begin{proof}
+Start with a consumer route from the accepted filter into $\StreamNameUp$. Carrier projection exposes the finite selected row $S$ as the only row permitted to supply stream-name entries.
+
+The route must then pass through $L$, $R$, and $C$. The observer ledger names the retained entries, the transport row moves them by $\hsame$, and the continuation row records the read order used by the downstream stream-name surface.
+
+The omitted ledger $O$ is still visible, but only as a boundary witness. Its entries certify which source rows were not exported; they supply no selected stream-name row and no replacement stream value.
+
+Thus the handoff to $\StreamNameUp$ is exactly the displayed selected-subhistory route through $S,L,R,C,P,N$, with $O$ serving as the finite non-export boundary.
+\end{proof}
+
+\begin{theorem}[ObserverFilter ObserverHistoryIdentity factorization]
+\label{thm:observer-filter-observer-history-factorization}
+Every accepted $\ObserverFilterUp$ carrier factors its public identity claim through $\ObserverHistoryIdentityUp$: the source observer history $H$, selected subhistory $S$, omitted-row ledger $O$, $\hsame$ transports $R$, observer ledger $L$, continuation routes $C$, provenance $P$, and local name $N$ provide exactly the observer-history identity surface seen by downstream consumers.
+\end{theorem}
+\begin{proof}
+Read the accepted filter as a finite observer-history packet. The source row $H$ is the displayed history, $S$ and $O$ divide its rows into retained public observations and recorded boundary observations, and $L$ records the local decision for each row.
+
+The rows $R$ and $C$ supply the transport and read routes required by $\ObserverHistoryIdentityUp$. They identify how selected rows and omitted rows are compared without adding a subject coordinate outside the displayed $\BHist$ data.
+
+Package provenance and local naming are carried by $P$ and $N$. Repacking $H,S,O,R,L,C,P,N$ along these roles gives the observer-history identity surface and uses no further identity principle.
+\end{proof}
+
+\begin{theorem}[ObserverFilter ledger exactness]
+\label{thm:observer-filter-ledger-exactness}
+For every accepted $\ObserverFilterUp$ carrier, each source $\BHist$ row is accounted for exactly once as either a selected row in $S$ or an omitted boundary row in $O$, and every consumer-facing read factors through the corresponding entry of $L$, $R$, $C$, $P$, and $N$. No row may be silently discarded, duplicated into both surfaces, or exported outside the displayed ledger.
+\end{theorem}
+\begin{proof}
+Induct over the finite source history $H$. The empty source row has empty selected and omitted ledgers, so the claim is immediate by carrier projection.
+
+For a cons row, inspect the filter-row decision recorded in $L$. In the selected case the new row is placed in $S$, transported by $R$, and made readable only along a route in $C$ with provenance in $P$ and local naming in $N$.
+
+In the omitted case the new row is placed in $O$ with its boundary reason, transported by $R$, and made readable only as an omission witness along the displayed route in $C$.
+
+The induction hypothesis accounts for the preceding source rows. The two filter-row cases are disjoint and exhaustive, so the full source history is partitioned by $S$ and $O$, and every consumer read passes through the displayed ledger rows.
+\end{proof}
+
+\closureat{ObserverFilterUp}{seedStr}

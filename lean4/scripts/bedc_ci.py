@@ -5,7 +5,9 @@ Subcommands:
   - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
   - inventory: build a declaration + paper-label + Lean-marker inventory
   - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
+  - marker-existence-audit: report paper markers that do not resolve in Lean
   - manifest-check: check selected Lean theorem type shapes against a manifest
+  - metacic-purity: report axiom dependencies for BEDC.MetaCIC declarations
   - verify-files: run ``lake env lean`` on one or more Lean files
 
 Newmath adaptation note:
@@ -47,11 +49,21 @@ FIELD_RE = re.compile(r"^\s{2,}(?P<name>[A-Za-z0-9_']+)\s*:")
 CTOR_RE = re.compile(r"^\s*\|\s+(?P<name>[A-Za-z0-9_']+)\b")
 LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanvariant|leansorryd|leanstmt|leandef)\{([^}]+)\}")
+MARKER_EXISTENCE_RE = re.compile(
+    r"\\(leanchecked|leanvariant|leantarget|leandef|leanstmt|leansorryd)\{([^}]+)\}"
+)
 LEAN_CHECKED_RE = re.compile(r"\\leanchecked\{([^}]+)\}")
 CLAIM_ENTRY_RE = re.compile(r'⟨"[^"]*",\s*"([^"]+)"')
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
+MARKER_DECL_RE = re.compile(
+    r"^\s*"
+    r"(?:@\[[^\]]+\]\s*)*"
+    r"(?:(?:private|protected|noncomputable|unsafe|partial|scoped|mutual)\s+)*"
+    r"(?P<kind>theorem|def|lemma|abbrev|instance|inductive|structure|class)\s+"
+    r"(?P<name>«[^»]+»|[A-Za-z0-9_'.]+)\b"
+)
 
 FORBIDDEN_PATTERNS = {
     "axiom": re.compile(r"\baxiom\b"),
@@ -90,6 +102,13 @@ class LeanMarkerRecord:
     target: str
 
 
+@dataclass(frozen=True)
+class AxiomReportRecord:
+    name: str
+    kind: str
+    axioms: tuple[str, ...]
+
+
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
@@ -97,6 +116,10 @@ def read_text(path: Path) -> str:
 def module_name(path: Path) -> str:
     rel = path.relative_to(LEAN_ROOT).with_suffix("")
     return ".".join(rel.parts)
+
+
+def module_olean_path(module: str) -> Path:
+    return LEAN_ROOT / ".lake" / "build" / "lib" / "lean" / Path(*module.split(".")).with_suffix(".olean")
 
 
 def strip_comments_and_strings(text: str) -> str:
@@ -361,6 +384,41 @@ def collect_paper_leanchecked_targets() -> set[str]:
             for match in LEAN_CHECKED_RE.finditer(raw_line):
                 targets.add(match.group(1).replace(r"\_", "_").strip())
     return targets
+
+
+def collect_marker_existence_markers() -> list[LeanMarkerRecord]:
+    markers: list[LeanMarkerRecord] = []
+    for path in part_tex_files():
+        text = read_text(path)
+        for line_no, raw_line in enumerate(text.splitlines(), start=1):
+            if raw_line.lstrip().startswith("%"):
+                continue
+            for match in MARKER_EXISTENCE_RE.finditer(raw_line):
+                target = match.group(2).replace(r"\_", "_").strip()
+                markers.append(LeanMarkerRecord(
+                    file=str(path.relative_to(REPO_ROOT)),
+                    line=line_no,
+                    macro=match.group(1),
+                    target=target,
+                ))
+    return markers
+
+
+def collect_marker_existence_lean_names() -> set[str]:
+    names: set[str] = set()
+    for path in lean_files():
+        text = strip_comments_and_strings(read_text(path))
+        module = module_name(path)
+        namespace_stack: list[str] = []
+        for raw_line in text.splitlines():
+            update_namespace_stack(raw_line, namespace_stack)
+            match = MARKER_DECL_RE.match(raw_line)
+            if not match:
+                continue
+            name = match.group("name").strip()
+            namespace = declaration_namespace(module, namespace_stack)
+            names.add(qualified_name(name, namespace))
+    return names
 
 
 def collect_manifest_entry_targets() -> set[str]:
@@ -949,12 +1007,23 @@ def cmd_manifest(args: argparse.Namespace) -> int:
 def cmd_manifest_coverage(args: argparse.Namespace) -> int:
     paper_markers = collect_paper_leanchecked_targets()
     manifest_entries = collect_manifest_entry_targets()
+    if args.scope:
+        paper_markers = {
+            target for target in paper_markers
+            if target.startswith(args.scope)
+        }
+        manifest_entries = {
+            target for target in manifest_entries
+            if target.startswith(args.scope)
+        }
     marker_count = len(paper_markers)
     entry_count = len(manifest_entries)
     ratio = (entry_count / marker_count * 100.0) if marker_count else 100.0
     missing = sorted(paper_markers - manifest_entries)
 
     print("manifest-coverage report")
+    if args.scope:
+        print(f"  scope: {args.scope}")
     print(f"  paper_markers (\\leanchecked): {marker_count}")
     print(f"  manifest_entries (Lean-side):  {entry_count}")
     print(f"  coverage_ratio: {entry_count}/{marker_count} = {ratio:.2f}%")
@@ -962,6 +1031,39 @@ def cmd_manifest_coverage(args: argparse.Namespace) -> int:
     print("  Not yet in manifest (sample of 20):")
     for target in missing[:20]:
         print(f"    {target}")
+    return 0
+
+
+def cmd_marker_existence_audit(args: argparse.Namespace) -> int:
+    markers = collect_marker_existence_markers()
+    lean_names = collect_marker_existence_lean_names()
+    missing = [marker for marker in markers if marker.target not in lean_names]
+    resolved = len(markers) - len(missing)
+    missing_ratio = (len(missing) / len(markers) * 100.0) if markers else 0.0
+
+    print("marker-existence-audit report")
+    print(f"  markers_total: {len(markers)}")
+    print(f"  markers_resolved: {resolved}")
+    print(f"  markers_missing: {len(missing)} (M/N = {missing_ratio:.2f}%)")
+    print()
+    print("  -- Missing markers (first 30) by kind:")
+    if not missing:
+        print("  none")
+        return 0
+
+    by_kind: dict[str, list[LeanMarkerRecord]] = {}
+    for marker in missing:
+        by_kind.setdefault(marker.macro, []).append(marker)
+    emitted = 0
+    for kind in sorted(by_kind):
+        if emitted >= 30:
+            break
+        print(f"  {kind}:")
+        for marker in by_kind[kind]:
+            if emitted >= 30:
+                break
+            print(f"    {marker.target}  ({marker.file}:{marker.line})")
+            emitted += 1
     return 0
 
 
@@ -973,6 +1075,118 @@ STRICT_FORBIDDEN_AXIOMS: tuple[str, ...] = DEFAULT_FORBIDDEN_AXIOMS + ("propext"
 PRINT_AXIOMS_RE = re.compile(
     r"'([\w.·’]+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])"
 )
+METACIC_SCOPE = "BEDC.MetaCIC"
+METACIC_IMPORT = "BEDC.MetaCIC"
+
+
+def scan_metacic_declarations() -> list[DeclarationRecord]:
+    decls: list[DeclarationRecord] = []
+    metacic_root = BEDC_ROOT / "MetaCIC"
+    if not metacic_root.exists():
+        return []
+    for path in sorted(metacic_root.rglob("*.lean")):
+        file_decls, _fields = collect_declarations(path)
+        for decl in file_decls:
+            if decl.qualified_name.startswith(METACIC_SCOPE + "."):
+                decls.append(decl)
+    return sorted(decls, key=lambda d: (d.qualified_name, d.kind, d.file, d.line))
+
+
+def parse_axioms_output(output: str, declarations: dict[str, str]) -> list[AxiomReportRecord]:
+    reports: list[AxiomReportRecord] = []
+    for match in PRINT_AXIOMS_RE.finditer(output):
+        name = match.group(1)
+        if name not in declarations:
+            continue
+        raw_axioms = match.group(2)
+        axioms = tuple(a.strip() for a in (raw_axioms or "").split(",") if a.strip())
+        reports.append(AxiomReportRecord(name=name, kind=declarations[name], axioms=axioms))
+    return reports
+
+
+def metacic_axiom_summary(report: AxiomReportRecord) -> str:
+    if not report.axioms:
+        if report.kind in {"inductive", "structure", "class"}:
+            return "inhabited"
+        return "no axioms"
+    return ", ".join(report.axioms)
+
+
+def format_axiom_set(axioms: Iterable[str]) -> str:
+    return "{" + ", ".join(sorted(axioms)) + "}"
+
+
+def cmd_metacic_purity(args: argparse.Namespace) -> int:
+    decls = scan_metacic_declarations()
+    if not decls:
+        print("metacic-purity report (scope: BEDC.MetaCIC)")
+        print("total: 0 declarations")
+        print(f"forbidden: {format_axiom_set(STRICT_FORBIDDEN_AXIOMS)}")
+        print("violations: 0")
+        return 0
+
+    declaration_kinds = {decl.qualified_name: decl.kind for decl in decls}
+    lean_source = (
+        f"import {METACIC_IMPORT}\n\n"
+        + "\n".join(f"#print axioms {decl.qualified_name}" for decl in decls)
+        + "\n"
+    )
+    result = subprocess.run(
+        ["lake", "env", "lean", "--stdin"],
+        cwd=LEAN_ROOT,
+        input=lean_source,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    output = (result.stdout or "") + "\n" + (result.stderr or "")
+    reports = parse_axioms_output(output, declaration_kinds)
+    by_name = {report.name: report for report in reports}
+    ordered_reports = [by_name[decl.qualified_name] for decl in decls if decl.qualified_name in by_name]
+    missing = [decl.qualified_name for decl in decls if decl.qualified_name not in by_name]
+
+    forbidden = set(STRICT_FORBIDDEN_AXIOMS)
+    violation_kinds = {"theorem", "lemma"}
+    violations = [
+        report for report in ordered_reports
+        if report.kind in violation_kinds and forbidden.intersection(report.axioms)
+    ]
+
+    print("metacic-purity report (scope: BEDC.MetaCIC)")
+    for report in ordered_reports:
+        print(
+            f"  {report.name:<56}"
+            f" ({report.kind:<9}) -- {metacic_axiom_summary(report)}"
+        )
+    print(f"total: {len(ordered_reports)} declarations")
+    print(f"forbidden: {format_axiom_set(STRICT_FORBIDDEN_AXIOMS)}")
+    print(f"violations: {len(violations)}")
+
+    if result.returncode != 0:
+        print(f"[bedc-ci] metacic-purity FAIL: lean returned {result.returncode}", file=sys.stderr)
+        tail = "\n".join(output.strip().splitlines()[-20:])
+        if tail:
+            print(tail, file=sys.stderr)
+        return result.returncode
+    if missing:
+        print(
+            f"[bedc-ci] metacic-purity FAIL: {len(missing)} declaration(s) had no parsed #print axioms result",
+            file=sys.stderr,
+        )
+        for name in missing[:50]:
+            print(f"  {name}", file=sys.stderr)
+        if len(missing) > 50:
+            print(f"  ... and {len(missing) - 50} more", file=sys.stderr)
+        return 1
+    if args.strict and violations:
+        print(f"[bedc-ci] metacic-purity FAIL: {len(violations)} forbidden dependency declaration(s)")
+        for report in violations[:50]:
+            bad = sorted(forbidden.intersection(report.axioms))
+            print(f"  {report.name} -> {', '.join(bad)}")
+        if len(violations) > 50:
+            print(f"  ... and {len(violations) - 50} more")
+        return 1
+    return 0
 
 
 def normalize_type_text(text: str) -> str:
@@ -1222,6 +1436,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
             if d.kind in ("theorem", "lemma")
             and d.qualified_name.startswith("BEDC.")
             and not d.is_private
+            and module_olean_path(d.module).exists()
         }
     )
     if not theorems:
@@ -1233,10 +1448,18 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
     # the project uses a parent-hub + namespace-extension pattern: sub-files
     # import the parent hub, so the parent hub re-exporting them would
     # cycle.
-    all_modules = sorted(
-        ".".join(p.relative_to(LEAN_ROOT).with_suffix("").parts)
-        for p in BEDC_ROOT.rglob("*.lean")
-    )
+    all_modules: list[str] = []
+    seen_public_decls: set[str] = set()
+    for path in sorted(BEDC_ROOT.rglob("*.lean")):
+        module = ".".join(path.relative_to(LEAN_ROOT).with_suffix("").parts)
+        if not module_olean_path(module).exists():
+            continue
+        file_decls, _fields = collect_declarations(path)
+        public_decls = {d.qualified_name for d in file_decls if not d.is_private}
+        if public_decls and public_decls.issubset(seen_public_decls):
+            continue
+        all_modules.append(module)
+        seen_public_decls.update(public_decls)
     lean_lines = [f"import {m}" for m in all_modules]
     lean_lines.append("")
     lean_lines.extend(f"#print axioms {name}" for name in theorems)
@@ -1390,7 +1613,19 @@ def parser() -> argparse.ArgumentParser:
         "manifest-coverage",
         help="Report informational coverage of paper \\leanchecked markers in BEDC.Manifest.Entries",
     )
+    manifest_coverage_p.add_argument(
+        "--scope",
+        type=str,
+        default=None,
+        help="Filter paper markers and manifest entries to Lean names with this namespace prefix",
+    )
     manifest_coverage_p.set_defaults(func=cmd_manifest_coverage)
+
+    marker_existence_p = sub.add_parser(
+        "marker-existence-audit",
+        help="Report informational paper Lean markers that do not exist in lean4/BEDC/",
+    )
+    marker_existence_p.set_defaults(func=cmd_marker_existence_audit)
 
     manifest_check_p = sub.add_parser(
         "manifest-check",
@@ -1420,6 +1655,17 @@ def parser() -> argparse.ArgumentParser:
     purity_p.add_argument("--tmp-dir", type=str, default=str(LEAN_ROOT),
                           help="Directory for the temporary Lean axiom-audit file")
     purity_p.set_defaults(func=cmd_axiom_purity)
+
+    metacic_purity_p = sub.add_parser(
+        "metacic-purity",
+        help="Report axiom dependencies for BEDC.MetaCIC declarations",
+    )
+    metacic_purity_p.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit 1 if a BEDC.MetaCIC theorem or lemma depends on Classical.choice, Quot.sound, or propext",
+    )
+    metacic_purity_p.set_defaults(func=cmd_metacic_purity)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")
     verify_p.add_argument("paths", nargs="+", help="Lean file paths, relative to lean4/")

@@ -1,0 +1,153 @@
+\chapter{A Concrete Naming Certificate for $\TailCofinalityScheduleUp$}
+\label{ch:concrete-instances-tail-cofinality-schedule-namecert}
+\origin{human}
+
+The $\TailCofinalityScheduleUp$ packet records the finite shared-threshold schedule used when a diagonal $\RealUp$ consumer must pass from dyadic tolerances and stream windows to $\RegSeqRatUp$ handoff rows and a $\RealUp$ seal. It names the schedule as an inspectable $\BHist$ surface, not as a host limit selector, quotient-stream equality, selected real, or ambient completeness principle.
+
+The schedule is the consumer-facing route from \autoref{ch:concrete-instances-streamname-namecert} through the displayed $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows, so its carrier records the finite L10 handoff rather than an isolated tail oracle.
+
+\begin{definition}[Tail cofinality schedule carrier]
+\label{def:tail-cofinality-schedule-carrier}
+A $\TailCofinalityScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+T=(E,W,D,R,L,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $E$ is the unary precision request row naming the tolerance level demanded by the diagonal consumer;
+\item $W$ is the cofinal finite-window schedule selected for that request over the relevant $\StreamNameUp$ rows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger proving that the windows in $W$ meet the requested dyadic bound;
+\item $R$ is the family of $\RegSeqRatUp$ readback rows made available after the window and dyadic ledgers have been consumed;
+\item $L$ is the $\RealUp$ seal row through which the diagonal consumer receives the scheduled regular-rational handoff;
+\item $H$ records componentwise $\hsame$ transports for $E,W,D,R,L$ and the structural rows of the packet;
+\item $C$ records the displayed $\Cont$ routes from $E$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $L$;
+\item $P$ records $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TailCofinalityScheduleUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a host-selected limit, ambient completeness, a hidden tail oracle, or an unbounded schedule.
+\end{definition}
+
+\begin{theorem}[Tail cofinality schedule NameCert obligations]
+\label{thm:tail-cofinality-schedule-namecert-obligations}
+The local $\NameCert_{\TailCofinalityScheduleUp}$ surface for \autoref{def:tail-cofinality-schedule-carrier} consists exactly of carrier admission for $T=(E,W,D,R,L,H,C,P,N)$, unary precision exposure through $E$, cofinal finite-window coverage through $W$, threshold sufficiency through the $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff through $R$, $\RealUp$ seal boundary through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, local naming through $N$, and non-escape from quotient streams, selected host limits, ambient completeness, hidden tail oracles, and unbounded schedules.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The rows $E,W,D,R,L$ expose the precision request, finite cofinal schedule, dyadic tolerance ledger, regular-rational readback, and real-facing seal.
+
+The schedule and threshold obligations are read in order. The route from $E$ to $W$ selects the finite cofinal windows, and the route from $W$ to $D$ records the dyadic sufficiency ledger for those same windows.
+
+The handoff and seal obligations then consume $R$ and $L$. Componentwise transport, route replay, provenance, and naming are exactly the rows $H,C,P,N$. Since no further analytic coordinate occurs in $T$, the listed rows exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule diagonal handoff]
+\label{thm:tail-cofinality-schedule-diagonal-handoff}
+Every diagonal $\RealUp$ consumer of an accepted $\TailCofinalityScheduleUp$ carrier factors through the finite rows
+$$
+E,W,D,R,L,H,C,P,N.
+$$
+The consumer first reads the unary precision request, then the cofinal finite-window schedule, then the dyadic tolerance ledger, then the $\RegSeqRatUp$ readback rows, and finally the $\RealUp$ seal row. It cannot read quotient streams, selected host limits, ambient completeness, a hidden tail oracle, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the NameCert obligation surface. They display the only route from the requested precision to the real-facing seal as
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L.
+$$
+
+The cofinal window coverage and threshold sufficiency clauses force the dyadic ledger to be consumed before any regular-rational row is available. Thus a diagonal handoff cannot jump from the precision request directly to a $\RegSeqRatUp$ witness or to a $\RealUp$ seal.
+
+The rows $H,C,P,N$ replay and name the same route under transport and provenance. Because the carrier has no coordinate for quotient stream equality, host-selected limits, ambient completeness, hidden tail oracles, or unbounded schedules, every diagonal consumer remains inside the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule finite-window coverage]
+\label{thm:tail-cofinality-schedule-window-coverage}
+Let $T=(E,W,D,R,L,H,C,P,N)$ be an accepted $\TailCofinalityScheduleUp$ carrier. Every unary precision request exposed by $E$ is routed through the displayed $\StreamNameUp$ finite-window row $W$ before any $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ row is readable. The route has no quotient-stream equality, host-selected limit, hidden tail oracle, or unbounded schedule coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only precision row is $E$, and the only finite-window schedule row attached to it is $W$.
+
+Apply \autoref{thm:tail-cofinality-schedule-namecert-obligations}. The local certificate lists cofinal finite-window coverage through $W$ as the obligation immediately downstream from unary precision exposure through $E$.
+
+Finally use \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. Its displayed handoff route begins $E \longmapsto W$, so a consumer cannot bypass $W$ to reach $D$, $R$, or $L$. Since the carrier contains no analytic escape coordinate, the finite-window route is exhaustive.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule threshold sufficiency]
+\label{thm:tail-cofinality-schedule-threshold-sufficiency}
+For an accepted $\TailCofinalityScheduleUp$ carrier $T=(E,W,D,R,L,H,C,P,N)$, every $\RegSeqRatUp$ readback row in $R$ is available only after the $\DyadicRatCoreUp$ ledger $D$ records the dyadic threshold supplied by the finite-window schedule $W$. No regular-rational readback is supplied by a host limit selector, ambient completeness principle, hidden tail oracle, or unbounded schedule.
+\end{theorem}
+\begin{proof}
+Read $W,D,R$ from the displayed packet. The schedule row $W$ names the finite stream windows, and the dyadic ledger $D$ records the threshold bound for those same windows.
+
+Apply \autoref{thm:tail-cofinality-schedule-namecert-obligations}. It places threshold sufficiency through $D$ between finite-window coverage and $\RegSeqRatUp$ handoff.
+
+The diagonal handoff theorem then gives the route $W \longmapsto D \longmapsto R$. Thus every regular-rational readback consumes the dyadic ledger first, and the packet has no coordinate from which an unbounded or host-selected readback could be recovered.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule Real seal readback]
+\label{thm:tail-cofinality-schedule-real-seal-readback}
+Let $T=(E,W,D,R,L,H,C,P,N)$ be an accepted $\TailCofinalityScheduleUp$ packet. Every $\RealUp$ consumer reaches the seal row $L$ only after consuming the precision row $E$, the finite-window row $W$, the dyadic ledger $D$, the regular-rational readback row $R$, and the structural rows $H,C,P,N$. The seal readback does not expose quotient streams, host-selected limits, ambient completeness, hidden tail oracles, or unbounded schedules.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the obligation theorem. They identify $L$ as the real-facing seal row and identify $H,C,P,N$ as the transport, continuation, package, and naming rows that replay the displayed route.
+
+Apply \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. It orders the analytic rows as $E \longmapsto W \longmapsto D \longmapsto R \longmapsto L$.
+
+It remains to account for the structural rows. The same handoff theorem and the NameCert obligations keep $H,C,P,N$ as replay and provenance for that route only. Since no additional real-construction coordinate occurs in $T$, every $\RealUp$ readback through $L$ has already consumed the displayed schedule surface.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule RegularCauchyTailMeet handoff]
+\label{thm:tail-cofinality-schedule-regular-cauchy-tail-meet-handoff}
+Let $T=(E,W,D,R,L,H,C,P,N)$ be an accepted $\TailCofinalityScheduleUp$ packet. Suppose its shared threshold row $D$ is supplied by an accepted $\RegularCauchyTailMeetUp$ packet whose paired source, window, modulus, threshold, comparison, transport, route, provenance, and local naming rows are transported into the same displayed schedule surface. Then every diagonal $\RealUp$ consumer of $T$ reads the $\RegularCauchyTailMeetUp$ paired source, window, modulus, and threshold rows before the $\RegSeqRatUp$ readback row $R$ and the $\RealUp$ seal row $L$.
+\end{theorem}
+\begin{proof}
+Start from the schedule route of \autoref{thm:tail-cofinality-schedule-real-seal-readback}. Every seal-facing consumer follows
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L.
+$$
+
+Identify $D$ with the shared dyadic threshold ledger supplied by the accepted $\RegularCauchyTailMeetUp$ packet. The tail-meet obligation package in \autoref{thm:regular-cauchy-tail-meet-obligation-closure-package} exposes the paired source rows, finite window rows, source modulus rows, shared threshold row, comparison row, transports, routes, provenance, and local name before any downstream consumer can use that threshold.
+
+Now apply the tail-meet real-seal handoff from \autoref{thm:regular-cauchy-tail-meet-real-seal-handoff}. It keeps the shared threshold inside the displayed tail-meet packet and forbids replacement by quotient-stream comparison, selected limit, host real equality, hidden tail oracle, or ambient completeness.
+
+Therefore the schedule consumer reaches $R$ and $L$ only after the RegularCauchyTailMeet paired source, window, modulus, and threshold rows have already been read through $D$ and the structural rows $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule scoped binding]
+\label{thm:tail-cofinality-schedule-scoped-binding}
+Every accepted $\TailCofinalityScheduleUp$ packet $T=(E,W,D,R,L,H,C,P,N)$ binds its precision request, finite-window schedule, dyadic threshold ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and $\NameCert_{\TailCofinalityScheduleUp}$ naming row through exactly the displayed BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\NameCert$. When $D$ is supplied by $\RegularCauchyTailMeetUp$, the shared-threshold handoff remains part of the same displayed scope before $R$ and $L$ are readable. No accepted packet supplies quotient stream equality, a host-selected limit, ambient completeness, a hidden tail oracle, or an unbounded schedule as an alternative source for any of these rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It displays the whole packet as a finite $\BHist$ surface
+$$
+T=(E,W,D,R,L,H,C,P,N),
+$$
+where $E$ is the precision row, $W$ is the $\StreamNameUp$ finite-window schedule, $D$ is the $\DyadicRatCoreUp$ ledger, $R$ is the $\RegSeqRatUp$ readback family, $L$ is the $\RealUp$ seal, and $H,C,P,N$ are the transport, route, provenance, and naming rows.
+
+Apply \autoref{thm:tail-cofinality-schedule-namecert-obligations}. It identifies carrier admission, precision exposure, finite-window coverage, threshold sufficiency, regular-rational handoff, real seal boundary, componentwise transport, route replay, provenance, and local naming as the complete local certificate surface for that same tuple.
+
+The analytic route is then fixed by the diagonal handoff, finite-window coverage, threshold sufficiency, and real-seal readback theorems. Together they force every consumer to read
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L
+$$
+and to carry the same route through $H,C,P,N$.
+
+Finally use \autoref{thm:tail-cofinality-schedule-regular-cauchy-tail-meet-handoff} when the ledger row is supplied by $\RegularCauchyTailMeetUp$. The shared threshold remains inside the displayed tail-meet rows before $R$ and $L$ are readable, so the schedule has no separate tail oracle.
+
+Since \autoref{def:tail-cofinality-schedule-carrier} contains no coordinate for quotient stream equality, selected host limits, ambient completeness, hidden tail oracles, or unbounded schedules, no accepted packet can factor any listed row through such data. The only available factors are the displayed BEDC primitives named above, together with the local $\NameCert$ row and the threshold handoff already routed through $D$.
+\end{proof}
+
+\closureat{TailCofinalityScheduleUp}{seedStr}
+\closureat{TailCofinalityScheduleUp}{obligationStr}
+\closureat{TailCofinalityScheduleUp}{scopedStr}
+\closureat{TailCofinalityScheduleUp}{publicStr}
+\closureat{TailCofinalityScheduleUp}{matureStr}
+
+\begin{closurestatus}{\TailCofinalityScheduleUp}
+  \constructivestory{A $\TailCofinalityScheduleUp$ packet is generated from a unary precision request, cofinal finite-window schedule, dyadic tolerance ledger, RegSeqRat readback rows, a RealUp seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:tail-cofinality-schedule-carrier}, \autoref{thm:tail-cofinality-schedule-namecert-obligations}, \autoref{thm:tail-cofinality-schedule-diagonal-handoff}, \autoref{thm:tail-cofinality-schedule-window-coverage}, \autoref{thm:tail-cofinality-schedule-threshold-sufficiency}, \autoref{thm:tail-cofinality-schedule-real-seal-readback}, \autoref{thm:tail-cofinality-schedule-regular-cauchy-tail-meet-handoff}, and \autoref{thm:tail-cofinality-schedule-scoped-binding} bind the public finite-window schedule to the downstream RealUp and RegSeqRat handoff through the displayed BEDC primitives, local NameCert row, and RegularCauchyTailMeet threshold route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected host limits, ambient completeness, hidden tail oracles, unbounded schedules, or a public standard bridge.}
+  \upgradepath{The paper theory axis is mature; Lean verification and bridge checking remain independent obligations for the schedule packet.}
+\end{closurestatus}

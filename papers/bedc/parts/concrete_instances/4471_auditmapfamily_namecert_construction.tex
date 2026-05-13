@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapFamilyUp$}
+\label{ch:concrete-instances-audit-map-family-namecert}
+\origin{ai}
+
+The $\AuditMapFamilyUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as a finite NameCert object. It sits beside the beta audit packet of \autoref{ch:concrete-instances-metacicbetaaudit-namecert}, the closure-preservation audit packet of \autoref{ch:concrete-instances-metacic-closure-preservation-audit-namecert}, and the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}: those chapters expose individual audit rows, while this packet records the family-level carrier that factors inventory, obstruction, frontier, and cross-map routing without turning any local row into hidden closure.
+
+\begin{definition}[Audit-map family NameCert carrier]
+\label{def:audit-map-family-namecert-carrier}
+An $\AuditMapFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,I,O,R,B,H,C,K,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the family tag naming the MetaCIC audit-map family and its BEDC substrate;
+\item $I$ is the finite inventory table of local audit maps, including beta, substitution, closure-preservation, confluence, normalisation, decidable-checking, typed-example, subject-reduction, and consistency-assembly rows when those rows are present;
+\item $O$ is the obstruction table recording rows whose absence or conditional status must remain visible;
+\item $R$ is the cross-map routing table recording which local maps may be read by neighbouring maps;
+\item $B$ is the frontier table recording consumer-facing claims that are named but not closed by the family packet;
+\item $H$ is the componentwise $\hsame$ transport row for $T,I,O,R,B,C,K,N$;
+\item $C$ is the displayed $\Cont$ route by which a consumer reads the inventory, obstruction, routing, frontier, provenance, and local name rows;
+\item $K$ is the $\Pkg$ provenance row over the concrete audit chapters supplying the local map entries;
+\item $N$ is the local $\NameCert_{\AuditMapFamilyUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose coordinates are the displayed family tag, finite inventory, obstruction table, routing table, frontier table, transport row, continuation route, package provenance, and local naming row. It exports no proof of subject reduction, confluence, normalisation, closed consistency, host semantic equality, or discharge route not already displayed by one of those coordinates.
+\end{definition}
+
+\begin{theorem}[Audit-map family inventory factorization]
+\label{thm:audit-map-family-inventory-factorization}
+For the carrier of \autoref{def:audit-map-family-namecert-carrier}, every accepted consumer read factors through exactly one of the displayed family coordinates
+$$
+T,\ I,\ O,\ R,\ B,\ H,\ C,\ K,\ N.
+$$
+In particular, a read of a local audit fact must pass through the finite inventory row $I$, a read of a blocked or conditional fact must pass through the obstruction row $O$, a read of a neighbouring map must pass through the routing row $R$, and a read of a consumer-facing open boundary must pass through the frontier row $B$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier $F$. The classifier admits only the nine displayed rows, so every consumer read must choose one coordinate before it can inspect any audit datum.
+
+The rows $I,O,R,B$ then partition the family-facing information. Local established material is inventory, blocked or conditional material is obstruction, cross-map access is routing, and consumer-facing open material is frontier.
+
+The remaining rows cannot add a new class of audit fact. The transport row $H$ preserves the displayed coordinates, the continuation row $C$ routes reads through them, the provenance row $K$ names their source chapters, and the local naming row $N$ binds the packet. Hence the carrier inventory factors every read through the stated coordinates.
+\end{proof}
+
+\begin{theorem}[Audit-map family cross-map non-escape]
+\label{thm:audit-map-family-cross-map-nonescape}
+For every accepted $\AuditMapFamilyUp$ carrier $F=(T,I,O,R,B,H,C,K,N)$, a cross-map read from one local audit row to another can cite only the source row, the target row, the displayed routing row $R$, the componentwise transport row $H$, the displayed continuation row $C$, the provenance row $K$, and the local naming row $N$. It cannot export an unlisted neighbouring map, a hidden route around an obstruction row, or a theorem stronger than the target map itself records.
+\end{theorem}
+\begin{proof}
+Begin with the routing coordinate. A cross-map read is admitted only through $R$, so it must name the source and target audit rows as entries of the finite family inventory.
+
+Transport and continuation preserve that route. The row $H$ identifies only displayed coordinates, and $C$ gives only the public path from the family packet to those coordinates. Neither row manufactures a new neighbouring map.
+
+Finally, provenance and naming restrict the citation surface. Since $K$ points back to the concrete audit chapters and $N$ names the local packet, a consumer may reuse an exposed route but cannot bypass an obstruction row or infer a stronger theorem than the target map records.
+\end{proof}
+
+\begin{theorem}[Audit-map family frontier stability]
+\label{thm:audit-map-family-frontier-stability}
+For every accepted $\AuditMapFamilyUp$ carrier, replacing a local audit row by an $\hsame$-transported copy preserves the family frontier row $B$ as the same displayed frontier. The transported packet may replay the same inventory, obstruction, routing, provenance, continuation, and naming coordinates, but the frontier table remains a named consumer boundary rather than a closed theorem surface.
+\end{theorem}
+\begin{proof}
+Use the componentwise transport row $H$. It transports the family tag, inventory, obstruction, routing, frontier, continuation, provenance, and naming coordinates as displayed coordinates of the same finite carrier shape.
+
+The frontier coordinate is therefore carried as $B$, not recomputed from neighbouring maps or hidden theorem content. A transported local audit row can change how the same visible row is represented, but it does not change which frontier entries the family packet exposes.
+
+The NameCert row $N$ then binds the transported packet to the same public surface. The frontier remains stable because the only accepted frontier read is still the displayed row $B$ routed through $C$ and cited through $K$.
+\end{proof}
+
+\begin{theorem}[Audit-map family frontier non-escape]
+\label{thm:audit-map-family-frontier-nonescape}
+For every accepted $\AuditMapFamilyUp$ carrier $F=(T,I,O,R,B,H,C,K,N)$, no entry of the frontier row $B$ can be read as a closed proof of the corresponding frontier claim. A consumer may cite the frontier entry as a named boundary of the audit-map family, but cannot extract subject reduction, confluence, candidate-free normalisation, full closed consistency, host semantic equality, or any other unlisted discharge from that citation.
+\end{theorem}
+\begin{proof}
+Read the frontier row directly. By \autoref{def:audit-map-family-namecert-carrier}, $B$ records consumer-facing claims that are named by the family packet but not closed by it.
+
+Apply the inventory factorization of \autoref{thm:audit-map-family-inventory-factorization}. Any consumer read of a frontier entry factors through $B$ and through the displayed continuation and naming rows, so the read never changes class into an inventory theorem or a routing theorem.
+
+Use cross-map non-escape from \autoref{thm:audit-map-family-cross-map-nonescape}. Even when the frontier entry points at a neighbouring audit map, the route can cite only what that neighbouring map itself exposes. Thus the frontier remains a named boundary and cannot discharge an unlisted theorem.
+\end{proof}
+
+\closureat{AuditMapFamilyUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapFamilyUp}
+  \constructivestory{An $\AuditMapFamilyUp$ packet is generated from a family tag, finite inventory table, obstruction table, cross-map routing table, frontier table, componentwise transport row, displayed continuation route, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-family-namecert-carrier}, \autoref{thm:audit-map-family-inventory-factorization}, \autoref{thm:audit-map-family-cross-map-nonescape}, \autoref{thm:audit-map-family-frontier-stability}, and \autoref{thm:audit-map-family-frontier-nonescape} bind the displayed audit-map family carrier and its four finite theorem rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, confluence, normalisation, closed consistency, host equality, or hidden discharge routes.}
+  \upgradepath{Obligation closure requires checked carrier, inventory, obstruction, routing, frontier, transport, continuation, provenance, and non-escape rows for the same finite audit-map family packet.}
+\end{closurestatus}

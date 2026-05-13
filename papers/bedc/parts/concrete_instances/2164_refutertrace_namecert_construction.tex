@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\RefuterTraceUp$}
+\label{ch:concrete-instances-refutertrace-namecert}
+\origin{ai}
+
+The $\RefuterTraceUp$ surface realizes the permitted-refutation side of \autoref{ch:visions-reasoning-by-contradiction-boundary} as a finite trace packet. It records the assumed proposition row, the route from that assumption to $\bot$, the local exclusions that keep forbidden contradiction schemas out of the consumer interface, and the exact $\BHist$ routes through which the certificate may be read.
+
+\begin{definition}[RefuterTrace carrier]
+\label{def:refuter-trace-carrier}
+A $\RefuterTraceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,U,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the proposition row being refuted, represented only by the certificate-visible predicate row that a consumer may assume locally;
+\item $U$ is the assumption token for $A$, naming the temporary witness that the trace is allowed to inspect;
+\item $F$ is the finite refuter trace, a displayed route from $U$ to $\bot$ through $\Cont$, $\Ext$, $\hsame$, $\msame$, and the local certificate rows;
+\item $E$ is the exclusion ledger for the forbidden contradiction moves of \autoref{def:reasoning-forbidden-pattern}: existential extraction without a witness, double-negation elimination without a decision row, and excluded-middle branching over the carrier of all naming certificates;
+\item $H$ stores componentwise $\hsame$ transports for the proposition, assumption, refuter trace, exclusion ledger, package provenance, and local naming rows;
+\item $C$ stores the displayed $\Cont$ routes for entering the assumption, replaying the finite trace, reaching $\bot$, checking the exclusions, and returning to the local ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\msame$, $\hsame$, the trace rows, the exclusion ledger, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RefuterTraceUp}$ ledger.
+\end{enumerate}
+The carrier contains no proof by contradiction that exports a witness, no double-negation eliminator, no excluded-middle oracle, no host truth predicate, and no classifier over the carrier of all naming certificates.
+\end{definition}
+
+\begin{theorem}[RefuterTrace NameCert obligations]
+\label{thm:refuter-trace-namecert-obligations}
+The local $\NameCert_{\RefuterTraceUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $R=(A,U,F,E,H,C,P,N)$ of \autoref{def:refuter-trace-carrier};
+\item trace readability, saying that $F$ is consumed only as a displayed route from the local assumption token $U$ for $A$ to $\bot$;
+\item transport stability, saying that the stored $\hsame$ rows in $H$ and $\Cont$ routes in $C$ preserve the proposition row, assumption token, refuter trace, and exclusion ledger;
+\item forbidden-branch exclusion, saying that $E$ blocks the three forbidden contradiction schemas named in \autoref{def:reasoning-forbidden-pattern};
+\item consumer boundary, saying that every public read of the packet factors through $A,U,F,E,H,C,P,N$ and exports only the negation certified by the trace.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.RefuterTraceUp.RefuterTraceTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:refuter-trace-carrier}. The accepted packet has exactly the displayed rows $A,U,F,E,H,C,P,N$, so every obligation can be read from finite $\BHist$ data.
+
+Trace readability follows by inspecting the coordinate $F$. Its source is the local assumption token $U$ for the proposition row $A$, and its target is $\bot$; no other coordinate supplies a witness-producing contradiction rule.
+
+Transport stability is supplied by $H$ and $C$. The $\hsame$ rows preserve the named components, while the $\Cont$ rows replay the route through the same finite trace before returning to $P$ and $N$.
+
+The forbidden-branch clause is exactly the role of $E$. Since $E$ records the absence of unwitnessed existential extraction, undecidable double-negation elimination, and excluded-middle branching over all naming certificates, no consumer can use the trace as a meta-level truth branch.
+
+The consumer boundary follows by combining these projections. A public read may assume $A$ locally, replay $F$ to $\bot$, and therefore consume $\neg A$ inside the fixed packet, but it cannot export any branch or witness absent from $A,U,F,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[RefuterTrace permitted refutation soundness]
+\label{thm:refuter-trace-permitted-refutation-soundness}
+For an accepted $\RefuterTraceUp$ carrier $R=(A,U,F,E,H,C,P,N)$, replaying the finite trace $F$ under the displayed transports and continuation routes certifies $\neg A$ in the local $\NameCert_{\RefuterTraceUp}$ ledger. The certification is exactly the permitted form ``assume $A$, derive $\bot$, conclude $\neg A$'' of \autoref{def:reasoning-permitted-pattern}.
+\end{theorem}
+\begin{proof}
+Begin with the assumption token $U$ for the proposition row $A$. The trace row $F$ is a finite $\Cont$ route from that token to $\bot$, and the routes in $C$ make each step visible to the certificate consumer.
+
+The transports in $H$ ensure that replaying the route does not change the proposition being refuted. Thus the endpoint $\bot$ is reached from the same local assumption for $A$ rather than from an ambient truth predicate or an unrelated classifier.
+
+By the permitted pattern of \autoref{def:reasoning-permitted-pattern}, a route from an assumed witness of $A$ to $\bot$ is precisely a certificate-level proof of $\neg A$. The resulting negation is recorded in the local ledger $N$ and nowhere outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[RefuterTrace forbidden branch exclusion]
+\label{thm:refuter-trace-forbidden-branch-exclusion}
+An accepted $\RefuterTraceUp$ carrier cannot be read as any of the three forbidden contradiction schemas of \autoref{def:reasoning-forbidden-pattern}. In particular, the packet does not provide a witness for an existential claim obtained only by refutation, does not eliminate $\neg\neg A$ without a decision row, and does not branch on excluded middle for predicates over the carrier of all naming certificates.
+\end{theorem}
+\begin{proof}
+The carrier has no coordinate whose codomain is an existential witness selected from a contradiction. The only witness-like row is the temporary assumption token $U$, and that token is consumed by $F$ to reach $\bot$ rather than exported.
+
+The carrier also has no decision row for $A$. Therefore a consumer reading $\neg\neg A$ cannot obtain $A$ from the packet; the exclusion ledger $E$ records exactly that this route is unavailable.
+
+Finally, no row in $R$ ranges over the carrier of all naming certificates. The classifier-visible data are the finite trace coordinates $A,U,F,E,H,C,P,N$, so an excluded-middle branch over arbitrary certificates has no source inside the packet.
+\end{proof}
+
+\begin{theorem}[RefuterTrace consumer boundary]
+\label{thm:refuter-trace-consumer-boundary}
+Every consumer of an accepted $\RefuterTraceUp$ carrier factors through the finite route
+$$
+A \longmapsto U \longmapsto F \longmapsto E \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+The consumer may read the certified negation produced by the trace, but it cannot read a host truth predicate, a global excluded-middle oracle, a witness selector, or a classifier over all naming certificates.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:refuter-trace-carrier}. The only public coordinates are $A,U,F,E,H,C,P,N$, and the displayed continuation route orders those coordinates from the local proposition row to the naming ledger.
+
+The certified negation is obtained by replaying $F$ from $U$ to $\bot$, with $H$ and $C$ preserving the same proposition row throughout the replay. This is the permitted-refutation route of \autoref{thm:refuter-trace-permitted-refutation-soundness}.
+
+The unavailable reads are ruled out componentwise. Host truth, excluded-middle branching, witness selection, and all-certificate classification have no coordinate in the packet, and the exclusion ledger $E$ records that they are not consumer interfaces.
+\end{proof}
+
+\closureat{RefuterTraceUp}{seedStr}
+
+\begin{closurestatus}{\RefuterTraceUp}
+  \constructivestory{A $\RefuterTraceUp$ packet is generated from a proposition row, a local assumption token, a finite refuter trace to $\bot$, a forbidden-branch exclusion ledger, componentwise transports, displayed continuation routes, package provenance, and a local naming ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:refuter-trace-carrier}, \autoref{thm:refuter-trace-namecert-obligations}, \autoref{thm:refuter-trace-permitted-refutation-soundness}, \autoref{thm:refuter-trace-forbidden-branch-exclusion}, and \autoref{thm:refuter-trace-consumer-boundary} bind the finite carrier, obligation surface, permitted refutation route, forbidden-branch exclusion, and consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close existential-by-refutation witness selection, undecidable double-negation elimination, excluded middle over naming certificates, host truth, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires Lean encoding of the packet and checked theorems for trace readability, transport stability, forbidden-branch exclusion, permitted-refutation soundness, and consumer non-escape.}
+\end{closurestatus}

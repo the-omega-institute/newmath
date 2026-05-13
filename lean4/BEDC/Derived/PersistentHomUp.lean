@@ -236,4 +236,25 @@ theorem PersistentHomFiltrationCarrier_obligation_surface [AskSetup] [PackageSet
       carrier.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right⟩
 
+theorem PersistentHomFiltrationCarrier_empty_spine_ledger_collapse [AskSetup] [PackageSetup]
+    {indexSpine complexRows homologyRows boundaryRows persistenceRows route provenance
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PersistentHomFiltrationCarrier indexSpine complexRows homologyRows boundaryRows
+        persistenceRows route provenance endpoint bundle pkg ->
+      hsame indexSpine BHist.Empty ->
+        hsame route complexRows ∧ hsame endpoint (append provenance persistenceRows) ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier emptySpine
+  have emptyRoute : Cont BHist.Empty complexRows route :=
+    by
+      cases emptySpine
+      exact carrier.right.right.right.right.left
+  have routeSame : hsame route complexRows :=
+    cont_left_unit_result emptyRoute
+  exact
+    ⟨routeSame,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.PersistentHomUp

@@ -30,6 +30,8 @@ classifier, the $\HolomorphicUp$ chart rows $H$ and $H'$ agree on the same
 local-function source, and the $\mathsf{Pkg}$ and $\Cont$ provenance rows are
 componentwise the displayed rows for those transports.
 \end{definition}
+\leandef{BEDC.Derived.ThetaFunctionUp.ThetaFunctionSourceClassifier}
+\leandef{BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_classifier}
 
 \section{The certificate}
 \label{sec:thetafunction-certificate}
@@ -132,4 +134,39 @@ Begin with the carrier source, classifier, hsame stability, and ledger exactness
 For a period-lattice readback, first project the $\EllipticCurveUp$ period source and the $\ComplexSeriesUp$ coefficient stream rows. Then transport the chart and coefficient windows along the displayed $\hsame$ comparisons and follow the recorded $\Cont$ route.
 
 The NameCert boundary of \autoref{thm:thetafunction-namecert-boundary} exhausts the consumer-visible surface. Since the boundary has no constructor field for analytic continuation, quotient tori, host lattices, or completed coefficient streams, none of those objects is exported.
+\end{proof}
+
+\closureat{ThetaFunctionUp}{seedStr}[BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_namecert\_boundary]
+\closureat{ThetaFunctionUp}{obligationStr}[BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_namecert\_boundary]
+\closureat{ThetaFunctionUp}{scopedStr}[BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_namecert\_boundary]
+\closureat{ThetaFunctionUp}{publicStr}[BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_namecert\_boundary]
+
+\begin{closurestatus}{\ThetaFunctionUp}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The seed scope names the displayed $\EllipticCurveUp$, $\HolomorphicUp$, $\ComplexSeriesUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows of the theta-function packet.}
+  \constructivestory{A theta-function packet records finite period, holomorphic chart, coefficient-window, continuation, and package rows as its visible certificate surface.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.ThetaFunctionUp.ThetaFunctionCarrierSource\_namecert\_boundary}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close analytic continuation, quotient tori, completed modular forms, host lattice objects, or standard bridges.}
+  \upgradepath{Bridge closure requires a standard bridge boundary for the displayed theta-function public packet.}
+\end{closurestatus}
+
+\begin{theorem}[ThetaFunction coefficient-prefix restriction carrier]
+\label{thm:thetafunction-coefficient-prefix-restriction-carrier}
+Let $\Theta=(E,H,Q,\Pi,C)$ be an accepted $\ThetaFunctionUp$ carrier source of \autoref{def:thetafunction-carrier-source}. Let $Q_{\preceq n}$ be a displayed finite prefix window of the same $q$-expansion coefficient ledger. Suppose the $\ComplexSeriesUp$ coefficient-window classifier accepts $Q_{\preceq n}$ under the same coefficient source that accepts $Q$, and suppose the displayed prefix readback is one of the finite coefficient observations already routed by the $\Cont$ rows in $C$. Then
+$$
+\Theta_{\preceq n}=(E,H,Q_{\preceq n},\Pi,C)
+$$
+is again an accepted $\ThetaFunctionUp$ carrier source. The replacement keeps the period ledger, holomorphic chart row, package provenance, and continuation rows fixed, and changes only the finite coefficient-window coordinate from $Q$ to the classified prefix $Q_{\preceq n}$.
+\end{theorem}
+\begin{proof}
+Invert the accepted carrier source by \autoref{def:thetafunction-carrier-source}. Its exposed rows are exactly the period ledger $E$, the holomorphic local-function row $H$, the finite coefficient window $Q$, the package provenance $\Pi$, and the finite readback rows $C$ tying the period, chart, and coefficient observations to the same packet.
+
+The prefix hypothesis supplies a finite coefficient row $Q_{\preceq n}$ over the same displayed $\ComplexSeriesUp$ coefficient ledger. Since it is accepted by the same coefficient-window classifier as $Q$, replacing the coefficient coordinate does not introduce a different coefficient source, a completed series, or an unrecorded equality of analytic functions. The coefficient row remains a finite window row in the exact sense required by the carrier definition.
+
+The period coordinate $E$ and the chart coordinate $H$ are not altered. The package row $\Pi$ is also unchanged, because the dependency provenance still names the same elliptic-curve, holomorphic, and complex-series sources. The continuation row $C$ remains valid by the displayed prefix-readback assumption: its period and chart components are identical, and its coefficient component already routes the prefix observation $Q_{\preceq n}$ as a finite readback under the same packet.
+
+Repacking the five displayed coordinates gives $(E,H,Q_{\preceq n},\Pi,C)$, which satisfies the carrier clauses of \autoref{def:thetafunction-carrier-source}. Finally, \autoref{thm:thetafunction-ledger-exactness} shows that this operation has no hidden effect on the public ledger: the result still exposes only the elliptic-curve period rows, the holomorphic chart row, the finite coefficient window, $\Pkg$ provenance, and $\Cont$ readbacks, with no analytic continuation datum, completed modular form, host holomorphic-function equality, or infinite coefficient object.
 \end{proof}

@@ -1,0 +1,443 @@
+\chapter{A Concrete Naming Certificate for $\UniformSpaceUp$}
+\label{ch:concrete-instances-uniformspace-namecert}
+
+The $\UniformSpaceUp$ surface names the finite entourage interface between
+$\MetricUp$, $\TopologyUp$, $\FilterUp$, $\CauchyFilterUp$, and
+$\CompletionUp$. Bourbaki--Kelley uniform-space practice treats entourages as
+the common language behind topology, filters, Cauchy data, and completion; the
+BEDC certificate keeps only finite $\mathsf{BHist}$ rows, visible classifier
+transport, and explicit refinement ledgers.
+
+\begin{definition}[UniformSpaceUp BHist entourage carrier]
+\label{def:uniformspace-bhist-carrier}
+A $\UniformSpaceUp$ carrier is a finite packet
+$$
+U=(X,E,D,R,S,C,P,N)
+$$
+where $X$ is the carried point-history source, $E$ is a finite list of
+entourage rows over $X\times X$, $D$ records the diagonal row for each listed
+entourage, $R$ records finite refinement witnesses, $S$ records symmetry
+readback, $C$ records composition readback, $P$ is the $\mathsf{Pkg}$
+provenance ledger, and $N$ is the local $\NameCert_{\UniformSpaceUp}$ row.
+The point classifier is inherited from the $X$ row and is stable under
+$\hsame$ transport on both coordinates of every entourage row.
+\end{definition}
+
+\begin{theorem}[UniformSpaceUp finite filterbase diagonal obligation]
+\label{thm:uniformspace-filterbase-diagonal-obligation}
+Every accepted $\UniformSpaceUp$ carrier exposes a finite filterbase of
+entourage rows. For each displayed entourage $V\in E$, the diagonal row
+records that every accepted point history $x$ has $(x,x)$ in $V$, and the
+finite filterbase ledger records a displayed refinement row for every pair of
+entourages named by downstream $\FilterUp$ or $\CauchyFilterUp$ consumers.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_filterbase\_diagonal\_obligation}
+\begin{proof}
+Unpack the carrier of \autoref{def:uniformspace-bhist-carrier}. The diagonal
+component $D$ is indexed by the same finite entourage list $E$, so each
+consumer-visible entourage carries its own diagonal witness.
+
+For a pair of displayed entourages, the refinement component $R$ supplies a
+third displayed entourage and the two inclusion reads needed by a filterbase
+consumer. Repacking those rows gives the finite filterbase obligation without
+forming an external filter object.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp diagonal refinement obligation]
+\label{thm:uniformspace-diagonal-refinement-obligation}
+If a $\UniformSpaceUp$ consumer requests a diagonal neighbourhood from a
+$\MetricUp$ ball row or a $\TopologyUp$ neighbourhood row, the carrier factors
+the request through one of its finite entourage rows and a displayed
+refinement ledger. The request sees only the point source, the chosen
+entourage, its diagonal row, $\hsame$ transport on endpoints, and the
+$\mathsf{Pkg}$ provenance row.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpaceEntouragePacket\_diagonal\_refinement\_obligation}
+\begin{proof}
+Read the request as a finite row over the same point-history source $X$. The
+$\MetricUp$ and $\TopologyUp$ anchors supply only neighbourhood data, not a
+host uniformity.
+
+The carrier supplies a named entourage row whose diagonal witness covers the
+requested point and whose refinement ledger records the inclusion into the
+requested neighbourhood. Endpoint changes are transported by the inherited
+$\hsame$ classifier, and the visible provenance remains the single package
+row $P$.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp symmetry and composition obligation]
+\label{thm:uniformspace-symmetry-composition-obligation}
+For every displayed entourage $V$ in an accepted $\UniformSpaceUp$ carrier,
+the symmetry row $S$ gives a displayed entourage $V^{\mathrm{op}}$ with the
+endpoints exchanged. For every displayed entourage $V$, the composition row
+$C$ gives a displayed refinement $W$ such that two successive $W$-steps read
+as one $V$-step. Both rows are finite $\mathsf{BHist}$ ledgers stable under
+the inherited point classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_symmetry\_composition\_obligation}
+\begin{proof}
+The symmetry component is a row-by-row endpoint exchange in the finite
+entourage list. Applying $\hsame$ on the first and second coordinates carries
+the exchanged row to classified representatives.
+
+The composition component names a finite witness $W$ and a ledger read from
+$W\circ W$ into $V$. Because both $W$-steps and the target $V$-step are rows of
+the same carrier, the composition readback is stable under the same endpoint
+transport and package provenance.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp Cauchy and completion handoff]
+\label{thm:uniformspace-cauchy-completion-handoff}
+Every $\CauchyFilterUp$ or $\CompletionUp$ consumer of a
+$\UniformSpaceUp$ packet factors through the finite entourage filterbase,
+diagonal rows, refinement rows, symmetry rows, composition rows, $\hsame$
+endpoint transport, and $\mathsf{Pkg}$ provenance of
+\autoref{def:uniformspace-bhist-carrier}. The handoff introduces no
+choice-selected completion point, quotient stream equality, open-cover
+compactness, or host-space uniformity.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpaceClassifierPacket\_cauchy\_completion\_handoff}
+\begin{proof}
+Project the accepted packet to its finite filterbase rows. A Cauchy consumer
+reads finite entourage obligations exactly as in the $\CauchyFilterUp$ surface:
+each demanded precision row is matched by a displayed entourage and a
+refinement witness.
+
+A completion consumer may retain the same finite Cauchy ledger and provenance
+rows, but there is no coordinate in the carrier for a selected limit point or
+a quotient class of streams. Therefore the handoff is only the visible
+entourage data listed in the theorem.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp classifier transport obligation]
+\label{thm:uniformspace-classifier-transport-obligation}
+Let $U=(X,E,D,R,S,C,P,N)$ be an accepted $\UniformSpaceUp$ carrier as in
+\autoref{def:uniformspace-bhist-carrier}. Endpoint $\hsame$ transport of the
+point source $X$ and of every displayed entourage row repacks another accepted
+$\UniformSpaceUp$ carrier with the same finite entourage list, diagonal
+ledger, refinement ledger, symmetry ledger, composition ledger,
+$\mathsf{Pkg}$ provenance, and $\NameCert_{\UniformSpaceUp}$ row.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_classifier\_transport\_obligation}
+\begin{proof}
+Unpack the carrier definition. The point classifier is the one inherited from
+the $X$ row, and every entourage row is explicitly declared stable under
+$\hsame$ on both coordinates.
+
+Transport the endpoint histories first, then apply the same transport to the
+diagonal, refinement, symmetry, and composition rows. The carrier has no
+coordinate outside these finite ledgers, so the transported rows repack with
+the unchanged package provenance and naming certificate.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp entourage ledger exactness]
+\label{thm:uniformspace-entourage-ledger-exactness}
+Every consumer-visible entourage read from an accepted $\UniformSpaceUp$
+carrier is exhausted by the finite list $E$, the diagonal row $D$, the
+refinement row $R$, the symmetry row $S$, the composition row $C$, and the
+$\mathsf{Pkg}$ provenance row. No consumer can read an additional host
+uniformity, open-cover compactness principle, quotient stream equality, or
+choice-selected completion datum from the carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_entourage\_ledger\_exactness}
+\begin{proof}
+Project the accepted packet to the coordinates of
+\autoref{def:uniformspace-bhist-carrier}. The only entourage-bearing
+coordinate is the finite list $E$, and the only certified reads from this list
+are the rows named by $D$, $R$, $S$, and $C$.
+
+Apply the diagonal obligation of
+\autoref{thm:uniformspace-filterbase-diagonal-obligation}, the neighbourhood
+refinement obligation of
+\autoref{thm:uniformspace-diagonal-refinement-obligation}, and the symmetry
+and composition obligation of
+\autoref{thm:uniformspace-symmetry-composition-obligation}. These rows account
+for every displayed consumer read while the package row $P$ accounts for
+provenance.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp common refinement Cauchy handoff]
+\label{thm:uniformspace-common-refinement-cauchy-handoff}
+Any $\CauchyFilterUp$ or $\CompletionUp$ request through two compatible
+entourage demands of an accepted $\UniformSpaceUp$ carrier factors through a
+displayed common refinement row. The exported handoff contains only the point
+source, the two demanded entourage rows, the common refinement witness,
+endpoint $\hsame$ transport, the relevant $\Cont$ observation windows, and
+$\mathsf{Pkg}$ provenance; it exports no choice-selected limit, quotient
+stream, open-cover compactness, or host uniformity.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_common\_refinement\_cauchy\_handoff}
+\begin{proof}
+Start with the two compatible demands as finite reads from the entourage list
+$E$. The filterbase diagonal obligation provides the common refinement row
+from $R$ and the inclusions back into the two demanded rows.
+
+Transport endpoint representatives by
+\autoref{thm:uniformspace-classifier-transport-obligation}. The refinement,
+diagonal, symmetry, and composition rows remain rows of the same finite
+carrier after this transport.
+
+Finally apply the handoff theorem
+\autoref{thm:uniformspace-cauchy-completion-handoff}. A Cauchy or completion
+consumer receives the finite refinement ledger and provenance, but the carrier
+contains no coordinate for a selected limit, quotient stream, open-cover
+compactness datum, or ambient host uniformity.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp common refinement functoriality]
+\label{thm:uniformspace-cauchy-completion-common-refinement-functoriality}
+Let $U_0$, $U_1$, and $U_2$ be accepted $\UniformSpaceUp$ packets. Suppose the
+displayed finite entourage ledger contains a compatible common-refinement row
+from $U_0$ to $U_1$ and a compatible common-refinement row from $U_1$ to $U_2$.
+Then every $\CauchyFilterUp$ or $\CompletionUp$ request routed through $U_2$
+also routes through $U_0$ by the composed finite entourage ledger.
+
+The composed handoff contains only the point-history source, the two displayed
+common-refinement rows, diagonal witnesses, endpoint $\hsame$ transport,
+the relevant $\Cont$ observation windows, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\UniformSpaceUp}$ rows. It introduces no quotient equality of
+Cauchy streams, no selected completion point, no choice-based completion data,
+and no ambient host uniformity.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_common\_refinement\_functoriality}
+\begin{proof}
+First compose the two displayed common-refinement rows. The filterbase
+diagonal, neighbourhood refinement, symmetry, and composition obligations keep
+the composite as a finite entourage ledger row of the same BEDC form.
+
+Next apply \autoref{thm:uniformspace-classifier-transport-obligation} to each
+handoff. Endpoint representatives move along the displayed $\hsame$ rows, and
+the $\Cont$ observation windows remain rows of the accepted packets.
+
+Now invoke
+\autoref{thm:uniformspace-common-refinement-cauchy-handoff} for the route from
+$U_2$ to $U_1$, and invoke it again for the route from $U_1$ to $U_0$. The first
+application supplies the finite ledger consumed by the second, so the
+$\CauchyFilterUp$ or $\CompletionUp$ request is read at $U_0$ through the
+composed common refinement.
+
+Finally repack the resulting ledger with the same $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance. Since the construction
+only concatenates displayed finite rows, it never forms a quotient of Cauchy
+streams and never selects a completion point.
+\end{proof}
+
+\begin{theorem}[UniformSpaceUp scoped entourage package]
+\label{thm:uniformspace-scoped-entourage-package}
+The carrier of \autoref{def:uniformspace-bhist-carrier}, together with
+\autoref{thm:uniformspace-filterbase-diagonal-obligation},
+\autoref{thm:uniformspace-diagonal-refinement-obligation},
+\autoref{thm:uniformspace-symmetry-composition-obligation},
+\autoref{thm:uniformspace-cauchy-completion-handoff},
+\autoref{thm:uniformspace-classifier-transport-obligation},
+\autoref{thm:uniformspace-entourage-ledger-exactness}, and
+\autoref{thm:uniformspace-common-refinement-cauchy-handoff}, and
+\autoref{thm:uniformspace-cauchy-completion-common-refinement-functoriality},
+forms one scoped BEDC packet over $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$.
+
+Every $\CauchyFilterUp$ and $\CompletionUp$ consumer of this packet receives
+only finite entourage rows, displayed endpoint transports, continuation
+routes, package provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Unpack the carrier of \autoref{def:uniformspace-bhist-carrier}. Its displayed
+coordinates are the point-history source, the finite entourage list, the
+diagonal row, the refinement row, the symmetry row, the composition row,
+transport and continuation data, package provenance, and local naming evidence.
+
+The diagonal and filterbase projections are exactly
+\autoref{thm:uniformspace-filterbase-diagonal-obligation} and
+\autoref{thm:uniformspace-diagonal-refinement-obligation}. The symmetry and
+composition projections are supplied by
+\autoref{thm:uniformspace-symmetry-composition-obligation}.
+
+Classifier transport is supplied by
+\autoref{thm:uniformspace-classifier-transport-obligation}, and carrier
+exhaustion is supplied by
+\autoref{thm:uniformspace-entourage-ledger-exactness}. These projections keep
+all consumer reads on the same $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ surface.
+
+Finally apply \autoref{thm:uniformspace-cauchy-completion-handoff} and
+\autoref{thm:uniformspace-common-refinement-cauchy-handoff}. The
+$\CauchyFilterUp$ and $\CompletionUp$ consumers receive the finite entourage
+rows and their common refinement data, with no selected completion point,
+quotient stream, open-cover compactness datum, or ambient host uniformity.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_scoped\_entourage\_package}
+
+\begin{theorem}[UniformSpaceUp entourage public export]
+\label{thm:uniformspace-entourage-public-export}
+The finite filterbase diagonal row, diagonal refinement row, symmetry and
+composition rows, classifier transport row, entourage ledger, and
+common-refinement Cauchy handoff rows of the scoped $\UniformSpaceUp$ packet
+assemble into the public downstream packet for $\CauchyFilterUp$ and
+$\CompletionUp$ consumers.
+
+The public packet exports only finite entourage data over $\mathsf{BHist}$,
+displayed $\hsame$ endpoint transport, $\Cont$ observation routes,
+$\mathsf{Pkg}$ provenance, and local $\NameCert$ evidence.
+\end{theorem}
+\begin{proof}
+Start with the scoped package of
+\autoref{thm:uniformspace-scoped-entourage-package}. It binds the carrier of
+\autoref{def:uniformspace-bhist-carrier} to the finite entourage rows,
+transport rows, continuation routes, package provenance, and local naming
+evidence.
+
+The finite filterbase and diagonal parts are supplied by
+\autoref{thm:uniformspace-filterbase-diagonal-obligation} and
+\autoref{thm:uniformspace-diagonal-refinement-obligation}. Symmetry and
+composition are supplied by
+\autoref{thm:uniformspace-symmetry-composition-obligation}.
+
+Classifier transport and ledger exhaustion are supplied by
+\autoref{thm:uniformspace-classifier-transport-obligation} and
+\autoref{thm:uniformspace-entourage-ledger-exactness}. These rows ensure
+that public consumers read the same finite entourage surface after endpoint
+transport.
+
+Finally use \autoref{thm:uniformspace-cauchy-completion-handoff} and
+\autoref{thm:uniformspace-common-refinement-cauchy-handoff}. They identify
+the downstream $\CauchyFilterUp$ and $\CompletionUp$ requests with the common
+finite-refinement packet, leaving selected limits, quotient streams,
+open-cover compactness data, and host uniformities outside the export.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_entourage\_public\_export}
+
+\begin{theorem}[UniformSpace finite-entourage standard bridge]
+\label{thm:uniformspace-standard-bridge}
+The finite filterbase diagonal row, diagonal refinement row, symmetry and
+composition rows, classifier transport row, entourage ledger,
+common-refinement Cauchy handoff rows, displayed $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows assemble the standard
+finite-entourage bridge for $\UniformSpaceUp$.
+
+The bridge exposes exactly the public finite-entourage packet of
+\autoref{thm:uniformspace-entourage-public-export}. It does not add
+choice-based completion, quotient equality of Cauchy streams, open-cover
+compactness, host uniformity, or selected limits.
+\end{theorem}
+\begin{proof}
+Begin with the scoped finite-entourage package of
+\autoref{thm:uniformspace-scoped-entourage-package}. Its carrier is the
+displayed $\mathsf{BHist}$ of \autoref{def:uniformspace-bhist-carrier},
+equipped with the finite diagonal, refinement, symmetry, composition,
+classifier, ledger, handoff, continuation, package, and naming rows.
+
+Apply \autoref{thm:uniformspace-entourage-public-export}. The public export
+repackages the same rows for $\CauchyFilterUp$ and $\CompletionUp$ consumers,
+so the standard bridge has a fixed source packet and a fixed public target
+packet over the same $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+coordinates.
+
+The Cauchy side is supplied by
+\autoref{thm:uniformspace-cauchy-completion-handoff} and
+\autoref{thm:uniformspace-common-refinement-cauchy-handoff}. These theorems
+carry common finite-refinement data across the downstream Cauchy requests
+without choosing a completion point or identifying streams by quotient
+equality.
+
+It remains only to record the boundary of the bridge. Since the cited package,
+public export, and Cauchy handoff theorems contain no rows for choice-based
+completion, open-cover compactness, host uniformity, or selected limits, the
+assembled bridge is exactly the finite-entourage standard bridge stated here.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_standard\_bridge}
+
+\begin{theorem}[UniformSpace finite Cauchy and completion consumer examples]
+\label{thm:uniformspace-finite-cauchy-completion-consumer-examples}
+The finite-entourage bridge for $\UniformSpaceUp$ yields two concrete
+downstream consumer examples.
+
+First, a $\CauchyFilterUp$ request reads the common refinement row of the
+finite entourage packet as its finite Cauchy witness ledger. Second, a
+$\CompletionUp$ request reads the same finite Cauchy ledger as completion input
+without selecting a limit and without quotienting streams.
+
+Both consumers use only the finite entourage list, diagonal witnesses, common
+refinement rows, symmetry rows, composition rows, endpoint $\hsame$ transport,
+$\Cont$ observation windows, $\mathsf{Pkg}$ provenance, and local
+$\NameCert_{\UniformSpaceUp}$ row exported by the bridge.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_finite\_cauchy\_completion\_consumer\_examples}
+\begin{proof}
+Use \autoref{thm:uniformspace-entourage-public-export}. It fixes the public
+finite-entourage packet containing the finite entourage list, diagonal
+witnesses, symmetry and composition rows, classifier transport, endpoint
+$\hsame$ rows, $\Cont$ windows, package provenance, and local naming row.
+
+Apply \autoref{thm:uniformspace-standard-bridge}. The standard bridge exposes
+that packet as the public $\UniformSpaceUp$ source for downstream consumers and
+adds no selected completion point, quotient stream equality, open-cover
+compactness, host uniformity, or selected limit.
+
+Next use \autoref{thm:uniformspace-cauchy-completion-handoff}. It routes the
+finite $\CauchyFilterUp$ and $\CompletionUp$ requests through the same displayed
+finite-entourage packet.
+
+Finally apply \autoref{thm:uniformspace-common-refinement-cauchy-handoff}. The
+common refinement row supplies the finite Cauchy witness ledger for the
+$\CauchyFilterUp$ read, and the same ledger is retained by the $\CompletionUp$
+read without selecting a limit or quotienting streams.
+\end{proof}
+
+\begin{theorem}[UniformSpace entourage-filter-metric comparison]
+\label{thm:uniformspace-entourage-filter-metric-comparison}
+An accepted $\UniformSpaceUp$ packet compares two point histories only through
+the displayed entourage rows, filter-neighbourhood rows, $\MetricUp$ distance
+witness rows when those witnesses are present, componentwise $\hsame$
+transports on the two endpoints, $\Cont$ routes, and $\mathsf{Pkg}$
+provenance.
+
+The comparison exports no host uniformity, open-cover compactness principle,
+quotient topology equality, choice-selected completion datum, or ambient
+metric space equality. A downstream $\MetricUp$, $\TopologyUp$, $\FilterUp$,
+or $\CauchyFilterUp$ consumer therefore receives exactly the finite comparison
+surface carried by the $\UniformSpaceUp$ packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformSpaceUp.UniformSpacePacket\_entourage\_filter\_metric\_comparison}
+\begin{proof}
+Project the accepted packet by
+\autoref{thm:uniformspace-scoped-entourage-package}. This supplies the point
+source, finite entourage list, diagonal, refinement, symmetry, composition,
+transport, continuation, package, and local naming rows over the same
+$\mathsf{BHist}$ surface.
+
+Next replay the filter-neighbourhood witnesses. The finite filterbase
+diagonal obligation and the diagonal refinement obligation identify each
+requested neighbourhood with a displayed entourage row and a displayed
+refinement route, while componentwise $\hsame$ carries the two endpoint
+histories through the same classifier surface.
+
+When a $\MetricUp$ distance witness row is present, it is read as one of the
+neighbourhood anchors already routed through the displayed entourage ledger.
+The classifier transport obligation preserves that row under endpoint
+transport, and the common-refinement handoff keeps the filter and Cauchy reads
+on the same finite continuation routes.
+
+Finally apply
+\autoref{thm:uniformspace-entourage-ledger-exactness}. Since the exactness
+boundary has no coordinate for host uniformity, open-cover compactness,
+quotient topology equality, or ambient metric equality, the comparison is
+exhausted by the displayed entourage, filter, metric-witness, $\hsame$,
+$\Cont$, and $\mathsf{Pkg}$ rows.
+\end{proof}
+
+\closureat{UniformSpaceUp}{seedStr}
+\closureat{UniformSpaceUp}{obligationStr}
+\closureat{UniformSpaceUp}{publicStr}
+\closureat{UniformSpaceUp}{bridgedStr}
+\closureat{UniformSpaceUp}{matureStr}
+
+\begin{closurestatus}{\UniformSpaceUp}
+  \constructivestory{A uniform-space packet is generated by a carried point-history source, a finite list of entourage rows, diagonal witnesses, finite filterbase refinements, symmetry rows, composition rows, endpoint $\hsame$ transport, package provenance, and a local naming row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:uniformspace-entourage-public-export}, \autoref{thm:uniformspace-standard-bridge}, and \autoref{thm:uniformspace-finite-cauchy-completion-consumer-examples} export the finite filterbase diagonal, diagonal refinement, symmetry and composition, classifier transport, entourage ledger, common-refinement Cauchy handoff rows, common-refinement functoriality, standard finite-entourage bridge, and finite Cauchy and completion consumer examples as the public $\UniformSpaceUp$ downstream packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{The chapter does not close choice-based completion, quotient equality of Cauchy streams, open-cover compactness, host uniformity, or selected limits.}
+  \upgradepath{The paper-side finite-entourage consumer treatment is mature; formal verification remains on the Lean axis.}
+\end{closurestatus}

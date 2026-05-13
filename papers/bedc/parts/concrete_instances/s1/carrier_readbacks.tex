@@ -622,3 +622,96 @@ $\mathsf{SOneUnitHistory}$.
 Pair the two implications.
 \end{proof}
 \leanchecked{BEDC.Derived.S1Up.SOneHistoryCarrier\_shared\_point\_component\_iff}
+
+\begin{definition}[SOne displayed completion readback]
+\label{def:sone-displayed-completion-readback}
+Let $\alpha$ be a displayed BEDC source map on $\BHist$. A row
+$$
+\mathsf{SOneDisplayedCompletionReadback}_{\alpha}(a,x,y,e,p,c)
+$$
+means that the source row $a$ is read through a concrete $\SOneUp$ carrier and
+that the $\CompletionUp$ endpoint is represented by the same visible point
+ledger:
+$$
+\begin{aligned}
+\mathsf{SOneDisplayedCompletionReadback}_{\alpha}(a,x,y,e,p,c)
+:\Longleftrightarrow{}&
+\mathsf{SOneHistoryCarrier}(x,y,e,p)\land{}\\
+&\hsame(\alpha(a),p)\land \hsame(c,p).
+\end{aligned}
+$$
+The predicate has no field for a host quotient representative: the only
+completion readback data are the displayed point ledger $p$ and the two
+$\hsame$ comparisons tying $p$ to the source image and to the public endpoint.
+\end{definition}
+\leandef{BEDC.Derived.S1Up.SOneDisplayedCompletionReadback}
+
+\begin{proposition}[SOne completion readback preserves source separation]
+\label{prop:sone-completion-readback-source-separation}
+Let $\alpha$ be a displayed BEDC source map on $\BHist$ whose additive
+and cancellation rows supply the injectivity judgment
+$$
+\forall u,v:\BHist.\;
+\hsame(\alpha(u),\alpha(v))\Longrightarrow\hsame(u,v).
+$$
+Then displayed $\SOneUp$-$\CompletionUp$ readback is injective on source rows
+and therefore preserves source separation:
+$$
+\begin{aligned}
+&\mathsf{SOneDisplayedCompletionReadback}_{\alpha}(a,x,y,e,p,c)\land
+\mathsf{SOneDisplayedCompletionReadback}_{\alpha}(a',x',y',e',p',c')\\
+&\Longrightarrow
+\bigl(\hsame(c,c')\Longrightarrow\hsame(a,a')\bigr)\land
+\bigl((\hsame(a,a')\Longrightarrow\bot)\Longrightarrow
+(\hsame(c,c')\Longrightarrow\bot)\bigr).
+\end{aligned}
+$$
+\end{proposition}
+\leanchecked{BEDC.Derived.S1Up.SOneDisplayedCompletionReadback\_source\_separation}
+\begin{proof}
+Unpack the two displayed completion-readback rows of
+\autoref{def:sone-displayed-completion-readback}. The first row gives
+$\mathsf{SOneHistoryCarrier}(x,y,e,p)$, $\hsame(\alpha(a),p)$, and
+$\hsame(c,p)$. The second gives
+$\mathsf{SOneHistoryCarrier}(x',y',e',p')$, $\hsame(\alpha(a'),p')$, and
+$\hsame(c',p')$.
+
+By \autoref{def:s1-carrier} and
+\autoref{thm:sone-history-carrier-public-readback}, the ledgers $p$ and $p'$
+are the public point histories exposed by concrete $\SOneUp$ carriers: each is
+read from the displayed real-coordinate carrier, the unit-equation ledger, and
+the BEDC continuation row. Thus the endpoint comparisons above are comparisons
+with visible $\BHist$ representatives, not comparisons inside an
+external completion quotient.
+
+Assume $\hsame(c,c')$. Compose the displayed comparisons by symmetry and
+transitivity of $\hsame$:
+$$
+\alpha(a)\;\hsame\;p\;\hsame\;c\;\hsame\;c'\;\hsame\;p'\;\hsame\;\alpha(a').
+$$
+This gives $\hsame(\alpha(a),\alpha(a'))$. Applying the injectivity judgment
+for $\alpha$ gives $\hsame(a,a')$, proving the readback-injectivity clause.
+
+For source separation, suppose $\hsame(a,a')\Longrightarrow\bot$ and suppose
+$\hsame(c,c')$. The injectivity clause just proved yields $\hsame(a,a')$, which
+contradicts the displayed source-separation hypothesis. Hence
+$\hsame(c,c')\Longrightarrow\bot$. The argument uses only the concrete
+$\SOneUp$ carrier readback, $\hsame$ symmetry and transitivity, and the
+source-map injectivity row supplied by additive cancellation.
+\end{proof}
+
+\closureat{SOneUp}{seedStr}
+\closureat{SOneUp}{obligationStr}[BEDC.Derived.S1Up.SOneHistoryCarrier\_root\_obligation\_surface]
+
+\begin{closurestatus}{\SOneUp}
+  \constructivestory{A $\SOneUp$ carrier row is generated from two $\RealUp$ coordinate carriers, the inherited product-history carrier, a unit-equation ledger, a public point ledger readback, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope binds the real-coordinate carrier, product-history carrier, unit-equation row, point ledger readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows exposed by the checked $\SOneUp$ carrier surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.S1Up.SOneHistoryCarrier\_root\_obligation\_surface}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close circle completeness, compactness, a host topological circle, quotient completion, or bridge checking.}
+  \upgradepath{Scoped closure requires collecting the already displayed classifier transport, point-ledger readback, and unit-equation exactness rows into the scoped $\SOneUp$ package.}
+\end{closurestatus}
+
+\input{parts/concrete_instances/s1/finite_rank_host_obstruction}

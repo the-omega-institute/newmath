@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionPointUp$}
+\label{ch:concrete-instances-inscriptionpoint-namecert}
+\origin{ai}
+
+The $\InscriptionPointUp$ surface realizes the local carrier promised by \autoref{def:transcendental-input-inscription-point}. It packages an individual inscription site as finite BEDC data: one accepted history, one visible gap socket, one supply-socket ledger row, one inscription-event row, transport and continuation routes, package provenance, and a local naming row. The packet does not treat the supply as a substrate-internal rule; it records only the finite site at which the supply is ledgered for downstream consumers.
+
+\begin{definition}[InscriptionPoint carrier]
+\label{def:inscription-point-carrier}
+An $\InscriptionPointUp$ carrier is a finite $\BHist$ packet
+$$
+J=(H,G,S,T,I,L,R,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the accepted $\BHist$ row naming the local observational history;
+\item $G$ is the $\Gap$ row governed by $\FiniteTraceGapSocketUp$, recording the finite trace boundary at which no substrate-internal supply rule is provided;
+\item $S$ is the $\SupplySocketLedgerUp$ row classifying the requested supply as an inscription-novelty socket rather than as a hidden derivation rule;
+\item $T$ is the $\TranscendentalInductionSocketUp$ handoff row, naming the forward-binding induction socket that the local history may consume without internalizing its far end;
+\item $I$ is the $\InscriptionEventUp$ row that records the public event by which the site becomes readable as an accepted local inscription;
+\item $L$ is the local ledger row tying $H,G,S,T,I$ to the same inscription point;
+\item $R$ records componentwise $\hsame$ comparisons for $H,G,S,T,I,L$, package provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers may read the history, gap socket, supply ledger, induction handoff, inscription event, and ledger row;
+\item $P$ is the $\Pkg$ row naming $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\FiniteTraceGapSocketUp$, $\TranscendentalInductionSocketUp$, $\SupplySocketLedgerUp$, and $\InscriptionEventUp$;
+\item $N$ is the local $\NameCert_{\InscriptionPointUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only these displayed rows and their transported continuations. It contains no positive predicate for the far end of the supply, no universal induction rule, no private subject predicate, and no hidden source selector.
+\end{definition}
+\leandef{BEDC.Derived.InscriptionPointUp.InscriptionPointUp}
+\leanchecked{BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[InscriptionPoint NameCert obligations]
+\label{thm:inscription-point-namecert-obligations}
+For the carrier of \autoref{def:inscription-point-carrier}, the local $\NameCert_{\InscriptionPointUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: every accepted inscription point exposes exactly $J=(H,G,S,T,I,L,R,C,P,N)$;
+\item history locality: every consumer read begins at the displayed $\BHist$ row $H$;
+\item gap and supply exactness: $G$ is the finite trace socket, $S$ is the supply-socket ledger, and $T$ is the transcendental-induction handoff row consumed at that socket;
+\item event and transport stability: the inscription event $I$, local ledger $L$, componentwise $\hsame$ row $R$, and $\Cont$ routes $C$ preserve the same finite packet for downstream reads;
+\item non-escape: the packet exports no substrate-internal supply rule, private subject primitive, hidden source selector, or positive predicate about the far end of the supply.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple in \autoref{def:inscription-point-carrier}. The accepted history, gap socket, supply ledger, handoff row, inscription event, local ledger, transport row, continuation routes, package provenance, and local naming row are all finite coordinates.
+
+History locality reads the first coordinate $H$. Every downstream route in $C$ begins from the displayed history row and then reaches the gap, ledger, handoff, event, and naming rows through the same packet.
+
+Gap and supply exactness are recorded by $G,S,T$. The finite trace gap is classified before the supply ledger is consumed, and the transcendental-induction handoff is named as a handoff rather than as an internal derivation principle.
+
+Event and transport stability use $I,L,R,C$. The inscription event makes the local site publicly readable, the ledger ties the rows to the same point, and the $\hsame$ and $\Cont$ rows replay the same finite packet after transport.
+
+The non-escape clause is the inventory boundary. Since $J$ has no coordinate for a closed supply rule, private subject primitive, hidden source selector, or positive far-end predicate, no local $\NameCert_{\InscriptionPointUp}$ projection can export one.
+\end{proof}
+
+\begin{theorem}[InscriptionPoint gap handoff]
+\label{thm:inscription-point-gap-handoff}
+For an accepted $\InscriptionPointUp$ carrier $J=(H,G,S,T,I,L,R,C,P,N)$, every consumer read of the local inscription point factors through the finite trace gap row $G$, the supply-socket ledger row $S$, the transcendental-induction handoff row $T$, and the inscription-event row $I$ before it reaches the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier coordinates of \autoref{def:inscription-point-carrier}. The rows $G,S,T,I,N$ are displayed in the same finite $\BHist$ packet, and $C$ records the permitted routes among them.
+
+Apply the gap and supply exactness clause of \autoref{thm:inscription-point-namecert-obligations}. It fixes $G$ as the finite trace socket, $S$ as the supply-socket ledger, and $T$ as the forward-binding handoff row attached to that socket.
+
+Apply the event and transport stability clause. The inscription event $I$ and ledger $L$ keep the local point readable through the same $\hsame$ and $\Cont$ routes, so the NameCert row cannot be consumed through a route that bypasses the gap and handoff rows.
+\end{proof}
+
+\begin{theorem}[InscriptionPoint non-escape]
+\label{thm:inscription-point-non-escape}
+No consumer of an accepted $\InscriptionPointUp$ packet can extract a substrate-internal rule for the supply, a private subject primitive, a hidden source selector, a global observer frame, or a positive predicate about the far end of the transcendental supply. Every consumer read factors through
+$$
+H,G,S,T,I,L,R,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory in \autoref{def:inscription-point-carrier}. The exported rows are exactly the local history, finite trace gap, supply ledger, handoff row, inscription event, ledger, transport row, continuation routes, package provenance, and naming row.
+
+\autoref{thm:inscription-point-namecert-obligations} supplies the non-escape clause for these rows. The classifier may compare the displayed packet and its transports, but it has no coordinate that evaluates the supply as a rule inside the substrate.
+
+\autoref{thm:inscription-point-gap-handoff} fixes the route shape for downstream reads. Since every read passes through the finite gap, ledger, handoff, and event rows before the local name is consumed, there is no projection target for a private subject primitive, hidden selector, global observer frame, or positive far-end predicate.
+\end{proof}
+
+\closureat{InscriptionPointUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionPointUp}
+  \constructivestory{An $\InscriptionPointUp$ packet is generated from one accepted $\BHist$ row, a finite trace gap socket, a supply-socket ledger row, a transcendental-induction handoff row, an inscription-event row, a local ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-point-carrier}, \autoref{thm:inscription-point-namecert-obligations}, \autoref{thm:inscription-point-gap-handoff}, and \autoref{thm:inscription-point-non-escape} bind the finite inscription-point carrier, classifier, gap handoff, and non-escape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a substrate-internal supply rule, private subject ontology, global observer frames, or positive predicates about the far end of the supply.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for the NameCert obligations, gap handoff, and non-escape boundary.}
+\end{closurestatus}

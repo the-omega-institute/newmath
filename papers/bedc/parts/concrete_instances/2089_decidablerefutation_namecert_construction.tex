@@ -1,0 +1,122 @@
+\chapter{A Concrete Naming Certificate for $\DecidableRefutationUp$}
+\label{ch:concrete-instances-decidablerefutation-namecert}
+\origin{ai}
+
+The $\DecidableRefutationUp$ surface turns the permitted and forbidden contradiction boundary of \autoref{ch:visions-reasoning-by-contradiction-boundary} into a finite naming packet. It records the proposition row being inspected, the constructive refutation witness, the optional decidability route, the exclusion bits for forbidden schemas, and the provenance rows through which a consumer may read the packet. The surface does not certify classical excluded middle, host truth, or a global decision procedure over naming certificates.
+
+\begin{definition}[DecidableRefutation carrier]
+\label{def:decidable-refutation-carrier}
+A $\DecidableRefutationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,F,D,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the proposition row being inspected, represented as a certificate-visible predicate read over the current finite history;
+\item $F$ is a permitted refutation witness, namely a displayed route from an assumed witness of $A$ to $\bot$ through $\Cont$, $\hsame$, $\msame$, and the local certificate rows;
+\item $D$ is an optional decidability row for $A$, present only when the packet carries a constructive branch witness for the same proposition row;
+\item $X$ records the exclusion bits for the forbidden schemas of \autoref{def:reasoning-forbidden-pattern}: unwitnessed existential extraction, double-negation elimination without $D$, and excluded-middle branching over the carrier of all naming certificates;
+\item $H$ records componentwise $\hsame$ transports for $A$, $F$, $D$, $X$, package rows, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes for reading the proposition row, replaying the permitted refutation, consuming the optional decidability row, and checking the forbidden-schema exclusions;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\msame$, $\hsame$, the local proof rows, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DecidableRefutationUp}$ ledger.
+\end{enumerate}
+The carrier contains no host truth predicate, no global excluded-middle oracle, no selected witness for an existential obtained by contradiction, and no branch over the carrier of all naming certificates.
+\end{definition}
+\leanchecked{BEDC.Derived.DecidableRefutationUp.DecidableRefutationTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[DecidableRefutation classifier]
+\label{def:decidable-refutation-classifier}
+Two accepted $\DecidableRefutationUp$ carriers
+$$
+R=(A,F,D,X,H,C,P,N)
+\quad\hbox{and}\quad
+R'=(A',F',D',X',H',C',P',N')
+$$
+are classified together exactly when their visible proposition rows are matched by the displayed $\hsame$ transports, their permitted refutation witnesses replay through the displayed $\Cont$ routes, their optional decidability rows have the same displayed presence shape, and their forbidden-schema exclusion bits agree componentwise.
+
+The classifier compares only $A,F,D,X,H,C,P,N$ and $A',F',D',X',H',C',P',N'$. It has no coordinate for ambient truth, no host-level proof search, no quotient over proofs, and no classifier over the carrier of all naming certificates.
+\end{definition}
+
+\begin{theorem}[DecidableRefutation NameCert obligations]
+\label{thm:decidable-refutation-namecert-obligations}
+The local $\NameCert_{\DecidableRefutationUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $R=(A,F,D,X,H,C,P,N)$ of \autoref{def:decidable-refutation-carrier};
+\item classifier soundness for \autoref{def:decidable-refutation-classifier}, comparing only the displayed proposition, refutation, optional decidability, exclusion, transport, continuation, package, and naming rows;
+\item permitted-negation transport, saying that a refutation witness $F$ remains a proof of $\neg A$ under the stored $\hsame$ transports and displayed $\Cont$ routes;
+\item decidable double-negation route, saying that $\neg\neg A$ may be consumed only when the row $D$ displays a constructive decision for the same proposition row $A$;
+\item non-escape from certificate-indexed truth branches, saying that the packet cannot export excluded middle over all naming certificates, unwitnessed existential extraction, or double-negation elimination without the displayed decidability row.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.DecidableRefutationUp.DecidableRefutationUp\_taste\_gate\_boundary}
+\begin{proof}
+Carrier admission is projection from \autoref{def:decidable-refutation-carrier}. The only available rows are the proposition row, permitted refutation witness, optional decidability row, exclusion ledger, transport rows, continuation routes, package provenance, and local naming ledger.
+
+Classifier soundness follows from \autoref{def:decidable-refutation-classifier}. A comparison replays only the displayed proposition-row match, the refutation route, the optional decidability shape, and the exclusion bits through the stored $\hsame$ and $\Cont$ data.
+
+For permitted-negation transport, read the refutation witness $F$ as a route from an assumed witness of $A$ to $\bot$. Transporting $A$ and $F$ along $H$ and replaying the route in $C$ yields the same certificate-level negation, because no step leaves the displayed ground-loop rows.
+
+For the decidable double-negation route, the row $D$ is the only coordinate that supplies a constructive branch for $A$. If $D$ is absent, the exclusion ledger $X$ blocks the double-negation schema named in \autoref{def:reasoning-forbidden-pattern}; if $D$ is present, the branch is consumed inside the same finite packet.
+
+Finally, the non-escape clause is exactly the absence of a certificate-indexed truth branch coordinate. The packet contains no row classifying all naming certificates, no witness selector for existential-by-contradiction, and no host truth predicate, so every consumer remains inside $A,F,D,X,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[DecidableRefutation classifier transport]
+\label{thm:decidable-refutation-classifier-transport}
+Let $R=(A,F,D,X,H,C,P,N)$ and $R'=(A',F',D',X',H',C',P',N')$ be accepted $\DecidableRefutationUp$ packets. If the classifier of \autoref{def:decidable-refutation-classifier} relates $R$ and $R'$, then every transported public read is one of the proposition rows $A,A'$, the refutation rows $F,F'$, the optional decidability rows $D,D'$, the exclusion rows $X,X'$, the displayed $\hsame$ rows $H,H'$, the $\Cont$ routes $C,C'$, the $\Pkg$ rows $P,P'$, or the local $\NameCert$ rows $N,N'$.
+
+No transported read can introduce a parameter-transport theorem, an ambient truth row, a global decision procedure, or a classifier over all naming certificates.
+\end{theorem}
+\begin{proof}
+Start with the checked TasteGate single-carrier row attached to \autoref{def:decidable-refutation-carrier}. It says the accepted object is the one finite carrier surface $R=(A,F,D,X,H,C,P,N)$, so a classifier comparison has no second hidden carrier from which to read extra rows.
+
+Now unfold the classifier in \autoref{def:decidable-refutation-classifier}. The comparison names only the displayed proposition, refutation, optional decidability, exclusion, transport, continuation, package, and NameCert coordinates on the two packets.
+
+The transported public read is therefore a projection through $H,H'$ and $C,C'$ followed by a read of one of $A,F,D,X,P,N$ or $A',F',D',X',P',N'$. Since the carrier has no coordinate for parameter families, host truth, global decision, or a classifier over all certificates, none of those objects can be exported.
+\end{proof}
+
+\begin{theorem}[DecidableRefutation truth-branch exclusion]
+\label{thm:decidable-refutation-truth-branch-exclusion}
+No consumer of an accepted $\DecidableRefutationUp$ packet can extract either excluded middle over the carrier of all NameCerts or an existential-by-contradiction witness from the packet. The only branch row available to the consumer is the optional decidability coordinate $D$ for the same displayed proposition row $A$, and the exclusion coordinate $X$ blocks every branch not licensed by that row.
+\end{theorem}
+\begin{proof}
+Read the packet through the checked TasteGate single-carrier row and the carrier fields of \autoref{def:decidable-refutation-carrier}. The carrier lists $A,F,D,X,H,C,P,N$ and no coordinate for a truth predicate over all NameCerts.
+
+If $D$ is present, it is a decision row for the same proposition row $A$. It does not range over arbitrary naming certificates and does not choose witnesses for unrelated existential statements.
+
+If $D$ is absent, the exclusion row $X$ records the forbidden schemas from \autoref{def:reasoning-forbidden-pattern}. Thus excluded-middle branching over all certificates and existential-by-contradiction witness extraction both stop at $X$ rather than becoming exported data.
+\end{proof}
+
+\begin{theorem}[DecidableRefutation obligation package]
+\label{thm:decidable-refutation-obligation-package}
+The $\DecidableRefutationUp$ paper obligation package consists of carrier admission for \autoref{def:decidable-refutation-carrier}, classifier transport by \autoref{thm:decidable-refutation-classifier-transport}, permitted-negation transport from \autoref{thm:decidable-refutation-namecert-obligations}, the decidable double-negation route named by the same obligation surface, and truth-branch exclusion by \autoref{thm:decidable-refutation-truth-branch-exclusion}.
+
+This package is single-carrier: it cites the checked TasteGate row for the displayed packet $R=(A,F,D,X,H,C,P,N)$ and does not add a parameter-transport theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple projection from \autoref{def:decidable-refutation-carrier}. The checked TasteGate single-carrier row fixes the admissible surface to the same eight coordinates, so the package begins with a single finite packet.
+
+Classifier transport is supplied by \autoref{thm:decidable-refutation-classifier-transport}. It keeps all public reads inside the proposition, refutation, optional decidability, exclusion, $\hsame$, $\Cont$, $\Pkg$, and NameCert rows.
+
+The permitted-negation and decidable double-negation routes are the third and fourth obligations of \autoref{thm:decidable-refutation-namecert-obligations}. They allow a displayed refutation route and a displayed decision row for $A$ while refusing a free-standing truth branch.
+
+Finally, \autoref{thm:decidable-refutation-truth-branch-exclusion} supplies the boundary clause. Repacking these rows gives the obligation package without parameter transport, host truth, certificate-wide excluded middle, or witness selection by contradiction.
+\end{proof}
+
+\closureat{DecidableRefutationUp}{seedStr}
+\closureat{DecidableRefutationUp}{obligationStr}[BEDC.Derived.DecidableRefutationUp.DecidableRefutationUp\_taste\_gate\_boundary]
+\closureat{DecidableRefutationUp}{scopedStr}[BEDC.Derived.DecidableRefutationUp.DecidableRefutationUp\_taste\_gate\_boundary]
+
+\begin{closurestatus}{\DecidableRefutationUp}
+  \constructivestory{A $\DecidableRefutationUp$ packet is generated from a proposition row, a permitted refutation witness, an optional decidability row, forbidden-schema exclusion bits, componentwise transports, displayed continuation routes, package provenance, and a local naming ledger.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:decidable-refutation-carrier}, \autoref{def:decidable-refutation-classifier}, \autoref{thm:decidable-refutation-namecert-obligations}, \autoref{thm:decidable-refutation-classifier-transport}, \autoref{thm:decidable-refutation-truth-branch-exclusion}, and \autoref{thm:decidable-refutation-obligation-package} bind the carrier, classifier, NameCert obligations, classifier transport, truth-branch exclusion, and paper obligation package.}
+  \formalstatus{\auditCleanV}
+  \leanchecked{BEDC.Derived.DecidableRefutationUp.taste\_gate}
+  \leantarget{BEDC.Derived.DecidableRefutationUp.DecidableRefutationUp\_taste\_gate\_boundary}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close classical excluded middle, global truth over naming certificates, existential-by-contradiction witness selection, or a checked Lean certificate.}
+  \upgradepath{Public closure requires a public single-carrier export theorem over the displayed packet.}
+\end{closurestatus}

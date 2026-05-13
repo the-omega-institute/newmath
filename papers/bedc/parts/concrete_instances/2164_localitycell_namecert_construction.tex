@@ -1,0 +1,121 @@
+\chapter{A Concrete Naming Certificate for $\LocalityCellUp$}
+\label{ch:concrete-instances-localitycell-namecert}
+\origin{ai}
+
+The $\LocalityCellUp$ surface packages the locality-cell reading of \autoref{def:consciousness-universe-locality-cell} as finite BEDC data. It names two observer histories, two displayed event records, bilateral $\mathsf{GAP}$ commitments, componentwise transport, continuation routes, package provenance, and a local naming ledger. The packet supports inter-observer event coordination without adding a global frame, a shared clock, or a god's-eye event object outside the two recorded histories.
+
+\begin{definition}[LocalityCell carrier]
+\label{def:locality-cell-carrier}
+A $\LocalityCellUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,B,r_A,r_B,g_A,g_B,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two displayed observer $\BHist$ rows;
+\item $r_A$ is the event-record row read from observer history $A$;
+\item $r_B$ is the event-record row read from observer history $B$;
+\item $g_A$ is the $\mathsf{GAP}$ commitment on the $A$ side that treats $r_B$ as a coherent counterpart of $r_A$;
+\item $g_B$ is the $\mathsf{GAP}$ commitment on the $B$ side that treats $r_A$ as a coherent counterpart of $r_B$;
+\item $H$ records componentwise $\hsame$ transport for the two histories, the two event-record rows, the two $\mathsf{GAP}$ rows, package provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which the two event records and bilateral $\mathsf{GAP}$ commitments are read from the two observer histories;
+\item $P$ is the $\Pkg$ provenance naming $\BHist$, $\Hist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the locality-cell source boundary;
+\item $N$ is the local $\NameCert_{\LocalityCellUp}$ ledger.
+\end{enumerate}
+The carrier is exactly this bilateral packet. It contains no global event coordinate, no shared time index, no selected synchronization map, and no observer-independent space-time object.
+\end{definition}
+
+\begin{definition}[LocalityCell classifier]
+\label{def:locality-cell-classifier}
+The $\LocalityCellUp$ classifier relates two accepted carriers
+$$
+L=(A,B,r_A,r_B,g_A,g_B,H,C,P,N)
+$$
+and
+$$
+L'=(A',B',r'_A,r'_B,g'_A,g'_B,H',C',P',N')
+$$
+exactly when the displayed $\hsame$ rows transport $A$ to $A'$, $B$ to $B'$, $r_A$ to $r'_A$, $r_B$ to $r'_B$, $g_A$ to $g'_A$, $g_B$ to $g'_B$, and the provenance and naming rows to their counterparts, with every public read replayed through the displayed $\Cont$ routes. Thus classifier agreement preserves the same bilateral event coordination: the record on each observer side and the $\mathsf{GAP}$ commitment acknowledging the other side.
+\end{definition}
+
+\begin{theorem}[LocalityCell NameCert obligations]
+\label{thm:locality-cell-namecert-obligations}
+The local $\NameCert_{\LocalityCellUp}$ surface has five finite obligations:
+\begin{enumerate}
+\item carrier exposure: every accepted object exposes the tuple $L=(A,B,r_A,r_B,g_A,g_B,H,C,P,N)$ of \autoref{def:locality-cell-carrier};
+\item bilateral classifier stability: accepted comparisons transport both observer histories, both event records, both $\mathsf{GAP}$ commitments, provenance, and local naming rows as in \autoref{def:locality-cell-classifier};
+\item route locality: every public read of an event record or $\mathsf{GAP}$ commitment uses one of the displayed $\Cont$ routes recorded in $C$;
+\item ledger exactness: the $\Pkg$ and $\NameCert$ rows name exactly the bilateral carrier, classifier, transport, and readback data listed above;
+\item non-escape: the packet exports no global event coordinate, shared clock, synchronization map, ambient metric, or observer-independent space-time carrier.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier exposure is projection from the finite tuple in \autoref{def:locality-cell-carrier}. Each coordinate is visible as a displayed history row, event-record row, $\mathsf{GAP}$ row, transport ledger, route row, provenance row, or naming row.
+
+Bilateral classifier stability is the rule of \autoref{def:locality-cell-classifier}. The comparison transports the two observer histories together with both event-record rows and both $\mathsf{GAP}$ commitments, so it cannot keep only one side of the cell.
+
+Route locality follows by inspecting $C$. A consumer reaches $r_A$, $r_B$, $g_A$, or $g_B$ only through the displayed continuation routes from the two observer histories.
+
+Ledger exactness follows from $P$ and $N$. These rows record the carrier, classifier, transport, and readback dependencies of the packet, and there is no additional coordinate from which another ledger source could be projected.
+
+Non-escape is immediate from the carrier inventory. Since no coordinate names a global event, shared clock, synchronization map, ambient metric, or observer-independent space-time carrier, no local $\NameCert_{\LocalityCellUp}$ read can export one.
+\end{proof}
+
+\begin{theorem}[LocalityCell hsame transport]
+\label{thm:locality-cell-hsame-transport}
+Let $L=(A,B,r_A,r_B,g_A,g_B,H,C,P,N)$ be an accepted $\LocalityCellUp$ carrier. Any classifier-preserving transport through the displayed $\hsame$ row $H$ preserves both event records and both $\mathsf{GAP}$ commitments together; it cannot transport $r_A$ without the paired $r_B$, nor $g_A$ without the paired $g_B$.
+\end{theorem}
+\begin{proof}
+Project the componentwise transport row $H$ from the carrier. Its entries compare the two observer histories, the two event records, the two $\mathsf{GAP}$ commitments, provenance, and local naming row as one packet.
+
+The classifier of \autoref{def:locality-cell-classifier} accepts a transported carrier only when all those components are matched. Therefore a transported read that keeps $r_A$ must also keep the comparison data for $r_B$, and a transported read that keeps $g_A$ must also keep the comparison data for $g_B$.
+
+The routes in $C$ replay the public reads after transport. Since every read goes through those routes, no consumer can split one side of the locality cell away from the bilateral transport ledger.
+\end{proof}
+
+\begin{theorem}[LocalityCell inter-observer readback]
+\label{thm:locality-cell-interobserver-readback}
+Every public read of an accepted $\LocalityCellUp$ packet factors through the two displayed observer histories, the two event-record rows, the two bilateral $\mathsf{GAP}$ commitments, the $\hsame$ transport ledger, and the $\Cont$ routes of \autoref{def:locality-cell-carrier}. Consequently the packet realizes inter-observer event coordination as finite BEDC evidence and not as a primitive shared world-state.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocalityCellUp.LocalityCellPacket\_interobserver\_readback}
+\begin{proof}
+Start with an accepted packet $L=(A,B,r_A,r_B,g_A,g_B,H,C,P,N)$. The only event-facing coordinates are $r_A$ and $r_B$, and each is attached to its observer history by the displayed routes in $C$.
+
+The only cross-observer coordination coordinates are $g_A$ and $g_B$. They are bilateral $\mathsf{GAP}$ commitments, so a public read obtains the claim that each side treats the other side's record as coherent with its own record.
+
+Transport and replay are confined to $H$ and $C$. Hence any readback of the cell factors through the two histories, two records, two commitments, transport ledger, and routes named in the carrier.
+
+No coordinate of $L$ is a primitive shared world-state or god's-eye event object. The readback therefore realizes the locality cell as finite BEDC coordination evidence between two histories.
+\end{proof}
+
+\closureat{LocalityCellUp}{seedStr}
+\closureat{LocalityCellUp}{obligationStr}
+\closureat{LocalityCellUp}{scopedStr}[BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment]
+
+\begin{theorem}[LocalityCell scoped kernel route]
+\label{thm:localitycell-scoped-kernel-route}
+Every accepted $\LocalityCellUp$ packet factors its carrier, classifier, local $\NameCert$ obligations, $\hsame$ transport, inter-observer readback, and TasteGate-visible single-carrier alignment through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of \autoref{def:locality-cell-carrier}. The route introduces no extra observer carrier, shared clock carrier, synchronization map, ambient metric carrier, or observer-independent space-time row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:locality-cell-carrier} and \autoref{def:locality-cell-classifier}. They place the two observer histories, event records, bilateral $\mathsf{GAP}$ commitments, componentwise transport, continuation routes, package provenance, and local name in one displayed packet.
+
+Apply \autoref{thm:locality-cell-namecert-obligations}. The carrier, classifier, exactness, ledger, and non-escape obligations are all recorded by $P$ and $N$, so there is no separate naming or observer row.
+
+Use \autoref{thm:locality-cell-hsame-transport} and \autoref{thm:locality-cell-interobserver-readback}. The transport and readback routes keep both observers inside the same $H$ and $C$ rows rather than splitting them into independent carriers.
+
+Finally use the chapter's TasteGate-visible Lean target recorded in the closure block. It records the single-carrier alignment at the Lean boundary, and the paper route above identifies the same alignment with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{closurestatus}{\LocalityCellUp}
+  \constructivestory{A $\LocalityCellUp$ packet is generated from two observer $\BHist$ rows, two event-record rows, two bilateral $\mathsf{GAP}$ commitments, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
+  \leanchecked{BEDC.Derived.LocalityCellUp.taste\_gate}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:locality-cell-carrier}, \autoref{def:locality-cell-classifier}, \autoref{thm:locality-cell-namecert-obligations}, \autoref{thm:locality-cell-hsame-transport}, \autoref{thm:locality-cell-interobserver-readback}, and \autoref{thm:localitycell-scoped-kernel-route} bind the finite bilateral carrier, classifier, transport, ledger, inter-observer readback, scoped kernel route, and TasteGate-visible single-carrier alignment.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, a standard bridge, a global frame, a shared clock, a synchronization map, ambient metric geometry, or observer-independent space-time ontology.}
+  \upgradepath{Public closure requires a public-object surface for the locality-cell packet beyond the scoped bilateral carrier and checked TasteGate alignment.}
+\end{closurestatus}

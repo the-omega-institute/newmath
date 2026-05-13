@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RecursorAuthorizationUp$}
+\label{ch:concrete-instances-recursorauthorization-namecert}
+\origin{human}
+
+The $\RecursorAuthorizationUp$ interface records the finite certificate surface by which an accepted Lean \texttt{inductive} declaration authorizes its emitted recursor as a BEDC generator. The packet is built from the accepted constructor signature, the emitted eliminator, the branch package supplied to the eliminator, the structural descent ledger for recursive occurrences, and the \NameCert{} row naming the generated output. It is a naming certificate for authorized generator use; it is not a host-side trust principle for arbitrary recursion.
+
+\begin{definition}[RecursorAuthorization carrier]
+\label{def:recursor-authorization-carrier}
+A $\RecursorAuthorizationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,\Sigma,R,M,B,D,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ is the accepted inductive name and $\Sigma$ is its closed constructor signature, including the constructor rows for instances such as \texttt{BMark} and \texttt{BHist};
+\item $R$ is the emitted eliminator row, read as the kernel-generated recursor for $\Sigma$, including concrete rows such as \texttt{BMark.rec} and \texttt{BHist.rec};
+\item $M$ is the motive row accepted for the recursor call;
+\item $B$ is the finite branch package, with one branch row for each constructor of $\Sigma$ and branch completeness checked against that signature;
+\item $D$ is the structural descent ledger recording that recursive calls occur only on constructor-subdata accepted by the kernel;
+\item $H$ stores componentwise $\hsame$ transports for constructor signatures, eliminator rows, motive rows, branch rows, descent rows, and generated outputs;
+\item $C$ stores displayed $\Cont$ routes by which consumers read the constructor, recursor, branch, and output rows;
+\item $P$ is the $\Pkg$ provenance over \texttt{BMark}, $\BHist$, closed constructor signatures, emitted recursors, branch packages, $\hsame$, $\Cont$, and \NameCert{};
+\item $N$ is the local $\NameCert_{\RecursorAuthorizationUp}$ row naming the generated output.
+\end{enumerate}
+The carrier contains no unlisted constructor, no extra branch, no unrestricted recursion channel, and no external proof-trust coordinate.
+\end{definition}
+
+\begin{theorem}[RecursorAuthorization NameCert obligations]
+\label{thm:recursor-authorization-namecert-obligations}
+The local $\NameCert_{\RecursorAuthorizationUp}$ obligation surface consists of the accepted constructor signature $\Sigma$, the emitted recursor row $R$, the motive row $M$, the branch package $B$, the structural descent ledger $D$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and naming rows $H,C,P,N$. Every authorized generator output must be read through these rows before it is available to a downstream BEDC consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:recursor-authorization-carrier}. The constructor signature, emitted recursor, motive, branch package, descent ledger, transport rows, continuation routes, provenance, and local naming row are all coordinates of the same finite packet.
+
+The obligation rows are therefore carrier projections. A consumer cannot read the generated output until it has passed through the signature row, the recursor row, the accepted motive and branch data, and the descent ledger.
+
+Since the carrier has no coordinate for an external trust principle or unrestricted recursion channel, the local \NameCert{} surface is exactly the displayed recursor-authorization packet.
+\end{proof}
+
+\begin{theorem}[RecursorAuthorization branch exhaustion]
+\label{thm:recursor-authorization-branch-exhaustion}
+For every accepted $\RecursorAuthorizationUp$ packet $A=(I,\Sigma,R,M,B,D,H,C,P,N)$, the branch package $B$ contains exactly the branch rows indexed by the constructors in $\Sigma$. A recursor consumer has no route to an omitted constructor case and no route to an additional branch not named by the accepted constructor signature.
+\end{theorem}
+\begin{proof}
+Read the constructor signature row $\Sigma$ from the carrier. It is the finite list of constructors accepted for $I$.
+
+Read the branch package $B$ through the emitted recursor row $R$. The package is attached to the same signature row, so its branch inventory is indexed by the visible constructors of $\Sigma$.
+
+The transport and continuation rows $H$ and $C$ preserve that same indexing for downstream reads. Because the carrier lists no further branch coordinate, branch exhaustion is exactly the displayed finite constructor coverage.
+\end{proof}
+
+\begin{theorem}[RecursorAuthorization generator non-escape]
+\label{thm:recursor-authorization-generator-nonescape}
+Every generated output of an accepted $\RecursorAuthorizationUp$ packet factors through the emitted recursor $R$, the accepted motive $M$, the branch package $B$, and the structural descent ledger $D$. The packet exports no hidden generator, no non-structural recursive call, no unlisted constructor, and no external recursion principle.
+\end{theorem}
+\begin{proof}
+Start with the local obligation surface of \autoref{thm:recursor-authorization-namecert-obligations}. It places each generated output downstream of the accepted signature, recursor, motive, branch, and descent rows.
+
+Use branch exhaustion from \autoref{thm:recursor-authorization-branch-exhaustion}. Every case consumed by the recursor is one of the constructor cases in $\Sigma$, and every recursive occurrence is governed by the same descent ledger $D$.
+
+The remaining rows $H,C,P,N$ only transport, route, package, and name that finite surface. They do not add a generator coordinate, so no output can escape the accepted recursor packet.
+\end{proof}
+
+\begin{theorem}[RecursorAuthorization public handoff]
+\label{thm:recursor-authorization-public-handoff}
+The public $\NameCert_{\RecursorAuthorizationUp}$ handoff of an accepted carrier is exactly the tuple of constructor signature, emitted recursor, accepted motive, complete branch package, structural descent ledger, transport rows, continuation routes, package provenance, and local naming row displayed in \autoref{def:recursor-authorization-carrier}. It can be cited by downstream generator-closure, TasteGate, and self-compilation consumers without exporting unrestricted recursion, hidden constructor data, or host-side proof trust.
+\end{theorem}
+\begin{proof}
+First assemble the local authorization surface using \autoref{thm:recursor-authorization-namecert-obligations}. This gives the carrier rows consumed by any recursor-generated output.
+
+Next apply \autoref{thm:recursor-authorization-branch-exhaustion} and \autoref{thm:recursor-authorization-generator-nonescape}. These isolate the finite branch coverage and rule out generator routes outside the accepted signature and descent ledger.
+
+Finally repack the displayed rows with $H,C,P,N$. The public handoff is the same finite packet under its local \NameCert{} row, and no additional recursion or proof-trust coordinate is exported.
+\end{proof}

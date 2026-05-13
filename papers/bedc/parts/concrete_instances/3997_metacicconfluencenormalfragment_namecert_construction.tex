@@ -1,0 +1,183 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICConfluenceNormalFragmentUp$}
+\label{ch:concrete-instances-metacicconfluencenormalfragment-namecert}
+\origin{human}
+
+This chapter turns the closed-normal and atom part of
+\autoref{ch:metacic-confluence-audit-map} into a finite certificate packet. It
+sits next to
+\autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}:
+the present packet records the checked confluence fragment already available
+for closed normal and atom-shaped sources, while the sibling obstruction packet
+keeps substitution-sensitive and subject-reduction boundaries visible.
+
+\begin{definition}[MetaCIC confluence normal-fragment carrier]
+\label{def:metacic-confluence-normal-fragment-carrier}
+A $\MetaCICConfluenceNormalFragmentUp$ carrier is a finite $\BHist$ packet
+$$
+J=(T,B,S,A,G,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $T$ is the closed source term row at the empty context;
+\item $B$ is the beta-normality row consumed by the closed-normal confluence
+fragment;
+\item $S$ is the checked $\mathrm{BetaStarStep}$ closed-normal confluence row;
+\item $A$ is the atom-shape join row for sort and impossible closed-variable
+sources;
+\item $G$ is the conditional confluence-boundary row naming the remaining
+closed parallel-diamond and substitution-compatibility interfaces;
+\item $H$ records componentwise $\hsame$ transports for the source, normality,
+star-confluence, atom, boundary, package, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which confluence consumers
+read those rows;
+\item $P$ is the $\Pkg$ provenance over MetaCIC beta reduction, closedness,
+normality, atom joins, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MetaCICConfluenceNormalFragmentUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for arbitrary closed-term Church--Rosser,
+no proof of $\mathrm{BetaParallelDiamondClosed}$, and no proof of
+$\mathrm{BetaParallelSubstitutionCompatibility}$.
+\end{definition}
+
+\begin{theorem}[MetaCIC confluence normal-fragment NameCert obligations]
+\label{thm:metacic-confluence-normal-fragment-namecert-obligations}
+The local $\NameCert_{\MetaCICConfluenceNormalFragmentUp}$ surface for
+\autoref{def:metacic-confluence-normal-fragment-carrier} consists exactly of
+carrier admission, closed-source row readback, beta-normality readback,
+checked closed-normal star-confluence readback, atom-shape join readback,
+conditional-boundary exposure, componentwise $\hsame$ transport, displayed
+$\Cont$ route replay, $\Pkg$ provenance, and non-escape from arbitrary
+closed-term Church--Rosser.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $J$. The confluence
+rows are $S$ for the closed-normal star fragment and $A$ for the atom-shaped
+source fragment, with $T$ and $B$ supplying the closed source and beta-normality
+inputs.
+
+The row $G$ is part of the obligation surface because it names what remains
+conditional: a closed parallel diamond and the substitution compatibility input
+that would supply such a diamond. It is read as a boundary row, not as a proof
+of the endpoint.
+
+The structural rows $H,C,P,N$ carry exactly this finite packet under transport,
+route replay, provenance, and local naming. Since the carrier has no coordinate
+for an arbitrary closed-source Church--Rosser theorem, the NameCert surface
+cannot export one.
+\end{proof}
+\leanchecked{BEDC.MetaCIC.betaParallel\_diamond\_closed\_normal}
+
+\begin{theorem}[MetaCIC confluence closed-normal scope]
+\label{thm:metacic-confluence-normal-fragment-closed-normal-scope}
+Every accepted $\MetaCICConfluenceNormalFragmentUp$ packet exposes closed
+multi-step confluence only for sources whose displayed closed row $T$ is paired
+with the beta-normality row $B$. A consumer may read the checked row $S$ through
+$H,C,P,N$, but it cannot replace $B$ by an arbitrary closed reduction source or
+infer full closed-source Church--Rosser for $\mathrm{BetaStarStep}$.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $T,B,S$. The theorem row $S$ is attached to the
+closed-normal input surface, so its source is not merely a closed term; it is a
+closed term together with the beta-normality evidence recorded by $B$.
+
+Transport and route replay through $H,C,P,N$ preserve the same dependency
+shape. They do not add a reduction-to-normal row, a subject-reduction row, or a
+closed parallel-diamond row.
+
+Thus the consumer obtains the closed-normal confluence fragment and no stronger
+closed-source confluence theorem. The missing arbitrary-source step remains the
+boundary row $G$.
+\end{proof}
+\leanchecked{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_normal}
+
+\begin{theorem}[MetaCIC confluence atom-join scope]
+\label{thm:metacic-confluence-normal-fragment-atom-join-scope}
+The atom component $A$ of an accepted
+$\MetaCICConfluenceNormalFragmentUp$ packet exposes only the sort and
+impossible closed-variable joins already present in the confluence substrate.
+It may be consumed together with $T,S,H,C,P,N$ as an atom-shaped supplement to
+the closed-normal fragment, but it does not provide a beta-redex join for
+arbitrary applications, lambdas, or Pi terms.
+\end{theorem}
+\begin{proof}
+Project the atom row $A$. Its role is to record the atom-shaped joins listed in
+\autoref{ch:metacic-confluence-audit-map}, where sort sources join directly and
+closed variable sources are blocked by the closedness premise.
+
+The row is consumed beside the normal-fragment row $S$, not above it. This keeps
+atom geometry and closed-normal confluence inside the same finite packet while
+leaving beta-redex and componentwise application branches outside the atom row.
+
+Since no carrier coordinate names a substitution-compatible parallel diamond,
+the atom row cannot be repacked as arbitrary closed confluence. It remains a
+shape-limited join surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence ledger boundary]
+\label{thm:metacic-confluence-normal-fragment-ledger-boundary}
+Every confluence read exported by an accepted
+$\MetaCICConfluenceNormalFragmentUp$ packet factors through
+$$
+T,B,S,A,G,H,C,P,N.
+$$
+The packet exposes closed-normal star confluence, atom-shaped joins, and the
+conditional-boundary ledger, but it has no row for full parallel diamond,
+substitution compatibility, arbitrary closed-term Church--Rosser, host
+normalization, or a hidden subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:metacic-confluence-normal-fragment-carrier}. The only
+consumer-visible confluence rows are $S$ and $A$, and the only row naming a
+larger confluence endpoint is the conditional boundary row $G$.
+
+Apply \autoref{thm:metacic-confluence-normal-fragment-namecert-obligations}.
+It accounts for carrier admission, fragment readback, boundary exposure, and
+the structural rows that route the packet.
+
+No listed coordinate contains the full parallel diamond, the substitution
+compatibility input, a host normalization principle, or subject reduction. The
+ledger is therefore exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence normal-fragment public certificate]
+\label{thm:metacic-confluence-normal-fragment-public-certificate}
+The public certificate exported by
+$\MetaCICConfluenceNormalFragmentUp$ is the finite packet
+$J=(T,B,S,A,G,H,C,P,N)$ together with the four surfaces of
+\autoref{thm:metacic-confluence-normal-fragment-namecert-obligations},
+\autoref{thm:metacic-confluence-normal-fragment-closed-normal-scope},
+\autoref{thm:metacic-confluence-normal-fragment-atom-join-scope}, and
+\autoref{thm:metacic-confluence-normal-fragment-ledger-boundary}. A downstream
+consumer may cite the checked closed-normal and atom fragments through this
+packet while the full arbitrary closed-source confluence claim remains outside
+the certificate.
+\end{theorem}
+\begin{proof}
+The NameCert obligations identify the carrier and its local structural rows.
+The closed-normal theorem fixes the positive $\mathrm{BetaStarStep}$ scope, and
+the atom theorem fixes the available shape-limited joins.
+
+The ledger theorem then exhausts the exported rows. It lists the conditional
+boundary row $G$ as a boundary, so the public certificate does not erase the
+remaining closed parallel-diamond and substitution-compatibility inputs.
+
+Together these rows form a finite BEDC certificate: positive where the Lean
+fragment is checked, and explicitly bounded where arbitrary closed confluence is
+not part of the packet.
+\end{proof}
+
+\closureat{MetaCICConfluenceNormalFragmentUp}{seedStr}
+\closureat{MetaCICConfluenceNormalFragmentUp}{obligationStr}[BEDC.MetaCIC.betaParallel\_diamond\_closed\_normal]
+\closureat{MetaCICConfluenceNormalFragmentUp}{scopedStr}[BEDC.MetaCIC.betaStarStep\_confluence\_closed\_normal]
+
+\begin{closurestatus}{\MetaCICConfluenceNormalFragmentUp}
+  \constructivestory{A $\MetaCICConfluenceNormalFragmentUp$ packet is generated from a closed source row, beta-normality row, checked closed-normal confluence row, atom-join row, conditional-boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metacic-confluence-normal-fragment-carrier}, \autoref{thm:metacic-confluence-normal-fragment-namecert-obligations}, \autoref{thm:metacic-confluence-normal-fragment-closed-normal-scope}, \autoref{thm:metacic-confluence-normal-fragment-atom-join-scope}, \autoref{thm:metacic-confluence-normal-fragment-ledger-boundary}, and \autoref{thm:metacic-confluence-normal-fragment-public-certificate} bind the closed-normal and atom confluence fragment as a finite NameCert packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_normal}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close arbitrary closed-term Church--Rosser, $\mathrm{BetaParallelDiamondClosed}$, $\mathrm{BetaParallelSubstitutionCompatibility}$, host normalization, or a public standard bridge.}
+  \upgradepath{The next formal step is a checked certificate wrapper over the same carrier and a bridge once the remaining closed confluence boundary is discharged.}
+\end{closurestatus}

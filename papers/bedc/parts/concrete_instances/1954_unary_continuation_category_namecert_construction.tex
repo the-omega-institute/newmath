@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\UnaryContinuationCategoryUp$}
+\label{ch:concrete-instances-unary-continuation-category-namecert}
+
+The $\UnaryContinuationCategoryUp$ packet is the concrete category-shaped reading of the BEDC unary continuation calculus. It names the existing carrier rows used by $\CategoryUp$: unary object histories, displayed $\mathsf{CategoryHomCarrier}$ rows, continuation-tail ledgers, componentwise $\hsame$ transport, $\Cont$ composition routes, $\Pkg$ provenance, and a local $\NameCert$ ledger. It does not introduce a host category universe or any equality outside $\mathsf{BHist}$.
+
+It consumes the finite transition-step reading of \autoref{ch:concrete-instances-continuationautomaton-namecert} and the unit and associativity ledger of \autoref{ch:concrete-instances-continuationmonad-namecert}. Its object and hom rows are the category-shaped repackaging of those continuation surfaces, not an isolated kernel-only construction.
+
+\begin{definition}[Unary-continuation category carrier]
+\label{def:unary-continuation-category-carrier}
+A $\UnaryContinuationCategoryUp$ carrier is a finite packet
+$$
+U=(O,H,I,M,T,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O$ is the unary object row: each displayed object history $a$ is accepted exactly through $\mathsf{UnaryHistory}(a)$.
+\item $H$ is the displayed hom row: an arrow from $a$ to $b$ with displayed tail $f$ is accepted by
+$$
+\mathsf{CategoryHomCarrier}(a,b,f).
+$$
+\item $I$ records the empty-tail identity ledgers $\ContR(a,\emp,a)$ over unary object rows.
+\item $M$ records the binary composition ledgers: for displayed hom rows $\mathsf{CategoryHomCarrier}(a,b,f)$ and $\mathsf{CategoryHomCarrier}(b,c,g)$, a composite tail $fg$ is accepted only through the displayed $\ContR(f,g,fg)$ route together with the resulting $\mathsf{CategoryHomCarrier}(a,c,fg)$ row.
+\item $T$ records componentwise $\hsame$ transport for object histories and for displayed hom histories over fixed endpoints.
+\item $P$ is the $\Pkg$ provenance row naming the unary object inspection, hom-carrier inspection, identity ledger, and composition ledger.
+\item $N$ is the local $\NameCert_{\UnaryContinuationCategoryUp}$ ledger for the carrier, classifier, stability, exactness, and provenance rows.
+\end{enumerate}
+The carrier is therefore a category-shaped packet over $\BHist$ only: its objects, arrows, identities, composites, and equality rows are the existing unary-continuation data.
+\end{definition}
+
+\begin{theorem}[Unary-continuation category NameCert obligations]
+\label{thm:unary-continuation-category-namecert-obligations}
+The local $\NameCert_{\UnaryContinuationCategoryUp}$ obligation surface consists of five rows:
+\begin{enumerate}
+\item carrier habitation by the empty unary history and its empty-tail identity row;
+\item classifier laws inherited componentwise from $\hsame$ on object histories and displayed hom histories;
+\item hom admission by $\mathsf{CategoryHomCarrier}(a,b,f)$, equivalently by unary endpoints, a unary displayed tail, and the continuation-tail presentation of \autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence};
+\item stability under componentwise endpoint and hom-tail transport, using the unary-continuation stability law package of \autoref{thm:category-unary-continuation-stability-law-package};
+\item ledger exactness for identity, binary composition, associativity, and unit rows, using the public $\CategoryUp$ host-interface inventory of \autoref{thm:categoryup-mature-host-interface-inventory}.
+\end{enumerate}
+These rows bind the carrier, classifier, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ ledger without adding any host category primitive.
+\end{theorem}
+\begin{proof}
+For habitation, take the empty unary history. The empty continuation row supplies the displayed identity carrier, so the object and identity coordinates are inhabited inside $\BHist$.
+
+The classifier laws are componentwise. Object comparison uses $\hsame$ on unary histories, and hom comparison uses $\hsame$ on displayed hom histories over the same endpoints, with endpoint transport supplied by the stability package.
+
+Hom admission is the concrete correspondence of \autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence}. It identifies each displayed hom row with unary endpoints and a continuation morphism whose tail is classified as the displayed arrow history.
+
+Composition and stability are exactly the rows named by \autoref{thm:category-unary-continuation-stability-law-package}. The proof reads the identity, binary composition, associativity, unit, and endpoint-transport rows from the existing $\CategoryUp$ surface and stores them in $I$, $M$, and $T$.
+
+Finally, \autoref{thm:categoryup-mature-host-interface-inventory} lists the public host-interface rows exported by the same unary-continuation carrier. Repacking those rows with the $\Pkg$ provenance and local naming ledger gives the five $\NameCert_{\UnaryContinuationCategoryUp}$ obligations.
+\end{proof}
+
+\begin{theorem}[Unary-continuation category standard bridge]
+\label{thm:unary-continuation-category-standard-bridge}
+The $\UnaryContinuationCategoryUp$ packet presents the standard unary-continuation category interface over $\BHist$: public objects are exactly unary histories, public arrows are exactly displayed $\mathsf{CategoryHomCarrier}$ rows, identity arrows are empty-tail continuation rows, composition is displayed $\Cont$ composition of tails, and equality of objects and arrows is componentwise $\hsame$.
+
+The bridge reads back to the same rows. It exports no global category universe, no host equality of arrows, no limit or adjunction structure, and no morphism type beyond displayed $\BHist$ histories.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates of \autoref{def:unary-continuation-category-carrier}. The object row is $\mathsf{UnaryHistory}$, the hom row is $\mathsf{CategoryHomCarrier}$, the identity row is the empty-tail continuation ledger, and the composition row is the displayed $\Cont$ route.
+
+The category laws are those already used by \autoref{thm:category-standard-unary-continuation-bridge} and inventoried in \autoref{thm:categoryup-mature-host-interface-inventory}. They supply associativity, left and right units, and transport compatibility on the same displayed histories.
+
+The readback is literal because every public row is one of the carrier coordinates $O,H,I,M,T,P,N$. The bridge therefore exposes the unary-continuation category packet and nothing outside the BEDC history surface.
+\end{proof}
+
+\closureat{UnaryContinuationCategoryUp}{seedStr}
+
+\begin{closurestatus}{\UnaryContinuationCategoryUp}
+  \constructivestory{A unary-continuation category packet is generated from unary object histories, displayed $\mathsf{CategoryHomCarrier}$ arrows, empty-tail identity ledgers, displayed $\Cont$ composition tails, componentwise $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface names the concrete BEDC carrier rows for unary objects, hom carriers, identity tails, composition tails, transport rows, provenance, and local naming, but it does not close the paper axis beyond this carrier presentation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a separate Lean namespace, host categories, arbitrary categorical constructions, limits, adjunctions, equivalences, or machine bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, classifier laws, composition ledger exactness, and transport stability for the named unary-continuation packet.}
+\end{closurestatus}

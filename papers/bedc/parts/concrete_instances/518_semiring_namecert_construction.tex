@@ -1,0 +1,247 @@
+\chapter{A Concrete Naming Certificate for $\SemiringUp$}
+\label{ch:concrete-instances-semiring-namecert}
+
+The $\SemiringUp$ interface names the finite algebraic surface that combines
+an additive commutative-monoid presentation with a multiplicative presentation
+on the same displayed carrier. In the classical account of Golan,
+\emph{Semirings and their Applications} (1999), the object supports addition,
+multiplication, distributivity, and zero annihilation. The BEDC packet below
+records only the finite carrier rows, classifier rows, law ledgers,
+continuation routes, package provenance, and local $\NameCert$ row needed to
+name that surface without importing a host algebra or quotient equality.
+
+\begin{definition}[Semiring finite-history source]
+\label{def:semiring-bhist-source}
+A $\SemiringUp$ source is a finite $\mathsf{BHist}$ packet
+$$
+S=(A,M,Z,D,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is an additive commutative-monoid surface over $\AddUp$, with the
+displayed carrier, zero row, addition row, associativity row, unit rows, and
+commutativity row named on the same finite carrier;
+\item $M$ is a multiplicative monoid surface over $\MulUp$ when a unit row is
+present, and otherwise a multiplicative semigroup surface over
+$\SemigroupUp$;
+\item $Z$ is the shared-carrier and shared-classifier ledger saying that the
+additive and multiplicative rows classify exactly the same displayed carrier
+entries;
+\item $D$ records the left and right distributivity rows for multiplication
+over addition;
+\item $E$ records the left and right zero-annihilation rows;
+\item $H$ records the componentwise $\hsame$ transports for the carrier,
+additive surface, multiplicative surface, shared classifier, distributivity
+ledger, annihilation ledger, continuation routes, provenance, and local name;
+\item $C$ records the $\Cont$ routes that read addition, multiplication,
+distributivity, and annihilation comparisons from the same displayed carrier;
+\item $P$ is the $\Pkg$ provenance naming $\AddUp$, $\MulUp$, $\MonoidUp$,
+$\SemigroupUp$, and $\MagmaUp$ as the imported certificate boundaries;
+\item $N$ is the local $\NameCert$ row for the resulting finite semiring
+surface.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{SemiringLedger}(A,M,Z,D,E,H,C,P,N)$. Two accepted packets classify
+together only when all nine rows transport by the displayed $\hsame$ data and
+follow the same $\Cont$ routes named in $P$.
+\end{definition}
+
+\begin{theorem}[Semiring additive and multiplicative obligation surface]
+\label{thm:semiring-additive-multiplicative-obligation-surface}
+Let $S=(A,M,Z,D,E,H,C,P,N)$ be an accepted $\SemiringUp$ source. The algebraic
+operation surface exported by $S$ is exactly the additive commutative-monoid
+row $A$, the multiplicative monoid or semigroup row $M$, and the shared-carrier
+ledger $Z$. In particular, every downstream operation read is routed through
+the same displayed carrier and classifier, and no host ring, subtraction row,
+order row, completion datum, or quotient carrier is exported by the packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.SemiringUp.SemiringLedger\_additive\_multiplicative\_obligation\_surface}
+\begin{proof}
+Project the carrier of \autoref{def:semiring-bhist-source}. The additive row
+$A$ supplies the zero, addition, associativity, unit, and commutativity data,
+while the multiplicative row $M$ supplies the multiplication and associativity
+data, with a unit row only when the monoid presentation is present.
+
+The shared-carrier ledger $Z$ is the only bridge between those two operation
+surfaces. It identifies the displayed carrier and classifier rows used by
+$A$ and $M$, so every operation read factors through the same finite
+$\mathsf{BHist}$ source.
+
+The remaining rows are law ledgers, transport routes, provenance, and local
+naming data. None of them contains subtraction, additive inverses, an order
+primitive, a completion witness, or a quotient carrier, so the stated surface
+is exhausted by $A$, $M$, and $Z$.
+\end{proof}
+
+\begin{theorem}[Semiring distributive ledger boundary]
+\label{thm:semiring-distributive-ledger-boundary}
+For an accepted $\SemiringUp$ source
+$S=(A,M,Z,D,E,H,C,P,N)$, the distributivity information is exactly the finite
+ledger $D$. Its left and right rows compare the two displayed histories for
+$x\cdot(y+z)$ and $x\cdot y+x\cdot z$, and for $(x+y)\cdot z$ and
+$x\cdot z+y\cdot z$, using only the addition and multiplication routes named
+by $C$ on the carrier shared by $Z$.
+\end{theorem}
+\begin{proof}
+Read $D$ as a ledger over the carrier fixed by $Z$. Each row names a finite
+comparison between histories already produced by the displayed addition and
+multiplication operations.
+
+For the left distributive row, follow the continuation routes in $C$ from
+$x$, $y$, and $z$ to the two histories $x\cdot(y+z)$ and
+$x\cdot y+x\cdot z$. The ledger records their displayed comparison by
+$\hsame$.
+
+For the right distributive row, use the same carrier and classifier routes to
+compare $(x+y)\cdot z$ with $x\cdot z+y\cdot z$. No additional operation
+table is introduced, so $D$ is exactly the distributive boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.SemiringUp.SemiringDistributiveLedger\_boundary}
+
+\begin{theorem}[Semiring zero-annihilation scope]
+\label{thm:semiring-zero-annihilation-scope}
+For an accepted $\SemiringUp$ source
+$S=(A,M,Z,D,E,H,C,P,N)$, the zero-annihilation information is exactly the
+ledger $E$. It contains the left and right rows identifying $0\cdot x$ and
+$x\cdot 0$ with the additive zero row from $A$, routed through the
+multiplicative surface $M$ and the shared carrier ledger $Z$.
+\end{theorem}
+\begin{proof}
+The additive zero used in the statement is the zero row of $A$. By $Z$, this
+row belongs to the same displayed carrier on which the multiplication row of
+$M$ is typed.
+
+The first row of $E$ reads the multiplication route for $0\cdot x$ and
+compares the result with the additive zero. The second row reads the route for
+$x\cdot 0$ and performs the same comparison.
+
+No cancellation law, additive inverse, or order-theoretic positivity row is
+available in the packet. Therefore the annihilation scope is exactly the two
+finite rows named in $E$.
+\end{proof}
+\leanchecked{BEDC.Derived.SemiringUp.SemiringZeroAnnihilationLedger\_scope}
+
+\begin{theorem}[Semiring NameCert obligation surface]
+\label{thm:semiring-namecert-obligation-surface}
+The local $\NameCert_{\SemiringUp}$ obligation surface consists of five finite
+rows:
+\begin{enumerate}
+\item carrier and classifier: the $\mathsf{BHist}$ packet
+$S=(A,M,Z,D,E,H,C,P,N)$ of \autoref{def:semiring-bhist-source};
+\item operation surface: the additive, multiplicative, and shared-carrier rows
+of \autoref{thm:semiring-additive-multiplicative-obligation-surface};
+\item law ledgers: the distributivity rows of
+\autoref{thm:semiring-distributive-ledger-boundary} and the
+zero-annihilation rows of \autoref{thm:semiring-zero-annihilation-scope};
+\item stability and routing: the componentwise $\hsame$ transports in $H$ and
+the $\Cont$ routes in $C$;
+\item provenance: the $\Pkg$ row naming $\AddUp$, $\MulUp$, $\MonoidUp$,
+$\SemigroupUp$, and $\MagmaUp$.
+\end{enumerate}
+These rows form the public seed surface consumed by $\RingUp$, $\ModuleUp$,
+$\PolynomialUp$, and $\MatrixUp$ chapters that need a named semiring
+obligation source.
+\end{theorem}
+\leanchecked{BEDC.Derived.SemiringUp.SemiringFiniteSource\_semantic\_name\_certificate}
+\begin{proof}
+The carrier and classifier row fixes every coordinate that can be named by the
+certificate. The operation surface theorem identifies the only addition,
+multiplication, and shared-carrier reads exported by the source.
+
+The distributivity and zero-annihilation boundary theorems identify the only
+law ledgers available from the packet. The stability and routing rows say how
+those ledgers transport under displayed $\hsame$ and which finite
+continuations are used to read them.
+
+Finally, the package row lists the imported BEDC certificate boundaries. Since
+the packet has no coordinate for subtraction, additive inverses, host algebra,
+quotient equality, or analytic completion, the five rows listed above exhaust
+the local $\NameCert_{\SemiringUp}$ obligation surface and give downstream
+chapters only the named finite semiring source.
+\end{proof}
+\leanchecked{BEDC.Derived.SemiringUp.SemiringLedger\_namecert\_obligation\_surface}
+
+\begin{theorem}[Semiring concrete history instance]
+\label{thm:semiring-concrete-history-instance}
+For any accepted packet $S=(A,M,Z,D,E,H,C,P,N)$ of
+\autoref{def:semiring-bhist-source}, the additive row, multiplicative row,
+shared-carrier ledger, distributivity ledger, zero-annihilation ledger,
+$\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\SemiringUp}$ row constitute a concrete $\mathsf{BHist}$ semiring
+instance consumed by $\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$.
+
+This instance exports no subtraction row, additive-inverse row, order
+primitive, quotient carrier, or host-algebra operation. Every downstream read
+passes through the finite displayed rows of the packet.
+\end{theorem}
+\begin{proof}
+Project the coordinates $A,M,Z,D,E,H,C,P,N$ from the accepted
+\autoref{def:semiring-bhist-source} packet. The additive, multiplicative, and
+shared-carrier rows are exactly the operation surface of
+\autoref{thm:semiring-additive-multiplicative-obligation-surface}.
+
+The distributivity rows are supplied by
+\autoref{thm:semiring-distributive-ledger-boundary}, and the two
+zero-annihilation rows are supplied by
+\autoref{thm:semiring-zero-annihilation-scope}. These two ledgers give the
+only displayed law rows available to the semiring packet.
+
+The $\hsame$ transports in $H$, the $\Cont$ routes in $C$, the $\Pkg$
+provenance in $P$, and the local name row $N$ are the remaining coordinates of
+\autoref{thm:semiring-namecert-obligation-surface}. Repacking these displayed
+coordinates yields the concrete $\mathsf{BHist}$ semiring instance read by
+$\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$.
+
+Since no coordinate of $S$ names subtraction, additive inverse, order,
+quotient-carrier equality, or host algebra, no downstream consumer can read
+such data from the instance.
+\end{proof}
+
+\begin{theorem}[Semiring public finite-source export]
+\label{thm:semiring-public-finite-source-export}
+The finite carrier, classifier, additive surface, multiplicative surface, distributive ledger, zero-annihilation ledger, transport routes, provenance, and local $\NameCert_{\SemiringUp}$ row of \autoref{thm:semiring-namecert-obligation-surface} export exactly the public $\SemiringUp$ source surface available to $\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$ consumers.
+
+This public surface contains no additive inverses, quotient carriers, ordered semiring data, standard bridge, host algebra, or analytic completion datum. Every downstream read factors through the displayed $\mathsf{BHist}$ rows of \autoref{def:semiring-bhist-source}.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{def:semiring-bhist-source}. Its nine rows give the finite carrier and classifier, the additive and multiplicative operation surfaces, the distributive and zero-annihilation ledgers, the componentwise $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the local name row.
+
+The operation surface is identified by \autoref{thm:semiring-additive-multiplicative-obligation-surface}. The law boundary is identified by \autoref{thm:semiring-distributive-ledger-boundary} and \autoref{thm:semiring-zero-annihilation-scope}, so the available algebraic rows are exhausted by addition, multiplication, distributivity, zero annihilation, and the shared-carrier classifier.
+
+Now apply \autoref{thm:semiring-namecert-obligation-surface} and \autoref{thm:semiring-concrete-history-instance}. These statements repack exactly those displayed rows as the finite source consumed by $\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$.
+
+No cited row contains additive inverses, quotient carriers, order data, a standard bridge, host algebra, or analytic completion. Hence the exported public surface is precisely the named finite semiring source and nothing beyond it.
+\end{proof}
+
+\begin{theorem}[Semiring bridge finite-source downstream consumption]
+\label{thm:semiring-bridge-finite-source-downstream-consumption}
+Let $S=(A,M,Z,D,E,H,C,P,N)$ be an accepted packet of \autoref{def:semiring-bhist-source}. The public finite-source export of \autoref{thm:semiring-public-finite-source-export}, together with the concrete history instance of \autoref{thm:semiring-concrete-history-instance}, assembles exactly the bridge boundary consumed by $\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$.
+
+That boundary consists only of the displayed additive row, multiplicative row, shared carrier and classifier ledger, distributivity ledger, zero-annihilation ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports no additive inverses, quotient carrier, ordered semiring, standard model, or host algebra.
+\end{theorem}
+\begin{proof}
+Project the rows of the accepted packet $S$ from \autoref{def:semiring-bhist-source}. The additive and multiplicative faces are the two operation rows; the shared carrier and classifier are carried by the same packet spine; the distributivity and zero-annihilation ledgers are the displayed law rows; and $H$, $C$, $P$, and $N$ provide the transport, route, provenance, and naming coordinates.
+
+Apply \autoref{thm:semiring-additive-multiplicative-obligation-surface}, \autoref{thm:semiring-distributive-ledger-boundary}, and \autoref{thm:semiring-zero-annihilation-scope}. These identify the operation and law rows available to any downstream algebra consumer.
+
+Next apply \autoref{thm:semiring-namecert-obligation-surface}, \autoref{thm:semiring-concrete-history-instance}, and \autoref{thm:semiring-public-finite-source-export}. The first theorem exposes the local certificate obligations, the second repacks the displayed rows as the concrete $\mathsf{BHist}$ instance, and the third records the public finite-source export read by $\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$.
+
+By row exhaustion, the bridge boundary has no additional coordinate from which an additive inverse, quotient carrier, order row, standard model, or host algebra could be read. Hence the downstream consumption boundary is exactly the finite semiring source displayed above.
+\end{proof}
+
+\closureat{SemiringUp}{seedStr}
+\closureat{SemiringUp}{obligationStr}
+\closureat{SemiringUp}{scopedStr}
+\closureat{SemiringUp}{publicStr}
+
+\begin{closurestatus}{\SemiringUp}
+  \constructivestory{A semiring packet is generated by an additive commutative-monoid row, a multiplicative monoid or semigroup row, a shared carrier and classifier ledger, distributivity rows, zero-annihilation rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:semiring-bhist-source}, \autoref{thm:semiring-namecert-obligation-surface}, \autoref{thm:semiring-concrete-history-instance}, and \autoref{thm:semiring-public-finite-source-export} bind the finite carrier, classifier, additive surface, multiplicative surface, distributive rows, zero-annihilation rows, transports, routes, provenance, and local name as the public $\SemiringUp$ source surface for $\RingUp$, $\ModuleUp$, $\PolynomialUp$, and $\MatrixUp$ consumers.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SemiringUp.SemiringFiniteSource\_semantic\_name\_certificate}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close rings, modules, polynomial evaluation, matrix algebra, additive inverses, quotient carriers, ordered semirings, or a standard bridge.}
+  \upgradepath{Bridged closure requires a standard-bridge boundary tying the public finite semiring source to downstream algebra consumers.}
+\end{closurestatus}

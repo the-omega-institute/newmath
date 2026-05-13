@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\SelectorLedgerUp$}
+\label{ch:concrete-instances-selectorledger-namecert}
+\origin{human}
+
+The $\SelectorLedgerUp$ interface packages the Empty-fable trace surface as a finite naming certificate. It records a generated history, the trace read from its constructor spine, the displayed selector-step witnesses that justify each realized branch, and the finite transport and continuation rows that make the ledger consumable by later NameCert packets. The packet does not assert a global branch selector, a truth oracle, a host list quotient, or a choice principle.
+
+\begin{definition}[Selector ledger carrier]
+\label{def:selector-ledger-carrier}
+A $\SelectorLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(h,T,S,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $h$ is the generated $\Hist$ row whose constructor spine is being read;
+\item $T$ is the finite $\mathsf{Trace}$ row for $h$, read only from $\emp$, $\Ezero$, $\Eone$, and $\Ext$ constructors;
+\item $S$ is the finite list of $\mathsf{SelStep}$ witnesses, one for each non-empty trace edge, each exposing the enacted mark, the $\Ext$ step, and the local branch certificate;
+\item $H$ stores the componentwise $\hsame$ transports for the history row, trace row, and selector-step witnesses;
+\item $C$ stores the $\Cont$ routes that read the generated history, each trace edge, and each selector witness;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Hist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SelectorLedgerUp}$ row.
+\end{enumerate}
+The carrier is this finite packet. It contains no global chooser, no hidden branch function, no host equality of traces, and no oracle row.
+\end{definition}
+
+\begin{theorem}[SelectorLedger NameCert obligations]
+\label{thm:selector-ledger-namecert-obligations}
+The local $\NameCert_{\SelectorLedgerUp}$ surface for the carrier of \autoref{def:selector-ledger-carrier} consists exactly of carrier admission for $L$, trace admission for $T$, selector-step admission for every row of $S$, transport of the history, trace, and selector witnesses by the displayed $\hsame$ rows in $H$, continuation reads through $C$, package provenance through $P$, and the local naming row $N$.
+
+Every obligation is read from $\BHist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The certificate exports no branch selector beyond the displayed selector-step witnesses.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet $L$. The history row, trace row, selector-step list, transport rows, continuation routes, package provenance, and local naming row are all displayed coordinates.
+
+Trace admission reads $T$ from the constructor spine of $h$. Each non-empty edge in that trace is matched with one selector-step witness in $S$, and each such witness exposes the enacted mark together with the corresponding $\Ext$ row.
+
+The transport and continuation obligations are exactly the rows $H$ and $C$. They move the displayed history, trace, and selector witnesses componentwise while preserving the same package provenance and local naming row. Since the carrier has no further selector coordinate, the certificate has no hidden choice field to export.
+\end{proof}
+
+\begin{theorem}[SelectorLedger trace soundness]
+\label{thm:selector-ledger-trace-soundness}
+For every accepted $\SelectorLedgerUp$ carrier $L=(h,T,S,H,C,P,N)$, the exported ledger trace $T$ is sound for the generated history $h$: each mark in $T$ is justified by a displayed $\mathsf{SelStep}$ row in $S$, each such selector row contains an $\Ext$ step from the previous history to the next history, and the final history reached by the finite chain is $\hsame$-equivalent to $h$ through the rows recorded in $H$ and read through $C$.
+
+Thus every downstream consumer of the ledger receives a finite Empty-fable trace with explicit branch witnesses, not a global selector or external choice function.
+\end{theorem}
+\leanchecked{BEDC.Derived.SelectorLedgerUp.SelectorLedgerTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Start with the trace coordinate $T$. By the carrier definition, $T$ is the trace row associated with the generated history $h$, and no other trace coordinate is present.
+
+Proceed along the finite trace. For the empty trace, the history row is the empty boundary row and the selector list is empty. For a non-empty trace, the next selector-step row in $S$ exposes a mark, an $\Ext$ step, and a local branch certificate, so the next history in the chain is displayed.
+
+After all trace entries are consumed, the stored $\hsame$ rows in $H$ compare the reached history with $h$, and the continuation rows in $C$ expose the read to downstream consumers. The argument never introduces a chooser beyond the selector witness already stored for that edge.
+\end{proof}
+
+\begin{theorem}[SelectorLedger no hidden choice]
+\label{thm:selector-ledger-no-hidden-choice}
+Every consumer read of an accepted $\SelectorLedgerUp$ carrier factors through the displayed tuple $h,T,S,H,C,P,N$. In particular, branch information can be read only as a finite $\mathsf{SelStep}$ witness whose mark and $\Ext$ row are visible, and trace information can be read only through the finite $\mathsf{Trace}$ row transported by $\hsame$ and $\Cont$.
+
+The packet therefore exposes the Empty-fable selector ledger as a finite $\NameCert_{\SelectorLedgerUp}$ surface and exports no global choice function, hidden chooser, host trace quotient, or truth oracle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only branch-facing coordinate is the finite selector-step list $S$, and the only sequence-facing coordinate is the trace row $T$.
+
+A branch read must therefore project a row of $S$. That projection exposes the mark, the $\Ext$ step, and the local branch certificate, so the selector is a visible witness rather than a hidden function.
+
+A trace read must project $T$ and then transport it through $H$ and $C$. Package provenance and the naming row record that this is the whole public surface. Since no coordinate names a global chooser, host trace quotient, or oracle, none can be exported.
+\end{proof}
+
+\closureat{SelectorLedgerUp}{seedStr}
+
+\begin{closurestatus}{\SelectorLedgerUp}
+  \constructivestory{A $\SelectorLedgerUp$ packet is generated from a displayed $\Hist$ row, its finite $\mathsf{Trace}$ row, explicit $\mathsf{SelStep}$ witnesses for realized branch edges, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the carrier, NameCert obligation surface, trace soundness route, and no-hidden-choice boundary for finite selector ledgers over $\BHist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean implementation, bridge status, global branch selection, host trace quotient, truth oracle, or any choice principle.}
+  \upgradepath{Scoped closure requires checked carrier admission, trace soundness, selector-step exposure, transport, continuation, and no-hidden-choice rows for the displayed finite packet.}
+\end{closurestatus}

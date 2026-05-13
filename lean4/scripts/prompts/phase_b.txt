@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.16 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.20 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## TOP-LEVEL HARD GATE — never emit empty targets; formal_axis_top is the safety net
 
@@ -11,9 +11,10 @@ If you find yourself emitting `{"targets": []}`, STOP. Empty targets at lean rou
 
 1. **`top[0..2]` with `labels > 0`**: pick paper labels in those chapters that grep shows have NO `\leanchecked{X}` marker. This is the original gate.
 2. **If `top[0..2]` all have `labels = 0`**: skip them — those chapters are saturated, lean already wrote everything. Move to step 3.
-3. **`bridge_candidates[0..2]`**: write `<X>Up_StdBridge` theorem for one of these chapters. Use kernel constructs (`BHist`, `NameCert.transport`, `hsame`); no Classical.choice / Quot.sound / propext. Commit subject: `R<N>: bridge <X>Up to schema (axiomClean->bridgeCheck)`.
-4. **`formal_axis_top[0..4]`**: these are chapters where the paper has a `closurestatus` block (theory_grade non-null) but `formal_grade < theoremCheckedV`. Each entry has a `labels` count of unmarked paper theorems waiting for lean. Open `entry.file_paper`, find any `\begin{theorem}` block without a preceding `\leanchecked{...}`, and add a `\leanchecked{<X>}` marker pointing to a NEW Lean theorem in `lean4/BEDC/Derived/<X>Up.lean` (create the file if missing). The new Lean theorem's body uses BEDC kernel; restating the paper theorem with kernel-anchored proof is fine.
-5. **Last resort — any unmarked paper label anywhere under `papers/bedc/parts/concrete_instances/`**: scan the namecert files for `\label{thm:...}` blocks lacking `\leanchecked{...}`. There are typically 1500-2000 such labels at any time; pick 3 from chapters NOT already in another worktree's in-flight diff.
+3. **`unformalized_top[0..9]` (HIGH PRIORITY when present)**: `critical_path.py` emits a JSON field `unformalized_top` listing the top-50 unwritten paper theorems/definitions ranked by `score = downstream_refs × zone_weight`. Each entry already carries: `chapter`, `file` (paper path), `line`, `label`, `kind` ('theorem' / 'definition' / 'lemma' / 'corollary' / 'proposition'), and **`anchor_suggested`** (the full Lean target name like `BEDC.Derived.FieldUp.RatupFieldupConcreteExitObject`). Pick entries with `has_kernel_object=true` and `zone='horizon'` first — these are paper theorems already phrased in BEDC kernel vocabulary that just lack a Lean witness. The `target_file` is derived from `anchor_suggested` by splitting at the last namespace dot: `BEDC.Derived.FieldUp.<X>` → `lean4/BEDC/Derived/FieldUp/<X>.lean` (or `lean4/BEDC/Derived/FieldUp.lean` if the parent module is preferred and not size-blocked by the 800-line cap). After your Phase C implementation, the paper gets a `\leanchecked{<anchor_suggested>}` marker pointing at the new theorem. Score=162 entries trump score=1 closure_mark fluff every round — emit at least one `unformalized_top` target whenever the list is non-empty AND no `top[0..2]` candidate has a higher real-throughput score. Skip entries where `zone` starts with `narrative.` (those are intentional motivational text, not Lean-bound).
+4. **`bridge_candidates[0..2]`**: write `<X>Up_StdBridge` theorem for one of these chapters. Use kernel constructs (`BHist`, `NameCert.transport`, `hsame`); no Classical.choice / Quot.sound / propext. Commit subject: `R<N>: bridge <X>Up to schema (axiomClean->bridgeCheck)`.
+5. **`formal_axis_top[0..4]`**: these are chapters where the paper has a `closurestatus` block (theory_grade non-null) but `formal_grade < theoremCheckedV`. Each entry has a `labels` count of unmarked paper theorems waiting for lean. Open `entry.file_paper`, find any `\begin{theorem}` block without a preceding `\leanchecked{...}`, and add a `\leanchecked{<X>}` marker pointing to a NEW Lean theorem in `lean4/BEDC/Derived/<X>Up.lean` (create the file if missing). The new Lean theorem's body uses BEDC kernel; restating the paper theorem with kernel-anchored proof is fine.
+6. **Last resort — any unmarked paper label anywhere under `papers/bedc/parts/concrete_instances/`**: scan the namecert files for `\label{thm:...}` blocks lacking `\leanchecked{...}`. There are typically 1500-2000 such labels at any time; pick 3 from chapters NOT already in another worktree's in-flight diff.
 
 If after the full waterfall you genuinely have ZERO valid candidates (extremely rare — only when lean has fully caught up to paper across the entire repo), THEN emit `{"targets": []}` with a `notes` field explaining which steps you exhausted. Without that note, an empty-targets emission is an error and Phase B will be retried.
 
@@ -37,6 +38,13 @@ If after the full waterfall you genuinely have ZERO valid candidates (extremely 
 This gate composes with the existing critical_path top[0..2] HARD GATE: a 3-target round can satisfy both with 1 formal-axis target + 1 top[0..2] target + 1 free slot.
 
 A bridge_candidates round commit message subject MUST be: `R<ROUND_NUM>: bridge <X>Up to schema (axiomClean->bridgeCheck)`. A formal_axis_top round MUST quote the actual transition (e.g. `unformalizedV->formalTargetV`) in its commit subject. These subjects let downstream paper P-rounds detect the bridge work and sync the paper-side closurestatus.
+
+Paper-side `parts/visions/` chapters MAY be cited via `\autoref` in
+concrete-instance chapters that Lean rounds back, but Lean rounds
+themselves do not propose `parts/visions/` edits. The visions directory
+is paper-side inspiration only; mature realizations land in
+`papers/bedc/parts/concrete_instances/` and Lean code under
+`lean4/BEDC/Derived/`.
 
 ## Environment
 
@@ -159,8 +167,7 @@ Phase D now enforces these constraints mechanically. Select targets that will pa
 - Do NOT import Mathlib.X.Y. Use Lean 4 stdlib only. Tactics: exact / intro / cases / rfl / simp / induction / decide / apply / constructor.
 - Do NOT add `axiom` declarations. Encode primitives as `inductive` / `def` / `class` / `structure` setup field. The audit `python3 tools/check-axioms.py` will reject any axiom and CI will fail.
 - Do NOT leave `sorry`. Every theorem must have a real proof. If you genuinely cannot prove the theorem, do NOT add it; pick a different target.
-- Do NOT select targets under `lean4/BEDC/**/Examples/**`; `Examples/` is not a theorem-bearing target tree.
-- Do NOT select or propose modules/files with `Example`, `Examples`, `Scaffold`, `Stub`, `Placeholder`, or `Demo` in the path or module name.
+- **HARD GATE — automation does not write `Examples` (general rule)**: any Lean file whose path contains any of `Examples`, `TypedExamples`, `Example`, `Scaffold`, `Stub`, `Placeholder`, `Demo` (case-insensitive substring match, applied per-path-segment by the orchestrator gate) is **read-only for the automation pipeline**. Phase B MUST NOT propose `target_file` paths matching this pattern, and Phase C MUST NOT create or modify files at such paths. The rationale is two-fold: (a) `Examples/`-style trees are reserved for human-authored reference material that informs the canonical theorems; if the automation pipeline writes there, the directory swells unboundedly with low-content variations of the canonical modules; (b) the orchestrator's `_name_has_forbidden_fragment` gate (in `lean4/scripts/codex_formalize.py`) enforces this with a substring match — every round whose diff touches such a path is rejected, triggering FAIL + cooldown. This applies even when the path semantically looks like a real BEDC module (e.g. `BEDC.MetaCIC.TypedExamples.*` IS canonical typed-term derivation content, but is OFF-LIMITS for the automation pipeline because of the path-name match). Existing theorems at these paths remain in the build and MAY be cited via `\autoref` / `open` / direct theorem reference in Phase C; the carve-out only forbids the automation from creating or editing files there. For BEDC.MetaCIC work, pick a `Confluence.*` / `Substitution.*` / `Typing.*` / `Beta.*` / `ClosedTerm.*` / `ContextWF.*` etc. module. For Derived chapters, pick `BEDC/Derived/<X>Up/*` without `Example*` / `Demo*` etc. in the path. Examples-style files are the human-side authoring channel; automation extends the canonical theorem channel.
 - Formal targets must live in canonical semantic BEDC modules. If an existing file is near 600 lines, target a focused non-example submodule and import it through the nearest index.
 - Respect the existing typeclass-parameterized layers: use `[AskSetup]`, `[PackageSetup]`, `[DomainSetup]`, `[NameCertSetup]`, and `BaseReflectionSetup` when the target belongs to those layers. Do NOT reintroduce abstract carriers as ad hoc constants, opaque declarations, or axioms.
 

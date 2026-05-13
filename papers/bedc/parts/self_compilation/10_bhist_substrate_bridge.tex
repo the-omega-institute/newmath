@@ -1,0 +1,212 @@
+\section{BHist Substrate Bridge}
+\label{sec:self-comp-bhist-substrate-bridge}
+
+The binary-history substrate is the smallest data layer that BEDC carries
+through its finite certificates. In the kernel layer it is not a derived
+numeric notation, a string encoding, or a host-side serialization format. It
+is the freely generated history type with one empty history and two visible
+extension constructors.
+
+\subsection{What BHist Is}
+\label{subsec:bhist-substrate-what}
+
+The core history type is defined in
+\texttt{lean4/BEDC/FKernel/Hist.lean}. Its constructor shape is
+
+$$
+\begin{aligned}
+\mathsf{BHist}
+  ::= \mathsf{Empty}
+   \mid \mathsf{e0}(\mathsf{BHist})
+   \mid \mathsf{e1}(\mathsf{BHist}) .
+\end{aligned}
+$$
+
+The manuscript writes the visible constructors as $b0$ and $b1$ when the
+emphasis is on binary digits, and as $\Ezero(-)$ and $\Eone(-)$ when the
+emphasis is on generated history structure. The Lean constructors are
+\texttt{BHist.Empty}, \texttt{BHist.e0}, and \texttt{BHist.e1}. The
+important invariant is the same in every notation: a history is a finite
+binary digit sequence, built by closing the empty sequence under the two
+single-bit extensions.
+
+This makes $\mathsf{BHist}$ a primitive carrier for BEDC's internal evidence.
+The relation $\hsame$ on histories is definitional equality in the kernel
+layer, and the visible no-confusion theorems for empty, $b0$, and
+$b1$ are proved by induction over that generated type. Thus the object used
+by package rows, continuations, signatures, and name certificates is not an
+external byte array. It is an inductive value whose constructors are visible
+to the proof language.
+
+\subsection{Why Bridge BHist to Term}
+\label{subsec:bhist-substrate-why-bridge}
+
+The MetaCIC reconstruction has a separate object language,
+\texttt{BEDC.MetaCIC.Term}. That language represents the syntax of a small
+dependent-function calculus: variables, applications, lambdas, Pi types, and
+sort. Self-compilation needs a way for the raw BEDC carrier data to appear
+inside that object language. Otherwise the substrate and the represented
+calculus would remain adjacent artefacts rather than a single typed internal
+surface.
+
+The bridge supplied by \texttt{BEDC.MetaCIC.BHistSubstrate} serves exactly
+this role. It embeds host-side histories into represented terms. The input is
+a Lean value of the BEDC history type. The output is a MetaCIC term that can
+be placed under the ordinary syntactic and metatheoretic predicates of the
+represented calculus.
+
+The point is not to claim that every MetaCIC term denotes a history. The point
+is more precise: every BEDC history has a canonical represented value. This
+turns the finite binary-history carrier into a Church-style data structure
+inside the MetaCIC substrate, so that raw BEDC rows can be mentioned by the
+same object calculus that carries the self-compilation surface.
+
+\subsection{The Mechanized Embedding}
+\label{subsec:bhist-substrate-embedding}
+
+The embedding is the function
+
+$$
+\begin{aligned}
+\texttt{BEDC.MetaCIC.BHistSubstrate.bhistToTerm}
+  : \mathsf{BHist} \to \texttt{BEDC.MetaCIC.Term}.
+\end{aligned}
+$$
+
+\leandef{BEDC.MetaCIC.BHistSubstrate.bhistToTerm}
+
+In Lean the local name of the source type is
+\texttt{BHistIdx}, an abbreviation for
+\texttt{BEDC.FKernel.Hist.BHist}. The abbreviation records that the substrate
+module treats histories as the index values being encoded into MetaCIC terms;
+it does not create a separate history type.
+
+The encoding has the shape of a three-argument Church case analysis. The
+outer term binds three represented arguments. The payload uses variable $2$
+for the empty-history case, variable $1$ for the $b0$ branch, and variable $0$
+for the $b1$ branch. A visible bit extension is represented by applying the
+corresponding branch variable to the recursively encoded tail, protected
+under the same three-binder interface.
+
+For the empty history the payload is the represented variable for the empty
+case:
+
+$$
+\begin{aligned}
+\mathsf{payload}(\mathsf{Empty}) = \mathrm{var}\ 2 .
+\end{aligned}
+$$
+
+For a $b0$ extension the payload applies the $b0$ branch to the recursively
+encoded tail:
+
+$$
+\begin{aligned}
+\mathsf{payload}(\mathsf{e0}(h))
+  =
+  \mathrm{app}\ (\mathrm{var}\ 1)\
+    (\lambda\_0.\lambda\_1.\lambda\_2.\ \mathsf{payload}(h)).
+\end{aligned}
+$$
+
+For a $b1$ extension the payload is analogous, using the other branch
+variable:
+
+$$
+\begin{aligned}
+\mathsf{payload}(\mathsf{e1}(h))
+  =
+  \mathrm{app}\ (\mathrm{var}\ 0)\
+    (\lambda\_0.\lambda\_1.\lambda\_2.\ \mathsf{payload}(h)).
+\end{aligned}
+$$
+
+The full embedding wraps this payload in the three lambdas that bind the
+empty, $b0$, and $b1$ eliminator branches. In de Bruijn notation the branch
+variables are local to that wrapper, so the represented value is closed at
+depth $0$.
+
+The mechanized closure theorem is
+
+$$
+\begin{aligned}
+\texttt{bhistToTerm\_closed}\ (h : \mathsf{BHist}) :
+  \texttt{ClosedAt}\ 0\
+    (\texttt{bhistToTerm}\ h).
+\end{aligned}
+$$
+
+\leanchecked{BEDC.MetaCIC.BHistSubstrate.bhistToTerm\_closed}
+
+This is the primary checked fact for the bridge. It is the property needed by
+the self-compilation surface: a raw finite history becomes a closed
+represented term, hence it can enter the closed-term side of the MetaCIC
+metatheory without free-variable debt.
+
+The same module also proves injectivity of the encoding:
+
+$$
+\begin{aligned}
+\texttt{bhistToTerm\_injective} :
+  \texttt{bhistToTerm}\ h =
+  \texttt{bhistToTerm}\ k \to h = k .
+\end{aligned}
+$$
+
+\leanvariant{BEDC.MetaCIC.BHistSubstrate.bhistToTerm\_injective}
+
+Injectivity is a useful shape fact: distinct generated histories do not
+collapse under the represented encoding. It is not used here as the canonical
+closure site, but it records that the Church-style representation preserves
+the visible generated structure.
+
+\subsection{What the Bridge Gives}
+\label{subsec:bhist-substrate-gives}
+
+The immediate result is a typed-substrate design point. BEDC's finite binary
+histories can appear as ordinary represented data in the MetaCIC syntax layer.
+The bridge does not need a host evaluator, a parser, or a binary-string
+library. It is a structural map from the inductive history carrier into the
+inductive term carrier.
+
+Because the output is closed, all closed-term invariants apply to the image
+of the bridge. A represented history can be placed in contexts where the
+MetaCIC development reasons about closedness, beta-step preservation, finite
+reduction traces, confluence statements, and bounded normalization behavior.
+Those metatheorems remain theorems about \texttt{Term}; the bridge supplies a
+large family of concrete closed \texttt{Term} inputs coming from the BEDC
+history substrate.
+
+This is the relevant self-compilation step. Host-side certificate rows are
+generated as finite histories. The MetaCIC substrate needs closed represented
+values for such rows. The embedding gives that interface without changing the
+definition of $\mathsf{BHist}$ and without adding a new primitive constructor
+to \texttt{Term}.
+
+\subsection{Unproved Boundaries}
+\label{subsec:bhist-substrate-unproved-boundaries}
+
+Three boundaries remain outside the checked bridge.
+
+First, no surjectivity theorem is claimed. The module does not characterize
+which closed normal forms of \texttt{Term} are exactly in the image of
+\texttt{bhistToTerm}. Such a theorem would need a normal-form predicate and a
+recognizer theorem connecting the Church-style shape to the source history.
+
+Second, no inverse decoding theorem is used by the paper. The module contains
+partial decoding functions from represented terms back to optional histories,
+but this section does not claim a full inverse theorem for all closed
+represented terms, nor a completeness theorem over beta-equivalent normal
+forms.
+
+Third, no commutation theorem is mechanized between host-side history
+operations and represented MetaCIC operations. The bridge preserves the
+generated shape and closedness of histories, but it does not prove that every
+host operation on histories has a corresponding represented program whose
+execution commutes with \texttt{bhistToTerm}.
+
+These boundaries keep the statement exact. The bridge establishes a closed,
+injective, Church-style embedding from the BEDC history carrier into the
+represented calculus. It does not identify the whole represented-history
+fragment, does not certify total decoding, and does not internalize the
+history-operation algebra as MetaCIC programs.

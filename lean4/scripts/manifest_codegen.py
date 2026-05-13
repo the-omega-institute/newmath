@@ -188,10 +188,9 @@ def scan_lean_decl_names(lean_root: Path) -> set[str]:
 
 def declaration_names(manifest_json: Path) -> set[str]:
     names = load_manifest_names(manifest_json)
-    if names:
-        return names
     repo_root = manifest_json.resolve().parent.parent.parent
-    return scan_lean_decl_names(repo_root / "lean4" / "BEDC")
+    names.update(scan_lean_decl_names(repo_root / "lean4" / "BEDC"))
+    return names
 
 
 def render_stub(marker: Marker) -> str:

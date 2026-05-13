@@ -1,0 +1,169 @@
+\chapter{A Concrete Naming Certificate for $\ClassifierTypingUp$}
+\label{ch:concrete-instances-classifiertyping-namecert}
+\origin{human}
+
+The $\ClassifierTypingUp$ surface realizes classifier membership as a finite typing packet. It records the visible term row, the $\Ext$ membership row, the $\Cont$ reduction row, the $\mathsf{SigRel}$ typing answer, and a local $\NameCert$ ledger, so a typing consumer reads only the rows displayed by the certificate.
+
+\begin{definition}[ClassifierTyping carrier]
+\label{def:classifier-typing-carrier}
+A $\ClassifierTypingUp$ carrier is a finite $\BHist$ packet
+$$
+X=(T,E,R,S,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $T$ is the term row whose finite syntax window is being checked;
+\item $E$ is the $\Ext$ membership row witnessing admission of $T$ by the local classifier;
+\item $R$ is the $\Cont$ reduction row whose source and target term windows are visible in the packet;
+\item $S$ is the $\mathsf{SigRel}$ typing-answer row pairing the displayed classifier question with its accepted answer ledger;
+\item $H$ stores the componentwise $\hsame$ transports for the term, membership, reduction, signature-answer, package, and local ledger rows;
+\item $C$ stores the displayed $\Cont$ routes for reading membership, reduction, subject reduction, and signature-answer data;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClassifierTypingUp}$ ledger.
+\end{enumerate}
+The carrier contains no host typing semantics, no erased derivation object, no semantic equality of terms, no normalization oracle, and no classifier beyond the displayed $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$ rows.
+\end{definition}
+
+\begin{definition}[ClassifierTyping classifier]
+\label{def:classifier-typing-classifier}
+For accepted $\ClassifierTypingUp$ carriers $X=(T,E,R,S,H,C,P,N)$ and $X'=(T',E',R',S',H',C',P',N')$, the classifier compares exactly the visible $\Ext$ membership rows, the $\mathsf{SigRel}$ typing-answer rows, and the $\Cont$ reduction rows under the componentwise $\hsame$ transports recorded in $H$ and $H'$. The term rows, package rows, and local ledgers may be inspected only as the coordinates that name those visible comparisons.
+
+Thus two accepted packets classify together precisely when the exposed membership answer, typing signature answer, and reduction route remain the same readable BEDC data under $\hsame$. No host typing derivation, semantic conversion relation, erased representative, or ambient normalization proof participates in the classifier.
+\end{definition}
+
+\begin{theorem}[ClassifierTyping NameCert obligations]
+\label{thm:classifier-typing-namecert-obligations}
+The local $\NameCert_{\ClassifierTypingUp}$ surface for \autoref{def:classifier-typing-carrier} consists of five obligations:
+\begin{enumerate}
+\item carrier inhabitance by a finite packet $X=(T,E,R,S,H,C,P,N)$;
+\item classifier equivalence for the visible $\Ext$, $\mathsf{SigRel}$, and $\Cont$ rows under componentwise $\hsame$ transport;
+\item membership stability, saying that a transported accepted term row preserves the displayed $\Ext$ membership answer;
+\item subject-reduction-as-$\Cont$ stability, saying that a visible typed reduction route reads its target membership through $R$, $C$, and the same local ledger;
+\item signature-gap readback, saying that any readable typing answer factors through the $\mathsf{SigRel}$ row $S$ and the local $\NameCert_{\ClassifierTypingUp}$ ledger.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassifierTypingUp.ClassifierTypingCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier inhabitance is projection from \autoref{def:classifier-typing-carrier}. The packet displays the term, membership, reduction, signature-answer, transport, continuation, package, and ledger rows needed by the local certificate.
+
+Classifier equivalence is the comparison of \autoref{def:classifier-typing-classifier}. Since the comparison may inspect only $E$, $S$, and $R$ through $H$ and $C$, stability of membership and reduction is a statement about visible rows rather than a host typing semantics.
+
+For subject reduction, use the reduction coordinate $R$ as the continuation route from the source window to the target window. The target membership read is licensed by the same $\Ext$ row and local ledger after transport, so it remains inside the packet.
+
+For signature-gap readback, project the $\mathsf{SigRel}$ row $S$. A consumer that asks for the typing answer receives the answer ledger named by $S$ and authenticated by $N$, with $P$ recording the dependency package. No hidden conversion or normalization datum is available.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping membership stability]
+\label{thm:classifier-typing-membership-stability}
+Let $X=(T,E,R,S,H,C,P,N)$ and $X'=(T',E',R',S',H',C',P',N')$ be accepted $\ClassifierTypingUp$ carriers that classify together. Every public membership read of $X'$ is obtained by transporting the displayed $\Ext$ membership row of $X$ through the recorded $\hsame$ comparison and the $\Cont$ routes in $C$ and $C'$. The read cannot introduce a new classifier, a host typing derivation, or a semantic conversion rule.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassifierTypingUp.ClassifierTypingCarrier\_membership\_stability}
+\begin{proof}
+Start with the classifier comparison. By \autoref{def:classifier-typing-classifier}, a classification of $X$ with $X'$ includes the visible comparison of $E$ with $E'$ and does not expose any other membership source.
+
+Transport the membership row along the displayed $\hsame$ coordinate. The continuation routes in $C$ and $C'$ license the consumer reads of the source and target packets, so the transported row is still a finite $\Ext$ membership answer.
+
+The carrier inventory excludes any host typing derivation or conversion rule. Hence every membership read of $X'$ factors through $E$, $E'$, $H$, $H'$, $C$, and $C'$, and no external classifier can enter the surface.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping signature-gap readback]
+\label{thm:classifier-typing-signature-gap-readback}
+Every readable typing answer in an accepted $\ClassifierTypingUp$ carrier factors through the displayed $\mathsf{SigRel}$ row $S$, the visible $\Ext$ membership row $E$, the reduction route $R$, and the local $\NameCert_{\ClassifierTypingUp}$ ledger $N$. A consumer therefore receives a finite signature-gap answer packet, not a host type checker, not an erased derivation, and not an unrecorded normalization theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassifierTypingUp.ClassifierTypingCarrier\_signature\_gap\_readback}
+\begin{proof}
+Project the accepted carrier. The typing-answer coordinate is $S$, and the rows that can justify its use are the membership row $E$, the reduction row $R$, and the local ledger $N$.
+
+Readback follows the displayed continuation routes in $C$. These routes determine how a consumer reaches $E$, $R$, and $S$, while $H$ records the permitted transports and $P$ records the dependency package.
+
+Since the packet has no coordinate for host type checking, erased derivations, or normalization, the consumer can read only the finite signature-gap packet named by $S$ and authenticated by $N$.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping subject-reduction Cont stability]
+\label{thm:classifiertyping-subject-reduction-cont-stability}
+Let $X=(T,E,R,S,H,C,P,N)$ be an accepted $\ClassifierTypingUp$ carrier. Every subject-reduction read of $X$ is a $\Cont$-stable read: the source membership is read through the visible $\Ext$ row $E$, the reduction step is read through $R$, the typing answer is read through $\mathsf{SigRel}$ row $S$, and the target membership is reached only by replaying the displayed $\hsame$, $\Pkg$, and $\NameCert_{\ClassifierTypingUp}$ rows $H,P,N$ along the continuation routes in $C$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassifierTypingUp.ClassifierTypingCarrier\_subject\_reduction\_cont\_stability}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:classifier-typing-carrier}. The packet displays the term row $T$, the membership row $E$, the reduction row $R$, the signature-answer row $S$, the transport row $H$, the route row $C$, the package row $P$, and the local naming row $N$.
+
+Apply \autoref{def:classifier-typing-classifier}. A reduction-preservation read can compare only the exposed $\Ext$, $\Cont$, and $\mathsf{SigRel}$ rows under the recorded $\hsame$ transports, so the source membership and typing answer cannot be replaced by a host derivation.
+
+Use \autoref{thm:classifier-typing-membership-stability} for the membership side. It routes transported membership through $E,H,C$ and excludes a fresh classifier or semantic conversion rule.
+
+Use \autoref{thm:classifier-typing-signature-gap-readback} for the answer side. It forces the typing answer through $S,E,R,N$, with $P$ recording the finite provenance. Hence the subject-reduction read is exactly the displayed $\Cont$ route from source data to target membership inside $X$.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping visible-answer determinacy]
+\label{thm:classifiertyping-visible-answer-determinacy}
+Let $X=(T,E,R,S,H,C,P,N)$ and $X'=(T',E',R',S',H',C',P',N')$ be accepted $\ClassifierTypingUp$ carriers that classify together. If a public consumer reads a typing answer from both packets, then the two answers are the same displayed $\mathsf{SigRel}$ answer under the recorded $\hsame$ transports and $\Cont$ routes. No second visible answer can be produced from $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, or $\NameCert$ rows outside the displayed packets.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassifierTypingUp.ClassifierTypingCarrier\_visible\_answer\_determinacy}
+\begin{proof}
+Begin with the classifier of \autoref{def:classifier-typing-classifier}. Classification of $X$ with $X'$ compares the visible membership rows, signature-answer rows, and reduction rows, and the comparison is mediated only by $H,H',C,C'$.
+
+Apply \autoref{thm:classifier-typing-signature-gap-readback} to each packet. Each readable answer factors through $S$ or $S'$ together with the corresponding membership row, reduction route, and local ledger.
+
+Apply \autoref{thm:classifier-typing-membership-stability}. The membership rows used by the answer reads are transported by the same displayed $\hsame$ and $\Cont$ data that the classifier already exposes.
+
+The package and naming rows $P,N,P',N'$ record the provenance of those finite reads. Since neither carrier contains a host type checker, erased derivation, semantic conversion rule, or normalization theorem, the paired reads determine one visible $\mathsf{SigRel}$ answer and leave no route for a second answer.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping reduction-route ledger exhaustion]
+\label{thm:classifiertyping-reduction-route-ledger-exhaustion}
+For every accepted $\ClassifierTypingUp$ carrier $X=(T,E,R,S,H,C,P,N)$, every reduction-preservation route exported by the packet is exhausted by the displayed rows $T,E,R,S,H,C,P,N$. In particular, a consumer that asks for subject reduction receives the visible $\Ext$ membership row, $\Cont$ reduction row, $\mathsf{SigRel}$ answer row, componentwise $\hsame$ transports, $\Pkg$ provenance, and $\NameCert_{\ClassifierTypingUp}$ ledger, and receives no hidden typing derivation, semantic conversion, erased representative, or normalization oracle.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassifierTypingUp.ClassifierTypingCarrier\_reduction\_route\_ledger\_exhaustion}
+\begin{proof}
+Project the carrier from \autoref{def:classifier-typing-carrier}. Its reduction-facing coordinates are precisely the term, membership, reduction, signature-answer, transport, route, package, and local ledger rows.
+
+Use \autoref{thm:classifiertyping-subject-reduction-cont-stability}. Subject-reduction reads are replayed through the visible $\Cont$ route, with source membership from $E$, reduction from $R$, and target membership authenticated by $H,P,N$.
+
+Use \autoref{thm:classifiertyping-visible-answer-determinacy}. Any answer read along that route is the displayed $\mathsf{SigRel}$ answer named by $S$, so the reduction route cannot branch to an extra answer source.
+
+The exclusion clauses of the carrier and classifier rule out host typing semantics, erased derivations, semantic conversion, and normalization. Therefore the reduction-route ledger is exhausted by $T,E,R,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping kernel scope binding]
+\label{thm:classifiertyping-kernel-scope-binding}
+Every public $\ClassifierTypingUp$ typing read is scoped by the concrete rows
+$$
+T,E,R,S,H,C,P,N
+$$
+and by the kernel primitives $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$. The read may inspect the term row, membership row, reduction row, signature-answer row, componentwise transport, continuation routes, package provenance, and local naming ledger. It has no coordinate for a host type checker, erased derivation, normalization oracle, or semantic conversion relation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:classifier-typing-carrier}. The displayed packet lists exactly the rows $T,E,R,S,H,C,P,N$, with $E$ naming the $\Ext$ membership row, $R$ and $C$ naming the $\Cont$ reduction and read routes, and $S$ naming the $\mathsf{SigRel}$ answer row.
+
+Apply \autoref{def:classifier-typing-classifier}. Public comparison is restricted to the visible $\Ext$, $\mathsf{SigRel}$, and $\Cont$ rows under the recorded $\hsame$ transports, with $\Pkg$ and $\NameCert$ providing provenance and local naming.
+
+The excluded objects are not packet coordinates. Therefore every public typing read is bound to the displayed kernel rows and cannot appeal to a host type checker, erased derivation, normalization oracle, or semantic conversion relation.
+\end{proof}
+\leanchecked{BEDC.Derived.ClassifierTypingUp.ClassifierTypingCarrier\_kernel\_scope\_binding}
+
+\begin{theorem}[ClassifierTyping Ext-Cont-SigRel scope exhaustion]
+\label{thm:classifiertyping-ext-cont-sigrel-scope-exhaustion}
+The membership stability of \autoref{thm:classifier-typing-membership-stability}, subject-reduction $\Cont$ stability of \autoref{thm:classifiertyping-subject-reduction-cont-stability}, signature-gap readback of \autoref{thm:classifier-typing-signature-gap-readback}, visible-answer determinacy of \autoref{thm:classifiertyping-visible-answer-determinacy}, and reduction-route ledger exhaustion of \autoref{thm:classifiertyping-reduction-route-ledger-exhaustion} together exhaust the scoped kernel surface for $\ClassifierTypingUp$ over $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:classifiertyping-kernel-scope-binding}. It confines every public typing read to $T,E,R,S,H,C,P,N$ and to the named kernel primitives.
+
+Membership stability accounts for all reads of the $\Ext$ row. Subject-reduction $\Cont$ stability accounts for reduction-preservation reads, while signature-gap readback accounts for the $\mathsf{SigRel}$ answer row.
+
+Visible-answer determinacy prevents a second public answer route, and reduction-route ledger exhaustion prevents an extra preservation route. The five cited results therefore cover the whole scoped surface and leave no host type checker, erased derivation, normalization oracle, or semantic conversion relation to inspect.
+\end{proof}
+
+\closureat{ClassifierTypingUp}{seedStr}
+\closureat{ClassifierTypingUp}{obligationStr}
+\closureat{ClassifierTypingUp}{scopedStr}
+
+\begin{closurestatus}{\ClassifierTypingUp}
+  \constructivestory{A $\ClassifierTypingUp$ packet is generated from a visible term row, an $\Ext$ membership row, a $\Cont$ reduction row, a $\mathsf{SigRel}$ typing-answer row, componentwise $\hsame$ transports, displayed $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:classifier-typing-carrier}, \autoref{def:classifier-typing-classifier}, \autoref{thm:classifier-typing-namecert-obligations}, \autoref{thm:classifier-typing-membership-stability}, \autoref{thm:classifier-typing-signature-gap-readback}, \autoref{thm:classifiertyping-subject-reduction-cont-stability}, \autoref{thm:classifiertyping-visible-answer-determinacy}, \autoref{thm:classifiertyping-reduction-route-ledger-exhaustion}, \autoref{thm:classifiertyping-kernel-scope-binding}, and \autoref{thm:classifiertyping-ext-cont-sigrel-scope-exhaustion} bind the carrier, classifier, NameCert obligations, membership stability, signature-gap readback, subject-reduction $\Cont$ stability, visible-answer determinacy, reduction-route ledger exhaustion, kernel scope binding, and Ext-Cont-SigRel scope exhaustion rows for the finite typing packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host type checking, erased derivations, semantic conversion rules, Lean verification, or bridge checking.}
+  \upgradepath{Public closure requires checked public-object consumers and Lean targets for the same scoped finite typing packet.}
+\end{closurestatus}

@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\ObservableCauchySealUp$}
+\label{ch:concrete-instances-observablecauchyseal-namecert}
+\origin{ai}
+
+The $\ObservableCauchySealUp$ packet records the finite observation route used when a Real and Completion argument reads stream windows and dyadic radii before handing the result to a $\RealUp$ seal. It is an inspectable naming surface between observation budgets and real-facing seal rows. It does not assert real completeness, quotient stream equality, host real equality, or an unbounded Cauchy convergence principle.
+
+\begin{definition}[Observable Cauchy seal carrier]
+\label{def:observable-cauchy-seal-carrier}
+An $\ObservableCauchySealUp$ carrier is a finite $\BHist$ packet
+$$
+O=(E,W,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is a unary precision request row naming the requested observation scale;
+\item $W$ is the finite $\StreamNameUp$ window row visible at that precision;
+\item $D$ records the $\DyadicRatCoreUp$ readbacks and displayed radius rows read from $W$;
+\item $R$ is the $\RegSeqRatUp$ handoff row that repacks the finite dyadic observations as a regular-rational route;
+\item $S$ is the $\RealUp$ seal row reached after the finite readback and regular-rational handoff rows are fixed;
+\item $H$ records componentwise $\hsame$ transports for $E,W,D,R,S$ and the local structural rows;
+\item $C$ records the displayed $\Cont$ routes from precision request to window, from window to dyadic readback, from dyadic readback to regular-rational handoff, and from the handoff to the seal row;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and the local certificate rows;
+\item $N$ is the local $\NameCert_{\ObservableCauchySealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a completed real value, quotient stream equality, host metric equality, selected infinite tail, or ambient completeness witness.
+\end{definition}
+\leanchecked{BEDC.Derived.ObservableCauchySealUp.ObservableCauchySealTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Observable Cauchy seal NameCert obligations]
+\label{thm:observable-cauchy-seal-namecert-obligations}
+The local $\NameCert_{\ObservableCauchySealUp}$ surface for \autoref{def:observable-cauchy-seal-carrier} consists of carrier admission, precision exposure, finite-window readback, dyadic radius exposure, regular-rational handoff, RealUp seal routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+Every accepted packet exposes exactly the rows $E,W,D,R,S,H,C,P,N$ before any consumer can read the seal row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $O$. The precision, window, dyadic readback, regular-rational handoff, seal, transport, route, provenance, and naming rows are all explicit coordinates of the packet.
+
+The finite-window and dyadic-radius obligations read $E$ before $W$, and $W$ before $D$. Thus every dyadic observation is attached to a named finite window and a named precision request.
+
+The regular-rational handoff and seal-routing obligations then read $R$ and $S$ only after those finite rows are visible. The remaining rows $H,C,P,N$ transport, replay, package, and name the same route without adding a completed real value, quotient stream equality, host metric equality, selected infinite tail, or ambient completeness witness.
+\end{proof}
+
+\begin{theorem}[Observable Cauchy seal window factorization]
+\label{thm:observable-cauchy-seal-window-factorization}
+Every public read of an accepted $\ObservableCauchySealUp$ packet factors through the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S.
+$$
+The route may use the componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row, but it cannot bypass the finite stream window or dyadic readback rows.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The only visible route from a precision request to a seal row passes through the displayed coordinates $E,W,D,R,S$.
+
+Read the route order through the continuation row $C$. The window row $W$ is reached from the precision request $E$, the dyadic readback row $D$ is reached from $W$, and the regular-rational handoff row $R$ is reached from $D$.
+
+The seal row $S$ is therefore downstream of the finite readback. Since no second window or dyadic coordinate is present in the carrier, a public read has no route around $W$ or $D$.
+\end{proof}
+
+\begin{theorem}[Observable Cauchy seal Real handoff]
+\label{thm:observable-cauchy-seal-real-handoff}
+Let
+$$
+O=(E,W,D,R,S,H,C,P,N)
+$$
+be an accepted $\ObservableCauchySealUp$ packet. Every $\RealUp$ consumer of $O$ receives the seal row $S$ only through the displayed precision request, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the packet to the finite rows $E,W,D,R,S,H,C,P,N$. The Real-facing coordinate is the single seal row $S$.
+
+Apply the window factorization theorem. Before $S$ can be consumed, the route has already exposed the precision request, stream window, dyadic readback and radius rows, and regular-rational handoff.
+
+The structural rows $H,C,P,N$ carry only transport, replay, provenance, and local naming for that finite route. Hence the RealUp consumer receives the displayed finite observation handoff and no additional completion coordinate.
+\end{proof}
+
+\begin{theorem}[Observable Cauchy seal non-escape]
+\label{thm:observable-cauchy-seal-nonescape}
+An accepted $\ObservableCauchySealUp$ packet exports no real-completeness theorem, no quotient stream equality, no host real equality, no countable-choice selector, and no unrecorded Cauchy tail. Any attempted consumer omitting $E$, $W$, $D$, or $R$ is outside the packet and cannot export the $\RealUp$ seal row $S$.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory first. The only exportable rows are $E,W,D,R,S,H,C,P,N$, and the local obligations require those rows to be visible in the finite observation route.
+
+If a consumer omits $E$ or $W$, the packet supplies no named observation window. If it omits $D$, the packet supplies no dyadic readback or radius ledger. If it omits $R$, the packet supplies no regular-rational handoff to the seal row.
+
+The attempted read is therefore outside the local naming surface. Because the carrier has no coordinate for real completeness, quotient stream equality, host real equality, countable choice, or an unrecorded Cauchy tail, none of those objects can be exported through $S$.
+\end{proof}
+
+\begin{closurestatus}{\ObservableCauchySealUp}
+  \constructivestory{An $\ObservableCauchySealUp$ packet is generated from a unary precision request, finite StreamName window, DyadicRatCore readbacks and radii, RegSeqRat handoff row, RealUp seal row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observable-cauchy-seal-carrier}, \autoref{thm:observable-cauchy-seal-namecert-obligations}, \autoref{thm:observable-cauchy-seal-window-factorization}, \autoref{thm:observable-cauchy-seal-real-handoff}, and \autoref{thm:observable-cauchy-seal-nonescape} bind finite observation routes from stream windows and dyadic readbacks into a RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close real completeness, quotient stream equality, host real equality, countable choice, unrecorded Cauchy tails, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window readback, dyadic radius exposure, RegSeqRat handoff, RealUp seal routing, and non-escape for the same packet.}
+\end{closurestatus}

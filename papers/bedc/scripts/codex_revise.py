@@ -1726,30 +1726,24 @@ def _added_lines_per_file(wt: WorktreeInfo, rel_path: str) -> list[tuple[int, st
 
 
 def run_pdf_build(wt: WorktreeInfo, *, timeout: int = 600) -> tuple[bool, str]:
-    """Run `make` in the worktree's papers/bedc directory and return (ok, tail)."""
-    paper_dir = wt.path / "papers" / "bedc"
-    if not paper_dir.exists():
-        return False, "papers/bedc/ missing in worktree"
-    log_path = LOG_DIR / f"pdf_build_P{wt.round_number}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-    try:
-        with open(log_path, "w", encoding="utf-8") as lf:
-            lf.write(f"# make at {datetime.now().isoformat()} cwd={paper_dir}\n\n")
-            lf.flush()
-            r = subprocess.run(
-                ["make"], cwd=str(paper_dir),
-                stdout=lf, stderr=subprocess.STDOUT,
-                timeout=timeout, stdin=subprocess.DEVNULL,
-            )
-            ok = r.returncode == 0
-    except subprocess.TimeoutExpired:
-        return False, f"make timed out after {timeout}s (log={log_path.name})"
-    except Exception as exc:
-        return False, f"make raised {exc!r}"
-    try:
-        tail = "\n".join(log_path.read_text(encoding="utf-8").splitlines()[-30:])
-    except Exception:
-        tail = ""
-    return ok, tail
+    """Skip round-local PDF build entirely; defer to paper_builder_daemon.
+
+    Round verification used to run `make check` (single-pass) inside the
+    round worktree as a fast LaTeX sanity check. With paper_builder_daemon
+    polling the merged codex-auto-dev tip every 60s in a dedicated
+    `_paper_builder` worktree, round-local PDF build is redundant — the
+    daemon always builds the latest tip (newer commits supersede older
+    ones in the build queue, so the daemon naturally builds only the
+    head). Round-local build also bottlenecks paper round throughput
+    (rounds queue on with_pdf_slot's 5 permits even though the build
+    itself produces nothing the round consumes).
+
+    Other verify-phase gates remain (drift audit, axiom audit, Phase D
+    lints) — PDF build is the only one moved to daemon. If a syntax error
+    sneaks into a commit, the daemon's next full build fails and
+    logs to paper_builder_daemon.log; recovery is manual.
+    """
+    return True, "PDF build skipped — deferred to paper_builder_daemon"
 
 
 def run_drift_audit(wt: WorktreeInfo) -> tuple[bool, str]:
@@ -1888,6 +1882,34 @@ def verify_worktree_commits(
     if size_v:
         for v in size_v[:10]:
             logger.error(f"[P{wt.round_number}] OVERSIZED .TEX: {v}")
+        return False, new
+
+    # Gate O — orphan new chapter (no sibling/vision cross-ref).
+    orphan_v = gate_results.get("orphan-new-chapter", [])
+    if orphan_v:
+        for v in orphan_v[:10]:
+            logger.error(f"[P{wt.round_number}] ORPHAN NEW CHAPTER: {v}")
+        return False, new
+
+    # Gate FF — \origin{ai} chapter missing FieldFaithful instance.
+    ff_v = gate_results.get("ai-missing-fieldfaithful", [])
+    if ff_v:
+        for v in ff_v[:10]:
+            logger.error(f"[P{wt.round_number}] AI MISSING FIELDFAITHFUL: {v}")
+        return False, new
+
+    # Gate FP — \origin{ai} chapter missing \falsifiablePrediction.
+    fp_v = gate_results.get("ai-missing-falsifiable", [])
+    if fp_v:
+        for v in fp_v[:10]:
+            logger.error(f"[P{wt.round_number}] AI MISSING FALSIFIABLE: {v}")
+        return False, new
+
+    # Gate IW — \origin{ai} chapter missing \independenceWitness.
+    iw_v = gate_results.get("ai-missing-independence", [])
+    if iw_v:
+        for v in iw_v[:10]:
+            logger.error(f"[P{wt.round_number}] AI MISSING INDEPENDENCE: {v}")
         return False, new
 
     # Gate F — PDF compile

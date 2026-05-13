@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\RealBudgetTailMeetUp$}
+\label{ch:concrete-instances-real-budget-tail-meet-namecert}
+\origin{human}
+
+The $\RealBudgetTailMeetUp$ surface packages the finite observation budget used by a $\RealUp$ consumer together with the shared tail threshold used by a regular-Cauchy comparison and the sealed completion handoff. It is the concrete bridge from budgeted reads and tail-meet synchronization to the $\CauchyLimitSealUp$ route named in the real-completeness vision.
+
+The dependency path is the finite observation budget of \autoref{ch:concrete-instances-real-observation-budget-namecert}, the shared-tail threshold packet of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, and the completion-facing seal handoff of \autoref{ch:concrete-instances-cauchylimitseal-namecert}; the local carrier only synchronizes these sibling rows.
+
+\begin{definition}[RealBudgetTailMeet carrier]
+\label{def:real-budget-tail-meet-carrier}
+A $\RealBudgetTailMeetUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is an accepted $\RealObservationBudgetUp$ packet naming the finite precision request, selected real-facing window, regular source readback, and dyadic observation budget;
+\item $T$ is an accepted $\RegularCauchyTailMeetUp$ packet naming the shared tail threshold, paired regular-Cauchy source rows, paired schedules, comparison row, and threshold ledger;
+\item $L$ is an accepted $\CauchyLimitSealUp$ handoff whose source family, scheduled window, observation ledger, completion diagonal row, and $\RealUp$ seal consume the same budget and shared-threshold rows;
+\item $H$ stores the displayed $\hsame$ transports relating the budget rows, shared-tail rows, and seal-handoff rows componentwise;
+\item $C$ stores the $\Cont$ routes through which downstream $\RealUp$ and completion consumers read the budget, tail meet, and seal handoff;
+\item $P$ is the $\Pkg$ provenance over $\RealObservationBudgetUp$, $\RegularCauchyTailMeetUp$, $\CauchyLimitSealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealBudgetTailMeetUp}$ row.
+\end{enumerate}
+The classifier compares carriers only by the visible rows $B,T,L,H,C,P,N$. It has no coordinate for quotient streams, selected host limits, hidden tail oracles, host real equality, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RealBudgetTailMeet NameCert obligations]
+\label{thm:real-budget-tail-meet-namecert-obligations}
+For the carrier of \autoref{def:real-budget-tail-meet-carrier}, the local $\NameCert_{\RealBudgetTailMeetUp}$ surface consists of carrier admission for $R=(B,T,L,H,C,P,N)$, classifier stability under the displayed $\hsame$ rows in $H$, budget exactness for the $\RealObservationBudgetUp$ row $B$, shared-threshold exactness for the $\RegularCauchyTailMeetUp$ row $T$, seal-route exactness for the $\CauchyLimitSealUp$ row $L$, and non-escape through $C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet in \autoref{def:real-budget-tail-meet-carrier}. The rows $B,T,L,H,C,P,N$ are the complete public inventory.
+
+Classifier stability is componentwise. Transport may move the budget row, the shared tail-meet row, the seal row, and the visible route rows only by the stored $\hsame$ comparisons and the same continuation routes.
+
+The exactness clauses are projections. The budget row supplies the finite observation budget, the tail-meet row supplies the shared threshold, and the seal row supplies the completion-facing handoff. Since no other coordinate exists, the local certificate cannot export any hidden tail oracle, quotient stream, selected limit, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[RealBudgetTailMeet budget projection]
+\label{thm:real-budget-tail-meet-budget-projection}
+Every accepted $\RealBudgetTailMeetUp$ carrier projects to the same finite observation budget used by its $\CauchyLimitSealUp$ handoff. More precisely, if
+$$
+R=(B,T,L,H,C,P,N),
+$$
+then every $\RealUp$ consumer read through $R$ first reads the $\RealObservationBudgetUp$ row $B$, transports that budget through $H$ and $C$, and only then reaches the shared threshold packet $T$ and the seal handoff $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the budget coordinate $B$. It records the precision request, finite window, regular source readback, and dyadic observation ledger available to the consumer.
+
+Apply the $\RealObservationBudgetUp$ exactness surface through the displayed continuation rows. The consumer route must carry the same budget rows through $H$ and $C$ before any downstream handoff can be read.
+
+The remaining coordinates $T$ and $L$ are attached to that route by the carrier and the package provenance. They therefore consume the projected budget rather than an independent precision source.
+\end{proof}
+
+\begin{theorem}[RealBudgetTailMeet seal handoff]
+\label{thm:real-budget-tail-meet-seal-handoff}
+Let $R=(B,T,L,H,C,P,N)$ be an accepted $\RealBudgetTailMeetUp$ carrier. The completion-facing handoff from $R$ to $\CauchyLimitSealUp$ is exactly the row $L$ together with the budget projection from $B$, the shared threshold from $T$, and the displayed transports and routes in $H,C,P,N$. Thus the route to the $\RealUp$ seal factors through a finite observation budget and one shared regular-Cauchy tail threshold before the seal row is read.
+\end{theorem}
+\begin{proof}
+Begin with the budget projection of \autoref{thm:real-budget-tail-meet-budget-projection}. It fixes the consumer precision, selected window, source readback, and dyadic ledger inside $B$.
+
+Use the shared-threshold surface of $\RegularCauchyTailMeetUp$ for $T$. The two regular-Cauchy tails are synchronized by the displayed threshold row and by the comparison ledger already attached to the same budget route.
+
+Finally read $L$ as the $\CauchyLimitSealUp$ handoff. Its finite-window route consumes the same regular source, scheduled window, dyadic observation ledger, completion diagonal row, and $\RealUp$ seal, with $H,C,P,N$ recording the visible transport and provenance. No separate completion channel is introduced.
+\end{proof}
+
+\begin{theorem}[RealBudgetTailMeet non-escape boundary]
+\label{thm:real-budget-tail-meet-nonescape}
+An accepted $\RealBudgetTailMeetUp$ carrier exports only the finite rows $B,T,L,H,C,P,N$ and their displayed $\RealObservationBudgetUp$, $\RegularCauchyTailMeetUp$, and $\CauchyLimitSealUp$ dependency surfaces. It exports no quotient stream, selected host limit, hidden tail oracle, host real equality, trichotomy row, countable-choice principle, or ambient real-completeness theorem.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The public rows are exactly the budget packet, tail-meet packet, seal handoff, transports, continuation routes, package provenance, and local naming row.
+
+The budget coordinate contains only finite observation data, the tail-meet coordinate contains only the shared threshold and comparison rows, and the seal coordinate contains only the finite completion handoff to $\RealUp$.
+
+Since quotient streams, selected host limits, hidden tail oracles, host real equality, trichotomy, choice, and ambient completeness have no coordinate in $R$, a downstream consumer cannot read any of them from the $\RealBudgetTailMeetUp$ surface.
+\end{proof}
+
+\closureat{RealBudgetTailMeetUp}{seedStr}
+
+\begin{closurestatus}{\RealBudgetTailMeetUp}
+  \constructivestory{A $\RealBudgetTailMeetUp$ packet is generated from a $\RealObservationBudgetUp$ finite budget, a $\RegularCauchyTailMeetUp$ shared-threshold packet, a $\CauchyLimitSealUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-budget-tail-meet-carrier}, \autoref{thm:real-budget-tail-meet-namecert-obligations}, \autoref{thm:real-budget-tail-meet-budget-projection}, \autoref{thm:real-budget-tail-meet-seal-handoff}, and \autoref{thm:real-budget-tail-meet-nonescape} bind the finite budget-plus-tail-meet carrier, local naming obligations, budget projection, seal handoff, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient completion, selected host limits, uniqueness of limits, trichotomy, ambient real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget projection, shared-threshold exactness, seal handoff, and non-escape for the same finite packet.}
+\end{closurestatus}

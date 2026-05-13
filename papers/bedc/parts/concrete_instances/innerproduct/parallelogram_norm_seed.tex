@@ -414,3 +414,84 @@ Composing this scalar-addition transport with the second binary Pythagorean
 comparison by \autoref{thm:namecert-equivalence-transitivity} gives the
 displayed ternary classifier row.
 \end{proof}
+
+\begin{theorem}[InnerProduct norm-of-sum expansion row]
+\label{thm:innerproduct-norm-of-sum-expansion-row}
+For carried vector endpoints $x,y:C_V$ in the
+\autoref{def:innerproduct-parallelogram-norm-seed-source}, the retained scalar
+classifier classifies the norm square of their vector sum with the four-term
+inner-product expansion:
+$$
+\|x+_V y\|_{I}^{2}
+\sim_{\mathbb{K}}
+\|x\|_{I}^{2}
++_{\mathbb{K}}
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\|y\|_{I}^{2}.
+$$
+No orthogonality hypothesis is used.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:innerproduct-parallelogram-norm-seed-source}. The
+embedded $\VecSpaceUp$ rows carry $x+_V y$, and
+\autoref{thm:innerproduct-norm-squared-carrier-row} repacks the displayed norm
+square $\|x+_V y\|_{I}^{2}$ as the diagonal form endpoint
+$$
+\langle x+_V y,x+_V y\rangle_{\InnerProductUp}.
+$$
+
+Apply the additive component of
+\autoref{thm:innerproduct-vecspace-linearity-row} in the first vector argument.
+The retained scalar classifier compares this diagonal endpoint with
+$$
+\langle x,x+_V y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x+_V y\rangle_{\InnerProductUp}.
+$$
+Apply the additive component of the same linearity row in the second vector
+argument to each displayed summand. The first summand is classified with
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle x,y\rangle_{\InnerProductUp},
+$$
+and the second summand is classified with
+$$
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+The scalar endpoint source retained in \autoref{def:innerproduct-bhist-source}
+is the $\FieldUp$ scalar coordinate. By
+\autoref{def:field-source-specification},
+\autoref{prop:commring-forgets-ring-certificate}, and
+\autoref{def:ring-stability-certificate}, its unchanged scalar classifier has
+addition congruence, associativity, and transitivity. Transport the two
+second-argument expansions through scalar addition, then reassociate the
+resulting scalar sum. This gives a scalar-classifier comparison from
+$\langle x+_V y,x+_V y\rangle_{\InnerProductUp}$ to
+$$
+\langle x,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle x,y\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,x\rangle_{\InnerProductUp}
++_{\mathbb{K}}
+\langle y,y\rangle_{\InnerProductUp}.
+$$
+
+Finally repack the two diagonal endpoints
+$\langle x,x\rangle_{\InnerProductUp}$ and
+$\langle y,y\rangle_{\InnerProductUp}$ as $\|x\|_{I}^{2}$ and
+$\|y\|_{I}^{2}$ using \autoref{def:innerproduct-norm-metric-seed-source} and
+\autoref{thm:innerproduct-norm-squared-carrier-row}. Addition congruence in
+the same retained scalar classifier transports these two repackings through
+the four-term scalar sum, and \autoref{thm:namecert-equivalence-transitivity}
+composes the diagonal repacking, the two linearity expansions, scalar
+reassociation, and the final norm-squared repacking into the displayed
+classifier row.
+\end{proof}

@@ -1,0 +1,153 @@
+\chapter{A Concrete Naming Certificate for $\TypeClassifierMembershipUp$}
+\label{ch:concrete-instances-typeclassifiermembership-namecert}
+\origin{human}
+
+The $\TypeClassifierMembershipUp$ surface realizes type checking as a finite classifier-membership packet over displayed BEDC histories. It records a term row, a judgment ledger, an $\Ext$ membership row, a $\Cont$ reduction row, and local naming provenance, so type membership and subject-reduction reads remain inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+
+\begin{definition}[TypeClassifierMembership carrier]
+\label{def:type-classifier-membership-carrier}
+A $\TypeClassifierMembershipUp$ carrier is a finite $\BHist$ packet
+$$
+X=(T,J,E,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $T$ is the displayed term row whose finite syntax window is being checked;
+\item $J$ is the finite judgment ledger recording the available typing judgments and their dependency order;
+\item $E$ is the $\Ext$ membership row saying that the displayed term row is admitted by the local classifier;
+\item $R$ is the $\Cont$ reduction row recording the typed continuation steps whose source and target terms are visible in the packet;
+\item $H$ records the componentwise $\hsame$ transports for term rows, judgment ledgers, membership rows, reduction rows, dependency packages, and local provenance;
+\item $C$ records the $\Cont$ read routes for accessing the judgment ledger, the $\Ext$ membership row, the typed reduction row, and the subject-reduction boundary;
+\item $P$ packages the dependencies on $\Ext$, $\Cont$, the judgment ledger, the surrounding $\NameCert$ rows, and the BEDC carrier rows used by the local checker;
+\item $N$ is the local $\NameCert_{\TypeClassifierMembershipUp}$ provenance row.
+\end{enumerate}
+The carrier contains no host type-theory semantics, no semantic equality of terms, no global normalization theorem, and no undecidable classifier outside the finite membership and reduction rows.
+\end{definition}
+
+\begin{definition}[TypeClassifierMembership classifier]
+\label{def:type-classifier-membership-classifier}
+For accepted $\TypeClassifierMembershipUp$ carriers $X$ and $X'$, the classifier compares the judgment ledgers, $\Ext$ membership rows, and $\Cont$ reduction rows componentwise under the displayed $\hsame$ transports in $H$ and the read routes in $C$. A comparison may inspect the term row $T$, the dependency package $P$, and the local provenance row $N$ only as named carrier coordinates.
+
+The classifier does not compare host typing derivations, semantic equality of terms, erased representatives, or any unrecorded conversion relation.
+\end{definition}
+\leandef{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipClassifier}
+
+\begin{theorem}[TypeClassifierMembership NameCert obligations]
+\label{thm:type-classifier-membership-namecert-obligations}
+The local $\NameCert_{\TypeClassifierMembershipUp}$ surface for \autoref{def:type-classifier-membership-carrier} consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $X=(T,J,E,R,H,C,P,N)$;
+\item classifier stability for the judgment, $\Ext$, and reduction rows under the displayed $\hsame$ and $\Cont$ routes;
+\item $\Ext$ stability, saying that a transported accepted judgment ledger preserves the membership row $E$;
+\item subject-reduction boundary, saying that a visible reduction row $R$ whose source is admitted by $E$ can read only the displayed target membership row;
+\item non-escape from host type theory, semantic equality of terms, undecidable conversion, unrecorded normalization, or any classifier not named by $J$, $E$, $R$, $H$, $C$, $P$, and $N$.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_namecert\_obligations}
+\begin{proof}
+Carrier admission is the finite packet of \autoref{def:type-classifier-membership-carrier}. Its coordinates display the term row, judgment ledger, membership row, reduction row, transport rows, continuation routes, dependency package, and local certificate row.
+
+Classifier stability follows from \autoref{def:type-classifier-membership-classifier}. The only comparisons are componentwise reads of the judgment, $\Ext$, and reduction rows through $H$ and $C$.
+
+$\Ext$ stability and subject reduction are boundary reads, not external semantic principles. The row $E$ is the visible membership witness, and $R$ is the visible typed reduction route whose target membership can only be obtained through the recorded subject-reduction boundary.
+
+The non-escape clause is the carrier inventory. Since no coordinate names host typing semantics, semantic equality, undecidable conversion, or a hidden normalization oracle, no consumer can read those objects from the local $\NameCert_{\TypeClassifierMembershipUp}$ surface.
+\end{proof}
+
+\begin{theorem}[TypeClassifierMembership subject-reduction boundary]
+\label{thm:type-classifier-membership-subject-reduction-boundary}
+Let $X=(T,J,E,R,H,C,P,N)$ be an accepted $\TypeClassifierMembershipUp$ carrier. Every public subject-reduction read starts from the displayed term row $T$, the judgment ledger $J$, the source membership row $E$, and the reduction row $R$, then reaches the target membership boundary only through the recorded $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes. It does not appeal to host reduction semantics, global normalization, or semantic equality of terms.
+\end{theorem}
+\leanchecked{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_subject\_reduction\_boundary}
+\begin{proof}
+Project the accepted carrier. The only source of type membership is $E$, and the only source of reduction information is $R$.
+
+Use classifier stability from \autoref{def:type-classifier-membership-classifier}. Transport can move the judgment, membership, and reduction rows only along the displayed $\hsame$ routes, and consumer access is mediated by $C$.
+
+Finally apply the obligation surface of \autoref{thm:type-classifier-membership-namecert-obligations}. Its subject-reduction boundary repacks the visible source membership and reduction rows into the target membership read, so host reduction semantics and semantic equality never enter the packet.
+\end{proof}
+
+\begin{theorem}[TypeClassifierMembership non-escape]
+\label{thm:type-classifier-membership-non-escape}
+No accepted $\TypeClassifierMembershipUp$ carrier exports a host type checker, an undecidable semantic equality oracle, a hidden conversion relation, an erased representative of a typing derivation, or an ambient normalization theorem. Every public type-checking read factors through the finite judgment ledger $J$, the $\Ext$ membership row $E$, the $\Cont$ reduction row $R$, displayed $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:type-classifier-membership-carrier}.
+\end{theorem}
+\leanchecked{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_non\_escape}
+\begin{proof}
+Inspect the carrier inventory. The public rows are exactly $T,J,E,R,H,C,P,N$, with $J$ recording the finite judgments, $E$ recording classifier membership, and $R$ recording typed reduction.
+
+Apply \autoref{thm:type-classifier-membership-subject-reduction-boundary} for reduction-facing consumers and \autoref{def:type-classifier-membership-classifier} for classifier-facing consumers. Both routes pass through the same displayed transport and continuation rows.
+
+Since no coordinate of the packet names a host type checker, semantic equality oracle, hidden conversion relation, erased derivation representative, or ambient normalization theorem, those objects cannot be exported by the $\TypeClassifierMembershipUp$ surface.
+\end{proof}
+
+\begin{theorem}[TypeClassifierMembership Ext membership stability]
+\label{thm:type-classifier-membership-ext-membership-stability}
+Let $X=(T,J,E,R,H,C,P,N)$ be an accepted $\TypeClassifierMembershipUp$ carrier. Any transported accepted judgment ledger for $X$ preserves the displayed $\Ext$ membership row $E$ through the componentwise $\hsame$ transport row $H$ and the $\Cont$ read routes $C$. The transported read does not replace $E$ by host typing semantics, semantic equality of terms, undecidable conversion, or an unrecorded membership predicate.
+\end{theorem}
+\leanchecked{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_ext\_membership\_stability}
+\begin{proof}
+Start from the carrier of \autoref{def:type-classifier-membership-carrier}. Its judgment and membership information is displayed only by the rows $J$ and $E$, and the only transport and read coordinates are $H$ and $C$.
+
+Apply the classifier description in \autoref{def:type-classifier-membership-classifier}. Classifier comparisons of the judgment ledger and $\Ext$ row are componentwise reads through those displayed routes, so a transported accepted ledger still reads the same membership coordinate $E$.
+
+The obligation surface in \autoref{thm:type-classifier-membership-namecert-obligations} records this as $\Ext$ stability. Since no carrier coordinate names host typing semantics or an unrecorded predicate, the transported ledger cannot substitute any external membership witness for $E$.
+\end{proof}
+
+\begin{theorem}[TypeClassifierMembership reduction target coverage]
+\label{thm:type-classifier-membership-reduction-target-coverage}
+Let $X=(T,J,E,R,H,C,P,N)$ be an accepted $\TypeClassifierMembershipUp$ carrier. Every typed $\Cont$ reduction target membership read is covered by the displayed rows $T,J,E,R,H,C,P,N$. In particular, the target membership is reached from the finite judgment ledger, the visible $\Ext$ membership row, the reduction row, componentwise transport, continuation routes, dependency package, and local naming row, not from host reduction semantics or hidden normalization.
+\end{theorem}
+\leanchecked{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_reduction\_target\_coverage}
+\begin{proof}
+Project the accepted carrier. The reduction source and target are visible only through $T,J,E,R$, while $H$ and $C$ provide the recorded transport and continuation access to those rows.
+
+Apply \autoref{thm:type-classifier-membership-subject-reduction-boundary}. It sends each public subject-reduction read from the source membership and visible reduction row to the target membership boundary through the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
+
+The non-escape theorem \autoref{thm:type-classifier-membership-non-escape} excludes host reduction semantics, hidden conversion, erased derivations, and ambient normalization from the exported surface. Thus every typed reduction target membership read is covered by the packet rows $T,J,E,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[TypeClassifierMembership obligation closure package]
+\label{thm:type-classifier-membership-obligation-closure-package}
+Every accepted $\TypeClassifierMembershipUp$ packet carries the obligation package consisting of carrier admission, classifier stability, $\Ext$ membership stability, subject-reduction boundary coverage, reduction target coverage, and public non-escape. The package is witnessed by the carrier and classifier surfaces together with the finite rows $T,J,E,R,H,C,P,N$, and it uses no host type semantics, semantic equality of terms, hidden conversion relation, global normalization theorem, or unrecorded classifier.
+\end{theorem}
+\begin{proof}
+Carrier admission is supplied by \autoref{def:type-classifier-membership-carrier}. Classifier stability is supplied by \autoref{def:type-classifier-membership-classifier}, which limits comparison to the displayed judgment, membership, and reduction rows under $H$ and $C$.
+
+For membership preservation, apply \autoref{thm:type-classifier-membership-ext-membership-stability}. For the subject-reduction boundary, apply \autoref{thm:type-classifier-membership-subject-reduction-boundary}. For target coverage, apply \autoref{thm:type-classifier-membership-reduction-target-coverage}.
+
+It remains to close the public boundary. Apply \autoref{thm:type-classifier-membership-non-escape}; the packet exports only $T,J,E,R,H,C,P,N$ and no host type checker, semantic equality oracle, hidden conversion relation, erased derivation representative, or ambient normalization theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_obligation\_closure\_package}
+
+\begin{theorem}[TypeClassifierMembership visible target determinacy]
+\label{thm:type-classifier-membership-visible-target-determinacy}
+Let $X=(T,J,E,R,H,C,P,N)$ be an accepted $\TypeClassifierMembershipUp$ carrier. Any two public subject-reduction reads that use the same displayed term row $T$, judgment ledger $J$, source $\Ext$ membership row $E$, reduction row $R$, and the same transport, continuation, provenance, and naming route $H,C,P,N$ reach the same displayed target membership boundary. No second target membership row can be supplied by host semantics, semantic equality, hidden conversion, or normalization.
+\end{theorem}
+\leanchecked{BEDC.Derived.TypeClassifierMembershipUp.TypeClassifierMembershipPacket\_visible\_target\_determinacy}
+\begin{proof}
+Project the accepted carrier and fix the displayed rows $T,J,E,R,H,C,P,N$. Both public reads therefore start from the same term row, judgment ledger, source membership row, and visible reduction row.
+
+Apply \autoref{thm:type-classifier-membership-subject-reduction-boundary}. It forces each read through $E$ and $R$ and prevents a subject-reduction boundary from entering through host reduction semantics or semantic equality.
+
+Next apply \autoref{thm:type-classifier-membership-reduction-target-coverage}. The target boundary is identified with the same finite packet rows $T,J,E,R,H,C,P,N$ for both reads, so there is no independent coordinate from which a second target membership row could be read.
+
+Finally apply \autoref{thm:type-classifier-membership-non-escape}. Hidden conversion, host semantics, erased derivations, and normalization are outside the packet, so the two public reads terminate at the same displayed target membership boundary.
+\end{proof}
+
+\closureat{TypeClassifierMembershipUp}{seedStr}
+\closureat{TypeClassifierMembershipUp}{obligationStr}
+\closureat{TypeClassifierMembershipUp}{scopedStr}
+\closureat{TypeClassifierMembershipUp}{publicStr}
+\closureat{TypeClassifierMembershipUp}{bridgedStr}
+\closureat{TypeClassifierMembershipUp}{matureStr}
+
+\begin{closurestatus}{\TypeClassifierMembershipUp}
+  \constructivestory{A $\TypeClassifierMembershipUp$ packet is generated from a displayed term row, finite judgment ledger, $\Ext$ membership row, typed $\Cont$ reduction row, componentwise $\hsame$ transports, continuation routes, dependency package, and local $\NameCert$ provenance row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:type-classifier-membership-carrier}, \autoref{def:type-classifier-membership-classifier}, \autoref{thm:type-classifier-membership-namecert-obligations}, \autoref{thm:type-classifier-membership-subject-reduction-boundary}, \autoref{thm:type-classifier-membership-non-escape}, \autoref{thm:type-classifier-membership-ext-membership-stability}, \autoref{thm:type-classifier-membership-reduction-target-coverage}, \autoref{thm:type-classifier-membership-obligation-closure-package}, and \autoref{thm:type-classifier-membership-visible-target-determinacy} bind the finite rows $T,J,E,R,H,C,P,N$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert$, the subject-reduction boundary, and the public packet export.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host type semantics, semantic equality of terms, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{The paper closure axis is complete for this finite type-classifier membership package; Lean verification and bridge checking remain independent axes.}
+\end{closurestatus}

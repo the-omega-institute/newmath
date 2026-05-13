@@ -1,0 +1,59 @@
+\begin{theorem}[CauchyLimitSeal tail-budget meet]
+\label{thm:cauchy-limit-seal-tail-budget-meet}
+Let
+$$
+L=(X,S,D,G,E,T,P,N)
+$$
+be an accepted $\CauchyLimitSealUp$ packet, and let
+$$
+B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet over the same displayed precision request and finite $\StreamNameUp$ window. If the seal row $S_B$ and the regular handoff rows $R_B$ are routed through $L$, then there is a single finite meet row over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ that binds the selector read, the observation-budget read, and the completion-consumer read to one BEDC route. The meet row contains no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_tail\_budget\_meet}
+\begin{proof}
+Start with tail extraction from \autoref{thm:cauchy-limit-seal-tail-extraction}. It projects every admitted tail read of $L$ from the displayed regular family, stream schedule, dyadic observation ledger, diagonal row, seal row, and visible transport route.
+
+Attach the $\RealObservationBudgetUp$ side using \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. Since the budget packet and the seal packet share the displayed precision request and window, the budget rows and seal rows meet over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Finally use budget root source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality}. It says every accepted budget-facing read is sourced by the listed seal and budget rows, so the selector, budget, and completion reads have one finite route and no extra completion, quotient, equality, selection, hidden-family, or ambient-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal selector-budget transport]
+\label{thm:cauchy-limit-seal-selector-budget-transport}
+In the setting of \autoref{thm:cauchy-limit-seal-tail-budget-meet}, componentwise $\hsame$ transport and the displayed $\Cont$ routes preserve the meet row through selector admission and observation-budget transport. Thus any transported selector read, budget read, or completion-facing read remains on the same precision request, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\BHist$ surface, $\Pkg$ provenance, and local $\NameCert$ row. Transport does not introduce quotient stream identity, host real equality, a choice-selected limit, a hidden family limit, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_selector\_budget\_transport}
+\begin{proof}
+Project the meet row supplied by \autoref{thm:cauchy-limit-seal-tail-budget-meet}. Its readable coordinates are already the selector, budget, and completion-consumer coordinates on the shared finite route.
+
+For the selector side, use \autoref{thm:cauchy-limit-seal-choice-free-selector-stability}. It transports the admitted selector route componentwise through the displayed $\hsame$ comparisons and $\Cont$ replays while preserving the selected finite windows and dyadic ledger.
+
+For the budget side, use the observation-budget pullback and consumer package from \autoref{thm:cauchy-limit-seal-observation-budget-pullback} and \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. These rows preserve the precision request, window, ledger, regular handoff, seal, route, provenance, and naming rows. Hence every transported read remains inside the same finite meet packet.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal completion-budget root unblock]
+\label{thm:cauchy-limit-seal-completion-budget-root-unblock}
+The tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-meet} and its selector-budget transport of \autoref{thm:cauchy-limit-seal-selector-budget-transport} package the root-unblock and completion-consumer rows into one downstream surface. A $\RealUp$ or completion consumer may cite this surface as the finite route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ supplied by the accepted $\CauchyLimitSealUp$ and $\RealObservationBudgetUp$ packets. The package explicitly excludes quotient stream identity, host real equality, choice-selected limits, hidden family limits, and ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_completion\_budget\_root\_unblock}
+\begin{proof}
+First take the root-unblock package from \autoref{thm:cauchy-limit-seal-root-unblock-package}. It supplies the downstream route from the accepted seal packet to the Real and completion consumer boundary.
+
+Next refine that route by the tail-budget meet. The meet binds the selector read and the observation-budget read to the same displayed precision and window route before the completion consumer reads the packet.
+
+Finally apply \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. The completion-facing endpoint can export only the rows listed by the root source and dyadic-window exactness theorems, so the combined package has no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal tail-budget consumer normal form]
+\label{thm:cauchy-limit-seal-tail-budget-consumer-normal-form}
+Every $\RealUp$ or completion consumer of the tail-budget meet factors through exactly the shared precision request, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row named by \autoref{thm:cauchy-limit-seal-tail-budget-meet} and \autoref{thm:cauchy-limit-seal-selector-budget-transport}. This consumer route has no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_tail\_budget\_consumer\_normal\_form}
+\begin{proof}
+First cite the meet theorem \autoref{thm:cauchy-limit-seal-tail-budget-meet}. It binds the selector read, observation-budget read, and completion-consumer read to one finite route over the shared precision request, finite stream window, dyadic ledger, regular handoff, real seal, transport, continuation, provenance, and naming rows.
+
+Next apply the selector-budget transport theorem \autoref{thm:cauchy-limit-seal-selector-budget-transport}. It keeps those rows stable under componentwise $\hsame$ transport and displayed $\Cont$ replay, so a transported selector, budget, or completion-facing read cannot leave the same finite packet.
+
+Finally close with \autoref{thm:cauchy-limit-seal-completion-budget-root-unblock}. The root-unblock package is therefore consumed only through the displayed meet and transport route, excluding quotient stream identity, host real equality, choice-selected limit, hidden family limit, and ambient completeness.
+\end{proof}

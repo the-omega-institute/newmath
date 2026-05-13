@@ -144,3 +144,47 @@ Any concrete gap theorem whose source domain is \(\mathsf{UnarySource}\) may use
 \begin{proof}
 Immediate from Theorem~\ref{thm:unary-domain-policy} and Lemma~\ref{thm:domain-transport}.
 \end{proof}
+
+\begin{definition}[Binary Boolean compound domains]
+\label{def:binary-boolean-compound-domains}
+Given source-domain names $D_0$ and $D_1$, a conjunctive compound domain $D_{\wedge}$ and a disjunctive compound domain $D_{\vee}$ are BEDC domain names whose internal admission judgments are defined by
+$$
+  \InDom(D_{\wedge},h)
+  \Longleftrightarrow
+  \bigl(\InDom(D_0,h)\ \text{and}\ \InDom(D_1,h)\bigr)
+$$
+and
+$$
+  \InDom(D_{\vee},h)
+  \Longleftrightarrow
+  \bigl(\InDom(D_0,h)\ \text{or}\ \InDom(D_1,h)\bigr).
+$$
+These are compound source-domain names, not external set operations on histories.
+\end{definition}
+
+\begin{theorem}[DomainPolicy is closed under binary Boolean compounds]
+\label{thm:domain-policy-binary-boolean-compounds}
+Assume $\DomainPolicy(D_0)$ and $\DomainPolicy(D_1)$. Let $D_{\wedge}$ and $D_{\vee}$ be compound domains as in \autoref{def:binary-boolean-compound-domains}. Then
+$$
+  \DomainPolicy(D_{\wedge})
+  \quad\text{and}\quad
+  \DomainPolicy(D_{\vee}).
+$$
+\end{theorem}
+
+\begin{proof}
+It is enough, by \autoref{def:domain-policy}, to prove transport of the displayed admission judgments along $\hsame$.
+
+For $D_{\wedge}$, assume $\InDom(D_{\wedge},h)$ and $\hsame(h,k)$. By the definition of $D_{\wedge}$, the admission premise gives both $\InDom(D_0,h)$ and $\InDom(D_1,h)$. Applying \autoref{thm:domain-transport} to $\DomainPolicy(D_0)$ gives $\InDom(D_0,k)$, and applying \autoref{thm:domain-transport} to $\DomainPolicy(D_1)$ gives $\InDom(D_1,k)$. The defining equivalence for $D_{\wedge}$ therefore gives $\InDom(D_{\wedge},k)$.
+
+For $D_{\vee}$, assume $\InDom(D_{\vee},h)$ and $\hsame(h,k)$. By the definition of $D_{\vee}$, either $\InDom(D_0,h)$ or $\InDom(D_1,h)$. In the first case, \autoref{thm:domain-transport} and $\DomainPolicy(D_0)$ give $\InDom(D_0,k)$, hence $\InDom(D_{\vee},k)$. In the second case, \autoref{thm:domain-transport} and $\DomainPolicy(D_1)$ give $\InDom(D_1,k)$, hence $\InDom(D_{\vee},k)$.
+\end{proof}
+
+\begin{corollary}[Finite Boolean domain expressions preserve DomainPolicy]
+\label{cor:domain-policy-finite-boolean-expressions}
+Every finite source-domain expression built from domain names satisfying $\DomainPolicy$ by repeated use of the conjunctive and disjunctive compound constructors of \autoref{def:binary-boolean-compound-domains} also satisfies $\DomainPolicy$.
+\end{corollary}
+
+\begin{proof}
+Induct on the construction of the finite expression. A leaf is one of the supplied domain names, so its policy is an assumption. At a conjunctive or disjunctive constructor, the induction hypotheses give $\DomainPolicy$ for the two immediate subexpressions, and \autoref{thm:domain-policy-binary-boolean-compounds} gives the policy for the compound expression.
+\end{proof}

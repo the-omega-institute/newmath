@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionUp$}
+\label{ch:concrete-instances-subjectreduction-namecert}
+\origin{human}
+
+The $\SubjectReductionUp$ surface isolates subject reduction from the broader type-classifier packet. It records the finite data by which an accepted source membership row, a visible reduction row, and a target membership row form one $\Ext$-$\Cont$ closure packet inside $\BHist$, $\hsame$, $\Pkg$, and local $\NameCert$ rows.
+
+\begin{definition}[SubjectReduction carrier]
+\label{def:subject-reduction-namecert-carrier}
+A $\SubjectReductionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,B,E_0,R,E_1,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source term-history row whose type membership is being consumed;
+\item $B$ is the target term-history row whose type membership is being produced;
+\item $E_0$ is the source $\Ext$ membership row for $A$;
+\item $R$ is the $\Cont$ reduction row from $A$ to $B$ through the displayed mark and local read route;
+\item $E_1$ is the target $\Ext$ membership row for $B$;
+\item $L$ is the finite subject-reduction ledger tying $E_0$, $R$, and $E_1$ to the same typing packet;
+\item $H$ records the componentwise $\hsame$ transports for the source row, target row, source membership row, reduction row, target membership row, ledger row, package row, and local certificate row;
+\item $C$ records the $\Cont$ read routes for source membership, typed reduction, target membership, and replay of the closure packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\hsame$, the ledger $L$, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectReductionUp}$ row.
+\end{enumerate}
+The carrier contains no host reduction semantics, no semantic equality of terms, no unrecorded conversion procedure, and no global normalization theorem.
+\end{definition}
+
+\begin{theorem}[SubjectReduction NameCert obligations]
+\label{thm:subject-reduction-namecert-obligations}
+The local $\NameCert_{\SubjectReductionUp}$ surface for \autoref{def:subject-reduction-namecert-carrier} consists of four obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $S=(A,B,E_0,R,E_1,L,H,C,P,N)$;
+\item $\Ext$-$\Cont$ closure, saying that the accepted source membership row $E_0$ and displayed reduction row $R$ expose only the target membership row $E_1$;
+\item ledger exactness, saying that every public subject-reduction read is recorded in $L$ with its source membership, reduction, target membership, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows;
+\item non-escape from host reduction semantics, semantic equality of terms, unrecorded conversion, hidden normalization, or any classifier not named by the carrier.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is the finite packet displayed in \autoref{def:subject-reduction-namecert-carrier}. Its rows name the source and target histories, the source and target $\Ext$ memberships, the reduction route, the local ledger, transport rows, continuation routes, package provenance, and certificate row.
+
+The closure obligation is the only permitted bridge from $E_0$ and $R$ to $E_1$. Since $C$ supplies the read routes and $H$ supplies only componentwise $\hsame$ transport, a consumer can replay the subject-reduction packet but cannot replace it by an ambient typing theorem.
+
+The ledger and non-escape obligations follow from the same inventory. Every usable read is first recorded in $L$, and no carrier coordinate names host reduction semantics, semantic equality, conversion outside the packet, or a global normalization result.
+\end{proof}
+
+\begin{theorem}[SubjectReduction $\Ext$-$\Cont$ closure]
+\label{thm:subject-reduction-ext-cont-closure}
+Let $S=(A,B,E_0,R,E_1,L,H,C,P,N)$ be an accepted $\SubjectReductionUp$ carrier. Any public read that starts from the source membership row $E_0$ and the displayed reduction row $R$ reaches target membership only as the recorded row $E_1$, transported through the displayed $\hsame$ rows and replayed through the recorded $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source membership data are exactly $E_0$, and the reduction data are exactly $R$.
+
+Use the read routes in $C$ to replay the closure packet. The only target membership row named by the packet is $E_1$, and the only permitted renamings are the componentwise $\hsame$ transports in $H$.
+
+Thus the closure read is an internal $\Ext$-$\Cont$ packet. It cannot appeal to semantic equality, host reduction, or an unrecorded conversion procedure.
+\end{proof}
+
+\begin{theorem}[SubjectReduction ledger exactness]
+\label{thm:subject-reduction-ledger-exactness}
+Every accepted subject-reduction read exported by a $\SubjectReductionUp$ carrier is recorded in the ledger $L$ before it is consumed. The ledger records the source row $A$, target row $B$, source membership $E_0$, reduction row $R$, target membership $E_1$, the relevant $\hsame$ transport rows, the $\Cont$ read routes, the $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with a public subject-reduction read. Carrier projection places the source membership in $E_0$, the reduction in $R$, and the target membership in $E_1$.
+
+The ledger $L$ records these rows together with their source and target histories. It also records the $\hsame$ and $\Cont$ rows needed to transport and replay the read.
+
+Since $P$ and $N$ are the only package and naming rows, every exported read has the stated provenance. There is no remaining channel through which an unledgered subject-reduction assertion can enter the packet.
+\end{proof}
+
+\begin{theorem}[SubjectReduction non-escape]
+\label{thm:subject-reduction-non-escape}
+An accepted $\SubjectReductionUp$ packet exports only the displayed $\BHist$ rows, $\Ext$ membership rows, $\Cont$ reduction row, subject-reduction ledger, $\hsame$ transports, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:subject-reduction-namecert-carrier}. It exports no host reduction semantics, semantic equality of terms, hidden conversion relation, erased typing derivation, or global normalization theorem.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. They are exactly $A,B,E_0,R,E_1,L,H,C,P,N$, and each coordinate is a displayed history, membership row, reduction row, ledger row, transport row, route row, package row, or naming row.
+
+Apply \autoref{thm:subject-reduction-ext-cont-closure} for reduction-facing consumers and \autoref{thm:subject-reduction-ledger-exactness} for provenance-facing consumers. Both routes remain inside the finite carrier inventory.
+
+Therefore the public boundary has no coordinate from which host reduction semantics, semantic equality, hidden conversion, erased typing derivations, or global normalization can be read.
+\end{proof}
+
+\begin{theorem}[SubjectReduction bridge packet scope]
+\label{thm:subject-reduction-bridge-packet-scope}
+The public carrier, $\Ext$-$\Cont$ closure, ledger exactness, and non-escape rows form the bridge packet available to standard subject-reduction consumers. The packet exports the finite surface $S=(A,B,E_0,R,E_1,L,H,C,P,N)$ and still exports no host type checker, semantic term equality, global normalization, or erased derivation semantics.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:subject-reduction-namecert-carrier}. It displays the public packet with source and target histories, source and target $\Ext$ rows, the $\Cont$ reduction row, ledger, transports, continuations, provenance, and local certificate.
+
+Apply \autoref{thm:subject-reduction-ext-cont-closure} to obtain the consumer route from $E_0$ and $R$ to $E_1$. Then apply \autoref{thm:subject-reduction-ledger-exactness} to record that route in $L$ with its transport, continuation, package, and local naming rows.
+
+The bridge packet boundary is closed by \autoref{thm:subject-reduction-non-escape}. Since the carrier has no host type-checker row, semantic equality row, global normalization row, or erased-derivation row, standard subject-reduction consumers receive only the displayed finite packet.
+\end{proof}
+
+\closureat{SubjectReductionUp}{seedStr}
+\closureat{SubjectReductionUp}{obligationStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
+\closureat{SubjectReductionUp}{scopedStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
+\closureat{SubjectReductionUp}{publicStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
+\closureat{SubjectReductionUp}{bridgedStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
+\closureat{SubjectReductionUp}{matureStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\SubjectReductionUp}
+  \constructivestory{A $\SubjectReductionUp$ packet is generated from source and target $\BHist$ rows, source and target $\Ext$ membership rows, a displayed $\Cont$ reduction row, a finite subject-reduction ledger, componentwise $\hsame$ transports, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:subject-reduction-namecert-carrier}, \autoref{thm:subject-reduction-namecert-obligations}, \autoref{thm:subject-reduction-ext-cont-closure}, \autoref{thm:subject-reduction-ledger-exactness}, \autoref{thm:subject-reduction-non-escape}, and \autoref{thm:subject-reduction-bridge-packet-scope} close the public finite carrier, $\Ext$-$\Cont$ closure, ledger exactness, non-escape rows, bridge packet scope, and mature consumer package named for subject-reduction consumers.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a host type checker, semantic equality of terms, global normalization, erased derivation semantics, or a public subject-reduction bridge.}
+  \upgradepath{No further theory-axis closure is pending for this chapter; remaining work, if any, belongs to separate bridge-checking infrastructure.}
+\end{closurestatus}

@@ -1,0 +1,106 @@
+\chapter{ClosedTermSubstitutionCompiler NameCert Construction}
+\label{ch:concrete-instances-closedtermsubstitutioncompiler-namecert}
+\origin{ai}
+
+The $\ClosedTermSubstitutionCompilerUp$ surface packages the MetaCIC closed-term substitution boundary as a finite compiler-facing naming certificate. Its carrier is not a full evaluator correctness theorem. It records the concrete rows by which $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\mathsf{substitute\_closed}$, $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ form the local boundary used by self-compilation consumers.
+
+\begin{definition}[ClosedTermSubstitutionCompiler carrier]
+\label{def:closed-term-substitution-compiler}
+A $\ClosedTermSubstitutionCompilerUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,D,V,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC term-generator row, recording the closed constructor surface for variables, applications, binders, and universes;
+\item $D$ is the $\mathsf{ClosedAt}$ boundary row, recording the depth classifier used to admit closed or context-closed source terms;
+\item $V$ is the operation row containing the syntactic $\mathsf{shift}$ and $\mathsf{substitute}$ traversals;
+\item $F$ is the fixed-boundary witness row recording $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$ as inertness facts on the classified slice;
+\item $H$ records componentwise $\hsame$ transports for $T,D,V,F$, the continuation row, the package row, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a compiler consumer reads the closedness boundary, applies the syntactic operation, and returns to the fixed-boundary witness;
+\item $P$ is the $\Pkg$ provenance over MetaCIC terms, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\mathsf{substitute\_closed}$, $\BHist$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedTermSubstitutionCompilerUp}$ row.
+\end{enumerate}
+The carrier contains no subject-reduction theorem for open evaluation, no semantic substitution theorem for arbitrary host syntax, no truth predicate for CIC, and no unrecorded binder budget.
+\end{definition}
+
+\begin{theorem}[ClosedTermSubstitutionCompiler boundary]
+\label{thm:closed-term-substitution-compiler-boundary}
+Every accepted $\ClosedTermSubstitutionCompilerUp$ packet exposes the closed-term substitution boundary as the finite route
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(d,t)
+  &\longrightarrow
+  \mathsf{substitute}(d,v,t)=t.
+\end{aligned}
+$$
+The same packet also exposes the companion shift boundary
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(n,t)
+  &\longrightarrow
+  \mathsf{shift}(n,1,t)=t.
+\end{aligned}
+$$
+Both routes are read through the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and neither route may be replaced by semantic evaluation correctness, a host binder convention, or an ambient compiler theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier $K=(T,D,V,F,H,C,P,N)$. The term row $T$ supplies the authorized MetaCIC constructors, the boundary row $D$ supplies the displayed $\mathsf{ClosedAt}$ classifier, and the operation row $V$ supplies only the syntactic traversals $\mathsf{shift}$ and $\mathsf{substitute}$.
+
+Read the witness row $F$ through the continuation row $C$. The substitution witness is the fixed-boundary equality $\mathsf{substitute}(d,v,t)=t$ under $\mathsf{ClosedAt}(d,t)$, and the shift witness is the matching equality at the shift cutoff. The arbitrary value $v$ is not consumed because the classifier shows that the target variable is absent at the boundary.
+
+The non-escape clause is carrier exactness. Since no coordinate stores evaluator correctness, host-level binder semantics, or a global compiler theorem, a consumer can extract only the displayed closed-boundary route.
+\end{proof}
+
+\begin{theorem}[ClosedTermSubstitutionCompiler NameCert obligations]
+\label{thm:closed-term-substitution-compiler-namecert-obligations}
+For the carrier of \autoref{def:closed-term-substitution-compiler}, the local $\NameCert_{\ClosedTermSubstitutionCompilerUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for $K=(T,D,V,F,H,C,P,N)$;
+\item classifier transport for the $\mathsf{ClosedAt}$ row and the operation-witness rows under componentwise $\hsame$;
+\item substitution-boundary exactness, requiring every accepted substitution read to cite the displayed $\mathsf{substitute\_closed}$ witness before exposing a compiler-facing boundary claim;
+\item shift-boundary compatibility, requiring binder-depth movement to cite the displayed $\mathsf{shift\_closed}$ witness before a deeper-context read is accepted;
+\item non-escape for open-term semantics, subject reduction, host CIC truth, unregistered variables, and any compiler correctness theorem not stored in the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:closed-term-substitution-compiler}. The packet lists the term generator, closedness classifier, operation row, fixed-boundary witnesses, transports, continuation routes, package provenance, and local certificate row.
+
+Transport is componentwise. The rows $T,D,V,F$ move only through the displayed $\hsame$ entries, and the continuation row replays the same reads after transport.
+
+For exactness, inspect a substitution consumer. The route must read the $\mathsf{ClosedAt}$ row and then the $\mathsf{substitute\_closed}$ witness before it may expose the compiler-facing equality. The corresponding shift consumer reads the same boundary classifier and the $\mathsf{shift\_closed}$ witness before using binder-depth movement.
+
+The excluded principles have no carrier coordinate. Thus the local $\NameCert$ admits only the five displayed obligations and cannot project an unrecorded semantic theorem.
+\end{proof}
+
+\begin{theorem}[ClosedTermSubstitutionCompiler self-compile route]
+\label{thm:closed-term-substitution-compiler-self-compile-route}
+In any compiler-facing read of an accepted $\ClosedTermSubstitutionCompilerUp$ packet, the self-compilation substitution step passes through the schedule
+$$
+\begin{gathered}
+\mathsf{ClosedAt}\ \longrightarrow\ \mathsf{substitute}\ \longrightarrow\ \mathsf{substitute\_closed}\ \longrightarrow\ \NameCert_{\ClosedTermSubstitutionCompilerUp}.
+\end{gathered}
+$$
+The route keeps the source term inside the registered boundary ledger. It may be composed with the displayed $\mathsf{shift\_closed}$ row for binder movement, but it does not close evaluator soundness, subject reduction, or total self-compilation.
+\end{theorem}
+\begin{proof}
+Begin with the compiler consumer's closed source row. The carrier exposes this row only through $D$, so the consumer first reads the displayed $\mathsf{ClosedAt}$ boundary.
+
+Next read the operation row $V$ and the witness row $F$. The syntactic operation is $\mathsf{substitute}$, and the accepted boundary witness is $\mathsf{substitute\_closed}$, so the attempted substitution returns the same registered term at the boundary.
+
+Finally repack the route through $C,P,N$. The continuation, provenance, and local naming rows record a self-compilation boundary step, while the absence of evaluator-soundness and subject-reduction coordinates fixes the stated scope.
+\end{proof}
+
+\closureat{ClosedTermSubstitutionCompilerUp}{seedStr}
+
+\begin{closurestatus}{\ClosedTermSubstitutionCompilerUp}
+  \constructivestory{A $\ClosedTermSubstitutionCompilerUp$ packet is generated from MetaCIC term constructors, the $\mathsf{ClosedAt}$ classifier, the $\mathsf{shift}$ and $\mathsf{substitute}$ operation rows, the $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$ witness rows, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, closed-boundary substitution and shift routes, classifier transport surface, NameCert obligations, and self-compilation boundary handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close evaluator soundness, subject reduction, open-term substitution semantics, host CIC truth, total self-compilation, or a checked Lean certificate for the whole packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, substitution-boundary exactness, shift-boundary compatibility, and public non-escape for the compiler-facing packet.}
+\end{closurestatus}

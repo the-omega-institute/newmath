@@ -37,7 +37,7 @@ BEDC 在它下面还有两层. 隐含假设审视的是 mathlib 之上的 paper-
 
 ## 三个公理是同一笔会计动作
 
-在 meta-closure 这一层, 章节 `papers/bedc/parts/capstones/three_axioms_one_closure.tex` 给出统一观察: choice、`Quot.sound`、`propext` 不是三个独立承诺. 它们是同一个 schematic 动作在三个语法层的表达.
+在 meta-closure 这一层, 章节 `papers/bedc/parts/visions/three_axioms_one_closure.tex` 给出统一观察: choice、`Quot.sound`、`propext` 不是三个独立承诺. 它们是同一个 schematic 动作在三个语法层的表达.
 
 > **Meta-closure schema.** 给定语法层 $S \in \{\text{term}, \text{type}, \text{proposition}\}$ 上的一个正存在 statement, 且无 constructor 见证, 提供一个 $S$ 的值彷佛见证已给, 并把它喂给后续内核构造.
 
@@ -53,7 +53,7 @@ BEDC 在它下面还有两层. 隐含假设审视的是 mathlib 之上的 paper-
 
 一个构造性证明就是一个 program. program 的输出数据完全由输入数据决定. 推导里没有信息被创造. `Classical.choice` 是经典违反: 由 $\exists x.\,P(x)$ 提取一个名字 $x$, 但 $x$ 是谁的信息不在输入里, 也不是从输入构造的. choice 公理 *把见证作为接受存在的副作用创造出来*. `axiom-purity --strict` 的守恒读法因此是: 任何证明步骤都不许创造内核无法追溯到 inductive constructor 的信息.
 
-Riemann 假设 capstone (`papers/bedc/parts/capstones/riemann_hypothesis.tex`) 反方向展示同一原理. BEDC 内部对 RH 的构造性证明, 由 Curry-Howard 必须提供一个函数 $\Phi$, 把临界带里每个零点 $s$ 送到一个 $\Re(s) = 1/2$ 的显式 `hsame` 见证. capstone 列出 $\Phi$ 应当暴露的 witness types: 模函数 $\mu_s : \mathbb{N} \to \mathbb{N}$、近界函数 $\beta : \mathbb{N} \to \mathbb{Q}^{>0}$、构造性零计数 $N : \mathbb{N} \to \mathbb{N}$ 在显式误差项内匹配 Riemann–von Mangoldt、可判定的平凡零分类器、临界带零集到临界线投影的 `psame`-同构. 经典反证给一个 bit; 构造性证明给五个 view, 因为它们是 *同一份* 信息在不同投影下的呈现. 它们都不是推导里加上去的; 它们都已经在 $\Phi$ 里, 而守恒 gate 是逼它们被显式呈现的那把闸.
+Riemann 假设 capstone (`papers/bedc/parts/visions/riemann_hypothesis.tex`) 反方向展示同一原理. BEDC 内部对 RH 的构造性证明, 由 Curry-Howard 必须提供一个函数 $\Phi$, 把临界带里每个零点 $s$ 送到一个 $\Re(s) = 1/2$ 的显式 `hsame` 见证. capstone 列出 $\Phi$ 应当暴露的 witness types: 模函数 $\mu_s : \mathbb{N} \to \mathbb{N}$、近界函数 $\beta : \mathbb{N} \to \mathbb{Q}^{>0}$、构造性零计数 $N : \mathbb{N} \to \mathbb{N}$ 在显式误差项内匹配 Riemann–von Mangoldt、可判定的平凡零分类器、临界带零集到临界线投影的 `psame`-同构. 经典反证给一个 bit; 构造性证明给五个 view, 因为它们是 *同一份* 信息在不同投影下的呈现. 它们都不是推导里加上去的; 它们都已经在 $\Phi$ 里, 而守恒 gate 是逼它们被显式呈现的那把闸.
 
 所以信息守恒是第二层审计的对的一句话描述. 第一层审计 (陶的隐含假设) 也是某种守恒, 但在另一个 scale 上——它守恒的是 *paper proof*, 即没有步骤被省略. 第二层审计守恒的是 *substrate*: 没有东西从 meta-closure 被创造出来.
 

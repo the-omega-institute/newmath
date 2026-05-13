@@ -1,0 +1,206 @@
+\chapter{MetaCIC Substitution module audit map}
+\label{ch:metacic-substitution-audit-map}
+
+\section{The setup}
+\label{sec:metacic-substitution-audit-map-setup}
+
+The BEDC.MetaCIC substitution submodule is the syntax layer that supports
+movement across binders. It is split across five sibling files:
+\texttt{Basic}, \texttt{ClosedComposition}, \texttt{Core},
+\texttt{NatShift}, and \texttt{Statements}. The split exposes a useful audit
+shape. Arithmetic facts about de Bruijn indices are kept separate from raw
+substitution facts, closedness facts, and higher substitution statements.
+
+The operations are \texttt{shift} and \texttt{substitute}. The first raises
+free indices at or above a cutoff. The second replaces the variable at a
+depth and adjusts indices around the removed binder. Both are ordinary
+recursive operations on the closed \texttt{Term} generator. The audit question
+is therefore not whether the operations exist, but which classifier boundary
+they preserve and under which hypotheses.
+
+The current closure state is exact. Closedness at a boundary makes both
+operations inert at that boundary. Closed source and closed payload hypotheses
+also support a small family of closed composition laws. The module also names
+larger target shapes for shift--substitute and substitute--substitute
+interaction, while the closed composition file provides the checked fragment
+that is available without a general unclosed commutation theorem.
+
+\section{Core operations}
+\label{sec:metacic-substitution-audit-map-core-operations}
+
+\subsection{\texttt{shift\_closed}}
+\label{subsec:metacic-substitution-audit-map-shift-closed}
+
+The boundary theorem for shift is
+\leanvariant{BEDC.MetaCIC.shift\_closed}. It says that if a term is closed at
+cutoff $n$, then shifting at $n$ by one leaves the term unchanged:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(n,t)
+  &\Rightarrow
+  \mathsf{shift}(n,1,t)=t.
+\end{aligned}
+$$
+
+This is a classifier-preservation fact in its strongest local form. The term
+has no free index reaching the cutoff, so the shift branch has no occurrence
+to act on. The binder cases are not hidden semantic assumptions; they are the
+recursive cases of the \texttt{ClosedAt} witness, where the boundary advances
+under lambda and Pi.
+
+The theorem is intentionally narrow. It does not state that arbitrary shifting
+preserves every typing or reduction property. It states only that a term
+already closed below the cutoff is syntactically fixed by the shift attempted
+at that cutoff.
+
+\subsection{\texttt{substitute\_closed}}
+\label{subsec:metacic-substitution-audit-map-substitute-closed}
+
+The matching boundary theorem for substitution is
+\leanvariant{BEDC.MetaCIC.substitute\_closed}. It says that if a term is
+closed at depth $d$, then substituting any payload at $d$ leaves the term
+unchanged:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(d,t)
+  &\Rightarrow
+  \mathsf{substitute}(d,v,t)=t.
+\end{aligned}
+$$
+
+The payload $v$ is arbitrary because the replacement site is absent. For every
+variable index visible in $t$, the closedness witness supplies the inequality
+placing that index below $d$. Hence the equality branch does not fire, and the
+decrement branch does not fire. The recursive cases carry the same argument
+through application, lambda, Pi, and sort.
+
+This is the main closed-substitution closure law used by the paper side. It
+is not a beta-substitution typing theorem. It is a syntactic boundary theorem:
+substitution at a boundary cannot alter a term whose free-variable budget is
+already below that boundary.
+
+\subsection{Closed composition}
+\label{subsec:metacic-substitution-audit-map-closed-composition}
+
+The closed composition file supplies the checked fragment of substitution
+composition that is available under closed payload and closed source
+hypotheses. The central theorem is
+\leanvariant{BEDC.MetaCIC.substitute\_compose\_closed\_both}. It specialises
+the depth-indexed theorem
+\leanvariant{BEDC.MetaCIC.substitute\_compose\_closed\_both\_at\_depth} to
+depth $0$:
+
+$$
+\begin{aligned}
+  &\mathsf{ClosedAt}(0,v)
+  \wedge
+  \mathsf{ClosedAt}(0,u)
+  \wedge
+  \mathsf{ClosedAt}(1,t) \\
+  &\Rightarrow
+  \mathsf{substitute}(0,v,\mathsf{substitute}(0,u,t))
+  =
+  \mathsf{substitute}(0,\mathsf{substitute}(0,v,u),t).
+\end{aligned}
+$$
+
+The same file also records a closed swap law
+\leanvariant{BEDC.MetaCIC.substitute\_swap\_closed} and a shift-after-
+substitution bridge
+\leanvariant{BEDC.MetaCIC.substitute\_after\_shift\_one\_closed}. These are
+closed-fragment algebra, not unrestricted substitution calculus.
+
+The audit distinction matters. \texttt{Statements.lean} names broad target
+shapes, including \leandef{BEDC.MetaCIC.ShiftSubstituteStatement} and
+\leandef{BEDC.MetaCIC.SubstituteSubstituteStatement}. The checked composition
+theorems above are the current closed slice of that algebra. The manuscript
+may cite the closed slice, but it must not cite an unrestricted
+substitute--substitute commutation theorem unless such a theorem exists under
+the same Lean namespace.
+
+\section{Connection to subject reduction}
+\label{sec:metacic-substitution-audit-map-subject-reduction}
+
+Substitution is one of the necessary ingredients for MetaCIC subject
+reduction. The subject-reduction obstruction map in
+\autoref{ch:metacic-subject-reduction-obstruction} isolates the beta-redex
+obligation as $\mathrm{BetaSubstitutionPreservation}$: typing must survive
+when an argument is substituted into a binder body and the codomain is read
+back through the same substitution.
+
+The substitution module audited here is lower-level. It proves syntactic
+closedness and closed composition facts about \texttt{Term}. Those facts are
+necessary for a disciplined beta case, but they are not the whole beta typing
+obligation. The typing obligation also mentions context lookup, body typing,
+argument typing, codomain substitution, and the dependent type assigned after
+the beta step.
+
+Thus the connection is a handoff, not an identification. The substitution
+module supplies the syntax-side closure laws that any subject-reduction
+discharge must respect. The subject-reduction boundary remains the four-input
+interface described in \autoref{ch:metacic-subject-reduction-obstruction}.
+Closing syntactic substitution does not by itself close dependent typing
+preservation.
+
+\section{Connection to GeneratorClosureClassifier}
+\label{sec:metacic-substitution-audit-map-generator-closure}
+
+The same closure state has a certificate-theoretic reading. In
+\autoref{def:certificate-closure-generator-closure-classifier}, a
+generator-closure classifier records that a generator action preserves a
+classifier. The concrete MetaCIC instances are
+\leanvariant{BEDC.MetaCIC.closed\_under\_shift\_classifier} and
+\leanvariant{BEDC.MetaCIC.closed\_under\_substitute\_classifier}.
+
+These two instances read the \texttt{shift} and \texttt{substitute} operations
+as authorized generators over the closed-term carrier. Their classifier is
+\texttt{ClosedAt} at the relevant boundary. The closure field says that when
+the operation is applied inside the admitted slice, the result stays inside
+that slice.
+
+The algebra of \autoref{prin:certificate-closure-classifier-algebra} then
+explains why these local facts compose with the wider BEDC audit machinery.
+Identity, sequential composition, alternation, sub-generator restriction, and
+finite iteration preserve classifier closure once the corresponding local
+classifier witnesses are present. The substitution module provides concrete
+local witnesses for two important MetaCIC generators; the algebra explains how
+such witnesses can be routed through larger certificate networks without
+changing their scope.
+
+\section{Apophatic framing}
+\label{sec:metacic-substitution-audit-map-apophatic}
+
+This chapter names a positive closure layer without turning it into a larger
+claim. BEDC can say exactly what the substitution module supplies: boundary
+inertness for shift and substitution, closed-source composition fragments,
+and classifier instances for the two generator actions. It also says what the
+module does not supply: unrestricted substitution commutation, closed subject
+reduction, or a hidden semantic equality principle for terms.
+
+The apophatic point is methodological. The manuscript must not fill a missing
+dependent-typing bridge by appealing to the existence of syntactic
+substitution lemmas. The available lemmas are real, checked, and useful, but
+their scope is the closed syntactic layer.
+
+\section{Boundary}
+\label{sec:metacic-substitution-audit-map-boundary}
+
+This chapter records the present closure state of
+\texttt{BEDC.MetaCIC.Substitution}. It may be used to cite the checked
+boundary theorems \texttt{shift\_closed} and \texttt{substitute\_closed}, the
+closed composition theorems in \texttt{ClosedComposition.lean}, the named
+statement shapes in \texttt{Statements.lean}, and the concrete
+GeneratorClosureClassifier instances for shift and substitution.
+
+It does not claim an unrestricted substitution calculus. It does not claim
+that $\mathrm{BetaSubstitutionPreservation}$ is discharged. It does not claim
+the full closed subject-reduction theorem excluded by
+\autoref{ch:metacic-subject-reduction-obstruction}. The substitution closure
+state is a necessary building block for those routes, not their endpoint.
+
+\concretizedIn{ch:concrete-instances-metacic-substitution-audit-packet-namecert}{Substitution audit rows are realized as a finite NameCert packet for closed syntax movement and subject-reduction handoff boundaries.}
+\concretizedIn{ch:concrete-instances-substitutionauditmap-namecert}{The closed substitution audit map is realized as a finite NameCert packet over ClosedAt, shift, substitute, closed-composition, and generator-closure rows.}
+\concretizedIn{ch:concrete-instances-substitutionauditwindowroute-namecert}{Substitution audit window routes realize the closed shift, substitute, composition, generator-closure, and subject-reduction handoff rows as a finite NameCert packet.}
+\concretizedIn{ch:concrete-instances-substitutioncontextaudit-namecert}{Context-indexed substitution audit rows are realized as a finite NameCert packet over closed-boundary, binder-seal, beta-preservation, and typed-normal-form handoff surfaces.}

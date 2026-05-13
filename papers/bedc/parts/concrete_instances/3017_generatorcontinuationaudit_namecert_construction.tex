@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\GeneratorContinuationAuditUp$}
+\label{ch:concrete-instances-generator-continuation-audit-namecert}
+\origin{ai}
+
+The $\GeneratorContinuationAuditUp$ packet realizes the continuation-level audit surface between an authorized generator row and a downstream consumer. It keeps the generator row, continuation row, displayed closure witness, rejected-continuation GAP row, transports, routes, provenance, and local naming in one finite $\BHist$ packet. It is a certificate for per-continuation witness preservation and GAP non-escape, not a global induction principle, host recursion rule, quotient over continuations, or selected downstream representative.
+
+\begin{definition}[Generator-continuation audit carrier]
+\label{def:generator-continuation-audit-carrier}
+A $\GeneratorContinuationAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(G,U,W,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the authorized generator row, including its local generator classifier and the finite generator-history entry to be audited;
+\item $U$ is the continuation row selected for this audit, including its source endpoint, target endpoint, and finite consumer-facing read;
+\item $W$ is the closure-witness row preserved by the selected continuation;
+\item $Q$ is the rejected-continuation GAP row, recording every continuation branch that fails the generator classifier or attempts to read a witness outside $W$;
+\item $H$ records componentwise $\hsame$ transports for $G,U,W,Q$ and the structural rows;
+\item $C$ records the displayed $\Cont$ routes from the generator row to the continuation row, from the continuation row to the closure witness, and from rejected continuations to the GAP row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, the generator classifier, the closure-witness ledger, the GAP ledger, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\GeneratorContinuationAuditUp}$ row.
+\end{enumerate}
+The carrier is finite. It contains no coordinate for a free-floating induction rule, host recursion, quotient equality between continuations, selected consumer representatives, or unbounded downstream completeness.
+\end{definition}
+
+\begin{theorem}[Generator-continuation audit NameCert obligations]
+\label{thm:generator-continuation-audit-namecert-obligations}
+The local $\NameCert_{\GeneratorContinuationAuditUp}$ surface for \autoref{def:generator-continuation-audit-carrier} consists exactly of carrier admission for $A=(G,U,W,Q,H,C,P,N)$, authorized generator exposure through $G$, selected continuation exposure through $U$, closure-witness exposure through $W$, rejected-continuation GAP exposure through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $A$. The rows $G,U,W,Q$ expose the mathematical content of the audit: generator authority, one continuation, the preserved closure witness, and the GAP destination for rejected continuation reads.
+
+The route row $C$ supplies the only paths by which the selected continuation can reach the witness row and by which a rejected continuation can be routed to the GAP row. Thus the audit surface has no hidden path from a non-generator continuation to a downstream witness.
+
+The rows $H,P,N$ account for transport, package provenance, and local naming. Since free induction, host recursion, quotient continuation equality, selected representatives, and unbounded completeness have no carrier coordinate, the listed rows exhaust the local naming obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.GeneratorContinuationAuditUp.GeneratorContinuationAuditTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Generator-continuation audit witness preservation]
+\label{thm:generator-continuation-audit-witness-preservation}
+For an accepted $\GeneratorContinuationAuditUp$ carrier, every downstream read of the selected continuation $U$ that passes the generator classifier factors through the displayed closure-witness row $W$. The factorization is witnessed only by the finite route from $G$ to $U$ to $W$ together with the recorded $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and project the generator row $G$, continuation row $U$, and closure-witness row $W$. The generator classifier attached to $G$ admits the selected continuation read named by $U$.
+
+Replay the continuation route recorded in $C$. This route first binds the continuation to the authorized generator row and then reads the displayed closure witness. Componentwise transport in $H$ can move the same rows between equivalent presentations, but it cannot create a second witness source.
+
+The package and naming rows $P,N$ certify that the routed witness is the row displayed in the finite packet. Therefore the downstream consumer sees precisely the preserved witness $W$ through the stated finite factorization.
+\end{proof}
+
+\begin{theorem}[Generator-continuation audit GAP non-escape]
+\label{thm:generator-continuation-audit-gap-nonescape}
+For an accepted $\GeneratorContinuationAuditUp$ carrier, every continuation branch that is not admitted by the generator classifier, or that attempts to consume a closure witness outside the displayed row $W$, is routed to the rejected-continuation GAP row $Q$. No such branch reaches the downstream consumer surface through $U$.
+\end{theorem}
+\begin{proof}
+Project the rejected-continuation row $Q$ and the continuation routes $C$. By definition of the carrier, $Q$ records the failed generator-classifier branches and the branches whose requested witness is not the displayed row $W$.
+
+For each rejected branch, use the route component of $C$ that sends the branch to $Q$. The same componentwise $\hsame$ transport that preserves accepted rows also preserves the GAP destination, so transport cannot turn a rejected branch into an accepted downstream read.
+
+The NameCert obligation surface from \autoref{thm:generator-continuation-audit-namecert-obligations} lists no other continuation exit. Hence rejected continuations cannot escape the GAP row or enter the downstream consumer surface.
+\end{proof}
+
+\begin{theorem}[Generator-continuation audit downstream consumer surface]
+\label{thm:generator-continuation-audit-downstream-consumer-surface}
+Every downstream consumer read exported by an accepted $\GeneratorContinuationAuditUp$ packet is exhausted by the finite rows $G,U,W,H,C,P,N$ together with the GAP exclusion row $Q$. Accepted reads preserve the displayed witness $W$, and rejected reads are visible only through $Q$.
+\end{theorem}
+\begin{proof}
+Begin with an exported downstream consumer read. If the read is accepted by the generator classifier, apply \autoref{thm:generator-continuation-audit-witness-preservation} to factor it through the selected continuation and the displayed closure witness.
+
+If the read is not accepted, or if it asks for a witness outside $W$, apply \autoref{thm:generator-continuation-audit-gap-nonescape}. The read is then routed to $Q$ and has no consumer-facing exit through $U$.
+
+The NameCert obligations identify the remaining structural rows as $H,C,P,N$. These rows transport, replay, package, and name the same finite audit packet, so the downstream consumer surface is exactly the one stated.
+\end{proof}
+
+\closureat{GeneratorContinuationAuditUp}{seedStr}
+
+\begin{closurestatus}{\GeneratorContinuationAuditUp}
+  \constructivestory{A $\GeneratorContinuationAuditUp$ packet is generated from an authorized generator row, a selected continuation row, a closure-witness row, a rejected-continuation GAP row, componentwise transports, continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:generator-continuation-audit-carrier}, \autoref{thm:generator-continuation-audit-namecert-obligations}, \autoref{thm:generator-continuation-audit-witness-preservation}, \autoref{thm:generator-continuation-audit-gap-nonescape}, and \autoref{thm:generator-continuation-audit-downstream-consumer-surface} bind the finite continuation-level audit packet between generator closure and downstream consumer use.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global induction, host recursion, quotient continuation equality, selected downstream representatives, or bridge checking.}
+  \upgradepath{Scoped closure requires checked preservation and GAP non-escape rows for the same finite continuation-audit packet.}
+\end{closurestatus}

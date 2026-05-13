@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ObservationConservationLedgerUp$}
+\label{ch:concrete-instances-observation-conservation-ledger-namecert}
+\origin{human}
+
+The $\ObservationConservationLedgerUp$ interface names the finite monotone ledger packet that realises closed observation inside the BEDC kernel vocabulary. It binds observation states to displayed $\mathsf{BHist}$ records, uses $\hsame$ to transport old records into later states, routes every allowed read through $\Cont$, records provenance through $\Pkg$, and marks every non-recorded universal demand as a $\Gap$ row. The packet is a concrete NameCert carrier for the conservation side of closed observation; it is not an induction principle, not a universal quantifier over all future observations, and not an external oracle for unseen records.
+
+\begin{definition}[ObservationConservationLedger carrier]
+\label{def:observation-conservation-ledger-carrier}
+An $\ObservationConservationLedgerUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+L=(O_t,O_{t+1},R_t,R_{t+1},A,G,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $O_t$ and $O_{t+1}$ are the earlier and later observation-state rows;
+\item $R_t$ is the finite ledger of records already visible at $O_t$;
+\item $R_{t+1}$ is the finite ledger visible at $O_{t+1}$;
+\item $A$ is the admission row saying which finite records are appended between the two states;
+\item $G$ is the $\Gap$ row assigned to any universal or future-facing assertion not witnessed by $R_t$, $R_{t+1}$, or $A$;
+\item $H$ records componentwise $\hsame$ transport for the earlier observation state, later observation state, old records, appended records, and $\Gap$ rows;
+\item $C$ records the visible $\Cont$ routes by which ledger consumers read old records, appended records, transport rows, and non-escape rows;
+\item $P$ is the $\Pkg$ provenance row for the observation-state, record-ledger, admission, $\Gap$, $\hsame$, and $\Cont$ coordinates;
+\item $N$ is the local $\NameCert_{\ObservationConservationLedgerUp}$ row.
+\end{enumerate}
+The carrier exports only the two observation-state rows, the two finite record ledgers, the displayed admission row, the $\Gap$ row, transport, continuation, package, and local naming rows. It contains no route for deleting old records, rewriting old records, manufacturing a universal record, or reading a witness absent from the displayed finite ledgers.
+\end{definition}
+
+\begin{theorem}[ObservationConservationLedger NameCert obligations]
+\label{thm:observation-conservation-ledger-namecert-obligations}
+The local $\NameCert_{\ObservationConservationLedgerUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier habitation by the finite packet of \autoref{def:observation-conservation-ledger-carrier};
+\item old-record preservation from $R_t$ into $R_{t+1}$ through the displayed admission row $A$;
+\item appended-record visibility for every record admitted by $A$;
+\item componentwise $\hsame$ and $\Cont$ stability for the observation-state rows, record-ledger rows, admission rows, and $\Gap$ rows;
+\item provenance and naming closure through $P$ and $N$, forcing every consumer read to remain inside the displayed finite packet.
+\end{enumerate}
+No obligation exports a universal quantifier over future observations, an induction principle, a deletion route for old records, or an oracle for unseen witnesses.
+\end{theorem}
+\begin{proof}
+Carrier habitation is exactly \autoref{def:observation-conservation-ledger-carrier}. The two observation states, both record ledgers, the admission row, the $\Gap$ row, transport, continuation, package, and naming rows are all displayed coordinates of one finite packet.
+
+Old-record preservation is read by comparing $R_t$ with $R_{t+1}$ through $A$. The admission row can append finite records, and the transport row $H$ moves the earlier ledger componentwise into the later packet without changing its visible record identities.
+
+Appended-record visibility is supplied by the same admission row. Any newly admitted record must appear in $R_{t+1}$ and must be routed through $C$, $P$, and $N$ before a consumer can read it.
+
+The remaining demands are non-escape demands. If a consumer asks for a universal or future-facing assertion not witnessed by the displayed rows, the request is assigned to $G$ rather than accepted as a record, so the local NameCert surface contains exactly the listed finite obligations.
+\end{proof}
+
+\begin{theorem}[ObservationConservationLedger non-escape]
+\label{thm:observation-conservation-ledger-nonescape}
+Every consumer of an accepted $\ObservationConservationLedgerUp$ carrier reads only the displayed rows $O_t,O_{t+1},R_t,R_{t+1},A,G,H,C,P,N$. A consumer may recover preserved old records, newly appended finite records, componentwise transports, continuation routes, provenance, and the local naming row. It cannot recover an unrecorded witness, a deletion or alteration of an old record, a universal assertion over all future observations, or an induction principle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:observation-conservation-ledger-carrier}. Its only record coordinates are the finite ledgers $R_t$ and $R_{t+1}$ together with the finite admission row $A$.
+
+Apply the NameCert obligation surface of \autoref{thm:observation-conservation-ledger-namecert-obligations}. Old records persist through $H$, appended records become visible through $A$, and every legal consumer read is routed through $C$, $P$, and $N$.
+
+It remains to rule out non-displayed reads. A request for a universal or future-facing assertion has no witness coordinate in $R_t$, $R_{t+1}$, or $A$, so it is routed to the $\Gap$ row $G$. Since $G$ is a tag rather than an accepted record, the carrier has no route from closed observation to an unrecorded witness, record deletion, universal closure, or induction.
+\end{proof}
+
+\closureat{ObservationConservationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ObservationConservationLedgerUp}
+  \constructivestory{An $\ObservationConservationLedgerUp$ packet is generated by two observation-state rows, two finite record ledgers, a finite admission row, a $\Gap$ non-escape row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observation-conservation-ledger-carrier}, \autoref{thm:observation-conservation-ledger-namecert-obligations}, and \autoref{thm:observation-conservation-ledger-nonescape} bind the finite monotone observation ledger packet and its closed-observation non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close induction, universal quantification over future observations, infinite observation streams, or any oracle for records absent from the displayed finite ledgers.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the monotone observation ledger packet.}
+\end{closurestatus}

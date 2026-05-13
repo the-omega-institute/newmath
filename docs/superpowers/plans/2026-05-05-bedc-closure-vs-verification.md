@@ -40,7 +40,7 @@ Two problems:
 - **Roadmap** (`papers/bedc/parts/project_governance/roadmap.tex` §31, §"Per-object research template", §"Near-term phases", §"Claims explicitly off the table").
 - **Frontmatter preface** (`papers/bedc/frontmatter/preface.tex`).
 - **Appendix B** = `papers/bedc/appendices/build_and_verification_log.tex`.
-- **Capstones** referencing `\checkedCertStr` (`papers/bedc/parts/capstones/riemann_hypothesis.tex`).
+- **Capstones** referencing `\checkedCertStr` (`papers/bedc/parts/visions/riemann_hypothesis.tex`).
 - **Audit script** `lean4/scripts/bedc_ci.py` — `CLOSUREAT_RE`, `collect_closureat_groundings`, `audit_payload`, the JSON shape, and the human-readable summary.
 - **Critical-path script** `lean4/scripts/critical_path.py` — `CLOSED_STRENGTHS`, `is_chapter_closed`, the rolling cooldown's grounding extractor.
 - **Codex paper-revise prompts** `papers/bedc/scripts/prompts/{phase_review,phase_revise,conflict_resolve,post_rebase_audit_resolve,round_fallback_resolve}.txt`.
@@ -114,7 +114,7 @@ We are on branch `closure-vs-verification` (already created off `codex-auto-dev`
 - `papers/bedc/frontmatter/preface.tex` (one paragraph added after Layer discipline).
 - `papers/bedc/appendices/build_and_verification_log.tex` (full rewrite into B.1/B.2/B.3 with explicit "audit only, not closure" framing).
 - `papers/bedc/parts/project_governance/roadmap.tex` (§"Strength gradient" → §"Closure and verification axes"; "Per-object research template" Status field becomes a 2-tuple; Phase exit criteria become 3-line blocks; "Claims explicitly off the table" extended).
-- `papers/bedc/parts/capstones/riemann_hypothesis.tex` (one `\checkedCertStr` reference replaced).
+- `papers/bedc/parts/visions/riemann_hypothesis.tex` (one `\checkedCertStr` reference replaced).
 - All 30 `\closureat`-bearing chapter files in `parts/concrete_instances/` (one block replaced; new closurestatus env inserted).
 - `lean4/scripts/bedc_ci.py` (CLOSUREAT_RE retired; new `CLOSURESTATUS_BEGIN_RE` parser; new audit fields; failure messages updated).
 - `lean4/scripts/critical_path.py` (`CLOSED_STRENGTHS` retired; new `is_chapter_retired_from_horizon` reading both axes).
@@ -1028,7 +1028,7 @@ For `parts/concrete_instances/62_determinant_namecert_construction.tex`:
 
 - [ ] **Step 3: Update the capstone**
 
-Open `papers/bedc/parts/capstones/riemann_hypothesis.tex` and replace the sentence containing `\closureat{<...>}{\checkedCertStr}` (line 13) with two-axis vocabulary:
+Open `papers/bedc/parts/visions/riemann_hypothesis.tex` and replace the sentence containing `\closureat{<...>}{\checkedCertStr}` (line 13) with two-axis vocabulary:
 
 ```latex
 The certificate $\NameCert_{\PrimeUp}$ (\autoref{ch:concrete-instances-prime-namecert}) remains an open arithmetic certificate until its semantic naming certificate carries $\TheoryGate(\PrimeUp, \scopedClosure)$ at $\FormalStatus(\PrimeUp, \theoremCheckedV)$; once both axes hold, it supplies the index set of the Euler product $\zeta(s) = \prod_{p} (1 - p^{-s})^{-1}$.
@@ -1160,7 +1160,7 @@ Expected at this stage: drift audit will FAIL because `bedc_ci.py` still expects
 ```bash
 git add papers/bedc/preamble.tex \
         papers/bedc/parts/concrete_instances/ \
-        papers/bedc/parts/capstones/riemann_hypothesis.tex \
+        papers/bedc/parts/visions/riemann_hypothesis.tex \
         papers/bedc/frontmatter/preface.tex \
         papers/bedc/appendices/build_and_verification_log.tex \
         papers/bedc/parts/project_governance/roadmap.tex

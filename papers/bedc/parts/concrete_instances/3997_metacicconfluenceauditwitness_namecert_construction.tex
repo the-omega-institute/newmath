@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\MetacicConfluenceAuditWitnessUp$}
+\label{ch:concrete-instances-metacicconfluenceauditwitness-namecert}
+\origin{ai}
+
+The $\MetacicConfluenceAuditWitnessUp$ packet turns the audit boundary of \autoref{ch:metacic-confluence-audit-map} into a finite NameCert witness. It is narrower than \autoref{ch:concrete-instances-parallelconfluenceaudit-namecert}: the present chapter records the minimum carrier needed to audit the conditional confluence boundary, while \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert} and \autoref{ch:concrete-instances-axis-carry-confluence-namecert} provide sibling lattice anchors for obstruction and confluence-style route comparison.
+
+\begin{definition}[MetaCIC confluence audit witness carrier]
+\label{def:metacic-confluence-audit-witness-carrier}
+A $\MetacicConfluenceAuditWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(P,S,D,C,O,H,R,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the MetaCIC parallel-step route row whose endpoints are closed terms;
+\item $S$ is the substitution-compatibility premise boundary for the parallel route;
+\item $D$ is the conditional parallel-diamond handoff row reached only through $S$;
+\item $C$ is the closed-star confluence handoff row reached only through $D$;
+\item $O$ records the obstruction boundary excluding full closed Church--Rosser, substitution compatibility, and unconditional confluence for arbitrary closed terms;
+\item $H$ records componentwise $\hsame$ transport across $P,S,D,C,O,R,L,N$;
+\item $R$ is the finite $\Cont$ route ledger through which consumers may replay the witness route;
+\item $L$ is the $\Pkg$ provenance row linking the audit map, the subject-reduction obstruction sibling, and the axis-carry confluence sibling;
+\item $N$ is the local $\NameCert_{\MetacicConfluenceAuditWitnessUp}$ row.
+\end{enumerate}
+The carrier contains no host evaluator, no hidden substitution lemma, no quotient identification of reductions, and no theorem stronger than the displayed conditional route rows.
+\end{definition}
+\leandef{BEDC.Derived.MetacicConfluenceAuditWitnessUp.MetacicConfluenceAuditWitnessUp}
+\leanchecked{BEDC.Derived.MetacicConfluenceAuditWitnessUp.MetacicConfluenceAuditWitnessTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[MetaCIC confluence audit witness conditional boundary]
+\label{thm:metacic-confluence-audit-witness-conditional-boundary}
+Every accepted $\MetacicConfluenceAuditWitnessUp$ packet reads the confluence route in the order
+$$
+P \longrightarrow S \longrightarrow D \longrightarrow C.
+$$
+The parallel-diamond handoff $D$ is conditional on the substitution-compatibility boundary $S$, and the closed-star confluence handoff $C$ is conditional on the displayed diamond handoff $D$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-witness-carrier}. The only route ledger is $R$, and its route endpoints are the displayed rows $P,S,D,C$.
+
+The packet therefore has no route from $P$ directly to $D$ and no route from $P$ directly to $C$. A consumer must first read the substitution-compatibility boundary $S$, then the conditional diamond row $D$, and only then the closed-star handoff $C$.
+
+The obstruction row $O$ records exactly the missing shortcuts. Thus the conditional order is part of the finite witness boundary rather than an external convention.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit witness non-escape]
+\label{thm:metacic-confluence-audit-witness-nonescape}
+An accepted $\MetacicConfluenceAuditWitnessUp$ packet exposes only the rows
+$$
+P,S,D,C,O,H,R,L,N.
+$$
+It exports no full closed Church--Rosser theorem, no proof of substitution compatibility, and no unconditional confluence theorem for arbitrary closed terms.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. Its coordinates are exactly $P,S,D,C,O,H,R,L,N$, so every public read must be a projection from one of these rows or a route recorded by $R$.
+
+By \autoref{thm:metacic-confluence-audit-witness-conditional-boundary}, the positive confluence read remains conditional at $S$ and $D$. The row $O$ is stored in the same packet and names the missing endpoints rather than discharging them.
+
+Since no coordinate contains a host evaluator, a substitution lemma, a quotient equality, or an arbitrary closed-term confluence theorem, the packet has no source from which to export such data.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit witness NameCert obligations]
+\label{thm:metacic-confluence-audit-witness-namecert-obligations}
+The local $\NameCert_{\MetacicConfluenceAuditWitnessUp}$ surface consists of carrier admission for $W=(P,S,D,C,O,H,R,L,N)$, route visibility for $P,S,D,C$, obstruction-boundary visibility for $O$, componentwise $\hsame$ transport through $H$, finite $\Cont$ replay through $R$, $\Pkg$ provenance through $L$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Read the packet as a finite carrier. Carrier admission names all displayed rows, and the local name $N$ records that the same packet supplies the witness surface.
+
+The positive obligations are route visibility for $P,S,D,C$ and transport through $H,R$. The boundary obligation is the visibility of $O$, which keeps the missing full confluence claims in the packet rather than outside it.
+
+Finally, $L$ supplies provenance for the audit map and the sibling lattice anchors. The NameCert obligations are exhausted by these displayed coordinates because the carrier has no additional field.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit witness sibling lattice]
+\label{thm:metacic-confluence-audit-witness-sibling-lattice}
+The $\MetacicConfluenceAuditWitnessUp$ packet sits between the confluence audit map of \autoref{ch:metacic-confluence-audit-map}, the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, and the axis-carry confluence packet of \autoref{ch:concrete-instances-axis-carry-confluence-namecert}. Agreement on $H,R,L,N$ preserves the common NameCert transport and route surface, while the rows $S,D,C,O$ keep the MetaCIC confluence boundary separate from subject reduction and from axis-carry normalization.
+\end{theorem}
+\begin{proof}
+The provenance row $L$ cites the three anchors, so the packet is read as a finite witness in the same concrete-instance lattice.
+
+The shared rows $H,R,L,N$ provide componentwise transport, continuation replay, provenance, and local naming. These are the only common operations exported to sibling chapters.
+
+The boundary rows remain specific to this packet. The row $S$ names substitution compatibility, $D$ names the conditional parallel diamond, $C$ names the closed-star handoff, and $O$ blocks the missing full confluence claims. Hence the sibling lattice preserves comparison without collapsing the three chapter surfaces into one theorem.
+\end{proof}
+
+\closureat{MetacicConfluenceAuditWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetacicConfluenceAuditWitnessUp}
+  \constructivestory{A $\MetacicConfluenceAuditWitnessUp$ packet is generated from a parallel-step route, substitution-compatibility boundary, conditional parallel-diamond handoff, closed-star confluence handoff, obstruction boundary, componentwise $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-confluence-audit-witness-carrier}, \autoref{thm:metacic-confluence-audit-witness-conditional-boundary}, \autoref{thm:metacic-confluence-audit-witness-nonescape}, \autoref{thm:metacic-confluence-audit-witness-namecert-obligations}, and \autoref{thm:metacic-confluence-audit-witness-sibling-lattice} bind the finite audit-witness packet for the conditional MetaCIC confluence boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close full closed Church--Rosser, substitution compatibility, or unconditional confluence for arbitrary closed terms.}
+  \upgradepath{Obligation closure requires checked carrier admission, conditional route exactness through $S,D,C$, non-escape for $O$, and sibling-lattice provenance through $L$.}
+\end{closurestatus}

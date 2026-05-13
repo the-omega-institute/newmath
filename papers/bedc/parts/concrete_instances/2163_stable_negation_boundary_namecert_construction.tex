@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\StableNegationBoundaryUp$}
+\label{ch:concrete-instances-stable-negation-boundary-namecert}
+\origin{ai}
+
+The $\StableNegationBoundaryUp$ surface turns the reasoning-by-contradiction boundary of \autoref{ch:visions-reasoning-by-contradiction-boundary} into a finite naming packet. It records the certificate row being inspected, the permitted refutation route, the local stability data for decidable refutations, and the ledger that blocks certificate-wide truth branching. The surface is a NameCert boundary for stable negation; it is not a proof of excluded middle over naming certificates.
+
+\begin{definition}[StableNegationBoundary carrier]
+\label{def:stable-negation-boundary-carrier}
+A $\StableNegationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,R,D,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the proposition row being tested inside a fixed local certificate surface;
+\item $R$ is the permitted refutation route from an assumed witness of $A$ to $\bot$, read only through $\Cont$, $\hsame$, $\msame$, and the local certificate rows;
+\item $D$ is the optional decidability row for $A$, present exactly when the packet carries a constructive decision for the same proposition row;
+\item $T$ is the stable-negation classifier row, recording that $\neg A$ may be transported and that $\neg\neg A$ may be consumed only through $D$;
+\item $L$ is the truth-branch exclusion ledger, blocking excluded-middle branching over the carrier of all naming certificates and blocking witness extraction from a contradiction without displayed data;
+\item $H$ stores componentwise $\hsame$ transports for $A,R,D,T,L$ and the local naming rows;
+\item $C$ stores the $\Cont$ routes for replaying the refutation, consuming the optional decision row, transporting the stable-negation classifier, and reading the exclusion ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\msame$, $\hsame$, local proof rows, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\StableNegationBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no row for host truth, no branch over the carrier of all naming certificates, and no witness selector for an existential obtained by contradiction.
+\end{definition}
+\leanchecked{BEDC.Derived.StableNegationBoundaryUp.StableNegationBoundaryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[StableNegationBoundary NameCert obligations]
+\label{thm:stable-negation-boundary-namecert-obligations}
+The local $\NameCert_{\StableNegationBoundaryUp}$ surface for \autoref{def:stable-negation-boundary-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $S=(A,R,D,T,L,H,C,P,N)$;
+\item classifier soundness for the stable-negation row $T$, comparing only the displayed proposition, refutation, optional decision, exclusion ledger, transport, continuation, package, and naming rows;
+\item refutation stability, saying that a proof of $\neg A$ transported through $H$ and replayed through $C$ remains the same local certificate-level negation;
+\item decidable double-negation use, saying that a $\neg\neg A$ consumer must pass through the displayed decision row $D$;
+\item truth-branch non-escape, saying that $L$ blocks certificate-wide excluded middle, witness extraction by contradiction, and host-truth reads.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The proposition row, refutation route, optional decision row, classifier row, exclusion ledger, transports, continuations, package row, and local name are all visible coordinates.
+
+Classifier soundness and refutation stability are componentwise. The route $R$ is replayed only after $A$ and the local certificate rows have been transported through $H$, so a transported proof of $\neg A$ remains inside the same finite surface.
+
+For double negation, the row $D$ is the only coordinate that supplies a constructive decision for $A$. A consumer of $\neg\neg A$ therefore either reads $D$ and stays inside the packet or is blocked by the exclusion ledger $L$.
+
+Truth-branch non-escape is the absence of any carrier-wide decision coordinate. The ledger $L$ records the forbidden routes named in \autoref{def:reasoning-forbidden-pattern}, and the remaining rows provide no host truth predicate or witness selector.
+\end{proof}
+
+\begin{theorem}[StableNegationBoundary decidable refutation stability]
+\label{thm:stable-negation-boundary-decidable-refutation-stability}
+For an accepted $\StableNegationBoundaryUp$ carrier $S=(A,R,D,T,L,H,C,P,N)$, every permitted refutation of $A$ remains stable under the displayed $\hsame$ transports and $\Cont$ replay routes. If a consumer also requests $\neg\neg A \Rightarrow A$, the request is accepted only through the same displayed decision row $D$.
+\end{theorem}
+\begin{proof}
+Read the refutation route $R$ from the carrier and transport the proposition row $A$ through $H$. Replaying $R$ through the displayed continuation routes in $C$ again sends an assumed witness of the transported proposition to $\bot$.
+
+Now inspect the double-negation request. The NameCert obligations name $D$ as the sole route that turns $\neg\neg A$ into $A$, so the request cannot be served by an ambient law of excluded middle.
+
+The packet inventory then gives stability. Every accepted route passes through $A,R,D,T,L,H,C,P,N$, and no row supplies a certificate-wide truth branch.
+\end{proof}
+
+\begin{theorem}[StableNegationBoundary certificate-truth non-escape]
+\label{thm:stable-negation-boundary-certificate-truth-non-escape}
+No accepted $\StableNegationBoundaryUp$ carrier exports a decision family for predicates over the carrier of all naming certificates. Its negative information is exhausted by the local refutation route $R$, the optional decision row $D$, the classifier row $T$, and the exclusion ledger $L$.
+\end{theorem}
+\begin{proof}
+Assume a consumer reads an accepted carrier. The only available proposition-level rows are $A,R,D,T,L$ together with their transports and continuation routes.
+
+A decision family over all naming certificates would require a coordinate that ranges over certificate-indexed predicates. The carrier has no such coordinate; it contains only a fixed local proposition row and its local refutation or decision data.
+
+The ledger $L$ names the blocked routes. Since every export is routed through $C$ and $P$, a consumer cannot replace the local negative information with host truth, certificate-wide excluded middle, or witness extraction by contradiction.
+\end{proof}
+
+\begin{theorem}[StableNegationBoundary ledger exhaustion]
+\label{thm:stable-negation-boundary-ledger-exhaustion}
+Every accepted stable-negation read is exhausted by the rows $A,R,D,T,L,H,C,P,N$ of \autoref{def:stable-negation-boundary-carrier}. No downstream consumer may add an external truth predicate, a global excluded-middle branch, or an existential witness selected only from a contradiction.
+\end{theorem}
+\begin{proof}
+Start with an accepted stable-negation read. Carrier admission sends it to the finite packet $S=(A,R,D,T,L,H,C,P,N)$.
+
+The refutation and decidability rows account for the permitted routes: $R$ supplies $\neg A$, and $D$ supplies the only accepted route from $\neg\neg A$ to $A$. The classifier row $T$ and the transports $H,C$ preserve these routes componentwise.
+
+It remains to account for forbidden exits. The ledger $L$ blocks the certificate-wide truth branch and witness-selection routes, while the package and naming rows only record provenance. Thus the displayed packet exhausts the read.
+\end{proof}
+
+\closureat{StableNegationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\StableNegationBoundaryUp}
+  \constructivestory{A $\StableNegationBoundaryUp$ packet is generated from a local proposition row, a permitted refutation route, an optional decision row, a stable-negation classifier, a truth-branch exclusion ledger, displayed transports, continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stable-negation-boundary-carrier}, \autoref{thm:stable-negation-boundary-namecert-obligations}, \autoref{thm:stable-negation-boundary-decidable-refutation-stability}, \autoref{thm:stable-negation-boundary-certificate-truth-non-escape}, and \autoref{thm:stable-negation-boundary-ledger-exhaustion} record the finite carrier, classifier, ledger, and non-escape obligations for stable negation.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.StableNegationBoundaryUp.StableNegationBoundaryCarrier\_namecert\_obligations}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close excluded middle over naming certificates, witness extraction by contradiction, host truth, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked obligations for classifier soundness, refutation stability, decidable double-negation use, certificate-truth non-escape, and ledger exhaustion.}
+\end{closurestatus}

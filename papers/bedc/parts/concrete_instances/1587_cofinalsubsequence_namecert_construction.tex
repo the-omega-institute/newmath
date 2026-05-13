@@ -1,0 +1,151 @@
+\chapter{A Concrete Naming Certificate for $\CofinalSubsequenceUp$}
+\label{ch:concrete-instances-cofinalsubsequence-namecert}
+\origin{human}
+
+The $\CofinalSubsequenceUp$ interface packages the discovery-channel selector packet used when regular Cauchy data are consumed through a cofinal subsequence. Following Bishop and Bridges, \emph{Constructive Analysis}, 1985, the selector is a displayed finite row: it records only inspected precision requests, their chosen indices, monotonicity checks, cofinal witnesses for the inspected thresholds, and the regular rational observations carried through those rows. It does not choose a host-level infinite subsequence, identify quotient streams, or appeal to ambient completeness.
+
+Its dependency list is $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+The selector packet consumes the finite-window route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}, so its visible rows are tied to the real L10 siblings rather than to a kernel-only island.
+
+It also consumes the regular-Cauchy subsequence carrier boundary of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert} and restricts it to the finite selector ledger $(S,\phi,W,D,R,E,H,C,P,N)$. Thus every cofinal read is a displayed $\NameCert$ row rather than a host subsequence function.
+
+\begin{definition}[CofinalSubsequence carrier]
+\label{def:cofinalsubsequence-carrier}
+A $\CofinalSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,\phi,W,D,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the accepted $\RegularCauchyNameUp$ or $\RegSeqRatUp$ source row whose precision windows may be inspected;
+\item $\phi$ is a unary selector row assigning each displayed precision request to a selected source index, together with monotonicity and cofinality witnesses for the inspected threshold rows;
+\item $W$ records the selected finite $\StreamNameUp$ windows before and after applying $\phi$;
+\item $D$ records the $\DyadicRatCoreUp$ endpoint, radius, comparison, and precision observations attached to the selected windows;
+\item $R$ is the $\RegSeqRatUp$ handoff row that reads the selected rational observations as regular rational data;
+\item $E$ is the $\RealUp$ seal row exposed after the selected windows, dyadic observations, and regular rational handoff have been displayed;
+\item $H$ records the displayed $\hsame$ transports for source, selector, window, observation, regularity, and seal rows;
+\item $C$ records the $\Cont$ routes through the same rows;
+\item $P$ is the $\Pkg$ provenance over the visible dependencies;
+\item $N$ is the local $\NameCert_{\CofinalSubsequenceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through these rows and their transported finite read paths. In particular, $\phi$ is a unary finite selector ledger, not a host subsequence function.
+\end{definition}
+
+\begin{theorem}[CofinalSubsequence NameCert obligations]
+\label{thm:cofinalsubsequence-namecert-obligations}
+Every accepted $\CofinalSubsequenceUp$ carrier of \autoref{def:cofinalsubsequence-carrier} carries the following five NameCert obligation rows:
+\begin{enumerate}
+\item carrier habitation: the packet stores the source row, unary selector row, selected finite windows, dyadic observations, regular rational handoff, real seal, transport rows, continuation rows, package provenance, and local naming row;
+\item selector discipline: the row $\phi$ is unary, monotone on displayed precision requests, and cofinal on every inspected threshold row;
+\item finite-window exactness: each selected $\StreamNameUp$ window is read from $S$ only along $\phi$, and its dyadic observation row $D$ is transported with that window;
+\item regular rational handoff: the $\RegSeqRatUp$ row $R$ consumes exactly the selected window and dyadic observation rows before any $\RealUp$ seal read is exposed;
+\item non-escape: the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows exhaust the provenance of the packet, so no quotient stream, host sequence equality, choice-selected subsequence, or completeness datum is exported.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.CofinalSubsequenceUp.CofinalSubsequenceCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier habitation is obtained by projecting the coordinates of $Q$. The finite history row names the source, selector, selected windows, dyadic observations, regular rational handoff, seal, and provenance rows in one packet.
+
+Selector discipline is read from the $\phi$ coordinate. Its domain is the displayed unary precision ledger, and its stored comparison rows certify monotonicity and cofinality only for inspected thresholds.
+
+Finite-window exactness follows by replaying the continuation route from $S$ through $\phi$ to $W$. The dyadic row $D$ is attached to that selected window, so the endpoint, radius, comparison, and precision observations move with the same finite route.
+
+The regular rational handoff is the projection to $R$. Since $R$ is stored after $W$ and $D$, every regular rational read is reached through the selected window and its dyadic observation ledger before the real seal row $E$ is available.
+
+Finally inspect the classifier. It contains no coordinate for quotient-stream equality, host sequence equality, an externally chosen infinite subsequence, or ambient completeness, and the rows $H$, $C$, $P$, and $N$ account for all visible transport and provenance.
+\end{proof}
+
+\begin{theorem}[CofinalSubsequence RegSeqRat consumer boundary]
+\label{thm:cofinalsubsequence-regseqrat-consumer-boundary}
+Let $Q=(S,\phi,W,D,R,E,H,C,P,N)$ be an accepted $\CofinalSubsequenceUp$ carrier. Every $\RegSeqRatUp$ or $\RealCauchyCompletionUp$ consumer read from $Q$ factors through the displayed cofinal selector $\phi$, the selected finite $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ observation rows $D$, the $\RegSeqRatUp$ handoff $R$, the $\RealUp$ seal $E$, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H$, $C$, $P$, and $N$. Thus the consumer boundary is a finite cofinal selector certificate over regular Cauchy data, not a quotient stream, host sequence equality, choice-selected subsequence, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CofinalSubsequenceUp.CofinalSubsequenceCarrier\_regseqrat\_consumer\_boundary}
+\begin{proof}
+Start with a consumer read from the accepted carrier. The source row $S$ can be inspected only through the unary selector coordinate $\phi$, because no other coordinate names a selected index.
+
+Apply the selector and finite-window clauses of \autoref{thm:cofinalsubsequence-namecert-obligations}. They force the selected $\StreamNameUp$ window $W$ and its $\DyadicRatCoreUp$ observation row $D$ to travel along the same monotone cofinal route.
+
+Next use the regular rational handoff clause. A $\RegSeqRatUp$ consumer reaches $R$ only after the selected window and dyadic observation rows have been displayed, and a $\RealCauchyCompletionUp$ consumer reaches the real-facing seal only through the same $R$ and $E$ rows.
+
+The remaining coordinates are provenance rows. The displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ certificate, and local $\NameCert$ row exhaust the consumer-visible ledger, so the carrier provides no further dependency outside the listed finite selector packet.
+\end{proof}
+
+\begin{theorem}[CofinalSubsequence selector transport exactness]
+\label{thm:cofinalsubsequence-selector-transport-exactness}
+Let $Q=(S,\phi,W,D,R,E,H,C,P,N)$ and $Q'=(S',\phi',W',D',R',E',H',C',P',N')$ be accepted $\CofinalSubsequenceUp$ carriers. If the source row, unary selector row, selected finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ handoff, $\RealUp$ seal, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows are transported componentwise by the displayed $\hsame$ coordinates, then $Q$ and $Q'$ determine the same accepted cofinal selector packet for every classifier-facing consumer read.
+\end{theorem}
+\leanchecked{BEDC.Derived.CofinalSubsequenceUp.CofinalSubsequenceCarrier\_selector\_transport\_exactness}
+\begin{proof}
+Project the accepted carriers to the rows listed in \autoref{def:cofinalsubsequence-carrier}. The classifier has no coordinate outside the source, selector, window, observation, handoff, seal, transport, continuation, package, and naming rows.
+
+Use the selector discipline and finite-window clauses of \autoref{thm:cofinalsubsequence-namecert-obligations}. They move the source row through the unary selector before any selected window is read, and they attach the dyadic observation row to that same selected window.
+
+Transport the handoff and seal rows along the displayed $\hsame$ coordinates. The $\Cont$ rows keep the consumer route ordered from source to selector, from selector to window, from window to dyadic observation, and then to the $\RegSeqRatUp$ handoff and $\RealUp$ seal.
+
+Finally apply the consumer boundary of \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary}. Since every public read is exhausted by those transported rows, the accepted cofinal selector packet is unchanged at the classifier-facing surface.
+\end{proof}
+
+\begin{theorem}[CofinalSubsequence window handoff exactness]
+\label{thm:cofinalsubsequence-window-handoff-exactness}
+For every accepted $\CofinalSubsequenceUp$ carrier $Q=(S,\phi,W,D,R,E,H,C,P,N)$ and every displayed precision request in its finite ledger, the selected $\StreamNameUp$ window is reached through the unary cofinal selector $\phi$, then its $\DyadicRatCoreUp$ observation row is read, and only then the $\RegSeqRatUp$ handoff $R$ is available to a downstream consumer. No $\RealUp$ seal row is read before this selected-window and regular-rational handoff route has been displayed.
+\end{theorem}
+\leanchecked{BEDC.Derived.CofinalSubsequenceUp.CofinalSubsequenceCarrier\_window\_handoff\_exactness}
+\begin{proof}
+Start from a displayed precision request in the carrier. The selector discipline row of \autoref{thm:cofinalsubsequence-namecert-obligations} forces the request to pass through the unary selector $\phi$ and its inspected monotonicity and cofinality witnesses.
+
+Apply the finite-window exactness row. It reads the selected $\StreamNameUp$ window from $S$ along $\phi$ and carries the $\DyadicRatCoreUp$ endpoint, radius, comparison, and precision observations with that selected window.
+
+Next use the regular rational handoff row of the same theorem. The $\RegSeqRatUp$ coordinate $R$ consumes exactly the selected window and dyadic observation rows, so the handoff cannot be reached through an unselected stream window.
+
+The consumer boundary of \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary} then places the $\RealUp$ seal after $R$ and $E$. Thus every seal-facing read follows the selected-window, dyadic-observation, and regular-rational handoff route first.
+\end{proof}
+
+\begin{theorem}[CofinalSubsequence public export package]
+\label{thm:cofinalsubsequence-public-export-package}
+The carrier of \autoref{def:cofinalsubsequence-carrier}, the NameCert obligations of \autoref{thm:cofinalsubsequence-namecert-obligations}, the $\RegSeqRatUp$ consumer boundary of \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary}, the selector transport exactness of \autoref{thm:cofinalsubsequence-selector-transport-exactness}, and the window handoff exactness of \autoref{thm:cofinalsubsequence-window-handoff-exactness} export one public finite selector surface through
+$$
+S,\phi,W,D,R,E,H,C,P,N.
+$$
+Every downstream $\RegSeqRatUp$ or $\RealCauchyCompletionUp$ consumer receives the selected finite windows, dyadic observation rows, regular rational handoff, real seal, displayed transports, continuation routes, package provenance, and local naming row through that surface. It receives no quotient stream, host sequence equality, chosen infinite subsequence, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The public coordinates are exactly $S,\phi,W,D,R,E,H,C,P,N$, and the NameCert obligations specify how each of these rows is admitted and routed.
+
+The consumer boundary and selector transport exactness then identify the only route available to downstream readers. A consumer must pass from the source row through the unary selector, selected windows, dyadic observations, regular rational handoff, and real seal, with the visible transport and continuation rows preserving that order.
+
+Finally apply the window handoff exactness theorem. It places every $\RegSeqRatUp$ handoff after the selected window and dyadic observation rows and places the real-facing seal after that handoff. Since the carrier has no coordinate for the excluded objects, the public export is precisely the finite selector surface listed above.
+\end{proof}
+\leanchecked{BEDC.Derived.CofinalSubsequenceUp.CofinalSubsequenceCarrier\_public\_export\_package}
+
+\begin{theorem}[CofinalSubsequence finite-selector bridge schema]
+\label{thm:cofinalsubsequence-bridge-selector-schema}
+The public finite selector surface
+$$
+S,\phi,W,D,R,E,H,C,P,N
+$$
+bridges the concrete $\CofinalSubsequenceUp$ carrier of \autoref{def:cofinalsubsequence-carrier} to the downstream $\RegSeqRatUp$ and $\RealCauchyCompletionUp$ consumer schema. Every read is routed through the unary selector, selected $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with the local $\NameCert$ obligations. They admit the carrier rows and bind the unary selector, selected finite windows, dyadic observations, regular rational handoff, real seal, transports, routes, provenance, and local naming row as one finite packet.
+
+Apply the $\RegSeqRatUp$ consumer boundary, selector transport exactness, and window handoff exactness. Together these force every downstream read to pass through the unary selector and selected windows before the dyadic observation and regular rational handoff are available.
+
+Finally apply the public export package. It identifies the finite selector surface $S,\phi,W,D,R,E,H,C,P,N$ as the only public surface for $\RegSeqRatUp$ and $\RealCauchyCompletionUp$ consumers. Since the carrier has no coordinate for a quotient stream, host sequence equality, selected infinite subsequence, or ambient completeness object, the bridge exports none of them.
+\end{proof}
+
+\closureat{CofinalSubsequenceUp}{seedStr}
+\closureat{CofinalSubsequenceUp}{obligationStr}
+\closureat{CofinalSubsequenceUp}{scopedStr}
+\closureat{CofinalSubsequenceUp}{publicStr}
+\closureat{CofinalSubsequenceUp}{bridgedStr}
+
+\begin{closurestatus}{\CofinalSubsequenceUp}
+  \constructivestory{A $\CofinalSubsequenceUp$ packet is generated from regular Cauchy or regular rational source data, a displayed unary monotone cofinal selector row, selected finite stream windows, dyadic observation rows, a regular rational handoff, a real seal, and visible provenance.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:cofinalsubsequence-carrier}, \autoref{thm:cofinalsubsequence-namecert-obligations}, \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary}, \autoref{thm:cofinalsubsequence-selector-transport-exactness}, \autoref{thm:cofinalsubsequence-window-handoff-exactness}, \autoref{thm:cofinalsubsequence-public-export-package}, and \autoref{thm:cofinalsubsequence-bridge-selector-schema} bind the bridged finite selector surface through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, host sequence equality, selected infinite subsequences, uniqueness of completion limits, ambient completeness, or bridge checking.}
+  \upgradepath{The next maturity obligation is downstream examples that consume the finite selector surface through the bridge schema.}
+\end{closurestatus}

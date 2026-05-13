@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ClosedTermSubstitutionUp$}
+\label{ch:concrete-instances-closedtermsubstitution-namecert}
+\origin{ai}
+
+The $\ClosedTermSubstitutionUp$ surface packages the MetaCIC boundary law for substitution as finite NameCert data. It records the term row, the closedness boundary, the substituting value, the shift and substitution witnesses, componentwise transport, continuation reads, provenance, and the local naming row that prevents a substitution payload from becoming an unregistered free variable.
+
+\begin{definition}[Closed-term substitution carrier]
+\label{def:closed-term-substitution-carrier}
+A $\ClosedTermSubstitutionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,d,V,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC term row, carrying a closed generator tree for the inspected term;
+\item $d$ is the boundary row, recording the local de Bruijn depth at which closedness is certified;
+\item $V$ is the substituting value row, displayed as payload data but not consumed by the closed term at boundary $d$;
+\item $S$ is the substitution and shift witness row, containing the boundary equations for $\mathsf{substitute}(d,V,T)$ and $\mathsf{shift}(d,1,T)$ on the classified slice;
+\item $H$ records componentwise $\hsame$ transports for $T,d,V,S$, package provenance, and the local naming row;
+\item $C$ records the $\Cont$ read routes that expose the term, boundary, value, witness row, and returned term equality;
+\item $P$ is the $\Pkg$ provenance over the MetaCIC term generator, $\mathsf{ClosedAt}$ classifier, substitution and shift generators, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedTermSubstitutionUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It contains no open-term subject-reduction theorem, no semantic evaluator correctness proof, no host CIC truth predicate, no future binder budget, and no unregistered free-variable source.
+\end{definition}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionUp.ClosedTermSubstitutionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Closed-term substitution boundary inertness]
+\label{thm:closed-term-substitution-boundary-inertness}
+For an accepted $\ClosedTermSubstitutionUp$ carrier $Q=(T,d,V,S,H,C,P,N)$, every substitution read at the displayed boundary is inert on the classified term row. The witness row $S$ records the boundary equation
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(d,T)
+  &\Rightarrow
+  \mathsf{substitute}(d,V,T)=T
+\end{aligned}
+$$
+and the companion shift equation at the same boundary. The value row $V$ remains displayed payload data; it is not projected as a consumed variable of $T$.
+\end{theorem}
+\begin{proof}
+Project the term, boundary, and witness rows of the carrier. The classifier row says that every free de Bruijn index visible in $T$ lies below $d$.
+
+The substitution generator can change a variable only at the displayed boundary, or adjust a variable above that boundary. Both branches require an index at or beyond $d$, and the closedness witness excludes such an index inside $T$.
+
+The compound cases are transported componentwise through $H$ and replayed by the read routes in $C$. Thus the only public output of the substitution read is the equality stored in $S$, while $V$ remains a displayed but unconsumed payload row.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution NameCert obligations]
+\label{thm:closed-term-substitution-namecert-obligations}
+The local $\NameCert_{\ClosedTermSubstitutionUp}$ surface consists of carrier admission for $Q=(T,d,V,S,H,C,P,N)$, term-row exposure, boundary-row exposure, value-row display without consumption, substitution and shift witness accountability, componentwise $\hsame$ stability, displayed $\Cont$ read locality, $\Pkg$ provenance, and non-escape for open-term subject reduction, semantic evaluator correctness, host truth, future binder budgets, and unregistered free variables.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:closed-term-substitution-carrier}. The packet exposes exactly the MetaCIC term row, boundary row, value row, witness row, transport rows, continuation routes, provenance, and local naming row.
+
+Boundary accountability follows from \autoref{thm:closed-term-substitution-boundary-inertness}. The substitution and shift witnesses are read from $S$, and the continuation routes in $C$ expose those witnesses without adding a further generator.
+
+Finally inspect the excluded objects. None appears as a carrier coordinate, and the transport row $H$ preserves only the displayed coordinates. Therefore a consumer of $\ClosedTermSubstitutionUp$ cannot extract an open-term theorem, evaluator semantics, host truth predicate, future binder budget, or unregistered free variable from this packet.
+\end{proof}
+
+\closureat{ClosedTermSubstitutionUp}{seedStr}
+
+\begin{closurestatus}{\ClosedTermSubstitutionUp}
+  \constructivestory{A $\ClosedTermSubstitutionUp$ packet is generated from a MetaCIC term row, a closedness boundary row, a displayed substitution value, substitution and shift witness rows, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-term-substitution-carrier}, \autoref{thm:closed-term-substitution-boundary-inertness}, and \autoref{thm:closed-term-substitution-namecert-obligations} bind the finite carrier, boundary-inert substitution read, and local NameCert obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close open-term subject reduction, semantic evaluator correctness, host CIC truth, future binder allocation, or a complete self-compilation theorem.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for boundary inertness, displayed read locality, and NameCert non-escape.}
+\end{closurestatus}
