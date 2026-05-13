@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\InterHistLocalityLedgerUp$}
+\label{ch:concrete-instances-inter-hist-locality-ledger-namecert}
+\origin{ai}
+
+The $\InterHistLocalityLedgerUp$ packet realizes the ledger-local relation principle of \autoref{ch:visions-inter-hist-locality} as a finite two-history NameCert carrier. It sits between the two-observer coordination surface of \autoref{ch:concrete-instances-observer-locality-cell-namecert} and the invariant readback surface of \autoref{ch:concrete-instances-interhistinvariant-namecert}: the packet records two source histories, symmetric transport, displayed routes, locality cells, invariant rows, provenance, and local naming without exporting a global observer frame.
+
+\begin{definition}[InterHistLocalityLedger carrier]
+\label{def:inter-hist-locality-ledger-carrier}
+An $\InterHistLocalityLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,B,H,C,O,I,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ and $B$ are the two source $\BHist$ rows whose local relation is being certified;
+\item $H$ stores symmetric componentwise $\hsame$ transport between the two source-history presentations and their transported rows;
+\item $C$ stores the displayed $\Cont$ routes by which the inspected finite data are read from $A$ and $B$ and replayed across the ledger;
+\item $O$ is the $\ObserverLocalityCellUp$ row that supplies the two-observer locality cell consumed by the ledger;
+\item $I$ is the $\InterHistInvariantUp$ row that records the observer-symmetric inter-Hist invariant readback;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\ObserverLocalityCellUp$, $\InterHistInvariantUp$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\InterHistLocalityLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a global frame, shared clock, selected synchronization history, host-side equality of histories, quotient of observer records, or ambient spacetime.
+\end{definition}
+
+\begin{theorem}[InterHistLocalityLedger NameCert obligations]
+\label{thm:inter-hist-locality-ledger-namecert-obligations}
+For the carrier of \autoref{def:inter-hist-locality-ledger-carrier}, the local $\NameCert_{\InterHistLocalityLedgerUp}$ surface consists of carrier admission for $L=(A,B,H,C,O,I,P,N)$, symmetric $\hsame$ transport for the two source histories, displayed $\Cont$ route replay, observer-locality-cell consumption, inter-Hist invariant readback, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $L$. The rows $A$ and $B$ give the two source histories, while $H$ and $C$ give the transport and continuation data used to compare their finite observations.
+
+The rows $O$ and $I$ supply the two local consumers. The observer-locality-cell row records the finite two-observer surface, and the invariant row records the observer-symmetric readback over the same pair.
+
+The provenance and naming clauses are $P$ and $N$. Since the carrier has no coordinate for a global frame, shared clock, synchronization history, quotient of observers, host-side history equality, or ambient spacetime, these displayed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[InterHistLocalityLedger symmetric route]
+\label{thm:inter-hist-locality-ledger-symmetric-route}
+Let $L=(A,B,H,C,O,I,P,N)$ be an accepted $\InterHistLocalityLedgerUp$ carrier. Swapping the source-history rows $A$ and $B$ yields the same public locality ledger after replaying the symmetric $\hsame$ transport in $H$ and the displayed $\Cont$ routes in $C$; the observer-locality cell and inter-Hist invariant rows are read through the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only source-history coordinates are $A$ and $B$, and the only transport coordinate relating their presentations is $H$.
+
+Replay the continuation routes stored in $C$. These routes attach the inspected finite data from both source histories to the same locality-cell row $O$ and invariant row $I$.
+
+The NameCert obligations of \autoref{thm:inter-hist-locality-ledger-namecert-obligations} then identify the swapped read as a route through the same $H,C,O,I,P,N$ surface. No global synchronization coordinate is available to distinguish one source history as the privileged anchor.
+\end{proof}
+
+\begin{theorem}[InterHistLocalityLedger non-escape]
+\label{thm:inter-hist-locality-ledger-nonescape}
+Every public consumer of an accepted $\InterHistLocalityLedgerUp$ carrier may inspect only the source-history rows $A,B$, the symmetric $\hsame$ transport row $H$, the displayed $\Cont$ route row $C$, the $\ObserverLocalityCellUp$ row $O$, the $\InterHistInvariantUp$ row $I$, $\Pkg$ provenance $P$, and local naming row $N$. It receives no global frame, shared clock, selected synchronization history, host-side history equality, quotient of observer records, metric spacetime, or all-observer synchronization map.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:inter-hist-locality-ledger-carrier}. The visible rows are exactly $A,B,H,C,O,I,P,N$.
+
+The observer-locality-cell and invariant rows are downstream reads of that finite packet, not extra ambient structures. They preserve the same two-history boundary and do not add a frame, clock, quotient, or host equality coordinate.
+
+Therefore every consumer is exhausted by the displayed rows. Any request for global synchronization, ambient spacetime, host-side equality of histories, or an all-observer map would require a carrier coordinate that is absent from $L$.
+\end{proof}
+
+\begin{theorem}[InterHistLocalityLedger observer-locality handoff]
+\label{thm:inter-hist-locality-ledger-observer-locality-handoff}
+An accepted $\InterHistLocalityLedgerUp$ carrier hands the two source histories to an $\ObserverLocalityCellUp$ consumer and an $\InterHistInvariantUp$ consumer through one finite route packet
+$$
+A,B,H,C,O,I,P,N.
+$$
+The handoff preserves the symmetric locality relation of the ledger and does not add a cross-Hist causal predicate, maximum-rate bound, global frame, or metric geometry.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The rows $A$ and $B$ are the only source histories, $O$ is the observer-locality-cell row, and $I$ is the inter-Hist invariant row.
+
+Use the symmetric route theorem to transport the two source histories through $H$ and replay their inspected finite data through $C$. This makes the locality-cell and invariant consumers read the same two-history ledger.
+
+Apply non-escape for the boundary. Since $L$ has no coordinate for cross-Hist causal predicates, maximum-rate bounds, global frames, metric geometry, or host-side equality, the observer-locality handoff is exactly the finite packet $A,B,H,C,O,I,P,N$.
+\end{proof}
