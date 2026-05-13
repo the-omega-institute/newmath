@@ -1,0 +1,43 @@
+\begin{theorem}[CauchyProduct budget-selector distributive lock]
+\label{thm:cauchy-product-budget-selector-distributive-lock}
+Let $Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N)$ be an accepted $\CauchyProductUp$ packet. Suppose the two factor-window reads $W_X$ and $W_Y$ are consumed through the same accepted $\FiniteObservationBudgetSelectorUp$ finite observation-budget selector from \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}. Then the product read has a single displayed budget route
+$$
+W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the selector rows
+$$
+B,S,W,D,R,E_B,H_B,C_B,P_B,N_B.
+$$
+The route is distributive only as a finite $\BHist$ product-route certificate: it distributes the same selector window over the two displayed factor windows and then reads the product through the existing $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. It does not expose host multiplication, quotient stream equality, selected limits, independent real carriers, trichotomy rows, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the two source windows. By \autoref{thm:cauchy-product-window-product-nonescape}, the only route from the source names to the product observation passes through $W_X,W_Y,M_X,M_Y,Q_X,Q_Y$ and the product ledger before $P$ is visible.
+
+Now read both factor windows through the common finite observation-budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}. The selector contributes one finite schedule, one finite window family, one dyadic ledger, one regular handoff, one seal row, and one set of transport, continuation, provenance, and local naming rows; it does not create separate selector routes for the two factors.
+
+Finally apply \autoref{thm:cauchy-product-budget-product-consumer-boundary}. The product consumer can inspect exactly the displayed product rows together with the displayed budget rows, so the two factor-window reads and the product read are locked to one finite route. The excluded analytic objects are absent from both accepted packets, hence they cannot enter the distributive product-route certificate.
+\end{proof}
+
+\begin{theorem}[CauchyProduct Real budget multiplication boundary]
+\label{thm:cauchy-product-real-budget-multiplication-boundary}
+A $\RealUp$ multiplication-facing seal for an accepted $\CauchyProductUp$ packet is reached only after the shared $\StreamNameUp$ factor windows, the $\DyadicRatCoreUp$ radius ledger, the $\RegSeqRatUp$ handoff, and the local $\CauchyProductUp$ $\NameCert$ rows have all been displayed. If the factor windows are read through the finite observation-budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, then the multiplication-facing route additionally passes through the selector budget rows before the $\RealUp$ seal is consumed. No seal-facing consumer receives a host multiplication primitive, a quotient-stream product, a selected real value, an independent real carrier, or an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First expose the CauchyProduct product route. The non-escape statement \autoref{thm:cauchy-product-window-product-nonescape} fixes the source-window route, and \autoref{thm:cauchy-product-budget-selector-distributive-lock} binds any shared selector read to the same finite product-route certificate.
+
+Next pass to the real-facing seal. By \autoref{thm:cauchy-product-real-seal-budget-gate}, every $\RealUp$ seal read consumed through a budget packet factors through the displayed budget rows before the seal is available.
+
+The boundary follows by joining that gate with \autoref{thm:cauchy-product-budget-product-consumer-boundary}. The consumer sees the shared $\StreamNameUp$ windows, the dyadic radius ledger, the regular-rational handoff, the selector rows, the displayed transports and continuations, the provenance rows, and the local $\NameCert$ rows. There is no remaining coordinate from which a host multiplication primitive or ambient completion principle could be read.
+\end{proof}
+
+\begin{theorem}[CauchyProduct RegSeqRat product seal coverage]
+\label{thm:cauchy-product-regseqrat-product-seal-coverage}
+Every $\RegSeqRatUp$-facing product consumer of an accepted $\CauchyProductUp$ packet whose factor windows are read through the finite observation-budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert} is exhausted by the rows displayed in \autoref{thm:cauchy-product-budget-selector-distributive-lock} and \autoref{thm:cauchy-product-real-budget-multiplication-boundary}. In particular, the consumer reads the same source windows, dyadic radius rows, product row, classifier handoff, selector rows, transports, continuations, provenance, and local naming rows before any product seal is exposed, and it receives no additional regular-sequence carrier, quotient stream, selected limit, host multiplication, trichotomy row, independent real carrier, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the RegSeqRat side of the product packet. The window product non-escape theorem \autoref{thm:cauchy-product-window-product-nonescape} and the budgeted product consumer boundary \autoref{thm:cauchy-product-budget-product-consumer-boundary} leave only the displayed product rows and budget rows available to a regular-rational consumer.
+
+Now attach the shared selector route. The distributive lock \autoref{thm:cauchy-product-budget-selector-distributive-lock} shows that both factor-window reads pass through one selector route rather than two unrelated budget routes.
+
+Finally use the real budget multiplication boundary of \autoref{thm:cauchy-product-real-budget-multiplication-boundary}. Any product seal read occurs after the same window, dyadic, classifier, selector, transport, continuation, provenance, and local naming rows. Thus the listed rows exhaust every $\RegSeqRatUp$-facing product consumer, and no unlisted analytic or host-level object remains available.
+\end{proof}
