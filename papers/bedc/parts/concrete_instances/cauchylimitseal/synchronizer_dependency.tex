@@ -1,1 +1,18 @@
-The CauchyLimitSeal seal row is consumed downstream by \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, where it is locked to the displayed budget and selector rows before a $\RealUp$-facing seal read. Thus a consumer that cites the seal through the synchronizer reads the same finite seal row together with the synchronizer's budget, selector, shared-tail, compatibility, transport, route, provenance, and local naming rows.
+\section{CauchyLimitSeal Synchronizer Dependency}
+\label{sec:cauchy-limit-seal-synchronizer-dependency}
+
+\begin{theorem}[CauchyLimitSeal StreamName synchronizer pullback]
+\label{thm:cauchy-limit-seal-streamname-synchronizer-pullback}
+Every $\CauchyLimitSealUp$ seal read consumed through \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert} first factors through the finite $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert}, the displayed $\RegularCauchyNameUp$ route of \autoref{ch:concrete-instances-regularcauchyname-namecert}, and the local $\CauchyLimitSealUp$ rows before the synchronizer budget, selector, shared-tail, compatibility, transport, route, provenance, and naming rows are read.
+
+The route has no quotient stream equality, selected host limit, ambient completeness row, or direct $\RealUp$ seal edge bypassing the finite window.
+\end{theorem}
+\begin{proof}
+Begin with the StreamName dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It places every sealed-limit read on the finite $\StreamNameUp$ window surface before the $\RealUp$ seal row is consumed.
+
+Next apply the $\StreamNameUp$ and $\RegularCauchyNameUp$ lattice theorem \autoref{thm:cauchy-limit-seal-streamname-regular-name-lattice}. It identifies the displayed regular Cauchy name route as the same finite scheduled window surface used by the seal consumer.
+
+Now read the synchronizer chapter \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}. Its consumer rows are the budget, selector, shared-tail, compatibility, transport, route, provenance, and naming rows, and each row is attached to the already displayed seal route rather than to an independent $\RealUp$ edge.
+
+Coordinate exhaustion gives the claim. The only available route into the synchronizer is through the finite window, the displayed regular Cauchy name route, and the local $\CauchyLimitSealUp$ rows; quotient stream equality, selected host limits, ambient completeness, and a direct $\RealUp$ bypass do not occur among the displayed coordinates.
+\end{proof}

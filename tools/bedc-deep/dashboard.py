@@ -371,9 +371,9 @@ def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
         rec for rec in items
         if rec.get("log") and not rec.get("prompt") and not rec.get("response") and not rec.get("summary")
     ]
-    prompt_records = [
+    artifact_records = [
         rec for rec in items
-        if rec.get("prompt") and not rec.get("log") and not rec.get("response") and not rec.get("summary")
+        if (rec.get("prompt") or rec.get("response") or rec.get("summary")) and not rec.get("log")
     ]
     for log_rec in log_records:
         if _infer_refill_status(log_rec) != "submitted_no_response_artifact_yet":
@@ -383,21 +383,24 @@ def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
             continue
         nearest: dict | None = None
         nearest_delta = 999999.0
-        for prompt_rec in prompt_records:
-            stem = str(prompt_rec.get("stem") or "")
+        for artifact_rec in artifact_records:
+            stem = str(artifact_rec.get("stem") or "")
             if stem in consumed:
                 continue
-            prompt_time = _refill_stem_time(stem)
-            if prompt_time is None:
+            artifact_time = _refill_stem_time(stem)
+            if artifact_time is None:
                 continue
-            delta = abs((prompt_time - log_time).total_seconds())
+            delta = abs((artifact_time - log_time).total_seconds())
             if delta <= 10.0 and delta < nearest_delta:
-                nearest = prompt_rec
+                nearest = artifact_rec
                 nearest_delta = delta
         if nearest is None:
             continue
-        log_rec["prompt"] = nearest.get("prompt")
-        log_rec["prompt_mtime"] = nearest.get("prompt_mtime")
+        for kind in ("prompt", "response", "summary"):
+            if nearest.get(kind):
+                log_rec[kind] = nearest.get(kind)
+            if nearest.get(f"{kind}_mtime"):
+                log_rec[f"{kind}_mtime"] = nearest.get(f"{kind}_mtime")
         log_rec["latest_mtime"] = max(
             float(log_rec.get("latest_mtime") or 0.0),
             float(nearest.get("latest_mtime") or 0.0),
