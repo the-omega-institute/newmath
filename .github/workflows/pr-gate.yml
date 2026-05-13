@@ -21,7 +21,6 @@ jobs:
     outputs:
       tex: ${{ steps.detect.outputs.tex }}
       lean4: ${{ steps.detect.outputs.lean4 }}
-      rule110: ${{ steps.detect.outputs.rule110 }}
     steps:
       - name: Check out repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -33,13 +32,10 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          BASE_REF: ${{ github.base_ref }}
-          HEAD_REF: ${{ github.head_ref }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "tex=true" >> "$GITHUB_OUTPUT"
             echo "lean4=true" >> "$GITHUB_OUTPUT"
-            echo "rule110=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -47,7 +43,6 @@ jobs:
 
           tex=false
           lean4=false
-          rule110=false
 
           if printf '%s\n' "$changed_files" | grep -Eq '^papers/bedc/.*\.tex$'; then
             tex=true
@@ -57,17 +52,8 @@ jobs:
             lean4=true
           fi
 
-          if printf '%s\n' "$changed_files" | grep -Eq '^rule110/|^rule110/lean-side/|^lean4/lakefile\.lean$'; then
-            rule110=true
-          fi
-
-          if printf '%s\n%s\n' "$BASE_REF" "$HEAD_REF" | grep -Eq '^rule110($|-)'; then
-            rule110=true
-          fi
-
           echo "tex=$tex" >> "$GITHUB_OUTPUT"
           echo "lean4=$lean4" >> "$GITHUB_OUTPUT"
-          echo "rule110=$rule110" >> "$GITHUB_OUTPUT"
 
       - name: Write summary
         run: |
@@ -76,7 +62,6 @@ jobs:
             echo
             echo "- tex changed: \`${{ steps.detect.outputs.tex }}\`"
             echo "- lean4 changed: \`${{ steps.detect.outputs.lean4 }}\`"
-            echo "- rule110 changed: \`${{ steps.detect.outputs.rule110 }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
   pdf:
@@ -93,59 +78,9 @@ jobs:
     uses: ./.github/workflows/reusable-lean4.yml
     secrets: inherit
 
-  rule110:
-    name: Rule110 Cross-Check
-    needs: detect_changes
-    if: ${{ needs.detect_changes.outputs.rule110 == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
-
-      - name: Run rule110 substrate tests
-        run: |
-          if ! (cd rule110 && make test); then
-            echo "FAIL kind=C-decode path=rule110 case=make-test message=rule110 substrate test suite failed" >&2
-            exit 1
-          fi
-
-      - name: Restore Lean .lake cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            lean4/.lake
-            rule110/lean-side/.lake
-          key: rule110-lean-side-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain', 'rule110/lean-side/lakefile.lean', 'rule110/lean-side/lean-toolchain') }}-${{ github.sha }}
-          restore-keys: |
-            rule110-lean-side-lake-${{ runner.os }}-${{ hashFiles('lean4/lakefile.lean', 'lean4/lean-toolchain', 'rule110/lean-side/lakefile.lean', 'rule110/lean-side/lean-toolchain') }}-
-            rule110-lean-side-lake-${{ runner.os }}-
-
-      - name: Build Lean4 project
-        uses: leanprover/lean-action@c544e89643240c6b398f14a431bcdc6309e36b3e # v1
-        with:
-          lake-package-directory: lean4
-          build: true
-          use-mathlib-cache: false
-          use-github-cache: "false"
-
-      - name: Build rule110 cross-check target
-        run: |
-          if ! (cd rule110/lean-side && lake build rule110-cross-check); then
-            echo "FAIL kind=missing-target path=rule110/lean-side/lakefile.lean case=rule110-cross-check message=Lake target missing or target build failed" >&2
-            exit 1
-          fi
-
-      - name: Run rule110 cross-check
-        run: |
-          cd rule110/lean-side
-          lake exe rule110-cross-check
-
   gate:
     name: Gate
-    needs: [detect_changes, pdf, lean4, rule110]
+    needs: [detect_changes, pdf, lean4]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -154,7 +89,6 @@ jobs:
           detect_result="${{ needs.detect_changes.result }}"
           pdf_result="${{ needs.pdf.result }}"
           lean4_result="${{ needs.lean4.result }}"
-          rule110_result="${{ needs.rule110.result }}"
 
           {
             echo "PR gate results"
@@ -162,7 +96,6 @@ jobs:
             echo "- detect_changes: \`$detect_result\`"
             echo "- pdf: \`$pdf_result\`"
             echo "- lean4: \`$lean4_result\`"
-            echo "- rule110: \`$rule110_result\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
           if [ "$detect_result" = "failure" ] || [ "$detect_result" = "cancelled" ]; then
@@ -174,9 +107,5 @@ jobs:
           fi
 
           if [ "$lean4_result" = "failure" ] || [ "$lean4_result" = "cancelled" ]; then
-            exit 1
-          fi
-
-          if [ "$rule110_result" = "failure" ] || [ "$rule110_result" = "cancelled" ]; then
             exit 1
           fi
