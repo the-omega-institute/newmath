@@ -153,4 +153,27 @@ theorem ContinuationTraceCarrier_concatenation_readback [AskSetup] [PackageSetup
         unary_cont_closed routeUnary1 certUnary1 route1Consumer
       exact ⟨consumerUnary, boundary, Or.inr route1Consumer, Or.inr pkgSig1⟩
 
+theorem ContinuationTraceCarrier_boundary_hsame_pullback [AskSetup] [PackageSetup]
+    {source0 mark0 target0 ledger0 transports0 route0 provenance0 cert0 source1 mark1 target1
+      ledger1 transports1 route1 provenance1 cert1 : BHist}
+    {bundle0 bundle1 : ProbeBundle ProbeName} {pkg0 pkg1 : Pkg} :
+    ContinuationTraceCarrier source0 mark0 target0 ledger0 transports0 route0 provenance0 cert0
+        bundle0 pkg0 ->
+      ContinuationTraceCarrier source1 mark1 target1 ledger1 transports1 route1 provenance1 cert1
+          bundle1 pkg1 ->
+        hsame target0 source1 ->
+          UnaryHistory target0 /\ UnaryHistory source1 /\ hsame target0 source1 /\
+            Cont source0 mark0 target0 /\ Cont source1 mark1 target1 /\
+              PkgSig bundle0 provenance0 pkg0 /\ PkgSig bundle1 provenance1 pkg1 := by
+  intro carrier0 carrier1 boundary
+  obtain ⟨_sourceUnary0, _markUnary0, targetUnary0, _ledgerUnary0, _transportsUnary0,
+    _routeUnary0, _provenanceUnary0, _certUnary0, sourceMarkTargetRow0,
+    _targetLedgerRouteRow0, _routeCertProvenanceRow0, pkgSig0⟩ := carrier0
+  obtain ⟨sourceUnary1, _markUnary1, _targetUnary1, _ledgerUnary1, _transportsUnary1,
+    _routeUnary1, _provenanceUnary1, _certUnary1, sourceMarkTargetRow1,
+    _targetLedgerRouteRow1, _routeCertProvenanceRow1, pkgSig1⟩ := carrier1
+  exact
+    ⟨targetUnary0, sourceUnary1, boundary, sourceMarkTargetRow0, sourceMarkTargetRow1, pkgSig0,
+      pkgSig1⟩
+
 end BEDC.Derived.ContinuationTraceUp
