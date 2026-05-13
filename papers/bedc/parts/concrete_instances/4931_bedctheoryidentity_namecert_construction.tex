@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\BedcTheoryIdentityUp$}
+\label{ch:concrete-instances-bedc-theory-identity-namecert}
+\origin{ai}
+
+The $\BedcTheoryIdentityUp$ packet realizes the framing principle of \autoref{ch:bedc-is-its-own-theory} as a finite naming certificate. It records the five positive commitments of BEDC.MetaCIC as displayed rows, and it uses the proof-ancestry discipline of \autoref{ch:concrete-instances-axiomqueryledger-namecert} as the sibling audit surface for the strict-purity row. The packet is identity-facing: it names what the theory is before any comparison with a neighboring calculus is read.
+
+\begin{definition}[BEDC theory identity carrier]
+\label{def:bedc-theory-identity-carrier}
+A $\BedcTheoryIdentityUp$ carrier is a finite $\BHist$ packet
+$$
+I=(G,E,R,P,B,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the closed-generator row, listing the finite inductive carriers and constructor inventories used by the substrate, including term-level and certificate-level generators;
+\item $E$ is the literal AST equality row, recording that type equality inside the substrate is the displayed syntactic equality of the represented AST and not a conversion rule imported from another calculus;
+\item $R$ is the structural-recursor row, recording the generator-local eliminators and induction routes supplied by the closed generators themselves;
+\item $P$ is the strict-purity row, recording the zero-axiom dependency boundary for accepted BEDC.MetaCIC theorem content and its connection to axiom-query ledgers;
+\item $B$ is the apophatic-boundary row, recording named sockets, setup fields, and GAP rows as visible external supply rather than hidden substrate theorems;
+\item $H$ records componentwise $\hsame$ transports for the five identity rows and for the route, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read closed generators, literal equality, recursors, strict purity, and boundary markers;
+\item $K$ is the $\Pkg$ provenance over $\BHist$, closed generators, AST equality, recursor routes, axiom-query ledgers, GAP sockets, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\BedcTheoryIdentityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for defining BEDC.MetaCIC by subtraction from classical CIC, no host conversion rule, no quotient-equality permission, no hidden axiom dependency, and no ambient semantic principle beyond the displayed rows.
+\end{definition}
+
+\begin{theorem}[BEDC theory identity NameCert obligations]
+\label{thm:bedc-theory-identity-namecert-obligations}
+For every accepted $\BedcTheoryIdentityUp$ carrier
+$$
+I=(G,E,R,P,B,H,C,K,N),
+$$
+the local $\NameCert_{\BedcTheoryIdentityUp}$ surface consists exactly of carrier admission for the five identity rows, literal row exposure, structural-recursor exposure, strict-purity exposure through the axiom-query discipline, apophatic boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bedc-theory-identity-carrier}. The rows $G,E,R,P,B$ are the only positive identity commitments admitted by the packet.
+
+The closed-generator, literal-equality, and recursor obligations are read from $G,E,R$. These rows identify the internal substrate by displayed constructors, syntactic equality, and generator-local eliminators.
+
+The strict-purity obligation is read from $P$ together with the axiom-query ledger surface of \autoref{ch:concrete-instances-axiomqueryledger-namecert}. It records dependency cleanliness as a displayed audit row rather than as host confidence.
+
+Finally $B,H,C,K,N$ bind the visible external boundary, transport, replay, provenance, and local name. Since the carrier contains no further coordinate, the local $\NameCert$ obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[BEDC theory identity boundary nonescape]
+\label{thm:bedc-theory-identity-boundary-nonescape}
+Every consumer of an accepted $\BedcTheoryIdentityUp$ packet must read BEDC.MetaCIC identity through the finite rows
+$$
+G,E,R,P,B,H,C,K,N.
+$$
+The consumer cannot replace those rows by a subtractive definition relative to classical CIC, by a host conversion rule, by quotient or extensional equality, by an unstated axiom dependency, or by an ambient semantic principle outside the apophatic boundary row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:bedc-theory-identity-carrier}. The identity-facing content is exactly the five rows $G,E,R,P,B$, transported and replayed through $H$ and $C$ with provenance and naming in $K,N$.
+
+The positive reading of \autoref{ch:bedc-is-its-own-theory} is therefore a row read from the packet. Closed generators, literal AST equality, structural recursors, strict purity, and visible external boundaries are not inferred from a comparison theory.
+
+The excluded objects have no carrier coordinate. A consumer may compare BEDC.MetaCIC with classical CIC after reading the packet, but it cannot use that comparison as the source of the packet's identity or as a route around the displayed apophatic boundary.
+\end{proof}
+
+\closureat{BedcTheoryIdentityUp}{seedStr}
+
+\begin{closurestatus}{\BedcTheoryIdentityUp}
+  \constructivestory{A $\BedcTheoryIdentityUp$ packet is generated from closed-generator rows, literal AST equality rows, structural-recursor rows, strict-purity rows, apophatic-boundary rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bedc-theory-identity-carrier}, \autoref{thm:bedc-theory-identity-namecert-obligations}, and \autoref{thm:bedc-theory-identity-boundary-nonescape} specify the finite identity packet, its local NameCert obligations, and its comparison non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove a Lean theorem for $\BedcTheoryIdentityUp$, does not close a standard bridge, and does not define BEDC.MetaCIC by reference to another calculus.}
+  \upgradepath{Lean formalization should encode the carrier and checked obligations under $\mathsf{BEDC.Derived.BedcTheoryIdentityUp}$.}
+\end{closurestatus}
