@@ -174,6 +174,46 @@ Apply the NameCert substitution boundary obligation. It permits $R$ to be consum
 The ledger non-escape theorem then removes the only remaining escape route. Because no carrier coordinate names an unregistered free variable or open-term residue, neither $\hsame$ transport nor a displayed $\Cont$ read can create one after substitution.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary depth row stability]
+\label{thm:closed-term-substitution-boundary-depth-row-stability}
+Transporting an accepted $\ClosedTermSubstitutionBoundaryUp$ packet by componentwise $\hsame$ preserves the inspected depth row $d$. The transported packet may move the displayed term rows, closedness witnesses, operation rows, ledger, audit row, continuation routes, package provenance, and local name through the rows listed in \autoref{def:closed-term-substitution-boundary-carrier}, but it cannot replace $d$ by an unlisted binder budget.
+\end{theorem}
+\begin{proof}
+Project the carrier row of \autoref{def:closed-term-substitution-boundary-carrier}. The inspected depth $d$ is a named coordinate of the same packet as $T,V,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+
+Use the classifier definition and the NameCert obligations. Componentwise $\hsame$ transport is available only through $H$, and the classifier compares the displayed depth row together with the displayed term, closedness, operation, ledger, audit, route, provenance, and naming rows.
+
+Apply ledger non-escape from \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. Since no coordinate names a second binder budget or a host binder convention, transported consumers keep the same inspected depth row and cannot read an unlisted depth source.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary closedness ledger coverage]
+\label{thm:closed-term-substitution-boundary-closedness-ledger-coverage}
+Every consumer of the displayed shift row $Q$ or substitution row $R$ must read $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ through the closedness ledger $L$ before the corresponding operation row is available. The shift consumer may ignore the value witness only as unused data, but it still receives a packet whose local ledger records the closedness surface for both source and value rows. The route exports no host equality, no open-term subject reduction, and no hidden compiler state.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. They make shift boundary exactness depend on the displayed source closedness row and substitution boundary exactness depend on the displayed source and value closedness rows.
+
+Read the ledger non-escape theorem. The ledger $L$ is the finite row that records which closedness witnesses have been consumed before $Q$ or $R$ is exposed to a consumer route.
+
+Use shift-budget exhaustion and substitution free-variable non-escape. The shift row cannot spend a hidden depth budget, and the substitution row cannot manufacture an unregistered free-variable coordinate after the ledger has displayed the closedness witnesses.
+
+The exclusions are then coordinate exclusions. Host equality, open-term subject reduction, and hidden compiler state are absent from the carrier inventory, so the operation rows become visible only through $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $L$, and the displayed route rows.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary operation row determinacy]
+\label{thm:closed-term-substitution-boundary-operation-row-determinacy}
+For fixed rows $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},L,A,H,C,P,N$ of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the displayed shift row $Q$ and substitution row $R$ are the unique operation rows visible to any closed-term consumer. A consumer may transport or replay those rows through $H$ and $C$, but it cannot substitute a host equality proof, an open-term subject-reduction theorem, or hidden compiler state for either operation row.
+\end{theorem}
+\begin{proof}
+First project the carrier. The only operation coordinates in \autoref{def:closed-term-substitution-boundary-carrier} are the shift boundary row $Q$ and the substitution boundary row $R$.
+
+Use the NameCert obligations and closedness ledger coverage. The local certificate exposes $Q$ and $R$ only after the closedness witnesses have been read through $L$, and it exposes no second operation coordinate under the same fixed rows.
+
+Apply depth row stability, audit route, and ledger non-escape. Transport through $H$ preserves the inspected depth row, audit-visible replay remains inside $A,H,C,P,N$, and the ledger excludes unregistered free variables, hidden host equality, unchecked compiler state, and ambient subject-reduction data.
+
+Thus a closed-term consumer with the fixed carrier rows can see exactly the displayed $Q$ and $R$ rows. Any different operation row would require a carrier coordinate not present in the packet.
+\end{proof}
+
 \begin{theorem}[Closed-term substitution boundary consumer factorization]
 \label{thm:closed-term-substitution-boundary-consumer-factorization}
 Every self-compilation consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet factors through the full displayed surface
