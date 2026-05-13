@@ -1,0 +1,21 @@
+\section{Sibling dependency lattice}
+\label{sec:fieldext-sibling-dependency-lattice}
+
+The $\FieldExtUp$ carrier consumes the base and ambient field surfaces from
+\autoref{ch:concrete-instances-field-namecert}. Its reflexive and singleton
+instances read both endpoints through the displayed $\FieldUp$ operation
+tables, classifiers, and ledger rows rather than through a separate host-field
+equality.
+
+The vector-space-over-base row is supplied by
+\autoref{ch:concrete-instances-vecspace-namecert}. This is the row that lets
+the ambient field be read as a module over the base field while keeping scalar
+action, vector addition, zero, negation, classifier stability, and provenance
+visible as $\VecSpaceUp$ data.
+
+Downstream Galois, number-field, separability, algebraic-closure, and tower
+consumers therefore read $\FieldExtUp$ through a horizontal dependency lattice:
+two $\FieldUp$ endpoints, one $\VecSpaceUp$-over-base row, one embedding row,
+and the local $\FieldExtUp$ naming ledger. No downstream consumer may replace
+this lattice by an ambient tower object whose base field, extension field, or
+vector-space row is not displayed.

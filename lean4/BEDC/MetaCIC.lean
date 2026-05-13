@@ -21,7 +21,7 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.SubjectReduction.ClosedDischarge
 import BEDC.MetaCIC.SubjectReduction.ClosedBinderDischarge
 import BEDC.MetaCIC.SubjectReduction.DischargeBundle
-import BEDC.MetaCIC.SubjectReduction.ClosedConsistencyFromBundle
+import BEDC.MetaCIC.SubjectReduction.SetupClass
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.Consistency
 import BEDC.MetaCIC.Evaluation.EvalClosed
@@ -45,3 +45,5 @@ import BEDC.MetaCIC.TypedExamples.BetaRedex
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
 import BEDC.MetaCIC.GeneratorClosureNatExamples
+import BEDC.MetaCIC.AuditReexport
+import BEDC.MetaCIC.AuditReexportExamples

@@ -4,6 +4,10 @@
 
 The $\DiagonalTailSelectorUp$ packet binds the Real-completion diagonal tail-selector route as one finite naming surface. It starts from a regular rational input row and a displayed modulus, selects one cofinal tail index, reads only finite StreamName and dyadic windows, hands the selected tail through RegSeqRat regularity and the RealUp seal, and records the BEDC transport, continuation, provenance, and local naming rows in the same packet. The selector is therefore a concrete NameCert carrier for the finite cofinal-tail route, not a quotient stream, host-selected limit, ambient completeness principle, countable-choice rule, or hidden equality of completed reals.
 
+This carrier consumes the finite selector route of \autoref{ch:concrete-instances-limitselector-namecert} and the selected-tail witness surface of \autoref{ch:concrete-instances-regularcauchytailselector-namecert}. Its diagonal tail row is not a new selector oracle; it repacks those sibling finite-window obligations through the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+
+The finite cofinal row also consumes the precision-to-window-to-dyadic-to-RegSeqRat-to-Real seal route of \autoref{ch:concrete-instances-tail-cofinality-schedule-namecert}. Thus the selected tail index is scheduled through the same finite $\TailCofinalityScheduleUp$ route before any diagonal consumer reads $W,D,T,S$ as a completion-facing packet.
+
 \begin{definition}[Diagonal tail selector carrier]
 \label{def:diagonal-tail-selector-carrier}
 A $\DiagonalTailSelectorUp$ carrier is a finite $\BHist$ packet
@@ -40,6 +44,7 @@ The local $\NameCert_{\DiagonalTailSelectorUp}$ surface for \autoref{def:diagona
 \item non-escape, requiring the packet to export no quotient stream, countable-choice selector, host-selected limit, ambient completeness theorem, host real equality, or hidden tail oracle.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from the displayed tuple in \autoref{def:diagonal-tail-selector-carrier}. The input row, precision request, modulus, selected cofinal index, finite window, dyadic readback, tail-regularity row, RealUp seal, transports, routes, provenance, and local naming row are all coordinates of one finite packet.
 
@@ -48,6 +53,101 @@ Selector exactness reads $n$ and $\mu$ before $k$ is available. Thus the selecte
 The finite-window and tail-regularity clauses then route the selected index through $W,D,T$. The StreamName window and dyadic readback expose only finite observations, and the regularity handoff is the displayed $\RegularCauchyTailSelectorUp$ row tied to $R$.
 
 Finally inspect $S,H,C,P,N$. These rows carry the selected finite route into the RealUp seal and provide no coordinate for quotient streams, countable choice, selected host limits, ambient completeness, host real equality, or hidden tail selection.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector selector-row determinacy]
+\label{thm:diagonal-tail-selector-selector-row-determinacy}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Any transported read of the
+same packet with the same precision row $n$, modulus row $\mu$,
+componentwise $\hsame$ data for the displayed rows, displayed $\Cont$ route,
+$\Pkg$ provenance, and local $\NameCert_{\DiagonalTailSelectorUp}$ row reaches
+the same selected cofinal index row $k$. Thus selector comparison is
+determined by the visible selector rows of $G$ and has no countable-choice
+coordinate or hidden selector coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:diagonal-tail-selector-carrier}. The
+selected cofinal index appears as the displayed packet coordinate $k$, and the
+only rows upstream of it are the precision request $n$ and modulus row $\mu$.
+
+Use selector exactness in
+\autoref{thm:diagonal-tail-selector-namecert-obligations}. It requires $k$ to
+be read from $\mu$ at $n$, so any transported read preserving $n$, $\mu$, the
+componentwise $\hsame$ rows, the displayed $\Cont$ route, the $\Pkg$
+provenance, and the local $\NameCert$ row preserves the selected row itself.
+
+The remaining coordinates $W,D,T,S,H,C,P,N$ transport, replay, package, and
+name the already selected finite route. They do not contain an independent
+selector, a countable-choice schedule, or a hidden tail-selection coordinate.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector window-threshold order]
+\label{thm:diagonal-tail-selector-window-threshold-order}
+For an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+every downstream read of the tail-regularity row $T$ or the RealUp seal row
+$S$ first passes through the ordered finite route
+$$
+n,\mu,k,W,D.
+$$
+Consequently the finite $\StreamNameUp$ window and $\DyadicRatCoreUp$ readback
+are exposed before any tail regularity or seal row is available.
+\end{theorem}
+\begin{proof}
+Begin with the selector rows. The NameCert obligations force $k$ to be read
+from $\mu$ at $n$, and
+\autoref{thm:diagonal-tail-selector-selector-row-determinacy} makes that
+selected row invariant under the displayed transports and local naming row.
+
+Next read the finite-window clause of
+\autoref{thm:diagonal-tail-selector-namecert-obligations}. Once $k$ is fixed,
+selected diagonal observations must pass through the $\StreamNameUp$ window
+$W$ and the $\DyadicRatCoreUp$ readback row $D$.
+
+Only then can the tail-regularity and seal clauses be consumed. The row $T$ is
+downstream of the finite window and dyadic readback, and $S$ is downstream of
+$W,D,T$ together with the structural rows $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector seal after tail regularity]
+\label{thm:diagonal-tail-selector-seal-after-tail-regularity}
+For an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+the RealUp seal row $S$ is available only after the selected cofinal tail row
+$T$ has been routed through the displayed
+$\RegularCauchyTailSelectorUp$ handoff tied to the input row $R$. The seal
+handoff exports no quotient stream, host-selected limit, countable-choice
+selector, host real equality, hidden tail oracle, or ambient completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diagonal-tail-selector-selector-row-determinacy}. The selected
+cofinal row is fixed by $n,\mu,k$ and the displayed transport, continuation,
+provenance, and local naming rows, rather than by an external selector.
+
+Then apply
+\autoref{thm:diagonal-tail-selector-window-threshold-order}. Every downstream
+read of $T$ or $S$ passes through $n,\mu,k,W,D$, so the finite
+$\StreamNameUp$ window and $\DyadicRatCoreUp$ readback are already exposed
+before the tail-regularity row is consumed.
+
+Finally use the RealUp seal handoff clause in
+\autoref{thm:diagonal-tail-selector-namecert-obligations}. It places $S$
+after $W,D,T$ and the structural rows $H,C,P,N$, while the tail-regularity
+clause ties $T$ to $R$ through the displayed
+$\RegularCauchyTailSelectorUp$ handoff. The non-escape clause removes any
+remaining route through quotient streams, host-selected limits,
+countable-choice selectors, host real equality, hidden tail oracles, or
+ambient completeness.
 \end{proof}
 
 \begin{theorem}[Diagonal tail selector limit handoff]
@@ -66,6 +166,326 @@ Next read the finite observation part. The selected cofinal index opens the $\St
 Now pass to regularity and sealing. The row $T$ is the displayed $\RegularCauchyTailSelectorUp$ handoff for the selected tail, and $S$ is reached only after $W,D,T$ have been named. A $\CauchyLimitSealUp$ consumer therefore reads the same finite window, dyadic readback, regular handoff, and RealUp seal rows before it can expose any completion-facing seal data.
 
 Finally use the structural rows $H,C,P,N$. They transport, replay, package, and name exactly the same finite route, so the consumer has no remaining channel for quotient streams, countable choice, selected host limits, ambient completeness, host real equality, or an unbounded tail selector.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector window admission]
+\label{thm:diagonal-tail-selector-window-admission}
+For an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+every selected observation admitted to the selector route passes through the
+precision request $n$, displayed modulus $\mu$, selected cofinal index $k$,
+finite $\StreamNameUp$ window $W$, and $\DyadicRatCoreUp$ readback row $D$
+before the tail-regularity row $T$ is read. No consumer may read $T$ as if it
+were supplied by an unbounded tail search, quotient stream, countable-choice
+schedule, or host selected limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-tail-selector-carrier}. The only
+coordinates that select an observation before tail regularity are
+$n,\mu,k,W,D$.
+
+Apply the NameCert obligations of
+\autoref{thm:diagonal-tail-selector-namecert-obligations}. Selector exactness
+forces $k$ to be read from $\mu$ at $n$, and finite-window readback forces the
+selected observation through $W$ and $D$.
+
+Finally use \autoref{thm:diagonal-tail-selector-cofinal-window-exhaustion}.
+It rules out alternate cofinal-tail channels, so the tail-regularity row $T$
+can be consumed only after the displayed finite-window route has been
+admitted.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector Real seal factorization]
+\label{thm:diagonal-tail-selector-real-seal-factorization}
+For an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+every $\RealUp$ seal read from $S$ factors through the displayed route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N.
+$$
+In particular, the seal consumer first reads the $\RegSeqRatUp$ source row
+$R$, selector rows $n,\mu,k$, finite window $W$, dyadic readback $D$,
+tail-regularity handoff $T$, componentwise $\hsame$ transports, displayed
+$\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row $N$. It receives
+no quotient stream, host selected limit, countable-choice row, host real
+equality, hidden tail oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-tail-selector-limit-handoff}. It identifies
+the Real-completion consumer route with the finite selector packet
+$R,n,\mu,k,W,D,T,S,H,C,P,N$.
+
+Apply \autoref{thm:diagonal-tail-selector-window-admission} to the observation
+part of the route. This ensures that the selected finite window and dyadic
+readback are present before the tail-regularity row is read.
+
+Use \autoref{thm:diagonal-tail-selector-tail-meet-compatibility} when the
+selected tail is supplied through a shared-threshold certificate, and then
+apply \autoref{thm:diagonal-tail-selector-seal-nonescape}. The seal row $S$
+is reachable only through the displayed selector, window, tail-regularity,
+transport, continuation, provenance, and naming rows.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector CauchyLimitSeal factorization]
+\label{thm:diagonal-tail-selector-cauchy-limit-seal-factorization}
+For every accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+any $\CauchyLimitSealUp$ consumer reached by the selector route reads the
+seal only through the displayed rows
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N.
+$$
+The route first exposes the $\RegSeqRatUp$ source $R$, the request and
+selector rows $n,\mu,k$, the finite $\StreamNameUp$ window $W$, the
+$\DyadicRatCoreUp$ readback $D$, the tail row $T$, componentwise $\hsame$
+transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local
+$\NameCert$ row. It has no coordinate for a quotient stream, a host selected
+limit, countable choice, host real equality, hidden tail oracle, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-tail-selector-carrier}. The
+accepted packet exposes exactly $R,n,\mu,k,W,D,T,S,H,C,P,N$ before a seal
+consumer can read any completion-facing row.
+
+Apply the NameCert obligations and the limit handoff. They force $k$ to be
+read from $\mu$ at $n$, route the selected observation through $W$ and $D$,
+and place the $\CauchyLimitSealUp$ consumer behind the same displayed
+selector packet.
+
+Finally use \autoref{thm:diagonal-tail-selector-real-seal-factorization}.
+The real-facing seal factorization already confines the downstream seal row
+to the selector, window, tail, transport, continuation, provenance, and local
+naming rows. The carrier inventory therefore supplies no row for any excluded
+host or quotient object.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector RegularCauchyTailMeet consumption]
+\label{thm:diagonal-tail-selector-regular-cauchy-tail-meet-consumption}
+Suppose an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+uses its tail row $T$ through a shared-tail consumer. Then the shared-tail use
+must factor through the $\RegularCauchyTailMeetUp$ threshold rows before the
+selector seal row $S$ is read. The consumed surface is the transported source
+rows, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ threshold ledger,
+$\RegSeqRatUp$ comparison row, componentwise $\hsame$ transports, displayed
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows already
+recorded by $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from the selector carrier and its local NameCert obligations. They make
+$T$ the only row through which the selected regular-tail information can be
+read before the seal row $S$ becomes visible.
+
+Use \autoref{thm:diagonal-tail-selector-window-admission} and
+\autoref{thm:diagonal-tail-selector-cofinal-window-exhaustion}. These results
+confine the selected tail read to the finite window and dyadic readback rows
+$W,D$ together with $R,n,\mu,k,H,C,P,N$.
+
+Now apply
+\autoref{thm:diagonal-tail-selector-tail-meet-compatibility}. When a
+shared-tail packet supplies $T$, it is consumed as the public
+$\RegularCauchyTailMeetUp$ shared-threshold certificate before any
+$\CauchyLimitSealUp$ or $\RealUp$ seal row is read. The compatibility theorem
+therefore fixes the threshold rows as the only admitted shared-tail route.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector tail-meet threshold admission]
+\label{thm:diagonal-tail-selector-tail-meet-threshold-admission}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet whose tail row $T$ is supplied
+through $\RegularCauchyTailMeetUp$. Any accepted packet using that selected
+tail row must read the transported shared-threshold source rows, finite
+$\StreamNameUp$ windows, $\DyadicRatCoreUp$ threshold ledger, and
+$\RegSeqRatUp$ comparison row before the seal row $S$ is available to a
+$\CauchyLimitSealUp$ or $\RealUp$ consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted selector packet. Its only path from the selected index
+$k$ to the tail row $T$ passes through the finite window $W$, the dyadic
+readback row $D$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:diagonal-tail-selector-window-admission}. The selected
+observation is admitted through $W$ and $D$ before the tail row can be
+consumed.
+
+Now apply
+\autoref{thm:diagonal-tail-selector-regular-cauchy-tail-meet-consumption}.
+It identifies the supplied $T$ row with the
+$\RegularCauchyTailMeetUp$ shared-threshold route and places the source,
+window, threshold, and comparison rows before the selector seal.
+
+Finally use
+\autoref{thm:diagonal-tail-selector-cauchy-limit-seal-factorization}. A seal
+consumer reaches $S$ only after those displayed threshold rows have already
+entered the finite route.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector source-modulus route exactness]
+\label{thm:diagonal-tail-selector-source-modulus-route-exactness}
+For an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+the exact source and modulus route into the selector ledger is
+$$
+n,\mu,k,W,D,T.
+$$
+Here $k$ is read from the modulus row $\mu$ at request $n$, $W$ is the
+admitted finite $\StreamNameUp$ window for that selected request, $D$ is the
+corresponding $\DyadicRatCoreUp$ readback ledger, and $T$ is the selected
+tail row consumed before the seal row $S$.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations for the carrier. They make $n,\mu,k$ the only
+request, modulus, and selected-index rows in the local selector certificate.
+
+Apply the window admission theorem. It routes the selected index through the
+finite window $W$ and the dyadic readback ledger $D$, so the selector ledger
+cannot be entered through an unrecorded source row.
+
+The limit handoff theorem then carries the admitted row to $T$ and onward to
+the seal-facing route. Together with
+\autoref{thm:diagonal-tail-selector-tail-meet-threshold-admission}, this
+shows that $n,\mu,k,W,D,T$ is the exact source/modulus route into the
+displayed selector ledger.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector root seal consumer exhaustion]
+\label{thm:diagonal-tail-selector-root-seal-consumer-exhaustion}
+Every $\CauchyLimitSealUp$ or $\RealUp$ root consumer of an accepted
+$\DiagonalTailSelectorUp$ packet factors through the finite route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N
+$$
+and, when $T$ is supplied through $\RegularCauchyTailMeetUp$, through the
+tail-meet threshold surface of
+\autoref{thm:diagonal-tail-selector-tail-meet-threshold-admission}. No root
+consumer receives a quotient stream, selected host limit, countable-choice
+row, hidden tail oracle, host real equality, or ambient completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:diagonal-tail-selector-source-modulus-route-exactness}. It fixes
+the source and modulus part of the root route as $n,\mu,k,W,D,T$ inside the
+carrier packet.
+
+Use \autoref{thm:diagonal-tail-selector-tail-meet-threshold-admission} for
+the shared-threshold case. The selected tail row can only be consumed after
+the transported $\RegularCauchyTailMeetUp$ source, window, threshold, and
+comparison rows are in scope.
+
+Apply \autoref{thm:diagonal-tail-selector-cauchy-limit-seal-factorization}
+and \autoref{thm:diagonal-tail-selector-real-seal-factorization}. These
+factor every $\CauchyLimitSealUp$ and $\RealUp$ consumer through the same
+finite packet before any seal-facing row is read.
+
+Finally apply \autoref{thm:diagonal-tail-selector-seal-nonescape}. Since the
+accepted packet contains no quotient stream, selected host limit,
+countable-choice row, hidden tail oracle, host real equality, or ambient
+completeness coordinate, a root seal consumer cannot obtain one.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector RealUp window non-escape]
+\label{thm:diagonal-tail-selector-realup-window-nonescape}
+Every $\RealUp$ window read made from an accepted $\DiagonalTailSelectorUp$
+packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+consumes the $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ readback $D$,
+$\RegSeqRatUp$ source $R$, tail-selector row $T$, componentwise $\hsame$
+transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ row before the seal row $S$ is available. The window route has no
+coordinate for a quotient stream, countable choice, host selected limit, host
+equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations. They expose the finite
+selector tuple and require the selected index $k$ to be read from $\mu$ at
+the request $n$.
+
+Apply the window admission theorem. It places every selected observation
+inside the finite $\StreamNameUp$ window $W$ and the $\DyadicRatCoreUp$
+readback row $D$ before any tail or seal row is consumed.
+
+Use the limit handoff and
+\autoref{thm:diagonal-tail-selector-real-seal-factorization}. The RealUp seal
+row is reached only after the window, readback, tail-selector, transport,
+continuation, provenance, and local NameCert rows have been displayed.
+
+Finally apply the seal non-escape boundary. Since the accepted packet contains
+no quotient stream, countable-choice row, host selected limit, host equality,
+or ambient completeness coordinate, no RealUp window consumer can receive one.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector obligation triad]
+\label{thm:diagonal-tail-selector-obligation-triad}
+For an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+selector exactness, finite-window readback, and $\RealUp$ seal factorization form one obligation triad over $\LimitSelectorUp$, $\RegularCauchyTailSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Any consumer must read $k$ from $\mu$ at $n$, pass through $W,D,T$, and reach $S$ only through $H,C,P,N$. The triad supplies no quotient stream, countable-choice row, host selected limit, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read selector exactness from \autoref{thm:diagonal-tail-selector-namecert-obligations}. The accepted packet exposes $R,n,\mu,k,W,D,T,S,H,C,P,N$, and the selected index row $k$ is available only as the value read from $\mu$ at the precision request $n$.
+
+Next apply \autoref{thm:diagonal-tail-selector-window-admission}. It confines every selected observation to the finite $\StreamNameUp$ window $W$ and $\DyadicRatCoreUp$ readback row $D$ before the $\RegularCauchyTailSelectorUp$ row $T$ is consumed.
+
+Finally use \autoref{thm:diagonal-tail-selector-real-seal-factorization}. The $\RealUp$ seal row $S$ is reached only through the displayed selector, window, tail handoff, transport, continuation, provenance, and local naming rows.
+
+The non-escape clauses already present in the chapter then rule out quotient streams, countable choice, host selected limits, host equality, and ambient completeness as coordinates of the same route.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector NameCert closure]
+\label{thm:diagonal-tail-selector-namecert-closure}
+The local $\NameCert_{\DiagonalTailSelectorUp}$ package closes over the
+carrier of \autoref{def:diagonal-tail-selector-carrier}, selector exactness,
+finite-window readback, tail regularity, $\RealUp$ seal handoff, and
+non-escape for the single finite route
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N.
+$$
+Thus every downstream read factors through the displayed
+$\LimitSelectorUp$, $\RegularCauchyTailSelectorUp$,
+$\DyadicCofinalTailSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$,
+and local $\NameCert$ rows, and the package exports no quotient stream,
+countable-choice selector, host selected limit, ambient completeness theorem,
+host real equality, or hidden completed value.
+\end{theorem}
+\begin{proof}
+Read carrier admission and selector exactness from
+\autoref{thm:diagonal-tail-selector-namecert-obligations}. These clauses bind
+the finite packet and make $k$ a displayed value of $\mu$ at $n$.
+
+Next combine finite-window readback with
+\autoref{thm:diagonal-tail-selector-window-admission}. Every selected
+observation passes through $W$ and $D$ before regular tail information is
+available.
+
+Apply \autoref{thm:diagonal-tail-selector-cofinal-window-exhaustion} and
+\autoref{thm:diagonal-tail-selector-tail-meet-compatibility}. Cofinal reads
+are exhausted by the displayed window rows, and any shared-threshold tail
+input is consumed through the transported public certificate.
+
+Finally use \autoref{thm:diagonal-tail-selector-real-seal-factorization} and
+\autoref{thm:diagonal-tail-selector-seal-nonescape}. They place the
+$\CauchyLimitSealUp/\RealUp$ consumer behind the same finite route and remove
+all channels for quotient streams, countable choice, host selected limits,
+ambient completeness, host real equality, and hidden completed values.
 \end{proof}
 
 \begin{theorem}[Diagonal tail selector cofinal-window exhaustion]
@@ -157,15 +577,169 @@ quotient streams, selected host limits, countable choice, host equality, or
 ambient completeness.
 \end{proof}
 
-\closureat{DiagonalTailSelectorUp}{seedStr}
+\begin{theorem}[Diagonal tail selector window source scope]
+\label{thm:diagonal-tail-selector-window-source-scope}
+For every accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+the finite source scope of the Real-completion diagonal tail route is exactly
+the $\BHist$ carrier rows $R,n,\mu,k,W,D,T,S$, the componentwise $\hsame$
+transport rows in $H$, the displayed $\Cont$ route in $C$, the $\Pkg$
+provenance row $P$, and the local $\NameCert$ row $N$ over
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+$\RegularCauchyTailMeetUp$, $\CauchyLimitSealUp$, and $\RealUp$.
+Every selected source read must first pass through the finite
+$\StreamNameUp$ window $W$ and $\DyadicRatCoreUp$ readback row $D$ tied to
+$R,n,\mu,k$.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:diagonal-tail-selector-carrier}. Its
+visible coordinates are the finite $\BHist$ packet
+$R,n,\mu,k,W,D,T,S,H,C,P,N$ and no other source row.
+
+Apply \autoref{thm:diagonal-tail-selector-window-admission}. The selected
+cofinal index is read from $\mu$ at $n$, then every admitted observation
+passes through $W$ and $D$ before the tail row $T$ can be consumed.
+
+Use \autoref{thm:diagonal-tail-selector-cofinal-window-exhaustion}. It
+exhausts Real-completion source reads by the displayed finite-window rows and
+the structural rows $H,C,P,N$, so the source scope is precisely the named
+BEDC packet and its sibling window rows.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector tail-meet consumption scope]
+\label{thm:diagonal-tail-selector-tail-meet-consumption-scope}
+Suppose an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+uses $T$ as a transported $\RegularCauchyTailMeetUp$ shared-threshold packet.
+Then the only tail-meet data consumed by the diagonal route are the
+transported finite source rows, $\StreamNameUp$ windows, $\DyadicRatCoreUp$
+threshold readbacks, $\RegSeqRatUp$ comparison row, componentwise $\hsame$
+rows, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ rows
+recorded by $H,C,P,N$. The consumption scope exports no quotient stream,
+host-selected limit, countable-choice row, host real equality, hidden tail
+oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:diagonal-tail-selector-tail-meet-compatibility}. It
+identifies the selected row $T$ with the transported public
+shared-threshold packet before any $\CauchyLimitSealUp$ or $\RealUp$ seal row
+is read.
+
+Next apply \autoref{thm:diagonal-tail-selector-window-source-scope}. The
+tail-meet packet is consumed inside the same $R,n,\mu,k,W,D,T,H,C,P,N$
+source scope, with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows already fixed.
+
+Finally use \autoref{thm:diagonal-tail-selector-obligation-closure-package}.
+The obligation package has no coordinate for quotient streams, host-selected
+limits, countable choice, host equality, hidden tail oracles, or ambient
+completeness, so those objects cannot enter through the tail-meet handoff.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector TailCofinalitySchedule factorization]
+\label{thm:diagonal-tail-selector-tail-cofinality-factorization}
+For every accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+each Real-seal consumer of $S$ factors first through the $\TailCofinalityScheduleUp$ route from unary precision to finite window, dyadic ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal before using the diagonal selector rows. Thus the consumer reads the precision request and finite-window schedule before it uses $k,W,D,T,S,H,C,P,N$ as the diagonal completion-facing packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. It orders the schedule-facing route from the unary precision row through the finite $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal.
+
+Apply \autoref{thm:diagonal-tail-selector-limit-handoff}. It identifies the diagonal Real-completion consumer with the finite packet $R,n,\mu,k,W,D,T,S,H,C,P,N$, so the schedule route is consumed before the selector rows are used as a completion-facing package.
+
+Finally use \autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope}. The transported tail-meet rows remain inside the same displayed source, window, dyadic, regular-rational, seal, transport, route, provenance, and naming surface. Hence the factorization has no escape channel through quotient streams, selected limits, countable choice, ambient completeness, host real equality, or hidden tail oracles.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector Real seal boundary scope]
+\label{thm:diagonal-tail-selector-real-seal-boundary-scope}
+For every accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+the $\CauchyLimitSealUp$ and $\RealUp$ boundary reached at $S$ is scoped by
+the finite source rows of \autoref{thm:diagonal-tail-selector-window-source-scope}
+and the transported tail-meet rows of
+\autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope}. In
+particular, the seal-facing boundary is the displayed BEDC route through
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyTailMeetUp$,
+$\CauchyLimitSealUp$, and $\RealUp$, with $S$ reached only after
+$R,n,\mu,k,W,D,T,H,C,P,N$ are in scope.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-tail-selector-real-seal-factorization}. Every
+$\RealUp$ seal read from $S$ factors through the finite selector packet and
+its transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:diagonal-tail-selector-window-source-scope} to identify the
+source side of that packet. The rows $R,n,\mu,k,W,D$ supply exactly the
+finite $\StreamNameUp$ and $\DyadicRatCoreUp$ source window before $T$ and
+$S$ are available.
+
+Use \autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope} for the
+regular-tail side. When $T$ is supplied by the shared-threshold route, it is
+consumed only as the transported $\RegularCauchyTailMeetUp$ certificate
+inside the same structural rows.
+
+Finally apply \autoref{thm:diagonal-tail-selector-seal-nonescape}. The
+$\CauchyLimitSealUp$ and $\RealUp$ boundary therefore has no escape channel
+outside the displayed BEDC route.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector downstream non-escape scope]
+\label{thm:diagonal-tail-selector-downstream-nonescape-scope}
+Every downstream consumer of the $\DiagonalTailSelectorUp$ Real-completion
+route is scoped by the same finite packet
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N
+$$
+and the sibling BEDC rows named in
+\autoref{thm:diagonal-tail-selector-window-source-scope},
+\autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope}, and
+\autoref{thm:diagonal-tail-selector-real-seal-boundary-scope}. Hence a
+downstream $\CauchyLimitSealUp$ or $\RealUp$ consumer can use only the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+$\RegularCauchyTailMeetUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows, and
+cannot export quotient streams, host-selected limits, countable choice, host
+real equality, hidden tail oracles, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-tail-selector-obligation-closure-package}.
+It packages the carrier, NameCert obligations, limit handoff,
+cofinal-window exhaustion, and seal non-escape over one finite route.
+
+The window source scope then supplies the finite source boundary. Apply
+\autoref{thm:diagonal-tail-selector-window-source-scope} to keep all
+selected reads inside $R,n,\mu,k,W,D$ and the structural rows $H,C,P,N$.
+
+The tail-meet consumption scope supplies the regular-tail boundary. Apply
+\autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope} to consume
+$T$ only as the transported shared-threshold certificate when that sibling
+route is present.
+
+The Real seal boundary scope supplies the completion-facing boundary. Apply
+\autoref{thm:diagonal-tail-selector-real-seal-boundary-scope} and then
+\autoref{thm:diagonal-tail-selector-seal-nonescape}; downstream consumers
+are confined to the displayed BEDC route and receive none of the excluded
+escape coordinates.
+\end{proof}
+
+\closureat{DiagonalTailSelectorUp}{scopedStr}
 
 \begin{closurestatus}{\DiagonalTailSelectorUp}
   \constructivestory{A $\DiagonalTailSelectorUp$ packet is generated from a RegSeqRat input row, unary precision request, displayed modulus, selected cofinal tail index, finite StreamName window, DyadicRatCore readback, RegularCauchyTailSelector handoff, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:diagonal-tail-selector-carrier}, \autoref{thm:diagonal-tail-selector-namecert-obligations}, and \autoref{thm:diagonal-tail-selector-limit-handoff} bind the finite diagonal tail-selector route from regular Cauchy input rows to RealUp seal consumers.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:diagonal-tail-selector-carrier}, \autoref{thm:diagonal-tail-selector-namecert-obligations}, finite-window readback, tail-meet consumption, Real seal boundary, and downstream non-escape bind the finite diagonal tail-selector route through \autoref{thm:diagonal-tail-selector-downstream-nonescape-scope}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host real equality, countable choice, host-selected limits, ambient completeness, or a public standard bridge.}
-  \upgradepath{Scoped closure requires checked carrier admission, selector exactness, finite-window readback, tail-regularity handoff, RealUp seal handoff, and non-escape for the same finite packet.}
+  \upgradepath{Lean verification for the scoped finite-window, tail-meet, Real seal, and downstream non-escape package remains to be supplied.}
 \end{closurestatus}

@@ -57,6 +57,7 @@ The carrier definition contains no row for monodromy, global continuation, quoti
 \label{thm:analytic-continuation-socket-branch-ledger-exhaustion}
 Every branch-sensitive read of an accepted $\AnalyticContinuationSocketUp$ carrier is exhausted by the rows $F,G,U,A,O,B,H,C,P,N$. If the read is not a source-row read, overlap-witness read, operation-row read, output-row read, transport read, continuation-route read, package read, or local naming read, then it is recorded in the branch-obstruction ledger $B$ and is not exported as analytic-continuation evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_branch\_ledger\_exhaustion}
 \begin{proof}
 Read the request through the finite continuation routes $C$. The positive cases are exactly the displayed source, overlap, operation, output, transport, package, and naming coordinates.
 
@@ -139,6 +140,7 @@ Add the local NameCert surface from \autoref{thm:analytic-continuation-socket-na
 
 Finally apply \autoref{thm:analytic-continuation-socket-ledger-nonescape}. Requests for monodromy, branch selection, global continuation, or zero-location consequences leave the displayed packet and are therefore recorded only as branch-obstruction data in $B$.
 \end{proof}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_rh\_handoff\_boundary}
 
 \begin{theorem}[AnalyticContinuationSocket root source overlap]
 \label{thm:analytic-continuation-socket-root-source-overlap}
@@ -507,6 +509,7 @@ Use carrier admission and classifier transport to keep this split inside the sam
 
 Finally apply the zeta branch-obstruction exactness and overlap-to-zeta handoff theorems. They show that zero-location, monodromy, branch-selector, and global-continuation requests remain ledger entries, so the exactness claim does not assert analytic continuation as a completed external theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_branch\_ledger\_exactness}
 
 \begin{theorem}[AnalyticContinuationSocket overlap source obligation]
 \label{thm:analytic-continuation-socket-overlap-source-obligation}
@@ -556,13 +559,32 @@ Next apply the branch ledger obligation. It accounts for every branch-sensitive 
 Finally use the holomorphic handoff and overlap-to-zeta handoff. They route the local operation output through $A,O$ after the source and branch ledgers have been read, while zeta-facing obstruction exactness blocks any bypass to global continuation or zero-location data.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationSocket public export]
+\label{thm:analytic-continuation-socket-public-export}
+The public $\AnalyticContinuationSocketUp$ export of an accepted carrier
+$$
+S=(F,G,U,A,O,B,H,C,P,N)
+$$
+is exactly the finite socket packet consisting of the source rows $F,G$, overlap witness $U$, operation row $A$, output row $O$, branch ledger $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\AnalyticContinuationSocketUp}$ row $N$. The export contains no monodromy theorem, quotient-of-germs object, branch selector, or zero-location consequence beyond those rows.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations for \autoref{def:analytic-continuation-socket-carrier}. They expose the accepted socket as the displayed tuple $S=(F,G,U,A,O,B,H,C,P,N)$ and require classifier stability for the source, overlap, operation, output, branch, transport, route, provenance, and naming rows.
+
+Use branch-ledger exactness together with holomorphic handoff and overlap classifier stability. These results keep every source-overlap read inside $F,G,U,H,C,P,N$ and keep every branch-sensitive request either in the local output route through $A,O$ or in the branch ledger $B$.
+
+Next apply operation-output factorization, the RH handoff boundary, and the operation handoff obligation. They show that downstream operation and zeta-facing consumers must pass through the same finite rows before receiving the output, so the exported object is the packet itself.
+
+The exclusions follow from the same routing boundary. Monodromy, quotient-of-germs data, branch selection, and zero-location conclusions are not coordinates of $S$ and therefore cannot be projected from the public socket export.
+\end{proof}
+
 \closureat{AnalyticContinuationSocketUp}{seedStr}
 \closureat{AnalyticContinuationSocketUp}{obligationStr}
+\closureat{AnalyticContinuationSocketUp}{scopedStr}
 
 \begin{closurestatus}{\AnalyticContinuationSocketUp}
   \constructivestory{An $\AnalyticContinuationSocketUp$ packet is generated from two $\HolomorphicUp$ source rows, a finite overlap witness, an analytic-continuation operation row, an output $\HolomorphicUp$ row, a branch-obstruction ledger, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:analytic-continuation-socket-carrier}, \autoref{thm:analytic-continuation-socket-namecert-obligations}, \autoref{thm:analytic-continuation-socket-ledger-nonescape}, and \autoref{thm:analytic-continuation-socket-holomorphic-handoff} define the local operation-socket carrier, obligation rows, non-escape ledger, and downstream holomorphic handoff.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:analytic-continuation-socket-carrier}, \autoref{thm:analytic-continuation-socket-namecert-obligations}, \autoref{thm:analytic-continuation-socket-branch-ledger-exactness}, \autoref{thm:analytic-continuation-socket-holomorphic-handoff}, and \autoref{thm:analytic-continuation-socket-operation-handoff-obligation} bind the branch ledger, holomorphic handoff, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ rows already displayed in the socket packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

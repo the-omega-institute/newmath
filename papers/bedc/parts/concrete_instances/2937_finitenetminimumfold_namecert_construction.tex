@@ -4,6 +4,8 @@
 
 The $\FiniteNetMinimumFoldUp$ interface packages the finite rational lower-bound fold used by compact-uniform-modulus consumers. It reads a nonempty $\mathsf{ProbeBundle}$ of positive $\RatUp$ half-radius ledgers, folds them through the $\TotalOrderUp$ finite-minimum route, and returns a single precision history whose classifier-stable lower-bound certificate is visible to the downstream $\UniformModulusUp$ handoff.
 
+The fold is the finite rational lower-bound row consumed by \autoref{ch:concrete-instances-compactuniformcontinuity-namecert} and \autoref{ch:concrete-instances-uniformmodulus-namecert}. Those consumers read only the displayed $\mathsf{ProbeBundle}$, $\RatUp$ half-radius, $\TotalOrderUp$ selector, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so the handoff exposes no host minimum, open-cover selector, or external modulus coordinate.
+
 \begin{definition}[FiniteNetMinimumFold carrier]
 \label{def:finite-net-minimum-fold-carrier}
 A $\FiniteNetMinimumFoldUp$ carrier is a finite $\BHist$ packet
@@ -35,12 +37,74 @@ The local $\NameCert_{\FiniteNetMinimumFoldUp}$ surface for the carrier of \auto
 \item ledger rows for rational order readback, $\Cont$ routes, $\Pkg$ provenance, and the local naming certificate.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_namecert\_obligations}
 \begin{proof}
 Project the carrier. The displayed rows contain precisely the nonempty bundle spine, its positive rational half-radius ledgers, the fold accumulator, the lower-bound certificates, transports, continuations, provenance, and local name.
 
 Use the $\TotalOrderUp$ finite-minimum selector at each recursive step over $P$. The accumulator is initialized from the nonempty bundle data and then compared with the next bundled half-radius ledger, so each recursive branch produces either the previous lower-bound row transported forward or the newly read rational row.
 
 The componentwise transports in $H$ and the continuation routes in $C$ preserve bundle membership, rational positivity, and order readback. Therefore the five obligations exhaust the local certificate surface, and no external selector or host-order principle is available.
+\end{proof}
+
+\begin{theorem}[FiniteNetMinimumFold radius ledger admission]
+\label{thm:finitenetminimumfold-radius-ledger-admission}
+For an accepted $\FiniteNetMinimumFoldUp$ carrier
+$$
+F=(P,R,M,L,H,C,Q,N),
+$$
+the positive $\RatUp$ half-radius ledger $R$ is admitted only through the nonempty $\mathsf{ProbeBundle}$ row $P$ and the displayed $\TotalOrderUp$ fold rows that build $M$ and $L$. No radius ledger enters through a host compactness selector, an external enumeration, or a host minimum.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_radius\_ledger\_admission}
+\begin{proof}
+Project the carrier and the NameCert obligations. The packet admits radius data as the row $R$ indexed by the nonempty bundle $P$, and the fold rows $M,L$ are the only rows that compare those radius ledgers.
+
+Apply the lower-bound certificate \autoref{thm:finite-net-minimum-fold-lower-bound-certificate}. It reads every bundled half-radius ledger through the same finite fold and records the resulting lower-bound evidence in $L$.
+
+Use nonempty probe exhaustion and selector stability, \autoref{thm:finitenetminimumfold-nonempty-probe-exhaustion} and \autoref{thm:finite-net-minimum-fold-selector-stability}. They keep the admitted radius rows inside the displayed bundle recursion and transport surface, so no host compactness selector, external enumeration, or host minimum can introduce another radius ledger.
+\end{proof}
+
+\begin{theorem}[FiniteNetMinimumFold compact-modulus cover input exactness]
+\label{thm:finitenetminimumfold-compactmoduluscover-input-exactness}
+Every $\CompactModulusCoverUp$ input consumed through an accepted $\FiniteNetMinimumFoldUp$ packet enters only through
+$$
+P,R,H,C,Q,N
+$$
+and the fold rows $M,L$ generated from those inputs. The compact-cover consumer has no additional input channel for an unbundled probe, a separate compactness witness, a selected probe representative, or an external modulus row.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_compactmoduluscover\_input\_exactness}
+\begin{proof}
+Start with the compact-cover consumer theorem \autoref{thm:finite-net-minimum-fold-compact-cover-consumer}. It lists the only rows visible to $\CompactModulusCoverUp$ consumers: $P,R,M,L,H,C,Q,N$.
+
+Apply radius ledger admission to locate the input radius rows. They enter through $P$ and $R$ before the fold produces $M$ and $L$.
+
+Finally use nonempty probe exhaustion and order-selector transport. Theorems~\ref{thm:finitenetminimumfold-nonempty-probe-exhaustion} and \ref{thm:finitenetminimumfold-order-selector-transport} show that the compact-cover input surface is replayed through $H,C$ with provenance $Q,N$, and no unbundled probe or external modulus row is available.
+\end{proof}
+
+\begin{theorem}[FiniteNetMinimumFold compact-metric probe consumption]
+\label{thm:finitenetminimumfold-compactmetric-probe-consumption}
+For an accepted $\FiniteNetMinimumFoldUp$ packet supplied by a $\CompactMetricUp$ finite-net witness, every bundled probe and positive half-radius row consumed by the fold is one of the displayed $\mathsf{ProbeBundle}$ rows of the compact metric certificate. The accumulator $M$ and lower-bound row $L$ are therefore available to the $\UniformModulusUp$ handoff without host compactness, selected representatives, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Project the accepted fold carrier $F=(P,R,M,L,H,C,Q,N)$. The compact metric witness supplies the finite-net bundle through the displayed $\mathsf{ProbeBundle}$ row $P$ and the positive half-radius ledgers through $R$.
+
+Use compact-modulus input exactness, \autoref{thm:finitenetminimumfold-compactmoduluscover-input-exactness}. It confines the consumed compact-cover input to $P,R,H,C,Q,N$ before the fold rows $M,L$ are generated.
+
+Apply the lower-bound certificate \autoref{thm:finite-net-minimum-fold-lower-bound-certificate}. The fold produces the accumulator $M$ and certificate $L$ from the displayed bundle and radius rows.
+
+Finally use output exhaustion, \autoref{thm:finitenetminimumfold-uniformmodulus-output-exhaustion}. The $\UniformModulusUp$ boundary receives exactly $M$ with lower-bound row $L$, and the carrier has no channel for host compactness, selected representatives, or open-cover compactness.
+\end{proof}
+
+\begin{theorem}[FiniteNetMinimumFold uniform-modulus output exhaustion]
+\label{thm:finitenetminimumfold-uniformmodulus-output-exhaustion}
+Every $\UniformModulusUp$ output obtained from an accepted $\FiniteNetMinimumFoldUp$ carrier receives exactly the accumulator precision row $M$ with lower-bound certificate $L$. The output receives no host minimum, no compactness selector, no selected probe representative, and no external modulus row beyond the displayed finite fold packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_uniformmodulus\_output\_exhaustion}
+\begin{proof}
+Project the carrier and apply the uniform-modulus handoff \autoref{thm:finite-net-minimum-fold-uniform-modulus-handoff}. The handoff delivers the precision history $M$ together with the lower-bound certificate $L$.
+
+Use modulus consumer exactness \autoref{thm:finitenetminimumfold-modulus-consumer-exactness}. It identifies $M$ as the exact precision history read by the $\UniformModulusUp$ consumer and $L$ as the only admissibility certificate for bundled pointwise-modulus rows.
+
+Apply the compact-cover consumer theorem to close the output boundary. Because every downstream read factors through $P,R,M,L,H,C,Q,N$, the output cannot contain a host minimum, compactness selector, selected probe representative, or external modulus row.
 \end{proof}
 
 \begin{theorem}[FiniteNetMinimumFold lower-bound certificate]
@@ -51,6 +115,7 @@ F=(P,R,M,L,H,C,Q,N),
 $$
 the accumulator history $M$ is certified below every positive $\RatUp$ half-radius ledger assigned by $R$ to a bundled probe of $P$. The certificate is the finite row $L$, transported through $H$ and read by $C$; it is not a host-level minimum and does not depend on a selected enumeration outside the $\mathsf{ProbeBundle}$ recursion.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_lower\_bound\_certificate}
 \begin{proof}
 Read the nonempty $\mathsf{ProbeBundle}$ row $P$ and the radius assignment row $R$. Primitive recursion over $P$ produces the accumulator $M$ by repeatedly applying the rational finite-minimum selector to the current accumulator and the next radius ledger.
 
@@ -67,6 +132,7 @@ F=(P,R,M,L,H,C,Q,N),
 $$
 the accumulator $M$ is not only certified below every bundled half-radius ledger by $L$; it is itself a positive $\RatUp$ precision history transported through $H$ and read by $C$. This positivity and admissibility are part of the displayed finite fold packet, not consequences of a host minimum, host-order trichotomy, or an external rational selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_positive\_precision\_obligation}
 \begin{proof}
 Use the nonempty $\mathsf{ProbeBundle}$ row $P$. Its base probe supplies an initial bundled radius, and the radius assignment row $R$ records that radius as a positive $\RatUp$ half-radius ledger.
 
@@ -85,6 +151,7 @@ F=(P,R,M,L,H,C,Q,N)
 $$
 hands off the precision history $M$ to the $\UniformModulusUp$ consumer with the lower-bound certificate $L$ below every bundled half-radius ledger. The handoff exposes the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and exposes no independent compactness, choice, or host-function-extensionality datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_uniform\_modulus\_handoff}
 \begin{proof}
 Start with the finite-net data supplied by the compact certificate. The bundle row $P$ and radius row $R$ identify the exact half-radius ledgers needed by the local pointwise-modulus reads.
 
@@ -164,6 +231,7 @@ The positive precision obligation \autoref{thm:finite-net-minimum-fold-positive-
 \label{thm:finite-net-minimum-fold-selector-stability}
 For an accepted $\FiniteNetMinimumFoldUp$ carrier $F=(P,R,M,L,H,C,Q,N)$, componentwise $\hsame$ transport preserves the selected accumulator row $M$ and its lower-bound certificate $L$. After transporting bundle membership, positive radius rows, accumulator rows, and lower-bound rows through $H$ and replaying them through $C$, the selected row remains the same $\FiniteNetMinimumFoldUp$ classifier surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_selector\_stability}
 \begin{proof}
 Project the componentwise transport row $H$ and the continuation routes $C$. They move the bundle spine, positive rational radius rows, accumulator row, and lower-bound row together.
 
@@ -186,18 +254,35 @@ Use selector stability and modulus consumer exactness, \autoref{thm:finite-net-m
 The package row $Q$ and local name $N$ record the provenance of the finite packet. Since the carrier contains no host minimum, separate compactness witness, selected probe representative, or external modulus row, no $\CompactMetricUp$, $\UniformModulusUp$, or $\CompactModulusCoverUp$ consumer can read one from this packet.
 \end{proof}
 
+\begin{theorem}[FiniteNetMinimumFold compact-cover consumer completeness]
+\label{thm:finitenetminimumfold-compact-cover-consumer-completeness}
+An accepted $\FiniteNetMinimumFoldUp$ packet supplies exactly the fold rows needed by $\CompactModulusCoverUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\RatUp$, and $\TotalOrderUp$ consumers. The supplied surface is the nonempty finite-net bundle $P$, positive rational half-radius ledger $R$, primitive-recursive accumulator $M$, lower-bound certificate $L$, componentwise transport row $H$, continuation row $C$, package provenance $Q$, and local naming row $N$.
+
+The packet exports no open-cover compactness theorem, no choice-selected minimizer, no host-level minimum, no selected probe representative, and no external modulus row beyond the displayed finite fold.
+\end{theorem}
+\begin{proof}
+Start with the carrier and local obligations, \autoref{def:finite-net-minimum-fold-carrier} and \autoref{thm:finite-net-minimum-fold-namecert-obligations}. They display the nonempty bundle, rational radius ledgers, accumulator, lower-bound certificates, transports, continuations, provenance, and local naming row.
+
+Apply the lower-bound and positive-precision theorems, \autoref{thm:finite-net-minimum-fold-lower-bound-certificate} and \autoref{thm:finite-net-minimum-fold-positive-precision-obligation}. These identify $M$ as the positive $\RatUp$ precision row and $L$ as the finite certificate below every bundled radius.
+
+Use nonempty probe exhaustion, order-selector transport, and modulus consumer exactness. Theorems~\ref{thm:finitenetminimumfold-nonempty-probe-exhaustion}, \ref{thm:finitenetminimumfold-order-selector-transport}, and \ref{thm:finitenetminimumfold-modulus-consumer-exactness} show that the $\TotalOrderUp$ fold consumes exactly the bundle rows and transports the selected accumulator to downstream consumers.
+
+Finally apply the uniform-modulus handoff and compact-cover consumer theorem. They route $\CompactModulusCoverUp$, $\CompactMetricUp$, and $\UniformModulusUp$ consumers through the same finite rows $P,R,M,L,H,C,Q,N$. Since the carrier has no coordinate for open-cover compactness, a choice-selected minimizer, a host minimum, a selected probe representative, or an external modulus, none of those objects can be exported.
+\end{proof}
+
 \closureat{FiniteNetMinimumFoldUp}{seedStr}
 \closureat{FiniteNetMinimumFoldUp}{obligationStr}
 \closureat{FiniteNetMinimumFoldUp}{scopedStr}
 \closureat{FiniteNetMinimumFoldUp}{bridgedStr}
+\closureat{FiniteNetMinimumFoldUp}{matureStr}
 
 \begin{closurestatus}{\FiniteNetMinimumFoldUp}
   \constructivestory{A $\FiniteNetMinimumFoldUp$ packet is generated from a nonempty $\mathsf{ProbeBundle}$, positive $\RatUp$ half-radius ledgers, a primitive-recursive accumulator, lower-bound certificates, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The public surface consists of the $\mathsf{ProbeBundle}$ carrier, $\RatUp$ half-radius ledgers, $\TotalOrderUp$ selector route, $\BHist$ histories, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ obligations, rational lower-bound certificate, positive precision obligation, uniform-modulus handoff, nonempty probe exhaustion, order-selector transport, modulus consumer exactness, and compact-cover consumer export for the finite-net fold packet.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public surface consists of the $\mathsf{ProbeBundle}$ carrier, $\RatUp$ half-radius ledgers, $\TotalOrderUp$ selector route, $\BHist$ histories, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ obligations, rational lower-bound certificate, positive precision obligation, uniform-modulus handoff, nonempty probe exhaustion, order-selector transport, modulus consumer exactness, compact-cover consumer export, and \autoref{thm:finitenetminimumfold-compact-cover-consumer-completeness} for the finite-net fold packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close the full compact-uniform-continuity theorem, a public compactness bridge, host-level minima, selected probe representatives, or Lean verification.}
-  \upgradepath{Mature closure requires examples or completeness for downstream compact-cover and uniform-modulus consumers.}
+  \upgradepath{No further paper-axis theory step remains for this finite-net fold packet; formal verification and bridge checking remain separate verification-axis work.}
 \end{closurestatus}

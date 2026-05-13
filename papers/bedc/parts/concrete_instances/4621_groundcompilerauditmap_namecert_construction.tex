@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerAuditMapUp$}
+\label{ch:concrete-instances-groundcompilerauditmap-namecert}
+\origin{ai}
+
+The $\GroundCompilerAuditMapUp$ packet realizes the GroundCompiler audit-map vision of \autoref{ch:bedc-groundcompiler-audit-map} as a finite NameCert object. It sits beside the generic audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert} and the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}: those chapters name the common audit rows and the MetaCIC substitution sibling, while this chapter names the GroundCompiler theorem inventory, compiler-layer frontier, generated recognizer rows, report boundary, non-escape ledger, and theorem-family handoff.
+
+\begin{definition}[GroundCompiler audit-map carrier]
+\label{def:ground-compiler-audit-map-carrier}
+A $\GroundCompilerAuditMapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,K,E,C,R,Q,F,X,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the established GroundCompiler theorem-inventory row, including the legal event-flow, generated recognizer, report-boundary, and no-hidden-input theorem families named by \autoref{ch:bedc-groundcompiler-audit-map};
+\item $K$ is the conditional theorem-cell row for compiler facts that require named channel, recognizer, source-separation, or certificate-gate data before they may be read;
+\item $E$ is the event-flow and channel-legality row, recording formal event streams, legal channel packets, lossless decode, and source/channel separation;
+\item $C$ is the compiler-layer theorem row grounded by $\mathsf{BEDC.GroundCompiler.MainTheorems.no\_hidden\_input\_streaming\_compiler}$ and its surrounding theorem family;
+\item $R$ is the generated-recognizer row for packages, local $\NameCert$ packets, derivation certificates, theorem identifiers, chapter flows, and report carriers;
+\item $Q$ is the report-boundary row separating metric reports, motif reports, theorem code, chapter code, source reports, and audit summaries from proof or certificate evidence;
+\item $F$ is the compiler-layer frontier row naming host compiler trust, self-hosting tower claims, kernel acceptance, MetaCIC proof evidence, raw equality, and report-as-proof conversion as outside the packet;
+\item $X$ is the theorem-family handoff row linking this packet to \autoref{ch:concrete-instances-auditmapinterface-namecert}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, and the sibling GroundCompiler packets without importing their hidden coordinates;
+\item $H$ records componentwise $\hsame$ transports for inventory, conditional theorem cells, event-flow and channel legality, compiler theorem rows, generated recognizers, report boundaries, frontiers, handoffs, provenance, and local naming;
+\item $T$ records displayed $\Cont$ routes by which audit consumers inspect $I,K,E,C,R,Q,F,X$ in finite order;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:concrete-instances-auditmapinterface-namecert}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the GroundCompiler theorem inventory, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GroundCompilerAuditMapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden host input, host compiler trust, source text outside the legal channel, report-to-proof conversion, motif identity, unrestricted raw equality, kernel acceptance evidence, or MetaCIC proof evidence.
+\end{definition}
+\leanchecked{BEDC.Derived.GroundCompilerAuditMapUp.GroundCompilerAuditMapTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[GroundCompiler audit-map NameCert obligations]
+\label{thm:ground-compiler-audit-map-namecert-obligations}
+For every accepted $\GroundCompilerAuditMapUp$ carrier
+$$
+G=(I,K,E,C,R,Q,F,X,H,T,P,N),
+$$
+the local $\NameCert_{\GroundCompilerAuditMapUp}$ surface consists exactly of theorem-inventory readback through $I$, conditional theorem-cell readback through $K$, event-flow and channel-legality readback through $E$, compiler theorem readback through $C$, generated-recognizer readback through $R$, report-boundary readback through $Q$, frontier readback through $F$, theorem-family handoff through $X$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. Its first eight coordinates are the only public theorem, compiler, recognizer, boundary, frontier, and handoff rows available to a local certificate.
+
+Read the theorem-facing rows first. The inventory row $I$ lists established GroundCompiler facts, the conditional row $K$ keeps route-dependent facts conditional, $E$ records the legal event-flow and channel surface, and $C$ records the compiler-layer theorem family headed by the checked no-hidden-input streaming compiler theorem.
+
+Read the consumer-facing rows next. The recognizer row $R$ supplies generated recognizer evidence, $Q$ keeps report-like outputs on the non-evidence side of the boundary, $F$ records the compiler-layer frontier, and $X$ records permitted handoff to the generic audit-map interface, substitution audit map, and sibling GroundCompiler packets.
+
+Finally inspect $H,T,P,N$. Transport, continuation, provenance, and local naming replay the same finite rows without adding a hidden coordinate. Hence the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map non-escape]
+\label{thm:ground-compiler-audit-map-nonescape}
+Every public read from an accepted $\GroundCompilerAuditMapUp$ carrier factors through the displayed theorem inventory, conditional theorem cells, event-flow and channel legality, compiler theorem rows, generated recognizers, report boundaries, frontier rows, theorem-family handoff rows, componentwise transport, continuation, provenance, and local naming of \autoref{def:ground-compiler-audit-map-carrier}. Such a read cannot become hidden compiler input, host compiler trust, source text outside the legal channel, report evidence, motif identity, raw equality, kernel acceptance evidence, or MetaCIC proof evidence.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They force every public read to choose one of the displayed coordinates $I,K,E,C,R,Q,F,X,H,T,P,N$.
+
+The compiler rows $E$ and $C$ make legal event-flow and the no-hidden-input theorem family visible, while $R$ and $Q$ separate generated recognizers from report-like outputs. None of these rows contains a host source scan, host compiler trust token, or report-to-proof conversion.
+
+The frontier and handoff rows $F$ and $X$ then record what remains outside the packet and where sibling consumers may read. Since handoff is routed through displayed rows rather than hidden imports, kernel acceptance and MetaCIC proof evidence remain in their own packets.
+
+The omitted coordinates are exactly the advertised non-escape claims. Therefore no accepted carrier read can leave the finite audit-map packet.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map theorem-family handoff]
+\label{thm:ground-compiler-audit-map-family-handoff}
+An accepted $\GroundCompilerAuditMapUp$ carrier may hand theorem-family inventory to the audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert}, to the substitution audit sibling of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, and to GroundCompiler event-flow, recognizer, verdict, evidence-boundary, legal-channel, and audit-packet consumers only through the displayed handoff row $X$ and the route row $T$. The handoff preserves conditional theorem cells as conditional cells and frontiers as frontier rows.
+\end{theorem}
+\begin{proof}
+Use the carrier projection and isolate $X$. This row is the only coordinate that names cross-map or sibling consumers, so every theorem-family handoff must pass through it.
+
+The route row $T$ supplies the displayed continuation from the inventory, conditional, compiler, recognizer, report-boundary, and frontier rows into $X$. A consumer therefore receives the same row class that was routed into the handoff.
+
+Conditional theorem cells remain conditional because the carrier contains no coordinate turning $K$ into an unconditional theorem. Frontier rows remain frontiers because $F$ records outside claims rather than solved obligations.
+
+Thus theorem-family handoff is a finite routed read, not an import of the target packet's hidden coordinates and not a discharge of the source packet's conditional or frontier rows.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit-map compiler-layer frontier]
+\label{thm:ground-compiler-audit-map-compiler-layer-frontier}
+For an accepted $\GroundCompilerAuditMapUp$ carrier, the compiler-layer frontier row $F$ is the binding boundary between the concrete audit map and stronger compiler claims. It permits the packet to cite the no-hidden-input streaming compiler theorem family through $C$, but it does not close host compiler trust, a self-hosted compiler tower, kernel acceptance, MetaCIC reduction or typing evidence, report-to-proof conversion, motif identity, or unrestricted equality.
+\end{theorem}
+\begin{proof}
+Read the compiler theorem row $C$ together with the frontier row $F$. The former records the available GroundCompiler theorem family, including the no-hidden-input streaming compiler theorem; the latter records which adjacent claims are outside the packet.
+
+Now compare $F$ with the remaining coordinates. Inventory, conditional theorem cells, event-flow rows, recognizer rows, report-boundary rows, and handoff rows can all be transported and routed, but none of them is a carrier field for host compiler trust, self-hosting, kernel acceptance, MetaCIC proof evidence, report evidence, motif identity, or unrestricted equality.
+
+Consequently the packet can expose the compiler-layer theorem family as finite audit data while keeping stronger compiler and proof claims outside the local NameCert surface.
+\end{proof}
+
+\closureat{GroundCompilerAuditMapUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerAuditMapUp}
+  \constructivestory{A $\GroundCompilerAuditMapUp$ packet is generated from established GroundCompiler theorem inventory, conditional theorem cells, event-flow and channel legality rows, compiler theorem rows, generated recognizer rows, report-boundary rows, frontier rows, theorem-family handoff rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ground-compiler-audit-map-carrier}, \autoref{thm:ground-compiler-audit-map-namecert-obligations}, \autoref{thm:ground-compiler-audit-map-nonescape}, \autoref{thm:ground-compiler-audit-map-family-handoff}, and \autoref{thm:ground-compiler-audit-map-compiler-layer-frontier} bind the finite GroundCompiler audit-map packet, obligation surface, non-escape boundary, theorem-family handoff, and compiler-layer frontier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close host compiler trust, a self-hosted compiler tower, kernel acceptance, MetaCIC proof evidence, report-to-proof conversion, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, theorem-inventory exactness, conditional-cell preservation, event-flow and channel legality readback, compiler theorem readback, generated-recognizer readback, report-boundary readback, frontier readback, theorem-family handoff, transport, continuation, provenance, naming, and non-escape for the same finite packet.}
+\end{closurestatus}

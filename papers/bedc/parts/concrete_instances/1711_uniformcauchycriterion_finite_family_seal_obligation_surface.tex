@@ -8,6 +8,7 @@ be an accepted $\UniformCauchyCriterionUp$ packet. The rows $I,W,M,Q,T,E,H,C,P,N
 
 The surface consists exactly of the finite index ledger $I$, shared window family $W$, shared threshold schedule $M$, dyadic tolerance row $Q$, tail ledger $T$, seal handoff row $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local $\NameCert$ row $N$. It contains no selected limit, quotient stream, host real equality, ambient completeness proof, or detached tail oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_seal\_obligation\_package}
 \begin{proof}
 First expose the finite window spine. Apply \autoref{thm:uniform-cauchy-criterion-window-stability}; every window read remains a read of the displayed family $W$ over the finite index ledger $I$.
 
@@ -47,6 +48,7 @@ Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted $\UniformCauchyCriterionUp$ packet 
 
 All admissible reads are exhausted by the displayed window, threshold, tolerance, tail, seal, transport, continuation, provenance, and local naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_seal\_nonescape}
 \begin{proof}
 Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}. The RegSeqRat-facing read has no coordinate outside $I,W,M,Q,T,E,H,C,P,N$.
 
@@ -55,4 +57,24 @@ Apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. T
 Use \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy} to rule out escape through refined windows. The overlap still determines the same tail ledger and seal route.
 
 Finally use \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness}. A second route to host equality, quotient streams, or completion data would require another visible seal handoff, and that handoff is absent from the accepted packet.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-family root seal package]
+\label{thm:uniform-cauchy-criterion-finite-family-root-seal-package}
+For an accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N),
+$$
+the finite-family root seal package is exactly the route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E
+$$
+together with the componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local NameCert row $N$. Under overlap refinement the package preserves the same finite index ledger, shared window family, threshold schedule, tolerance row, tail ledger, and seal handoff, and it exports no selected limit, quotient stream, host real equality, ambient completeness witness, or detached tail oracle.
+\end{theorem}
+\begin{proof}
+First use the finite-family seal obligation package. It lists the rows $I,W,M,Q,T,E,H,C,P,N$ as the complete seal-facing inventory for the accepted packet.
+
+Next apply the finite-family RegSeqRat--Real handoff and the nonescape ledger. They identify the route from the finite index ledger through the shared window, threshold, tolerance, tail, and seal rows, and they exclude completion data outside the displayed package.
+
+Finally use the root-threshold schedule determinacy, tolerance ledger exactness, root seal consumer nonescape, and root shared tail meet results from the root-threshold refinement site. These preserve the same route under overlap refinement, so the finite-family package is stable as the root seal package.
 \end{proof}

@@ -53,6 +53,7 @@ Let $M=(A,B,G,E,S,C,H,P,N)$ be an accepted $\ClassifierMorphismUp$ packet. If a 
 
 Consequently the morphism preserves membership answers and signature-answer rows before any broader compiler certificate can consume the graph.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_ext\_sigrel\_preservation}
 \begin{proof}
 Begin with the source membership read. The graph coordinate $G$ is the only row relating the source and target histories, and the preservation coordinate $E$ is the only row that turns source $\Ext$ membership into target $\Ext$ membership.
 
@@ -60,11 +61,13 @@ Next read the signature answer. The row $S$ is attached to the same graph coordi
 
 Finally route both reads through $H,C,P,N$. These rows record componentwise sameness, continuation access, dependency provenance, and local naming for the same finite packet, so the classifier-visible preservation surface is fixed before any $\NameCertMorphismUp$ compiler boundary is applied.
 \end{proof}
+\leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismPacket\_ext\_sigrel\_preservation}
 
 \begin{theorem}[ClassifierMorphism composition closure]
 \label{thm:classifiermorphism-composition-closure}
 Given accepted $\ClassifierMorphismUp$ packets from a classifier-membership packet $A$ to a packet $B$ and from $B$ to a packet $D$, their relational graph composite determines an accepted $\ClassifierMorphismUp$ packet from $A$ to $D$. The composed packet preserves $\Ext$, $\mathsf{SigRel}$, $\Cont$, and $\hsame$ by composing the displayed graph rows, preservation ledgers, continuation routes, dependency packages, and local naming rows of the two input packets.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismPacket\_composition\_closure}
 \begin{proof}
 Project the first carrier to its source packet, middle packet, graph row, and preservation ledgers. Project the second carrier to the same kind of rows with the first target packet as its source-facing middle packet.
 
@@ -77,6 +80,7 @@ The same concatenation applies to $\mathsf{SigRel}$ answers and $\Cont$ routes. 
 \label{thm:classifiermorphism-preservation-nonescape-scope}
 Every classifier-preserving consumer route for an accepted $\ClassifierMorphismUp$ packet factors through exactly the displayed source packet $A$, target packet $B$, graph row $G$, $\Ext$ preservation row $E$, $\mathsf{SigRel}$ preservation row $S$, $\Cont$ preservation row $C$, componentwise $\hsame$ row $H$, $\Pkg$ provenance row $P$, local $\NameCert$ row $N$, and the checked TasteGate boundary. The route exports no host compiler function, semantic type interpretation, quotient equality between source and target histories, or unrecorded source-target relation.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismPacket\_preservation\_nonescape\_scope}
 \begin{proof}
 Start with the obligation surface of \autoref{thm:classifiermorphism-namecert-obligation-surface}. It identifies the carrier rows $A,B,G,E,S,C,H,P,N$ as the complete local $\NameCert_{\ClassifierMorphismUp}$ inventory.
 
@@ -90,15 +94,16 @@ The checked TasteGate boundary records the same finite packet as an encoded gate
 \closureat{ClassifierMorphismUp}{seedStr}
 \closureat{ClassifierMorphismUp}{obligationStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
 \closureat{ClassifierMorphismUp}{scopedStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
+\closureat{ClassifierMorphismUp}{publicStr}[BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary]
 
 \begin{closurestatus}{\ClassifierMorphismUp}
   \constructivestory{A $\ClassifierMorphismUp$ packet is generated from source and target classifier-membership packets, a finite graph row, $\Ext$, $\mathsf{SigRel}$, $\Cont$, and $\hsame$ preservation rows, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:classifiermorphism-carrier}, \autoref{def:classifiermorphism-classifier}, \autoref{thm:classifiermorphism-namecert-obligation-surface}, \autoref{thm:classifiermorphism-ext-sigrel-preservation}, \autoref{thm:classifiermorphism-composition-closure}, and \autoref{thm:classifiermorphism-preservation-nonescape-scope} bind the finite classifier-preservation packet between type-checking membership and naming-certificate morphism surfaces.}
   \leantarget{BEDC.Derived.ClassifierMorphismUp.taste\_gate}
   \formalstatus{\encodedDefV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close host compiler semantics, quotient equality between source and target histories, semantic typing interpretation, or bridge checking.}
-  \upgradepath{Public closure requires a public-object surface for the same source packet, target packet, graph row, preservation ledgers, transport rows, provenance, and local naming boundary.}
+  \upgradepath{Bridged closure requires a standard bridge for the same source packet, target packet, graph row, preservation ledgers, transport rows, provenance, and local naming boundary.}
 \end{closurestatus}

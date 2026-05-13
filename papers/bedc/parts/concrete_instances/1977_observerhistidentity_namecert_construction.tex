@@ -4,6 +4,8 @@
 
 The $\ObserverHistIdentityUp$ interface packages the finite observation surface behind observer-history identity. It names the point at which $\Hist$ rows, $\hsame$ transport, $\Cont$ routes, probe and signature observations, no-subject ledgers, package provenance, and a local naming row form one BEDC-native certificate without adding an observer-substance coordinate.
 
+The no-subject side of this carrier is supplied by \autoref{ch:concrete-instances-observersubjectboundary-namecert}, whose finite observation boundary is consumed before the $H,O,L,C,P,N$ rows are read as an identity packet.
+
 \begin{definition}[Observer-Hist identity carrier]\label{def:observer-hist-identity-carrier}
 An $\ObserverHistIdentityUp$ carrier is a finite $\BHist$ packet
 $$
@@ -89,15 +91,33 @@ The observation-ledger exactness theorem \autoref{thm:observer-hist-identity-led
 Therefore every consumer route factors through $H,O,L,C,P,N$, and the finite packet is the whole public surface of the certificate.
 \end{proof}
 
+\begin{theorem}[Observer-Hist identity scoped consumer interface]\label{thm:observer-hist-identity-scoped-consumer-interface}
+Any downstream observer-facing consumer of an accepted $\ObserverHistIdentityUp$ carrier must read observer identity through the displayed packet
+$$
+H,O,L,C,P,N,
+$$
+through the no-subject boundary supplied by \autoref{ch:concrete-instances-observersubjectboundary-namecert}, and through the kernel rows $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\Pkg$, and $\NameCert$. No such consumer may introduce observer-substance, host equality, quotient identity, or an internal truth predicate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to $H,O,L,C,P,N$. The carrier definition lists the observed history rows, observation ledger, componentwise transports, continuation routes, provenance, and local name as the whole packet.
+
+Apply ledger exactness and the consumer surface theorem. Observation reads factor through $O,L,C,P,N$, and every downstream route factors through the ordered packet $H,O,L,C,P,N$.
+
+Apply the no-subject boundary and the sibling no-subject source cited in the introduction. Together they rule out a subject coordinate outside $\Hist$ and force observer-facing identity reads to remain on the displayed $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\Pkg$, and $\NameCert$ rows.
+
+The packet therefore has no coordinate from which observer-substance, host equality, quotient identity, or an internal truth predicate could be introduced.
+\end{proof}
+
 \closureat{ObserverHistIdentityUp}{seedStr}
+\closureat{ObserverHistIdentityUp}{obligationStr}
 
 \begin{closurestatus}{\ObserverHistIdentityUp}
   \constructivestory{An $\ObserverHistIdentityUp$ packet is generated from displayed $\Hist$ rows, mark and continuation observations, $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ reads, classifier observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-hist-identity-carrier}, \autoref{thm:observer-hist-identity-namecert-obligations}, \autoref{thm:observer-hist-identity-transport-stability}, \autoref{thm:observer-hist-identity-ledger-exactness}, \autoref{thm:observer-hist-identity-no-subject-boundary}, and \autoref{thm:observer-hist-identity-consumer-surface} bind the finite observer-history carrier, transported observation ledger, no-subject boundary, package provenance, and local naming row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:observer-hist-identity-carrier}, \autoref{thm:observer-hist-identity-namecert-obligations}, \autoref{thm:observer-hist-identity-transport-stability}, \autoref{thm:observer-hist-identity-ledger-exactness}, \autoref{thm:observer-hist-identity-no-subject-boundary}, and \autoref{thm:observer-hist-identity-consumer-surface} with \leanchecked{BEDC.Derived.ObserverHistIdentityUp.taste\_gate} bind the carrier admission, classifier transport, observation-ledger exactness, no-subject boundary, and consumer factorization rows for the finite observer-history packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close an internal truth predicate, observer-substance type, quotient identity, host equality of observers, or a public standard bridge.}
-  \upgradepath{Obligation closure next requires checked carrier admission, classifier transport, ledger exactness, no-subject boundary, and consumer-surface rows for the same finite observer-history packet.}
+  \upgradepath{Scoped closure requires a checked public consumer theorem tying the same observer-history obligation surface to a canonical downstream interface.}
 \end{closurestatus}

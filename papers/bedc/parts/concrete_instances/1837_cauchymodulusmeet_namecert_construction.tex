@@ -4,6 +4,8 @@
 
 The $\CauchyModulusMeetUp$ interface packages the finite rows needed when two regular rational stream names must be read through one shared Cauchy bound. It is a naming certificate for the shared-modulus packet used by diagonal-limit and uniform Cauchy consumers; it does not assert that a quotient stream, a selected limit, or an ambient completeness principle has already been constructed.
 
+The meet packet consumes $\StreamNameUp$ finite-window rows from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readbacks from \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerance ledgers from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the $\RealUp$ seal surface from \autoref{ch:concrete-instances-real-namecert}. Thus $\CauchyModulusMeetUp$ is a shared-bound packet over these sibling carriers, not a kernel-only surface.
+
 \begin{definition}[CauchyModulusMeet carrier]\label{def:cauchy-modulus-meet-carrier}
 A $\CauchyModulusMeetUp$ carrier is a finite $\BHist$ packet
 $$
@@ -32,6 +34,7 @@ The local $\NameCert_{\CauchyModulusMeetUp}$ surface for the carrier of \autoref
 \item ledger rows for $\Cont$ routes, $\Pkg$ provenance, $\RealUp$ handoff reads, and the local naming certificate.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:cauchy-modulus-meet-carrier}. The displayed coordinates provide the two source stream names, two source moduli, shared meet modulus, transport rows, continuation rows, provenance, and local name.
 
@@ -142,6 +145,7 @@ S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
 $$
 In particular, such a consumer first reads the displayed stream-name rows, the source modulus rows, and the shared meet row, and then uses only the componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\CauchyModulusMeetUp}$ row supplied by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_consumer\_factorization}
 \begin{proof}
 Let a $\RealUp$ or $\RegSeqRatUp$ consumer route be given. Project its source carrier to the tuple of \autoref{def:cauchy-modulus-meet-carrier}.
 
@@ -513,6 +517,7 @@ S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
 $$
 Here $S_0,S_1$ are the two source $\StreamNameUp$ rows, $\mu_0,\mu_1$ are the source $\CauchyModulusUp$ rows, $\mu$ is the shared meet row with its $\DyadicRatCoreUp$ ledger, and $H,C,P,N$ are respectively the componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The projection lock exports no selected limit, no quotient stream, no host real equality, and no ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_binary\_projection\_lock}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-modulus-meet-carrier}. Its visible rows are the two source streams, the two source modulus rows, the shared meet row, the transport and continuation rows, package provenance, and the local certificate.
 
@@ -527,6 +532,7 @@ Finally apply the non-escape boundary. \autoref{thm:cauchy-modulus-meet-export-n
 \label{thm:cauchy-modulus-meet-joint-consumer-exactness}
 Every joint $\RegSeqRatUp$ and $\RealUp$ consumer of an accepted $\CauchyModulusMeetUp$ packet factors through the paired source rows $S_0,S_1,\mu_0,\mu_1$, the shared dyadic ledger carried by $\mu$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, package provenance $P$, and the local $\NameCert$ row $N$. No joint consumer may replace this route by a selected stream limit, quotient stream equality, host real equality, or ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_joint\_consumer\_exactness}
 \begin{proof}
 Begin with the export consumer lock. \autoref{thm:cauchy-modulus-meet-export-consumer-lock} already forces every $\RegSeqRatUp$ read, $\RealUp$ handoff, source-modulus projection, and dyadic tolerance read through the public export coordinates.
 
@@ -545,6 +551,7 @@ S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
 $$
 It is a root-unblock surface for those consumers only through displayed BEDC rows, not through quotient streams, selected limits, host real values, ambient completeness, or an external bridge checker.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusMeetUp.CauchyModulusMeetPacket\_root\_unblock\_export}
 \begin{proof}
 First assemble the packet surface. Carrier admission comes from \autoref{def:cauchy-modulus-meet-carrier}, and \autoref{thm:cauchy-modulus-meet-binary-meet-projection-lock} fixes the two source rows, the two source modulus rows, the shared meet row, transport, routes, provenance, and local name.
 
@@ -553,6 +560,67 @@ Next close the stability and shared-bound obligations. \autoref{thm:cauchy-modul
 Now route the diagonal and common-window consumers. \autoref{thm:cauchy-modulus-meet-diagonal-handoff-scope}, \autoref{thm:cauchy-modulus-meet-common-window-coherence}, and \autoref{thm:cauchy-modulus-meet-diagonal-consumer-sufficiency} put $\RegularCauchyTriangleBoundUp$, $\RegularCauchyTailMeetUp$, and $\RealDiagonalWindowCoverageUp$ on the displayed shared-bound packet.
 
 Finally route the rational and real consumers. \autoref{thm:cauchy-modulus-meet-paired-regseqrat-readback}, \autoref{thm:cauchy-modulus-meet-joint-consumer-exactness}, and \autoref{thm:cauchy-modulus-meet-mature-downstream-handoff} put $\RegSeqRatUp$ and $\RealUp$ on the same packet, and \autoref{thm:cauchy-modulus-meet-mature-nonescape} excludes every undisplayed analytic route.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet uniform-family tail-threshold factorization]
+\label{thm:cauchy-modulus-meet-uniform-family-tail-threshold-factorization}
+Let an accepted $\CauchyModulusMeetUp$ packet export its shared meet row to a finite-family $\UniformCauchyCriterionUp$ ledger and to an accepted $\RegularCauchyTailMeetUp$ packet. If both consumers read the shared tail threshold supplied by the meet packet, then both consumer routes factor through the same displayed rows
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+The finite-family ledger and the tail-meet packet may transport the row through their own displayed $\hsame$ and $\Cont$ routes, but neither consumer may replace $\mu$ by an independent tail selector, quotient stream, selected limit, host equality, ambient completeness witness, or any tail-threshold row not read from the displayed $\CauchyModulusMeetUp$ packet.
+\end{theorem}
+\begin{proof}
+Begin with the exported meet surface. \autoref{thm:cauchy-modulus-meet-root-unblock-export} fixes the two source stream rows, the two source modulus rows, the shared meet row, transport, continuation, provenance, and local naming rows as the only root-unblock packet available to downstream consumers.
+
+Next attach the regular tail-meet consumer. \autoref{thm:regular-cauchy-tail-meet-finite-family-threshold-absorption} says that a finite-family threshold request absorbed by $\RegularCauchyTailMeetUp$ must pass through the displayed tail-meet route rather than a separate selector or completion object.
+
+Now read the finite-family side. \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} keeps the family threshold request on the shared transported threshold row, and \autoref{thm:uniform-cauchy-criterion-family-tail-intersection} keeps subfamily tail reads inside the same finite family ledger.
+
+Combining these routes identifies the tail-meet threshold and the finite-family threshold as two consumer views of the same displayed row $\mu$ inside
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+The exclusions follow because each cited route is a ledger-read theorem over displayed BEDC rows and none exposes quotient streams, selected limits, host equality, ambient completeness, or an external tail selector.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet regular-comparison window handoff]
+\label{thm:cauchy-modulus-meet-regular-comparison-window-handoff}
+An accepted $\CauchyModulusMeetUp$ packet exporting
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N
+$$
+supplies the shared window and dyadic tolerance surface consumed by a
+$\RegularCauchyComparisonUp$ packet. The comparison rows $W,D,\tau$ must
+therefore be read from the displayed meet row $\mu$ and its source
+projections $S_0,S_1,\mu_0,\mu_1$, rather than from a second tolerance
+surface, quotient stream equality, host real equality, selected limit, or
+ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First lock the meet projections. Apply
+\autoref{thm:cauchy-modulus-meet-binary-meet-projection-lock}: the two source
+rows, the two source modulus rows, and the shared meet row are exactly the
+displayed $S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N$ surface.
+
+Next read joint consumer exactness and the root-unblock export.
+\autoref{thm:cauchy-modulus-meet-joint-consumer-exactness} keeps
+$\RegSeqRatUp$ and $\RealUp$ consumers on that same finite route, and
+\autoref{thm:cauchy-modulus-meet-root-unblock-export} identifies it as the
+shared-bound surface exposed to regular comparison consumers.
+
+Now attach the $\RegularCauchyComparisonUp$ packet. Its carrier and window
+exactness rows, \autoref{def:regular-cauchy-comparison-carrier} and
+\autoref{thm:regular-cauchy-comparison-window-exactness}, force the two
+regular names through one displayed window $W$ before dyadic observations are
+read.
+
+Finally apply tolerance-row exactness and the real seal boundary,
+\autoref{thm:regular-cauchy-comparison-tolerance-row-exactness} and
+\autoref{thm:regular-cauchy-comparison-real-seal-boundary}. They make the
+comparison's $D,\tau$ rows part of the same finite comparison surface and
+exclude a second tolerance, host real equality, quotient stream, selected
+limit, or ambient completeness route.
 \end{proof}
 
 \closureat{CauchyModulusMeetUp}{seedStr}

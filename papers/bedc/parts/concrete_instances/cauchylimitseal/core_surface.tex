@@ -4,6 +4,8 @@
 
 The $\CauchyLimitSealUp$ interface records the visible seal boundary between regular rational Cauchy data and the consumer-facing $\RealUp$ row. In the Bishop--Bridges constructive-analysis reading of Cauchy completion, a limit is presented by finite regular-name observations and an explicit schedule, not by quotienting streams or selecting a host limit. The chapter isolates that boundary as a concrete packet so later $\RealUp$ consumers can read only the displayed finite windows that pass through the seal.
 
+The same seal boundary is consumed as the downstream finite route of the diagonal-limit construction in \autoref{ch:concrete-instances-realcompleteness-namecert}. That consumer reads the StreamName, RegSeqRat, DyadicRatCore, and RealUp rows already named by the carrier, so the seal appears as a horizontal lattice edge between the finite completion route and the public real-facing endpoint.
+
 \begin{definition}[CauchyLimitSeal carrier]
 \label{def:cauchy-limit-seal-carrier}
 A $\CauchyLimitSealUp$ carrier is a finite $\mathsf{BHist}$ packet
@@ -176,6 +178,7 @@ Finally use the non-escape boundary of \autoref{thm:cauchy-limit-seal-non-escape
 \label{thm:cauchy-limit-seal-diagonal-row-compatibility}
 Every $\RealCauchyCompletionUp$ diagonal read consumed by an accepted $\CauchyLimitSealUp$ seal factors through the same scheduled $\StreamNameUp$ window and the same $\DyadicRatCoreUp$ observation ledger as the finite route of \autoref{thm:cauchy-limit-seal-window-factorization}. Consequently the diagonal row $G$ in the carrier cannot be replaced, for that seal read, by an independent completion object outside the displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_diagonal\_row\_compatibility}
 \begin{proof}
 Begin with the window factorization theorem \autoref{thm:cauchy-limit-seal-window-factorization}. It sends each consumer read through a scheduled $\StreamNameUp$ window, the displayed $\RegSeqRatUp$ source row, the matching $\DyadicRatCore$ ledger, and then the $\RealCauchyCompletionUp$ diagonal coordinate before the read reaches the $\RealUp$ seal.
 
@@ -202,6 +205,7 @@ Finally use the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-re
 \label{thm:cauchy-limit-seal-scheduled-window-pullback}
 Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Any downstream predicate read on the sealed $\RealUp$ endpoint $E$ pulls back uniquely to a scheduled $\StreamNameUp$ finite window in $S$, its $\RegSeqRatUp$ row in $X$, the matching $\DyadicRatCoreUp$ observation row in $D$, and the displayed $\hsame$ and $\Cont$ transport rows in $T$. This pullback is a projection of the finite $\mathsf{BHist}$ packet named by $P$ and $N$, and it has no host-limit coordinate, quotient-stream coordinate, or independent completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_scheduled\_window\_pullback}
 \begin{proof}
 Project the carrier coordinates $X,S,D,G,E,T,P,N$. The endpoint $E$ is not stored as a free real object; it is the seal row reached through the scheduled route carried by the same finite $\mathsf{BHist}$ packet.
 
@@ -338,6 +342,7 @@ only through its finite family ledger, shared window family, uniform modulus,
 dyadic tolerance, tail ledger, seal handoff, and visible $\mathsf{BHist}$,
 $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_uniform\_criterion\_pullback}
 \begin{proof}
 Project the accepted $\CauchyLimitSealUp$ carrier. By
 \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}, every sealed read
@@ -641,4 +646,3 @@ Then apply sealed endpoint route exhaustion from \autoref{thm:cauchy-limit-seal-
 
 Finally use non-escape from \autoref{thm:cauchy-limit-seal-non-escape}. Since the carrier has no coordinate for quotient streams, selected host limits, uniqueness principles, or ambient completeness, the assembled package is a constructive downstream boundary over exactly the displayed BEDC objects.
 \end{proof}
-

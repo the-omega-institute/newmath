@@ -4,6 +4,8 @@
 
 The $\DyadicMidpointUp$ interface names the finite midpoint ledger consumed by dyadic interval bisection. In the Bishop--Bridges style of constructive dyadic interval bisection, a midpoint is not a hidden real-number choice: it is a displayed common-denominator calculation over two dyadic endpoint rows, followed by a branch-comparison row and the finite readback route made available to interval consumers.
 
+The midpoint packet consumes endpoint and tolerance rows from \autoref{ch:concrete-instances-dyadicratcore-namecert} and routes branch decisions to \autoref{ch:concrete-instances-rationalinterval-namecert}, \autoref{ch:concrete-instances-dyadicinterval-namecert}, and \autoref{ch:concrete-instances-nestedinterval-namecert}. The common-denominator scaling and midpoint rows are $\DyadicRatCoreUp$ rows, while the interval chapters consume the branch-comparison row through the same finite branch ledger before it reaches $\DyadicSubdivisionUp$, $\StreamNameUp$, $\RealUp$, or later L10 real-readback consumers.
+
 \begin{definition}[DyadicMidpoint carrier]
 \label{def:dyadic-midpoint-carrier}
 A $\DyadicMidpointUp$ carrier is a finite $\mathsf{BHist}$ packet
@@ -25,6 +27,30 @@ with the following visible rows:
 The carrier has no coordinate for host real equality, quotient endpoints, a completed interval intersection, an ambient completeness proof, or an unrecorded midpoint decision.
 \end{definition}
 \leandef{BEDC.Derived.DyadicMidpointUp.DyadicMidpointCarrier}
+
+\begin{theorem}[DyadicMidpoint endpoint-source route]
+\label{thm:dyadic-midpoint-endpoint-source-route}
+For every accepted $\DyadicMidpointUp$ packet
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N),
+$$
+the endpoint rows are read first as $L$ and $R$ through \autoref{ch:concrete-instances-dyadicratcore-namecert} or through the rational interval endpoint surface of \autoref{ch:concrete-instances-rationalinterval-namecert}. Only after those two endpoint rows and the common-denominator row $S$ are present does the packet expose the midpoint row $\mu$ and the branch row $B$ to the bisection consumer of \autoref{ch:concrete-instances-dyadicbisection-namecert} through the displayed finite route $W,H,C,P,N$.
+
+Thus a $\DyadicBisectionUp$ consumer cannot read a midpoint branch without first inheriting the dyadic endpoint data named by the source endpoint rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N).
+$$
+The first two coordinates are the only endpoint source rows in the packet. By \autoref{def:dyadic-midpoint-carrier}, they are accepted by $\DyadicRatCoreUp$ or exposed through a $\RationalIntervalUp$ endpoint surface.
+
+The common-denominator row $S$ is the only row that transports those two endpoint rows to a shared dyadic denominator. The midpoint row $\mu$ is then read from that displayed scaled endpoint ledger, so the midpoint calculation has no independent endpoint source.
+
+The branch row $B$ is the only coordinate that records a side selection at the midpoint. Hence a $\DyadicBisectionUp$ consumer receives the branch through $B$ and the finite route $W,H,C,P,N$, with $L,R,S,\mu$ as the displayed prerequisites.
+
+No remaining coordinate of the carrier can supply host real equality, quotient endpoints, completed intersections, or ambient completeness. The coordinate list is exhausted by $L,R,S,\mu,B,W,H,C,P,N$, so the endpoint-source route into bisection is exactly the stated finite route.
+\end{proof}
 
 \begin{theorem}[DyadicMidpoint NameCert obligations]
 \label{thm:dyadic-midpoint-namecert-obligations}

@@ -45,6 +45,7 @@ K=(S,T,G,E,L,H,C,P,N),
 $$
 edge admission is exactly the displayed source-to-target row $E$ of the packet. A graph edge in $G$ is accepted only when $E$ records its source endpoint in the carrier row $S$ and its target endpoint in the carrier row $T$, with the route transported through $H$, replayed through $C$, and named by the local $\NameCert$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_edge\_lift\_transport}
 \begin{proof}
 Project the carrier through \autoref{def:kernel-morphism-carrier}. The graph row $G$ and edge-admission row $E$ are separate displayed coordinates, and $E$ is the only coordinate that records source-to-target admission for graph edges.
 
@@ -68,6 +69,7 @@ Apply \autoref{thm:kernel-morphism-namecert-obligations}. Its lift clause identi
 
 The rows $G$ and $E$ then certify that the lifted result is a graph edge admitted between $S$ and $T$. Transport, continuation, package provenance, and local naming keep the lift inside $K=(S,T,G,E,L,H,C,P,N)$ and do not add a compiler-correctness theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_classifier\_lift\_obligation}
 
 \begin{theorem}[KernelMorphism transport-stability obligation]
 \label{thm:kernel-morphism-transport-stability-obligation}
@@ -77,6 +79,7 @@ K=(S,T,G,E,L,H,C,P,N),
 $$
 componentwise transport along $H$ and replay along $C$ preserves the same edge-admission and classifier-lift obligations. A transported packet remains readable only through $S,T,G,E,L,H,C,P,N$, so graph edges, admitted endpoints, and lifted classifier inputs stay on the displayed finite morphism surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_transport\_stability\_obligation}
 \begin{proof}
 Read the transport rows from the carrier. The row $H$ relates the source, target, graph, edge-admission, classifier-lift, continuation, package, and naming coordinates componentwise, and $C$ replays the same routes after transport.
 
@@ -161,6 +164,7 @@ Use the NameCert obligation theorem for the public route. Edge admission is read
 
 The package and local naming rows $P,N$ record that the same finite packet is being consumed. Since no carrier coordinate names an external source object, external target object, host compiler semantics, or quotient program equality, the source-target scope is exhausted by $S,T,G,E,L,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_source\_target\_scope}
 
 \begin{theorem}[KernelMorphism composition scope]
 \label{thm:kernel-morphism-composition-scope}
@@ -174,6 +178,7 @@ K_{2}=(M,T,G_{2},E_{2},L_{2},H_{2},C_{2},P_{2},N_{2}),
 $$
 the scoped composite reads only the displayed middle row $M$, the two graph rows $G_{1},G_{2}$, the two edge-admission ledgers $E_{1},E_{2}$, and the two classifier-lift ledgers $L_{1},L_{2}$, together with the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of the two packets. It does not import an ambient category law, hidden associativity proof, external middle object, or compiler semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_composition\_scope}
 \begin{proof}
 Start from the two displayed carriers. The only shared row available to connect them is the middle row $M$, occurring as the target row of $K_{1}$ and the source row of $K_{2}$.
 
@@ -195,6 +200,7 @@ Use composition scope for composable reads. The only additional data consumed ar
 
 Finally use the non-escape and public export theorems. They exclude host compiler semantics, quotient program equality, inverse data, undisplayed target objects, and ambient category laws, so the scoped consumer receives exactly the NameCert packet described above.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelMorphismUp.KernelMorphismCarrier\_namecert\_scope}
 
 \begin{theorem}[KernelMorphism scoped edge-lift consumer]
 \label{thm:kernel-morphism-scoped-edge-lift-consumer}
@@ -214,16 +220,32 @@ Transport and replay are controlled by \autoref{thm:kernel-morphism-transport-st
 Finally use \autoref{thm:kernel-morphism-non-escape} and \autoref{thm:kernel-morphism-namecert-scope}. They exclude compiler semantics, inverse data, quotient program equality, and ambient category laws, leaving $S,T,E,L,H,C,P,N$ as the scoped consumer route for target-edge reads.
 \end{proof}
 
+\begin{theorem}[KernelMorphism standard reflection bridge]
+\label{thm:kernel-morphism-standard-reflection-bridge}
+The edge-admission, classifier-lift, transport-stability, composition-surface, public-export, and $\NameCert$-scope rows assemble a standard reflection bridge for $\KernelMorphismUp$. The bridge reads only the finite packet rows $S,T,G,E,L,H,C,P,N$ and composable middle rows, and imports no host equality, host function space, compiler semantics, inverse data, or ambient category law.
+\end{theorem}
+\begin{proof}
+Start with edge admission and classifier lift, \autoref{thm:kernel-morphism-edge-admission-obligation} and \autoref{thm:kernel-morphism-classifier-lift-obligation}. These rows expose the source-to-target graph route and the classifier read without leaving the finite carrier.
+
+Transport stability and composition surface, \autoref{thm:kernel-morphism-transport-stability-obligation} and \autoref{thm:kernel-morphism-composition-surface}, supply the bridge replay and the composable middle-row surface.
+
+Finally apply the public export and $\NameCert$ scope theorems, \autoref{thm:kernel-morphism-public-export} and \autoref{thm:kernel-morphism-namecert-scope}. They package the displayed rows as the bridge-facing public object and exclude host equality, host functions, compiler semantics, inverse data, and ambient category laws.
+\end{proof}
+
 \closureat{KernelMorphismUp}{seedStr}
 \closureat{KernelMorphismUp}{obligationStr}
+\closureat{KernelMorphismUp}{scopedStr}
+\closureat{KernelMorphismUp}{publicStr}
+\closureat{KernelMorphismUp}{bridgedStr}
+\closureat{KernelMorphismUp}{matureStr}
 
 \begin{closurestatus}{\KernelMorphismUp}
   \constructivestory{A $\KernelMorphismUp$ packet is generated from source and target NameCert rows, a finite compiler graph, edge-admission and classifier-lift rows, componentwise hsame transport, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:kernel-morphism-carrier}, \autoref{thm:kernel-morphism-namecert-obligations}, \autoref{thm:kernel-morphism-composition-surface}, \autoref{thm:kernel-morphism-non-escape}, and \autoref{thm:kernel-morphism-public-export} define the finite morphism-packet surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:kernel-morphism-carrier}, \autoref{thm:kernel-morphism-namecert-obligations}, \autoref{thm:kernel-morphism-composition-surface}, \autoref{thm:kernel-morphism-non-escape}, \autoref{thm:kernel-morphism-public-export}, \autoref{thm:kernel-morphism-composition-scope}, \autoref{thm:kernel-morphism-namecert-scope}, \autoref{thm:kernel-morphism-scoped-edge-lift-consumer}, and \autoref{thm:kernel-morphism-standard-reflection-bridge} define the finite morphism-packet surface, its public export, and the bridge-facing consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close compiler correctness, optimization correctness, decompiler right inverses, ambient category laws, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires the displayed edge-admission, classifier-lift, transport-stability, composition, and non-escape rows to be bound into one consumer-stable morphism packet.}
+  \upgradepath{The theory axis is complete at the mature finite morphism-packet surface; remaining work is Lean verification and bridge checking.}
 \end{closurestatus}

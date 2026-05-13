@@ -4,6 +4,8 @@
 
 The $\ProofTermErasureTraceUp$ surface records a type-checking run whose proof evidence is erased while its typing membership and reduction compatibility remain visible. It sits between derivation traces and compiler packets: the carrier keeps the proof-term row, the erased-term row, the $\Ext$ typing row, the erasure route, the subject-reduction compatibility row, the transport rows, provenance, and local naming in one finite certificate.
 
+The trace consumes the derivation-route surface of \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert} and the preservation boundary of \autoref{ch:concrete-instances-subjectreduction-namecert}. $\ProofTermErasureTraceUp$ does not create its own typing judgment; it packages the erased public row only after those sibling rows have supplied membership and reduction compatibility.
+
 \begin{definition}[Proof-term erasure trace carrier]
 \label{def:proofterm-erasure-trace-carrier}
 A $\ProofTermErasureTraceUp$ carrier is a finite $\BHist$ packet
@@ -24,6 +26,7 @@ with the following visible coordinates:
 \end{enumerate}
 The local classifier relates two carriers only when their proof-term, erased-term, typing, erasure-route, subject-reduction, transport, provenance, and local naming rows compare componentwise through the displayed routes in $H$ and $C$.
 \end{definition}
+\leanchecked{BEDC.Derived.ProofTermErasureTraceUp.ProofTermErasureTraceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Proof-term erasure trace NameCert obligations]
 \label{thm:proofterm-erasure-trace-namecert-obligations}
@@ -46,6 +49,22 @@ Subject-reduction compatibility is the role of $R$. It records that the typing r
 Erased-term non-escape follows by carrier inspection. None of the coordinates is a host conversion relation, quotient equality on terms, normalization oracle, proof irrelevance principle, or hidden proof witness exported after erasure.
 
 Finally, local ledger exactness repacks the public reads through $H,C,P,N$. The transports and continuation rows state how the proof, erasure, typing, and compatibility data are replayed, while provenance and the local naming row record the finite ledger boundary.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure trace typed-reduction boundary]
+\label{thm:proofterm-erasure-trace-typed-reduction-boundary}
+For any accepted $\ProofTermErasureTraceUp$ packet
+$$
+Z=(p,e,T,E,R,H,C,P,N),
+$$
+the erased public row $e$ is exported only through the typing $\Ext$ row $T$, the erasure $\Cont$ route $E$, and the subject-reduction compatibility row $R$, replayed through $H,C,P,N$. The packet exports no host conversion relation, quotient term equality, proof irrelevance principle, semantic erasure-correctness theorem, or erased proof witness outside the displayed row $e$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proofterm-erasure-trace-carrier}. The public erasure surface contains the proof row $p$, erased row $e$, typing row $T$, erasure route $E$, subject-reduction row $R$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:proofterm-erasure-trace-namecert-obligations}. Its membership-preservation clause anchors $e$ in the typing row $T$ and erasure route $E$, while its subject-reduction clause keeps the public read compatible with $R$.
+
+The same obligation theorem lists erased-term non-escape and local ledger exactness. Since the carrier has no host conversion, quotient equality, proof irrelevance, semantic erasure-correctness, or hidden proof-witness coordinate, the typed-reduction boundary is exactly $T,E,R,H,C,P,N$ together with the displayed erased row.
 \end{proof}
 
 \closureat{ProofTermErasureTraceUp}{seedStr}

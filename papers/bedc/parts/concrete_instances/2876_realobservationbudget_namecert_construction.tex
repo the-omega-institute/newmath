@@ -4,6 +4,8 @@
 
 The $\RealObservationBudgetUp$ interface records the finite observation packet that a completion-facing consumer may inspect before a $\RealUp$ seal is reached. It keeps the precision request, stream windows, dyadic readbacks and radii, regular-sequence handoff rows, real-seal rows, transports, routes, provenance, and local naming row inside one $\BHist$ surface. It does not export quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
 
+This budget packet is a consumer of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Its substantive dependency path is finite window selection, dyadic readback and radius rows, regular-sequence handoff, and the real-seal boundary.
+
 \begin{definition}[Real observation budget carrier]
 \label{def:real-observation-budget-carrier}
 A $\RealObservationBudgetUp$ carrier is a finite $\BHist$ packet
@@ -406,6 +408,28 @@ Transport stability then preserves the same evidence rows. \autoref{thm:real-obs
 Finally use non-escape and classifier exactness. \autoref{thm:real-observation-budget-nonescape} and \autoref{thm:real-observation-budget-classifier-exactness} exclude quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules from every admitted consumer read.
 \end{proof}
 
+\begin{theorem}[Real observation budget L10 gate handoff exactness]
+\label{thm:real-observation-budget-l10-gate-handoff-exactness}
+Every admitted $\RealObservationBudgetUp$ packet exposes the L10 phase handoff exactly through the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S,
+$$
+where $W$ is the $\StreamNameUp$ finite-window surface, $D$ is the $\DyadicRatCoreUp$ readback and radius surface, $R$ is the $\RegSeqRatUp$ handoff surface, and $S$ is the $\RealUp$ seal boundary. No $\RegSeqRatUp$ or $\RealUp$ consumer admitted by the packet may bypass this route by quotient stream equality, host real equality, hidden limit selection, ambient completeness, or an unbounded observation schedule. Thus the L10 gate is a finite BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the observation route. \autoref{thm:real-observation-budget-window-coverage} binds every dyadic readback and radius in $D$ to the finite $\StreamNameUp$ windows $W$ selected by the request row $E$.
+
+Attach the rational handoff and the completion boundary. \autoref{thm:real-observation-budget-regseq-handoff} places the $\RegSeqRatUp$ consumer surface at $R$ downstream of $E,W,D$, and \autoref{thm:real-observation-budget-real-seal-boundary} makes $S$ the only $\RealUp$ seal boundary reachable from that handoff.
+
+Now use the consumer factorization theorem. \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} says every admitted $\RegSeqRatUp$ or $\RealUp$ consumer factors through
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S
+$$
+with the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Finally read the TasteGate target as a boundary condition, not as an extra analytic channel. \autoref{thm:real-observation-budget-tastegate-target-consumption} keeps the checked target attached to the displayed packet and does not add quotient stream equality, host real equality, hidden limit selection, ambient completeness, or an unbounded observation schedule. The L10 handoff is therefore exactly the finite BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{proof}
+
 \begin{theorem}[Real observation budget closure-axis obligation ledger]
 \label{thm:real-observation-budget-closure-axis-obligation-ledger}
 The obligation ledger for $\RealObservationBudgetUp$ consists of carrier admission for $B=(E,W,D,R,S,H,C,P,N)$, the local $\NameCert$ obligations, classifier exactness, $\RegSeqRatUp$ and $\RealUp$ consumer factorization, non-escape, and $\ChapterTasteGate$ target consumption. These rows record the paper-side obligation surface without asserting scoped closure or Lean verification.
@@ -426,12 +450,12 @@ Close the paper-side ledger with non-escape and TasteGate target consumption. \a
 
 \begin{closurestatus}{\RealObservationBudgetUp}
   \constructivestory{A $\RealObservationBudgetUp$ packet is generated from a unary precision request, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:real-observation-budget-carrier}, \autoref{thm:real-observation-budget-namecert-obligations}, \autoref{thm:real-observation-budget-window-coverage}, \autoref{thm:real-observation-budget-regseq-handoff}, \autoref{thm:real-observation-budget-real-seal-boundary}, \autoref{thm:real-observation-budget-obligation-package}, \autoref{thm:real-observation-budget-obligation-closure-readiness}, and \autoref{thm:real-observation-budget-tastegate-target-consumption} scope the finite observation-budget carrier, precision windows, dyadic readbacks, $\RegSeqRatUp$ handoffs, $\RealUp$ seal boundary, TasteGate instance \texttt{BEDC.Derived.RealObservationBudgetUp.taste\_gate}, and TasteGate carrier-alignment theorem over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.RealObservationBudgetUp.RealObservationBudgetTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, ambient completeness, hidden limit selection, unbounded observation schedules, or bridge checking.}
-  \upgradepath{Bridge checking requires a standard bridge interface for the same observation-budget packet while preserving the independent verification-axis target.}
+  \upgradepath{Mature treatment requires a standard bridge interface for the same observation-budget packet while preserving the independent verification-axis target.}
 \end{closurestatus}

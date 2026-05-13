@@ -85,6 +85,7 @@ The remaining consumer-visible data are exactly the provenance rows attached to 
 
 The carrier has no independent $\RealUp$ equality field and no completion witness outside the readback. Therefore the real seal can consume only the displayed regular readback and its visible provenance.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_real\_seal\_boundary}
 
 \begin{theorem}[RegularCauchyProduct source-window transport]
 \label{thm:regular-cauchy-product-source-window-transport}
@@ -225,6 +226,24 @@ Finally invoke
 readback factors through the bounded source windows, dyadic product row, and
 ledger $E$, the real seal consumer receives the finite product budget before
 it can consume the regular rational handoff.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct window comparison]
+\label{thm:regular-cauchy-product-window-comparison}
+Let $M$ be an accepted $\RegularCauchyProductUp$ packet, let $S$ be an accepted $\RegularCauchySumUp$ packet, and let $Q$ be an accepted $\RegularCauchyDifferenceUp$ packet. Suppose the three packets share the same two $\RegSeqRatUp$ source rows $A,B$ and the same aligned $\StreamNameUp$ source windows $W_A,W_B$. Then every product consumer must first read the common finite boundary
+$$
+(A,B,W_A,W_B)
+$$
+before diverging to the product-error ledger $E$ of $M$, while the sum and difference consumers diverge from that same boundary to their own finite arithmetic ledgers. The conclusion is a comparison of finite-window routes; it is not a completed-real algebra law.
+\end{theorem}
+\begin{proof}
+Start with the product carrier of \autoref{def:regular-cauchy-product-carrier}. Its first four rows are the two regular source rows and the two aligned source-window rows, so any product read must expose $A,B,W_A,W_B$ before it reaches dyadic endpoint multiplication or the product ledger.
+
+Use the source-window transport theorem \autoref{thm:regular-cauchy-product-source-window-transport}. Transport preserves the same source rows and aligned windows through the displayed $\hsame$ and $\Cont$ routes, so the shared boundary remains the first visible route segment for every transported product consumer.
+
+Now apply the real algebra boundary and product-budget results, \autoref{thm:regular-cauchy-product-real-algebra-boundary} and \autoref{thm:regular-cauchy-product-real-seal-product-budget}. They force the product route to diverge from the shared source-window boundary into the finite product-error ledger $E$ before the $\RegSeqRatUp$ handoff and $\RealUp$ seal are consumed.
+
+Finally compare the sibling surfaces \autoref{ch:concrete-instances-regularcauchysum-namecert} and \autoref{ch:concrete-instances-regularcauchydifference-namecert}. Their accepted packets read the same kind of finite source-window boundary for the same two source rows, but their next arithmetic coordinates are the finite sum and difference ledgers rather than $E$. Thus the comparison is a route comparison over shared windows and sibling ledgers, with no quotient stream, selected limit, host real equality, ambient completeness, or field multiplication law.
 \end{proof}
 
 \closureat{RegularCauchyProductUp}{seedStr}

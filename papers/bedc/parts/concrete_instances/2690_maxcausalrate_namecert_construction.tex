@@ -74,6 +74,7 @@ M,X,U,B,H,Q,C,P,N.
 $$
 In particular, the consumer may read the multi-Hist configuration row, the displayed cross-Hist causal witnesses, the shared unary bound row, the finite comparison ledger, componentwise $\hsame$ transport, displayed $\psame$ stability, visible $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert_{\MaxCausalRateUp}$ row, and nothing outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.MaxCausalRateUp.MaxCausalRatePacket\_non\_escape}
 \begin{proof}
 Project the accepted carrier and apply \autoref{thm:max-causal-rate-namecert-obligations}. Its non-escape clause excludes global frames, synchronized clocks, metric tensors, Lorentz geometry, and ambient real-valued rates from the local naming surface.
 
@@ -109,6 +110,7 @@ componentwise $\hsame$ transport in $H$, probe stability in $Q$, and the display
 
 No transported consumer may replace a listed witness by an unlisted cross-Hist row, change the unary bound, or detach the comparison from the $\MultiHistConfigUp$ row $M$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MaxCausalRateUp.MaxCausalRatePacket\_witness\_family\_stability}
 \begin{proof}
 Read $M$ first and then the finite witness family $X$. Each displayed witness is anchored in the same multi-Hist configuration and selected unary slot surface.
 
@@ -144,6 +146,7 @@ R=(M,X,U,B,H,Q,C,P,N),
 $$
 every causal witness row in $X$ is anchored in the displayed $\MultiHistConfigUp$ row $M$ before it is compared with the shared unary bound row $U$. No consumer of $R$ may read a witness from $X$ as belonging to an observer history, unary slot, or probe route not supplied by $M,H,Q,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MaxCausalRateUp.MaxCausalRatePacket\_configuration\_locality\_obligation}
 \begin{proof}
 Project the carrier rows $M,X,U,B,H,Q,C,P,N$ from \autoref{def:max-causal-rate-carrier}. The configuration row $M$ is the only source of observer-history anchors and selected unary slots.
 
@@ -169,6 +172,7 @@ The checked TasteGate marker recorded in the closure status keeps the carrier re
 
 Finally transport through $H,Q,C$ and bind by $P,N$. These rows preserve the same finite comparison ledger and add no metric, synchronized clock, Lorentz geometry, or host real-valued speed.
 \end{proof}
+\leanchecked{BEDC.Derived.MaxCausalRateUp.MaxCausalRatePacket\_comparison\_ledger\_exactness}
 
 \begin{theorem}[MaxCausalRate obligation closure package]
 \label{thm:max-causal-rate-obligation-closure-package}
@@ -188,17 +192,54 @@ Next apply \autoref{thm:max-causal-rate-bound-comparison-totality}, \autoref{thm
 Finally add the configuration-locality and comparison-ledger exactness obligations. Together they close the local $\NameCert_{\MaxCausalRateUp}$ obligation surface while continuing to exclude global frames, synchronized clocks, metric tensors, Lorentz geometry, and host real-valued speed measurements.
 \end{proof}
 
+\begin{theorem}[MaxCausalRate scoped kernel boundary]
+\label{thm:max-causal-rate-scoped-kernel-boundary}
+Every downstream causal-rate read from an accepted $\MaxCausalRateUp$ packet factors through the displayed rows
+$$
+M,X,U,B,H,Q,C,P,N
+$$
+and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ ledgers. The read may consume the multi-Hist configuration, listed cross-Hist witnesses, shared unary bound, comparison ledger, transports, routes, provenance, and local name, but it cannot enter a global frame, synchronized-clock row, metric tensor, Lorentz geometry, or host real-valued speed surface.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:max-causal-rate-carrier}. The rows $M,X,U,B,H,Q,C,P,N$ are the whole finite carrier surface.
+
+Apply \autoref{thm:max-causal-rate-crosshist-handoff} and \autoref{thm:max-causal-rate-bound-comparison-totality}. These theorems route every causal witness read through the displayed configuration row, finite witness family, shared unary bound, and comparison ledger.
+
+Next use \autoref{thm:max-causal-rate-witness-family-stability}, \autoref{thm:max-causal-rate-configuration-locality-obligation}, and \autoref{thm:max-causal-rate-comparison-ledger-exactness}. They keep the transported read inside $H,Q,C,P,N$ and bind it to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ ledgers.
+
+Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the packet has no global-frame, synchronized-clock, metric, Lorentz, or real-speed coordinate, the displayed rows give the scoped kernel boundary for downstream reads.
+\end{proof}
+
+\begin{theorem}[MaxCausalRate public unary-bound export]
+\label{thm:max-causal-rate-public-unary-bound-export}
+Every public $\MaxCausalRateUp$ consumer reads the unary bound row $U$ only through the single carrier tuple
+$$
+M,X,U,B,H,Q,C,P,N,
+$$
+the $\CrossHistCausalUp$ handoff for the witness family $X$, and the existing TasteGate single-carrier marker $\mathsf{MaxCausalRateTasteGate\_single\_carrier\_alignment}$. The exported interface supplies a finite unary-bound ledger only: it exports no global frame, metric tensor, Lorentz geometry, synchronized clock, or real-valued speed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $U$ is a coordinate of the displayed tuple $M,X,U,B,H,Q,C,P,N$, not a separate ambient rate surface.
+
+Use \autoref{thm:max-causal-rate-crosshist-handoff}. Every consumer reaches the witness family $X$ through displayed $\CrossHistCausalUp$ rows before it reads the comparison ledger against $U$.
+
+Now use the checked TasteGate single-carrier marker already recorded after \autoref{thm:max-causal-rate-namecert-obligations}. It keeps the tuple as one carrier surface, so the public read cannot split $U$ away from $M,X,B,H,Q,C,P,N$.
+
+Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the carrier has no coordinate for a global frame, metric tensor, Lorentz geometry, synchronized clock, or host real-valued speed, the public export is exactly the finite unary-bound row routed through the displayed packet.
+\end{proof}
+
 \closureat{MaxCausalRateUp}{seedStr}
 \closureat{MaxCausalRateUp}{obligationStr}
+\closureat{MaxCausalRateUp}{scopedStr}[BEDC.Derived.MaxCausalRateUp.taste\_gate]
 
 \begin{closurestatus}{\MaxCausalRateUp}
   \constructivestory{A $\MaxCausalRateUp$ packet is generated from a $\MultiHistConfigUp$ row, finitely many $\CrossHistCausalUp$ witness rows over selected history pairs and unary slots, one shared $\Unary$ bound row, finite bound comparisons, displayed $\hsame$ and $\psame$ transport, visible $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:max-causal-rate-carrier}, \autoref{thm:max-causal-rate-namecert-obligations}, \autoref{thm:max-causal-rate-crosshist-handoff}, \autoref{thm:max-causal-rate-non-escape}, \autoref{thm:max-causal-rate-bound-comparison-totality}, \autoref{thm:max-causal-rate-witness-family-stability}, \autoref{thm:max-causal-rate-unary-bound-nonescape}, \autoref{thm:max-causal-rate-configuration-locality-obligation}, \autoref{thm:max-causal-rate-comparison-ledger-exactness}, and \autoref{thm:max-causal-rate-obligation-closure-package} bind the finite multi-Hist configuration, displayed cross-Hist causal witnesses, shared unary bound, finite comparison ledger, transport rows, visible routes, package provenance, local naming row, and non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:max-causal-rate-carrier}, \autoref{thm:max-causal-rate-namecert-obligations}, \autoref{thm:max-causal-rate-crosshist-handoff}, \autoref{thm:max-causal-rate-non-escape}, \autoref{thm:max-causal-rate-bound-comparison-totality}, \autoref{thm:max-causal-rate-witness-family-stability}, \autoref{thm:max-causal-rate-unary-bound-nonescape}, \autoref{thm:max-causal-rate-configuration-locality-obligation}, \autoref{thm:max-causal-rate-comparison-ledger-exactness}, \autoref{thm:max-causal-rate-obligation-closure-package}, \autoref{thm:max-causal-rate-scoped-kernel-boundary}, and \autoref{thm:max-causal-rate-public-unary-bound-export} bind the finite multi-Hist configuration, displayed cross-Hist causal witnesses, shared unary bound, finite comparison ledger, transport rows, visible routes, package provenance, local naming row, downstream read boundary, and public unary-bound export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \leanchecked{BEDC.Derived.MaxCausalRateUp.taste\_gate}
   \notclaimed{This chapter does not close Lorentz geometry, metric light-cones, curved spacetime, quantum-state certificates, synchronized clocks, global frames, or real-valued speed measurements.}
-  \upgradepath{Scoped closure requires a consumer-facing exactness theorem that every downstream causal-rate read factors through the displayed rows $M,X,U,B,H,Q,C,P,N$ and their named backing ledgers.}
+  \upgradepath{Public closure requires an exported consumer theorem whose causal-rate surface is stable under the same displayed rows $M,X,U,B,H,Q,C,P,N$ and their package provenance.}
 \end{closurestatus}

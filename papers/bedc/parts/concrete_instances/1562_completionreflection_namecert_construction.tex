@@ -4,6 +4,8 @@
 
 Following Bishop and Bridges, \emph{Constructive Analysis}, the completion reflection boundary is read here inside the BEDC mathlib-free substrate: completion data are admitted only as finite named rows, and reflection across the real seal is expressed by displayed transports rather than by host quotient objects. The $\CompletionReflectionUp$ packet ties together the construction surface of $\RealCauchyCompletionUp$, the extension surface of $\CompletionUniversalPropertyUp$, and the separated boundary of $\HausdorffCompletionUp$.
 
+The reflection packet consumes the completion construction of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, the universal-property extension row from \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, the separated boundary row from \autoref{ch:concrete-instances-hausdorffcompletion-namecert}, the regular-rational source row from \autoref{ch:concrete-instances-regseqrat-namecert}, and the real seal row from \autoref{ch:concrete-instances-real-namecert}. These sibling rows are the source of $C,U,H,Q,A$ in the carrier tuple, and the $\CompletionReflectionUp$ packet only repackages their finite routes through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
 \begin{definition}[CompletionReflection carrier]
 \label{def:completion-reflection-carrier}
 A $\CompletionReflectionUp$ carrier is a finite $\mathsf{BHist}$ packet
@@ -153,6 +155,24 @@ Apply \autoref{thm:completion-reflection-extension-reflects}. Any extension rout
 Use \autoref{thm:completionreflection-consumer-scope} to align the two reads. It states that real-facing and extension-facing consumers share the same finite rows, so the extension route cannot be consumed before the real-seal boundary is present.
 
 Finally apply \autoref{thm:completionreflection-public-export}. The public packet exposes exactly $C,U,H,D,Q,A,S,T,K,P,N$ and no quotient, selected limit, host equality, or ambient completeness coordinate, so the universal route factors through the displayed seal for every completion-facing consumer.
+\end{proof}
+
+\begin{theorem}[CompletionReflection real-seal extension coherence]
+\label{thm:completionreflection-real-seal-extension-coherence}
+Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ packet. The public real-seal read through $A$ and the universal-property extension read through $U$ are coherent exactly when both reads factor through the same displayed rows
+$$
+C,D,Q,A,H,S,T,K,P,N.
+$$
+Neither read may replace those rows with a quotient stream, selected host limit, host equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+For the real-facing direction, apply \autoref{thm:completion-reflection-real-seal-boundary}. Every $\RealUp$ read is routed through the displayed construction, diagonal, regular-source, separated-boundary, transport, continuation, package, and naming rows before it reaches the seal row $A$.
+
+For the extension-facing direction, apply \autoref{thm:completion-reflection-extension-reflects}. The route exported by $U$ reflects back to $C,D,Q,A,H,S,T,K,P,N$, so the extension read cannot introduce a second completion surface.
+
+Now align the two readings by \autoref{thm:completionreflection-consumer-scope}. Its consumer boundary says that the real-facing read and the extension-facing read use the same finite packet surface, with $A$ and $U$ as the two visible public entries.
+
+Finally apply \autoref{thm:completionreflection-public-export}. Since the public export exposes only $C,U,H,D,Q,A,S,T,K,P,N$ and excludes quotient streams, selected host limits, host equality, and ambient completeness, coherence is exactly shared factorization through the displayed rows.
 \end{proof}
 
 \begin{theorem}[CompletionReflection standard bridge boundary]

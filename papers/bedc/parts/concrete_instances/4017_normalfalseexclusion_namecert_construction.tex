@@ -40,6 +40,54 @@ The closed-normal obligations are componentwise. The row $C$ supplies closedness
 The structural rows then restrict all consumer access. Transports through $H$, routes through $R$, provenance through $P$, and naming through $N$ replay only the displayed rows, so the local certificate has no source for arbitrary reduction, subject reduction, quotient proof identity, or host consistency.
 \end{proof}
 
+\begin{theorem}[NormalFalseExclusion displayed route admission]
+\label{thm:normal-false-exclusion-displayed-route-admission}
+For an accepted $\NormalFalseExclusionUp$ carrier
+$$
+F=(T,C,B,Y,H,R,P,N),
+$$
+the displayed rows $T,C,B,Y,H,R,P,N$ are the only admitted route from a closed term row, its closedness witness, its beta-strong normality witness, and its internal False typing row to the local $\NameCert_{\NormalFalseExclusionUp}$ row. No route is admitted through subject reduction, arbitrary normalization, quotient proof identity, host consistency, or an external proof-search coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:normal-false-exclusion-carrier}. Its visible input side is exactly the closed proof-term row $T$, closedness row $C$, beta-strong normality row $B$, and false typing row $Y$.
+
+Apply \autoref{thm:normal-false-exclusion-namecert}. The structural rows $H,R,P,N$ are the only transport, route, provenance, and local naming rows available to the certificate.
+
+Finally use the boundary inventory of \autoref{thm:normal-false-exclusion-boundary}. Since the checked closed-normal exclusion consumes precisely the displayed rows and the carrier has no subject-reduction or arbitrary-normalization coordinate, the admitted route is exactly the listed finite route.
+\end{proof}
+
+\begin{theorem}[NormalFalseExclusion route stability]
+\label{thm:normal-false-exclusion-route-stability}
+Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $R$ preserve exactly the route
+$$
+T,C,B,Y,H,R,P,N
+$$
+from the closed-normal false-proof input rows to the local $\NameCert_{\NormalFalseExclusionUp}$ row. They do not create a second route through reduction semantics, global normalization, quotient proof identity, or host consistency.
+\end{theorem}
+\begin{proof}
+Start with the route admitted by \autoref{thm:normal-false-exclusion-displayed-route-admission}. The only transport-bearing row is $H$, and the only continuation-bearing row is $R$.
+
+Use \autoref{thm:normal-false-exclusion-namecert} to replay those rows componentwise. The replay can move the displayed closedness, normality, false typing, provenance, and naming coordinates, but it cannot introduce an unlisted coordinate.
+
+The closed-normal boundary of \autoref{thm:normal-false-exclusion-boundary} is therefore stable under the same replay. The non-displayed routes remain absent because the carrier still contains no subject-reduction, normalization, quotient-identity, or host-consistency row after transport.
+\end{proof}
+
+\begin{theorem}[NormalFalseExclusion consumer route exactness]
+\label{thm:normal-false-exclusion-consumer-route-exactness}
+Every consumer of the checked $\mathsf{no\_closed\_normal\_proof\_of\_false}$ row factors through the displayed route rows
+$$
+T,C,B,Y,H,R,P,N
+$$
+of the accepted $\NormalFalseExclusionUp$ carrier. Such a consumer cannot read subject reduction, arbitrary normalization, quotient proof identity, host consistency, or any hidden consistency principle.
+\end{theorem}
+\begin{proof}
+Project the consumer surface from \autoref{def:normal-false-exclusion-carrier}. Any consumer starts with the finite tuple $F$ and therefore sees only the rows $T,C,B,Y,H,R,P,N$.
+
+Invoke \autoref{thm:normal-false-exclusion-namecert} and \autoref{thm:normal-false-exclusion-displayed-route-admission}. These identify the route from the closed-normal input rows to the local naming row and make the structural rows part of the same route.
+
+Close by \autoref{thm:normal-false-exclusion-boundary} and \autoref{thm:normal-false-exclusion-consumer-nonescape}. The checked exclusion rejects the displayed closed-normal false-proof input, while the non-escape inventory rules out every stronger read demanded by arbitrary closed consistency.
+\end{proof}
+
 \begin{theorem}[NormalFalseExclusion closed-normal boundary]
 \label{thm:normal-false-exclusion-boundary}
 An accepted $\NormalFalseExclusionUp$ carrier cannot contain a closed beta-strong normal proof term whose internal type is False. Equivalently, any attempted read of the displayed rows $T,C,B,Y$ is rejected by the MetaCIC closed-normal false-proof exclusion theorem before it can be exported as a consumer-facing proof row.
@@ -82,15 +130,17 @@ Finally use \autoref{thm:normal-false-exclusion-boundary}. The checked exclusion
 \end{proof}
 
 \closureat{NormalFalseExclusionUp}{seedStr}
+\closureat{NormalFalseExclusionUp}{obligationStr}
+\closureat{NormalFalseExclusionUp}{scopedStr}
 
 \begin{closurestatus}{\NormalFalseExclusionUp}
   \constructivestory{A $\NormalFalseExclusionUp$ packet is generated from a closed proof-term row, a beta-strong normality row, an internal False typing row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:normal-false-exclusion-carrier}, \autoref{thm:normal-false-exclusion-namecert}, \autoref{thm:normal-false-exclusion-boundary}, \autoref{thm:normal-false-exclusion-subject-reduction-boundary}, and \autoref{thm:normal-false-exclusion-consumer-nonescape} bind the closed-normal false-proof exclusion as a finite NameCert packet.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:normal-false-exclusion-carrier}, \autoref{thm:normal-false-exclusion-namecert}, \autoref{thm:normal-false-exclusion-displayed-route-admission}, \autoref{thm:normal-false-exclusion-route-stability}, \autoref{thm:normal-false-exclusion-consumer-route-exactness}, \autoref{thm:normal-false-exclusion-boundary}, \autoref{thm:normal-false-exclusion-subject-reduction-boundary}, and \autoref{thm:normal-false-exclusion-consumer-nonescape} bind the carrier, NameCert obligations, displayed route admission, route stability, consumer route exactness, closed-normal boundary, subject-reduction boundary, and consumer non-escape as the closed packet scope.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.MetaCIC.no\_closed\_normal\_proof\_of\_false}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close arbitrary closed consistency, subject reduction, normalization of arbitrary closed proof terms, quotient proof identity, host consistency, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, displayed route stability, and consumer non-escape for the same closed-normal packet.}
+  \upgradepath{Scoped closure requires the same displayed closed-normal packet to bind carrier admission, route stability, consumer exactness, boundary, and non-escape as one closed scope.}
 \end{closurestatus}

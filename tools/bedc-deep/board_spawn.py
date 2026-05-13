@@ -36,6 +36,7 @@ import board_archive
 import board_context
 import candidate_inbox
 import paper_index
+import logic_packet_gate
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -59,6 +60,35 @@ LANDING_KINDS = {
     "new_chapter",
     "reject",
 }
+PRE_TASTEGATE_REQUIRED_FIELDS = {
+    "carrier_surface": ("carrier", 40),
+    "classifier_surface": ("classifier", 40),
+    "nontrivial_witness_plan": ("nontrivial witness", 40),
+    "field_faithful_plan": ("field faithful projection", 40),
+    "structural_atomicity": ("structural atomicity", 40),
+    "falsifiable_prediction": ("falsifiable prediction", 30),
+    "independence_witness": ("independence witness", 30),
+    "elimination_plan": ("elimination plan", 30),
+}
+PRE_TASTEGATE_OPTIONAL_FIELDS = (
+    "tastegate_mode",
+    "ripeness_risk",
+    "conjecture_fallback",
+)
+LOGIC_PACKET_FIELDS = (
+    "axiom_budget",
+    "strength_level",
+    "budget_reason",
+    "witness_extractor",
+    "existence_mode",
+    "cut_rank",
+    "equality_kind",
+    "interpretation_kind",
+    "resource_trace",
+    "dependency_trace",
+    "rate_modulus_surface",
+    "oracle_mode",
+)
 
 
 # ---------------------------------------------------------------------------
@@ -312,6 +342,27 @@ def _render_entry(target_id: str, candidate: dict) -> str:
     inputs = candidate.get("local_inputs") or []
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (auto-spawn — no specific inputs declared)"
     worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
+    pretastegate_fields = [
+        "tastegate_mode",
+        *PRE_TASTEGATE_REQUIRED_FIELDS.keys(),
+        *PRE_TASTEGATE_OPTIONAL_FIELDS[1:],
+    ]
+    pretastegate_lines = []
+    for key in pretastegate_fields:
+        value = str(candidate.get(key) or "").strip()
+        if value:
+            pretastegate_lines.append(f"- `{key}`: {value}")
+    pretastegate_block = ""
+    if pretastegate_lines:
+        pretastegate_block = "\nPre-TasteGate admission:\n" + "\n".join(pretastegate_lines) + "\n"
+    logic_lines = []
+    for key in LOGIC_PACKET_FIELDS:
+        value = str(candidate.get(key) or "").strip()
+        if value:
+            logic_lines.append(f"- `{key}`: {value}")
+    logic_block = ""
+    if logic_lines:
+        logic_block = "\nLogic packet discipline:\n" + "\n".join(logic_lines) + "\n"
     return (
         f"\n### {target_id} - {title}\n\n"
         f"| field | value |\n"
@@ -328,8 +379,47 @@ def _render_entry(target_id: str, candidate: dict) -> str:
         f"Problem:\n{claim}\n\n"
         f"Local inputs:\n{inputs_block}\n\n"
         f"{worthiness_block}"
+        f"{pretastegate_block}"
+        f"{logic_block}"
         f"Rationale:\n{rationale}\n\n---\n"
     )
+
+
+def _field_text(candidate: dict, key: str) -> str:
+    value = candidate.get(key)
+    if isinstance(value, list):
+        return " ".join(str(v).strip() for v in value if str(v).strip())
+    return str(value or "").strip()
+
+
+def _pre_tastegate_rejection(candidate: dict) -> str:
+    """Hard admission gate for candidates trying to create a new chapter."""
+    landing_kind = str(candidate.get("landing_kind") or "").strip()
+    if landing_kind != "new_chapter":
+        return ""
+    missing: list[str] = []
+    for key, (_label, min_len) in PRE_TASTEGATE_REQUIRED_FIELDS.items():
+        value = _field_text(candidate, key)
+        if len(value) < min_len:
+            missing.append(key)
+    if missing:
+        return "new_chapter_missing_pretastegate:" + ",".join(missing)
+
+    tastegate_mode = _field_text(candidate, "tastegate_mode").lower()
+    if tastegate_mode and tastegate_mode not in {
+        "chapter",
+        "new_chapter",
+        "chapter_candidate",
+        "hard",
+        "pre_tastegate",
+        "pretastegate",
+    }:
+        return f"new_chapter_invalid_tastegate_mode:{tastegate_mode[:40]}"
+
+    conjecture_fallback = _field_text(candidate, "conjecture_fallback").lower()
+    if conjecture_fallback in {"true", "yes", "required", "recommended"}:
+        return "new_chapter_should_route_to_conjecture_fallback"
+    return ""
 
 
 def _post_judge_landing_rejection(candidate: dict) -> str:
@@ -339,7 +429,7 @@ def _post_judge_landing_rejection(candidate: dict) -> str:
     worthiness = str(candidate.get("chapter_worthiness") or "")
     haystack = " ".join([title, claim, rationale, worthiness])
     if not EXTERNAL_SIGNAL_RE.search(haystack):
-        return ""
+        return _pre_tastegate_rejection(candidate)
     landing_kind = str(candidate.get("landing_kind") or "").strip()
     if not landing_kind:
         return "external_signal_missing_landing_kind"
@@ -351,8 +441,18 @@ def _post_judge_landing_rejection(candidate: dict) -> str:
         required = ("carrier", "classifier", "NameCert", "dependency", "downstream", "existing chapter")
         if len(worthiness.strip()) < 240 or any(term.lower() not in worthiness.lower() for term in required):
             return "external_signal_missing_chapter_worthiness"
+        pretastegate = _pre_tastegate_rejection(candidate)
+        if pretastegate:
+            return pretastegate
         return "external_signal_new_chapter_not_board_lane"
     return ""
+
+
+def _logic_packet_rejection(candidate: dict) -> str:
+    result = logic_packet_gate.validate_logic_packet(candidate)
+    if result.ok:
+        return ""
+    return "logic_packet_gate:" + ";".join(result.reasons)
 
 
 def _atomic_append_to_board(blocks: list[str]) -> None:
@@ -429,6 +529,10 @@ def spawn_from_candidates(
         landing_rejection = _post_judge_landing_rejection(c)
         if landing_rejection:
             threshold_drops.append({**c, "reason": landing_rejection})
+            continue
+        logic_rejection = _logic_packet_rejection(c)
+        if logic_rejection:
+            threshold_drops.append({**c, "reason": logic_rejection})
             continue
         try:
             fit = int(c.get("fit_score", 0))

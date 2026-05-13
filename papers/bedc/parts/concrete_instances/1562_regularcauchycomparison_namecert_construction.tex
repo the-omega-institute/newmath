@@ -4,6 +4,8 @@
 
 The $\RegularCauchyComparisonUp$ interface records the finite comparison layer used by the Real completeness proof target of \autoref{sec:real-completeness-limit-theorem}. It compares two regular Cauchy names through shared finite windows, displayed dyadic observations, rational tolerance rows, and the downstream $\RealUp$ seal classifier. The packet does not select a host limit, quotient regular streams, or invoke ambient real completeness.
 
+The common-window comparison consumes the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert} and the dyadic observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} before the $\RealUp$ seal row is read.
+
 \begin{definition}[Regular Cauchy comparison carrier]
 \label{def:regular-cauchy-comparison-carrier}
 A $\RegularCauchyComparisonUp$ carrier is a finite $\BHist$ packet
@@ -150,6 +152,60 @@ First apply \autoref{thm:regular-cauchy-comparison-common-window-stability}. The
 Next apply \autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}. The composed read uses only the rational tolerance rows displayed by the two packets and their common ledger refinement; it cannot introduce a host-real equality threshold.
 
 Finally use \autoref{thm:regular-cauchy-comparison-real-seal-boundary} together with \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The comparison from $X$ to $Z$ reaches the $\RealUp$ seal through the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, so the transitive handoff remains a seal-compatible finite comparison and not a statement about selected limits or quotient stream equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison triangle-window composition]
+\label{thm:regular-cauchy-comparison-triangle-window-composition}
+Let accepted $\RegularCauchyComparisonUp$ packets compare $X$ to $Y$ and
+$Y$ to $Z$. Suppose their $\StreamNameUp$ schedules refine to one displayed
+finite window and their $\DyadicRatCoreUp$ tolerance rows refine to one
+visible comparison ledger. Then the two packets compose to an accepted
+$X$-to-$Z$ comparison whose $\RealUp$ seal handoff factors through the same
+displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The composed comparison is only this finite triangle-window route. It does
+not introduce quotient stream equality, a selected host limit, host real
+equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:regular-cauchy-comparison-common-window-stability}. The two
+comparison packets are read on the single displayed window because both
+transported $\StreamNameUp$ schedules refine to it.
+
+Next use
+\autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}. The
+$\DyadicRatCoreUp$ observations and rational tolerances are consumed through
+the common ledger, so the composed route has no tolerance datum outside the
+finite packet.
+
+The seal boundary is supplied by
+\autoref{thm:regular-cauchy-comparison-real-seal-boundary}. It keeps the
+$\RealUp$ handoff on the displayed $\RegSeqRatUp$, $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply
+\autoref{thm:regular-cauchy-comparison-seal-compatible-transitivity}. The
+$X$-to-$Y$ and $Y$-to-$Z$ finite comparisons therefore compose to the
+$X$-to-$Z$ finite comparison, with no appeal to quotient streams, selected
+limits, host real equality, or completeness outside the carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison diagonal-budget handoff]
+\label{thm:regular-cauchy-comparison-diagonal-budget-handoff}
+Let $K=(X,Y,W,D,\tau,L,E,H,C,P,N)$ be an accepted $\RegularCauchyComparisonUp$ packet. Suppose the shared window $W$ and tolerance rows $D,\tau,L$ are consumed by an accepted $\CauchyDiagonalBudgetUp$ packet and an accepted $\TailCofinalityScheduleUp$ packet. Then $K$ exports one diagonal $\RealUp$ handoff through the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The exported handoff is only the finite route from comparison windows and dyadic tolerance ledgers into the diagonal budget and tail schedule. It does not expose quotient streams, selected host limits, host real equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with common-window stability. The accepted comparison packet makes the two $\RegSeqRatUp$ names readable only through the transported $\StreamNameUp$ window $W$, so the diagonal budget and tail schedule consume the same finite window rather than two unrelated stream views.
+
+Next use tolerance-row exactness. The $\DyadicRatCoreUp$ observations and the rational tolerance row $\tau$ are the only tolerance data recorded in $D$ and $L$, hence the diagonal-budget consumer receives exactly the displayed tolerance ledger.
+
+The $\RealUp$ seal boundary then fixes the endpoint of the handoff. The comparison packet reaches the real-facing row through $E$ after the regular-rational, stream-window, dyadic, ledger, transport, route, provenance, and naming rows have been read.
+
+Finally combine the finite route obligations already recorded by the $\CauchyDiagonalBudgetUp$ and $\TailCofinalityScheduleUp$ consumers. Those packets consume the shared window and tolerance ledger before the tail schedule reaches its $\RegSeqRatUp$ readback and $\RealUp$ seal. Since none of the three packets contains a coordinate for quotient streams, selected host limits, host real equality, or ambient completeness, the composite handoff remains the single displayed finite route.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy comparison classifier transport]
@@ -393,18 +449,45 @@ Use \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization} and
 Finally apply \autoref{thm:regular-cauchy-comparison-streamname-realup-scope-package}. It repacks the displayed window route and real handoff as one $\StreamNameUp$--$\RealUp$ comparison package, so the public export is exactly the stated consumer certificate and not an appeal to quotient equality, a selected host limit, host real equality, trichotomy, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison standard bridge source]
+\label{thm:regular-cauchy-comparison-standard-bridge-source}
+The standard bridge source for $\RegularCauchyComparisonUp$ is exactly the displayed comparison packet over two $\RegSeqRatUp$ names, the shared $\StreamNameUp$ window, $\DyadicRatCoreUp$ observations, the rational tolerance row, the finite comparison ledger, the $\RealUp$ seal handoff, and the stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+No additional source object may enter the bridge read before these rows are displayed.
+\end{theorem}
+\begin{proof}
+Start from the public export certificate of \autoref{thm:regular-cauchy-comparison-public-export-certificate}. It already packages the two regular Cauchy names, shared stream window, dyadic observations, tolerance row, comparison ledger, real-facing seal, package row, and local naming row.
+
+Apply the classifier and window exactness rows. They force the bridge source to read the shared $\StreamNameUp$ window and $\DyadicRatCoreUp$ observations before reaching the $\RealUp$ seal handoff.
+
+Finally use the transport and continuation rows. Since $H,C,P,N$ are the only rows that move or replay the packet, a standard bridge source has exactly the displayed comparison data and no further source coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison bridge non-escape]
+\label{thm:regular-cauchy-comparison-bridge-nonescape}
+Every bridge-facing read from the public $\RegularCauchyComparisonUp$ certificate remains inside the source rows of \autoref{thm:regular-cauchy-comparison-standard-bridge-source}. The bridge exports no quotient regular stream, selected limit, host real equality, trichotomy, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the source packet named in \autoref{thm:regular-cauchy-comparison-standard-bridge-source}. Its rows are the two regular names, shared stream window, dyadic observations, tolerance row, comparison ledger, real seal handoff, transport rows, continuation routes, package provenance, and local naming row.
+
+Apply \autoref{thm:regular-cauchy-comparison-public-export-certificate}. The public certificate is consumer-facing only over those displayed rows and explicitly excludes quotient stream equality, selected host limits, host real equality, trichotomy, and ambient completeness.
+
+The bridge-facing read therefore has no remaining coordinate from which to obtain a quotient representative, a selected limit, an equality in a host real model, an order split, or a completeness principle. Those objects lie outside the displayed source.
+\end{proof}
+
 \closureat{RegularCauchyComparisonUp}{seedStr}
 \closureat{RegularCauchyComparisonUp}{obligationStr}
 \closureat{RegularCauchyComparisonUp}{scopedStr}
 \closureat{RegularCauchyComparisonUp}{publicStr}
+\closureat{RegularCauchyComparisonUp}{bridgedStr}
 
 \begin{closurestatus}{\RegularCauchyComparisonUp}
   \constructivestory{A $\RegularCauchyComparisonUp$ packet is generated from two $\RegSeqRatUp$ regular Cauchy names, a shared $\StreamNameUp$ schedule, displayed $\DyadicRatCoreUp$ observations, a rational tolerance row, a finite ledger, $\RealUp$ seal provenance, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public scope records carrier admission, classifier stability, common-window exactness, tolerance exactness, $\RealUp$ seal handoff, and the public export certificate over the displayed comparison rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature scope records carrier admission, classifier stability, common-window exactness, tolerance exactness, $\RealUp$ seal handoff, the public export certificate, the standard bridge source, and bridge non-escape over the displayed comparison rows.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close real completeness, quotient equality of regular streams, uniqueness of limits, host real construction, or bridge checking.}
-  \upgradepath{Bridge closure requires a standard bridge certificate for the same $\StreamNameUp$--$\RealUp$ comparison package.}
+  \upgradepath{Lean bridge checking remains the next verification step for the same $\StreamNameUp$--$\RealUp$ comparison package.}
 \end{closurestatus}

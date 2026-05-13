@@ -61,15 +61,76 @@ rows as a local $\NameCert$ surface. This is exactly the concrete packet needed
 for the observer-history time-as-growth reading.
 \end{proof}
 
+\begin{theorem}[HistTimeStream observation carrier]
+\label{thm:histtimestream-observation-carrier}
+Every accepted $\HistTimeStreamUp$ packet exposes the source $\Hist$ row $H$, the finite $\Eone/\Ezero$ schedule $T$, the start-at-empty ledger $S$, and the displayed $\Cont$ replay row $C$ as carrier coordinates of
+$$
+Q=(H,T,S,C,L,P,N).
+$$
+The packet has no accepted observation surface apart from these coordinates, the componentwise $\hsame$ ledger $L$, package provenance $P$, and the local $\NameCert_{\HistTimeStreamUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:histtimestream-namecert-carrier}. The source row, schedule row, start ledger, continuation replay ledger, transport ledger, package provenance, and local naming row are exactly the displayed coordinates of $Q$.
+
+Apply \autoref{thm:histtimestream-namecert-obligation-sketch}. Its carrier-admission and step-ledger clauses identify $H,T,S,C$ as the public observation rows, while the remaining clauses leave only $L,P,N$ as transport, provenance, and naming data.
+
+No other coordinate is present in the finite tuple. Therefore an accepted packet cannot export a separate observation carrier, ambient clock, or hidden route outside the listed rows.
+\end{proof}
+
+\begin{theorem}[HistTimeStream schedule classifier stability]
+\label{thm:histtimestream-schedule-classifier-stability}
+For an accepted $\HistTimeStreamUp$ packet $Q=(H,T,S,C,L,P,N)$, componentwise $\hsame$ transport along the rows stored in $L$ preserves the finite schedule $T$, the start-at-empty ledger $S$, and the displayed $\Cont$ replay row $C$. The transported classifier remains indexed only by the displayed carrier rows and cannot introduce a host-indexed global time coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the classifier description in \autoref{def:histtimestream-namecert-carrier}. It compares packets by the visible rows $H,T,S,C,L,P,N$ and provides no coordinate for a natural-number host index or shared ambient time parameter.
+
+Transport is componentwise through $L$. Each transported schedule entry remains one of the displayed $\Eone/\Ezero$ rows of $T$, the start ledger remains attached to $\emp$ and the terminal source row $H$, and every replayed route is still read through the corresponding row of $C$.
+
+The no-global-clock clause in \autoref{thm:histtimestream-namecert-obligation-sketch} blocks the only possible escape route: importing the local stream into a second Hist as a synchronizing clock. Thus the transported classifier preserves the finite schedule and cannot acquire a host-indexed time row.
+\end{proof}
+
+\begin{theorem}[HistTimeStream NameCert ledger exhaustion]
+\label{thm:histtimestream-namecert-ledger-exhaustion}
+Every public $\NameCert_{\HistTimeStreamUp}$ read factors through the carrier row, the finite step ledger, route stability, componentwise transport, package provenance, and the local naming row:
+$$
+H,T,S,C,L,P,N.
+$$
+No public read from the packet yields inter-Hist synchronization, a rate claim, an ambient global clock, or a host time index.
+\end{theorem}
+\begin{proof}
+First use the observation-carrier theorem to place every public read inside the finite tuple $Q=(H,T,S,C,L,P,N)$. The source, schedule, start ledger, route replay, transport, package, and local naming rows are the complete carrier inventory.
+
+Next use schedule classifier stability. It keeps the step ledger and $\Cont$ replay rows stable under componentwise $\hsame$ transport and prevents the classifier from acquiring a global-time coordinate.
+
+Finally inspect the package and local naming rows. They certify only the displayed $\BHist$, $\Hist$, $\Cont$, $\hsame$, $\mathsf{ProbeBundle}$, $\Pkg$, and $\NameCert$ provenance for this one local stream, so the finite coordinate list exhausts the public NameCert ledger and leaves no synchronization or rate claim to read.
+\end{proof}
+
+\begin{theorem}[HistTimeStream observer-locality lattice link]
+\label{thm:histtimestream-observer-locality-lattice-link}
+Every accepted $\HistTimeStreamUp$ read of
+$$
+Q=(H,T,S,C,L,P,N)
+$$
+is consumed as the local-time component of the observer-history identity and observer-locality surfaces of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert}. The stream supplies the displayed source history, finite step ledger, continuation replay, and no-global-clock transport row, but it supplies no inter-Hist synchronization, shared clock, or imported host-time index.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $Q=(H,T,S,C,L,P,N)$. The rows $H,T,S,C$ give the source history, start-at-empty finite schedule, and displayed $\Cont$ replay that the observer-history identity surface reads as its local growth component.
+
+Use \autoref{thm:histtimestream-namecert-ledger-exhaustion}. Its no-global-clock ledger keeps the read attached to the single source row $H$ and blocks any second Hist from importing $T$ as a synchronizing clock.
+
+The sibling packets of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert} therefore consume this same local stream through $L,P,N$. They may use it to identify observer-history locality and transport surfaces, but they add no inter-Hist clock equality, host-time coordinate, or cross-history synchronization row.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
+\closureat{HistTimeStreamUp}{obligationStr}
 
 \begin{closurestatus}{\HistTimeStreamUp}
   \constructivestory{A $\HistTimeStreamUp$ packet is generated by a source Hist row, a finite sequence of $\Eone/\Ezero$ step rows, a start-at-empty ledger, displayed $\Cont$ routes, componentwise $\hsame$ transport, no-global-clock locality, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the carrier, step-ledger exactness, route stability, transport ledger, no-global-clock locality, package provenance, and local NameCert surface for one Hist time stream.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the carrier, step-ledger exactness, route stability, transport ledger, no-global-clock locality, package provenance, and local NameCert surface for one Hist time stream.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not define inter-Hist synchronization, host-indexed time, temporal rates for analytic moduli, or Lean verification for the packet.}
-  \upgradepath{Obligation closure requires checked finite-ledger theorems for carrier admission, step exactness, Cont-route stability, hsame transport, and no-global-clock non-escape.}
+  \upgradepath{Scoped closure requires binding the obligation rows to the concrete $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ constructors.}
 \end{closurestatus}

@@ -2,6 +2,7 @@
 \label{thm:cauchy-limit-seal-tail-choice-exhaustion}
 For an accepted $\CauchyLimitSealUp$ packet, every admitted tail-choice read is exhausted by a finite $\StreamNameUp$ window, the matching $\RegSeqRatUp$ source row, the $\DyadicRatCoreUp$ observation ledger, the null-tail comparison row, the $\RealCauchyCompletionUp$ diagonal row, the $\RealUp$ seal row, the displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. No admitted tail choice can depend on a quotient representative, a selected host limit, an unbounded stream schedule, or an ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_tail\_choice\_exhaustion}
 \begin{proof}
 Begin with the RealUp uniqueness handoff. It already forces any two real-facing reads through the same scheduled window, dyadic observation, regular-Cauchy readback, seal route, bridge exactness row, and bridge non-escape row before the consumer surface is compared.
 
@@ -14,6 +15,7 @@ Finally use bridge non-escape and consumer ledger totality. Since those rows lea
 \label{thm:cauchy-limit-seal-real-handoff-exhaustion}
 Every $\RealUp$ handoff produced by an accepted $\CauchyLimitSealUp$ packet is the concatenation of the tail-choice exhaustion row with the public route packet and the $\RealUp$ consumer boundary. The handoff exports only the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_real\_handoff\_exhaustion}
 \begin{proof}
 First apply tail-choice exhaustion to place the handoff on a finite scheduled window with its regular source row, dyadic observation ledger, null-tail comparison, completion diagonal, and seal row.
 
@@ -107,6 +109,49 @@ Attach the tail comparison by \autoref{thm:cauchy-limit-seal-budgeted-tail-compa
 Now compose with consumer ledger totality from \autoref{thm:cauchy-limit-seal-consumer-ledger-totality} and real consumer family exhaustion from \autoref{thm:cauchy-limit-seal-real-consumer-family-exhaustion}. The budget route and the seal route already exhaust the consumer-visible rows, leaving no coordinate for quotient streams, selected host limits, ambient completeness, hidden family limits, or unbounded schedules.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal RealObservationBudget handoff]
+\label{thm:cauchy-limit-seal-real-observation-budget-handoff}
+Every accepted $\CauchyLimitSealUp$ packet whose route passes through an
+accepted $\RealObservationBudgetUp$ packet factors its $\RealUp$ endpoint
+through the shared finite rows
+$$
+E,W,D,R,S,H,C,P,N
+$$
+of \autoref{ch:concrete-instances-real-observation-budget-namecert}, together
+with the seal rows
+$$
+X,S,D,G,E,T,P,N
+$$
+already displayed by $\CauchyLimitSealUp$. The handoff exposes no quotient
+stream, selected host limit, hidden family limit, unbounded schedule, or
+ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the observation-budget pullback of
+\autoref{thm:cauchy-limit-seal-observation-budget-pullback}. It sends the
+accepted budget packet to the public route of the accepted seal packet while
+preserving the displayed budget rows, seal rows, transports, routes,
+provenance, and local naming rows.
+
+Next apply budgeted tail comparison admission from
+\autoref{thm:cauchy-limit-seal-budgeted-tail-comparison-admission}. The tail
+comparison is admitted only when it uses the same finite
+$\RealObservationBudgetUp$ precision, window, dyadic, regular-handoff, seal,
+transport, continuation, provenance, and naming rows.
+
+Attach the $\RealObservationBudgetUp$ consumer package of
+\autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. This
+identifies the consumer-facing route with the union of the budget packet and
+the seal packet over the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ surface.
+
+Finally use ledger non-escape totality from
+\autoref{thm:cauchy-limit-seal-ledger-nonescape-totality}. The route has no
+remaining coordinate for a quotient stream, selected host limit, hidden family
+limit, unbounded schedule, or ambient completeness, so projecting the common
+finite rows gives the stated handoff.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal tail extraction]
 \label{thm:cauchy-limit-seal-tail-extraction}
 Every admitted tail read of an accepted $\CauchyLimitSealUp$ packet is projected from the displayed $\RegSeqRatUp$ family, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, and visible $\hsame$ and $\Cont$ ledger. The projection is the same public route consumed by the seal packet, not a tail chosen from a quotient stream, host limit, hidden family limit, or ambient completeness principle.
@@ -143,6 +188,22 @@ Then apply window factorization from \autoref{thm:cauchy-limit-seal-window-facto
 Finally pull the family side through \autoref{thm:cauchy-limit-seal-uniform-criterion-pullback} and package the budget-facing endpoint by \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. The resulting surface is the stated collection of concrete BEDC rows and no hidden completion coordinate remains.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal finite-route uniqueness envelope]
+\label{thm:cauchy-limit-seal-finite-route-uniqueness-envelope}
+For an accepted $\CauchyLimitSealUp$ packet, a $\RealUp$- or completion-facing consumer route is uniqueness-admissible exactly when it factors through the displayed finite envelope consisting of the $\RegSeqRatUp$ source family, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, $\RealUp$ seal row, null-comparison and tail-comparison rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. A route that requires a quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, or ambient completeness datum is outside the envelope and is not uniqueness-admissible for the packet.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with tail extraction from \autoref{thm:cauchy-limit-seal-tail-extraction}. It projects every admitted tail read onto the displayed regular source family, scheduled window, dyadic observation ledger, completion diagonal, and visible transport route.
+
+Next apply the uniqueness boundary of \autoref{thm:cauchy-limit-seal-uniqueness-boundary}. It adds only the visible null-sequence and tail-comparison route to the same finite surface and excludes host uniqueness, quotient-stream equality, selected limits, hidden family limits, and ambient completeness.
+
+Now use ledger non-escape totality from \autoref{thm:cauchy-limit-seal-ledger-nonescape-totality} and the formal target surface of \autoref{thm:cauchy-limit-seal-formal-target-surface}. These two rows say that downstream Real-and-Completion consumers have no remaining coordinate beyond the displayed history, transport, continuation, provenance, and naming rows.
+
+Finally attach the $\RegSeqRatUp$--$\StreamNameUp$--$\DyadicRatCoreUp$ handoff of \autoref{thm:cauchy-limit-seal-regseq-stream-dyadic-handoff}. The consumer therefore reaches any uniqueness-facing comparison only through the stated finite envelope.
+
+Conversely, any route already factoring through that envelope uses exactly the rows admitted by the tail-extraction, uniqueness-boundary, non-escape, target-surface, and handoff theorems. Replaying those rows gives an admitted packet-local uniqueness route, with no quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, or ambient completeness datum to discharge.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal Lean carrier admission]
 \label{thm:cauchy-limit-seal-lean-carrier-admission}
 A formal $\CauchyLimitSealUp$ carrier is admitted only when its displayed $\mathsf{BHist}$ packet presents the same $\StreamNameUp$ schedule, $\RegSeqRatUp$ source, $\UniformCauchyCriterionUp$ tail criterion, $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row consumed by the chapter route. A tuple lacking one of these rows is outside the carrier surface.
@@ -166,6 +227,22 @@ First apply window factorization and the $\RealUp$ consumer boundary. They route
 Next use the uniform-criterion pullback of \autoref{thm:cauchy-limit-seal-uniform-criterion-pullback}. It aligns the family-tail criterion with the same scheduled route and prevents the handoff from selecting an independent host limit.
 
 Finally attach the $\RealObservationBudgetUp$ consumer package of \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. Together with the carrier obligations of \autoref{thm:cauchy-limit-seal-namecert-obligations}, it gives the formalization side one route-preserving packet over the displayed history, transport, continuation, provenance, and naming rows.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal finite-window budget equivalence]
+\label{thm:cauchy-limit-seal-finite-window-budget-equivalence}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ packet, and let $B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)$ be an accepted $\RealObservationBudgetUp$ packet. Assume that the seal row $S_B$ and the regular-handoff rows $R_B$ transport to the seal and source rows of $L$. Then a $\RealUp$- or completion-facing consumer route is admitted through the pair $(L,B)$ exactly when it factors through the common finite envelope consisting of the $\StreamNameUp$ window $W_B$, the $\RegSeqRatUp$ source $X$, the $\DyadicRatCoreUp$ observation ledgers $D$ and $D_B$, the $\UniformCauchyCriterionUp$ tail ledger, the $\RealObservationBudgetUp$ budget rows $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$, the $\RealUp$ seal row $E$, and the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the two packets.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply the observation-budget pullback of \autoref{thm:cauchy-limit-seal-observation-budget-pullback}. It sends every accepted budget read into the public route packet of $L$ while preserving the precision request, finite windows, dyadic ledger, regular handoff, seal row, transports, continuations, provenance, and local naming rows.
+
+Next apply budgeted tail comparison admission from \autoref{thm:cauchy-limit-seal-budgeted-tail-comparison-admission}. The tail-facing comparison is admitted only through the same budget surface, so the $\UniformCauchyCriterionUp$ tail ledger, the scheduled $\StreamNameUp$ window, and the $\RegSeqRatUp$ source all remain in the displayed finite envelope.
+
+Use the $\RealObservationBudgetUp$ consumer package of \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package} to identify the real or completion consumer route with the union of the budget rows and the seal rows over the shared $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Finally attach the verification handoff of \autoref{thm:cauchy-limit-seal-verification-handoff}. This supplies the reusable finite route from $\StreamNameUp$ and $\RegSeqRatUp$ through the uniform criterion and the $\RealUp$ boundary, so no quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, or ambient completeness coordinate remains.
+
+For the reverse direction, suppose the route already factors through the displayed envelope. Each coordinate is one of the rows admitted by the pullback, budgeted tail comparison, consumer package, and verification handoff just cited. Replaying those rows admits the same real or completion consumer route through $(L,B)$, because no additional row is required outside the common finite packet.
 \end{proof}
 
 \input{parts/concrete_instances/1287_cauchylimitseal_consumer_readback.tex}

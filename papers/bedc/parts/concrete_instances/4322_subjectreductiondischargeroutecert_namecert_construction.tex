@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionDischargeRouteCertUp$}
+\label{ch:concrete-instances-subjectreductiondischargeroutecert-namecert}
+\origin{human}
+
+The $\SubjectReductionDischargeRouteCertUp$ packet turns the two formal discharge routes of \autoref{ch:sr-discharge-routes} into a finite NameCert carrier. It sits between the socket packet of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and the subject-reduction packet of \autoref{ch:concrete-instances-subjectreduction-namecert}: the socket names the four discharge obligations, the subject-reduction packet names the consumed typing-preservation read, and this route certificate records how bundle and typeclass access expose exactly that same four-row payload.
+
+\begin{definition}[SubjectReductionDischargeRouteCert carrier]
+\label{def:subject-reduction-discharge-route-cert-carrier}
+A $\SubjectReductionDischargeRouteCertUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,T,F,V,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the explicit bundle row, naming the four-field $\mathrm{SubjectReductionDischargeBundle}$ packet;
+\item $T$ is the typeclass setup row, naming the four-field $\mathrm{SubjectReductionSetup}$ protocol;
+\item $F$ is the conversion row from setup evidence to the bundle shape;
+\item $V$ is the bundle-consumption row for the subject-reduction theorem obtained from the explicit packet;
+\item $S$ is the setup-consumption row for the subject-reduction theorem obtained through the ambient setup route;
+\item $H$ records componentwise $\hsame$ transports for the bundle, setup, conversion, bundle-consumption, setup-consumption, socket, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the explicit bundle route, the setup-to-bundle route, the setup route, the discharge socket, and the subject-reduction packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:sr-discharge-routes}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert};
+\item $N$ is the local $\NameCert_{\SubjectReductionDischargeRouteCertUp}$ row.
+\end{enumerate}
+The carrier contains no inhabitant of the four discharge hypotheses for the closed-CIC substrate, no closed subject-reduction theorem, no host conversion rule, and no alternate subject-reduction route outside the displayed bundle and setup rows.
+\end{definition}
+\leandef{BEDC.MetaCIC.SubjectReductionDischargeBundle}
+\leandef{BEDC.MetaCIC.SubjectReductionSetup.toBundle}
+
+\begin{theorem}[SubjectReductionDischargeRouteCert NameCert obligations]
+\label{thm:subject-reduction-discharge-route-cert-obligations}
+For the carrier of \autoref{def:subject-reduction-discharge-route-cert-carrier}, the local $\NameCert_{\SubjectReductionDischargeRouteCertUp}$ surface consists exactly of carrier admission for
+$$
+R=(B,T,F,V,S,H,C,P,N),
+$$
+route visibility for the explicit bundle row $B$, setup row $T$, setup-to-bundle row $F$, bundle-consumption row $V$, and setup-consumption row $S$, componentwise transport through $H$, displayed continuation reads through $C$, provenance through $P$, and local naming through $N$. The conversion row $F$ identifies the setup route as an ergonomic route to the same bundle payload, not as an independent subject-reduction principle.
+\end{theorem}
+\leanstmt{BEDC.MetaCIC.subject\_reduction\_from\_bundle}
+\leanstmt{BEDC.MetaCIC.subject\_reduction\_via\_setup}
+\begin{proof}
+Project the displayed packet $R$. The explicit route is the bundle row $B$ consumed by $V$, and the implicit route is the setup row $T$ converted through $F$ before it is consumed by $S$.
+
+Read $H$ and $C$ next. Transport preserves the named route rows componentwise, while continuation replay exposes only the displayed bundle, setup, conversion, socket, and subject-reduction reads.
+
+Finally inspect $P$ and $N$. Provenance ties the route certificate to the vision chapter, the discharge socket, and the subject-reduction packet. Since no carrier coordinate supplies a closed-CIC inhabitant of the four hypotheses, the listed rows exhaust the NameCert obligations without closing the obstruction boundary.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeRouteCert socket consumption]
+\label{thm:subject-reduction-discharge-route-cert-socket-consumption}
+Every downstream consumer of an accepted $\SubjectReductionDischargeRouteCertUp$ packet that reads a $\SubjectReductionDischargeSocketUp$ row must consume the socket through the displayed route rows $B,T,F,V,S$, transported by $H$, replayed through $C$, and accounted for by $P,N$. The consumer may choose the explicit bundle route or the setup route, but both choices read the same four discharge rows and neither choice exports a closed subject-reduction theorem for the present closed-CIC substrate.
+\end{theorem}
+\begin{proof}
+Start with the accepted route certificate. Its only subject-reduction route coordinates are the explicit bundle row, the setup row, the setup-to-bundle conversion, and the two corresponding consumption rows.
+
+Apply the socket chapter through provenance. The socket supplies the four discharge rows as a finite obligation surface, and the route certificate records whether those rows are carried explicitly by $B$ or made available through $T$ and $F$.
+
+The subject-reduction packet is reached only after the displayed route has been replayed through $C$. Because the carrier has no coordinate for a closed-CIC inhabitant of the four hypotheses, socket consumption remains a route-certificate read and cannot become an unparameterised closed theorem.
+\end{proof}
+
+\closureat{SubjectReductionDischargeRouteCertUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionDischargeRouteCertUp}
+  \constructivestory{A $\SubjectReductionDischargeRouteCertUp$ packet is generated from an explicit bundle route, a setup route, a setup-to-bundle conversion row, two subject-reduction consumption rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-discharge-route-cert-carrier}, \autoref{thm:subject-reduction-discharge-route-cert-obligations}, and \autoref{thm:subject-reduction-discharge-route-cert-socket-consumption} bind the finite bundle/setup route certificate and its socket-consumption boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close the four MetaCIC discharge obligations, construct a closed-CIC setup instance, construct an inhabited discharge bundle for the closed-CIC substrate, prove closed subject reduction, give Lean verification of the route certificate, or bridge check it.}
+  \upgradepath{Obligation closure requires checked carrier admission, bundle/setup route exactness, setup-to-bundle conversion exactness, socket consumption, route replay, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}

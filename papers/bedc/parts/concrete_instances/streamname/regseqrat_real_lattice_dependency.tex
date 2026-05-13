@@ -1,0 +1,52 @@
+\section{StreamName RegSeqRat Real Lattice Dependency}
+\label{sec:streamname-regseqrat-real-lattice-dependency}
+
+\begin{theorem}[StreamName RegSeqRat Real lattice dependency]
+\label{thm:streamname-regseqrat-real-lattice-dependency}
+Every accepted $\StreamNameUp$ finite-window packet consumed by $\RegSeqRatUp$ and then by $\RealUp$ factors through the same visible sibling route. The route begins with the StreamName finite-window rows, passes through the $\RegSeqRatUp$ readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and ends at the $\RealUp$ seal rows of \autoref{ch:concrete-instances-real-namecert}. Along the entire route the only shared carrier coordinates are the displayed $\BHist$ observations, the componentwise $\hsame$ transports, the finite $\Cont$ continuation rows, the $\Pkg$ provenance rows, and the local $\NameCert$ rows naming the consumed packets.
+
+The dependency exports no quotient stream, no host real equality, no selected limit, and no ambient completeness principle. In particular, the $\RealUp$ seal is read only as the downstream seal surface reached through the accepted finite StreamName and RegSeqRat packets.
+\end{theorem}
+\begin{proof}
+Start with the StreamName finite-window surface. By \autoref{thm:streamname-finite-window-real-handoff-coverage}, the handoff exposes the finite observation window, the pointwise $\RegSeqRatUp$ rows, the $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Next read the RegSeqRat sibling dependency. The pointwise handoff of \autoref{thm:streamname-regseqrat-pointwise-handoff} identifies the rows sent to $\RegSeqRatUp$ with the same StreamName carrier rows, finite-window classifier rows, certified unary observations, membership rows, and pointwise $\hsame$ comparisons. Thus the RegSeqRat readback surface of \autoref{ch:concrete-instances-regseqrat-namecert} is not a second carrier; it is the finite StreamName window read through the accepted pointwise packet.
+
+Finally pass to the Real seal boundary. The factorization theorem \autoref{thm:streamname-real-seal-factorization-boundary} says that a finite-window $\RealUp$ seal read arising from the StreamName-to-RegSeqRat handoff factors through the StreamName point rows, accepted $\RegSeqRatUp$ seal rows, bundle and membership rows, unary observations, finite $\Cont$ ledger, displayed $\hsame$ transports, and $\Pkg$ provenance. This is exactly the seal-facing surface cited in \autoref{ch:concrete-instances-real-namecert}.
+
+Coordinate exhaustion gives the exclusion clause. None of the cited finite-window, pointwise, or seal-factorization rows contains a quotient stream, host real equality witness, selected limit, or ambient completeness coordinate, so composing them cannot export one.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real dyadic-window pullback]
+\label{thm:streamname-regseqrat-real-dyadic-window-pullback}
+Every accepted $\StreamNameUp$ finite-window packet consumed by $\RegSeqRatUp$ and $\RealUp$ factors through the same finite pullback surface with four visible sibling rows: the StreamName finite-window row, the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the $\RealUp$ seal row of \autoref{ch:concrete-instances-real-namecert}. The pullback coordinates are only the displayed $\BHist$ observations, componentwise $\hsame$ transports, finite $\Cont$ continuations, $\Pkg$ provenance rows, and local $\NameCert$ rows already visible on those four sibling surfaces.
+
+Consequently a downstream consumer of the packet may read the dyadic-window ledger as a common finite route from StreamName windows through RegSeqRat readback into the Real seal, but it obtains no quotient stream, no host real equality, no selected limit, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First build the window surface. By \autoref{thm:streamname-finite-window-real-handoff-coverage}, the accepted finite-window handoff exposes the StreamName observation window together with the pointwise $\RegSeqRatUp$ rows, the $\RealUp$ seal boundary, componentwise $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Next read the regular-rational side. The pointwise handoff theorem \autoref{thm:streamname-regseqrat-pointwise-handoff} identifies the $\RegSeqRatUp$ readback rows with the same StreamName carrier rows, finite-window classifier rows, certified unary observations, membership rows, and pointwise $\hsame$ comparisons. These are precisely the RegSeqRat rows named by \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+Now attach the dyadic ledger. The finite-window packet already exposes only visible observation rows before the RegSeqRat readback is consumed, and the dyadic observation surface of \autoref{ch:concrete-instances-dyadicratcore-namecert} supplies the endpoint and radius ledger through the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates. Thus the StreamName window, RegSeqRat readback, and dyadic ledger occupy one finite pullback surface rather than three independent carriers.
+
+Finally pass to the Real seal. The boundary factorization of \autoref{thm:streamname-real-seal-factorization-boundary} says that the $\RealUp$ seal read arising from the StreamName-to-RegSeqRat handoff factors through the StreamName point rows, accepted $\RegSeqRatUp$ seal rows, bundle and membership rows, unary observations, finite $\Cont$ ledger, displayed $\hsame$ transports, and $\Pkg$ provenance. This is the Real-facing row cited in \autoref{ch:concrete-instances-real-namecert}.
+
+Coordinate exhaustion proves the non-escape clause. The four sibling rows just composed contain no coordinate for a quotient stream, host real equality witness, selected limit, or ambient completeness operation, so the pullback route cannot export any of those objects to its downstream consumer.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real dyadic-pullback seal determinacy]
+\label{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}
+Let two accepted $\StreamNameUp$ finite-window packets be consumed through the displayed $\BHist$ observations, componentwise $\hsame$ transports, finite $\Cont$ continuations, $\Pkg$ provenance rows, and local $\NameCert$ rows. If the two packets induce the same visible StreamName finite-window row, the same $\RegSeqRatUp$ readback row, the same $\DyadicRatCoreUp$ observation ledger, and the same $\RealUp$ seal row, then every $\RealUp$ seal consumer reads the same finite pullback surface.
+
+In particular, the seal-facing read is determined by those four visible rows. No quotient stream, host real equality, selected limit, or ambient completeness datum can supply an alternate $\RealUp$ seal source for either packet.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:streamname-regseqrat-real-lattice-dependency}. It identifies the visible sibling route from the accepted StreamName finite-window rows through the $\RegSeqRatUp$ readback rows and into the $\RealUp$ seal rows using only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. Since the two packets have the same StreamName window row, RegSeqRat readback row, DyadicRatCore ledger, and Real seal row, the four-row finite pullback surface available to a downstream seal consumer is the same on both sides.
+
+The Real seal route is pinned by \autoref{thm:streamname-real-seal-factorization-boundary}: any $\RealUp$ seal read arising from the StreamName-to-RegSeqRat handoff factors through the displayed finite-window rows, accepted RegSeqRat seal rows, bundle and membership rows, unary observations, finite $\Cont$ ledger, displayed $\hsame$ transports, and $\Pkg$ provenance. The RegSeqRat readback coordinate is the same coordinate described by \autoref{thm:streamname-regseqrat-pointwise-handoff}.
+
+Thus every seal-facing consumer reaches one finite pullback surface. The cited rows contain no coordinate for quotient streams, host real equality witnesses, selected limits, or ambient completeness data, so none of those objects can act as a second source for the $\RealUp$ seal.
+\end{proof}

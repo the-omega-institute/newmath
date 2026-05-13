@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\SelfTheoryReflectionLoopUp$}
+\label{ch:concrete-instances-self-theory-reflection-loop-namecert}
+\origin{ai}
+
+The $\SelfTheoryReflectionLoopUp$ packet realizes the self-theory reading of \autoref{ch:bedc-is-its-own-theory} as a finite reflection loop. It sits beside the theory-identity packet of \autoref{ch:concrete-instances-metacic-theory-identity-namecert}, the closure-trace packet of \autoref{ch:concrete-instances-metacicclosuretrace-namecert}, the kernel-acceptance trace of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, and the audit-map family of \autoref{ch:concrete-instances-audit-map-family-namecert}. Those siblings expose identity rows, closure rows, acceptance rows, and audit-family rows; this packet binds them into a cyclic replay surface with an explicit boundary-return row.
+
+\begin{definition}[Self-theory reflection-loop carrier]
+\label{def:self-theory-reflection-loop-carrier}
+A $\SelfTheoryReflectionLoopUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,T,K,A,R,B,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\MetaCICTheoryIdentityUp$ row that records closed generators, literal AST equality, structural recursors, strict purity, and apophatic boundary as the identity surface of BEDC.MetaCIC;
+\item $T$ is the $\MetaCICClosureTraceUp$ row that records the finite closure replay consumed by self-theory audit readers;
+\item $K$ is the $\KernelAcceptanceTraceUp$ row that records the kernel-admission route for accepted declarations and theorem rows;
+\item $A$ is the $\AuditMapFamilyUp$ row that records which audit-map family member reads each identity, closure, and acceptance coordinate;
+\item $R$ is the cyclic audit-replay row, routing a public self-theory read back through $I,T,K,A$ before it may be classified as an internal BEDC.MetaCIC read;
+\item $B$ is the boundary-return row, recording requests that leave the displayed self-theory loop and returning them as named boundary obligations rather than as hidden parent-theory content;
+\item $H$ records componentwise $\hsame$ transport for identity, closure, acceptance, audit-family, replay, boundary, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ routes by which consumers inspect the same rows without replacing the loop by a semantic comparison with another calculus;
+\item $Q$ is the $\Pkg$ provenance over \autoref{ch:bedc-is-its-own-theory}, \autoref{ch:concrete-instances-metacic-theory-identity-namecert}, \autoref{ch:concrete-instances-metacicclosuretrace-namecert}, \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, \autoref{ch:concrete-instances-audit-map-family-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SelfTheoryReflectionLoopUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a classical CIC parent theory, no host equality oracle, no erased audit replay, and no unrecorded escape from the self-theory boundary.
+\end{definition}
+
+\begin{definition}[Self-theory reflection-loop classifier]
+\label{def:self-theory-reflection-loop-classifier}
+Two $\SelfTheoryReflectionLoopUp$ carriers
+$$
+L=(I,T,K,A,R,B,H,C,Q,N)
+$$
+and
+$$
+L'=(I',T',K',A',R',B',H',C',Q',N')
+$$
+are classifier-equivalent exactly when their identity, closure-trace, kernel-acceptance, audit-family, cyclic-replay, boundary-return, transport, continuation, provenance, and local naming rows agree through the displayed $\hsame$ and $\Cont$ data. The classifier does not compare carriers by an external model of CIC, by a hidden normalizer, or by an audit route absent from the displayed packet.
+\end{definition}
+
+\begin{theorem}[Self-theory reflection-loop NameCert obligations]
+\label{thm:self-theory-reflection-loop-namecert-obligations}
+For every accepted $\SelfTheoryReflectionLoopUp$ carrier
+$$
+L=(I,T,K,A,R,B,H,C,Q,N),
+$$
+the local $\NameCert_{\SelfTheoryReflectionLoopUp}$ surface consists of six finite rows:
+\begin{enumerate}
+\item self-theory identity exposure through $I$;
+\item closure-trace replay exposure through $T$;
+\item kernel-acceptance replay exposure through $K$;
+\item audit-map family exposure through $A$;
+\item cyclic audit-replay exactness through $R$;
+\item boundary-return exactness through $B$, with transport, route, provenance, and naming accountability through $H,C,Q,N$.
+\end{enumerate}
+These rows certify a finite loop packet for self-theory identity, audit replay, and boundary non-escape. They do not certify a comparison theorem with classical CIC, a global normalization theorem, or an undisplayed parent theory.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:self-theory-reflection-loop-carrier}. The rows $I,T,K,A$ are the sibling-facing inputs, while $R$ and $B$ are the loop-specific rows.
+
+Classifier exactness follows from \autoref{def:self-theory-reflection-loop-classifier}. Agreement is checked on the displayed identity, trace, acceptance, audit-family, replay, and boundary rows, then transported only through $H$ and read only through $C$.
+
+The provenance and local naming rows $Q,N$ package the same surface. Since the carrier has no additional coordinate, the six listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Self-theory reflection-loop non-escape]
+\label{thm:self-theory-reflection-loop-nonescape}
+Every public read of an accepted $\SelfTheoryReflectionLoopUp$ carrier factors through
+$$
+I,T,K,A,R,B,H,C,Q,N.
+$$
+A read may replay the self-theory identity row through closure, kernel acceptance, and audit-family rows, but a request for an external parent calculus, host semantic equality, hidden audit replay, or unrecorded theorem supply lands in the boundary-return row $B$.
+\end{theorem}
+\begin{proof}
+Read the consumer route through $C$. If the route reaches $I,T,K,A,R,H,Q,N$, it remains inside the displayed reflection loop and its recorded sibling provenance.
+
+If the route asks for material outside those rows, the carrier offers only $B$ as a boundary-return coordinate. The replay row $R$ must pass through $I,T,K,A$ before classification, so deletion of audit replay leaves no route by which the identity row alone can certify the full loop.
+
+Thus a boundary request remains a boundary request. It cannot be reclassified as external parenthood, host equality, hidden audit replay, or undisplayed theorem supply.
+\end{proof}
+
+\begin{theorem}[Self-theory reflection-loop TasteGate follow-up]
+\label{thm:self-theory-reflection-loop-tastegate-followup}
+The Lean-side follow-up for $\SelfTheoryReflectionLoopUp$ must provide $\mathsf{Nontrivial}\ \SelfTheoryReflectionLoopUp$ and $\mathsf{FieldFaithful}\ \SelfTheoryReflectionLoopUp$ in `lean4/BEDC/Derived/SelfTheoryReflectionLoopUp/TasteGate.lean'. Nontriviality rules out a vacuous loop carrier, and field faithfulness records that the gate preserves the identity, closure, acceptance, audit-family, cyclic-replay, and boundary-return fields as distinct rows.
+\end{theorem}
+\begin{proof}
+The carrier has four sibling-facing rows and two loop-specific rows. A gate that preserves only an event-flow shell would not show that these coordinates remain distinguishable.
+
+Nontriviality supplies a carrier with visible content, while field faithfulness preserves the displayed coordinates through the gate. Those are the gate-facing obligations needed before the reflection loop can be read as a checked TasteGate object.
+\end{proof}
+
+\falsifiablePrediction{If the loop is faithful, deleting the audit-replay row breaks the NameCert obligation surface while preserving the bare theory-identity carrier row.}
+
+\independenceWitness{metacic-theory-identity, metacicclosuretrace, kernelacceptancetrace, audit-map-family: the loop has a cyclic replay row and a boundary-return row absent from each sibling, so no bijection preserves all carrier coordinates.}

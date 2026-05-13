@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\CandidateEvidenceSNRouteUp$}
+\label{ch:concrete-instances-candidate-evidence-sn-route-namecert}
+\origin{human}
+
+The $\CandidateEvidenceSNRouteUp$ packet realizes the candidate-mediated route of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It sits beside the typed reduction normal-form packet of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, and the normal false exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}: those siblings consume normal-form and consistency-facing rows, while this packet keeps the strong-normalization route tied to displayed candidate evidence.
+
+\begin{definition}[Candidate evidence SN route carrier]
+\label{def:candidate-evidence-sn-route-carrier}
+A $\CandidateEvidenceSNRouteUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(E,K,M,A,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the candidate evidence row naming $\mathrm{Candidate}$ witnesses and their candidate-to-strong-normalization read;
+\item $K$ is the closed-candidate row naming closed type, closed term, and closed candidate evidence;
+\item $M$ is the candidate-set membership row that exposes the finite membership and soundness reads used by closed typed terms;
+\item $A$ is the Pi and application adequacy row, including function candidate evidence, argument candidate evidence, and the application candidate readback;
+\item $I$ is the no-infinite-reduction projection row attached to the strong-normalization evidence already displayed in $E,K,M,A$;
+\item $H$ stores componentwise $\hsame$ transports for candidate evidence, closed-candidate evidence, membership evidence, adequacy rows, and no-infinite projections;
+\item $C$ stores the displayed $\Cont$ routes from candidate evidence to strong normalization and from strong normalization to no-infinite-reduction boundaries;
+\item $P$ records $\Pkg$ provenance over the normalization audit map, typed reduction normal forms, normal-form consistency seals, normal false exclusion, and the MetaCIC candidate evidence rows;
+\item $N$ is the local $\NameCert_{\CandidateEvidenceSNRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for evidence-free global strong normalization, an unconditional application-normalization theorem, a host evaluator, quotient equality over reduction traces, or a hidden tail of reduction steps.
+\end{definition}
+
+\begin{theorem}[Candidate evidence SN route obligation surface]
+\label{thm:candidate-evidence-sn-route-obligation-surface}
+Every accepted $\CandidateEvidenceSNRouteUp$ packet binds exactly the obligation surface displayed in \autoref{def:candidate-evidence-sn-route-carrier}: candidate evidence through $E$, closed-candidate evidence through $K$, candidate-set membership through $M$, Pi and application adequacy through $A$, no-infinite-reduction projection through $I$, componentwise transport through $H$, route replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The positive route begins with $E,K,M,A$: a consumer first reads candidate evidence, closed-candidate evidence, candidate-set membership, or Pi and application adequacy before any strong-normalization consequence is visible.
+
+The row $I$ is downstream from those evidence rows. It records no-infinite-reduction only as a projection from displayed strong-normalization evidence, so the packet never creates a second route that skips the candidate surface.
+
+The structural rows $H,C,P,N$ preserve, replay, package, and name only the listed coordinates. Since the carrier contains no further row, the displayed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Candidate evidence SN route no-infinite boundary]
+\label{thm:candidate-evidence-sn-route-no-infinite-boundary}
+Every no-infinite-reduction read exported by an accepted $\CandidateEvidenceSNRouteUp$ packet factors through one of the displayed candidate-mediated strong-normalization rows $E,K,M,A$ before it reaches $I$. Thus the route can feed $\TypedReductionNormalFormUp$, $\NormalFormConsistencySealUp$, and $\NormalFalseExclusionUp$ consumers, but it cannot be reread as blanket strong normalization for every closed typed MetaCIC term.
+\end{theorem}
+\begin{proof}
+Start from a no-infinite-reduction read of the packet. The only no-infinite coordinate is $I$, and its input is the strong-normalization evidence already supplied by $E,K,M,A$.
+
+Use the route replay row $C$ to trace the read backward to candidate evidence, closed-candidate evidence, candidate-set membership, or Pi and application adequacy. The transport row $H$ preserves those evidence coordinates under accepted packet agreement.
+
+Finally send the resulting boundary to the normal-form consumers named in $P$. Each consumer receives a finite candidate-mediated route, not a host evaluator, quotient reduction equality, unconditional application-normalization theorem, or evidence-free global strong-normalization principle.
+\end{proof}
+
+\closureat{CandidateEvidenceSNRouteUp}{seedStr}
+
+\begin{closurestatus}{\CandidateEvidenceSNRouteUp}
+  \constructivestory{A $\CandidateEvidenceSNRouteUp$ packet is generated from candidate evidence, closed-candidate evidence, candidate-set membership, Pi and application adequacy rows, no-infinite-reduction projections, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:candidate-evidence-sn-route-carrier}, \autoref{thm:candidate-evidence-sn-route-obligation-surface}, and \autoref{thm:candidate-evidence-sn-route-no-infinite-boundary} bind the finite candidate-mediated strong-normalization route and its no-infinite-reduction boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close evidence-free global strong normalization, unconditional application normalization, full MetaCIC subject reduction, quotient equality over reductions, host evaluation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-route exactness, no-infinite projection exactness, provenance, and local NameCert rows.}
+\end{closurestatus}

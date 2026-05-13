@@ -72,6 +72,7 @@ Thus the consumer surface is exhausted by the finite packet. The excluded object
 \label{thm:critical-strip-zeta-zero-witness-concretizes-rh}
 The $\CriticalStripZetaZeroWitnessUp$ packet is the concrete NameCert surface for the constructive RH premise of \autoref{prop:rh-constructive-form}. Any BEDC proof of the RH predicate may consume such a packet as the finite input carrying $\mathsf{ZetaZero}(s)$ and $\mathsf{InCritStrip}(s)$, and any constructive counterexample must export such a packet together with a displayed failure of the critical-line row. The packet itself contributes only the input surface; it does not prove the critical-line conclusion.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalStripZetaZeroWitnessUp.CriticalStripZetaZeroWitnessPacket\_concretizes\_rh}
 \begin{proof}
 The carrier supplies the two premise rows required by the constructive RH form: $S$ gives the critical-strip row and $Z$ gives the zeta-zero row. The shared source binding in \autoref{thm:critical-strip-zeta-zero-witness-namecert-obligations} identifies them as rows over the same complex history.
 
@@ -206,6 +207,7 @@ Finally use shared-source scope and line-route determinacy. Shared-source scope 
 \label{thm:critical-strip-zeta-zero-source-route-exhaustion}
 For an accepted $\CriticalStripZetaZeroWitnessUp$ packet $W=(S,Z,L,B,H,C,P,N)$, the common source route for the strip row $S$ and the zeta-zero row $Z$ is exhausted by the stored $\hsame$ and $\Cont$ rows in $H$ and $C$. Any consumer comparing the two source readings must use those displayed routes and receives no additional complex representative, quotient equality, or analytic source-selection procedure.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalStripZetaZeroWitnessUp.CriticalStripZetaZeroWitnessPacket\_source\_route\_exhaustion}
 \begin{proof}
 Project the carrier and the shared source binding clause of the NameCert obligations theorem. The only rows that connect the $\CritStripUp$ source and the $\ZetaZerosUp$ source are the componentwise $\hsame$ transports in $H$ and the continuation routes in $C$.
 
@@ -275,14 +277,15 @@ Combine this with zero-row admission and classifier non-escape. The first theore
 \end{proof}
 
 \closureat{CriticalStripZetaZeroWitnessUp}{seedStr}
+\closureat{CriticalStripZetaZeroWitnessUp}{obligationStr}
 
 \begin{closurestatus}{\CriticalStripZetaZeroWitnessUp}
   \constructivestory{A $\CriticalStripZetaZeroWitnessUp$ packet is generated from a $\CritStripUp$ strip row, a $\ZetaZerosUp$ zero row, a critical-line classifier row, a boundary ledger, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed surface names the finite RH premise packet over $\ComplexUp$, $\CritStripUp$, $\ZetaZerosUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove RH, refute RH, construct non-trivial zeta zeros, decide the critical-line classifier, close zero-set quotients, or bridge checking.}
-  \upgradepath{Scoped closure requires a checked carrier encoding and named finite obligations for shared source binding, critical-line boundary routing, RH handoff, and ledger exhaustion.}
+  \upgradepath{Scoped closure requires checked carrier encoding for the shared source binding, critical-line boundary routing, RH handoff, and ledger exhaustion rows.}
 \end{closurestatus}

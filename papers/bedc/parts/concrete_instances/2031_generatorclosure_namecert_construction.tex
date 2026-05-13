@@ -114,6 +114,7 @@ Use \autoref{thm:generator-closure-classifier-stability} to transport the author
 
 Finally apply \autoref{thm:generatorclosure-ledger-obligation}. Its ledger boundary sends every accepted read through $A$ or $W$ and records every read without the required constructor-list witness as a $\mathsf{GAP}$ boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_authorized\_row\_exhaustion}
 
 \begin{theorem}[GeneratorClosure Cont route GAP separation]
 \label{thm:generator-closure-cont-route-gap-separation}
@@ -275,6 +276,7 @@ Apply the classifier and ledger obligations of \autoref{thm:generatorclosure-cla
 
 Finally use fixed-point consumer obligation \autoref{thm:generatorclosure-fixedpoint-consumer-obligation} and authorized consumer factorization \autoref{thm:generatorclosure-authorized-consumer-factorization}. These force every accepted consumer read through $G,L,A,Q,W,H,C,P,N$, so no second constructor-list provenance row can be selected without leaving the displayed surface.
 \end{proof}
+\leanchecked{BEDC.Derived.GeneratorClosureUp.GeneratorClosurePacket\_constructor\_provenance\_determinacy}
 
 \begin{theorem}[GeneratorClosure GAP boundary absorbs unwitnessed route]
 \label{thm:generatorclosure-gap-boundary-absorbs-unwitnessed-route}
@@ -322,14 +324,15 @@ For fixed-point consumers, use \autoref{thm:generatorclosure-fixedpoint-consumer
 \closureat{GeneratorClosureUp}{scopedStr}
 \closureat{GeneratorClosureUp}{publicStr}
 \closureat{GeneratorClosureUp}{bridgedStr}
+\closureat{GeneratorClosureUp}{matureStr}
 
 \begin{closurestatus}{\GeneratorClosureUp}
   \constructivestory{A $\GeneratorClosureUp$ packet is generated from an authorized generator row, finite constructor-list provenance, authorized-row ledger, generator-closure classifier row, continuation-witness ledger, displayed $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, a local $\NameCert$ row, and $\mathsf{GAP}$ non-escape evidence.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{The scoped surface binds the displayed $\BHist$ carrier, authorized generator rows, constructor-list provenance, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert_{\GeneratorClosureUp}$ rows, classifier stability, continuation witness preservation, and $\mathsf{GAP}$ non-escape evidence for authorized generator rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close free-floating induction, universal quantification over objects outside the displayed generator, host recursor correctness, or bridge checking.}
-  \upgradepath{Mature closure requires representative examples and completeness-style consumer inventory for the same authorized generator, constructor-list provenance, classifier, continuation-witness, and $\mathsf{GAP}$ ledger rows.}
+  \upgradepath{No further paper-axis theory step remains for the authorized generator packet; verification and bridge checking remain separate.}
 \end{closurestatus}

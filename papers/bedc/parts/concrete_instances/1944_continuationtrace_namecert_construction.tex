@@ -4,6 +4,8 @@
 
 The $\ContinuationTraceUp$ packet gives the computation-as-continuation reading of \autoref{ch:visions-computation-as-continuation} a concrete finite carrier. It treats a displayed small-step computation as a $\mathsf{BHist}$ trace: each row records a source history, a mark-and-tail route, a target history, the $\hsame$ transports needed to compare displayed histories, the $\Cont$ route that witnesses the step, package provenance, and a local naming row. The packet does not introduce a host evaluator, a host termination predicate, quotient behaviour, or big-step semantic object.
 
+The same trace packet supplies the step-ledger surface consumed by the unary-continuation categorical reading in \autoref{ch:concrete-instances-unary-continuation-category-namecert}: source and target rows together with $\Cont$ tails become the hom-carrier data, while the trace ledger records the finite route support.
+
 \begin{definition}[ContinuationTrace carrier]
 \label{def:continuation-trace-carrier}
 A $\ContinuationTraceUp$ carrier is a finite $\mathsf{BHist}$ packet
@@ -123,6 +125,7 @@ Let $T=(S,M,R,Q,H,C,P,N)$ be an accepted $\ContinuationTraceUp$ packet. Every en
 
 No endpoint read of $T$ is supplied by a host evaluator, a host termination predicate, a quotient behaviour, a selected evaluator, or a big-step semantic object.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_endpoint\_ledger\_exhaustion}
 \begin{proof}
 Project $T$ through \autoref{def:continuation-trace-carrier}. The endpoint-facing coordinates are the source row $S$, mark-and-tail row $M$, target row $R$, finite ledger $Q$, transport row $H$, continuation route $C$, provenance row $P$, and local naming row $N$.
 
@@ -141,6 +144,7 @@ T_1=(S_1,M_1,R_1,Q_1,H_1,C_1,P_1,N_1)
 $$
 be accepted $\ContinuationTraceUp$ packets. A displayed boundary comparison $R_0\hsame S_1$ pulls back only through the transport rows $H_0,H_1$ and the displayed ledgers $Q_0,Q_1$. It adds no new step row and no extra endpoint outside the two accepted trace packets.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_boundary\_hsame\_pullback}
 \begin{proof}
 Project both packets through \autoref{def:continuation-trace-carrier}. The boundary comparison has access to $R_0$ from the first packet and $S_1$ from the second packet, while its admissible transport data is recorded by $H_0$ and $H_1$.
 
@@ -169,15 +173,54 @@ Apply \autoref{thm:continuation-trace-concatenation-readback} and the boundary p
 Finally use \autoref{thm:continuation-trace-public-export}. The public packet is still the finite BEDC trace packet, hence the complete route support is over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
+\begin{theorem}[ContinuationTrace route composition determinacy]
+\label{thm:continuation-trace-route-composition-determinacy}
+For accepted packets
+$$
+T_0=(S_0,M_0,R_0,Q_0,H_0,C_0,P_0,N_0),\quad
+T_1=(S_1,M_1,R_1,Q_1,H_1,C_1,P_1,N_1),\quad
+T_2=(S_2,M_2,R_2,Q_2,H_2,C_2,P_2,N_2),
+$$
+suppose the displayed boundary rows match $R_0\hsame S_1$ and $R_1\hsame S_2$. Then every consumer route of the two-step concatenated $\ContinuationTraceUp$ packet factors through exactly one source ledger among $Q_0,Q_1,Q_2$ together with the two displayed boundary rows. The selected source ledger and the resulting public route are independent of whether the first boundary $R_0\hsame S_1$ or the second boundary $R_1\hsame S_2$ is assembled first.
+
+The composed packet still exports no host evaluator, host termination predicate, quotient behaviour, or big-step semantic object.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:continuation-trace-concatenation-readback} to the pair $(T_0,T_1)$ and then to the resulting packet with $T_2$. The first assembly contributes exactly the ledgers $Q_0,Q_1$ and the boundary row $R_0\hsame S_1$; the second assembly contributes $Q_2$ and the boundary row $R_1\hsame S_2$.
+
+Apply the same readback in the other order, first to $(T_1,T_2)$ and then to $T_0$ with that packet. The visible route inventory is again $Q_0,Q_1,Q_2$ plus the two displayed boundary rows.
+
+Use \autoref{thm:continuation-trace-boundary-hsame-pullback} for each boundary. Each $\hsame$ row pulls back only to the adjacent trace ledgers and does not add a third boundary source or an external endpoint.
+
+Finally apply \autoref{thm:continuation-trace-route-support-totality} on the assembled finite packet. Every consumer route chooses exactly one of the three source ledgers, while the two boundary rows only glue adjacent endpoints. The non-escape boundary remains the one already stated for continuation traces, so host evaluators, termination predicates, quotient behaviours, and big-step semantics stay outside the public route.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace scoped readback]
+\label{thm:continuation-trace-scoped-readback}
+Every accepted $\ContinuationTraceUp$ route is scoped exactly by its $\BHist$ source rows, $\BMark$ step rows, target rows, finite ledgers, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The route cannot read host evaluator semantics, host termination, quotient behaviour, or big-step data.
+\end{theorem}
+\begin{proof}
+Begin with small-step readback. It reads every displayed step from the source row, mark-and-tail row, target row, trace ledger, and continuation route.
+
+Use the non-escape boundary and public export. These identify the visible computational content with the finite trace packet and exclude host evaluators, host termination, quotient behaviours, selected evaluators, and big-step semantic objects.
+
+Now apply route support totality. Every consumer route factors through exactly one displayed source ledger together with the relevant boundary $\hsame$ row, so no undisplayed route support can enter.
+
+Finally use route composition determinacy. Composed routes remain independent of the order in which adjacent boundary rows are assembled, and every read still chooses one displayed ledger. The full scope is therefore exactly the $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface stated above.
+\end{proof}
+
 \closureat{ContinuationTraceUp}{seedStr}
+\closureat{ContinuationTraceUp}{obligationStr}[BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_namecert\_obligations]
+\closureat{ContinuationTraceUp}{scopedStr}[BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_small\_step\_readback]
 
 \begin{closurestatus}{\ContinuationTraceUp}
   \constructivestory{A $\ContinuationTraceUp$ packet is generated from finite source-history rows, mark-and-tail route rows, target-history rows, trace ledgers, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The chapter specifies the finite continuation-trace carrier, its NameCert obligations, small-step readback, non-escape boundary, and public export over displayed BEDC rows.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The chapter binds the finite trace carrier, NameCert obligations, small-step readback, concatenation readback, endpoint ledger exhaustion, boundary $\hsame$ pullback, and route composition determinacy over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean formalization, bridge checking, host evaluator semantics, host termination, quotient behaviours, or big-step semantics.}
-  \upgradepath{Scoped closure requires a Lean carrier and checked readback theorem for the finite $\ContinuationTraceUp$ trace packet.}
+  \upgradepath{Public export requires a public object surface for the finite $\ContinuationTraceUp$ trace packet and its composed route ledger.}
 \end{closurestatus}
