@@ -300,6 +300,7 @@ import BEDC.Derived.ObserverHistIdentityUp.TasteGate
 import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
+import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
