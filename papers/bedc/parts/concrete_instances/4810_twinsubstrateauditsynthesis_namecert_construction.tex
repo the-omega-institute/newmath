@@ -1,0 +1,67 @@
+\chapter{TwinSubstrateAuditSynthesis NameCert construction}
+\label{ch:concrete-instances-twin-substrate-audit-synthesis-namecert}
+\origin{ai}
+
+The $\TwinSubstrateAuditSynthesisUp$ packet realizes the twin-substrate synthesis of \autoref{ch:twin-substrate-synthesis} as a finite NameCert object whose audit rows remain substrate-specific. It sits beside the MetaCIC audit synthesis of \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, the GroundCompiler audit map of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, and the audit-map frontier packet of \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert}: those siblings provide the two audit sources and the shared frontier discipline, while this chapter names their paired finite synthesis row.
+
+\begin{definition}[Twin-substrate audit-synthesis carrier]
+\label{def:twin-substrate-audit-synthesis-carrier}
+A $\TwinSubstrateAuditSynthesisUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,G,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is a MetaCIC audit-synthesis row, read through \autoref{ch:concrete-instances-metacicauditsynthesis-namecert};
+\item $G$ is a GroundCompiler audit-map row, read through \autoref{ch:concrete-instances-groundcompilerauditmap-namecert};
+\item $A$ is an audit-frontier alignment row, read through \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert}, that records which MetaCIC boundary and which GroundCompiler boundary are being paired;
+\item $H$ records componentwise $\hsame$ transports for the MetaCIC row, GroundCompiler row, frontier alignment row, continuation row, package row, and local naming row;
+\item $C$ records displayed $\Cont$ routes by which consumers read $M$, $G$, and $A$ without identifying their evidence kinds;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateAuditSynthesisUp}$ row.
+\end{enumerate}
+The classifier accepts exactly the packets whose public reads factor through $S=(M,G,A,H,C,P,N)$ and whose frontier alignment keeps MetaCIC proof-theoretic residue separate from GroundCompiler report, recognizer, channel, and hidden-input boundaries.
+\end{definition}
+
+\begin{theorem}[TwinSubstrateAuditSynthesis NameCert obligations]
+\label{thm:twin-substrate-audit-synthesis-namecert-obligations}
+For every accepted $\TwinSubstrateAuditSynthesisUp$ carrier
+$$
+S=(M,G,A,H,C,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateAuditSynthesisUp}$ surface consists exactly of MetaCIC audit-synthesis readback through $M$, GroundCompiler audit-map readback through $G$, audit-frontier alignment through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:twin-substrate-audit-synthesis-carrier}. Its coordinates are precisely the two audit rows, the frontier alignment row, the transport row, the continuation row, the provenance row, and the local naming row.
+
+Read the substrate rows separately. The MetaCIC row $M$ carries the audit-synthesis surface, while the GroundCompiler row $G$ carries the compiler-facing audit-map surface. The alignment row $A$ names a shared frontier position, but it does not convert one row into the other.
+
+Finally, $H,C,P,N$ transport, replay, package, and name only those displayed coordinates. Since the carrier has no hidden equality, report-to-proof conversion, or compiler-input oracle, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateAuditSynthesis cross-map non-escape]
+\label{thm:twin-substrate-audit-synthesis-cross-map-nonescape}
+Every public cross-map read from an accepted $\TwinSubstrateAuditSynthesisUp$ carrier factors through the displayed rows $M,G,A,H,C,P,N$ of \autoref{def:twin-substrate-audit-synthesis-carrier}. Such a read cannot turn a GroundCompiler report, recognizer, channel row, or hidden-input refusal into MetaCIC proof evidence, and it cannot turn a MetaCIC obstruction, closed-calculus theorem row, or subject-reduction residue into GroundCompiler input or compiler-side evidence.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:twin-substrate-audit-synthesis-namecert-obligations}. Every public read must first choose the MetaCIC row, the GroundCompiler row, or the frontier alignment row and then pass through the displayed continuation and transport rows.
+
+For a MetaCIC-facing read, the consumer receives $M$ with $A,H,C,P,N$ as finite routing data. The GroundCompiler row $G$ may be present as paired audit context, but the packet contains no coordinate that reclassifies report, recognizer, channel, or hidden-input data as proof evidence.
+
+For a GroundCompiler-facing read, the consumer receives $G$ with the same finite routing discipline. The MetaCIC row $M$ may be cited as the paired audit-synthesis boundary, but the packet contains no coordinate that reclassifies closed-calculus theorem data, obstruction data, or subject-reduction residue as compiler input.
+
+Thus the ledger cannot escape the displayed packet. Coordinate exhaustion over $M,G,A,H,C,P,N$ preserves both refusal boundaries while allowing a finite paired audit read.
+\end{proof}
+
+\closureat{TwinSubstrateAuditSynthesisUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateAuditSynthesisUp}
+  \constructivestory{A $\TwinSubstrateAuditSynthesisUp$ packet is generated from a MetaCIC audit-synthesis row, a GroundCompiler audit-map row, an audit-frontier alignment row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-audit-synthesis-carrier}, \autoref{thm:twin-substrate-audit-synthesis-namecert-obligations}, and \autoref{thm:twin-substrate-audit-synthesis-cross-map-nonescape} bind the finite paired audit-synthesis packet and its cross-map non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close MetaCIC subject reduction, GroundCompiler host trust, compiler self-reference, Lean verification, audit cleanliness, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, MetaCIC audit-synthesis readback, GroundCompiler audit-map readback, frontier-alignment exactness, transport, continuation, provenance, naming, and cross-map non-escape for the same finite packet.}
+\end{closurestatus}
