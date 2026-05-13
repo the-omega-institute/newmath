@@ -113,6 +113,7 @@ import BEDC.Derived.DyadicApproximationUp.PublicFiniteWindowExport
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
+import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.DyadicEmbeddingUp
@@ -194,6 +195,7 @@ import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.CompletionUniversalPropertyUp
 import BEDC.Derived.CompletionFunctorUp
 import BEDC.Derived.EqtypeUp
+import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
@@ -293,6 +295,7 @@ import BEDC.Derived.ObserverHistIdentityUp
 import BEDC.Derived.ObserverHistIdentityUp.TasteGate
 import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
+import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
