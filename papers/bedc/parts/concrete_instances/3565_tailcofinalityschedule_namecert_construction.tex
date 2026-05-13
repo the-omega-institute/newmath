@@ -135,6 +135,24 @@ Finally use \autoref{thm:tail-cofinality-schedule-regular-cauchy-tail-meet-hando
 Since \autoref{def:tail-cofinality-schedule-carrier} contains no coordinate for quotient stream equality, selected host limits, ambient completeness, hidden tail oracles, or unbounded schedules, no accepted packet can factor any listed row through such data. The only available factors are the displayed BEDC primitives named above, together with the local $\NameCert$ row and the threshold handoff already routed through $D$.
 \end{proof}
 
+\begin{theorem}[Tail cofinality schedule RegularCauchyCompletion route]
+\label{thm:tail-cofinality-schedule-regular-cauchy-completion-route}
+Let $T=(E,W,D,R,L,H,C,P,N)$ be an accepted $\TailCofinalityScheduleUp$ packet whose finite-window and dyadic-threshold route is consumed by an accepted $\RealCauchyCompletionUp$ diagonal packet. Then every completion-facing seal read follows
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L
+$$
+before the completion carrier can read its $\RealUp$ seal. The route exports no quotient stream equality, selected host limit, host real equality, ambient completeness, hidden tail oracle, or unbounded schedule.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. It gives the ordered finite route from the unary request $E$ through the finite stream-window schedule $W$, dyadic threshold ledger $D$, regular-rational readback row $R$, and real-facing seal row $L$.
+
+Apply \autoref{thm:tail-cofinality-schedule-real-seal-readback} and \autoref{thm:tail-cofinality-schedule-scoped-binding} for the same packet. These rows keep the seal read inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and the local $\NameCert$ row, with no coordinate for a host-selected limit or hidden tail oracle.
+
+Now read the accepted $\RealCauchyCompletionUp$ diagonal packet. Its diagonal handoff \autoref{thm:real-cauchy-completion-diagonal-handoff} consumes the finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, and $\RegSeqRatUp$ readback before the completion-facing $\RealUp$ seal is available.
+
+Therefore a completion carrier using $T$ cannot reach its seal before the displayed schedule route has been consumed. The exclusions from the schedule packet and the completion diagonal handoff combine to rule out quotient stream equality, selected host limits, host real equality, ambient completeness, hidden tail oracles, and unbounded schedules as alternative routes.
+\end{proof}
+
 \closureat{TailCofinalityScheduleUp}{seedStr}
 \closureat{TailCofinalityScheduleUp}{obligationStr}
 \closureat{TailCofinalityScheduleUp}{scopedStr}

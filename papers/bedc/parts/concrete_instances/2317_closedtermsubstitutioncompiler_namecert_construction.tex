@@ -4,6 +4,8 @@
 
 The $\ClosedTermSubstitutionCompilerUp$ surface packages the MetaCIC closed-term substitution boundary as a finite compiler-facing naming certificate. Its carrier is not a full evaluator correctness theorem. It records the concrete rows by which $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\mathsf{substitute\_closed}$, $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ form the local boundary used by self-compilation consumers.
 
+The compiler-facing packet consumes the finite closed-term boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} before it exposes the $\mathsf{substitute\_closed}$ and $\mathsf{shift\_closed}$ witness rows. This dependency is boundary reuse: it records that the compiler schedule reads the closed substitution and shift surface through the registered packet, not that the packet proves evaluator correctness or subject reduction.
+
 \begin{definition}[ClosedTermSubstitutionCompiler carrier]
 \label{def:closed-term-substitution-compiler}
 A $\ClosedTermSubstitutionCompilerUp$ carrier is a finite $\BHist$ packet
