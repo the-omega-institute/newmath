@@ -1,0 +1,14 @@
+# hsame_trans.enum.ct
+# Theorem: hsame_trans : forall {a b c : BHist}, hsame a b -> hsame b c -> hsame a c
+# Strategy: representative cases over BHist triples. Equal/equal/equal cases
+# are direct; mismatched antecedents are implication-vacuous.
+PRODUCTIONS 0
+ASSERTIONS 8
+case empty_empty_empty:      input=111111          ; holds=trivial
+case empty_empty_e0_empty:   input=1111011         ; holds=vacuous
+case empty_e0_empty_empty:   input=1101111         ; holds=vacuous
+case e0_empty_all:           input=011011011       ; holds=trivial
+case e0_e1_e0_empty:         input=0111011011      ; holds=vacuous
+case e1_empty_all:           input=101110111011    ; holds=trivial
+case e0_e1_empty_all:        input=010110101101011 ; holds=trivial
+case e1_e0__e0_e1__e1_e0:    input=100110101110011 ; holds=vacuous

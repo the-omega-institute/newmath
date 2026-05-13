@@ -264,7 +264,7 @@ theorem SimplicialComplexUnion_append_enumeration
 
 theorem SimplicialComplexUnion_face_dimension_grading (simplices : ProbeBundle BHist)
     {SimplexK SimplexL : BHist -> Prop} {Face : BHist -> BHist -> Prop}
-    (listed : forall {s : BHist}, SimplexK s ∨ SimplexL s -> InBundle s simplices)
+    (_listed : forall {s : BHist}, SimplexK s ∨ SimplexL s -> InBundle s simplices)
     (faceClosedK :
       forall {tau sigma : BHist}, SimplexK sigma -> Face tau sigma -> SimplexK tau)
     (faceClosedL :

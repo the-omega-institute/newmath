@@ -1,0 +1,669 @@
+#include "block_assembler.h"
+#include "cook_decode.h"
+#include "rule110.h"
+
+#include <assert.h>
+#include <ctype.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_R110_CASES 512
+#define MAX_NAME 128
+#define MAX_BITS 2048
+#define MAX_PATH 512
+
+typedef struct {
+    char name[MAX_NAME];
+    char input[MAX_BITS];
+    uint8_t *initial;
+    size_t initial_len;
+    size_t steps;
+    size_t payload_start;
+    size_t payload_len;
+    char expected_payload[MAX_BITS];
+} R110Case;
+
+typedef struct {
+    char source_ct[MAX_PATH];
+    size_t initial_length;
+    size_t assertion_count;
+    R110Case cases[MAX_R110_CASES];
+    size_t case_count;
+} R110Manifest;
+
+static const char *R110_MANIFESTS[] = {
+    "manifests/ask/ask_basic.r110.ct",
+    "manifests/bundle/bundle_length.r110.ct",
+    "manifests/bundle/bundle_membership.r110.ct",
+    "manifests/cont/cont_basic.r110.ct",
+    "manifests/ext/ext_step.r110.ct",
+    "manifests/external_binary/external_binary_basic.r110.ct",
+    "manifests/gap/gap_basic.r110.ct",
+    "manifests/ground_compiler/bhist_injectivity.r110.ct",
+    "manifests/ground_compiler/flow_round_trip.r110.ct",
+    "manifests/ground_compiler/reject_reasons.r110.ct",
+    "manifests/hist/hsame_constructor_distinct.r110.ct",
+    "manifests/hist/hsame_empty_inversion.r110.ct",
+    "manifests/hist/hsame_refl.r110.ct",
+    "manifests/hist/hsame_symm.r110.ct",
+    "manifests/hist/hsame_trans.r110.ct",
+    "manifests/mark/msame_no_confusion.r110.ct",
+    "manifests/mark/msame_refl.r110.ct",
+    "manifests/mark/msame_symm.r110.ct",
+    "manifests/mark/msame_trans.r110.ct",
+    "manifests/name_cert/name_cert_basic.r110.ct",
+    "manifests/package/package_basic.r110.ct",
+    "manifests/settled/settled_basic.r110.ct",
+    "manifests/sig/samesig_equiv.r110.ct",
+    "manifests/sig/sigrel_basic.r110.ct",
+    "manifests/unary/unary_basic.r110.ct",
+};
+
+static const char *ALGO_R110_MANIFESTS[] = {
+    "manifests/ask/ask_basic.algo.r110.ct",
+    "manifests/bundle/bundle_length.algo.r110.ct",
+    "manifests/bundle/bundle_membership.algo.r110.ct",
+    "manifests/cont/cont_basic.algo.r110.ct",
+    "manifests/ext/ext_step.algo.r110.ct",
+    "manifests/external_binary/external_binary_basic.algo.r110.ct",
+    "manifests/gap/gap_basic.algo.r110.ct",
+    "manifests/hist/hsame_constructor_distinct.algo.r110.ct",
+    "manifests/hist/hsame_empty_inversion.algo.r110.ct",
+    "manifests/hist/hsame_refl.algo.r110.ct",
+    "manifests/hist/hsame_symm.algo.r110.ct",
+    "manifests/hist/hsame_trans.algo.r110.ct",
+    "manifests/mark/msame_no_confusion.algo.r110.ct",
+    "manifests/mark/msame_refl.algo.r110.ct",
+    "manifests/mark/msame_symm.algo.r110.ct",
+    "manifests/mark/msame_trans.algo.r110.ct",
+    "manifests/name_cert/name_cert_basic.algo.r110.ct",
+    "manifests/package/package_basic.algo.r110.ct",
+    "manifests/settled/settled_basic.algo.r110.ct",
+    "manifests/sig/samesig_equiv.algo.r110.ct",
+    "manifests/sig/sigrel_basic.algo.r110.ct",
+    "manifests/unary/unary_basic.algo.r110.ct",
+};
+
+static char *trim_ascii(char *s) {
+    char *end;
+
+    while (*s && isspace((unsigned char)*s)) s++;
+    end = s + strlen(s);
+    while (end > s && isspace((unsigned char)end[-1])) end--;
+    *end = '\0';
+    return s;
+}
+
+static int parse_size_value(const char *s, size_t *out) {
+    char *end = NULL;
+    unsigned long value;
+
+    value = strtoul(s, &end, 10);
+    if (end == s) return 0;
+    while (*end && isspace((unsigned char)*end)) end++;
+    if (*end != '\0') return 0;
+    *out = (size_t)value;
+    return 1;
+}
+
+static int copy_text_value(char *dst, size_t dst_cap, const char *src) {
+    size_t len = strlen(src);
+
+    if (len + 1 > dst_cap) return 0;
+    memcpy(dst, src, len + 1);
+    return 1;
+}
+
+static int bit_string_to_cells(const char *bits,
+                               size_t expected_len,
+                               uint8_t **out) {
+    uint8_t *cells;
+    size_t len = strlen(bits);
+
+    if (len != expected_len) return 0;
+    cells = (uint8_t *)malloc(expected_len ? expected_len : 1);
+    if (cells == NULL) return 0;
+
+    for (size_t i = 0; i < expected_len; i++) {
+        if (bits[i] != '0' && bits[i] != '1') {
+            free(cells);
+            return 0;
+        }
+        cells[i] = (uint8_t)(bits[i] == '1');
+    }
+
+    *out = cells;
+    return 1;
+}
+
+static int read_line_dynamic(FILE *f, char **out) {
+    size_t cap = 4096;
+    size_t len = 0;
+    int ch;
+    char *buf = (char *)malloc(cap);
+
+    if (buf == NULL) return -1;
+    while ((ch = fgetc(f)) != EOF) {
+        if (len + 1 >= cap) {
+            size_t next_cap = cap * 2;
+            char *next = (char *)realloc(buf, next_cap);
+
+            if (next == NULL) {
+                free(buf);
+                return -1;
+            }
+            buf = next;
+            cap = next_cap;
+        }
+        if (ch == '\n') break;
+        buf[len++] = (char)ch;
+    }
+    if (ch == EOF && len == 0) {
+        free(buf);
+        return 0;
+    }
+    if (len > 0 && buf[len - 1] == '\r') len--;
+    buf[len] = '\0';
+    *out = buf;
+    return 1;
+}
+
+static int read_content_line_dynamic(FILE *f, char **out) {
+    for (;;) {
+        int rc = read_line_dynamic(f, out);
+        char *trimmed;
+
+        if (rc <= 0) return rc;
+        trimmed = trim_ascii(*out);
+        if (trimmed[0] == '\0' || trimmed[0] == '#') {
+            free(*out);
+            *out = NULL;
+            continue;
+        }
+        if (trimmed != *out) memmove(*out, trimmed, strlen(trimmed) + 1);
+        return 1;
+    }
+}
+
+static int parse_key_value(R110Case *c,
+                           const char *key,
+                           const char *value,
+                           size_t manifest_initial_len) {
+    if (strcmp(key, "input") == 0) {
+        return copy_text_value(c->input, sizeof(c->input), value);
+    }
+    if (strcmp(key, "rule110_initial") == 0) {
+        return bit_string_to_cells(value, manifest_initial_len, &c->initial);
+    }
+    if (strcmp(key, "steps") == 0) {
+        return parse_size_value(value, &c->steps);
+    }
+    if (strcmp(key, "payload_start") == 0) {
+        return parse_size_value(value, &c->payload_start);
+    }
+    if (strcmp(key, "payload_len") == 0) {
+        return parse_size_value(value, &c->payload_len);
+    }
+    if (strcmp(key, "expected_payload") == 0) {
+        return copy_text_value(c->expected_payload,
+                               sizeof(c->expected_payload),
+                               value);
+    }
+    if (strcmp(key, "encoding") == 0) {
+        return strcmp(value, "direct_bit_payload") == 0 ||
+               strcmp(value, "groundcompiler_event_pair") == 0;
+    }
+    if (strcmp(key, "construction") == 0) {
+        return strcmp(value, "direct_initial_payload") == 0 ||
+               strcmp(value, "one_step_preimage") == 0;
+    }
+    return 0;
+}
+
+static int parse_r110_case_line(char *line,
+                                size_t manifest_initial_len,
+                                R110Case *out) {
+    char *cursor;
+    char *colon;
+    char *field;
+
+    memset(out, 0, sizeof(*out));
+
+    if (strncmp(line, "case ", 5) != 0) return 0;
+    cursor = line + 5;
+    colon = strchr(cursor, ':');
+    if (colon == NULL) return 0;
+    *colon = '\0';
+    if (!copy_text_value(out->name, sizeof(out->name), trim_ascii(cursor))) {
+        return 0;
+    }
+    cursor = colon + 1;
+
+    field = strtok(cursor, ";");
+    while (field != NULL) {
+        char *eq;
+        char *key;
+        char *value;
+
+        field = trim_ascii(field);
+        eq = strchr(field, '=');
+        if (eq == NULL) return 0;
+        *eq = '\0';
+        key = trim_ascii(field);
+        value = trim_ascii(eq + 1);
+        if (!parse_key_value(out, key, value, manifest_initial_len)) {
+            return 0;
+        }
+        field = strtok(NULL, ";");
+    }
+
+    out->initial_len = manifest_initial_len;
+    if (out->initial == NULL) return 0;
+    if (out->payload_start > out->initial_len ||
+        out->payload_len > out->initial_len - out->payload_start) {
+        return 0;
+    }
+    if (strlen(out->input) != out->payload_len) return 0;
+    if (strlen(out->expected_payload) != out->payload_len) return 0;
+
+    return 1;
+}
+
+static void free_r110_manifest(R110Manifest *m) {
+    for (size_t i = 0; i < m->case_count; i++) {
+        free(m->cases[i].initial);
+        m->cases[i].initial = NULL;
+    }
+}
+
+static int load_r110_manifest(const char *path, R110Manifest *out) {
+    FILE *f = fopen(path, "r");
+    char line_buf[4096];
+    int saw_version = 0;
+    int saw_source = 0;
+    int saw_construction = 0;
+
+    if (f == NULL) return 0;
+    memset(out, 0, sizeof(*out));
+
+    while (fgets(line_buf, sizeof(line_buf), f) != NULL) {
+        char *line = trim_ascii(line_buf);
+
+        if (line[0] == '\0' || line[0] == '#') continue;
+        if (strcmp(line, "R110_MANIFEST 1") == 0) {
+            saw_version = 1;
+        } else if (strncmp(line, "SOURCE_CT ", 10) == 0) {
+            if (!copy_text_value(out->source_ct,
+                                 sizeof(out->source_ct),
+                                 line + 10)) {
+                fclose(f);
+                return 0;
+            }
+            saw_source = 1;
+        } else if (strcmp(line, "CONSTRUCTION direct_initial_payload") == 0 ||
+                   strcmp(line, "CONSTRUCTION one_step_preimage") == 0) {
+            saw_construction = 1;
+        } else if (strncmp(line, "INITIAL_LENGTH ", 15) == 0) {
+            if (!parse_size_value(line + 15, &out->initial_length)) {
+                fclose(f);
+                return 0;
+            }
+        } else if (strncmp(line, "ASSERTIONS ", 11) == 0) {
+            if (!parse_size_value(line + 11, &out->assertion_count)) {
+                fclose(f);
+                return 0;
+            }
+        } else if (strncmp(line, "case ", 5) == 0) {
+            if (out->case_count >= MAX_R110_CASES) {
+                fclose(f);
+                free_r110_manifest(out);
+                return 0;
+            }
+            if (!parse_r110_case_line(line,
+                                      out->initial_length,
+                                      &out->cases[out->case_count])) {
+                fclose(f);
+                free_r110_manifest(out);
+                return 0;
+            }
+            out->case_count++;
+        } else if (strncmp(line, "skip ", 5) == 0) {
+            continue;
+        } else {
+            fclose(f);
+            free_r110_manifest(out);
+            return 0;
+        }
+    }
+
+    fclose(f);
+    if (!saw_version || !saw_source || !saw_construction ||
+        out->initial_length == 0 ||
+        out->assertion_count != out->case_count) {
+        free_r110_manifest(out);
+        return 0;
+    }
+    return 1;
+}
+
+static int payload_matches(const uint8_t *cells, const R110Case *c) {
+    for (size_t i = 0; i < c->payload_len; i++) {
+        char got = cells[c->payload_start + i] ? '1' : '0';
+        if (got != c->expected_payload[i]) return 0;
+    }
+    return 1;
+}
+
+static char bit_to_cook_symbol(uint8_t bit) {
+    return bit == 0 ? 'N' : 'Y';
+}
+
+static int bits_to_cook_symbols(const uint8_t *bits,
+                                size_t bits_len,
+                                char *out,
+                                size_t out_cap) {
+    if (bits == NULL || out == NULL || bits_len + 1 > out_cap) return 0;
+    for (size_t i = 0; i < bits_len; i++) {
+        out[i] = bit_to_cook_symbol(bits[i]);
+    }
+    out[bits_len] = '\0';
+    return 1;
+}
+
+static void verify_case(const R110Case *c, const char *source_path) {
+    uint8_t *cells = (uint8_t *)malloc(c->initial_len ? c->initial_len : 1);
+
+    assert(cook_source_case_input_matches(source_path, c->name, c->input));
+    assert(strcmp(c->input, c->expected_payload) == 0);
+    assert(cells != NULL);
+
+    memcpy(cells, c->initial, c->initial_len);
+    r110_run_n_steps(cells, c->initial_len, c->steps);
+    assert(payload_matches(cells, c));
+
+    free(cells);
+}
+
+static void verify_manifest(const char *path) {
+    R110Manifest r110;
+    size_t direct_count;
+
+    assert(load_r110_manifest(path, &r110));
+    assert(cook_source_binary_direct_count(r110.source_ct, &direct_count));
+
+    assert(r110.case_count == direct_count);
+
+    for (size_t i = 0; i < r110.case_count; i++) {
+        verify_case(&r110.cases[i], r110.source_ct);
+    }
+
+    printf("  %s: %zu direct-carrier case(s) PASS\n",
+           path,
+           r110.case_count);
+    free_r110_manifest(&r110);
+}
+
+static int parse_prefixed_size_line(const char *line,
+                                    const char *prefix,
+                                    size_t *out) {
+    size_t prefix_len = strlen(prefix);
+
+    if (strncmp(line, prefix, prefix_len) != 0) return 0;
+    return parse_size_value(line + prefix_len, out);
+}
+
+static int read_exact_bit_payload(FILE *f,
+                                  size_t expected_len,
+                                  uint8_t **out) {
+    char *line = NULL;
+    int rc = read_content_line_dynamic(f, &line);
+
+    if (rc != 1) return 0;
+    if (!bit_string_to_cells(line, expected_len, out)) {
+        free(line);
+        return 0;
+    }
+    free(line);
+    return 1;
+}
+
+static void verify_algo_case(FILE *f,
+                             const char *case_line,
+                             size_t steps,
+                             int semantic,
+                             size_t *semantic_failures) {
+    char *line = NULL;
+    uint8_t *initial = NULL;
+    uint8_t *expected = NULL;
+    uint8_t *ct_final = NULL;
+    uint8_t *cells = NULL;
+    size_t initial_len = 0;
+    size_t expected_len = 0;
+    size_t ct_final_len = 0;
+    size_t ignored_steps = 0;
+    int rc;
+
+    assert(strncmp(case_line, "case ", 5) == 0);
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && strncmp(line, "INPUT ", 6) == 0);
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line, "CT_STEPS ", &ignored_steps));
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line, "CT_FINAL ", &ct_final_len));
+    free(line);
+    line = NULL;
+
+    assert(read_exact_bit_payload(f, ct_final_len, &ct_final));
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line,
+                                               "RULE110_INITIAL ",
+                                               &initial_len));
+    free(line);
+    line = NULL;
+    assert(read_exact_bit_payload(f, initial_len, &initial));
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line,
+                                               "RULE110_FINAL ",
+                                               &expected_len));
+    free(line);
+    line = NULL;
+    assert(expected_len == initial_len);
+    assert(read_exact_bit_payload(f, expected_len, &expected));
+
+    cells = (uint8_t *)malloc(initial_len ? initial_len : 1);
+    assert(cells != NULL);
+    memcpy(cells, initial, initial_len);
+    r110_run_n_steps(cells, initial_len, steps);
+    for (size_t i = 0; i < expected_len; i++) {
+        assert(cells[i] == expected[i]);
+    }
+
+    if (semantic) {
+        char decoded[MAX_BITS];
+        char expected_symbols[MAX_BITS];
+        int decode_rc = cook_decode_output(cells,
+                                           initial_len,
+                                           decoded,
+                                           sizeof(decoded));
+
+        if (!bits_to_cook_symbols(ct_final,
+                                  ct_final_len,
+                                  expected_symbols,
+                                  sizeof(expected_symbols))) {
+            printf("  semantic %s: expected output too large\n", case_line);
+            (*semantic_failures)++;
+        } else if (decode_rc != COOK_DECODE_OK) {
+            printf("  semantic %s: decode failed rc=%d expected=%s\n",
+                   case_line,
+                   decode_rc,
+                   expected_symbols);
+            (*semantic_failures)++;
+        } else if (strcmp(decoded, expected_symbols) != 0) {
+            printf("  semantic %s: decoded=%s expected=%s\n",
+                   case_line,
+                   decoded,
+                   expected_symbols);
+            (*semantic_failures)++;
+        }
+    }
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && strcmp(line, "ENDCASE") == 0);
+    free(line);
+
+    free(cells);
+    free(initial);
+    free(expected);
+    free(ct_final);
+}
+
+static int parse_prefixed_text_line(const char *line,
+                                    const char *prefix,
+                                    char *out,
+                                    size_t out_cap) {
+    size_t prefix_len = strlen(prefix);
+
+    if (strncmp(line, prefix, prefix_len) != 0) return 0;
+    return copy_text_value(out, out_cap, line + prefix_len);
+}
+
+static size_t verify_algo_manifest(const char *path, int semantic) {
+    FILE *f = fopen(path, "r");
+    char *line = NULL;
+    char source_path[MAX_PATH];
+    char construction[64];
+    CookAppenderStats stats;
+    CookBlockString expected_right;
+    size_t expected_left_v = 0;
+    size_t steps = 0;
+    size_t assertions = 0;
+    size_t seen = 0;
+    size_t semantic_failures = 0;
+    int rc;
+
+    cook_block_string_init(&expected_right);
+    assert(f != NULL);
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && strcmp(line, "ALGO_R110_MANIFEST 1") == 0);
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_text_line(line,
+                                               "SOURCE_CT ",
+                                               source_path,
+                                               sizeof(source_path)));
+    free(line);
+    line = NULL;
+    assert(cook_scan_appendants_file(source_path, &stats, &expected_right));
+    expected_left_v = cook_left_v_from_stats(&stats);
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_text_line(line,
+                                               "CONSTRUCTION ",
+                                               construction,
+                                               sizeof(construction)));
+    assert(strcmp(construction, "cook_phase_exact_packet_diagnostic") == 0 ||
+           strcmp(construction, "cook_topdown_symbolic_v1") == 0);
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line,
+                                               "EVOLUTION_STEPS ",
+                                               &steps));
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line, "ASSERTIONS ", &assertions));
+    free(line);
+    line = NULL;
+
+    while ((rc = read_content_line_dynamic(f, &line)) == 1) {
+        if (strcmp(construction, "cook_topdown_symbolic_v1") == 0) {
+            assert(strncmp(line, "RULE110_INITIAL ", 16) != 0);
+            assert(cook_read_validate_symbolic_case(f,
+                                                    line,
+                                                    expected_left_v,
+                                                    &expected_right));
+        } else {
+            verify_algo_case(f, line, steps, semantic, &semantic_failures);
+        }
+        seen++;
+        free(line);
+        line = NULL;
+    }
+
+    assert(rc == 0);
+    assert(seen == assertions);
+    fclose(f);
+
+    printf("  %s: %zu Cook %s case(s) PASS\n",
+           path,
+           seen,
+           strcmp(construction, "cook_topdown_symbolic_v1") == 0 ?
+           "symbolic" : "diagnostic");
+    if (semantic && semantic_failures == 0) {
+        printf("  %s: %zu Cook semantic case(s) PASS\n", path, seen);
+    }
+    cook_block_string_free(&expected_right);
+    return semantic_failures;
+}
+
+static int run_algo_manifests(int semantic) {
+    size_t manifest_count =
+        sizeof(ALGO_R110_MANIFESTS) / sizeof(ALGO_R110_MANIFESTS[0]);
+    size_t semantic_failures = 0;
+
+    printf("== test_r110_round_trip --algo%s ==\n",
+           semantic ? " --semantic" : "");
+    for (size_t i = 0; i < manifest_count; i++) {
+        semantic_failures += verify_algo_manifest(ALGO_R110_MANIFESTS[i],
+                                                  semantic);
+    }
+    if (semantic && semantic_failures != 0) {
+        printf("algo r110 semantic tests failed: %zu decode mismatch(es)\n",
+               semantic_failures);
+        return 1;
+    }
+    if (semantic) {
+        printf("ALL algo r110 semantic tests passed\n");
+    } else {
+        printf("ALL algo r110 diagnostic tests passed\n");
+    }
+    return 0;
+}
+
+int main(int argc, char **argv) {
+    size_t manifest_count = sizeof(R110_MANIFESTS) / sizeof(R110_MANIFESTS[0]);
+
+    if (argc == 2 && strcmp(argv[1], "--algo") == 0) {
+        return run_algo_manifests(0);
+    }
+    if (argc == 3 &&
+        strcmp(argv[1], "--algo") == 0 &&
+        strcmp(argv[2], "--semantic") == 0) {
+        return run_algo_manifests(1);
+    }
+    assert(argc == 1);
+
+    printf("== test_r110_round_trip ==\n");
+    for (size_t i = 0; i < manifest_count; i++) {
+        verify_manifest(R110_MANIFESTS[i]);
+    }
+    printf("ALL test_r110_round_trip tests passed\n");
+    return 0;
+}
