@@ -76,4 +76,69 @@ theorem GeneratorClosurePacket_carrier_obligation [AskSetup] [PackageSetup]
                   (And.intro exportedRoute
                     (And.intro endpointPkg exportedPkg))))))))
 
+theorem GeneratorClosurePacket_classifier_obligation [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      generator' constructors' authorized' classifier' witnesses' transport' provenance' name'
+      endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg →
+      hsame generator generator' →
+        hsame constructors constructors' →
+          hsame authorized authorized' →
+            hsame classifier classifier' →
+              hsame witnesses witnesses' →
+                hsame transport transport' →
+                  hsame provenance provenance' →
+                    hsame name name' →
+                      hsame endpoint endpoint' →
+                        Cont generator' constructors' authorized' →
+                          Cont authorized' classifier' witnesses' →
+                            Cont name' endpoint' routes →
+                              PkgSig bundle endpoint' pkg →
+                                GeneratorClosurePacket generator' constructors' authorized'
+                                    classifier' witnesses' transport' routes provenance' name'
+                                    endpoint' bundle pkg ∧
+                                  hsame endpoint endpoint' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameGenerator sameConstructors sameAuthorized sameClassifier sameWitnesses
+    sameTransport sameProvenance sameName sameEndpoint generatorRoute classifierRoute
+    endpointRoute endpointPkg
+  obtain ⟨generatorUnary, constructorsUnary, authorizedUnary, classifierUnary, witnessesUnary,
+    transportUnary, provenanceUnary, nameUnary, endpointUnary, _oldGeneratorRoute,
+    _oldClassifierRoute, _oldEndpointRoute, _oldEndpointPkg⟩ := packet
+  have generatorUnary' : UnaryHistory generator' :=
+    unary_transport generatorUnary sameGenerator
+  have constructorsUnary' : UnaryHistory constructors' :=
+    unary_transport constructorsUnary sameConstructors
+  have authorizedUnary' : UnaryHistory authorized' :=
+    unary_transport authorizedUnary sameAuthorized
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport classifierUnary sameClassifier
+  have witnessesUnary' : UnaryHistory witnesses' :=
+    unary_transport witnessesUnary sameWitnesses
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have nameUnary' : UnaryHistory name' :=
+    unary_transport nameUnary sameName
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  exact
+    ⟨⟨generatorUnary',
+      constructorsUnary',
+      authorizedUnary',
+      classifierUnary',
+      witnessesUnary',
+      transportUnary',
+      provenanceUnary',
+      nameUnary',
+      endpointUnary',
+      generatorRoute,
+      classifierRoute,
+      endpointRoute,
+      endpointPkg⟩,
+      sameEndpoint⟩
+
 end BEDC.Derived.GeneratorClosureUp
