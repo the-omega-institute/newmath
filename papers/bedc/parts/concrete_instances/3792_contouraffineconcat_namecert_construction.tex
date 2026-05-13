@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\ContourAffineConcatUp$}
+\label{ch:concrete-instances-contouraffineconcat-namecert}
+\origin{human}
+
+The $\ContourAffineConcatUp$ packet realizes the affine concatenation law for contour integrals as finite NameCert data. It records the two contour rows, two integrand rows, scalar rows, four input integral rows, the concatenated contour row, the affine output row, and the BEDC structural rows that certify the shared endpoint, the two concatenation reads, the affine-linearity read, and the exported classifier face. The packet is local to the displayed operation law: it does not supply a general contour-integration engine, a hidden analytic continuation principle, or an unrecorded host equality of integrals.
+
+\begin{definition}[Contour affine-concatenation carrier]
+\label{def:contour-affine-concat-carrier}
+A $\ContourAffineConcatUp$ carrier is a finite $\BHist$ packet
+$$
+A=(\gamma_1,\gamma_2,f,g,a,b,I_1^f,I_2^f,I_1^g,I_2^g,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\gamma_1$ and $\gamma_2$ are accepted piecewise-linear contour rows with the shared endpoint condition displayed by the local concatenation route;
+\item $f$ and $g$ are the two accepted holomorphic integrand rows read on the two contour pieces;
+\item $a$ and $b$ are accepted complex scalar rows;
+\item $I_1^f$ and $I_2^f$ are the certified contour-integral output rows for $f$ along $\gamma_1$ and $\gamma_2$;
+\item $I_1^g$ and $I_2^g$ are the certified contour-integral output rows for $g$ along $\gamma_1$ and $\gamma_2$;
+\item $J$ is the output row for the contour integral of $a f+b g$ along the concatenated contour $\gamma_1\ast\gamma_2$, with displayed value $a(I_1^f+I_2^f)+b(I_1^g+I_2^g)$;
+\item $H$ records componentwise $\hsame$ transports for the contour rows, integrand rows, scalar rows, four input integral rows, concatenated contour row, affine output row, provenance rows, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes for shared-endpoint admission, the two concatenation reads, the affine-linearity read, and the final classifier read of $J$;
+\item $P$ is the $\Pkg$ provenance over $\ContourIntegralSocketUp$, $\ContourIntegralOperationUp$, $\ContourSumWindowUp$, $\HolomorphicUp$, $\ComplexUp$, piecewise-linear contour rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ContourAffineConcatUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed rows $\gamma_1,\gamma_2,f,g,a,b,I_1^f,I_2^f,I_1^g,I_2^g,J,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Contour affine-concatenation NameCert obligations]
+\label{thm:contour-affine-concat-namecert-obligations}
+For the carrier of \autoref{def:contour-affine-concat-carrier}, the local $\NameCert_{\ContourAffineConcatUp}$ surface consists of six finite obligations:
+\begin{enumerate}
+\item carrier admission for $A=(\gamma_1,\gamma_2,f,g,a,b,I_1^f,I_2^f,I_1^g,I_2^g,J,H,C,P,N)$;
+\item shared-endpoint concatenation, requiring $\gamma_1$ and $\gamma_2$ to expose the endpoint match used by the displayed $\gamma_1\ast\gamma_2$ route;
+\item affine linearity, requiring the two concatenated integral reads to be combined only as $a(I_1^f+I_2^f)+b(I_1^g+I_2^g)$ through the displayed scalar rows $a,b$;
+\item output classifier stability, requiring every public comparison of the output row $J$ to pass through the same componentwise $\hsame$ transport row $H$ and continuation row $C$;
+\item ledger exactness, requiring the provenance row $P$ to name the contour socket, contour operation, contour-sum window, holomorphic integrand, complex scalar, contour, transport, continuation, package, and naming rows used by the packet;
+\item non-escape, requiring the packet to export no hidden contour endpoint, no unrecorded integral value, no host equality of complex histories, no analytic-continuation shortcut, and no operation law outside the displayed finite rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:contour-affine-concat-carrier}. The two contour rows, two integrand rows, scalar rows, four input integral rows, output row, transport row, continuation row, provenance row, and local naming row are all displayed coordinates of the same finite packet.
+
+Shared-endpoint concatenation is confined to the contour part of $C$. A consumer first reads $\gamma_1$ and $\gamma_2$, then the displayed endpoint match, and only then the concatenated contour row $\gamma_1\ast\gamma_2$.
+
+Affine linearity uses the two concatenation reads before the scalar combination is exported. The $f$-rows produce $I_1^f+I_2^f$, the $g$-rows produce $I_1^g+I_2^g$, and the scalar rows $a,b$ produce the displayed value of $J$.
+
+Output classifier stability and ledger exactness are the public-read constraints. The row $H$ carries componentwise classifier transport, $C$ carries the replay route, and $P$ lists the neighboring contour-integral, holomorphic, complex, and BEDC structural packets.
+
+Finally inspect the carrier list. Since there is no coordinate for a hidden endpoint, unrecorded integral value, host equality of complex histories, analytic-continuation shortcut, or unlisted operation law, none of those objects can be exported by the local naming surface.
+\end{proof}
+
+\begin{theorem}[Contour affine-concatenation consumer exhaustion]
+\label{thm:contour-affine-concat-consumer-exhaustion}
+Every consumer read of an accepted $\ContourAffineConcatUp$ packet factors through the carrier rows of \autoref{def:contour-affine-concat-carrier} and the local obligations of \autoref{thm:contour-affine-concat-namecert-obligations}. The consumer receives exactly the displayed contour rows, integrand rows, scalar rows, input integral rows, affine output row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, with no additional analytic or host-side equality coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The consumer can read only $\gamma_1,\gamma_2,f,g,a,b,I_1^f,I_2^f,I_1^g,I_2^g,J,H,C,P,N$.
+
+The NameCert obligations then determine the route. Shared-endpoint concatenation binds the contour row, affine linearity binds the output expression, classifier stability binds public comparison of $J$, and ledger exactness binds the neighboring contour-integral packets named by $P$.
+
+The remaining coordinates are the transport, continuation, provenance, and local naming rows. None of them contains an additional analytic-continuation principle, hidden endpoint, unrecorded integral value, or host equality of complex histories, so the displayed finite rows exhaust the public surface.
+\end{proof}

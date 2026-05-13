@@ -102,4 +102,49 @@ def GeneratorClosureClassifier.iterate {α : Type u}
         have hz : Classifier z := h.closure hgz hclass
         exact (iterate h n).closure hzy hz }
 
+/-- Generator-closure classifier on a product carrier:
+    closure under componentwise generator preserves the conjoined classifier. -/
+def GeneratorClosureClassifier.product {α β : Type u}
+    {Ga : α → α → Prop} {Gb : β → β → Prop}
+    {Ca : α → Prop} {Cb : β → Prop}
+    (ha : GeneratorClosureClassifier α Ga Ca)
+    (hb : GeneratorClosureClassifier β Gb Cb) :
+    GeneratorClosureClassifier (α × β)
+      (fun p1 p2 => Ga p1.1 p2.1 ∧ Gb p1.2 p2.2)
+      (fun p => Ca p.1 ∧ Cb p.2) :=
+  { closure := by
+      intro x y hgen hclass
+      obtain ⟨hga, hgb⟩ := hgen
+      obtain ⟨hca, hcb⟩ := hclass
+      exact ⟨ha.closure hga hca, hb.closure hgb hcb⟩ }
+
+/-- Generator-closure classifier on a disjoint sum carrier:
+    case-split generator preserves case-split classifier. -/
+def GeneratorClosureClassifier.sum {α β : Type u}
+    {Ga : α → α → Prop} {Gb : β → β → Prop}
+    {Ca : α → Prop} {Cb : β → Prop}
+    (ha : GeneratorClosureClassifier α Ga Ca)
+    (hb : GeneratorClosureClassifier β Gb Cb) :
+    GeneratorClosureClassifier (α ⊕ β)
+      (fun s1 s2 =>
+        match s1, s2 with
+        | Sum.inl a1, Sum.inl a2 => Ga a1 a2
+        | Sum.inr b1, Sum.inr b2 => Gb b1 b2
+        | _, _ => False)
+      (fun s =>
+        match s with
+        | Sum.inl a => Ca a
+        | Sum.inr b => Cb b) :=
+  { closure := by
+      intro x y hgen hclass
+      cases x with
+      | inl a =>
+          cases y with
+          | inl a' => exact ha.closure hgen hclass
+          | inr b' => exact False.elim hgen
+      | inr b =>
+          cases y with
+          | inl a' => exact False.elim hgen
+          | inr b' => exact hb.closure hgen hclass }
+
 end BEDC.MetaCIC
