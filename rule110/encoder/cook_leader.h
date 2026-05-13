@@ -12,5 +12,11 @@ extern const size_t COOK_LEADER_STABILITY_STEPS;
 
 void cook_leader_emit(uint8_t *out, size_t pos, size_t buf_len);
 int cook_leader_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len);
+int cook_leader_emit_phase_exact_accept(uint8_t *out,
+                                        size_t pos,
+                                        size_t buf_len);
+int cook_leader_emit_phase_exact_reject(uint8_t *out,
+                                        size_t pos,
+                                        size_t buf_len);
 
 #endif

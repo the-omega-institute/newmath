@@ -6,9 +6,35 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PHASE_C2_LEN 17
+#define PHASE_SYMBOL_STRIDE 867
+
 static void assert_ether_range(const uint8_t *cells, size_t start, size_t end) {
     for (size_t i = start; i < end; i++) {
         assert(cells[i] == COOK_ETHER_PATTERN[i % COOK_ETHER_WIDTH]);
+    }
+}
+
+static void assert_bits_at(const uint8_t *cells,
+                           size_t pos,
+                           const char *bits) {
+    for (size_t i = 0; bits[i] != '\0'; i++) {
+        assert(cells[pos + i] == (uint8_t)(bits[i] == '1' ? 1 : 0));
+    }
+}
+
+static void assert_c2_symbol(const uint8_t *cells,
+                             size_t pos,
+                             const int spacings[3]) {
+    static const char C2_A_PHASE_1[] = "11111000000100110";
+    size_t cursor = pos;
+
+    for (size_t i = 0; i < 4; i++) {
+        assert_bits_at(cells, cursor, C2_A_PHASE_1);
+        if (i + 1 < 4) {
+            cursor += PHASE_C2_LEN +
+                ((size_t)spacings[i] * (size_t)COOK_ETHER_WIDTH);
+        }
     }
 }
 
@@ -110,6 +136,29 @@ static void test_data_block_phase_exact_emits_y_and_n(void) {
     printf("  data_block_phase_exact_emits_y_and_n: PASS\n");
 }
 
+static void test_data_block_phase_exact_emits_full_tape(void) {
+    uint8_t cells[4096];
+    const uint8_t tape_bits[3] = {1, 0, 1};
+    static const int Y_SPACINGS[3] = {18, 18, 14};
+    static const int N_SPACINGS[3] = {28, 10, 14};
+    int rc = 0;
+
+    cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
+
+    rc = cook_data_block_emit_phase_exact(cells,
+                                          280,
+                                          sizeof(cells),
+                                          tape_bits,
+                                          3);
+
+    assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_OK);
+    assert_c2_symbol(cells, 280, Y_SPACINGS);
+    assert_c2_symbol(cells, 280 + PHASE_SYMBOL_STRIDE, N_SPACINGS);
+    assert_c2_symbol(cells, 280 + (2 * PHASE_SYMBOL_STRIDE), Y_SPACINGS);
+
+    printf("  data_block_phase_exact_emits_full_tape: PASS\n");
+}
+
 static void test_data_block_phase_exact_unwritable_buffer(void) {
     uint8_t cells[160];
     uint8_t before[160];
@@ -133,6 +182,7 @@ int main(void) {
     test_data_block_5bit_tape();
     test_data_block_empty();
     test_data_block_phase_exact_emits_y_and_n();
+    test_data_block_phase_exact_emits_full_tape();
     test_data_block_phase_exact_unwritable_buffer();
     printf("ALL test_cook_data_block tests passed\n");
     return 0;

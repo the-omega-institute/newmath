@@ -7,6 +7,24 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PHASE_A_LEN 6
+
+static void assert_bits_at(const uint8_t *cells,
+                           size_t pos,
+                           const char *bits) {
+    for (size_t i = 0; bits[i] != '\0'; i++) {
+        assert(cells[pos + i] == (uint8_t)(bits[i] == '1' ? 1 : 0));
+    }
+}
+
+static void assert_a4_group_at(const uint8_t *cells, size_t pos) {
+    static const char A_PHASE_1[] = "111110";
+
+    for (size_t i = 0; i < 4; i++) {
+        assert_bits_at(cells, pos + (i * PHASE_A_LEN), A_PHASE_1);
+    }
+}
+
 static uint8_t ether_cell_at_step(size_t pos, size_t step_count) {
     size_t shift = (4 * step_count) % COOK_ETHER_WIDTH;
     return COOK_ETHER_PATTERN[(pos + shift) % COOK_ETHER_WIDTH];
@@ -96,8 +114,8 @@ static void test_ossifier_empty_production(void) {
 }
 
 static void test_ossifier_phase_exact_emits_packet(void) {
-    uint8_t cells[512];
-    uint8_t ether[512];
+    uint8_t cells[768];
+    uint8_t ether[768];
     const uint8_t production[1] = {1};
     int rc = 0;
     size_t changed = 0;
@@ -117,6 +135,10 @@ static void test_ossifier_phase_exact_emits_packet(void) {
     assert(first < 42 + 10);
     assert(last >= 42 + 39);
     assert(memcmp(cells, ether, 42) == 0);
+    assert_a4_group_at(cells, 42);
+    assert_a4_group_at(cells, 42 + 24 + (11 * COOK_ETHER_WIDTH));
+    assert_a4_group_at(cells, 42 + (2 * (24 + (11 * COOK_ETHER_WIDTH))));
+    assert_a4_group_at(cells, 42 + (3 * (24 + (11 * COOK_ETHER_WIDTH))));
 
     printf("  ossifier_phase_exact_emits_packet: PASS\n");
 }

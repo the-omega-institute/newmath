@@ -7,6 +7,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+static void assert_buffers_differ(const uint8_t *left,
+                                  const uint8_t *right,
+                                  size_t len) {
+    int differs = 0;
+
+    for (size_t i = 0; i < len; i++) {
+        if (left[i] != right[i]) differs = 1;
+    }
+
+    assert(differs);
+}
+
 static uint8_t ether_cell_at_step(size_t pos, size_t step_count) {
     size_t shift = (4 * step_count) % COOK_ETHER_WIDTH;
     return COOK_ETHER_PATTERN[(pos + shift) % COOK_ETHER_WIDTH];
@@ -93,6 +105,30 @@ static void test_leader_phase_exact_emits_packet(void) {
     printf("  leader_phase_exact_emits_packet: PASS\n");
 }
 
+static void test_leader_phase_exact_accept_reject_differ(void) {
+    uint8_t accept_cells[2048];
+    uint8_t reject_cells[2048];
+    int rc = 0;
+
+    cook_ether_emit(accept_cells, sizeof(accept_cells) / COOK_ETHER_WIDTH);
+    memcpy(reject_cells, accept_cells, sizeof(accept_cells));
+
+    rc = cook_leader_emit_phase_exact_accept(accept_cells,
+                                             154,
+                                             sizeof(accept_cells));
+    assert(rc == COOK_LEADER_PHASE_EXACT_OK);
+    rc = cook_leader_emit_phase_exact_reject(reject_cells,
+                                             154,
+                                             sizeof(reject_cells));
+    assert(rc == COOK_LEADER_PHASE_EXACT_OK);
+
+    assert(differs_from_ether(accept_cells, 154, 1100));
+    assert(differs_from_ether(reject_cells, 154, 1100));
+    assert_buffers_differ(accept_cells + 154, reject_cells + 154, 946);
+
+    printf("  leader_phase_exact_accept_reject_differ: PASS\n");
+}
+
 static void test_leader_phase_exact_unwritable_buffer(void) {
     uint8_t cells[96];
     uint8_t before[96];
@@ -114,6 +150,7 @@ int main(void) {
     test_leader_stable();
     test_leader_does_not_destroy_ether_outside();
     test_leader_phase_exact_emits_packet();
+    test_leader_phase_exact_accept_reject_differ();
     test_leader_phase_exact_unwritable_buffer();
     printf("ALL test_cook_leader tests passed\n");
     return 0;
