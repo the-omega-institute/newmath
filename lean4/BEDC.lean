@@ -554,6 +554,7 @@ import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
+import BEDC.Derived.SubstitutionAuditMapUp.Core
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
