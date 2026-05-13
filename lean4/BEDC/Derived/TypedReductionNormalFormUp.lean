@@ -97,4 +97,25 @@ theorem TypedReductionNormalFormPacket_namecert_obligations [AskSetup] [PackageS
     }
   exact ⟨semantic, membershipRow, reductionRow, endpointRow⟩
 
+theorem TypedReductionNormalFormPacket_route_exactness [AskSetup] [PackageSetup]
+    {term judgment membership reduction normal transport continuation provenance name
+      endpoint normal' endpoint' : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypedReductionNormalFormPacket term judgment membership reduction normal transport
+        continuation provenance name endpoint mark bundle pkg ->
+      Cont membership reduction normal' ->
+        Cont normal' continuation endpoint' -> hsame normal normal' ∧ hsame endpoint endpoint' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro packet reductionRead continuationRead
+  obtain ⟨_termUnary, _judgmentUnary, _membershipUnary, _reductionUnary, _normalUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary, _endpointUnary,
+    _membershipExt, reductionRow, endpointRow, _normalSameEndpoint, _provenanceSameEndpoint,
+    _nameSameEndpoint, _endpointPkg⟩ := packet
+  have normalExact : hsame normal normal' :=
+    cont_deterministic reductionRow reductionRead
+  have endpointExact : hsame endpoint endpoint' := by
+    cases normalExact
+    exact cont_deterministic endpointRow continuationRead
+  exact ⟨normalExact, endpointExact⟩
+
 end BEDC.Derived.TypedReductionNormalFormUp
