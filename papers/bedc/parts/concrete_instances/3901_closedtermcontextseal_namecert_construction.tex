@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ClosedTermContextSealUp$}
+\label{ch:concrete-instances-closedtermcontextseal-namecert}
+\origin{human}
+
+The $\ClosedTermContextSealUp$ packet realizes the MetaCIC subject-reduction obstruction of \autoref{ch:metacic-subject-reduction-obstruction} as a finite closed-term context surface. It sits next to the subject-reduction carrier of \autoref{ch:concrete-instances-subjectreduction-namecert}: $\SubjectReductionUp$ records an $\Ext$-$\Cont$ preservation packet, while $\ClosedTermContextSealUp$ records the empty-context, closedness, typed-membership, beta-strong-normality, handoff, obstruction, transport, route, provenance, and local naming rows that keep the closed-subject-reduction boundary inspectable.
+
+\begin{definition}[Closed-term context seal carrier]
+\label{def:closed-term-context-seal-carrier}
+A $\ClosedTermContextSealUp$ carrier is a finite $\BHist$ packet
+$$
+K=(E,Q,T,B,S,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the empty-context row for the closed MetaCIC typing read;
+\item $Q$ is the closedness row for the subject term and its target readback;
+\item $T$ is the typed-membership row naming the closed source membership;
+\item $B$ is the beta-strong normality row used by the closed-normal consistency side;
+\item $S$ is the $\SubjectReductionUp$ handoff row, pointing to the finite preservation packet of \autoref{ch:concrete-instances-subjectreduction-namecert};
+\item $O$ is the checked obstruction row for the unavailable unparameterized closed subject-reduction statement;
+\item $H$ records componentwise $\hsame$ transport for $E,Q,T,B,S,O,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the closedness, membership, normality, handoff, and obstruction coordinates;
+\item $P$ is the $\Pkg$ provenance over the MetaCIC closed-term rows, the subject-reduction handoff row, $\BHist$, $\hsame$, $\Cont$, and the local naming row;
+\item $N$ is the local $\NameCert_{\ClosedTermContextSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a closed subject-reduction theorem, no hidden proof of the four MetaCIC discharge obligations, no ambient consistency shortcut, and no host equality principle for terms or contexts.
+\end{definition}
+
+\begin{theorem}[Closed-term context seal NameCert obligations]
+\label{thm:closed-term-context-seal-namecert-obligations}
+For the carrier of \autoref{def:closed-term-context-seal-carrier}, the local $\NameCert_{\ClosedTermContextSealUp}$ surface consists exactly of carrier admission, empty-context visibility, closedness visibility, typed-membership visibility, beta-strong-normality visibility, $\SubjectReductionUp$ handoff visibility, obstruction exactness, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and non-escape from unparameterized closed subject reduction.
+\end{theorem}
+\begin{proof}
+Project the packet $K$. The rows $E,Q,T,B,S,O,H,C,P,N$ are the complete displayed inventory, so every local naming obligation is read from a finite $\BHist$ coordinate.
+
+The closed-term side is exhausted by $E,Q,T,B$. These rows state the empty-context read, closedness read, typed-membership read, and beta-strong-normality read needed by the closed-normal consistency side of \autoref{ch:metacic-subject-reduction-obstruction}.
+
+The preservation side is exhausted by $S$ and $O$. The row $S$ points only to the sibling $\SubjectReductionUp$ handoff surface, while $O$ records the checked obstruction against replacing the parameterized interface by an unparameterized closed theorem.
+
+The remaining rows $H,C,P,N$ supply transport, route, provenance, and local naming for the same packet. Since no carrier coordinate names the stronger theorem or its four missing proofs, the stated obligations are exact.
+\end{proof}
+
+\begin{theorem}[Closed-term context seal subject-reduction handoff]
+\label{thm:closed-term-context-seal-subject-reduction-handoff}
+Every preservation-facing consumer of an accepted $\ClosedTermContextSealUp$ packet reaches subject-reduction data only through the displayed handoff row $S$ and the finite $\SubjectReductionUp$ surface of \autoref{ch:concrete-instances-subjectreduction-namecert}. The consumer must still read the empty-context row $E$, closedness row $Q$, typed-membership row $T$, beta-strong-normality row $B$, obstruction row $O$, transports $H$, routes $C$, provenance $P$, and local name $N$ from the seal packet before using that handoff as closed-term context data.
+\end{theorem}
+\begin{proof}
+Start with the handoff coordinate $S$ in \autoref{def:closed-term-context-seal-carrier}. It is the only row that points to subject-reduction data, and its sibling target is the finite $\SubjectReductionUp$ carrier rather than an ambient preservation theorem.
+
+Apply \autoref{thm:closed-term-context-seal-namecert-obligations}. It requires every preservation-facing read to keep $S$ together with $E,Q,T,B,O,H,C,P,N$, so the handoff remains a closed-context seal read and cannot detach into a host subject-reduction assertion.
+
+The sibling chapter \autoref{ch:concrete-instances-subjectreduction-namecert} supplies only source membership, reduction, target membership, ledger, transport, route, package, and naming rows. Combining that handoff with the seal packet therefore gives a finite route, not a closed subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[Closed-term context seal non-escape]
+\label{thm:closed-term-context-seal-nonescape}
+An accepted $\ClosedTermContextSealUp$ packet exports no unparameterized closed subject-reduction theorem, no proof of any of the four MetaCIC discharge obligations, no hidden host conversion rule, no quotient equality of terms, and no ambient consistency principle. Its exported surface is exhausted by the empty-context row, closedness row, typed-membership row, beta-strong-normality row, $\SubjectReductionUp$ handoff row, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only available rows are $E,Q,T,B,S,O,H,C,P,N$.
+
+Use \autoref{thm:closed-term-context-seal-subject-reduction-handoff} for preservation-facing reads and \autoref{thm:closed-term-context-seal-namecert-obligations} for local naming reads. Both routes stay inside the displayed finite packet and the sibling $\SubjectReductionUp$ handoff.
+
+The excluded principles have no coordinate in the carrier. A request for closed subject reduction is therefore routed to the obstruction row $O$, while a request for ordinary subject-reduction data is routed to $S$ and remains conditional on the sibling handoff surface.
+\end{proof}
+
+\closureat{ClosedTermContextSealUp}{seedStr}
+\closureat{ClosedTermContextSealUp}{obligationStr}
+
+\begin{closurestatus}{\ClosedTermContextSealUp}
+  \constructivestory{A $\ClosedTermContextSealUp$ packet is generated from empty-context, closedness, typed-membership, beta-strong-normality, subject-reduction handoff, obstruction, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:closed-term-context-seal-carrier}, \autoref{thm:closed-term-context-seal-namecert-obligations}, \autoref{thm:closed-term-context-seal-subject-reduction-handoff}, and \autoref{thm:closed-term-context-seal-nonescape} specify the finite closed-term context seal and its subject-reduction obstruction boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove the four MetaCIC subject-reduction discharge obligations, closed subject reduction, ambient consistency, Lean verification, or bridge checking.}
+  \upgradepath{Further closure requires Lean carrier admission and checked route exhaustion for the same closed-term context seal.}
+\end{closurestatus}
