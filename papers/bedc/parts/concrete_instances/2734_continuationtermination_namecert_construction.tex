@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ContinuationTerminationUp$}
+\label{ch:concrete-instances-continuationtermination-namecert}
+\origin{human}
+
+The $\ContinuationTerminationUp$ interface packages the finite termination and behaviour-classifier reading of a $\Cont$ trace. It records only displayed histories, displayed continuation rows, componentwise transport, package provenance, and a local naming certificate.
+
+\begin{definition}[Continuation termination carrier]
+\label{def:continuation-termination-carrier}
+A $\ContinuationTerminationUp$ carrier is a finite $\BHist$ packet
+$$
+T=(s,t,\tau,u,b,h,p,n)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $s$ is the start history;
+\item $t$ is the terminal history;
+\item $\tau$ is the finite $\Cont$ trace from $s$ to $t$, displayed as the finite list of intermediate $\BHist$ rows and transition marks;
+\item $u$ is the terminal witness row, naming the fact that no further displayed $\Cont$ row is exported from $t$ inside this packet;
+\item $b$ is the behaviour-classifier row comparing start, terminal, and trace-visible histories only through the displayed classifier;
+\item $h$ stores componentwise $\hsame$ transports for the start history, terminal history, trace rows, terminal witness row, behaviour-classifier row, provenance row, and local name;
+\item $p$ is the $\Pkg$ provenance over $\BHist$, $\Cont$, $\hsame$, the behaviour classifier, terminal-witness row, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\ContinuationTerminationUp}$ row.
+\end{enumerate}
+The carrier contains no host evaluator, no quotient behaviour class, no unbounded trace, and no classical decision procedure for termination.
+\end{definition}
+
+\begin{definition}[Continuation termination classifier]
+\label{def:continuation-termination-classifier}
+For accepted carriers
+$$
+T=(s,t,\tau,u,b,h,p,n)
+\quad\text{and}\quad
+T'=(s',t',\tau',u',b',h',p',n'),
+$$
+the classifier $\mathsf{ContinuationTerminationClassifier}(T,T')$ compares only the displayed start histories, terminal histories, finite $\Cont$ traces, terminal witness rows, behaviour-classifier rows, componentwise $\hsame$ transports, $\Pkg$ provenance, and local $\NameCert$ rows. It never compares host evaluation functions, quotient behaviour classes, infinite traces, or global termination predicates.
+\end{definition}
+
+\begin{theorem}[Continuation termination NameCert obligations]
+\label{thm:continuation-termination-namecert-obligations}
+The local $\NameCert_{\ContinuationTerminationUp}$ surface for \autoref{def:continuation-termination-carrier} consists exactly of carrier admission for $T$, start-history exposure through $s$, terminal-history exposure through $t$, finite $\Cont$ trace exposure through $\tau$, terminal witness exposure through $u$, behaviour-classifier exposure through $b$, componentwise $\hsame$ transport through $h$, $\Pkg$ provenance through $p$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $T$. The rows $s,t,\tau,u,b,h,p,n$ list the start history, terminal history, finite continuation trace, terminal witness, behaviour-classifier row, transports, provenance, and local name.
+
+The terminal witness is finite because it is attached to the displayed terminal row $t$ and the displayed trace $\tau$. It records the boundary exported by this packet, not a host-level proof that arbitrary evaluation must halt.
+
+The behaviour row is likewise local. It compares only the rows named by the packet and is transported by the stored $\hsame$ data. Since no coordinate contains a host evaluator, quotient behaviour class, unbounded trace, or classical termination decision, the obligation surface is exactly the listed rows.
+\end{proof}
+
+\begin{theorem}[Continuation termination behaviour transport]
+\label{thm:continuation-termination-behavior-transport}
+If two accepted $\ContinuationTerminationUp$ packets are related by the classifier of \autoref{def:continuation-termination-classifier}, then any behaviour-facing consumer of the first packet transports to the second packet only through the displayed start history, terminal history, finite $\Cont$ trace, terminal witness, behaviour-classifier row, componentwise $\hsame$ data, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Unfold the classifier. Its comparison fields are precisely $s,t,\tau,u,b,h,p,n$ and their primed counterparts.
+
+Use the componentwise $\hsame$ rows to move the start and terminal histories, each displayed trace row, the terminal witness, and the behaviour-classifier row. The provenance and local name rows move through their displayed package and certificate coordinates.
+
+There is no remaining coordinate from which a consumer could read host evaluation, quotient behaviour equality, an infinite execution trace, or a termination oracle. Therefore behaviour transport is confined to the finite packet surface.
+\end{proof}
+
+\begin{theorem}[Continuation termination non-escape]
+\label{thm:continuation-termination-nonescape}
+Every downstream consumer of an accepted $\ContinuationTerminationUp$ packet factors through the finite rows
+$$
+s,t,\tau,u,b,h,p,n.
+$$
+The consumer may read the start history, terminal history, finite $\Cont$ trace, terminal witness, behaviour-classifier row, $\hsame$ transports, $\Pkg$ provenance, and local $\NameCert$ row, and it cannot read host evaluation, quotient behaviour classes, unbounded traces, or a classical termination decision.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed packet contains exactly the rows $s,t,\tau,u,b,h,p,n$.
+
+Apply the local NameCert obligations to identify the exported consumer surface. The terminal witness and behaviour-classifier rows are named inside the same finite carrier and are transported only by the stored componentwise $\hsame$ data.
+
+Use behaviour transport for classifier-facing consumers. It keeps every comparison on the visible trace and witness rows.
+
+Since the carrier exports no host evaluator, quotient behaviour class, unbounded trace, or classical termination predicate, no downstream consumer can escape the finite continuation-termination packet.
+\end{proof}

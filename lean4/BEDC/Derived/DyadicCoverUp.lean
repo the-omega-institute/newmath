@@ -154,4 +154,42 @@ theorem DyadicCoverPacket_finite_refinement [AskSetup] [PackageSetup]
       refinedPkg⟩,
       sameEndpoint⟩
 
+theorem DyadicCoverPacket_mesh_refinement_carrier_transport [AskSetup] [PackageSetup]
+    {centers radii intervals mesh window transport routes provenance nameCert endpoint centers'
+      radii' intervals' refinedMesh refinedWindow transport' routes' provenance' nameCert'
+      refinedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCoverPacket centers radii intervals mesh window transport routes provenance nameCert
+        endpoint bundle pkg ->
+      hsame centers centers' -> hsame radii radii' -> hsame intervals intervals' ->
+        hsame transport transport' -> hsame routes routes' -> hsame provenance provenance' ->
+          hsame nameCert nameCert' -> hsame endpoint refinedEndpoint ->
+            Cont intervals' refinedMesh refinedWindow ->
+              Cont refinedWindow routes' refinedEndpoint ->
+                PkgSig bundle refinedEndpoint pkg ->
+                  DyadicCoverPacket centers' radii' intervals' refinedMesh refinedWindow
+                      transport' routes' provenance' nameCert' refinedEndpoint bundle pkg ∧
+                    SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row refinedEndpoint ∧
+                          DyadicCoverPacket centers' radii' intervals' refinedMesh refinedWindow
+                            transport' routes' provenance' nameCert' refinedEndpoint bundle pkg)
+                      (fun row : BHist => hsame row refinedEndpoint)
+                      (fun row : BHist => hsame row refinedEndpoint ∧
+                        PkgSig bundle refinedEndpoint pkg)
+                      hsame ∧
+                    hsame endpoint refinedEndpoint := by
+  intro packet sameCenters sameRadii sameIntervals sameTransport sameRoutes sameProvenance
+    sameNameCert sameEndpoint refinedWindowRow refinedEndpointRow refinedPkg
+  have refined :
+      DyadicCoverPacket centers' radii' intervals' refinedMesh refinedWindow transport' routes'
+          provenance' nameCert' refinedEndpoint bundle pkg ∧
+        hsame endpoint refinedEndpoint :=
+    DyadicCoverPacket_finite_refinement packet sameCenters sameRadii sameIntervals sameTransport
+      sameRoutes sameProvenance sameNameCert sameEndpoint refinedWindowRow refinedEndpointRow
+      refinedPkg
+  have certSurface :=
+    DyadicCoverPacket_namecert_obligations refined.left
+  exact ⟨refined.left, certSurface.left, refined.right⟩
+
 end BEDC.Derived.DyadicCoverUp
