@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.RealCompletenessUp
 
 namespace BEDC.Derived.RegularCauchyLimitTransportUp
 
@@ -13,6 +14,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.RealCompletenessUp
 
 def RegularCauchyLimitTransportCarrier [AskSetup] [PackageSetup]
     (sourceRow windowRow dyadicRow sealRow transportRow routeRow provenanceRow localCertRow : BHist)
@@ -175,5 +177,35 @@ theorem RegularCauchyLimitTransportCarrier_classifier_handoff_coverage [AskSetup
       ⟨sameSource, sameWindow, sameDyadic, sameSeal, sameTransport, sameRoutes,
         sameProvenance, sameCert⟩
   exact ⟨classifier, sameDyadic, sameRoutes, sameProvenance, sameCert⟩
+
+theorem RegularCauchyLimitTransportCarrier_real_completeness_consumer_factorization
+    [AskSetup] [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert family modulus readback endpoint
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      RealCompletenessBHistCarrier family modulus source dyadic window readback sealRow transport
+        routes provenance cert endpoint bundle pkg ->
+        Cont sealRow cert publicRead ->
+          UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory sealRow ∧ UnaryHistory publicRead ∧ Cont source window dyadic ∧
+              Cont dyadic sealRow routes ∧ Cont sealRow cert publicRead ∧
+                PkgSig bundle cert pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory RealCompletenessBHistCarrier
+  intro transportCarrier realCarrier sealCertPublicRead
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, _certUnary, sourceWindowDyadic, dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, _transportMatchesSeal,
+    _provenancePkg, certPkg⟩ := transportCarrier
+  obtain ⟨_familyUnary, _modulusUnary, _sourceUnaryReal, _dyadicUnaryReal, _windowUnaryReal,
+    _readbackUnary, _sealUnaryReal, _transportUnaryReal, _routesUnaryReal,
+    _provenanceUnaryReal, certUnaryReal, _endpointUnary, _transportRouteEndpoint,
+    endpointPkg⟩ := realCarrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary certUnaryReal sealCertPublicRead
+  exact
+    ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, publicReadUnary, sourceWindowDyadic,
+      dyadicSealRoutes, sealCertPublicRead, certPkg, endpointPkg⟩
 
 end BEDC.Derived.RegularCauchyLimitTransportUp
