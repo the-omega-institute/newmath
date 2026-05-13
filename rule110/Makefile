@@ -33,7 +33,7 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_topology_up $(TEST_DIR)/test_fold_up \
                    $(TEST_DIR)/test_circle_up $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-collision-audit regen-manifests clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-collision-audit test-scale regen-manifests clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Generated manifests (.r110.ct, .algo.r110.ct) are encoder outputs — not in git.
@@ -258,7 +258,7 @@ test-collision-audit: $(TEST_DIR)/test_cook_collision_martinez
 	./$(TEST_DIR)/test_cook_collision_martinez --strict
 
 clean:
-	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TESTS)
+	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TESTS) $(SCALE_TESTS)
 
 TESTS += $(TEST_DIR)/test_cook_glider_B \
          $(TEST_DIR)/test_cook_glider_C \
@@ -361,6 +361,20 @@ $(TEST_DIR)/test_cook_packet_phase_exact: $(TEST_DIR)/test_cook_packet_phase_exa
 
 TESTS += $(TEST_DIR)/test_cook_packet_phase_exact
 test: $(TEST_DIR)/test_cook_packet_phase_exact
+
+$(TEST_DIR)/test_cook_packet_scale: $(TEST_DIR)/test_cook_packet_scale.c $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/cook_decode.h $(ENCODER_DIR)/cook_decode.c
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_packet_scale.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_ossifier.c \
+	    $(ENCODER_DIR)/cook_data_block.c $(ENCODER_DIR)/cook_encode.c \
+	    $(ENCODER_DIR)/cook_decode.c
+
+SCALE_TESTS := $(TEST_DIR)/test_cook_packet_scale
+
+test-scale: $(SCALE_TESTS)
+	./$(TEST_DIR)/test_cook_packet_scale
 
 $(TEST_DIR)/test_enum_cook_full_roundtrip: $(TEST_DIR)/test_enum_cook_full_roundtrip.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/cook_decode.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
