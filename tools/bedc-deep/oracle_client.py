@@ -399,7 +399,7 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
     rationale = candidate.get("rationale", "")
     fit = candidate.get("fit_score", "?")
     novelty = candidate.get("novelty", "?")
-    landing_kind = candidate.get("landing_kind", "existing_chapter_lemma")
+    landing_kind = str(candidate.get("landing_kind") or "existing_chapter_lemma").strip()
     chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (none provided)"
     worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
