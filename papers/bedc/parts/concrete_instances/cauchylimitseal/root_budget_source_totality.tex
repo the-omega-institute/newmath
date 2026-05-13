@@ -30,6 +30,20 @@ Then apply tail extraction from \autoref{thm:cauchy-limit-seal-tail-extraction}.
 The $\RealObservationBudgetUp$ consumer package of \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package} and the exactness theorem \autoref{thm:real-observation-budget-consumer-exactness} identify the regular and real-facing budget consumers with that same packet. Hence the budget route reads precisely the scheduled window ledger already exposed by $L$.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal budget selector coherence]
+\label{thm:cauchy-limit-seal-budget-selector-coherence}
+In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, let an accepted selector route be admitted through the same $\CauchyLimitSealUp$ packet as an accepted $\RealObservationBudgetUp$ read over the same precision request and finite $\StreamNameUp$ window. Then the selector read and the observation-budget read meet on one displayed route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Their selector leg and budget leg agree on the dyadic-window ledger identified by \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}, and the route exports no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First take the root choice-free route from \autoref{thm:cauchy-limit-seal-root-choice-free-route}. It confines selector access to the accepted seal packet and its displayed regular source, stream window, dyadic ledger, real seal, transport, continuation, provenance, and naming rows.
+
+Next apply the tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-meet} together with budget root source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality}. These rows project the selector read and the observation-budget read to the same finite packet over the shared precision request and $\StreamNameUp$ window.
+
+Then use the dyadic-window exactness theorem \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. It identifies the budget ledger with the scheduled seal-side dyadic window, so the selector leg and budget leg read one $\DyadicRatCoreUp$ ledger rather than two independent ledgers.
+
+Finally apply completion-consumer non-escape from \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. Since the common route has already been projected to the displayed finite packet, no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate can be exported.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal root completion consumer non-escape]
 \label{thm:cauchy-limit-seal-root-completion-consumer-nonescape}
 The completion-facing consumer obtained by composing an accepted $\RealObservationBudgetUp$ route with an accepted $\CauchyLimitSealUp$ packet can export only the rows listed in \autoref{thm:cauchy-limit-seal-budget-root-source-totality} and the dyadic-window identification of \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. It cannot export quotient streams, selected limits, host real equality, hidden family limits, or ambient completeness.
@@ -44,12 +58,14 @@ Finally apply the consumer package of \autoref{thm:cauchy-limit-seal-real-observ
 
 \begin{theorem}[CauchyLimitSeal root formal target package]
 \label{thm:cauchy-limit-seal-root-formal-target-package}
-The source totality row of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, the dyadic-window exactness row of \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}, and the completion-consumer non-escape row of \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape} jointly form the formal target package for the composed $\RealObservationBudgetUp$-to-$\CauchyLimitSealUp$ route. Source totality fixes all source rows, dyadic-window exactness identifies the budget ledger with the scheduled $\StreamNameUp$ window, and completion-consumer non-escape excludes quotient streams, selected limits, host real equality, hidden family limits, and ambient completeness.
+The source totality row of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, the dyadic-window exactness row of \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}, the budget-selector coherence row of \autoref{thm:cauchy-limit-seal-budget-selector-coherence}, and the completion-consumer non-escape row of \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape} jointly form the formal target package for the composed $\RealObservationBudgetUp$-to-$\CauchyLimitSealUp$ route. Source totality fixes all source rows, dyadic-window exactness identifies the budget ledger with the scheduled $\StreamNameUp$ window, budget-selector coherence binds selector and budget reads to that one ledger, and completion-consumer non-escape excludes quotient streams, selected limits, host real equality, hidden family limits, and ambient completeness.
 \end{theorem}
 \begin{proof}
 First use source totality. It fixes the composed route to the displayed seal rows $X,S,D,G,E,T,P,N$ and the displayed budget rows $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$, so every formal target read has a finite source coordinate.
 
 Next use dyadic-window exactness. It identifies the budget ledger $D_B$ with the scheduled $\StreamNameUp$ window ledger already carried by the seal packet, so the route has one dyadic observation surface rather than two independent ledgers.
 
-Finally use completion-consumer non-escape. Once the source rows and the dyadic ledger have been fixed, the completion-facing consumer has no remaining coordinate for quotient streams, selected limits, host real equality, hidden family limits, or ambient completeness. These three rows therefore give the complete formal target package for the composed route.
+Then apply budget-selector coherence. The selector leg and the observation-budget leg meet on the same displayed route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Finally use completion-consumer non-escape. Once the source rows, the dyadic ledger, and the selector-budget handoff have been fixed, the completion-facing consumer has no remaining coordinate for quotient streams, selected limits, host real equality, hidden family limits, or ambient completeness. These four rows therefore give the complete formal target package for the composed route.
 \end{proof}

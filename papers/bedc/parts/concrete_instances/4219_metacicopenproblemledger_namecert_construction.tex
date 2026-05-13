@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICOpenProblemLedgerUp$}
+\label{ch:concrete-instances-metacicopenproblemledger-namecert}
+\origin{human}
+
+The $\MetaCICOpenProblemLedgerUp$ packet turns the inventory of \autoref{ch:metacic-open-problems} into a finite NameCert ledger. It sits beside the audit synthesis packet of \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, the closed-normal consistency packet of \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}, and the normal-false exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}. Those siblings name the positive closed-normal branch and the audit rows; this packet keeps the unresolved MetaCIC rows visible as ledger entries rather than as hidden consistency claims.
+
+\begin{definition}[MetaCIC open-problem ledger carrier]
+\label{def:metacic-open-problem-ledger-carrier}
+A $\MetaCICOpenProblemLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,C,N,U,D,E,B,H,R,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the subject-reduction row, naming beta-substitution preservation, application-argument stability, lambda-domain preservation, and Pi-domain preservation as finite entries;
+\item $C$ is the confluence row, naming residual-substitution compatibility, closed parallel diamond scope, and arbitrary closed Church--Rosser scope as boundary entries;
+\item $N$ is the normalization row, naming candidate evidence, closed-candidate evidence, candidate-set membership, and the absence of an evidence-free global strong-normalization export;
+\item $U$ is the substitution row, naming the substitution-facing algebra consumed by subject reduction and confluence;
+\item $D$ is the decidability row, naming typing-checker exactness, bounded normal comparison, finished-normal side conditions, and the absence of an unrestricted closed beta-conversion decider;
+\item $E$ is the typed-example row, naming the gallery witnesses and the absence of exhaustive dependent-program or polymorphic-program coverage;
+\item $B$ is the blocker row, naming the closed-consistency handoff that still cannot transport arbitrary closed proof terms into the closed-normal exclusion input;
+\item $H$ stores componentwise $\hsame$ transport for $S,C,N,U,D,E,B$;
+\item $R$ stores displayed $\Cont$ replay routes for the seven ledger rows;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-open-problems}, \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}, and \autoref{ch:concrete-instances-normalfalseexclusion-namecert};
+\item $Q$ is the local $\NameCert_{\MetaCICOpenProblemLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for arbitrary closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted closed beta-conversion decidability, exhaustive example coverage, or full closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC open-problem ledger NameCert obligations]
+\label{thm:metacic-open-problem-ledger-namecert-obligations}
+The local $\NameCert_{\MetaCICOpenProblemLedgerUp}$ surface for \autoref{def:metacic-open-problem-ledger-carrier} consists exactly of carrier admission for $L=(S,C,N,U,D,E,B,H,R,P,Q)$, row visibility for the subject-reduction, confluence, normalization, substitution, decidability, typed-example, and blocker entries, componentwise $\hsame$ transport through $H$, finite route replay through $R$, package provenance through $P$, and local naming through $Q$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The seven ledger rows are $S,C,N,U,D,E,B$, and they match the open-problem families named in \autoref{ch:metacic-open-problems}.
+
+Read the structural rows separately. Transport through $H$ preserves the row tags, replay through $R$ exposes only displayed routes, and provenance through $P$ records the source chapters without turning their boundaries into new theorem rows.
+
+The local name $Q$ certifies this packet as a NameCert surface. Since the carrier has no further coordinate, the listed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC open-problem ledger non-escape]
+\label{thm:metacic-open-problem-ledger-nonescape}
+Every downstream consumer of an accepted $\MetaCICOpenProblemLedgerUp$ packet factors through
+$$
+S,C,N,U,D,E,B,H,R,P,Q.
+$$
+The consumer may read the positive closed-normal branch through the cited sibling packets and may read each open MetaCIC family as a ledger row, but it cannot obtain arbitrary closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted closed beta-conversion decidability, exhaustive typed-example coverage, or full closed consistency from this packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. Any accepted consumer route receives only the seven ledger rows, componentwise transport, displayed replay routes, provenance, and local naming.
+
+The positive branch remains row-local. The audit synthesis packet, closed-normal consistency packet, and normal-false exclusion packet can be cited through $P$, but those citations do not add a transport row from arbitrary closed proofs to closed-normal proof inputs.
+
+The closed endpoints named in the statement are absent from the carrier. Transport, replay, provenance, and naming preserve the displayed ledger; they do not manufacture a missing MetaCIC theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC open-problem ledger blocker separation]
+\label{thm:metacic-open-problem-ledger-blocker-separation}
+Agreement on an accepted $\MetaCICOpenProblemLedgerUp$ packet preserves the blocker row $B$ as a boundary row distinct from the subject-reduction row $S$, the normalization row $N$, and the closed-normal sibling packets. The ledger can therefore record why full closed consistency is not exported while still exposing the closed-normal consistency and normal-false exclusion surfaces through provenance.
+\end{theorem}
+\begin{proof}
+Read $B$ as its own coordinate in the carrier. It names the closed-consistency handoff that remains unavailable for arbitrary closed proof terms.
+
+Read $S$ and $N$ as separate coordinates. Subject-reduction discharge and candidate-mediated normalization are not collapsed into $B$, and the sibling closed-normal packets are cited only by provenance.
+
+Componentwise $\hsame$ transport preserves this separation. The downstream packet can report the blocker and the positive closed-normal branch together, but it cannot identify them as a completed full-consistency route.
+\end{proof}
+
+\closureat{MetaCICOpenProblemLedgerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICOpenProblemLedgerUp}
+  \constructivestory{A $\MetaCICOpenProblemLedgerUp$ packet is generated from subject-reduction, confluence, normalization, substitution, decidability, typed-example, blocker, transport, route, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-open-problem-ledger-carrier}, \autoref{thm:metacic-open-problem-ledger-namecert-obligations}, \autoref{thm:metacic-open-problem-ledger-nonescape}, and \autoref{thm:metacic-open-problem-ledger-blocker-separation} bind the finite open-problem ledger and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close arbitrary closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted closed beta-conversion decidability, exhaustive typed-example coverage, full closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exact row coverage for the seven ledger families, route replay, provenance, local naming, and downstream non-escape over the same finite packet.}
+\end{closurestatus}
