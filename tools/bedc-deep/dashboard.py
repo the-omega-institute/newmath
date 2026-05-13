@@ -213,6 +213,16 @@ def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
     if logic_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
         lines.append(f"  {label} logic gate rejects: {top}")
+    current_logic_reasons = data.get("current_logic_packet_gate_reasons") or []
+    stale_logic_rejections = int(data.get("stale_logic_packet_gate_rejections") or 0)
+    if current_logic_reasons:
+        top = ", ".join(
+            f"{r.get('reason')}={r.get('count')}" for r in current_logic_reasons[:5]
+        )
+        suffix = f"; stale={stale_logic_rejections}" if stale_logic_rejections else ""
+        lines.append(f"  {label} current logic gate rejects: {top}{suffix}")
+    elif stale_logic_rejections:
+        lines.append(f"  {label} current logic gate rejects: none; stale={stale_logic_rejections}")
     return lines
 
 
