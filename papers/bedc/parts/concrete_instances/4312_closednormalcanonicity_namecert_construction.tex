@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalCanonicityUp$}
+\label{ch:concrete-instances-closednormalcanonicity-namecert}
+
+The $\ClosedNormalCanonicityUp$ packet turns the false-endpoint boundary of \autoref{ch:closed-normal-consistency-main-result} into a finite NameCert surface. It is downstream of the main-result certificate in \autoref{ch:concrete-instances-closednormalconsistencymain-namecert}, the closed-normal consistency packet of \autoref{ch:concrete-instances-closed-normal-consistency-namecert}, and the packet boundary of \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}. These siblings expose the closed beta-strong false endpoint and the subject-reduction gap; the present packet records the canonicity read that excludes hidden endpoint escape without claiming full closed consistency.
+
+\begin{definition}[Closed-normal canonicity carrier]
+\label{def:closed-normal-canonicity-carrier}
+A $\ClosedNormalCanonicityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,L,B,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the empty-context $\mathrm{HasType}$ row for the closed candidate at the displayed false encoding;
+\item $L$ is the $\mathrm{ClosedAt}$ row for the same candidate and false encoding;
+\item $B$ is the $\mathrm{BetaStrong}$ row saying the candidate is already at the closed normal boundary;
+\item $F$ names the false endpoint whose inhabitants are being excluded;
+\item $E$ is the endpoint-exclusion row consumed from the checked closed-normal beta-strong false boundary;
+\item $H$ records componentwise $\hsame$ transports for the typing, closedness, beta-strong, false-endpoint, and exclusion rows;
+\item $C$ records the displayed $\Cont$ routes from $T,L,B,F$ to $E$ and from $E$ to the public read;
+\item $P$ records $\Pkg$ provenance over the main-result chapter and its closed-normal consistency packet siblings;
+\item $N$ is the local $\NameCert_{\ClosedNormalCanonicityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for subject reduction, unrestricted normalization, closed consistency, host evaluation, quotient conversion, or a second false endpoint.
+\end{definition}
+
+\begin{theorem}[Closed-normal canonicity NameCert obligations]
+\label{thm:closed-normal-canonicity-namecert-obligations}
+Every accepted $\ClosedNormalCanonicityUp$ packet binds exactly the finite obligation surface of \autoref{def:closed-normal-canonicity-carrier}: carrier admission for $K=(T,L,B,F,E,H,C,P,N)$, componentwise classifier stability on the displayed rows, ledger exactness for the closed typing, closedness, beta-strong normality, false endpoint, exclusion, transport, route, provenance, and naming coordinates, and local $\NameCert$ registration through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $T,L,B,F,E,H,C,P,N$ are the only visible coordinates, so carrier admission and classifier comparison are componentwise over the displayed packet.
+
+Read the endpoint rows next. The rows $T,L,B,F$ display the closed beta-strong candidate at the false endpoint, and $E$ is the only exclusion row attached to that candidate.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name the same finite surface. Since the carrier lists no further coordinate, the local NameCert obligations are exhausted by these rows.
+\end{proof}
+
+\begin{theorem}[Closed-normal canonicity false-endpoint exclusion]
+\label{thm:closed-normal-canonicity-false-endpoint-exclusion}
+Every consumer of an accepted $\ClosedNormalCanonicityUp$ packet may read the false-endpoint exclusion only through the displayed chain
+$$
+T,L,B,F,E,H,C,P,N.
+$$
+The read is a closed beta-strong endpoint exclusion for the named false encoding. It is not a full closed-consistency theorem, not a closed subject-reduction theorem, and not a normalization theorem for arbitrary closed terms.
+\end{theorem}
+\begin{proof}
+Start with the exclusion row $E$. Its inputs in the carrier are exactly the typed closed beta-strong false endpoint rows $T,L,B,F$.
+
+The continuation row $C$ exposes the public read through the same displayed chain, while $H,P,N$ provide transport, provenance, and local naming. No carrier coordinate supplies subject reduction, unrestricted normalization, or a general consistency principle.
+
+Thus the consumer receives only the false-endpoint exclusion stated by the packet.
+\end{proof}
+
+\begin{theorem}[Closed-normal canonicity non-escape]
+\label{thm:closed-normal-canonicity-nonescape}
+An accepted $\ClosedNormalCanonicityUp$ packet has no escape route from its displayed endpoint surface. Any downstream read factors through $T,L,B,F,E,H,C,P,N$, and cannot acquire a second false endpoint, a host evaluator, quotient conversion, full closed consistency, closed subject reduction, or unrestricted normalization from the packet.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:closed-normal-canonicity-carrier}. The packet contains one false endpoint row $F$ and one exclusion row $E$.
+
+Apply the obligation theorem to confine all public reads to the displayed rows. The transport, route, provenance, and local-name rows preserve that same finite packet instead of adding semantic coordinates.
+
+The false-endpoint exclusion theorem then supplies the only positive read. Since no remaining coordinate is present, the excluded escape routes are unavailable to downstream consumers.
+\end{proof}
+
+\closureat{ClosedNormalCanonicityUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalCanonicityUp}
+  \constructivestory{A $\ClosedNormalCanonicityUp$ packet is generated from empty-context typing, closedness, beta-strong normality, a false-endpoint row, an endpoint-exclusion row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-canonicity-carrier}, \autoref{thm:closed-normal-canonicity-namecert-obligations}, \autoref{thm:closed-normal-canonicity-false-endpoint-exclusion}, and \autoref{thm:closed-normal-canonicity-nonescape} bind the finite false-endpoint canonicity surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full closed consistency, closed subject reduction, unrestricted normalization, host evaluation, quotient conversion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, endpoint exclusion, non-escape, provenance, and local naming for the same finite canonicity packet.}
+\end{closurestatus}

@@ -97,6 +97,25 @@ theorem TypedReductionNormalFormPacket_namecert_obligations [AskSetup] [PackageS
     }
   exact ⟨semantic, membershipRow, reductionRow, endpointRow⟩
 
+theorem TypedReductionNormalFormPacket_subject_reduction_seal [AskSetup] [PackageSetup]
+    {term judgment membership reduction normal transport continuation provenance name
+      endpoint : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypedReductionNormalFormPacket term judgment membership reduction normal transport
+        continuation provenance name endpoint mark bundle pkg ->
+      Ext term mark membership ∧ Cont membership reduction normal ∧
+        Cont normal continuation endpoint ∧ hsame normal endpoint ∧
+          hsame provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Ext Cont hsame PkgSig
+  intro packet
+  obtain ⟨_termUnary, _judgmentUnary, _membershipUnary, _reductionUnary, _normalUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary, _endpointUnary,
+    membershipRow, reductionRow, endpointRow, normalSameEndpoint, provenanceSameEndpoint,
+    _nameSameEndpoint, endpointPkg⟩ := packet
+  exact
+    ⟨membershipRow, reductionRow, endpointRow, normalSameEndpoint, provenanceSameEndpoint,
+      endpointPkg⟩
+
 theorem TypedReductionNormalFormPacket_route_exactness [AskSetup] [PackageSetup]
     {term judgment membership reduction normal transport continuation provenance name
       endpoint normal' endpoint' : BHist}
@@ -117,5 +136,28 @@ theorem TypedReductionNormalFormPacket_route_exactness [AskSetup] [PackageSetup]
     cases normalExact
     exact cont_deterministic endpointRow continuationRead
   exact ⟨normalExact, endpointExact⟩
+
+theorem TypedReductionNormalFormPacket_terminal_boundary_nonescape [AskSetup] [PackageSetup]
+    {term judgment membership reduction normal transport continuation provenance name
+      endpoint endpoint' : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypedReductionNormalFormPacket term judgment membership reduction normal transport
+        continuation provenance name endpoint mark bundle pkg ->
+      Cont normal continuation endpoint' ->
+        hsame endpoint endpoint' ∧ hsame normal endpoint' ∧ UnaryHistory endpoint' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet endpointRead
+  obtain ⟨_termUnary, _judgmentUnary, _membershipUnary, _reductionUnary, normalUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary, endpointUnary,
+    _membershipExt, _reductionRow, endpointRow, normalSameEndpoint, _provenanceSameEndpoint,
+    _nameSameEndpoint, _endpointPkg⟩ := packet
+  have endpointExact : hsame endpoint endpoint' :=
+    cont_deterministic endpointRow endpointRead
+  have normalSameEndpoint' : hsame normal endpoint' :=
+    hsame_trans normalSameEndpoint endpointExact
+  have endpointUnary' : UnaryHistory endpoint' := by
+    cases endpointExact
+    exact endpointUnary
+  exact ⟨endpointExact, normalSameEndpoint', endpointUnary'⟩
 
 end BEDC.Derived.TypedReductionNormalFormUp
