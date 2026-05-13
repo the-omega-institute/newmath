@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDiagonalMeetUp$}
+\label{ch:concrete-instances-regular-cauchy-diagonal-meet-namecert}
+\origin{ai-composite}
+
+The $\RegularCauchyDiagonalMeetUp$ interface packages the finite shared-threshold diagonal route used by the Real-completeness vision of \autoref{ch:visions-real-completeness}. It consumes the tail-meet surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, the shared-modulus surface of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, the witness envelope of \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}, and the diagonal window coverage row used by the completion route. The packet records the diagonal threshold comparison as data, not as a host-selected limit, quotient stream, or ambient completeness theorem.
+
+\begin{definition}[RegularCauchyDiagonalMeet carrier]
+\label{def:regular-cauchy-diagonal-meet-carrier}
+A $\RegularCauchyDiagonalMeetUp$ carrier is a finite $\BHist$ packet
+$$
+D=(T,M,E,W,Q,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $T$ is the $\RegularCauchyTailMeetUp$ row that exposes the paired regular-Cauchy tails through one tail threshold;
+\item $M$ is the $\CauchyModulusMeetUp$ row that supplies the shared bound consumed by the tail route;
+\item $E$ is the $\CauchyTailWitnessEnvelopeUp$ row that stores the selected window, finite-window envelope, tail comparison, tail-agreement seal, and RealUp readback;
+\item $W$ is the $\RealDiagonalWindowCoverageUp$ row that records the diagonal window coverage available to the Real-completion route;
+\item $Q$ is the shared diagonal threshold comparison row, read only after $T,M,E,W$ have been displayed;
+\item $H$ stores componentwise $\hsame$ transports for the tail-meet row, modulus-meet row, witness envelope, diagonal coverage row, comparison row, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes for reading the shared modulus, applying it to the tail meet, passing through the witness envelope, checking diagonal coverage, and exposing the comparison row;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailMeetUp$, $\CauchyModulusMeetUp$, $\CauchyTailWitnessEnvelopeUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyDiagonalMeetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows, their transports, their continuation routes, package provenance, and local naming provenance.
+\end{definition}
+
+\begin{theorem}[RegularCauchyDiagonalMeet NameCert obligations]
+\label{thm:regular-cauchy-diagonal-meet-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-diagonal-meet-carrier}, the local $\NameCert_{\RegularCauchyDiagonalMeetUp}$ surface consists exactly of carrier admission for $D=(T,M,E,W,Q,H,C,P,N)$, tail-meet admission through $T$, shared-modulus admission through $M$, witness-envelope admission through $E$, diagonal-window coverage through $W$, shared-threshold comparison through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. Its rows name the tail meet, shared modulus, witness envelope, diagonal coverage, shared comparison, transport, route, package, and local certificate.
+
+Read the analytic rows in the order required by the Real-completeness diagonal route. The shared modulus row $M$ supplies the bound consumed by $T$, the envelope row $E$ records the finite witness route, and the coverage row $W$ makes the diagonal window visible before $Q$ is exposed.
+
+The remaining rows are structural. The transports in $H$, routes in $C$, provenance row $P$, and local name $N$ replay and identify the same finite packet, so the local NameCert surface has no coordinate for quotient streams, host real equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDiagonalMeet shared-threshold factorization]
+\label{thm:regular-cauchy-diagonal-meet-shared-threshold-factorization}
+Every Real-completion consumer of an accepted $\RegularCauchyDiagonalMeetUp$ carrier reads the diagonal threshold comparison through the finite route
+$$
+M \longmapsto T \longmapsto E \longmapsto W \longmapsto Q.
+$$
+The route uses the shared-bound packet of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, the shared-tail packet of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, the witness envelope of \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}, and the diagonal-window coverage row described by \autoref{ch:visions-real-completeness}.
+\end{theorem}
+\begin{proof}
+Start with a Real-completion read of the comparison row. The carrier has exactly one comparison coordinate $Q$, and the continuation route to it passes through the rows $M,T,E,W$.
+
+The shared-bound route is first read through $M$ and then consumed by $T$. This is the finite meet route: the source moduli and tail windows are synchronized before any diagonal comparison is available.
+
+Next the witness route is exposed through $E$, and the diagonal window coverage is exposed through $W$. Only after these rows have been displayed can $Q$ be consumed. Thus every comparison read factors through the stated finite route, with $H,C,P,N$ carrying transport, replay, provenance, and naming.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDiagonalMeet non-escape]
+\label{thm:regular-cauchy-diagonal-meet-nonescape}
+An accepted $\RegularCauchyDiagonalMeetUp$ carrier exports only the finite rows $T,M,E,W,Q,H,C,P,N$ of \autoref{def:regular-cauchy-diagonal-meet-carrier}. It exports no quotient stream equality, host real equality, selected limit, countable-choice diagonal selector, analytic completeness theorem, or ambient RealUp completion principle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier. The only mathematical rows are the tail meet, modulus meet, witness envelope, diagonal coverage row, and shared comparison row.
+
+Apply the local NameCert obligations. They force every accepted read to remain inside the displayed carrier, and the shared-threshold factorization theorem forces comparison-facing reads through $M,T,E,W,Q$.
+
+The excluded objects would require carrier coordinates or continuation routes not present in $D$. Since the packet contains only finite BEDC rows and their structural provenance, no downstream consumer can recover quotient streams, host equality, selected limits, choice selectors, analytic completeness, or an ambient completion principle from it.
+\end{proof}
