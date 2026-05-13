@@ -130,15 +130,105 @@ rows, modulus rows, ledger rows, and provenance rows of the carrier, so the
 surface is exhausted by the five listed obligations.
 \end{proof}
 
+\begin{theorem}[CauchyFilter carrier transport obligation]
+\label{thm:cauchyfilter-carrier-transport-obligation}
+Let $F=(B,R,M,L,P)$ and $F'=(B',R',M',L',P')$ be displayed
+$\CauchyFilterUp$ finite-filterbase carriers. Suppose the evidence ledger
+exhibits componentwise $\hsame$ rows for $B$ with $B'$, $R$ with $R'$, $M$
+with $M'$, $L$ with $L'$, and $P$ with $P'$, and suppose every read used by a
+refinement or precision request is routed through the displayed $\Cont$ rows.
+Then classifier transport preserves the accepted carrier tuple: $F$ is
+accepted exactly when the transported tuple $F'$ is accepted, and all accepted
+reads remain inside the displayed finite rows $(B',R',M',L',P')$.
+\end{theorem}
+\begin{proof}
+Unpack the finite carrier of
+\autoref{def:cauchyfilter-finite-filterbase-carrier}. Acceptance is expressed
+only through the five displayed coordinates $B$, $R$, $M$, $L$, and $P$.
+
+Transport is componentwise. The base packets, refinement ledger, modulus row,
+evidence ledger, and provenance row are compared by the named $\hsame$
+witnesses, while each refinement or precision read follows a displayed
+$\Cont$ route recorded in the ledger.
+
+Apply \autoref{thm:cauchyfilter-namecert-obligation-surface} to identify the
+classifier row as the transport row of the local $\NameCert$ surface. The
+transported carrier therefore has exactly the same finite-filterbase shape,
+with rows read from $(B',R',M',L',P')$.
+
+No host filter, selected limit, quotient real, or ambient completeness object
+is introduced by this transport. The construction moves only the displayed
+finite rows and their recorded $\hsame$ and $\Cont$ witnesses.
+\end{proof}
+
+\begin{theorem}[CauchyFilter refinement directedness package]
+\label{thm:cauchyfilter-refinement-directedness-package}
+For an accepted $\CauchyFilterUp$ carrier $F=(B,R,M,L,P)$, the directedness
+obligation is the finite package consisting of the two input base packets in
+$B$, the selected third base packet named by the row of $R$, the two displayed
+$\Cont$ routes from that selected packet to the inputs, the componentwise
+$\hsame$ witnesses for the transported dyadic observations, and the modulus
+row of $M$ that reads the selected packet at every requested precision.
+\end{theorem}
+\begin{proof}
+Choose two displayed base packets in $B$. By
+\autoref{thm:cauchyfilter-directed-refinement-obligation}, the corresponding
+row of $R$ names a third displayed base packet together with the continuation
+routes and componentwise comparison rows needed to refine both inputs.
+
+The selected packet is still a base packet of the same finite carrier, so the
+modulus row can be read without leaving the displayed surface. Apply
+\autoref{thm:cauchyfilter-cauchy-modulus-obligation} to attach the requested
+precision row and its dyadic-radius ledger to the same refinement package.
+
+The resulting object is a directedness package, not an ambient filter
+principle. Every component is one of the rows already listed in
+\autoref{def:cauchyfilter-finite-filterbase-carrier} and exposed by
+\autoref{thm:cauchyfilter-namecert-obligation-surface}.
+\end{proof}
+
+\begin{theorem}[CauchyFilter Real and RegSeqRat handoff non-escape]
+\label{thm:cauchyfilter-real-regseq-handoff-nonescape}
+Every $\RealUp$ or $\RegSeqRatUp$ consumer of an accepted $\CauchyFilterUp$
+carrier $F=(B,R,M,L,P)$ reads only the displayed base packets, the
+$\StreamNameUp$ schedules, the $\DyadicRatCoreUp$ observation rows, the
+$\RealBallUp$ bounds, the refinement rows, the Cauchy-modulus rows, the ledger
+rows, and the $\Pkg$ provenance rows named by $L$ and $P$. The handoff does
+not read a host filter, a selected limit, a quotient real, or an ambient
+completeness principle.
+\end{theorem}
+\begin{proof}
+Project the downstream handoff row from
+\autoref{thm:cauchyfilter-namecert-obligation-surface}. It lists the rows
+available to $\RealUp$ and $\RegSeqRatUp$ consumers: base packets, stream
+schedules, dyadic observations, real-ball bounds, refinement rows, modulus
+rows, ledger rows, and provenance rows.
+
+The carrier definition fixes where these rows live. By
+\autoref{def:cauchyfilter-finite-filterbase-carrier}, the base packets are in
+$B$, refinement data is in $R$, precision data is in $M$, read evidence is in
+$L$, and downstream provenance is in $P$.
+
+Directed refinement and precision readback do not add further carrier data.
+They are the displayed rows supplied by
+\autoref{thm:cauchyfilter-directed-refinement-obligation} and
+\autoref{thm:cauchyfilter-cauchy-modulus-obligation}.
+
+Thus the Real and regular rational sequence handoff is closed under the named
+finite rows. Since no step constructs or selects an external filter limit, the
+handoff cannot escape through host filters, selected limits, quotient reals,
+or ambient completeness.
+\end{proof}
+
 \begin{closurestatus}{\CauchyFilterUp}
   \constructivestory{A $\CauchyFilterUp$ packet is generated by finite base packets over $\mathsf{BHist}$, a displayed refinement ledger, a $\CauchyModulusUp$ precision row, visible dyadic observation rows, stream schedules, real-ball bounds, componentwise $\hsame$ transports, displayed $\Cont$ routes, and $\Pkg$ provenance for the real-completion handoff.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the finite-filterbase carrier, displayed directed-refinement obligation, Cauchy-modulus obligation, and downstream $\RealUp/\RegSeqRatUp$ handoff surface.}
+  \scopeclosed{The seed scope registers the finite-filterbase carrier, carrier transport row, directed-refinement package, Cauchy-modulus obligation, and downstream $\RealUp/\RegSeqRatUp$ non-escape handoff surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{The chapter does not close real completeness, uniqueness of real endpoints, analytic filters, or a checked bridge to an external filter schema.}
-  \upgradepath{Scoped closure requires formal carrier transport, refinement directedness, modulus readback, and the full finite handoff surface for $\RealUp$ consumers.}
+  \upgradepath{Scoped closure requires Lean targets for carrier transport, refinement directedness, modulus readback, and the finite $\RealUp/\RegSeqRatUp$ handoff surface.}
 \end{closurestatus}
 
 \begin{definition}[CauchyFilter finite subfilterbase restriction datum]
