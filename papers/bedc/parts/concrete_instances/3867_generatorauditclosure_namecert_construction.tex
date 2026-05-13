@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\GeneratorAuditClosureUp$}
+\label{ch:concrete-instances-generatorauditclosure-namecert}
+\origin{human}
+
+The $\GeneratorAuditClosureUp$ packet names the finite audit surface by which a MetaCIC generator-closure proof becomes a BEDC-readable certificate. It is tuned to generator rows such as \texttt{substitute} and \texttt{shift}, classifier rows such as \texttt{ClosedAt} and \texttt{GeneratorClosureClassifier}, accepted closure witnesses such as \texttt{substitute\_closed}, \texttt{shift\_closed}, \texttt{closed\_under\_substitute\_classifier}, and \texttt{closed\_under\_shift\_classifier}, and the audit ledgers exposed by $\KernelAcceptanceWitnessUp$, $\AxiomQueryLedgerUp$, and $\KernelSourceChannelLedgerUp$.
+
+\begin{definition}[Generator-audit closure carrier]
+\label{def:generator-audit-closure-carrier}
+A $\GeneratorAuditClosureUp$ carrier is a finite $\BHist$ packet
+$$
+W=(G,K,A,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ records the generator row, including the MetaCIC operation being audited and the arity or binder-side parameters needed to replay its local action;
+\item $K$ records the classifier row, including the closedness classifier, the generator-closure classifier, and the slice on which the generator is claimed to preserve closure;
+\item $A$ records the accepted closure proof row for substitute-style or shift-style generators;
+\item $Q$ records the axiom-query or audit-report row attached to the accepted closure proof, with refusal content for \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, and any unaccepted host proof equality;
+\item $H$ records componentwise $\hsame$ transport for the generator row, classifier row, accepted closure proof row, audit report, replay route, provenance, and local name;
+\item $C$ records the displayed $\Cont$ routes that replay generator evaluation, classifier reading, kernel acceptance, axiom-query inspection, and consumer access to the closure certificate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\KernelAcceptanceWitnessUp$, $\AxiomQueryLedgerUp$, and $\KernelSourceChannelLedgerUp$;
+\item $N$ is the local $\NameCert_{\GeneratorAuditClosureUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden proof production, quotient transport, classical case splitting, proposition extensionality, host proof equality, or a claim that a source generator is trusted without the accepted closure row $A$ and audit row $Q$.
+\end{definition}
+
+\begin{theorem}[Generator-audit closure NameCert obligations]
+\label{thm:generator-audit-closure-namecert-obligations}
+For every accepted $\GeneratorAuditClosureUp$ carrier
+$$
+W=(G,K,A,Q,H,C,P,N),
+$$
+the local $\NameCert_{\GeneratorAuditClosureUp}$ surface consists exactly of generator exposure through $G$, classifier exposure through $K$, accepted closure-witness exposure through $A$, axiom-query or audit-report exposure through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+The obligations are anchored by the kernel-acceptance witness for $A$, the axiom-query ledger for $Q$, and the source-channel ledger separating the generator row from the accepted proof row.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:generator-audit-closure-carrier}. The rows $G,K,A,Q,H,C,P,N$ are the complete displayed inventory, so carrier admission and local naming are read directly from the packet.
+
+The generator and classifier side is exhausted by $G$ and $K$. These rows record the MetaCIC operation and the closure classifier slice before the accepted proof row is exposed.
+
+The audit side is exhausted by $A$ and $Q$. The row $A$ is read through $\KernelAcceptanceWitnessUp$, while $Q$ is read through $\AxiomQueryLedgerUp$ and may also be placed inside the channel separation supplied by $\KernelSourceChannelLedgerUp$.
+
+Transport, replay, provenance, and naming are confined to $H,C,P,N$. Since the carrier has no further row, the listed obligations are exactly the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Generator-audit substitution and shift audit]
+\label{thm:generator-audit-closure-substitution-shift-audit}
+When $G$ is the MetaCIC \texttt{substitute} or \texttt{shift} generator row and $K$ is the corresponding \texttt{GeneratorClosureClassifier} row, an accepted $\GeneratorAuditClosureUp$ packet routes the closure claim through the displayed accepted proof row $A$ for the substitute or shift closure witness and the audit row $Q$ for that proof.
+
+Thus the paper-side generator-closure reading is available only as a finite certificate over $G,K,A,Q,H,C,P,N$; it is not a hidden proof producer and it does not identify source syntax, host proof equality, quotient equality, or classical branching with kernel acceptance.
+\end{theorem}
+\begin{proof}
+Begin with the generator row $G$. In the substitution case it records the \texttt{substitute} operation and the closed-boundary slice; in the shifting case it records the \texttt{shift} operation and the corresponding closed-boundary slice.
+
+Read the classifier row $K$ next. It is the displayed \texttt{GeneratorClosureClassifier} instance used by the MetaCIC closure witnesses named in the kernel-audit witness chapter.
+
+The accepted proof row $A$ supplies the kernel-accepted closure witness, such as \texttt{substitute\_closed}, \texttt{shift\_closed}, \texttt{closed\_under\_substitute\_classifier}, or \texttt{closed\_under\_shift\_classifier}. The row $Q$ supplies the axiom-query or audit report for that same accepted proof row.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite route. No carrier coordinate remains for hidden proof production, quotient equality, classical branching, proposition extensionality, or host proof equality, so the substitution or shift audit is confined to the displayed packet.
+\end{proof}
+
+\begin{theorem}[Generator-audit closure non-escape]
+\label{thm:generator-audit-closure-nonescape}
+Every downstream consumer of an accepted $\GeneratorAuditClosureUp$ packet factors through the finite rows
+$$
+G,K,A,Q,H,C,P,N.
+$$
+The consumer may read the generator, classifier, accepted closure proof, audit report, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it cannot read a hidden kernel-soundness theorem, a source-generator trust token, a quotient proof transport, a classical choice step, proposition extensionality, or host proof equality.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $W=(G,K,A,Q,H,C,P,N)$. The definition lists exactly these rows as the exported carrier.
+
+Use \autoref{thm:generator-audit-closure-namecert-obligations} to account for generator exposure, classifier exposure, accepted closure-witness exposure, audit-report exposure, transport, replay, provenance, and local naming.
+
+Use \autoref{thm:generator-audit-closure-substitution-shift-audit} for substitute-style and shift-style consumers. It routes the closure claim through the MetaCIC generator row, the generator-closure classifier row, the accepted closure proof row, and the audit row before any consumer-facing read is available.
+
+Since the carrier contains no further coordinate, the listed rows exhaust the consumer surface and exclude hidden proof production, quotient transport, classical choice, proposition extensionality, and host proof equality.
+\end{proof}
+
+\closureat{GeneratorAuditClosureUp}{seedStr}
+
+\begin{closurestatus}{\GeneratorAuditClosureUp}
+  \constructivestory{A $\GeneratorAuditClosureUp$ packet is generated from a MetaCIC generator row, a generator-closure classifier row, an accepted closure proof row, an axiom-query or audit-report row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:generator-audit-closure-carrier}, \autoref{thm:generator-audit-closure-namecert-obligations}, \autoref{thm:generator-audit-closure-substitution-shift-audit}, and \autoref{thm:generator-audit-closure-nonescape} specify the finite generator-audit closure carrier, NameCert obligation surface, substitution and shift audit route, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove new MetaCIC closure theorems, global Lean kernel soundness, quotient or classical proof transport, proposition extensionality, host proof equality, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier projection, accepted-proof audit replay, axiom-query refusal stability, and consumer non-escape for the displayed generator-audit packet.}
+\end{closurestatus}
