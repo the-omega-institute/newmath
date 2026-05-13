@@ -146,6 +146,22 @@ predicate, classical decision principle, divergence oracle, or host evaluator,
 the provenance and naming rows cannot be reinterpreted as any of those objects.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction diagonal obstruction public package]
+\label{thm:halting-distinction-diagonal-obstruction-public-package}
+For every accepted $\HaltingDistinctionUp$ packet
+$$
+D=(Q,T,Z,H,C,P,N),
+$$
+the public diagonal obstruction is exposed only through the certificate-history pair row $Q$, the finite trace row $T$, the diagonal self-reference row $Z$, componentwise $\hsame$ transports $H$, displayed routes $C$, provenance $P$, and the local $\NameCert_{\HaltingDistinctionUp}$ row $N$. The package combines the diagonal boundary, trace readability, provenance purity, and consumer non-escape rows; it exports no total halting predicate, global truth predicate, divergence oracle, or host evaluator.
+\end{theorem}
+\begin{proof}
+First read the diagonal boundary. \autoref{thm:halting-distinction-diagonal-boundary} forces every public diagonal read through $Q,T,Z,H,C,P,N$ and stops the read at the self-reference boundary rather than at a global decision principle.
+
+Next read the trace and provenance rows. \autoref{thm:halting-distinction-trace-readability} keeps termination-facing inspection inside the finite trace $T$ and route row $C$, while \autoref{thm:halting-distinction-provenance-purity-boundary} prevents $P$ and $N$ from being reinterpreted as a truth predicate, divergence oracle, or host evaluator.
+
+Finally apply consumer non-escape. \autoref{thm:halting-distinction-consumer-non-escape} says every public consumer receives only $Q,T,Z,H,C,P,N$, so the package exposes the diagonal obstruction without making any total halting-decision claim.
+\end{proof}
+
 \closureat{HaltingDistinctionUp}{seedStr}
 
 \begin{closurestatus}{\HaltingDistinctionUp}
