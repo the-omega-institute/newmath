@@ -75,6 +75,27 @@ The $\ContinuationMonadUp$ sibling supplies the same unit and associativity ledg
 The $\CategoryUp$ sibling reads the same tails as hom-carrier composition. Forgetting object and arrow packaging leaves precisely the monoid-shaped operation on unary histories. Thus the dependency is a repackaging of existing continuation rows, with no additional algebraic primitive.
 \end{proof}
 
+\begin{definition}[Unary Cont monoid kernel scope]
+\label{def:unary-cont-monoid-kernel-scope}
+The $\UnaryContMonoidUp$ kernel scope is the finite row package
+$$
+\mathsf{UnaryHistory},\quad \ContR,\quad \hsame,\quad \emp,\quad \Pkg,\quad \NameCert,\quad \ContinuationMonadUp,\quad \CategoryUp.
+$$
+It binds the carrier to unary histories, the operation to displayed $\ContR$ composition, the unit to the empty-history row, classifier transport to $\hsame$, and sibling provenance to the continuation-monad and category packets.
+\end{definition}
+
+\begin{theorem}[Unary Cont monoid scoped grounding]
+\label{thm:unary-cont-monoid-scoped-grounding}
+For every accepted $\UnaryContMonoidUp$ carrier, associativity, left and right unit exactness, carrier transport, and ledger non-escape all factor through the rows of \autoref{def:unary-cont-monoid-kernel-scope}. The scoped grounding cannot invoke a host monoid, a quotient product, or any carrier equality not displayed by $\mathsf{UnaryHistory}$, $\ContR$, $\hsame$, $\emp$, $\Pkg$, $\NameCert$, $\ContinuationMonadUp$, and $\CategoryUp$.
+\end{theorem}
+\begin{proof}
+Carrier admission reads unary histories through $\mathsf{UnaryHistory}$ and reads the operation through displayed $\ContR$ composition. The unit row is the empty history $\emp$, so the carrier has no separate algebraic object.
+
+Associativity and unit exactness are inherited as continuation ledger rows from $\ContinuationMonadUp$ and $\CategoryUp$. Transport is componentwise $\hsame$ transport of the same displayed histories and continuation results.
+
+The provenance and local naming rows package those finite facts for consumers. Since every algebraic read has already factored through the listed kernel rows, the ledger cannot escape to host monoids, quotient products, or external carrier equality.
+\end{proof}
+
 \closureat{UnaryContMonoidUp}{obligationStr}
 
 \begin{closurestatus}{\UnaryContMonoidUp}
