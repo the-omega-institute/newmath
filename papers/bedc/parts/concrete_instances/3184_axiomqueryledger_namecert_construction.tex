@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-axiomqueryledger-namecert}
 \origin{human}
 
-The $\AxiomQueryLedgerUp$ packet names the finite audit surface consumed by strict proof-ancestry checks. It records an accepted declaration, the printed axiom-query report for that declaration, the forbidden-dependency comparison row, the refusal verdict, replay provenance, and the local $\NameCert$ row in one $\BHist$ certificate. It refines the dependency-report face of \autoref{ch:concrete-instances-auditgateboundary-namecert} by isolating the declaration row, query output row, forbidden-dependency row, and verdict row as a reusable finite ledger. The packet turns the kernel-acceptance query \texttt{\#print axioms} into a concrete ledger entry rather than an informal host-side statement about dependencies.
+The $\AxiomQueryLedgerUp$ packet names the finite audit surface consumed by strict proof-ancestry checks. It records an accepted declaration, the printed axiom-query report for that declaration, the forbidden-dependency comparison row, the refusal verdict, replay provenance, and the local $\NameCert$ row in one $\BHist$ certificate. It refines the dependency-report face of \autoref{ch:concrete-instances-auditgateboundary-namecert} by isolating the declaration row, query output row, forbidden-dependency row, and verdict row as a reusable finite ledger. It is the query-row sibling of the dependency-map packet in \autoref{ch:concrete-instances-axiomdependencymap-namecert}, the audit-gate boundary in \autoref{ch:concrete-instances-auditgateboundary-namecert}, and the kernel-acceptance audit witness in \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}: those chapters consume or police the same displayed query, verdict, gate, and acceptance rows. The packet turns the kernel-acceptance query \texttt{\#print axioms} into a concrete ledger entry rather than an informal host-side statement about dependencies.
 
 \begin{definition}[Axiom-query ledger packet]
 \label{def:axiom-query-ledger-packet}
@@ -130,15 +130,16 @@ The provenance row $P$ records the package ancestry for that replay, and the loc
 \end{proof}
 
 \closureat{AxiomQueryLedgerUp}{seedStr}
+\closureat{AxiomQueryLedgerUp}{obligationStr}
 
 \begin{closurestatus}{\AxiomQueryLedgerUp}
   \constructivestory{An $\AxiomQueryLedgerUp$ packet is generated from an accepted declaration row, a displayed \texttt{\#print axioms} query output, a forbidden-dependency row, a verdict row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:axiom-query-ledger-packet}, \autoref{thm:axiom-query-ledger-obligations}, \autoref{thm:axiom-query-ledger-query-soundness}, \autoref{thm:axiom-query-ledger-refusal-boundary}, and \autoref{thm:axiom-query-ledger-nonescape} specify the finite axiom-query ledger packet, strict dependency comparison, refusal boundary, replay provenance, and non-escape surface.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.AxiomQueryLedgerUp.AxiomQueryLedgerCarrier\_query\_soundness}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove global host-kernel purity, completeness of all environment dependency queries, Lean-side formal verification, bridge checking, or acceptance of any dependency outside the displayed finite packet.}
-  \upgradepath{Obligation closure requires checked carrier admission, query-output exactness, forbidden-dependency comparison determinacy, refusal stability, replay provenance, and consumer non-escape for the displayed packet.}
+  \upgradepath{Scoped closure requires binding the accepted declaration, query output, forbidden-dependency row, verdict row, replay provenance, and consumer non-escape to the named kernel primitives.}
 \end{closurestatus}
