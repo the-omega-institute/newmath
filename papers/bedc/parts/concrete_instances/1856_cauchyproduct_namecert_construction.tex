@@ -617,6 +617,24 @@ Ledger exhaustion and radius product regularity then place the unit rows in the 
 The Real observation budget handoff and observation budget RegSeq handoff carry the result into the same budget packet. By \autoref{thm:cauchy-product-budget-product-consumer-boundary}, the consumer boundary is unchanged except for the displayed unit rows occupying their source slots, and all excluded analytic objects remain outside the finite inventory.
 \end{proof}
 
+\begin{theorem}[CauchyProduct paired-window regularity exhaustion]
+\label{thm:cauchy-product-paired-window-regularity-exhaustion}
+Every accepted $\CauchyProductUp$ packet whose product read is consumed by a $\RegSeqRatUp$ or $\RealUp$ route factors through exactly the finite rows
+$$
+W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N.
+$$
+The factorization first binds the paired source windows $W_X,W_Y$, the source-radius rows $M_X,M_Y$, and the dyadic observations $Q_X,Q_Y$; then it reads the product row $P$ and the product-radius route that supplies the classifier row $E$; finally it transports the sealed product through $H,C,L,N$ to the consumer boundary. The route excludes host multiplication, quotient streams, selected limits, trichotomy, independent real carriers, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with paired-window closure. It forces any accepted product read to pass through $W_X,W_Y$ before exposing $M_X,M_Y,Q_X,Q_Y$, the product row $P$, and the downstream classifier route.
+
+Next use radius product regularity. The product-radius ledger is the only route from the displayed dyadic product observation to the $\RegSeqRatUp$ classifier $E$, so the regularity witness is part of the finite packet rather than an external multiplication or completeness claim.
+
+Now pass to the seal-facing boundary. The Real multiplication seal handoff and the RealCompleteness diagonal seal route make every $\RealUp$ or diagonal consumer read only the displayed classifier, transports, continuation rows, ledger, package provenance, and local $\NameCert_{\CauchyProductUp}$ evidence.
+
+Finally apply ledger exhaustion. Since the named rows exhaust the accepted packet, there is no remaining coordinate for quotient streams, selected limits, trichotomy, independent real carriers, ambient completeness, or a host multiplication primitive.
+\end{proof}
+
 \closureat{CauchyProductUp}{seedStr}
 \closureat{CauchyProductUp}{obligationStr}
 \closureat{CauchyProductUp}{scopedStr}
