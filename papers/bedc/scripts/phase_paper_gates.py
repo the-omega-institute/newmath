@@ -538,6 +538,96 @@ def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -
     return violations
 
 
+_FALSIFIABLE_PRED_RE = re.compile(r"\\falsifiablePrediction\{")
+_INDEPENDENCE_WITNESS_RE = re.compile(r"\\independenceWitness\{")
+
+
+def detect_ai_chapter_missing_falsifiable_prediction(
+    *, worktree: Path, base_sha: str
+) -> list[str]:
+    """Newly-added `\\origin{ai}` chapters MUST include one
+    `\\falsifiablePrediction{...}` row stating a BEDC-verifiable
+    consequence that, if disproved within N rounds, invalidates the
+    chapter. Without this row, the chapter is not committing to any
+    refutable claim and is therefore a vacuous placeholder."""
+    if not base_sha:
+        return []
+    added = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+    )
+    added = [p for p in added if p.endswith(".tex")]
+    violations: list[str] = []
+    for rel in added:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            continue
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        if not _ORIGIN_AI_RE.search(text):
+            continue  # human chapter — exempt
+        if not _FALSIFIABLE_PRED_RE.search(text):
+            violations.append(
+                f"{rel}: AI MISSING FALSIFIABLE — `\\origin{{ai}}` "
+                f"chapter has no `\\falsifiablePrediction{{...}}` row. "
+                f"Every AI chapter must commit one BEDC-verifiable "
+                f"consequence that, if disproved within N rounds, "
+                f"invalidates the chapter (see preamble.tex / phase_c.txt)."
+            )
+    return violations
+
+
+def detect_ai_chapter_missing_independence_witness(
+    *, worktree: Path, base_sha: str
+) -> list[str]:
+    """Newly-added `\\origin{ai}` chapters claiming structural atomicity
+    (i.e. NOT marked `\\origin{ai-composite}`) MUST include one
+    `\\independenceWitness{...}` row naming 3-5 nearest siblings and
+    explaining why the carrier is not bijective to any of them. This
+    is the BEDC analogue of "this number is prime, not a product of
+    smaller numbers". A chapter that cannot name siblings or justify
+    independence is presumptively derivative."""
+    if not base_sha:
+        return []
+    added = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+    )
+    added = [p for p in added if p.endswith(".tex")]
+    violations: list[str] = []
+    for rel in added:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            continue
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        # Only enforce on bare \origin{ai}, not the composite variant.
+        if not _ORIGIN_AI_RE.search(text):
+            continue
+        if re.search(r"\\origin\{ai-composite\}", text):
+            continue  # composite chapters opt out
+        if not _INDEPENDENCE_WITNESS_RE.search(text):
+            violations.append(
+                f"{rel}: AI MISSING INDEPENDENCE — `\\origin{{ai}}` "
+                f"chapter has no `\\independenceWitness{{...}}` row. "
+                f"Name 3-5 nearest sibling chapter slugs and explain "
+                f"why the carrier is not bijective to any of them. "
+                f"Compositional chapters should use `\\origin{{ai-composite}}` "
+                f"instead to opt out of this gate."
+            )
+    return violations
+
+
 def detect_axis_confusion(*, worktree: Path, base_sha: str) -> list[str]:
     violations: list[str] = []
     for rel in _changed_tex_files(worktree=worktree, base_sha=base_sha):
@@ -563,6 +653,8 @@ GATE_DISPATCH = {
     "axis-confusion": detect_axis_confusion,
     "orphan-new-chapter": detect_orphan_new_chapter,
     "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
+    "ai-missing-falsifiable": detect_ai_chapter_missing_falsifiable_prediction,
+    "ai-missing-independence": detect_ai_chapter_missing_independence_witness,
 }
 
 

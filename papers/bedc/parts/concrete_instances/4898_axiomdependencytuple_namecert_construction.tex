@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\AxiomDependencyTupleUp$}
+\label{ch:concrete-instances-axiom-dependency-tuple-namecert}
+\origin{human}
+
+The $\AxiomDependencyTupleUp$ packet realizes the dependency-map reading of
+\autoref{ch:bedc-axiom-dependency-map} as finite NameCert data. It follows
+the audit-map family discipline of \autoref{ch:audit-map-family-methodology}
+and sits beside the discharge-socket boundary of
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}:
+the former gives the row family shape, while the latter is a concrete sibling
+where missing MetaCIC supply is named rather than hidden.
+
+\begin{definition}[AxiomDependencyTuple carrier]
+\label{def:axiom-dependency-tuple-carrier}
+An $\AxiomDependencyTupleUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,W,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is one of the three mode rows, Mode A for zero-supply internal
+proof, Mode B for restricted-proof discharge under displayed supply, and
+Mode C for counterexample or socket witness against an unstated supply;
+\item $W$ is the witness row, recording a proof, restricted proof,
+counterexample, or socket witness according to $M$;
+\item $S$ is the required-supply ledger, listing exactly the host conversion,
+quotient equality, $\mathsf{Classical.choice}$, $\mathsf{propext}$, ambient
+classical theorem, or other named supply row that the entry requires;
+\item $H$ records componentwise $\hsame$ transport for the mode, witness,
+required-supply, route, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the
+mode, witness, and required-supply ledger;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-axiom-dependency-map},
+\autoref{ch:audit-map-family-methodology},
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert},
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AxiomDependencyTupleUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose mode, witness, required-supply
+ledger, transport, continuation, provenance, and naming rows are displayed in
+this finite carrier.
+\end{definition}
+
+\begin{theorem}[AxiomDependencyTuple NameCert obligations]
+\label{thm:axiom-dependency-tuple-namecert-obligations}
+For the carrier of \autoref{def:axiom-dependency-tuple-carrier}, the local
+$\NameCert_{\AxiomDependencyTupleUp}$ surface consists of carrier admission
+for
+$$
+A=(M,W,S,H,C,P,N),
+$$
+mode classification, witness transport, required-supply ledger exactness,
+displayed $\Cont$ route readback, $\Pkg$ provenance, and local naming. The
+packet may name host conversion, quotient equality,
+$\mathsf{Classical.choice}$, $\mathsf{propext}$, or an ambient classical CIC
+theorem as supply in $S$, but it cannot export any of them as BEDC data.
+\end{theorem}
+\begin{proof}
+Project the finite packet $A$. The rows $M,W,S$ provide the mathematical
+payload: a mode, a witness appropriate to that mode, and the ledger of supply
+required by that witness.
+
+Read $H$ and $C$ next. Componentwise $\hsame$ transport preserves the same
+mode and witness row, and every consumer route must replay the displayed
+ledger before it reads the tuple.
+
+Finally inspect $P$ and $N$. Provenance cites only the dependency-map chapter,
+the audit-map methodology, the discharge-socket sibling, and the BEDC kernel
+rows. Since no carrier coordinate contains host conversion, quotient equality,
+choice, propositional extensionality, or an ambient classical theorem as an
+exported BEDC proof, the named supply remains a ledger entry rather than a
+hidden rule.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyTuple mode exhaustion]
+\label{thm:axiom-dependency-tuple-mode-exhaustion}
+Every accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$ is exhausted by the three displayed modes: Mode A carries
+a zero-supply proof witness, Mode B carries a restricted-proof witness
+together with the required-supply ledger $S$, and Mode C carries a
+counterexample or socket witness naming the refused supply. Componentwise
+$\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and the local
+$\NameCert$ row preserve this trichotomy and do not add a fourth mode.
+\end{theorem}
+\begin{proof}
+Inspect the mode row $M$ in the carrier of
+\autoref{def:axiom-dependency-tuple-carrier}. Its visible constructors are
+exactly the zero-supply, restricted-proof, and counterexample-or-socket
+alternatives.
+
+In Mode A, the witness row $W$ is read as an internal proof and the ledger
+$S$ is empty of external supply. In Mode B, the witness row is read only
+together with the named required supply. In Mode C, the witness row is a
+counterexample or socket naming the missing supply rather than discharging it.
+
+Transport and routing do not change the case split. The rows $H,C,P,N$ replay
+the same mode, witness, and ledger coordinates, so no consumer can introduce
+host conversion, quotient equality, $\mathsf{Classical.choice}$,
+$\mathsf{propext}$, an ambient classical CIC theorem, or any fourth mode
+outside the displayed packet.
+\end{proof}
+
+\closureat{AxiomDependencyTupleUp}{seedStr}
+
+\begin{closurestatus}{\AxiomDependencyTupleUp}
+  \constructivestory{An $\AxiomDependencyTupleUp$ packet is generated from a three-mode row, a proof, restricted-proof, counterexample, or socket witness row, a required-supply ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axiom-dependency-tuple-carrier}, \autoref{thm:axiom-dependency-tuple-namecert-obligations}, and \autoref{thm:axiom-dependency-tuple-mode-exhaustion} bind the finite dependency-tuple carrier, mode exhaustion, ledger exactness, and non-export boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not enumerate all classical CIC claims, internalize host conversion, quotient equality, choice, propositional extensionality, or ambient classical CIC theorem supply, give Lean verification, or bridge check the tuple.}
+  \upgradepath{Obligation closure requires checked carrier admission, mode exhaustion, witness transport, required-supply ledger exactness, route readback, provenance, local naming, and non-export for the same finite packet.}
+\end{closurestatus}
