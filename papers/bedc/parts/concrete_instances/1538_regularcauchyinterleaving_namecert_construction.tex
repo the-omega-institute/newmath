@@ -104,6 +104,7 @@ Apply the same parity exactness after the $\hsame$ transport. The transported se
 
 Use \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness} to keep the selected ledger component fixed. Then use \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage} to rule out unscheduled routes: the carrier has only the two transported schedules, so there is no coordinate from which a third schedule or side switch could be read.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_selector\_transport\_determinacy}
 
 \begin{theorem}[Regular Cauchy interleaving RealUp seal non-escape]
 \label{thm:regular-cauchy-interleaving-real-seal-non-escape}
@@ -188,6 +189,20 @@ Classifier transport is \autoref{thm:regular-cauchy-interleaving-classifier}. Se
 The seal boundary is \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape}. The obligation closure package of \autoref{thm:regular-cauchy-interleaving-obligation-closure-package} gathers the same rows, and \autoref{thm:regular-cauchy-interleaving-scoped-kernel-route} binds them to the displayed kernel route.
 
 Repack these rows as the public export packet. Since the repacked packet exposes only the displayed $\RealUp$ seal boundary, a public consumer obtains the named seal interface and none of quotient equality, a selected host limit, ambient completeness, or a third schedule.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving bridge readback scope]
+\label{thm:regular-cauchy-interleaving-bridge-readback-scope}
+Any bridge readback from the public $\RealUp$ seal export of an accepted $\RegularCauchyInterleavingUp$ packet $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$ factors through the two $\RegSeqRatUp$ source names $A,B$, the two $\StreamNameUp$ schedules $S_A,S_B$, the alternating selector $\sigma$, the combined modulus ledger $M$, the source seal rows $E_A,E_B$, the interleaved seal row $E$, componentwise $\hsame$ transports $H$, $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\RegularCauchyInterleavingUp}$ row $N$. The bridge readback has no route to a quotient real, selected host limit, ambient completeness principle, or third schedule beyond this displayed public seal surface.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{thm:regular-cauchy-interleaving-carrier-admission}. It gives the finite packet rows that any bridge readback must start from: the two source names, their schedules, the selector, the modulus ledger, the three seal rows, transports, routes, provenance, and local naming row.
+
+Selector parity exactness from \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness} determines which source side is read. Combined modulus exactness from \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness} supplies the matching ledger component, and schedule-window coverage from \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage} rules out a third schedule.
+
+The seal boundary is controlled by \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape}. The scoped kernel route of \autoref{thm:regular-cauchy-interleaving-scoped-kernel-route} then binds the same rows to the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+
+Finally apply the public Real seal export, \autoref{thm:regular-cauchy-interleaving-public-real-seal-export}. A bridge readback that begins from that public export can only read back the rows exported there, so it factors through $A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N$ and cannot access quotient equality, selected host limits, ambient completeness, or an unlisted schedule.
 \end{proof}
 
 \closureat{RegularCauchyInterleavingUp}{seedStr}
