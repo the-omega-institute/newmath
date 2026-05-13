@@ -1,3 +1,4 @@
+#include "cook_decode.h"
 #include "rule110.h"
 
 #include <assert.h>
@@ -476,6 +477,22 @@ static int payload_matches(const uint8_t *cells, const R110Case *c) {
     return 1;
 }
 
+static char bit_to_cook_symbol(uint8_t bit) {
+    return bit == 0 ? 'N' : 'Y';
+}
+
+static int bits_to_cook_symbols(const uint8_t *bits,
+                                size_t bits_len,
+                                char *out,
+                                size_t out_cap) {
+    if (bits == NULL || out == NULL || bits_len + 1 > out_cap) return 0;
+    for (size_t i = 0; i < bits_len; i++) {
+        out[i] = bit_to_cook_symbol(bits[i]);
+    }
+    out[bits_len] = '\0';
+    return 1;
+}
+
 static void verify_case(const R110Case *c, const CtManifest *ct) {
     const CtCase *source = find_ct_case(ct, c->name);
     uint8_t *cells = (uint8_t *)malloc(c->initial_len ? c->initial_len : 1);
@@ -538,14 +555,19 @@ static int read_exact_bit_payload(FILE *f,
     return 1;
 }
 
-static void verify_algo_case(FILE *f, const char *case_line, size_t steps) {
+static void verify_algo_case(FILE *f,
+                             const char *case_line,
+                             size_t steps,
+                             int semantic,
+                             size_t *semantic_failures) {
     char *line = NULL;
     uint8_t *initial = NULL;
     uint8_t *expected = NULL;
+    uint8_t *ct_final = NULL;
     uint8_t *cells = NULL;
     size_t initial_len = 0;
     size_t expected_len = 0;
-    size_t ignored_len = 0;
+    size_t ct_final_len = 0;
     size_t ignored_steps = 0;
     int rc;
 
@@ -562,16 +584,11 @@ static void verify_algo_case(FILE *f, const char *case_line, size_t steps) {
     line = NULL;
 
     rc = read_content_line_dynamic(f, &line);
-    assert(rc == 1 && parse_prefixed_size_line(line, "CT_FINAL ", &ignored_len));
+    assert(rc == 1 && parse_prefixed_size_line(line, "CT_FINAL ", &ct_final_len));
     free(line);
     line = NULL;
 
-    if (ignored_len > 0) {
-        uint8_t *ignored = NULL;
-
-        assert(read_exact_bit_payload(f, ignored_len, &ignored));
-        free(ignored);
-    }
+    assert(read_exact_bit_payload(f, ct_final_len, &ct_final));
 
     rc = read_content_line_dynamic(f, &line);
     assert(rc == 1 && parse_prefixed_size_line(line,
@@ -598,6 +615,35 @@ static void verify_algo_case(FILE *f, const char *case_line, size_t steps) {
         assert(cells[i] == expected[i]);
     }
 
+    if (semantic) {
+        char decoded[MAX_BITS];
+        char expected_symbols[MAX_BITS];
+        int decode_rc = cook_decode_output(cells,
+                                           initial_len,
+                                           decoded,
+                                           sizeof(decoded));
+
+        if (!bits_to_cook_symbols(ct_final,
+                                  ct_final_len,
+                                  expected_symbols,
+                                  sizeof(expected_symbols))) {
+            printf("  semantic %s: expected output too large\n", case_line);
+            (*semantic_failures)++;
+        } else if (decode_rc != COOK_DECODE_OK) {
+            printf("  semantic %s: decode failed rc=%d expected=%s\n",
+                   case_line,
+                   decode_rc,
+                   expected_symbols);
+            (*semantic_failures)++;
+        } else if (strcmp(decoded, expected_symbols) != 0) {
+            printf("  semantic %s: decoded=%s expected=%s\n",
+                   case_line,
+                   decoded,
+                   expected_symbols);
+            (*semantic_failures)++;
+        }
+    }
+
     rc = read_content_line_dynamic(f, &line);
     assert(rc == 1 && strcmp(line, "ENDCASE") == 0);
     free(line);
@@ -605,14 +651,16 @@ static void verify_algo_case(FILE *f, const char *case_line, size_t steps) {
     free(cells);
     free(initial);
     free(expected);
+    free(ct_final);
 }
 
-static void verify_algo_manifest(const char *path) {
+static size_t verify_algo_manifest(const char *path, int semantic) {
     FILE *f = fopen(path, "r");
     char *line = NULL;
     size_t steps = 0;
     size_t assertions = 0;
     size_t seen = 0;
+    size_t semantic_failures = 0;
     int rc;
 
     assert(f != NULL);
@@ -646,7 +694,7 @@ static void verify_algo_manifest(const char *path) {
     line = NULL;
 
     while ((rc = read_content_line_dynamic(f, &line)) == 1) {
-        verify_algo_case(f, line, steps);
+        verify_algo_case(f, line, steps, semantic, &semantic_failures);
         seen++;
         free(line);
         line = NULL;
@@ -657,17 +705,33 @@ static void verify_algo_manifest(const char *path) {
     fclose(f);
 
     printf("  %s: %zu Cook diagnostic case(s) PASS\n", path, seen);
+    if (semantic && semantic_failures == 0) {
+        printf("  %s: %zu Cook semantic case(s) PASS\n", path, seen);
+    }
+    return semantic_failures;
 }
 
-static int run_algo_manifests(void) {
+static int run_algo_manifests(int semantic) {
     size_t manifest_count =
         sizeof(ALGO_R110_MANIFESTS) / sizeof(ALGO_R110_MANIFESTS[0]);
+    size_t semantic_failures = 0;
 
-    printf("== test_r110_round_trip --algo ==\n");
+    printf("== test_r110_round_trip --algo%s ==\n",
+           semantic ? " --semantic" : "");
     for (size_t i = 0; i < manifest_count; i++) {
-        verify_algo_manifest(ALGO_R110_MANIFESTS[i]);
+        semantic_failures += verify_algo_manifest(ALGO_R110_MANIFESTS[i],
+                                                  semantic);
     }
-    printf("ALL algo r110 diagnostic tests passed\n");
+    if (semantic && semantic_failures != 0) {
+        printf("algo r110 semantic tests failed: %zu decode mismatch(es)\n",
+               semantic_failures);
+        return 1;
+    }
+    if (semantic) {
+        printf("ALL algo r110 semantic tests passed\n");
+    } else {
+        printf("ALL algo r110 diagnostic tests passed\n");
+    }
     return 0;
 }
 
@@ -675,7 +739,12 @@ int main(int argc, char **argv) {
     size_t manifest_count = sizeof(R110_MANIFESTS) / sizeof(R110_MANIFESTS[0]);
 
     if (argc == 2 && strcmp(argv[1], "--algo") == 0) {
-        return run_algo_manifests();
+        return run_algo_manifests(0);
+    }
+    if (argc == 3 &&
+        strcmp(argv[1], "--algo") == 0 &&
+        strcmp(argv[2], "--semantic") == 0) {
+        return run_algo_manifests(1);
     }
     assert(argc == 1);
 

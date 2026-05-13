@@ -58,6 +58,15 @@ typedef struct {
     size_t data_symbol_stride;
 } CookPhaseExactLayout;
 
+/*
+   The phase-exact packet layout places the initial cyclic-tag tape in the
+   data band starting at data_pos. Each symbol occupies one data_symbol_stride
+   slot and is emitted as a four-C2 packet. Cook Y is encoded by C2 spacings
+   18,18,14 ether tiles; Cook N is encoded by 28,10,14. The output decoder
+   searches evolved rows for those C2 spacing packets and reads the largest
+   packet band as the visible tape window.
+*/
+
 static size_t cook_encode_round_up_periods(size_t cell_count) {
     size_t periods = cell_count / (size_t)COOK_ETHER_WIDTH;
 

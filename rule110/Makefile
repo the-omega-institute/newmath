@@ -31,7 +31,7 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_topology_up $(TEST_DIR)/test_fold_up \
                    $(TEST_DIR)/test_circle_up $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test test-r110 test-algo-r110 clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Evaluators
@@ -196,10 +196,11 @@ $(TEST_DIR)/test_circle_up: $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_ru
 	    $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_runner.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
 
-$(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h
-	$(CC) $(CFLAGS) -I$(EVAL_DIR) -o $@ \
+$(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_decode.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_r110_round_trip.c \
-	    $(EVAL_DIR)/rule110.c
+	    $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/cook_decode.c $(ENCODER_DIR)/glider_phases.c
 
 test: $(TESTS)
 	@for t in $(TESTS); do \
@@ -213,6 +214,9 @@ test-r110: $(TEST_DIR)/test_r110_round_trip
 
 test-algo-r110: $(TEST_DIR)/test_r110_round_trip
 	./$(TEST_DIR)/test_r110_round_trip --algo
+
+test-algo-r110-semantic: $(TEST_DIR)/test_r110_round_trip
+	./$(TEST_DIR)/test_r110_round_trip --algo --semantic
 
 clean:
 	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TESTS)
