@@ -47,6 +47,7 @@ SERVER_SCRIPT = SCRIPT_DIR / "bedc_oracle_server.py"
 ORACLE_CLIENT = SCRIPT_DIR / "oracle_client.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
 LONING_WATCH = SCRIPT_DIR / "loning_watch.py"
+LONING_ASSIMILATOR = SCRIPT_DIR / "loning_assimilator.py"
 
 DEFAULT_PARALLEL = 3
 DEFAULT_POLL_INTERVAL = 60
@@ -661,6 +662,38 @@ def run_loning_watch() -> dict | None:
     return data
 
 
+def run_loning_assimilator() -> dict | None:
+    """Summarize loning watch output into local gate advice."""
+    try:
+        proc = subprocess.run(
+            ["python3", str(LONING_ASSIMILATOR)],
+            cwd=str(REPO_ROOT),
+            text=True,
+            capture_output=True,
+            timeout=90,
+        )
+    except subprocess.TimeoutExpired:
+        supervisor_log("loning_assimilator: timed out")
+        return None
+    except OSError as exc:
+        supervisor_log(f"loning_assimilator: failed to launch: {exc}")
+        return None
+    if proc.returncode != 0:
+        err = (proc.stderr or proc.stdout or "").strip()
+        supervisor_log(f"loning_assimilator: rc={proc.returncode} {err[:300]}")
+        return None
+    try:
+        data = json.loads(proc.stdout.strip().splitlines()[-1])
+    except (IndexError, json.JSONDecodeError):
+        supervisor_log(f"loning_assimilator: output not JSON: {(proc.stdout or '')[:300]}")
+        return None
+    supervisor_log(
+        f"loning_assimilator: relevant={data.get('relevant_commits')} "
+        f"advice={data.get('advice_count')}"
+    )
+    return data
+
+
 def trigger_curator(*, no_dev_sync: bool = False) -> None:
     if not no_dev_sync:
         git_sync_dev()
@@ -1123,6 +1156,7 @@ def main() -> int:
                 since_loning_watch_m = (_now() - last_loning_watch_ts) / 60.0
                 if since_loning_watch_m > args.loning_watch_minutes:
                     run_loning_watch()
+                    run_loning_assimilator()
                     last_loning_watch_ts = _now()
 
             if not args.no_auto_commit:
