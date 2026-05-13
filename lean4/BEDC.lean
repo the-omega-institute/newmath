@@ -247,6 +247,7 @@ import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContourSumWindowUp.TasteGate
 import BEDC.Derived.CompactModulusCoverUp
+import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.TypedReductionNormalFormUp
