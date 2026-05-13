@@ -140,6 +140,41 @@ theorem MonotoneCauchyCarrier_common_window_classifier [AskSetup] [PackageSetup]
       regularScheduleModulus, scheduleModulusCommonWindow, modulusLedgerInterval,
       intervalRealSealNameRow, nameRowPkg, commonWindowPkg⟩
 
+theorem MonotoneCauchyCarrier_tail_window_scope_lock [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      commonWindow schedule' modulus' commonWindow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      Cont schedule modulus commonWindow ->
+        Cont schedule' modulus' commonWindow' ->
+          hsame schedule schedule' ->
+            hsame modulus modulus' ->
+              UnaryHistory commonWindow ∧ UnaryHistory commonWindow' ∧
+                hsame commonWindow commonWindow' ∧ Cont transportRow route provenance ∧
+                  PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier scheduleModulusCommonWindow scheduleModulusCommonWindow'
+    sameSchedule sameModulus
+  obtain ⟨_regularUnary, scheduleUnary, modulusUnary, _ledgerUnary, _intervalUnary,
+    _realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    _regularScheduleModulus, _modulusLedgerInterval, _intervalRealSealNameRow,
+    transportRouteProvenance, nameRowPkg⟩ := carrier
+  have commonWindowUnary : UnaryHistory commonWindow :=
+    unary_cont_closed scheduleUnary modulusUnary scheduleModulusCommonWindow
+  have scheduleUnary' : UnaryHistory schedule' :=
+    unary_transport scheduleUnary sameSchedule
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have commonWindowUnary' : UnaryHistory commonWindow' :=
+    unary_cont_closed scheduleUnary' modulusUnary' scheduleModulusCommonWindow'
+  have sameCommonWindow : hsame commonWindow commonWindow' :=
+    cont_respects_hsame sameSchedule sameModulus scheduleModulusCommonWindow
+      scheduleModulusCommonWindow'
+  exact
+    ⟨commonWindowUnary, commonWindowUnary', sameCommonWindow, transportRouteProvenance,
+      nameRowPkg⟩
+
 theorem MonotoneCauchyCarrier_modulus_tail_stability [AskSetup] [PackageSetup]
     {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
       regular' schedule' modulus' ledger' interval' realSeal' nameRow' : BHist}

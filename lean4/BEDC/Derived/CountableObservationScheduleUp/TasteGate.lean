@@ -192,6 +192,10 @@ instance countableObservationScheduleChapterTasteGate :
     intro x y hxy heq
     exact hxy (countableObservationScheduleToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CountableObservationScheduleUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  countableObservationScheduleChapterTasteGate
+
 theorem CountableObservationScheduleTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       countableObservationScheduleDecodeBHist (countableObservationScheduleEncodeBHist h) =

@@ -232,6 +232,20 @@ instance diagonalCofinalTailChapterTasteGate :
     intro x y hxy heq
     exact hxy (diagonalCofinalTailToEventFlow_injective heq)
 
+instance diagonalCofinalTailFieldFaithful : FieldFaithful DiagonalCofinalTailUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | DiagonalCofinalTailUp.mk q s g d r w h c p n => [q, s, g, d, r, w, h, c, p, n]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk q₁ s₁ g₁ d₁ r₁ w₁ h₁ c₁ p₁ n₁ =>
+        cases y with
+        | mk q₂ s₂ g₂ d₂ r₂ w₂ h₂ c₂ p₂ n₂ =>
+            cases h
+            rfl
+
 def taste_gate : ChapterTasteGate DiagonalCofinalTailUp :=
   diagonalCofinalTailChapterTasteGate
 
