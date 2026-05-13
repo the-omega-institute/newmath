@@ -55,13 +55,14 @@ $(EVAL_DIR)/rule110: $(EVAL_DIR)/rule110.c $(EVAL_DIR)/rule110.h
 $(ENCODER_DIR)/generate_r110: $(ENCODER_DIR)/generate_r110.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-$(ENCODER_DIR)/generate_r110_algo: $(ENCODER_DIR)/generate_r110_algo.c $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h
+$(ENCODER_DIR)/generate_r110_algo: $(ENCODER_DIR)/generate_r110_algo.c $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/block_assembler.h $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.h $(ENCODER_DIR)/cook_blocks.c
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(ENCODER_DIR)/generate_r110_algo.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
 	    $(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_construction.c \
 	    $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
-	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c
+	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
+	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c
 
 # Tests
 $(TEST_DIR)/test_rule110: $(TEST_DIR)/test_rule110.c $(EVAL_DIR)/rule110.h
@@ -210,11 +211,12 @@ $(TEST_DIR)/test_circle_up: $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_ru
 	    $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_runner.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
 
-$(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_decode.h
+$(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_decode.h $(ENCODER_DIR)/block_assembler.h $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.h $(ENCODER_DIR)/cook_blocks.c
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_r110_round_trip.c \
 	    $(EVAL_DIR)/rule110.c \
-	    $(ENCODER_DIR)/cook_decode.c $(ENCODER_DIR)/glider_phases.c
+	    $(ENCODER_DIR)/cook_decode.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c
 
 test: $(TESTS) $(R110_GENERATED) $(ALGO_R110_GENERATED)
 	@for t in $(TESTS); do \

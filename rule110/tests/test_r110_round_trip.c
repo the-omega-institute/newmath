@@ -1,3 +1,4 @@
+#include "block_assembler.h"
 #include "cook_decode.h"
 #include "rule110.h"
 
@@ -9,7 +10,6 @@
 #include <string.h>
 
 #define MAX_R110_CASES 512
-#define MAX_CT_CASES 512
 #define MAX_NAME 128
 #define MAX_BITS 2048
 #define MAX_PATH 512
@@ -32,20 +32,6 @@ typedef struct {
     R110Case cases[MAX_R110_CASES];
     size_t case_count;
 } R110Manifest;
-
-typedef struct {
-    char name[MAX_NAME];
-    char input[MAX_BITS];
-    int has_input;
-    int binary_direct;
-} CtCase;
-
-typedef struct {
-    size_t productions;
-    size_t assertion_count;
-    CtCase cases[MAX_CT_CASES];
-    size_t case_count;
-} CtManifest;
 
 static const char *R110_MANIFESTS[] = {
     "manifests/ask/ask_basic.r110.ct",
@@ -127,21 +113,6 @@ static int copy_text_value(char *dst, size_t dst_cap, const char *src) {
 
     if (len + 1 > dst_cap) return 0;
     memcpy(dst, src, len + 1);
-    return 1;
-}
-
-static int normalize_input(char *dst, size_t dst_cap, const char *value) {
-    if (strcmp(value, "<empty>") == 0) {
-        return copy_text_value(dst, dst_cap, "");
-    }
-    return copy_text_value(dst, dst_cap, value);
-}
-
-static int is_binary_string_or_empty(const char *s) {
-    if (s == NULL) return 0;
-    for (size_t i = 0; s[i] != '\0'; i++) {
-        if (s[i] != '0' && s[i] != '1') return 0;
-    }
     return 1;
 }
 
@@ -377,119 +348,6 @@ static int load_r110_manifest(const char *path, R110Manifest *out) {
     return 1;
 }
 
-static int parse_ct_case_line(char *line, CtCase *out) {
-    char *cursor;
-    char *colon;
-    char *field;
-
-    memset(out, 0, sizeof(*out));
-    cursor = trim_ascii(line);
-    if (strncmp(cursor, "case ", 5) != 0) return 0;
-    cursor += 5;
-
-    colon = strchr(cursor, ':');
-    if (colon == NULL) return -1;
-    *colon = '\0';
-    if (!copy_text_value(out->name, sizeof(out->name), trim_ascii(cursor))) {
-        return -1;
-    }
-
-    field = colon + 1;
-    for (;;) {
-        char *semi = strchr(field, ';');
-        char *eq;
-        char *key;
-        char *value;
-
-        if (semi != NULL) *semi = '\0';
-        field = trim_ascii(field);
-        if (*field != '\0') {
-            eq = strchr(field, '=');
-            if (eq == NULL) break;
-            *eq = '\0';
-            key = trim_ascii(field);
-            value = trim_ascii(eq + 1);
-            if (strcmp(key, "input") == 0) {
-                if (!normalize_input(out->input, sizeof(out->input), value)) {
-                    return -1;
-                }
-                out->has_input = 1;
-            }
-        }
-
-        if (semi == NULL) break;
-        field = semi + 1;
-    }
-
-    out->binary_direct = out->has_input && is_binary_string_or_empty(out->input);
-    return 1;
-}
-
-static int load_ct_manifest(const char *path, CtManifest *out) {
-    FILE *f = fopen(path, "r");
-    char line_buf[4096];
-    int saw_productions = 0;
-    int saw_assertions = 0;
-
-    if (f == NULL && strncmp(path, "rule110/", 8) == 0) {
-        f = fopen(path + 8, "r");
-    }
-    if (f == NULL) return 0;
-    memset(out, 0, sizeof(*out));
-
-    while (fgets(line_buf, sizeof(line_buf), f) != NULL) {
-        char *line = trim_ascii(line_buf);
-
-        if (line[0] == '\0' || line[0] == '#') continue;
-        if (strncmp(line, "PRODUCTIONS ", 12) == 0) {
-            if (!parse_size_value(line + 12, &out->productions)) {
-                fclose(f);
-                return 0;
-            }
-            saw_productions = 1;
-        } else if (strncmp(line, "ASSERTIONS ", 11) == 0) {
-            if (!parse_size_value(line + 11, &out->assertion_count)) {
-                fclose(f);
-                return 0;
-            }
-            saw_assertions = 1;
-        } else if (strncmp(line, "case ", 5) == 0) {
-            int rc;
-
-            if (out->case_count >= MAX_CT_CASES) {
-                fclose(f);
-                return 0;
-            }
-            rc = parse_ct_case_line(line, &out->cases[out->case_count]);
-            if (rc <= 0) {
-                fclose(f);
-                return 0;
-            }
-            out->case_count++;
-        }
-    }
-
-    fclose(f);
-    return saw_productions && saw_assertions && out->productions == 0 &&
-           out->assertion_count == out->case_count;
-}
-
-static const CtCase *find_ct_case(const CtManifest *m, const char *name) {
-    for (size_t i = 0; i < m->case_count; i++) {
-        if (strcmp(m->cases[i].name, name) == 0) return &m->cases[i];
-    }
-    return NULL;
-}
-
-static size_t ct_binary_direct_count(const CtManifest *m) {
-    size_t count = 0;
-
-    for (size_t i = 0; i < m->case_count; i++) {
-        if (m->cases[i].binary_direct) count++;
-    }
-    return count;
-}
-
 static int payload_matches(const uint8_t *cells, const R110Case *c) {
     for (size_t i = 0; i < c->payload_len; i++) {
         char got = cells[c->payload_start + i] ? '1' : '0';
@@ -514,13 +372,10 @@ static int bits_to_cook_symbols(const uint8_t *bits,
     return 1;
 }
 
-static void verify_case(const R110Case *c, const CtManifest *ct) {
-    const CtCase *source = find_ct_case(ct, c->name);
+static void verify_case(const R110Case *c, const char *source_path) {
     uint8_t *cells = (uint8_t *)malloc(c->initial_len ? c->initial_len : 1);
 
-    assert(source != NULL);
-    assert(source->binary_direct);
-    assert(strcmp(source->input, c->input) == 0);
+    assert(cook_source_case_input_matches(source_path, c->name, c->input));
     assert(strcmp(c->input, c->expected_payload) == 0);
     assert(cells != NULL);
 
@@ -533,17 +388,15 @@ static void verify_case(const R110Case *c, const CtManifest *ct) {
 
 static void verify_manifest(const char *path) {
     R110Manifest r110;
-    CtManifest ct;
     size_t direct_count;
 
     assert(load_r110_manifest(path, &r110));
-    assert(load_ct_manifest(r110.source_ct, &ct));
+    assert(cook_source_binary_direct_count(r110.source_ct, &direct_count));
 
-    direct_count = ct_binary_direct_count(&ct);
     assert(r110.case_count == direct_count);
 
     for (size_t i = 0; i < r110.case_count; i++) {
-        verify_case(&r110.cases[i], &ct);
+        verify_case(&r110.cases[i], r110.source_ct);
     }
 
     printf("  %s: %zu direct-carrier case(s) PASS\n",
@@ -675,15 +528,31 @@ static void verify_algo_case(FILE *f,
     free(ct_final);
 }
 
+static int parse_prefixed_text_line(const char *line,
+                                    const char *prefix,
+                                    char *out,
+                                    size_t out_cap) {
+    size_t prefix_len = strlen(prefix);
+
+    if (strncmp(line, prefix, prefix_len) != 0) return 0;
+    return copy_text_value(out, out_cap, line + prefix_len);
+}
+
 static size_t verify_algo_manifest(const char *path, int semantic) {
     FILE *f = fopen(path, "r");
     char *line = NULL;
+    char source_path[MAX_PATH];
+    char construction[64];
+    CookAppenderStats stats;
+    CookBlockString expected_right;
+    size_t expected_left_v = 0;
     size_t steps = 0;
     size_t assertions = 0;
     size_t seen = 0;
     size_t semantic_failures = 0;
     int rc;
 
+    cook_block_string_init(&expected_right);
     assert(f != NULL);
 
     rc = read_content_line_dynamic(f, &line);
@@ -692,13 +561,22 @@ static size_t verify_algo_manifest(const char *path, int semantic) {
     line = NULL;
 
     rc = read_content_line_dynamic(f, &line);
-    assert(rc == 1 && strncmp(line, "SOURCE_CT ", 10) == 0);
+    assert(rc == 1 && parse_prefixed_text_line(line,
+                                               "SOURCE_CT ",
+                                               source_path,
+                                               sizeof(source_path)));
     free(line);
     line = NULL;
+    assert(cook_scan_appendants_file(source_path, &stats, &expected_right));
+    expected_left_v = cook_left_v_from_stats(&stats);
 
     rc = read_content_line_dynamic(f, &line);
-    assert(rc == 1 &&
-           strcmp(line, "CONSTRUCTION cook_phase_exact_packet_diagnostic") == 0);
+    assert(rc == 1 && parse_prefixed_text_line(line,
+                                               "CONSTRUCTION ",
+                                               construction,
+                                               sizeof(construction)));
+    assert(strcmp(construction, "cook_phase_exact_packet_diagnostic") == 0 ||
+           strcmp(construction, "cook_topdown_symbolic_v1") == 0);
     free(line);
     line = NULL;
 
@@ -715,7 +593,15 @@ static size_t verify_algo_manifest(const char *path, int semantic) {
     line = NULL;
 
     while ((rc = read_content_line_dynamic(f, &line)) == 1) {
-        verify_algo_case(f, line, steps, semantic, &semantic_failures);
+        if (strcmp(construction, "cook_topdown_symbolic_v1") == 0) {
+            assert(strncmp(line, "RULE110_INITIAL ", 16) != 0);
+            assert(cook_read_validate_symbolic_case(f,
+                                                    line,
+                                                    expected_left_v,
+                                                    &expected_right));
+        } else {
+            verify_algo_case(f, line, steps, semantic, &semantic_failures);
+        }
         seen++;
         free(line);
         line = NULL;
@@ -725,10 +611,15 @@ static size_t verify_algo_manifest(const char *path, int semantic) {
     assert(seen == assertions);
     fclose(f);
 
-    printf("  %s: %zu Cook diagnostic case(s) PASS\n", path, seen);
+    printf("  %s: %zu Cook %s case(s) PASS\n",
+           path,
+           seen,
+           strcmp(construction, "cook_topdown_symbolic_v1") == 0 ?
+           "symbolic" : "diagnostic");
     if (semantic && semantic_failures == 0) {
         printf("  %s: %zu Cook semantic case(s) PASS\n", path, seen);
     }
+    cook_block_string_free(&expected_right);
     return semantic_failures;
 }
 

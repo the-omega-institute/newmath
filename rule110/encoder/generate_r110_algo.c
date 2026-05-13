@@ -1,3 +1,4 @@
+#include "block_assembler.h"
 #include "cook_encode.h"
 #include "cyclic_tag.h"
 #include "rule110.h"
@@ -409,19 +410,124 @@ static int write_algo_r110_manifest(const char *source_path,
     return 1;
 }
 
+static int write_symbolic_algo_r110_manifest(const char *source_path,
+                                             const char *out_path,
+                                             const AlgoManifest *m,
+                                             size_t rule110_steps) {
+    FILE *out = fopen(out_path, "w");
+    CookAppenderStats stats;
+    CookBlockString right;
+    size_t left_v;
+
+    if (out == NULL) return 0;
+    cook_block_string_init(&right);
+
+    if (!cook_count_appendants((const uint8_t *const *)m->productions,
+                               m->prod_lens,
+                               m->num_productions,
+                               &stats) ||
+        !cook_assemble_right((const uint8_t *const *)m->productions,
+                             m->prod_lens,
+                             m->num_productions,
+                             &right)) {
+        cook_block_string_free(&right);
+        fclose(out);
+        return 0;
+    }
+    left_v = cook_left_v_from_stats(&stats);
+
+    fprintf(out, "ALGO_R110_MANIFEST 1\n");
+    fprintf(out, "SOURCE_CT %s\n", source_path);
+    fprintf(out, "CONSTRUCTION cook_topdown_symbolic_v1\n");
+    fprintf(out, "EVOLUTION_STEPS %zu\n", rule110_steps);
+    fprintf(out, "ASSERTIONS %zu\n", m->case_count);
+
+    for (size_t i = 0; i < m->case_count; i++) {
+        const AlgoCase *c = &m->cases[i];
+        uint8_t *input = NULL;
+        size_t input_len = 0;
+        CookBlockString central;
+        char *central_bits = NULL;
+        size_t central_bits_len = 0;
+
+        cook_block_string_init(&central);
+        if (!parse_bits_alloc(c->input, &input, &input_len) ||
+            !cook_assemble_central_from_bits(input, input_len, &central) ||
+            !cook_central_bits_from_blocks(&central,
+                                           &central_bits,
+                                           &central_bits_len) ||
+            central_bits_len >= 100000) {
+            free(input);
+            free(central_bits);
+            cook_block_string_free(&central);
+            cook_block_string_free(&right);
+            fclose(out);
+            return 0;
+        }
+
+        fprintf(out, "case %s\n", c->name);
+        fprintf(out, "INPUT %s\n", c->input);
+        if (!cook_write_left_periodic(out, left_v)) {
+            free(input);
+            free(central_bits);
+            cook_block_string_free(&central);
+            cook_block_string_free(&right);
+            fclose(out);
+            return 0;
+        }
+        fprintf(out, "LEFT_V %zu\n", left_v);
+        fprintf(out, "CENTRAL_BLOCKS %s\n", central.data != NULL ? central.data : "");
+        fprintf(out, "CENTRAL_BITS %s\n", central_bits);
+        fprintf(out, "RIGHT_PERIODIC_BLOCKS %s\n", right.data != NULL ? right.data : "");
+        fprintf(out, "RIGHT_BLOCK_COUNT %zu\n", right.count);
+
+        free(input);
+        free(central_bits);
+        cook_block_string_free(&central);
+    }
+
+    cook_block_string_free(&right);
+    fclose(out);
+    return 1;
+}
+
 int main(int argc, char **argv) {
     AlgoManifest manifest;
     char out_path[1024];
+    const char *input_path = NULL;
+    const char *output_path = NULL;
+    const char *steps_arg = NULL;
     size_t rule110_steps = 128;
+    int bottom_up = 0;
 
-    if (argc != 2 && argc != 3 && argc != 4) {
+    if (argc < 2 || argc > 5) {
         fprintf(stderr,
-                "usage: %s <input.algo.ct> [output.algo.r110.ct] [steps]\n",
+                "usage: %s [--bottom-up] <input.algo.ct> "
+                "[output.algo.r110.ct] [steps]\n",
                 argv[0]);
         return 2;
     }
-    if (!load_manifest(argv[1], &manifest)) {
-        fprintf(stderr, "reject: failed to parse source manifest %s\n", argv[1]);
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--bottom-up") == 0) {
+            bottom_up = 1;
+        } else if (input_path == NULL) {
+            input_path = argv[i];
+        } else if (output_path == NULL) {
+            output_path = argv[i];
+        } else if (steps_arg == NULL) {
+            steps_arg = argv[i];
+        } else {
+            fprintf(stderr, "reject: too many arguments\n");
+            return 2;
+        }
+    }
+    if (input_path == NULL) {
+        fprintf(stderr, "reject: missing input manifest\n");
+        return 2;
+    }
+
+    if (!load_manifest(input_path, &manifest)) {
+        fprintf(stderr, "reject: failed to parse source manifest %s\n", input_path);
         return 1;
     }
     if (manifest.num_productions == 0) {
@@ -430,35 +536,41 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if (argc >= 3) {
-        if (!copy_text(out_path, sizeof(out_path), argv[2])) {
+    if (output_path != NULL) {
+        if (!copy_text(out_path, sizeof(out_path), output_path)) {
             fprintf(stderr, "reject: output path too long\n");
             manifest_free(&manifest);
             return 2;
         }
-    } else if (!make_output_path(argv[1], out_path, sizeof(out_path))) {
+    } else if (!make_output_path(input_path, out_path, sizeof(out_path))) {
         fprintf(stderr, "reject: input path must end in .algo.ct\n");
         manifest_free(&manifest);
         return 2;
     }
-    if (argc == 4 && !parse_size_value(argv[3], &rule110_steps)) {
+    if (steps_arg != NULL && !parse_size_value(steps_arg, &rule110_steps)) {
         fprintf(stderr, "reject: invalid steps\n");
         manifest_free(&manifest);
         return 2;
     }
 
-    if (!write_algo_r110_manifest(argv[1],
-                                  out_path,
-                                  &manifest,
-                                  rule110_steps)) {
+    if (!(bottom_up ?
+          write_algo_r110_manifest(input_path,
+                                   out_path,
+                                   &manifest,
+                                   rule110_steps) :
+          write_symbolic_algo_r110_manifest(input_path,
+                                            out_path,
+                                            &manifest,
+                                            rule110_steps))) {
         fprintf(stderr, "reject: failed to write %s\n", out_path);
         manifest_free(&manifest);
         return 1;
     }
 
-    printf("%s: generated %zu Cook diagnostic case(s), steps=%zu\n",
+    printf("%s: generated %zu Cook %s case(s), steps=%zu\n",
            out_path,
            manifest.case_count,
+           bottom_up ? "diagnostic" : "symbolic",
            rule110_steps);
     manifest_free(&manifest);
     return 0;
