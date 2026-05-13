@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveReplacementLedgerUp$}
+\label{ch:concrete-instances-effective-replacement-ledger-namecert}
+\origin{ai}
+
+The $\EffectiveReplacementLedgerUp$ interface records the finite certificate packet that realizes the three replacement directions of \autoref{sec:three-axioms-replacements}. It gathers explicit choice witnesses, classifier-respecting quotient transport, direction-indexed proposition transport, and the axiom-purity refusal row into one local $\NameCert$ surface, so later purity and boundary arguments can consume a concrete ledger rather than a schematic discipline statement.
+
+\begin{definition}[EffectiveReplacementLedger carrier]
+\label{def:effective-replacement-ledger-carrier}
+An $\EffectiveReplacementLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+E=(W,Q,T,A,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $W$ is the choice-witness row, recording countable witness functions, dependent-step witnesses along displayed $\Cont$ chains, and finite-recursion witnesses over closed inductive lists;
+\item $Q$ is the quotient-transport row, recording classifier-respecting transport through typed $\NameCert$ data without choosing a canonical representative;
+\item $T$ is the propext-transport row, recording bidirectional implication as direction-indexed $\hsame$ and $\psame$ transport rather than as a proposition-equality token;
+\item $A$ is the axiom-purity refusal row, recording that no consumer may request $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, or a host rewrite through those operations;
+\item $H$ stores componentwise $\hsame$ and $\psame$ transports for the witness, quotient, proposition, refusal, provenance, and naming rows;
+\item $C$ stores the finite $\Cont$ routes by which consumers read each replacement row and receive only its displayed output;
+\item $P$ records $\Pkg$ provenance over the ThreeAxiomsOneClosure schema, typed $\NameCert$, $\BHist$, $\hsame$, $\psame$, $\Cont$, and the axiom-purity audit surface;
+\item $N$ is the local $\NameCert_{\EffectiveReplacementLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no hidden coordinate for an unwitnessed selector, a quotient representative section, a proposition equality $P=Q$, or an ignored axiom-purity gate.
+\end{definition}
+
+\begin{theorem}[EffectiveReplacementLedger choice row]
+\label{thm:effective-replacement-ledger-choice-row}
+For every accepted carrier $E=(W,Q,T,A,H,C,P,N)$, the choice replacement surface is exactly the witness row $W$ together with the continuation routes in $C$ that expose its entries. Countable choice is read as an explicit witness function over a displayed $\mathbb{N}$-indexed family, dependent choice is read as displayed step data along a $\Cont$ chain, and finite choice is read as primitive recursion over a closed inductive list.
+\end{theorem}
+\begin{proof}
+Project the carrier to $W$ and $C$. The witness row names the three admitted forms of choice replacement, and the continuation row gives the only routes by which a consumer may read them.
+
+Each route returns a displayed witness: a function for the countable case, a step witness for the dependent case, or a finite recursive witness for the closed-list case. None of these reads supplies an oracle body outside the carrier.
+
+The refusal row $A$ blocks any request for an unwitnessed selector. Therefore the choice surface of the packet is exhausted by $W$ and its displayed routes in $C$.
+\end{proof}
+
+\begin{theorem}[EffectiveReplacementLedger quotient transport row]
+\label{thm:effective-replacement-ledger-quot-transport-row}
+For every accepted carrier $E=(W,Q,T,A,H,C,P,N)$, the quotient replacement surface is exactly the classifier-respecting transport row $Q$ together with the $\hsame$ and $\psame$ transport data in $H$. A consumer may move certified content across the displayed classifier, but it may not extract a canonical representative, a quotient section, or a host-side collapse of carrier elements.
+\end{theorem}
+\begin{proof}
+Read $Q$ as the quotient-facing coordinate of the packet. It names classifier-respecting transport through typed $\NameCert$ data and has no field for a representative-selection function.
+
+The transport row $H$ supplies the componentwise movement required to compare two certified presentations. It moves witness rows, classifier rows, provenance rows, and naming rows through displayed sameness data.
+
+If a consumer asks for a quotient representative or a type-level collapse, the request is not routed through $Q$ or $H$ and is therefore refused by $A$. Thus quotient use remains transport-only inside the finite packet.
+\end{proof}
+
+\begin{theorem}[EffectiveReplacementLedger propext transport row]
+\label{thm:effective-replacement-ledger-propext-transport-row}
+For every accepted carrier $E=(W,Q,T,A,H,C,P,N)$, the proposition-stratum replacement surface is exactly the direction-indexed transport row $T$ together with the continuation routes in $C$ and the componentwise $\hsame$ and $\psame$ rows in $H$. Bidirectional implication may be consumed in a named direction, but the carrier exports no proposition equality and no host rewrite through $P=Q$.
+\end{theorem}
+\begin{proof}
+Project the packet to $T$. This row records bidirectional implication as directed transport data, so a consumer must name which direction it reads before using the implication evidence.
+
+The route row $C$ exposes only those directed reads, and the transport row $H$ preserves them componentwise across certified presentations. Together they provide exactly the replacement behavior named in \autoref{def:three-axioms-replacement-propext}.
+
+The refusal row $A$ excludes proposition equality, propositional extensionality, and host rewrite. Since none of these is a coordinate of $E$, they cannot be exported by certificate projection.
+\end{proof}
+
+\begin{theorem}[EffectiveReplacementLedger axiom-purity boundary]
+\label{thm:effective-replacement-ledger-axiom-purity-boundary}
+For every accepted carrier $E=(W,Q,T,A,H,C,P,N)$, the axiom-purity refusal row $A$ is a boundary on the whole packet: any requested read that requires $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, an unwitnessed selector, a quotient representative section, or proposition equality is rejected rather than transported through $W$, $Q$, $T$, $H$, or $C$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The positive replacement rows are $W$, $Q$, and $T$, while $H$ and $C$ only transport and replay those displayed rows.
+
+The refusal row $A$ is attached to the same package provenance $P$ and local name $N$. It therefore constrains every public read of the packet, not merely one replacement direction.
+
+A request for one of the excluded operations has no coordinate to project and no continuation route to replay. The only available response is the refusal recorded in $A$, so the finite ledger preserves the axiom-purity boundary.
+\end{proof}
+
+\begin{theorem}[EffectiveReplacementLedger NameCert obligations]
+\label{thm:effective-replacement-ledger-namecert-obligations}
+The local $\NameCert_{\EffectiveReplacementLedgerUp}$ surface for \autoref{def:effective-replacement-ledger-carrier} consists of five finite obligations: carrier exposure for $E$, choice-witness exactness for $W$, quotient-transport exactness for $Q$, propext-transport exactness for $T$, and axiom-purity non-escape for $A$ over the shared transport, continuation, provenance, and naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection of the displayed tuple $E=(W,Q,T,A,H,C,P,N)$. The packet lists every replacement, transport, continuation, provenance, and naming row as a finite coordinate.
+
+The three exactness obligations are supplied by the row theorems above. \autoref{thm:effective-replacement-ledger-choice-row} binds $W$ to explicit witnesses, \autoref{thm:effective-replacement-ledger-quot-transport-row} binds $Q$ to classifier-respecting transport, and \autoref{thm:effective-replacement-ledger-propext-transport-row} binds $T$ to direction-indexed proposition transport.
+
+The final obligation is the non-escape boundary of \autoref{thm:effective-replacement-ledger-axiom-purity-boundary}. Repacking these rows with $H,C,P,N$ gives one finite NameCert packet whose public surface contains replacement data and refusal data, but no classical axiom dependency.
+\end{proof}
+\leanchecked{BEDC.Derived.EffectiveReplacementLedgerUp.EffectiveReplacementLedgerTasteGate\_single\_carrier\_alignment}
+
+\closureat{EffectiveReplacementLedgerUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveReplacementLedgerUp}
+  \constructivestory{An $\EffectiveReplacementLedgerUp$ packet is generated from explicit choice witnesses, classifier-respecting quotient transport, direction-indexed proposition transport, an axiom-purity refusal row, componentwise $\hsame$ and $\psame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-replacement-ledger-carrier}, \autoref{thm:effective-replacement-ledger-choice-row}, \autoref{thm:effective-replacement-ledger-quot-transport-row}, \autoref{thm:effective-replacement-ledger-propext-transport-row}, \autoref{thm:effective-replacement-ledger-axiom-purity-boundary}, and \autoref{thm:effective-replacement-ledger-namecert-obligations} bind the finite replacement carrier, its three replacement rows, the axiom-purity boundary, and local NameCert obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, general quotient construction, proposition equality, classical choice, or an executable audit implementation.}
+  \upgradepath{Obligation closure requires checked carrier admission, witness exactness, quotient transport exactness, proposition transport exactness, axiom-purity non-escape, and NameCert exactness for the same finite packet.}
+\end{closurestatus}

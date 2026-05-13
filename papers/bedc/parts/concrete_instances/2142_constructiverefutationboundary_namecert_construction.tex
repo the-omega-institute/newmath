@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveRefutationBoundaryUp$}
+\label{ch:concrete-instances-constructiverefutation-boundary-namecert}
+\origin{human}
+
+The $\ConstructiveRefutationBoundaryUp$ surface records the proof-discipline boundary of \autoref{ch:visions-reasoning-by-contradiction-boundary} as a finite NameCert packet. Its carrier separates permitted refutation routes from certificate-indexed truth branches by storing the proof rows that may be replayed, the decidability rows that license double-negation consumption, and the forbidden-branch ledger that prevents a local certificate from exporting classical contradiction principles.
+
+\begin{definition}[Constructive refutation boundary carrier]
+\label{def:reasoning-contradiction-boundary-carrier}
+A $\ConstructiveRefutationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the proposition row being inspected inside the current certificate-visible history.
+\item $R$ is the permitted refutation data: a displayed route from an assumed witness of $A$ to $\bot$ using only $\Cont$, $\hsame$, $\msame$, and the local certificate rows.
+\item $D$ is the decidability row for $A$ when such a row is present; it is the only row that permits a double-negation readback for the same proposition row.
+\item $L$ is the forbidden-branch ledger recording that existential extraction by contradiction, double-negation elimination without $D$, and excluded-middle branching over all naming certificates are unavailable to the packet.
+\item $H$ stores the componentwise $\hsame$ transports for $A$, $R$, $D$, $L$, package rows, and local naming rows.
+\item $C$ stores the displayed $\Cont$ routes for reading $A$, replaying $R$, consuming $D$ when present, and checking $L$.
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\msame$, $\hsame$, permitted proof rows, decidability rows, forbidden ledgers, and the surrounding $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ConstructiveRefutationBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no host truth predicate, no excluded-middle oracle over the carrier of all naming certificates, and no witness selector for an existential obtained only from contradiction.
+\end{definition}
+
+\begin{theorem}[Constructive refutation stability]
+\label{thm:reasoning-contradiction-permitted-refutation-stability}
+For an accepted $\ConstructiveRefutationBoundaryUp$ carrier $B=(A,R,D,L,H,C,P,N)$, every consumer read of the permitted refutation row remains a certificate-level proof of $\neg A$ after the displayed $\hsame$ transports and $\Cont$ routes are replayed. If a double-negation readback is consumed, it factors through the displayed decidability row $D$ for the same proposition row.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The refutation row $R$ is already a route from an assumed witness of $A$ to $\bot$ using only the displayed ground-loop data.
+
+Transport the proposition row and the refutation route along $H$, then replay the corresponding continuation route in $C$. The transported consumer still receives a route from a transported witness of $A$ to $\bot$, so it receives the same certificate-level negation and no ambient truth value.
+
+For double-negation readback, inspect the displayed row $D$. When $D$ is present, the readback uses the constructive branch carried by the same packet and the same proposition row. When $D$ is absent, the ledger $L$ blocks the double-negation schema named in \autoref{def:reasoning-forbidden-pattern}. Thus every permitted route remains stable inside the finite packet.
+\end{proof}
+
+\begin{theorem}[Forbidden branches do not export]
+\label{thm:reasoning-contradiction-forbidden-branch-nonexport}
+An accepted $\ConstructiveRefutationBoundaryUp$ packet cannot export a certificate-indexed truth branch. Every consumer read factors through $A,R,D,L,H,C,P,N$, and the ledger row $L$ excludes existential extraction by contradiction, double-negation elimination without the displayed decidability row, and excluded-middle branching over the carrier of all naming certificates.
+\end{theorem}
+\begin{proof}
+Carrier admission exposes only the displayed rows. A consumer may read the proposition row, the permitted refutation route, the optional decidability row, the forbidden-branch ledger, transports, continuations, package provenance, and the local naming row.
+
+Apply the ledger row $L$. Its three exclusions match the forbidden schemas of \autoref{def:reasoning-forbidden-pattern}: unwitnessed existential extraction, double-negation without a decidability row, and excluded-middle branching over all naming certificates.
+
+No row of $B$ classifies all naming certificates, selects witnesses from contradiction alone, or internalizes the host truth predicate. Therefore the consumer cannot obtain the certificate-indexed branch of \autoref{def:reasoning-certificate-indexed-truth-branch}; it remains inside the constructive refutation boundary.
+\end{proof}
+
+\closureat{ConstructiveRefutationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveRefutationBoundaryUp}
+  \constructivestory{A $\ConstructiveRefutationBoundaryUp$ packet is generated from a proposition row, permitted refutation data, an optional decidability row, a forbidden-branch ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reasoning-contradiction-boundary-carrier}, \autoref{thm:reasoning-contradiction-permitted-refutation-stability}, and \autoref{thm:reasoning-contradiction-forbidden-branch-nonexport} bind the finite proof-discipline carrier separating permitted refutation routes from certificate-indexed truth branches.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close classical excluded middle, global truth over naming certificates, witness selection from contradiction alone, or checked Lean realization.}
+  \upgradepath{Obligation closure requires Lean encoding of the packet and checked carrier, stability, ledger, and non-export obligations for the named proof-discipline surface.}
+\end{closurestatus}

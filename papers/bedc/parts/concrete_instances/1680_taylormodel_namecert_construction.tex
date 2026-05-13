@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\TaylorModelUp$}
+\label{ch:concrete-instances-taylormodel-namecert}
+\origin{human}
+
+The $\TaylorModelUp$ packet names the finite Taylor-jet enclosure method used in Berz-style and Makino--Berz validated numerics, but it records only finite BEDC rows. A packet exposes a center observation, dyadic jet coefficients, an interval or dyadic-ball remainder, an interval-arithmetic ledger, a real-name evaluation route, a validated readback certificate, package provenance, and a local naming row. It does not import host Taylor series semantics, analytic convergence, selected real limits, or quotient real equality.
+
+\begin{definition}[TaylorModel BHist carrier]
+\label{def:taylormodel-bhist-carrier}
+A $\TaylorModelUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+T=(c,J,R,I,E,V,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $c$ is a center $\RealUp$ finite observation row;
+\item $J$ is a finite jet ledger of dyadic coefficient histories, with every coefficient read through $\DyadicRatCoreUp$ and finite $\StreamNameUp$ windows;
+\item $R$ is an $\IntervalArithmeticUp$ interval row or $\DyadicBallUp$ remainder enclosure attached to the same precision window;
+\item $I$ is the $\IntervalArithmeticUp$ operation ledger recording each polynomial, interval, and remainder operation used by the enclosure;
+\item $E$ is the $\RealUp$ and $\RegSeqRatUp$ finite-window evaluation route through which consumers read the center, coefficient, and remainder rows;
+\item $V$ is the $\ValidatedNumericsUp$ readback certificate asserting that the displayed route returns an enclosure row rather than a selected host value;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\IntervalArithmeticUp$, $\DyadicBallUp$, $\ValidatedNumericsUp$, and $\NewtonIterationUp$;
+\item $N$ is the local $\NameCert_{\TaylorModelUp}$ row.
+\end{enumerate}
+Two accepted carriers are classified together only when the center row, finite jet ledger, remainder enclosure, interval-operation ledger, evaluation route, readback certificate, package row, and local naming row are transported componentwise by the displayed $\hsame$ comparisons and $\Cont$ routes.
+\end{definition}
+\leandef{BEDC.Derived.TaylorModelUp.TaylorModelCarrier}
+
+\begin{theorem}[TaylorModel NameCert obligation surface]
+\label{thm:taylormodel-namecert-obligation-surface}
+The local $\NameCert_{\TaylorModelUp}$ surface for the carrier of \autoref{def:taylormodel-bhist-carrier} consists of five rows:
+\begin{enumerate}
+\item carrier habitation by the finite packet $T=(c,J,R,I,E,V,P,N)$;
+\item classifier stability under componentwise $\hsame$ comparisons and displayed $\Cont$ routes for $c,J,R,I,E,V,P,N$;
+\item finite-jet transport through the $\DyadicRatCoreUp$ coefficient histories and their $\StreamNameUp$ windows;
+\item interval-remainder soundness through the $\IntervalArithmeticUp$ ledger and the displayed $R$ enclosure;
+\item non-escape from host Taylor series, analytic convergence, selected real limits, and quotient real equality.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.TaylorModelUp.TaylorModelJetLedger\_finite\_transport}
+\begin{proof}
+Carrier habitation is projection from \autoref{def:taylormodel-bhist-carrier}. The center, finite jet, remainder, ledger, evaluation, readback, package, and local certificate rows are visible coordinates of one finite packet.
+
+Classifier stability is componentwise. The accepted classifier may replace a displayed row only by a recorded $\hsame$ comparison or by a $\Cont$ route that reads the same row inside the same packet.
+
+The remaining rows are the coefficient transport, interval-remainder enclosure, and non-escape boundary stated below. Together they describe exactly what the local naming certificate must expose to a consumer of the finite Taylor-jet enclosure.
+\end{proof}
+
+\begin{theorem}[TaylorModel finite-jet transport]
+\label{thm:taylormodel-finite-jet-transport}
+For every accepted $\TaylorModelUp$ carrier $T=(c,J,R,I,E,V,P,N)$, every consumer-visible coefficient read factors through the finite jet ledger $J$, its displayed $\DyadicRatCoreUp$ coefficient histories, the finite $\StreamNameUp$ windows used to inspect them, the evaluation route $E$, and the componentwise $\hsame$ and $\Cont$ rows recorded by the packet classifier.
+\end{theorem}
+\begin{proof}
+Project the packet to its jet coordinate $J$. Since $J$ is finite, each coefficient requested by a consumer is one of the displayed dyadic coefficient histories rather than a term of an ambient infinite series.
+
+The consumer reaches a coefficient through the $\StreamNameUp$ window named in $J$ and through the evaluation route $E$. Transport along accepted classifiers preserves those two displayed rows by the stored $\hsame$ comparisons and $\Cont$ routes.
+
+Thus the coefficient read remains inside the finite jet ledger and cannot appeal to a host Taylor series or to an unbounded coefficient family.
+\end{proof}
+
+\begin{theorem}[TaylorModel interval-remainder soundness]
+\label{thm:taylormodel-interval-remainder-soundness}
+Every enclosure exported by an accepted $\TaylorModelUp$ carrier is bounded by the displayed remainder row $R$ and the $\IntervalArithmeticUp$ operation ledger $I$. The bound is read through the same center row $c$, finite jet ledger $J$, evaluation route $E$, and validated readback certificate $V$, and it exports no external analytic convergence theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.TaylorModelUp.TaylorModelCarrier\_interval\_remainder\_soundness}
+\begin{proof}
+Start with an exported enclosure read. The read first identifies the center row $c$ and the finite jet ledger $J$ used by the polynomial part of the packet.
+
+The remainder coordinate $R$ is then read through the interval or dyadic-ball enclosure named by the packet. The operation ledger $I$ records the finite interval-arithmetic route by which polynomial and remainder rows are combined.
+
+The validated readback row $V$ certifies that the consumer receives the displayed enclosure. Since every operation has already passed through $I$ and $R$, soundness is a statement about those finite rows and not about analytic convergence in a host real model.
+\end{proof}
+
+\begin{theorem}[TaylorModel validated consumer boundary]
+\label{thm:taylormodel-validated-consumer-boundary}
+Every $\ValidatedNumericsUp$ consumer of an accepted $\TaylorModelUp$ packet receives only the displayed center row, finite jet ledger, remainder enclosure, interval-operation ledger, $\RealUp$ and $\RegSeqRatUp$ evaluation route, readback certificate, package provenance, and local naming row. The consumer receives no host Taylor series object, no selected real limit, and no quotient real equality witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.TaylorModelUp.TaylorModelCarrier\_validated\_consumer\_boundary}
+\begin{proof}
+Read the carrier coordinates of \autoref{def:taylormodel-bhist-carrier}. The rows available to a validated-numerics consumer are exactly $c,J,R,I,E,V,P,N$.
+
+Apply \autoref{thm:taylormodel-finite-jet-transport} to every coefficient request and \autoref{thm:taylormodel-interval-remainder-soundness} to every enclosure request. These two routes account for all numeric information exposed by the packet.
+
+No remaining coordinate names a host Taylor series, an analytic radius of convergence, a selected real limit, or quotient equality of real names. The consumer boundary is therefore the finite readback surface alone.
+\end{proof}
+
+\begin{theorem}[TaylorModel seed public package]
+\label{thm:taylormodel-seed-public-package}
+The carrier of \autoref{def:taylormodel-bhist-carrier}, the NameCert surface of \autoref{thm:taylormodel-namecert-obligation-surface}, the finite-jet transport of \autoref{thm:taylormodel-finite-jet-transport}, the interval-remainder soundness of \autoref{thm:taylormodel-interval-remainder-soundness}, and the validated consumer boundary of \autoref{thm:taylormodel-validated-consumer-boundary} assemble the seed $\TaylorModelUp$ public package over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\IntervalArithmeticUp$, $\DyadicBallUp$, $\ValidatedNumericsUp$, and $\NewtonIterationUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.TaylorModelUp.TaylorModelCarrier\_seed\_public\_package}
+\begin{proof}
+Project the finite packet
+$$
+T=(c,J,R,I,E,V,P,N).
+$$
+The carrier and NameCert surface expose the rows required for a local naming certificate.
+
+The finite-jet theorem accounts for coefficient transport, and the interval-remainder theorem accounts for enclosure soundness through the displayed operation ledger. The validated consumer theorem then fixes the downstream boundary of every readback.
+
+The package provenance $P$ names exactly the dependency rows listed in the theorem statement. Hence the seed package is a finite BEDC naming certificate for Taylor-model enclosures, with no analytic object outside the displayed packet.
+\end{proof}
+
+\closureat{TaylorModelUp}{seedStr}
+
+\begin{closurestatus}{\TaylorModelUp}
+  \constructivestory{A $\TaylorModelUp$ packet is generated from a center $\RealUp$ observation row, a finite dyadic jet ledger, an interval or dyadic-ball remainder enclosure, an $\IntervalArithmeticUp$ operation ledger, a $\RealUp$ and $\RegSeqRatUp$ evaluation route, a $\ValidatedNumericsUp$ readback certificate, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, five-row NameCert obligation surface, coefficient transport, interval-remainder soundness, validated consumer boundary, and dependency package for finite Taylor-jet enclosures.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host Taylor series semantics, analytic convergence, selected real limits, quotient real equality, public Taylor-model algebra, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier habitation, classifier stability under $\hsame$ and $\Cont$, finite-jet transport, interval-remainder soundness, and non-escape for the same packet rows.}
+\end{closurestatus}

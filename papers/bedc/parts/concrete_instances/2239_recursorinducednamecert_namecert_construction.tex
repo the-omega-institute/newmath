@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\RecursorInducedNameCertUp$}
+\label{ch:concrete-instances-recursorinducednamecert-namecert}
+\origin{ai}
+
+The $\RecursorInducedNameCertUp$ surface turns a legal host-CIC recursor use into finite BEDC certificate data. It records the accepted inductive signature, the motive row, the branch package, the generated proof or definition output, the audit replay row, package provenance, and the local naming row. The packet is not an unrestricted induction principle and does not certify terms whose dependency trace reaches a forbidden host principle.
+
+\begin{definition}[Recursor-induced NameCert carrier]
+\label{def:recursor-induced-namecert-carrier}
+A $\RecursorInducedNameCertUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,M,B,O,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted inductive-signature row, naming the finite constructor family and the kernel admission event that makes the associated recursor available;
+\item $M$ is the motive row, recording the target family or target judgment selected by the recursor call;
+\item $B$ is the branch-package row, with one checked branch for each constructor exposed by $S$ and with recursive hypotheses only at the structurally smaller sites allowed by the recursor;
+\item $O$ is the generated-output row, naming the proof object, definition body, or certificate row produced by applying the recursor to $M$ and $B$;
+\item $A$ is the audit-replay row, recording kernel replay of the recursor call together with the source-axiom and forbidden-dependency checks relevant to $O$;
+\item $H$ records componentwise $\hsame$ transports for $S,M,B,O,A$, the continuation row, the package row, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the signature, motive, branch package, output, audit replay, provenance, and local certificate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, accepted inductive signatures, recursor motives, branch packages, generated outputs, audit rows, $\hsame$, $\Cont$, and local naming;
+\item $N$ is the local $\NameCert_{\RecursorInducedNameCertUp}$ row.
+\end{enumerate}
+The carrier exposes only these finite rows. In particular, it contains no free choice row, no quotient-soundness row, no propositional-extensionality row, no non-structural recursive call, and no branch for a constructor absent from the accepted signature.
+\end{definition}
+\leanchecked{BEDC.Derived.RecursorInducedNameCertUp.RecursorInducedNameCertTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[Recursor generator classifier]
+\label{def:recursor-generator-classifier}
+The $\RecursorInducedNameCertUp$ classifier compares two carriers only through their displayed signature, motive, branch, output, audit replay, transport, continuation, package, and local naming rows. A row is accepted by the classifier exactly when it is reachable from an accepted inductive signature through a kernel-accepted motive, a complete constructor-indexed branch package, a generated output row, and an audit replay row that records no forbidden-principle dependency for the generated output.
+\end{definition}
+
+\begin{theorem}[Recursor generator NameCert obligation surface]
+\label{thm:recursor-generator-namecert-obligation-surface}
+The local $\NameCert_{\RecursorInducedNameCertUp}$ surface for the carrier of \autoref{def:recursor-induced-namecert-carrier} consists of five BEDC-native obligations:
+\begin{enumerate}
+\item carrier exposure for the finite packet $R=(S,M,B,O,A,H,C,P,N)$;
+\item signature admission stating that $S$ names an accepted inductive constructor family and no constructor outside that family;
+\item branch completeness stating that $B$ supplies exactly the constructor-indexed branches required by $S$ for the motive row $M$;
+\item output exactness stating that $O$ is the generated proof, definition, or certificate row obtained from the recursor call determined by $S,M,B$;
+\item audit replay stating that $A$ replays the generated output through kernel checking, source-axiom refusal, and forbidden-dependency refusal before $N$ exports the local name.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:recursor-induced-namecert-carrier}. The rows $S,M,B,O,A,H,C,P,N$ are the only admitted coordinates of the packet.
+
+Signature admission and branch completeness are read from $S$ and $B$. The accepted signature fixes the constructor list, and the branch package has one branch for each listed constructor with recursive hypotheses only where the recursor permits them.
+
+Output exactness and audit replay are then read from $O$ and $A$. The output row is named only after the recursor call has been replayed against its motive and branch rows, and the local certificate row exports no name until the audit row records the absence of the forbidden-principle channels.
+\end{proof}
+
+\begin{theorem}[Recursor generator audit boundary]
+\label{thm:recursor-generator-audit-boundary}
+For an accepted $\RecursorInducedNameCertUp$ carrier, the audit row $A$ is the exact public boundary for trusting the generated output row $O$. A downstream consumer may read $O$ as a recursor-induced certificate only through the finite tuple consisting of the signature row, motive row, branch package, generated output row, audit replay row, componentwise transport, continuation route, package provenance, and local $\NameCert_{\RecursorInducedNameCertUp}$ row.
+
+This boundary does not assert a theorem of host-kernel completeness, semantic completeness of all possible recursor calls, or trust in any output whose reported dependency trace includes $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$.
+\end{theorem}
+\begin{proof}
+Project the audit row from the carrier. It records the replay surface attached to the generated output row, so a consumer receives the output only together with the displayed signature, motive, branch package, and audit report.
+
+Transport and continuation access are confined by $H$ and $C$. These rows can move and read the displayed packet, but they do not add host-kernel completeness or an unlisted dependency theorem.
+
+The forbidden-principle exclusions follow from the final clause of \autoref{def:recursor-generator-classifier}. A dependency trace reporting one of the listed principles lacks an accepted classifier row, so it is recorded outside the recursor-induced certificate surface rather than exported by $N$.
+\end{proof}
+
+\begin{theorem}[Recursor generator non-escape boundary]
+\label{thm:recursor-generator-non-escape-boundary}
+If two accepted $\RecursorInducedNameCertUp$ carriers agree on the displayed signature, motive, branch package, generated output, audit replay, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local naming rows, then every public consumer route sees the same recursor-induced NameCert surface. The agreement does not identify terms generated by a different inductive signature, an incomplete branch package, a non-structural recursive call, an unreported dependency chain, or a forbidden-principle proof object.
+\end{theorem}
+\begin{proof}
+Use the classifier of \autoref{def:recursor-generator-classifier}. It compares only the rows displayed by the carrier, so agreement on those rows fixes the public certificate surface.
+
+The continuation routes then replay the same reads for every downstream consumer. Since package provenance and the local naming row are part of the agreement, the consumer receives the same recursor-induced name and the same audit-facing boundary.
+
+The exclusions are immediate from the carrier inventory and classifier condition. Different signatures, missing branches, non-structural calls, unreported dependencies, and forbidden-principle proof objects have no coordinate that can be projected from an accepted packet.
+\end{proof}
+
+\closureat{RecursorInducedNameCertUp}{seedStr}
+
+\begin{closurestatus}{\RecursorInducedNameCertUp}
+  \constructivestory{A $\RecursorInducedNameCertUp$ packet is generated from an accepted inductive signature, a motive row, a complete branch package, a generated output row, an audit replay row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:recursor-induced-namecert-carrier}, \autoref{def:recursor-generator-classifier}, \autoref{thm:recursor-generator-namecert-obligation-surface}, \autoref{thm:recursor-generator-audit-boundary}, and \autoref{thm:recursor-generator-non-escape-boundary} bind recursor-produced proof and definition outputs as finite NameCert packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, bridge checking, host-kernel completeness, all possible recursor calls, non-structural recursion, or outputs depending on forbidden host principles.}
+  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for branch completeness, generated-output exactness, audit replay, and forbidden-principle non-escape.}
+\end{closurestatus}

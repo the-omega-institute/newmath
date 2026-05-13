@@ -17,24 +17,23 @@ Runtime inbox, state, raw gate output, and logs remain untracked.
 
 | Status | Count |
 | --- | ---: |
-| `blocked` | 4 |
-| `consumed` | 2 |
+| `blocked` | 3 |
+| `consumed` | 3 |
 | `evidence_only` | 3 |
 
 ## Reason Counts
 
 | Reason | Count |
 | --- | ---: |
-| `duplicate_board_title` | 2 |
+| `duplicate_board_title` | 3 |
 | `evidence_only:pipeline_status` | 3 |
-| `history_rejected:too_vague` | 1 |
 | `no_specific_board_claim` | 3 |
 
 ## Source Commits
 
 | Commit | Rows |
 | --- | ---: |
-| `1022f4eefeb5757303062f5bc7f3b4400ad2a2d4` | 9 |
+| `aecb76a5a5eed83cc6bdbb981b51ebfb58dd695f` | 9 |
 
 ## Production Discipline
 

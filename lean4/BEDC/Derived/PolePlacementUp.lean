@@ -30,9 +30,9 @@ def PolePlacementCarrier [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory transition ∧
     UnaryHistory inputMatrix ∧ UnaryHistory gain ∧ UnaryHistory target ∧
-      UnaryHistory provenance ∧ UnaryHistory boundary ∧ Cont transition gain closedLoop ∧
-        Cont closedLoop target comparison ∧ Cont comparison transport routes ∧
-          PkgSig bundle provenance pkg
+      UnaryHistory transport ∧ UnaryHistory provenance ∧ UnaryHistory boundary ∧
+        Cont transition gain closedLoop ∧ Cont closedLoop target comparison ∧
+          Cont comparison transport routes ∧ PkgSig bundle provenance pkg
 
 theorem PolePlacementSourcePacket_closed_loop_ledger [AskSetup] [PackageSetup]
     {state input transition inputMatrix gain feedbackProduct closedLoop target comparison
@@ -73,7 +73,7 @@ theorem PolePlacementCarrier_closed_loop_ledger [AskSetup] [PackageSetup]
               PkgSig bundle provenance pkg := by
   intro carrier
   obtain ⟨stateUnary, inputUnary, transitionUnary, inputMatrixUnary, gainUnary, targetUnary,
-    provenanceUnary, _boundaryUnary, closedLoopRoute, comparisonRoute, _routesRoute,
+    _transportUnary, provenanceUnary, _boundaryUnary, closedLoopRoute, comparisonRoute, _routesRoute,
     provenancePkg⟩ := carrier
   have closedLoopUnary : UnaryHistory closedLoop :=
     unary_cont_closed transitionUnary gainUnary closedLoopRoute
@@ -147,5 +147,74 @@ theorem PolePlacementSourcePacket_namecert_obligation_surface [AskSetup] [Packag
   exact
     ⟨feedbackUnary, closedLoopUnary, comparisonUnary, feedbackRow, closedLoopRow,
       comparisonRow, provenanceRow, provenanceSig⟩
+
+theorem PolePlacementCarrier_public_consumer_export [AskSetup] [PackageSetup]
+    {state input transition inputMatrix gain closedLoop target comparison transport routes
+      provenance boundary publicExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolePlacementCarrier state input transition inputMatrix gain closedLoop target comparison
+        transport routes provenance boundary bundle pkg ->
+      Cont routes provenance publicExport ->
+        PkgSig bundle publicExport pkg ->
+          UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory transition ∧
+            UnaryHistory inputMatrix ∧ UnaryHistory gain ∧ UnaryHistory closedLoop ∧
+              UnaryHistory target ∧ UnaryHistory comparison ∧ UnaryHistory routes ∧
+                UnaryHistory publicExport ∧ Cont transition gain closedLoop ∧
+                  Cont closedLoop target comparison ∧ Cont comparison transport routes ∧
+                    Cont routes provenance publicExport ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle publicExport pkg := by
+  intro carrier publicExportRow publicExportSig
+  obtain ⟨stateUnary, inputUnary, transitionUnary, inputMatrixUnary, gainUnary, targetUnary,
+    transportUnary, provenanceUnary, _boundaryUnary, closedLoopRow, comparisonRow, routesRow,
+    provenanceSig⟩ := carrier
+  have closedLoopUnary : UnaryHistory closedLoop :=
+    unary_cont_closed transitionUnary gainUnary closedLoopRow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed closedLoopUnary targetUnary comparisonRow
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed comparisonUnary transportUnary routesRow
+  have publicExportUnary : UnaryHistory publicExport :=
+    unary_cont_closed routesUnary provenanceUnary publicExportRow
+  exact
+    ⟨stateUnary, inputUnary, transitionUnary, inputMatrixUnary, gainUnary, closedLoopUnary,
+      targetUnary, comparisonUnary, routesUnary, publicExportUnary, closedLoopRow,
+      comparisonRow, routesRow, publicExportRow, provenanceSig, publicExportSig⟩
+
+theorem PolePlacementSourcePacket_standard_finite_bridge [AskSetup] [PackageSetup]
+    {state input transition inputMatrix gain feedbackProduct closedLoop target comparison
+      provenance boundary bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolePlacementSourcePacket state input transition inputMatrix gain feedbackProduct closedLoop
+        target comparison provenance boundary bundle pkg ->
+      Cont provenance boundary bridgeRead ->
+        PkgSig bundle bridgeRead pkg ->
+          UnaryHistory state ∧ UnaryHistory input ∧ UnaryHistory transition ∧
+            UnaryHistory inputMatrix ∧ UnaryHistory gain ∧ UnaryHistory feedbackProduct ∧
+              UnaryHistory closedLoop ∧ UnaryHistory target ∧ UnaryHistory comparison ∧
+                UnaryHistory provenance ∧ UnaryHistory bridgeRead ∧
+                  Cont inputMatrix gain feedbackProduct ∧
+                    Cont transition feedbackProduct closedLoop ∧
+                      Cont closedLoop target comparison ∧ Cont comparison boundary provenance ∧
+                        Cont provenance boundary bridgeRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle bridgeRead pkg := by
+  intro packet provenanceBoundaryBridge bridgeReadPkg
+  obtain ⟨stateUnary, inputUnary, transitionUnary, inputMatrixUnary, gainUnary, targetUnary,
+    boundaryUnary, feedbackRow, closedLoopRow, comparisonRow, provenanceRow,
+    provenancePkg⟩ := packet
+  have feedbackUnary : UnaryHistory feedbackProduct :=
+    unary_cont_closed inputMatrixUnary gainUnary feedbackRow
+  have closedLoopUnary : UnaryHistory closedLoop :=
+    unary_cont_closed transitionUnary feedbackUnary closedLoopRow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed closedLoopUnary targetUnary comparisonRow
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed comparisonUnary boundaryUnary provenanceRow
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed provenanceUnary boundaryUnary provenanceBoundaryBridge
+  exact
+    ⟨stateUnary, inputUnary, transitionUnary, inputMatrixUnary, gainUnary, feedbackUnary,
+      closedLoopUnary, targetUnary, comparisonUnary, provenanceUnary, bridgeReadUnary,
+      feedbackRow, closedLoopRow, comparisonRow, provenanceRow, provenanceBoundaryBridge,
+      provenancePkg, bridgeReadPkg⟩
 
 end BEDC.Derived.PolePlacementUp

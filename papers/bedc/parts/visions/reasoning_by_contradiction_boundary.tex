@@ -60,6 +60,8 @@ A refutation pattern is permitted in BEDC if and only if its derivation factors 
 Forward: \autoref{def:reasoning-permitted-pattern} restricts the derivation primitives to those of the kernel together with a fixed certificate, and these primitives are exactly the closed ground loop's data. Backward: a derivation that stays in the ground loop produces only certificate-level consequences supported by their constructors, hence avoids the meta-closure characterised by \autoref{thm:reasoning-forbidden-implements-meta-closure}.
 \end{proof}
 
+\concretizedIn{ch:concrete-instances-witnessedrefutation-namecert}{Witnessed refutation packages the permitted contradiction boundary as explicit Hist-level evidence.}
+
 \begin{remark}[Sibling instance: halting]
 \label{rem:reasoning-halting-sibling}
 The same boundary, applied to the predicate ``the continuation chain from $h$ in $\NameCert_P$ terminates'', produces the halting obstruction of \autoref{thm:halting-as-form-of-distinction-fixed-point}. Halting decidability is the canonical instance of the third forbidden pattern: a $\NameCert$-level decision for a predicate over the carrier of all naming certificates. The catalogues of \autoref{def:reasoning-permitted-pattern} and \autoref{def:reasoning-forbidden-pattern} therefore unify the proof discipline of the kernel with the halting result of the operational-semantics capstone.
@@ -69,6 +71,14 @@ The same boundary, applied to the predicate ``the continuation chain from $h$ in
 \label{rem:reasoning-three-axioms-sibling}
 The chapter is also the discipline-side complement of \autoref{ch:visions-three-axioms-one-closure}: the three axioms classified there as ``unwitnessed-$\exists$ acceptance'' instantiate the first forbidden pattern at the term, type, and proposition layers respectively. Refusing the forbidden patterns at the proof level and refusing the three axioms at the foundation level are two faces of the same refusal of meta closure.
 \end{remark}
+\concretizedIn{ch:concrete-instances-decidablerefutation-namecert}{The permitted and forbidden contradiction boundary is realized as a finite $\DecidableRefutationUp$ NameCert surface.}
+\concretizedIn{ch:concrete-instances-refutationwitness-namecert}{A finite NameCert packet records constructive refutation as an assumption-to-bottom route without exporting certificate-indexed truth branches.}
+\concretizedIn{ch:concrete-instances-stable-negation-boundary-namecert}{Stable negation is represented as a finite NameCert boundary separating permitted refutations from certificate-wide truth branches.}
+\concretizedIn{ch:concrete-instances-refutationboundary-namecert}{finite NameCert carrier for permitted refutation routes and forbidden truth-branch exclusion}
+\concretizedIn{ch:concrete-instances-constructiverefutation-namecert}{Permitted refutations are realized as finite $\ConstructiveRefutationUp$ contradiction-route packets, while forbidden truth branches have no carrier coordinate.}
+\concretizedIn{ch:concrete-instances-constructiverefutation-boundary-namecert}{Constructive refutation boundaries are realized as finite $\BHist$ proof-discipline packets separating permitted negation routes from certificate-indexed truth branches.}
+\concretizedIn{ch:concrete-instances-refutertrace-namecert}{The $\RefuterTraceUp$ certificate realizes the permitted-refutation side of the contradiction boundary as finite $\BHist$ trace data.}
+\concretizedIn{ch:concrete-instances-decidable-refutation-boundary-namecert}{Concrete finite-row NameCert for the permitted contradiction boundary.}
 
 \begin{definition}[Certificate-indexed truth branch]
 \label{def:reasoning-certificate-indexed-truth-branch}
@@ -118,3 +128,6 @@ For the excluded-middle schema over $\mathcal C$, the instance at $N$ and $Q$ is
 
 Thus each of the three schemas supplies $Q(N)\vee\neg Q(N)$. Since $N$ was arbitrary, each supplies the family $\mathsf{Branch}_Q$ of \autoref{def:reasoning-certificate-indexed-truth-branch}. When $Q$ ranges over certificate-level statements represented by $\mathcal C$, this family is a $\NameCert$-level truth-predicate fragment. By \autoref{rem:reflection-tarski-undefinability}, such a fragment is precisely what BEDC's self-description cannot internalize as its own truth predicate; by \autoref{thm:two-loops}, keeping that layer open is the consistency side of the two-loops boundary. Therefore uniformly admitting any forbidden schema implements meta closure.
 \end{proof}
+
+\concretizedIn{ch:concrete-instances-groundrefutation-namecert}{GroundRefutationUp realizes the permitted refutation branch as a finite NameCert packet.}
+\concretizedIn{ch:concrete-instances-finiterefutationboundary-namecert}{The reasoning-by-contradiction boundary is realized as a finite NameCert packet for ground-loop refutation routes and meta-escape exclusions.}

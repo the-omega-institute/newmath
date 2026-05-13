@@ -1,0 +1,122 @@
+\chapter{A Concrete Naming Certificate for $\ClassifierBoundaryUp$}
+\label{ch:concrete-instances-classifierboundary-namecert}
+\origin{human}
+
+The $\ClassifierBoundaryUp$ surface realizes the type-checking boundary of \autoref{ch:visions-type-checking-as-classifier-membership} as a finite NameCert packet. It records accepted $\Ext$-membership rows, refused non-member rows, $\Cont$ preservation routes, $\mathsf{SigRel}$ readback, package provenance, and local naming, while keeping host-language typing judgments and unrecorded semantic models outside the packet.
+
+\begin{definition}[Classifier-boundary carrier]
+\label{def:classifier-boundary-carrier}
+A $\ClassifierBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,A,R,T,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source row of candidate histories whose membership is inspected by the classifier;
+\item $A$ is the accepted boundary row, listing exactly the displayed histories admitted by the $\Ext$ classifier;
+\item $R$ is the refused boundary row, listing exactly the displayed histories for which the packet exposes a finite non-member refusal row;
+\item $T$ is the $\Cont$ preservation row, recording that every admitted source route followed by a displayed continuation remains in the accepted boundary;
+\item $G$ is the $\mathsf{SigRel}$ readback row, exposing the signature-level classifier read used by downstream type-certificate and compiler-morphism consumers;
+\item $H$ stores componentwise $\hsame$ transports for the source, accepted, refused, preservation, readback, package, and naming rows;
+\item $C$ stores the displayed $\Cont$ routes by which consumers read source histories, accepted rows, refused rows, preservation rows, readback rows, provenance, and local naming;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClassifierBoundaryUp}$ row.
+\end{enumerate}
+The local classifier relates two packets exactly when their displayed source, accepted, refused, preservation, readback, transport, route, provenance, and naming rows compare through $H$ and $C$. The carrier contains no host type checker, no external semantic model, no hidden proof search oracle, and no quotient of histories.
+\end{definition}
+
+\begin{theorem}[ClassifierBoundary NameCert obligations]
+\label{thm:classifier-boundary-namecert-obligations}
+The local $\NameCert_{\ClassifierBoundaryUp}$ surface for \autoref{def:classifier-boundary-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item accepted $\Ext$-membership exposure, requiring every accepted consumer read to be one of the displayed rows of $A$ reached from $S$;
+\item refused non-member exposure, requiring every refused consumer read to be one of the displayed rows of $R$ and not a hidden semantic rejection;
+\item $\Cont$ preservation, requiring a displayed continuation from an accepted row to land again in the accepted boundary through $T$;
+\item $\mathsf{SigRel}$ readback, requiring downstream consumers to read the public classifier signature only through the row $G$ and its routes in $C$;
+\item NameCert provenance, requiring all accepted, refused, preservation, and readback rows to remain under the package row $P$ and the local naming row $N$.
+\end{enumerate}
+Consequently the packet gives a concrete public boundary for classifier membership: accepted histories, refused histories, continuation preservation, signature readback, and provenance are all finite $\BHist$ rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from $B=(S,A,R,T,G,H,C,P,N)$. The accepted and refused sides are both visible packet rows, so membership and refusal are boundary data rather than host-side judgments.
+
+For accepted reads, use the route from $S$ to $A$ recorded in $C$. For refused reads, use the route from $S$ to $R$ recorded in the same continuation ledger. These two rows exhaust the membership decision surface exposed by the packet.
+
+Preservation is then read through $T$. A consumer that starts from an accepted row and follows a displayed continuation has no route except the one listed in $T$, and the resulting accepted row is again transported through $H$ and read through $C$.
+
+Finally read the signature-level view through $G$ and package it through $P$ and $N$. Since no coordinate of the carrier is a host checker, external semantic model, hidden proof search oracle, or quotient of histories, the local NameCert surface cannot export such data.
+\end{proof}
+
+\begin{theorem}[ClassifierBoundary public boundary]
+\label{thm:classifier-boundary-public-boundary}
+Every public consumer of an accepted $\ClassifierBoundaryUp$ packet factors through the displayed rows $S,A,R,T,G,H,C,P,N$. Accepted membership reads use $A$, refused non-member reads use $R$, subject-reduction-style reads use $T$, signature readback uses $G$, and all routes preserve their provenance through $P$ and $N$.
+\end{theorem}
+\begin{proof}
+Split the consumer request by the row it asks to read. Accepted membership reaches $A$ from $S$, while refused non-membership reaches $R$ from $S$.
+
+Continuation preservation reaches $T$ only after the accepted row has been displayed. Thus the boundary uses the same finite source and accepted rows for both type-checking membership and subject-reduction-style continuation.
+
+Signature readback reaches $G$, and provenance reaches $P$ and $N$. These rows exhaust the carrier, so no consumer can bypass the finite packet to obtain a host type checker or an external semantic model.
+\end{proof}
+
+\begin{theorem}[ClassifierBoundary scoped dependency route]
+\label{thm:classifier-boundary-scoped-dependency-route}
+For an accepted $\ClassifierBoundaryUp$ carrier
+$$
+B=(S,A,R,T,G,H,C,P,N),
+$$
+the accepted-membership route, refused non-member route, and continuation-preservation route all factor through the displayed rows $S,A,R,T,G,H,C,P,N$. The dependency scope is exactly the finite $\BHist$ rows, the $\Ext$ classifier rows, displayed $\Cont$ routes, $\mathsf{SigRel}$ readback, componentwise $\hsame$ transports, $\Pkg$ provenance, and the local $\NameCert$ row; it contains no host type checking, external semantic model, proof-search oracle, or quotient history.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:classifier-boundary-carrier}. The rows $S,A,R,T$ are the only coordinates that expose candidate histories, accepted boundary rows, refused boundary rows, and continuation preservation.
+
+Use the NameCert obligations of \autoref{thm:classifier-boundary-namecert-obligations}. Accepted reads are required to pass from $S$ to $A$, refused reads from $S$ to $R$, and displayed continuation preservation through $T$.
+
+Finally use the public boundary of \autoref{thm:classifier-boundary-public-boundary}. The consumer still reads transports, routes, provenance, and local naming only through $H,C,P,N$, while signature readback remains the row $G$. Since the carrier has no coordinate for host type checking, external semantic models, proof-search oracles, or quotient histories, none of those objects lies in the scoped dependency route.
+\end{proof}
+
+\begin{theorem}[ClassifierBoundary signature consumer determinacy]
+\label{thm:classifier-boundary-sigrel-consumer-determinacy}
+For an accepted $\ClassifierBoundaryUp$ carrier
+$$
+B=(S,A,R,T,G,H,C,P,N),
+$$
+every consumer-visible $\mathsf{SigRel}$ readback is determined by the displayed row $G$ together with its $\hsame$ transports in $H$, $\Cont$ read routes in $C$, $\Pkg$ provenance in $P$, and local $\NameCert$ row $N$. Thus two consumers with the same finite $\BHist$ source, accepted row, refused row, continuation row, signature row, transport row, route row, package row, and naming row receive the same public classifier signature, with no host type checking, external semantic model, proof-search oracle, or quotient history supplying another readback.
+\end{theorem}
+\begin{proof}
+Project $B=(S,A,R,T,G,H,C,P,N)$ and isolate the signature coordinate. The carrier definition makes $G$ the displayed $\mathsf{SigRel}$ readback row and gives no second coordinate for classifier-signature output.
+
+Invoke \autoref{thm:classifier-boundary-namecert-obligations}. Its readback obligation requires downstream consumers to read the public classifier signature only through $G$ and the routes stored in $C$, under the package and naming rows $P,N$.
+
+Now apply \autoref{thm:classifier-boundary-public-boundary}. Every public consumer factors through the same displayed rows, so agreeing rows force the same readback surface. The excluded host checker, semantic model, proof-search oracle, and quotient-history data are not carrier coordinates and cannot determine a second signature.
+\end{proof}
+
+\begin{theorem}[ClassifierBoundary Ext and Cont preservation scope]
+\label{thm:classifier-boundary-ext-cont-preservation-scope}
+For an accepted $\ClassifierBoundaryUp$ carrier
+$$
+B=(S,A,R,T,G,H,C,P,N),
+$$
+the $\Ext$ membership surface and the $\Cont$ preservation surface are preserved exactly within the displayed dependency scope over $\BHist$, $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$. Accepted membership is read through $A$, refused membership through $R$, preservation through $T$, signature readback through $G$, and all transported consumer access through $H,C,P,N$; no host type checking, external semantic model, proof-search oracle, or quotient history enlarges the scope.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The $\Ext$ data are the source, accepted, and refused rows $S,A,R$, while the preservation data are the displayed continuation rows in $T$.
+
+Use \autoref{thm:classifier-boundary-namecert-obligations} to bind the local obligations. It requires accepted exposure, refused exposure, continuation preservation, signature readback, and provenance to remain under the finite NameCert surface.
+
+The public-boundary theorem \autoref{thm:classifier-boundary-public-boundary} then gives the consumer factorization through $S,A,R,T,G,H,C,P,N$. Because the carrier omits host type checking, external semantic models, proof-search oracles, and quotient histories, preservation stays inside the stated BEDC primitives.
+\end{proof}
+
+\closureat{ClassifierBoundaryUp}{seedStr}
+\closureat{ClassifierBoundaryUp}{obligationStr}
+
+\begin{closurestatus}{\ClassifierBoundaryUp}
+  \constructivestory{A $\ClassifierBoundaryUp$ packet is generated from source histories, accepted $\Ext$ rows, refused non-member rows, $\Cont$ preservation rows, $\mathsf{SigRel}$ readback, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:classifier-boundary-carrier}, \autoref{thm:classifier-boundary-namecert-obligations}, and \autoref{thm:classifier-boundary-public-boundary} bind the finite classifier-boundary NameCert surface for accepted membership, refused non-membership, continuation preservation, readback, and provenance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean implementation, bridge status, host type checking, external semantic models, hidden proof search, quotient histories, or compiler morphism preservation.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for NameCert obligations and the public boundary.}
+\end{closurestatus}

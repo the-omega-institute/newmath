@@ -28,6 +28,19 @@ STRUCTURAL_TITLE_RE = re.compile(
     r"^\s*\\(?:label|begin|chapter|section|subsection|input|include)\b",
     re.IGNORECASE,
 )
+EXTERNAL_SIGNAL_RE = re.compile(
+    r"Automath|automath|Bridge continuation target|Automath continuation|"
+    r"bridge_consumption_mode|review_packets?|discovery_report|"
+    r"external theorem signal|source theorem signal",
+    re.IGNORECASE,
+)
+LANDING_KINDS = {
+    "existing_chapter_lemma",
+    "existing_chapter_obligation",
+    "existing_chapter_ledger_row",
+    "new_chapter",
+    "reject",
+}
 LABEL_SLUG_RE = re.compile(r"[^a-z0-9]+")
 LITERAL_LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
 STANDARD_LABEL_PREFIXES = ("sec", "subsec", "fact", "obs", "rmk", "thm", "lem", "prop", "cor", "def", "eq")
@@ -258,6 +271,27 @@ def _rejection_reason(
         return "claim_too_short"
     if FORBIDDEN_AXIS_RE.search(" ".join([title, claim, rationale])):
         return "forbidden_axis_or_marker_candidate"
+    landing_kind = str(candidate.get("landing_kind") or "").strip()
+    haystack = " ".join([title, claim, rationale, str(candidate.get("chapter_worthiness") or "")])
+    if EXTERNAL_SIGNAL_RE.search(haystack):
+        if not landing_kind:
+            if source in {"codex", "oracle"}:
+                landing_kind = "pending_judge_classification"
+            else:
+                return "external_signal_missing_landing_kind"
+        if landing_kind != "pending_judge_classification" and landing_kind not in LANDING_KINDS:
+            return f"external_signal_invalid_landing_kind:{landing_kind}"
+        if landing_kind == "reject":
+            return "external_signal_landing_reject"
+        if landing_kind == "new_chapter":
+            worthiness = str(candidate.get("chapter_worthiness") or "").strip()
+            required = ("carrier", "classifier", "NameCert", "dependency", "downstream", "existing chapter")
+            if len(worthiness) < 240 or any(term.lower() not in worthiness.lower() for term in required):
+                return "external_signal_missing_chapter_worthiness"
+            if inputs and any(p in {"papers/bedc/main.tex", "papers/bedc/preamble.tex"} for p in inputs):
+                return "external_signal_new_chapter_not_allowed_on_board"
+        elif any(p in {"papers/bedc/main.tex", "papers/bedc/preamble.tex"} for p in inputs):
+            return "external_signal_existing_landing_main_or_preamble"
     if _score(candidate, "fit_score") < fit_threshold:
         return f"below_fit_threshold:{_score(candidate, 'fit_score')}"
     if _score(candidate, "novelty") < novelty_threshold:

@@ -82,6 +82,63 @@ theorem RegularityModulusDyadicWindowCarrier_window_monotonicity [AskSetup] [Pac
                   hsame provenance provenance' :=
     RegularityModulusPacket_window_monotonicity
 
+theorem RegularityModulusPacket_transport_ledger_obligations [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow precision' modulus' window'
+      transport' ledger' provenance' nameRow' commonWindow commonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      hsame precision precision' ->
+        hsame modulus modulus' ->
+          hsame window window' ->
+            hsame nameRow nameRow' ->
+              Cont precision' window' transport' ->
+                Cont transport' modulus' ledger' ->
+                  Cont ledger' nameRow' provenance' ->
+                    Cont window' provenance' commonWindow ->
+                      Cont commonWindow modulus' commonRead ->
+                        PkgSig bundle provenance' pkg ->
+                          PkgSig bundle commonRead pkg ->
+                            RegularityModulusPacket precision' modulus' window' transport'
+                                ledger' provenance' nameRow' bundle pkg ∧
+                              UnaryHistory commonWindow ∧ UnaryHistory commonRead ∧
+                                hsame transport transport' ∧ hsame ledger ledger' ∧
+                                  hsame provenance provenance' ∧
+                                    Cont window' provenance' commonWindow ∧
+                                      Cont commonWindow modulus' commonRead ∧
+                                        PkgSig bundle commonRead pkg := by
+  intro packet samePrecision sameModulus sameWindow sameNameRow transportRow' ledgerRow'
+    provenanceRow' commonWindowRow commonReadRow provenancePkg' commonReadPkg
+  have transported :=
+    RegularityModulusPacket_window_monotonicity packet samePrecision sameModulus sameWindow
+      sameNameRow transportRow' ledgerRow' provenanceRow' provenancePkg'
+  have transportedPacket :
+      RegularityModulusPacket precision' modulus' window' transport' ledger' provenance'
+          nameRow' bundle pkg :=
+    transported.left
+  have sameTransport : hsame transport transport' :=
+    transported.right.left
+  have sameLedger : hsame ledger ledger' :=
+    transported.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    transported.right.right.right
+  obtain ⟨_precisionUnary', modulusUnary', windowUnary', _nameRowUnary', _transportRow',
+    _ledgerRow', _provenanceRow', _provenancePkg'⟩ := transportedPacket
+  have transportUnary' : UnaryHistory transport' :=
+    unary_cont_closed (unary_transport packet.left samePrecision) windowUnary' transportRow'
+  have ledgerUnary' : UnaryHistory ledger' :=
+    unary_cont_closed transportUnary' modulusUnary' ledgerRow'
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_cont_closed ledgerUnary' (unary_transport packet.right.right.right.left sameNameRow)
+      provenanceRow'
+  have commonWindowUnary : UnaryHistory commonWindow :=
+    unary_cont_closed windowUnary' provenanceUnary' commonWindowRow
+  have commonReadUnary : UnaryHistory commonRead :=
+    unary_cont_closed commonWindowUnary modulusUnary' commonReadRow
+  exact
+    ⟨transported.left, commonWindowUnary, commonReadUnary, sameTransport, sameLedger,
+      sameProvenance, commonWindowRow, commonReadRow, commonReadPkg⟩
+
 theorem RegularityModulusPacket_common_window_exactness [AskSetup] [PackageSetup]
     {precision modulus window transport ledger provenance nameRow precision' modulus' window'
       transport' ledger' provenance' nameRow' : BHist}
@@ -143,6 +200,43 @@ theorem RegularityModulusPacket_regseqrat_consumption_boundary [AskSetup] [Packa
   exact
     ⟨precisionUnary, modulusUnary, windowUnary, provenanceUnary, consumerUnary, transportRow,
       provenanceRow, consumerRow, provenancePkg, consumerPkg⟩
+
+theorem RegularityModulusPacket_regseqrat_real_consumer_obligations [AskSetup]
+    [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow regseqConsumer realSeal :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      Cont window provenance regseqConsumer ->
+        Cont provenance nameRow realSeal ->
+          PkgSig bundle regseqConsumer pkg ->
+            PkgSig bundle realSeal pkg ->
+              UnaryHistory precision ∧ UnaryHistory modulus ∧ UnaryHistory window ∧
+                UnaryHistory ledger ∧ UnaryHistory provenance ∧ UnaryHistory regseqConsumer ∧
+                  UnaryHistory realSeal ∧ Cont precision window transport ∧
+                    Cont transport modulus ledger ∧ Cont ledger nameRow provenance ∧
+                      Cont window provenance regseqConsumer ∧
+                        Cont provenance nameRow realSeal ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle regseqConsumer pkg ∧ PkgSig bundle realSeal pkg := by
+  intro packet regseqConsumerRow realSealRow regseqConsumerPkg realSealPkg
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  have regseqConsumerUnary : UnaryHistory regseqConsumer :=
+    unary_cont_closed windowUnary provenanceUnary regseqConsumerRow
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed provenanceUnary nameRowUnary realSealRow
+  exact
+    ⟨precisionUnary, modulusUnary, windowUnary, ledgerUnary, provenanceUnary,
+      regseqConsumerUnary, realSealUnary, precisionWindowTransport, transportModulusLedger,
+      ledgerNameProvenance, regseqConsumerRow, realSealRow, provenancePkg, regseqConsumerPkg,
+      realSealPkg⟩
 
 theorem RegularityModulusPacket_dyadic_window_exactness [AskSetup] [PackageSetup]
     {precision modulus window transport ledger provenance nameRow : BHist}
@@ -217,6 +311,70 @@ theorem RegularityModulusPacket_shared_rate_consumer_exhaustion [AskSetup] [Pack
     ⟨precisionUnary, modulusUnary, windowUnary, transportUnary, ledgerUnary, provenanceUnary,
       consumerUnary, consumerUnary', precisionWindowTransport, transportModulusLedger,
       ledgerNameProvenance, consumerRow, consumerNameRow, provenancePkg, consumerPkg⟩
+
+theorem RegularityModulusPacket_standard_rate_bridge [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow consumer consumerTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      Cont window provenance consumer ->
+        Cont consumer nameRow consumerTail ->
+          PkgSig bundle consumerTail pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row consumerTail ∧
+                RegularityModulusPacket precision modulus window transport ledger provenance
+                  nameRow bundle pkg ∧
+                  PkgSig bundle consumerTail pkg)
+              (fun row : BHist => UnaryHistory precision ∧ UnaryHistory modulus ∧
+                UnaryHistory window ∧ Cont window provenance consumer ∧
+                  Cont consumer nameRow row)
+              (fun _row : BHist => PkgSig bundle consumerTail pkg ∧
+                Cont precision window transport ∧ Cont transport modulus ledger)
+              hsame := by
+  intro packet windowProvenanceConsumer consumerNameRow consumerTailPkg
+  have exhausted :
+      UnaryHistory precision ∧ UnaryHistory modulus ∧ UnaryHistory window ∧
+        UnaryHistory transport ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+          UnaryHistory consumer ∧ UnaryHistory consumerTail ∧
+            Cont precision window transport ∧ Cont transport modulus ledger ∧
+              Cont ledger nameRow provenance ∧ Cont window provenance consumer ∧
+                Cont consumer nameRow consumerTail ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumerTail pkg :=
+    RegularityModulusPacket_shared_rate_consumer_exhaustion
+      packet windowProvenanceConsumer consumerNameRow consumerTailPkg
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerTail ⟨hsame_refl consumerTail, packet, consumerTailPkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact
+        ⟨exhausted.left, exhausted.right.left, exhausted.right.right.left,
+          exhausted.right.right.right.right.right.right.right.right.right.right.right.left,
+          exhausted.right.right.right.right.right.right.right.right.right.right.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      cases sourceRow.left
+      exact
+        ⟨sourceRow.right.right,
+          exhausted.right.right.right.right.right.right.right.right.left,
+          exhausted.right.right.right.right.right.right.right.right.right.left⟩
+  }
 
 theorem RegularityModulusPacket_mature_rate_consumer_completeness [AskSetup] [PackageSetup]
     {precision modulus window transport ledger provenance nameRow consumer consumerTail
@@ -318,5 +476,113 @@ theorem RegularityModulusPacket_scheduled_tail_closure [AskSetup] [PackageSetup]
       intro _row sourceRow
       exact ⟨sourceRow.right.right, ledgerNameProvenance⟩
   }
+
+theorem RegularityModulusPacket_carrier_classifier_obligations [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist => hsame row provenance ∧ UnaryHistory row ∧
+          PkgSig bundle row pkg)
+        (fun row : BHist => UnaryHistory precision ∧ UnaryHistory modulus ∧
+          UnaryHistory window ∧ Cont ledger nameRow row)
+        (fun row : BHist => PkgSig bundle row pkg ∧ Cont precision window transport ∧
+          Cont transport modulus ledger)
+        (fun row row' : BHist => hsame row row') := by
+  intro packet
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro provenance ⟨hsame_refl provenance, provenanceUnary, provenancePkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨precisionUnary, modulusUnary, windowUnary,
+          cont_result_hsame_transport ledgerNameProvenance (hsame_symm sourceRow.left)⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, precisionWindowTransport, transportModulusLedger⟩
+  }
+
+theorem RegularityModulusPacket_dyadicmesh_window_factorization [AskSetup] [PackageSetup]
+    {precision modulus window transport ledger provenance nameRow meshLevel meshCell interval
+      endpoint radius orderLedger meshRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularityModulusPacket precision modulus window transport ledger provenance nameRow
+        bundle pkg ->
+      UnaryHistory meshLevel ->
+        UnaryHistory meshCell ->
+          UnaryHistory endpoint ->
+            UnaryHistory orderLedger ->
+              Cont meshLevel meshCell interval ->
+                Cont interval endpoint radius ->
+                  Cont radius orderLedger meshRead ->
+                    Cont window provenance consumer ->
+                      PkgSig bundle meshRead pkg ->
+                        PkgSig bundle consumer pkg ->
+                          UnaryHistory precision ∧ UnaryHistory modulus ∧
+                            UnaryHistory window ∧ UnaryHistory transport ∧
+                              UnaryHistory ledger ∧ UnaryHistory provenance ∧
+                                UnaryHistory meshLevel ∧ UnaryHistory meshCell ∧
+                                  UnaryHistory interval ∧ UnaryHistory radius ∧
+                                    UnaryHistory meshRead ∧ UnaryHistory consumer ∧
+                                      Cont precision window transport ∧
+                                        Cont transport modulus ledger ∧
+                                          Cont ledger nameRow provenance ∧
+                                            Cont meshLevel meshCell interval ∧
+                                              Cont interval endpoint radius ∧
+                                                Cont radius orderLedger meshRead ∧
+                                                  Cont window provenance consumer ∧
+                                                    PkgSig bundle provenance pkg ∧
+                                                      PkgSig bundle meshRead pkg ∧
+                                                        PkgSig bundle consumer pkg := by
+  intro packet meshLevelUnary meshCellUnary endpointUnary orderLedgerUnary
+  intro meshLevelMeshCellInterval intervalEndpointRadius radiusOrderLedgerMeshRead
+  intro windowProvenanceConsumer meshReadPkg consumerPkg
+  obtain ⟨precisionUnary, modulusUnary, windowUnary, nameRowUnary, precisionWindowTransport,
+    transportModulusLedger, ledgerNameProvenance, provenancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed precisionUnary windowUnary precisionWindowTransport
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed transportUnary modulusUnary transportModulusLedger
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed ledgerUnary nameRowUnary ledgerNameProvenance
+  have intervalUnary : UnaryHistory interval :=
+    unary_cont_closed meshLevelUnary meshCellUnary meshLevelMeshCellInterval
+  have radiusUnary : UnaryHistory radius :=
+    unary_cont_closed intervalUnary endpointUnary intervalEndpointRadius
+  have meshReadUnary : UnaryHistory meshRead :=
+    unary_cont_closed radiusUnary orderLedgerUnary radiusOrderLedgerMeshRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceConsumer
+  exact
+    ⟨precisionUnary, modulusUnary, windowUnary, transportUnary, ledgerUnary, provenanceUnary,
+      meshLevelUnary, meshCellUnary, intervalUnary, radiusUnary, meshReadUnary, consumerUnary,
+      precisionWindowTransport, transportModulusLedger, ledgerNameProvenance,
+      meshLevelMeshCellInterval, intervalEndpointRadius, radiusOrderLedgerMeshRead,
+      windowProvenanceConsumer, provenancePkg, meshReadPkg, consumerPkg⟩
 
 end BEDC.Derived.RegularityModulusUp

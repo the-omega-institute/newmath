@@ -1,0 +1,64 @@
+\begin{theorem}[UniformCauchyCriterion root tail coverage]
+\label{thm:uniform-cauchy-criterion-root-tail-coverage}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet inside a $\BHist$ inventory. Every accepted family tail comparison visible to a downstream consumer factors through the finite rows $I,W,M,Q,T,H,C,P,N$ and the shared dyadic tolerance row $Q$ of $U$.
+
+In particular, the comparison is a displayed finite-tail read after the route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T,
+$$
+with $H,C,P,N$ supplying only transport, continuation, provenance, and local naming rows. No consumer-visible tail comparison can bypass the shared window family, introduce a second modulus schedule, or detach an unledgered dyadic tolerance.
+\end{theorem}
+\begin{proof}
+First bind the threshold route. Apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}: every accepted family read reaches the same threshold schedule $M$ before it can inspect the dyadic tolerance row $Q$.
+
+Next expose the finite tail ledger. Apply \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. The accepted comparison is therefore a displayed row of $T$ over the finite index and window rows $I,W$.
+
+The structural rows do not add another comparison coordinate. They replay the same $\BHist$ route through $H,C,P,N$, so the consumer sees only the finite tail row attached to the shared dyadic tolerance row.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion root seal readback]
+\label{thm:uniform-cauchy-criterion-root-seal-readback}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. Every $\RealUp$ seal read of $U$ factors through the displayed route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+The readback surface exposes the finite window, threshold, tolerance, tail, and seal rows only. It cannot expose quotient streams, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the real-facing consumer. By \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}, a $\RealUp$ seal read is exhausted by the displayed finite package $I,W,M,Q,T,E,H,C,P,N$.
+
+Apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} and \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. These force the route from the family window to the seal handoff to pass through $M,Q,T$.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness}. Since the accepted packet has no second seal path, quotient streams, selected limits, host real equality, and ambient completeness have no row through which to appear.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion root downstream consumer surface]
+\label{thm:uniform-cauchy-criterion-root-downstream-unblock}
+For an accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N),
+$$
+the root downstream consumer surface for $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\DyadicTailBoundUp$, $\CauchyModulusUp$, and $\RealUp$ is exactly the finite $\BHist$-anchored package
+$$
+I,W,M,Q,T,E,H,C,P,N.
+$$
+The $\StreamNameUp$ and $\CauchyModulusUp$ consumers read the shared family and threshold rows $W,M$ over $I$; the $\DyadicRatCoreUp$ and $\DyadicTailBoundUp$ consumers read $Q,T$; the $\RegSeqRatUp$ consumer reads the resulting uniform tail package; and the $\RealUp$ consumer reads the seal row $E$. No downstream chapter may require quotient stream identity, selected family limits, host real equality, ambient completeness, or any row outside this package.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_root\_downstream\_unblock}
+\begin{proof}
+First assemble the tail-facing surface. Apply \autoref{thm:uniform-cauchy-criterion-root-tail-coverage}. The window, threshold, dyadic tolerance, and tail comparison data are already contained in the displayed finite rows.
+
+Next pass to regular-rational consumers. By \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}, the $\RegSeqRatUp$ side is exhausted by the same package $I,W,M,Q,T,E,H,C,P,N$.
+
+Now read the real-facing boundary. Apply \autoref{thm:uniform-cauchy-criterion-root-seal-readback}. The $\RealUp$ seal consumer reaches $E$ only after the route through $I,W,M,Q,T$.
+
+The remaining listed consumers are projections of these rows: $\StreamNameUp$ reads $W$, $\CauchyModulusUp$ reads $M$, $\DyadicRatCoreUp$ reads $Q$, and $\DyadicTailBoundUp$ reads $T$. Therefore the finite package is the complete downstream surface for the root dependency.
+\end{proof}

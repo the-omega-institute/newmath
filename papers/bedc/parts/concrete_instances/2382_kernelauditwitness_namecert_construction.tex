@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\KernelAuditWitnessUp$}
+\label{ch:concrete-instances-kernel-audit-witness-namecert}
+\origin{ai}
+
+The $\KernelAuditWitnessUp$ surface is the concrete NameCert realization of Lean kernel acceptance as a BEDC audit witness. It packages the term generator, the accepted candidate, the environment ledger, axiom-ancestry report, replay route, provenance, and paper-marker name into one finite packet. The packet does not certify the Lean kernel itself; it records the audit surface by which BEDC reads accepted Lean declarations as checked ledger rows.
+
+\begin{definition}[KernelAuditWitness carrier]
+\label{def:kernel-audit-witness-carrier}
+A $\KernelAuditWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,A,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the generator-and-candidate row, recording the source declaration, elaborated candidate, claimed type, and local build context that present a Lean object to the kernel;
+\item $A$ is the kernel-acceptance stamp row, recording that the candidate in $G$ is accepted under the displayed environment and enters the checked-declaration surface;
+\item $L$ is the environment ledger row, recording the accepted name, its type, its body or proof object when visible, and the environment position from which later resolution reads the declaration;
+\item $R$ is the axiom-ancestry and report row, recording the transitive dependency report used by the strict purity audit, including the empty-report case for BEDC-internal theorem content;
+\item $H$ records componentwise $\hsame$ transport for the generator, candidate, acceptance stamp, ledger entry, ancestry report, replay route, provenance, and local naming rows;
+\item $C$ records the $\Cont$ replay routes for rebuilding the candidate, re-reading the accepted ledger row, querying the ancestry report, and resolving paper-side markers against the displayed name;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, Lean declaration names, build replay, kernel acceptance, environment ledgers, strict axiom-ancestry reports, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\KernelAuditWitnessUp}$ row binding the paper-visible name to the finite audit packet.
+\end{enumerate}
+The carrier has no coordinate for an independent semantic endorsement of the surrounding prose, no coordinate for a second checker beneath the Lean kernel, and no coordinate that can turn a nonempty forbidden ancestry report into BEDC-internal theorem content.
+\end{definition}
+\leanchecked{BEDC.Derived.KernelAuditWitnessUp.KernelAuditWitnessTasteGate\_single\_carrier\_alignment}
+\leandef{BEDC.Derived.KernelAuditWitnessUp.KernelAuditWitnessUp}
+
+\begin{theorem}[KernelAuditWitness NameCert obligations]
+\label{thm:kernel-audit-witness-namecert-obligations}
+For every accepted $\KernelAuditWitnessUp$ carrier
+$$
+K=(G,A,L,R,H,C,P,N),
+$$
+the local $\NameCert_{\KernelAuditWitnessUp}$ surface consists exactly of carrier admission for $K$, candidate exposure through $G$, kernel-stamp exposure through $A$, environment-ledger exposure through $L$, axiom-ancestry exposure through $R$, componentwise transport through $H$, replay and marker-resolution routes through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:kernel-audit-witness-carrier}. The packet exposes exactly the generator, stamp, ledger, ancestry, transport, continuation, provenance, and local naming rows.
+
+The candidate and stamp obligations are the rows $G$ and $A$. A downstream reader can inspect which object was presented to the kernel and which acceptance event is being recorded, but it receives no separate certificate outside those rows.
+
+The ledger and ancestry obligations are the rows $L$ and $R$. They record where the accepted name is resolved and what transitive dependency report accompanies it, including the strict empty-report case when the declaration is read as BEDC-internal theorem content.
+
+Finally $H,C,P,N$ preserve the same packet under transport, replay, provenance, and local naming. Repacking these rows gives the whole local $\NameCert_{\KernelAuditWitnessUp}$ surface, and there is no remaining coordinate from which a consumer could import an unlisted checker, hidden proof source, or prose-only endorsement.
+\end{proof}
+
+\begin{theorem}[KernelAuditWitness non-contamination]
+\label{thm:kernel-audit-witness-non-contamination}
+If the ancestry row $R$ of an accepted $\KernelAuditWitnessUp$ carrier reports a forbidden dependency, then the packet keeps that dependency in the report row and does not classify the declaration as BEDC-internal theorem content. If $R$ is the empty strict-purity report, then downstream readers may consume the accepted name through $L$ and $C$ without importing $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, or any other displayed forbidden ancestry from $R$.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The only ancestry coordinate is $R$, and \autoref{def:kernel-audit-witness-carrier} makes it the row where transitive dependency reports are recorded.
+
+In the forbidden-dependency case, the dependency remains visible as report data. The packet still records the kernel acceptance event, but the NameCert surface cannot erase the report row or reclassify it as empty ancestry.
+
+In the empty-report case, the ledger read passes through $L$ and the replay routes in $C$. Since $R$ contains no forbidden ancestry to transport, the componentwise $\hsame$ row $H$ preserves the same clean report for consumers of the local name $N$.
+
+Thus contamination cannot move silently across the packet boundary. It is either present as explicit ancestry report data or absent from the strict-purity row used by the downstream BEDC theorem-content read.
+\end{proof}
+
+\begin{theorem}[KernelAuditWitness ledger exactness]
+\label{thm:kernel-audit-witness-ledger-exactness}
+For an accepted $\KernelAuditWitnessUp$ carrier $K=(G,A,L,R,H,C,P,N)$, paper-side marker resolution through $N$ and $C$ reaches exactly the accepted environment row $L$ certified by the stamp row $A$. It cannot resolve to a different declaration, a prose-only claim, a stale candidate not accepted by the kernel, or an ancestry report other than the displayed row $R$.
+\end{theorem}
+\begin{proof}
+The local name is bound by $N$, and the continuation routes are $C$. By the carrier definition, those routes resolve the paper-visible marker against the accepted declaration row $L$.
+
+The acceptance stamp $A$ is tied to the candidate row $G$. A stale candidate that lacks the displayed stamp has no route from $G$ through $A$ into $L$, so it cannot be the ledger row reached by marker resolution.
+
+The ancestry report is likewise fixed by $R$. Transport through $H$ is componentwise over the displayed rows, so it may preserve the row under the accepted equality discipline but cannot substitute a different report for the one packaged in $K$.
+
+Therefore the marker-facing route is exact. It reaches the one accepted environment row and its displayed ancestry report, rather than any neighboring declaration or surrounding prose claim.
+\end{proof}
+
+\begin{theorem}[KernelAuditWitness acceptance gate]
+\label{thm:kernel-audit-witness-acceptance-gate}
+The $\KernelAuditWitnessUp$ packet gates BEDC Lean-side theorem content by the conjunction of kernel acceptance, ledger resolution, strict ancestry reporting, replay continuity, and local NameCert naming. A declaration whose candidate lacks the stamp row $A$, whose name is absent from $L$, whose ancestry row $R$ is unresolved, whose replay route $C$ fails, or whose local naming row $N$ is absent is not accepted as a complete $\KernelAuditWitnessUp$ audit witness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier row by row. Kernel acceptance is represented by $A$, ledger resolution by $L$, ancestry reporting by $R$, replay continuity by $C$, and local naming by $N$.
+
+If any one of these rows is absent, the packet cannot supply the corresponding NameCert obligation from \autoref{thm:kernel-audit-witness-namecert-obligations}. The missing row blocks the finite route from candidate presentation to paper-visible checked content.
+
+When all rows are present, $H$ and $P$ preserve the packet as a transported and provenance-recorded audit surface. The gate is therefore conjunctive: the accepted declaration, exact ledger row, ancestry report, replay route, and local name must be read together.
+\end{proof}
+
+\closureat{KernelAuditWitnessUp}{seedStr}
+
+\begin{closurestatus}{\KernelAuditWitnessUp}
+  \constructivestory{A $\KernelAuditWitnessUp$ packet is generated from a Lean candidate row, kernel-acceptance stamp, environment ledger row, axiom-ancestry report, componentwise $\hsame$ transport, replay $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-audit-witness-carrier}, \autoref{thm:kernel-audit-witness-namecert-obligations}, \autoref{thm:kernel-audit-witness-non-contamination}, \autoref{thm:kernel-audit-witness-ledger-exactness}, and \autoref{thm:kernel-audit-witness-acceptance-gate} bind the finite audit-witness carrier, NameCert obligation surface, ancestry non-contamination, ledger exactness, and conjunctive acceptance gate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not certify the Lean kernel itself, close TasteGate-backed obligation discharge, provide Lean verification, supply public standard bridge data, or prove semantic adequacy of surrounding prose beyond the displayed audit packet.}
+  \upgradepath{Obligation closure requires TasteGate-backed encoding of the carrier and checked coverage for kernel acceptance, ledger resolution, axiom-ancestry exactness, replay continuity, provenance, and local NameCert naming.}
+\end{closurestatus}

@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\SobolevUp$}
+\label{ch:concrete-instances-sobolev-namecert}
+\origin{human}
+
+The $\SobolevUp$ interface records the finite naming surface for a Sobolev-style weak-derivative packet. Classical references such as Evans, \emph{Partial Differential Equations}, and Adams--Fournier, \emph{Sobolev Spaces}, describe the surrounding analytic theory. BEDC records only the finite certificate surface needed by later PDE, variational, compact-embedding, and functional-analysis consumers: a displayed domain row, metric or complete-metric base row, normed or Hilbert codomain row, integrability magnitude row, weak-gradient test row, package provenance, and local naming evidence.
+
+The packet is not distribution theory, not Lebesgue completion, not quotient equality of functions, and not a completed function space. It is a finite $\mathsf{BHist}$ carrier whose accepted observations are compared by displayed rows and $\hsame$ routes.
+
+\begin{definition}[Sobolev BHist carrier]
+\label{def:sobolev-bhist-carrier}
+A $\SobolevUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(D,M,V,L,G,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $D$ is the $\RealUp$ domain row naming the scalar observation surface on which the weak tests are read;
+\item $M$ is a $\MetricSpaceUp$ or $\CompleteMetricUp$ base row naming the ambient finite metric information used by the domain consumer;
+\item $V$ is a $\NormUp$ or $\HilbertUp$ codomain row naming the magnitude target for function and weak-gradient observations;
+\item $L$ is the $\IntegralUp$ magnitude row recording the finite integrability ledger for the displayed function and weak-gradient reads;
+\item $G$ is the $\DerivativeUp$ weak-gradient test row, displayed as the finite list of test-observation routes and their recorded weak-derivative responses;
+\item $H$ stores the componentwise $\hsame$ routes for the domain, base, codomain, integrability, weak-gradient, provenance, and local naming rows;
+\item $C$ stores the displayed $\Cont$ routes by which a consumer reads the domain row, metric base row, codomain norm row, integrability ledger, and weak-gradient test ledger;
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\MetricSpaceUp$ or $\CompleteMetricUp$, $\NormUp$ or $\HilbertUp$, $\IntegralUp$, $\DerivativeUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SobolevUp}$ evidence.
+\end{enumerate}
+The carrier has no coordinate for a host function space, a distributional dual, a quotient by almost-everywhere equality, a completed Lebesgue measure space, or a choice-selected representative.
+\end{definition}
+
+\begin{definition}[Sobolev classifier]
+\label{def:sobolev-classifier}
+Two accepted $\SobolevUp$ carriers are classified as the same weak-derivative certificate exactly when their visible domain, base, codomain, magnitude, weak-gradient, provenance, and naming rows compare componentwise through the stored $\hsame$ routes. The classifier compares the $\RealUp$ domain row, the $\MetricSpaceUp$ or $\CompleteMetricUp$ base row, the $\NormUp$ or $\HilbertUp$ codomain row, the $\IntegralUp$ magnitude row, the $\DerivativeUp$ weak-gradient test row, the $\Pkg$ row, and the local $\NameCert$ row.
+
+The classifier does not compare host functions, ambient distributions, completed $L^p$ classes, quotient representatives, or equality in a background Sobolev space.
+\end{definition}
+
+\begin{theorem}[Sobolev NameCert obligation surface]
+\label{thm:sobolev-namecert-obligation-surface}
+The local $\NameCert_{\SobolevUp}$ obligation surface for the carrier of \autoref{def:sobolev-bhist-carrier} consists of five finite rows:
+\begin{enumerate}
+\item carrier habitation by the zero weak-gradient packet, with a displayed $\RealUp$ domain row, metric base row, codomain norm row, zero $\IntegralUp$ magnitude row, zero $\DerivativeUp$ weak-gradient test row, package provenance, and local naming evidence;
+\item classifier reflexivity, symmetry, and transitivity by the componentwise classifier of \autoref{def:sobolev-classifier};
+\item carrier transport under the classifier, preserving the same visible domain, metric base, codomain, integrability, weak-gradient, provenance, and naming rows up to $\hsame$;
+\item ledger exactness for weak-derivative observations, requiring every accepted derivative read to factor through the displayed $G$ row and the magnitude ledger $L$;
+\item completion-boundary non-escape, preventing any consumer from reading distribution theory, Lebesgue completion, quotient equality, or a host Sobolev space from the finite carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+For habitation, use the displayed zero weak-gradient test row. The domain, metric base, codomain, zero magnitude, provenance, and local naming coordinates are all finite carrier rows, so no ambient function space is needed.
+
+For classifier stability, compare accepted carriers by the rows named in \autoref{def:sobolev-classifier}. Reflexivity, symmetry, and transitivity are inherited componentwise from the displayed $\hsame$ routes and are repacked into the same finite carrier shape.
+
+For transport and exactness, inspect any downstream read. It can project only $D$, $M$, $V$, $L$, $G$, $H$, $C$, $P$, or $N$, and the weak-derivative read is the displayed route through $G$ with its magnitude entry in $L$. Coordinate exhaustion gives the non-escape boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.SobolevUp.SobolevCarrier\_namecert\_obligation\_surface}
+
+\begin{theorem}[Sobolev weak-derivative ledger]
+\label{thm:sobolev-weak-derivative-ledger}
+Every accepted weak-derivative observation exported by a $\SobolevUp$ carrier factors through the finite route
+$$
+D \longmapsto M \longmapsto V \longmapsto L \longmapsto G.
+$$
+The route first fixes the displayed $\RealUp$ domain row and metric base, then reads the $\NormUp$ or $\HilbertUp$ codomain row, then records the $\IntegralUp$ magnitude ledger before exposing the $\DerivativeUp$ weak-gradient test row. It exports no distributional dual object, no completed $L^p$ class, no quotient representative, and no host equality of functions.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for a weak-derivative observation. Carrier projection forces the request to identify the domain row $D$ and the metric or complete-metric base row $M$ before any derivative data can be read.
+
+The codomain and magnitude rows are then read through $V$ and $L$. These rows specify the finite normed target and the accepted integrability ledger for the observation, not an ambient measure completion.
+
+Only after that route reaches $G$ does the weak-gradient test row become visible. Since $H$, $C$, $P$, and $N$ record transport, continuation, provenance, and local naming without adding analytic coordinates, the exported observation is exactly the finite ledger described above.
+\end{proof}
+\leanchecked{BEDC.Derived.SobolevUp.SobolevCarrier\_weak\_derivative\_ledger}
+
+\begin{theorem}[Sobolev completion boundary]
+\label{thm:sobolev-completion-boundary}
+A $\RealUp$, $\IntegralUp$, $\DerivativeUp$, $\HilbertUp$, functional-analysis, PDE, variational, or compact-embedding consumer citing an accepted $\SobolevUp$ packet receives only the displayed carrier rows of \autoref{def:sobolev-bhist-carrier}, the classifier of \autoref{def:sobolev-classifier}, the five obligation rows of \autoref{thm:sobolev-namecert-obligation-surface}, and the weak-derivative ledger of \autoref{thm:sobolev-weak-derivative-ledger}. The citation cannot assert full distribution theory, Lebesgue completion, quotient equality of functions, density of smooth functions, compact embedding, trace theory, or a completed Sobolev space.
+\end{theorem}
+\begin{proof}
+Factor the consumer citation through the local $\NameCert_{\SobolevUp}$ surface. The available data are the finite rows $D,M,V,L,G,H,C,P,N$ and the classifier routes between accepted packets.
+
+Apply the weak-derivative ledger theorem to any derivative-facing read. It fixes the route through the displayed domain, base, codomain, magnitude, and weak-gradient rows before the observation is exported.
+
+The excluded analytic objects are not coordinates of the packet and are not produced by the classifier or continuation rows. Therefore downstream consumers may use the finite weak-derivative certificate surface, but they cannot read any stronger completion, quotient, density, compactness, or trace result from this chapter.
+\end{proof}
+\leanchecked{BEDC.Derived.SobolevUp.SobolevCarrier\_completion\_boundary}
+
+\closureat{SobolevUp}{seedStr}
+
+\begin{closurestatus}{\SobolevUp}
+  \constructivestory{A $\SobolevUp$ packet is generated from a displayed $\RealUp$ domain row, a metric or complete-metric base row, a normed or Hilbert codomain row, an $\IntegralUp$ magnitude ledger, a $\DerivativeUp$ weak-gradient test row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, classifier, NameCert obligation surface, weak-derivative ledger, and completion boundary for a concrete weak-derivative certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close distribution theory, Lebesgue completion, quotient equality of functions, density of smooth functions, compact embedding, trace theory, or completed Sobolev spaces.}
+  \upgradepath{Obligation closure requires checked carrier habitation, classifier stability, carrier transport, weak-derivative ledger exactness, and completion-boundary non-escape for the same finite packet.}
+\end{closurestatus}

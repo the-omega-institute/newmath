@@ -1,0 +1,137 @@
+\chapter{A Concrete Naming Certificate for $\LorentzFrameRateUp$}
+\label{ch:concrete-instances-lorentz-frame-rate-namecert}
+\origin{ai}
+
+The $\LorentzFrameRateUp$ interface records the finite packet at the boundary where $\MaxCausalRateUp$ becomes an observer-symmetric frame-rate ledger. It does not introduce Lorentz geometry, a metric tensor, synchronized clocks, global frames, or host real-valued speed. It names only the BEDC rows by which the maximum-rate surface can be read uniformly across the displayed histories of a multi-Hist configuration.
+
+\begin{definition}[LorentzFrameRate carrier]
+\label{def:lorentz-frame-rate-carrier}
+A $\LorentzFrameRateUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,X,R,S,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $M$ is an accepted $\MultiHistConfigUp$ row displaying the finite observer-history configuration and its no-global-sync boundary;
+\item $X$ is the finite family of accepted $\CrossHistCausalUp$ witness rows over selected history pairs from $M$;
+\item $R$ is an accepted $\MaxCausalRateUp$ row whose witness family is the displayed family $X$ over the same configuration row $M$;
+\item $S$ is the observer-symmetry classifier row, recording that each selected observer read of the maximum-rate surface is the same finite unary-bound row of $R$ after componentwise transport;
+\item $H$ records componentwise $\hsame$ transport for $M$, $X$, $R$, $S$, the continuation routes, the package row, and the local naming row;
+\item $C$ records the visible $\Cont$ routes from the displayed multi-Hist, causal, maximum-rate, and symmetry rows into the local certificate;
+\item $P$ is the $\Pkg$ provenance over $\LorentzFrameRateUp$, $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LorentzFrameRateUp}$ row.
+\end{enumerate}
+The carrier exports a finite observer-symmetric maximum-rate packet. Its classifier preserves the displayed maximum-rate row under accepted observer transport while excluding global frames, synchronized clocks, metric tensors, host real-valued speed, and Lorentz geometry as primitive input.
+\end{definition}
+\leanchecked{BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[LorentzFrameRate boundary]
+\label{thm:lorentz-frame-rate-boundary}
+Every accepted $\LorentzFrameRateUp$ carrier presents the next inter-Hist locality boundary as the finite packet
+$$
+L=(M,X,R,S,H,C,P,N).
+$$
+A consumer may read the multi-Hist configuration row, the selected cross-Hist causal witnesses, the maximum-rate row, the observer-symmetry classifier, componentwise $\hsame$ transport, visible $\Cont$ routes, package provenance, and the local $\NameCert_{\LorentzFrameRateUp}$ row. No other frame-rate surface is public through this certificate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $M,X,R,S,H,C,P,N$ are exactly the admitted coordinates of \autoref{def:lorentz-frame-rate-carrier}.
+
+Read $M$ and $X$ first. These rows keep the boundary tied to the displayed multi-Hist configuration and the selected cross-Hist causal witnesses.
+
+Next read $R$ and $S$. The maximum-rate row supplies the finite unary-bound surface, while the observer-symmetry classifier records that transported observer reads preserve that same displayed row.
+
+Finally route all consumer access through $H,C,P,N$. The resulting boundary is exhausted by the listed rows, so no additional frame-rate surface is exported.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate non-escape]
+\label{thm:lorentz-frame-rate-non-escape}
+An accepted $\LorentzFrameRateUp$ carrier cannot export a global frame, synchronized clock, metric tensor, host real-valued speed, or Lorentz geometry as a primitive input. Any consumer request for those objects leaves the finite rows
+$$
+M,X,R,S,H,C,P,N
+$$
+rather than projecting from the local $\NameCert_{\LorentzFrameRateUp}$ surface.
+\end{theorem}
+\begin{proof}
+The carrier inventory contains only the displayed multi-Hist row, cross-Hist witness family, maximum-rate row, symmetry classifier, transport rows, continuation routes, provenance, and local naming row.
+
+Apply the non-escape clauses of the upstream $\MultiHistConfigUp$, $\CrossHistCausalUp$, and $\MaxCausalRateUp$ certificates. Those rows already exclude global synchronization, unlisted causal witnesses, metric geometry, and ambient real-valued rates from their local surfaces.
+
+The symmetry classifier $S$ adds no coordinate of the excluded kind. It records preservation of the finite maximum-rate row under accepted observer transport, so it cannot become a frame, a clock, a tensor, a host speed, or Lorentz geometry.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate NameCert obligations]
+\label{thm:lorentz-frame-rate-namecert-obligations}
+For the carrier of \autoref{def:lorentz-frame-rate-carrier}, the local $\NameCert_{\LorentzFrameRateUp}$ surface consists exactly of carrier admission, configuration inheritance from $\MultiHistConfigUp$, causal-witness inheritance from $\CrossHistCausalUp$, maximum-rate inheritance from $\MaxCausalRateUp$, observer-symmetry preservation of the shared unary-bound row, componentwise $\hsame$ stability, displayed $\Cont$ locality, $\Pkg$ provenance, and non-escape for global frames, synchronized clocks, metric tensors, host real-valued speed, and Lorentz geometry as primitive input.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:lorentz-frame-rate-carrier}. The finite packet supplies every row named by the local certificate.
+
+The inherited rows are read in dependency order. The configuration row $M$ supplies the displayed histories, the family $X$ supplies the selected cross-Hist causal witnesses over those histories, and the maximum-rate row $R$ supplies the shared unary-bound surface over the same witnesses.
+
+Observer-symmetry preservation is the role of $S$. It states that the selected observer reads of $R$ remain the same displayed maximum-rate row after componentwise transport.
+
+The rows $H,C,P,N$ provide the remaining stability, locality, provenance, and local naming data. Since no coordinate of the carrier is a global frame, synchronized clock, metric tensor, host real-valued speed, or Lorentz geometry, the non-escape obligation is the displayed inventory boundary.
+\end{proof}
+
+\begin{theorem}[Frame-rate observer-symmetry transport]
+\label{thm:frame-rate-observer-symmetry-transport}
+Let
+$$
+L=(M,X,R,S,H,C,P,N)
+$$
+be an accepted $\LorentzFrameRateUp$ carrier. The observer-symmetry row $S$ transports the displayed maximum-rate row $R$ componentwise under the $\hsame$ data in $H$: every selected observer read named by $S$ has the same $\MaxCausalRateUp$ unary-bound surface as $R$ after applying the corresponding component of $H$, and the transported read remains routed through the same finite continuation packet $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and read the symmetry coordinate $S$. By \autoref{def:lorentz-frame-rate-carrier}, $S$ records exactly the observer reads whose maximum-rate surface is compared with the displayed row $R$.
+
+Next read the transport coordinate $H$. Its $R$- and $S$-components move the maximum-rate row and each observer-symmetry read together, so the comparison is componentwise rather than a global frame comparison.
+
+Finally use the continuation coordinate $C$. It keeps every transported observer read on the displayed route from $M$ and $X$ to $R$ and then to the local certificate, so the shared unary-bound surface is preserved as a finite $\MaxCausalRateUp$ row.
+\end{proof}
+
+\begin{theorem}[Frame-rate rate-row inheritance]
+\label{thm:frame-rate-rate-row-inheritance}
+For an accepted $\LorentzFrameRateUp$ carrier
+$$
+L=(M,X,R,S,H,C,P,N),
+$$
+the maximum-rate row $R$ is inherited only from the same upstream $\MultiHistConfigUp$ row $M$ and $\CrossHistCausalUp$ witness family $X$ displayed by the carrier. No consumer of $L$ may read $R$ as a rate row over a different configuration, an unlisted causal-witness family, or an ambient host geometry.
+\end{theorem}
+\begin{proof}
+The carrier definition binds $R$ to $M$ and $X$: $R$ is the accepted $\MaxCausalRateUp$ row whose witness family is the displayed family $X$ over the same configuration row $M$.
+
+The continuation routes preserve this dependency. A consumer reaches $R$ only through the visible route from the multi-Hist configuration row to the selected cross-Hist causal witnesses and then to the maximum-rate row.
+
+The provenance row $P$ records the same dependency surface. Since neither the carrier nor the provenance row contains a different configuration, an unlisted witness family, or an ambient geometry coordinate, the inheritance of $R$ is limited to the displayed $M$ and $X$ rows.
+\end{proof}
+
+\begin{theorem}[Frame-rate locality non-escape]
+\label{thm:frame-rate-locality-nonescape}
+The local packet
+$$
+M,X,R,S,H,C,P,N
+$$
+does not recover a global frame, synchronized clock, metric tensor, host real speed, or Lorentz geometry. These objects are not hidden consequences of observer-symmetry transport, rate-row inheritance, or the local $\NameCert_{\LorentzFrameRateUp}$ surface.
+\end{theorem}
+\begin{proof}
+Start with the non-escape theorem for the chapter. It excludes global frames, synchronized clocks, metric tensors, host real-valued speed, and Lorentz geometry as primitive inputs of the carrier.
+
+Observer-symmetry transport adds no excluded coordinate. It moves the displayed maximum-rate row componentwise under $\hsame$ and keeps the read on the visible continuation route.
+
+Rate-row inheritance also adds no excluded coordinate. It ties $R$ only to the displayed multi-Hist configuration $M$ and the selected cross-Hist witness family $X$.
+
+Thus the local certificate remains a finite observer-symmetric maximum-rate packet. Recovering any excluded structure would require data outside $M,X,R,S,H,C,P,N$.
+\end{proof}
+
+\closureat{LorentzFrameRateUp}{seedStr}
+
+\begin{closurestatus}{\LorentzFrameRateUp}
+  \constructivestory{A $\LorentzFrameRateUp$ packet is generated from a $\MultiHistConfigUp$ row, finitely many $\CrossHistCausalUp$ witness rows, one $\MaxCausalRateUp$ maximum-rate row over the same configuration, an observer-symmetry classifier, finite $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite observer-symmetric maximum-rate packet over MultiHistConfig, CrossHistCausal, MaxCausalRate, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lorentz geometry, metric tensors, light-cone distance, synchronized clocks, global frames, host real-valued speed, curved spacetime, or Lean-side verification.}
+  \upgradepath{Obligation closure requires carrier admission, observer-symmetry preservation, upstream row inheritance, transport locality, provenance, and non-escape obligations for the displayed finite frame-rate packet.}
+\end{closurestatus}

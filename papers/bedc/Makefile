@@ -5,6 +5,7 @@ precheck:
 	@bash scripts/check_math_env.sh
 	@python3 scripts/check_marker_uniqueness.py
 	@python3 scripts/check_naming.py
+	@python3 scripts/check_external_provenance.py
 # The pdflatex calls go through scripts/with_pdf_slot.py, a flock-protected
 # semaphore over .git/.pdf-build-gate/slotN.lock files. Permit count is read
 # from .pipeline_parallel.json key "pdf_build" (default 2). This caps

@@ -3,6 +3,10 @@
 
 This chapter licenses analytic continuation as the operation \(\AnalyticContUp\) that, given a holomorphic \(f\) on a domain \(D_1\) and an overlapping holomorphic \(g\) on \(D_2\) with \(f = g\) on a non-trivial overlap region \(U\), produces the unique holomorphic extension \(h\) on \(D_1 \cup D_2\). The chapter is an OPERATION chapter rather than a pure namecert: the structure is input/output classifier-aware predicate plus operation laws (functoriality, composition, \(\hsame\)-respect) instead of the standard 5-field NameCert. Builds on \(\HolomorphicUp\) (\autoref{ch:concrete-instances-holomorphic-namecert}) and the constructive identity theorem of that chapter. Branch obstruction (the constructive face of monodromy / multi-valued continuation around branch points) is flagged as a SCHEMA-ONLY HORIZON: the chapter exposes the constructive interface but admits that closed witnesses for general branch behaviour do not in general live inside the framework. The construction is fully constructive on the parts that close; uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the operation's Lean targets fall under the project's axiom-purity gate.
 
+\concretizedIn{ch:concrete-instances-analytic-continuation-socket-namecert}{Analytic continuation is realized as a finite BHist operation-socket NameCert packet over holomorphic source rows, overlap witnesses, continuation outputs, and branch-obstruction non-escape.}
+\concretizedIn{ch:concrete-instances-analyticcontinuationoperation-namecert}{Analytic continuation operations are realized as classifier-stable BEDC operation packets over holomorphic inputs, overlap evidence, and continuation ledgers.}
+\concretizedIn{ch:concrete-instances-branchobstruction-namecert}{Branch-obstruction packets realize branch-sensitive continuation requests as finite BHist ledger rows whose nonlocal reads do not export branch selectors, quotient germs, monodromy theorems, or new holomorphic outputs.}
+
 \section{Domain compatibility}
 
 \begin{definition}[Domain compatibility]
@@ -181,3 +185,5 @@ The first restriction clause is the restriction of $f$ from $D\cup D$ to the fir
 
 Now assume $\mathsf{AnaCont}(f,D,f,D,h)$. Comparing this witness with the identity witness just constructed, \autoref{thm:ana-cont-unique} gives pointwise $\hsame(h,f)$ on $D\cup D$. Transporting this classifier through the same idempotence equivalence $D\cup D=D$ yields, for every $z\in D$, the pointwise comparison $\hsame(h(z),f(z))$.
 \end{proof}
+
+\concretizedIn{ch:concrete-instances-analyticcontinuationoperation-namecert}{Analytic continuation is realized as a finite operation certificate over holomorphic source rows, overlap witnesses, and branch-obstruction ledgers.}

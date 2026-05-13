@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\CofinalTailBudgetUp$}
+\label{ch:concrete-instances-cofinal-tail-budget-namecert}
+\origin{ai}
+
+The $\CofinalTailBudgetUp$ packet records the finite shared-tail threshold used when a Real and Completion diagonal-limit argument must move from a cofinal family of tail windows to the displayed $\RealUp$ seal. It does not choose an infinite subsequence or identify a real number by quotienting. It names the finite budget row, the selected tail-window rows, the RegSeqRat handoff, and the RealUp seal route that later consumers may replay.
+
+\begin{definition}[Cofinal tail budget carrier]
+\label{def:cofinal-tail-budget-carrier}
+A $\CofinalTailBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,T,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite modulus-budget row naming the requested precision level and the bound from which tail windows are read;
+\item $T$ is the cofinal tail-window row, listing the finitely many windows whose anchors are at or beyond the bound recorded by $M$;
+\item $R$ is the $\RegSeqRat$ handoff row that reads each selected tail window as a regular rational observation;
+\item $S$ is the $\RealUp$ seal row consumed by the diagonal-limit handoff;
+\item $H$ records componentwise $\hsame$ transport for $M,T,R,S,P,N$ and the local packet shape;
+\item $C$ records the $\Cont$ routes by which a consumer reads the budget, selected windows, RegSeqRat handoff, RealUp seal, package provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, finite modulus budgets, cofinal tail windows, $\RegSeqRat$ handoff rows, $\RealUp$ seal rows, $\hsame$, $\Cont$, and non-escape ledgers;
+\item $N$ is the local $\NameCert_{\CofinalTailBudgetUp}$ row.
+\end{enumerate}
+The carrier contains no global completeness theorem, no choice of an infinite tail selector, and no quotient-level real equality. It exports only the finite shared-tail threshold packet displayed by $M,T,R,S,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Cofinal tail budget NameCert obligations]
+\label{thm:cofinal-tail-budget-namecert-obligations}
+The local $\NameCert_{\CofinalTailBudgetUp}$ surface for \autoref{def:cofinal-tail-budget-carrier} consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the packet $B=(M,T,R,S,H,C,P,N)$;
+\item budget stability stating that componentwise $\hsame$ transport preserving $M,T,R,S,C,P,N$ preserves the same shared-tail threshold;
+\item window exactness stating that every selected tail window in $T$ is read at or beyond the budget bound recorded by $M$;
+\item seal handoff stating that the $\RegSeqRat$ row $R$ is the only route by which the selected windows feed the $\RealUp$ seal row $S$;
+\item ledger exactness stating that every public read factors through $M,T,R,S,H,C,P,N$ and no unrecorded cofinal selector or completeness principle is exported.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The tuple lists the modulus budget, selected tail windows, RegSeqRat handoff, RealUp seal, transports, routes, provenance, and local naming row.
+
+Budget stability is read through $H$ and $C$. Since the budget and window rows are transported together, the shared-tail threshold named by $M$ remains attached to the same selected windows in $T$.
+
+Window exactness is the displayed role of $T$. Each public window read passes through $C$, and the package provenance $P$ records that the anchor lies at or beyond the finite bound supplied by $M$.
+
+The seal handoff and ledger exactness are the remaining package clauses. A consumer reaches $S$ only through the RegSeqRat handoff row $R$, and every exported read remains a projection of $M,T,R,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cofinal tail budget window coverage]
+\label{thm:cofinal-tail-budget-window-coverage}
+For an accepted $\CofinalTailBudgetUp$ packet $B=(M,T,R,S,H,C,P,N)$, every public tail-window read covered by the packet is one of the finite windows listed in $T$, and each such read carries the shared-tail threshold recorded by $M$. A proposed window whose anchor is below the budget bound is not covered by this packet.
+\end{theorem}
+\begin{proof}
+Project the carrier to obtain the budget row $M$ and the finite window row $T$. These two rows are paired in the same packet, so a covered read cannot detach the selected window from the displayed threshold.
+
+Read the requested window through the continuation row $C$. If the request names a listed window, the route returns the corresponding $T$ coordinate together with the budget row $M$ and the RegSeqRat handoff $R$.
+
+If the proposed anchor lies below the bound named by $M$, no coordinate of $T$ records it as covered. The package provenance $P$ therefore keeps the request outside the packet's coverage surface.
+\end{proof}
+
+\begin{theorem}[Cofinal tail budget Real seal handoff]
+\label{thm:cofinal-tail-budget-real-seal-handoff}
+Every $\RealUp$ seal read exported by an accepted $\CofinalTailBudgetUp$ packet factors through the selected tail windows $T$ and the $\RegSeqRat$ handoff row $R$. The seal row $S$ is therefore consumed as a finite diagonal-limit handoff from the displayed shared-tail threshold, not as an independent completeness claim.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. The only route to the RealUp seal coordinate is the continuation row $C$ reading the displayed seal row $S$ in the same packet as $M,T,R,H,P,N$.
+
+The RegSeqRat handoff is the intermediate row. A seal consumer first reads the selected windows in $T$, then reads those windows through $R$, and only then reaches $S$.
+
+Thus the exported seal is bound to the finite threshold and finite window ledger. Since the packet contains no global completeness theorem or quotient-level equality, the seal read is exactly the displayed handoff route.
+\end{proof}
+
+\begin{theorem}[Cofinal tail budget non-escape]
+\label{thm:cofinal-tail-budget-nonescape}
+An attempted Real and Completion tail read that omits the budget row $M$, a listed window from $T$, or the $\RegSeqRat$ handoff row $R$ is outside the $\CofinalTailBudgetUp$ packet. It cannot export the $\RealUp$ seal row $S$ and cannot be repacked as a cofinal shared-tail certificate.
+\end{theorem}
+\begin{proof}
+Read the attempted route through the finite carrier. The packet exposes only $M,T,R,S,H,C,P,N$, so any route omitting the budget, selected-window, or handoff coordinate lacks a required source row.
+
+Apply the window coverage row for omissions of $M$ or $T$. The request then has no covered tail-window coordinate at or beyond the shared threshold.
+
+Apply the seal handoff row for omissions of $R$. A consumer cannot reach $S$ before the selected windows have been read as RegSeqRat handoff data.
+
+The package provenance $P$ records the remaining attempt as outside the local naming surface. Hence the route cannot export $S$ or appear as a cofinal shared-tail certificate.
+\end{proof}
+
+\closureat{CofinalTailBudgetUp}{seedStr}
+
+\begin{closurestatus}{\CofinalTailBudgetUp}
+  \constructivestory{A $\CofinalTailBudgetUp$ packet is generated from a finite modulus-budget row, cofinal tail-window row, RegSeqRat handoff row, RealUp seal row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-tail-budget-carrier}, \autoref{thm:cofinal-tail-budget-namecert-obligations}, \autoref{thm:cofinal-tail-budget-window-coverage}, \autoref{thm:cofinal-tail-budget-real-seal-handoff}, and \autoref{thm:cofinal-tail-budget-nonescape} bind finite shared-tail threshold packets for the Real and Completion diagonal-limit handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean implementation, bridge checking, Real completeness, infinite tail selection, quotient-level real equality, or a public RealUp object surface.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget stability, window exactness, RealUp seal handoff, and non-escape for the same finite packet.}
+\end{closurestatus}

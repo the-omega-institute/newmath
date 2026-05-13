@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -41,6 +43,25 @@ theorem BayesianPosteriorPacket_source_obligation [AskSetup] [PackageSetup]
               (And.intro packet.right.right.right.right.right.right.left
                 (And.intro packet.right.right.right.right.right.right.right.left
                   packet.right.right.right.right.right.right.right.right)))))))
+
+theorem BayesianPosteriorPacket_non_escape_boundary [AskSetup] [PackageSetup]
+    {prior likelihood evidence posterior update normalisation provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BayesianPosteriorPacket prior likelihood evidence posterior update normalisation provenance
+        endpoint bundle pkg ->
+      UnaryHistory provenance ->
+        UnaryHistory endpoint ∧ hsame endpoint (append provenance normalisation) ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet provenanceUnary
+  have normalisationUnary : UnaryHistory normalisation :=
+    unary_cont_closed packet.right.right.left packet.right.right.right.left
+      packet.right.right.right.right.right.right.left
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed provenanceUnary normalisationUnary
+      packet.right.right.right.right.right.right.right.left
+  exact And.intro endpointUnary
+    (And.intro packet.right.right.right.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right)
 
 def BayesianPosteriorSurface [AskSetup] [PackageSetup]
     (prior likelihood evidence posterior normalizer classifier provenance : BHist)
@@ -125,5 +146,50 @@ theorem BayesianPosteriorPacket_classifier_transport [AskSetup] [PackageSetup]
                 (And.intro evidencePosteriorNormalisation
                   (And.intro provenanceNormalisationEndpoint endpointPkg))))))))
     endpointSame
+
+theorem BayesianPosteriorPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
+    {prior likelihood evidence posterior update normalisation provenance endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BayesianPosteriorPacket prior likelihood evidence posterior update normalisation provenance
+        endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          BayesianPosteriorPacket prior likelihood evidence posterior update normalisation provenance
+            endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          UnaryHistory posterior ∧ Cont update evidence posterior ∧ hsame row endpoint)
+        (fun row : BHist =>
+          Cont evidence posterior normalisation ∧ Cont provenance normalisation endpoint ∧
+            PkgSig bundle endpoint pkg ∧ hsame row endpoint)
+        hsame := by
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+      equiv_refl := by
+        intro _row _rowCarrier
+        exact hsame_refl _
+      equiv_symm := by
+        intro _left _right sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _left _right sameRows sourceRow
+        exact And.intro sourceRow.left (hsame_trans (hsame_symm sameRows) sourceRow.right)
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left.right.right.right.left,
+          sourceRow.left.right.right.right.right.right.left, sourceRow.right⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.left.right.right.right.right.right.right.left,
+          sourceRow.left.right.right.right.right.right.right.right.left,
+          sourceRow.left.right.right.right.right.right.right.right.right, sourceRow.right⟩
+  }
 
 end BEDC.Derived.BayesianUp

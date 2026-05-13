@@ -326,7 +326,10 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
     rationale = candidate.get("rationale", "")
     fit = candidate.get("fit_score", "?")
     novelty = candidate.get("novelty", "?")
+    landing_kind = candidate.get("landing_kind", "existing_chapter_lemma")
+    chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (none provided)"
+    worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
     return (
         f"\n### {target_id} - {title}\n\n"
         f"| field | value |\n"
@@ -338,9 +341,11 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
         f"| Route | proof |\n"
         f"| Risk | unknown |\n"
         f"| Fit | {fit}/10 |\n"
-        f"| Novelty | {novelty}/10 |\n\n"
+        f"| Novelty | {novelty}/10 |\n"
+        f"| Landing kind | {landing_kind} |\n\n"
         f"Problem:\n{claim}\n\n"
         f"Local inputs:\n{inputs_block}\n\n"
+        f"{worthiness_block}"
         f"Rationale:\n{rationale}\n\n---\n"
     )
 

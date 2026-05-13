@@ -1,0 +1,86 @@
+\chapter{A Finite Value-Preservation Certificate for $\ZeckendorfCarryValueUp$}
+\label{ch:concrete-instances-zeckendorf-carry-value-namecert}
+\origin{ai}
+
+The $\ZeckendorfCarryValueUp$ surface packages the Fibonacci value reading of the displayed Zeckendorf carry as a finite $\NameCert$ packet. It keeps the carry classifier separate from history sameness: the packet records the source and target windows, the carry row, the two Fibonacci value rows, the equality-of-value check, and the visible provenance needed by consumers.
+
+The dependency anchors are $\ZCarryUp$, $\ZeckendorfNormalUp$, $\BHist$, $\HSame$, $\Cont$, $\Pkg$, $\NameCert$, and the displayed words of \autoref{def:axiszeckendorf-display-words}.
+
+\begin{definition}[Zeckendorf carry-value carrier]
+\label{def:zeckendorf-carry-value-carrier}
+A $\ZeckendorfCarryValueUp$ carrier is a finite $\BHist$ packet
+$$
+V=(h,k,G,N_h,N_k,F,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $h=\mathtt{word\_011}$ is the displayed source carry window;
+\item $k=\mathtt{word\_100}$ is the displayed target carry window;
+\item $G$ is the local carry row $\mathsf{ZCarry}(h,k)$ inherited from $\ZCarryUp$;
+\item $N_h$ records the source normality boundary, namely that $h$ is rejected by the $\ZeckendorfNormalUp$ normal-form classifier;
+\item $N_k$ records the target normality boundary, namely that $k$ is accepted by the $\ZeckendorfNormalUp$ normal-form classifier;
+\item $F$ records the finite Fibonacci value calculation for the two displayed windows and the equality of those two values;
+\item $H$ records the negative history-sameness boundary $\neg\HSame(h,k)$ together with the displayed same-side transports allowed for consumers;
+\item $C$ records the $\Cont$ routes from the carry row to the value calculation and from the value calculation to the public read;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\ZCarryUp$, $\ZeckendorfNormalUp$, $\HSame$, and the finite Fibonacci value rows;
+\item $N$ is the local $\NameCert_{\ZeckendorfCarryValueUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets through the carry row, the two value rows, and the listed provenance. It does not identify $h$ and $k$ by $\HSame$, install a kernel rewrite, or export a host-level quotient of histories.
+\end{definition}
+\leanchecked{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Zeckendorf carry-value non-$\HSame$ boundary]
+\label{thm:zeckendorf-carry-value-non-hsame-boundary}
+For every accepted $\ZeckendorfCarryValueUp$ packet $V=(h,k,G,N_h,N_k,F,H,C,P,N)$, the value-preservation row and the history-sameness boundary occupy distinct coordinates. The row $F$ states that the displayed Fibonacci value of $h$ equals the displayed Fibonacci value of $k$, while $H$ records $\neg\HSame(h,k)$. Thus value preservation is a finite classifier-facing calculation, not a kernel identification of the two histories.
+\end{theorem}
+\begin{proof}
+Project the carry row $G$ and the normality rows $N_h,N_k$. They fix the displayed source as $\mathtt{word\_011}$ and the displayed target as $\mathtt{word\_100}$ with the same orientation as the $\ZCarryUp$ packet.
+
+Next project the value row $F$. It reads the finite Fibonacci value calculation for exactly those two displayed words and records equality of the computed values.
+
+Finally project the boundary row $H$. Since $H$ records the negative $\HSame$ fact for the same source and target, the equality in $F$ cannot be read as a history-sameness witness. The public read therefore separates value preservation from kernel history identification.
+\end{proof}
+
+\begin{theorem}[Zeckendorf carry-value NameCert package]
+\label{thm:zeckendorf-carry-value-namecert-package}
+The rows of \autoref{def:zeckendorf-carry-value-carrier} form a finite $\NameCert_{\ZeckendorfCarryValueUp}$ package. Its obligations are carrier habitation, carry-generator orientation, source and target normality boundaries, finite Fibonacci value calculation, non-$\HSame$ separation, continuation routing, package provenance, and the local naming row. Every consumer-visible value-preservation read factors through
+$$
+h,k,G,N_h,N_k,F,H,C,P,N.
+$$
+No quotient stream, host arithmetic oracle, global normalization procedure, kernel rewrite, or source-target $\HSame$ proof is exported.
+\end{theorem}
+\begin{proof}
+Carrier habitation is the displayed packet of \autoref{def:zeckendorf-carry-value-carrier}. The packet stores the two windows, the carry row, the normality boundary rows, the value calculation, and the provenance rows in a single finite history surface.
+
+The carry-generator orientation is read from $G$, while $N_h$ and $N_k$ supply the source rejection and target admission rows. These coordinates determine which finite words are sent to the value calculation.
+
+The value-preservation read is then routed through $F$ and $C$. The row $F$ stores the two displayed Fibonacci value computations and their equality check, and $C$ records that consumers reach the public value row only along the carrier route.
+
+The non-escape clauses are the remaining projections. The row $H$ prevents the value equality from becoming $\HSame(h,k)$, while $P$ and $N$ account for provenance and naming. Since none of the excluded objects is a coordinate of the packet, no consumer can extract it from the package.
+\end{proof}
+
+\begin{theorem}[Zeckendorf carry-value vision realization]
+\label{thm:zeckendorf-carry-value-vision-realization}
+The finite packet $V=(h,k,G,N_h,N_k,F,H,C,P,N)$ realizes the Fibonacci value-preservation reading of the displayed carry row as a concrete $\ZeckendorfCarryValueUp$ NameCert surface. It extends the carry classifier by adding the value row $F$ and its consumer route, while preserving the boundary that carry-relatedness and history sameness are different judgments.
+\end{theorem}
+\begin{proof}
+Start from the displayed $\ZCarryUp$ carrier. Its source, target, carry row, source rejection, target admission, and non-$\HSame$ boundary provide the rows $h,k,G,N_h,N_k,H$.
+
+Add the finite value row $F$ for the two displayed words and route it through $C$. This supplies a consumer-facing value-preservation check without changing the carry generator or the normal-form classifier.
+
+Package the resulting rows with $P$ and $N$. The package exposes value preservation only through the finite NameCert surface, so the existing separation between carry-relatedness and history sameness remains part of the public contract.
+\end{proof}
+
+\closureat{ZeckendorfCarryValueUp}{seedStr}
+
+\begin{closurestatus}{\ZeckendorfCarryValueUp}
+  \constructivestory{A $\ZeckendorfCarryValueUp$ packet records the displayed carry from $\mathtt{word\_011}$ to $\mathtt{word\_100}$, the finite Fibonacci value equality for those two words, the normality boundary rows, and the non-$\HSame$ separation row in one finite $\BHist$ certificate.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:zeckendorf-carry-value-carrier}, \autoref{thm:zeckendorf-carry-value-non-hsame-boundary}, \autoref{thm:zeckendorf-carry-value-namecert-package}, and \autoref{thm:zeckendorf-carry-value-vision-realization} bind the seed finite value-preservation packet over $\ZCarryUp$, $\ZeckendorfNormalUp$, $\BHist$, $\HSame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, a bridge certificate, a global Zeckendorf normalizer, uniqueness of numerical interpretation, a kernel rewrite, or source-target $\HSame$.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite value-row exactness, non-$\HSame$ preservation, continuation routing, and public non-escape for the displayed carry-value packet.}
+\end{closurestatus}

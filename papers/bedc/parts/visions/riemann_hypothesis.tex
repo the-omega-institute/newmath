@@ -67,16 +67,19 @@ A constructive proof of $\mathsf{RH}$ exposes constructive content beyond the ba
 \label{thm:rh-witness-modulus}
 A constructive proof of $\mathsf{RH}$ supplies, for every $s$ with $\mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s)$, an explicit modulus function $\mu_s : \NatUp \to \NatUp$ such that for every $n$, the rational representative $q_n$ of $\Re(s)$ at depth $\mu_s(n)$ satisfies $|q_n - 1/2| < 2^{-n}$ as a $\RatUp$-level inequality. The function $\mu_s$ is the constructive content of the $\hsame$-witness for $\Re(s) = 1/2$.
 \end{theorem}
+\concretizedIn{ch:concrete-instances-criticallinewitness-namecert}{Critical-line witness packets realize the RH constructive witness type as finite rows over $\ZetaZerosUp$, $\CritStripUp$, $\RealUp$, $\RatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 
 \begin{theorem}[Approach-rate bound near the critical line]
 \label{thm:rh-witness-approach-rate}
 A constructive proof of $\mathsf{RH}$ supplies a bound function $\beta : \NatUp \to \RatUp$ with $\beta(n) > 0$ such that for every complex history $s$ in the critical strip with $|\Re(s) - 1/2| > 2^{-n}$ at the rational level, the regular Cauchy representative of $|\zeta(s)|$ admits a constructive lower bound $\beta(n)$. The function $\beta$ is the quantitative content of "no zeros off the critical line": away from the line, $\zeta$ is bounded away from zero by a computable amount.
 \end{theorem}
+\concretizedIn{ch:concrete-instances-criticalstripbarrier-namecert}{Critical-strip barrier packets realize the RH approach-rate witness as finite zero-localization, rational lower-bound, transport, route, package, and NameCert rows.}
 
 \begin{theorem}[Riemann-von Mangoldt zero count, constructive form]
 \label{thm:rh-witness-zero-count}
 A constructive proof of $\mathsf{RH}$ supplies an explicit zero-counting function $N : \NatUp \to \NatUp$ together with a witness, for every imaginary height $T \in \NatUp$, of a $\Unary$ upper bound on the cardinality of $\{\, s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s) \wedge |\Im(s)| \le T \,\}$ that agrees, up to an explicit constructive error term, with the Riemann-von Mangoldt formula $N(T) \approx (T / 2\pi) \log(T / 2\pi) - T / 2\pi$. The agreement is stated as a $\UnaryHistory$-level inequality on the zero-count history.
 \end{theorem}
+\concretizedIn{ch:concrete-instances-riemann-zero-count-ledger-namecert}{Riemann zero-count ledgers realize the RH zero-count witness as finite height-window, zero-list, unary-count, error-ledger, and NameCert rows.}
 
 \begin{theorem}[Trivial-zero classifier]
 \label{thm:rh-witness-trivial-zero}
@@ -140,3 +143,6 @@ The constructive form of \autoref{prop:rh-constructive-form} is what Curry-Howar
 \label{sec:rh-roadmap-scope}
 
 This capstone is a roadmap, not a proof. The conjecture $\mathsf{RH}$ has been stated as \autoref{def:rh-predicate} and refined to its constructive form as \autoref{prop:rh-constructive-form}; the witness types of \autoref{thm:rh-witness-modulus} through \autoref{thm:rh-witness-critical-line-restriction} catalog the constructive content any proof would expose; the dependency chain of \autoref{sec:rh-dependency-chain} fixes the order in which the supporting concrete-instance chapters must close before the RH statement can be inhabited; and \autoref{sec:rh-axiom-purity} fixes the three mathematically meaningful outcomes inside the BEDC fragment. The supporting LEVEL 3 through LEVEL 5 chapters are scaffolds awaiting codex pipeline elaboration. A rough scale estimate: twelve concrete-instance chapters across LEVELs 3, 4, and 5, each carrying eight to twelve Lean targets, totaling on the order of one hundred and twenty new theorems plus the RH statement-level targets of the present capstone. Even when the entire scaffold is closed and the chain is fully formalized, the Riemann Hypothesis remains the foundation for a future research program rather than a finished result; the roadmap clarifies what such a program would have to produce, in what order, and under what axiom-purity constraints. The chapter uses no $\mathsf{Classical.choice}$, no $\mathsf{Quot.sound}$, and no $\mathsf{propext}$; whether RH itself is provable inside this fragment is part of what this roadmap is intended to clarify.
+
+\concretizedIn{ch:concrete-instances-criticalstripzetazerowitness-namecert}{Critical-strip zeta-zero witness packets realize the RH capstone as a finite NameCert obligation surface.}
+\concretizedIn{ch:concrete-instances-nontrivial-zero-classifier-namecert}{Non-trivial zero classifiers are realized as finite ZetaZerosUp/CritStripUp boundary packets separating critical-strip zero witnesses from trivial-zero rows without host zero-set quotients.}

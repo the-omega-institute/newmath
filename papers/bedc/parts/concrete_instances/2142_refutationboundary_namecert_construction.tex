@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\RefutationBoundaryUp$}
+\label{ch:concrete-instances-refutationboundary-namecert}
+\origin{human}
+
+The $\RefutationBoundaryUp$ surface records the exact BEDC boundary between permitted refutation and forbidden truth-branch extraction. It is a finite NameCert carrier for consumers that need to use contradiction as a local refutation rule while preserving the open meta loop of \autoref{ch:visions-reasoning-by-contradiction-boundary}. The packet carries enough data to replay permitted negation routes, to consume a decidability row only when one is displayed, and to refuse any export of host excluded middle, nonconstructive existence, quotient truth predicates, or RealUp completeness.
+
+\begin{definition}[RefutationBoundary carrier]
+\label{def:refutation-boundary-carrier}
+A $\RefutationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,F,D,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the inspected proposition row, read as a certificate-visible predicate over the current finite history;
+\item $F$ is the permitted-refutation route from an assumed witness of $A$ to the displayed bottom row, using only $\Cont$, $\hsame$, $\msame$, and the local naming rows;
+\item $D$ is an optional decidability row for $A$, present only when the same packet displays a constructive branch for $A$;
+\item $S$ is the forbidden-schema descriptor, naming the three blocked shapes of \autoref{def:reasoning-forbidden-pattern}: unwitnessed existential extraction, double-negation elimination without $D$, and excluded-middle branching over the carrier of all naming certificates;
+\item $T$ is the truth-branch exclusion ledger, recording that no coordinate of the packet exports a family $Q(N)\vee\neg Q(N)$ over all naming certificates;
+\item $H$ records componentwise $\hsame$ transports for the proposition row, refutation route, optional decidability row, forbidden-schema descriptor, truth-branch ledger, package provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes for reading $A$, replaying $F$, consuming $D$ when present, checking $S$, and transporting $T$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Hist$, $\Ext$, $\Cont$, $\msame$, $\hsame$, the local refutation rows, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RefutationBoundaryUp}$ ledger.
+\end{enumerate}
+The carrier is only this finite packet. It has no host truth predicate, no quotient over truth values, no global excluded-middle coordinate, no witness selector for an existential obtained by contradiction, and no completeness certificate for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Permitted negation is sound inside the packet]
+\label{thm:refutation-boundary-permitted-negation-sound}
+Every accepted $\RefutationBoundaryUp$ packet supports the permitted BEDC rule that a displayed route from an assumed witness of $A$ to bottom yields the local negation of $A$. The rule is stable under the packet's $\hsame$ transports and displayed $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $B=(A,F,D,S,T,H,C,P,N)$. The row $F$ is not an ambient proof search result; it is a displayed route from an assumed witness of $A$ through the stored continuation rows to the bottom row.
+
+Transport stability is supplied by $H$ and $C$. Moving the proposition row and the route along the componentwise $\hsame$ data, then replaying the displayed $\Cont$ chain, gives the same local map from an admitted witness of $A$ to bottom.
+
+Thus the only negation exported by the packet is the one accounted for by its displayed route. This is exactly the permitted pattern of \autoref{def:reasoning-permitted-pattern}.
+\end{proof}
+
+\begin{theorem}[Forbidden truth branches are excluded]
+\label{thm:refutation-boundary-forbidden-truth-branch-exclusion}
+No consumer read of an accepted $\RefutationBoundaryUp$ packet can produce a certificate-indexed truth branch for predicates over the carrier of all naming certificates. In particular, the packet does not implement any forbidden schema of \autoref{def:reasoning-forbidden-pattern}.
+\end{theorem}
+\begin{proof}
+The only classifier-visible coordinates of the carrier are $A,F,D,S,T,H,C,P,N$. None of them ranges over all naming certificates, and none is a family choosing $Q(N)\vee\neg Q(N)$ for arbitrary $Q$ and arbitrary certificate $N$.
+
+The descriptor $S$ names the blocked schemas, while the ledger $T$ records their non-export condition. A consumer may inspect those rows, transport them through $H$, and replay their checks through $C$, but that yields only the finite exclusion ledger already present in the packet.
+
+The forbidden schemas require data outside the carrier inventory: a witness selected from $\neg\forall\neg$, a double-negation eliminator with no displayed decidability row, or excluded middle over naming certificates. Since no such coordinate exists, the truth branch of \autoref{def:reasoning-certificate-indexed-truth-branch} cannot be extracted.
+\end{proof}
+
+\begin{theorem}[RefutationBoundary NameCert obligations]
+\label{thm:refutation-boundary-namecert-obligations}
+The local $\NameCert_{\RefutationBoundaryUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $B=(A,F,D,S,T,H,C,P,N)$ of \autoref{def:refutation-boundary-carrier};
+\item classifier stability for the visible proposition row, permitted-refutation route, optional decidability row, forbidden-schema descriptor, truth-branch ledger, transports, continuation routes, package provenance, and local naming row;
+\item permitted-negation soundness, namely the transport-stable route of \autoref{thm:refutation-boundary-permitted-negation-sound};
+\item decidability accountability, saying that $\neg\neg A$ may be consumed only when the row $D$ displays a constructive decision for the same proposition row;
+\item truth-branch exclusion, namely the non-export statement of \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.RefutationBoundaryUp.RefutationBoundaryCarrier\_namecert\_obligation\_surface}
+\begin{proof}
+Carrier admission is projection from \autoref{def:refutation-boundary-carrier}. Every accepted object exposes exactly the displayed finite tuple and no hidden ambient coordinate.
+
+Classifier stability follows by comparing only the visible rows of the tuple. The proposition, refutation route, optional decidability row, forbidden-schema descriptor, truth-branch ledger, provenance, and local naming row are transported by $H$ and read through $C$.
+
+Permitted-negation soundness is \autoref{thm:refutation-boundary-permitted-negation-sound}. The proof route is finite, displayed, and stable under the same componentwise transports.
+
+For decidability accountability, inspect $D$. If $D$ is present, it is consumed as the displayed constructive branch for $A$; if it is absent, $S$ and $T$ record that no undecided double-negation eliminator is exported.
+
+Finally, truth-branch exclusion is \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}. The NameCert ledger records the boundary by carrying the exclusion row rather than a truth predicate over all naming certificates.
+\end{proof}
+
+\begin{theorem}[RealUp consumers receive only boundary data]
+\label{thm:refutation-boundary-realup-consumer-scope}
+A $\RealUp$ or completion consumer that reads an accepted $\RefutationBoundaryUp$ packet receives only the proposition row, displayed refutation route, optional decidability row, forbidden-schema descriptor, truth-branch exclusion ledger, transport rows, continuation routes, package provenance, and local naming row. It receives no completeness theorem, no quotient truth predicate, and no host excluded-middle principle.
+\end{theorem}
+\begin{proof}
+Any consumer read factors through the carrier coordinates $A,F,D,S,T,H,C,P,N$. These coordinates are finite $\BHist$ and ledger rows, so their projections remain inside the displayed NameCert surface.
+
+The refutation data available to the consumer is the route $F$ together with its transports and continuations. If the consumer also needs double-negation elimination, the only available route is the optional row $D$, and only for the same proposition row $A$.
+
+The completion-side exclusions are exactly the absent coordinates of \autoref{def:refutation-boundary-carrier}. The packet does not contain a RealUp completeness witness, a quotient truth predicate, or a branch over all naming certificates, so a RealUp consumer cannot obtain any of those principles from this certificate.
+\end{proof}
+
+\closureat{RefutationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\RefutationBoundaryUp}
+  \constructivestory{A $\RefutationBoundaryUp$ packet is generated from a proposition row, a permitted-refutation route, an optional decidability row, a forbidden-schema descriptor, a truth-branch exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:refutation-boundary-carrier}, \autoref{thm:refutation-boundary-permitted-negation-sound}, \autoref{thm:refutation-boundary-forbidden-truth-branch-exclusion}, \autoref{thm:refutation-boundary-namecert-obligations}, and \autoref{thm:refutation-boundary-realup-consumer-scope} bind the finite carrier, permitted refutation soundness, forbidden truth-branch exclusion, NameCert obligation surface, and consumer scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host excluded middle, nonconstructive existence, quotient truth predicates, RealUp completeness, a Lean implementation, or a standard bridge.}
+  \upgradepath{Obligation closure requires Lean encoding of the finite packet and checked theorems for permitted-negation soundness, forbidden truth-branch exclusion, NameCert obligations, and RealUp consumer scope.}
+\end{closurestatus}

@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.12 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.15 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -15,9 +15,15 @@ This phase emits **between min(5, available) and 5 targets per round**, NEVER ju
 4. `critical_path.top_root_unblocks[0..4]` — root chapters needing theorems.
 5. `critical_path.top[0..9]` — open horizon chapters.
 6. Theory_extension on any chapter file — paper labels without companion theorems.
-7. **Vision concretization** (`kind = "vision_concretization"`) — at most ONE per round, opt-in (no HARD GATE forcing each round to include one). Scan `parts/visions/*.tex` for a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. If found, this is a valid candidate. **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro, AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real.
+7. **Vision concretization** (`kind = "vision_concretization"`) — **PREFERRED DISCOVERY CHANNEL, ALWAYS-ON HARD GATE**. As long as there exists ANY chapter under `papers/bedc/parts/visions/` with `\concretizedIn` count strictly below the number of concretizable directions the vision actually spans (use 0-concretizedIn chapters as the default frontier), the candidate_pool MUST include at least one `vision_concretization` proposal with `selection_rank = 1`. Cap one vision_concretization per round so Phase Revise is not flooded, but the round MAY NOT skip this slot just because closure_mark / drift / bridge work is more "obvious"; that's the trap this gate prevents. Scan `parts/visions/*.tex` and pick a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Prefer visions whose underlying BEDC kernel infrastructure is ready (BHist / NameCert / hsame / kernel inductives exist); when a vision lacks kernel support, prefer the closest-supported vision rather than skipping the slot entirely (you may register a `notes` entry naming the kernel infra blocker so the operator sees what to build). **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro, AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real. Genuinely-saturated exemption: only when EVERY vision chapter under `parts/visions/` already has at least one `\concretizedIn` marker AND the operator's recorded vision-coverage target is met (current visions inventory: 16 narrative chapters; treat coverage as saturated only when ≥ 14 have markers) — at that point the slot becomes opt-in again. Until saturation, expect every P-round to ship a vision_concretization Target 1.
 
-8. **Automath concretization** (`kind = "automath_concretization"`) — at most ONE per round, opt-in. The **sibling project at `/Users/chronoai/automath/`** (The Omega Project, mathlib-based, Fibonacci-forcing theory compiler, 3427+ Lean theorems, 0 axioms) is a READ-ONLY inspiration source. You MAY read these paths (and only these) as context: `automath/README.md`, `automath/CHANGELOG.md`, `automath/theory/`, `automath/papers/publication/`, `automath/discovery/discovery_report.json`. **Do NOT** scan `automath/lean4/` (38K files, 64 GB total — read summaries/headers only if needed). **Do NOT write anywhere under `automath/`** — it is a separate git repository with its own pipeline. Concretization rules: pick one concrete mathematical object / construction / theorem statement from automath that is NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` AND that can be re-expressed inside BEDC's mathlib-free, 0-axiom, NameCert + TasteGate substrate (re-derive from first principles; do NOT import mathlib). The new chapter goes into `parts/concrete_instances/` and goes through the full standard project gate stack: BHistCarrier + ChapterTasteGate, NameCert 5 obligations, axiom-purity --strict, Phase D shallow-growth / parameter-echo. Mechanically identical to the `human_chapter_extension` flow except the inspiration source is documented in the chapter's intro section as "Inspired by Omega Project: \texttt{automath/<path>/<concept>}; here re-expressed in the BEDC mathlib-free substrate.". The automath project will not be modified; the citation is one-directional. Per-round cap: 1 automath_concretization candidate maximum.
+8. **Automath candidate intake** (`kind = "automath_concretization"`) — at most ONE per round, opt-in. The sibling Automath project is a READ-ONLY additional-information source for candidate discovery only. You MAY read only summary / theory / publication / discovery surfaces; do not scan large Lean implementation trees and do not write to the sibling repository.
+
+   **HARD GATE — landing classification before chapter creation**: an external theorem signal is NOT automatically a BEDC chapter candidate. First classify the signal into exactly one `landing_kind`: `existing_chapter_lemma`, `existing_chapter_obligation`, `existing_chapter_ledger_row`, `new_chapter`, or `reject`. Prefer the smallest BEDC-native landing. Use `existing_chapter_lemma` / `existing_chapter_obligation` / `existing_chapter_ledger_row` whenever the signal is a local certificate row, bridge obligation, boundary case, classifier fact, or proof component for an already-existing chapter. Emit `new_chapter` only when the signal supplies a genuinely new BEDC object with its own carrier, classifier, NameCert obligation surface, at least three existing BEDC dependency anchors, and a downstream consumer that cannot be represented as a theorem / obligation / ledger row inside any existing chapter. If those conditions are not met, the candidate is `reject`.
+
+   For accepted non-`new_chapter` Automath intake, `paper_files[0]` MUST be the existing BEDC chapter or child file where the lemma / obligation / ledger row belongs, and `proposed_change` MUST describe the local insertion. Do not edit `main.tex` or `preamble.tex` for those cases. For `new_chapter`, use the same mechanical path as `human_chapter_extension`, but the `proposed_change` MUST include an explicit `chapter_worthiness` paragraph listing: carrier novelty, classifier novelty, NameCert obligations, dependency anchors, downstream consumer, and why no existing chapter can host it.
+
+   The resulting paper content must be BEDC-native: do not cite, quote, or name the Automath path, bridge packet, discovery JSON, or source repository in the paper body. The source record is review metadata only; it may guide candidate selection, but it is not paper evidence. Hard provenance boundary: `automath/*`, `discovery_report.json`, bridge review-packet JSON paths, and the phrase "Inspired by Omega Project" MUST NOT appear in BEDC paper body, theorem statements, proofs, chapter intro prose, `\texttt{...}` citations, or closure prose. Per-round cap: 1 automath_concretization candidate maximum.
 
 If after enumerating sources 1-6 the candidate_pool is **still < 5**, then the repo has genuinely run dry on paper-side work and emitting fewer is OK — but you MUST justify in `notes` (e.g. "only 3 candidates: bridge_sync_pending=2 ContinuousUp/PdeUp, drift=1 banach; transitions all empty; theory_extension exhausted").
 
@@ -33,6 +39,38 @@ Constraints when emitting >1 target:
 - **Mixed difficulty allowed**: a 5-target round may mix 3 quick `closure_mark` (drift / bridge sync / token) targets and 2 substantive `theory_extension` / `missing_companion` targets — the quick targets sync token, the substantive ones grow the theory. Mixed rounds maximize per-round leverage.
 
 If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as exist (1, 2, 3, 4, or 5). Empty round (`{"targets": []}`) is still allowed when no feasible candidate survives.
+
+## TOP-LEVEL HARD GATE — orphan-chapter repair (cross-chapter lattice integrity)
+
+**Background (2026-05-13 dossier audit)**: 447 of 652 `parts/concrete_instances/` chapters (69%) had ZERO `\autoref{ch:concrete-instances-<sibling>-namecert}` or `\autoref{ch:visions-<slug>}` cross-references — every newly-generated chapter was a kernel-only float, citing only its own slug labels. The dependency graph degenerated into a star fan-out from kernel with no horizontal lattice. Two coordinated rules fix this:
+
+**Rule 1 — every new chapter MUST cross-reference at least one sibling** (enforced by the `orphan-new-chapter` gate in `phase_paper_gates.py`, hard-fail at verify). When you propose a `new_chapter` target (vision_concretization / automath_concretization / human_chapter_extension), `proposed_change` MUST instruct Phase Revise to insert at least one of:
+
+- `\autoref{ch:concrete-instances-<sibling-slug>-namecert}` to a sibling concrete-instances chapter whose carrier / classifier / NameCert obligation row this new chapter consumes or extends
+- `\autoref{ch:visions-<vision-slug>}` to the originating vision chapter (always required for `vision_concretization` targets — the `\concretizedIn{...}` marker on the vision side is separate from the inbound `\autoref` and both must exist)
+- `\autoref{thm:<sibling-slug>-...}` or `\autoref{def:<sibling-slug>-...}` resolving to a different slug than the new chapter's own slug
+
+Pure self-refs (`\autoref{thm:<own-slug>-...}`) DO NOT count. The chapter must show how it RELATES to existing chapters — which sibling's carrier it transports through, which obligation row it discharges as a consumer, which vision narrative it instantiates.
+
+**Rule 2 — orphan-chapter repair as a first-class candidate kind** (`kind = "orphan_repair"`). The repair pool consists of every existing concrete-instances chapter whose dossier `out_degree == 0` AND whose `\autoref{thm/def:...}` block resolves only to self-slug labels. To enumerate the repair candidates locally without rebuilding the dossier:
+
+```
+grep -lE '\\autoref\{ch:concrete-instances-' papers/bedc/parts/concrete_instances/*_namecert_construction.tex > /tmp/has_sibling_ref.txt
+# Files NOT in that grep output are orphan candidates; pick one whose own slug
+# names a concept that genuinely depends on another chapter's carrier.
+```
+
+For an `orphan_repair` target, `paper_files[0]` is the orphan chapter file; `proposed_change` describes the surgical edit:
+
+- Identify ONE existing sibling chapter whose carrier or classifier or NameCert obligation row the orphan chapter's content actually depends on (a SUBSTANTIVE dependency — not a fabricated link).
+- Insert one paragraph or sentence in the orphan chapter that names the sibling and the specific dependency relationship, with one `\autoref{ch:concrete-instances-<sibling>-namecert}` or `\autoref{thm:<sibling>-...}` cite.
+- If the orphan chapter genuinely has no substantive sibling dependency (it sits directly on kernel primitives only — BHistCarrier, NameCert, hsame, ProbeBundle), the correct repair is to identify the FIRST DOWNSTREAM consumer (another chapter that uses this chapter's results) and add a reverse forward link there instead (`paper_files[0]` becomes the downstream chapter, the orphan becomes the cite target). Either direction satisfies the dossier lattice — what matters is that the orphan moves out of `out_degree == 0` OR `in_degree == 0` state.
+
+**HARD GATE — orphan_repair quota**: when `\count_orphan_chapters` (the count from the `grep -L` above) is ≥ 50, AT LEAST 1 of the round's emitted targets MUST be `kind = "orphan_repair"`. Cap remains 1 per round so Phase Revise is not flooded with surgical edits.
+
+Counter: by 2026-05-13 the orphan count was 447. Until the count drops below 50, every P-round ships at least one orphan_repair Target.
+
+The `orphan-new-chapter` gate (Rule 1) is mechanical and runs at verify-time; the `orphan_repair` candidate (Rule 2) is the proactive parallel that pays down the existing backlog.
 
 ## TOP-LEVEL HARD GATE — bridge_sync_pending (paper records lean StdBridge upgrade)
 
@@ -154,9 +192,9 @@ multiple discovery proposals in the same round overload Phase Revise):
 
 - `kind = "vision_concretization"` — anchor in `parts/visions/*.tex`
   (source #7 above; 21 internal exploratory narrative chapters)
-- `kind = "automath_concretization"` — anchor in `/Users/chronoai/automath/{theory,papers,discovery}/`
-  (source #8 above; sibling Omega Project, 3427+ Lean theorems,
-  Fibonacci forcing chain)
+- `kind = "automath_concretization"` — external theorem-signal intake
+  (source #8 above; candidate metadata only; must pass `landing_kind`
+  classification before it can become paper work)
 - `kind = "human_chapter_extension"` — anchor in known mathematical
   textbook / Wikipedia / Bourbaki / nLab neighbour of an existing
   `parts/concrete_instances/<X>Up` chapter (the much larger human
@@ -168,21 +206,34 @@ multiple discovery proposals in the same round overload Phase Revise):
   yield a substantive opportunity for the current round but the
   human-known mathematics frontier does.
 
-Choose the channel with the most tasteful concretization opportunity
-this round. The three sources are NOT ranked by priority — codex
-should evaluate each honestly and pick the one with the strongest
-mathematical content for the current state of `parts/concrete_instances/`.
+**Channel priority (v4.14)**: `vision_concretization` is the preferred
+discovery channel and is already ALWAYS-ON via the dedicated HARD GATE
+at source #7 above; that gate fires every round until `parts/visions/`
+coverage is saturated (≥ 14 of 16 narrative chapters have at least one
+`\concretizedIn` marker). When this saturation gate ALSO fires (i.e.
+both `top_root_unblocks empty` AND `drift_chapters_total < 5`), the
+candidate_pool already has vision Target 1 from gate #7 — this gate
+adds an OPTIONAL second discovery candidate from `automath_concretization`
+or `human_chapter_extension` if the round still has slot budget. Do NOT
+emit a second `vision_concretization` here (one per round is the cap).
+If vision coverage is genuinely saturated and gate #7 is opt-in this
+round, then this gate's three sources ARE evaluated equally — pick the
+one with the strongest mathematical content for the current state of
+`parts/concrete_instances/`.
 If you genuinely cannot identify a substantive discovery target across
 ALL THREE sources after honest inspection, emit a `notes` entry
 explaining the exhaustion — but the bar for that exemption is
 extraordinarily high: the union of visions (21) + automath (3427+
 theorems) + human-known mathematics (entire textbook corpus) leaves
-"nothing concretizable" essentially impossible. Mechanically, all
-three flows produce a new `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`
-that goes through the standard BEDC gate stack (TasteGate framework +
-NameCert obligations + axiom-purity --strict + Phase D shallow-growth /
-no-touchpoint / parameter-echo), so no additional Phase Review taste
-filter is needed beyond verifying the candidate slug is novel.
+"nothing concretizable" essentially impossible. Mechanically, vision and
+human-known discovery flows may produce a new
+`parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Automath
+intake does so only after `landing_kind = "new_chapter"` and a non-empty
+`chapter_worthiness` justification pass the gate above; otherwise it lands
+as an existing-chapter lemma, obligation, ledger row, or is rejected. Every
+emitted target still goes through the standard BEDC gate stack (TasteGate
+framework + NameCert obligations + axiom-purity --strict + Phase D
+shallow-growth / no-touchpoint / parameter-echo).
 
 Saturation gate composition: this paper-side discovery mandate stacks
 with the `human_chapter_extension`-only saturation gate below (which
@@ -821,6 +872,28 @@ For all `cross_chapter_unification` values, `parts/visions/` MUST NOT be
 selected as `paper_files[0]` unless the target is only a
 `\concretizedIn{...}{...}` marker append on an existing vision file.
 
+## External signal landing discipline (HARD GATE)
+
+Any target whose `kind`, `summary`, `notes`, or `proposed_change` mentions
+`automath_concretization`, bridge continuation metadata, external theorem
+signals, review packets, discovery reports, or source theorem signals MUST
+include `landing_kind` in both the `candidate_pool` entry and emitted
+`targets` entry. The value must be exactly one of:
+
+- `existing_chapter_lemma`
+- `existing_chapter_obligation`
+- `existing_chapter_ledger_row`
+- `new_chapter`
+- `reject`
+
+External signals default to existing-chapter work. A `new_chapter` landing is
+valid only if the target also includes `chapter_worthiness` explaining carrier
+novelty, classifier novelty, NameCert obligation surface, dependency anchors,
+downstream consumer, and why no existing chapter can host the signal. If this
+field is missing or weak, drop the candidate or rewrite it as an
+existing-chapter lemma / obligation / ledger row. A mere external theorem name,
+path, repository signal, or proof packet is never chapter-worthy by itself.
+
 You MUST output the candidate pool in the top-level JSON field `candidate_pool`. This is an audit artifact, not work for the revise phase. Each candidate-pool entry must include: `candidate_id`, `kind`, `paper_files`, `anchor`, `summary`, `difficulty`, `quality_score`, `feasible`, `rejected_reason` (empty for feasible candidates), and `selection_rank` (1 is best). The emitted `targets[0]` MUST correspond exactly to the feasible candidate with `selection_rank = 1`. Do not hide harder feasible candidates; if a harder candidate is not selected, mark it infeasible or lower-ranked and state the concrete reason. Do not include invalid or speculative candidates in `targets`.
 
 In the JSON `notes`, briefly record the selected target's rank, the number of valid candidates considered, and why no harder feasible candidate was selected.
@@ -898,6 +971,8 @@ Output a single fenced JSON block:
       "anchor": "thm:concrete-name | def:concrete-name | the line near `\\begin{theorem}[Title]`",
       "summary": "One-sentence summary of the candidate.",
       "difficulty": "low | medium | high",
+      "landing_kind": "existing_chapter_lemma | existing_chapter_obligation | existing_chapter_ledger_row | new_chapter | reject",
+      "chapter_worthiness": "(required only when landing_kind is new_chapter; otherwise empty)",
       "quality_score": {
         "novelty": 0,
         "theory_value": 0,
@@ -925,6 +1000,8 @@ Output a single fenced JSON block:
       "expected_effect": "What logically improves once the change lands.",
       "lean_touchpoint": "(optional) Lean target that should be referenced or registered, e.g. `BEDC.FKernel.X.foo`. Use `\\_` for underscores when it will appear in `\\leanchecked{...}`.",
       "difficulty": "low | medium | high",
+      "landing_kind": "existing_chapter_lemma | existing_chapter_obligation | existing_chapter_ledger_row | new_chapter | reject",
+      "chapter_worthiness": "(required only when landing_kind is new_chapter; otherwise empty)",
       "chapter": "core | proof_obligations | concrete_instances | concrete_hardening | hardening | formalization | proof_sprint | proof_standing | project_governance | appendices",
       "roadmap_phase": "(name of the roadmap phase this target advances, or 'discipline' if it enforces a Section-roadmap-off-the-table claim, or 'maintenance' if it is a pure discipline hygiene fix outside any phase)",
       "quality_score": {

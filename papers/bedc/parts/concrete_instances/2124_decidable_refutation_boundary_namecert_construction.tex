@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DecidableRefutationBoundaryUp$}
+\label{ch:concrete-instances-decidable-refutation-boundary-namecert}
+\origin{ai}
+
+The $\DecidableRefutationBoundaryUp$ surface realizes the contradiction boundary of \autoref{ch:visions-reasoning-by-contradiction-boundary} as a finite NameCert carrier. It records one closed assumption row, an optional decision row, the displayed route from that assumption to falsity, transport and continuation rows, package provenance, and the local naming row. The carrier admits refutation only as visible BEDC evidence and keeps the forbidden contradiction schemas outside the exported certificate surface.
+
+\begin{definition}[Decidable refutation boundary carrier]
+\label{def:decidable-refutation-boundary-carrier}
+A $\DecidableRefutationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,D,F,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ is a closed assumption row, read as the certificate-visible proposition whose attempted witness is being inspected;
+\item $D$ is an optional decidability witness for the same row $A$, present exactly when the packet carries a constructive decision route for that row;
+\item $F$ is the displayed falsity route, a finite path from an assumed witness of $A$ to $\bot$ using only $\msame$, $\hsame$, $\Cont$, and the local certificate rows;
+\item $H$ stores the componentwise $\hsame$ transports for $A$, $D$, $F$, package provenance, and the local naming row;
+\item $C$ stores the displayed $\Cont$ routes that read $A$, replay $F$, consume $D$ when it is present, and return the result to the visible ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\msame$, $\hsame$, $\Cont$, the displayed refutation rows, optional decision rows, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DecidableRefutationBoundaryUp}$ row.
+\end{enumerate}
+The packet has no coordinate for a witness selected from contradiction alone, no double-negation eliminator without the row $D$, no excluded-middle branch over all naming certificates, and no host truth predicate.
+\end{definition}
+\leanchecked{BEDC.Derived.DecidableRefutationBoundaryUp.DecidableRefutationBoundaryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Decidable refutation boundary NameCert obligations]
+\label{thm:decidable-refutation-boundary-namecert-obligations}
+The local $\NameCert_{\DecidableRefutationBoundaryUp}$ surface for the carrier $R=(A,D,F,H,C,P,N)$ consists of five obligations:
+\begin{enumerate}
+\item carrier admission exposes exactly the finite packet of \autoref{def:decidable-refutation-boundary-carrier};
+\item assumption closure keeps $A$ as the single closed assumption row inspected by the packet and prevents consumers from replacing it by an ambient predicate;
+\item permitted falsity replay transports the route $F$ only through the stored $\hsame$ rows and the displayed $\Cont$ rows;
+\item decidable readback consumes $\neg\neg A$ only when $D$ displays a constructive decision for the same assumption row $A$;
+\item boundary non-escape prevents export of unwitnessed existential extraction, undecidable double-negation elimination, excluded-middle branching over all naming certificates, and certificate-indexed truth branches.
+\end{enumerate}
+Thus the certificate surface is finite, local to $A,D,F,H,C,P,N$, and separated from the forbidden patterns of \autoref{def:reasoning-forbidden-pattern}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:decidable-refutation-boundary-carrier}. The only readable rows are the closed assumption row, optional decision row, falsity route, transport rows, continuation routes, package provenance, and local naming row.
+
+Assumption closure follows because $A$ is stored as a closed coordinate of the same packet. A consumer may transport it by the displayed $\hsame$ rows and read it by the displayed $\Cont$ rows, but no coordinate replaces it by a host predicate or by a predicate over all naming certificates.
+
+Permitted falsity replay uses the route $F$. Transporting $A$ and $F$ along $H$ and replaying the corresponding route in $C$ still yields a displayed route from an assumed witness of the transported $A$ to $\bot$.
+
+For decidable readback, inspect $D$. If $D$ is present, the readback is tied to the same row $A$ and remains inside the packet. If $D$ is absent, no row of $R$ supplies the schema $\neg\neg A\Rightarrow A$.
+
+Boundary non-escape is the remaining carrier inventory. The packet has no witness selector for existential-by-contradiction, no undecided double-negation eliminator, no branch over the carrier of all naming certificates, and no host truth predicate, so every consumer remains inside the displayed NameCert rows.
+\end{proof}
+
+\begin{theorem}[Decidable refutation ground-loop exhaustion]
+\label{thm:decidable-refutation-ground-loop-exhaustion}
+Every accepted $\DecidableRefutationBoundaryUp$ route stays inside the rows $\msame$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ displayed by $R=(A,D,F,H,C,P,N)$. It can export only the local falsity route for the closed assumption row $A$ and, when $D$ is present, the matching decidable readback for $A$. It cannot export an unwitnessed existential, an undecidable double-negation elimination, or a certificate-indexed truth branch.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The proof route available to a consumer is $F$, and every movement of that route is accounted for by $H$ and $C$.
+
+The ground-loop rows are therefore exhausted by $\msame$, $\hsame$, $\Cont$, the package row $P$, and the local naming row $N$. No additional classifier, oracle, quotient, or truth predicate is present in the packet.
+
+When $D$ is present, a consumer may use it only as the displayed decision row for the same assumption $A$. When $D$ is absent, the carrier has no coordinate that turns $\neg\neg A$ into $A$.
+
+The forbidden exports require absent data: a selected existential witness obtained from contradiction alone, an undecidable double-negation eliminator, or a family of branches over all naming certificates. Since none of these rows exists in $R$, accepted routes remain inside the permitted contradiction boundary.
+\end{proof}
+
+\closureat{DecidableRefutationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\DecidableRefutationBoundaryUp}
+  \constructivestory{A $\DecidableRefutationBoundaryUp$ packet is generated from one closed assumption row, an optional decidability witness, a displayed falsity route, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decidable-refutation-boundary-carrier}, \autoref{thm:decidable-refutation-boundary-namecert-obligations}, and \autoref{thm:decidable-refutation-ground-loop-exhaustion} bind the finite carrier, NameCert obligation surface, and ground-loop exhaustion boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, excluded-middle branching, host truth over naming certificates, unwitnessed existential extraction, or undecidable double-negation elimination.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for carrier admission, assumption closure, permitted falsity replay, decidable readback, and boundary non-escape.}
+\end{closurestatus}

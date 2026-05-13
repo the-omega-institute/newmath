@@ -1,0 +1,120 @@
+\chapter{A Concrete Naming Certificate for $\ModulusIndexedTailCoverUp$}
+\label{ch:concrete-instances-modulus-indexed-tail-cover-namecert}
+\origin{ai}
+
+The $\ModulusIndexedTailCoverUp$ packet names the finite surface through which a unary precision request selects a modulus row, a tail-window cover, and a displayed tail witness before the $\RealUp$ seal is read. It sits between the witness schedule and diagonal seal surfaces: the packet remembers the request, the modulus-indexed windows, the dyadic tolerance ledger, the regular-sequence handoff, and the local naming row without adding quotient streams, host real equality, selected limits, or ambient completeness.
+
+\begin{definition}[Modulus-indexed tail-cover carrier]
+\label{def:modulus-indexed-tail-cover-carrier}
+A $\ModulusIndexedTailCoverUp$ carrier is a finite $\BHist$ packet
+$$
+T=(e,m,w,t,d,r,s,h,c,p,n)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $e$ is the unary precision request, read as the displayed natural-indexed tolerance demand;
+\item $m$ is the $\CauchyModulusUp$ row answering the request by a finite tail threshold;
+\item $w$ is the $\StreamNameUp$ tail-window cover selected by $m$ for the requested precision;
+\item $t$ is the selected finite tail witness, listing the inspected windows and their bounded overlap data;
+\item $d$ is the $\DyadicRatCoreUp$ tolerance ledger, including the dyadic split, endpoint rows, and tail-radius comparisons attached to $t$;
+\item $r$ is the $\RegSeqRatUp$ handoff row that reads the selected tail windows through the regular rational sequence;
+\item $s$ is the $\RealUp$ seal row reached only after $e,m,w,t,d,r$ have been displayed;
+\item $h$ records componentwise $\hsame$ transports for the precision request, modulus row, window cover, tail witness, dyadic ledger, regular-sequence handoff, seal row, provenance, and local name;
+\item $c$ records the displayed $\Cont$ routes from $e$ to $m$, from $m$ to $w$, from $w$ to $t$, from $t$ to $d$, from $d$ to $r$, and from $r$ to $s$;
+\item $p$ is the $\Pkg$ provenance over $\NatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\ModulusIndexedTailCoverUp}$ row.
+\end{enumerate}
+The carrier contains no unbounded tail family, no quotient stream, no host real equality, no selected limiting representative, no ambient completeness theorem, and no open-cover compactness row.
+\end{definition}
+\leanchecked{BEDC.Derived.ModulusIndexedTailCoverUp.ModulusIndexedTailCoverTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Modulus-indexed tail-cover NameCert obligations]
+\label{thm:modulus-indexed-tail-cover-namecert-obligations}
+The local $\NameCert_{\ModulusIndexedTailCoverUp}$ surface for \autoref{def:modulus-indexed-tail-cover-carrier} consists exactly of carrier admission for $T$, precision-request exposure through $e$, modulus-threshold exposure through $m$, selected $\StreamNameUp$ tail-window cover exposure through $w$, finite tail-witness exposure through $t$, dyadic tolerance-ledger exactness through $d$, $\RegSeqRatUp$ handoff through $r$, $\RealUp$ seal handoff through $s$, componentwise $\hsame$ transport through $h$, displayed $\Cont$ route replay through $c$, $\Pkg$ provenance through $p$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $T$. The rows $e,m,w,t,d,r,s,h,c,p,n$ list the precision request, modulus threshold, selected window cover, finite tail witness, dyadic ledger, regular-sequence handoff, real seal, transports, continuations, provenance, and local name.
+
+The cover obligations are finite. A consumer first reads $e$, then reads the threshold row $m$, inspects only the tail windows $w$ selected by that threshold, and then reads the witness row $t$ together with the dyadic ledger $d$ and regular-sequence handoff $r$.
+
+The seal row $s$ is exported only after this displayed route has been traversed. The rows $h,c,p,n$ account for transport, route replay, provenance, and local naming, so the local $\NameCert$ surface is exhausted by the packet.
+\end{proof}
+
+\begin{theorem}[Modulus-indexed tail-window coverage]
+\label{thm:modulus-indexed-tail-cover-window-coverage}
+Every tail-window observation exported from an accepted $\ModulusIndexedTailCoverUp$ carrier factors through the finite route
+$$
+e,m,w,t,d,r.
+$$
+Thus the observation is controlled by a unary precision request, a displayed modulus threshold, the selected $\StreamNameUp$ window cover, the finite tail witness, the $\DyadicRatCoreUp$ tolerance ledger, and the $\RegSeqRatUp$ readback row.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $e,m,w,t,d,r$. The request $e$ determines the modulus read $m$, the modulus row selects the window cover $w$, and the cover row exposes only the finite witness $t$.
+
+Apply the local NameCert obligations of \autoref{thm:modulus-indexed-tail-cover-namecert-obligations}. They force every observation-facing read through the precision request, modulus threshold, selected windows, finite witness, dyadic ledger, and regular-sequence handoff before any seal-facing read is available.
+
+Since the carrier has no coordinate for an unbounded tail family, quotient stream, host real equality, selected limit, or ambient completeness theorem, an exported tail-window observation can only use the displayed finite coverage route.
+\end{proof}
+
+\begin{theorem}[Modulus-indexed tail-cover Real seal handoff]
+\label{thm:modulus-indexed-tail-cover-real-seal-handoff}
+Every $\RealUp$ completion or diagonal-limit consumer of an accepted $\ModulusIndexedTailCoverUp$ carrier receives the seal row $s$ only through the displayed route
+$$
+e,m,w,t,d,r,h,c,p,n.
+$$
+The handoff therefore consumes the unary precision request, modulus threshold, selected tail windows, finite tail witness, dyadic tolerance ledger, regular-sequence readback, componentwise transport, route replay, package provenance, and local naming before the $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Start with the seal coordinate $s$. It is the only $\RealUp$ row in the carrier and is listed after the precision, modulus, window-cover, witness, dyadic-ledger, and regular-sequence rows.
+
+Use \autoref{thm:modulus-indexed-tail-cover-window-coverage}. It shows that the tail packet presented to a real-facing consumer has already been confined to the finite windows selected by the modulus row for the request $e$.
+
+The rows $h$ and $c$ replay the displayed transports and continuations, while $p$ and $n$ provide provenance and local naming. Therefore the seal is reached through the displayed route rather than through hidden completeness, quotient-equality, or selected-limit coordinates.
+\end{proof}
+
+\begin{theorem}[Modulus-indexed tail-cover non-escape]
+\label{thm:modulus-indexed-tail-cover-nonescape}
+Every downstream consumer of an accepted $\ModulusIndexedTailCoverUp$ packet factors through the finite rows
+$$
+e,m,w,t,d,r,s,h,c,p,n.
+$$
+The consumer may read the precision request, modulus threshold, selected $\StreamNameUp$ tail-window cover, finite tail witness, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it cannot read an unbounded tail family, quotient streams, host real equality, selected limits, ambient completeness, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and the local NameCert surface. The rows $e,m,w,t,d,r,s,h,c,p,n$ are the complete displayed packet.
+
+Use the window-coverage theorem for observation-facing consumers. It confines every modulus-indexed tail read to the finite threshold, selected windows, finite witness, dyadic tolerance ledger, and regular rational handoff.
+
+Use the Real seal handoff theorem for seal-facing consumers. It routes every completion or diagonal-limit read through $e,m,w,t,d,r,h,c,p,n$ before $s$ is consumed.
+
+No remaining carrier coordinate exists beyond those rows. Hence no downstream consumer can extract an unbounded tail family, quotient stream, host real equality, selected limit, ambient completeness theorem, or open-cover compactness from the packet.
+\end{proof}
+
+\begin{theorem}[Modulus-indexed tail-cover tail totality]
+\label{thm:modulus-indexed-tail-cover-tail-totality}
+Every accepted finite modulus request in a $\ModulusIndexedTailCoverUp$ carrier exposes a tail-window route through the displayed unary request row $e$, the modulus row $m$, the selected $\StreamNameUp$ windows $w$, the finite witness row $t$, the $\DyadicRatCoreUp$ tolerance ledger $d$, the $\RegSeqRatUp$ readback row $r$, the $\RealUp$ seal handoff $s$, componentwise transports $h$, displayed $\Cont$ routes $c$, $\Pkg$ provenance $p$, and the local $\NameCert$ row $n$.
+
+Thus tail coverage is total for the finite request presented to the packet, and the totality is witnessed by the same non-choice route that reaches the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:modulus-indexed-tail-cover-carrier}. It displays the precision request, modulus row, selected windows, finite witness, dyadic ledger, regular rational readback, real seal, transports, routes, provenance, and local name.
+
+Apply the window coverage theorem. It routes every tail-window observation through $e,m,w,t,d,r$, so the accepted finite request has a displayed cover before any seal-facing row is read.
+
+Apply the Real seal handoff theorem to extend that route through $h,c,p,n$ and then to the seal row $s$. The handoff does not add a second carrier or an unbounded family; it only replays the finite rows already named by the packet.
+
+The non-escape theorem closes the boundary. Since no carrier coordinate supplies quotient streams, host real equality, selected limits, ambient completeness, open-cover compactness, or an unbounded tail family, the finite tail totality is exactly the displayed route.
+\end{proof}
+
+\closureat{ModulusIndexedTailCoverUp}{seedStr}
+
+\begin{closurestatus}{\ModulusIndexedTailCoverUp}
+  \constructivestory{A $\ModulusIndexedTailCoverUp$ packet is generated from a unary precision request, a Cauchy modulus threshold, selected StreamName tail windows, a finite tail witness, a DyadicRatCore tolerance ledger, a RegSeqRat handoff, a RealUp seal row, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-indexed-tail-cover-carrier}, \autoref{thm:modulus-indexed-tail-cover-namecert-obligations}, \autoref{thm:modulus-indexed-tail-cover-window-coverage}, \autoref{thm:modulus-indexed-tail-cover-real-seal-handoff}, and \autoref{thm:modulus-indexed-tail-cover-nonescape} bind the finite modulus-indexed route from precision request through tail-window cover to the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RealUp completeness, quotient stream equality, host real equality, selected limits, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-window coverage, RealUp seal handoff, and non-escape for the same modulus-indexed packet.}
+\end{closurestatus}

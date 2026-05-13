@@ -17735,3 +17735,402 @@ Rationale:
 ThetaFunctionUp has no matching completed state target in the scanned state files and remains only public-closed with no bridge at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:139-154. The carrier source is explicitly a finite packet with period ledger, holomorphic local-function row, finite q-expansion coefficient window, package provenance, and continuation readbacks at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:9-19. Ledger exactness says exactly those finite rows are exposed and no infinite coefficient object or completed modular form is exported at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:58-82. The existing modular-shift theorem handles transport by period shift at papers/bedc/parts/concrete_instances/229_thetafunction_namecert_construction.tex:113-124, but the simpler finite-prefix restriction companion is absent and would exercise the finite-window side rather than another transport boundary.
 
 ---
+
+### B-703 - FoldMomentKernel finite-window restriction carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FoldMomentKernel finite-window restriction carrier |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+If an accepted FoldMomentKernel packet is restricted to a displayed finite subwindow and the fold-source, fiber-ledger, moment-index, collision-count, transport, continuation, provenance, and local NameCert rows restrict coherently, then the restricted packet is again an accepted FoldMomentKernel carrier.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1289_foldmomentkernel_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete closure theorem over an existing concrete-instance surface, not a marker, closurestatus, verification-axis item, or abstract parameter echo. It has a single implication form, lands naturally in the FoldMomentKernel NameCert construction, and the proposed input is not identified as a hub file or near the 800-line cap. Existing BOARD entries contain many analogous finite-prefix, finite-suffix, and finite-window carrier restrictions for other instances, but no FoldMomentKernel-specific target, so this is familiar in shape while still novel as a concrete object-level closure target.
+
+---
+
+### B-704 - AscoliModulus empty-family vacuity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AscoliModulus empty-family vacuity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under the AscoliModulus carrier setup, if an accepted packet has an empty finite family ledger and an empty source-net probe bundle, then its finite-net stability and family-wide equicontinuity ledgers are vacuous and the Arzela-Ascoli handoff exports only the displayed tolerance, radius, transport, package, and local naming rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1720_ascolimodulus_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete finite-ledger boundary theorem inside an existing concrete_instances chapter, not a marker or verification-axis task. The current AscoliModulus surface has carrier, equicontinuity ledger, finite-net stability, NameCert obligations, rational-radius transport, family transport, and Arzela-Ascoli handoff theorems, but no theorem isolating the empty family and empty probe-bundle base case. It exposes a useful vacuity boundary for a finite modulus package while preserving the chapter's non-compactness and no-subsequence-choice discipline, and the landing file is well below the line cap.
+
+---
+
+### B-706 - DomainPolicy finite Boolean closure
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | DomainPolicy finite Boolean closure |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+
+Problem:
+Under DomainPolicy(D0) and DomainPolicy(D1), if the compound domains define InDom(D_and,h) as InDom(D0,h) and InDom(D1,h), and InDom(D_or,h) as InDom(D0,h) or InDom(D1,h), then both D_and and D_or satisfy DomainPolicy.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/domain_policy.tex`
+
+Rationale:
+This is a concrete closure theorem for the existing DomainPolicy transport surface, not a marker or verification-axis task. The current paper records DomainPolicy, transport, invariance, three-history transport, and the UnarySource instance, but does not appear to record finite meet/join closure for compound domains. It is distinct from the existing ExactGlobalizeBase subdomain base-change target because it concerns preservation of the domain-policy obligation under Boolean domain constructors rather than restricting an already-globalized base. The landing file is not a hub and is well below the line cap.
+
+---
+
+### B-705 - UniformCauchyCriterion empty-family tail ledger
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | UniformCauchyCriterion empty-family tail ledger |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 6/10 |
+
+Problem:
+Under the UniformCauchyCriterion carrier setup, if an accepted packet has an empty finite family index ledger and an empty tail-comparison ledger, then the shared-threshold route is accepted vacuously and the RealUp seal handoff exports no completed family limit or indexwise schedule.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1711_uniformcauchycriterion_namecert_construction.tex`
+
+Rationale:
+The candidate is a single implication about a concrete finite-family tail-bound surface already present in the UniformCauchyCriterion chapter. Existing theorems cover window stability, RealUp seal handoff, non-escape, tail-ledger exactness, shared-threshold transport, RegSeqRat tail equivalence, obligation assembly, and finite-family window exhaustion, but they do not name the empty-index and empty-tail-ledger boundary as its own base case. The theorem would make the tail-bound and seal-export discipline smaller and easier to cite without adding host completeness, selected limits, or quotient stream equality, and the file is safe for direct landing.
+
+---
+
+### B-707 - FinitePhaseSampling alias-collision obstruction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | FinitePhaseSampling alias-collision obstruction |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 9/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \FinitePhaseSamplingUp packet has an admitted mode whose aliasing ledger displays a nonzero colliding translated mode at the chosen grid scale, then finite grid recovery for that mode is not determined by the grid row alone and any RealUp handoff must retain the aliasing ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1778_finite_phase_sampling_namecert_construction.tex`
+
+Rationale:
+The carrier records a finite phase-grid row G, mode-bound row K, coefficient samples M, aliasing ledger A, real handoff E, transports, routes, provenance, and NameCert at papers/bedc/parts/concrete_instances/1778_finite_phase_sampling_namecert_construction.tex:7-23. The NameCert obligations include grid recovery, handoff exactness, and non-escape at lines 28-36. The existing grid-recovery theorem is one-sided: it assumes the aliasing ledger has no nonzero colliding translated mode and then obtains coefficient determinacy from G at lines 51-60. The Real handoff and non-escape theorems require the handoff to factor through M and A at lines 63-77. A focused rg for "FinitePhaseSampling.*alias|phase sampling.*alias|aliasing.*obstruction|colliding translated" found only the no-collision recovery/handoff statements and no separate collision obstruction theorem or Lean marker. This is a concrete obstruction claim about the finite aliasing ledger, not a parameter-transport echo.
+
+---
+
+### B-708 - CauchyOscillation seal handoff factorization
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CauchyOscillation seal handoff factorization |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If an accepted CauchyOscillationUp packet exports a RealUp seal handoff S, then every consumer read of S factors through the same finite tail window W, threshold schedule M, dyadic tolerance Q, and oscillation ledger T before the seal is available.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1734_cauchyoscillation_namecert_construction.tex`
+
+Rationale:
+This is a concrete finite-packet obligation inside the existing CauchyOscillationUp chapter. The current paper defines the tail window, modulus schedule, tolerance, oscillation ledger, seal handoff, transports, continuation routes, provenance, and local NameCert rows, and it states oscillation-bound exactness and ledger non-escape, but it does not isolate the RealUp seal handoff as its own consumer factorization theorem. It is not a new chapter: the smallest BEDC-native landing is an existing-chapter obligation/lemma tying the displayed seal row to the already named W,M,Q,T dependency surface.
+
+---
+
+### B-709 - CertificateCompiler triple composition associativity
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CertificateCompiler triple composition associativity |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_ledger_row |
+
+Problem:
+If three accepted CertificateCompilerUp packets are composable along displayed middle NameCert rows, then the two relational graph composites classify by the same displayed graph, edge-landing, classifier-transport, and continuation-compatibility rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1965_certificatecompiler_namecert_construction.tex`
+
+Rationale:
+This lands cleanly as a finite ledger row for the existing CertificateCompilerUp chapter. The paper already contains the carrier, classifier, NameCert obligations, binary composition stability, and identity ledger, while the proposed target asks for the missing three-packet associativity boundary of the displayed relational graph composite. It stays within graph rows, landing rows, classifier transport, continuation compatibility, hsame, provenance, and local NameCert evidence, so it is not an external categorical-law expansion and is distinct from existing BOARD entries.
+
+---
+
+### B-710 - FiniteMultiHist subpacket restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | FiniteMultiHist subpacket restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted FiniteMultiHistPacketUp carrier is restricted to a finite displayed subfamily of observer rows and the corresponding component ledgers, pairwise hsame rows, Cont routes, package provenance, and no-global-sync boundary are projected with it, then the projected packet is again an accepted FiniteMultiHistPacketUp carrier with the same no-sync boundary.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1941_finite_multihist_packet_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete closure lemma for an existing short concrete-instance chapter, not a marker or closurestatus task. The current FiniteMultiHistPacketUp file defines the finite observer-history packet and proves NameCert obligations, hsame transport, no-sync boundary, and causal-interface input, but it does not state the finite subfamily restriction closure. The target is distinct from existing BOARD restriction carriers because it concerns the multi-Hist packet rows and preserves the no-global-sync boundary, while still fitting a standard BEDC carrier-projection proof shape. The landing file is safe and not a hub.
+
+---
+
+### B-711 - AuditGateBoundary to AuditMembrane refusal bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AuditGateBoundary to AuditMembrane refusal bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If an AuditMembraneUp packet uses as its gate surface the source-token, dependency, target-resolution, origin/import, and GAP rows of an accepted AuditGateBoundaryUp packet, then every item refused by the AuditGateBoundary row remains refused at the AuditMembrane boundary and cannot be exported as substrate theorem content.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2248_auditgateboundary_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/2243_auditmembrane_namecert_construction.tex`
+
+Rationale:
+The candidate is a concrete bridge obligation between two existing audit chapters. AuditGateBoundaryUp already exposes source-token, dependency, target-resolution, origin/import, and GAP boundary rows, while AuditMembraneUp already states its own refusal and consumer boundary for a gate surface; the missing claim is the preservation bridge when the membrane gate is instantiated by the AuditGateBoundary packet. This is not a generic parameter-transport echo because it links two named concrete carriers and preserves refusal/non-export across the boundary. The files are short, non-hub landing files, and the theorem can land locally without creating a new chapter.
+
+---
+
+### B-713 - Pipeline boundary middle-row determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Pipeline boundary middle-row determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted \(\CertificatePipelineStageBoundaryUp\) packets use the same adjacent compiler packets \(K_{SM}\) and \(K_{MT}\) and both compatibility rows identify the first target with the second source, then their displayed middle \(\NameCert\) rows are classifier-same and every composed boundary read factors through that common middle row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2651_certificate_pipeline_stage_boundary_namecert_construction.tex`
+
+Rationale:
+The claim is a concrete determinacy statement for the displayed middle row of the existing \(\CertificatePipelineStageBoundaryUp\) carrier. It is not a duplicate of B-709, which concerns triple composition associativity for \(\CertificateCompilerUp\), and the current paper file only states the boundary carrier and its NameCert obligations. The result is more than a marker or pure parameter echo because it fixes the shared intermediate certificate row used by composed boundary reads.
+
+---
+
+### B-712 - CauchyNet finite subwindow restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CauchyNet finite subwindow restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \(\CauchyNetUp\) packet is restricted to a finite directed subwindow that still contains the displayed common upper-window witnesses for the requested tolerances, then the restricted packet is again an accepted \(\CauchyNetUp\) carrier and its \(\RealUp\) handoff factors through the same \(\RegSeqRatUp\) row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2642_cauchynet_namecert_construction.tex`
+
+Rationale:
+The target is a concrete finite-window closure theorem inside an existing \(\CauchyNetUp\) chapter, not a verification marker or closurestatus update. The local chapter exposes the finite directed index-window ledger, scheduled observations, \(\RegSeqRatUp\) row, common-window classifier, and \(\RealUp\) handoff, but currently states only the carrier and NameCert obligation surface. Existing BOARD entries include finite restriction patterns for other objects, but none for \(\CauchyNetUp\), so this is a distinct local closure target with safe landing in a short non-hub file.
+
+---
+
+### B-715 - ContinuationBigStep terminal-read determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ContinuationBigStep terminal-read determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted \(\ContinuationBigStepUp\) packets have classifier-same source row, small-step trace ledger, replay route, and terminal row, then their terminal-read witnesses are classifier-same and both big-step reads factor through the same finite route.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/3293_continuationbigstep_namecert_construction.tex`
+
+Rationale:
+The chapter already exposes the terminal-read witness \(Q\), componentwise transport, replay route, and small-step factorization theorem, but it does not state endpoint determinacy for \(Q\) under fixed source, trace, route, and terminal rows. This is a concrete determinacy target for an existing finite computation packet and is not covered by the existing BOARD title index.
+
+---
+
+### B-714 - Decompiler right-inverse classifier theorem
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Decompiler right-inverse classifier theorem |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted \(\DecompilerRightInverseUp\) packets share the same displayed compiler graph, decompiler graph, target optimisation row, and paired right-inverse ledger up to componentwise \(\hsame\), then their target-row right-inverse comparisons classify together and no extra inverse data is exported.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2833_decompiler_right_inverse_namecert_construction.tex`
+
+Rationale:
+This directly fills the gap named by the chapter itself: the current \(\DecompilerRightInverseUp\) surface has carrier, NameCert obligations, and a non-escape boundary, while its closure block says a finite right-inverse classifier theorem is still needed. The claim is a single local classifier-determinacy implication over displayed packet rows and has no BOARD duplicate or matching paper theorem.
+
+---
+
+### B-716 - TypePreservingCompiler sequential composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | TypePreservingCompiler sequential composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If accepted \(\TypePreservingCompilerUp\) packets compile \(S\) to \(T\) and \(T\) to \(U\), then the relational composite of their compiler graphs determines an accepted \(\TypePreservingCompilerUp\) packet from \(S\) to \(U\) preserving target \(\Ext\) membership and the source/target subject-reduction ledgers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/3009_typepreservingcompiler_namecert_construction.tex`
+
+Rationale:
+The existing \(\TypePreservingCompilerUp\) chapter has subject-reduction handoff, morphism reading, and ledger boundary theorems, but no sequential composition theorem for two accepted compiler packets. The claim is a concrete closure result over compiler graphs and subject-reduction ledgers, distinct from already-present generic classifier-morphism composition and not merely a verification-axis update.
+
+---
+
+### B-717 - AnalyticContinuationOperation socket extraction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AnalyticContinuationOperation socket extraction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \(\AnalyticContinuationOperationUp\) packet has continuation ledger \(L\) whose branch-obstruction coordinate is displayed as \(B\), then the rows \(F,G,U,A,O,B,H,C,P,N\) determine an accepted \(\AnalyticContinuationSocketUp\) packet and every output \(\HolomorphicUp\) read through the operation factors through that socket.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2519_analyticcontinuationoperation_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/2506_analyticcontinuationsocket_namecert_construction.tex`
+
+Rationale:
+This is a concrete bridge between two existing adjacent analytic-continuation packet surfaces. The operation chapter exports the larger operation packet and the socket chapter proves socket-internal handoff and non-escape rows, but no paper theorem extracts the socket carrier from an accepted operation packet. The landing is safe in existing concrete instance files and the target is a BEDC-native bridge, not a general analytic-continuation claim.
+
+---
+
+### B-718 - ZetaContinuationSocket to witness carrier bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ZetaContinuationSocket to witness carrier bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \(\ZetaContinuationSocketUp\) carrier is supplied with the displayed \(\Pkg\) provenance row over the same zeta, eta, pole, functional-equation, trivial-zero, Gamma-boundary, transport, and route coordinates, then it determines an accepted \(\ZetaContinuationWitnessUp\) carrier with the same downstream non-escape boundaries.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2589_zetacontinuationsocket_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/2584_zetacontinuationwitness_namecert_construction.tex`
+
+Rationale:
+The socket and witness chapters already expose closely aligned zeta-continuation packets, but the paper states only their separate obligation, handoff, and concretization surfaces. A bridge from socket plus provenance to witness is distinct enough to merit a local target because it turns one accepted BEDC packet into the other without exporting RH, zero-location, branch-choice, or completed Gamma data. Novelty is moderate because the two chapters are adjacent and structurally similar, but no existing BOARD entry or paper label covers this carrier bridge.
+
+---

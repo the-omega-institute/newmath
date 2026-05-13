@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\DefiniteDescriptionBoundaryUp$}
+\label{ch:concrete-instances-definite-description-boundary-namecert}
+\origin{ai}
+
+The $\DefiniteDescriptionBoundaryUp$ packet realizes the description-expansion boundary as a finite naming certificate. It treats a definite description as a row that may be consumed only after the packet exposes existence, uniqueness boundary, stability, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. No description row becomes a denoting term by grammar alone.
+
+\begin{definition}[Definite-description boundary carrier]
+\label{def:definite-description-boundary-carrier}
+A $\DefiniteDescriptionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,E,U,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the description row whose apparent denotation is being tested;
+\item $E$ is the existence-witness row for a candidate history satisfying the description;
+\item $U$ is the uniqueness-boundary row, recording either a displayed singleton boundary for the candidate or the explicit refusal to collapse multiple candidates;
+\item $S$ is the stability row showing that permitted reads of the description survive the stated $\hsame$ and continuation routes;
+\item $H$ is the componentwise $\hsame$ transport row for descriptions, witnesses, uniqueness boundaries, stability witnesses, replay routes, provenance, and local names;
+\item $C$ is the $\Cont$ row that replays the finite route from the description row to the admitted witness and through the boundary check;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\BMark$, description rows, witness rows, uniqueness boundaries, stability rows, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DefiniteDescriptionBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-selected object, a choice function, a quotient class, proof-irrelevance, or an unrecorded semantic denotation.
+\end{definition}
+\leanchecked{BEDC.Derived.DefiniteDescriptionBoundaryUp.DefiniteDescriptionBoundaryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Definite-description NameCert obligations]
+\label{thm:definite-description-boundary-namecert-obligations}
+The local $\NameCert_{\DefiniteDescriptionBoundaryUp}$ surface for \autoref{def:definite-description-boundary-carrier} consists exactly of carrier admission for $B=(D,E,U,S,H,C,P,N)$, existence exposure through $E$, uniqueness-boundary exposure through $U$, stability exposure through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:definite-description-boundary-carrier}. The description row, witness row, boundary row, stability row, transport row, replay row, provenance row, and local name are all displayed coordinates of the same packet.
+
+The naming obligations are exactly the rows a consumer can inspect before reading the description. Existence is read from $E$, the boundary between singleton and refusal is read from $U$, stability is read from $S$, and all transport, replay, provenance, and naming data are read through $H,C,P,N$.
+
+No additional coordinate remains from which to select a host object or import an ambient denotation. The local $\NameCert$ surface is therefore exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Definite-description existence route]
+\label{thm:definite-description-boundary-existence-route}
+Let $B=(D,E,U,S,H,C,P,N)$ be an accepted $\DefiniteDescriptionBoundaryUp$ packet. Any public use of the description row $D$ as having a witness must factor through the displayed existence row $E$, replayed by $C$ and recorded by $P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its description row $D$ and existence row $E$. The carrier contains no second existence coordinate and no host-level selection function.
+
+The replay route $C$ is the only displayed path from the description row to the witness row, and $P,N$ bind that path to the packet provenance and local name. Thus a public existence read factors through $E,C,P,N$ rather than through an unstated denotation.
+\end{proof}
+
+\begin{theorem}[Definite-description uniqueness route]
+\label{thm:definite-description-boundary-uniqueness-route}
+Let $B=(D,E,U,S,H,C,P,N)$ be an accepted $\DefiniteDescriptionBoundaryUp$ packet. Any public use of $D$ as selecting at most one witness must factor through the uniqueness-boundary row $U$. If $U$ records refusal rather than singleton boundary, the packet exports only the refusal and does not export a denoting term.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only row that can certify uniqueness, or refuse it, is $U$.
+
+When $U$ records a singleton boundary, the consumer reads that boundary through the same displayed replay and provenance rows $C,P,N$. When $U$ records refusal, the packet has no alternate coordinate from which a selected witness can be recovered.
+
+Therefore uniqueness is not supplied by the grammar of the description. It is supplied only by the displayed boundary row, and failure of that row blocks denotation.
+\end{proof}
+
+\begin{theorem}[Definite-description stability route]
+\label{thm:definite-description-boundary-stability-route}
+Let $B=(D,E,U,S,H,C,P,N)$ be an accepted $\DefiniteDescriptionBoundaryUp$ packet. Any downstream read that transports the description across equivalent histories must use the stability row $S$ together with the componentwise $\hsame$ row $H$ and the replay row $C$.
+\end{theorem}
+\begin{proof}
+The stability coordinate $S$ records the permitted movement of the description read under the packet's own transport discipline. The transport coordinate $H$ records the componentwise $\hsame$ data for the description, witness, boundary, stability, replay, provenance, and naming rows.
+
+A downstream transport therefore has to pass through $S,H,C$. Package provenance and local naming remain the rows $P,N$, so the transported read is still the same finite certificate surface.
+
+Since the carrier has no proof-irrelevance principle, quotient equality, or external equivalence oracle, no other stability route is available.
+\end{proof}
+
+\begin{theorem}[Definite-description ledger exhaustion]
+\label{thm:definite-description-boundary-ledger-exhaustion}
+Every accepted $\DefiniteDescriptionBoundaryUp$ packet exports description-expansion information only through the finite rows
+$$
+D,E,U,S,H,C,P,N.
+$$
+It exports no host-selected witness, no choice principle, no quotient representative, no proof-irrelevance shortcut, and no denoting term outside the displayed NameCert ledger.
+\end{theorem}
+\begin{proof}
+Read the carrier as the tuple $B=(D,E,U,S,H,C,P,N)$. The definition lists every row available to a downstream consumer.
+
+Existence, uniqueness boundary, and stability are exhausted by $E,U,S$. Transport, replay, provenance, and local naming are exhausted by $H,C,P,N$.
+
+Thus the apparent denoting expression is expanded into its certificate rows. With no remaining coordinate for choice, quotient representative selection, proof irrelevance, or host denotation, the ledger boundary is exact.
+\end{proof}
+
+\closureat{DefiniteDescriptionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\DefiniteDescriptionBoundaryUp}
+  \constructivestory{A $\DefiniteDescriptionBoundaryUp$ packet is generated from a description row, an existence witness row, a uniqueness-boundary row, a stability row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:definite-description-boundary-carrier}, \autoref{thm:definite-description-boundary-namecert-obligations}, \autoref{thm:definite-description-boundary-existence-route}, \autoref{thm:definite-description-boundary-uniqueness-route}, \autoref{thm:definite-description-boundary-stability-route}, and \autoref{thm:definite-description-boundary-ledger-exhaustion} specify the finite description-expansion carrier and its ledger boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean-side formal verification, a public definite-description operator, host choice, quotient representative selection, proof irrelevance, or a bridge to any external description calculus.}
+  \upgradepath{Obligation closure requires checked carrier admission, existence-route exactness, uniqueness-boundary determinacy, stability transport, replay provenance, and ledger non-escape for the displayed packet.}
+\end{closurestatus}

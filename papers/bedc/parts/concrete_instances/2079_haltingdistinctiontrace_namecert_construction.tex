@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\HaltingDistinctionTraceUp$}
+\label{ch:concrete-instances-haltingdistinctiontrace-namecert}
+\origin{human}
+
+The $\HaltingDistinctionTraceUp$ surface refines the halting-as-distinction interface of \autoref{ch:visions-halting-as-form-of-distinction-limit} to the finite trace actually inspected by a certificate-level diagonal reader. It records the visible continuation segment, the distinction classifier row, the self-application row, and the finite certificate routes through which the fixed-point obstruction is read.
+
+\begin{definition}[HaltingDistinctionTrace carrier]
+\label{def:halting-distinction-trace-carrier}
+A $\HaltingDistinctionTraceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,T,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the admitted certificate-history input row, naming the program certificate and the history at which its visible behavior is read;
+\item $T$ is the finite $\Cont$ trace row, listing the displayed marks and histories available before any halting-facing distinction is asserted;
+\item $D$ is the distinction classifier row, reading only whether the trace exposes the displayed termination mark or remains inside the finite open trace;
+\item $E$ is the diagonal self-application row, asking the classifier in $D$ about the same certificate-history row named by $A$;
+\item $H$ stores componentwise $\hsame$ transports for input, trace, distinction, diagonal, provenance, and local naming rows;
+\item $C$ stores the displayed $\Cont$ routes for replaying $T$, entering $D$, reaching $E$, and returning to the local ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, the distinction row, the diagonal row, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HaltingDistinctionTraceUp}$ row.
+\end{enumerate}
+The carrier contains no total halting predicate, no global truth predicate, no divergence detector, no host evaluator, and no classifier outside the displayed rows of $R$.
+\end{definition}
+
+\begin{theorem}[HaltingDistinctionTrace diagonal obstruction package]
+\label{thm:halting-distinction-diagonal-obstruction-package}
+For an accepted $\HaltingDistinctionTraceUp$ carrier $R=(A,T,D,E,H,C,P,N)$, every certificate-level diagonal read of the halting-as-distinction obstruction factors through the finite route
+$$
+A \longmapsto T \longmapsto D \longmapsto E \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+The route may expose that the classifier row $D$ is queried at its own certificate-history input through $E$, but it never exports a total halting predicate, a global truth predicate, a divergence detector, or a host-level evaluator. Thus the fixed-point obstruction is realized as finite $\Cont$, $\Ext$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:halting-distinction-trace-carrier}. The only rows that can name the input, the visible execution segment, the distinction classifier, and the diagonal query are $A,T,D,E$.
+
+Replay of the trace is controlled by the $\Cont$ routes in $C$. These routes inspect the displayed marks and histories in $T$ before the distinction row $D$ is read, so a consumer cannot replace the finite trace by an ambient evaluator.
+
+The diagonal point is the row $E$. Componentwise transport is supplied by $H$, while $P$ records provenance and $N$ records the local naming certificate. These rows can identify the self-application site, but they do not add a truth predicate or a total decision principle.
+
+Therefore every diagonal read remains inside the displayed route through $A,T,D,E,H,C,P,N$. The obstruction is the finite certificate-level self-query itself, carried by $\Cont$, $\Ext$, $\Pkg$, and $\NameCert$ data rather than by any global halting classifier.
+\end{proof}
+
+\closureat{HaltingDistinctionTraceUp}{seedStr}
+
+\begin{closurestatus}{\HaltingDistinctionTraceUp}
+  \constructivestory{A $\HaltingDistinctionTraceUp$ packet is generated from an admitted certificate-history input row, a finite continuation trace row, a distinction classifier row, a diagonal self-application row, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:halting-distinction-trace-carrier} and \autoref{thm:halting-distinction-diagonal-obstruction-package} bind the finite trace carrier and the certificate-level diagonal obstruction route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a total halting predicate, a global truth predicate, divergence detection, host evaluation, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace readability, distinction transport, diagonal boundary exactness, and consumer non-escape for the displayed trace packet.}
+\end{closurestatus}

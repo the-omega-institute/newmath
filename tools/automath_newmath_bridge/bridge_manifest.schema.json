@@ -197,6 +197,9 @@
         },
         "synthesis_next_action": {
           "type": "string"
+        },
+        "logic_discipline": {
+          "$ref": "#/$defs/logic_discipline"
         }
       }
     }
@@ -220,6 +223,85 @@
         "audit_failure",
         "candidate_mechanism"
       ]
+    },
+    "logic_discipline": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "version",
+        "principles",
+        "five_element_mapping",
+        "oracle_mode",
+        "required_packet_fields"
+      ],
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "principles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "five_element_mapping": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "strength_levels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "equality_kinds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interpretation_kinds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "existence_modes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "oracle_modes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "oracle_mode": {
+          "type": "string"
+        },
+        "readiness": {
+          "type": "string"
+        },
+        "deterministic_non_oracle_work": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required_packet_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }

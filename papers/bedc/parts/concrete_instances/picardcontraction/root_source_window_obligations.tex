@@ -1,0 +1,166 @@
+\begin{definition}[PicardContraction root source-window packet]
+\label{def:picardcontraction-root-source-window-packet}
+A $\PicardContractionUp$ root source-window packet is a finite extension
+$$
+R=(B,T,L,I,M,E,H,C,G,N,U)
+$$
+of the carrier rows of \autoref{def:picardcontraction-bhist-carrier}. The rows
+$B,T,L,I,M,E,H,C,G,N$ are the displayed $\BanachUp$ source row,
+contraction-map row, rational Lipschitz ledger, finite Picard-iterate ledger,
+Cauchy-modulus window, endpoint and seal row, componentwise $\hsame$
+transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert_{\PicardContractionUp}$ row. The extra row $U$ is a finite
+downstream consumer request row naming which of the $\RegSeqRatUp$, $\RealUp$,
+$\OdeUp$, $\NewtonIterationUp$, or $\CauchyRateUp$ routes is being read from
+the same packet.
+
+The row $U$ is not an additional analytic object. It is a request index over
+the public carrier surface of \autoref{thm:picardcontraction-public-carrier-surface}
+and the public naming export of \autoref{thm:picardcontraction-public-namecert-export}.
+Thus the packet has no coordinate for a Banach fixed point, completed Picard
+orbit, ambient completeness theorem, quotient stream equality, or selected
+limit.
+\end{definition}
+
+\begin{theorem}[PicardContraction root source-window admission]
+\label{thm:picardcontraction-root-source-window-admission}
+Every packet $R=(B,T,L,I,M,E,H,C,G,N,U)$ satisfying
+\autoref{def:picardcontraction-root-source-window-packet} is admitted by the
+root $\PicardContractionUp$ consumer surface as a finite $\mathsf{BHist}$
+source-window. Its analytic rows are exactly the carrier rows of
+\autoref{def:picardcontraction-bhist-carrier}, its public read surface is the
+one described by \autoref{thm:picardcontraction-public-carrier-surface}, and
+its consumer request row $U$ may only choose among the displayed downstream
+routes named by \autoref{thm:picardcontraction-public-namecert-export}.
+\end{theorem}
+\begin{proof}
+Project the first ten coordinates of $R$. They are precisely the
+$B,T,L,I,M,E,H,C,G,N$ rows of \autoref{def:picardcontraction-bhist-carrier},
+so carrier admission is the ordinary finite $\mathsf{BHist}$ admission for
+the Picard packet.
+
+Read the same rows through \autoref{thm:picardcontraction-public-carrier-surface}.
+The public surface lists the Banach source, contraction row, Lipschitz ledger,
+finite iterate ledger, modulus row, endpoint seal, $\hsame$ transports,
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+
+Finally inspect $U$. By definition it only records which downstream consumer
+route is requested, and \autoref{thm:picardcontraction-public-namecert-export}
+already restricts those routes to the displayed public rows. Hence admission
+adds no completed orbit, fixed point, ambient completeness witness, quotient
+stream equality, or selected limit.
+\end{proof}
+\leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionRootSourceWindowPacket\_admission}
+
+\begin{theorem}[PicardContraction root modulus consumer lock]
+\label{thm:picardcontraction-root-modulus-consumer-lock}
+For every admitted root source-window packet
+$R=(B,T,L,I,M,E,H,C,G,N,U)$, any $\CauchyRateUp$, $\RegSeqRatUp$, or
+$\RealUp$ read of the modulus or seal is locked to the displayed rows
+$$
+L,I,M,E,H,C,G,N.
+$$
+The lock is the finite source extraction of
+\autoref{thm:picardcontraction-cauchyrate-source-extraction} together with the
+public carrier and public $\NameCert$ rows of
+\autoref{thm:picardcontraction-public-carrier-surface} and
+\autoref{thm:picardcontraction-public-namecert-export}.
+\end{theorem}
+\begin{proof}
+Begin with the admitted packet of
+\autoref{thm:picardcontraction-root-source-window-admission}. Its modulus row
+$M$, endpoint seal $E$, transports $H$, continuations $C$, package row $G$,
+and naming row $N$ are visible carrier coordinates, not hidden completion
+data.
+
+Apply \autoref{thm:picardcontraction-cauchyrate-source-extraction}. It
+identifies the $\CauchyRateUp$-facing source as a finite read of
+$L,I,M,E,H,C,G,N$ from the same $\mathsf{BHist}$ packet.
+
+For $\RegSeqRatUp$ and $\RealUp$ consumers, use
+\autoref{thm:picardcontraction-public-namecert-export}. The public
+$\NameCert_{\PicardContractionUp}$ export routes those reads through the same
+displayed finite rows. Therefore the consumer request row $U$ can select only
+that finite modulus-and-seal route and cannot replace it by a Banach
+fixed-point theorem, completed orbit, ambient completeness proof, quotient
+stream equality, or selected limit.
+\end{proof}
+\leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionRootSourceWindowPacket\_modulus\_consumer\_lock}
+
+\begin{theorem}[PicardContraction root downstream handoff exhaustion]
+\label{thm:picardcontraction-root-downstream-handoff-exhaustion}
+Every downstream handoff out of an admitted root source-window packet
+$R=(B,T,L,I,M,E,H,C,G,N,U)$ is exhausted by the rows
+$$
+B,T,L,I,M,E,H,C,G,N,U.
+$$
+For $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, $\NewtonIterationUp$, and
+$\CauchyRateUp$ consumers, the handoff is a projection of the displayed
+$\mathsf{BHist}$ carrier, componentwise $\hsame$ transports, $\Cont$ routes,
+$\Pkg$ provenance, local $\NameCert$ row, and the request row $U$. No consumer
+route invokes a Banach fixed point, completed Picard orbit, ambient
+completeness theorem, external contraction principle, quotient stream
+equality, or selected limit.
+\end{theorem}
+\leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionRootSourceWindowPacket\_downstream\_handoff\_exhaustion}
+\begin{proof}
+First project the carrier coordinates. By
+\autoref{def:picardcontraction-root-source-window-packet}, the rows before
+$U$ are exactly the rows of \autoref{def:picardcontraction-bhist-carrier}; the
+extra row merely names the requested downstream route.
+
+For rate, regular-rational, and real-facing consumers, apply
+\autoref{thm:picardcontraction-root-modulus-consumer-lock}. It binds the
+modulus and seal handoff to $L,I,M,E,H,C,G,N$ inside the same packet.
+
+For ODE and Newton consumers, read the public surface through
+\autoref{thm:picardcontraction-public-carrier-surface} and then through
+\autoref{thm:picardcontraction-public-namecert-export}. These theorems route
+the Banach source, contraction row, ratio ledger, iterate ledger, modulus row,
+endpoint seal, transport rows, continuation rows, provenance, and local name
+through the finite public packet.
+
+The request row $U$ has no data beyond the selected consumer family. Since
+each family has already been routed through the displayed carrier and naming
+rows, the handoff is exhausted by $B,T,L,I,M,E,H,C,G,N,U$.
+\end{proof}
+
+\begin{theorem}[PicardContraction source-window formal target]
+\label{thm:picardcontraction-source-window-formal-target}
+For a root source-window packet
+$$
+R=(B,T,L,I,M,E,H,C,G,N,U),
+$$
+the displayed rows $B,T,L,I,M,E,H,C,G,N,U$ constitute the exact paper-side formal target for the future Lean encoding of the $\PicardContractionUp$ source window. The target consists of carrier admission, modulus consumer lock, downstream handoff exhaustion, and the exclusion of fixed-point data, completion data, quotient stream equality, and selected-limit data.
+
+Thus the intended formal surface is the finite packet admitted by \autoref{thm:picardcontraction-root-source-window-admission}, constrained by \autoref{thm:picardcontraction-root-modulus-consumer-lock}, and exhausted by \autoref{thm:picardcontraction-root-downstream-handoff-exhaustion}.
+\end{theorem}
+\begin{proof}
+The admission theorem first fixes the carrier. It identifies the first ten rows with the displayed $\PicardContractionUp$ carrier and reads $U$ only as a downstream consumer request row.
+
+The modulus-lock theorem then fixes the analytic handoff. Any $\CauchyRateUp$, $\RegSeqRatUp$, or $\RealUp$ read of the modulus or seal is forced through $L,I,M,E,H,C,G,N$ inside the same finite packet.
+
+The downstream-exhaustion theorem closes the consumer side. It covers the named $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, $\NewtonIterationUp$, and $\CauchyRateUp$ routes and shows that each route is a projection of $B,T,L,I,M,E,H,C,G,N,U$.
+
+Combining these three statements gives the formal target surface. Since each cited theorem explicitly excludes fixed points, completed Picard orbits, ambient completion, quotient stream equality, and selected limits, the future Lean target has no additional row to encode.
+\end{proof}
+
+\begin{theorem}[PicardContraction root source-window checked handoff]
+\label{thm:picardcontraction-root-source-window-checked-handoff}
+For a root source-window packet
+$$
+R=(B,T,L,I,M,E,H,C,G,N,U),
+$$
+the same finite rows certified by the checked public export targets
+\texttt{PicardContractionPacket\_public\_namecert\_export},
+\texttt{PicardContractionPacket\_banach\_ode\_consumer\_nonescape}, and
+\texttt{PicardContractionPacket\_ratio\_ledger\_nonexpansion} consume the paper-side source window. The request row $U$ may select only one of the displayed $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, $\NewtonIterationUp$, or $\CauchyRateUp$ consumer families, and each selected family reads the packet through $B,T,L,I,M,E,H,C,G,N$ rather than through a Banach fixed point, completed orbit, quotient stream equality, or selected limit.
+\end{theorem}
+\leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_root\_source\_window\_checked\_handoff}
+\begin{proof}
+First use the public naming export. It exposes the Banach source, contraction row, ratio ledger, finite iterate ledger, modulus row, endpoint row, transport row, route row, provenance row, and local naming row as the checked public $\NameCert$ surface.
+
+Next use the Banach-to-ODE non-escape row. It routes ODE-facing consumer reads through the same finite carrier coordinates and blocks any replacement of the source window by a fixed-point theorem, completed orbit, or ambient completion principle.
+
+Finally use the ratio-ledger non-expansion row. It keeps rate-facing and ratio-facing consumers inside the displayed Lipschitz and iterate ledger coordinates. Since $U$ only names which of the five consumer families is requested, composing the three checked rows gives the advertised handoff without adding any new analytic coordinate.
+\end{proof}

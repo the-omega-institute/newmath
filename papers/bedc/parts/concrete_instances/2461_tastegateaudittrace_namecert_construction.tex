@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\TasteGateAuditTraceUp$}
+\label{ch:concrete-instances-tastegateaudittrace-namecert}
+\origin{ai}
+
+The $\TasteGateAuditTraceUp$ packet is the concrete audit-trace surface for the theory-stability gate of \autoref{ch:visions-theory-stability-taste-gate}. It records an AI-origin chapter admission trace as a finite NameCert object whose rows display the four TasteGate obligations, replayable audit evidence, ground-compiler provenance, and a ledger preventing the trace from exporting hidden approval.
+
+\begin{definition}[TasteGate audit trace carrier]
+\label{def:taste-gate-audit-trace-carrier}
+A $\TasteGateAuditTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,O,Q,A,R,G,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the candidate chapter identity row, recording the chapter label, proposed carrier name, and concrete paper site;
+\item $O$ is the AI-origin row, recording that the trace is evaluated on the AI-proposed admission track;
+\item $Q$ is the four-obligation $\ChapterTasteGate$ row, displaying conservativity, no-hidden-input, round-trip, and layer-separation witnesses for the same candidate;
+\item $A$ is the audit replay row, storing the finite replay route by which the admission check rereads $X,O,Q,R,G,H,C,P,L$;
+\item $R$ is the ground-compiler provenance row, listing the finite event-flow image and named compiler facts used by the no-hidden-input, round-trip, and layer-separation reads;
+\item $G$ is the GAP accounting row for absent carrier, absent classifier, absent TasteGate witness, absent replay, absent compiler provenance, absent transport, absent package, and attempted hidden approval cases;
+\item $H$ stores componentwise $\hsame$ transports for every displayed row of the packet;
+\item $C$ records the $\Cont$ routes that expose the candidate identity, AI-origin row, TasteGate obligations, audit replay, compiler provenance, and GAP accounting to a consumer;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\NameCert$, $\ChapterTasteGate$, audit replay rows, ground-compiler provenance rows, GAP accounting, $\hsame$, $\Cont$, and local naming;
+\item $L$ is the local naming row for $\NameCert_{\TasteGateAuditTraceUp}$.
+\end{enumerate}
+The carrier has no coordinate for hidden prompt state, host-side mathematical approval, an oracle classifier, an unlisted compiler theorem, or a chapter admission fact detached from the displayed audit rows.
+\end{definition}
+\leandef{BEDC.Derived.TasteGateAuditTraceUp.TasteGateAuditTraceUp}
+\leanchecked{BEDC.Derived.TasteGateAuditTraceUp.TasteGateAuditTraceUp\_single\_carrier\_alignment}
+
+\begin{definition}[TasteGate audit trace classifier]
+\label{def:taste-gate-audit-trace-classifier}
+The classifier of a $\TasteGateAuditTraceUp$ packet accepts precisely those finite packets
+$$
+T=(X,O,Q,A,R,G,H,C,P,L)
+$$
+whose rows display the same candidate chapter identity, whose AI-origin row $O$ is present, whose $\ChapterTasteGate$ row $Q$ contains all four obligation witnesses, whose audit replay row $A$ rereads the displayed rows only, whose ground-compiler provenance row $R$ names the compiler evidence used by $Q$, and whose GAP row $G$ accounts for every refused route seeking a missing witness or hidden approval channel.
+\end{definition}
+
+\begin{theorem}[TasteGate audit trace NameCert obligations]
+\label{thm:taste-gate-audit-trace-namecert-obligations}
+For every accepted $\TasteGateAuditTraceUp$ carrier
+$$
+T=(X,O,Q,A,R,G,H,C,P,L),
+$$
+the local $\NameCert_{\TasteGateAuditTraceUp}$ surface consists exactly of carrier admission for $T$, candidate identity through $X$, AI-origin exposure through $O$, four-obligation $\ChapterTasteGate$ exposure through $Q$, audit replay through $A$, ground-compiler provenance through $R$, refused-route accounting through $G$, componentwise transport through $H$, consumer routes through $C$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Carrier admission and classification are projections from \autoref{def:taste-gate-audit-trace-carrier} and \autoref{def:taste-gate-audit-trace-classifier}. The packet exposes exactly the candidate identity, origin row, TasteGate row, replay row, compiler provenance row, refusal ledger, transport rows, continuation routes, package provenance, and local naming row.
+
+The four TasteGate obligations are all read from $Q$. Because $Q$ belongs to the same finite carrier as $X$ and $O$, a consumer cannot detach the obligation witnesses from the candidate chapter or from the AI-origin admission track.
+
+The replay and provenance obligations are supplied by $A$ and $R$. The row $A$ records how the trace is reread, while $R$ records the event-flow image and compiler facts supporting the no-hidden-input, round-trip, and layer-separation reads.
+
+Finally $G,H,C,P,L$ account for refused reads, preserve the same rows under transport, expose only named consumer routes, record package provenance, and name the certificate locally. No further NameCert obligation is available outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[TasteGate audit trace ground compiler boundary]
+\label{thm:taste-gate-audit-trace-ground-compiler-boundary}
+Every accepted $\TasteGateAuditTraceUp$ route that consumes the four-obligation row $Q$ must pass through the audit replay row $A$ and the ground-compiler provenance row $R$. The route may export the displayed conservativity, no-hidden-input, round-trip, and layer-separation witnesses for the candidate chapter, but it cannot cite hidden prompt state, an unlisted compiler theorem, or host-side approval as part of the trace.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:taste-gate-audit-trace-carrier}. The only row carrying TasteGate obligations is $Q$, and the only rows that make those obligations auditable are $A$ and $R$.
+
+The replay row $A$ binds a consumer read to the finite packet. Any read of $Q$ is therefore a replay of the displayed candidate identity, AI-origin row, TasteGate row, provenance row, transport rows, continuation rows, package row, and naming row.
+
+The provenance row $R$ supplies the compiler-facing boundary. It names the finite event-flow image and compiler facts used by the no-hidden-input, round-trip, and layer-separation witnesses.
+
+Since the carrier contains no row for hidden prompt state, unlisted compiler facts, or host-side approval, these objects cannot be exported by an accepted audit trace.
+\end{proof}
+
+\begin{theorem}[TasteGate audit trace non-escape]
+\label{thm:taste-gate-audit-trace-non-escape}
+Every consumer of an accepted $\TasteGateAuditTraceUp$ packet factors through the finite rows
+$$
+(X,O,Q,A,R,G,H,C,P,L).
+$$
+The consumer can read the AI-origin chapter identity, the four TasteGate obligation witnesses, audit replay, ground-compiler provenance, refused-route accounting, transport, continuation, package, and local naming data. It cannot extract hidden prompt state, oracle approval, an unnamed chapter object, a host-side semantic judgment, or a compiler fact absent from $R$.
+\end{theorem}
+\begin{proof}
+Project the consumer route through the carrier. Its available coordinates are exactly $X,O,Q,A,R,G,H,C,P,L$.
+
+Use \autoref{thm:taste-gate-audit-trace-namecert-obligations} for the NameCert surface. It accounts for the candidate identity, AI-origin row, four TasteGate witnesses, replay row, compiler provenance, refused routes, transports, continuations, package provenance, and local naming.
+
+Use \autoref{thm:taste-gate-audit-trace-ground-compiler-boundary} for the compiler-facing boundary. It keeps every read of the four-obligation row attached to replay and to the displayed ground-compiler provenance.
+
+The forbidden outputs have no coordinate in the packet and no continuation route in $C$. Therefore any route exporting them would leave the accepted $\TasteGateAuditTraceUp$ carrier rather than consume it.
+\end{proof}
+
+\closureat{TasteGateAuditTraceUp}{seedStr}
+
+\begin{closurestatus}{\TasteGateAuditTraceUp}
+  \constructivestory{A $\TasteGateAuditTraceUp$ packet is generated from a candidate chapter identity row, AI-origin row, four-obligation ChapterTasteGate row, audit replay row, ground-compiler provenance row, GAP accounting row, componentwise transports, continuation routes, package provenance, and local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:taste-gate-audit-trace-carrier}, \autoref{def:taste-gate-audit-trace-classifier}, \autoref{thm:taste-gate-audit-trace-namecert-obligations}, \autoref{thm:taste-gate-audit-trace-ground-compiler-boundary}, and \autoref{thm:taste-gate-audit-trace-non-escape} bind the seed carrier, classifier, local NameCert surface, compiler boundary, and non-escape ledger for AI-origin TasteGate audit traces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove the candidate chapter's mathematical content, certify host semantics, close bridge checking, or provide Lean verification for the audit-trace packet.}
+  \upgradepath{Obligation closure requires checked carrier, classifier, NameCert-surface, compiler-boundary, replay, ledger, and non-escape theorems for the same finite audit-trace packet.}
+\end{closurestatus}

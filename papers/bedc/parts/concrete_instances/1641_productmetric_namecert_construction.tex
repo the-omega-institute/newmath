@@ -1,0 +1,241 @@
+\chapter{A Concrete Naming Certificate for $\ProductMetricUp$}
+\label{ch:concrete-instances-productmetric-namecert}
+\origin{human}
+
+The $\ProductMetricUp$ interface records the ordinary product-metric construction as a finite BEDC certificate. The human reference is the Kelley-style product metric on a binary product, but the certificate exposes only carrier rows, classifier rows, distance ledgers, projection routes, package provenance, and a local naming row. It does not assert a quotient product, host pair equality, a selected real limit, or classical choice data.
+
+\begin{definition}[ProductMetric BHist carrier]
+\label{def:productmetric-bhist-carrier}
+A $\ProductMetricUp$ packet is a finite $\mathsf{BHist}$ row
+$$
+Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $X$ and $Y$ are two accepted $\MetricSpaceUp$ carrier and classifier rows, including their visible source histories and local metric-space naming rows;
+\item $d_X$ and $d_Y$ are the $\RealUp$-valued distance witness rows consumed from the two component $\MetricSpaceUp$ packets;
+\item $\Pi$ is the displayed $\ProdUp$ pairing row whose first and second projections read the two component histories;
+\item $\delta$ is the chosen product-distance ledger, either the displayed max row for the two component distances or a displayed dyadic-sum bound row for them;
+\item $H$ stores componentwise $\hsame$ transports for both component carriers, both component classifiers, both distance witnesses, the $\ProdUp$ row, and the product-distance ledger;
+\item $C$ stores the $\Cont$ routes for the two projections, the component distance reads, the product-distance ledger read, and the local product-metric consumer route;
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\RealUp$, $\ProdUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ProductMetricUp}$ row.
+\end{enumerate}
+The carrier is this finite packet. It contains no quotient product, no host pair equality, no selected real limit, and no classical choice field.
+\end{definition}
+
+\begin{theorem}[ProductMetric NameCert obligations]
+\label{thm:productmetric-namecert-obligations}
+The local $\NameCert_{\ProductMetricUp}$ surface for the carrier of \autoref{def:productmetric-bhist-carrier} consists of five finite obligations: carrier admission for $Q$, componentwise classifier transport along the two $\MetricSpaceUp$ classifiers and the $\ProdUp$ pairing row, product-distance ledger exactness for $\delta$, projection non-escape through the two displayed $\Cont$ routes, and package provenance through $P$ and $N$. These obligations are read only from $\MetricSpaceUp$, $\RealUp$, $\ProdUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite packet $Q$. The two component metric carriers, their classifiers, their real-valued distance witnesses, the product pairing row, the chosen distance ledger, the transport rows, the continuation rows, package provenance, and local naming row are all stored coordinates.
+
+Classifier transport is componentwise. A classified change in the first component is read through the first $\MetricSpaceUp$ classifier and the first projection of $\Pi$, while a classified change in the second component is read through the second classifier and the second projection of $\Pi$.
+
+The product-distance ledger $\delta$ is then consumed after the two component distance witnesses have been displayed. Whether $\delta$ is represented as max or as a displayed dyadic-sum bound, it is a BEDC ledger row over the two visible $\RealUp$ distances, not a host-level metric proof.
+
+The package and naming rows record that these obligations are the public surface. Since no coordinate of $Q$ is a quotient product, host pair equality, selected real limit, or classical choice field, none of those data can be exported by the certificate.
+\end{proof}
+
+\begin{theorem}[ProductMetric classifier stability]
+\label{thm:productmetric-classifier-stability}
+Let $Q$ and $Q'$ be accepted $\ProductMetricUp$ packets. If their two $\MetricSpaceUp$ component carrier rows, classifiers, $\RealUp$ distance witness rows, $\ProdUp$ pairing rows, product-distance ledgers, $\Pkg$ provenance rows, and local $\NameCert$ rows are transported componentwise by the displayed $\hsame$ rows and read through the displayed $\Cont$ routes, then the $\ProductMetricUp$ classifier transports exactly those packet rows.
+\end{theorem}
+\begin{proof}
+Unpack $Q$ and $Q'$ by \autoref{def:productmetric-bhist-carrier}. The only carrier data available to the classifier are the two metric components, the two distance witnesses, the product row, the distance ledger, and the recorded transport, continuation, provenance, and naming rows.
+
+Transport the first component through the first $\MetricSpaceUp$ classifier and the first projection of $\Pi$. Transport the second component through the second classifier and the second projection of $\Pi$.
+
+The two distance witness rows transport with their source component rows, and the product-distance ledger transports after those two witnesses are matched. Thus the classifier is stable exactly on the displayed BEDC packet, with no appeal to host pair equality or quotient product equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_classifier\_stability}
+
+\begin{theorem}[ProductMetric component distance transport]
+\label{thm:productmetric-component-distance-transport}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. Componentwise classifier transport of the two $\MetricSpaceUp$ rows transports the two $\RealUp$ distance witness rows $d_X$ and $d_Y$ along the displayed $\hsame$ rows in $H$ and the component distance reads in $C$. The product-distance ledger $\delta$ then reads exactly those transported component distances.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:productmetric-bhist-carrier}. The first component route contains $X$ and $d_X$, while the second component route contains $Y$ and $d_Y$.
+
+Apply \autoref{thm:productmetric-classifier-stability}. Transport in the first component moves the first metric carrier, its classifier, and its distance witness together; transport in the second component moves the corresponding second rows.
+
+The product-distance ledger is read only after both component distances have been displayed. Thus $\delta$ consumes the transported $d_X$ and $d_Y$ rows and not a host-level product metric or quotient equality.
+\end{proof}
+\leanchecked{BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_component\_distance\_transport}
+
+\begin{theorem}[ProductMetric projection route exactness]
+\label{thm:productmetric-projection-route-exactness}
+For every accepted $\ProductMetricUp$ packet $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$, each projection consumer route is exactly one of the two displayed $\ProdUp$ projection routes in $\Pi$. The first route reads $X$ and $d_X$; the second route reads $Y$ and $d_Y$; both routes carry only the corresponding $\MetricSpaceUp$ row, $\RealUp$ distance witness, $\hsame$ transport, $\Cont$ read, package row, and local naming row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_projection\_route\_exactness}
+\begin{proof}
+Begin with a projection consumer. By \autoref{def:productmetric-bhist-carrier}, the only product coordinate is $\Pi$, and $\Pi$ exposes only the first and second projection reads.
+
+The exact first route is the first half of \autoref{thm:productmetric-projection-non-escape}; it reaches $X$ and $d_X$ through the stored continuation row. The exact second route is the second half of the same theorem; it reaches $Y$ and $d_Y$ through its stored continuation row.
+
+Component transport is already accounted for by \autoref{thm:productmetric-component-distance-transport}. Therefore no projection consumer can bypass $\Pi$ to read host pair equality, a quotient product, a selected real limit, or classical choice data.
+\end{proof}
+
+\begin{theorem}[ProductMetric MetricSpace obligation package]
+\label{thm:productmetric-metricspace-obligation-package}
+The downstream $\MetricSpaceUp$ obligation package exposed by an accepted $\ProductMetricUp$ packet $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ consists of component classifier transport, component distance transport, exact projection routes through $\Pi$, product-distance ledger exactness for $\delta$, and the non-escape boundary for quotient products, host pair equality, selected real limits, and classical choice data.
+\end{theorem}
+\begin{proof}
+First collect the component obligations. Classifier transport is \autoref{thm:productmetric-classifier-stability}, and component distance transport is \autoref{thm:productmetric-component-distance-transport}.
+
+Next collect the product-facing routes. Projection route exactness is \autoref{thm:productmetric-projection-route-exactness}, and the product-distance ledger is the $\delta$ row identified by \autoref{thm:productmetric-namecert-obligations}.
+
+Finally apply \autoref{thm:productmetric-metricspace-anchor}. The downstream metric-space consumer is anchored exactly at $\Pi$, the two component metric certificates, and $\delta$, while the finite carrier excludes all non-displayed product or choice data.
+\end{proof}
+
+\begin{theorem}[ProductMetric component diagonal boundary]
+\label{thm:productmetric-component-diagonal-boundary}
+For every accepted $\ProductMetricUp$ packet
+$$
+Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N),
+$$
+any diagonal component comparison factors through the two $\MetricSpaceUp$ classifiers, the displayed $\ProdUp$ projections in $\Pi$, and the two $\RealUp$ distance witness rows $d_X$ and $d_Y$. The comparison does not export host pair equality, quotient-product equality, a selected real limit, or classical choice data.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:productmetric-bhist-carrier}. The only component data available to a diagonal comparison are the two metric-space rows, the two distance witnesses, and the product projection row $\Pi$.
+
+Use \autoref{thm:productmetric-classifier-stability} to transport the two component classifiers together with their displayed rows. Then use \autoref{thm:productmetric-projection-route-exactness} to force every component read through the first or second projection route of $\Pi$.
+
+Finally apply \autoref{thm:productmetric-component-distance-transport}. The comparison reaches $d_X$ and $d_Y$ only as $\RealUp$ witness rows attached to those component routes, so no host pair equality or quotient-product equality is introduced.
+\end{proof}
+
+\begin{theorem}[ProductMetric distance-ledger triangle route]
+\label{thm:productmetric-distance-ledger-triangle-route}
+Every triangle-style consumer of the product-distance ledger $\delta$ first reads the two component distance witnesses $d_X$ and $d_Y$, then reads the displayed max row or displayed dyadic-sum bound row chosen by $\delta$. The route is anchored by the component classifiers, component distance transport, and the downstream $\MetricSpaceUp$ obligation package, not by a host-level product metric proof.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:productmetric-bhist-carrier}. The ledger $\delta$ is stored only after the two component distance witness rows, so a triangle-style consumer has no earlier product-distance coordinate to read.
+
+Apply \autoref{thm:productmetric-classifier-stability} and \autoref{thm:productmetric-component-distance-transport}. They transport the two component metric rows and expose the two real-valued distance witnesses before any product-distance ledger read.
+
+Finally use \autoref{thm:productmetric-metricspace-obligation-package}. Its anchor makes $\delta$ the product-facing metric-space ledger, represented by the displayed max row or displayed dyadic-sum bound row, and excludes quotient products, host pair equality, selected real limits, and classical choice data.
+\end{proof}
+\leanchecked{BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_distance\_ledger\_triangle\_route}
+
+\begin{theorem}[ProductMetric RealUp consumer package]
+\label{thm:productmetric-realup-consumer-package}
+Every $\RealUp$ consumer of an accepted $\ProductMetricUp$ packet sees exactly the product row $\Pi$, the component distance witnesses $d_X$ and $d_Y$, the product-distance ledger $\delta$, the transport rows $H$, the continuation routes $C$, the package provenance $P$, and the local naming row $N$. It does not see quotient products, host pair equality, selected real limits, or classical choice data.
+\end{theorem}
+\begin{proof}
+Read the consumer request through \autoref{def:productmetric-bhist-carrier}. The real-valued rows exposed by the carrier are $d_X$, $d_Y$, and the ledger $\delta$, with $\Pi$, $H$, $C$, $P$, and $N$ recording how those rows are reached.
+
+Use \autoref{thm:productmetric-component-diagonal-boundary} for the component side. It forces diagonal and projection-facing reads through the two component classifiers, $\Pi$, and the two displayed distance witnesses.
+
+Use \autoref{thm:productmetric-distance-ledger-triangle-route} for the product-distance side. Since every ledger read first passes through $d_X$ and $d_Y$ and then through the displayed max or dyadic-sum row, a $\RealUp$ consumer receives only the finite packet rows named in the statement.
+\end{proof}
+
+\begin{theorem}[ProductMetric projection non-escape]
+\label{thm:productmetric-projection-non-escape}
+Every projection consumer of an accepted $\ProductMetricUp$ packet factors through the displayed $\ProdUp$ row $\Pi$, the corresponding $\MetricSpaceUp$ component carrier and classifier row, the matching $\RealUp$ distance witness, the stored $\hsame$ transport, the stored $\Cont$ projection route, the $\Pkg$ provenance row, and the local $\NameCert$ row. No projection consumer can read a quotient product, host pair equality, selected real limit, or classical choice data from the packet.
+\end{theorem}
+\begin{proof}
+Start with a projection request. The packet has only one product coordinate, namely the displayed $\ProdUp$ row $\Pi$, so the request must read either its first projection route or its second projection route.
+
+On the first route, the consumer reaches the first $\MetricSpaceUp$ carrier and classifier and then the first real-valued distance witness. On the second route, it reaches the corresponding second component rows.
+
+The transport and continuation coordinates keep each projection attached to its component route, and $P$ and $N$ record the provenance and local naming surface. Since the carrier does not include any further product object or host equality row, the two projection routes exhaust the packet boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_projection\_non\_escape}
+
+\begin{theorem}[ProductMetric MetricSpace anchor]
+\label{thm:productmetric-metricspace-anchor}
+An accepted $\ProductMetricUp$ packet anchors a downstream $\MetricSpaceUp$ consumer exactly at the displayed product carrier $\Pi$, the component $\MetricSpaceUp$ classifiers, and the product-distance ledger $\delta$. The consumer may use the two component $\RealUp$ distance witnesses and the ledger rule for max or displayed dyadic sum, but it receives no quotient product, no host pair equality, no selected real limit, and no classical choice data.
+\end{theorem}
+\begin{proof}
+Read the downstream metric-space request through the product carrier row. The row $\Pi$ supplies only the two component projections, so every endpoint read is decomposed into first and second component reads.
+
+For each component read, the corresponding $\MetricSpaceUp$ certificate supplies the classifier and the $\RealUp$ distance witness. The product-distance ledger $\delta$ is then the sole distance row exported by the product packet.
+
+Thus the downstream metric-space surface is anchored by $\Pi$, the two component metric certificates, and $\delta$. All further data remain outside the carrier because they are not coordinates of the finite $\mathsf{BHist}$ packet.
+\end{proof}
+
+\begin{theorem}[ProductMetric scoped dependency package]
+\label{thm:productmetric-scoped-dependency-package}
+The scoped dependency package of an accepted $\ProductMetricUp$ carrier $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ consists exactly of the two $\MetricSpaceUp$ carrier and classifier rows, the two $\RealUp$ component distance witness rows, the $\ProdUp$ pairing and projection row $\Pi$, the product-distance ledger $\delta$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\ProductMetricUp}$ provenance.
+
+Classifier stability, component distance transport, projection exactness, and the downstream $\MetricSpaceUp$ anchor all factor through this package and through no host product or quotient equality row.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. Its visible coordinates are precisely the two metric components, two real distance rows, product row, distance ledger, and transport, continuation, package, and naming data.
+
+Apply classifier stability and component distance transport. These rows keep the two component classifiers and the two component distance witnesses aligned under the displayed $\hsame$ and $\Cont$ routes.
+
+Apply projection route exactness and the metric-space anchor. They force every product-facing consumer through $\Pi$ and then through $\delta$. The listed rows therefore form the whole scoped dependency package.
+\end{proof}
+
+\begin{theorem}[ProductMetric distance-ledger scope]
+\label{thm:productmetric-distance-ledger-scope}
+Every accepted $\ProductMetricUp$ distance-ledger read is scoped by the route
+$$
+(X,Y,\Pi) \longmapsto (d_X,d_Y) \longmapsto \delta.
+$$
+The first stage reads the two $\MetricSpaceUp$ component classifiers through the $\ProdUp$ projections, the second stage transports the two $\RealUp$ component distance rows through $\BHist$, $\hsame$, and $\Cont$, and the final stage consumes the displayed max or dyadic-sum product-distance ledger with $\Pkg$ and $\NameCert_{\ProductMetricUp}$ provenance.
+
+This is the distance-ledger triangle route available to a downstream $\MetricSpaceUp$ consumer; it does not export host pair equality, a quotient product, or a selected real limit.
+\end{theorem}
+\begin{proof}
+Project the product row $\Pi$. Projection exactness says that every first-component or second-component read enters through one of its two displayed projection routes.
+
+Use component distance transport to attach $d_X$ and $d_Y$ to those routes. The component classifiers supply the only admissible transport for the two real-valued distance witnesses.
+
+Finally apply the distance-ledger triangle route and the scoped dependency package. The product-distance row $\delta$ is read after the component distances and is carried by the displayed package and naming provenance, so no external product metric proof can enter.
+\end{proof}
+
+\begin{theorem}[ProductMetric Real classifier bridge]
+\label{thm:productmetric-real-classifier-bridge}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. If the first and second component distance rows are transported by their component $\MetricSpaceUp$ classifiers, then the product-distance ledger $\delta$ exports the same $\RealUp$ classifier row used by the downstream $\ProductMetricUp$ $\MetricSpaceUp$ anchor. The bridge is the finite route from the component classifier reads through $d_X$ and $d_Y$ to the product $\RealUp$ row carried by $\delta$.
+\end{theorem}
+\begin{proof}
+Start with the component transport. Apply \autoref{thm:productmetric-component-distance-transport} to move $d_X$ and $d_Y$ along the displayed component classifier rows and their $\hsame$ and $\Cont$ routes.
+
+Next read the real-valued consumer surface. Apply \autoref{thm:productmetric-realup-consumer-package}; it identifies the visible $\RealUp$ rows as exactly the two component distance witnesses, the product-distance ledger $\delta$, and the transport, continuation, provenance, and naming rows.
+
+Finally use the downstream anchor and scope theorem. By \autoref{thm:productmetric-metricspace-anchor}, the metric consumer reads the product distance only through $\Pi$, the component classifiers, and $\delta$; by \autoref{thm:productmetric-distance-ledger-scope}, $\delta$ is reached after the transported component distances. Therefore the product packet exports one $\RealUp$ classifier row for the product distance, with no host pair equality, quotient product, selected real limit, or external metric proof.
+\end{proof}
+
+\begin{theorem}[ProductMetric Real classifier public export]
+\label{thm:productmetric-real-classifier-public-export}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. The scoped product packet exports a public $\MetricSpaceUp$-facing $\RealUp$ classifier surface exactly through the two component $\MetricSpaceUp$ distance rows $d_X$ and $d_Y$, the $\ProdUp$ pairing row $\Pi$, the product-distance ledger $\delta$, the displayed $\hsame$ and $\Cont$ transports, the $\Pkg$ provenance row, and the local $\NameCert_{\ProductMetricUp}$ row. It exports no host pair equality, quotient product, selected real limit, or external metric proof.
+\end{theorem}
+\begin{proof}
+First build the component distance surface. Apply \autoref{thm:productmetric-component-distance-transport}; the two component $\MetricSpaceUp$ classifiers carry the $\RealUp$ distance rows $d_X$ and $d_Y$ through the displayed $\hsame$ and $\Cont$ routes.
+
+Next collect the public consumer package. Apply \autoref{thm:productmetric-realup-consumer-package}; a $\RealUp$ consumer sees only the product row $\Pi$, the component distance witnesses, the product-distance ledger $\delta$, and the provenance and naming rows $P$ and $N$.
+
+Finally repack the route as a $\MetricSpaceUp$-facing export. Apply \autoref{thm:productmetric-metricspace-anchor} to anchor the downstream metric consumer at $\Pi$, the component classifiers, and $\delta$; apply \autoref{thm:productmetric-distance-ledger-scope} to force the ledger read after the component distances; then apply \autoref{thm:productmetric-real-classifier-bridge} to identify the exported $\RealUp$ classifier row. The excluded host and quotient data are absent because none is a coordinate of $Q$.
+\end{proof}
+
+\begin{theorem}[ProductMetric standard MetricSpace bridge certificate]
+\label{thm:productmetric-standard-metricspace-bridge-certificate}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. Then $Q$ supplies the standard $\MetricSpaceUp$ product bridge certificate exactly through the two component $\MetricSpaceUp$ classifier surfaces, the two $\RealUp$ component distance rows $d_X$ and $d_Y$, the $\ProdUp$ pairing and projection row $\Pi$, the product-distance ledger $\delta$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\ProductMetricUp}$ provenance.
+
+The bridge certificate is the public route that a downstream $\MetricSpaceUp$ consumer reads when it treats the product carrier as a metric-space object. It has no additional coordinate for host pair equality, quotient products, selected real limits, compactness, or an external metric proof.
+\end{theorem}
+\begin{proof}
+First collect the scoped packet. By \autoref{thm:productmetric-scoped-dependency-package}, every accepted product packet exposes exactly the two component metric rows, the two real distance rows, the product row, the distance ledger, and the displayed transport, continuation, package, and naming provenance.
+
+Next identify the distance route. By \autoref{thm:productmetric-distance-ledger-scope}, every product-distance read passes from $(X,Y,\Pi)$ through $(d_X,d_Y)$ to $\delta$. The existing $\MetricUp$ semantic certificate surface supplies the $\MetricSpaceUp$ distance-witness reading, and the existing $\ProdUp$ semantic certificate surface supplies the pairing and projection reading used by $\Pi$.
+
+Finally repack the public consumer view. Apply \autoref{thm:productmetric-real-classifier-public-export} to expose the $\RealUp$ classifier row carried by the product distance, and apply \autoref{thm:productmetric-projection-route-exactness} to keep each component read on the displayed projection route. These rows assemble the standard product $\MetricSpaceUp$ bridge certificate, and no non-displayed host or quotient datum is available from $Q$.
+\end{proof}
+
+\closureat{ProductMetricUp}{seedStr}
+\closureat{ProductMetricUp}{obligationStr}
+\closureat{ProductMetricUp}{scopedStr}
+
+\begin{closurestatus}{\ProductMetricUp}
+  \constructivestory{A $\ProductMetricUp$ packet is generated from two $\MetricSpaceUp$ carrier and classifier rows, two $\RealUp$ distance witness rows, a $\ProdUp$ pairing row, a product-distance ledger, componentwise $\hsame$ transport, projection $\Cont$ routes, $\Pkg$ provenance, and a local naming row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped rows are \autoref{thm:productmetric-scoped-dependency-package} and \autoref{thm:productmetric-distance-ledger-scope}: every product-distance read is bound to the displayed component metrics, pairing row, distance ledger, projection routes, package provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient products, host pair equality, selected real limits, classical choice data, compactness of the product, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, projection non-escape, product-distance ledger exactness, and downstream $\MetricSpaceUp$ anchoring for the displayed packet.}
+\end{closurestatus}

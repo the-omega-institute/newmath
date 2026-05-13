@@ -29,6 +29,7 @@ The carrier classifier compares two accepted packets only by transporting these 
 \label{thm:unitdisk-carrier-stability}
 Let $U=(x,y,p,o,d,b,\partial,H,C,P,N)$ be an accepted $\UnitDiskUp$ carrier, and let $U'=(x',y',p',o',d',b',\partial',H',C',P',N')$ be obtained by componentwise displayed $\hsame$ transport of the two $\RealUp$ coordinate rows, the $\ProdUp$ point row, the origin row, the $\MetricUp$ radius witness, the $\IntervalUp$ or $\RealAlgOrderUp$ bound row, the optional $\SOneUp$ boundary row, and the provenance rows. If the displayed $\Cont$ routes preserve the coordinate, pairing, metric-read, bound, and boundary ledgers, then $U'$ is again an accepted $\UnitDiskUp$ carrier and the local classifier relates $U$ to $U'$.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnitDiskUp.UnitDiskOriginRows\_radius\_ledger}
 \begin{proof}
 Project the carrier through \autoref{def:unitdisk-bhist-carrier}. The two real coordinates, product pair, origin pair, radius witness, bound row, optional boundary row, routing rows, and provenance rows are all explicit finite packet coordinates.
 
@@ -53,6 +54,7 @@ The $\SOneUp$ consumer receives the coordinate pair through $\ProdUp$ and the ra
 
 Apply \autoref{thm:unitdisk-carrier-stability} to see that these rows are stable under the displayed componentwise classifier. The exported boundary surface is therefore the finite row $\partial$ with its provenance, not a quotient of boundary points or a topological subspace.
 \end{proof}
+\leanchecked{BEDC.Derived.UnitDiskUp.UnitDiskBHistCarrier\_boundary\_sone\_consumer}
 
 \begin{theorem}[UnitDisk NameCert obligation surface]
 \label{thm:unitdisk-namecert-obligation-surface}
@@ -65,6 +67,7 @@ The local $\NameCert_{\UnitDiskUp}$ obligation surface consists of five finite r
 \item consumer boundary: \autoref{thm:unitdisk-boundary-sone-consumer} permits $\SOneUp$ consumption of exact boundary packets while excluding open-cover compactness, quotient boundary identifications, and host Euclidean topology.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.UnitDiskUp.UnitDiskBHistCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 The carrier row is \autoref{def:unitdisk-bhist-carrier}. Its origin coordinate gives an accepted packet by taking both real coordinates to be the displayed zero real row, pairing them through $\ProdUp$, reading zero radius through $\MetricUp$, and comparing zero to the real unit through the displayed nonnegative bound surface.
 
@@ -77,15 +80,180 @@ For ledger exactness, inspect the packet coordinates. The only radius coordinate
 Finally apply \autoref{thm:unitdisk-boundary-sone-consumer}. The optional boundary handoff is a finite $\SOneUp$ consumer surface and contains no open-cover compactness datum, quotient boundary construction, or host Euclidean topology.
 \end{proof}
 
-\closureat{UnitDiskUp}{seedStr}
+\begin{theorem}[UnitDisk origin radius ledger]
+\label{thm:unitdisk-origin-radius-ledger}
+The packet whose coordinates $x$ and $y$ are the zero $\RealUp$ rows, whose point row $p$ and origin row $o$ are both the displayed $\ProdUp$ pairing of those zero rows, whose radius witness $d$ is the zero $\MetricUp$ read from $p$ to $o$, whose bound row $b$ records zero below the real unit through $\IntervalUp$ or $\RealAlgOrderUp$, and whose provenance rows are the corresponding $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows is an accepted $\UnitDiskUp$ carrier. Its radius ledger is exactly the displayed zero-radius $\MetricUp$ row and its unit-bound row.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:unitdisk-bhist-carrier} with both coordinates set to the displayed zero $\RealUp$ row. The product row $p$ and the origin row $o$ are then the same finite $\ProdUp$ pairing surface.
+
+The metric read from the point to the origin is the displayed zero-distance row. The bound row records that this zero radius is below the real unit through the available $\IntervalUp$ or $\RealAlgOrderUp$ comparison.
+
+Package these coordinates with the identity $\hsame$ comparisons, the displayed $\Cont$ routes, $P$, and $N$. The carrier contains no other radius coordinate, so the radius ledger of this origin packet is exactly $d$ together with the unit-bound row $b$.
+\end{proof}
+
+\begin{theorem}[UnitDisk classifier law package]
+\label{thm:unitdisk-classifier-law-package}
+The $\UnitDiskUp$ classifier has reflexivity, symmetry, transitivity, and carrier transport componentwise on the displayed $\RealUp$ coordinate rows, $\ProdUp$ pair rows, origin rows, $\MetricUp$ radius witnesses, $\IntervalUp$ or $\RealAlgOrderUp$ bound rows, optional $\SOneUp$ boundary rows, $\mathsf{BHist}$ routing rows, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Read the classifier from \autoref{def:unitdisk-bhist-carrier}. It compares only visible coordinates of the packet and the displayed transport rows; it does not compare ambient Euclidean points or host subsets.
+
+Reflexivity uses the identity displayed comparison at each coordinate. Symmetry reverses each componentwise $\hsame$ comparison and the associated $\Cont$ route on the same coordinate, pair, radius, bound, boundary, and provenance rows.
+
+Transitivity composes two displayed transports coordinate by coordinate. Since each transport keeps the metric witness tied to the transported point and origin and keeps the bound and optional boundary ledgers attached to the same radius row, the composite packet is again accepted.
+
+Carrier transport is exactly \autoref{thm:unitdisk-carrier-stability}. Combining these componentwise laws gives the stated classifier law package.
+\end{proof}
+
+\begin{theorem}[UnitDisk radius boundary exactness]
+\label{thm:unitdisk-radius-boundary-exactness}
+Every $\UnitDiskUp$ radius consumer read factors through the displayed $\MetricUp$ radius witness $d$ of the carrier packet, and every boundary consumer read factors through the optional $\SOneUp$ boundary row $\partial$ when that row is present. No consumer read exports a host Euclidean subset, an open-cover compactness datum, a quotient boundary identification, or any boundary object not displayed in the carrier.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through \autoref{def:unitdisk-bhist-carrier}. The only radius coordinate is the $\MetricUp$ witness $d$, and the only exact boundary coordinate is the optional row $\partial$.
+
+For a radius request, the consumer first reads the two $\RealUp$ coordinates through the $\ProdUp$ row and the origin row, then reads the radius through $d$ and the unit comparison through $b$. There is no separate Euclidean norm coordinate in the packet.
+
+For a boundary request, apply \autoref{thm:unitdisk-boundary-sone-consumer}. If $\partial$ is present, the $\SOneUp$ consumer receives exactly the boundary row and its provenance; if it is absent, the disk packet exports no boundary consumer surface.
+
+The non-escape clauses follow by inspection of the carrier coordinates and by \autoref{thm:unitdisk-carrier-stability}, which preserves the same displayed metric and boundary rows under transport.
+\end{proof}
+
+\begin{theorem}[UnitDisk product metric boundary package]
+\label{thm:unitdisk-product-metric-boundary-package}
+For every accepted $\UnitDiskUp$ packet, the two $\RealUp$ coordinate rows, the
+$\ProdUp$ pair row, the origin row, the $\MetricUp$ radius witness, the
+$\IntervalUp$ or $\RealAlgOrderUp$ bound row, the optional $\SOneUp$ boundary
+row, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance
+form the exact product-metric boundary package for $\UnitDiskUp$.
+
+The package exposes the product pairing, the metric radius comparison with the
+real unit row, and the optional circle-boundary consumer row as a single finite
+certificate. It exports no host Euclidean subset, open-cover compactness,
+quotient boundary identification, or unrecorded topology.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:unitdisk-bhist-carrier}. It lists the two real
+coordinates, their product row, the origin row, the metric radius witness, the
+unit-bound row, the optional boundary row, and the transport and provenance
+rows as coordinates of one finite packet.
+
+Apply \autoref{thm:unitdisk-carrier-stability} to keep the product point,
+origin, radius, bound, boundary, and provenance rows stable under the displayed
+$\hsame$ and $\Cont$ transports. The classifier therefore remains
+componentwise on the same product-metric rows.
+
+Use \autoref{thm:unitdisk-boundary-sone-consumer} for the optional $\SOneUp$
+handoff and \autoref{thm:unitdisk-namecert-obligation-surface} for the local
+carrier, classifier, transport, exact-ledger, and consumer obligations.
+
+Finally combine \autoref{thm:unitdisk-classifier-law-package} with
+\autoref{thm:unitdisk-radius-boundary-exactness}. The resulting package is
+precisely the finite product-metric disk certificate with its boundary consumer
+row when present, and no host subset, compactness, quotient boundary, or
+unrecorded topological coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[UnitDisk carrier habitation]
+\label{thm:unitdisk-carrier-habitation}
+The concrete packet
+$$
+U=(x,y,p,o,d,b,\partial,H,C,P,N)
+$$
+inhabits $\UnitDiskUp$ whenever $x$ and $y$ are the displayed zero $\RealUp$ coordinate rows, $p$ and $o$ are the corresponding $\ProdUp$ pair rows, $d$ is the zero $\MetricUp$ radius ledger, $b$ is the displayed unit-bound row, $\partial$ is absent or the exact $\SOneUp$ unit-radius row, and $H,C,P,N$ are the matching $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unitdisk-origin-radius-ledger}. It supplies the zero coordinate rows, the product point, the origin row, the zero metric radius read, and the unit-bound ledger.
+
+Then apply \autoref{thm:unitdisk-namecert-obligation-surface}. Its carrier-inhabitation row repacks those displayed coordinates with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+If the optional boundary row is present, use \autoref{thm:unitdisk-boundary-sone-consumer}; if it is absent, the carrier remains accepted without exporting a boundary consumer. Both cases stay inside the concrete packet.
+\end{proof}
+
+\begin{theorem}[UnitDisk classifier laws]
+\label{thm:unitdisk-classifier-laws}
+For accepted packets
+$$
+U=(x,y,p,o,d,b,\partial,H,C,P,N)
+$$
+and $U'$ with the same concrete row shape, the $\UnitDiskUp$ classifier is reflexive, symmetric, transitive, and stable under componentwise transport of the $\RealUp$ coordinate rows, $\ProdUp$ pair row, origin row, $\MetricUp$ radius ledger, unit-bound row, optional $\SOneUp$ boundary row, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:unitdisk-classifier-law-package}. It states the reflexivity, symmetry, transitivity, and transport laws componentwise for the displayed coordinate, pair, origin, radius, bound, boundary, routing, and provenance rows.
+
+Apply \autoref{thm:unitdisk-carrier-stability} to keep the transported packet accepted. The same theorem keeps the metric radius row attached to the transported point and origin and keeps the optional boundary row tied to the same displayed radius ledger.
+
+The classifier therefore compares only rows of $U$ and $U'$. It does not create a host Euclidean point, quotient boundary identification, or external topological equality.
+\end{proof}
+
+\begin{theorem}[UnitDisk radius ledger exactness]
+\label{thm:unitdisk-radius-ledger-exactness}
+Every public radius or boundary read of an accepted
+$$
+U=(x,y,p,o,d,b,\partial,H,C,P,N)
+$$
+factors through the displayed $\MetricUp$ row $d$, the unit-bound row $b$, the optional $\SOneUp$ boundary row $\partial$ when present, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:unitdisk-radius-boundary-exactness}. It identifies $d$ as the only radius coordinate and $\partial$ as the only boundary coordinate when the boundary row is present.
+
+Use \autoref{thm:unitdisk-product-metric-boundary-package} to route the two $\RealUp$ coordinate rows through $p$ and $o$, then through the $\MetricUp$ radius witness and the displayed unit-bound row.
+
+Finally apply \autoref{thm:unitdisk-boundary-sone-consumer} for the boundary case. The provenance rows $H,C,P,N$ record the allowed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ reads, so no host Euclidean subset, compactness datum, or quotient boundary object can enter the ledger.
+\end{proof}
+
+\begin{theorem}[UnitDisk scoped product-metric source]
+\label{thm:unitdisk-scoped-product-metric-source}
+Every accepted $\UnitDiskUp$ packet reads its two $\RealUp$ coordinate rows through the displayed $\ProdUp$ pair row and the displayed origin row of \autoref{def:unitdisk-bhist-carrier}. The product-metric source of the disk certificate is therefore the finite row package
+$$
+(x,y,p,o,H,C,P,N)
+$$
+rather than a host point of $\mathbb{R}^2$ or an ambient Euclidean subset.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:unitdisk-bhist-carrier}. The coordinate rows $x$ and $y$, the product pair row $p$, and the origin row $o$ are explicit carrier coordinates.
+
+Apply \autoref{thm:unitdisk-carrier-stability} to see that transport preserves the same coordinate, pair, and origin positions. Apply \autoref{thm:unitdisk-classifier-law-package} to read the classifier componentwise on those displayed rows.
+
+The source row is consequently the finite product-metric package displayed by the carrier. No host point set or ambient Euclidean subset is added to the certificate.
+\end{proof}
+
+\begin{theorem}[UnitDisk scoped radius-boundary route]
+\label{thm:unitdisk-scoped-radius-boundary-route}
+For every accepted $\UnitDiskUp$ packet, each radius read factors through the displayed $\MetricUp$ radius row $d$, the $\IntervalUp$ or $\RealAlgOrderUp$ unit-bound row $b$, and the transport and provenance rows of \autoref{def:unitdisk-bhist-carrier}. When the optional boundary row $\partial$ is present, every boundary read additionally factors through the displayed $\SOneUp$ consumer row.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The radius row is $d$, the unit-bound row is $b$, and the optional boundary row is $\partial$.
+
+Use \autoref{thm:unitdisk-radius-boundary-exactness}. It states that public radius consumers read through $d$ and that boundary consumers read through $\partial$ when that row is present.
+
+Apply \autoref{thm:unitdisk-boundary-sone-consumer} for the boundary handoff and \autoref{thm:unitdisk-product-metric-boundary-package} for the combined product, metric, bound, and optional boundary package. These routes keep every radius or boundary request inside the displayed $\MetricUp$, $\IntervalUp$ or $\RealAlgOrderUp$, and $\SOneUp$ rows.
+\end{proof}
+
+\begin{theorem}[UnitDisk scoped consumer non-escape]
+\label{thm:unitdisk-scoped-consumer-nonescape}
+Downstream consumers of an accepted $\UnitDiskUp$ packet cannot read host Euclidean subsets, open-cover compactness, quotient boundary identification, or unrecorded topology. Their public reads are restricted to the displayed $\RealUp$ coordinate rows, $\ProdUp$ pair and origin rows, $\MetricUp$ radius row, $\IntervalUp$ or $\RealAlgOrderUp$ bound row, optional $\SOneUp$ boundary row, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:unitdisk-bhist-carrier}. The carrier lists exactly the coordinate, product, origin, radius, bound, optional boundary, transport, route, package, and local naming rows.
+
+Apply \autoref{thm:unitdisk-boundary-sone-consumer} to boundary consumers and \autoref{thm:unitdisk-radius-boundary-exactness} to radius consumers. Both theorems identify the displayed rows through which public reads must factor.
+
+Finally use \autoref{thm:unitdisk-carrier-stability} and \autoref{thm:unitdisk-classifier-law-package}. Transport and classification remain componentwise on the same finite packet rows, so no host subset, compactness proof, quotient boundary object, or unrecorded topology can be exported.
+\end{proof}
+
+\closureat{UnitDiskUp}{obligationStr}
+\closureat{UnitDiskUp}{scopedStr}[BEDC.Derived.UnitDiskUp.UnitDiskBHistCarrier\_namecert\_obligation\_surface]
 
 \begin{closurestatus}{\UnitDiskUp}
   \constructivestory{A $\UnitDiskUp$ packet is generated by two $\RealUp$ coordinate rows, a $\ProdUp$ pair row, an origin row, a $\MetricUp$ radius witness, an $\IntervalUp$ or $\RealAlgOrderUp$ unit-bound row, optional $\SOneUp$ boundary consumption, transport routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:unitdisk-bhist-carrier}, \autoref{thm:unitdisk-carrier-stability}, \autoref{thm:unitdisk-boundary-sone-consumer}, and \autoref{thm:unitdisk-namecert-obligation-surface} describe the finite closed unit-disk carrier and its boundary consumer surface over $\RealUp$, $\ProdUp$, $\MetricUp$, $\IntervalUp$, $\RealAlgOrderUp$, $\SOneUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:unitdisk-carrier-habitation}, \autoref{thm:unitdisk-classifier-laws}, \autoref{thm:unitdisk-radius-ledger-exactness}, \autoref{thm:unitdisk-scoped-product-metric-source}, \autoref{thm:unitdisk-scoped-radius-boundary-route}, and \autoref{thm:unitdisk-scoped-consumer-nonescape} bind the product source, radius route, boundary handoff, and consumer non-escape rows for the finite closed unit-disk packet.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.UnitDiskUp.UnitDiskBHistCarrier\_namecert\_obligation\_surface}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close compactness, homotopy, quotient boundary identification, host Euclidean topology, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier, classifier, transport, radius-ledger, boundary-consumer, and non-escape rows for the finite disk packet.}
+  \upgradepath{Public closure requires exporting the finite disk certificate as a downstream product-metric and boundary-consumer surface.}
 \end{closurestatus}

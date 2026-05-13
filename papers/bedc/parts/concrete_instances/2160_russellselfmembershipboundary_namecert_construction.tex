@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RussellSelfMembershipBoundaryUp$}
+\label{ch:concrete-instances-russell-self-membership-boundary-namecert}
+\origin{ai}
+
+The $\RussellSelfMembershipBoundaryUp$ surface packages the Russell self-membership discipline of \autoref{ch:visions-russell-problem-boundary} as finite NameCert data. It reads a contextual class expression only through the classifier that introduces it, records the attempted self-membership query as a separate row, and rejects the promotion of that expression into an object that could contain or fail to contain itself.
+
+The packet is a boundary certificate. It does not create a universal class object, does not admit an unstratified membership predicate, and does not turn contextual readability into object-level membership.
+
+\begin{definition}[Russell self-membership boundary carrier]
+\label{def:russell-self-membership-boundary-carrier}
+A $\RussellSelfMembershipBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(K,Q,A,S,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the contextual-class source row: it records the expression read as a classifier-local class description, not as a kernel object;
+\item $Q$ is the attempted self-membership query row asking whether the contextual expression named by $K$ can be read as a member of itself;
+\item $A$ is the negated-presence row saying that no accepted packet coordinate contains an object-level membership field for $Q$;
+\item $S$ is the stratification row separating the contextual classifier level of $K$ from any object-level membership read;
+\item $G$ records the $\Ask$, $\Pkg$, and $\Gap$ provenance that identifies the query source, the package boundary, and the blocked passage from contextual reading to object membership;
+\item $H$ stores componentwise $\hsame$ transports for the contextual source, attempted query, negated-presence row, stratification row, provenance row, continuation routes, and local naming row;
+\item $C$ stores the displayed $\Cont$ routes by which consumers may inspect $K$, $Q$, $A$, $S$, and $G$ without adding a new membership coordinate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ask$, $\Gap$, $\hsame$, $\Cont$, contextual classifier rows, and the surrounding naming discipline;
+\item $N$ is the local $\NameCert_{\RussellSelfMembershipBoundaryUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. Its classifier-visible fields are the contextual source, the attempted query, the negated-presence row, the stratification row, the Ask/Pkg/Gap provenance, transport, continuation, package, and local NameCert rows.
+\end{definition}
+
+\begin{theorem}[Russell self-membership rejection]
+\label{thm:russell-self-membership-boundary-rejection}
+If $R=(K,Q,A,S,G,H,C,P,N)$ is an accepted $\RussellSelfMembershipBoundaryUp$ carrier, then no classifier-visible coordinate of $R$ promotes the contextual class expression recorded by $K$ into an object containing itself or into an object not containing itself.
+
+Every consumer read of the attempted self-membership query $Q$ factors through the negated-presence row $A$, the stratification row $S$, the Ask/Pkg/Gap provenance $G$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$ routes $C$, the package row $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:russell-self-membership-boundary-carrier}. The source row $K$ is contextual classifier data, while $Q$ is only the attempted query against that contextual reading.
+
+The negated-presence row $A$ records that the packet has no classifier-visible object-membership coordinate for $Q$. The stratification row $S$ records that the contextual level of $K$ is not the object level needed by a self-membership assertion.
+
+Route any consumer read through $G$, $H$, $C$, $P$, and $N$. These rows expose Ask/Pkg/Gap provenance, transport, continuation, and local naming data, but they do not add a membership field.
+
+Thus the attempted self-reference remains a rejected query at the NameCert boundary. The packet can report the blocked route, but it cannot manufacture either side of the object-level self-membership alternative.
+\end{proof}
+
+\begin{theorem}[Russell boundary NameCert obligations]
+\label{thm:russell-self-membership-boundary-namecert-obligations}
+The local $\NameCert_{\RussellSelfMembershipBoundaryUp}$ surface has five finite obligations:
+\begin{enumerate}
+\item carrier admission: every accepted object exposes the tuple $R=(K,Q,A,S,G,H,C,P,N)$ of \autoref{def:russell-self-membership-boundary-carrier};
+\item contextual classifier reading: the row $K$ is consumed only as a classifier-local class description and never as an admitted object containing members;
+\item self-query rejection: the attempted query $Q$ is routed through the negated-presence row $A$ and cannot produce a membership or nonmembership field;
+\item stratified transport: the row $S$ and the componentwise $\hsame$ ledger $H$ preserve the separation between contextual classifier reads and object-level membership reads;
+\item ledger boundary: every downstream consumer passes through the displayed $\Ask$, $\Pkg$, $\Gap$, $\Cont$, and local $\NameCert$ rows, with no universal class object and no unstratified membership predicate.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.RussellSelfMembershipBoundaryUp.RussellSelfMembershipBoundaryTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:russell-self-membership-boundary-carrier}. Each coordinate is a displayed $\BHist$ row or a finite provenance row named by the tuple.
+
+Contextual reading is enforced by the placement of $K$ and $S$. The expression appears in the contextual classifier row, and the stratification row records that this reading is not an object-level membership carrier.
+
+Self-query rejection is the role of $Q$ together with $A$. The query is present as an attempted read, while $A$ records the absence of a classifier-visible coordinate that could answer it as membership or nonmembership of an object by itself.
+
+Finally route downstream use through $G$, $H$, $C$, $P$, and $N$. The ledger exposes Ask/Pkg/Gap provenance, transport, continuation, package, and local naming rows only, so the NameCert surface contains no universal class object or unstratified membership predicate.
+\end{proof}
+
+\closureat{RussellSelfMembershipBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\RussellSelfMembershipBoundaryUp}
+  \constructivestory{A $\RussellSelfMembershipBoundaryUp$ packet is generated from a contextual-class source row, an attempted self-membership query row, a negated-presence row, a stratification row, Ask/Pkg/Gap provenance, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:russell-self-membership-boundary-carrier}, \autoref{thm:russell-self-membership-boundary-rejection}, and \autoref{thm:russell-self-membership-boundary-namecert-obligations} bind the finite carrier, self-query rejection row, stratified transport route, and local NameCert obligations for contextual class readings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, bridge status, universal class object, unstratified membership predicate, or object-level Russell class.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for contextual classifier reading, self-query rejection, stratified transport, and ledger-boundary non-escape.}
+\end{closurestatus}

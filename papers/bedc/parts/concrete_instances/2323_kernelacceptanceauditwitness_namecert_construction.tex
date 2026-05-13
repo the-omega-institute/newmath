@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\KernelAcceptanceAuditWitnessUp$}
+\label{ch:concrete-instances-kernelacceptanceauditwitness-namecert}
+\origin{human}
+
+The $\KernelAcceptanceAuditWitnessUp$ surface turns a Lean acceptance event into a finite \NameCert{} packet. It does not certify the kernel from inside BEDC. It records the generated candidate, the accepted declaration, the environment ledger, the axiom-query boundary, the build replay route, transport, continuation, provenance, and local naming row that make the acceptance event available to audit consumers.
+
+\begin{definition}[KernelAcceptanceAuditWitness carrier]
+\label{def:kernel-acceptance-audit-witness-carrier}
+A $\KernelAcceptanceAuditWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(G,K,A,L,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the generated-term row naming the elaborated proof term, definition body, inductive declaration, or recursor use submitted to the Lean kernel;
+\item $K$ is the kernel-candidate row, pairing $G$ with its claimed type, universe data, binder context, recursion account, or constructor signature as applicable;
+\item $A$ is the accepted-declaration row, present only when the candidate has been accepted under the current Lean environment;
+\item $L$ is the environment-ledger row recording the accepted name and the module position at which the declaration is entered;
+\item $Q$ is the axiom-query row naming the transitive dependency query surface used by the strict purity audit;
+\item $R$ is the build-replay row naming the project replay that reconstructs the same acceptance event from the Lean sources;
+\item $H$ records componentwise $\hsame$ transport for the generated term, candidate, accepted declaration, ledger row, axiom query, replay row, provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes through which consumers read kernel acceptance, inspect the ledger position, ask the axiom query, and replay the build route;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, generated terms, kernel candidates, accepted declarations, environment ledgers, axiom-query rows, build-replay rows, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\KernelAcceptanceAuditWitnessUp}$ row.
+\end{enumerate}
+The carrier exports no row that proves the Lean kernel correct, no row that turns a weak theorem statement into a stronger paper claim, and no row that hides a dependency outside the axiom-query boundary.
+\end{definition}
+
+\begin{theorem}[KernelAcceptanceAuditWitness NameCert obligations]
+\label{thm:kernel-acceptance-audit-witness-namecert-obligations}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\KernelAcceptanceAuditWitnessUp}$ surface consists exactly of the generated-term row $G$, kernel-candidate row $K$, accepted-declaration row $A$, environment-ledger row $L$, axiom-query row $Q$, build-replay row $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local naming row $N$. Any audit consumer of $N$ must read acceptance through the finite packet $W$ and may not replace it by prose confidence, an external certificate, or an unrecorded dependency route.
+\end{theorem}
+\leanchecked{BEDC.Derived.KernelAcceptanceAuditWitnessUp.KernelAcceptanceAuditWitnessCarrier\_namecert\_obligations}
+\begin{proof}
+Start with the carrier in \autoref{def:kernel-acceptance-audit-witness-carrier}. The displayed coordinates expose the candidate-generating side, the kernel acceptance side, the environment ledger, the axiom-query surface, and the replay route in one finite $\BHist$ packet.
+
+The transport and continuation rows then bind how the packet is read. The $\hsame$ row preserves each named coordinate componentwise, while the $\Cont$ row gives only the displayed routes from generated term to candidate, accepted declaration, ledger entry, axiom query, and replay.
+
+Finally the provenance and local naming rows package the same finite data as a $\NameCert_{\KernelAcceptanceAuditWitnessUp}$ surface. Since no additional coordinate is present, a consumer has no place from which to import prose confidence, an external certificate, or an unrecorded dependency route.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceAuditWitness ledger non-escape]
+\label{thm:kernel-acceptance-audit-witness-ledger-non-escape}
+For every accepted carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the accepted declaration row $A$ reaches downstream consumers only through the environment-ledger row $L$, the axiom-query row $Q$, the build-replay row $R$, and the local $\NameCert$ row $N$. Thus a checked BEDC marker may consume kernel acceptance as a ledgered declaration with a replayable source and queryable dependency surface, but it cannot read acceptance as a certificate for the kernel's own correctness or for any paper-side claim not stated by the accepted declaration.
+\end{theorem}
+\begin{proof}
+Project the accepted declaration row $A$ from the carrier. Its only ledger-facing coordinate is $L$, so downstream reads of the accepted name pass through the environment row rather than through an informal description of the term.
+
+Next read the dependency side through $Q$ and the replay side through $R$. These rows bind the transitive dependency query and the source replay that reconstructs the acceptance event from the project ledger.
+
+The local naming row $N$ packages $A,L,Q,R$ together with $G,K,H,C,P$. Because the carrier contains no row for kernel correctness or for unstated paper meaning, ledgered acceptance cannot escape into either claim.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceAuditWitness axiom-query boundary]
+\label{thm:kernel-acceptance-audit-witness-axiom-query-boundary}
+For every accepted carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the axiom-query row $Q$ is the only boundary through which an audit consumer may classify the transitive dependency ancestry of the accepted declaration. The build-replay row $R$ reconstructs the local acceptance event, while $Q$ classifies whether the resulting ledgered declaration imports a forbidden dependency. No consumer may infer dependency cleanliness from the generated-term row $G$, the candidate row $K$, the accepted-declaration row $A$, or the local naming row $N$ alone.
+\end{theorem}
+\begin{proof}
+The generated term, candidate, accepted declaration, and name rows identify what was submitted, accepted, ledgered, and named. These rows do not enumerate the transitive ancestry of the proof object or definition body.
+
+The build-replay row $R$ reconstructs the acceptance event from sources, but replay alone records that the declaration is accepted in the current environment. The dependency classification is a separate audit read.
+
+That separate read is $Q$. Since the carrier designates $Q$ as the axiom-query row and provides no second ancestry coordinate, any cleanliness conclusion must pass through $Q$ rather than through the local name, the generated term, or the acceptance stamp by itself.
+\end{proof}
+
+\closureat{KernelAcceptanceAuditWitnessUp}{seedStr}
+
+\begin{closurestatus}{\KernelAcceptanceAuditWitnessUp}
+  \constructivestory{A $\KernelAcceptanceAuditWitnessUp$ packet is generated from an elaborated term, kernel candidate, accepted declaration, environment ledger, axiom-query row, build-replay row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-acceptance-audit-witness-carrier}, \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-audit-witness-ledger-non-escape}, and \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary} bind the finite audit-witness carrier, local naming surface, ledger route, replay route, and dependency-query boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, kernel correctness, host runtime correctness, compiler correctness, theorem-content strengthening beyond the accepted declaration, or a public standard bridge.}
+  \upgradepath{Obligation closure requires Lean encoding of the finite packet and checked theorems for naming obligations, ledger non-escape, replay routing, and the axiom-query boundary.}
+\end{closurestatus}

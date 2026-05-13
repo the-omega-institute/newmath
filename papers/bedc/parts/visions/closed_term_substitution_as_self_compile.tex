@@ -1,0 +1,520 @@
+\chapter{Closed-term substitution as the self-compilation step}
+\label{ch:closed-term-substitution-self-compile}
+
+\section{The setup}
+\label{sec:closed-term-substitution-setup}
+
+BEDC.MetaCIC represents a small CIC-like term language by the closed generator
+\texttt{Term}.
+
+The generator has exactly five surface forms:
+\texttt{var},
+\texttt{app},
+\texttt{lam},
+\texttt{pi},
+and \texttt{sort}.
+
+The closedness classifier for this generator is \texttt{ClosedAt}.
+
+For a depth $d$ and a term $t$,
+\texttt{ClosedAt} $d$ $t$ says that every free de Bruijn index visible in $t$
+lies below the boundary $d$.
+
+The boundary is not cosmetic.
+
+It is the local budget by which the term may use names already present in the
+ambient binder context.
+
+At depth $0$ the classifier marks genuinely closed terms.
+
+At larger depth it marks terms closed relative to the registered variables below
+that depth.
+
+Thus \texttt{ClosedAt} is not merely a syntactic predicate.
+
+It is the classifier that tells the MetaCIC layer which terms remain inside the
+registered binder ledger.
+
+The two operations at issue are \texttt{shift} and \texttt{substitute}.
+
+\texttt{shift} raises free indices at or above a cutoff.
+
+\texttt{substitute} replaces the variable at a specified depth and adjusts
+indices around the removed binder.
+
+Both operations are ordinary generators over \texttt{Term}: they traverse the
+closed constructor list and produce another \texttt{Term}.
+
+But only some generator actions preserve a given classifier.
+
+The self-compilation reading depends exactly on that distinction.
+
+A compiler that compiles itself must feed compiler-shaped source terms through
+the evaluator it implements.
+
+Inside that evaluator, substitution is not optional bookkeeping.
+
+It is the step that pushes an actual argument into a binder body.
+
+If this step could cross the closedness boundary, the self-compilation chain
+would silently acquire an unregistered free variable.
+
+The chain would then cease to be a chain of BEDC-certified records.
+
+It would be a chain whose later stage contains a name that no prior certificate
+licensed.
+
+BEDC therefore reads closed-term substitution as a certificate closure
+condition.
+
+The relevant claim is not that every substitution preserves every semantic
+property.
+
+The relevant claim is narrower and sharper: when a term is already closed at the
+substitution depth, the attempted substitution at that boundary is syntactically
+inert.
+
+No hidden variable is consumed.
+
+No variable is smuggled through the boundary.
+
+No future binder budget is borrowed to make the operation typecheck.
+
+In formula form, the MetaCIC witness says:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(d,t)
+  &\Rightarrow
+  \mathsf{substitute}(d,v,t)=t.
+\end{aligned}
+$$
+
+This is the form of closure that self-compilation needs at the substitution
+site.
+
+The evaluator may attempt the syntactic operation, but the registered
+closedness certificate proves that the operation cannot alter a term whose free
+variables all sit below the boundary.
+
+The source term remains inside the classifier.
+
+The self-application step remains inside the same record discipline.
+
+The compiler does not borrow an unrecorded name from the future of its own
+compilation chain.
+
+\section{The Lean witness}
+\label{sec:closed-term-substitution-lean-witness}
+
+Two theorems from \texttt{lean4/BEDC/MetaCIC/ClosedTerm.lean} carry the technical content:
+
+\begin{itemize}
+  \item \texttt{shift\_closed} -- \leanvariant{BEDC.MetaCIC.shift\_closed}
+  \item \texttt{substitute\_closed} -- \leanvariant{BEDC.MetaCIC.substitute\_closed}
+  \item \texttt{closed\_under\_substitute\_classifier} -- \leanvariant{BEDC.MetaCIC.closed\_under\_substitute\_classifier} (instance of \leanvariant{BEDC.MetaCIC.GeneratorClosureClassifier})
+\end{itemize}
+
+\texttt{shift\_closed} states that shifting a term at its closedness boundary by
+one position leaves the term unchanged.
+
+Its statement is:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(n,t)
+  &\Rightarrow
+  \mathsf{shift}(n,1,t)=t.
+\end{aligned}
+$$
+
+The proof is structural over the \texttt{ClosedAt} witness.
+
+In the variable case, the inequality $i<n$ forces the cutoff test
+$n \leq i$ to be false.
+
+In the compound cases, the induction hypotheses pass through
+\texttt{app},
+\texttt{lam},
+and \texttt{pi}.
+
+The binder cases raise the boundary on the body or codomain, matching the
+definition of \texttt{ClosedAt}.
+
+The universe case is immediate.
+
+The theorem says that a closed term already pays its depth bill.
+
+Raising the external context boundary does not require rewriting the term,
+because no free index reaches the cutoff.
+
+This is the boundary budget law for self-compilation.
+
+When a closed source fragment is moved into a deeper binder context, the chain
+does not reach into a later context to justify the move.
+
+The proof spends only the already recorded inequality inside
+\texttt{ClosedAt}.
+
+\texttt{substitute\_closed} states that substituting at the boundary of a closed
+term leaves the term unchanged:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(d,t)
+  &\Rightarrow
+  \mathsf{substitute}(d,v,t)=t.
+\end{aligned}
+$$
+
+The value $v$ is arbitrary.
+
+That arbitrariness matters.
+
+The theorem does not inspect $v$ because the substitution site is absent.
+
+For a variable index $i$ in a term closed at $d$,
+the witness gives $i<d$.
+
+Consequently $i=d$ is false, and $d<i$ is false.
+
+The substitution branch cannot fire, and the decrement branch cannot fire.
+
+The variable is returned as itself.
+
+The compound cases again follow the \texttt{ClosedAt} constructor tree.
+
+Under binders, the implementation shifts the substitution value while increasing
+the depth, but the theorem proves that this shifted value is never observed in a
+closed-at-boundary body.
+
+That is the self-compilation content.
+
+The evaluator may carry a substitution payload through the recursive traversal,
+yet the classifier prevents the payload from becoming a hidden source of free
+variables.
+
+The accepted record is the equality of the syntactic output with the input term.
+
+The certificate is the \texttt{ClosedAt} derivation.
+
+The generator is \texttt{substitute}.
+
+The closure law is that the generator action is inert on the classified slice.
+
+\section{Why this is the self-compilation step}
+\label{sec:closed-term-substitution-self-compilation-step}
+
+Self-compilation is not a single mystical event.
+
+In BEDC it is a chain of ordinary certified steps.
+
+Each step takes a record already admitted by a classifier, applies an authorized
+generator, and checks that the resulting record remains inside the promised
+scope.
+
+For MetaCIC, evaluation under binders inevitably uses substitution.
+
+A compiler source term contains binder bodies.
+
+The evaluator implemented by the compiler opens those binders when it applies
+functions.
+
+The self-compilation chain therefore cannot avoid the following local question:
+when the compiler's own evaluator substitutes during evaluation, does the
+operation preserve the closedness ledger of the source term?
+
+\texttt{substitute\_closed} answers the question at the exact boundary where the
+risk appears.
+
+If the source fragment is closed relative to depth $d$, then a substitution at
+$d$ has no target inside the fragment.
+
+The operation returns the same term.
+
+Hence the self-compilation chain does not create an unregistered free variable
+at that step.
+
+The compiler may feed its own term representation to its own evaluator without
+turning closed source into boundary-leaking source at this operation.
+
+The theorem is therefore a local non-escape certificate.
+
+\concretizedIn{ch:concrete-instances-closedsubstitutionseal-namecert}{Closed substitution is realized as a finite seal whose inert boundary is certified by the MetaCIC closedness classifier.}
+
+It is local because it speaks only about the \texttt{substitute} operation at a
+single depth.
+
+It is a certificate because it is a checked Lean theorem whose proof follows
+only the closed constructor tree and elementary Nat tests.
+
+It is a non-escape claim because every possible route for the substitution
+payload to enter the term is blocked by the inequalities in the
+\texttt{ClosedAt} witness.
+
+The same reading applies to \texttt{shift\_closed}.
+
+Self-compilation moves term fragments through binder contexts.
+
+Moving through a binder context normally requires shifting free variables.
+
+But a term closed below the relevant cutoff contains no free variable at that
+cutoff.
+
+Shifting it at the boundary is therefore inert.
+
+The chain can deepen the surrounding context without borrowing a depth that has
+not yet been registered.
+
+This is why \texttt{shift\_closed} is the boundary budget law.
+
+Depth behaves monotonically with respect to the certificate already held by the
+term.
+
+The term does not need a later binder to justify its present closedness.
+
+The pair of theorems gives the self-compilation step its exact BEDC shape:
+
+$$
+\begin{aligned}
+  \text{registered closed source}
+  &\xrightarrow{\ \mathsf{shift}\ }
+  \text{same registered source},\\
+  \text{registered closed source}
+  &\xrightarrow{\ \mathsf{substitute}\ }
+  \text{same registered source}.
+\end{aligned}
+$$
+
+The equalities are stronger than mere preservation of a predicate.
+
+They state that, at the closed boundary, the operational generator cannot alter
+the term at all.
+
+The self-compilation chain is therefore protected at the exact place where
+capture, escape, or name leakage would otherwise enter.
+
+\section{Generator-closure classifier reading}
+\label{sec:closed-term-substitution-generator-closure-classifier}
+
+The same facts can be read in the certificate-closure vocabulary.
+
+\texttt{ClosedAt} is the classifier.
+
+\texttt{Term} is the authorized generator carrier.
+
+\texttt{shift} and \texttt{substitute} are authorized generator operations over
+that carrier.
+
+\texttt{shift\_closed} and \texttt{substitute\_closed} are generator-closure
+laws for the classified slice.
+
+This is not an analogy.
+
+It is the literal BEDC structure.
+
+A generator-closure classifier states which records remain inside the licensed
+generator scope after an authorized operation is applied.
+
+Here the records are MetaCIC terms.
+
+The classifier is \texttt{ClosedAt}.
+
+The authorized operations are the syntactic traversals in
+\texttt{Syntax.lean}.
+
+The closure law says that the operation cannot escape the classifier's boundary.
+
+For \texttt{substitute}, the theorem is especially sharp.
+
+The classifier does not merely say that the output is again closed.
+
+It says the output is the input.
+
+Thus every classified term is a fixed point of substitution at its boundary.
+
+The name certificate reading is then immediate.
+
+A naming certificate promotes a stable generated behaviour to a derived
+interface.
+
+The stable behaviour here is:
+
+$$
+\begin{aligned}
+  t \in \mathsf{ClosedAt}(d)
+  &\Rightarrow
+  \mathsf{substitute}(d,v,t)=t.
+\end{aligned}
+$$
+
+The certificate does not license arbitrary semantic substitution.
+
+It licenses a boundary fact about closed terms.
+
+It records that the generator action cannot access a variable whose existence
+the classifier has ruled out.
+
+The \NameCert{} surface therefore reads the theorem as a closure classifier over
+the \texttt{Term} generator.
+
+The theorem belongs to the records side of BEDC because its proof is mechanical
+structural recursion over a closed inductive witness.
+
+It does not ask for a free-floating universal principle over all possible
+syntax.
+
+It ranges over the closure of the declared \texttt{Term} and \texttt{ClosedAt}
+generators.
+
+Within that closure, it is fully internal.
+
+Beyond that closure, BEDC does not pretend that the theorem has authority.
+
+The \NameCert{} classifier says "this generator, this boundary, this closure
+law".
+
+It does not say "all imaginable binders in all possible metatheories".
+
+That distinction is the exact difference between BEDC's generator-internal
+induction and the forward-binding belief whose far end is the $\mathsf{T}$-socket.
+
+\section{Audit gate as the executable form of the classifier}
+\label{sec:closed-term-substitution-audit-gate}
+
+The audit gate is the executable form of this classifier discipline.
+
+The paper marker \texttt{BEDC.MetaCIC.substitute\_closed}
+points at a concrete Lean theorem.
+
+The project audit verifies that the target exists.
+
+The Lean build verifies that the proof elaborates.
+
+The strict axiom-purity audit inspects the transitive dependency closure of the
+accepted theorem.
+
+If the proof of \texttt{substitute\_closed} depended on a hidden substrate
+commitment such as \texttt{Classical.choice}, \texttt{Quot.sound}, or
+\texttt{propext}, the audit would reject it.
+
+This is not a separate quality check layered on top of the mathematics.
+
+It is the operational classifier.
+
+The classifier says that the generator action remains inside the authorized
+closure.
+
+The audit checks that the Lean witness to that statement is itself generated
+inside the authorized proof discipline.
+
+A proof that smuggled in a forbidden host axiom would be a generator escape at
+the proof layer, even if its statement had the right shape.
+
+The strict audit therefore enforces the same closure law one stratum higher.
+
+The syntactic generator \texttt{substitute} must not create a free variable in a
+closed term.
+
+The proof generator used by Lean must not create a hidden axiom dependency in a
+closed BEDC theorem.
+
+The two checks are not merely parallel.
+
+They are the same generator-closure classifier pattern applied at two strata.
+
+At the term stratum, \texttt{ClosedAt} classifies admissible MetaCIC terms.
+
+At the proof-record stratum, the axiom-purity audit classifies admissible Lean
+proof dependencies.
+
+The theorem is accepted only when both strata close.
+
+Thus the audit gate is the executable manifestation of certificate closure.
+
+It turns the prose promise "substitution does not leak names" into a checkable
+record whose proof also does not leak forbidden host commitments.
+
+\section{Boundary: what this lemma does not claim}
+\label{sec:closed-term-substitution-boundary}
+
+\texttt{substitute\_closed} does not claim that substitution is semantically
+correct for arbitrary open terms.
+
+It does not claim subject reduction for the whole evaluator.
+
+It does not claim that every compiler pass preserves every classifier.
+
+It does not claim that BEDC internalises the host CIC's truth predicate.
+
+It does not claim that self-compilation is completed by a single syntactic
+lemma.
+
+Its claim is exact:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(d,t)
+  &\Rightarrow
+  \mathsf{substitute}(d,v,t)=t.
+\end{aligned}
+$$
+
+The exactness is the point.
+
+\concretizedIn{ch:concrete-instances-closed-substitution-boundary-namecert}{Closed substitution is represented by a finite boundary packet whose substitute route is inert on the \texttt{ClosedAt} slice.}
+
+At the boundary where a substitution payload could otherwise enter, the
+closedness classifier proves that there is no target for it.
+
+The operation returns the original term.
+
+The generator remains inside the classifier.
+
+The proof remains inside the axiom-pure audit gate.
+
+The self-compilation chain receives one local certificate that no unregistered
+free variable enters through this operation.
+
+\texttt{shift\_closed} has the matching boundary:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(n,t)
+  &\Rightarrow
+  \mathsf{shift}(n,1,t)=t.
+\end{aligned}
+$$
+
+This law does not say that every shift is harmless.
+
+It says that the shift at the closed boundary spends no future depth budget.
+
+Together the two theorems give the self-compilation story a precise local
+socket:
+
+the compiler may pass closed source through binder movement and boundary
+substitution without converting closure into name leakage.
+
+Where the story asks for more than this, it must cite further certificates.
+
+Where it asks for a universal claim beyond any authorized generator, BEDC marks
+the position as a $\mathsf{T}$-socket rather than internalising it.
+
+That is why the theorem is small but load-bearing.
+
+It is the records-side generator-closure classifier instance at the substitution
+step of self-compilation.
+
+It does not complete the entire compiler story.
+
+It closes this boundary, with this classifier, for this authorized generator,
+under the executable audit gate.
+
+\concretizedIn{ch:concrete-instances-closedtermsubstitution-namecert}{Closed-term substitution is realized as a finite NameCert packet for boundary-inert substitution over MetaCIC closed terms.}
+\concretizedIn{ch:concrete-instances-closedsubstitutionseal-namecert}{Closed substitution seals realize the MetaCIC closedness boundary as a finite NameCert packet over Term, ClosedAt, substitution, shift, audit, and self-compilation rows.}
+
+\concretizedIn{ch:concrete-instances-closedtermsubstitutionboundary-namecert}{Closed-term substitution boundary is realized as a finite NameCert packet over Term, ClosedAt, shift, substitute, closedness ledgers, and audit-visible non-escape rows.}
+\concretizedIn{ch:concrete-instances-binderbudgetseal-namecert}{Binder-budget seals realize the ClosedAt boundary as a finite NameCert packet for shift and substitution non-escape.}
+\concretizedIn{ch:concrete-instances-closedtermsubstitutioncompiler-namecert}{Closed-term substitution is realized as a finite compiler-boundary NameCert over ClosedAt, substitute, shift, BHist, Cont, Pkg, and NameCert.}
+\concretizedIn{ch:concrete-instances-bindercontextsubstitutionseal-namecert}{Closed-term substitution is realized as a finite binder-boundary substitution seal packet over Term, ClosedAt, substitute, hsame, Cont, Pkg, and NameCert.}

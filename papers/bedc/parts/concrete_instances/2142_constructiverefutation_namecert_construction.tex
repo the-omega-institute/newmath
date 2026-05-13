@@ -1,0 +1,69 @@
+\chapter{Constructive Refutation NameCert Construction}
+\label{ch:concrete-instances-constructiverefutation-namecert}
+\origin{ai}
+
+The $\ConstructiveRefutationUp$ surface turns the contradiction-boundary discipline of \autoref{ch:visions-reasoning-by-contradiction-boundary} into a finite naming packet. It records an assumption row, a displayed route from that assumption to contradiction, the contradiction witness itself, the optional decidability row when such a row is supplied, the fixed certificate scope, the transport and continuation rows through which a consumer may replay the route, package provenance, and the local naming ledger. The packet certifies constructor-visible refutation only; it does not contain a certificate-indexed truth branch.
+
+\begin{definition}[ConstructiveRefutation carrier]
+\label{def:constructive-refutation-carrier}
+A $\ConstructiveRefutationUp$ carrier is a finite $\BHist$ packet
+$$
+C=(A,R,F,D,S,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the assumption row whose local witness would be consumed by the refutation;
+\item $R$ is the permitted refutation route, a displayed $\Cont$ path from the assumption row into the fixed certificate surface of \autoref{def:reasoning-permitted-pattern};
+\item $F$ is the contradiction witness produced by replaying $R$ inside the same finite history and local certificate rows;
+\item $D$ is an optional decidability row for the assumption predicate, present only when the packet carries a constructive branch for that same row;
+\item $S$ is the scope row naming the fixed $\NameCert$ and the finite ground-loop rows in which the refutation is valid;
+\item $T$ stores the componentwise $\hsame$ transports and consumer $\Cont$ routes for $A,R,F,D,S$, package rows, and local naming rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\msame$, $\hsame$, the displayed contradiction route, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ConstructiveRefutationUp}$ ledger.
+\end{enumerate}
+The carrier contains no coordinate for a host truth predicate, an unwitnessed existence selector, double-negation elimination without the row $D$, or a branch over the carrier of all naming certificates.
+\end{definition}
+\leanchecked{BEDC.Derived.ConstructiveRefutationUp.ConstructiveRefutationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ConstructiveRefutation permitted soundness]
+\label{thm:constructive-refutation-permitted-soundness}
+For every accepted $\ConstructiveRefutationUp$ carrier
+$$
+C=(A,R,F,D,S,T,P,N),
+$$
+the exported refutation of $A$ is sound precisely as a certificate-local negation: any displayed witness of $A$ is consumed by the route $R$, transported through $T$, and replayed inside the fixed scope $S$ to produce the contradiction witness $F$. If the optional decidability row $D$ is present, it may be used only for the same assumption row $A$ and only inside the same carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-refutation-carrier}. The rows $A$, $R$, and $F$ give the displayed assumption, the route from that assumption into the fixed certificate, and the contradiction witness obtained by replaying the route.
+
+The scope row $S$ fixes the local $\NameCert$ and the finite ground-loop rows used by the route. The transport-and-continuation row $T$ moves only the displayed assumption, route, contradiction witness, optional decision row, and scope data, so a consumer cannot replace the route by a host-level truth test.
+
+When $D$ is present, it is listed as a row for the same assumption predicate $A$. Replaying $R$ with the transported rows therefore yields a certificate-local negation of $A$, and no step requires an ambient excluded-middle principle.
+\end{proof}
+
+\begin{theorem}[ConstructiveRefutation forbidden branch exclusion]
+\label{thm:constructive-refutation-forbidden-branch-exclusion}
+An accepted $\ConstructiveRefutationUp$ carrier cannot export any forbidden pattern of \autoref{def:reasoning-forbidden-pattern}. In particular, it has no coordinate for proving an existence claim by contradiction, no coordinate for eliminating double negation unless the displayed row $D$ supplies a constructive decision for the same assumption row, and no coordinate for a certificate-indexed truth branch over all naming certificates.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory in \autoref{def:constructive-refutation-carrier}. Its only rows are $A,R,F,D,S,T,P,N$.
+
+The permitted route is constructor-visible: it starts with the assumption row $A$, follows the displayed route $R$, and ends at the contradiction witness $F$ within the fixed scope $S$. The rows $T$, $P$, and $N$ record transport, consumer access, provenance, and local naming data for that route.
+
+No listed row is a selector for witnesses of existential claims obtained from contradiction. No listed row is a truth predicate over all naming certificates. The only row that can support double-negation elimination is $D$, and it is scoped to the same assumption row $A$.
+
+Thus the packet can export the permitted refutation pattern, but the forbidden truth branches have no carrier coordinate through which they could be read.
+\end{proof}
+
+\closureat{ConstructiveRefutationUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveRefutationUp}
+  \constructivestory{A $\ConstructiveRefutationUp$ packet is generated from an assumption row, a displayed refutation route, a contradiction witness, an optional same-row decidability witness, a fixed certificate scope, transport and continuation rows, package provenance, and a local naming ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-refutation-carrier}, \autoref{thm:constructive-refutation-permitted-soundness}, and \autoref{thm:constructive-refutation-forbidden-branch-exclusion} bind permitted refutations to finite $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows while excluding certificate-indexed truth branches.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close classical excluded middle, global truth over naming certificates, existential-by-contradiction witness selection, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires a Lean encoding of the carrier and checked theorems for permitted-route soundness and forbidden-branch exclusion.}
+\end{closurestatus}

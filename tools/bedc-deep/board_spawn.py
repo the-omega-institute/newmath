@@ -46,6 +46,19 @@ DEFAULT_JUDGE_TIMEOUT = 600
 
 DEFAULT_FIT_THRESHOLD = 7
 DEFAULT_NOVELTY_THRESHOLD = 6
+EXTERNAL_SIGNAL_RE = re.compile(
+    r"Automath|automath|Bridge continuation target|Automath continuation|"
+    r"bridge_consumption_mode|review_packets?|discovery_report|"
+    r"external theorem signal|source theorem signal",
+    re.IGNORECASE,
+)
+LANDING_KINDS = {
+    "existing_chapter_lemma",
+    "existing_chapter_obligation",
+    "existing_chapter_ledger_row",
+    "new_chapter",
+    "reject",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -293,9 +306,12 @@ def _render_entry(target_id: str, candidate: dict) -> str:
     fit = candidate.get("fit_score", "?")
     novelty = candidate.get("novelty", "?")
     source = candidate.get("source", "judge")
+    landing_kind = candidate.get("landing_kind", "existing_chapter_lemma")
+    chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     rationale = candidate.get("rationale", "")
     inputs = candidate.get("local_inputs") or []
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (auto-spawn — no specific inputs declared)"
+    worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
     return (
         f"\n### {target_id} - {title}\n\n"
         f"| field | value |\n"
@@ -307,11 +323,36 @@ def _render_entry(target_id: str, candidate: dict) -> str:
         f"| Route | proof |\n"
         f"| Risk | unknown |\n"
         f"| Fit | {fit}/10 |\n"
-        f"| Novelty | {novelty}/10 |\n\n"
+        f"| Novelty | {novelty}/10 |\n"
+        f"| Landing kind | {landing_kind} |\n\n"
         f"Problem:\n{claim}\n\n"
         f"Local inputs:\n{inputs_block}\n\n"
+        f"{worthiness_block}"
         f"Rationale:\n{rationale}\n\n---\n"
     )
+
+
+def _post_judge_landing_rejection(candidate: dict) -> str:
+    title = str(candidate.get("title") or "")
+    claim = str(candidate.get("claim") or candidate.get("concrete_claim") or "")
+    rationale = str(candidate.get("rationale") or "")
+    worthiness = str(candidate.get("chapter_worthiness") or "")
+    haystack = " ".join([title, claim, rationale, worthiness])
+    if not EXTERNAL_SIGNAL_RE.search(haystack):
+        return ""
+    landing_kind = str(candidate.get("landing_kind") or "").strip()
+    if not landing_kind:
+        return "external_signal_missing_landing_kind"
+    if landing_kind not in LANDING_KINDS:
+        return f"external_signal_invalid_landing_kind:{landing_kind}"
+    if landing_kind == "reject":
+        return "external_signal_landing_reject"
+    if landing_kind == "new_chapter":
+        required = ("carrier", "classifier", "NameCert", "dependency", "downstream", "existing chapter")
+        if len(worthiness.strip()) < 240 or any(term.lower() not in worthiness.lower() for term in required):
+            return "external_signal_missing_chapter_worthiness"
+        return "external_signal_new_chapter_not_board_lane"
+    return ""
 
 
 def _atomic_append_to_board(blocks: list[str]) -> None:
@@ -385,6 +426,10 @@ def spawn_from_candidates(
     final_accepted: list[dict] = []
     threshold_drops: list[dict] = []
     for c in accepted:
+        landing_rejection = _post_judge_landing_rejection(c)
+        if landing_rejection:
+            threshold_drops.append({**c, "reason": landing_rejection})
+            continue
         try:
             fit = int(c.get("fit_score", 0))
             nov = int(c.get("novelty", 0))

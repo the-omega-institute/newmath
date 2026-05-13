@@ -57,12 +57,14 @@ The $\RegSeqRatUp$ seal row $G$ is attached to those same readbacks. Therefore a
 
 Transport only changes the displayed route used to reach the rows. Since the classifier compares the transported window and ledger before reading the seal row, the $\RegSeqRatUp$ handoff is invariant under the permitted $\hsame$ and $\Cont$ transports.
 \end{proof}
-\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeBHistCarrier\_regseqrat\_seal\_handoff}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeCarrier\_regseqrat\_seal\_handoff}
+\leanvariant{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeBHistCarrier\_regseqrat\_seal\_handoff}
 
 \begin{theorem}[FiniteWindowEnvelope RealUp window exactness]
 \label{thm:finite-window-envelope-realup-window-exactness}
 For every accepted $\FiniteWindowEnvelopeUp$ carrier, a $\RealUp$ finite-window endpoint read factors through exactly one selected $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation ledger, and one $\RegSeqRatUp$ seal row. No endpoint read bypasses the carrier by appealing to a host real value, a quotient representative, a diagonal limit, or an ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeBHistCarrier\_realup\_window\_exactness}
 \begin{proof}
 Begin with a $\RealUp$ endpoint read of the carrier. The endpoint row $E$ is one of the visible coordinates of the source package, so the read first exposes the anchor and finite window rows to which $E$ is attached.
 
@@ -97,5 +99,135 @@ The dyadic ledger coordinate records the rational readbacks. The $\StreamNameUp$
 The provenance coordinates $P$ and $N$ account for the package and local naming rows. Since every finite observation field is present in these coordinates or in their displayed component ledgers, the carrier leaves no hidden anchor, window, scale, or endpoint row outside the certificate.
 \end{proof}
 
+\begin{theorem}[FiniteWindowEnvelope StreamName RegSeqRat scope]
+\label{thm:finite-window-envelope-streamname-regseqrat-scope}
+Every accepted $\FiniteWindowEnvelopeUp$ read from a selected finite $\StreamNameUp$ window to a $\RegSeqRatUp$ seal is exhausted by the anchor row, window row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, $\RealUp$ endpoint classifier, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed in the carrier. The handoff has no additional hidden window selector, rational readback table, endpoint classifier, or completion-side equality field.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-envelope-carrier}. The selected anchor and window rows name the finite $\StreamNameUp$ read, while the dyadic ledger records every rational observation made inside that read.
+
+By \autoref{thm:finite-window-envelope-regseqrat-seal-handoff}, the $\RegSeqRatUp$ seal consumes exactly that selected window and ledger. By \autoref{thm:finite-window-envelope-realup-window-exactness}, the $\RealUp$ endpoint classifier is attached to the same finite window rather than to a separate endpoint object.
+
+The common refinement theorem \autoref{thm:finite-window-envelope-common-refinement-exactness} shows that transported comparisons factor through the same displayed window, ledger, seal, and endpoint rows. Finally, \autoref{thm:finite-window-envelope-ledger-exhaustion} accounts for the anchor, window, scale, subwindow, readback, package, and certificate rows, so the $\StreamNameUp$ to $\RegSeqRatUp$ handoff is scoped by the listed data.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope tail projection]
+\label{thm:finite-window-envelope-tail-projection}
+For every accepted $\FiniteWindowEnvelopeUp$ carrier $W=(S,A,B,L,Q,G,E,P,N)$, any displayed tail read or subwindow read of the accepted envelope factors through the same anchor row $A$, selected $\StreamNameUp$ finite window $Q$, $\DyadicRatCoreUp$ ledger $L$, $\RegSeqRatUp$ seal $G$, $\RealUp$ endpoint classifier $E$, and visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates already listed in the carrier. The projection introduces no quotient stream, diagonal completion, host real equality, or completeness object outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-envelope-carrier}. The anchor, finite window, dyadic ledger, regular-sequence seal, endpoint classifier, package row, and local naming row are displayed coordinates, and the permitted tail or subwindow read must start from that finite window surface.
+
+Apply \autoref{thm:finite-window-envelope-regseqrat-seal-handoff} to identify the $\RegSeqRatUp$ view of the read with the same selected $\StreamNameUp$ window and $\DyadicRatCoreUp$ ledger. Then use \autoref{thm:finite-window-envelope-common-refinement-exactness} to keep transported comparisons on the same window, ledger, seal, and endpoint rows.
+
+The exhaustion step is \autoref{thm:finite-window-envelope-ledger-exhaustion}, while \autoref{thm:finite-window-envelope-streamname-regseqrat-scope} supplies the non-escape boundary for the stream-to-regular-sequence handoff. Hence every displayed tail or subwindow read is a projection of the listed carrier coordinates.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope tail-projection audit sync]
+\label{thm:finite-window-envelope-tail-projection-audit-sync}
+Every accepted $\FiniteWindowEnvelopeUp$ carrier assembles its selected finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, $\RealUp$ endpoint classifier, displayed $\hsame$ and $\Cont$ transports, $\Pkg$ provenance, and local $\NameCert$ rows into one audit-facing consumer package. Any tail read or subwindow read of the carrier factors through that package, and no such consumer route exports a diagonal limit, quotient stream, host real equality, or completeness object.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $W=(S,A,B,L,Q,G,E,P,N)$. The carrier definition exposes the selected finite window $Q$, the dyadic ledger $L$, the seal row $G$, the endpoint row $E$, the package provenance $P$, and the local naming row $N$ as visible coordinates.
+
+The consumer route is assembled by the component exactness results. The handoff theorem \autoref{thm:finite-window-envelope-regseqrat-seal-handoff} identifies the $\RegSeqRatUp$ seal from the selected $\StreamNameUp$ window and the $\DyadicRatCoreUp$ ledger. The endpoint theorem \autoref{thm:finite-window-envelope-realup-window-exactness} ties the $\RealUp$ classifier to the same finite window and seal.
+
+For comparisons between accepted carriers, \autoref{thm:finite-window-envelope-common-refinement-exactness} keeps the transported window, ledger, seal, and endpoint rows on one displayed refinement package. The exhaustion theorem \autoref{thm:finite-window-envelope-ledger-exhaustion} accounts for the anchor, window, scale, subwindow, readback, provenance, and naming rows.
+
+Finally, \autoref{thm:finite-window-envelope-streamname-regseqrat-scope} gives the stream-to-regular-sequence boundary, and \autoref{thm:finite-window-envelope-tail-projection} applies that boundary to tail and subwindow reads. Thus every audit-facing read is a consumer of the same displayed package, with no remaining route to a diagonal limit, quotient stream, host real equality, or completeness object.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope endpoint-source determinacy]
+\label{thm:finite-window-envelope-endpoint-source-determinacy}
+Let $W=(S,A,B,L,Q,G,E,P,N)$ be an accepted $\FiniteWindowEnvelopeUp$ carrier. Every endpoint read exposed by $W$ has exactly the displayed source chain
+$$
+(Q,L,G,E)
+$$
+where $Q$ is the selected $\StreamNameUp$ finite window, $L$ is the $\DyadicRatCoreUp$ observation ledger, $G$ is the $\RegSeqRatUp$ seal row, and $E$ is the $\RealUp$ endpoint classifier row. The read has no second endpoint source outside the listed carrier coordinates and their displayed $\hsame$ and $\Cont$ transports.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-envelope-carrier}. The coordinates $Q,L,G,E$ are the only rows in the package that name a selected window, record its rational observations, seal those observations as a regular rational window, and expose the endpoint classifier.
+
+Apply \autoref{thm:finite-window-envelope-realup-window-exactness} to force every endpoint read through the same selected window, dyadic ledger, and seal row. Apply \autoref{thm:finite-window-envelope-common-refinement-exactness} to keep transported comparisons on those four rows.
+
+Finally, \autoref{thm:finite-window-envelope-ledger-exhaustion} accounts for the anchor, scale, subwindow, readback, package, and local naming data. Since no hidden row remains outside the displayed carrier coordinates, the endpoint source is determined by $(Q,L,G,E)$ together with the displayed transports.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope subwindow refinement closure]
+\label{thm:finite-window-envelope-subwindow-refinement-closure}
+Let $W=(S,A,B,L,Q,G,E,P,N)$ be an accepted $\FiniteWindowEnvelopeUp$ carrier. Any displayed tail refinement or subwindow refinement of $W$ repacks as the same $\FiniteWindowEnvelopeUp$ surface over the transported anchor row, selected window row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, $\RealUp$ endpoint classifier, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The repacked surface exports no data beyond those transported rows.
+\end{theorem}
+\begin{proof}
+Begin with a displayed tail or subwindow refinement. By \autoref{thm:finite-window-envelope-tail-projection}, the refinement factors through the anchor, window, ledger, seal, endpoint, transport, package, and naming rows already displayed in $W$.
+
+The stream-to-regular-sequence boundary is fixed by \autoref{thm:finite-window-envelope-streamname-regseqrat-scope}. The endpoint row is fixed by \autoref{thm:finite-window-envelope-endpoint-source-determinacy}, so the refinement cannot choose an independent endpoint source after transport.
+
+Repack the transported rows in the carrier order of \autoref{def:finite-window-envelope-carrier}. The classifier of the repacked envelope is the same componentwise comparison described by the carrier definition, so the transported tail or subwindow read remains closed inside the $\FiniteWindowEnvelopeUp$ surface.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope RegularCauchyName consumer export]
+\label{thm:finite-window-envelope-regularcauchyname-consumer-export}
+A $\RegularCauchyNameUp$ consumer, or a Real and Completion consumer that reads a $\FiniteWindowEnvelopeUp$ carrier, can read only the consumer package assembled from endpoint-source determinacy, subwindow refinement closure, and the audit-facing tail projection package of \autoref{thm:finite-window-envelope-tail-projection-audit-sync}. Such a consumer obtains the selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, $\RealUp$ endpoint row, displayed $\hsame$ and $\Cont$ transports, $\Pkg$ provenance, and $\NameCert$ row, but obtains no diagonal limit, quotient stream, host real equality, selected limit, or completeness object.
+\end{theorem}
+\begin{proof}
+The consumer first receives the audit-facing package of \autoref{thm:finite-window-envelope-tail-projection-audit-sync}. That package already lists the selected finite window, dyadic ledger, regular rational seal, endpoint classifier, transport rows, package provenance, and local naming row.
+
+Endpoint-source determinacy identifies the endpoint reads with the same four source rows $(Q,L,G,E)$. Subwindow refinement closure then shows that every tail or subwindow route repacks inside the same transported envelope surface.
+
+Therefore a $\RegularCauchyNameUp$ consumer, and likewise a Real and Completion consumer, has access exactly to the displayed finite-window package. The excluded objects are not coordinates of the package and are not produced by the cited projection, determinacy, or refinement-closure steps.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope StreamName tail lock]
+\label{thm:finite-window-envelope-streamname-tail-lock}
+Let $W=(S,A,B,L,Q,G,E,P,N)$ be an accepted $\FiniteWindowEnvelopeUp$ carrier. Every tail read and every subwindow read of the $\mathsf{BHist}$ package remains locked to the selected $\StreamNameUp$ window $Q$, the $\DyadicRatCoreUp$ ledger $L$, the $\RegSeqRatUp$ seal row $G$, the $\RealUp$ endpoint row $E$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates $P,N$. The read cannot switch to another stream window, another dyadic ledger, another regular rational seal, or a host real endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The selected window $Q$, ledger $L$, seal $G$, endpoint row $E$, package row $P$, and naming row $N$ are visible rows of the same finite $\mathsf{BHist}$ package.
+
+Apply \autoref{thm:finite-window-envelope-tail-projection} to any tail or subwindow read. It factors the read through the displayed anchor, window, ledger, seal, endpoint, transport, continuation, package, and naming coordinates.
+
+Use \autoref{thm:finite-window-envelope-subwindow-refinement-closure} to repack the transported rows after refinement. Since the repacked surface has the same listed coordinates as its source, the read remains locked to the selected $\StreamNameUp$ window and its associated finite ledger.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope common window lock]
+\label{thm:finite-window-envelope-common-window-lock}
+Let $W=(S,A,B,L,Q,G,E,P,N)$ and $W'=(S',A',B',L',Q',G',E',P',N')$ be accepted $\FiniteWindowEnvelopeUp$ carriers. Every local classifier comparison between them factors through one common selected finite $\StreamNameUp$ window and one transported $\DyadicRatCoreUp$ ledger, after which the $\RegSeqRatUp$ seal rows, $\RealUp$ endpoint rows, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ rows are read from that same finite package. No comparison field is supplied by a quotient stream, a diagonal object, or host real equality.
+\end{theorem}
+\begin{proof}
+Start from the local classifier comparison. By \autoref{thm:finite-window-envelope-common-refinement-exactness}, the comparison exposes a single selected window row, a single transported dyadic ledger, one regular-sequence seal row, and one endpoint classifier row.
+
+The seal is determined by \autoref{thm:finite-window-envelope-regseqrat-seal-handoff}. Thus the comparison cannot choose a seal independently of the selected $\StreamNameUp$ window and the transported $\DyadicRatCoreUp$ ledger.
+
+The endpoint side is determined by \autoref{thm:finite-window-envelope-endpoint-source-determinacy}. The exhaustion row \autoref{thm:finite-window-envelope-ledger-exhaustion} then accounts for the transport, continuation, package, and naming rows, leaving no additional comparison source outside the finite carrier.
+\end{proof}
+
+\begin{theorem}[FiniteWindowEnvelope Real seal root unblock]
+\label{thm:finite-window-envelope-real-seal-root-unblock}
+The $\FiniteWindowEnvelopeUp$ carrier supplies the root package needed by downstream Real, $\RegSeqRatUp$, and Completion consumers: an accepted $\mathsf{BHist}$ package binds the selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, $\RealUp$ endpoint row, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row into one finite consumer surface. This package exports the exact finite-window endpoint row of \autoref{thm:finite-window-envelope-realup-window-exactness} and the audit-facing tail projection of \autoref{thm:finite-window-envelope-tail-projection-audit-sync}, but exports no quotient stream, host real equality, diagonal limit, or completeness theorem.
+\end{theorem}
+\begin{proof}
+Build the consumer surface from the carrier coordinates. The selected window, dyadic ledger, regular rational seal, endpoint row, transport routes, continuation routes, package provenance, and local naming row are all displayed in the same finite $\mathsf{BHist}$ package.
+
+Use \autoref{thm:finite-window-envelope-realup-window-exactness} to identify the $\RealUp$ endpoint read with the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, and the $\RegSeqRatUp$ seal. This supplies the Real-facing row.
+
+Use \autoref{thm:finite-window-envelope-tail-projection-audit-sync} to expose the same rows to tail and subwindow consumers. The StreamName tail lock and common window lock above keep refinements and comparisons inside the same finite package, so downstream Real, $\RegSeqRatUp$, and Completion consumers receive one root-unblock surface and no external equality or completeness object.
+\end{proof}
+
 \closureat{FiniteWindowEnvelopeUp}{seedStr}
 \closureat{FiniteWindowEnvelopeUp}{obligationStr}
+\closureat{FiniteWindowEnvelopeUp}{scopedStr}[BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeCarrier\_regseqrat\_seal\_handoff]
+\closureat{FiniteWindowEnvelopeUp}{publicStr}[BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeCarrier\_regseqrat\_seal\_handoff]
+\closureat{FiniteWindowEnvelopeUp}{bridgedStr}[BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeCarrier\_regseqrat\_seal\_handoff]
+\closureat{FiniteWindowEnvelopeUp}{matureStr}[BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeCarrier\_regseqrat\_seal\_handoff]
+
+\begin{closurestatus}{\FiniteWindowEnvelopeUp}
+  \constructivestory{A $\FiniteWindowEnvelopeUp$ packet is generated from a finite $\StreamNameUp$ window, a $\DyadicRatCoreUp$ ledger, a $\RegSeqRatUp$ seal row, a $\RealUp$ endpoint classifier, displayed transport and continuation rows, package provenance, and local naming.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature theory scope is the standard finite-window envelope interface together with the consumer examples, tail lock, common window lock, and Real seal root-unblock package over the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ seal, $\RealUp$ endpoint classifier, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.FiniteWindowEnvelopeUp.FiniteWindowEnvelopeCarrier\_regseqrat\_seal\_handoff}
+  \bridgestatus{paperBridge}
+  \origin{human}
+  \notclaimed{This chapter does not close diagonal limits, quotient streams, host real equality, or completeness.}
+  \upgradepath{No further paper-side theory grade remains; formal bridge checking is the remaining upgrade path.}
+\end{closurestatus}

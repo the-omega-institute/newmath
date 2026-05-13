@@ -49,6 +49,12 @@ import board_context
 import paper_gap_scanner
 import paper_index
 
+try:
+    from logic_discipline import render_prompt_block
+except ModuleNotFoundError:  # pragma: no cover
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from logic_discipline import render_prompt_block
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
@@ -207,10 +213,13 @@ def build_refill_prompt() -> str:
     template = (PROMPTS_DIR / "oracle_board_refill.txt").read_text(encoding="utf-8")
     board = _board_content()
     paper_coverage = paper_index.render_prompt_summary(max_chars=12000)
+    discipline = render_prompt_block(
+        context="BEDC board refill; oracle may generate candidate targets only, while dedup, schema checks, paper coverage, and deterministic obligation splitting stay local.",
+    )
     return template.format(
         board_content=_safe(board),
         paper_labels=_safe(paper_coverage),
-    )
+    ) + "\n\n" + discipline + "\n"
 
 
 def _paper_gap_candidates() -> list[dict]:

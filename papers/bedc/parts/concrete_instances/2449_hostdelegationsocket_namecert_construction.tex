@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\HostDelegationSocketUp$}
+\label{ch:concrete-instances-hostdelegationsocket-namecert}
+\origin{human}
+
+The $\HostDelegationSocketUp$ surface records host Lean delegation as a finite naming packet rather than as an ambient trust claim. It is the certificate face at which paper markers, audit rows, host-kernel delegation, target resolution, transport, continuation, provenance, boundary ledgers, and local naming are made visible to downstream audit and MetaCIC chapters.
+
+\begin{definition}[HostDelegationSocket carrier]
+\label{def:host-delegation-socket-carrier}
+A $\HostDelegationSocketUp$ carrier is a finite $\BHist$ packet
+$$
+H=(M,A,K,D,T,C,P,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the manuscript marker row, recording the paper site, marker class, literal target text, and local citation context;
+\item $A$ is the audit-face row, recording source-token scans, marker-resolution checks, dependency-purity checks, and origin-flow checks relevant to the marker;
+\item $K$ is the host-kernel delegation row, recording that the named Lean declaration is delegated to the host Lean kernel as an audited boundary row;
+\item $D$ is the displayed target-resolution row, recording the exact declaration name, namespace path, resolution result, and refusal result when resolution fails;
+\item $T$ records componentwise $\hsame$ transports for marker, audit face, delegation row, target-resolution row, continuation row, provenance row, boundary ledger, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect marker resolution, audit evidence, host-kernel delegation, transport replay, provenance, and boundary refusal;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, manuscript marker rows, audit faces, host-kernel delegation rows, target-resolution rows, $\hsame$, $\Cont$, and local naming;
+\item $L$ is the boundary ledger, recording non-escape for host truth predicates, global CIC completeness, source axioms, $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, fuzzy marker matching, and bridge-checked status;
+\item $N$ is the local $\NameCert_{\HostDelegationSocketUp}$ row.
+\end{enumerate}
+The carrier contains exactly these rows. It has no coordinate for a host truth predicate, no proof that the host CIC is globally complete, no permission to accept source axioms or forbidden host dependencies, no fuzzy resolver, and no bridge-checked certificate.
+\end{definition}
+
+\begin{theorem}[HostDelegationSocket NameCert obligations]
+\label{thm:host-delegation-socket-namecert-obligations}
+The local $\NameCert_{\HostDelegationSocketUp}$ surface for the carrier of \autoref{def:host-delegation-socket-carrier} consists of carrier admission for
+$$
+H=(M,A,K,D,T,C,P,L,N),
+$$
+manuscript-marker exposure, audit-face exactness, host-kernel delegation visibility, displayed target-resolution exactness, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, boundary-ledger non-escape, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.HostDelegationSocketUp.HostDelegationSocketTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:host-delegation-socket-carrier}. The rows $M,A,K,D,T,C,P,L,N$ are the only coordinates available to the local certificate.
+
+The marker, audit, delegation, and resolution obligations are read directly from $M,A,K,D$. The host Lean kernel remains visible as the audited delegation row $K$; it is not silently replaced by an internal BEDC truth predicate.
+
+Transport and replay are confined to $T$ and $C$, while $P$ and $N$ record provenance and local naming. The ledger $L$ supplies the non-escape clauses for host truth predicates, global CIC completeness, source axioms, forbidden host dependencies, fuzzy marker matching, and bridge-checked status.
+\end{proof}
+
+\begin{theorem}[HostDelegationSocket audit-face separation]
+\label{thm:host-delegation-socket-audit-face-separation}
+For an accepted $\HostDelegationSocketUp$ packet, the audit face $A$ and the host-kernel delegation row $K$ remain separate public rows. A downstream consumer may inspect the audit evidence and may inspect the delegated host-kernel target, but it may not identify audit success with host truth, global CIC completeness, source-axiom admission, or absence of $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$ beyond the displayed dependency ledger.
+\end{theorem}
+\begin{proof}
+Project the finite packet and read $A$ and $K$ as distinct coordinates. The audit face records the gate evidence, while the delegation row records the host-kernel target to which the marker points.
+
+The two rows are transported together only through the componentwise $\hsame$ row $T$ and replayed only through $C$. These routes preserve the separation rather than creating a predicate equating audit evidence with host truth.
+
+The boundary ledger $L$ then blocks every stronger reading. It refuses host truth predicates, global CIC completeness, source axioms, and unrecorded claims about forbidden dependency names unless those claims appear as the displayed audit result of the packet.
+\end{proof}
+
+\begin{theorem}[HostDelegationSocket Lean marker boundary]
+\label{thm:host-delegation-socket-lean-marker-boundary}
+For an accepted $\HostDelegationSocketUp$ packet, the manuscript marker row $M$ reaches the local naming row $N$ only through the displayed target-resolution row $D$, the host-kernel delegation row $K$, the transport row $T$, the continuation row $C$, the package provenance $P$, and the boundary ledger $L$. If $D$ refuses the target, the packet exports no replacement by similar spelling, neighboring namespace, informal prose equivalence, or consumer-selected theorem.
+\end{theorem}
+\begin{proof}
+Start with the marker row $M$. The only route from the paper site to local naming is the displayed resolution row $D$, which records the exact declaration name and the resolve-or-refuse result.
+
+If resolution succeeds, $K$ records the host-kernel delegation and $T,C,P,N$ transport, replay, package, and name the same route. No step in this chain introduces an alternate declaration name.
+
+If resolution fails, $D$ records refusal and $L$ keeps that refusal at the boundary. The carrier has no coordinate for spelling similarity, namespace guessing, prose reinterpretation, or consumer-chosen substitution, so the refused marker cannot be exported as a local certificate.
+\end{proof}
+
+\begin{theorem}[HostDelegationSocket non-escape]
+\label{thm:host-delegation-socket-non-escape}
+Every downstream consumer of an accepted $\HostDelegationSocketUp$ packet factors through the finite rows
+$$
+M,A,K,D,T,C,P,L,N.
+$$
+The consumer may read marker text, audit evidence, host-kernel delegation, target resolution, transport replay, continuation routes, package provenance, boundary refusal, and the local NameCert row, but it cannot extract a host truth predicate, global CIC completeness theorem, source axiom, forbidden host dependency, fuzzy marker match, or bridge-checked status.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer route be given. By \autoref{def:host-delegation-socket-carrier}, its source packet is the finite tuple $M,A,K,D,T,C,P,L,N$.
+
+The consumer reads the public certificate through those rows. The marker and resolution rows identify the target, the audit and delegation rows expose the host boundary, and the transport, continuation, provenance, and naming rows replay the certificate without adding new coordinates.
+
+The non-escape claim is the carrier inventory plus the ledger row $L$. None of the excluded objects is stored in the tuple, and $L$ explicitly records that these objects are refused as exported substrate content.
+\end{proof}
+
+\closureat{HostDelegationSocketUp}{seedStr}
+
+\begin{closurestatus}{\HostDelegationSocketUp}
+  \constructivestory{A $\HostDelegationSocketUp$ packet is generated from a manuscript marker row, audit-face row, host-kernel delegation row, displayed target-resolution row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, a boundary ledger, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:host-delegation-socket-carrier}, \autoref{thm:host-delegation-socket-namecert-obligations}, \autoref{thm:host-delegation-socket-audit-face-separation}, \autoref{thm:host-delegation-socket-lean-marker-boundary}, and \autoref{thm:host-delegation-socket-non-escape} specify the finite host delegation socket carrier, local naming obligations, audit separation, marker boundary, transport replay, provenance, and non-escape ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host truth predicates, global CIC completeness, bridge checking, source-axiom admission, forbidden host-dependency admission, fuzzy marker matching, or Lean-side formal verification for $\HostDelegationSocketUp$.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for marker exposure, audit-face separation, target-resolution exactness, delegation visibility, transport replay, provenance, and boundary-ledger non-escape.}
+\end{closurestatus}

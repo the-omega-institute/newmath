@@ -14,6 +14,33 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def FiniteWindowEnvelopeCarrier [AskSetup] [PackageSetup]
+    (source anchor window ledger streamSeal regSeal endpoint provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory anchor ∧ UnaryHistory window ∧ UnaryHistory ledger ∧
+    Cont window ledger regSeal ∧ Cont regSeal endpoint streamSeal ∧
+      Cont streamSeal localCert provenance ∧ PkgSig bundle provenance pkg
+
+theorem FiniteWindowEnvelopeCarrier_regseqrat_seal_handoff [AskSetup] [PackageSetup]
+    {source anchor window ledger streamSeal regSeal endpoint provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowEnvelopeCarrier source anchor window ledger streamSeal regSeal endpoint provenance
+        localCert bundle pkg →
+      UnaryHistory regSeal ∧ hsame regSeal (append window ledger) ∧
+        PkgSig bundle provenance pkg := by
+  intro carrier
+  have windowUnary : UnaryHistory window :=
+    carrier.right.right.left
+  have ledgerUnary : UnaryHistory ledger :=
+    carrier.right.right.right.left
+  have regSealCont : Cont window ledger regSeal :=
+    carrier.right.right.right.right.left
+  have regSealUnary : UnaryHistory regSeal :=
+    unary_cont_closed windowUnary ledgerUnary regSealCont
+  have regSealSame : hsame regSeal (append window ledger) :=
+    regSealCont
+  exact And.intro regSealUnary (And.intro regSealSame carrier.right.right.right.right.right.right.right)
+
 def FiniteWindowEnvelopeBHistCarrier [AskSetup] [PackageSetup]
     (source anchor window ledger streamClass sealRow endpoint provenance nameCert route : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -76,5 +103,26 @@ theorem FiniteWindowEnvelopeBHistCarrier_regseqrat_seal_handoff [AskSetup] [Pack
       ⟨sourceUnary', anchorUnary', windowUnary', ledgerUnary', streamClassUnary, sealUnary',
         endpointUnary', provenanceUnary', nameCertUnary', routeUnary', rfl, rfl, pkgRow'⟩,
       rfl, rfl⟩
+
+theorem FiniteWindowEnvelopeBHistCarrier_realup_window_exactness [AskSetup] [PackageSetup]
+    {source anchor window ledger streamClass sealRow endpoint provenance nameCert route endpointRead
+      endpointRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteWindowEnvelopeBHistCarrier source anchor window ledger streamClass sealRow endpoint
+        provenance nameCert route bundle pkg ->
+      Cont route endpoint endpointRead ->
+        Cont endpointRead provenance endpointRoute ->
+          UnaryHistory endpointRead ∧ UnaryHistory endpointRoute ∧
+            hsame sealRow (append ledger streamClass) ∧ Cont sealRow endpoint route ∧
+              PkgSig bundle endpoint pkg := by
+  intro carrier readStep provenanceStep
+  obtain ⟨_sourceUnary, _anchorUnary, _windowUnary, _ledgerUnary, _streamClassUnary,
+    _sealUnary, endpointUnary, provenanceUnary, _nameCertUnary, routeUnary, sealEq,
+    routeRow, pkgRow⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed routeUnary endpointUnary readStep
+  have endpointRouteUnary : UnaryHistory endpointRoute :=
+    unary_cont_closed endpointReadUnary provenanceUnary provenanceStep
+  exact ⟨endpointReadUnary, endpointRouteUnary, sealEq, routeRow, pkgRow⟩
 
 end BEDC.Derived.FiniteWindowEnvelopeUp

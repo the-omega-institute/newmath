@@ -25,6 +25,7 @@ with the following visible rows:
 \end{enumerate}
 The carrier has no coordinate for an external limiting real, quotient stream equality, a hidden tail choice, or a host-level selector. Every consumer-visible value is one of the displayed rows of $M$.
 \end{definition}
+\leandef{BEDC.Derived.RegularCauchyLimitModulusUp.RegularCauchyLimitModulusPacket}
 
 \begin{definition}[RegularCauchyLimitModulus classifier]
 \label{def:regular-cauchy-limit-modulus-classifier}
@@ -68,6 +69,7 @@ as a finite BEDC observation routed through $P$ and $N$.
 
 The totality statement is internal to the packet. It does not assert completion of $\RealUp$ and does not choose a limit outside the displayed carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitModulusUp.RegularCauchyLimitModulusPacket\_diagonal\_totality}
 \begin{proof}
 Project the carrier of \autoref{def:regular-cauchy-limit-modulus-carrier}. Its modulus selector row fixes $k$, and its stream-window row fixes the finite read of $X_k$ at the diagonal index $k+n+1$.
 
@@ -80,6 +82,7 @@ Since the continuation routes and package provenance are carrier coordinates, th
 \label{thm:regular-cauchy-limit-modulus-real-seal-boundary}
 For every accepted $\RegularCauchyLimitModulusUp$ carrier $M=(X,\mu,n,k,w,r,d,e,P,N)$, a $\RealUp$ consumer can inspect the diagonal-limit modulus packet only through the displayed seal-facing row $e$, whose source is the selected $\StreamNameUp$ window $w$, the $\RegSeqRatUp$ readback $r$, and the $\DyadicRatCoreUp$ ledger $d$. The boundary exports a finite real-name observation row and no host real value, quotient representative, hidden tail selector, or equality of completed limits.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitModulusUp.RegularCauchyLimitModulusPacket\_real\_seal\_boundary}
 \begin{proof}
 Begin with the diagonal totality row of \autoref{thm:regular-cauchy-limit-modulus-diagonal-totality}. It identifies the only observation available at precision $n$ as the windowed readback of $X_k$ at index $k+n+1$.
 
@@ -101,6 +104,7 @@ $\mathsf{RegularCauchyLimitModulusClassifier}(M,M')$ holds, then the selected th
 
 The transported packet exports only those displayed rows. It exports no host selector, no quotient equality of streams, and no external completed limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitModulusUp.RegularCauchyLimitModulusPacket\_classifier\_transport\_exactness}
 \begin{proof}
 Unfold the carrier and classifier definitions of \autoref{def:regular-cauchy-limit-modulus-carrier} and \autoref{def:regular-cauchy-limit-modulus-classifier}. The classifier supplies componentwise $\hsame$ rows for the displayed modulus and observation coordinates, displayed $\Cont$ routes for the stream-window and readback passages, and the visible $\Pkg$ and $\NameCert$ rows for provenance and naming.
 
@@ -111,15 +115,92 @@ The dyadic ledger and $\RealUp$ seal row then transport along the displayed ledg
 Repack the transported threshold, window, readback, dyadic ledger, seal row, package provenance, and local naming row as the target packet $M'$. Since the carrier has no coordinates for a host selector, quotient stream equality, or completed limit outside the displayed rows, the transport exports none of those objects.
 \end{proof}
 
+\begin{theorem}[RegularCauchyLimitModulus scoped kernel binding]
+\label{thm:regular-cauchy-limit-modulus-scoped-kernel-binding}
+The carrier, classifier, diagonal totality row, $\RealUp$ seal boundary, and classifier transport exactness of $\RegularCauchyLimitModulusUp$ depend only on the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. In particular, every consumer-facing route through the chapter factors through those rows before it reaches the selected diagonal threshold, the finite stream window, the rational readback, the dyadic ledger, or the real-name seal.
+
+No host selector, quotient stream equality, external limit, or ambient completeness field enters this scope.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:regular-cauchy-limit-modulus-carrier}. Its coordinates are exactly the displayed regular-sequence input, modulus row, precision request, selected threshold, stream window, readback, dyadic ledger, real seal, package row, and local naming row.
+
+The classifier of \autoref{def:regular-cauchy-limit-modulus-classifier} compares those coordinates by the recorded $\hsame$ rows and $\Cont$ routes. It gives no extra coordinate for a host selector, quotient stream equality, external limit, or ambient completeness field.
+
+Apply diagonal totality from \autoref{thm:regular-cauchy-limit-modulus-diagonal-totality}. The selected observation is reconstructed from the displayed modulus, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger.
+
+The $\RealUp$ boundary of \autoref{thm:regular-cauchy-limit-modulus-real-seal-boundary} then routes the same observation through the seal row, and \autoref{thm:regular-cauchy-limit-modulus-classifier-transport-exactness} shows that classifier transport preserves exactly those displayed rows. Thus the kernel scope is exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyLimitModulus public RealUp export]
+\label{thm:regular-cauchy-limit-modulus-public-realup-export}
+The carrier of \autoref{def:regular-cauchy-limit-modulus-carrier}, the classifier of \autoref{def:regular-cauchy-limit-modulus-classifier}, and the five $\NameCert_{\RegularCauchyLimitModulusUp}$ rows of \autoref{thm:regular-cauchy-limit-modulus-namecert-obligations} jointly export a public $\RealUp$-facing finite completion-modulus handoff. Every consumer read of that handoff factors through the displayed $\RegSeqRatUp$ input family $X$, the explicit modulus row $\mu$, the unary precision request $n$, the selected $\StreamNameUp$ window $w$, the $\RegSeqRatUp$ readback $r$, the $\DyadicRatCoreUp$ observation ledger $d$, the $\RealUp$ seal row $e$, the $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$.
+
+The exported handoff excludes quotient stream equality, hidden tail choice, host selector, selected host limit, and ambient $\RealUp$ completeness. It is a public row presentation of the finite diagonal-modulus packet, not a completion theorem.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier rows. The regular Cauchy input, its modulus row, the precision request, the selected threshold, the stream window, the rational readback, the dyadic ledger, the seal row, provenance, and local name row are all coordinates of the same finite packet.
+
+Use the modulus selector row from \autoref{thm:regular-cauchy-limit-modulus-namecert-obligations} at the chosen precision threshold. The diagonal totality theorem then identifies the selected $\StreamNameUp$ window and $\RegSeqRatUp$ readback as the finite observation consumed by the handoff.
+
+Next apply classifier transport exactness. It keeps the $\StreamNameUp$ and $\RegSeqRatUp$ rows on the displayed diagonal readback route, while the $\RealUp$ seal boundary forces every real-facing read through the seal row $e$ and the dyadic ledger $d$.
+
+Finally use the seal non-escape and ledger exactness rows of the local naming obligations. Repack the displayed source family, modulus row, request, selected window, readback, ledger, seal, package, and name rows as the public handoff. Since the carrier has no coordinates for quotient stream equality, hidden tail choice, a host selector, a selected host limit, or ambient completeness, none of those objects is exported.
+\end{proof}
+
+\begin{theorem}[RegularCauchyLimitModulus RealUp completion bridge]
+\label{thm:regular-cauchy-limit-modulus-realup-completion-bridge}
+The public diagonal-modulus handoff of \autoref{thm:regular-cauchy-limit-modulus-public-realup-export} supplies exactly the bridge packet consumed by the $\RealUp$ completion interface. The same $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are preserved, and the bridge exports no quotient real equality, selected host limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with diagonal totality from \autoref{thm:regular-cauchy-limit-modulus-diagonal-totality}. It selects the displayed threshold, window, readback, and dyadic ledger from the regular input family and its modulus row, all inside the finite carrier.
+
+Apply classifier transport exactness from \autoref{thm:regular-cauchy-limit-modulus-classifier-transport-exactness}. The $\hsame$ and $\Cont$ routes preserve the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows through the local classifier, while the $\Pkg$ and $\NameCert$ rows keep the dependency certificate fixed.
+
+Use the scoped kernel binding of \autoref{thm:regular-cauchy-limit-modulus-scoped-kernel-binding} and the public export theorem \autoref{thm:regular-cauchy-limit-modulus-public-realup-export}. Together they identify the public handoff as the completion-facing packet over exactly the displayed rows.
+
+The non-escape clauses in the local naming obligations exclude quotient real equality, selected host limits, and ambient completeness. Hence the $\RealUp$ completion interface consumes the public diagonal-modulus handoff as a bridge packet without receiving any additional real-completeness datum.
+\end{proof}
+
+\begin{theorem}[RegularCauchyLimitModulus tail-selector stability]
+\label{thm:regular-cauchy-limit-modulus-tail-selector-stability}
+Transporting the displayed $\RegSeqRatUp$ input family, its modulus row, and a unary precision request transports the selected threshold, the finite $\StreamNameUp$ window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal row of an accepted $\RegularCauchyLimitModulusUp$ packet. The transported packet keeps the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyLimitModulusUp}$ provenance and introduces no host tail selector.
+
+Thus selector stability is a finite classifier fact over the displayed input, modulus, request, threshold, window, readback, ledger, and seal rows.
+\end{theorem}
+\begin{proof}
+Begin with diagonal totality. The selected threshold is read from the displayed modulus row at the displayed unary precision request, and the finite $\StreamNameUp$ window and $\RegSeqRatUp$ readback are reconstructed from that threshold.
+
+Apply classifier transport exactness to the transported input family, modulus row, and request. It carries the threshold, window, readback, and $\DyadicRatCoreUp$ ledger through the same $\hsame$ and $\Cont$ routes.
+
+Finally use the $\RealUp$ seal boundary and scoped kernel binding. The seal row transports with the same finite packet, and the carrier contains no coordinate for quotient stream equality, a hidden tail choice, or an ambient selector.
+\end{proof}
+
+\begin{theorem}[RegularCauchyLimitModulus RealUp seal handoff]
+\label{thm:regular-cauchy-limit-modulus-real-seal-handoff}
+The $\RealUp$ completion-facing handoff exported by an accepted $\RegularCauchyLimitModulusUp$ packet is exactly the transported finite packet of \autoref{thm:regular-cauchy-limit-modulus-tail-selector-stability}: displayed $\RegSeqRatUp$ input, modulus row, unary request, selected threshold, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal row, $\Pkg$ provenance, and local $\NameCert$ row.
+
+It is not quotient stream equality, not a hidden tail choice, and not a selected host limit. The completion interface receives only this finite seal-facing packet.
+\end{theorem}
+\begin{proof}
+Use tail-selector stability to obtain the transported threshold, stream window, rational readback, dyadic ledger, and real seal row from the displayed input, modulus row, and precision request.
+
+Next apply the $\RealUp$ seal boundary. Every real-facing read must pass through the transported seal row together with the dyadic ledger and the displayed source rows.
+
+Finally combine scoped kernel binding with the RealUp completion bridge. The bridge consumes exactly the public diagonal-modulus packet over the displayed rows, so the handoff has no additional quotient-stream equality, hidden tail choice, selected host limit, or ambient completeness coordinate.
+\end{proof}
+
 \closureat{RegularCauchyLimitModulusUp}{seedStr}
+\closureat{RegularCauchyLimitModulusUp}{obligationStr}
+\closureat{RegularCauchyLimitModulusUp}{scopedStr}
+\closureat{RegularCauchyLimitModulusUp}{publicStr}
 
 \begin{closurestatus}{\RegularCauchyLimitModulusUp}
   \constructivestory{A $\RegularCauchyLimitModulusUp$ packet is generated by a displayed regular Cauchy family, its explicit modulus row, a unary precision request, the selected diagonal threshold, a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ seal-facing row, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-limit-modulus-carrier}, \autoref{def:regular-cauchy-limit-modulus-classifier}, \autoref{thm:regular-cauchy-limit-modulus-namecert-obligations}, \autoref{thm:regular-cauchy-limit-modulus-diagonal-totality}, \autoref{thm:regular-cauchy-limit-modulus-real-seal-boundary}, and \autoref{thm:regular-cauchy-limit-modulus-classifier-transport-exactness} describe the seed finite diagonal-modulus packet over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-modulus-carrier}, \autoref{def:regular-cauchy-limit-modulus-classifier}, \autoref{thm:regular-cauchy-limit-modulus-diagonal-totality}, \autoref{thm:regular-cauchy-limit-modulus-real-seal-boundary}, \autoref{thm:regular-cauchy-limit-modulus-classifier-transport-exactness}, and \autoref{thm:regular-cauchy-limit-modulus-scoped-kernel-binding} bind the finite diagonal-modulus packet to the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, a public standard bridge, or checked Lean implementation.}
-  \upgradepath{Obligation closure requires checked carrier habitation, modulus selector totality, diagonal readback stability, RealUp seal non-escape, and dyadic ledger exactness for $\RegularCauchyLimitModulusUp$.}
+  \upgradepath{The next paper grade is a bridge theorem from the public diagonal-modulus handoff to the $\RealUp$ completion interface over the same displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}

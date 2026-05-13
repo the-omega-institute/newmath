@@ -67,3 +67,11 @@ A \emph{decompilation} from $\NameCert_T$ to $\NameCert_S$ is a naming-certifica
 \label{rem:compilation-category}
 The naming certificates over a fixed mark alphabet, together with the morphisms of \autoref{def:compilation-namecert-morphism}, form a category by \autoref{ch:visions-kernel-as-category}: identities are kernel identity functions, composition is function composition, and the laws follow from $\Cont$ associativity and unit. Compilers are the $\hsame$-preserving morphisms, optimisations are the endomorphisms, and decompilations are the partial right-inverses. The framework subsumes intermediate-representation pipelines (chains $\Phi_n \circ \cdots \circ \Phi_1$) and source-to-source transformations (loops in the morphism graph).
 \end{remark}
+
+\concretizedIn{ch:concrete-instances-namecertmorphism-namecert}{Compiler correctness is realized as a classifier-preserving morphism between source and target naming certificates.}
+\concretizedIn{ch:concrete-instances-certificatecompiler-namecert}{Compiler graphs are realized as finite NameCert morphism packets preserving carrier, continuation, and classifier rows.}
+\concretizedIn{ch:concrete-instances-certificate-pipeline-stage-boundary-namecert}{Certificate pipeline stage boundaries are realized as finite NameCert packets for adjacent compiler graphs, middle-stage compatibility, classifier transport, continuation composition, and non-escape ledgers.}
+\concretizedIn{ch:concrete-instances-decompiler-right-inverse-namecert}{Decompiler right-inverse packets realize decompilation as a finite compiler-graph, optimization, hsame-transport, Cont-route, Pkg, and NameCert boundary.}
+\concretizedIn{ch:concrete-instances-kernelmorphism-namecert}{Kernel morphism packets realize classifier-preserving NameCert graph morphisms as finite BHist, hsame, Cont, Pkg, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-compiler-optimization-endomorphism-namecert}{Compiler optimisations are realized as finite NameCert endomorphism packets over displayed compiler graph, classifier, hsame, Cont, Pkg, and local naming rows.}
+\concretizedIn{ch:concrete-instances-compilercompositiontrace-namecert}{Compiler composition traces are realized as finite BHist packets for adjacent compiler graphs, middle-certificate compatibility, classifier transport, continuation composition, and associativity non-escape.}

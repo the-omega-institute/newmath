@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRefutationBoundaryUp$}
+\label{ch:concrete-instances-finiterefutationboundary-namecert}
+\origin{human}
+
+The $\FiniteRefutationBoundaryUp$ surface realizes the contradiction-boundary discipline of \autoref{ch:visions-reasoning-by-contradiction-boundary} as a finite $\NameCert$ packet. It records the ground-loop refutation route that may be replayed, the decidability row that may license double-negation consumption, and the exclusion rows that block meta-level escape. The packet is intentionally finite: every accepted read is through $\BHist$, $\msame$, $\hsame$, $\Cont$, a fixed local $\NameCert$, and a displayed route to falsity.
+
+\begin{definition}[Finite refutation boundary carrier]
+\label{def:finite-refutation-boundary-carrier}
+A $\FiniteRefutationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,R,D,E,H,C,P,N,\bot_R)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the proposition row whose contradiction boundary is being inspected;
+\item $R$ is the permitted refutation row, read as an assumed witness of $A$ followed by a displayed route to falsity;
+\item $D$ is the optional constructive decision row for $A$, present exactly when the packet permits double-negation consumption for $A$;
+\item $E$ is the meta-escape exclusion ledger, with separate entries for unwitnessed existential extraction, double-negation elimination without $D$, and excluded-middle branching over naming certificates;
+\item $H$ records componentwise $\hsame$ transports for proposition rows, refutation rows, optional decision rows, exclusion rows, package rows, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes that read $A$, replay $R$, consume $D$ when present, inspect $E$, and return the result to the local ledger;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\msame$, $\hsame$, local proof rows, exclusion rows, and the surrounding certificate rows;
+\item $N$ is the fixed local $\NameCert_{\FiniteRefutationBoundaryUp}$ ledger through which all rows are addressed;
+\item $\bot_R$ is the displayed falsity route witnessing that an assumed $A$-row reaches $\bot$ using only $R,H,C,P,N$ and the kernel sameness primitives.
+\end{enumerate}
+The carrier contains no host truth predicate, no classifier over the carrier of all naming certificates, no selected existential witness obtained by contradiction, and no excluded-middle oracle beyond a displayed decision row $D$ for the single proposition row $A$.
+\end{definition}
+
+\begin{theorem}[Finite refutation boundary NameCert obligations]
+\label{thm:finite-refutation-boundary-namecert-obligations}
+The local $\NameCert_{\FiniteRefutationBoundaryUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $B=(A,R,D,E,H,C,P,N,\bot_R)$ of \autoref{def:finite-refutation-boundary-carrier};
+\item classifier soundness, comparing accepted packets only through the displayed proposition, refutation, decision, exclusion, transport, continuation, provenance, naming, and falsity-route rows;
+\item ground-loop replay, saying that $\bot_R$ remains a route from an assumed $A$-witness to $\bot$ under the stored $\hsame$ transports and $\Cont$ routes;
+\item decision discipline, saying that $\neg\neg A$ may be consumed only when $D$ supplies a constructive branch for the same proposition row $A$;
+\item escape exclusion, saying that no consumer may export unwitnessed existence, non-decidable double-negation elimination, or certificate-level excluded middle from the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-refutation-boundary-carrier}. Every named coordinate is a finite $\BHist$ row or a route displayed over those rows.
+
+Classifier soundness is componentwise. The comparison can inspect $A,R,D,E,H,C,P,N,\bot_R$ and their transported counterparts, and it has no coordinate for host truth, proof search, or a classifier over all naming certificates.
+
+For ground-loop replay, transport the assumed $A$-witness and the row $R$ along $H$, then replay the displayed route in $C$. The terminal step is the falsity route $\bot_R$, so the transported packet still proves the certificate-level negation of $A$.
+
+For decision discipline, the row $D$ is the only allowed source of a constructive branch for $A$. When $D$ is absent, the exclusion ledger $E$ blocks the non-decidable double-negation schema of \autoref{def:reasoning-forbidden-pattern}; when $D$ is present, the branch is consumed inside the same packet and does not become a global oracle.
+
+Finally, escape exclusion follows by inspecting the carrier. The packet has no witness selector for existential-by-contradiction, no double-negation eliminator independent of $D$, and no branch over the carrier of all naming certificates, so the local $\NameCert$ obligations remain inside the closed ground loop.
+\end{proof}
+
+\begin{theorem}[Ground-loop soundness for permitted refutations]
+\label{thm:finite-refutation-boundary-ground-loop-soundness}
+For every accepted $\FiniteRefutationBoundaryUp$ packet $B=(A,R,D,E,H,C,P,N,\bot_R)$, the permitted refutation read from $B$ proves only the local certificate-level negation of the displayed proposition row $A$. It factors through $\BHist$, $\msame$, $\hsame$, $\Cont$, the fixed ledger $N$, and the falsity route $\bot_R$, and it does not decide any proposition row not explicitly carried by $B$.
+\end{theorem}
+\begin{proof}
+Read the carrier through \autoref{def:finite-refutation-boundary-carrier}. The only proposition being refuted is $A$, and the only route from an assumed witness to falsity is $\bot_R$ as replayed through $R,H,C,P,N$.
+
+The kernel primitives available to the replay are $\msame$, $\hsame$, and $\Cont$ over the finite history rows. Transport changes representatives inside the displayed packet, but it never creates a new proposition row or a new classifier.
+
+Thus the public consequence is the local negation of $A$. Since no coordinate names an ambient decision procedure, the packet cannot decide any row outside the displayed finite carrier.
+\end{proof}
+
+\begin{theorem}[Meta-escape exclusion]
+\label{thm:finite-refutation-boundary-meta-escape-exclusion}
+An accepted $\FiniteRefutationBoundaryUp$ packet cannot export any of the three forbidden contradiction moves of \autoref{def:reasoning-forbidden-pattern}: it cannot extract a witness from $\neg\forall h:\Hist,\neg Q(h)$ without displaying that witness, it cannot eliminate $\neg\neg A$ without the row $D$ for the same proposition row, and it cannot supply excluded middle for predicates over the carrier of all naming certificates.
+\end{theorem}
+\begin{proof}
+For unwitnessed existence, the carrier has no selector coordinate. Any existential witness exported by the packet must be one of its displayed finite rows or be constructed by a displayed $\Cont$ route from those rows.
+
+For non-decidable double-negation elimination, inspect $D$ and $E$. The decision row $D$ is the only positive branch source for $A$, while $E$ records that the schema is refused when $D$ is absent.
+
+For certificate-level excluded middle, inspect the naming ledger $N$. It is fixed locally to this packet and does not range over the carrier of all naming certificates, so it cannot produce a branch family for arbitrary certificate predicates.
+
+Therefore each forbidden move is blocked by the absence of a carrier coordinate and by the explicit exclusion ledger.
+\end{proof}
+
+\begin{theorem}[Finite refutation boundary concretizes the contradiction-boundary vision]
+\label{thm:finite-refutation-boundary-vision-concretization}
+The $\FiniteRefutationBoundaryUp$ carrier of \autoref{def:finite-refutation-boundary-carrier}, together with the obligations of \autoref{thm:finite-refutation-boundary-namecert-obligations}, realizes the boundary stated in \autoref{ch:visions-reasoning-by-contradiction-boundary}: permitted refutations are exactly those whose falsity route remains in the fixed ground-loop packet, while the forbidden patterns are refused because they require a meta-level branch or witness not displayed by that packet.
+\end{theorem}
+\begin{proof}
+The permitted side is \autoref{thm:finite-refutation-boundary-ground-loop-soundness}. A refutation route is accepted only when it is the displayed route from $A$ through $R,H,C,P,N$ to $\bot_R$.
+
+The refused side is \autoref{thm:finite-refutation-boundary-meta-escape-exclusion}. The three forbidden patterns all require a coordinate absent from the finite packet: an unwitnessed existential selector, a double-negation eliminator without $D$, or a branch over naming certificates.
+
+Combining these two facts gives the advertised boundary. The finite carrier supplies the concrete BEDC object, the local $\NameCert$ obligations supply the admissibility surface, and consumers receive a refutation route without receiving a meta-level truth predicate.
+\end{proof}
+
+\closureat{FiniteRefutationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\FiniteRefutationBoundaryUp}
+  \constructivestory{A $\FiniteRefutationBoundaryUp$ packet is generated from a proposition row, a permitted refutation row, an optional constructive decision row, meta-escape exclusions, componentwise transports, displayed continuation routes, package provenance, a fixed local $\NameCert$ ledger, and a falsity route.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-refutation-boundary-carrier}, \autoref{thm:finite-refutation-boundary-namecert-obligations}, \autoref{thm:finite-refutation-boundary-ground-loop-soundness}, \autoref{thm:finite-refutation-boundary-meta-escape-exclusion}, and \autoref{thm:finite-refutation-boundary-vision-concretization} bind the finite carrier, obligation surface, ground-loop soundness, meta-escape exclusion, and vision realization.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close classical excluded middle, a global truth predicate over naming certificates, existential witness selection by contradiction, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for classifier soundness, ground-loop replay, decision discipline, escape exclusion, and the public vision realization.}
+\end{closurestatus}

@@ -77,6 +77,8 @@ Finally, \autoref{thm:real-constant-rational-embedding-certificate} identifies t
 \end{proof}
 
 \concretizedIn{ch:concrete-instances-stationary-rational-cauchy-namecert}{Stationary rational regular Cauchy inputs are recorded as a concrete RealUp handoff certificate.}
+\concretizedIn{ch:concrete-instances-limitselector-namecert}{Limit selector packets realize the diagonal-limit selector as finite modulus, window, RegSeqRat, RealUp seal, hsame, Cont, Pkg, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-stationaryembeddingclassifier-namecert}{Stationary embedding classifier packets realize the RatUp-to-RealUp classifier correspondence for stationary rational diagonals.}
 
 \begin{theorem}[Stationary rational embedding classifier correspondence]
 \label{thm:real-completeness-stationary-embedding-classifier-full-correspondence}
@@ -123,6 +125,13 @@ constant StreamNameUp classifier back as the same RatUp seed classifier.
 \end{proof}
 
 \concretizedIn{ch:concrete-instances-stationaryrationaldiagonal-namecert}{Stationary rational diagonal packets are realized as a concrete Real and Completion NameCert surface.}
+
+\concretizedIn{ch:concrete-instances-regular-cauchy-comparison-namecert}{Regular Cauchy comparison packets realize the finite comparison layer used by the Real completeness proof target.}
+
+\concretizedIn{ch:concrete-instances-regular-cauchy-mesh-namecert}{Regular Cauchy mesh packets realize finite mesh-indexed regular-rational observations for the Real completeness handoff.}
+
+\concretizedIn{ch:concrete-instances-realapproximationenvelope-namecert}{Real approximation envelopes realize the finite observation packet from DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp into a reusable Real and Completion handoff.}
+\concretizedIn{ch:concrete-instances-cauchyinversebudget-namecert}{Cauchy inverse budgets realize nonzero-apart regular-Cauchy reciprocal windows as finite DyadicRatCore, StreamNameUp, RegSeqRatUp, RealUp, hsame, Cont, Pkg, and NameCert rows.}
 
 The ten-field fit is stationary rational embedding classifier reflection:
 traditional target constant rational diagonals inside RealUp; BEDC source
@@ -739,6 +748,7 @@ finite-window bridge erases the partition choice, so the extracted diagonal
 representatives for $X_d$ and $X_e$ are the constant rational RealUp
 embeddings obtained from the one-segment ledger.
 \end{proof}
+\concretizedIn{ch:concrete-instances-stationarypartitiondiagonal-namecert}{Stationary finite-partition diagonal packets are realized as a concrete Real and Completion NameCert surface.}
 
 The ten-field fit is: traditional target finite stationary rational
 partition normal form; BEDC source $\RatUp+\StreamNameUp+\RealUp$ plus Real
@@ -759,24 +769,22 @@ Status: $\mathsf{ProofTarget}$.
 
 \input{parts/visions/real_completeness/transported_stationary_diagonal}
 
-\section{Constructive content and axiom purity}
-\label{sec:real-completeness-axiom-purity}
+\input{parts/visions/real_completeness/constructive_content_axiom_purity}
 
-\begin{remark}[Explicit moduli throughout]
-\label{rem:real-completeness-explicit-moduli}
-Every modulus appearing in \autoref{def:real-completeness-regular-cauchy-rat}, \autoref{def:real-completeness-diagonal-limit}, and \autoref{thm:real-completeness-limit-exists-unique} is specified as a function on naturals and rationals computed by primitive recursion on the inductive carriers of \autoref{ch:concrete-instances-rat-namecert}. The required proof obligations are exactly the certificate-level regularity, convergence, and $\psame$-closure facts that avoid quotienting an equivalence relation by a host-level $\Quot$-soundness step. These obligations are the axiom-pure targets for the later machine-checked real-completion layer.
-\end{remark}
-
-\begin{remark}[Reuse for the continuous certificate]
-\label{rem:real-completeness-reuse-continuous}
-The diagonal limit construction (\autoref{def:real-completeness-diagonal-limit}) identifies the limit step expected by the continuous certificate $\NameCert_{\ContinuousFunctionUp}$ (\autoref{ch:concrete-instances-continuous-namecert}). A continuous function on $\NameCert_{\RealUp}$ is, in BEDC, a function on $\RegSeqRat$ together with an explicit pointwise modulus; once the real-completion obligations are checked, downstream continuity certificates can consume the same diagonal regularity bound. The reuse is structural, not a separate construction.
-\end{remark}
-
-\begin{remark}[Composition with the compact uniform-continuity capstone]
-\label{rem:real-completeness-compact-composition}
-After $\NameCert_{\RealUp}$ has the supplied completion certificate and the continuous-function certificate is available, the compact uniform-continuity capstone (\autoref{ch:visions-compact-uniform-continuity}) can be instantiated on closed bounded intervals $[a, b] \subset \RealUp$. The downstream consumer is a future kernel theorem that, for every continuous $f \colon [a, b] \to \RealUp$, derives a uniform modulus depending only on the tolerance from the checked compactness and continuity certificates.
-\end{remark}
-
-\concretizedIn{ch:concrete-instances-regularcauchydiagonal-namecert}{Stationary regular Cauchy diagonal packets are represented as finite NameCert carriers over RatUp, StreamNameUp, RegSeqRatUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-finitewindowenvelope-namecert}{Finite observation windows are realized as a NameCert envelope linking DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp seals.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-limit-modulus-namecert}{The diagonal-limit modulus is represented as a finite NameCert packet over RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, and RealUp.}
+\input{parts/visions/real_completeness/concretization_links}
+\concretizedIn{ch:concrete-instances-diagonal-limit-compatibility-namecert}{Diagonal-limit compatibility is realized as a finite NameCert packet tying RealCompleteness, RegularCauchyTriangleBound, CauchyLimitSeal, StreamName, RegSeqRat, DyadicRatCore, and RealUp seal rows.}
+\concretizedIn{ch:concrete-instances-regularcauchysequence-namecert}{Regular Cauchy sequence packets realize the finite family, modulus, selected-window, dyadic readback, RegSeqRat, and RealUp seal surface used by the diagonal-limit handoff.}
+\concretizedIn{ch:concrete-instances-regularcauchyswapbisimulation-namecert}{Regular Cauchy swap bisimulations realize selector-swapped interleavings as finite RegSeqRat, StreamName, RealUp, hsame, Cont, Pkg, and NameCert packets.}
+\concretizedIn{ch:concrete-instances-real-budget-tail-meet-namecert}{Budgeted tail-meet packets realize finite observation budgets and shared-tail thresholds for the Real completeness seal route.}
+\concretizedIn{ch:concrete-instances-realcompletionwitnessextractor-namecert}{Real completion witness extractors realize the diagonal regular-Cauchy limit route as a finite NameCert packet over modulus schedules, selected windows, RegSeqRat witnesses, RealUp seals, hsame transport, Cont replay, and non-escape ledgers.}
+\concretizedIn{ch:concrete-instances-regularcauchycofinallimit-namecert}{Regular Cauchy cofinal limits are realized as finite cofinal-window NameCert packets over DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp seal rows.}
+\concretizedIn{ch:concrete-instances-cofinalregularlimitbudget-namecert}{Cofinal regular-limit budgets realize the Real completeness diagonal target as finite precision, cofinal-window, RegSeqRat handoff, RealUp seal, route, provenance, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-regularcauchyproductbudget-namecert}{Regular Cauchy product budgets realize the finite product-window ledger from RegSeqRatUp sources through StreamNameUp, DyadicRatCoreUp, FiniteErrorBudgetUp, and RealUp seal rows.}
+\concretizedIn{ch:concrete-instances-regularcauchyselectorbudget-namecert}{Regular Cauchy selector budgets realize the modulus-selected finite window, RegSeqRat handoff, RealUp seal route, and non-escape ledger used by the Real completeness diagonal construction.}
+\concretizedIn{ch:concrete-instances-choicefreediagonalselector-namecert}{Choice-free diagonal selectors realize the finite precision, cofinal-window, StreamName, RegSeqRat, RealUp seal, hsame, Cont, Pkg, and NameCert selector boundary used by the Real completeness handoff.}
+\concretizedIn{ch:concrete-instances-dyadic-cofinal-tail-selector-namecert}{Dyadic cofinal tail selectors realize the finite cofinal-window route used by the Real and Completion diagonal-limit handoff.}
+\concretizedIn{ch:concrete-instances-tail-cofinality-schedule-namecert}{Tail cofinality schedules realize the finite shared-threshold route from DyadicRatCore, StreamNameUp, RegSeqRatUp, and RealUp seal rows used by the diagonal-limit handoff.}
+\concretizedIn{ch:concrete-instances-regularcauchymerge-namecert}{RegularCauchy merge packets realize the two-route cofinal selector agreement used by the Real completeness diagonal-limit handoff.}
+\concretizedIn{ch:concrete-instances-cofinal-tail-budget-namecert}{Cofinal tail budgets realize finite shared-tail threshold packets for the Real and Completion diagonal-limit handoff.}
+\concretizedIn{ch:concrete-instances-observablecauchyseal-namecert}{Observable Cauchy seals realize finite observation routes from StreamName windows and dyadic readbacks through RegSeqRat handoff rows into a RealUp seal.}
+\concretizedIn{ch:concrete-instances-regular-cauchy-telescoping-budget-namecert}{Regular Cauchy telescoping budgets realize finite chained-window error-ledger composition for the Real completeness diagonal-limit handoff.}

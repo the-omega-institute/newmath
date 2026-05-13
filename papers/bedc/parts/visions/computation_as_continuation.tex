@@ -1,7 +1,13 @@
 \chapter{Computation as Continuation: BEDC's Operational Semantics}
 \label{ch:visions-computation-as-continuation}
+\concretizedIn{ch:concrete-instances-continuationtrace-namecert}{Packages the continuation-as-small-step reading as a finite BHist trace certificate with readback and non-escape boundaries.}
+\concretizedIn{ch:concrete-instances-continuationbigstep-namecert}{Continuation big-step packets realize terminal-read computation as a finite BHist NameCert surface over small-step traces, Cont replay, hsame transport, Pkg provenance, and local naming.}
+\concretizedIn{ch:concrete-instances-continuationtracenormalform-namecert}{Continuation trace normal forms realize terminal Cont-replay computation as a finite NameCert packet with no host conversion or normalization oracle.}
 
 The continuation primitive $\Cont$ of \autoref{ch:core-relational-extension-and-continuation} carries the formal content of a small-step transition relation. Reading $\Cont\,h\,m\,h'$ as ``the history $h$ steps via mark $m$ to history $h'$'' makes $\Cont$ a Plotkin-style structural operational semantics over the BEDC primitive layer. The chapter records the structural isomorphism between $\Cont$ and the small-step relations of standard programming-language semantics, and locates termination, big-step semantics, and behavioural equivalence as classifier-level notions already present in the kernel.
+
+\concretizedIn{ch:concrete-instances-continuationautomaton-namecert}{Continuation automata realize the Cont-as-small-step vision as a finite NameCert carrier with behaviour classifiers.}
+\concretizedIn{ch:concrete-instances-continuationtermination-namecert}{Continuation termination packets realize the termination and behaviour-classifier reading of Cont traces as finite BHist, hsame, Pkg, and NameCert rows.}
 
 \section{Continuation as small-step transition}
 \label{sec:computation-as-continuation-small-step}
@@ -69,6 +75,8 @@ Apply middle-object determinacy to the suffixed composite ledgers. The result
 identifies $b\cdot q$ with $b'\cdot q$, and right cancellation of the common
 suffix gives $\hsame(b,b')$.
 \end{proof}
+
+\concretizedIn{ch:concrete-instances-continuationmonad-namecert}{Continuation monad packages the continuation-as-small-step reading as a certified Kleisli interface.}
 
 \begin{theorem}[Category hom-carrier empty morphism endpoint iff]
 \label{thm:category-hom-carrier-morphism-empty-endpoint-iff}

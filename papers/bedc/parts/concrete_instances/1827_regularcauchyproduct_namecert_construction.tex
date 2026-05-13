@@ -1,0 +1,244 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyProductUp$}
+\label{ch:concrete-instances-regularcauchyproduct-namecert}
+\origin{human}
+
+The $\RegularCauchyProductUp$ interface names the finite pointwise Cauchy-product surface for two regular rational Cauchy names. Bishop-Bridges constructive real arithmetic uses Cauchy products to make multiplication of regular real names visible. BEDC records the finite packet version: two regular source rows, aligned stream windows, dyadic endpoint multiplication, a product-error ledger, regular rational readback, componentwise transport, continuation routes, package provenance, and a local naming row.
+
+The packet sits beside $\RegularCauchySumUp$ and $\RegularCauchyDifferenceUp$. It is not a completed-real multiplication law, not a quotient of Cauchy streams, not a selected host limit, and not an ambient completeness theorem.
+
+\begin{definition}[RegularCauchyProduct carrier]
+\label{def:regular-cauchy-product-carrier}
+A $\RegularCauchyProductUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose scheduled rational observations are multiplied pointwise;
+\item $W_A$ and $W_B$ are aligned $\StreamNameUp$ windows for a shared precision request and a shared unary observation index;
+\item $D_A$ and $D_B$ are the $\DyadicRatCoreUp$ endpoint rows read from those windows;
+\item $D$ is the displayed $\DyadicRatCoreUp$ multiplication row obtained from the common-exponent product window for $D_A \cdot D_B$;
+\item $E$ is the finite $\FiniteErrorBudgetUp$ product ledger recording the two input tolerances, endpoint magnitude bounds, cross-error terms, and the output tolerance assigned to $D$;
+\item $R$ is the $\RegSeqRatUp$ readback row whose scheduled point row is $D$ with the tolerance budget recorded by $E$;
+\item $H$ stores componentwise $\hsame$ transports for both source names, both stream windows, the three dyadic endpoint rows, the product-error ledger, and the readback row;
+\item $C$ stores the displayed $\Cont$ routes for reading the two input windows, forming the dyadic endpoint multiplication row, checking the product budget, and exposing the readback;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\FiniteErrorBudgetUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyProductUp}$ row.
+\end{enumerate}
+The carrier is a finite multiplication certificate for regular Cauchy names. It stores no quotient stream, no selected limit, no host real equality, and no ambient completeness object.
+\end{definition}
+
+\begin{theorem}[RegularCauchyProduct NameCert obligations]
+\label{thm:regular-cauchy-product-namecert-obligations}
+The local $\NameCert_{\RegularCauchyProductUp}$ surface for the carrier of \autoref{def:regular-cauchy-product-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed $\mathsf{BHist}$ packet $M$ with two $\RegSeqRatUp$ sources, aligned $\StreamNameUp$ windows, dyadic endpoint rows, a product-error ledger, transport rows, continuation rows, provenance, and local naming data;
+\item classifier transport: classification transports the two source rows, the aligned windows, the endpoint multiplication row, the finite product-error ledger, and the readback row componentwise through the stored $\hsame$ and $\Cont$ rows;
+\item stability: replacing either source by a classified regular name preserves the aligned window and recomputes the same kind of displayed dyadic multiplication row;
+\item ledger exactness: the output tolerance row is the finite product-error budget recorded in $E$, including the two input tolerances and the displayed endpoint magnitude bounds;
+\item downstream handoff: every $\RegSeqRatUp$ or $\RealUp$ consumer of the product first reads $R$ together with $A$, $B$, $W_A$, $W_B$, $D_A$, $D_B$, $D$, $E$, $H$, $C$, $P$, and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:regular-cauchy-product-carrier}. Each source row, window row, endpoint row, budget row, transport route, continuation route, provenance row, and local naming row is an explicit coordinate of $M$.
+
+Classifier transport is componentwise. The two $\RegSeqRatUp$ source rows transport their scheduled rational observations, the $\StreamNameUp$ rows transport the aligned window reads, and the $\DyadicRatCoreUp$ rows transport the endpoint multiplication calculation at the common exponent.
+
+The budget row is finite. It records the two input tolerances, the endpoint magnitude bounds used in the product estimate, the cross-error terms, and the output tolerance before the product readback is exposed. The downstream handoff is then the readback row $R$, and no omitted coordinate can add quotient streams, selected limits, host real equality, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_namecert\_obligations}
+
+\begin{theorem}[RegularCauchyProduct window budget]
+\label{thm:regular-cauchy-product-window-budget}
+Given accepted $\RegSeqRatUp$ source rows $A$ and $B$ in a $\RegularCauchyProductUp$ packet and a shared precision request, the aligned $\StreamNameUp$ windows $W_A$ and $W_B$ display dyadic endpoint rows $D_A$ and $D_B$. The packet displays a $\DyadicRatCoreUp$ row $D$ for $D_A \cdot D_B$ and a finite ledger $E$ whose output tolerance is the recorded product-error budget for the two source tolerances and endpoint magnitude bounds.
+\end{theorem}
+\begin{proof}
+Read the shared precision request through the two stream windows. Since $W_A$ and $W_B$ are aligned coordinates of the same packet, they expose the two endpoint rows at the same requested observation index.
+
+Apply the displayed common-exponent multiplication row of $\DyadicRatCoreUp$ to $D_A$ and $D_B$. The result is the endpoint row $D$, still inside the carrier.
+
+Finally read the finite budget ledger $E$. Its entries record the two input tolerances, the visible endpoint bounds, and the product-error terms assigned to the output request. This proves the window budget without invoking any completed real, quotient stream, or hidden limit.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_window\_budget}
+
+\begin{theorem}[RegularCauchyProduct RegSeqRat handoff]
+\label{thm:regular-cauchy-product-regseqrat-handoff}
+The budgeted pointwise-product windows of \autoref{thm:regular-cauchy-product-window-budget} repack as the $\RegSeqRatUp$ readback row $R$ of \autoref{def:regular-cauchy-product-carrier}. A consumer of $R$ reads only the aligned input windows, the dyadic endpoint multiplication row, the finite product-error ledger, the displayed $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start with the finite window budget. For each requested precision, the packet exposes the two source endpoint rows, the dyadic product endpoint, and the product-error row that bounds the output tolerance.
+
+Repack those displayed rows as a regular rational sequence readback. The point row of $R$ is $D$, and the regularity evidence visible to the consumer is the product ledger $E$ routed through the same aligned windows.
+
+The transport and continuation rows are inherited from the carrier. Since the repacking uses only coordinates already listed in \autoref{def:regular-cauchy-product-carrier}, it introduces no host sequence quotient, selected limit, or completed-real multiplication object.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_regseqrat\_handoff}
+
+\begin{theorem}[RegularCauchyProduct RealUp seal boundary]
+\label{thm:regular-cauchy-product-real-seal-boundary}
+Any $\RealUp$ consumer of an accepted $\RegularCauchyProductUp$ packet reads only the $\RegSeqRatUp$ readback row $R$ together with the visible provenance of the two source names, aligned windows, dyadic endpoint multiplication row, finite product-error ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ row, and local $\NameCert_{\RegularCauchyProductUp}$ row.
+\end{theorem}
+\begin{proof}
+Factor the real-facing read through the regular readback. By \autoref{thm:regular-cauchy-product-regseqrat-handoff}, $R$ is already the repacking of the budgeted pointwise-product windows.
+
+The remaining consumer-visible data are exactly the provenance rows attached to that repacking: the two source names, aligned schedules, dyadic product endpoints, product-error ledger, transports, continuations, package row, and local naming row.
+
+The carrier has no independent $\RealUp$ equality field and no completion witness outside the readback. Therefore the real seal can consume only the displayed regular readback and its visible provenance.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct source-window transport]
+\label{thm:regular-cauchy-product-source-window-transport}
+For an accepted $\RegularCauchyProductUp$ packet $M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$, classifier transport preserves the two $\RegSeqRatUp$ source rows $A,B$ and the aligned $\StreamNameUp$ windows $W_A,W_B$ through the displayed $\hsame$ and $\Cont$ routes. Consequently any transported packet reads the same two regular sources and the same aligned source windows before forming the dyadic product row.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_source\_window\_transport}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-product-carrier}. The two source rows and the two aligned stream windows are explicit coordinates of the same finite packet.
+
+Apply the classifier-transport obligation of \autoref{thm:regular-cauchy-product-namecert-obligations}. It transports the source rows and aligned windows componentwise through the stored $\hsame$ and $\Cont$ rows.
+
+The product endpoint rows $D_A,D_B,D$ are downstream of these transported windows. Since the transport first fixes $A,B,W_A,W_B$, the dyadic product row can only be read after the same two source rows and the same aligned window positions have been displayed.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct error-budget exactness]
+\label{thm:regular-cauchy-product-error-budget-exactness}
+For an accepted $\RegularCauchyProductUp$ packet, the output tolerance assigned to the readback row $R$ is exactly the finite product-error ledger $E$ computed from the two input tolerances, the endpoint magnitude bounds for $D_A$ and $D_B$, and the cross-error terms recorded in the packet. No additional tolerance rule is read from a quotient stream, a selected limit, or a completed real multiplication object.
+\end{theorem}
+\begin{proof}
+Use the window budget theorem \autoref{thm:regular-cauchy-product-window-budget}. It displays $D_A$ and $D_B$ from the aligned source windows and forms the dyadic endpoint product row $D$.
+
+Read the ledger row $E$. By the NameCert obligations, $E$ records the two input tolerances, the endpoint magnitude bounds, the cross-error terms, and the output tolerance before $R$ is exposed.
+
+Apply the $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-product-regseqrat-handoff}. The readback row $R$ is repacked from $D$ with the tolerance budget already recorded in $E$, so the output tolerance is exactly that finite ledger and nothing outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct downstream source lock]
+\label{thm:regular-cauchy-product-downstream-source-lock}
+Every downstream $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyProductUp$ packet factors through
+$$
+(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N).
+$$
+Such a consumer can read the two source rows, aligned windows, dyadic endpoint rows, finite product-error ledger, regular readback, transport rows, continuation routes, package provenance, and local naming row, but cannot read quotient streams, selected limits, host real equality, or completed real multiplication.
+\end{theorem}
+\begin{proof}
+Start with the regular handoff. By \autoref{thm:regular-cauchy-product-regseqrat-handoff}, every $\RegSeqRatUp$ readback factors through the aligned input windows, dyadic endpoint multiplication row, finite product-error ledger, transports, continuations, package row, and local naming row.
+
+Use \autoref{thm:regular-cauchy-product-source-window-transport} to lock the source rows. The aligned windows available to any transported consumer are still the windows attached to $A$ and $B$.
+
+Finally apply the RealUp seal boundary of \autoref{thm:regular-cauchy-product-real-seal-boundary}. A real-facing consumer reads only the regular readback and its visible provenance, so neither a quotient stream nor a selected limit nor host real equality nor completed multiplication can enter downstream.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct public export certificate]
+\label{thm:regular-cauchy-product-public-export-certificate}
+The carrier, local $\NameCert$ obligations, window budget, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary, source-window transport, error-budget exactness, and downstream source lock assemble into one public $\RegularCauchyProductUp$ export packet. Its exported rows are exactly
+$$
+A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N.
+$$
+The packet exports no quotient stream, selected limit, host real equality, ambient completeness witness, or completed-real multiplication law.
+\end{theorem}
+\begin{proof}
+Start with the displayed carrier of \autoref{def:regular-cauchy-product-carrier}. It supplies exactly the two regular source rows, two aligned source-window rows, dyadic endpoint rows, product row, finite error ledger, regular readback, transports, continuations, provenance, and local name.
+
+Add the local acceptance and budget rows. The $\NameCert$ obligations of \autoref{thm:regular-cauchy-product-namecert-obligations} bind the accepted packet, while \autoref{thm:regular-cauchy-product-window-budget} computes the endpoint and product rows from the aligned windows.
+
+Next expose the two consumer boundaries. The $\RegSeqRatUp$ handoff is supplied by \autoref{thm:regular-cauchy-product-regseqrat-handoff}, and the $\RealUp$ seal boundary is supplied by \autoref{thm:regular-cauchy-product-real-seal-boundary}.
+
+Finally use \autoref{thm:regular-cauchy-product-source-window-transport}, \autoref{thm:regular-cauchy-product-error-budget-exactness}, and \autoref{thm:regular-cauchy-product-downstream-source-lock}. These results keep every downstream read on the displayed source windows and finite error ledger, and they exclude quotient streams, selected limits, host real equality, ambient completeness, and completed-real multiplication from the public export.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct real algebra boundary]
+\label{thm:regular-cauchy-product-real-algebra-boundary}
+Every downstream $\RealUp$ algebra consumer of an accepted $\RegularCauchyProductUp$ packet
+$$
+M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)
+$$
+must read the source-window rows $A,B,W_A,W_B$, the finite error-budget ledger $E$, the $\RegSeqRatUp$ handoff row $R$, the $\DyadicRatCoreUp$ observations $D_A,D_B,D$, the $\RealUp$ seal boundary, the displayed $\hsame$ transports $H$, the finite $\Cont$ routes $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\RegularCauchyProductUp}$ row $N$. It receives no quotient stream, host multiplication over completed reals, selected limit, ambient completeness, or unlisted algebra law.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-product-namecert-obligations}. They admit only the displayed packet $M$ and force every accepted read through the two source rows, aligned windows, endpoint rows, product ledger, transports, routes, provenance, and local name.
+
+Apply the window budget theorem \autoref{thm:regular-cauchy-product-window-budget}. It builds the dyadic product row from the two source windows and records the product tolerance in the finite ledger $E$ before any downstream algebra consumer sees the readback.
+
+Next use the $\RegSeqRatUp$ handoff \autoref{thm:regular-cauchy-product-regseqrat-handoff} together with the $\RealUp$ seal boundary \autoref{thm:regular-cauchy-product-real-seal-boundary}. The real-facing route is the regular readback $R$ with its visible product provenance, not a host multiplication operation over completed reals.
+
+Finally combine error-budget exactness, downstream source lock, and the public export certificate. These results exhaust the consumer-visible rows and exclude quotient streams, selected limits, ambient completeness, host real equality, completed-real multiplication, and unlisted algebra laws from the product boundary.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct bounded-source handoff]
+\label{thm:regular-cauchy-product-bounded-source-handoff}
+Let
+$$
+M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)
+$$
+be an accepted $\RegularCauchyProductUp$ packet. If the two source windows
+$W_A$ and $W_B$ expose dyadic endpoint magnitude bounds in the finite
+product-error ledger $E$, then every $\RegSeqRatUp$ readback of the product
+factors through $W_A,W_B$, the dyadic product row $D$, and the same ledger row
+$E$. No readback may replace those bounded windows by a quotient stream,
+selected limit, host real equality, ambient completeness, or completed-real
+multiplication law.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-product-window-budget}. The product
+row $D$ is computed from the displayed source windows and the dyadic endpoint
+rows, and the product tolerance is recorded in the finite ledger $E$.
+
+Use \autoref{thm:regular-cauchy-product-source-window-transport}. Transported
+consumers still see the windows attached to the source rows $A$ and $B$, so
+the endpoint magnitude bounds remain the bounds supplied by $W_A$ and $W_B$.
+
+Apply \autoref{thm:regular-cauchy-product-error-budget-exactness}. The error
+budget exposed to a readback is exactly the displayed product ledger, with no
+additional completed-real algebra coordinate.
+
+Finally use \autoref{thm:regular-cauchy-product-downstream-source-lock}. Any
+downstream $\RegSeqRatUp$ handoff must keep the same source windows, dyadic
+product row, and ledger row $E$, which gives the stated bounded-source
+factorization.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct real seal product budget]
+\label{thm:regular-cauchy-product-real-seal-product-budget}
+Every $\RealUp$ algebra consumer of the product seal in an accepted
+$\RegularCauchyProductUp$ packet receives the finite product-budget row $E$
+before the $\RegSeqRatUp$ handoff row $R$. The consumer cannot replace this
+budget by completed-real multiplication, quotient stream equality, selected
+limits, ambient completeness, host real equality, or any unlisted algebra law.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-product-real-seal-boundary}. The
+real-facing endpoint is read through the visible product provenance and
+regular readback route, not through completed-real multiplication.
+
+Next use \autoref{thm:regular-cauchy-product-real-algebra-boundary}. A
+$\RealUp$ algebra consumer must read the finite error ledger $E$, the
+$\RegSeqRatUp$ handoff $R$, the dyadic product row, transports, continuations,
+provenance, and local name.
+
+The public export certificate
+\autoref{thm:regular-cauchy-product-public-export-certificate} supplies the
+same row order at the public surface. The packet contains the product ledger
+and readback row, but no quotient stream, selected limit, ambient
+completeness, or host real equality.
+
+Finally invoke
+\autoref{thm:regular-cauchy-product-bounded-source-handoff}. Since every
+readback factors through the bounded source windows, dyadic product row, and
+ledger $E$, the real seal consumer receives the finite product budget before
+it can consume the regular rational handoff.
+\end{proof}
+
+\closureat{RegularCauchyProductUp}{seedStr}
+\closureat{RegularCauchyProductUp}{obligationStr}
+\closureat{RegularCauchyProductUp}{scopedStr}
+\closureat{RegularCauchyProductUp}{publicStr}
+
+\begin{closurestatus}{\RegularCauchyProductUp}
+  \constructivestory{A $\RegularCauchyProductUp$ packet is generated from two $\RegSeqRatUp$ source rows, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint multiplication rows, a finite $\FiniteErrorBudgetUp$ product ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The scoped public surface records the finite carrier, local naming obligations, shared-window product budget, regular readback handoff, real-seal boundary, source-window transport, error-budget exactness, downstream source lock, and public export certificate for pointwise products of regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, real-field multiplication laws, or bridge checking.}
+  \upgradepath{Bridge closure requires a standard bridge from the public regular-Cauchy product boundary to downstream real-algebra consumer interfaces.}
+\end{closurestatus}

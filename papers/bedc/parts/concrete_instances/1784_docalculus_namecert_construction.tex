@@ -1,0 +1,170 @@
+\chapter{A Concrete Naming Certificate for $\DoCalculusUp$}
+\label{ch:concrete-instances-do-calculus-namecert}
+\origin{human}
+
+Following Pearl, \emph{Causality}, 2009, the intervention calculus used here is
+recorded as a finite certificate surface rather than as an external semantic
+oracle. The $\DoCalculusUp$ packet keeps the intervention ledger, observed
+variable rows, adjustment-set witnesses, distribution rows, conditional
+independence certificates, and conditional-expectation handoff rows visible as
+BEDC data. It does not claim a host probability space, a full structural causal
+model, graphical completeness of do-calculus, or a selected counterfactual
+semantics.
+
+\begin{definition}[DoCalculus carrier]
+\label{def:do-calculus-carrier}
+A $\DoCalculusUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,V,A,M,R,J,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $I$ is the finite intervention ledger, whose rows name the intervened
+variables, the displayed intervention marks, and the finite order in which the
+intervention rows are read;
+\item $V$ is the finite observed-variable row, listing the outcome, treatment,
+covariate, and auxiliary observation names that are visible to the certificate;
+\item $A$ is the adjustment-set ledger, containing only finite rows that name
+which observed variables are admitted as adjustment coordinates for the
+displayed query;
+\item $M$ records the intervention-modified distribution rows, including the
+pre-intervention observational row, the post-intervention row, and the finite
+conditioning rows exposed to consumers;
+\item $R$ records conditional-independence certificates used by the intervention
+ledger and the adjustment-set ledger;
+\item $J$ is the conditional-expectation handoff row, whose input is the
+displayed adjusted distribution row and whose output is the query-facing
+expectation row;
+\item $E$ records the probability-facing export row consumed by downstream
+probability chapters;
+\item $H$ records the componentwise $\hsame$ transports for intervention rows,
+observed-variable rows, adjustment ledgers, distribution rows, independence
+certificates, conditional-expectation rows, and probability exports;
+\item $C$ records the displayed $\Cont$ routes by which consumers read
+intervention admission, adjustment-set membership, independence certificates,
+distribution handoffs, and conditional-expectation exports;
+\item $P$ records $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, finite
+variable rows, finite ledger rows, probability handoff rows, and local naming
+rows;
+\item $N$ is the local $\NameCert_{\DoCalculusUp}$ provenance row.
+\end{enumerate}
+The carrier accepts exactly finite intervention-ledger packets whose consumers
+can read every causal query through the displayed adjustment, independence,
+distribution, and expectation rows.
+\end{definition}
+
+\begin{theorem}[DoCalculus NameCert obligation surface]
+\label{thm:do-calculus-namecert-obligation-surface}
+Every accepted $\DoCalculusUp$ packet with carrier
+\autoref{def:do-calculus-carrier} carries five local naming obligations:
+\begin{enumerate}
+\item carrier admission: the tuple $D=(I,V,A,M,R,J,E,H,C,P,N)$ is admitted as
+one finite $\BHist$ packet;
+\item classifier transport: componentwise $\hsame$ and $\Cont$ transport
+preserves the intervention, observed-variable, adjustment, distribution,
+independence, expectation, package, and naming rows;
+\item adjustment ledger exactness: the adjustment row $A$ lists exactly the
+observed coordinates allowed to mediate the displayed intervention query;
+\item intervention non-escape: every consumer-visible intervention read passes
+through $I,V,A,M,R,H,C,P,N$ and cannot project an unlisted intervention, hidden
+counterfactual, or host causal model;
+\item probability handoff: every probability-facing read passes through the
+conditional-expectation row $J$ and the export row $E$ after the finite
+adjustment and independence rows have been displayed.
+\end{enumerate}
+These five rows are the complete local $\NameCert_{\DoCalculusUp}$ surface for
+the finite intervention calculus packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its coordinates are the finite rows
+$I,V,A,M,R,J,E,H,C,P,N$, so carrier admission is just the displayed $\BHist$
+packet.
+
+For classifier transport, move each coordinate through its stored $\hsame$ row
+and then read it through the corresponding $\Cont$ route. Because the carrier is
+componentwise, no transported row can introduce a variable, intervention,
+distribution, or handoff coordinate not already listed in the tuple.
+
+Adjustment exactness is read from $A$: it names only observed variables from
+$V$, and the distribution rows in $M$ consume exactly those names for the
+displayed query. The intervention non-escape clause follows because every
+intervention-facing route has to pass through $I$ and the same finite ledger
+rows before a consumer can read it.
+
+Finally, probability-facing data are exported only through $J$ and $E$. The
+conditional-independence certificates in $R$ and the adjustment ledger $A$ are
+therefore visible before the expectation handoff is consumed, which keeps the
+handoff finite and internal to the packet.
+\end{proof}
+
+\begin{theorem}[DoCalculus adjustment ledger exactness]
+\label{thm:do-calculus-adjustment-ledger}
+For every accepted $\DoCalculusUp$ packet $D=(I,V,A,M,R,J,E,H,C,P,N)$, the
+adjustment-set ledger $A$ is exhausted by the finite observed-variable rows in
+$V$ and by the conditional-independence certificates in $R$ that justify their
+use for the displayed intervention query. No variable outside $V$ and no
+unstored independence assertion can be read as part of the adjustment set.
+\end{theorem}
+\begin{proof}
+Read the observed-variable coordinate $V$. It gives the finite list of
+outcome, treatment, covariate, and auxiliary observation names available to the
+packet.
+
+Next read the adjustment ledger $A$. Each adjustment entry is indexed by one of
+those observed names and points to an independence certificate in $R$ used by
+the displayed query.
+
+Thus the adjustment surface is exhausted by $V,A,R,H,C,P,N$. A hidden variable
+or unstored independence assertion would require a coordinate absent from
+\autoref{def:do-calculus-carrier}, so it cannot be projected from the accepted
+packet.
+\end{proof}
+
+\begin{theorem}[DoCalculus intervention non-escape]
+\label{thm:do-calculus-intervention-non-escape}
+Every intervention-facing consumer of an accepted $\DoCalculusUp$ packet
+$D=(I,V,A,M,R,J,E,H,C,P,N)$ factors through the intervention ledger $I$, the
+observed-variable row $V$, the adjustment ledger $A$, the distribution rows
+$M$, the independence certificates $R$, the transport rows $H$, the
+continuation routes $C$, the package provenance $P$, and the local
+$\NameCert$ row $N$. Such a consumer cannot obtain a hidden intervention, an
+unlisted causal graph, a counterfactual selector, or a host structural causal
+model from the packet.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to inspect an intervention read. The read begins at
+the finite ledger $I$, and each intervention mark is paired with visible
+observed-variable data in $V$.
+
+The route then passes through the adjustment ledger, the modified distribution
+rows, and the named independence certificates. Transport and consumer access
+are only the displayed $H$ and $C$ rows, with provenance kept in $P$ and $N$.
+
+The excluded objects have no coordinate in the carrier. Since consumer routes
+are finite projections from the displayed packet, none of those objects can
+escape through an intervention-facing read.
+\end{proof}
+
+\begin{theorem}[DoCalculus probability handoff]
+\label{thm:do-calculus-probability-handoff}
+Every probability-facing read from an accepted $\DoCalculusUp$ packet factors
+through the adjusted distribution rows $M$, the conditional-independence
+certificates $R$, the conditional-expectation handoff row $J$, and the export
+row $E$. The handoff is a finite certificate route into probability chapters,
+not a claim of host measure theory, graphical completeness, or selected
+counterfactual semantics.
+\end{theorem}
+\begin{proof}
+Project the distribution coordinate $M$ and the independence coordinate $R$.
+They display the observational, post-intervention, and conditioning rows
+available to the query together with the finite certificates that justify the
+adjustment route.
+
+Read the conditional-expectation handoff $J$. Its input is the adjusted
+distribution row already exposed by $M$ and $R$, and its output is the
+probability-facing row later exported by $E$.
+
+Therefore the probability chapter receives only the finite handoff packet
+$M,R,J,E,H,C,P,N$. No ambient probability space, completeness theorem for
+do-calculus, or counterfactual selector is supplied by this route.
+\end{proof}

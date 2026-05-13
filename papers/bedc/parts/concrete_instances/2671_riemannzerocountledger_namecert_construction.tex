@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RiemannZeroCountLedgerUp$}
+\label{ch:concrete-instances-riemann-zero-count-ledger-namecert}
+\origin{human}
+
+The $\RiemannZeroCountLedgerUp$ interface records the finite height-window packet needed by the zero-count witness direction of \autoref{thm:rh-witness-zero-count}. It packages a requested imaginary-height bound, the visible critical-strip zero packets below that height, a unary count row, a Riemann-von Mangoldt comparison ledger, an explicit error row, transport and continuation routes, package provenance, and local naming data. The packet is a counting witness surface only: it does not prove $\mathsf{RH}$, does not assert zero-set completeness, and does not supply analytic continuation.
+
+\begin{definition}[RiemannZeroCountLedger carrier]
+\label{def:riemann-zero-count-ledger-carrier}
+A $\RiemannZeroCountLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,Z,U,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\NatUp$ height request row naming the imaginary-height window $|\Im(s)| \le T$;
+\item $Z$ is the finite packet list of $\CriticalStripZetaZeroWitnessUp$ rows whose zero and critical-strip coordinates are displayed inside the requested height window;
+\item $U$ is the $\UnaryHistory$ count row assigned to the visible list $Z$;
+\item $M$ is the Riemann-von Mangoldt comparison ledger, recording the main-term row, logarithmic row, normalization row, and comparison route used for the same height request;
+\item $E$ is the explicit error row bounding the gap between the unary count $U$ and the comparison ledger $M$;
+\item $H$ stores componentwise $\hsame$ transports for the height request, zero packet list, unary count row, comparison ledger, error row, package provenance, and local naming row;
+\item $C$ stores the displayed $\Cont$ routes for reading the height request, filtering the finite zero packet list, counting the list, comparing against $M$, exposing the error row, and handing the result to an RH-facing consumer;
+\item $P$ is the $\Pkg$ provenance over $\NatUp$, $\UnaryHistory$, $\CriticalStripZetaZeroWitnessUp$, $\ZetaZerosUp$, $\CritStripUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RiemannZeroCountLedgerUp}$ row.
+\end{enumerate}
+The carrier exposes only a finite height-window count ledger. It contains no completed zero-set quotient, no proof that the listed packets exhaust all analytic zeros below the height, no analytic-continuation constructor, and no proof of $\mathsf{RH}$.
+\end{definition}
+
+\begin{theorem}[RiemannZeroCountLedger NameCert obligations]
+\label{thm:riemann-zero-count-ledger-namecert-obligations}
+The local $\NameCert_{\RiemannZeroCountLedgerUp}$ surface for the carrier of \autoref{def:riemann-zero-count-ledger-carrier} consists of six finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is the displayed $\BHist$ packet $L=(T,Z,U,M,E,H,C,P,N)$;
+\item height-window binding: the height request row $T$ is the only row used to filter the critical-strip zero packets in $Z$;
+\item zero-list visibility: every counted entry is a displayed $\CriticalStripZetaZeroWitnessUp$ packet with its $\ZetaZerosUp$ and $\CritStripUp$ coordinates still visible;
+\item unary-count exactness: the count row $U$ is the $\UnaryHistory$ count of the displayed finite list $Z$ and not a cardinality of an ambient zero set;
+\item comparison-error ledger: the Riemann-von Mangoldt comparison row $M$ and explicit error row $E$ are both read before the count is exported;
+\item non-escape: every downstream zero-count read factors through $T,Z,U,M,E,H,C,P,N$ and has no route to zero-set completeness, analytic continuation, host cardinality, or a proof of $\mathsf{RH}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:riemann-zero-count-ledger-carrier}. The height request, zero packet list, unary count, comparison ledger, error row, transports, continuations, provenance, and local naming row are explicit coordinates.
+
+Height-window binding and zero-list visibility are componentwise reads. The route first reads $T$, then filters the visible $\CriticalStripZetaZeroWitnessUp$ rows in $Z$, while each listed zero keeps its $\ZetaZerosUp$ and $\CritStripUp$ coordinates visible through the stored transport and continuation rows.
+
+The count and comparison obligations are the rows $U,M,E$. The count is the unary count of the displayed list, and the comparison is only the finite Riemann-von Mangoldt ledger with its explicit error row.
+
+Since the carrier has no coordinate for an ambient zero set, analytic continuation, host cardinality, zero-set completeness, or an RH proof, every downstream read is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[RiemannZeroCountLedger window exhaustion]
+\label{thm:riemann-zero-count-ledger-window-exhaustion}
+Every RH-facing zero-count read exported by an accepted $\RiemannZeroCountLedgerUp$ carrier can inspect only
+$$
+T,Z,U,M,E,H,C,P,N.
+$$
+It may read the requested height, the displayed finite list of critical-strip zero packets, the unary count, the Riemann-von Mangoldt comparison ledger, the explicit error row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ row. It cannot infer that the finite list contains all analytic zeros below the height, cannot construct analytic continuation, cannot read a host zero-set cardinality, and cannot close $\mathsf{RH}$.
+\end{theorem}
+\begin{proof}
+Start with an RH-facing zero-count request. By the carrier definition, the only height input is $T$, and the only zero data available at that height is the finite packet list $Z$.
+
+Apply the zero-list and unary-count obligations of \autoref{thm:riemann-zero-count-ledger-namecert-obligations}. They force the count read to pass through displayed $\CriticalStripZetaZeroWitnessUp$ packets and then through the unary count row $U$.
+
+Next read the comparison surface. The rows $M$ and $E$ record the Riemann-von Mangoldt comparison and the explicit constructive error before the result is exported.
+
+The remaining rows $H,C,P,N$ provide transport, replay, provenance, and local naming only. Therefore the height-window surface is exhausted by the displayed packet and has no route to zero-set completeness, analytic continuation, host cardinality, or a proof of the RH predicate.
+\end{proof}
+
+\closureat{RiemannZeroCountLedgerUp}{seedStr}
+
+\begin{closurestatus}{\RiemannZeroCountLedgerUp}
+  \constructivestory{A $\RiemannZeroCountLedgerUp$ packet is generated from a $\NatUp$ height request, a finite list of $\CriticalStripZetaZeroWitnessUp$ packets, a $\UnaryHistory$ count row, a Riemann-von Mangoldt comparison ledger, an explicit error row, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite height-window zero-count carrier, local naming obligations, unary-count exactness, comparison-error ledger, and RH-facing readback boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove $\mathsf{RH}$, construct analytic continuation, enumerate all analytic zeros, close zero-set completeness, assert host cardinality, or provide bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, height-window binding, zero-list visibility, unary-count exactness, comparison-error ledger exactness, and non-escape for the displayed zero-count packet.}
+\end{closurestatus}

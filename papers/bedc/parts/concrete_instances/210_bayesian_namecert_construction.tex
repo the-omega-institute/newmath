@@ -185,6 +185,7 @@ read remains the same visible Bayesian posterior read described by
 \label{thm:bayesian-posterior-namecert-obligation-surface}
 The public $\NameCert_{\BayesianUp}$ posterior surface is exactly the finite packet formed by the $\DistributionUp$ prior and posterior rows, the $\CondExpUp$ likelihood and evidence rows, the posterior comparison row $\hsame(\mathsf{Bayes}(\pi,\lambda,e),\omega)$, the normalisation row $\Cont(\pi,\lambda,e;\omega)$, and the $\Pkg$ provenance naming those dependency rows. A posterior read is accepted only when those rows are present in the carrier of \autoref{def:bayesian-posterior-packet-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.BayesianUp.BayesianPosteriorPacket\_namecert\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:bayesian-posterior-packet-carrier}. Its dependency coordinates are the two $\DistributionUp$ rows and the $\CondExpUp$ row, and these are the only sources for the visible prior, likelihood, evidence, and posterior endpoint.
 
@@ -204,6 +205,7 @@ The carrier has no coordinate for a host kernel, a density equality outside the 
 
 Thus a downstream posterior read factors through the finite packet boundary. Any read requiring one of the excluded objects has no source coordinate in the accepted $\BayesianUp$ surface.
 \end{proof}
+\leanchecked{BEDC.Derived.BayesianUp.BayesianPosteriorPacket\_non\_escape\_boundary}
 
 \begin{theorem}[Bayesian posterior public source exhaustion]
 \label{thm:bayesian-posterior-public-source-exhaustion}
@@ -216,3 +218,51 @@ Apply \autoref{thm:bayesian-update-ledger-exactness}. The ledger forces the read
 
 The carrier definition lists exactly these coordinates. Repacking them reconstructs the public posterior read, while any attempted read outside this list is blocked by \autoref{thm:bayesian-posterior-non-escape-boundary}.
 \end{proof}
+
+\begin{definition}[Bayesian posterior obligation inventory]
+\label{def:bayesian-posterior-obligation-inventory}
+The $\BayesianUp$ posterior obligation inventory is the finite $\BHist$ list
+$$
+\mathcal{I}_{\BayesianUp}=(\mathcal{K},\mathcal{T},\mathcal{L},\mathcal{S},\mathcal{E})
+$$
+where $\mathcal{K}$ is the carrier clause of \autoref{def:bayesian-posterior-packet-carrier}, $\mathcal{T}$ is the classifier-transport clause of \autoref{thm:bayesian-posterior-classifier-transport}, $\mathcal{L}$ is the ledger-exactness clause of \autoref{thm:bayesian-update-ledger-exactness}, $\mathcal{S}$ is the posterior-source exhaustion clause of \autoref{thm:bayesian-posterior-public-source-exhaustion}, and $\mathcal{E}$ is the non-escape clause of \autoref{thm:bayesian-posterior-non-escape-boundary}. The inventory is accepted only when each clause is read through the displayed $\DistributionUp$ rows, $\CondExpUp$ row, $\hsame$ classifier row, $\Cont$ normalisation row, $\Pkg$ provenance, and local $\NameCert_{\BayesianUp}$ surface.
+\end{definition}
+
+\begin{theorem}[Bayesian posterior obligation package]
+\label{thm:bayesian-posterior-obligation-package}
+The inventory of \autoref{def:bayesian-posterior-obligation-inventory} assembles the paper-side $\NameCert_{\BayesianUp}$ posterior obligation package. Its five public clauses are carrier admission, classifier transport, ledger exactness, posterior source exhaustion, and non-escape from host probability kernels or measurable-space quotients, witnessed respectively by \autoref{def:bayesian-posterior-packet-carrier}, \autoref{thm:bayesian-posterior-classifier-transport}, \autoref{thm:bayesian-update-ledger-exactness}, \autoref{thm:bayesian-posterior-public-source-exhaustion}, and \autoref{thm:bayesian-posterior-non-escape-boundary}.
+\end{theorem}
+\begin{proof}
+First project the carrier clause. It supplies exactly the distribution sources, conditional-expectation source, prior row, likelihood row, evidence row, posterior endpoint, Bayesian-update history, classifier comparison, normalisation row, and provenance row named in the inventory.
+
+Next use classifier transport and ledger exactness. The classifier clause moves the displayed rows componentwise through $\hsame$, while the ledger clause says that every posterior read factors through those same dependency, classifier, continuation, and provenance rows.
+
+Finally apply posterior source exhaustion and non-escape. Exhaustion says the listed rows are all public posterior-source coordinates, and non-escape says there is no coordinate for a host kernel, external density equality, measurable-space quotient, or choice-selected posterior. These five clauses therefore form the advertised finite obligation package.
+\end{proof}
+
+\begin{theorem}[Bayesian posterior obligation non-escape]
+\label{thm:bayesian-posterior-obligation-non-escape}
+Every downstream consumer of the $\BayesianUp$ posterior obligation package receives only the rows in $\mathcal{I}_{\BayesianUp}$. In particular, the package cannot be extended by reading a host probability kernel, an ambient measurable-space quotient, an external conditional-density equality, or a posterior selected outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the obligation package of \autoref{thm:bayesian-posterior-obligation-package}. Its clauses are the carrier, classifier transport, ledger exactness, posterior source exhaustion, and non-escape rows.
+
+The source-exhaustion clause fixes the public read boundary: a consumer can project $\mathcal{D}_{\pi}$, $\mathcal{D}_{\omega}$, $\mathcal{C}$, $\pi$, $\lambda$, $e$, $\omega$, $\beta$, $H$, $N$, and $P$, and can transport these rows only by the displayed classifier and continuation data.
+
+The non-escape clause then blocks the excluded host objects. Since the inventory contains no coordinate for probability kernels, measurable-space quotients, external density equalities, or selected posterior witnesses, no downstream consumer can recover one from the package.
+\end{proof}
+
+\closureat{BayesianUp}{obligationStr}[BEDC.Derived.BayesianUp.BayesianPosteriorPacket\_namecert\_obligation\_surface]
+\closureat{BayesianUp}{scopedStr}[BEDC.Derived.BayesianUp.BayesianPosteriorPacket\_namecert\_obligation\_surface]
+
+\begin{closurestatus}{\BayesianUp}
+  \constructivestory{A $\BayesianUp$ posterior packet is generated from the $\DistributionUp$ prior row, the $\DistributionUp$ posterior row, the $\CondExpUp$ likelihood and evidence row, the Bayesian update history, the displayed $\hsame$ posterior comparison, the $\Cont$ normalisation row, and $\Pkg$ provenance.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:bayesian-posterior-obligation-inventory}, \autoref{thm:bayesian-posterior-obligation-package}, and \autoref{thm:bayesian-posterior-obligation-non-escape} bind the carrier, classifier transport, ledger exactness, posterior source exhaustion, and non-escape clauses of the public posterior package.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.BayesianUp.BayesianPosteriorPacket\_namecert\_obligation\_surface}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host probability kernels, measurable-space quotients, conditional-density equality, or bridge checking.}
+  \upgradepath{Public closure requires an exported posterior consumer surface for the scoped obligation package.}
+\end{closurestatus}

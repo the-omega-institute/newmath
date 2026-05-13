@@ -1,0 +1,191 @@
+\chapter{A Concrete Naming Certificate for $\AscoliModulusUp$}
+\label{ch:concrete-instances-ascolimodulus-namecert}
+\origin{human}
+
+The $\AscoliModulusUp$ interface names the finite equicontinuity-modulus packet consumed by $\ArzelaAscoliUp$. It is the constructive Bishop--Bridges finite-ledger object that binds a family of $\ContinuousMapUp$ rows over a $\CompactMetricUp$ source to one shared source-radius row for a requested $\RatUp$ target tolerance, with finite-net stability and displayed handoff rows for compact-continuity consumers. The packet is a BEDC carrier over $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformContinuityUp$, $\EquicontinuityFamilyUp$, $\ArzelaAscoliUp$, $\RatUp$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows; it is not an open-cover compactness theorem, a subsequence selector, or a host function-space compactness principle.
+
+\begin{definition}[AscoliModulus carrier]
+\label{def:ascoli-modulus-carrier}
+An $\AscoliModulusUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+A=(X,Y,F,T,R,\mathcal{P},S,E,W,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $X$ is the source $\CompactMetricUp$ row, including its displayed metric row and the finite $\mathsf{ProbeBundle}$ net rows used by downstream compact-continuity reads;
+\item $Y$ is the target metric row read by the family of maps, with target-distance comparisons routed through displayed metric witnesses;
+\item $F$ is a finite family ledger of $\ContinuousMapUp$ rows from $X$ to $Y$;
+\item $T$ is the requested positive $\RatUp$ target-tolerance row;
+\item $R$ is the shared positive $\RatUp$ source-radius row selected for the whole finite family ledger;
+\item $\mathcal{P}$ is the finite source-net $\mathsf{ProbeBundle}$ used to test the shared radius against compact source reads;
+\item $S$ records finite-net stability data, saying that source histories lying in one bundled radius window remain inside the modulus window demanded by every family row in $F$;
+\item $E$ records the $\EquicontinuityFamilyUp$ row whose finite tolerance ledger supplies the uniform family-side reading of $T$ and $R$;
+\item $W$ records the $\UniformContinuityUp$ pointwise rows used at bundled source centers and the $\ArzelaAscoliUp$ consumer handoff row;
+\item $H$ records componentwise $\hsame$ transports for source metric, target metric, family rows, tolerance rows, radius rows, probe bundles, finite-net stability rows, equicontinuity rows, uniform-continuity rows, and handoff rows;
+\item $C$ records the visible $\Cont$ routes by which compact-metric, continuous-map, uniform-continuity, equicontinuity-family, Arzela--Ascoli, rational, and probe-bundle consumers read the packet;
+\item $P$ is the $\Pkg$ provenance over $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformContinuityUp$, $\EquicontinuityFamilyUp$, $\ArzelaAscoliUp$, $\RatUp$, $\mathsf{ProbeBundle}$, $\hsame$, and $\Cont$ rows;
+\item $N$ is the local $\NameCert_{\AscoliModulusUp}$ row.
+\end{enumerate}
+The carrier exports only finite family, tolerance, radius, probe-bundle, stability, equicontinuity, uniform-continuity, transport, continuation, package, and naming rows. It contains no open-cover compactness row, no subsequence-choice row, no ambient function-space topology, and no host compactness theorem.
+\end{definition}
+
+\begin{theorem}[AscoliModulus equicontinuity ledger]
+\label{thm:ascoli-modulus-equicontinuity-ledger}
+For an accepted $\AscoliModulusUp$ carrier of \autoref{def:ascoli-modulus-carrier}, the rows $F,T,R,E,H,C,P,N$ determine one finite equicontinuity ledger: the requested tolerance row $T$ is read through $\RatUp$, the shared source-radius row $R$ is read through the same rational classifier, every displayed $\ContinuousMapUp$ row in $F$ consumes that same $R$, and the $\EquicontinuityFamilyUp$ coordinate $E$ records this family-wide reading without introducing a separate modulus function.
+
+The ledger is stable under the stored $\hsame$ transports and visible $\Cont$ routes. Any consumer reading it receives a finite tolerance-to-radius row over the displayed family ledger, not an external function assigning radii to all host tolerances.
+\end{theorem}
+\leanchecked{BEDC.Derived.AscoliModulusUp.AscoliModulusPacket\_equicontinuity\_ledger}
+\begin{proof}
+Project the tolerance row $T$, source-radius row $R$, and finite family ledger $F$ from the carrier. The rational rows are visible $\RatUp$ histories, and every family entry is a displayed $\ContinuousMapUp$ row over the same source and target coordinates.
+
+Read the $\EquicontinuityFamilyUp$ coordinate $E$. Its finite family-side ledger binds the tolerance history to one radius history uniformly over the listed family rows, so no family entry may request an unrecorded source radius.
+
+Finally route the ledger through $H$, $C$, $P$, and $N$. Componentwise transport preserves the same tolerance row, radius row, family ledger, and local naming boundary, so a downstream consumer can only recover the finite ledger displayed in the carrier.
+\end{proof}
+
+\begin{theorem}[AscoliModulus finite-net stability]
+\label{thm:ascoli-modulus-finite-net-stability}
+Let $A$ be an accepted $\AscoliModulusUp$ carrier with finite source-net coordinate $\mathcal{P}$ and stability coordinate $S$. For every bundled source center in $\mathcal{P}$ and every family row in $F$, the stability row $S$ routes a source history inside the displayed radius window $R$ through the corresponding $\ContinuousMapUp$ and $\UniformContinuityUp$ rows, producing a target-distance read bounded by the requested tolerance row $T$.
+
+The stability claim is finite in both indices: it ranges only over the bundled probe centers and the displayed family ledger. It does not assert a global open cover, a host-space uniform structure, or compactness of any function space.
+\end{theorem}
+\leanchecked{BEDC.Derived.AscoliModulusUp.AscoliModulusPacket\_finite\_net\_stability}
+\begin{proof}
+Start with the compact source coordinate $X$ and finite bundle $\mathcal{P}$. The bundle exposes only finitely many center rows, and each center read is routed through the source metric data already stored in $X$.
+
+For a fixed bundled center, inspect the stability coordinate $S$. It points to the radius row $R$, the requested tolerance row $T$, and the listed family rows in $F$, so each family read is checked against the same source-radius window.
+
+Use the pointwise rows collected in $W$ to pass from the source metric comparison to the target metric comparison. Since $S$ is indexed only by the finite bundle and the finite family ledger, the resulting stability certificate cannot export an infinite cover or a host function-space compactness assertion.
+\end{proof}
+
+\begin{theorem}[AscoliModulus NameCert obligations]
+\label{thm:ascoli-modulus-namecert-obligations}
+The local $\NameCert_{\AscoliModulusUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item carrier habitation by the finite packet of \autoref{def:ascoli-modulus-carrier};
+\item rational tolerance and radius classifier transport for $T$ and $R$ through $\RatUp$;
+\item family-wide equicontinuity ledger transport for $F$ and $E$ through $\ContinuousMapUp$ and $\EquicontinuityFamilyUp$;
+\item finite-net stability over $\mathcal{P}$ and $S$ through $\CompactMetricUp$, $\mathsf{ProbeBundle}$, and $\UniformContinuityUp$;
+\item Arzela--Ascoli handoff through $W,H,C,P,N$, forcing every downstream read to remain inside displayed $\hsame$, $\Cont$, $\Pkg$, and local naming rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is immediate from \autoref{def:ascoli-modulus-carrier}. The source, target, family, tolerance, radius, probe-bundle, stability, equicontinuity, uniform-continuity, handoff, transport, continuation, package, and naming rows are all visible coordinates of one finite packet.
+
+The rational transport row handles the tolerance and radius histories. The family transport row handles the continuous-map ledger and the equicontinuity-family coordinate, preserving the fact that the same radius row is shared by every displayed family entry.
+
+The finite-net stability row is \autoref{thm:ascoli-modulus-finite-net-stability}. Repacking it with the handoff coordinate $W$ and the provenance rows $H,C,P,N$ gives the whole local certificate surface, with no additional carrier coordinate through which open-cover compactness, subsequence choice, or host function-space compactness could enter.
+\end{proof}
+
+\begin{theorem}[AscoliModulus Arzela-Ascoli handoff]
+\label{thm:ascoli-modulus-arzela-ascoli-handoff}
+Every $\ArzelaAscoliUp$ consumer reading an accepted $\AscoliModulusUp$ carrier obtains a finite equicontinuity-modulus row: the finite family ledger $F$, requested tolerance row $T$, shared source-radius row $R$, source-net bundle $\mathcal{P}$, stability row $S$, and equicontinuity row $E$ are repacked through $W,H,C,P,N$ as the equicontinuity modulus data named by the $\ArzelaAscoliUp$ carrier.
+
+The handoff supplies only the finite modulus rows needed by a constructive Arzela--Ascoli packet. It does not supply open-cover compactness, subsequence choice, compactness of a host function space, or a topology on all maps from the source to the target.
+\end{theorem}
+\leanchecked{BEDC.Derived.AscoliModulusUp.AscoliModulusPacket\_arzela\_ascoli\_handoff}
+\begin{proof}
+Project the handoff coordinate $W$. It records exactly the $\UniformContinuityUp$ pointwise reads and the $\ArzelaAscoliUp$ consumer boundary that may read the $\AscoliModulusUp$ packet.
+
+Attach the finite equicontinuity ledger of \autoref{thm:ascoli-modulus-equicontinuity-ledger} and the finite-net stability row of \autoref{thm:ascoli-modulus-finite-net-stability}. Together these rows provide the family ledger, requested tolerance, shared radius, bundled source centers, and target-distance stability data expected by the Arzela--Ascoli equicontinuity coordinate.
+
+Finally route the repacked rows through $H$, $C$, $P$, and $N$. Since every exported item is already a visible carrier coordinate, the handoff gives $\ArzelaAscoliUp$ only a finite BEDC-kernel modulus packet and no ambient compactness or choice principle.
+\end{proof}
+
+\begin{theorem}[AscoliModulus rational radius transport]
+\label{thm:ascoli-modulus-rational-radius-transport}
+Let $A=(X,Y,F,T,R,\mathcal{P},S,E,W,H,C,P,N)$ be an accepted $\AscoliModulusUp$ carrier. The requested tolerance row $T$ and shared source-radius row $R$ are transported as $\RatUp$ rows through the displayed $\mathsf{BHist}$ data, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. Every consumer reading $T$ or $R$ receives exactly those rational rows inside the finite packet, not an open-cover radius selector, a subsequence choice, or a host function-space compactness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.AscoliModulusUp.AscoliModulusPacket\_rational\_radius\_transport}
+\begin{proof}
+Project the rational coordinates $T$ and $R$ from the carrier. Both are visible finite history rows and both are named by the same package and local certificate coordinates.
+
+Apply \autoref{thm:ascoli-modulus-equicontinuity-ledger}. The ledger binds the requested tolerance to the shared source radius uniformly over the displayed family ledger $F$, so the radius row cannot be replaced by an external selector.
+
+Transport is then componentwise through $H$ and $C$. The transported rows still read through $P$ and $N$, and none of those coordinates contains an open cover, a subsequence selector, or a compactness theorem for a host function space.
+\end{proof}
+
+\begin{theorem}[AscoliModulus family transport package]
+\label{thm:ascoli-modulus-family-transport-package}
+Let $A=(X,Y,F,T,R,\mathcal{P},S,E,W,H,C,P,N)$ be an accepted $\AscoliModulusUp$ carrier. The finite family ledger $F$, the equicontinuity row $E$, and the finite-net stability row $S$ form one transported package over the displayed $\mathsf{BHist}$ rows, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. Any comparison of family entries factors through the common rational tolerance-radius pair $T,R$ and the same probe bundle $\mathcal{P}$; it does not invoke open-cover compactness, subsequence choice, or host function-space compactness.
+\end{theorem}
+\begin{proof}
+Read the family ledger $F$, equicontinuity row $E$, and stability row $S$ from the carrier. These rows live over the same compact source coordinate $X$, target metric coordinate $Y$, tolerance row $T$, radius row $R$, and probe bundle $\mathcal{P}$.
+
+Use \autoref{thm:ascoli-modulus-finite-net-stability} to check each bundled source center and each family row against the displayed radius window. Use \autoref{thm:ascoli-modulus-rational-radius-transport} to keep the tolerance and radius rows fixed during transport.
+
+The package rows $H,C,P,N$ then repack the family comparison data. Since the comparison is indexed only by the finite family ledger and finite probe bundle, there is no route to open covers, subsequence selection, or compactness of all host functions.
+\end{proof}
+
+\begin{theorem}[AscoliModulus Arzela root handoff package]
+\label{thm:ascoli-modulus-arzela-root-handoff-package}
+Every $\ArzelaAscoliUp$ consumer reading an accepted $\AscoliModulusUp$ carrier $A=(X,Y,F,T,R,\mathcal{P},S,E,W,H,C,P,N)$ receives one finite root handoff package: the $\mathsf{BHist}$ source and target rows, finite family ledger $F$, rational tolerance-radius rows $T,R$, probe bundle $\mathcal{P}$, stability row $S$, equicontinuity row $E$, handoff row $W$, displayed $\hsame$ and $\Cont$ routes $H,C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The handoff is a finite modulus package only; it is not an open-cover compactness proof, a subsequence-choice operator, or a host function-space compactness theorem.
+\end{theorem}
+\begin{proof}
+Start with the consumer handoff row $W$. It is a visible coordinate of the carrier and can read only the finite rows listed in the same package.
+
+Attach the rational transport row from \autoref{thm:ascoli-modulus-rational-radius-transport} and the family transport package from \autoref{thm:ascoli-modulus-family-transport-package}. Together they supply the tolerance, radius, finite family, probe-bundle, stability, and equicontinuity data needed by the Arzela--Ascoli consumer boundary.
+
+Finally apply \autoref{thm:ascoli-modulus-arzela-ascoli-handoff}. The resulting root handoff is exactly the finite BEDC-kernel modulus surface carried by $X,Y,F,T,R,\mathcal{P},S,E,W,H,C,P,N$, so it cannot export compactness, choice, or host function-space structure beyond those rows.
+\end{proof}
+
+\begin{theorem}[AscoliModulus shared-radius refinement boundary]
+\label{thm:ascoli-modulus-shared-radius-refinement-boundary}
+Let $A=(X,Y,F,T,R,\mathcal{P},S,E,W,H,C,P,N)$ be an accepted $\AscoliModulusUp$ carrier. If the displayed finite source-net $\mathcal{P}$ is refined by additional bundled centers and the refinement rows are transported through the same $H,C,P,N$ boundary, then the refined packet preserves the single shared source-radius row $R$ and the requested tolerance row $T$ for the whole displayed family ledger $F$.
+
+The refinement may add only bundled source centers and their corresponding finite-net stability reads. It does not introduce a second source-radius row, alter the requested tolerance row, change the family ledger, invoke open-cover compactness, choose a subsequence, or use compactness of a host function space.
+\end{theorem}
+\begin{proof}
+First keep the rational rows fixed. By \autoref{thm:ascoli-modulus-rational-radius-transport}, the requested tolerance row $T$ and the shared source-radius row $R$ are transported as the displayed $\RatUp$ rows through the same $\mathsf{BHist}$ data, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and local naming row.
+
+Next transport the family surface. Apply \autoref{thm:ascoli-modulus-family-transport-package} to the finite family ledger $F$, the equicontinuity row $E$, and the finite-net stability row $S$. The family comparison data still factors through the common tolerance-radius pair $T,R$ and the displayed probe-bundle boundary.
+
+Finally repack the refined source-net reads through \autoref{thm:ascoli-modulus-arzela-root-handoff-package}. The additional bundled centers become extra finite rows under the same handoff boundary $H,C,P,N$, so the $\ArzelaAscoliUp$ consumer still receives one finite modulus package with the original $T$, the original $R$, and the same family ledger $F$.
+
+Since each step is a finite transport or handoff through displayed rows, no open-cover compactness proof, subsequence-choice operation, or host function-space compactness theorem is introduced by the refinement.
+\end{proof}
+
+\begin{theorem}[AscoliModulus scoped public surface]
+\label{thm:ascoli-modulus-scoped-public-surface}
+The carrier of \autoref{def:ascoli-modulus-carrier}, the equicontinuity ledger of \autoref{thm:ascoli-modulus-equicontinuity-ledger}, the finite-net stability theorem of \autoref{thm:ascoli-modulus-finite-net-stability}, the rational-radius transport theorem of \autoref{thm:ascoli-modulus-rational-radius-transport}, the family transport package of \autoref{thm:ascoli-modulus-family-transport-package}, the Arzela root handoff package of \autoref{thm:ascoli-modulus-arzela-root-handoff-package}, and the shared-radius refinement boundary of \autoref{thm:ascoli-modulus-shared-radius-refinement-boundary} assemble one scoped public surface for $\AscoliModulusUp$.
+
+Every consumer read of this surface factors through displayed $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformContinuityUp$, $\EquicontinuityFamilyUp$, $\ArzelaAscoliUp$, $\RatUp$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. The surface excludes open-cover compactness, subsequence choice, ambient function-space compactness, and any topology on all maps from the source to the target.
+\end{theorem}
+\begin{proof}
+First read the carrier coordinates in \autoref{def:ascoli-modulus-carrier}. They provide the compact source row, target metric row, finite family ledger, requested tolerance, shared radius, source-net bundle, stability row, equicontinuity row, handoff row, transport rows, continuation routes, package provenance, and local naming row.
+
+The finite family side is fixed by \autoref{thm:ascoli-modulus-equicontinuity-ledger} and \autoref{thm:ascoli-modulus-finite-net-stability}. These two rows bind the common rational tolerance-radius pair to the displayed family ledger and bundled source centers.
+
+The transport and handoff side is fixed by \autoref{thm:ascoli-modulus-rational-radius-transport}, \autoref{thm:ascoli-modulus-family-transport-package}, and \autoref{thm:ascoli-modulus-arzela-root-handoff-package}. Those results keep the same $T,R,F,\mathcal{P},S,E,W,H,C,P,N$ rows visible to every $\ArzelaAscoliUp$ consumer.
+
+Finally apply \autoref{thm:ascoli-modulus-shared-radius-refinement-boundary}. Refining the finite source-net can add only bundled-center rows under the same boundary, so all consumer reads factor through the displayed public rows and no compactness, choice, or host function-space principle is exported.
+\end{proof}
+
+\begin{theorem}[AscoliModulus empty-family vacuity]
+\label{thm:ascoli-modulus-empty-family-vacuity}
+Let $A=(X,Y,F,T,R,\mathcal{P},S,E,W,H,C,P,N)$ be an accepted $\AscoliModulusUp$ carrier as in \autoref{def:ascoli-modulus-carrier}. Suppose that $F$ is the empty finite family ledger, so no displayed $\ContinuousMapUp$ row is indexed by $F$, and that $\mathcal{P}=\Bnil$ is the empty source-net $\mathsf{ProbeBundle}$. Then the finite-net stability and family-wide equicontinuity obligations in $A$ are vacuous: $S$ has no bundled-center and family-row pair to test, and $E$ has no family-row instance to which the shared tolerance-radius pair $T,R$ can be applied.
+
+Consequently an $\ArzelaAscoliUp$ consumer reading this boundary case can receive only the displayed tolerance row $T$, the shared radius row $R$, the handoff and transport rows $W,H,C$, the package provenance $P$, and the local naming row $N$. It receives no nonempty finite-net stability instance, no family-member equicontinuity instance, no open-cover compactness row, no subsequence-choice row, and no host function-space compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the rows of the carrier in \autoref{def:ascoli-modulus-carrier}. The stability row $S$ is indexed by two finite sources: a bundled source center in $\mathcal{P}$ and a displayed family row in $F$. This is exactly the finite indexing described by \autoref{thm:ascoli-modulus-finite-net-stability}. If $\mathcal{P}=\Bnil$, there is no bundled source center. If $F$ is empty, there is no displayed $\ContinuousMapUp$ family row. Hence there is no index pair on which a source-radius test or target-distance read can be demanded from $S$.
+
+The equicontinuity row $E$ is controlled by \autoref{thm:ascoli-modulus-equicontinuity-ledger}: it binds the requested tolerance row $T$ and the shared radius row $R$ uniformly over the displayed family ledger $F$. Since $F$ has no entries, this uniform family-side clause has no instances. The row still records that $T$ and $R$ are the displayed rational tolerance-radius pair, but it cannot create a hidden family member, a separate modulus function, or an unlisted continuity obligation.
+
+Apply the handoff theorem \autoref{thm:ascoli-modulus-arzela-ascoli-handoff} together with the rational-radius transport of \autoref{thm:ascoli-modulus-rational-radius-transport}. The only non-indexed payload that remains available to the $\ArzelaAscoliUp$ consumer is the displayed tolerance row $T$, the displayed radius row $R$, the handoff and transport surface $W,H,C$, the package row $P$, and the local certificate row $N$. The family transport package of \autoref{thm:ascoli-modulus-family-transport-package} has no family comparison to inspect, and the finite-net stability theorem has no probe-center comparison to inspect. Therefore the empty-family and empty-bundle boundary exports only those displayed rows and no compactness, choice, or host function-space structure beyond the accepted $\AscoliModulusUp$ packet.
+\end{proof}
+
+\closureat{AscoliModulusUp}{seedStr}
+\closureat{AscoliModulusUp}{obligationStr}[BEDC.Derived.AscoliModulusUp.AscoliModulusPacket\_arzela\_ascoli\_handoff]
+
+\begin{closurestatus}{\AscoliModulusUp}
+  \constructivestory{An $\AscoliModulusUp$ packet is generated from a $\CompactMetricUp$ source, a finite family ledger of $\ContinuousMapUp$ rows, a requested $\RatUp$ target tolerance, a shared $\RatUp$ source radius, finite $\mathsf{ProbeBundle}$ source-net stability rows, an $\EquicontinuityFamilyUp$ ledger, $\UniformContinuityUp$ pointwise rows, an $\ArzelaAscoliUp$ consumer handoff, displayed $\hsame$ and $\Cont$ transport, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The seed scope registers the carrier, finite equicontinuity ledger, finite-net stability, local naming obligations, and Arzela--Ascoli handoff for displayed compact-metric family-modulus packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim open-cover compactness, subsequence choice, host function-space compactness, or a topology on all maps from the source to the target.}
+  \upgradepath{Scoped closure requires the same compact-metric, continuous-map, uniform-continuity, equicontinuity-family, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows to be bound as a single consumer-stable public surface.}
+\end{closurestatus}

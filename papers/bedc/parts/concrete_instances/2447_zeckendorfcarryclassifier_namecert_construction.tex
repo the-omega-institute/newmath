@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\ZCarryUp$}
+\label{ch:concrete-instances-zeckendorf-carry-classifier-namecert}
+
+This chapter realizes the zero-marker Zeckendorf carry classifier as a finite $\BHist$ naming packet. The packet separates carry-relatedness from $\HSame$: it records the local carry window, the normal-form target window, the non-normal source window, and the displayed transports by which consumers inspect those rows.
+
+\begin{definition}[Zeckendorf carry-classifier carrier]
+\label{def:zeckendorf-carry-classifier-carrier}
+A $\ZCarryUp$ carrier is a finite $\BHist$ packet
+$$
+K=(u,v,c,s,t,h,r,p,n)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $u$ is the displayed source carry window, with public shape $\mathtt{word\_011}$;
+\item $v$ is the displayed target carry window, with public shape $\mathtt{word\_100}$;
+\item $c$ is the local carry row witnessing $\mathsf{ZCarry}(u,v)$;
+\item $s$ is the source-normality boundary row, witnessing that $u$ is rejected by the $\ZeckendorfNormalUp$ normal-form classifier;
+\item $t$ is the target-normality row, witnessing that $v$ is accepted by the $\ZeckendorfNormalUp$ normal-form classifier;
+\item $h$ is the negative history-sameness row, witnessing that the carry relation is not $\HSame(u,v)$;
+\item $r$ is the finite carry-window readback ledger, exposing only $u,v,c,s,t,h$ to downstream consumers;
+\item $p$ is the $\Pkg$ provenance over $\BHist$, $\HSame$, $\ZeckendorfNormalUp$, $\ZCarryUp$, and the local carry generator;
+\item $n$ is the local $\NameCert_{\ZCarryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Fibonacci value preservation, arithmetic equality, kernel rewriting, host numeric interpretation, or global replacement of $\HSame$.
+\end{definition}
+
+\begin{definition}[Zeckendorf carry-classifier sameness]
+\label{def:zeckendorf-carry-classifier-same}
+For accepted $\ZCarryUp$ carriers
+$$
+K=(u,v,c,s,t,h,r,p,n)
+\quad\hbox{and}\quad
+K'=(u',v',c',s',t',h',r',p',n'),
+$$
+the classifier sameness judgment $\mathsf{ZCarrySame}(K,K')$ holds exactly when the source windows are connected by displayed $\HSame(u,u')$, the target windows are connected by displayed $\HSame(v,v')$, and the carry rows $c,c'$ read the same local generator from $\mathtt{word\_011}$ to $\mathtt{word\_100}$. The judgment does not identify $u$ with $v$ inside either carrier.
+\end{definition}
+
+\begin{theorem}[Zeckendorf carry-classifier NameCert obligations]
+\label{thm:zeckendorf-carry-classifier-namecert-obligations}
+The local $\NameCert_{\ZCarryUp}$ surface for the carrier of \autoref{def:zeckendorf-carry-classifier-carrier} consists exactly of five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $K$;
+\item source-window rejection by the $\ZeckendorfNormalUp$ normal-form classifier;
+\item target-window admission by the $\ZeckendorfNormalUp$ normal-form classifier;
+\item carry-not-$\HSame$ separation for the displayed source and target windows;
+\item ledger exactness, stating that every public read of $\ZCarryUp$ factors through $u,v,c,s,t,h,r,p,n$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite packet in \autoref{def:zeckendorf-carry-classifier-carrier}. The packet displays the source window, target window, carry row, normality rows, negative $\HSame$ row, readback ledger, package provenance, and local naming row.
+
+The source and target normality rows are read from $s$ and $t$. The source row records rejection of the adjacent-one window, while the target row records acceptance of the zero-zero-one window under the normal-form classifier.
+
+The separation row is $h$. It states that the carry relation is a classifier edge between the two windows, not a history-sameness proof from the source to the target.
+
+Finally, ledger exactness is read from $r,p,n$. Since no arithmetic equality, Fibonacci value row, host numeric interpretation, or kernel rewrite appears as a coordinate, the public NameCert surface is exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Zeckendorf carry-window determinacy]
+\label{thm:zeckendorf-carry-classifier-window-determinacy}
+For an accepted $\ZCarryUp$ carrier
+$$
+K=(u,v,c,s,t,h,r,p,n),
+$$
+the displayed carry row $c$ determines the local source and target windows up to the carrier's external $\HSame$ transports: $u$ is the rejected $\mathtt{word\_011}$ window and $v$ is the accepted $\mathtt{word\_100}$ window. Any consumer that asks for the carried window reads the same finite pair through $r$ and cannot choose a second target window inside the packet.
+\end{theorem}
+\begin{proof}
+Inspect the carry row $c$. The $\ZCarryUp$ carrier admits only the local generator from the source window $\mathtt{word\_011}$ to the target window $\mathtt{word\_100}$.
+
+The source-normality and target-normality rows then fix the orientation. The row $s$ rejects the source as a normal form, while $t$ accepts the target as a normal form; reversing the pair would contradict those displayed roles.
+
+Transport can only occur through the external $\HSame$ comparisons named in \autoref{def:zeckendorf-carry-classifier-same}. These comparisons preserve each side of the window pair separately and never identify the source with the target. Therefore the finite window readback has a single displayed target inside the packet.
+\end{proof}
+
+\begin{theorem}[Zeckendorf carry non-escape boundary]
+\label{thm:zeckendorf-carry-classifier-nonescape-boundary}
+Every public read exported by an accepted $\ZCarryUp$ carrier factors through $u,v,c,s,t,h,r,p,n$. In particular, the carrier cannot be used as a kernel rewrite rule, an $\HSame(u,v)$ witness, a Fibonacci value-preservation theorem, an arithmetic equality, or a global normalization procedure.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The packet contains exactly the source and target windows, the local carry row, the source and target normality rows, the negative $\HSame$ row, the readback ledger, package provenance, and the local naming row.
+
+The public classifier read is routed through $c$ and $r$. The normal-form evidence is routed through $s$ and $t$, and the separation from history-sameness is routed through $h$.
+
+None of the excluded objects appears as a packet coordinate. Hence no consumer can extract a kernel rewrite, source-target $\HSame$ proof, Fibonacci value row, host arithmetic equality, or global normalizer from the $\ZCarryUp$ NameCert surface.
+\end{proof}
+
+\closureat{ZCarryUp}{seedStr}
+
+\begin{closurestatus}{\ZCarryUp}
+  \constructivestory{A $\ZCarryUp$ packet records a finite carry window from $\mathtt{word\_011}$ to $\mathtt{word\_100}$, separates that classifier edge from $\HSame$, ties the source to non-normality and the target to normality, and exposes only displayed $\BHist$, $\HSame$, $\Pkg$, readback, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, classifier-sameness rule, NameCert obligation rows, carry-window determinacy, and non-escape boundary for $\ZCarryUp$ packets over $\BHist$, $\HSame$, $\ZeckendorfNormalUp$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove Fibonacci value preservation, arithmetic equality, global normalization, kernel rewriting, source-target $\HSame$, or a complete Lean implementation.}
+  \upgradepath{Obligation closure requires checking carrier admission, classifier sameness, window determinacy, non-escape, and ledger exactness for the displayed carry packet.}
+\end{closurestatus}

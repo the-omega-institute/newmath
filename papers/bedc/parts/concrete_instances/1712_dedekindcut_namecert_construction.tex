@@ -1,0 +1,110 @@
+\chapter{A Concrete Naming Certificate for $\DedekindCutUp$}
+\label{ch:concrete-instances-dedekindcut-namecert}
+\origin{human}
+
+The $\DedekindCutUp$ interface records the rounded located cut presentation of constructive real analysis in the style of Bishop--Bridges and Troelstra--van Dalen. It keeps lower and upper rational observations as explicit $\RatUp$ rows, rather than quotienting cut predicates or comparing host reals.
+
+\begin{definition}[DedekindCut BHist source]
+\label{def:dedekindcut-bhist-source}
+A $\DedekindCutUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+C=(L,U,I,R,O,E,Q,H,T,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $L$ is the lower $\RatUp$ predicate row, listing rational observations certified to lie below the represented real;
+\item $U$ is the upper $\RatUp$ predicate row, listing rational observations certified to lie above the represented real;
+\item $I$ stores lower and upper inhabitedness witnesses, with displayed rational rows on both sides;
+\item $R$ stores roundedness witnesses for the lower and upper rows, so each observed rational admits a strictly better observed rational on the same side;
+\item $O$ stores locatedness witnesses, assigning each rational interval $a<b$ a displayed lower-side or upper-side observation;
+\item $E$ stores disjointness evidence preventing the same rational observation from being accepted by both sides;
+\item $Q$ stores rational-embedding rows, including the lower and upper boundary readings for embedded $\RatUp$ points;
+\item $H$ stores the componentwise $\hsame$ routes for the lower predicate, upper predicate, roundedness, locatedness, disjointness, and rational embedding rows;
+\item $T$ stores the $\Cont$ routes that expose finite lower and upper rational observations to downstream consumers;
+\item $P$ stores $\Pkg$ provenance over $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DedekindCutUp}$ evidence.
+\end{enumerate}
+The classifier compares agreement of the displayed lower and upper rational observations under $\RatUp$ comparison. It never compares quotient cuts, host real equality, or choice-selected limits.
+\end{definition}
+
+\begin{theorem}[DedekindCut NameCert obligation surface]
+\label{thm:dedekindcut-namecert-obligation-surface}
+The local $\NameCert_{\DedekindCutUp}$ obligation surface for the carrier of \autoref{def:dedekindcut-bhist-source} consists of five finite rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the packet $C$ with displayed lower and upper $\RatUp$ predicate rows, inhabitedness, roundedness, locatedness, disjointness, rational embedding rows, transports, continuations, package provenance, and local naming evidence;
+\item classifier transport: classification transports the lower and upper rational observations componentwise through the stored $\hsame$ and $\Cont$ routes and compares them only by $\RatUp$ comparison;
+\item stability: replacing any displayed rational observation by a classified $\RatUp$ observation preserves the rounded located cut laws inside the same carrier surface;
+\item exactness: every consumer-visible lower or upper decision is the row supplied by $L$, $U$, $O$, $E$, and $Q$, with no hidden host-real predicate;
+\item ledger: every downstream $\RealUp$ or completion-facing consumer first reads $L,U,I,R,O,E,Q,H,T,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple of \autoref{def:dedekindcut-bhist-source}. The lower and upper rational predicate rows, their inhabitedness, roundedness, locatedness, disjointness, rational embedding, transport, continuation, package, and naming rows are all displayed coordinates.
+
+Classifier transport is componentwise. A lower-side observation is moved through the lower $\RatUp$ route, an upper-side observation is moved through the upper $\RatUp$ route, and the comparison used by the classifier is the displayed rational comparison between those transported rows.
+
+Exactness and the ledger clauses follow from the same inventory. Since the carrier contains no quotient cut, host real equality proof, selected limit, or ambient completeness object, every consumer-visible decision is exhausted by the displayed finite rows.
+\end{proof}
+\leanchecked{BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_namecert\_obligation\_surface}
+
+\begin{theorem}[DedekindCut rounded located laws]
+\label{thm:dedekindcut-located-rounded-cut-laws}
+Every accepted $\DedekindCutUp$ carrier $C=(L,U,I,R,O,E,Q,H,T,P,N)$ presents a constructive rounded located cut over $\RatUp$: both sides are inhabited, lower and upper observations are rounded on their own sides, each rational interval $a<b$ is decided by the locatedness row $O$, and disjointness row $E$ prevents a rational observation from being accepted by both sides.
+\end{theorem}
+\leanchecked{BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_located\_rounded\_cut\_laws}
+\begin{proof}
+Read the inhabitedness row $I$ to obtain displayed rational observations on both sides. These witnesses are part of the finite carrier and do not require a completed real.
+
+Read the roundedness row $R$. For a lower observation it supplies a stronger lower observation; for an upper observation it supplies a stronger upper observation. The witnesses are again $\RatUp$ rows transported through the displayed carrier routes.
+
+For a rational interval $a<b$, the locatedness row $O$ gives the lower-side or upper-side observation named by the packet. The disjointness row $E$ then prevents overlap of the two displayed predicates, so the cut laws remain internal to the finite $\DedekindCutUp$ surface.
+\end{proof}
+
+\begin{theorem}[DedekindCut rational embedding boundary]
+\label{thm:dedekindcut-rational-embedding-boundary}
+For every rational row embedded through $Q$ in an accepted $\DedekindCutUp$ carrier, the lower and upper boundary observations are exactly the displayed $\RatUp$ comparison rows against that rational. A consumer cannot replace those rows by quotient equality of cuts, host real equality, or an external order on completed reals.
+\end{theorem}
+\leanchecked{BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_rational\_embedding\_boundary}
+\begin{proof}
+Project the rational embedding row $Q$. Its lower boundary read is a displayed comparison placing an observed rational below the embedded row, and its upper boundary read is the corresponding displayed comparison above the embedded row.
+
+Transport along $H$ and $T$ preserves only these rational observations. The classifier of \autoref{thm:dedekindcut-namecert-obligation-surface} compares lower and upper sides by $\RatUp$ comparison, so the embedded rational has no separate equality or order witness outside the carrier.
+\end{proof}
+
+\begin{theorem}[DedekindCut RealUp comparison handoff]
+\label{thm:dedekindcut-realup-comparison-handoff}
+Every $\RealUp$ or completion-facing comparison consumer of an accepted $\DedekindCutUp$ carrier receives only the displayed lower and upper $\RatUp$ observation surface, the rounded located cut laws, and the rational embedding boundary. The handoff supplies no quotient real, host equality, selected limit, or choice-selected comparison.
+\end{theorem}
+\leanchecked{BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_realup\_comparison\_handoff}
+\begin{proof}
+First apply \autoref{thm:dedekindcut-located-rounded-cut-laws}. It supplies the inhabitedness, roundedness, locatedness, and disjointness rows needed for a constructive cut comparison.
+
+Next apply \autoref{thm:dedekindcut-rational-embedding-boundary}. It fixes the rational boundary reads as displayed $\RatUp$ comparisons rather than external real comparisons.
+
+The non-escape claim is then immediate from the carrier inventory in \autoref{def:dedekindcut-bhist-source}. The only exported analytic data are lower and upper rational observations with their local evidence and provenance.
+\end{proof}
+
+\begin{theorem}[DedekindCut quotient-free boundary]
+\label{thm:dedekindcut-quotient-free-boundary}
+The displayed $\DedekindCutUp$ carrier, rounded located laws, rational embedding boundary, and $\RealUp$ comparison handoff license only a classifier-mediated comparison interface over $\mathsf{BHist}$, $\hsame$, $\Pkg$, and $\NameCert$. They do not introduce a quotient object, a completeness theorem, or an alternative construction of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:dedekindcut-bhist-source}. It lists lower and upper rational-observation rows, local law rows, rational embedding rows, componentwise transport, continuation, package, and naming data, but no quotient carrier or host real equality coordinate.
+
+The admissible classifier surface is fixed by \autoref{thm:dedekindcut-namecert-obligation-surface}. Its comparison reads are mediated by the displayed $\mathsf{BHist}$ rows and the local $\NameCert$ evidence, so the interface remains a certificate boundary rather than a new real object.
+
+Apply \autoref{thm:dedekindcut-located-rounded-cut-laws} and \autoref{thm:dedekindcut-realup-comparison-handoff}. These give the rounded located laws and the comparison handoff while keeping every read on rational observations and their provenance. Hence the boundary permits classifier-mediated comparison only, with no quotient object, completeness theorem, or alternative $\RealUp$ construction.
+\end{proof}
+
+\closureat{DedekindCutUp}{seedStr}
+
+\begin{closurestatus}{\DedekindCutUp}
+  \constructivestory{A $\DedekindCutUp$ packet is generated from lower and upper $\RatUp$ predicate rows, inhabitedness, roundedness, locatedness, disjointness, rational embedding rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope fixes the finite carrier, displayed rational-observation classifier, rounded located cut laws, rational embedding boundary, and $\RealUp$ comparison handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient cuts, host real equality, selected limits, ambient real completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires binding the carrier, classifier, stability, exactness, and ledger rows to a checked $\DedekindCutUp$ kernel surface.}
+\end{closurestatus}

@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\TransportedStationaryDiagonalUp$}
+\label{ch:concrete-instances-transportedstationarydiagonal-namecert}
+\origin{human}
+
+The $\TransportedStationaryDiagonalUp$ interface records the transported stationary diagonal finite-window seal used by the Real and Completion phase. It packages the transported $\RatUp$ seed row, the induced constant $\StreamNameUp$ window, the $\RegSeqRatUp$ finite-window seal, the $\DyadicRatCoreUp$ observation ledger, and the receiving $\RealUp$ row as a single finite naming certificate. The packet is a concrete handoff object; it contains no quotient stream, host real equality, selected host limit, choice principle, or real-completeness theorem.
+
+\begin{definition}[Transported stationary diagonal carrier]
+\label{def:transported-stationary-diagonal-carrier}
+A $\TransportedStationaryDiagonalUp$ carrier is a finite $\BHist$ packet
+$$
+T=(Q,S,G,D,R,F,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $Q$ is the transported $\RatUp$ classifier row for the stationary rational seed pair;
+\item $S$ is the constant $\StreamNameUp$ finite-window classifier induced by $Q$;
+\item $G$ is the $\RegSeqRatUp$ finite-window seal row read from the same constant stream window;
+\item $D$ is the $\DyadicRatCoreUp$ ledger containing the dyadic endpoints, tolerance rows, and observation bounds inspected by the finite window;
+\item $R$ is the $\RealUp$ finite-window classifier row receiving the transported stationary diagonal observation;
+\item $F$ records the exact finite-window seal equation tying $Q$, $S$, $G$, $D$, and $R$ to the same stationary row;
+\item $C$ stores the displayed $\hsame$ comparisons and $\Cont$ routes for the rational seed, stream window, regular-rational seal, dyadic ledger, and real-facing row;
+\item $P$ is the $\Pkg$ provenance naming $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ source rows;
+\item $N$ is the local $\NameCert_{\TransportedStationaryDiagonalUp}$ row.
+\end{enumerate}
+The local classifier relates two carriers exactly when the rows $Q,S,G,D,R,F,C,P,N$ compare componentwise after the displayed $\hsame$ and $\Cont$ routes. No comparison may inspect a quotient stream, host equality, external limit choice, or ambient completeness datum.
+\end{definition}
+
+\begin{theorem}[Transported stationary diagonal NameCert obligations]
+\label{thm:transported-stationary-diagonal-namecert-obligations}
+The $\NameCert_{\TransportedStationaryDiagonalUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier: formation of the finite packet of \autoref{def:transported-stationary-diagonal-carrier};
+\item classifier: componentwise comparison of the transported $\RatUp$ seed row, constant $\StreamNameUp$ window, $\RegSeqRatUp$ seal, $\DyadicRatCoreUp$ ledger, $\RealUp$ row, seal equation, route table, package provenance, and local certificate row;
+\item stability: the classifier is preserved by the displayed $\hsame$ comparisons and $\Cont$ routes, so a transported stationary seed row continues to induce the same constant window, seal row, dyadic ledger, and real-facing row;
+\item exact finite-window seal: the four public readings $S$, $G$, $D$, and $R$ all read the same transported stationary row named by $Q$;
+\item ledger: the public export contains only the displayed finite rows and excludes quotient streams, host real equality, selected host limits, choice principles, and real-completeness data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier formation is the tuple assembly of \autoref{def:transported-stationary-diagonal-carrier}. The transported rational seed supplies $Q$, the constant-stream read supplies $S$, the regular-rational boundary supplies $G$, the dyadic observation boundary supplies $D$, and the real-facing boundary supplies $R$. The seal equation $F$, route table $C$, package row $P$, and local naming row $N$ are visible coordinates of the same finite packet.
+
+For the classifier obligation, compare the packet component by component after applying the displayed $\hsame$ and $\Cont$ routes. The transported $\RatUp$ row determines the constant $\StreamNameUp$ window, the window determines the $\RegSeqRatUp$ seal read, and the dyadic ledger supplies the observation rows consumed by the $\RealUp$ boundary.
+
+Stability is the same componentwise comparison read as a transport statement. Since $C$ contains only displayed $\hsame$ comparisons and $\Cont$ routes, moving an accepted carrier along those routes preserves the induced window, regular-rational seal, dyadic ledger, and real-facing classifier.
+
+Exact finite-window sealing is the stationary diagonal calculation at the finite boundary. The row $F$ records that $S$, $G$, $D$, and $R$ are four public projections of the same transported stationary row named by $Q$.
+
+The ledger clause follows by constructor inspection. The carrier has no coordinate for quotient streams, host real equality, selected host limits, choice, or a real-completeness theorem, so no public read can export one.
+\end{proof}
+
+\begin{theorem}[Transported stationary diagonal window-seal exhaustion]
+\label{thm:transported-stationary-diagonal-window-seal-exhaustion}
+Let $T=(Q,S,G,D,R,F,C,P,N)$ be an accepted $\TransportedStationaryDiagonalUp$ carrier. Every finite Real and Completion read of the transported stationary diagonal factors through the same five displayed rows $Q,S,G,D,R$ and the same exact seal equation $F$. In particular, any two accepted seal rows over the same transported $\RatUp$ seed row and displayed finite-window ledger have the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ public readings after the routes recorded in $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:transported-stationary-diagonal-carrier}. The only rows that can serve a finite Real and Completion read are the transported rational seed $Q$, the constant stream window $S$, the regular-rational seal $G$, the dyadic ledger $D$, and the real-facing row $R$.
+
+Apply the exact finite-window seal clause of \autoref{thm:transported-stationary-diagonal-namecert-obligations}. It identifies the four public readings $S$, $G$, $D$, and $R$ as projections of the same transported stationary row named by $Q$.
+
+The stability clause transports this identity through the route table $C$. Therefore two accepted seal rows with the same transported seed and finite-window ledger have matching public readings at the StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp boundaries.
+
+The ledger clause excludes any further coordinate through which a second seal could distinguish itself. Thus finite-window seal exhaustion is a property of the displayed BEDC packet itself.
+\end{proof}
+
+\closureat{TransportedStationaryDiagonalUp}{seedStr}
+
+\begin{closurestatus}{\TransportedStationaryDiagonalUp}
+  \constructivestory{A $\TransportedStationaryDiagonalUp$ packet is generated from a transported RatUp seed row, constant StreamNameUp finite window, RegSeqRatUp seal row, DyadicRatCoreUp observation ledger, RealUp finite-window row, exact seal equation, displayed transport routes, package provenance, and local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, componentwise classifier, transport stability, exact finite-window seal, and public ledger boundary for transported stationary diagonal handoff packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close full real completeness, quotient-stream equality, host real equality, selected host limits, choice principles, or a standard bridge.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the five displayed rows.}
+\end{closurestatus}

@@ -20,6 +20,12 @@ try:
 except ModuleNotFoundError:  # pragma: no cover
     from tools.automath_newmath_bridge.validate_bridge_manifest import validate_record
 
+try:
+    from logic_discipline import gate_warnings
+except ModuleNotFoundError:  # pragma: no cover
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from logic_discipline import gate_warnings
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_INPUT = SCRIPT_DIR / "inbox" / "bridge_inbox.jsonl"
@@ -93,6 +99,8 @@ def gate_record(record: dict[str, Any], *, allow_publication_risk: bool = False)
     if readiness.startswith("blocked"):
         warnings.append(f"synthesis readiness is {readiness}; local packet is review-only and durable write remains blocked")
 
+    warnings.extend(gate_warnings(record))
+
     if record.get("taste_gate_required") and "taste" not in (
         str(record.get("notes", "")) + " " + str(record.get("audit_boundary", ""))
     ).lower():
@@ -148,6 +156,7 @@ def gate_record(record: dict[str, Any], *, allow_publication_risk: bool = False)
         "issues": issues,
         "warnings": warnings,
         "required_gates": synthesis.get("required_gates", []),
+        "logic_discipline": synthesis.get("logic_discipline", {}),
         "why_not_writeback_yet": synthesis.get("why_not_writeback_yet", ""),
         "evidence_summary": synthesis.get("evidence_summary", []),
         "next_action": (

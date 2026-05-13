@@ -115,7 +115,14 @@ def main(argv: list[str]) -> int:
                     queue_fd = None
 
                     start = time.time()
-                    rc = subprocess.call(argv)
+                    r = subprocess.run(
+                        argv,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                    )
+                    sys.stdout.write(r.stdout.decode("utf-8", "replace"))
+                    sys.stdout.flush()
+                    rc = r.returncode
                     elapsed = time.time() - start
                     # Best-effort observability: prepend a marker to slot file
                     # so ls -lt under .pdf-build-gate/ shows recency.

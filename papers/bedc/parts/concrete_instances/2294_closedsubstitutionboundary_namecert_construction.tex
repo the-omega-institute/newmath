@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ClosedSubstitutionBoundaryUp$}
+\label{ch:concrete-instances-closed-substitution-boundary-namecert}
+\origin{ai}
+
+The $\ClosedSubstitutionBoundaryUp$ surface packages the MetaCIC closed-term substitution boundary as a finite naming certificate. It records the exact packet by which a \texttt{Term} row, a \texttt{ClosedAt} classifier row, the \texttt{shift} and \texttt{substitute} operation rows, displayed $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows show that substitution is inert on the closed-at-boundary slice.
+
+\begin{definition}[ClosedSubstitutionBoundary carrier]
+\label{def:closed-substitution-boundary-carrier}
+A $\ClosedSubstitutionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,D,V,K,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC \texttt{Term} generator row, recording that terms are built only from \texttt{var}, \texttt{app}, \texttt{lam}, \texttt{pi}, and \texttt{sort};
+\item $D$ is the depth row for the boundary at which the classifier is read;
+\item $V$ is the substitution payload term row, carried as data but not inspected by the inertness route;
+\item $K$ is the \texttt{ClosedAt} classifier row certifying that the term row is closed at depth $D$;
+\item $R$ is the \texttt{shift} operation row, including the boundary-budget route witnessed by the closed slice;
+\item $Q$ is the \texttt{substitute} operation row, including the route that attempts substitution at depth $D$ with payload $V$;
+\item $H$ records componentwise $\hsame$ transports for the term row, depth row, payload row, classifier row, \texttt{shift} row, \texttt{substitute} row, continuation row, package row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the term, classifier, shift route, substitute route, provenance, and local certificate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, \texttt{Term}, \texttt{ClosedAt}, \texttt{shift}, \texttt{substitute}, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosedSubstitutionBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no semantic substitution theorem for arbitrary open terms, no subject-reduction theorem for an evaluator, no host equality of syntax quotients, and no untracked binder name.
+\end{definition}
+\leanchecked{BEDC.Derived.ClosedSubstitutionBoundaryUp.ClosedSubstitutionBoundaryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ClosedSubstitutionBoundary NameCert obligations]
+\label{thm:closed-substitution-boundary-namecert-obligations}
+The local $\NameCert_{\ClosedSubstitutionBoundaryUp}$ surface for the carrier of \autoref{def:closed-substitution-boundary-carrier} consists of carrier admission for
+$$
+S=(T,D,V,K,R,Q,H,C,P,N),
+$$
+\texttt{ClosedAt} classifier stability, boundary-budget stability for \texttt{shift}, inertness of the displayed \texttt{substitute} route on the closed-at-boundary slice, componentwise $\hsame$ transport, displayed $\Cont$ locality, $\Pkg$ provenance, and non-escape for unregistered free variables, arbitrary open-term substitution, evaluator subject reduction, host syntax quotients, and ambient metatheoretic truth.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:closed-substitution-boundary-carrier}. The rows $T,D,V,K,R,Q,H,C,P,N$ are the only rows admitted to the packet.
+
+The classifier row $K$ fixes the boundary. It records that the term row has no free de Bruijn index at or above the displayed depth $D$, so the \texttt{shift} route $R$ and the \texttt{substitute} route $Q$ are read only through that closed slice.
+
+Transport and consumer access are confined by $H$ and $C$. These rows replay the same term, boundary, payload, classifier, and operation routes under componentwise $\hsame$ movement and do not add a hidden binder name or a second substitution surface.
+
+Finally $P$ and $N$ record provenance and the local certificate. Since the excluded objects have no coordinate in the carrier, no NameCert projection can export arbitrary open-term substitution, evaluator subject reduction, host syntax quotient equality, or ambient metatheoretic truth.
+\end{proof}
+
+\begin{theorem}[ClosedSubstitutionBoundary substitute inertness route]
+\label{thm:closed-substitution-boundary-substitute-inertness-route}
+For an accepted $\ClosedSubstitutionBoundaryUp$ carrier $S=(T,D,V,K,R,Q,H,C,P,N)$, every public read of the \texttt{substitute} operation at boundary $D$ factors through the displayed \texttt{ClosedAt} classifier row $K$ and returns the original term row. The payload row $V$ is carried through the recursive operation route, but it has no access point on the closed-at-boundary slice.
+\end{theorem}
+\begin{proof}
+Read the classifier first. The row $K$ says that every free index visible in the term row of $T$ lies below the boundary $D$.
+
+Now inspect the displayed substitution route $Q$. At a variable row, the equality branch for the boundary index cannot fire, and the decrement branch above the boundary cannot fire, because $K$ supplies the strict below-boundary reading.
+
+For compound rows, the route follows the constructor tree of $T$. The binder cases raise the depth and carry the payload row through the operation, but the classifier row continues to block any access point at the active boundary.
+
+Transport through $H$ and consumer reading through $C$ preserve that same route. Thus the public substitute read is inert on the \texttt{ClosedAt} slice and does not export an unregistered free variable, a second payload access channel, or a host-level semantic substitution claim.
+\end{proof}
+
+\closureat{ClosedSubstitutionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ClosedSubstitutionBoundaryUp}
+  \constructivestory{A $\ClosedSubstitutionBoundaryUp$ packet is generated from a MetaCIC \texttt{Term} row, a boundary depth row, a payload term row, a \texttt{ClosedAt} classifier row, \texttt{shift} and \texttt{substitute} operation rows, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface identifies the finite carrier and the inert substitute route for the \texttt{ClosedAt} boundary slice.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close arbitrary open-term substitution, evaluator subject reduction, host syntax quotient equality, semantic preservation for all compiler passes, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier obligations and a public non-escape surface for the displayed closed-substitution boundary packet.}
+\end{closurestatus}

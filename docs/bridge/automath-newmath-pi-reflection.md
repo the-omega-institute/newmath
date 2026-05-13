@@ -6,27 +6,28 @@ It does not write BEDC paper or Lean content.
 
 ## Current Signal
 
-- ACK rows: `9`
+- ACK rows: `20`
 - Gate rows: `15`
 - PI actions: `5`
-- Refinement targets: `3`
+- Refinement targets: `6`
 
 ## Status Counts
 
 | Status | Count |
 | --- | ---: |
-| `blocked` | 4 |
-| `consumed` | 2 |
-| `evidence_only` | 3 |
+| `blocked` | 8 |
+| `consumed` | 6 |
+| `evidence_only` | 6 |
 
 ## Reason Counts
 
 | Reason | Count |
 | --- | ---: |
-| `duplicate_board_title` | 2 |
-| `evidence_only:pipeline_status` | 3 |
-| `history_rejected:too_vague` | 1 |
-| `no_specific_board_claim` | 3 |
+| `accepted_into_bedc_board` | 1 |
+| `duplicate_board_title` | 5 |
+| `evidence_only:pipeline_status` | 6 |
+| `history_rejected:too_vague` | 2 |
+| `no_specific_board_claim` | 6 |
 
 ## PI Actions
 

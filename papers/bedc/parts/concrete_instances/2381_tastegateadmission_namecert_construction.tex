@@ -1,0 +1,185 @@
+\chapter{A Concrete Naming Certificate for $\TasteGateAdmissionUp$}
+\label{ch:concrete-instances-tastegateadmission-namecert}
+\origin{ai}
+
+The $\TasteGateAdmissionUp$ packet is the concrete NameCert surface for admitting an AI-origin chapter into the BEDC horizon. It packages the candidate chapter identity, origin row, naming surface, chapter taste gate, event-flow witness, ground-compiler theorem references, transport rows, continuation routes, package provenance, and refusal ledger into one finite audit object.
+
+\begin{definition}[TasteGateAdmission carrier]
+\label{def:tastegate-admission-carrier}
+A $\TasteGateAdmissionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,O,N,T,E,R,H,C,P,G)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the candidate chapter identity row, recording the chapter label, local carrier name, and the paper site whose admission is being requested;
+\item $O$ is the origin row, recording that the candidate enters through the AI-origin track rather than through inherited human-curated consensus;
+\item $N$ is the visible $\NameCert$ surface proposed for the candidate chapter, including its carrier, classifier, pattern, ledger, and non-escape rows;
+\item $T$ is the $\ChapterTasteGate$ witness row, recording the conservativity, no-hidden-input, round-trip, and layer-separation obligations exposed by the candidate;
+\item $E$ is the event-flow witness row, displaying the finite $\GroundCompiler$ event-flow image from which the candidate tokens are read;
+\item $R$ records the ground-compiler theorem references used by the witness, including the no-hidden-input, round-trip, and source-channel separation routes available to the admission check;
+\item $H$ stores componentwise $\hsame$ transports for $X,O,N,T,E,R,C,P,G$;
+\item $C$ records the displayed $\Cont$ routes by which the admission check reads the NameCert surface, the taste-gate witness, the event-flow witness, and the compiler reference row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\NameCert$, $\ChapterTasteGate$, $\GroundCompiler$, event-flow witnesses, ground-compiler theorem references, $\hsame$, $\Cont$, and local naming;
+\item $G$ is the GAP refusal ledger, recording failed admission attempts whose NameCert row, taste-gate row, event-flow row, compiler-reference row, transport row, continuation row, or provenance row is absent.
+\end{enumerate}
+The carrier has no coordinate for hidden prompt state, an oracle classifier, an unrecorded compiler theorem, host-side chapter approval, or a prose-only admission decision.
+\end{definition}
+\leanchecked{BEDC.Derived.TasteGateAdmissionUp.TasteGateAdmissionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[TasteGateAdmission NameCert obligations]
+\label{thm:tastegate-admission-namecert-obligations}
+For every accepted $\TasteGateAdmissionUp$ carrier
+$$
+A=(X,O,N,T,E,R,H,C,P,G),
+$$
+the local $\NameCert_{\TasteGateAdmissionUp}$ surface consists exactly of carrier admission for $A$, candidate identity through $X$, AI-origin exposure through $O$, candidate NameCert exposure through $N$, $\ChapterTasteGate$ exposure through $T$, event-flow exposure through $E$, ground-compiler reference exposure through $R$, componentwise transport through $H$, replay and admission routes through $C$, package provenance through $P$, and refused-case accounting through $G$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:tastegate-admission-carrier}. The packet exposes exactly the chapter identity, origin, NameCert surface, taste-gate witness, event-flow witness, compiler references, transport, continuation, provenance, and refusal rows.
+
+The candidate and origin obligations are the rows $X$ and $O$. They identify the paper site being admitted and record that the admission is evaluated through the AI-origin track.
+
+The naming and taste-gate obligations are the rows $N$ and $T$. A downstream reader can inspect the candidate's local NameCert surface and its four taste-gate obligations without importing a second chapter object outside the packet.
+
+The compiler-facing obligations are the rows $E$ and $R$. They record the event-flow witness and the ground-compiler theorem references that make the taste-gate rows auditable.
+
+Finally $H,C,P,G$ preserve the same admission object under transport, replay, provenance, and refused-case accounting. Since every admissible read is routed through those rows, the packet supplies the whole local $\NameCert_{\TasteGateAdmissionUp}$ surface and no hidden approval channel.
+\end{proof}
+
+\begin{theorem}[TasteGateAdmission ground compiler witnesses]
+\label{thm:tastegate-admission-ground-compiler-witnesses}
+In every accepted $\TasteGateAdmissionUp$ carrier, the $\ChapterTasteGate$ witness row $T$ is read only together with the event-flow row $E$ and the ground-compiler reference row $R$. Thus no-hidden-input, round-trip, and layer-separation claims are admitted only through displayed finite event-flow evidence and named compiler theorem references, not through an unrecorded semantic judgment about the candidate chapter.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:tastegate-admission-carrier}. The only taste-gate coordinate is $T$, and its compiler-facing evidence is displayed in $E$ and $R$.
+
+The no-hidden-input and round-trip reads pass through $E$ before they can be consumed. The row $E$ is the finite event-flow witness, so the admission check sees the displayed compiler image rather than an external account of the candidate's tokens.
+
+The layer-separation and compiler-reference reads pass through $R$. This row records the named ground-compiler theorem references used by the chapter-level witness.
+
+Transport and replay are then carried by $H$ and $C$, with package provenance in $P$. These rows preserve the same witness surface and do not add an unrecorded compiler theorem or host-side approval step.
+\end{proof}
+
+\begin{theorem}[TasteGateAdmission non-escape]
+\label{thm:tastegate-admission-non-escape}
+Every accepted $\TasteGateAdmissionUp$ admission route factors through the finite rows
+$$
+(X,O,N,T,E,R,H,C,P,G).
+$$
+The route may export that the candidate chapter has an AI-origin admission packet with a displayed NameCert surface, $\ChapterTasteGate$ witness, ground-compiler witness, audit route, transport route, package provenance, GAP refusal ledger, and local naming data. It cannot export hidden prompt state, oracle approval, unlisted compiler facts, selected host semantics, or a chapter object not named by the packet.
+\end{theorem}
+\begin{proof}
+Project an accepted admission route through the carrier. The route has access only to the ten displayed rows $X,O,N,T,E,R,H,C,P,G$.
+
+Use \autoref{thm:tastegate-admission-namecert-obligations} to account for local naming, candidate identity, origin, taste-gate inspection, compiler evidence, replay, provenance, and refused-case accounting.
+
+Use \autoref{thm:tastegate-admission-ground-compiler-witnesses} for the compiler-facing part. It keeps every taste-gate read attached to the finite event-flow witness and named compiler-reference rows.
+
+Since the carrier has no coordinate for hidden prompt state, oracle approval, unlisted compiler facts, selected host semantics, or an unnamed chapter object, no exported admission route can supply one.
+\end{proof}
+
+\begin{theorem}[TasteGateAdmission carrier source obligation]
+\label{thm:tastegate-admission-carrier-source-obligation}
+Every accepted $\TasteGateAdmissionUp$ admission read has the finite source
+carrier
+$$
+(X,O,N,T,E,R,H,C,P,G).
+$$
+These are exactly the candidate identity, AI-origin, candidate $\NameCert$,
+$\ChapterTasteGate$, event-flow, ground-compiler reference, $\hsame$, $\Cont$,
+$\Pkg$, and GAP-refusal rows displayed by the admission packet. No admission
+carrier is supplied by hidden prompt state, oracle approval, host-side chapter
+acceptance, or an unlisted compiler theorem.
+\end{theorem}
+\begin{proof}
+Project the read through \autoref{def:tastegate-admission-carrier}. The carrier
+definition displays precisely the ten finite rows
+$X,O,N,T,E,R,H,C,P,G$ and contains no additional admission coordinate.
+
+Apply \autoref{thm:tastegate-admission-namecert-obligations}. The local
+$\NameCert$ surface consumes exactly those rows as carrier, identity, origin,
+taste-gate, compiler, transport, replay, provenance, and refusal data.
+
+Use \autoref{thm:tastegate-admission-ground-compiler-witnesses} for the
+compiler-facing coordinates and \autoref{thm:tastegate-admission-non-escape}
+for the exclusion clause. Together they keep every accepted read inside the
+displayed finite source and rule out hidden prompt state, oracle approval,
+host-side acceptance, and unlisted compiler facts.
+\end{proof}
+
+\begin{theorem}[TasteGateAdmission classifier stability obligation]
+\label{thm:tastegate-admission-classifier-stability-obligation}
+If two accepted $\TasteGateAdmissionUp$ carriers are compared by the admission
+classifier, the comparison transports only through their displayed
+$\ChapterTasteGate$ rows, event-flow witness rows, ground-compiler reference
+rows, $\hsame$ rows, and $\Cont$ rows. It may carry the visible candidate
+$\NameCert$, package provenance, and refusal-ledger coordinates along those
+routes, but it cannot introduce hidden prompt state, oracle approval, selected
+host semantics, or an unlisted compiler fact.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:tastegate-admission-carrier}. The
+classifier-facing coordinates are the taste-gate row $T$, the event-flow row
+$E$, the compiler-reference row $R$, and the displayed transport and replay
+rows $H$ and $C$.
+
+Use \autoref{thm:tastegate-admission-namecert-obligations} to keep the
+candidate $\NameCert$, package provenance, and refusal ledger attached to the
+same finite carrier. No second admission object is introduced during this
+transport.
+
+Apply \autoref{thm:tastegate-admission-ground-compiler-witnesses}. It requires
+the taste-gate comparison to read the displayed event-flow and compiler
+reference rows before the comparison can be consumed.
+
+Finally apply \autoref{thm:tastegate-admission-non-escape}. Since the carrier
+has no hidden prompt, oracle, host-semantics, or unlisted-compiler coordinate,
+classifier stability cannot transport through one.
+\end{proof}
+
+\begin{theorem}[TasteGateAdmission ledger descent obligation]
+\label{thm:tastegate-admission-ledger-descent-obligation}
+Every refused or accepted $\TasteGateAdmissionUp$ admission read descends only
+through the displayed GAP/refusal ledger $G$ together with the carrier rows it
+records. Accepted reads descend through the same finite admission packet, while
+refused reads record which candidate $\NameCert$, $\ChapterTasteGate$,
+event-flow, compiler-reference, $\hsame$, $\Cont$, or $\Pkg$ row is absent.
+Neither kind of read can supply hidden prompt state, oracle approval, or
+unlisted compiler facts.
+\end{theorem}
+\begin{proof}
+Inspect the refusal coordinate in \autoref{def:tastegate-admission-carrier}.
+The row $G$ is the only GAP/refusal ledger, and it is indexed by the same
+finite carrier rows $X,O,N,T,E,R,H,C,P$.
+
+For accepted reads, apply
+\autoref{thm:tastegate-admission-carrier-source-obligation}. The accepted route
+descends through the displayed source rows before it can be consumed by the
+admission check.
+
+For refused reads, use \autoref{thm:tastegate-admission-namecert-obligations}.
+The ledger records absence of one of the displayed NameCert, taste-gate,
+event-flow, compiler-reference, transport, continuation, provenance, or local
+naming rows.
+
+The ground-compiler witness theorem accounts for compiler-facing refusals, and
+\autoref{thm:tastegate-admission-non-escape} supplies the exclusion clause. Thus
+the ledger cannot manufacture hidden prompt state, oracle approval, or unlisted
+compiler facts.
+\end{proof}
+
+\closureat{TasteGateAdmissionUp}{seedStr}
+\closureat{TasteGateAdmissionUp}{obligationStr}[BEDC.Derived.TasteGateAdmissionUp.TasteGateAdmissionTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\TasteGateAdmissionUp}
+  \constructivestory{A $\TasteGateAdmissionUp$ packet is generated from a candidate chapter identity row, AI-origin row, candidate NameCert surface, ChapterTasteGate witness, event-flow witness, ground-compiler reference row, componentwise transport, continuation routes, package provenance, and GAP refusal ledger.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:tastegate-admission-carrier}, \autoref{thm:tastegate-admission-namecert-obligations}, \autoref{thm:tastegate-admission-ground-compiler-witnesses}, \autoref{thm:tastegate-admission-non-escape}, \autoref{thm:tastegate-admission-carrier-source-obligation}, \autoref{thm:tastegate-admission-classifier-stability-obligation}, and \autoref{thm:tastegate-admission-ledger-descent-obligation} with \leanchecked{BEDC.Derived.TasteGateAdmissionUp.taste\_gate} bind the seed carrier, local NameCert surface, ground-compiler witness rows, non-escape boundary, and explicit TasteGate obligation rows for AI-origin admission.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.TasteGateAdmissionUp.TasteGateAdmissionTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove the candidate chapter's mathematical content, certify arbitrary host semantics, or close bridge checking.}
+  \upgradepath{Scoped closure requires binding the same admission rows to the explicit BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\ChapterTasteGate$, and $\GroundCompiler$.}
+\end{closurestatus}

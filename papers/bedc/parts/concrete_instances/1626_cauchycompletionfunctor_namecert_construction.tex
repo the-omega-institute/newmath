@@ -1,0 +1,198 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionFunctorUp$}
+\label{ch:concrete-instances-cauchycompletionfunctor-namecert}
+\origin{human}
+
+The $\CauchyCompletionFunctorUp$ packet records the functorial completion surface obtained from a source metric presentation and a regular-Cauchy family. Following Bishop and Bridges, \emph{Constructive Analysis}, the packet treats completion as a visible transformation of names: it consumes the $\RealCauchyCompletionUp$ seal rows, the $\CauchyCompletionMonadUp$ unit-and-bind schedule, and the $\CompletionUniversalPropertyUp$ extension-uniqueness rows, while its classifier remains confined to finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence.
+
+\begin{definition}[CauchyCompletionFunctor carrier]
+\label{def:cauchycompletionfunctor-carrier}
+A $\CauchyCompletionFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,R,S,U,B,E,P,T,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the source metric presentation row, including the displayed points, distance observations, and finite tolerance ledger read by the source classifier;
+\item $R$ is the regular-Cauchy family row, exposing the $\RegSeqRatUp$ or $\RegularCauchyFamilyUp$ schedules that approximate each source point;
+\item $S$ is the $\RealCauchyCompletionUp$ seal row reached from the same source metric and regular-Cauchy family data;
+\item $U$ records the $\CauchyCompletionMonadUp$ unit schedule for source points and the bind schedule for completion-facing maps;
+\item $B$ is the $\CompletionUniversalPropertyUp$ extension-and-uniqueness row attached to the same unit and bind routes;
+\item $E$ is the classifier-transport ledger comparing two accepted packets only through displayed source rows, regular-Cauchy windows, completion seals, unit schedules, bind schedules, and extension-uniqueness rows;
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\RegSeqRatUp$, $\RegularCauchyFamilyUp$, $\RealCauchyCompletionUp$, $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $T$ is the transport row recording the componentwise $\hsame$ and displayed $\Cont$ routes for $M$, $R$, $S$, $U$, $B$, and $E$;
+\item $N$ is the local $\NameCert_{\CauchyCompletionFunctorUp}$ ledger.
+\end{enumerate}
+The carrier contains no quotient of Cauchy names, no selected limit object, no host-level completed metric space, and no ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionFunctor NameCert obligations]
+\label{thm:cauchycompletionfunctor-namecert-obligations}
+The local $\NameCert_{\CauchyCompletionFunctorUp}$ surface for the carrier of \autoref{def:cauchycompletionfunctor-carrier} consists of six finite rows: carrier admission, classifier transport through displayed source metric and regular-Cauchy rows, $\RealCauchyCompletionUp$ seal compatibility, $\CauchyCompletionMonadUp$ unit schedule exactness, $\CauchyCompletionMonadUp$ bind schedule exactness, and $\CompletionUniversalPropertyUp$ extension-uniqueness ledger exactness. Each row is read from $F=(M,R,S,U,B,E,P,T,N)$ and from the recorded $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionFunctorUp.CauchyCompletionFunctorPacket\_namecert\_obligations}
+\begin{proof}
+Carrier admission is projection of the packet in \autoref{def:cauchycompletionfunctor-carrier}. The source metric row, regular-Cauchy family row, completion seal, monad schedule, universal-property row, classifier ledger, package provenance, transport row, and local naming ledger are displayed coordinates of one finite history.
+
+Classifier transport uses only those displayed coordinates. A comparison first reads the source metric observations in $M$, then the regular-Cauchy windows in $R$, then the completion seal row $S$ reached by the same finite schedule.
+
+The unit, bind, and extension rows are the remaining coordinates $U$ and $B$, transported by $T$ and accounted for by $P$ and $N$. Since the carrier has no quotient, selected limit, host completion, or ambient-completeness coordinate, these six rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor unit laws]
+\label{thm:cauchycompletionfunctor-unit-laws}
+For every accepted $\CauchyCompletionFunctorUp$ packet $F=(M,R,S,U,B,E,P,T,N)$, the unit part of $U$ sends each displayed source metric point of $M$ to the completion seal row $S$ by the regular-Cauchy family route $R$. The left and right unit readings available to consumers are therefore the same finite route through $M$, $R$, $S$, $U$, $P$, $T$, and $N$, not an equality of host completion objects.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionFunctorUp.CauchyCompletionFunctorPacket\_unit\_laws}
+\begin{proof}
+Project the unit schedule from $U$. Its source is the displayed metric row $M$, and its target is the seal row $S$ reached through the regular-Cauchy family row $R$.
+
+The left-unit read begins with a source point and immediately follows the unit schedule into the displayed completion seal. The right-unit read begins with the same displayed completion-facing row and reads back through the stored source and regular-Cauchy schedule.
+
+Both reads use the same package and transport evidence, namely $P$, $T$, and $N$. Thus the unit laws are certificate-level route equalities inside the packet, with no appeal to quotient completion equality or selected limits.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor multiplication laws]
+\label{thm:cauchycompletionfunctor-multiplication-laws}
+For every accepted $\CauchyCompletionFunctorUp$ packet, the bind part of the $\CauchyCompletionMonadUp$ schedule composes two completion-facing reads only by reusing the displayed regular-Cauchy windows, the $\RealCauchyCompletionUp$ seal rows, and the $\CompletionUniversalPropertyUp$ extension row. Associativity is therefore witnessed as equality of the finite bind ledger over $R$, $S$, $U$, $B$, $E$, $P$, $T$, and $N$.
+\end{theorem}
+\begin{proof}
+Read the bind schedule from $U$. A first completion-facing read consumes the regular-Cauchy family row $R$ and reaches the seal row $S$; a second read is permitted only through the same kind of displayed seal and extension row.
+
+The universal-property coordinate $B$ records the extension route used by each bind. The classifier ledger $E$ keeps both binds attached to the same source metric and regular-Cauchy windows, and the transport row $T$ moves those rows componentwise.
+
+Associativity follows by comparing the two parenthesized bind ledgers as finite row lists. They name the same $R$, $S$, $U$, $B$, $E$, $P$, $T$, and $N$ coordinates and introduce no hidden completed carrier, quotient stream, selected limit, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor ledger exactness]
+\label{thm:cauchycompletionfunctor-ledger-exactness}
+Every consumer route exported by an accepted $\CauchyCompletionFunctorUp$ packet is exhausted by the source metric row, regular-Cauchy family row, $\RealCauchyCompletionUp$ seal row, $\CauchyCompletionMonadUp$ unit-and-bind schedule, $\CompletionUniversalPropertyUp$ extension-uniqueness row, classifier transport ledger, package provenance, transport row, and local $\NameCert$ ledger. No consumer can obtain a quotient completion, a selected limit, a host completed metric space, or an ambient completeness theorem from the packet.
+\end{theorem}
+\begin{proof}
+Start with a consumer route and project the carrier coordinates of \autoref{def:cauchycompletionfunctor-carrier}. The only available rows are $M$, $R$, $S$, $U$, $B$, $E$, $P$, $T$, and $N$.
+
+The NameCert obligation theorem accounts for carrier, classifier, completion seal, unit, bind, and universal-property rows. The unit laws identify the source-point route into the completion seal, while the multiplication laws identify the composed completion-facing route.
+
+These rows exhaust the packet ledger. Since the carrier definition contains no additional coordinate, the consumer has no path to quotient completion equality, selected limits, host completed metric spaces, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor classifier transport]
+\label{thm:cauchycompletionfunctor-classifier-transport}
+For two accepted $\CauchyCompletionFunctorUp$ packets, classifier replacement is local to the displayed source metric row, the regular-Cauchy family row, the $\RealCauchyCompletionUp$ seal, the $\CauchyCompletionMonadUp$ unit schedule, the $\CauchyCompletionMonadUp$ bind schedule, the $\CompletionUniversalPropertyUp$ row, the classifier ledger, the $\hsame$ rows, the displayed $\Cont$ rows, the $\Pkg$ provenance, and the local $\NameCert$ rows. A replacement that agrees on these coordinates cannot alter any exported consumer route, and a replacement that changes any exported route must be witnessed by one of these coordinates.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionFunctorUp.CauchyCompletionFunctorPacket\_classifier\_transport}
+\begin{proof}
+Project the two packets through \autoref{def:cauchycompletionfunctor-carrier}. The only displayed coordinates are $M,R,S,U,B,E,P,T,N$, and the local classifier reads them componentwise through the $\hsame$ and $\Cont$ routes recorded in $T$.
+
+The source metric and regular-Cauchy rows determine the completion seal row. The unit and bind schedules are the two monad-facing parts of $U$, and the extension-uniqueness row is the public content of $B$.
+
+Thus every accepted classifier replacement factors through the displayed ledger rows $E,P,T,N$. Since the carrier contains no hidden completed object or selected limit coordinate, there is no further place where a replacement can change a consumer route.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor universal-property extension exactness]
+\label{thm:cauchycompletionfunctor-universal-property-extension-exactness}
+Every extension-uniqueness consumer of an accepted $\CauchyCompletionFunctorUp$ packet factors through the displayed $\CompletionUniversalPropertyUp$ row together with the $\RealCauchyCompletionUp$ and $\CauchyCompletionMonadUp$ rows. In particular, extension existence, extension uniqueness, unit compatibility, and bind compatibility are read from $B$ only after the seal row $S$ and the unit-and-bind row $U$ have been projected from the same carrier.
+\end{theorem}
+\begin{proof}
+Begin with an extension-uniqueness consumer and project the carrier $F=(M,R,S,U,B,E,P,T,N)$. The only universal-property coordinate is $B$, so the consumer must first read the completion seal $S$ and the monad schedule $U$ that give $B$ its displayed source and target routes.
+
+Existence and uniqueness are then finite ledger reads from the $\CompletionUniversalPropertyUp$ row. Unit compatibility uses the unit part of $U$, while bind compatibility uses the bind part of $U$ together with the same seal row $S$.
+
+The classifier and package rows $E,P,T,N$ record that these reads remain attached to the displayed source metric and regular-Cauchy family rows. No additional completion object, quotient equality, or ambient completeness theorem is available to the consumer.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor obligation closure package]
+\label{thm:cauchycompletionfunctor-obligation-closure-package}
+The accepted $\CauchyCompletionFunctorUp$ carrier assembles a five-row obligation surface: carrier admission for $F=(M,R,S,U,B,E,P,T,N)$; existing local $\NameCert$ obligations for carrier, classifier, seal, unit, bind, and universal-property rows; unit laws for the displayed source-to-seal route; multiplication laws for the finite bind ledger; and ledger exactness for the classifier transport and universal-property extension rows of \autoref{thm:cauchycompletionfunctor-classifier-transport} and \autoref{thm:cauchycompletionfunctor-universal-property-extension-exactness}. This surface is an obligation package over the displayed packet, not a host-level completion construction.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:cauchycompletionfunctor-carrier}. The existing NameCert obligations project the local carrier row, componentwise classifier, completion seal, unit schedule, bind schedule, and universal-property ledger from the same tuple.
+
+The unit laws and multiplication laws provide the two monad rows. The unit row follows source points through $M,R,S,U$, and the multiplication row compares two bind readings through $R,S,U,B,E$.
+
+It remains to account for escape from the obligation surface. The classifier transport theorem confines replacements to the displayed source, Cauchy-family, seal, unit, bind, universal-property, transport, package, and local certificate rows. The universal-property exactness theorem confines extension consumers to $B$ together with $S$ and $U$.
+
+These five rows exhaust the packet coordinates. Therefore the obligation package is closed at the displayed carrier surface and introduces no quotient completion, selected limit, host completed metric space, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor source metric unit handoff]
+\label{thm:cauchycompletionfunctor-source-metric-unit-handoff}
+Every displayed source metric point admitted by an accepted $\CauchyCompletionFunctorUp$ packet enters the completion seal only through $M,R,S,U,P,T,N$. The handoff reads the source metric presentation in $M$, the regular-Cauchy family route in $R$, the $\RealCauchyCompletionUp$ seal in $S$, the unit part of the $\CauchyCompletionMonadUp$ schedule in $U$, and the package, transport, and local naming rows $P,T,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(M,R,S,U,B,E,P,T,N)$. A source metric point is visible only as part of the source row $M$.
+
+The unit schedule is the component of $U$ that sends that displayed point through the regular-Cauchy route $R$ into the seal row $S$. The package, transport, and local naming rows $P,T,N$ record that this is the admitted public route.
+
+No coordinate of the packet names a selected limit, quotient completion object, or host completed metric space. Thus the source point can enter the completion surface only through the displayed unit handoff.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor completion consumer handoff]
+\label{thm:cauchycompletionfunctor-completion-consumer-handoff}
+Every completion-facing consumer of an accepted $\CauchyCompletionFunctorUp$ packet reads $\RealCauchyCompletionUp$, $\CauchyCompletionMonadUp$, and $\CompletionUniversalPropertyUp$ through the same finite packet $F=(M,R,S,U,B,E,P,T,N)$. The consumer cannot read a completion seal without the unit-and-bind schedule, nor an extension-uniqueness row without the seal and monad rows that give it source and target routes.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing consumer and project the packet. The only completion seal is $S$, the only monad schedule is $U$, and the only universal-property row is $B$.
+
+The consumer first reads $S$ through the source and regular-Cauchy rows $M,R$. It then reads the unit and bind schedules from $U$, and only then reads extension and uniqueness data from $B$.
+
+Classifier, package, transport, and local naming rows $E,P,T,N$ keep these reads attached to the same packet. Since no other completion-facing coordinate exists, every such consumer is handed the same finite carrier surface.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor bind ledger consumer exhaustion]
+\label{thm:cauchycompletionfunctor-bind-ledger-consumer-exhaustion}
+Every composed completion read exported by an accepted $\CauchyCompletionFunctorUp$ packet is exhausted by the bind ledger $R,S,U,B,E,P,T,N$. The ledger records the regular-Cauchy windows, completion seals, unit-and-bind schedule, extension-uniqueness row, classifier transport, package provenance, componentwise transport, and local $\NameCert$ row; it exports no hidden quotient equality, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Take a composed completion read. Its first and second completion-facing stages must use the bind part of $U$ together with the regular-Cauchy windows in $R$ and the seal rows in $S$.
+
+The universal-property coordinate $B$ supplies the extension route attached to the bind read. The classifier ledger $E$ and the package, transport, and naming rows $P,T,N$ record that the composed read remains inside the same finite carrier.
+
+Those rows are exactly the bind-facing coordinates of $F$. Therefore the consumer is exhausted by $R,S,U,B,E,P,T,N$ and has no access to quotient equality, selected limits, host completion objects, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor public completion export]
+\label{thm:cauchycompletionfunctor-public-completion-export}
+Every accepted $\CauchyCompletionFunctorUp$ packet exports a single public completion surface through the displayed source metric row $M$, regular-Cauchy family row $R$, $\RealCauchyCompletionUp$ seal $S$, $\CauchyCompletionMonadUp$ unit-and-bind schedule $U$, $\CompletionUniversalPropertyUp$ row $B$, classifier ledger $E$, and transport and provenance rows $P,T,N$. Consumers obtain exactly this finite surface and obtain no quotient completion, selected limit, host completed metric space, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $F=(M,R,S,U,B,E,P,T,N)$. The NameCert obligation rows admit the carrier, bind the classifier to the displayed source and regular-Cauchy rows, attach the completion seal, and expose the unit, bind, and universal-property rows from the same finite packet.
+
+The unit laws send displayed source points through $M,R,S,U,P,T,N$. The multiplication laws compare composed completion reads through the bind ledger, and the universal-property extension exactness theorem confines extension and uniqueness consumers to $B$ after $S$ and $U$ have been read.
+
+It remains to account for public export. The completion consumer handoff forces every completion-facing consumer to use the same $S,U,B$ rows over the same carrier, and the bind-ledger consumer exhaustion theorem confines composed reads to $R,S,U,B,E,P,T,N$.
+
+Since the carrier has no additional coordinate, this finite row surface is the only public completion export. No consumer can extract quotient completion equality, a selected limit, a host completed metric space, or an ambient completeness theorem from the packet.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionFunctor observation-budget factorization]
+\label{thm:cauchycompletionfunctor-observation-budget-factorization}
+Let $F=(M,R,S,U,B,E,P,T,N)$ be an accepted $\CauchyCompletionFunctorUp$ packet. Suppose its completion-facing seal rows are served by an accepted $\RealObservationBudgetUp$ packet $B_R=(E_R,W_R,D_R,R_R,S_R,H_R,C_R,P_R,N_R)$. Every public completion consumer of $F$ factors first through the observation-budget route
+$$
+E_R \longmapsto W_R \longmapsto D_R \longmapsto R_R \longmapsto S_R
+$$
+before reading the $\RealCauchyCompletionUp$, monad, or universal-property rows. The route exposes no quotient completion, selected limit, host completed metric space, ambient completeness theorem, host real equality, or hidden observation schedule.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchycompletionfunctor-public-completion-export}. It confines public completion consumers of $F$ to the displayed source row, regular-Cauchy row, completion seal, monad schedule, universal-property row, classifier ledger, transport rows, provenance rows, and local naming row.
+
+Now use \autoref{thm:real-observation-budget-finite-route-coverage}. The accepted observation-budget packet supplies the finite route from the external observation row $E_R$ through the window, dyadic, rational, and seal rows $W_R,D_R,R_R,S_R$ before any completion-facing seal can be read.
+
+Finally apply \autoref{thm:real-observation-budget-root-unblock-package}. That package keeps the seal service attached to the same finite observation route and prevents a consumer from replacing it by a host completion object or unrecorded observation schedule.
+
+Combining these readings, every public completion consumer reaches the rows $S,U,B$ of $F$ only after passing through $E_R,W_R,D_R,R_R,S_R$. Since neither packet has a coordinate for quotient completion equality, selected limits, host completed metric spaces, ambient completeness, host real equality, or hidden schedules, those objects do not enter the consumer route.
+\end{proof}
+
+\closureat{CauchyCompletionFunctorUp}{publicStr}
+\closureat{CauchyCompletionFunctorUp}{obligationStr}
+\closureat{CauchyCompletionFunctorUp}{scopedStr}
+
+\begin{closurestatus}{\CauchyCompletionFunctorUp}
+  \constructivestory{A $\CauchyCompletionFunctorUp$ packet is generated from a source metric row, regular-Cauchy family rows, a $\RealCauchyCompletionUp$ seal, a $\CauchyCompletionMonadUp$ unit-and-bind schedule, a $\CompletionUniversalPropertyUp$ extension-uniqueness row, classifier transport, package provenance, transport routes, and a local naming ledger.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:cauchycompletionfunctor-public-completion-export} binds the public completion surface to the displayed source metric, regular-Cauchy family, completion seal, unit-and-bind, universal-property, classifier, transport, provenance, and naming rows of the finite functorial completion packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient completion construction, equality of Cauchy classes, selected limits, host completed metric spaces, ambient completeness, or bridge checking.}
+  \upgradepath{Lean encoding remains to connect the displayed public completion export with the named BEDC declaration.}
+\end{closurestatus}

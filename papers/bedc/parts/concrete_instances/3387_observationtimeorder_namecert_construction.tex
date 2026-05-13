@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\ObservationTimeOrderUp$}
+\label{ch:concrete-instances-observation-time-order-namecert}
+\origin{ai}
+
+The $\ObservationTimeOrderUp$ interface realizes BEDC-internal time as a finite naming surface for monotonic record retention. It does not introduce a host clock, scalar time coordinate, global synchronization map, or reversible time primitive. It records two observation-state histories, the retained-record classifier between them, the displayed continuation route witnessing record preservation, the $\Gap$ boundary for erased-record demands, and the local $\NameCert$ row that packages the order comparison.
+
+\begin{definition}[Observation-time-order carrier]
+\label{def:observation-time-order-carrier}
+An $\ObservationTimeOrderUp$ carrier is a finite $\BHist$ packet
+$$
+T=(O_0,O_1,R,C,G,H,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O_0$ is the earlier observation-state $\BHist$ row;
+\item $O_1$ is the later observation-state $\BHist$ row;
+\item $R$ is the retained-record classifier, naming each record visible in $O_0$ as still visible in $O_1$;
+\item $C$ records the displayed $\Cont$ route that reads $O_0$, then $O_1$, then the retained-record classifier $R$;
+\item $G$ is the $\Gap$ boundary row for any demand that a record present in $O_0$ be erased, hidden, or made unavailable in $O_1$;
+\item $H$ records componentwise $\hsame$ transport for the two observation-state rows, retained-record classifier, continuation route, gap boundary, package row, and local name row;
+\item $P$ is the $\Pkg$ provenance over $\ConsciousObserverStateUp$, $\HistTimeStreamUp$, $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ source certificates;
+\item $N$ is the local $\NameCert_{\ObservationTimeOrderUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $O_0,O_1,R,C,G,H,P,N$. It has no coordinate for external host time, a numeric clock value, a global simultaneity relation, or a deletion operation on observation records.
+\end{definition}
+\leanchecked{BEDC.Derived.ObservationTimeOrderUp.ObservationTimeOrderTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ObservationTimeOrder NameCert obligations]
+\label{thm:observation-time-order-namecert-obligations}
+For the carrier of \autoref{def:observation-time-order-carrier}, the local $\NameCert_{\ObservationTimeOrderUp}$ surface has exactly five obligation rows:
+\begin{enumerate}
+\item carrier admission for the two observation-state rows $O_0$ and $O_1$ together with $T=(O_0,O_1,R,C,G,H,P,N)$;
+\item retained-record classifier exactness, requiring $R$ to expose every record present in $O_0$ as retained in $O_1$;
+\item $\Cont$ monotonicity route, requiring the displayed route $C$ to read $O_0$ before $O_1$ and then read $R$ as the preservation ledger between them;
+\item $\Gap$ boundary for erased-record demands, requiring $G$ to classify any claimed deletion of an $O_0$ record from $O_1$ as outside the accepted order surface;
+\item no-host-time non-escape under $H,P,N$, excluding scalar clocks, external simultaneity, reversible deletion, and global synchronization from the local certificate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observation-time-order-carrier}. The two observation-state rows $O_0$ and $O_1$ are displayed before any classifier or route is read.
+
+The retained-record classifier exactness clause reads $R$ only after both state rows are available. Thus $R$ can name the internal order comparison precisely as record preservation from $O_0$ to $O_1$.
+
+The monotonicity route is the continuation row $C$. It fixes the public read order as $O_0$, then $O_1$, then $R$, so a consumer cannot reverse the order or inspect a hidden deletion operation.
+
+The erased-record boundary is the row $G$. Any demand that a record present in $O_0$ disappear from $O_1$ is not a successful retained-record comparison; it is recorded as a gap-side boundary for the attempted read.
+
+Finally, $H$ transports only the displayed coordinates, while $P$ and $N$ bind provenance and local naming. Since no carrier coordinate stores a scalar clock, host time, global simultaneity relation, reversible deletion map, or synchronization frame, the certificate cannot export one.
+\end{proof}
+
+\begin{theorem}[ObservationTimeOrder retained-record exactness]
+\label{thm:observation-time-order-retained-record-exactness}
+For an accepted $\ObservationTimeOrderUp$ packet
+$$
+T=(O_0,O_1,R,C,G,H,P,N),
+$$
+the internal time comparison from $O_0$ to $O_1$ is exactly the retained-record classifier $R$ read through the displayed route $C$. A public consumer may conclude that $O_0$ precedes $O_1$ only by reading the records of $O_0$, reading the records of $O_1$, and then reading the preservation ledger $R$.
+
+No additional row supplies a numeric time value, a host clock, a global simultaneity relation, or a second comparison independent of retained records.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The comparison data are the two observation-state rows $O_0,O_1$ and the retained-record classifier $R$.
+
+The route row $C$ determines the public read. It exposes the source state, then the target state, and only then the preservation ledger between the two.
+
+The remaining rows $G,H,P,N$ account for gap boundaries, transport, provenance, and naming. They do not add a clock or a second order primitive. Hence the internal time comparison is exhausted by retained-record exactness through $R$.
+\end{proof}
+
+\begin{theorem}[ObservationTimeOrder erasure boundary]
+\label{thm:observation-time-order-erasure-boundary}
+For an accepted $\ObservationTimeOrderUp$ packet, any demand that a record present in $O_0$ be absent from $O_1$ is routed to the $\Gap$ boundary row $G$. The accepted time-order surface therefore permits unrecorded future commitments only as gap-side obligations, not as deletion or reversal of records already visible in $O_0$.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $O_0,O_1,R,C,G,H,P,N$. The retained-record classifier $R$ is the only positive comparison row between $O_0$ and $O_1$.
+
+If a consumer asks for an $O_0$ record to disappear from $O_1$, that request contradicts the retained-record role of $R$. The packet has exactly one boundary row for such a request, namely $G$.
+
+Transport through $H$ and routing through $C$ preserve the same division between retained records and gap-side demands. The package and name rows $P,N$ then bind the boundary to the local order certificate.
+\end{proof}
+
+\begin{theorem}[ObservationTimeOrder no-host-time non-escape]
+\label{thm:observation-time-order-no-host-time-nonescape}
+Every accepted $\ObservationTimeOrderUp$ carrier exports only the two observation-state rows, the retained-record classifier, the displayed $\Cont$ route, the erased-record $\Gap$ boundary, componentwise $\hsame$ transport, $\Pkg$ provenance, and the local $\NameCert$ row. It exports no scalar host time, global synchronization map, ambient simultaneity relation, reversible time operation, or hidden deletion primitive.
+\end{theorem}
+\begin{proof}
+Inspect the coordinates of \autoref{def:observation-time-order-carrier}. Every exported row is one of $O_0,O_1,R,C,G,H,P,N$.
+
+The positive order data are $O_0,O_1,R,C$. The boundary and structural data are $G,H,P,N$, which record gap-side refusal, transport, provenance, and local naming.
+
+No coordinate remains for host time, a global synchronization map, ambient simultaneity, time reversal, or deletion of displayed records. Therefore no accepted packet can export those objects.
+\end{proof}
+
+\closureat{ObservationTimeOrderUp}{seedStr}
+
+\begin{closurestatus}{\ObservationTimeOrderUp}
+  \constructivestory{An $\ObservationTimeOrderUp$ packet is generated from two observation-state BHist rows, a retained-record classifier, displayed continuation route, erased-record GAP boundary, componentwise hsame transport, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observation-time-order-carrier}, \autoref{thm:observation-time-order-namecert-obligations}, \autoref{thm:observation-time-order-retained-record-exactness}, \autoref{thm:observation-time-order-erasure-boundary}, and \autoref{thm:observation-time-order-no-host-time-nonescape} bind the finite BEDC-internal time-order packet for monotonic observation-state record retention.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host time, numeric clock semantics, global simultaneity, reversible deletion, or inter-observer synchronization.}
+  \upgradepath{Obligation closure requires checked carrier admission, retained-record exactness, Cont monotonicity routing, GAP erasure boundary, and no-host-time non-escape for the same observation-time-order packet.}
+\end{closurestatus}

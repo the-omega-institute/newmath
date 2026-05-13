@@ -1,0 +1,161 @@
+\chapter{A Concrete Naming Certificate for $\FiniteTailDiagonalSealUp$}
+\label{ch:concrete-instances-finitetaildiagonalseal-namecert}
+\origin{human}
+
+The $\FiniteTailDiagonalSealUp$ packet records the finite handoff from a selected regular-Cauchy tail window to a $\RealUp$ seal. It is the concrete NameCert surface used when a diagonal-limit consumer asks for a rational precision request, a StreamName window, a RegSeqRat row, and the selected finite-tail witness that justifies the real-facing read.
+
+\begin{definition}[Finite-tail diagonal seal carrier]
+\label{def:finite-tail-diagonal-seal-carrier}
+A $\FiniteTailDiagonalSealUp$ carrier is a finite $\BHist$ packet
+$$
+D=(q,s,r,w,e,h,c,p,n)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $q$ is the rational precision request, read through the displayed $\RatUp$ and $\DyadicRatCoreUp$ tolerance rows;
+\item $s$ is the $\StreamNameUp$ window selecting the finite diagonal observation interval;
+\item $r$ is the $\RegSeqRatUp$ row whose regularity ledger supplies the source observations;
+\item $w$ is the selected finite-tail witness, displaying the bounded tail segment that answers $q$ inside the window $s$;
+\item $e$ is the $\RealUp$ seal row reached only after $q,s,r,w$ have been exposed;
+\item $h$ records componentwise $\hsame$ transports for the precision request, StreamName window, RegSeqRat row, finite-tail witness, and real-seal row;
+\item $c$ records the displayed $\Cont$ routes by which consumers inspect the rows;
+\item $p$ is the $\Pkg$ provenance over $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and selected-tail evidence;
+\item $n$ is the local $\NameCert_{\FiniteTailDiagonalSealUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream, no host real equality, no unbounded diagonal object, no ambient completeness theorem, and no selected limit outside the finite witness row $w$.
+\end{definition}
+
+\begin{theorem}[Finite-tail diagonal seal NameCert obligations]
+\label{thm:finite-tail-diagonal-seal-namecert-obligations}
+The local $\NameCert_{\FiniteTailDiagonalSealUp}$ surface consists exactly of carrier admission for $D=(q,s,r,w,e,h,c,p,n)$, precision routing through $q$, finite-window routing through $s$, regular-Cauchy source routing through $r$, selected-tail witness exactness through $w$, $\RealUp$ seal handoff through $e$, componentwise $\hsame$ transport through $h$, displayed $\Cont$ route replay through $c$, package provenance through $p$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-tail-diagonal-seal-carrier}. The rows $q,s,r,w,e,h,c,p,n$ display the precision request, finite window, regular rational source, selected tail witness, real seal, transports, routes, package provenance, and local naming evidence.
+
+The precision and source obligations are read before the seal. A consumer first reads $q$, then the selected StreamName window $s$, and then the RegSeqRat row $r$ whose regularity ledger supplies the observations inside that window.
+
+The selected witness obligation is the row $w$. It gives the finite tail segment that answers the request and prevents the handoff from appealing to an unbounded diagonal stream or an existential limit choice.
+
+Finally the rows $h,c,p,n$ account for transport, route replay, provenance, and local naming. Since the carrier has no quotient-stream coordinate, no host real equality coordinate, and no ambient-completeness coordinate, the obligation surface is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Finite-tail diagonal seal window factorization]
+\label{thm:finite-tail-diagonal-seal-window-factorization}
+For an accepted $\FiniteTailDiagonalSealUp$ carrier $D=(q,s,r,w,e,h,c,p,n)$, every finite-tail read factors through the StreamName window $s$ and the selected witness row $w$ before any $\RealUp$ seal row is consumed. The factorization may use the regular-Cauchy source row $r$, the precision row $q$, the componentwise transports $h$, and the displayed routes $c$, but it has no route through a quotient stream, an infinite diagonal object, or a host real equality.
+\end{theorem}
+\begin{proof}
+Read the finite-window coordinates from the carrier. The only window coordinate is $s$, and the only selected tail coordinate is $w$.
+
+Use the NameCert obligations of \autoref{thm:finite-tail-diagonal-seal-namecert-obligations}. They force precision routing through $q$, source routing through $r$, and selected-tail witness exactness through $w$ before the real-facing row $e$ is reached.
+
+Transport and route replay are then confined to $h$ and $c$. The package and local certificate rows $p,n$ record that this is a finite packet, so the factorization has no coordinate for quotient streams, infinite diagonal data, or host real equality.
+\end{proof}
+
+\begin{theorem}[Finite-tail diagonal seal window lock]
+\label{thm:finite-tail-diagonal-seal-window-lock}
+For an accepted $\FiniteTailDiagonalSealUp$ carrier $D=(q,s,r,w,e,h,c,p,n)$, the selected finite-tail witness row $w$ is readable only under the selected $\StreamNameUp$ window row $s$ and the $\RegSeqRatUp$ source row $r$. Any $\RealUp$ seal handoff through $e$ preserves that same window lock through the componentwise transports $h$, the displayed routes $c$, the package provenance $p$, and the local $\NameCert$ row $n$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-tail-diagonal-seal-carrier}. The row $w$ is listed only as the selected finite-tail witness for the window $s$ and the regular-rational source row $r$.
+
+Apply the NameCert obligation theorem. It routes finite-window exposure through $s$, regular-Cauchy source exposure through $r$, and selected-tail witness exactness through $w$ before the seal row $e$ can be consumed.
+
+Use the window factorization theorem to keep every finite-tail read under the same $s,r,w$ boundary. The transports $h$, routes $c$, provenance $p$, and local name $n$ replay that displayed boundary rather than selecting a second window.
+
+Finally apply the non-escape boundary. Since the packet has no quotient stream, unbounded diagonal, host equality, ambient completeness, or external limit coordinate, a Real handoff through $e$ cannot release $w$ from the selected window and source rows.
+\end{proof}
+
+\begin{theorem}[Finite-tail diagonal seal Real handoff]
+\label{thm:finite-tail-diagonal-seal-real-handoff}
+Every $\RealUp$ consumer of an accepted $\FiniteTailDiagonalSealUp$ carrier receives the seal row $e$ only through the displayed chain
+$$
+q,s,r,w,h,c,p,n.
+$$
+Thus the real-facing handoff consumes a rational precision request, a finite StreamName window, a RegSeqRat source row, a selected finite-tail witness, componentwise transport, route replay, package provenance, and local naming. It does not consume host real equality, quotient-name equality, an ambient completeness principle, or a selected limit outside the finite witness.
+\end{theorem}
+\begin{proof}
+Start with the carrier row $e$. It is a $\RealUp$ seal coordinate inside the same finite packet as $q,s,r,w,h,c,p,n$.
+
+Apply the window factorization theorem. The seal-facing read must pass through the precision, window, source, and witness rows before it reaches $e$.
+
+The rows $h$ and $c$ then replay the displayed transport and continuation data, while $p$ and $n$ provide provenance and local naming. Because the carrier lists no host equality, quotient equality, ambient completeness, or external limit coordinate, the real-facing handoff is exactly the displayed chain.
+\end{proof}
+
+\begin{theorem}[Finite-tail diagonal seal non-escape]
+\label{thm:finite-tail-diagonal-seal-non-escape}
+Every downstream consumer of an accepted $\FiniteTailDiagonalSealUp$ packet factors through the finite rows
+$$
+q,s,r,w,e,h,c,p,n.
+$$
+The consumer may read the rational precision request, selected StreamName window, RegSeqRat source, finite-tail witness, $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it cannot read quotient streams, host real equality, unbounded diagonal streams, ambient completeness, or a choice-selected limit.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and the NameCert obligation surface. The rows $q,s,r,w,e,h,c,p,n$ are the complete displayed packet.
+
+Use the window factorization theorem for all finite-tail observations. It routes tail reads through $s$ and $w$ with the source and precision rows visible.
+
+Use the Real handoff theorem for real-facing consumers. It routes seal reads through $q,s,r,w,h,c,p,n$ before $e$ is consumed.
+
+Since the carrier has no remaining coordinate beyond the displayed rows, no downstream consumer can extract quotient-stream data, host real equality, unbounded diagonal data, ambient completeness, or a choice-selected limit from the packet.
+\end{proof}
+
+\begin{theorem}[Finite-tail diagonal seal selected-tail exactness]
+\label{thm:finite-tail-diagonal-seal-selected-tail-exactness}
+For an accepted $\FiniteTailDiagonalSealUp$ carrier
+$$
+D=(q,s,r,w,e,h,c,p,n),
+$$
+the selected-tail witness row $w$ is exact for the displayed $\StreamNameUp$ window $s$. A consumer may read $w$ only as the finite tail segment selected under $s$ from the $\RegSeqRatUp$ source row $r$ for the rational precision request $q$. The witness is not a quotient stream, an unbounded diagonal stream, a host real equality, or a selected limit outside the finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only selected-tail coordinate is $w$, and the carrier names it relative to the window row $s$, source row $r$, and precision request $q$.
+
+Use the NameCert obligations and window lock. They force finite-window routing through $s$, source routing through $r$, and selected-tail witness exposure through $w$ before the seal row $e$ can be consumed.
+
+Apply non-escape for the negative boundary. Since no quotient stream, unbounded diagonal stream, host equality, ambient completeness, or selected limit is present as a carrier coordinate, $w$ is exact only as the displayed finite witness.
+\end{proof}
+
+\begin{theorem}[Finite-tail diagonal seal RegSeqRat source coverage]
+\label{thm:finite-tail-diagonal-seal-regseq-source-coverage}
+For an accepted $\FiniteTailDiagonalSealUp$ carrier
+$$
+D=(q,s,r,w,e,h,c,p,n),
+$$
+the row $r$ is the only $\RegSeqRatUp$ source route into the selected finite-tail witness and the $\RealUp$ seal. Every seal-facing read passes through the precision row $q$, the window row $s$, the source row $r$, and the selected witness row $w$ before reaching $e$, with transport, continuation, provenance, and local naming recorded by $h,c,p,n$.
+\end{theorem}
+\begin{proof}
+Start with the source coordinate of the carrier. The packet lists one $\RegSeqRatUp$ row, namely $r$, and no second regular-rational source route.
+
+Apply window factorization and window lock. The selected finite-tail read is confined to $s,r,w$, while the precision request $q$ fixes the finite observation demand answered by that tail.
+
+Use the Real handoff theorem for the seal-facing step. It routes the consumer through $q,s,r,w,h,c,p,n$ before $e$ is consumed, so $r$ is the only source route available to the seal.
+\end{proof}
+
+\begin{theorem}[Finite-tail diagonal seal obligation package]
+\label{thm:finite-tail-diagonal-seal-obligation-package}
+The $\FiniteTailDiagonalSealUp$ obligation package over
+$$
+D=(q,s,r,w,e,h,c,p,n)
+$$
+consists exactly of precision routing through $q$, selected window routing through $s$, $\RegSeqRatUp$ source coverage through $r$, selected-tail witness exactness through $w$, $\RealUp$ seal handoff through $e$, componentwise transport through $h$, displayed route replay through $c$, provenance through $p$, and the local $\NameCert$ row $n$. This package has no quotient-stream, host-real-equality, hidden-limit, or ambient-completeness input.
+\end{theorem}
+\begin{proof}
+First assemble the displayed carrier rows. The carrier definition and NameCert obligation theorem give the precision, window, source, witness, seal, transport, route, provenance, and local naming coordinates.
+
+Next add the source and witness controls. Selected-tail exactness binds $w$ to the finite window $s$ and source $r$, while RegSeqRat source coverage makes $r$ the only source route into the witness and seal.
+
+Finally apply Real handoff and non-escape. Real handoff places the seal row $e$ downstream of the displayed finite chain, and non-escape rules out quotient streams, host real equality, unbounded diagonal streams, ambient completeness, and selected limits as additional inputs.
+\end{proof}
+
+\closureat{FiniteTailDiagonalSealUp}{seedStr}
+
+\begin{closurestatus}{\FiniteTailDiagonalSealUp}
+  \constructivestory{A $\FiniteTailDiagonalSealUp$ packet is generated from a rational precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ source row, selected finite-tail witness, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-tail-diagonal-seal-carrier}, \autoref{thm:finite-tail-diagonal-seal-namecert-obligations}, \autoref{thm:finite-tail-diagonal-seal-window-factorization}, \autoref{thm:finite-tail-diagonal-seal-window-lock}, \autoref{thm:finite-tail-diagonal-seal-real-handoff}, and \autoref{thm:finite-tail-diagonal-seal-non-escape} bind the finite carrier, local naming obligations, window factorization, window lock, real handoff, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, host real equality, unbounded diagonal streams, ambient completeness, selected limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, precision routing, finite-window routing, selected-tail witness exactness, seal handoff, transport, route replay, provenance, and local naming for the same finite-tail packet.}
+\end{closurestatus}

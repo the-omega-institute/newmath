@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\HankelVandermondeUp$}
+\label{ch:concrete-instances-hankelvandermonde-namecert}
+\origin{ai}
+
+The $\HankelVandermondeUp$ packet is a BEDC-native finite certificate surface. It records a finite determinant ledger for displayed Hankel moment rows and their Vandermonde-square readback. It is consumable by $\FoldMomentKernelUp$ and $\CollisionKernelSpectrumUp$ without importing host matrices, analytic spectra, quotient moment spaces, or external field algebra.
+
+\begin{definition}[Hankel-Vandermonde carrier]
+\label{def:hankel-vandermonde-carrier}
+A $\HankelVandermondeUp$ carrier is a finite $\BHist$ packet
+$$
+V=(A,W,M,D,\Delta,Q,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $A$ is the displayed atom row, listing the finite atom names whose pairwise differences are read by the determinant ledger;
+\item $W$ is the weight row, recording the finite coefficient attached to each displayed atom;
+\item $M$ is the Hankel moment row, whose entries are displayed finite sums over the atom and weight rows;
+\item $D$ is the determinant-expansion ledger row, listing the finite permutation terms used to read the selected Hankel determinant;
+\item $\Delta$ is the pairwise-difference row, containing only displayed differences between atoms from $A$;
+\item $Q$ is the Vandermonde-square product row, recording the finite product of the displayed pairwise differences after squaring and weighting;
+\item $H$ stores the componentwise $\hsame$ transports for atom, weight, moment, determinant-ledger, pairwise-difference, and Vandermonde-square rows;
+\item $C$ stores the displayed $\Cont$ routes through which determinant and product consumers read the same finite rows;
+\item $P$ is the $\Pkg$ provenance naming $\BHist$, $\hsame$, $\Cont$, $\FoldMomentKernelUp$, $\CollisionKernelSpectrumUp$, finite determinant ledgers, and local naming evidence;
+\item $N$ is the local $\NameCert_{\HankelVandermondeUp}$ evidence row.
+\end{enumerate}
+The classifier compares two carriers only by the displayed rows $A,W,M,D,\Delta,Q,H,C,P,N$. It has no coordinate for host matrices, analytic spectra, quotient moment spaces, imported external theorems, or external field algebra.
+\end{definition}
+\leandef{BEDC.Derived.HankelVandermondeUp.HankelVandermondeUp}
+\leanchecked{BEDC.Derived.HankelVandermondeUp.HankelVandermondeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Hankel-Vandermonde NameCert obligations]
+\label{thm:hankel-vandermonde-namecert-obligations}
+Every accepted $\HankelVandermondeUp$ packet with carrier \autoref{def:hankel-vandermonde-carrier} carries five local naming obligations:
+\begin{enumerate}
+\item carrier habitation: the tuple $V=(A,W,M,D,\Delta,Q,H,C,P,N)$ is admitted as one finite $\BHist$ packet;
+\item classifier transport: componentwise $\hsame$ and $\Cont$ transport preserves the displayed atom, weight, moment, determinant-ledger, pairwise-difference, Vandermonde-square, package, and naming rows;
+\item determinant-ledger exactness: every determinant read passes through the finite permutation ledger $D$ and the displayed Hankel moment row $M$;
+\item Vandermonde-square readback: every product read passes through the finite pairwise-difference row $\Delta$ and the Vandermonde-square row $Q$;
+\item non-escape: accepted carriers export no host matrix object, analytic spectrum, quotient moment space, imported external theorem, or external field algebra.
+\end{enumerate}
+These five clauses are the complete local $\NameCert_{\HankelVandermondeUp}$ surface for finite Hankel-Vandermonde determinant ledgers.
+\end{theorem}
+\leanchecked{BEDC.Derived.HankelVandermondeUp.HankelVandermondeCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier habitation is the displayed tuple $V=(A,W,M,D,\Delta,Q,H,C,P,N)$. Each coordinate is a finite $\BHist$ row or a finite route between such rows, so the packet is admitted without a host matrix carrier.
+
+For classifier transport, move each visible coordinate through its stored $\hsame$ row and read it through the corresponding $\Cont$ route. Because the classifier is componentwise, transport cannot create a new atom, weight, moment, determinant term, pairwise difference, product factor, package row, or naming row.
+
+Determinant-ledger exactness is finite ledger inspection. The selected Hankel determinant is read only by expanding along the displayed permutation terms in $D$, and each term cites entries already present in the moment row $M$.
+
+The Vandermonde-square readback then projects $\Delta$ and $Q$. Pairwise differences are available only between atoms listed in $A$, and the squared product row records only the factors displayed by $\Delta$ together with the weights from $W$.
+
+Non-escape follows from the carrier definition. Since no coordinate names a host matrix space, analytic spectral object, quotient moment space, external theorem, or external field algebra, downstream $\FoldMomentKernelUp$ and $\CollisionKernelSpectrumUp$ consumers can cite only the finite rows and routes in the packet.
+\end{proof}
+
+\closureat{HankelVandermondeUp}{seedStr}
+
+\begin{closurestatus}{\HankelVandermondeUp}
+  \constructivestory{A $\HankelVandermondeUp$ packet is generated from displayed atom rows, weight rows, Hankel moment rows, determinant-expansion ledger rows, pairwise-difference rows, Vandermonde-square product rows, componentwise transports, continuation routes, package provenance, and local naming evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier and five-clause NameCert surface for Hankel-Vandermonde determinant ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close host matrix theory, analytic spectra, quotient moment spaces, external field algebra, external theorem reuse, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed determinant and Vandermonde-square rows.}
+\end{closurestatus}

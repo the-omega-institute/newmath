@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\FiniteKernelCategoryUp$}
+\label{ch:concrete-instances-finitekernelcategory-namecert}
+\origin{ai}
+
+The $\FiniteKernelCategoryUp$ packet records the category-shaped reading of the finite BEDC kernel as a concrete naming certificate. Its objects are finite object histories, its arrows are displayed continuation histories, its identity and composition rows are finite $\Cont$ ledgers, and its equality rows are $\hsame$ comparisons on the same displayed histories. The packet is native to $\BHist$ and does not import an external category library, quotient morphism type, or host equality of arrows.
+
+\begin{definition}[Finite-kernel category carrier]
+\label{def:finite-kernel-category-carrier}
+A $\FiniteKernelCategoryUp$ carrier is a finite packet
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $O$ is the finite object-history row: every object is a displayed $\BHist$ object history accepted by the kernel classifier.
+\item $M$ is the displayed hom-history row: a morphism from object history $a$ to object history $b$ is a finite history $f$ equipped with the displayed continuation ledger relating the endpoint histories.
+\item $I$ records identity rows, one for each accepted object history, using the empty continuation ledger from the object to itself.
+\item $Q$ records composition rows: for displayed hom histories $f:a\to b$ and $g:b\to c$, the composite history is accepted only through the finite $\Cont$ ledger joining the two displayed continuations.
+\item $A$ records associativity ledgers comparing the two displayed threefold composites by $\hsame$ after their $\Cont$ rows are expanded.
+\item $U$ records left and right unit ledgers comparing empty-continuation composites with the original displayed hom history.
+\item $H$ stores the componentwise $\hsame$ transports for object histories, hom histories, identity rows, composition rows, associativity rows, and unit rows.
+\item $C$ stores the $\Cont$ routes by which a consumer reads identities, composites, associativity witnesses, and unit witnesses.
+\item $P$ is the $\Pkg$ provenance row naming the consumed $\BHist$, $\hsame$, $\Cont$, identity, composition, associativity, and unit ledgers.
+\item $N$ is the local $\NameCert_{\FiniteKernelCategoryUp}$ registration row.
+\end{enumerate}
+The local classifier compares carriers only through these displayed rows. It has no coordinate for a global category universe, quotient morphisms, external functor categories, or host equality of arrows.
+\end{definition}
+\leanchecked{BEDC.Derived.FiniteKernelCategoryUp.FiniteKernelCategoryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite-kernel category NameCert obligations]
+\label{thm:finite-kernel-category-namecert-obligations}
+The local $\NameCert_{\FiniteKernelCategoryUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier habitation by the empty object history and by unary object histories with their empty-continuation identity rows;
+\item classifier stability for object histories, displayed hom histories, identity ledgers, composition ledgers, associativity ledgers, and unit ledgers by componentwise $\hsame$;
+\item identity exactness, requiring each identity row to be the empty $\Cont$ continuation attached to the displayed object history;
+\item composition exactness, requiring every public composite to factor through the displayed $\Cont$ row named in $Q$;
+\item ledger non-escape, requiring all public category reads to pass through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, excluding external category libraries and quotient morphisms.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation uses the empty object history and the unary object histories already accepted by the kernel. The empty continuation gives the identity row, so the object and identity coordinates are inhabited inside the finite carrier.
+
+Classifier stability is componentwise. Transport object histories and hom histories by the displayed $\hsame$ rows, then transport the identity, composition, associativity, and unit ledgers along the same endpoint comparisons.
+
+Identity and composition exactness are projections of the carrier. The identity coordinate is $I$, while each composite is read through the $\Cont$ row stored in $Q$ before it can be consumed as a displayed hom history.
+
+The non-escape row follows by inspecting $K$. Since every public route is stored in $H$, $C$, $P$, and $N$, a consumer cannot read an external category library, quotient morphism, or host arrow equality from this certificate.
+\end{proof}
+
+\begin{theorem}[Finite-kernel category composition laws]
+\label{thm:finite-kernel-category-composition-laws}
+Let
+$$
+K=(O,M,I,Q,A,U,H,C,P,N)
+$$
+be an accepted $\FiniteKernelCategoryUp$ carrier. The identity, binary composition, associativity, and left and right unit laws exported by $K$ are exactly the displayed ledgers $I$, $Q$, $A$, and $U$, transported through $H$ and consumed through $C$. No category law is discharged by ambient category theory or by quotienting hom histories.
+\end{theorem}
+\begin{proof}
+Read the law rows from \autoref{def:finite-kernel-category-carrier}. The identity law is stored in $I$, binary composition in $Q$, associativity in $A$, and the left and right unit laws in $U$.
+
+Transport compatibility is supplied by $H$. It keeps endpoints, hom histories, and law ledgers aligned under $\hsame$, so the same displayed rows remain the law witnesses after carrier transport.
+
+Consumer access is supplied by $C$. Since the carrier contains no ambient category object and no quotient morphism coordinate, every law exported by $K$ is one of the displayed finite ledgers.
+\end{proof}
+
+\begin{theorem}[Finite-kernel functor and natural-transformation handoff]
+\label{thm:finite-kernel-category-functor-nattrans-handoff}
+Every $\FunctorUp$ or $\NatTransUp$ consumer of a $\FiniteKernelCategoryUp$ carrier receives only the finite object-history row $O$, displayed hom-history row $M$, empty-continuation identities $I$, displayed $\Cont$ composites $Q$, associativity and unit ledgers $A$ and $U$, and the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance rows $H,C,P,N$. The handoff does not export host functor categories, quotient morphisms, naturality modulo external equality, or any library category object.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-kernel-category-namecert-obligations}. They bind carrier habitation, classifier stability, identity exactness, composition exactness, and ledger non-escape to the same finite packet.
+
+A $\FunctorUp$ consumer reads objects and hom histories through $O$ and $M$, then reads identity and composition preservation against $I$ and $Q$. The associativity and unit side conditions are the displayed ledgers $A$ and $U$ transported by $H$.
+
+A $\NatTransUp$ consumer uses the same rows for component and naturality reads. The only public routes are the continuations in $C$ and the provenance in $P$ and $N$, so the handoff remains a BEDC-native certificate surface.
+\end{proof}
+
+\closureat{FiniteKernelCategoryUp}{seedStr}
+
+\begin{closurestatus}{\FiniteKernelCategoryUp}
+  \constructivestory{A $\FiniteKernelCategoryUp$ packet is generated from finite object histories, displayed hom histories, empty-continuation identity rows, displayed $\Cont$ composition rows, associativity and unit ledgers, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite BEDC-native category carrier and its NameCert packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a checked Lean target, a TasteGate proof, arbitrary categorical constructions, quotient morphisms, host category libraries, functor categories, or bridge checking.}
+  \upgradepath{The next paper grade is a checked TasteGate plus obligation closure for carrier habitation, classifier stability, identity exactness, composition exactness, and ledger non-escape over the same displayed rows.}
+\end{closurestatus}
