@@ -448,4 +448,88 @@ theorem KernelMorphismCarrier_composition_scope [AskSetup] [PackageSetup]
     ⟨sourceUnary, middleUnary, targetUnary, graphLeftUnary, graphRightUnary,
       compositeGraphUnary, compositeEdgeUnary, graphComposition, edgeComposition, compositePkg⟩
 
+theorem KernelMorphismCarrier_classifier_lift_obligation [AskSetup] [PackageSetup]
+    {source target graph edgeAdmission classifierLift transport routes provenance cert
+      sourceRead graphRead edgeRead targetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismCarrier source target graph edgeAdmission classifierLift transport routes
+        provenance cert bundle pkg →
+      hsame sourceRead source →
+        hsame graphRead graph →
+          hsame edgeRead edgeAdmission →
+            hsame targetRead target →
+              UnaryHistory sourceRead ∧ UnaryHistory graphRead ∧ UnaryHistory edgeRead ∧
+                UnaryHistory targetRead ∧ Cont edgeAdmission classifierLift target ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
+  intro carrier sourceSame graphSame edgeSame targetSame
+  obtain ⟨sourceUnary, targetUnary, graphUnary, edgeUnary, _liftUnary, _transportUnary,
+    _routesUnary, _provenanceUnary, _certUnary, _sourceGraphEdge, edgeLiftTarget,
+    _transportRoutesProvenance, provenancePkg, certPkg⟩ := carrier
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_transport_symm sourceUnary sourceSame
+  have graphReadUnary : UnaryHistory graphRead :=
+    unary_transport_symm graphUnary graphSame
+  have edgeReadUnary : UnaryHistory edgeRead :=
+    unary_transport_symm edgeUnary edgeSame
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_transport_symm targetUnary targetSame
+  exact
+    ⟨sourceReadUnary, graphReadUnary, edgeReadUnary, targetReadUnary, edgeLiftTarget,
+      provenancePkg, certPkg⟩
+
+theorem KernelMorphismCarrier_namecert_scope [AskSetup] [PackageSetup]
+    {source target graph edgeAdmission classifierLift transport routes provenance cert
+      sourceRead targetRead graphRead edgeRead liftRead transportRead routesRead provenanceRead
+      certRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismCarrier source target graph edgeAdmission classifierLift transport routes
+        provenance cert bundle pkg →
+      hsame sourceRead source →
+        hsame targetRead target →
+          hsame graphRead graph →
+            hsame edgeRead edgeAdmission →
+              hsame liftRead classifierLift →
+                hsame transportRead transport →
+                  hsame routesRead routes →
+                    hsame provenanceRead provenance →
+                      hsame certRead cert →
+                        UnaryHistory sourceRead ∧ UnaryHistory targetRead ∧
+                          UnaryHistory graphRead ∧ UnaryHistory edgeRead ∧
+                            UnaryHistory liftRead ∧ UnaryHistory transportRead ∧
+                              UnaryHistory routesRead ∧ UnaryHistory provenanceRead ∧
+                                UnaryHistory certRead ∧ Cont source graph edgeAdmission ∧
+                                  Cont edgeAdmission classifierLift target ∧
+                                    Cont transport routes provenance ∧
+                                      PkgSig bundle provenance pkg ∧
+                                        PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
+  intro carrier sourceSame targetSame graphSame edgeSame liftSame transportSame routesSame
+    provenanceSame certSame
+  obtain ⟨sourceUnary, targetUnary, graphUnary, edgeUnary, liftUnary, transportUnary,
+    routesUnary, provenanceUnary, certUnary, sourceGraphEdge, edgeLiftTarget,
+    transportRoutesProvenance, provenancePkg, certPkg⟩ := carrier
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_transport_symm sourceUnary sourceSame
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_transport_symm targetUnary targetSame
+  have graphReadUnary : UnaryHistory graphRead :=
+    unary_transport_symm graphUnary graphSame
+  have edgeReadUnary : UnaryHistory edgeRead :=
+    unary_transport_symm edgeUnary edgeSame
+  have liftReadUnary : UnaryHistory liftRead :=
+    unary_transport_symm liftUnary liftSame
+  have transportReadUnary : UnaryHistory transportRead :=
+    unary_transport_symm transportUnary transportSame
+  have routesReadUnary : UnaryHistory routesRead :=
+    unary_transport_symm routesUnary routesSame
+  have provenanceReadUnary : UnaryHistory provenanceRead :=
+    unary_transport_symm provenanceUnary provenanceSame
+  have certReadUnary : UnaryHistory certRead :=
+    unary_transport_symm certUnary certSame
+  exact
+    ⟨sourceReadUnary, targetReadUnary, graphReadUnary, edgeReadUnary, liftReadUnary,
+      transportReadUnary, routesReadUnary, provenanceReadUnary, certReadUnary,
+      sourceGraphEdge, edgeLiftTarget, transportRoutesProvenance, provenancePkg, certPkg⟩
+
 end BEDC.Derived.KernelMorphismUp
