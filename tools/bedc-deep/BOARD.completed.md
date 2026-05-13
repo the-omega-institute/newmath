@@ -18264,3 +18264,32 @@ Rationale:
 This is a concrete finite-ledger closure result inside the existing TaylorModel chapter, not a verification marker or parameter-transport echo. The current paper proves that coefficient reads factor through the whole finite jet ledger, but it does not state the referee-natural restriction property for a displayed prefix or subwindow of that ledger. Existing BOARD entries contain many finite restriction patterns, but none for TaylorModel finite jets, and the local file is well below the line cap with a safe landing path.
 
 ---
+
+### B-724 - CauchyFilter finite subfilterbase restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | CauchyFilter finite subfilterbase restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted CauchyFilter carrier F=(B,R,M,L,P) has a displayed finite subfamily B' of base packets that is closed under the refinement rows used by R and contains the bases selected by M for the requested precisions, then the projected rows form an accepted CauchyFilter carrier with the same finite downstream handoff boundary.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/592_cauchyfilter_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: medium, the restriction hypothesis must explicitly preserve all refinement and modulus rows to avoid becoming a vague filter-theoretic claim.
+Rationale:
+This belongs as a local existing-chapter lemma for the CauchyFilter finite-filterbase surface. The paper currently records the finite carrier, directed refinement obligation, Cauchy modulus obligation, and NameCert surface, but not closure under a displayed finite subfilterbase satisfying the needed refinement and modulus side conditions. It is close to other finite restriction BOARD patterns, so novelty is only threshold-level, but it is not a duplicate of an existing CauchyNet or finite-window target and it has a safe, short landing file.
+
+---
