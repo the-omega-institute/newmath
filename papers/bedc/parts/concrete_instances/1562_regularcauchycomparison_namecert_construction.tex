@@ -152,6 +152,44 @@ Next apply \autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}. The 
 Finally use \autoref{thm:regular-cauchy-comparison-real-seal-boundary} together with \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The comparison from $X$ to $Z$ reaches the $\RealUp$ seal through the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, so the transitive handoff remains a seal-compatible finite comparison and not a statement about selected limits or quotient stream equality.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison triangle-window composition]
+\label{thm:regular-cauchy-comparison-triangle-window-composition}
+Let accepted $\RegularCauchyComparisonUp$ packets compare $X$ to $Y$ and
+$Y$ to $Z$. Suppose their $\StreamNameUp$ schedules refine to one displayed
+finite window and their $\DyadicRatCoreUp$ tolerance rows refine to one
+visible comparison ledger. Then the two packets compose to an accepted
+$X$-to-$Z$ comparison whose $\RealUp$ seal handoff factors through the same
+displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The composed comparison is only this finite triangle-window route. It does
+not introduce quotient stream equality, a selected host limit, host real
+equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:regular-cauchy-comparison-common-window-stability}. The two
+comparison packets are read on the single displayed window because both
+transported $\StreamNameUp$ schedules refine to it.
+
+Next use
+\autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}. The
+$\DyadicRatCoreUp$ observations and rational tolerances are consumed through
+the common ledger, so the composed route has no tolerance datum outside the
+finite packet.
+
+The seal boundary is supplied by
+\autoref{thm:regular-cauchy-comparison-real-seal-boundary}. It keeps the
+$\RealUp$ handoff on the displayed $\RegSeqRatUp$, $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply
+\autoref{thm:regular-cauchy-comparison-seal-compatible-transitivity}. The
+$X$-to-$Y$ and $Y$-to-$Z$ finite comparisons therefore compose to the
+$X$-to-$Z$ finite comparison, with no appeal to quotient streams, selected
+limits, host real equality, or completeness outside the carrier.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy comparison classifier transport]
 \label{thm:regular-cauchy-comparison-classifier-transport}
 Let

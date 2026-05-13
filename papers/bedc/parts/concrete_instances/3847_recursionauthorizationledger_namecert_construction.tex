@@ -44,6 +44,24 @@ Branch completeness and structural descent are read from $B$ and $D$. The branch
 The output and audit obligations are the remaining rows. Consumers reach $O$ only along $C$, transport it only through $H$, and cite only the provenance in $P$ and $N$. The source gate, build gate, and purity-audit boundary named by $P$ exclude axiom channels and forbidden host principles from the ledger surface.
 \end{proof}
 
+\begin{theorem}[RecursionAuthorizationLedger branch completeness and descent exactness]
+\label{thm:recursion-authorization-ledger-obligation-branch-completeness}
+For an accepted $\RecursionAuthorizationLedgerUp$ packet
+$$
+L=(I,R,M,B,D,O,H,C,P,N),
+$$
+every constructor row displayed by $I$ has exactly one branch row in $B$, and every recursive call certified by the output row $O$ is justified by the structural descent ledger $D$. Thus the exported ledger contains no omitted branch and no non-structural recursive call.
+\end{theorem}
+\begin{proof}
+Project the signature and branch coordinates $I$ and $B$ from the carrier. The inventory in \autoref{def:recursion-authorization-ledger-carrier} records $B$ as the branch-package row with one displayed branch for each constructor in $I$.
+
+Project the descent and output coordinates $D$ and $O$. The same carrier records $D$ as the structural descent ledger and $O$ as the generated output row whose recursive calls are certified by that ledger.
+
+Use the NameCert obligations of \autoref{thm:recursion-authorization-ledger-namecert-obligations}. Branch completeness and structural descent exactness are local obligations for the same finite packet, so no consumer can read $O$ without the constructor-indexed branch package and the descent rows that justify its recursive subcalls.
+
+The remaining rows $H,C,P,N$ only transport, expose, package, and name those displayed coordinates. Since they add no branch coordinate and no recursion coordinate, the public ledger exports neither an omitted branch nor a non-structural recursive call.
+\end{proof}
+
 \begin{theorem}[RecursionAuthorizationLedger non-escape]
 \label{thm:recursion-authorization-ledger-nonescape}
 Every consumer read of an accepted $\RecursionAuthorizationLedgerUp$ packet factors through
