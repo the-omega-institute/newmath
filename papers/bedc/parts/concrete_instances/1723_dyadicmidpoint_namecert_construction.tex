@@ -70,6 +70,7 @@ The midpoint rows $\mu$ and $\mu'$ are obtained from those scaled endpoint numer
 
 It remains to compare consumer-visible branching and readback. The branch rows $B,B'$ inspect the same midpoint row against the same transported endpoint window, and $W,W'$ expose only those transported rows through the package and naming provenance. The local classifier therefore preserves the full midpoint packet surface.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointCarrier\_endpoint\_classifier\_stability}
 
 \begin{theorem}[DyadicMidpoint branch comparison handoff]
 \label{thm:dyadic-midpoint-branch-comparison-handoff}
@@ -177,6 +178,22 @@ Use \autoref{thm:dyadicmidpoint-bisection-ledger-exactness}. It states that ever
 Apply \autoref{thm:dyadic-midpoint-finite-window-consumer-route}. The finite-window route and the transport, continuation, package, and naming rows carry the same scaled endpoint ledger into downstream interval and real-name consumers.
 
 The handoff therefore preserves exactness of the common-denominator calculation only. Since no host real equality, quotient endpoint, completed intersection, or completeness row is present in the carrier, none is exported.
+\end{proof}
+
+\begin{theorem}[DyadicMidpoint common-denominator branch exhaustion]
+\label{thm:dyadic-midpoint-common-denominator-branch-exhaustion}
+For every accepted $\DyadicMidpointUp$ carrier
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N),
+$$
+every branch read consumed by $\DyadicBisectionUp$, $\DyadicSubdivisionUp$, $\LocatedIntervalUp$, or $\RealUp$ first reads the common-denominator row $S$ and then the midpoint row $\mu$ and branch row $B$ through $W,H,C,P,N$. No host real equality, quotient endpoint, completed interval intersection, or completeness principle is available to that consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The endpoint rows $L,R$, common-denominator row $S$, midpoint row $\mu$, branch row $B$, finite-window row $W$, transport row $H$, continuation row $C$, package row $P$, and local naming row $N$ are the whole displayed packet.
+
+Apply \autoref{thm:dyadic-midpoint-branch-comparison-handoff} to identify the branch read with the displayed branch-comparison row. Use \autoref{thm:dyadicmidpoint-bisection-ledger-exactness} and \autoref{thm:dyadic-midpoint-branch-ledger-totality} to bind the retained endpoint, midpoint, and branch decision to $L,R,S,\mu,B,W,H,C,P,N$.
+
+Finally apply \autoref{thm:dyadic-midpoint-common-denominator-consumer-exactness}. It forces every midpoint consumer to read $S$ before $\mu$, so the branch route available to bisection, subdivision, located-interval, and real-name consumers is exhausted by the common-denominator branch ledger and exports none of the excluded completion or host-equality rows.
 \end{proof}
 
 \begin{theorem}[DyadicMidpoint RealUp handoff without completion]
