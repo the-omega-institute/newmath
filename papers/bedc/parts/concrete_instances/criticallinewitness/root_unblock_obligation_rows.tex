@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness modulus comparison route totality]
+\label{thm:critical-line-witness-modulus-comparison-route-totality}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every modulus comparison route of $W$ factors through the displayed modulus row $M$, real-part row $R$, rational comparison ledger $Q$, transport row $H$, continuation row $C$, package row $P$, and local $\NameCert$ row $N$. No comparison route reads a global zero classifier, host equality, quotient representative, analytic-continuation certificate, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the modulus request factorization of \autoref{thm:critical-line-witness-modulus-request-factorization}. It places each comparison request on the displayed $\Cont$ route before the public read of $M$ and keeps the request inside $R,Q,H,C,P,N$.
+
+Then use the strip-modulus ledger triad of \autoref{thm:critical-line-witness-strip-modulus-ledger-triad}. The strip row, modulus request row, and rational comparison ledger are one finite BEDC-visible triad under the same transport, continuation, package, and naming rows.
+
+Finally apply the obligation closure package of \autoref{thm:critical-line-witness-obligation-closure-package}. The available obligation surface is exactly the carrier, naming, transport, continuation, package, non-escape, and ledger rows, so every modulus comparison route is total through $M,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness supplied zero-strip transport lock]
+\label{thm:critical-line-witness-supplied-zero-strip-transport-lock}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The supplied zero row $Z$ and critical-strip row $S$ remain locked to the displayed $\BHist$ surface by the componentwise $\hsame$ transport row $H$, together with $C,P,N$. They cannot be replaced by host equality, zero search, a global zero-set classifier, quotient identification, or analytic continuation.
+\end{theorem}
+\begin{proof}
+Project the supplied input carrier row of \autoref{thm:critical-line-witness-supplied-input-carrier-row}. The rows $Z$ and $S$ are input coordinates of the accepted packet, while modulus and comparison rows are read only after those supplied rows are exposed.
+
+Next use supplied zero readback from \autoref{thm:critical-line-witness-supplied-zero-readback} and strip-zero compatibility from \autoref{thm:critical-line-witness-strip-zero-compatibility}. These rows identify the zero-facing and strip-facing routes with the displayed $\BHist$ packet and its $\hsame$ transport.
+
+The downstream refusal package of \autoref{thm:critical-line-witness-downstream-refusal-package} supplies the non-escape clause. It excludes host equality, zero search, global zero classification, quotient representatives, analytic continuation, and ambient completeness, so the zero-strip pair remains locked by the displayed transport route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH-refusal ledger completeness]
+\label{thm:critical-line-witness-rh-refusal-ledger-completeness}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The refusal ledger of $W$ is complete for excluding an $\mathsf{RH}$ proof, a global zero classifier, an analytic-continuation certificate, a quotient representative, and ambient completeness from every downstream read. Downstream consumers can cite only $Z,S,M,R,Q,H,C,P,N$ and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the RH consumer boundary package of \autoref{thm:critical-line-witness-rh-consumer-boundary-package}. It packages downstream access as the zero-source route, strip-modulus ledger triad, nonproof boundary, refusal row, and local obligation surface.
+
+Use downstream source obligation from \autoref{thm:critical-line-witness-downstream-source-obligation}. It factors every RH-facing downstream source read through the finite supplied-zero and modulus packet $Z,S,M,R,Q,H,C,P,N$.
+
+Finally apply downstream refusal package from \autoref{thm:critical-line-witness-downstream-refusal-package} and ledger non-escape obligation from \autoref{thm:critical-line-witness-ledger-nonescape-obligation}. These rows exclude $\mathsf{RH}$ proof data, global zero classification, analytic continuation, quotient representatives, host equality, and ambient completeness from the ledger, so the refusal surface is complete for the listed downstream exclusions.
+\end{proof}
