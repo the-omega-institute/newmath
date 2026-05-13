@@ -1,0 +1,120 @@
+---
+title: "Sixteen to Sixty-Four"
+subtitle: "The cook compile-frontier is at sixteen productions. A halted Turing machine needs sixty-four. The gap is finite engineering distance, and crossing it would change what 'universal' means in a specific way."
+author: "The Omega Institute"
+date: 2026-05-14
+description: "Rule 110 is universal in principle. The cellular substrate hosts at 16 productions × 32 tape symbols. The minimum halted TM compiles to ~64 productions × 64 tape symbols. The gap is engineering, not theory — and the work to close it converts 'universal in principle' to 'witnessed universal'."
+---
+
+```{=html}
+<div class="lang-switch"><a href="sixteen-to-sixty-four.zh-CN.qmd">中文</a></div>
+```
+
+## Two numbers that mean something specific
+
+In the [Goedel boundary essay](goedel-boundary-as-data.qmd) the framework places a specific pair of numbers on the table:
+
+> The minimum halted TM compiles to ~(64, 64). The current frontier is ~(16, 32). The gap is finite engineering distance.
+
+The numbers are not metaphorical. They are read from a specific file: `rule110/STATUS.md`. They are the engineering coordinate of where the project's cellular substrate has been exercised. And they are the question this essay is about:
+
+*What does it mean for Rule 110 to be Turing-universal, in practice, given that the substrate currently hosts only computations whose Cook-compiled cyclic-tag form has at most 16 productions and 32 tape symbols?*
+
+## The compile pipeline, stage by stage
+
+The substrate implements Cook 2004/2009 end-to-end as three pipeline stages:
+
+```
+Turing machine  →  tag system  →  cyclic tag system  →  Rule 110 row
+   (§1.2)          (§1.3)         (§1.4)             (substrate)
+```
+
+Each arrow is implemented in `rule110/encoder/`:
+
+- `tm_to_tag.c` — Cook §1.2: TM transitions compile to tag-system productions
+- `tag_to_cyclic.c` — Cook §1.3: tag system compiles to cyclic tag, with $(P, T)$ productions and tape symbols
+- `cook_encode.c` — Cook §1.4: cyclic tag compiles to a Rule 110 initial row of large width
+
+Cook proved every arrow is polynomial-time. The polynomial has large constants. Stage one outputs a tag system whose size is roughly $|Q| \cdot |\Sigma|$ for a TM with $|Q|$ states and $|\Sigma|$ tape symbols. Stage two doubles or triples that into $(P, T)$. Stage three blows up further: each cyclic-tag symbol becomes several thousand Rule 110 cells.
+
+The *minimum halted TM* — a single halt state, no transitions — already lands at $|Q| = 1$, $|\Sigma| = 2$, which compiles through the pipeline to a cyclic tag of approximately $(64, 64)$. From there, stage three needs an initial Rule 110 row of width in the order of $10^6$ cells, run for some number of steps $S_{\mathrm{halt}}$ to verify the halt state is reached.
+
+## What the substrate currently does
+
+`rule110/tests/test_cook_packet_scale.c` runs each compile path end-to-end at successively larger scales and records the largest pass. Current configurations include:
+
+```text
+(P=2,  T=16, S=16384)
+(P=8,  T=8,  S=16384)
+(P=4,  T=16, S=32768)
+(P=2,  T=32, S=32768)
+(P=16, T=2,  S=8192)
+```
+
+All are below the halted-TM target. None reaches $P=64$ or $T=64$ in a single configuration. The product $P \cdot T$ in current passes peaks at $64$ in `(2, 32)` and `(16, 2)`; the target product is $64 \cdot 64 = 4096$.
+
+So the substrate has been exercised on small cyclic-tag computations, and the round-trip (encode → run → decode) succeeds. The substrate has *not* been exercised on a real Turing machine encoding. The gap between the two is the cook compile-frontier.
+
+## The frontier is a moving coordinate
+
+The framework's `prin:cook-frontier-moving-coordinate` makes this explicit:
+
+> The cook compile-frontier is not a fixed structural limit of the substrate. It is the engineering coordinate of where the substrate has been exercised to date. Engineering work can advance the coordinate without altering any closure theorem.
+
+Each pipeline stage has its own scale frontier. Advancing the overall frontier means advancing the minimum-of-three. The structural obstructions are well-identified:
+
+**Memory scaling.** At $(64, 64)$, the encoded Rule 110 row width is in the order of $10^6$ cells. The evaluator `rule110/evaluator/rule110.c` represents the row as a packed bit array. Doubling the width doubles the array; at the target it is megabyte-scale, comfortable on modern systems but not trivial. This is the most direct obstruction.
+
+**Encoding constants.** Cook's stage-three encoding multiplies cyclic-tag size by several thousand to get Rule 110 cells. Tighter packing of gliders, alternative glider catalogs from Martinez 2012, or different cyclic-tag encodings can reduce the constants. This is active substrate-engineering work.
+
+**Round-trip verification cost.** Verifying a round-trip at $(64, 64, S_{\mathrm{halt}})$ requires $S_{\mathrm{halt}}$ Rule 110 steps on $10^6$ cells, then decode back through three stages. Wall-clock cost is non-trivial; the order of magnitude is hours rather than seconds at the target.
+
+None of these is a wall. Each is a finite engineering task. Crossing them advances the coordinate; the substrate's universality theorem (Cook 2004) is unaffected.
+
+## What crossing the frontier would buy
+
+Cook 2004 proves the substrate is universal *in principle*. Crossing the engineering frontier converts that to *witnessed* universality: the substrate has been exercised on a real Turing-machine encoding, with the round-trip producing the expected halt-state output.
+
+The conversion does not strengthen any closure theorem. It strengthens the empirical support for the claim that the substrate behaves as Cook 2004 predicts at the scale of real machines. This is engineering data, not a new theorem.
+
+The framework's `prin:cook-frontier-witnessed-is-data` makes this distinction:
+
+> Witnessed universality is engineering data, not a new theorem. It is the operational realisation of an existing theorem at a scale where the operation is for the first time exercised on substrate-internal data corresponding to a recognisable computational structure.
+
+The structural status is the same: substrate is universal, substrate is closed, substrate inherits the no-induction theorem from the framework. What changes is the operational coverage of the universality claim — the substrate would have *run* a real TM, not just admitted one in principle.
+
+## What if the frontier doesn't get crossed?
+
+Two failure modes are worth naming.
+
+**Substrate divergence from Cook prediction.** At some intermediate coordinate, the substrate's round-trip might fail to decode back to the expected output. The substrate's universality in principle is unaffected (Cook 2004 is a theorem). But the operational realisation in the codebase would have a bug or specification mismatch. A failure of this kind is informative: it locates the bad commit and points engineering to a specific stage.
+
+**Memory or wall-clock infeasibility.** If the target turns out to be infeasible at acceptable cost on available hardware, the engineering coordinate stops advancing somewhere short of $(64, 64)$. The closure theorems remain valid. The witnessed-universality role is preserved at any coordinate; the role does not require reaching the halted-TM target specifically.
+
+In either case the *frontier-as-data* role works. The current coordinate is reportable; deltas are measurable; the boundary's distance is concrete.
+
+## The frontier as project artifact
+
+The current coordinate is in `rule110/STATUS.md` and is updated on every substrate scaling improvement. Papers, dossier essays, project reports can cite the engineering coordinate as a precise numerical fact: "the cook compile-frontier at commit $h$ is $(P^*, T^*, S^*)$".
+
+Progress is reportable as deltas: "the frontier advanced from $(P^*_0, T^*_0, S^*_0)$ to $(P^*_1, T^*_1, S^*_1)$ in version $v$". Each delta is a concrete improvement in operational coverage of the universality claim.
+
+This is what makes the frontier an *actual project artifact* rather than a passing measurement. The coordinate is a citable state. The path from 16 to 64 is a series of citable deltas. The boundary's distance is, at any given moment, a number that anyone can read.
+
+## What this is *not*
+
+Crossing the frontier is not a proof of anything. Cook 2004 is the proof; the frontier is empirical coverage of that proof. A successful round-trip at $(64, 64, S_{\mathrm{halt}})$ would not be a stronger theorem; it would be a stronger operational fact.
+
+The frontier is also not unique to Rule 110. Other Turing-universal substrates have their own engineering coordinates, with their own constants. Game of Life has a known glider-based construction; tag systems have their own compilation paths. The framework's reading of *frontier-as-data* applies to all of them.
+
+What the cook compile-frontier *is*: a small number, with a specific target, on a finite engineering path, locatable to a specific file in a specific subdirectory of the project. The Goedel boundary at the cellular substrate layer has these coordinates. The work to advance the coordinate is the work to shrink the boundary's distance at this specific face.
+
+```{=html}
+<div class="cta-choices">
+  <a href="goedel-boundary-as-data.qmd"><strong>← Goedel Boundary as Data</strong><br/>The other layer of the same boundary: MetaCIC's four subject-reduction hypotheses.</a>
+  <a href="pattern-as-mark.qmd"><strong>Pattern as Mark →</strong><br/>The classifier discipline this substrate exercises in 220 lines of C.</a>
+  <a href="why-not-use-cells.qmd"><strong>Why Not Use Cells? →</strong><br/>Why the cellular substrate is the project's exhibit rather than its foundation.</a>
+</div>
+```
+
+— *The Omega Institute*
