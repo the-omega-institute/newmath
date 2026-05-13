@@ -164,6 +164,7 @@ import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyLedgerUp.TasteGate
+import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
 import BEDC.Derived.TypeClassifierMembershipUp
 import BEDC.Derived.TypeCheckingDerivationTraceUp
