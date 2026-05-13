@@ -270,6 +270,9 @@ instance zetaContinuationApplicationChapterTasteGate :
     intro x y hxy heq
     exact hxy (zetaContinuationApplicationToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ZetaContinuationApplicationUp :=
+  zetaContinuationApplicationChapterTasteGate
+
 theorem ZetaContinuationApplicationTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       zetaContinuationApplicationDecodeBHist

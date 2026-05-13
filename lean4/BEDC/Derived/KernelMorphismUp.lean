@@ -322,6 +322,43 @@ theorem KernelMorphismCarrier_source_target_scope [AskSetup] [PackageSetup]
   exact ⟨sourceReadUnary, targetReadUnary, graphReadUnary, edgeAdmissionUnary,
     classifierLiftUnary, sourceGraphAdmission, admissionClassifierTarget, certPkg⟩
 
+theorem KernelMorphismCarrier_transport_stability_obligation [AskSetup] [PackageSetup]
+    {source target graph edgeAdmission classifierLift transport routes provenance cert sourceP
+      graphP classifierLiftP edgeAdmissionP targetP : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismCarrier source target graph edgeAdmission classifierLift transport routes
+        provenance cert bundle pkg →
+      hsame source sourceP →
+        hsame graph graphP →
+          hsame classifierLift classifierLiftP →
+            Cont sourceP graphP edgeAdmissionP →
+              Cont edgeAdmissionP classifierLiftP targetP →
+                KernelMorphismCarrier sourceP targetP graphP edgeAdmissionP classifierLiftP
+                    transport routes provenance cert bundle pkg ∧
+                  hsame edgeAdmission edgeAdmissionP ∧ hsame target targetP := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
+  intro carrier sameSource sameGraph sameClassifierLift sourceGraphEdgeP edgeClassifierTargetP
+  obtain ⟨sourceUnary, _targetUnary, graphUnary, edgeAdmissionUnary, classifierLiftUnary,
+    transportUnary, routesUnary, provenanceUnary, certUnary, sourceGraphEdge,
+    edgeClassifierTarget, transportRoutesProvenance, provenancePkg, certPkg⟩ := carrier
+  have sourceUnaryP : UnaryHistory sourceP := unary_transport sourceUnary sameSource
+  have graphUnaryP : UnaryHistory graphP := unary_transport graphUnary sameGraph
+  have classifierLiftUnaryP : UnaryHistory classifierLiftP :=
+    unary_transport classifierLiftUnary sameClassifierLift
+  have edgeSame : hsame edgeAdmission edgeAdmissionP :=
+    cont_respects_hsame sameSource sameGraph sourceGraphEdge sourceGraphEdgeP
+  have edgeUnaryP : UnaryHistory edgeAdmissionP :=
+    unary_cont_closed sourceUnaryP graphUnaryP sourceGraphEdgeP
+  have targetSame : hsame target targetP :=
+    cont_respects_hsame edgeSame sameClassifierLift edgeClassifierTarget edgeClassifierTargetP
+  have targetUnaryP : UnaryHistory targetP :=
+    unary_cont_closed edgeUnaryP classifierLiftUnaryP edgeClassifierTargetP
+  exact
+    ⟨⟨sourceUnaryP, targetUnaryP, graphUnaryP, edgeUnaryP, classifierLiftUnaryP,
+        transportUnary, routesUnary, provenanceUnary, certUnary, sourceGraphEdgeP,
+        edgeClassifierTargetP, transportRoutesProvenance, provenancePkg, certPkg⟩,
+      edgeSame, targetSame⟩
+
 def KernelMorphismEdgeLiftCarrier [AskSetup] [PackageSetup]
     (source target graph edgeAdmission classifierLift transport route provenance cert
       endpoint : BHist)
