@@ -1,0 +1,50 @@
+\chapter{A Concrete Naming Certificate for $\CertificatePipelineStageBoundaryUp$}
+\label{ch:concrete-instances-certificate-pipeline-stage-boundary-namecert}
+\origin{human}
+
+The $\CertificatePipelineStageBoundaryUp$ interface names the finite boundary between two adjacent certificate compiler stages. It keeps both compiler packets visible, records the shared middle-stage compatibility row, and exposes only the classifier, continuation, package, and local naming rows needed by downstream compiler-pipeline consumers.
+
+\begin{definition}[CertificatePipelineStageBoundary carrier]
+\label{def:certificate-pipeline-stage-boundary-carrier}
+A $\CertificatePipelineStageBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,M,T,K_{SM},K_{MT},J,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source $\NameCert$ row for the first compiler stage;
+\item $M$ is the middle $\NameCert$ row that receives the first stage and supplies the second stage;
+\item $T$ is the target $\NameCert$ row for the second compiler stage;
+\item $K_{SM}$ is an accepted $\CertificateCompilerUp$ packet from $S$ to $M$;
+\item $K_{MT}$ is an accepted $\CertificateCompilerUp$ packet from $M$ to $T$;
+\item $J$ is the middle-stage compatibility row asserting that the target row read by $K_{SM}$ is the source row read by $K_{MT}$;
+\item $H$ records componentwise $\hsame$ transports for the source, middle, target, adjacent compiler packets, compatibility row, package row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes for the first compiler stage, the middle-stage handoff, the second compiler stage, and the composed boundary read;
+\item $P$ names $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CertificateCompilerUp$, and the adjacent compiler-stage boundary shape;
+\item $N$ is the local $\NameCert_{\CertificatePipelineStageBoundaryUp}$ row.
+\end{enumerate}
+The packet contains no host compiler semantics, program equivalence theorem, global optimisation proof, or unrecorded intermediate-representation interpretation.
+\end{definition}
+
+\begin{theorem}[CertificatePipelineStageBoundary NameCert obligations]
+\label{thm:certificate-pipeline-stage-boundary-namecert-obligations}
+For the carrier of \autoref{def:certificate-pipeline-stage-boundary-carrier}, the local $\NameCert_{\CertificatePipelineStageBoundaryUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $B=(S,M,T,K_{SM},K_{MT},J,H,C,P,N)$;
+\item middle landing and source compatibility, requiring the target certificate row consumed by $K_{SM}$ to be the same displayed middle row $M$ used as the source certificate row of $K_{MT}$;
+\item classifier transport across the boundary, first through $K_{SM}$ and then through $K_{MT}$, with no classifier row outside $S,M,T$;
+\item continuation composition, composing the first-stage route, middle-stage handoff, and second-stage route through the displayed $C$ row;
+\item non-escape from host compiler semantics, excluding program equality, semantic models, global optimisation correctness, and unrecorded target behavior.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of \autoref{def:certificate-pipeline-stage-boundary-carrier}. The rows $S,M,T,K_{SM},K_{MT},J,H,C,P,N$ are visible coordinates of one finite $\BHist$ packet.
+
+The middle compatibility obligation is the row $J$. It states that the first accepted $\CertificateCompilerUp$ packet lands in the same middle naming certificate that the second accepted compiler packet reads as its source.
+
+Classifier transport is read stage by stage. The first packet transports source classifier rows from $S$ to $M$, the second transports those middle rows from $M$ to $T$, and the componentwise transports in $H$ preserve the same displayed boundary rows.
+
+Continuation composition is the corresponding route in $C$. It concatenates the first-stage continuation route, the middle-stage handoff route, and the second-stage continuation route before the package row $P$ and local naming row $N$ expose the boundary to consumers.
+
+No further coordinate remains in the carrier. Hence host compiler semantics, program equality, global optimisation correctness, and unrecorded target behavior cannot witness the adjacent-stage boundary.
+\end{proof}
