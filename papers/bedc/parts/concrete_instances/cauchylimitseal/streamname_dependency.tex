@@ -1,0 +1,15 @@
+\begin{theorem}[CauchyLimitSeal StreamName dependency]
+\label{thm:streamname-cauchy-limit-seal-dependency}
+Every $\CauchyLimitSealUp$ consumer read of a sealed Cauchy limit factors through the finite $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert} before the seal row is consumed. In the carrier notation
+$$
+L=(X,S,D,G,E,T,P,N),
+$$
+the read must pass through the scheduled window row $S$, its displayed $\RegSeqRatUp$ source row in $X$, the matching $\DyadicRatCoreUp$ ledger in $D$, and the transport route in $T$ before any downstream consumer reads the $\RealUp$ seal row $E$. The route excludes quotient streams, host limits, selected external limits, and ambient completeness data.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cauchy-limit-seal-carrier}. The schedule row $S$ is the only row that lists finite windows, and the seal row $E$ has no independent consumer channel.
+
+Apply window factorization from \autoref{thm:cauchy-limit-seal-window-factorization}. It routes every finite consumer request through the $\StreamNameUp$ window, the regular source row, the dyadic observation ledger, and the displayed transport rows before reaching the seal.
+
+Finally use non-escape from \autoref{thm:cauchy-limit-seal-non-escape}. Since quotient streams, host limits, selected external limits, and ambient completeness do not occur as carrier coordinates, the finite $\StreamNameUp$ window surface is the required dependency child for every sealed-limit read.
+\end{proof}
