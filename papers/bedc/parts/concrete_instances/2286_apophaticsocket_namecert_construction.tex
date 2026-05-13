@@ -121,6 +121,22 @@ The gate and site rows $G,A$ keep the request inspectable. The transport and rep
 Since the carrier inventory contains no row for the requested supply itself, no ledger projection can internalize it. The only available outputs are the displayed boundary rows and their permitted read routes.
 \end{proof}
 
+\begin{theorem}[ApophaticSocket scoped supply ledger]
+\label{thm:apophatic-socket-scoped-supply-ledger}
+Every visible supply request in an accepted $\ApophaticSocketUp$ packet is scoped by the concrete rows
+$$
+K,S_0,G,A,L,Q,P,N.
+$$
+The socket kind is read through $K$, the requested external supply shape through $S_0$, the audit gate through $G$, the invocation site through $A$, componentwise $\hsame$ transport through $L$, displayed $\Cont$ replay through $Q$, $\Pkg$ provenance through $P$, and local \NameCert{} naming through $N$. This scoped ledger records the request without internalizing the requested external supply.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-socket-ledger-carrier}. Its visible coordinates are exactly $K,S_0,G,A,L,Q,P,N$, so every accepted packet already carries the supply request as a finite displayed ledger.
+
+Apply the gated supply route exhaustion of \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}. Any visible use of the requested supply shape must pass through the socket kind, supply shape, gate, site, transport, replay, provenance, and local naming rows.
+
+Finally apply the boundary noninternalization ledger of \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}. The scoped packet can expose the request and its audit route, but it has no coordinate from which the requested external supply itself can be projected.
+\end{proof}
+
 \closureat{ApophaticSocketUp}{obligationStr}
 
 \begin{closurestatus}{\ApophaticSocketUp}
