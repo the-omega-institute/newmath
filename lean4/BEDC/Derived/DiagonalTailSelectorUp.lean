@@ -142,4 +142,32 @@ theorem DiagonalTailSelectorCarrier_public_budget_export [AskSetup] [PackageSetu
     }
   exact ⟨publicUnary, publicRoute, publicPkg, cert⟩
 
+theorem DiagonalTailSelectorCarrier_tail_cofinality_factorization [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name schedulePrecision scheduleWindow scheduleDyadic
+      scheduleRegseq scheduleSeal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg →
+      Cont schedulePrecision scheduleWindow scheduleDyadic →
+      Cont scheduleDyadic scheduleRegseq scheduleSeal →
+      hsame scheduleSeal s →
+      Cont w d t →
+      Cont t s consumer →
+      PkgSig bundle consumer pkg →
+        UnaryHistory scheduleDyadic ∧ UnaryHistory scheduleSeal ∧ UnaryHistory consumer ∧
+          hsame scheduleSeal s ∧ Cont w d t ∧ Cont t s consumer ∧
+            PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro carrier _scheduleWindowRoute scheduleSealRoute sameScheduleSeal wdRoute
+    consumerRoute consumerPkg
+  obtain ⟨_rUnary, _nUnary, _muUnary, _kUnary, wUnary, dUnary, tUnary, sUnary,
+    _hUnary, _cUnary, _pUnary, _nameUnary, _nmuRoute, _kwRoute, _pPkg⟩ := carrier
+  have scheduleSealUnary : UnaryHistory scheduleSeal :=
+    unary_transport_symm sUnary sameScheduleSeal
+  have scheduleDyadicUnary : UnaryHistory scheduleDyadic :=
+    unary_cont_left_factor scheduleSealRoute scheduleSealUnary
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnary sUnary consumerRoute
+  exact ⟨scheduleDyadicUnary, scheduleSealUnary, consumerUnary, sameScheduleSeal,
+    wdRoute, consumerRoute, consumerPkg⟩
+
 end BEDC.Derived.DiagonalTailSelectorUp
