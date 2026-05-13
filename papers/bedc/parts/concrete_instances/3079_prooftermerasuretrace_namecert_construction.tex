@@ -67,6 +67,46 @@ Apply \autoref{thm:proofterm-erasure-trace-namecert-obligations}. Its membership
 The same obligation theorem lists erased-term non-escape and local ledger exactness. Since the carrier has no host conversion, quotient equality, proof irrelevance, semantic erasure-correctness, or hidden proof-witness coordinate, the typed-reduction boundary is exactly $T,E,R,H,C,P,N$ together with the displayed erased row.
 \end{proof}
 
+\begin{theorem}[Proof-term erasure trace Ext membership factorization]
+\label{thm:proofterm-erasure-trace-ext-membership-factorization}
+For any accepted $\ProofTermErasureTraceUp$ packet
+$$
+Z=(p,e,T,E,R,H,C,P,N),
+$$
+every public membership read of the erased row $e$ factors through the displayed $\Ext$ row $T$, the erasure route $E$, and the local rows $H,C,P,N$ of \autoref{def:proofterm-erasure-trace-carrier}. It cannot be certified by a host typing judgment, an erased proof witness, or an external conversion relation outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proofterm-erasure-trace-carrier}. The proof term $p$, erased row $e$, and typing row $T$ are displayed together, so an erased membership read starts from the same finite packet rather than from a host typing predicate.
+
+Apply \autoref{thm:proofterm-erasure-trace-namecert-obligations}. Its $\Ext$ membership-preservation row states that accepted public reads of $e$ are backed by $T$ and by the erasure route $E$.
+
+The remaining local rows $H,C,P,N$ supply the transport, continuation replay, provenance, and local naming ledger. Since no coordinate names host typing, proof-witness export, or external conversion, the factorization is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure trace erasure-route replay]
+\label{thm:proofterm-erasure-trace-erasure-route-replay}
+For any accepted $\ProofTermErasureTraceUp$ packet $Z=(p,e,T,E,R,H,C,P,N)$, the erasure route from the proof-term row $p$ to the erased public row $e$ is replayed only by the displayed $\Cont$ row $E$ together with the route ledger $C$ and transport row $H$. Replaying the route cannot introduce a second erasure function, a normalization oracle, or proof-irrelevance data outside $Z$.
+\end{theorem}
+\begin{proof}
+Read the erasure coordinate of \autoref{def:proofterm-erasure-trace-carrier}. The route from $p$ to $e$ is the displayed $\Cont$ row $E$, and the general continuation replay ledger is the coordinate $C$.
+
+Transport is componentwise through $H$. Thus moving the proof term, erased term, typing row, and compatibility row transports the same erasure route rather than selecting a second route.
+
+Apply the non-escape and ledger-exactness rows of \autoref{thm:proofterm-erasure-trace-namecert-obligations}. They exclude normalization oracles, proof irrelevance, hidden proof witnesses, and host conversion data from the replay surface.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure trace public-row ledger exhaustion]
+\label{thm:proofterm-erasure-trace-public-row-ledger-exhaustion}
+For any accepted $\ProofTermErasureTraceUp$ packet $Z=(p,e,T,E,R,H,C,P,N)$, every public row exported to a downstream consumer is one of the displayed proof-term, erased-term, typing, erasure-route, subject-reduction, transport, continuation, provenance, or local naming rows of \autoref{def:proofterm-erasure-trace-carrier}. The ledger has no additional public row for host conversion, quotient term equality, semantic erasure correctness, proof irrelevance, or hidden proof evidence.
+\end{theorem}
+\begin{proof}
+Project the packet $Z$. Its public inventory is exactly $p,e,T,E,R,H,C,P,N$, with $T$ carrying $\Ext$ membership, $E$ and $C$ carrying displayed $\Cont$ replay, $R$ carrying subject-reduction compatibility, and $H,P,N$ carrying transport, provenance, and local naming.
+
+Apply \autoref{thm:proofterm-erasure-trace-namecert-obligations}. Carrier admission gives the full inventory, erased-term non-escape removes undisplayed proof and conversion rows, and local ledger exactness forces downstream reads through the same packet.
+
+Therefore the downstream ledger is exhausted by the displayed rows. Any requested host conversion, quotient equality, semantic erasure theorem, proof irrelevance principle, or hidden proof evidence is outside the accepted public-row surface.
+\end{proof}
+
 \closureat{ProofTermErasureTraceUp}{seedStr}
 
 \begin{closurestatus}{\ProofTermErasureTraceUp}
