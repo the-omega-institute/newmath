@@ -94,3 +94,32 @@ Finally use completion consumer nonescape,
 Every completion-facing read remains inside the displayed packet rows and
 exports none of the omitted quotient, host, choice, or completeness data.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit Real seal consumer scope]
+\label{thm:diagonal-limit-compatibility-real-seal-consumer-scope}
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted
+$\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+first reads the synchronized source rows $R,T,D,W$, the $\RegSeqRatUp$
+readback row $Q$, and the real seal row $L$ through $H,C,P,N$. Such a
+consumer cannot obtain a host limit, quotient stream, choice datum, ambient
+completeness row, or second source route.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}.
+It fixes the displayed source rows $R,T,D,W$, the readback row $Q$, the seal
+row $L$, and the structural rows $H,C,P,N$ before any seal-facing read can
+continue.
+
+Next use \autoref{thm:diagonal-limit-compatibility-triangle-readback-lock}.
+The readback row $Q$ is locked behind the same triangle, dyadic, and window
+rows $T,D,W$, so the consumer has no independent readback or tolerance route.
+
+Finally apply
+\autoref{thm:diagonal-limit-compatibility-real-seal-factorization}. The
+factorization routes every $\RealUp$ or $\CauchyLimitSealUp$ consumer through
+the displayed packet rows and exports none of the host limit, quotient stream,
+choice, ambient completeness, or second-source data excluded in the statement.
+\end{proof}
