@@ -5,6 +5,22 @@ The finite-window $\StreamNameUp$ package is consumed by the $\RegularCauchyName
 
 This edge is the L10 scheduled finite-window handoff from $\StreamNameUp$ into the $\RegularCauchyNameUp$, $\RegSeqRatUp$, and $\RealUp$ chain. The handoff is recorded before the $\RegSeqRatUp$ and $\RealUp$ seal rows, so the later consumer can cite the StreamName window surface without importing quotient stream equality, host sequence equality, selected limits, or ambient completeness.
 
+\begin{theorem}[StreamName RatUp to RegSeqRat lattice source]
+\label{thm:streamname-rat-regseqrat-lattice-source}
+Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed by an accepted $\RegSeqRatUp$ row and then by an accepted $\RealUp$ seal row. Then every gateway read of $W$ first exposes its point observations as $\RatUp$ carrier and classifier rows: the carrier rows are the pointwise $\mathsf{RatHistoryCarrier}$ witnesses of \autoref{def:rat-stream-name-carrier}, and the classifier rows are the pointwise $\mathsf{RatHistoryClassifier}$ witnesses of \autoref{def:rat-stream-name-classifier}. The $\RegSeqRatUp$ consumer may read those same point rows only through the $\RatUp$, $\RegSeqRatUp$, and $\RealUp$ certificate surfaces of \autoref{ch:concrete-instances-rat-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Consequently the downstream lattice edge is sourced by RatUp point rows before any regular-sequence or real-seal row is exposed. The edge exports no quotient stream equality, host sequence equality, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the accepted StreamName carrier first. Definitions \autoref{def:rat-stream-name-carrier} and \autoref{def:rat-stream-name-classifier} say exactly that a StreamName window reads certified unary observations pointwise as $\mathsf{RatHistoryCarrier}$ and $\mathsf{RatHistoryClassifier}$ rows. Those are the RatUp carrier and classifier rows named by \autoref{ch:concrete-instances-rat-namecert}.
+
+Next apply the pointwise handoff theorems in this StreamName chapter. The package theorem \autoref{thm:streamname-regseqrat-pointwise-handoff} sends the finite window to $\RegSeqRatUp$ only through the StreamName carrier rows, the finite-window classifier row, certified unary observations, membership rows, and pointwise $\hsame$ comparisons. The exhaustion theorem \autoref{thm:streamname-regseqrat-pointwise-handoff-exhaustion} identifies those rows with the same pointwise RatUp observations before any regularity or seal-facing datum is read.
+
+Now pass through the displayed downstream certificates. The $\RegSeqRatUp$ row is therefore a consumer of the same point rows through \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\RealUp$ seal row reads the resulting handoff through \autoref{ch:concrete-instances-real-namecert}. The carrier source remains the RatUp point surface; neither consumer introduces a second source for the finite window.
+
+Finally apply the L10 gateway factorization of \autoref{thm:streamname-l10-gateway-factorization}. Its route sends the already exposed StreamName point rows through the $\RegSeqRatUp$ regular source row, dyadic ledger, finite tail witness, finite approximation row, and $\RealUp$ seal row. Its boundary clause excludes quotient stream equality, host sequence equality, selected limits, host real equality, and ambient completeness from the gateway source.
+\end{proof}
+
 \begin{theorem}[StreamName L10 gateway factorization]
 \label{thm:streamname-l10-gateway-factorization}
 Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed by accepted $\RegSeqRatUp$, $\RegularCauchyNameUp$, $\FiniteTailDiagonalSealUp$, $\FiniteCauchyApproximationUp$, and $\RealUp$ rows. Then every accepted L10 read of $W$ factors through one finite displayed route:
