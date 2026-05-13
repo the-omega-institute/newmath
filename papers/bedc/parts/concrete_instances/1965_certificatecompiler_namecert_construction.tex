@@ -515,6 +515,84 @@ landing matches, so no association can add a host compiler or target-semantic
 coordinate.
 \end{proof}
 
+\begin{theorem}[CertificateCompiler source-target landing exhaustion]
+\label{thm:certificate-compiler-source-target-landing-exhaustion}
+Every accepted $\CertificateCompilerUp$ packet has each accepted compiler
+edge exhausted by the finite rows $S,T,G,E,C,H,P,N$. The source and target
+$\NameCert$ rows $S$ and $T$ are the only admission points for the graph
+edge, the landing row $E$ is the only target-carrier landing, and no accepted
+edge can bypass those rows through host compiler semantics, ambient program
+equality, optimiser correctness, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Start with the carrier coordinates of
+\autoref{def:certificate-compiler-carrier}. An accepted packet displays the
+source row $S$, target row $T$, graph row $G$, landing row $E$,
+continuation row $C$, componentwise transport row $H$, provenance row $P$,
+and local naming row $N$.
+
+Apply the classifier of \autoref{def:certificate-compiler-classifier} and
+\autoref{thm:certificate-compiler-edge-classifier-exactness}. These force an
+accepted edge to be read through its graph entry, source classifier row,
+target landing, transported classifier row, and displayed continuation route.
+
+Use \autoref{thm:certificate-compiler-classifier-route-scope} and
+\autoref{thm:certificate-compiler-composite-scope} to close the route under
+identity, binary composition, and triple composition. The resulting accepted
+edge surface is exactly the displayed source-target landing route and has no
+external compiler coordinate.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler public consumer boundary]
+\label{thm:certificate-compiler-public-consumer-boundary}
+Every downstream consumer of an accepted $\CertificateCompilerUp$ packet
+factors through graph landing, classifier transport, and continuation rows.
+Thus a public read can inspect only the graph row $G$, the target landing row
+$E$, the classifier transport row $H$, the continuation row $C$, the
+$\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$ over the source
+and target naming rows $S,T$.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:certificate-compiler-carrier}. Its public
+surface presents graph, landing, continuation, transport, provenance, and
+local naming rows over the source and target certificates.
+
+Apply \autoref{def:certificate-compiler-classifier},
+\autoref{thm:certificate-compiler-edge-classifier-exactness}, and
+\autoref{thm:certificate-compiler-classifier-route-scope}. They identify the
+consumer-visible classifier route with graph landing, transported classifier
+comparison, and continuation compatibility.
+
+Finally use \autoref{thm:certificate-compiler-composite-scope}. Composite
+consumers read only the same graph-landing and classifier-continuation rows,
+so downstream access factors through the displayed finite packet surface.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler finite-route non-escape]
+\label{thm:certificate-compiler-finite-route-non-escape}
+The finite $\CertificateCompilerUp$ route exports no host compiler semantics,
+optimizer correctness theorem, ambient program equality, or unrecorded target
+behavior. Every accepted identity, edge, binary composite, triple composite,
+and downstream consumer read remains inside the displayed rows
+$S,T,G,E,C,H,P,N$ and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ coordinates.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:certificate-compiler-carrier} supplies the finite
+row list $S,T,G,E,C,H,P,N$. No other compiler coordinate is part of the
+accepted packet.
+
+The classifier of \autoref{def:certificate-compiler-classifier}, together
+with \autoref{thm:certificate-compiler-edge-classifier-exactness}, restricts
+edge reads to source classifier comparison, target landing, transported
+classifier rows, and displayed continuation routes.
+
+Apply \autoref{thm:certificate-compiler-classifier-route-scope} and
+\autoref{thm:certificate-compiler-composite-scope}. Identity and composite
+routes keep the same finite dependency surface, so no host compiler,
+optimizer, ambient equality, or unrecorded target behavior is exported.
+\end{proof}
+
 \closureat{CertificateCompilerUp}{obligationStr}
 \closureat{CertificateCompilerUp}{scopedStr}
 
