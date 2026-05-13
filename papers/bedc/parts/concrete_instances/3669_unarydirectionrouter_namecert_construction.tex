@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\UnaryDirectionRouterUp$}
+\label{ch:concrete-instances-unary-direction-router-namecert}
+\origin{human}
+
+The $\UnaryDirectionRouterUp$ packet is the consumer-facing surface of the unary-direction bridge. It records which standard-boundary read is being requested, routes that read through the displayed unary and axis rows, and a local naming certificate, while keeping the $\NatUp$ unary carrier and the $\AxisNatUp$ zero-spine carrier distinct inside the finite kernel.
+
+\begin{definition}[Unary-direction router carrier]
+\label{def:unary-direction-router-carrier}
+A $\UnaryDirectionRouterUp$ carrier is a finite $\BHist$ packet
+$$
+(U,A,S,L,F,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $U$ is the $\NatUp$ unary row, read as a displayed $\mathsf{Unary}$ history and its local naming surface;
+\item $A$ is the $\AxisNatUp$ zero-spine row, read as a displayed $\mathsf{ZeroSpine}$ history and its local naming surface;
+\item $S$ is a finite selector choosing the forward presentation, the backward presentation, or the router-neutral presentation;
+\item $L$ is the displayed length ledger used by either directional read;
+\item $F$ is the forward $\Cont$ route from the unary row through $L$ to the axis row;
+\item $R$ is the backward $\Cont$ route from the axis row through $L$ to the unary row;
+\item $H$ stores componentwise $\hsame$ transports for the two source rows, selector row, length ledger, routes, provenance row, and local name;
+\item $C$ stores the route ledger exposing unary inspection, axis inspection, selector readback, length readback, forward readback, backward readback, neutral readback, and NameCert audit;
+\item $P$ records $\Pkg$ provenance over $\NatUp$, $\AxisNatUp$, $\UnaryDirectionBridgeUp$, $\UnaryZeroSpineStandardIsoUp$, $\AxisUnarySpineNormalizerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UnaryDirectionRouterUp}$ row.
+\end{enumerate}
+The selector row is total over the three displayed presentations:
+$$
+\begin{gathered}
+S \in \{\mathsf{forward},\mathsf{backward},\mathsf{neutral}\}.
+\end{gathered}
+$$
+The packet has no coordinate identifying the $\NatUp$ and $\AxisNatUp$ carriers, no host recursor over standard natural numbers, and no ambient function replacing the displayed $\Cont$ routes.
+\end{definition}
+
+\begin{theorem}[Unary-direction router NameCert obligations]
+\label{thm:unary-direction-router-namecert-obligations}
+The local $\NameCert_{\UnaryDirectionRouterUp}$ surface for \autoref{def:unary-direction-router-carrier} consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission, stating that an accepted router exposes the finite packet $(U,A,S,L,F,R,H,C,P,N)$ over the named BEDC dependencies;
+\item selector totality, stating that every accepted consumer request chooses the forward, backward, or router-neutral presentation through the displayed selector row $S$;
+\item route-ledger exactness, stating that forward and backward reads are precisely the displayed routes $F$ and $R$ through $C$ and $L$;
+\item nonidentification preservation, stating that componentwise transport through $H$ never turns the $\NatUp$ unary row and the $\AxisNatUp$ zero-spine row into a shared kernel carrier;
+\item consumer non-escape, stating that downstream unary-direction consumers may read only through $U,A,S,L,F,R,H,C,P,N$ and cannot export a separate standard-model function as a BEDC route.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The source rows $U$ and $A$, the selector row $S$, the length ledger $L$, the two route rows $F,R$, the transport row $H$, the route ledger $C$, the package row $P$, and the local name $N$ are all present before the certificate accepts the router.
+
+Selector totality is finite case analysis on $S$. In the forward case the consumer reads $F$ through $C$ and $L$; in the backward case it reads $R$ through the same displayed ledgers; in the neutral case it receives only the common router surface and no directional carrier equality.
+
+Route-ledger exactness follows because the packet contains exactly two directional $\Cont$ rows. Any forward or backward bridge read must pass through $C$ after the selector and length rows have been exposed.
+
+For nonidentification preservation, transport is componentwise through $H$. It may rename the unary row, the axis row, the selector, the ledger, and the routes inside their own displayed classifiers, but no row of the packet has target type asserting equality of the two carrier predicates.
+
+Consumer non-escape is the remaining boundary condition. The provenance row $P$ lists the permitted dependencies, and the local naming row $N$ binds the consumer-facing route to the displayed packet, so a downstream consumer cannot replace the router by an external standard-model function or by a host-side identification of the two carriers.
+\end{proof}
