@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\AxiomDependencyMapUp$}
+\label{ch:concrete-instances-axiomdependencymap-namecert}
+\origin{ai}
+
+The $\AxiomDependencyMapUp$ interface realizes the dependency-map reading of \autoref{ch:bedc-axiom-dependency-map} as a finite local certificate. It records claim rows, supplied proof rows, obstruction rows, audit routes, and local naming in one $\BHist$ packet, so a consumer reads the map as displayed dependency data rather than as an ambient statement about classical CIC.
+
+\begin{definition}[Axiom-dependency-map carrier]
+\label{def:axiom-dependency-map-carrier}
+An $\AxiomDependencyMapUp$ carrier is a finite $\BHist$ packet
+$$
+D=(K,S,O,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the finite claim ledger, listing the inspected classical-looking claims whose dependency tuples are recorded;
+\item $S$ is the supply ledger, recording the Mode A checked proof rows, Mode B restricted-surface rows, and Mode C named supply rows for the claims in $K$;
+\item $O$ is the obstruction ledger, recording counterexample, refusal, or purity-gate rows attached to the claims that do not close on the zero-supply substrate;
+\item $A$ is the audit-route ledger, displaying the query, replay, and comparison routes by which the claim rows meet the supply and obstruction rows;
+\item $H$ records componentwise $\hsame$ transport for claim rows, supply rows, obstruction rows, audit routes, package provenance, and local names;
+\item $C$ records the visible $\Cont$ routes through which consumers read a claim row, its mode row, its witness row, and its required-supply row;
+\item $P$ is the $\Pkg$ provenance over $\AxiomQueryLedgerUp$, $\ForbiddenAxiomAncestryUp$, audit-map rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\AxiomDependencyMapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for turning a blocked claim into an unqualified theorem, accepting a forbidden dependency, replacing a claim by a nearby theorem, or reading an unstated host environment scan.
+\end{definition}
+
+\begin{definition}[Axiom-dependency-map classifier]
+\label{def:axiom-dependency-map-classifier}
+For accepted carriers
+$$
+D=(K,S,O,A,H,C,P,N)
+\quad\text{and}\quad
+D'=(K',S',O',A',H',C',P',N'),
+$$
+the classifier $\mathsf{AxiomDependencyMapClassifier}(D,D')$ holds exactly when the displayed claim ledgers match under $\hsame$, the supply and obstruction rows are transported componentwise, each audit route in $A$ is paired with the corresponding route in $A'$, and the package and local naming rows certify the same dependency-map surface.
+
+The classifier compares dependency tuples only through $K,S,O,A,H,C,P,N$. It does not compare hidden theorem lists, unrecorded host axioms, source-token scans, or proof objects outside the displayed finite packet.
+\end{definition}
+
+\begin{theorem}[Axiom-dependency-map NameCert obligations]
+\label{thm:axiom-dependency-map-namecert-obligations}
+For the carrier of \autoref{def:axiom-dependency-map-carrier}, the local $\NameCert_{\AxiomDependencyMapUp}$ surface consists of five finite obligation rows: carrier admission for $D=(K,S,O,A,H,C,P,N)$, classifier stability for \autoref{def:axiom-dependency-map-classifier}, claim-to-supply ledger exactness, audit-route replay through $A,C,P,N$, and non-escape from hidden host axiom supply.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the tuple $K,S,O,A,H,C,P,N$. These are the only rows from which the dependency map can be read.
+
+Classifier stability is componentwise. The $\hsame$ row transports claim, supply, obstruction, and audit-route coordinates, while $C$ replays the paired public reads.
+
+The claim-to-supply ledger is the pair $K,S$ together with obstruction row $O$. A claim whose supply row is empty on the zero-supply surface is read through its displayed obstruction or named supply row rather than through an unrecorded theorem.
+
+Finally $A,P,N$ bind replay, provenance, and local naming. Since the carrier contains no hidden host scan, forbidden-dependency permission, or theorem substitution coordinate, the five rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Axiom-dependency-map ledger exactness]
+\label{thm:axiom-dependency-map-ledger-exactness}
+Every public dependency tuple read from an accepted $\AxiomDependencyMapUp$ packet factors through the displayed claim ledger $K$, supply ledger $S$, obstruction ledger $O$, audit-route ledger $A$, and the transport, continuation, provenance, and naming rows $H,C,P,N$. Thus the tuple records only the finite dependency evidence stored in the packet.
+\end{theorem}
+\begin{proof}
+Start with a public read of a dependency tuple. The claim coordinate is projected from $K$, and its proof, restricted-surface, named-supply, or obstruction content is projected from $S$ and $O$.
+
+The route by which this content is checked is projected from $A$ and replayed through $C$. Transport through $H$ preserves the same row alignment.
+
+The package row $P$ and local name $N$ bind the tuple to the same finite certificate. No other carrier coordinate exists, so the ledger read is exact for the displayed packet.
+\end{proof}
+
+\begin{theorem}[Axiom-dependency-map kernel scope]
+\label{thm:axiom-dependency-map-kernel-scope}
+An accepted $\AxiomDependencyMapUp$ packet exports a kernel-scope dependency map only for the listed claim rows and their displayed supply, obstruction, and audit-route ledgers. It does not enumerate all classical CIC claims, certify arbitrary host theorem dependency completeness, accept forbidden axiom ancestry, or close any claim outside $K,S,O,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier. The finite claim ledger $K$ is the whole domain of the packet, so claims outside $K$ have no row to project.
+
+For listed claims, the only evidence rows are $S,O,A$. These rows record the available proof surface, restricted surface, named supply, obstruction, and replay route attached to the claim.
+
+The rows $H,C,P,N$ preserve and name the same finite map. They do not add a global enumeration, host-completeness theorem, forbidden-dependency acceptance rule, or outside claim row. Hence the exported scope is exactly the displayed kernel-scope map.
+\end{proof}
+
+\closureat{AxiomDependencyMapUp}{seedStr}
+
+\begin{closurestatus}{\AxiomDependencyMapUp}
+  \constructivestory{An $\AxiomDependencyMapUp$ packet is generated from finite claim rows, supply rows, obstruction rows, audit routes, componentwise $\hsame$ transports, displayed $\Cont$ reads, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axiom-dependency-map-carrier}, \autoref{def:axiom-dependency-map-classifier}, \autoref{thm:axiom-dependency-map-namecert-obligations}, \autoref{thm:axiom-dependency-map-ledger-exactness}, and \autoref{thm:axiom-dependency-map-kernel-scope} specify the finite dependency-map carrier, classifier, ledger, replay surface, and kernel boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not enumerate all classical CIC claims, prove host dependency completeness, accept forbidden axiom ancestry, or close claims outside the displayed packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, claim-to-supply ledger exactness, audit-route replay, and non-escape for the displayed dependency-map rows.}
+\end{closurestatus}
