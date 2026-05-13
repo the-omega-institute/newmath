@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerEvidenceBoundaryUp$}
+\label{ch:concrete-instances-groundcompilerevidenceboundary-namecert}
+\origin{human}
+
+The $\GroundCompilerEvidenceBoundaryUp$ packet realizes the GroundCompiler audit-map boundary of \autoref{ch:bedc-groundcompiler-audit-map} as a finite NameCert surface. It sits beside the audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert} and the audit-map family packet of \autoref{ch:concrete-instances-auditmapfamily-namecert}: those chapters classify audit-map rows, while the present packet isolates the compiler-facing evidence rows that may be consumed by TasteGate and self-compilation audit sites.
+
+\begin{definition}[GroundCompiler evidence boundary carrier]
+\label{def:groundcompiler-evidence-boundary-carrier}
+A $\GroundCompilerEvidenceBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(E,C,R,A,H,T,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $E$ is the event-flow evidence row, naming the legal source, channel, encoding, and decoded-event data that may be treated as compiler-layer evidence;
+\item $C$ is the code-not-proof separation row, recording that source text, theorem code, chapter code, source substrings, and carried code channels are readable code data rather than proof or certificate evidence;
+\item $R$ is the generated-recognizer row, recording the generated package, name-certificate, derivation-certificate, theorem, chapter, and accepted-export recognizers that mediate evidence admission;
+\item $A$ is the audit/report non-evidence row, recording metric reports, motif reports, analysis summaries, compiler reports, and cannot-claim ledgers as audit outputs rather than proof inputs;
+\item $H$ records componentwise $\hsame$ transport for event-flow, separation, recognizer, report-boundary, replay, provenance, and naming rows;
+\item $T$ records the displayed $\Cont$ replay routes by which consumers inspect the event-flow evidence, generated recognizer evidence, code/report boundary, and non-input ledger;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:concrete-instances-auditmapinterface-namecert}, \autoref{ch:concrete-instances-auditmapfamily-namecert}, $\BHist$, $\hsame$, $\Cont$, and compiler-layer NameCert rows;
+\item $N$ is the local $\NameCert_{\GroundCompilerEvidenceBoundaryUp}$ row.
+\end{enumerate}
+The classifier accepts exactly the displayed packet rows. It exports no proof term from code text, no certificate from a report, no recognition evidence without the generated-recognizer row, no host equality for event flows, and no compiler-layer input outside $E,R,H,T,P,N$.
+\end{definition}
+
+\begin{theorem}[GroundCompiler evidence boundary NameCert obligations]
+\label{thm:groundcompiler-evidence-boundary-namecert-obligations}
+For the carrier of \autoref{def:groundcompiler-evidence-boundary-carrier}, the local $\NameCert_{\GroundCompilerEvidenceBoundaryUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for $G=(E,C,R,A,H,T,P,N)$ as the complete compiler-layer evidence boundary packet;
+\item generated-recognizer evidence, requiring any admitted package, certificate, theorem, chapter, or accepted-export row to pass through $R$;
+\item code/report non-evidence, requiring code channels, source text, theorem code, chapter code, metric reports, motif reports, compiler reports, and analysis summaries to remain in $C$ or $A$ unless $R$ supplies generated recognition evidence;
+\item transport and replay, requiring componentwise $\hsame$ movement through $H$ and displayed $\Cont$ inspection through $T$ for every accepted consumer read;
+\item ledger non-escape, requiring cannot-claim rows and audit/report rows to remain ledgered outputs rather than hidden proof, certificate, or compiler-input rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite packet. The rows $E,C,R,A,H,T,P,N$ are the only coordinates available to a consumer of the evidence boundary.
+
+Generated-recognizer evidence is read from $R$. Any package, certificate, theorem, chapter, or accepted-export claim must pass through that row before it can be treated as admitted compiler-layer evidence.
+
+The code and report boundary is read from $C$ and $A$. These rows keep source text, theorem code, chapter code, compiler reports, metrics, motifs, and analysis summaries outside proof and certificate input unless the generated-recognizer row supplies the required recognition evidence.
+
+Transport and replay are confined to $H$ and $T$. Componentwise $\hsame$ movement preserves the row class being transported, and each $\Cont$ route reads back the same visible coordinate rather than creating a hidden input.
+
+Finally, $P$ and $N$ bind provenance and local naming. Since the carrier has no further coordinate for proof extraction from code or certificate extraction from reports, ledger rows cannot escape their non-input status.
+\end{proof}
+
+\begin{theorem}[GroundCompiler evidence boundary non-input scope]
+\label{thm:groundcompiler-evidence-boundary-noninput-scope}
+For every accepted $\GroundCompilerEvidenceBoundaryUp$ carrier $G=(E,C,R,A,H,T,P,N)$, compiler reports, source text, metrics, motifs, theorem codes, and chapter codes do not become proof inputs, certificate inputs, or formal compiler inputs without generated recognition evidence supplied by $R$ and replayed through the displayed routes $T$. Their readable status remains code, report, motif, metric, or ledger status inside $C$ and $A$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only row that can mediate evidence admission is $R$, while code-like and report-like artifacts are recorded in $C$ and $A$.
+
+Use the NameCert obligations. They require every consumer read to pass through the displayed transport and continuation rows $H$ and $T$, so a code or report coordinate cannot be silently reclassified during transport.
+
+If generated recognition evidence is absent, the artifact remains in its displayed code, report, motif, metric, or ledger row. The carrier has no separate proof-input, certificate-input, or hidden compiler-input coordinate, so the non-input scope is fixed by the packet itself.
+\end{proof}
+
+\closureat{GroundCompilerEvidenceBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerEvidenceBoundaryUp}
+  \constructivestory{A $\GroundCompilerEvidenceBoundaryUp$ packet is generated from event-flow evidence, code-not-proof separation, generated recognizer evidence, audit/report non-evidence, componentwise $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-evidence-boundary-carrier}, \autoref{thm:groundcompiler-evidence-boundary-namecert-obligations}, and \autoref{thm:groundcompiler-evidence-boundary-noninput-scope} bind the finite GroundCompiler evidence boundary and its non-input scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close TasteGate admission, self-hosting coverage, registry adequacy, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, generated-recognizer evidence, code/report non-evidence, transport and replay, provenance, naming, and ledger non-escape for the same finite compiler-layer packet.}
+\end{closurestatus}
