@@ -102,6 +102,52 @@ The socket chapter supplies the finite shape of the shared discharge rows, while
 The public-export theorem then packages the result as a finite NameCert classifier. The chapter therefore has a concrete BEDC landing: route prose is replaced by a displayed packet whose accepted public reads are exactly the rows of $R$.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteClassifier primitive scope]
+\label{thm:subject-reduction-route-classifier-primitive-scope}
+The primitive scope of an accepted $\SubjectReductionRouteClassifierUp$ packet is exactly the displayed $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert$, $\SubjectReductionUp$, $\SubjectReductionDischargeSocketUp$, and $\TypePreservingCompilerUp$ rows of
+$$
+B,A,L,P,K,I,U,H,C,Q,N .
+$$
+The classifier introduces no host conversion rule, erased derivation semantics, quotient equality of MetaCIC terms, hidden route kind, or proof of any discharge row outside that primitive surface.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:subject-reduction-route-classifier-carrier}. Its displayed coordinates are the four discharge rows, the route-kind classifier, invocation evidence, consumer handoff, componentwise transport, continuation, package provenance, and local naming.
+
+Apply \autoref{thm:subject-reduction-route-classifier-namecert-obligations}. The local NameCert surface reads carrier admission, the four discharge rows, route kind, invocation evidence, consumer row, transport, continuation, provenance, and name through those same coordinates.
+
+Use \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}, \autoref{thm:subject-reduction-route-classifier-consumer-nonescape}, and \autoref{thm:subject-reduction-route-classifier-public-export}. These identify the two invocation styles, keep public consumers on the displayed packet, and rule out any route outside the listed primitive rows.
+
+Thus the primitive scope is exactly the finite BEDC surface named in the statement.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier socket scope]
+\label{thm:subject-reduction-route-classifier-socket-scope}
+The four discharge rows $B,A,L,P$ in an accepted $\SubjectReductionRouteClassifierUp$ packet are consumed from \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. This classifier records how those rows are invoked and handed to consumers; it does not prove beta-substitution preservation, application-argument stability, lambda-domain subject reduction, or Pi-domain subject reduction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-classifier-carrier}. The rows $B,A,L,P$ are present as already supplied discharge rows, and the remaining rows classify and route them.
+
+Apply \autoref{thm:subject-reduction-route-classifier-namecert-obligations}. The certificate obligations expose the four rows and then read $K,I,U,H,C,Q,N$ as classifier, invocation, consumer, transport, continuation, provenance, and naming data.
+
+Use \autoref{thm:subject-reduction-route-classifier-consumer-nonescape}. Since no coordinate supplies proofs of missing discharge premises or closed subject reduction, the classifier cannot discharge the four rows on its own.
+
+Therefore the rows are consumed from the socket chapter and only routed by this classifier.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier type-preserving scope]
+\label{thm:subject-reduction-route-classifier-type-preserving-scope}
+Every $\TypePreservingCompilerUp$ consumer of an accepted $\SubjectReductionRouteClassifierUp$ packet may read the packet only as an invocation-style handoff for the shared rows $B,A,L,P$. The consumer may inspect whether the route is $\mathsf{bundle}$ or $\mathsf{typeclass}$ and may follow $I$ and $U$ to the same discharge payload, but it receives no compiler correctness proof, erased operational semantics, host conversion rule, or additional subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}. The two route kinds classify presentation style for one four-row payload, so a compiler consumer cannot obtain different discharge data by changing the route kind.
+
+Apply \autoref{thm:subject-reduction-route-classifier-public-export}. The public surface exported to downstream chapters is exactly $B,A,L,P,K,I,U,H,C,Q,N$.
+
+Now use \autoref{thm:subject-reduction-route-classifier-primitive-scope} and \autoref{thm:subject-reduction-route-classifier-socket-scope}. These pin the primitive rows and record that the four discharge rows are consumed from the socket rather than proved by the classifier.
+
+The type-preserving compiler read is therefore an invocation-style handoff only. No carrier coordinate remains from which compiler correctness, erased semantics, host conversion, or an additional subject-reduction discharge could be projected.
+\end{proof}
+
 \closureat{SubjectReductionRouteClassifierUp}{seedStr}
 \closureat{SubjectReductionRouteClassifierUp}{obligationStr}
 

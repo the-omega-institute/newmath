@@ -4,6 +4,8 @@
 
 The $\BinderBudgetSealUp$ surface turns closed-term substitution into finite NameCert data. It records the binder-depth boundary at which a MetaCIC term is closed, the shift route at that boundary, the substitution route at the same boundary, and the consumer handoff that lets self-compilation read the boundary without receiving an unregistered free variable.
 
+The upstream boundary is the closed-term substitution surface of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. Its depth row, closed term row, shift and substitution boundary rows, and non-escape ledger supply the exact boundary data that $\BinderBudgetSealUp$ repackages as a binder-budget seal.
+
 \begin{definition}[BinderBudgetSeal carrier]
 \label{def:binder-budget-seal-carrier}
 A $\BinderBudgetSealUp$ carrier is a finite $\BHist$ packet
@@ -121,12 +123,29 @@ The shift and substitution non-escape theorems handle the two route cases. They 
 All remaining requests are absent from the obligation surface. The single-carrier TasteGate discipline and the compiler-boundary theorem keep those absent requests from being repacked as a second carrier or as compiler-stage evidence.
 \end{proof}
 
+\begin{theorem}[BinderBudgetSeal TasteGate carrier grounding]
+\label{thm:binder-budget-seal-tastegate-carrier-grounding}
+The carrier rows $D,T,V,S,U,H,C,P,N$ used by the obligation surface, compiler boundary, and non-escape theorem are the same finite packet. Any TasteGate instance for $\BinderBudgetSealUp$ must therefore be discharged on that single carrier and not on a compiler-stage carrier, normalization carrier, quotient syntax carrier, or host soundness carrier.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the obligation surface, \autoref{def:binder-budget-seal-carrier} and \autoref{def:binder-budget-seal-obligation-surface}. Both display the same tuple $B=(D,T,V,S,U,H,C,P,N)$ and name no second carrier.
+
+Use carrier admission from \autoref{thm:binder-budget-seal-carrier-admission}. It reads $D,T,V$ only through $S,U,H,C,P,N$, so the admitted surface is the same packet named by the obligation theorem.
+
+Apply the compiler boundary and non-escape theorems, \autoref{thm:binder-budget-seal-compiler-boundary} and \autoref{thm:binder-budget-seal-non-escape}. They rule out compiler-stage, normalization, quotient syntax, and host soundness rows outside the displayed tuple.
+
+The TasteGate carrier must therefore be grounded on row equality of this packet. Since every cited surface names $D,T,V,S,U,H,C,P,N$, a separate carrier would fail to be the accepted $\BinderBudgetSealUp$ packet.
+\end{proof}
+
 \closureat{BinderBudgetSealUp}{seedStr}
+\closureat{BinderBudgetSealUp}{obligationStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]
+\closureat{BinderBudgetSealUp}{scopedStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\BinderBudgetSealUp}
   \constructivestory{A $\BinderBudgetSealUp$ packet is generated from a binder-depth boundary, a MetaCIC term row, a substitution payload row, shift and substitution non-escape routes, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:binder-budget-seal-carrier}, \autoref{def:binder-budget-seal-obligation-surface}, \autoref{thm:binder-budget-seal-namecert-obligations}, \autoref{thm:binder-budget-seal-carrier-admission}, \autoref{thm:binder-budget-seal-compiler-boundary}, and \autoref{thm:binder-budget-seal-non-escape} bind the closed-term substitution boundary as finite NameCert obligation data.}
+  \theoryclosure{\scopedClosure}
+  \leanchecked{BEDC.Derived.BinderBudgetSealUp.taste\_gate}
+  \scopeclosed{\autoref{def:binder-budget-seal-carrier}, \autoref{def:binder-budget-seal-obligation-surface}, \autoref{thm:binder-budget-seal-namecert-obligations}, \autoref{thm:binder-budget-seal-carrier-admission}, \autoref{thm:binder-budget-seal-compiler-boundary}, \autoref{thm:binder-budget-seal-non-escape}, and \autoref{thm:binder-budget-seal-tastegate-carrier-grounding} bind the closed-term substitution boundary as finite NameCert obligation data on one carrier.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

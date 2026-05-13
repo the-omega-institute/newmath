@@ -130,6 +130,18 @@ Next apply the identity and composite public boundary of \autoref{thm:certificat
 Finally combine the downstream stage package of \autoref{thm:certificate-compiler-downstream-stage-unblock-package} with the $\KernelMorphismUp$ source-target scope named in \autoref{ch:concrete-instances-kernelmorphism-namecert}. The consumer-facing route is exactly the finite $\BHist$ handoff through $S,G,E,H,C,P,N$ together with the KernelMorphism graph-admission and classifier-lift rows, leaving optimiser correctness, decompiler correctness, and unrecorded target behavior outside the packet.
 \end{proof}
 
+\begin{theorem}[CertificateCompiler KernelMorphism decompiler boundary]
+\label{thm:certificate-compiler-kernelmorphism-decompiler-boundary}
+Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ packet. Any route from $K$ into a $\KernelMorphismUp$ consumer and then into a $\DecompilerRightInverseUp$ consumer factors through the displayed finite rows $S,G,E,H,C,P,N$, the $\KernelMorphismUp$ graph-admission and classifier-lift rows, and the $\DecompilerRightInverseUp$ inverse-boundary rows of \autoref{thm:decompiler-right-inverse-non-escape-boundary}. The route exports no host compiler semantics, optimiser correctness, ambient program equality, host decompiler function, total decompiler, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+First apply the target endpoint route of \autoref{thm:certificate-compiler-target-endpoint-route}. It places every accepted compiler target read on the displayed finite rows $S,G,E,H,C,P,N$.
+
+Next apply the KernelMorphism route scope of \autoref{thm:certificate-compiler-kernelmorphism-route-scope}. The intermediate morphism consumer can add only the graph-admission and classifier-lift rows licensed by $\KernelMorphismUp$, so the compiler leg remains a finite $\BHist$ handoff rather than a host compiler semantics.
+
+Finally apply the decompiler right-inverse non-escape boundary of \autoref{thm:decompiler-right-inverse-non-escape-boundary}. A downstream inverse consumer may read only the displayed compiler packet, decompiler graph, target optimisation row, right-inverse ledger, transport, continuation, provenance, and local naming rows. Combining the three non-escape clauses leaves no route to optimiser correctness, ambient program equality, host decompiler behavior, or target behavior absent from the packet.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler target endpoint determinacy]
 \label{thm:certificate-compiler-target-endpoint-determinacy}
 Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ packet. Once

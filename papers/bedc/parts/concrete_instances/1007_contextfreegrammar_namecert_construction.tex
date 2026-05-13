@@ -339,3 +339,66 @@ those structures is exported by the parse-tree-shaped read.
   \notclaimed{This chapter does not close grammar equivalence, ambiguity, parsing completeness, pumping arguments, Chomsky normal form, context-free language closure theorems, or machine bridge verification.}
   \upgradepath{Machine bridge verification requires a Lean bridge theorem for the displayed grammar packet and its regular-language and Turing-machine consumer surfaces.}
 \end{closurestatus}
+
+\begin{theorem}[ContextFreeGrammar derivation prefix carrier]
+\label{thm:contextfreegrammar-derivation-prefix-carrier}
+Let
+$$
+G=(\Sigma,N,S,P,w,d,y,h,c,p,n)
+$$
+be an accepted $\ContextFreeGrammarUp$ packet. Suppose the finite derivation
+ledger $d$ is displayed as a split into a prefix ledger $d_{\mathrm{pre}}$ and
+a suffix ledger $d_{\mathrm{suf}}$, with $d_{\mathrm{pre}}$ beginning at the
+start row $S$ and ending at the split sentential-form row $u$. Then
+$d_{\mathrm{pre}}$ repacks as an accepted derivation-segment carrier
+$$
+(S,P,d_{\mathrm{pre}},u,h_{\mathrm{pre}},c_{\mathrm{pre}},p,n)
+$$
+over the same start row, production ledger, package provenance, and local
+$\NameCert_{\ContextFreeGrammarUp}$ row. The restricted rows
+$h_{\mathrm{pre}}$ and $c_{\mathrm{pre}}$ are exactly the componentwise
+$\hsame$ transports and $\Cont$ routes of $h$ and $c$ whose derivation entries
+lie in the displayed prefix. The repacked segment contains no suffix step, no
+terminal-yield readback requirement, and no production row outside $P$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:contextfreegrammar-bhist-carrier}. The coordinate $d$ is a finite
+derivation ledger beginning at the displayed start row $S$, and each step of
+$d$ replaces one displayed nonterminal occurrence by a production row already
+listed in the finite production ledger $P$.
+
+The displayed split selects a finite initial subledger
+$d_{\mathrm{pre}}$. Since it is an initial segment of $d$, its first
+sentential-form row is still $S$, and its last sentential-form row is the
+split row $u$. Every step retained in $d_{\mathrm{pre}}$ is therefore a step
+of the original ledger, so its production witness is already a row of $P$.
+Applying \autoref{thm:contextfreegrammar-production-stability} to these
+retained steps keeps the left nonterminal row, right-side $\ListUp$ row,
+terminal and nonterminal tags, and production witness inside the same
+displayed production ledger.
+
+Restrict the transport coordinate $h$ to the alphabet, nonterminal,
+production, sentential-form, and derivation rows that occur in
+$d_{\mathrm{pre}}$. This gives $h_{\mathrm{pre}}$. Restrict the continuation
+coordinate $c$ to the route entries that read those same prefix steps. This
+gives $c_{\mathrm{pre}}$. Both restrictions are finite because the selected
+prefix is a finite subledger of the finite ledger $d$.
+
+Now repack the rows
+$S$, $P$, $d_{\mathrm{pre}}$, $u$, $h_{\mathrm{pre}}$,
+$c_{\mathrm{pre}}$, $p$, and $n$. They provide exactly the data needed for a
+finite derivation segment: a start row, the production ledger used at each
+step, the retained derivation rows, the endpoint row, the corresponding
+transports, the corresponding continuation routes, package provenance, and
+the local naming row. The yield row $w$ and readback row $y$ are not used,
+because the claim stops at the split sentential form and does not assert that
+$u$ is terminal.
+
+Finally, \autoref{thm:contextfreegrammar-derivation-concatenation} checks the
+boundary: concatenating the repacked prefix with the displayed suffix along
+the split sentential-form row recovers a finite derivation ledger over the
+same production rows. Thus the prefix repacking is a genuine subledger carrier
+of the accepted packet, not a separate grammar, parse tree, host closure, or
+recognizer-completeness assertion.
+\end{proof}

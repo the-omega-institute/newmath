@@ -17,4 +17,3 @@ Each target card carries enough context (Object, Local inputs) for the loop
 to build its initial prompt without external lookups.
 
 ---
-

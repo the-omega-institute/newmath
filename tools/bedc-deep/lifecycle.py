@@ -77,6 +77,16 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "next_action": "skip",
         "mathematically_blocked": True,
     },
+    "schema_boundary_target": {
+        "retry_budget": 0,
+        "next_action": "skip",
+        "mathematically_blocked": True,
+    },
+    "posthoc_paper_covered": {
+        "retry_budget": 0,
+        "next_action": "skip",
+        "covered_by_existing_paper": True,
+    },
     "oracle_duplicate_response": {
         "retry_budget": 0,
         "next_action": "skip",
@@ -161,6 +171,147 @@ def _is_resolved_literal_x_format_crash(state: dict) -> bool:
     )
 
 
+def _is_schema_boundary_target(state: dict) -> bool:
+    """Recognize old BOARD targets that point at schema-only roadmap surfaces.
+
+    These are not completed paper theorems, but retrying them as ordinary B-lane
+    theorem targets is misleading: the paper explicitly says the witnesses live
+    in a future constructive layer. Keep the match narrow so genuinely new
+    schema-boundary failures still surface for review.
+    """
+    target_id = str(state.get("target_id") or "")
+    title = str(state.get("title") or "").lower()
+    if target_id == "B-500" and title == "causal dependence implies positive max-rate":
+        return True
+    return False
+
+
+def _is_posthoc_paper_covered_target(state: dict) -> bool:
+    """Recognize old failed targets closed later by a paper patch.
+
+    Keep this list evidence-bound and narrow: it is only for stale lifecycle
+    alerts whose exact target now has a labeled theorem in the paper.
+    """
+    target_id = str(state.get("target_id") or "")
+    title = str(state.get("title") or "").lower()
+    if target_id == "B-398" and title == "split isomorphism inverse witnesses coincide":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "functor"
+            / "split_iso_inverse_uniqueness.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:category-split-isomorphism-inverse-witnesses-coincide" in text
+    if target_id == "B-495" and title == "distribution↑ null-completion random-variable descent":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "distribution"
+            / "null_completion_descent.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:distribution-null-completion-random-variable-descent" in text
+    if target_id == "B-725" and title == "docalculus intervention prefix locality":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "1784_docalculus_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return (
+                "def:do-calculus-displayed-prefix-subledger" in text
+                and "thm:do-calculus-intervention-prefix-locality" in text
+            )
+    if target_id == "B-726" and title == "enrichedcat two-step composition reassociation":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "160_enrichedcat_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:enrichedcat-two-step-composition-reassociation" in text
+    if target_id == "B-728" and title == "module linearmap pointwise zero additive identity":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "linearmap"
+            / "module_linearmap_kernel_image_and_zero.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:module-linearmap-pointwise-zero-additive-identity" in text
+    if target_id == "B-729" and title == "module linearmap pointwise inverse additive cancellation":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "linearmap"
+            / "module_linearmap_kernel_image_and_zero.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:module-linearmap-pointwise-inverse-sum-zero-classifier" in text
+    if target_id == "B-730" and title == "regularcauchymesh finite submesh restriction":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "3168_regularcauchymesh_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:regular-cauchy-mesh-finite-submesh-restriction" in text
+    if target_id == "B-731" and title == "hankelvandermonde spectral-shadow bridge":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "1796_hankelvandermonde_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:hankel-vandermonde-spectral-shadow-bridge" in text
+    if target_id == "B-732" and title == "auditmapfrontierindex neighbor restriction":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "4518_auditmapfrontierindex_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:audit-map-frontier-index-neighbour-restriction" in text
+    return False
+
+
 def derive_failure_kind(state: dict) -> str:
     s1v = (state.get("stage1_verdict") or "").lower()
     s2 = state.get("stage2") or {}
@@ -190,6 +341,10 @@ def derive_failure_kind(state: dict) -> str:
         return "format_crash"
 
     if s1v == "stuck":
+        if _is_posthoc_paper_covered_target(state):
+            return "posthoc_paper_covered"
+        if _is_schema_boundary_target(state):
+            return "schema_boundary_target"
         return _stage1_kind_from_stuck(state)
 
     if s1v == "done":
@@ -198,6 +353,8 @@ def derive_failure_kind(state: dict) -> str:
         if s2v == "duplicate_of":
             return "stage2_duplicate_content"
         if s2v == "compile_failed":
+            if _is_posthoc_paper_covered_target(state):
+                return "posthoc_paper_covered"
             return "stage2_compile_failed"
         if s2v == "reject":
             attempts = s2.get("attempts") or []

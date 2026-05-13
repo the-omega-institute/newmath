@@ -79,6 +79,7 @@ The carrier has no coordinate for a host-level completed-real addition law, quot
 \label{thm:regular-cauchy-sum-two-source-real-seal-symmetry}
 Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet. Exchanging the two accepted $\RegSeqRatUp$ source rows preserves the $\RealUp$ seal route: any real-facing consumer still reads both aligned $\StreamNameUp$ windows $W_A,W_B$, both $\DyadicRatCoreUp$ endpoint rows $D_A,D_B$, the same finite error-budget row $E$, the $\RegSeqRatUp$ readback $R$, and the same local $\NameCert_{\RegularCauchySumUp}$ provenance through $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySumUp.RegularCauchySumCarrier\_two\_source\_real\_seal\_symmetry}
 \begin{proof}
 Start with \autoref{thm:regular-cauchy-sum-symmetric-input-handoff}. It gives the componentwise exchange of the two source rows together with their matched windows and endpoint rows, while leaving the displayed addition row, finite budget row, readback row, transport rows, continuation rows, package provenance, and local naming row on the same carrier surface.
 
@@ -290,6 +291,66 @@ Next use \autoref{thm:regular-cauchy-tail-meet-selector-admission}. The two sele
 Then apply \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. The accepted tail-meet packet exposes its threshold as a public finite certificate over the paired source rows, paired windows, source modulus rows, dyadic threshold ledger, comparison row, transports, continuations, provenance, and local naming data.
 
 Finally compose this certificate with \autoref{thm:regular-cauchy-sum-limit-classifier-compatibility}. Completion-facing and diagonal $\RealUp$ reads of the sum must pass through the regular readback $R$, and the readback is already downstream of the shared threshold, selected-tail witnesses, aligned windows, endpoint addition, finite ledger, transports, routes, provenance, and naming rows. Hence the handoff exports no quotient stream, selected limit, host real equality, ambient completeness, or independent completed-real addition law.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum CauchyLimitSeal handoff]
+\label{thm:regular-cauchy-sum-cauchy-limit-seal-handoff}
+Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet whose readback row $R$ is consumed by an accepted $\CauchyLimitSealUp$ packet. Then every $\RealUp$-facing read of the sum factors through the two source $\RegSeqRatUp$ rows $A,B$, the aligned $\StreamNameUp$ windows $W_A,W_B$, the $\DyadicRatCoreUp$ endpoint addition row $D$ with source endpoint rows $D_A,D_B$, the $\FiniteErrorBudgetUp$ ledger $E$, the $\RegSeqRatUp$ readback $R$, and then the public route packet of \autoref{thm:cauchy-limit-seal-public-route-boundary}.
+
+The handoff exposes only the displayed sum rows, the CauchyLimitSeal public route rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient stream, selected host limit, ambient completeness coordinate, or independent completed-real addition law.
+\end{theorem}
+\begin{proof}
+First expose the finite sum route. The window-budget theorem \autoref{thm:regular-cauchy-sum-window-budget} supplies the two source windows, endpoint rows, endpoint-addition row, and finite error ledger.
+
+Next pass through the regular readback. The $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-sum-regseqrat-handoff} repacks those rows as $R$, and the $\RealUp$ seal boundary of \autoref{thm:regular-cauchy-sum-realup-seal-boundary} places every real-facing read downstream of the same readback and visible provenance.
+
+Now consume the downstream seal packet. The CauchyLimitSeal public route boundary \autoref{thm:cauchy-limit-seal-public-route-boundary} accepts a displayed regular source route before exposing its seal-facing surface, so substituting $R$ gives the stated route from the two source regular names through the sum packet and then through the public seal packet.
+
+Finally apply the local non-escape clauses. The sum packet excludes quotient streams, selected host limits, ambient completeness, and independent completed-real addition, while the CauchyLimitSeal boundary keeps the downstream seal on its displayed public route. The composite handoff therefore exposes exactly the finite rows named in the statement.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum dyadic cofinal selector handoff]
+\label{thm:regular-cauchy-sum-dyadic-cofinal-selector-handoff}
+Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet. Suppose the source rows $A$ and $B$ are routed through accepted $\DyadicCofinalTailSelectorUp$ packets at a common $\RatUp$ precision, the selected windows are absorbed by an accepted $\RegularCauchyTailMeetUp$ shared-threshold packet, and the readback row $R$ is consumed by an accepted $\CauchyLimitSealUp$ packet. Then every $\RealUp$-facing read of the sum factors through the two dyadic cofinal selector packets of \autoref{ch:concrete-instances-dyadic-cofinal-tail-selector-namecert}, the shared threshold row of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, the endpoint-addition row $D$ with source endpoint rows $D_A,D_B$, the finite budget row $E$, the $\RegSeqRatUp$ readback row $R$, and the CauchyLimitSeal public route of \autoref{thm:cauchy-limit-seal-public-route-boundary}.
+
+Equivalently, the diagonal Real and Completion route for the sum is the finite composite of the two dyadic selector surfaces, the shared-tail meet certificate, the displayed $\RegularCauchySumUp$ endpoint-addition and budget rows, the regular readback, and the downstream seal packet. It exports no quotient stream, selected host limit, countable choice selector, host real equality, ambient completeness coordinate, or independent completed-real addition law.
+\end{theorem}
+\begin{proof}
+First route the two sources through the dyadic selector packets. The dyadic cofinal tail selector carrier and Real seal handoff in \autoref{ch:concrete-instances-dyadic-cofinal-tail-selector-namecert} expose only the common $\RatUp$ request, finite dyadic window family, selected tail row, finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal row, transports, continuations, provenance, and local naming.
+
+Next connect those selector rows to the sum packet. Apply \autoref{thm:regular-cauchy-sum-tail-selector-compatibility}. The selected-tail witnesses supplied by the two dyadic selector packets are the source-side tail rows consumed by the aligned windows $W_A,W_B$, the endpoint rows $D_A,D_B$, the endpoint-addition row $D$, the finite error ledger $E$, and the regular readback $R$.
+
+Now absorb the two selected windows into one threshold. By \autoref{thm:regular-cauchy-sum-shared-tail-meet-handoff}, together with the shared-threshold certificate from \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, the two selector routes are no longer independent consumer coordinates. Every real-facing sum read passes through the shared threshold before it reaches the endpoint-addition, budget, readback, transport, continuation, provenance, and naming rows of the sum packet.
+
+Finally compose with the downstream seal. The CauchyLimitSeal handoff of \autoref{thm:regular-cauchy-sum-cauchy-limit-seal-handoff} sends the readback $R$ into the public route of \autoref{thm:cauchy-limit-seal-public-route-boundary}. The composite route is therefore exactly the dyadic-selector, shared-threshold, endpoint-addition, finite-budget, regular-readback, and seal-public-route surface named in the statement, with no additional quotient, choice, host-limit, host-equality, completeness, or completed-addition coordinate.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum Real seal route]
+\label{thm:regular-cauchy-sum-real-seal-route}
+Every $\RegularCauchySumUp$ consumer that reads the resulting $\RealUp$ seal factors first through the two source $\RegSeqRatUp$ rows $A,B$, the aligned $\StreamNameUp$ windows $W_A,W_B$, the $\DyadicRatCoreUp$ endpoint ledger with source rows $D_A,D_B$ and addition row $D$, the $\FiniteErrorBudgetUp$ row $E$, the shared-tail-meet certificate, and the $\CauchyLimitSealUp$ route packet before reading the seal. The seal read is therefore a finite composite of the displayed two-source regular names, window data, dyadic ledger, shared tail threshold, regular readback, and downstream seal rows.
+\end{theorem}
+\begin{proof}
+First expose the sum packet. The seal boundary \autoref{thm:regular-cauchy-sum-realup-seal-boundary} and non-escape boundary \autoref{thm:regular-cauchy-sum-non-escape-boundary} keep every real-facing read downstream of the displayed carrier rows.
+
+Next exhaust the local consumer surface. The seal consumer exhaustion theorem \autoref{thm:regular-cauchy-sum-seal-consumer-exhaustion} prevents a consumer from bypassing the $\RegSeqRatUp$ readback, while \autoref{thm:regular-cauchy-sum-shared-tail-meet-handoff} routes the two source windows through one shared threshold.
+
+Now attach the downstream seal. The CauchyLimitSeal handoff \autoref{thm:regular-cauchy-sum-cauchy-limit-seal-handoff} sends the same readback into the public seal route, and the dyadic cofinal selector handoff \autoref{thm:regular-cauchy-sum-dyadic-cofinal-selector-handoff} supplies the finite dyadic selector surface feeding the shared threshold.
+
+Composing these routes gives exactly the displayed two-source regular names, windows, dyadic ledger, shared-tail meet, readback, and CauchyLimitSeal rows before the Real seal is read.
+\end{proof}
+
+\begin{theorem}[RegularCauchySum finite-budget non-escape]
+\label{thm:regular-cauchy-sum-finite-budget-nonescape}
+The Real-seal route of \autoref{thm:regular-cauchy-sum-real-seal-route} exports no quotient stream, no host real equality, no selected limit, no ambient completeness coordinate, and no independent tail oracle. Its public content is exactly the displayed two-source $\RegSeqRatUp$ surface, aligned $\StreamNameUp$ window surface, $\DyadicRatCoreUp$ endpoint ledger, finite budget row, shared-tail-meet handoff, $\CauchyLimitSealUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the non-escape boundary. The theorem \autoref{thm:regular-cauchy-sum-non-escape-boundary} excludes quotient stream equality, host real equality, selected limits, ambient completeness, and completed-real addition from the $\RegularCauchySumUp$ carrier.
+
+The selector side adds no independent oracle. The shared-tail-meet handoff \autoref{thm:regular-cauchy-sum-shared-tail-meet-handoff} absorbs the two selected windows into a single finite threshold, and the dyadic cofinal selector handoff \autoref{thm:regular-cauchy-sum-dyadic-cofinal-selector-handoff} keeps the selector reads inside displayed dyadic and window rows.
+
+The seal side also remains finite. The CauchyLimitSeal handoff \autoref{thm:regular-cauchy-sum-cauchy-limit-seal-handoff} consumes the regular readback through a public route packet, and the seal consumer exhaustion theorem \autoref{thm:regular-cauchy-sum-seal-consumer-exhaustion} leaves no further consumer coordinate.
+
+Therefore the composite route exports only the named finite rows and refuses every quotient, host-equality, selected-limit, completeness, or independent-tail claim.
 \end{proof}
 
 \closureat{RegularCauchySumUp}{obligationStr}

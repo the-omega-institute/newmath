@@ -231,8 +231,7 @@ def zero_extraction_hang_agents(status: dict) -> list[str]:
         except (TypeError, ValueError):
             continue
         if (
-            metrics.get("generating") is True
-            and elapsed >= ZERO_EXTRACTION_HANG_SECONDS
+            elapsed >= ZERO_EXTRACTION_HANG_SECONDS
             and extracted == 0
             and page_chars >= ZERO_EXTRACTION_MIN_PAGE_CHARS
         ):
@@ -690,11 +689,18 @@ def trigger_oracle_board_refill() -> None:
     BOARD unfinished count is low and probe alone isn't refilling.
     """
     supervisor_log("triggering oracle_board_refill")
-    log_path = SUPERVISOR_LOG_DIR / f"refill_{_now_tag_safe()}.log"
+    run_id = _now_tag_safe()
+    log_path = SUPERVISOR_LOG_DIR / f"refill_{run_id}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(SCRIPT_DIR / "oracle_board_refill.py"), "--no-attach-pdf"],
+            [
+                "python3",
+                str(SCRIPT_DIR / "oracle_board_refill.py"),
+                "--no-attach-pdf",
+                "--run-id",
+                run_id,
+            ],
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
@@ -1226,7 +1232,7 @@ def main() -> int:
                 notify_tail = f" URL tail: {url_tails}" if url_tails else ""
                 macos_notify(
                     "BEDC supervisor: oracle zero extraction",
-                    f"{agents_csv} is generating but extracted 0 chars; refresh only the affected ChatGPT tab.{notify_tail}",
+                    f"{agents_csv} has an active task but extracted 0 chars; refresh only the affected ChatGPT tab.{notify_tail}",
                 )
                 last_zero_extract_alert_ts = _now()
 

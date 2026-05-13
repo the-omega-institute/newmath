@@ -1,0 +1,135 @@
+\chapter{Strong Normalisation versus Turing Completeness: The Total-Language Position of BEDC}
+\label{ch:visions-strong-normalization-vs-turing-completeness}
+
+The cellular reading of \autoref{ch:visions-cellular-automaton-substrate-reading} identifies Rule 110 as a minimal universal cellular substrate, and locates the project's \texttt{rule110/} sub-system as the smallest substrate-side instantiation of the closed-observational framework. A complementary axis is the relationship between the \emph{host system} (BEDC, sitting inside CIC) and Turing completeness in the sense relevant to the substrate. The host system is not Turing complete in the same sense; it is a total functional language. This chapter makes the precise statement of that fact, locates BEDC against other total functional languages (Coq, Agda, Lean, Idris~2 with quantitative type theory), and shows how the closed-observational framework forces the total-language position rather than treats it as an incidental design choice.
+
+\section{Setup: total functional language as discipline}
+\label{sec:strong-normalization-setup}
+
+\begin{definition}[Total functional language]
+\label{def:strong-normalization-total-functional-language}
+A \emph{total functional language} is a programming or type-theoretic system in which every well-typed term reduces to a normal form in finitely many reduction steps under the system's reduction relation. Equivalently, no well-typed term computes forever; partial functions cannot be defined as functions; general recursion is admitted only when accompanied by a well-founded measure that the type checker can verify. The Calculus of Inductive Constructions in its Lean~4 implementation is a total functional language under this definition.
+\end{definition}
+
+\begin{definition}[Turing-complete computational model]
+\label{def:strong-normalization-turing-complete-model}
+A \emph{Turing-complete} computational model is a specification of a class of computational processes such that every partial recursive function on natural numbers is realised as some process in the class. Equivalent formulations include the lambda calculus, the unrestricted register machine, the cyclic tag system, and any system Cook~2004 reduces to as a universality witness, in particular the orbit of Rule~110 on a suitable initial configuration.
+\end{definition}
+
+\begin{principle}[BEDC is total; substrate is universal]
+\label{prin:strong-normalization-bedc-total-substrate-universal}
+BEDC, as a Lean~4 development under CIC, is a total functional language in the sense of \autoref{def:strong-normalization-total-functional-language}. The cellular substrate \texttt{rule110/} is a Turing-complete computational model in the sense of \autoref{def:strong-normalization-turing-complete-model}. These two facts coexist without contradiction precisely because they describe two structurally different layers: the host (BEDC) reasons \emph{about} computations, while the substrate \emph{performs} them. The host's totality is not a weakening of the substrate's universality; it is a separate axis of discipline.
+\end{principle}
+
+\section{The expressive gap, made precise}
+\label{sec:strong-normalization-expressive-gap}
+
+\begin{remark}[What a total host cannot directly express]
+\label{rem:strong-normalization-cannot-express}
+A total functional language cannot define, as a function of type $A \to B$, an algorithm whose termination is not internally provable. There exist Turing-computable functions whose totality is provable in a stronger meta-theory but not in CIC itself; these functions, while Turing-realisable, are not directly definable as BEDC functions. The set of BEDC-definable functions is therefore a strict subset of the set of Turing-realisable partial functions on natural numbers; the difference is the set of functions whose totality is unprovable within CIC.
+\end{remark}
+
+\begin{definition}[Step-indexed encoding of partial computation]
+\label{def:strong-normalization-step-indexed-encoding}
+A \emph{step-indexed encoding} of a partial recursive function $\phi$ inside a total language is a function $\widehat{\phi} \colon \mathbb{N} \times \mathrm{Input} \to \mathrm{Output} + \{\bot\}$ such that $\widehat{\phi}(n, x) = \phi(x)$ whenever $\phi(x)$ converges in fewer than $n$ reduction steps and $\widehat{\phi}(n, x) = \bot$ otherwise. The step parameter $n$ is the \emph{fuel}. Step-indexed encoding allows a total host to talk about every Turing-realisable partial function, at the cost that totality of $\widehat{\phi}$ is decoupled from convergence of $\phi$.
+\end{definition}
+
+\begin{example}[Rule~110 evaluator in BEDC]
+\label{ex:strong-normalization-rule110-evaluator-in-bedc}
+The Lean~4 development \texttt{lean4/BEDC/FKernel/} provides \texttt{r110\_run\_n\_steps}, a function that takes a fuel parameter and a starting cell row and returns the row after the specified number of Rule~110 update steps. This is a step-indexed encoding of the Rule~110 orbit, written as a total BEDC function. The cellular substrate's potentially-infinite computation is decomposed into a family of finite computations, one per fuel value. The substrate retains its universality; the encoding retains its totality.
+\end{example}
+
+\begin{principle}[Step indexing as the bridge]
+\label{prin:strong-normalization-step-indexing-as-bridge}
+Step indexing is the structural bridge between a total host and a universal substrate. The host can describe every state the substrate could reach at every finite step, and can prove any decidable assertion about those states; the host cannot, in general, assert that the substrate halts on a given input, because halting is undecidable. The bridge therefore preserves the substrate's universality on the substrate side and the host's totality on the host side; it does not transfer either property across the boundary.
+\end{principle}
+
+\section{Position among total functional languages}
+\label{sec:strong-normalization-position-among-totals}
+
+\begin{remark}[Coq, Agda, Lean, Idris~2: same axis, different commitments]
+\label{rem:strong-normalization-coq-agda-lean-idris}
+Coq, Agda, Lean~4, and Idris~2's quantitative type theory mode all qualify as total functional languages in the sense of \autoref{def:strong-normalization-total-functional-language}. They differ in: which inductive types are admitted, which co-inductive structures are admitted, which universe hierarchies are available, and which standard-library axioms are imported by default. BEDC, as a Lean~4 development with \texttt{axiom-purity --strict}, is the variant in this family that minimises imported commitments: no \texttt{Classical.choice}, no \texttt{Quot.sound}, no \texttt{propext}. Among total functional languages in active use, this is the smallest residual axiomatic footprint currently audited mechanically.
+\end{remark}
+
+\begin{remark}[Idris partial functions and the closure cost]
+\label{rem:strong-normalization-idris-partial-functions}
+Some total languages, notably Idris, admit a \texttt{partial} annotation that allows the language to host non-total functions when explicitly marked. The annotation effectively partitions the language: total subset versus partial subset. BEDC does not admit this partition; every BEDC function is total, with no partial escape hatch. The closure cost of admitting a partial annotation is the loss of the property that ``every typed term has a normal form''; once partial functions exist, the meta-theory must be split into two grades.
+\end{remark}
+
+\begin{principle}[BEDC's total-only discipline is structural]
+\label{prin:strong-normalization-bedc-total-only-structural}
+The choice to admit no partial function annotation is not an aesthetic preference; it is what allows the closed-observational reading of the BEDC kernel to apply uniformly. A partial subset would correspond to a region of the host where computations can in principle not halt, which would break the structural premise that BEDC observations are finite bit strings at finite reduction depth. Total-only discipline is a precondition for the closure theorems of \autoref{ch:visions-transcendental-input-and-induction} to transfer cleanly to the BEDC kernel.
+\end{principle}
+
+\section{The forced choice, read structurally}
+\label{sec:strong-normalization-forced-choice}
+
+\begin{theorem}[Closed observation forces totality at the host]
+\label{thm:strong-normalization-closed-observation-forces-totality}
+Let $H$ be a host system that claims to describe a closed observational system $S$ (\autoref{def:transcendental-input-closed-system}) by recording finite observations of $S$ as terms of $H$. Then $H$ must itself be total in the sense of \autoref{def:strong-normalization-total-functional-language}, on pain of contradicting the closure premise.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Suppose for contradiction $H$ is non-total. Then $H$ admits a term $t$ whose reduction does not terminate. The semantic content of $t$ is not a finite observation; it is a divergent process. If $t$ is offered as a record \emph{of} an observation of $S$, then either (i) the observation is itself divergent, contradicting the closure premise that observations of $S$ are finite, or (ii) the observation is finite but the record is not, contradicting the structural correspondence between observations and records. Either way the closure premise fails. Hence $H$ is total.
+\end{proof}
+
+\begin{remark}[Why this matters for the project framing]
+\label{rem:strong-normalization-why-this-matters}
+The result of \autoref{thm:strong-normalization-closed-observation-forces-totality} is a forced-choice argument: once the host is committed to recording a closed observational system, totality is not optional. It also clarifies why total functional languages are the correct host class for projects of the BEDC kind: Coq, Agda, Lean~4, Idris~2 in total mode are all instances of host systems whose semantic discipline matches the substrate's closure discipline. A host system based on a non-total language (Standard ML, OCaml, Haskell, Python) would silently violate the structural correspondence and would have to mark every observation record by an explicit termination certificate, which is precisely what total languages enforce statically.
+\end{remark}
+
+\section{Curry-Howard, and what it means here}
+\label{sec:strong-normalization-curry-howard}
+
+\begin{principle}[Curry-Howard reading of totality]
+\label{prin:strong-normalization-curry-howard-reading}
+Under the Curry-Howard correspondence, a total functional language is one in which every well-typed term is a proof. Allowing non-termination would correspond to allowing proofs that ``go on forever'', which logically is the same as allowing arbitrary statements to be ``derived'' by an infinite loop. A non-total language is therefore inconsistent as a proof system. BEDC's totality is the proof-side reading of the closure premise: every typed term is a finite, terminating proof; every proof is a finite observation record; the structural correspondence between observation and proof is unbroken.
+\end{principle}
+
+\begin{remark}[Universal computation does not require universal proof]
+\label{rem:strong-normalization-universal-computation-vs-proof}
+The cellular substrate's Turing universality means it can host any computation. The host's totality means every host proof is finite. These two are compatible because computation and proof are not the same relation. The substrate's computation is something the host \emph{describes} as a step-indexed family; the host's proof is something the host \emph{performs} on its own typed terms. The substrate's universality does not back-propagate to require the host to be universal. The closed-observational reading of BEDC depends on this clean separation; an attempt to unify the two would either weaken the host into a non-total language or weaken the substrate into a sub-universal model.
+\end{remark}
+
+\section{Mapping to BEDC engineering}
+\label{sec:strong-normalization-mapping-engineering}
+
+\begin{longtable}{p{0.34\textwidth}p{0.58\textwidth}}
+\toprule
+\textbf{Strong-normalisation reading} & \textbf{BEDC engineering realisation} \\
+\midrule
+Host as total functional language &
+\texttt{lean4/} build is \texttt{lake build} exit~0; every theorem terminates by the Lean~4 kernel's termination checker. \\
+\midrule
+Step-indexed substrate computation &
+\texttt{r110\_run\_n\_steps} in \texttt{lean4/BEDC/FKernel/} takes a fuel parameter and returns a finite orbit segment. \\
+\midrule
+Substrate universality, host-internal &
+\texttt{rule110/encoder/tm\_to\_tag.c} and \texttt{rule110/encoder/tag\_to\_cyclic.c} compile a TM to a cyclic tag system; the cyclic tag is then evaluated by the host as a step-indexed computation. \\
+\midrule
+Axiom-pure totality audit &
+\texttt{axiom-purity --strict} traces every theorem's \texttt{\#print axioms} and rejects any Lean stdlib axiom. \\
+\midrule
+No partial-function escape hatch &
+\texttt{tools/check-axioms.py} rejects \texttt{axiom} keyword in \texttt{lean4/BEDC/} anywhere; structural enforcement is mechanical. \\
+\midrule
+Closure-discipline transfer to substrate &
+\autoref{thm:rule110-no-internal-induction} carries the closure premise into the cellular substrate at the same totality discipline. \\
+\bottomrule
+\end{longtable}
+
+\section{Closure remarks}
+\label{sec:strong-normalization-closure}
+
+This chapter has located BEDC's total-functional-language position as the host-side correlate of the closed-observational framework of \autoref{ch:visions-transcendental-input-and-induction}. The total-language discipline is not a design preference; it is structurally required if the host is to record finite observations of a closed substrate without violating the closure premise.
+
+The Turing universality of the cellular substrate and the totality of the BEDC host are therefore independent axes that meet without interfering. The host describes the substrate via step-indexed encodings; the substrate's universality is preserved inside the encoding; the host's totality is preserved outside it. Curry-Howard gives the proof-side reading of the same discipline: every typed term is a finite proof, just as every observation record is a finite bit string.
+
+The boundary of this chapter is precisely: BEDC is total in the sense of \autoref{def:strong-normalization-total-functional-language}; the cellular substrate is Turing complete in the sense of \autoref{def:strong-normalization-turing-complete-model}; the two facts coexist without contradiction. This chapter does not enlarge BEDC's expressive power, does not weaken the substrate's universality claim, and does not propose to merge the two axes. It identifies the axes as separate and explains why their separation is structurally required by the closure premise.
+
+\concretizedIn{ch:concrete-instances-znormal-namecert}{Finite normal-form packets realize the total-host boundary of strong normalization.}
+\concretizedIn{ch:concrete-instances-bounded-universal-trace-namecert}{Bounded finite trace packets realize the total-host side of the strong-normalization boundary.}
+\concretizedIn{ch:concrete-instances-fuel-indexed-substrate-bridge-namecert}{FuelIndexedSubstrateBridge realizes the total-host and universal-substrate separation as a finite fuel-indexed NameCert packet.}
+\concretizedIn{ch:concrete-instances-step-indexed-total-host-namecert}{StepIndexedTotalHost realizes the total-host and universal-substrate boundary as finite fuel-indexed trace, normal-form, refusal, hsame, Cont, Pkg, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-totalhostfuelhandoff-namecert}{Total-host fuel handoffs realize the strong-normalization bridge as finite fuel, substrate-trace, terminal-readback, hsame, Cont, Pkg, and NameCert rows.}

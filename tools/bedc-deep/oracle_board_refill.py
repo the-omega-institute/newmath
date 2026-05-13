@@ -86,6 +86,13 @@ def _now_tag() -> str:
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
+def _safe_run_id(value: str) -> str:
+    text = (value or "").strip()
+    if not text:
+        return _now_tag()
+    return re.sub(r"[^A-Za-z0-9_.-]+", "_", text)
+
+
 def _safe(text: str) -> str:
     return (text or "").replace("{", "{{").replace("}", "}}")
 
@@ -396,47 +403,52 @@ def main() -> int:
                         help="PDF to upload with the refill task; default: papers/bedc/main.pdf")
     parser.add_argument("--no-attach-pdf", action="store_true",
                         help="Do not upload a PDF with the refill task.")
+    parser.add_argument("--run-id", default="",
+                        help="Filesystem-safe run id shared with supervisor logs.")
     args = parser.parse_args()
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
-    ts = _now_tag()
+    ts = _safe_run_id(args.run_id)
+
+    if not args.dry_run:
+        # Verify server readiness before building/logging a prompt. Duplicate or
+        # tabless skips are control-plane decisions, not refill attempts.
+        try:
+            status = _http_get(f"{args.server}/status", timeout=5)
+            if _has_refill_in_server(status) and not args.allow_duplicate_refill:
+                print(
+                    "[board_refill] existing board-refill task is queued or active; "
+                    "skipping submit.",
+                    flush=True,
+                )
+                return 0
+            if not status.get("project_active_poll_agents"):
+                if not args.allow_queue_without_tabs:
+                    print(
+                        "[board_refill] no compatible BEDC Project tabs polling; "
+                        "skipping submit instead of queueing.",
+                        flush=True,
+                    )
+                    return 0
+                print(
+                    f"[board_refill] WARN: no compatible BEDC Project tabs polling. "
+                    f"Submit will queue but won't dispatch. Open the BEDC Project "
+                    f"tabs first.",
+                    flush=True,
+                )
+        except Exception as exc:
+            print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
+            return 1
 
     prompt = build_refill_prompt()
     (LOG_DIR / f"refill_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
     print(f"[board_refill] prompt built ({len(prompt)} chars)", flush=True)
 
     if args.dry_run:
+        _write_failure_summary(ts, error="dry_run_prompt_only")
         print(prompt[:2000])
         print(f"... [{len(prompt)} chars total]")
         return 0
-
-    # Verify server reachable
-    try:
-        status = _http_get(f"{args.server}/status", timeout=5)
-        if _has_refill_in_server(status) and not args.allow_duplicate_refill:
-            print(
-                "[board_refill] existing board-refill task is queued or active; "
-                "skipping submit.",
-                flush=True,
-            )
-            return 0
-        if not status.get("project_active_poll_agents"):
-            if not args.allow_queue_without_tabs:
-                print(
-                    "[board_refill] no compatible BEDC Project tabs polling; "
-                    "skipping submit instead of queueing.",
-                    flush=True,
-                )
-                return 0
-            print(
-                f"[board_refill] WARN: no compatible BEDC Project tabs polling. "
-                f"Submit will queue but won't dispatch. Open the BEDC Project "
-                f"tabs first.",
-                flush=True,
-            )
-    except Exception as exc:
-        print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
-        return 1
 
     attach_pdf = None if args.no_attach_pdf else Path(args.attach_pdf)
     response = ""
@@ -448,7 +460,15 @@ def main() -> int:
                 f"(attempt {attempt}/{max_attempts})",
                 flush=True,
             )
-        submit_resp = submit_refill(args.server, prompt, attach_pdf=attach_pdf)
+        try:
+            submit_resp = submit_refill(args.server, prompt, attach_pdf=attach_pdf)
+        except Exception as exc:
+            print(
+                f"[board_refill] submit failed with {type(exc).__name__}: {exc}",
+                flush=True,
+            )
+            _write_failure_summary(ts, error=f"submit_exception:{type(exc).__name__}")
+            return 1
         if "error" in submit_resp:
             print(f"[board_refill] submit failed: {submit_resp['error']}", flush=True)
             _write_failure_summary(ts, error=f"submit_failed:{submit_resp['error']}")

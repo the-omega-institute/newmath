@@ -1,0 +1,149 @@
+\chapter{The Cook Compile-Frontier as Engineering Path: From Principle to Witness}
+\label{ch:visions-cook-compile-frontier-engineering-path}
+
+\autoref{def:cellular-automaton-cook-frontier} and \autoref{ex:cellular-automaton-present-frontier} establish the cook compile-frontier as a numerical reading of the Goedel boundary at the cellular substrate layer. The frontier is currently in the order of $16$ productions and $32$ tape symbols; the smallest halted Turing machine compiles to approximately $64$ productions and $64$ tape symbols. The gap between these two numbers is a finite engineering distance: the substrate is Turing-universal in principle (Cook~2004), and the substrate has been exercised on cyclic-tag inputs of substantial scale, but the round-trip from a real Turing machine encoding has not yet been completed. This chapter examines the engineering path from the present frontier to a halted-TM end-to-end witness, identifies the structural obstructions to be discharged at each stage, and reads the path itself as a contribution to the closed-observational framework: making the Goedel boundary not only legible but \emph{progressively measurable}.
+
+\section{Setup: present frontier as engineering coordinate}
+\label{sec:cook-frontier-setup}
+
+\begin{definition}[Engineering coordinate of the frontier]
+\label{def:cook-frontier-engineering-coordinate}
+The \emph{engineering coordinate} of the cook compile-frontier is the triple $(P^*, T^*, S^*)$ specifying the smallest production count, tape symbol count, and Rule~110 step count for which the substrate has completed a closed round-trip in the sense of \autoref{def:cellular-automaton-cook-frontier}. The coordinate is reported by the \texttt{rule110/tests/test\_cook\_packet\_scale.c} audit binary and is updated whenever a larger configuration passes its round-trip check.
+\end{definition}
+
+\begin{example}[Present engineering coordinate]
+\label{ex:cook-frontier-present-coordinate}
+At the present substrate version, $(P^*, T^*, S^*)$ includes $(2, 16, 16384)$, $(8, 8, 16384)$, $(4, 16, 32768)$, $(2, 32, 32768)$, and $(16, 2, 8192)$. The product $P^* \cdot T^*$ remains below $64$ in all currently passing configurations. The halted-TM target coordinate is approximately $(64, 64, S_{\mathrm{halt}})$ where $S_{\mathrm{halt}}$ is the Rule~110 step count required by Cook's polynomial-time bound for the smallest halted machine.
+\end{example}
+
+\begin{principle}[The frontier is a moving coordinate, not a static boundary]
+\label{prin:cook-frontier-moving-coordinate}
+The cook compile-frontier is not a fixed structural limit of the substrate; it is the engineering coordinate of where the substrate has been exercised to date. Engineering work that extends the substrate's implementation, optimises its encoding, or scales its evaluator can advance the coordinate without altering any closure theorem. The frontier therefore behaves as a moving coordinate: each successful audit binary run at a larger configuration shifts $(P^*, T^*, S^*)$ to a new value, and the gap to the halted-TM target shrinks correspondingly.
+\end{principle}
+
+\section{The compile pipeline, stage by stage}
+\label{sec:cook-frontier-pipeline-stages}
+
+\begin{definition}[Cook compile pipeline stages]
+\label{def:cook-frontier-pipeline-stages}
+The compile pipeline implementing Cook~2009 \(\S 1.2\)--\(\S 1.4\) decomposes into three sequential stages:
+\begin{enumerate}
+\item TM-to-tag: a Turing machine $(Q, \Sigma, \delta, q_0, q_{\mathrm{halt}})$ compiles to a tag system $(\Sigma_{\mathrm{tag}}, \mathsf{prod})$, implemented in \texttt{rule110/encoder/tm\_to\_tag.c}.
+\item Tag-to-cyclic: the tag system compiles to a cyclic tag system $(P, T)$, implemented in \texttt{rule110/encoder/tag\_to\_cyclic.c}.
+\item Cyclic-to-R110: the cyclic tag system compiles to a Rule~110 initial row, implemented in \texttt{rule110/encoder/cook\_encode.c}.
+\end{enumerate}
+Each stage is exercised independently and end-to-end by the test binaries in \texttt{rule110/tests/}.
+\end{definition}
+
+\begin{remark}[Stage-wise scale frontiers]
+\label{rem:cook-frontier-stagewise-scale}
+Each pipeline stage has its own scale frontier. The TM-to-tag stage's frontier is the largest $(|Q|, |\Sigma|)$ pair for which the stage produces a valid tag system. The tag-to-cyclic stage's frontier is the largest $|\Sigma_{\mathrm{tag}}|$ for which the stage produces a valid cyclic-tag system at acceptable $(P, T)$ size. The cyclic-to-R110 stage's frontier is the largest $(P, T, S)$ for which the substrate completes a closed round-trip. The overall engineering coordinate of \autoref{def:cook-frontier-engineering-coordinate} is the minimum frontier across the three stages.
+\end{remark}
+
+\section{Structural obstructions to advancing the frontier}
+\label{sec:cook-frontier-obstructions}
+
+\begin{remark}[Memory scaling]
+\label{rem:cook-frontier-memory-scaling}
+The Rule~110 evaluator at \texttt{rule110/evaluator/rule110.c} represents the cell row as a packed bit array. Doubling the row width doubles the array size; at $(P, T) \approx (64, 64)$ the encoded row width is in the order of $10^6$ cells. Memory scaling at this size is within reach of modern systems but requires explicit attention to allocation strategy. This is the most direct obstruction at the substrate-evaluation stage.
+\end{remark}
+
+\begin{remark}[Encoding constant factors]
+\label{rem:cook-frontier-encoding-constants}
+The cyclic-to-R110 encoding of Cook~2009 \(\S 1.4\) introduces large constant factors: each cyclic-tag symbol corresponds to several thousand Rule~110 cells; each tag-system step corresponds to many Rule~110 steps. Reducing these constants is an active research direction in cellular substrate engineering, with potential gains from alternative glider catalogs (\autoref{ex:cellular-automaton-glider-catalog}) and tighter collision packing (Martinez~2012 Table~1/Table~2). Each constant-factor reduction advances the engineering coordinate without changing any closure result.
+\end{remark}
+
+\begin{remark}[Round-trip verification cost]
+\label{rem:cook-frontier-roundtrip-cost}
+Verifying a round-trip at $(64, 64, S_{\mathrm{halt}})$ requires evaluating Rule~110 for $S_{\mathrm{halt}}$ steps on a row of width in the order of $10^6$, then decoding the result back through the inverse of the cyclic-to-R110 encoding, then through the tag-to-cyclic encoding, then through the TM-to-tag encoding. The total verification work scales as $O(S_{\mathrm{halt}} \cdot W)$ where $W$ is the row width. The wall-clock cost at the target frontier is non-trivial but tractable.
+\end{remark}
+
+\section{The epistemic value of crossing the frontier}
+\label{sec:cook-frontier-epistemic-value}
+
+\begin{principle}[Crossing converts in-principle universality to witnessed universality]
+\label{prin:cook-frontier-converts-in-principle-to-witnessed}
+Cook~2004 proves the substrate is universal in principle. Crossing the engineering frontier from $(P^*, T^*, S^*)$ to $(64, 64, S_{\mathrm{halt}})$ would convert that in-principle universality into a witnessed universality: the substrate would have been exercised on a real Turing-machine encoding, with the round-trip producing the expected halt-state output. The conversion does not strengthen the closure theorem; it strengthens the empirical support for the claim that the substrate behaves as Cook~2004 predicts at the scale of real machines.
+\end{principle}
+
+\begin{principle}[Witnessed universality is engineering data, not a new theorem]
+\label{prin:cook-frontier-witnessed-is-data}
+The conversion of \autoref{prin:cook-frontier-converts-in-principle-to-witnessed} produces an engineering data point: ``the smallest halted TM has been compiled to a closed Rule~110 round-trip at coordinate $(64, 64, S_{\mathrm{halt}})$, audited by \texttt{test\_cook\_packet\_scale.c} on commit $h$''. This data point is reportable in \texttt{rule110/STATUS.md} alongside the present frontier. It is not a new theorem; it is the operational realisation of an existing theorem at a scale where the operation is for the first time exercised on substrate-internal data corresponding to a recognisable computational structure.
+\end{principle}
+
+\begin{remark}[Comparison with the MetaCIC dependent-codomain barrier]
+\label{rem:cook-frontier-comparison-with-metacic-barrier}
+The frontier-crossing work has a structural analogue at the meta-theory layer: discharging the four subject-reduction hypotheses of \autoref{ch:visions-metacic-subject-reduction-obstruction} as theorems rather than as \texttt{structure} fields. Both forms of work advance the project from in-principle closure to operationally-witnessed closure. The cellular frontier-crossing is engineering at the substrate layer; the MetaCIC hypothesis-discharge is engineering at the meta-theory layer. The two layers are logically independent (\autoref{prin:cellular-automaton-frontier-as-goedel-data}); progress at one layer does not require or imply progress at the other.
+\end{remark}
+
+\section{Failure modes of the engineering path}
+\label{sec:cook-frontier-failure-modes}
+
+\begin{remark}[Substrate divergence from Cook prediction]
+\label{rem:cook-frontier-substrate-divergence}
+If at some intermediate coordinate $(P, T, S)$ between the present frontier and the halted-TM target the substrate's round-trip fails to decode back to the expected output, the resulting fact is a partial falsification of the operational claim that the substrate implements Cook's construction exactly. The substrate's universality in principle would not be affected (Cook~2004 is a theorem of mathematics); the operational realisation in the present codebase would require revision. A failure of this kind is informative: it identifies the substrate-side commit at which the divergence appears and points the engineering work to a specific bug or specification mismatch.
+\end{remark}
+
+\begin{remark}[Memory or wall-clock infeasibility]
+\label{rem:cook-frontier-infeasibility}
+If memory scaling or wall-clock cost makes the halted-TM coordinate infeasible at acceptable cost on available hardware, the engineering coordinate stops advancing at some intermediate value $(P', T', S')$ short of the target. The closure theorems remain valid; the operational claim about ``witnessed universality'' would have to be stated at the achieved coordinate. The frontier-as-data role (\autoref{prin:cook-frontier-witnessed-is-data}) is preserved at any coordinate; the role does not require reaching the halted-TM target.
+\end{remark}
+
+\section{The frontier as ongoing project artifact}
+\label{sec:cook-frontier-as-ongoing-artifact}
+
+\begin{principle}[The frontier value is a citable project state]
+\label{prin:cook-frontier-citable-state}
+The present engineering coordinate $(P^*, T^*, S^*)$ is reported in \texttt{rule110/STATUS.md} and is updated on every substrate scaling improvement. The coordinate is therefore a citable project state: papers, dossier essays, and project reports can cite ``the cook compile-frontier at commit $h$ is $(P^*, T^*, S^*)$'' as a precise numerical fact. The frontier is updated as a project artifact, not as a one-off measurement.
+\end{principle}
+
+\begin{remark}[Progress reporting via frontier deltas]
+\label{rem:cook-frontier-progress-deltas}
+Progress on the engineering path can be reported as deltas: ``the frontier advanced from $(P^*_0, T^*_0, S^*_0)$ to $(P^*_1, T^*_1, S^*_1)$ in version $v$''. Each delta is a concrete improvement in operational coverage of the universality claim. Cumulative delta history can be tracked in \texttt{rule110/CHANGELOG.md} or equivalent; the structural role of the frontier as a moving coordinate (\autoref{prin:cook-frontier-moving-coordinate}) makes such history meaningful.
+\end{remark}
+
+\section{Mapping to BEDC engineering}
+\label{sec:cook-frontier-mapping-engineering}
+
+\begin{longtable}{p{0.34\textwidth}p{0.58\textwidth}}
+\toprule
+\textbf{Frontier-engineering reading} & \textbf{BEDC engineering realisation} \\
+\midrule
+Engineering coordinate &
+$(P^*, T^*, S^*)$ reported by \texttt{rule110/tests/test\_cook\_packet\_scale.c} and recorded in \texttt{rule110/STATUS.md}. \\
+\midrule
+Halted-TM target &
+$(64, 64, S_{\mathrm{halt}})$ from the smallest halted Turing machine under Cook~2009 \(\S 1.2\)--\(\S 1.3\). \\
+\midrule
+Pipeline stages &
+\texttt{tm\_to\_tag.c}, \texttt{tag\_to\_cyclic.c}, \texttt{cook\_encode.c} in \texttt{rule110/encoder/}. \\
+\midrule
+Memory scaling obstruction &
+Row width $\sim 10^6$ cells at target; \texttt{rule110/evaluator/rule110.c} packed bit array. \\
+\midrule
+Verification cost &
+$O(S_{\mathrm{halt}} \cdot W)$; tractable on modern hardware. \\
+\midrule
+In-principle vs witnessed universality &
+\autoref{prin:cook-frontier-converts-in-principle-to-witnessed}: the engineering work converts one to the other operationally; closure theorems unaffected. \\
+\midrule
+Independent of MetaCIC barrier &
+\autoref{rem:cook-frontier-comparison-with-metacic-barrier}: cellular layer and meta-theory layer are logically independent engineering paths. \\
+\bottomrule
+\end{longtable}
+
+\section{Closure remarks}
+\label{sec:cook-frontier-closure}
+
+This chapter has read the cook compile-frontier as an engineering coordinate, identified the three-stage pipeline that the engineering path must advance, and named the structural obstructions (memory scaling, encoding constants, verification cost) the engineering work must address. The chapter does not claim that the halted-TM target is reachable; it identifies the target, the path, and the present coordinate so that progress can be reported as concrete deltas rather than as informal advances.
+
+The epistemic value of crossing the frontier is to convert in-principle universality (Cook~2004 as theorem) into witnessed universality (substrate operationally exercised on a real Turing machine encoding). The conversion does not strengthen any closure theorem; it strengthens the operational support for the claim that the substrate implements Cook's construction correctly at scales matching real computational structures.
+
+The boundary of this chapter is: the engineering frontier is a moving coordinate; the engineering path is concretely specified; the obstructions are named; the epistemic value of crossing is operational rather than theoretical. The chapter does not introduce new closure theorems and does not depend on the engineering path succeeding. It identifies the path so that work along it can be reported as advances in operational coverage of an already-proved universality claim.
+
+\concretizedIn{ch:concrete-instances-compiler-optimization-endomorphism-namecert}{Compiler optimization endomorphisms realize the Cook compile-frontier route as a finite before/after compiler trace with semantic-preservation and frontier-coordinate rows.}
+\concretizedIn{ch:concrete-instances-halted-tm-round-trip-namecert}{HaltedTmRoundTrip realizes the Cook compile-frontier path as a finite staged compile, Rule 110 orbit, decode, and halt-row NameCert packet.}
+\concretizedIn{ch:concrete-instances-cookcompilefrontierwitness-namecert}{CookCompileFrontierWitness packages the Cook compile-frontier coordinate as a finite compile-stage, audit, obstruction, hsame, Cont, Pkg, and NameCert witness.}
+\concretizedIn{ch:concrete-instances-compilefrontierwitness-namecert}{CompileFrontierWitnessUp records the Cook compile-frontier as a finite witnessed-coordinate NameCert with stage routes, audit rows, and nonchoice boundary.}
+\concretizedIn{ch:concrete-instances-cookfrontiercoordinate-namecert}{The Cook compile-frontier coordinate is realized as a finite NameCert packet for stage frontiers, Rule 110 scale rows, audit replay, and failure non-escape.}
+\concretizedIn{ch:concrete-instances-cook-frontier-witness-namecert}{Cook frontier witness packets realize the compile-frontier coordinate as finite stage, target, replay, obstruction, hsame, Cont, Pkg, and NameCert rows.}

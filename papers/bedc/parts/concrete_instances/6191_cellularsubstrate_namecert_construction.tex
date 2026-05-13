@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CellularSubstrateUp$}
+\label{ch:concrete-instances-cellularsubstrate-namecert}
+\origin{ai}
+
+The $\CellularSubstrateUp$ packet packages the carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as a finite $\BHist$ NameCert surface. It sits between the rule-table and finite-orbit emphasis of \autoref{ch:concrete-instances-cellularautomaton-namecert} and the audit-ledger substrate of \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}. Its distinguishing role is to certify the cellular carrier itself: a displayed local row, neighbourhood window, local update route, global-step ledger, transport surface, continuation surface, provenance, and local NameCert row are all present at once.
+
+\falsifiablePrediction{A packet with the same global-step ledger but no displayed neighbourhood window is not an accepted $\CellularSubstrateUp$ carrier.}
+
+\independenceWitness{Nearest siblings: cellularautomaton, cellulartrustsubstrate, streamname, interhistlocalityledger, and finitewindowenvelope; the carrier is not bijective to any of them because it simultaneously requires a local neighbourhood window, local update route, global-step ledger, transport rows, and local NameCert row, while each sibling omits at least one of those displayed coordinates.}
+
+\begin{definition}[Cellular substrate carrier]
+\label{def:cellular-substrate-carrier}
+A $\CellularSubstrateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,N,U,G,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the cell-state row, naming the finite row segment visible to the carrier.
+\item $N$ is the neighbourhood-window row, naming the finite cells read around each displayed cell.
+\item $U$ is the local update route, recording the stated local transition from a neighbourhood window to the next cell-state row.
+\item $G$ is the global-step ledger, listing the finite sequence of substrate steps admitted by the carrier.
+\item $H$ records componentwise $\hsame$ transports for the cell-state, neighbourhood, local-update, global-ledger, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ routes through the cell-state row, neighbourhood row, local update route, global-step ledger, and local NameCert row.
+\item $P$ is the $\Pkg$ provenance over $\CellularSubstrateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, the cellular-carrier vision, and the sibling cellular NameCert chapters.
+\item $L$ is the local $\NameCert_{\CellularSubstrateUp}$ row for carrier admission, classifier accountability, stability, exactness, ledger replay, and non-escape.
+\end{enumerate}
+The local classifier compares accepted carriers only by these displayed rows. It has no coordinate for host cellular automaton equality, an infinite grid, a hidden scheduler, a detached global evaluator, or an unbounded update oracle.
+\end{definition}
+
+\begin{theorem}[Cellular substrate NameCert obligations]
+\label{thm:cellular-substrate-namecert-obligations}
+For the carrier of \autoref{def:cellular-substrate-carrier}, the local $\NameCert_{\CellularSubstrateUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier exposure for $Q=(S,N,U,G,H,C,P,L)$;
+\item classifier accountability for reads that compare cell-state rows, neighbourhood windows, and local update routes only through $S,N,U$;
+\item stability under the componentwise $\hsame$ transports displayed in $H$;
+\item exactness of local update and global-step replay through $U,G,C$;
+\item ledger and provenance closure through $G,P,L$, with no export of hidden host equality, infinite-grid reasoning, scheduler state, or unbounded update oracle.
+\end{enumerate}
+Every accepted $\CellularSubstrateUp$ consumer must pass through these five rows before citing a cellular carrier read.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cellular-substrate-carrier}. The tuple displays the cell-state row, neighbourhood window, local update route, global-step ledger, transports, continuations, provenance, and local naming row as its only coordinates.
+
+Classifier accountability is local to $S,N,U$. A cell-state comparison or update read is accepted only when the read names the displayed neighbourhood window and the displayed local transition route.
+
+Stability is supplied by $H$, while exactness is supplied by $U,G,C$. The transport row compares only the visible coordinates, and the continuation row replays only the finite local update route and finite global-step ledger.
+
+Finally $P$ and $L$ package the same finite route as the public naming surface. Since the carrier lacks coordinates for host equality, an infinite grid, a hidden scheduler, and an unbounded update oracle, the five obligation rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cellular substrate local-update non-escape]
+\label{thm:cellular-substrate-local-update-nonescape}
+Every accepted local-update read exported by a $\CellularSubstrateUp$ carrier factors through the finite route
+$$
+S \longmapsto N \longmapsto U \longmapsto G \longmapsto H \longmapsto C \longmapsto P \longmapsto L.
+$$
+In particular, an accepted packet exposes no host cellular automaton equality, infinite grid, hidden scheduler, or unbounded update oracle.
+\end{theorem}
+\begin{proof}
+Start with an accepted local-update read. By \autoref{def:cellular-substrate-carrier}, the only available rows are $S,N,U,G,H,C,P,L$.
+
+Apply \autoref{thm:cellular-substrate-namecert-obligations}. The read must use the displayed neighbourhood window, the displayed local update route, and the finite global-step ledger before it can be named by the local $\NameCert_{\CellularSubstrateUp}$ row.
+
+The route has no coordinate for host cellular automaton equality, infinite grid data, hidden scheduler state, or an unbounded update oracle. Thus every accepted read remains a finite cellular-substrate carrier read.
+\end{proof}
+
+The Lean file \texttt{Derived/CellularSubstrateUp/TasteGate.lean} must later include \texttt{Nontrivial CellularSubstrateUp} and \texttt{FieldFaithful CellularSubstrateUp} instances for the displayed carrier.
+
+\closureat{CellularSubstrateUp}{seedStr}
+
+\begin{closurestatus}{\CellularSubstrateUp}
+  \constructivestory{A $\CellularSubstrateUp$ packet is generated from a finite cell-state row, a neighbourhood-window row, a local update route, a global-step ledger, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-substrate-carrier}, \autoref{thm:cellular-substrate-namecert-obligations}, and \autoref{thm:cellular-substrate-local-update-nonescape} specify the existing carrier, NameCert obligations, and local-update non-escape theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, universality, hidden host evaluator correctness, quotient stream equality, or internal induction for $\CellularSubstrateUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, local-update accountability, window exposure, classifier stability, and audit-route replay for the same cellular substrate carrier.}
+\end{closurestatus}

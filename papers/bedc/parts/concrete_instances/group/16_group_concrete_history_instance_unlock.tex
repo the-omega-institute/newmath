@@ -5,7 +5,9 @@
 \label{def:group-concrete-history-instance}
 The concrete $\GroupUp$ history instance is the singleton empty-history package
 of \autoref{def:group-singleton-empty-history-instance} read as a direct
-$\mathsf{BHist}$ surface. Its carrier is
+$\mathsf{BHist}$ surface. It is the inverse-bearing refinement of the monoid
+certificate of \autoref{ch:concrete-instances-monoid-namecert}, with the same
+append-continuation unit surface and the added constant inverse row. Its carrier is
 $$
 A_{\emp}(h) := \hsame(h,\emp).
 $$
@@ -23,6 +25,18 @@ Thus the instance is not an abstract carrier with external operations. It is
 the displayed $\mathsf{BHist}$ singleton carrier, append $\Cont$ ledger,
 empty endpoint, $\hsame$ classifier, and constant inverse row.
 \end{definition}
+
+\begin{theorem}[Group concrete Monoid dependency]
+\label{thm:group-concrete-monoid-dependency}
+The concrete $\GroupUp$ history instance of \autoref{def:group-concrete-history-instance} consumes the $\mathsf{UnaryHistory}$ append carrier, empty unit, classifier, associativity row, and left and right unit rows of \autoref{ch:concrete-instances-monoid-namecert}. It then adds only the constant inverse row and the singleton carrier restriction of \autoref{def:group-singleton-empty-history-instance}. Hence the concrete $\GroupUp$ packet is a refinement of the $\MonoidUp$ unary append $\NameCert$ rather than an isolated kernel-only packet.
+\end{theorem}
+\begin{proof}
+Read the $\MonoidUp$ dependency from \autoref{def:concrete-history-monoid-instance}. Its carrier is $\mathsf{UnaryHistory}$, its operation is append, its unit is $\emp$, and its classifier is the unary append monoid classifier.
+
+Apply \autoref{thm:concrete-history-monoid-laws}. The associativity, left-unit, right-unit, and classifier congruence rows are already present on the unary append surface consumed by the group instance.
+
+Finally use \autoref{thm:group-singleton-empty-history-laws}. The singleton carrier restriction and the constant empty inverse row provide exactly the inverse closure and inverse laws. No additional host group carrier, operation table, or classifier is imported, so the concrete $\GroupUp$ instance refines the $\MonoidUp$ unary append NameCert.
+\end{proof}
 
 \begin{theorem}[Group concrete inverse surface]
 \label{thm:group-concrete-inverse-surface}
