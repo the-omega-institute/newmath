@@ -140,12 +140,62 @@ Apply \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}. The RealUp-facing r
 Finally combine \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source} with \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}. The single-source result supplies the only recognized route, while the refusal result excludes hidden inputs outside the displayed packet.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail route composition]
+\label{thm:diagonal-cofinal-tail-route-composition}
+For an accepted $\DiagonalCofinalTailUp$ carrier, every accepted route from the stationary $\RatUp$ seed rows through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ factors through the displayed packet rows
+$$
+Q,S,G,D,R,W,H,C,P,N.
+$$
+The composed route is obtained by reading $Q$ into $S$, $S$ into $G$, $G$ into $D$, $D$ into $R$, and $W$ into the same public window readings, with $H$ carrying componentwise transport, $C$ carrying route replay, $P$ carrying provenance, and $N$ carrying local naming.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The tuple $T=(Q,S,G,D,R,W,H,C,P,N)$ gives all rows available to the local $\NameCert_{\DiagonalCofinalTailUp}$ surface, and \autoref{thm:diagonal-cofinal-tail-namecert-obligations} identifies the admissible readings of those rows.
+
+Next compose the displayed routes. The row $C$ records the visible continuations from $Q$ to $S$, from $S$ to $G$, from $G$ to $D$, from $D$ to $R$, and from $W$ to each public window reading.
+
+The window exhaustion theorem forces every cofinal-tail observation through the same finite packet, while the Real seal handoff theorem makes the real-facing representative the transported stationary diagonal row named by $Q$.
+
+Combining these facts leaves no accepted route outside $Q,S,G,D,R,W,H,C,P,N$. The route therefore factors through the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[Diagonal cofinal-tail hsame transport lock]
+\label{thm:diagonal-cofinal-tail-hsame-transport-lock}
+For an accepted $\DiagonalCofinalTailUp$ packet, componentwise $\hsame$ transport preserves the same cofinal-tail packet rows $Q,S,G,D,R,W,H,C,P,N$. In particular, transport along $H$ cannot introduce an external equality identification, a selected limit, quotient-stream equality, or ambient completeness as an additional carrier row or consumer-readable route.
+\end{theorem}
+\begin{proof}
+Project the transport row $H$. By construction it transports only the component rows $Q,S,G,D,R,W$ and the structural rows already displayed in the packet.
+
+Apply the tail-selector lock. It says that every consumer-visible cofinal-tail selector is determined by the stationary RatUp seed row, constant StreamNameUp window row, RegSeqRatUp readback, DyadicRatCoreUp ledger, transported seal row, and the structural routes already named in the packet.
+
+Now use non-escape. Any route consuming the RealUp seal, RegSeqRatUp readback, DyadicRatCoreUp ledger, StreamNameUp window, or RatUp seed classifier must remain inside $Q,S,G,D,R,W,H,C,P,N$.
+
+Thus componentwise $\hsame$ transport preserves the displayed packet and cannot create any unlisted equality, limit, quotient-stream, or completeness datum.
+\end{proof}
+
+\begin{theorem}[Diagonal cofinal-tail consumer exhaustion]
+\label{thm:diagonal-cofinal-tail-consumer-exhaustion}
+Every downstream $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer of an accepted $\DiagonalCofinalTailUp$ packet reads the displayed rows
+$$
+Q,S,G,D,R,W,H,C,P,N
+$$
+and no unlisted analytic object. In particular, the consumer surface contains no hidden selector, external equality identification, quotient-stream equality, selected limit, ambient completeness witness, or second carrier source.
+\end{theorem}
+\begin{proof}
+First apply route composition. It factors every accepted route from the RatUp seed rows through the StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RealUp, transport, continuation, provenance, and naming rows of the displayed packet.
+
+Next apply the $\hsame$ transport lock. It prevents componentwise transport from adding external equality, quotient-stream equality, selected limits, or ambient completeness to the consumer-visible surface.
+
+Finally use TasteGate hidden input refusal. A later consumer cannot read anything that is not a carrier row or structural route of $T=(Q,S,G,D,R,W,H,C,P,N)$.
+
+Therefore any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer is exhausted by the displayed cofinal-tail packet rows and has no access to an unlisted analytic object.
+\end{proof}
+
 \closureat{DiagonalCofinalTailUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalCofinalTailUp}
   \constructivestory{A $\DiagonalCofinalTailUp$ packet is generated from paired stationary RatUp seed rows, constant StreamNameUp windows, RegSeqRatUp cofinal-tail readbacks, DyadicRatCoreUp finite-window ledgers, RealUp diagonal representative rows, a transported stationary seal row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, \autoref{thm:diagonal-cofinal-tail-nonescape}, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}, and \autoref{thm:diagonal-cofinal-tail-tastegate-flow-recognition} bind the finite cofinal-tail NameCert packet for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, \autoref{thm:diagonal-cofinal-tail-nonescape}, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}, \autoref{thm:diagonal-cofinal-tail-tastegate-flow-recognition}, \autoref{thm:diagonal-cofinal-tail-route-composition}, \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}, and \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion} bind the finite cofinal-tail NameCert packet for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
