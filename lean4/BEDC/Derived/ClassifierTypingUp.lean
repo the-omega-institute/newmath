@@ -32,6 +32,25 @@ def ClassifierTypingCarrier [AskSetup] [PackageSetup]
                         SigRel bundle term signature ∧
                           PkgSig bundle provenance pkg
 
+theorem ClassifierTypingCarrier_membership_stability [AskSetup] [PackageSetup]
+    {term membership reduction signature transport routes provenance name membership' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierTypingCarrier term membership reduction signature transport routes provenance name
+        bundle pkg ->
+      hsame membership membership' ->
+        UnaryHistory membership' ∧ Ext term BMark.b0 membership ∧
+          hsame membership membership' ∧ Cont membership routes name ∧
+            PkgSig bundle provenance pkg := by
+  intro carrier sameMembership
+  obtain
+    ⟨_termUnary, membershipUnary, _reductionUnary, _signatureUnary, _transportUnary,
+      _routesUnary, _provenanceUnary, _nameUnary, termMembership, _termReductionSignature,
+      membershipRoutesName, _termSignature, provenancePkg⟩ := carrier
+  have membershipPrimeUnary : UnaryHistory membership' :=
+    unary_transport membershipUnary sameMembership
+  exact
+    ⟨membershipPrimeUnary, termMembership, sameMembership, membershipRoutesName, provenancePkg⟩
+
 theorem ClassifierTypingCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {term membership reduction signature transport routes provenance name : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

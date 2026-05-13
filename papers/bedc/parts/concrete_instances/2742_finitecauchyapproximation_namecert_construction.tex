@@ -111,6 +111,22 @@ Use \autoref{thm:regular-cauchy-triangle-bound-tolerance-addition-ledger} to sup
 The composed packet therefore presents exactly the listed finite approximation rows and the two backing ledgers. Since none of the cited surfaces contains a selected real value, quotient stream equality, infinite tail, host metric, or completeness coordinate, the Real handoff row $S$ cannot export any such data.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy approximation tail-meet dependency route]
+\label{thm:finite-cauchy-approximation-tail-meet-dependency-route}
+Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. If $F$ exports a handoff row through a shared finite window, then every consumer route from $S$ to $\RealDiagonalMeshBudgetUp$ or $\CauchyLimitSealUp$ factors through the displayed $\RegularCauchyTailMeetUp$ shared-threshold row before reading the finite approximation seal.
+
+The route exports no selected real value, quotient stream, hidden tail oracle, host metric, or completeness coordinate outside the finite rows of $F$ and the shared-threshold row.
+\end{theorem}
+\begin{proof}
+Start from the real handoff. By \autoref{thm:finite-cauchy-approximation-real-handoff}, every completion-facing read of $F$ first passes through the source row, precision row, threshold row, finite window, dyadic observation ledger, error row, transports, routes, provenance, and local name before the handoff row $S$ is visible.
+
+Use \autoref{thm:finite-cauchy-approximation-tail-meet-triangle-assembly} for the shared finite window. It supplies the $\RegularCauchyTailMeetUp$ shared-threshold row as the backing route for $W$, so a consumer cannot read the finite window as an independent tail oracle.
+
+Next use \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}. A $\RealDiagonalMeshBudgetUp$ consumer receives the finite approximation only through the mesh-budget route, and that route already includes the shared meet and shared-tail rows before the finite approximation seal is read.
+
+For a $\CauchyLimitSealUp$ consumer, use the seal coverage theorem. The seal reads the same finite rows and the same tail-meet backing before reaching $S$. Therefore every downstream route factors through the displayed $\RegularCauchyTailMeetUp$ shared-threshold row and cannot bypass it by selecting a real value, quotient stream, hidden tail oracle, host metric, or completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy approximation seal coverage]
 \label{thm:finite-cauchy-approximation-seal-coverage}
 Let $F=(R,n,k,W,D,E,S,H,C,P,N)$ be an accepted $\FiniteCauchyApproximationUp$ packet. Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of the handoff row $S$ factors through the finite rows $R,n,k,W,D,E,H,C,P,N$. If the packet is backed by an accepted $\RegularCauchyTailMeetUp$ shared-threshold packet and an accepted $\RegularCauchyTriangleBoundUp$ triangle-bound ledger, then the consumer receives only the shared tail threshold and triangle-bound ledger already named by those backing rows.

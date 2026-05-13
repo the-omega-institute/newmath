@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedExamplesSealUp$}
+\label{ch:concrete-instances-metacic-typedexamples-seal-namecert}
+\origin{human}
+
+The $\MetaCICTypedExamplesSealUp$ packet turns the typed-example audit map of \autoref{ch:metacic-typedexamples-audit-map} into a finite seal that can be read by downstream MetaCIC checker consumers. It sits between the bounded decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert} and the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}: those chapters expose the finite checker and normal-comparison rows, while the present packet seals the worked gallery rows that exercise them.
+
+\begin{definition}[MetaCIC TypedExamples seal carrier]
+\label{def:metacic-typedexamples-seal-carrier}
+A $\MetaCICTypedExamplesSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(E,T,C,B,D,Q,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite worked-example row selected from the typed-example audit map: Church encodings, identity rows, applications, projections, eliminator examples, constants, Pi rows, and sort-context rows;
+\item $T$ is the displayed typing-checker row for the examples that are accepted by the finite gallery;
+\item $C$ is the closedness and context-formation row consumed by those checker reads;
+\item $B$ is the selected beta and readback row for examples whose evaluation behavior is part of the worked gallery;
+\item $D$ is the bounded decidability row imported from the $\MetaCICDecidableBoundaryUp$ surface;
+\item $Q$ is the bounded normal-equality checker row imported from the $\BoundedNormalEqualityCheckerUp$ surface;
+\item $R$ is the finite seal ledger recording which gallery families are accepted, which computations are named, and which checker or normal-equality rows they are allowed to read;
+\item $H$ records componentwise $\hsame$ transports across $E,T,C,B,D,Q,R,P,N$;
+\item $K$ records the displayed $\Cont$ routes for replaying gallery entry reads, checker reads, closedness reads, beta reads, bounded decidability reads, normal-equality reads, and seal-ledger reads;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-typedexamples-audit-map}, \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, and \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert};
+\item $N$ is the local $\NameCert_{\MetaCICTypedExamplesSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary MetaCIC term, no global subject-reduction theorem, no strong normalization theorem, no global conversion decider, no proof-erasure correctness theorem, and no host evaluator.
+\end{definition}
+
+\begin{theorem}[MetaCIC TypedExamples seal NameCert obligations]
+\label{thm:metacic-typedexamples-seal-namecert-obligations}
+For the carrier of \autoref{def:metacic-typedexamples-seal-carrier}, the local $\NameCert_{\MetaCICTypedExamplesSealUp}$ surface consists exactly of carrier admission for $S=(E,T,C,B,D,Q,R,H,K,P,N)$, gallery-entry visibility through $E$, typing-checker visibility through $T$, closedness and context visibility through $C$, selected computation visibility through $B$, bounded decidability visibility through $D$, bounded normal-equality visibility through $Q$, finite seal-ledger exactness through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $E,T,C,B,D,Q,R$ are the entire worked-example surface, and the rows $H,K,P,N$ are the entire structural surface available to a consumer.
+
+The gallery-entry obligation reads $E$ only for the families selected by \autoref{ch:metacic-typedexamples-audit-map}. The checker obligation reads $T$ under the closedness and context row $C$, while the computation obligation reads $B$ only for the examples whose beta or readback behavior is named in the finite ledger.
+
+The bounded decidability and normal-equality obligations read $D$ and $Q$ through the sibling packets of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert} and \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}. The seal ledger $R$ records which of those sibling rows each worked example may consume.
+
+Finally, $H,K,P,N$ transport, replay, package, and name only the displayed rows. Since the carrier contains no further coordinate, the local NameCert surface is exhausted by the listed obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC TypedExamples seal non-escape]
+\label{thm:metacic-typedexamples-seal-nonescape}
+Every consumer of an accepted $\MetaCICTypedExamplesSealUp$ packet reads only the finite rows
+$$
+E,T,C,B,D,Q,R,H,K,P,N.
+$$
+The consumer may use those rows as a worked-example seal for the typed-example gallery and may route selected checker or bounded normal-equality reads through the named sibling packets. It receives no theorem about all represented MetaCIC terms, no quotient equality of terms, no unrestricted beta-conversion decision procedure, no selected normalization endpoint, no proof-erased compiler theorem, and no host evaluator.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The tuple lists all gallery, checker, closedness, computation, bounded decidability, normal-equality, ledger, transport, route, provenance, and naming rows exposed by the packet.
+
+Any checker or normal-equality read must pass through the finite seal ledger $R$. That ledger points to the bounded decidability and bounded normal-equality sibling surfaces, so the consumer cannot replace the selected gallery rows by an arbitrary MetaCIC term or a global conversion oracle.
+
+The structural rows $H,K,P,N$ preserve componentwise agreement, replay the same finite routes, record provenance, and name the packet. They do not add a quotient of terms, a normalization selector, a proof-erased compiler route, or a host evaluator.
+
+Thus the accepted reading is exactly the finite worked-example seal. All stronger metatheoretic endpoints are absent from the carrier and cannot be exported by a downstream consumer.
+\end{proof}
+
+\closureat{MetaCICTypedExamplesSealUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICTypedExamplesSealUp}
+  \constructivestory{A $\MetaCICTypedExamplesSealUp$ packet is generated from finite typed-example rows, checker rows, closedness rows, selected computation rows, bounded decidability rows, bounded normal-equality rows, a finite seal ledger, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-typedexamples-seal-carrier}, \autoref{thm:metacic-typedexamples-seal-namecert-obligations}, and \autoref{thm:metacic-typedexamples-seal-nonescape} bind the finite worked-example seal surface and its sibling checker routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close subject reduction, strong normalization, global conversion decidability, quotient equality over represented terms, proof-erased compiler correctness, host evaluation, or bridge checking.}
+  \upgradepath{Obligation closure requires checking carrier admission, gallery-entry visibility, checker visibility, closedness visibility, selected computation visibility, sibling bounded-checker routes, seal-ledger exactness, and non-escape for the displayed packet.}
+\end{closurestatus}
