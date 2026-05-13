@@ -220,18 +220,31 @@ Transport and replay are controlled by \autoref{thm:kernel-morphism-transport-st
 Finally use \autoref{thm:kernel-morphism-non-escape} and \autoref{thm:kernel-morphism-namecert-scope}. They exclude compiler semantics, inverse data, quotient program equality, and ambient category laws, leaving $S,T,E,L,H,C,P,N$ as the scoped consumer route for target-edge reads.
 \end{proof}
 
+\begin{theorem}[KernelMorphism standard reflection bridge]
+\label{thm:kernel-morphism-standard-reflection-bridge}
+The edge-admission, classifier-lift, transport-stability, composition-surface, public-export, and $\NameCert$-scope rows assemble a standard reflection bridge for $\KernelMorphismUp$. The bridge reads only the finite packet rows $S,T,G,E,L,H,C,P,N$ and composable middle rows, and imports no host equality, host function space, compiler semantics, inverse data, or ambient category law.
+\end{theorem}
+\begin{proof}
+Start with edge admission and classifier lift, \autoref{thm:kernel-morphism-edge-admission-obligation} and \autoref{thm:kernel-morphism-classifier-lift-obligation}. These rows expose the source-to-target graph route and the classifier read without leaving the finite carrier.
+
+Transport stability and composition surface, \autoref{thm:kernel-morphism-transport-stability-obligation} and \autoref{thm:kernel-morphism-composition-surface}, supply the bridge replay and the composable middle-row surface.
+
+Finally apply the public export and $\NameCert$ scope theorems, \autoref{thm:kernel-morphism-public-export} and \autoref{thm:kernel-morphism-namecert-scope}. They package the displayed rows as the bridge-facing public object and exclude host equality, host functions, compiler semantics, inverse data, and ambient category laws.
+\end{proof}
+
 \closureat{KernelMorphismUp}{seedStr}
 \closureat{KernelMorphismUp}{obligationStr}
 \closureat{KernelMorphismUp}{scopedStr}
 \closureat{KernelMorphismUp}{publicStr}
+\closureat{KernelMorphismUp}{bridgedStr}
 
 \begin{closurestatus}{\KernelMorphismUp}
   \constructivestory{A $\KernelMorphismUp$ packet is generated from source and target NameCert rows, a finite compiler graph, edge-admission and classifier-lift rows, componentwise hsame transport, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:kernel-morphism-carrier}, \autoref{thm:kernel-morphism-namecert-obligations}, \autoref{thm:kernel-morphism-composition-surface}, \autoref{thm:kernel-morphism-non-escape}, and \autoref{thm:kernel-morphism-public-export} define the finite morphism-packet surface and its public export.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:kernel-morphism-carrier}, \autoref{thm:kernel-morphism-namecert-obligations}, \autoref{thm:kernel-morphism-composition-surface}, \autoref{thm:kernel-morphism-non-escape}, \autoref{thm:kernel-morphism-public-export}, \autoref{thm:kernel-morphism-composition-scope}, \autoref{thm:kernel-morphism-namecert-scope}, \autoref{thm:kernel-morphism-scoped-edge-lift-consumer}, and \autoref{thm:kernel-morphism-standard-reflection-bridge} define the finite morphism-packet surface, its public export, and the bridge-facing consumer surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close compiler correctness, optimization correctness, decompiler right inverses, ambient category laws, Lean verification, or bridge checking.}
-  \upgradepath{Bridged closure requires connecting the finite morphism packet to a concrete standard-bridge consumer.}
+  \upgradepath{Mature closure requires downstream examples and completeness of the finite morphism-packet consumer surface.}
 \end{closurestatus}
