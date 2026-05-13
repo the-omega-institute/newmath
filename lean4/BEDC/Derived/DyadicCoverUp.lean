@@ -377,4 +377,44 @@ theorem DyadicCoverPacket_refined_window_total_bounded_package [AskSetup] [Packa
       refined.left.right.right.right.right.right.right.right.right.right.right.left,
       refinedWindowRow, refinedEndpointRow, refinedPkg⟩
 
+theorem DyadicCoverPacket_total_bounded_handoff [AskSetup] [PackageSetup]
+    {centers radii intervals mesh window transport routes provenance nameCert endpoint
+      consumerRead totalBoundedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCoverPacket centers radii intervals mesh window transport routes provenance nameCert
+        endpoint bundle pkg →
+      Cont endpoint routes consumerRead →
+        Cont centers radii totalBoundedRead →
+          PkgSig bundle consumerRead pkg →
+            PkgSig bundle totalBoundedRead pkg →
+              UnaryHistory centers ∧
+                UnaryHistory radii ∧
+                UnaryHistory intervals ∧
+                UnaryHistory mesh ∧
+                UnaryHistory window ∧
+                UnaryHistory consumerRead ∧
+                UnaryHistory totalBoundedRead ∧
+                Cont centers radii intervals ∧
+                Cont intervals mesh window ∧
+                Cont window routes endpoint ∧
+                Cont endpoint routes consumerRead ∧
+                Cont centers radii totalBoundedRead ∧
+                PkgSig bundle endpoint pkg ∧
+                PkgSig bundle consumerRead pkg ∧
+                PkgSig bundle totalBoundedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet endpointRoutesConsumer centersRadiiTotal consumerPkg totalBoundedPkg
+  obtain ⟨centersUnary, radiiUnary, intervalsUnary, meshUnary, windowUnary,
+    _transportUnary, routesUnary, _provenanceUnary, _nameCertUnary, endpointUnary,
+    centersRadiiIntervals, intervalsMeshWindow, windowRoutesEndpoint, _nameCertEndpoint,
+    endpointPkg⟩ := packet
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed endpointUnary routesUnary endpointRoutesConsumer
+  have totalBoundedUnary : UnaryHistory totalBoundedRead :=
+    unary_cont_closed centersUnary radiiUnary centersRadiiTotal
+  exact
+    ⟨centersUnary, radiiUnary, intervalsUnary, meshUnary, windowUnary, consumerUnary,
+      totalBoundedUnary, centersRadiiIntervals, intervalsMeshWindow, windowRoutesEndpoint,
+      endpointRoutesConsumer, centersRadiiTotal, endpointPkg, consumerPkg, totalBoundedPkg⟩
+
 end BEDC.Derived.DyadicCoverUp
