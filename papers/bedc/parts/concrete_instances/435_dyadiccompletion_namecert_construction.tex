@@ -406,6 +406,51 @@ schedule, quotient completion, host equality, or choice-selected limit can be
 exported outside the identified finite-window row.
 \end{proof}
 
+\begin{theorem}[DyadicCompletion RealUp route exhaustion]\label{thm:dyadiccompletion-realup-route-exhaustion}
+Every $\RealUp$ seal read exposed by an accepted $\DyadicCompletionUp$
+finite-window packet is exhausted by the same finite route through the dyadic
+observation rows, the $\StreamNameUp$ windows of
+\autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$
+regular-tail rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the
+dyadic precision rows of \autoref{ch:concrete-instances-dyadicratcore-namecert},
+the $\RealUp$ boundary of \autoref{ch:concrete-instances-real-namecert}, the
+precision ledger, the displayed $\hsame$ and $\Cont$ transports, the
+$\mathsf{Pkg}$ row, and the local $\NameCert$ provenance row.
+
+Consequently no $\DyadicCompletionUp$ terminal $\RealUp$ seal can be read
+through a second route outside the listed stream-window, regular-tail, dyadic,
+real-boundary, ledger, transport, continuation, package, and provenance rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:dyadiccompletion-carrier}.
+The carrier exposes the finite tuple of dyadic observations, stream-window
+names, regular-tail certificates, real-boundary handoff, precision ledger,
+history comparison, continuation, package source, and local provenance rows on
+which a $\DyadicCompletionUp$ consumer may depend.
+
+Next apply \autoref{thm:dyadiccompletion-window-ledger-source-exhaustion}. The
+ledger admits only the scheduled dyadic and $\StreamNameUp$ windows named by
+the packet, so the $\RealUp$ seal cannot import an additional finite-window
+source. Apply \autoref{thm:dyadiccompletion-regseqrat-window-exhaustion} to the
+regular-tail side; the $\RegSeqRatUp$ read is forced through the same
+window, ledger, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ route.
+
+The sibling chapters provide the route endpoints. The stream-window rows come
+from \autoref{ch:concrete-instances-streamname-namecert}, the regular-tail
+classifier rows from \autoref{ch:concrete-instances-regseqrat-namecert}, the
+dyadic precision rows from \autoref{ch:concrete-instances-dyadicratcore-namecert},
+and the terminal real-name boundary from
+\autoref{ch:concrete-instances-real-namecert}. These are precisely the rows
+already recorded by the local $\NameCert$ provenance surface.
+
+Finally use
+\autoref{thm:dyadiccompletion-terminal-window-seal-determinacy}. Once the
+dyadic observation, stream-window, regular-tail, real-boundary, ledger,
+transport, continuation, package, and provenance rows agree, the terminal
+$\RealUp$ seal has no alternate public finite-window row. Hence the displayed
+route exhausts every $\DyadicCompletionUp$ real-seal read.
+\end{proof}
+
 \closureat{DyadicCompletionUp}{obligationStr}
 \closureat{DyadicCompletionUp}{scopedStr}
 \closureat{DyadicCompletionUp}{publicStr}
