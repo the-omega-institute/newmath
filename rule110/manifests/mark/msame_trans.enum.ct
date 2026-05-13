@@ -1,0 +1,14 @@
+# msame_trans.enum.ct
+# Theorem: msame_trans : forall {a b c : BMark}, msame a b -> msame b c -> msame a c
+# Strategy: enumerate 8 cases (a,b,c) in BMark^3. Most are vacuous.
+# Verified at runtime by decode_three_check_trans in test_mark.c.
+PRODUCTIONS 0
+ASSERTIONS 8
+case b0_b0_b0: input=011011011    ; holds=trivial
+case b0_b0_b1: input=0110111011   ; holds=vacuous
+case b0_b1_b0: input=0111011011   ; holds=vacuous
+case b0_b1_b1: input=01110111011  ; holds=vacuous
+case b1_b0_b0: input=1011011011   ; holds=vacuous
+case b1_b0_b1: input=10110111011  ; holds=vacuous
+case b1_b1_b0: input=10111011011  ; holds=vacuous
+case b1_b1_b1: input=101110111011 ; holds=trivial

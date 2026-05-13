@@ -1,0 +1,56 @@
+name: Rule110 CI
+
+# rule110/ is a self-contained sub-project (ANSI C99, zero external deps).
+# Its CI is fully isolated from the main project (papers/, lean4/):
+# - main project changes do not trigger this workflow
+# - rule110 changes do not trigger main project workflows
+# - Lean cross-check (rule110/lean-side/) is a dev-time sanity tool per
+#   rule110/ROADMAP.md, not a CI gate
+
+on:
+  pull_request:
+    paths:
+      - 'rule110/**'
+      - '.github/workflows/rule110-ci.yml'
+  push:
+    branches: [auto-dev, codex-auto-dev, dev, rule110]
+    paths:
+      - 'rule110/**'
+      - '.github/workflows/rule110-ci.yml'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rule110-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  substrate:
+    name: Rule110 Substrate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 1
+
+      - name: make test
+        run: cd rule110 && make test
+
+      - name: make test-scale
+        run: cd rule110 && make test-scale
+
+      - name: make test-collision-audit
+        run: cd rule110 && make test-collision-audit
+
+      - name: make test-algo-r110-semantic
+        run: cd rule110 && make test-algo-r110-semantic
+
+      - name: make test-exhaustiveness
+        run: cd rule110 && make test-exhaustiveness
