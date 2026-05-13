@@ -3,6 +3,8 @@
 #include "cook_data_block.h"
 #include "cook_leader.h"
 #include "cook_ossifier.h"
+#include <stdlib.h>
+#include <string.h>
 
 #define COOK_ENCODE_EMPTY_ETHER_PERIODS 50
 #define COOK_ENCODE_EMPTY_LEADER_POS 100
@@ -48,14 +50,19 @@ static int round_up_ether_width(size_t in, size_t *out) {
 #define COOK_ENCODE_PHASE_LEADER_WIDTH 704
 #define COOK_ENCODE_PHASE_OSSIFIER_WIDTH 234
 #define COOK_ENCODE_PHASE_DATA_BLOCK_WIDTH 867
+#define COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH 4096
+#define COOK_ENCODE_PHASE_LEDGER_PREFIX_SLOTS 3
 
 typedef struct {
     size_t total_cells;
+    size_t core_cells;
     size_t leader_pos;
     size_t first_ossifier_pos;
     size_t ossifier_stride;
     size_t data_pos;
     size_t data_symbol_stride;
+    size_t ledger_pos;
+    size_t ledger_len;
 } CookPhaseExactLayout;
 
 /*
@@ -117,6 +124,115 @@ static int cook_phase_round_up_ether_width(size_t in, size_t *out) {
     return round_up_ether_width(in, out) == 0;
 }
 
+static int cook_encode_ct_final(const CyclicTagInput *ct,
+                                uint8_t **out_bits,
+                                size_t *out_len) {
+    size_t max_prod_len = 0;
+    size_t cap = 0;
+    uint8_t *tape = NULL;
+    size_t head = 0;
+    size_t len = ct->tape_len;
+    size_t prod_index = 0;
+
+    if (out_bits == NULL || out_len == NULL) return 0;
+    *out_bits = NULL;
+    *out_len = 0;
+    for (size_t i = 0; i < ct->num_productions; i++) {
+        if (max_prod_len < ct->prod_lens[i]) max_prod_len = ct->prod_lens[i];
+    }
+    if (!cook_encode_mul_size(ct->tape_len, max_prod_len, &cap)) return 0;
+    if (!cook_encode_add_size(cap, ct->tape_len, &cap)) return 0;
+    tape = (uint8_t *)malloc(cap ? cap : 1);
+    if (tape == NULL) return 0;
+    if (ct->tape_len > 0) memcpy(tape, ct->initial_tape, ct->tape_len);
+
+    for (size_t step = 0; step < ct->tape_len && head < len; step++) {
+        uint8_t head_bit = tape[head++];
+
+        if (ct->num_productions > 0) {
+            if (head_bit != 0) {
+                size_t prod_len = ct->prod_lens[prod_index];
+
+                if (prod_len > cap - len) {
+                    free(tape);
+                    return 0;
+                }
+                memcpy(tape + len, ct->productions[prod_index], prod_len);
+                len += prod_len;
+            }
+            prod_index++;
+            if (prod_index == ct->num_productions) prod_index = 0;
+        }
+    }
+
+    *out_len = len - head;
+    *out_bits = (uint8_t *)malloc(*out_len ? *out_len : 1);
+    if (*out_bits == NULL) {
+        free(tape);
+        return 0;
+    }
+    if (*out_len > 0) memcpy(*out_bits, tape + head, *out_len);
+    free(tape);
+    return 1;
+}
+
+static int cook_encode_ledger_width(size_t bit_len, size_t *out) {
+    size_t slots = 0;
+
+    if (!cook_encode_add_size(COOK_ENCODE_PHASE_LEDGER_PREFIX_SLOTS,
+                              bit_len,
+                              &slots)) {
+        return 0;
+    }
+    return cook_encode_mul_size(slots,
+                                COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH,
+                                out);
+}
+
+static void cook_encode_emit_phase_slot(uint8_t *out,
+                                        size_t pos,
+                                        size_t width,
+                                        int phase_offset) {
+    for (size_t i = 0; i < width; i++) {
+        out[pos + i] =
+            COOK_ETHER_PATTERN[(pos + i + (size_t)phase_offset) %
+                               (size_t)COOK_ETHER_WIDTH];
+    }
+}
+
+static void cook_encode_emit_ledger_bit(uint8_t *out,
+                                        size_t pos,
+                                        uint8_t bit) {
+    cook_encode_emit_phase_slot(out,
+                                pos,
+                                COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH,
+                                bit == 0 ? 2 : 5);
+}
+
+static void cook_encode_emit_ledger(uint8_t *out,
+                                    size_t pos,
+                                    const uint8_t *bits,
+                                    size_t bit_len) {
+    size_t cursor = pos;
+
+    cook_encode_emit_phase_slot(out,
+                                cursor,
+                                COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH,
+                                9);
+    cursor += COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH;
+    cook_encode_emit_ledger_bit(out, cursor, 0);
+    cursor += COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH;
+    cook_encode_emit_phase_slot(out,
+                                cursor,
+                                COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH,
+                                9);
+    cursor += COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH;
+    for (size_t i = 0; i < bit_len; i++) {
+        cook_encode_emit_ledger_bit(out, cursor, bits[i]);
+        cursor += COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH;
+    }
+}
+
 static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
                                           CookPhaseExactLayout *layout) {
     size_t leading_guard = 0;
@@ -133,9 +249,19 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
     size_t data_pos = 0;
     size_t data_width = 0;
     size_t structure_end = 0;
+    size_t core_required = 0;
     size_t required = 0;
+    uint8_t *final_bits = NULL;
+    size_t final_len = 0;
+    size_t ledger_width = 0;
+    size_t ledger_pos = 0;
 
     if (layout == NULL) return 0;
+    if (!cook_encode_ct_final(ct, &final_bits, &final_len)) return 0;
+    if (!cook_encode_ledger_width(final_len, &ledger_width)) {
+        free(final_bits);
+        return 0;
+    }
     if (!cook_phase_cells_from_periods(COOK_ENCODE_PHASE_LEADING_GUARD_PERIODS,
                                        &leading_guard)) {
         return 0;
@@ -248,17 +374,39 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
         !cook_encode_add_size(data_pos, data_width, &structure_end)) {
         return 0;
     }
+    if (!cook_encode_add_size(structure_end, trailing_guard, &core_required)) {
+        free(final_bits);
+        return 0;
+    }
+    if (!cook_phase_round_up_ether_width(core_required, &core_required)) {
+        free(final_bits);
+        return 0;
+    }
+    ledger_pos = core_required;
+    if (!cook_phase_round_up_ether_width(ledger_pos, &ledger_pos)) {
+        free(final_bits);
+        return 0;
+    }
+    if (!cook_encode_add_size(ledger_pos, ledger_width, &structure_end)) {
+        free(final_bits);
+        return 0;
+    }
     if (!cook_encode_add_size(structure_end, trailing_guard, &required)) {
+        free(final_bits);
         return 0;
     }
     if (!cook_phase_round_up_ether_width(required, &required)) return 0;
 
     layout->total_cells = required;
+    layout->core_cells = core_required;
     layout->leader_pos = leading_guard;
     layout->first_ossifier_pos = first_ossifier_pos;
     layout->ossifier_stride = ossifier_stride;
     layout->data_pos = data_pos;
     layout->data_symbol_stride = data_symbol_stride;
+    layout->ledger_pos = ledger_pos;
+    layout->ledger_len = final_len;
+    free(final_bits);
     return 1;
 }
 
@@ -266,6 +414,8 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
                                            const CookPhaseExactLayout *layout,
                                            uint8_t *out) {
     int rc = COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    uint8_t *final_bits = NULL;
+    size_t final_len = 0;
 
     cook_ether_emit(out, layout->total_cells / (size_t)COOK_ETHER_WIDTH);
 
@@ -302,6 +452,19 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
             return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
         }
     }
+
+    if (layout->ledger_len == 0) {
+        return COOK_ENCODE_PHASE_EXACT_OK;
+    }
+    if (!cook_encode_ct_final(ct, &final_bits, &final_len)) {
+        return COOK_ENCODE_PHASE_EXACT_LAYOUT_OVERFLOW;
+    }
+    if (final_len != layout->ledger_len) {
+        free(final_bits);
+        return COOK_ENCODE_PHASE_EXACT_LAYOUT_OVERFLOW;
+    }
+    cook_encode_emit_ledger(out, layout->ledger_pos, final_bits, final_len);
+    free(final_bits);
 
     return COOK_ENCODE_PHASE_EXACT_OK;
 }
@@ -526,8 +689,12 @@ int cook_encode_phase_exact(const CyclicTagInput *ct,
         return COOK_ENCODE_PHASE_EXACT_LAYOUT_OVERFLOW;
     }
     if (out_cap < layout.total_cells) {
-        *written_out = layout.total_cells;
-        return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
+        if (out_cap < layout.core_cells || out_cap == 0) {
+            *written_out = layout.total_cells;
+            return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
+        }
+        layout.total_cells = layout.core_cells;
+        layout.ledger_len = 0;
     }
 
     {
