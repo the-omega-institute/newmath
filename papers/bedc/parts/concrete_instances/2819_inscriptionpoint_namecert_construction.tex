@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionPointUp$}
+\origin{ai}
+
+The $\InscriptionPointUp$ surface makes the inscription-point direction of \autoref{sec:transcendental-input-inscription-point} finite. It records the local observation-history row, the displayed supply socket, the actuality row where an inscription is received as public record data, the GAP boundary for content not supplied internally, transport and read routes, provenance through the neighboring socket chapters, and the local naming certificate. The packet is a certificate surface for the local supply position; it is not a positive predicate asserting that the missing supply has become substrate-internal.
+
+\begin{definition}[InscriptionPoint carrier]
+\label{def:inscription-point-namecert-carrier}
+An $\InscriptionPointUp$ carrier is a finite $\BHist$ packet
+$$
+I=(O,S,A,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the local observation-history row, naming the finite record surface through which the inscription point is read;
+\item $S$ is the displayed supply-socket row, naming the requested supply position and its local consumer route;
+\item $A$ is the local actuality and inscription row, recording the public point at which the observation history receives the inscription as record data;
+\item $G$ is the GAP boundary row for content not internally supplied by the finite observation history or by BEDC substrate rules;
+\item $H$ records componentwise $\hsame$ transports for the observation-history, supply-socket, actuality, GAP, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read $O$, inspect $S$, expose $G$, and reach $A$ without leaving the finite packet;
+\item $P$ is the $\Pkg$ provenance row over $\BHist$, $\mathsf{GAP}$ rows, $\TranscendentalInductionSocketUp$, $\SupplySocketLedgerUp$, $\InscriptionEventUp$, and $\NameCert$ dependencies;
+\item $N$ is the local $\NameCert_{\InscriptionPointUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an internally supplied induction rule, witness selector, extensional quotient equality, hidden receiver object, private source predicate, or completed supply theorem.
+\end{definition}
+
+\begin{theorem}[InscriptionPoint local supply socket]
+\label{thm:inscription-point-local-supply-socket}
+For an accepted $\InscriptionPointUp$ carrier $I=(O,S,A,G,H,C,P,N)$, every read of the local supply position factors through the displayed supply-socket row $S$ and the GAP boundary row $G$. The route may expose where the requested supply is consumed, but it does not convert the requested supply into an internal BEDC theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-point-namecert-carrier}. The only supply-facing coordinate is $S$, and the only row naming content not internally supplied is $G$.
+
+The continuation row $C$ gives the consumer route from observation-history inspection to the supply socket and then to the GAP boundary. Componentwise transport through $H$ preserves the same displayed rows when accepted packets are compared.
+
+The provenance row $P$ ties the route to $\TranscendentalInductionSocketUp$ and $\SupplySocketLedgerUp$. Since the carrier has no coordinate for a supplied induction rule, selector, quotient equality, or completed supply theorem, the read remains a finite socket read through $S$ and $G$.
+\end{proof}
+
+\begin{theorem}[InscriptionPoint observation-history actuality]
+\label{thm:inscription-point-observation-history-actuality}
+Every inscription read of an accepted $\InscriptionPointUp$ carrier is tied to the local observation-history row $O$ and the actuality row $A$. The packet does not introduce a separate receiver object outside the displayed observation history and inscription surface.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:inscription-point-namecert-carrier}. The observation side is $O$, and the public actuality of inscription is $A$.
+
+The displayed routes in $C$ carry an inscription read from $O$ to $A$ after the supply socket and GAP rows have been exposed. The transports in $H$ compare those rows as coordinates of the same finite packet, not as a relation to an external receiver.
+
+The provenance row $P$ may name $\InscriptionEventUp$ as the neighboring public-event surface. That provenance supplies a route into record data, but it adds no hidden observer carrier, private source predicate, or receiver object beyond $O$ and $A$.
+\end{proof}
+
+\begin{theorem}[InscriptionPoint certificate surface]
+\label{thm:inscription-point-certificate-surface}
+The local $\NameCert_{\InscriptionPointUp}$ surface has five rows:
+\begin{enumerate}
+\item carrier exposure for the finite packet $I=(O,S,A,G,H,C,P,N)$ of \autoref{def:inscription-point-namecert-carrier};
+\item supply-socket locality, requiring every supply read to pass through $S$ and $G$;
+\item observation-actuality binding, requiring every inscription read to pass through $O$ and $A$;
+\item transport and continuation locality through $H$ and $C$ for the displayed rows only;
+\item provenance non-escape through $P$ and $N$ over $\BHist$, $\mathsf{GAP}$, $\TranscendentalInductionSocketUp$, $\SupplySocketLedgerUp$, $\InscriptionEventUp$, and $\NameCert$ dependencies.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is the tuple displayed in \autoref{def:inscription-point-namecert-carrier}.
+
+Supply-socket locality is \autoref{thm:inscription-point-local-supply-socket}. It forces every supply-position read through the displayed socket and GAP rows, so the certificate cannot smuggle a supplied theorem into the carrier.
+
+Observation-actuality binding is \autoref{thm:inscription-point-observation-history-actuality}. It identifies the public inscription read with $O$ and $A$ rather than with a separate receiver object.
+
+The remaining rows are $H$, $C$, $P$, and $N$. They transport, route, record provenance, and name the packet over the listed BEDC dependencies, and no coordinate remains from which a hidden supply source or receiver object could be projected.
+\end{proof}
+
+\closureat{InscriptionPointUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionPointUp}
+  \constructivestory{An $\InscriptionPointUp$ packet is generated from a local observation-history row, a displayed supply-socket row, a local actuality and inscription row, a GAP boundary row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-point-namecert-carrier}, \autoref{thm:inscription-point-local-supply-socket}, \autoref{thm:inscription-point-observation-history-actuality}, and \autoref{thm:inscription-point-certificate-surface} bind inscription points as finite observation-history, supply-socket, actuality, GAP, transport, route, provenance, and naming packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, bridge checking, substrate-internal supply, hidden receiver ontology, private source predicates, selected witnesses, quotient equality, or a completed supply theorem.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for supply-socket locality, observation-actuality binding, transport locality, and provenance non-escape over the same finite packet.}
+\end{closurestatus}
