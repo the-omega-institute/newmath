@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapFamilyLedgerUp$}
+\label{ch:concrete-instances-auditmapfamilyledger-namecert}
+\origin{ai}
+
+The $\AuditMapFamilyLedgerUp$ packet realizes the audit-map family methodology of \autoref{ch:visions-audit-map-family-methodology} as finite NameCert data. It sits beside the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the MetaCIC audit synthesis packet of \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, and the closure-preservation audit packet of \autoref{ch:concrete-instances-metacic-closure-preservation-audit-namecert}: those sibling chapters name local audit rows, while this packet records the family-level ledger that keeps their module tags, neighbour links, obstruction rows, and frontier rows visible without turning them into hidden closure.
+
+\begin{definition}[Audit-map family ledger carrier]
+\label{def:audit-map-family-ledger-carrier}
+An $\AuditMapFamilyLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+F=(G,A,E,P,O,U,B,H,C,L,K,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $G$ is the family tag naming the local audit-map module and its BEDC substrate;
+\item $A$ is the local audit-map row, such as the substitution audit row of \autoref{ch:concrete-instances-substitutionauditmap-namecert};
+\item $E$ records neighbouring-map links to sibling audit packets, including synthesis, closure-preservation, subject-reduction, and normal-boundary audit rows;
+\item $P$ records positive rows already available to the local module;
+\item $O$ records conditional rows whose conclusion is available only after a named discharge route;
+\item $U$ records obstruction rows that the family ledger must keep visible;
+\item $B$ records frontier rows offered to downstream consumers without claiming their closure;
+\item $H$ records componentwise $\hsame$ transports for the family tag, local audit row, neighbour links, positive rows, conditional rows, obstruction rows, frontier rows, continuation rows, provenance rows, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the local audit map, neighbouring-map links, row classes, frontier handoffs, provenance, and local name;
+\item $L$ is the finite ledger over the audit-map family rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $K$ is the $\Pkg$ provenance row recording which concrete audit chapters supply the visible rows;
+\item $N$ is the local $\NameCert_{\AuditMapFamilyLedgerUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are the displayed family tag, local audit-map row, neighbouring-map links, positive rows, conditional rows, obstruction rows, frontier rows, transport rows, continuation routes, ledger row, package provenance, and local naming row. It exports no global proof of subject reduction, no full consistency theorem, no ambient confluence theorem, no hidden closure principle, and no host-level semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[Audit-map family ledger NameCert obligations]
+\label{thm:audit-map-family-ledger-obligations}
+For the carrier of \autoref{def:audit-map-family-ledger-carrier}, the local $\NameCert_{\AuditMapFamilyLedgerUp}$ surface consists exactly of carrier admission for
+$$
+F=(G,A,E,P,O,U,B,H,C,L,K,N),
+$$
+family-tag readback through $G$, local audit-map readback through $A$, neighbouring-map link readback through $E$, positive-row readback through $P$, conditional-row readback through $O$, obstruction-row readback through $U$, frontier-row readback through $B$, componentwise transport through $H$, displayed continuation through $C$, ledger exactness through $L$, package provenance through $K$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $F$. The rows $G,A,E$ display the family tag, the local audit map, and the neighbouring audit maps before any row-level claim can be read.
+
+Read the row classes next. The positive rows $P$, conditional rows $O$, obstruction rows $U$, and frontier rows $B$ partition the visible audit surface into available, routed, blocked, and consumer-facing entries.
+
+Finally inspect $H,C,L,K,N$. Transport and continuation replay the same displayed rows, the ledger records no additional row class, the package row cites only the visible concrete audit chapters, and the local name binds the packet. Hence the NameCert surface is exhausted by the carrier inventory.
+\end{proof}
+
+\begin{theorem}[Audit-map family ledger hidden-closure non-escape]
+\label{thm:audit-map-family-ledger-nonescape}
+For every accepted $\AuditMapFamilyLedgerUp$ carrier $F=(G,A,E,P,O,U,B,H,C,L,K,N)$, every consumer read of the audit-map family remains inside the displayed family tag, local audit-map row, neighbouring-map links, positive rows, conditional rows, obstruction rows, frontier rows, $\hsame$ transports, $\Cont$ routes, finite ledger, $\Pkg$ provenance, and local $\NameCert$ row. In particular, the packet cannot export a hidden proof of the obstruction rows, an unlisted discharge route for the conditional rows, a closed subject-reduction theorem, full closed consistency, ambient confluence, or host semantic equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The only consumer-facing data are the rows $G,A,E,P,O,U,B,H,C,L,K,N$, so a read of the family ledger must enter through the displayed local audit map and its neighbouring links.
+
+Use the NameCert obligations of \autoref{thm:audit-map-family-ledger-obligations}. They bind each positive, conditional, obstruction, and frontier row to its own displayed coordinate and route every transport or continuation through $H$ and $C$.
+
+The ledger and provenance rows then rule out hidden closure. Since $L$ records no unlisted row and $K$ cites only visible concrete audit chapters, a consumer may cite the family ledger as finite audit data but cannot extract a proof or discharge route absent from the packet.
+\end{proof}
+
+\closureat{AuditMapFamilyLedgerUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapFamilyLedgerUp}
+  \constructivestory{An $\AuditMapFamilyLedgerUp$ packet is generated from a family tag, a local audit-map row, neighbouring-map links, positive rows, conditional rows, obstruction rows, frontier rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, a finite ledger, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-family-ledger-carrier}, \autoref{thm:audit-map-family-ledger-obligations}, and \autoref{thm:audit-map-family-ledger-nonescape} bind the finite audit-map family ledger and its hidden-closure boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, full closed consistency, ambient confluence, hidden discharge routes, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, family-tag readback, local audit-map readback, neighbouring-map readback, row-class exactness, transport, continuation, ledger exactness, provenance, naming, and non-escape for the same finite packet.}
+\end{closurestatus}
