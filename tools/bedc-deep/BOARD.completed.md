@@ -18449,3 +18449,94 @@ Rationale:
 This belongs in the LinearMap body, preferably near the pointwise Hom_R(M,N) laws in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex. The theorem is the textbook additive-identity law for the abelian group of module homomorphisms, standard in any introductory algebra text covering modules, e.g. Dummit-Foote or Hungerford. Evidence for closeability is strong: the paper already has pointwise sum closure at module_linearmap_certificates.tex:343, zero linear-map certification at module_linearmap_kernel_image_and_zero.tex:150, pointwise sum commutativity at module_linearmap_kernel_image_and_zero.tex:100, and associativity at module_linearmap_kernel_image_and_zero.tex:184. A focused grep for pointwise sum identity, additive identity, and zero pointwise sum found only generic zero-row mentions and no theorem label for the identity law, so the target is open and should close by two applications of existing certificates plus the target module additive-unit row.
 
 ---
+
+### B-730 - RegularCauchyMesh finite submesh restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RegularCauchyMesh finite submesh restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted RegularCauchyMeshUp packet restricts its finite mesh-index row to a displayed submesh while retaining the corresponding StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, DyadicMesh compatibility row, RealUp handoff, transport, continuation, provenance, and local NameCert rows, then the restricted packet is again an accepted RegularCauchyMeshUp carrier and every retained consumer read factors through the restricted rows.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/3168_regularcauchymesh_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Project the finite mesh-index row to the displayed submesh, restrict each dependent StreamName, RegSeqRat, DyadicRatCore, DyadicMesh, RealUp handoff, transport, continuation, provenance, and NameCert row along that projection, and repack the resulting finite tuple.
+- `ripeness_risk`: low, the source chapter is seed-level and the theorem is a direct finite-row restriction companion to the carrier definition
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a finite witness because the submesh is a displayed finite row projection and no choice, compactness, quotient, or limit construction is needed.
+- `witness_extractor`: submesh_row_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Project the finite mesh-index row to the displayed submesh, restrict each dependent StreamName, RegSeqRat, DyadicRatCore, DyadicMesh, RealUp handoff, transport, continuation, provenance, and NameCert row along that projection, and repack the resulting finite tuple.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes the finite request row, mesh-index row, StreamName window row, RegSeqRat readback row, DyadicRatCore tolerance ledger, DyadicMesh compatibility row, RealUp handoff row, componentwise hsame transports, Cont routes, Pkg provenance, and local NameCert rows restricted to the displayed submesh.
+- `dependency_trace`: Uses def:regular-cauchy-mesh-carrier, def:regular-cauchy-mesh-classifier, thm:regular-cauchy-mesh-namecert-obligation-sketch, and the chapter upgrade path asking for finite mesh coverage in papers/bedc/parts/concrete_instances/3168_regularcauchymesh_namecert_construction.tex.
+- `rate_modulus_surface`: The restricted packet preserves the same displayed DyadicRatCore tolerance ledger and StreamName window row for retained mesh cells; no new rate, tail modulus, limit, or completeness principle is introduced.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete finite-row locality theorem for an existing RegularCauchyMeshUp chapter. It is not a marker, closurestatus update, or verification-axis item, and it is not already present as a theorem label. The target fills a visible obligation-level gap: the chapter currently gives the carrier, classifier, and five-row NameCert sketch, while the natural downstream use of a finite mesh packet requires restriction to displayed submeshes without exporting any additional analytic structure.
+
+---
+
+### B-731 - HankelVandermonde spectral-shadow bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | HankelVandermonde spectral-shadow bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted HankelVandermondeUp packet shares its displayed atom, weight, moment-index, determinant ledger, pairwise-difference, and Vandermonde-square rows with an accepted CollisionKernelSpectrumUp packet through the FoldMomentKernelUp moment surface, then every spectral-shadow consumer read factors through the HankelVandermonde finite determinant ledger and no host matrix or analytic spectrum row is exported.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1796_hankelvandermonde_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/1732_collisionkernelspectrum_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/1289_foldmomentkernel_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Cut first through the FoldMomentKernelUp moment-index rows, then through the CollisionKernelSpectrumUp spectral-shadow projection, and finally read the resulting consumer route through the HankelVandermondeUp determinant and Vandermonde-square ledgers.
+- `ripeness_risk`: medium, the intended bridge is stated in prose but the proof must align three existing packet surfaces without turning into a restated non-escape theorem
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: All visible resources are finite ledgers: determinant-expansion rows, pairwise-difference rows, Vandermonde-square rows, moment-index rows, collision-kernel rows, and spectral-shadow rows.
+- `witness_extractor`: hankel_vandermonde_spectral_shadow_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 2
+- `elimination_plan`: Cut first through the FoldMomentKernelUp moment-index rows, then through the CollisionKernelSpectrumUp spectral-shadow projection, and finally read the resulting consumer route through the HankelVandermondeUp determinant and Vandermonde-square ledgers.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes HankelVandermonde rows A,W,M,D,Delta,Q,H,C,P,N; FoldMomentKernel finite moment-index and finite-window rows; and CollisionKernelSpectrum rows G,F,V,I,K,S,H,T,P,N.
+- `dependency_trace`: Uses thm:hankel-vandermonde-namecert-obligations, thm:fold-moment-kernel-standard-bridge-surface, thm:fold-moment-kernel-finite-window-restriction-carrier, thm:collision-kernel-spectrum-finite-window-spectral-shadow, thm:collision-kernel-spectrum-ledger-non-escape, and thm:collision-kernel-spectrum-moment-index-projection.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is not a new object or survey item; it is a bridge lemma between three already-existing finite certificate chapters. It is close to existing non-escape and spectral-shadow projection theorems, so novelty is only threshold-level, but the proposed statement adds a specific HankelVandermonde-to-CollisionKernelSpectrum consumer route that is currently only described in prose. Kept as an existing-chapter lemma, not a new chapter.
+
+---
