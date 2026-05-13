@@ -1006,6 +1006,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "compile_errors": list(getattr(result, "compile_errors", None) or []),
                 "error": result.error,
                 "closure_candidate": getattr(result, "closure_candidate", None) or {},
+                "logic_audit": getattr(result, "logic_audit", None) or {},
             }
             stage2_attempts.append(attempt_record)
             if result.appended and result.compile_ok:
@@ -1116,6 +1117,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "rejection_reasons": last.get("rejection_reasons", []),
                 "error": last.get("error", ""),
                 "closure_candidate": last.get("closure_candidate", {}),
+                "logic_audit": last.get("logic_audit", {}),
                 "attempts": stage2_attempts,
             }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))
