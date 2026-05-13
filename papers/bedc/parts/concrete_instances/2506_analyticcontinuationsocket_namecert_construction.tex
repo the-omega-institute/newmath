@@ -429,6 +429,54 @@ Use carrier admission and classifier transport to keep this split inside the sam
 Finally apply the zeta branch-obstruction exactness and overlap-to-zeta handoff theorems. They show that zero-location, monodromy, branch-selector, and global-continuation requests remain ledger entries, so the exactness claim does not assert analytic continuation as a completed external theorem.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationSocket overlap source obligation]
+\label{thm:analytic-continuation-socket-overlap-source-obligation}
+Let
+$$
+S=(F,G,U,A,O,B,H,C,P,N)
+$$
+be an accepted $\AnalyticContinuationSocketUp$ carrier. Every accepted socket source overlap is read only through the $\ComplexUp$ and $\HolomorphicUp$ source rows $F,G$, the overlap classifier row $U$, componentwise $\hsame$ transport $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\AnalyticContinuationSocketUp}$ row $N$. No overlap source read supplies a quotient of germs, selected branch, global continuation, or analytic-continuation oracle outside those rows.
+\end{theorem}
+\begin{proof}
+Start with carrier admission. The carrier of \autoref{def:analytic-continuation-socket-carrier} exposes the source rows $F,G$ and the overlap row $U$ before any operation output is read.
+
+Use the NameCert obligations and classifier transport. They keep the overlap classifier attached to the displayed $\ComplexUp$ and $\HolomorphicUp$ source rows through $H,C,P,N$.
+
+Finally apply branch ledger exactness and overlap-to-zeta handoff. Requests outside the displayed overlap source route are recorded in $B$ rather than exported as source-overlap evidence, so the listed rows exhaust the obligation.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket branch ledger obligation]
+\label{thm:analytic-continuation-socket-branch-ledger-obligation}
+For an accepted $\AnalyticContinuationSocketUp$ carrier
+$$
+S=(F,G,U,A,O,B,H,C,P,N),
+$$
+branch-ledger reads are exact for the displayed overlap row $U$, branch tag or obstruction row $B$, local operation row $A$, and local output row $O$. The ledger exports only the recorded split between local output and obstruction; it exports no analytic-continuation oracle, global monodromy theorem, branch selector, or zero-location datum.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:analytic-continuation-socket-branch-ledger-exactness}. It states that branch-sensitive reads are routed either to the local output path through $O$ or to the ledger row $B$.
+
+Use ledger exhaustion and local output handoff to identify the positive route. The rows $F,G,U,A,O,H,C,P,N$ are exactly the displayed overlap, operation, output, transport, route, provenance, and naming rows.
+
+Now use zeta branch-obstruction exactness. Zero-location, monodromy, branch-selector, and global-continuation requests remain obstruction entries in $B$, so the ledger does not export an analytic-continuation oracle.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket operation handoff obligation]
+\label{thm:analytic-continuation-socket-operation-handoff-obligation}
+Every $\AnalyticContinuationOperationUp$ or $\ZetaContinuationApplicationUp$ consumer of an accepted $\AnalyticContinuationSocketUp$ carrier
+$$
+S=(F,G,U,A,O,B,H,C,P,N)
+$$
+must factor through the source-overlap ledger $F,G,U,H,C,P,N$ and the branch ledger $B$ before reading the operation output $O$. Such a consumer may receive the local operation handoff $A,O$ over the displayed overlap, but it cannot bypass the source and branch ledgers to obtain global analytic continuation, monodromy, branch selection, or zero-location information.
+\end{theorem}
+\begin{proof}
+First apply the overlap source obligation. It makes every accepted source-overlap read pass through $F,G,U,H,C,P,N$.
+
+Next apply the branch ledger obligation. It accounts for every branch-sensitive request before the operation output is consumed, assigning nonlocal requests to $B$.
+
+Finally use the holomorphic handoff and overlap-to-zeta handoff. They route the local operation output through $A,O$ after the source and branch ledgers have been read, while zeta-facing obstruction exactness blocks any bypass to global continuation or zero-location data.
+\end{proof}
+
 \closureat{AnalyticContinuationSocketUp}{seedStr}
 \closureat{AnalyticContinuationSocketUp}{obligationStr}
 
