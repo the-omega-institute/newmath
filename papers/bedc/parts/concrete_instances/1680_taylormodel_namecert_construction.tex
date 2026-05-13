@@ -114,3 +114,38 @@ The package provenance $P$ names exactly the dependency rows listed in the theor
   \notclaimed{This chapter does not close host Taylor series semantics, analytic convergence, selected real limits, quotient real equality, public Taylor-model algebra, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier habitation, classifier stability under $\hsame$ and $\Cont$, finite-jet transport, interval-remainder soundness, and non-escape for the same packet rows.}
 \end{closurestatus}
+
+\begin{definition}[TaylorModel displayed finite-jet subwindow]
+\label{def:taylormodel-displayed-finite-jet-subwindow}
+Let $T=(c,J,R,I,E,V,P,N)$ be an accepted $\TaylorModelUp$ carrier in the sense of \autoref{def:taylormodel-bhist-carrier}. A displayed finite-jet subwindow $J'\preceq_J J$ is a finite prefix or finite contiguous subledger of $J$ equipped with the following retained rows:
+\begin{enumerate}
+\item every coefficient history displayed in $J'$ is one of the $\DyadicRatCoreUp$ coefficient histories displayed in $J$;
+\item the $\StreamNameUp$ window attached to a retained coefficient is the same displayed window as in $J$, or a displayed smaller finite window reached by a $\Cont$ route already present in the packet;
+\item the restricted evaluation row $E\vert_{J'}$ contains exactly the coefficient-read routes of $E$ whose coefficient selector lies in $J'$;
+\item the restricted readback row $V\vert_{J'}$ validates only the finite reads routed through $E\vert_{J'}$;
+\item the restricted provenance and local name rows $P\vert_{J'}$ and $N\vert_{J'}$ name the same dependency certificates as $P$ and $N$, but only for the retained coefficient selectors and their windows.
+\end{enumerate}
+The projected TaylorModel read surface over $J'$ is the finite packet
+$$
+T\vert_{J'}=(c,J',R\vert_{J'},I\vert_{J'},E\vert_{J'},V\vert_{J'},P\vert_{J'},N\vert_{J'}),
+$$
+where $R\vert_{J'}$ and $I\vert_{J'}$ are the remainder and interval-operation rows read only at the retained coefficient selectors. The notation records a displayed packet restriction; it is not a quotient of Taylor series and it does not introduce an ambient coefficient family.
+\end{definition}
+
+\begin{proposition}[TaylorModel finite-jet prefix restriction]
+\label{prop:taylormodel-finite-jet-prefix-restriction}
+Let $T=(c,J,R,I,E,V,P,N)$ be an accepted $\TaylorModelUp$ carrier, and let $J'\preceq_J J$ be a displayed finite-jet subwindow as in \autoref{def:taylormodel-displayed-finite-jet-subwindow}. Suppose every consumer-visible coefficient request under consideration has its coefficient selector in $J'$ and that its $\StreamNameUp$ window is one of the retained windows of $J'$. Then the projected packet $T\vert_{J'}$ is an accepted finite $\TaylorModelUp$ read surface for those consumers. Moreover, every such consumer-visible coefficient read factors through $J'$, $E\vert_{J'}$, and the retained $\StreamNameUp$ window, and no coefficient row in $J\setminus J'$ is accessed.
+\end{proposition}
+\begin{proof}
+Project the accepted carrier through \autoref{def:taylormodel-bhist-carrier}. The jet coordinate $J$ is a finite ledger of displayed $\DyadicRatCoreUp$ coefficient histories, and the only public coefficient-read routes are the finite $\StreamNameUp$ windows and the evaluation route $E$ attached to those histories.
+
+By \autoref{def:taylormodel-displayed-finite-jet-subwindow}, the subwindow $J'$ retains only coefficient histories already displayed in $J$. Hence every coefficient row in $J'$ is still a valid dyadic coefficient history, and every retained window is either the same finite window as in $J$ or a smaller finite window reached by a displayed $\Cont$ route. Since a finite prefix or finite contiguous subledger of a finite ledger is finite, $J'$ is again a finite coefficient ledger.
+
+Restrict the evaluation and readback rows to the retained selectors. The row $E\vert_{J'}$ contains exactly the routes by which the selected coefficients are read, and $V\vert_{J'}$ validates exactly those finite routes as readback rows. The restricted provenance and local naming rows keep the same dependency certificates named by the original packet, now indexed only by the retained selectors. Thus the projected packet has the same kind of visible coordinates as the TaylorModel carrier, but with its coefficient surface replaced by the displayed finite subwindow.
+
+Apply \autoref{thm:taylormodel-finite-jet-transport} to a consumer-visible coefficient request for $T$. The original factorization passes through $J$, the coefficient history selected there, the attached $\StreamNameUp$ window, the evaluation route $E$, and the componentwise $\hsame$ and $\Cont$ rows recorded by the packet classifier. The hypothesis says that the selector for this request lies in $J'$ and that the attached window is retained in $J'$. Therefore the same factorization factors through $J'$ and $E\vert_{J'}$ after replacing each unrestricted row by its retained projection.
+
+No discarded coefficient is needed in this read. A row in $J\setminus J'$ has no selector in the restricted consumer surface, no route in $E\vert_{J'}$, and no validation entry in $V\vert_{J'}$. The interval and remainder rows used by the projected surface are likewise the restricted rows $I\vert_{J'}$ and $R\vert_{J'}$, so a retained coefficient read cannot obtain an outside coefficient indirectly through the operation ledger.
+
+Finally apply \autoref{thm:taylormodel-validated-consumer-boundary}. A validated consumer receives only the displayed center row, finite jet ledger, remainder enclosure, interval-operation ledger, evaluation route, readback certificate, package provenance, and local naming row. For the projected surface these rows are exactly $c$, $J'$, $R\vert_{J'}$, $I\vert_{J'}$, $E\vert_{J'}$, $V\vert_{J'}$, $P\vert_{J'}$, and $N\vert_{J'}$. Thus the projected packet is an accepted finite TaylorModel read surface for the stated consumers, and every visible coefficient read is exhausted by the retained finite jet subwindow.
+\end{proof}
