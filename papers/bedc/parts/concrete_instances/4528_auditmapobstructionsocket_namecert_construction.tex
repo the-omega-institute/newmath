@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapObstructionSocketUp$}
+\label{ch:concrete-instances-audit-map-obstruction-socket-namecert}
+\origin{ai}
+
+The $\AuditMapObstructionSocketUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as a finite obstruction and frontier socket. It sits beside the family ledger of \autoref{ch:concrete-instances-auditmapfamilyledger-namecert} and the MetaCIC open-frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}: those chapters expose family rows and open frontier rows, while this socket names the local handoff surface by which positive content, conditional interfaces, obstruction rows, and frontier rows remain visible to a NameCert consumer without becoming hidden closure.
+
+\begin{definition}[Audit-map obstruction socket carrier]
+\label{def:audit-map-obstruction-socket-carrier}
+An $\AuditMapObstructionSocketUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,P,I,O,F,H,C,K,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the local audit-map tag naming the module, theorem cluster, or certificate family whose boundary is being inspected;
+\item $P$ records positive-content rows already available inside the local audit map;
+\item $I$ records conditional-interface rows, including hypotheses, discharge sockets, and named consumer preconditions that must be supplied before a neighbouring map may read the row as positive content;
+\item $O$ records obstruction rows whose non-discharge must remain visible to the audit-map family;
+\item $F$ records frontier rows handed to downstream consumers as named boundaries rather than closed theorem surfaces;
+\item $H$ records componentwise $\hsame$ transports for the audit tag, positive rows, conditional rows, obstruction rows, frontier rows, continuation rows, provenance rows, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the positive, conditional, obstruction, and frontier rows without bypassing their row class;
+\item $K$ is the $\Pkg$ provenance over the audit-map family ledger, the open-frontier ledger, and the local concrete chapter supplying the socket rows;
+\item $N$ is the local $\NameCert_{\AuditMapObstructionSocketUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose coordinates are the displayed audit tag, positive-content rows, conditional-interface rows, obstruction rows, frontier rows, componentwise transports, continuation routes, provenance row, and local naming row. It exports no hidden proof of an obstruction row, no unlisted discharge of a conditional interface, no closed frontier theorem, and no theorem stronger than the positive rows already display.
+\end{definition}
+
+\begin{theorem}[Audit-map obstruction socket NameCert obligations]
+\label{thm:audit-map-obstruction-socket-namecert-obligations}
+For the carrier of \autoref{def:audit-map-obstruction-socket-carrier}, the local $\NameCert_{\AuditMapObstructionSocketUp}$ surface consists exactly of carrier admission for
+$$
+S=(A,P,I,O,F,H,C,K,N),
+$$
+audit-tag readback through $A$, positive-content readback through $P$, conditional-interface readback through $I$, obstruction readback through $O$, frontier readback through $F$, componentwise transport through $H$, displayed continuation through $C$, package provenance through $K$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $S$. The audit tag $A$ fixes the local map being inspected before any row class is read.
+
+Read the row classes next. Positive content is exposed by $P$, conditional interfaces are exposed by $I$, obstructions are exposed by $O$, and consumer-facing frontier rows are exposed by $F$. These rows are separate coordinates of the carrier.
+
+Finally inspect $H,C,K,N$. Transport and continuation replay the same displayed row classes, the provenance row cites the family ledger, open-frontier ledger, and local chapter supplying the rows, and the local name binds the packet. Hence the NameCert surface is exhausted by the stated coordinates.
+\end{proof}
+
+\begin{theorem}[Audit-map obstruction socket non-escape]
+\label{thm:audit-map-obstruction-socket-non-escape}
+For every accepted $\AuditMapObstructionSocketUp$ carrier $S=(A,P,I,O,F,H,C,K,N)$, every consumer read remains inside the displayed audit tag, positive-content rows, conditional-interface rows, obstruction rows, frontier rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. In particular, the socket cannot turn an obstruction row into a proof, a conditional-interface row into an unlisted discharge, or a frontier row into a closed theorem.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The only public coordinates are $A,P,I,O,F,H,C,K,N$, so a consumer read must enter through one of the displayed row classes or through its transport, route, provenance, and naming rows.
+
+Apply the NameCert obligations of \autoref{thm:audit-map-obstruction-socket-namecert-obligations}. They bind positive, conditional, obstruction, and frontier reads to their own coordinates and require every replay to use $H$ and $C$.
+
+The provenance row then blocks hidden closure. Since $K$ cites only the visible family ledger, open-frontier ledger, and local concrete chapter, a consumer may cite the socket as finite audit data but cannot extract a proof or discharge route absent from $S$.
+\end{proof}
+
+\begin{theorem}[Audit-map obstruction socket frontier handoff]
+\label{thm:audit-map-obstruction-socket-frontier-handoff}
+For every accepted $\AuditMapObstructionSocketUp$ carrier, a downstream consumer may receive a frontier row only through the displayed row $F$ together with the transport, continuation, provenance, and local naming rows $H,C,K,N$. The handoff preserves the distinction between positive content $P$, conditional interfaces $I$, obstruction rows $O$, and frontier rows $F$.
+\end{theorem}
+\begin{proof}
+Read the frontier coordinate of \autoref{def:audit-map-obstruction-socket-carrier}. The row $F$ is the only carrier coordinate that names downstream frontier material.
+
+Use the componentwise transport and continuation rows. The rows $H$ and $C$ may replay the frontier coordinate and its provenance, but they do not recompute $F$ from positive content, conditional interfaces, or obstruction rows.
+
+Apply non-escape from \autoref{thm:audit-map-obstruction-socket-non-escape}. The handoff therefore supplies a named frontier boundary with $K$ and $N$, not a closed theorem and not an erased obstruction or conditional discharge.
+\end{proof}
+
+\closureat{AuditMapObstructionSocketUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapObstructionSocketUp}
+  \constructivestory{An $\AuditMapObstructionSocketUp$ packet is generated from an audit tag, positive-content rows, conditional-interface rows, obstruction rows, frontier rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-obstruction-socket-carrier}, \autoref{thm:audit-map-obstruction-socket-namecert-obligations}, \autoref{thm:audit-map-obstruction-socket-non-escape}, and \autoref{thm:audit-map-obstruction-socket-frontier-handoff} bind the finite audit-map obstruction socket and its frontier handoff boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, full closed consistency, ambient confluence, hidden discharge routes, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-row readback, conditional-interface readback, obstruction readback, frontier handoff, transport, continuation, provenance, naming, and non-escape for the same finite packet.}
+\end{closurestatus}
