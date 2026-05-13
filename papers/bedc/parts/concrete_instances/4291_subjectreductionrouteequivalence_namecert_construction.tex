@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionRouteEquivalenceUp$}
+\label{ch:concrete-instances-subject-reduction-route-equivalence-namecert}
+\origin{human}
+
+The $\SubjectReductionRouteEquivalenceUp$ packet gives the route vision of \autoref{ch:sr-discharge-routes} a finite BEDC landing. It reads the socket rows of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and sits beside the classifier packet of \autoref{ch:concrete-instances-subject-reduction-route-classifier-namecert}: the classifier names which route is being used, while the equivalence packet records that the bundle route and the setup-to-bundle route present the same consumer-facing discharge surface.
+
+\begin{definition}[Subject-reduction route equivalence carrier]
+\label{def:subject-reduction-route-equivalence-carrier}
+A $\SubjectReductionRouteEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,T,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bundle-route row, recording explicit construction of the four-field subject-reduction discharge bundle;
+\item $T$ is the $\mathsf{SubjectReductionSetup}$ route row, recording the four setup fields as the typeclass-facing discharge source;
+\item $D$ is the toBundle conversion row, recording the finite handoff from the setup row $T$ to the same bundle-shaped socket surface read from $B$;
+\item $H$ gives componentwise $\hsame$ transport for the four discharge coordinates, the bundle row, the setup row, the conversion row, the consumer routes, provenance, and local naming;
+\item $C$ gives the displayed $\Cont$ consumer routes through which downstream packets read the route agreement;
+\item $P$ gives $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\SubjectReductionDischargeSocketUp$, $\SubjectReductionRouteClassifierUp$, the bundle route, the setup route, toBundle conversion, componentwise $\hsame$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectReductionRouteEquivalenceUp}$ row.
+\end{enumerate}
+The carrier contains no inhabitant of the four discharge hypotheses, no closed subject-reduction theorem, no global setup instance for the present closed-CIC substrate, and no route equality outside the displayed finite rows.
+\end{definition}
+
+\begin{definition}[Subject-reduction route equivalence classifier]
+\label{def:subject-reduction-route-equivalence-classifier}
+The $\SubjectReductionRouteEquivalenceUp$ classifier compares only the rows displayed in \autoref{def:subject-reduction-route-equivalence-carrier}. Two accepted packets agree exactly when their bundle rows $B$, setup rows $T$, toBundle rows $D$, componentwise $\hsame$ ledgers $H$, consumer-route rows $C$, provenance rows $P$, and local naming rows $N$ agree through the displayed $\BHist$ coordinates.
+
+The classifier has no coordinate for host definitional equality between route implementations, no proof that either route is inhabited for the closed-CIC substrate, and no hidden discharge witness. Its entire comparison surface is the finite packet $S=(B,T,D,H,C,P,N)$.
+\end{definition}
+
+\begin{theorem}[SubjectReductionRouteEquivalence bundle-socket handoff]
+\label{thm:subject-reduction-route-equivalence-bundle-socket-handoff}
+For every accepted $\SubjectReductionRouteEquivalenceUp$ carrier $S=(B,T,D,H,C,P,N)$, the bundle route $B$ and the setup-to-bundle route $D$ feed the same $\SubjectReductionDischargeSocketUp$ surface. A consumer reaching the socket through $B$ reads the four displayed discharge coordinates in bundle order; a consumer reaching the socket through $T$ first passes through $D$ and then reads the same four coordinates through the componentwise transport rows in $H$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The row $B$ already has the bundle-shaped socket order, while $T$ exposes the same four discharge coordinates as setup fields.
+
+Read the conversion row $D$. It is the only permitted route from $T$ to the socket-facing bundle shape, so any setup-side consumer must enter the socket through that displayed handoff.
+
+Finally use the transport rows $H$ and the consumer routes $C$. They identify the four coordinates componentwise and replay them to the socket surface. Since the packet has no further route coordinate, both reads terminate at the same displayed socket rows.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteEquivalence NameCert obligations]
+\label{thm:subject-reduction-route-equivalence-namecert-obligations}
+For the carrier of \autoref{def:subject-reduction-route-equivalence-carrier}, the local $\NameCert_{\SubjectReductionRouteEquivalenceUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $S=(B,T,D,H,C,P,N)$;
+\item row classification for the bundle row $B$, setup row $T$, and toBundle conversion row $D$;
+\item componentwise stability through the $\hsame$ transport ledger $H$;
+\item consumer exactness through the displayed $\Cont$ routes $C$;
+\item package provenance and local naming through $P$ and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the first projection of the displayed packet $S$. The next projection reads the three route rows $B,T,D$ and therefore supplies the complete classifier surface for bundle, setup, and conversion coordinates.
+
+The transport obligation is exactly the row $H$. It compares the four discharge coordinates and the route metadata componentwise, without adding another discharge source.
+
+The remaining public obligations are the consumer routes and provenance rows. The row $C$ gives the only consumer reads, while $P$ and $N$ bind package origin and local naming. These five groups exhaust the carrier coordinates.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteEquivalence consumer non-escape]
+\label{thm:subject-reduction-route-equivalence-consumer-nonescape}
+Every consumer read of an accepted $\SubjectReductionRouteEquivalenceUp$ carrier receives route agreement only as the finite rows
+$$
+B,T,D,H,C,P,N.
+$$
+The consumer may use these rows to compare the bundle route with the setup-to-bundle route at the $\SubjectReductionDischargeSocketUp$ surface. It cannot infer an inhabited discharge bundle, a closed subject-reduction theorem, a global $\mathsf{SubjectReductionSetup}$ instance for the present substrate, host equality of route implementations, or any discharge evidence not present in the packet.
+\end{theorem}
+\begin{proof}
+Apply the NameCert-obligation theorem to identify every accepted read with one of the displayed carrier rows.
+
+For a permitted route-agreement read, the consumer follows $B$ directly to the socket or follows $T$ through $D$ to the same socket surface. The rows $H$ and $C$ transport and replay that finite comparison, and $P,N$ record provenance and local naming.
+
+For every stronger request, the packet has no coordinate to answer it. In particular, no row proves any of the four discharge hypotheses, installs a setup instance for the present substrate, or exports a closed subject-reduction theorem. The consumer therefore remains confined to finite route agreement.
+\end{proof}
+
+\closureat{SubjectReductionRouteEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionRouteEquivalenceUp}
+  \constructivestory{A $\SubjectReductionRouteEquivalenceUp$ packet is generated from bundle, setup, toBundle, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows over the subject-reduction discharge socket.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-route-equivalence-carrier}, \autoref{def:subject-reduction-route-equivalence-classifier}, \autoref{thm:subject-reduction-route-equivalence-bundle-socket-handoff}, \autoref{thm:subject-reduction-route-equivalence-namecert-obligations}, and \autoref{thm:subject-reduction-route-equivalence-consumer-nonescape} bind finite route agreement for the bundle and setup-to-bundle subject-reduction discharge routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not inhabit the discharge bundle, provide a closed subject-reduction theorem, install a setup instance for the present closed-CIC substrate, verify the packet in Lean, or bridge it to a public schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, socket handoff, NameCert obligations, consumer non-escape, provenance, and local naming for the same finite route-equivalence packet.}
+\end{closurestatus}
