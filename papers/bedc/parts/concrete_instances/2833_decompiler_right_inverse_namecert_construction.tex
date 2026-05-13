@@ -102,3 +102,25 @@ none of those objects can cross the boundary.
   \notclaimed{This chapter does not close existence of decompilers for arbitrary compilers, global invertibility, host semantic equivalence, program quotients, total decompilation, or bridge checking.}
   \upgradepath{Scoped closure requires a checked finite right-inverse classifier theorem over the displayed compiler graph, decompiler graph, optimisation row, transport routes, package provenance, and local naming row.}
 \end{closurestatus}
+
+\begin{theorem}[Decompiler right-inverse target-row classifier]
+\label{thm:decompiler-right-inverse-target-row-classifier}
+Let
+$$
+D_i=(S_i,T_i,K_i,\Psi_i,O_i,R_i,H_i,C_i,P_i,N_i)\quad (i=0,1)
+$$
+be accepted $\DecompilerRightInverseUp$ packets in the sense of \autoref{def:decompiler-right-inverse-carrier}. For each $i$, let $G_i$ be the displayed compiler graph read from the accepted $\CertificateCompilerUp$ packet $K_i$, and let $\rho_i(t_i)$ be a displayed target-row right-inverse comparison in $R_i$: it starts from a displayed target row $t_i$ of $T_i$, follows the decompiler graph row $\Psi_i$ to the source certificate, follows $G_i$ back to the target certificate, applies the target optimisation row $O_i$, and then compares the result with $t_i$ through the paired ledger row $R_i$.
+
+Assume the two reads expose the same classifier footprint: $G_0$ and $G_1$, $\Psi_0$ and $\Psi_1$, $O_0$ and $O_1$, and the ledger rows $R_0$ and $R_1$ are matched componentwise by the displayed $\hsame$ transports, and the target inspection and right-inverse comparison routes in $C_0$ and $C_1$ read those matched rows. Then $\rho_0(t_0)$ is accepted by the $\DecompilerRightInverseUp$ target-row classifier exactly when $\rho_1(t_1)$ is accepted. Moreover, the common accepted comparison exports only the displayed compiler graph, decompiler graph, target optimisation row, paired right-inverse ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows; it exports no independent inverse, host decompiler function, semantic equality, quotient of programs, or unrecorded target behaviour.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:decompiler-right-inverse-carrier}. A target-row right-inverse comparison has only one available route: target inspection through $T_i$, decompiler readback through $\Psi_i$, compiler readback through the graph displayed by $K_i$, optimisation readback through $O_i$, and paired comparison through $R_i$. These are precisely the rows named in the statement.
+
+The compiler part of the route is finite graph data. By \autoref{thm:certificate-compiler-edge-classifier-exactness}, an accepted compiler-edge comparison is witnessed only by the displayed graph, landing, transported classifier, and displayed continuation rows of the $\CertificateCompilerUp$ packet. Thus the return from the decompiled source row to the target row is determined by the displayed compiler graph $G_i$ and its recorded route data, not by a host compiler meaning.
+
+The right-inverse part is the pair $(O_i,R_i)$. By \autoref{thm:decompiler-right-inverse-namecert-obligations}, $O_i$ supplies the target optimisation surface for the composite $K_i\circ\Psi_i$, while $R_i$ records the componentwise target-row comparison that consumes that optimisation row. Hence, once $G_i$, $\Psi_i$, $O_i$, and $R_i$ are fixed up to the displayed componentwise $\hsame$ transports and are read through the corresponding routes in $C_i$, the classifier has no further coordinate on which the two target-row comparisons could differ.
+
+Therefore the comparison in $D_0$ is accepted exactly when the corresponding comparison in $D_1$ is accepted: both read the same finite target-row classifier footprint, transported componentwise through $H_0$ and $H_1$ and replayed through $C_0$ and $C_1$.
+
+Finally apply the non-escape boundary \autoref{thm:decompiler-right-inverse-non-escape-boundary}. It says that an accepted $\DecompilerRightInverseUp$ packet exports decompilation only as $\Psi$ together with $O$ and $R$, and that every consumer read remains inside $S,T,K,\Psi,O,R,H,C,P,N$. Since the classifier footprint above uses only those rows, the accepted comparison cannot export an independent inverse, host decompiler function, semantic equality, program quotient, or unrecorded target behaviour.
+\end{proof}

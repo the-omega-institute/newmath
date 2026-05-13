@@ -66,6 +66,7 @@ Hence equality of the transported $\RatUp$ classifier at the displayed route fix
 \label{thm:transported-stationary-window-seal-real-factorization}
 Every $\RealUp$ read exposed by an accepted $\TransportedStationaryWindowSealUp$ carrier factors through the displayed $\FiniteWindowEnvelopeUp$ packet $W$ and the same $\RegSeqRatUp$ finite-window seal $G$. The real-facing row $E$ may read the selected anchor, finite window, dyadic ledger, regular-rational seal, and endpoint classifier only through $W$ together with the transported seal row $G$ and the displayed transport and provenance rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.TransportedStationaryWindowSealUp.TransportedStationaryWindowSealPacket\_real\_factorization}
 \begin{proof}
 Project the coordinates $G,W,E$ from the carrier tuple. The finite-window envelope $W$ names the anchor, window, dyadic ledger, regular-rational seal, and endpoint classifier, while $E$ is the real-facing row obtained from that envelope and the seal row.
 
@@ -178,6 +179,22 @@ The readback determinacy theorem fixes the $\RatUp$ input, the $\StreamNameUp$ s
 Use uniqueness to identify the public row determined by the displayed carrier and classifier data. The obligation package collects these clauses into one consumer-facing certificate, and ledger non-escape removes every coordinate not present in $R,S,G,W,E,H,C,P,N$.
 
 Thus the exported certificate is public over the listed BEDC kernel and setup objects, while quotient streams, host equality, selected limits, choice, and real-completeness data remain outside its ledger surface.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal obligation readiness]
+\label{thm:transported-stationary-window-seal-obligation-readiness}
+For every accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the checked $\NameCert$ obligations, readback determinacy, and $\RealUp$ factorization rows assemble the obligation-readiness package for the Real and Completion route over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. This package consists of carrier admission for $T$, componentwise public readback from $R$ through $S$ and $G$, factorization of every $\RealUp$-facing read through $W$ and $G$, the public export certificate, and ledger non-escape. It does not claim RealUp completeness, quotient-stream equality, host equality, selected limits, or choice.
+\end{theorem}
+\begin{proof}
+The carrier and classifier surface is the checked NameCert obligation row of \autoref{thm:transported-stationary-window-seal-namecert-obligations}. It supplies the finite packet coordinates, the componentwise comparison rule, transported-window exactness, seal exhaustion, and the non-escape boundary.
+
+The readback and real-facing routes are the two other checked rows. Apply \autoref{thm:transported-stationary-window-seal-readback-determinacy} to fix the transported $\RatUp$ row, constant $\StreamNameUp$ window, and $\RegSeqRatUp$ finite-window seal as one public readback route. Apply \autoref{thm:transported-stationary-window-seal-real-factorization} to force every $\RealUp$ read through the displayed $\FiniteWindowEnvelopeUp$ packet and the same regular-rational seal row.
+
+It remains to package these rows as the obligation-readiness surface. The public export certificate of \autoref{thm:transported-stationary-window-seal-public-export-certificate} collects the carrier, readback, factorization, uniqueness, and package clauses over the listed BEDC objects, while \autoref{thm:transported-stationary-window-seal-ledger-nonescape} blocks quotient streams, host equality, choice, selected limits, and real-completeness data. Therefore the accepted packet exposes exactly the finite readiness package stated above.
 \end{proof}
 
 \closureat{TransportedStationaryWindowSealUp}{seedStr}
