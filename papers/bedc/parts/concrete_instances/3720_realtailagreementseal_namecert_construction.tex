@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RealTailAgreementSealUp$}
+\label{ch:concrete-instances-realtailagreementseal-namecert}
+\origin{ai}
+
+The $\RealTailAgreementSealUp$ packet binds the paired tail-agreement route used by Real and Completion diagonal-limit consumers. It receives two regular rational source rows, the finite StreamName tail windows selected for both sides, the DyadicRatCore readback rows that compare those windows, the displayed agreement row, and the RealUp handoff row as one local NameCert surface. The packet therefore certifies a finite paired tail-window agreement route, not a quotient equality of streams, selected real values, host metric convergence, open-cover compactness, or choice-selected tails.
+
+\begin{definition}[Real tail-agreement seal carrier]
+\label{def:real-tail-agreement-seal-carrier}
+A $\RealTailAgreementSealUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(R,S,W,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ and $S$ are the paired $\RegSeqRat$ source rows whose tails are being compared;
+\item $W$ is the finite paired $\StreamNameUp$ tail-window row, naming the left and right windows read at the shared tail threshold;
+\item $D$ is the paired $\DyadicRatCoreUp$ readback row obtained from the two windows in $W$;
+\item $A$ is the displayed tail-agreement row, recording that the two dyadic readbacks lie inside the requested finite tolerance on the named windows;
+\item $H$ records componentwise $\hsame$ transport for $R,S,W,D,A,C,P,N$ and for the local packet shape;
+\item $C$ records the $\Cont$ routes by which a consumer reads the paired sources, finite windows, dyadic readbacks, agreement row, package provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, finite tolerance rows, and non-escape ledgers;
+\item $N$ is the local $\NameCert_{\RealTailAgreementSealUp}$ row.
+\end{enumerate}
+The carrier exports only the finite packet $R,S,W,D,A,H,C,P,N$ and the RealUp-facing handoff read through it.
+\end{definition}
+
+\begin{theorem}[Real tail-agreement seal NameCert obligations]
+\label{thm:real-tail-agreement-seal-namecert-obligations}
+The local $\NameCert_{\RealTailAgreementSealUp}$ surface for \autoref{def:real-tail-agreement-seal-carrier} consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the packet $Q=(R,S,W,D,A,H,C,P,N)$ over paired $\RegSeqRat$ sources, finite $\StreamNameUp$ windows, dyadic readback, agreement, transport, continuation, provenance, and local naming rows;
+\item tail-window coverage stating that every public agreement read uses the paired windows listed in $W$ at the shared finite threshold;
+\item dyadic readback exactness stating that the agreement row $A$ is computed only from the paired $\DyadicRatCoreUp$ readbacks recorded in $D$;
+\item RealUp handoff stating that a downstream Real or Completion consumer reaches the seal only through $R,S,W,D,A,H,C,P,N$;
+\item non-escape stating that the packet exports no quotient stream equality, selected real value, host metric convergence, open-cover compactness, choice-selected tail, or hidden equality oracle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The two regular rational sources, the finite paired windows, the dyadic readbacks, the agreement row, and the structural rows are all coordinates of $Q$.
+
+Tail-window coverage is read from $W$ through the continuation row $C$. A public agreement read must first select one of the paired finite windows already listed in the packet, so it cannot call an unrecorded tail search.
+
+Dyadic readback exactness is the role of $D$ and $A$. The agreement row is downstream of the paired dyadic readbacks, and the componentwise $\hsame$ transport in $H$ preserves the same source-window-readback pairing.
+
+The RealUp handoff and non-escape rows are then package clauses. The provenance $P$ and local naming row $N$ expose only $R,S,W,D,A,H,C,P,N$, so any downstream Real or Completion consumer receives the finite tail-agreement route and no external analytic object.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal non-escape]
+\label{thm:real-tail-agreement-seal-nonescape}
+An accepted $\RealTailAgreementSealUp$ packet cannot be used to export quotient stream equality, selected real values, host metric convergence, open-cover compactness, or choice-selected tails. Any attempted read of one of those objects is outside the local packet unless it factors through the finite rows
+$$
+R,S,W,D,A,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier. Its source rows are the paired $\RegSeqRat$ inputs, its observation rows are the finite $\StreamNameUp$ windows and $\DyadicRatCoreUp$ readbacks, and its comparison row is the displayed finite agreement row.
+
+The structural rows only transport, route, package, and name those coordinates. They do not add a quotient of streams, an ambient real carrier, a host metric space, an open cover, or a choice function selecting tails.
+
+Therefore a read that asks for any of those external objects has no coordinate in the packet. The only Real-facing information available to downstream consumers is the finite agreement route through $R,S,W,D,A,H,C,P,N$.
+\end{proof}
+
+\closureat{RealTailAgreementSealUp}{seedStr}
+
+\begin{closurestatus}{\RealTailAgreementSealUp}
+  \constructivestory{A $\RealTailAgreementSealUp$ packet is generated from paired RegSeqRat source rows, finite paired StreamName tail windows, paired DyadicRatCore readbacks, a displayed tail-agreement row, componentwise hsame transports, Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-tail-agreement-seal-carrier}, \autoref{thm:real-tail-agreement-seal-namecert-obligations}, and \autoref{thm:real-tail-agreement-seal-nonescape} bind the finite paired tail-window agreement packet used by Real and Completion handoff consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected real values, host metric convergence, open-cover compactness, choice-selected tails, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked Lean carrier admission, tail-window coverage, dyadic readback exactness, RealUp handoff, and non-escape for the same finite packet.}
+\end{closurestatus}
