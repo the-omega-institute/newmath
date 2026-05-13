@@ -272,6 +272,42 @@ Apply \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}. Once the
 The sibling routes cited in the statement consume this same boundary. The $\CauchyLimitSealUp$ chapter receives a finite seal row from its Cauchy-facing source, and the $\CauchyDiagonalBudgetUp$ chapter receives the finite budget-selector packet before its Real-facing seal handoff; neither route adds a new coordinate to $Q=(R,S,W,D,A,H,C,P,N)$.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal budget-window coherence]
+\label{thm:real-tail-agreement-seal-budget-window-coherence}
+Every $\RealTailAgreementSealUp$ completion consumer must first read the $\RegularCauchyTailBudgetUp$ budget row from \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert} before it can consume the shared paired-window route of the accepted packet $Q=(R,S,W,D,A,H,C,P,N)$. The budget row fixes the finite tail request that the seal later displays through $W,D,A$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-tail-agreement-seal-completion-consumer-ledger}. It puts every completion consumer on the displayed ledger $R,S,W,D,A,H,C,P,N$ before any seal read.
+
+The budget row is the finite request source for the paired tail windows. Reading it from \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert} determines which tail request the local $W$ row can display.
+
+Since the packet has no quotient stream, host real equality, selected limit, or ambient completeness coordinate, the consumer cannot bypass the budget row and later recover the same finite paired-window route.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal tail-meet factorization]
+\label{thm:real-tail-agreement-seal-tail-meet-factorization}
+After the $\RegularCauchyTailBudgetUp$ budget row has been read, every $\RealTailAgreementSealUp$ completion consumer factors through the shared-threshold route of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} before reaching any $\CauchyLimitSealUp$ or $\CauchyDiagonalBudgetUp$ sibling route. The factorization exposes the same finite $W \to D \to A$ agreement surface used by the local seal packet.
+\end{theorem}
+\begin{proof}
+Read the budget-window coherence row. It places the consumer on the finite tail request before the paired windows of $Q$ are available.
+
+Now use the shared-threshold sibling. The $\RegularCauchyTailMeetUp$ route supplies the common threshold consumed by the same $W$ row, and \autoref{thm:real-tail-agreement-seal-paired-window-source-lock} forces any public agreement read through $W \to D \to A$.
+
+The $\CauchyLimitSealUp$ and $\CauchyDiagonalBudgetUp$ routes consume that agreement surface after the shared threshold has been displayed. They do not add a second tail source, quotient stream equality, host real equality, or selected limit to the local seal packet.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal completion route non-escape]
+\label{thm:real-tail-agreement-seal-completion-route-nonescape}
+Every $\RealTailAgreementSealUp$ completion route to $\CauchyLimitSealUp$ or $\CauchyDiagonalBudgetUp$ is confined to the sequence: $\RegularCauchyTailBudgetUp$ budget row, $\RegularCauchyTailMeetUp$ shared-threshold row, and the local $W \to D \to A$ agreement surface. No route may replace that sequence by quotient stream equality, host real equality, selected limit, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use budget-window coherence for the first step and tail-meet factorization for the second step. Together they force the consumer to read the budget row, then the shared-threshold route, and then the displayed local agreement surface.
+
+Apply the completion consumer ledger. Once the route reaches $Q$, the only local rows available are $R,S,W,D,A,H,C,P,N$, and the only agreement route is $W \to D \to A$.
+
+The excluded analytic objects have no coordinate in either the budget row, the shared-threshold sibling, or the local seal packet. Hence they cannot serve as alternate completion routes.
+\end{proof}
+
 \begin{theorem}[Real tail-agreement seal dual-source window exhaustion]
 \label{thm:real-tail-agreement-seal-dual-source-window-exhaustion}
 For an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$, the two source rows $R,S$ and the paired $\StreamNameUp$ window row $W$ exhaust the left/right tail evidence visible to Real and Completion consumers. The dyadic row $D$ and agreement row $A$ read that evidence, while $H,C,P,N$ transport, route, package, and name it without adding another left tail, right tail, or paired-window selector.
