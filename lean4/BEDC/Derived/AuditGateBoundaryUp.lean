@@ -191,6 +191,86 @@ theorem AuditGateBoundaryCarrier_source_token_refusal [AskSetup] [PackageSetup]
     unary_cont_closed sourceUnary transportUnary sourceRoute
   exact ⟨sourceUnary, transportUnary, consumerUnary, sourceRoute, sourcePkg⟩
 
+theorem AuditGateBoundaryCarrier_drift_row_transport [AskSetup] [PackageSetup]
+    {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
+      nameCert transportedMarker markerConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger transport
+        route provenance gap nameCert bundle pkg ->
+      hsame markerResolution transportedMarker ->
+        Cont transportedMarker route markerConsumer ->
+          PkgSig bundle markerConsumer pkg ->
+            SemanticNameCert
+              (fun row : BHist =>
+                AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution
+                  originLedger transport route provenance gap nameCert bundle pkg ∧
+                  hsame row transportedMarker)
+              (fun row : BHist => hsame row transportedMarker ∧ UnaryHistory row)
+              (fun row : BHist => PkgSig bundle markerConsumer pkg ∧
+                hsame row transportedMarker)
+              hsame ∧ UnaryHistory transportedMarker ∧ UnaryHistory markerConsumer ∧
+                Cont transportedMarker route markerConsumer := by
+  intro carrier markerTransport markerRoute markerPkg
+  have carrierWitness := carrier
+  obtain ⟨_sourceUnary, _dependencyUnary, markerUnary, _originUnary, _transportUnary,
+    routeUnary, _provenanceUnary, _gapUnary, _nameUnary, _dependencyGap, _nameGap,
+    _sourceDependencyMarker, _markerOriginTransport, _transportRouteProvenance,
+    _provenanceGapName, _provenancePkg, _namePkg⟩ := carrier
+  have transportedUnary : UnaryHistory transportedMarker :=
+    unary_transport markerUnary markerTransport
+  have markerConsumerUnary : UnaryHistory markerConsumer :=
+    unary_cont_closed transportedUnary routeUnary markerRoute
+  have sourceTransported :
+      (fun row : BHist =>
+        AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+          transport route provenance gap nameCert bundle pkg ∧ hsame row transportedMarker)
+        transportedMarker := by
+    exact And.intro carrierWitness (hsame_refl transportedMarker)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+            transport route provenance gap nameCert bundle pkg ∧ hsame row transportedMarker)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro transportedMarker sourceTransported
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameRowTransported : hsame row transportedMarker := sourceRow.right
+        have sameOtherTransported : hsame other transportedMarker :=
+          hsame_trans (hsame_symm same) sameRowTransported
+        exact And.intro sourceRow.left sameOtherTransported
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+            transport route provenance gap nameCert bundle pkg ∧ hsame row transportedMarker)
+        (fun row : BHist => hsame row transportedMarker ∧ UnaryHistory row)
+        (fun row : BHist => PkgSig bundle markerConsumer pkg ∧ hsame row transportedMarker)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row sourceRow
+        have rowUnary : UnaryHistory row :=
+          unary_transport transportedUnary (hsame_symm sourceRow.right)
+        exact And.intro sourceRow.right rowUnary
+      ledger_sound := by
+        intro row sourceRow
+        exact And.intro markerPkg sourceRow.right
+    }
+  exact ⟨cert, transportedUnary, markerConsumerUnary, markerRoute⟩
+
 theorem AuditGateBoundaryCarrier_replay_ledger [AskSetup] [PackageSetup]
     {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
       nameCert sourceConsumer dependencyConsumer markerConsumer originConsumer : BHist}
