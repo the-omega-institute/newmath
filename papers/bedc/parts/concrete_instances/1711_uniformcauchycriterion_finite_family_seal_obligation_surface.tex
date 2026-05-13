@@ -59,6 +59,26 @@ Use \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy} to rul
 Finally use \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness}. A second route to host equality, quotient streams, or completion data would require another visible seal handoff, and that handoff is absent from the accepted packet.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-family window seal exhaustion]
+\label{thm:uniform-cauchy-criterion-finite-family-window-seal-exhaustion}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family seal obligation surface. Every finite-window consumer route from $U$ to a $\RegSeqRatUp$ tail or a $\RealUp$ seal is exhausted by the displayed rows $I,W,M,Q,T,E,H,C,P,N$.
+
+In particular, no admissible route may bypass the shared window family $W$ or the tail ledger $T$ to reach a selected limit, quotient stream, host real equality, ambient completeness witness, or detached tail oracle.
+\end{theorem}
+\begin{proof}
+First read the finite-family seal obligation package of \autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}. It lists $I,W,M,Q,T,E,H,C,P,N$ as the complete surface available to seal-facing consumers.
+
+Next use the RegSeqRat--Real handoff of \autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff}. It forces both the regular-rational tail side and the Real seal side through the route from $I$ to $W$, then through $M,Q,T,E$.
+
+The nonescape ledger of \autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} removes selected limits, quotient streams, host equality, ambient completeness, and detached tail oracles from the consumer surface.
+
+Finally apply the root seal package of \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-package}. It preserves the same finite rows under root-facing overlap refinement, so a route omitting $W$ or $T$ has no remaining public path to a tail or seal consumer.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-family root seal package]
 \label{thm:uniform-cauchy-criterion-finite-family-root-seal-package}
 For an accepted $\UniformCauchyCriterionUp$ packet
