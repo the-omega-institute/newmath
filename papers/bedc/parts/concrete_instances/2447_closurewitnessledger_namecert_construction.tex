@@ -24,11 +24,13 @@ with the following visible coordinates:
 \end{enumerate}
 The carrier exports only the displayed generator row, constructor-list provenance, finite witness ledger, classifier row, non-escape ledger, transport rows, continuation routes, package provenance, and local naming row. It does not export an induction rule over all future continuations.
 \end{definition}
+\leandef{BEDC.Derived.ClosureWitnessLedgerUp.ClosureWitnessLedgerCarrier}
 
 \begin{theorem}[ClosureWitnessLedger classifier stability]
 \label{thm:closure-witness-ledger-classifier-stability}
 Displayed $\hsame$ transport preserving the generator row $G$, constructor-list provenance $L$, closure-witness ledger $W$, non-escape ledger $E$, transport rows $H$, continuation routes $C$, package provenance $P$, and local $\NameCert$ row $N$ preserves the $\ClosureWitnessLedgerUp$ classifier $Q$. Thus two finite continuation reads classified through the same displayed generator and constructor-list provenance retain the same witness-present or $\mathsf{GAP}$-boundary status.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosureWitnessLedgerUp.ClosureWitnessLedgerCarrier\_classifier\_stability}
 \begin{proof}
 The classifier is componentwise over the packet in \autoref{def:closure-witness-ledger-carrier}. Transport of $G$ and $L$ preserves the authorized generator surface and the finite constructor-list provenance against which every witness packet is read.
 
