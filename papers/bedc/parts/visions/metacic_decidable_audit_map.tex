@@ -1,0 +1,75 @@
+\chapter{MetaCIC Decidable module audit map}
+\label{ch:metacic-decidable-audit-map}
+
+\section{The setup}
+\label{sec:metacic-decidable-audit-map-setup}
+
+The BEDC.MetaCIC decidable submodule records the executable checking surface
+around the closed syntax and typing fragment. It is split across
+\texttt{CheckClosedAtom}, \texttt{CheckClosed},
+\texttt{CheckCompleteness}, \texttt{GalleryTests}, and
+\texttt{NormalEqDecide}. The split separates structural equality, type
+inference, completeness wrappers, gallery-level coverage, and bounded
+normal-form comparison.
+
+The audit question is not whether the substrate imports a global classical
+decision principle. It does not. The checked content is a family of concrete
+procedures over the closed \texttt{Term} generator, together with soundness,
+completeness, and gallery sanity theorems for the procedures that are present.
+
+\section{What is established}
+\label{sec:metacic-decidable-audit-map-established}
+
+The checked inventory has five parts.
+
+\begin{itemize}
+\item Structural term equality is Boolean and correct:
+  \leanvariant{BEDC.MetaCIC.Term.eq}
+  \leanvariant{BEDC.MetaCIC.Term.eq\_correct}
+  \leanvariant{BEDC.MetaCIC.checkSameTerm\_sound}
+  \leanvariant{BEDC.MetaCIC.checkSameTerm\_complete}.
+\item Type inference for the displayed checking fragment is sound and complete
+  with respect to the corresponding \texttt{HasType} rules:
+  \leanvariant{BEDC.MetaCIC.inferTypeCtx\_sound}
+  \leanvariant{BEDC.MetaCIC.inferTypeCtx\_complete}
+  \leanvariant{BEDC.MetaCIC.inferTypeCtxClosed\_sound}
+  \leanvariant{BEDC.MetaCIC.inferTypeCtxClosed\_complete}.
+\item The completeness file exposes constructor-shaped witnesses for sort,
+  variable, Pi, lambda, and application cases:
+  \leanvariant{BEDC.MetaCIC.inferTypeCtx\_complete\_strict}
+  \leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_app}
+  \leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_lam}
+  \leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_pi}.
+\item The bounded normal-form comparison layer is executable and sound once
+  finished normalisation witnesses are supplied:
+  \leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_refl}
+  \leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_true\_eq\_normalized}
+  \leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_sound\_finished}
+  \leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_sound\_finished\_betaConv}.
+\item The gallery tests give finite closed witnesses for the Church boolean,
+  natural, pair, option, list, sum, and polymorphic examples:
+  \leanvariant{BEDC.MetaCIC.gallery\_sanity\_all\_typed\_witnesses}.
+\end{itemize}
+
+This is a real executable layer. The paper may cite structural equality
+checking, the inferencer's soundness and completeness for the represented
+typing rules, bounded normal-form comparison under finished-normalisation
+witnesses, and gallery sanity over the displayed examples.
+
+\section{Boundary}
+\label{sec:metacic-decidable-audit-map-boundary}
+
+The decidable module does not export a global decision procedure for every
+MetaCIC meta-theoretic property. It does not decide subject reduction, strong
+normalisation, arbitrary confluence, or full closed consistency. Its strongest
+public shape is local: executable equality and typing checks for the displayed
+syntax, plus bounded conversion comparison when the normalisation witnesses
+needed by the soundness theorem are already present.
+
+Thus this audit map supplies the decidable-checking side of the MetaCIC
+overview. It is orthogonal to the subject-reduction obstruction in
+\autoref{ch:metacic-subject-reduction-obstruction}, the confluence
+substitution boundary in \autoref{ch:metacic-confluence-audit-map}, and the
+candidate-mediated normalisation interface in
+\autoref{ch:metacic-normalization-audit-map}.
+
