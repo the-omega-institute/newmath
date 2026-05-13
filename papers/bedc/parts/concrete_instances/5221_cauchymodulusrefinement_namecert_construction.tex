@@ -64,6 +64,50 @@ The shared meet row $U$ is required before the refinement witness $V$ can be rea
 If a packet presents the same seal row but omits the shared meet row, its displayed coordinate list is not the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. Such a packet therefore witnesses failure of the concrete carrier claim rather than a second accepted refinement surface.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement source meet budget chain]
+\label{thm:cauchy-modulus-refinement-source-meet-budget-chain}
+Every accepted refinement read of a $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)
+$$
+factors through the two source schedules $M_0,M_1$, the shared meet row $U$, the refinement witness row $V$, and the selector-budget row $T$ before any finite window ledger $W$ is exposed. The route consumes the sibling $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows named in the carrier, and it exports no selected window read before the source-meet and selector-budget chain is displayed.
+\end{theorem}
+\begin{proof}
+Project the packet $R$. The carrier lists the two source schedules first, then the shared meet row, then the refinement witness, then the selector-budget row.
+
+Read the displayed continuation routes in $C$. They place $M_0$ and $M_1$ before $U$, place $U$ before $V$, and place $V$ before $T$.
+
+Only after that route is displayed can $W$ be read. The provenance row $P$ names the meet, extraction, selector-budget, StreamName, DyadicRatCore, RegSeqRat, and Real rows as sibling dependencies, so a window read outside this route is not a read of the accepted refinement packet.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement window readback exhaustion]
+\label{thm:cauchy-modulus-refinement-window-readback-exhaustion}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, every selected-window read and every $\RegSeqRatUp$ readback consumed by the refinement is exhausted by the displayed selector-budget, finite-window, and tolerance-readback rows
+$$
+T,\ W,\ Q.
+$$
+The packet has no second window ledger, hidden selector, quotient stream, selected host limit, or ambient completeness coordinate from which a selected window or regular-rational readback may be recovered.
+\end{theorem}
+\begin{proof}
+Start from the selected-window portion of the carrier. The only coordinates devoted to selected observation are $T$ for the budget, $W$ for the finite $\StreamNameUp$ windows, and $Q$ for the $\DyadicRatCoreUp$ tolerance rows together with the $\RegSeqRatUp$ readback ledger.
+
+The continuation route forces these rows into the order $T,W,Q$. A readback request therefore reaches $\RegSeqRatUp$ only after the selected windows have already been read from the displayed StreamName ledger.
+
+Apply the non-escape theorem. Since the carrier omits hidden selectors, quotient streams, selected limits, and ambient completeness, the $T,W,Q$ rows exhaust all accepted selected-window and regular-readback access.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real seal refusal]
+\label{thm:cauchy-modulus-refinement-real-seal-refusal}
+The $\RealUp$ seal row $E$ of an accepted $\CauchyModulusRefinementUp$ packet refuses any packet that bypasses either the shared meet route through $U$ or the selector-budget route through $T$. A purported seal read that presents $E$ without the source schedules, shared meet, refinement witness, selector budget, selected windows, dyadic tolerance rows, regular readbacks, transports, routes, provenance, and local name is not a carrier read of \autoref{def:cauchy-modulus-refinement-carrier}.
+\end{theorem}
+\begin{proof}
+First read the source side. The source meet budget chain places $M_0,M_1,U,V,T$ before any selected-window or readback row can be exposed.
+
+Next read the window and tolerance side. Window readback exhaustion forces the selected $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks through $T,W,Q$.
+
+The only route into the $\RealUp$ seal is the displayed continuation from $Q$ to $E$, stabilized by $H$ and recorded by $P,N$. A packet that omits $U$ or $T$ therefore omits a required coordinate of the seal route and is refused as a $\CauchyModulusRefinementUp$ carrier.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement classifier transport]
 \label{thm:cauchy-modulus-refinement-classifier-transport}
 For every accepted $\CauchyModulusRefinementUp$ packet
@@ -138,7 +182,7 @@ The route $\Cont(Q,E)$ is the only displayed continuation into the $\RealUp$ sea
 
 \begin{theorem}[Cauchy modulus refinement obligation closure package]
 \label{thm:cauchy-modulus-refinement-obligation-closure-package}
-For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the carrier of \autoref{def:cauchy-modulus-refinement-carrier}, the NameCert obligation rows of \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, classifier transport of \autoref{thm:cauchy-modulus-refinement-classifier-transport}, source-meet exactness of \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, window tolerance exactness of \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, Real seal factorization of \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, and non-escape of \autoref{thm:cauchy-modulus-refinement-nonescape} jointly form the $\obligationClosure$ surface for $\CauchyModulusRefinementUp$.
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the carrier of \autoref{def:cauchy-modulus-refinement-carrier}, the NameCert obligation rows of \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, the source-meet-budget chain of \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, window readback exhaustion of \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, Real seal refusal of \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, classifier transport of \autoref{thm:cauchy-modulus-refinement-classifier-transport}, source-meet exactness of \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, window tolerance exactness of \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, Real seal factorization of \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, and non-escape of \autoref{thm:cauchy-modulus-refinement-nonescape} jointly form the $\obligationClosure$ surface for $\CauchyModulusRefinementUp$.
 
 The package exports exactly the two $\CauchyModulusUp$ source schedules, shared $\CauchyModulusMeetUp$ row, $\CauchyModulusExtractionUp$ witness row, $\RegularCauchySelectorBudgetUp$ row, finite $\StreamNameUp$ window ledger, $\DyadicRatCoreUp$ and $\RegSeqRatUp$ tolerance ledger, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
 \end{theorem}
@@ -160,7 +204,7 @@ The closest siblings are $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $
 \begin{closurestatus}{\CauchyModulusRefinementUp}
   \constructivestory{A $\CauchyModulusRefinementUp$ packet is generated from displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, and \autoref{thm:cauchy-modulus-refinement-nonescape} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one seed carrier with a written obligation surface.}
+  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, and \autoref{thm:cauchy-modulus-refinement-nonescape} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one seed carrier with a written obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
