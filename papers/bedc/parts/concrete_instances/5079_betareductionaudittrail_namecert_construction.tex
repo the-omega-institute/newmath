@@ -1,0 +1,118 @@
+\chapter{A Concrete Naming Certificate for $\BetaReductionAuditTrailUp$}
+\label{ch:concrete-instances-betareductionaudittrail-namecert}
+\origin{ai}
+
+The $\BetaReductionAuditTrailUp$ packet realizes the beta audit map of
+\autoref{ch:metacic-beta-audit-map} as a finite audit trail. It sits beside
+the typed congruence trigger of
+\autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert}, the beta
+audit packet of \autoref{ch:concrete-instances-metacicbetaaudit-namecert}, the
+beta-step boundary of \autoref{ch:concrete-instances-betastepboundary-namecert},
+and the subject-reduction discharge socket of
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}.
+Those siblings expose trigger, audit, boundary, and discharge surfaces; the
+present packet records the ordered finite trail by which a consumer reads them
+without turning reduction into typed preservation.
+
+\begin{definition}[Beta-reduction audit-trail carrier]
+\label{def:beta-reduction-audit-trail-carrier}
+A $\BetaReductionAuditTrailUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,V,O,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the ordered $\mathrm{BetaStep}$ ledger, separating the direct
+redex row from application, lambda, and Pi congruence rows;
+\item $V$ is the $\mathrm{BetaConv}$ common-reduct ledger read after the
+single-step ledger and before any typing-boundary row;
+\item $O$ is the obstruction-trigger ledger for beta substitution,
+application-argument stability, lambda-domain preservation, and Pi-domain
+preservation;
+\item $D$ is the subject-reduction discharge-socket row that records whether a
+typed-preservation discharge is present for the displayed trigger;
+\item $H$ stores componentwise $\hsame$ transports for the step, conversion,
+obstruction, discharge, route, provenance, and name rows;
+\item $C$ stores the displayed $\Cont$ route through the ordered stages
+$S,V,O,D$;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-beta-audit-map},
+\autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert},
+\autoref{ch:concrete-instances-metacicbetaaudit-namecert},
+\autoref{ch:concrete-instances-betastepboundary-namecert},
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert},
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BetaReductionAuditTrailUp}$ row.
+\end{enumerate}
+The carrier contains no direct typing-preservation row, no closed
+subject-reduction theorem, no hidden conversion rule for typing, and no
+terminal audit escape outside $H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Beta-reduction audit-trail NameCert obligations]
+\label{thm:beta-reduction-audit-trail-namecert-obligations}
+For the carrier of \autoref{def:beta-reduction-audit-trail-carrier}, the local
+$\NameCert_{\BetaReductionAuditTrailUp}$ surface consists exactly of carrier
+admission for $R=(S,V,O,D,H,C,P,N)$, beta-step stage readback through $S$,
+common-reduct conversion readback through $V$, obstruction-trigger readback
+through $O$, subject-reduction socket readback through $D$, componentwise
+$\hsame$ transport through $H$, displayed continuation replay through $C$,
+package provenance through $P$, and terminal naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:beta-reduction-audit-trail-carrier}. Its only stage coordinates
+are the beta-step ledger $S$, the conversion ledger $V$, the obstruction
+ledger $O$, and the discharge-socket row $D$.
+
+Read the siblings in the displayed order. The typed congruence trigger supplies
+the constructor-facing boundary, the MetaCIC beta audit packet separates
+reduction and conversion, the beta-step boundary keeps obstruction triggers
+visible, and the subject-reduction discharge socket records whether a typed
+preservation discharge has been supplied.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the
+same finite trail. Since no coordinate contains an unguarded typing rule, a
+closed subject-reduction theorem, or an external audit ledger, the local
+NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Beta-reduction audit-trail Stage F falsifiability]
+\label{thm:beta-reduction-audit-trail-stage-falsifiability}
+Every accepted $\BetaReductionAuditTrailUp$ packet has a falsifiable terminal
+ledger: a consumer that reads a direct typing-preservation row must also read
+the subject-reduction discharge socket $D$ for the same ordered trail
+$S,V,O,D$. If $D$ is absent, the accepted trail may still expose beta-step,
+conversion, and obstruction-trigger rows, but it cannot export typed
+preservation.
+\end{theorem}
+\begin{proof}
+Start from the ordered carrier. A typing-facing read can only occur after the
+consumer has passed through $S$, then $V$, then $O$, because those are the
+displayed step, conversion, and obstruction stages.
+
+The only row after the obstruction stage that can mention typed-preservation
+discharge is $D$. The transport, continuation, package, and name rows
+$H,C,P,N$ keep the same coordinate order and do not add a new discharge row.
+
+Thus any accepted trail lacking $D$ lacks a direct typing-preservation read.
+The packet remains readable as a beta audit trail, but its terminal ledger
+falsifies any attempted escape from reduction and conversion into typed
+preservation.
+\end{proof}
+
+\falsifiablePrediction{Every accepted trail lacks a direct typing-preservation row unless a subject-reduction discharge socket is present.}
+
+\independenceWitness{typedbetacongruencetrigger, metacicbetaaudit, betastepboundary, subjectreductiondischargesocket: the trail carrier has ordered reduction-conversion-obstruction stages and a terminal audit ledger, while each sibling omits at least one stage or the terminal non-escape ledger, so no carrier bijection preserves the displayed NameCert rows.}
+
+\closureat{BetaReductionAuditTrailUp}{seedStr}
+
+\begin{closurestatus}{\BetaReductionAuditTrailUp}
+  \constructivestory{A $\BetaReductionAuditTrailUp$ packet is generated from an ordered BetaStep ledger, a BetaConv common-reduct ledger, obstruction-trigger rows, a subject-reduction discharge-socket row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:beta-reduction-audit-trail-carrier}, \autoref{thm:beta-reduction-audit-trail-namecert-obligations}, and \autoref{thm:beta-reduction-audit-trail-stage-falsifiability} bind the finite ordered beta audit trail and its terminal falsifiability ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close typed beta preservation, closed subject reduction, conversion typing, confluence, normalisation, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ordered stage readback, discharge-socket readback, transport, route replay, provenance, naming, and terminal falsifiability for the same finite trail.}
+\end{closurestatus}
