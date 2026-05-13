@@ -432,6 +432,62 @@ Now invoke \autoref{thm:uniformmodulus-scoped-dependency-interface}. This pins t
 Finally apply \autoref{thm:uniformmodulus-compact-continuous-nonescape}. The exclusion boundary removes open-cover compactness, sequential compactness, host minima, ambient finite-set minima, external modulus functions, and undisplayed center selectors, leaving exactly the mature compact-continuous package surface stated above.
 \end{proof}
 
+\begin{theorem}[UniformModulus ProbeBundle membership exhaustion]
+\label{thm:uniformmodulus-probebundle-membership-exhaustion}
+For an accepted $\UniformModulusUp$ packet
+$$
+U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N),
+$$
+every center, radius, and compact-coverage row consumed by the public compact-continuous route is witnessed by the displayed finite $\mathsf{ProbeBundle}$ membership row $\mathcal{P}$ and is routed through the $\BHist$ carrier of \autoref{def:uniformmodulus-bhist-carrier}, the componentwise transport ledger $L$, the displayed continuation routes $Q$, the package provenance row $P$, and the local $\NameCert$ row $N$.
+
+Thus the finite consumer surface cannot read an undisplayed center, an external radius selector, or a compactness witness outside the packet rows $\mathcal{P},R,C,L,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:uniformmodulus-bhist-carrier}. Its compact-consumer coordinates list the finite bundle $\mathcal{P}$, the radius rows $R$, the compact coverage row $C$, and the boundary rows $L,Q,P,N$.
+
+Apply \autoref{thm:uniformmodulus-finite-probebundle-fold}. The finite fold reads the same displayed $\mathsf{ProbeBundle}$ spine and records the positive rational comparisons needed by the precision row $D$.
+
+Use \autoref{thm:uniformmodulus-compact-continuous-handoff} and \autoref{thm:uniformmodulus-center-radius-readback}. The handoff first reaches a bundled center and its radius row, then moves to compact coverage and pointwise data through the displayed packet route.
+
+Finally invoke \autoref{thm:uniformmodulus-compact-continuous-nonescape}. Since the nonescape boundary removes host compactness and undisplayed selectors, every consumed center, radius, and coverage row is exhausted by $\mathcal{P},R,C,L,Q,P,N$.
+\end{proof}
+
+\begin{theorem}[UniformModulus metric-distance route soundness]
+\label{thm:uniformmodulus-metric-distance-route-soundness}
+For an accepted $\UniformModulusUp$ packet $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$, every $\MetricUp$ distance read below the folded precision row $D$ factors through the compact coverage row $C$, the selected pointwise-modulus row in $M$, the target metric witnesses carried by the packet, and the finite fold ledger $F$.
+
+The route is therefore a $\BHist$-anchored finite-distance route over $\CompactMetricUp$, $\ContinuousMapUp$, $\MetricUp$, $\RatUp$, and $\mathsf{ProbeBundle}$, with transport and naming mediated only by $L,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition \autoref{def:uniformmodulus-bhist-carrier}. It places the source coverage row, pointwise-modulus rows, metric witnesses, fold ledger, and boundary rows inside the same accepted $\BHist$ packet.
+
+Apply \autoref{thm:uniformmodulus-finite-probebundle-fold}. The precision row $D$ is obtained from the finite ledger $F$, so any distance read below $D$ must pass through the displayed rational comparisons recorded by that ledger.
+
+Next use \autoref{thm:uniformmodulus-compact-continuous-handoff}. The compact-continuous handoff consumes $C$ before selecting the pointwise row of $M$ and the corresponding target metric witnesses.
+
+Use \autoref{thm:uniformmodulus-center-radius-readback} to identify the center and radius row attached to the metric read. Close with \autoref{thm:uniformmodulus-compact-continuous-nonescape}, which excludes any ambient distance route not represented in $C,M,F,L,Q,P,N$.
+\end{proof}
+
+\begin{theorem}[UniformModulus consumer read exhaustion]
+\label{thm:uniformmodulus-consumer-read-exhaustion}
+For an accepted $\UniformModulusUp$ packet
+$$
+U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N),
+$$
+any compact-continuous downstream consumer can read only the tolerance row $E$, folded precision row $D$, finite $\mathsf{ProbeBundle}$ row $\mathcal{P}$, radius rows $R$, compact coverage row $C$, pointwise-modulus rows $M$, fold ledger $F$, transport ledger $L$, continuation routes $Q$, package provenance row $P$, and local $\NameCert$ row $N$.
+
+In particular the consumer surface excludes open-cover compactness, host minima, choice-selected centers, and external modulus functions.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier through \autoref{def:uniformmodulus-bhist-carrier}. The displayed tuple $U$ contains exactly the tolerance, precision, bundle, radius, coverage, pointwise, fold, transport, continuation, package, and naming rows listed in the statement.
+
+Apply \autoref{thm:uniformmodulus-finite-probebundle-fold}. This accounts for all reads of the folded precision row $D$ and ties them to the finite bundle and radius ledger.
+
+Apply \autoref{thm:uniformmodulus-compact-continuous-handoff} together with \autoref{thm:uniformmodulus-center-radius-readback}. These results account for compact coverage, selected center and radius readback, and the pointwise-modulus rows consumed by a compact-continuous downstream reader.
+
+Finally use \autoref{thm:uniformmodulus-compact-continuous-nonescape}. The nonescape theorem removes every remaining host or analytic coordinate, so the downstream consumer reads no data beyond $E,D,\mathcal{P},R,C,M,F,L,Q,P,N$.
+\end{proof}
+
 \closureat{UniformModulusUp}{seedStr}
 \closureat{UniformModulusUp}{obligationStr}[BEDC.Derived.UniformModulusUp.UniformModulusPacket\_namecert\_obligation\_surface]
 \closureat{UniformModulusUp}{scopedStr}
