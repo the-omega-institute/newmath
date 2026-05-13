@@ -28,32 +28,42 @@ Report:
 ```text
       59 rule110/evaluator/cyclic_tag.c
       60 rule110/evaluator/rule110.c
-     163 rule110/encoder/cook_collisions.c
-      28 rule110/encoder/cook_construction.c
-      45 rule110/encoder/cook_data_block.c
-     290 rule110/encoder/cook_encode.c
-      20 rule110/encoder/cook_glider_B.c
-      20 rule110/encoder/cook_glider_C.c
-      20 rule110/encoder/cook_glider_D.c
-      20 rule110/encoder/cook_glider_E.c
-      20 rule110/encoder/cook_glider_F.c
-      20 rule110/encoder/cook_glider_G.c
-      20 rule110/encoder/cook_glider_H.c
-      31 rule110/encoder/cook_glider_gun.c
-      24 rule110/encoder/cook_leader.c
-      32 rule110/encoder/cook_ossifier.c
+     535 rule110/encoder/block_assembler.c
+      32 rule110/encoder/cook_blocks.c
+     463 rule110/encoder/cook_collisions.c
+      39 rule110/encoder/cook_construction.c
+     147 rule110/encoder/cook_data_block.c
+     187 rule110/encoder/cook_decode.c
+     543 rule110/encoder/cook_encode.c
+      28 rule110/encoder/cook_glider_B.c
+      32 rule110/encoder/cook_glider_C.c
+      32 rule110/encoder/cook_glider_D.c
+      29 rule110/encoder/cook_glider_E.c
+      29 rule110/encoder/cook_glider_F.c
+      29 rule110/encoder/cook_glider_G.c
+      29 rule110/encoder/cook_glider_H.c
+      40 rule110/encoder/cook_glider_gun.c
+     193 rule110/encoder/cook_leader.c
+     128 rule110/encoder/cook_ossifier.c
+     330 rule110/encoder/generate_r110.c
+     577 rule110/encoder/generate_r110_algo.c
+     144 rule110/encoder/generate_r110_mark.c
+     163 rule110/encoder/glider_phases.c
+     610 rule110/encoder/glider_search.c
      101 rule110/encoder/groundcompiler_encoding.c
+     106 rule110/encoder/phase_verifier.c
      364 rule110/tests/manifest_runner.c
-     167 rule110/tests/test_ask.c
-     588 rule110/tests/test_bundle.c
-     120 rule110/tests/test_cont.c
-      48 rule110/tests/test_cook_collisions.c
-      89 rule110/tests/test_cook_data_block.c
-     328 rule110/tests/test_cook_encode_arbitrary.c
+     316 rule110/tests/test_ask.c
+     687 rule110/tests/test_bundle.c
+     250 rule110/tests/test_circle_up.c
+     298 rule110/tests/test_cont.c
+     133 rule110/tests/test_cook_collisions.c
+     139 rule110/tests/test_cook_data_block.c
+     354 rule110/tests/test_cook_encode_arbitrary.c
       76 rule110/tests/test_cook_encode_empty.c
      159 rule110/tests/test_cook_encode_one.c
       67 rule110/tests/test_cook_ether.c
-      94 rule110/tests/test_cook_glider_A.c
+     170 rule110/tests/test_cook_glider_A.c
       73 rule110/tests/test_cook_glider_B.c
       73 rule110/tests/test_cook_glider_C.c
       73 rule110/tests/test_cook_glider_D.c
@@ -62,35 +72,57 @@ Report:
       98 rule110/tests/test_cook_glider_G.c
       98 rule110/tests/test_cook_glider_H.c
       84 rule110/tests/test_cook_glider_gun.c
-      77 rule110/tests/test_cook_leader.c
-     104 rule110/tests/test_cook_ossifier.c
+     120 rule110/tests/test_cook_leader.c
+     150 rule110/tests/test_cook_ossifier.c
+     118 rule110/tests/test_cook_packet_phase_exact.c
      107 rule110/tests/test_cyclic_tag.c
      249 rule110/tests/test_encoder.c
-     126 rule110/tests/test_ext.c
-     370 rule110/tests/test_external_binary.c
-     294 rule110/tests/test_gap.c
+     314 rule110/tests/test_ext.c
+     552 rule110/tests/test_external_binary.c
+     326 rule110/tests/test_fold_up.c
+     621 rule110/tests/test_gap.c
+      87 rule110/tests/test_glider_phases.c
+     420 rule110/tests/test_ground_compiler.c
      311 rule110/tests/test_hist.c
       19 rule110/tests/test_manifest_runner_r110.c
      189 rule110/tests/test_mark.c
-     333 rule110/tests/test_name_cert.c
-     367 rule110/tests/test_package.c
-     246 rule110/tests/test_round_trip.c
-      61 rule110/tests/test_rule110.c
-     646 rule110/tests/test_settled.c
-     352 rule110/tests/test_sig.c
-     259 rule110/tests/test_unary.c
-    7878 total
+     282 rule110/tests/test_meta_cic.c
+     640 rule110/tests/test_name_cert.c
+     685 rule110/tests/test_package.c
+      28 rule110/tests/test_phase_verifier.c
+     669 rule110/tests/test_r110_round_trip.c
+      62 rule110/tests/test_rule110.c
+     766 rule110/tests/test_settled.c
+     745 rule110/tests/test_sig.c
+     365 rule110/tests/test_topology_up.c
+     312 rule110/tests/test_unary.c
+   16510 total
 ```
 
-Manifest count:
+Manifest counts:
 
 ```bash
+find rule110/manifests -name '*.enum.ct' | wc -l
+find rule110/manifests -name '*.algo.ct' | wc -l
+find rule110/manifests \( -name '*.enum.ct' -o -name '*.algo.ct' \) | wc -l
+find rule110/manifests -name '*.r110.ct' | wc -l
+find rule110/manifests -name '*.algo.r110.ct' | wc -l
 find rule110/manifests -name '*.ct' | wc -l
 ```
 
 ```text
-      44
+      37
+      22
+      59
+      59
+      22
+     118
 ```
+
+The source manifest surface is 59 `.ct` files: 37 `.enum.ct` and 22
+`.algo.ct`. The generated on-disk Rule 110 surface is 59 `.r110.ct`
+files: 37 enum-derived plus 22 `.algo.r110.ct`. After `make test`
+materializes generated manifests, the on-disk `.ct` total is 118.
 
 ## Test Case Count
 
@@ -124,14 +156,18 @@ GroundCompiler:
 - Settled
 - GroundCompiler
 
-The current Rule 110 direct-carrier surface covers 25 FKernel `.r110.ct`
-manifests: Mark 4, Hist 5, Ext 1, Sig 2, Cont 1, Bundle 2, Unary 1, Ask 1,
-ExternalBinary 1, Gap 1, Package 1, NameCert 1, Settled 1, and GroundCompiler
-3. All source `.enum.ct` files have `PRODUCTIONS 0`. The generated carrier
+The current Rule 110 direct-carrier surface covers 37 `.r110.ct` manifests:
+25 FKernel/GroundCompiler files plus 12 Beyond-FKernel appendix files. The
+FKernel/GroundCompiler portion is Mark 4, Hist 5, Ext 1, Sig 2, Cont 1,
+Bundle 2, Unary 1, Ask 1, ExternalBinary 1, Gap 1, Package 1, NameCert 1,
+Settled 1, and GroundCompiler 3. The Beyond-FKernel portion is
+`topology_up`, `fold_up`, `circle_up`, and `meta_cic`, three files each.
+All source `.enum.ct` files have `PRODUCTIONS 0`. The generated carrier
 cases cover every binary `input=` assertion; `ground_compiler/reject_reasons`
 has two non-binary/display-only assertions outside direct carrier encoding.
-The Beyond-FKernel appendix directories `circle_up`, `fold_up`, `meta_cic`,
-and `topology_up` intentionally have no `.r110.ct` manifests in this scope.
+The appendix modules are generated as `.r110.ct` files and are exercised by
+`test_topology_up`, `test_fold_up`, `test_circle_up`, and `test_meta_cic`
+inside `make test`.
 
 ## Deliberate Gaps
 
@@ -379,10 +415,6 @@ ALL test_manifest_runner_r110 tests passed
   one_production_empty_tape: PASS
   one_production_three_bit_tape: PASS
 ALL test_cook_encode_one tests passed
-== tests/test_round_trip ==
-== test_round_trip ==
-  round_trip_msame_refl_enum: SKIP (cook_encode returned 0 - production/tape shape not yet supported)
-ALL test_round_trip tests passed
 == tests/test_cook_encode_arbitrary ==
 == test_cook_encode_arbitrary ==
   two_productions_empty_tape: PASS
