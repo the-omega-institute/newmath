@@ -298,11 +298,15 @@ def render_target_table(limit: int = 80) -> str:
             d = json.loads(f.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
+        if not isinstance(d, dict):
+            continue
+        if not d.get("target_id") and not (d.get("stage1_verdict") or d.get("stage2")):
+            continue
         kind = d.get("failure_kind") or derive_failure_kind(d)
         action = decide_next_action({**d, "failure_kind": kind})
         attempts = d.get("attempts", 1)
         items.append({
-            "target_id": d.get("target_id", "?"),
+            "target_id": d.get("target_id") or f.stem,
             "kind": kind,
             "attempts": attempts,
             "action": action,
