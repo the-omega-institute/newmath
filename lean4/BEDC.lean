@@ -59,6 +59,7 @@ import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ApophaticNameUp
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
+import BEDC.Derived.AspectChainUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
@@ -178,6 +179,8 @@ import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.CollisionKernelUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.ContinuationAutomatonUp.TasteGate
+import BEDC.Derived.AuditMembraneUp
+import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.CstaralgebraUp
@@ -250,12 +253,15 @@ import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
+import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TransportedStationaryWindowSealUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
+import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InterpolationUp
+import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport

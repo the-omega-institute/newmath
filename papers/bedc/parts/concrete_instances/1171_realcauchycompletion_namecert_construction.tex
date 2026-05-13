@@ -306,6 +306,22 @@ Finally read the corresponding $\DyadicRatCoreUp$ observation ledger before eith
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_family\_tail\_synchronization}
 
+\begin{theorem}[RealCauchyCompletion budgeted common refinement]
+\label{thm:real-cauchy-completion-budgeted-common-refinement}
+Let $C$ and $C'$ be accepted $\RealCauchyCompletionUp$ carriers whose regular-family rows classify through one $\RegSeqRatUp$ common-refinement row, and let $B$ be an accepted $\RealObservationBudgetUp$ packet carrying the same finite $\mathsf{ProbeBundle}$ request surface. Then the synchronized $\RealUp$ seal route factors through one budgeted common-refinement packet.
+
+This packet consists exactly of the $\RealObservationBudgetUp$ precision rows, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and displayed radii, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ route replay, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient equality of regular streams, host real equality, selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-cauchy-completion-family-tail-synchronization} to the two accepted carriers and the shared finite request surface. This gives the common tail window through which both seal reads pass before either $\RealUp$ seal is consumed.
+
+Now read the accepted $\RealObservationBudgetUp$ packet. Window coverage in \autoref{thm:real-observation-budget-window-coverage} identifies the same finite $\StreamNameUp$ windows, while \autoref{thm:real-observation-budget-regseq-handoff} places every $\RegSeqRatUp$ handoff after the precision row, windows, dyadic readbacks, and displayed radii.
+
+The real seal boundary of \autoref{thm:real-observation-budget-real-seal-boundary} puts the seal rows after those budget coordinates, and \autoref{thm:real-observation-budget-nonescape} excludes quotient equality, host real equality, selected limits, ambient completeness, and hidden unbounded schedules from the packet.
+
+Finally use \autoref{thm:real-cauchy-completion-downstream-consumer-handoff} to replay the synchronized route for downstream consumers, and use \autoref{thm:real-cauchy-completion-non-escape-boundary} to keep the resulting route inside the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. Thus the completion synchronization and the observation budget are the same finite common-refinement packet at the consumer boundary.
+\end{proof}
+
 \begin{theorem}[RealCauchyCompletion null-tail budget correspondence]
 \label{thm:real-cauchy-completion-null-tail-budget-correspondence}
 Let $C$ and $C'$ be accepted $\RealCauchyCompletionUp$ carriers whose regular-family rows are classified through one $\RegSeqRatUp$ common-refinement row, and let one finite $\mathsf{ProbeBundle}$ carry the requested precision observations. On the displayed BEDC rows, the synchronized $\RealUp$ seal route of \autoref{thm:real-cauchy-completion-family-tail-synchronization} is equivalent to giving one $\NullSequenceUp$ zero-tail packet whose tolerance-window package is carried by one $\DyadicTailBoundUp$ finite budget ledger.
