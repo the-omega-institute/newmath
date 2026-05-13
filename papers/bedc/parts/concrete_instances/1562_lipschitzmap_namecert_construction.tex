@@ -327,6 +327,24 @@ the packet contains no other bound or modulus coordinate, every composite
 consumer must use this product-ledger route.
 \end{proof}
 
+\begin{theorem}[LipschitzMap identity carrier boundary]
+\label{thm:lipschitz-map-identity-carrier-boundary}
+Let $X$ be a transported $\MetricSpaceUp$ row and let
+$$
+L=(X,X,B_{\mathsf{id}},G_{\mathsf{id}},M_{\mathsf{id}},H,C,P,N)
+$$
+be the packet whose source and target metric rows are the same transported row, whose graph row $G_{\mathsf{id}}$ is the identity graph over $X$, whose rational bound ledger $B_{\mathsf{id}}$ is the unit $\RealUp$ row, and whose modulus row $M_{\mathsf{id}}$ is the identity $\UniformModulusUp$ route. Then $L$ forms an accepted $\LipschitzMapUp$ consumer boundary over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it exposes no host function extensionality or selected representative.
+\end{theorem}
+\begin{proof}
+Project the carrier shape of \autoref{def:lipschitz-map-carrier}. With the same $\MetricSpaceUp$ row in the source and target coordinates, the identity graph row supplies the carried $\ContinuousMapUp$ route from each source point history to the same target point history.
+
+Use target-distance exactness from \autoref{thm:lipschitz-map-target-distance-exactness}. For the identity graph, every target-distance read is the same transported source-distance read, so the unit rational ledger $B_{\mathsf{id}}$ binds the target comparison to the original source metric row.
+
+The identity $\UniformModulusUp$ route $M_{\mathsf{id}}$ is then the modulus induced by that unit bound. Bound transport from \autoref{thm:lipschitz-map-bound-transport} keeps $B_{\mathsf{id}}$, $G_{\mathsf{id}}$, and $M_{\mathsf{id}}$ attached to the same transported row through $H$ and $C$.
+
+Finally apply ledger nonescape from \autoref{thm:lipschitz-map-ledger-nonescape}. The packet contains only the displayed metric row, identity graph, unit bound ledger, identity modulus route, transports, continuations, provenance, and local certificate, so it cannot export host function extensionality or a selected representative.
+\end{proof}
+
 \begin{theorem}[LipschitzMap obligation closure package]
 \label{thm:lipschitz-map-obligation-closure-package}
 The $\LipschitzMapUp$ obligation surface is exhausted by the carrier of
