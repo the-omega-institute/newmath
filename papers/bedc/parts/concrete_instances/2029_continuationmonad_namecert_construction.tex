@@ -228,11 +228,12 @@ Finally the package provenance and Kleisli boundary expose exactly the rows name
 
 \closureat{ContinuationMonadUp}{seedStr}
 \closureat{ContinuationMonadUp}{obligationStr}
+\closureat{ContinuationMonadUp}{scopedStr}
 
 \begin{closurestatus}{\ContinuationMonadUp}
   \constructivestory{A $\ContinuationMonadUp$ packet is generated from source, middle, and target histories, two displayed continuation tails, a unit tail, componentwise $\hsame$ transports, displayed $\Cont$ routes, CategoryUp continuation-morphism readings, package provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:continuation-monad-obligation-closure} binds the carrier source, unit laws, associativity, classifier stability, ledger exactness, NameCert package, and Kleisli composition boundary as the finite continuation obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:continuation-monad-kernel-scope-row} and \autoref{thm:continuation-monad-scoped-route-dependencies} bind the finite dependency surface to $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close full category theory, quotient Kleisli categories, host functions, standard monad laws as host equalities, arbitrary effects, or bridge checking.}

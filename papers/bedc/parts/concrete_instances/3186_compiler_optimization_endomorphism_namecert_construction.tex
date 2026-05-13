@@ -1,59 +1,66 @@
 \chapter{A Concrete Naming Certificate for $\CompilerOptimizationEndomorphismUp$}
 \label{ch:concrete-instances-compiler-optimization-endomorphism-namecert}
-\origin{human}
+\origin{ai}
 
-The $\CompilerOptimizationEndomorphismUp$ interface packages source-to-source compiler optimisation as a finite accepted endomorphism over one local $\NameCert$ row. It consumes the compiler-morphism, certificate-compiler, classifier-morphism, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local naming rows already used by compiler and decompiler certificates, but it does not import host program equality or a semantic optimisation theorem.
+The $\CompilerOptimizationEndomorphismUp$ interface packages source-to-source compiler optimisation as a finite accepted endomorphism over one local $\NameCert$ row. It realizes the Cook compile-frontier route of \autoref{ch:visions-cook-compile-frontier-engineering-path} as a before/after compiler trace whose accepted rows can be read by the certificate compiler of \autoref{ch:concrete-instances-certificatecompiler-namecert}, the composition trace of \autoref{ch:concrete-instances-compilercompositiontrace-namecert}, the closed-term substitution compiler of \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert}, and the cellular audit surfaces of \autoref{ch:concrete-instances-cellularautomaton-namecert} and \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}. It consumes the compiler-morphism, certificate-compiler, classifier-morphism, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local naming rows already used by compiler and decompiler certificates, but it does not import host program equality or a semantic optimisation theorem.
+
+\falsifiablePrediction{If the semantic-preservation row is removed, a frontier-improving packet can no longer certify that the before and after compiler traces decode to the same substrate observation row.}
+
+\independenceWitness{certificatecompiler, compilercompositiontrace, closedtermsubstitutioncompiler, cellularautomaton, and cellulartrustsubstrate: none carries the joint before/after optimization endomorphism plus frontier-coordinate effect. CertificateCompiler exposes one compiler edge surface, CompilerCompositionTrace exposes sequential composition, ClosedTermSubstitutionCompiler exposes the closed syntactic boundary, CellularAutomaton exposes the local orbit ledger, and CellularTrustSubstrate exposes substrate trust rows; the optimization endomorphism alone binds the before trace, after trace, semantic-preservation row, and frontier-coordinate improvement in one NameCert packet.}
 
 \begin{definition}[CompilerOptimizationEndomorphism carrier]
 \label{def:compiler-optimization-endomorphism-carrier}
 A $\CompilerOptimizationEndomorphismUp$ carrier is a finite $\BHist$ packet
 $$
-O=(S,G,E,L,H,C,P,N)
+O=(S,B,A,G,E,L,F,H,C,P,N)
 $$
 with the following displayed rows:
 \begin{enumerate}
 \item $S$ is the source $\NameCert$ row that is also the target naming row of the optimisation;
-\item $G$ is an accepted endomorphism graph on $S$, displaying source-to-source compiler edges rather than a host optimiser function;
+\item $B$ is the before compiler trace row, read through the same stage order as the Cook pipeline stages of \autoref{sec:cook-frontier-pipeline-stages};
+\item $A$ is the after compiler trace row, displaying the optimized trace over the same source and target naming row;
+\item $G$ is an accepted endomorphism graph on $S$, displaying source-to-source compiler edges from $B$ to $A$ rather than a host optimiser function;
 \item $E$ is the same-source landing row recording that every displayed graph edge starts in the carrier of $S$ and lands back in the same carrier;
 \item $L$ is the classifier-preservation row recording that source classifier membership is transported along the displayed endomorphism graph;
-\item $H$ records componentwise $\hsame$ preservation for the source row, graph row, same-source landing row, classifier row, continuation rows, package row, and local naming row;
+\item $F$ is the frontier-coordinate row recording that the after trace improves a displayed compile-frontier coordinate while still decoding to the same substrate observation row as the before trace;
+\item $H$ records componentwise $\hsame$ preservation for the source row, before and after trace rows, graph row, same-source landing row, classifier row, frontier row, continuation rows, package row, and local naming row;
 \item $C$ is the displayed $\Cont$ route replay row, pairing every source continuation read used by $G$ with its routed post-optimisation continuation inside the same certificate $S$;
-\item $P$ names the dependency surface $\NameCertMorphismUp$, $\CertificateCompilerUp$, $\ClassifierMorphismUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $P$ names the dependency surface $\NameCertMorphismUp$, $\CertificateCompilerUp$, $\CompilerCompositionTraceUp$, $\ClosedTermSubstitutionCompilerUp$, $\ClassifierMorphismUp$, $\CellularAutomatonUp$, $\CellularTrustSubstrateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
 \item $N$ is the local $\NameCert_{\CompilerOptimizationEndomorphismUp}$ row.
 \end{enumerate}
-The carrier is an accepted NameCert endomorphism packet. It has no coordinate for host program equality, denotational semantics, cost improvement, global category laws, or a semantic optimiser correctness theorem.
+The carrier is an accepted NameCert endomorphism packet. It has no coordinate for host program equality, denotational semantics, hidden cost improvement, global category laws, or a semantic optimiser correctness theorem outside the displayed semantic-preservation row.
 \end{definition}
 
 \begin{theorem}[CompilerOptimizationEndomorphism NameCert obligations]
 \label{thm:compiler-optimization-endomorphism-namecert-obligations}
-The local $\NameCert_{\CompilerOptimizationEndomorphismUp}$ surface for \autoref{def:compiler-optimization-endomorphism-carrier} consists exactly of carrier admission, accepted same-source graph edges on $S$, source-to-source landing through $E$, classifier preservation through $L$, $\hsame$ preservation through $H$, displayed continuation replay through $C$, dependency provenance through $P$, and the local naming row $N$.
+The local $\NameCert_{\CompilerOptimizationEndomorphismUp}$ surface for \autoref{def:compiler-optimization-endomorphism-carrier} consists exactly of carrier admission, before-trace exposure through $B$, after-trace exposure through $A$, accepted same-source graph edges on $S$, source-to-source landing through $E$, classifier preservation through $L$, semantic-preservation and frontier-coordinate exposure through $F$, $\hsame$ preservation through $H$, displayed continuation replay through $C$, dependency provenance through $P$, and the local naming row $N$.
 \end{theorem}
 \begin{proof}
-Project the finite packet $O$. The source row, graph, same-source landing row, classifier-preservation row, transport row, continuation replay row, provenance row, and local name are all displayed coordinates.
+Project the finite packet $O$. The source row, before trace, after trace, graph, same-source landing row, classifier-preservation row, frontier row, transport row, continuation replay row, provenance row, and local name are all displayed coordinates.
 
 The endomorphism condition is also a projection. Both the edge source and edge target are read from the same $\NameCert$ row $S$, so no additional target certificate can be introduced by the obligation surface.
 
-Classifier, $\hsame$, and continuation obligations are read from $L$, $H$, and $C$. The package row $P$ records the compiler-morphism dependencies, and $N$ names the local certificate. Since no other coordinate is present, these rows exhaust the local NameCert obligations.
+Classifier, semantic-preservation, $\hsame$, and continuation obligations are read from $L$, $F$, $H$, and $C$. The package row $P$ records the compiler, composition, closed-substitution, cellular, and trust-substrate dependencies, and $N$ names the local certificate. Since no other coordinate is present, these rows exhaust the local NameCert obligations.
 \end{proof}
 
 \begin{theorem}[CompilerOptimizationEndomorphism composition]
 \label{thm:compiler-optimization-endomorphism-composition}
 Let
 $$
-O_1=(S,G_1,E_1,L_1,H_1,C_1,P_1,N_1)
+O_1=(S,B_1,A_1,G_1,E_1,L_1,F_1,H_1,C_1,P_1,N_1)
 $$
 and
 $$
-O_2=(S,G_2,E_2,L_2,H_2,C_2,P_2,N_2)
+O_2=(S,B_2,A_2,G_2,E_2,L_2,F_2,H_2,C_2,P_2,N_2)
 $$
-be accepted $\CompilerOptimizationEndomorphismUp$ packets over the same source $\NameCert$ row $S$. Their displayed composite is the finite packet whose graph row is the relational composite of $G_1$ and $G_2$, whose same-source landing row chains $E_1$ with $E_2$, whose classifier-preservation row chains $L_1$ with $L_2$, and whose $\hsame$, $\Cont$, $\Pkg$, and local naming rows are obtained by replaying the displayed rows of $O_1$ and $O_2$ in order.
+be accepted $\CompilerOptimizationEndomorphismUp$ packets over the same source $\NameCert$ row $S$. Their displayed composite is the finite packet whose before trace is $B_1$, whose middle trace is $A_1=B_2$ as a displayed compiler-composition handoff, whose after trace is $A_2$, whose graph row is the relational composite of $G_1$ and $G_2$, whose same-source landing row chains $E_1$ with $E_2$, whose classifier-preservation row chains $L_1$ with $L_2$, whose semantic-preservation and frontier-coordinate row chains $F_1$ with $F_2$, and whose $\hsame$, $\Cont$, $\Pkg$, and local naming rows are obtained by replaying the displayed rows of $O_1$ and $O_2$ in order.
 \end{theorem}
 \begin{proof}
 Project the two accepted packets. Both expose the same source and target naming row $S$, so the middle landing of the first graph is exactly the source row consumed by the second graph.
 
 Compose the graph rows relationally. A displayed source row is related to a displayed final row when a middle row of $S$ is named by an edge of $G_1$ followed by an edge of $G_2$.
 
-The landing and classifier rows compose along the same middle row. The $E_i$ rows keep both edges inside $S$, while the $L_i$ rows transport classifier membership first across $G_1$ and then across $G_2$.
+The landing, classifier, and frontier rows compose along the same middle row. The $E_i$ rows keep both edges inside $S$, the $L_i$ rows transport classifier membership first across $G_1$ and then across $G_2$, and the $F_i$ rows keep the before and after traces semantically pinned to the same substrate observation while recording the displayed frontier-coordinate effect.
 
 Finally replay the $\hsame$, $\Cont$, $\Pkg$, and local naming rows in the displayed order. The result is again a finite endomorphism packet over $S$, with no appeal to an ambient optimiser semantics.
 \end{proof}
@@ -62,14 +69,14 @@ Finally replay the $\hsame$, $\Cont$, $\Pkg$, and local naming rows in the displ
 \label{thm:compiler-optimization-endomorphism-nonescape}
 Every consumer read of an accepted $\CompilerOptimizationEndomorphismUp$ packet factors through
 $$
-S,\ G,\ E,\ L,\ H,\ C,\ P,\ N.
+S,\ B,\ A,\ G,\ E,\ L,\ F,\ H,\ C,\ P,\ N.
 $$
-A request for host optimisation semantics, host program equality, denotational equivalence, cost improvement, a global compiler category law, or an undisplayed target certificate is outside the carrier and is not exported as NameCert evidence.
+A request for host optimisation semantics, host program equality, denotational equivalence beyond the displayed semantic-preservation row, hidden cost improvement, a global compiler category law, or an undisplayed target certificate is outside the carrier and is not exported as NameCert evidence.
 \end{theorem}
 \begin{proof}
-Read the request through the displayed continuation route $C$. If it asks for the source certificate, graph, same-source landing row, classifier-preservation row, $\hsame$ transport, continuation replay, package provenance, or local name, the carrier supplies exactly the corresponding coordinate.
+Read the request through the displayed continuation route $C$. If it asks for the source certificate, before trace, after trace, graph, same-source landing row, classifier-preservation row, semantic-preservation and frontier-coordinate row, $\hsame$ transport, continuation replay, package provenance, or local name, the carrier supplies exactly the corresponding coordinate.
 
-Any other request leaves the tuple $O$. The carrier contains no coordinate for a semantic optimiser theorem, host equality of programs, denotational model, cost comparison, ambient category law, or separate target certificate.
+Any other request leaves the tuple $O$. The carrier contains no coordinate for a semantic optimiser theorem outside $F$, host equality of programs, denotational model, hidden cost comparison, ambient category law, or separate target certificate.
 
-Thus the accepted packet exports only the finite NameCert endomorphism surface. Optimisation correctness available to downstream compiler or decompiler certificates is the displayed preservation route through $G,E,L,H,C,P,N$, not a host-level theorem.
+Thus the accepted packet exports only the finite NameCert endomorphism surface. Optimisation correctness available to downstream compiler or decompiler certificates is the displayed preservation route through $B,A,G,E,L,F,H,C,P,N$, not a host-level theorem.
 \end{proof}
