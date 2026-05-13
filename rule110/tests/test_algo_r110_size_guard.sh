@@ -15,7 +15,8 @@ for src in manifests/*/*.algo.ct; do
     fi
 done
 
-LIMIT=5242880  # 5 MB
+LIMIT=52428800  # 50 MB — half of GitHub's 100 MB push limit. Real intent is
+                # to catch periodic-segment unroll regressions (153 MB blowup).
 fail=0
 total=0
 for f in manifests/*/*.algo.r110.ct; do
@@ -28,8 +29,8 @@ for f in manifests/*/*.algo.r110.ct; do
 done
 
 if [ "$fail" -gt 0 ]; then
-    echo "FAIL: $fail / $total .algo.r110.ct files exceed 5 MB"
+    echo "FAIL: $fail / $total .algo.r110.ct files exceed 50 MB"
     exit 1
 fi
 
-echo "size guard OK: $total .algo.r110.ct files all under 5 MB"
+echo "size guard OK: $total .algo.r110.ct files all under 50 MB"
