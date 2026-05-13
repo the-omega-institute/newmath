@@ -39,6 +39,50 @@ The analytic product step is finite. The two window reads expose $Q_X$ and $Q_Y$
 The remaining obligations are provenance obligations. The rows $H,C,L,N$ carry transport, continuation, package, seal handoff, and local naming data, so the certificate has no source from which to read host multiplication, quotient equality, selected limits, trichotomy, or completeness.
 \end{proof}
 
+\begin{theorem}[CauchyProduct root window obligations]
+\label{thm:cauchy-product-root-window-obligations}
+For an accepted $\CauchyProductUp$ packet
+$$
+Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N),
+$$
+the root-facing paired-window obligation is anchored in the $\BHist$ rows $X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y$. The two $\RegularCauchyNameUp$ sources may be consumed only through the paired $\StreamNameUp$ schedules and the shared finite tail threshold surface used by \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}; no consumer may replace those windows by quotient streams, selected limits, host multiplication, or an ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations. \autoref{def:cauchy-product-namecert-source} displays the two source rows and paired window rows, while \autoref{thm:cauchy-product-namecert-obligations} makes those rows part of the local certificate surface.
+
+Use the StreamName handoff of \autoref{thm:cauchy-product-streamname-handoff}. It forces every product read to pass through $W_X,W_Y$ before $Q_X,Q_Y$, $M_X,M_Y$, $P$, and $E$ can be inspected.
+
+Finally read the shared-tail consumer through \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The tail-meet packet consumes the same kind of finite threshold window, so the CauchyProduct root obligation is a paired finite-window row rather than a quotient or completed-real operation.
+\end{proof}
+
+\begin{theorem}[CauchyProduct root budget obligations]
+\label{thm:cauchy-product-root-budget-obligations}
+The product-radius budget obligation of an accepted $\CauchyProductUp$ packet is a finite $\BHist$ route from the paired radius rows $M_X,M_Y$ and dyadic rows $Q_X,Q_Y$ through the product observation $P$ to the classifier row $E$ and ledger row $L$. It is routed only by the displayed $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert_{\CauchyProductUp}$ row, and it exposes no radius oracle, host multiplication estimate, quotient stream, selected limit, trichotomy row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the source packet. The only budget-relevant coordinates are $M_X,M_Y,Q_X,Q_Y,P,E,L$ together with the structural rows $H,C,N$.
+
+Apply \autoref{thm:cauchy-product-namecert-obligations} and \autoref{thm:cauchy-product-streamname-handoff}. These make the dyadic and radius rows visible only after the paired finite windows, and they route the product observation through the same local certificate.
+
+The budget route is then exact by \autoref{thm:cauchy-product-radius-ledger-exactness}. Since that theorem binds the product-radius ledger to the displayed path into $E$, no unrecorded radius oracle or analytic primitive can enter the root obligation.
+\end{proof}
+
+\begin{theorem}[CauchyProduct root Real seal obligations]
+\label{thm:cauchy-product-root-real-seal-obligations}
+Every root-facing $\RealUp$ seal read of an accepted $\CauchyProductUp$ packet factors through the finite rows
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+and through the shared tail-threshold consumption surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The seal read cannot escape to host multiplication, RealUp completeness, quotient-stream equality, selected limits, trichotomy, independent real carriers, or an ambient completeness operation.
+\end{theorem}
+\begin{proof}
+First combine the root window obligations with the root budget obligations. The former fixes the paired finite windows, and the latter fixes the product-radius route from those windows through the dyadic observations to the classifier and ledger.
+
+Next apply \autoref{thm:cauchy-product-real-seal-boundary}. The $\RealUp$ seal reads the product only through the $\RegSeqRatUp$ classifier row $E$ together with the displayed ledger, transport, continuation, provenance, and local naming rows.
+
+Finally use \autoref{thm:cauchy-product-real-seal-consumer-exhaustion}. It exhausts every real-facing consumer route by the same finite inventory, while the sibling tail-meet packet supplies only the shared finite threshold surface. Hence the root seal obligation is finite-row based and has no escape to the excluded analytic objects.
+\end{proof}
+
 \begin{theorem}[CauchyProduct StreamName handoff]
 \label{thm:cauchy-product-streamname-handoff}
 Every accepted $\CauchyProductUp$ packet routes a product read through the paired $\StreamNameUp$ windows $W_X,W_Y$ before exposing the $\DyadicRatCoreUp$ observations $Q_X,Q_Y$, the dyadic-radius rows $M_X,M_Y$, the product observation $P$, and the pointwise $\RegSeqRatUp$ classifier row $E$. No consumer can read a product row without first reading those finite schedules and their displayed provenance.
