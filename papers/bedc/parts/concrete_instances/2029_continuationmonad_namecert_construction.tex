@@ -189,6 +189,43 @@ Use classifier stability and ledger exactness to transport the same route data a
 Finally apply the local NameCert package and the Kleisli composition boundary. They repack carrier admission, stability, exactness, provenance, and consumer boundary as the public obligation surface for $\ContinuationMonadUp$.
 \end{proof}
 
+\begin{definition}[ContinuationMonad kernel scope row]
+\label{def:continuation-monad-kernel-scope-row}
+The $\ContinuationMonadUp$ kernel scope row is the finite list
+$$
+\BHist,\quad \Cont,\quad \hsame,\quad \mathsf{CategoryHomCarrier},\quad \mathsf{ContinuationMorphism},\quad \Pkg,\quad \NameCert.
+$$
+For a packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every public continuation read must name its source, middle, and target histories, displayed tails, unit tail, transport row, route row, ledger row, package provenance, and local naming row through this list.
+\end{definition}
+
+\begin{theorem}[ContinuationMonad route row grounding]
+\label{thm:continuation-monad-route-row-grounding}
+Every route consumer of an accepted $\ContinuationMonadUp$ packet factors through the finite route data
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+The histories $A,B,C$, tails $f,g,u$, componentwise transport row $H$, continuation route row $K$, ledger row $L$, and local naming row $N$ are therefore the complete grounding surface for the kernel scope of \autoref{def:continuation-monad-kernel-scope-row}.
+\end{theorem}
+\begin{proof}
+Project the accepted source packet. The carrier source lists exactly $A,B,C,f,g,u,H,K,L,N$, and the kernel scope row lists the only BEDC objects through which those coordinates can be read.
+
+Use carrier obligation and classifier stability to bind all transported reads to $H$ and all continuation reads to $K$. The CategoryUp hom-carrier and continuation-morphism readings are readings of the same displayed tails, not additional route coordinates.
+
+Apply ledger exactness and the Kleisli composition boundary. The ledger $L$ and local name $N$ package the same finite route for downstream consumers, so no consumer can factor through a quotient Kleisli arrow, host function, or unlisted categorical primitive.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad downstream unblock surface]
+\label{thm:continuation-monad-downstream-unblock-surface}
+The scoped downstream unblock surface for $\ContinuationMonadUp$ consists of carrier admission for $A,B,C,f,g,u,H,K,L,N$, classifier stability under $H$, ledger exactness through $K$ and $L$, package provenance through $\Pkg$, and the Kleisli boundary recorded by $N$. Any downstream Real, completion, category, or unary-continuation consumer must use those rows and cannot replace them by quotient morphisms, host functions, or external monad laws.
+\end{theorem}
+\begin{proof}
+Carrier admission supplies the finite continuation packet. Classifier stability then keeps transported histories and tails inside the componentwise $\hsame$ row $H$.
+
+Ledger exactness supplies the unit, associativity, and composed-read facts through $K$ and $L$. These facts are finite continuation rows, not host monad equalities.
+
+Finally the package provenance and Kleisli boundary expose exactly the rows named in the kernel scope. Downstream consumers may depend on that surface, but they receive no route outside $A,B,C,f,g,u,H,K,L,N$.
+\end{proof}
+
 \closureat{ContinuationMonadUp}{seedStr}
 \closureat{ContinuationMonadUp}{obligationStr}
 
