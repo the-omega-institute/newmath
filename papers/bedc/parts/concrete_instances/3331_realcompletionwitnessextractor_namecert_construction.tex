@@ -1,0 +1,142 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionWitnessExtractorUp$}
+\label{ch:concrete-instances-realcompletionwitnessextractor-namecert}
+\origin{human}
+
+The $\RealCompletionWitnessExtractorUp$ interface packages the diagonal-limit
+witness surface used by the Real Completeness route. It starts from the
+finite dyadic tolerance ledger, selected stream windows, regular-rational
+readback rows, and RealUp seal rows already exposed by the Real and Completion
+pipeline, then records the witness packet that a downstream completion
+consumer may inspect. It is a finite NameCert packet; it is not a selected
+host limit, quotient stream equality, or ambient completeness principle.
+
+\begin{definition}[Real completion witness-extractor carrier]
+\label{def:real-completion-witness-extractor-carrier}
+A $\RealCompletionWitnessExtractorUp$ carrier is a finite $\BHist$ packet
+$$
+X=(D,W,M,Q,L,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger for the diagonal
+regular-Cauchy route;
+\item $W$ is the selected $\StreamNameUp$ window family used to read the
+finite diagonal observations;
+\item $M$ is the modulus schedule that chooses the displayed diagonal windows
+and records the finite comparison budget for each requested precision;
+\item $Q$ is the $\RegSeqRatUp$ readback row assembled from the selected
+windows and dyadic tolerance rows;
+\item $L$ is the $\RealUp$ seal row reached after the regular-rational
+readback has passed through the displayed diagonal schedule;
+\item $S$ is the completion-facing seal or handoff row consumed by Real
+Completeness and Cauchy-limit consumers;
+\item $H$ records componentwise $\hsame$ transports for $D,W,M,Q,L,S$ and the
+local structural rows;
+\item $C$ records the displayed $\Cont$ routes from tolerance requests through
+the selected windows, modulus schedule, regular-rational readback, RealUp
+seal, and completion-facing handoff;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, $\BHist$, $\hsame$, $\Cont$,
+and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RealCompletionWitnessExtractorUp}$ row.
+\end{enumerate}
+The carrier accepts exactly those packets whose completion-facing handoff is
+read through the same finite dyadic ledger, selected windows, modulus schedule,
+regular-rational witness, RealUp seal, transport rows, continuation rows, and
+local certificate.
+\end{definition}
+
+\begin{theorem}[Real completion witness-extractor NameCert obligations]
+\label{thm:real-completion-witness-extractor-namecert-obligations}
+The local $\NameCert_{\RealCompletionWitnessExtractorUp}$ surface consists of
+carrier admission for the packet $X=(D,W,M,Q,L,S,H,C,P,N)$, selected-window
+admission through $D,W,M$, regular-rational readback through $Q$, RealUp seal
+handoff through $L$, completion-facing handoff through $S$, componentwise
+transport through $H$, displayed route replay through $C$, package provenance
+through $P$, local naming through $N$, and non-escape for quotient streams,
+selected host limits, host real equality, choice data, and ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. The displayed packet lists the dyadic tolerance ledger,
+selected window family, modulus schedule, regular-rational readback, RealUp
+seal, completion-facing handoff, transports, routes, provenance, and local
+certificate.
+
+The selected-window obligation is read first. The route from $D$ through
+$W$ and $M$ fixes the finite observations and the precision schedule before
+any regular-rational witness can be exported.
+
+The readback and seal obligations then factor through $Q,L,S$ in that order.
+The rows $H$ and $C$ preserve this order componentwise, while $P$ and $N$
+record the same finite packet as the local NameCert surface.
+
+No coordinate of the carrier names quotient stream equality, a selected host
+limit, host real equality, choice data, or ambient completeness. Those
+conclusions therefore cannot be read from the witness extractor.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor diagonal handoff]
+\label{thm:real-completion-witness-extractor-diagonal-handoff}
+Every Real Completeness diagonal-limit consumer of an accepted
+$\RealCompletionWitnessExtractorUp$ packet receives exactly the finite handoff
+$$
+D,W,M,Q,L,S,H,C,P,N.
+$$
+The handoff presents the dyadic tolerance ledger, selected stream windows,
+modulus schedule, regular-rational witness row, RealUp seal, completion-facing
+seal, displayed $\hsame$ transports, displayed $\Cont$ routes, package
+provenance, and local naming row. It supplies no independent completion
+operator and no equality of quotient real names.
+\end{theorem}
+\begin{proof}
+Start with the selected-window side of the carrier. The diagonal route can
+inspect $D,W,M$ only as the displayed finite schedule for the requested
+precision.
+
+Next read the regular-rational witness $Q$. It is attached to the same
+selected windows and dyadic ledger, so the consumer cannot choose a second
+window family or a second modulus schedule.
+
+Finally pass through the RealUp seal $L$ and the completion-facing handoff
+$S$. The transport, continuation, provenance, and local naming rows keep the
+handoff inside the same finite packet, and the carrier has no quotient-real
+or ambient-completion coordinate.
+\end{proof}
+
+\begin{theorem}[Real completion witness-extractor non-escape]
+\label{thm:real-completion-witness-extractor-nonescape}
+Every $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, or completion-facing
+consumer of an accepted $\RealCompletionWitnessExtractorUp$ packet factors
+through $D,W,M,Q,L,S,H,C,P,N$. The packet exports no quotient stream equality,
+no selected host limit, no host real equality, no arbitrary choice of a
+diagonal subsequence, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations. They place every consumer-visible read on the
+same carrier coordinates: dyadic tolerance ledger, selected windows, modulus
+schedule, regular-rational witness, RealUp seal, completion-facing handoff,
+transport rows, route rows, provenance, and local name.
+
+For a stream or regular-rational consumer, the route stops at $W,M,Q$. For a
+RealUp or completion-facing consumer, the route continues through $L$ and
+$S$ after the same window and tolerance rows have already been fixed.
+
+The excluded conclusions require rows not present in
+\autoref{def:real-completion-witness-extractor-carrier}. Since $H,C,P,N$
+only transport, replay, package, and name the displayed coordinates, no
+consumer can escape the finite witness packet.
+\end{proof}
+
+\closureat{RealCompletionWitnessExtractorUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionWitnessExtractorUp}
+  \constructivestory{A $\RealCompletionWitnessExtractorUp$ packet is generated from a dyadic tolerance ledger, selected StreamNameUp windows, a modulus schedule, a RegSeqRat readback row, a RealUp seal row, a completion-facing handoff row, displayed hsame transports, Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-witness-extractor-carrier}, \autoref{thm:real-completion-witness-extractor-namecert-obligations}, \autoref{thm:real-completion-witness-extractor-diagonal-handoff}, and \autoref{thm:real-completion-witness-extractor-nonescape} bind the finite diagonal witness-extractor packet for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, arbitrary diagonal choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selected-window admission, regular-rational readback, RealUp seal handoff, completion-facing handoff, componentwise transport, route replay, package provenance, local naming, and non-escape for the same witness packet.}
+\end{closurestatus}
