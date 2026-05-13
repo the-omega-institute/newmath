@@ -2,6 +2,7 @@ import BEDC.MetaCIC.Syntax
 import BEDC.MetaCIC.Syntax.Size
 import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.GeneratorClosure
+import BEDC.MetaCIC.GeneratorClosureExamples
 import BEDC.MetaCIC.ClosedTerm.Helpers
 import BEDC.MetaCIC.Beta
 import BEDC.MetaCIC.Confluence.Core
