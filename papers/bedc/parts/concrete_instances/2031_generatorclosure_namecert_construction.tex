@@ -102,6 +102,42 @@ Use continuation witness preservation from \autoref{thm:generator-closure-contin
 For a route without that witness, the carrier exposes no generated closure coordinate. The read is therefore recorded as a $\mathsf{GAP}$ boundary by the package provenance and cannot be repacked by $N$ as an accepted generated row.
 \end{proof}
 
+\begin{theorem}[GeneratorClosure authorized-row exhaustion]
+\label{thm:generator-closure-authorized-row-exhaustion}
+Every exported generated row of an accepted $\GeneratorClosureUp$ packet factors through the displayed generator row $G$, constructor-list provenance $L$, authorized-row ledger $A$, continuation-witness ledger $W$, and the finite constructor-list provenance carried by $L$. No generated row is exported from a rule outside the displayed constructor list.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:generatorclosure-carrier-obligation}. It identifies the only carrier rows that can export generated closure data and places every exported closure witness in the finite packet $G,L,A,Q,W,H,C,P,N$.
+
+Use \autoref{thm:generator-closure-classifier-stability} to transport the authorized generator row and constructor-list provenance componentwise. Since classifier transport preserves the same $G$ and $L$ surface, it cannot create a second source of generated rows.
+
+Finally apply \autoref{thm:generatorclosure-ledger-obligation}. Its ledger boundary sends every accepted read through $A$ or $W$ and records every read without the required constructor-list witness as a $\mathsf{GAP}$ boundary.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure Cont route GAP separation]
+\label{thm:generator-closure-cont-route-gap-separation}
+Every displayed $\Cont$ route of an accepted $\GeneratorClosureUp$ packet either preserves the constructor-list witness carried by $L$ or lands in the displayed $\mathsf{GAP}$ boundary. A continuation route never becomes a free induction rule and never exports a generated row without the constructor-list witness.
+\end{theorem}
+\begin{proof}
+Read the route through \autoref{thm:generator-closure-continuation-witness}. A finite extension that keeps the displayed generator row, constructor-list provenance, authorized ledger, classifier row, and local name preserves the witness already stored in $W$.
+
+If the route lacks that witness, the same theorem records the attempted read as a $\mathsf{GAP}$ ledger boundary. The carrier has no coordinate for an external induction rule, so the missing witness cannot be recovered from another row.
+
+Apply \autoref{thm:generator-closure-namecert-obligations} to repack the two outcomes as the local certificate surface. The $\Cont$ route is therefore separated into witness-preserving reads and displayed $\mathsf{GAP}$ reads.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure NameCert public consumer boundary]
+\label{thm:generator-closure-namecert-public-consumer-boundary}
+The public consumer boundary for an accepted $\GeneratorClosureUp$ packet is exhausted by the displayed $\BHist$ carrier, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, $\mathsf{GAP}$ non-escape rows, and the local $\NameCert_{\GeneratorClosureUp}$ row. Every public read of a generated row factors through the authorized generator row $G$, constructor-list provenance $L$, authorized-row ledger $A$, continuation witness $W$, and the separated $\mathsf{GAP}$ boundary.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:generator-closure-authorized-row-exhaustion}. It fixes the generated-row surface to $G,L,A,W$ and the finite constructor-list provenance, so a public consumer has no generated-row source outside the displayed packet.
+
+Next use \autoref{thm:generator-closure-cont-route-gap-separation}. It separates every continuation read into a witness-preserving route or a displayed $\mathsf{GAP}$ boundary, excluding free induction rules from the consumer surface.
+
+Now combine \autoref{thm:generator-closure-namecert-obligations} with \autoref{thm:generatorclosure-ledger-obligation}. The NameCert rows package carrier admission, provenance, exactness, constructor-list reads, and $\mathsf{GAP}$ non-escape, while the ledger theorem routes every exported read through the same finite rows.
+\end{proof}
+
 \closureat{GeneratorClosureUp}{seedStr}
 \closureat{GeneratorClosureUp}{obligationStr}
 \closureat{GeneratorClosureUp}{scopedStr}
