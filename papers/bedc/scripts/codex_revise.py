@@ -1898,6 +1898,20 @@ def verify_worktree_commits(
             logger.error(f"[P{wt.round_number}] AI MISSING FIELDFAITHFUL: {v}")
         return False, new
 
+    # Gate FP — \origin{ai} chapter missing \falsifiablePrediction.
+    fp_v = gate_results.get("ai-missing-falsifiable", [])
+    if fp_v:
+        for v in fp_v[:10]:
+            logger.error(f"[P{wt.round_number}] AI MISSING FALSIFIABLE: {v}")
+        return False, new
+
+    # Gate IW — \origin{ai} chapter missing \independenceWitness.
+    iw_v = gate_results.get("ai-missing-independence", [])
+    if iw_v:
+        for v in iw_v[:10]:
+            logger.error(f"[P{wt.round_number}] AI MISSING INDEPENDENCE: {v}")
+        return False, new
+
     # Gate F — PDF compile
     ok, tail = run_pdf_build(wt)
     if not ok:
