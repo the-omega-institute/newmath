@@ -412,6 +412,44 @@ theorem CertificateCompilerCarrier_bridge_consumer_exhaustion [AskSetup] [Packag
       exact ⟨sourceRow.right.right, bridgeLedger⟩
   }
 
+theorem CertificateCompilerCarrier_composition_stability [AskSetup] [PackageSetup]
+    {source middle target graph01 landing01 routes01 transport01 provenance01 cert01 graph12
+      landing12 routes12 transport12 provenance12 cert12 compositeLanding compositeCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerCarrier source middle graph01 landing01 routes01 transport01
+        provenance01 cert01 bundle pkg ->
+      CertificateCompilerCarrier middle target graph12 landing12 routes12 transport12
+        provenance12 cert12 bundle pkg ->
+        Cont landing01 graph12 compositeLanding ->
+          Cont compositeLanding routes12 target ->
+            Cont provenance01 target compositeCert ->
+              PkgSig bundle compositeCert pkg ->
+                UnaryHistory source ∧ UnaryHistory middle ∧ UnaryHistory target ∧
+                  UnaryHistory graph01 ∧ UnaryHistory graph12 ∧
+                    UnaryHistory compositeLanding ∧ UnaryHistory compositeCert ∧
+                      Cont source graph01 landing01 ∧
+                        Cont landing01 graph12 compositeLanding ∧
+                          Cont compositeLanding routes12 target ∧
+                            Cont provenance01 target compositeCert ∧
+                              PkgSig bundle compositeCert pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro carrier01 carrier12 landingGraphComposite compositeRoutesTarget provenanceTargetComposite
+    compositePkg
+  obtain ⟨sourceUnary, middleUnary, graph01Unary, landing01Unary, _routes01Unary,
+    _transport01Unary, provenance01Unary, sourceGraphLanding, _landingRoutesMiddle,
+    _provenanceMiddleCert, _cert01MatchesEndpoint, _cert01Pkg⟩ := carrier01
+  obtain ⟨_middleUnary', targetUnary, graph12Unary, _landing12Unary, routes12Unary,
+    _transport12Unary, _provenance12Unary, _middleGraphLanding, _landingRoutesTarget,
+    _provenanceTargetCert, _cert12MatchesEndpoint, _cert12Pkg⟩ := carrier12
+  have compositeLandingUnary : UnaryHistory compositeLanding :=
+    unary_cont_closed landing01Unary graph12Unary landingGraphComposite
+  have compositeCertUnary : UnaryHistory compositeCert :=
+    unary_cont_closed provenance01Unary targetUnary provenanceTargetComposite
+  exact
+    ⟨sourceUnary, middleUnary, targetUnary, graph01Unary, graph12Unary,
+      compositeLandingUnary, compositeCertUnary, sourceGraphLanding, landingGraphComposite,
+      compositeRoutesTarget, provenanceTargetComposite, compositePkg⟩
+
 theorem CertificateCompilerCarrier_bridge_associativity_split_index [AskSetup] [PackageSetup]
     {source target graph landing routes transport provenance cert identityTarget compositeTarget
       tripleTarget bridgeRead exported : BHist}
