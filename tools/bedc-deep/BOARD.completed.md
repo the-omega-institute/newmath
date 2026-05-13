@@ -18210,3 +18210,28 @@ Rationale:
 This lands as a small core lemma next to the existing signature append generation, inversion, decomposition, and component-determinacy theorems. It is close to the established append-splitting surface, so novelty is only threshold-level, but it states a distinct fixed-source uniqueness property for two recovered cut pairs rather than an existence decomposition or a sameSig comparison between two sources. The local files are ordinary content files under the line cap and the target can be expressed as a single deterministic implication under the existing bundle-local policy hypotheses.
 
 ---
+
+### B-722 - KernelAcceptanceBuildReplay replay-route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | KernelAcceptanceBuildReplay replay-route determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+For accepted KernelAcceptanceBuildReplay carriers, agreement on the displayed route coordinate and rows G,A,B,S,Q,H,P,N implies that replay consumers reach the same build-command row, replay-result row, and axiom-query handoff row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4010_kernelacceptancebuildreplay_namecert_construction.tex`
+
+Rationale:
+This is a concrete finite-packet determinacy obligation inside an existing concrete_instances chapter. The current chapter defines the generated-candidate, accepted-declaration, build-command, replay-result, axiom-query handoff, transport, route, provenance, and naming rows, and its closure upgrade path explicitly names replay-route determinacy as a missing obligation. It is not a marker-only or closurestatus task, the landing file is short and safe, and the target is distinct from existing BOARD entries because it localizes replay-route determinacy to the KernelAcceptanceBuildReplay packet rather than restating generic kernel audit witness or axiom-query ledger non-escape.
+
+---
