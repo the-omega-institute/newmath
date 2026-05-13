@@ -690,11 +690,18 @@ def trigger_oracle_board_refill() -> None:
     BOARD unfinished count is low and probe alone isn't refilling.
     """
     supervisor_log("triggering oracle_board_refill")
-    log_path = SUPERVISOR_LOG_DIR / f"refill_{_now_tag_safe()}.log"
+    run_id = _now_tag_safe()
+    log_path = SUPERVISOR_LOG_DIR / f"refill_{run_id}.log"
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with open(log_path, "ab") as logf:
         subprocess.Popen(
-            ["python3", str(SCRIPT_DIR / "oracle_board_refill.py"), "--no-attach-pdf"],
+            [
+                "python3",
+                str(SCRIPT_DIR / "oracle_board_refill.py"),
+                "--no-attach-pdf",
+                "--run-id",
+                run_id,
+            ],
             cwd=str(REPO_ROOT),
             stdout=logf,
             stderr=subprocess.STDOUT,
