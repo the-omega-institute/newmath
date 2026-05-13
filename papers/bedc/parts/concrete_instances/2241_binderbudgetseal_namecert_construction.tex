@@ -76,15 +76,60 @@ Now assemble the consumer packet. The displayed transports, continuation routes,
 The remaining exclusions follow from the same carrier inventory. No coordinate supplies full compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness, so the handoff is exactly the finite binder-budget boundary for shift and substitution non-escape.
 \end{proof}
 
+\begin{definition}[BinderBudgetSeal obligation surface]
+\label{def:binder-budget-seal-obligation-surface}
+The $\BinderBudgetSealUp$ obligation surface is the single-carrier packet
+$$
+B=(D,T,V,S,U,H,C,P,N)
+$$
+of \autoref{def:binder-budget-seal-carrier}, equipped with four displayed rows: carrier admission for the binder-depth boundary and closed term; route admission for the shift row $S$ and substitution row $U$; compiler-boundary handoff through the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows; and non-escape for fresh variables, host capture-avoidance primitives, quotient syntax equality, compiler-stage equality, and ambient host soundness. The TasteGate alignment marker above is read as a single-carrier constraint on this packet, not as permission to introduce a second compiler carrier.
+\end{definition}
+
+\begin{theorem}[BinderBudgetSeal carrier admission]
+\label{thm:binder-budget-seal-carrier-admission}
+An accepted $\BinderBudgetSealUp$ obligation surface admits exactly the carrier rows $D,T,V,S,U,H,C,P,N$. The binder-depth row $D$, term row $T$, and payload row $V$ are inspected only through the shift and substitution routes $S,U$ and the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows; the AI-origin TasteGate marker keeps this admission on the same carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:binder-budget-seal-carrier}. The rows named by the obligation surface are precisely the displayed finite coordinates.
+
+Use the TasteGate alignment recorded after \autoref{thm:binder-budget-seal-namecert-obligations} as the carrier discipline. It aligns the checked marker with the same packet $B$, so carrier admission cannot allocate a separate compiler input, output, or ambient syntax object.
+
+The remaining access paths are the route rows and certificate rows already named by the carrier. Thus admission is exactly the single finite surface $D,T,V,S,U,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[BinderBudgetSeal compiler boundary]
+\label{thm:binder-budget-seal-compiler-boundary}
+Every compiler or self-compilation read of an accepted $\BinderBudgetSealUp$ obligation surface factors through the closed-boundary routes $S$ and $U$ before it may inspect the term row $T$ or payload row $V$. The boundary exports the same carrier $B=(D,T,V,S,U,H,C,P,N)$ and no second carrier for compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness.
+\end{theorem}
+\begin{proof}
+Start with the self-compile handoff of \autoref{thm:binder-budget-seal-self-compile-handoff}. It already requires a consumer to receive the binder-depth, term, payload, shift, substitution, transport, continuation, package, and naming rows as one packet.
+
+The shift and substitution non-escape theorems force the two compiler-facing reads through $S$ and $U$. These rows both reference the same binder-depth boundary $D$, so the compiler boundary is not a separate stage carrier.
+
+Finally apply the obligation surface. Since it lists no coordinate for compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness, such data cannot be exported by the boundary.
+\end{proof}
+
+\begin{theorem}[BinderBudgetSeal non-escape]
+\label{thm:binder-budget-seal-non-escape}
+Every exported read of an accepted $\BinderBudgetSealUp$ obligation surface is exhausted by $D,T,V,S,U,H,C,P,N$. A request for a fresh free variable, a host capture-avoidance primitive, a quotient syntax equality, a compiler-stage equality, a normalization theorem, or ambient host soundness leaves the carrier and is not returned as BinderBudgetSeal evidence.
+\end{theorem}
+\begin{proof}
+Read the request through the continuation routes in $C$. If it asks for the displayed boundary, term, payload, shift, substitution, transport, provenance, or naming rows, the finite packet supplies that row.
+
+The shift and substitution non-escape theorems handle the two route cases. They return the same term row through $S$ or $U$ and do not allocate new free-variable or host binder data.
+
+All remaining requests are absent from the obligation surface. The single-carrier TasteGate discipline and the compiler-boundary theorem keep those absent requests from being repacked as a second carrier or as compiler-stage evidence.
+\end{proof}
+
 \closureat{BinderBudgetSealUp}{seedStr}
 
 \begin{closurestatus}{\BinderBudgetSealUp}
   \constructivestory{A $\BinderBudgetSealUp$ packet is generated from a binder-depth boundary, a MetaCIC term row, a substitution payload row, shift and substitution non-escape routes, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:binder-budget-seal-carrier}, \autoref{thm:binder-budget-seal-namecert-obligations}, \autoref{thm:binder-budget-seal-shift-nonescape}, \autoref{thm:binder-budget-seal-substitution-nonescape}, and \autoref{thm:binder-budget-seal-self-compile-handoff} bind the closed-term substitution boundary as finite NameCert data.}
+  \scopeclosed{\autoref{def:binder-budget-seal-carrier}, \autoref{def:binder-budget-seal-obligation-surface}, \autoref{thm:binder-budget-seal-namecert-obligations}, \autoref{thm:binder-budget-seal-carrier-admission}, \autoref{thm:binder-budget-seal-compiler-boundary}, and \autoref{thm:binder-budget-seal-non-escape} bind the closed-term substitution boundary as finite NameCert obligation data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, full compiler closure, normalization, definitional equality, quotient syntax equality, or host soundness.}
-  \upgradepath{Obligation closure requires Lean encoding of the displayed carrier and checked theorems for shift non-escape, substitution non-escape, and self-compilation handoff.}
+  \upgradepath{Obligation closure requires the chapter TasteGate grounding together with Lean encoding of the displayed carrier and checked theorems for carrier admission, compiler-boundary handoff, and non-escape on the same finite packet.}
 \end{closurestatus}
