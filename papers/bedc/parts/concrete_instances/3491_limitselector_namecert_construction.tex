@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\LimitSelectorUp$}
+\label{ch:concrete-instances-limitselector-namecert}
+\origin{human}
+
+The $\LimitSelectorUp$ surface packages the finite selector used by the diagonal-limit construction of \autoref{def:real-completeness-diagonal-limit}. It names the precision request, the modulus-selected member, the finite observation window, the regular-rational readback, the RealUp seal, and the BEDC transport rows as one inspectable packet. It is a selector certificate over displayed finite data, not a host-selected limit or a quotient of streams.
+
+\begin{definition}[LimitSelector carrier]
+\label{def:limit-selector-carrier}
+A $\LimitSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,n,\mu,k,W,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRat$ input row for the regular Cauchy sequence whose diagonal representative is being read;
+\item $n$ is the unary precision request row;
+\item $\mu$ is the displayed modulus row assigning a finite selector bound to each unary precision request;
+\item $k$ is the selected index row, fixed as the value of $\mu$ at the precision requested by $n$;
+\item $W$ is the finite $\StreamNameUp$ window row read from the selected member and the selected diagonal index;
+\item $D$ is the dyadic readback row produced from the finite window;
+\item $S$ is the $\RealUp$ seal row reached after the $\RegSeqRatUp$ readback and dyadic endpoint rows are fixed;
+\item $H$ records componentwise $\hsame$ transports for $R,n,\mu,k,W,D,S$ and the local structural rows;
+\item $C$ records the displayed $\Cont$ route from the precision request through the modulus, selected index, window, dyadic readback, and seal rows;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRat$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local certificate rows;
+\item $N$ is the local $\NameCert_{\LimitSelectorUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the displayed rows $R,n,\mu,k,W,D,S,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[LimitSelector NameCert obligations]
+\label{thm:limit-selector-namecert-obligations}
+The local $\NameCert_{\LimitSelectorUp}$ surface for \autoref{def:limit-selector-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission, requiring every accepted selector object to expose the packet $L=(R,n,\mu,k,W,D,S,H,C,P,N)$;
+\item modulus-selector exactness, requiring the selected index row $k$ to be read from the displayed modulus $\mu$ at the unary precision request $n$;
+\item finite-window readback, requiring the diagonal observation to pass through the finite $\StreamNameUp$ window $W$ and dyadic readback row $D$ before any regular-rational read is exported;
+\item seal handoff, requiring the $\RealUp$ row $S$ to be reached only through the selected finite witness route $n,\mu,k,W,D$ and the displayed transport, route, package, and naming rows;
+\item non-escape, requiring the selector to export no host-selected limit, quotient stream equality, countable choice data, ambient completeness principle, or unrecorded diagonal observation.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:limit-selector-carrier}. The input, precision, modulus, selected index, window, dyadic readback, seal, transport, continuation, provenance, and local naming rows are all displayed coordinates.
+
+Modulus-selector exactness reads $n$ and $\mu$ before the index row $k$ is available. Thus the selected index is a row of the packet, fixed by the displayed modulus route, rather than an external choice of a subsequence.
+
+The finite-window readback then routes the selected member through $W$ and $D$. Since the window and dyadic rows are named before the readback is exported, a consumer cannot replace them by a quotient stream or by an unbounded host observation.
+
+Finally the seal handoff and non-escape clauses inspect $S,H,C,P,N$. These rows carry the selected finite witness route into the RealUp seal and provide no coordinate for host-selected limits, choice data, ambient completeness, or an unrecorded diagonal observation.
+\end{proof}
+
+\begin{theorem}[LimitSelector finite witness route]
+\label{thm:limit-selector-finite-witness-route}
+Every diagonal-limit consumer of an accepted $\LimitSelectorUp$ packet factors through the selected finite witness route
+$$
+n,\mu,k,W,D,S,H,C,P,N.
+$$
+The consumer may inspect the precision request, displayed modulus, selected index, finite stream window, dyadic readback, RealUp seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming row. It receives no host-selected limit, no quotient-stream equality, no countable-choice selector, and no ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the consumer route $C$. Its first reads are the precision request $n$ and the modulus row $\mu$, followed by the selected index $k$ named by the modulus-selector obligation of \autoref{thm:limit-selector-namecert-obligations}.
+
+Next the consumer reads the finite observation data. The selected index opens only the displayed window $W$, and the dyadic row $D$ is the readback attached to that window.
+
+Finally the route reaches the seal row $S$ and the BEDC structural rows $H,C,P,N$. The carrier has no second coordinate for a host-selected limit, quotient-stream equality, countable choice, or ambient completeness, so every diagonal-limit read remains inside the selected finite witness route.
+\end{proof}
+
+\closureat{LimitSelectorUp}{seedStr}
+
+\begin{closurestatus}{\LimitSelectorUp}
+  \constructivestory{A $\LimitSelectorUp$ packet is generated from a RegSeqRat input row, a unary precision request, a displayed modulus, a selected finite index, a StreamName window, dyadic readback, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:limit-selector-carrier}, \autoref{thm:limit-selector-namecert-obligations}, and \autoref{thm:limit-selector-finite-witness-route} bind the finite selector route used by the diagonal-limit construction.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, real completeness, quotient-stream equality, host real equality, countable choice, host-selected limits, or a public standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, modulus-selector exactness, finite-window readback, seal handoff, and non-escape for the same finite selector packet.}
+\end{closurestatus}
