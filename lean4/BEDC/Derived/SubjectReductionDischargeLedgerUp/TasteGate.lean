@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
+namespace BEDC.Derived.SubjectReductionDischargeLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,8 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive SubjectReductionDischargeLedgerUp : Type where
   | mk :
-      (beta appArg lambdaDomain piDomain route transport replays provenance
-        nameCert : BHist) →
+      (beta appArg lambdaDomain piDomain route transport replay provenance name : BHist) →
       SubjectReductionDischargeLedgerUp
   deriving DecidableEq
 
@@ -28,10 +27,11 @@ def subjectReductionDischargeLedgerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (subjectReductionDischargeLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (subjectReductionDischargeLedgerDecodeBHist tail)
 
-private theorem subjectReductionDischargeLedgerDecode_encode_bhist :
+private theorem subjectReductionDischargeLedger_decode_encode_bhist :
     ∀ h : BHist,
       subjectReductionDischargeLedgerDecodeBHist
-        (subjectReductionDischargeLedgerEncodeBHist h) = h := by
+          (subjectReductionDischargeLedgerEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -46,7 +46,7 @@ def subjectReductionDischargeLedgerToEventFlow :
     SubjectReductionDischargeLedgerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | SubjectReductionDischargeLedgerUp.mk beta appArg lambdaDomain piDomain route transport
-      replays provenance nameCert =>
+      replay provenance name =>
       [[BMark.b0],
         subjectReductionDischargeLedgerEncodeBHist beta,
         [BMark.b1, BMark.b0],
@@ -60,13 +60,13 @@ def subjectReductionDischargeLedgerToEventFlow :
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         subjectReductionDischargeLedgerEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        subjectReductionDischargeLedgerEncodeBHist replays,
+        subjectReductionDischargeLedgerEncodeBHist replay,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         subjectReductionDischargeLedgerEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        subjectReductionDischargeLedgerEncodeBHist nameCert]
+        subjectReductionDischargeLedgerEncodeBHist name]
 
 def subjectReductionDischargeLedgerFromEventFlow :
     EventFlow → Option SubjectReductionDischargeLedgerUp
@@ -111,7 +111,7 @@ def subjectReductionDischargeLedgerFromEventFlow :
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | replays :: rest13 =>
+                                                      | replay :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -123,8 +123,11 @@ def subjectReductionDischargeLedgerFromEventFlow :
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | nameCert :: rest17 =>
-                                                                          match rest17 with
+                                                                      | name ::
+                                                                          rest17 =>
+                                                                          match
+                                                                            rest17
+                                                                          with
                                                                           | [] =>
                                                                               some
                                                                                 (SubjectReductionDischargeLedgerUp.mk
@@ -141,21 +144,23 @@ def subjectReductionDischargeLedgerFromEventFlow :
                                                                                   (subjectReductionDischargeLedgerDecodeBHist
                                                                                     transport)
                                                                                   (subjectReductionDischargeLedgerDecodeBHist
-                                                                                    replays)
+                                                                                    replay)
                                                                                   (subjectReductionDischargeLedgerDecodeBHist
                                                                                     provenance)
                                                                                   (subjectReductionDischargeLedgerDecodeBHist
-                                                                                    nameCert))
-                                                                          | _ :: _ => none
+                                                                                    name))
+                                                                          | _ :: _ =>
+                                                                              none
 
 private theorem subjectReductionDischargeLedger_round_trip :
     ∀ x : SubjectReductionDischargeLedgerUp,
       subjectReductionDischargeLedgerFromEventFlow
-        (subjectReductionDischargeLedgerToEventFlow x) = some x := by
+          (subjectReductionDischargeLedgerToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk beta appArg lambdaDomain piDomain route transport replays provenance nameCert =>
+  | mk beta appArg lambdaDomain piDomain route transport replay provenance name =>
       change
         some
           (SubjectReductionDischargeLedgerUp.mk
@@ -172,28 +177,29 @@ private theorem subjectReductionDischargeLedger_round_trip :
             (subjectReductionDischargeLedgerDecodeBHist
               (subjectReductionDischargeLedgerEncodeBHist transport))
             (subjectReductionDischargeLedgerDecodeBHist
-              (subjectReductionDischargeLedgerEncodeBHist replays))
+              (subjectReductionDischargeLedgerEncodeBHist replay))
             (subjectReductionDischargeLedgerDecodeBHist
               (subjectReductionDischargeLedgerEncodeBHist provenance))
             (subjectReductionDischargeLedgerDecodeBHist
-              (subjectReductionDischargeLedgerEncodeBHist nameCert))) =
+              (subjectReductionDischargeLedgerEncodeBHist name))) =
           some
             (SubjectReductionDischargeLedgerUp.mk beta appArg lambdaDomain piDomain route
-              transport replays provenance nameCert)
-      rw [subjectReductionDischargeLedgerDecode_encode_bhist beta,
-        subjectReductionDischargeLedgerDecode_encode_bhist appArg,
-        subjectReductionDischargeLedgerDecode_encode_bhist lambdaDomain,
-        subjectReductionDischargeLedgerDecode_encode_bhist piDomain,
-        subjectReductionDischargeLedgerDecode_encode_bhist route,
-        subjectReductionDischargeLedgerDecode_encode_bhist transport,
-        subjectReductionDischargeLedgerDecode_encode_bhist replays,
-        subjectReductionDischargeLedgerDecode_encode_bhist provenance,
-        subjectReductionDischargeLedgerDecode_encode_bhist nameCert]
+              transport replay provenance name)
+      rw [subjectReductionDischargeLedger_decode_encode_bhist beta,
+        subjectReductionDischargeLedger_decode_encode_bhist appArg,
+        subjectReductionDischargeLedger_decode_encode_bhist lambdaDomain,
+        subjectReductionDischargeLedger_decode_encode_bhist piDomain,
+        subjectReductionDischargeLedger_decode_encode_bhist route,
+        subjectReductionDischargeLedger_decode_encode_bhist transport,
+        subjectReductionDischargeLedger_decode_encode_bhist replay,
+        subjectReductionDischargeLedger_decode_encode_bhist provenance,
+        subjectReductionDischargeLedger_decode_encode_bhist name]
 
 private theorem subjectReductionDischargeLedgerToEventFlow_injective
     {x y : SubjectReductionDischargeLedgerUp} :
     subjectReductionDischargeLedgerToEventFlow x =
-      subjectReductionDischargeLedgerToEventFlow y → x = y := by
+        subjectReductionDischargeLedgerToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -219,16 +225,12 @@ instance subjectReductionDischargeLedgerChapterTasteGate :
     intro x
     change
       subjectReductionDischargeLedgerFromEventFlow
-        (subjectReductionDischargeLedgerToEventFlow x) = some x
+          (subjectReductionDischargeLedgerToEventFlow x) =
+        some x
     exact subjectReductionDischargeLedger_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (subjectReductionDischargeLedgerToEventFlow_injective heq)
-
-def taste_gate : ChapterTasteGate SubjectReductionDischargeLedgerUp :=
-  by
-    -- BEDC touchpoint anchor: BHist BMark
-    exact subjectReductionDischargeLedgerChapterTasteGate
 
 instance subjectReductionDischargeLedgerFieldFaithful :
     FieldFaithful SubjectReductionDischargeLedgerUp where
@@ -236,34 +238,53 @@ instance subjectReductionDischargeLedgerFieldFaithful :
   fields := fun x =>
     match x with
     | SubjectReductionDischargeLedgerUp.mk beta appArg lambdaDomain piDomain route transport
-        replays provenance nameCert =>
-        [beta, appArg, lambdaDomain, piDomain, route, transport, replays, provenance, nameCert]
+        replay provenance name =>
+        [beta, appArg, lambdaDomain, piDomain, route, transport, replay, provenance, name]
   field_faithful := by
     intro x y h
     cases x with
-    | mk beta₁ appArg₁ lambdaDomain₁ piDomain₁ route₁ transport₁ replays₁ provenance₁
-        nameCert₁ =>
+    | mk beta1 appArg1 lambdaDomain1 piDomain1 route1 transport1 replay1 provenance1
+        name1 =>
         cases y with
-        | mk beta₂ appArg₂ lambdaDomain₂ piDomain₂ route₂ transport₂ replays₂ provenance₂
-            nameCert₂ =>
-            simp only [] at h
-            cases h
+        | mk beta2 appArg2 lambdaDomain2 piDomain2 route2 transport2 replay2 provenance2
+            name2 =>
+            injection h with hBeta t1
+            injection t1 with hAppArg t2
+            injection t2 with hLambdaDomain t3
+            injection t3 with hPiDomain t4
+            injection t4 with hRoute t5
+            injection t5 with hTransport t6
+            injection t6 with hReplay t7
+            injection t7 with hProvenance t8
+            injection t8 with hName _
+            cases hBeta
+            cases hAppArg
+            cases hLambdaDomain
+            cases hPiDomain
+            cases hRoute
+            cases hTransport
+            cases hReplay
+            cases hProvenance
+            cases hName
             rfl
 
 theorem SubjectReductionDischargeLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       subjectReductionDischargeLedgerDecodeBHist
-        (subjectReductionDischargeLedgerEncodeBHist h) = h) ∧
+          (subjectReductionDischargeLedgerEncodeBHist h) =
+        h) ∧
       (∀ x : SubjectReductionDischargeLedgerUp,
         subjectReductionDischargeLedgerFromEventFlow
-          (subjectReductionDischargeLedgerToEventFlow x) = some x) ∧
+            (subjectReductionDischargeLedgerToEventFlow x) =
+          some x) ∧
         (∀ x y : SubjectReductionDischargeLedgerUp,
           subjectReductionDischargeLedgerToEventFlow x =
-            subjectReductionDischargeLedgerToEventFlow y → x = y) ∧
+              subjectReductionDischargeLedgerToEventFlow y →
+            x = y) ∧
           subjectReductionDischargeLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact subjectReductionDischargeLedgerDecode_encode_bhist
+  · exact subjectReductionDischargeLedger_decode_encode_bhist
   · constructor
     · exact subjectReductionDischargeLedger_round_trip
     · constructor
@@ -271,4 +292,4 @@ theorem SubjectReductionDischargeLedgerTasteGate_single_carrier_alignment :
         exact subjectReductionDischargeLedgerToEventFlow_injective heq
       · rfl
 
-end BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
+end BEDC.Derived.SubjectReductionDischargeLedgerUp

@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\UnaryContMonoidUp$}
+\label{ch:concrete-instances-unarycontmonoid-namecert}
+\origin{human}
+
+The $\UnaryContMonoidUp$ packet is the concrete monoid-shaped reading of the BEDC unary continuation calculus. It realizes the continuation-as-computation vision of \autoref{ch:visions-computation-as-continuation} on the finite $\BHist$ surface: unary histories are the carrier, $\Cont$ composition is the operation, the empty history is the unit, $\hsame$ is the classifier, and the local ledger records only displayed continuation rows.
+
+It is the monoid sibling of the Kleisli-style $\ContinuationMonadUp$ packet of \autoref{ch:concrete-instances-continuationmonad-namecert} and the category-shaped $\CategoryUp$ packet of \autoref{ch:concrete-instances-category-namecert}. The chapter does not introduce a host monoid primitive, quotient equality, or external algebraic carrier.
+
+\begin{definition}[Unary Cont monoid carrier]
+\label{def:unary-cont-monoid-carrier}
+A $\UnaryContMonoidUp$ carrier is a finite packet
+$$
+M=(U,\mu,e,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $U$ is the unary carrier row: a displayed history $h$ is admitted exactly through $\mathsf{UnaryHistory}(h)$.
+\item $\mu$ is the binary continuation operation row: for unary histories $h,k,r$, the product $\mu(h,k)=r$ is displayed by the continuation ledger $\ContR(h,k,r)$.
+\item $e$ is the unit row, fixed to the empty history $\emp$ with the displayed left and right unit continuations.
+\item $H$ records componentwise $\hsame$ transport for unary histories, continuation results, unit rows, and ledger entries.
+\item $C$ records the associativity and unit continuation ledgers for $\mu$, including the two parenthesized continuation routes over triples of unary histories.
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\mathsf{UnaryHistory}$, $\Cont$, $\hsame$, $\Pkg$, $\NameCert$, $\ContinuationMonadUp$, and $\CategoryUp$.
+\item $N$ is the local $\NameCert_{\UnaryContMonoidUp}$ row for carrier admission, classifier stability, operation closure, unit and associativity exactness, and ledger non-escape.
+\end{enumerate}
+Thus the carrier is the tuple $(U,\mu,e,H,C,P,N)$ with $U=\mathsf{UnaryHistory}$, $\mu$ given by $\Cont$ composition, and $e=\emp$. Every readable algebraic row is a displayed BEDC history row.
+\end{definition}
+
+\begin{theorem}[Unary Cont monoid NameCert obligations]
+\label{thm:unary-cont-monoid-namecert-obligations}
+The local $\NameCert_{\UnaryContMonoidUp}$ surface consists exactly of five finite obligations: carrier admission for the unary history row $U$; classifier stability under $\hsame$ transport; closure of $\mu$ under displayed $\Cont$ composition; left-unit, right-unit, and associativity exactness for the empty row and the continuation ledgers in $C$; and non-escape of the ledger through the provenance and local naming rows $P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the first coordinate of \autoref{def:unary-cont-monoid-carrier}. It accepts precisely unary histories and uses no carrier outside $\BHist$.
+
+Classifier stability is componentwise transport through $H$. The transported carrier row, operation row, unit row, and ledger row remain the same kind of displayed history data.
+
+Closure and exactness are the continuation laws already read by the sibling packets. The unit clauses are the empty-history laws of \autoref{lem:unary-continuation-unit}, and the associativity clause is the continuation associativity law of \autoref{lem:unary-continuation-associativity}, equivalently the monoid ledger summarized by \autoref{thm:history-continuation-monoid-laws}.
+
+Finally, $P$ and $N$ record only the named BEDC rows. Since no coordinate names a host monoid object, quotient product, or external equality, the local ledger cannot export anything beyond the unary continuation packet.
+\end{proof}
+
+\begin{theorem}[Unary Cont associativity]
+\label{thm:unary-cont-monoid-cont-associativity}
+For unary histories $a,b,c$ and displayed continuation results
+$$
+\ContR(a,b,ab)
+\quad\text{and}\quad
+\ContR(b,c,bc),
+$$
+the two continuation products
+$$
+\mu(\mu(a,b),c)
+\quad\text{and}\quad
+\mu(a,\mu(b,c))
+$$
+are classified together by $\hsame$ whenever both are read through the carrier of \autoref{def:unary-cont-monoid-carrier}. The empty history $\emp$ is a two-sided unit for the same operation.
+\end{theorem}
+\begin{proof}
+Read $\mu$ as displayed $\Cont$ composition. The left-associated product first consumes the ledger for $\ContR(a,b,ab)$ and then composes with $c$; the right-associated product first consumes the ledger for $\ContR(b,c,bc)$ and then composes from $a$.
+
+Apply the core continuation associativity row cited in \autoref{lem:unary-continuation-associativity}. It compares exactly these two parenthesized displayed routes by $\hsame$, so the two carrier results are classified together.
+
+For the unit rows, apply \autoref{lem:unary-continuation-unit}. The left and right products with $\emp$ read back to the original unary history under the same classifier. These facts are ledger entries in $C$, not host monoid equalities.
+\end{proof}
+
+\begin{theorem}[Unary Cont sibling dependency]
+\label{thm:unary-cont-monoid-sibling-dependency}
+The $\UnaryContMonoidUp$ packet is the monoid-shaped dependency sibling of $\ContinuationMonadUp$ and $\CategoryUp$: it consumes the continuation unit and associativity rows named by \autoref{ch:concrete-instances-continuationmonad-namecert}, agrees with the tail-composition reading used by \autoref{ch:concrete-instances-category-namecert}, and realizes the operational interpretation of \autoref{ch:visions-computation-as-continuation} without adding any host monoid primitive, quotient carrier, or non-BEDC operation.
+\end{theorem}
+\begin{proof}
+The continuation-as-computation chapter reads $\Cont$ as the small-step route and identifies tail append as the operational composite. The carrier of \autoref{def:unary-cont-monoid-carrier} stores exactly that route as $\mu$.
+
+The $\ContinuationMonadUp$ sibling supplies the same unit and associativity ledger for Kleisli-style two-step continuation reads. Forgetting source, middle, and target notation leaves the unary carrier, the binary continuation result, and the empty unit row.
+
+The $\CategoryUp$ sibling reads the same tails as hom-carrier composition. Forgetting object and arrow packaging leaves precisely the monoid-shaped operation on unary histories. Thus the dependency is a repackaging of existing continuation rows, with no additional algebraic primitive.
+\end{proof}
+
+\closureat{UnaryContMonoidUp}{seedStr}
+
+\begin{closurestatus}{\UnaryContMonoidUp}
+  \constructivestory{A $\UnaryContMonoidUp$ packet is generated from unary histories, displayed $\Cont$ composition rows, the empty-history unit, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:unary-cont-monoid-namecert-obligations} binds the concrete unary carrier, operation, unit, transport, provenance, and non-escape rows as a finite NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close commutativity, additive naming, host monoids, quotient products, arbitrary carrier monoids, or machine bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, operation closure, unit exactness, associativity exactness, classifier stability, and ledger non-escape for the named unary continuation monoid packet.}
+\end{closurestatus}
