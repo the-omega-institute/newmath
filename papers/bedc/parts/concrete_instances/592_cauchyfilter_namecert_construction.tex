@@ -140,3 +140,84 @@ surface is exhausted by the five listed obligations.
   \notclaimed{The chapter does not close real completeness, uniqueness of real endpoints, analytic filters, or a checked bridge to an external filter schema.}
   \upgradepath{Scoped closure requires formal carrier transport, refinement directedness, modulus readback, and the full finite handoff surface for $\RealUp$ consumers.}
 \end{closurestatus}
+
+\begin{definition}[CauchyFilter finite subfilterbase restriction datum]
+\label{def:cauchyfilter-finite-subfilterbase-restriction-datum}
+Let $F=(B,R,M,L,P)$ be an accepted $\CauchyFilterUp$ finite-filterbase
+carrier in the sense of \autoref{def:cauchyfilter-finite-filterbase-carrier}.
+A finite subfilterbase restriction datum for $F$ is a displayed finite sublist
+$B'\subseteq B$ together with two preservation rows:
+\begin{enumerate}
+\item refinement preservation: whenever $b_0$ and $b_1$ are displayed in $B'$
+and the row of $R$ for $(b_0,b_1)$ names a refined base packet $b_2$, the
+packet $b_2$ is displayed in $B'$ and the corresponding $\Cont$ and $\hsame$
+witnesses in $L$ are retained in the restricted ledger;
+\item modulus preservation: for every precision request admitted by the
+carrier, the base packet selected by the row $M$ is displayed in $B'$, and the
+associated dyadic-radius readback row of $L$ is retained in the restricted
+ledger.
+\end{enumerate}
+The restricted packet is
+$$
+F|_{B'}=(B',R|_{B'},M|_{B'},L|_{B'},P),
+$$
+where $R|_{B'}$ keeps exactly the refinement rows whose two inputs lie in
+$B'$, $M|_{B'}$ keeps the same precision-to-base selections, $L|_{B'}$ keeps
+only the ledger rows used by those base, refinement, modulus, $\Cont$, and
+$\hsame$ reads, and $P$ is the unchanged downstream provenance row.
+\end{definition}
+
+\begin{theorem}[CauchyFilter finite subfilterbase restriction]
+\label{thm:cauchyfilter-finite-subfilterbase-restriction}
+Let $F=(B,R,M,L,P)$ be an accepted $\CauchyFilterUp$ finite-filterbase carrier.
+If $B'\subseteq B$ is a finite subfilterbase restriction datum for $F$ in the
+sense of \autoref{def:cauchyfilter-finite-subfilterbase-restriction-datum},
+then the restricted packet
+$$
+F|_{B'}=(B',R|_{B'},M|_{B'},L|_{B'},P)
+$$
+is an accepted $\CauchyFilterUp$ finite-filterbase carrier. Its downstream
+handoff boundary is the same finite $\RegSeqRatUp$, $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RealBallUp$, and $\RealUp$ provenance boundary carried by
+$F$.
+\end{theorem}
+\begin{proof}
+The carrier rows are finite because $B'$ is a displayed finite sublist of the
+finite base row $B$, while $R|_{B'}$, $M|_{B'}$, and $L|_{B'}$ are obtained by
+retaining displayed rows from the finite ledgers $R$, $M$, and $L$ of
+\autoref{def:cauchyfilter-finite-filterbase-carrier}. Each base packet in
+$B'$ is already a base packet of $B$, hence it carries the same $\BHist$ row,
+$\StreamNameUp$ scheduled window, and nonempty finite family of
+$\DyadicRatCoreUp$ observation rows that it carried in $F$.
+
+Directedness is inherited row by row. Take two base packets displayed in
+$B'$. In the accepted carrier $F$, \autoref{thm:cauchyfilter-directed-refinement-obligation}
+reads the corresponding row of $R$ as a displayed refinement packet together
+with its $\Cont$ routes and componentwise $\hsame$ witnesses. Refinement
+preservation in the restriction datum says that this refined packet is again
+displayed in $B'$ and that the required continuation and comparison witnesses
+remain in $L|_{B'}$. Therefore $R|_{B'}$ supplies exactly the directed
+refinement obligation required of the restricted carrier.
+
+The Cauchy modulus row is also inherited without changing the selected bases.
+For a displayed precision request, \autoref{thm:cauchyfilter-cauchy-modulus-obligation}
+reads the row of $M$ in $F$ as a selected base packet together with the dyadic
+radius ledger controlling every later displayed refinement. Modulus
+preservation says that the selected packet lies in $B'$ and that the associated
+radius readback row remains in $L|_{B'}$. If a later refinement is read inside
+$R|_{B'}$, it is one of the refinement rows of $R$, so the same dyadic bound
+from $L$ applies to it, and the retained row in $L|_{B'}$ records that bound.
+Thus $M|_{B'}$ is a constructive Cauchy modulus for the restricted packet.
+
+It remains to identify the handoff boundary. The restriction does not replace
+$P$; it only removes base, refinement, modulus, and ledger rows not used by
+$B'$. Hence a downstream $\RealUp$ or $\RegSeqRatUp$ consumer can still read
+exactly the provenance categories listed in
+\autoref{thm:cauchyfilter-namecert-obligation-surface}: base packets, stream
+schedules, dyadic observations, real-ball bounds, refinement rows, modulus
+rows, ledger rows, and the same $\Pkg$ provenance boundary. Since every
+retained row is a displayed row of the accepted carrier and the two preservation
+conditions keep all refinement and modulus rows needed for the CauchyFilter
+obligations, $F|_{B'}$ repacks as an accepted $\CauchyFilterUp$ carrier with
+the same finite downstream handoff boundary.
+\end{proof}
