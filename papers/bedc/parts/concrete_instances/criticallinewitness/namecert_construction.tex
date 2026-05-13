@@ -47,6 +47,42 @@ Modulus discipline is the row $M$. A depth request $n$ is routed to the inspecte
 The non-escape and ledger rows then use $C$, $P$, and $N$. Since the packet has no quotient, representative-selection, host-equality, or analytic-completeness coordinate, every public witness read is exhausted by the displayed finite rows.
 \end{proof}
 
+\begin{theorem}[Critical-line witness root unblock source triad]
+\label{thm:critical-line-witness-root-unblock-source-triad}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the supplied zero row $Z$, the supplied critical-strip row $S$, and the shared transport route through $H,C,P,N$ are exposed before any witness read of the modulus row $M$. The source triad is a finite $\ZetaZerosUp$--$\CritStripUp$ route over the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not a host zero source or analytic continuation surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. Its first displayed source coordinates are the supplied $\ZetaZerosUp$ zero row $Z$ and supplied $\CritStripUp$ strip row $S$, with the transport and replay rows $H$ and $C$ carried in the same finite packet.
+
+Use the NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations}. The zero-strip compatibility row binds $Z$ and $S$ to the same supplied complex history through displayed $\hsame$ transport, while the non-escape row forces public reads through $Z,S,M,R,Q,H,C,P,N$.
+
+The source chapters \autoref{ch:concrete-instances-zeta-zeros-namecert} and \autoref{ch:concrete-instances-critical-strip-namecert} supply the zero and strip surfaces that the carrier names. Thus the source triad is visible before any modulus witness read and has no route to host zero data or analytic continuation.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root unblock modulus ledger]
+\label{thm:critical-line-witness-root-unblock-modulus-ledger}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, each modulus request factors through the displayed rows $M,R,Q,H,C,P,N$. It consumes only $\NatUp$ depth input, the $\RealUp$ real-part row, the $\RatUp$ comparison ledger, $\BHist$ carrier data, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ obligation surface.
+\end{theorem}
+\begin{proof}
+Read the modulus coordinate from \autoref{def:critical-line-witness-carrier}. The row $M$ is the only coordinate that answers a depth request, and the carrier displays $R,Q,H,C,P,N$ as the rows consumed by that answer.
+
+Apply the modulus-discipline and ledger-exactness rows of \autoref{thm:critical-line-witness-namecert-obligations}. They force each request to use the real-part row $R$ and rational comparison ledger $Q$, with transport, replay, provenance, and local naming supplied by $H,C,P,N$.
+
+The depth and comparison sources are the public surfaces of \autoref{ch:concrete-instances-nat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-rat-namecert}. Since no other coordinate is present, the modulus ledger is exactly the finite route through $M,R,Q,H,C,P,N$ and the listed BEDC kernel rows.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root unblock refusal boundary]
+\label{thm:critical-line-witness-root-unblock-refusal-boundary}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the exported refusal boundary contains no $\mathsf{RH}$ proof, no zero search, no analytic-continuation certificate, no quotient representative, no host equality, and no ambient completeness witness. Downstream consumers may cite only the source triad, modulus ledger, and local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:critical-line-witness-carrier}. The carrier lists exactly $Z,S,M,R,Q,H,C,P,N$ and explicitly withholds global zero production, host complex equality, quotient real equality, selected representatives, and ambient analytic completeness.
+
+Use \autoref{thm:critical-line-witness-namecert-obligations}. Its non-escape and ledger-exactness rows say that every public witness read is exhausted by the displayed zero, strip, modulus, comparison, transport, continuation, package, and local naming rows.
+
+The sibling source surfaces cited by the carrier, namely \autoref{ch:concrete-instances-zeta-zeros-namecert}, \autoref{ch:concrete-instances-critical-strip-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-rat-namecert}, and \autoref{ch:concrete-instances-nat-namecert}, provide only the named rows consumed above. Therefore the exported boundary refuses $\mathsf{RH}$ proof data, zero search, analytic-continuation certificates, quotient representatives, host equality, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[Critical-line witness carrier-admission row]
 \label{thm:critical-line-witness-obligation-carrier-admission-row}
 For every accepted $\CriticalLineWitnessUp$ packet
