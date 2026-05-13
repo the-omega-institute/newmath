@@ -1242,6 +1242,7 @@ import BEDC.Derived.ContinuousMapUp.PublicExport
 import BEDC.Derived.ContinuousMapUp.VisibleContextCompositionCategoryMetricExactness
 import BEDC.Derived.StationaryWindowLatticeUp.TasteGate
 import BEDC.Derived.StationaryDiagonalWindowUp.TasteGate
+import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
 import BEDC.Derived.SumUp
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SumUp.Branch
