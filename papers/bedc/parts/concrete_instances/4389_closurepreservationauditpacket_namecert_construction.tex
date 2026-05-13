@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ClosurePreservationAuditPacketUp$}
+\label{ch:concrete-instances-closure-preservation-audit-packet-namecert}
+\origin{ai}
+
+The $\ClosurePreservationAuditPacketUp$ packet realizes the closure-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} as a finite NameCert object for consumers that need the whole closedness-preservation route rather than a single seal row. It sits beside the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, the subject-reduction discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the closed-term context seal of \autoref{ch:concrete-instances-closedtermcontextseal-namecert}, and the audit seal of \autoref{ch:concrete-instances-closure-preservation-audit-seal-namecert}. Those sibling chapters expose closed-normal, subject-reduction, closed-context, and route-seal consumers; this packet binds the finite rows they may cite when they need shift, substitution, beta-step, beta-star, closedness, transport, route, provenance, and local naming data together.
+
+\begin{definition}[Closure-preservation audit packet carrier]
+\label{def:closure-preservation-audit-packet-carrier}
+A $\ClosurePreservationAuditPacketUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,L,S,T,V,U,B,Z,F,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the audit-map anchor row naming \autoref{ch:metacic-closure-preservation-audit-map};
+\item $L$ is the local $\mathsf{ClosedAt}$ ledger row for the terms and depths read by the packet;
+\item $S$ is the shift row for the displayed $\mathsf{shift}$ route;
+\item $T$ is the one-hole substitution row for the displayed $\mathsf{substitute}$ route;
+\item $V$ is the variable-substitution row for $\mathsf{substitute\_var\_preserves\_closed\_at}$;
+\item $U$ is the full-substitution row for $\mathsf{substitute\_preserves\_closed\_at}$;
+\item $B$ is the one-step beta row for $\mathsf{betaStep}$ closedness preservation;
+\item $Z$ is the finite beta-star row for $\mathsf{betaStarStep}$ closedness preservation;
+\item $F$ is the finite replay row recording that beta-star evidence is read as a list of accepted beta-step witnesses;
+\item $R$ records the sibling routes to \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-closedtermcontextseal-namecert};
+\item $H$ records componentwise $\hsame$ transport for the anchor, closedness ledger, operation rows, replay row, sibling routes, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes used by consumers of shift, substitution, beta-step, beta-star, sibling-facing, and boundary reads;
+\item $P$ is the $\Pkg$ provenance over the audit map and the named sibling chapters;
+\item $N$ is the local $\NameCert_{\ClosurePreservationAuditPacketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host conversion principle, a quotient of beta paths, a typing-preservation theorem, a subject-reduction discharge, global normalization, confluence, or an ambient semantic equality of closed terms.
+\end{definition}
+
+\begin{theorem}[Closure-preservation audit packet NameCert obligations]
+\label{thm:closure-preservation-audit-packet-namecert-obligations}
+For the carrier of \autoref{def:closure-preservation-audit-packet-carrier}, the local $\NameCert_{\ClosurePreservationAuditPacketUp}$ surface consists exactly of carrier admission for
+$$
+K=(A,L,S,T,V,U,B,Z,F,R,H,C,P,N),
+$$
+audit-map visibility through $A$, closedness-ledger visibility through $L$, shift visibility through $S$, substitution visibility through $T,V,U$, beta-step visibility through $B$, beta-star replay through $Z,F$, sibling-route visibility through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite $\BHist$ packet. The row $A$ fixes the source audit map, while $L,S,T,V,U,B,Z,F$ expose exactly the closedness, shift, substitution, beta-step, and beta-star rows named by the carrier.
+
+Read the sibling route row $R$ next. It names only the normal-form consistency seal, the subject-reduction discharge socket, the closed-term context seal, and their finite consumer routes; it does not turn those siblings into an additional closedness theorem or a typed subject-reduction result.
+
+Finally inspect $H,C,P,N$. The $\hsame$ transports preserve the displayed rows componentwise, the $\Cont$ rows replay the same routes to consumers, the $\Pkg$ row records provenance, and the local $\NameCert$ row names the packet. Since no other carrier coordinate is projected, these rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[Closure-preservation audit packet beta-star boundary]
+\label{thm:closure-preservation-audit-packet-beta-star-boundary}
+Every consumer read of an accepted $\ClosurePreservationAuditPacketUp$ packet that cites beta-star closedness factors through the displayed beta-step row $B$, the finite replay row $F$, the beta-star row $Z$, the local $\mathsf{ClosedAt}$ ledger $L$, and then the common $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$. The read may pass to the normal-form consistency seal, subject-reduction discharge socket, or closed-term context seal only through the sibling-route row $R$; it exports no quotient beta path, no host conversion rule, no typed subject-reduction theorem, no global normalization theorem, and no confluence theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet and project the beta-star route. The carrier exposes beta-star evidence only as the finite pair $F,Z$, with $F$ replaying accepted beta-step witnesses and $Z$ recording the resulting closedness-preservation row.
+
+The local closedness claim is tied to $L$. Shift and substitution side conditions are read through $S,T,V,U$, so the beta-star consumer cannot bypass the displayed $\mathsf{ClosedAt}$ ledger or replace it by a host equality of closed terms.
+
+Now route the consumer-facing read. The continuation row $C$ points from $B,F,Z,L$ through the componentwise transport row $H$ and provenance row $P$ to the local naming row $N$.
+
+It remains to check sibling access. The row $R$ is the only coordinate that mentions the normal-form consistency seal, the subject-reduction discharge socket, or the closed-term context seal. Thus a public read can cite those siblings only as finite route endpoints, and the omitted quotient, conversion, typed subject-reduction, normalization, and confluence objects cannot escape from the packet.
+\end{proof}
+
+\closureat{ClosurePreservationAuditPacketUp}{seedStr}
+
+\begin{closurestatus}{\ClosurePreservationAuditPacketUp}
+  \constructivestory{A $\ClosurePreservationAuditPacketUp$ packet is generated from a closure-preservation audit-map anchor, a finite closedness ledger, shift and substitution rows, beta-step and beta-star replay rows, sibling-route rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-preservation-audit-packet-carrier}, \autoref{thm:closure-preservation-audit-packet-namecert-obligations}, and \autoref{thm:closure-preservation-audit-packet-beta-star-boundary} bind the finite closure-preservation audit packet and its beta-star consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close typed subject reduction, host conversion, quotient equality over beta paths, normalization, confluence, Lean verification of the packet, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, operation-row exactness, beta-star replay, sibling-route exactness, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}

@@ -160,4 +160,47 @@ theorem TypedReductionNormalFormPacket_terminal_boundary_nonescape [AskSetup] [P
     exact endpointUnary
   exact ⟨endpointExact, normalSameEndpoint', endpointUnary'⟩
 
+theorem TypedReductionNormalFormPacket_transport_stability [AskSetup] [PackageSetup]
+    {term judgment membership reduction normal transport continuation provenance name endpoint
+      normalPrime endpointPrime : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypedReductionNormalFormPacket term judgment membership reduction normal transport
+        continuation provenance name endpoint mark bundle pkg ->
+      Cont membership reduction normalPrime ->
+        Cont normalPrime continuation endpointPrime ->
+          TypedReductionNormalFormPacket term judgment membership reduction normalPrime transport
+              continuation provenance name endpointPrime mark bundle pkg ∧
+            hsame normal normalPrime ∧ hsame endpoint endpointPrime := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame ProbeBundle Pkg
+  intro packet membershipReductionPrime normalPrimeContinuation
+  have exactRows :
+      hsame normal normalPrime ∧ hsame endpoint endpointPrime :=
+    TypedReductionNormalFormPacket_route_exactness packet membershipReductionPrime
+      normalPrimeContinuation
+  obtain ⟨normalSamePrime, endpointSamePrime⟩ := exactRows
+  obtain ⟨termUnary, judgmentUnary, membershipUnary, reductionUnary, normalUnary,
+    transportUnary, continuationUnary, provenanceUnary, nameUnary, endpointUnary,
+    membershipExt, _membershipReduction, _normalContinuation, normalSameEndpoint,
+    provenanceSameEndpoint, nameSameEndpoint, endpointPkg⟩ := packet
+  have normalPrimeUnary : UnaryHistory normalPrime :=
+    unary_transport normalUnary normalSamePrime
+  have endpointPrimeUnary : UnaryHistory endpointPrime :=
+    unary_transport endpointUnary endpointSamePrime
+  have normalPrimeSameEndpointPrime : hsame normalPrime endpointPrime :=
+    hsame_trans (hsame_symm normalSamePrime) (hsame_trans normalSameEndpoint endpointSamePrime)
+  have provenanceSameEndpointPrime : hsame provenance endpointPrime :=
+    hsame_trans provenanceSameEndpoint endpointSamePrime
+  have nameSameEndpointPrime : hsame name endpointPrime :=
+    hsame_trans nameSameEndpoint endpointSamePrime
+  have endpointPrimePkg : PkgSig bundle endpointPrime pkg := by
+    cases endpointSamePrime
+    exact endpointPkg
+  exact
+    ⟨⟨termUnary, judgmentUnary, membershipUnary, reductionUnary, normalPrimeUnary,
+        transportUnary, continuationUnary, provenanceUnary, nameUnary, endpointPrimeUnary,
+        membershipExt, membershipReductionPrime, normalPrimeContinuation,
+        normalPrimeSameEndpointPrime, provenanceSameEndpointPrime, nameSameEndpointPrime,
+        endpointPrimePkg⟩,
+      normalSamePrime, endpointSamePrime⟩
+
 end BEDC.Derived.TypedReductionNormalFormUp
