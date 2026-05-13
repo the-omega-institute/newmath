@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\GroundLoopBoundaryUp$}
+\label{ch:concrete-instances-groundloopboundary-namecert}
+\origin{ai}
+
+The $\GroundLoopBoundaryUp$ packet realizes the boundary isolated in \autoref{ch:visions-reflection-and-limits}. It records the closed ground loop as finite mark and mark-sameness rows, while the meta side is recorded only as refusal rows for truth-total reflection, host runtime export, and host truth predicates. The packet therefore gives downstream chapters a concrete $\NameCert$ surface for citing the exact place where ground distinction closes and meta-truth closure remains unavailable.
+
+\begin{definition}[Ground-loop boundary carrier]
+\label{def:ground-loop-boundary-carrier}
+A $\GroundLoopBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,S,X,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the two-row $\BMark$ inventory exposing exactly $\bzero$ and $\bone$;
+\item $S$ is the positive $\msame$ inventory exposing exactly $\msame(\bzero,\bzero)$ and $\msame(\bone,\bone)$;
+\item $X$ is the cross-mark refusal row, recording that no generated row identifies $\bzero$ with $\bone$ or $\bone$ with $\bzero$;
+\item $R$ is the reflection-boundary row, recording structural self-description as permitted data and truth-total reflection as refused data;
+\item $H$ records the componentwise $\hsame$ transports for the mark inventory, positive sameness rows, cross-mark refusal rows, reflection-boundary row, provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes used to read $M$, replay $S$ and $X$, transport the boundary row $R$, and return the same finite packet to every consumer;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\BMark$, $\msame$, $\hsame$, $\Cont$, reflection-boundary rows, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\GroundLoopBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a truth-total reflection certificate, host runtime, host truth predicate, or meta-level classifier that turns structural self-description into BEDC truth.
+\end{definition}
+
+\begin{theorem}[GroundLoopBoundary NameCert obligations]
+\label{thm:ground-loop-boundary-namecert-obligations}
+The local $\NameCert_{\GroundLoopBoundaryUp}$ surface for the carrier $G=(M,S,X,R,H,C,P,N)$ consists exactly of carrier admission for \autoref{def:ground-loop-boundary-carrier}, the two displayed $\BMark$ rows in $M$, the two positive $\msame$ rows in $S$, cross-mark non-generation and refusal in $X$, the reflection-boundary row $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple of \autoref{def:ground-loop-boundary-carrier}. The accepted object exposes only the rows $M,S,X,R,H,C,P,N$.
+
+The ground rows are exhausted by $M,S,X$. The row $M$ displays the two mark constructors, $S$ displays the two positive primitive sameness rows, and $X$ records that no generated cross-mark sameness row is admitted.
+
+The reflection row is $R$. It permits structural self-description only as a named boundary row and records refusal of truth-total reflection, so it cannot be read as a truth classifier for the host calculus.
+
+Finally, the transport, replay, provenance, and naming obligations are exactly $H,C,P,N$. No further row remains from which a consumer could recover a host runtime, host truth predicate, or meta-level classifier beyond the displayed boundary.
+\end{proof}
+
+\begin{theorem}[Ground-loop boundary meta non-escape]
+\label{thm:ground-loop-boundary-meta-nonescape}
+Every consumer of an accepted $\GroundLoopBoundaryUp$ packet factors through the finite rows $M,S,X,R,H,C,P,N$. The packet exports the closed ground distinction between $\bzero$ and $\bone$ together with the positive $\msame$ rows and cross-mark refusal, but it exports no truth-total reflection certificate, host runtime, host truth predicate, or meta-level truth classifier.
+\end{theorem}
+\begin{proof}
+Let $G=(M,S,X,R,H,C,P,N)$ be accepted. Any permitted read of the ground loop uses $M$ for the two marks, $S$ for positive sameness, and $X$ for the refusal of generated cross-mark sameness.
+
+Any permitted read of the reflection boundary uses $R$ and is transported only by $H$ and replayed only by $C$. The provenance and local name remain the rows $P$ and $N$.
+
+Since the carrier inventory has no coordinate for truth-total reflection, a host runtime, a host truth predicate, or a meta-level truth classifier, no downstream consumer can project such data from the packet. The only exported boundary is the finite distinction between closed ground generation and open meta-truth refusal.
+\end{proof}
+
+\closureat{GroundLoopBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\GroundLoopBoundaryUp}
+  \constructivestory{A $\GroundLoopBoundaryUp$ packet is generated from the two $\BMark$ rows, the two positive $\msame$ rows, cross-mark refusal rows, a reflection-boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ground-loop-boundary-carrier}, \autoref{thm:ground-loop-boundary-namecert-obligations}, and \autoref{thm:ground-loop-boundary-meta-nonescape} bind the finite carrier, NameCert obligation rows, and non-escape boundary between closed ground distinction and open meta-truth refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean-side formal verification, truth-total reflection, a host runtime export, a host truth predicate, or a bridge to the internal CIC-star structure.}
+  \upgradepath{Obligation closure requires checked carrier admission, mark-row exposure, positive sameness exposure, cross-mark refusal, reflection-boundary transport, provenance, and meta non-escape for the displayed packet.}
+\end{closurestatus}
