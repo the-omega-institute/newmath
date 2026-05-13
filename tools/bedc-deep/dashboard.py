@@ -39,7 +39,7 @@ def _safe_get_server() -> dict:
         with urllib.request.urlopen(f"{ORACLE_SERVER_URL}/status", timeout=3) as r:
             return json.loads(r.read().decode("utf-8"), strict=False)
     except Exception as exc:
-        return {"_error": str(exc)}
+        return {"_error": str(exc), "_error_type": type(exc).__name__}
 
 
 def _git(args: list[str]) -> str:
@@ -59,8 +59,32 @@ def _section(title: str) -> str:
     return f"\n┌{bar}┐\n│  {title}  │\n└{bar}┘"
 
 
+def _fmt_age(seconds: object) -> str:
+    try:
+        total = int(seconds)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        return "?"
+    if total < 60:
+        return f"{total}s"
+    minutes = total // 60
+    if minutes < 60:
+        return f"{minutes}m"
+    hours = minutes // 60
+    if hours < 48:
+        return f"{hours}h{minutes % 60:02d}m"
+    days = hours // 24
+    return f"{days}d{hours % 24:02d}h"
+
+
 def render_server(s: dict) -> str:
     if "_error" in s:
+        err = str(s["_error"])
+        if "Operation not permitted" in err:
+            return (
+                "  status: UNAVAILABLE (local sandbox denied localhost status check)\n"
+                "  hint: run `python3 tools/bedc-deep/oracle_client.py --status` "
+                "for authoritative oracle health"
+            )
         return f"  status: DOWN ({s['_error']})"
     diag = s.get("diagnosis", "?")
     busy = s.get("agents_busy", "?")
@@ -104,17 +128,53 @@ def render_board() -> str:
     return "\n".join(out)
 
 
+def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
+    by_event = data.get("by_event") or {}
+    if not by_event:
+        lines = [f"  {label}: events=0 sampled={data.get('sampled', 0)}"]
+    else:
+        parts = [f"{k}={v}" for k, v in by_event.items()]
+        lines = [
+            (
+                f"  {label}: events={data.get('windowed', data.get('sampled', 0))} "
+                f"sampled={data.get('sampled', 0)}   " + "   ".join(parts)
+            )
+        ]
+    if data.get("latest_event_ts"):
+        latest = data.get("latest_event") or {}
+        title = str(latest.get("title") or "")[:48]
+        lines.append(
+            (
+                f"  {label} latest: {_fmt_age(data.get('latest_event_age_seconds'))} ago "
+                f"{latest.get('event') or '?'} from {latest.get('source') or '?'}"
+                + (f" — {title}" if title else "")
+            )
+        )
+    rejection_reasons = data.get("rejection_reasons") or []
+    if rejection_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
+        lines.append(f"  {label} top rejects: {top}")
+    rejection_sources = data.get("rejection_sources") or []
+    if rejection_sources:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_sources[:5])
+        lines.append(f"  {label} reject sources: {top}")
+    logic_reasons = data.get("logic_packet_gate_reasons") or []
+    if logic_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
+        lines.append(f"  {label} logic gate rejects: {top}")
+    return lines
+
+
 def render_candidate_inbox() -> str:
     try:
         import candidate_inbox
         data = candidate_inbox.stats()
+        recent = candidate_inbox.stats(since_hours=6)
     except Exception as exc:
         return f"  unavailable: {exc}"
-    by_event = data.get("by_event") or {}
-    if not by_event:
-        return "  events: 0"
-    parts = [f"{k}={v}" for k, v in by_event.items()]
-    return f"  events: {data.get('events', 0)}   " + "   ".join(parts)
+    lines = _render_candidate_stats(data, label="all")
+    lines.extend(_render_candidate_stats(recent, label="last 6h"))
+    return "\n".join(lines)
 
 
 def render_target_table() -> str:

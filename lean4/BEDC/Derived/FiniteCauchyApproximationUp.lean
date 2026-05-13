@@ -102,4 +102,29 @@ theorem FiniteCauchyApproximationCarrier_refinement_stability [AskSetup] [Packag
     ⟨dyadicUnary', errorUnary', handoffUnary', handoffSame, thresholdWindowDyadic',
       dyadicErrorHandoff', provenancePkg⟩
 
+theorem FiniteCauchyApproximationCarrier_obligation_closure [AskSetup] [PackageSetup]
+    {source precision threshold window dyadic error handoff sameRows routes provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteCauchyApproximationCarrier source precision threshold window dyadic error handoff
+        sameRows routes provenance localCert bundle pkg ->
+      UnaryHistory source ∧ UnaryHistory precision ∧ UnaryHistory threshold ∧
+        UnaryHistory window ∧ UnaryHistory dyadic ∧ UnaryHistory error ∧
+          UnaryHistory handoff ∧ Cont source precision threshold ∧
+            Cont threshold window dyadic ∧ Cont dyadic error handoff ∧
+              Cont sameRows routes provenance ∧ Cont handoff localCert provenance ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro carrier
+  obtain ⟨sourceUnary, precisionUnary, thresholdUnary, windowUnary, dyadicUnary,
+    errorUnary, _sameRowsUnary, _routesUnary, _provenanceUnary, _localCertUnary,
+    sourcePrecisionThreshold, thresholdWindowDyadic, dyadicErrorHandoff,
+    sameRoutesProvenance, handoffLocalProvenance, provenancePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed dyadicUnary errorUnary dyadicErrorHandoff
+  exact
+    ⟨sourceUnary, precisionUnary, thresholdUnary, windowUnary, dyadicUnary, errorUnary,
+      handoffUnary, sourcePrecisionThreshold, thresholdWindowDyadic, dyadicErrorHandoff,
+      sameRoutesProvenance, handoffLocalProvenance, provenancePkg⟩
+
 end BEDC.Derived.FiniteCauchyApproximationUp

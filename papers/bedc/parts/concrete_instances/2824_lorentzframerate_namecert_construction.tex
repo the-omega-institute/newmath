@@ -124,6 +124,56 @@ Rate-row inheritance also adds no excluded coordinate. It ties $R$ only to the d
 Thus the local certificate remains a finite observer-symmetric maximum-rate packet. Recovering any excluded structure would require data outside $M,X,R,S,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Frame-rate configuration causal inheritance]
+\label{thm:lorentz-frame-rate-configuration-causal-inheritance}
+For an accepted $\LorentzFrameRateUp$ carrier
+$$
+L=(M,X,R,S,H,C,P,N),
+$$
+the coordinates $M,X,R$ are consumed in dependency order. The multi-Hist row $M$ supplies the displayed observer-history configuration, the family $X$ supplies only $\CrossHistCausalUp$ witness rows over selected history pairs from $M$, and the maximum-rate row $R$ supplies only the $\MaxCausalRateUp$ row whose witness family is that displayed $X$ over the same $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the first three computational coordinates. The definition of the carrier names $M$ before $X$, because the selected causal witnesses are meaningful only over the displayed multi-Hist configuration.
+
+Read $X$ next. Each row in the family is a $\CrossHistCausalUp$ witness row for selected history pairs from $M$, so the family cannot select a history outside the configuration already displayed by $M$.
+
+Finally read $R$. The maximum-rate row is the accepted $\MaxCausalRateUp$ row over the same configuration and the same selected witness family. Thus consumer access to $R$ factors through $M$ and then $X$, and no alternate configuration or witness family is available through the local packet.
+\end{proof}
+
+\begin{theorem}[Frame-rate symmetry classifier exactness]
+\label{thm:lorentz-frame-rate-symmetry-classifier-exactness}
+For an accepted $\LorentzFrameRateUp$ carrier
+$$
+L=(M,X,R,S,H,C,P,N),
+$$
+the rows $S,H,C$ compare only transported maximum-rate rows. The observer-symmetry classifier $S$ may identify selected observer reads of the displayed $\MaxCausalRateUp$ row $R$ after componentwise $\hsame$ transport in $H$ and visible routing in $C$; it cannot introduce a global frame, synchronized clock, metric tensor, host real-valued speed, Lorentz geometry, or a rate row not inherited from $M,X,R$.
+\end{theorem}
+\begin{proof}
+Start with the role of $S$. By \autoref{def:lorentz-frame-rate-carrier}, the classifier records equality of selected observer reads only as preservation of the displayed maximum-rate surface of $R$ after componentwise transport.
+
+Now apply the transport and route coordinates. The $H$ row moves the $R$- and $S$-components together by $\hsame$, while $C$ keeps the transported read on the visible continuation route through the same local certificate.
+
+The excluded structures are absent from every compared coordinate. Since $S,H,C$ mention only the transported $\MaxCausalRateUp$ row and the local route that reaches it, the classifier has no coordinate from which to manufacture a global frame, synchronized clock, metric tensor, host real-valued speed, Lorentz geometry, or an unrelated rate row.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate TasteGate obligation package]
+\label{thm:lorentz-frame-rate-tastegate-obligation-package}
+The $\LorentzFrameRateUp$ chapter presents the obligation surface
+$$
+M,X,R,S,H,C,P,N
+$$
+as a single finite package: carrier admission is \autoref{def:lorentz-frame-rate-carrier}; inherited-row exactness is given by \autoref{thm:lorentz-frame-rate-configuration-causal-inheritance}; observer-symmetry transport is given by \autoref{thm:frame-rate-observer-symmetry-transport} and \autoref{thm:lorentz-frame-rate-symmetry-classifier-exactness}; provenance is the row $P$; locality is the row $C$; non-escape is \autoref{thm:frame-rate-locality-nonescape}; and the existing TasteGate alignment marker attached to \autoref{def:lorentz-frame-rate-carrier} records that this AI-origin carrier is admitted only at the displayed single-carrier surface.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet definition. It exposes precisely the eight coordinates $M,X,R,S,H,C,P,N$ and no ambient Lorentz-geometric structure.
+
+The inherited-row obligations are discharged by reading the dependency chain in order. The configuration row $M$ feeds the causal witness family $X$, and those two rows feed the maximum-rate row $R$.
+
+The observer-symmetry obligations are discharged by the two classifier theorems. They compare selected observer reads only after componentwise $\hsame$ transport and visible continuation routing, so the comparison remains a statement about the same finite maximum-rate row.
+
+The remaining obligations are local bookkeeping. The row $P$ records provenance, $C$ records the visible continuation routes, \autoref{thm:frame-rate-locality-nonescape} supplies non-escape, and the TasteGate alignment marker already attached to the carrier records the AI-origin admission boundary without adding a second marker at this theorem site.
+\end{proof}
+
 \closureat{LorentzFrameRateUp}{seedStr}
 
 \begin{closurestatus}{\LorentzFrameRateUp}
