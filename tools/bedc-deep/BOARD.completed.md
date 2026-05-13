@@ -18007,3 +18007,53 @@ Rationale:
 The target is a concrete finite-window closure theorem inside an existing \(\CauchyNetUp\) chapter, not a verification marker or closurestatus update. The local chapter exposes the finite directed index-window ledger, scheduled observations, \(\RegSeqRatUp\) row, common-window classifier, and \(\RealUp\) handoff, but currently states only the carrier and NameCert obligation surface. Existing BOARD entries include finite restriction patterns for other objects, but none for \(\CauchyNetUp\), so this is a distinct local closure target with safe landing in a short non-hub file.
 
 ---
+
+### B-715 - ContinuationBigStep terminal-read determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | ContinuationBigStep terminal-read determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted \(\ContinuationBigStepUp\) packets have classifier-same source row, small-step trace ledger, replay route, and terminal row, then their terminal-read witnesses are classifier-same and both big-step reads factor through the same finite route.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/3293_continuationbigstep_namecert_construction.tex`
+
+Rationale:
+The chapter already exposes the terminal-read witness \(Q\), componentwise transport, replay route, and small-step factorization theorem, but it does not state endpoint determinacy for \(Q\) under fixed source, trace, route, and terminal rows. This is a concrete determinacy target for an existing finite computation packet and is not covered by the existing BOARD title index.
+
+---
+
+### B-714 - Decompiler right-inverse classifier theorem
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Decompiler right-inverse classifier theorem |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted \(\DecompilerRightInverseUp\) packets share the same displayed compiler graph, decompiler graph, target optimisation row, and paired right-inverse ledger up to componentwise \(\hsame\), then their target-row right-inverse comparisons classify together and no extra inverse data is exported.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2833_decompiler_right_inverse_namecert_construction.tex`
+
+Rationale:
+This directly fills the gap named by the chapter itself: the current \(\DecompilerRightInverseUp\) surface has carrier, NameCert obligations, and a non-escape boundary, while its closure block says a finite right-inverse classifier theorem is still needed. The claim is a single local classifier-determinacy implication over displayed packet rows and has no BOARD duplicate or matching paper theorem.
+
+---

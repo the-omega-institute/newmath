@@ -239,4 +239,48 @@ theorem RegularCauchySumCarrier_seal_consumer_exhaustion [AskSetup] [PackageSetu
     ⟨readbackUnary, realSealUnary, consumerUnary, readbackRoute, realSealRow, consumerRow,
       pkgSig, consumerPkg⟩
 
+theorem RegularCauchySumCarrier_consumer_obligation_package [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert realSeal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg →
+      Cont readback provenance realSeal →
+        Cont realSeal localCert consumer →
+          PkgSig bundle consumer pkg →
+            UnaryHistory leftSource ∧ UnaryHistory rightSource ∧ UnaryHistory sumEndpoint ∧
+              UnaryHistory budget ∧ UnaryHistory readback ∧ UnaryHistory realSeal ∧
+                UnaryHistory consumer ∧ Cont leftEndpoint rightEndpoint sumEndpoint ∧
+                  Cont sumEndpoint budget readback ∧ Cont readback provenance realSeal ∧
+                    Cont realSeal localCert consumer ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier realSealRow consumerRow consumerPkg
+  obtain ⟨leftSourceUnary, rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, _routesUnary,
+    provenanceUnary, localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _provenanceRoute, pkgSig⟩ := carrier
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary provenanceUnary realSealRow
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed realSealUnary localCertUnary consumerRow
+  exact
+    ⟨leftSourceUnary,
+      rightSourceUnary,
+      sumEndpointUnary,
+      budgetUnary,
+      readbackUnary,
+      realSealUnary,
+      consumerUnary,
+      sumEndpointRoute,
+      readbackRoute,
+      realSealRow,
+      consumerRow,
+      pkgSig,
+      consumerPkg⟩
+
 end BEDC.Derived.RegularCauchySumUp
