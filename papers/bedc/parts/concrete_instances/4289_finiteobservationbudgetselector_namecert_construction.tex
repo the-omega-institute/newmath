@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationBudgetSelectorUp$}
+\label{ch:concrete-instances-finiteobservationbudgetselector-namecert}
+\origin{human}
+
+The $\FiniteObservationBudgetSelectorUp$ packet names the finite observation budget used by the Real completeness route of \autoref{ch:visions-real-completeness}. It sits between the precision-to-window schedule of \autoref{ch:concrete-instances-choice-free-limit-schedule-namecert}, the selected-tail surface of \autoref{ch:concrete-instances-regularcauchytailselector-namecert}, and the diagonal completion packet of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}; its role is to expose the bounded rows a diagonal consumer may inspect before the $\RealUp$ seal is reached.
+
+\begin{definition}[Finite observation-budget selector carrier]
+\label{def:finite-observation-budget-selector-carrier}
+A $\FiniteObservationBudgetSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,S,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the precision-budget row naming the finite set of tolerances and diagonal indices a Real-completion consumer may request;
+\item $S$ is the selected schedule row assigning each budget entry of $B$ to one finite observation route;
+\item $W$ is the finite family of $\StreamNameUp$ window rows selected by the schedule;
+\item $D$ is the $\DyadicRatCoreUp$ ledger of rational observations, radii, and tolerance comparisons read from the windows in $W$;
+\item $R$ is the $\RegSeqRatUp$ handoff row reached after the dyadic ledger has been checked;
+\item $E$ is the $\RealUp$ seal row exposed only after the displayed handoff;
+\item $H$ records componentwise $\hsame$ transports for the budget, schedule, windows, dyadic ledger, regular-sequence handoff, seal, provenance, and local name;
+\item $C$ records the displayed $\Cont$ routes from $B$ to $S$, from $S$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteObservationBudgetSelectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host real equality, countable choice, a hidden limit selector, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Finite observation-budget selector NameCert obligations]
+\label{thm:finite-observation-budget-selector-namecert-obligations}
+The local $\NameCert_{\FiniteObservationBudgetSelectorUp}$ surface for \autoref{def:finite-observation-budget-selector-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure, requiring every accepted object to display the packet $F=(B,S,W,D,R,E,H,C,P,N)$;
+\item budget-to-schedule exactness, requiring each requested budget entry in $B$ to reach the selected schedule row $S$ only through the displayed route in $C$;
+\item window and dyadic ledger coverage, requiring $S$ to select only the finite $\StreamNameUp$ windows in $W$ and requiring every exported $\DyadicRatCoreUp$ observation in $D$ to be read from those windows;
+\item handoff and seal discipline, requiring the $\RegSeqRatUp$ row $R$ and $\RealUp$ seal row $E$ to be reached through $D$ and then transported by the displayed $H,C,P,N$ rows;
+\item non-escape, requiring every public read to stay inside the displayed packet and to export no quotient stream, host real equality, countable-choice row, hidden limit selector, or ambient completeness theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the tuple in \autoref{def:finite-observation-budget-selector-carrier}. The packet lists the budget, selected schedule, selected windows, dyadic observations, regular-sequence handoff, real seal, transports, routes, provenance, and local naming row.
+
+Budget-to-schedule exactness is the first displayed route in $C$. Since the carrier has one selected schedule row $S$ for the budget $B$, a consumer has no alternate coordinate from which to obtain a different schedule for the same requested observation budget.
+
+Window and dyadic ledger coverage use the next two route segments. The route from $S$ to $W$ exposes only the finite window family, and the route from $W$ to $D$ makes the dyadic observation ledger depend on those windows rather than on an unbounded stream object.
+
+Handoff and seal discipline are supplied by $R,E,H,C,P,N$. The regular-sequence handoff is reached after the dyadic ledger, the real seal is reached after the handoff, and transport or repacking must replay the same rows through $H,C,P,N$.
+
+The non-escape clause follows from the carrier inventory. None of the displayed rows is a quotient stream, host real equality test, countable-choice row, hidden selector, or ambient completeness theorem, so the local naming certificate has no route that can export one.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector schedule admission]
+\label{thm:finite-observation-budget-selector-schedule-admission}
+Every accepted $\FiniteObservationBudgetSelectorUp$ packet admits its selected schedule as a finite consumer of the $\ChoiceFreeLimitScheduleUp$ route: the budget row $B$ is read as the precision request surface, the schedule row $S$ is read as the finite route selector, and the rows $W,D,R,E,H,C,P,N$ supply exactly the window, dyadic-ledger, handoff, seal, transport, route, provenance, and local naming surface needed by a choice-free limit-schedule consumer.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $F=(B,S,W,D,R,E,H,C,P,N)$. The first two coordinates display the finite precision budget and the selected schedule row that answers each budget entry.
+
+Read the schedule through the $\ChoiceFreeLimitScheduleUp$ dependency named in \autoref{ch:concrete-instances-choice-free-limit-schedule-namecert}. Its public route expects a request row, a schedule row, selected $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, and the same transport, route, provenance, and naming rows.
+
+These rows are exactly the coordinates of $F$. The admission therefore adds no selected representative, quotient stream, or host-completeness datum; it only reuses the displayed finite schedule-to-seal route.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector RealUp seal handoff]
+\label{thm:finite-observation-budget-selector-real-seal-handoff}
+For every accepted $\FiniteObservationBudgetSelectorUp$ packet, each $\RealUp$ seal read through $E$ factors through the finite route
+$$
+B \to S \to W \to D \to R.
+$$
+The handoff is compatible with the selected-tail route of \autoref{ch:concrete-instances-regularcauchytailselector-namecert} and with the diagonal-completion route of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}, because all three surfaces read only displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ handoff rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ rows before exposing a $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the seal coordinate from the carrier. The definition places $E$ after the budget, selected schedule, selected windows, dyadic ledger, and $\RegSeqRatUp$ handoff, and the continuation coordinate records the route into $E$.
+
+Use the NameCert obligations of \autoref{thm:finite-observation-budget-selector-namecert-obligations}. They require the seal row to be reached through $D$ and $R$ and then repacked only through the displayed $H,C,P,N$ rows.
+
+The selected-tail and diagonal-completion siblings consume the same kind of visible rows. Since $F$ exposes exactly those rows and no hidden analytic coordinate, the $\RealUp$ handoff can be read by those consumers without changing the finite budget route.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector non-escape]
+\label{thm:finite-observation-budget-selector-nonescape}
+Every Real-completion, diagonal-limit, tail-selection, or schedule consumer of an accepted $\FiniteObservationBudgetSelectorUp$ packet factors through the displayed finite packet
+$$
+B,S,W,D,R,E,H,C,P,N.
+$$
+The consumer may inspect the precision budget, selected schedule, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It cannot inspect quotient streams, host equality of completed reals, countable choice, hidden limit selectors, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations. Carrier exposure fixes the displayed packet, budget-to-schedule exactness fixes the segment from $B$ to $S$, window and dyadic ledger coverage fixes the segments from $S$ to $W$ and from $W$ to $D$, and handoff and seal discipline fixes the segments from $D$ to $R$ and from $R$ to $E$ under the same $H,C,P,N$ rows.
+
+Use schedule admission to keep schedule-facing reads on those rows. By \autoref{thm:finite-observation-budget-selector-schedule-admission}, the packet supplies the choice-free schedule surface without adding an alternate selector.
+
+Use the seal handoff to keep Real-facing reads on the same route. By \autoref{thm:finite-observation-budget-selector-real-seal-handoff}, the $\RealUp$ seal is reached only after the finite budget, schedule, windows, dyadic ledger, and regular-sequence handoff have been read.
+
+The excluded analytic objects do not occur as coordinates of $F$. Therefore no public consumer read can export quotient streams, host equality of completed reals, countable choice, hidden limit selectors, or an ambient completeness theorem.
+\end{proof}
