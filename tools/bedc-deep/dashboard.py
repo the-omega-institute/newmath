@@ -376,7 +376,10 @@ def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
         if (rec.get("prompt") or rec.get("response") or rec.get("summary")) and not rec.get("log")
     ]
     for log_rec in log_records:
-        if _infer_refill_status(log_rec) != "submitted_no_response_artifact_yet":
+        if _infer_refill_status(log_rec) not in {
+            "submitted_no_response_artifact_yet",
+            "waiting_zero_extraction_seen",
+        }:
             continue
         log_time = _refill_stem_time(log_rec.get("stem"))
         if log_time is None:
@@ -475,6 +478,11 @@ def render_board_refill() -> str:
             lines.append(
                 "  alert: latest refill has waited >=15m with no response/summary; "
                 "confirm oracle status before deciding whether to refresh a tab."
+            )
+        if status == "waiting_zero_extraction_seen":
+            lines.append(
+                "  alert: latest refill log has seen a zero-extraction hang; "
+                "use oracle_client.py --status for the affected tab before any further action."
             )
         if status in {"prompt_only", "skip_duplicate_refill", "submitted_no_response_artifact_yet"}:
             lines.append(
