@@ -223,6 +223,22 @@ Use the carrier, classifier, and ledger obligations of \autoref{thm:generatorclo
 Finally apply \autoref{thm:generator-closure-authorized-row-exhaustion} and \autoref{thm:generator-closure-cont-route-gap-separation}. These exhaust the authorized generated rows and separate witness-preserving routes from rejected routes, so an accepted fixed witness has exactly the stated acceptance route.
 \end{proof}
 
+\begin{theorem}[GeneratorClosure fixed-point continuation-route exhaustion]
+\label{thm:generatorclosure-fixedpoint-cont-route-exhaustion}
+Every $\GeneratorFixedPointUp$ read through a public $\GeneratorClosureUp$ packet factors through the displayed surface
+$$
+G,L,A,Q,W,H,C,P,N.
+$$
+If the continuation route carries the constructor-list witness supplied by $L$, then the read is accepted through the authorized-row ledger $A$ or the continuation-witness ledger $W$. Otherwise the read is recorded as the displayed $\mathsf{GAP}$ boundary and is not exported as a fixed-point continuation.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:generatorclosure-fixedpoint-consumer-obligation}. It places every $\GeneratorFixedPointUp$ consumer inside the constructor-list provenance and classifier surface of the public $\GeneratorClosureUp$ packet.
+
+Use \autoref{thm:generatorclosure-fixedpoint-acceptance-route}. When the route carries the constructor-list witness from $L$, the fixed witness is classified through $Q$ and read through the accepted ledgers $A$ or $W$.
+
+It remains to account for routes without that witness. Apply \autoref{thm:generator-closure-cont-route-gap-separation} to separate witness-preserving routes from rejected routes, and then apply \autoref{thm:generatorclosure-downstream-ledger-exhaustion} to place every rejected read in the displayed $\mathsf{GAP}$ boundary of the same public ledger.
+\end{proof}
+
 \begin{theorem}[GeneratorClosure induction non-escape boundary]
 \label{thm:generatorclosure-induction-nonescape-boundary}
 Every downstream generator consumer receives displayed constructor-list provenance and displayed $\mathsf{GAP}$ rejection rows from $\GeneratorClosureUp$. It receives neither a free induction principle, nor a host recursor, nor an unledgered generator continuation outside $G,L,A,Q,W,H,C,P,N$.
