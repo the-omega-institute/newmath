@@ -93,6 +93,50 @@ Next compose the capped window route with the dyadic and regular readback rows. 
 Finally read the seal row $S$ through the same packet. The synchronizer and completion-seal classifier chapters may consume this packet as a capped observation service before they read their seal-facing rows. Since the carrier contains no completeness, quotient, selected-limit, host-equality, trichotomy, or independent-real coordinate, the handoff is a finite gate and not an analytic closure theorem.
 \end{proof}
 
+\begin{theorem}[Observation-budget limiter cap totality]
+\label{thm:observation-budget-limiter-budget-cap-totality}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ carrier. Every accepted packet reads the finite request row $E$ and the $\RealObservationBudgetUp$ row $B$ before the budget-cap row $K$. No consumer route to the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\RegSeqRatUp$ readback row $R$, or the $\RealUp$ seal row $S$ is available without first displaying $K$ with the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:observation-budget-limiter-namecert-obligations} to the displayed packet $L$. The budget-cap admission obligation places $K$ after $E$ and $B$ and before any served window row.
+
+Apply \autoref{thm:observation-budget-limiter-window-nonescape}. It identifies $K$ as part of every route that reaches $W,D,R,S$, so a consumer missing the cap row has no carrier coordinate from which to read any downstream seal-facing row.
+
+The monotonicity theorem \autoref{thm:observation-budget-limiter-budget-monotonicity} shows that enlarging the cap changes only which $K$-admitted windows may be transported; it does not remove the requirement that the route pass through a displayed cap. Hence cap totality is a structural obligation of the carrier rather than a numerical side condition.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter window readback exactness]
+\label{thm:observation-budget-limiter-window-readback-exactness}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ carrier. Each served $\StreamNameUp$ window in $W$, each $\DyadicRatCoreUp$ ledger row in $D$, and each $\RegSeqRatUp$ readback row in $R$ shares the same capped route
+$$
+K \to W \to D \to R.
+$$
+The displayed $\hsame$ and $\Cont$ rows in $H$ and $C$ preserve that route, and the $\Pkg$ and $\NameCert$ rows $P,N$ certify no second uncapped readback route.
+\end{theorem}
+\begin{proof}
+Use the dyadic and regular readback obligation from \autoref{thm:observation-budget-limiter-namecert-obligations}. It requires the dyadic ledger $D$ and the regular readback $R$ to be read through the same capped window route that admits $W$.
+
+The route itself is the finite chain $K \to W \to D \to R$. Componentwise $\hsame$ transports in $H$ preserve the chosen cap, window, dyadic, and regular rows, while the displayed $\Cont$ rows in $C$ replay the same chain for consumers.
+
+Apply \autoref{thm:observation-budget-limiter-window-nonescape} to exclude any read of $R$ that bypasses $K,W,D$. Apply \autoref{thm:observation-budget-limiter-budget-monotonicity} only as a transport principle: a larger accepted cap may carry the same readback through transported rows, but the readback remains tied to one capped route.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter Real seal cap boundary]
+\label{thm:observation-budget-limiter-real-seal-cap-boundary}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ carrier. Every $\RealUp$ seal row $S$ exported by $L$ is reached only after the sequence
+$$
+E \to B \to K \to W \to D \to R \to S.
+$$
+The boundary displayed to a seal consumer consists exactly of the componentwise $\hsame$ rows in $H$, the $\Cont$ rows in $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\ObservationBudgetLimiterUp}$ row $N$ over that sequence.
+\end{theorem}
+\begin{proof}
+Apply the seal handoff obligation of \autoref{thm:observation-budget-limiter-namecert-obligations}. It permits the $\RealUp$ seal row $S$ only after the request, observation-budget, cap, window, dyadic, and regular readback rows have all been displayed.
+
+Apply \autoref{thm:observation-budget-limiter-budget-cap-totality} for the entry side of the boundary and \autoref{thm:observation-budget-limiter-window-readback-exactness} for the middle readback. Together they make the seal route pass through $E,B,K,W,D,R$ before $S$.
+
+Finally apply \autoref{thm:observation-budget-limiter-vision-handoff}. The Real and Completion consumer may use this packet only as a capped observation service. The visible boundary is therefore the same $H,C,P,N$ provenance carried by $L$, with no completeness, quotient, selected-limit, host-equality, trichotomy, or independent-real coordinate added at the seal.
+\end{proof}
+
 The follow-up Lean TasteGate for this chapter must provide \texttt{Nontrivial ObservationBudgetLimiterUp} and \texttt{FieldFaithful ObservationBudgetLimiterUp} instances for the same carrier.
 
 \closureat{ObservationBudgetLimiterUp}{seedStr}
