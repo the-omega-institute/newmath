@@ -3,6 +3,8 @@
 
 The $\KalmanFilterUp$ interface records the finite prediction-and-update packet of a discrete linear estimator. Its BEDC surface consumes $\NameCert_{\DynSystemUp}$ for transition rows, $\NameCert_{\ControlObservabilityUp}$ for observation rows, $\NameCert_{\MatrixUp}$ for covariance and gain updates, $\NameCert_{\VecSpaceUp}$ for state and measurement rows, and $\NameCert_{\LinMapUp}$ for the displayed linear maps. Standard references are Kailath, Sayed, and Hassibi, \emph{Linear Estimation} (2000), and Anderson and Moore, \emph{Optimal Filtering} (1979).
 
+The dependency surface is displayed through existing concrete siblings: \autoref{ch:concrete-instances-statespacemodel-namecert} supplies the state-transition packet, \autoref{ch:concrete-instances-riccati-namecert} supplies the Riccati covariance ledger, and \autoref{ch:concrete-instances-controlobservability-namecert} supplies the observability row. $\KalmanFilterUp$ consumes those rows as finite $\mathsf{BHist}$ coordinates before exposing its prediction-update $\NameCert$ surface.
+
 \section{Finite carrier}
 \label{sec:kalmanfilter-carrier}
 
