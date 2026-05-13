@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\AxisCarryConfluenceUp$}
+\label{ch:concrete-instances-axis-carry-confluence-namecert}
+\origin{human}
+
+The $\AxisCarryConfluenceUp$ interface packages the finite local confluence surface behind overlapping Axis-Zeckendorf carry routes. It records two displayed carry-normalization paths from overlapping source windows to a shared normal target, their common value ledger, the non-$\hsame$ boundary for every carry edge, componentwise transports, continuation routes, provenance, and a local naming row. The packet is a finite certificate for route agreement at the displayed window; it is not a kernel rewrite, a quotient by history sameness, or an unbounded normalizer.
+
+\begin{definition}[Axis carry-confluence carrier]
+\label{def:axis-carry-confluence-carrier}
+An $\AxisCarryConfluenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $u$ is the displayed overlapping source-window history row;
+\item $v$ is the intermediate history row reached by the left carry route from $u$;
+\item $w$ is the intermediate history row reached by the right carry route from $u$;
+\item $n$ is the common normal target row admitted by $\ZeckendorfCarryNormalizationUp$;
+\item $r_0$ is the left route row, recording a $\ZCarryUp$ edge from $u$ to $v$ and a $\ZeckendorfCarryNormalizationUp$ handoff from $v$ to $n$;
+\item $r_1$ is the right route row, recording a $\ZCarryUp$ edge from $u$ to $w$ and a $\ZeckendorfCarryNormalizationUp$ handoff from $w$ to $n$;
+\item $t$ is the value ledger row, recording that the displayed Fibonacci value read from $u$, $v$, $w$, and $n$ is the same finite sum;
+\item $H$ records the non-$\hsame$ boundary for the two carry edges together with componentwise $\hsame$ transports preserving $u,v,w,n,r_0,r_1,t$, the route row, the package row, and the local naming row;
+\item $C$ stores the displayed $\Cont$ routes for reading the source window, the two intermediate windows, the common normal target, both carry-normalization routes, the value ledger, the non-$\hsame$ boundary, provenance, and local naming;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\ZCarryUp$, $\ZeckendorfCarryNormalizationUp$, Fibonacci value ledgers, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AxisCarryConfluenceUp}$ row.
+\end{enumerate}
+The carrier exports only this finite route packet. It contains no source-target $\hsame$ proof for either carry edge, no global confluence theorem for arbitrary windows, no kernel rewrite rule, no host arithmetic quotient, and no hidden normalizing algorithm.
+\end{definition}
+
+\begin{theorem}[Axis carry-confluence NameCert obligations]
+\label{thm:axis-carry-confluence-namecert-obligations}
+The local $\NameCert_{\AxisCarryConfluenceUp}$ surface for \autoref{def:axis-carry-confluence-carrier} consists of carrier admission for
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N),
+$$
+two displayed $\ZCarryUp$ source edges, two $\ZeckendorfCarryNormalizationUp$ route handoffs into the common target $n$, exactness of the value ledger $t$, preservation of the non-$\hsame$ boundary under the displayed transports in $H$, $\Cont$ route locality through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:axis-carry-confluence-carrier}. The rows $u,v,w,n,r_0,r_1,t,H,C,P,N$ are the only data admitted to the packet.
+
+The two route rows give the carry-normalization shape. The row $r_0$ exposes the left carry edge and its handoff to the normal target, while $r_1$ exposes the right carry edge and its handoff to the same target.
+
+The value and boundary clauses are separate projections. The row $t$ records the common finite Fibonacci value, and $H$ records that the carry edges remain outside source-target $\hsame$ while their displayed rows transport componentwise.
+
+Finally $C,P,N$ route, package, and name the same finite surface. Since the carrier has no coordinate for a kernel rewrite, host quotient, or unbounded normalizer, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Axis carry-confluence local diamond]
+\label{thm:axis-carry-confluence-local-diamond}
+For an accepted $\AxisCarryConfluenceUp$ carrier
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N),
+$$
+the two displayed routes form a local diamond at the finite carry window: $u$ reaches $v$ and $w$ by the two recorded $\ZCarryUp$ edges, and both $v$ and $w$ reach the same normal target $n$ through the recorded $\ZeckendorfCarryNormalizationUp$ handoffs. A consumer-visible diamond read factors through the route rows $r_0,r_1$, the common target row $n$, the value ledger $t$, and the support rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $r_0$ supplies the left route from $u$ through $v$ to $n$, and $r_1$ supplies the right route from $u$ through $w$ to the same $n$.
+
+Read the common target and value ledger next. The coordinate $n$ is shared by both route rows, and $t$ records that the visible Fibonacci value is unchanged along the four displayed histories.
+
+The support rows then delimit the consumer read. Transport through $H$, routing through $C$, provenance through $P$, and naming through $N$ expose exactly this finite diamond and do not turn it into a theorem about all carry overlaps.
+\end{proof}
+
+\begin{theorem}[Axis carry-confluence non-escape]
+\label{thm:axis-carry-confluence-nonescape}
+For an accepted $\AxisCarryConfluenceUp$ carrier, the confluence reading cannot escape the finite packet. The rows $r_0,r_1,t,H,C,P,N$ may expose two carry-normalization routes, their shared normal target, the common value ledger, componentwise transport, route replay, provenance, and local naming, but they do not export $\hsame(u,v)$, $\hsame(u,w)$, a kernel rewrite, a host arithmetic quotient, or a global confluence principle for arbitrary carry windows.
+\end{theorem}
+\begin{proof}
+The possible consumer reads are the coordinates of \autoref{def:axis-carry-confluence-carrier}. The route rows expose carry-normalization paths, and the value row exposes the common finite ledger.
+
+The boundary row $H$ keeps the two carry edges separate from source-target $\hsame$. It transports only the named components of the accepted packet and supplies no equality proof between the source and either intermediate carry target.
+
+The remaining support rows $C,P,N$ expose, package, and name the same finite object. Because no coordinate records a kernel rewrite, host quotient, or arbitrary-window confluence theorem, no projection from the packet can export one.
+\end{proof}
+
+\begin{theorem}[Axis carry-confluence normalization handoff]
+\label{thm:axis-carry-confluence-normalization-handoff}
+For an accepted $\AxisCarryConfluenceUp$ carrier
+$$
+K=(u,v,w,n,r_0,r_1,t,H,C,P,N),
+$$
+the public normalization handoff is the joint read of the shared target row $n$, the route rows $r_0,r_1$, and the value ledger $t$. Both carry routes hand off to the same $\ZeckendorfCarryNormalizationUp$ target, and every consumer read of that handoff must pass through the displayed $\Cont$ routes, $\Pkg$ provenance, non-$\hsame$ boundary, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project $n,r_0,r_1,t$ from the accepted packet. The target row $n$ is the only normal target coordinate, and both route rows name it as their handoff endpoint.
+
+Use the value ledger to align the two paths. The row $t$ records the common finite Fibonacci value across the source, intermediate rows, and target, so the handoff is value-ledger preserving rather than an identification by history sameness.
+
+Finally replay the handoff through $H,C,P,N$. The non-$\hsame$ boundary remains visible, and the route, provenance, and naming rows keep the handoff inside the finite NameCert surface.
+\end{proof}
+
+\closureat{AxisCarryConfluenceUp}{seedStr}
+
+\begin{closurestatus}{\AxisCarryConfluenceUp}
+  \constructivestory{An $\AxisCarryConfluenceUp$ packet is generated from one overlapping source window, two displayed carry-normalization routes, a shared normal target, a finite value ledger, non-$\hsame$ boundary rows, componentwise transports, continuation routes, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axis-carry-confluence-carrier}, \autoref{thm:axis-carry-confluence-namecert-obligations}, \autoref{thm:axis-carry-confluence-local-diamond}, \autoref{thm:axis-carry-confluence-nonescape}, and \autoref{thm:axis-carry-confluence-normalization-handoff} bind the finite two-route carry-confluence packet and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, a bridge certificate, arbitrary-window carry confluence, a global Zeckendorf normalizer, a kernel rewrite, host arithmetic quotienting, or source-target $\hsame$.}
+  \upgradepath{Obligation closure requires checked carrier admission, two route handoffs, local diamond reading, value-ledger exactness, non-$\hsame$ preservation, route locality, provenance, local naming, and normalization handoff for the same finite packet.}
+\end{closurestatus}

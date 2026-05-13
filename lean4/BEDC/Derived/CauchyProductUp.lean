@@ -75,4 +75,24 @@ theorem CauchyProductPacket_real_seal_boundary [AskSetup] [PackageSetup]
     ⟨productUnary, classifierUnary, realSealUnary, classifierRoute, classifierRoutesRealSeal,
       namePkg, realSealPkg⟩
 
+theorem CauchyProductPacket_window_product_stability [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      UnaryHistory windowA ∧ UnaryHistory windowB ∧ UnaryHistory observationA ∧
+        UnaryHistory observationB ∧ UnaryHistory product ∧
+          Cont observationA observationB product ∧ Cont windowA windowB transport := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet
+  obtain ⟨_sourceAUnary, _sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, _routesUnary, _ledgerUnary,
+    windowTransport, productRoute, _classifierRoute, _namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  exact
+    ⟨windowAUnary, windowBUnary, observationAUnary, observationBUnary, productUnary,
+      productRoute, windowTransport⟩
+
 end BEDC.Derived.CauchyProductUp

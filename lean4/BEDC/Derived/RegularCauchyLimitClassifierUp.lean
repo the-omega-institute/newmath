@@ -98,4 +98,30 @@ theorem RegularCauchyLimitClassifierCarrier_diagonal_window_public_boundary [Ask
       diagonalWindowsReadback, readbackLedgerSeal, certRoutesPublicRead, sameCert, certPkg,
       publicReadPkg⟩
 
+theorem RegularCauchyLimitClassifierCarrier_diagonal_seal_uniqueness [AskSetup] [PackageSetup]
+    {input modulus diagonal windows readback ledger sealRow transportRow routes provenance cert
+      cert' publicRead publicRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert bundle pkg ->
+      RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert' bundle pkg ->
+        Cont cert routes publicRead ->
+          Cont cert' routes publicRead' ->
+            hsame publicRead publicRead' := by
+  intro carrier carrier' certRoutesPublicRead certRoutesPublicRead'
+  have stable :=
+    RegularCauchyLimitClassifierCarrier_stability carrier
+  have stable' :=
+    RegularCauchyLimitClassifierCarrier_stability carrier'
+  obtain ⟨_readbackUnary, _ledgerUnary, _sealUnary, _certUnary, _diagonalWindowsReadback,
+    _readbackLedgerSeal, sameCert, _certPkg⟩ := stable
+  obtain ⟨_readbackUnary', _ledgerUnary', _sealUnary', _certUnary', _diagonalWindowsReadback',
+    _readbackLedgerSeal', sameCert', _certPkg'⟩ := stable'
+  have sameCerts : hsame cert cert' :=
+    hsame_trans sameCert (hsame_symm sameCert')
+  exact
+    cont_respects_hsame sameCerts (hsame_refl routes) certRoutesPublicRead
+      certRoutesPublicRead'
+
 end BEDC.Derived.RegularCauchyLimitClassifierUp
