@@ -66,6 +66,7 @@ import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BaireSpaceUp
@@ -277,6 +278,7 @@ import BEDC.Derived.ObserverHistIdentityUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
 import BEDC.Derived.MapperUp
+import BEDC.Derived.MaxCausalRateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SignedDigitStreamUp
@@ -406,6 +408,7 @@ import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
+import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.TranscendenceUp
 import BEDC.Derived.UnitaryGroupUp
 import BEDC.Derived.UnitDiskUp
