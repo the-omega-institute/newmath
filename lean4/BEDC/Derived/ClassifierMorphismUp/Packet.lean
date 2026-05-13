@@ -94,4 +94,23 @@ theorem ClassifierMorphismPacket_composition_closure [AskSetup] [PackageSetup]
       contComposite, hsame_refl compositeCont, hsame_refl compositeCont,
       hsame_refl compositeCont, compositePkg⟩
 
+theorem ClassifierMorphismPacket_preservation_nonescape_scope [AskSetup] [PackageSetup]
+    {source target graph extPreservation sigPreservation contPreservation transport provenance
+      nameCert publicRead : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierMorphismPacket source target graph extPreservation sigPreservation
+        contPreservation transport provenance nameCert mark bundle pkg →
+      Cont contPreservation nameCert publicRead →
+        UnaryHistory publicRead ∧ UnaryHistory contPreservation ∧
+          hsame transport contPreservation ∧ hsame provenance contPreservation ∧
+            hsame nameCert contPreservation ∧ PkgSig bundle contPreservation pkg := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet publicRoute
+  obtain ⟨_sourceUnary, _targetUnary, _graphUnary, _extUnary, _sigUnary, contUnary,
+    _transportUnary, _provenanceUnary, nameUnary, _extRow, _sigRow, _contRow,
+    transportSame, provenanceSame, nameSame, pkgRow⟩ := packet
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed contUnary nameUnary publicRoute
+  exact ⟨publicUnary, contUnary, transportSame, provenanceSame, nameSame, pkgRow⟩
+
 end BEDC.Derived.ClassifierMorphismUp
