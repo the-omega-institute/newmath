@@ -150,6 +150,50 @@ Apply the ledger non-escape theorem \autoref{thm:analytic-continuation-socket-le
 Finally use the holomorphic handoff of \autoref{thm:analytic-continuation-socket-holomorphic-handoff}. Downstream $\HolomorphicUp$ consumers receive $O$ only through $F,G,U,A,H,C,P,N$, so a branch-obstruction read remains ledger data and cannot turn into another output row.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationSocket carrier obligation]
+\label{thm:analytic-continuation-socket-carrier-obligation}
+For an accepted $\AnalyticContinuationSocketUp$ packet
+$$
+S=(F,G,U,A,O,B,H,C,P,N),
+$$
+carrier admission is exactly the projection of the source rows $F,G$, the overlap witness $U$, the operation row $A$, the output row $O$, the branch-obstruction ledger $B$, the componentwise transport row $H$, the continuation-route row $C$, the provenance row $P$, and the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition \autoref{def:analytic-continuation-socket-carrier}. It lists precisely the source, overlap, operation, output, obstruction, transport, continuation, provenance, and naming rows of the finite socket.
+
+Apply the NameCert obligations of \autoref{thm:analytic-continuation-socket-namecert-obligations}. Carrier admission is one of the five displayed obligation rows, and the remaining rows are read from the same packet.
+
+The ledger non-escape theorem blocks any hidden continuation operator, branch selector, quotient of germs, or host complex-analysis theorem. Thus the carrier obligation is exactly the displayed finite projection.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket classifier obligation]
+\label{thm:analytic-continuation-socket-classifier-obligation}
+Let $S=(F,G,U,A,O,B,H,C,P,N)$ and $S'=(F',G',U',A',O',B',H',C',P',N')$ be accepted $\AnalyticContinuationSocketUp$ packets. Classifier preservation is componentwise: the source rows $F,G$ compare with $F',G'$, the overlap witnesses $U,U'$ compare through the displayed agreement boundary, the operation and output rows $A,O$ compare with $A',O'$ through the stored $\hsame$ and $\Cont$ routes, and the branch ledgers $B,B'$ compare only as obstruction ledger rows.
+\end{theorem}
+\begin{proof}
+Use the classifier-stability row of \autoref{thm:analytic-continuation-socket-namecert-obligations}. It preserves the two source rows, the overlap witness, the operation row, the output row, and the obstruction ledger by componentwise transport.
+
+The overlap classifier stability theorem keeps the $F,G,U$ comparison on the local overlap-agreement boundary. The operation-output factorization theorem keeps the $A,O$ comparison on the displayed operation output rather than on an unrestricted continuation operator.
+
+Finally, ledger non-escape and the holomorphic handoff prevent an obstruction comparison from becoming another $\HolomorphicUp$ output. Hence the classifier obligation preserves overlap and output through $\hsame$ and $\Cont$ only.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket ledger obligation]
+\label{thm:analytic-continuation-socket-ledger-obligation}
+Every branch-sensitive consumer read of an accepted $\AnalyticContinuationSocketUp$ packet factors through the finite rows
+$$
+F,G,U,A,O,B,H,C,P,N.
+$$
+If the read asks for a continuation output not displayed by $O$ through the source, overlap, operation, transport, route, provenance, and naming rows, the request remains in the branch-obstruction ledger $B$ and is not exported as a continuation output.
+\end{theorem}
+\begin{proof}
+Start from the ledger exactness obligation \autoref{thm:analytic-continuation-socket-ledger-exactness-obligation}. It assigns branch-obstruction reads to $B$ and keeps them from becoming output rows outside $O$.
+
+Apply ledger non-escape to exhaust the carrier-visible rows. The holomorphic handoff then shows that downstream $\HolomorphicUp$ consumers obtain the displayed output only through $F,G,U,A,H,C,P,N$.
+
+Use overlap classifier stability and operation-output factorization for the two positive paths through the socket. All remaining branch-sensitive reads are ledger entries, so no undisplayed continuation output escapes the packet.
+\end{proof}
+
 \closureat{AnalyticContinuationSocketUp}{seedStr}
 \closureat{AnalyticContinuationSocketUp}{obligationStr}
 
