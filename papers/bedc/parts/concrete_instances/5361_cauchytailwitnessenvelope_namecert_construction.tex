@@ -115,7 +115,22 @@ Use the selector handoff theorem for the final order of consumption. It places $
 Finally apply non-escape. Since no excluded object is present in the carrier, the seal boundary is exactly the displayed finite witness-envelope route.
 \end{proof}
 
+\begin{theorem}[CauchyTailWitnessEnvelope obligation closure]
+\label{thm:cauchy-tail-witness-envelope-obligation-closure}
+For every accepted $\CauchyTailWitnessEnvelopeUp$ packet $E=(S,F,Q,A,R,H,C,P,N)$, the carrier definition, local $\NameCert$ obligations, selector handoff, finite-window exactness, tail-comparison exactness, Real-tail seal boundary, and non-escape theorem jointly form the $\obligationClosure$ surface over $\StreamNameUp$, $\FiniteWindowEnvelopeUp$, $\CauchyTailComparisonUp$, $\RealTailAgreementSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The package exports exactly the selected stream-name window, finite endpoint envelope, Cauchy tail-comparison ledger, RealTailAgreementSeal boundary, RealUp readback row, transport rows, continuation routes, package provenance, and local naming row displayed by $E$.
+\end{theorem}
+\begin{proof}
+Project the tuple $E=(S,F,Q,A,R,H,C,P,N)$. The carrier definition supplies the row names, and the local NameCert obligations certify that each downstream consumer reads those rows as a single finite witness-envelope packet.
+
+Follow the route order. The selector handoff places $S$ before $F,Q,A,R$, finite-window exactness binds the endpoint ledger through $S,F$, tail-comparison exactness makes $Q$ read that same ledger before $A$, and the Real-tail seal boundary places $A$ and $R$ after the selected window, envelope, comparison, transport, continuation, provenance, and local naming rows.
+
+Finally apply non-escape. Quotient stream equality, host equality, a host-selected limit, a choice selector, and ambient completeness are not coordinates of $E$, so no hidden row remains outside the displayed obligation surface.
+\end{proof}
+
 \closureat{CauchyTailWitnessEnvelopeUp}{seedStr}
+\closureat{CauchyTailWitnessEnvelopeUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyTailWitnessEnvelopeUp}
   \constructivestory{A $\CauchyTailWitnessEnvelopeUp$ packet is generated from a selected $\StreamNameUp$ window, a finite-window envelope row, a Cauchy tail-comparison row, a $\RealTailAgreementSealUp$ row, a $\RealUp$ readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
