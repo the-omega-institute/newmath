@@ -277,6 +277,23 @@ adding any host-level contraction or completion object.
 \end{proof}
 \leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_ratio\_window\_carrier\_transport}
 
+\begin{theorem}[PicardContraction Lean ratio-ledger nonexpansion sync]
+\label{thm:picardcontraction-lean-ratio-ledger-nonexpansion-sync}
+Let
+$$
+P=(B,T,L,I,M,E,H,C,G,N)
+$$
+be an accepted $\PicardContractionUp$ packet whose finite iterate ledgers concatenate and whose Lipschitz row is the displayed positive rational ratio row below the unit bound. The concatenated packet reuses the transported ratio ledger $L$ as its finite nonexpanding ledger row. It exports no stronger host contraction, no Banach fixed-point theorem, no completed orbit, no ambient completeness proof, and no selected limit.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:picardcontraction-ratio-ledger-nonexpansion}. The concatenated iterate ledger is read through the same positive rational row below the unit bound, so the concatenated packet cannot enlarge the ratio evidence beyond the displayed finite ledger.
+
+Next use \autoref{thm:picardcontraction-ratio-window-carrier-transport}. It keeps the ratio ledger and the Cauchy-modulus window inside the accepted carrier rows rather than turning them into an external host contraction or convergence witness.
+
+Finally combine \autoref{thm:picardcontraction-finite-modulus-obligation-triad} and \autoref{thm:picardcontraction-public-real-consumer-boundary}. They consume the same finite rows $B,T,L,I,M,E,H,C,G,N$: $B$ for the source boundary, $T$ for the contraction row, $L$ for the rational ratio ledger, $I$ for finite iterates, $M$ for the modulus window, $E$ for the endpoint seal, $H$ and $C$ for transport and displayed routes, $G$ for $\Pkg$ provenance, and $N$ for the local naming row. Since the public boundary has no coordinate for a stronger contraction principle, fixed point, completed orbit, ambient completeness proof, or selected limit, the concatenated packet exports only the transported finite ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_ratio\_ledger\_nonexpansion}
+
 \begin{theorem}[PicardContraction Banach ODE consumer non-escape]
 \label{thm:picardcontraction-banach-ode-consumer-nonescape}
 Every $\OdeUp$ or $\NewtonIterationUp$ consumer of an accepted
