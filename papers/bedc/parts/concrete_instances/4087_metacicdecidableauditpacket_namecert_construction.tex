@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MetacicDecidableAuditPacketUp$}
+\label{ch:concrete-instances-metacicdecidableauditpacket-namecert}
+\origin{ai}
+
+The $\MetacicDecidableAuditPacketUp$ packet turns the audit map of \autoref{ch:metacic-decidable-audit-map} into a finite NameCert surface. It sits beside \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}: those chapters separate confluence and consistency boundaries, while the present packet separates checked typing inference from bounded normal-form comparison.
+
+\begin{definition}[MetaCIC decidable audit packet carrier]
+\label{def:metacic-decidable-audit-packet}
+A $\MetacicDecidableAuditPacketUp$ carrier is a finite $\BHist$ packet
+$$
+A=(C,M,T,G,B,E,O,H,R,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $C$ is the checker row for \texttt{inferTypeCtx} and its closed wrapper;
+\item $M$ is the same-term row for \texttt{Term.eq} and \texttt{checkSameTerm};
+\item $T$ records typing soundness and completeness for the represented \texttt{HasType} relation;
+\item $G$ is the gallery row for the closed Boolean, natural-number, pair, option, list, sum, and polymorphic witnesses;
+\item $B$ is the bounded-normal comparison row for \texttt{normalizeBounded} and \texttt{decideClosedBetaConv};
+\item $E$ is the boundary row requiring finished closed-normal data before beta-conversion soundness is read as a normal-form equality statement;
+\item $O$ is the obstruction row excluding unrestricted closed beta-conversion decidability and a standalone closedness-decision theorem;
+\item $H$ records componentwise $\hsame$ transport across the checker, same-term, typing, gallery, bounded-normal, boundary, and obstruction rows;
+\item $R$ records the displayed $\Cont$ route by which a consumer reads the rows in packet order;
+\item $P$ is the $\Pkg$ provenance row tying the decidability audit map to the confluence and consistency sibling packets;
+\item $N$ is the local $\NameCert_{\MetacicDecidableAuditPacketUp}$ row.
+\end{enumerate}
+The packet exposes checked syntax equality, checked typing inference, gallery acceptance, and bounded normal comparison with its stated boundary. It contains no global beta-conversion oracle, no hidden normalization endpoint, and no host-level decision procedure for arbitrary closed terms.
+\end{definition}
+
+\begin{theorem}[MetaCIC decidable audit packet NameCert obligations]
+\label{thm:metacic-decidable-audit-packet-namecert-obligations}
+The local $\NameCert_{\MetacicDecidableAuditPacketUp}$ surface consists of carrier admission for $A=(C,M,T,G,B,E,O,H,R,P,N)$, checker exposure through $C$, same-term exposure through $M$, typing soundness and completeness exposure through $T$, gallery exposure through $G$, bounded-normal comparison exposure through $B$, boundary exposure through $E,O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $R$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-audit-packet}. The rows $C,M,T,G,B,E,O,H,R,P,N$ are the whole public packet, so carrier admission and local naming are direct projections.
+
+The positive checker surface is read through $C,M,T,G,B$. These rows record the type checker, same-term checker, typing soundness and completeness, gallery rows, and bounded-normal comparison as separate coordinates rather than as one unnamed decidability claim.
+
+The boundary surface is read through $E$ and $O$. The row $E$ keeps finished closed-normal data explicit, while $O$ blocks unrestricted beta-conversion decidability and a standalone closedness-decision theorem.
+
+Finally $H,R,P,N$ provide transport, route replay, provenance, and local naming. Since no additional coordinate exists, the NameCert obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable audit packet non-escape]
+\label{thm:metacic-decidable-audit-packet-nonescape}
+Every accepted $\MetacicDecidableAuditPacketUp$ carrier exposes only the finite rows
+$$
+C,M,T,G,B,E,O,H,R,P,N.
+$$
+A consumer may read checked typing inference, same-term equality, typing soundness and completeness, gallery acceptance, bounded-normal comparison, finished-normal boundary data, $\hsame$ transport, $\Cont$ route replay, $\Pkg$ provenance, and the local $\NameCert$ row. The consumer obtains no unrestricted beta-conversion decider, no hidden finished-normalization theorem, no quotient equality of terms, and no host-level decision procedure for arbitrary closed terms.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The packet has exactly the displayed rows, and every public read must be a projection from those rows or a route recorded by $R$.
+
+Use the NameCert obligation theorem to locate the positive routes. Typing and same-term checks are routed through $C,M,T$, gallery acceptance through $G$, and bounded comparison through $B$.
+
+The obstruction rows remain in the same finite packet. The boundary row $E$ requires finished closed-normal data for the stronger normal-form reading, and the obstruction row $O$ records the missing unrestricted conclusions.
+
+Therefore the packet cannot export a route that is not already present in $C,M,T,G,B,E,O,H,R,P,N$. In particular, unrestricted beta-conversion decidability and hidden normalization endpoints have no carrier coordinate.
+\end{proof}
+
+\closureat{MetacicDecidableAuditPacketUp}{seedStr}
+
+\begin{closurestatus}{\MetacicDecidableAuditPacketUp}
+  \constructivestory{A $\MetacicDecidableAuditPacketUp$ packet is generated from checker, same-term, typing, gallery, bounded-normal comparison, boundary, obstruction, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-audit-packet}, \autoref{thm:metacic-decidable-audit-packet-namecert-obligations}, and \autoref{thm:metacic-decidable-audit-packet-nonescape} bind the finite audit packet for checked MetaCIC typing inference and bounded normal comparison.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close unrestricted beta-conversion decidability, standalone closedness decidability, global normalization, quotient equality of terms, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, checker exactness, same-term exactness, typing soundness and completeness routing, bounded-normal boundary routing, transport, route replay, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}
