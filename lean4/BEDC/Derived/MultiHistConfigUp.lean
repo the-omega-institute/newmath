@@ -10,6 +10,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -19,6 +20,12 @@ def MultiHistConfigCarrier [AskSetup] [PackageSetup]
   UnaryHistory h0 ∧ UnaryHistory h1 ∧ Cont h0 h1 ledger0 ∧
     Cont ledger0 noSync sameRow ∧ Cont sameRow route provenance ∧
       Cont provenance localCert ledger1 ∧ PkgSig bundle provenance pkg
+
+def MultiHistConfigVisibleRow
+    (h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert row : BHist) : Prop :=
+  hsame row h0 ∨ hsame row h1 ∨ hsame row ledger0 ∨ hsame row ledger1 ∨
+    hsame row noSync ∨ hsame row sameRow ∨ hsame row route ∨ hsame row provenance ∨
+      hsame row localCert
 
 theorem MultiHistConfigCarrier_habitation [AskSetup] [PackageSetup]
     {h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert : BHist}
@@ -180,6 +187,46 @@ theorem MultiHistConfigCarrier_component_transport_scope [AskSetup] [PackageSetu
     ⟨⟨targetH0Unary, targetH1Unary, targetH0H1, targetLedgerNoSync, targetSameRoute,
         targetProvenanceLocal, targetPkgSig⟩,
       sameLedger0, sameSameRow, sameProvenance, sameLedger1⟩
+
+theorem MultiHistConfigCarrier_namecert_obligation_package [AskSetup] [PackageSetup]
+    {h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MultiHistConfigCarrier h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert
+        bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          MultiHistConfigCarrier h0 h1 ledger0 ledger1 noSync sameRow route provenance
+              localCert bundle pkg ∧
+            MultiHistConfigVisibleRow h0 h1 ledger0 ledger1 noSync sameRow route provenance
+              localCert row)
+        (fun row : BHist =>
+          MultiHistConfigCarrier h0 h1 ledger0 ledger1 noSync sameRow route provenance
+              localCert bundle pkg ∧
+            MultiHistConfigVisibleRow h0 h1 ledger0 ledger1 noSync sameRow route provenance
+              localCert row)
+        (fun row : BHist =>
+          MultiHistConfigCarrier h0 h1 ledger0 ledger1 noSync sameRow route provenance
+              localCert bundle pkg ∧
+            MultiHistConfigVisibleRow h0 h1 ledger0 ledger1 noSync sameRow route provenance
+              localCert row)
+        hsame := by
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro h0 (And.intro carrier (Or.inl (hsame_refl h0)))
+    · intro row _source
+      exact hsame_refl row
+    · intro row row' sameRowRow'
+      exact hsame_symm sameRowRow'
+    · intro row row' row'' sameRowRow' sameRow'Row''
+      exact hsame_trans sameRowRow' sameRow'Row''
+    · intro row row' sameRowRow' source
+      cases sameRowRow'
+      exact source
+  · intro _row source
+    exact source
+  · intro _row source
+    exact source
 
 theorem MultiHistConfig_carrier_habitation (h0 h1 : BHist) :
     (Cont h0 BHist.Empty h0 ∧ Cont h1 BHist.Empty h1) ∧
