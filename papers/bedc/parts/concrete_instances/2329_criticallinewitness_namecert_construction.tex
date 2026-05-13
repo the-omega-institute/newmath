@@ -47,6 +47,54 @@ Modulus discipline is the row $M$. A depth request $n$ is routed to the inspecte
 The non-escape and ledger rows then use $C$, $P$, and $N$. Since the packet has no quotient, representative-selection, host-equality, or analytic-completeness coordinate, every public witness read is exhausted by the displayed finite rows.
 \end{proof}
 
+\begin{theorem}[Critical-line witness carrier-admission row]
+\label{thm:critical-line-witness-obligation-carrier-admission-row}
+For every accepted $\CriticalLineWitnessUp$ packet
+$$
+W=(Z,S,M,R,Q,H,C,P,N),
+$$
+the carrier-admission obligation is exactly the displayed $\BHist$ row of \autoref{def:critical-line-witness-carrier}. It admits the supplied zero row $Z$, critical-strip row $S$, on-line modulus row $M$, real-part row $R$, rational comparison ledger $Q$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$, and it admits no zero search, global zero classifier, host complex equality, quotient representative, or analytic completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. Its displayed tuple is precisely $Z,S,M,R,Q,H,C,P,N$, with each entry anchored as a finite $\BHist$ row.
+
+Use the carrier-admission item in \autoref{thm:critical-line-witness-namecert-obligations}. That item makes the displayed packet the only entry point for witness reads.
+
+The non-escape boundary of \autoref{thm:critical-line-witness-nonescape-boundary} removes the excluded zero-search, classifier, host-equality, quotient, and completeness rows. Therefore carrier admission is exactly the displayed packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus-discipline row]
+\label{thm:critical-line-witness-obligation-modulus-discipline-row}
+For every accepted $\CriticalLineWitnessUp$ packet
+$$
+W=(Z,S,M,R,Q,H,C,P,N),
+$$
+the modulus-discipline obligation says that each depth request is answered only by the on-critical-line modulus row $M$ using the real-part row $R$, the rational comparison ledger $Q$, the displayed transport row $H$, and the continuation row $C$. It does not appeal to an $\mathsf{RH}$ proof, zero search, global zero-set classifier, host equality, quotient representative, or analytic completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the modulus-discipline item in \autoref{thm:critical-line-witness-namecert-obligations}. It identifies $M$ as the row that answers depth requests and names $R$ and $Q$ as the rows consumed by that answer.
+
+Apply \autoref{thm:critical-line-witness-modulus-depth-routing}. The depth route stays inside $M,R,Q,H,C,P,N$ and uses the rational comparison rows already displayed in $Q$.
+
+The non-escape theorem \autoref{thm:critical-line-witness-nonescape-boundary} excludes $\mathsf{RH}$, zero search, global classification, host equality, quotient representatives, and analytic completeness from the route. Thus the modulus discipline is a local $\BHist$ obligation over the displayed packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness ledger-exactness row]
+\label{thm:critical-line-witness-obligation-ledger-exactness-row}
+For every accepted $\CriticalLineWitnessUp$ packet
+$$
+W=(Z,S,M,R,Q,H,C,P,N),
+$$
+the ledger-exactness obligation identifies the public witness ledger with exactly the displayed rows $Z,S,M,R,Q,H,C,P,N$. Every accepted consumer read is sourced by these rows and cannot add an $\mathsf{RH}$ proof, zero-producing search, global classifier, host equality, quotient representative, or ambient analytic-completeness row.
+\end{theorem}
+\begin{proof}
+Read ledger exactness from \autoref{thm:critical-line-witness-ledger-exactness}. It identifies the public ledger with the displayed supplied zero, strip, modulus, real-part, comparison, transport, continuation, provenance, and naming rows.
+
+Use \autoref{thm:critical-line-witness-namecert-obligations} to attach that ledger to the local $\NameCert_{\CriticalLineWitnessUp}$ surface. The ledger is therefore not an external analytic assertion but one row of the same finite packet.
+
+Finally apply \autoref{thm:critical-line-witness-nonescape-boundary}. The excluded $\mathsf{RH}$, search, classifier, host-equality, quotient, and completeness coordinates are absent, so ledger exactness is exactly the displayed $\BHist$ surface.
+\end{proof}
+
 \begin{theorem}[Critical-line witness zero-strip compatibility]
 \label{thm:critical-line-witness-strip-zero-compatibility}
 For an accepted $\CriticalLineWitnessUp$ carrier
