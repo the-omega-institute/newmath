@@ -1,3 +1,47 @@
+\begin{theorem}[UniformModulus root carrier row]
+\label{thm:uniformmodulus-root-carrier-row}
+For an accepted $\UniformModulusUp$ packet
+$$
+U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N),
+$$
+the root carrier row is the finite $\mathsf{ProbeBundle}$ fold packet over $\CompactMetricUp$ finite-net rows, $\ContinuousMapUp$ modulus rows, positive $\RealUp$ precision rows, the $\BHist$ carrier, componentwise $\hsame$ transport $L$, displayed $\Cont$ routes $Q$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$.
+
+Every compact-continuous read of the root carrier must therefore pass through the displayed bundle $\mathcal{P}$, radius ledger $R$, coverage row $C$, pointwise rows $M$, finite fold $F$, and boundary rows $L,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniformmodulus-bhist-carrier}. Its root-facing data are exactly the finite bundle, radius ledger, compact coverage, pointwise modulus rows, fold certificate, and transport boundary displayed in $U$.
+
+Apply \autoref{thm:uniformmodulus-compact-net-coverage-obligation}. The compact finite-net portion is read from $\mathcal{P},R,C$ before any pointwise modulus row can be consumed.
+
+Use \autoref{thm:uniformmodulus-finite-probebundle-fold}. The precision row is produced by the finite fold $F$ over those displayed radius rows, and the output remains attached to the same $\BHist$ packet.
+
+Finally close with \autoref{thm:uniformmodulus-compact-continuous-nonescape}. The rows $L,Q,P,N$ are the only consumer boundary, so the root carrier cannot import an open-cover compactness or choice-selection coordinate.
+\end{proof}
+
+\begin{theorem}[UniformModulus root classifier row]
+\label{thm:uniformmodulus-root-classifier-row}
+For an accepted $\UniformModulusUp$ packet $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$, classifier transport is exactly the shared center-radius readback and positive-precision readback already displayed by the packet. A transported classifier read must use the compact finite-net row $C$ to reach a center in $\mathcal{P}$, the radius ledger $R$ to read the center radius, and the fold row $F$ to expose the positive precision row $D$ under $L,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:uniformmodulus-center-radius-readback}. It identifies the classifier-visible center and radius route as the displayed route through $\mathcal{P},R,C$.
+
+Apply \autoref{thm:uniformmodulus-finite-probebundle-fold}. The positive precision row $D$ is the folded readback from the same radius ledger, so classifier transport cannot change the threshold source.
+
+Use \autoref{thm:uniformmodulus-radius-monotonicity-obligation} to keep transported radius reads attached to the same finite fold obligation. The boundary rows $L,Q,P,N$ then carry the shared readback without adding a host classifier or an analytic modulus.
+\end{proof}
+
+\begin{theorem}[UniformModulus root consumer threshold row]
+\label{thm:uniformmodulus-root-consumer-threshold-row}
+Every compact-continuous consumer of an accepted $\UniformModulusUp$ packet receives only the finite-net threshold row $D$, the pointwise modulus route through $M$, the rational fold floor $F$, and the ledger rows $\mathcal{P},R,C,L,Q,P,N$. The consumer receives no open-cover compactness object, no sequential compactness row, no choice-like center selection, no host minimum, and no external modulus selector.
+\end{theorem}
+\begin{proof}
+Read the consumer boundary through \autoref{thm:uniformmodulus-consumer-read-exhaustion}. The exported rows are the tolerance, threshold, bundle, radius, coverage, pointwise, fold, transport, continuation, package, and naming rows of the same packet.
+
+Apply \autoref{thm:uniformmodulus-root-classifier-row}. It fixes center-radius and positive-precision readback as the shared classifier route available to the consumer.
+
+Finally use \autoref{thm:uniformmodulus-compact-continuous-nonescape}. After the finite-net threshold, pointwise route, rational fold floor, and ledger rows have been read, no coordinate remains for open-cover compactness, choice-like selection, a host minimum, or an external modulus selector.
+\end{proof}
+
 \begin{theorem}[UniformModulus finite-net realizer unblock]
 \label{thm:uniformmodulus-finite-net-realizer-unblock}
 For an accepted $\UniformModulusUp$ packet
