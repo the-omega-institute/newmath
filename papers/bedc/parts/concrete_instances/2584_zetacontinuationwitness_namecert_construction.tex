@@ -305,6 +305,46 @@ Apply the dependency ledger and NameCert obligation surface. They bind carrier a
 Use route stability and the continuation handoff for downstream reads. Every public route is replayed through $H,C$ and authenticated by $R,N$, so no consumer can obtain a separate analytic branch, branch selector, or zero-location row outside the package provenance.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationWitness root carrier exposure]
+\label{thm:zeta-continuation-witness-root-carrier-exposure}
+Every accepted $\ZetaContinuationWitnessUp$ carrier exposes the root-unblock surface only through
+$$
+B,E,A,P,F,T,G,H,C,R,N.
+$$
+These rows bind the $\ZetaBasicUp$ source, eta route, analytic-continuation row, complex and holomorphic dependency rows, $\ZetaContUp$ continuation route, $\ZetaZerosUp$ consumer boundary, exceptional ledgers, Gamma boundary, transport, replay, provenance, and naming data. The carrier does not admit analytic continuation as a primitive and does not assert any critical-strip truth claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeta-continuation-witness-carrier}. Its displayed coordinates are exactly the source, continuation, ledger, boundary, transport, replay, provenance, and naming rows.
+
+Use \autoref{thm:zeta-continuation-witness-dependency-ledger} and \autoref{thm:zeta-continuation-witness-package-provenance-exactness}. They bind the $\ZetaBasicUp$, $\ZetaContUp$, $\AnalyticContUp$, $\HolomorphicUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependencies to that finite packet.
+
+Finally apply the critical-strip input refusal and ledger non-escape boundary. Since the packet has no RH coordinate, no global zero-location classifier, and no closed Gamma coordinate, the root carrier exposes only the displayed witness rows.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness route classifier stability]
+\label{thm:zeta-continuation-witness-route-classifier-stability}
+For accepted $\ZetaContinuationWitnessUp$ carriers, the route classifier is stable only along the displayed analytic-continuation, complex, holomorphic, $\ZetaBasicUp$, $\ZetaContUp$, and $\ZetaZerosUp$ dependency rows recorded in $B,E,A,F,H,C,R,N$, with pole, trivial-zero, and Gamma-boundary reads confined to $P,T,G$. It cannot stabilize a hidden analytic continuation primitive, RH predicate, or critical-strip zero-location row.
+\end{theorem}
+\begin{proof}
+Start with classifier stability \autoref{thm:zeta-continuation-witness-classifier-stability}. It transports the source row, eta route, pole ledger, functional-equation route, trivial-zero ledger, Gamma boundary, package provenance, and local name componentwise.
+
+Use route stability budget \autoref{thm:zeta-continuation-witness-route-stability-budget}. The public route keeps the same eta, pole, functional-equation, trivial-zero, and Gamma-boundary budget after $\hsame$ transport and $\Cont$ replay.
+
+Apply carrier admission tightening and functional-factor non-escape. They force every classified route through the displayed dependency rows and rule out hidden branch data, RH predicates, and zero-location classifiers.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness ledger scope]
+\label{thm:zeta-continuation-witness-ledger-scope}
+The $\ZetaContinuationWitnessUp$ ledger scope consists exactly of the displayed $\ZetaBasicUp$, $\ZetaContUp$, $\AnalyticContUp$, $\HolomorphicUp$, $\ComplexUp$, pole, trivial-zero, Gamma-boundary, transport, replay, package, and naming rows of $W=(B,E,A,P,F,T,G,H,C,R,N)$. Downstream critical-strip and zeta-zero consumers may use this ledger as a finite witness interface, but not as a proof of RH, a non-trivial-zero locator, or an ambient analytic-continuation primitive.
+\end{theorem}
+\begin{proof}
+Read the finite ledger from the carrier definition and the NameCert obligation surface. The rows $B,E,A,F$ hold the continuation-facing data, $P,T,G$ hold the exceptional and boundary ledgers, and $H,C,R,N$ authenticate the public route.
+
+Apply the critical-strip handoff theorem. It sends critical-strip and zeta-zero consumers through the same displayed packet and excludes RH predicates, non-trivial-zero locators, and global zero classifiers from the handoff.
+
+Use package provenance exactness to close the scope. The dependency rows are exactly the finite provenance surface over zeta, analytic, holomorphic, complex, history, transport, continuation, package, and naming data, so the ledger cannot be read as an off-table analytic claim.
+\end{proof}
+
 \closureat{ZetaContinuationWitnessUp}{seedStr}
 \closureat{ZetaContinuationWitnessUp}{obligationStr}
 
