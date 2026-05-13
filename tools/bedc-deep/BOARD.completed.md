@@ -18159,3 +18159,28 @@ Rationale:
 The carrier is a finite packet B=(q,w,r,e,h,c,p,n) with q as the precision request, w as the cofinal-window ledger, r as RegSeqRat handoff, e as RealUp seal, h as componentwise hsame transports, and c as the displayed Cont route at papers/bedc/parts/concrete_instances/3409_cofinalregularlimitbudget_namecert_construction.tex:7-24. The existing theorem at lines 27-37 lists carrier admission, cofinal-window coverage, handoff, seal routing, and non-escape, but it does not state uniqueness or determinacy of w for a shared request-route endpoint. Focused rg for CofinalRegularLimitBudget found only this chapter, its index input, and one vision concretization reference; there is no separate theorem label for window determinacy or cofinal-window uniqueness. The claim is a finite route determinacy theorem about the existing budget packet and its displayed hsame/Cont rows.
 
 ---
+
+### B-720 - PackageTokenPolicy has no token-existence consequence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | PackageTokenPolicy has no token-existence consequence |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If TokIntro(Pi,-,-) is empty and the package-token soundness and reflection clauses are universally quantified over introduced-token premises, then PackageTokenPolicy(Pi) holds while the token-existence assertion forall s exists p, TokIntro(Pi,s,p) fails.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+
+Rationale:
+This is a BEDC-native obstruction target inside the existing package-token policy surface. The paper already states that token existence is a separate premise from PackageTokenPolicy, but the proposed candidate isolates the irredundancy as a concrete vacuity counterexample: classification fields over introduced tokens do not manufacture introduced tokens. It is not a duplicate of the existing positive PackageTokenPolicy, TokUnique, or token-reflection targets, because those compare already introduced tokens rather than separating policy satisfaction from witness existence.
+
+---

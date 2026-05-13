@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailScheduleUp$}
+\label{ch:concrete-instances-regularcauchytailschedule-namecert}
+\origin{ai}
+
+The $\RegularCauchyTailScheduleUp$ packet realizes the finite precision-to-cofinal-tail schedule used by the Real completeness route of \autoref{ch:visions-real-completeness}. It sits between the diagonal selector surface of \autoref{ch:concrete-instances-diagonal-tail-selector-namecert}, the shared-threshold packet of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, and the tail-fusion packet of \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}. The packet records only displayed $\BHist$ rows: no quotient stream equality, host real equality, selected completed limit, unbounded diagonal stream, or ambient completeness theorem is exported.
+
+\begin{definition}[Regular Cauchy tail schedule carrier]
+\label{def:regular-cauchy-tail-schedule-carrier}
+A $\RegularCauchyTailScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $Q$ is the finite precision-request row consumed by the Real and Completion route;
+\item $R$ is the $\RegSeqRatUp$ regular rational source row whose tails are scheduled;
+\item $W$ is the finite $\StreamNameUp$ window schedule selected for $Q$;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and endpoint ledger for the selected windows;
+\item $K$ is the cofinal-index row naming the finite tail bound reached by the schedule;
+\item $T$ is the finite tail-witness row read from $R,W,D,K$;
+\item $M$ is the $\RegularCauchyTailMeetUp$ shared-threshold packet available to consumers that compare the scheduled tail with another tail;
+\item $F$ is the $\RegularCauchyTailFusionUp$ consumer row that may fuse the displayed tail witness with the downstream diagonal readback;
+\item $E$ is the $\RealUp$ seal-facing handoff row reached only after $Q,R,W,D,K,T,M,F$ are displayed;
+\item $H$ stores componentwise $\hsame$ transports for the precision request, source row, window schedule, dyadic ledger, cofinal index, tail witness, sibling consumer rows, seal-facing row, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes from precision request to window selection, cofinal tail choice, tail witness, shared-threshold read, tail-fusion read, and seal-facing handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RegularCauchyTailFusionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyTailScheduleUp}$ row.
+\end{enumerate}
+The carrier is the finite schedule row linking a precision request to one displayed cofinal tail. It contains no coordinate for a host-level subsequence, quotient stream equality, selected Real limit, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail schedule NameCert obligations]
+\label{thm:regular-cauchy-tail-schedule-namecert-obligations}
+The local $\NameCert_{\RegularCauchyTailScheduleUp}$ surface for the carrier of \autoref{def:regular-cauchy-tail-schedule-carrier} consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $S=(Q,R,W,D,K,T,M,F,E,H,C,P,N)$;
+\item classifier stability under the displayed $\hsame$ transports of $H$ for the precision request, source row, windows, dyadic ledger, cofinal index, tail witness, sibling consumer rows, seal-facing row, provenance, and local name;
+\item schedule exactness, which forces every cofinal-tail read to pass through $Q,R,W,D,K,T$ before any sibling consumer can inspect it;
+\item downstream consumer handoff, which routes shared-threshold reads through \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, tail-fusion reads through \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, and selector-origin reads through \autoref{ch:concrete-instances-diagonal-tail-selector-namecert};
+\item ledger non-escape for the $\Cont$, $\Pkg$, and local $\NameCert$ rows, excluding quotient stream equality, host real equality, selected completed limits, unbounded diagonal streams, and ambient completeness witnesses.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier $S$. Its first six coordinates name the precision request, the regular rational source, the selected finite windows, the dyadic ledger, the cofinal index, and the finite tail witness. These rows give the schedule exactness route.
+
+Next inspect the sibling consumer coordinates. The shared-threshold row $M$ is the only tail-meet handoff, and the tail-fusion row $F$ is the only fusion handoff. The chapter links them to the displayed sibling certificates, while the selector-origin route is read through the diagonal-tail selector sibling.
+
+Finally use the structural rows $H,C,P,N$. They transport the same displayed coordinates, replay the same finite continuations, record package provenance, and name the local certificate. Since the carrier has no coordinate for quotient streams, host equality, selected limits, unbounded diagonal objects, or ambient completeness, the five rows exhaust the local naming surface.
+\end{proof}
+
+\closureat{RegularCauchyTailScheduleUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailScheduleUp}
+  \constructivestory{A $\RegularCauchyTailScheduleUp$ packet is generated from a precision request, $\RegSeqRatUp$ source row, finite $\StreamNameUp$ window schedule, $\DyadicRatCoreUp$ tolerance ledger, cofinal-index row, displayed tail witness, sibling $\RegularCauchyTailMeetUp$ and $\RegularCauchyTailFusionUp$ consumer rows, $\RealUp$ seal-facing handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-schedule-carrier} and \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations} bind the finite precision-to-cofinal-tail schedule used between diagonal selection, shared-threshold meet, tail fusion, and the Real-facing seal route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected completed limits, unbounded diagonal streams, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, schedule exactness, sibling-consumer handoff, and ledger non-escape for the same finite schedule packet.}
+\end{closurestatus}
