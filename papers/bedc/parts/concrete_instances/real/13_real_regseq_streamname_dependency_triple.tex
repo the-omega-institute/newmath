@@ -276,3 +276,54 @@ The exclusion clause in the definition removes quotient streams, host
 equality, selected limits, ambient completeness, arithmetic and order packages,
 and metric-completeness rows from the classifier.
 \end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName dyadic window lock]
+\label{thm:real-regseq-streamname-dyadic-window-lock}
+Let
+$$
+X=(S,Q,D,R,H,C,P,N)
+\quad\text{and}\quad
+Y=(S',Q',D',R',H',C',P',N')
+$$
+be accepted $\RealUp$ RegSeqRat StreamName dependency triples. Suppose the
+displayed $\StreamNameUp$ finite-window rows $S,S'$, the $\RegSeqRatUp$
+readback rows $Q,Q'$, the $\DyadicRatCoreUp$ ledger rows $D,D'$, and the
+$\RealUp$ seal rows $R,R'$ agree componentwise under the shown $\hsame$
+transports in $H,H'$, the displayed $\Cont$ routes in $C,C'$, the package rows
+$P,P'$, and the local $\NameCert$ rows $N,N'$.
+
+Then every completion-facing $\RealUp$ consumer comparison between $X$ and $Y$
+factors through exactly the common finite four-face window lock
+$$
+(S,Q,D,R,H,C,P,N)\simeq(S',Q',D',R',H',C',P',N').
+$$
+That lock is the shared pullback of the $\StreamNameUp$ finite-window face, the
+$\RegSeqRatUp$ readback face, the $\DyadicRatCoreUp$ ledger face, and the local
+$\RealUp$ seal face, with no quotient stream, selected host limit, host
+equality, representative choice, ambient completeness principle,
+arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion} to both
+accepted triples. Each seal-facing route is exhausted by the displayed
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$,
+$\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Next apply \autoref{thm:real-regseq-streamname-cauchy-completion-interface}.
+It turns the same exhausted route into the completion-facing boundary, so a
+consumer comparison has no access to data before or after the finite route
+except through the rows shown in the two packets.
+
+Use \autoref{thm:real-seal-regseq-streamname-dependency-exhaustion} to remove
+the remaining escape coordinates. Quotient streams, selected limits,
+representative choices, host equality, ambient completeness, arithmetic and
+order packages, and metric-completeness rows are not coordinates of the
+accepted dependency triples.
+
+Finally apply
+\autoref{thm:real-regseq-streamname-finite-window-pullback-classifier}. The
+componentwise agreement hypotheses are exactly the pullback agreement
+conditions for the four open-phase faces and their structural rows. Therefore
+every completion-facing comparison factors through that common finite window
+lock and through nothing larger.
+\end{proof}
