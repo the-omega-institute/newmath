@@ -86,6 +86,13 @@ def _now_tag() -> str:
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
+def _safe_run_id(value: str) -> str:
+    text = (value or "").strip()
+    if not text:
+        return _now_tag()
+    return re.sub(r"[^A-Za-z0-9_.-]+", "_", text)
+
+
 def _safe(text: str) -> str:
     return (text or "").replace("{", "{{").replace("}", "}}")
 
@@ -396,10 +403,12 @@ def main() -> int:
                         help="PDF to upload with the refill task; default: papers/bedc/main.pdf")
     parser.add_argument("--no-attach-pdf", action="store_true",
                         help="Do not upload a PDF with the refill task.")
+    parser.add_argument("--run-id", default="",
+                        help="Filesystem-safe run id shared with supervisor logs.")
     args = parser.parse_args()
 
     LOG_DIR.mkdir(parents=True, exist_ok=True)
-    ts = _now_tag()
+    ts = _safe_run_id(args.run_id)
 
     if not args.dry_run:
         # Verify server readiness before building/logging a prompt. Duplicate or
