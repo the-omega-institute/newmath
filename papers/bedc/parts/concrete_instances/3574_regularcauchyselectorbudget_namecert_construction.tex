@@ -157,6 +157,24 @@ Next apply \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}. The 
 Finally use \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, and \autoref{thm:regular-cauchy-selector-budget-verification-handoff}. These rows exhaust the packet surface and exclude every route outside $\mu,W,S,R,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[RegularCauchySelectorBudget diagonal use]
+\label{thm:regular-cauchy-selector-budget-diagonal-use}
+Every diagonal Real-completion consumer of an accepted $\RegularCauchySelectorBudgetUp$ packet
+$$
+Q=(\mu,W,S,R,E,H,C,P,N)
+$$
+must first read the selector modulus $\mu$, finite window budget $W$, $\StreamNameUp$ observations $S$, $\RegSeqRatUp$ witness $R$, and $\RealUp$ seal $E$ through the displayed $H,C,P,N$ rows. No diagonal consumer may substitute a host limit, quotient-stream equality, countable choice selector, hidden window enlargement, or ambient completeness witness for those finite rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-selector-budget-window-coverage}. It binds every observation request to the selected finite window budget $W$ read from the selector modulus $\mu$.
+
+Apply \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}. The $\RegSeqRatUp$ witness $R$ is assembled only after the StreamName observations $S$ have been read through the same transport, route, provenance, and naming rows.
+
+Next use \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}. The $\RealUp$ seal $E$ is available only after that finite RegSeqRat route has been displayed.
+
+Finally apply \autoref{thm:regular-cauchy-selector-budget-nonescape} and \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}. These results exhaust the diagonal consumer surface at $\mu,W,S,R,E,H,C,P,N$ and exclude host limits, quotient-stream equality, countable choice selectors, hidden window enlargement, and ambient completeness witnesses.
+\end{proof}
+
 \begin{theorem}[RegularCauchySelectorBudget tail selector compatibility]
 \label{thm:regular-cauchy-selector-budget-tail-selector-compatibility}
 Every tail-selector read through an accepted $\RegularCauchySelectorBudgetUp$ carrier is compatible with the same selector modulus $\mu$ and finite window budget $W$. A tail row may inspect only StreamName observations inside $S$, may assemble its regular rational witness only through $R$, and may reach any Real-facing seal only through $E$ after the route $\mu,W,S,R,H,C,P,N$ has been displayed.
