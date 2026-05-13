@@ -79,6 +79,50 @@ Use the local NameCert obligations to order the handoff through observed-history
 Route determinacy then rules out alternate clock readings of the same packet. The no-global-clock exclusions are carrier exclusions: none of the forbidden objects appears as a coordinate, so no consumer can project it from the handoff.
 \end{proof}
 
+\begin{theorem}[Local clock budget carrier scope]
+\label{thm:local-clock-budget-carrier-scope}
+For an accepted $\LocalClockBudgetUp$ packet
+$$
+C=(H,T,W,B,L,Q,P,N),
+$$
+the carrier scope is anchored in the single displayed $\BHist$ history row $H$ and its finite local $\Cont$ stream $T$. The scope contains exactly the window family $W$, unary budget row $B$, componentwise $\hsame$ transport row $L$, displayed route row $Q$, $\Pkg$ provenance row $P$, and local $\NameCert_{\LocalClockBudgetUp}$ row $N$, and it contains no global clock, host time parameter, inter-history synchronization coordinate, limit scheduler, or observer-substance outside $\Hist$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:local-clock-budget-carrier}. The tuple $C=(H,T,W,B,L,Q,P,N)$ displays the whole accepted packet.
+
+Use window totality. \autoref{thm:local-clock-budget-window-totality} anchors the finite window family $W$ and the unary budget row $B$ in the local $\Cont$ stream $T$ over the history row $H$.
+
+The carrier inventory excludes every global or host-side clock coordinate. Therefore the carrier scope is exactly the displayed $\BHist$-anchored packet.
+\end{proof}
+
+\begin{theorem}[Local clock budget classifier stability]
+\label{thm:local-clock-budget-classifier-stability}
+Let $C=(H,T,W,B,L,Q,P,N)$ be an accepted $\LocalClockBudgetUp$ packet. Transporting $H,T,W,B,P,N$ componentwise by the $\hsame$ rows recorded in $L$ and then replaying the displayed $\Cont$ routes in $Q$ preserves the local-clock-budget classifier. In particular, no transported packet can be separated by a global clock, host time parameter, inter-history synchronization value, limit scheduler, or observer-substance beyond $\Hist$.
+\end{theorem}
+\begin{proof}
+Start from the displayed transport row $L$. Its entries move the history row, local stream row, window family, budget row, provenance row, and local name componentwise to the common $\hsame$ surface.
+
+Replay the routes in $Q$. Window totality binds the transported windows and budget to the same finite local stream, and route determinacy identifies any two consumer routes that display the same rows up to those transports.
+
+The no-global-clock exclusions are part of the carrier inventory. With no forbidden coordinate available, the classifier remains stable after the recorded transport and replay.
+\end{proof}
+
+\begin{theorem}[Local clock budget ledger boundary]
+\label{thm:local-clock-budget-ledger-boundary}
+Every ledger read exported by an accepted $\LocalClockBudgetUp$ packet
+$$
+C=(H,T,W,B,L,Q,P,N)
+$$
+is bounded by the displayed $\BHist$-anchored local stream, finite $\Cont$ windows, unary budget, transport, route, provenance, and local naming rows. The ledger may be handed to observer-facing consumers through \autoref{thm:local-clock-budget-observer-handoff}, but it cannot export a global clock, host time parameter, inter-history synchronization value, hidden limit schedule, or observer-substance outside $\Hist$.
+\end{theorem}
+\begin{proof}
+Read the ledger from the carrier. The only budget-bearing rows are the local stream $T$, window family $W$, unary budget $B$, transport row $L$, route row $Q$, provenance row $P$, and local name $N$ over the observed history row $H$.
+
+Apply window totality and route determinacy. These theorems force ledger reads through the finite windows and make alternate readings of the same rows agree up to componentwise $\hsame$ transport.
+
+Finally use observer handoff. \autoref{thm:local-clock-budget-observer-handoff} exposes exactly the same rows to downstream consumers, while the carrier exclusions rule out every global-clock or host-time escape.
+\end{proof}
+
 \closureat{LocalClockBudgetUp}{seedStr}
 
 \begin{closurestatus}{\LocalClockBudgetUp}

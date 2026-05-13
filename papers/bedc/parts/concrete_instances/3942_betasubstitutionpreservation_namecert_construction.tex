@@ -150,6 +150,60 @@ The handoff theorem presents the same packet to $\SubjectReductionUp$. Redex led
 Combining these finite rows gives the beta-case obligation package. The non-escape theorem excludes host substitution semantics, unrestricted conversion, global normalization, and closed subject reduction from the package boundary.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionPreservation body and argument boundary]
+\label{thm:beta-substitution-preservation-body-argument-boundary}
+For an accepted $\BetaSubstitutionPreservationUp$ carrier
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N),
+$$
+the body typing boundary $B$ and the argument typing boundary $A$ are the only source typing premises available to the beta-redex route $V$. The ledger $L$, transports $H$, routes $K$, provenance $P$, and local name $N$ may replay those two rows with $C_0,R,C_1$, but they do not add a host substitution semantics row, an unrestricted conversion row, or a closed subject-reduction claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. Its first two rows are exactly the body typing row $B$ and the argument typing row $A$, and the redex route $V$ is listed as the local beta site that consumes them.
+
+Apply the NameCert obligations of \autoref{thm:betasubstitutionpreservation-namecert-obligations}. They expose body typing readback and argument typing readback as separate obligations before the beta-redex route can be replayed.
+
+Use redex closure from \autoref{thm:betasubstitutionpreservation-redex-closure}. The substituted body row $R$ and substituted codomain row $C_1$ are reached only through $B,A,V,C_0,L,H,K,P,N$.
+
+Finally apply non-escape from \autoref{thm:betasubstitutionpreservation-nonescape}. Since no coordinate supplies host substitution semantics, unrestricted conversion, or closed subject reduction, the body and argument boundary remains exactly the displayed pair $B,A$.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation codomain readback]
+\label{thm:beta-substitution-preservation-codomain-readback}
+For an accepted $\BetaSubstitutionPreservationUp$ carrier
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N),
+$$
+the codomain readback used by the beta case is exactly the pair of displayed rows $C_0$ and $C_1$: $C_0$ records the shifted-domain binder boundary before substitution, and $C_1$ records the substituted codomain readback after the beta argument is installed. No consumer may replace this pair by host codomain computation, semantic equality of terms, unrestricted conversion, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Read the codomain rows from \autoref{def:betasubstitutionpreservation-carrier}. The row $C_0$ is the codomain readback before substitution, and the row $C_1$ is the substituted codomain readback.
+
+Apply codomain-boundary stability from \autoref{thm:betasubstitutionpreservation-codomain-boundary-stability}. It keeps $C_0$ and $C_1$ paired under the componentwise transports $H$ and displayed continuation routes $K$.
+
+Use the beta-case obligation package of \autoref{thm:betasubstitutionpreservation-beta-case-obligation-package}. That package combines the codomain pair with $B,A,V,R,L,H,K,P,N$ as the beta obligation surface consumed by $\SubjectReductionUp$.
+
+Non-escape from \autoref{thm:betasubstitutionpreservation-nonescape} rules out host codomain computation, semantic equality, unrestricted conversion, and closed subject reduction. Thus the codomain readback is exactly the displayed pair $C_0,C_1$.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation substitution non-escape]
+\label{thm:beta-substitution-preservation-substitution-nonescape}
+For an accepted $\BetaSubstitutionPreservationUp$ carrier
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N),
+$$
+the substituted body row $R$ and substituted codomain row $C_1$ can be consumed only through the displayed body typing boundary $B$, argument typing boundary $A$, beta-redex route $V$, codomain boundary $C_0$, ledger $L$, transports $H$, routes $K$, provenance $P$, and local name $N$. The substitution read does not escape to host substitution semantics, semantic term equality, unrestricted conversion, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Begin with redex closure from \autoref{thm:betasubstitutionpreservation-redex-closure}. It states that any public read of the beta-redex preservation step reaches $R$ and $C_1$ only through the displayed beta packet.
+
+Apply the body and argument boundary theorem \autoref{thm:beta-substitution-preservation-body-argument-boundary}. This fixes $B$ and $A$ as the only source typing premises available to the redex route.
+
+Apply codomain readback from \autoref{thm:beta-substitution-preservation-codomain-readback}. This fixes $C_0$ and $C_1$ as the displayed codomain pair, with no host-side replacement.
+
+Finally use the original non-escape theorem \autoref{thm:betasubstitutionpreservation-nonescape} and the subject-reduction handoff \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}. The handoff reads the same finite packet, while non-escape prevents substituted rows from becoming host substitution semantics, semantic equality, unrestricted conversion, or closed subject reduction.
+\end{proof}
+
 \closureat{BetaSubstitutionPreservationUp}{seedStr}
 
 \begin{closurestatus}{\BetaSubstitutionPreservationUp}
