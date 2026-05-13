@@ -94,6 +94,51 @@ carrier, host equality, completeness, arithmetic, order, or
 metric-completeness datum is introduced.
 \end{proof}
 
+\begin{theorem}[RealUp open-phase four-face consumer totality]
+\label{thm:realup-open-phase-four-face-consumer-totality}
+Every downstream $\RealUp$, $\RegSeqRatUp$, completion-facing, or
+stream-facing consumer of an accepted finite $\RealUp$ seal source factors
+through exactly the four displayed open-phase faces:
+\begin{enumerate}
+  \item the $\DyadicRatCoreUp$ observation rows over the finite unary window;
+  \item the $\StreamNameUp$ finite-window classifier rows and transported
+  stream-name rows;
+  \item the $\RegSeqRatUp$ regularity-spine rows over the same scheduled
+  observations;
+  \item the $\RealUp$ seal, endpoint readback, and provenance rows.
+\end{enumerate}
+The only structural rows available to the consumer are the displayed
+$\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. The
+consumer route has no coordinate for quotient carriers, host equality, ambient
+completeness, arithmetic packages, order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+Project the accepted finite seal source through
+\autoref{thm:realup-open-phase-seal-exactness}. Exactness reads the seal source
+as one $\BHist$ packet whose projections are precisely the dyadic observation
+face, the stream-name finite-window face, the regular-rational spine face, and
+the $\RealUp$ seal/readback provenance face.
+
+Now use \autoref{thm:realup-regseqrat-streamname-seal-handoff}. The handoff
+identifies the seal-facing rows consumed at the $\RealUp$ and $\RegSeqRatUp$
+boundary: classifier rows, transported stream rows, endpoint carriers,
+finite-window ledger, and provenance. These rows are already contained in the
+four projected faces.
+
+For the stream-facing side, cite the scoped $\StreamNameUp$ finite-window
+coverage used in the surrounding handoff proof. For the completion-facing side,
+cite the finite-window $\RegSeqRatUp$ seal rows that place every regularity
+read on the same scheduled dyadic observations. Both consumers therefore read
+only rows already present in the same four-face packet.
+
+It remains to exclude off-table data. Coordinate exhaustion leaves only the
+displayed $\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+structural rows after the four faces are projected. Since none of those rows is
+a quotient carrier, host equality, ambient completeness datum, arithmetic or
+order package, or metric-completeness row, no downstream consumer can factor
+through a fifth face.
+\end{proof}
+
 \begin{theorem}[RealUp finite seal source uniqueness]
 \label{thm:realup-finite-seal-source-uniqueness}
 Two finite $\RealUp$ seal handoffs over the same $\StreamNameUp$
