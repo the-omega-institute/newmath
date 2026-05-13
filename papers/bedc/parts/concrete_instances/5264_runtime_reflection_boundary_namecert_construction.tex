@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RuntimeReflectionBoundaryUp$}
+\label{ch:concrete-instances-runtime-reflection-boundary-namecert}
+\origin{ai}
+
+The $\RuntimeReflectionBoundaryUp$ packet realizes the runtime half of the reflection limit in \autoref{ch:visions-reflection-and-limits}. It sits beside the truth-total obstruction packet of \autoref{ch:concrete-instances-truthtotalreflection-namecert} and the certificate-indexed self-reference branch packet of \autoref{ch:concrete-instances-selfreferencetruthbranch-namecert}: those siblings record truth-total and branch-query refusals, while this packet records the concrete runtime-request surface that separates structural self-description from external kernel execution.
+
+\begin{definition}[Runtime-reflection boundary carrier]
+\label{def:runtime-reflection-boundary-carrier}
+A $\RuntimeReflectionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,Q,E,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the structural self-description row over the internal $\mathrm{CIC}^{*}$ presentation, including formation, replay, and certificate-shape data;
+\item $Q$ is the runtime-request route, naming the object-level request that a consumer wants to treat as validation of the same structural presentation;
+\item $E$ is the execution-refusal row, recording that external kernel execution is not a carrier coordinate and cannot be supplied by the described object language;
+\item $V$ is the displayed runtime-boundary report, separating structural replay through $S$ from the refused validator route through $Q$ and $E$;
+\item $H$ records componentwise $\hsame$ transport for structural self-description, runtime requests, execution refusal, boundary reports, routes, provenance, and local names;
+\item $C$ records displayed $\Cont$ routes by which consumers read $S$, inspect $Q$, receive $E$, replay $V$, and transport the same packet through $H$;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-reflection-and-limits}, \autoref{ch:concrete-instances-truthtotalreflection-namecert}, \autoref{ch:concrete-instances-selfreferencetruthbranch-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RuntimeReflectionBoundaryUp}$ row.
+\end{enumerate}
+The carrier stores no BEDC-internal runtime validator, no truth-total classifier, no certificate-indexed truth branch, and no route that turns structural self-description into host execution.
+\end{definition}
+
+\begin{theorem}[Runtime-reflection boundary NameCert obligations]
+\label{thm:runtime-reflection-boundary-namecert-obligations}
+For the carrier of \autoref{def:runtime-reflection-boundary-carrier}, the local $\NameCert_{\RuntimeReflectionBoundaryUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $R=(S,Q,E,V,H,C,P,N)$;
+\item structural self-description exactness, requiring every admitted description read to factor through $S$;
+\item runtime-request accountability, requiring every attempted validator read to enter through the displayed route $Q$;
+\item execution refusal and report exactness, requiring the refusal row $E$ and boundary report $V$ to be the only runtime-facing exports;
+\item transport and provenance closure, requiring all comparisons, consumer routes, package provenance, and local naming to be exactly the displayed rows $H,C,P,N$.
+\end{enumerate}
+Thus a consumer can read structural self-description and the refused runtime request, but it cannot obtain a BEDC-internal runtime validator from the packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:runtime-reflection-boundary-carrier}. The rows $S,Q,E,V,H,C,P,N$ are the complete finite packet.
+
+Structural self-description exactness reads $S$ first. The row displays formation, replay, and certificate-shape data, so a consumer may inspect the structural copy described in \autoref{ch:visions-reflection-and-limits}.
+
+Runtime-request accountability reads $Q$ before any runtime-facing claim. The requested validator route is a displayed object-level request, not the host act of validation.
+
+Execution refusal is carried by $E$ and reported by $V$. Since those are the only runtime-facing rows, every accepted runtime-boundary packet refuses any consumer path that asks for a BEDC-internal runtime validator row not displayed in the carrier.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite surface. They add no hidden validator, truth-total classifier, certificate-indexed truth branch, internal-theory row, or identity-commitment row.
+\end{proof}
+
+\begin{theorem}[Runtime-reflection boundary TasteGate obligation]
+\label{thm:runtime-reflection-boundary-tastegate-obligation}
+The later Lean \texttt{TasteGate.lean} development for $\RuntimeReflectionBoundaryUp$ must include explicit $\mathsf{Nontrivial}\ \RuntimeReflectionBoundaryUp$ and $\mathsf{FieldFaithful}\ \RuntimeReflectionBoundaryUp$ instances. These instances must preserve the structural self-description row, runtime-request route, execution-refusal row, runtime-boundary report, $\hsame$ transport, $\Cont$ routes, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+The carrier is not determined by structural self-description alone. It also carries the runtime-request route and execution-refusal row that mark the runtime half of the reflection limit.
+
+Nontriviality rules out a collapsed packet where the runtime request is indistinguishable from the structural description. Field faithfulness records preservation of all displayed rows $S,Q,E,V,H,C,P,N$, so the future TasteGate surface can distinguish structural replay from refused internal validation.
+\end{proof}
+
+\falsifiablePrediction{Every accepted runtime-boundary packet refuses any consumer path that asks for a BEDC-internal runtime validator row not displayed in the carrier.}
+
+\independenceWitness{TruthTotalReflection, SelfReferenceTruthBranch, InternalTheoryBoundary, MetaCICIdentityBoundary: the runtime-boundary carrier has an execution-refusal row and runtime-request route that none of these siblings carries, while it lacks their truth-total, certificate-indexed truth, internal-theory, or identity-commitment rows, so no bijective carrier match preserves NameCert obligations.}
+
+\closureat{RuntimeReflectionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\RuntimeReflectionBoundaryUp}
+  \constructivestory{A $\RuntimeReflectionBoundaryUp$ packet is generated from a structural self-description row, a runtime-request route, an execution-refusal row, a runtime-boundary report, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:runtime-reflection-boundary-carrier}, \autoref{thm:runtime-reflection-boundary-namecert-obligations}, and \autoref{thm:runtime-reflection-boundary-tastegate-obligation} specify the finite runtime-boundary packet separating structural self-description from external kernel execution.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not provide an internal runtime validator, a truth-total classifier, a certificate-indexed truth branch, Lean verification, or bridge checking for $\RuntimeReflectionBoundaryUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, structural-description exactness, runtime-request accountability, execution-refusal exactness, transport closure, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
