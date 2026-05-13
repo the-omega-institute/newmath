@@ -103,4 +103,51 @@ theorem UniformModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetu
       exact ⟨sourceRow.right.right, precisionRadiusFoldLedger, exportRoute⟩
   }
 
+theorem UniformModulusPacket_classifier_transport_stability [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow tolerance' precision' bundleRow' radius' coverage' pointwise' foldLedger'
+      transport' provenance' nameRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      hsame tolerance tolerance' -> hsame precision precision' -> hsame bundleRow bundleRow' ->
+        hsame radius radius' -> hsame nameRow nameRow' ->
+          Cont tolerance' bundleRow' coverage' -> Cont coverage' pointwise' transport' ->
+            Cont precision' radius' foldLedger' -> Cont foldLedger' nameRow' provenance' ->
+              PkgSig bundle provenance' pkg ->
+                UniformModulusPacket tolerance' precision' bundleRow' radius' coverage'
+                  pointwise' foldLedger' transport' provenance' nameRow' bundle pkg /\
+                    hsame provenance provenance' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg
+  intro packet sameTolerance samePrecision sameBundleRow sameRadius sameNameRow
+    coverageRoute' transportRoute' foldRoute' provenanceRoute' provenancePkg'
+  obtain ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, nameRowUnary,
+    coverageRoute, _transportRoute, foldRoute, provenanceRoute, _provenancePkg⟩ := packet
+  have toleranceUnary' : UnaryHistory tolerance' :=
+    unary_transport toleranceUnary sameTolerance
+  have precisionUnary' : UnaryHistory precision' :=
+    unary_transport precisionUnary samePrecision
+  have bundleRowUnary' : UnaryHistory bundleRow' :=
+    unary_transport bundleRowUnary sameBundleRow
+  have radiusUnary' : UnaryHistory radius' :=
+    unary_transport radiusUnary sameRadius
+  have nameRowUnary' : UnaryHistory nameRow' :=
+    unary_transport nameRowUnary sameNameRow
+  have sameFoldLedger : hsame foldLedger foldLedger' :=
+    cont_respects_hsame samePrecision sameRadius foldRoute foldRoute'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameFoldLedger sameNameRow provenanceRoute provenanceRoute'
+  exact
+    ⟨⟨toleranceUnary',
+      precisionUnary',
+      bundleRowUnary',
+      radiusUnary',
+      nameRowUnary',
+      coverageRoute',
+      transportRoute',
+      foldRoute',
+      provenanceRoute',
+      provenancePkg'⟩,
+      sameProvenance⟩
+
 end BEDC.Derived.UniformModulusUp
