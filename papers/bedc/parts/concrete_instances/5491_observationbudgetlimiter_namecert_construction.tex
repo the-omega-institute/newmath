@@ -227,6 +227,48 @@ Next apply \autoref{thm:observation-budget-limiter-source-window-readback-lock}.
 Finally apply \autoref{thm:observation-budget-limiter-seal-ordering} and \autoref{thm:observation-budget-limiter-real-seal-cap-boundary}. They place the $\RealUp$ seal row after the capped readback and identify $H,C,P,N$ as the seal-facing boundary. A $\CauchyLimitSealUp$, $\UniformLimitUp$, or Real-route consumer therefore becomes eligible only after the displayed finite service triad has been read.
 \end{proof}
 
+\begin{theorem}[Observation-budget limiter primitive scope]
+\label{thm:observation-budget-limiter-primitive-scope}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. Every cap, window, dyadic observation, $\RegSeqRatUp$ readback, $\RealUp$ seal, transport, continuation, package, and $\NameCert_{\ObservationBudgetLimiterUp}$ obligation of $L$ factors only through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\RealObservationBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. No obligation of the packet factors through a quotient stream, host real equality, selected limit, trichotomy row, independent real carrier, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:observation-budget-limiter-carrier}. The coordinates of $L$ are exactly the request, observation-budget, cap, window, dyadic, regular readback, seal, transport, continuation, package, and local naming rows listed there.
+
+Apply \autoref{thm:observation-budget-limiter-namecert-obligations}. Its obligations read those coordinates as carrier admission, cap admission, finite-window service, dyadic and regular readback, seal handoff, and non-escape clauses, all inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Use \autoref{thm:observation-budget-limiter-finite-service-triad} and \autoref{thm:observation-budget-limiter-source-window-readback-lock} to identify the only downstream route as the finite triad
+$$
+(E,B,K) \quad (W,D,R) \quad (S,H,C,P,N).
+$$
+The non-escape clauses in those results exclude quotient streams, host real equality, selected limits, trichotomy, independent real carriers, and ambient completeness, so every listed obligation remains in the primitive scope.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter TasteGate boundary]
+\label{thm:observation-budget-limiter-tastegate-boundary}
+The falsifiable prediction, independence witness, carrier rows, cap-admission theorem, seal-ordering theorem, capped-window transport theorem, and primitive-scope theorem of this chapter present the exact finite carrier boundary that a later Lean $\texttt{Nontrivial}$ plus $\texttt{FieldFaithful}$ TasteGate instance for $\ObservationBudgetLimiterUp$ must compile. The boundary is the finite limiter packet surface and not an ambient Real completeness, quotient, selected-limit, host-equality, trichotomy, or independent-carrier assertion.
+\end{theorem}
+\begin{proof}
+The prediction and independence witness at the start of the chapter isolate the falsifiable role of the budget-cap gate: deleting it changes the Real and Completion service, and no listed sibling is bijective with the carrier.
+
+The carrier boundary is then fixed by \autoref{def:observation-budget-limiter-carrier}. Apply \autoref{thm:observation-budget-limiter-cap-admission}, \autoref{thm:observation-budget-limiter-seal-ordering}, and \autoref{thm:observation-budget-limiter-capped-window-transport} to make the accepted packet usable only through its finite cap, ordered seal route, and transported capped window.
+
+Finally apply \autoref{thm:observation-budget-limiter-primitive-scope}. It states that every obligation used by the packet remains inside the displayed BEDC rows. Therefore the later TasteGate instance has a precise finite boundary to compile and receives no analytic completion principle from this paper theorem.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter obligation closure package]
+\label{thm:observation-budget-limiter-obligation-closure-package}
+For an accepted $\ObservationBudgetLimiterUp$ packet $L=(E,B,K,W,D,R,S,H,C,P,N)$, the NameCert obligations, cap admission, seal ordering, capped-window transport, budget monotonicity, window non-escape, vision handoff, finite service triad, source-window-readback lock, downstream seal eligibility, primitive scope, and TasteGate boundary jointly form the paper obligation package for the finite limiter packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:observation-budget-limiter-namecert-obligations}. It supplies the local carrier, cap, window, readback, seal, and non-escape clauses that every later route must project from.
+
+Use \autoref{thm:observation-budget-limiter-cap-admission}, \autoref{thm:observation-budget-limiter-seal-ordering}, and \autoref{thm:observation-budget-limiter-capped-window-transport} for the main route obligations. These place $K$ before $W,D,R,S$, order the seal after readback, and keep transported consumers inside the same capped service.
+
+Use \autoref{thm:observation-budget-limiter-budget-monotonicity}, \autoref{thm:observation-budget-limiter-window-nonescape}, and \autoref{thm:observation-budget-limiter-vision-handoff} for stability and downstream handoff. They preserve the displayed rows under cap enlargement, exclude escape from the finite source window, and hand the service to Real and Completion consumers as a capped observation service.
+
+Finally use \autoref{thm:observation-budget-limiter-finite-service-triad}, \autoref{thm:observation-budget-limiter-source-window-readback-lock}, \autoref{thm:observation-budget-limiter-downstream-seal-eligibility}, \autoref{thm:observation-budget-limiter-primitive-scope}, and \autoref{thm:observation-budget-limiter-tastegate-boundary}. These identify the exported triad, lock source-window-readback use, require seal consumers to read the triad first, keep the whole packet in primitive scope, and specify the finite TasteGate-facing boundary. Their composition is exactly the obligation package stated in the theorem.
+\end{proof}
+
 \begin{theorem}[Observation-budget limiter selector compatibility]
 \label{thm:observation-budget-limiter-selector-compatibility}
 Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. Any $\FiniteObservationBudgetSelectorUp$ consumer may read the limiter only through the request-budget-cap service triad

@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundedMonotoneConvergenceSealUp$}
+\label{ch:concrete-instances-bounded-monotone-convergence-seal-namecert}
+\origin{ai}
+
+The $\BoundedMonotoneConvergenceSealUp$ packet realizes the Real and Completion handoff requested by \autoref{ch:visions-real-completeness}. It sits immediately downstream of the bounded monotone Cauchy witness surface of \autoref{ch:concrete-instances-boundedmonotonecauchywitness-namecert}: the witness still supplies the finite monotone source, tail window, Cauchy modulus, dyadic tolerance, and located trap rows, while the seal packages the public convergence handoff to $\RealUp$ without adding a selected limit or quotient equality.
+
+\begin{definition}[Bounded monotone convergence seal carrier]
+\label{def:bounded-monotone-convergence-seal-carrier}
+A $\BoundedMonotoneConvergenceSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the accepted $\BoundedMonotoneCauchyWitnessUp$ row that supplies the bounded source, tail witness, dyadic ledger, located trap, and real-seal precursor;
+\item $M$ is the public $\MonotoneCauchyUp$ tail-window certificate through which the bounded monotone source is read;
+\item $K$ is the public $\CauchyCriterionUp$ packet through which tolerance requests, tail windows, and dyadic bounds are read;
+\item $F$ is the $\RegSeqRatUp$ handoff row exported by the witness and criterion packets;
+\item $\sigma$ is the finite $\StreamNameUp$ window ledger used by the tail and seal reads;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and upper-bound ledger consumed before any convergence seal is visible;
+\item $L$ is the $\CauchyLimitSealUp$ compatibility row tying the witnessed Cauchy route to the completion-facing seal boundary;
+\item $R$ is the $\RealUp$ convergence seal row reached only after $W,M,K,F,\sigma,D,L$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for all displayed rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the witness, monotone tail, criterion, regular-rational, stream-window, dyadic, limit-seal, and Real rows;
+\item $P$ is the $\Pkg$ provenance over $\BoundedMonotoneCauchyWitnessUp$, $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\CauchyLimitSealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\BoundedMonotoneConvergenceSealUp}$ row.
+\end{enumerate}
+The carrier contains no selected limit representative, quotient stream equality, host real equality, trichotomy row, open-cover compactness row, detached tail oracle, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Bounded monotone convergence seal NameCert obligations]
+\label{thm:bounded-monotone-convergence-seal-namecert-obligations}
+The local $\NameCert_{\BoundedMonotoneConvergenceSealUp}$ surface for \autoref{def:bounded-monotone-convergence-seal-carrier} consists exactly of carrier admission for $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$, bounded witness exposure through $W$, public monotone tail-window exposure through $M$, public Cauchy criterion exposure through $K$, regular-rational handoff through $F$, finite stream-window exposure through $\sigma$, dyadic tolerance and upper-bound accounting through $D$, Cauchy-limit seal compatibility through $L$, Real convergence seal handoff through $R$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its displayed rows are exactly the bounded witness, public monotone tail-window, public Cauchy criterion, regular-rational handoff, finite stream-window, dyadic ledger, limit-seal compatibility, Real seal, transport, route, provenance, and local naming rows.
+
+Use \autoref{thm:bounded-monotone-witness-monotone-cauchy-criterion-bridge}. It routes the bounded source through the public $\MonotoneCauchyUp$ tail-window certificate and routes the witness rows through the public $\CauchyCriterionUp$ packet before the Real-facing seal is read.
+
+Finally attach the completion-facing rows $F,\sigma,D,L,R,H,C,P,N$. Since the carrier has no coordinate for a selected limit, quotient stream, host equality, trichotomy, open-cover compactness, detached tail oracle, or ambient completeness, the listed rows are the complete local naming surface.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal public handoff]
+\label{thm:bounded-monotone-convergence-seal-public-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BoundedMonotoneConvergenceSealUp$ packet factors first through the bounded monotone Cauchy witness row $W$, then through the public $\MonotoneCauchyUp$ and $\CauchyCriterionUp$ rows $M$ and $K$, and only then through the displayed route
+$$
+F,\sigma,D,L,R,H,C,P,N.
+$$
+The consumer receives a finite Real convergence handoff assembled from $\BoundedMonotoneCauchyWitnessUp$, $\MonotoneCauchyUp$, $\CauchyCriterionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows, with the $\CauchyLimitSealUp$ row $L$ acting only as the compatibility boundary for the sealed route. It receives no route that bypasses $W$ or $K$ to a selected limit, quotient stream, host real equality, ambient completeness witness, detached tail oracle, trichotomy row, or open-cover compactness row.
+\end{theorem}
+\begin{proof}
+Begin with the bounded monotone witness surface. By \autoref{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}, every witness read is already scoped by the displayed regular-rational, stream-window, Cauchy witness, dyadic, located-trap, Real seal, transport, route, provenance, and naming rows.
+
+Next use the bridge to public tail and criterion packets. The $\MonotoneCauchyUp$ row supplies the public tail-window certificate, while the $\CauchyCriterionUp$ row supplies the explicit tolerance, tail, dyadic, regular-rational, and seal route.
+
+The remaining rows $F,\sigma,D,L,R,H,C,P,N$ carry the public convergence handoff to the Real-facing boundary. The limit-seal row records compatibility with the sealed completion route, but it does not add a selected representative or a host equality coordinate.
+
+Thus every consumer route is exhausted by the displayed packet. A route that omits $W$ or $K$ has no access to the bounded witness or Cauchy criterion rows, and a route that asks for selected limits, quotient streams, host equality, ambient completeness, detached tail oracles, trichotomy, or compactness asks for data absent from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted consumer of the convergence seal factors through BoundedMonotoneCauchyWitnessUp, MonotoneCauchyUp, CauchyCriterionUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp rows before it reads the Real convergence handoff.}
+
+\independenceWitness{boundedmonotonecauchywitness, monotonecauchy, cauchycriterion, cauchylimitseal, real: the bounded witness lacks the public convergence seal row, monotonecauchy lacks the bounded witness source packet, cauchycriterion lacks the monotone source ledger, cauchylimitseal lacks the bounded monotone witness and public criterion bridge, and real lacks the finite witness-to-seal route; therefore no bijection preserves all carrier rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$.}
+
+The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived/BoundedMonotoneConvergenceSealUp/TasteGate.lean}. It must provide \texttt{Nontrivial BoundedMonotoneConvergenceSealUp} and \texttt{FieldFaithful BoundedMonotoneConvergenceSealUp} instances for the same displayed carrier.
+
+\closureat{BoundedMonotoneConvergenceSealUp}{seedStr}
+
+\begin{closurestatus}{\BoundedMonotoneConvergenceSealUp}
+  \constructivestory{A $\BoundedMonotoneConvergenceSealUp$ packet is generated from a bounded monotone Cauchy witness, public monotone Cauchy tail-window certificate, public Cauchy criterion packet, regular-rational handoff, stream-window ledger, dyadic tolerance ledger, CauchyLimitSeal compatibility row, Real convergence seal, componentwise transports, displayed continuations, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-monotone-convergence-seal-carrier}, \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations}, and \autoref{thm:bounded-monotone-convergence-seal-public-handoff} specify the finite Real and Completion convergence-seal carrier and its public handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Real completeness, selected-limit existence, quotient stream equality, host real equality, Lean verification, or bridge checking for $\BoundedMonotoneConvergenceSealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-witness exposure, public monotone-tail exposure, public Cauchy-criterion exposure, regular-rational handoff, stream-window exposure, dyadic tolerance accounting, Cauchy-limit seal compatibility, Real seal handoff, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}
