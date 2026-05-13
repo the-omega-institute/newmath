@@ -89,6 +89,20 @@ Transport and replay are confined to $H$ and $C$. Hence any readback of the cell
 No coordinate of $L$ is a primitive shared world-state or god's-eye event object. The readback therefore realizes the locality cell as finite BEDC coordination evidence between two histories.
 \end{proof}
 
+\begin{theorem}[LocalityCell ObserverLocalityCell lattice link]
+\label{thm:locality-cell-observerlocalitycell-lattice-link}
+An accepted $\ObserverLocalityCellUp$ packet of \autoref{ch:concrete-instances-observer-locality-cell-namecert} refines the bilateral $\LocalityCellUp$ surface by adding observer-identity and cross-history ledger rows. Every $\LocalityCellUp$ read consumed by that sibling still factors through the two observer histories, two event rows, bilateral $\mathsf{GAP}$ rows, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of \autoref{def:locality-cell-carrier}.
+\end{theorem}
+\begin{proof}
+Project the $\LocalityCellUp$ carrier. Its bilateral surface is the displayed packet $L=(A,B,r_A,r_B,g_A,g_B,H,C,P,N)$, so any read of the local cell has access only to two observer histories, two event records, two $\mathsf{GAP}$ commitments, transport, routes, provenance, and local naming.
+
+The $\ObserverLocalityCellUp$ sibling cited in the statement consumes that bilateral surface and adds observer-identity plus cross-history ledger rows. Those added rows refine the consumer context; they do not replace $A,B,r_A,r_B,g_A,g_B,H,C,P,N$ with a global frame or a hidden shared event object.
+
+Apply \autoref{thm:locality-cell-namecert-obligations}, \autoref{thm:locality-cell-hsame-transport}, and \autoref{thm:locality-cell-interobserver-readback}. The NameCert obligations fix the bilateral ledger, the transport theorem keeps both sides paired under $\hsame$, and the readback theorem forces public event coordination through the displayed histories, event rows, bilateral commitments, and continuation routes.
+
+Thus the sibling relation is a lattice refinement: $\ObserverLocalityCellUp$ may carry additional observer-identity and cross-history ledger data, while every locality-cell read it consumes remains the same bilateral $\LocalityCellUp$ route.
+\end{proof}
+
 \closureat{LocalityCellUp}{seedStr}
 \closureat{LocalityCellUp}{obligationStr}
 \closureat{LocalityCellUp}{scopedStr}[BEDC.Derived.LocalityCellUp.LocalityCellTasteGate\_single\_carrier\_alignment]
