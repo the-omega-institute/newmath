@@ -47,6 +47,54 @@ The acknowledgement clause reads $G$ after $L$. Thus the gap row can name only c
 Finally, $H$ transports the displayed rows componentwise and $C$ replays only their listed routes. Since no detached self, global universe, external clock, manifold coordinate, or all-observer frame occurs among the coordinates, the local certificate cannot export one.
 \end{proof}
 
+\begin{theorem}[Conscious observer-state recognition exactness]
+\label{thm:conscious-observer-state-recognition-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+the self-recognition row $R$ is readable only after the observer-history row $O$ and the current-state row $s$ have been displayed. Thus self-recognition cannot detach from the observer-history row that supplies the present state.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:conscious-observer-state-carrier}. Its visible order exposes $O$ as the observer-history row, then $s$ as the current-state row inside that history, and only then $R$ as the recognition row attached to that state.
+
+Apply \autoref{thm:conscious-observer-state-namecert-obligations}. The NameCert surface requires current-state recognition to name the identity read from $O$ at $s$, while the same carrier excludes a detached self, a global observer, an external clock, a manifold point, and host psychological content.
+
+The structural rows $H,C,P,N$ transport, route, package, and name that same displayed packet. They do not add a second recognition source, so $R$ remains exact for the observer-history row already displayed by $O$ and $s$.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state GAP acknowledgement exactness]
+\label{thm:conscious-observer-state-gap-acknowledgement-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+the $\Gap$ acknowledgement row $G$ names only commitments attached to the current state $s$ whose witness rows are absent from the present ledger $L$. It cannot supply remote records or witness rows outside that ledger boundary.
+\end{theorem}
+\begin{proof}
+Project the same carrier. The acknowledgement row $G$ occurs after the observer history $O$, current state $s$, recognition row $R$, and ledger row $L$, so it is not an independent source of observation data.
+
+Use \autoref{thm:conscious-observer-state-namecert-obligations}. Its acknowledgement clause states that $G$ names only commitments attached to $s$ whose witness rows are absent from $L$.
+
+The exclusions in \autoref{def:conscious-observer-state-carrier} remove every route to an instantaneous remote observation, global universe, external clock, manifold point, or detached self. Hence the acknowledgement is exact for the local ledger boundary and cannot provide a remote record.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state locality provenance exactness]
+\label{thm:conscious-observer-state-locality-provenance-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+the package row $P$ routes the current-state read through the $\ObserverHistoryIdentityUp$ and $\ObserverLocalityCellUp$ sibling certificates. The transport row $H$ and continuation row $C$ replay exactly those observer-history, current-state, recognition, ledger, and acknowledgement rows.
+\end{theorem}
+\begin{proof}
+Project the provenance coordinate in \autoref{def:conscious-observer-state-carrier}. It names the observer-history row certified by \autoref{ch:concrete-instances-observerhistoryidentity-namecert} and the finite local-cell packet certified by \autoref{ch:concrete-instances-observer-locality-cell-namecert}.
+
+Apply \autoref{thm:conscious-observer-state-namecert-obligations}. The accepted packet reads $O$, then $s$, then $R,L,G$, with stability and non-escape supplied only by $H,C,P,N$.
+
+The row $H$ transports the displayed coordinates componentwise, and $C$ replays the same displayed routes. Since the carrier excludes a global observer, shared universe, external time scalar, spacetime manifold, host psychological content, and instantaneous remote observation, provenance exactness is exhausted by the two sibling certificates named in $P$ and replayed by $H$ and $C$.
+\end{proof}
+
 \begin{theorem}[Conscious observer-state classifier stability]
 \label{thm:conscious-observer-state-classifier-stability}
 Let
