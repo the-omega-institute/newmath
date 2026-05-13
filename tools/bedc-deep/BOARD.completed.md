@@ -18032,3 +18032,28 @@ Rationale:
 The chapter already exposes the terminal-read witness \(Q\), componentwise transport, replay route, and small-step factorization theorem, but it does not state endpoint determinacy for \(Q\) under fixed source, trace, route, and terminal rows. This is a concrete determinacy target for an existing finite computation packet and is not covered by the existing BOARD title index.
 
 ---
+
+### B-714 - Decompiler right-inverse classifier theorem
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | Decompiler right-inverse classifier theorem |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 10/10 |
+| Novelty | 9/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted \(\DecompilerRightInverseUp\) packets share the same displayed compiler graph, decompiler graph, target optimisation row, and paired right-inverse ledger up to componentwise \(\hsame\), then their target-row right-inverse comparisons classify together and no extra inverse data is exported.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/2833_decompiler_right_inverse_namecert_construction.tex`
+
+Rationale:
+This directly fills the gap named by the chapter itself: the current \(\DecompilerRightInverseUp\) surface has carrier, NameCert obligations, and a non-escape boundary, while its closure block says a finite right-inverse classifier theorem is still needed. The claim is a single local classifier-determinacy implication over displayed packet rows and has no BOARD duplicate or matching paper theorem.
+
+---
