@@ -258,6 +258,46 @@ agreement hypotheses identify the whole classifier packet and leave no hidden
 coordinate through which the two envelopes could diverge.
 \end{proof}
 
+\begin{theorem}[Cross-Hist causal-rate root observer-slot exhaustion]
+\label{thm:cross-hist-causal-rate-root-observer-slot-exhaustion}
+Every accepted $\CrossHistCausalRateUp$ root packet exhausts its observer-slot reads through the displayed rows
+$$
+A,B,D,H,C,P,N.
+$$
+A consumer may inspect the two observer histories only by reading $A$ and $B$, replaying the causal route family $D$, transporting the components through $H$, following the displayed continuation route $C$, citing the package provenance $P$, and closing the local $\NameCert_{\CrossHistCausalRateUp}$ row $N$. No unlisted observer slot, host clock, global frame coordinate, metric row, or detached causal route is available to such a read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cross-hist-causal-rate-carrier}. The only observer-facing rows are $A$ and $B$, and the only displayed route family attached to them is $D$.
+
+Apply the NameCert obligations of \autoref{thm:cross-hist-causal-rate-namecert-obligations} and the observer-slot route theorem \autoref{thm:cross-hist-causal-rate-observer-slot-route}. These identify the observer histories as the carrier-visible slots and force consumer access through the finite route family.
+
+The structural part is fixed by $H,C,P,N$. Consumer route totality from \autoref{thm:cross-hist-causal-rate-consumer-route-totality} leaves no route outside the displayed transport, continuation, provenance, and local naming rows, while the frame-refusal boundary excludes host clocks, global frames, metric rows, and detached causal coordinates.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate root route-rate factorization]
+\label{thm:cross-hist-causal-rate-root-route-rate-factorization}
+Every maximum-rate read from an accepted $\CrossHistCausalRateUp$ root packet factors through the displayed causal route family $D$ before it reaches the maximum-rate row $M$. Thus a $\MaxCausalRateUp$ consumer may read $M$ only after $A,B,D,H,C,P,N$ have supplied the observer slots, route replay, transport, continuation, provenance, and local naming surface.
+\end{theorem}
+\begin{proof}
+Start from the carrier and the route obligation package. The row $M$ is not a free host-valued speed coordinate; it is the maximum-rate row attached to exactly the causal route family $D$.
+
+Apply maximum-row exactness from \autoref{thm:cross-hist-causal-rate-max-row-exactness}. It binds the maximum-rate read to the displayed route family and rules out a second maximum row detached from $D$.
+
+Now use observer-slot exhaustion together with consumer route totality. The read reaches $D$ through $A,B,H,C,P,N$, then reads $M$ as the rate row for that same route. Hence every maximum-rate read factors through $D$ before the row $M$ is consumed.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate root frame-refusal exactness]
+\label{thm:cross-hist-causal-rate-root-frame-refusal-exactness}
+Every invariant-facing rate read from an accepted $\CrossHistCausalRateUp$ root packet consumes both the observer-symmetry row $S$ and the no-global-frame ledger $G$. Consequently no global frame, synchronized clock, metric tensor, host speed row, or privileged observer coordinate can enter an $\InterHistInvariantUp$ or $\MaxCausalRateUp$ consumer route.
+\end{theorem}
+\begin{proof}
+Read the invariant boundary of \autoref{thm:cross-hist-causal-rate-invariant-boundary}. It places the invariant-facing use of the rate behind the observer-symmetry row $S$ and the no-global-frame ledger $G$.
+
+Apply the no-global-frame boundary and frame-refusal composition theorems. The row $G$ is the carrier-visible refusal row for synchronized clocks, privileged frames, metric tensors, host speeds, and global-frame coordinates, and it composes with $S$ on the same route before any invariant-facing read is accepted.
+
+Finally combine route-rate factorization with consumer route totality. Since the rate read has already passed through $D$ before $M$ and since every consumer route is displayed by $H,C,P,N$, there is no remaining coordinate through which a global frame or host speed row can enter.
+\end{proof}
+
 \begin{theorem}[Cross-Hist causal-rate root ledger exactness]
 \label{thm:cross-hist-causal-rate-root-ledger-exactness}
 Every downstream rate consumer of an accepted $\CrossHistCausalRateUp$ root
@@ -485,6 +525,52 @@ Apply \autoref{thm:cross-hist-causal-rate-route-family-exhaustion}. It forces th
 Apply \autoref{thm:cross-hist-causal-rate-max-observer-gate}. It places the maximum-rate row $M$ behind the displayed route replay and the two observer gate rows $S,G$.
 
 Use \autoref{thm:cross-hist-causal-rate-scoped-route-closure} and \autoref{thm:cross-hist-causal-rate-root-consumer-exactness} to repack the read as a root consumer route. The structural factor is therefore exactly $C$ together with $H,P,N$, and no continuation-facing consumer can bypass the displayed route.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate root observer-gate totality]
+\label{thm:cross-hist-causal-rate-root-observer-gate-totality}
+Every invariant-facing read of the maximum-rate row $M$ from an accepted $\CrossHistCausalRateUp$ root packet must pass through the displayed causal route family $D$, the observer gate rows $S,G$, and the structural rows $H,C,P,N$. Thus a $\MaxCausalRateUp$ or $\InterHistInvariantUp$ consumer never reads $M$ directly from the observer slots $A,B$, from a hidden frame row, or from a detached host-speed coordinate.
+\end{theorem}
+\begin{proof}
+Read the carrier $R=(A,B,D,M,S,G,H,C,P,N)$ from \autoref{def:cross-hist-causal-rate-carrier}. The carrier gives the two observer slots and names $D,M,S,G,H,C,P,N$ as the only route, rate, gate, transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:cross-hist-causal-rate-root-route-replay}. It places the finite route family $D$ before any invariant-facing read of $M$ and keeps the structural rows on the same route.
+
+Apply \autoref{thm:cross-hist-causal-rate-max-observer-gate}. It adds the observer-symmetry row $S$ and the no-global-frame ledger $G$ before $M$ can be consumed by $\MaxCausalRateUp$ or $\InterHistInvariantUp$.
+
+Finally use \autoref{thm:cross-hist-causal-rate-continuationtrace-factorization}. The continuation-facing read factors through $C$ after the observer slots, route family, maximum-rate row, and gate rows have been displayed, so no invariant-facing consumer can bypass $D,S,G,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate root route-family field faithfulness]
+\label{thm:cross-hist-causal-rate-root-route-family-field-faithfulness}
+For an accepted $\CrossHistCausalRateUp$ root packet, the rows
+$$
+A,B,D,M,S,G,H,C,P,N
+$$
+remain distinguishable as the two observer-history slots, causal route family, maximum-rate row, observer-symmetry row, no-global-frame ledger, componentwise transport, continuation replay, provenance, and local naming row. Any future field-faithful TasteGate encoding must preserve these rows as separate carrier fields and may not identify $D$ with $M$, $S$ with $G$, or the structural rows $H,C,P,N$ with the observer slots $A,B$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. It lists $A,B,D,M,S,G,H,C,P,N$ as separate displayed coordinates, and each coordinate has a different consumer role in the packet.
+
+Use \autoref{thm:cross-hist-causal-rate-root-route-replay} to separate $D$ from $M$: the route family is replayed before the maximum-rate row is read, so the two rows cannot collapse without losing the replay obligation.
+
+Use \autoref{thm:cross-hist-causal-rate-root-no-frame-ledger} and \autoref{thm:cross-hist-causal-rate-max-observer-gate} to separate $S$ and $G$ from the rate row and from each other. The former records observer symmetry, while the latter refuses global-frame coordinates before the invariant-facing read.
+
+The factorization theorem \autoref{thm:cross-hist-causal-rate-continuationtrace-factorization} keeps $C$ as the continuation trace, with $H,P,N$ supplying transport, provenance, and naming. Since those structural rows govern access to the packet rather than serving as observer slots, field faithfulness must keep the full displayed row inventory distinct.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate root no-frame consumer cut]
+\label{thm:cross-hist-causal-rate-root-no-frame-consumer-cut}
+For every accepted $\CrossHistCausalRateUp$ root packet, the no-global-frame ledger $G$ is a consumer cut between valid $\MaxCausalRateUp$ or $\InterHistInvariantUp$ reads and any hidden clock, privileged frame, metric tensor, speed coordinate, or global-frame row. A consumer route that reaches $M$ as a rate or invariant must pass through $G$ together with $D,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cross-hist-causal-rate-root-no-frame-ledger}. It identifies $G$ as the complete ledger refusing synchronized clocks, privileged observer frames, metric tensors, host speeds, and global-frame coordinates.
+
+Apply \autoref{thm:cross-hist-causal-rate-root-route-replay}. The valid consumer route reaches $M$ only after replaying the finite causal route family $D$ through the structural rows.
+
+Apply \autoref{thm:cross-hist-causal-rate-max-observer-gate}. It places $S$ and $G$ before the maximum-rate row can be read as an invariant-facing value by $\MaxCausalRateUp$ or $\InterHistInvariantUp$.
+
+Finally use \autoref{thm:cross-hist-causal-rate-continuationtrace-factorization}. Since the displayed continuation factor is $C$ and the carrier has no hidden clock, frame, metric, speed, or global-coordinate row, $G$ separates accepted consumers from every forbidden frame-facing read.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\CrossHistCausalRateUp$ packet admits no maximum-rate read unless both observer-symmetry and no-global-sync rows are present.}

@@ -205,6 +205,9 @@ instance proofTermErasureTraceChapterTasteGate :
     intro x y hxy heq
     exact hxy (proofTermErasureTraceToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ProofTermErasureTraceUp :=
+  proofTermErasureTraceChapterTasteGate
+
 theorem ProofTermErasureTraceTasteGate_single_carrier_alignment :
     (∀ h : BHist, proofTermErasureTraceDecodeBHist
         (proofTermErasureTraceEncodeBHist h) = h) ∧
