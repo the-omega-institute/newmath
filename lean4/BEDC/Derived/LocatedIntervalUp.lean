@@ -130,6 +130,29 @@ theorem LocatedIntervalPacket_dyadic_refinement_handoff [AskSetup] [PackageSetup
       endpointRoute
   exact ⟨endpointUnary, sameEndpoint⟩
 
+theorem LocatedIntervalPacket_endpoint_cell_route_totality [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint cell : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg ->
+      Cont endpoint streamWindows cell ->
+        PkgSig bundle cell pkg ->
+          UnaryHistory endpoint ∧ UnaryHistory streamWindows ∧ UnaryHistory cell ∧
+            Cont rationalCells dyadicRefinements endpoint ∧ Cont endpoint streamWindows cell ∧
+              PkgSig bundle endpoint pkg ∧ PkgSig bundle cell pkg := by
+  intro packet endpointCellRoute cellPkg
+  obtain ⟨_lowerUnary, _upperUnary, rationalCellsUnary, dyadicUnary, streamWindowsUnary,
+    _readbacksUnary, _sealsUnary, _nameCertUnary, _rationalCellsRoute, endpointRoute,
+    _transportRoute, _routesRoute, _provenanceRoute, endpointPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed rationalCellsUnary dyadicUnary endpointRoute
+  have cellUnary : UnaryHistory cell :=
+    unary_cont_closed endpointUnary streamWindowsUnary endpointCellRoute
+  exact
+    ⟨endpointUnary, streamWindowsUnary, cellUnary, endpointRoute, endpointCellRoute,
+      endpointPkg, cellPkg⟩
+
 theorem LocatedIntervalPacket_real_seal_non_escape [AskSetup] [PackageSetup]
     {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
       provenance nameCert endpoint sealConsumer : BHist}
