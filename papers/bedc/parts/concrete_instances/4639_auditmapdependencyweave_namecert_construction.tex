@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapDependencyWeaveUp$}
+\label{ch:concrete-instances-auditmapdependencyweave-namecert}
+\origin{human}
+
+The $\AuditMapDependencyWeaveUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as finite cross-map routing data. It sits beside the frontier index of \autoref{ch:concrete-instances-audit-map-frontier-index-namecert} and the family ledger of \autoref{ch:concrete-instances-auditmapfamilyledger-namecert}: those chapters name frontier rows and family inventories, while this packet records how local maps, neighbouring maps, obstruction rows, frontier rows, and synthesis consumers are woven into one inspectable $\NameCert$ surface.
+
+\begin{definition}[Audit-map dependency weave carrier]
+\label{def:audit-map-dependency-weave-carrier}
+An $\AuditMapDependencyWeaveUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,L,O,F,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the local audit-map row whose positive, conditional, obstruction, and frontier cells are being routed;
+\item $L$ is the neighbouring-map link row, naming exactly the adjacent audit maps that may receive or supply a frontier dependency;
+\item $O$ is the obstruction row recording the blocked obligations that prevent a local frontier entry from being closed inside $M$;
+\item $F$ is the frontier row recording the strongest claim available at the boundary between $M$ and the neighbouring maps named by $L$;
+\item $S$ is the synthesis-consumer row recording the downstream consumers that may read the frontier route without discharging it;
+\item $H$ records the componentwise $\hsame$ transports for local-map rows, neighbouring-map links, obstruction rows, frontier rows, synthesis-consumer rows, dependency packages, and local provenance;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reaches exactly those local, neighbouring, obstruction, frontier, and synthesis rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, audit-map family rows, obstruction rows, frontier rows, synthesis consumers, $\hsame$, $\Cont$, and $\NameCert$ data;
+\item $N$ is the local $\NameCert_{\AuditMapDependencyWeaveUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden discharge of $O$, a proof of $F$, an unlisted neighbouring map, or a synthesis consumer outside $S$.
+\end{definition}
+
+\begin{theorem}[Audit-map dependency weave NameCert obligations]
+\label{thm:audit-map-dependency-weave-namecert-obligations}
+For the carrier of \autoref{def:audit-map-dependency-weave-carrier}, the local $\NameCert_{\AuditMapDependencyWeaveUp}$ surface consists of carrier admission for $W=(M,L,O,F,S,H,C,P,N)$, exact neighbouring-map link readback through $L$, obstruction visibility through $O$, frontier visibility through $F$, synthesis-consumer boundary through $S$, componentwise transport through $H$, displayed continuation through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite packet. The rows $M,L,O,F,S,H,C,P,N$ are the only coordinates that a local certificate can project.
+
+The link, obstruction, frontier, and consumer obligations are row projections. A neighbouring-map read must pass through $L$, an obstruction read through $O$, a frontier read through $F$, and a synthesis-consumer read through $S$.
+
+Transport and continuation are then fixed by $H$ and $C$. The package row $P$ and local naming row $N$ bind those reads to the same finite $\BHist$ packet, so no hidden discharge, unlisted neighbouring map, or external synthesis consumer can enter the surface.
+\end{proof}
+
+\begin{theorem}[Audit-map dependency weave cross-map consumer boundary]
+\label{thm:audit-map-dependency-weave-cross-map-consumer-boundary}
+Every cross-map consumer of an accepted $\AuditMapDependencyWeaveUp$ carrier reads the local map $M$, neighbouring-map link $L$, obstruction row $O$, frontier row $F$, and synthesis-consumer row $S$ through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ routes $H,C,P,N$. The consumer may route a frontier dependency between named maps, but it cannot replace the route by an unlisted map, erase the obstruction row, or turn the frontier row into a closed theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $W=(M,L,O,F,S,H,C,P,N)$. The local and neighbouring map data are visible only in $M$ and $L$, while the obstruction, frontier, and synthesis-consumer data are visible only in $O,F,S$.
+
+Apply the obligation surface of \autoref{thm:audit-map-dependency-weave-namecert-obligations}. It routes every public read through $H,C,P,N$ and keeps the consumer at the displayed packet boundary.
+
+Thus a cross-map consumer can follow the named route, but the packet gives no coordinate for an unlisted neighbour, a removed obstruction, or a proof of the frontier entry.
+\end{proof}
+
+\begin{theorem}[Audit-map dependency weave frontier non-escape]
+\label{thm:audit-map-dependency-weave-frontier-nonescape}
+For every accepted $\AuditMapDependencyWeaveUp$ carrier, the frontier row $F$ remains a named boundary row. It may be transported along $H$, reached by $C$, packaged by $P$, and consumed by the synthesis rows $S$, but it cannot escape as a hidden theorem, a discharged obstruction, a global audit-map closure claim, or a consumer route not recorded in $M,L,O,F,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the frontier coordinate from \autoref{def:audit-map-dependency-weave-carrier}. The row $F$ is stored beside the obstruction row $O$ and the synthesis-consumer row $S$, so it is not a proof object by itself.
+
+Use \autoref{thm:audit-map-dependency-weave-cross-map-consumer-boundary} for downstream reads. Every consumer route remains inside the displayed $M,L,O,F,S,H,C,P,N$ packet.
+
+The non-escape claim is now the carrier inventory. Since no coordinate names a hidden theorem, discharged obstruction, global closure claim, or unrecorded consumer, the frontier row can only remain the visible boundary row of the weave.
+\end{proof}
