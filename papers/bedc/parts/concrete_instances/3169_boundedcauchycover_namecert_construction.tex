@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\BoundedCauchyCoverUp$}
+\label{ch:concrete-instances-bounded-cauchy-cover-namecert}
+\origin{ai}
+
+The $\BoundedCauchyCoverUp$ interface names the finite observation surface that carries a Cauchy modulus from a precision budget to the windows read by the real-completion diagonal route. It sits between the real observation budget and the $\RealUp$ seal: the packet remembers the requested budget, the modulus row, the finite stream-window cover, the dyadic tolerance readback, the regular rational consumption row, transport, continuations, provenance, and local naming. It does not export quotient streams, selected limits, host real equality, or an ambient completeness datum.
+
+\begin{definition}[Bounded Cauchy cover carrier]
+\label{def:bounded-cauchy-cover-carrier}
+A $\BoundedCauchyCoverUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,M,W,D,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $B$ is the unary precision budget requested by the downstream real-completion consumer;
+\item $M$ is the Cauchy modulus row that turns $B$ into a finite threshold for the relevant tail comparisons;
+\item $W$ is the finite $\StreamNameUp$ observation-window cover selected by the modulus threshold;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance readback attached to the covered windows;
+\item $R$ is the $\RegSeqRatUp$ regularity consumption row that reads the covered windows through the regular rational source;
+\item $H$ records componentwise $\hsame$ transports for the budget, modulus row, window cover, dyadic readback, regularity row, provenance, and local name;
+\item $C$ records displayed $\Cont$ routes from $B$ to $M$, from $M$ to $W$, from $W$ to $D$, and from $D$ to $R$;
+\item $P$ records $\Pkg$ provenance over $\NatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\BoundedCauchyCoverUp}$ row.
+\end{enumerate}
+The classifier compares two such packets only after transporting their budgets, Cauchy modulus rows, window covers, dyadic readbacks, and $\RegSeqRatUp$ rows to a shared finite cover. The carrier has no coordinate for a quotient stream, selected limit, host real equality, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Bounded Cauchy cover NameCert obligations]
+\label{thm:bounded-cauchy-cover-namecert-obligations}
+The local $\NameCert_{\BoundedCauchyCoverUp}$ surface for \autoref{def:bounded-cauchy-cover-carrier} consists exactly of carrier admission, unary budget exposure, Cauchy modulus exposure, finite $\StreamNameUp$ cover selection, $\DyadicRatCoreUp$ tolerance readback, $\RegSeqRatUp$ regularity consumption, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $K$. The rows $B,M,W,D,R$ expose the precision budget, Cauchy modulus threshold, finite observation cover, dyadic readback, and regular rational consumption data.
+
+The cover obligations are finite. The route first reads $B$, then the modulus row $M$, then the selected windows $W$, and only then the dyadic tolerance and regularity rows $D$ and $R$.
+
+The rows $H,C,P,N$ supply transport, route replay, provenance, and local naming. Since no quotient stream, selected limit, host real equality, or ambient completeness coordinate exists in the carrier, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Bounded Cauchy cover finite-window coverage]
+\label{thm:bounded-cauchy-cover-finite-window-coverage}
+For an accepted $\BoundedCauchyCoverUp$ carrier, every exported dyadic tolerance readback in $D$ is covered by the finite $\StreamNameUp$ windows in $W$, and every window in $W$ is selected from the budget $B$ through the Cauchy modulus row $M$ and the displayed route $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the rows $B,M,W,D,H,C$. The first displayed route sends the unary budget to the Cauchy modulus row, and the second sends the resulting threshold to the finite window cover.
+
+The route from $W$ to $D$ is the only displayed path by which a dyadic tolerance readback enters the packet. Componentwise transport in $H$ preserves the budget, modulus, cover, and readback rows when the packet is compared with another accepted carrier.
+
+Thus every dyadic readback exported by the packet is attached to a selected finite window. No readback can be imported from an unbounded stream schedule or a hidden completion object.
+\end{proof}
+
+\begin{theorem}[Bounded Cauchy cover budget transport]
+\label{thm:bounded-cauchy-cover-budget-transport}
+Classifier transport for $\BoundedCauchyCoverUp$ preserves the same budget-to-cover route. If two accepted packets classify together, then after applying the displayed transports in $H$ their $B$, $M$, $W$, $D$, and $R$ rows lie over a shared finite cover, and the route
+$$
+B \longmapsto M \longmapsto W \longmapsto D \longmapsto R
+$$
+is replayed by the displayed continuations in $C$.
+\end{theorem}
+\begin{proof}
+Begin with the classifier clause in the carrier definition. It compares packets only after the budget, modulus row, windows, dyadic readback, and regularity row have been transported to a common finite cover.
+
+The continuation coordinate $C$ then replays the same route on the transported rows. The budget row selects the modulus row, the modulus row selects the finite cover, the cover supplies the dyadic readback, and the readback feeds the regularity consumption row.
+
+The provenance and local naming rows $P,N$ are transported with the same packet. Since the carrier has no coordinate for quotient streams, selected limits, host real equality, or ambient completeness, transport cannot introduce any additional comparison data.
+\end{proof}
+
+\begin{theorem}[Bounded Cauchy cover Real handoff]
+\label{thm:bounded-cauchy-cover-real-handoff}
+Every $\RealUp$ diagonal-seal consumer of an accepted $\BoundedCauchyCoverUp$ packet receives exactly the bounded cover rows
+$$
+B,M,W,D,R,H,C,P,N.
+$$
+The consumer reads a unary precision budget, a Cauchy modulus row, a finite $\StreamNameUp$ observation-window cover, a $\DyadicRatCoreUp$ tolerance readback, a $\RegSeqRatUp$ regularity consumption row, transport, continuation, provenance, and local naming. It receives no quotient stream, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start from finite-window coverage. It places every dyadic readback under the finite windows selected by the budget and modulus rows.
+
+Use budget transport to move the same route to the consumer-facing packet. The transported route is still $B \longmapsto M \longmapsto W \longmapsto D \longmapsto R$, with $H,C,P,N$ carrying the displayed bookkeeping.
+
+The handoff to $\RealUp$ can therefore inspect only those rows. All excluded analytic objects are absent from the carrier, so the diagonal-seal consumer receives the finite cover surface and nothing outside it.
+\end{proof}
+
+\closureat{BoundedCauchyCoverUp}{seedStr}
+
+\begin{closurestatus}{\BoundedCauchyCoverUp}
+  \constructivestory{A $\BoundedCauchyCoverUp$ packet is generated from a unary precision budget, a Cauchy modulus row, finite StreamName observation-window cover, DyadicRatCore tolerance readback, RegSeqRat regularity consumption row, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-cauchy-cover-carrier}, \autoref{thm:bounded-cauchy-cover-namecert-obligations}, \autoref{thm:bounded-cauchy-cover-finite-window-coverage}, \autoref{thm:bounded-cauchy-cover-budget-transport}, and \autoref{thm:bounded-cauchy-cover-real-handoff} bind the finite budget-to-modulus-to-window-to-readback-to-RegSeqRat route used by RealUp diagonal-seal consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host real equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window coverage, budget transport, and RealUp handoff for the same bounded Cauchy cover packet.}
+\end{closurestatus}
