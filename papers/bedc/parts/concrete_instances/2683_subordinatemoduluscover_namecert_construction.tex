@@ -103,15 +103,63 @@ Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its TasteGat
 Finally use \autoref{thm:subordinate-modulus-cover-uniform-handoff}. The $\UniformModulusUp$ consumer receives precisely the finite input ledger for the later lower-bound fold, while the uniform precision chosen by that fold remains outside the subordinate cover packet.
 \end{proof}
 
+\begin{theorem}[SubordinateModulusCover compact coverage exactness]
+\label{thm:subordinate-modulus-cover-compact-coverage-exactness}
+Let
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
+$$
+be an accepted $\SubordinateModulusCoverUp$ carrier. Every source history covered by the packet is covered by a bundled center from the nonempty $\mathsf{ProbeBundle}$ spine $\mathcal{P}$, through the half-radius coverage rows $H$ and the displayed consumer routes $Q$. The coverage row is internal to the carrier and uses no host open-cover compactness, external radius selector, host minimum, or uniform precision output.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:subordinate-modulus-cover-carrier}. The nonempty bundle spine $\mathcal{P}$, center row $C$, subordinate radius row $R$, half-radius coverage row $H$, and continuation route row $Q$ are all visible coordinates of the same packet.
+
+Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its TasteGate alignment binds compact coverage exactness to the half-radius rows in $H$ for the displayed carrier $S$.
+
+The public coverage read is therefore the route through $\mathcal{P},C,R,H,Q,P,N$. Since the carrier definition contains no open-cover object, external radius selector, host minimum, or uniform precision row, none of those objects can supply the coverage witness.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover pointwise compatibility]
+\label{thm:subordinate-modulus-cover-pointwise-compatibility}
+Let
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
+$$
+be an accepted $\SubordinateModulusCoverUp$ carrier. Every precision row in $D$ is supplied by the pointwise-modulus row $M$ at the corresponding bundled center from $\mathcal{P}$ and is transported only by the componentwise $\hsame$ ledger $L$. The compatibility row does not choose an external modulus, host minimum, or uniform precision output.
+\end{theorem}
+\begin{proof}
+Read the relevant coordinates from \autoref{def:subordinate-modulus-cover-carrier}. The center row is $C$, the precision row is $D$, the pointwise-modulus row is $M$, and the only componentwise transport ledger is $L$.
+
+Use \autoref{thm:subordinate-modulus-cover-namecert-obligations}. The TasteGate alignment lists pointwise-modulus compatibility for the rows in $M$ and $D$ and classifier stability only through $L$.
+
+Thus each precision read is attached to the corresponding bundled center and its pointwise-modulus row. The carrier has no coordinate for an external modulus selector, a host minimum, or a uniform precision result, so compatibility cannot be sourced from any of those objects.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover rational subordination exactness]
+\label{thm:subordinate-modulus-cover-rational-subordination-exactness}
+Let
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
+$$
+be an accepted $\SubordinateModulusCoverUp$ carrier. Each subordinate radius row in $R$ is below its matching pointwise precision row in $D$ through the rational comparison ledger $F$. This exactness statement is a finite ledger row of the packet and does not assert compact host minima, external radius selection, or a completed uniform-modulus output.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It displays subordinate radius rows $R$, pointwise precision rows $D$, and the rational comparison ledger $F$ as separate coordinates of the same finite packet.
+
+Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its TasteGate row names rational subordination exactness for the comparison rows in $F$, binding each radius row in $R$ below the corresponding precision row in $D$.
+
+The handoff remains finite by \autoref{thm:subordinate-modulus-cover-ledger-handoff-obligation}. The comparison is consumed as part of the subordinate-cover ledger before the $\UniformModulusUp$ lower-bound fold, so no host minimum, external radius selector, or fold output is introduced here.
+\end{proof}
+
 \closureat{SubordinateModulusCoverUp}{seedStr}
 
 \begin{closurestatus}{\SubordinateModulusCoverUp}
   \constructivestory{A $\SubordinateModulusCoverUp$ packet is generated from a positive tolerance row, a nonempty $\mathsf{ProbeBundle}$ spine, bundled centers, subordinate positive-radius rows, pointwise-modulus precision rows, half-radius coverage rows, rational comparison ledgers, transport rows, continuation routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:subordinate-modulus-cover-carrier}, \autoref{thm:subordinate-modulus-cover-namecert-obligations}, and \autoref{thm:subordinate-modulus-cover-uniform-handoff} register the finite subordinate cover used before the compact-uniform-continuity rational lower-bound fold.}
+  \scopeclosed{\autoref{def:subordinate-modulus-cover-carrier}, \autoref{thm:subordinate-modulus-cover-namecert-obligations}, \autoref{thm:subordinate-modulus-cover-compact-coverage-exactness}, \autoref{thm:subordinate-modulus-cover-pointwise-compatibility}, \autoref{thm:subordinate-modulus-cover-rational-subordination-exactness}, and \autoref{thm:subordinate-modulus-cover-uniform-handoff} register the finite subordinate cover used before the compact-uniform-continuity rational lower-bound fold.}
   \formalstatus{\formalTargetV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close the rational lower-bound fold, the final uniform-modulus ledger, compactness of host open covers, external modulus selection, or bridge checking.}
-  \upgradepath{Scoped closure requires Lean encoding and checked carrier admission, classifier stability, coverage exactness, rational subordination exactness, and the uniform-modulus handoff for the same displayed packet.}
+  \upgradepath{Scoped closure requires Lean checking of carrier admission, classifier stability, coverage exactness, pointwise compatibility, rational subordination exactness, and the uniform-modulus handoff for the same displayed packet.}
 \end{closurestatus}
