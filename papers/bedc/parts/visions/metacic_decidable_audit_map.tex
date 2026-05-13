@@ -1,0 +1,221 @@
+\chapter{MetaCIC Decidability partial-closure audit map}
+\label{ch:metacic-decidable-audit-map}
+
+\section{The setup}
+\label{sec:metacic-decidable-audit-map-setup}
+
+The BEDC.MetaCIC decidability submodule records the mechanical checking layer
+for the internal CIC fragment. It is split across five sibling files:
+\texttt{CheckClosed}, \texttt{CheckClosedAtom}, \texttt{CheckCompleteness},
+\texttt{GalleryTests}, and \texttt{NormalEqDecide}. The split separates
+syntax equality, type inference, completeness wrappers, gallery checks, and a
+bounded normal-equality checker.
+
+The central checker is \texttt{inferTypeCtx}. It maps a context and a term to
+an optional inferred type. Its closed-term wrapper is
+\texttt{inferTypeCtxClosed}. The equality atom is \texttt{Term.eq}, a Boolean
+structural equality on represented terms, with \texttt{checkSameTerm} as the
+option-valued interface used by the typing checker. The normal-equality side
+uses \texttt{normalizeBounded} and \texttt{decideClosedBetaConv}; this is a
+fuel-bounded normal-form comparison, not an unrestricted beta-conversion
+oracle.
+
+The audit question is therefore precise. The submodule does not assert a
+single informal statement saying that MetaCIC is decidable. It provides
+checked Boolean and option procedures, then proves the soundness and
+completeness properties that are available for those procedures. This chapter
+maps exactly which part is closed and which part remains conditional on
+normalisation or on a particular term shape.
+
+\section{What is established}
+\label{sec:metacic-decidable-audit-map-established}
+
+The checked inventory has five parts.
+
+\begin{itemize}
+\item \texttt{CheckClosedAtom.lean} gives structural equality for terms. The
+  Boolean equality is reflexive, converts true results into propositional
+  equality, converts propositional equality into true results, and exposes the
+  full iff statement:
+  \leanvariant{BEDC.MetaCIC.Term.eq\_refl}
+  \leanvariant{BEDC.MetaCIC.Term.eq\_true\_to\_eq}
+  \leanvariant{BEDC.MetaCIC.Term.eq\_eq\_to\_true}
+  \leanvariant{BEDC.MetaCIC.Term.eq\_correct}.
+\item The option-valued same-term checker is also bidirectional. A successful
+  check gives equality, and equality gives a successful check:
+  \leanvariant{BEDC.MetaCIC.checkSameTerm\_sound}
+  \leanvariant{BEDC.MetaCIC.checkSameTerm\_complete}.
+\item The first type-inference checker \texttt{inferType} is sound and
+  complete for the inductive \texttt{HasType} relation, both in arbitrary
+  contexts and in the empty context wrapper:
+  \leanvariant{BEDC.MetaCIC.inferType\_sound}
+  \leanvariant{BEDC.MetaCIC.inferType\_complete}
+  \leanvariant{BEDC.MetaCIC.inferTypeClosed\_sound}
+  \leanvariant{BEDC.MetaCIC.inferTypeClosed\_complete}.
+\item \texttt{CheckClosed.lean} repeats the checker through
+  \texttt{inferTypeCtx}, with explicit recognisers for sort and Pi types. The
+  context-indexed and closed wrappers are again sound and complete through
+  \texttt{inferTypeCtx\_sound}, \texttt{inferTypeCtx\_complete},
+  \texttt{inferTypeCtxClosed\_sound}, and
+  \texttt{inferTypeCtxClosed\_complete}.
+\item \texttt{CheckCompleteness.lean} records a shape-organised completeness
+  surface. Its raw, total-exists, and strict exported wrappers are checked,
+  and the direct Pi, lambda, and application cases expose the main compound
+  shapes:
+  \leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_pi\_direct}
+  \leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_lam\_direct}
+  \leanvariant{BEDC.MetaCIC.CheckCompleteness.inferTypeCtx\_complete\_app\_direct}.
+\end{itemize}
+
+This is a strong positive layer. For represented syntax equality, the Boolean
+procedure is correct. For typing, the option-valued inference procedure is
+not merely a recogniser for gallery examples; it is proved sound and complete
+against the inductive \texttt{HasType} relation exported by the substrate.
+
+The gallery file supplies executable sanity rows for the closed example
+surface. Boolean, natural-number, pair, option, list, sum, and polymorphic
+witnesses all pass the \texttt{inferTypeCtx []} non-\texttt{none} test:
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_bool\_witnesses}
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_nat\_witnesses}
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_pair\_witnesses}
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_option\_witnesses}
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_list\_witnesses}
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_sum\_witnesses}
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_polymorphic\_witnesses}
+\leanvariant{BEDC.MetaCIC.gallery\_sanity\_all\_typed\_witnesses}.
+
+The gallery rows are not the source of the general typing theorem. Their
+role is audit-facing: they show that the same checker surface used in the
+soundness and completeness theorems also accepts the main Church-encoded
+example families.
+
+\section{Normal equality and bounded beta conversion}
+\label{sec:metacic-decidable-audit-map-normal-equality}
+
+\texttt{NormalEqDecide.lean} adds a separate equality surface. It defines a
+bounded normalizer and compares the bounded normal forms with
+\texttt{Term.eq}. The basic structural facts are checked:
+\leanvariant{BEDC.MetaCIC.normalizeBounded\_zero}
+\leanvariant{BEDC.MetaCIC.normalizeBounded\_sort}
+\leanvariant{BEDC.MetaCIC.normalizeBounded\_var}
+\leanvariant{BEDC.MetaCIC.normalizeBounded\_lam\_succ}
+\leanvariant{BEDC.MetaCIC.normalizeBounded\_pi\_succ}
+\leanvariant{BEDC.MetaCIC.normalizeBounded\_app\_succ}.
+
+The decision procedure is reflexive at every fuel value, and a true Boolean
+result implies equality of the two bounded normalizer outputs:
+\leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_refl}
+\leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_true\_eq\_normalized}.
+
+It also yields beta-convertibility between the bounded normalizer outputs:
+\leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_true\_betaConv\_normalized}.
+
+The stronger finished-normalisation interface is explicitly conditional. If
+both terms have closed finished normalisation witnesses at the same fuel, then
+a true result from \texttt{decideClosedBetaConv} gives equality of the named
+normal forms, beta-convertibility of those normal forms, and preservation of
+the closed normal-form witnesses:
+\leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_sound\_finished}
+\leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_sound\_finished\_betaConv}
+\leanvariant{BEDC.MetaCIC.decideClosedBetaConv\_sound\_finished\_eq}.
+
+This file is therefore a bounded normal-equality checker plus a conditional
+soundness bridge for the case where the fuel is known to finish on closed
+normal forms. It is not a theorem that arbitrary closed terms have a computed
+finished normal form at some fuel, and it is not an unrestricted decision
+procedure for beta conversion over all closed terms.
+
+\section{What remains conditional}
+\label{sec:metacic-decidable-audit-map-conditional}
+
+Three boundaries must remain visible.
+
+\begin{itemize}
+\item Typing is closed at the checker interface. For the represented
+  \texttt{HasType} relation, \texttt{inferTypeCtx} has soundness and
+  completeness theorems. The paper may cite this as a checked typing
+  decision surface for the encoded relation.
+\item Closedness itself is represented by the inductive predicate
+  \texttt{ClosedAt}. The decidability submodule consumes closedness in places
+  such as \texttt{inferTypeCtxClosed\_sound} and
+  \texttt{ClosedFinishedNormalizes}; it does not provide a separate theorem
+  named \texttt{Decidable (ClosedAt n t)}.
+\item Beta-conversion equality is conditional on bounded normalisation data.
+  The Boolean checker is proved sound for equality of bounded normalizer
+  outputs and for finished closed normal forms. It is not a global
+  closed-term beta-conversion decider unless the missing normalisation
+  endpoint data is supplied.
+\end{itemize}
+
+The first boundary is positive closure. The second is a naming boundary: the
+closedness predicate is an inductive relation with many checked preservation
+facts elsewhere in MetaCIC, but this submodule does not export a dedicated
+closedness-decision theorem. The third boundary links directly to
+normalisation: full conversion decidability would require a bridge from typed
+closed terms to finished bounded normal forms at a specified fuel or to an
+equivalent fuel-erased normalisation theorem.
+
+\section{Comparison with other audit maps}
+\label{sec:metacic-decidable-audit-map-comparison}
+
+The subject-reduction audit map in
+\autoref{ch:metacic-subject-reduction-obstruction} is blocked by
+dependent-codomain preservation. It names four typing-preservation
+obligations and records an obstruction to an unconditional closed
+subject-reduction theorem. The decidability map has a different shape. Typing
+inference itself is not the obstruction; it is already checked as sound and
+complete for the encoded \texttt{HasType} relation.
+
+The confluence audit map in \autoref{ch:metacic-confluence-audit-map} is
+blocked at residual substitution compatibility for joining parallel beta
+branches. The decidability map uses substitution through typing and normal
+comparison, but its open edge is not the parallel diamond. Its open edge is
+the endpoint data needed to promote bounded normal equality into global
+closed-term conversion decidability.
+
+The normalisation layer is the closest neighbour. The bounded normalizer in
+\texttt{NormalEqDecide} supplies a computable comparison surface. Strong
+normalisation supplies the kind of endpoint guarantee that would make such a
+surface public for all typed closed terms. Without that connection, the
+normal-equality checker remains a bounded and conditionally sound procedure.
+
+Thus the three maps should not be read as one generic MetaCIC deficit. Subject
+reduction needs preservation across dependent typing, confluence needs
+substitution compatibility for joins, and decidability needs the exact bridge
+from bounded computation to finished normal forms when beta conversion is the
+target. The typing-checker part of decidability is already closed; the
+conversion-checker part is intentionally narrower.
+
+\section{Apophatic framing}
+\label{sec:metacic-decidable-audit-map-apophatic}
+
+The apophatic discipline is the same as in the subject-reduction and
+confluence chapters. BEDC names what the checker proves and refuses to let a
+Boolean procedure become a stronger theorem by prose. A successful
+\texttt{inferTypeCtx} result carries a checked \texttt{HasType} witness by
+soundness. A \texttt{HasType} witness is accepted by the checker by
+completeness. A successful bounded beta-conversion result carries only the
+bounded-normal equality and the finished-normalisation consequences stated by
+the corresponding theorems.
+
+This is why the word ``decidable'' has to be read at the level of the
+exported theorem. For syntax equality and typing inference, the checked
+theorems give a closed decision surface. For closedness and global beta
+conversion, this chapter records the absence of a named theorem at that
+strength in the decidability submodule. The absence is not repaired by
+gallery success or by the existence of a bounded normalizer.
+
+\section{Boundary}
+\label{sec:metacic-decidable-audit-map-boundary}
+
+This chapter records the partial closure state of the MetaCIC decidability
+files. It may be cited for structural term equality, same-term checking,
+typing-inference soundness and completeness, the shape-organised completeness
+wrappers, gallery acceptance rows, and the bounded normal-equality soundness
+facts listed above.
+
+It does not claim a theorem named \texttt{Decidable (ClosedAt n t)}. It does
+not claim an unrestricted closed-term beta-conversion decider. It does not
+claim that \texttt{decideClosedBetaConv} is complete for beta conversion at
+arbitrary fuel. Those stronger readings require explicit Lean targets before
+they can enter the paper as closure claims.
