@@ -458,4 +458,91 @@ theorem PicardContractionPacket_finite_modulus_obligation_triad [AskSetup] [Pack
     ⟨banachUnary, lipschitzUnary, modulusUnary, sealReadUnary, banachContractionLipschitz,
       iteratesModulusEndpoint, endpointTransportSealRead, namePkg, sealReadPkg⟩
 
+theorem PicardContractionPacket_public_ode_newton_export [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      odeRead newtonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont iterates endpoint odeRead ->
+        Cont endpoint transport newtonRead ->
+          PkgSig bundle odeRead pkg ->
+            PkgSig bundle newtonRead pkg ->
+              UnaryHistory banach ∧ UnaryHistory contraction ∧ UnaryHistory lipschitz ∧
+                UnaryHistory iterates ∧ UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+                  UnaryHistory odeRead ∧ UnaryHistory newtonRead ∧
+                    Cont banach contraction lipschitz ∧ Cont iterates modulus endpoint ∧
+                      Cont iterates endpoint odeRead ∧ Cont endpoint transport newtonRead ∧
+                        PkgSig bundle name pkg ∧ PkgSig bundle odeRead pkg ∧
+                          PkgSig bundle newtonRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet iteratesEndpointOdeRead endpointTransportNewtonRead odeReadPkg newtonReadPkg
+  obtain ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have odeReadUnary : UnaryHistory odeRead :=
+    unary_cont_closed iteratesUnary endpointUnary iteratesEndpointOdeRead
+  have newtonReadUnary : UnaryHistory newtonRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportNewtonRead
+  exact
+    ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+      endpointUnary, odeReadUnary, newtonReadUnary, banachContractionLipschitz,
+      iteratesModulusEndpoint, iteratesEndpointOdeRead, endpointTransportNewtonRead,
+      namePkg, odeReadPkg, newtonReadPkg⟩
+
+theorem PicardContractionPacket_public_real_consumer_boundary [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      rateSource step consumer sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+        routes provenance name bundle pkg ->
+      Cont iterates modulus rateSource ->
+        Cont rateSource endpoint routes ->
+          Cont iterates contraction step ->
+            Cont iterates endpoint consumer ->
+              Cont endpoint transport sealRead ->
+                PkgSig bundle rateSource pkg ->
+                  PkgSig bundle step pkg ->
+                    PkgSig bundle consumer pkg ->
+                      PkgSig bundle sealRead pkg ->
+                        UnaryHistory banach ∧ UnaryHistory contraction ∧
+                          UnaryHistory lipschitz ∧ UnaryHistory iterates ∧
+                            UnaryHistory modulus ∧ UnaryHistory endpoint ∧
+                              UnaryHistory rateSource ∧ UnaryHistory step ∧
+                                UnaryHistory consumer ∧ UnaryHistory sealRead ∧
+                                  Cont banach contraction lipschitz ∧
+                                    Cont iterates modulus rateSource ∧
+                                      Cont rateSource endpoint routes ∧
+                                        Cont iterates contraction step ∧
+                                          Cont iterates endpoint consumer ∧
+                                            Cont endpoint transport sealRead ∧
+                                              PkgSig bundle name pkg ∧
+                                                PkgSig bundle rateSource pkg ∧
+                                                  PkgSig bundle step pkg ∧
+                                                    PkgSig bundle consumer pkg ∧
+                                                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet iteratesModulusRateSource rateSourceEndpointRoutes iteratesContractionStep
+    iteratesEndpointConsumer endpointTransportSealRead rateSourcePkg stepPkg consumerPkg
+    sealReadPkg
+  obtain ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, _iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  have rateSourceUnary : UnaryHistory rateSource :=
+    unary_cont_closed iteratesUnary modulusUnary iteratesModulusRateSource
+  have stepUnary : UnaryHistory step :=
+    unary_cont_closed iteratesUnary contractionUnary iteratesContractionStep
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed iteratesUnary endpointUnary iteratesEndpointConsumer
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportSealRead
+  exact
+    ⟨banachUnary, contractionUnary, lipschitzUnary, iteratesUnary, modulusUnary, endpointUnary,
+      rateSourceUnary, stepUnary, consumerUnary, sealReadUnary, banachContractionLipschitz,
+      iteratesModulusRateSource, rateSourceEndpointRoutes, iteratesContractionStep,
+      iteratesEndpointConsumer, endpointTransportSealRead, namePkg, rateSourcePkg, stepPkg,
+      consumerPkg, sealReadPkg⟩
+
 end BEDC.Derived.PicardContractionUp

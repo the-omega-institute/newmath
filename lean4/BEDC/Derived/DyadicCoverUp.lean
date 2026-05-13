@@ -154,4 +154,75 @@ theorem DyadicCoverPacket_finite_refinement [AskSetup] [PackageSetup]
       refinedPkg⟩,
       sameEndpoint⟩
 
+theorem DyadicCoverPacket_finite_window_obligation_triad [AskSetup] [PackageSetup]
+    {centers radii intervals mesh window transport routes provenance nameCert endpoint incidence
+      radiusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCoverPacket centers radii intervals mesh window transport routes provenance nameCert
+        endpoint bundle pkg ->
+      Cont window routes incidence ->
+        Cont radii incidence radiusRead ->
+          PkgSig bundle incidence pkg ->
+            PkgSig bundle radiusRead pkg ->
+              UnaryHistory centers ∧ UnaryHistory radii ∧ UnaryHistory intervals ∧
+                UnaryHistory mesh ∧ UnaryHistory window ∧ UnaryHistory incidence ∧
+                  UnaryHistory radiusRead ∧ Cont centers radii intervals ∧
+                    Cont intervals mesh window ∧ Cont window routes endpoint ∧
+                      Cont window routes incidence ∧ Cont radii incidence radiusRead ∧
+                        PkgSig bundle endpoint pkg ∧ PkgSig bundle incidence pkg ∧
+                          PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet windowRoutesIncidence radiiIncidenceRadiusRead incidencePkg radiusReadPkg
+  obtain ⟨centersUnary, radiiUnary, intervalsUnary, meshUnary, windowUnary,
+    _transportUnary, routesUnary, _provenanceUnary, _nameCertUnary, _endpointUnary,
+    centersRadiiIntervals, intervalsMeshWindow, windowRoutesEndpoint, _nameCertEndpoint,
+    endpointPkg⟩ := packet
+  have incidenceUnary : UnaryHistory incidence :=
+    unary_cont_closed windowUnary routesUnary windowRoutesIncidence
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiiUnary incidenceUnary radiiIncidenceRadiusRead
+  exact
+    ⟨centersUnary, radiiUnary, intervalsUnary, meshUnary, windowUnary, incidenceUnary,
+      radiusReadUnary, centersRadiiIntervals, intervalsMeshWindow, windowRoutesEndpoint,
+      windowRoutesIncidence, radiiIncidenceRadiusRead, endpointPkg, incidencePkg,
+      radiusReadPkg⟩
+
+theorem DyadicCoverPacket_mesh_refinement_carrier_transport [AskSetup] [PackageSetup]
+    {centers radii intervals mesh window transport routes provenance nameCert endpoint centers'
+      radii' intervals' refinedMesh refinedWindow transport' routes' provenance' nameCert'
+      refinedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCoverPacket centers radii intervals mesh window transport routes provenance nameCert
+        endpoint bundle pkg ->
+      hsame centers centers' -> hsame radii radii' -> hsame intervals intervals' ->
+        hsame transport transport' -> hsame routes routes' -> hsame provenance provenance' ->
+          hsame nameCert nameCert' -> hsame endpoint refinedEndpoint ->
+            Cont intervals' refinedMesh refinedWindow ->
+              Cont refinedWindow routes' refinedEndpoint ->
+                PkgSig bundle refinedEndpoint pkg ->
+                  DyadicCoverPacket centers' radii' intervals' refinedMesh refinedWindow
+                      transport' routes' provenance' nameCert' refinedEndpoint bundle pkg ∧
+                    SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row refinedEndpoint ∧
+                          DyadicCoverPacket centers' radii' intervals' refinedMesh refinedWindow
+                            transport' routes' provenance' nameCert' refinedEndpoint bundle pkg)
+                      (fun row : BHist => hsame row refinedEndpoint)
+                      (fun row : BHist => hsame row refinedEndpoint ∧
+                        PkgSig bundle refinedEndpoint pkg)
+                      hsame ∧
+                    hsame endpoint refinedEndpoint := by
+  intro packet sameCenters sameRadii sameIntervals sameTransport sameRoutes sameProvenance
+    sameNameCert sameEndpoint refinedWindowRow refinedEndpointRow refinedPkg
+  have refined :
+      DyadicCoverPacket centers' radii' intervals' refinedMesh refinedWindow transport' routes'
+          provenance' nameCert' refinedEndpoint bundle pkg ∧
+        hsame endpoint refinedEndpoint :=
+    DyadicCoverPacket_finite_refinement packet sameCenters sameRadii sameIntervals sameTransport
+      sameRoutes sameProvenance sameNameCert sameEndpoint refinedWindowRow refinedEndpointRow
+      refinedPkg
+  have certSurface :=
+    DyadicCoverPacket_namecert_obligations refined.left
+  exact ⟨refined.left, certSurface.left, refined.right⟩
+
 end BEDC.Derived.DyadicCoverUp
