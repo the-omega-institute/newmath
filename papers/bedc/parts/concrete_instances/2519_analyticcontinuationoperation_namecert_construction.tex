@@ -89,3 +89,34 @@ Therefore the public export is exactly the finite BEDC operation packet over the
   \notclaimed{This chapter does not close global monodromy, quotient-of-germs construction, general branch selection, RH zero-location consequences, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, classifier stability, continuation-ledger exactness, package provenance, and local naming for the same finite operation packet.}
 \end{closurestatus}
+
+\begin{definition}[Analytic continuation operation socket extraction]
+\label{def:analytic-continuation-operation-socket-extraction}
+Let $Q=(D_1,D_2,F,G,U,A,O,L,H,C,P,N)$ be an accepted $\AnalyticContinuationOperationUp$ carrier, and suppose that the branch-obstruction coordinate of the continuation ledger $L$ is displayed as $B$. The socket extracted from $Q$ along $B$ is the finite packet
+$$
+\operatorname{Sock}(Q,B)=(F,G,U,A,O,B,H,C,P,N).
+$$
+It is read by retaining the two holomorphic source rows, the finite overlap row, the analytic-continuation operation row, the output row, the displayed branch-obstruction coordinate, the componentwise transports, the continuation routes, the package provenance, and the local naming row, while forgetting the two explicit domain rows and the non-obstruction ledger coordinates of $L$.
+\end{definition}
+
+\begin{theorem}[Analytic continuation operation socket extraction]
+\label{thm:analytic-continuation-operation-socket-extraction}
+Let $Q=(D_1,D_2,F,G,U,A,O,L,H,C,P,N)$ be an accepted $\AnalyticContinuationOperationUp$ carrier. If the branch-obstruction coordinate of $L$ is displayed as $B$, then the extracted packet
+$$
+\operatorname{Sock}(Q,B)=(F,G,U,A,O,B,H,C,P,N)
+$$
+is an accepted $\AnalyticContinuationSocketUp$ carrier. Every $\HolomorphicUp$ output read exported through the operation packet factors through this socket: the read reaches $O$ only through the source rows $F,G$, the overlap witness $U$, the operation row $A$, and the visible $H,C,P,N$ routes, while every branch-sensitive request outside that source-overlap-output path is recorded in $B$ and is not exported as another $\HolomorphicUp$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted operation carrier using \autoref{def:analytic-continuation-operation-carrier}. The rows $F,G,U,A,O$ are displayed coordinates of $Q$: $F$ and $G$ are the two $\HolomorphicUp$ source rows, $U$ is the finite overlap row, $A$ is the $\AnalyticContUp$ operation row over $F,G,U$, and $O$ is the output $\HolomorphicUp$ row. The ledger row $L$ contains the displayed branch-obstruction coordinate $B$ by hypothesis.
+
+The domain rows $D_1,D_2$ are not independent socket coordinates. In the socket carrier of \autoref{def:analytic-continuation-socket-carrier}, the domains are read through the source rows $F,G$ and the overlap witness $U$. Thus forgetting $D_1,D_2$ does not remove a socket field; it leaves exactly the source-overlap-operation-output surface $F,G,U,A,O$.
+
+The remaining socket rows are inherited from the same finite operation packet. The transport row $H$ already stores componentwise $\hsame$ transport for $F,G,U,A,O$ and for the ledger containing $B$. The continuation row $C$ already stores the finite $\Cont$ routes by which consumers read the inputs, overlap evidence, output row, ledger rows, package provenance, and local naming row. The package row $P$ and the naming row $N$ repack these retained coordinates as the local socket surface. Therefore the tuple $\operatorname{Sock}(Q,B)$ has exactly the carrier coordinates required by \autoref{def:analytic-continuation-socket-carrier}.
+
+Carrier admission and classifier stability are supplied by the operation NameCert obligations of \autoref{thm:analytic-continuation-operation-namecert-obligations}: they apply componentwise to the holomorphic source rows, overlap row, operation row, and output row. Ledger exactness for $L$ restricts to ledger exactness for the displayed branch-obstruction coordinate $B$. These are precisely the socket obligation rows listed in \autoref{thm:analytic-continuation-socket-namecert-obligations}, so the extracted packet is accepted as an $\AnalyticContinuationSocketUp$ carrier.
+
+It remains to check the output read. By operation ledger exactness in \autoref{thm:analytic-continuation-operation-ledger-exactness}, every exported continuation fact from $Q$ factors through the displayed operation rows, and every request for branch choice, quotient-of-germs equality, or continuation data outside the displayed overlap and output rows is recorded only in the branch-obstruction coordinate of $L$. Under the extraction, that coordinate is $B$.
+
+Now apply the socket output factorization theorem \autoref{thm:analytic-continuation-socket-operation-output-factorization} to $\operatorname{Sock}(Q,B)$. The output row $O$ factors through $F,G,U,A,H,C,P,N$, and the branch ledger $B$ records exactly the attempted reads that do not factor through those rows. The holomorphic handoff theorem \autoref{thm:analytic-continuation-socket-holomorphic-handoff} then prevents a ledger entry from becoming a second output row. Hence every $\HolomorphicUp$ output read through the operation packet factors through the extracted socket and no hidden branch selector or unrestricted analytic-continuation operator is exported.
+\end{proof}

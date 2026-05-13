@@ -77,6 +77,42 @@ Apply \autoref{thm:type-classifier-membership-subject-reduction-boundary} for re
 Since no coordinate of the packet names a host type checker, semantic equality oracle, hidden conversion relation, erased derivation representative, or ambient normalization theorem, those objects cannot be exported by the $\TypeClassifierMembershipUp$ surface.
 \end{proof}
 
+\begin{theorem}[TypeClassifierMembership Ext membership stability]
+\label{thm:type-classifier-membership-ext-membership-stability}
+Let $X=(T,J,E,R,H,C,P,N)$ be an accepted $\TypeClassifierMembershipUp$ carrier. Any transported accepted judgment ledger for $X$ preserves the displayed $\Ext$ membership row $E$ through the componentwise $\hsame$ transport row $H$ and the $\Cont$ read routes $C$. The transported read does not replace $E$ by host typing semantics, semantic equality of terms, undecidable conversion, or an unrecorded membership predicate.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:type-classifier-membership-carrier}. Its judgment and membership information is displayed only by the rows $J$ and $E$, and the only transport and read coordinates are $H$ and $C$.
+
+Apply the classifier description in \autoref{def:type-classifier-membership-classifier}. Classifier comparisons of the judgment ledger and $\Ext$ row are componentwise reads through those displayed routes, so a transported accepted ledger still reads the same membership coordinate $E$.
+
+The obligation surface in \autoref{thm:type-classifier-membership-namecert-obligations} records this as $\Ext$ stability. Since no carrier coordinate names host typing semantics or an unrecorded predicate, the transported ledger cannot substitute any external membership witness for $E$.
+\end{proof}
+
+\begin{theorem}[TypeClassifierMembership reduction target coverage]
+\label{thm:type-classifier-membership-reduction-target-coverage}
+Let $X=(T,J,E,R,H,C,P,N)$ be an accepted $\TypeClassifierMembershipUp$ carrier. Every typed $\Cont$ reduction target membership read is covered by the displayed rows $T,J,E,R,H,C,P,N$. In particular, the target membership is reached from the finite judgment ledger, the visible $\Ext$ membership row, the reduction row, componentwise transport, continuation routes, dependency package, and local naming row, not from host reduction semantics or hidden normalization.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The reduction source and target are visible only through $T,J,E,R$, while $H$ and $C$ provide the recorded transport and continuation access to those rows.
+
+Apply \autoref{thm:type-classifier-membership-subject-reduction-boundary}. It sends each public subject-reduction read from the source membership and visible reduction row to the target membership boundary through the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
+
+The non-escape theorem \autoref{thm:type-classifier-membership-non-escape} excludes host reduction semantics, hidden conversion, erased derivations, and ambient normalization from the exported surface. Thus every typed reduction target membership read is covered by the packet rows $T,J,E,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[TypeClassifierMembership obligation closure package]
+\label{thm:type-classifier-membership-obligation-closure-package}
+Every accepted $\TypeClassifierMembershipUp$ packet carries the obligation package consisting of carrier admission, classifier stability, $\Ext$ membership stability, subject-reduction boundary coverage, reduction target coverage, and public non-escape. The package is witnessed by the carrier and classifier surfaces together with the finite rows $T,J,E,R,H,C,P,N$, and it uses no host type semantics, semantic equality of terms, hidden conversion relation, global normalization theorem, or unrecorded classifier.
+\end{theorem}
+\begin{proof}
+Carrier admission is supplied by \autoref{def:type-classifier-membership-carrier}. Classifier stability is supplied by \autoref{def:type-classifier-membership-classifier}, which limits comparison to the displayed judgment, membership, and reduction rows under $H$ and $C$.
+
+For membership preservation, apply \autoref{thm:type-classifier-membership-ext-membership-stability}. For the subject-reduction boundary, apply \autoref{thm:type-classifier-membership-subject-reduction-boundary}. For target coverage, apply \autoref{thm:type-classifier-membership-reduction-target-coverage}.
+
+It remains to close the public boundary. Apply \autoref{thm:type-classifier-membership-non-escape}; the packet exports only $T,J,E,R,H,C,P,N$ and no host type checker, semantic equality oracle, hidden conversion relation, erased derivation representative, or ambient normalization theorem.
+\end{proof}
+
 \closureat{TypeClassifierMembershipUp}{seedStr}
 
 \begin{closurestatus}{\TypeClassifierMembershipUp}
