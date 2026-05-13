@@ -208,6 +208,64 @@ Classifier movement is supplied by \autoref{thm:bounded-monotone-cauchy-witness-
 Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Every public read is exhausted by the listed carrier rows, so the scoped dependency package is exactly the displayed package and no excluded completion or compactness object belongs to it.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness tail-window service]
+\label{thm:bounded-monotone-cauchy-witness-tail-window-service}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Every tolerance request made to $W$ factors through the bounded source row $S$, the regular rational handoff $F$, the scheduled $\StreamNameUp$ windows $\sigma$, the Cauchy modulus answer $\mu$, and the dyadic tolerance ledger $\lambda$ before any located trap or completion-facing row can be read.
+
+The service exposes exactly the displayed $\StreamNameUp$ windows and their dyadic tolerance rows. It does not supply a selected limit, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and use the NameCert obligation theorem. The rows $S,F,\sigma,\mu,\lambda$ are part of the displayed packet, so a tolerance request has no independent input surface outside the carrier.
+
+Apply \autoref{thm:bounded-monotone-cauchy-witness-generator-range-exactness}. It keeps source observations inside the bounded generator, monotone, and upper-bound rows of $S$ together with the regular rational handoff $F$.
+
+Next apply \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}. The requested tolerance is answered by $\mu$ only after the scheduled windows $\sigma$ and the dyadic ledger $\lambda$ have been displayed.
+
+Finally use \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since every tolerance read has already passed through $S,F,\sigma,\mu,\lambda$, no completion coordinate or compactness object remains available to the service.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness located trap handoff]
+\label{thm:bounded-monotone-cauchy-witness-located-trap-handoff}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. The $\LocatedIntervalUp$ trap row $I$ is reached only after the dyadic tolerance ledger $\lambda$ and the source upper-bound rows in $S$ have been displayed through the scheduled tail-window service.
+
+Thus any handoff from $W$ to a located interval consumer preserves the same $S,F,\sigma,\mu,\lambda$ route before $I$ and carries forward only $Q,H,C,P,N$ as the seal, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the source rows. By \autoref{thm:bounded-monotone-cauchy-witness-generator-range-exactness}, the upper-bound data are read from the displayed bounded source packet $S$ and not from an ambient order-completeness assumption.
+
+Use the tail-window service supplied by \autoref{thm:bounded-monotone-cauchy-witness-tail-window-service}. It routes the tolerance request through $F,\sigma,\mu,\lambda$, so the dyadic ledger is already visible before the trap row is consumed.
+
+Now apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-boundary}. The located trap $I$ belongs to the seal-facing route that also carries $Q,H,C,P,N$, and it cannot be read before the source and tolerance ledgers have been displayed.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. The handoff has no coordinate for a hidden trap, selected limit, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness completion boundary]
+\label{thm:bounded-monotone-cauchy-witness-completion-boundary}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier reads only the displayed packet
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N.
+$$
+The boundary supplies the bounded source rows, regular rational handoff, scheduled tail windows, modulus answer, dyadic tolerance ledger, located trap, Real seal, transport rows, continuation rows, package provenance, and local naming row. It supplies no selected limit, quotient equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+Use the scoped dependency package. By \autoref{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}, the whole public surface of the accepted carrier is the displayed package over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply \autoref{thm:bounded-monotone-cauchy-witness-tail-window-service} and \autoref{thm:bounded-monotone-cauchy-witness-located-trap-handoff}. These rows force completion-facing reads to pass through the source, window, modulus, dyadic tolerance, and located-trap route before the seal is available.
+
+Next apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}. It sends every real-facing read through $I,Q,H,C,P,N$ while keeping the source and witness rows visible.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since the packet is exhausted by $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, the excluded completion and equality principles cannot be projected by any consumer.
+\end{proof}
+
 \begin{theorem}[Bounded monotone witness bridge to public tail and criterion packets]
 \label{thm:bounded-monotone-witness-monotone-cauchy-criterion-bridge}
 Let
@@ -226,6 +284,62 @@ Read the bounded source through the finite route supplied by \autoref{thm:monoto
 Read the witness rows through \autoref{thm:cauchycriterion-public-certificate}. The rows $\sigma,\mu,\lambda$ provide the explicit modulus, dyadic tolerance, finite tail ledger, regular rational handoff, and real-seal route required by the public $\CauchyCriterionUp$ packet, so the witness socket of $W$ is routed through the existing constructive criterion surface.
 
 Finally apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff} and \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. The handoff sends each real-facing read through $F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ while keeping the bounded source row visible, and ledger exhaustion rules out every remaining coordinate. Therefore the composed route passes through the MonotoneCauchy public tail-window certificate and the CauchyCriterion public packet before the local seal, with no route to quotient real equality, selected representatives, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness Real observation-budget handoff]
+\label{thm:bounded-monotone-cauchy-witness-real-observation-budget-handoff}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. If a real-facing consumer asks $W$ for finite observation data, then the request factors through the finite observation route of \autoref{ch:concrete-instances-real-observation-budget-namecert}: the windows are read through $\sigma$, dyadic readback and radius data are read through $\lambda$, the regular rational handoff is read through $F$, and the $\RealUp$ seal is read through $Q$.
+
+The handoff preserves the displayed bounded source row $S$, the Cauchy witness $\mu$, the located trap $I$, transports $H$, continuations $C$, provenance $P$, and the local naming row $N$. It exports no quotient stream equality, host real equality, selected limit, trichotomy, ambient completeness, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+Start from the scoped dependency package of \autoref{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}. It lists $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ as the whole public surface of the accepted packet.
+
+Read the finite observation request through \autoref{ch:concrete-instances-real-observation-budget-namecert}. That route accepts finite window rows, dyadic readback and radius ledgers, regular-rational handoff rows, and a $\RealUp$ seal boundary; these are supplied here by $\sigma,\lambda,F,Q$.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff} and \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. The seal remains tied to the displayed bounded source and witness rows, while ledger exhaustion rules out every absent completion coordinate.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness Cauchy modulus-extraction factorization]
+\label{thm:bounded-monotone-cauchy-witness-cauchy-modulus-extraction-factorization}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Before $W$ exports a tail threshold to any Real-completion route, the witness rows $\sigma,\mu,\lambda$ factor through the modulus-indexed schedule of \autoref{ch:concrete-instances-cauchymodulusextraction-namecert}. The schedule reads $\sigma$ as its finite window source, $\mu$ as the tail-threshold answer for each dyadic tolerance request, and $\lambda$ as the dyadic tolerance and radius ledger that justifies the answer.
+
+The factorization may pass along the regular sequence row $F$, the source row $S$, and the seal-facing rows $I,Q,H,C,P,N$, but it cannot replace the displayed modulus extraction by quotient stream equality, host real equality, a selected limit, trichotomy, ambient completeness, or a choice-selected tail.
+\end{theorem}
+\begin{proof}
+Project the witness rows from the carrier. The rows $\sigma,\mu,\lambda$ already describe a window schedule, a tolerance-indexed tail answer, and the dyadic ledger that the tail answer consumes.
+
+Route those rows through \autoref{ch:concrete-instances-cauchymodulusextraction-namecert}. Its modulus-indexed schedule is exactly the public surface that receives a finite window source, a requested tolerance, and the ledger rows needed to produce a tail threshold.
+
+Then reattach the source, regular-sequence, located-trap, seal, transport, continuation, provenance, and naming rows by \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope} and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-boundary}. These rows carry the extracted threshold toward the Real-completion route without adding any excluded completion coordinate.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness downstream unblock package]
+\label{thm:bounded-monotone-cauchy-witness-downstream-unblock-package}
+Let
+$$
+W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)
+$$
+be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. The downstream Real and Completion consumers of $W$ receive a finite package through four public routes: the $\MonotoneCauchyUp$ tail-window certificate, the $\CauchyCriterionUp$ criterion packet, the $\RealObservationBudgetUp$ finite observation route, and the $\CauchyModulusExtractionUp$ modulus-indexed schedule.
+
+The package consists only of the displayed rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. It gives downstream consumers a bounded-source route, an explicit Cauchy witness route, a finite observation route, and a modulus-extraction route, with no quotient stream equality, host real equality, selected limit, trichotomy, ambient completeness, or choice-selected tail.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:bounded-monotone-witness-monotone-cauchy-criterion-bridge}. It routes the source and witness sides of $W$ through the public $\MonotoneCauchyUp$ tail-window certificate and the public $\CauchyCriterionUp$ packet before the local $\RealUp$ seal handoff.
+
+Next apply \autoref{thm:bounded-monotone-cauchy-witness-real-observation-budget-handoff}. It routes every real-facing finite observation read through $\sigma,\lambda,F,Q$ and keeps the remaining carrier rows visible as the same displayed packet.
+
+Then apply \autoref{thm:bounded-monotone-cauchy-witness-cauchy-modulus-extraction-factorization}. It routes $\sigma,\mu,\lambda$ through the modulus-indexed schedule before any tail threshold is exported to the Real-completion route.
+
+Finally use \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since every public read is exhausted by $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, the four-route package exports only finite displayed data and none of the excluded equality, limit, completeness, trichotomy, or tail-selection objects.
 \end{proof}
 
 \closureat{BoundedMonotoneCauchyWitnessUp}{obligationStr}

@@ -441,6 +441,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             "latest_event_ts": None,
             "latest_event_age_seconds": None,
             "latest_event": None,
+            "latest_by_source": {},
             "by_event": {},
         }
     lines = INBOX_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -457,6 +458,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     windowed = 0
     latest_ts: datetime | None = None
     latest_event: dict[str, Any] | None = None
+    latest_by_source: dict[str, tuple[datetime, dict[str, Any]]] = {}
     for line in tail:
         try:
             rec = json.loads(line)
@@ -470,6 +472,17 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
                 "source": rec.get("source"),
                 "title": rec.get("title"),
             }
+        source_key = str(rec.get("source") or "unknown").strip() or "unknown"
+        if ts is not None:
+            current = latest_by_source.get(source_key)
+            if current is None or ts > current[0]:
+                latest_by_source[source_key] = (
+                    ts,
+                    {
+                        "event": rec.get("event"),
+                        "title": rec.get("title"),
+                    },
+                )
         if window_start is not None:
             if ts is None or ts < window_start:
                 continue
@@ -516,6 +529,14 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             if latest_ts else None
         ),
         "latest_event": latest_event,
+        "latest_by_source": {
+            source: {
+                "ts": ts.isoformat(timespec="seconds"),
+                "age_seconds": int((datetime.now(timezone.utc) - ts).total_seconds()),
+                **event,
+            }
+            for source, (ts, event) in sorted(latest_by_source.items())
+        },
         "by_event": dict(sorted(by_event.items())),
         "rejection_reasons": _top(by_rejection_reason),
         "rejection_sources": _top(by_rejection_source),

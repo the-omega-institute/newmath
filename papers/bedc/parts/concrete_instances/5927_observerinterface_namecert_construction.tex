@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ObserverInterfaceUp$}
+\label{ch:concrete-instances-observer-interface-namecert}
+\origin{ai}
+
+The $\ObserverInterfaceUp$ packet realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite interface row between observer filtering, attention accounting, and countable stream naming. It consumes the selected and omitted rows of \autoref{ch:concrete-instances-observer-filter-namecert}, the public attention boundary of \autoref{ch:concrete-instances-attention-ledger-namecert}, and the downstream handoff discipline of \autoref{ch:concrete-instances-streamname-namecert}. The interface is a NameCert object for licensed observation: every public read enters through selected observer-filter rows, every omitted source row remains ledgered, and no separate observer subject is available behind the history rows.
+
+\begin{definition}[Observer interface carrier]
+\label{def:observer-interface-carrier}
+An $\ObserverInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(H,F,A,S,O,U,W,Q,R,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the source observer-history row whose identity is read as $\BHist$ data;
+\item $F$ is the $\ObserverFilterUp$ row selecting public observations and recording omitted rows;
+\item $A$ is the $\AttentionLedgerUp$ row that records the selected-row and omitted-row split as a public attention boundary;
+\item $S$ is the selected observation ledger exported by the interface;
+\item $O$ is the omitted-row ledger, with one boundary entry for each source row not exported;
+\item $U$ is the licensed-observation row served to public consumers;
+\item $W$ is the $\StreamNameUp$ handoff row generated only from $S$ and $U$;
+\item $Q$ is the no-subject row recording that every exported observation is already one of the displayed history, filter, attention, selected, omitted, or handoff rows;
+\item $R$ records componentwise $\hsame$ transports for observer-history, filter, attention, selected, omitted, licensed-observation, StreamName, no-subject, route, provenance, and local naming rows;
+\item $L$ is the interface ledger tying each accepted read to $F,A,S,O,U,W,Q,R,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the source history, filter, attention ledger, selected rows, omitted boundary, licensed observation, StreamName handoff, and no-subject row;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistoryIdentityUp$, $\ObserverFilterUp$, $\AttentionLedgerUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ObserverInterfaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted interface packets only through these displayed coordinates. It has no coordinate for hidden observer state, host equality of observers, quotient stream identity, unledgered deletion, or a subject parameter outside the history rows.
+\end{definition}
+
+\begin{theorem}[ObserverInterface NameCert obligations]
+\label{thm:observer-interface-namecert-obligations}
+For the carrier of \autoref{def:observer-interface-carrier}, the local $\NameCert_{\ObserverInterfaceUp}$ surface consists exactly of carrier admission for $I=(H,F,A,S,O,U,W,Q,R,L,C,P,N)$, observer-history source exposure through $H$, filter selection through $F$, attention-ledger exposure through $A$, selected-row exposure through $S$, omitted-row boundary exposure through $O$, licensed observation through $U$, StreamName handoff through $W$, no-subject exactness through $Q$, componentwise $\hsame$ transport through $R$, interface ledger exactness through $L$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the displayed packet. The rows $H,F,A,S,O,U,W,Q,R,L,C,P,N$ list the whole observer-facing interface before any public read is available.
+
+The filter and attention rows bind the public split. The selected ledger $S$ and omitted ledger $O$ are both read through $F$ and $A$, so a consumer cannot obtain a licensed observation without seeing the boundary that prevents omitted rows from becoming public data.
+
+The no-subject and naming rows close the local surface. The row $Q$ records that exported observations are already displayed rows, while $R,C,P,N$ provide only componentwise transport, route replay, provenance, and local naming. Since the carrier has no further coordinate, the listed clauses exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[ObserverInterface filter-history handoff]
+\label{thm:observer-interface-filter-history-handoff}
+Every $\StreamNameUp$-facing read exported by an accepted $\ObserverInterfaceUp$ packet factors through the selected observer-filter ledger $S$, the public attention row $U$, the StreamName handoff row $W$, the no-subject row $Q$, the componentwise $\hsame$ transports $R$, the displayed $\Cont$ routes $C$, the interface ledger $L$, the package row $P$, and the local name $N$. Omitted rows in $O$ remain boundary certificates and cannot supply StreamName data.
+\end{theorem}
+\begin{proof}
+Start with the accepted interface carrier. Its only StreamName-facing coordinate is $W$, and $W$ is attached to the selected side of the filter and attention rows.
+
+Read the handoff through the finite ledger. The rows $S,U,L,R,C,P,N$ record the selected observation, public attention boundary, exact read entry, transport, route, provenance, and local naming needed by the downstream $\StreamNameUp$ consumer.
+
+The omitted ledger $O$ is still visible, but only through its boundary role. Since $Q$ records that no hidden subject or owner is exported, an omitted row has no route by which it can become StreamName data or replace the selected observation ledger.
+\end{proof}
+
+\begin{theorem}[ObserverInterface non-escape]
+\label{thm:observer-interface-nonescape}
+An accepted $\ObserverInterfaceUp$ packet exports only the displayed observer-history, observer-filter, attention-ledger, selected-row, omitted-row, licensed-observation, StreamName handoff, no-subject, $\hsame$, $\Cont$, $\Pkg$, ledger, and local $\NameCert$ rows of \autoref{def:observer-interface-carrier}. It exports no hidden observer state, quotient observer identity, host equality of histories, unledgered omitted row, unlicensed observation, or subject parameter outside $\BHist$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. They are exactly $H,F,A,S,O,U,W,Q,R,L,C,P,N$, and each coordinate is a displayed history, filter, attention, selected, omitted, licensed-observation, handoff, no-subject, transport, ledger, route, provenance, or local naming row.
+
+Use \autoref{thm:observer-interface-namecert-obligations} to identify the accepted certificate surface. Every public read is routed through the finite inventory and then recorded in $L$ before it reaches the local name.
+
+Use \autoref{thm:observer-interface-filter-history-handoff} for StreamName-facing consumers. That handoff keeps omitted rows as boundary certificates and selected rows as the only exported observation data, so no hidden observer state, quotient identity, host equality, unledgered omission, unlicensed observation, or subject parameter has a public coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted ObserverInterfaceUp packet routes StreamName-facing reads through selected observer-filter rows and cannot export an unledgered omitted row.}
+
+\independenceWitness{observerfilter, observerhistoryidentity, attentionledger, streamname: the interface packet has all four row families simultaneously, while each sibling lacks at least one of filter partition, no-subject history identity, attention ledger, or countable handoff rows.}
+
+The proposed Lean follow-up site is \texttt{lean4/BEDC/Derived/ObserverInterfaceUp/TasteGate.lean}. Its obligation surface includes $\mathsf{Nontrivial}\ \ObserverInterfaceUp$ and $\mathsf{FieldFaithful}\ \ObserverInterfaceUp$ instances whose witnesses distinguish the observer-history source, filter row, attention ledger, selected ledger, omitted ledger, licensed-observation row, StreamName handoff, no-subject row, transports, routes, provenance, and local name.
+
+\closureat{ObserverInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\ObserverInterfaceUp}
+  \constructivestory{An $\ObserverInterfaceUp$ packet is generated from observer-history identity, observer-filter selection, attention-ledger accounting, selected rows, omitted-row boundary rows, licensed observation, StreamName handoff, no-subject exactness, componentwise transport, displayed continuation, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-interface-carrier}, \autoref{thm:observer-interface-namecert-obligations}, \autoref{thm:observer-interface-filter-history-handoff}, and \autoref{thm:observer-interface-nonescape} specify the finite observer-interface packet and its public selected-row handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove observer-history completeness, StreamName quotient identity, hidden observer-state existence, Lean verification, or bridge checking for $\ObserverInterfaceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter selection, attention-ledger exposure, no-subject exactness, StreamName handoff, non-escape, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}
