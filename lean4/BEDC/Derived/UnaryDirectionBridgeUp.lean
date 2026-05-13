@@ -339,4 +339,42 @@ theorem UnaryDirectionBridgeCarrier_namecert_scoped_package [AskSetup] [PackageS
     ledgerPolicy.right.right.right.right.right.right.right.left
   exact ⟨nameCert, additiveUnary, ledgerReadUnary⟩
 
+theorem UnaryDirectionBridgeCarrier_consumer_normal_form [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      (Cont ledger transports consumer ∨ Cont transports routes consumer ∨
+          Cont routes provenance consumer) ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory consumer ∧ UnaryHistory natRow ∧ UnaryHistory axisRow ∧
+            UnaryHistory bridge ∧ UnaryHistory kernel ∧ UnaryHistory boundary ∧
+              UnaryHistory ledger ∧ UnaryHistory transports ∧ UnaryHistory routes ∧
+                Cont natRow axisRow bridge ∧ Cont bridge kernel boundary ∧
+                  (Cont ledger transports consumer ∨ Cont transports routes consumer ∨
+                    Cont routes provenance consumer) ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, ledgerUnary,
+    transportsUnary, routesUnary, provenanceUnary, _nameUnary, natAxisBridge,
+    bridgeKernelBoundary, _boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer := by
+    cases consumerRoute with
+    | inl ledgerTransportsConsumer =>
+        exact unary_cont_closed ledgerUnary transportsUnary ledgerTransportsConsumer
+    | inr rest =>
+        cases rest with
+        | inl transportsRoutesConsumer =>
+            exact unary_cont_closed transportsUnary routesUnary transportsRoutesConsumer
+        | inr routesProvenanceConsumer =>
+            exact unary_cont_closed routesUnary provenanceUnary routesProvenanceConsumer
+  exact
+    ⟨consumerUnary, natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, ledgerUnary,
+      transportsUnary, routesUnary, natAxisBridge, bridgeKernelBoundary, consumerRoute,
+      provenancePkg, namePkg, consumerPkg⟩
+
 end BEDC.Derived.UnaryDirectionBridgeUp
