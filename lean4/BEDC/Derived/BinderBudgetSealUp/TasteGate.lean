@@ -202,6 +202,10 @@ instance binderBudgetSealChapterTasteGate : ChapterTasteGate BinderBudgetSealUp 
     intro x y hxy heq
     exact hxy (binderBudgetSealToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate BinderBudgetSealUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  binderBudgetSealChapterTasteGate
+
 theorem BinderBudgetSealTasteGate_single_carrier_alignment :
     (forall x : BinderBudgetSealUp,
       binderBudgetSealFromEventFlow (binderBudgetSealToEventFlow x) = some x) ∧

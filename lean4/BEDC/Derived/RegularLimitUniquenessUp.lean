@@ -220,4 +220,39 @@ theorem RegularLimitUniquenessCarrier_completion_consumer_boundary [AskSetup] [P
       diagonalRightThresholdReadback, readbackLeftThresholdSeal, readbackRightThresholdSeal,
       sealComparison, separatedTransportEndpoint, routeProvenanceEndpoint, endpointPkg⟩
 
+theorem RegularLimitUniquenessCarrier_separated_transport [AskSetup] [PackageSetup]
+    {family diagonalLeft diagonalRight threshold readbackLeft readbackRight sealLeft sealRight
+      separated transport route provenance localCert endpoint family' diagonalLeft' diagonalRight'
+      threshold' readbackLeft' readbackRight' sealLeft' sealRight' separated' transport' route'
+      provenance' localCert' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularLimitUniquenessCarrier family diagonalLeft diagonalRight threshold readbackLeft
+        readbackRight sealLeft sealRight separated transport route provenance localCert endpoint
+        bundle pkg ->
+      RegularLimitUniquenessCarrier family' diagonalLeft' diagonalRight' threshold' readbackLeft'
+          readbackRight' sealLeft' sealRight' separated' transport' route' provenance' localCert'
+          endpoint' bundle pkg ->
+        hsame sealLeft sealLeft' ->
+          hsame sealRight sealRight' ->
+            hsame separated separated' ∧ PkgSig bundle endpoint pkg ∧
+              PkgSig bundle endpoint' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier carrier' sameSealLeft sameSealRight
+  obtain ⟨_familyUnary, _diagonalLeftUnary, _diagonalRightUnary, _thresholdUnary,
+    _readbackLeftUnary, _readbackRightUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _localCertUnary, _familyThresholdDiagonalLeft, _familyThresholdDiagonalRight,
+    _diagonalLeftThresholdReadback, _diagonalRightThresholdReadback,
+    _readbackLeftThresholdSeal, _readbackRightThresholdSeal, sealComparison,
+    _separatedTransportEndpoint, _routeProvenanceEndpoint, endpointPkg⟩ := carrier
+  obtain ⟨_familyUnary', _diagonalLeftUnary', _diagonalRightUnary', _thresholdUnary',
+    _readbackLeftUnary', _readbackRightUnary', _transportUnary', _routeUnary',
+    _provenanceUnary', _localCertUnary', _familyThresholdDiagonalLeft',
+    _familyThresholdDiagonalRight', _diagonalLeftThresholdReadback',
+    _diagonalRightThresholdReadback', _readbackLeftThresholdSeal',
+    _readbackRightThresholdSeal', sealComparison', _separatedTransportEndpoint',
+    _routeProvenanceEndpoint', endpointPkg'⟩ := carrier'
+  have sameSeparated : hsame separated separated' :=
+    cont_respects_hsame sameSealLeft sameSealRight sealComparison sealComparison'
+  exact ⟨sameSeparated, endpointPkg, endpointPkg'⟩
+
 end BEDC.Derived.RegularLimitUniquenessUp
