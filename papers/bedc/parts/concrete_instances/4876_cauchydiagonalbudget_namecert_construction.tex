@@ -262,6 +262,22 @@ Next refine the compatibility side. Mesh-comparison exactness and RegSeqRat wind
 Finally apply \autoref{thm:cauchy-diagonal-budget-seal-boundary-factorization}, \autoref{thm:cauchy-diagonal-budget-real-seal-scope}, and \autoref{thm:cauchy-diagonal-budget-nonescape-scope}. These results make $S,H,C,P,N$ the only Real-facing boundary and exclude quotient streams, host real equality, selected external limits, trichotomy rows, and ambient completeness. Hence the compatibility consumer must factor through the displayed CauchyDiagonalBudget packet before reaching the seal.
 \end{proof}
 
+\begin{theorem}[Cauchy diagonal budget consumer triad route intersection]
+\label{thm:cauchy-diagonal-budget-consumer-triad-route-intersection}
+Let $B=(\epsilon,M,W,D,K,S,H,C,P,N)$ be an accepted $\CauchyDiagonalBudgetUp$ carrier. The $\ObservationBudgetLimiterUp$, $\UniformCauchyCriterionUp$, and $\TailBudgetCoherenceUp$ consumers all intersect exactly on the finite route
+$$
+\epsilon,M,W,D,K,S,H,C,P,N.
+$$
+Each consumer may read its own service surface through that route, but none may replace the route by an uncapped observation source, a second threshold route, a quotient stream family, a selected external limit, host real equality, or an ambient completeness row.
+\end{theorem}
+\begin{proof}
+First compose the three local consumer routes. The limiter route is fixed by \autoref{thm:cauchy-diagonal-budget-observation-limiter-consumption}, the uniform-criterion route is fixed by \autoref{thm:cauchy-diagonal-budget-uniform-criterion-budget-route}, and the tail-coherence handoff is fixed by \autoref{thm:cauchy-diagonal-budget-tail-coherence-handoff}. Their common displayed coordinates are therefore $\epsilon,M,W,D,K,S,H,C,P,N$.
+
+Next close the observation and threshold alternatives. The carrier and NameCert rows admit only the displayed precision, mesh, window, dyadic, comparison, seal, transport, continuation, package, and naming coordinates, so a hidden observation source or second threshold route has no coordinate through which it can be consumed.
+
+Finally close the seal-facing alternatives. Apply \autoref{thm:cauchy-diagonal-budget-nonescape-scope} and \autoref{thm:cauchy-diagonal-budget-real-seal-scope}. These results rule out quotient stream families, selected external limits, host real equality, and ambient completeness rows, and they force every Real-facing read through the same $S,H,C,P,N$ boundary already shared by the three consumers.
+\end{proof}
+
 \closureat{CauchyDiagonalBudgetUp}{seedStr}
 \closureat{CauchyDiagonalBudgetUp}{obligationStr}
 \closureat{CauchyDiagonalBudgetUp}{publicStr}
@@ -271,7 +287,7 @@ Finally apply \autoref{thm:cauchy-diagonal-budget-seal-boundary-factorization}, 
 \begin{closurestatus}{\CauchyDiagonalBudgetUp}
   \constructivestory{A $\CauchyDiagonalBudgetUp$ packet is generated from a finite precision request, a $\RealDiagonalMeshBudgetUp$ mesh-budget row, selected $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ ledger, a $\RegularCauchyComparisonUp$ comparison row, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{\autoref{def:cauchy-diagonal-budget-carrier}, \autoref{thm:cauchy-diagonal-budget-namecert-obligations}, \autoref{thm:cauchy-diagonal-budget-selection-determinacy}, \autoref{thm:cauchy-diagonal-budget-real-completeness-handoff}, \autoref{thm:cauchy-diagonal-budget-nonescape}, \autoref{thm:cauchy-diagonal-budget-regseq-window-scope}, \autoref{thm:cauchy-diagonal-budget-real-seal-scope}, \autoref{thm:cauchy-diagonal-budget-observation-limiter-consumer-boundary}, \autoref{thm:cauchy-diagonal-budget-uniform-criterion-budget-route}, \autoref{thm:cauchy-diagonal-budget-limit-seal-eligibility}, \autoref{thm:cauchy-diagonal-budget-nonescape-scope}, \autoref{thm:cauchy-diagonal-budget-observation-limiter-consumption}, \autoref{thm:cauchy-diagonal-budget-tail-coherence-handoff}, and \autoref{thm:cauchy-diagonal-budget-diagonal-limit-consumer-scope} define the finite budget-selector carrier, obligation rows, selection determinacy, RealCompleteness handoff, non-escape boundary, RegSeqRat window scope, Real seal scope, consumer-boundary routes, seal eligibility, excluded surface scope, and downstream consumption boundaries.}
+  \scopeclosed{\autoref{def:cauchy-diagonal-budget-carrier}, \autoref{thm:cauchy-diagonal-budget-namecert-obligations}, \autoref{thm:cauchy-diagonal-budget-selection-determinacy}, \autoref{thm:cauchy-diagonal-budget-real-completeness-handoff}, \autoref{thm:cauchy-diagonal-budget-nonescape}, \autoref{thm:cauchy-diagonal-budget-regseq-window-scope}, \autoref{thm:cauchy-diagonal-budget-real-seal-scope}, \autoref{thm:cauchy-diagonal-budget-observation-limiter-consumer-boundary}, \autoref{thm:cauchy-diagonal-budget-uniform-criterion-budget-route}, \autoref{thm:cauchy-diagonal-budget-limit-seal-eligibility}, \autoref{thm:cauchy-diagonal-budget-nonescape-scope}, \autoref{thm:cauchy-diagonal-budget-observation-limiter-consumption}, \autoref{thm:cauchy-diagonal-budget-tail-coherence-handoff}, \autoref{thm:cauchy-diagonal-budget-diagonal-limit-consumer-scope}, and \autoref{thm:cauchy-diagonal-budget-consumer-triad-route-intersection} define the finite budget-selector carrier, obligation rows, selection determinacy, RealCompleteness handoff, non-escape boundary, RegSeqRat window scope, Real seal scope, consumer-boundary routes, seal eligibility, excluded surface scope, downstream consumption boundaries, and common consumer intersection.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
