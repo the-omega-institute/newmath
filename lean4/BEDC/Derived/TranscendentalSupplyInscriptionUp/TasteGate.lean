@@ -11,7 +11,7 @@ open BEDC.Meta.TasteGate
 
 inductive TranscendentalSupplyInscriptionUp : Type where
   | mk :
-      (supply system inscription gap transport route provenance name : BHist) →
+      (supply closedSystem inscription gap transport routes provenance nameCert : BHist) →
       TranscendentalSupplyInscriptionUp
   deriving DecidableEq
 
@@ -42,40 +42,40 @@ private theorem transcendentalSupplyInscriptionDecode_encode_bhist :
       exact congrArg BHist.e1 ih
 
 private theorem transcendentalSupplyInscription_mk_congr
-    {supply supply' system system' inscription inscription' gap gap' transport transport'
-      route route' provenance provenance' name name' : BHist}
+    {supply supply' closedSystem closedSystem' inscription inscription' gap gap'
+      transport transport' routes routes' provenance provenance' nameCert nameCert' : BHist}
     (hSupply : supply' = supply)
-    (hSystem : system' = system)
+    (hClosedSystem : closedSystem' = closedSystem)
     (hInscription : inscription' = inscription)
     (hGap : gap' = gap)
     (hTransport : transport' = transport)
-    (hRoute : route' = route)
+    (hRoutes : routes' = routes)
     (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    TranscendentalSupplyInscriptionUp.mk supply' system' inscription' gap' transport'
-        route' provenance' name' =
-      TranscendentalSupplyInscriptionUp.mk supply system inscription gap transport route
-        provenance name := by
+    (hNameCert : nameCert' = nameCert) :
+    TranscendentalSupplyInscriptionUp.mk supply' closedSystem' inscription' gap' transport'
+        routes' provenance' nameCert' =
+      TranscendentalSupplyInscriptionUp.mk supply closedSystem inscription gap transport routes
+        provenance nameCert := by
   -- BEDC touchpoint anchor: BHist BMark
   cases hSupply
-  cases hSystem
+  cases hClosedSystem
   cases hInscription
   cases hGap
   cases hTransport
-  cases hRoute
+  cases hRoutes
   cases hProvenance
-  cases hName
+  cases hNameCert
   rfl
 
 private def transcendentalSupplyInscriptionToEventFlow :
     TranscendentalSupplyInscriptionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | TranscendentalSupplyInscriptionUp.mk supply system inscription gap transport route
-      provenance name =>
+  | TranscendentalSupplyInscriptionUp.mk supply closedSystem inscription gap transport routes
+      provenance nameCert =>
       [[BMark.b0],
         transcendentalSupplyInscriptionEncodeBHist supply,
         [BMark.b1, BMark.b0],
-        transcendentalSupplyInscriptionEncodeBHist system,
+        transcendentalSupplyInscriptionEncodeBHist closedSystem,
         [BMark.b1, BMark.b1, BMark.b0],
         transcendentalSupplyInscriptionEncodeBHist inscription,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
@@ -83,12 +83,12 @@ private def transcendentalSupplyInscriptionToEventFlow :
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         transcendentalSupplyInscriptionEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        transcendentalSupplyInscriptionEncodeBHist route,
+        transcendentalSupplyInscriptionEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         transcendentalSupplyInscriptionEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        transcendentalSupplyInscriptionEncodeBHist name]
+        transcendentalSupplyInscriptionEncodeBHist nameCert]
 
 private def transcendentalSupplyInscriptionFromEventFlow :
     EventFlow → Option TranscendentalSupplyInscriptionUp
@@ -103,7 +103,7 @@ private def transcendentalSupplyInscriptionFromEventFlow :
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | system :: rest3 =>
+              | closedSystem :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
@@ -127,7 +127,7 @@ private def transcendentalSupplyInscriptionFromEventFlow :
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | route :: rest11 =>
+                                              | routes :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
@@ -139,19 +139,19 @@ private def transcendentalSupplyInscriptionFromEventFlow :
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | name :: rest15 =>
+                                                              | nameCert :: rest15 =>
                                                                   match rest15 with
                                                                   | [] =>
                                                                       some
                                                                         (TranscendentalSupplyInscriptionUp.mk
                                                                           (transcendentalSupplyInscriptionDecodeBHist supply)
-                                                                          (transcendentalSupplyInscriptionDecodeBHist system)
+                                                                          (transcendentalSupplyInscriptionDecodeBHist closedSystem)
                                                                           (transcendentalSupplyInscriptionDecodeBHist inscription)
                                                                           (transcendentalSupplyInscriptionDecodeBHist gap)
                                                                           (transcendentalSupplyInscriptionDecodeBHist transport)
-                                                                          (transcendentalSupplyInscriptionDecodeBHist route)
+                                                                          (transcendentalSupplyInscriptionDecodeBHist routes)
                                                                           (transcendentalSupplyInscriptionDecodeBHist provenance)
-                                                                          (transcendentalSupplyInscriptionDecodeBHist name))
+                                                                          (transcendentalSupplyInscriptionDecodeBHist nameCert))
                                                                   | _ :: _ => none
 
 private theorem transcendentalSupplyInscription_round_trip :
@@ -162,14 +162,14 @@ private theorem transcendentalSupplyInscription_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk supply system inscription gap transport route provenance name =>
+  | mk supply closedSystem inscription gap transport routes provenance nameCert =>
       change
         some
           (TranscendentalSupplyInscriptionUp.mk
             (transcendentalSupplyInscriptionDecodeBHist
               (transcendentalSupplyInscriptionEncodeBHist supply))
             (transcendentalSupplyInscriptionDecodeBHist
-              (transcendentalSupplyInscriptionEncodeBHist system))
+              (transcendentalSupplyInscriptionEncodeBHist closedSystem))
             (transcendentalSupplyInscriptionDecodeBHist
               (transcendentalSupplyInscriptionEncodeBHist inscription))
             (transcendentalSupplyInscriptionDecodeBHist
@@ -177,25 +177,25 @@ private theorem transcendentalSupplyInscription_round_trip :
             (transcendentalSupplyInscriptionDecodeBHist
               (transcendentalSupplyInscriptionEncodeBHist transport))
             (transcendentalSupplyInscriptionDecodeBHist
-              (transcendentalSupplyInscriptionEncodeBHist route))
+              (transcendentalSupplyInscriptionEncodeBHist routes))
             (transcendentalSupplyInscriptionDecodeBHist
               (transcendentalSupplyInscriptionEncodeBHist provenance))
             (transcendentalSupplyInscriptionDecodeBHist
-              (transcendentalSupplyInscriptionEncodeBHist name))) =
+              (transcendentalSupplyInscriptionEncodeBHist nameCert))) =
           some
-            (TranscendentalSupplyInscriptionUp.mk supply system inscription gap transport route
-              provenance name)
+            (TranscendentalSupplyInscriptionUp.mk supply closedSystem inscription gap transport
+              routes provenance nameCert)
       exact
         congrArg some
           (transcendentalSupplyInscription_mk_congr
             (transcendentalSupplyInscriptionDecode_encode_bhist supply)
-            (transcendentalSupplyInscriptionDecode_encode_bhist system)
+            (transcendentalSupplyInscriptionDecode_encode_bhist closedSystem)
             (transcendentalSupplyInscriptionDecode_encode_bhist inscription)
             (transcendentalSupplyInscriptionDecode_encode_bhist gap)
             (transcendentalSupplyInscriptionDecode_encode_bhist transport)
-            (transcendentalSupplyInscriptionDecode_encode_bhist route)
+            (transcendentalSupplyInscriptionDecode_encode_bhist routes)
             (transcendentalSupplyInscriptionDecode_encode_bhist provenance)
-            (transcendentalSupplyInscriptionDecode_encode_bhist name))
+            (transcendentalSupplyInscriptionDecode_encode_bhist nameCert))
 
 private theorem transcendentalSupplyInscriptionToEventFlow_injective
     {x y : TranscendentalSupplyInscriptionUp} :

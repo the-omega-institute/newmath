@@ -4,3 +4,33 @@
 The finite-window $\StreamNameUp$ package is consumed by the $\RegularCauchyNameUp$ certificate of \autoref{ch:concrete-instances-regularcauchyname-namecert}. Its public rows supply the scheduled window, bundle membership, certified unary observations, pointwise $\RegSeqRatUp$ classifier data, transport routes, package provenance, and local \NameCert{} rows that the regular Cauchy name packet reads before exposing a real-name seal.
 
 This edge is the L10 scheduled finite-window handoff from $\StreamNameUp$ into the $\RegularCauchyNameUp$, $\RegSeqRatUp$, and $\RealUp$ chain. The handoff is recorded before the $\RegSeqRatUp$ and $\RealUp$ seal rows, so the later consumer can cite the StreamName window surface without importing quotient stream equality, host sequence equality, selected limits, or ambient completeness.
+
+\begin{theorem}[StreamName finite-window diagonal fusion]
+\label{thm:streamname-finite-window-diagonal-fusion}
+Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed simultaneously by an accepted $\RegSeqRatUp$ row, an accepted $\FiniteTailDiagonalSealUp$ packet, and an accepted $\FiniteCauchyApproximationUp$ packet. Then the three consumers determine one shared finite observation route into the $\RealUp$ seal: the window rows of $W$, the regular source row, the dyadic ledger, the selected tail witness, and the finite approximation error row agree through the displayed $\hsame$ transports and the displayed $\Cont$ routes.
+
+Equivalently, every $\RealUp$ seal-facing read factors through the common route
+$$
+\StreamNameUp
+\xrightarrow{\hsame,\Cont}
+\RegSeqRatUp
+\xrightarrow{\hsame,\Cont}
+\FiniteTailDiagonalSealUp
+\xrightarrow{\hsame,\Cont}
+\FiniteCauchyApproximationUp
+\xrightarrow{\hsame,\Cont}
+\RealUp.
+$$
+The route exports only finite window rows, the accepted regular source row, dyadic observation ledgers, the selected tail witness, finite approximation error data, componentwise transport, continuation replay, package provenance, and local naming. It does not assert quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the accepted $\StreamNameUp$ finite-window packet. Its public rows supply the scheduled finite window, bundle membership, unary observations, pointwise $\RegSeqRatUp$ classifier data, componentwise $\hsame$ transports, and displayed $\Cont$ routes.
+
+The $\RegSeqRatUp$ consumer reads those rows through \autoref{ch:concrete-instances-regularcauchyname-namecert}. This fixes the regular source row on the same finite window before any real-seal row is exposed.
+
+Next use \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert}. The accepted $\FiniteTailDiagonalSealUp$ packet reads the same finite window, the same regular source row, and the selected tail witness before its $\RealUp$ seal handoff.
+
+Finally use \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}. The accepted $\FiniteCauchyApproximationUp$ packet reads the same source and window together with the dyadic observation ledger and finite error row. Its handoff therefore meets the finite-tail route on the displayed $\hsame$ and $\Cont$ rows.
+
+Coordinate exhaustion gives the exclusion clause. None of the three accepted consumers contains a coordinate for quotient stream equality, a selected limit, host real equality, or ambient completeness, so the fused route cannot export any of those endpoints.
+\end{proof}
