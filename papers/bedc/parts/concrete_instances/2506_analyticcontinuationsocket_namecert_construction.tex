@@ -137,6 +137,78 @@ Add the local NameCert surface from \autoref{thm:analytic-continuation-socket-na
 Finally apply \autoref{thm:analytic-continuation-socket-ledger-nonescape}. Requests for monodromy, branch selection, global continuation, or zero-location consequences leave the displayed packet and are therefore recorded only as branch-obstruction data in $B$.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationSocket root source overlap]
+\label{thm:analytic-continuation-socket-root-source-overlap}
+For an accepted $\AnalyticContinuationSocketUp$ carrier
+$S=(F,G,U,A,O,B,H,C,P,N)$, every source-overlap read used by a root
+continuation consumer factors through the displayed source rows $F,G$, the
+finite overlap witness $U$, the componentwise transport row $H$, the displayed
+continuation routes $C$, the package provenance $P$, and the local
+$\NameCert$ row $N$. The read may reach the operation row $A$ and output row
+$O$ only through that source-overlap packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and the local NameCert obligations. They list $F,G,U$ as
+the only source-overlap coordinates and place $H,C,P,N$ as the only transport,
+route, provenance, and naming rows available to a consumer.
+
+Apply overlap classifier stability. Transported source and overlap reads
+preserve the local agreement boundary through $H$ and are replayed only
+through the displayed routes in $C$.
+
+Finally use holomorphic handoff and the RH handoff boundary. A downstream
+consumer can inspect $A$ and $O$ only after the same source-overlap packet has
+been displayed, so no hidden continuation source is introduced.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket root branch ledger]
+\label{thm:analytic-continuation-socket-root-branch-ledger}
+Every nonlocal continuation request made against an accepted
+$\AnalyticContinuationSocketUp$ carrier lands in the branch-obstruction ledger
+$B$. Such a request may be transported, replayed, packaged, and named through
+$H,C,P,N$, but it is not exported as a source row, overlap witness, operation
+row, output row, holomorphic continuation row, branch selector, or
+zero-location datum.
+\end{theorem}
+\begin{proof}
+Start with ledger non-escape. It sends every request outside the displayed
+source, overlap, operation, output, transport, route, provenance, and naming
+coordinates to the branch-obstruction row $B$.
+
+Use the ledger obligation and zeta branch-obstruction exactness. These
+theorems keep branch-sensitive and Riemann-hypothesis-facing requests in
+$B$ rather than exporting them as continuation or zero-location evidence.
+
+The RH handoff boundary then removes the remaining escape paths. Monodromy,
+branch selection, global continuation, and zero-location conclusions are not
+consumer-visible coordinates of the root socket.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket root downstream unblock]
+\label{thm:analytic-continuation-socket-root-downstream-unblock}
+The finite root surface exported by an accepted
+$\AnalyticContinuationSocketUp$ carrier to $\HolomorphicUp$ and
+zeta-continuation consumers is exactly
+$$
+F,G,U,A,O,B,H,C,P,N.
+$$
+The package combines the source rows, overlap witness, operation row, output
+row, branch ledger, componentwise transports, continuation routes, package
+provenance, and local naming row, and it excludes global monodromy, branch
+selection, quotient-of-germs equality, and zero-location consequences.
+\end{theorem}
+\begin{proof}
+First combine the root source-overlap theorem with holomorphic handoff. The
+consumer-visible output row $O$ is reached only through $F,G,U,A,H,C,P,N$.
+
+Next apply the root branch-ledger theorem. Every request outside that
+source-overlap-output path lands in $B$ and remains obstruction data.
+
+Finally repack the two paths with the RH handoff boundary. The downstream
+consumer receives one finite surface, $F,G,U,A,O,B,H,C,P,N$, and no unlisted
+analytic-continuation principle.
+\end{proof}
+
 \begin{theorem}[AnalyticContinuationSocket vision concretization]
 \label{thm:analytic-continuation-socket-vision-concretization}
 The analytic-continuation operation surface of \autoref{ch:concrete-instances-analytic-continuation} is concretized by $\AnalyticContinuationSocketUp$ as a finite $\BHist$ operation-socket packet over holomorphic source rows, overlap witnesses, continuation outputs, componentwise transport, continuation routes, package provenance, local naming, and branch-obstruction non-escape.
