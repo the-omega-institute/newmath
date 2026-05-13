@@ -127,6 +127,24 @@ Use the NameCert obligation theorem to expose carrier admission, graph edge admi
 The downstream handoff is therefore a reuse of the same named rows. Compiler, pipeline, and decompiler certificates can read the morphism packet as input, but any stronger correctness or inverse claim must be supplied by their own certificate surfaces.
 \end{proof}
 
+\begin{theorem}[KernelMorphism scoped consumer packet]
+\label{thm:kernel-morphism-scoped-consumer-packet}
+Every accepted $\KernelMorphismUp$ consumer route factors through the single packet
+$$
+K=(S,T,G,E,L,H,C,P,N).
+$$
+Edge admission is read from $E$, classifier lift is read from $L$, transport and replay pass through $H$ and $C$, finite composition passes through displayed middle rows of composable packets, and the non-escape boundary excludes host compiler semantics, quotient program equality, inverse data, and ambient category laws.
+\end{theorem}
+\begin{proof}
+Start with the carrier and public export theorems. They identify the consumer-facing object with the finite rows $S,T,G,E,L,H,C,P,N$, so every accepted read begins inside the same packet.
+
+Use edge-admission and classifier-lift obligations. The row $E$ supplies the only source-to-target admission for graph edges, and $L$ supplies the only route from source classifier membership to a displayed target graph edge.
+
+Transport-stability keeps these rows readable through $H$ and $C$. For composable routes, the composition-surface theorem chains through the displayed middle row and repacks the composite graph, admission, and lift data into the same finite packet shape.
+
+Finally apply non-escape and public export. They rule out host compiler semantics, quotient program equality, inverse data, and ambient category laws, leaving downstream consumers with exactly the scoped morphism packet.
+\end{proof}
+
 \closureat{KernelMorphismUp}{seedStr}
 \closureat{KernelMorphismUp}{obligationStr}
 

@@ -11,17 +11,17 @@ open BEDC.Meta.TasteGate
 
 inductive LorentzFrameRateUp : Type where
   | mk :
-      (multiHist crossHist maxRate symmetry transport continuation provenance name : BHist) →
-      LorentzFrameRateUp
+      (multiConfig causalWitness maxRate symmetry transport route provenance name : BHist) →
+        LorentzFrameRateUp
   deriving DecidableEq
 
-private def lorentzFrameRateEncodeBHist : BHist → RawEvent
+def lorentzFrameRateEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: lorentzFrameRateEncodeBHist h
   | BHist.e1 h => BMark.b1 :: lorentzFrameRateEncodeBHist h
 
-private def lorentzFrameRateDecodeBHist : RawEvent → BHist
+def lorentzFrameRateDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (lorentzFrameRateDecodeBHist tail)
@@ -39,40 +39,14 @@ private theorem lorentzFrameRateDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem lorentzFrameRate_mk_congr
-    {multiHist multiHist' crossHist crossHist' maxRate maxRate' symmetry symmetry'
-      transport transport' continuation continuation' provenance provenance' name name' : BHist}
-    (hMultiHist : multiHist' = multiHist)
-    (hCrossHist : crossHist' = crossHist)
-    (hMaxRate : maxRate' = maxRate)
-    (hSymmetry : symmetry' = symmetry)
-    (hTransport : transport' = transport)
-    (hContinuation : continuation' = continuation)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    LorentzFrameRateUp.mk multiHist' crossHist' maxRate' symmetry' transport'
-        continuation' provenance' name' =
-      LorentzFrameRateUp.mk multiHist crossHist maxRate symmetry transport continuation
-        provenance name := by
+def lorentzFrameRateToEventFlow : LorentzFrameRateUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  cases hMultiHist
-  cases hCrossHist
-  cases hMaxRate
-  cases hSymmetry
-  cases hTransport
-  cases hContinuation
-  cases hProvenance
-  cases hName
-  rfl
-
-private def lorentzFrameRateToEventFlow : LorentzFrameRateUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | LorentzFrameRateUp.mk multiHist crossHist maxRate symmetry transport continuation
-      provenance name =>
+  | LorentzFrameRateUp.mk multiConfig causalWitness maxRate symmetry transport route provenance
+      name =>
       [[BMark.b0],
-        lorentzFrameRateEncodeBHist multiHist,
+        lorentzFrameRateEncodeBHist multiConfig,
         [BMark.b1, BMark.b0],
-        lorentzFrameRateEncodeBHist crossHist,
+        lorentzFrameRateEncodeBHist causalWitness,
         [BMark.b1, BMark.b1, BMark.b0],
         lorentzFrameRateEncodeBHist maxRate,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
@@ -80,26 +54,26 @@ private def lorentzFrameRateToEventFlow : LorentzFrameRateUp → EventFlow
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         lorentzFrameRateEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        lorentzFrameRateEncodeBHist continuation,
+        lorentzFrameRateEncodeBHist route,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         lorentzFrameRateEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
         lorentzFrameRateEncodeBHist name]
 
-private def lorentzFrameRateFromEventFlow : EventFlow → Option LorentzFrameRateUp
+def lorentzFrameRateFromEventFlow : EventFlow → Option LorentzFrameRateUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | multiHist :: rest1 =>
+      | multiConfig :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | crossHist :: rest3 =>
+              | causalWitness :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
@@ -123,7 +97,7 @@ private def lorentzFrameRateFromEventFlow : EventFlow → Option LorentzFrameRat
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | continuation :: rest11 =>
+                                              | route :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
@@ -140,14 +114,22 @@ private def lorentzFrameRateFromEventFlow : EventFlow → Option LorentzFrameRat
                                                                   | [] =>
                                                                       some
                                                                         (LorentzFrameRateUp.mk
-                                                                          (lorentzFrameRateDecodeBHist multiHist)
-                                                                          (lorentzFrameRateDecodeBHist crossHist)
-                                                                          (lorentzFrameRateDecodeBHist maxRate)
-                                                                          (lorentzFrameRateDecodeBHist symmetry)
-                                                                          (lorentzFrameRateDecodeBHist transport)
-                                                                          (lorentzFrameRateDecodeBHist continuation)
-                                                                          (lorentzFrameRateDecodeBHist provenance)
-                                                                          (lorentzFrameRateDecodeBHist name))
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            multiConfig)
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            causalWitness)
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            maxRate)
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            symmetry)
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            transport)
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            route)
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            provenance)
+                                                                          (lorentzFrameRateDecodeBHist
+                                                                            name))
                                                                   | _ :: _ => none
 
 private theorem lorentzFrameRate_round_trip :
@@ -156,32 +138,29 @@ private theorem lorentzFrameRate_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk multiHist crossHist maxRate symmetry transport continuation provenance name =>
+  | mk multiConfig causalWitness maxRate symmetry transport route provenance name =>
       change
         some
           (LorentzFrameRateUp.mk
-            (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist multiHist))
-            (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist crossHist))
+            (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist multiConfig))
+            (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist causalWitness))
             (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist maxRate))
             (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist symmetry))
             (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist transport))
-            (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist continuation))
+            (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist route))
             (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist provenance))
             (lorentzFrameRateDecodeBHist (lorentzFrameRateEncodeBHist name))) =
           some
-            (LorentzFrameRateUp.mk multiHist crossHist maxRate symmetry transport
-              continuation provenance name)
-      exact
-        congrArg some
-          (lorentzFrameRate_mk_congr
-            (lorentzFrameRateDecode_encode_bhist multiHist)
-            (lorentzFrameRateDecode_encode_bhist crossHist)
-            (lorentzFrameRateDecode_encode_bhist maxRate)
-            (lorentzFrameRateDecode_encode_bhist symmetry)
-            (lorentzFrameRateDecode_encode_bhist transport)
-            (lorentzFrameRateDecode_encode_bhist continuation)
-            (lorentzFrameRateDecode_encode_bhist provenance)
-            (lorentzFrameRateDecode_encode_bhist name))
+            (LorentzFrameRateUp.mk multiConfig causalWitness maxRate symmetry transport route
+              provenance name)
+      rw [lorentzFrameRateDecode_encode_bhist multiConfig,
+        lorentzFrameRateDecode_encode_bhist causalWitness,
+        lorentzFrameRateDecode_encode_bhist maxRate,
+        lorentzFrameRateDecode_encode_bhist symmetry,
+        lorentzFrameRateDecode_encode_bhist transport,
+        lorentzFrameRateDecode_encode_bhist route,
+        lorentzFrameRateDecode_encode_bhist provenance,
+        lorentzFrameRateDecode_encode_bhist name]
 
 private theorem lorentzFrameRateToEventFlow_injective {x y : LorentzFrameRateUp} :
     lorentzFrameRateToEventFlow x = lorentzFrameRateToEventFlow y → x = y := by

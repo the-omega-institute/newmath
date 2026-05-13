@@ -11,18 +11,17 @@ open BEDC.Meta.TasteGate
 
 inductive ZetaContinuationApplicationUp : Type where
   | mk :
-      (eta functional pole zero gamma application transport continuation provenance name :
-        BHist) →
-      ZetaContinuationApplicationUp
+      (eta functional pole zeroLedger gamma application transport route provenance name : BHist) →
+        ZetaContinuationApplicationUp
   deriving DecidableEq
 
-private def zetaContinuationApplicationEncodeBHist : BHist → RawEvent
+def zetaContinuationApplicationEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: zetaContinuationApplicationEncodeBHist h
   | BHist.e1 h => BMark.b1 :: zetaContinuationApplicationEncodeBHist h
 
-private def zetaContinuationApplicationDecodeBHist : RawEvent → BHist
+def zetaContinuationApplicationDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (zetaContinuationApplicationDecodeBHist tail)
@@ -43,41 +42,40 @@ private theorem zetaContinuationApplicationDecode_encode_bhist :
       exact congrArg BHist.e1 ih
 
 private theorem zetaContinuationApplication_mk_congr
-    {eta eta' functional functional' pole pole' zero zero' gamma gamma'
-      application application' transport transport' continuation continuation'
-      provenance provenance' name name' : BHist}
+    {eta eta' functional functional' pole pole' zeroLedger zeroLedger' gamma gamma'
+      application application' transport transport' route route' provenance provenance'
+      name name' : BHist}
     (hEta : eta' = eta)
     (hFunctional : functional' = functional)
     (hPole : pole' = pole)
-    (hZero : zero' = zero)
+    (hZeroLedger : zeroLedger' = zeroLedger)
     (hGamma : gamma' = gamma)
     (hApplication : application' = application)
     (hTransport : transport' = transport)
-    (hContinuation : continuation' = continuation)
+    (hRoute : route' = route)
     (hProvenance : provenance' = provenance)
     (hName : name' = name) :
-    ZetaContinuationApplicationUp.mk eta' functional' pole' zero' gamma' application'
-        transport' continuation' provenance' name' =
-      ZetaContinuationApplicationUp.mk eta functional pole zero gamma application transport
-        continuation provenance name := by
+    ZetaContinuationApplicationUp.mk eta' functional' pole' zeroLedger' gamma' application'
+        transport' route' provenance' name' =
+      ZetaContinuationApplicationUp.mk eta functional pole zeroLedger gamma application transport
+        route provenance name := by
   -- BEDC touchpoint anchor: BHist BMark
   cases hEta
   cases hFunctional
   cases hPole
-  cases hZero
+  cases hZeroLedger
   cases hGamma
   cases hApplication
   cases hTransport
-  cases hContinuation
+  cases hRoute
   cases hProvenance
   cases hName
   rfl
 
-private def zetaContinuationApplicationToEventFlow :
-    ZetaContinuationApplicationUp → EventFlow
+def zetaContinuationApplicationToEventFlow : ZetaContinuationApplicationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ZetaContinuationApplicationUp.mk eta functional pole zero gamma application transport
-      continuation provenance name =>
+  | ZetaContinuationApplicationUp.mk eta functional pole zeroLedger gamma application transport
+      route provenance name =>
       [[BMark.b0],
         zetaContinuationApplicationEncodeBHist eta,
         [BMark.b1, BMark.b0],
@@ -85,26 +83,24 @@ private def zetaContinuationApplicationToEventFlow :
         [BMark.b1, BMark.b1, BMark.b0],
         zetaContinuationApplicationEncodeBHist pole,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        zetaContinuationApplicationEncodeBHist zero,
+        zetaContinuationApplicationEncodeBHist zeroLedger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         zetaContinuationApplicationEncodeBHist gamma,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         zetaContinuationApplicationEncodeBHist application,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         zetaContinuationApplicationEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        zetaContinuationApplicationEncodeBHist route,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        zetaContinuationApplicationEncodeBHist continuation,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
         zetaContinuationApplicationEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
         zetaContinuationApplicationEncodeBHist name]
 
-private def zetaContinuationApplicationFromEventFlow :
-    EventFlow → Option ZetaContinuationApplicationUp
+def zetaContinuationApplicationFromEventFlow : EventFlow → Option ZetaContinuationApplicationUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -128,7 +124,7 @@ private def zetaContinuationApplicationFromEventFlow :
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | zero :: rest7 =>
+                              | zeroLedger :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
@@ -152,7 +148,7 @@ private def zetaContinuationApplicationFromEventFlow :
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | continuation :: rest15 =>
+                                                              | route :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
@@ -172,11 +168,11 @@ private def zetaContinuationApplicationFromEventFlow :
                                                                                           (zetaContinuationApplicationDecodeBHist eta)
                                                                                           (zetaContinuationApplicationDecodeBHist functional)
                                                                                           (zetaContinuationApplicationDecodeBHist pole)
-                                                                                          (zetaContinuationApplicationDecodeBHist zero)
+                                                                                          (zetaContinuationApplicationDecodeBHist zeroLedger)
                                                                                           (zetaContinuationApplicationDecodeBHist gamma)
                                                                                           (zetaContinuationApplicationDecodeBHist application)
                                                                                           (zetaContinuationApplicationDecodeBHist transport)
-                                                                                          (zetaContinuationApplicationDecodeBHist continuation)
+                                                                                          (zetaContinuationApplicationDecodeBHist route)
                                                                                           (zetaContinuationApplicationDecodeBHist provenance)
                                                                                           (zetaContinuationApplicationDecodeBHist name))
                                                                                   | _ :: _ => none
@@ -188,7 +184,7 @@ private theorem zetaContinuationApplication_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk eta functional pole zero gamma application transport continuation provenance name =>
+  | mk eta functional pole zeroLedger gamma application transport route provenance name =>
       change
         some
           (ZetaContinuationApplicationUp.mk
@@ -199,7 +195,7 @@ private theorem zetaContinuationApplication_round_trip :
             (zetaContinuationApplicationDecodeBHist
               (zetaContinuationApplicationEncodeBHist pole))
             (zetaContinuationApplicationDecodeBHist
-              (zetaContinuationApplicationEncodeBHist zero))
+              (zetaContinuationApplicationEncodeBHist zeroLedger))
             (zetaContinuationApplicationDecodeBHist
               (zetaContinuationApplicationEncodeBHist gamma))
             (zetaContinuationApplicationDecodeBHist
@@ -207,39 +203,37 @@ private theorem zetaContinuationApplication_round_trip :
             (zetaContinuationApplicationDecodeBHist
               (zetaContinuationApplicationEncodeBHist transport))
             (zetaContinuationApplicationDecodeBHist
-              (zetaContinuationApplicationEncodeBHist continuation))
+              (zetaContinuationApplicationEncodeBHist route))
             (zetaContinuationApplicationDecodeBHist
               (zetaContinuationApplicationEncodeBHist provenance))
             (zetaContinuationApplicationDecodeBHist
               (zetaContinuationApplicationEncodeBHist name))) =
           some
-            (ZetaContinuationApplicationUp.mk eta functional pole zero gamma application
-              transport continuation provenance name)
+            (ZetaContinuationApplicationUp.mk eta functional pole zeroLedger gamma application
+              transport route provenance name)
       exact
         congrArg some
           (zetaContinuationApplication_mk_congr
             (zetaContinuationApplicationDecode_encode_bhist eta)
             (zetaContinuationApplicationDecode_encode_bhist functional)
             (zetaContinuationApplicationDecode_encode_bhist pole)
-            (zetaContinuationApplicationDecode_encode_bhist zero)
+            (zetaContinuationApplicationDecode_encode_bhist zeroLedger)
             (zetaContinuationApplicationDecode_encode_bhist gamma)
             (zetaContinuationApplicationDecode_encode_bhist application)
             (zetaContinuationApplicationDecode_encode_bhist transport)
-            (zetaContinuationApplicationDecode_encode_bhist continuation)
+            (zetaContinuationApplicationDecode_encode_bhist route)
             (zetaContinuationApplicationDecode_encode_bhist provenance)
             (zetaContinuationApplicationDecode_encode_bhist name))
 
 private theorem zetaContinuationApplicationToEventFlow_injective
     {x y : ZetaContinuationApplicationUp} :
-    zetaContinuationApplicationToEventFlow x =
-        zetaContinuationApplicationToEventFlow y →
+    zetaContinuationApplicationToEventFlow x = zetaContinuationApplicationToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
       zetaContinuationApplicationFromEventFlow (zetaContinuationApplicationToEventFlow x) =
-        zetaContinuationApplicationFromEventFlow
-          (zetaContinuationApplicationToEventFlow y) :=
+        zetaContinuationApplicationFromEventFlow (zetaContinuationApplicationToEventFlow y) :=
     congrArg zetaContinuationApplicationFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (zetaContinuationApplication_round_trip x).symm
@@ -273,8 +267,7 @@ theorem ZetaContinuationApplicationTasteGate_single_carrier_alignment :
           (zetaContinuationApplicationToEventFlow x) = some x) ∧
         (∀ x y : ZetaContinuationApplicationUp,
           zetaContinuationApplicationToEventFlow x =
-              zetaContinuationApplicationToEventFlow y →
-            x = y) ∧
+            zetaContinuationApplicationToEventFlow y → x = y) ∧
           zetaContinuationApplicationEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor

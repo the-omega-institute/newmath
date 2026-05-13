@@ -10,26 +10,24 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FullAxisRealRefusalUp : Type where
-  | mk :
-      (fullAxis refusal cannotClaim transport continuation provenance name : BHist) →
+  | mk : (fullAxis refusal cannotClaim transport route provenance name : BHist) →
       FullAxisRealRefusalUp
   deriving DecidableEq
 
-private def fullAxisRealRefusalEncodeBHist : BHist → RawEvent
+def fullAxisRealRefusalEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: fullAxisRealRefusalEncodeBHist h
   | BHist.e1 h => BMark.b1 :: fullAxisRealRefusalEncodeBHist h
 
-private def fullAxisRealRefusalDecodeBHist : RawEvent → BHist
+def fullAxisRealRefusalDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (fullAxisRealRefusalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (fullAxisRealRefusalDecodeBHist tail)
 
 private theorem fullAxisRealRefusalDecode_encode_bhist :
-    ∀ h : BHist, fullAxisRealRefusalDecodeBHist
-      (fullAxisRealRefusalEncodeBHist h) = h := by
+    ∀ h : BHist, fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,34 +38,9 @@ private theorem fullAxisRealRefusalDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem fullAxisRealRefusal_mk_congr
-    {fullAxis fullAxis' refusal refusal' cannotClaim cannotClaim' transport transport'
-      continuation continuation' provenance provenance' name name' : BHist}
-    (hFullAxis : fullAxis' = fullAxis)
-    (hRefusal : refusal' = refusal)
-    (hCannotClaim : cannotClaim' = cannotClaim)
-    (hTransport : transport' = transport)
-    (hContinuation : continuation' = continuation)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    FullAxisRealRefusalUp.mk fullAxis' refusal' cannotClaim' transport' continuation'
-        provenance' name' =
-      FullAxisRealRefusalUp.mk fullAxis refusal cannotClaim transport continuation
-        provenance name := by
+def fullAxisRealRefusalToEventFlow : FullAxisRealRefusalUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  cases hFullAxis
-  cases hRefusal
-  cases hCannotClaim
-  cases hTransport
-  cases hContinuation
-  cases hProvenance
-  cases hName
-  rfl
-
-private def fullAxisRealRefusalToEventFlow : FullAxisRealRefusalUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | FullAxisRealRefusalUp.mk fullAxis refusal cannotClaim transport continuation
-      provenance name =>
+  | FullAxisRealRefusalUp.mk fullAxis refusal cannotClaim transport route provenance name =>
       [[BMark.b0],
         fullAxisRealRefusalEncodeBHist fullAxis,
         [BMark.b1, BMark.b0],
@@ -77,14 +50,13 @@ private def fullAxisRealRefusalToEventFlow : FullAxisRealRefusalUp → EventFlow
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         fullAxisRealRefusalEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        fullAxisRealRefusalEncodeBHist continuation,
+        fullAxisRealRefusalEncodeBHist route,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         fullAxisRealRefusalEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         fullAxisRealRefusalEncodeBHist name]
 
-private def fullAxisRealRefusalFromEventFlow :
-    EventFlow → Option FullAxisRealRefusalUp
+def fullAxisRealRefusalFromEventFlow : EventFlow → Option FullAxisRealRefusalUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -114,7 +86,7 @@ private def fullAxisRealRefusalFromEventFlow :
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | continuation :: rest9 =>
+                                      | route :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
@@ -131,23 +103,29 @@ private def fullAxisRealRefusalFromEventFlow :
                                                           | [] =>
                                                               some
                                                                 (FullAxisRealRefusalUp.mk
-                                                                  (fullAxisRealRefusalDecodeBHist fullAxis)
-                                                                  (fullAxisRealRefusalDecodeBHist refusal)
-                                                                  (fullAxisRealRefusalDecodeBHist cannotClaim)
-                                                                  (fullAxisRealRefusalDecodeBHist transport)
-                                                                  (fullAxisRealRefusalDecodeBHist continuation)
-                                                                  (fullAxisRealRefusalDecodeBHist provenance)
-                                                                  (fullAxisRealRefusalDecodeBHist name))
+                                                                  (fullAxisRealRefusalDecodeBHist
+                                                                    fullAxis)
+                                                                  (fullAxisRealRefusalDecodeBHist
+                                                                    refusal)
+                                                                  (fullAxisRealRefusalDecodeBHist
+                                                                    cannotClaim)
+                                                                  (fullAxisRealRefusalDecodeBHist
+                                                                    transport)
+                                                                  (fullAxisRealRefusalDecodeBHist
+                                                                    route)
+                                                                  (fullAxisRealRefusalDecodeBHist
+                                                                    provenance)
+                                                                  (fullAxisRealRefusalDecodeBHist
+                                                                    name))
                                                           | _ :: _ => none
 
 private theorem fullAxisRealRefusal_round_trip :
     ∀ x : FullAxisRealRefusalUp,
-      fullAxisRealRefusalFromEventFlow
-        (fullAxisRealRefusalToEventFlow x) = some x := by
+      fullAxisRealRefusalFromEventFlow (fullAxisRealRefusalToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk fullAxis refusal cannotClaim transport continuation provenance name =>
+  | mk fullAxis refusal cannotClaim transport route provenance name =>
       change
         some
           (FullAxisRealRefusalUp.mk
@@ -155,28 +133,22 @@ private theorem fullAxisRealRefusal_round_trip :
             (fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist refusal))
             (fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist cannotClaim))
             (fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist transport))
-            (fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist continuation))
+            (fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist route))
             (fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist provenance))
             (fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist name))) =
           some
-            (FullAxisRealRefusalUp.mk fullAxis refusal cannotClaim transport
-              continuation provenance name)
-      exact
-        congrArg some
-          (fullAxisRealRefusal_mk_congr
-            (fullAxisRealRefusalDecode_encode_bhist fullAxis)
-            (fullAxisRealRefusalDecode_encode_bhist refusal)
-            (fullAxisRealRefusalDecode_encode_bhist cannotClaim)
-            (fullAxisRealRefusalDecode_encode_bhist transport)
-            (fullAxisRealRefusalDecode_encode_bhist continuation)
-            (fullAxisRealRefusalDecode_encode_bhist provenance)
-            (fullAxisRealRefusalDecode_encode_bhist name))
+            (FullAxisRealRefusalUp.mk fullAxis refusal cannotClaim transport route provenance
+              name)
+      rw [fullAxisRealRefusalDecode_encode_bhist fullAxis,
+        fullAxisRealRefusalDecode_encode_bhist refusal,
+        fullAxisRealRefusalDecode_encode_bhist cannotClaim,
+        fullAxisRealRefusalDecode_encode_bhist transport,
+        fullAxisRealRefusalDecode_encode_bhist route,
+        fullAxisRealRefusalDecode_encode_bhist provenance,
+        fullAxisRealRefusalDecode_encode_bhist name]
 
-private theorem fullAxisRealRefusalToEventFlow_injective
-    {x y : FullAxisRealRefusalUp} :
-    fullAxisRealRefusalToEventFlow x =
-        fullAxisRealRefusalToEventFlow y →
-      x = y := by
+private theorem fullAxisRealRefusalToEventFlow_injective {x y : FullAxisRealRefusalUp} :
+    fullAxisRealRefusalToEventFlow x = fullAxisRealRefusalToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -196,24 +168,18 @@ instance fullAxisRealRefusalChapterTasteGate : ChapterTasteGate FullAxisRealRefu
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      fullAxisRealRefusalFromEventFlow
-        (fullAxisRealRefusalToEventFlow x) = some x
+    change fullAxisRealRefusalFromEventFlow (fullAxisRealRefusalToEventFlow x) = some x
     exact fullAxisRealRefusal_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (fullAxisRealRefusalToEventFlow_injective heq)
 
 theorem FullAxisRealRefusalTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist h) = h) ∧
+    (∀ h : BHist, fullAxisRealRefusalDecodeBHist (fullAxisRealRefusalEncodeBHist h) = h) ∧
       (∀ x : FullAxisRealRefusalUp,
-        fullAxisRealRefusalFromEventFlow
-          (fullAxisRealRefusalToEventFlow x) = some x) ∧
+        fullAxisRealRefusalFromEventFlow (fullAxisRealRefusalToEventFlow x) = some x) ∧
         (∀ x y : FullAxisRealRefusalUp,
-          fullAxisRealRefusalToEventFlow x =
-              fullAxisRealRefusalToEventFlow y →
-            x = y) ∧
+          fullAxisRealRefusalToEventFlow x = fullAxisRealRefusalToEventFlow y → x = y) ∧
           fullAxisRealRefusalEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
