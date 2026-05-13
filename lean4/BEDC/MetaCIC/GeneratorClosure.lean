@@ -65,4 +65,41 @@ def GeneratorClosureClassifier.union {α : Type u}
       | inl hg => exact h1.closure hg hclass
       | inr hg => exact h2.closure hg hclass }
 
+/-- Generator monotonicity: any sub-generator of a classifier-preserving generator
+    is itself classifier-preserving. -/
+def GeneratorClosureClassifier.weaken {α : Type u}
+    {Generator1 Generator2 : α → α → Prop}
+    {Classifier : α → Prop}
+    (hsub : ∀ x y, Generator1 x y → Generator2 x y)
+    (h2 : GeneratorClosureClassifier α Generator2 Classifier) :
+    GeneratorClosureClassifier α Generator1 Classifier :=
+  { closure := by
+      intro x y hgen hclass
+      exact h2.closure (hsub x y hgen) hclass }
+
+/-- The n-fold iteration of a generator as a binary relation.
+    `IterRel G 0 x y` iff `x = y`;
+    `IterRel G (n+1) x y` iff there exists `z` with `G x z` and
+    `IterRel G n z y`. -/
+def IterRel {α : Type u} (Generator : α → α → Prop) : Nat → α → α → Prop
+  | 0, x, y => x = y
+  | n + 1, x, y => ∃ z, Generator x z ∧ IterRel Generator n z y
+
+/-- Finite iteration preserves classifier closure. -/
+def GeneratorClosureClassifier.iterate {α : Type u}
+    {Generator : α → α → Prop} {Classifier : α → Prop}
+    (h : GeneratorClosureClassifier α Generator Classifier) :
+    ∀ n, GeneratorClosureClassifier α (IterRel Generator n) Classifier
+  | 0 =>
+    { closure := by
+        intro x y hgen hclass
+        cases hgen
+        exact hclass }
+  | n + 1 =>
+    { closure := by
+        intro x y hgen hclass
+        obtain ⟨z, hgz, hzy⟩ := hgen
+        have hz : Classifier z := h.closure hgz hclass
+        exact (iterate h n).closure hzy hz }
+
 end BEDC.MetaCIC
