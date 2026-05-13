@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICOpenObligationLedgerUp$}
+\label{ch:concrete-instances-metacicopenobligationledger-namecert}
+\origin{human}
+
+The $\MetaCICOpenObligationLedgerUp$ packet realizes the inventory of \autoref{ch:metacic-open-problems} as finite BEDC data. It sits beside the closed-normal consistency assembly of \autoref{ch:closed-metacic-consistency-assembly} and the substitution audit map of \autoref{ch:metacic-substitution-audit-map}: those chapters identify positive closed-normal content and substitution-facing boundaries, while this packet keeps every remaining MetaCIC obligation as a named ledger row rather than as an ambient metatheorem.
+
+\begin{definition}[MetaCIC open-obligation ledger carrier]
+\label{def:metacic-open-obligation-ledger-carrier}
+A $\MetaCICOpenObligationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,C,N,D,E,H,R,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the subject-reduction row, containing the beta-substitution preservation, application-argument stability, lambda-domain preservation, and Pi-domain preservation obligations as finite named entries;
+\item $C$ is the confluence row, recording residual-substitution compatibility, closed parallel diamond scope, and closed multi-step Church--Rosser scope as boundary entries;
+\item $N$ is the normalization row, recording candidate evidence, closed-candidate evidence, candidate-set membership, and the absence of an evidence-free global strong-normalization export;
+\item $D$ is the decidability row, recording typing-checker coverage, bounded normal-equality reads, and the finished-normalization bridge needed before unrestricted beta conversion is exported;
+\item $E$ is the typed-example row, recording gallery witnesses and the absence of an exhaustive coverage theorem over all dependent or polymorphic programs;
+\item $H$ stores componentwise $\hsame$ transports for $S,C,N,D,E$;
+\item $R$ stores the finite $\Cont$ routes by which consumers read the subject-reduction, confluence, normalization, decidability, and example rows;
+\item $P$ is the $\Pkg$ provenance over the open-problem inventory, closed-normal consistency assembly, substitution audit map, subject-reduction obstruction, and normalization audit map;
+\item $Q$ is the local $\NameCert_{\MetaCICOpenObligationLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted beta-conversion decidability, exhaustive example coverage, or full closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC open-obligation ledger NameCert obligations]
+\label{thm:metacic-open-obligation-ledger-namecert-obligations}
+The local $\NameCert_{\MetaCICOpenObligationLedgerUp}$ surface for \autoref{def:metacic-open-obligation-ledger-carrier} consists exactly of carrier admission for $L$, componentwise classifier stability for $S,C,N,D,E$, route replay through $R$, provenance through $P$, and local naming exactness through $Q$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet $L$. Each obligation family is a displayed row, so a consumer cannot read a subject-reduction, confluence, normalization, decidability, or typed-example boundary unless the corresponding coordinate is present.
+
+Classifier stability is componentwise. The transport row $H$ preserves each ledger row as a ledger row; it does not convert a boundary entry into a closed theorem and does not erase the distinction between positive checked content and remaining obligation data.
+
+The route and provenance rows repack the same finite packet. The routes in $R$ replay the displayed rows, $P$ records their source chapters, and $Q$ names the local certificate surface without adding another MetaCIC claim.
+\end{proof}
+
+\begin{theorem}[MetaCIC open-obligation boundary classifier]
+\label{thm:metacic-open-obligation-ledger-boundary-classifier}
+For an accepted $\MetaCICOpenObligationLedgerUp$ carrier $L=(S,C,N,D,E,H,R,P,Q)$, every ledger entry is classified by its row of origin and by its destination boundary: subject-reduction discharge, residual-substitution algebra, candidate-mediated normalization, bounded conversion, or gallery coverage. The classifier preserves the closed-normal consistency node of \autoref{ch:closed-metacic-consistency-assembly} as a positive input row and the substitution map of \autoref{ch:metacic-substitution-audit-map} as a boundary input row.
+\end{theorem}
+\begin{proof}
+Read the entry through the route row $R$. If it lands in $S$, the destination boundary is a subject-reduction discharge; if it lands in $C$, it is a residual-substitution or closed-confluence boundary; if it lands in $N$, it is a candidate-mediated normalization boundary; if it lands in $D$, it is a bounded-conversion boundary; and if it lands in $E$, it is a gallery-coverage boundary.
+
+The sibling chapters are consumed through provenance rather than by unstated closure. The closed-normal assembly supplies the positive normal-form node, while the substitution audit map supplies the substitution-facing obstruction data that keep confluence and subject-reduction reads row-local.
+
+Componentwise $\hsame$ transport preserves the row tags. Therefore the classifier remains a boundary classifier over the finite packet and not an equality of unresolved MetaCIC proof obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC open-obligation non-escape]
+\label{thm:metacic-open-obligation-ledger-nonescape}
+Every downstream consumer of an accepted $\MetaCICOpenObligationLedgerUp$ packet factors through the displayed rows $S,C,N,D,E,H,R,P,Q$. A request for arbitrary closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted beta-conversion decidability, exhaustive example coverage, or full closed consistency has no carrier coordinate and remains a boundary read.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer route be given. By the carrier definition, the route can inspect only the five obligation rows, the componentwise transport row, the replay routes, package provenance, and local naming.
+
+Positive content is still visible where the packet records it. The closed-normal consistency node is consumed as provenance for the normal-form row, and the substitution map is consumed as provenance for the substitution-facing confluence and subject-reduction rows.
+
+The requested closed endpoints are absent from the carrier inventory. Since no displayed coordinate contains those endpoints, the packet can report their boundary status but cannot export them as hidden consequences.
+\end{proof}
+
+\closureat{MetaCICOpenObligationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICOpenObligationLedgerUp}
+  \constructivestory{A $\MetaCICOpenObligationLedgerUp$ packet is generated from subject-reduction, confluence, normalization, decidability, and typed-example obligation rows, componentwise $\hsame$ transports, finite replay routes, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-open-obligation-ledger-carrier}, \autoref{thm:metacic-open-obligation-ledger-namecert-obligations}, \autoref{thm:metacic-open-obligation-ledger-boundary-classifier}, and \autoref{thm:metacic-open-obligation-ledger-nonescape} bind the finite open-obligation ledger and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close arbitrary closed subject reduction, arbitrary closed Church--Rosser, evidence-free global strong normalization, unrestricted beta-conversion decidability, exhaustive example coverage, full closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, row classifier stability, route replay exactness, provenance, and local NameCert rows for the same finite ledger packet.}
+\end{closurestatus}

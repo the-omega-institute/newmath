@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalConsistencyMainUp$}
+\label{ch:concrete-instances-closednormalconsistencymain-namecert}
+\origin{human}
+
+The $\ClosedNormalConsistencyMainUp$ packet realizes the main-result boundary of \autoref{ch:closed-normal-consistency-main-result} as a finite NameCert surface. It is downstream of the closed-normal consistency packet of \autoref{ch:concrete-instances-closed-normal-consistency-namecert} and the closed-normal consistency packet boundary of \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}: those siblings expose the closed beta-strong false-inhabitation exclusion and its subject-reduction gap, while the present packet records exactly the consumer-facing main-result claim.
+
+\begin{definition}[Closed-normal consistency main carrier]
+\label{def:closed-normal-consistency-main-carrier}
+A $\ClosedNormalConsistencyMainUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,L,B,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\mathrm{HasType}$ row for a closed candidate at the internal false encoding in the empty context;
+\item $L$ is the $\mathrm{ClosedAt}$ row binding the same term and false encoding to the closed substrate read used by the main result;
+\item $B$ is the $\mathrm{BetaStrong}$ row asserting that the candidate is already at the beta-strong normal boundary consumed by closed-normal consistency;
+\item $F$ is the false-encoding row naming the contradiction target and no other bottom-like proposition;
+\item $R$ is the normal-form contradiction route from $T,L,B,F$ to the closed beta-strong false-inhabitation exclusion;
+\item $H$ records componentwise $\hsame$ transport for the typing, closedness, beta-strong, false-encoding, and contradiction-route rows;
+\item $C$ records the displayed $\Cont$ routes from the typed closed beta-strong input to the contradiction route and from that route to a public read;
+\item $P$ records $\Pkg$ provenance over the main-result chapter, the closed-normal consistency packet, and the closed-normal consistency packet boundary;
+\item $N$ is the local $\NameCert_{\ClosedNormalConsistencyMainUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for full closed consistency, closed subject reduction, unrestricted normalization, host evaluation, quotient conversion, or ambient consistency.
+\end{definition}
+
+\begin{theorem}[Closed-normal consistency main NameCert obligations]
+\label{thm:closed-normal-consistency-main-namecert-obligations}
+Every accepted $\ClosedNormalConsistencyMainUp$ packet binds exactly the finite obligation surface of \autoref{def:closed-normal-consistency-main-carrier}: carrier admission for $Q=(T,L,B,F,R,H,C,P,N)$, componentwise classifier stability on the displayed rows, ledger exactness for the typing, closedness, beta-strong, false-encoding, contradiction-route, transport, route, provenance, and naming coordinates, positive-boundary non-escape through $R$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Admission gives the finite tuple $Q=(T,L,B,F,R,H,C,P,N)$, so every public classifier comparison is componentwise over the rows displayed in \autoref{def:closed-normal-consistency-main-carrier}.
+
+The ledger exactness is read row by row. The rows $T,L,B,F$ display the closed typed beta-strong false input, and $R$ is the only positive contradiction route attached to that input.
+
+The structural rows $H,C,P,N$ preserve the same finite surface by componentwise transport, displayed route replay, package provenance, and local naming. Since no further coordinate is present, the packet supplies no escape from the stated positive boundary.
+\end{proof}
+
+\begin{theorem}[Closed-normal consistency main positive boundary]
+\label{thm:closed-normal-consistency-main-positive-boundary}
+Every consumer of an accepted $\ClosedNormalConsistencyMainUp$ packet may read only the closed beta-strong false-inhabitation exclusion displayed by $T,L,B,F,R$. The packet does not export full closed consistency, closed subject reduction, unrestricted normalization, host evaluation, quotient conversion, or a route from arbitrary closed proofs to beta-strong normal inhabitants of the same false encoding.
+\end{theorem}
+\begin{proof}
+Start from a consumer read of the packet. The only contradiction coordinate is $R$, and its inputs are precisely the displayed rows $T,L,B,F$.
+
+The rows $H,C,P,N$ allow the same read to be transported, replayed, packaged, and named, but they do not add a subject-reduction discharge, a normalization theorem, or a consistency principle. Therefore the exported claim remains the closed beta-strong false-inhabitation exclusion and nothing stronger.
+\end{proof}
+
+\closureat{ClosedNormalConsistencyMainUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalConsistencyMainUp}
+  \constructivestory{A $\ClosedNormalConsistencyMainUp$ packet is generated from HasType, ClosedAt, BetaStrong, false-encoding, normal-form contradiction-route, componentwise transport, displayed route, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-consistency-main-carrier}, \autoref{thm:closed-normal-consistency-main-namecert-obligations}, and \autoref{thm:closed-normal-consistency-main-positive-boundary} bind the finite NameCert surface for the closed-normal consistency main-result boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close full closed consistency, closed subject reduction, unrestricted normalization, host evaluation, quotient conversion, ambient consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, ledger exactness, positive-boundary non-escape, provenance, and local naming for the same finite main-result packet.}
+\end{closurestatus}
