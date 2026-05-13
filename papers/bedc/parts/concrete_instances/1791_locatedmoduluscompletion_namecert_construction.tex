@@ -152,6 +152,28 @@ Use \autoref{thm:located-modulus-completion-regular-seal} and \autoref{thm:locat
 The stability and non-escape clauses are then inherited from the carrier rows. Componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row replay the same schedule, while the carrier has no coordinate for quotient streams, selected completed values, host equality, trichotomy, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[LocatedModulusCompletion observation-budget handoff]
+\label{thm:located-modulus-completion-observation-budget-handoff}
+Let $L=(R,Q,M,S,E,H,C,P,N)$ be an accepted $\LocatedModulusCompletionUp$ carrier, and let
+$$
+B=(E_0,W,D,R_0,S_0,H_0,C_0,P_0,N_0)
+$$
+be an accepted $\RealObservationBudgetUp$ packet whose regular-sequence row $R_0$ and $\RealUp$ seal row $S_0$ agree with the displayed rows $R$ and $Q$ of $L$. Then every $\RealUp$ or $\LocatedRealUp$ consumer route of $L$ first factors through the finite budget route
+$$
+E_0 \longmapsto W \longmapsto D \longmapsto R_0 \longmapsto S_0
+$$
+and then through the displayed modulus row $M$ and limit-seal row $S$ before the consumer reads $Q$ or $E$. The handoff consumes only the finite observation-budget packet and the displayed located-modulus ledger; it cannot read quotient streams, selected host limits, ambient completeness, host equality, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+Start from the accepted budget packet. By \autoref{thm:real-observation-budget-finite-window-seal-route-totality}, every admitted $\RealUp$ seal read of $B$ is reached through $E_0,W,D,R_0,S_0$ with the displayed transport, route, provenance, and local naming rows.
+
+Use the row agreement hypotheses to identify the budget handoff with the displayed source and real-seal rows of $L$. Then \autoref{thm:real-observation-budget-consumer-exactness} says that the regular-sequence and real-facing consumers have exactly the finite packet rows supplied by $B$, with no additional analytic coordinate.
+
+Now attach the located completion route. \autoref{thm:located-modulus-completion-schedule-seal} forces every consumer route of $L$ to read $M$, then $R$, then $S$, before $Q$ or $E$ is exposed; the agreement with $R_0$ and $S_0$ places this schedule downstream of the finite budget route.
+
+Finally apply \autoref{thm:located-modulus-completion-classifier-ledger-seal}. It preserves the same modulus and limit-seal ledger under classifier transport, so the combined route has no coordinate for quotient streams, selected host limits, ambient completeness, host equality, or an unbounded schedule.
+\end{proof}
+
 \begin{theorem}[LocatedModulusCompletion classifier ledger seal]
 \label{thm:located-modulus-completion-classifier-ledger-seal}
 Let $L=(R,Q,M,S,E,H,C,P,N)$ and $L'=(R',Q',M',S',E',H',C',P',N')$ be accepted $\LocatedModulusCompletionUp$ carriers whose displayed rows are related componentwise by the stored $\hsame$ transports. If the modulus row $M$ transports to $M'$ request by request, and the limit-seal attachment $S$ transports to the limit-seal attachment $S'$ for the transported regular source, then every transported route to $Q'$ or $E'$ consumes the transported threshold from $M'$ and the transported seal $S'$. Hence classifier transport preserves the same modulus row and limit-seal ledger, and no quotient stream, selected completed value, host equality, trichotomy, or ambient completeness principle can enter through the transported classifier.
