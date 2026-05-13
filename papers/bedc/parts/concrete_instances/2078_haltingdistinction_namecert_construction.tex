@@ -72,6 +72,80 @@ Apply \autoref{thm:halting-distinction-namecert-obligations} to ordinary trace c
 Therefore every public read factors through the named rows. The carrier has no channel through which a total halting predicate, global truth predicate, classical decision principle, or host evaluator can enter the consumer surface.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction pair classifier transport]
+\label{thm:halting-distinction-pair-classifier-transport}
+Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. Any
+public classifier read of the certificate-history pair row $Q$ is transported
+only through the componentwise $\hsame$ row recorded in $H$. The packet
+therefore classifies pair rows by the displayed certificate-history data and
+the local $\NameCert_{\HaltingDistinctionUp}$ ledger, not by a global truth
+predicate or host evaluator.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:halting-distinction-carrier}. The only
+coordinate naming the certificate-history input is $Q$, and the only transport
+coordinate for pair rows is the componentwise $\hsame$ data in $H$.
+
+Apply \autoref{thm:halting-distinction-namecert-obligations}. Its classifier
+transport obligation says that pair rows classify through the displayed
+transport row, while the local ledger records only the finite naming surface.
+
+Use \autoref{thm:halting-distinction-diagonal-boundary} for the self-reference
+case and \autoref{thm:halting-distinction-consumer-non-escape} for all
+consumer reads. Neither route adds a global truth predicate, a classical
+termination decision, divergence oracle data, or a host evaluator.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction trace readability]
+\label{thm:halting-distinction-trace-readability}
+Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. Every
+termination-facing public read of $D$ factors through the finite trace row $T$
+and the displayed route row $C$. The read may inspect the visible
+$\Cont_P$ chain segment recorded in $T$, but it cannot turn that finite
+segment into a total halting predicate or divergence oracle.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies $T$ as the only finite trace coordinate and
+$C$ as the only route coordinate for replaying that trace. Thus any
+termination-facing read first projects to those rows.
+
+The trace-readability clause of
+\autoref{thm:halting-distinction-namecert-obligations} binds the public read
+to the finite $\Cont_P$ segment in $T$ and to the routes in $C$.
+
+If the read reaches the self-reference point, apply
+\autoref{thm:halting-distinction-diagonal-boundary}; otherwise apply
+\autoref{thm:halting-distinction-consumer-non-escape}. In both cases the read
+remains within the displayed finite packet and has no coordinate from which to
+recover a total halting classifier.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction provenance purity boundary]
+\label{thm:halting-distinction-provenance-purity-boundary}
+Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. The
+provenance row $P$ and the local naming row $N$ certify only the displayed
+finite carrier, transport, route, trace, and diagonal rows. They cannot be read
+as a total halting predicate, a global truth predicate over certificates, a
+divergence oracle, or a host evaluator.
+\end{theorem}
+\begin{proof}
+By \autoref{def:halting-distinction-carrier}, the provenance coordinate $P$
+ranges over the displayed $\BHist$, $\Ext$, $\Cont$, $\hsame$, $\Pkg$,
+diagonal, and local naming rows. The local ledger $N$ names that finite packet
+and no further classifier.
+
+Apply \autoref{thm:halting-distinction-namecert-obligations} to identify the
+finite obligations certified by $P$ and $N$. Apply
+\autoref{thm:halting-distinction-diagonal-boundary} to the diagonal read, where
+the provenance records the route to the self-reference row without deciding
+the classifier question globally.
+
+Finally apply \autoref{thm:halting-distinction-consumer-non-escape}. Since no
+consumer of the packet can extract a total halting predicate, global truth
+predicate, classical decision principle, divergence oracle, or host evaluator,
+the provenance and naming rows cannot be reinterpreted as any of those objects.
+\end{proof}
+
 \closureat{HaltingDistinctionUp}{seedStr}
 
 \begin{closurestatus}{\HaltingDistinctionUp}
