@@ -158,6 +158,7 @@ import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosureWitnessLedgerUp
@@ -350,6 +351,7 @@ import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.PublicExports
+import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
