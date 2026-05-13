@@ -116,6 +116,58 @@ The displayed $\hsame$ match between $R_0$ and $S_1$ supplies only the boundary 
 Finally apply \autoref{thm:continuation-trace-public-export} and \autoref{thm:continuation-trace-obligation-closure-package}. Repacking the two finite ledgers with the boundary $\hsame$ row keeps the concatenated public packet inside $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and every step read is accounted for by exactly one source ledger.
 \end{proof}
 
+\begin{theorem}[ContinuationTrace endpoint ledger exhaustion]
+\label{thm:continuation-trace-endpoint-ledger-exhaustion}
+Let $T=(S,M,R,Q,H,C,P,N)$ be an accepted $\ContinuationTraceUp$ packet. Every endpoint-facing source or target read of $T$ is exhausted by the displayed rows $S,M,R,Q,H,C,P,N$: the endpoint read is listed in the finite trace ledger $Q$ and replayed by the continuation route $C$ from the displayed source side to the displayed target side.
+
+No endpoint read of $T$ is supplied by a host evaluator, a host termination predicate, a quotient behaviour, a selected evaluator, or a big-step semantic object.
+\end{theorem}
+\begin{proof}
+Project $T$ through \autoref{def:continuation-trace-carrier}. The endpoint-facing coordinates are the source row $S$, mark-and-tail row $M$, target row $R$, finite ledger $Q$, transport row $H$, continuation route $C$, provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:continuation-trace-small-step-readback}. A displayed endpoint read is a small-step read only when its source, mark, tail, and target rows are listed in $Q$ and its route is supplied by $C$.
+
+Apply \autoref{thm:continuation-trace-non-escape-boundary} and \autoref{thm:continuation-trace-public-export}. These two results exclude host evaluators, host termination, quotient behaviours, selected evaluators, and big-step semantic objects from the public packet, so the endpoint read is exhausted by the concrete trace rows already displayed.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace boundary hsame pullback]
+\label{thm:continuation-trace-boundary-hsame-pullback}
+Let
+$$
+T_0=(S_0,M_0,R_0,Q_0,H_0,C_0,P_0,N_0)
+\quad\text{and}\quad
+T_1=(S_1,M_1,R_1,Q_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\ContinuationTraceUp$ packets. A displayed boundary comparison $R_0\hsame S_1$ pulls back only through the transport rows $H_0,H_1$ and the displayed ledgers $Q_0,Q_1$. It adds no new step row and no extra endpoint outside the two accepted trace packets.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:continuation-trace-carrier}. The boundary comparison has access to $R_0$ from the first packet and $S_1$ from the second packet, while its admissible transport data is recorded by $H_0$ and $H_1$.
+
+Use \autoref{thm:continuation-trace-small-step-readback} on each side. Step rows before the boundary are read from $Q_0$ and $C_0$, and step rows after the boundary are read from $Q_1$ and $C_1$.
+
+Now apply \autoref{thm:continuation-trace-concatenation-readback}. The displayed $R_0\hsame S_1$ row supplies the boundary comparison between the two ledgers rather than a third ledger row. By \autoref{thm:continuation-trace-non-escape-boundary}, the comparison cannot import an external endpoint or host-level computation.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace route support totality]
+\label{thm:continuation-trace-route-support-totality}
+For accepted packets
+$$
+T_0=(S_0,M_0,R_0,Q_0,H_0,C_0,P_0,N_0)
+\quad\text{and}\quad
+T_1=(S_1,M_1,R_1,Q_1,H_1,C_1,P_1,N_1),
+$$
+every consumer route of their concatenated $\ContinuationTraceUp$ packet factors through exactly one of the source ledgers $Q_0$ or $Q_1$, together with the displayed boundary row $R_0\hsame S_1$. The full route remains a route over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Begin with the two accepted carriers of \autoref{def:continuation-trace-carrier}. Their route support is displayed by the two finite ledgers $Q_0,Q_1$, the continuation rows $C_0,C_1$, the transport rows $H_0,H_1$, provenance, and local naming.
+
+Apply \autoref{thm:continuation-trace-small-step-readback} separately to the two packets. A consumer route whose read lies before the boundary is supported by $Q_0$, and a consumer route whose read lies after the boundary is supported by $Q_1$.
+
+Apply \autoref{thm:continuation-trace-concatenation-readback} and the boundary pullback of \autoref{thm:continuation-trace-boundary-hsame-pullback}. The displayed $R_0\hsame S_1$ row is the only boundary support, so the concatenated route has no third source ledger.
+
+Finally use \autoref{thm:continuation-trace-public-export}. The public packet is still the finite BEDC trace packet, hence the complete route support is over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{proof}
+
 \closureat{ContinuationTraceUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationTraceUp}
