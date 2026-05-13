@@ -152,6 +152,90 @@ limit, unbounded schedule, or ambient completeness, so projecting the common
 finite rows gives the stated handoff.
 \end{proof}
 
+\begin{definition}[CauchyLimitSeal RealTailAgreement route]
+\label{def:cauchy-limit-seal-real-tail-agreement-route}
+For an accepted $\CauchyLimitSealUp$ packet
+$$
+L=(X,S,D,G,E,T,P,N),
+$$
+the $\RealTailAgreementSealUp$ route of $L$ is the finite handoff that first
+projects the admitted tail reads of $L$ through the displayed source family,
+schedule, dyadic observation ledger, diagonal row, seal row, transports,
+continuation route, provenance, and local naming row, and then reads the paired
+tail-agreement rows of
+\autoref{ch:concrete-instances-realtailagreementseal-namecert}. Its consumer
+surface is the displayed route
+$$
+X,S,D,G,E,T,P,N \quad\longrightarrow\quad R,S,W,D,A,H,C,P,N,
+$$
+where the right-hand packet is the paired source, finite window, dyadic
+readback, agreement, transport, continuation, provenance, and naming surface of
+$\RealTailAgreementSealUp$. The route is not a quotient-stream equality, a
+host real equality, a selected host limit, a hidden tail selector, or an
+ambient completeness row.
+\end{definition}
+
+\begin{theorem}[CauchyLimitSeal RealTailAgreement handoff]
+\label{thm:cauchy-limit-seal-real-tail-agreement-handoff}
+Every completion-facing consumer of an accepted $\CauchyLimitSealUp$ packet
+that compares two sealed tails factors through the route of
+\autoref{def:cauchy-limit-seal-real-tail-agreement-route}. The comparison may
+read only the CauchyLimitSeal rows $X,S,D,G,E,T,P,N$ followed by the paired
+$\RealTailAgreementSealUp$ rows $R,S,W,D,A,H,C,P,N$; it cannot substitute a
+quotient stream, host real equality, selected host limit, hidden family limit,
+unbounded schedule, or ambient completeness principle for the displayed
+agreement row.
+\end{theorem}
+\begin{proof}
+Begin with the $\RealObservationBudgetUp$ handoff of
+\autoref{thm:cauchy-limit-seal-real-observation-budget-handoff}. It places the
+completion-facing read on the finite budget rows and the accepted seal rows,
+with the shared $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface
+already fixed.
+
+Next project the sealed tails by \autoref{thm:cauchy-limit-seal-tail-extraction}.
+The tail reads are therefore the displayed regular-family, schedule, dyadic,
+diagonal, seal, transport, continuation, provenance, and naming rows of the
+same accepted packet, not external tails chosen from a quotient or host limit.
+
+Finally attach the paired-window route of
+\autoref{thm:real-tail-agreement-seal-completion-consumer-ledger} and the
+Real--Completion boundary of
+\autoref{thm:real-tail-agreement-seal-real-completion-boundary}. These rows
+force every paired tail comparison through $W \to D \to A$, so the consumer
+factors through the route named in
+\autoref{def:cauchy-limit-seal-real-tail-agreement-route}.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal diagonal tail selector boundary]
+\label{thm:cauchy-limit-seal-diagonal-tail-selector-boundary}
+The diagonal tail selector read associated to an accepted $\CauchyLimitSealUp$
+packet remains a finite scheduled route through
+\autoref{ch:concrete-instances-diagonal-tail-selector-namecert}. It may supply
+the scheduled window and cofinal tail rows consumed by the seal route, but it
+does not become a selected host limit, quotient stream representative, host
+convergence proof, hidden tail selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with window factorization from
+\autoref{thm:cauchy-limit-seal-window-factorization}. It places the seal
+consumer on the displayed source family, schedule, dyadic observation ledger,
+completion diagonal, seal row, and transport route before any selector read is
+available.
+
+Use tail extraction from \autoref{thm:cauchy-limit-seal-tail-extraction}. The
+tail exposed to the diagonal route is a projection of the accepted seal packet,
+so it remains tied to $X,S,D,G,E,T,P,N$ and the visible
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Now apply the $\DiagonalTailSelectorUp$ limit handoff and non-escape boundary
+from \autoref{thm:diagonal-tail-selector-limit-handoff} and
+\autoref{thm:diagonal-tail-selector-downstream-nonescape-scope}. The selector
+contributes a finite scheduled route only, and the cited non-escape boundary
+rules out selected host limits, quotient representatives, host convergence,
+hidden tail selectors, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal tail extraction]
 \label{thm:cauchy-limit-seal-tail-extraction}
 Every admitted tail read of an accepted $\CauchyLimitSealUp$ packet is projected from the displayed $\RegSeqRatUp$ family, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, and visible $\hsame$ and $\Cont$ ledger. The projection is the same public route consumed by the seal packet, not a tail chosen from a quotient stream, host limit, hidden family limit, or ambient completeness principle.
