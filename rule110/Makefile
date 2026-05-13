@@ -345,3 +345,10 @@ $(TEST_DIR)/test_ground_compiler: $(TEST_DIR)/test_ground_compiler.c $(TEST_DIR)
 
 TESTS += $(TEST_DIR)/test_ground_compiler
 test: $(TEST_DIR)/test_ground_compiler
+
+$(TEST_DIR)/test_external_baseline_martinez: $(TEST_DIR)/test_external_baseline_martinez.c $(EVAL_DIR)/rule110.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -o $@ \
+	    $(TEST_DIR)/test_external_baseline_martinez.c $(EVAL_DIR)/rule110.c
+
+TESTS += $(TEST_DIR)/test_external_baseline_martinez
+test: $(TEST_DIR)/test_external_baseline_martinez
