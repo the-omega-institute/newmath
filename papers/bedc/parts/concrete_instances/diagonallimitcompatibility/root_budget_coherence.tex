@@ -153,3 +153,45 @@ completeness from the public handoff. Therefore the finite route
 $R,T,S,D,W,Q,L,H,C,P,N$ is the complete boundary for $\RealUp$ and
 $\CompletionUp$ consumers.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root budget public boundary]
+\label{thm:diagonal-limit-compatibility-root-budget-public-boundary}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
+$\DiagonalLimitCompatibilityUp$ packet is confined to the single displayed
+route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The route simultaneously consumes the root-budget coherence, selector-budget
+exhaustion, Real-seal readback lock, and finite-window handoff boundary. It
+admits no host real equality, quotient stream, choice datum, selected limit, or
+ambient completeness input.
+\end{theorem}
+\begin{proof}
+Begin with root-budget coherence,
+\autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. It places the
+root-facing budget read on the same $D,W,Q,L,H,C,P,N$ surface exposed by the
+accepted carrier.
+
+Next apply selector-budget exhaustion,
+\autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}. The
+selector route has already consumed $R,T,S,D,W,Q,L$ together with the same
+transport, continuation, provenance, and naming rows.
+
+Then apply the Real-seal readback lock,
+\autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}. This
+locks every $\RealUp$ or $\CompletionUp$ seal read to $L$ only after the
+displayed $S,D,W,Q$ route has been fixed.
+
+Use the finite-window handoff boundary,
+\autoref{thm:diagonal-limit-compatibility-finite-window-handoff-boundary}, to
+package these three reads as one public consumer boundary for the route
+$R,T,S,D,W,Q,L,H,C,P,N$.
+
+Finally, the non-escape clauses
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape} and
+\autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape} close
+coordinate exhaustion. They leave no host real equality, quotient stream,
+choice datum, selected limit, or ambient completeness input outside the
+displayed packet route.
+\end{proof}
