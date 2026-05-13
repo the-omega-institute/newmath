@@ -112,15 +112,60 @@ Acceptance is finite because every permitted read is named by a coordinate of $T
 Rejection is the complement of this displayed surface. A request requiring $P=Q$, $\mathsf{propext}$, host rewrite, or arbitrary proposition-valued context transport asks for a coordinate absent from $T$, so the $\ChapterTasteGate$ has a concrete reason to refuse it.
 \end{proof}
 
+\begin{theorem}[PropextTransportBoundary context replacement locality]
+\label{thm:propext-transport-boundary-context-replacement-locality}
+For every accepted $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+each context read exported by the boundary is local to the displayed replacement row $R$ and the displayed $\Cont$ row $C$. A consumer may replay only a named replacement route through $C$, and the replay returns only the context-read output recorded in $R$; it does not create a host rewrite, a witness of $P=Q$, or arbitrary transport for proposition-valued contexts.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:propext-transport-boundary-carrier}. The replacement coordinate is $R$, and the replay coordinate is $C$; no other coordinate is assigned to context transport.
+
+Apply \autoref{thm:propext-transport-boundary-namecert-obligations} to force every context read through the replay discipline. The obligation surface requires a displayed $\Cont$ route and one of the replacement routes in $R$ before any context-read output can be returned.
+
+The direction and non-escape theorems then keep the read local. By \autoref{thm:propext-transport-boundary-direction-determinacy}, implication consumption remains directionwise, and by \autoref{thm:propext-transport-boundary-non-escape}, the packet has no coordinate for equality, propext, host rewrite, or arbitrary proposition-valued transport.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary direction ledger coverage]
+\label{thm:propext-transport-boundary-direction-ledger-coverage}
+For every accepted $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+every accepted implication read is covered by one of the directed rows in $D$. The ledger never records the two implication rows in $B$ as an unordered proposition equality, and no public read of the packet can replace this directed coverage by $P=Q$ or $\mathsf{propext}$.
+\end{theorem}
+\begin{proof}
+The carrier exposes implication evidence only through $B$ together with direction rows $D$. The NameCert obligations of \autoref{thm:propext-transport-boundary-namecert-obligations} require a consumer to name a row in $D$ before using either implication row.
+
+The coverage statement is therefore exactly \autoref{thm:propext-transport-boundary-direction-determinacy} read as a ledger condition. A forward request is covered by the forward row, and a reverse request is covered by the reverse row; there is no third unordered row.
+
+Finally use \autoref{thm:propext-transport-boundary-ledger-exactness} and \autoref{thm:propext-transport-boundary-non-escape}. The provenance ledger contains only the displayed package, naming, transport, and replay rows, and the carrier inventory excludes proposition equality and propext.
+\end{proof}
+
+\begin{theorem}[PropextTransportBoundary TasteGate refusal exactness]
+\label{thm:propext-transport-boundary-tastegate-refusal-exactness}
+For every accepted $\PropextTransportBoundaryUp$ packet, the $\ChapterTasteGate$ refusal is exact for requests whose consumption path requires a witness of $P=Q$, $\mathsf{propext}$, host rewrite through $P=Q$, or arbitrary proposition-valued context transport. Such a request is refused precisely because no displayed row of $B,D,R,H,C,P,N$ supplies the requested operation, while requests following the directed rows in $D$, replacement row $R$, transport row $H$, replay row $C$, provenance row $P$, and naming row $N$ remain admissible.
+\end{theorem}
+\begin{proof}
+Start from the handoff theorem \autoref{thm:propext-transport-boundary-tastegate-handoff}. The gate receives exactly the displayed carrier coordinates and accepts directed replacement reads recorded by those coordinates.
+
+For an admitted request, \autoref{thm:propext-transport-boundary-context-replacement-locality} supplies the local context route through $R$ and $C$, while \autoref{thm:propext-transport-boundary-direction-ledger-coverage} supplies the directed implication row in $D$. Transport and provenance are then read through $H,P,N$.
+
+For a refused request, inspect the same inventory. By \autoref{thm:propext-transport-boundary-non-escape} and \autoref{thm:propext-transport-boundary-ledger-exactness}, the packet has no equality row, propext row, host-rewrite row, or arbitrary context-transport row. The gate therefore refuses exactly those requests whose path needs one of the absent operations.
+\end{proof}
+
 \closureat{PropextTransportBoundaryUp}{seedStr}
+\closureat{PropextTransportBoundaryUp}{obligationStr}
 
 \begin{closurestatus}{\PropextTransportBoundaryUp}
   \constructivestory{A $\PropextTransportBoundaryUp$ packet is generated from bidirectional implication evidence, chosen direction rows, context-read replacement routes, componentwise $\hsame$ and $\psame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:propext-transport-boundary-carrier}, \autoref{thm:propext-transport-boundary-namecert-obligations}, \autoref{thm:propext-transport-boundary-direction-determinacy}, \autoref{thm:propext-transport-boundary-non-escape}, \autoref{thm:propext-transport-boundary-ledger-exactness}, and \autoref{thm:propext-transport-boundary-tastegate-handoff} bind the finite proposition-stratum replacement carrier, local naming obligations, direction determinacy, non-escape boundary, provenance ledger, and gate handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not claim proposition equality, propositional extensionality, host rewrite through $P=Q$, arbitrary proposition-valued context transport, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, direction discipline, context-read replay, transport exactness, ledger exactness, and non-escape for the boundary packet.}
+  \upgradepath{Scoped closure requires checked coverage over ThreeAxiomsOneClosure, core $\NameCert$ rows, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\ChapterTasteGate$ handoff routes for the boundary packet.}
 \end{closurestatus}

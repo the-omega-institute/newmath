@@ -72,6 +72,7 @@ Repack those displayed rows as a regular rational sequence readback. The point r
 
 The transport and continuation rows are inherited from the carrier. Since the repacking uses only coordinates already listed in \autoref{def:regular-cauchy-product-carrier}, it introduces no host sequence quotient, selected limit, or completed-real multiplication object.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_regseqrat\_handoff}
 
 \begin{theorem}[RegularCauchyProduct RealUp seal boundary]
 \label{thm:regular-cauchy-product-real-seal-boundary}
@@ -89,6 +90,7 @@ The carrier has no independent $\RealUp$ equality field and no completion witnes
 \label{thm:regular-cauchy-product-source-window-transport}
 For an accepted $\RegularCauchyProductUp$ packet $M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$, classifier transport preserves the two $\RegSeqRatUp$ source rows $A,B$ and the aligned $\StreamNameUp$ windows $W_A,W_B$ through the displayed $\hsame$ and $\Cont$ routes. Consequently any transported packet reads the same two regular sources and the same aligned source windows before forming the dyadic product row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyProductUp.RegularCauchyProductCarrier\_source\_window\_transport}
 \begin{proof}
 Project the carrier of \autoref{def:regular-cauchy-product-carrier}. The two source rows and the two aligned stream windows are explicit coordinates of the same finite packet.
 
@@ -143,17 +145,36 @@ Next expose the two consumer boundaries. The $\RegSeqRatUp$ handoff is supplied 
 Finally use \autoref{thm:regular-cauchy-product-source-window-transport}, \autoref{thm:regular-cauchy-product-error-budget-exactness}, and \autoref{thm:regular-cauchy-product-downstream-source-lock}. These results keep every downstream read on the displayed source windows and finite error ledger, and they exclude quotient streams, selected limits, host real equality, ambient completeness, and completed-real multiplication from the public export.
 \end{proof}
 
+\begin{theorem}[RegularCauchyProduct real algebra boundary]
+\label{thm:regular-cauchy-product-real-algebra-boundary}
+Every downstream $\RealUp$ algebra consumer of an accepted $\RegularCauchyProductUp$ packet
+$$
+M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)
+$$
+must read the source-window rows $A,B,W_A,W_B$, the finite error-budget ledger $E$, the $\RegSeqRatUp$ handoff row $R$, the $\DyadicRatCoreUp$ observations $D_A,D_B,D$, the $\RealUp$ seal boundary, the displayed $\hsame$ transports $H$, the finite $\Cont$ routes $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\RegularCauchyProductUp}$ row $N$. It receives no quotient stream, host multiplication over completed reals, selected limit, ambient completeness, or unlisted algebra law.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-product-namecert-obligations}. They admit only the displayed packet $M$ and force every accepted read through the two source rows, aligned windows, endpoint rows, product ledger, transports, routes, provenance, and local name.
+
+Apply the window budget theorem \autoref{thm:regular-cauchy-product-window-budget}. It builds the dyadic product row from the two source windows and records the product tolerance in the finite ledger $E$ before any downstream algebra consumer sees the readback.
+
+Next use the $\RegSeqRatUp$ handoff \autoref{thm:regular-cauchy-product-regseqrat-handoff} together with the $\RealUp$ seal boundary \autoref{thm:regular-cauchy-product-real-seal-boundary}. The real-facing route is the regular readback $R$ with its visible product provenance, not a host multiplication operation over completed reals.
+
+Finally combine error-budget exactness, downstream source lock, and the public export certificate. These results exhaust the consumer-visible rows and exclude quotient streams, selected limits, ambient completeness, host real equality, completed-real multiplication, and unlisted algebra laws from the product boundary.
+\end{proof}
+
 \closureat{RegularCauchyProductUp}{seedStr}
 \closureat{RegularCauchyProductUp}{obligationStr}
 \closureat{RegularCauchyProductUp}{scopedStr}
+\closureat{RegularCauchyProductUp}{publicStr}
 
 \begin{closurestatus}{\RegularCauchyProductUp}
   \constructivestory{A $\RegularCauchyProductUp$ packet is generated from two $\RegSeqRatUp$ source rows, aligned $\StreamNameUp$ windows, $\DyadicRatCoreUp$ endpoint multiplication rows, a finite $\FiniteErrorBudgetUp$ product ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The scoped public surface records the finite carrier, local naming obligations, shared-window product budget, regular readback handoff, real-seal boundary, source-window transport, error-budget exactness, downstream source lock, and public export certificate for pointwise products of regular Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, real-field multiplication laws, or bridge checking.}
-  \upgradepath{Public closure next requires registering the finite regular-Cauchy product export packet as the chapter boundary consumed by downstream real algebra.}
+  \upgradepath{Bridge closure requires a standard bridge from the public regular-Cauchy product boundary to downstream real-algebra consumer interfaces.}
 \end{closurestatus}
