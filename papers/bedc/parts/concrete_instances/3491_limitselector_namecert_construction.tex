@@ -64,15 +64,96 @@ Next the consumer reads the finite observation data. The selected index opens on
 Finally the route reaches the seal row $S$ and the BEDC structural rows $H,C,P,N$. The carrier has no second coordinate for a host-selected limit, quotient-stream equality, countable choice, or ambient completeness, so every diagonal-limit read remains inside the selected finite witness route.
 \end{proof}
 
-\closureat{LimitSelectorUp}{seedStr}
+\begin{theorem}[LimitSelector observation-budget handoff]
+\label{thm:limit-selector-observation-budget-handoff}
+Let
+$$
+L=(R,n,\mu,k,W,D,S,H,C,P,N)
+$$
+be an accepted $\LimitSelectorUp$ packet, and let an accepted $\RealObservationBudgetUp$ packet share the displayed precision request, finite window, dyadic readback, RealUp seal, componentwise transport, continuation route, package provenance, and local naming rows $n,W,D,S,H,C,P,N$. Then every diagonal-limit consumer of $L$ that reaches the shared rows factors through the same finite observation-budget route before it reads the RealUp seal.
+\end{theorem}
+\begin{proof}
+First project the selected route of $L$ by \autoref{def:limit-selector-carrier} and \autoref{thm:limit-selector-namecert-obligations}. The selector supplies $n,\mu,k$ before the finite window $W$ and dyadic readback $D$ are available.
+
+Next apply the finite witness route of \autoref{thm:limit-selector-finite-witness-route}. Once $W,D,S,H,C,P,N$ are displayed, the diagonal-limit consumer has no route around the named window and readback rows.
+
+Finally read the shared observation-budget packet. The seal-route totality and consumer exactness theorems for $\RealObservationBudgetUp$, \autoref{thm:real-observation-budget-finite-window-seal-route-totality} and \autoref{thm:real-observation-budget-consumer-exactness}, identify the same finite budget route through the precision request, window, dyadic ledger, seal, transport, continuation, provenance, and naming rows.
+\end{proof}
+
+\begin{theorem}[LimitSelector Real seal non-escape]
+\label{thm:limit-selector-real-seal-nonescape}
+For an accepted $\LimitSelectorUp$ packet, the RealUp seal row $S$ is reachable only after the selector has displayed $n,\mu,k,W,D$ and the transport, continuation, provenance, and local naming rows $H,C,P,N$. No consumer may read $S$ as a host-selected limit, quotient stream, countable-choice selector, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Use carrier admission first. In \autoref{def:limit-selector-carrier}, the seal row $S$ is a coordinate following the precision request, modulus row, selected index, finite window, and dyadic readback.
+
+The local NameCert obligations then impose the seal handoff. By \autoref{thm:limit-selector-namecert-obligations}, the seal row is reached only through the selected finite witness route and the displayed structural rows.
+
+The observation-budget seal boundary gives the Real-facing side of the same claim. \autoref{thm:real-observation-budget-real-seal-boundary} places a budget seal after its finite observation rows, and \autoref{thm:real-observation-budget-nonescape} excludes quotient streams, host real equality, hidden limit selection, unbounded schedules, and ambient completeness from the shared route.
+\end{proof}
+
+\begin{theorem}[LimitSelector diagonal consumer exhaustion]
+\label{thm:limit-selector-diagonal-consumer-exhaustion}
+Every diagonal-limit consumer of an accepted $\LimitSelectorUp$ packet is exhausted by the carrier rows of \autoref{def:limit-selector-carrier}, the local obligations of \autoref{thm:limit-selector-namecert-obligations}, the finite witness route of \autoref{thm:limit-selector-finite-witness-route}, the observation-budget handoff of \autoref{thm:limit-selector-observation-budget-handoff}, and the seal non-escape row of \autoref{thm:limit-selector-real-seal-nonescape}. The consumer receives exactly the displayed selector, window, readback, seal, transport, route, provenance, and naming rows, with no host-selected limit or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the selector packet. The carrier and local obligations display the complete finite surface $R,n,\mu,k,W,D,S,H,C,P,N$ and require the selected index to be read from the precision and modulus rows.
+
+Next use the finite witness route and the observation-budget handoff. Together they force every diagonal read through the selected index, the finite window, the dyadic readback, and the shared $\RealObservationBudgetUp$ route before the seal row is consumed.
+
+Finally apply seal non-escape. Since neither the selector carrier nor the observation-budget packet contains a coordinate for quotient streams, countable choice, selected host limits, or ambient completeness, the diagonal consumer has no remaining export beyond the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[LimitSelector scoped source rows]
+\label{thm:limit-selector-scoped-source-rows}
+Every accepted $\LimitSelectorUp$ packet exposes its scoped source as the displayed $\BHist$ carrier $L=(R,n,\mu,k,W,D,S,H,C,P,N)$, with the $\StreamNameUp$ finite window $W$, the $\RegSeqRat$ input row $R$, the $\RealObservationBudgetUp$ route through $n,W,D,S,H,C,P,N$, the componentwise $\hsame$ transports and $\Cont$ route, the $\Pkg$ provenance row, and the local $\NameCert_{\LimitSelectorUp}$ row. No source row is supplied outside this displayed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:limit-selector-carrier}. The accepted packet displays the $\BHist$ tuple $L=(R,n,\mu,k,W,D,S,H,C,P,N)$, so the regular-sequence source, precision request, modulus, selected index, finite stream window, dyadic readback, seal, transport, route, provenance, and naming rows are all visible coordinates.
+
+Apply the local obligations of \autoref{thm:limit-selector-namecert-obligations}. They require the selected index to be read from $n$ and $\mu$, and they require the finite-window readback to pass through $W$ and $D$ before the seal row is exported.
+
+Use the observation-budget handoff of \autoref{thm:limit-selector-observation-budget-handoff}. It identifies the shared budget route through $n,W,D,S,H,C,P,N$, while \autoref{thm:limit-selector-diagonal-consumer-exhaustion} exhausts the remaining diagonal-consumer reads by the same displayed packet.
+\end{proof}
+
+\begin{theorem}[LimitSelector modulus-seal scope]
+\label{thm:limit-selector-modulus-seal-scope}
+For an accepted $\LimitSelectorUp$ packet, the selector modulus $\mu$ and the $\RealUp$ seal row $S$ read only the displayed finite window route
+$$
+n,\mu,k,W,D,S
+$$
+and the observation-budget route carried by $H,C,P,N$. The seal cannot read an unrecorded stream observation, an external selector, or any ambient completion principle.
+\end{theorem}
+\begin{proof}
+Begin with the finite witness route of \autoref{thm:limit-selector-finite-witness-route}. The precision request $n$ and displayed modulus $\mu$ determine the selected index row $k$, after which the consumer reads the finite window $W$ and dyadic readback $D$.
+
+The seal row is then governed by \autoref{thm:limit-selector-real-seal-nonescape}. That theorem places $S$ after $n,\mu,k,W,D$ and the structural rows $H,C,P,N$, so the seal has no independent route to stream data or host completeness data.
+
+Finally use \autoref{thm:limit-selector-observation-budget-handoff}. The shared $\RealObservationBudgetUp$ route accounts for the finite observation-budget side of the same seal read, and \autoref{thm:limit-selector-diagonal-consumer-exhaustion} leaves no further consumer coordinate.
+\end{proof}
+
+\begin{theorem}[LimitSelector non-escape scope]
+\label{thm:limit-selector-nonescape-scope}
+The scoped $\LimitSelectorUp$ packet exports no quotient stream, no host limit selection, no ambient completeness principle, and no open-cover compactness datum. Its exported content is exhausted by the carrier, finite witness route, observation-budget handoff, Real seal non-escape, and diagonal consumer exhaustion theorems of this chapter.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{def:limit-selector-carrier} and \autoref{thm:limit-selector-namecert-obligations}. The only exported coordinates are $R,n,\mu,k,W,D,S,H,C,P,N$ and the finite obligations attached to them.
+
+Apply \autoref{thm:limit-selector-finite-witness-route}, \autoref{thm:limit-selector-observation-budget-handoff}, and \autoref{thm:limit-selector-real-seal-nonescape}. These results route every diagonal-limit and Real-seal read through the selected finite witness route and the displayed observation-budget rows.
+
+Conclude with \autoref{thm:limit-selector-diagonal-consumer-exhaustion}. Since the exhausted surface has no coordinate for quotient streams, host-selected limits, ambient completeness, or open-cover compactness, none of those objects can be exported by the scoped selector packet.
+\end{proof}
+
+\closureat{LimitSelectorUp}{obligationStr}
+\closureat{LimitSelectorUp}{scopedStr}
 
 \begin{closurestatus}{\LimitSelectorUp}
   \constructivestory{A $\LimitSelectorUp$ packet is generated from a RegSeqRat input row, a unary precision request, a displayed modulus, a selected finite index, a StreamName window, dyadic readback, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:limit-selector-carrier}, \autoref{thm:limit-selector-namecert-obligations}, and \autoref{thm:limit-selector-finite-witness-route} bind the finite selector route used by the diagonal-limit construction.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:limit-selector-carrier}, \autoref{thm:limit-selector-namecert-obligations}, \autoref{thm:limit-selector-finite-witness-route}, \autoref{thm:limit-selector-observation-budget-handoff}, and \autoref{thm:limit-selector-real-seal-nonescape} bind the primitive selector scope over $\RegSeqRat$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, real completeness, quotient-stream equality, host real equality, countable choice, host-selected limits, or a public standard bridge.}
-  \upgradepath{Scoped closure requires checked carrier admission, modulus-selector exactness, finite-window readback, seal handoff, and non-escape for the same finite selector packet.}
+  \upgradepath{Further closure requires Lean verification and a public bridge over the same displayed selector packet.}
 \end{closurestatus}

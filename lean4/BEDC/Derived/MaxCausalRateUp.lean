@@ -47,4 +47,38 @@ theorem MaxCausalRatePacket_crosshist_handoff [AskSetup] [PackageSetup]
   exact ⟨configurationUnary, witnessesUnary, boundUnary, consumerUnary, consumerRoute, namePkg,
     consumerPkg⟩
 
+theorem MaxCausalRatePacket_bound_comparison_totality [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      UnaryHistory witnesses /\ UnaryHistory bound /\ UnaryHistory comparisons /\
+        Cont witnesses bound comparisons /\ hsame bound bound := by
+  intro packet
+  obtain ⟨_configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    _hsameTransportUnary, _psameStabilityUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, witnessBoundComparison, _comparisonTransportStability,
+    _stabilityRouteProvenance, _provenanceNameConfiguration, _namePkg⟩ := packet
+  exact
+    ⟨witnessesUnary, boundUnary, comparisonsUnary, witnessBoundComparison, hsame_refl bound⟩
+
+theorem MaxCausalRatePacket_unary_bound_nonescape [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      hsame consumer comparisons ->
+        UnaryHistory consumer ∧ Cont witnesses bound comparisons ∧ UnaryHistory bound ∧
+          PkgSig bundle nameCert pkg := by
+  intro packet consumerSame
+  obtain ⟨_configurationUnary, _witnessesUnary, boundUnary, comparisonsUnary,
+    _hsameTransportUnary, _psameStabilityUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, witnessBoundComparison, _comparisonTransportStability,
+    _stabilityRouteProvenance, _provenanceNameConfiguration, namePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_transport comparisonsUnary (hsame_symm consumerSame)
+  exact ⟨consumerUnary, witnessBoundComparison, boundUnary, namePkg⟩
+
 end BEDC.Derived.MaxCausalRateUp

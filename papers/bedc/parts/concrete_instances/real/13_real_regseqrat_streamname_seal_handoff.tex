@@ -205,6 +205,45 @@ arithmetic and order packages, and metric-completeness rows cannot appear in
 the pullback source or in its projected faces.
 \end{proof}
 
+\begin{theorem}[RealUp common-refinement seal consumption]
+\label{thm:realup-common-refinement-seal-consumption}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal-source handoffs, possibly
+displayed over different $\StreamNameUp$ finite windows. Suppose
+$\StreamNameUp$ supplies a common finite refinement window for those two
+displays, and suppose the two handoffs transport to that refinement with the
+same $\DyadicRatCoreUp$ observation rows, the same $\RegSeqRatUp$ regularity
+spine rows, the same $\RealUp$ seal/readback provenance rows, and the same
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+Then every consumer-visible $\RealUp$ seal read from either handoff factors
+through one refined four-face $\mathsf{BHist}$ packet.
+
+The refined consumption route is finite and open-phase. It exports no quotient
+carrier, host equality, selected limit, real-completeness row, arithmetic
+package, order package, Classical-choice row, or metric-completeness
+coordinate.
+\end{theorem}
+\begin{proof}
+First transport both accepted handoffs to the supplied $\StreamNameUp$ common
+finite refinement. Apply \autoref{thm:realup-open-phase-four-face-pullback} to
+the transported displays. The matching dyadic observation rows, regularity
+spine rows, seal/readback provenance rows, and displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ coordinates determine one refined four-face
+$\mathsf{BHist}$ packet.
+
+Next use \autoref{thm:realup-finite-seal-source-uniqueness}. After transport
+to the common refinement, both accepted handoffs expose the same finite
+seal-source surface, because their four projected faces agree componentwise
+through the displayed gluing rows.
+
+Finally apply \autoref{thm:realup-open-phase-seal-route-totality} and
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. Route totality says
+every consumer-visible $\RealUp$ seal read is exhausted by an accepted
+open-phase seal route, and the handoff theorem says those routes are exactly
+the dyadic observation, finite-window, regularity-spine, and provenance rows
+read from the refined packet. Since the boundary has no carrier for the
+off-table coordinates, no consumer read can leave that refined finite packet.
+\end{proof}
+
 \begin{theorem}[RealUp four-face common-window seal uniqueness]
 \label{thm:realup-four-face-common-window-seal-uniqueness}
 Let $S$ and $T$ be accepted finite $\RealUp$ seal-source handoffs. Suppose both
@@ -463,4 +502,45 @@ transported only through $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.
 Thus the finite packet is precisely the local $\RealUp$ open-phase
 $\NameCert$ surface, and the excluded coordinates have no carrier in the
 admission.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase NameCert surface completeness]
+\label{thm:realup-open-phase-namecert-surface-completeness}
+A local $\RealUp$ open-phase $\NameCert$ surface for the seal handoff is
+admitted exactly when it is represented by one finite four-face
+$\mathsf{BHist}$ packet whose faces are the $\DyadicRatCoreUp$ observation
+rows, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$
+regularity-spine rows, and the $\RealUp$ seal/readback provenance rows. The
+only gluing coordinates of that packet are the displayed componentwise
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+The representing packet is unique among compatible four-face packets. The
+surface has no quotient carrier, host-equality coordinate, real-completeness
+row, arithmetic package, order package, Classical-choice row, or
+metric-completeness row.
+\end{theorem}
+\begin{proof}
+For existence, start with the four displayed faces and their componentwise
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates. Apply
+\autoref{thm:realup-open-phase-four-face-namecert-admission}. It admits that
+finite packet as the local $\RealUp$ open-phase $\NameCert$ surface and leaves
+no carrier for any off-table row.
+
+For uniqueness, compare two admitted surfaces with the same displayed faces.
+Use \autoref{thm:realup-open-phase-four-face-pullback}. Compatible dyadic
+observation rows, stream-window rows, regularity-spine rows, and seal/readback
+rows determine exactly one finite $\mathsf{BHist}$ pullback packet over the
+shown coordinates.
+
+The classifier boundary is the same boundary. Apply
+\autoref{thm:realup-seal-source-classifier-correspondence}. The consumer-side
+seal-source classifier is precisely the componentwise classifier on the four
+faces, so no quotient representative, host equality, arithmetic order, or
+completeness coordinate can refine the surface.
+
+Finally apply \autoref{thm:realup-open-phase-seal-route-totality}. Every
+consumer-visible route out of the handoff is exhausted by the four-face
+packet. Therefore the admitted local $\NameCert$ surface is equivalent to that
+unique finite packet, and the listed excluded rows are outside the open-phase
+seal surface.
 \end{proof}

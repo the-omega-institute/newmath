@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\ProofTermErasureAuditRouteUp$}
+\label{ch:concrete-instances-proofterm-erasure-audit-route-namecert}
+\origin{human}
+
+The $\ProofTermErasureAuditRouteUp$ surface records the audit path that lets a downstream classifier or compiler consumer trust an erased term without receiving the proof object that produced it. It sits after $\ProofTermErasureTraceUp$ and before type-preserving consumer packets: the carrier keeps proof-term membership, erased-term readback, typing membership, erased replay, subject-reduction compatibility, transport, provenance, and local naming in one finite certificate.
+
+\begin{definition}[Proof-term erasure audit route carrier]
+\label{def:proofterm-erasure-audit-route-carrier}
+A $\ProofTermErasureAuditRouteUp$ carrier is a finite $\BHist$ packet
+$$
+A=(P,E,T,C,R,S,H,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the proof-term row whose original type-checking membership is audited;
+\item $E$ is the erased-term row exported to downstream consumers;
+\item $T$ is the $\Ext$ typing row that admits the proof-term row and names the classifier membership being preserved;
+\item $C$ is the erasure $\Cont$ route from the proof-term row to the erased-term row;
+\item $R$ is the subject-reduction compatibility row tying the typing membership in $T$ to the erased public read along $C$;
+\item $S$ is the accepted audit stamp row stating that the proof object has been consumed by the local checker and is not part of the exported evidence;
+\item $H$ records componentwise $\hsame$ transports for the proof-term row, erased-term row, $\Ext$ typing row, erasure route, subject-reduction row, audit stamp, package row, and local naming row;
+\item $Q$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\SubjectReductionUp$, $\ProofTermErasureTraceUp$, $\TypeCheckingDerivationTraceUp$, $\TypeCheckingMembershipTraceUp$, $\TypePreservingCompilerUp$, $\hsame$, and $\NameCert$ source packets;
+\item $N$ is the local $\NameCert_{\ProofTermErasureAuditRouteUp}$ row.
+\end{enumerate}
+The local classifier compares two accepted carriers only through the displayed proof row, erased row, typing row, erasure route, subject-reduction row, audit stamp, componentwise transports, provenance, and local naming row.
+\end{definition}
+
+\begin{theorem}[Proof-term erasure audit route NameCert obligations]
+\label{thm:proofterm-erasure-audit-route-namecert-obligations}
+For the carrier of \autoref{def:proofterm-erasure-audit-route-carrier}, the local $\NameCert_{\ProofTermErasureAuditRouteUp}$ surface consists of six finite obligations:
+\begin{enumerate}
+\item carrier admission exposes exactly $A=(P,E,T,C,R,S,H,Q,N)$;
+\item proof-term membership reads the accepted typing evidence only from the displayed $\Ext$ row $T$;
+\item erasure replay routes the exported erased row $E$ only along the displayed $\Cont$ row $C$;
+\item subject-reduction compatibility uses only the row $R$ to relate the source membership in $T$ to the erased public read;
+\item audit-stamp exactness records in $S$ that proof evidence was consumed locally and that no proof object is exported;
+\item provenance and naming exactness bind every downstream read to $H,Q,N$ and to the same displayed proof-term, erased-term, typing, erasure, subject-reduction, and audit-stamp rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the displayed finite tuple. The rows $P,E,T,C,R,S,H,Q,N$ are the only coordinates exposed by the local certificate.
+
+The membership and replay obligations are read from $T$ and $C$. The proof-term row enters the certificate through the classifier membership row $T$, and the erased-term row is exported only after the displayed erasure route $C$ is replayed.
+
+Subject-reduction compatibility is the role of $R$. It binds the source membership already named by $T$ to the erased read reached through $C$, so a consumer cannot replace the route by host conversion or quotient term equality.
+
+The audit-stamp and ledger obligations are then exhausted by $S,H,Q,N$. The stamp records local consumption of proof evidence, the transports replay the same rows componentwise, the package records the dependency surface, and the local naming row fixes the certificate boundary.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure audit route Ext-membership preservation]
+\label{thm:proofterm-erasure-audit-route-ext-membership-preservation}
+Every accepted $\ProofTermErasureAuditRouteUp$ carrier preserves the $\Ext$ typing membership that justifies erased-term consumption. If a downstream consumer reads the erased row $E$, then the only source membership available to justify that read is the displayed typing row $T$ for the proof-term row $P$, transported through $H$ and packaged by $Q,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $A=(P,E,T,C,R,S,H,Q,N)$. The only typing-membership coordinate is $T$, and it is attached to the proof-term row $P$.
+
+The erased row $E$ is reached through the erasure route $C$ and the compatibility row $R$. Thus the consumer's membership read is a transported reading of $T$, not a fresh classifier supplied by the host environment.
+
+Finally repack the read through $H,Q,N$. Componentwise $\hsame$ preserves the displayed rows, package provenance records the same source certificates, and the local naming row keeps the consumer inside the audit-route boundary.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure audit route erased Cont replay]
+\label{thm:proofterm-erasure-audit-route-erased-cont-replay}
+For every accepted $\ProofTermErasureAuditRouteUp$ carrier, the erased public row is replayed only through the displayed erasure $\Cont$ route $C$ and the subject-reduction compatibility row $R$. No consumer receives a host erasure function, a conversion oracle, or an unrecorded reduction route.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory. The only route from the proof-term row $P$ to the erased row $E$ is the displayed continuation row $C$.
+
+Subject-reduction compatibility is not an additional route; it is the row $R$ that checks the same erased read against the typing membership in $T$. Therefore a consumer can replay erased evidence only by using $C$ together with $R$.
+
+Since the packet has no coordinate for a host erasure function, conversion oracle, or hidden reduction route, those objects cannot be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure audit route non-escape ledger]
+\label{thm:proofterm-erasure-audit-route-nonescape-ledger}
+Every accepted $\ProofTermErasureAuditRouteUp$ carrier excludes proof-object escape. The exported surface contains the erased row $E$, the typing row $T$, the erasure route $C$, the compatibility row $R$, the audit stamp $S$, transports $H$, package provenance $Q$, and local naming $N$, but it contains no proof object, proof irrelevance principle, quotient syntax equality, host conversion relation, or ambient normalization oracle.
+\end{theorem}
+\begin{proof}
+Inspect the packet coordinates. The proof-term row $P$ is visible only as the audited source of membership, while the exported computational row is $E$.
+
+The stamp $S$ records that proof evidence has been consumed locally. The rows $T,C,R,H,Q,N$ then describe how membership, erasure, compatibility, transport, provenance, and naming are replayed without exporting the proof object itself.
+
+No remaining coordinate can name proof irrelevance, quotient syntax equality, host conversion, or ambient normalization. The non-escape claim follows from the finite carrier inventory.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure audit route downstream consumer package]
+\label{thm:proofterm-erasure-audit-route-downstream-consumer-package}
+Every downstream classifier or type-preserving compiler consumer of an accepted $\ProofTermErasureAuditRouteUp$ packet receives only the finite audit surface
+$$
+E,T,C,R,S,H,Q,N.
+$$
+The consumer may use the erased term, preserved $\Ext$ membership, displayed erasure replay, subject-reduction compatibility, audit stamp, transports, provenance, and local naming boundary, but it cannot recover the source proof object or replace the certificate by host type checking.
+\end{theorem}
+\begin{proof}
+Start from Ext-membership preservation. The consumer's typing read is fixed by $T$ and transported through $H,Q,N$.
+
+Next use erased Cont replay. The erased row $E$ is exposed only along $C$ and only with compatibility supplied by $R$.
+
+Finally apply the non-escape ledger. The audit stamp $S$ records local proof consumption, while the public package contains no coordinate for the source proof object as exported evidence and no coordinate for host type checking. Hence the downstream consumer package is exactly the displayed finite audit surface.
+\end{proof}
+
+\closureat{ProofTermErasureAuditRouteUp}{seedStr}
+
+\begin{closurestatus}{\ProofTermErasureAuditRouteUp}
+  \constructivestory{A $\ProofTermErasureAuditRouteUp$ packet is generated from proof-term, erased-term, Ext typing, erasure Cont, subject-reduction compatibility, audit-stamp, hsame transport, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proofterm-erasure-audit-route-carrier}, \autoref{thm:proofterm-erasure-audit-route-namecert-obligations}, \autoref{thm:proofterm-erasure-audit-route-ext-membership-preservation}, \autoref{thm:proofterm-erasure-audit-route-erased-cont-replay}, \autoref{thm:proofterm-erasure-audit-route-nonescape-ledger}, and \autoref{thm:proofterm-erasure-audit-route-downstream-consumer-package} define the finite audit-route surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, host conversion, quotient term equality, proof irrelevance, normalization oracles, or public compiler correctness outside the displayed audit-route packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, Ext-membership preservation, erased Cont replay, subject-reduction compatibility, non-escape, and downstream package exactness for the displayed audit-route rows.}
+\end{closurestatus}
