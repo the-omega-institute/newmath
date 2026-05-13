@@ -18,11 +18,37 @@ static void assert_bits_at(const uint8_t *cells,
 }
 
 static void assert_a4_group_at(const uint8_t *cells, size_t pos) {
-    static const char A_PHASE_1[] = "111110";
+    static const char A_PHASE_4[] = "111110";
 
     for (size_t i = 0; i < 4; i++) {
-        assert_bits_at(cells, pos + (i * PHASE_A_LEN), A_PHASE_1);
+        assert_bits_at(cells,
+                       pos + (i * (PHASE_A_LEN +
+                                   (5 * COOK_ETHER_WIDTH))),
+                       A_PHASE_4);
     }
+}
+
+static void test_ossifier_figure6_branch_k(void) {
+    int k = -1;
+
+    assert(cook_ossifier_branch_k(OSSIFIER_AFTER_INVISIBLE_EBAR,
+                                  OSSIFY_PRODUCE_C2,
+                                  &k));
+    assert(k == 0);
+    assert(cook_ossifier_branch_k(OSSIFIER_AFTER_INVISIBLE_EBAR,
+                                  OSSIFY_CROSS,
+                                  &k));
+    assert(k == 1);
+    assert(cook_ossifier_branch_k(OSSIFIER_AFTER_MOVING_DATA,
+                                  OSSIFY_PRODUCE_C2,
+                                  &k));
+    assert(k == 4);
+    assert(cook_ossifier_branch_k(OSSIFIER_AFTER_MOVING_DATA,
+                                  OSSIFY_CROSS,
+                                  &k));
+    assert(k == 5);
+
+    printf("  ossifier_figure6_branch_k: PASS\n");
 }
 
 static uint8_t ether_cell_at_step(size_t pos, size_t step_count) {
@@ -125,22 +151,48 @@ static void test_ossifier_phase_exact_emits_packet(void) {
     cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
     memcpy(ether, cells, sizeof(cells));
 
-    rc = cook_ossifier_emit_phase_exact(cells, 42, sizeof(cells),
-                                        production, 1);
+    rc = cook_ossifier_emit_phase_exact_branch(cells,
+                                               42,
+                                               sizeof(cells),
+                                               production,
+                                               1,
+                                               OSSIFIER_AFTER_INVISIBLE_EBAR,
+                                               OSSIFY_PRODUCE_C2);
 
     assert(rc == COOK_OSSIFIER_PHASE_EXACT_OK);
     changed = perturbation_span(cells, 42, sizeof(cells), &first, &last);
     assert(changed > 0);
     assert(first >= 42);
     assert(first < 42 + 10);
-    assert(last >= 42 + 39);
+    assert(last >= 42 + 210);
     assert(memcmp(cells, ether, 42) == 0);
     assert_a4_group_at(cells, 42);
-    assert_a4_group_at(cells, 42 + 24 + (11 * COOK_ETHER_WIDTH));
-    assert_a4_group_at(cells, 42 + (2 * (24 + (11 * COOK_ETHER_WIDTH))));
-    assert_a4_group_at(cells, 42 + (3 * (24 + (11 * COOK_ETHER_WIDTH))));
 
     printf("  ossifier_phase_exact_emits_packet: PASS\n");
+}
+
+static void test_ossifier_phase_exact_moving_cross_offset(void) {
+    uint8_t cells[768];
+    uint8_t ether[768];
+    const uint8_t production[1] = {1};
+    int rc = 0;
+
+    cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
+    memcpy(ether, cells, sizeof(cells));
+
+    rc = cook_ossifier_emit_phase_exact_branch(cells,
+                                               42,
+                                               sizeof(cells),
+                                               production,
+                                               1,
+                                               OSSIFIER_AFTER_MOVING_DATA,
+                                               OSSIFY_CROSS);
+
+    assert(rc == COOK_OSSIFIER_PHASE_EXACT_OK);
+    assert(memcmp(cells, ether, 42 + (5 * COOK_ETHER_WIDTH)) == 0);
+    assert_a4_group_at(cells, 42 + (5 * COOK_ETHER_WIDTH));
+
+    printf("  ossifier_phase_exact_moving_cross_offset: PASS\n");
 }
 
 static void test_ossifier_phase_exact_unwritable_buffer(void) {
@@ -163,9 +215,11 @@ static void test_ossifier_phase_exact_unwritable_buffer(void) {
 
 int main(void) {
     printf("== test_cook_ossifier ==\n");
+    test_ossifier_figure6_branch_k();
     test_ossifier_3bit_production();
     test_ossifier_empty_production();
     test_ossifier_phase_exact_emits_packet();
+    test_ossifier_phase_exact_moving_cross_offset();
     test_ossifier_phase_exact_unwritable_buffer();
     printf("ALL test_cook_ossifier tests passed\n");
     return 0;

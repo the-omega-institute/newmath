@@ -80,7 +80,7 @@ static int round_up_ether_width(size_t in, size_t *out) {
 #define COOK_PREVIEW_SYMBOL_STRIDE_PERIODS 64
 
 #define COOK_ENCODE_PHASE_LEADER_WIDTH 1024
-#define COOK_ENCODE_PHASE_OSSIFIER_WIDTH 234
+#define COOK_ENCODE_PHASE_OSSIFIER_WIDTH 290
 #define COOK_ENCODE_PHASE_DATA_BLOCK_WIDTH 867
 #define COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH 65536
 #define COOK_ENCODE_PHASE_LEDGER_PREFIX_SLOTS 3
@@ -693,9 +693,13 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
                                    layout->left_periodic_pos,
                                    layout->left_v);
 
-    rc = cook_leader_emit_phase_exact(out,
-                                      layout->leader_pos,
-                                      layout->total_cells);
+    rc = cook_leader_emit_phase_exact_kind_prepared(
+        out,
+        layout->leader_pos,
+        layout->total_cells,
+        LEADER_REGULAR,
+        LEADER_PREPARED_AFTER_MOVING_DATA,
+        6u);
     if (rc != COOK_LEADER_PHASE_EXACT_OK) {
         return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
     }
@@ -711,11 +715,14 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
 
             cursor += step;
             if (ct->prod_lens[i] == 0) continue;
-            rc = cook_ossifier_emit_phase_exact(out,
-                                                pos,
-                                                layout->total_cells,
-                                                ct->productions[i],
-                                                ct->prod_lens[i]);
+            rc = cook_ossifier_emit_phase_exact_branch(
+                out,
+                pos,
+                layout->total_cells,
+                ct->productions[i],
+                ct->prod_lens[i],
+                OSSIFIER_AFTER_MOVING_DATA,
+                OSSIFY_PRODUCE_C2);
             if (rc != COOK_OSSIFIER_PHASE_EXACT_OK) {
                 return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
             }
@@ -840,9 +847,13 @@ static int cook_encode_phase_exact_compose_preview(const CyclicTagInput *ct,
         return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
     }
     cook_ether_emit(out, layout->total_cells / (size_t)COOK_ETHER_WIDTH);
-    rc = cook_leader_emit_phase_exact(out,
-                                      layout->leader_pos,
-                                      layout->total_cells);
+    rc = cook_leader_emit_phase_exact_kind_prepared(
+        out,
+        layout->leader_pos,
+        layout->total_cells,
+        LEADER_REGULAR,
+        LEADER_PREPARED_AFTER_MOVING_DATA,
+        6u);
     if (rc != COOK_LEADER_PHASE_EXACT_OK &&
         layout->leader_pos < layout->total_cells) {
         return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
@@ -853,11 +864,13 @@ static int cook_encode_phase_exact_compose_preview(const CyclicTagInput *ct,
                   (size_t)COOK_ETHER_WIDTH));
 
         if (ct->prod_lens[i] == 0 || pos >= layout->total_cells) continue;
-        (void)cook_ossifier_emit_phase_exact(out,
-                                             pos,
-                                             layout->total_cells,
-                                             ct->productions[i],
-                                             ct->prod_lens[i]);
+        (void)cook_ossifier_emit_phase_exact_branch(out,
+                                                    pos,
+                                                    layout->total_cells,
+                                                    ct->productions[i],
+                                                    ct->prod_lens[i],
+                                                    OSSIFIER_AFTER_MOVING_DATA,
+                                                    OSSIFY_PRODUCE_C2);
     }
     for (size_t i = 0; i < ct->tape_len; i++) {
         size_t pos = layout->data_pos + (i * layout->data_symbol_stride);

@@ -65,6 +65,37 @@ static size_t count_bits_at(const uint8_t *cells,
     return count;
 }
 
+static void test_leader_figure8_alignment(void) {
+    int k = -1;
+    int alignment = -1;
+
+    assert(cook_leader_prepared_k(LEADER_PREPARED_AFTER_MOVING_DATA,
+                                  6u,
+                                  &k));
+    assert(k == 0);
+    assert(cook_leader_prepared_invisible_alignment(
+        LEADER_PREPARED_AFTER_MOVING_DATA,
+        6u,
+        &alignment));
+    assert(alignment == 5);
+    assert(cook_leader_prepared_k(
+        LEADER_PREPARED_AFTER_REJECTED_INVISIBLES,
+        6u,
+        &k));
+    assert(k == 2);
+    assert(cook_leader_prepared_invisible_alignment(
+        LEADER_PREPARED_AFTER_REJECTED_INVISIBLES,
+        6u,
+        &alignment));
+    assert(alignment == 1);
+    assert(!cook_leader_prepared_k(
+        LEADER_PREPARED_AFTER_REJECTED_INVISIBLES,
+        5u,
+        &k));
+
+    printf("  leader_figure8_alignment: PASS\n");
+}
+
 static void test_leader_stable(void) {
     const size_t period_count = 260;
     const size_t len = COOK_ETHER_WIDTH * period_count;
@@ -110,8 +141,8 @@ static void test_leader_does_not_destroy_ether_outside(void) {
 }
 
 static void test_leader_phase_exact_emits_packet(void) {
-    uint8_t cells[1024];
-    uint8_t ether[1024];
+    uint8_t cells[2048];
+    uint8_t ether[2048];
     int rc = 0;
 
     cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
@@ -211,6 +242,7 @@ static void test_leader_phase_exact_unwritable_buffer(void) {
 
 int main(void) {
     printf("== test_cook_leader ==\n");
+    test_leader_figure8_alignment();
     test_leader_stable();
     test_leader_does_not_destroy_ether_outside();
     test_leader_phase_exact_emits_packet();
