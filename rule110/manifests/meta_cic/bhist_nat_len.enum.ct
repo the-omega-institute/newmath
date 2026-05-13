@@ -1,0 +1,16 @@
+# bhist_nat_len.enum.ct
+# Lean targets:
+#   BEDC.MetaCIC.BHistSubstrate.natToBHist
+#   BEDC.MetaCIC.BHistSubstrate.bhistLen
+#   BEDC.MetaCIC.BHistSubstrate.bhistLen_natToBHist
+#
+# Encoding: one BHist event per case.
+# natToBHist(n) is e0 repeated n, so the decoded choice payload is n zero
+# bytes and the decoded depth is n.
+PRODUCTIONS 0
+ASSERTIONS 5
+case n0_empty:      input=11       ; nat=0 ; all_e0=yes ; bhist_len=0
+case n1_e0:         input=011      ; nat=1 ; all_e0=yes ; bhist_len=1
+case n2_e0_e0:      input=0011     ; nat=2 ; all_e0=yes ; bhist_len=2
+case n3_e0_e0_e0:   input=00011    ; nat=3 ; all_e0=yes ; bhist_len=3
+case not_nat_e1:    input=1011     ; nat_to_bhist=no ; all_e0=no ; bhist_len=1

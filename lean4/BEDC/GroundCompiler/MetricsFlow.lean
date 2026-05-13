@@ -676,7 +676,7 @@ def EmptyAnalysisSignature (_S : EventFlow) : FlowSignatureVector where
   bridgeDepth := 0
 
 theorem metrics_reports_not_theoremhood :
-    exists report : MetricReport, exists S : EventFlow,
+    exists _report : MetricReport, exists S : EventFlow,
       Not (RecognizedTheoremFlow S) /\ Not (AcceptedObjectFlow S) := by
   refine
     ⟨{ protocol :=

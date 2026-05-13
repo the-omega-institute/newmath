@@ -47,6 +47,54 @@ The acknowledgement clause reads $G$ after $L$. Thus the gap row can name only c
 Finally, $H$ transports the displayed rows componentwise and $C$ replays only their listed routes. Since no detached self, global universe, external clock, manifold coordinate, or all-observer frame occurs among the coordinates, the local certificate cannot export one.
 \end{proof}
 
+\begin{theorem}[Conscious observer-state recognition exactness]
+\label{thm:conscious-observer-state-recognition-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+the self-recognition row $R$ is readable only after the observer-history row $O$ and the current-state row $s$ have been displayed. Thus self-recognition cannot detach from the observer-history row that supplies the present state.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:conscious-observer-state-carrier}. Its visible order exposes $O$ as the observer-history row, then $s$ as the current-state row inside that history, and only then $R$ as the recognition row attached to that state.
+
+Apply \autoref{thm:conscious-observer-state-namecert-obligations}. The NameCert surface requires current-state recognition to name the identity read from $O$ at $s$, while the same carrier excludes a detached self, a global observer, an external clock, a manifold point, and host psychological content.
+
+The structural rows $H,C,P,N$ transport, route, package, and name that same displayed packet. They do not add a second recognition source, so $R$ remains exact for the observer-history row already displayed by $O$ and $s$.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state GAP acknowledgement exactness]
+\label{thm:conscious-observer-state-gap-acknowledgement-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+the $\Gap$ acknowledgement row $G$ names only commitments attached to the current state $s$ whose witness rows are absent from the present ledger $L$. It cannot supply remote records or witness rows outside that ledger boundary.
+\end{theorem}
+\begin{proof}
+Project the same carrier. The acknowledgement row $G$ occurs after the observer history $O$, current state $s$, recognition row $R$, and ledger row $L$, so it is not an independent source of observation data.
+
+Use \autoref{thm:conscious-observer-state-namecert-obligations}. Its acknowledgement clause states that $G$ names only commitments attached to $s$ whose witness rows are absent from $L$.
+
+The exclusions in \autoref{def:conscious-observer-state-carrier} remove every route to an instantaneous remote observation, global universe, external clock, manifold point, or detached self. Hence the acknowledgement is exact for the local ledger boundary and cannot provide a remote record.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state locality provenance exactness]
+\label{thm:conscious-observer-state-locality-provenance-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+the package row $P$ routes the current-state read through the $\ObserverHistoryIdentityUp$ and $\ObserverLocalityCellUp$ sibling certificates. The transport row $H$ and continuation row $C$ replay exactly those observer-history, current-state, recognition, ledger, and acknowledgement rows.
+\end{theorem}
+\begin{proof}
+Project the provenance coordinate in \autoref{def:conscious-observer-state-carrier}. It names the observer-history row certified by \autoref{ch:concrete-instances-observerhistoryidentity-namecert} and the finite local-cell packet certified by \autoref{ch:concrete-instances-observer-locality-cell-namecert}.
+
+Apply \autoref{thm:conscious-observer-state-namecert-obligations}. The accepted packet reads $O$, then $s$, then $R,L,G$, with stability and non-escape supplied only by $H,C,P,N$.
+
+The row $H$ transports the displayed coordinates componentwise, and $C$ replays the same displayed routes. Since the carrier excludes a global observer, shared universe, external time scalar, spacetime manifold, host psychological content, and instantaneous remote observation, provenance exactness is exhausted by the two sibling certificates named in $P$ and replayed by $H$ and $C$.
+\end{proof}
+
 \begin{theorem}[Conscious observer-state classifier stability]
 \label{thm:conscious-observer-state-classifier-stability}
 Let
@@ -223,6 +271,98 @@ Apply ledger exactness and GAP-ledger non-escape. The ledger row $L$ supplies th
 Finally use route locality and dependency handoff. The continuation row $C$ makes the consumer route explicit, while $H,P,N$ preserve, package, and name the same route. Since the carrier has no coordinate for a global observer, shared universe, external time, spacetime manifold, host psychological content, or remote record, the $\Gap$ consumer is exact for the current-state ledger boundary.
 \end{proof}
 
+\begin{theorem}[Conscious observer-state current ledger handoff]
+\label{thm:conscious-observer-state-current-ledger-handoff}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+each present-state consumer handoff reads the rows in the order
+$O,s,R,L,G,H,C,P,N$. The handoff then passes only the present ledger row $L$
+and the $\Gap$ acknowledgement row $G$, transported and named through
+$H,C,P,N$, to observer-history and locality consumers.
+
+No detached observer, external clock, spacetime point, host content row, or
+remote record is handed across this boundary.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:conscious-observer-state-carrier} and
+the NameCert obligations of
+\autoref{thm:conscious-observer-state-namecert-obligations}. They display the
+ordered packet $O,s,R,L,G,H,C,P,N$ and require the recognition, ledger, and
+acknowledgement rows to be read after the observer-history row and current
+state row.
+
+Apply ledger exactness from
+\autoref{thm:conscious-observer-state-ledger-exactness} together with
+GAP-ledger non-escape from
+\autoref{thm:conscious-observer-state-gap-ledger-nonescape}. These theorems
+make $L$ the visible present ledger at $s$ and make $G$ only an
+acknowledgement of commitments whose witness rows are absent from that ledger.
+
+Finally use route locality, dependency handoff, and GAP consumer exactness from
+\autoref{thm:conscious-observer-state-route-locality},
+\autoref{thm:conscious-observer-state-dependency-handoff}, and
+\autoref{thm:conscious-observer-state-gap-consumer-exactness}. They keep the
+consumer-facing handoff inside $H,C,P,N$ and exclude every route not carried by
+the displayed current-state packet.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state local GAP coverage]
+\label{thm:conscious-observer-state-local-gap-coverage}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+each acknowledged commitment in $G$ is either witnessed by the visible present
+ledger $L$ at the current state $s$ or remains explicitly named as a local
+$\Gap$ at $s$. The coverage adds no remote record, global universe row,
+external time coordinate, or host-level observer surface.
+\end{theorem}
+\begin{proof}
+Read the carrier and the NameCert obligations first. The only available
+commitment surface is the displayed current-state packet
+$O,s,R,L,G,H,C,P,N$.
+
+Use ledger exactness to identify the visible witness rows at $s$ with $L$.
+Then apply GAP-ledger non-escape and GAP consumer exactness. These results say
+that every acknowledged commitment read through $G$ is scoped by the same
+current state and can be consumed only as a local absence from the present
+ledger.
+
+Route locality and dependency handoff close the coverage. Since every route is
+replayed through $C$ and packaged by $P,N$ with componentwise transport in $H$,
+no global universe, remote record, or host-level observer row can appear as a
+second coverage source.
+\end{proof}
+
+\begin{theorem}[Conscious observer-state route package exactness]
+\label{thm:conscious-observer-state-route-package-exactness}
+For every accepted $\ConsciousObserverStateUp$ packet
+$$
+S=(O,s,R,L,G,H,C,P,N),
+$$
+the rows $H,C,P,N$ package exactly the same current-state route from
+$O$ through $s,R,L,G$. They may transport, replay, prove provenance for, and
+name that route, but they cannot add a detached self, external clock,
+spacetime point, all-observer synchronization row, host content row, or remote
+record.
+\end{theorem}
+\begin{proof}
+The carrier and NameCert obligations determine the route inventory. The rows
+$H,C,P,N$ are displayed only as transport, continuation replay, package
+provenance, and local naming for the same $O,s,R,L,G$ packet.
+
+Apply route locality and dependency handoff. They identify $C$ as the
+current-state continuation route and ensure that $H,P,N$ preserve, package,
+and name the route rather than widening it.
+
+Ledger exactness, GAP non-escape, and GAP consumer exactness show that the
+only observer-facing data on the route are the present ledger and local
+acknowledgement at $s$. Therefore the route package is exact and contains none
+of the excluded detached, external, global, host, or remote rows.
+\end{proof}
+
 \begin{theorem}[Conscious observer-state primitive scope]
 \label{thm:conscious-observer-state-primitive-scope}
 For every accepted $\ConsciousObserverStateUp$ packet
@@ -277,7 +417,7 @@ Present route exhaustion in \autoref{thm:conscious-observer-state-present-route-
 \begin{closurestatus}{\ConsciousObserverStateUp}
   \constructivestory{A $\ConsciousObserverStateUp$ packet is generated from an observer-history row, a current-state row, a self-recognition row, an observation ledger, a $\Gap$ acknowledgement, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:conscious-observer-state-carrier}, \autoref{thm:conscious-observer-state-namecert-obligations}, \autoref{thm:conscious-observer-state-classifier-stability}, \autoref{thm:conscious-observer-state-ledger-exactness}, \autoref{thm:conscious-observer-state-gap-ledger-nonescape}, \autoref{thm:conscious-observer-state-route-locality}, \autoref{thm:conscious-observer-state-dependency-handoff}, \autoref{thm:conscious-observer-state-locality-cell-readback}, \autoref{thm:conscious-observer-state-present-ledger-boundary}, \autoref{thm:conscious-observer-state-gap-locality-exhaustion}, \autoref{thm:conscious-observer-state-present-route-exhaustion}, and \autoref{thm:conscious-observer-state-gap-consumer-exactness} bind the finite current-state observer packet, GAP ledger, locality-cell readback, present ledger boundary, route locality, dependency handoff, route exhaustion, and GAP consumer surface.}
+  \scopeclosed{\autoref{def:conscious-observer-state-carrier}, \autoref{thm:conscious-observer-state-namecert-obligations}, \autoref{thm:conscious-observer-state-classifier-stability}, \autoref{thm:conscious-observer-state-ledger-exactness}, \autoref{thm:conscious-observer-state-gap-ledger-nonescape}, \autoref{thm:conscious-observer-state-route-locality}, \autoref{thm:conscious-observer-state-dependency-handoff}, \autoref{thm:conscious-observer-state-locality-cell-readback}, \autoref{thm:conscious-observer-state-present-ledger-boundary}, \autoref{thm:conscious-observer-state-gap-locality-exhaustion}, \autoref{thm:conscious-observer-state-present-route-exhaustion}, \autoref{thm:conscious-observer-state-gap-consumer-exactness}, \autoref{thm:conscious-observer-state-current-ledger-handoff}, \autoref{thm:conscious-observer-state-local-gap-coverage}, and \autoref{thm:conscious-observer-state-route-package-exactness} bind the finite current-state observer packet, GAP ledger, locality-cell readback, present ledger boundary, route locality, dependency handoff, route exhaustion, GAP consumer surface, current-ledger handoff, local GAP coverage, and route package exactness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
