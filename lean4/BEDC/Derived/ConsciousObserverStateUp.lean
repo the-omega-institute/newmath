@@ -110,6 +110,27 @@ theorem ConsciousObserverStateCarrier_namecert_obligations [AskSetup] [PackageSe
                         (And.intro nameUnary endpointUnary))))))))
   }
 
+theorem ConsciousObserverStateCarrier_gap_ledger_nonescape [AskSetup] [PackageSetup]
+    {observer state recognition ledger gap transport route provenance name endpoint
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ConsciousObserverStateCarrier observer state recognition ledger gap transport route provenance
+        name endpoint bundle pkg ->
+      hsame consumer gap ->
+        UnaryHistory consumer ∧ Cont recognition ledger gap ∧ Cont observer route endpoint ∧
+          PkgSig bundle endpoint pkg := by
+  intro carrier consumerSame
+  have gapUnary : UnaryHistory gap := carrier.right.right.right.right.left
+  have recognitionLedgerGap : Cont recognition ledger gap :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have observerRouteEndpoint : Cont observer route endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have endpointPkg : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  have consumerUnary : UnaryHistory consumer :=
+    unary_transport gapUnary (hsame_symm consumerSame)
+  exact ⟨consumerUnary, recognitionLedgerGap, observerRouteEndpoint, endpointPkg⟩
+
 /-- Finite current-state observer packet with the nine displayed BEDC rows. -/
 inductive ConsciousObserverStateUp : Type where
   | mk :
