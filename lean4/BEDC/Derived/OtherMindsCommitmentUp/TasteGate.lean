@@ -209,4 +209,37 @@ instance otherMindsCommitmentTasteGate_instance : ChapterTasteGate OtherMindsCom
   -- BEDC touchpoint anchor: BHist BMark
   otherMindsCommitmentTasteGate
 
+instance otherMindsCommitmentFieldFaithful : FieldFaithful OtherMindsCommitmentUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | OtherMindsCommitmentUp.mk observer candidate locality evidence gap transports routes
+        provenance name =>
+        [observer, candidate, locality, evidence, gap, transports, routes, provenance, name]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk observer1 candidate1 locality1 evidence1 gap1 transports1 routes1 provenance1 name1 =>
+        cases y with
+        | mk observer2 candidate2 locality2 evidence2 gap2 transports2 routes2 provenance2 name2 =>
+            injection h with hObserver t1
+            injection t1 with hCandidate t2
+            injection t2 with hLocality t3
+            injection t3 with hEvidence t4
+            injection t4 with hGap t5
+            injection t5 with hTransports t6
+            injection t6 with hRoutes t7
+            injection t7 with hProvenance t8
+            injection t8 with hName _
+            cases hObserver
+            cases hCandidate
+            cases hLocality
+            cases hEvidence
+            cases hGap
+            cases hTransports
+            cases hRoutes
+            cases hProvenance
+            cases hName
+            rfl
+
 end BEDC.Derived.OtherMindsCommitmentUp
