@@ -4,6 +4,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.RealCompletenessUp
 
 namespace BEDC.Derived.RegularCauchyLimitTransportUp
 
@@ -13,6 +14,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.RealCompletenessUp
 
 def RegularCauchyLimitTransportCarrier [AskSetup] [PackageSetup]
     (sourceRow windowRow dyadicRow sealRow transportRow routeRow provenanceRow localCertRow : BHist)
@@ -24,6 +26,14 @@ def RegularCauchyLimitTransportCarrier [AskSetup] [PackageSetup]
           Cont routeRow transportRow provenanceRow ∧ Cont provenanceRow sealRow localCertRow ∧
             hsame transportRow (append sourceRow sealRow) ∧ PkgSig bundle provenanceRow pkg ∧
               PkgSig bundle localCertRow pkg
+
+def RegularCauchyLimitTransportClassifier
+    (source window dyadic sealRow transport routes provenance cert
+      source' window' dyadic' sealRow' transport' routes' provenance' cert' : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame
+  hsame source source' ∧ hsame window window' ∧ hsame dyadic dyadic' ∧
+    hsame sealRow sealRow' ∧ hsame transport transport' ∧ hsame routes routes' ∧
+      hsame provenance provenance' ∧ hsame cert cert'
 
 theorem RegularCauchyLimitTransportCarrier_stability [AskSetup] [PackageSetup]
     {sourceRow windowRow dyadicRow sealRow transportRow routeRow provenanceRow localCertRow
@@ -121,5 +131,135 @@ theorem RegularCauchyLimitTransportCarrier_ledger_exactness [AskSetup] [PackageS
     ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, routesUnary, provenanceUnary,
       certUnary, handoffUnary, sourceWindowDyadic, dyadicSealRoutes, routesCertHandoff,
       transportMatchesSeal, provenancePkg, certPkg⟩
+
+theorem RegularCauchyLimitTransportCarrier_classifier_handoff_coverage [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert source' window' dyadic'
+      sealRow' transport' routes' provenance' cert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      RegularCauchyLimitTransportCarrier source' window' dyadic' sealRow' transport' routes'
+        provenance' cert' bundle pkg ->
+        hsame source source' ->
+          hsame window window' ->
+            hsame sealRow sealRow' ->
+              hsame transport transport' ->
+                RegularCauchyLimitTransportClassifier source window dyadic sealRow transport routes
+                    provenance cert source' window' dyadic' sealRow' transport' routes'
+                    provenance' cert' ∧
+                  hsame dyadic dyadic' ∧ hsame routes routes' ∧
+                    hsame provenance provenance' ∧ hsame cert cert' := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro carrier carrier' sameSource sameWindow sameSeal sameTransport
+  obtain ⟨_sourceUnary, _windowUnary, _dyadicUnary, _sealUnary, _transportUnary,
+    _routesUnary, _provenanceUnary, _certUnary, sourceWindowDyadic, dyadicSealRoutes,
+    routesTransportProvenance, provenanceSealCert, _transportMatchesSeal, _provenancePkg,
+    _certPkg⟩ := carrier
+  obtain ⟨_sourceUnary', _windowUnary', _dyadicUnary', _sealUnary', _transportUnary',
+    _routesUnary', _provenanceUnary', _certUnary', sourceWindowDyadic',
+    dyadicSealRoutes', routesTransportProvenance', provenanceSealCert',
+    _transportMatchesSeal', _provenancePkg', _certPkg'⟩ := carrier'
+  have sameDyadic : hsame dyadic dyadic' :=
+    cont_respects_hsame sameSource sameWindow sourceWindowDyadic sourceWindowDyadic'
+  have sameRoutes : hsame routes routes' :=
+    cont_respects_hsame sameDyadic sameSeal dyadicSealRoutes dyadicSealRoutes'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameRoutes sameTransport routesTransportProvenance
+      routesTransportProvenance'
+  have sameCert : hsame cert cert' :=
+    cont_respects_hsame sameProvenance sameSeal provenanceSealCert provenanceSealCert'
+  have classifier :
+      RegularCauchyLimitTransportClassifier source window dyadic sealRow transport routes
+        provenance cert source' window' dyadic' sealRow' transport' routes' provenance'
+        cert' := by
+    exact
+      ⟨sameSource, sameWindow, sameDyadic, sameSeal, sameTransport, sameRoutes,
+        sameProvenance, sameCert⟩
+  exact ⟨classifier, sameDyadic, sameRoutes, sameProvenance, sameCert⟩
+
+theorem RegularCauchyLimitTransportCarrier_completion_boundary_nonescape [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert handoff boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      Cont routes cert handoff ->
+        Cont handoff sealRow boundary ->
+          UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory sealRow ∧ UnaryHistory routes ∧ UnaryHistory handoff ∧
+              UnaryHistory boundary ∧ Cont source window dyadic ∧
+                Cont dyadic sealRow routes ∧ Cont routes cert handoff ∧
+                  Cont handoff sealRow boundary ∧ hsame transport (append source sealRow) ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier routesCertHandoff handoffSealBoundary
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, _transportUnary, routesUnary,
+    _provenanceUnary, certUnary, sourceWindowDyadic, dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, transportMatchesSeal,
+    provenancePkg, certPkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed routesUnary certUnary routesCertHandoff
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed handoffUnary sealUnary handoffSealBoundary
+  exact
+    ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, routesUnary, handoffUnary,
+      boundaryUnary, sourceWindowDyadic, dyadicSealRoutes, routesCertHandoff,
+      handoffSealBoundary, transportMatchesSeal, provenancePkg, certPkg⟩
+
+theorem RegularCauchyLimitTransportCarrier_real_completeness_consumer_factorization
+    [AskSetup] [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert family modulus readback endpoint
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      RealCompletenessBHistCarrier family modulus source dyadic window readback sealRow transport
+        routes provenance cert endpoint bundle pkg ->
+        Cont sealRow cert publicRead ->
+          UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory sealRow ∧ UnaryHistory publicRead ∧ Cont source window dyadic ∧
+              Cont dyadic sealRow routes ∧ Cont sealRow cert publicRead ∧
+                PkgSig bundle cert pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory RealCompletenessBHistCarrier
+  intro transportCarrier realCarrier sealCertPublicRead
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, _certUnary, sourceWindowDyadic, dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, _transportMatchesSeal,
+    _provenancePkg, certPkg⟩ := transportCarrier
+  obtain ⟨_familyUnary, _modulusUnary, _sourceUnaryReal, _dyadicUnaryReal, _windowUnaryReal,
+    _readbackUnary, _sealUnaryReal, _transportUnaryReal, _routesUnaryReal,
+    _provenanceUnaryReal, certUnaryReal, _endpointUnary, _transportRouteEndpoint,
+    endpointPkg⟩ := realCarrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary certUnaryReal sealCertPublicRead
+  exact
+    ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, publicReadUnary, sourceWindowDyadic,
+      dyadicSealRoutes, sealCertPublicRead, certPkg, endpointPkg⟩
+
+theorem RegularCauchyLimitTransportCarrier_selected_window_exactness [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert observed : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      Cont source window observed ->
+        UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory observed ∧
+          hsame dyadic observed ∧ Cont source window observed ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectedWindowRoute
+  obtain ⟨sourceUnary, windowUnary, _dyadicUnary, _sealUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, _certUnary, storedWindowRoute, _dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, _transportMatchesSeal, provenancePkg,
+    certPkg⟩ := carrier
+  have observedUnary : UnaryHistory observed :=
+    unary_cont_closed sourceUnary windowUnary selectedWindowRoute
+  have dyadicObserved : hsame dyadic observed :=
+    cont_respects_hsame (hsame_refl source) (hsame_refl window) storedWindowRoute
+      selectedWindowRoute
+  exact
+    ⟨sourceUnary, windowUnary, observedUnary, dyadicObserved, selectedWindowRoute,
+      provenancePkg, certPkg⟩
 
 end BEDC.Derived.RegularCauchyLimitTransportUp

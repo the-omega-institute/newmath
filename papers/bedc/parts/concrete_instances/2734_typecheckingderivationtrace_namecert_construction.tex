@@ -23,6 +23,7 @@ with the following displayed rows:
 \end{enumerate}
 The packet is finite and derivation-facing. It contains no ambient metatheory, no host equality of terms, no unrecorded typing rule, no hidden reduction step, and no proof object outside the displayed BEDC rows.
 \end{definition}
+\leanchecked{BEDC.Derived.TypeCheckingDerivationTraceUp.TypeCheckingDerivationTraceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Type-checking derivation trace subject-reduction surface]
 \label{thm:type-checking-derivation-trace-subject-reduction-surface}
@@ -70,6 +71,18 @@ Project the carrier $Z=(T,E,C,D,H,R,P,N)$. The only classifier coordinate is $E$
 Use the subject-reduction surface next. It already routes the typed source row and typed target row through $\Ext$ and $\Cont$ data, so classifier membership is read inside the same finite packet rather than through an ambient typing oracle.
 
 The NameCert obligations then bind the readback to $H,P,N$. Componentwise $\hsame$ preserves the same classifier row, package provenance records the same $\BHist$ source, and local naming keeps the consumer at the $\TypeCheckingDerivationTraceUp$ certificate boundary.
+\end{proof}
+
+\begin{theorem}[Type-checking derivation trace classifier route]
+\label{thm:type-checking-derivation-trace-classifier-route}
+Every accepted classifier-facing read of a $\TypeCheckingDerivationTraceUp$ packet factors through the displayed $\Ext$ membership row $E$, derivation ledger $D$, componentwise $\hsame$ transports $H$, package provenance $P$, and local $\NameCert$ row $N$. It cannot be supplied by host type equality, hidden reductions, external proof objects, or a normalizer row.
+\end{theorem}
+\begin{proof}
+Project the carrier $Z=(T,E,C,D,H,R,P,N)$. The classifier-facing coordinate is $E$, and the ledger that accounts for its typing-rule reads is $D$.
+
+Apply \autoref{thm:type-checking-derivation-trace-classifier-membership-readback}. It already routes the $\TypeClassifierMembershipUp$ and $\ClassifierTypingUp$ reads through $E,D,H,P,N$ and rules out host typing judgments and unrecorded classifiers.
+
+For the non-escape clause, invoke \autoref{thm:type-checking-derivation-trace-normal-form-consumer-boundary}. That boundary states that the accepted packet contains no hidden normalizer, host term equality, unrecorded reduction step, or external proof object, so the classifier route remains the displayed finite row $E,D,H,P,N$.
 \end{proof}
 
 \begin{theorem}[Type-checking derivation trace subject-reduction transport]

@@ -1,0 +1,240 @@
+\chapter{MetaCIC ClosurePreservation module audit map}
+\label{ch:metacic-closure-preservation-audit-map}
+
+\section{The setup}
+\label{sec:metacic-closure-preservation-audit-map-setup}
+
+\texttt{ClosurePreservation.lean} is a single-file module inside
+\texttt{BEDC.MetaCIC}. It records the closedness-preservation layer for the
+core syntax operations that later appear in beta reduction and its finite
+closures. The file is deliberately narrower than subject reduction: its
+classifier is \texttt{ClosedAt}, not \texttt{HasType}.
+
+The public surface is a five-theorem chain. It starts with shift at one
+successor depth, passes through variable substitution and full term
+substitution at an arbitrary closedness boundary, and then lifts the result to
+one-step beta reduction and finite beta-step chains. Each theorem is an
+ordinary structural fact about MetaCIC terms and the closedness predicate.
+
+This gives a useful contrast with the subject-reduction obstruction in
+\autoref{ch:metacic-subject-reduction-obstruction}. Closure preservation is
+available without extra typing hypotheses because no dependent codomain is
+being transported. Subject reduction is blocked at the typing layer, where
+application arguments, binder domains, and beta substitution must preserve
+displayed types.
+
+\section{Established theorems}
+\label{sec:metacic-closure-preservation-audit-map-established-theorems}
+
+\subsection{\texttt{shift\_one\_preserves\_closed\_succ}}
+\label{subsec:metacic-closure-preservation-audit-map-shift-one}
+
+The shift theorem is
+\leanvariant{BEDC.MetaCIC.shift\_one\_preserves\_closed\_succ}.
+It says that shifting by one at depth $n$ preserves closedness at the
+successor boundary. In schematic form:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(n,t)
+  &\Rightarrow
+  \mathsf{ClosedAt}(n+1,\mathsf{shift}(n,1,t)).
+\end{aligned}
+$$
+
+The theorem is the local shift witness needed by substitution and beta
+closure. Under binders, the closedness boundary advances in the same way as the
+term recursion. The proof obligation is therefore structural: every free index
+that was already below the source boundary remains below the target boundary
+after the one-step lift.
+
+\subsection{\texttt{substitute\_var\_preserves\_closed\_at}}
+\label{subsec:metacic-closure-preservation-audit-map-substitute-var}
+
+The variable-level substitution theorem is
+\leanvariant{BEDC.MetaCIC.substitute\_var\_preserves\_closed\_at}.
+It is the pointwise closedness fact for the variable branch of substitution.
+The theorem separates the arithmetic cases that full substitution later uses:
+the replaced variable, indices below the replacement depth, and indices above
+the replacement depth.
+
+This theorem is not a typing statement. It does not assign a type to a
+replacement payload and does not read back a substituted codomain. It only says
+that the variable operation used by substitution respects the relevant
+closedness boundary when its closedness inputs are present.
+
+\subsection{\texttt{substitute\_preserves\_closed\_at}}
+\label{subsec:metacic-closure-preservation-audit-map-substitute}
+
+The full substitution theorem is
+\leanvariant{BEDC.MetaCIC.substitute\_preserves\_closed\_at}.
+It lifts the variable theorem through the full \texttt{Term} recursion. In
+schematic form:
+
+$$
+\begin{aligned}
+  \mathsf{ClosedAt}(n+1,t)
+  \wedge
+  \mathsf{ClosedAt}(n,v)
+  &\Rightarrow
+  \mathsf{ClosedAt}(n,\mathsf{substitute}(n,v,t)).
+\end{aligned}
+$$
+
+The displayed form records the usual binder budget: the substituted term is
+closed one level deeper, and the payload is closed at the receiving boundary.
+After substitution removes the selected variable, the result is closed at the
+receiving boundary.
+
+This is the main closure-preservation lemma for syntactic substitution. It is
+strong enough to support beta-redex closure, because beta contraction is
+implemented by \texttt{substitute}. It is not strong enough to give beta
+subject reduction, because subject reduction also requires the type assigned to
+the contractum to be the substituted codomain.
+
+\subsection{\texttt{betaStep\_preserves\_closed}}
+\label{subsec:metacic-closure-preservation-audit-map-beta-step}
+
+The one-step beta theorem is
+\leanvariant{BEDC.MetaCIC.betaStep\_preserves\_closed}.
+It states that a single beta step preserves \texttt{ClosedAt} at any depth:
+
+$$
+\begin{aligned}
+  \mathsf{BetaStep}(t,t')
+  \wedge
+  \mathsf{ClosedAt}(n,t)
+  &\Rightarrow
+  \mathsf{ClosedAt}(n,t').
+\end{aligned}
+$$
+
+The beta-redex constructor uses
+\texttt{substitute\_preserves\_closed\_at}. The congruence constructors use
+the corresponding recursive closedness components for applications, lambdas,
+and Pi types. No typing context is inspected, and no conversion rule is
+introduced.
+
+This theorem is a genuine building block for any typed route through beta
+reduction. It guarantees that beta movement does not leave the closed-term
+slice. Its scope stops exactly there: preserving the closedness classifier is
+not preserving the \texttt{HasType} relation.
+
+\subsection{\texttt{betaStarStep\_preserves\_closed}}
+\label{subsec:metacic-closure-preservation-audit-map-beta-star-step}
+
+The finite beta-chain theorem is
+\leanvariant{BEDC.MetaCIC.betaStarStep\_preserves\_closed}.
+It lifts one-step closedness preservation from \texttt{BetaStep} to
+\texttt{BetaStarStep}. In schematic form:
+
+$$
+\begin{aligned}
+  \mathsf{BetaStarStep}(t,t')
+  \wedge
+  \mathsf{ClosedAt}(n,t)
+  &\Rightarrow
+  \mathsf{ClosedAt}(n,t').
+\end{aligned}
+$$
+
+The theorem is the finite-iteration closure fact for beta reduction. A
+zero-step chain is immediate, and a nonzero chain composes the one-step theorem
+with the induction hypothesis for the remaining chain.
+
+This is the exact closure fact consumed by closed-normal and conversion-facing
+arguments: a closed term remains closed along any finite beta path. It does
+not say that the term remains typed, normalizing, confluent, or convertible
+under an unrestricted typing rule.
+
+\section{Why ClosurePreservation is unconditional while SR is not}
+\label{sec:metacic-closure-preservation-audit-map-unconditional-sr}
+
+The distinction is the classifier. ClosurePreservation works over
+\texttt{ClosedAt}, a structural predicate on the syntax tree. The proof cases
+follow the constructors of terms, beta steps, and finite beta chains. When the
+operation descends under a binder, the closedness index advances. When beta
+contracts a redex, the substitution theorem supplies the closedness budget for
+the body and argument.
+
+Subject reduction works over \texttt{HasType}. Its input is not just a term but
+a typing derivation in a context with a displayed type. The dependent-codomain
+cases record information that closedness cannot see. Reducing an argument can
+change the codomain read through that argument. Reducing a displayed binder
+domain can change the type annotation that a typing derivation depends on.
+Contracting a beta redex requires the body type and codomain to be transported
+through substitution.
+
+Therefore the closure layer is unconditional, while the subject-reduction
+layer remains conditional at the interface named in
+\autoref{ch:metacic-subject-reduction-obstruction}. The two statements do not
+compete. They live over different classifiers.
+
+\section{Role within MetaCIC}
+\label{sec:metacic-closure-preservation-audit-map-role}
+
+ClosurePreservation supplies the closed-term invariant used around subject
+reduction, confluence, normalization, beta conversion, and closed consistency.
+It says that the syntax operations used by beta reduction do not escape the
+closed slice once their inputs are closed at the required boundary.
+
+For subject-reduction routes, this removes one possible source of failure. A
+typed proof term that is already closed does not become open merely because a
+beta step or a finite beta path is taken. The remaining obstruction is not
+free-variable escape. It is the dependent typing transport described by the
+subject-reduction map.
+
+For confluence and normalization routes, the same invariant lets the paper
+keep closed-term hypotheses stable while it discusses common reducts, normal
+forms, and beta-strong fragments. A finite beta path may be followed without
+rechecking the closedness boundary from scratch at each endpoint.
+
+\section{Connection to GeneratorClosureClassifier}
+\label{sec:metacic-closure-preservation-audit-map-generator-classifier}
+
+The substitution and shift theorems instantiate the generator-closure reading
+of \autoref{def:certificate-closure-generator-closure-classifier}. A generator
+is authorized only relative to a classifier, and its closure field records
+that admitted inputs remain inside the classifier after the generator acts.
+
+For MetaCIC closedness, the relevant classifier is \texttt{ClosedAt}. The
+concrete generator witnesses are
+\texttt{closed\_under\_shift\_classifier} and
+\texttt{closed\_under\_substitute\_classifier}. The shift
+and substitution preservation theorems are exactly the local facts that make
+those witnesses meaningful.
+
+Beta preservation then reads as a composed generator story. The beta redex
+case uses substitution, the congruence cases recurse through term
+constructors, and the beta-star theorem applies finite iteration. The
+classifier stays closed under those authorized moves, but the classifier is
+still closedness rather than typing.
+
+\section{Boundary}
+\label{sec:metacic-closure-preservation-audit-map-boundary}
+
+This chapter records the closure state of
+\texttt{BEDC.MetaCIC.ClosurePreservation}. It may be used to cite the five
+checked preservation theorems named above and the concrete
+GeneratorClosureClassifier witnesses for shift and substitution.
+
+It does not claim that closure preservation implies typing preservation. It
+does not claim that \texttt{betaStarStep\_preserves\_closed} implies typed
+subject reduction for closed terms. It does not supply a conversion rule for
+typing or a discharge of the dependent-codomain, binder-domain, or beta
+substitution obligations isolated in
+\autoref{ch:metacic-subject-reduction-obstruction}.
+
+\concretizedIn{ch:concrete-instances-closurepreservationauditwitness-namecert}{Closure-preservation audit witnesses are realized as finite BEDC NameCert packets for the MetaCIC ClosedAt theorem chain.}
+\concretizedIn{ch:concrete-instances-metacicclosurepreservationaudit-namecert}{Closure preservation is realized as a finite audit packet for closedness-preserving shift, substitution, beta-step, and beta-star routes.}
+\concretizedIn{ch:concrete-instances-closurepreservationaudittrace-namecert}{The concrete audit trace records the closedness-preservation theorem chain as a finite NameCert packet.}
+\concretizedIn{ch:concrete-instances-closurepreservationtrace-namecert}{ClosurePreservation traces realize the unconditional ClosedAt-preservation chain as finite BHist, hsame, Cont, Pkg, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-metacicclosuretrace-namecert}{MetaCIC closure-preservation audit traces are realized as finite BHist, generator-closure, kernel-acceptance, hsame, Cont, Pkg, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-metacicclosurepreservation-namecert}{Finite NameCert packet for the ClosurePreservation theorem chain.}
+\concretizedIn{ch:concrete-instances-closedbetapath-namecert}{The closed beta path packet realizes the closure-preservation audit map as a finite NameCert route object.}
+\concretizedIn{ch:concrete-instances-closure-preservation-audit-seal-namecert}{Closure-preservation theorem rows are realized as a finite NameCert audit seal for shift, substitution, beta-step, and beta-star closedness routes.}
+\concretizedIn{ch:concrete-instances-closure-preservation-classifier-namecert}{Closure-preservation classifier packets realize the MetaCIC ClosedAt generator-closure audit as a concrete NameCert surface.}
+\concretizedIn{ch:concrete-instances-metacic-closure-preservation-audit-namecert}{finite ClosurePreservation audit packet}
+\concretizedIn{ch:concrete-instances-closure-preservation-audit-packet-namecert}{ClosurePreservation is realized as a finite audit packet over shift, substitution, beta-step, beta-star, closedness, transport, route, provenance, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-dependent-codomain-closure-preservation-namecert}{The dependent-codomain closure-preservation packet records the finite transport boundary consumed by subject-reduction routes.}
+\concretizedIn{ch:concrete-instances-closurepreservationrouteledger-namecert}{Closure-preservation route ledgers realize the MetaCIC closedness-preservation chain as finite BHist, hsame, Cont, Pkg, and NameCert rows.}

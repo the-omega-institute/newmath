@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\SubstitutionAuditMapUp$}
+\label{ch:concrete-instances-substitutionauditmap-namecert}
+\origin{ai}
+
+The $\SubstitutionAuditMapUp$ packet realizes the MetaCIC substitution audit map of \autoref{ch:metacic-substitution-audit-map} as finite NameCert data. It sits beside the closed-substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert} and the closed-term substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}: those siblings name the inert boundary rows, while this packet records the audit map through which later closed-normal and subject-reduction consumers inspect those rows without acquiring an unrestricted substitution calculus.
+
+\begin{definition}[Substitution audit map carrier]
+\label{def:substitution-audit-map-carrier}
+A $\SubstitutionAuditMapUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,C,R,S,K,G,H,Q,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the displayed MetaCIC $\mathsf{Term}$ row being audited;
+\item $C$ is the $\mathsf{ClosedAt}$ boundary row attached to $T$;
+\item $R$ is the shift row recording the closed-boundary read of $\mathsf{shift}$;
+\item $S$ is the substitute row recording the closed-boundary read of $\mathsf{substitute}$;
+\item $K$ is the closed-composition row for the available closed substitution compositions;
+\item $G$ is the generator-closure classifier row for the shift and substitution reads;
+\item $H$ records componentwise $\hsame$ transports for term, closedness, shift, substitution, composition, classifier, continuation, provenance, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes through which consumers inspect the audit rows;
+\item $P$ is the $\Pkg$ provenance over $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, the closed-composition rows, the generator-closure classifier rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SubstitutionAuditMapUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are the closed substitution audit rows listed above. It exports no beta-substitution preservation theorem, no closed subject-reduction theorem, no unclosed substitution commutation theorem, no quotient equality, and no host semantic equality coordinate.
+\end{definition}
+\leanchecked{BEDC.Derived.SubstitutionAuditMapUp.SubstitutionAuditMapTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Substitution audit map NameCert obligations]
+\label{thm:substitution-audit-map-namecert-obligations}
+The carrier of \autoref{def:substitution-audit-map-carrier} satisfies the local $\NameCert_{\SubstitutionAuditMapUp}$ obligation surface. Its obligations are carrier admission for $A=(T,C,R,S,K,G,H,Q,P,N)$, term and $\mathsf{ClosedAt}$ readback through $T,C$, shift readback through $R$, substitution readback through $S$, closed-composition readback through $K$, generator-closure classification through $G$, componentwise transport through $H$, displayed continuation through $Q$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite $\BHist$ packet. Projecting $T$ and $C$ exposes the audited MetaCIC term together with its closed-boundary row, matching the boundary surface described in \autoref{ch:metacic-substitution-audit-map}.
+
+Project $R,S,K,G$ next. These rows record the checked closed shift, closed substitution, closed-composition, and generator-closure classifier surfaces used by \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}; none of them contains a typed preservation endpoint.
+
+Finally inspect $H,Q,P,N$. The transport, continuation, provenance, and naming rows replay the same finite packet for consumers. Since every obligation is one of the displayed rows and no hidden row is added by transport or provenance, the local NameCert surface is exhausted by the carrier inventory.
+\end{proof}
+
+\begin{theorem}[Substitution audit map boundary non-escape]
+\label{thm:substitution-audit-map-boundary-nonescape}
+For an accepted $\SubstitutionAuditMapUp$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, every consumer read remains inside the displayed $\mathsf{Term}$, $\mathsf{ClosedAt}$, shift, substitute, closed-composition, generator-closure classifier, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. In particular, the packet cannot export an unrestricted substitution calculus, beta-substitution preservation, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Read the carrier by projection. The rows $T,C,R,S,K,G$ expose closed syntactic movement and classifier data only under the displayed closed-boundary hypotheses.
+
+The remaining rows $H,Q,P,N$ transport, route, locate, and name that same packet. They preserve the audit surface but do not add a coordinate for beta substitution preservation or subject reduction.
+
+Therefore any consumer of the accepted packet can cite only the closed substitution audit rows and their displayed routes. The non-escape exclusions are exactly the missing coordinates recorded in the carrier definition.
+\end{proof}
+
+\closureat{SubstitutionAuditMapUp}{seedStr}
+
+\begin{closurestatus}{\SubstitutionAuditMapUp}
+  \constructivestory{A $\SubstitutionAuditMapUp$ packet is generated from a MetaCIC term row, a ClosedAt boundary, closed shift and substitution rows, closed-composition rows, generator-closure classifier rows, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, and \autoref{thm:substitution-audit-map-boundary-nonescape} bind the closed substitution audit map and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close unrestricted substitution, beta-substitution preservation, closed subject reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed movement readback, closed-composition readback, classifier readback, transport, continuation, provenance, naming, and boundary non-escape for the same finite packet.}
+\end{closurestatus}

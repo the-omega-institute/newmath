@@ -87,6 +87,54 @@ limit, host real equality row, choice datum, or ambient completeness principle
 is present, no classifier transport or seal consumer can export one.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit triangle selector alignment]
+\label{thm:diagonal-limit-compatibility-triangle-selector-alignment}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the triangle-bound row $T$ consumes exactly the selected window family $W$ and dyadic tolerance ledger $D$ named by the $\RealCompletenessUp$ diagonal packet $R$. It has no second selector, no alternate dyadic ledger, and no hidden readback route outside the displayed compatibility carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-limit-compatibility-carrier}. The rows $R,T,D,W$ are displayed before the seal route or readback rows are inspected.
+
+Use the NameCert obligations of \autoref{thm:diagonal-limit-compatibility-namecert-obligations}. The triangle-bound and selector-alignment clause forces $T$ to read the same selected windows and the same dyadic ledger named by $R,W,D$.
+
+The non-escape theorem \autoref{thm:diagonal-limit-compatibility-non-escape} excludes any additional selector or ledger coordinate. Hence the triangle selector surface is exactly $W,D$ over the diagonal packet $R$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit seal route compatibility]
+\label{thm:diagonal-limit-compatibility-seal-route-compatibility}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the $\CauchyLimitSealUp$ route $S$ reaches the $\RegSeqRatUp$ readback row $Q$ and the $\RealUp$ seal class $L$ only through the displayed rows $R,T,D,W$. The seal route cannot bypass the diagonal packet, triangle estimate, dyadic ledger, or selected window family.
+\end{theorem}
+\begin{proof}
+Start from the compatibility carrier and project the route rows $R,T,S,D,W,Q,L$.
+
+Apply the NameCert obligation theorem. Its seal-route compatibility clause places the read of $Q$ and $L$ after the diagonal-limit packet, triangle estimate, dyadic ledger, and windows have been fixed.
+
+Now use \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the packet exports only the displayed coordinates, $S$ has no continuation route to $Q$ or $L$ except through $R,T,D,W$ and the continuation rows already recorded in $C$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility classifier transport]
+\label{thm:diagonal-limit-compatibility-classifier-transport}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+componentwise $\hsame$ rows $H$ and displayed $\Cont$ routes $C$ preserve the same compatibility classifier for the diagonal packet, triangle-bound row, seal route, dyadic ledger, selected windows, readback row, and real seal class. Transport cannot change the classifier by adding quotient streams, selected host limits, host real equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project $H$ and $C$ from the carrier. They are the only rows that move displayed coordinates between classifier presentations.
+
+Apply \autoref{thm:diagonal-limit-compatibility-namecert-obligations}. Its classifier-transport clause states that transport is componentwise over the rows $R,T,S,D,W,Q,L$ and their displayed continuation routes.
+
+The non-escape theorem then fixes the transport boundary. Because no extra quotient, host-limit, equality, choice, or completeness coordinate is exported, the transported packet remains on the same $\DiagonalLimitCompatibilityUp$ classifier surface.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility non-escape]
 \label{thm:diagonal-limit-compatibility-non-escape}
 An accepted $\DiagonalLimitCompatibilityUp$ packet exports only the rows
@@ -117,6 +165,38 @@ The only consumer-facing paths are the continuations in $C$, transported
 componentwise by $H$. None of those paths has an input coordinate for quotient
 streams, selected host limits, host real equality, choice data, or ambient
 completeness, so none of those objects can be exported from the packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit tolerance ledger handoff]
+\label{thm:diagonal-limit-compatibility-tolerance-ledger-handoff}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every tolerance-facing read that reaches the seal route first uses the same $\DyadicRatCoreUp$ ledger $D$ and $\StreamNameUp$ window family $W$ named by the diagonal packet $R$ and triangle row $T$. No downstream tolerance consumer can replace $D$ or $W$ with an alternate ledger or window family after entering the $\CauchyLimitSealUp$ route.
+\end{theorem}
+\begin{proof}
+Project the carrier $K$. The rows $R,T,D,W$ are displayed before the seal route $S$ can be read.
+
+Apply \autoref{thm:diagonal-limit-compatibility-triangle-selector-alignment}. It identifies the triangle row $T$ with the same selected window family $W$ and dyadic tolerance ledger $D$ already named by the diagonal packet $R$.
+
+Finally use non-escape, \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the packet contains no alternate tolerance ledger or second window family, every read that reaches $S$ keeps the displayed $D,W$ handoff.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit seal consumer factorization]
+\label{thm:diagonal-limit-compatibility-seal-consumer-factorization}
+Every downstream $\CauchyLimitSealUp$ or $\RealUp$ read of an accepted $\DiagonalLimitCompatibilityUp$ packet factors through
+$$
+R,T,D,W,Q,L,H,C,P,N
+$$
+and cannot bypass the triangle, tolerance, or window rows. The seal consumer may read $Q$ and $L$ only after the packet has exposed the diagonal route $R$, the triangle row $T$, the dyadic ledger $D$, and the window family $W$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. It places every seal-route read of $Q$ and $L$ behind the displayed rows $R,T,D,W$.
+
+Use classifier transport, \autoref{thm:diagonal-limit-compatibility-classifier-transport}. The componentwise transports $H$ and continuation routes $C$ preserve the same compatibility classifier and do not add another seal-consumer path.
+
+Apply non-escape, \autoref{thm:diagonal-limit-compatibility-non-escape}. The exported surface is exhausted by the listed rows and their provenance, so no $\CauchyLimitSealUp$ or $\RealUp$ consumer can bypass the triangle, tolerance, or window coordinates.
 \end{proof}
 
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}

@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\DependentCodomainClosurePreservationUp$}
+\label{ch:concrete-instances-dependent-codomain-closure-preservation-namecert}
+\origin{human}
+
+The $\DependentCodomainClosurePreservationUp$ packet turns the closure-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} into a finite codomain-transport surface for subject-reduction routes. It sits beside the dependent-codomain inversion boundary of \autoref{ch:concrete-instances-dependentcodomaininversionboundary-namecert}: the sibling boundary names the point where codomain readback cannot be crossed for free, while this packet records exactly which closedness-preservation rows may be transported before that boundary is consumed.
+
+\begin{definition}[Dependent-codomain closure-preservation carrier]
+\label{def:dependent-codomain-closure-preservation-carrier}
+A $\DependentCodomainClosurePreservationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(\Pi,A,a,a',C_0,C_1,Z,S,I,T,L,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Pi$ is the dependent function-type row whose codomain is observed along the subject-reduction route;
+\item $A$ is the displayed domain row shared by the argument and the function type;
+\item $a$ and $a'$ are the source and reduced argument rows;
+\item $C_0$ and $C_1$ are the two codomain readback rows exposed by substituting $a$ and $a'$ into the same displayed codomain;
+\item $Z$ is the beta-star closedness row corresponding to $\mathsf{betaStarStep\_preserves\_closed}$;
+\item $S$ is the substitution closedness row corresponding to $\mathsf{substitute\_preserves\_closed\_at}$;
+\item $I$ is the sibling inversion-boundary row supplied by \autoref{ch:concrete-instances-dependentcodomaininversionboundary-namecert};
+\item $T$ is the finite transport row that carries closedness from the source codomain readback to the reduced codomain readback;
+\item $L$ is the ledger row recording that the transport is a closedness route and not a typing-preservation route;
+\item $H$ records componentwise $\hsame$ transport for the function type, domain, arguments, codomain readbacks, closure rows, inversion-boundary row, transport row, ledger row, provenance row, and local name;
+\item $R$ records displayed $\Cont$ replay routes for beta-star closedness, substitution closedness, sibling-boundary consumption, and the codomain transport read;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-closure-preservation-audit-map}, \autoref{ch:concrete-instances-dependentcodomaininversionboundary-namecert}, and the subject-reduction route surfaces that consume finite codomain transport;
+\item $N$ is the local $\NameCert_{\DependentCodomainClosurePreservationUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for dependent-codomain inversion, no proof that $C_0$ and $C_1$ have the same type, no closed subject-reduction theorem, no host conversion principle, and no quotient equality over beta-star routes.
+\end{definition}
+
+\begin{theorem}[Dependent-codomain closure-preservation obligations]
+\label{thm:dependent-codomain-closure-preservation-obligations}
+For the carrier of \autoref{def:dependent-codomain-closure-preservation-carrier}, the local $\NameCert_{\DependentCodomainClosurePreservationUp}$ surface consists exactly of carrier admission for
+$$
+K=(\Pi,A,a,a',C_0,C_1,Z,S,I,T,L,H,R,P,N),
+$$
+visibility of the dependent type, domain, source and reduced argument rows, paired codomain readbacks, beta-star closedness through $Z$, substitution closedness through $S$, sibling inversion-boundary access through $I$, finite codomain transport through $T$, closedness-only ledger exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $R$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet. The rows $\Pi,A,a,a',C_0,C_1$ give the complete codomain-readback surface before any closure route is read.
+
+Read the checked closedness rows next. The beta-star row $Z$ and substitution row $S$ are the only positive preservation rows, and both are closedness rows cited from \autoref{ch:metacic-closure-preservation-audit-map}.
+
+Now consume the sibling boundary row $I$ and the transport row $T$. They identify the finite point where dependent-codomain transport may be requested without turning the request into dependent-codomain inversion.
+
+Finally inspect $L,H,R,P,N$. The ledger, transport, replay, provenance, and local naming rows preserve only the displayed coordinates, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dependent-codomain closure-preservation non-escape]
+\label{thm:dependent-codomain-closure-preservation-nonescape}
+Every public read of an accepted $\DependentCodomainClosurePreservationUp$ packet remains inside
+$$
+\Pi,A,a,a',C_0,C_1,Z,S,I,T,L,H,R,P,N.
+$$
+In particular, the packet exports no dependent-codomain inversion theorem, no typing preservation for dependent application, no context-reduction theorem, no host conversion rule, no closed subject-reduction theorem, and no quotient equality over beta-star routes.
+\end{theorem}
+\begin{proof}
+The only theorem rows in the carrier are $Z$ and $S$, and both are closedness-preservation rows. A consumer can reach them only through the displayed replay row $R$ and the componentwise transport row $H$.
+
+The inversion-boundary row $I$ is consumed as a boundary, not as a discharge. It records where the subject-reduction route must still account for dependent-codomain readback, so it cannot supply typing preservation or context reduction.
+
+The ledger row $L$ marks the same restriction at the consumer boundary. Since no omitted coordinate is available through $P$ or $N$, every public read remains in the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Dependent-codomain closure-preservation transport]
+\label{thm:dependent-codomain-closure-preservation-transport}
+Let $K$ be an accepted $\DependentCodomainClosurePreservationUp$ carrier. Any subject-reduction route that transports codomain closedness through the dependent argument step must read beta-star closedness through $Z$, substitution closedness through $S$, the sibling inversion-boundary row through $I$, and the finite transport row through $T$ before exposing the transported codomain-readback surface. The route may then hand the transported closedness row to downstream subject-reduction consumers, but only as closedness data over $C_0$ and $C_1$.
+\end{theorem}
+\begin{proof}
+Begin with a subject-reduction consumer requesting codomain transport. Carrier projection exposes both codomain readbacks $C_0$ and $C_1$ together with the argument rows that generated them.
+
+Use the beta-star and substitution rows from the closure-preservation audit map. These rows authorize closedness movement along the displayed beta-star and substitution routes, so the requested transport has a finite source.
+
+Next read the inversion-boundary row. The sibling boundary states that codomain readback itself is the remaining dependent-codomain obligation, so the transport row $T$ can move closedness across the displayed readbacks without proving their typing equality.
+
+The route is then replayed through $R$ and transported through $H$. Provenance and local naming keep the result attached to the same finite carrier, so downstream consumers receive only the transported closedness row.
+\end{proof}
+
+\begin{theorem}[Dependent-codomain closure-preservation ledger]
+\label{thm:dependent-codomain-closure-preservation-ledger}
+For every accepted $\DependentCodomainClosurePreservationUp$ carrier, the ledger consumed by a subject-reduction route is exactly the closedness-only row $L$ attached to $Z,S,I,T$ and the paired codomain readbacks $C_0,C_1$. No alternate ledger records typed conversion, dependent-codomain inversion, quotient equality, ambient normalization, confluence, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Inspect the consumer route. It first reaches the paired codomain readbacks, then the beta-star and substitution closedness rows, then the sibling boundary and transport rows.
+
+The ledger row $L$ records precisely that route. It states that $T$ is a closedness transport over the displayed codomain-readback pair and that $I$ remains a boundary for the stronger dependent-codomain claim.
+
+The non-escape theorem rules out every other consumer coordinate. Thus the ledger exposed by the packet is exactly the finite closedness-only row $L$.
+\end{proof}
+
+\closureat{DependentCodomainClosurePreservationUp}{seedStr}
+
+\begin{closurestatus}{\DependentCodomainClosurePreservationUp}
+  \constructivestory{A $\DependentCodomainClosurePreservationUp$ packet is generated from dependent function-type, domain, argument, paired codomain-readback, beta-star closedness, substitution closedness, sibling inversion-boundary, finite transport, closedness ledger, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dependent-codomain-closure-preservation-carrier}, \autoref{thm:dependent-codomain-closure-preservation-obligations}, \autoref{thm:dependent-codomain-closure-preservation-nonescape}, \autoref{thm:dependent-codomain-closure-preservation-transport}, and \autoref{thm:dependent-codomain-closure-preservation-ledger} bind the finite closedness transport surface for dependent-codomain subject-reduction routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove dependent-codomain inversion, typed subject reduction, context reduction, quotient equality over beta-star routes, Lean verification of the packet, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, beta-star and substitution row coverage, sibling-boundary consumption, finite transport exactness, ledger non-escape, provenance, and local naming for the same packet.}
+\end{closurestatus}

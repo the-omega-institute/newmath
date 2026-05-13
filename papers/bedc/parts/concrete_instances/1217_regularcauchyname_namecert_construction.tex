@@ -6,6 +6,8 @@ The $\RegularCauchyNameUp$ interface packages the shared boundary between $\Dyad
 
 Its dependency list is $\DyadicRatCore$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$, and $\RatUp$.
 
+The finite-window schedule is consumed through \autoref{ch:concrete-instances-streamname-namecert}, while the dyadic-radius observation ledger is consumed through \autoref{ch:concrete-instances-dyadicratcore-namecert}. These sibling routes are the only entry points by which the carrier exposes scheduled readback and rational-radius evidence before the $\RegSeqRatUp$ and $\RealUp$ consumers can read the packet.
+
 \begin{definition}[RegularCauchyName NameCert source]
 \label{def:regularcauchyname-namecert-source}
 A $\RegularCauchyNameUp$ source packet is a finite $\mathsf{BHist}$ row
@@ -432,6 +434,7 @@ For family and completion consumers, apply \autoref{thm:regularcauchyname-bridge
 \label{thm:regularcauchyname-common-window-refinement}
 Let $G=(S,Q,\rho,L,E,P,N)$ and $G'=(S',Q',\rho',L',E',P',N')$ be two completion-facing reads of an accepted $\RegularCauchyNameUp$ packet through one displayed $\StreamNameUp$ window. If the reads share that common window, then they refine to the same displayed $\DyadicRatCoreUp$ observation, dyadic-radius row, pointwise $\RegSeqRatUp$ classifier, $\BHist$ ledger, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and $\NameCert$ route. The refinement contains no quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyNameUp.RegularCauchyNameCarrier\_common\_window\_refinement}
 \begin{proof}
 First put both reads into the common transport surface. The common-window transport triad of \autoref{thm:regularcauchyname-common-window-transport-triad} identifies the shared $\StreamNameUp$ window as the only window through which the $\DyadicRatCoreUp$ observation row and pointwise $\RegSeqRatUp$ classifier may be read.
 
@@ -444,6 +447,7 @@ Finally use the public export and consumer coverage rows. The public seal export
 \label{thm:regularcauchyname-synchronized-precision-pullback}
 Let $G=(S,Q,\rho,L,E,P,N)$ be an accepted $\RegularCauchyNameUp$ packet, and let $p$ and $p'$ be two displayed consumer precision requests. Suppose the $\StreamNameUp$ schedule admits one common finite refinement window $W$ for both requests, and suppose both requests route through the $\CauchyRateUp$ schedule and tail-bound surface before any regular rational readback is consumed. Then the normalized readback packets for $p$ and $p'$ factor through the same window $W$, the same transported $\DyadicRatCoreUp$ observation row, the same dyadic-radius row, the same pointwise $\RegSeqRatUp$ classifier row, and the same $\RealUp$ seal ledger. No quotient stream, host sequence equality, selected limit, or ambient completeness datum participates in this pullback.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyNameUp.RegularCauchyNameCarrier\_synchronized\_precision\_pullback}
 \begin{proof}
 Apply the common-window refinement theorem \autoref{thm:regularcauchyname-common-window-refinement} to align the two precision reads inside the displayed $\StreamNameUp$ window. This identifies the transported dyadic observation, radius, classifier, ledger, transport, continuation, package, and naming rows as one finite comparison surface.
 

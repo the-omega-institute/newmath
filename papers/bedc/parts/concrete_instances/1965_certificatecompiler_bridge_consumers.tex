@@ -28,6 +28,7 @@ The identity ledger, composition stability, and triple-composite associativity p
 \label{thm:certificate-compiler-bridge-consumer-exhaustion}
 Every schema-bridge consumer of a public $\CertificateCompilerUp$ packet factors through the already displayed source certificate, target certificate, graph edge, landing row, route row, classifier-transport row, provenance row, and local naming row. The consumer can compose, reassociate, and replay certificate-compiler edges only by the identity, binary-composite, and triple-composite ledgers already present in the chapter.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_bridge\_consumer\_exhaustion}
 \begin{proof}
 Begin with the public consumer boundary \autoref{thm:certificate-compiler-public-consumer-boundary}. It already restricts downstream reads to graph landing, classifier transport, continuation, provenance, and local naming over the source and target certificates.
 
@@ -40,6 +41,7 @@ Finally apply the identity ledger, composition stability, and triple-composite a
 \label{thm:certificate-compiler-bridge-associativity-split-index}
 The bridge handoff of \autoref{thm:certificate-compiler-bridge-schema-handoff}, the bridge-row non-escape boundary of \autoref{thm:certificate-compiler-bridge-rows-nonescape}, and the bridge consumer exhaustion row of \autoref{thm:certificate-compiler-bridge-consumer-exhaustion} all read the same identity, binary-composite, and triple-composite ledger for $\CertificateCompilerUp$ packets. A schema bridge therefore consumes one finite ledger surface rather than three unrelated compiler interfaces.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_bridge\_associativity\_split\_index}
 \begin{proof}
 First read the identity ledger. \autoref{thm:certificate-compiler-identity-ledger} gives the diagonal compiler packet over the same displayed source, target, graph, landing, classifier transport, continuation, provenance, and naming rows consumed by the bridge handoff.
 
