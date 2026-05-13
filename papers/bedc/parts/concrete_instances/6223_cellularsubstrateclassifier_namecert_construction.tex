@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CellularSubstrateClassifierUp$}
+\label{ch:concrete-instances-cellularsubstrateclassifier-namecert}
+\origin{ai}
+
+The $\CellularSubstrateClassifierUp$ packet realizes the classifier-facing half of the carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative}. It sits after the rule-table row of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the trust-substrate audit row of \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}, the finite orbit-window row of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, and the BHist carrier packet of \autoref{ch:concrete-instances-cellularsubstrate-namecert}. Its role is not to replace the BHist kernel; it certifies the finite comparison by which a BHist row, a bit-row encoding, and a cellular orbit window are read as the same accepted carrier observation.
+
+\falsifiablePrediction{Any accepted $\CellularSubstrateClassifierUp$ carrier comparison must expose the displayed BHist row, bit-row encoding, orbit-window row, classifier row, transport row, route row, provenance row, and local NameCert row. A packet omitting any one of these rows is not an accepted classifier comparison.}
+
+\independenceWitness{cellularautomaton, cellulartrustsubstrate, cellularorbitsubstrate, interhistlocalityledger, observerhistidentity: the classifier packet is not bijective to any listed sibling because it simultaneously stores the BHist source row, the bit-row encoding, the cellular orbit window, and the comparison classifier surface, while each sibling omits at least one of those rows.}
+
+\begin{definition}[Cellular substrate classifier carrier]
+\label{def:cellular-substrate-classifier-carrier}
+A $\CellularSubstrateClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,E,O,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the BHist source row, naming the finite BEDC carrier observation being compared.
+\item $E$ is the bit-row encoding of $B$, including the empty-row convention and the constructor-to-bit direction used by the comparison.
+\item $O$ is the finite cellular orbit-window row whose initial displayed cells read back the encoded bit row.
+\item $F$ is the classifier row that admits the comparison between $B$, $E$, and $O$.
+\item $H$ records componentwise $\hsame$ transport for the BHist source, bit-row encoding, orbit-window row, classifier row, provenance row, and local naming row.
+\item $C$ records the $\Cont$ route from the BHist row through bit-row encoding, orbit-window readback, and classifier admission.
+\item $P$ is the $\Pkg$ provenance over $\CellularSubstrateClassifierUp$, $\CellularSubstrateUp$, $\CellularAutomatonUp$, $\CellularTrustSubstrateUp$, $\CellularOrbitSubstrateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the originating carrier-alternative vision.
+\item $N$ is the local $\NameCert_{\CellularSubstrateClassifierUp}$ row for carrier admission, classifier accountability, BHist-orbit compatibility, exactness, provenance, and non-escape.
+\end{enumerate}
+The classifier compares accepted carrier observations only through these displayed rows. It has no coordinate for host equality between cellular histories, an infinite orbit, a hidden cellular evaluator, a detached bit-string quotient, or a carrier switch outside the finite NameCert packet.
+\end{definition}
+
+\begin{definition}[Cellular substrate classifier obligation surface]
+\label{def:cellular-substrate-classifier-obligation-surface}
+The local obligation surface of $\CellularSubstrateClassifierUp$ consists of eight rows: carrier exposure for $K=(B,E,O,F,H,C,P,N)$, BHist source visibility, bit-row encoding visibility, orbit-window visibility, classifier accountability, componentwise transport through $H$, continuation replay through $C$, and public naming through $P,N$.
+
+An accepted consumer may cite the BHist-to-cellular carrier comparison only after these eight rows are present. The surface therefore binds the cellular carrier alternative to finite NameCert evidence rather than to a host-side assertion that the two carriers are interchangeable.
+\end{definition}
+
+\begin{theorem}[Cellular substrate classifier NameCert boundary]
+\label{thm:cellular-substrate-classifier-namecert-boundary}
+For the carrier of \autoref{def:cellular-substrate-classifier-carrier}, the local $\NameCert_{\CellularSubstrateClassifierUp}$ boundary is exactly the obligation surface of \autoref{def:cellular-substrate-classifier-obligation-surface}. In particular, a public carrier-comparison read is accepted only when it displays the BHist row, bit-row encoding, orbit-window row, classifier row, transport row, route row, provenance row, and local naming row.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cellular-substrate-classifier-carrier}. The tuple displays $B,E,O,F,H,C,P,N$ as its only coordinates.
+
+The source, encoding, orbit, and classifier obligations are the first four analytic rows of \autoref{def:cellular-substrate-classifier-obligation-surface}. The transport and route obligations are supplied by $H$ and $C$, and public naming is supplied by $P,N$.
+
+No other coordinate is available to the packet. Thus the local NameCert boundary is exactly the displayed obligation surface, and every accepted public comparison read passes through those eight rows.
+\end{proof}
+
+\begin{theorem}[Cellular substrate classifier BHist-orbit compatibility]
+\label{thm:cellular-substrate-classifier-bhist-orbit-compatibility}
+If two accepted $\CellularSubstrateClassifierUp$ packets have $\hsame$ BHist source rows and $\hsame$ bit-row encodings, then their accepted orbit-window comparisons agree at every displayed classifier read. Equivalently, the classifier cannot expose two distinct cellular carrier reads for the same transported BHist source and bit-row encoding.
+\end{theorem}
+\begin{proof}
+Project both packets to their BHist source, bit-row encoding, orbit-window, and classifier rows. The $\hsame$ hypotheses identify the two source rows and the two bit-row rows componentwise.
+
+Use the continuation route in each packet to replay the comparison from $B$ through $E$ into the displayed orbit window $O$. The classifier row $F$ is permitted to read only those displayed source, encoding, and orbit-window coordinates.
+
+A second accepted cellular carrier read for the same transported $B$ and $E$ would require either a different orbit-window coordinate or a hidden classifier coordinate. Neither belongs to the carrier of \autoref{def:cellular-substrate-classifier-carrier}, so the displayed classifier read is compatible with the transported BHist source.
+\end{proof}
+
+\begin{theorem}[Cellular substrate classifier non-escape]
+\label{thm:cellular-substrate-classifier-nonescape}
+Every accepted $\CellularSubstrateClassifierUp$ carrier comparison factors through the finite route
+$$
+B \longmapsto E \longmapsto O \longmapsto F \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+The route exports no infinite orbit, host cellular-history equality, hidden evaluator, detached bit-string quotient, or carrier replacement outside the local NameCert row.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier comparison. By \autoref{thm:cellular-substrate-classifier-namecert-boundary}, the comparison must display the BHist source row, bit-row encoding, orbit-window row, classifier row, transport row, route row, provenance row, and local naming row.
+
+The factorization route is exactly the order in which those rows are consumed. The BHist row is encoded as a bit row, the bit row is read through the finite orbit window, the classifier admits the comparison, and the transport, continuation, provenance, and local NameCert rows package the public read.
+
+The carrier has no field for an infinite orbit, host cellular-history equality, hidden evaluator, detached quotient, or external carrier replacement. Therefore every accepted comparison remains inside the finite classifier packet.
+\end{proof}
+
+The later Lean namespace \texttt{BEDC.Derived.CellularSubstrateClassifierUp.TasteGate} must provide \texttt{Nontrivial CellularSubstrateClassifierUp} and \texttt{FieldFaithful CellularSubstrateClassifierUp} instances for the displayed classifier carrier.
