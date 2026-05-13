@@ -67,6 +67,58 @@ Use the dyadic ledger $Q$ to justify the half-radius comparisons attached to tho
 The package and naming rows $P,N$ expose exactly that finite packet. Because the carrier has no coordinate for an external modulus, a host-selected limit, or quotient equality, the handoff to the $\RealUp$ diagonal consumer is precisely the displayed budget-sound modulus row.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus-extraction transport stability]
+\label{thm:cauchy-modulus-extraction-transport-stability}
+For an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+any componentwise $\hsame$ transport of $E,B,W,S,\mathsf{Mu},Q,H,C,P,N$ preserves the extracted modulus row $\mathsf{Mu}$ and preserves the finite budget source $B$ from which that row is read. The transported packet exports the same tolerance request, finite observation budget, StreamName windows, RegSeqRat schedule, dyadic comparison ledger, continuation routes, package provenance, and local naming row, and it exports no host-selected convergence modulus.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed tuple. The row $H$ records componentwise transport for the tolerance request, budget, windows, schedule row, modulus row, dyadic ledger, provenance, and local name.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecert-obligations}. Carrier admission fixes the tuple, budget exposure fixes $B$ as the finite source for the tolerance request, schedule extraction fixes $W,S$ before $\mathsf{Mu}$ is exported, and ledger exactness routes all transport through $H,C,P,N$.
+
+Finally use budget soundness from \autoref{thm:cauchy-modulus-extraction-budget-soundness}. The Real-completion handoff receives $\mathsf{Mu}$ only as the threshold justified by the displayed budget and schedule rows, so componentwise transport preserves both the modulus row and its finite budget source.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus-extraction real diagonal handoff]
+\label{thm:cauchy-modulus-extraction-real-diagonal-handoff}
+Any $\RealUp$ diagonal or completion consumer of an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N)
+$$
+may read the extracted modulus row $\mathsf{Mu}$ only after the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ schedule $S$, the $\DyadicRatCoreUp$ comparison ledger $Q$, and the finite budget row $B$ have been displayed through the same local packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows available before the modulus handoff are the tolerance request $E$, finite budget $B$, window family $W$, schedule row $S$, and dyadic ledger $Q$.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecert-obligations}. Budget exposure places $B$ before any window read, schedule extraction places $W,S$ before the export of $\mathsf{Mu}$, and dyadic soundness places $Q$ as the comparison ledger attached to the threshold.
+
+Use budget soundness from \autoref{thm:cauchy-modulus-extraction-budget-soundness}. Since the handoff to the diagonal consumer is precisely the displayed budget-sound modulus row, any $\RealUp$ completion route reads $\mathsf{Mu}$ only after the windows, schedule, dyadic comparison ledger, and finite budget rows have appeared.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus-extraction ledger exactness]
+\label{thm:cauchy-modulus-extraction-ledger-exactness}
+For an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+the ledger is exact for the route from tolerance request to finite budget, StreamName windows, RegSeqRat schedule, extracted modulus, dyadic comparison ledger, and local NameCert:
+$$
+E,B,W,S,\mathsf{Mu},Q,H,C,P,N.
+$$
+It excludes quotient stream equality, host real equality, selected limits, trichotomy, ambient completeness, and any modulus selector not displayed by the finite packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the ten displayed rows. The route begins at the tolerance request $E$ and reaches the finite budget $B$, windows $W$, schedule $S$, extracted modulus $\mathsf{Mu}$, dyadic ledger $Q$, transports $H$, routes $C$, provenance $P$, and local name $N$.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecert-obligations}. They bind carrier admission, budget exposure, schedule extraction, dyadic soundness, and transport, continuation, package, and naming reads to the same finite tuple.
+
+Finally use budget soundness from \autoref{thm:cauchy-modulus-extraction-budget-soundness}. The exported modulus is justified by the displayed observation budget and carries no coordinate for quotient stream equality, host real equality, selected limits, trichotomy, ambient completeness, or an outside selector, so the ledger is exact.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus-extraction route exactness]
 \label{thm:cauchy-modulus-extraction-route-exactness}
 For an accepted $\CauchyModulusExtractionUp$ carrier
