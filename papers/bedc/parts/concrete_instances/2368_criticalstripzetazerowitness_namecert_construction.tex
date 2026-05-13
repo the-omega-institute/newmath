@@ -34,6 +34,7 @@ The local $\NameCert_{\CriticalStripZetaZeroWitnessUp}$ surface consists of five
 \item ledger exhaustion: the package and local certificate rows exhaust the dependency surface over $\ComplexUp$, $\CritStripUp$, $\ZetaZerosUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalStripZetaZeroWitnessUp.CriticalStripZetaZeroWitnessPacket\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:critical-strip-zeta-zero-witness-carrier}. The strip row, zero row, critical-line classifier, boundary ledger, transport rows, continuation rows, package row, and local naming row are explicit coordinates of the packet.
 
@@ -105,6 +106,38 @@ Use \autoref{thm:critical-strip-zeta-zero-witness-concretizes-rh}. It identifies
 The shared-source scope theorem fixes how $S$ and $Z$ may be compared, and the line-route determinacy theorem fixes how $L$ and $B$ may be read. Ledger exhaustion then states that no additional analytic or quotient coordinate is exported.
 
 Consequently the RH-facing consumer receives exactly the finite premise packet and its displayed routes. Any proof or refutation of the RH predicate must provide further BEDC rows outside this witness packet.
+\end{proof}
+
+\begin{theorem}[CriticalStripZetaZero RH premise exhaustion]
+\label{thm:critical-strip-zeta-zero-rh-premise-exhaustion}
+Every RH-facing premise consumer of an accepted $\CriticalStripZetaZeroWitnessUp$ packet
+$$
+W=(S,Z,L,B,H,C,P,N)
+$$
+receives exactly the strip row $S$, zeta-zero row $Z$, critical-line row $L$, boundary ledger $B$, displayed transports $H$, continuations $C$, package provenance $P$, and local $\NameCert_{\CriticalStripZetaZeroWitnessUp}$ row $N$. The consumer receives no analytic zero search, quotient zero-set equality, host complex equality, selected representative, or RH proof.
+\end{theorem}
+\begin{proof}
+Start with the accepted witness carrier and apply \autoref{thm:critical-strip-zeta-zero-witness-namecert-obligations}. The RH handoff obligation reads the packet only through the displayed strip, zero, critical-line, boundary, transport, continuation, package, and local naming rows.
+
+The critical-line boundary theorem fixes the route through $L$ and $B$, while \autoref{thm:critical-strip-zeta-zero-witness-ledger-exhaustion} exhausts every exported fact by the same finite coordinate list. The concretizes-RH theorem then identifies those rows as the premise surface for the constructive RH statement.
+
+Finally use \autoref{thm:critical-strip-zeta-zero-shared-source-scope} and \autoref{thm:critical-strip-zeta-zero-rh-input-ledger}. The source comparison between $S$ and $Z$ is only the displayed $\hsame$ and $\Cont$ route, so the RH-facing premise consumer receives exactly $S,Z,L,B,H,C,P,N$ and nothing outside that packet.
+\end{proof}
+
+\begin{theorem}[CriticalStripZetaZero constructive counterexample surface]
+\label{thm:critical-strip-zeta-zero-constructive-counterexample-surface}
+Any constructive counterexample surface for the RH predicate must extend an accepted $\CriticalStripZetaZeroWitnessUp$ packet
+$$
+W=(S,Z,L,B,H,C,P,N)
+$$
+by a displayed failure of the critical-line row $L$. The witness packet alone supplies the finite premise surface, but it never supplies analytic zero search, quotient zero-set equality, host complex equality, a selected complex representative, or an RH proof or refutation.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:critical-strip-zeta-zero-witness-concretizes-rh}. It states that a constructive counterexample pairs the finite premise packet with a displayed failure of the critical-line row, rather than extracting such a failure from the witness packet itself.
+
+The route to the critical-line question is already fixed by \autoref{thm:critical-strip-zeta-zero-witness-critical-line-boundary} and \autoref{thm:critical-strip-zeta-zero-line-route-determinacy}. Thus any failure surface must attach to the displayed row $L$ and its boundary ledger $B$ through the stored $H,C,P,N$ routes.
+
+It remains to exclude hidden analytic data. The ledger exhaustion theorem and \autoref{thm:critical-strip-zeta-zero-rh-premise-exhaustion} leave no coordinate for zero search, quotient zero-set equality, host complex equality, selected representatives, or a proof-level RH decision. Therefore a constructive counterexample surface is precisely the premise packet plus an additional displayed failure of $L$.
 \end{proof}
 
 \closureat{CriticalStripZetaZeroWitnessUp}{seedStr}

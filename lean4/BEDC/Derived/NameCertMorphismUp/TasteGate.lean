@@ -176,6 +176,9 @@ instance nameCertMorphismChapterTasteGate : ChapterTasteGate NameCertMorphismUp 
     intro x y hxy heq
     exact hxy (nameCertMorphismToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate NameCertMorphismUp :=
+  nameCertMorphismChapterTasteGate
+
 theorem NameCertMorphismTasteGate_single_carrier_alignment :
     (∀ h : BHist, nameCertMorphismDecodeBHist (nameCertMorphismEncodeBHist h) = h) ∧
       (∀ x : NameCertMorphismUp,
