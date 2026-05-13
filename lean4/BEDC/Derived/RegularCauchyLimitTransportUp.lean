@@ -25,6 +25,14 @@ def RegularCauchyLimitTransportCarrier [AskSetup] [PackageSetup]
             hsame transportRow (append sourceRow sealRow) ∧ PkgSig bundle provenanceRow pkg ∧
               PkgSig bundle localCertRow pkg
 
+def RegularCauchyLimitTransportClassifier
+    (source window dyadic sealRow transport routes provenance cert
+      source' window' dyadic' sealRow' transport' routes' provenance' cert' : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame
+  hsame source source' ∧ hsame window window' ∧ hsame dyadic dyadic' ∧
+    hsame sealRow sealRow' ∧ hsame transport transport' ∧ hsame routes routes' ∧
+      hsame provenance provenance' ∧ hsame cert cert'
+
 theorem RegularCauchyLimitTransportCarrier_stability [AskSetup] [PackageSetup]
     {sourceRow windowRow dyadicRow sealRow transportRow routeRow provenanceRow localCertRow
       sourceRow' windowRow' dyadicRow' sealRow' routeRow' provenanceRow' : BHist}
@@ -121,5 +129,51 @@ theorem RegularCauchyLimitTransportCarrier_ledger_exactness [AskSetup] [PackageS
     ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, routesUnary, provenanceUnary,
       certUnary, handoffUnary, sourceWindowDyadic, dyadicSealRoutes, routesCertHandoff,
       transportMatchesSeal, provenancePkg, certPkg⟩
+
+theorem RegularCauchyLimitTransportCarrier_classifier_handoff_coverage [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert source' window' dyadic'
+      sealRow' transport' routes' provenance' cert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      RegularCauchyLimitTransportCarrier source' window' dyadic' sealRow' transport' routes'
+        provenance' cert' bundle pkg ->
+        hsame source source' ->
+          hsame window window' ->
+            hsame sealRow sealRow' ->
+              hsame transport transport' ->
+                RegularCauchyLimitTransportClassifier source window dyadic sealRow transport routes
+                    provenance cert source' window' dyadic' sealRow' transport' routes'
+                    provenance' cert' ∧
+                  hsame dyadic dyadic' ∧ hsame routes routes' ∧
+                    hsame provenance provenance' ∧ hsame cert cert' := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro carrier carrier' sameSource sameWindow sameSeal sameTransport
+  obtain ⟨_sourceUnary, _windowUnary, _dyadicUnary, _sealUnary, _transportUnary,
+    _routesUnary, _provenanceUnary, _certUnary, sourceWindowDyadic, dyadicSealRoutes,
+    routesTransportProvenance, provenanceSealCert, _transportMatchesSeal, _provenancePkg,
+    _certPkg⟩ := carrier
+  obtain ⟨_sourceUnary', _windowUnary', _dyadicUnary', _sealUnary', _transportUnary',
+    _routesUnary', _provenanceUnary', _certUnary', sourceWindowDyadic',
+    dyadicSealRoutes', routesTransportProvenance', provenanceSealCert',
+    _transportMatchesSeal', _provenancePkg', _certPkg'⟩ := carrier'
+  have sameDyadic : hsame dyadic dyadic' :=
+    cont_respects_hsame sameSource sameWindow sourceWindowDyadic sourceWindowDyadic'
+  have sameRoutes : hsame routes routes' :=
+    cont_respects_hsame sameDyadic sameSeal dyadicSealRoutes dyadicSealRoutes'
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameRoutes sameTransport routesTransportProvenance
+      routesTransportProvenance'
+  have sameCert : hsame cert cert' :=
+    cont_respects_hsame sameProvenance sameSeal provenanceSealCert provenanceSealCert'
+  have classifier :
+      RegularCauchyLimitTransportClassifier source window dyadic sealRow transport routes
+        provenance cert source' window' dyadic' sealRow' transport' routes' provenance'
+        cert' := by
+    exact
+      ⟨sameSource, sameWindow, sameDyadic, sameSeal, sameTransport, sameRoutes,
+        sameProvenance, sameCert⟩
+  exact ⟨classifier, sameDyadic, sameRoutes, sameProvenance, sameCert⟩
 
 end BEDC.Derived.RegularCauchyLimitTransportUp

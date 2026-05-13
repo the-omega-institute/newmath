@@ -108,6 +108,7 @@ D=(q,s,r,w,e,h,c,p,n),
 $$
 the selected-tail witness row $w$ is exact for the displayed $\StreamNameUp$ window $s$. A consumer may read $w$ only as the finite tail segment selected under $s$ from the $\RegSeqRatUp$ source row $r$ for the rational precision request $q$. The witness is not a quotient stream, an unbounded diagonal stream, a host real equality, or a selected limit outside the finite packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteTailDiagonalSealUp.FiniteTailDiagonalSealCarrier\_selected\_tail\_exactness}
 \begin{proof}
 Project the carrier rows. The only selected-tail coordinate is $w$, and the carrier names it relative to the window row $s$, source row $r$, and precision request $q$.
 
@@ -190,14 +191,15 @@ The non-escape theorem supplies the boundary: no quotient stream, host real equa
 \end{proof}
 
 \closureat{FiniteTailDiagonalSealUp}{seedStr}
+\closureat{FiniteTailDiagonalSealUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteTailDiagonalSealUp}
   \constructivestory{A $\FiniteTailDiagonalSealUp$ packet is generated from a rational precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ source row, selected finite-tail witness, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:finite-tail-diagonal-seal-carrier}, \autoref{thm:finite-tail-diagonal-seal-namecert-obligations}, \autoref{thm:finite-tail-diagonal-seal-window-factorization}, \autoref{thm:finite-tail-diagonal-seal-window-lock}, \autoref{thm:finite-tail-diagonal-seal-real-handoff}, and \autoref{thm:finite-tail-diagonal-seal-non-escape} bind the finite carrier, local naming obligations, window factorization, window lock, real handoff, and non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, host real equality, unbounded diagonal streams, ambient completeness, selected limits, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, precision routing, finite-window routing, selected-tail witness exactness, seal handoff, transport, route replay, provenance, and local naming for the same finite-tail packet.}
+  \upgradepath{Scoped closure requires binding the same finite-tail packet obligations to their explicit $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ scope.}
 \end{closurestatus}
