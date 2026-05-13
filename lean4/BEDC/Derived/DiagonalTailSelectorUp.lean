@@ -161,4 +161,26 @@ theorem DiagonalTailSelectorCarrier_public_budget_export [AskSetup] [PackageSetu
     }
   exact ⟨publicUnary, publicRoute, publicPkg, cert⟩
 
+theorem DiagonalTailSelectorCarrier_root_cofinal_admission [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name admissionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg ->
+      Cont p name admissionRead ->
+        PkgSig bundle p pkg ->
+          UnaryHistory r ∧ UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧
+            UnaryHistory w ∧ UnaryHistory d ∧ UnaryHistory t ∧ UnaryHistory s ∧
+              UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory name ∧
+                UnaryHistory admissionRead ∧ Cont n mu k ∧ Cont k w d ∧
+                  Cont p name admissionRead ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier pNameAdmission _pPkg
+  obtain ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary,
+    hUnary, cUnary, pUnary, nameUnary, nMuK, kWD, carrierPkg⟩ := carrier
+  have admissionUnary : UnaryHistory admissionRead :=
+    unary_cont_closed pUnary nameUnary pNameAdmission
+  exact
+    ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, hUnary,
+      cUnary, pUnary, nameUnary, admissionUnary, nMuK, kWD, pNameAdmission,
+      carrierPkg⟩
+
 end BEDC.Derived.DiagonalTailSelectorUp
