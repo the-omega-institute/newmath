@@ -43,6 +43,22 @@ Perform primitive recursion over the closed $\mathsf{ProbeBundle}$ spine. At the
 The certificate $F$ records the comparison at every step, so the final precision history $D$ is below every bundled half-radius ledger. Because the comparisons are stored as $\RatUp$ rows and transported by the componentwise $\hsame$ rows in $L$, the result is stable under the $\UniformModulusUp$ classifier.
 \end{proof}
 
+\begin{theorem}[UniformModulus finite-net consumer threshold package]
+\label{thm:uniformmodulus-finite-net-consumer-threshold-package}
+Let $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$ be an accepted $\UniformModulusUp$ packet. If its fold coordinate $F$ is supplied by an accepted $\FiniteNetMinimumFoldUp$ packet over the same $\mathsf{ProbeBundle}$ spine $\mathcal{P}$ and the same positive $\RatUp$ radius rows $R$, then the $\UniformModulusUp$ precision row $D$ is exactly the consumer threshold exported by that finite fold packet, transported through $L$ and routed by $Q,P,N$.
+
+The package is a finite-row handoff from $\FiniteNetMinimumFoldUp$ to $\UniformModulusUp$. It uses no open-cover compactness, no host minimum, and no external modulus selector.
+\end{theorem}
+\begin{proof}
+Project the accepted $\UniformModulusUp$ packet and the accepted $\FiniteNetMinimumFoldUp$ packet supplying $F$. The shared rows identify the same nonempty $\mathsf{ProbeBundle}$ spine and the same positive $\RatUp$ half-radius ledgers.
+
+Apply \autoref{thm:uniformmodulus-finite-probebundle-fold} to the $\UniformModulusUp$ packet. It reads $F$ as the finite lower-bound fold that produces $D$ below every bundled half-radius ledger.
+
+Apply \autoref{thm:finite-net-minimum-fold-lower-bound-certificate} and \autoref{thm:finite-net-minimum-fold-positive-precision-obligation} to the supplying $\FiniteNetMinimumFoldUp$ packet. The first theorem supplies the lower-bound certificate, and the second supplies admissibility of the accumulator as a positive $\RatUp$ precision history.
+
+Transport the resulting threshold through the componentwise classifier row $L$, then route it through $Q,P,N$ to the uniform-modulus consumer. Since both packets expose only their finite bundle, radius, fold, transport, route, provenance, and naming rows, no host minimum or compactness principle can replace the exported threshold.
+\end{proof}
+
 \begin{theorem}[UniformModulus classifier transport stability]
 \label{thm:uniformmodulus-classifier-transport-stability}
 Let $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$ be an accepted $\UniformModulusUp$ packet. If the tolerance row, precision row, finite-net coverage row, pointwise-modulus rows, rational fold rows, and downstream metric-read rows are transported componentwise along the displayed $\hsame$ entries of $L$ and then read only through the displayed $\Cont$, $\Pkg$, and $\NameCert$ routes, the transported data remain one accepted classifier-facing compact-continuous packet.
