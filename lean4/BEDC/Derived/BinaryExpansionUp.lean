@@ -82,4 +82,29 @@ theorem BinaryExpansionPacket_regular_handoff_factorization [AskSetup] [PackageS
     congrArg (fun row => append windows row) realSealSame
   exact ⟨hsame_trans handoffWindowsSeal handoffSame, windowsDigits, approximationRegular, pkgSig⟩
 
+theorem BinaryExpansionPacket_real_readback_boundary [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg ->
+      Cont regular realSeal realRead ->
+        PkgSig bundle realRead pkg ->
+          UnaryHistory windows ∧ UnaryHistory digits ∧ UnaryHistory approximation ∧
+            UnaryHistory regular ∧ UnaryHistory realSeal ∧ UnaryHistory realRead ∧
+              Cont windows digits approximation ∧ Cont approximation regular realSeal ∧
+                Cont regular realSeal realRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet regularRealSealRead realReadPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, windowsDigitsApproximation,
+    approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed regularUnary realSealUnary regularRealSealRead
+  exact
+    ⟨windowsUnary, digitsUnary, approximationUnary, regularUnary, realSealUnary,
+      realReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
+      regularRealSealRead, provenancePkg, realReadPkg⟩
+
 end BEDC.Derived.BinaryExpansionUp
