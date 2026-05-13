@@ -22,9 +22,10 @@ The master plan is `ROADMAP.md`. The paper-data reference is
 - **文献数据入口**: `docs/papers_research_report.md` 为 301 行 Cook 2009,
   Martinez 2007, Martinez 2012, Neary-Woods 相关数据的 single source of
   truth.
-- **附录面**: Beyond-FKernel 四目录具备 `.r110.ct` direct-carrier manifest
-  与 `make test` binary 覆盖; 截至 commit `528043f9f`, 它们不具备单独
-  audit claim.
+- **附录面**: Beyond-FKernel 四目录 (`circle_up`, `fold_up`, `meta_cic`,
+  `topology_up`) 具备 `.r110.ct` direct-carrier manifest, `make test` 覆盖,
+  以及单独的 `test_<module>_audit` binary 检查 manifest schema /
+  generate_r110 idempotence / 模块特有 invariant.
 
 ## Size
 
@@ -85,11 +86,12 @@ The visible manifest and semantic assertion totals from `make test` are:
 - 22 `.algo.r110.ct` manifests pass both Cook symbolic and Cook semantic
   round-trip checks.
 - 177 Martinez phase verifier entries pass period / displacement checks.
-- 33 Martinez collision rows pass paper-table cross-check; 26 of those 33
-  rows pass strict detector audit.
+- 33 Martinez collision rows pass paper-table cross-check; all 33 of those
+  rows pass strict detector audit (`make test-collision-audit` gate at 33).
 - 6 Cook packet scale cases pass through `scale_2p_16t_16384`.
 - 4 D-glider specific checks cover `D1` and `D2` emitters.
-- 3 external Martinez baseline checks cover ether, A, and B period anchors.
+- 11 external Martinez baseline checks cover ether, A, B, C1, C2, Bbar, E,
+  Ebar, F, G, and H period / displacement anchors.
 - 1 full enum Cook round-trip checks `hist_hsame_refl.algo`.
 - 50 test binaries run under `make test`, including pipeline smoke checks,
   bounded CT runner sweeps, Cook scaffold unit tests, and appendix tests.
