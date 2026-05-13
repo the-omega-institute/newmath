@@ -240,6 +240,24 @@ def zero_extraction_hang_agents(status: dict) -> list[str]:
     return out
 
 
+def zero_extraction_hang_details(status: dict) -> list[dict[str, str]]:
+    agents = zero_extraction_hang_agents(status)
+    details: list[dict[str, str]] = []
+    recent = status.get("recent_agents") or {}
+    for agent_id in agents:
+        rec = recent.get(agent_id) or {}
+        metrics = rec.get("metrics") or {}
+        details.append(
+            {
+                "agent_id": agent_id,
+                "task_id": str(metrics.get("task_id") or (status.get("agents") or {}).get(agent_id, {}).get("task_id") or ""),
+                "url_tail": str(metrics.get("url_tail") or ""),
+                "chatgpt_url": str(metrics.get("chatgpt_url") or metrics.get("page_url") or ""),
+            }
+        )
+    return details
+
+
 def candidate_inbox_health() -> dict:
     try:
         import candidate_inbox
@@ -1178,16 +1196,21 @@ def main() -> int:
                     last_tab_alert_ts = _now()
 
             oracle_health = server_status()
-            zero_extract_agents = zero_extraction_hang_agents(oracle_health)
-            if zero_extract_agents and _now() - last_zero_extract_alert_ts > ZERO_EXTRACTION_ALERT_COOLDOWN_S:
-                agents_csv = ",".join(zero_extract_agents)
+            zero_extract_details = zero_extraction_hang_details(oracle_health)
+            if zero_extract_details and _now() - last_zero_extract_alert_ts > ZERO_EXTRACTION_ALERT_COOLDOWN_S:
+                agents_csv = ",".join(d.get("agent_id", "?") for d in zero_extract_details)
+                url_tails = ",".join(
+                    d.get("url_tail", "") for d in zero_extract_details if d.get("url_tail")
+                )
                 supervisor_log(
                     "oracle health: zero-extraction hang "
-                    f"agents={agents_csv}; refresh affected tab(s) only"
+                    f"agents={agents_csv} "
+                    f"url_tails={url_tails or '?'}; refresh affected tab(s) only"
                 )
+                notify_tail = f" URL tail: {url_tails}" if url_tails else ""
                 macos_notify(
                     "BEDC supervisor: oracle zero extraction",
-                    f"{agents_csv} is generating but extracted 0 chars; refresh only the affected ChatGPT tab.",
+                    f"{agents_csv} is generating but extracted 0 chars; refresh only the affected ChatGPT tab.{notify_tail}",
                 )
                 last_zero_extract_alert_ts = _now()
 
