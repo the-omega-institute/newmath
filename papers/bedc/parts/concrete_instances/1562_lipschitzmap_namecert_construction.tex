@@ -327,6 +327,49 @@ coordinate. The contraction-threshold handoff is therefore exactly the
 displayed finite route.
 \end{proof}
 
+\begin{theorem}[LipschitzMap contraction-threshold factorization]
+\label{thm:lipschitz-map-contraction-threshold-factorization}
+Let
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+$$
+be an accepted $\LipschitzMapUp$ carrier. If the bound ledger $B$ is read as
+strictly below the unit threshold and a downstream fixed-point consumer supplies
+the required $\CompleteMetricUp$, $\PicardContractionUp$, or
+$\BanachFixedPointUp$ carrier row, then the consumer route factors through
+exactly
+$$
+X,Y,B,G,M,H,C,P,N
+$$
+plus that displayed completeness or contraction row. The route cannot read
+fixed points, completeness, quotient-map equality, selected representatives, or
+host function extensionality from the $\LipschitzMapUp$ packet itself.
+\end{theorem}
+\begin{proof}
+Start with target-distance exactness from
+\autoref{thm:lipschitz-map-target-distance-exactness}. Every target-distance
+comparison used by the downstream consumer is routed through the source metric
+row $X$, graph row $G$, bound ledger $B$, and target metric row $Y$.
+
+Use bound transport from \autoref{thm:lipschitz-map-bound-transport} together
+with the uniform-modulus handoff of
+\autoref{thm:lipschitz-map-uniform-modulus-consumer-handoff}. These results
+keep the subunit threshold read attached to the displayed carrier and expose
+the modulus row $M$ only through $X,G,B,H,C,P,N$.
+
+Apply the contraction-threshold handoff of
+\autoref{thm:lipschitz-map-contraction-threshold-handoff}. A
+$\PicardContractionUp$ or $\BanachFixedPointUp$ consumer may therefore import
+only the displayed Lipschitz packet together with its own completeness or
+contraction row.
+
+Finally apply ledger nonescape from
+\autoref{thm:lipschitz-map-ledger-nonescape}. The $\LipschitzMapUp$ packet has
+no coordinate for a fixed point, a completeness witness, quotient-map equality,
+a selected representative, or host function extensionality, so those data must
+come from the downstream carrier rather than from $L$.
+\end{proof}
+
 \begin{theorem}[LipschitzMap composite-bound routing]
 \label{thm:lipschitz-map-composite-bound-routing}
 Let $L$ and $L'$ be accepted $\LipschitzMapUp$ carriers with compatible
