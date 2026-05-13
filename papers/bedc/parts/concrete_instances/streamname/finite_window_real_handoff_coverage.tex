@@ -33,6 +33,22 @@ Now apply \autoref{thm:streamname-real-seal-factorization-boundary} to the share
 Finally use \autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}. Common-window determinacy identifies the two consumer reads once their finite StreamName window, RegSeqRat row, and Real seal boundary agree. Repacking those common rows under the local $\NameCert$ surface gives the stated public packet and rules out any quotient, host-equality, representative, or ambient-completeness exposure.
 \end{proof}
 
+\begin{theorem}[StreamName Real handoff pullback exactness]
+\label{thm:streamname-real-handoff-pullback-exactness}
+A public $\RealUp$ seal read mediated by $\StreamNameUp$ and $\RegSeqRat$ is accepted exactly when it factors through the finite $\StreamNameUp$ window, the accepted $\RegSeqRat$ pointwise row, the $\RealUp$ seal boundary, displayed $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. No accepted read may replace that pullback surface by quotient streams, host sequence equality, completion representatives, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from an accepted public $\RealUp$ seal read. Apply \autoref{thm:streamname-finite-window-real-handoff-coverage} to expose the finite StreamName window, accepted RegSeqRat pointwise rows, Real seal boundary, transport rows, continuation rows, provenance, and local naming rows.
+
+Next apply \autoref{thm:streamname-regseqrat-real-window-factorization}. It identifies the public source surface of the read with the same finite StreamName window, the same accepted RegSeqRat pointwise row, and the same Real seal boundary before any downstream Real consumer can read the packet.
+
+Now apply \autoref{thm:streamname-real-seal-factorization-boundary}. The Real-facing row is therefore reached only through the displayed handoff surface: finite StreamName observations, RegSeqRat pointwise acceptance, the seal boundary, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ rows.
+
+For the reverse direction, suppose such a finite pullback surface is displayed. Repack the listed rows as the StreamName-mediated RegSeqRat-to-Real handoff packet. The coverage theorem accepts exactly that inventory, the window factorization identifies the public source surface, and the Real seal factorization supplies the downstream seal route.
+
+The excluded objects remain outside both directions. Quotient streams, host sequence equality, completion representatives, and ambient real completeness are not coordinates of the displayed pullback surface, so neither acceptance nor reconstruction can cite them.
+\end{proof}
+
 \begin{theorem}[StreamName finite-window budget monotonicity]
 \label{thm:streamname-finite-window-budget-monotonicity}
 Let $P \leq Q$ be finite observation budgets for two $\StreamNameUp$-mediated $\RegSeqRat$-to-$\RealUp$ handoff reads. Suppose the $Q$-budget packet restricts on $P$ to the same selected StreamName rows, the same accepted $\RegSeqRat$ pointwise row, and the same $\RealUp$ seal boundary as the $P$-budget packet. Then enlarging the budget from $P$ to $Q$ preserves the downstream $\RealUp$ seal consumer's public source surface.
