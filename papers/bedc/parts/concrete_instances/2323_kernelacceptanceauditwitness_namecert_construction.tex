@@ -4,6 +4,8 @@
 
 The $\KernelAcceptanceAuditWitnessUp$ surface turns a Lean acceptance event into a finite \NameCert{} packet. It does not certify the kernel from inside BEDC. It records the generated candidate, the accepted declaration, the environment ledger, the axiom-query boundary, the build replay route, transport, continuation, provenance, and local naming row that make the acceptance event available to audit consumers.
 
+The witness packet consumes the finite audit-gate rows of \autoref{ch:concrete-instances-auditgateboundary-namecert}: source-token refusal, axiom-purity dependency report, paper-Lean target audit, origin and import conservativity ledger, and GAP boundary rows. The $\KernelAcceptanceAuditWitnessUp$ packet specializes that sibling gate surface to a single Lean acceptance event by adding generated-term, kernel-candidate, accepted-declaration, environment-ledger, query, replay, transport, continuation, provenance, and local $\NameCert{}$ rows.
+
 \begin{definition}[KernelAcceptanceAuditWitness carrier]
 \label{def:kernel-acceptance-audit-witness-carrier}
 A $\KernelAcceptanceAuditWitnessUp$ carrier is a finite $\BHist$ packet
