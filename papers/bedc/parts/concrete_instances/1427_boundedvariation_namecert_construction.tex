@@ -267,6 +267,18 @@ partition ledgers and dyadic observations rather than by any absent host
 supremum or completed function object.
 \end{proof}
 
+\begin{theorem}[BoundedVariation real dependency scope]
+\label{thm:bounded-variation-real-dependency-scope}
+Every endpoint-variation read consumed from a $\BoundedVariationUp$ packet reads $\RealUp$ endpoint rows through \autoref{ch:concrete-instances-real-namecert}, $\RegSeqRatUp$ regular-name rows through \autoref{ch:concrete-instances-regseqrat-namecert}, $\StreamNameUp$ read windows through \autoref{ch:concrete-instances-streamname-namecert}, and $\DyadicRatCoreUp$ edge observations through \autoref{ch:concrete-instances-dyadicratcore-namecert}. The $\BoundedVariationUp$ packet only packages those sibling rows into a finite interval-partition ledger with visible transport, continuation, package, and naming provenance.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:bounded-variation-carrier}. Its endpoint coordinate $X$ stores only $\RealUp$ endpoint values or $\RegSeqRatUp$ regular-name representatives, while $D$ stores the $\DyadicRatCoreUp$ observations attached to partition edges.
+
+Use the partition ledger of \autoref{def:bounded-variation-partition-ledger}. A consumer reaches endpoints by first selecting a displayed finite partition and then reading the endpoint rows, stream windows, dyadic edge rows, and finite variation-sum row through the recorded routes.
+
+Finally apply \autoref{thm:bounded-variation-cauchy-consumer-boundary}. Every $\RegSeqRatUp$ or $\RealUp$ consumer is exhausted by those ledger rows, so the dependency scope is exactly the cited RealUp, RegSeqRatUp, StreamNameUp, and DyadicRatCoreUp sibling surface together with the local $\BoundedVariationUp$ provenance.
+\end{proof}
+
 \closureat{BoundedVariationUp}{seedStr}
 \closureat{BoundedVariationUp}{obligationStr}
 \closureat{BoundedVariationUp}{scopedStr}
@@ -274,7 +286,7 @@ supremum or completed function object.
 \begin{closurestatus}{\BoundedVariationUp}
   \constructivestory{A $\BoundedVariationUp$ packet is generated from an interval row, a finite ordered partition ledger, $\RealUp$ or $\RegSeqRatUp$ endpoint names, $\DyadicRatCoreUp$ edge observations, a finite dyadic variation-sum row, common-refinement rows, displayed transport, continuation, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:bounded-variation-partition-scope-binding}, \autoref{thm:bounded-variation-refinement-ledger-scope}, and \autoref{thm:bounded-variation-endpoint-transport-scope} bind finite partition variation, common-refinement comparison, endpoint transport, dyadic variation-sum ledger, and no-escape boundary to the displayed $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope.}
+  \scopeclosed{\autoref{thm:bounded-variation-partition-scope-binding}, \autoref{thm:bounded-variation-refinement-ledger-scope}, \autoref{thm:bounded-variation-endpoint-transport-scope}, and \autoref{thm:bounded-variation-real-dependency-scope} bind finite partition variation, common-refinement comparison, endpoint transport, dyadic variation-sum ledger, sibling dependency scope, and no-escape boundary to the displayed $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
