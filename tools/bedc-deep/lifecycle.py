@@ -260,6 +260,19 @@ def _is_posthoc_paper_covered_target(state: dict) -> bool:
         if theorem.exists():
             text = theorem.read_text(encoding="utf-8")
             return "thm:module-linearmap-pointwise-zero-additive-identity" in text
+    if target_id == "B-729" and title == "module linearmap pointwise inverse additive cancellation":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "linearmap"
+            / "module_linearmap_kernel_image_and_zero.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:module-linearmap-pointwise-inverse-sum-zero-classifier" in text
     if target_id == "B-730" and title == "regularcauchymesh finite submesh restriction":
         theorem = (
             SCRIPT_DIR.parents[1]
@@ -284,6 +297,18 @@ def _is_posthoc_paper_covered_target(state: dict) -> bool:
         if theorem.exists():
             text = theorem.read_text(encoding="utf-8")
             return "thm:hankel-vandermonde-spectral-shadow-bridge" in text
+    if target_id == "B-732" and title == "auditmapfrontierindex neighbor restriction":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "4518_auditmapfrontierindex_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:audit-map-frontier-index-neighbour-restriction" in text
     return False
 
 
