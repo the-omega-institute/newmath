@@ -11,6 +11,7 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Sig
 
 variable [AskSetup] [PackageSetup] [G : DomainSetup]
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc
     {A B C D : Type}
     {first : B → A → Prop}
@@ -46,6 +47,7 @@ theorem compGap_assoc
                         (Exists.intro b (And.intro firstWitness secondWitness))
                         thirdWitness)
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc_forward
     {A B C Final : Type}
     {first : B → A → Prop}
@@ -67,6 +69,7 @@ theorem compGap_assoc_forward
                     (And.intro firstWitness
                       (Exists.intro c (And.intro secondWitness thirdWitness)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_right_nested_witnesses
     {Source Inter Final Top : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -90,6 +93,7 @@ theorem compGap_right_nested_witnesses
                       (And.intro firstWitness
                         (And.intro secondWitness thirdWitness)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_witnesses_to_right_nested
     {Source Inter Final Top : Type}
     {firstGap : Inter → Source → Prop}
@@ -111,6 +115,7 @@ theorem compGap_witnesses_to_right_nested
                     (And.intro firstWitness
                       (Exists.intro w (And.intro secondWitness thirdWitness)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_right_nested_iff_witnesses
     {Source Inter Final Top : Type}
     {firstGap : Inter → Source → Prop}
@@ -123,6 +128,7 @@ theorem compGap_right_nested_iff_witnesses
   · exact compGap_right_nested_witnesses
   · exact compGap_witnesses_to_right_nested
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_left_nested_witnesses
     {Source Inter Final Top : Type}
     {firstGap : Inter → Source → Prop}
@@ -145,6 +151,7 @@ theorem compGap_left_nested_witnesses
                       (And.intro firstWitness
                         (And.intro secondWitness thirdWitness)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_three_witnesses_iff
     {Source Inter Final Top : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -288,6 +295,7 @@ theorem compGap_four_right_nested_iff
                                     (Exists.intro d
                                       (And.intro thirdWitness fourthWitness)))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc_witnesses
     {A B C D : Type}
     {first : B → A → Prop}
@@ -310,6 +318,7 @@ theorem compGap_assoc_witnesses
                       (And.intro firstWitness
                         (And.intro secondWitness thirdWitness)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc_witness_pack
     {A B C D : Type}
     {first : B → A → Prop}
@@ -324,6 +333,7 @@ theorem compGap_assoc_witness_pack
   · exact compGap_assoc_witnesses left
   · exact compGap_assoc_forward left
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc_iff_witnesses
     {A B C D : Type}
     {first : B -> A -> Prop}
@@ -390,6 +400,7 @@ theorem compGap_assoc_iff_witnesses
                           (Exists.intro c
                             (And.intro secondWitness thirdWitness)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_assoc_backward
     {A B C Final : Type}
     {first : B → A → Prop}
@@ -412,6 +423,7 @@ theorem compGap_assoc_backward
                       (Exists.intro b (And.intro firstWitness secondWitness))
                       thirdWitness)
 
+omit [AskSetup] [PackageSetup] G in
 theorem ledger_composition_principle_iff
     {A B C D : Type}
     {first : B → A → Prop}

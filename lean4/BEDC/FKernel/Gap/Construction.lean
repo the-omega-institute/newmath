@@ -81,6 +81,7 @@ theorem internalized_gap_separation
                               askPolicy hIn hs ht
                           exact psame.intro hpTok hqTok hst
 
+omit [AskSetup] [PackageSetup] G in
 theorem internalized_gap_separation_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
@@ -125,6 +126,7 @@ theorem gap_separation_globalize
     (bundle := bundle) (D := D) (h := h) (p := p) (q := q)
     askPolicy hp hq
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_same_source_signatures_same [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
@@ -152,6 +154,7 @@ theorem inGapSig_same_source_signatures_same [AskSetup] [PackageSetup] [DomainSe
                           exact Exists.intro s
                             (Exists.intro t (And.intro hpTok (And.intro hqTok hst)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_same_source_signature_events_same [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
@@ -184,6 +187,7 @@ theorem inGapSig_same_source_signature_events_same [AskSetup] [PackageSetup] [Do
                                   (And.intro hpTok
                                     (And.intro hqTok hst)))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_same_source_full_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) -> InGapSig bundle D p h -> InGapSig bundle D q h ->
@@ -217,6 +221,7 @@ theorem inGapSig_same_source_full_witnesses [AskSetup] [PackageSetup] [DomainSet
                                     (And.intro hpTok
                                       (And.intro hqTok hst))))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_same_source_package_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
@@ -252,6 +257,7 @@ theorem inGapSig_same_source_package_witnesses [AskSetup] [PackageSetup] [Domain
                                     (And.intro hqTok
                                       (And.intro hst hpq))))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_same_source_sigRel_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → InGapSig bundle D p h → InGapSig bundle D q h →
@@ -431,6 +437,7 @@ theorem policy_gap_separation
                               askPolicy hIn hs ht
                           exact packagePolicy.soundness hpTok hqTok hst
 
+omit [AskSetup] [PackageSetup] G in
 theorem policy_gap_separation_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → PackageTokenPolicy bundle →
@@ -468,6 +475,7 @@ theorem policy_gap_separation_witnesses [AskSetup] [PackageSetup] [DomainSetup]
                                     (And.intro hqTok
                                       (And.intro hst hpq))))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gap_separation_witnesses_from_policy_layers [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     AskPolicy (InDom D) → PackagePolicy bundle → GapPolicy bundle D → InDom D h →
@@ -504,6 +512,7 @@ theorem gap_separation_witnesses_from_policy_layers [AskSetup] [PackageSetup] [D
                                     (And.intro hqTok
                                       (And.intro hst hpq))))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gap_separation_policy [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     DomainPolicy D → AskPolicy (InDom D) → PackageTokenPolicy bundle →
@@ -563,6 +572,7 @@ theorem internalized_concrete_globalize_instance [AskSetup] [PackageSetup] [Doma
     (bundle := bundle) (D := D)
     askPolicy packagePolicy tokenExists
 
+omit [AskSetup] [PackageSetup] G in
 theorem first_concrete_globalization_ledger [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain}
     (askPolicy : AskPolicy (InDom D))

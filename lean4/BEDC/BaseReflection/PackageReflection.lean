@@ -388,9 +388,9 @@ theorem base_reflection_public_name_contract {s : BaseReflectionSetup} {P : s.Pi
     (forall {x y : s.SigObj} {p q : s.Pkg},
       s.TokIntro P x p -> s.TokIntro P y q -> s.hsame x y -> PsameBase s P p q) ∧
     (forall {p q : s.Pkg}, PsameBase s P p q -> Nonempty (PBaseData s P p q)) ∧
-    (forall (tok : TokUnique s P) {x y : s.SigObj} {p : s.Pkg},
+    (forall (_ : TokUnique s P) {x y : s.SigObj} {p : s.Pkg},
       s.TokIntro P x p -> s.TokIntro P y p -> s.hsame x y) ∧
-    (forall (eqv : HSameEquiv s) (tok : TokUnique s P) {x y : s.SigObj} {p q : s.Pkg},
+    (forall (_ : HSameEquiv s) (_ : TokUnique s P) {x y : s.SigObj} {p q : s.Pkg},
       s.TokIntro P x p -> s.TokIntro P y q -> PsameBase s P p q -> s.hsame x y) := by
   constructor
   · intro x y p q left right same

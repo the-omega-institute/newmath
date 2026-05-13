@@ -220,6 +220,9 @@ instance regularCauchyWindowFusionChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyWindowFusionToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RegularCauchyWindowFusionUp :=
+  regularCauchyWindowFusionChapterTasteGate
+
 theorem RegularCauchyWindowFusionUpTasteGate_single_carrier_alignment :
     (∀ x : RegularCauchyWindowFusionUp,
       ∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) ∧
