@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\ContextualClassReadingUp$}
+\label{ch:concrete-instances-contextualclassreading-namecert}
+\origin{human}
+
+The $\ContextualClassReadingUp$ packet realizes the contextual-class restriction of \autoref{sec:russell-problem-inherited} as finite naming data. A class-like phrase is admitted only through the displayed context that classifies it, together with transport, route, provenance, and local ledger rows. The packet does not supply a host class object, a universal membership predicate, or an ontology-level promotion of the phrase.
+
+\begin{definition}[Contextual class reading carrier]
+\label{def:contextual-class-reading-carrier}
+A $\ContextualClassReadingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(E,G,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the expression row whose class-like grammar is being read;
+\item $G$ is the displayed context row that supplies the local classifier for $E$;
+\item $R$ is the relation-first row recording the behaviour that licenses the contextual read before any object-like consumption;
+\item $S$ is the scope row naming the stratum and consumer boundary in which the classifier may be used;
+\item $H$ records componentwise $\hsame$ transports for expressions, contexts, relation rows, scope rows, provenance rows, route rows, and local names;
+\item $C$ records the displayed $\Cont$ routes by which a consumer may inspect $E$, read $G$, replay $R$, and return to the scoped ledger $S$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Cont$, $\hsame$, contextual classifier rows, relation rows, scope rows, and the surrounding Russell boundary packets;
+\item $N$ is the local $\NameCert_{\ContextualClassReadingUp}$ ledger.
+\end{enumerate}
+The carrier is exactly this finite packet. It has no coordinate for a host class object, unscoped membership relation, quotient over class phrases, reducibility principle, or context-free classifier.
+\end{definition}
+
+\begin{theorem}[Contextual class reading NameCert obligations]
+\label{thm:contextual-class-reading-namecert-obligations}
+The local $\NameCert_{\ContextualClassReadingUp}$ surface for \autoref{def:contextual-class-reading-carrier} consists of carrier admission for $K=(E,G,R,S,H,C,P,N)$, contextual classifier exposure through $G$, relation-first licensing through $R$, scoped consumption through $S$, componentwise transport through $H$, displayed continuation through $C$, provenance through $P$, and local ledger exactness through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:contextual-class-reading-carrier}. The expression, context, relation, scope, transport, route, provenance, and naming rows are all displayed coordinates of the same finite $\BHist$ packet.
+
+Use \autoref{thm:russell-boundary-fivefold-obligations} to read contextual-class discipline as one of the five Russell boundary obligations. The context row $G$ supplies the classifying context, while the relation row $R$ keeps the behaviour that licenses the name visible before any object-like use is consumed.
+
+The remaining obligations are routed through $S,H,C,P,N$. The scope row fixes where the classifier may be used, the componentwise $\hsame$ data records permitted transports, and the $\Cont$ routes replay the public read without adding a host class coordinate.
+\end{proof}
+
+\begin{theorem}[Contextual class reading no object promotion]
+\label{thm:contextual-class-reading-no-object-promotion}
+Let $K=(E,G,R,S,H,C,P,N)$ be an accepted $\ContextualClassReadingUp$ carrier. No public read of $E$ promotes the contextual classifier row $G$ into a host class object, an unstratified membership predicate, or a context-free object whose members may be inspected outside $S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its displayed rows. The only coordinate that can classify $E$ is $G$, and $G$ is paired with the scope row $S$ and the routes in $C$.
+
+Apply \autoref{thm:russell-self-membership-boundary-rejection}. A contextual class expression cannot be turned into an object-level self-membership carrier merely by asking a class-like question about it.
+
+Then apply \autoref{thm:russell-boundary-namecert-noncollapse}. The packet keeps expression, contextual classifier, bridge, and ledger rows distinct, so a consumer can inspect the class-like phrase only through the displayed context and cannot recover a host class object from the local ledger.
+\end{proof}
+
+\begin{theorem}[Contextual class reading classifier transport]
+\label{thm:contextual-class-reading-classifier-transport}
+Let $K=(E,G,R,S,H,C,P,N)$ be an accepted $\ContextualClassReadingUp$ carrier. Every transported classifier read of the contextual class expression factors through the componentwise $\hsame$ row $H$ and the displayed $\Cont$ routes $C$, returning to the same expression, context, relation, scope, provenance, and local ledger rows.
+\end{theorem}
+\begin{proof}
+Start from a transported public classifier read. Carrier projection gives the expression row $E$, the context row $G$, and the relation-first row $R$ as the only rows that can license the class-like reading.
+
+The transport row $H$ supplies the componentwise $\hsame$ data for those rows and for $S,C,P,N$. The route row $C$ supplies the displayed $\Cont$ path by which the consumer reads the context and returns to the scoped ledger.
+
+Use \autoref{thm:russell-analysis-ladder-namecert-obligations} for contextual-class locality and relation-first classifier stability. Since the ladder obligations keep contextual class reads and relation rows tied to their displayed transports, the transported read remains inside $E,G,R,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Contextual class reading ledger exactness]
+\label{thm:contextual-class-reading-ledger-exactness}
+Every accepted $\ContextualClassReadingUp$ packet exports contextual class information only through the finite rows
+$$
+E,G,R,S,H,C,P,N.
+$$
+The ledger exposes the class-like expression, its displayed context, relation-first licensing row, scoped consumer boundary, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports no hidden class ontology, no primitive class extension, no global membership predicate, no reducibility principle, and no context-free classifier.
+\end{theorem}
+\begin{proof}
+Read the carrier as the tuple $K=(E,G,R,S,H,C,P,N)$. The definition lists every row available to a downstream consumer, and the local $\NameCert$ ledger records exactly those rows.
+
+Apply \autoref{thm:contextual-class-reading-namecert-obligations} to identify the complete obligation surface. Contextual classifier exposure is $G$, relation-first licensing is $R$, scoped consumption is $S$, and transport, route, provenance, and local naming are $H,C,P,N$.
+
+Apply \autoref{thm:contextual-class-reading-no-object-promotion} and \autoref{thm:contextual-class-reading-classifier-transport}. The first theorem blocks object promotion, while the second confines transported classifier reads to the displayed $\hsame$ and $\Cont$ rows.
+
+Thus the ledger is exact: every public contextual-class read is a read of the finite packet, with no hidden ontology or context-free classifier left over.
+\end{proof}
+
+\closureat{ContextualClassReadingUp}{seedStr}
+
+\begin{closurestatus}{\ContextualClassReadingUp}
+  \constructivestory{A $\ContextualClassReadingUp$ packet is generated from a class-like expression row, a displayed classifier context, a relation-first licensing row, a scope row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contextual-class-reading-carrier}, \autoref{thm:contextual-class-reading-namecert-obligations}, \autoref{thm:contextual-class-reading-no-object-promotion}, \autoref{thm:contextual-class-reading-classifier-transport}, and \autoref{thm:contextual-class-reading-ledger-exactness} bind the finite carrier, local obligations, no-promotion boundary, classifier transport, and ledger exactness for contextual class readings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host class ontology, primitive class extensions, global membership, reducibility, or context-free classifiers.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for contextual classifier exposure, no object promotion, classifier transport, and ledger exactness.}
+\end{closurestatus}
