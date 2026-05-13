@@ -69,6 +69,52 @@ The selector handoff theorem keeps every diagonal-tail read on those rows. In pa
 The excluded objects have no coordinate in the packet. Since the carrier has no quotient stream, host real equality, host-selected limit, choice selector, or ambient completeness row, no downstream consumer can recover one from an accepted envelope.
 \end{proof}
 
+\begin{theorem}[CauchyTailWitnessEnvelope finite-window exactness]
+\label{thm:cauchy-tail-witness-envelope-finite-window-exactness}
+For every accepted $\CauchyTailWitnessEnvelopeUp$ carrier
+$$
+E=(S,F,Q,A,R,H,C,P,N),
+$$
+the selected $\StreamNameUp$ window $S$ is consumed through the $\FiniteWindowEnvelopeUp$ row $F$ before any tail-comparison, seal, or RealUp read is exported. The endpoint ledger, regular-rational readback, and RealUp endpoint surface used by the envelope are therefore the ones displayed by $F$.
+\end{theorem}
+\begin{proof}
+Project the carrier and use the NameCert obligation theorem. The only selected-window coordinate is $S$, and the only finite-window envelope coordinate is $F$.
+
+Apply the selector handoff theorem. It places $S$ before $F$ and $F$ before $Q,A,R$, so no later row can read the selected window except through the envelope.
+
+Finally use non-escape. Since the packet has no hidden endpoint ledger or host equality coordinate, the endpoint data consumed downstream are exactly the ledger rows displayed by $F$.
+\end{proof}
+
+\begin{theorem}[CauchyTailWitnessEnvelope tail-comparison exactness]
+\label{thm:cauchy-tail-witness-envelope-tail-comparison-exactness}
+For every accepted $\CauchyTailWitnessEnvelopeUp$ carrier $E=(S,F,Q,A,R,H,C,P,N)$, the tail-comparison row $Q$ reads the same finite-window endpoint ledger exposed by $F$ before any RealTailAgreementSeal row $A$ is consumed. No comparison row may bypass the selected window $S$ or replace the endpoint ledger by quotient stream equality or host real equality.
+\end{theorem}
+\begin{proof}
+Start from finite-window exactness. By \autoref{thm:cauchy-tail-witness-envelope-finite-window-exactness}, the selected window $S$ and endpoint ledger are already bound through $F$.
+
+Use the NameCert obligation theorem to locate $Q$. The comparison row is a displayed carrier coordinate and its consumer route follows the selected window and finite-window envelope rows.
+
+Apply the selector handoff theorem. It places $Q$ before $A$ and $R$, so the seal cannot be reached until the comparison has read the same $S,F$ ledger.
+
+The non-escape theorem removes the remaining alternatives. Quotient streams, host real equality, selected host limits, countable choice, and ambient completeness are not packet coordinates, so they cannot replace the finite comparison ledger.
+\end{proof}
+
+\begin{theorem}[CauchyTailWitnessEnvelope Real tail seal boundary]
+\label{thm:cauchy-tail-witness-envelope-real-tail-seal-boundary}
+For every accepted $\CauchyTailWitnessEnvelopeUp$ carrier $E=(S,F,Q,A,R,H,C,P,N)$, the RealTailAgreementSeal row $A$ and the RealUp readback row $R$ are reached only after the selected window $S$, finite-window envelope $F$, tail-comparison row $Q$, transport rows $H$, continuation rows $C$, provenance row $P$, and local naming row $N$ have been displayed.
+
+The boundary is a finite witness-envelope route. It does not export quotient stream equality, host real equality, a selected host limit, a countable-choice selector, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The carrier has exactly the rows $S,F,Q,A,R,H,C,P,N$, with $H,C,P,N$ carrying transport, replay, provenance, and local naming for the same packet.
+
+Apply finite-window exactness and tail-comparison exactness. These theorems route the seal-facing read through $S,F,Q$ before $A$ is available.
+
+Use the selector handoff theorem for the final order of consumption. It places $A$ and then $R$ after the selected window, envelope, and comparison rows, while the structural rows replay and authenticate the same route.
+
+Finally apply non-escape. Since no excluded object is present in the carrier, the seal boundary is exactly the displayed finite witness-envelope route.
+\end{proof}
+
 \closureat{CauchyTailWitnessEnvelopeUp}{seedStr}
 
 \begin{closurestatus}{\CauchyTailWitnessEnvelopeUp}
