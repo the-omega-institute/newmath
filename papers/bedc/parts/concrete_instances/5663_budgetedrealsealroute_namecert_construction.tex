@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\BudgetedRealSealRouteUp$}
+\label{ch:concrete-instances-budgeted-real-seal-route-namecert}
+\origin{ai}
+
+The $\BudgetedRealSealRouteUp$ packet realizes the Real-completion budget route as one finite NameCert surface. It consumes the budget selector of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, the shared threshold row of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, the entrance budget of \autoref{ch:concrete-instances-real-observation-budget-namecert}, the sealed limit route of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and the Real readback surface of \autoref{ch:concrete-instances-real-namecert}. Its observation rows remain tied to the finite stream, regular-rational, and dyadic sources of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+\begin{definition}[Budgeted real seal route carrier]
+\label{def:budgeted-real-seal-route-carrier}
+A $\BudgetedRealSealRouteUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,T,O,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\FiniteObservationBudgetSelectorUp$ row selecting the finite observation budget used by the route;
+\item $T$ is the $\RegularCauchyTailMeetUp$ threshold row that must be displayed before the completion route may expose a seal;
+\item $O$ is the $\RealObservationBudgetUp$ entrance row tying the selected budget to the Real-facing observation surface;
+\item $L$ is the $\CauchyLimitSealUp$ route row that carries the sealed Cauchy-limit handoff;
+\item $R$ is the $\RealUp$ seal and readback row exposed only after $S,T,O,L$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for the selector, threshold, entrance, limit-seal, Real readback, route, provenance, and local name rows;
+\item $C$ records the displayed $\Cont$ replay by which consumers read the selector, threshold, observation-budget entrance, limit seal, Real readback, provenance, and local name rows;
+\item $P$ is the $\Pkg$ provenance over $\BudgetedRealSealRouteUp$, $\FiniteObservationBudgetSelectorUp$, $\RegularCauchyTailMeetUp$, $\RealObservationBudgetUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\BudgetedRealSealRouteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,O,L,R,H,C,P,N$. It has no coordinate for quotient streams, host real equality, countable choice, an external limit selector, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Budgeted real seal route NameCert obligations]
+\label{thm:budgeted-real-seal-route-namecert-obligations}
+For the carrier of \autoref{def:budgeted-real-seal-route-carrier}, the local $\NameCert_{\BudgetedRealSealRouteUp}$ surface consists exactly of carrier admission for $B=(S,T,O,L,R,H,C,P,N)$, budget selector admission through $S$, TailMeet threshold admission through $T$, observation-budget entrance through $O$, CauchyLimitSeal route handoff through $L$, Real seal and readback exactness through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $B=(S,T,O,L,R,H,C,P,N)$. Each obligation names one carrier coordinate or one structural route attached to that coordinate.
+
+The budget route starts with $S$, enters the Real-facing observation surface through $O$, and then requires the threshold row $T$ before the limit seal $L$ can hand a read to $R$. Thus the Real seal read is tied to the same finite selector, threshold, observation-budget, and limit-seal rows.
+
+The structural rows $H,C,P,N$ transport, replay, identify, and name the same finite packet. Since the carrier contains no external completion coordinate, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Budgeted real seal route non-escape]
+\label{thm:budgeted-real-seal-route-nonescape}
+Every accepted $\BudgetedRealSealRouteUp$ packet exports only the displayed rows
+$$
+S,T,O,L,R,H,C,P,N.
+$$
+In particular, no accepted packet may expose the $\RealUp$ seal row $R$ without the TailMeet threshold row $T$, and no consumer may recover a quotient stream, host equality of real names, countable-choice selector, external limit, or ambient Real-completion principle from the packet.
+\end{theorem}
+\begin{proof}
+Inspect the carrier. The only Real-facing coordinate is $R$, and it is reached through the route rows $S,T,O,L$ together with the structural rows $H,C,P,N$.
+
+Apply the NameCert obligation theorem. It requires threshold admission through $T$ and limit-seal handoff through $L$ before Real readback exactness through $R$ is available.
+
+The excluded objects would require coordinates not present in the carrier. Because every export must factor through the displayed rows, the packet has no route to quotient streams, host equality, choice selectors, external limits, or an ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Budgeted real seal route TasteGate obligation]
+\label{thm:budgeted-real-seal-route-tastegate-obligation}
+The Lean follow-up for $\BudgetedRealSealRouteUp$ must provide $\mathsf{Nontrivial}\ \BudgetedRealSealRouteUp$ and $\mathsf{FieldFaithful}\ \BudgetedRealSealRouteUp$ in \texttt{TasteGate.lean}. These instances must preserve the selector row $S$, threshold row $T$, observation-budget row $O$, CauchyLimitSeal route row $L$, Real seal row $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:budgeted-real-seal-route-carrier} to read the nine displayed rows. A nontrivial gate witness must distinguish a packet by at least one of those finite coordinates rather than by an ambient real-completion object.
+
+Field faithfulness is the same row preservation requirement. The gate-facing instance may transport and replay rows through $H$ and $C$, but it cannot identify two packets after dropping $S,T,O,L,R,P$, or $N$.
+
+Thus the TasteGate work is tied to the finite route packet itself, with no hidden completion principle or host equality field.
+\end{proof}
+
+\falsifiablePrediction{If the displayed TailMeet threshold row $T$ is absent, no accepted $\BudgetedRealSealRouteUp$ packet can expose the $\RealUp$ seal row $R$.}
+
+\independenceWitness{finiteobservationbudgetselector, regularcauchytailmeet, real-observation-budget, cauchylimitseal, real: $\BudgetedRealSealRouteUp$ combines a selector row, a TailMeet threshold, a Real observation-budget entrance, a CauchyLimitSeal handoff, and a Real seal/readback row; none of the named siblings is bijective to this combined route packet because each omits at least one required route coordinate.}
+
+\closureat{BudgetedRealSealRouteUp}{seedStr}
+
+\begin{closurestatus}{\BudgetedRealSealRouteUp}
+  \constructivestory{A $\BudgetedRealSealRouteUp$ packet is generated from a finite observation-budget selector, a TailMeet threshold row, a Real observation-budget entrance, a CauchyLimitSeal route, a Real seal and readback row, componentwise transports, displayed replay routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:budgeted-real-seal-route-carrier}, \autoref{thm:budgeted-real-seal-route-namecert-obligations}, \autoref{thm:budgeted-real-seal-route-nonescape}, and \autoref{thm:budgeted-real-seal-route-tastegate-obligation} bind the finite Real-completion budget route packet, its local NameCert surface, non-escape boundary, and TasteGate obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, host real equality, countable choice, external limit selection, ambient Real completeness, Lean verification, or bridge checking for $\BudgetedRealSealRouteUp$.}
+  \upgradepath{Scoped closure requires checked carrier admission, budget selector admission, TailMeet threshold admission, observation-budget entrance, CauchyLimitSeal handoff, Real readback exactness, provenance, and local naming for the same finite carrier.}
+\end{closurestatus}
