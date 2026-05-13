@@ -82,6 +82,7 @@ LOGIC_PACKET_FIELDS = (
     "witness_extractor",
     "existence_mode",
     "cut_rank",
+    "elimination_plan",
     "equality_kind",
     "interpretation_kind",
     "resource_trace",
