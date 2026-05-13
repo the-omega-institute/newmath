@@ -348,6 +348,7 @@ import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
 import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TransportedStationaryWindowSealUp
+import BEDC.Derived.StationaryDiagonalWindowRouteUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
@@ -448,6 +449,7 @@ import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
+import BEDC.Derived.PicardContractionUp.LedgerBoundary
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
 import BEDC.Derived.PicardContractionUp.SourceWindow
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
