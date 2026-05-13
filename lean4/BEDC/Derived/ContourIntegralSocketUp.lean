@@ -60,4 +60,30 @@ theorem ContourIntegralSocketSemanticNameCert :
       exact sourceRow
   }
 
+theorem ContourIntegralSocketCarrier_transport
+    {contour holomorphic modulus output ledger transport route provenance name output' route'
+      provenance' : BHist} :
+    ContourIntegralSocketCarrier contour holomorphic modulus output ledger transport route
+      provenance name →
+      hsame output output' →
+      Cont contour holomorphic route' →
+      Cont route' ledger provenance' →
+      ContourIntegralSocketCarrier contour holomorphic modulus output' ledger transport route'
+        provenance' name := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ContourIntegralSocketCarrier
+  intro carrier sameOutput routeRead provenanceRead
+  cases carrier with
+  | intro outputRead carrierTail =>
+      cases carrierTail with
+      | intro _oldRoute carrierTail =>
+          cases carrierTail with
+          | intro _oldProvenance nameRead =>
+              constructor
+              · exact hsame_trans (hsame_symm sameOutput) outputRead
+              · constructor
+                · exact routeRead
+                · constructor
+                  · exact provenanceRead
+                  · exact nameRead
+
 end BEDC.Derived.ContourIntegralSocketUp
