@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\TotalHostFuelHandoffUp$}
+\label{ch:concrete-instances-totalhostfuelhandoff-namecert}
+\origin{ai}
+
+The $\TotalHostFuelHandoffUp$ packet is the finite handoff object between the total host of \autoref{ch:visions-strong-normalization-vs-turing-completeness} and the universal substrate traces represented by \autoref{ch:concrete-instances-bounded-universal-trace-namecert}. It is narrower than $\StepIndexedTotalHostUp$: it does not package the whole host normal-form comparison surface, but instead fixes the boundary at which a total host supplies finite fuel, the substrate displays the bounded trace, and the terminal readback returns through the same fuel certificate.
+
+\falsifiablePrediction{Removing the fuel handoff row permits a terminal substrate read without a displayed total-host fuel boundary.}
+
+\independenceWitness{znormal, bounded-universal-trace, cellularautomaton, turingmachine, continuationtrace: none is bijective because the handoff packet carries the fuel boundary between total host and substrate trace rather than only normality, trace, substrate, machine, or continuation rows.}
+
+\begin{definition}[Total-host fuel handoff carrier]
+\label{def:total-host-fuel-handoff-carrier}
+A $\TotalHostFuelHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(H,F,S,T,R,B,X,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the total-host source row whose public read is accepted only at a finite boundary;
+\item $F$ is the fuel handoff row naming the host-visible finite budget supplied to the substrate read;
+\item $S$ is the substrate row, drawn from a displayed $\CellularAutomatonUp$ or $\TuringMachineUp$ interface;
+\item $T$ is the finite trace row, read as a $\ContinuationTraceUp$ ledger below the fuel boundary $F$;
+\item $R$ is the terminal readback row selected from $T$ under the same fuel boundary;
+\item $B$ is the refusal ledger for missing fuel, detached terminal readback, unbounded halting, partial evaluator transfer, host-substrate equality, and quotient behaviour;
+\item $X$ records componentwise $\hsame$ transports for $H,F,S,T,R,B,P,N$;
+\item $C$ records displayed $\Cont$ routes from $H$ to $F$, from $F$ to $S,T$, from $T$ to $R$, and from every excluded semantic claim to $B$;
+\item $P$ is the $\Pkg$ provenance over $\TotalHostFuelHandoffUp$, $\BoundedUniversalTraceUp$, $\ContinuationTraceUp$, $\CellularAutomatonUp$, $\TuringMachineUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TotalHostFuelHandoffUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $H,F,S,T,R,B,X,C,P,N$. It has no coordinate for an infinite substrate run, a host partial evaluator, a global halting predicate, host equality with the substrate, quotient stream behaviour, or a terminal readback detached from the finite fuel handoff.
+\end{definition}
+
+\begin{theorem}[TotalHostFuelHandoff NameCert obligations]
+\label{thm:total-host-fuel-handoff-namecert-obligations}
+For the carrier of \autoref{def:total-host-fuel-handoff-carrier}, the local $\NameCert_{\TotalHostFuelHandoffUp}$ surface consists exactly of carrier admission for
+$$
+Q=(H,F,S,T,R,B,X,C,P,N),
+$$
+total-host exposure through $H$, finite fuel handoff through $F$, substrate exposure through $S$, bounded trace exposure through $T$, terminal readback through $R$, refusal-ledger exactness through $B$, componentwise transport through $X$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:total-host-fuel-handoff-carrier}. The accepted packet displays exactly $H,F,S,T,R,B,X,C,P,N$, so every public read is either one of those rows or a route replaying them.
+
+The computational route is finite. The host row $H$ reaches the substrate only through the fuel row $F$, the substrate and trace rows $S,T$ are read below that same boundary, and the terminal readback $R$ is selected from the displayed trace.
+
+The structural rows bind the public certificate. The transports $X$, routes $C$, provenance $P$, and local naming row $N$ keep the handoff inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Since the carrier has no further coordinate, unbounded halting, partial evaluator transfer, host-substrate equality, quotient behaviour, and detached terminal readback are refused by $B$ rather than exported as NameCert obligations.
+\end{proof}
+
+\begin{theorem}[TotalHostFuelHandoff non-escape]
+\label{thm:total-host-fuel-handoff-nonescape}
+Every accepted $\TotalHostFuelHandoffUp$ packet exports no terminal substrate read except through the finite route
+$$
+H,F,S,T,R,B,X,C,P,N .
+$$
+In particular, it exports no unbounded halting predicate, no host partial evaluator, no equality between host computation and substrate trace, no quotient behaviour, no independent terminal readback oracle, and no transfer of substrate universality into the total host.
+\end{theorem}
+\begin{proof}
+Begin with the displayed route row $C$. Its admissible paths pass from the total-host source $H$ to the fuel handoff $F$, then through the substrate row $S$ and finite trace ledger $T$, and only then to the terminal readback $R$.
+
+The fuel row is the boundary object. Without $F$, the packet may still mention a substrate or a terminal shape, but it no longer exhibits the finite host-visible budget required to read that terminal row in a total host.
+
+The refusal ledger accounts for every excluded claim. Unbounded halting needs a global run predicate, a host partial evaluator needs a host semantic execution row, host-substrate equality needs an equality coordinate, quotient behaviour needs a quotient classifier, and transfer of substrate universality needs a semantic bridge absent from the carrier.
+
+Thus the handoff exposes a finite terminal readback while preserving the separation required by \autoref{ch:visions-strong-normalization-vs-turing-completeness}.
+\end{proof}
+
+\begin{theorem}[TotalHostFuelHandoff sibling boundary]
+\label{thm:total-host-fuel-handoff-sibling-boundary}
+The siblings $\ZNormalUp$, $\BoundedUniversalTraceUp$, $\CellularAutomatonUp$, $\TuringMachineUp$, and $\ContinuationTraceUp$ are comparison anchors for $\TotalHostFuelHandoffUp$, but none is bijective to it. $\ZNormalUp$ stores a host normality boundary without the substrate terminal handoff; $\BoundedUniversalTraceUp$ stores a bounded trace without the total-host fuel handoff row; $\CellularAutomatonUp$ and $\TuringMachineUp$ store substrate surfaces without the host boundary; and $\ContinuationTraceUp$ stores finite continuation rows without the total-host source and NameCert handoff surface.
+\end{theorem}
+\begin{proof}
+Read the siblings by their missing coordinates. The normal-form sibling accounts for finite host normality, but it does not carry the substrate row, finite trace ledger, or terminal readback selected below host fuel.
+
+The bounded trace sibling is closest to $F,S,T,R$. It still does not isolate the handoff row as the boundary between total-host source and substrate trace, nor does it carry the refusal surface for detached terminal readback.
+
+The substrate and continuation siblings point to components rather than the whole handoff. They supply machine, cellular, or finite continuation rows, but they do not package $H,F,S,T,R,B,X,C,P,N$ together as a total-host fuel certificate.
+
+Consequently the $\TotalHostFuelHandoffUp$ packet is the concrete interface object for terminal readback across the total-host and substrate-trace boundary.
+\end{proof}
+
+The Lean \texttt{lean4/BEDC/Derived/TotalHostFuelHandoffUp/TasteGate.lean} development must include explicit $\mathsf{Nontrivial}\ \TotalHostFuelHandoffUp$ and $\mathsf{FieldFaithful}\ \TotalHostFuelHandoffUp$ instances. These instances must preserve the total-host source row, fuel handoff row, substrate row, finite trace row, terminal readback row, refusal ledger, componentwise transports, displayed continuation routes, package provenance, and local naming row.
+
+\closureat{TotalHostFuelHandoffUp}{seedStr}
+
+\begin{closurestatus}{\TotalHostFuelHandoffUp}
+  \constructivestory{A $\TotalHostFuelHandoffUp$ packet is generated from a total-host source row, finite fuel handoff row, substrate row, finite trace row, terminal readback row, refusal ledger, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:total-host-fuel-handoff-carrier}, \autoref{thm:total-host-fuel-handoff-namecert-obligations}, \autoref{thm:total-host-fuel-handoff-nonescape}, and \autoref{thm:total-host-fuel-handoff-sibling-boundary} specify the finite fuel handoff packet between total host and substrate trace.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, partial evaluator semantics, host-substrate equality, quotient behaviour, or transfer of substrate universality to the total host.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel handoff exposure, substrate-trace exposure, terminal-readback exactness, refusal-ledger exactness, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
