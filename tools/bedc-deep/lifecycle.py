@@ -297,6 +297,18 @@ def _is_posthoc_paper_covered_target(state: dict) -> bool:
         if theorem.exists():
             text = theorem.read_text(encoding="utf-8")
             return "thm:hankel-vandermonde-spectral-shadow-bridge" in text
+    if target_id == "B-732" and title == "auditmapfrontierindex neighbor restriction":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "4518_auditmapfrontierindex_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:audit-map-frontier-index-neighbour-restriction" in text
     return False
 
 
