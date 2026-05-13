@@ -604,6 +604,44 @@ Next apply bridge route exactness from \autoref{thm:cauchy-limit-seal-bridge-rou
 Finally use bridge non-escape from \autoref{thm:cauchy-limit-seal-bridge-nonescape}. Since the bridge contributes no quotient stream, selected host limit, uniqueness principle, alternate seal, or completeness datum, repacking the shared window and seal coordinates gives one $\RealUp$ consumer surface, with equality understood only through the packet's displayed $\hsame$ transport.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal source schedule ledger coherence]
+\label{thm:cauchy-limit-seal-source-schedule-ledger-coherence}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Any scheduled window selected from $S$ determines the matching $\RegSeqRatUp$ source row in $X$, the $\DyadicRatCoreUp$ observation row in $D$, and the displayed $\hsame$ and $\Cont$ transport rows in $T$. Thus a downstream consumer cannot read a scheduled window independently from its source, observation, and transport ledger rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its finite route coordinates. The window coordinate lies in $S$, and the route packet stores its associated source, dyadic observation, diagonal, seal, transport, provenance, and naming rows in the same packet $X,S,D,G,E,T,P,N$.
+
+Apply the window factorization theorem \autoref{thm:cauchy-limit-seal-window-factorization}. It sends a selected scheduled window through the corresponding $\RegSeqRatUp$ source row in $X$ and the matching $\DyadicRatCoreUp$ observation row in $D$ before any diagonal or seal read is consumed.
+
+Finally use regular-source stability from \autoref{thm:cauchy-limit-seal-regular-source-stability}. Transport of the accepted packet is allowed only along the displayed $\hsame$ comparison and $\Cont$ route, so the scheduled source and dyadic ledger rows remain coherent under downstream replay.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal sealed endpoint route exhaustion]
+\label{thm:cauchy-limit-seal-sealed-endpoint-route-exhaustion}
+Every downstream read on the sealed $\RealUp$ endpoint of an accepted $\CauchyLimitSealUp$ carrier is exhausted by the source schedule, dyadic ledger, diagonal completion row, seal row, package provenance, and local $\NameCert$ row displayed in $L=(X,S,D,G,E,T,P,N)$. No endpoint read can add a hidden source schedule, independent dyadic observation, alternate completion row, or external endpoint route.
+\end{theorem}
+\begin{proof}
+Begin with the public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary}. It confines each $\RealUp$ or completion-facing read to the projected route packet $X,S,D,G,E,T,P,N$ before the sealed endpoint is exposed.
+
+Next apply seal-ledger exhaustion from \autoref{thm:cauchy-limit-seal-seal-ledger-exhaustion}. The endpoint-facing ledger is exactly the displayed source, schedule, observation, diagonal completion, seal, transport, provenance, and naming surface, so no second endpoint route is available in the carrier.
+
+Use diagonal-row compatibility from \autoref{thm:cauchy-limit-seal-diagonal-row-compatibility}. A completion read tied to the selected schedule and dyadic observation must consume the carrier diagonal row $G$, which prevents replacing the sealed endpoint by an independent completion object.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal NameCert downstream unblock package]
+\label{thm:cauchy-limit-seal-namecert-downstream-unblock-package}
+The source-schedule ledger coherence row of \autoref{thm:cauchy-limit-seal-source-schedule-ledger-coherence} and the sealed endpoint route exhaustion row of \autoref{thm:cauchy-limit-seal-sealed-endpoint-route-exhaustion}, together with \autoref{thm:cauchy-limit-seal-namecert-obligations}, \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}, and \autoref{thm:cauchy-limit-seal-non-escape}, supply the downstream obligation package for $\RealUp$ and completion consumers over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exposes only the finite sealed boundary and does not claim real completeness, quotient stream identity, selected host limits, or uniqueness of ambient real values.
+\end{theorem}
+\begin{proof}
+Project the finite packet $L=(X,S,D,G,E,T,P,N)$. The $\NameCert$ obligations of \autoref{thm:cauchy-limit-seal-namecert-obligations} provide carrier habitation, classifier stability, finite-route exactness, and the local naming row needed by downstream consumers.
+
+Route reads through the scheduled window and dyadic ledger using \autoref{thm:cauchy-limit-seal-source-schedule-ledger-coherence}. This supplies the matching $\RegSeqRatUp$ source row, $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation row, and displayed $\hsame$ and $\Cont$ transports before a consumer reaches the completion or real endpoint.
+
+Then apply sealed endpoint route exhaustion from \autoref{thm:cauchy-limit-seal-sealed-endpoint-route-exhaustion} and the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}. These rows identify the diagonal completion, seal, package provenance, and local naming coordinates that a $\RealUp$ or completion consumer may read.
+
+Finally use non-escape from \autoref{thm:cauchy-limit-seal-non-escape}. Since the carrier has no coordinate for quotient streams, selected host limits, uniqueness principles, or ambient completeness, the assembled package is a constructive downstream boundary over exactly the displayed BEDC objects.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal tail-choice exhaustion]
 \label{thm:cauchy-limit-seal-tail-choice-exhaustion}
 For an accepted $\CauchyLimitSealUp$ packet, every admitted tail-choice read is exhausted by a finite $\StreamNameUp$ window, the matching $\RegSeqRatUp$ source row, the $\DyadicRatCoreUp$ observation ledger, the null-tail comparison row, the $\RealCauchyCompletionUp$ diagonal row, the $\RealUp$ seal row, the displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. No admitted tail choice can depend on a quotient representative, a selected host limit, an unbounded stream schedule, or an ambient completeness principle.
@@ -711,6 +749,32 @@ Attach the tail comparison by \autoref{thm:cauchy-limit-seal-budgeted-tail-compa
 
 Now compose with consumer ledger totality from \autoref{thm:cauchy-limit-seal-consumer-ledger-totality} and real consumer family exhaustion from \autoref{thm:cauchy-limit-seal-real-consumer-family-exhaustion}. The budget route and the seal route already exhaust the consumer-visible rows, leaving no coordinate for quotient streams, selected host limits, ambient completeness, hidden family limits, or unbounded schedules.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal tail extraction]
+\label{thm:cauchy-limit-seal-tail-extraction}
+Every admitted tail read of an accepted $\CauchyLimitSealUp$ packet is projected from the displayed $\RegSeqRatUp$ family, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, and visible $\hsame$ and $\Cont$ ledger. The projection is the same public route consumed by the seal packet, not a tail chosen from a quotient stream, host limit, hidden family limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with family-tail admission. By \autoref{thm:cauchy-limit-seal-family-tail-admission}, a tail read is admitted only with the displayed source family, schedule, tail modulus, null-tail comparison, completion diagonal, seal row, transports, route, provenance, and local naming row.
+
+Next attach seal-window ledger compatibility from \autoref{thm:cauchy-limit-seal-seal-window-ledger-compatibility}. The admitted tail therefore uses the same scheduled window and dyadic observation ledger as the seal route.
+
+Finally pull the observation budget back along \autoref{thm:cauchy-limit-seal-observation-budget-pullback}. The tail read is projected through the displayed regular family, schedule, dyadic ledger, diagonal row, and visible $\hsame$ and $\Cont$ route, with no remaining coordinate for an external tail source.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal uniqueness boundary]
+\label{thm:cauchy-limit-seal-uniqueness-boundary}
+Every equality or uniqueness-facing consumer of an accepted $\CauchyLimitSealUp$ packet may use only the visible null-sequence and tail-comparison route. It cannot import a host uniqueness theorem, quotient-stream equality, selected limit, hidden family limit, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the non-escape boundary of \autoref{thm:cauchy-limit-seal-non-escape}. The accepted packet contains no host uniqueness theorem, quotient representative, selected limit, or ambient completeness coordinate.
+
+For the comparison itself, use null-sequence factorization from \autoref{thm:cauchy-limit-seal-nullsequence-factorization}. Equality-facing reads can add only the displayed $\NullSequenceUp$ tolerance-window-threshold row to the already fixed seal route.
+
+Then apply budgeted tail comparison admission from \autoref{thm:cauchy-limit-seal-budgeted-tail-comparison-admission}. A uniqueness-facing read is therefore admitted only through the same finite budget, scheduled window, dyadic ledger, regular handoff, seal, transport, route, provenance, and naming rows.
+\end{proof}
+
+\input{parts/concrete_instances/1287_cauchylimitseal_consumer_readback.tex}
 
 \closureat{CauchyLimitSealUp}{seedStr}
 \closureat{CauchyLimitSealUp}{obligationStr}
