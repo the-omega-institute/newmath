@@ -15,3 +15,17 @@ Apply window factorization from \autoref{thm:cauchy-limit-seal-window-factorizat
 
 Finally use non-escape from \autoref{thm:cauchy-limit-seal-non-escape}. Since quotient streams, host limits, selected external limits, and ambient completeness do not occur as carrier coordinates, the finite $\StreamNameUp$ window surface is the required dependency child for every sealed-limit read.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal StreamName and RegularCauchyName lattice]
+\label{thm:cauchy-limit-seal-streamname-regular-name-lattice}
+For an accepted $\CauchyLimitSealUp$ carrier $L=(X,S,D,G,E,T,P,N)$, every sealed-limit consumer that is also read by $\RegularCauchyNameUp$ factors through the same scheduled $\StreamNameUp$ row $S$ before reaching the $\RegSeqRatUp$ row $X$, $\DyadicRatCoreUp$ ledger $D$, diagonal row $G$, and $\RealUp$ seal $E$. The packet exports no second window schedule, quotient stream equality, selected host limit, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the StreamName dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It already places every sealed-limit read on the scheduled $\StreamNameUp$ window before the seal row is consumed.
+
+Apply window factorization from \autoref{thm:cauchy-limit-seal-window-factorization}. The route from $S$ proceeds through the displayed $\RegSeqRatUp$ row $X$, the dyadic ledger $D$, the diagonal row $G$, and only then the $\RealUp$ seal row $E$.
+
+Next use the scheduled-window pullback of \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}. This identifies the scheduled window as the common dependency surface for the seal route and for the $\RegularCauchyNameUp$ consumer of \autoref{ch:concrete-instances-regularcauchyname-namecert}.
+
+Since the carrier has no second schedule coordinate and no quotient, selected-limit, or ambient-completeness row, the shared lattice closes at the same finite window and cannot be rerouted through an external equality or host limit.
+\end{proof}
