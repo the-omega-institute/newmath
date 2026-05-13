@@ -199,6 +199,7 @@ import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContinuationTraceUp
+import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.CompletionUniversalPropertyUp
