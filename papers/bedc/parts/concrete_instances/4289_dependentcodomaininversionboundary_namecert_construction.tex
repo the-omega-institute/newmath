@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\DependentCodomainInversionBoundaryUp$}
+\label{ch:concrete-instances-dependentcodomaininversionboundary-namecert}
+\origin{human}
+
+The $\DependentCodomainInversionBoundaryUp$ packet realizes the dependent-codomain barrier named in \autoref{ch:metacic-open-problems}. It sits beside the obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, the beta-substitution packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, and the frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}. Its role is to name the finite codomain-readback boundary that must be discharged before a subject-reduction consumer may cross from syntactic substitution evidence to dependent application preservation.
+
+\begin{definition}[Dependent-codomain inversion boundary carrier]
+\label{def:dependent-codomain-inversion-boundary-carrier}
+A $\DependentCodomainInversionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+D=(\Pi,A,a,a',C_0,C_1,S,R,O,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Pi$ is the dependent function-type row whose codomain may observe the argument;
+\item $A$ is the displayed domain row shared by the argument and the function type;
+\item $a$ and $a'$ are the source and reduced argument rows;
+\item $C_0$ is the codomain readback row obtained by substituting $a$ into the displayed codomain;
+\item $C_1$ is the codomain readback row obtained by substituting $a'$ into the same displayed codomain;
+\item $S$ is the syntactic substitution-evidence row, including the beta-substitution route supplied by \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert};
+\item $R$ is the subject-reduction handoff row pointing to the finite subject-reduction obstruction surface of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert};
+\item $O$ is the open-frontier ledger row recording that no unconditional dependent-codomain inversion is exported;
+\item $H$ stores componentwise $\hsame$ transport for the function type, domain, arguments, codomain readbacks, substitution row, handoff row, obstruction row, provenance row, and local name;
+\item $K$ stores displayed $\Cont$ replay routes for codomain readback, substitution evidence, obstruction readback, and subject-reduction handoff;
+\item $P$ is the $\Pkg$ provenance over the open-problem vision, the obstruction packet, the beta-substitution packet, and the open-frontier ledger;
+\item $N$ is the local $\NameCert_{\DependentCodomainInversionBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for closed subject reduction, no proof that $C_0$ and $C_1$ are interchangeable, no context-reduction theorem, no inhabited discharge bundle, and no host conversion semantics.
+\end{definition}
+
+\begin{theorem}[Dependent-codomain inversion boundary NameCert obligations]
+\label{thm:dependent-codomain-inversion-boundary-namecert-obligations}
+The local $\NameCert_{\DependentCodomainInversionBoundaryUp}$ surface for \autoref{def:dependent-codomain-inversion-boundary-carrier} consists exactly of carrier admission for $D=(\Pi,A,a,a',C_0,C_1,S,R,O,H,K,P,N)$, domain and argument row visibility, paired codomain-readback visibility for $C_0$ and $C_1$, syntactic substitution evidence through $S$, subject-reduction obstruction handoff through $R$, open-frontier ledger exposure through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The domain, argument, and codomain-readback rows are displayed before any substitution-facing or subject-reduction-facing read is available.
+
+Read the syntactic side through $S$. The beta-substitution packet supplies a finite substitution route, but that route reaches only the displayed codomain readback rows and does not identify $C_0$ with $C_1$.
+
+Read the subject-reduction side through $R$ and $O$. These rows cite the obstruction packet and the open-frontier ledger as boundary surfaces, so the consumer sees exactly where the dependent-codomain discharge would be required.
+
+The structural rows $H,K,P,N$ transport, replay, package, and name only the displayed rows. Since the carrier contains no context-reduction theorem, discharge bundle inhabitant, or closed subject-reduction row, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dependent-codomain inversion boundary subject-reduction handoff]
+\label{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff}
+Every subject-reduction consumer of an accepted $\DependentCodomainInversionBoundaryUp$ packet must pass through the displayed paired codomain rows $C_0$ and $C_1$, the syntactic substitution row $S$, the obstruction handoff row $R$, and the open-frontier ledger row $O$ before it may request dependent-codomain discharge. The packet may hand off this request to the subject-reduction obstruction surface, but it does not close the request and does not export closed subject reduction.
+\end{theorem}
+\begin{proof}
+Begin with a consumer asking for subject-reduction evidence in the dependent-codomain application case. Carrier projection exposes the two argument rows and the two codomain readbacks as separate coordinates.
+
+Apply the NameCert obligation theorem. The consumer can read syntactic substitution evidence only through $S$, and it can read the subject-reduction boundary only through $R$ and $O$.
+
+The handoff is therefore finite and explicit. It records the exact point where codomain readback stability or a compatible discharge surface must enter, while excluding closed subject reduction, host conversion, and context-reduction data from the packet itself.
+\end{proof}
+
+\closureat{DependentCodomainInversionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\DependentCodomainInversionBoundaryUp}
+  \constructivestory{A $\DependentCodomainInversionBoundaryUp$ packet is generated from dependent function-type, domain, argument, codomain-readback, substitution, obstruction, frontier-ledger, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dependent-codomain-inversion-boundary-carrier}, \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}, and \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff} bind the finite codomain-readback boundary and subject-reduction handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove dependent-codomain inversion, codomain-readback equality, context reduction, inhabited discharge bundles, closed subject reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired codomain-readback coverage, syntactic substitution routing, obstruction handoff, frontier-ledger exposure, and non-escape over the same finite packet.}
+\end{closurestatus}
