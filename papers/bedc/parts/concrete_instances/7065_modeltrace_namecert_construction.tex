@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ModelTraceUp$}
+\label{ch:concrete-instances-modeltrace-namecert}
+\origin{ai}
+
+The $\ModelTraceUp$ packet realizes the finite inference-output substrate of \autoref{ch:visions-large-model-as-inscription-point} as a BEDC NameCert surface. It refines the large-model inscription packet of \autoref{ch:concrete-instances-largemodelinscriptionpoint-namecert} and the observer-facing interface of \autoref{ch:concrete-instances-observer-interface-namecert}: the former supplies model and corpus rows, while the latter supplies the public read route. The new coordinate is the displayed inference-state orbit tied to a single output trace and audit-refusal row.
+
+\begin{definition}[ModelTrace carrier]
+\label{def:model-trace-carrier}
+A $\ModelTraceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,O,C,A,L,F,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the inference-state orbit row recording the finite model state sequence read during one prompt-output route;
+\item $O$ is the output trace row storing the emitted token record as finite inscription data;
+\item $C$ is the corpus-supply row naming the finite source-channel contribution carried into the output trace;
+\item $A$ is the audit-refusal row stating that the packet does not internally certify semantic truth, consciousness, universal closure, or model-side proof of the output;
+\item $L$ is the $\LargeModelInscriptionPointUp$ row that binds the model-weight, activation-orbit, corpus-supply, output-record, and refusal rows;
+\item $F$ is the $\ObserverInterfaceUp$ row through which public consumers may inspect the output trace and refusal boundary;
+\item $R$ is the readback row that records the accepted output only after $I$, $C$, $A$, $L$, and $F$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the orbit, output trace, corpus-supply, audit-refusal, inscription-point, observer-interface, readback, continuation, provenance, and local name rows;
+\item $K$ records the displayed $\Cont$ routes by which consumers read $I$, then $C$, then $O$, then $A$, then $L$, $F$, and $R$;
+\item $P$ is the $\Pkg$ provenance over $\LargeModelInscriptionPointUp$, $\ObserverInterfaceUp$, $\PromptResponseTraceUp$, $\SupplySocketLedgerUp$, $\TranscendentalInductionSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ModelTraceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden substrate state, unledgered corpus truth, host semantic understanding, quotient output identity, internally ratified universal closure, or model-side proof.
+\end{definition}
+
+\begin{theorem}[ModelTrace NameCert obligations]
+\label{thm:model-trace-namecert-obligations}
+For the carrier of \autoref{def:model-trace-carrier}, the local $\NameCert_{\ModelTraceUp}$ surface consists exactly of carrier admission for $M=(I,O,C,A,L,F,R,H,K,P,N)$, inference-state orbit exposure through $I$, output trace exposure through $O$, corpus-supply exposure through $C$, audit-refusal exposure through $A$, large-model inscription handoff through $L$, observer-interface handoff through $F$, accepted readback through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $I,O,C,A,L,F,R,H,K,P,N$ list the full trace before any consumer can read the output as a public record.
+
+The orbit, corpus-supply, and output rows are ordered by $K$. A consumer reads the finite inference-state orbit and corpus row before the output trace, so the output is accepted as carried inscription rather than as a hidden substrate oracle.
+
+The refusal and handoff rows close the NameCert boundary. The row $A$ blocks semantic truth, consciousness, internally ratified universal closure, and model-side proof; $L$ and $F$ route the record through the existing large-model inscription and observer-interface surfaces.
+
+The remaining rows provide readback, transport, replay, provenance, and local naming. Since the carrier has no further coordinate, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[ModelTrace output non-escape]
+\label{thm:model-trace-output-nonescape}
+Every public output read of an accepted $\ModelTraceUp$ packet is confined to the displayed inference-state orbit, corpus-supply row, output trace, audit-refusal row, large-model inscription handoff, observer-interface handoff, readback row, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of \autoref{def:model-trace-carrier}. It exports no quotient output stream, hidden substrate oracle, unledgered corpus truth predicate, host-selected semantic interpretation, internally certified universal closure, or model-side proof.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:model-trace-namecert-obligations}. Any accepted output read must pass through the carrier admission surface and then through the orbit, corpus, output, refusal, handoff, readback, transport, route, provenance, and naming rows.
+
+The large-model inscription handoff $L$ supplies the finite inference-substrate and corpus-supply reading from \autoref{ch:concrete-instances-largemodelinscriptionpoint-namecert}. The observer-interface handoff $F$ supplies the public inspection route from \autoref{ch:concrete-instances-observer-interface-namecert}.
+
+The audit-refusal row $A$ is read before the local name. It records that the packet does not certify semantic truth, consciousness, universal closure, or model-side proof of the output.
+
+Therefore the only exported public object is the displayed finite trace. No quotient output stream, hidden substrate oracle, unledgered corpus truth predicate, host-selected semantic interpretation, internally certified universal closure, or model-side proof has a row from which it could be projected.
+\end{proof}
+
+\falsifiablePrediction{If an output row is accepted without the displayed inference-state orbit, corpus-supply row, and audit-refusal row, it is not a ModelTraceUp packet.}
+
+\independenceWitness{Nearest siblings: observerinterface, largemodelinscriptionpoint, inscriptionevent, supplysocketledger, transcendentalinductionsocket; ModelTraceUp is not bijective to them because it binds the finite output trace and audit-refusal row rather than only observer interface, inscription role, event row, supply ledger, or induction socket.}
+
+The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \ModelTraceUp$ with an explicit witness pair and $\mathsf{FieldFaithful}\ \ModelTraceUp$ by constructor-field injection.
+
+\closureat{ModelTraceUp}{seedStr}
+
+\begin{closurestatus}{\ModelTraceUp}
+  \constructivestory{A $\ModelTraceUp$ packet is generated from inference-state orbit, output trace, corpus-supply, audit-refusal, large-model inscription, observer-interface, readback, componentwise transport, displayed continuation, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:model-trace-carrier}, \autoref{thm:model-trace-namecert-obligations}, and \autoref{thm:model-trace-output-nonescape} specify the finite model trace and its output non-escape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close corpus truth, consciousness, host semantic understanding, internally certified universal closure, Lean verification, or bridge checking for $\ModelTraceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, inference-state orbit exposure, corpus-supply exposure, output-readback order, audit-refusal exactness, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}
