@@ -88,6 +88,20 @@ The transport and continuation rows are inherited from the carrier. Since the re
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchySumUp.RegularCauchySumCarrier\_regseqrat\_handoff}
 
+\begin{theorem}[RegularCauchySum tail-selector handoff]
+\label{thm:regular-cauchy-sum-tail-selector-handoff}
+Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet whose aligned $\StreamNameUp$ windows are read at the same precision request as the one-source selected-tail witness surface of \autoref{ch:concrete-instances-regularcauchytailselector-namecert}. Then every $\RegularCauchySumUp$ readback that exposes the $\RealUp$ seal must first consume the selected-tail witnesses for $A$ and $B$, the aligned windows $W_A,W_B$, the dyadic endpoint rows $D_A,D_B,D$, the finite error ledger $E$, the $\RegSeqRatUp$ handoff row $R$, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. The handoff exposes no quotient streams, host equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the sum packet. Its only source-facing rows are the two regular names, the aligned $\StreamNameUp$ windows, the endpoint rows, the finite ledger, the readback row, and the structural route rows.
+
+Read the sibling tail-selector surface next. The diagonal admissibility and precision-window exactness rows of \autoref{ch:concrete-instances-regularcauchytailselector-namecert} supply one-source selected-tail witnesses attached to finite $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ support rows.
+
+Use \autoref{thm:regular-cauchy-sum-regseqrat-handoff} to repack the aligned endpoint and ledger rows as the sum readback $R$. The selected-tail witnesses remain attached through $H,C,P,N$, so the sum route consumes the sibling witnesses before the $\RealUp$ seal is exposed.
+
+Finally apply the local non-escape and seal boundary rows. They rule out quotient streams, host equality, selected limits, and ambient completeness, leaving only the finite handoff surface listed in the statement.
+\end{proof}
+
 \begin{theorem}[RegularCauchySum RealUp seal boundary]
 \label{thm:regular-cauchy-sum-realup-seal-boundary}
 Any $\RealUp$ consumer of an accepted $\RegularCauchySumUp$ packet reads only the $\RegSeqRatUp$ readback row $R$ together with the visible provenance of the two source names, aligned windows, dyadic endpoint addition rows, finite error-budget ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ row, and local $\NameCert_{\RegularCauchySumUp}$ row.
