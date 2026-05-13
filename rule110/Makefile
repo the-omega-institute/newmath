@@ -359,6 +359,19 @@ $(TEST_DIR)/test_cook_packet_phase_exact: $(TEST_DIR)/test_cook_packet_phase_exa
 TESTS += $(TEST_DIR)/test_cook_packet_phase_exact
 test: $(TEST_DIR)/test_cook_packet_phase_exact
 
+$(TEST_DIR)/test_enum_cook_full_roundtrip: $(TEST_DIR)/test_enum_cook_full_roundtrip.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/cook_decode.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
+	    $(TEST_DIR)/test_enum_cook_full_roundtrip.c \
+	    $(TEST_DIR)/manifest_runner.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_ossifier.c \
+	    $(ENCODER_DIR)/cook_data_block.c $(ENCODER_DIR)/cook_encode.c \
+	    $(ENCODER_DIR)/cook_decode.c
+
+TESTS += $(TEST_DIR)/test_enum_cook_full_roundtrip
+test: $(TEST_DIR)/test_enum_cook_full_roundtrip
+
 $(TEST_DIR)/test_meta_cic: $(TEST_DIR)/test_meta_cic.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/groundcompiler_encoding.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
 	    $(TEST_DIR)/test_meta_cic.c $(TEST_DIR)/manifest_runner.c \

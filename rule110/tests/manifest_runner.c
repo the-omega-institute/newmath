@@ -83,6 +83,30 @@ static void free_manifest(ParsedManifest *m) {
     free(m->prod_lens);
 }
 
+int mr_load_ct_program(const char *manifest_path, MrCtProgram *out) {
+    ParsedManifest parsed;
+
+    if (out == NULL) return -1;
+    out->prods = NULL;
+    out->prod_lens = NULL;
+    out->num_prods = 0;
+    if (parse_manifest(manifest_path, &parsed) != 0) return -1;
+    out->prods = parsed.prods;
+    out->prod_lens = parsed.prod_lens;
+    out->num_prods = parsed.num_prods;
+    return 0;
+}
+
+void mr_free_ct_program(MrCtProgram *m) {
+    if (m == NULL) return;
+    for (size_t i = 0; i < m->num_prods; i++) free(m->prods[i]);
+    free(m->prods);
+    free(m->prod_lens);
+    m->prods = NULL;
+    m->prod_lens = NULL;
+    m->num_prods = 0;
+}
+
 MrResult mr_run_ct_manifest(const char *manifest_path,
                             const char *input_bits,
                             const char *expected_final_tape,

@@ -12,6 +12,15 @@ typedef enum {
     MR_FAIL_LOAD = 3
 } MrResult;
 
+typedef struct {
+    uint8_t **prods;
+    size_t *prod_lens;
+    size_t num_prods;
+} MrCtProgram;
+
+int mr_load_ct_program(const char *manifest_path, MrCtProgram *out);
+void mr_free_ct_program(MrCtProgram *m);
+
 /* Run a cyclic-tag manifest file against an input bit-string, comparing the
    final tape to expected_tape after at most max_steps. Returns MR_PASS or a
    failure code. Prints details to stderr on failure. */
