@@ -134,6 +134,11 @@ manifest assertion PASS/FAIL
 - [x] T-B.6: round-trip 验证: Rule 110 evolution on `.r110` decode = `.ct` direct-carrier input
 - [x] T-B.7: `make test` 扩到 FKernel `.r110` smoke test; Beyond-FKernel appendix 四目录不纳入覆盖
 - [x] T-B.8: 更新 STATUS.md 标 Tier B ship; tag `rule110-v3.0-fkernel-tier-b`
+- [~] T-B.9: `.algo.ct` Cook packet diagnostic track. `hist/hsame_refl.algo.ct`
+  generates `hist/hsame_refl.algo.r110.ct` through phase-exact
+  leader/ossifier/data-block composition and is replayed by `make
+  test-algo-r110`. This remains a diagnostic track until the evolved Rule 110
+  row has a decoded cyclic-tag output window.
 
 **Tier B ship 状态**: `.enum.ct` direct-carrier 子集已 ship. `.algo.ct` 与 Beyond-FKernel 显式不在 Tier B 范围.
 
