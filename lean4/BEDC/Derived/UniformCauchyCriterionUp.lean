@@ -344,4 +344,32 @@ theorem UniformCauchyCriterionPacket_root_seal_readback [AskSetup] [PackageSetup
     ⟨transportedPacketFinal, sameTail, tailReadUnary', sealReadUnary', rootReadUnary',
       indexTailRead', tailSealRead', readbackRoot', sealReadPkg', rootReadPkg'⟩
 
+theorem UniformCauchyCriterionPacket_root_threshold_schedule_determinacy [AskSetup]
+    [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name thresholdRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index windows thresholdRead ->
+        PkgSig bundle thresholdRead pkg ->
+          UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+            UnaryHistory thresholdRead ∧ Cont index windows modulus ∧
+              Cont index windows thresholdRead ∧ hsame modulus thresholdRead ∧
+                PkgSig bundle name pkg ∧ PkgSig bundle thresholdRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet indexWindowsThreshold thresholdPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, _toleranceUnary, _tailUnary, _sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    _modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have thresholdUnary : UnaryHistory thresholdRead :=
+    unary_cont_closed indexUnary windowsUnary indexWindowsThreshold
+  have sameThreshold : hsame modulus thresholdRead :=
+    cont_respects_hsame (hsame_refl index) (hsame_refl windows) indexWindowsModulus
+      indexWindowsThreshold
+  exact
+    ⟨indexUnary, windowsUnary, modulusUnary, thresholdUnary, indexWindowsModulus,
+      indexWindowsThreshold, sameThreshold, namePkg, thresholdPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
