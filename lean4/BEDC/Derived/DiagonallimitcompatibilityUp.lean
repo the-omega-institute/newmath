@@ -52,4 +52,80 @@ theorem DiagonalLimitCompatibilityNonEscape [AskSetup] [PackageSetup]
       realSealUnary, endpointUnary, diagonalTriangleSeal, dyadicWindowsReadback,
       readbackEndpoint, provenancePkg, endpointPkg⟩
 
+theorem DiagonalLimitCompatibilityCarrier_selector_budget_source_lock [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      selector locked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal windows selector ->
+        Cont selector readback locked ->
+          PkgSig bundle locked pkg ->
+            UnaryHistory diagonal ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+              UnaryHistory selector ∧ UnaryHistory locked ∧ Cont diagonal windows selector ∧
+                Cont selector readback locked ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle locked pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier diagonalWindowsSelector selectorReadbackLocked lockedPkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, windowsUnary,
+    readbackUnary, _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed diagonalUnary windowsUnary diagonalWindowsSelector
+  have lockedUnary : UnaryHistory locked :=
+    unary_cont_closed selectorUnary readbackUnary selectorReadbackLocked
+  exact
+    ⟨diagonalUnary, windowsUnary, readbackUnary, selectorUnary, lockedUnary,
+      diagonalWindowsSelector, selectorReadbackLocked, provenancePkg, lockedPkg⟩
+
+theorem DiagonalLimitCompatibility_tolerance_ledger_handoff [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont dyadic windows readback ->
+        Cont readback realSeal endpoint ->
+          UnaryHistory dyadic ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+            UnaryHistory endpoint ∧ Cont dyadic windows readback ∧
+              Cont readback realSeal endpoint ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier dyadicWindowsReadback readbackEndpoint
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealUnary, dyadicUnary, windowsUnary, readbackUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary,
+    _diagonalTriangleSeal, _carrierDyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed readbackUnary realSealUnary readbackEndpoint
+  exact
+    ⟨dyadicUnary, windowsUnary, readbackUnary, endpointUnary, dyadicWindowsReadback,
+      readbackEndpoint, provenancePkg⟩
+
+theorem DiagonalLimitCompatibility_seal_consumer_factorization [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont readback realSeal endpoint ->
+        PkgSig bundle endpoint pkg ->
+          UnaryHistory diagonal ∧ UnaryHistory triangle ∧ UnaryHistory dyadic ∧
+            UnaryHistory windows ∧ UnaryHistory readback ∧ UnaryHistory realSeal ∧
+              UnaryHistory endpoint ∧ Cont diagonal triangle sealRow ∧
+                Cont dyadic windows readback ∧ Cont readback realSeal endpoint ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier readbackEndpoint endpointPkg
+  obtain ⟨diagonalUnary, triangleUnary, _sealUnary, dyadicUnary, windowsUnary, readbackUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary,
+    diagonalTriangleSeal, dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed readbackUnary realSealUnary readbackEndpoint
+  exact
+    ⟨diagonalUnary, triangleUnary, dyadicUnary, windowsUnary, readbackUnary, realSealUnary,
+      endpointUnary, diagonalTriangleSeal, dyadicWindowsReadback, readbackEndpoint,
+      provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp

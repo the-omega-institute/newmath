@@ -250,6 +250,56 @@ instance observationBudgetLimiterChapterTasteGate :
 def taste_gate : ChapterTasteGate ObservationBudgetLimiterUp :=
   inferInstance
 
+def observationBudgetLimiterFields : ObservationBudgetLimiterUp → List BHist
+  | ObservationBudgetLimiterUp.mk E B K W D R S H C P N => [E, B, K, W, D, R, S, H, C, P, N]
+
+instance observationBudgetLimiterFieldFaithful :
+    FieldFaithful ObservationBudgetLimiterUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := observationBudgetLimiterFields
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk E B K W D R S H C P N =>
+        cases y with
+        | mk E' B' K' W' D' R' S' H' C' P' N' =>
+            injection hfields with hE htail0
+            injection htail0 with hB htail1
+            injection htail1 with hK htail2
+            injection htail2 with hW htail3
+            injection htail3 with hD htail4
+            injection htail4 with hR htail5
+            injection htail5 with hS htail6
+            injection htail6 with hH htail7
+            injection htail7 with hC htail8
+            injection htail8 with hP htail9
+            injection htail9 with hN _hNil
+            cases hE
+            cases hB
+            cases hK
+            cases hW
+            cases hD
+            cases hR
+            cases hS
+            cases hH
+            cases hC
+            cases hP
+            cases hN
+            rfl
+
+theorem ObservationBudgetLimiter_kernel_scope_fields :
+    observationBudgetLimiterFields
+        (ObservationBudgetLimiterUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+      [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+        BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+      (∀ x y : ObservationBudgetLimiterUp,
+        observationBudgetLimiterFields x = observationBudgetLimiterFields y → x = y) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · exact FieldFaithful.field_faithful
+
 theorem ObservationBudgetLimiterTasteGate_single_carrier_alignment :
     (∀ h : BHist, observationBudgetLimiterDecodeBHist
       (observationBudgetLimiterEncodeBHist h) = h) ∧
