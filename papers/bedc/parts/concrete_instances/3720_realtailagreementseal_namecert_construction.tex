@@ -157,6 +157,44 @@ Apply the StreamName lattice-meet exhaustion theorem \autoref{thm:streamname-fin
 Now return to the local packet using \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}. Once the meet has supplied the shared finite window surface, every public agreement read proceeds through $W \to D \to A$ and cannot replace the meet by quotient stream equality, host real equality, selected limits, or a hidden window selector.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal window-route determinacy companion]
+\label{thm:real-tail-agreement-seal-window-route-determinacy-companion}
+For an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$, paired finite windows determine one displayed dyadic agreement route. If two public reads use the same paired window row $W$ and the same dyadic readback row $D$, then the agreement row visible to $\RealUp$ and $\CompletionUp$ consumers is the same row $A$.
+\end{theorem}
+\begin{proof}
+Use the finite-window meet coverage theorem to place both reads on the single $\StreamNameUp$ meet surface before any dyadic readback is consumed.
+
+Then apply the paired-window source lock. Agreement on $W$ and $D$ fixes the route $W \to D \to A$, so two reads over the same displayed windows and readback row cannot expose different agreement rows.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal window-route exact companion]
+\label{thm:real-tail-agreement-seal-window-route-exact-companion}
+For an accepted $\RealTailAgreementSealUp$ packet $Q=(R,S,W,D,A,H,C,P,N)$, the agreement row is read exactly through
+$$
+W \to D \to A.
+$$
+No consumer may read $A$ before the paired finite window row $W$ and the dyadic readback row $D$ have both been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $W,D,A,H,C,P,N$. The window row displays the paired finite tail windows, and the dyadic row is the only readback coordinate attached to those windows.
+
+Apply dyadic exactness and the window-meet coverage theorem. Together they force the public agreement read to pass from the finite windows to the dyadic readback and only then to the agreement row.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal window-route non-escape companion]
+\label{thm:real-tail-agreement-seal-window-route-nonescape-companion}
+An accepted $\RealTailAgreementSealUp$ packet cannot replace the displayed route
+$$
+W \to D \to A
+$$
+by quotient stream equality, a selected limit, host convergence, or a choice-selected tail. Every valid Real or Completion consumer stays inside the finite rows $R,S,W,D,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from the exact companion route. A public agreement read has no access to $A$ except through the displayed window and dyadic rows.
+
+Now apply the non-escape and Real--Completion boundary theorems. The packet exports only the finite BEDC rows, so quotient streams, selected limits, host convergence, and choice-selected tails have no coordinate that can stand in for $W \to D \to A$.
+\end{proof}
+
 \begin{theorem}[Real tail-agreement seal downstream route exhaustion]
 \label{thm:real-tail-agreement-seal-downstream-route-exhaustion}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\RealTailAgreementSealUp$ packet receives only the route
