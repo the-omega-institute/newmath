@@ -133,16 +133,36 @@ Next use the shared-window handoff. It binds the seed, stream, regular-sequence,
 Finally apply the Real seal non-escape theorem. The package can export only $R,W,S,D,E,H,C,P,N$, and the listed downstream consumers read those rows through their existing finite-window routes.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy window fusion budget meet]
+\label{thm:regular-cauchy-window-fusion-budget-meet}
+Let
+$$
+F=(R,W,S,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWindowFusionUp$ carrier. If two downstream reads consume the same shared finite window, one through the $\RegSeqRatUp$ readback row $S$ and one through the $\DyadicRatCoreUp$ observation ledger $D$, then the reads meet at the same $\RealUp$ seal row $E$ through the displayed rows $H,C,P,N$. The meet exports the finite L10 handoff packet
+$$
+R,W,S,D,E,H,C,P,N
+$$
+and exports no selected limit, quotient stream, trichotomy decision, ambient completeness proof, or hidden comparison row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}. It places the regular-sequence readback row $S$ and the dyadic observation ledger $D$ over one displayed finite window together with the RatUp seed row $R$ and the stream-window row $W$.
+
+Next apply \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The only real-facing row reachable from that shared window is $E$, and it is read only after $R,W,S,D$ under the support rows $H,C,P,N$.
+
+Finally apply \autoref{thm:regular-cauchy-window-fusion-downstream-package}. The package repacks exactly $R,W,S,D,E,H,C,P,N$ for downstream $\RealUp$ and completion-facing consumers. Since the accepted carrier has no coordinate for selected limits, quotient streams, trichotomy, ambient completeness, or hidden comparison data, the two downstream reads meet at the displayed seal row rather than at an external analytic object.
+\end{proof}
+
 \closureat{RegularCauchyWindowFusionUp}{obligationStr}[BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionUpTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyWindowFusionUp}
   \constructivestory{A $\RegularCauchyWindowFusionUp$ packet is generated from a RatUp seed classifier, a finite $\StreamNameUp$ constant window, a $\RegSeqRatUp$ seal readback, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ finite-window seal, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.taste\_gate}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-window-fusion-carrier}, \autoref{thm:regular-cauchy-window-fusion-namecert-obligations}, \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}, \autoref{thm:regular-cauchy-window-fusion-selector-budget-compatibility}, and \autoref{thm:regular-cauchy-window-fusion-downstream-package} bind the shared finite observation-window packet and the selector-budget compatibility duty for stationary regular Cauchy routes.}
+  \scopeclosed{\autoref{def:regular-cauchy-window-fusion-carrier}, \autoref{thm:regular-cauchy-window-fusion-namecert-obligations}, \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}, \autoref{thm:regular-cauchy-window-fusion-selector-budget-compatibility}, \autoref{thm:regular-cauchy-window-fusion-downstream-package}, and \autoref{thm:regular-cauchy-window-fusion-budget-meet} bind the shared finite observation-window packet, selector-budget compatibility duty, and regular-dyadic seal meet for stationary regular Cauchy routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close RealUp completeness, quotient streams, selected limits, real trichotomy, bridge status, Lean verification, or ambient completeness.}
-  \upgradepath{Scoped closure requires checked carrier admission, shared-window handoff, Real seal non-escape, selector-budget compatibility, and downstream package theorems for the same finite packet.}
+  \upgradepath{Scoped closure requires checked carrier admission, shared-window handoff, Real seal non-escape, selector-budget compatibility, downstream package, and budget-meet theorems for the same finite packet.}
 \end{closurestatus}
