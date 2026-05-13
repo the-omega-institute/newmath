@@ -112,6 +112,7 @@ Next read the tail or diagonal evidence. The same theorem routes the request thr
 
 Finally consume the finite budget. The budget-readback determinacy theorem \autoref{thm:cauchy-error-certificate-budget-readback-determinacy} fixes the $E$ and $P$ rows before the consumer reaches $R$, while \autoref{thm:cauchy-error-certificate-non-escape-boundary} excludes quotient streams, host limits, ambient completeness, and host real equality.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyErrorCertificateUp.CauchyErrorCertificatePacket\_modulus\_budget\_composition}
 
 \begin{theorem}[CauchyErrorCertificate readback route uniqueness]
 \label{thm:cauchy-error-certificate-readback-route-uniqueness}
@@ -225,12 +226,45 @@ For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, modulus so
 
 The package closes the error-budget obligation surface for the displayed certificate, while leaving quotient streams, selected host limits, ambient completeness, host real equality, and bridge checking outside the chapter.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyErrorCertificateUp.CauchyErrorCertificatePacket\_seal\_budget\_package}
 \begin{proof}
 First bind the soundness route. Theorem~\ref{thm:cauchy-error-certificate-modulus-soundness} supplies the finite tolerance-to-budget route through $M$, $T$, and $E$.
 
 Next bind compatibility. Theorem~\ref{thm:cauchy-error-certificate-diagonal-tail-compatibility} states that diagonal and tail evidence accepted by the same packet feed the same finite budget ledger, and Theorem~\ref{thm:cauchy-error-certificate-uniform-diagonal-compatibility} identifies the uniform-family and diagonal routes through the same $M,T,E$ coordinates.
 
 Finally bind the seal boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} fixes the $\RegSeqRatUp/\RealUp$ readback boundary relative to the displayed rows, and the non-escape boundary excludes all host-side completion objects. Repacking these rows gives the announced finite $\RealUp$ seal budget package.
+\end{proof}
+
+\begin{theorem}[CauchyErrorCertificate composed budget readback handoff]
+\label{thm:cauchy-error-certificate-composed-budget-readback-handoff}
+Let $C=(R,M,T,E,P,N)$ be an accepted $\CauchyErrorCertificateUp$ packet. Suppose a binary-prefix $\BinaryExpansionUp$ regular handoff and a $\UniformCauchyCriterionUp$ real-seal handoff are both consumed through the same displayed unary modulus $M$, the same tail-or-diagonal row $T$, the same finite error-budget ledger $E$, and the same package provenance row $P$. Then every $\RealUp$ completion-facing read factors through the common finite route
+$$
+\begin{gathered}
+\text{binary prefix window}
+\longrightarrow
+\text{dyadic approximation row}
+\longrightarrow
+\text{uniform tail ledger}
+\longrightarrow
+\text{Cauchy error budget}
+\\
+\longrightarrow
+\RegSeqRatUp\text{ readback}
+\longrightarrow
+\RealUp\text{ seal}.
+\end{gathered}
+$$
+
+The composed handoff exports no quotient stream, selected host limit, host real equality, or ambient completeness theorem. The only displayed data available to the read are the binary prefix window, dyadic approximation row, uniform tail ledger, finite Cauchy budget, readback row $R$, provenance row $P$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the binary-prefix side. Theorem~\ref{thm:binary-expansion-regular-handoff-factorization} factors the $\BinaryExpansionUp$ regular handoff through the inspected prefix window, dyadic approximation row, and regular-sequence handoff boundary. Thus the read does not receive an independent infinite bitstream or a second rational stream.
+
+Next attach the uniform Cauchy side. Theorem~\ref{thm:cauchy-error-certificate-uniform-budget-handoff} routes the uniform real-seal handoff through the displayed modulus $M$, the common tail-or-diagonal row $T$, and the finite ledger $E$. The shared $M,T,E,P$ hypotheses identify the binary and uniform routes before either reaches the readback boundary.
+
+Now fix the downstream boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} identifies the $\RegSeqRatUp/\RealUp$ readback route relative to the displayed modulus, tail-or-diagonal, budget, and provenance rows.
+
+Finally package the seal-facing read. Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package} repacks the same displayed rows as the finite $\RealUp$ seal budget package, while the non-escape boundary leaves quotient streams, selected host limits, host real equality, and ambient completeness outside the composed handoff.
 \end{proof}
 
 \begin{theorem}[CauchyErrorCertificate scoped budget-window package]
@@ -245,6 +279,24 @@ Next bind the finite window. Theorem~\ref{thm:cauchy-error-certificate-budget-wi
 Now fix the readback boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} identifies the $\RegSeqRatUp/\RealUp$ boundary relative to the displayed modulus, tail-or-diagonal, budget, and provenance rows.
 
 Finally apply Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package}. It repacks the displayed rows as the finite seal budget package, while its boundary clause leaves quotient streams, selected host limits, host real equality, and ambient completeness outside the scoped surface.
+\end{proof}
+
+\begin{theorem}[CauchyErrorCertificate public export]
+\label{thm:cauchy-error-certificate-public-export}
+For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, the carrier, the $\NameCert_{\CauchyErrorCertificateUp}$ obligations, modulus soundness, budget-window exhaustion, shared modulus transport, readback route uniqueness, Real consumer unblock, seal budget package, and scoped budget-window package assemble the public $\NameCert_{\CauchyErrorCertificateUp}$ export for $\RealUp$ completion-facing readers.
+
+The exported consumer receives exactly $R,M,T,E,P,N$ together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It receives no quotient stream, selected host limit, ambient completeness row, host real equality, or bridge checking.
+\end{theorem}
+\begin{proof}
+First bind the displayed packet. The carrier of \autoref{def:cauchy-error-certificate-carrier} supplies $R,M,T,E,P,N$, and \autoref{thm:cauchy-error-certificate-namecert-obligations} fixes the local $\NameCert_{\CauchyErrorCertificateUp}$ obligation surface over those rows.
+
+Next bind the error-budget route. Theorem~\ref{thm:cauchy-error-certificate-modulus-soundness} sends each tolerance request through $M$ and $T$ into $E$, while Theorem~\ref{thm:cauchy-error-certificate-budget-window-exhaustion} ensures that the budget route is exhausted before the readback boundary is available.
+
+Now bind transport and readback. Theorem~\ref{thm:cauchy-error-certificate-shared-modulus-transport} preserves the shared modulus route under the displayed $\hsame$ and $\Cont$ rows, and Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} fixes the $\RegSeqRatUp/\RealUp$ readback boundary relative to the displayed $M,T,E,P$ rows.
+
+Finally repack the public export. Theorem~\ref{thm:cauchy-error-certificate-real-consumer-unblock} states the consumer-facing package, Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package} gathers it for completion-facing readers, and Theorem~\ref{thm:cauchy-error-certificate-scoped-budget-window-package} supplies the scoped $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The result is a public export because it exposes only the finite certificate surface already displayed by the packet. The non-escape boundary of \autoref{thm:cauchy-error-certificate-non-escape-boundary} leaves quotient streams, selected host limits, ambient completeness, host real equality, and bridge checking outside the export, so the theorem does not assert a new host real fact.
 \end{proof}
 
 \closureat{CauchyErrorCertificateUp}{seedStr}

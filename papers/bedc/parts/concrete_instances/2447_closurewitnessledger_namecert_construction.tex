@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\ClosureWitnessLedgerUp$}
+\label{ch:concrete-instances-closurewitnessledger-namecert}
+\origin{human}
+
+The $\ClosureWitnessLedgerUp$ interface records the finite ledger side of generator-internal closure. Where $\GeneratorClosureUp$ exposes the authorized generator and its classifier, $\ClosureWitnessLedgerUp$ isolates the witness packets carried by certificate continuations: each accepted continuation row names the constructor-list witness it reuses, and each read without such a witness is stored as a $\mathsf{GAP}$ non-escape row.
+
+\begin{definition}[ClosureWitnessLedger carrier]
+\label{def:closure-witness-ledger-carrier}
+A $\ClosureWitnessLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,L,W,Q,E,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $G$ is the authorized generator row whose closure supplies the admissible constructor surface;
+\item $L$ is the finite constructor-list provenance row for $G$;
+\item $W$ is the closure-witness ledger, with one finite witness packet for each continuation read that remains inside $L$;
+\item $Q$ is the witness-classifier row comparing continuation reads by the displayed generator row, constructor-list provenance, and witness packet;
+\item $E$ is the $\mathsf{GAP}$ non-escape ledger, recording every attempted continuation read that lacks the constructor-list witness required by $L$;
+\item $H$ stores displayed $\hsame$ transports for $G,L,W,Q,E$ and the local naming rows;
+\item $C$ stores the finite $\Cont$ routes by which consumers read generator rows, constructor-list provenance, witness packets, classifier rows, and non-escape rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, generator rows, constructor-list provenance, closure-witness packets, $\hsame$, $\Cont$, and $\mathsf{GAP}$ boundaries;
+\item $N$ is the local $\NameCert_{\ClosureWitnessLedgerUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed generator row, constructor-list provenance, finite witness ledger, classifier row, non-escape ledger, transport rows, continuation routes, package provenance, and local naming row. It does not export an induction rule over all future continuations.
+\end{definition}
+\leandef{BEDC.Derived.ClosureWitnessLedgerUp.ClosureWitnessLedgerCarrier}
+
+\begin{theorem}[ClosureWitnessLedger classifier stability]
+\label{thm:closure-witness-ledger-classifier-stability}
+Displayed $\hsame$ transport preserving the generator row $G$, constructor-list provenance $L$, closure-witness ledger $W$, non-escape ledger $E$, transport rows $H$, continuation routes $C$, package provenance $P$, and local $\NameCert$ row $N$ preserves the $\ClosureWitnessLedgerUp$ classifier $Q$. Thus two finite continuation reads classified through the same displayed generator and constructor-list provenance retain the same witness-present or $\mathsf{GAP}$-boundary status.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosureWitnessLedgerUp.ClosureWitnessLedgerCarrier\_classifier\_stability}
+\begin{proof}
+The classifier is componentwise over the packet in \autoref{def:closure-witness-ledger-carrier}. Transport of $G$ and $L$ preserves the authorized generator surface and the finite constructor-list provenance against which every witness packet is read.
+
+Transport of $W$ preserves the witness attached to an accepted continuation read. Transport of $E$ preserves the corresponding absence row for a read without the required constructor-list witness, and $H,C,P,N$ repack the same finite routes and naming row without adding any external closure principle.
+\end{proof}
+
+\begin{theorem}[ClosureWitnessLedger NameCert obligations]
+\label{thm:closure-witness-ledger-namecert-obligations}
+The local $\NameCert_{\ClosureWitnessLedgerUp}$ surface for \autoref{def:closure-witness-ledger-carrier} consists of five BEDC-native rows:
+\begin{enumerate}
+\item carrier admission over the finite $\BHist$ packet $K$;
+\item $\Pkg$ provenance naming the generator row, constructor-list provenance, witness ledger, classifier row, non-escape ledger, $\hsame$ transports, $\Cont$ routes, and local naming row;
+\item $\NameCert$ exactness stating that the local certificate classifies exactly the displayed closure-witness ledger packet;
+\item witness coverage stating that each accepted continuation read in $W$ carries a constructor-list witness from $L$ for the same generator row $G$;
+\item $\mathsf{GAP}$ ledger non-escape stating that each read in $E$ lacks the displayed witness required by $L$ and is not exported as a generator-internal continuation.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the displayed tuple. The generator row, constructor-list provenance, witness ledger, classifier row, non-escape ledger, transports, routes, provenance, and local naming row are coordinates of one finite $\BHist$ packet.
+
+The package and naming rows identify that same packet. Classifier stability from \autoref{thm:closure-witness-ledger-classifier-stability} supplies the transport behavior required by the NameCert surface.
+
+The remaining rows are direct ledger projections. The witness-coverage row reads accepted continuations through $W$ and $L$, while the $\mathsf{GAP}$ row reads rejected continuations through $E$ and records them as boundaries rather than as generated closure content.
+\end{proof}
+
+\begin{theorem}[ClosureWitnessLedger handoff to GeneratorClosure]
+\label{thm:closure-witness-ledger-generatorclosure-handoff}
+Let $K$ be an accepted $\ClosureWitnessLedgerUp$ carrier and let $J$ be a $\GeneratorClosureUp$ carrier with the same displayed generator row $G$ and constructor-list provenance $L$. If the $\Cont$ route of $J$ asks for a continuation witness, then the answer is read from $W$ when the witness is present and from $E$ as a $\mathsf{GAP}$ boundary when it is absent. Therefore the $\GeneratorClosureUp$ continuation-witness coordinate can be supplied by the concrete $\ClosureWitnessLedgerUp$ packet without changing the generator classifier.
+\end{theorem}
+\begin{proof}
+The shared $G$ and $L$ make both packets read continuation rows against the same finite constructor-list provenance. A $\Cont$ route in $J$ that requests a continuation witness is therefore a route of the same displayed shape as the corresponding route in $K$.
+
+If the route has a witness packet, the coordinate $W$ supplies it and the classifier row $Q$ records that the read remains inside the generator closure. If the route lacks the witness required by $L$, the coordinate $E$ supplies the only visible row, namely the $\mathsf{GAP}$ boundary.
+
+Repacking these two cases into the continuation-witness coordinate of $J$ changes no generator row and no constructor-list provenance. The handoff is a finite ledger substitution, not an additional induction principle.
+\end{proof}
+
+\begin{theorem}[ClosureWitnessLedger GAP non-escape]
+\label{thm:closure-witness-ledger-gap-nonescape}
+For any accepted $\ClosureWitnessLedgerUp$ carrier $K$, a finite continuation read recorded in the $\mathsf{GAP}$ ledger $E$ cannot also be exported by $K$ as an accepted witness packet in $W$ for the same generator row $G$ and constructor-list provenance $L$. Consequently every rejected read remains a boundary row and never becomes generator-internal closure content by certificate transport alone.
+\end{theorem}
+\begin{proof}
+Read the attempted continuation through its displayed route in $C$. The carrier has exactly two ledger outputs for such a route: a witness packet in $W$ when the constructor-list witness from $L$ is present, or a $\mathsf{GAP}$ row in $E$ when that witness is absent.
+
+The classifier stability theorem transports this distinction without changing $G$ or $L$. A row already classified through $E$ has no witness coordinate to project, so package provenance can only preserve it as a boundary row.
+
+Thus certificate transport cannot move an absent-witness read from $E$ into $W$. Such a move would require a new constructor-list witness not present in the finite packet, and the carrier exposes no coordinate that can create one.
+\end{proof}
+
+\begin{theorem}[ClosureWitnessLedger continuation-witness exactness]
+\label{thm:closure-witness-ledger-continuation-witness-exactness}
+For an accepted $\ClosureWitnessLedgerUp$ packet $K=(G,L,W,Q,E,H,C,P,N)$, every finite continuation read through $C$ has exactly one public classification: either a witness packet in $W$ against the displayed constructor-list provenance $L$, or a $\mathsf{GAP}$ row in $E$. Componentwise $\hsame$ transport through $H$ preserves this split, and no certificate transport can move a row from $E$ to $W$ without a displayed witness from $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closure-witness-ledger-carrier}. The continuation routes in $C$ read against the same generator row $G$ and constructor-list provenance $L$, so the classifier row $Q$ is evaluated on one displayed ledger surface.
+
+Apply \autoref{thm:closure-witness-ledger-generatorclosure-handoff}. A continuation read with the required constructor-list witness is supplied from $W$, while a read without that witness is supplied from $E$ as a $\mathsf{GAP}$ boundary.
+
+The two cases are exclusive by \autoref{thm:closure-witness-ledger-gap-nonescape}. A row already recorded in $E$ cannot also be exported as a witness packet in $W$ for the same $G$ and $L$.
+
+Transport through $H$ is componentwise over $G,L,W,Q,E$ and the local naming rows. It preserves the witness-vs-boundary split and provides no coordinate that can create the missing constructor-list witness.
+\end{proof}
+
+\closureat{ClosureWitnessLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ClosureWitnessLedgerUp}
+  \constructivestory{A $\ClosureWitnessLedgerUp$ packet is generated from an authorized generator row, finite constructor-list provenance, a closure-witness ledger, a witness classifier row, a $\mathsf{GAP}$ non-escape ledger, displayed $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the carrier, classifier stability, NameCert obligations, generator-closure handoff, and $\mathsf{GAP}$ non-escape boundary for finite closure-witness ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close general induction, host recursor correctness, public bridge checking, or closure over continuations outside the displayed generator and constructor-list provenance.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, NameCert exactness, generator-closure handoff, and $\mathsf{GAP}$ non-escape for the same finite packet.}
+\end{closurestatus}

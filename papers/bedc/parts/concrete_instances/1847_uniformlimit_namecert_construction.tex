@@ -53,6 +53,7 @@ F,M,T \longmapsto R \longmapsto S \longmapsto E.
 $$
 Thus the endpoint is exposed only after the displayed function/window family has been read through the shared threshold ledger, the $\UniformCauchyCriterionUp$ tail row, the $\RegSeqRatUp$ handoff, and the $\CauchyLimitSealUp$ row, together with the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformLimitUp.UniformLimitCarrier\_seal\_factorization}
 \begin{proof}
 Begin with an endpoint-facing consumer request. By the carrier definition, the only $\RealUp$ endpoint coordinate is $E$, and the continuation route to $E$ passes through the named rows of the same finite packet.
 
@@ -123,6 +124,87 @@ Start with \autoref{def:uniform-limit-carrier}. Its tuple lists every visible co
 Use \autoref{thm:uniform-limit-windowwise-cauchy-obligation} for the tail side and \autoref{thm:uniform-limit-limit-seal-compatibility} for the handoff and seal side. Together they show that all endpoint-facing routes are contained in the displayed packet.
 
 Finally apply \autoref{thm:uniform-limit-non-escape-boundary} and \autoref{thm:uniform-limit-finite-endpoint-certificate}. The excluded analytic structures would require additional carrier coordinates or a different consumer route, and neither is present in $U$.
+\end{proof}
+
+\begin{theorem}[UniformLimit tail-ledger exactness]
+\label{thm:uniform-limit-tail-ledger-exactness}
+For every accepted $\UniformLimitUp$ carrier
+$$
+U=(F,M,T,R,S,E,H,C,P,N),
+$$
+each endpoint-facing read first factors through the displayed function/window family $F$, the shared threshold ledger $M$, and the unique $\UniformCauchyCriterionUp$ tail ledger $T$ visible to the packet. No second tail ledger, pointwise-only convergence witness, or independently selected threshold route can be read before the regular handoff row $R$.
+\end{theorem}
+\begin{proof}
+Project $U$ through \autoref{def:uniform-limit-carrier}. The only rows before the regular handoff are $F,M,T$.
+
+Apply \autoref{thm:uniform-limit-namecert-obligations}. The local NameCert surface names the function/window family, the shared threshold ledger, and the uniform Cauchy tail ledger as the finite endpoint-facing entrance to the packet.
+
+Use \autoref{thm:uniform-limit-windowwise-cauchy-obligation}. Any endpoint-facing read reaches $R$ only after the shared threshold and uniform tail rows have been read.
+
+Finally apply \autoref{thm:uniform-limit-ledger-exactness-obligation}. Since the visible ledger has exactly one $T$ coordinate and no pointwise-only convergence or second threshold coordinate, the displayed $T$ is the unique tail ledger available to the packet.
+\end{proof}
+
+\begin{theorem}[UniformLimit seal-route transport]
+\label{thm:uniform-limit-seal-route-transport}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+and
+$$
+U'=(F',M',T',R',S',E',H',C',P',N')
+$$
+be accepted $\UniformLimitUp$ carriers related by the displayed classifier. Componentwise $\hsame$ transport of $F,M,T$ transports the regular handoff, limit seal, and endpoint route $R,S,E$ through the same $H,C,P,N$ provenance. Thus the seal route remains the same finite route after transport:
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E.
+$$
+\end{theorem}
+\begin{proof}
+Start with the compatibility theorem \autoref{thm:uniform-limit-limit-seal-compatibility}. It states that the handoff row $R$ and seal row $S$ use the same window coordinates and the same transport and continuation rows as the uniform tail route.
+
+Apply \autoref{thm:uniform-limit-tail-ledger-exactness}. Transport of the endpoint-facing entrance is therefore transport of the rows $F,M,T$, not a change to a different tail ledger.
+
+Use \autoref{thm:uniform-limit-seal-factorization}. The endpoint row $E$ is reached only through $R$ and $S$, so transporting $F,M,T$ carries the whole route through the same $R,S,E$ boundary.
+
+Finally invoke \autoref{thm:uniform-limit-namecert-obligations} and \autoref{thm:uniform-limit-ledger-exactness-obligation}. The rows $H,C,P,N$ are the displayed transport, replay, provenance, and local naming rows for this packet, and no additional seal route is present.
+\end{proof}
+
+\begin{theorem}[UniformLimit endpoint readback exhaustion]
+\label{thm:uniform-limit-endpoint-readback-exhaustion}
+Every downstream $\RealUp$ or completion-facing consumer of an accepted $\UniformLimitUp$ carrier can read only
+$$
+F,M,T,R,S,E,H,C,P,N.
+$$
+Such a consumer may read the displayed window family, shared threshold ledger, uniform tail ledger, regular handoff, limit seal, endpoint row, transports, continuations, package provenance, and local naming row. It cannot extract pointwise convergence without the uniform ledger, quotient function spaces, selected host limits, open-cover compactness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an arbitrary downstream endpoint read. By \autoref{thm:uniform-limit-tail-ledger-exactness}, the read first factors through $F,M,T$.
+
+Apply \autoref{thm:uniform-limit-seal-route-transport} and \autoref{thm:uniform-limit-seal-factorization}. The regular handoff, limit seal, and endpoint route are exactly $R,S,E$, transported and replayed by the same $H,C$ rows.
+
+Use \autoref{thm:uniform-limit-finite-endpoint-certificate}. The finite certificate packages the endpoint-facing route together with $P$ and $N$ as the visible provenance and local naming surface.
+
+Finally apply \autoref{thm:uniform-limit-non-escape-boundary} and \autoref{thm:uniform-limit-ledger-exactness-obligation}. The excluded pointwise, quotient, selected-limit, compactness, and completeness objects are not coordinates of the carrier and cannot be recovered by readback.
+\end{proof}
+
+\begin{theorem}[UniformLimit obligation closure package]
+\label{thm:uniform-limit-obligation-closure-package}
+For every accepted $\UniformLimitUp$ carrier
+$$
+U=(F,M,T,R,S,E,H,C,P,N),
+$$
+the carrier, local $\NameCert$ obligations, windowwise Cauchy obligation, limit-seal compatibility, tail-ledger exactness, seal-route transport, and endpoint readback exhaustion jointly supply the obligation surface over $\StreamNameUp$, $\UniformCauchyCriterionUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The package exports exactly the displayed function/window family, shared threshold ledger, uniform tail ledger, regular handoff, limit seal, endpoint row, transport routes, continuation routes, provenance, and local naming data. It exports no pointwise-only convergence object, open-cover compactness principle, selected host limit, quotient function space, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and local naming obligations in \autoref{def:uniform-limit-carrier} and \autoref{thm:uniform-limit-namecert-obligations}. They identify the coordinates $F,M,T,R,S,E,H,C,P,N$ and bind carrier admission, classifier transport, uniform-tail exactness, regular-seal routing, and non-escape to those coordinates.
+
+Use the windowwise Cauchy obligation of \autoref{thm:uniform-limit-windowwise-cauchy-obligation} and the limit-seal compatibility theorem \autoref{thm:uniform-limit-limit-seal-compatibility}. These force every endpoint route to read the shared threshold and the same uniform tail ledger before reaching the handoff and seal rows.
+
+Apply tail-ledger exactness from \autoref{thm:uniform-limit-tail-ledger-exactness} and seal-route transport from \autoref{thm:uniform-limit-seal-route-transport}. They show that transported endpoint reads remain on the finite route from $F,M,T$ through $R,S,E$.
+
+Finally use endpoint readback exhaustion in \autoref{thm:uniform-limit-endpoint-readback-exhaustion}. Since all downstream consumers can read only the displayed rows and their provenance, the obligation package has no coordinate for pointwise-only convergence, open-cover compactness, selected host limits, quotient function spaces, or real completeness.
 \end{proof}
 
 \closureat{UniformLimitUp}{seedStr}

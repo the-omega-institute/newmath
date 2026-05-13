@@ -23,6 +23,7 @@ whose displayed coordinates are as follows:
 \end{enumerate}
 Two accepted traces classify together only when the source histories, mark-and-tail route, target histories, finite trace ledger, $\hsame$ transport, $\Cont$ route, package row, and local certificate row are transported componentwise by the displayed rows.
 \end{definition}
+\leandef{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier}
 
 \begin{theorem}[ContinuationTrace NameCert obligations]
 \label{thm:continuation-trace-namecert-obligations}
@@ -47,6 +48,7 @@ The final three rows are supplied by the readback, non-escape, and public export
 \label{thm:continuation-trace-small-step-readback}
 Let $T=(S,M,R,Q,H,C,P,N)$ be an accepted $\ContinuationTraceUp$ carrier. Every displayed small-step transition read from $T$ factors through the source-history row $S$, the mark-and-tail row $M$, the target-history row $R$, the finite trace ledger $Q$, and the $\Cont$ route $C$. Conversely, any displayed $\Cont$ tail in $C$ whose source, mark, tail, and target rows are listed in $Q$ is read back as a step of the same trace classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_small\_step\_readback}
 \begin{proof}
 Project the accepted trace through \autoref{def:continuation-trace-carrier}. A step read has no coordinates available except the source row, the mark-and-tail row, the target row, the trace ledger, and the displayed continuation route.
 
@@ -77,6 +79,18 @@ The carrier exposes exactly the rows $S,M,R,Q,H,C,P,N$. The NameCert theorem ide
 The readback theorem accounts for the computation-facing use: displayed small-step reads are precisely reads through the source, mark-and-tail, target, trace ledger, and continuation route. The non-escape theorem accounts for the boundary by excluding host functions, host termination, quotient behaviours, selected evaluators, and big-step semantic objects.
 
 Repacking these clauses gives the public finite certificate. Since every clause points back to the same displayed carrier coordinates, the export is a concrete BEDC packet and not an external operational semantics.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace obligation closure package]
+\label{thm:continuation-trace-obligation-closure-package}
+The carrier, NameCert obligations, small-step readback, non-escape boundary, and public export of \autoref{def:continuation-trace-carrier}, \autoref{thm:continuation-trace-namecert-obligations}, \autoref{thm:continuation-trace-small-step-readback}, \autoref{thm:continuation-trace-non-escape-boundary}, and \autoref{thm:continuation-trace-public-export} assemble the finite $\ContinuationTraceUp$ obligation package over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exposes source histories, mark-and-tail rows, target histories, trace ledgers, transports, continuation routes, provenance, and the local naming row as the whole public surface.
+\end{theorem}
+\begin{proof}
+The carrier theorem supplies the finite trace packet. The NameCert obligations bind admission, classifier comparison, step readback, non-escape, and public export to the displayed coordinates $S,M,R,Q,H,C,P,N$.
+
+The small-step readback theorem accounts for every computation-facing row by reading it through the source history, mark-and-tail route, target history, trace ledger, and continuation route. The non-escape boundary prevents the same read from acquiring a host evaluator, host termination predicate, quotient behaviour, selected evaluator, or big-step semantic object.
+
+The public export theorem repacks those rows as the visible trace interface. Because all five cited results refer back to the same carrier coordinates, they form one finite $\ContinuationTraceUp$ obligation package over the BEDC history, mark, sameness, continuation, package, and naming primitives.
 \end{proof}
 
 \closureat{ContinuationTraceUp}{seedStr}

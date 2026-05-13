@@ -179,22 +179,54 @@ instance finiteMultiHistPacketChapterTasteGate : ChapterTasteGate FiniteMultiHis
     intro x y hxy heq
     exact hxy (finiteMultiHistPacketToEventFlow_injective heq)
 
+theorem FiniteMultiHistPacketUp_taste_gate_boundary :
+    ChapterTasteGate FiniteMultiHistPacketUp ∧
+      ∃ x : FiniteMultiHistPacketUp,
+        x =
+          FiniteMultiHistPacketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  let x : FiniteMultiHistPacketUp :=
+    FiniteMultiHistPacketUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty
+  constructor
+  · exact finiteMultiHistPacketChapterTasteGate
+  · exact ⟨x, rfl, ChapterTasteGate.round_trip x⟩
+
 theorem FiniteMultiHistPacketTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist h) = h) ∧
       (∀ x : FiniteMultiHistPacketUp,
         finiteMultiHistPacketFromEventFlow (finiteMultiHistPacketToEventFlow x) = some x) ∧
-        (∀ x y : FiniteMultiHistPacketUp,
-          finiteMultiHistPacketToEventFlow x = finiteMultiHistPacketToEventFlow y → x = y) ∧
-          finiteMultiHistPacketEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+        (∀ x : FiniteMultiHistPacketUp,
+          finiteMultiHistPacketFromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+          (∀ x y : FiniteMultiHistPacketUp,
+            finiteMultiHistPacketToEventFlow x = finiteMultiHistPacketToEventFlow y → x = y) ∧
+            (∀ x y : FiniteMultiHistPacketUp,
+              BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y) ∧
+              (∀ (x : FiniteMultiHistPacketUp) w m,
+                List.Mem w (BHistCarrier.toEventFlow x) → List.Mem m w →
+                  m = BMark.b0 ∨ m = BMark.b1) ∧
+                finiteMultiHistPacketEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
   · exact finiteMultiHistPacket_decode_encode_bhist
   · constructor
     · exact finiteMultiHistPacket_round_trip
     · constructor
-      · intro x y heq
-        exact finiteMultiHistPacketToEventFlow_injective heq
-      · rfl
+      · intro x
+        change finiteMultiHistPacketFromEventFlow (finiteMultiHistPacketToEventFlow x) = some x
+        exact finiteMultiHistPacket_round_trip x
+      · constructor
+        · intro x y heq
+          exact finiteMultiHistPacketToEventFlow_injective heq
+        · constructor
+          · intro x y heq
+            exact finiteMultiHistPacketToEventFlow_injective heq
+          · constructor
+            · intro x w m hw hm
+              exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
+            · rfl
 
 end BEDC.Derived.FiniteMultiHistPacketUp

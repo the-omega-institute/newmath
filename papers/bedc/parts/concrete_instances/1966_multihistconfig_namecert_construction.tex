@@ -62,6 +62,7 @@ The no-global-sync coordinate $S$ is negative ledger data: it records the absenc
 
 The package coordinate $P$ names dependencies, and $N$ names the local certificate row. There is no coordinate left from which a global frame, shared clock, privileged observer, or synchronization history could be projected. Hence any consumer that asks for such a datum must leave the public $\MultiHistConfigUp$ surface.
 \end{proof}
+\leanchecked{BEDC.Derived.MultiHistConfigUp.MultiHistConfigCarrier\_no\_global\_sync\_ledger}
 
 \begin{theorem}[MultiHistConfig finite ledger obligations]
 \label{thm:multi-hist-config-finite-ledger-obligations}
@@ -87,16 +88,58 @@ Cross-Hist causal dependence requires an additional predicate over pairs or rout
 Therefore the accepted packet is a configuration boundary for later chapters. It provides the finite carrier and local classifier they can consume, while leaving causal dependence and rate extraction outside the present public surface.
 \end{proof}
 
-\closureat{MultiHistConfigUp}{seedStr}
+\begin{theorem}[MultiHistConfig NameCert obligation package]
+\label{thm:multihistconfig-namecert-obligation-package}
+For an accepted $\MultiHistConfigUp$ carrier
+$$
+M=(H,L,S,R,C,P,N),
+$$
+the carrier row, habitation theorem, componentwise classifier stability, no-global-sync ledger, finite ledger obligations, and downstream handoff assemble the local $\NameCert_{\MultiHistConfigUp}$ obligation package over $\BHist$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exposes exactly the seven visible coordinates of $M$ and leaves causal predicates and maximum-rate bounds outside the present packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:multi-hist-config-namecert-carrier}. The seven coordinates $H,L,S,R,C,P,N$ give the finite observer rows, probe ledgers, no-global-sync witness, componentwise transport table, continuation routes, package provenance, and local naming row.
+
+The carrier and habitation rows are supplied by \autoref{thm:multihistconfig-carrier-habitation}; the componentwise classifier row is supplied by \autoref{thm:multihistconfig-componentwise-classifier-stability}. These rows bind the local classifier to the displayed $\BHist$ and $\mathsf{ProbeBundle}$ data rather than to any host-side equality or synchronization object.
+
+The no-global-sync and finite-ledger rows are supplied by \autoref{thm:multi-hist-config-no-global-sync-ledger} and \autoref{thm:multi-hist-config-finite-ledger-obligations}. They state that the visible ledger is exhausted by $L$, $S$, and $C$, with no global frame, shared clock, hidden observation, external quotient, or unrecorded list equality.
+
+Finally, \autoref{thm:multihistconfig-crosshist-maxcausal-handoff} identifies the downstream boundary. A later inter-Hist consumer may read the finite carrier, classifier, ledgers, routes, provenance, and naming row, but any cross-Hist causal predicate or maximum-rate bound must be supplied by that later chapter as an additional row.
+\end{proof}
+
+\begin{theorem}[MultiHistConfig component transport scope]
+\label{thm:multihist-config-component-transport-scope}
+For an accepted $\MultiHistConfigUp$ carrier $M=(H,L,S,R,C,P,N)$, every classifier movement factors componentwise through the finite observer rows $H$, the finite $\mathsf{ProbeBundle}$ ledgers $L$, the displayed $\hsame$ transport rows $R$, and the $\Cont$ routes $C$. No movement of $M$ is licensed by a parameter transport, a global observer frame, or an unlisted synchronization coordinate.
+\end{theorem}
+\begin{proof}
+Project $M$ through \autoref{def:multi-hist-config-namecert-carrier}. The classifier has one finite observer row family, one matching finite ledger family, one transport table, and one route table.
+
+A classifier movement must therefore align the arity of $H$ and carry each observer row together with its ledger row through the corresponding entries of $R$ and $C$. The no-global-sync witness $S$ prevents adding a shared clock or privileged observer as a transport source.
+
+The package and local naming rows record provenance and certificate identity for the same finite packet. They do not add a parameter-level motion outside the listed component rows, so the componentwise route exhausts the transport scope.
+\end{proof}
+
+\begin{theorem}[MultiHistConfig consumer projection boundary]
+\label{thm:multihist-config-consumer-projection-boundary}
+Every consumer of an accepted $\MultiHistConfigUp$ carrier may project only the listed observer rows $H$, finite $\mathsf{ProbeBundle}$ ledgers $L$, no-global-sync witness $S$, transport rows $R$, continuation routes $C$, provenance row $P$, and local $\NameCert$ row $N$. The public surface exports no global clock, quotient configuration, hidden synchronization history, or observer outside the finite row.
+\end{theorem}
+\begin{proof}
+The public packet is exactly $M=(H,L,S,R,C,P,N)$. A consumer projection is a read of one of these coordinates through the routes displayed in the carrier.
+
+The finite observer rows and ledgers give the positive projection surface. The no-global-sync witness supplies the negative boundary, while the transport and route coordinates explain how the same listed rows may be read after componentwise classifier movement.
+
+There is no coordinate for a global clock, quotient of configurations, hidden synchronization history, or external observer. Any consumer asking for one of those objects leaves the $\MultiHistConfigUp$ NameCert surface rather than projecting a public row.
+\end{proof}
+
+\closureat{MultiHistConfigUp}{obligationStr}
 
 \begin{closurestatus}{\MultiHistConfigUp}
   \constructivestory{A $\MultiHistConfigUp$ packet is generated from two or more $\BHist$ observer rows, finite $\mathsf{ProbeBundle}$ ledgers, a no-global-sync witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records carrier habitation, componentwise classifier stability, the no-global-sync ledger, finite ledger obligations, and the handoff boundary for later cross-Hist causal and maximum-rate chapters.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records carrier habitation, componentwise classifier stability, the no-global-sync ledger, finite ledger obligations, and the handoff boundary for later cross-Hist causal and maximum-rate chapters.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.InterHist.MultiHistConfig}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not define a cross-Hist causal predicate, a maximum causal rate, Lorentz geometry, curved spacetime gluing, quantum-state superposition, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires a checked NameCert obligation theorem for the displayed multi-Hist configuration rows.}
+  \upgradepath{Scoped closure requires checked scope rows tying the carrier, component transport, finite ledger, and consumer projection to the same $\BHist$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.}
 \end{closurestatus}
