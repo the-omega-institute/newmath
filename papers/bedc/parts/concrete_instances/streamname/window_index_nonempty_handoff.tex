@@ -85,6 +85,50 @@ limits, or ambient completeness, so none of those objects can act as a second
 route to the downstream seal.
 \end{proof}
 
+\begin{theorem}[StreamName window-index sibling route certificate]
+\label{thm:streamname-window-index-sibling-route-certificate}
+Let $\mathcal W$ be an accepted finite $\StreamNameUp$ packet whose nonempty
+index handoff is consumed by a $\RegSeqRatUp$ readback or by a finite-window
+$\RealUp$ seal. Then the consumer route factors through the same finite
+sibling route: the $\mathsf{ProbeBundle}$ row, the
+$\mathsf{InBundle}(n,\mathcal P)$ membership row, and the
+$\mathsf{UnaryHistory}(n)$ index row first exposed by the StreamName window;
+the RegSeqRat readback surface of
+\autoref{ch:concrete-instances-regseqrat-namecert}; the $\DyadicRatCoreUp$
+ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}; and the
+$\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}.
+
+This certificate exports no host index equality, quotient stream equality,
+selected limit, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-window-index-nonempty-handoff}. The
+accepted finite packet must expose a displayed observation row through the
+finite $\mathsf{ProbeBundle}$, its $\mathsf{InBundle}$ membership witness, and
+the certified $\mathsf{UnaryHistory}$ index before any RegSeqRat or Real
+consumer can read it.
+
+Use \autoref{thm:streamname-window-index-route-determinacy} to make that row
+the unique finite route for the downstream read. Once the displayed index,
+unary history, and meet coordinates are fixed, the readback and seal consumers
+cannot select a second path through host index equality or quotient stream
+equality.
+
+Now apply \autoref{thm:streamname-regseqrat-real-lattice-dependency}. The
+RegSeqRat surface named by \autoref{ch:concrete-instances-regseqrat-namecert}
+is a downstream consumer of the StreamName finite-window row, and the Real
+seal named by \autoref{ch:concrete-instances-real-namecert} is reached only
+through that displayed readback route.
+
+Finally use \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}.
+The pullback inserts the $\DyadicRatCoreUp$ ledger of
+\autoref{ch:concrete-instances-dyadicratcore-namecert} between the RegSeqRat
+readback and the Real seal without adding any coordinate for a selected limit,
+trichotomy, or ambient completeness. Hence every accepted consumer route
+factors through the same four sibling surfaces and through the same nonempty
+window-index row.
+\end{proof}
+
 \begin{theorem}[StreamName Real RegSeq observation pullback lock]
 \label{thm:streamname-real-regseq-observation-pullback-lock}
 Let $\mathcal W$ be an accepted finite $\StreamNameUp$ window consumed first
