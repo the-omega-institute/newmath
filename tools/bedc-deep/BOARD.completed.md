@@ -18293,3 +18293,81 @@ Rationale:
 This belongs as a local existing-chapter lemma for the CauchyFilter finite-filterbase surface. The paper currently records the finite carrier, directed refinement obligation, Cauchy modulus obligation, and NameCert surface, but not closure under a displayed finite subfilterbase satisfying the needed refinement and modulus side conditions. It is close to other finite restriction BOARD patterns, so novelty is only threshold-level, but it is not a duplicate of an existing CauchyNet or finite-window target and it has a safe, short landing file.
 
 ---
+
+### B-727 - ContextFreeGrammar derivation prefix carrier
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | ContextFreeGrammar derivation prefix carrier |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \ContextFreeGrammarUp packet has a finite derivation ledger split into a displayed prefix and suffix, then the prefix ledger repacks as an accepted derivation segment over the same start row, production ledger, transport rows, continuation routes, and package provenance.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: A displayed split of a finite derivation ledger supplies the witness; the proof is finite prefix projection and repacking over already visible production and continuation rows.
+- `witness_extractor`: cfg_derivation_prefix_subledger
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Eliminate the split cut by projecting the prefix entries from d, keeping production witnesses from P and route entries from c, then applying production stability to each retained step.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes Sigma,N,S,P,w,d,y,h,c,p,n but retains only S, P, the prefix of d, the corresponding hsame transports, Cont routes, Pkg provenance, and local NameCert row; no parse tree, pumping theorem, Chomsky normal form, or recognizer completeness is used.
+- `dependency_trace`: The carrier records the finite production ledger P and finite derivation ledger d at papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex:27-39; derivation concatenation is already available at papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex:75-98; terminal-yield windows are handled only when a final terminal readback row is present at papers/bedc/parts/concrete_instances/1007_contextfreegrammar_namecert_construction.tex:124-160.
+- `oracle_mode`: witness_synthesis
+Rationale:
+
+
+---
+
+### B-725 - DoCalculus intervention prefix locality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DoCalculus intervention prefix locality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \DoCalculusUp packet restricts its finite intervention ledger to a displayed prefix whose observed-variable, adjustment, independence, distribution, and expectation rows are retained, then every intervention-facing read for that prefix factors through the retained rows and cannot read a later intervention row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The target is a finite prefix projection of an already displayed intervention ledger; all rows are inherited from the packet, so the weakest adequate resource is a finite witness for the retained prefix and its retained route entries.
+- `witness_extractor`: intervention_prefix_subledger
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Eliminate the cut through the full intervention packet by projecting the prefix rows from I,V,A,M,R,H,C,P,N, then reusing the existing non-escape argument on the restricted route family.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the finite intervention ledger I, observed-variable row V, adjustment ledger A, distribution rows M, independence certificates R, expectation row J, export row E, hsame rows H, Cont routes C, package row P, and local naming row N; no causal graph or counterfactual selector is introduced.
+- `dependency_trace`: The DoCalculus carrier defines I as a finite intervention ledger with displayed intervention order at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:35-37, and the intervention non-escape theorem says every intervention-facing consumer factors through I,V,A,M,R,H,C,P,N at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:136-145.
+- `oracle_mode`: witness_synthesis
+Rationale:
+
+
+---

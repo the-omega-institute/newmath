@@ -59,6 +59,42 @@ Apply \autoref{thm:cellular-automaton-namecert-obligations}. A pattern tag or ce
 The non-escape claim is finite-route inspection. The continuation routes $C$ have no edge to an unbounded time domain, a host evaluator, quotient stream equality, or an external induction rule. The provenance and local naming rows $P,N$ therefore certify only the displayed closed-observation segment.
 \end{proof}
 
+\begin{theorem}[CellularAutomaton rule-table exactness]
+\label{thm:cellular-automaton-rule-table-exactness}
+Every transition read exported by an accepted $\CellularAutomatonUp$ carrier is one displayed local rule-table row from $R$, transported by the componentwise $\hsame$ row $H$ and replayed through the continuation row $C$. The read cannot cite a host cellular evaluator, an implicit transition convention, or a rule entry absent from $R$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to $R,H,C$. The carrier has a single rule-table coordinate, and the local NameCert obligations make every transition-facing read pass through that coordinate.
+
+The transport row $H$ can only compare displayed rule-table entries componentwise. It does not add a missing neighbourhood case or identify two host evaluators.
+
+The continuation row $C$ replays the selected local transition from the displayed table. Since no separate evaluator or oracle coordinate exists in the packet, exactness is precisely the assertion that the transition read is one row of $R$ carried through $H$ and $C$.
+\end{proof}
+
+\begin{theorem}[CellularAutomaton finite orbit exposure]
+\label{thm:cellular-automaton-finite-orbit-exposure}
+Every orbit read exported by an accepted $\CellularAutomatonUp$ carrier is a finite ledger row in $O$ generated from the initial row $I$ and the rule table $R$. The packet exposes no unbounded orbit coordinate, no all-time induction principle, and no hidden scheduler outside the displayed ledger route $R,I,O,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier coordinates. The initial cellular data are stored in $I$, the local transition table is stored in $R$, and the only orbit-facing coordinate is the finite ledger $O$.
+
+The admitted route reads $O$ as the ledger generated from $I$ by repeated displayed uses of $R$ below the finite segment named in the packet. Transport through $H$ and replay through $C$ preserve those displayed rows rather than replacing them with a host run.
+
+An unbounded orbit or all-time induction rule would require a coordinate not present in $R,I,O,H,C,P,N$. Thus every public orbit read remains a finite ledger exposure.
+\end{proof}
+
+\begin{theorem}[CellularAutomaton pattern-tag non-escape]
+\label{thm:cellular-automaton-pattern-tag-nonescape}
+Every ether, glider, collision, Rule 110 boundary, or refused-pattern tag exported by an accepted $\CellularAutomatonUp$ carrier factors through the finite orbit ledger $O$ and the observation ledger $L$. A tag read may use the classifier row $T$, the transport row $H$, the route row $C$, and the package and naming rows $P,N$, but it cannot escape to a hidden pattern catalog, an unbounded orbit, a host cellular evaluator, or an oracle for cellular universality.
+\end{theorem}
+\begin{proof}
+Project the tag-facing rows. The classifier row $T$ names only pattern tags for windows already visible in the finite orbit ledger $O$, and the observation ledger $L$ records which of those reads are admitted.
+
+Transport and continuation are still finite. The $H$ row compares displayed tag, orbit, and observation rows componentwise, while $C$ replays the route from the rule and initial rows through the finite orbit window and into the tag read.
+
+The excluded objects are absent coordinates. A hidden pattern catalog, unbounded orbit, host evaluator, or universality oracle cannot be recovered from $O,T,L,H,C,P,N$, so every accepted tag remains inside the finite ledger surface.
+\end{proof}
+
 The Lean TasteGate namespace $\mathsf{BEDC.Derived.CellularAutomatonUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \CellularAutomatonUp$ and $\mathsf{FieldFaithful}\ \CellularAutomatonUp$ instances for the displayed carrier.
 
 \closureat{CellularAutomatonUp}{seedStr}
