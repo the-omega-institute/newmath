@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ZetaContinuationApplicationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -278,5 +290,58 @@ theorem ZetaContinuationApplicationTasteGate_single_carrier_alignment :
       · intro x y heq
         exact zetaContinuationApplicationToEventFlow_injective heq
       · rfl
+
+def ZetaContinuationApplicationCarrier [AskSetup] [PackageSetup]
+    (eta functional pole zeroLedger gamma application transport route provenance name endpoint :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory eta ∧ UnaryHistory functional ∧ UnaryHistory pole ∧
+    UnaryHistory zeroLedger ∧ UnaryHistory gamma ∧ UnaryHistory application ∧
+      UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+        UnaryHistory name ∧ UnaryHistory endpoint ∧ Cont eta route endpoint ∧
+          Cont functional route endpoint ∧ PkgSig bundle endpoint pkg
+
+theorem ZetaContinuationApplicationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {eta functional pole zeroLedger gamma application transport route provenance name endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application transport
+        route provenance name endpoint bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          ZetaContinuationApplicationCarrier eta functional pole zeroLedger gamma application
+              transport route provenance name endpoint bundle pkg ∧ hsame row endpoint)
+        (fun row : BHist =>
+          Cont eta route row ∧ Cont functional route row ∧ PkgSig bundle row pkg)
+        (fun _row : BHist =>
+          UnaryHistory eta ∧ UnaryHistory functional ∧ UnaryHistory pole ∧
+            UnaryHistory zeroLedger ∧ UnaryHistory gamma ∧ UnaryHistory application ∧
+              UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory provenance ∧
+                UnaryHistory name ∧ UnaryHistory endpoint)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg NameCert
+  intro carrier
+  have carrierWitness := carrier
+  obtain ⟨etaUnary, functionalUnary, poleUnary, zeroLedgerUnary, gammaUnary,
+    applicationUnary, transportUnary, routeUnary, provenanceUnary, nameUnary, endpointUnary,
+    etaRoute, functionalRoute, endpointPkg⟩ := carrier
+  constructor
+  · constructor
+    · exact Exists.intro endpoint ⟨carrierWitness, hsame_refl endpoint⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro _row _other same
+      exact hsame_symm same
+    · intro _row _other _third sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro _row _other same source
+      exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+  · intro _row source
+    cases source.right
+    exact ⟨etaRoute, functionalRoute, endpointPkg⟩
+  · intro _row _source
+    exact
+      ⟨etaUnary, functionalUnary, poleUnary, zeroLedgerUnary, gammaUnary, applicationUnary,
+        transportUnary, routeUnary, provenanceUnary, nameUnary, endpointUnary⟩
 
 end BEDC.Derived.ZetaContinuationApplicationUp

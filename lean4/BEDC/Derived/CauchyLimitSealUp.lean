@@ -249,6 +249,58 @@ theorem CauchyLimitSealCarrier_tail_budget_meet [AskSetup] [PackageSetup]
     ⟨budgetWindowUnary, budgetReadUnary, completionReadUnary, selectorReadUnary,
       sameSealCompletion, sameSelectorBudget, endpointPkg, selectorPkgSig⟩
 
+theorem CauchyLimitSealCarrier_selector_budget_transport [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint precision
+      stream regularity selectorDyadic selectorSeal witness selectorTransport routes
+      selectorProvenance selectorName budgetWindow budgetRead completionRead selectorRead
+      transportedBudgetRead transportedCompletionRead transportedSelectorRead : BHist}
+    {sealBundle selectorBundle : ProbeBundle ProbeName} {sealPkg selectorPkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint sealBundle sealPkg ->
+      RegularCauchyTailSelectorPacket precision stream regularity selectorDyadic selectorSeal
+          witness selectorTransport routes selectorProvenance selectorName selectorBundle
+          selectorPkg ->
+        Cont schedule source budgetWindow ->
+          Cont budgetWindow dyadic budgetRead ->
+            Cont budgetRead diagonal completionRead ->
+              Cont witness regularity selectorRead ->
+                hsame dyadic budgetRead ->
+                  hsame selectorDyadic dyadic ->
+                    hsame budgetRead transportedBudgetRead ->
+                      hsame completionRead transportedCompletionRead ->
+                        hsame selectorRead transportedSelectorRead ->
+                          UnaryHistory transportedBudgetRead /\
+                            UnaryHistory transportedCompletionRead /\
+                              UnaryHistory transportedSelectorRead /\
+                                hsame sealRow transportedCompletionRead /\
+                                  hsame selectorDyadic transportedBudgetRead /\
+                                    PkgSig sealBundle endpoint sealPkg /\
+                                      PkgSig selectorBundle selectorName selectorPkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectorPacket scheduleSourceBudget budgetDyadicRead readDiagonalCompletion
+    witnessRegularityRead sameDyadicBudget sameSelectorDyadic sameBudgetTransport
+    sameCompletionTransport sameSelectorTransport
+  have meet :=
+    CauchyLimitSealCarrier_tail_budget_meet carrier selectorPacket scheduleSourceBudget
+      budgetDyadicRead readDiagonalCompletion witnessRegularityRead sameDyadicBudget
+      sameSelectorDyadic
+  obtain ⟨_budgetWindowUnary, budgetReadUnary, completionReadUnary, selectorReadUnary,
+    sameSealCompletion, sameSelectorBudget, endpointPkg, selectorPkgSig⟩ := meet
+  have transportedBudgetUnary : UnaryHistory transportedBudgetRead :=
+    unary_transport budgetReadUnary sameBudgetTransport
+  have transportedCompletionUnary : UnaryHistory transportedCompletionRead :=
+    unary_transport completionReadUnary sameCompletionTransport
+  have transportedSelectorUnary : UnaryHistory transportedSelectorRead :=
+    unary_transport selectorReadUnary sameSelectorTransport
+  have sameSealTransportedCompletion : hsame sealRow transportedCompletionRead :=
+    hsame_trans sameSealCompletion sameCompletionTransport
+  have sameSelectorTransportedBudget : hsame selectorDyadic transportedBudgetRead :=
+    hsame_trans sameSelectorBudget sameBudgetTransport
+  exact
+    ⟨transportedBudgetUnary, transportedCompletionUnary, transportedSelectorUnary,
+      sameSealTransportedCompletion, sameSelectorTransportedBudget, endpointPkg,
+      selectorPkgSig⟩
+
 theorem CauchyLimitSealCarrier_root_budget_seal_coverage [AskSetup] [PackageSetup]
     {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint precision
       stream regularity selectorDyadic selectorSeal witness selectorTransport routes
