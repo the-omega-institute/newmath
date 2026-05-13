@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DiagonalLimitObserverUp$}
+\label{ch:concrete-instances-diagonal-limit-observer-namecert}
+\origin{ai-composite}
+
+The $\DiagonalLimitObserverUp$ packet makes the observer-facing route in \autoref{ch:visions-real-completeness} finite. It reads the diagonal-limit construction through the concrete Real and Completion certificates of \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and \autoref{ch:concrete-instances-diagonal-limit-compatibility-namecert}. The packet treats the observer route as primitive: the observer does not receive a completed real, a quotient stream, a host equality proof, or an ambient completeness principle, only the displayed finite rows by which a diagonal read reaches a $\RealUp$ seal.
+
+\falsifiablePrediction{No accepted $\DiagonalLimitObserverUp$ read reaches the $\RealUp$ seal row without first exposing the $\StreamNameUp$ finite-window row and the $\DyadicRatCoreUp$ tolerance ledger. A claimed observer read that presents the seal while hiding either row refutes this carrier.}
+
+\independenceWitness{diagonallimitcompatibility, realobservationbudget, cauchylimitseal, regularcauchyselectorbudget, streamname: none is bijective to $\DiagonalLimitObserverUp$ because this carrier makes the observer route primitive. DiagonalLimitCompatibility certifies compatibility of a diagonal route with seal rows, RealObservationBudget certifies request caps, CauchyLimitSeal certifies the seal route, RegularCauchySelectorBudget certifies selector spending, and StreamName certifies stream rows separately; none alone carries the observer packet tying all six rows to one local NameCert surface.}
+
+\begin{definition}[Diagonal-limit observer carrier]
+\label{def:diagonal-limit-observer-carrier}
+A $\DiagonalLimitObserverUp$ carrier is a finite $\BHist$ packet
+$$
+O=(D,W,Q,T,S,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $D$ is the diagonal packet naming the $\RealCompletenessUp$ source, the diagonal representative, and the observed diagonal indices;
+\item $W$ is the finite $\StreamNameUp$ window ledger exposed to the observer before any seal-facing read;
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows;
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same windows and readback rows;
+\item $S$ is the $\CauchyLimitSealUp$ route that consumes the readback and tolerance rows;
+\item $R$ is the $\RealUp$ seal row reached through $D,W,Q,T,S$;
+\item $H$ stores componentwise $\hsame$ transports for the diagonal packet, window ledger, readback row, tolerance ledger, seal route, Real seal, provenance, local name, and packet shape;
+\item $C$ stores displayed $\Cont$ routes from $D$ to $W$, from $W$ to $Q$, from $W$ to $T$, from $Q,T$ to $S$, from $S$ to $R$, and from all packet rows to the local naming row;
+\item $P$ is the $\Pkg$ provenance over $\RealCompletenessUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DiagonalLimitObserverUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream, no selected host limit, no host real equality, no hidden observer budget, no alternate tolerance ledger, and no ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Diagonal-limit observer NameCert obligations]
+\label{thm:diagonal-limit-observer-namecert-obligations}
+The local $\NameCert_{\DiagonalLimitObserverUp}$ surface for \autoref{def:diagonal-limit-observer-carrier} consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for $O=(D,W,Q,T,S,R,H,C,P,N)$;
+\item observer classifier stability under the displayed $\hsame$ transports and $\Cont$ routes;
+\item window-first exactness stating that no accepted observer read reaches $Q,T,S,$ or $R$ before the finite $\StreamNameUp$ window row $W$ is displayed;
+\item tolerance-readback exactness forcing the $\RegSeqRatUp$ readback row $Q$ and the $\DyadicRatCoreUp$ tolerance ledger $T$ to share the same window row $W$;
+\item seal-route non-escape stating that the $\CauchyLimitSealUp$ route $S$ and the $\RealUp$ seal row $R$ are reached only after $D,W,Q,T,H,C,P,N$ have been displayed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet in \autoref{def:diagonal-limit-observer-carrier}. The tuple lists the diagonal packet, finite windows, regular readback, dyadic tolerance ledger, Cauchy-limit seal, Real seal, transports, routes, provenance, and local name.
+
+Classifier stability uses the componentwise rows $H$ and $C$. These rows preserve the same diagonal source, stream-window ledger, readback row, tolerance ledger, seal route, Real seal, package row, and local certificate under observer-facing transport.
+
+Window-first and tolerance-readback exactness are read from the order and routes of $O$. The only routes to $Q$ and $T$ start from the displayed $W$ row, and the only route to $S$ consumes both $Q$ and $T$.
+
+Finally, seal-route non-escape follows because $R$ is reached only through $S$, with $P$ and $N$ recording the provenance and local certificate. Since the carrier lacks quotient streams, selected host limits, host real equality, hidden observer budgets, alternate tolerance ledgers, and ambient completeness, no outside row can supply an accepted seal read.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit observer seal exposure]
+\label{thm:diagonal-limit-observer-seal-exposure}
+Every accepted observer read of a $\DiagonalLimitObserverUp$ packet
+$$
+O=(D,W,Q,T,S,R,H,C,P,N)
+$$
+that reaches the $\RealUp$ seal row $R$ first exposes the finite window row $W$ and the dyadic tolerance ledger $T$. More precisely, the observer-facing route factors through
+$$
+D \longrightarrow W \longrightarrow Q,T \longrightarrow S \longrightarrow R
+$$
+with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows. Thus an observer route that hides $W$ or $T$ is not an accepted read of the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier and inspect the displayed continuation rows. The only route from the diagonal packet to the readback and tolerance surface starts at $W$.
+
+The readback row $Q$ and tolerance ledger $T$ are attached to the same finite windows. The seal route $S$ consumes both rows before the Real seal row $R$ can be exposed.
+
+Apply the local NameCert obligations. They keep the route inside $H,C,P,N$ and exclude hidden observer budgets, alternate tolerance ledgers, quotient streams, host real equality, selected limits, and ambient completeness.
+\end{proof}
+
+The Lean TasteGate follow-up for this surface should include $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the packet fields, with the expected target name $\mathsf{BEDC.Derived.DiagonalLimitObserverUp.TasteGate}$.
+
+\closureat{DiagonalLimitObserverUp}{seedStr}
+\closureat{DiagonalLimitObserverUp}{obligationStr}
+
+\begin{closurestatus}{\DiagonalLimitObserverUp}
+  \constructivestory{A $\DiagonalLimitObserverUp$ packet is generated from a diagonal $\RealCompletenessUp$ source row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyLimitSealUp$ route, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:diagonal-limit-observer-carrier}, \autoref{thm:diagonal-limit-observer-namecert-obligations}, and \autoref{thm:diagonal-limit-observer-seal-exposure} bind the observer-facing diagonal route to finite StreamName windows, RegSeqRat readback, Dyadic tolerance, CauchyLimitSeal, RealUp seal, transport, route, provenance, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient streams, selected host limits, host real equality, hidden observer budgets, alternate tolerance ledgers, or ambient completeness for $\DiagonalLimitObserverUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, observer classifier transport, window-first exactness, tolerance-readback exactness, seal-route non-escape, and TasteGate coverage over the displayed packet.}
+\end{closurestatus}

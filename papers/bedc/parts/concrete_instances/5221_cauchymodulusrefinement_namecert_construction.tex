@@ -180,9 +180,113 @@ Next bind the tolerance surface. Window tolerance exactness forces the selected-
 The route $\Cont(Q,E)$ is the only displayed continuation into the $\RealUp$ seal row. Together with the componentwise transports in $H$ and the provenance and naming rows $P,N$, this makes $E$ a factor of the displayed $U,V,T,W,Q$ spine rather than an independent Real-facing object.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement common source lock]
+\label{thm:cauchy-modulus-refinement-common-source-lock}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+any accepted refinement read keeps the source schedules $M_0$ and $M_1$ locked to the same shared meet row $U$ before the refinement witness row $V$ is read. A consumer cannot read $V$ from one source schedule alone, from a second meet row, or from an external modulus comparison not displayed by $R$.
+\end{theorem}
+\begin{proof}
+Start with source-meet exactness, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}. It identifies the route to the refinement witness as
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V.
+$$
+
+Use classifier transport to keep this route componentwise stable through $H$ and $C$. The transports preserve both source schedules and the same shared meet row.
+
+Finally apply non-escape, \autoref{thm:cauchy-modulus-refinement-nonescape}. Since $R$ carries no second meet row, hidden selector, external comparison, or ambient completeness coordinate, the common source lock is exactly the displayed $M_0,M_1,U$ surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement shared threshold transport]
+\label{thm:cauchy-modulus-refinement-shared-threshold-transport}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the shared comparison and meet threshold is transported only through the displayed rows
+$$
+M_0,\ M_1,\ U,\ V,\ T,\ H,\ C,\ P,\ N.
+$$
+Thus no accepted threshold read may replace the two source schedules, the shared meet row, the refinement witness, the selector-budget row, the componentwise transports, the displayed continuation routes, the package provenance, or the local naming row by an external comparison, second meet, quotient stream, hidden selector, or host completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. The packet displays exactly the two source schedules $M_0,M_1$, one shared meet row $U$, one refinement witness $V$, one selector-budget row $T$, one transport row $H$, one continuation row $C$, one provenance row $P$, and one local certificate row $N$.
+
+Apply the source-meet-budget chain. It forces every accepted threshold read to move from $M_0,M_1$ through $U,V,T$ before any finite selected window can be exposed.
+
+Apply classifier transport. The componentwise $\hsame$ entries in $H$ and the displayed $\Cont$ entries in $C$ replay the same threshold through the named rows, while $P$ and $N$ authenticate the packet as the local $\CauchyModulusRefinementUp$ surface.
+
+The carrier contains no external comparison, second meet, quotient stream, hidden selector, or host completeness coordinate. Hence the shared threshold can be transported only along the displayed rows.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector budget totality]
+\label{thm:cauchy-modulus-refinement-selector-budget-totality}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the selector-budget row $T$ is the only route from the refinement witness row $V$ to the selected finite-window ledger $W$ and the tolerance-readback ledger $Q$. Thus every selected-window read and every $\DyadicRatCoreUp$ or $\RegSeqRatUp$ readback consumed by the refinement factors through
+$$
+V \longrightarrow T \longrightarrow W \longrightarrow Q.
+$$
+\end{theorem}
+\begin{proof}
+Read window-tolerance exactness, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}. It already forces every selected-window and dyadic-tolerance read through $V,T,W,Q$.
+
+The Real seal factorization theorem then shows why this budget route is total for downstream consumers: the seal row $E$ is reachable only after $U,V,T,W,Q$ have been displayed.
+
+Apply non-escape to remove alternate selectors and window ledgers. The carrier has one selector-budget row, one selected-window ledger, and one tolerance-readback ledger, so $T$ exhausts the route from $V$ to $W,Q$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement selector budget non-escape]
+\label{thm:cauchy-modulus-refinement-selector-budget-nonescape}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the selector-budget row $T$ is the only route from the source-meet threshold into the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ window-readback surface. In particular, no hidden selector, quotient stream, selected host limit, or countable-choice coordinate can supply an accepted window, rational-readback, or dyadic-tolerance read for $R$.
+\end{theorem}
+\begin{proof}
+Start with window readback exhaustion. It identifies $T,W,Q$ as the complete selected-window, regular-rational readback, and dyadic-tolerance surface of the packet.
+
+Use source-meet exactness to bind the source threshold. The refinement witness $V$ is reached only from the two source schedules through the shared meet row $U$, and the displayed continuation route then moves from $V$ to $T$.
+
+Apply non-escape to the remaining alternatives. Since the carrier has no hidden selector, quotient stream, selected host limit, or countable-choice coordinate, the route through $T$ is the sole accepted handoff from the source-meet threshold into $W$ and $Q$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real seal obligation surface]
+\label{thm:cauchy-modulus-refinement-real-seal-obligation-surface}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the rows $U,V,T,W,Q,E,H,C,P,N$ form the complete $\RealUp$ seal obligation surface for the refinement route. The surface contains the shared meet row, refinement witness, selector-budget row, finite windows, tolerance and readback ledger, Real seal, componentwise transports, displayed continuation routes, provenance, and local naming row, and it excludes quotient streams, host real equality, hidden selectors, selected limits, second meet rows, and ambient completeness.
+\end{theorem}
+\begin{proof}
+First bind the source of the surface. Common source lock fixes $M_0$ and $M_1$ to the shared meet row $U$ before the witness $V$ is read.
+
+Next bind the selected-window route. Selector-budget totality forces the only route from $V$ to the selected windows and tolerance-readback ledger through $T,W,Q$.
+
+Now apply Real seal factorization. It places $E$ downstream of $U,V,T,W,Q$ and keeps the seal route inside the displayed transport, continuation, provenance, and naming rows.
+
+Finally use non-escape. Quotient streams, host real equality, hidden selectors, selected limits, second meet rows, and ambient completeness are absent from the carrier, so the listed rows are the whole Real-seal obligation surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real seal consumer exhaustion]
+\label{thm:cauchy-modulus-refinement-real-seal-consumer-exhaustion}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, every $\RealUp$ or completion-facing consumer reaches the seal row $E$ only after consuming the shared threshold, selector-budget, finite-window, rational-readback, dyadic-tolerance, transport, continuation, package, and local $\NameCert$ rows displayed by
+$$
+M_0,M_1,U,V,T,W,Q,H,C,P,N.
+$$
+No accepted consumer may read $E$ directly from a quotient stream, selected limit, host real equality, hidden selector, second meet row, ambient completeness coordinate, or unbudgeted completion object.
+\end{theorem}
+\begin{proof}
+First apply Real seal factorization. The seal row $E$ factors through the displayed route $U,V,T,W,Q,E$, so a Real-facing consumer reaches the seal only after the shared meet, refinement witness, selector budget, finite windows, and tolerance-readback ledger have been consumed.
+
+Next apply Real seal refusal. A purported seal read that omits the source schedules, meet, witness, selector budget, windows, tolerances, readbacks, transports, routes, provenance, and local name is not an accepted carrier read.
+
+Use window tolerance exactness to identify the finite-window, rational-readback, and dyadic-tolerance coordinates as $T,W,Q$. The same route attaches the selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and $\DyadicRatCoreUp$ tolerance rows to the seal.
+
+Finally apply non-escape. Quotient streams, selected limits, host real equality, hidden selectors, second meet rows, ambient completeness coordinates, and unbudgeted completion objects are absent from the carrier, so every accepted Real or completion-facing consumer must pass through the displayed rows before reading $E$.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement obligation closure package]
 \label{thm:cauchy-modulus-refinement-obligation-closure-package}
-For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the carrier of \autoref{def:cauchy-modulus-refinement-carrier}, the NameCert obligation rows of \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, the source-meet-budget chain of \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, window readback exhaustion of \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, Real seal refusal of \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, classifier transport of \autoref{thm:cauchy-modulus-refinement-classifier-transport}, source-meet exactness of \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, window tolerance exactness of \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, Real seal factorization of \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, and non-escape of \autoref{thm:cauchy-modulus-refinement-nonescape} jointly form the $\obligationClosure$ surface for $\CauchyModulusRefinementUp$.
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the carrier of \autoref{def:cauchy-modulus-refinement-carrier}, the NameCert obligation rows of \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, the source-meet-budget chain of \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, window readback exhaustion of \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, Real seal refusal of \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, classifier transport of \autoref{thm:cauchy-modulus-refinement-classifier-transport}, source-meet exactness of \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, window tolerance exactness of \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, Real seal factorization of \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, common source lock of \autoref{thm:cauchy-modulus-refinement-common-source-lock}, shared threshold transport of \autoref{thm:cauchy-modulus-refinement-shared-threshold-transport}, selector budget totality of \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, selector budget non-escape of \autoref{thm:cauchy-modulus-refinement-selector-budget-nonescape}, Real seal obligation surface of \autoref{thm:cauchy-modulus-refinement-real-seal-obligation-surface}, Real seal consumer exhaustion of \autoref{thm:cauchy-modulus-refinement-real-seal-consumer-exhaustion}, and non-escape of \autoref{thm:cauchy-modulus-refinement-nonescape} jointly form the $\obligationClosure$ surface for $\CauchyModulusRefinementUp$.
 
 The package exports exactly the two $\CauchyModulusUp$ source schedules, shared $\CauchyModulusMeetUp$ row, $\CauchyModulusExtractionUp$ witness row, $\RegularCauchySelectorBudgetUp$ row, finite $\StreamNameUp$ window ledger, $\DyadicRatCoreUp$ and $\RegSeqRatUp$ tolerance ledger, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
 \end{theorem}
@@ -193,7 +297,111 @@ Read the classifier and source rows. Classifier transport keeps every accepted r
 
 Read the selected-window and Real-facing rows. Window tolerance exactness binds the tolerance surface to $T,W,Q$, and Real seal factorization places $E$ after the shared meet, refinement witness, selector budget, windows, and tolerance ledger.
 
+Use the intermediate obligations to expose the selector-budget route. Common source lock fixes $M_0,M_1,U$, shared threshold transport keeps the comparison and meet threshold on $M_0,M_1,U,V,T,H,C,P,N$, selector budget totality and selector budget non-escape make $T$ the sole handoff into $W,Q$, and the two Real-seal obligations force every Real or completion-facing consumer through the displayed rows before $E$ is read.
+
 Finally combine these rows with non-escape. All excluded objects are absent from the carrier, so the assembled package is precisely the written obligation surface and no external Real-completeness or host-equality route remains.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement primitive scope]
+\label{thm:cauchy-modulus-refinement-primitive-scope}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the exact primitive scope of the packet is the displayed $\BHist$ carrier row $R$, the componentwise $\hsame$ transports stored in $H$, the displayed $\Cont$ route row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CauchyModulusRefinementUp}$ row $N$, together with the named sibling rows
+$$
+\CauchyModulusUp,\ \CauchyModulusComparisonUp,\ \CauchyModulusMeetUp,\ \CauchyModulusExtractionUp,\ \RegularCauchySelectorBudgetUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp.
+$$
+No primitive outside these rows is part of the accepted $\CauchyModulusRefinementUp$ surface.
+\end{theorem}
+\begin{proof}
+Project the carrier and NameCert obligations. The displayed packet supplies the $\BHist$ row, the componentwise $\hsame$ row, the $\Cont$ row, the $\Pkg$ row, and the local naming row, while \autoref{thm:cauchy-modulus-refinement-namecert-obligations} lists the finite certificate clauses attached to those rows.
+
+Bind the source and selector side. Source-meet exactness fixes the refinement witness to the route $M_0,M_1,U,V$, and selector-budget totality fixes every selected-window handoff to $V,T,W,Q$.
+
+Bind the Real-facing side. Window-tolerance exactness identifies the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows as the selected tolerance surface, and Real seal factorization places the $\RealUp$ seal after the same route.
+
+Finally apply Real seal consumer exhaustion and non-escape. Since the carrier has no quotient stream, selected limit, host real equality, hidden selector, second meet row, or ambient completeness coordinate, the displayed rows and named siblings are the whole primitive scope.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement sibling dependency lattice]
+\label{thm:cauchy-modulus-refinement-sibling-dependency-lattice}
+Every accepted $\CauchyModulusRefinementUp$ packet consumes its sibling surfaces in the dependency order
+$$
+\CauchyModulusComparisonUp,\ \CauchyModulusMeetUp,\ \CauchyModulusExtractionUp,\ \RegularCauchySelectorBudgetUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp.
+$$
+The comparison rows bind the two source schedules, the meet row supplies the shared source threshold, the extraction row supplies the refinement witness, the selector-budget row selects the finite windows, the $\StreamNameUp$ row records those windows, the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ rows attach tolerance and rational readback data, and the $\RealUp$ row seals the downstream Real surface.
+\end{theorem}
+\begin{proof}
+Start with the source-meet chain. Source-meet exactness and common source lock place the comparison and meet rows before the extraction witness $V$ can be read.
+
+Next expose the selected-window route. Selector-budget totality makes $T$ the sole handoff from $V$ into $W,Q$, and window-tolerance exactness identifies $W$ as the $\StreamNameUp$ window ledger and $Q$ as the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ tolerance-readback ledger.
+
+Now read the Real seal. Real seal factorization places $E$ after $U,V,T,W,Q$, and Real seal consumer exhaustion forces every Real or completion-facing consumer through the same sibling order before the seal can be consumed.
+
+Non-escape removes all alternate lattices. The packet carries no second meet row, hidden selector, quotient stream, selected limit, host equality, or ambient completeness coordinate, so the dependency order written above is the accepted sibling lattice.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement completion boundary]
+\label{thm:cauchy-modulus-refinement-completion-boundary}
+No $\RealUp$ or completion-facing consumer of an accepted $\CauchyModulusRefinementUp$ packet may read quotient streams, selected limits, host real equality, hidden selectors, second meet rows, or ambient completeness outside the displayed packet. Such a consumer must factor through
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N
+$$
+and through the sibling dependency lattice of \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}.
+\end{theorem}
+\begin{proof}
+First bind the route to the Real seal. Real seal factorization places $E$ downstream of the shared meet, refinement witness, selector budget, selected windows, and tolerance-readback ledger.
+
+Use Real seal consumer exhaustion to control downstream reads. A Real or completion-facing consumer reaches $E$ only after consuming the displayed source, meet, witness, budget, window, tolerance, transport, route, provenance, and naming rows.
+
+Use the primitive-scope theorem and sibling dependency lattice to identify the whole surface available to that consumer. They restrict the primitive rows and sibling rows to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, comparison, meet, extraction, selector-budget, StreamName, DyadicRatCore, RegSeqRat, and Real surfaces.
+
+Finally apply non-escape. The forbidden quotient, selected-limit, host-equality, hidden-selector, second-meet, and ambient-completeness objects are absent from the packet, so no completion-facing read may obtain them outside the displayed route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement BHist source scope]
+\label{thm:cauchy-modulus-refinement-bhist-source-scope}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+the rows $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ are finite $\BHist$-facing rows over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No quotient stream, host-completeness object, ambient completeness coordinate, selected limit, hidden selector, or host real equality coordinate belongs to the accepted source scope.
+\end{theorem}
+\begin{proof}
+Project the displayed packet through the carrier. The carrier row gives the finite $\BHist$ spine $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$, and the NameCert obligations attach the local naming clause to exactly that spine.
+
+Bind the primitive side. Primitive scope identifies the componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, while the sibling dependency lattice identifies the named $\CauchyModulusUp$, meet, extraction, selector-budget, StreamName, dyadic, rational, and Real sibling rows.
+
+Use the completion boundary and non-escape to remove external sources. Since quotient streams, selected limits, host real equality, hidden selectors, second meet rows, host-completeness objects, and ambient completeness coordinates are absent from the carrier, no accepted source row can be read outside the displayed $\BHist$-facing surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement continuation route scope]
+\label{thm:cauchy-modulus-refinement-cont-route-scope}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the displayed continuation order
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E
+$$
+is the only consumer route for selector-window and $\RealUp$-seal reads. A consumer of selected windows, rational readbacks, dyadic tolerances, or the Real seal must therefore pass through the source schedules, shared meet, extraction witness, selector-budget row, finite-window ledger, tolerance-readback ledger, and seal row in this order.
+\end{theorem}
+\begin{proof}
+Start with the source route. Source-meet exactness fixes the witness row $V$ as downstream of $M_0,M_1$ through $U$, so a consumer cannot reach the refinement witness without first reading the two source schedules and the shared meet.
+
+Next read the selected-window surface. Window readback exhaustion and selector budget totality place the selector handoff at $T$ and the finite-window and tolerance-readback rows at $W,Q$.
+
+Finally read the seal. Real seal factorization places $E$ after $U,V,T,W,Q$, and Real seal consumer exhaustion prevents a downstream consumer from reaching the seal by a route that omits those rows. Non-escape removes quotient-stream, selected-limit, host-equality, hidden-selector, second-meet, and ambient-completeness alternatives, so the displayed order is the only accepted consumer route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement NameCert scope]
+\label{thm:cauchy-modulus-refinement-namecert-scope}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusRefinementUp}$ scope is exhausted by carrier admission, classifier transport, source-meet exactness, selector-budget and window-tolerance exactness, and $\RealUp$-seal non-escape. Equivalently, the certificate can name only the admitted finite $\BHist$ rows, their componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\Pkg$ provenance row, and the Real-facing seal route certified by the obligation closure package.
+\end{theorem}
+\begin{proof}
+First admit the named object. The carrier and NameCert obligation theorem bind the local certificate to the finite packet rows and require the naming row to travel with the displayed $\BHist$, $\hsame$, $\Cont$, and $\Pkg$ fields.
+
+Next transport the classifier through the source and window rows. Classifier transport keeps accepted reads on the displayed transports and routes, source-meet exactness fixes the $M_0,M_1,U,V$ source-meet witness, and window tolerance exactness fixes the $T,W,Q$ selector, window, dyadic-tolerance, and rational-readback surface.
+
+Finally seal the Real-facing edge. The BHist source scope supplies the permitted primitive rows, the continuation route scope supplies the only consumer order into $E$, and the obligation closure package assembles those rows with Real-seal factorization and non-escape. Thus the local NameCert scope has no remaining quotient stream, hidden selector, selected limit, host equality, ambient completeness, or external completion coordinate to name.
 \end{proof}
 
 The closest siblings are $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, and $\RegularCauchyLimitTransportUp$. The packet is composite because it consumes their rows as coordinates rather than presenting an atomic independent carrier. A later Lean TasteGate module should still provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over the packet fields, since the finite carrier separates the comparison, meet, witness, budget, window, ledger, seal, transport, route, provenance, and local certificate coordinates.
@@ -203,11 +411,11 @@ The closest siblings are $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $
 
 \begin{closurestatus}{\CauchyModulusRefinementUp}
   \constructivestory{A $\CauchyModulusRefinementUp$ packet is generated from displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, and \autoref{thm:cauchy-modulus-refinement-nonescape} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one seed carrier with a written obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-source-meet-budget-chain}, \autoref{thm:cauchy-modulus-refinement-window-readback-exhaustion}, \autoref{thm:cauchy-modulus-refinement-real-seal-refusal}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-common-source-lock}, \autoref{thm:cauchy-modulus-refinement-shared-threshold-transport}, \autoref{thm:cauchy-modulus-refinement-selector-budget-totality}, \autoref{thm:cauchy-modulus-refinement-selector-budget-nonescape}, \autoref{thm:cauchy-modulus-refinement-real-seal-obligation-surface}, \autoref{thm:cauchy-modulus-refinement-real-seal-consumer-exhaustion}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, \autoref{thm:cauchy-modulus-refinement-primitive-scope}, \autoref{thm:cauchy-modulus-refinement-sibling-dependency-lattice}, \autoref{thm:cauchy-modulus-refinement-completion-boundary}, \autoref{thm:cauchy-modulus-refinement-bhist-source-scope}, \autoref{thm:cauchy-modulus-refinement-cont-route-scope}, \autoref{thm:cauchy-modulus-refinement-namecert-scope}, and \autoref{thm:cauchy-modulus-refinement-nonescape} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one scoped Real and completion obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, hidden selectors, second meet rows, ambient completeness, Lean verification, or bridge checking for $\CauchyModulusRefinementUp$.}
-  \upgradepath{Obligation closure requires TasteGate-backed checked carrier admission, classifier transport, refinement-source exactness, shared-window tolerance exactness, $\RealUp$ seal factorization, and non-escape over the same displayed refinement packet.}
+  \upgradepath{The next grade is Lean formalization and drift audit for the displayed carrier, primitive scope, sibling dependency lattice, completion boundary, and non-escape theorems.}
 \end{closurestatus}

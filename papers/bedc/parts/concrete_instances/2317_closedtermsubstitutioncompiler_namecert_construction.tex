@@ -175,15 +175,15 @@ Boundary-ledger exactness is \autoref{thm:closed-term-substitution-compiler-boun
 Non-escape is supplied by \autoref{thm:closed-term-substitution-compiler-binder-budget-nonescape} and \autoref{thm:closed-term-substitution-compiler-public-nonescape}. These theorems identify the absent semantics that no public projection can recover. The existing Lean TasteGate marker on \autoref{thm:closed-term-substitution-compiler-boundary} supplies the current checked alignment witness, while the formal status of this package remains unadvanced.
 \end{proof}
 
-\closureat{ClosedTermSubstitutionCompilerUp}{obligationStr}
+\closureat{ClosedTermSubstitutionCompilerUp}{scopedStr}
 
 \begin{closurestatus}{\ClosedTermSubstitutionCompilerUp}
   \constructivestory{A $\ClosedTermSubstitutionCompilerUp$ packet is generated from MetaCIC term constructors, the $\mathsf{ClosedAt}$ classifier, the $\mathsf{shift}$ and $\mathsf{substitute}$ operation rows, the $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$ witness rows, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope records the finite carrier, closed-boundary substitution and shift routes, classifier transport surface, NameCert obligations, self-compilation boundary handoff, boundary-ledger exactness, shift compatibility, binder-budget non-escape, and the checked TasteGate alignment marker \leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.taste\_gate}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close evaluator soundness, subject reduction, open-term substitution semantics, host CIC truth, total self-compilation, or a checked Lean certificate for the whole packet.}
-  \upgradepath{Scoped closure requires Lean-checked carrier admission, classifier transport, substitution-boundary exactness, shift-boundary compatibility, binder-budget non-escape, and public non-escape for the compiler-facing packet.}
+  \upgradepath{Public closure requires an exported public certificate theorem for the same compiler-facing packet, while checked Lean formalization remains separate.}
 \end{closurestatus}

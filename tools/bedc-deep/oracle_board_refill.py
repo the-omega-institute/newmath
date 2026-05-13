@@ -162,13 +162,57 @@ def _zero_extraction_hang_agents(status: dict) -> list[str]:
         except (TypeError, ValueError):
             continue
         if (
-            metrics.get("generating") is True
-            and elapsed >= ZERO_EXTRACTION_HANG_SECONDS
+            elapsed >= ZERO_EXTRACTION_HANG_SECONDS
             and extracted == 0
             and page_chars >= ZERO_EXTRACTION_MIN_PAGE_CHARS
         ):
             out.append(agent_id)
     return out
+
+
+def _zero_extraction_hang_details(status: dict) -> list[dict[str, str]]:
+    def metric_text(value: object) -> str:
+        if value is None:
+            return ""
+        return str(value)
+
+    agents = _zero_extraction_hang_agents(status)
+    details: list[dict[str, str]] = []
+    recent = status.get("recent_agents") or {}
+    active = status.get("agents") or {}
+    for agent_id in agents:
+        rec = recent.get(agent_id) or {}
+        metrics = rec.get("metrics") or {}
+        task = active.get(agent_id) or {}
+        details.append(
+            {
+                "agent_id": agent_id,
+                "task_id": str(metrics.get("task_id") or task.get("task_id") or ""),
+                "elapsed_seconds": metric_text(metrics.get("elapsed_seconds")),
+                "extracted_chars": metric_text(metrics.get("extracted_chars")),
+                "page_chars": metric_text(metrics.get("page_chars")),
+                "url_tail": str(metrics.get("url_tail") or ""),
+            }
+        )
+    return details
+
+
+def _format_zero_extraction_hang(details: list[dict[str, str]]) -> str:
+    parts: list[str] = []
+    for detail in details:
+        fields = [f"agent={detail.get('agent_id') or '?'}"]
+        if detail.get("elapsed_seconds"):
+            fields.append(f"elapsed={detail['elapsed_seconds']}s")
+        if detail.get("extracted_chars"):
+            fields.append(f"extracted={detail['extracted_chars']}")
+        if detail.get("page_chars"):
+            fields.append(f"page_chars={detail['page_chars']}")
+        if detail.get("task_id"):
+            fields.append(f"task={detail['task_id']}")
+        if detail.get("url_tail"):
+            fields.append(f"url_tail={detail['url_tail']}")
+        parts.append(" ".join(fields))
+    return "; ".join(parts)
 
 
 def _response_failure_kind(response: str) -> str:
@@ -335,7 +379,6 @@ def poll_result(
 ) -> Optional[str]:
     start = time.time()
     last_log = start
-    first_zero_extract_ts = 0.0
     last_zero_extract_log = 0.0
     while time.time() - start < timeout:
         try:
@@ -353,22 +396,22 @@ def poll_result(
             pass
         try:
             health = _http_get(f"{server_url}/status", timeout=5)
-            agents = _zero_extraction_hang_agents(health)
-            if agents:
+            details = _zero_extraction_hang_details(health)
+            if details:
                 now = time.time()
-                if not first_zero_extract_ts:
-                    first_zero_extract_ts = now
                 if now - last_zero_extract_log > 300:
-                    elapsed = int(now - first_zero_extract_ts)
+                    threshold = health.get(
+                        "zero_extraction_hang_seconds",
+                        ZERO_EXTRACTION_HANG_SECONDS,
+                    )
+                    detail_text = _format_zero_extraction_hang(details)
                     print(
                         "[board_refill] WARN: zero-extraction hang "
-                        f"agents={','.join(agents)} for {elapsed}s; "
+                        f"{detail_text}; threshold={threshold}s; "
                         "refresh affected tab(s) only.",
                         flush=True,
                     )
                     last_zero_extract_log = now
-            else:
-                first_zero_extract_ts = 0.0
         except Exception:
             pass
         if time.time() - last_log > 60:

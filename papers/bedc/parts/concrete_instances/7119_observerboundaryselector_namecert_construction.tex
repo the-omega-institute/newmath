@@ -1,0 +1,69 @@
+\chapter{ObserverBoundarySelectorUp NameCert construction}
+\label{ch:concrete-instances-observerboundaryselector-namecert}
+\origin{ai}
+
+The $\ObserverBoundarySelectorUp$ surface realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite selector-boundary packet. It sits between the row partition of \autoref{ch:concrete-instances-observer-filter-namecert}, the observer identity packet of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, the ledger boundary of \autoref{ch:concrete-instances-attention-ledger-namecert}, and the selected-row handoff of \autoref{ch:concrete-instances-streamname-namecert}. The selector stores the decision boundary before the filter result, so a consumer can audit why a source row is selected, omitted, or refused without importing hidden observer state.
+
+\falsifiablePrediction{Deleting the omitted-boundary row permits unledgered deletion, while deleting the selected-row witness breaks the StreamName handoff.}
+
+\independenceWitness{observerfilter, observerhistoryidentity, attentionledger, streamname, observerhistidentity: none is bijective because the selector stores the decision boundary before the filter result, while each sibling reads either the filtered public rows, the identity surface, the attention ledger, the stream-name route, or the vision-level observer-history claim without carrying the pre-filter selector decision as a separate coordinate.}
+
+\begin{definition}[ObserverBoundarySelector carrier]
+\label{def:observer-boundary-selector-carrier}
+An $\ObserverBoundarySelectorUp$ carrier is a finite $\BHist$ packet
+$$
+B=(H,S,O,D,R,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the source observer-history row;
+\item $S$ is the selected-row witness family exported toward $\StreamNameUp$;
+\item $O$ is the omitted-boundary row family, recording every source row not exported as selected data;
+\item $D$ is the selector-decision row, naming for each source row whether it is selected, omitted, or refused at the boundary;
+\item $R$ records componentwise $\hsame$ transports for the source, selected, omitted, decision, continuation, package, and naming rows;
+\item $L$ is the finite ledger tying each selector decision to its source position and boundary reason;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the selector packet, the selected-row handoff, and the omitted-boundary certificate;
+\item $P$ is the $\Pkg$ provenance over $\ObserverFilterUp$, $\ObserverHistoryIdentityUp$, $\AttentionLedgerUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverBoundarySelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,O,D,R,L,C,P,N$. It has no coordinate for host equality of observers, quotient stream identity, hidden observer state, or a deletion outside the omitted-boundary ledger.
+\end{definition}
+
+\begin{theorem}[ObserverBoundarySelector selection exactness]
+\label{thm:observer-boundary-selector-selection-exactness}
+For every accepted $\ObserverBoundarySelectorUp$ carrier $B=(H,S,O,D,R,L,C,P,N)$, a row is exported to a $\StreamNameUp$ consumer exactly when the selector-decision row $D$ marks the corresponding source position in $H$ as selected and the ledger row $L$ supplies its selected-row witness in $S$. Every selected read then factors through the displayed $\hsame$ transports $R$, $\Cont$ routes $C$, package provenance $P$, and local name row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:observer-boundary-selector-carrier}. The only rows that can present stream-facing data are the source history $H$, the selected witnesses $S$, the selector decisions $D$, and the ledger $L$.
+
+Inspect the finite selector ledger row by row. A selected decision in $D$ is admitted only with the matching selected witness in $S$ and its source position in $L$, so the handoff has a displayed row before any $\StreamNameUp$ consumer can read it.
+
+The transport and route rows then preserve that same witness. The $\hsame$ transports in $R$ and the $\Cont$ routes in $C$ carry the selected row with the package and local naming rows $P,N$, leaving no host observer equality or quotient stream identity available as an alternate export route.
+\end{proof}
+
+\begin{theorem}[ObserverBoundarySelector omission non-escape]
+\label{thm:observer-boundary-selector-omission-nonescape}
+For every accepted $\ObserverBoundarySelectorUp$ carrier $B=(H,S,O,D,R,L,C,P,N)$, each source row of $H$ not exported through $S$ is recorded in the omitted-boundary row $O$ with the corresponding selector decision in $D$ and ledger entry in $L$. Such a row can be read only as a boundary certificate through $R,C,P,N$; it cannot be silently deleted, promoted to stream-name data, or replaced by hidden observer state.
+\end{theorem}
+\begin{proof}
+Again project the finite carrier. The omitted-boundary row $O$ and selector-decision row $D$ are part of the same packet as the source history $H$, so omission is a displayed coordinate rather than absence from the carrier.
+
+For each source row, the ledger $L$ pairs the decision in $D$ with exactly one public role: selected witness, omitted boundary, or refusal at the selector boundary. In the omitted case, the available downstream object is the boundary certificate in $O$, not a stream-name row in $S$.
+
+The consumer route is therefore confined to $O,D,L,R,C,P,N$. Since the carrier has no hidden observer-state coordinate and no deletion operation outside the displayed ledger, omitted rows cannot escape the finite boundary surface.
+\end{proof}
+
+The Lean \texttt{TasteGate.lean} development for $\ObserverBoundarySelectorUp$ must provide explicit $\mathsf{Nontrivial}\ \ObserverBoundarySelectorUp$ and $\mathsf{FieldFaithful}\ \ObserverBoundarySelectorUp$ instances for the displayed selector packet. These instances must preserve the selected-row witnesses, omitted-boundary rows, selector decisions, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, $\StreamNameUp$ handoff, and local $\NameCert$ row.
+
+\closureat{ObserverBoundarySelectorUp}{seedStr}
+
+\begin{closurestatus}{\ObserverBoundarySelectorUp}
+  \constructivestory{An $\ObserverBoundarySelectorUp$ packet is generated from a source observer-history row, selected-row witnesses, omitted-boundary rows, selector decisions, componentwise hsame transports, a finite ledger, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-boundary-selector-carrier}, \autoref{thm:observer-boundary-selector-selection-exactness}, and \autoref{thm:observer-boundary-selector-omission-nonescape} specify the finite selector-boundary packet and its selected-row and omitted-row obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, observer-filter completeness, global observer identity, hidden observer state, quotient stream equality, or unbounded observation.}
+  \upgradepath{Obligation closure requires checked carrier admission, selected-row exactness, omitted-boundary exhaustion, StreamName handoff, non-escape, nontriviality, and field faithfulness for the same selector packet.}
+\end{closurestatus}

@@ -227,8 +227,6 @@ def _zero_extraction_hang(aid: str, rec: dict | None, task: dict) -> bool:
     if rec.get("event") != "heartbeat":
         return False
     metrics = rec.get("metrics") or {}
-    if metrics.get("generating") is not True:
-        return False
     elapsed = _safe_int(metrics.get("elapsed_seconds"))
     extracted = _safe_int(metrics.get("extracted_chars"))
     page_chars = _safe_int(metrics.get("page_chars"))

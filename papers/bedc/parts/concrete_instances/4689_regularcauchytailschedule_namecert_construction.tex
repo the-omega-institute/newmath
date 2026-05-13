@@ -60,3 +60,47 @@ Finally use the structural rows $H,C,P,N$. They transport the same displayed coo
   \notclaimed{This chapter does not close quotient stream equality, host real equality, selected completed limits, unbounded diagonal streams, ambient Real completeness, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, classifier stability, schedule exactness, sibling-consumer handoff, and ledger non-escape for the same finite schedule packet.}
 \end{closurestatus}
+
+\begin{definition}[Regular Cauchy tail schedule handoff route]
+\label{def:regular-cauchy-tail-schedule-handoff-route}
+For an accepted $\RegularCauchyTailScheduleUp$ carrier
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N),
+$$
+the seal-facing handoff route
+$\mathsf{regular\_cauchy\_tail\_schedule\_handoff\_route}(S)$ is the displayed finite route in $C$ whose entrance rows are
+$$
+Q,R,W,D,K,T,M,F
+$$
+and whose terminal row is the $\RealUp$ handoff row $E$. The route is read only after the precision request, regular rational source row, finite window schedule, dyadic ledger, cofinal index, tail witness, shared-threshold consumer row, and tail-fusion consumer row have all been displayed. Its transport data are exactly the componentwise $\hsame$ rows stored in $H$, with provenance and local naming rows $P,N$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail schedule seal-facing route determinacy]
+\label{thm:regular-cauchy-tail-schedule-seal-facing-route-determinacy}
+Let
+$$
+S=(Q,R,W,D,K,T,M,F,E,H,C,P,N)
+$$
+and
+$$
+S'=(Q',R',W',D',K',T',M',F',E',H',C',P',N')
+$$
+be accepted $\RegularCauchyTailScheduleUp$ carriers. Suppose the two packets have componentwise $\hsame$ transports aligning
+$$
+Q,Q',\quad R,R',\quad W,W',\quad D,D',\quad K,K',\quad T,T',\quad M,M',\quad F,F',\quad P,P',\quad N,N',
+$$
+and suppose the displayed continuation rows $C$ and $C'$ present the same finite handoff route from the aligned entrance rows $Q,R,W,D,K,T,M,F$ to the seal-facing endpoints $E$ and $E'$. Then
+$$
+\hsame(E,E').
+$$
+Thus two accepted schedule packets with the same precision request, $\RegSeqRatUp$ source row, $\StreamNameUp$ window schedule, $\DyadicRatCoreUp$ ledger, cofinal index, tail witness, sibling consumer rows, transport rows, continuation route, provenance, and naming row determine the same $\RealUp$ seal-facing handoff up to $\hsame$.
+\end{theorem}
+\begin{proof}
+Project both carriers using \autoref{def:regular-cauchy-tail-schedule-carrier}. In each packet, the only seal-facing coordinate is the row $E$ or $E'$, and it is downstream of the displayed entrance rows $Q,R,W,D,K,T,M,F$.
+
+By \autoref{thm:regular-cauchy-tail-schedule-namecert-obligations}, schedule exactness forces every cofinal-tail read to pass through $Q,R,W,D,K,T$ before any sibling consumer can inspect it, and downstream consumer handoff then routes the shared-threshold and tail-fusion reads through $M$ and $F$ before the seal-facing handoff is available. Hence the terminal seal read in either packet is not an independent Real row; it is the endpoint of the finite continuation route named in \autoref{def:regular-cauchy-tail-schedule-handoff-route}.
+
+The assumed componentwise transports align the two entrance surfaces. After this alignment, the terminal clauses of $C$ and $C'$ are two displayed $\Cont$ derivations with the same left history and the same finite right route, one ending at $E$ and the other ending at $E'$. Applying continuation determinacy from \autoref{thm:continuation-determinacy} gives $\hsame(E,E')$.
+
+The sibling rows are only consumer rows in this argument. The shared-threshold packet $M$ and the tail-fusion row $F$ are read before the seal route, and neither adds a second seal endpoint to the schedule carrier. Since the carrier has no coordinate for quotient stream equality, host real equality, selected completed limits, unbounded diagonal streams, hidden tail oracles, or ambient completeness, no alternate seal-facing route remains.
+\end{proof}

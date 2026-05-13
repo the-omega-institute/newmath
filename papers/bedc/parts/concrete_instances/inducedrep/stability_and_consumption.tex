@@ -295,3 +295,101 @@ three surfaces gives the dependency-ready $\NameCert_{\InducedRepUp}$
 threshold, with no host category, functor equality, adjunction object, or
 external bridge row.
 \end{proof}
+
+\begin{theorem}[InducedRepUp restriction-induction classifier equivalence]
+\label{thm:inducedrep-restriction-induction-classifier-equivalence}
+Assume that the consumed SubgroupUp classifier rows, the consumed
+RepresentationRingUp classifier rows, the induction and restriction endpoint
+$\hsame$ rows, the Frobenius rows $F,\eta,\epsilon$, the provenance row, and
+the finite $\Cont$ ledger comparisons are each stable under reflexive,
+reversed, and composable comparison on their own displayed rows. Then the
+restriction-induction classifier of
+\autoref{def:inducedrep-restriction-induction-classifier} is an equivalence
+relation on accepted $\InducedRepUp$ carrier packets of
+\autoref{def:inducedrep-bhist-carrier}. Moreover every reflexive, reversed,
+or composite witness has exactly the same support roles
+$$
+S,R,i,r,F,\eta,\epsilon,\rho,\lambda
+$$
+as the carriers it compares; no off-ledger host category, functor equality,
+adjunction object, character formula, or bridge row can be introduced by the
+equivalence operations.
+\end{theorem}
+\begin{proof}
+Let
+$$
+\mathcal{I}_a=(S_a,R_a,i_a,r_a,F_a,\eta_a,\epsilon_a,\rho_a,\lambda_a),
+\qquad
+\mathcal{I}_b=(S_b,R_b,i_b,r_b,F_b,\eta_b,\epsilon_b,\rho_b,\lambda_b),
+$$
+and
+$$
+\mathcal{I}_c=(S_c,R_c,i_c,r_c,F_c,\eta_c,\epsilon_c,\rho_c,\lambda_c)
+$$
+be accepted carriers. The classifier of
+\autoref{def:inducedrep-restriction-induction-classifier} has seven visible
+coordinates: the two consumed source certificate comparisons, the entrywise
+source-row comparisons read from those certificates, the induction and
+restriction endpoint comparisons, the Frobenius comparisons for
+$F,\eta,\epsilon$, the provenance comparison, and the finite $\Cont$ ledger
+comparison.
+
+For reflexivity of $\mathcal{I}_a$, choose the reflexive comparison supplied
+by the assumed stability of each of those seven coordinates. This gives the
+SubgroupUp row $S_a$ compared with itself, the RepresentationRingUp row $R_a$
+compared with itself, the source rows read from them compared with themselves,
+the endpoint rows $i_a$ and $r_a$ compared with themselves, the Frobenius rows
+$F_a,\eta_a,\epsilon_a$ compared with themselves, the provenance row
+$\rho_a$ compared with itself, and the identity finite continuation comparison
+on $\lambda_a$. These rows are precisely the fields required by the
+restriction-induction classifier, so they form a witness
+$\mathcal{I}_a\sim_{\InducedRepUp}^{\mathrm{ri}}\mathcal{I}_a$.
+
+For symmetry, suppose
+$\mathcal{I}_a\sim_{\InducedRepUp}^{\mathrm{ri}}\mathcal{I}_b$. Project the
+witness to the same seven coordinates. By the assumed reversed comparison for
+each coordinate, reverse the SubgroupUp and RepresentationRingUp source
+certificate comparisons, reverse the entrywise source-row comparisons, reverse
+the endpoint comparisons for $i$ and $r$, reverse the Frobenius comparisons for
+$F,\eta,\epsilon$, reverse the provenance comparison, and reverse the finite
+$\Cont$ comparison from $\lambda_a$ to $\lambda_b$. Repacking these reversed
+rows gives a witness
+$\mathcal{I}_b\sim_{\InducedRepUp}^{\mathrm{ri}}\mathcal{I}_a$.
+
+For transitivity, suppose
+$\mathcal{I}_a\sim_{\InducedRepUp}^{\mathrm{ri}}\mathcal{I}_b$ and
+$\mathcal{I}_b\sim_{\InducedRepUp}^{\mathrm{ri}}\mathcal{I}_c$. Project both
+witnesses coordinate by coordinate. Compose the two SubgroupUp comparisons
+through $S_b$, compose the two RepresentationRingUp comparisons through
+$R_b$, compose the entrywise source-row comparisons through the rows read from
+$S_b$ and $R_b$, compose the endpoint comparisons through $i_b$ and $r_b$,
+compose the Frobenius comparisons through
+$F_b,\eta_b,\epsilon_b$, compose the provenance comparisons through
+$\rho_b$, and compose the finite continuation comparisons through
+$\lambda_b$. The assumed composability of each coordinate supplies exactly the
+rows required for a classifier witness from $\mathcal{I}_a$ to
+$\mathcal{I}_c$.
+
+It remains to check that these operations do not enlarge the carrier support.
+The consumer boundary of
+\autoref{thm:inducedrep-subgroup-representationring-consumer-boundary} limits
+source consumption to the SubgroupUp and RepresentationRingUp rows carried by
+$S$ and $R$, together with the displayed endpoint, Frobenius, provenance, and
+continuation rows. The Frobenius ledger boundary of
+\autoref{thm:inducedrep-frobenius-ledger-boundary} limits Frobenius reads to
+$F,\eta,\epsilon,\lambda$ with endpoints $i$ and $r$. The ledger exactness
+obligation of \autoref{thm:inducedrep-ledger-exactness-obligation} says that
+visible ledger reads are exactly the rows recorded by $\rho$ and $\lambda$ for
+those source, endpoint, and Frobenius roles.
+
+Therefore the reflexive witness, the reversed witness, and the composite
+witness all live on the same finite support
+$S,R,i,r,F,\eta,\epsilon,\rho,\lambda$. Any proposed comparison using a host
+representation category, functor equality, adjunction object, character
+formula, bridge row, or other off-ledger datum is rejected before the
+classifier is formed, because such a row is not one of the seven coordinates
+listed in \autoref{def:inducedrep-restriction-induction-classifier} and is not
+visible through the exact consumer ledger. Thus the restriction-induction
+classifier is reflexive, symmetric, and transitive on accepted carrier
+packets, with no additional support beyond the displayed BEDC packet.
+\end{proof}
