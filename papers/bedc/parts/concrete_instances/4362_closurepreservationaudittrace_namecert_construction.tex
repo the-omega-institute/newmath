@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\ClosurePreservationAuditTraceUp$}
+\label{ch:concrete-instances-closurepreservationaudittrace-namecert}
+\origin{ai}
+
+The $\ClosurePreservationAuditTraceUp$ packet realizes the closure-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} as finite NameCert data. It sits beside the route classifier of \autoref{ch:concrete-instances-subject-reduction-route-classifier-namecert}, the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, and the normalization audit seal of \autoref{ch:concrete-instances-metacicnormalizationauditseal-namecert}: those siblings expose discharge routes, closed substitution rows, and candidate-mediated normalization reads, while this packet records the closedness-preservation theorem chain as one replayable audit trace.
+
+\begin{definition}[Closure-preservation audit trace carrier]
+\label{def:closure-preservation-audit-trace-carrier}
+A $\ClosurePreservationAuditTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,V,U,B,F,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the shift-one closedness row for $\mathsf{shift\_one\_preserves\_closed\_succ}$;
+\item $V$ is the variable-substitution row for $\mathsf{substitute\_var\_preserves\_closed\_at}$;
+\item $U$ is the full-substitution row for $\mathsf{substitute\_preserves\_closed\_at}$;
+\item $B$ is the beta-step closedness row for $\mathsf{betaStep\_preserves\_closed}$;
+\item $F$ is the finite beta-star preservation row for $\mathsf{betaStarStep\_preserves\_closed}$;
+\item $H$ records componentwise $\hsame$ transport across the five closedness-preservation rows, provenance, routes, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a consumer replays the shift, variable-substitution, full-substitution, beta-step, and beta-star rows in order;
+\item $P$ is the $\Pkg$ provenance over $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, one-step beta reduction, finite beta-star chains, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosurePreservationAuditTraceUp}$ row.
+\end{enumerate}
+The carrier exports no typing preservation theorem, no dependent codomain transport, no normalization proof, no confluence theorem, no quotient equality over reductions, and no host semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[Closure-preservation audit trace NameCert obligations]
+\label{thm:closure-preservation-audit-trace-namecert-obligations}
+The carrier of \autoref{def:closure-preservation-audit-trace-carrier} satisfies the local $\NameCert_{\ClosurePreservationAuditTraceUp}$ obligation surface. Its obligations are carrier admission for
+$$
+T=(S,V,U,B,F,H,C,P,N),
+$$
+shift-one readback through $S$, variable-substitution readback through $V$, full-substitution readback through $U$, beta-step readback through $B$, beta-star readback through $F$, componentwise transport through $H$, displayed continuation through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed finite packet. The rows $S,V,U$ expose the shift-one, variable-substitution, and full-substitution closedness facts described by the audit map.
+
+Project $B$ and $F$ next. The beta-step row consumes the substitution row at a contraction boundary, and the finite beta-star row records repeated consumption of the beta-step row along the displayed chain.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, locate, and name the same finite packet. Since the carrier has no coordinate for typing preservation, dependent codomain transport, normalization, confluence, quotient equality, or host semantic equality, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closure-preservation audit trace beta-star coverage]
+\label{thm:closure-preservation-audit-trace-beta-star-coverage}
+Every accepted $\ClosurePreservationAuditTraceUp$ packet covers the closedness-preservation route from one-step beta contraction to finite beta-star chains. A consumer that reads the beta-star row $F$ must reach it through the displayed beta-step row $B$, the full-substitution row $U$, the variable-substitution row $V$, the shift-one row $S$, and the route and provenance rows $C,P,N$, with componentwise transport supplied by $H$.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $T=(S,V,U,B,F,H,C,P,N)$. The finite packet orders the closedness rows so that the beta-star coordinate is not a standalone theorem name; it is a row read through the same trace as the one-step beta coordinate.
+
+The beta-step row $B$ depends on the full-substitution row $U$ at the contraction boundary. The full-substitution row in turn is supported by the variable-substitution row $V$ and the shift-one row $S$, matching the theorem chain recorded in \autoref{ch:metacic-closure-preservation-audit-map}.
+
+The replay route $C$ and provenance row $P$ keep that chain visible to consumers, while $H$ transports the displayed rows componentwise and $N$ names the local certificate. Because no additional coordinate is available, beta-star coverage is exactly the finite trace through $S,V,U,B,F,H,C,P,N$.
+\end{proof}
+
+\closureat{ClosurePreservationAuditTraceUp}{seedStr}
+
+\begin{closurestatus}{\ClosurePreservationAuditTraceUp}
+  \constructivestory{A $\ClosurePreservationAuditTraceUp$ packet is generated from shift-one closedness, variable substitution, full substitution, beta-step preservation, beta-star preservation, componentwise transport, displayed continuation routes, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-preservation-audit-trace-carrier}, \autoref{thm:closure-preservation-audit-trace-namecert-obligations}, and \autoref{thm:closure-preservation-audit-trace-beta-star-coverage} bind the finite closure-preservation trace and its beta-star coverage boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close typing preservation, dependent codomain transport, subject reduction, normalization, confluence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exact readback of the five closedness-preservation rows, transport, route replay, provenance, local naming, and beta-star non-escape for the same finite trace.}
+\end{closurestatus}
