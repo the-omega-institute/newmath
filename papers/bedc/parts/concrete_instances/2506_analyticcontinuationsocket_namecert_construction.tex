@@ -559,6 +559,24 @@ Next apply the branch ledger obligation. It accounts for every branch-sensitive 
 Finally use the holomorphic handoff and overlap-to-zeta handoff. They route the local operation output through $A,O$ after the source and branch ledgers have been read, while zeta-facing obstruction exactness blocks any bypass to global continuation or zero-location data.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationSocket public export]
+\label{thm:analytic-continuation-socket-public-export}
+The public $\AnalyticContinuationSocketUp$ export of an accepted carrier
+$$
+S=(F,G,U,A,O,B,H,C,P,N)
+$$
+is exactly the finite socket packet consisting of the source rows $F,G$, overlap witness $U$, operation row $A$, output row $O$, branch ledger $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\AnalyticContinuationSocketUp}$ row $N$. The export contains no monodromy theorem, quotient-of-germs object, branch selector, or zero-location consequence beyond those rows.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations for \autoref{def:analytic-continuation-socket-carrier}. They expose the accepted socket as the displayed tuple $S=(F,G,U,A,O,B,H,C,P,N)$ and require classifier stability for the source, overlap, operation, output, branch, transport, route, provenance, and naming rows.
+
+Use branch-ledger exactness together with holomorphic handoff and overlap classifier stability. These results keep every source-overlap read inside $F,G,U,H,C,P,N$ and keep every branch-sensitive request either in the local output route through $A,O$ or in the branch ledger $B$.
+
+Next apply operation-output factorization, the RH handoff boundary, and the operation handoff obligation. They show that downstream operation and zeta-facing consumers must pass through the same finite rows before receiving the output, so the exported object is the packet itself.
+
+The exclusions follow from the same routing boundary. Monodromy, quotient-of-germs data, branch selection, and zero-location conclusions are not coordinates of $S$ and therefore cannot be projected from the public socket export.
+\end{proof}
+
 \closureat{AnalyticContinuationSocketUp}{seedStr}
 \closureat{AnalyticContinuationSocketUp}{obligationStr}
 \closureat{AnalyticContinuationSocketUp}{scopedStr}
