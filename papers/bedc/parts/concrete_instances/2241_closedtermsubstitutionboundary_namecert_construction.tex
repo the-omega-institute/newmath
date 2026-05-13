@@ -88,6 +88,54 @@ Apply \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. The 
 Finally use \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The consumer route cannot leave the finite packet to obtain compiler correctness, subject reduction, host quotient syntax, or a hidden semantic model, so the self-compilation use is exactly the closed-term substitution boundary.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary BinderBudgetSeal factorization]
+\label{thm:closed-term-substitution-boundary-binder-seal-factorization}
+Every $\BinderBudgetSealUp$ shift or substitution read that is used by a closed-term substitution consumer factors through the displayed $\ClosedTermSubstitutionBoundaryUp$ rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+Thus the binder-budget seal of \autoref{ch:concrete-instances-binderbudgetseal-namecert} may consume the closed shift and substitution facts only through the finite $\BHist$ packet, the componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ row of \autoref{def:closed-term-substitution-boundary-carrier}.
+\end{theorem}
+\begin{proof}
+Start with a $\BinderBudgetSealUp$ read that asks for closed shift or closed substitution at the inspected binder depth. The local carrier theorem \autoref{thm:closed-term-substitution-boundary-consumer-boundary} restricts that read to the finite closed-term boundary surface.
+
+The needed closedness witnesses are exactly $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$, and the permitted operation rows are exactly $Q$ and $R$. By \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, these rows are available only after the ledger $L$ records the corresponding closedness read.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. Since the audit row $A$ and the continuation row $C$ admit no hidden binder convention, unregistered free-variable coordinate, or ambient compiler theorem, the binder-budget consumer factors through the displayed packet rows and no other substitution surface.
+\end{proof}
+
+\begin{theorem}[ClosedTermSubstitutionCompiler boundary factorization]
+\label{thm:closed-term-substitution-boundary-compiler-factorization}
+The $\ClosedTermSubstitutionCompilerUp$ schedule of \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert} reads the same closed finite boundary before exposing any compiler-facing $\mathsf{substitute\_closed}$ row. In particular, every accepted schedule read passes through the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+of $\ClosedTermSubstitutionBoundaryUp$, then repacks the result through the compiler packet's own continuation and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the compiler-facing read to its closed source and closed value premises. The consumer boundary theorem \autoref{thm:closed-term-substitution-boundary-consumer-boundary} identifies those premises with a read of the closed-term substitution boundary carrier rather than with an evaluator theorem.
+
+The schedule can expose $\mathsf{substitute\_closed}$ only after it reads $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, and the substitution row $R$. The $\BHist$ ledger $L$ and the $\Cont$ routes $C$ record this order, while the $\hsame$ transports $H$ keep the same finite rows under accepted packet movement.
+
+The final compiler packet is therefore a repackaging step. The $\Pkg$ provenance $P$ and local naming row $N$ certify that the compiler-facing schedule has consumed the closed boundary, but the audit row $A$ prevents the schedule from importing open-term subject reduction, host syntax equality, or a hidden semantic evaluator.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary RecursorGenerator handoff]
+\label{thm:closed-term-substitution-boundary-recursor-handoff}
+Every generated branch output of $\RecursorGeneratorUp$ in \autoref{ch:concrete-instances-recursorgenerator-namecert} consumes closed-term substitution only through the finite $\ClosedTermSubstitutionBoundaryUp$ boundary. The handoff route is the displayed $\BHist$ packet with rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N,
+$$
+followed by the recursor generator's own branch-output packaging.
+\end{theorem}
+\begin{proof}
+Consider a generated branch that invokes closed substitution while assembling its output. The branch has access to the boundary only through recorded $\Cont$ routes, so \autoref{thm:closed-term-substitution-boundary-consumer-boundary} forces the substitution read to enter the closed-term boundary carrier.
+
+Inside that carrier, \autoref{thm:closed-term-substitution-boundary-namecert-obligations} supplies the required order: source closedness, value closedness, ledger entry, and then the displayed substitution boundary row. Componentwise $\hsame$ transport preserves the same rows when the branch output is moved across accepted packets.
+
+The handoff cannot bypass the finite packet. By \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, the packet exports no unregistered free variable, host equality witness, unchecked compiler state, or subject-reduction theorem, so the generated branch output receives only the certified closed-term substitution boundary.
+\end{proof}
+
 \closureat{ClosedTermSubstitutionBoundaryUp}{seedStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{obligationStr}
 
