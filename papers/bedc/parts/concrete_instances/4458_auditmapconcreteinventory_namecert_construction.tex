@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapConcreteInventoryUp$}
+\label{ch:concrete-instances-audit-map-concrete-inventory-namecert}
+\origin{ai}
+
+The $\AuditMapConcreteInventoryUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as a concrete finite inventory. It sits beside the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert} and the family-level ledger chapters: those siblings display individual audit rows and cross-map ledgers, while this packet binds the established, conditional, obstruction, frontier, and consumer rows as one inspectable $\NameCert$ object.
+
+\begin{definition}[Audit-map concrete inventory carrier]
+\label{def:audit-map-concrete-inventory-carrier}
+An $\AuditMapConcreteInventoryUp$ carrier is a finite $\BHist$ packet
+$$
+I=(M,E,C,O,F,U,H,R,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the concrete audit-map identity row, naming the local map whose inventory is being certified;
+\item $E$ is the established-content row, containing checked or otherwise available rows from the local audit map;
+\item $C$ is the conditional-content row, containing rows whose use is routed through a named discharge or interface;
+\item $O$ is the obstruction row, containing no-claim or no-escape rows that must remain visible to consumers;
+\item $F$ is the frontier row, containing consumer-facing handoff rows that are not theorem exports;
+\item $U$ is the downstream consumer row, recording which sibling chapters may read the inventory and through which displayed boundary;
+\item $H$ records componentwise $\hsame$ transports for the identity, inventory, consumer, route, provenance, and local naming rows;
+\item $R$ records the displayed $\Cont$ routes by which a consumer reads each inventory row;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:audit-map-family-methodology}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, neighbouring audit-map ledgers, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuditMapConcreteInventoryUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are the displayed audit-map identity, established content, conditional content, obstruction content, frontier content, downstream consumer, transport, continuation, provenance, and local naming rows. It exports no closed subject-reduction theorem, no hidden discharge of a conditional row, no erasure of an obstruction row, no closure of a frontier row, and no host-level semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[Audit-map concrete inventory NameCert obligations]
+\label{thm:audit-map-concrete-inventory-namecert-obligations}
+For the carrier of \autoref{def:audit-map-concrete-inventory-carrier}, the local $\NameCert_{\AuditMapConcreteInventoryUp}$ surface consists exactly of carrier admission for
+$$
+I=(M,E,C,O,F,U,H,R,P,N),
+$$
+audit-map identity readback through $M$, established-row readback through $E$, conditional-row readback through $C$, obstruction-row readback through $O$, frontier-row readback through $F$, downstream-consumer readback through $U$, componentwise transport through $H$, displayed continuation through $R$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $I$. The identity row $M$ fixes which concrete audit map is being read before any inventory row can be consumed.
+
+Read the inventory rows $E,C,O,F$. These rows expose the family template of \autoref{ch:audit-map-family-methodology}: established content, conditional content, obstruction content, and frontier content are separate coordinates rather than prose classes.
+
+Finally inspect $U,H,R,P,N$. The consumer row names downstream readers, transport and continuation replay the displayed coordinates, provenance records the sibling sources, and local naming binds the packet. Hence the NameCert surface is exhausted by the finite carrier.
+\end{proof}
+
+\begin{theorem}[Audit-map concrete inventory ledger exactness]
+\label{thm:audit-map-concrete-inventory-ledger}
+For every accepted $\AuditMapConcreteInventoryUp$ carrier $I=(M,E,C,O,F,U,H,R,P,N)$, the concrete inventory ledger has exactly five public row classes: established rows $E$, conditional rows $C$, obstruction rows $O$, frontier rows $F$, and downstream consumer rows $U$. Transport, continuation, provenance, and local naming preserve these classes as finite BEDC data and do not introduce a sixth audit class.
+\end{theorem}
+\begin{proof}
+The carrier definition displays the five public row classes as $E,C,O,F,U$. The identity row $M$ selects the local map, but it is not another inventory class.
+
+The transport and route rows $H,R$ only replay componentwise sameness and displayed continuations over the selected rows. They therefore preserve the five-class ledger rather than extending it.
+
+The provenance and local naming rows $P,N$ certify where the inventory is read from and under which local name. Since neither row contains a theorem-producing or class-producing coordinate, the ledger is exact at the five displayed classes.
+\end{proof}
+
+\begin{theorem}[Audit-map concrete inventory non-escape]
+\label{thm:audit-map-concrete-inventory-nonescape}
+For every accepted $\AuditMapConcreteInventoryUp$ carrier $I=(M,E,C,O,F,U,H,R,P,N)$, every consumer read remains inside the displayed audit-map identity, established, conditional, obstruction, frontier, downstream consumer, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. In particular, the packet cannot turn conditional content into established content, erase an obstruction row, close a frontier row, create an unlisted downstream consumer, or export host-level semantic equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. A consumer can read the concrete inventory only through the rows $M,E,C,O,F,U,H,R,P,N$.
+
+Use the NameCert obligations of \autoref{thm:audit-map-concrete-inventory-namecert-obligations}. They bind each row class to its displayed coordinate and route every consumer read through the continuation row $R$.
+
+Apply the ledger exactness of \autoref{thm:audit-map-concrete-inventory-ledger}. Since the inventory has exactly the five public row classes and no hidden class-producing coordinate, each excluded endpoint remains outside the accepted packet.
+\end{proof}
+
+\closureat{AuditMapConcreteInventoryUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapConcreteInventoryUp}
+  \constructivestory{An $\AuditMapConcreteInventoryUp$ packet is generated from a concrete audit-map identity row, established rows, conditional rows, obstruction rows, frontier rows, downstream consumer rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-concrete-inventory-carrier}, \autoref{thm:audit-map-concrete-inventory-namecert-obligations}, \autoref{thm:audit-map-concrete-inventory-ledger}, and \autoref{thm:audit-map-concrete-inventory-nonescape} bind the concrete audit-map inventory and its non-escape boundary as finite NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, full closed consistency, ambient confluence, hidden discharge routes, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, row-class readback, consumer-row exactness, transport, route replay, provenance, naming, and non-escape for the same concrete inventory packet.}
+\end{closurestatus}

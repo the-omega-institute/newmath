@@ -311,6 +311,7 @@ be an accepted $\CauchySequenceSpaceUp$ packet. Every completion-facing consumer
 
 Consequently the completion-facing route inventory of $S$ is a scoped BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It exports no quotient-name equality, selected representative, host real equality, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_scoped\_completion\_route\_inventory}
 \begin{proof}
 Start from the carrier surface in \autoref{def:cauchysequence-space-carrier-surface} and the NameCert obligation surface in \autoref{thm:cauchysequence-space-namecert-obligation-surface}. These two rows name the accepted tuple and bind its family, schedule, window ledger, tolerance row, completion handoff, transports, continuations, provenance, and local certificate to the same finite $\BHist$ packet.
 
@@ -331,6 +332,7 @@ be an accepted $\CauchySequenceSpaceUp$ packet. The public completion export of 
 
 Every completion-facing consumer of $S$ must factor through that public export before reading a completion handoff or a $\RealUp$ seal. The export is public only as a BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; it does not assert quotient completion, equality of Cauchy-name classes, uniqueness of limits, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_public\_completion\_export}
 \begin{proof}
 Start with \autoref{def:cauchysequence-space-carrier-surface} and \autoref{thm:cauchysequence-space-namecert-obligation-surface}. These identify the visible tuple $F,\sigma,W,\epsilon,Q,H,C,P,N$ and bind its local naming, transport, continuation, and package rows to the same finite packet.
 
@@ -376,14 +378,15 @@ It remains to exclude a hidden limit selector. The only limit-seal route availab
 \closureat{CauchySequenceSpaceUp}{seedStr}
 \closureat{CauchySequenceSpaceUp}{obligationStr}
 \closureat{CauchySequenceSpaceUp}{scopedStr}
+\closureat{CauchySequenceSpaceUp}{publicStr}
 
 \begin{closurestatus}{\CauchySequenceSpaceUp}
   \constructivestory{A $\CauchySequenceSpaceUp$ packet is generated from a displayed family of regular rational names, a stream schedule, finite Cauchy-window evidence, dyadic tolerance data, a completion handoff, componentwise transport, displayed continuation routes, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:cauchysequence-space-scoped-completion-route-inventory} is the scoped dependency packet over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ for completion-facing and limit-seal reads of finite spaces of Cauchy names.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:cauchysequence-space-public-completion-export} and \autoref{thm:cauchysequence-space-public-nonescape} provide the public completion surface over the scoped route inventory of \autoref{thm:cauchysequence-space-scoped-completion-route-inventory} for completion-facing and limit-seal reads of finite spaces of Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient completion construction, equality of Cauchy-name classes, uniqueness of limits, host real equality, ambient completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires making the named obligations explicit as a single kernel-scoped dependency packet over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{Bridge closure requires a standard bridge from the public completion export to the choice-free completion consumer reading.}
 \end{closurestatus}

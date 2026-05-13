@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapInterfaceUp$}
+\label{ch:concrete-instances-auditmapinterface-namecert}
+\origin{human}
+
+The $\AuditMapInterfaceUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as a finite interface rather than as a prose convention. It sits beside the kernel acceptance trace of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, whose rows expose accepted theorem inventory, and the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, whose rows show how a local MetaCIC substrate is kept separate from stronger typing claims. The present packet names the common interface consumed by audit-map ledgers, synthesis packets, and cross-map chapters.
+
+\begin{definition}[Audit-map interface carrier]
+\label{def:audit-map-interface-carrier}
+An $\AuditMapInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(E,K,O,F,X,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $E$ is the established theorem inventory row, listing the positive results that the local audit map may cite directly;
+\item $K$ is the conditional theorem inventory row, listing results available only through named discharge, setup, or route data;
+\item $O$ is the obstruction row, recording no-go, boundary, or shape facts that block a stronger local reading;
+\item $F$ is the frontier row, recording the strongest adjacent theorem or package that remains outside the local map;
+\item $X$ is the cross-map consumer row, naming neighbouring audit maps, synthesis packets, and route chapters that may consume the visible rows;
+\item $H$ records componentwise $\hsame$ transport for the established, conditional, obstruction, frontier, cross-map, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ routes by which consumers read the positive inventory, conditional inventory, obstruction boundary, frontier handoff, cross-map use, provenance, and local name;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:audit-map-family-methodology}, \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuditMapInterfaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for turning conditional rows into unconditional theorems, obstruction rows into solved obligations, frontier rows into closed packages, or cross-map consumer rows into hidden module imports.
+\end{definition}
+
+\begin{theorem}[Audit-map interface NameCert obligations]
+\label{thm:audit-map-interface-namecert-obligations}
+For the carrier of \autoref{def:audit-map-interface-carrier}, the local $\NameCert_{\AuditMapInterfaceUp}$ surface consists of five obligations: carrier admission for
+$$
+I=(E,K,O,F,X,H,C,P,N),
+$$
+inventory exactness for the established, conditional, obstruction, frontier, and cross-map rows $E,K,O,F,X$, componentwise transport stability through $H$, displayed route readback through $C$, and package provenance with local naming through $P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite packet. Its first five coordinates are the only audit-map row classes, so inventory exactness is a projection of $E,K,O,F,X$ from the carrier.
+
+Transport stability is componentwise. The row $H$ may compare an established row with an established row, a conditional row with a conditional row, and similarly for obstruction, frontier, cross-map, provenance, and naming data; it supplies no cross-class coercion.
+
+Route readback is then forced through $C$. A consumer must choose one of the displayed routes before using a row, and the route returns to the same inventory coordinate that it reads.
+
+Finally, $P$ and $N$ bind provenance and local naming. Since provenance cites only the visible methodology and sibling concrete packets, the five obligations exhaust the NameCert surface without adding a stronger theorem coordinate.
+\end{proof}
+
+\begin{theorem}[Audit-map interface cross-map consumer boundary]
+\label{thm:audit-map-interface-cross-map-consumer-boundary}
+Every cross-map consumer of an accepted $\AuditMapInterfaceUp$ carrier
+$$
+I=(E,K,O,F,X,H,C,P,N)
+$$
+must read the positive inventory $E$, conditional inventory $K$, obstruction row $O$, frontier row $F$, and cross-map consumer row $X$ through the displayed transport, continuation, provenance, and naming rows $H,C,P,N$. Such a consumer cannot turn the interface into an unconditional theorem, a discharged obstruction, a closed frontier package, a hidden import of a neighbouring map, or a host semantic equality.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They identify the accepted interface with the finite rows $E,K,O,F,X,H,C,P,N$ and force each consumer read through the displayed route row $C$.
+
+For a positive read, the consumer obtains exactly the established inventory row $E$. For a conditional read, it obtains the conditional row $K$ together with its visible route requirement. For an obstruction read, it obtains the boundary row $O$ rather than a proof of the blocked claim.
+
+For a frontier or cross-map read, the consumer follows $F$ or $X$ through the same transport and provenance rows. Those rows name neighbouring maps and handoffs; they do not import their hidden contents or solve their obligations.
+
+The carrier has no coordinate for unconditional discharge, solved obstruction, closed frontier package, hidden module import, or host semantic equality. Therefore every cross-map use remains an interface read and cannot become a stronger theorem.
+\end{proof}
+
+\closureat{AuditMapInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapInterfaceUp}
+  \constructivestory{An $\AuditMapInterfaceUp$ packet is generated from established theorem inventory, conditional theorem inventory, obstruction, frontier, cross-map consumer, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-interface-carrier}, \autoref{thm:audit-map-interface-namecert-obligations}, and \autoref{thm:audit-map-interface-cross-map-consumer-boundary} bind the finite audit-map interface and its cross-map consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close any conditional audit-map theorem, solve obstruction rows, close frontier packages, import neighbouring maps, provide Lean verification, or supply a public bridge schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, inventory exactness, transport stability, route readback, provenance, local naming, and cross-map non-escape for the same finite interface packet.}
+\end{closurestatus}

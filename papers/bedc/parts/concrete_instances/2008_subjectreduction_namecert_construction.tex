@@ -81,19 +81,32 @@ Apply \autoref{thm:subject-reduction-ext-cont-closure} for reduction-facing cons
 Therefore the public boundary has no coordinate from which host reduction semantics, semantic equality, hidden conversion, erased typing derivations, or global normalization can be read.
 \end{proof}
 
+\begin{theorem}[SubjectReduction bridge packet scope]
+\label{thm:subject-reduction-bridge-packet-scope}
+The public carrier, $\Ext$-$\Cont$ closure, ledger exactness, and non-escape rows form the bridge packet available to standard subject-reduction consumers. The packet exports the finite surface $S=(A,B,E_0,R,E_1,L,H,C,P,N)$ and still exports no host type checker, semantic term equality, global normalization, or erased derivation semantics.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:subject-reduction-namecert-carrier}. It displays the public packet with source and target histories, source and target $\Ext$ rows, the $\Cont$ reduction row, ledger, transports, continuations, provenance, and local certificate.
+
+Apply \autoref{thm:subject-reduction-ext-cont-closure} to obtain the consumer route from $E_0$ and $R$ to $E_1$. Then apply \autoref{thm:subject-reduction-ledger-exactness} to record that route in $L$ with its transport, continuation, package, and local naming rows.
+
+The bridge packet boundary is closed by \autoref{thm:subject-reduction-non-escape}. Since the carrier has no host type-checker row, semantic equality row, global normalization row, or erased-derivation row, standard subject-reduction consumers receive only the displayed finite packet.
+\end{proof}
+
 \closureat{SubjectReductionUp}{seedStr}
 \closureat{SubjectReductionUp}{obligationStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
 \closureat{SubjectReductionUp}{scopedStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
 \closureat{SubjectReductionUp}{publicStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
+\closureat{SubjectReductionUp}{bridgedStr}[BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\SubjectReductionUp}
   \constructivestory{A $\SubjectReductionUp$ packet is generated from source and target $\BHist$ rows, source and target $\Ext$ membership rows, a displayed $\Cont$ reduction row, a finite subject-reduction ledger, componentwise $\hsame$ transports, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:subject-reduction-namecert-carrier}, \autoref{thm:subject-reduction-namecert-obligations}, \autoref{thm:subject-reduction-ext-cont-closure}, \autoref{thm:subject-reduction-ledger-exactness}, and \autoref{thm:subject-reduction-non-escape} close the public finite carrier, $\Ext$-$\Cont$ closure, ledger exactness, and non-escape rows already named for subject-reduction reads.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-namecert-carrier}, \autoref{thm:subject-reduction-namecert-obligations}, \autoref{thm:subject-reduction-ext-cont-closure}, \autoref{thm:subject-reduction-ledger-exactness}, \autoref{thm:subject-reduction-non-escape}, and \autoref{thm:subject-reduction-bridge-packet-scope} close the public finite carrier, $\Ext$-$\Cont$ closure, ledger exactness, non-escape rows, and bridge packet scope named for subject-reduction consumers.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.SubjectReductionUp.SubjectReductionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close a host type checker, semantic equality of terms, global normalization, erased derivation semantics, or a public subject-reduction bridge.}
-  \upgradepath{Bridge closure requires a standard bridge over the public carrier, $\Ext$-$\Cont$ closure, ledger exactness, and non-escape rows.}
+  \upgradepath{Mature closure requires a standard bridge consumer package over the public carrier, $\Ext$-$\Cont$ closure, ledger exactness, and non-escape rows.}
 \end{closurestatus}

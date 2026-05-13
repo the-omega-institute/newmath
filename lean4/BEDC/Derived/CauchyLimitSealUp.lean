@@ -1,12 +1,14 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 import BEDC.Derived.RegularCauchyTailSelectorUp
+import BEDC.Derived.UniformCauchyCriterionUp
 
 namespace BEDC.Derived.CauchyLimitSealUp
 
@@ -18,6 +20,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.RegularCauchyTailSelectorUp
+open BEDC.Derived.UniformCauchyCriterionUp
 
 def CauchyLimitSealPacket [AskSetup] [PackageSetup]
     (source schedule ledger diagonal sealed transportRow provenance certificate : BHist)
@@ -230,6 +233,71 @@ theorem CauchyLimitSealCarrier_scheduled_window_pullback [AskSetup] [PackageSetu
   exact
     ⟨windowUnary, observationUnary, realReadUnary, consumerReadUnary, sameSealRead,
       sameEndpoint, endpointPkg⟩
+
+theorem CauchyLimitSealCarrier_diagonal_row_compatibility [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint window
+      budgetRead completionRead alternateCompletion : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint bundle pkg ->
+      Cont schedule source window ->
+        Cont window dyadic budgetRead ->
+          Cont budgetRead diagonal completionRead ->
+            Cont budgetRead diagonal alternateCompletion ->
+              hsame dyadic budgetRead ->
+                hsame completionRead alternateCompletion ∧ hsame sealRow completionRead ∧
+                  hsame sealRow alternateCompletion ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier _scheduleSourceWindow _windowDyadicBudget budgetDiagonalCompletion
+    budgetDiagonalAlternate sameDyadicBudget
+  obtain ⟨_sourceUnary, _scheduleUnary, _dyadicUnary, _diagonalUnary, _sealUnary,
+    _transportUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+    _provenanceLocalEndpoint, _sameEndpoint, endpointPkg⟩ := carrier
+  have sameCompletionAlternate : hsame completionRead alternateCompletion :=
+    cont_deterministic budgetDiagonalCompletion budgetDiagonalAlternate
+  have sameSealCompletion : hsame sealRow completionRead :=
+    cont_respects_hsame sameDyadicBudget (hsame_refl diagonal) dyadicDiagonalSeal
+      budgetDiagonalCompletion
+  have sameSealAlternate : hsame sealRow alternateCompletion :=
+    hsame_trans sameSealCompletion sameCompletionAlternate
+  exact ⟨sameCompletionAlternate, sameSealCompletion, sameSealAlternate, endpointPkg⟩
+
+theorem CauchyLimitSealCarrier_real_handoff_exhaustion [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint window
+      budgetRead completionRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint bundle pkg ->
+      Cont schedule source window ->
+        Cont window dyadic budgetRead ->
+          Cont budgetRead diagonal completionRead ->
+            Cont completionRead endpoint realRead ->
+              hsame dyadic budgetRead ->
+                UnaryHistory window ∧ UnaryHistory budgetRead ∧ UnaryHistory completionRead ∧
+                  UnaryHistory realRead ∧ hsame sealRow completionRead ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier scheduleSourceWindow windowDyadicBudget budgetDiagonalCompletion
+    completionEndpointReal sameDyadicBudget
+  obtain ⟨sourceUnary, scheduleUnary, dyadicUnary, diagonalUnary, _sealUnary,
+    _transportUnary, _provenanceUnary, _localCertUnary, endpointUnary,
+    _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+    _provenanceLocalEndpoint, _sameEndpoint, endpointPkg⟩ := carrier
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed scheduleUnary sourceUnary scheduleSourceWindow
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicBudget
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed budgetUnary diagonalUnary budgetDiagonalCompletion
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed completionUnary endpointUnary completionEndpointReal
+  have sameSealCompletion : hsame sealRow completionRead :=
+    cont_respects_hsame sameDyadicBudget (hsame_refl diagonal) dyadicDiagonalSeal
+      budgetDiagonalCompletion
+  exact
+    ⟨windowUnary, budgetUnary, completionUnary, realUnary, sameSealCompletion,
+      endpointPkg⟩
 
 theorem CauchyLimitSealCarrier_tail_budget_meet [AskSetup] [PackageSetup]
     {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint
@@ -527,5 +595,122 @@ theorem CauchyLimitSealCarrier_root_budget_seal_coverage [AskSetup] [PackageSetu
   exact
     ⟨budgetWindowUnary, budgetReadUnary, completionReadUnary, selectorReadUnary,
       rootReadUnary, sameSealCompletion, sameSelectorBudget, endpointPkg, selectorPkgSig⟩
+
+theorem CauchyLimitSealCarrier_uniform_criterion_pullback [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint index
+      windows modulus tolerance tail uniformSeal uniformTransports routes uniformProvenance
+      uniformName sealWindow observation completionRead tailRead realRead sharedRoute : BHist}
+    {sealBundle uniformBundle : ProbeBundle ProbeName} {sealPkg uniformPkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint sealBundle sealPkg ->
+      UniformCauchyCriterionPacket index windows modulus tolerance tail uniformSeal
+          uniformTransports routes uniformProvenance uniformName uniformBundle uniformPkg ->
+        Cont schedule source sealWindow ->
+          Cont sealWindow dyadic observation ->
+            Cont observation diagonal completionRead ->
+              hsame dyadic observation ->
+                Cont index tail tailRead ->
+                  Cont tail uniformSeal realRead ->
+                    Cont tailRead realRead sharedRoute ->
+                      PkgSig uniformBundle tailRead uniformPkg ->
+                        PkgSig uniformBundle realRead uniformPkg ->
+                          PkgSig uniformBundle sharedRoute uniformPkg ->
+                            UnaryHistory sealWindow ∧ UnaryHistory observation ∧
+                              UnaryHistory completionRead ∧ UnaryHistory tailRead ∧
+                                UnaryHistory realRead ∧ UnaryHistory sharedRoute ∧
+                                  hsame sealRow completionRead ∧ Cont index windows modulus ∧
+                                    Cont modulus tolerance tail ∧ Cont index tail tailRead ∧
+                                      Cont tail uniformSeal realRead ∧
+                                        Cont tailRead realRead sharedRoute ∧
+                                          PkgSig sealBundle endpoint sealPkg ∧
+                                            PkgSig uniformBundle uniformName uniformPkg ∧
+                                              PkgSig uniformBundle sharedRoute uniformPkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier uniformPacket scheduleSourceSealWindow sealWindowDyadicObservation
+    observationDiagonalCompletion sameDyadicObservation indexTailRead tailUniformReal
+    tailReadRealShared tailReadPkg realReadPkg sharedPkg
+  obtain ⟨sourceUnary, scheduleUnary, dyadicUnary, diagonalUnary, _sealUnary,
+    _transportUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+    _provenanceLocalEndpoint, _sameEndpoint, endpointPkg⟩ := carrier
+  obtain ⟨indexUnary, _windowsUnary, _modulusUnary, _toleranceUnary, tailUnary,
+    uniformSealUnary, _uniformTransportsUnary, _routesUnary, _uniformProvenanceUnary,
+    _uniformNameUnary, indexWindowsModulus, modulusToleranceTail,
+    _tailUniformTransports, _transportsRoutesProvenance, uniformNamePkg⟩ :=
+    uniformPacket
+  have sealWindowUnary : UnaryHistory sealWindow :=
+    unary_cont_closed scheduleUnary sourceUnary scheduleSourceSealWindow
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed sealWindowUnary dyadicUnary sealWindowDyadicObservation
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed observationUnary diagonalUnary observationDiagonalCompletion
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed indexUnary tailUnary indexTailRead
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary uniformSealUnary tailUniformReal
+  have sharedRouteUnary : UnaryHistory sharedRoute :=
+    unary_cont_closed tailReadUnary realReadUnary tailReadRealShared
+  have sameSealCompletion : hsame sealRow completionRead :=
+    cont_respects_hsame sameDyadicObservation (hsame_refl diagonal) dyadicDiagonalSeal
+      observationDiagonalCompletion
+  exact
+    ⟨sealWindowUnary, observationUnary, completionReadUnary, tailReadUnary, realReadUnary,
+      sharedRouteUnary, sameSealCompletion, indexWindowsModulus, modulusToleranceTail,
+      indexTailRead, tailUniformReal, tailReadRealShared, endpointPkg, uniformNamePkg,
+      sharedPkg⟩
+
+theorem CauchyLimitSealCarrier_tail_budget_consumer_normal_form [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint precision
+      stream regularity selectorDyadic selectorSeal witness selectorTransport routes
+      selectorProvenance selectorName budgetWindow budgetRead completionRead selectorRead rootRead
+      hostTail : BHist}
+    {sealBundle selectorBundle : ProbeBundle ProbeName} {sealPkg selectorPkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint sealBundle sealPkg ->
+      RegularCauchyTailSelectorPacket precision stream regularity selectorDyadic selectorSeal
+          witness selectorTransport routes selectorProvenance selectorName selectorBundle
+          selectorPkg ->
+        Cont schedule source budgetWindow ->
+          Cont budgetWindow dyadic budgetRead ->
+            Cont budgetRead diagonal completionRead ->
+              Cont witness regularity selectorRead ->
+                Cont completionRead endpoint rootRead ->
+                  hsame dyadic budgetRead ->
+                    hsame selectorDyadic dyadic ->
+                      UnaryHistory rootRead /\
+                        Cont schedule (append source (append dyadic (append diagonal endpoint)))
+                          rootRead /\
+                          hsame sealRow completionRead /\ hsame selectorDyadic budgetRead /\
+                            PkgSig sealBundle endpoint sealPkg /\
+                              PkgSig selectorBundle selectorName selectorPkg /\
+                                (Cont rootRead (BHist.e0 hostTail) schedule -> False) /\
+                                  (Cont rootRead (BHist.e1 hostTail) schedule -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectorPacket scheduleSourceBudget budgetDyadicRead readDiagonalCompletion
+    witnessRegularityRead completionEndpointRoot sameDyadicBudget sameSelectorDyadic
+  have coverage :=
+    CauchyLimitSealCarrier_root_budget_seal_coverage carrier selectorPacket
+      scheduleSourceBudget budgetDyadicRead readDiagonalCompletion witnessRegularityRead
+      completionEndpointRoot sameDyadicBudget sameSelectorDyadic
+  obtain ⟨_budgetWindowUnary, _budgetReadUnary, _completionReadUnary, _selectorReadUnary,
+    rootReadUnary, sameSealCompletion, sameSelectorBudget, endpointPkg, selectorPkgSig⟩ :=
+      coverage
+  have scheduleToRoot :
+      Cont schedule (append source (append dyadic (append diagonal endpoint))) rootRead := by
+    cases scheduleSourceBudget
+    cases budgetDyadicRead
+    cases readDiagonalCompletion
+    cases completionEndpointRoot
+    exact
+      (append_assoc (append (append schedule source) dyadic) diagonal endpoint).trans
+        ((append_assoc (append schedule source) dyadic (append diagonal endpoint)).trans
+          (append_assoc schedule source (append dyadic (append diagonal endpoint))))
+  exact
+    ⟨rootReadUnary, scheduleToRoot, sameSealCompletion, sameSelectorBudget, endpointPkg,
+      selectorPkgSig,
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.left scheduleToRoot hostReturn),
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.right scheduleToRoot hostReturn)⟩
 
 end BEDC.Derived.CauchyLimitSealUp

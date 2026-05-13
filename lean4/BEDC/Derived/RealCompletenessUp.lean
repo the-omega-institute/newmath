@@ -163,4 +163,104 @@ theorem RealCompletenessBHistCarrier_regseq_seal_handoff [AskSetup] [PackageSetu
       readbackUnary, readbackRouteUnary, sealUnary, endpointUnary, familyModulusRoute,
       selectedRoute, readbackRouteStep, sealRoute, endpointPkg⟩
 
+theorem RealCompletenessBHistCarrier_tail_budget_stability [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert endpoint
+      family' modulus' selector' dyadic' windows' readback' sealRow' diagonal diagonal' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow transport
+        route provenance cert endpoint bundle pkg ->
+      hsame family family' ->
+        hsame modulus modulus' ->
+          hsame selector selector' ->
+            hsame dyadic dyadic' ->
+              hsame windows windows' ->
+                hsame readback readback' ->
+                  hsame sealRow sealRow' ->
+                    Cont selector dyadic diagonal ->
+                      Cont selector' dyadic' diagonal' ->
+                        UnaryHistory modulus' ∧ UnaryHistory selector' ∧
+                          UnaryHistory dyadic' ∧ UnaryHistory diagonal' ∧
+                            hsame diagonal diagonal' ∧ Cont selector' dyadic' diagonal' ∧
+                              PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro carrier _sameFamily sameModulus sameSelector sameDyadic _sameWindows _sameReadback
+    _sameSeal selectorDyadic selectorDyadic'
+  obtain ⟨_familyUnary, modulusUnary, selectorUnary, dyadicUnary, _windowsUnary,
+    _readbackUnary, _sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary,
+    _endpointUnary, _endpointRoute, endpointPkg⟩ := carrier
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have selectorUnary' : UnaryHistory selector' :=
+    unary_transport selectorUnary sameSelector
+  have dyadicUnary' : UnaryHistory dyadic' :=
+    unary_transport dyadicUnary sameDyadic
+  have diagonalUnary' : UnaryHistory diagonal' :=
+    unary_cont_closed selectorUnary' dyadicUnary' selectorDyadic'
+  have sameDiagonal : hsame diagonal diagonal' :=
+    cont_respects_hsame sameSelector sameDyadic selectorDyadic selectorDyadic'
+  exact
+    ⟨modulusUnary', selectorUnary', dyadicUnary', diagonalUnary', sameDiagonal,
+      selectorDyadic', endpointPkg⟩
+
+theorem RealCompletenessBHistCarrier_carrier_transport [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert
+      endpoint family' modulus' selector' dyadic' windows' readback' sealRow' transport' route'
+      provenance' cert' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow transport
+        route provenance cert endpoint bundle pkg ->
+      hsame family family' ->
+        hsame modulus modulus' ->
+          hsame selector selector' ->
+            hsame dyadic dyadic' ->
+              hsame windows windows' ->
+                hsame readback readback' ->
+                  hsame sealRow sealRow' ->
+                    hsame transport transport' ->
+                      hsame route route' ->
+                        hsame provenance provenance' ->
+                          hsame cert cert' ->
+                            hsame endpoint endpoint' ->
+                              Cont transport' route' endpoint' ->
+                                PkgSig bundle endpoint' pkg ->
+                                  RealCompletenessBHistCarrier family' modulus' selector'
+                                      dyadic' windows' readback' sealRow' transport' route'
+                                      provenance' cert' endpoint' bundle pkg ∧
+                                    hsame endpoint endpoint' := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier sameFamily sameModulus sameSelector sameDyadic sameWindows sameReadback
+    sameSeal sameTransport sameRoute sameProvenance sameCert sameEndpoint endpointRoute'
+    endpointPkg'
+  obtain ⟨familyUnary, modulusUnary, selectorUnary, dyadicUnary, windowsUnary, readbackUnary,
+    sealUnary, transportUnary, routeUnary, provenanceUnary, certUnary, endpointUnary,
+    _endpointRoute, _endpointPkg⟩ := carrier
+  have familyUnary' : UnaryHistory family' :=
+    unary_transport familyUnary sameFamily
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have selectorUnary' : UnaryHistory selector' :=
+    unary_transport selectorUnary sameSelector
+  have dyadicUnary' : UnaryHistory dyadic' :=
+    unary_transport dyadicUnary sameDyadic
+  have windowsUnary' : UnaryHistory windows' :=
+    unary_transport windowsUnary sameWindows
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_transport readbackUnary sameReadback
+  have sealUnary' : UnaryHistory sealRow' :=
+    unary_transport sealUnary sameSeal
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport transportUnary sameTransport
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport routeUnary sameRoute
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have certUnary' : UnaryHistory cert' :=
+    unary_transport certUnary sameCert
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  exact
+    ⟨⟨familyUnary', modulusUnary', selectorUnary', dyadicUnary', windowsUnary', readbackUnary',
+      sealUnary', transportUnary', routeUnary', provenanceUnary', certUnary', endpointUnary',
+      endpointRoute', endpointPkg'⟩, sameEndpoint⟩
+
 end BEDC.Derived.RealCompletenessUp

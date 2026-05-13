@@ -53,6 +53,37 @@ theorem CertificateCompilerClassifier_displayed_edge_witness_totality [AskSetup]
     ⟨graphUnary, landingUnary, edgeUnary, edgeUnary', edgeSame, sourceGraphLanding,
       graphEdgeLanding, graphEdgeLanding', landingRoutesTarget', certMatchesEndpoint, certPkg⟩
 
+theorem CertificateCompilerCarrier_consumer_replay_obligation_triad [AskSetup]
+    [PackageSetup]
+    {source target graph landing routes transport provenance cert edge edge' replay certEndpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerClassifier source target graph landing routes transport provenance cert
+        edge edge' bundle pkg ->
+      Cont landing routes replay ->
+        hsame cert certEndpoint ->
+          PkgSig bundle certEndpoint pkg ->
+            UnaryHistory graph ∧ UnaryHistory landing ∧ UnaryHistory replay ∧
+              hsame edge edge' ∧ Cont graph edge landing ∧ Cont graph edge' landing ∧
+                Cont landing routes target ∧ Cont landing routes replay ∧
+                  hsame certEndpoint (append provenance target) ∧
+                    PkgSig bundle certEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg
+  intro classifier landingRoutesReplay certEndpointSame certEndpointPkg
+  obtain ⟨carrier, _edgeUnary, _edgeUnary', edgeSame, graphEdgeLanding,
+    graphEdgeLanding', landingRoutesTarget'⟩ := classifier
+  obtain ⟨_sourceUnary, _targetUnary, graphUnary, landingUnary, routesUnary,
+    _transportUnary, _provenanceUnary, _sourceGraphLanding, _landingRoutesTarget,
+    _provenanceTargetCert, certMatchesEndpoint, _certPkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed landingUnary routesUnary landingRoutesReplay
+  have certEndpointMatches : hsame certEndpoint (append provenance target) :=
+    hsame_trans (hsame_symm certEndpointSame) certMatchesEndpoint
+  exact
+    ⟨graphUnary, landingUnary, replayUnary, edgeSame, graphEdgeLanding,
+      graphEdgeLanding', landingRoutesTarget', landingRoutesReplay, certEndpointMatches,
+      certEndpointPkg⟩
+
 theorem CertificateCompilerCarrier_target_endpoint_route [AskSetup] [PackageSetup]
     {source target graph landing routes transport provenance cert targetEndpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -71,6 +102,31 @@ theorem CertificateCompilerCarrier_target_endpoint_route [AskSetup] [PackageSetu
   exact
     ⟨targetEndpointUnary, graphUnary, landingUnary, sourceGraphLanding, landingRoutesTarget,
       certMatchesEndpoint, certPkg⟩
+
+theorem CertificateCompilerCarrier_target_endpoint_determinacy [AskSetup] [PackageSetup]
+    {source target graph landing routes transport provenance cert endpoint endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerCarrier source target graph landing routes transport provenance cert
+        bundle pkg ->
+      hsame endpoint target ->
+        hsame endpoint' target ->
+          hsame endpoint endpoint' ∧ UnaryHistory endpoint ∧ UnaryHistory endpoint' ∧
+            Cont source graph landing ∧ Cont landing routes target ∧
+              hsame cert (append provenance target) ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle Pkg
+  intro carrier endpointSame endpointSame'
+  obtain ⟨_sourceUnary, targetUnary, _graphUnary, _landingUnary, _routesUnary,
+    _transportUnary, _provenanceUnary, sourceGraphLanding, landingRoutesTarget,
+    _provenanceTargetCert, certMatchesEndpoint, certPkg⟩ := carrier
+  have endpointDeterminacy : hsame endpoint endpoint' :=
+    hsame_trans endpointSame (hsame_symm endpointSame')
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_transport targetUnary (hsame_symm endpointSame)
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport targetUnary (hsame_symm endpointSame')
+  exact
+    ⟨endpointDeterminacy, endpointUnary, endpointUnary', sourceGraphLanding,
+      landingRoutesTarget, certMatchesEndpoint, certPkg⟩
 
 theorem CertificateCompilerCarrier_root_classifier_transport_obligation [AskSetup]
     [PackageSetup]
@@ -199,6 +255,47 @@ theorem CertificateCompilerCarrier_identity_composite_public_boundary [AskSetup]
     ⟨sourceUnary, targetUnary, graphUnary, landingUnary, routesUnary, identityUnary,
       compositeUnary, tripleUnary, sourceGraphLanding, landingRoutesTarget,
       targetGraphComposite, compositeRoutesTriple, triplePkg⟩
+
+theorem CertificateCompilerCarrier_route_composition_exactness [AskSetup] [PackageSetup]
+    {source target graph landing routes transport provenance cert identityTarget compositeTarget
+      tripleTarget certEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerCarrier source target graph landing routes transport provenance cert
+        bundle pkg ->
+      hsame identityTarget source ->
+        Cont target graph compositeTarget ->
+          Cont compositeTarget routes tripleTarget ->
+            hsame cert certEndpoint ->
+              PkgSig bundle tripleTarget pkg ->
+                UnaryHistory identityTarget ∧ UnaryHistory compositeTarget ∧
+                  UnaryHistory tripleTarget ∧ UnaryHistory certEndpoint ∧
+                    Cont source graph landing ∧ Cont landing routes target ∧
+                      Cont target graph compositeTarget ∧
+                        Cont compositeTarget routes tripleTarget ∧
+                          hsame certEndpoint (append provenance target) ∧
+                            PkgSig bundle tripleTarget pkg := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle Pkg
+  intro carrier identitySame targetGraphComposite compositeRoutesTriple certEndpointSame
+    triplePkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, _landingUnary, routesUnary,
+    _transportUnary, provenanceUnary, sourceGraphLanding, landingRoutesTarget,
+    provenanceTargetCert, certMatchesEndpoint, _certPkg⟩ := carrier
+  have identityUnary : UnaryHistory identityTarget :=
+    unary_transport sourceUnary (hsame_symm identitySame)
+  have compositeUnary : UnaryHistory compositeTarget :=
+    unary_cont_closed targetUnary graphUnary targetGraphComposite
+  have tripleUnary : UnaryHistory tripleTarget :=
+    unary_cont_closed compositeUnary routesUnary compositeRoutesTriple
+  have certUnary : UnaryHistory cert :=
+    unary_cont_closed provenanceUnary targetUnary provenanceTargetCert
+  have certEndpointUnary : UnaryHistory certEndpoint :=
+    unary_transport certUnary certEndpointSame
+  have certEndpointMatches : hsame certEndpoint (append provenance target) :=
+    hsame_trans (hsame_symm certEndpointSame) certMatchesEndpoint
+  exact
+    ⟨identityUnary, compositeUnary, tripleUnary, certEndpointUnary, sourceGraphLanding,
+      landingRoutesTarget, targetGraphComposite, compositeRoutesTriple, certEndpointMatches,
+      triplePkg⟩
 
 theorem CertificateCompilerCarrier_bridge_schema_handoff [AskSetup] [PackageSetup]
     {source target graph landing routes transport provenance cert bridgeRead : BHist}

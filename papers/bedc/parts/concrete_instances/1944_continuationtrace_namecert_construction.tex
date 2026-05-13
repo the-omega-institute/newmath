@@ -125,6 +125,7 @@ Let $T=(S,M,R,Q,H,C,P,N)$ be an accepted $\ContinuationTraceUp$ packet. Every en
 
 No endpoint read of $T$ is supplied by a host evaluator, a host termination predicate, a quotient behaviour, a selected evaluator, or a big-step semantic object.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_endpoint\_ledger\_exhaustion}
 \begin{proof}
 Project $T$ through \autoref{def:continuation-trace-carrier}. The endpoint-facing coordinates are the source row $S$, mark-and-tail row $M$, target row $R$, finite ledger $Q$, transport row $H$, continuation route $C$, provenance row $P$, and local naming row $N$.
 
@@ -194,12 +195,14 @@ Finally apply \autoref{thm:continuation-trace-route-support-totality} on the ass
 \end{proof}
 
 \closureat{ContinuationTraceUp}{seedStr}
+\closureat{ContinuationTraceUp}{obligationStr}[BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\ContinuationTraceUp}
   \constructivestory{A $\ContinuationTraceUp$ packet is generated from finite source-history rows, mark-and-tail route rows, target-history rows, trace ledgers, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The chapter specifies the finite continuation-trace carrier, its NameCert obligations, small-step readback, non-escape boundary, and public export over displayed BEDC rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean formalization, bridge checking, host evaluator semantics, host termination, quotient behaviours, or big-step semantics.}

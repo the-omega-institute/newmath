@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapFrontierPacketUp$}
+\label{ch:concrete-instances-auditmapfrontierpacket-namecert}
+\origin{human}
+
+The $\AuditMapFrontierPacketUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as a frontier-facing finite certificate. It sits beside the open frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}, the audit synthesis packet of \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, and the normalization audit seal of \autoref{ch:concrete-instances-metacicnormalizationauditseal-namecert}: those sibling chapters expose local audit rows, while this packet records the family frontier as one inspectable NameCert object.
+
+\begin{definition}[Audit-map frontier packet carrier]
+\label{def:audit-map-frontier-packet-carrier}
+An $\AuditMapFrontierPacketUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,C,O,R,X,P,H,Q,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the audit-map family tag naming the MetaCIC module and the local BEDC substrate;
+\item $C$ is the checked row listing finite established audit entries available to consumers;
+\item $O$ is the conditional row listing entries that require a named discharge route before use;
+\item $R$ is the obstruction row listing blocked claims that must remain visible;
+\item $X$ is the frontier row listing the strongest consumer-facing claims not closed by the packet;
+\item $P$ is the cross-map provenance row naming neighbouring audit packets that supply or consume the displayed entries;
+\item $H$ records componentwise $\hsame$ transports for the family tag, checked, conditional, obstruction, frontier, provenance, route, and local naming rows;
+\item $Q$ records displayed $\Cont$ routes by which a consumer reads checked entries, conditional entries, obstruction entries, frontier entries, cross-map provenance, and the local name;
+\item $N$ is the local $\NameCert_{\AuditMapFrontierPacketUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets carrying these rows. It exports no proof of a frontier claim, no hidden discharge for a conditional claim, no erasure of an obstruction row, no unlisted cross-map route, and no host semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[Audit-map frontier packet NameCert obligations]
+\label{thm:audit-map-frontier-packet-namecert-obligations}
+For the carrier of \autoref{def:audit-map-frontier-packet-carrier}, the local $\NameCert_{\AuditMapFrontierPacketUp}$ surface consists exactly of carrier admission for
+$$
+F=(T,C,O,R,X,P,H,Q,N),
+$$
+family-tag readback through $T$, checked-row readback through $C$, conditional-row readback through $O$, obstruction-row readback through $R$, frontier-row readback through $X$, cross-map provenance through $P$, componentwise transport through $H$, displayed continuation through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $F$. The rows $T,C,O,R,X$ expose the family tag and the four audit classes as separate rows before any cross-map use is allowed.
+
+Read the provenance and routing rows next. The row $P$ names sibling audit packets as displayed sources or consumers, while $H$ and $Q$ transport and replay the same finite rows.
+
+Finally inspect the local name $N$. Since the carrier has no coordinate for a hidden proof, a hidden discharge, an erased obstruction, or an unlisted route, these displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Audit-map frontier packet non-escape]
+\label{thm:audit-map-frontier-packet-nonescape}
+For every accepted $\AuditMapFrontierPacketUp$ carrier $F=(T,C,O,R,X,P,H,Q,N)$, every downstream audit consumer remains inside the displayed checked, conditional, obstruction, frontier, cross-map provenance, $\hsame$, $\Cont$, and local $\NameCert$ rows. In particular, a frontier entry in $X$ cannot be read as a closed theorem, a conditional entry in $O$ cannot be read without its named route, and an obstruction entry in $R$ cannot be removed by transport or provenance.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. Any consumer read first selects one of the displayed audit rows $C,O,R,X$ and then follows the provenance, transport, continuation, and naming rows $P,H,Q,N$.
+
+Use the NameCert obligations of \autoref{thm:audit-map-frontier-packet-namecert-obligations}. They bind each audit class to its own row and keep cross-map use downstream of the displayed provenance row.
+
+The sibling concrete packets cited in the opening paragraph may supply row content, but this packet does not add a theorem-producing coordinate to them. Thus frontier rows remain frontier rows, conditional rows remain routed rows, and obstruction rows remain visible boundaries.
+\end{proof}
+
+\closureat{AuditMapFrontierPacketUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapFrontierPacketUp}
+  \constructivestory{An $\AuditMapFrontierPacketUp$ packet is generated from an audit-map family tag, checked rows, conditional rows, obstruction rows, frontier rows, cross-map provenance, componentwise $\hsame$ transports, displayed $\Cont$ routes, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-frontier-packet-carrier}, \autoref{thm:audit-map-frontier-packet-namecert-obligations}, and \autoref{thm:audit-map-frontier-packet-nonescape} bind the audit-map frontier packet as finite checked, conditional, obstruction, frontier, cross-map, provenance, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close subject reduction, confluence, candidate-free normalization, hidden discharge routes, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, row-class readback, cross-map provenance, route replay, naming, and non-escape for the same frontier packet.}
+\end{closurestatus}
