@@ -70,6 +70,44 @@ Transport through $H$ is componentwise over $U,A,L,F,R,N$. It can rename each di
 Thus the standard-boundary comparison remains compatible with the kernel-distinct bridge discipline. The packet makes the standard-interface handoff inspectable while leaving the unary and zero-spine histories nonidentified inside $\BHist$.
 \end{proof}
 
+\begin{theorem}[Unary-zero-spine standard-isomorphism route totality]
+\label{thm:unary-zero-spine-standard-isomorphism-route-totality}
+For every accepted $\UnaryZeroSpineStandardIsoUp$ packet $Z=(U,A,L,F,R,H,C,P,N)$, every accepted forward or backward comparison route is one of the displayed finite routes $F$ or $R$ through the length-match row $L$, the componentwise transport row $H$, the continuation ledger $C$, the package row $P$, and the local naming row $N$. No comparison route can be read from a host equality of histories, a quotient identifying $\NatUp$ with $\AxisNatUp$, or an ambient standard-model function outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-zero-spine-standard-isomorphism-carrier}. Its only route coordinates are the forward route $F$ and the backward route $R$, both listed before any standard-interface consumer can inspect the packet.
+
+Apply the route-ledger exactness row in \autoref{thm:unary-zero-spine-standard-isomorphism-namecert-obligations}. It forces every accepted comparison to pass through $L,H,C,P,N$ together with exactly one of the displayed routes.
+
+The nonidentification boundary of \autoref{thm:unary-zero-spine-standard-isomorphism-nonidentification-boundary} excludes a hidden kernel identification. Therefore a downstream route has no source other than $F$ or $R$.
+\end{proof}
+
+\begin{theorem}[Unary-zero-spine standard-isomorphism axis-nat handoff]
+\label{thm:unary-zero-spine-standard-isomorphism-axis-nat-handoff}
+Every $\NatUp$, $\AxisNatUp$, $\AddUp$, or $\AxisAddUp$ consumer of an accepted $\UnaryZeroSpineStandardIsoUp$ packet reads only the nonempty source rows $U,A$, the length-match row $L$, the displayed finite routes $F,R$, the componentwise $\hsame$ transports, the $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. Such a consumer receives a standard-boundary handoff, not a kernel identification of unary and zero-spine histories.
+\end{theorem}
+\begin{proof}
+Begin with the standard-interface handoff clause in \autoref{thm:unary-zero-spine-standard-isomorphism-namecert-obligations}. It allows additive-interface consumers to read the comparison only after the length-match and route rows are present.
+
+Use route totality from \autoref{thm:unary-zero-spine-standard-isomorphism-route-totality}. Any forward or backward read available to $\NatUp$, $\AxisNatUp$, $\AddUp$, or $\AxisAddUp$ is therefore one of the displayed finite routes through $L,H,C,P,N$.
+
+Finally apply \autoref{thm:unary-zero-spine-standard-isomorphism-nonidentification-boundary}. Since no $\hsame$ row identifies the underlying histories, the consumer handoff is a standard-boundary route and not a kernel equality.
+\end{proof}
+
+\begin{theorem}[Unary-zero-spine standard-isomorphism downstream unblock]
+\label{thm:unary-zero-spine-standard-isomorphism-downstream-unblock}
+The NameCert obligations, route totality, axis-nat handoff, and nonidentification boundary for $\UnaryZeroSpineStandardIsoUp$ form a finite downstream standard-boundary package. A consumer may cite the package to inspect the nonempty $\NatUp$ row, the nonempty $\AxisNatUp$ row, the length-match row, the displayed forward and backward routes, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, while receiving no host equality of histories, no quotient between the two carriers, and no ambient standard-model isomorphism row.
+\end{theorem}
+\begin{proof}
+First assemble the local obligation surface from \autoref{thm:unary-zero-spine-standard-isomorphism-namecert-obligations}. It supplies carrier exposure, classifier stability, route-ledger exactness, standard-interface handoff, and the nonidentification row.
+
+Next add route totality from \autoref{thm:unary-zero-spine-standard-isomorphism-route-totality}. This makes $F$ and $R$ the only comparison routes available to the downstream consumer.
+
+Then use the axis-nat handoff theorem above. It records that $\NatUp$, $\AxisNatUp$, $\AddUp$, and $\AxisAddUp$ consumers read the length and route rows rather than a kernel identification.
+
+The existing nonidentification boundary closes the package by excluding host equality, quotienting of the two carriers, and ambient standard-model replacement. The downstream consumer therefore receives exactly the displayed finite standard-boundary route.
+\end{proof}
+
 \closureat{UnaryZeroSpineStandardIsoUp}{seedStr}
 
 \begin{closurestatus}{\UnaryZeroSpineStandardIsoUp}
