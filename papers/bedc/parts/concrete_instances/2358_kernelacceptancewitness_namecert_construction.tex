@@ -62,6 +62,22 @@ Next read the purity route through $Q$. The consumer may inspect the transitive 
 Finally use the refusal row $R$. Any candidate with a forbidden dependency report, unresolved name, failed kernel replay, or absent accepted-declaration row remains on the refusal side of the packet and is not exported by the local certificate.
 \end{proof}
 
+\begin{theorem}[KernelAcceptanceWitness refusal separation]
+\label{thm:kernel-acceptance-witness-refusal-separation}
+In an accepted $\KernelAcceptanceWitnessUp$ packet
+$$
+K=(G,A,E,Q,R,H,C,P,N),
+$$
+any candidate row recorded in $R$ because of unresolved names, forbidden dependency reports, failed kernel replay, or an absent accepted declaration cannot be exported through $A$, $E$, or $Q$ as accepted BEDC content.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-acceptance-witness-carrier}. The accepted-declaration, environment-ledger, axiom-query, and refusal-boundary rows are separate coordinates of the packet.
+
+Use the NameCert obligations of \autoref{thm:kernel-acceptance-witness-namecert-obligations}. Candidate-to-acceptance matching places accepted content in $A$, environment replay places its accepted module boundary in $E$, purity-query visibility places its dependency report in $Q$, and refusal separation keeps unresolved names, forbidden dependency reports, failed kernel replay, and absent accepted declarations in $R$.
+
+Finally apply ledger purity from \autoref{thm:kernel-acceptance-witness-ledger-purity}. Purity-facing consumers read accepted BEDC content only through $A,E,Q$, while failed candidates remain on the refusal side of the same packet, so no route exports an $R$ row as accepted content.
+\end{proof}
+
 \closureat{KernelAcceptanceWitnessUp}{seedStr}
 \closureat{KernelAcceptanceWitnessUp}{obligationStr}
 
