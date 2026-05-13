@@ -36,6 +36,7 @@ The local $\NameCert_{\ContinuationTraceUp}$ surface consists of five finite row
 \item public export: the packet handed to later formalization is the same finite $\mathsf{BHist}$ trace carrier with its classifier, readback, non-escape, and provenance rows.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is the finite packaging operation of \autoref{def:continuation-trace-carrier}. Every coordinate in the accepted object is one of the displayed trace rows.
 
@@ -91,6 +92,28 @@ The carrier theorem supplies the finite trace packet. The NameCert obligations b
 The small-step readback theorem accounts for every computation-facing row by reading it through the source history, mark-and-tail route, target history, trace ledger, and continuation route. The non-escape boundary prevents the same read from acquiring a host evaluator, host termination predicate, quotient behaviour, selected evaluator, or big-step semantic object.
 
 The public export theorem repacks those rows as the visible trace interface. Because all five cited results refer back to the same carrier coordinates, they form one finite $\ContinuationTraceUp$ obligation package over the BEDC history, mark, sameness, continuation, package, and naming primitives.
+\end{proof}
+
+\begin{theorem}[ContinuationTrace concatenation readback]
+\label{thm:continuation-trace-concatenation-readback}
+Let
+$$
+T_0=(S_0,M_0,R_0,Q_0,H_0,C_0,P_0,N_0)
+\quad\text{and}\quad
+T_1=(S_1,M_1,R_1,Q_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\ContinuationTraceUp$ packets. If the target row $R_0$ of $T_0$ and the source row $S_1$ of $T_1$ are matched by a displayed $\hsame$ row, then their concatenation is a finite trace packet whose step reads factor through exactly one of the two source ledgers $Q_0$ or $Q_1$, with the boundary comparison supplied by that displayed $\hsame$ row.
+
+The public concatenated packet is still over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It exports no host evaluator, host termination predicate, quotient behaviour, or big-step semantic object.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:continuation-trace-carrier}. The only rows available for a step read in the first packet are $S_0,M_0,R_0,Q_0,H_0,C_0,P_0,N_0$, and the only rows available in the second packet are $S_1,M_1,R_1,Q_1,H_1,C_1,P_1,N_1$.
+
+Use \autoref{thm:continuation-trace-small-step-readback} separately on the two packets. A step read before the boundary is read from $Q_0$ together with $C_0$, while a step read after the boundary is read from $Q_1$ together with $C_1$.
+
+The displayed $\hsame$ match between $R_0$ and $S_1$ supplies only the boundary comparison. By \autoref{thm:continuation-trace-non-escape-boundary}, that comparison cannot introduce a host evaluator, host termination predicate, quotient behaviour, selected evaluator, or big-step semantic object.
+
+Finally apply \autoref{thm:continuation-trace-public-export} and \autoref{thm:continuation-trace-obligation-closure-package}. Repacking the two finite ledgers with the boundary $\hsame$ row keeps the concatenated public packet inside $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and every step read is accounted for by exactly one source ledger.
 \end{proof}
 
 \closureat{ContinuationTraceUp}{seedStr}

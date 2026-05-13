@@ -49,6 +49,62 @@ The modulus and diagonal readback clauses are projections of the same packet. Th
 Package closure follows by projecting $H$, $C$, $P$, and $N$. No consumer route reaches a quotient real, external limit selector, or host completeness theorem because no such coordinate occurs in the carrier.
 \end{proof}
 
+\begin{theorem}[Real completeness modulus domain coverage]
+\label{thm:real-completeness-modulus-domain-coverage}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ carrier. Every modulus request consumed by the diagonal selector $\Delta$ is a displayed unary request for a rational tolerance in the modulus row $\mu$. The selected request is read through the finite route $D,W,Q,H,C,P,N$: the $\DyadicRatCoreUp$ ledger supplies the rational tolerance and observation rows, the $\StreamNameUp$ windows and $\RegSeqRatUp$ readback row expose the selected rational names, and the transport, continuation, package, and local naming rows record the public route. No modulus request is supplied by a quotient stream, selected host limit, countable choice, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates in \autoref{def:real-completeness-carrier}. The rows $\mu$ and $\Delta$ are displayed separately: $\mu$ names the tolerance-indexed stage requests, while $\Delta$ consumes only finite selected stages and rational observations.
+
+Apply \autoref{thm:real-completeness-namecert-obligations}. Its modulus exactness clause binds every convergence bound consumed by the selector to the explicit $\mu$ row, and its diagonal readback exactness clause routes the selected rational observation through $D,W,Q$.
+
+The public route is completed by the rows $H,C,P,N$. By \autoref{thm:real-completeness-diagonal-limit-candidate}, those rows are precisely the path by which the finite diagonal observation reaches the $\RealUp$ candidate. By \autoref{thm:real-completeness-nonescape-boundary}, quotient streams, selected host limits, countable choice, and ambient completeness are not coordinates of this route.
+\end{proof}
+
+\begin{theorem}[Real completeness selector readback determinacy]
+\label{thm:real-completeness-selector-readback-determinacy}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+and
+$$
+R'=(X',\mu',\Delta',D',W',Q',S',H,C,P,N)
+$$
+be accepted $\RealCompletenessUp$ carriers whose $X,\mu,\Delta,D,W,Q$ rows are related by the displayed transports named in the shared $H$ row and whose consumer reads use the same $C,P,N$ route. Then two selector reads using those transported rows reach the same finite $\RealUp$ seal ledger. In particular, selector readback determinacy is a statement about the displayed rows $X,\mu,\Delta,D,W,Q,H,C,P,N$ and not about a quotient stream, selected host limit, countable choice, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the two carrier displays. The carrier definition exposes exactly the rows that the selector can inspect: family, modulus, selector, dyadic ledger, stream windows, regular readback, transport rows, continuations, package provenance, and local naming.
+
+Use \autoref{thm:real-completeness-namecert-obligations} for classifier stability. The shared $H$ row transports $X,\mu,\Delta,D,W,Q$, while the shared $C,P,N$ route keeps the consumer-facing readback path fixed.
+
+Now apply \autoref{thm:real-completeness-diagonal-limit-candidate} and \autoref{thm:real-completeness-realup-seal-ledger}. A selector read reaches $\RealUp$ only as the finite seal ledger formed from $\Delta$ through $D,W,Q$ and then routed through $H,C,P,N$. Since both reads use the same transported rows and the same route, they reach the same ledger.
+
+Finally \autoref{thm:real-completeness-nonescape-boundary} rules out any external separator. There is no quotient stream, selected host limit, countable-choice row, or host completeness coordinate that could split the two readbacks after the finite route has been fixed.
+\end{proof}
+
+\begin{theorem}[Real completeness consumer route totality]
+\label{thm:real-completeness-consumer-route-totality}
+For every accepted carrier
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N),
+$$
+each completion-facing consumer read for $\RealUp$, $\CauchyLimitSealUp$, or $\CauchySequenceSpaceUp$ factors through exactly the displayed rows $X,\mu,\Delta,D,W,Q,S,H,C,P,N$. The factorization reads the regular family, explicit modulus, diagonal selector, dyadic ledger, stream windows, regular readback, $\RealUp$ seal, transports, continuations, package provenance, and local naming row, and it exposes no quotient stream, selected host limit, countable choice, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:real-completeness-carrier}. It lists the complete carrier surface, and no completion-facing row occurs outside $X,\mu,\Delta,D,W,Q,S,H,C,P,N$.
+
+Apply \autoref{thm:real-completeness-namecert-obligations}. Carrier formation and package closure make the displayed rows the full public route, while modulus exactness and diagonal readback exactness force any selected observation to pass through $\mu,\Delta,D,W,Q$ before it can reach the seal row.
+
+For $\RealUp$ reads, use \autoref{thm:real-completeness-diagonal-limit-candidate} and \autoref{thm:real-completeness-realup-seal-ledger}: the candidate is the seal row $S$ read through the finite diagonal route. For $\CauchyLimitSealUp$ and $\CauchySequenceSpaceUp$ reads, use \autoref{thm:real-completeness-scoped-finite-seal-pullback} and \autoref{thm:real-completeness-cauchysequence-space-shared-window-handoff}: the downstream consumer first reads the same finite seal route and then its displayed finite handoff rows.
+
+The route is therefore total over the displayed carrier rows and nowhere else. By \autoref{thm:real-completeness-nonescape-boundary}, quotient streams, selected host limits, host equality, countable choice, and ambient completeness are absent from the public boundary.
+\end{proof}
+
 \begin{theorem}[Real completeness diagonal limit candidate]
 \label{thm:real-completeness-diagonal-limit-candidate}
 Let

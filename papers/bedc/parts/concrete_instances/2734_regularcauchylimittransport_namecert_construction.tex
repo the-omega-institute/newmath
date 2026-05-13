@@ -118,12 +118,50 @@ Next apply dyadic ledger stability, \autoref{thm:regular-cauchy-limit-transport-
 Finally use ledger exactness, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}. The seal row $S$ is reached only through the displayed packet rows, with provenance $H,C,P,N$. The excluded quotient, host-equality, external-limit, trichotomy, and completeness objects have no carrier coordinate, so they cannot determine a replacement route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit transport RealCompleteness consumer factorization]
+\label{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}
+Let $T=(R,W,D,S,H,C,P,N)$ be an accepted $\RegularCauchyLimitTransportUp$ carrier. Let $Q$ be an accepted $\RealCompletenessUp$ packet whose regular-family row, selected-window row, dyadic-ledger row, and seal row are exactly the displayed rows $R,W,D,S$ of $T$, transported by the same rows $H,C,P,N$. Then every $\RealCompletenessUp$ diagonal-seal consumer of $Q$ factors through
+$$
+R,W,D,S,H,C,P,N
+$$
+before reading the $\RealUp$ seal. The factorization exposes no quotient stream, selected external limit, host real equality, trichotomy row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply selected-window exactness, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}. It forces each diagonal observation to enter the source row $R$ through the displayed selected-window row $W$ and through the same transport and continuation rows $H,C$.
+
+Next apply dyadic ledger stability, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}. The tolerance, absolute-value, comparison, and triangle-bound entries used by the diagonal read remain entries of $D$, so the $\RealCompletenessUp$ packet cannot substitute a second arithmetic ledger.
+
+Now use seal-route determinacy, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}. The seal handoff reaches $S$ only through the finite route $R \to W \to D \to S$ with provenance $H,C,P,N$.
+
+Finally read the finite seal surface of $\RealCompletenessUp$. Because $Q$ identifies its regular-family, window, dyadic-ledger, and seal rows with $R,W,D,S$, any diagonal-seal consumer of $Q$ has already passed through the carrier rows of $T$ before it reads the $\RealUp$ seal. The excluded quotient, selected-limit, host-equality, trichotomy, and ambient-completeness objects are absent from both displayed packet surfaces.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit transport obligation-closure package]
+\label{thm:regular-cauchy-limit-transport-obligation-closure-package}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier
+$$
+T=(R,W,D,S,H,C,P,N),
+$$
+the displayed rows jointly supply the obligation-closure package for the finite handoff from $\RegSeqRatUp$ through $\StreamNameUp$ and $\DyadicRatCoreUp$ to the $\RealUp$ seal. The package consists of carrier admission for $T$, classifier stability over the rows $R,W,D,S,H,C,P,N$, selected-window exactness through $W$, dyadic ledger stability through $D$, seal-route determinacy through $S,C,P,N$, and non-escape for every consumer of the finite handoff.
+
+The package has no quotient stream coordinate, no host real equality coordinate, no selected external limit coordinate, no trichotomy coordinate, and no $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Carrier admission is exactly the packet of \autoref{def:regular-cauchy-limit-transport-carrier}, and the classifier boundary is exactly the row comparison of \autoref{def:regular-cauchy-limit-transport-classifier}.
+
+Use \autoref{thm:regular-cauchy-limit-transport-stability} for classifier stability and \autoref{thm:regular-cauchy-limit-transport-namecert-obligations} for the local obligation surface. These two rows bind the accepted carrier and the local naming boundary to the same displayed packet.
+
+Next apply \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness} and \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}. They force the source read through the selected-window row $W$ and keep the tolerance, absolute-value, comparison, and triangle-bound data inside the dyadic ledger $D$.
+
+Finally use \autoref{thm:regular-cauchy-limit-transport-ledger-exactness} and \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}. Every seal-facing consumer is exhausted by $R,W,D,S,H,C,P,N$, so the excluded quotient, host-equality, external-limit, trichotomy, and completeness objects have no route into the package.
+\end{proof}
+
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyLimitTransportUp}
   \constructivestory{A $\RegularCauchyLimitTransportUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ selected-window row, a $\DyadicRatCoreUp$ tolerance and absolute-value ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, and \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, and local naming obligations.}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, and \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, and local naming obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

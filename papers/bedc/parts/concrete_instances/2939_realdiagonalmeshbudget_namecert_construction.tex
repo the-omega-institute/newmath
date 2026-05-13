@@ -38,6 +38,7 @@ The mesh-budget obligations are finite. A consumer reads $q$, then reads the bud
 
 The aggregation row $\theta$ records that the displayed windows cover the requested diagonal packet before the seal row $e$ is exported. The rows $h,c,p,n$ account for transport, route replay, provenance, and local naming, so the local surface is exhausted by the displayed packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_namecert\_obligations}
 
 \begin{theorem}[Real diagonal mesh-budget window coverage]
 \label{thm:real-diagonal-mesh-budget-window-coverage}
@@ -52,6 +53,7 @@ Apply the NameCert obligations of \autoref{thm:real-diagonal-mesh-budget-namecer
 
 Since the carrier has no coordinate for an infinite mesh, unlisted stream window, quotient equality, or ambient completeness, a downstream diagonal observation can only use the displayed finite coverage route.
 \end{proof}
+\leanchecked{BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_window\_coverage}
 
 \begin{theorem}[Real diagonal mesh-budget selected-window refinement]
 \label{thm:real-diagonal-mesh-budget-window-refinement}
@@ -118,10 +120,11 @@ No infinite mesh selection, quotient reals, host real equality, or ambient compl
 \end{proof}
 
 \closureat{RealDiagonalMeshBudgetUp}{seedStr}
+\closureat{RealDiagonalMeshBudgetUp}{obligationStr}
 
 \begin{closurestatus}{\RealDiagonalMeshBudgetUp}
   \constructivestory{A $\RealDiagonalMeshBudgetUp$ packet is generated from a rational precision request, a finite mesh budget, selected stream windows, regular rational readbacks, a dyadic tolerance ledger, a diagonal aggregation row, a real-seal row, componentwise transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:real-diagonal-mesh-budget-carrier}, \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}, \autoref{thm:real-diagonal-mesh-budget-window-coverage}, \autoref{thm:real-diagonal-mesh-budget-window-refinement}, \autoref{thm:real-diagonal-mesh-budget-realup-handoff}, and \autoref{thm:real-diagonal-mesh-budget-nonescape} bind the finite mesh-budget route from precision request through selected diagonal windows to the RealUp seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
