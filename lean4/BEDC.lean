@@ -137,6 +137,7 @@ import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
+import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
 import BEDC.Derived.ObservationTimeOrderUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate
@@ -154,6 +155,7 @@ import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
+import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
@@ -229,6 +231,7 @@ import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyLimitSealUp
+import BEDC.Derived.CauchyLimitSealUp.RootFormalHandoff
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
@@ -344,6 +347,7 @@ import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.InscriptionEventUp.TasteGate
+import BEDC.Derived.InscriptionAuditTraceUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
 import BEDC.Derived.InscriptionPointUp.TasteGate
 import BEDC.Derived.InscribedRouteUp.TasteGate
@@ -422,6 +426,7 @@ import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
+import BEDC.Derived.UniformModulusUp.RootCompactContinuousThreshold
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelPredictiveControlUp
@@ -455,6 +460,7 @@ import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealCauchyCompletionUp
 import BEDC.Derived.RealCauchyCompletionUp.BudgetedCommonRefinement
+import BEDC.Derived.RealCauchyCompletionUp.BridgeHandoff
 import BEDC.Derived.RealCauchyCompletionUp.FamilyTailSynchronization
 import BEDC.Derived.RealCauchyCompletionUp.NullTailBudgetCorrespondence
 import BEDC.Derived.RealCauchyCompletionUp.ObligationBridge
@@ -487,6 +493,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
+import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitTransportUp
