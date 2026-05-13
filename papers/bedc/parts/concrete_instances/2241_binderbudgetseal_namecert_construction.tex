@@ -121,6 +121,20 @@ The shift and substitution non-escape theorems handle the two route cases. They 
 All remaining requests are absent from the obligation surface. The single-carrier TasteGate discipline and the compiler-boundary theorem keep those absent requests from being repacked as a second carrier or as compiler-stage evidence.
 \end{proof}
 
+\begin{theorem}[BinderBudgetSeal TasteGate carrier grounding]
+\label{thm:binder-budget-seal-tastegate-carrier-grounding}
+The carrier rows $D,T,V,S,U,H,C,P,N$ used by the obligation surface, compiler boundary, and non-escape theorem are the same finite packet. Any TasteGate instance for $\BinderBudgetSealUp$ must therefore be discharged on that single carrier and not on a compiler-stage carrier, normalization carrier, quotient syntax carrier, or host soundness carrier.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the obligation surface, \autoref{def:binder-budget-seal-carrier} and \autoref{def:binder-budget-seal-obligation-surface}. Both display the same tuple $B=(D,T,V,S,U,H,C,P,N)$ and name no second carrier.
+
+Use carrier admission from \autoref{thm:binder-budget-seal-carrier-admission}. It reads $D,T,V$ only through $S,U,H,C,P,N$, so the admitted surface is the same packet named by the obligation theorem.
+
+Apply the compiler boundary and non-escape theorems, \autoref{thm:binder-budget-seal-compiler-boundary} and \autoref{thm:binder-budget-seal-non-escape}. They rule out compiler-stage, normalization, quotient syntax, and host soundness rows outside the displayed tuple.
+
+The TasteGate carrier must therefore be grounded on row equality of this packet. Since every cited surface names $D,T,V,S,U,H,C,P,N$, a separate carrier would fail to be the accepted $\BinderBudgetSealUp$ packet.
+\end{proof}
+
 \closureat{BinderBudgetSealUp}{seedStr}
 \closureat{BinderBudgetSealUp}{obligationStr}[BEDC.Derived.BinderBudgetSealUp.BinderBudgetSealTasteGate\_single\_carrier\_alignment]
 
