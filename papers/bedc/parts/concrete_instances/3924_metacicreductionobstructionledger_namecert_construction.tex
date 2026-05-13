@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICReductionObstructionLedgerUp$}
+\label{ch:concrete-instances-metacic-reduction-obstruction-ledger-namecert}
+\origin{human}
+
+The $\MetaCICReductionObstructionLedgerUp$ packet gives the obstruction vision of \autoref{ch:metacic-subject-reduction-obstruction} a finite BEDC naming surface. It reads the subject-reduction carrier of \autoref{ch:concrete-instances-subjectreduction-namecert}, the closed generator audit packet of \autoref{ch:concrete-instances-closedgeneratoraudit-namecert}, and the generator audit closure packet of \autoref{ch:concrete-instances-generatorauditclosure-namecert} as the surrounding ledger rows for the four MetaCIC discharge obligations. The packet does not prove those obligations; it names their position, their subject-reduction handoff, and the non-escape boundary that prevents an unrecorded closed theorem from being exported.
+
+\begin{definition}[MetaCIC reduction obstruction ledger carrier]
+\label{def:metacic-reduction-obstruction-ledger-carrier}
+A $\MetaCICReductionObstructionLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,B,A,L,P,G,J,O,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ records the $\SubjectReductionUp$ row consumed by downstream type-preservation packets;
+\item $B$ records the beta-substitution discharge row;
+\item $A$ records the application-argument stability discharge row;
+\item $L$ records the lambda-domain preservation discharge row;
+\item $P$ records the Pi-domain preservation discharge row;
+\item $G$ records the $\ClosedGeneratorAuditUp$ source for closed generator and substitution audit evidence;
+\item $J$ records the $\GeneratorAuditClosureUp$ source for generator-closure replay;
+\item $O$ records the obstruction row for the closed subject-reduction request;
+\item $H$ records componentwise $\hsame$ transport for the subject-reduction row, the four discharge rows, the two generator-audit rows, the obstruction row, replay routes, provenance, and local naming;
+\item $C$ records displayed $\Cont$ routes through which consumers read the parameterized subject-reduction row, the four discharge rows, the generator-audit rows, and the obstruction row;
+\item $Q$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\SubjectReductionUp$, $\ClosedGeneratorAuditUp$, $\GeneratorAuditClosureUp$, and the MetaCIC subject-reduction obstruction boundary;
+\item $N$ is the local $\NameCert_{\MetaCICReductionObstructionLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a closed subject-reduction theorem, hidden proof of a discharge row, host-calculus preservation theorem, quotient transport, classical selection, proposition extensionality, or unrecorded proof oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC reduction obstruction ledger NameCert obligations]
+\label{thm:metacic-reduction-obstruction-ledger-namecert-obligations}
+For every accepted $\MetaCICReductionObstructionLedgerUp$ carrier
+$$
+R=(S,B,A,L,P,G,J,O,H,C,Q,N),
+$$
+the local $\NameCert_{\MetaCICReductionObstructionLedgerUp}$ surface has four finite obligations:
+\begin{enumerate}
+\item subject-reduction exposure: $S$ is the only displayed subject-reduction row available to a consumer;
+\item discharge inventory: $B,A,L,P$ are the only rows that may feed the beta-substitution, application-argument, lambda-domain, and Pi-domain sockets;
+\item generator-audit anchoring: $G$ and $J$ are the only rows from which closed-generator and generator-closure audit evidence may be read;
+\item obstruction exactness: $O,H,C,Q,N$ route every closed subject-reduction request back to the displayed obstruction ledger unless all four discharge rows are supplied as proof rows for $S$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-reduction-obstruction-ledger-carrier}. The rows $S,B,A,L,P,G,J,O,H,C,Q,N$ are the complete packet inventory, so the local name has no source outside that tuple.
+
+The subject-reduction read is confined to $S$. The four discharge rows $B,A,L,P$ are listed separately, and the generator-audit rows $G,J$ remain attached to their own displayed coordinates.
+
+The obstruction row $O$ handles the closed request. Transport through $H$, replay through $C$, provenance through $Q$, and naming through $N$ keep that request inside the same finite packet rather than replacing it by an unrecorded theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC reduction obstruction ledger non-escape]
+\label{thm:metacic-reduction-obstruction-ledger-nonescape}
+Every consumer of an accepted $\MetaCICReductionObstructionLedgerUp$ carrier can read only the rows
+$$
+S,B,A,L,P,G,J,O,H,C,Q,N.
+$$
+In particular, the packet exports no closed subject-reduction theorem, hidden discharge proof, host-calculus preservation principle, quotient transport, classical selection, proposition extensionality, or unrecorded proof oracle.
+\end{theorem}
+\begin{proof}
+Start with the finite carrier. Each exported coordinate is one of the displayed rows, and each public replay route is recorded in $C$.
+
+Apply \autoref{thm:metacic-reduction-obstruction-ledger-namecert-obligations}. The subject-reduction row, four discharge rows, generator-audit rows, and obstruction row exhaust the local $\NameCert$ surface.
+
+Since the excluded objects do not occur as coordinates of $R$, componentwise transport and package provenance cannot export them. A consumer may only replay the rows named by the ledger.
+\end{proof}
+
+\begin{theorem}[MetaCIC reduction obstruction ledger subject-reduction handoff]
+\label{thm:metacic-reduction-obstruction-ledger-subjectreduction-handoff}
+An accepted $\MetaCICReductionObstructionLedgerUp$ packet hands subject-reduction consumers to the displayed $\SubjectReductionUp$ row $S$ together with the four obligation rows $B,A,L,P$. A consumer obtains a subject-reduction read only by supplying those four rows as the discharge inputs required by $S$; otherwise the closed request is answered by the obstruction row $O$.
+\end{theorem}
+\begin{proof}
+Read the handoff coordinate $S$ from the carrier. It is the only subject-reduction row recorded in the packet.
+
+The rows $B,A,L,P$ are the four displayed discharge inputs. The carrier does not contain a second source that could supply those inputs invisibly.
+
+If the four rows are not supplied as proof rows for $S$, the route $C$ sends the closed subject-reduction request to $O$. Thus the handoff is finite and explicit: either the consumer supplies the displayed obligations, or the ledger returns the obstruction row.
+\end{proof}
+
+\begin{theorem}[MetaCIC reduction obstruction ledger vision concretization]
+\label{thm:metacic-reduction-obstruction-ledger-vision-concretization}
+The $\MetaCICReductionObstructionLedgerUp$ carrier realizes the MetaCIC subject-reduction obstruction vision as a finite NameCert ledger. Its rows link the four discharge obligations to $\SubjectReductionUp$, $\ClosedGeneratorAuditUp$, and $\GeneratorAuditClosureUp$ while keeping the closed subject-reduction request behind the explicit obstruction row.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:metacic-reduction-obstruction-ledger-carrier} to identify the ledger rows. The subject-reduction row $S$, the four discharge rows $B,A,L,P$, and the generator-audit rows $G,J$ are all visible coordinates.
+
+Use \autoref{thm:metacic-reduction-obstruction-ledger-subjectreduction-handoff} for the subject-reduction route and \autoref{thm:metacic-reduction-obstruction-ledger-nonescape} for the exclusion boundary. Together they give the vision a concrete finite packet without adding a closed theorem or a hidden discharge proof.
+\end{proof}
+
+\closureat{MetaCICReductionObstructionLedgerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICReductionObstructionLedgerUp}
+  \constructivestory{A $\MetaCICReductionObstructionLedgerUp$ packet is generated from a subject-reduction row, four discharge-obligation rows, closed-generator and generator-closure audit rows, an obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-reduction-obstruction-ledger-carrier}, \autoref{thm:metacic-reduction-obstruction-ledger-namecert-obligations}, \autoref{thm:metacic-reduction-obstruction-ledger-nonescape}, \autoref{thm:metacic-reduction-obstruction-ledger-subjectreduction-handoff}, and \autoref{thm:metacic-reduction-obstruction-ledger-vision-concretization} specify the finite obstruction ledger carrier, obligation surface, non-escape boundary, subject-reduction handoff, and vision realization.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, discharge inventory, generator-audit anchoring, and obstruction exactness for the displayed ledger.}
+\end{closurestatus}
