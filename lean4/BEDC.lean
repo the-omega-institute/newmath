@@ -547,6 +547,7 @@ import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
 import BEDC.Derived.RussellAnalysisLadderUp.TasteGate
 import BEDC.Derived.RussellSelfMembershipBoundaryUp.TasteGate
+import BEDC.Derived.ObservableCauchySealUp.TasteGate
 import BEDC.Derived.UnwitnessedExistenceClosureUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
@@ -563,6 +564,7 @@ import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
 import BEDC.Derived.StatManifoldUp
 import BEDC.Derived.StoppingTimeUp
+import BEDC.Derived.ProofTermErasureClassifierUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubstitutionAuditMapUp.Core
 import BEDC.Derived.SubstitutionAuditMapUp.TasteGate
