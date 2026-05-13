@@ -76,4 +76,34 @@ theorem CompactModulusCoverCarrier_real_completion_handoff [AskSetup] [PackageSe
     unary_cont_closed pointwiseRowsUnary radiusFamilyUnary foldReadRow
   exact ⟨handoffReadUnary, uniformReadUnary, foldReadUnary, handoffTransportRoute, localCertPkg⟩
 
+theorem CompactModulusCoverCarrier_obligation_triad [AskSetup] [PackageSetup]
+    {compactSource continuousRow tolerance bundleRow coverRows pointwiseRows handoff radiusFamily
+      transports routes provenance localCert coverRead pointwiseRead handoffRead uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactModulusCoverCarrier compactSource continuousRow tolerance bundleRow coverRows
+        pointwiseRows handoff radiusFamily transports routes provenance localCert bundle pkg ->
+      Cont compactSource bundleRow coverRead ->
+        Cont continuousRow tolerance pointwiseRead ->
+          Cont pointwiseRows radiusFamily handoffRead ->
+            Cont handoff transports uniformRead ->
+              UnaryHistory coverRead ∧ UnaryHistory pointwiseRead ∧ UnaryHistory handoffRead ∧
+                UnaryHistory uniformRead ∧ Cont routes provenance localCert ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle localCert pkg := by
+  intro carrier coverReadRow pointwiseReadRow handoffReadRow uniformReadRow
+  obtain ⟨compactSourceUnary, continuousRowUnary, toleranceUnary, bundleRowUnary,
+    _coverRowsUnary, pointwiseRowsUnary, handoffUnary, radiusFamilyUnary, transportsUnary,
+    _routesUnary, _provenanceUnary, _localCertUnary, _compactRoute, _pointwiseRoute,
+    _handoffRoute, _handoffTransportRoute, routesProvenanceLocalCert, provenancePkg,
+    localCertPkg⟩ := carrier
+  have coverReadUnary : UnaryHistory coverRead :=
+    unary_cont_closed compactSourceUnary bundleRowUnary coverReadRow
+  have pointwiseReadUnary : UnaryHistory pointwiseRead :=
+    unary_cont_closed continuousRowUnary toleranceUnary pointwiseReadRow
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed pointwiseRowsUnary radiusFamilyUnary handoffReadRow
+  have uniformReadUnary : UnaryHistory uniformRead :=
+    unary_cont_closed handoffUnary transportsUnary uniformReadRow
+  exact ⟨coverReadUnary, pointwiseReadUnary, handoffReadUnary, uniformReadUnary,
+    routesProvenanceLocalCert, provenancePkg, localCertPkg⟩
+
 end BEDC.Derived.CompactModulusCoverUp
