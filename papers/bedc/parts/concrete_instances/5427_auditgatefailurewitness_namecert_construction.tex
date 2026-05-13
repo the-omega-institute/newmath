@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\AuditGateFailureWitnessUp$}
+\label{ch:concrete-instances-auditgatefailurewitness-namecert}
+\origin{ai}
+
+The $\AuditGateFailureWitnessUp$ packet realizes the failed-verdict side of the audit-gate boundary described in \autoref{ch:visions-audit-gates-as-transcendental-boundary}. It sits beside the pass/refusal ledgers of \autoref{ch:concrete-instances-auditgateboundary-namecert}, the composed gate surface of \autoref{ch:concrete-instances-auditgatecomposition-namecert}, the apophatic refusal packet of \autoref{ch:concrete-instances-negativecertificateboundary-namecert}, and the gate-question packet of \autoref{ch:concrete-instances-apophaticgatequestion-namecert}. Those siblings expose questions, boundary ledgers, composition routes, or negative certificates; this packet records the concrete diagnostic witness for a gate row whose boundary item fails.
+
+\falsifiablePrediction{If an AuditGateFailureWitnessUp packet is accepted, every public consumer route reaches the diagnostic row before any composed refusal handoff; a direct route from gate row to theorem content refutes the packet.}
+
+\independenceWitness{AuditGateBoundaryUp supplies pass/refusal ledgers but not a diagnostic witness; AuditGateCompositionUp composes gate rows but does not carry a primitive failed item; NegativeCertificateBoundaryUp records apophatic refusal but not a gate diagnostic; ApophaticGateQuestionUp asks the gate question but does not store a failed verdict.}
+
+\begin{definition}[Audit-gate failure-witness carrier]
+\label{def:audit-gate-failure-witness-carrier}
+An $\AuditGateFailureWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(G,F,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the audit-gate row whose finite boundary check is being read;
+\item $F$ is the failed boundary item, recording the source token, proof-ancestry dependency, unresolved target, origin/import crossing, or other gate-visible item that did not pass;
+\item $R$ is the refusal target attached to $F$, namely the theorem-content route, host supply, marker resolution, or internalizer that the gate refuses to admit;
+\item $D$ is the diagnostic readback row, recording the exact finite reason by which $G$ classifies $F$ as a failed item and attaches the refusal to $R$;
+\item $H$ records componentwise $\hsame$ transport for the gate row, failed item, refusal target, diagnostic readback, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ replay routes from $G$ to $F$, from $F$ to $D$, from $D$ to $R$, and from the local witness to any composed refusal handoff;
+\item $P$ records $\Pkg$ provenance naming $\AuditGateBoundaryUp$, $\AuditGateCompositionUp$, $\NegativeCertificateBoundaryUp$, $\ApophaticGateQuestionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ source packets;
+\item $N$ is the local $\NameCert_{\AuditGateFailureWitnessUp}$ row.
+\end{enumerate}
+The carrier exports a failure witness for the displayed gate row. It exports no route by which the failed item becomes theorem content and no replacement diagnostic outside the displayed readback row.
+\end{definition}
+
+\begin{theorem}[Audit-gate failure-witness NameCert obligations]
+\label{thm:audit-gate-failure-witness-namecert-obligations}
+For every accepted $\AuditGateFailureWitnessUp$ carrier
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+the local $\NameCert_{\AuditGateFailureWitnessUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed $\BHist$ packet $W$ with gate row, failed boundary item, refusal target, diagnostic readback, transport, continuation, provenance, and local naming rows;
+\item diagnostic exactness: the row $D$ is the only diagnostic readback for $F$ under $G$, and it records the finite gate-facing reason for failure before any consumer reaches the refusal target;
+\item refusal attachment: the row $R$ is attached to the pair $(F,D)$ rather than to an anonymous gate outcome, so the refusal cannot be detached from the concrete failed boundary item;
+\item replay visibility: every public replay of the witness factors through the displayed routes in $C$, including the route from $G$ to $F$, the diagnostic route from $F$ to $D$, and the refusal route from $D$ to $R$;
+\item non-internalization: the packet exposes the failed verdict and its diagnostic, but it exports no theorem-content object, host supply, marker repair, admitted internalizer, or gate-bypass route for $F$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:audit-gate-failure-witness-carrier}. The tuple exposes exactly the rows $G,F,R,D,H,C,P,N$, so an accepted witness has no hidden item beyond the displayed finite packet.
+
+Diagnostic exactness is read from the role of $D$. The diagnostic is attached to $F$ under the gate row $G$, and the continuation route reaches $D$ before it can reach the refusal target. Thus a consumer cannot read the failure as an anonymous refusal.
+
+Refusal attachment then follows by reading $R$ after $D$. The refused target is paired with the failed item and diagnostic row, so the refusal cannot be moved to a different boundary item without leaving the carrier.
+
+Replay visibility is confined to $C$, while componentwise transport is confined to $H$. The package and local-name rows $P$ and $N$ bind these visible routes as a local NameCert surface.
+
+Finally, non-internalization follows from the carrier inventory. No coordinate of $W$ supplies theorem content for $F$, repairs the marker or host supply, admits the refused internalizer, or bypasses the gate diagnostic.
+\end{proof}
+
+\begin{theorem}[Audit-gate failure-witness composition handoff]
+\label{thm:audit-gate-failure-witness-composition-handoff}
+Let
+$$
+W_0=(G_0,F_0,R_0,D_0,H_0,C_0,P_0,N_0)
+$$
+and
+$$
+W_1=(G_1,F_1,R_1,D_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\AuditGateFailureWitnessUp$ carriers consumed by an $\AuditGateCompositionUp$ packet. The composition may read the two diagnostic rows $D_0,D_1$, the two refusal targets $R_0,R_1$, and the two replay routes $C_0,C_1$ as input to its composed refusal trace. It may not turn either failed boundary item $F_0$ or $F_1$ into theorem content, and it may not replace either diagnostic row by the composed trace itself.
+\end{theorem}
+\begin{proof}
+Project the two accepted witnesses. Each exposes a gate row, failed item, refusal target, diagnostic readback, transport, replay, provenance, and local name.
+
+Feed only the visible diagnostic and refusal rows to the composition packet. The first witness contributes $D_0,R_0,C_0$, and the second witness contributes $D_1,R_1,C_1$. The composed surface may order these rows, compare their gate boundaries, and expose a composed refusal trace.
+
+The failed items remain boundary items of their original witnesses. Since neither carrier has a theorem-content coordinate for its failed item, the composition has no source from which to manufacture such content.
+
+The composed trace also cannot replace the diagnostic rows. It is a consumer of $D_0$ and $D_1$, not a primitive diagnostic for either gate row. Thus the handoff preserves both failure witnesses while keeping the failures outside theorem content.
+\end{proof}
+
+The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailureWitnessUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \AuditGateFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \AuditGateFailureWitnessUp$ instances for the same finite carrier.
+
+\closureat{AuditGateFailureWitnessUp}{seedStr}
+
+\begin{closurestatus}{\AuditGateFailureWitnessUp}
+  \constructivestory{An $\AuditGateFailureWitnessUp$ packet is generated from a gate row, a failed boundary item, a refusal target, diagnostic readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-gate-failure-witness-carrier}, \autoref{thm:audit-gate-failure-witness-namecert-obligations}, and \autoref{thm:audit-gate-failure-witness-composition-handoff} bind failed audit-gate verdicts as diagnostic NameCert packets with visible refusal handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, a public standard bridge, audit-policy completeness, automatic repair of failed targets, or theorem content for failed boundary items.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagnostic exactness, refusal attachment, replay visibility, non-internalization, and composition handoff for the displayed failure-witness packet.}
+\end{closurestatus}
