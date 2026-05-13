@@ -20,6 +20,8 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_cook_glider_G $(TEST_DIR)/test_cook_glider_H \
                    $(TEST_DIR)/test_cook_glider_gun \
                    $(TEST_DIR)/test_glider_phases $(TEST_DIR)/test_phase_verifier \
+                   $(TEST_DIR)/test_phase_verifier_martinez \
+                   $(TEST_DIR)/test_cook_collision_martinez \
                    $(TEST_DIR)/test_cook_ossifier \
                    $(TEST_DIR)/test_cook_data_block \
                    $(TEST_DIR)/test_hist $(TEST_DIR)/test_ext \
@@ -120,6 +122,19 @@ $(TEST_DIR)/test_phase_verifier: $(TEST_DIR)/test_phase_verifier.c $(ENCODER_DIR
 	    $(TEST_DIR)/test_phase_verifier.c \
 	    $(ENCODER_DIR)/phase_verifier.c $(ENCODER_DIR)/glider_phases.c \
 	    $(EVAL_DIR)/rule110.c
+
+$(TEST_DIR)/test_phase_verifier_martinez: $(TEST_DIR)/test_phase_verifier_martinez.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/glider_phases.h $(EVAL_DIR)/rule110.c $(EVAL_DIR)/rule110.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_phase_verifier_martinez.c \
+	    $(ENCODER_DIR)/glider_phases.c $(EVAL_DIR)/rule110.c
+
+$(TEST_DIR)/test_cook_collision_martinez: $(TEST_DIR)/test_cook_collision_martinez.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/glider_phases.h $(ENCODER_DIR)/cook_collisions.h $(ENCODER_DIR)/cook_collisions.c $(ENCODER_DIR)/cook_construction.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_collision_martinez.c \
+	    $(EVAL_DIR)/rule110.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_glider_B.c \
+	    $(ENCODER_DIR)/cook_glider_C.c $(ENCODER_DIR)/cook_glider_D.c \
+	    $(ENCODER_DIR)/cook_collisions.c
 
 $(TEST_DIR)/test_cook_ossifier: $(TEST_DIR)/test_cook_ossifier.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_ossifier.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \

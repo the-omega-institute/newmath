@@ -73,4 +73,14 @@ const char *cook_collision_lookup(const char *glider_left,
                                   const char *glider_right,
                                   int ether_gap);
 
+size_t cook_collision_lookup_count(void);
+
+const char *cook_collision_lookup_left(size_t index);
+
+const char *cook_collision_lookup_right(size_t index);
+
+int cook_collision_lookup_gap(size_t index);
+
+const char *cook_collision_lookup_result(size_t index);
+
 #endif
