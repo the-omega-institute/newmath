@@ -141,4 +141,38 @@ theorem GeneratorClosurePacket_classifier_obligation [AskSetup] [PackageSetup]
       endpointPkg⟩,
       sameEndpoint⟩
 
+theorem GeneratorClosurePacket_ledger_obligation [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      exported rejected : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg →
+      hsame endpoint exported →
+        Cont name exported routes →
+          PkgSig bundle exported pkg →
+            Cont constructors rejected routes →
+              UnaryHistory generator ∧ UnaryHistory constructors ∧ UnaryHistory authorized ∧
+                UnaryHistory witnesses ∧ UnaryHistory exported ∧
+                  Cont generator constructors authorized ∧ Cont authorized classifier witnesses ∧
+                    Cont name exported routes ∧ Cont constructors rejected routes ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint exportedRoute exportedPkg rejectedRoute
+  obtain ⟨generatorUnary, constructorsUnary, authorizedUnary, _classifierUnary, witnessesUnary,
+    _transportUnary, _provenanceUnary, _nameUnary, endpointUnary, generatorRoute,
+    classifierRoute, _endpointRoute, endpointPkg⟩ := packet
+  cases sameEndpoint
+  exact
+    ⟨generatorUnary,
+      constructorsUnary,
+      authorizedUnary,
+      witnessesUnary,
+      endpointUnary,
+      generatorRoute,
+      classifierRoute,
+      exportedRoute,
+      rejectedRoute,
+      endpointPkg,
+      exportedPkg⟩
+
 end BEDC.Derived.GeneratorClosureUp
