@@ -389,3 +389,41 @@ the pullback packet as the $\StreamNameUp$ factorization boundary, and route
 totality says every consumer replay is exhausted by that packet. Thus the
 consumer-visible seal-source classifier identifies $S$ and $T$.
 \end{proof}
+
+\begin{theorem}[RealUp open-phase four-face NameCert admission]
+\label{thm:realup-open-phase-four-face-namecert-admission}
+Let $P$ be a finite packet whose four displayed faces are
+$\DyadicRatCoreUp$ observation rows, $\StreamNameUp$ finite-window rows,
+$\RegSeqRatUp$ regularity-spine rows, and $\RealUp$ seal/readback rows.
+Suppose the only gluing coordinates of $P$ are the componentwise $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows already displayed on those four
+faces. Then $P$ is admitted as the local $\RealUp$ open-phase $\NameCert$
+surface for the seal handoff.
+
+The admission has no coordinate for quotient carriers, host equality, real
+completeness, arithmetic packages, order packages, Classical choice, or
+metric-completeness rows. Every admitted row is one of the four faces or one of
+the displayed transport, continuation, package, and certificate coordinates.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:realup-open-phase-seal-exactness}. It reads any
+accepted seal/readback row in the packet as a finite open-phase seal surface
+over the same $\mathsf{BHist}$ source and over the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+Next use \autoref{thm:realup-open-phase-four-face-pullback}. The dyadic
+observation face, the stream-name finite-window face, the regularity-spine
+face, and the seal/readback face are compatible along exactly those displayed
+coordinates, so they form the local four-face pullback packet.
+
+Apply \autoref{thm:realup-open-phase-seal-route-totality}. It says every
+consumer-visible route out of the seal handoff is exhausted by the same
+four-face packet, so no fifth surface is available during admission.
+
+Finally use \autoref{thm:realup-seal-source-classifier-correspondence}. The
+classifier seen by consumers is the componentwise classifier on the four faces,
+transported only through $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$.
+Thus the finite packet is precisely the local $\RealUp$ open-phase
+$\NameCert$ surface, and the excluded coordinates have no carrier in the
+admission.
+\end{proof}
