@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWitnessRouteUp$}
+\label{ch:concrete-instances-finitewitnessroute-namecert}
+\origin{human}
+
+The $\FiniteWitnessRouteUp$ interface names the finite route packet that carries closed-observation witness records into Real-and-Completion consumers. It is a concrete $\NameCert$ surface for the passage from a selected observation request through $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ readbacks to a $\CauchyLimitSealUp$ or $\RealUp$ seal row, with every transport, continuation, and provenance step present in the finite history.
+
+\begin{definition}[Finite witness-route carrier]
+\label{def:finite-witness-route-carrier}
+A $\FiniteWitnessRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(q,w,r,d,s,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $q$ is the closed-observation request row naming the finite witness demand, tolerance scale, and downstream Real-and-Completion consumer;
+\item $w$ is the selected $\StreamNameUp$ window inspected for that request;
+\item $r$ is the $\RegSeqRatUp$ readback row exposed through the selected window;
+\item $d$ is the $\DyadicRatCoreUp$ observation ledger containing the dyadic comparisons, radius splits, and finite arithmetic reads used by the route;
+\item $s$ is the $\CauchyLimitSealUp$ or $\RealUp$ seal row that receives the completed finite witness route;
+\item $h$ records componentwise $\hsame$ transports for the request row, selected window, regular rational readback, dyadic ledger, seal row, provenance, and local name;
+\item $c$ records the displayed $\Cont$ routes from request to window, from window to regular rational readback, from readback to dyadic ledger, and from the dyadic ledger to the seal row;
+\item $p$ is the $\Pkg$ provenance over $\BHist$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyLimitSealUp$, $\RealUp$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\FiniteWitnessRouteUp}$ row.
+\end{enumerate}
+The carrier contains no host-level infinite trace, no quotient stream equality, no selected real value, no unrecorded limit, and no consumer route outside the displayed finite packet.
+\end{definition}
+
+\begin{theorem}[Finite witness-route NameCert obligations]
+\label{thm:finite-witness-route-namecert-obligations}
+The local $\NameCert_{\FiniteWitnessRouteUp}$ surface for \autoref{def:finite-witness-route-carrier} consists exactly of carrier admission, request exposure, selected $\StreamNameUp$ window admission, $\RegSeqRatUp$ readback admission, $\DyadicRatCoreUp$ ledger admission, $\CauchyLimitSealUp$ or $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $R$. The rows name the request, selected observation window, rational readback, dyadic ledger, seal, transports, continuations, provenance, and local certificate.
+
+The request and window obligations are read through $q$ and $w$. They ensure that a consumer sees a finite observation demand and exactly the selected $\StreamNameUp$ window used to answer it.
+
+The readback and ledger obligations are read through $r$ and $d$. The regular rational row supplies the observed sequence data, and the dyadic row supplies the comparison and radius ledger used by the route.
+
+The remaining rows $s,h,c,p,n$ expose the seal handoff, componentwise transports, route replay, package provenance, and local naming. Since every coordinate of the packet is accounted for, these obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Finite witness-route non-escape]
+\label{thm:finite-witness-route-non-escape}
+Every accepted $\FiniteWitnessRouteUp$ carrier exports witness information only through the finite rows
+$$
+q,w,r,d,s,h,c,p,n.
+$$
+It exports no host-level infinite trace, no quotient stream equality, no selected real value, no unrecorded limit, and no Real-and-Completion consumer route that bypasses the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $R=(q,w,r,d,s,h,c,p,n)$. The definition lists every exported row of the finite witness route.
+
+The observation side is exhausted by $q,w,r,d$. These rows record the request, selected stream window, regular rational readback, and dyadic comparison ledger.
+
+The consumer side is exhausted by $s,h,c,p,n$. These rows record the seal handoff, transport, continuation, provenance, and local name.
+
+No coordinate remains from which to read an infinite trace, quotient stream equality, selected real value, unrecorded limit, or bypass route. The accepted packet therefore has the stated non-escape boundary.
+\end{proof}
+
+\begin{theorem}[Finite witness-route transport stability]
+\label{thm:finite-witness-route-transport-stability}
+Let
+$$
+R=(q,w,r,d,s,h,c,p,n)
+$$
+be an accepted $\FiniteWitnessRouteUp$ carrier. Any $\hsame$ transport recorded in $h$ preserves the request row, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, seal row, continuation routes, package provenance, and local name as one finite route packet for the same Real-and-Completion consumer.
+\end{theorem}
+\begin{proof}
+Read the transport row $h$. Its components are indexed by the coordinates of the carrier, so each displayed row has a matching transport witness.
+
+Transporting $q,w,r,d$ preserves the finite observation side of the route: the request, selected window, regular rational readback, and dyadic ledger stay attached to the same finite demand.
+
+Transporting $s,c,p,n$ preserves the consumer side of the route: the seal handoff, continuation replay, provenance, and local certificate stay attached to that demand. Thus the transported data is again one finite witness-route packet for the same consumer boundary.
+\end{proof}
+
+\begin{theorem}[Finite witness-route consumer factorization]
+\label{thm:finite-witness-route-consumer-factorization}
+Every $\CauchyLimitSealUp$ or $\RealUp$ consumer that accepts a $\FiniteWitnessRouteUp$ packet factors through the selected $\StreamNameUp$ window $w$, the $\RegSeqRatUp$ readback $r$, the $\DyadicRatCoreUp$ ledger $d$, the seal row $s$, the displayed transports $h$, the continuation routes $c$, the package provenance $p$, and the local $\NameCert_{\FiniteWitnessRouteUp}$ row $n$. The consumer receives the finite witness route, not an independent route ledger.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $R=(q,w,r,d,s,h,c,p,n)$. The request row $q$ names the finite demand and the downstream consumer boundary.
+
+The only observation path in the carrier runs through $w,r,d$. The selected stream window exposes the inspected records, the regular rational row exposes their sequence readback, and the dyadic ledger exposes the comparison data.
+
+The handoff to the consumer then runs through $s,h,c,p,n$. These rows seal, transport, replay, package, and name the same finite route. Hence any accepting consumer factors through the displayed packet rather than through an independent ledger.
+\end{proof}
+
+\closureat{FiniteWitnessRouteUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWitnessRouteUp}
+  \constructivestory{A $\FiniteWitnessRouteUp$ packet is generated from a finite witness request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\CauchyLimitSealUp$ or $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-witness-route-carrier}, \autoref{thm:finite-witness-route-namecert-obligations}, \autoref{thm:finite-witness-route-non-escape}, \autoref{thm:finite-witness-route-transport-stability}, and \autoref{thm:finite-witness-route-consumer-factorization} bind the finite route packet from selected observation windows through dyadic ledgers to Real-and-Completion seal consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient stream equality, infinite traces, independent route ledgers, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request exposure, window readback, dyadic ledger soundness, seal handoff, transport stability, non-escape, and consumer factorization for the same finite packet.}
+\end{closurestatus}
