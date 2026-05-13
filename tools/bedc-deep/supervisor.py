@@ -62,6 +62,8 @@ DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 TAB_STUCK_THRESHOLD_S = 300
 ZERO_EXTRACTION_ALERT_COOLDOWN_S = 600
+ZERO_EXTRACTION_HANG_SECONDS = 900
+ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 COMPLETIONS_PER_CURATOR = 5
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -203,7 +205,37 @@ def queue_stuck_too_long(threshold_seconds: int) -> bool:
 
 
 def zero_extraction_hang_agents(status: dict) -> list[str]:
-    return [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
+    agents = [str(aid) for aid in (status.get("zero_extraction_hang_agents") or [])]
+    if agents:
+        return agents
+    out: list[str] = []
+    active_tasks = {
+        str(agent_id): str((task or {}).get("task_id") or "")
+        for agent_id, task in (status.get("agents") or {}).items()
+    }
+    for agent_id, rec in (status.get("recent_agents") or {}).items():
+        agent_id = str(agent_id)
+        if not active_tasks.get(agent_id):
+            continue
+        if rec.get("event") != "heartbeat" or not rec.get("recent", False):
+            continue
+        metrics = rec.get("metrics") or {}
+        if str(metrics.get("task_id") or "") != active_tasks[agent_id]:
+            continue
+        try:
+            elapsed = int(metrics.get("elapsed_seconds") or 0)
+            extracted = int(metrics.get("extracted_chars") or 0)
+            page_chars = int(metrics.get("page_chars") or 0)
+        except (TypeError, ValueError):
+            continue
+        if (
+            metrics.get("generating") is True
+            and elapsed >= ZERO_EXTRACTION_HANG_SECONDS
+            and extracted == 0
+            and page_chars >= ZERO_EXTRACTION_MIN_PAGE_CHARS
+        ):
+            out.append(agent_id)
+    return out
 
 
 def stale_cleanup() -> int:
