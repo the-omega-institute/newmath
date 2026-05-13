@@ -200,4 +200,29 @@ theorem ClassifierMorphismUp_taste_gate_boundary :
         exact classifierMorphismToEventFlow_injective heq
       · exact ⟨x, rfl, classifierMorphism_round_trip x⟩
 
+theorem ClassifierMorphismUp_ext_sigrel_preservation (M : ClassifierMorphismUp) :
+    ∃ source target graph extPreservation sigPreservation contPreservation transport provenance
+      nameCert : BHist,
+      M =
+          ClassifierMorphismUp.mk source target graph extPreservation sigPreservation
+            contPreservation transport provenance nameCert ∧
+        classifierMorphismFromEventFlow (classifierMorphismToEventFlow M) = some M ∧
+          (source = BHist.Empty ∨ source ≠ BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases M with
+  | mk source target graph extPreservation sigPreservation contPreservation transport provenance
+      nameCert =>
+      exact
+        ⟨source, target, graph, extPreservation, sigPreservation, contPreservation, transport,
+          provenance, nameCert, rfl, classifierMorphism_round_trip
+            (ClassifierMorphismUp.mk source target graph extPreservation sigPreservation
+              contPreservation transport provenance nameCert), by
+              cases source with
+              | Empty =>
+                  exact Or.inl rfl
+              | e0 h =>
+                  exact Or.inr (fun hEmpty => by cases hEmpty)
+              | e1 h =>
+                  exact Or.inr (fun hEmpty => by cases hEmpty)⟩
+
 end BEDC.Derived.ClassifierMorphismUp
