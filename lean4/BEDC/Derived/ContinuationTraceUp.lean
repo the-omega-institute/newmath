@@ -153,4 +153,25 @@ theorem ContinuationTraceCarrier_concatenation_readback [AskSetup] [PackageSetup
         unary_cont_closed routeUnary1 certUnary1 route1Consumer
       exact ⟨consumerUnary, boundary, Or.inr route1Consumer, Or.inr pkgSig1⟩
 
+theorem ContinuationTraceCarrier_endpoint_ledger_exhaustion [AskSetup] [PackageSetup]
+    {source mark target ledger transports route provenance cert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTraceCarrier source mark target ledger transports route provenance cert bundle
+        pkg →
+      (hsame endpoint source ∨ hsame endpoint target) →
+        UnaryHistory endpoint ∧ UnaryHistory ledger ∧ UnaryHistory transports ∧
+          Cont source mark target ∧ Cont target ledger route ∧ PkgSig bundle provenance pkg := by
+  intro carrier endpointSame
+  obtain ⟨sourceUnary, _markUnary, targetUnary, ledgerUnary, transportsUnary, _routeUnary,
+    _provenanceUnary, _certUnary, sourceMarkTargetRow, targetLedgerRouteRow,
+    _routeCertProvenanceRow, pkgSig⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint := by
+    cases endpointSame with
+    | inl sameSource =>
+        exact unary_transport sourceUnary (hsame_symm sameSource)
+    | inr sameTarget =>
+        exact unary_transport targetUnary (hsame_symm sameTarget)
+  exact ⟨endpointUnary, ledgerUnary, transportsUnary, sourceMarkTargetRow, targetLedgerRouteRow,
+    pkgSig⟩
+
 end BEDC.Derived.ContinuationTraceUp
