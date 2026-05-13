@@ -95,6 +95,50 @@ Apply \autoref{thm:contour-integral-public-export}. The exported operation packe
 Therefore the transported modulus row is still the unique public bridge from finite Riemann sums to the transported $\ComplexUp$ output row. Any requested witness outside $S$ and $M$ has no row in the accepted packet.
 \end{proof}
 
+\begin{theorem}[Contour-integral operation-law ledger closure]
+\label{thm:contour-integral-operation-law-ledger-closure}
+For an accepted $\ContourIntegralOperationUp$ packet
+$$
+T=(G,F,S,M,I,H,C,P,N),
+$$
+linearity, concatenation, reversal, and piecewise-linear reparameterization are consumer-visible only as ledgered operation rows inside $S$ and through the displayed routes $C$. No consumer may replace those rows by a host analytic integration law, a path-quotient principle, or an unrecorded limiting operation.
+\end{theorem}
+\begin{proof}
+Project the local NameCert obligations of \autoref{thm:contour-integral-namecert-obligations}. The operation-law clause names linearity, concatenation, reversal, and piecewise-linear reparameterization as ledger facts for the finite packet.
+
+Apply \autoref{thm:contour-integral-pl-contour-boundary}. The contour side is restricted to the displayed $\mathsf{PLContour}$ row $G$, so the laws cannot be read through an ambient smooth path object or path quotient.
+
+Apply \autoref{thm:contour-integral-riemann-sum-ledger} and \autoref{thm:contour-integral-public-export}. The consumer sees the operation through $S,C,P,N$ and the displayed input-output rows only. Hence the operation laws are closed at the ledger surface.
+\end{proof}
+
+\begin{theorem}[Contour-integral operation modulus uniqueness boundary]
+\label{thm:contour-integral-operation-modulus-uniqueness-boundary}
+For an accepted $\ContourIntegralOperationUp$ packet $T=(G,F,S,M,I,H,C,P,N)$, the modulus row $M$ is the unique public bridge from the Riemann-sum ledger $S$ to the output row $I$. Any transported packet with the same displayed $G,F,S,I,H,C,P,N$ must read convergence toward $I$ through the transported $M$ row and not through a hidden sample selector, host path equality, global branch choice, or ambient integral operator.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:contour-integral-riemann-sum-ledger}. Approximation reads reach $I$ only after passing through the finite ledger $S$ and the modulus row $M$.
+
+Use \autoref{thm:contour-integral-operation-modulus-transport}. Componentwise transport preserves $M$ as the only public witness relating the ledger to the output row.
+
+Finally apply \autoref{thm:contour-integral-namecert-obligations} and \autoref{thm:contour-integral-public-export}. The carrier exposes no second convergence bridge, so uniqueness is exactly the finite inventory of the accepted packet.
+\end{proof}
+
+\begin{theorem}[Contour-integral operation residue-consumer boundary]
+\label{thm:contour-integral-operation-residue-consumer-boundary}
+Every residue-facing consumer of an accepted $\ContourIntegralOperationUp$ packet
+$$
+T=(G,F,S,M,I,H,C,P,N)
+$$
+may inspect only the $\mathsf{PLContour}$ row $G$, holomorphic input row $F$, Riemann-sum ledger $S$, modulus row $M$, output row $I$, componentwise transports $H$, displayed routes $C$, provenance $P$, and local name $N$. It receives no residue theorem, pole-order classifier, host contour integral, global branch selector, quotient path class, or ambient analytic continuation principle from this operation packet.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:contour-integral-namecert-obligations}. The local NameCert surface exposes exactly the displayed carrier rows and the non-escape clause for the operation packet.
+
+Use \autoref{thm:contour-integral-pl-contour-boundary} to keep path data inside $G$, and use \autoref{thm:contour-integral-riemann-sum-ledger} to keep approximation data inside $S$ and $M$.
+
+Apply \autoref{thm:contour-integral-public-export}. The public operation surface is precisely $G,F,S,M,I,H,C,P,N$. A residue-facing consumer can route through that surface, but the carrier has no coordinate for residue calculus or host analytic integration principles.
+\end{proof}
+
 \closureat{ContourIntegralOperationUp}{seedStr}
 
 \begin{closurestatus}{\ContourIntegralOperationUp}
