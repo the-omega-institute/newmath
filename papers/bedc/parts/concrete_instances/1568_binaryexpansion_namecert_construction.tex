@@ -4,6 +4,8 @@
 
 The $\BinaryExpansionUp$ interface names the finite dyadic-prefix certificate that reads a binary expansion as real-name data. Following Bishop and Bridges, \emph{Constructive Analysis}, the packet treats binary observations as displayed dyadic rational prefixes with explicit precision windows and regular-sequence handoff rows. It sits over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and it exports only finite prefix, dyadic ledger, readback, transport, continuation, package, and local $\NameCert$ rows.
 
+The packet consumes the sibling $\StreamNameUp$ prefix-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicApproximationUp$ partial-sum and tail-radius surface of \autoref{ch:concrete-instances-dyadicapproximation-namecert}, and the $\RegSeqRatUp$-to-$\RealUp$ seal route of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. Thus the binary packet is not an isolated carrier: its rows $W$, $A$, $R$, and $E$ are transported consumer rows from those sibling certificates.
+
 \begin{definition}[BinaryExpansion carrier]
 \label{def:binary-expansion-carrier}
 A $\BinaryExpansionUp$ carrier is a finite $\mathsf{BHist}$ packet
