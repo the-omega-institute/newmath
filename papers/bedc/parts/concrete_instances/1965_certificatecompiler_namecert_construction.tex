@@ -52,6 +52,48 @@ outputs. It is a finite relation on paired graph edges with a common source
 classifier row and an explicitly transported target classifier row.
 \end{definition}
 
+\begin{theorem}[CertificateCompiler endpoint certificate availability]
+\label{thm:certificate-compiler-endpoint-certificate-availability}
+Every displayed compiler edge in an accepted $\CertificateCompilerUp$ packet $K=(S,T,G,E,C,H,P,N)$ exposes both endpoint $\NameCert$ rows before carrier landing is consumed. The source certificate row $S$ supplies the admitted input carrier and classifier row, the target certificate row $T$ supplies the landing carrier and classifier row, and the displayed graph row $G$ has no admissible edge that bypasses either endpoint certificate.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:certificate-compiler-carrier}. The first two visible rows of $K$ are precisely the source certificate $S$ and target certificate $T$, while $G$ is only a displayed finite graph between those certificate rows.
+
+The carrier-landing row $E$ is read after these endpoint rows. Its role is to assert that each graph edge starts in the source carrier named by $S$ and lands in the target carrier named by $T$.
+
+Unfold the classifier of \autoref{def:certificate-compiler-classifier}. A compatible edge comparison also reads the source classifier row in $S$ and the target classifier row in $T$, so endpoint certificates remain available before any carrier landing or paired-edge comparison is accepted.
+
+Since the packet contains no host compiler semantics, program equality, or unbounded trace coordinate, endpoint availability is exhausted by the displayed rows $S,T,G,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler displayed edge witness totality]
+\label{thm:certificate-compiler-displayed-edge-witness-totality}
+Every accepted edge comparison in a $\CertificateCompilerUp$ packet $K=(S,T,G,E,C,H,P,N)$ is witnessed by the displayed graph row $G$, the carrier-landing row $E$, the componentwise $\hsame$ transports in $H$, and the continuation compatibility rows in $C$. No comparison can be witnessed by an external compiler meaning, ambient program equality, or an unlisted target behavior.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:certificate-compiler-carrier}. The only edge source in the packet is the finite graph row $G$, and the only target-carrier landing witness for such an edge is the row $E$.
+
+Unfold \autoref{def:certificate-compiler-classifier}. An accepted comparison must share the source classifier row, land through $E$, and transport the target classifier by the componentwise $\hsame$ entries recorded in $H$.
+
+It remains to account for route compatibility. The classifier definition reads the paired $\Cont$ routes recorded in $C$, so a comparison is not accepted until the displayed source route and displayed target route have both been replayed.
+
+The carrier has no coordinate for host compiler semantics, program equality, or unrecorded target behavior. Thus $G,E,H,C$ are the total displayed witness surface for accepted edge comparison.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler consumer replay obligation triad]
+\label{thm:certificate-compiler-consumer-replay-obligation-triad}
+Every consumer replay of an accepted $\CertificateCompilerUp$ packet must read three local obligations before package provenance or local naming is used: carrier landing through $G$ and $E$, classifier transport through $S,T,H$, and continuation compatibility through $C$. Package and $\NameCert_{\CertificateCompilerUp}$ rows may repack only this displayed triad.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:certificate-compiler-carrier}. A consumer replay first sees the graph row $G$ and the landing row $E$, so the replayed edge has a displayed source and a displayed target before any package row is read.
+
+Unfold the classifier of \autoref{def:certificate-compiler-classifier}. The replayed comparison next reads the source classifier row in $S$, the target classifier row in $T$, and the componentwise transport entries in $H$.
+
+The third obligation is route compatibility. The row $C$ pairs the source $\Cont$ route used by the graph with the target $\Cont$ route followed after compiling, and this compatibility is required before the replay can be named locally.
+
+Only after these three obligations have been read may $P$ and $N$ repack the compiler packet. Because no host compiler semantics or program equality coordinate exists in the carrier, package and local naming cannot certify anything beyond carrier landing, classifier transport, and continuation compatibility.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler NameCert obligations]
 \label{thm:certificate-compiler-namecert-obligations}
 For the carrier and classifier of
@@ -595,11 +637,12 @@ optimizer, ambient equality, or unrecorded target behavior is exported.
 
 \closureat{CertificateCompilerUp}{obligationStr}
 \closureat{CertificateCompilerUp}{scopedStr}
+\closureat{CertificateCompilerUp}{publicStr}
 
 \begin{closurestatus}{\CertificateCompilerUp}
   \constructivestory{A $\CertificateCompilerUp$ packet is generated from source and target $\NameCert$ rows, a finite compiler graph, edge landing, continuation compatibility, $\hsame$ transports, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped dependency surface binds the finite graph, landing, classifier, continuation, identity, composition, triple-composite, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already displayed for certificate compiler packets.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public compiler-certificate surface binds the finite graph, landing, classifier, continuation, identity, composition, export, triple-composite, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already displayed for certificate compiler packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
