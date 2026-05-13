@@ -129,6 +129,22 @@ Next apply finite request exhaustion from \autoref{thm:countable-observation-sch
 Only after those rows are assembled can a Real-facing schedule row read the packet. By \autoref{thm:countable-observation-schedule-nonescape}, that handoff still carries no completed stream, future observation law, or choice-like tail.
 \end{proof}
 
+\begin{theorem}[CountableObservationSchedule TasteGate surface]
+\label{thm:countable-observation-schedule-tastegate-surface}
+Any later TasteGate promotion for $\CountableObservationScheduleUp$ must certify the single carrier
+$$
+Q=(O,W,S,H,C,P,N)
+$$
+and its finite prefix, request-window, $\StreamNameUp$ handoff, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and $\NameCert$ rows. No proof may duplicate the carrier as a proof step or replace a missing row with a completed stream, future observation law, causal-continuity assertion, or choice-like tail.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligation theorem. They identify $Q=(O,W,S,H,C,P,N)$ as the unique packet surface and bind prefix exposure, request-window locality, StreamName accountability, transport, continuation, provenance, and non-escape to that packet.
+
+Next apply \autoref{thm:countable-observation-schedule-prefix-totality}, \autoref{thm:countable-observation-schedule-window-stability}, and \autoref{thm:countable-observation-schedule-streamname-handoff}. These provide the finite prefix, stable request window, and named StreamName handoff without adding another carrier.
+
+Finally apply \autoref{thm:countable-observation-schedule-nonescape}, \autoref{thm:countable-observation-schedule-finite-request-exhaustion}, \autoref{thm:countable-observation-schedule-prefix-window-nonchoice}, and \autoref{thm:countable-observation-schedule-streamname-prefix-consumer}. The consumer route is exhausted by the displayed rows, so the TasteGate surface cannot use a completed stream, future observation law, causal-continuity assertion, or choice-like tail as a replacement row.
+\end{proof}
+
 \closureat{CountableObservationScheduleUp}{seedStr}
 
 \begin{closurestatus}{\CountableObservationScheduleUp}
