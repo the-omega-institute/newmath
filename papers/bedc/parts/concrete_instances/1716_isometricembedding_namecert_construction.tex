@@ -179,6 +179,18 @@ Use the separated consumer route together with the Hausdorff separation boundary
 Therefore the real-distance route is determined by the displayed BEDC rows. Any downstream completion or Hausdorff consumer must cite those rows rather than an external isometry object.
 \end{proof}
 
+\begin{theorem}[IsometricEmbedding sibling completion lattice]
+\label{thm:isometric-embedding-sibling-completion-lattice}
+The $\IsometricEmbeddingUp$ packet is read in the concrete-instance lattice after the metric and real-distance witnesses of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-real-namecert}, and before completion-facing consumers in \autoref{ch:concrete-instances-completionreflection-namecert} and \autoref{ch:concrete-instances-hausdorffcompletion-namecert}. Its carrier consumes $\MetricSpaceUp$ endpoint rows and $\RealUp$ distance rows, then exposes only the displayed completion-facing route $X,Y,F,D_X,D_Y,R,T,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and distance-preservation obligation. The source and target rows $X,Y$ are metric rows, while $D_X,D_Y$ and $R$ place their distance comparison in the $\RealUp$ surface.
+
+Apply real-distance route determinacy. It fixes the only source-target comparison route as $X,Y,F,D_X,D_Y,R,T,Q,P,N$, so downstream readers do not receive a host isometry object or a quotient map.
+
+The completion reflection handoff and Hausdorff separation boundary identify the consumers that read this packet. Therefore $\IsometricEmbeddingUp$ sits between the sibling metric and real chapters and the completion-facing chapters as a finite dependency lattice over displayed distance data.
+\end{proof}
+
 \begin{theorem}[IsometricEmbedding distance-route reflection lock]
 \label{thm:isometric-embedding-distance-route-reflection-lock}
 Every separated or completion-facing consumer comparing source and target distances in an accepted $\IsometricEmbeddingUp$ packet must route through the displayed metric rows $X,Y$, graph row $F$, distance witnesses $D_X,D_Y$, $\RealUp$ reflection row $R$, transport row $T$, continuation row $Q$, package provenance $P$, and local $\NameCert$ row $N$. The route cannot be replaced by host function equality, a quotient map, a selected representative, or an ambient completion theorem.

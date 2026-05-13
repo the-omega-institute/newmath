@@ -141,16 +141,47 @@ private theorem cauchySealBudgetSynchronizer_round_trip :
           some
             (CauchySealBudgetSynchronizerUp.mk request sealRow budget tail selector
               compatibility transport route provenance nameCert)
-      rw [cauchySealBudgetSynchronizerDecode_encode_bhist request,
-        cauchySealBudgetSynchronizerDecode_encode_bhist sealRow,
-        cauchySealBudgetSynchronizerDecode_encode_bhist budget,
-        cauchySealBudgetSynchronizerDecode_encode_bhist tail,
-        cauchySealBudgetSynchronizerDecode_encode_bhist selector,
-        cauchySealBudgetSynchronizerDecode_encode_bhist compatibility,
-        cauchySealBudgetSynchronizerDecode_encode_bhist transport,
-        cauchySealBudgetSynchronizerDecode_encode_bhist route,
-        cauchySealBudgetSynchronizerDecode_encode_bhist provenance,
-        cauchySealBudgetSynchronizerDecode_encode_bhist nameCert]
+      let mkCongr
+          {request' sealRow' budget' tail' selector' compatibility' transport' route'
+            provenance' nameCert' : BHist}
+          (hRequest : request' = request)
+          (hSealRow : sealRow' = sealRow)
+          (hBudget : budget' = budget)
+          (hTail : tail' = tail)
+          (hSelector : selector' = selector)
+          (hCompatibility : compatibility' = compatibility)
+          (hTransport : transport' = transport)
+          (hRoute : route' = route)
+          (hProvenance : provenance' = provenance)
+          (hNameCert : nameCert' = nameCert) :
+          CauchySealBudgetSynchronizerUp.mk request' sealRow' budget' tail' selector'
+              compatibility' transport' route' provenance' nameCert' =
+            CauchySealBudgetSynchronizerUp.mk request sealRow budget tail selector
+              compatibility transport route provenance nameCert := by
+        cases hRequest
+        cases hSealRow
+        cases hBudget
+        cases hTail
+        cases hSelector
+        cases hCompatibility
+        cases hTransport
+        cases hRoute
+        cases hProvenance
+        cases hNameCert
+        rfl
+      exact
+        congrArg some
+          (mkCongr
+            (cauchySealBudgetSynchronizerDecode_encode_bhist request)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist sealRow)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist budget)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist tail)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist selector)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist compatibility)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist transport)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist route)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist provenance)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist nameCert))
 
 private theorem cauchySealBudgetSynchronizerToEventFlow_injective
     {x y : CauchySealBudgetSynchronizerUp} :
