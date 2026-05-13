@@ -54,6 +54,7 @@ The $\hsame$ clause is the identity transport in the certificate row. No host fu
 \label{thm:namecert-morphism-composition-obligation}
 Given accepted $\NameCertMorphismUp$ carriers from $S$ to $T$ and from $T$ to $U$, their relational graph composite is an accepted $\NameCertMorphismUp$ carrier from $S$ to $U$. The composed carrier preserves source classifier membership, target carrier transport, and $\hsame$ by concatenating the displayed graph-lifting and continuation rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.NameCertMorphismUp.NameCertMorphismUp\_composition\_obligation}
 
 \begin{proof}
 Project the two carriers to their graph rows, preservation rows, route rows, provenance rows, and local names. The shared middle certificate is the target row of the first carrier and the source row of the second carrier.
@@ -196,15 +197,17 @@ Finally apply \autoref{thm:namecert-morphism-ledger-boundary-exactness}. The com
 \closureat{NameCertMorphismUp}{seedStr}
 \closureat{NameCertMorphismUp}{obligationStr}[BEDC.Derived.NameCertMorphismUp.NameCertMorphismTasteGate\_single\_carrier\_alignment]
 \closureat{NameCertMorphismUp}{scopedStr}[BEDC.Derived.NameCertMorphismUp.NameCertMorphismTasteGate\_single\_carrier\_alignment]
+\closureat{NameCertMorphismUp}{publicStr}[BEDC.Derived.NameCertMorphismUp.NameCertMorphismTasteGate\_single\_carrier\_alignment]
+\closureat{NameCertMorphismUp}{bridgedStr}[BEDC.Derived.NameCertMorphismUp.NameCertMorphismTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\NameCertMorphismUp}
   \constructivestory{A $\NameCertMorphismUp$ packet is generated from source and target $\NameCert$ rows, a compiler graph row, componentwise $\hsame$ preservation, displayed $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{def:namecert-morphism-carrier}, \autoref{def:namecert-morphism-classifier}, \autoref{thm:namecert-morphism-identity-obligation}, \autoref{thm:namecert-morphism-composition-obligation}, \autoref{thm:namecert-morphism-compiler-correctness-bridge}, \autoref{thm:namecert-morphism-graph-lifting-obligation}, \autoref{thm:namecert-morphism-target-transport-obligation}, \autoref{thm:namecert-morphism-ledger-nonescape-obligation}, \autoref{thm:namecert-morphism-source-target-separation}, \autoref{thm:namecert-morphism-route-composition-scope}, \autoref{thm:namecert-morphism-ledger-boundary-exactness}, \autoref{thm:namecert-morphism-source-target-package}, \autoref{thm:namecert-morphism-identity-boundary}, and \autoref{thm:namecert-morphism-composite-route-provenance} bind the finite classifier-preserving certificate morphism surface with instance $\mathsf{BEDC.Derived.NameCertMorphismUp.taste\_gate}$.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.NameCertMorphismUp.NameCertMorphismTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close standard compiler semantics, host functions, quotient equality, or a mathlib bridge.}
-  \upgradepath{Public closure next requires exporting the finite graph packet as the cited public $\NameCertMorphismUp$ surface.}
+  \upgradepath{Mature closure requires examples and downstream consumer completeness for the bridged $\NameCertMorphismUp$ surface.}
 \end{closurestatus}

@@ -62,4 +62,22 @@ theorem RealDiagonalMeshBudgetCarrier_selected_window_refinement
     ⟨hUnary, thetaUnary, cUnary, eUnary, precisionBudgetRoute, budgetWindowRoute,
       windowReadbackRoute, readbackLedgerRoute, provenanceSame, nameSame⟩
 
+theorem RealDiagonalMeshBudgetCarrier_realup_handoff
+    {q b omega rho delta theta e h c p n sealConsumer : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      Cont theta e sealConsumer ->
+        UnaryHistory q /\ UnaryHistory b /\ UnaryHistory omega /\ UnaryHistory rho /\
+          UnaryHistory delta /\ UnaryHistory theta /\ UnaryHistory e /\
+            UnaryHistory sealConsumer /\ Cont theta e sealConsumer /\ hsame p p /\
+              hsame n n := by
+  intro carrier sealRoute
+  obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
+    _qbRoute, _budgetWindowRoute, _omegaReadbackRoute, _readbackLedgerRoute,
+    provenanceSame, nameSame⟩ := carrier
+  have sealUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed thetaUnary eUnary sealRoute
+  exact
+    ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary, sealUnary,
+      sealRoute, provenanceSame, nameSame⟩
+
 end BEDC.Derived.RealDiagonalMeshBudgetUp

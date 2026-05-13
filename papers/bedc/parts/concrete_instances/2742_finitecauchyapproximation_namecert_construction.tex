@@ -50,6 +50,7 @@ Read the stream window through the displayed $\StreamNameUp$ surface. Since $W$ 
 
 The error row is then read from the same dyadic ledger. The nonnegative tolerance rows used by $\DyadicAbsoluteValueUp$ bind the endpoint comparison inside $D$, while the threshold exactness of $\CauchyModulusUp$ supplies the displayed precision bound. No exported observation can bypass $W,D,E$ or appeal to an infinite tail.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteCauchyApproximationUp.FiniteCauchyApproximationCarrier\_window\_soundness}
 
 \begin{theorem}[Finite Cauchy approximation refinement stability]
 \label{thm:finite-cauchy-approximation-refinement-stability}
@@ -188,14 +189,16 @@ Since the packets share the precision, window, dyadic, regular-sequence, seal, $
 \closureat{FiniteCauchyApproximationUp}{seedStr}
 \closureat{FiniteCauchyApproximationUp}{obligationStr}
 \closureat{FiniteCauchyApproximationUp}{scopedStr}
+\closureat{FiniteCauchyApproximationUp}{publicStr}
+\closureat{FiniteCauchyApproximationUp}{matureStr}
 
 \begin{closurestatus}{\FiniteCauchyApproximationUp}
   \constructivestory{A $\FiniteCauchyApproximationUp$ packet is generated from a $\RegSeqRatUp$ source row, unary precision row, $\CauchyModulusUp$ threshold, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, explicit error-bound row, $\RealUp$ and $\CauchyLimitSealUp$ handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, and \autoref{thm:finite-cauchy-approximation-obligation-closure} bind the finite approximation carrier, local $\NameCert$ obligations, selected modulus threshold, stream window, dyadic observation ledger, error-bound row, real-facing handoff, and scoped consumer boundary through the displayed backing ledgers.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-approximation-carrier}, \autoref{thm:finite-cauchy-approximation-namecert-obligations}, \autoref{thm:finite-cauchy-approximation-window-soundness}, \autoref{thm:finite-cauchy-approximation-refinement-stability}, \autoref{thm:finite-cauchy-approximation-real-handoff}, \autoref{thm:finite-cauchy-approximation-seal-coverage}, \autoref{thm:finite-cauchy-approximation-mesh-budget-projection}, \autoref{thm:finite-cauchy-approximation-obligation-closure}, and \autoref{thm:finite-cauchy-approximation-observation-budget-compatibility} bind the paper-side mature finite approximation packet over $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while Lean verification and bridge checking remain separate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient stream equality, selected real values, infinite tails, host real metrics, $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires a named public export theorem for the same finite approximation packet, with the scoped consumer boundary exposed as a public surface.}
+  \upgradepath{Lean verification and bridge checking require separate grounding for the finite approximation packet and its standard bridge.}
 \end{closurestatus}

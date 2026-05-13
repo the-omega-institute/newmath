@@ -162,4 +162,37 @@ theorem CauchyLimitSealCarrier_realup_consumer_boundary [AskSetup] [PackageSetup
     ⟨unary_cont_closed endpointUnary sealUnary endpointSealRead, endpointSealRead,
       sameEndpoint, endpointPkg⟩
 
+theorem CauchyLimitSealCarrier_verification_handoff [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint window
+      observation realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint bundle pkg ->
+      Cont schedule source window ->
+        Cont window dyadic observation ->
+          Cont observation diagonal realRead ->
+            hsame dyadic observation ->
+              UnaryHistory window ∧ UnaryHistory observation ∧ UnaryHistory realRead ∧
+                hsame sealRow realRead ∧ hsame endpoint (append provenance localCert) ∧
+                  PkgSig bundle endpoint pkg := by
+  intro carrier scheduleSourceWindow windowDyadicObservation observationDiagonalRead
+    sameDyadicObservation
+  rcases carrier with
+    ⟨sourceUnary, scheduleUnary, dyadicUnary, diagonalUnary, _sealUnary,
+      _transportUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+      _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+      _provenanceLocalEndpoint, sameEndpoint, endpointPkg⟩
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed scheduleUnary sourceUnary scheduleSourceWindow
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicObservation
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed observationUnary diagonalUnary observationDiagonalRead
+  have sameSealRead : hsame sealRow realRead :=
+    cont_respects_hsame sameDyadicObservation (hsame_refl diagonal) dyadicDiagonalSeal
+      observationDiagonalRead
+  exact
+    ⟨windowUnary, observationUnary, realReadUnary, sameSealRead, sameEndpoint,
+      endpointPkg⟩
+
 end BEDC.Derived.CauchyLimitSealUp

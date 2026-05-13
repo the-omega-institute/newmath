@@ -119,6 +119,7 @@ rows, $\FiniteWindowEnvelopeUp$ coverage witnesses, and the $\Cont$ routes
 that read $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ data into those cells.
 The handoff is a finite packet handoff, not an appeal to open-cover compactness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket\_total\_bounded\_handoff\_export}
 \leanchecked{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket\_total\_bounded\_handoff}
 \begin{proof}
 Project the carrier and choose a consumer route. The only data addressed to
@@ -226,6 +227,7 @@ $\RegSeqRatUp$ row, one $\RealUp$ row, and the displayed $\Cont$ route from
 the corresponding stream and regular-rational name into that real and cell
 incidence record.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket\_window\_cell\_incidence}
 \begin{proof}
 Project the tuple $D=(K,R,I,Q,W,H,C,P,N)$. The coverage coordinate of the
 carrier is indexed by the displayed finite window $W$, so a covered point
@@ -554,6 +556,26 @@ Apply \autoref{thm:dyadic-cover-finite-window-envelope-factorization}. This iden
 Next use \autoref{thm:dyadic-cover-refined-window-total-bounded-package}. A total-bounded consumer therefore reads only the refined finite window and the same bounded-radius ledger, not an arbitrary subcover selection.
 
 Finally apply \autoref{thm:dyadic-cover-real-envelope-coverage-exactness}. It repacks those same finite coverage rows for Real-envelope consumers, so the public export carries no open-cover compactness, metric completeness, quotient equality of names, or host real extensionality.
+\end{proof}
+
+\begin{theorem}[DyadicCover finite-cover consumer determinacy]
+\label{thm:dyadic-cover-finite-cover-consumer-determinacy}
+For an accepted $\DyadicCoverUp$ packet
+$$
+D=(K,R,I,Q,W,H,C,P,N),
+$$
+any $\RealUp$, $\FiniteWindowEnvelopeUp$, $\TotallyBoundedUp$, or completion-facing consumer that reads the cover factors through the same finite center list $K$, rational radius list $R$, interval-cell list $I$, mesh refinement rows $Q$, finite-window witnesses $W$, componentwise transports $H$, continuation routes $C$, package provenance $P$, and local name $N$. If two consumer routes expose the same displayed packet rows, then they expose the same consumer-visible cover package.
+
+The packet supplies no open-cover compactness, arbitrary subcover choice, metric completeness, quotient equality of real names, or host real extensionality as an alternate cover source.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and apply the NameCert obligations. The finite center list, rational radius list, interval-cell list, mesh rows, finite-window witnesses, transports, routes, provenance, and local name are the complete cover surface.
+
+Use finite refinement, total-bounded handoff, and window-cell incidence. These rows bind the cover to the displayed mesh and cells, so a consumer cannot replace the packet by an arbitrary open cover or an external subcover choice.
+
+Next apply the refined-window total-bounded package, Real envelope coverage exactness, and finite-subcover exhaustion. They route total-bounded, Real-envelope, and completion-facing reads through the same finite window and bounded-radius ledger.
+
+Finally combine the scoped package with the public total-bounded export. The consumer-visible cover package is therefore determined by $K,R,I,Q,W,H,C,P,N$, and two routes exposing those rows expose the same public cover package.
 \end{proof}
 
 \closureat{DyadicCoverUp}{seedStr}
