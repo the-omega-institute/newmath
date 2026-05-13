@@ -314,6 +314,42 @@ Apply downstream refusal replay from \autoref{thm:apophatic-name-downstream-refu
 Finally cite the socket and gate boundaries already binding the chapter, \autoref{thm:apophatic-name-socket-carrier}, \autoref{thm:apophatic-name-gate-source-compatibility}, and \autoref{thm:apophatic-name-consumer-boundary-exhaustion}. These boundaries exclude internal objects, axioms, quotient representatives, hidden theorems, and host data from the accepted packet.
 \end{proof}
 
+\begin{theorem}[ApophaticName kernel-scope refusal triad]
+\label{thm:apophaticname-kernel-scope-refusal-triad}
+For an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$, every kernel-scope read of the socket-name row $S$, requested supply row $R$, and refusal-gate row $G$ is confined to the concrete BEDC rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\ApophaticNameUp}$. The triad cannot be read as an abstract source equivalence, host object, quotient representative, hidden theorem, assumed proposition, or supplied external dependency.
+\end{theorem}
+\begin{proof}
+Project $A$ through \autoref{def:apophatic-name-carrier}. The socket, request, gate, ledger, transport, continuation, provenance, and naming coordinates are finite $\BHist$ rows.
+
+Use \autoref{thm:apophatic-name-kernel-scope-triad}. It already confines the socket-name, requested-supply, and refusal-gate rows to the displayed packet and forbids their separation into supplied content.
+
+Finally apply \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-obligation-surface}. The ledger and local $\NameCert$ obligations are concrete BEDC rows, so the kernel-scope triad remains a refusal surface rather than an abstract source equivalence.
+\end{proof}
+
+\begin{theorem}[ApophaticName source-refusal transport]
+\label{thm:apophaticname-source-refusal-transport}
+Let $A=(S,R,G,L,H,C,P,N)$ and $A'=(S',R',G',L',H',C',P',N')$ be accepted $\ApophaticNameUp$ packets whose displayed rows are related by the componentwise $\hsame$ transports recorded in $H$ and $H'$. If a consumer reads $A$ only as a source-refusal packet over $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$, then the transported consumer reads $A'$ only through $S',R',G',L',H',C',P',N'$ and still receives no generated witness, host object, quotient representative, hidden theorem, assumed proposition, or supplied external dependency.
+\end{theorem}
+\begin{proof}
+Start from source-refusal totality, \autoref{thm:apophatic-name-source-refusal-totality}. It exhausts the source side of $A$ by the concrete rows $S,R,G,L,H,C,P,N$.
+
+Transport the displayed rows with \autoref{thm:apophatic-name-classifier-refusal-transport}. The $\hsame$ row moves the refusal classifier componentwise, while $\Cont$, $\Pkg$, and $\NameCert$ replay and rename the same refusal packet.
+
+Apply \autoref{thm:apophatic-name-consumer-boundary-exhaustion}. The transported read has no coordinate for supplied content, so $A'$ remains a source-refusal packet over the concrete BEDC rows rather than an abstract equivalence between sources.
+\end{proof}
+
+\begin{theorem}[ApophaticName downstream refusal ledger exhaustion]
+\label{thm:apophaticname-downstream-refusal-ledger-exhaustion}
+Every downstream consumer of an accepted $\ApophaticNameUp$ packet $A=(S,R,G,L,H,C,P,N)$ that cites the named externality must exhaust the displayed refusal ledger $L$ together with the $\BHist$ socket and request rows, the $\hsame$ transport row $H$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\ApophaticNameUp}$ row $N$. After those rows are exhausted, no downstream route remains to a generated BEDC object, host-side datum, quotient representative, hidden theorem, assumed proposition, or supplied external dependency.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:apophatic-name-downstream-refusal-replay}. It forces downstream replay through the refusal ledger, classifier transport, displayed continuation route, package provenance, local name, and consumer-boundary exhaustion.
+
+Use \autoref{thm:apophatic-name-supply-request-consumer-factorization}. A consumer that asks for the requested supply shape is still routed through $S,R,G,L,H,C,P,N$ and cannot skip $L$.
+
+Finally cite \autoref{thm:apophatic-name-downstream-socket-route-exactness} and \autoref{thm:apophatic-name-consumer-boundary-exhaustion}. Together they identify the downstream route as exactly the displayed ledgered packet and exclude every supplied or host-side object outside the local $\NameCert$ surface.
+\end{proof}
+
 \closureat{ApophaticNameUp}{obligationStr}
 
 \begin{closurestatus}{\ApophaticNameUp}
