@@ -41,4 +41,24 @@ theorem CertificateCompilerCarrier_target_endpoint_route [AskSetup] [PackageSetu
     ⟨targetEndpointUnary, graphUnary, landingUnary, sourceGraphLanding, landingRoutesTarget,
       certMatchesEndpoint, certPkg⟩
 
+theorem CertificateCompilerCarrier_root_classifier_transport_obligation [AskSetup]
+    [PackageSetup]
+    {source target graph landing routes transport provenance cert targetTransport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerCarrier source target graph landing routes transport provenance cert
+        bundle pkg ->
+      Cont graph transport targetTransport ->
+        UnaryHistory transport ∧ UnaryHistory targetTransport ∧
+          Cont graph transport targetTransport ∧ Cont landing routes target ∧
+            hsame cert (append provenance target) ∧ PkgSig bundle cert pkg := by
+  intro carrier graphTransportTarget
+  obtain ⟨_sourceUnary, _targetUnary, graphUnary, _landingUnary, _routesUnary,
+    transportUnary, _provenanceUnary, _sourceGraphLanding, landingRoutesTarget,
+    _provenanceTargetCert, certMatchesEndpoint, certPkg⟩ := carrier
+  have targetTransportUnary : UnaryHistory targetTransport :=
+    unary_cont_closed graphUnary transportUnary graphTransportTarget
+  exact
+    ⟨transportUnary, targetTransportUnary, graphTransportTarget, landingRoutesTarget,
+      certMatchesEndpoint, certPkg⟩
+
 end BEDC.Derived.CertificateCompilerUp
