@@ -45,6 +45,42 @@ Transport and continuation routing are carried by $h$. Since the route ledger is
 Finally, $p$ and $n$ record the package and local name boundary. Every public read of the registry passes through the seven refusal rows and these provenance coordinates, so the obligation surface is exhausted by the displayed packet.
 \end{proof}
 
+\begin{theorem}[AxisZeckendorf source row coverage]
+\label{thm:axis-zeckendorf-cannot-claim-source-row-coverage}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$ of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, the source rows $a,b,c,d,e,f,g$ exactly cover the checked refusal surface: $a,b,c,d$ are the four negative theorem rows, and $e,f,g$ are the three horizon refusal rows. No source row outside $a,b,c,d,e,f,g$ is available in the carrier.
+\end{theorem}
+\begin{proof}
+Read the carrier definition coordinate by coordinate. Rows $a,b,c,d$ are respectively the $\mathtt{word\_011}$--$\mathtt{word\_100}$ non-$\HSame$ row, the carry-not-$\HSame$ row, the $\mathtt{word\_011}$ non-normality row, and the boundary-zero-spine exclusion row.
+
+Rows $e,f,g$ are respectively the $\FullAxisUp$-as-$\RealUp$ refusal, the $\AxisNatUp$-as-$\NatUp$ refusal, and the primitive dimension-lift refusal. These are precisely the two coverage families named in \autoref{thm:axis-zeckendorf-cannot-claim-registry-obligations}.
+
+The remaining carrier coordinates are $h,p,n$. They provide route, package, and local naming data, not source refusal rows. Hence the seven displayed source rows exhaust the refusal surface of the concrete registry packet.
+\end{proof}
+
+\begin{theorem}[AxisZeckendorf refusal transport]
+\label{thm:axis-zeckendorf-cannot-claim-refusal-transport}
+Let $r$ be any public transport accepted by an $\AxisZeckendorfCannotClaimUp$ registry packet for one of the refusal rows $a,b,c,d,e,f,g$ of $R=(a,b,c,d,e,f,g,h,p,n)$. Then $r$ factors through the componentwise $\hsame$ relation and the displayed $\Cont$ route recorded in row $h$; it cannot pass through a parameter-equivalence transport external to the carrier.
+\end{theorem}
+\begin{proof}
+By \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, row $h$ is the only transport and continuation coordinate of the packet. It is stated componentwise over exactly the visible refusal rows $a,b,c,d,e,f,g$.
+
+Apply the transport family in \autoref{thm:axis-zeckendorf-cannot-claim-registry-obligations}. That theorem identifies componentwise transport and continuation routing as one of the four finite obligation families of the local $\NameCert$ surface.
+
+Since no other transport coordinate appears in $R$, an accepted public movement of a refusal row must use the $\hsame$ and $\Cont$ route displayed by $h$. The packet therefore supplies no external equivalence route that could turn a refusal row into a positive bridge.
+\end{proof}
+
+\begin{theorem}[AxisZeckendorf ledger exactness]
+\label{thm:axis-zeckendorf-cannot-claim-ledger-exactness}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$ of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, the provenance rows $p$ and $n$ exhaust the public $\Pkg$ and $\NameCert_{\AxisZeckendorfCannotClaimUp}$ ledger. Consequently the packet cannot export RealUp operations, NatUp replacement, primitive dimension, quotient of histories, kernel rewrite, or standard-model bridge data.
+\end{theorem}
+\begin{proof}
+The carrier definition assigns $p$ to the displayed $\Pkg$ provenance and $n$ to the local $\NameCert_{\AxisZeckendorfCannotClaimUp}$ row. There is no second package row, no second naming row, and no hidden coordinate in the tuple $R$.
+
+The ledger exactness family in \autoref{thm:axis-zeckendorf-cannot-claim-registry-obligations} reads exactly these two provenance coordinates together with the refusal rows and the route row $h$. Thus every public ledger read has to pass through $p$ or $n$ after the visible refusal surface has been selected.
+
+RealUp operations, NatUp replacement, primitive dimension, quotient formation, kernel rewriting, and standard-model bridge data would each require a positive coordinate outside this ledger. Because the carrier lists no such coordinate, the provenance rows are exact and cannot export any of those structures.
+\end{proof}
+
 \begin{theorem}[AxisZeckendorf negative theorem surface]
 \label{thm:axis-zeckendorf-cannot-claim-negative-theorem-surface}
 Every theorem-level refusal exported by an accepted $\AxisZeckendorfCannotClaimUp$ packet is one of the four negative rows $a,b,c,d$: the $\mathtt{word\_011}$--$\mathtt{word\_100}$ non-$\HSame$ row, the carry-not-$\HSame$ row, the $\mathtt{word\_011}$ non-normality row, or the boundary-zero-spine exclusion row.
@@ -69,15 +105,70 @@ The negative reads factor through $a,b,c,d$, and the horizon reads factor throug
 The package row $p$ and local name row $n$ do not add mathematical structure; they record where the displayed rows come from. Since none of the excluded objects appears as a coordinate, no public consumer can extract a positive bridge, equality, dimension, or rewrite from the registry packet.
 \end{proof}
 
+\begin{theorem}[AxisZeckendorf cannot-claim consumer horizon exhaustion]
+\label{thm:axis-zeckendorf-cannot-claim-consumer-horizon-exhaustion}
+Any downstream consumer of an accepted $\AxisZeckendorfCannotClaimUp$ registry packet can read only the negative theorem rows $a,b,c,d$, the horizon refusal rows $e,f,g$, the transport and route ledger $h$, the provenance row $p$, and the local $\NameCert$ row $n$. Consequently the packet cannot supply a $\RealUp$ completion, a $\NatUp$ replacement, a primitive dimension-lift operation, a kernel rewrite, a quotient of histories, or a standard-model bridge.
+\end{theorem}
+\begin{proof}
+Start with the registry packet of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}. Its displayed rows are exactly $a,b,c,d,e,f,g,h,p,n$.
+
+The theorem-level consumer reads are exhausted by \autoref{thm:axis-zeckendorf-cannot-claim-negative-theorem-surface}: they are precisely the negative rows $a,b,c,d$.
+
+The remaining horizon reads are the refusal rows $e,f,g$, transported and routed through $h$ and recorded through $p,n$. By \autoref{thm:axis-zeckendorf-cannot-claim-non-escape}, this public surface cannot export any coordinate beyond the registry inventory.
+
+Since a $\RealUp$ completion, $\NatUp$ replacement, primitive dimension-lift operation, kernel rewrite, quotient, or standard-model bridge would require a positive coordinate not present in the registry, no downstream consumer can derive one from the packet.
+\end{proof}
+
+\begin{theorem}[AxisZeckendorf refusal row determinacy]
+\label{thm:axis-zeckendorf-cannot-claim-refusal-row-determinacy}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$ of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, every accepted refusal read is determined by exactly one displayed source row among $a,b,c,d,e,f,g$. The rows $a,b,c,d$ determine theorem-level refusals, the rows $e,f,g$ determine horizon refusals, and no accepted refusal read is determined by $h,p$, or $n$.
+\end{theorem}
+\begin{proof}
+The packet definition displays the seven refusal coordinates before any route or provenance coordinate. By \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, $a,b,c,d$ are the negative theorem rows and $e,f,g$ are the horizon refusal rows.
+
+The obligation statement in \autoref{thm:axis-zeckendorf-cannot-claim-registry-obligations} separates these two refusal families from the transport and ledger families. Thus an accepted refusal read first selects one of the displayed source rows, not a route row or a provenance row.
+
+The non-escape theorem \autoref{thm:axis-zeckendorf-cannot-claim-non-escape} and the consumer exhaustion theorem \autoref{thm:axis-zeckendorf-cannot-claim-consumer-horizon-exhaustion} leave no public read outside $a,b,c,d,e,f,g,h,p,n$. Since $h$ only routes and $p,n$ only record provenance, the selected refusal source is unique among $a,b,c,d,e,f,g$.
+\end{proof}
+
+\begin{theorem}[AxisZeckendorf transport non-promotion]
+\label{thm:axis-zeckendorf-cannot-claim-transport-nonpromotion}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$ of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, the componentwise $\hsame$ and $\Cont$ ledger $h$ transports refusal rows only as refusal rows. It does not promote any transported row into an $\HSame$ witness, a $\RealUp$ completion, a $\NatUp$ replacement, a primitive dimension, a quotient, or a kernel rewrite.
+\end{theorem}
+\begin{proof}
+The packet definition assigns the only transport and continuation coordinate to $h$. That coordinate is componentwise over the displayed refusal rows, so its source and target data are still rows drawn from $a,b,c,d,e,f,g$.
+
+The routing family in \autoref{thm:axis-zeckendorf-cannot-claim-registry-obligations} records transport and continuation as an obligation on visible refusals. It does not add a positive equality, completion, replacement, dimension, quotient, or rewrite coordinate.
+
+Apply the non-escape boundary of \autoref{thm:axis-zeckendorf-cannot-claim-non-escape}. Any public read exported by the packet factors through the displayed registry rows, and none of the promoted structures appears in that inventory.
+
+Finally, \autoref{thm:axis-zeckendorf-cannot-claim-consumer-horizon-exhaustion} says downstream consumers can read the ledger $h$ only together with the refusal and provenance rows. Therefore componentwise $\hsame$ and $\Cont$ transport preserves the refusal status instead of converting it into a positive BEDC structure.
+\end{proof}
+
+\begin{theorem}[AxisZeckendorf provenance exhaustion]
+\label{thm:axis-zeckendorf-cannot-claim-provenance-exhaustion}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$ of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, the provenance row $p$ and the local $\NameCert_{\AxisZeckendorfCannotClaimUp}$ row $n$ exhaust the public provenance of the registry. They add no new mathematical coordinate beyond the seven refusal rows and the route ledger $h$.
+\end{theorem}
+\begin{proof}
+The registry packet definition names $p$ as the displayed $\Pkg$ provenance row and $n$ as the local $\NameCert_{\AxisZeckendorfCannotClaimUp}$ row. No further provenance coordinate occurs in $R$.
+
+The ledger exactness family in \autoref{thm:axis-zeckendorf-cannot-claim-registry-obligations} binds the public ledger to the displayed package provenance and local naming row. The provenance read is therefore exhausted by $p$ and $n$ after the refusal row and route row have been selected.
+
+By \autoref{thm:axis-zeckendorf-cannot-claim-non-escape}, the packet cannot export a positive bridge, equality, dimension, quotient, or rewrite outside the registry inventory. By \autoref{thm:axis-zeckendorf-cannot-claim-consumer-horizon-exhaustion}, a downstream consumer has no additional public coordinate to inspect.
+
+Thus $p$ and $n$ close the public provenance surface of the registry and do not contribute another mathematical coordinate.
+\end{proof}
+
 \closureat{AxisZeckendorfCannotClaimUp}{seedStr}
+\closureat{AxisZeckendorfCannotClaimUp}{obligationStr}
 
 \begin{closurestatus}{\AxisZeckendorfCannotClaimUp}
   \constructivestory{An $\AxisZeckendorfCannotClaimUp$ packet records four checked negative theorem rows, three horizon refusal rows, componentwise $\hsame$ and $\Cont$ routing, $\Pkg$ provenance, and a local $\NameCert$ row, while exporting no RealUp, NatUp replacement, dimension, quotient, or kernel-rewrite coordinate.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite registry carrier, NameCert obligation families, negative theorem surface, and non-escape boundary for the AxisZeckendorf cannot-claim packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the finite registry carrier, four negative theorem rows, three horizon refusal rows, componentwise transport, ledger exactness, non-escape, consumer exhaustion, determinacy, transport non-promotion, and provenance exhaustion for the AxisZeckendorf cannot-claim packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove a Lean implementation, a standard bridge, RealUp completeness for FullAxisUp, AxisNatUp equality with NatUp, primitive dimension lift, host arithmetic equality, or kernel rewriting.}
-  \upgradepath{Obligation closure requires checking the carrier, classifier routing, refusal-row coverage, and ledger exactness for the displayed registry packet.}
+  \upgradepath{Obligation closure requires checking the carrier, classifier routing, refusal-row coverage, consumer horizon exhaustion, and ledger exactness for the displayed registry packet.}
 \end{closurestatus}

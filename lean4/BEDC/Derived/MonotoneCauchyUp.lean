@@ -114,6 +114,32 @@ theorem MonotoneCauchyCarrier_real_seal_boundary [AskSetup] [PackageSetup]
     ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, intervalUnary, realSealUnary,
       regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow, nameRowPkg⟩
 
+theorem MonotoneCauchyCarrier_common_window_classifier [AskSetup] [PackageSetup]
+    {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
+      commonWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonotoneCauchyCarrier regular schedule modulus ledger interval realSeal transportRow route
+        provenance nameRow bundle pkg ->
+      Cont schedule modulus commonWindow ->
+        PkgSig bundle commonWindow pkg ->
+          UnaryHistory regular ∧ UnaryHistory schedule ∧ UnaryHistory modulus ∧
+            UnaryHistory ledger ∧ UnaryHistory commonWindow ∧
+              Cont regular schedule modulus ∧ Cont schedule modulus commonWindow ∧
+                Cont modulus ledger interval ∧ Cont interval realSeal nameRow ∧
+                  PkgSig bundle nameRow pkg ∧ PkgSig bundle commonWindow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier scheduleModulusCommonWindow commonWindowPkg
+  obtain ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, _intervalUnary,
+    _realSealUnary, _transportRowUnary, _routeUnary, _provenanceUnary, _nameRowUnary,
+    regularScheduleModulus, modulusLedgerInterval, intervalRealSealNameRow,
+    _transportRouteProvenance, nameRowPkg⟩ := carrier
+  have commonWindowUnary : UnaryHistory commonWindow :=
+    unary_cont_closed scheduleUnary modulusUnary scheduleModulusCommonWindow
+  exact
+    ⟨regularUnary, scheduleUnary, modulusUnary, ledgerUnary, commonWindowUnary,
+      regularScheduleModulus, scheduleModulusCommonWindow, modulusLedgerInterval,
+      intervalRealSealNameRow, nameRowPkg, commonWindowPkg⟩
+
 theorem MonotoneCauchyCarrier_modulus_tail_stability [AskSetup] [PackageSetup]
     {regular schedule modulus ledger interval realSeal transportRow route provenance nameRow
       regular' schedule' modulus' ledger' interval' realSeal' nameRow' : BHist}

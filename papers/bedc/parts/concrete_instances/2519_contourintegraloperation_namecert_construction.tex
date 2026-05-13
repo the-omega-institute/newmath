@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\ContourIntegralOperationUp$}
+\label{ch:concrete-instances-contourintegraloperation-namecert}
+\origin{human}
+
+The $\ContourIntegralOperationUp$ interface turns the contour-integration operation of \autoref{ch:concrete-instances-contour-integral} into a finite BEDC NameCert packet. It displays the piecewise-linear contour, holomorphic input, Riemann-sum ledger, convergence modulus, output complex-history row, componentwise transport, continuation routes, package provenance, and local naming row that downstream integral, residue, and RH scaffold consumers may inspect without importing a host analytic integral operator.
+
+\begin{definition}[Contour-integral operation carrier]
+\label{def:contour-integral-namecert-carrier}
+A $\ContourIntegralOperationUp$ carrier is a finite $\BHist$ packet
+$$
+T=(G,F,S,M,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\mathsf{PLContour}$ row, including the finite list of $\ComplexUp$ endpoints and the boundary-read data for its piecewise-linear segments;
+\item $F$ is the $\HolomorphicUp$ input row on a neighbourhood containing the image of $G$;
+\item $S$ is the Riemann-sum ledger, recording subdivision counts, sample rows, segment contributions, and the finite sum row used by \autoref{def:riemann-sum};
+\item $M$ is the explicit modulus row witnessing convergence of the Riemann sums toward the output;
+\item $I$ is the output $\ComplexUp$ history row satisfying the contour-integral predicate of \autoref{def:cont-int};
+\item $H$ stores componentwise $\hsame$ transport for $G,F,S,M,I$;
+\item $C$ stores the displayed $\Cont$ routes by which a consumer reads the contour, holomorphic input, Riemann-sum ledger, modulus, output, package provenance, and local name;
+\item $P$ is the $\Pkg$ provenance over $\mathsf{PLContour}$, $\HolomorphicUp$, $\ComplexUp$, Riemann sums, the modulus row, $\hsame$, $\Cont$, and the local naming surface;
+\item $N$ is the local $\NameCert_{\ContourIntegralOperationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient Lebesgue integral, a host path object, a quotient-of-paths class, a global branch choice, or an unledgered limiting operation.
+\end{definition}
+
+\begin{theorem}[Contour-integral operation NameCert obligations]
+\label{thm:contour-integral-namecert-obligations}
+The local $\NameCert_{\ContourIntegralOperationUp}$ surface for \autoref{def:contour-integral-namecert-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for $T=(G,F,S,M,I,H,C,P,N)$;
+\item classifier stability for the $\mathsf{PLContour}$ row, $\HolomorphicUp$ input row, Riemann-sum ledger, modulus row, and output $\ComplexUp$ history under the componentwise $\hsame$ row $H$;
+\item operation-law ledger exactness for linearity, concatenation, reversal, and piecewise-linear reparameterization as recorded in the finite ledger $S$ and routes $C$;
+\item uniqueness of the output row $I$ up to $\hsame$ using the modulus row $M$ and the contour-integral uniqueness boundary;
+\item non-escape from ambient integration operators, host path equality, quotient-of-paths classes, unrecorded sample choices, and global branch selectors.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the finite packet of \autoref{def:contour-integral-namecert-carrier}. The contour, holomorphic input, Riemann-sum ledger, modulus, output, transport, routes, provenance, and local naming row are all displayed before a consumer can read the operation.
+
+Classifier stability follows by transporting each displayed coordinate through $H$. The operation laws are not imported as host analytic facts; they are read through the ledger rows named by \autoref{def:cont-int-operation-laws} and the routes in $C$.
+
+Uniqueness is the boundary supplied by \autoref{thm:cont-int-unique}: any two accepted outputs for the same transported contour and holomorphic input are $\hsame$-equal. Since no remaining coordinate stores an ambient integral or a host path quotient, the non-escape clause is exactly the carrier inventory.
+\end{proof}
+
+\begin{theorem}[Contour-integral PL-contour boundary]
+\label{thm:contour-integral-pl-contour-boundary}
+Every accepted $\ContourIntegralOperationUp$ packet reads its path data through the displayed $\mathsf{PLContour}$ row $G$. Public consumers may inspect the finite endpoint list, segment continuation rows, endpoint $\ComplexUp$ classifiers, and componentwise $\hsame$ transports for those rows, but they may not replace $G$ by an ambient smooth path, a host homotopy class, or an unbounded path object.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinate $G$. Its only path data are the finite endpoint list and the segment rows licensed by the piecewise-linear contour carrier.
+
+The routes in $C$ read $G$ before any Riemann-sum or output row is inspected. Transport through $H$ can rename the displayed endpoint and segment rows, but it does not introduce a smooth path carrier or a host homotopy class.
+
+Thus every contour read remains on the finite $\mathsf{PLContour}$ boundary, and any request for data outside that boundary has no coordinate in the packet.
+\end{proof}
+
+\begin{theorem}[Contour-integral Riemann-sum ledger]
+\label{thm:contour-integral-riemann-sum-ledger}
+For an accepted $\ContourIntegralOperationUp$ packet $T=(G,F,S,M,I,H,C,P,N)$, every approximation read of the integral factors through the finite Riemann-sum ledger $S$ and the modulus row $M$. The ledger records the subdivision count, sample rows, segment contributions, finite sum value, and precision comparison used to relate the sum to $I$; no unrecorded limiting process or sample-selection oracle is exported.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContourIntegralOperationUp.ContourIntegralOperationCarrier\_riemann\_sum\_route\_closure}
+\begin{proof}
+Begin with an approximation read. The displayed routes in $C$ first expose the contour row $G$ and holomorphic input row $F$, then enter the Riemann-sum ledger $S$.
+
+Inside $S$, the subdivision, samples, segment contributions, and finite sum are explicit rows. The modulus row $M$ is the only row that turns these finite sums into a convergence claim about the output $I$.
+
+Consequently an audit of the approximation surface reads only $S$ and $M$ after the input rows. Since no separate coordinate stores a limiting oracle or hidden sample selector, those objects are not public exports of the packet.
+\end{proof}
+
+\begin{theorem}[Contour-integral public export]
+\label{thm:contour-integral-public-export}
+The public surface of an accepted $\ContourIntegralOperationUp$ carrier exports exactly the finite operation packet: a $\mathsf{PLContour}$ row, a $\HolomorphicUp$ input row, the Riemann-sum ledger, convergence modulus, output $\ComplexUp$ history, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The exported operation laws are ledgered laws for this packet, not host-level contour-integration principles.
+\end{theorem}
+\begin{proof}
+The carrier definition lists every row available to public consumers. The NameCert obligations bind carrier exposure, classifier stability, operation-law ledger exactness, uniqueness, and non-escape to precisely those rows.
+
+The PL-contour boundary prevents path data from escaping the finite endpoint and segment surface. The Riemann-sum ledger theorem forces approximation reads through $S$ and $M$ before they reach the output row.
+
+Therefore the public export is exactly the finite BEDC operation packet over contour, holomorphic input, sums, modulus, output, transport, routes, provenance, and local naming. No host analytic integral principle is exported.
+\end{proof}
+
+\begin{theorem}[Contour-integral modulus transport]
+\label{thm:contour-integral-operation-modulus-transport}
+For accepted $\ContourIntegralOperationUp$ packets with componentwise $\hsame$ transport of the contour row $G$, holomorphic input row $F$, Riemann-sum ledger $S$, modulus row $M$, and output row $I$, the transported modulus row remains the only public witness relating finite Riemann sums to the output $\ComplexUp$ row. The transport excludes hidden sample selectors, ambient path equality, global branch choice, and unledgered limiting operations.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:contour-integral-namecert-obligations} to expose the packet rows and the classifier-stability obligation. The componentwise transport preserves $G,F,S,M,I$ as displayed coordinates, so the transported packet has the same public inventory.
+
+Apply \autoref{thm:contour-integral-riemann-sum-ledger}. Every approximation read factors through the Riemann-sum ledger $S$ and the modulus row $M$ before it reaches the output row $I$.
+
+Apply \autoref{thm:contour-integral-public-export}. The exported operation packet has no coordinate for a hidden sample selector, ambient path equality, global branch choice, or unledgered limiting operation.
+
+Therefore the transported modulus row is still the unique public bridge from finite Riemann sums to the transported $\ComplexUp$ output row. Any requested witness outside $S$ and $M$ has no row in the accepted packet.
+\end{proof}
+
+\closureat{ContourIntegralOperationUp}{seedStr}
+
+\begin{closurestatus}{\ContourIntegralOperationUp}
+  \constructivestory{A $\ContourIntegralOperationUp$ packet is generated from a displayed $\mathsf{PLContour}$ row, a $\HolomorphicUp$ input row, a finite Riemann-sum ledger, an explicit modulus row, an output $\ComplexUp$ history, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contour-integral-namecert-carrier}, \autoref{thm:contour-integral-namecert-obligations}, \autoref{thm:contour-integral-pl-contour-boundary}, \autoref{thm:contour-integral-riemann-sum-ledger}, and \autoref{thm:contour-integral-public-export} define the finite contour-integral operation packet, its obligation surface, PL-contour boundary, Riemann-sum ledger, and public export.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Cauchy's theorem, residue calculus, RH zero-location consequences, global branch selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, classifier stability, operation-law ledger exactness, uniqueness, and non-escape for the same finite contour-integral operation packet.}
+\end{closurestatus}

@@ -123,6 +123,7 @@ The window is selected by $\sigma$ and $\mu$. Once the window is fixed, the regu
 
 The interval row $I$ and seal row $Q$ are downstream of that same window. The transport and continuation rows $H$ and $C$ replay only the displayed reads, while $P$ and $N$ name the same local package, so no quotient or host-real comparison is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.MonotoneCauchyUp.MonotoneCauchyCarrier\_common\_window\_classifier}
 
 \begin{theorem}[Monotone Cauchy modulus tail stability]
 \label{thm:monotone-cauchy-modulus-tail-stability}
@@ -292,16 +293,30 @@ same finite surface and has no route to quotient reals, selected
 representatives, host real equality, ambient completeness, or choice.
 \end{proof}
 
+\begin{theorem}[Monotone Cauchy public tail-window certificate]
+\label{thm:monotone-cauchy-public-tail-window-certificate}
+The scoped tail-window classifier, located scope package, and $\RealUp$ seal scope package assemble a single public $\NameCert_{\MonotoneCauchyUp}$ export over rows $F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. The public certificate exposes the finite tail-window schedule, monotone and Cauchy modulus rows, located interval trap, real-seal row, componentwise transports, continuation routes, package provenance, and local naming row, and exports no quotient real, selected representative, host real equality, ambient completeness, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:monotone-cauchy-common-window-classifier}. It identifies the finite tail window through which the scheduled observations $F,\sigma,\mu$ are read.
+
+Use \autoref{thm:monotone-cauchy-located-scope-package} and \autoref{thm:monotone-cauchy-tail-window-scope-lock}. The located rows $\lambda$ and $I$ remain attached to the same tail window, while the lock prevents consumer reads from moving outside $H,C,P,N$.
+
+Finally apply \autoref{thm:monotone-cauchy-real-seal-scope-package} and \autoref{thm:monotone-cauchy-ledger-exhaustion}. The real-seal row $Q$ is repacked through the displayed finite surface, and the ledger excludes every route to quotient reals, selected representatives, host real equality, ambient completeness, or choice.
+\end{proof}
+
 \closureat{MonotoneCauchyUp}{seedStr}
 \closureat{MonotoneCauchyUp}{obligationStr}
+\closureat{MonotoneCauchyUp}{scopedStr}
+\closureat{MonotoneCauchyUp}{publicStr}
 
 \begin{closurestatus}{\MonotoneCauchyUp}
   \constructivestory{A $\MonotoneCauchyUp$ packet is generated from a displayed regular rational sequence, a stream schedule, a Cauchy modulus row, dyadic monotonicity and located upper-bound ledgers, a located interval row, a real-seal row, componentwise transport, displayed continuation routes, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{The obligation scope registers carrier admission, common finite-window classification, monotone-row transport, located interval handoff, $\RealUp$ seal non-escape, and ledger exhaustion for located monotone Cauchy packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient reals, selected representatives, host real equality, trichotomy, open-cover compactness, ambient completeness, or choice.}
-  \upgradepath{Obligation closure requires checking carrier admission, classifier by common finite windows, monotone-row transport, located interval handoff, and RealUp seal non-escape for the displayed rows.}
+  \upgradepath{The next paper grade is the bridge-facing certificate for the same finite tail-window, located-interval, real-seal, transport, package, and naming rows.}
 \end{closurestatus}

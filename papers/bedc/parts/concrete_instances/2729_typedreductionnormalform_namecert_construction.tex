@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\TypedReductionNormalFormUp$}
+\label{ch:concrete-instances-typedreductionnormalform-namecert}
+\origin{human}
+
+The $\TypedReductionNormalFormUp$ surface binds typed reduction to the terminal normal-form boundary as finite BEDC data. It refines the type-checking packet by recording the source membership, the visible reduction route, the target membership, and the normal-form row in one local $\NameCert$ object, so consumers can use the endpoint without importing host conversion or a normalization oracle.
+
+\begin{definition}[Typed reduction normal-form packet]
+\label{def:typed-reduction-normal-form-packet}
+A $\TypedReductionNormalFormUp$ packet is a finite $\BHist$ carrier
+$$
+Q=(T,J,E,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the displayed term row containing the source window, the target window, and the terminal normal-form window;
+\item $J$ is the finite judgment ledger for the typing assumptions, source judgment, target judgment, and terminal judgment consumed by the packet;
+\item $E$ is the $\Ext$ membership row that records the accepted source membership and the target membership read exposed by subject reduction;
+\item $R$ is the $\Cont$ reduction route from the source term row to the terminal target row, with every intermediate step named by the packet;
+\item $F$ is the normal-form boundary row, stating that the terminal target has no further packet-visible typed reduction route;
+\item $H$ records the componentwise $\hsame$ transports for term rows, judgment rows, membership rows, reduction routes, normal-form rows, package rows, and local certificate rows;
+\item $C$ records the continuation reads for source membership, typed reduction, target membership, normal-form boundary access, and replay of the terminal packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\hsame$, the judgment ledger, the normal-form boundary, and the surrounding $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TypedReductionNormalFormUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host conversion, semantic equality of terms, a global normalization theorem, an erased typing derivation, or a normalization oracle.
+\end{definition}
+
+\begin{theorem}[TypedReductionNormalForm NameCert obligations]
+\label{thm:typed-reduction-normal-form-namecert-obligations}
+The local $\NameCert_{\TypedReductionNormalFormUp}$ surface for \autoref{def:typed-reduction-normal-form-packet} consists of five obligations:
+\begin{enumerate}
+\item carrier exposure for the finite packet $Q=(T,J,E,R,F,H,C,P,N)$;
+\item reduction-route exactness, saying that every typed reduction read is the displayed route $R$ and its named intermediate $\Cont$ rows;
+\item subject-reduction seal, saying that the target membership reached after the typed reduction is read only through $E$, $R$, $H$, $C$, $P$, and $N$;
+\item normal-form boundary, saying that the terminal target is accepted only at the boundary row $F$ and no further typed reduction route can be consumed unless it is a displayed packet row;
+\item non-escape from host conversion, semantic equality of terms, global normalization, erased derivation semantics, or any normalization oracle not named by the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is the packet inventory of \autoref{def:typed-reduction-normal-form-packet}. The rows name the term windows, judgment ledger, membership row, reduction route, normal-form boundary, transports, continuation reads, package provenance, and local certificate.
+
+Reduction-route exactness follows by projecting $R$ and $C$. A consumer can replay the typed route only through the named $\Cont$ rows, while $H$ supplies the permitted componentwise transports.
+
+The subject-reduction seal uses the same rows. The source membership is read from $E$, the route is read from $R$, and the target membership is the membership coordinate exposed by the local certificate after the displayed transport and package provenance have been checked.
+
+The normal-form boundary is the row $F$. Since no coordinate names a host conversion relation, semantic equality, erased derivation, global normalization theorem, or normalization oracle, the terminal boundary cannot be replaced by data outside $Q$.
+\end{proof}
+
+\begin{theorem}[TypedReductionNormalForm subject-reduction seal]
+\label{thm:typed-reduction-normal-form-subject-reduction-seal}
+Let $Q=(T,J,E,R,F,H,C,P,N)$ be an accepted $\TypedReductionNormalFormUp$ packet. Every public target-membership read after a typed reduction reaches the normal-form boundary only through the displayed $\Ext$ row $E$, the $\Cont$ route $R$, the componentwise $\hsame$ transports $H$, the continuation reads $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\TypedReductionNormalFormUp}$ row $N$. The read does not use host conversion, semantic equality of terms, a global normalization theorem, or a normalization oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The source and target term windows are in $T$, the judgment context is in $J$, the membership data are in $E$, and the typed reduction route is in $R$.
+
+Replay the route through $C$ and transport the visible rows through $H$. The package row $P$ records the dependencies on $\BHist$, $\Ext$, $\Cont$, $\hsame$, the ledger, the boundary row, and the local certificate, so the target membership read is still the displayed BEDC packet.
+
+Finally read the terminal boundary from $F$ and authenticate it through $N$. The carrier inventory has no row for host conversion, semantic equality, global normalization, erased derivation semantics, or a normalization oracle, so none of those objects can participate in the public read.
+\end{proof}

@@ -48,6 +48,19 @@ Use $T$ to admit the corresponding dyadic tail or diagonal row. The row records 
 Finally read $E$ before consuming $R$. Since $E$ is a $\FiniteErrorBudgetUp$ ledger, the downstream bound is the displayed dyadic accounting row over the chosen tolerance and not an external inequality in a host real structure.
 \end{proof}
 
+\begin{theorem}[CauchyErrorCertificate budget handoff closure]
+\label{thm:cauchy-error-certificate-budget-handoff-closure}
+Let $C=(R,M,T,E,P,N)$ be an accepted $\CauchyErrorCertificateUp$ packet. If the budget row $E$ is transported to a classifier-equivalent budget row $E'$, and if the displayed $\Cont$ routes $M \to T \to E'$ and $R \to E' \to P$ are supplied, then the transported tuple $(R,M,T,E',P,N)$ is again an accepted $\CauchyErrorCertificateUp$ packet over the same readback, modulus, tail, provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:cauchy-error-certificate-carrier}. The accepted packet supplies unary admissibility for $R,M,T,E,P,N$, the original budget-facing routes, the $\BHist$ packet, the $\Pkg$ provenance, and the local naming row.
+
+Transport only the budget admissibility along the displayed $\hsame$ comparison from $E$ to $E'$. The readback, modulus, tail, provenance, and local $\NameCert$ rows remain the same coordinates of the packet.
+
+Finally replace the two budget-facing continuation routes by the supplied routes $M \to T \to E'$ and $R \to E' \to P$. Repacking the unchanged $\BHist$, $\Pkg$, and $\NameCert$ provenance with the transported budget row yields the accepted tuple $(R,M,T,E',P,N)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyErrorCertificateUp.CauchyErrorCertificatePacket\_budget\_handoff\_closure}
+
 \begin{theorem}[CauchyErrorCertificate non-escape boundary]
 \label{thm:cauchy-error-certificate-non-escape-boundary}
 An accepted $\CauchyErrorCertificateUp$ carrier exports only its displayed readback route, unary precision modulus, dyadic tail or diagonal packet, finite error-budget ledger, package provenance, local naming row, and the attached $\mathsf{BHist}$, $\hsame$, and $\Cont$ transport. It exports no quotient stream equality, no selected host limit, no ambient completeness theorem, and no host real equality assertion.
@@ -226,12 +239,45 @@ For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, modulus so
 
 The package closes the error-budget obligation surface for the displayed certificate, while leaving quotient streams, selected host limits, ambient completeness, host real equality, and bridge checking outside the chapter.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyErrorCertificateUp.CauchyErrorCertificatePacket\_seal\_budget\_package}
 \begin{proof}
 First bind the soundness route. Theorem~\ref{thm:cauchy-error-certificate-modulus-soundness} supplies the finite tolerance-to-budget route through $M$, $T$, and $E$.
 
 Next bind compatibility. Theorem~\ref{thm:cauchy-error-certificate-diagonal-tail-compatibility} states that diagonal and tail evidence accepted by the same packet feed the same finite budget ledger, and Theorem~\ref{thm:cauchy-error-certificate-uniform-diagonal-compatibility} identifies the uniform-family and diagonal routes through the same $M,T,E$ coordinates.
 
 Finally bind the seal boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} fixes the $\RegSeqRatUp/\RealUp$ readback boundary relative to the displayed rows, and the non-escape boundary excludes all host-side completion objects. Repacking these rows gives the announced finite $\RealUp$ seal budget package.
+\end{proof}
+
+\begin{theorem}[CauchyErrorCertificate composed budget readback handoff]
+\label{thm:cauchy-error-certificate-composed-budget-readback-handoff}
+Let $C=(R,M,T,E,P,N)$ be an accepted $\CauchyErrorCertificateUp$ packet. Suppose a binary-prefix $\BinaryExpansionUp$ regular handoff and a $\UniformCauchyCriterionUp$ real-seal handoff are both consumed through the same displayed unary modulus $M$, the same tail-or-diagonal row $T$, the same finite error-budget ledger $E$, and the same package provenance row $P$. Then every $\RealUp$ completion-facing read factors through the common finite route
+$$
+\begin{gathered}
+\text{binary prefix window}
+\longrightarrow
+\text{dyadic approximation row}
+\longrightarrow
+\text{uniform tail ledger}
+\longrightarrow
+\text{Cauchy error budget}
+\\
+\longrightarrow
+\RegSeqRatUp\text{ readback}
+\longrightarrow
+\RealUp\text{ seal}.
+\end{gathered}
+$$
+
+The composed handoff exports no quotient stream, selected host limit, host real equality, or ambient completeness theorem. The only displayed data available to the read are the binary prefix window, dyadic approximation row, uniform tail ledger, finite Cauchy budget, readback row $R$, provenance row $P$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the binary-prefix side. Theorem~\ref{thm:binary-expansion-regular-handoff-factorization} factors the $\BinaryExpansionUp$ regular handoff through the inspected prefix window, dyadic approximation row, and regular-sequence handoff boundary. Thus the read does not receive an independent infinite bitstream or a second rational stream.
+
+Next attach the uniform Cauchy side. Theorem~\ref{thm:cauchy-error-certificate-uniform-budget-handoff} routes the uniform real-seal handoff through the displayed modulus $M$, the common tail-or-diagonal row $T$, and the finite ledger $E$. The shared $M,T,E,P$ hypotheses identify the binary and uniform routes before either reaches the readback boundary.
+
+Now fix the downstream boundary. Theorem~\ref{thm:cauchy-error-certificate-readback-route-uniqueness} identifies the $\RegSeqRatUp/\RealUp$ readback route relative to the displayed modulus, tail-or-diagonal, budget, and provenance rows.
+
+Finally package the seal-facing read. Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package} repacks the same displayed rows as the finite $\RealUp$ seal budget package, while the non-escape boundary leaves quotient streams, selected host limits, host real equality, and ambient completeness outside the composed handoff.
 \end{proof}
 
 \begin{theorem}[CauchyErrorCertificate scoped budget-window package]

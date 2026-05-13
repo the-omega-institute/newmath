@@ -49,6 +49,7 @@ Transport and locality are displayed by $H$ and $C$. These rows move and replay 
 
 Finally $P,L,N$ package the provenance, ledger, and local certificate. Since the excluded objects have no carrier coordinate, no $\NameCert_{\OperationalMembraneUp}$ projection can export them.
 \end{proof}
+\leanchecked{BEDC.Derived.OperationalMembraneUp.OperationalMembranePacket\_namecert\_obligation\_surface}
 
 \begin{theorem}[OperationalMembrane ledger exactness]
 \label{thm:operational-membrane-ledger-exactness}
@@ -74,15 +75,28 @@ Use $H$ and $C$ to transport and expose that row to consumers. The target name r
 The ledger row $L$ records whether the read belongs to the accepted boundary surface. Together with $P$ and $N$, it packages the result as a local naming certificate and leaves missing or unchecked names outside the packet.
 \end{proof}
 
+\begin{theorem}[OperationalMembrane scoped boundary]
+\label{thm:operational-membrane-scoped-boundary}
+The scoped $\OperationalMembraneUp$ boundary consists exactly of the source scan $S$, axiom-purity row $A$, import-separation row $I$, paper-Lean drift row $D$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$, boundary ledger $L$, and local $\NameCert$ row $N$ of the carrier $M=(S,A,I,D,H,C,P,L,N)$. It excludes source axiom permission, hidden proof ancestry, import exemptions, fuzzy Lean-name matching, and global semantic completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:operational-membrane-carrier} and \autoref{def:operational-membrane-classifier}. They make $S,A,I,D,H,C,P,L,N$ the complete carrier and comparison surface.
+
+Apply \autoref{thm:operational-membrane-namecert-obligation-surface} to expose those rows as the local naming certificate. Then use \autoref{thm:operational-membrane-ledger-exactness} to keep accepted and rejected boundary crossings on the displayed ledger.
+
+Finally apply \autoref{thm:operational-membrane-drift-resolution} for the paper-Lean face. The same carrier has no row for source axiom permission, hidden proof ancestry, import exemption, fuzzy name replacement, or global semantic completeness, so the scoped boundary is exactly the displayed membrane.
+\end{proof}
+
 \closureat{OperationalMembraneUp}{seedStr}
+\closureat{OperationalMembraneUp}{obligationStr}
 
 \begin{closurestatus}{\OperationalMembraneUp}
   \constructivestory{An $\OperationalMembraneUp$ packet is generated from source-axiom scans, strict proof-ancestry reports, import-separation ledgers, paper-Lean name-resolution rows, visible transport, continuation routes, package provenance, a boundary ledger, and a local naming certificate.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:operational-membrane-carrier}, \autoref{def:operational-membrane-classifier}, \autoref{thm:operational-membrane-namecert-obligation-surface}, \autoref{thm:operational-membrane-ledger-exactness}, and \autoref{thm:operational-membrane-drift-resolution} bind the seed carrier, classifier, ledger, and drift-resolution rows for the operational audit membrane.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:operational-membrane-carrier}, \autoref{def:operational-membrane-classifier}, \autoref{thm:operational-membrane-namecert-obligation-surface}, \autoref{thm:operational-membrane-ledger-exactness}, \autoref{thm:operational-membrane-drift-resolution}, and \autoref{thm:operational-membrane-scoped-boundary} bind the carrier, classifier, ledger exactness, drift resolution, and scoped operational boundary rows for the displayed audit membrane.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close global semantic conservativity, host-kernel completeness, bridge checking, or a Lean implementation of the operational membrane carrier.}
-  \upgradepath{Scoped closure requires checked carrier and classifier theorems for the finite operational membrane packet.}
+  \upgradepath{Scoped closure requires binding the carrier, classifier, ledger exactness, and operational boundary rows to a checked finite operational membrane packet.}
 \end{closurestatus}

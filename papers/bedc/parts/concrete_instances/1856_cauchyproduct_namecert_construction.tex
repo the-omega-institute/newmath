@@ -208,15 +208,53 @@ Next use the two constant-factor obligations. The left and right constant reads 
 Finally use radius product regularity and the Real multiplication seal handoff. These identify the product-radius ledger as the only regularity evidence visible to the seal, so the bilinear tail window is exactly the finite NameCert surface and not an external algebraic law.
 \end{proof}
 
+\begin{theorem}[CauchyProduct obligation closure]
+\label{thm:cauchy-product-obligation-closure}
+For every accepted $\CauchyProductUp$ packet, the carrier source of
+\autoref{def:cauchy-product-namecert-source}, the StreamName handoff, the
+$\RealUp$ seal boundary, ledger exhaustion, radius product regularity, and
+product-observation seal obligations jointly supply the full
+$\obligationClosure$ surface for $\CauchyProductUp$ over
+$\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$,
+$\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+This closure surface preserves the exclusions on quotient streams, selected
+limits, trichotomy, host multiplication, independent real carriers, and ambient
+completeness.
+\end{theorem}
+\begin{proof}
+First collect the carrier source and NameCert obligations. They list the two
+$\RegularCauchyNameUp$ sources, paired $\StreamNameUp$ windows, dyadic-radius
+rows, $\DyadicRatCoreUp$ observations, product observation, $\RegSeqRatUp$
+classifier, $\RealUp$ seal handoff, transport, continuation, ledger,
+provenance, and local naming rows.
+
+Next apply the StreamName handoff and Real seal boundary. These theorems fix
+the route from the source names through paired finite windows to the dyadic
+product observation and then to the real-facing classifier row.
+
+Use ledger exhaustion and radius product regularity to identify the finite
+regularity evidence. The product-radius ledger is the only route turning the
+paired observations and product row into the displayed $\RegSeqRatUp$
+classifier.
+
+Finally apply the product-observation seal obligations. They assemble the same
+rows into the product-observation package and exclude any coordinate for
+quotient streams, selected limits, trichotomy, host multiplication, independent
+real carriers, or ambient completeness. The named rows therefore supply the
+full obligation-closure surface.
+\end{proof}
+
 \closureat{CauchyProductUp}{seedStr}
+\closureat{CauchyProductUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyProductUp}
   \constructivestory{A $\CauchyProductUp$ packet is generated from two $\RegularCauchyNameUp$ source rows, paired $\StreamNameUp$ finite-window schedules, dyadic-radius rows, $\DyadicRatCoreUp$ observations, a pointwise product row, a $\RegSeqRatUp$ classifier, displayed $\hsame$ transports, $\Cont$ routes, a finite ledger, $\RealUp$ seal handoff, package provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-product-namecert-source}, \autoref{thm:cauchy-product-namecert-obligations}, \autoref{thm:cauchy-product-streamname-handoff}, \autoref{thm:cauchy-product-real-seal-boundary}, and \autoref{thm:cauchy-product-ledger-exhaustion} bind the finite product carrier, paired schedules, dyadic product observation, regular classifier, seal handoff, ledger, transport, continuation, package, and local naming rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:cauchy-product-obligation-closure} supplies the carrier, paired-window, dyadic product observation, $\RegSeqRatUp$ classifier, $\RealUp$ seal, ledger, transport, continuation, package, and $\NameCert$ obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, quotient streams, selected limits, trichotomy, host multiplication as a primitive, independent real carriers, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, paired window scheduling, dyadic product observation, regular classifier handoff, real-seal boundary, and ledger exhaustion for the product packet.}
+  \upgradepath{Scoped closure requires binding the product-observation obligation surface to the displayed $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}

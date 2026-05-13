@@ -195,4 +195,38 @@ theorem BanachFixedPointPacket_public_export [AskSetup] [PackageSetup]
     cont_deterministic publicRoute endpointRoute
   exact ⟨publicUnary, sameEndpoint, endpointPkg⟩
 
+theorem BanachFixedPointPacket_scoped_transport_route [AskSetup] [PackageSetup]
+    {banach distance contraction ratio iterate modulus handoff endpoint transport continuation
+      provenance nameCert publicRead exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BanachFixedPointPacket banach distance contraction ratio iterate modulus handoff endpoint
+        transport continuation provenance nameCert bundle pkg ->
+      Cont continuation provenance publicRead ->
+        Cont modulus handoff exportRow ->
+          PkgSig bundle exportRow pkg ->
+            UnaryHistory banach /\ UnaryHistory distance /\ UnaryHistory contraction /\
+              UnaryHistory ratio /\ UnaryHistory iterate /\ UnaryHistory modulus /\
+                UnaryHistory handoff /\ UnaryHistory endpoint /\ UnaryHistory publicRead /\
+                  UnaryHistory exportRow /\ hsame publicRead endpoint /\
+                    Cont contraction ratio iterate /\ Cont iterate modulus handoff /\
+                      Cont modulus handoff exportRow /\ PkgSig bundle endpoint pkg /\
+                        PkgSig bundle exportRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet publicRoute exportRoute exportPkg
+  obtain ⟨banachUnary, distanceUnary, contractionUnary, ratioUnary, iterateUnary,
+    modulusUnary, handoffUnary, endpointUnary, _transportUnary, continuationUnary,
+    provenanceUnary, _nameCertUnary, _banachDistanceContraction, contractionRatioIterate,
+    iterateModulusHandoff, _handoffTransportContinuation, endpointRoute, endpointPkg⟩ :=
+    packet
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed continuationUnary provenanceUnary publicRoute
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed modulusUnary handoffUnary exportRoute
+  have sameEndpoint : hsame publicRead endpoint :=
+    cont_deterministic publicRoute endpointRoute
+  exact
+    ⟨banachUnary, distanceUnary, contractionUnary, ratioUnary, iterateUnary, modulusUnary,
+      handoffUnary, endpointUnary, publicUnary, exportUnary, sameEndpoint,
+      contractionRatioIterate, iterateModulusHandoff, exportRoute, endpointPkg, exportPkg⟩
+
 end BEDC.Derived.BanachFixedPointUp
