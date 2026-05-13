@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\LiteralASTEqualityBoundaryUp$}
+\label{ch:concrete-instances-literal-ast-equality-boundary-namecert}
+\origin{ai}
+
+The $\LiteralASTEqualityBoundaryUp$ packet isolates the literal AST equality commitment of \autoref{ch:bedc-is-its-own-theory} as its own finite NameCert boundary. It sits beside the five-row own-theory packet of \autoref{ch:concrete-instances-internaltheoryboundary-namecert}, the broader theory-identity packet of \autoref{ch:concrete-instances-metacic-theory-identity-namecert}, and the dependency audit surface of \autoref{ch:concrete-instances-axiomdependencyauditmap-namecert}. Those siblings package multiple identity or dependency commitments; this chapter names the single row that says equality is displayed AST equality and not beta equality, conversion equality, quotient equality, or host semantic equivalence.
+
+\begin{definition}[Literal AST equality-boundary carrier]
+\label{def:literal-ast-equality-boundary-carrier}
+A $\LiteralASTEqualityBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,T,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the displayed AST row, naming constructor tags, binder positions, variable rows, and immediate subterm rows exposed by the BEDC.MetaCIC syntax surface;
+\item $T$ is the literal comparison row, recording equality only by identical displayed constructor tags and componentwise equality of displayed subrows;
+\item $B$ is the boundary-refusal row for beta equality, conversion equality, quotient equality, proof irrelevance, proposition extensionality, host semantic equivalence, and parent-theory identity transport;
+\item $H$ records componentwise $\hsame$ transport for the AST row, literal comparison row, boundary-refusal row, continuation routes, provenance row, and local naming row;
+\item $C$ records displayed $\Cont$ routes by which a consumer reads literal equality and boundary refusal without adding a conversion oracle;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-is-its-own-theory}, \autoref{ch:concrete-instances-internaltheoryboundary-namecert}, \autoref{ch:concrete-instances-metacic-theory-identity-namecert}, \autoref{ch:concrete-instances-axiomdependencyauditmap-namecert}, BEDC.MetaCIC AST rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LiteralASTEqualityBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no beta-step evaluator, no conversion closure, no quotient of syntax, no external equality oracle, and no theorem identifying displayed AST equality with a semantic equality from another calculus.
+\end{definition}
+
+\begin{definition}[Literal AST equality-boundary classifier]
+\label{def:literal-ast-equality-boundary-classifier}
+Two $\LiteralASTEqualityBoundaryUp$ carriers
+$$
+L=(A,T,B,H,C,P,N)
+$$
+and
+$$
+L'=(A',T',B',H',C',P',N')
+$$
+are classifier-equivalent exactly when the displayed AST rows, literal comparison rows, boundary-refusal rows, componentwise transports, continuation routes, provenance rows, and local naming rows agree through the displayed $\hsame$ and $\Cont$ data. The classifier does not compare carriers by beta-normal form, definitional conversion, quotient representative, proof irrelevance, proposition extensionality, or host semantic equality.
+\end{definition}
+
+\begin{theorem}[Literal AST equality-boundary NameCert obligations]
+\label{thm:literal-ast-equality-boundary-namecert-obligations}
+For every $\LiteralASTEqualityBoundaryUp$ carrier
+$$
+L=(A,T,B,H,C,P,N),
+$$
+the local $\NameCert_{\LiteralASTEqualityBoundaryUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet of \autoref{def:literal-ast-equality-boundary-carrier};
+\item classifier stability under the literal classifier of \autoref{def:literal-ast-equality-boundary-classifier};
+\item literal equality exactness through $A$ and $T$;
+\item boundary refusal through $B$ for every beta, conversion, quotient, proof-irrelevance, proposition-extensionality, host-semantic, or parent-theory equality request;
+\item ledger exactness through $H,C,P,N$ for the same displayed rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The rows $A,T,B$ are the only equality-facing coordinates before transport, route replay, provenance, or local naming is read.
+
+Classifier stability is componentwise by \autoref{def:literal-ast-equality-boundary-classifier}. A transported packet may preserve literal AST equality, but it cannot replace that comparison by beta equality, conversion equality, quotient equality, or host semantic equality.
+
+The rows $H,C,P,N$ make the same equality boundary readable by downstream consumers. Since the carrier has no evaluator, conversion closure, quotient, proof-irrelevance row, proposition-extensionality row, or parent-theory equality row, the listed NameCert obligations exhaust the packet surface.
+\end{proof}
+
+\begin{theorem}[Literal AST equality exactness]
+\label{thm:literal-ast-equality-boundary-exactness}
+Every equality read from an accepted $\LiteralASTEqualityBoundaryUp$ carrier
+$$
+L=(A,T,B,H,C,P,N)
+$$
+factors through the displayed AST row $A$, the literal comparison row $T$, and the componentwise transport and replay rows $H,C$. The read exports only constructor-tag equality and componentwise displayed subrow equality, and it exports no beta equality, conversion equality, quotient equality, proof irrelevance, proposition extensionality, host semantic equivalence, or parent-theory identity transport.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The equality coordinate is $T$, and it is attached to the displayed AST row $A$.
+
+Transport and replay are componentwise. The rows $H$ and $C$ can move or read $A$ and $T$, but they do not add a computation relation or quotient relation.
+
+The boundary-refusal row $B$ accounts for every stronger equality request. Therefore any accepted equality read remains literal and displayed, with no route to the excluded equality principles.
+\end{proof}
+
+\begin{theorem}[Literal AST equality sibling independence]
+\label{thm:literal-ast-equality-boundary-sibling-independence}
+\independenceWitness{internaltheoryboundary, metacic-theory-identity, axiom-dependency-audit-map, bedcselftheory: the new carrier isolates one literal-equality boundary row rather than packaging all theory-identity commitments or all axiom-dependency routes.}
+\end{theorem}
+\begin{proof}
+Compare row inventories. The internal-theory and MetaCIC theory-identity packets package closed generators, literal AST equality, structural recursors, purity, and apophatic boundary data together.
+
+The axiom-dependency audit map packages claim, dependency, route, and audit rows. The BEDC self-theory packet packages the five positive own-theory commitments as one substrate-facing certificate.
+
+The $\LiteralASTEqualityBoundaryUp$ carrier keeps only the displayed AST row, literal comparison row, boundary-refusal row, and structural ledger rows. It can be cited by those broader siblings, but none of them is bijective to this single equality-boundary packet.
+\end{proof}
+
+\begin{theorem}[Literal AST equality TasteGate obligation]
+\label{thm:literal-ast-equality-boundary-tastegate-obligation}
+The Lean-side `TasteGate.lean' development for $\LiteralASTEqualityBoundaryUp$ includes explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances. These instances are the gate-facing rows that separate a real literal-equality boundary carrier from a vacuous event-flow encoding and record that the encoding preserves the displayed AST row, literal comparison row, boundary-refusal row, transport rows, route rows, provenance row, and local naming row.
+\end{theorem}
+\begin{proof}
+The carrier has distinct equality-facing fields. A gate that recognizes only an event-flow round trip would not show that $A$, $T$, and $B$ remain separate rows.
+
+Nontriviality rules out the empty reading of the packet. Field faithfulness records preservation of the displayed field structure, so the literal equality boundary remains a finite carrier with inspectable rows rather than an unstructured event name.
+\end{proof}
+
+\falsifiablePrediction{No accepted packet may replace literal AST equality by beta/conversion equality without leaving the carrier rows.}
+
+\closureat{LiteralASTEqualityBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\LiteralASTEqualityBoundaryUp}
+  \constructivestory{A $\LiteralASTEqualityBoundaryUp$ packet is generated from displayed AST rows, literal comparison rows, boundary-refusal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:literal-ast-equality-boundary-carrier}, \autoref{def:literal-ast-equality-boundary-classifier}, \autoref{thm:literal-ast-equality-boundary-namecert-obligations}, \autoref{thm:literal-ast-equality-boundary-exactness}, \autoref{thm:literal-ast-equality-boundary-sibling-independence}, and \autoref{thm:literal-ast-equality-boundary-tastegate-obligation} specify the literal AST equality boundary packet and its gate-facing obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove beta soundness, conversion decidability, quotient soundness, proof irrelevance, proposition extensionality, host semantic equality, Lean verification, or bridge checking for $\LiteralASTEqualityBoundaryUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, literal equality exactness, boundary refusal, ledger exactness, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
