@@ -55,6 +55,54 @@ The nonempty bundle and coverage rows are the compact side of the handoff. The p
 No fold output is present in the carrier. Therefore the handoff is precisely the finite subordinate-cover input to the $\UniformModulusUp$ rational fold, with no external modulus selector and no host-level compactness object.
 \end{proof}
 
+\begin{theorem}[SubordinateModulusCover carrier obligation]
+\label{thm:subordinate-modulus-cover-carrier-obligation}
+Every accepted $\SubordinateModulusCoverUp$ read is admitted through the single carrier
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
+$$
+of \autoref{def:subordinate-modulus-cover-carrier}. The TasteGate alignment of \autoref{thm:subordinate-modulus-cover-namecert-obligations} binds the positive tolerance row, nonempty probe bundle, centers, subordinate radii, pointwise precision rows, pointwise-modulus row, half-radius coverage row, rational comparison ledger, transport rows, continuation routes, package provenance, and local naming row to this one packet.
+\end{theorem}
+\begin{proof}
+Project an accepted read through the carrier definition. The rows available to the consumer are exactly $E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N$.
+
+Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its checked TasteGate row states the local NameCert obligations on the same displayed carrier, including carrier admission and consumer non-escape.
+
+Since the carrier exports no open cover, external radius selector, host minimum, or uniform precision row, admission cannot be transferred to a second packet. The accepted read is therefore a read of the single displayed subordinate-modulus-cover carrier.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover classifier stability obligation]
+\label{thm:subordinate-modulus-cover-classifier-stability-obligation}
+Classifier transport for an accepted $\SubordinateModulusCoverUp$ packet is componentwise on the rows of
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N).
+$$
+The TasteGate alignment of \autoref{thm:subordinate-modulus-cover-namecert-obligations} permits transport only through the $\hsame$ ledger $L$ and the displayed $\Cont$ routes $Q$, preserving the tolerance, bundle, centers, radius rows, precision rows, pointwise-modulus rows, coverage rows, rational comparisons, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Start with the single carrier $S$. The only classifier-stability coordinate is the componentwise transport ledger $L$, and the only consumer routes are the displayed continuations in $Q$.
+
+Use \autoref{thm:subordinate-modulus-cover-namecert-obligations}. The TasteGate row records classifier stability under $L$ together with compact coverage exactness, pointwise-modulus compatibility, rational subordination exactness, and consumer non-escape for the same packet.
+
+Thus a transported packet preserves each visible coordinate rather than replacing the carrier or changing the bundle. No parameter-transport equivalence, open-cover selector, host minimum, or uniform precision row is introduced by classifier transport.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover ledger handoff obligation]
+\label{thm:subordinate-modulus-cover-ledger-handoff-obligation}
+The compact, continuous, and uniform-modulus handoff ledger of an accepted $\SubordinateModulusCoverUp$ packet is exactly the route through
+$$
+\mathcal{P},C,R,D,M,H,F,L,Q,P,N
+$$
+inside the single carrier $S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)$. The handoff exposes the finite nonempty bundle, bundled centers, subordinate radius rows, pointwise-modulus precision rows, half-radius coverage witnesses, and rational subordination comparisons needed before the $\UniformModulusUp$ lower-bound fold, and it exposes no fold output.
+\end{theorem}
+\begin{proof}
+Read the handoff rows from the carrier definition. The compact side supplies $\mathcal{P}$, $C$, and $H$; the continuous side supplies $D$ and $M$; the rational subordination ledger supplies $R$ and $F$; and $L,Q,P,N$ transport, route, and record the public read.
+
+Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its TasteGate row binds coverage exactness, pointwise-modulus compatibility, rational subordination exactness, and non-escape to the same carrier $S$.
+
+Finally use \autoref{thm:subordinate-modulus-cover-uniform-handoff}. The $\UniformModulusUp$ consumer receives precisely the finite input ledger for the later lower-bound fold, while the uniform precision chosen by that fold remains outside the subordinate cover packet.
+\end{proof}
+
 \closureat{SubordinateModulusCoverUp}{seedStr}
 
 \begin{closurestatus}{\SubordinateModulusCoverUp}
