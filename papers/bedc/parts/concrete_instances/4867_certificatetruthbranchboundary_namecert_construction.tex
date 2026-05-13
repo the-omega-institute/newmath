@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\CertificateTruthBranchBoundaryUp$}
+\label{ch:concrete-instances-certificatetruthbranchboundary-namecert}
+\origin{human}
+
+The $\CertificateTruthBranchBoundaryUp$ packet realizes the certificate-indexed branch boundary of \autoref{ch:visions-reasoning-by-contradiction-boundary} as a finite NameCert surface. It sits horizontally beside \autoref{ch:concrete-instances-selfreferencetruthbranch-namecert}: the sibling packet records a self-reference truth-branch request, while this packet records the boundary that permits local refutation routes and refuses certificate-indexed truth branching.
+
+\begin{definition}[Certificate truth-branch boundary carrier]
+\label{def:truth-branch-boundary-carrier}
+A $\CertificateTruthBranchBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(Q,A,R,D,F,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the certificate-indexed query row, naming the fixed local certificate and the proposition row being tested;
+\item $A$ is the assumption row whose local refutation is permitted only inside the displayed packet;
+\item $R$ is the permitted refutation route from an assumed witness of $A$ to $\bot$;
+\item $D$ is the optional constructive decision row for $A$, present exactly when the packet may consume $\neg\neg A$ as a local decidable refutation step;
+\item $F$ is the forbidden truth-branch row, recording that no branch family over all naming certificates is a carrier coordinate;
+\item $L$ is the boundary ledger separating admitted refutation reads from refused certificate-indexed truth reads;
+\item $H$ records componentwise $\hsame$ transports for query, assumption, refutation, decision, refusal, ledger, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ replay routes that read $Q$, replay $R$, consume $D$ when present, inspect $F,L$, and return the result to the same local certificate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\msame$, $\hsame$, $\Cont$, local refutation routes, refusal rows, ledger rows, and the surrounding NameCert source rows;
+\item $N$ is the local $\NameCert_{\CertificateTruthBranchBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a truth predicate over its own certificate stratum, no excluded-middle branch over the carrier of all naming certificates, and no witness selector obtained only from a contradiction.
+\end{definition}
+
+\begin{theorem}[Certificate truth-branch boundary NameCert obligations]
+\label{thm:truth-branch-boundary-namecert-obligations}
+The local $\NameCert_{\CertificateTruthBranchBoundaryUp}$ surface for \autoref{def:truth-branch-boundary-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $B=(Q,A,R,D,F,L,H,C,P,N)$;
+\item query exactness, saying that the certificate-indexed query row $Q$ is read only as a fixed local question and never as a global truth classifier;
+\item permitted-refutation replay, saying that the route $R$ reaches $\bot$ from an assumed $A$-witness only through the displayed $\hsame$ transports and $\Cont$ routes;
+\item decision discipline, saying that $\neg\neg A$ may be consumed only through the same displayed row $D$;
+\item truth-branch refusal, saying that $F$ and $L$ block certificate-wide excluded middle, self-truth classification, and witness extraction by contradiction.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:truth-branch-boundary-carrier}. The packet exposes exactly the query, assumption, refutation, optional decision, refusal, ledger, transport, continuation, provenance, and local naming rows.
+
+Query exactness is the separation between $Q$ and $F,L$. The row $Q$ names the local certificate question being inspected, while $F$ and $L$ record that the question is not promoted to a branch family over all naming certificates.
+
+Permitted-refutation replay uses only $R,H,C,P,N$. Transport first carries the assumption and route along $H$, then the displayed continuations in $C$ replay the route to $\bot$ inside the same local packet.
+
+Decision discipline is confined to $D$. When $D$ is absent, the ledger refuses non-decidable double-negation elimination; when $D$ is present, it is consumed for the same proposition row $A$ and does not become a global oracle.
+
+Truth-branch refusal follows by inspecting the carrier inventory. No coordinate supplies certificate-wide excluded middle, a truth predicate for the certificate stratum, or a witness selected only from contradiction, so the local NameCert obligations are exhausted by the stated finite surface.
+\end{proof}
+
+\begin{theorem}[Certificate truth-branch boundary non-escape]
+\label{thm:truth-branch-boundary-nonescape}
+Every accepted $\CertificateTruthBranchBoundaryUp$ packet exports only the permitted refutation side of the certificate-indexed boundary. It may export the local query row, the displayed refutation route, the optional decision row for the same proposition, the refusal ledger, componentwise transports, continuation replay, provenance, and local naming; it exports no certificate-indexed truth branch and no branch family for predicates over the carrier of all naming certificates.
+\end{theorem}
+\begin{proof}
+Let an accepted packet be displayed as $B=(Q,A,R,D,F,L,H,C,P,N)$. The carrier definition lists every row a downstream reader may inspect.
+
+The permitted side is local. A consumer may read $Q$, assume $A$, replay $R$ through $H$ and $C$, and use $D$ only when the packet carries that constructive decision row for the same $A$.
+
+The refused side is recorded by $F$ and $L$. These rows name the absent branch family and block replacement of the local query by a truth predicate over naming certificates.
+
+The remaining rows $H,C,P,N$ preserve, replay, package, and name the same finite surface. They do not add a second classifier or a witness selector.
+
+Therefore every public read remains inside the permitted-refutation boundary. The certificate can be used as a finite local refutation packet, but it cannot be used as a certificate-indexed truth branch.
+\end{proof}
+
+\closureat{CertificateTruthBranchBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\CertificateTruthBranchBoundaryUp}
+  \constructivestory{A $\CertificateTruthBranchBoundaryUp$ packet is generated from a certificate-indexed query row, an assumption row, a permitted refutation route, an optional constructive decision row, a forbidden truth-branch row, a boundary ledger, displayed transports, continuation replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:truth-branch-boundary-carrier}, \autoref{thm:truth-branch-boundary-namecert-obligations}, and \autoref{thm:truth-branch-boundary-nonescape} specify the finite carrier, obligation surface, and non-escape boundary for certificate-indexed truth branches.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove a Lean-side certificate, excluded middle over naming certificates, an internal truth predicate, or witness selection by contradiction.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for query exactness, permitted-refutation replay, decision discipline, truth-branch refusal, and consumer non-escape.}
+\end{closurestatus}
