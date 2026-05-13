@@ -66,6 +66,7 @@ import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZeckendorfNormalUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BaireSpaceUp
