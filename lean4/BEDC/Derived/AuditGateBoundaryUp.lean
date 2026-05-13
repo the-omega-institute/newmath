@@ -309,4 +309,81 @@ theorem AuditGateBoundaryCarrier_replay_ledger [AskSetup] [PackageSetup]
     ⟨sourceConsumerUnary, dependencyConsumerUnary, markerConsumerUnary, originConsumerUnary,
       sourceRoute, dependencyRoute, markerRoute, originRoute⟩
 
+theorem AuditGateBoundaryCarrier_origin_import_replay_exactness [AskSetup] [PackageSetup]
+    {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
+      nameCert originConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger transport
+        route provenance gap nameCert bundle pkg ->
+      Cont originLedger transport originConsumer ->
+        PkgSig bundle originConsumer pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution
+                originLedger transport route provenance gap nameCert bundle pkg ∧
+                hsame row originLedger)
+            (fun row : BHist => hsame row originLedger ∧ UnaryHistory row)
+            (fun row : BHist => PkgSig bundle originConsumer pkg ∧ hsame row originLedger)
+            hsame ∧ UnaryHistory originLedger ∧ UnaryHistory transport ∧
+              UnaryHistory originConsumer ∧ Cont originLedger transport originConsumer ∧
+                PkgSig bundle originConsumer pkg := by
+  intro carrier originRoute originPkg
+  have carrierWitness := carrier
+  obtain ⟨_sourceUnary, _dependencyUnary, _markerUnary, originUnary, transportUnary,
+    _routeUnary, _provenanceUnary, _gapUnary, _nameUnary, _dependencyGap, _nameGap,
+    _sourceDependencyMarker, _markerOriginTransport, _transportRouteProvenance,
+    _provenanceGapName, _provenancePkg, _namePkg⟩ := carrier
+  have sourceOrigin :
+      (fun row : BHist =>
+        AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+          transport route provenance gap nameCert bundle pkg ∧ hsame row originLedger)
+        originLedger := by
+    exact And.intro carrierWitness (hsame_refl originLedger)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+            transport route provenance gap nameCert bundle pkg ∧ hsame row originLedger)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro originLedger sourceOrigin
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameRowOrigin : hsame row originLedger := sourceRow.right
+        have sameOtherOrigin : hsame other originLedger :=
+          hsame_trans (hsame_symm same) sameRowOrigin
+        exact And.intro sourceRow.left sameOtherOrigin
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger
+            transport route provenance gap nameCert bundle pkg ∧ hsame row originLedger)
+        (fun row : BHist => hsame row originLedger ∧ UnaryHistory row)
+        (fun row : BHist => PkgSig bundle originConsumer pkg ∧ hsame row originLedger)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row sourceRow
+        have rowUnary : UnaryHistory row :=
+          unary_transport originUnary (hsame_symm sourceRow.right)
+        exact And.intro sourceRow.right rowUnary
+      ledger_sound := by
+        intro row sourceRow
+        exact And.intro originPkg sourceRow.right
+    }
+  have originConsumerUnary : UnaryHistory originConsumer :=
+    unary_cont_closed originUnary transportUnary originRoute
+  exact ⟨cert, originUnary, transportUnary, originConsumerUnary, originRoute, originPkg⟩
+
 end BEDC.Derived.AuditGateBoundaryUp
