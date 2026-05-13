@@ -452,6 +452,20 @@ with the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 Finally read the TasteGate target as a boundary condition, not as an extra analytic channel. \autoref{thm:real-observation-budget-tastegate-target-consumption} keeps the checked target attached to the displayed packet and does not add quotient stream equality, host real equality, hidden limit selection, ambient completeness, or an unbounded observation schedule. The L10 handoff is therefore exactly the finite BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Real observation budget diagonal selector source lock]
+\label{thm:real-observation-budget-diagonal-selector-source-lock}
+Let $B=(E,W,D,R,S,H,C,P,N)$ be an accepted $\RealObservationBudgetUp$ packet. Suppose a completion-facing consumer is synchronized with an accepted $\CauchyDiagonalBudgetUp$ route. Then the consumer can read the diagonal selector only through the displayed rows $E,W,D,R,S,H,C,P,N$ together with the $\CauchyDiagonalBudgetUp$ precision row, mesh row, and comparison row. The packet provides no read channel for a host-selected limit, quotient stream, ambient completeness witness, or hidden selector input.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. By \autoref{def:real-observation-budget-carrier}, the only rows of $B$ are $E,W,D,R,S,H,C,P,N$.
+
+Use the observation route already forced by the local budget. Window coverage binds finite reads to $E,W,D$, the $\RegSeqRatUp$ handoff binds rational-name consumption to $R$, and the $\RealUp$ seal boundary binds completion-facing reads to $S$.
+
+Now attach the synchronized diagonal sibling. The $\CauchyDiagonalBudgetUp$ route supplies the finite selector surface through its precision, mesh, and comparison rows, and the L10 handoff exactness of \autoref{thm:real-observation-budget-l10-gate-handoff-exactness} repackages those reads through $E,W,D,R,S$.
+
+Finally apply non-escape at the seal boundary. Since neither the carrier nor the synchronized finite selector surface contains a host-selected limit, quotient stream, ambient completeness witness, or hidden selector input, the completion-facing consumer has no channel outside the displayed rows and the diagonal precision, mesh, and comparison rows.
+\end{proof}
+
 \begin{theorem}[Real observation budget closure-axis obligation ledger]
 \label{thm:real-observation-budget-closure-axis-obligation-ledger}
 The obligation ledger for $\RealObservationBudgetUp$ consists of carrier admission for $B=(E,W,D,R,S,H,C,P,N)$, the local $\NameCert$ obligations, classifier exactness, $\RegSeqRatUp$ and $\RealUp$ consumer factorization, non-escape, and $\ChapterTasteGate$ target consumption. These rows record the paper-side obligation surface without asserting scoped closure or Lean verification.
