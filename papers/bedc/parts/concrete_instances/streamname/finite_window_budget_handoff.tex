@@ -83,3 +83,37 @@ seal. The non-escape sentence in
 \autoref{thm:streamname-real-regseq-finite-window-budget-handoff} therefore
 applies to the whole sibling chapter route.
 \end{proof}
+
+\begin{theorem}[StreamName regular seal sibling route]
+\label{thm:streamname-regular-seal-sibling-route}
+Any finite $\StreamNameUp$ window routed through $\ObservationBudgetLimiterUp$
+and $\RegularCauchyTailBudgetUp$ reaches a $\RealUp$ finite-window seal only
+through the same rows used by
+\autoref{thm:streamname-finite-window-regularity-real-seal-nonescape}:
+$$
+\mathsf{ProbeBundle},\quad \mathsf{InBundle},\quad
+\mathsf{UnaryHistory},\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+The sibling route exports no quotient stream, selected host limit,
+countable-choice selector, host real equality, metric completeness, or ambient
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. It
+places every finite-window regularity, dyadic tolerance, and Real seal read
+behind the finite observation-budget surface.
+
+Use \autoref{thm:streamname-budget-handoff-sibling-chapter-route} to pass that
+surface through the $\ObservationBudgetLimiterUp$ and
+$\RegularCauchyTailBudgetUp$ sibling chapters. The route still exposes only the
+finite window, membership, unary-history, budget, tail-budget, readback, and
+seal rows.
+
+Finally apply
+\autoref{thm:streamname-finite-window-regularity-real-seal-nonescape}. Its
+finite-window Real seal boundary is exactly the row list displayed above, so
+the sibling handoff cannot export quotient stream equality, selected limits,
+countable-choice selectors, host real equality, metric completeness, or ambient
+$\RealUp$ completeness.
+\end{proof}
