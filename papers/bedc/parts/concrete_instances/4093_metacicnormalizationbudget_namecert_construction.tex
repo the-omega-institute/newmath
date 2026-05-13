@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationBudgetUp$}
+\label{ch:concrete-instances-metacicnormalizationbudget-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationBudgetUp$ packet turns the normalization audit map of \autoref{ch:metacic-normalization-audit-map} into a finite NameCert surface. It is the normalization-side sibling of the conditional confluence witness in \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}, the subject-reduction obligation packet in \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, and the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}. The packet records a candidate-mediated budget route; it does not assert unconditional strong normalization for every closed typed MetaCIC term.
+
+\begin{definition}[MetaCIC normalization budget carrier]
+\label{def:metacic-normalization-budget-carrier}
+A $\MetaCICNormalizationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,C,E,S,A,P,R,H,Q,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed MetaCIC term row whose normalization read is requested;
+\item $C$ is the reducibility-candidate evidence row attached to the same closed term;
+\item $E$ is the closed-candidate or candidate-set membership row consumed by the checked normalization lemmas;
+\item $S$ is the candidate-implies-strong-normalization row, naming the Lean route $\mathsf{BEDC.MetaCIC.candidate\_implies\_sn}$ as a consumed theorem surface rather than as a global closed-term theorem;
+\item $A$ is the application and Pi adequacy boundary row that prevents componentwise normalization data from becoming unconditional application normalization;
+\item $P$ is the proof-replay budget row recording the finite candidate projections, adequacy reads, and no-infinite-reduction consequences available to the consumer;
+\item $R$ is the refusal row for requests that omit candidate evidence, closed-candidate evidence, or candidate-set membership;
+\item $H$ records componentwise $\hsame$ transport for term, candidate, membership, theorem, adequacy, budget, refusal, route, provenance, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes by which consumers read normalization only through $C,E,S,A,P$ or receive the refusal row $R$;
+\item $L$ is the $\Pkg$ provenance over the normalization audit map, the confluence audit witness, the subject-reduction obligation packet, the closed-normal consistency boundary, $\BHist$, $\hsame$, $\Cont$, and the local certificate;
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationBudgetUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a host evaluator, an unconditional closed-term strong-normalization theorem, a subject-reduction discharge, a hidden application-normalization rule, or a conversion principle outside the candidate-mediated rows.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization budget NameCert obligations]
+\label{thm:metacic-normalization-budget-namecert-obligations}
+For an accepted $\MetaCICNormalizationBudgetUp$ carrier $B=(T,C,E,S,A,P,R,H,Q,L,N)$, the local $\NameCert$ surface exposes exactly the closed typed term row $T$, reducibility-candidate evidence $C$, closed-candidate or candidate-set membership $E$, candidate-to-strong-normalization row $S$, application and Pi adequacy boundary $A$, finite proof-replay budget $P$, refusal row $R$, componentwise transport $H$, displayed continuation routes $Q$, package provenance $L$, and local naming $N$. A consumer may read strong normalization only along the candidate-mediated route displayed by $C,E,S,A,P$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-budget-carrier}. The rows $T,C,E,S,A,P$ display the positive route: a closed term is paired with candidate evidence, the evidence is read through the checked candidate-to-SN row, and the adequacy boundary records where Pi and application reasoning is allowed.
+
+The refusal row $R$ accounts for requests that skip the candidate evidence or ask for unconditional closed-term normalization. It is part of the same packet, so the negative answer is not an external convention.
+
+The support rows $H,Q,L,N$ transport, route, package, and name the same finite inventory. Since the carrier has no second theorem coordinate, the local NameCert obligations are exhausted by the displayed candidate-mediated budget surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization budget candidate-route scope]
+\label{thm:metacic-normalization-budget-candidate-route-scope}
+Every positive normalization read from an accepted $\MetaCICNormalizationBudgetUp$ packet factors through
+$$
+T,C,E,S,A,P.
+$$
+The row $S$ may be consumed as the candidate-to-strong-normalization route for the displayed evidence, and the row $A$ may be consumed as the displayed adequacy boundary, but neither row erases the candidate evidence or supplies closed subject reduction. The sibling packets of \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}, \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, and \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert} therefore receive a budgeted normalization surface, not an unconditional theorem.
+\end{theorem}
+\begin{proof}
+Read the continuation coordinate $Q$. Its positive route reaches the strong-normalization read only after the term row $T$ has been paired with the candidate rows $C,E$ and the candidate-to-SN row $S$.
+
+The adequacy row $A$ records the Pi and application boundary named in \autoref{ch:metacic-normalization-audit-map}. It lets consumers compare the route with confluence and subject-reduction siblings while preserving the guard that application normalization is not obtained from parts alone.
+
+Finally inspect the provenance row $L$. It sends downstream readers to the confluence audit witness, the subject-reduction obligation packet, and the closed-normal consistency boundary as named consumers of the same finite budget. Those consumers inherit the candidate route; they do not receive a stronger closed-term normalization principle.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization budget non-escape]
+\label{thm:metacic-normalization-budget-nonescape}
+An accepted $\MetaCICNormalizationBudgetUp$ packet cannot yield an unconditional theorem that every closed typed MetaCIC term is strongly normalizing. It cannot yield subject reduction, a hidden host evaluator, compiler semantics, quotient conversion, or application strong normalization without the displayed candidate evidence. Every such request is routed to the refusal row $R$ and the public rows $H,Q,L,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. The only positive normalization route is the displayed candidate-mediated route through $T,C,E,S,A,P$.
+
+If a consumer asks for normalization without $C$ or $E$, the request has no positive route in $Q$. The packet therefore routes the request to the refusal row $R$, which records the missing evidence rather than filling it.
+
+The remaining rows preserve the boundary. Componentwise $\hsame$ transport, continuation replay, package provenance, and local naming can carry the accepted packet to downstream chapters, but none of them adds a host evaluator, a subject-reduction theorem, a quotient conversion, compiler semantics, or an unconditional closed-term normalization coordinate.
+\end{proof}
+
+\closureat{MetaCICNormalizationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationBudgetUp}
+  \constructivestory{A $\MetaCICNormalizationBudgetUp$ packet is generated from a closed typed MetaCIC term row, reducibility-candidate evidence, closed-candidate or candidate-set membership, the candidate-to-strong-normalization row, adequacy-boundary data, proof-replay budget data, refusal data, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-budget-carrier}, \autoref{thm:metacic-normalization-budget-namecert-obligations}, \autoref{thm:metacic-normalization-budget-candidate-route-scope}, and \autoref{thm:metacic-normalization-budget-nonescape} bind the finite candidate-mediated normalization budget surface and its refusal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove unconditional closed-term strong normalization, closed subject reduction, application strong normalization without candidate evidence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-route exactness, adequacy-boundary replay, refusal exactness, provenance accounting, transport stability, and non-escape for the same finite packet.}
+\end{closurestatus}
