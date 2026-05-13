@@ -252,4 +252,7 @@ instance UnwitnessedExistenceClosureUp_chapterTasteGate :
     intro x y hxy heq
     exact hxy (UnwitnessedExistenceClosureUp_toEventFlowInjective heq)
 
+def taste_gate : ChapterTasteGate UnwitnessedExistenceClosureUp :=
+  UnwitnessedExistenceClosureUp_chapterTasteGate
+
 end BEDC.Derived.UnwitnessedExistenceClosureUp
