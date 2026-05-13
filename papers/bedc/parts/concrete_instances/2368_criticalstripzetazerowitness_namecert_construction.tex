@@ -140,6 +140,48 @@ The route to the critical-line question is already fixed by \autoref{thm:critica
 It remains to exclude hidden analytic data. The ledger exhaustion theorem and \autoref{thm:critical-strip-zeta-zero-rh-premise-exhaustion} leave no coordinate for zero search, quotient zero-set equality, host complex equality, selected representatives, or a proof-level RH decision. Therefore a constructive counterexample surface is precisely the premise packet plus an additional displayed failure of $L$.
 \end{proof}
 
+\begin{theorem}[CriticalStripZetaZero boundary ledger non-escape]
+\label{thm:critical-strip-zeta-zero-boundary-ledger-nonescape}
+For every accepted $\CriticalStripZetaZeroWitnessUp$ packet $W=(S,Z,L,B,H,C,P,N)$, every critical-line failure read or boundary read factors through the displayed rows $L,B,H,C,P,N$. The boundary ledger exports only the finite classifier, boundary, transport, continuation, package, and local naming data; it exports no host complex equality, quotient zero-set equality, analytic zero search, or RH decision.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the NameCert obligations theorem. The accepted packet has only the displayed rows $S,Z,L,B,H,C,P,N$, and the line-boundary routing obligation requires any critical-line read to pass through $L$ and $B$ after the strip and zero rows have been exposed.
+
+Apply ledger exhaustion to the same carrier. It states that every exported fact is either one of the displayed rows or a route between such rows, so no host complex equality, quotient zero-set equality, analytic zero search, or proof-level RH decision can leave the packet.
+
+Finally use shared-source scope and line-route determinacy. Shared-source scope confines comparison of $S$ and $Z$ to the stored $\hsame$ and $\Cont$ rows, while line-route determinacy confines every critical-line read to $L,B,H,C,P,N$. Thus a critical-line failure or boundary read cannot escape the finite boundary ledger.
+\end{proof}
+
+\begin{theorem}[CriticalStripZetaZero source route exhaustion]
+\label{thm:critical-strip-zeta-zero-source-route-exhaustion}
+For an accepted $\CriticalStripZetaZeroWitnessUp$ packet $W=(S,Z,L,B,H,C,P,N)$, the common source route for the strip row $S$ and the zeta-zero row $Z$ is exhausted by the stored $\hsame$ and $\Cont$ rows in $H$ and $C$. Any consumer comparing the two source readings must use those displayed routes and receives no additional complex representative, quotient equality, or analytic source-selection procedure.
+\end{theorem}
+\begin{proof}
+Project the carrier and the shared source binding clause of the NameCert obligations theorem. The only rows that connect the $\CritStripUp$ source and the $\ZetaZerosUp$ source are the componentwise $\hsame$ transports in $H$ and the continuation routes in $C$.
+
+The shared-source scope theorem gives the same restriction at the consumer boundary. A comparison between $S$ and $Z$ is a displayed route comparison, not a host equality of complex numbers or a quotient equality of zero sets.
+
+Ledger exhaustion and premise exhaustion close the route inventory. Since every RH-facing premise consumer receives only $S,Z,L,B,H,C,P,N$, the shared source of $S$ and $Z$ has no route outside the stored $\hsame$ and $\Cont$ rows.
+\end{proof}
+
+\begin{theorem}[CriticalStripZetaZero premise consumer separation]
+\label{thm:critical-strip-zeta-zero-premise-consumer-separation}
+Every RH-facing consumer of an accepted $\CriticalStripZetaZeroWitnessUp$ packet receives the premise packet only as
+$$
+S,Z,L,B,H,C,P,N.
+$$
+The consumer may read the strip row, zero row, critical-line classifier, boundary ledger, displayed transport, continuation, provenance, and local naming rows, but any critical-line conclusion, RH proof, RH refutation, or analytic zero decision must be supplied outside the witness packet.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and the NameCert obligations theorem. They identify the accepted object as exactly the finite packet $S,Z,L,B,H,C,P,N$ and require the RH handoff to read that same packet rather than a host analytic object.
+
+Use shared-source scope and source route exhaustion for the premise side. The strip and zero rows share their source only through $H$ and $C$, so a consumer receives a displayed finite route and not a selected complex representative.
+
+Use line-route determinacy and boundary ledger non-escape for the conclusion-facing side. They force every critical-line read through $L,B,H,C,P,N$ and prevent the boundary ledger from exporting a host equality, quotient zero-set equality, zero search, or RH decision.
+
+Finally apply premise exhaustion. The RH-facing consumer receives exactly the finite premise packet; therefore any critical-line conclusion or RH-level decision must be supplied by an additional BEDC row outside the witness packet.
+\end{proof}
+
 \closureat{CriticalStripZetaZeroWitnessUp}{seedStr}
 
 \begin{closurestatus}{\CriticalStripZetaZeroWitnessUp}
