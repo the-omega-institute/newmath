@@ -55,16 +55,61 @@ The representative side of $T$ is the row $D$, which is anchored in the diagonal
 The structural rows $H,C,P,N$ replay the same finite comparison for downstream consumers. Since no additional representative, seal, quotient, host equality, selected external limit, or ambient completeness row is present, every sealed diagonal-limit read factors through the displayed handoff.
 \end{proof}
 
-\closureat{DiagonalLimitStabilityUp}{seedStr}
+\begin{theorem}[Representative-seal window comparison]
+\label{thm:diagonal-limit-stability-representative-seal-comparison}
+For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the displayed diagonal representative row $D$ and the displayed $\RealUp$ seal row $S$ are compared only through the common finite window row $W$. Neither $D$ nor $S$ can be consumed as an independent Real-completeness input outside the same packet.
+\end{theorem}
+\begin{proof}
+The carrier exposes $D$ as the representative-side row and $S$ as the seal-side row, but the comparison coordinate supplied by the carrier is $W$. Thus any consumer that reads either side as part of the stability comparison must also read the window coordinate that makes the two sides commensurable.
+
+There is no coordinate in $T$ for an external representative equality, a host-level seal equality, or a separate comparison witness. The only displayed comparison boundary is the packet's own window row, so independent consumption of $D$ or $S$ would require a row absent from the carrier.
+\end{proof}
+
+\begin{theorem}[Real-completeness window coverage]
+\label{thm:diagonal-limit-stability-window-coverage}
+Every $\RealCompletenessUp$ consumer of the accepted packet $T=(R,D,L,S,W,H,C,P,N)$ factors through $W,H,C,P,N$ after choosing either the representative side $D$ or the seal side $S$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:diagonal-limit-stability-real-completeness-handoff}, a Real-completeness consumer first reaches the packet through $D$ or through $S$. Once that side is chosen, the same theorem records the replay rows $W,H,C,P,N$ as the boundary through which the read continues.
+
+The rows $W,H,C,P,N$ are not optional decorations: $W$ fixes the common observation window, $H$ carries the componentwise transports, $C$ carries the displayed continuation routes, $P$ carries provenance, and $N$ carries the local naming row. Since the carrier has no additional Real-completeness boundary, each accepted packet read factors through those rows.
+\end{proof}
+
+\begin{theorem}[Transport replay for local NameCert obligations]
+\label{thm:diagonal-limit-stability-transport-replay}
+For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the componentwise $\hsame$ rows in $H$ and the displayed $\Cont$ routes in $C$ replay the same nine-coordinate packet and preserve the local $\NameCert_{\DiagonalLimitStabilityUp}$ obligations.
+\end{theorem}
+\begin{proof}
+The row $H$ is displayed as componentwise transport for $R,D,L,S,W,C,P,N$, while $C$ is displayed as the continuation replay for the same source, representative, selector, seal, window, transport, provenance, and local naming reads. Both rows therefore address the coordinates of the single carrier $T$ rather than a second packet.
+
+The local $\NameCert$ obligations are exactly the rows listed in \autoref{thm:diagonal-limit-stability-namecert-obligations}. Because $H$ and $C$ replay those rows componentwise and by displayed continuations, downstream use preserves the same local obligation surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit stability obligation package]
+\label{thm:diagonal-limit-stability-obligation-package}
+For an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$, the carrier, local $\NameCert$ obligations, $\RealCompletenessUp$ handoff, falsifiable prediction, independence witness, TasteGate marker, and route exclusions jointly form the obligation package for $\DiagonalLimitStabilityUp$ over $\RegSeqRatUp$, $\DiagonalTailSelectorUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package binds selector route exactness through $D$, seal route exactness through $S$, finite-window coverage through $W$, componentwise transport replay through $H$, continuation replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:diagonal-limit-stability-namecert-obligations}. It projects the accepted carrier and binds the source, representative, selector, seal, finite-window, transport, continuation, provenance, and local naming rows as the complete local $\NameCert$ surface.
+
+Next use \autoref{thm:diagonal-limit-stability-real-completeness-handoff}. It forces every Real-completeness seal read through either the displayed diagonal representative row $D$ or the displayed $\CauchyLimitSealUp$ row $S$, and in both cases replays the same window $W$ and structural rows $H,C,P,N$.
+
+The selector and seal routes are therefore exact at the displayed boundary. Selector exactness is the fact that $D$ is the only diagonal representative row available to the carrier; seal exactness is the fact that $S$ is the only $\RealUp$ seal row available to the carrier. Window coverage is the common row $W$, which is read before downstream consumers receive the sealed route.
+
+Finally inspect the chapter-level side conditions. The falsifiable prediction excludes consumers that bypass both displayed route rows, the independence witness separates the packet from its sibling carriers, the TasteGate marker records single-carrier alignment, and the excluded coordinates rule out quotient streams, host real equality, choice-selected limit representatives, trichotomy, and ambient completeness. These clauses are precisely the obligation package needed before an obligation-closure reading of the same finite packet.
+\end{proof}
+
+\closureat{DiagonalLimitStabilityUp}{obligationStr}[BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\DiagonalLimitStabilityUp}
   \constructivestory{A $\DiagonalLimitStabilityUp$ packet is generated from a $\RegSeqRatUp$ source row, diagonal representative row, limit selector row, $\RealUp$ seal row, finite $\StreamNameUp$ window, componentwise $\hsame$ transports, displayed $\Cont$ continuations, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:diagonal-limit-stability-carrier}, \autoref{thm:diagonal-limit-stability-namecert-obligations}, and \autoref{thm:diagonal-limit-stability-real-completeness-handoff} define the finite stability carrier, its NameCert obligation rows, and the RealCompleteness handoff boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:diagonal-limit-stability-carrier}, \autoref{thm:diagonal-limit-stability-namecert-obligations}, \autoref{thm:diagonal-limit-stability-real-completeness-handoff}, \autoref{thm:diagonal-limit-stability-representative-seal-comparison}, \autoref{thm:diagonal-limit-stability-window-coverage}, \autoref{thm:diagonal-limit-stability-transport-replay}, and \autoref{thm:diagonal-limit-stability-obligation-package} define the finite stability carrier, its NameCert obligation rows, the RealCompleteness handoff boundary, the representative-seal comparison window, downstream window coverage, transport replay, and the assembled obligation package.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
+  \leanchecked{BEDC.Derived.DiagonalLimitStabilityUp.taste\_gate}
   \notclaimed{This chapter does not prove quotient-stream equality, host real equality, a choice-selected limit representative, trichotomy, ambient completeness, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, representative-seal stability comparison, selector and seal route exactness, window coverage, transport replay, provenance, and local NameCert rows for the same finite packet.}
+  \upgradepath{The next paper step is scoped closure over the same finite packet, with selector route exactness, seal route exactness, provenance, and local NameCert rows bound to public downstream consumers.}
 \end{closurestatus}
