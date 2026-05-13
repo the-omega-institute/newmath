@@ -608,7 +608,25 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         or bool(turns)
         or raw_latex_path.exists()
     )
-    codex_close_path = bool(codex_summary.get("close_path", False))
+    codex_close_value = codex_summary.get("close_path", False)
+    codex_close_path = bool(codex_close_value)
+    if (
+        codex_close_path
+        and not raw_latex_path.exists()
+        and isinstance(codex_close_value, str)
+        and "\\begin{" in codex_close_value
+    ):
+        insertion_hint = (
+            f"Insertion target: {codex_summary.get('tex_file')}\n\n"
+            if codex_summary.get("tex_file")
+            else ""
+        )
+        write_text(raw_latex_path, insertion_hint + codex_close_value.rstrip() + "\n")
+        print(
+            f"[v2 resume] {target.target_id} materialized {raw_latex_path.name} "
+            "from cursor codex_track.close_path; continuing to Stage 2",
+            flush=True,
+        )
     # Resume case: cursor was written under v1 Stage 0 (key: "stage0") with
     # accept verdict OR raw_oracle_latex.md exists from prior closed run.
     # Treat that content as a closed track — do NOT re-engage oracle.

@@ -51,4 +51,23 @@ theorem LimitSelectorCarrier_real_seal_nonescape
     cont_respects_hsame sameSelected (hsame_refl L.window) hread L.window_readback_route
   exact ⟨sameSelected, sameReadback⟩
 
+theorem LimitSelectorCarrier_observation_budget_handoff
+    (L : LimitSelectorCarrier) {selected readback budgetSeal : BHist}
+    (selectedRoute : Cont L.precision L.modulus selected)
+    (readbackRoute : Cont selected L.window readback)
+    (sealRoute : Cont readback L.realSeal budgetSeal) :
+    hsame selected L.selectedIndex ∧ hsame readback L.dyadicReadback ∧
+      hsame budgetSeal L.route ∧ Cont L.precision L.modulus L.selectedIndex ∧
+        Cont L.selectedIndex L.window L.dyadicReadback ∧
+          Cont L.dyadicReadback L.realSeal L.route := by
+  have finiteRows :=
+    LimitSelectorCarrier_real_seal_nonescape L selectedRoute readbackRoute
+  have sameSelected : hsame selected L.selectedIndex := finiteRows.left
+  have sameReadback : hsame readback L.dyadicReadback := finiteRows.right
+  have sameBudgetSeal : hsame budgetSeal L.route :=
+    cont_respects_hsame sameReadback (hsame_refl L.realSeal) sealRoute L.seal_route
+  exact
+    ⟨sameSelected, sameReadback, sameBudgetSeal, L.selected_index_route,
+      L.window_readback_route, L.seal_route⟩
+
 end BEDC.Derived.LimitSelectorUp
