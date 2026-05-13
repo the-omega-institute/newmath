@@ -100,4 +100,32 @@ theorem UnaryDirectionBridgeCarrier_kernel_distinct_obligations [AskSetup] [Pack
     ⟨natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, natAxisBridge,
       bridgeKernelBoundary, provenancePkg, namePkg, nameCert⟩
 
+theorem UnaryDirectionBridgeCarrier_standard_boundary_readout [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name
+      boundaryRead additiveRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      Cont boundary ledger boundaryRead ->
+        Cont boundaryRead routes additiveRead ->
+          PkgSig bundle boundaryRead pkg ->
+            PkgSig bundle additiveRead pkg ->
+              UnaryHistory boundaryRead ∧ UnaryHistory additiveRead ∧
+                Cont bridge kernel boundary ∧ Cont boundary ledger transports ∧
+                  Cont boundary ledger boundaryRead ∧ Cont boundaryRead routes additiveRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle boundaryRead pkg ∧
+                      PkgSig bundle additiveRead pkg := by
+  intro carrier boundaryLedgerRead readRoutesAdditive boundaryReadPkg additiveReadPkg
+  obtain ⟨_natUnary, _axisUnary, _bridgeUnary, _kernelUnary, boundaryUnary, ledgerUnary,
+    _transportsUnary, routesUnary, _provenanceUnary, _nameUnary, _natAxisBridge,
+    bridgeKernelBoundary, boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed boundaryUnary ledgerUnary boundaryLedgerRead
+  have additiveReadUnary : UnaryHistory additiveRead :=
+    unary_cont_closed boundaryReadUnary routesUnary readRoutesAdditive
+  exact
+    ⟨boundaryReadUnary, additiveReadUnary, bridgeKernelBoundary, boundaryLedgerTransports,
+      boundaryLedgerRead, readRoutesAdditive, provenancePkg, boundaryReadPkg, additiveReadPkg⟩
+
 end BEDC.Derived.UnaryDirectionBridgeUp
