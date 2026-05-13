@@ -291,6 +291,38 @@ Use \autoref{thm:uniform-limit-diagonal-window-handoff} for the boundary handoff
 Finally apply \autoref{thm:uniform-limit-non-escape-boundary}. The excluded analytic objects are not carrier coordinates and are not exposed by the continuation or provenance rows. Therefore the Real and completion consumers are confined to the displayed uniform-limit packet.
 \end{proof}
 
+\begin{theorem}[UniformLimit finite window seal exhaustion]
+\label{thm:uniform-limit-finite-window-seal-exhaustion}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitUp$ carrier, and let
+$$
+G=(q,w,r,d,e,h,c,p,n)
+$$
+be an accepted $\RealDiagonalWindowCoverageUp$ carrier. Suppose $w$ is a displayed window of $F$, and suppose $r$ is the $\RegSeqRatUp$ handoff read through $T$. Then every common $\RealUp$ or completion-facing consumer read of the two packets is exhausted by the paired finite route
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E
+$$
+together with
+$$
+q \longmapsto w \longmapsto r \longmapsto d \longmapsto e.
+$$
+Conversely, any read assembled from those two displayed routes, together with the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $U$ and $G$, is an admissible finite seal read for the common endpoint-facing consumer surface. No such read can escape to pointwise-only convergence, quotient function spaces, selected host limits, open-cover compactness, ambient $\RealUp$ completeness, or unbounded diagonal streams.
+\end{theorem}
+\begin{proof}
+First identify the uniform-limit side of the common route. Apply \autoref{thm:uniform-limit-diagonal-window-handoff}: because $w$ is a displayed window of $F$ and $r$ is read through $T$, every diagonal-window endpoint read supplied by $U$ factors through the finite route from $F$ to $E$. Apply \autoref{thm:uniform-limit-shared-threshold-regular-seal} to bind that route to the same shared threshold row $M$, the same tail ledger $T$, the same regular handoff $R$, and the same seal row $S$.
+
+Next transport the route through the displayed classifier surface. By \autoref{thm:uniform-limit-regseq-seal-classifier-scope}, classifier transport of $F,M,T$ carries $R,S,E$ along the same $\hsame$ and $\Cont$ rows already present in $H$ and $C$. Thus the common consumer cannot obtain a second regular-seal route from a pointwise-only witness, a quotient function space, a selected host limit, or an open-cover compactness principle.
+
+Now identify the selected-window side. The theorem \autoref{thm:real-diagonal-window-coverage-selected-window-coverage} forces any $\RealUp$-facing read of $G$ to display $w$ and the dyadic observation ledger $d$ before the seal row $e$ is consumed. The handoff theorem \autoref{thm:real-diagonal-window-coverage-realup-handoff} then routes every completion or continuous-map consumer through $q,w,r,d,e$ and the visible transport, continuation, provenance, and naming rows.
+
+Combining these two finite routes gives the forward exhaustion claim. Apply \autoref{thm:uniform-limit-completion-consumer-boundary} to the $\UniformLimitUp$ packet and the RealDiagonalWindowCoverage handoff just cited to remove every undisplayed common consumer source, including ambient $\RealUp$ completeness and unbounded diagonal streams.
+
+For the converse direction, start with a read assembled from the displayed rows of the two routes. The uniform route is admissible because the accepted carrier $U$ exposes exactly $F,M,T,R,S,E,H,C,P,N$ to endpoint-facing consumers, and the selected-window route is admissible because the accepted carrier $G$ exposes exactly $q,w,r,d,e,h,c,p,n$ to Real-facing consumers. Since the two routes agree at the displayed window $w$ and the handoff row $r$, their assembly is a finite seal read on the common endpoint-facing surface and uses no row outside the two accepted packets.
+\end{proof}
+
 \closureat{UniformLimitUp}{seedStr}
 
 \begin{closurestatus}{\UniformLimitUp}
