@@ -61,3 +61,44 @@ Finally read $S,H,C,K,N$. These rows hand the indexed frontier to synthesis cons
   \notclaimed{This chapter does not close obstruction rows, conditional discharge routes, frontier entries, subject reduction, full closed consistency, ambient confluence, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, family-map readback, frontier-row exactness, obstruction non-escape, synthesis-consumer handoff, transport, continuation, provenance, and naming for the same finite packet.}
 \end{closurestatus}
+
+\begin{definition}[Displayed frontier-index restriction]
+\label{def:audit-map-frontier-index-displayed-restriction}
+Let
+$$
+I=(T,A,E,P,R,O,F,S,H,C,K,N)
+$$
+be an accepted $\AuditMapFrontierIndexUp$ carrier in the sense of \autoref{def:audit-map-frontier-index-carrier} and \autoref{thm:audit-map-frontier-index-namecert-obligations}. A displayed subfamily restriction of $I$ is a finite row $E_0$ together with an inclusion certificate $E_0\subseteq E$ and the coordinatewise retained packet
+$$
+I|_{E_0}=(T,A,E_0,P|_{E_0},R|_{E_0},O|_{E_0},F|_{E_0},S|_{E_0},H|_{E_0},C|_{E_0},K|_{E_0},N|_{E_0}),
+$$
+where each restricted row is obtained by deleting exactly the entries whose neighbouring-map coordinate is not displayed in $E_0$, while keeping the local audit row $A$, the map tag $T$, the local positive row over $A$, and every retained transport, continuation, provenance, and local naming certificate attached to an entry of $E_0$.
+\end{definition}
+
+\begin{theorem}[Audit-map frontier-index neighbouring restriction]
+\label{thm:audit-map-frontier-index-neighbour-restriction}
+Let
+$$
+I=(T,A,E,P,R,O,F,S,H,C,K,N)
+$$
+be an accepted $\AuditMapFrontierIndexUp$ carrier. Let $E_0\subseteq E$ be a displayed finite neighbouring-map subfamily, and suppose the restricted rows
+$$
+P|_{E_0},\ R|_{E_0},\ O|_{E_0},\ F|_{E_0},\ S|_{E_0},\ H|_{E_0},\ C|_{E_0},\ K|_{E_0},\ N|_{E_0}
+$$
+retain exactly the positive rows, conditional route rows, obstruction rows, frontier rows, synthesis-consumer rows, transports, continuations, provenance, and local $\NameCert$ rows whose neighbouring-map coordinate lies in $E_0$, while retaining the same local audit row $A$ and map tag $T$. Then the displayed restriction
+$$
+I|_{E_0}=(T,A,E_0,P|_{E_0},R|_{E_0},O|_{E_0},F|_{E_0},S|_{E_0},H|_{E_0},C|_{E_0},K|_{E_0},N|_{E_0})
+$$
+is an accepted $\AuditMapFrontierIndexUp$ carrier for the restricted neighbouring-map row. Moreover, if a neighbouring map $e$ is not displayed in $E_0$, then $e$ supplies no frontier entry of $I|_{E_0}$ and no synthesis consumer of $I|_{E_0}$ can read $e$ as a frontier source.
+\end{theorem}
+\begin{proof}
+By \autoref{def:audit-map-frontier-index-carrier}, an $\AuditMapFrontierIndexUp$ carrier is exhausted by the twelve displayed rows $T,A,E,P,R,O,F,S,H,C,K,N$. The restriction keeps the map tag $T$ and local audit row $A$, replaces only the neighbouring-map row $E$ by the displayed finite row $E_0$, and restricts every row whose entries are indexed by neighbouring maps to those coordinates lying in $E_0$. Since $E_0$ is finite and every retained coordinate is a coordinate already present in the finite packet $I$, the displayed tuple $I|_{E_0}$ is again finite $\BHist$ data.
+
+It remains to check that the five local $\NameCert_{\AuditMapFrontierIndexUp}$ obligations of \autoref{thm:audit-map-frontier-index-namecert-obligations} survive this deletion. Carrier admission has just been checked by finite subrow formation. Family-map readback is local in $T,A,E$: after restriction the readback row is $T,A,E_0$, and each neighbour named there is named because $E_0\subseteq E$. Frontier-row exactness is also coordinatewise: $F|_{E_0}$ is read only as the displayed frontier row associated to $A,E_0,P|_{E_0},R|_{E_0},O|_{E_0}$, because no other frontier coordinate is inserted by the restriction.
+
+For obstruction non-escape, inspect the retained obstruction and continuation rows. The row $O|_{E_0}$ is the only obstruction row of the restricted packet, and $C|_{E_0}$ contains only the displayed routes from the local map to neighbours in $E_0$, from retained conditional rows to their named routes, from retained obstruction rows to retained frontier rows, and from retained frontier rows to retained synthesis consumers. Thus a consumer of $I|_{E_0}$ cannot bypass $O|_{E_0}$, cannot discharge $O|_{E_0}$ through a deleted neighbour, and cannot read $F|_{E_0}$ as a proof of the obstruction.
+
+For synthesis-consumer handoff, the consumer row is exactly $S|_{E_0}$, and its available data are exactly the retained frontier row, retained neighbouring-map links, retained transports $H|_{E_0}$, retained continuations $C|_{E_0}$, retained provenance $K|_{E_0}$, and retained local name $N|_{E_0}$. Hence the restricted packet satisfies the same five obligations with $E_0$ in place of $E$, so it is an accepted frontier index.
+
+Finally let $e$ be a neighbouring map not displayed in $E_0$. A frontier entry of $I|_{E_0}$ must occur in the sole frontier coordinate $F|_{E_0}$, and every such coordinate was retained only when its neighbouring-map coordinate lay in $E_0$. Likewise every synthesis read in $I|_{E_0}$ factors through $S|_{E_0}$ and $C|_{E_0}$, whose entries were retained only over $E_0$. Therefore $e$ has no coordinate in the restricted frontier row and no displayed continuation into a restricted synthesis consumer, so it cannot supply a frontier entry of $I|_{E_0}$.
+\end{proof}
