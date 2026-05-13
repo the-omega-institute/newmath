@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\QuadrantSubstrateUp$}
+\label{ch:concrete-instances-quadrantsubstrate-namecert}
+\origin{ai}
+
+The $\QuadrantSubstrateUp$ packet realizes the two-axis quadrant map of \autoref{ch:visions-closure-universality-quadrant} as a finite substrate-classifier certificate. It sits beside the cellular automaton substrate of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the trust packet of \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}, the orbit packet of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, and the obstruction ledger of \autoref{ch:concrete-instances-haltingobstruction-namecert}. Its public role is the finite locator that records which quadrant a displayed substrate inhabits without turning that locator into host substrate equality.
+
+\falsifiablePrediction{A substrate read that changes either the universality-axis row or the closure-axis row without changing the quadrant locator is outside the certificate.}
+
+\independenceWitness{Nearest siblings: cellularautomaton, cellulartrustsubstrate, cellularorbitsubstrate, and haltingobstruction; none is bijective because those siblings carry a single substrate or obstruction surface while $\QuadrantSubstrateUp$ carries a two-axis locator plus contrast ledger.}
+
+\begin{definition}[QuadrantSubstrate NameCert carrier]
+\label{def:quadrant-substrate-namecert-carrier}
+A $\QuadrantSubstrateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(U,K,L,S,C,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the universality-axis row, recording whether the substrate read is universal or subuniversal in the sense of \autoref{def:quadrant-universality-axis};
+\item $K$ is the closure-axis row, recording whether the same substrate read is closed or open in the sense of \autoref{def:quadrant-closure-axis};
+\item $L$ is the quadrant locator, one of universal-and-closed, universal-and-open, subuniversal-and-closed, or subuniversal-and-open, read from the ordered pair $(U,K)$;
+\item $S$ is the substrate witness whose local evidence supplies the row inspected by the locator;
+\item $C$ is the contrast ledger separating the four displayed cells and recording which adjacent cell would be reached by changing exactly one axis row;
+\item $H$ records componentwise $\hsame$ transport for $U,K,L,S,C,R,P,N$;
+\item $R$ records the displayed $\Cont$ routes that replay the two axis reads, the locator read, and the contrast-ledger read;
+\item $P$ is the $\Pkg$ provenance over $\CellularAutomatonUp$, $\CellularTrustSubstrateUp$, $\CellularOrbitSubstrateUp$, $\HaltingObstructionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\QuadrantSubstrateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for deriving $U$ from $K$, deriving $K$ from $U$, replacing $L$ by host equality of substrates, or hiding an open observation channel behind a closed-row name.
+\end{definition}
+
+\begin{theorem}[QuadrantSubstrate axis classifier totality]
+\label{thm:quadrant-substrate-axis-classifier-totality}
+Every accepted $\QuadrantSubstrateUp$ packet lands in exactly one displayed quadrant by the pair $(U,K)$. The four cases are universal-and-closed, universal-and-open, subuniversal-and-closed, and subuniversal-and-open; no case is selected by host substrate equality or by identifying the substrate witness $S$ with a sibling carrier.
+\end{theorem}
+\begin{proof}
+Inspect the two axis rows displayed in \autoref{def:quadrant-substrate-namecert-carrier}. The row $U$ has the two finite readings universal and subuniversal, and the row $K$ has the two finite readings closed and open.
+
+The quadrant locator $L$ is defined as the product read of those two rows. Thus the finite inspection has four possible outcomes: $(\mathsf{universal},\mathsf{closed})$, $(\mathsf{universal},\mathsf{open})$, $(\mathsf{subuniversal},\mathsf{closed})$, and $(\mathsf{subuniversal},\mathsf{open})$.
+
+Exactness follows because the contrast ledger $C$ records the adjacent-cell changes and the route row $R$ replays the same two axis reads. Changing either axis changes the admissible locator, while leaving both axes fixed leaves one displayed cell.
+
+No host substrate equality is consulted in this inspection. The witness row $S$ supplies the substrate evidence, but the accepted cell is selected by $(U,K)$ and transported componentwise by $H$, not by a global equality between $\QuadrantSubstrateUp$ and any sibling certificate.
+\end{proof}
+
+\begin{theorem}[QuadrantSubstrate NameCert obligations]
+\label{thm:quadrant-substrate-namecert-obligations}
+For the carrier of \autoref{def:quadrant-substrate-namecert-carrier}, the local $\NameCert_{\QuadrantSubstrateUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item carrier exposure for $Q=(U,K,L,S,C,H,R,P,N)$;
+\item axis classifier totality through the finite pair $(U,K)$;
+\item quadrant locator exactness through $L$ and the displayed replay routes $R$;
+\item contrast-ledger non-escape through $C$, excluding axis collapse and hidden substrate equality;
+\item local provenance through $P$ and $N$ over the listed sibling surfaces and BEDC kernel rows.
+\end{enumerate}
+These rows are sufficient to cite the two-axis quadrant classifier as a $\QuadrantSubstrateUp$ NameCert packet, and no additional substrate-oracle, halting decision, infinite closure, or quotient equality row is exported.
+\end{theorem}
+\begin{proof}
+Carrier exposure is direct projection from the packet coordinates. The finite rows $U,K,L,S,C,H,R,P,N$ are the entire displayed surface, so every accepted public read begins by naming one of those coordinates.
+
+Axis classifier totality is \autoref{thm:quadrant-substrate-axis-classifier-totality}. The local certificate therefore has a total four-cell locator for every accepted packet, with the value fixed by $(U,K)$.
+
+Locator exactness is supplied by $L$ and replayed by $R$. The route row checks that the accepted locator is the same finite product read of the universality row and the closure row, rather than a name imported from the witness substrate.
+
+The contrast ledger gives non-escape. Since $C$ records the one-axis moves between adjacent cells, a consumer cannot change an axis row while keeping the old locator, collapse the two axes, or replace the finite row comparison by host substrate equality.
+
+Finally, $P$ and $N$ bind the local certificate to the named sibling surfaces and to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The packet contains no row for an oracle computation, no global halting classifier, no infinite closure ratifier, and no quotient equality of substrate names, so the five listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+Lean \texttt{BEDC/Derived/QuadrantSubstrateUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \QuadrantSubstrateUp$ and $\mathsf{FieldFaithful}\ \QuadrantSubstrateUp$ instances with explicit \texttt{witness\_pair} and constructor-field injection proofs for the two-axis locator carrier.
+
+\closureat{QuadrantSubstrateUp}{seedStr}
