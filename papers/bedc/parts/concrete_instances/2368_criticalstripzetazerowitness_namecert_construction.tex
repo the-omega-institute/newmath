@@ -159,6 +159,24 @@ Apply the existing shared-source scope and source-route exhaustion statements. T
 The package and local naming rows $P,N$ record the finite provenance of that comparison. Since the packet has no coordinate for host complex equality, quotient zero-set equality, selected representatives, or analytic source selection, the shared source is bound only by $S,Z,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[CriticalStripZetaZero witness scope binding]
+\label{thm:critical-strip-zeta-zero-witness-scope-binding}
+Every scoped read of an accepted $\CriticalStripZetaZeroWitnessUp$ packet
+$$
+W=(S,Z,L,B,H,C,P,N)
+$$
+binds the strip row $S$, zero row $Z$, critical-line row $L$, boundary ledger $B$, transports $H$, continuations $C$, provenance $P$, and local name $N$ to the displayed $\ComplexUp$, $\CritStripUp$, $\ZetaZerosUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surfaces already present in the packet. The scoped read supplies no analytic zero search, quotient zero-set equality, host complex equality, selected representative, or proof of RH.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and the local NameCert obligations. They identify an accepted witness as the finite packet $S,Z,L,B,H,C,P,N$ and require every RH-facing handoff to read those rows through the displayed BEDC surfaces.
+
+Use shared-source binding for the premise rows. The strip row $S$ and zero row $Z$ can be compared only through the stored $\hsame$ transports and $\Cont$ routes, so a scoped read binds them to $\ComplexUp$, $\CritStripUp$, and $\ZetaZerosUp$ without producing host complex equality or a selected representative.
+
+Use line-route determinacy and the RH input ledger for the conclusion-facing rows. The critical-line row $L$ and boundary ledger $B$ remain attached to $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ through the same packet rows, so the route cannot be replaced by a zero search or quotient zero-set equality.
+
+Finally apply premise exhaustion. The RH-facing consumer receives exactly the finite premise packet, while any proof or refutation of RH must be supplied by an additional accepted BEDC row outside this witness surface.
+\end{proof}
+
 \begin{theorem}[CriticalStripZetaZero line boundary routing]
 \label{thm:critical-strip-zeta-zero-line-boundary-routing}
 Let $W=(S,Z,L,B,H,C,P,N)$ be an accepted $\CriticalStripZetaZeroWitnessUp$ packet. Every read of the critical-line row $L$ is routed only after the strip row $S$ and the zero row $Z$ have been exposed, and the read is authenticated by the boundary ledger $B$, displayed $\hsame$ transports $H$, continuation routes $C$, package row $P$, and local $\NameCert_{\CriticalStripZetaZeroWitnessUp}$ row $N$.
