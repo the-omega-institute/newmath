@@ -640,6 +640,22 @@ limits, countable choice, host equality, hidden tail oracles, or ambient
 completeness, so those objects cannot enter through the tail-meet handoff.
 \end{proof}
 
+\begin{theorem}[Diagonal tail selector TailCofinalitySchedule factorization]
+\label{thm:diagonal-tail-selector-tail-cofinality-factorization}
+For every accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+each Real-seal consumer of $S$ factors first through the $\TailCofinalityScheduleUp$ route from unary precision to finite window, dyadic ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal before using the diagonal selector rows. Thus the consumer reads the precision request and finite-window schedule before it uses $k,W,D,T,S,H,C,P,N$ as the diagonal completion-facing packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. It orders the schedule-facing route from the unary precision row through the finite $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal.
+
+Apply \autoref{thm:diagonal-tail-selector-limit-handoff}. It identifies the diagonal Real-completion consumer with the finite packet $R,n,\mu,k,W,D,T,S,H,C,P,N$, so the schedule route is consumed before the selector rows are used as a completion-facing package.
+
+Finally use \autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope}. The transported tail-meet rows remain inside the same displayed source, window, dyadic, regular-rational, seal, transport, route, provenance, and naming surface. Hence the factorization has no escape channel through quotient streams, selected limits, countable choice, ambient completeness, host real equality, or hidden tail oracles.
+\end{proof}
+
 \begin{theorem}[Diagonal tail selector Real seal boundary scope]
 \label{thm:diagonal-tail-selector-real-seal-boundary-scope}
 For every accepted $\DiagonalTailSelectorUp$ packet
