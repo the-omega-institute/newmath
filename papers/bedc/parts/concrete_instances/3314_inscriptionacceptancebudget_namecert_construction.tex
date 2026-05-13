@@ -4,6 +4,8 @@
 
 The $\InscriptionAcceptanceBudgetUp$ surface isolates the accepted-check and downstream consumer-budget part of an inscription event. It names the finite public packet by which a prior source state reaches a named record through a route witness, receives an accepted check, spends only the displayed consumer budget, and leaves the remaining $\mathsf{GAP}$ residue visible to later audit.
 
+This packet consumes the route-witness and accepted-record rows of \autoref{ch:concrete-instances-inscriptionevent-namecert} together with the visible GAP-residue ledger of \autoref{ch:concrete-instances-inscription-gap-ledger-namecert}. The source, name, route, and check rows come from $\InscriptionEventUp$, while the residue row $Q$ is the $\InscriptionGapLedgerUp$ boundary consumed by this budget packet.
+
 \begin{definition}[InscriptionAcceptanceBudget carrier]
 \label{def:inscription-acceptance-budget-carrier}
 An $\InscriptionAcceptanceBudgetUp$ carrier is a finite $\BHist$ packet
