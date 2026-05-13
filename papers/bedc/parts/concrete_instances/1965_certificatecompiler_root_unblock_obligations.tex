@@ -1,0 +1,116 @@
+\begin{theorem}[CertificateCompiler root landing obligation]
+\label{thm:certificate-compiler-root-landing-obligation}
+Every root consumer of an accepted $\CertificateCompilerUp$ packet
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+must first read the source $\NameCert$ endpoint row $S$, the target
+$\NameCert$ endpoint row $T$, the displayed compiler graph $G$, and the
+edge-landing row $E$. The consumer may treat a displayed graph edge as
+landed only after $S$ supplies the source carrier and classifier row, $T$
+supplies the target carrier and classifier row, $G$ supplies the finite edge,
+and $E$ records that the edge starts in the carrier named by $S$ and lands in
+the carrier named by $T$.
+
+No root consumer can obtain a landing witness from host compiler equality,
+ambient program equivalence, optimizer correctness, decompiler behavior, or an
+unrecorded target behavior outside the rows $S,T,G,E$.
+\end{theorem}
+\begin{proof}
+Unfold the carrier in \autoref{def:certificate-compiler-carrier}. Its first
+four rows are exactly the source endpoint certificate $S$, the target endpoint
+certificate $T$, the displayed compiler graph $G$, and the edge-landing row
+$E$.
+
+Use the classifier definition in
+\autoref{def:certificate-compiler-classifier}. Even a paired-edge comparison
+begins by reading the source classifier row in $S$ and the target landing row
+in $T$, so classification cannot precede endpoint availability.
+
+Apply \autoref{thm:certificate-compiler-namecert-obligations}. Its carrier
+landing obligation is the finite row assertion that every edge of $G$ reads a
+source row admitted by $S$ and lands in a target row admitted by $T$ through
+$E$.
+
+The carrier has no coordinate for host compiler equality or ambient program
+equivalence. Therefore a root consumer that consumes landing data is forced
+through the displayed $S,T,G,E$ rows and cannot source a landing witness
+elsewhere.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler root classifier transport obligation]
+\label{thm:certificate-compiler-root-classifier-transport-obligation}
+For every accepted $\CertificateCompilerUp$ packet
+$$
+K=(S,T,G,E,C,H,P,N),
+$$
+paired-edge classifier transport is exhausted by the source and target
+endpoint rows $S,T$, the componentwise $\hsame$ transport row $H$, and the
+continuation row $C$. A root consumer may compare two displayed graph edges
+only by sharing the source classifier row in $S$, landing through $T$, moving
+the target classifier row through $H$, and following the paired $\Cont$ routes
+recorded in $C$.
+
+The transport obligation does not admit host compiler equality, source program
+equivalence, target program equivalence, or an external semantic relation as a
+classifier witness.
+\end{theorem}
+\begin{proof}
+Unfold \autoref{def:certificate-compiler-carrier}. The transport-relevant rows
+available to a root consumer are the endpoint certificates $S,T$, the
+componentwise transport row $H$, and the continuation compatibility row $C$,
+with $G$ and $E$ only displaying the edges whose classifiers are compared.
+
+Now unfold \autoref{def:certificate-compiler-classifier}. It defines
+compatibility for paired graph edges by a common source classifier row, a
+target landing, componentwise $\hsame$ transport, and paired continuation
+routes. These are precisely the rows $S,T,H,C$ named in the statement.
+
+Apply the classifier-transport clause of
+\autoref{thm:certificate-compiler-namecert-obligations}. That clause permits
+transport from the source classifier row to the target classifier row only by
+the displayed finite-row data already carried by the packet.
+
+Since neither the carrier nor the classifier contains host compiler equality
+or a program-equivalence coordinate, a root consumer cannot certify paired
+edges by such an external equality. The finite row surface $S,T,H,C$ exhausts
+classifier transport.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler root continuation route obligation]
+\label{thm:certificate-compiler-root-continuation-route-obligation}
+Every downstream root consumer of an accepted $\CertificateCompilerUp$ packet,
+including $\CertificatePipelineStageBoundaryUp$, $\KernelMorphismUp$, and
+$\DecompilerRightInverseUp$, reads continuation compatibility only through the
+displayed $\Cont$ row $C$, the package provenance row $P$, and the local
+$\NameCert_{\CertificateCompilerUp}$ row $N$ together with the endpoint
+$\NameCert$ rows $S,T$. The consumer route factors through the recorded source
+and target continuation pair, the named package surface, and the local
+certificate row; it does not factor through an unstated compiler semantics or
+decompiler correctness theorem.
+\end{theorem}
+\begin{proof}
+Unfold the carrier in \autoref{def:certificate-compiler-carrier}. The only
+continuation coordinate is $C$, and the rows that publish it to downstream
+consumers are the provenance row $P$ and the local naming row $N$ over the
+endpoint certificates $S,T$.
+
+Use \autoref{def:certificate-compiler-classifier}. Its paired-edge comparison
+does not stop at landing; it also reads the source and target $\Cont$ routes
+recorded in $C$, so any classifier-compatible downstream route has already
+passed through the displayed continuation row.
+
+Apply \autoref{thm:certificate-compiler-namecert-obligations}. The
+continuation-compatibility clause states that each source route used by a
+graph edge is paired in $C$ with the target route followed after compiling,
+while the package and local naming rows can only repack these displayed
+obligations.
+
+The three named root consumers each read a different downstream surface:
+pipeline-stage boundaries read adjacent compiler routes, kernel morphisms read
+source-to-target preservation, and decompiler right-inverse packets read the
+compiler/decompiler interface. In all three cases the available route data are
+the finite rows $C,P,N,S,T$ and the local $\NameCert$ obligations, so no
+unstated compiler semantics or decompiler correctness theorem can enter the
+continuation route.
+\end{proof}
