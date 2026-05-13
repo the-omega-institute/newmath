@@ -102,4 +102,20 @@ def GeneratorClosureClassifier.iterate {α : Type u}
         have hz : Classifier z := h.closure hgz hclass
         exact (iterate h n).closure hzy hz }
 
+/-- Generator-closure classifier on a product carrier:
+    closure under componentwise generator preserves the conjoined classifier. -/
+def GeneratorClosureClassifier.product {α β : Type u}
+    {Ga : α → α → Prop} {Gb : β → β → Prop}
+    {Ca : α → Prop} {Cb : β → Prop}
+    (ha : GeneratorClosureClassifier α Ga Ca)
+    (hb : GeneratorClosureClassifier β Gb Cb) :
+    GeneratorClosureClassifier (α × β)
+      (fun p1 p2 => Ga p1.1 p2.1 ∧ Gb p1.2 p2.2)
+      (fun p => Ca p.1 ∧ Cb p.2) :=
+  { closure := by
+      intro x y hgen hclass
+      obtain ⟨hga, hgb⟩ := hgen
+      obtain ⟨hca, hcb⟩ := hclass
+      exact ⟨ha.closure hga hca, hb.closure hgb hcb⟩ }
+
 end BEDC.MetaCIC
