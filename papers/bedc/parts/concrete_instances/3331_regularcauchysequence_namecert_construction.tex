@@ -1,0 +1,143 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySequenceUp$}
+\label{ch:concrete-instances-regularcauchysequence-namecert}
+\origin{human}
+
+The $\RegularCauchySequenceUp$ packet records the finite family data that feeds the Real completeness diagonal-limit handoff before a $\RealUp$ seal is formed. It keeps the regular Cauchy family, explicit modulus, selected finite windows, dyadic readback ledger, $\RegSeqRatUp$ rows, and downstream $\RealDiagonalWindowCoverageUp$ coverage in one local naming certificate. The packet is a concrete family carrier for the Real and Completion substrate; it is not a quotient regular sequence, a chosen completed real, or an ambient completeness principle.
+
+\begin{definition}[Regular Cauchy sequence carrier]
+\label{def:regular-cauchy-sequence-carrier}
+A $\RegularCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite regular Cauchy family row whose members are read as rational regular sequences;
+\item $\mu$ is the explicit modulus row assigning finite tail bounds to the family requests;
+\item $W$ is the selected-window row, listing the finite $\StreamNameUp$ windows used for the requested precisions;
+\item $D$ is the $\DyadicRatCoreUp$ readback ledger containing the dyadic endpoints, radii, comparisons, and tolerance rows used by the selected windows;
+\item $R$ is the $\RegSeqRatUp$ readback row that presents each selected window as regular rational sequence data;
+\item $G$ is the $\RealDiagonalWindowCoverageUp$ coverage row stating that the selected windows cover exactly the finite diagonal reads consumed by the handoff;
+\item $E$ is the $\RealUp$ seal handoff row reached after $F,\mu,W,D,R,G$ have been displayed;
+\item $H$ records componentwise $\hsame$ transports for the family, modulus, selected windows, dyadic ledger, regular readbacks, coverage row, handoff row, provenance, and local name;
+\item $C$ records the displayed $\Cont$ routes from the family request through the modulus, windows, dyadic ledger, regular readback, diagonal-window coverage, and $\RealUp$ handoff;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchySequenceUp}$ row.
+\end{enumerate}
+The carrier contains no quotient equality on regular sequences, no host real equality, no selected external limit, no countable-choice data, and no ambient completeness theorem.
+\end{definition}
+
+\begin{definition}[Regular Cauchy sequence classifier]
+\label{def:regular-cauchy-sequence-classifier}
+Two $\RegularCauchySequenceUp$ carriers
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+\quad\text{and}\quad
+S'=(F',\mu',W',D',R',G',E',H',C',P',N')
+$$
+are classified together exactly when their displayed family rows, modulus rows, selected windows, dyadic readback ledgers, $\RegSeqRatUp$ rows, $\RealDiagonalWindowCoverageUp$ rows, $\RealUp$ handoff rows, componentwise transports, continuation routes, package provenance, and local NameCert rows are matched by the corresponding $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence carried in the packets.
+
+The classifier is finite and rowwise. It does not identify quotient representatives of regular Cauchy sequences and does not compare completed reals outside the displayed handoff row.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy sequence window regularity]
+\label{thm:regular-cauchy-sequence-window-regularity}
+For an accepted $\RegularCauchySequenceUp$ carrier
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N),
+$$
+every selected window in $W$ is regular for the family row $F$ at the precision named by the explicit modulus row $\mu$. Its rational observations are read through the $\DyadicRatCoreUp$ ledger $D$ and repacked by the $\RegSeqRatUp$ row $R$ before the coverage row $G$ may expose the read to the diagonal-limit handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:regular-cauchy-sequence-carrier}. The only rows that can name regular-family observations are $F,\mu,W,D,R,G$.
+
+The selected-window row $W$ is reached from the family request only through the displayed continuation route in $C$ and the explicit modulus row $\mu$. Thus a window has no independent precision source.
+
+The rational observations then pass through $D$ and $R$. The coverage row $G$ can expose only those reads, so regularity at the handoff boundary is the finite rowwise regularity recorded by the carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sequence NameCert obligations]
+\label{thm:regular-cauchy-sequence-namecert-obligations}
+The local $\NameCert_{\RegularCauchySequenceUp}$ surface for \autoref{def:regular-cauchy-sequence-carrier} has five finite obligations:
+\begin{enumerate}
+\item carrier admission for $S=(F,\mu,W,D,R,G,E,H,C,P,N)$;
+\item classifier stability for the family row $F$, explicit modulus $\mu$, selected windows $W$, dyadic ledger $D$, regular readback row $R$, coverage row $G$, and $\RealUp$ handoff row $E$;
+\item selected-window regularity, requiring every window read to use the bound supplied by $\mu$ and the rational observations recorded by $D$ and $R$;
+\item diagonal-window coverage, requiring the $\RealDiagonalWindowCoverageUp$ row $G$ to expose exactly the finite selected reads consumed by the handoff;
+\item package closure, requiring all exported routes to pass through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple assembly of \autoref{def:regular-cauchy-sequence-carrier}. The displayed coordinates name the family, modulus, windows, dyadic ledger, readbacks, coverage row, handoff row, transports, continuations, provenance, and local certificate.
+
+Classifier stability is componentwise. Apply the classifier of \autoref{def:regular-cauchy-sequence-classifier} to transport $F,\mu,W,D,R,G,E$ through $H$ while preserving the continuation routes and provenance rows $C,P,N$.
+
+Selected-window regularity follows from \autoref{thm:regular-cauchy-sequence-window-regularity}. The modulus row supplies the finite tail bound, and the dyadic and regular readback rows supply the only rational observations visible to a window.
+
+The coverage and package clauses are projections of $G,H,C,P,N$. Since no other coordinate is present, the certificate exports only the finite selected-window surface needed by the diagonal-limit handoff.
+\end{proof}
+
+\begin{lemma}[Regular Cauchy sequence no-escape]
+\label{lem:regular-cauchy-sequence-non-escape}
+An accepted $\RegularCauchySequenceUp$ packet exports only the rows
+$$
+F,\mu,W,D,R,G,E,H,C,P,N.
+$$
+Every consumer of its regular Cauchy family data factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed in the packet. It exports no quotient regular-sequence class, no host equality on completed reals, no selected external limit, no choice principle, and no ambient completeness theorem.
+\end{lemma}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:regular-cauchy-sequence-carrier}. The only mathematical rows are the family, modulus, selected windows, dyadic ledger, regular readback, coverage row, and $\RealUp$ handoff.
+
+The structural rows $H,C,P,N$ record transport, continuation, provenance, and naming discipline for those same coordinates. There is no coordinate for quotient regular-sequence equality, host real equality, external limit selection, choice, or completeness.
+
+Therefore any consumer route must factor through the displayed finite packet. The excluded objects cannot be exported because the carrier never provides them.
+\end{proof}
+
+\begin{lemma}[Regular Cauchy sequence transport stability]
+\label{lem:regular-cauchy-sequence-transport-stability}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+and
+$$
+S'=(F',\mu',W',D',R',G',E',H,C,P,N)
+$$
+be accepted $\RegularCauchySequenceUp$ packets whose family, modulus, selected-window, dyadic-ledger, regular-readback, coverage, and handoff rows are related by the displayed $\hsame$ transports named in the shared $H$ row. Then both packets present the same public selected-window surface to every downstream $\RealDiagonalWindowCoverageUp$ and $\RealUp$ consumer using the shared $C,P,N$ route.
+\end{lemma}
+\begin{proof}
+Use \autoref{def:regular-cauchy-sequence-classifier}. The displayed $\hsame$ rows relate exactly the data coordinates $F,\mu,W,D,R,G,E$ and leave the continuation, provenance, and local naming rows shared.
+
+Apply \autoref{thm:regular-cauchy-sequence-namecert-obligations}. Its classifier-stability and selected-window regularity clauses keep each transported window tied to the transported modulus, dyadic ledger, and regular readback row.
+
+The coverage row $G$ and its transported counterpart $G'$ expose the same finite diagonal-window reads through the shared route $C,P,N$. Hence the downstream $\RealDiagonalWindowCoverageUp$ and $\RealUp$ views classify the handoff by the same finite selected-window surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sequence RealUp seal handoff]
+\label{thm:regular-cauchy-sequence-realseal-handoff}
+For every accepted $\RegularCauchySequenceUp$ carrier
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N),
+$$
+the $\RealUp$ row $E$ is reachable only after the regular family $F$, modulus $\mu$, selected windows $W$, dyadic ledger $D$, $\RegSeqRatUp$ readback row $R$, and $\RealDiagonalWindowCoverageUp$ coverage row $G$ have been displayed. Every diagonal-limit handoff read factors through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows and cannot bypass the finite selected-window packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-sequence-namecert-obligations}. The selected-window regularity and diagonal-window coverage clauses bind every handoff read to $F,\mu,W,D,R,G$ before the seal row is consumed.
+
+Use \autoref{lem:regular-cauchy-sequence-transport-stability}. Transporting the selected-window packet preserves the public surface seen by $\RealDiagonalWindowCoverageUp$ and $\RealUp$ consumers, so the handoff is stable under the displayed $\hsame$ rows.
+
+Finally apply \autoref{lem:regular-cauchy-sequence-non-escape}. Since no quotient sequence, host real equality, selected external limit, choice principle, or ambient completeness theorem is present, the $\RealUp$ row $E$ is the finite seal handoff produced by the displayed packet alone.
+\end{proof}
+
+\closureat{RegularCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySequenceUp}
+  \constructivestory{A $\RegularCauchySequenceUp$ packet is generated from a finite regular Cauchy family row, explicit modulus, selected StreamName windows, a DyadicRatCore readback ledger, RegSeqRat readbacks, RealDiagonalWindowCoverage coverage, a RealUp handoff row, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-sequence-carrier}, \autoref{def:regular-cauchy-sequence-classifier}, \autoref{thm:regular-cauchy-sequence-window-regularity}, \autoref{thm:regular-cauchy-sequence-namecert-obligations}, \autoref{lem:regular-cauchy-sequence-non-escape}, \autoref{lem:regular-cauchy-sequence-transport-stability}, and \autoref{thm:regular-cauchy-sequence-realseal-handoff} bind the seed carrier, rowwise classifier, finite selected-window obligations, transport discipline, non-escape boundary, and RealUp handoff surface for regular Cauchy family data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, RealUp completeness, quotient equality of regular Cauchy sequences, host real equality, selected external limits, choice, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, selected-window regularity, diagonal-window coverage, RealUp handoff, provenance, and non-escape for the same RegularCauchySequenceUp packet.}
+\end{closurestatus}
