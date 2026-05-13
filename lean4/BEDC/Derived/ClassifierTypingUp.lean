@@ -200,4 +200,26 @@ theorem ClassifierTypingCarrier_reduction_route_ledger_exhaustion [AskSetup] [Pa
       termMembership, termReductionSignature, signatureRoutesTarget, signatureRoutesAnswer,
       termSignature, provenancePkg, targetPkg, sameAnswerTarget⟩
 
+theorem ClassifierTypingCarrier_kernel_scope_binding [AskSetup] [PackageSetup]
+    {term membership reduction signature transport routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierTypingCarrier term membership reduction signature transport routes provenance name
+        bundle pkg ->
+      UnaryHistory term ∧ UnaryHistory membership ∧ UnaryHistory reduction ∧
+        UnaryHistory signature ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+          UnaryHistory provenance ∧ UnaryHistory name ∧ Ext term BMark.b0 membership ∧
+            Cont term reduction signature ∧ Cont membership routes name ∧
+              SigRel bundle term signature ∧ PkgSig bundle provenance pkg ∧
+                hsame name name := by
+  -- BEDC touchpoint anchor: BHist Ext Cont SigRel Pkg hsame
+  intro carrier
+  obtain
+    ⟨termUnary, membershipUnary, reductionUnary, signatureUnary, transportUnary,
+      routesUnary, provenanceUnary, nameUnary, termMembership, termReductionSignature,
+      membershipRoutesName, termSignature, provenancePkg⟩ := carrier
+  exact
+    ⟨termUnary, membershipUnary, reductionUnary, signatureUnary, transportUnary,
+      routesUnary, provenanceUnary, nameUnary, termMembership, termReductionSignature,
+      membershipRoutesName, termSignature, provenancePkg, hsame_refl name⟩
+
 end BEDC.Derived.ClassifierTypingUp
