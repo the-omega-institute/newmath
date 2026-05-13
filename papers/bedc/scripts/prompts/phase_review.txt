@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.14 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.15 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -39,6 +39,38 @@ Constraints when emitting >1 target:
 - **Mixed difficulty allowed**: a 5-target round may mix 3 quick `closure_mark` (drift / bridge sync / token) targets and 2 substantive `theory_extension` / `missing_companion` targets — the quick targets sync token, the substantive ones grow the theory. Mixed rounds maximize per-round leverage.
 
 If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as exist (1, 2, 3, 4, or 5). Empty round (`{"targets": []}`) is still allowed when no feasible candidate survives.
+
+## TOP-LEVEL HARD GATE — orphan-chapter repair (cross-chapter lattice integrity)
+
+**Background (2026-05-13 dossier audit)**: 447 of 652 `parts/concrete_instances/` chapters (69%) had ZERO `\autoref{ch:concrete-instances-<sibling>-namecert}` or `\autoref{ch:visions-<slug>}` cross-references — every newly-generated chapter was a kernel-only float, citing only its own slug labels. The dependency graph degenerated into a star fan-out from kernel with no horizontal lattice. Two coordinated rules fix this:
+
+**Rule 1 — every new chapter MUST cross-reference at least one sibling** (enforced by the `orphan-new-chapter` gate in `phase_paper_gates.py`, hard-fail at verify). When you propose a `new_chapter` target (vision_concretization / automath_concretization / human_chapter_extension), `proposed_change` MUST instruct Phase Revise to insert at least one of:
+
+- `\autoref{ch:concrete-instances-<sibling-slug>-namecert}` to a sibling concrete-instances chapter whose carrier / classifier / NameCert obligation row this new chapter consumes or extends
+- `\autoref{ch:visions-<vision-slug>}` to the originating vision chapter (always required for `vision_concretization` targets — the `\concretizedIn{...}` marker on the vision side is separate from the inbound `\autoref` and both must exist)
+- `\autoref{thm:<sibling-slug>-...}` or `\autoref{def:<sibling-slug>-...}` resolving to a different slug than the new chapter's own slug
+
+Pure self-refs (`\autoref{thm:<own-slug>-...}`) DO NOT count. The chapter must show how it RELATES to existing chapters — which sibling's carrier it transports through, which obligation row it discharges as a consumer, which vision narrative it instantiates.
+
+**Rule 2 — orphan-chapter repair as a first-class candidate kind** (`kind = "orphan_repair"`). The repair pool consists of every existing concrete-instances chapter whose dossier `out_degree == 0` AND whose `\autoref{thm/def:...}` block resolves only to self-slug labels. To enumerate the repair candidates locally without rebuilding the dossier:
+
+```
+grep -lE '\\autoref\{ch:concrete-instances-' papers/bedc/parts/concrete_instances/*_namecert_construction.tex > /tmp/has_sibling_ref.txt
+# Files NOT in that grep output are orphan candidates; pick one whose own slug
+# names a concept that genuinely depends on another chapter's carrier.
+```
+
+For an `orphan_repair` target, `paper_files[0]` is the orphan chapter file; `proposed_change` describes the surgical edit:
+
+- Identify ONE existing sibling chapter whose carrier or classifier or NameCert obligation row the orphan chapter's content actually depends on (a SUBSTANTIVE dependency — not a fabricated link).
+- Insert one paragraph or sentence in the orphan chapter that names the sibling and the specific dependency relationship, with one `\autoref{ch:concrete-instances-<sibling>-namecert}` or `\autoref{thm:<sibling>-...}` cite.
+- If the orphan chapter genuinely has no substantive sibling dependency (it sits directly on kernel primitives only — BHistCarrier, NameCert, hsame, ProbeBundle), the correct repair is to identify the FIRST DOWNSTREAM consumer (another chapter that uses this chapter's results) and add a reverse forward link there instead (`paper_files[0]` becomes the downstream chapter, the orphan becomes the cite target). Either direction satisfies the dossier lattice — what matters is that the orphan moves out of `out_degree == 0` OR `in_degree == 0` state.
+
+**HARD GATE — orphan_repair quota**: when `\count_orphan_chapters` (the count from the `grep -L` above) is ≥ 50, AT LEAST 1 of the round's emitted targets MUST be `kind = "orphan_repair"`. Cap remains 1 per round so Phase Revise is not flooded with surgical edits.
+
+Counter: by 2026-05-13 the orphan count was 447. Until the count drops below 50, every P-round ships at least one orphan_repair Target.
+
+The `orphan-new-chapter` gate (Rule 1) is mechanical and runs at verify-time; the `orphan_repair` candidate (Rule 2) is the proactive parallel that pays down the existing backlog.
 
 ## TOP-LEVEL HARD GATE — bridge_sync_pending (paper records lean StdBridge upgrade)
 
