@@ -81,4 +81,88 @@ theorem ObserverLocalityCellPacket_paired_gap_transport [AskSetup] [PackageSetup
           · exact unary_transport gapRightUnary sameGapRight
           · exact unary_transport transportUnary sameTransport
 
+theorem ObserverLocalityCellPacket_classifier_stability_obligation [AskSetup] [PackageSetup]
+    {observerLeft observerRight eventLeft eventRight gapLeft gapRight transport continuation
+      provenance nameCert observerLeft' observerRight' eventLeft' eventRight' gapLeft'
+      gapRight' transport' continuation' provenance' nameCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverLocalityCellPacket observerLeft observerRight eventLeft eventRight gapLeft gapRight
+        transport continuation provenance nameCert bundle pkg ->
+      hsame observerLeft observerLeft' ->
+        hsame eventLeft eventLeft' ->
+          hsame observerRight observerRight' ->
+            hsame eventRight eventRight' ->
+              hsame continuation continuation' ->
+                hsame nameCert nameCert' ->
+                  Cont observerLeft' eventLeft' gapLeft' ->
+                    Cont observerRight' eventRight' gapRight' ->
+                      Cont gapLeft' gapRight' transport' ->
+                        Cont transport' continuation' provenance' ->
+                          PkgSig bundle nameCert' pkg ->
+                            ObserverLocalityCellPacket observerLeft' observerRight' eventLeft'
+                                eventRight' gapLeft' gapRight' transport' continuation'
+                                provenance' nameCert' bundle pkg ∧
+                              hsame gapLeft gapLeft' ∧ hsame gapRight gapRight' ∧
+                                hsame transport transport' ∧ hsame provenance provenance' := by
+  intro packet sameObserverLeft sameEventLeft sameObserverRight sameEventRight
+    sameContinuation sameNameCert targetGapLeft targetGapRight targetTransport
+    targetProvenance targetPkgSig
+  have sourceObserverLeftUnary : UnaryHistory observerLeft := packet.left
+  have sourceObserverRightUnary : UnaryHistory observerRight := packet.right.left
+  have sourceEventLeftUnary : UnaryHistory eventLeft := packet.right.right.left
+  have sourceEventRightUnary : UnaryHistory eventRight := packet.right.right.right.left
+  have sourceGapLeftUnary : UnaryHistory gapLeft := packet.right.right.right.right.left
+  have sourceGapRightUnary : UnaryHistory gapRight := packet.right.right.right.right.right.left
+  have sourceTransportUnary : UnaryHistory transport :=
+    packet.right.right.right.right.right.right.left
+  have sourceContinuationUnary : UnaryHistory continuation :=
+    packet.right.right.right.right.right.right.right.left
+  have sourceProvenanceUnary : UnaryHistory provenance :=
+    packet.right.right.right.right.right.right.right.right.left
+  have sourceNameCertUnary : UnaryHistory nameCert :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have sourceGapLeft : Cont observerLeft eventLeft gapLeft :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have sourceGapRight : Cont observerRight eventRight gapRight :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  have sourceTransport : Cont gapLeft gapRight transport :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have sourceProvenance : Cont transport continuation provenance :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have targetObserverLeftUnary : UnaryHistory observerLeft' :=
+    unary_transport sourceObserverLeftUnary sameObserverLeft
+  have targetObserverRightUnary : UnaryHistory observerRight' :=
+    unary_transport sourceObserverRightUnary sameObserverRight
+  have targetEventLeftUnary : UnaryHistory eventLeft' :=
+    unary_transport sourceEventLeftUnary sameEventLeft
+  have targetEventRightUnary : UnaryHistory eventRight' :=
+    unary_transport sourceEventRightUnary sameEventRight
+  have sameGapLeft : hsame gapLeft gapLeft' :=
+    cont_respects_hsame sameObserverLeft sameEventLeft sourceGapLeft targetGapLeft
+  have sameGapRight : hsame gapRight gapRight' :=
+    cont_respects_hsame sameObserverRight sameEventRight sourceGapRight targetGapRight
+  have sameTransport : hsame transport transport' :=
+    cont_respects_hsame sameGapLeft sameGapRight sourceTransport targetTransport
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame sameTransport sameContinuation sourceProvenance targetProvenance
+  have targetGapLeftUnary : UnaryHistory gapLeft' :=
+    unary_transport sourceGapLeftUnary sameGapLeft
+  have targetGapRightUnary : UnaryHistory gapRight' :=
+    unary_transport sourceGapRightUnary sameGapRight
+  have targetTransportUnary : UnaryHistory transport' :=
+    unary_transport sourceTransportUnary sameTransport
+  have targetContinuationUnary : UnaryHistory continuation' :=
+    unary_transport sourceContinuationUnary sameContinuation
+  have targetProvenanceUnary : UnaryHistory provenance' :=
+    unary_transport sourceProvenanceUnary sameProvenance
+  have targetNameCertUnary : UnaryHistory nameCert' :=
+    unary_transport sourceNameCertUnary sameNameCert
+  exact
+    ⟨⟨targetObserverLeftUnary, targetObserverRightUnary, targetEventLeftUnary,
+        targetEventRightUnary, targetGapLeftUnary, targetGapRightUnary,
+        targetTransportUnary, targetContinuationUnary, targetProvenanceUnary,
+        targetNameCertUnary, targetGapLeft, targetGapRight, targetTransport,
+        targetProvenance, targetPkgSig⟩,
+      sameGapLeft, sameGapRight, sameTransport, sameProvenance⟩
+
 end BEDC.Derived.ObserverLocalityCellUp
