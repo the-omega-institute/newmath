@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\MetacicNormalizationAuditUp$}
+\label{ch:concrete-instances-metacicnormalizationaudit-namecert}
+\origin{human}
+
+The $\MetacicNormalizationAuditUp$ packet realizes the normalization audit map of \autoref{ch:metacic-normalization-audit-map} as finite BEDC naming data. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and the confluence audit witness of \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}: those siblings record confluence-side boundary rows, while the present packet records the strong-normalization route, its refusal boundary, and the finite replay surface used by consistency consumers.
+
+\begin{definition}[MetaCIC normalization audit carrier]
+\label{def:metacic-normalization-audit-carrier}
+A $\MetacicNormalizationAuditUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(R,C,S,A,N,F,H,T,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the reducibility-candidate row naming $\mathrm{Candidate}$, $\mathrm{ClosedTypedCandidate}$, $\mathrm{ClosedTypedPiCandidate}$, and $\mathrm{ClosedTypedCandidateSetMember}$ evidence;
+\item $C$ is the checked closed-term projection row for candidate, closed-candidate, and candidate-set routes to $\mathrm{StrongNormalizable}(t)$;
+\item $S$ is the finite strong-normalization scope row containing the checked candidate-to-SN, Pi adequacy, application adequacy, example SN, and no-infinite-reduction reads;
+\item $A$ is the application-boundary row recording that componentwise SN of function and argument is not reread as unconditional application SN;
+\item $N$ is the confluence-boundary refusal row separating this normalization packet from full closed Church--Rosser, substitution compatibility, and subject-reduction transport;
+\item $F$ is the route replay row for manuscript citations that pass from the audit map to the closed-normal consistency consumer;
+\item $H$ records componentwise $\hsame$ transport across $R,C,S,A,N,F,P,L$;
+\item $T$ records displayed $\Cont$ routes for replaying candidate, projection, scope, boundary, and consistency-consumer reads;
+\item $P$ is the $\Pkg$ provenance over the normalization audit map, the confluence audit sibling, the confluence audit witness sibling, and the closed-normal consistency assembly;
+\item $L$ is the local $\NameCert_{\MetacicNormalizationAuditUp}$ row.
+\end{enumerate}
+The carrier has no row for global strong normalization of every closed typed MetaCIC term without candidate-mediated evidence, no unconditional application-SN theorem, no closed subject-reduction transport theorem, no arbitrary closed-term confluence theorem, no quotient equality over reductions, and no host evaluator.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization audit obligation surface]
+\label{thm:metacic-normalization-audit-obligation-surface}
+Every accepted $\MetacicNormalizationAuditUp$ packet binds exactly the finite obligation surface displayed in \autoref{def:metacic-normalization-audit-carrier}: carrier admission for $Z=(R,C,S,A,N,F,H,T,P,L)$, candidate evidence visibility through $R$, closed-term projection visibility through $C$, finite SN scope visibility through $S$, application-boundary visibility through $A$, confluence and transport refusal visibility through $N$, route replay through $F$ and $T$, componentwise $\hsame$ transport through $H$, provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The positive normalization reads are $R,C,S$: a consumer first names candidate evidence, then reads the closed-term projection row, and only then reads the finite SN and no-infinite-reduction inventory.
+
+The boundary rows $A$ and $N$ are part of the same packet. They keep application SN and confluence or subject-reduction transport from being inferred by erasing their required evidence.
+
+The structural rows $F,H,T,P,L$ replay, transport, package, and name only those displayed reads. Since the carrier has no additional coordinate, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit finite SN scope]
+\label{thm:metacic-normalization-audit-sn-scope}
+The strong-normalization content exported by an accepted $\MetacicNormalizationAuditUp$ packet is exactly the candidate-mediated scope stored in $R,C,S$: candidate-to-SN consequences, closed typed term SN from candidate, closed-candidate, or candidate-set evidence, Pi adequacy, application adequacy under candidate evidence, typed example SN facts, and the associated no-infinite-reduction consequences. It does not export a blanket theorem that every closed typed MetaCIC term is strongly normalizing without one of those displayed evidence rows.
+\end{theorem}
+\begin{proof}
+Read $R$ as the evidence row. It contains the candidate, closed-candidate, Pi-candidate, and candidate-set membership interfaces that the checked projection theorems consume.
+
+Read $C$ and $S$ downstream from $R$. These rows record the closed typed term projections, adequacy facts, examples, and no-infinite-reduction consequences only along the candidate-mediated route.
+
+The carrier contains no coordinate that constructs candidate evidence for every closed typed term. Therefore agreement on the packet preserves the finite SN scope while excluding the blanket evidence-free endpoint.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit confluence boundary]
+\label{thm:metacic-normalization-audit-confluence-boundary}
+Agreement on the rows of an accepted $\MetacicNormalizationAuditUp$ packet preserves normalization-side reads, but it does not discharge the confluence or subject-reduction rows isolated by \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}. In particular, the packet exports no proof of full closed Church--Rosser, no proof of substitution compatibility, and no subject-reduction transport theorem for arbitrary closed proofs.
+\end{theorem}
+\begin{proof}
+The provenance row $P$ places the packet beside the two confluence audit siblings, so a consumer can compare the three audit surfaces through finite NameCert data.
+
+The normalization rows $R,C,S,A$ are separate from the refusal row $N$. Transport through $H$ and replay through $T$ preserve that separation instead of identifying normalization with confluence or subject reduction.
+
+Thus the packet can feed the closed-normal branch of the consistency assembly through $F$ while leaving the confluence and subject-reduction boundaries in their own sibling packets.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit ledger policy]
+\label{thm:metacic-normalization-audit-ledger-policy}
+Every manuscript route that cites the normalization audit map through $\MetacicNormalizationAuditUp$ factors through the ledger
+$$
+R,C,S,A,N,F,H,T,P,L.
+$$
+The route may replay candidate evidence, closed-term SN projections, finite no-infinite-reduction reads, confluence-boundary refusals, and local NameCert provenance, but it may not replace the packet by vision prose, a host-level termination oracle, or a hidden theorem outside the displayed rows.
+\end{theorem}
+\begin{proof}
+Start with a citation to the audit map. The finite carrier replaces that prose handle by displayed rows $R,C,S,A,N,F,H,T,P,L$.
+
+Route replay is controlled by $F$ and $T$, while $H$ preserves componentwise agreement and $P,L$ preserve provenance and local naming. These rows are sufficient for every packet read named in the theorem.
+
+Because the carrier has no coordinate for a host oracle, hidden theorem, quotient equality, or evidence-free global SN theorem, the ledger policy blocks any consumer from bypassing the finite packet.
+\end{proof}
+
+\closureat{MetacicNormalizationAuditUp}{seedStr}
+
+\begin{closurestatus}{\MetacicNormalizationAuditUp}
+  \constructivestory{A $\MetacicNormalizationAuditUp$ packet is generated from candidate evidence rows, checked closed-term SN projection rows, finite strong-normalization scope rows, application-boundary rows, confluence-boundary refusal rows, route replay, componentwise transport, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-audit-carrier}, \autoref{thm:metacic-normalization-audit-obligation-surface}, \autoref{thm:metacic-normalization-audit-sn-scope}, \autoref{thm:metacic-normalization-audit-confluence-boundary}, and \autoref{thm:metacic-normalization-audit-ledger-policy} bind the finite normalization audit packet and its sibling confluence boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close evidence-free global strong normalization, unconditional application SN, full closed Church--Rosser, substitution compatibility, subject-reduction transport for arbitrary closed proofs, quotient equality over reductions, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-mediated SN scope exactness, confluence-boundary refusal, route replay, provenance, and local NameCert rows.}
+\end{closurestatus}
