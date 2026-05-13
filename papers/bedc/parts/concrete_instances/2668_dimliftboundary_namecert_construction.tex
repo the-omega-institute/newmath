@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier is a boundary packet, not a dimension object. It exposes the finite rows that explain why a dimension-lift reading is blocked, while leaving any accepted dimension interface to a separate certificate.
 \end{definition}
+\leanchecked{BEDC.Derived.DimLiftBoundaryUp.DimLiftBoundaryPacket\_single\_carrier\_alignment}
 
 \begin{definition}[DimLiftBoundary classifier]
 \label{def:dimlift-boundary-classifier}
@@ -100,6 +101,48 @@ Read the finite packet componentwise. The Zeckendorf data are exactly $Z,N,A,F$,
 Closure under the displayed transports follows because $H$ names the componentwise $\hsame$ rows for the same coordinates. Closure under consumer access follows because $C$ lists the only continuation routes out of the packet.
 
 Since no coordinate of $D$ is a primitive dimension carrier, the Zeckendorf scope remains a carrier for refusal evidence. The scope ends at the listed boundary rows.
+\end{proof}
+
+\begin{theorem}[DimLiftBoundary route-exactness refusal]
+\label{thm:dimliftboundary-cannot-claim-route-exactness}
+For an accepted $\DimLiftBoundaryUp$ carrier $D=(Z,N,A,F,R,H,C,P,Q)$, every consumer request that tries to read $Z$ or $N$ as a primitive dimension must pass through the cannot-claim row $A$ and the real-facing refusal row $R$. The route table $C$ and transport table $H$ may expose carry evidence, normal-address evidence, full-axis context, provenance, and local naming, but they do not expose a dimension-valued row.
+
+Thus route exactness for primitive-dimension requests is a refusal route. The exact target of such a request is the displayed pair $A,R$, not a geometric, topological, vector-space, homological, projective, metric, or real dimension object.
+\end{theorem}
+\begin{proof}
+Read the request through the continuation table $C$. If it asks for carry, normal-address, full-axis, transport, package, or naming evidence, the corresponding coordinate of the carrier supplies that displayed row.
+
+If the same request asks for a primitive dimension interpretation of $Z$ or $N$, no carrier coordinate has that type. The only displayed rows governing that request are the cannot-claim row $A$ and the real-facing refusal boundary $R$.
+
+Transport through $H$ preserves this boundary componentwise. It can move the refusal packet along accepted presentations, but it cannot add a new dimension row to the carrier.
+\end{proof}
+
+\begin{theorem}[DimLiftBoundary axis normal-address lock]
+\label{thm:dimliftboundary-axis-normal-address-lock}
+For an accepted $\DimLiftBoundaryUp$ carrier $D=(Z,N,A,F,R,H,C,P,Q)$, the rows $Z$ and $N$ are locked to AxisZeckendorf carry and normal-address evidence under the full-axis context $F$, the transport rows $H$, the consumer routes $C$, the package provenance $P$, and the local naming row $Q$. Any read of $Z$ or $N$ must preserve this axis-normal address and cannot reinterpret it as a primitive dimension carrier.
+
+The lock is local to the displayed packet: $Z$ supplies carry evidence, $N$ supplies normal-address evidence, $F$ supplies the full-axis context, and $H,C,P,Q$ supply only transport, route, provenance, and naming evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The carry coordinate $Z$ and normal-address coordinate $N$ occur together with the full-axis context $F$, so each read of either row is already addressed inside the AxisZeckendorf packet.
+
+Use the Zeckendorf carrier scope of \autoref{thm:dimliftboundary-zeckendorf-carrier-scope}. It closes the displayed packet under the $\hsame$ transports and $\Cont$ routes while keeping primitive dimension carriers outside the scope.
+
+The package row $P$ and local naming row $Q$ record the same dependency boundary. They name the axis-normal evidence already present; they do not provide a separate dimension row or classifier.
+\end{proof}
+
+\begin{theorem}[DimLiftBoundary downstream acceptance boundary]
+\label{thm:dimliftboundary-downstream-acceptance-boundary}
+Any later $\DimLiftUp$ acceptance certificate that exports a dimension row must first consume the displayed $\DimLiftBoundaryUp$ refusal packet $Z,N,A,F,R,H,C,P,Q$. In particular, the later certificate must account for the cannot-claim row $A$, the real-facing refusal row $R$, the axis-normal lock on $Z,N$, and the transport, route, provenance, and naming boundary $H,C,P,Q$ before it exports any separate dimension evidence.
+
+Consequently $\DimLiftBoundaryUp$ is a required refusal boundary for downstream acceptance work, not an acceptance certificate and not a primitive dimension source.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:dimliftboundary-cannot-claim-route-exactness}. It forces primitive-dimension requests against the boundary carrier through the refusal rows $A$ and $R$.
+
+Next use \autoref{thm:dimliftboundary-axis-normal-address-lock}. It fixes $Z$ and $N$ as AxisZeckendorf carry and normal-address evidence under $F,H,C,P,Q$ rather than as dimension-valued rows.
+
+A later acceptance certificate may add a separate dimension row only after this packet has been consumed as refusal evidence. Without that consumption, the later certificate would be reading through a row that the present carrier explicitly does not export.
 \end{proof}
 
 \closureat{DimLiftBoundaryUp}{seedStr}

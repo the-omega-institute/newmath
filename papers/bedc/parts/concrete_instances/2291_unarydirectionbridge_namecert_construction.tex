@@ -153,6 +153,48 @@ the displayed support rows, and it has no quotient or host natural-number
 equality coordinate.
 \end{proof}
 
+\begin{theorem}[UnaryDirectionBridge carrier admission]
+\label{thm:unary-direction-bridge-carrier-admission}
+For the finite packet $U=(N,A,B,K,S,L,H,C,P,M)$ over $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, admission to the $\UnaryDirectionBridgeUp$ surface is exactly admission of the ten displayed rows of \autoref{def:unary-direction-bridge-namecert-carrier}. The admitted packet exposes the unary source row, zero-spine source row, bridge row, kernel-distinctness ledger, standard-boundary row, ledger policy, componentwise transports, continuation routes, package provenance, and local naming row, and it exposes no additional carrier coordinate.
+\end{theorem}
+\begin{proof}
+Start with the carrier description of \autoref{def:unary-direction-bridge-namecert-carrier}. It lists $N,A,B,K,S,L,H,C,P,M$ as the complete finite packet over the named source, bridge, history, transport, continuation, package, and naming surfaces.
+
+Apply the kernel-distinct obligations of \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} and the standard boundary of \autoref{thm:unary-direction-bridge-standard-boundary}. These identify the source rows, the bridge row, the kernel ledger, and the public boundary as displayed rows of the same packet.
+
+Use the ledger policy of \autoref{thm:unary-direction-bridge-ledger-policy}, the NameCert surface of \autoref{thm:unary-direction-bridge-namecert-surface}, and the AxisAdd handoff of \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations}. Together they force every admitted read through the packet rows and leave no extra carrier coordinate.
+
+Finally, the empty-intersection readback of \autoref{thm:unary-direction-bridge-empty-intersection-readback} and the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form} exclude host equality, quotient identification, and a second kernel carrier. Thus admission is exactly the finite ledger packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge classifier stability]
+\label{thm:unary-direction-bridge-classifier-stability}
+For an accepted $\UnaryDirectionBridgeUp$ packet $U=(N,A,B,K,S,L,H,C,P,M)$, componentwise $\hsame$ transport by the stored row $H$ preserves the unary source classifier, the zero-spine source classifier, the bridge classifier, the kernel-distinctness ledger, the standard-boundary route, the ledger policy, the continuation routes, the package provenance, and the local $\NameCert$ row. After transport, the packet still presents the same kernel-distinctness ledger and the same standard-boundary route.
+\end{theorem}
+\begin{proof}
+Project $H$ from the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. By construction it stores componentwise transports for the two source rows, bridge row, kernel-distinctness witness, standard-boundary row, ledger policy row, and local naming row.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}. Since $K$ remains a transported row rather than an equality coordinate, the transported classifiers cannot collapse the $\NatUp$ and $\AxisNatUp$ carriers.
+
+Use \autoref{thm:unary-direction-bridge-standard-boundary} and \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations} for the boundary route. The transported standard-boundary row is the only route available to $\AddUp/\AxisAddUp$ consumers.
+
+The ledger policy, NameCert surface, empty-intersection readback, and consumer normal form of \autoref{thm:unary-direction-bridge-ledger-policy}, \autoref{thm:unary-direction-bridge-namecert-surface}, \autoref{thm:unary-direction-bridge-empty-intersection-readback}, and \autoref{thm:unary-direction-bridge-consumer-normal-form} then keep every classifier read inside the displayed packet. Hence componentwise transport preserves both the kernel-distinctness ledger and the standard-boundary route.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge ledger exactness]
+\label{thm:unary-direction-bridge-ledger-exactness}
+Every consumer route out of an accepted $\UnaryDirectionBridgeUp$ packet is exhausted by $N,A,B,K,S,L,H,C,P,M$. There is no consumer route through host equality of natural numbers, no quotient identification of histories, and no collapse of the $\NatUp$ unary carrier with the $\AxisNatUp$ zero-spine carrier.
+\end{theorem}
+\begin{proof}
+Begin with the finite carrier in \autoref{def:unary-direction-bridge-namecert-carrier}. Its rows are exactly $N,A,B,K,S,L,H,C,P,M$, so any consumer route must be assembled from these rows.
+
+Apply the kernel-distinct obligations and standard boundary from \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} and \autoref{thm:unary-direction-bridge-standard-boundary}. They require the source rows and $K$ before any public boundary read.
+
+Next use the ledger policy, NameCert surface, and AxisAdd handoff of \autoref{thm:unary-direction-bridge-ledger-policy}, \autoref{thm:unary-direction-bridge-namecert-surface}, and \autoref{thm:unary-direction-bridge-axisadd-handoff-obligations}. These force consumer access through the displayed ledger and then through the local naming row.
+
+Finally apply the empty-intersection readback of \autoref{thm:unary-direction-bridge-empty-intersection-readback} and the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form}. They rule out any second intersection, quotient route, or host equality coordinate, so the displayed finite ledger is exact.
+\end{proof}
+
 \begin{theorem}[UnaryDirectionBridge source-classifier transport]
 \label{thm:unary-direction-bridge-source-classifier-transport}
 For an accepted $\UnaryDirectionBridgeUp$ carrier $U=(N,A,B,K,S,L,H,C,P,M)$, componentwise $\hsame$ transport of $N,A,B,K,S,L,H,C,P,M$ preserves the separate $\NatUp$ unary source classifier and the $\AxisNatUp$ zero-spine source classifier. The transported packet keeps the two source classifiers as distinct rows and does not collapse them into a kernel equality.
