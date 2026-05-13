@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\DiagonalLimitStabilityUp$}
+\label{ch:concrete-instances-diagonal-limit-stability-namecert}
+\origin{ai}
+
+The $\DiagonalLimitStabilityUp$ packet is the finite comparison layer between the diagonal representative used in the Real completeness route of \autoref{ch:visions-real-completeness} and the sealed $\RealUp$ limit route. It consumes the selector surface of \autoref{ch:concrete-instances-diagonal-tail-selector-namecert}, the seal boundary of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the mesh rows of \autoref{ch:concrete-instances-regular-cauchy-mesh-namecert}, the diagonal budget rows of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, and the observation-bound surface of \autoref{ch:concrete-instances-realapproximationenvelope-namecert}. The carrier records a displayed stability comparison; it does not identify quotient streams, choose a host limit, or import ambient completeness.
+
+\falsifiablePrediction{If a DiagonalLimitStabilityUp packet is accepted, every RealUp seal read factors through either the displayed DiagonalTailSelectorUp row or the displayed CauchyLimitSealUp row; a consumer route bypassing both refutes the packet.}
+
+\independenceWitness{regularcauchymesh, cauchydiagonalbudget, diagonaltailselector, cauchylimitseal, realapproximationenvelope: none is bijective because this carrier has a stability-comparison row between the diagonal representative and the sealed RealUp route; mesh chapters lack the seal row, selector chapters lack the stability comparison, seal chapters lack the diagonal representative source, and envelope chapters package observation bounds without the representative-seal classifier.}
+
+\begin{definition}[Diagonal-limit stability carrier]
+\label{def:diagonal-limit-stability-carrier}
+A $\DiagonalLimitStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R,D,L,S,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row carrying the regular rational name whose finite observations feed the diagonal construction;
+\item $D$ is the diagonal representative row, read through the $\DiagonalTailSelectorUp$ selector surface;
+\item $L$ is the limit selector row that records the finite diagonal-limit route selected for the representative;
+\item $S$ is the $\RealUp$ seal row reached through the $\CauchyLimitSealUp$ boundary;
+\item $W$ is the finite $\StreamNameUp$ window row used to compare the representative readback with the sealed route;
+\item $H$ stores componentwise $\hsame$ transports for $R,D,L,S,W,C,P,N$;
+\item $C$ stores the $\Cont$ continuations that replay source, representative, selector, seal, window, transport, provenance, and local naming reads;
+\item $P$ is the $\Pkg$ provenance over the same finite route;
+\item $N$ is the local $\NameCert_{\DiagonalLimitStabilityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient regular streams, host real equality, a choice-selected limit representative, trichotomy, or an ambient completeness theorem.
+\end{definition}
+\leandef{BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityUp}
+
+\begin{theorem}[Diagonal-limit stability NameCert obligations]
+\label{thm:diagonal-limit-stability-namecert-obligations}
+For the carrier of \autoref{def:diagonal-limit-stability-carrier}, the local $\NameCert_{\DiagonalLimitStabilityUp}$ surface consists exactly of carrier admission for $T$, source exposure through $R$, diagonal representative exposure through $D$, limit-selector exposure through $L$, $\RealUp$ seal exposure through $S$, finite-window stability comparison through $W$, componentwise transport through $H$, continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier displayed in \autoref{def:diagonal-limit-stability-carrier}. The source, representative, selector, seal, and finite-window rows are explicit coordinates, and the transport, route, provenance, and local certificate rows are the only structural rows available to a consumer.
+
+The diagonal representative row is read through the sibling selector surface, while the seal row is read through the sibling Cauchy-limit seal surface. The stability comparison is therefore not a new analytic equality; it is the finite assertion that the selected representative row and the sealed route are read under the same displayed window and structural provenance.
+
+The excluded objects have no coordinate in $T$. Hence the local $\NameCert$ obligations are exhausted by the nine displayed rows.
+\end{proof}
+\leanchecked{BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Diagonal-limit stability RealCompleteness handoff]
+\label{thm:diagonal-limit-stability-real-completeness-handoff}
+Every $\RealCompletenessUp$ consumer that reads the sealed diagonal limit from an accepted $\DiagonalLimitStabilityUp$ carrier $T=(R,D,L,S,W,H,C,P,N)$ must first pass through the displayed diagonal representative row $D$ or the displayed $\CauchyLimitSealUp$ row $S$, and in either case the read is replayed through the same finite window $W$, transports $H$, continuations $C$, provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Read the Real completeness route from \autoref{ch:visions-real-completeness}. A consumer of the sealed diagonal limit needs a representative side and a seal side before the $\RealUp$ read can be inspected.
+
+The representative side of $T$ is the row $D$, which is anchored in the diagonal-tail selector sibling. The seal side of $T$ is the row $S$, which is anchored in the Cauchy-limit seal sibling. The limit-selector row $L$ names the finite route between them, and $W$ is the common observation window on which the stability comparison is made.
+
+The structural rows $H,C,P,N$ replay the same finite comparison for downstream consumers. Since no additional representative, seal, quotient, host equality, selected external limit, or ambient completeness row is present, every sealed diagonal-limit read factors through the displayed handoff.
+\end{proof}
+
+\closureat{DiagonalLimitStabilityUp}{seedStr}
+
+\begin{closurestatus}{\DiagonalLimitStabilityUp}
+  \constructivestory{A $\DiagonalLimitStabilityUp$ packet is generated from a $\RegSeqRatUp$ source row, diagonal representative row, limit selector row, $\RealUp$ seal row, finite $\StreamNameUp$ window, componentwise $\hsame$ transports, displayed $\Cont$ continuations, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:diagonal-limit-stability-carrier}, \autoref{thm:diagonal-limit-stability-namecert-obligations}, and \autoref{thm:diagonal-limit-stability-real-completeness-handoff} define the finite stability carrier, its NameCert obligation rows, and the RealCompleteness handoff boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.DiagonalLimitStabilityUp.DiagonalLimitStabilityTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove quotient-stream equality, host real equality, a choice-selected limit representative, trichotomy, ambient completeness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, representative-seal stability comparison, selector and seal route exactness, window coverage, transport replay, provenance, and local NameCert rows for the same finite packet.}
+\end{closurestatus}
