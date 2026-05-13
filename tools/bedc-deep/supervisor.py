@@ -64,6 +64,8 @@ TAB_STUCK_THRESHOLD_S = 300
 ZERO_EXTRACTION_ALERT_COOLDOWN_S = 600
 ZERO_EXTRACTION_HANG_SECONDS = 900
 ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
+CANDIDATE_INBOX_STALE_SECONDS = 2 * 3600
+CANDIDATE_INBOX_ALERT_COOLDOWN_S = 30 * 60
 COMPLETIONS_PER_CURATOR = 5
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -236,6 +238,32 @@ def zero_extraction_hang_agents(status: dict) -> list[str]:
         ):
             out.append(agent_id)
     return out
+
+
+def zero_extraction_hang_details(status: dict) -> list[dict[str, str]]:
+    agents = zero_extraction_hang_agents(status)
+    details: list[dict[str, str]] = []
+    recent = status.get("recent_agents") or {}
+    for agent_id in agents:
+        rec = recent.get(agent_id) or {}
+        metrics = rec.get("metrics") or {}
+        details.append(
+            {
+                "agent_id": agent_id,
+                "task_id": str(metrics.get("task_id") or (status.get("agents") or {}).get(agent_id, {}).get("task_id") or ""),
+                "url_tail": str(metrics.get("url_tail") or ""),
+                "chatgpt_url": str(metrics.get("chatgpt_url") or metrics.get("page_url") or ""),
+            }
+        )
+    return details
+
+
+def candidate_inbox_health() -> dict:
+    try:
+        import candidate_inbox
+        return candidate_inbox.stats(since_hours=2)
+    except Exception as exc:
+        return {"error": str(exc)}
 
 
 def stale_cleanup() -> int:
@@ -1082,6 +1110,7 @@ def main() -> int:
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
     last_zero_extract_alert_ts = 0.0
+    last_candidate_inbox_alert_ts = 0.0
     inner: subprocess.Popen | None = None
 
     supervisor_state: dict = {
@@ -1167,18 +1196,44 @@ def main() -> int:
                     last_tab_alert_ts = _now()
 
             oracle_health = server_status()
-            zero_extract_agents = zero_extraction_hang_agents(oracle_health)
-            if zero_extract_agents and _now() - last_zero_extract_alert_ts > ZERO_EXTRACTION_ALERT_COOLDOWN_S:
-                agents_csv = ",".join(zero_extract_agents)
+            zero_extract_details = zero_extraction_hang_details(oracle_health)
+            if zero_extract_details and _now() - last_zero_extract_alert_ts > ZERO_EXTRACTION_ALERT_COOLDOWN_S:
+                agents_csv = ",".join(d.get("agent_id", "?") for d in zero_extract_details)
+                url_tails = ",".join(
+                    d.get("url_tail", "") for d in zero_extract_details if d.get("url_tail")
+                )
                 supervisor_log(
                     "oracle health: zero-extraction hang "
-                    f"agents={agents_csv}; refresh affected tab(s) only"
+                    f"agents={agents_csv} "
+                    f"url_tails={url_tails or '?'}; refresh affected tab(s) only"
                 )
+                notify_tail = f" URL tail: {url_tails}" if url_tails else ""
                 macos_notify(
                     "BEDC supervisor: oracle zero extraction",
-                    f"{agents_csv} is generating but extracted 0 chars; refresh only the affected ChatGPT tab.",
+                    f"{agents_csv} is generating but extracted 0 chars; refresh only the affected ChatGPT tab.{notify_tail}",
                 )
                 last_zero_extract_alert_ts = _now()
+
+            inbox_health = candidate_inbox_health()
+            latest_age = inbox_health.get("latest_event_age_seconds")
+            try:
+                latest_age_s = int(latest_age)
+            except (TypeError, ValueError):
+                latest_age_s = 0
+            if (
+                unfinished < args.low_water
+                and latest_age_s >= CANDIDATE_INBOX_STALE_SECONDS
+                and _now() - last_candidate_inbox_alert_ts > CANDIDATE_INBOX_ALERT_COOLDOWN_S
+            ):
+                latest = inbox_health.get("latest_event") or {}
+                supervisor_log(
+                    "candidate inbox: no recent intake "
+                    f"latest_age_s={latest_age_s} "
+                    f"latest_event={latest.get('event') or '?'} "
+                    f"source={latest.get('source') or '?'} "
+                    f"title={str(latest.get('title') or '')[:80]!r}"
+                )
+                last_candidate_inbox_alert_ts = _now()
 
             clusters = stage2_reject_clusters()
             if clusters:
