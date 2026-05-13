@@ -234,6 +234,48 @@ Use the Real seal non-escape theorem and the bridge readback scope. They keep ev
 The finite-tail handoff therefore has no coordinate for quotient reals, host limits, ambient completeness, or a third schedule. Any $\FiniteTailDiagonalSealUp$-style witness consumed downstream must use the displayed finite-window route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleaving window-seal symmetry]
+\label{thm:regular-cauchy-interleaving-window-seal-symmetry}
+For an accepted $\RegularCauchyInterleavingUp$ packet $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$, the two parity branches preserve the same public $\RealUp$ seal surface. The even branch through $A,S_A$ and the odd branch through $B,S_B$ are distinguished only by selector parity and the selected component of the combined modulus ledger; after selector transport, schedule-window coverage, and real-seal non-escape, both branches expose the same interleaved seal row $E$ and no additional public seal coordinate.
+\end{theorem}
+\begin{proof}
+Use selector parity exactness to split any consumer read into the even branch and the odd branch. The even branch selects the $A,S_A$ side and the first ledger component, while the odd branch selects the $B,S_B$ side and the second ledger component.
+
+Apply classifier transport and combined modulus exactness on each branch. These rows determine the selected source row and the matching modulus component before any public seal read occurs.
+
+Schedule-window coverage rules out a third schedule and forces both parity branches through the two displayed $\StreamNameUp$ windows. The bridge readback scope keeps the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows attached to the selected read.
+
+Finally apply real-seal non-escape and the public Real seal export. Both branches terminate at the same interleaved seal row $E$, so the branch distinction is internal to the finite-window route and does not create a second public $\RealUp$ seal surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving finite-tail budget route]
+\label{thm:regular-cauchy-interleaving-finite-tail-budget-route}
+Every finite-tail diagonal consumer of the interleaved $\RealUp$ seal of an accepted packet $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$ factors through the two displayed $\StreamNameUp$ schedules $S_A,S_B$, the matching $\RegSeqRatUp$ source rows $A,B$, the combined modulus ledger $M$, the downstream $\FiniteTailDiagonalSealUp$ witness surface, and the local $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No finite-tail budget read bypasses this route through quotient equality, selected host limits, ambient completeness, or an unlisted schedule.
+\end{theorem}
+\begin{proof}
+Begin with the finite-tail consumer boundary. It already places any diagonal-limit or finite-tail consumer downstream of a selected schedule, a matching regular source row, the combined modulus ledger, and the local naming row.
+
+Use selector parity exactness and schedule-window coverage to identify the only two possible schedule windows. The selected window is $S_A$ for an even read and $S_B$ for an odd read, with no further schedule coordinate in the packet.
+
+Combined modulus exactness supplies the budget component attached to that selected window. Carrier admission supplies the finite $\mathsf{BHist}$ packet, and the scoped kernel route keeps the selected read attached to the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The sibling chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regularcauchyname-namecert}, and \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert} provide the schedule, regular-source, and finite-tail witness surfaces named by the boundary. Therefore every finite-tail budget read factors through the displayed route and has no bypass through the excluded public objects.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy interleaving public bridge readiness]
+\label{thm:regular-cauchy-interleaving-public-bridge-readiness}
+The obligation closure package, scoped kernel route, public real seal export, bridge readback scope, finite-tail consumer boundary, window-seal symmetry, and finite-tail budget route assemble the public bridge surface for $\RegularCauchyInterleavingUp$. A bridge-facing consumer of an accepted packet can read the two $\RegSeqRatUp$ source names, the two $\StreamNameUp$ schedules, selector parity, the combined modulus ledger, source and interleaved $\RealUp$ seal rows, $\mathsf{BHist}$ support, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ row, and the downstream finite-tail witness route; it cannot read quotient real equality, selected host limits, ambient completeness, or a third schedule.
+\end{theorem}
+\begin{proof}
+The obligation closure package gives the carrier, classifier, combined modulus, schedule coverage, and seal-boundary rows. The scoped kernel route binds these rows to the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\RatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+The public Real seal export exposes the seal row visible to outside consumers, and the bridge readback scope describes exactly which packet rows a bridge-facing readback can inspect. The finite-tail consumer boundary then places diagonal consumers downstream of the same selected schedule and budget route.
+
+Window-seal symmetry shows that the even and odd branches preserve one public seal surface rather than two branch-specific exports. The finite-tail budget route supplies the budget and witness path needed by downstream finite-tail consumers.
+
+Combining these rows yields the public bridge surface for $\RegularCauchyInterleavingUp$. Since every component in the assembled surface is one of the displayed packet rows or one of the named sibling surfaces, the route has no coordinate for quotient equality of reals, selected host limits, ambient completeness, or any schedule beyond $S_A$ and $S_B$.
+\end{proof}
+
 \closureat{RegularCauchyInterleavingUp}{seedStr}
 \closureat{RegularCauchyInterleavingUp}{obligationStr}
 \closureat{RegularCauchyInterleavingUp}{scopedStr}
