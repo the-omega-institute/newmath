@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\DecompilerRightInverseUp$}
+\label{ch:concrete-instances-decompiler-right-inverse-namecert}
+\origin{human}
+
+The $\DecompilerRightInverseUp$ interface packages decompilation as a finite
+right-inverse packet for compiler certificates. It does not assert that every
+compiler is invertible. It records the special case where a target-to-source
+decompiler graph, followed by the displayed compiler graph, lands back in the
+target certificate up to the explicitly recorded optimisation row.
+
+\begin{definition}[Decompiler right-inverse carrier]
+\label{def:decompiler-right-inverse-carrier}
+A $\DecompilerRightInverseUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,T,K,\Psi,O,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source $\NameCert$ row read by the compiler and produced by the decompiler;
+\item $T$ is the target $\NameCert$ row produced by the compiler and read by the decompiler;
+\item $K$ is the accepted $\CertificateCompilerUp$ packet carrying the finite compiler graph from $S$ to $T$;
+\item $\Psi$ is the finite target-to-source decompiler graph row from $T$ to $S$;
+\item $O$ is the target optimisation row witnessing that the composite $K\circ\Psi$ reads as a $\NameCert_T$ endomorphism modulo the displayed target classifier;
+\item $R$ is the paired right-inverse ledger matching each displayed target row with its decompile-then-compile image through $O$;
+\item $H$ records the componentwise $\hsame$ transports for source certificate rows, target certificate rows, compiler graph edges, decompiler graph edges, optimisation rows, right-inverse rows, package provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes for target inspection, decompiler graph readback, source certificate readback, compiler graph readback, optimisation readback, right-inverse comparison, and NameCert exposure;
+\item $P$ is the $\Pkg$ provenance row naming $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\NameCertMorphismUp$, $\CertificateCompilerUp$, target optimisation, and the decompiler right-inverse shape;
+\item $N$ is the local $\NameCert_{\DecompilerRightInverseUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed compiler
+graph, decompiler graph, target optimisation row, paired right-inverse ledger,
+$\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local naming row.
+It has no coordinate for a host decompiler function, semantic equivalence
+oracle, global compiler inverse, or unrecorded target behaviour.
+\end{definition}
+
+\begin{theorem}[Decompiler right-inverse NameCert obligations]
+\label{thm:decompiler-right-inverse-namecert-obligations}
+For the carrier of \autoref{def:decompiler-right-inverse-carrier}, the local
+$\NameCert_{\DecompilerRightInverseUp}$ surface consists exactly of the source
+certificate row $S$, target certificate row $T$, accepted compiler packet $K$,
+finite compiler graph $K$, finite decompiler graph $\Psi$, target optimisation row $O$, paired
+right-inverse ledger $R$, componentwise $\hsame$ transports $H$, displayed
+$\Cont$ routes $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Each row required to read the decompiler packet is a
+coordinate of the finite $\BHist$ packet before any consumer can ask for the
+right-inverse comparison.
+
+The compiler side is read through $K$, so the source-to-target direction is the
+same finite compiler-certificate graph already licensed by
+$\CertificateCompilerUp$. The reverse direction is read through $\Psi$, and it
+lands back in the displayed source certificate row $S$ rather than in a host
+source semantics.
+
+The right-inverse clause is the pair $(O,R)$. The row $O$ supplies the target
+optimisation surface for the composite $K\circ\Psi$, while $R$ records the
+componentwise target-row comparison that consumes that optimisation row.
+
+Finally the rows $H,C,P,N$ expose transport, continuation, provenance, and local
+naming for the same packet. There is no remaining coordinate from which a host
+inverse, semantic equivalence oracle, or unrecorded compiler behaviour could be
+exported.
+\end{proof}
+
+\begin{theorem}[Decompiler right-inverse non-escape boundary]
+\label{thm:decompiler-right-inverse-non-escape-boundary}
+Every accepted $\DecompilerRightInverseUp$ packet exports decompilation only as
+the displayed target-to-source graph $\Psi$ together with the target
+optimisation row $O$ and paired right-inverse ledger $R$. A consumer may use the
+packet only through $S,T,K,\Psi,O,R,H,C,P,N$, and cannot read it as a global
+compiler inverse, host semantic equality, quotient of programs, total
+decompiler, or optimiser theorem absent from the displayed rows.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of
+\autoref{def:decompiler-right-inverse-carrier}. The only reverse-direction data
+are the finite graph row $\Psi$, its routes through $C$, and its transported
+comparison rows through $H$.
+
+The composite comparison is not a hidden inverse law. It is the displayed
+target optimisation row $O$ together with the paired right-inverse ledger $R$,
+so every target read returns to the target certificate through finite packet
+data.
+
+The package and local naming rows expose exactly those coordinates. Since the
+carrier has no row for host compiler semantics, program quotients, global
+invertibility, total decompiler behaviour, or unrecorded optimiser correctness,
+none of those objects can cross the boundary.
+\end{proof}
+
+\closureat{DecompilerRightInverseUp}{seedStr}
+
+\begin{closurestatus}{\DecompilerRightInverseUp}
+  \constructivestory{A $\DecompilerRightInverseUp$ packet is generated from source and target $\NameCert$ rows, a finite compiler graph, a finite decompiler graph, target optimisation rows, paired right-inverse comparisons, displayed transport, continuation, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decompiler-right-inverse-carrier}, \autoref{thm:decompiler-right-inverse-namecert-obligations}, and \autoref{thm:decompiler-right-inverse-non-escape-boundary} name the finite right-inverse packet surface but do not yet bind a scoped public theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close existence of decompilers for arbitrary compilers, global invertibility, host semantic equivalence, program quotients, total decompilation, or bridge checking.}
+  \upgradepath{Scoped closure requires a checked finite right-inverse classifier theorem over the displayed compiler graph, decompiler graph, optimisation row, transport routes, package provenance, and local naming row.}
+\end{closurestatus}
