@@ -115,6 +115,50 @@ Next assemble the root route. The root window obligations provide the paired-win
 Finally apply the root Real seal obligations. They keep the seal consumer inside the displayed packet and preserve the exclusions on host multiplication, quotient streams, selected limits, trichotomy, independent real carriers, and ambient completeness. The listed rows therefore form the root-unblock package.
 \end{proof}
 
+\begin{theorem}[CauchyProduct root source-pair lock]
+\label{thm:cauchy-product-root-source-pair-lock}
+For an accepted $\CauchyProductUp$ packet
+$$
+Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N),
+$$
+the two $\RegularCauchyNameUp$ source rows $X,Y$ and their paired $\StreamNameUp$ window rows $W_X,W_Y$ are locked before any product observation row is read. A consumer cannot inspect $P$ until the carrier admission, local $\NameCert_{\CauchyProductUp}$ obligations, and the $\StreamNameUp$ handoff have exposed the two source rows as one paired finite-window route.
+\end{theorem}
+\begin{proof}
+Read the carrier from \autoref{def:cauchy-product-namecert-source}. The first four rows of $Z$ are the two regular Cauchy sources and their paired stream windows, before the radius, dyadic observation, product, classifier, and seal-facing rows.
+
+Apply \autoref{thm:cauchy-product-namecert-obligations}. It makes paired source admission and paired window scheduling part of the local certificate surface rather than optional consumer data.
+
+Finally use \autoref{thm:cauchy-product-streamname-handoff}. It routes every product read through $W_X,W_Y$ before exposing $Q_X,Q_Y$, $M_X,M_Y$, $P$, or $E$, so the accepted packet locks the two source rows before any product observation is available.
+\end{proof}
+
+\begin{theorem}[CauchyProduct root product observation route]
+\label{thm:cauchy-product-root-product-observation-route}
+For an accepted $\CauchyProductUp$ packet, the product observation row $P$ is reachable only along the finite route
+$$
+X,Y \longmapsto W_X,W_Y \longmapsto Q_X,Q_Y \longmapsto M_X,M_Y \longmapsto P.
+$$
+The route reads paired $\StreamNameUp$ windows, dyadic observation rows, and radius rows, and it exposes no host multiplication primitive, quotient stream, selected limit, independent real carrier, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the source-pair lock in \autoref{thm:cauchy-product-root-source-pair-lock}. The consumer has already passed through the two source rows and their paired stream windows before any product-facing row is visible.
+
+Use \autoref{thm:cauchy-product-streamname-handoff}. The handoff exposes $Q_X,Q_Y$ and $M_X,M_Y$ from the paired schedules before the product row $P$ is formed.
+
+Now apply \autoref{thm:cauchy-product-root-budget-obligations}. The product-radius budget keeps $P$ inside the same finite $\BHist$ route and rules out any extra radius oracle or analytic multiplication coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyProduct root downstream unblock surface]
+\label{thm:cauchy-product-root-downstream-unblock-surface}
+The root-unblock surface of an accepted $\CauchyProductUp$ packet is the finite union of the source-pair lock, the product-observation route, the root budget obligations, the root $\RealUp$ seal obligations, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CauchyProductUp}$ rows. Downstream $\RealUp$ and $\RegSeqRatUp$ product consumers read only this union and cannot import quotient streams, host multiplication, selected limits, trichotomy, independent real carriers, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:cauchy-product-root-source-pair-lock} and \autoref{thm:cauchy-product-root-product-observation-route}. These identify the source-window side and the finite product-observation path into $P$.
+
+Next apply \autoref{thm:cauchy-product-root-budget-obligations}. The same route is extended through the product-radius ledger toward $E$ and $L$, with no extra analytic coordinate.
+
+Finally use \autoref{thm:cauchy-product-root-real-seal-obligations} together with \autoref{thm:cauchy-product-namecert-obligations}. The seal, transport, continuation, provenance, and local naming rows are already part of the displayed packet, so the downstream unblock surface is exactly the stated finite union.
+\end{proof}
+
 \begin{theorem}[CauchyProduct paired-window source admission]
 \label{thm:cauchy-product-paired-window-source-admission}
 For an accepted $\CauchyProductUp$ packet
