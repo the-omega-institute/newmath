@@ -1,0 +1,62 @@
+\begin{theorem}[Distribution null-completion random-variable descent]
+\label{thm:distribution-null-completion-random-variable-descent}
+Let $X,Y:S\to T$ be carried $\RandomVarUp$ maps from the same
+$\ProbSpaceUp$ source to the same $\MeasureUp$ target, and let $\mu_X$ and
+$\mu_Y$ be their $\DistributionUp$ pushforward endpoint assignments. Write
+$\mathcal A_S$ and $\mathcal A_T$ for the source and target measurable-event
+families, $\mu_S$ for the source measure, $E\simeq_S F$ for the source event
+classifier, and $x\sim_Ry$ for the $\RealUp$ classifier. Suppose that for
+every target event $B\in\mathcal A_T$ the following displayed rows are
+available:
+\begin{enumerate}
+\item the preimage rows $A_X:=X^{-1}(B)$ and $A_Y:=Y^{-1}(B)$ lie in
+  $\mathcal A_S$;
+\item a source symmetric-difference row supplies
+  $\Delta_B:=A_X\triangle A_Y\in\mathcal A_S$ with the public readback
+  $s\in\Delta_B$ iff $s$ lies in exactly one of $A_X,A_Y$;
+\item the null row classifies the symmetric difference with zero measure,
+  $\mu_S(\Delta_B)\sim_R0_R$;
+\item the source measure ledger reads equality up to null symmetric
+  difference as endpoint equality:
+  if $\mu_S(E\triangle F)\sim_R0_R$, then $\mu_S(E)\sim_R\mu_S(F)$ for
+  measurable source events $E,F$;
+\item the $\DistributionUp$ pushforward rows read
+  $\mu_X(B)\sim_R\mu_S(A_X)$ and
+  $\mu_Y(B)\sim_R\mu_S(A_Y)$.
+\end{enumerate}
+Then for every $B\in\mathcal A_T$,
+$$
+\mu_X(B)\sim_R\mu_Y(B).
+$$
+\end{theorem}
+\begin{proof}
+Fix a target measurable event $B$. The displayed preimage rows give source
+measurable events $A_X$ and $A_Y$. The symmetric-difference row supplies the
+source event $\Delta_B=A_X\triangle A_Y$, and the null hypothesis gives
+$$
+\mu_S(\Delta_B)\sim_R0_R.
+$$
+
+Apply the source measure ledger row for equality up to null symmetric
+difference to $A_X$ and $A_Y$. Its hypothesis is exactly the displayed null
+row for $\Delta_B$, so it gives
+$$
+\mu_S(A_X)\sim_R\mu_S(A_Y).
+$$
+
+Now read both pushforward rows through the distribution carrier. The row for
+$X$ gives $\mu_X(B)\sim_R\mu_S(A_X)$, and the row for $Y$ gives
+$\mu_Y(B)\sim_R\mu_S(A_Y)$. Transitivity of the $\RealUp$ classifier composes
+the $X$ pushforward readback with the null-difference endpoint comparison and
+then with symmetry of the $Y$ pushforward readback. Hence
+$$
+\mu_X(B)\sim_R\mu_Y(B).
+$$
+
+Since $B$ was arbitrary, the comparison holds for every target measurable
+event. This is a distribution-classifier descent statement only: it consumes
+the displayed source null ledger and pushforward rows, and it introduces no
+host quotient of events, no analytic completion object, and no external
+probability-space equality.
+\end{proof}
+
