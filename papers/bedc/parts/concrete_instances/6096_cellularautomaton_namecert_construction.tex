@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CellularAutomatonUp$}
+\label{ch:concrete-instances-cellularautomaton-namecert}
+\origin{ai}
+
+The $\CellularAutomatonUp$ surface realizes the cellular substrate reading of \autoref{ch:visions-cellular-automaton-substrate-reading} as a finite NameCert packet. It sits beside the transition-oriented carrier of \autoref{ch:concrete-instances-continuationautomaton-namecert}, the accepted-and-rejected observation sieve of \autoref{ch:concrete-instances-kernel-observation-sieve-namecert}, and the gated public read of \autoref{ch:concrete-instances-maxratereadgate-namecert}. Its distinguishing data are a local rule table and a finite orbit ledger, so a pattern tag is certified only as a read from displayed cellular rows.
+
+\falsifiablePrediction{A $\CellularAutomatonUp$ consumer that reads a pattern tag without passing through the displayed finite orbit ledger is outside the certificate.}
+
+\independenceWitness{continuationautomaton, kernelobservationsieve, maxratereadgate, haltingdistinctiontrace: none is bijective because $\CellularAutomatonUp$ carries a local rule-table and orbit-ledger row that the siblings lack, while it lacks their distinct continuation or rate-gate payload rows.}
+
+\begin{definition}[CellularAutomaton NameCert carrier]
+\label{def:cellular-automaton-namecert-carrier}
+A $\CellularAutomatonUp$ carrier is a finite $\BHist$ packet
+$$
+A=(R,I,O,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the local cellular rule-table row, including the finite neighbourhood alphabet and every displayed transition entry;
+\item $I$ is the initial row of cells from which the accepted orbit segment is generated;
+\item $O$ is the finite orbit-segment ledger listing the rows reached from $I$ by repeated reads of $R$;
+\item $T$ is the pattern-tag classifier row assigning finite tags such as ether, glider, collision, or refused pattern to rows visible in $O$;
+\item $L$ is the observation ledger recording which row windows, tag reads, and Rule 110 boundary reads are admitted;
+\item $H$ records componentwise $\hsame$ transports for $R,I,O,T,L,P,N$;
+\item $C$ records displayed $\Cont$ routes through the rule table, initial row, orbit segment, classifier, and observation ledger;
+\item $P$ is the $\Pkg$ provenance over $\CellularAutomatonUp$, the cellular reading of \autoref{ch:visions-cellular-automaton-substrate-reading}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CellularAutomatonUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only by the displayed rule table, initial row, finite orbit ledger, pattern tags, observation ledger, transport rows, continuation routes, provenance, and local naming row. It has no coordinate for an unbounded orbit, external induction over all times, host equality of cellular histories, quotient stream equality, hidden glider catalog, or detached Rule 110 oracle.
+\end{definition}
+
+\begin{theorem}[CellularAutomaton NameCert obligations]
+\label{thm:cellular-automaton-namecert-obligations}
+For the carrier of \autoref{def:cellular-automaton-namecert-carrier}, the local $\NameCert_{\CellularAutomatonUp}$ surface consists exactly of carrier exposure for $A=(R,I,O,T,L,H,C,P,N)$, rule-table accountability through $R$, initial-row accountability through $I$, finite orbit exposure through $O$, pattern-tag reads through $T$, observation-ledger replay through $L$, componentwise stability through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. No consumer can read a cellular pattern, Rule 110 tag, universal simulation claim, or closed-observation boundary as $\CellularAutomatonUp$ evidence without passing through these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cellular-automaton-namecert-carrier}. The finite packet displays the rule table, initial row, orbit segment, classifier, observation ledger, transports, continuation routes, provenance, and local naming row as its only coordinates.
+
+Rule-table and initial-row accountability are read from $R$ and $I$. The orbit ledger $O$ is admitted only as the finite route generated from these rows, so a consumer cannot replace the local rule by a host evaluator or an unrecorded cellular history.
+
+Pattern-tag and observation-ledger replay are read from $T$ and $L$. The classifier may name ether, glider, collision, Rule 110 boundary, or refused-pattern tags only for windows already displayed in $O$ and only through the admitted ledger reads.
+
+Finally use $H,C,P,N$. These rows transport, replay, record, and name exactly the displayed packet. Since the carrier lacks coordinates for unbounded induction, quotient streams, host cellular equality, hidden catalogs, and detached oracles, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Rule 110 closed-observation boundary]
+\label{thm:cellular-automaton-rule110-closed-observation}
+Every Rule 110 or cellular-substrate read exported by an accepted $\CellularAutomatonUp$ carrier factors through the finite route
+$$
+R,I,O,T,L,H,C,P,N .
+$$
+In particular, a consumer may cite Rule 110 minimality, a pattern tag, or a closed-observation boundary only as a finite ledger read from $O$ and $L$; it does not obtain an unbounded orbit, an internal induction principle, a host evaluator, a quotient stream representative, or a cellular oracle outside the packet.
+\end{theorem}
+\begin{proof}
+Begin with the route inventory. The only Rule 110-facing rows in the packet are the rule table $R$, the initial row $I$, the finite orbit ledger $O$, the classifier $T$, and the observation ledger $L$.
+
+Apply \autoref{thm:cellular-automaton-namecert-obligations}. A pattern tag or cellular-substrate read is accepted only when the classifier row reads a window already present in the displayed orbit ledger and the observation ledger admits that read.
+
+The non-escape claim is finite-route inspection. The continuation routes $C$ have no edge to an unbounded time domain, a host evaluator, quotient stream equality, or an external induction rule. The provenance and local naming rows $P,N$ therefore certify only the displayed closed-observation segment.
+\end{proof}
+
+The Lean TasteGate namespace $\mathsf{BEDC.Derived.CellularAutomatonUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \CellularAutomatonUp$ and $\mathsf{FieldFaithful}\ \CellularAutomatonUp$ instances for the displayed carrier.
+
+\closureat{CellularAutomatonUp}{seedStr}
+
+\begin{closurestatus}{\CellularAutomatonUp}
+  \constructivestory{A $\CellularAutomatonUp$ packet is generated from a finite cellular rule table, initial row, finite orbit ledger, pattern-tag classifier, observation ledger, componentwise hsame transports, displayed continuation routes, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-automaton-namecert-carrier}, \autoref{thm:cellular-automaton-namecert-obligations}, and \autoref{thm:cellular-automaton-rule110-closed-observation} specify the finite cellular-rule and orbit-ledger certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, Rule 110 universality, cellular completeness, internal induction, quotient stream equality, or host evaluator correctness.}
+  \upgradepath{Obligation closure requires checked carrier admission, rule-table accountability, finite orbit-ledger exposure, classifier stability, observation-ledger replay, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}

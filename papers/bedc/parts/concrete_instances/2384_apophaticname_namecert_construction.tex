@@ -282,6 +282,20 @@ Apply classifier-refusal transport from \autoref{thm:apophatic-name-classifier-r
 Finally use downstream socket route exactness and consumer-boundary exhaustion, \autoref{thm:apophatic-name-downstream-socket-route-exactness} and \autoref{thm:apophatic-name-consumer-boundary-exhaustion}. They exhaust every downstream replay by the same finite refusal packet, leaving no route to supplied or host-side content.
 \end{proof}
 
+\begin{theorem}[ApophaticName supply-request consumer factorization]
+\label{thm:apophatic-name-supply-request-consumer-factorization}
+Every consumer read that asks for the requested supply-shape row of an accepted $\ApophaticNameUp$ packet factors through the displayed socket row $S$, requested supply row $R$, refusal gate $G$, refusal ledger $L$, $\hsame$ transport row $H$, $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$. The read cannot skip the refusal ledger to obtain an internal object, axiom, quotient representative, hidden theorem, or host datum.
+\end{theorem}
+\begin{proof}
+Project the carrier $A=(S,R,G,L,H,C,P,N)$ from \autoref{def:apophatic-name-carrier}. The requested supply-shape row is not a free-standing source; it is one displayed coordinate of the same refusal packet as the socket, gate, ledger, transport, route, provenance, and naming rows.
+
+Use source-refusal totality from \autoref{thm:apophatic-name-source-refusal-totality}. It sends every accepted source request through $S,R,G,L,H,C,P,N$ and refuses the conversion from requested shape to supplied object.
+
+Apply downstream refusal replay from \autoref{thm:apophatic-name-downstream-refusal-replay}. Replay preserves the same refusal ledger and route rows for downstream consumers, so a supply-shape read is still a ledgered refusal read.
+
+Finally cite the socket and gate boundaries already binding the chapter, \autoref{thm:apophatic-name-socket-carrier}, \autoref{thm:apophatic-name-gate-source-compatibility}, and \autoref{thm:apophatic-name-consumer-boundary-exhaustion}. These boundaries exclude internal objects, axioms, quotient representatives, hidden theorems, and host data from the accepted packet.
+\end{proof}
+
 \closureat{ApophaticNameUp}{obligationStr}
 
 \begin{closurestatus}{\ApophaticNameUp}
