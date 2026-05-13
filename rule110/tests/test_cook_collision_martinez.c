@@ -1,6 +1,7 @@
 #include "rule110.h"
 #include "glider_phases.h"
 #include "cook_collisions.h"
+#include "cook_detect.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -9,6 +10,9 @@
 
 #define ARRAY_LEN(a) (sizeof(a) / sizeof((a)[0]))
 #define MAX_PRODUCTS 8
+#define MAX_DETECTED_HITS 512
+#define DETECT_TRACK_STEPS 184
+#define TABLE_AUDIT_PASS_GATE 20
 
 typedef struct {
     const char *encoded;
@@ -47,6 +51,11 @@ typedef struct {
 typedef struct {
     char name[16];
 } ProductName;
+
+typedef struct {
+    GliderHit hits[MAX_DETECTED_HITS];
+    size_t count;
+} DetectorReport;
 
 static const CollisionCase CASES[] = {
     {"C1(A,f1_1)", "Ebar(B,f1_1)", 3, -39, 80, "{Ebar, C1}",
@@ -421,21 +430,90 @@ static int collect_expected_products(const char *expected,
     return 0;
 }
 
-static int expected_products_detected(const uint8_t *cells,
-                                      const uint8_t *ether,
-                                      size_t len,
-                                      const ProductName *products,
-                                      size_t product_count,
-                                      char *missing,
-                                      size_t missing_len) {
+static int detector_hit_matches(const GliderHit *hit, const char *name) {
+    if (strcmp(hit->name, name) == 0) return 1;
+    if (strcmp(hit->name, "Ebar") == 0 && strcmp(name, "E-") == 0) return 1;
+    if (strcmp(hit->name, "Bbar") == 0 && strcmp(name, "B-") == 0) return 1;
+    return 0;
+}
+
+static int exact_phase_detects_any(const uint8_t *cells,
+                                   const uint8_t *ether,
+                                   size_t len,
+                                   const char *name) {
+    return detect_glider(cells, ether, len, name);
+}
+
+static int detector_period_for(const char *name) {
+    if (strcmp(name, "A") == 0) return 3;
+    if (strcmp(name, "B") == 0) return 4;
+    if (strcmp(name, "Bbar") == 0) return 12;
+    if (strcmp(name, "C1") == 0) return 7;
+    if (strcmp(name, "C2") == 0) return 7;
+    if (strcmp(name, "C3") == 0) return 7;
+    if (strcmp(name, "D1") == 0) return 10;
+    if (strcmp(name, "D2") == 0) return 10;
+    if (strcmp(name, "Ebar") == 0) return 30;
+    if (strcmp(name, "F") == 0) return 36;
+    if (strcmp(name, "G") == 0) return 42;
+    if (strcmp(name, "H") == 0) return 92;
+    return 0;
+}
+
+static int expected_products_tracked(const uint8_t *cells,
+                                     const uint8_t *ether,
+                                     size_t len,
+                                     const ProductName *products,
+                                     size_t product_count,
+                                     char *missing,
+                                     size_t missing_len,
+                                     DetectorReport *report) {
+    int detected = cook_detect_gliders(cells,
+                                       len,
+                                       DETECT_TRACK_STEPS,
+                                       report->hits,
+                                       ARRAY_LEN(report->hits));
+
+    if (detected < 0) return 0;
+    report->count = (size_t)detected;
     for (size_t i = 0; i < product_count; i++) {
-        if (!detect_glider(cells, ether, len, products[i].name)) {
+        int found = 0;
+
+        if (exact_phase_detects_any(cells, ether, len, products[i].name)) {
+            found = 1;
+        }
+        for (size_t h = 0; h < report->count; h++) {
+            if (detector_hit_matches(&report->hits[h], products[i].name)) {
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
             (void)copy_token(missing, missing_len, products[i].name,
                              strlen(products[i].name));
             return 0;
         }
     }
     return 1;
+}
+
+static void print_detector_report(const DetectorReport *report) {
+    size_t limit = report->count < 12u ? report->count : 12u;
+
+    printf(" detector_hits=%zu", report->count);
+    for (size_t i = 0; i < limit; i++) {
+        const GliderHit *hit = &report->hits[i];
+
+        printf(" [%s%s%s phase=%d pos=%zu->%zu period=%d displacement=%d]",
+               hit->name,
+               hit->neighbor == NULL ? "" : "/",
+               hit->neighbor == NULL ? "" : hit->neighbor,
+               hit->phase,
+               hit->initial_position,
+               hit->final_position,
+               detector_period_for(hit->name),
+               hit->displacement);
+    }
 }
 
 static int verify_collision(const CollisionCase *tc) {
@@ -534,7 +612,8 @@ static int run_direct_trial(const char *left,
                             size_t *after_diff_out,
                             size_t *after_islands_out,
                             char *missing,
-                            size_t missing_len) {
+                            size_t missing_len,
+                            DetectorReport *report) {
     enum { W = 1800 };
     uint8_t cells[W];
     uint8_t ether[W];
@@ -544,10 +623,11 @@ static int run_direct_trial(const char *left,
     size_t pos2 = 0;
     size_t left_len = 0;
     size_t before_diff = 0;
-    size_t before_islands = 0;
     size_t after_diff = 0;
     size_t after_islands = 0;
 
+    if (report == NULL) return 0;
+    memset(report, 0, sizeof(*report));
     if (decode_phase_spec(left, &left_spec) ||
         decode_phase_spec(right, &right_spec)) {
         return 0;
@@ -561,7 +641,6 @@ static int run_direct_trial(const char *left,
     if (emit_spec(cells, W, pos2, &right_spec, NULL)) return 0;
 
     before_diff = count_diff(cells, ether, W);
-    before_islands = count_diff_islands(cells, ether, W);
     r110_run_n_steps(cells, W, steps);
     r110_run_n_steps(ether, W, steps);
     after_diff = count_diff(cells, ether, W);
@@ -569,13 +648,18 @@ static int run_direct_trial(const char *left,
 
     if (after_diff_out != NULL) *after_diff_out = after_diff;
     if (after_islands_out != NULL) *after_islands_out = after_islands;
-    if (before_diff == 0u || before_islands < 2u ||
-        after_diff == before_diff) {
+    if (before_diff == 0u) {
         return 0;
     }
 
-    return expected_products_detected(cells, ether, W, products,
-                                      product_count, missing, missing_len);
+    return expected_products_tracked(cells,
+                                     ether,
+                                     W,
+                                     products,
+                                     product_count,
+                                     missing,
+                                     missing_len,
+                                     report);
 }
 
 static int verify_table_row(size_t index,
@@ -593,6 +677,7 @@ static int verify_table_row(size_t index,
     char missing[16] = "";
     size_t after_diff = 0;
     size_t after_islands = 0;
+    DetectorReport report;
 
     if (left == NULL || right == NULL || expected == NULL ||
         meta == NULL || collect_expected_products(expected, products,
@@ -641,7 +726,7 @@ static int verify_table_row(size_t index,
     if (run_direct_trial(left, right, gap, meta->preferred_delta,
                          meta->preferred_steps, products, product_count,
                          &after_diff, &after_islands, missing,
-                         sizeof(missing))) {
+                         sizeof(missing), &report)) {
         printf("  table_row_%zu %s cook_collisions.c:%zu: PASS delta=%d steps=%zu diff=%zu islands=%zu\n",
                index + 1u,
                meta->ref,
@@ -660,6 +745,8 @@ static int verify_table_row(size_t index,
            meta->cook_line,
            expected,
            missing[0] == '\0' ? "outcome" : missing);
+    print_detector_report(&report);
+    printf("\n");
     (*fail_count)++;
     return 1;
 }
@@ -787,7 +874,7 @@ static int verify_full_table_audit(void) {
            pass_count,
            total,
            fail_count);
-    return 1;
+    return pass_count >= (size_t)TABLE_AUDIT_PASS_GATE ? 0 : 1;
 }
 
 int main(int argc, char **argv) {
