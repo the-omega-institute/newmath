@@ -85,6 +85,42 @@ The readback theorem accounts for the only public terminal read. It must pass th
 The non-escape theorem records what the packet cannot export. Repacking the carrier, readback, and refusal clauses gives a public certificate surface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with the substrate-side anchors supplied by $\TuringMachineUp$, $\CellularAutomatonUp$, and $\ContinuationTraceUp$.
 \end{proof}
 
+\begin{theorem}[BoundedUniversalTrace fuel determinacy]
+\label{thm:bounded-universal-trace-fuel-determinacy}
+For every accepted $\BoundedUniversalTraceUp$ carrier $U=(F,M,S,T,R,H,C,P,N)$, the terminal readback row $R$ is determined by the displayed fuel row $F$ together with the finite trace ledger $T$. Two accepted reads with the same $F$, the same substrate and source rows $M,S$, and the same ledger $T$ have the same public terminal row after the componentwise transports and routes $H,C,P,N$ are applied; no unbounded halting predicate or host evaluator equality contributes to the determination.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:bounded-universal-trace-carrier}. The only computation-facing coordinates are $F,M,S,T,R,H,C,P,N$.
+
+Use the public export of \autoref{thm:bounded-universal-trace-public-export}. It exposes terminal readback through the same finite packet, so a read of $R$ must pass through the fuel row $F$ and the finite trace ledger $T$.
+
+If two reads share $F,M,S,T$, the remaining comparison is componentwise transport and replay through $H,C,P,N$. Since the carrier includes no unbounded run row and no host evaluator equality row, those absent objects cannot distinguish the terminal readback.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace substrate readback]
+\label{thm:bounded-universal-trace-substrate-readback}
+For every accepted $\BoundedUniversalTraceUp$ carrier $U=(F,M,S,T,R,H,C,P,N)$, every substrate read factors through the displayed $\TuringMachineUp$ or $\CellularAutomatonUp$ row $M$ and the finite $\ContinuationTraceUp$ ledger $T$ before reaching the terminal row $R$. The packet exports a bounded substrate read, not a host evaluator for the unbounded substrate.
+\end{theorem}
+\begin{proof}
+Inspect the substrate coordinate in \autoref{def:bounded-universal-trace-carrier}. The row $M$ is explicitly drawn from the $\TuringMachineUp$ or $\CellularAutomatonUp$ interface, while $T$ is the finite continuation ledger below the fuel bound.
+
+Apply \autoref{thm:bounded-universal-trace-step-index-readback} and \autoref{thm:bounded-universal-trace-public-export}. The terminal row is public only when the displayed continuation ledger routes the source row $S$ over the substrate row $M$ within the fuel row $F$.
+
+Thus substrate information reaches consumers through $M,T,R,H,C,P,N$. No consumer receives an evaluator equality, an unbounded transition closure, or a semantic completion of the substrate.
+\end{proof}
+
+\begin{theorem}[BoundedUniversalTrace ledger exhaustion]
+\label{thm:bounded-universal-trace-ledger-exhaustion}
+For every accepted $\BoundedUniversalTraceUp$ carrier $U=(F,M,S,T,R,H,C,P,N)$, the finite trace ledger $T$ exhausts every step row visible below the fuel bound $F$. A public consumer can inspect only the source row $S$, substrate row $M$, ledger rows in $T$, terminal readback $R$, and the displayed transport, route, provenance, and naming rows $H,C,P,N$; it cannot add hidden steps, appeal to unbounded halting, or identify traces by host evaluator equality.
+\end{theorem}
+\begin{proof}
+Read the accepted packet as the finite carrier $U=(F,M,S,T,R,H,C,P,N)$. The trace rows available below the bound are exactly the entries displayed in $T$.
+
+Use \autoref{thm:bounded-universal-trace-step-index-readback}. Any terminal read must route through the same ledger $T$ and the same fuel row $F$, so every visible step used by the read is already part of the displayed finite trace.
+
+Finally apply the non-escape boundary of \autoref{thm:bounded-universal-trace-non-escape}. Hidden steps, unbounded halting, quotient behaviour, and host evaluator equality require coordinates absent from the carrier, so the ledger $T$ exhausts the accepted bounded trace surface.
+\end{proof}
+
 The Lean \texttt{TasteGate.lean} development for $\BoundedUniversalTraceUp$ must include explicit $\mathsf{Nontrivial}\ \BoundedUniversalTraceUp$ and $\mathsf{FieldFaithful}\ \BoundedUniversalTraceUp$ instances for the displayed carrier. These instances must preserve the fuel row, substrate row, source row, finite continuation ledger, terminal readback row, transport rows, route rows, package provenance, and local naming row.
 
 \closureat{BoundedUniversalTraceUp}{seedStr}
