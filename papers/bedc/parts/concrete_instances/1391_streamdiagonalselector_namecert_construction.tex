@@ -102,6 +102,22 @@ Apply \autoref{thm:stream-diagonal-selector-namecert-obligations}. Its handoff e
 Finally use \autoref{thm:stream-diagonal-selector-real-handoff}. It identifies the downstream $\RealUp$ route with those same rows, so no quotient stream, selected completed value, host equality, or outside real carrier can be read by the handoff.
 \end{proof}
 
+\begin{theorem}[StreamDiagonalSelector tail-budget readback]
+\label{thm:stream-diagonal-selector-tail-budget-readback}
+Let $D=(S,\mu,W,R,D_H,H,C,P,N)$ be an accepted $\StreamDiagonalSelectorUp$ packet. If its selected finite window $W$ is consumed by an accepted $\RegularCauchyTailBudgetUp$ row, then the $\RealDiagonalCompletionUp$ handoff $H$ factors through the displayed $\StreamNameUp$ schedule $S$, selector row $\mu$, selected finite window $W$, $\DyadicRatCoreUp$ observation ledger $D_H$, $\RegSeqRatUp$ readback row $R$, the shared tail-threshold and observation-budget rows of the $\RegularCauchyTailBudgetUp$ packet, and the local $\NameCert$ route $N$.
+
+Thus every such handoff remains a finite route through the selector packet and the tail-budget readback surface. It exports no quotient stream, selected host limit, ambient completeness principle, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the selector carrier. The only rows available to the diagonal consumer are the schedule $S$, selector row $\mu$, selected window $W$, readback row $R$, dyadic ledger $D_H$, diagonal packet $H$, routes $C$, provenance $P$, and local name $N$.
+
+Use selector determinacy, finite-window transport, and handoff exactness. These results keep the selected window attached to the same schedule and selector row, move $W,R,D_H$ together through the displayed $\hsame$ and $\Cont$ data, and identify $H$ as the packet consuming exactly those rows.
+
+Now apply the $\RegularCauchyTailBudgetUp$ observation gate and readback factorization to the budget row that consumes $W$. They route the window service through the shared tail threshold, observation budget, dyadic ledger, and $\RegSeqRatUp$ readback before any real-facing seal or completion-facing consumer is exposed.
+
+Combining the two routes gives a single finite handoff from $S,\mu,W,D_H,R$ through the tail-budget rows to $H$ and $N$. Since neither carrier stores quotient streams, selected host limits, ambient completeness, or host real equality, no such datum can be read from the composed handoff.
+\end{proof}
+
 \closureat{StreamDiagonalSelectorUp}{seedStr}
 
 \begin{closurestatus}{\StreamDiagonalSelectorUp}
