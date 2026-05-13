@@ -320,12 +320,105 @@ the local $\NameCert$ row, with no additional host evaluator or hidden
 semantic carrier.
 \end{proof}
 
+\begin{theorem}[ContinuationBigStep subject-reduction socket handoff]
+\label{thm:continuation-bigstep-subject-reduction-socket-handoff}
+Every subject-reduction discharge consumer of an accepted
+$\ContinuationBigStepUp$ packet must read the source row $S$, the displayed
+$\ContinuationTraceUp$ small-step ledger $T$, the terminal row $R$, the
+terminal-read witness $Q$, the componentwise transport row $H$, the displayed
+continuation route $C$, the provenance row $P$, and the local naming row $N$
+before it reaches any discharge socket. Thus the only handoff route into a
+preservation-facing consumer is the terminal-read route displayed by the
+finite ledger $S,T,R,Q,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with carrier admission in
+\autoref{def:continuation-big-step-carrier}. It displays exactly the rows
+$S,T,R,Q,H,C,P,N$ and makes $T$ the finite $\ContinuationTraceUp$ ledger.
+
+Use \autoref{thm:continuation-big-step-small-step-factorization} to route the
+source row through the small-step ledger and continuation row before any
+terminal row is read. Then use
+\autoref{thm:continuation-bigstep-terminal-row-readback} to force the terminal
+consumer through $R$ and $Q$.
+
+Finally apply
+\autoref{thm:continuation-big-step-consumer-exactness} and
+\autoref{thm:continuation-bigstep-local-namecert-package}. These identify the
+only downstream consumer surface with the displayed carrier, trace, terminal
+readback, provenance, and local $\NameCert$ rows, so a discharge socket cannot
+be reached by a route outside the finite packet.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep preservation-boundary non-escape]
+\label{thm:continuation-bigstep-preservation-boundary-nonescape}
+The subject-reduction handoff of
+\autoref{thm:continuation-bigstep-subject-reduction-socket-handoff} exports no
+host evaluator, hidden termination row, quotient behaviour, or preservation
+theorem beyond the displayed terminal-read route. Any preservation-facing
+consumer receives only the finite ledger rows $S,T,R,Q,H,C,P,N$ and the local
+$\NameCert_{\ContinuationBigStepUp}$ surface.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:continuation-big-step-carrier}. Its
+coordinates include the source, trace, terminal row, terminal witness,
+transport, route, provenance, and local name, and they include no host
+evaluator, quotient coordinate, or hidden termination row.
+
+The operational information available to a consumer is exactly the
+factorization of
+\autoref{thm:continuation-big-step-small-step-factorization} and the terminal
+readback of \autoref{thm:continuation-bigstep-terminal-row-readback}. The
+consumer exactness theorem
+\autoref{thm:continuation-big-step-consumer-exactness} prevents these rows
+from being enlarged by a downstream read.
+
+The local package theorem
+\autoref{thm:continuation-bigstep-local-namecert-package} records the same
+boundary at the naming surface. Therefore the handoff may feed a
+preservation-facing socket, but it does not itself contain a preservation
+theorem or any additional semantic route.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep terminal ledger package]
+\label{thm:continuation-bigstep-terminal-ledger-package}
+For an accepted $\ContinuationBigStepUp$ packet, carrier admission, trace-row
+admission, terminal-row readback, consumer exactness, and the
+subject-reduction socket handoff assemble into the dependency-ready terminal
+ledger package over the finite rows $S,T,R,Q,H,C,P,N$. The package is a BEDC
+terminal-read ledger for downstream discharge packets, not a host big-step
+semantics.
+\end{theorem}
+\begin{proof}
+Carrier admission comes from
+\autoref{def:continuation-big-step-carrier}, while trace admission is the
+small-step factorization of
+\autoref{thm:continuation-big-step-small-step-factorization}. These two items
+fix the source row, trace ledger, continuation route, and terminal row of the
+packet.
+
+Terminal readback is exactly
+\autoref{thm:continuation-bigstep-terminal-row-readback}, and consumer
+exactness is exactly
+\autoref{thm:continuation-big-step-consumer-exactness}. Together they make the
+terminal witness and every downstream read pass through the displayed rows.
+
+The local packaging theorem
+\autoref{thm:continuation-bigstep-local-namecert-package} and the handoff
+theorem
+\autoref{thm:continuation-bigstep-subject-reduction-socket-handoff} then
+repack the same data for subject-reduction-facing consumers. The non-escape
+boundary of
+\autoref{thm:continuation-bigstep-preservation-boundary-nonescape} keeps the
+result a terminal ledger package rather than a host semantics.
+\end{proof}
+
 \closureat{ContinuationBigStepUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationBigStepUp}
   \constructivestory{A $\ContinuationBigStepUp$ packet is generated from a source row, a finite small-step trace ledger, the terminal row reached by replay, a terminal-read witness, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, \autoref{thm:continuation-big-step-terminal-read-determinacy}, \autoref{thm:continuation-big-step-nonescape}, and \autoref{thm:continuation-big-step-consumer-exactness} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, non-escape boundary, consumer exactness, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the finite big-step packet.}
+  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, \autoref{thm:continuation-big-step-terminal-read-determinacy}, \autoref{thm:continuation-big-step-nonescape}, \autoref{thm:continuation-big-step-consumer-exactness}, \autoref{thm:continuation-bigstep-subject-reduction-socket-handoff}, \autoref{thm:continuation-bigstep-preservation-boundary-nonescape}, and \autoref{thm:continuation-bigstep-terminal-ledger-package} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, non-escape boundary, consumer exactness, subject-reduction socket handoff, and terminal ledger package for the finite big-step packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
