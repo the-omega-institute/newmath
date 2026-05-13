@@ -100,3 +100,47 @@ as the current interface surface. Since every cited route exports only
 $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data besides those four faces, the
 interface read is exhausted by the displayed L10 lattice.
 \end{proof}
+
+\begin{theorem}[Real L10 terminal face order]
+\label{thm:real-l10-terminal-face-order}
+Every accepted $\RealUp$ open-phase terminal read consumes the four faces of
+\autoref{def:real-l10-dependency-lattice} in the order
+$\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp$. The
+terminal $\RealUp$ seal cannot be read before the dyadic observation rows, the
+finite-window rows, and the regular-rational classifier rows have been
+displayed through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ surface.
+
+Consequently a terminal read has no coordinate through which to consume
+quotient stream equality, selected limits, host real equality, ambient
+completeness, or any seal-facing row outside the displayed four-face route.
+\end{theorem}
+\begin{proof}
+Start from the ordered route in \autoref{def:real-l10-dependency-lattice}.
+The lattice lists the dyadic observation face, the StreamName finite-window
+face, the RegSeqRat classifier face, and only then the local Real seal face.
+
+Apply the non-escape theorem
+\autoref{thm:real-l10-source-route-nonescape}. It prevents any accepted
+source-route consumer from bypassing the dyadic, stream, or regular-rational
+faces before the local seal is reached.
+
+Next use interface totality,
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. Since every
+open Phase Real and Completion interface read factors through exactly those
+four faces, a terminal read cannot insert a further interface row between the
+RegSeqRat classifier and the Real seal.
+
+The middle dependency is exact by
+\autoref{thm:streamname-dyadic-regseq-real-pullback-exactness}: the stream
+window read is pulled back to the same dyadic and regular-rational source
+surface. The final handoff is exact by
+\autoref{thm:regseqrat-real-seal-handoff}: the Real seal consumes the
+regular-rational source rows already displayed by the finite window.
+
+Coordinate exhaustion then excludes all other terminal readings. The cited
+routes expose only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data
+over the four named faces, so quotient stream equality, selected limits, host
+real equality, ambient completeness, and outside seal data have no terminal
+coordinate to consume.
+\end{proof}
