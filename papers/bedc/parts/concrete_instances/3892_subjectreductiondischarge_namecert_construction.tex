@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionDischargeUp$}
+\label{ch:concrete-instances-subjectreductiondischarge-namecert}
+\origin{ai}
+
+The $\SubjectReductionDischargeUp$ packet names the finite BEDC surface for the four MetaCIC subject-reduction discharge obligations. It does not prove the obligations as substrate theorems. It records the exact carrier, compiler boundary, obstruction row, transport, routes, provenance, and local naming surface by which a future discharge can be audited without hiding the checked obstruction boundary.
+
+\begin{definition}[Subject-reduction discharge carrier]
+\label{def:subject-reduction-discharge-carrier}
+A $\SubjectReductionDischargeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(B,A,L,\Pi,S,K,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\mathrm{BetaSubstitutionPreservation}$ obligation row;
+\item $A$ is the $\mathrm{AppArgTypeStable}$ obligation row;
+\item $L$ is the $\mathrm{LamDomainSubjectReduction}$ obligation row;
+\item $\Pi$ is the $\mathrm{PiDomainSubjectReduction}$ obligation row;
+\item $S$ records the closed-substitution and shift compiler boundary rows used by closed-term substitution consumers;
+\item $K$ records the closed-term compiler and generator-audit rows that keep substitution, shifting, and generator closure inside accepted MetaCIC kernel routes;
+\item $O$ records the checked obstruction boundary for replacing the four-row interface by an unparameterised closed subject-reduction theorem;
+\item $H$ records componentwise $\hsame$ transports for the four obligation rows, the compiler boundary rows, the obstruction row, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the four obligations, the compiler boundary, the obstruction row, package provenance, and the local certificate;
+\item $P$ is the $\Pkg$ provenance over MetaCIC subject reduction, closed substitution, closed-term compiler rows, generator-audit rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectReductionDischargeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unparameterised closed subject-reduction theorem, hidden substitution preservation, host CIC truth, evaluator soundness, quotient proof transport, or a host conversion rule outside the four displayed obligations.
+\end{definition}
+
+\begin{theorem}[Subject-reduction discharge obligations]
+\label{thm:subject-reduction-discharge-obligations}
+For the carrier of \autoref{def:subject-reduction-discharge-carrier}, the local $\NameCert_{\SubjectReductionDischargeUp}$ surface consists exactly of carrier admission for
+$$
+D=(B,A,L,\Pi,S,K,O,H,C,P,N),
+$$
+four-row obligation exposure for $\mathrm{BetaSubstitutionPreservation}$, $\mathrm{AppArgTypeStable}$, $\mathrm{LamDomainSubjectReduction}$, and $\mathrm{PiDomainSubjectReduction}$, closed-substitution and compiler boundary exposure through $S$ and $K$, obstruction exposure through $O$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ locality through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:subject-reduction-discharge-carrier}. The four obligation rows $B,A,L,\Pi$ are displayed before any subject-reduction consumer may read the packet.
+
+The compiler-facing side is read through $S$ and $K$. These rows reuse the closed-term substitution compiler boundary and generator-audit closure surface, so substitution and shifting are named as accepted finite routes rather than as ambient evaluator semantics.
+
+The obstruction-facing side is read through $O$. It records that the closed subject-reduction theorem is not available as a replacement for the four-row interface.
+
+Finally $H,C,P,N$ transport, route, package, and name the same displayed rows. Since the carrier contains no further coordinate, the listed obligations exhaust the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Subject-reduction discharge boundary]
+\label{thm:subject-reduction-discharge-boundary}
+Every accepted $\SubjectReductionDischargeUp$ packet preserves the obstruction boundary between the parameterised MetaCIC subject-reduction theorem and the unavailable closed subject-reduction statement. A consumer may read the four displayed obligation rows, the closed-substitution and compiler rows, the obstruction row, transports, routes, provenance, and local name; it may not replace those rows by a hidden closed subject-reduction theorem or a host substitution theorem.
+\end{theorem}
+\begin{proof}
+Read the four obligation rows first. They are the only rows whose joint presence can feed the parameterised subject-reduction interface.
+
+Next read $S$ and $K$. The closed-substitution compiler and generator-audit surfaces explain how closed substitution, shift, and accepted generator closure are routed, but they do not supply open-term subject reduction or evaluator correctness.
+
+Use the obstruction row $O$ to keep the boundary explicit. The packet records that the unparameterised closed theorem is not part of the carrier, so a consumer cannot bypass the four-row interface.
+\end{proof}
+
+\begin{theorem}[Subject-reduction discharge four-row completeness]
+\label{thm:subject-reduction-discharge-four-row-completeness}
+The public four-row inventory of an accepted $\SubjectReductionDischargeUp$ packet is complete for the MetaCIC subject-reduction discharge boundary. The beta case reads $B$, application-argument congruence reads $A$, lambda-domain congruence reads $L$, and Pi-domain congruence reads $\Pi$; every compiler or obstruction read is support data through $S,K,O,H,C,P,N$ rather than a fifth discharge obligation.
+\end{theorem}
+\begin{proof}
+Start with the parameterised subject-reduction interface. Its discharge surface consumes exactly the beta-substitution, application-argument stability, lambda-domain, and Pi-domain rows.
+
+The support rows do not add another discharge class. Rows $S$ and $K$ constrain closed substitution and compiler replay, while $O$ records the obstruction to replacing the interface by a closed theorem.
+
+The transport and route rows $H$ and $C$ preserve access to the same four rows, and $P,N$ package and name the packet. Hence the public discharge inventory is exactly four obligation rows plus support data.
+\end{proof}
+
+\begin{theorem}[Subject-reduction discharge non-escape]
+\label{thm:subject-reduction-discharge-nonescape}
+Every downstream read of a $\SubjectReductionDischargeUp$ packet factors through
+$$
+B,A,L,\Pi,S,K,O,H,C,P,N.
+$$
+It cannot inspect hidden proof production, an unrecorded substitution lemma, host evaluator soundness, quotient transport, proposition extensionality, a closed subject-reduction theorem outside the obstruction row, or a subject-reduction route not accounted for by the four displayed obligations.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only public subject-reduction rows are $B,A,L,\Pi$, and every compiler-facing or audit-facing support route is listed as $S,K,O,H,C,P,N$.
+
+Apply the obligation theorem to bind local naming to those rows. The packet can expose carrier admission, obligation exposure, compiler boundary exposure, obstruction exposure, transport, route locality, provenance, and local naming only.
+
+The excluded principles have no carrier coordinate. Therefore every downstream read factors through the displayed packet, and any attempted read outside it remains an obstruction-boundary request rather than an accepted subject-reduction discharge.
+\end{proof}
+
+\closureat{SubjectReductionDischargeUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionDischargeUp}
+  \constructivestory{A $\SubjectReductionDischargeUp$ packet is generated from the four MetaCIC subject-reduction discharge obligation rows, closed-substitution and compiler boundary rows, the checked obstruction row, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-discharge-carrier}, \autoref{thm:subject-reduction-discharge-obligations}, \autoref{thm:subject-reduction-discharge-boundary}, \autoref{thm:subject-reduction-discharge-four-row-completeness}, and \autoref{thm:subject-reduction-discharge-nonescape} specify the finite subject-reduction discharge packet and its obstruction boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove BetaSubstitutionPreservation, AppArgTypeStable, LamDomainSubjectReduction, PiDomainSubjectReduction, unparameterised closed subject reduction, evaluator soundness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-row exposure, compiler-boundary replay, obstruction preservation, transport stability, and non-escape for the displayed discharge packet.}
+\end{closurestatus}
