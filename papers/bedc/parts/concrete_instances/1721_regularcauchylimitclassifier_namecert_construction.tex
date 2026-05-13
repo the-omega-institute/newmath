@@ -195,6 +195,30 @@ Read the same packet through the budget route next. \autoref{thm:real-observatio
 Finally combine diagonal uniqueness with budget non-escape. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} prevents a second public classifier route with the same displayed seal rows, and \autoref{thm:real-observation-budget-nonescape} excludes quotient stream equality, host real equality, hidden selection, ambient completeness, and unbounded schedules from the budget side.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit classifier synchronizer factorization]
+\label{thm:regular-cauchy-limit-classifier-synchronizer-factorization}
+Let
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLimitClassifierUp$ packet, and let
+$$
+Z=(E_Z,S_Z,B_Z,T_Z,D_Z,L_Z,H_Z,C_Z,P_Z,N_Z)
+$$
+be an accepted $\CauchySealBudgetSynchronizerUp$ packet. Suppose that the diagonal window, regular readback, dyadic ledger, and $\RealUp$ seal rows of $Q$ agree componentwise with the selector, budget, shared-threshold, and seal rows displayed by $Z$. Then every completion-facing read of $Q$ factors through the synchronizer route
+$$
+D_Z \longmapsto B_Z \longmapsto T_Z \longmapsto L_Z \longmapsto S_Z.
+$$
+The resulting route is exhausted by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the two packets. It exports no quotient stream, selected host limit, hidden selector, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the observation-budget factorization. \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization} places every $\RealUp$ seal handoff of $Q$ on the finite observation route, and \autoref{thm:regular-cauchy-limit-classifier-finite-route-exactness} identifies that route with the classifier rows visible to completion consumers.
+
+Next read the synchronizer packet. The componentwise agreement hypotheses identify the classifier diagonal window, readback, dyadic ledger, and seal rows with the synchronizer selector, budget, shared-threshold, and seal rows. The synchronizer carrier and obligation rows then force the read through $D_Z,B_Z,T_Z,L_Z,S_Z$ before any completion-facing consumer is served.
+
+Finally apply the completion-consumer boundary of \autoref{thm:regular-cauchy-limit-classifier-completion-consumer-boundary} together with the synchronizer non-escape rows. Since neither packet contains a quotient-stream coordinate, a host limit selector, host real equality, or an ambient completeness premise, the composed handoff exposes only the finite seal-budget synchronization surface.
+\end{proof}
+
 \closureat{RegularCauchyLimitClassifierUp}{seedStr}
 \closureat{RegularCauchyLimitClassifierUp}{obligationStr}
 \closureat{RegularCauchyLimitClassifierUp}{scopedStr}
