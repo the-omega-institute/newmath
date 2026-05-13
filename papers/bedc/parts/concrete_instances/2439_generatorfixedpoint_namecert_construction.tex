@@ -184,6 +184,44 @@ Next apply the TasteGate witness route. It identifies the accepted witness route
 The diagonal obstruction scope handles the remaining cases. Any read outside that surface is a $\mathsf{GAP}$ boundary, so the audit ledger has no coordinate from which to export an unlisted continuation, a host fixed-point principle, a self-application oracle, or semantic completeness.
 \end{proof}
 
+\begin{theorem}[Generator fixed-point closure-consumer lock]
+\label{thm:generator-fixed-point-closure-consumer-lock}
+Every $\GeneratorFixedPointUp$ consumer that reads a fixed witness must read it through the displayed $\GeneratorClosureUp$ classifier row $Q$, authorized generator row $G$, constructor-list provenance row $L$, fixed-output witness row $W$, output row $O$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ route row $C$, package provenance row $P$, and local $\NameCert_{\GeneratorFixedPointUp}$ row $N$. A consumer route that omits one of these rows is not a fixed-witness read of the accepted packet.
+\end{theorem}
+\begin{proof}
+Start from the source admission row. It exposes the fixed-point packet only as the finite tuple $G,L,Q,W,O,H,C,P,N$, with no ambient fixed-point operator or unlisted continuation coordinate.
+
+The classifier transport row keeps the $\GeneratorClosureUp$ classifier attached to the authorized generator row and constructor-list provenance after any componentwise transport. Thus a consumer cannot detach $Q$ from $G$ and $L$ and still read the same fixed witness.
+
+Finally use the witness ledger row. The public witness route passes through $W,O,C,P,N$, so the consumer receives the displayed fixed-output route and no separate witness source.
+\end{proof}
+
+\begin{theorem}[Generator fixed-point fixed-witness source determinacy]
+\label{thm:generator-fixed-point-fixed-witness-source-determinacy}
+Let two accepted $\GeneratorFixedPointUp$ packets present the same displayed source surface $G,L,Q,W,O,H,C,P,N$ for the generator row, constructor-list provenance, classifier row, fixed-output witness, output row, transport row, continuation routes, package provenance, and local naming row. Then they expose the same fixed-witness route to every public consumer. A proposed route that lacks the constructor-list provenance $L$ or the $\GeneratorClosureUp$ classifier row $Q$ is boundary evidence, not an alternate source for the fixed witness.
+\end{theorem}
+\begin{proof}
+Use the admitted packet row to reduce both accepted packets to the same finite source surface. Since the displayed rows agree, a public read begins from the same generator, provenance, classifier, witness, output, route, package, and naming coordinates.
+
+The transport row identifies the consumer route through the shared $H$ and $C$ rows. Therefore the fixed-output witness exposed downstream is the same route through $W$ and $O$ in both packets.
+
+If a proposed route omits $L$ or $Q$, the diagonal obstruction scope applies. The route is missing part of the authorized generator-classifier surface and is recorded as a $\mathsf{GAP}$ boundary rather than as a competing fixed-witness source.
+\end{proof}
+
+\begin{theorem}[Generator fixed-point audit ground-route exhaustion]
+\label{thm:generator-fixed-point-audit-ground-route-exhaustion}
+The public audit ground route for an accepted $\GeneratorFixedPointUp$ packet is exhausted by the finite fixed-witness route locked by \autoref{thm:generator-fixed-point-closure-consumer-lock}, the source determinacy of \autoref{thm:generator-fixed-point-fixed-witness-source-determinacy}, and the AI-roadmap TasteGate discipline cited in \autoref{thm:generator-fixed-point-tastegate-witness-route}. Together with the audit non-escape ledger, these rows leave no public audit coordinate for a host fixed-point theorem, a self-application oracle, or a witness route outside $G,L,Q,W,O,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First apply the closure-consumer lock. Any public fixed-witness read must pass through the displayed generator, constructor-list, classifier, witness, output, transport, continuation, package, and naming rows.
+
+Next apply fixed-witness source determinacy. Once the displayed surface is fixed, every accepted packet exposes the same witness route, while routes lacking $L$ or $Q$ remain boundary evidence.
+
+The TasteGate witness route supplies the permitted audit discipline for AI-roadmap witness reads. It accepts only the displayed finite route and rejects self-application routes outside that packet.
+
+Finally use the audit non-escape ledger. Since the ledger has no coordinate beyond $G,L,Q,W,O,H,C,P,N$ and the TasteGate route, the public audit ground route is exhausted by the finite fixed-witness surface.
+\end{proof}
+
 \closureat{GeneratorFixedPointUp}{seedStr}
 
 \begin{closurestatus}{\GeneratorFixedPointUp}
