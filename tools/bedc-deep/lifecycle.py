@@ -247,6 +247,19 @@ def _is_posthoc_paper_covered_target(state: dict) -> bool:
         if theorem.exists():
             text = theorem.read_text(encoding="utf-8")
             return "thm:enrichedcat-two-step-composition-reassociation" in text
+    if target_id == "B-728" and title == "module linearmap pointwise zero additive identity":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "linearmap"
+            / "module_linearmap_kernel_image_and_zero.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:module-linearmap-pointwise-zero-additive-identity" in text
     return False
 
 
