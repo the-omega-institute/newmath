@@ -478,6 +478,52 @@ Use route stability budget for transport and replay. Componentwise $\hsame$ rows
 Combine these rows with the carrier obligation and ledger boundary. The resulting NameCert package is a finite witness export, not a proof of RH, a selected analytic branch, or a completed Gamma surface.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationWitness source-route scoped totality]
+\label{thm:zeta-continuation-witness-source-route-scoped-totality}
+For every accepted $\ZetaContinuationWitnessUp$ packet
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N),
+$$
+the source route is scoped-total exactly over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The source-lock coverage, critical-strip route separation, and ledger-scope theorems force every downstream critical-strip or zeta-zero read to expose $B,E,A,F$ together with $P,T,G,H,C,R,N$ before the packet is consumed.
+
+The total route does not assert RH, a non-trivial-zero location, a completed Gamma object, or analytic continuation beyond the displayed witness packet.
+\end{theorem}
+\begin{proof}
+Project the packet $W$. Its source, eta, analytic-continuation, pole, functional-equation, trivial-zero, Gamma-boundary, transport, replay, provenance, and naming rows are all displayed coordinates of the same $\BHist$ carrier.
+
+Apply source-lock coverage and critical-strip route separation. These theorems require the source lock and the exceptional ledgers to be visible before a critical-strip consumer receives the route.
+
+Use ledger scope to identify the complete dependency surface. Since the surface is exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ package over $W$, the source route is total only in that scoped sense and has no off-packet RH, zero-location, Gamma-completion, or analytic-continuation conclusion.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness functional-boundary scoped exactness]
+\label{thm:zeta-continuation-witness-functional-boundary-scoped-exactness}
+For an accepted $\ZetaContinuationWitnessUp$ packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, every functional-equation, pole, and Gamma-boundary read is scoped-exact through the displayed rows $P,F,G,H,C,R,N$ and through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ carrier surface. The pole-Gamma boundary, functional-factor boundary, critical-strip refusal, and ledger boundary theorems leave no route to a closed Gamma chapter, a hidden analytic branch, RH, or a non-trivial-zero locator.
+\end{theorem}
+\begin{proof}
+Read the boundary rows from the carrier. The pole row $P$, functional-equation route $F$, and Gamma-horizon row $G$ are separate coordinates, and $H,C,R,N$ are the only transport, replay, provenance, and naming rows available for them.
+
+Apply the pole-Gamma boundary and the functional-equation boundary. Pole data remains in $P$, while Gamma-dependent data remains in $G$ unless it is already one of the factors displayed inside $F$.
+
+Finally apply critical-strip input refusal and the ledger boundary. These rows prevent a downstream consumer from turning the functional boundary into RH data, a non-trivial-zero locator, a closed Gamma certificate, or a hidden analytic-continuation branch.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness local NameCert scoped package]
+\label{thm:zeta-continuation-witness-local-namecert-scoped-package}
+The local $\NameCert_{\ZetaContinuationWitnessUp}$ package for an accepted packet
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N)
+$$
+is the scoped package whose public rows are precisely the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates of $W$. It is obtained from source-lock coverage, pole-Gamma boundary control, critical-strip refusal, ledger scope, and package provenance exactness, and it exports only the witness packet rather than RH, zero-location data, completed Gamma, or analytic continuation beyond the displayed route.
+\end{theorem}
+\begin{proof}
+Begin with package provenance exactness. It identifies the public package as the provenance row $R$ and local naming row $N$ over the displayed zeta, analytic, holomorphic, complex, history, transport, and route rows.
+
+Add the source-lock and pole-Gamma rows. They ensure that source, eta, analytic-continuation, pole, functional-equation, trivial-zero, and Gamma-boundary data are carried by the single packet $W$ before the local name is exported.
+
+Use critical-strip refusal and ledger scope for downstream reads. A consumer preserving the scoped package preserves exactly the rows $B,E,A,P,F,T,G,H,C,R,N$ and receives no RH predicate, non-trivial-zero locator, completed Gamma certificate, or off-packet analytic-continuation primitive.
+\end{proof}
+
 \closureat{ZetaContinuationWitnessUp}{seedStr}
 \closureat{ZetaContinuationWitnessUp}{obligationStr}
 
