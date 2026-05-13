@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\AxisUnarySpineNormalizerUp$}
+\label{ch:concrete-instances-axisunaryspinenormalizer-namecert}
+\origin{ai}
+
+The $\AxisUnarySpineNormalizerUp$ packet gives the unary-direction bridge a concrete finite standard-boundary object. It records how a displayed $\NatUp$ unary spine is read beside a displayed $\AxisNatUp$ zero-spine packet, with the normalizing boundary carried by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows rather than by an identification of the two carriers.
+
+\begin{definition}[AxisUnarySpineNormalizer carrier]
+\label{def:axis-unary-spine-normalizer-carrier}
+An $\AxisUnarySpineNormalizerUp$ carrier is a finite $\BHist$ packet
+$$
+U=(N,A,L,Z,H,C,P,R)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $N$ is the source $\NatUp$ unary-spine row, read as a finite $\Eone$ history together with its local naming certificate;
+\item $A$ is the target $\AxisNatUp$ zero-spine row, read as a finite $\Ezero$ history together with its local naming certificate;
+\item $L$ is the displayed length ledger comparing the two histories by their finite step counts;
+\item $Z$ is the standard-boundary row asserting that the unary read and the zero-spine read have the same displayed length while remaining different BEDC carrier predicates;
+\item $H$ stores componentwise $\hsame$ transports for the unary row, zero-spine row, length ledger, standard-boundary row, and local name;
+\item $C$ stores the displayed $\Cont$ routes that read the unary spine, read the zero spine, expose the length ledger, and hand the boundary row to downstream bridge consumers;
+\item $P$ records $\Pkg$ provenance over $\NatUp$, $\AxisNatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $R$ is the local $\NameCert_{\AxisUnarySpineNormalizerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate that identifies $\NatUp$ with $\AxisNatUp$, rewrites $\Eone$ constructors into $\Ezero$ constructors inside the kernel, or imports a host arithmetic normalizer.
+\end{definition}
+
+\begin{theorem}[AxisUnarySpineNormalizer NameCert obligations]
+\label{thm:axis-unary-spine-normalizer-namecert-obligations}
+The local $\NameCert_{\AxisUnarySpineNormalizerUp}$ surface for \autoref{def:axis-unary-spine-normalizer-carrier} consists exactly of source unary-spine admission, target zero-spine admission, displayed length-ledger readback, standard-boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and the local naming row. These obligations assemble a finite bridge-facing packet over $\NatUp$, $\AxisNatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ without equating the unary and axis carriers.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $U$. The rows $N$ and $A$ give the two named source surfaces, while $L$ and $Z$ give the finite comparison and the standard-boundary read.
+
+The classifier is componentwise. The stored $\hsame$ row $H$ transports the unary read, zero-spine read, length ledger, boundary row, package row, and local name without replacing either carrier by the other.
+
+The continuation and provenance clauses are the remaining finite obligations. The routes in $C$ expose the two spine reads and then pass the length ledger into $Z$, while $P$ records that every row belongs to the listed BEDC dependencies. No host normalizer or carrier identity has a coordinate in the packet.
+\end{proof}
+
+\begin{theorem}[AxisUnarySpineNormalizer standard boundary]
+\label{thm:axis-unary-spine-normalizer-standard-boundary}
+Every accepted $\AxisUnarySpineNormalizerUp$ carrier exposes a length-preserving standard-boundary row from its $\NatUp$ unary spine to its $\AxisNatUp$ zero spine. Downstream uses of the unary-direction bridge may read this row through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates, but they may not treat the source and target carrier predicates as equal inside the BEDC kernel.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $U=(N,A,L,Z,H,C,P,R)$. By \autoref{thm:axis-unary-spine-normalizer-namecert-obligations}, every consumer-facing read of $U$ factors through the displayed rows of \autoref{def:axis-unary-spine-normalizer-carrier}.
+
+The standard-boundary coordinate is $Z$. Its input data are the unary row $N$, the zero-spine row $A$, and the length ledger $L$, and its public route is one of the continuation rows in $C$.
+
+The non-identification boundary is part of the same finite packet. Since neither $N$ nor $A$ is replaced by a shared carrier coordinate, the bridge exports a length-preserving standard boundary while preserving the kernel distinction between the two spine predicates.
+\end{proof}
+
+\closureat{AxisUnarySpineNormalizerUp}{seedStr}
+
+\begin{closurestatus}{\AxisUnarySpineNormalizerUp}
+  \constructivestory{An $\AxisUnarySpineNormalizerUp$ packet is generated from a $\NatUp$ unary-spine row, an $\AxisNatUp$ zero-spine row, a displayed length ledger, a standard-boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axis-unary-spine-normalizer-carrier}, \autoref{thm:axis-unary-spine-normalizer-namecert-obligations}, and \autoref{thm:axis-unary-spine-normalizer-standard-boundary} bind the finite unary-to-zero-spine normalizer boundary without identifying the source and target carriers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean formalization, bridge checking, kernel equality between $\NatUp$ and $\AxisNatUp$, host arithmetic normalization, or a public additive isomorphism.}
+  \upgradepath{Obligation closure requires checked carrier admission, length-ledger readback, transport stability, and standard-boundary export for the same finite packet.}
+\end{closurestatus}
