@@ -298,11 +298,15 @@ def render_target_table(limit: int = 80) -> str:
             d = json.loads(f.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
-        kind = d.get("failure_kind") or derive_failure_kind(d)
+        if not isinstance(d, dict):
+            continue
+        if not d.get("target_id") and not (d.get("stage1_verdict") or d.get("stage2")):
+            continue
+        kind = derive_failure_kind(d)
         action = decide_next_action({**d, "failure_kind": kind})
         attempts = d.get("attempts", 1)
         items.append({
-            "target_id": d.get("target_id", "?"),
+            "target_id": d.get("target_id") or f.stem,
             "kind": kind,
             "attempts": attempts,
             "action": action,
@@ -320,9 +324,20 @@ def render_target_table(limit: int = 80) -> str:
 
     ordered = sorted(items, key=priority)
     shown = ordered if limit <= 0 else ordered[:limit]
-    rows: list[str] = [
-        f"  {'TARGET':<8} {'KIND':<28} {'ATTEMPTS':<10} {'NEXT':<14} TITLE"
-    ]
+    summary: dict[tuple[str, str], list[str]] = {}
+    for item in items:
+        key = (str(item.get("action") or "?"), str(item.get("kind") or "?"))
+        summary.setdefault(key, []).append(str(item.get("target_id") or "?"))
+    rows: list[str] = []
+    for (action, kind), targets in sorted(
+        summary.items(),
+        key=lambda kv: (kv[0][0] != "alert_user", kv[0][0], -len(kv[1]), kv[0][1]),
+    )[:8]:
+        rows.append(
+            f"  summary {action:<14} {kind:<28} {len(targets):>3} "
+            f"examples={', '.join(targets[:4])}"
+        )
+    rows.append(f"  {'TARGET':<8} {'KIND':<28} {'ATTEMPTS':<10} {'NEXT':<14} TITLE")
     for item in shown:
         rows.append(
             f"  {item.get('target_id','?'):<8} {item.get('kind','?'):<28} "
