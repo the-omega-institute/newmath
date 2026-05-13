@@ -60,6 +60,46 @@ Now apply the sibling routes. The tail-budget packet of \autoref{ch:concrete-ins
 The structural rows $H,C,P,N$ carry the same composite packet to downstream Real and Completion consumers. Since the packet has no coordinate for quotient stream equality, selected host limits, host real equality, or ambient completeness, the handoff is exactly the finite BEDC-visible route stated above.
 \end{proof}
 
+\begin{theorem}[Tail budget coherence threshold-budget exposure]
+\label{thm:tail-budget-coherence-threshold-budget-exposure}
+For any accepted $\TailBudgetCoherenceUp$ packet
+$$
+T=(M,O,S,A,L,W,R,D,H,C,P,N),
+$$
+the TailMeet threshold row $M$, observation-budget row $O$, and selector-budget row $S$ are exposed before any finite window row $W$, dyadic tolerance row $D$, regular readback row $R$, agreement-seal row $A$, or limit-seal row $L$ is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tail-budget-coherence-carrier}. The first three budget-facing coordinates of the accepted packet are $M,O,S$, and the displayed carrier order places $W,R,D,A,L$ only after those rows have been named.
+
+Apply \autoref{thm:tail-budget-coherence-namecert-obligations}. Its NameCert surface exposes TailMeet threshold, observation budget, and selector budget as separate rows before the finite window service, regular readback, dyadic tolerance accounting, agreement-seal exposure, and limit-seal exposure rows are read.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name the same packet. They do not supply an alternate window, tolerance ledger, readback route, agreement seal, or limit seal outside the exposed threshold and budget rows.
+\end{proof}
+
+\begin{theorem}[Tail budget coherence window-readback exactness]
+\label{thm:tail-budget-coherence-window-readback-exactness}
+For any accepted $\TailBudgetCoherenceUp$ packet $T=(M,O,S,A,L,W,R,D,H,C,P,N)$, the rows $W,D,R$ form the unique finite window, dyadic tolerance, and $\RegSeqRatUp$ readback route available under the displayed threshold and budget rows $M,O,S$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:tail-budget-coherence-threshold-budget-exposure} to fix $M,O,S$ as the exposed threshold and budget rows before any readback-facing coordinate is consumed.
+
+Now apply \autoref{thm:tail-budget-coherence-namecert-obligations}. The accepted NameCert surface lists exactly one finite window service row $W$, one dyadic tolerance accounting row $D$, and one regular readback row $R$ in the displayed packet.
+
+Because the classifier compares accepted packets only through the displayed rows of \autoref{def:tail-budget-coherence-carrier}, there is no second finite window, tolerance ledger, or readback coordinate for a Real or Completion consumer to select. Thus $W,D,R$ are the exact readback route under $M,O,S$.
+\end{proof}
+
+\begin{theorem}[Tail budget coherence seal non-escape]
+\label{thm:tail-budget-coherence-seal-nonescape}
+Every Real or Completion consumer of an accepted $\TailBudgetCoherenceUp$ packet reaches the agreement-seal row $A$ and limit-seal row $L$ only after the rows $M,O,S,W,D,R$ have been displayed, and receives no quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness principle from the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:tail-budget-coherence-window-readback-exactness}. It identifies $W,D,R$ as the exact finite readback route available under the already exposed threshold and budget rows $M,O,S$.
+
+Apply \autoref{thm:tail-budget-coherence-real-completion-handoff}. Any Real or Completion consumer must read the handoff through the displayed route $M,O,S,W,D,R,A,L,H,C,P,N$, so the agreement seal $A$ and limit seal $L$ are reached only after the finite threshold, budget, window, tolerance, and readback rows.
+
+Finally inspect the carrier definition. It contains no coordinate for quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness, and the NameCert obligations package only the displayed finite rows.
+\end{proof}
+
 \falsifiablePrediction{If a completion-facing consumer reads the limit seal without a displayed TailMeet threshold, observation budget, selector budget, finite window ledger, dyadic tolerance ledger, regular readback, and agreement-seal row, that read is not accepted by $\TailBudgetCoherenceUp$.}
 
 The composite-dependency explanation is the replacement for an atomic independence witness. The carrier is deliberately assembled from existing $\RegularCauchyTailMeetUp$, $\RealObservationBudgetUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows; its content is the coherence of those rows at the Real-completion handoff, not a new primitive analytic object.
