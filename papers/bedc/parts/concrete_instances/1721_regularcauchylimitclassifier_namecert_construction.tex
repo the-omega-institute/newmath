@@ -219,6 +219,34 @@ Next read the synchronizer packet. The componentwise agreement hypotheses identi
 Finally apply the completion-consumer boundary of \autoref{thm:regular-cauchy-limit-classifier-completion-consumer-boundary} together with the synchronizer non-escape rows. Since neither packet contains a quotient-stream coordinate, a host limit selector, host real equality, or an ambient completeness premise, the composed handoff exposes only the finite seal-budget synchronization surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit classifier budget-synchronizer route agreement]
+\label{thm:regular-cauchy-limit-classifier-budget-synchronizer-route-agreement}
+Let
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLimitClassifierUp$ packet. Let
+$$
+B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet, and let
+$$
+Z=(E_Z,S_Z,B_Z,T_Z,D_Z,L_Z,H_Z,C_Z,P_Z,N_Z)
+$$
+be an accepted $\CauchySealBudgetSynchronizerUp$ packet. Suppose that $B$ and $Z$ read the same displayed diagonal window, regular readback rows, dyadic ledger rows, and $\RealUp$ seal row of $Q$ through their displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then the observation-budget route and the synchronizer route determine one finite completion-facing classifier route: the same $\BHist$ history rows, the same $\hsame$ transports, the same $\Cont$ replay, the same $\Pkg$ provenance, and the same local $\NameCert$ handoff.
+
+The agreement is a finite public-route statement. It does not assert quotient stream equality, host real equality, a selected limit, a hidden selector, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First invoke the observation-budget factorization. By \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization}, every $\RealUp$ seal handoff of $Q$ that is read through $B$ factors through $E_B,W_B,D_B,R_B,S_B$ with only the displayed transport, continuation, provenance, and naming rows.
+
+Next invoke the synchronizer factorization. By \autoref{thm:regular-cauchy-limit-classifier-synchronizer-factorization}, the same displayed diagonal window, regular readback, dyadic ledger, and seal rows read through $Z$ factor through $D_Z,B_Z,T_Z,L_Z,S_Z$ before any completion-facing consumer is served.
+
+Use diagonal-seal uniqueness and finite-route exactness to compare the two routes. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} identifies every public read with the sealed diagonal-window route, and \autoref{thm:regular-cauchy-limit-classifier-finite-route-exactness} identifies that public read with the finite observation-budget route. Hence the synchronizer route and the budget route are two presentations of the same completion-facing $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ path.
+
+Finally inspect the carrier coordinates of $Q$, $B$, and $Z$. None contains quotient stream equality, host real equality, a selected limit, a hidden selector, or an ambient completeness witness, so no further route can distinguish the two finite presentations.
+\end{proof}
+
 \closureat{RegularCauchyLimitClassifierUp}{seedStr}
 \closureat{RegularCauchyLimitClassifierUp}{obligationStr}
 \closureat{RegularCauchyLimitClassifierUp}{scopedStr}

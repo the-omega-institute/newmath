@@ -71,6 +71,18 @@ For a type-stratum consumer, project $Q$ and the classifier part of $H$. The rou
 For a proposition-stratum consumer, project $R$ and the implication part of $H$. The route selects one displayed implication direction from the bidirectional datum and composes ordinary proof functions; it never identifies propositions by an equality token. The axiom-purity boundary of \autoref{thm:unwitnessed-existence-closure-axiom-purity-boundary} then rules out any alternate oracle route.
 \end{proof}
 
+\begin{theorem}[UnwitnessedExistenceClosure refutation-boundary link]
+\label{thm:unwitnessed-existence-closure-refutation-boundary-link}
+Every proposition-stratum read exported by an accepted $\UnwitnessedExistenceClosureUp$ packet passes through the stable-negation boundary of \autoref{ch:concrete-instances-stable-negation-boundary-namecert} before the ledger refusal is exported. The implication map in $R$ may carry a displayed refutation direction, but the local ledger may refuse $\mathsf{propext}$ only after that direction has been read as stable negation rather than as a proposition-equality token.
+\end{theorem}
+\begin{proof}
+Project the proposition row $R$ and the implication component of $H$ from the effective handoff. These rows expose ordinary proof-function transport, not equality between propositions.
+
+Read the same route through the stable-negation boundary. That sibling records the permitted refutation-facing interpretation of a displayed implication, so the proposition-stratum consumer receives a stable refusal surface before the non-exportable ledger is consulted.
+
+The ledger row $L$ then exports the refusal. Since the carrier never stores a proposition-equality token, the refusal is a boundary read over stable negation and not a hidden use of $\mathsf{propext}$.
+\end{proof}
+
 \begin{theorem}[UnwitnessedExistenceClosure primitive scope]
 \label{thm:unwitnessed-existence-closure-primitive-scope}
 For an accepted $\UnwitnessedExistenceClosureUp$ carrier $U=(T,Q,R,C,S,L,H,E,P,N)$, the primitive scope is exactly the displayed finite packet: $T,Q,R$ are the three replacement strata, $C$ is the classifier row over those strata, $S$ is the componentwise stability row, $L$ is the non-exportable ledger, $H$ is the replacement handoff, $E$ records $\hsame$ and $\Cont$ transport, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert$ row. The rows bind only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the three replacement surfaces named in \autoref{def:three-axioms-replacement-choice}, \autoref{def:three-axioms-replacement-quot}, and \autoref{def:three-axioms-replacement-propext}.
