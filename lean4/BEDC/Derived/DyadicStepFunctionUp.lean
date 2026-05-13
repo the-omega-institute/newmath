@@ -81,6 +81,25 @@ def DyadicStepFunctionCarrier [AskSetup] [PackageSetup]
           Cont refinement endpointLedger ledger ∧ Cont route provenance nameRow ∧
             PkgSig bundle nameRow pkg
 
+theorem DyadicStepFunctionCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {partition cells values reads refinement endpointLedger ledger route provenance nameRow
+      exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicStepFunctionCarrier partition cells values reads refinement endpointLedger ledger route
+        provenance nameRow bundle pkg ->
+      Cont ledger route exported ->
+        UnaryHistory exported ∧ UnaryHistory ledger ∧ Cont refinement endpointLedger ledger ∧
+          Cont ledger route exported ∧ PkgSig bundle nameRow pkg := by
+  intro carrier exportedRoute
+  obtain ⟨_partitionUnary, _cellsUnary, _valuesUnary, _readsUnary, _refinementUnary,
+    _endpointLedgerUnary, ledgerUnary, routeUnary, _provenanceUnary, _nameRowUnary,
+    _partitionCellsValues, _valuesReadsRefinement, refinementEndpointLedger,
+    _routeProvenanceNameRow, nameRowPkg⟩ := carrier
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed ledgerUnary routeUnary exportedRoute
+  exact
+    ⟨exportedUnary, ledgerUnary, refinementEndpointLedger, exportedRoute, nameRowPkg⟩
+
 theorem DyadicStepFunctionCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {partition cells values reads refinement endpointLedger ledger route provenance
       nameRow : BHist}
