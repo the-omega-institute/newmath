@@ -70,6 +70,44 @@ Observation-actuality binding is \autoref{thm:inscription-point-observation-hist
 The remaining rows are $H$, $C$, $P$, and $N$. They transport, route, record provenance, and name the packet over the listed BEDC dependencies, and no coordinate remains from which a hidden supply source or receiver object could be projected.
 \end{proof}
 
+\begin{theorem}[InscriptionPoint GAP boundary exactness]
+\label{thm:inscription-point-gap-boundary-exactness}
+For an accepted $\InscriptionPointUp$ carrier $I=(O,S,A,G,H,C,P,N)$, every supply read reaches the GAP row $G$ through the socket row $S$ before any actuality row $A$ is public. No read may expose $A$ as an inscription record while bypassing the displayed socket and GAP boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-point-namecert-carrier}. The supply-facing path has $S$ as its socket coordinate and $G$ as its boundary coordinate, while $A$ is the later actuality coordinate where the inscription becomes public record data.
+
+Apply \autoref{thm:inscription-point-local-supply-socket}. It forces every supply-position read through $S$ and $G$, and it rules out conversion of the requested supply into an internal BEDC theorem.
+
+Now compare this with \autoref{thm:inscription-point-observation-history-actuality}. That theorem attaches public inscription actuality to $O$ and $A$ only after the displayed read route has been fixed. Hence the GAP row is reached before $A$ is available as a public actuality row, and no hidden supply route can bypass the boundary.
+\end{proof}
+
+\begin{theorem}[InscriptionPoint transport route locality]
+\label{thm:inscription-point-transport-route-locality}
+For an accepted $\InscriptionPointUp$ carrier $I=(O,S,A,G,H,C,P,N)$, the transport row $H$ and continuation row $C$ only transport or replay the displayed rows $O,S,A,G,P,N$. They add no hidden receiver object, no private source predicate, and no supplied theorem beyond the carrier inventory.
+\end{theorem}
+\begin{proof}
+Read $H$ and $C$ in the carrier of \autoref{def:inscription-point-namecert-carrier}. The transport row is componentwise over the observation-history, supply-socket, actuality, GAP, provenance, and local naming rows, and the continuation row only displays consumer routes among those same coordinates.
+
+Use \autoref{thm:inscription-point-certificate-surface}. Its fourth row identifies transport and continuation locality as a NameCert obligation for the displayed rows only, and its fifth row keeps provenance and local naming inside the listed dependencies.
+
+The carrier contains no coordinate for a hidden receiver or supplied theorem. Therefore $H$ and $C$ can compare, transport, and replay $O,S,A,G,P,N$, but they cannot add an object or theorem absent from the finite packet.
+\end{proof}
+
+\begin{theorem}[InscriptionPoint obligation surface exhaustion]
+\label{thm:inscription-point-obligation-surface-exhaustion}
+The full $\NameCert_{\InscriptionPointUp}$ obligation surface for an accepted carrier $I=(O,S,A,G,H,C,P,N)$ is exhausted by carrier exposure, local supply-socket locality, observation-history actuality, GAP boundary exactness, transport route locality, provenance over the neighboring socket chapters, and local naming. It contains no internally supplied induction rule, selected witness, extensional quotient equality, hidden receiver object, private source predicate, or completed supply theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:inscription-point-namecert-carrier}. It lists exactly the rows $O,S,A,G,H,C,P,N$, so carrier exposure supplies no further coordinate from which an additional obligation could be read.
+
+Apply \autoref{thm:inscription-point-local-supply-socket} and \autoref{thm:inscription-point-observation-history-actuality}. These two results bind the supply read to $S,G$ and the public inscription read to $O,A$.
+
+Next use \autoref{thm:inscription-point-gap-boundary-exactness} and \autoref{thm:inscription-point-transport-route-locality}. The first theorem fixes the order in which the supply read reaches the GAP boundary before actuality is public, while the second restricts $H$ and $C$ to displayed transport and replay.
+
+Finally apply \autoref{thm:inscription-point-certificate-surface}. Its five certificate rows assemble carrier exposure, socket locality, observation actuality, transport and continuation locality, and provenance non-escape, so the listed obligations exhaust the NameCert surface and exclude every hidden supply or receiver coordinate.
+\end{proof}
+
 \closureat{InscriptionPointUp}{seedStr}
 
 \begin{closurestatus}{\InscriptionPointUp}
