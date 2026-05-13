@@ -18624,3 +18624,43 @@ Rationale:
 This is a concrete finite-subfamily restriction theorem inside an existing audit-map frontier chapter. It is not already covered by the carrier or the five NameCert obligations: those bind the frontier index and synthesis handoff, but do not explicitly state locality under displayed neighbouring-map restriction or the corresponding no-unlisted-neighbour non-escape result. The file is a short non-hub landing, so it is safe as an existing-chapter lemma.
 
 ---
+
+### B-733 - RegularCauchyTailSchedule seal-facing route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | RegularCauchyTailSchedule seal-facing route determinacy |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If two accepted RegularCauchyTailScheduleUp packets share the precision request, RegSeqRat source, StreamName window schedule, DyadicRatCore ledger, cofinal index, tail witness, sibling consumer rows, transport, continuation, provenance, and naming rows, then their RealUp seal-facing handoff rows are hsame.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The schedule is a displayed finite packet; the handoff comparison is a finite route-readback argument through named rows Q,R,W,D,K,T,M,F,H,C,P,N.
+- `witness_extractor`: regular_cauchy_tail_schedule_handoff_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Cut through the cofinal-index/tail-witness pair K,T: align the shared precision, window, dyadic, and sibling consumer rows, then use C and H to compare the two E handoff endpoints.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes Q,R,W,D,K,T,M,F,E,H,C,P,N from the carrier; the sibling TailMeet and TailFusion rows are read only as displayed consumer rows, with no quotient stream equality, selected limit, or ambient completeness principle.
+- `dependency_trace`: Builds on papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:7 for the carrier and papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:32 for the local obligation rows.
+- `rate_modulus_surface`: Finite precision request Q, finite window schedule W, DyadicRatCore tolerance ledger D, and cofinal index K form the complete modulus surface.
+- `oracle_mode`: proof_search
+Rationale:
+The carrier at papers/bedc/parts/concrete_instances/4689_regularcauchytailschedule_namecert_construction.tex:7 is a finite BHist packet S=(Q,R,W,D,K,T,M,F,E,H,C,P,N); lines 15-23 describe the precision request, window schedule, dyadic ledger, cofinal index, tail witness, sibling consumer rows, and seal-facing handoff. The existing theorem at lines 32-42 gives NameCert obligation rows but does not state a two-packet handoff determinacy result. Focused grep for RegularCauchyTailSchedule and schedule/tail determinacy returned only this file's carrier and obligation labels plus neighboring general tail-meet or diagonal-tail theorems, so this packet-specific claim remains open and is not merely a parameter transport echo.
+
+---
