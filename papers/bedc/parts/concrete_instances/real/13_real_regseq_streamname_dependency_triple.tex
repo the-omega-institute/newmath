@@ -369,3 +369,50 @@ conditions for the four open-phase faces and their structural rows. Therefore
 every completion-facing comparison factors through that common finite window
 lock and through nothing larger.
 \end{proof}
+
+\begin{theorem}[Real L10 four-face route lock]
+\label{thm:real-l10-four-face-route-lock}
+Let
+$$
+X=(S,Q,D,R,H,C,P,N)
+\quad\text{and}\quad
+Y=(S',Q',D',R',H',C',P',N')
+$$
+be accepted $\RealUp$ RegSeqRat StreamName dependency triples. Every current
+Phase Real and Completion consumer comparison between $X$ and $Y$ factors
+through exactly the four open-phase faces
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad
+\RegSeqRatUp,\qquad \RealUp .
+$$
+The only comparison structure available to that factorization is the
+displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in the two packets.
+
+Thus no quotient stream, host equality, selected limit, ambient completeness,
+arithmetic package, order package, or metric-completeness row is available to
+the comparison. The comparison is locked to the local finite route through the
+dyadic observation ledger, stream-name finite window, regular-rational
+readback, and local real seal.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It exhausts every
+accepted seal-facing route by the displayed $\StreamNameUp$ finite-window row,
+$\RegSeqRatUp$ readback row, $\DyadicRatCoreUp$ ledger row, local $\RealUp$
+seal row, and the shown $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply
+\autoref{thm:real-regseq-streamname-finite-window-pullback-classifier}. The
+classifier for accepted Real RegSeqRat StreamName dependency triples is the
+finite pullback of those four open-phase faces together with the displayed
+structural rows, so a consumer comparison has no independent coordinate
+outside that pullback.
+
+Finally apply
+\autoref{thm:real-regseq-streamname-dyadic-window-lock}. The common finite
+window lock forces every completion-facing comparison between accepted packets
+through the shared four-face window. Since the three results already remove
+quotient streams, host equality, selected limits, ambient completeness,
+arithmetic and order packages, and metric-completeness rows, the Real L10
+comparison route is exactly the four-face route stated above.
+\end{proof}
