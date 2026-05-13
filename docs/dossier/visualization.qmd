@@ -37,19 +37,16 @@ format:
 ```{=html}
 <style>
   body { background: #fbfbfa; }
-  /* Lock the Quarto wrapper to viewport height (minus 62px navbar) so
-     the map shell can fit on a 13" laptop without forcing scroll.
-     Wrapper paddings and Quarto's default page footer are zeroed. */
   #quarto-content {
-    height: calc(100vh - 62px) !important;
+    min-height: calc(100vh - 62px) !important;
     padding: 0 !important;
-    overflow: hidden;
+    overflow: visible;
   }
   main.content {
     padding: 0 !important; margin: 0 !important;
     max-width: 100% !important;
-    height: calc(100vh - 62px) !important;
-    overflow: hidden;
+    min-height: calc(100vh - 62px) !important;
+    overflow: visible;
   }
   .page-footer, #quarto-content > footer { display: none !important; }
   #title-block-header { display: none; }
@@ -59,11 +56,7 @@ format:
     grid-template-columns: minmax(0, 1fr) 240px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
-    /* Parent (#quarto-content) is locked to viewport-minus-navbar, so
-       the shell just fills its parent. min-height is a tablet floor.
-       overflow:hidden + min-height:0 on grid items prevents the
-       detail panel's min-content from inflating the grid past parent. */
-    height: 100%;
+    height: calc(100vh - 62px);
     min-height: 540px;
     overflow: hidden;
     gap: 0;
@@ -354,6 +347,72 @@ format:
   }
   #spark { flex: 1; height: 28px; }
   .map-footer .meta { white-space: nowrap; }
+
+  .rule110-section {
+    background: #f5f5f1;
+    border-top: 1px solid #deded8;
+    padding: 2rem 1.4rem 2.4rem;
+  }
+  .rule110-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .rule110-kicker {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b6b63;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+  }
+  .rule110-section h2 {
+    margin: 0;
+    font-size: 1.45rem;
+    font-weight: 700;
+  }
+  .rule110-lede {
+    max-width: 780px;
+    color: #444;
+    line-height: 1.58;
+    margin: 0.55rem 0 1.2rem;
+  }
+  .rule110-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .rule110-figure {
+    margin: 0;
+    background: #fff;
+    border: 1px solid #d6d6d0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .rule110-figure.wide {
+    grid-column: 1 / -1;
+  }
+  .rule110-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #fff;
+  }
+  .rule110-figure figcaption {
+    border-top: 1px solid #ecece6;
+    padding: 0.65rem 0.8rem 0.75rem;
+    color: #333;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+  .rule110-figure figcaption strong {
+    display: block;
+    font-size: 0.92rem;
+    margin-bottom: 0.18rem;
+  }
+  @media (max-width: 760px) {
+    .rule110-grid { grid-template-columns: 1fr; }
+    .rule110-section { padding: 1.4rem 0.8rem 1.8rem; }
+  }
 </style>
 
 <div class="map-shell">
@@ -1544,4 +1603,64 @@ function setLang(lang) {
   }
 })();
 </script>
+
+<section class="rule110-section" aria-labelledby="rule110-substrate-title">
+  <div class="rule110-inner">
+    <div class="rule110-kicker">Rule 110 substrate visualization</div>
+    <h2 id="rule110-substrate-title">Foundation → particles → physics → computation</h2>
+    <p class="rule110-lede">
+      These space-time diagrams read Rule 110 from the raw ether background up to
+      Cook packet scale. Horizontal position is cell index, vertical position is
+      time flowing downward, and black pixels are live cells.
+    </p>
+
+    <div class="rule110-grid">
+      <figure class="rule110-figure">
+        <img src="figures/rule110/ether_evolution.svg" alt="Pure Rule 110 ether evolved for 70 steps">
+        <figcaption>
+          <strong>Foundation: pure ether.</strong>
+          The 14-cell ether pattern repeats over 140 cells and returns to the
+          same displacement after each 7-step cycle.
+        </figcaption>
+      </figure>
+
+      <figure class="rule110-figure">
+        <img src="figures/rule110/glider_zoo.svg" alt="Six Rule 110 glider panels on ether">
+        <figcaption>
+          <strong>Particles: glider catalog.</strong>
+          A, B, C1, Ebar, F, and G are placed as catalog phase-0 defects on the
+          ether and evolved for three fundamental periods.
+        </figcaption>
+      </figure>
+
+      <figure class="rule110-figure wide">
+        <img src="figures/rule110/collision_example.svg" alt="Rule 110 A and Ebar collision evolving to Ebar and A">
+        <figcaption>
+          <strong>Physics: audited Martinez collision.</strong>
+          The `A(f1_1) -4e- Ebar(A,f1_1) -> {Ebar, A}` row uses the same phase
+          spacing as the local collision audit and marks the collision window.
+        </figcaption>
+      </figure>
+
+      <figure class="rule110-figure wide">
+        <img src="figures/rule110/cook_packet_structure.svg" alt="Cook packet initial row and 2048 step evolution">
+        <figcaption>
+          <strong>Computation: Cook packet structure.</strong>
+          A two-production, two-tape-bit cyclic tag input is encoded with
+          `cook_encode_phase_exact`; the initial row labels the left periodic
+          blocks, central tape band, and right appendant blocks.
+        </figcaption>
+      </figure>
+
+      <figure class="rule110-figure">
+        <img src="figures/rule110/scale_frontier.svg" alt="Downsampled Rule 110 Cook packet frontier over 16384 steps">
+        <figcaption>
+          <strong>Scale frontier.</strong>
+          The `scale_2p_16t_16384` case is evolved for 16384 steps and
+          downsampled by majority vote into a compact viewport.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 ```
