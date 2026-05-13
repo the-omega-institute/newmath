@@ -1,0 +1,96 @@
+\begin{theorem}[Diagonal-limit seal source synchronization]
+\label{thm:diagonal-limit-compatibility-seal-source-synchronization}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+any seal-facing read first fixes the diagonal packet $R$, the triangle row
+$T$, the dyadic ledger $D$, the window ledger $W$, the regular readback row
+$Q$, and the seal row $L$ through the displayed $\hsame$ transports $H$,
+$\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+The read cannot inspect $Q$ or $L$ through a second source route, alternate
+window ledger, host limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:diagonal-limit-compatibility-carrier}. The accepted packet
+exposes exactly the source rows $R,T,S,D,W,Q,L$ together with $H,C,P,N$.
+
+Use triangle selector alignment,
+\autoref{thm:diagonal-limit-compatibility-triangle-selector-alignment}, to
+bind the triangle row $T$ to the same dyadic ledger $D$ and window ledger $W$
+already named by the diagonal packet $R$.
+
+Now apply seal route compatibility,
+\autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. The
+seal route can read $Q$ and $L$ only after the displayed source, triangle,
+tolerance, and window rows have been fixed.
+
+Finally apply non-escape,
+\autoref{thm:diagonal-limit-compatibility-non-escape}. Since no second source
+route, alternate window ledger, host limit, host equality, choice datum, or
+ambient completeness row is exported, the seal-facing read is synchronized to
+the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit triangle readback lock]
+\label{thm:diagonal-limit-compatibility-triangle-readback-lock}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the $\RegSeqRatUp$ readback row $Q$ is locked behind the same triangle row
+$T$, dyadic ledger $D$, and window ledger $W$ that support the seal route.
+After $T,D,W$ have been displayed, $Q$ cannot be selected from a second
+regular readback route or from a tolerance row outside the packet.
+\end{theorem}
+\begin{proof}
+Start with window ledger exactness,
+\autoref{thm:diagonal-limit-compatibility-window-ledger-exactness}. The row
+$W$ is the exact shared-window ledger read by the diagonal source, triangle
+row, dyadic ledger, seal route, readback row, and real seal row.
+
+Next use the triangle seal route,
+\autoref{thm:diagonal-limit-compatibility-triangle-seal-route}. It places the
+seal route to $Q$ behind the displayed $T,D,W$ rows.
+
+Apply regular readback exactness,
+\autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}. That
+theorem identifies $Q$ as the readback determined by the same $T,D,W$ route
+and excludes another regular readback or dyadic witness.
+
+The non-escape boundary then removes any remaining hidden source. The packet
+has no coordinate from which a second readback route or alternate tolerance
+surface could be selected.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit real seal factorization]
+\label{thm:diagonal-limit-compatibility-real-seal-factorization}
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted
+$\DiagonalLimitCompatibilityUp$ packet factors through
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The consumer receives the displayed diagonal source, triangle row, seal
+route, dyadic ledger, window ledger, regular readback, real seal row,
+componentwise transports, continuations, provenance, and local naming row. It
+receives no quotient stream, selected host limit, host real equality, choice
+datum, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First read the seal source synchronization theorem,
+\autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}. It
+fixes the source, triangle, dyadic, window, readback, seal, transport, route,
+provenance, and naming rows before a seal-facing consumer can proceed.
+
+Then apply the triangle readback lock,
+\autoref{thm:diagonal-limit-compatibility-triangle-readback-lock}. The
+regular readback row $Q$ is tied to the same $T,D,W$ route as the seal row,
+so a $\CauchyLimitSealUp$ or $\RealUp$ consumer has no independent readback
+surface.
+
+Finally use completion consumer nonescape,
+\autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}.
+Every completion-facing read remains inside the displayed packet rows and
+exports none of the omitted quotient, host, choice, or completeness data.
+\end{proof}
