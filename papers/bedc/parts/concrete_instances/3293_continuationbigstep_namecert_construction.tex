@@ -491,6 +491,46 @@ Next apply \autoref{thm:continuation-big-step-small-step-factorization} and \aut
 The boundary is closed by \autoref{thm:continuation-big-step-consumer-exactness}. Since consumers can read only the displayed package rows, the non-escape scope is exactly the finite $\ContinuationBigStepUp$ surface.
 \end{proof}
 
+\begin{theorem}[ContinuationBigStep prefix closure]
+\label{thm:continuation-big-step-prefix-closure}
+Every accepted prefix of the small-step trace ledger of an accepted $\ContinuationBigStepUp$ packet remains a finite $\ContinuationTraceUp$ route. The prefix route is read through the carrier rows $S,T,R,Q,H,C,P,N$, the local $\NameCert_{\ContinuationBigStepUp}$ obligations, the small-step factorization, terminal-read determinacy, and the non-escape boundary; it imports no host evaluator, hidden termination principle, quotient behaviour, or direct source-to-result shortcut.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:continuation-big-step-carrier}. The only trace coordinate is $T$, and it is a finite $\ContinuationTraceUp$ ledger attached to the source row $S$ and replay route $C$.
+
+Apply the local NameCert obligations and the small-step factorization. They make every accepted trace read pass through $S$, then through the displayed trace ledger $T$, and then through the replay route toward $R$.
+
+For an accepted prefix, restrict this same displayed ledger before the terminal row is consumed. Terminal-read determinacy ensures that the full terminal witness is not changed by reading the prefix, and the non-escape theorem prevents a prefix consumer from replacing the finite trace route by a host evaluator or hidden termination row.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep result stability]
+\label{thm:continuation-big-step-result-stability}
+Let two accepted $\ContinuationBigStepUp$ packets have classifier-same terminal rows under the displayed $\hsame$ transport, and suppose their replay routes agree on the source row, trace ledger, continuation replay, and terminal row. Then the terminal-read witnesses induced by the displayed replay are classifier-same. The witness comparison is read only through $S,T,R,Q,H,C,P,N$ and the corresponding primed rows, together with carrier admission, NameCert obligations, small-step factorization, terminal-read determinacy, consumer exactness, and non-escape.
+\end{theorem}
+\begin{proof}
+Start with the two carrier packets. Their source rows, trace ledgers, replay routes, terminal rows, terminal witnesses, transports, provenance, and local names are the only displayed coordinates available for a terminal read.
+
+Use the NameCert obligations and small-step factorization for both packets. These route each terminal read through its displayed trace ledger and continuation replay before reaching the terminal row.
+
+Apply terminal-read determinacy at the classifier-same terminal rows. Since the replay routes agree on the source, trace, continuation, and terminal rows, the terminal witness has no independent route by which it can vary.
+
+Finally use consumer exactness and non-escape. Transport through $H,C,P,N$ and the primed rows repacks the same finite replay surface, so the induced terminal-read witnesses are classifier-same rather than host-evaluator results.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep ledger totality]
+\label{thm:continuation-big-step-ledger-totality}
+The rows $S,T,R,Q,H,C,P,N$ exhaust every $\ContinuationBigStepUp$ consumer route. Any accepted big-step consumer must read the source row, finite $\ContinuationTraceUp$ ledger, terminal row, terminal-read witness, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and local $\NameCert$ row; no ninth row supplies a host evaluator, hidden termination, quotient behaviour, or direct source-to-result shortcut.
+\end{theorem}
+\begin{proof}
+Read the carrier and local NameCert obligations first. They list exactly $S,T,R,Q,H,C,P,N$ as the finite big-step packet and give no additional consumer coordinate.
+
+Next apply the small-step factorization. It accounts for the operational content of the packet by routing the source through the trace ledger and displayed continuation replay before the terminal row is read.
+
+Terminal-read determinacy and consumer exactness then account for $R,Q,H,C,P,N$. The terminal row and witness are fixed by the displayed replay, while transports, continuations, provenance, and the local name authenticate the same route to consumers.
+
+The non-escape theorem closes the ledger. Since every displayed route has already been assigned to one of $S,T,R,Q,H,C,P,N$, no host evaluator, hidden termination row, quotient behaviour, or direct source-to-result shortcut remains available.
+\end{proof}
+
 \closureat{ContinuationBigStepUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationBigStepUp}
