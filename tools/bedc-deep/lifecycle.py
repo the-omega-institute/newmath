@@ -207,6 +207,19 @@ def _is_posthoc_paper_covered_target(state: dict) -> bool:
         if theorem.exists():
             text = theorem.read_text(encoding="utf-8")
             return "thm:category-split-isomorphism-inverse-witnesses-coincide" in text
+    if target_id == "B-495" and title == "distribution↑ null-completion random-variable descent":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "distribution"
+            / "null_completion_descent.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:distribution-null-completion-random-variable-descent" in text
     return False
 
 
