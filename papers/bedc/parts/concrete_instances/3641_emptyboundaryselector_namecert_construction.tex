@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\EmptyBoundarySelectorUp$}
+\label{ch:concrete-instances-emptyboundaryselector-namecert}
+\origin{human}
+
+The $\EmptyBoundarySelectorUp$ interface realizes the empty-boundary witness surface of \autoref{def:efm-empty-boundary}. It packages one enacted mark above a displayed source $\Hist$ row, the resulting $\Ext$ row, the local witness that this mark is the enacted branch, and the naming boundary that keeps the witness local. It is not a global branch selector and not an oracle for histories outside the packet.
+
+\begin{definition}[EmptyBoundarySelector carrier]
+\label{def:empty-boundary-selector-carrier}
+An $\EmptyBoundarySelectorUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(H,M,R,E,W,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the source $\Hist$ row whose empty boundary is being filled;
+\item $M$ is the enacted mark row, one of the two kernel marks $b_0$ or $b_1$;
+\item $R$ is the resulting $\Hist$ row after the enacted mark is recorded above $H$;
+\item $E$ is the displayed $\Ext(H,M,R)$ row;
+\item $W$ is the local enacted-mark witness row, exposing that $M$ is the mark actually used by this packet;
+\item $T$ records componentwise $\hsame$ transports for $H,M,R,E,W$ and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the source row, enacted mark, result row, extension row, witness row, and local name;
+\item $P$ is the $\Pkg$ provenance over $\Hist$, $\Ext$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the Empty-boundary reading of \autoref{def:efm-empty-boundary};
+\item $N$ is the local $\NameCert_{\EmptyBoundarySelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed rows $H,M,R,E,W,T,C,P,N$. It has no coordinate for an undisplayed selector function, a branch policy over unrelated histories, a truth oracle, or an infinite ledger.
+\end{definition}
+
+\begin{theorem}[EmptyBoundarySelector NameCert obligations]
+\label{thm:empty-boundary-selector-namecert-obligations}
+The local $\NameCert_{\EmptyBoundarySelectorUp}$ surface for the carrier of \autoref{def:empty-boundary-selector-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission, requiring every accepted object to expose $Q=(H,M,R,E,W,T,C,P,N)$;
+\item source-boundary admission, requiring $H$ to be the displayed $\Hist$ row whose empty boundary is filled;
+\item enacted-mark exactness, requiring $M$, $R$, and $E$ to exhibit the same $\Ext(H,M,R)$ step;
+\item witness exposure, requiring $W$ to name the enacted mark locally and to be transported only through the componentwise $\hsame$ and $\Cont$ rows $T$ and $C$;
+\item non-escape, requiring the packet to export no hidden chooser, no branch policy for unrelated histories, no truth oracle, and no accumulated selector ledger.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:empty-boundary-selector-carrier}. The source history, enacted mark, result history, extension row, witness row, transport row, continuation row, provenance row, and naming row are all displayed coordinates.
+
+Source-boundary admission reads $H$ before any mark is available. The empty boundary is therefore the slot above this source row, not a reset to $\emp$ and not a free-standing selector surface.
+
+Enacted-mark exactness then ties $M$, $R$, and $E$ together. Since $E$ is the displayed $\Ext(H,M,R)$ row, a consumer cannot replace the enacted mark by an unrecorded choice while keeping the same certificate.
+
+Finally $W,T,C,P,N$ expose and delimit the witness. The witness is readable through the named transport and continuation rows, while provenance and the local NameCert row provide no coordinate for a hidden chooser, unrelated branch policy, truth oracle, or accumulated ledger.
+\end{proof}
+
+\begin{theorem}[EmptyBoundarySelector witness exposure]
+\label{thm:empty-boundary-selector-witness-exposure}
+Let $Q=(H,M,R,E,W,T,C,P,N)$ be an accepted $\EmptyBoundarySelectorUp$ carrier. Every consumer read of the enacted branch factors through the witness route
+$$
+H,M,R,E,W,T,C,P,N.
+$$
+The consumer may inspect the source $\Hist$ row, enacted mark, result row, extension row, local witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming row, and receives no selector value outside those rows.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier. Projection gives the rows $H,M,R,E,W,T,C,P,N$ and no second source for branch data.
+
+Read the branch through $M$ and $E$. The mark row $M$ is the enacted mark, and $E$ records that this mark extends the source row $H$ to the result row $R$.
+
+Now expose the local witness $W$. The only routes carrying $W$ to a consumer are the componentwise transport row $T$ and continuation row $C$, both named inside the same packet.
+
+Package provenance and the local naming row close the route. Because the carrier has no additional selector coordinate, any branch read outside $H,M,R,E,W,T,C,P,N$ is unavailable to the accepted packet.
+\end{proof}
+
+\begin{theorem}[EmptyBoundarySelector non-escape boundary]
+\label{thm:empty-boundary-selector-nonescape-boundary}
+Every accepted $\EmptyBoundarySelectorUp$ packet is local to the displayed source row $H$ and enacted extension row $E$. It exports no global chooser, no branch-selection rule for unrelated $\Hist$ rows, no truth oracle, no host equality on traces, and no accumulated selector ledger beyond the single enacted boundary step.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only source row is $H$, the only result row is $R$, and the only branch evidence is the pair consisting of the enacted mark $M$ and the extension row $E$.
+
+The witness row $W$ remains attached to the same step. Its transport and continuation rows are componentwise, so they move the displayed witness surface without adding a rule for other histories.
+
+The provenance and NameCert rows repack this local surface for downstream use. Since no row names a chooser over all $\Hist$ values, a trace equality principle, a truth oracle, or an accumulated ledger, the packet cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[EmptyBoundarySelector ledger handoff]
+\label{thm:empty-boundary-selector-ledger-handoff}
+An accepted $\EmptyBoundarySelectorUp$ packet hands off exactly one local enacted-boundary witness to Empty-fable ledger consumers. When a downstream $\EmptyFableLedgerUp$, $\FableBranchWitnessUp$, or $\FableMachineClockUp$ consumer shares the displayed rows $H,M,R,E,W,T,C,P,N$, the handoff provides the source $\Hist$ row, enacted mark, result row, extension row, local witness, componentwise transport, continuation route, provenance, and local name, with no global chooser or extra ledger coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted selector packet first. The available handoff surface is precisely the displayed tuple $H,M,R,E,W,T,C,P,N$.
+
+Next compare this tuple with the one-step Empty-fable consumers. $\FableBranchWitnessUp$ reads the same local branch shape through its $\Hist$, mark, result, $\Ext$, admissibility, transport, continuation, package, and naming rows; $\EmptyFableLedgerUp$ and $\FableMachineClockUp$ consume such rows as finite selector-ledger and local-clock entries.
+
+Apply the non-escape boundary of \autoref{thm:empty-boundary-selector-nonescape-boundary}. The downstream consumer receives a single enacted-boundary witness and cannot promote it to a global chooser, a selector for unrelated histories, or an extra accumulated ledger coordinate.
+\end{proof}
+
+\closureat{EmptyBoundarySelectorUp}{seedStr}
+
+\begin{closurestatus}{\EmptyBoundarySelectorUp}
+  \constructivestory{An $\EmptyBoundarySelectorUp$ packet is generated from a source $\Hist$ row, enacted mark, result $\Hist$ row, displayed $\Ext$ row, local witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:empty-boundary-selector-carrier}, \autoref{thm:empty-boundary-selector-namecert-obligations}, and \autoref{thm:empty-boundary-selector-witness-exposure} bind one local empty-boundary selector witness as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, global choice, branch policies for unrelated histories, truth oracles, host trace equality, accumulated selector ledgers, or a public standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, enacted-mark exactness, witness exposure, non-escape, and ledger handoff for the same finite empty-boundary selector packet.}
+\end{closurestatus}
