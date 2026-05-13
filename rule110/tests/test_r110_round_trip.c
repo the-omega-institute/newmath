@@ -74,6 +74,10 @@ static const char *R110_MANIFESTS[] = {
     "manifests/unary/unary_basic.r110.ct",
 };
 
+static const char *ALGO_R110_MANIFESTS[] = {
+    "manifests/hist/hsame_refl.algo.r110.ct",
+};
+
 static char *trim_ascii(char *s) {
     char *end;
 
@@ -139,6 +143,55 @@ static int bit_string_to_cells(const char *bits,
 
     *out = cells;
     return 1;
+}
+
+static int read_line_dynamic(FILE *f, char **out) {
+    size_t cap = 4096;
+    size_t len = 0;
+    int ch;
+    char *buf = (char *)malloc(cap);
+
+    if (buf == NULL) return -1;
+    while ((ch = fgetc(f)) != EOF) {
+        if (len + 1 >= cap) {
+            size_t next_cap = cap * 2;
+            char *next = (char *)realloc(buf, next_cap);
+
+            if (next == NULL) {
+                free(buf);
+                return -1;
+            }
+            buf = next;
+            cap = next_cap;
+        }
+        if (ch == '\n') break;
+        buf[len++] = (char)ch;
+    }
+    if (ch == EOF && len == 0) {
+        free(buf);
+        return 0;
+    }
+    if (len > 0 && buf[len - 1] == '\r') len--;
+    buf[len] = '\0';
+    *out = buf;
+    return 1;
+}
+
+static int read_content_line_dynamic(FILE *f, char **out) {
+    for (;;) {
+        int rc = read_line_dynamic(f, out);
+        char *trimmed;
+
+        if (rc <= 0) return rc;
+        trimmed = trim_ascii(*out);
+        if (trimmed[0] == '\0' || trimmed[0] == '#') {
+            free(*out);
+            *out = NULL;
+            continue;
+        }
+        if (trimmed != *out) memmove(*out, trimmed, strlen(trimmed) + 1);
+        return 1;
+    }
 }
 
 static int parse_key_value(R110Case *c,
@@ -461,8 +514,170 @@ static void verify_manifest(const char *path) {
     free_r110_manifest(&r110);
 }
 
-int main(void) {
+static int parse_prefixed_size_line(const char *line,
+                                    const char *prefix,
+                                    size_t *out) {
+    size_t prefix_len = strlen(prefix);
+
+    if (strncmp(line, prefix, prefix_len) != 0) return 0;
+    return parse_size_value(line + prefix_len, out);
+}
+
+static int read_exact_bit_payload(FILE *f,
+                                  size_t expected_len,
+                                  uint8_t **out) {
+    char *line = NULL;
+    int rc = read_content_line_dynamic(f, &line);
+
+    if (rc != 1) return 0;
+    if (!bit_string_to_cells(line, expected_len, out)) {
+        free(line);
+        return 0;
+    }
+    free(line);
+    return 1;
+}
+
+static void verify_algo_case(FILE *f, const char *case_line, size_t steps) {
+    char *line = NULL;
+    uint8_t *initial = NULL;
+    uint8_t *expected = NULL;
+    uint8_t *cells = NULL;
+    size_t initial_len = 0;
+    size_t expected_len = 0;
+    size_t ignored_len = 0;
+    size_t ignored_steps = 0;
+    int rc;
+
+    assert(strncmp(case_line, "case ", 5) == 0);
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && strncmp(line, "INPUT ", 6) == 0);
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line, "CT_STEPS ", &ignored_steps));
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line, "CT_FINAL ", &ignored_len));
+    free(line);
+    line = NULL;
+
+    if (ignored_len > 0) {
+        uint8_t *ignored = NULL;
+
+        assert(read_exact_bit_payload(f, ignored_len, &ignored));
+        free(ignored);
+    }
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line,
+                                               "RULE110_INITIAL ",
+                                               &initial_len));
+    free(line);
+    line = NULL;
+    assert(read_exact_bit_payload(f, initial_len, &initial));
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line,
+                                               "RULE110_FINAL ",
+                                               &expected_len));
+    free(line);
+    line = NULL;
+    assert(expected_len == initial_len);
+    assert(read_exact_bit_payload(f, expected_len, &expected));
+
+    cells = (uint8_t *)malloc(initial_len ? initial_len : 1);
+    assert(cells != NULL);
+    memcpy(cells, initial, initial_len);
+    r110_run_n_steps(cells, initial_len, steps);
+    for (size_t i = 0; i < expected_len; i++) {
+        assert(cells[i] == expected[i]);
+    }
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && strcmp(line, "ENDCASE") == 0);
+    free(line);
+
+    free(cells);
+    free(initial);
+    free(expected);
+}
+
+static void verify_algo_manifest(const char *path) {
+    FILE *f = fopen(path, "r");
+    char *line = NULL;
+    size_t steps = 0;
+    size_t assertions = 0;
+    size_t seen = 0;
+    int rc;
+
+    assert(f != NULL);
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && strcmp(line, "ALGO_R110_MANIFEST 1") == 0);
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && strncmp(line, "SOURCE_CT ", 10) == 0);
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 &&
+           strcmp(line, "CONSTRUCTION cook_phase_exact_packet_diagnostic") == 0);
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line,
+                                               "EVOLUTION_STEPS ",
+                                               &steps));
+    free(line);
+    line = NULL;
+
+    rc = read_content_line_dynamic(f, &line);
+    assert(rc == 1 && parse_prefixed_size_line(line, "ASSERTIONS ", &assertions));
+    free(line);
+    line = NULL;
+
+    while ((rc = read_content_line_dynamic(f, &line)) == 1) {
+        verify_algo_case(f, line, steps);
+        seen++;
+        free(line);
+        line = NULL;
+    }
+
+    assert(rc == 0);
+    assert(seen == assertions);
+    fclose(f);
+
+    printf("  %s: %zu Cook diagnostic case(s) PASS\n", path, seen);
+}
+
+static int run_algo_manifests(void) {
+    size_t manifest_count =
+        sizeof(ALGO_R110_MANIFESTS) / sizeof(ALGO_R110_MANIFESTS[0]);
+
+    printf("== test_r110_round_trip --algo ==\n");
+    for (size_t i = 0; i < manifest_count; i++) {
+        verify_algo_manifest(ALGO_R110_MANIFESTS[i]);
+    }
+    printf("ALL algo r110 diagnostic tests passed\n");
+    return 0;
+}
+
+int main(int argc, char **argv) {
     size_t manifest_count = sizeof(R110_MANIFESTS) / sizeof(R110_MANIFESTS[0]);
+
+    if (argc == 2 && strcmp(argv[1], "--algo") == 0) {
+        return run_algo_manifests();
+    }
+    assert(argc == 1);
 
     printf("== test_r110_round_trip ==\n");
     for (size_t i = 0; i < manifest_count; i++) {
