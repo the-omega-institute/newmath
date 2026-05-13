@@ -246,9 +246,26 @@ def _for_board_spawn(candidate: dict, *, mode: str) -> dict:
     paper-review discoveries are not appended by a weaker side path.
     """
     inputs = candidate.get("local_inputs") or []
+    paper_inputs = [
+        str(path).strip()
+        for path in inputs
+        if str(path).strip().startswith("papers/bedc/parts/")
+    ]
+    evidence_inputs = [
+        str(path).strip()
+        for path in inputs
+        if str(path).strip() and not str(path).strip().startswith("papers/bedc/parts/")
+    ]
     out = dict(candidate)
     out["claim"] = candidate.get("claim") or candidate.get("concrete_claim") or ""
-    out["chapter"] = candidate.get("chapter") or _chapter_from_inputs(inputs)
+    out["local_inputs"] = paper_inputs
+    if evidence_inputs:
+        evidence_note = "Non-landing evidence paths (not BOARD local_inputs): " + ", ".join(evidence_inputs)
+        rationale = str(out.get("rationale") or "").strip()
+        out["rationale"] = f"{rationale}\n\n{evidence_note}" if rationale else evidence_note
+        trace = str(out.get("resource_trace") or "").strip()
+        out["resource_trace"] = f"{trace}; {evidence_note}" if trace else evidence_note
+    out["chapter"] = candidate.get("chapter") or _chapter_from_inputs(paper_inputs)
     out["source"] = mode
     return out
 
@@ -376,6 +393,7 @@ def cmd_probe(args: argparse.Namespace) -> int:
         args,
         "probe",
         "theory_probe.txt",
+        append_via_board_spawn=True,
         board_content=_board_text(),
     )
 
