@@ -85,7 +85,6 @@ Repacking these rows gives the stated finite ledger package. Since each cited ro
 \label{thm:observer-locality-cell-tastegate-witness-boundary}
 Any later $\mathsf{ChapterTasteGate}$ witness for an accepted $\ObserverLocalityCellUp$ packet must read only the displayed two observer-history rows $O_0,O_1$, two event-description rows $R_0,R_1$, paired $\Gap$ rows $G_0,G_1$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Such a witness may classify the packet by those rows, but it has no admissible read of a global frame, shared clock, metric cone, manifold coordinate, or observer-independent event object.
 \end{theorem}
-\leanchecked{BEDC.Derived.ObserverLocalityCellUp.ObserverLocalityCellTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Project the accepted packet through \autoref{def:observer-locality-cell-carrier}. The visible rows are exactly the two observer histories, two event rows, paired acknowledgement rows, transport row, continuation routes, package row, and local naming row.
 
@@ -162,14 +161,15 @@ Finally combine the $\mathsf{BHistCarrier}$ flow surface and conservativity audi
 
 \closureat{ObserverLocalityCellUp}{seedStr}
 \closureat{ObserverLocalityCellUp}{obligationStr}
+\closureat{ObserverLocalityCellUp}{scopedStr}[BEDC.Derived.ObserverLocalityCellUp.ObserverLocalityCellTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ObserverLocalityCellUp}
   \constructivestory{An $\ObserverLocalityCellUp$ packet is generated from two observer-history rows, two local event-description rows, paired $\Gap$ acknowledgement rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:observer-locality-cell-carrier}, \autoref{thm:observer-locality-cell-namecert-obligations}, \autoref{thm:observer-locality-cell-gap-coherence}, \autoref{thm:observer-locality-cell-consumer-boundary}, and \autoref{thm:observer-locality-cell-finite-ledger-package} bind the finite two-observer locality-cell packet and its paired acknowledgement boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:observer-locality-cell-carrier}, \autoref{thm:observer-locality-cell-namecert-obligations}, \autoref{thm:observer-locality-cell-gap-coherence}, \autoref{thm:observer-locality-cell-consumer-boundary}, \autoref{thm:observer-locality-cell-finite-ledger-package}, \autoref{thm:observer-locality-cell-tastegate-witness-boundary} with \leanchecked{BEDC.Derived.ObserverLocalityCellUp.taste\_gate}, \autoref{thm:observer-locality-cell-bhistcarrier-flow-surface}, \autoref{thm:observer-locality-cell-conservativity-audit-surface}, \autoref{thm:observer-locality-cell-obligation-carrier-admission}, \autoref{thm:observer-locality-cell-obligation-classifier-stability}, and \autoref{thm:observer-locality-cell-obligation-consumer-exhaustion} close the carrier, NameCert obligations, GAP coherence, consumer boundary, finite ledger package, TasteGate witness boundary, BHistCarrier flow surface, conservativity audit surface, and three obligation theorems for the two-observer locality-cell packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close global spacetime, a shared clock, manifold coordinates, metric light-cones, all-observer synchronization, infinite coherence webs, or a checked Lean theorem for the packet.}
-  \upgradepath{Scoped closure requires the displayed two-observer acknowledgement ledger to be exported through one consumer-stable public surface together with the checked TasteGate target \texttt{BEDC.Derived.ObserverLocalityCellUp.taste\_gate}.}
+  \upgradepath{Public closure requires a single public export theorem for the two-observer locality-cell packet and a later Lean target for that export.}
 \end{closurestatus}

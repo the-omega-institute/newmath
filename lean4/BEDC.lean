@@ -165,6 +165,7 @@ import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.RecursorGeneratorUp
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
+import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
@@ -261,6 +262,7 @@ import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GeneratorClosureUp
+import BEDC.Derived.GeneratorInductionSealUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
@@ -393,6 +395,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.FormalTargetBoundary
 import BEDC.Derived.RegularCauchyDiagonalUp.MatureConsumerExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.NameCertConsumerSurface
 import BEDC.Derived.RegularCauchyDiagonalUp.ReadbackExactness
+import BEDC.Derived.RegularCauchyDiagonalUp.RootDownstreamUnblockPackage
 import BEDC.Derived.RegularCauchyDiagonalUp.RootSourceDeterminacy
 import BEDC.Derived.RegularCauchyDiagonalUp.RootWindowLedgerExactness
 import BEDC.Derived.RegularCauchyDiagonalUp.SelectorWindowFunctoriality
@@ -410,6 +413,7 @@ import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
+import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp
 import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
