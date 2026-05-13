@@ -22,6 +22,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier is exactly this finite packet. It contains no completed countable stream, no proof that every future observation exists, no hidden causal-continuity principle, and no rule converting a successful prefix into a universal law.
 \end{definition}
+\leanchecked{BEDC.Derived.CountableObservationScheduleUp.CountableObservationScheduleTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CountableObservationSchedule NameCert obligations]
 \label{thm:countable-observation-schedule-namecert-obligations}
@@ -143,6 +144,62 @@ Start with the carrier and NameCert obligation theorem. They identify $Q=(O,W,S,
 Next apply \autoref{thm:countable-observation-schedule-prefix-totality}, \autoref{thm:countable-observation-schedule-window-stability}, and \autoref{thm:countable-observation-schedule-streamname-handoff}. These provide the finite prefix, stable request window, and named StreamName handoff without adding another carrier.
 
 Finally apply \autoref{thm:countable-observation-schedule-nonescape}, \autoref{thm:countable-observation-schedule-finite-request-exhaustion}, \autoref{thm:countable-observation-schedule-prefix-window-nonchoice}, and \autoref{thm:countable-observation-schedule-streamname-prefix-consumer}. The consumer route is exhausted by the displayed rows, so the TasteGate surface cannot use a completed stream, future observation law, causal-continuity assertion, or choice-like tail as a replacement row.
+\end{proof}
+
+\begin{theorem}[CountableObservationSchedule obligation closure package]
+\label{thm:countable-observation-schedule-obligation-closure-package}
+The carrier of \autoref{def:countable-observation-schedule-carrier}, the NameCert obligations of \autoref{thm:countable-observation-schedule-namecert-obligations}, prefix totality from \autoref{thm:countable-observation-schedule-prefix-totality}, window stability from \autoref{thm:countable-observation-schedule-window-stability}, StreamName handoff from \autoref{thm:countable-observation-schedule-streamname-handoff}, non-escape from \autoref{thm:countable-observation-schedule-nonescape}, finite request exhaustion from \autoref{thm:countable-observation-schedule-finite-request-exhaustion}, prefix-window nonchoice from \autoref{thm:countable-observation-schedule-prefix-window-nonchoice}, StreamName prefix consumption from \autoref{thm:countable-observation-schedule-streamname-prefix-consumer}, and the TasteGate surface of \autoref{thm:countable-observation-schedule-tastegate-surface} form the complete paper-side obligation package over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, and $\RealUp$.
+
+The package is finite and local: it records exactly the displayed prefix rows, request windows, StreamName source rows, transports, continuations, provenance, and local naming row of $Q=(O,W,S,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+The carrier theorem fixes the only admissible packet as $Q=(O,W,S,H,C,P,N)$, and the NameCert obligation theorem identifies carrier admission, prefix exposure, request locality, StreamName accountability, transport, continuation, provenance, and local naming as the public certificate rows.
+
+Apply prefix totality, window stability, and StreamName handoff in file order. These theorems show that every accepted consumer first reads the finite prefix, the transported request window, and the displayed StreamName source row through the same packet.
+
+Next apply non-escape, finite request exhaustion, prefix-window nonchoice, and StreamName prefix consumption. These bind each finite request to displayed prefix entries, forbid choice-like tail selection, and force any $\RealUp$-facing schedule read through the named prefix packet.
+
+Finally, the TasteGate surface theorem packages those rows as the admissible promotion surface. Because the carrier has no coordinate for quotient stream equality, host real equality, ambient completeness, hidden choice, or an unbounded schedule, none of those objects is introduced by the obligation package.
+\end{proof}
+
+\begin{theorem}[CountableObservationSchedule Real window boundary]
+\label{thm:countable-observation-schedule-real-window-boundary}
+Every $\RealUp$-facing schedule row exported by an accepted $\CountableObservationScheduleUp$ packet factors through the finite rows $O,W,S,H,C,P,N$. The exported row may read the displayed observations, request window, StreamName source, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, but it cannot assert tail totality, future observation existence, a completed countable stream, or a $\RealUp$ limit outside the displayed finite window.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q=(O,W,S,H,C,P,N)$. The only observation data available to a Real-facing row is the finite prefix row $O$ and the finite request window $W$.
+
+Apply \autoref{thm:countable-observation-schedule-window-stability} and \autoref{thm:countable-observation-schedule-streamname-prefix-consumer}. They force transported Real-facing reads to keep the same finite request window and to pass through the displayed StreamName source row before a schedule row is consumed.
+
+Finally apply \autoref{thm:countable-observation-schedule-nonescape} and \autoref{thm:countable-observation-schedule-prefix-window-nonchoice}. Since no carrier coordinate names a tail-total stream, future observation law, or completed $\RealUp$ limit, the Real-facing boundary is exactly the finite window.
+\end{proof}
+
+\begin{theorem}[CountableObservationSchedule TasteGate ground compiler alignment]
+\label{thm:countable-observation-schedule-tastegate-ground-compiler-alignment}
+The TasteGate-facing ground compiler for $\CountableObservationScheduleUp$ is aligned with the single carrier $Q=(O,W,S,H,C,P,N)$ and with the displayed event-flow and no-hidden-input rows. Its admissible surface is the finite prefix, request-window, StreamName handoff, transport, continuation, provenance, and local naming packet; it is not hidden causal-continuity data, an unobserved future law, a second schedule carrier, or a completed stream.
+\end{theorem}
+\begin{proof}
+Begin with the TasteGate surface of \autoref{thm:countable-observation-schedule-tastegate-surface}. It fixes the admissible promotion surface as the single carrier $Q=(O,W,S,H,C,P,N)$.
+
+The event-flow rows are then read through prefix totality, finite request exhaustion, and StreamName handoff. These expose exactly the displayed prefix entries, request windows, and source-name route, with transports in $H$ and continuations in $C$.
+
+No-hidden-input alignment follows from non-escape. Because the carrier has no coordinate for causal-continuity data, an unobserved future law, a second carrier, or a completed stream, the ground compiler can only certify the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[CountableObservationSchedule scoped obligation package]
+\label{thm:countable-observation-schedule-scoped-obligation-package}
+The carrier of \autoref{def:countable-observation-schedule-carrier}, the NameCert obligations of \autoref{thm:countable-observation-schedule-namecert-obligations}, prefix totality from \autoref{thm:countable-observation-schedule-prefix-totality}, window stability from \autoref{thm:countable-observation-schedule-window-stability}, StreamName handoff from \autoref{thm:countable-observation-schedule-streamname-handoff}, non-escape from \autoref{thm:countable-observation-schedule-nonescape}, finite request exhaustion from \autoref{thm:countable-observation-schedule-finite-request-exhaustion}, prefix-window nonchoice from \autoref{thm:countable-observation-schedule-prefix-window-nonchoice}, StreamName prefix consumption from \autoref{thm:countable-observation-schedule-streamname-prefix-consumer}, the Real window boundary of \autoref{thm:countable-observation-schedule-real-window-boundary}, and the TasteGate ground compiler alignment of \autoref{thm:countable-observation-schedule-tastegate-ground-compiler-alignment} assemble the scoped $\CountableObservationScheduleUp$ obligation package over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, and $\RealUp$.
+
+The package is scoped to finite displayed windows. It does not close tail totality, hidden causal continuity, completed countable streams, or unbounded $\RealUp$ limit data.
+\end{theorem}
+\begin{proof}
+The carrier and NameCert obligation theorems fix $Q=(O,W,S,H,C,P,N)$ as the only public packet. They bind carrier admission, finite prefix exposure, request locality, StreamName accountability, transport, continuation, provenance, and local naming to those rows.
+
+Apply prefix totality, window stability, StreamName handoff, finite request exhaustion, prefix-window nonchoice, and StreamName prefix consumption. These results show that each consumer read is exhausted by displayed prefix entries and finite request windows transported through $H,C,P,N$.
+
+The Real window boundary adds the Real-facing scope condition. It prevents the finite schedule row from asserting tail totality, a completed stream, or a hidden limit outside the displayed request window.
+
+The TasteGate ground compiler alignment supplies the promotion boundary. It ties the same carrier to displayed event-flow and no-hidden-input rows, so the package contains no hidden causal-continuity data and no second schedule carrier.
 \end{proof}
 
 \closureat{CountableObservationScheduleUp}{seedStr}

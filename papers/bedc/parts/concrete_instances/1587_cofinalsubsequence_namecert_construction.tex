@@ -112,19 +112,37 @@ The consumer boundary and selector transport exactness then identify the only ro
 
 Finally apply the window handoff exactness theorem. It places every $\RegSeqRatUp$ handoff after the selected window and dyadic observation rows and places the real-facing seal after that handoff. Since the carrier has no coordinate for the excluded objects, the public export is precisely the finite selector surface listed above.
 \end{proof}
+\leanchecked{BEDC.Derived.CofinalSubsequenceUp.CofinalSubsequenceCarrier\_public\_export\_package}
+
+\begin{theorem}[CofinalSubsequence finite-selector bridge schema]
+\label{thm:cofinalsubsequence-bridge-selector-schema}
+The public finite selector surface
+$$
+S,\phi,W,D,R,E,H,C,P,N
+$$
+bridges the concrete $\CofinalSubsequenceUp$ carrier of \autoref{def:cofinalsubsequence-carrier} to the downstream $\RegSeqRatUp$ and $\RealCauchyCompletionUp$ consumer schema. Every read is routed through the unary selector, selected $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with the local $\NameCert$ obligations. They admit the carrier rows and bind the unary selector, selected finite windows, dyadic observations, regular rational handoff, real seal, transports, routes, provenance, and local naming row as one finite packet.
+
+Apply the $\RegSeqRatUp$ consumer boundary, selector transport exactness, and window handoff exactness. Together these force every downstream read to pass through the unary selector and selected windows before the dyadic observation and regular rational handoff are available.
+
+Finally apply the public export package. It identifies the finite selector surface $S,\phi,W,D,R,E,H,C,P,N$ as the only public surface for $\RegSeqRatUp$ and $\RealCauchyCompletionUp$ consumers. Since the carrier has no coordinate for a quotient stream, host sequence equality, selected infinite subsequence, or ambient completeness object, the bridge exports none of them.
+\end{proof}
 
 \closureat{CofinalSubsequenceUp}{seedStr}
 \closureat{CofinalSubsequenceUp}{obligationStr}
 \closureat{CofinalSubsequenceUp}{scopedStr}
 \closureat{CofinalSubsequenceUp}{publicStr}
+\closureat{CofinalSubsequenceUp}{bridgedStr}
 
 \begin{closurestatus}{\CofinalSubsequenceUp}
   \constructivestory{A $\CofinalSubsequenceUp$ packet is generated from regular Cauchy or regular rational source data, a displayed unary monotone cofinal selector row, selected finite stream windows, dyadic observation rows, a regular rational handoff, a real seal, and visible provenance.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:cofinalsubsequence-carrier}, \autoref{thm:cofinalsubsequence-namecert-obligations}, \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary}, \autoref{thm:cofinalsubsequence-selector-transport-exactness}, \autoref{thm:cofinalsubsequence-window-handoff-exactness}, and \autoref{thm:cofinalsubsequence-public-export-package} bind the public finite selector surface through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:cofinalsubsequence-carrier}, \autoref{thm:cofinalsubsequence-namecert-obligations}, \autoref{thm:cofinalsubsequence-regseqrat-consumer-boundary}, \autoref{thm:cofinalsubsequence-selector-transport-exactness}, \autoref{thm:cofinalsubsequence-window-handoff-exactness}, \autoref{thm:cofinalsubsequence-public-export-package}, and \autoref{thm:cofinalsubsequence-bridge-selector-schema} bind the bridged finite selector surface through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient stream equality, host sequence equality, selected infinite subsequences, uniqueness of completion limits, ambient completeness, or bridge checking.}
-  \upgradepath{The next bridge obligation is a checked public selector export target connecting this finite surface to the standard bridge schema.}
+  \upgradepath{The next maturity obligation is downstream examples that consume the finite selector surface through the bridge schema.}
 \end{closurestatus}

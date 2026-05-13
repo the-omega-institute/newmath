@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for host conversion, semantic equality of terms, a global normalization theorem, an erased typing derivation, or a normalization oracle.
 \end{definition}
+\leandef{BEDC.Derived.TypedReductionNormalFormUp.TypedReductionNormalFormPacket}
 
 \begin{theorem}[TypedReductionNormalForm NameCert obligations]
 \label{thm:typed-reduction-normal-form-namecert-obligations}
@@ -36,6 +37,7 @@ The local $\NameCert_{\TypedReductionNormalFormUp}$ surface for \autoref{def:typ
 \item non-escape from host conversion, semantic equality of terms, global normalization, erased derivation semantics, or any normalization oracle not named by the packet.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.TypedReductionNormalFormUp.TypedReductionNormalFormPacket\_namecert\_obligations}
 \begin{proof}
 Carrier exposure is the packet inventory of \autoref{def:typed-reduction-normal-form-packet}. The rows name the term windows, judgment ledger, membership row, reduction route, normal-form boundary, transports, continuation reads, package provenance, and local certificate.
 
@@ -57,3 +59,16 @@ Replay the route through $C$ and transport the visible rows through $H$. The pac
 
 Finally read the terminal boundary from $F$ and authenticate it through $N$. The carrier inventory has no row for host conversion, semantic equality, global normalization, erased derivation semantics, or a normalization oracle, so none of those objects can participate in the public read.
 \end{proof}
+
+\closureat{TypedReductionNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\TypedReductionNormalFormUp}
+  \constructivestory{A $\TypedReductionNormalFormUp$ packet is generated from a term-window row, a finite typing-judgment ledger, source and target membership rows, a displayed typed-reduction route, a terminal normal-form boundary, componentwise transports, continuation reads, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typed-reduction-normal-form-packet}, \autoref{thm:typed-reduction-normal-form-namecert-obligations}, and \autoref{thm:typed-reduction-normal-form-subject-reduction-seal} bind the seed carrier, local NameCert surface, typed-reduction route, target-membership read, and normal-form boundary for the finite packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host conversion, semantic equality of terms, global normalization, erased derivation semantics, normalization oracles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, reduction-route exactness, subject-reduction seal, terminal normal-form boundary, and non-escape rows for the same finite typed-reduction packet.}
+\end{closurestatus}

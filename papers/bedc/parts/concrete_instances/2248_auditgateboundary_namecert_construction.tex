@@ -102,6 +102,7 @@ Route the consumer access through $H$ and $C$. The transport row preserves the d
 
 The package row $P$ and local name row $N$ bind this route to the $\AuditGateBoundaryUp$ certificate. The $\mathsf{GAP}$ row $G$ then fixes the non-escape boundary: the packet refuses only the displayed source-token crossing and supplies no host-wide source theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_source\_token\_refusal}
 
 \begin{theorem}[AuditGateBoundary forbidden-dependency ledger]
 \label{thm:audit-gate-boundary-dependency-forbidden-set}
@@ -137,6 +138,24 @@ Project the marker row $L$ from the accepted packet. The row records the manuscr
 Replay the read through $H$ and $C$. Componentwise transport preserves the displayed marker row, and the continuation route exposes only the exact target-name resolution already present in $L$.
 
 The remaining coordinates $P,G,N$ supply provenance, the boundary row, and local naming. Since the carrier has no coordinate for fuzzy namespace search, unresolved-string substitution, or prose interpretation, marker resolution cannot escape the exact-name ledger.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary replay ledger]
+\label{thm:audit-gate-boundary-replay-ledger}
+For an accepted $\AuditGateBoundaryUp$ packet
+$$
+A=(S,D,L,O,H,C,P,G,N),
+$$
+any governance consumer replaying the packet must read the source-token row $S$, forbidden-dependency row $D$, marker-resolution row $L$, and origin/import row $O$ through the same transport, continuation, provenance, GAP-boundary, and naming support rows $H,C,P,G,N$. The replay cannot replace exact marker resolution, forbidden dependency reports, source-token refusal, or origin/import separation by a host-wide correctness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-boundary-carrier}. Its four audit-facing rows are exactly $S,D,L,O$, and the shared support rows are exactly $H,C,P,G,N$.
+
+Apply the local NameCert obligations to bind those rows to one accepted packet. Source-token refusal uses $S$ through the same transport and continuation coordinates, while the dependency forbidden set uses $D$ to report only the displayed ancestry and forbidden names.
+
+Next replay marker resolution and origin separation. The marker-resolution non-escape theorem keeps $L$ on exact target names, and origin conservativity keeps $O$ on the displayed origin/import ledger.
+
+Finally close the replay through $P,G,N$. Provenance, the GAP boundary, and local naming prevent the four audit faces from becoming a global repository-correctness theorem, so a governance consumer receives only the finite replay ledger carried by $A$.
 \end{proof}
 
 \closureat{AuditGateBoundaryUp}{seedStr}

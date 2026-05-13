@@ -65,6 +65,7 @@ The budget row $E$ then records the scalar endpoint, source tolerance, scalar ma
 
 Consequently every consumer-facing scale read is factored through the displayed rational source data and finite budget rows rather than through a completed real scalar action or a quotient stream.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyScaleUp.RegularCauchyScaleCarrier\_source\_factorization}
 
 \begin{theorem}[RegularCauchyScale classifier route exhaustion]
 \label{thm:regular-cauchy-scale-classifier-route-exhaustion}
@@ -196,6 +197,46 @@ Apply the window budget theorem \autoref{thm:regular-cauchy-scale-window-budget}
 Finally use the $\RealUp$ seal boundary in \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. A real-facing consumer receives only $R$ and the displayed provenance rows, so the obligation package has no coordinate from which quotient streams, host equality, selected limits, ambient completeness, or a completed real scalar operation could be read.
 \end{proof}
 
+\begin{theorem}[RegularCauchyScale scoped Real-consumer boundary]
+\label{thm:regular-cauchy-scale-scoped-real-consumer-boundary}
+Every $\RealUp$ consumer of a scaled regular Cauchy packet
+$$
+S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)
+$$
+factors through the scalar row $Q$, source row $A$, $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ endpoint rows $D_Q,D_A,D$, $\FiniteErrorBudgetUp$ ledger $E$, $\RegSeqRatUp$ readback $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. The scoped consumer boundary exports no quotient stream, selected limit, host real equality, ambient completeness object, or completed real scalar multiplication.
+\end{theorem}
+\begin{proof}
+Begin with source factorization from \autoref{thm:regular-cauchy-scale-source-factorization}. It routes every scaled read through the scalar row $Q$, source row $A$, aligned window $W$, endpoint rows $D_Q,D_A,D$, and finite budget ledger $E$.
+
+Use classifier route exhaustion from \autoref{thm:regular-cauchy-scale-classifier-route-exhaustion} and ledger exactness from \autoref{thm:regularcauchyscale-ledger-exactness-obligation}. These results keep the transported classifier route inside the same finite packet and require the budget ledger before any output read is exported.
+
+Apply the $\RegSeqRatUp$ handoff theorem \autoref{thm:regular-cauchy-scale-regseqrat-handoff}. The scaled dyadic endpoints and finite ledger are repacked as the readback row $R$ under the displayed transport, continuation, provenance, and local naming rows.
+
+Finally use the $\RealUp$ seal boundary in \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. The real-facing consumer receives only $R$ and its visible provenance, so the scoped boundary cannot export quotient streams, selected limits, host real equality, ambient completeness, or a completed real scalar operation.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScale cofinal budget refinement]
+\label{thm:regular-cauchy-scale-cofinal-budget-refinement}
+Let
+$$
+S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)
+$$
+be an accepted $\RegularCauchyScaleUp$ packet. Suppose a refined finite scale ledger $E'$ is displayed over the same scalar row $Q$, source row $A$, stream window $W$, dyadic endpoint rows $D_Q,D_A,D$, and dyadic endpoint route, and suppose the refined output tolerance is transported by the same componentwise $\hsame$ rows $H$ and displayed $\Cont$ routes $C$. Then every $\RegSeqRatUp$ and $\RealUp$ consumer of the refined packet factors through
+$$
+(Q,A,W,D_Q,D_A,D,E',R,H,C,P,N).
+$$
+The refinement introduces no completed real scalar multiplication, quotient stream, selected limit, host real equality, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+Start with source factorization from \autoref{thm:regular-cauchy-scale-source-factorization}. The refined ledger is displayed over the same scalar row, source row, stream window, dyadic endpoint rows, and endpoint route, so the read still begins with $Q,A,W,D_Q,D_A,D$ and the finite budget row now named $E'$.
+
+Use classifier route exhaustion and ledger exactness from \autoref{thm:regular-cauchy-scale-classifier-route-exhaustion} and \autoref{thm:regularcauchyscale-ledger-exactness-obligation}. These clauses keep the refined tolerance inside the same componentwise $\hsame$ and $\Cont$ rows, so no classifier route can replace the finite ledger by an ambient estimate.
+
+Apply the window budget theorem \autoref{thm:regular-cauchy-scale-window-budget}. The refined ledger is cofinal for the same finite window surface, hence every displayed scale-tail read has the same source, endpoint, and transport coordinates with $E'$ in the budget coordinate.
+
+Finally use the $\RegSeqRatUp$ handoff in \autoref{thm:regular-cauchy-scale-regseqrat-handoff} and the $\RealUp$ seal boundary in \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. The regular consumer receives the refined finite readback surface, and the real-facing consumer factors through that readback and its visible provenance, leaving no coordinate for quotient streams, selected limits, host equality, ambient completeness, or completed real scalar multiplication.
+\end{proof}
+
 \begin{theorem}[RegularCauchyScale tail-window carrier obligation]
 \label{thm:regular-cauchy-scale-tail-window-carrier-obligation}
 For every accepted $\RegularCauchyScaleUp$ carrier
@@ -262,15 +303,39 @@ The tail-window carrier obligation supplies the admitted budgeted windows, and s
 Every coordinate consumed by the seal is named in the carrier or in the listed dependency surface. There is no row for quotient stream equality, selected limit, ambient completeness, or a real-vector-space law outside $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
+\begin{theorem}[RegularCauchyScale shared-tail normalization]
+\label{thm:regular-cauchy-scale-shared-tail-normalization}
+Let
+$$
+S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)
+$$
+be an accepted $\RegularCauchyScaleUp$ packet. Suppose two real-facing consumer reads use the same $\RegSeqRatUp$ source row $A$, the same $\StreamNameUp$ tail-window row $W$, the same $\DyadicRatCoreUp$ scale ledger $D_Q,D_A,D$, the same unit-scalar boundary when $Q$ is the displayed unit row, and the same $\RealUp$ seal route through the readback row $R$. Then the two reads normalize to the same displayed shared-tail route through
+$$
+A,\ W,\ D_Q,\ D_A,\ D,\ E,\ R,\ H,\ C,\ P,\ N.
+$$
+
+The normalization is internal to the finite carrier history, componentwise $\hsame$ transport, displayed $\Cont$ rows, $\Pkg$ provenance, and local $\NameCert$ row. It does not appeal to quotient streams, host real equality, hidden limits, ambient completeness, or any unlisted real-scalar law.
+\end{theorem}
+\begin{proof}
+First use the tail-window carrier obligation in \autoref{thm:regular-cauchy-scale-tail-window-carrier-obligation}. Since both consumers read the same source row, tail-window row, dyadic scale ledger, and finite budget ledger, their admitted scale-tail routes have the same displayed carrier coordinates before readback.
+
+Next apply scalar classifier stability from \autoref{thm:regular-cauchy-scale-scalar-classifier-stability-obligation}. Any classified transport of either read remains inside the same componentwise $\hsame$ ledger and the same displayed $\Cont$ rows, so no consumer can replace the shared tail by an ambient stream quotient or by a host-level scalar action.
+
+When the scalar row is the displayed unit row, use the unit-scalar boundary in \autoref{thm:regular-cauchy-scale-unit-scalar-boundary}. It identifies the unit read with the source endpoint route already present in $D_A$, before the budget ledger and readback row are exposed.
+
+Finally apply the $\RealUp$ seal handoff obligation in \autoref{thm:regular-cauchy-scale-real-seal-handoff-obligation}. The real-facing surface consumes only the displayed $\RegSeqRatUp$ readback $R$ and the visible provenance of the same packet, hence both consumer reads present one shared-tail route and no hidden limit, host real equality, ambient completeness, quotient stream equality, or external real-scalar law is available to distinguish them.
+\end{proof}
+
 \closureat{RegularCauchyScaleUp}{seedStr}
+\closureat{RegularCauchyScaleUp}{obligationStr}[BEDC.Derived.RegularCauchyScaleUp.RegularCauchyScaleCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\RegularCauchyScaleUp}
   \constructivestory{A $\RegularCauchyScaleUp$ packet is generated from a $\RatUp$ scalar row, a $\RegSeqRatUp$ source row, an aligned $\StreamNameUp$ window, $\DyadicRatCoreUp$ scalar/source/scaled endpoint rows, a finite $\FiniteErrorBudgetUp$ scale ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed scope records the finite carrier, local naming obligations, scalar-window budget, regular readback handoff, and real-seal boundary for rational scaling of regular Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, real-vector-space laws, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, scale-window budget exactness, regular readback handoff, and real-seal non-escape for the scale packet.}
+  \upgradepath{Scoped closure requires binding the displayed scalar, window, dyadic endpoint, finite-budget, regular-readback, and Real seal rows to their dependency scope.}
 \end{closurestatus}
