@@ -124,6 +124,7 @@ import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.NestedIntervalIntersectionUp
+import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
@@ -142,9 +143,11 @@ import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
+import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelCategoryUp
+import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
