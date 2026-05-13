@@ -60,6 +60,42 @@ The first and third legs are bounded by the two $\RegSeqRatUp$ regularity reads 
 Finally read the dyadic ledger $Q$. It records the two endpoint tolerances and the summed output tolerance, so the consumer receives exactly the three-leg diagonal estimate and no separate completed-real object.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTriangleBound endpoint-leg scope]
+\label{thm:regular-cauchy-triangle-bound-leg-scope}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$, the first comparison leg $D_m \longrightarrow I_m$ and the third comparison leg $I_n \longrightarrow D_n$ are exactly the two $\RegSeqRatUp$ regularity reads stored in row $A$. No additional endpoint estimate, quotient-stream comparison, selected limit, host real equality, or ambient completeness datum participates in either endpoint leg.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-triangle-bound-carrier}. Its row $A$ is defined as the pair of $\RegSeqRatUp$ regularity reads, one for the $m$ endpoint and one for the $n$ endpoint, while the surrounding rows only transport, route, add tolerances, record provenance, and name the packet.
+
+Apply the diagonal route of \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity}. The route reads the first triangle leg from $D_m$ to $I_m$ and the third triangle leg from $I_n$ to $D_n$ before the dyadic output bound is reported, so the only endpoint estimates available to that route are the two reads already displayed in $A$.
+
+The non-escape boundary of \autoref{thm:regular-cauchy-triangle-bound-nonescape} prevents any consumer-facing route from exporting quotient streams, selected limits, host real equality, ambient completeness, or completion witnesses. Thus the endpoint-leg scope is exactly row $A$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound middle-meet exactness]
+\label{thm:regular-cauchy-triangle-bound-middle-meet-exactness}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$, the middle comparison $I_m \longrightarrow I_n$ is exactly the $\CauchyModulusMeetUp$ read stored in row $B$, transported by the displayed $\hsame$ rows in $H$ to the common intermediate surface. No quotient stream, selected limit, host real equality, or ambient completeness datum supplies a second middle comparison.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-triangle-bound-carrier}. Row $B$ is the middle $\CauchyModulusMeetUp$ read, and row $H$ is the componentwise transport surface that aligns the intermediate observations and middle-modulus read.
+
+Use \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity} to inspect the route $D_m \longrightarrow I_m \longrightarrow I_n \longrightarrow D_n$. The central arrow is the only place in the route where the two intermediate rows are compared, and the theorem identifies that bound as the shared middle Cauchy-modulus read in $B$.
+
+By \autoref{thm:regular-cauchy-triangle-bound-nonescape}, every consumer-facing route is exhausted by the finite displayed rows. Since the carrier has no coordinate for quotient streams, selected limits, host real equality, or ambient completeness, row $B$ is the exact middle-meet obligation.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound tolerance-addition ledger]
+\label{thm:regular-cauchy-triangle-bound-tolerance-addition-ledger}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$, the output tolerance read by the diagonal-regularity consumer is precisely the $\DyadicRatCoreUp$ sum row in $Q$, formed from the two endpoint tolerances certified by $A$ and the middle tolerance certified by $B$. No selected limit, quotient-stream equality, host real equality, or ambient completeness datum changes the reported tolerance.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-triangle-bound-carrier}. Row $Q$ is the $\DyadicRatCoreUp$ tolerance ledger, row $A$ supplies the two endpoint regularity tolerances, and row $B$ supplies the middle Cauchy-modulus tolerance.
+
+The diagonal-regularity statement in \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity} reads the three legs in order and then reads the dyadic sum recorded in $Q$. Therefore the reported output tolerance is not recomputed by a hidden completion object; it is the displayed ledger row attached to the finite packet.
+
+The non-escape boundary of \autoref{thm:regular-cauchy-triangle-bound-nonescape} rules out exported quotient streams, selected limits, host real equality, ambient completeness proofs, and host completion witnesses. Hence the tolerance-addition obligation is precisely the $\DyadicRatCoreUp$ row $Q$.
+\end{proof}
+
 \begin{theorem}[RegularCauchyTriangleBound non-escape]
 \label{thm:regular-cauchy-triangle-bound-nonescape}
 Every consumer-facing route out of an accepted $\RegularCauchyTriangleBoundUp$ carrier factors through the finite rows $D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N$. No route exports a quotient stream, selected limit, ambient completeness proof, host real equality, or host completion witness.
