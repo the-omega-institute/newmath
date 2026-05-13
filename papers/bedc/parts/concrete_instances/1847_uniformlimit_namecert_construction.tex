@@ -144,6 +144,48 @@ Use \autoref{thm:uniform-limit-windowwise-cauchy-obligation}. Any endpoint-facin
 Finally apply \autoref{thm:uniform-limit-ledger-exactness-obligation}. Since the visible ledger has exactly one $T$ coordinate and no pointwise-only convergence or second threshold coordinate, the displayed $T$ is the unique tail ledger available to the packet.
 \end{proof}
 
+\begin{theorem}[UniformLimit tail-seal route uniqueness]
+\label{thm:uniform-limit-tail-seal-route-uniqueness}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+and
+$$
+U'=(F',M',T',R',S',E',H',C',P',N')
+$$
+be accepted $\UniformLimitUp$ carriers. If the displayed classifier rows
+identify $F$ with $F'$, $M$ with $M'$, $T$ with $T'$, $R$ with $R'$, $S$ with
+$S'$, and $E$ with $E'$, then every endpoint-facing read follows the same
+finite route
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E.
+$$
+No pointwise-only convergence witness, second tail ledger, selected host
+limit, quotient function space, or $\RealUp$ completeness theorem can provide
+a competing endpoint route.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:uniform-limit-carrier}. The
+classifier hypotheses identify the function/window family, shared threshold
+ledger, uniform tail ledger, regular handoff, seal row, and endpoint row on
+the displayed carrier surface.
+
+Apply \autoref{thm:uniform-limit-tail-ledger-exactness}. Any endpoint-facing
+read must enter through $F,M,T$, and the accepted carrier has no second tail
+ledger or pointwise-only entrance that could reach $R$ first.
+
+Use \autoref{thm:uniform-limit-seal-factorization}. Once the tail entrance is
+fixed, the endpoint route factors through the regular handoff $R$, the seal
+row $S$, and the endpoint $E$, so the displayed route is the only
+tail-to-seal path available to the consumer.
+
+Finally invoke \autoref{thm:uniform-limit-non-escape-boundary}. The excluded
+analytic objects are not carrier coordinates and are not exported by the
+transport, continuation, provenance, or local naming rows, so they cannot
+supply a competing endpoint read.
+\end{proof}
+
 \begin{theorem}[UniformLimit seal-route transport]
 \label{thm:uniform-limit-seal-route-transport}
 Let

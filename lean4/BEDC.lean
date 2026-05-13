@@ -69,6 +69,7 @@ import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
+import BEDC.Derived.AuditMapObstructionSocketUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
@@ -176,6 +177,7 @@ import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
+import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
@@ -292,6 +294,7 @@ import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
+import BEDC.Derived.ObservationScheduleEnvelopeUp
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback

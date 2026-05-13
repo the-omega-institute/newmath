@@ -201,6 +201,22 @@ only through the carried source distance, graph, rational bound, and visible
 certificate rows.
 \end{proof}
 
+\begin{theorem}[LipschitzMap public modulus export]
+\label{thm:lipschitz-map-public-modulus-export}
+For an accepted $\LipschitzMapUp$ packet
+$$
+L=(X,Y,B,G,M,H,C,P,N),
+$$
+the public $\UniformModulusUp$ row exported to any consumer is exactly $M$. It is induced from the rational $\RealUp$ bound ledger $B$ through the graph row $G$ and the source $\MetricSpaceUp$ row $X$. No consumer may replace $M$ by a host function modulus, a quotient of maps, or a target-space completeness principle.
+\end{theorem}
+\begin{proof}
+First read the packet rows from \autoref{thm:lipschitz-map-namecert-obligations}. The accepted carrier exposes $X,Y,B,G,M,H,C,P,N$ as the complete Lipschitz naming surface.
+
+Next apply bound transport from \autoref{thm:lipschitz-map-bound-transport}. The rational ledger $B$, graph row $G$, and induced modulus row $M$ are transported as displayed rows of the same packet, so a consumer cannot detach the modulus from its source metric and graph evidence.
+
+Finally use \autoref{thm:lipschitz-map-uniform-modulus-consumer-handoff}. The handoff routes every $\UniformModulusUp$ read through $X,G,B,M,H,C,P,N$, hence the public row exported to the consumer is the carried row $M$ and no host modulus, map quotient, or completeness principle is available.
+\end{proof}
+
 \begin{theorem}[LipschitzMap bound transport]
 \label{thm:lipschitz-map-bound-transport}
 Let
@@ -406,14 +422,15 @@ Finally apply ledger nonescape. Since the carrier contains no row for completene
 \end{proof}
 
 \closureat{LipschitzMapUp}{seedStr}
+\closureat{LipschitzMapUp}{obligationStr}
 
 \begin{closurestatus}{\LipschitzMapUp}
   \constructivestory{A $\LipschitzMapUp$ packet is generated from source and target $\MetricSpaceUp$ rows, a rational $\RealUp$ Lipschitz-bound ledger, a $\ContinuousMapUp$ graph row, a $\UniformModulusUp$ modulus row induced by the bound, componentwise $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope registers the carrier, classifier, NameCert obligations, composition boundary, and ledger nonescape over $\MetricSpaceUp$, $\RealUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\PicardContractionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:lipschitz-map-carrier}, \autoref{def:lipschitz-map-classifier}, \autoref{thm:lipschitz-map-namecert-obligations}, \autoref{thm:lipschitz-map-bound-transport}, \autoref{thm:lipschitz-map-target-distance-exactness}, \autoref{thm:lipschitz-map-composite-bound-routing}, and \autoref{thm:lipschitz-map-obligation-closure-package} bind the carrier, classifier, NameCert obligations, bound transport, target-distance exactness, composite-bound routing, and obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Banach fixed point, completeness of the metric spaces, differentiability, quotient equality of maps, selected representatives, host function extensionality, or bridge checking.}
-  \upgradepath{Obligation closure requires formal transport of the bound ledger, exact target-distance readback, composite-bound routing, and consumer nonescape over the displayed metric, graph, modulus, and seal rows.}
+  \upgradepath{Scoped closure requires routing $\MetricSpaceUp$, $\RealUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows through the displayed bound, graph, modulus, transport, continuation, provenance, and local naming surface.}
 \end{closurestatus}

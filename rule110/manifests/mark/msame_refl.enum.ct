@@ -1,0 +1,13 @@
+# msame_refl.enum.ct
+# Theorem: msame_refl : forall m : BMark, msame m m
+# Encoding: enumeration of 2 reflexive cases (BMark = {b0, b1})
+# Convention: GroundCompiler escape; b0 -> "0", b1 -> "10", terminator "11"
+#
+# Case 1: m = b0; msame(b0, b0). Input is EventEncoding(b0)++EventEncoding(b0) = "011" ++ "011" = "011011"
+# Case 2: m = b1; msame(b1, b1). Input is EventEncoding(b1)++EventEncoding(b1) = "1011" ++ "1011" = "10111011"
+# Verification: decode two events from input; both events must be equal.
+# Manual: trivially holds since both halves encode the same BMark.
+PRODUCTIONS 0
+ASSERTIONS 2
+case b0_b0: input=011011  ; expected_reflexive=yes
+case b1_b1: input=10111011; expected_reflexive=yes

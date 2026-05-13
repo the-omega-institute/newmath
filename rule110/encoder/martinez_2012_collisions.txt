@@ -1,0 +1,92 @@
+# Rule 110 glider collision + soliton data
+#
+# Source: Martinez G.J., Adamatzky A., Chen F., Chua L. (2012)
+#         "On Soliton Collisions between Localizations in Complex Elementary
+#          Cellular Automata: Rules 54 and 110 and Beyond"
+#         Complex Systems, Vol 21, Issue 2, Paper 2, pp.117-+
+#         https://doi.org/10.25088/ComplexSystems.21.2.117
+#         https://content.wolfram.com/sites/13/2018/12/21-2-2.pdf
+#
+# Companion reference: rule110/encoder/listPhasesR110.txt (Martinez 2001/2004)
+# Notation:
+#   G(N,fk_l) = glider G in neighborhood-context N at phase fk_l
+#   <glider>-n e-<glider> = two gliders separated by n ether tiles
+#   {result} = set of gliders produced by the collision
+
+# ---------- Table 1: Mobile self-localization properties ----------
+# columns: Glider, shift, period, speed (= shift/period, sign convention: + means
+#          left-moving in Martinez convention, opposite of Cook's negative-dx)
+# volume = visible cell count (range when multiple phases)
+
+# Glider | shift | period | speed       | volume
+# A      | 2     | 3      | +2/3        | 6
+# B      | 2     | 4      | -1/2        | 8
+# C1     | 0     | 7      | 0           | 9-23
+# C2     | 0     | 7      | 0           | 17
+# Ebar   | 8     | 30     | -4/15       | 21
+# F      | 4     | 36     | -1/9        | 15-29
+# Gn     | 14    | 42     | -1/3        | 24-38
+
+# ---------- 18 binary solitons (collision invariants) ----------
+# Soliton = collision where total information / set of glider identities is
+# preserved (modulo permutation), so the reaction can be looped.
+# Format: <id> <reaction>
+
+(a) A(f1_1)-6 e-G(C,f1_1) -> {G, A}
+(b) C1(A,f1_1)-3 e-Ebar(B,f1_1) -> {Ebar, C1}
+(c) C1(A,f1_1)-3 e-Ebar(C,f1_1) -> {Ebar, C1}
+(d) F(A,f1_1)-3 e-B(f4_1) -> {B, F}
+(e) C2(A,f1_1)-3 e-Ebar(C,f1_1) -> {Ebar, C2}
+(f) C1(A,f1_1)-2 e-F(B,f1_1) -> {F, C1}
+(g) C2(A,f1_1)-2 e-F(A,f1_1) -> {F, C2}
+(h) A(f1_1)-4 e-Ebar(A,f1_1) -> {Ebar, A}
+(i) A(f1_1)-4 e-Ebar(B,f1_1) -> {Ebar, A}
+(j) A(f1_1)-4 e-Ebar(C,f1_1) -> {Ebar, A}
+(k) A(f1_1)-4 e-Ebar(H,f1_1) -> {Ebar, A}
+(l) F(A,f1_1)-e-Ebar(A,f1_1) -> {Ebar, F}
+(m) F(A,f1_1)-e-Ebar(C,f1_1) -> {Ebar, F}
+(n) F(A,f1_1)-e-Ebar(D,f1_1) -> {Ebar, F}
+(o) F(A,f1_1)-e-Ebar(E,f1_1) -> {Ebar, F}
+(p) F(G,f1_1)-e-Ebar(A,f1_1) -> {Ebar, F}
+(q) F(G,f1_1)-e-Ebar(B,f1_1) -> {Ebar, F}
+(r) F(G,f1_1)-e-Ebar(H,f1_1) -> {Ebar, F}
+
+# ---------- Multiple soliton (6-glider) ----------
+(s) C1(B,f1_1)-e-C1(A,f1_1)-2 e-C2(A,f1_1)-e-F(A,f1_1)-e-Ebar(A,f1_1)-3 e-Ebar(C,f2_1) -> {Ebar, Ebar, F, C1, C2}
+
+# ---------- Table 2: F vs B-bar / F vs B collisions ----------
+# Asterisk (*) marks pseudo-soliton (F <-> B-bar pseudo-soliton loop).
+# A2 = packed-A^2 super-glider.
+
+# F -> B-bar collisions:
+F(A,f1_1)-e-Bbar(A,f1_1) = {A, B, Bbar, F}
+F(A,f1_1)-e-Bbar(B,f1_1) = {A, 2 C3, C1}
+F(A,f1_1)-e-Bbar(C,f1_1) = {A, C2}
+F(G,f1_1)-e-Bbar(A,f1_1) = {C2, A^2}
+F(G,f1_1)-e-Bbar(B,f1_1) = {A, A^3, A, Ebar}
+F(G,f1_1)-e-Bbar(C,f1_1) = {B, F} *
+F(H,f1_1)-e-Bbar(A,f1_1) = {A, C2}
+F(H,f1_1)-e-Bbar(B,f1_1) = {Ebar, A^5}
+F(H,f1_1)-e-Bbar(C,f1_1) = {Ebar, A^5}
+F(A2,f1_1)-e-Bbar(A,f1_1) = {C1}
+F(A2,f1_1)-e-Bbar(B,f1_1) = {A, B^3, Ebar}
+
+# F -> B collisions:
+F(A,f1_1)-e-B(f1_1) = {Bbar, F} *
+F(G,f1_1)-e-B(f1_1) = {Bbar, F} *
+F(H,f1_1)-e-B(f1_1) = {D2, A^2}
+F(A2)-e-B = {B, F} (soliton)
+
+# ---------- Cook construction connection ----------
+# Cook 2004 universal construction uses:
+#   * A4 (= 4 packed A's) as ossifier component
+#   * C2 as tape data
+#   * C1, C3 as leader components
+#   * Ebar as moving data
+#   * E variants as short-leader components
+#
+# The 18 solitons + Table 2 give the collision-invariance lookup needed to
+# verify that Cook's CT-emulation reactions actually preserve information.
+# Cf. Cook 2004 Section 4 (The Construction).
+
+/* End of file */

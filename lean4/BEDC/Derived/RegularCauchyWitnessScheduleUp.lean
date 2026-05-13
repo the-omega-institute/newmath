@@ -9,7 +9,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
 def RegularCauchyWitnessScheduleCarrier
-    (family modulus window dyadic readback sealRow transport route provenance name : BHist) : Prop :=
+    (_family modulus window dyadic readback sealRow _transport route provenance name : BHist) : Prop :=
   Cont modulus window route ∧ Cont window dyadic readback ∧ hsame sealRow readback ∧
     hsame name name
 
