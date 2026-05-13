@@ -214,6 +214,34 @@ theorem UniformModulusPacket_root_unblock_consumer_threshold_route [AskSetup] [P
       exact ⟨sourceRow.right.right, toleranceBundleCoverage, coveragePointwiseTransport⟩
   }
 
+theorem UniformModulusPacket_root_consumer_threshold_row [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow threshold exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont tolerance precision threshold ->
+        Cont threshold foldLedger exported ->
+          PkgSig bundle exported pkg ->
+            UnaryHistory tolerance ∧ UnaryHistory precision ∧ UnaryHistory threshold ∧
+              UnaryHistory foldLedger ∧ UnaryHistory exported ∧
+                Cont tolerance precision threshold ∧ Cont threshold foldLedger exported ∧
+                  PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet thresholdRoute exportRoute exportPkg
+  obtain ⟨toleranceUnary, precisionUnary, _bundleRowUnary, radiusUnary, _nameRowUnary,
+    _toleranceBundleCoverage, _coveragePointwiseTransport, precisionRadiusFoldLedger,
+    _foldNameProvenance, _provenancePkg⟩ := packet
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed toleranceUnary precisionUnary thresholdRoute
+  have foldLedgerUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary precisionRadiusFoldLedger
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed thresholdUnary foldLedgerUnary exportRoute
+  exact
+    ⟨toleranceUnary, precisionUnary, thresholdUnary, foldLedgerUnary, exportedUnary,
+      thresholdRoute, exportRoute, exportPkg⟩
+
 theorem UniformModulusPacket_root_fold_threshold_exhaustion [AskSetup] [PackageSetup]
     {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
       nameRow threshold exported : BHist}
