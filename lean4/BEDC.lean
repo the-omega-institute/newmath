@@ -135,6 +135,7 @@ import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
+import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.StreamNameSealFactorization
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
@@ -146,6 +147,7 @@ import BEDC.Derived.DyadicTailBoundUp.ConsumerRoutes
 import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.DivisibilityUp
+import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
@@ -156,7 +158,9 @@ import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
@@ -346,6 +350,7 @@ import BEDC.Derived.NestedDyadicIntervalUp
 import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.PicardContractionUp
+import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
@@ -399,6 +404,7 @@ import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
 import BEDC.Derived.RegularCauchyWitnessScheduleUp
+import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
 import BEDC.Derived.RegularLanguageUp
 import BEDC.Derived.SubshiftfinitetypeUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
