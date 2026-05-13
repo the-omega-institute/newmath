@@ -82,7 +82,7 @@ Audit method (execute thoroughly — many tool calls expected, take your time):
     {{
       "title": "<short, ≤80 chars>",
       "concrete_claim": "<single-sentence implication form: 'If P, then Q under S'>",
-      "local_inputs": ["papers/bedc/parts/...", "lean4/BEDC/..."],
+      "local_inputs": ["papers/bedc/parts/..."],
       "fit_score": <0-10 integer>,
       "novelty": <0-10 integer>,
       "axiom_budget": "<B0_finite_witness | B1_primitive_recursive_schedule | B2_rate_or_modulus | B3_finite_cover_or_compactness | B4_countable_construction | B5_impredicative_or_choice_like>",
@@ -111,6 +111,10 @@ Audit method (execute thoroughly — many tool calls expected, take your time):
 
 Constraints:
 - Each `local_inputs` path MUST exist in the repository (verify with Read or ls).
+- `local_inputs` is the BOARD landing/readback surface and MUST contain only
+  concrete paper paths under `papers/bedc/parts/`. You may read `lean4/BEDC/...`
+  as evidence, but put Lean evidence in `rationale`, `dependency_trace`, or
+  `resource_trace`, never in `local_inputs`.
 - Every kept candidate must include the Logic packet fields above. Use `none`
   only when the field is genuinely not triggered by the claim. Do not use
   `B5_impredicative_or_choice_like` unless the target is explicitly a boundary,
