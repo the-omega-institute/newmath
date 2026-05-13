@@ -346,6 +346,20 @@ Now use \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}. Componentwise 
 Finally apply \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}. Every downstream $\RealUp$ read is exhausted by the displayed tuple, so two accepted replays over the same finite window rows classify their consumer-visible $R$ rows through the same route and no larger analytic surface.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail finite-window projection exactness]
+\label{thm:diagonal-cofinal-tail-window-projection-exactness}
+Let $T=(Q,S,G,D,R,W,H,C,P,N)$ be an accepted $\DiagonalCofinalTailUp$ packet. Every finite-window projection exposed to a $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer is exactly the projection of the displayed $S,G,D,R,W$ rows through the displayed $H,C,P,N$ rows. Equivalently, each consumer-visible finite window is obtained by replaying the constant $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ cofinal-tail readback row $G$, the $\DyadicRatCoreUp$ finite ledger row $D$, the $\RealUp$ handoff row $R$, and the transported stationary seal row $W$ along the componentwise transport, continuation, provenance, and naming rows already carried by $H,C,P,N$.
+
+No quotient-stream equality, selected limit, host real equality, ambient completeness object, or second selector can refine that finite-window projection. Such data are not part of the accepted projection surface and cannot be read by the three consumer classes.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:diagonal-cofinal-tail-finite-window-replay-determinacy}. Shared replay of the same finite cofinal-tail window fixes the consumer-visible $R$ row through the route $Q,S,G,D,R,W,H,C,P,N$, so the projection has no alternate replay source.
+
+Next apply \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}. Componentwise transport along $H$ preserves the rows $Q,S,G,D,R,W,H,C,P,N$ and therefore transports the projection row by row rather than adding quotient-stream equality, host real equality, a selected limit, or ambient completeness.
+
+Finally apply \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}. Every $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumer is exhausted by the displayed tuple. Since no second selector or analytic refinement is consumer-readable, the finite-window projection exposed downstream is exactly the displayed projection through $S,G,D,R,W,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail consumer exhaustion]
 \label{thm:diagonal-cofinal-tail-consumer-exhaustion}
 Every downstream $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer of an accepted $\DiagonalCofinalTailUp$ packet reads the displayed rows
@@ -401,7 +415,7 @@ Finally use the TasteGate rows. The carrier single-source theorem supplies the u
 \begin{closurestatus}{\DiagonalCofinalTailUp}
   \constructivestory{A $\DiagonalCofinalTailUp$ packet is generated from paired stationary RatUp seed rows, constant StreamNameUp windows, RegSeqRatUp cofinal-tail readbacks, DyadicRatCoreUp finite-window ledgers, RealUp diagonal representative rows, a transported stationary seal row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-seed-window-readback}, \autoref{thm:diagonal-cofinal-tail-common-window-refinement}, \autoref{thm:diagonal-cofinal-tail-obligation-closure-package}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, \autoref{thm:diagonal-cofinal-tail-nonescape}, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}, \autoref{thm:diagonal-cofinal-tail-tastegate-flow-recognition}, \autoref{thm:diagonal-cofinal-tail-route-composition}, \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}, \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}, \autoref{thm:diagonal-cofinal-tail-stationary-seal-uniqueness}, and \autoref{thm:diagonal-cofinal-tail-scope-package} bind the finite cofinal-tail NameCert packet and primitive scope for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-seed-window-readback}, \autoref{thm:diagonal-cofinal-tail-common-window-refinement}, \autoref{thm:diagonal-cofinal-tail-obligation-closure-package}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, \autoref{thm:diagonal-cofinal-tail-nonescape}, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}, \autoref{thm:diagonal-cofinal-tail-tastegate-flow-recognition}, \autoref{thm:diagonal-cofinal-tail-route-composition}, \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}, \autoref{thm:diagonal-cofinal-tail-window-projection-exactness}, \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}, \autoref{thm:diagonal-cofinal-tail-stationary-seal-uniqueness}, and \autoref{thm:diagonal-cofinal-tail-scope-package} bind the finite cofinal-tail NameCert packet and primitive scope for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
   \leanchecked{BEDC.Derived.DiagonalCofinalTailUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
