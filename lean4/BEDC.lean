@@ -383,6 +383,7 @@ import BEDC.Derived.RealCauchyCompletionUp.ObligationBridge
 import BEDC.Derived.RealCauchyCompletionUp.ScopedConsumerRoute
 import BEDC.Derived.RealCauchyCompletionUp.StandardBishopReading
 import BEDC.Derived.RealDiagonalCompletionUp
+import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealLimitUp
