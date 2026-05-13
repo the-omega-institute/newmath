@@ -117,4 +117,42 @@ theorem AuditGateBoundaryCarrier_source_token_refusal [AskSetup] [PackageSetup]
     unary_cont_closed sourceUnary transportUnary sourceRoute
   exact ⟨sourceUnary, transportUnary, consumerUnary, sourceRoute, sourcePkg⟩
 
+theorem AuditGateBoundaryCarrier_replay_ledger [AskSetup] [PackageSetup]
+    {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
+      nameCert sourceConsumer dependencyConsumer markerConsumer originConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger transport
+        route provenance gap nameCert bundle pkg ->
+      Cont sourceScan transport sourceConsumer ->
+        Cont dependencyReport route dependencyConsumer ->
+          Cont markerResolution originLedger markerConsumer ->
+            Cont originLedger transport originConsumer ->
+              PkgSig bundle sourceConsumer pkg ->
+                PkgSig bundle dependencyConsumer pkg ->
+                  PkgSig bundle markerConsumer pkg ->
+                    PkgSig bundle originConsumer pkg ->
+                      UnaryHistory sourceConsumer ∧ UnaryHistory dependencyConsumer ∧
+                        UnaryHistory markerConsumer ∧ UnaryHistory originConsumer ∧
+                          Cont sourceScan transport sourceConsumer ∧
+                            Cont dependencyReport route dependencyConsumer ∧
+                              Cont markerResolution originLedger markerConsumer ∧
+                                Cont originLedger transport originConsumer := by
+  intro carrier sourceRoute dependencyRoute markerRoute originRoute _sourcePkg _dependencyPkg
+    _markerPkg _originPkg
+  obtain ⟨sourceUnary, dependencyUnary, markerUnary, originUnary, transportUnary, routeUnary,
+    _provenanceUnary, _gapUnary, _nameUnary, _dependencyGap, _nameGap,
+    _sourceDependencyMarker, _markerOriginTransport, _transportRouteProvenance,
+    _provenanceGapName, _provenancePkg, _namePkg⟩ := carrier
+  have sourceConsumerUnary : UnaryHistory sourceConsumer :=
+    unary_cont_closed sourceUnary transportUnary sourceRoute
+  have dependencyConsumerUnary : UnaryHistory dependencyConsumer :=
+    unary_cont_closed dependencyUnary routeUnary dependencyRoute
+  have markerConsumerUnary : UnaryHistory markerConsumer :=
+    unary_cont_closed markerUnary originUnary markerRoute
+  have originConsumerUnary : UnaryHistory originConsumer :=
+    unary_cont_closed originUnary transportUnary originRoute
+  exact
+    ⟨sourceConsumerUnary, dependencyConsumerUnary, markerConsumerUnary, originConsumerUnary,
+      sourceRoute, dependencyRoute, markerRoute, originRoute⟩
+
 end BEDC.Derived.AuditGateBoundaryUp
