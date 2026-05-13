@@ -30,6 +30,7 @@ theorem composite_coverage {Mid Final : Type} {D : Domain}
       | intro z hz =>
           exact Exists.intro z (Exists.intro y (And.intro hy hz))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_from_layers
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}
@@ -48,6 +49,7 @@ theorem compGap_coverage_from_layers
           | intro z dGap =>
               exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_exact
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -78,6 +80,7 @@ theorem proof_spine_composite_gap_coverage
       | intro z secondWitness =>
           exact Exists.intro z (Exists.intro y (And.intro firstWitness secondWitness))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_composite_coverage_witness
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop}
@@ -163,6 +166,7 @@ theorem compGap_coverage_sourced_witness
               (And.intro firstWitness
                 (And.intro secondWitness sourced)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_witness_from_layers
     {Source Inter Final : Type}
     {SourceOk : Source → Prop} {InterOk : Inter → Prop}
@@ -181,6 +185,7 @@ theorem compGap_witness_from_layers
           | intro z dGap =>
               exact Exists.intro z (Exists.intro y (And.intro cGap dGap))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_with_intermediate
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}
@@ -201,6 +206,7 @@ theorem compGap_coverage_with_intermediate
                   (Exists.intro z
                     (Exists.intro y (And.intro cGap dGap))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_intermediate_and_final
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop}
@@ -220,6 +226,7 @@ theorem compGap_coverage_intermediate_and_final
               (Exists.intro z
                 (Exists.intro y (And.intro cGap dGap))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_coverage_with_intermediate_ok
     {Source Inter Final : Type}
     {SourceOk : Source -> Prop} {InterOk : Inter -> Prop}

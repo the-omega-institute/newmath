@@ -21,6 +21,7 @@ inductive SigRel : ProbeBundle ProbeName → BHist → BHist → Prop where
       Ext s m r →
       SigRel (ProbeBundle.Bcons pi tail) h r
 
+omit [AskSetup] in
 theorem sig_empty_constructor [AskSetup] (h : BHist) :
     SigRel (ProbeBundle.Bnil : ProbeBundle ProbeName) h BHist.Empty := by
   exact SigRel.empty h
@@ -80,6 +81,7 @@ theorem sig_cons_head_marks_same [AskSetup] {pi : ProbeName} {tail : ProbeBundle
       | cons _ _ _ _ _ n _ rightAsk _ _ =>
           exact Exists.intro m (Exists.intro n (policy.deterministic leftAsk rightAsk))
 
+omit [AskSetup] in
 theorem sig_cons_result_inversion [AskSetup] {pi : ProbeName} {tail : ProbeBundle ProbeName}
     {h r : BHist} :
     SigRel (ProbeBundle.Bcons pi tail) h r ->

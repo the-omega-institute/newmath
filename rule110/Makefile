@@ -235,7 +235,7 @@ $(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)
 	    $(ENCODER_DIR)/cook_construction.c \
 	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c
 
-test: $(TESTS) $(R110_GENERATED) $(ALGO_R110_GENERATED)
+test: $(TESTS) $(R110_GENERATED) $(ALGO_R110_GENERATED) test-algo-r110-semantic
 	@for t in $(TESTS); do \
 	    echo "== $$t =="; \
 	    ./$$t || exit 1; \
