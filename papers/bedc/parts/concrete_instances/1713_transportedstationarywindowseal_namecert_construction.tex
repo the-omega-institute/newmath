@@ -60,11 +60,13 @@ The transported window exactness clause in \autoref{thm:transported-stationary-w
 
 Hence equality of the transported $\RatUp$ classifier at the displayed route fixes the induced constant $\StreamNameUp$ window and the $\RegSeqRatUp$ seal at the public readback boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.TransportedStationaryWindowSealUp.TransportedStationaryWindowSealPacket\_readback\_determinacy}
 
 \begin{theorem}[Transported stationary window-seal Real factorization]
 \label{thm:transported-stationary-window-seal-real-factorization}
 Every $\RealUp$ read exposed by an accepted $\TransportedStationaryWindowSealUp$ carrier factors through the displayed $\FiniteWindowEnvelopeUp$ packet $W$ and the same $\RegSeqRatUp$ finite-window seal $G$. The real-facing row $E$ may read the selected anchor, finite window, dyadic ledger, regular-rational seal, and endpoint classifier only through $W$ together with the transported seal row $G$ and the displayed transport and provenance rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.TransportedStationaryWindowSealUp.TransportedStationaryWindowSealPacket\_real\_factorization}
 \begin{proof}
 Project the coordinates $G,W,E$ from the carrier tuple. The finite-window envelope $W$ names the anchor, window, dyadic ledger, regular-rational seal, and endpoint classifier, while $E$ is the real-facing row obtained from that envelope and the seal row.
 
@@ -143,6 +145,40 @@ Start from \autoref{thm:transported-stationary-window-seal-ledger-nonescape}. It
 Readback determinacy and Real factorization describe all displayed consumer paths: the stationary window path passes through $R,S,G$, and the real-facing path passes through $W,E$ together with the same transport and provenance rows.
 
 It remains only to exclude hidden completion data. The carrier definition and uniqueness theorem leave no coordinate for quotient streams, host equality, selected limits, or real completeness, so the ledger obligation is exactly the finite non-escape boundary.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal obligation package]
+\label{thm:transported-stationary-window-seal-obligation-package}
+For an accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+the consumer-facing obligation package is the finite conjunction of carrier admission, classifier comparison, transported $\RatUp$-to-$\StreamNameUp$ readback determinacy, $\FiniteWindowEnvelopeUp$ and $\RegSeqRatUp$ factorization of every $\RealUp$ read, public-row uniqueness, and ledger non-escape. The package ranges only over the displayed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $T$.
+\end{theorem}
+\begin{proof}
+First project the carrier and local naming surface. The carrier definition supplies the rows $R,S,G,W,E,H,C,P,N$, while \autoref{thm:transported-stationary-window-seal-namecert-obligations} supplies the local carrier, classifier, transported-window exactness, seal-exhaustion, and non-escape obligations.
+
+Next assemble the readback and Real-facing parts. Apply \autoref{thm:transported-stationary-window-seal-readback-determinacy} to read the transported $\RatUp$ row through the constant $\StreamNameUp$ window and the $\RegSeqRatUp$ finite-window seal. Apply \autoref{thm:transported-stationary-window-seal-real-factorization} to force every $\RealUp$ consumer path through the $\FiniteWindowEnvelopeUp$ packet and the same $\RegSeqRatUp$ seal row.
+
+Finally repack the consumer boundary. The uniqueness theorem identifies the public seal row determined by the displayed components, the carrier-obligation theorem and classifier-obligation theorem expose the finite admission and comparison clauses, and \autoref{thm:transported-stationary-window-seal-ledger-obligation} together with ledger non-escape blocks quotient streams, host equality, selected limits, choice, and real-completeness data.
+\end{proof}
+
+\begin{theorem}[Transported stationary window-seal public export certificate]
+\label{thm:transported-stationary-window-seal-public-export-certificate}
+For every accepted $\TransportedStationaryWindowSealUp$ packet
+$$
+T=(R,S,G,W,E,H,C,P,N),
+$$
+\autoref{thm:transported-stationary-window-seal-namecert-obligations}, \autoref{thm:transported-stationary-window-seal-readback-determinacy}, \autoref{thm:transported-stationary-window-seal-real-factorization}, \autoref{thm:transported-stationary-window-seal-uniqueness}, \autoref{thm:transported-stationary-window-seal-ledger-nonescape}, and \autoref{thm:transported-stationary-window-seal-obligation-package} assemble one public export certificate over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FiniteWindowEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every $\RealUp$-facing read factors through the finite public rows $R,S,G,W,E,H,C,P,N$, and the certificate exports no quotient stream, host equality, selected limit, choice principle, or real-completeness datum.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $T=(R,S,G,W,E,H,C,P,N)$. The NameCert obligation theorem supplies the carrier, classifier, transported-window exactness, seal-exhaustion, and non-escape clauses for exactly these rows.
+
+The readback determinacy theorem fixes the $\RatUp$ input, the $\StreamNameUp$ stationary window, and the $\RegSeqRatUp$ seal as one finite route. The Real factorization theorem then sends every $\RealUp$-facing consumer through the $\FiniteWindowEnvelopeUp$ row and that same seal route.
+
+Use uniqueness to identify the public row determined by the displayed carrier and classifier data. The obligation package collects these clauses into one consumer-facing certificate, and ledger non-escape removes every coordinate not present in $R,S,G,W,E,H,C,P,N$.
+
+Thus the exported certificate is public over the listed BEDC kernel and setup objects, while quotient streams, host equality, selected limits, choice, and real-completeness data remain outside its ledger surface.
 \end{proof}
 
 \closureat{TransportedStationaryWindowSealUp}{seedStr}

@@ -98,4 +98,23 @@ theorem AuditGateBoundaryCarrier_axiom_purity_soundness [AskSetup] [PackageSetup
       exact And.intro provenancePkg sourceRow.right
   }
 
+theorem AuditGateBoundaryCarrier_source_token_refusal [AskSetup] [PackageSetup]
+    {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
+      nameCert sourceConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger transport
+        route provenance gap nameCert bundle pkg ->
+      Cont sourceScan transport sourceConsumer ->
+        PkgSig bundle sourceConsumer pkg ->
+          UnaryHistory sourceScan ∧ UnaryHistory transport ∧ UnaryHistory sourceConsumer ∧
+            Cont sourceScan transport sourceConsumer ∧ PkgSig bundle sourceConsumer pkg := by
+  intro carrier sourceRoute sourcePkg
+  obtain ⟨sourceUnary, _dependencyUnary, _markerUnary, _originUnary, transportUnary,
+    _routeUnary, _provenanceUnary, _gapUnary, _nameUnary, _dependencyGap, _nameGap,
+    _sourceDependencyMarker, _markerOriginTransport, _transportRouteProvenance,
+    _provenanceGapName, _provenancePkg, _namePkg⟩ := carrier
+  have consumerUnary : UnaryHistory sourceConsumer :=
+    unary_cont_closed sourceUnary transportUnary sourceRoute
+  exact ⟨sourceUnary, transportUnary, consumerUnary, sourceRoute, sourcePkg⟩
+
 end BEDC.Derived.AuditGateBoundaryUp

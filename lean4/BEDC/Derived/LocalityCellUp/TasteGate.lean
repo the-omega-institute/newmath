@@ -248,6 +248,10 @@ instance localityCellChapterTasteGate : ChapterTasteGate LocalityCellUp where
     intro x y hxy heq
     exact hxy (localityCellToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate LocalityCellUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  localityCellChapterTasteGate
+
 theorem LocalityCellTasteGate_single_carrier_alignment :
     (∀ h : BHist, localityCellDecodeBHist (localityCellEncodeBHist h) = h) ∧
       (∀ x : LocalityCellUp, localityCellFromEventFlow (localityCellToEventFlow x) = some x) ∧

@@ -1,0 +1,58 @@
+\begin{theorem}[UniformCauchyCriterion finite-family seal obligation package]
+\label{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet. The rows $I,W,M,Q,T,E,H,C,P,N$ form the finite-family seal obligation surface for every $\UniformCauchyCriterionUp$ consumer that reaches a $\RegSeqRatUp$ tail read or a $\RealUp$ seal read.
+
+The surface consists exactly of the finite index ledger $I$, shared window family $W$, shared threshold schedule $M$, dyadic tolerance row $Q$, tail ledger $T$, seal handoff row $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local $\NameCert$ row $N$. It contains no selected limit, quotient stream, host real equality, ambient completeness proof, or detached tail oracle.
+\end{theorem}
+\begin{proof}
+First expose the finite window spine. Apply \autoref{thm:uniform-cauchy-criterion-window-stability}; every window read remains a read of the displayed family $W$ over the finite index ledger $I$.
+
+Next bind the threshold and tail data. Apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} and \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. These force the route from the family window to pass through the displayed $M,Q,T$ rows.
+
+Now pass to the consumers. By \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}, the $\RegSeqRatUp$ tail reader is exhausted by the rows of $U$. By \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}, the $\RealUp$ seal reader factors through the same displayed package.
+
+Finally apply \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy} and \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness}. Overlaps cannot split the tail ledger, and the seal route has no second public handoff. Hence the displayed rows are exactly the finite-family seal obligation surface.
+\end{proof}
+
+\begin{theorem}[UniformCauchyCriterion finite-family RegSeqRat--Real handoff]
+\label{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff}
+For an accepted $\UniformCauchyCriterionUp$ packet
+$$
+U=(I,W,M,Q,T,E,H,C,P,N),
+$$
+every $\RegSeqRatUp$-visible tail read and every $\RealUp$ seal read factor through the same shared-window route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+The tail side and the seal side may refine the displayed finite ledger, but they cannot fork into separate window families, threshold schedules, dyadic tolerance routes, or completion routes.
+\end{theorem}
+\begin{proof}
+Start with the shared window. Apply \autoref{thm:uniform-cauchy-criterion-window-stability} and \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport}. They identify $W$ and $M$ as the common route before any tail or seal data can be read.
+
+Use \autoref{thm:uniform-cauchy-criterion-tail-ledger-exactness}. The $\RegSeqRatUp$-visible tail read is exactly the displayed $T$ row after the dyadic tolerance row $Q$.
+
+For the seal boundary, apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The $\RealUp$ seal read is downstream of that same tail ledger rather than an independent completion route.
+
+Refinements do not alter this handoff. Apply \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy}; any overlap refinement still determines the same tail ledger and the same seal route. The stated shared route follows.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_finite\_family\_regseq\_real\_handoff}
+
+\begin{theorem}[UniformCauchyCriterion finite-family nonescape ledger]
+\label{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger}
+Let $U=(I,W,M,Q,T,E,H,C,P,N)$ be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family seal obligation surface of \autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}. A consumer of this surface cannot inspect a selected limit, quotient stream, host real equality, ambient completeness witness, or any unledgered completion datum.
+
+All admissible reads are exhausted by the displayed window, threshold, tolerance, tail, seal, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}. The RegSeqRat-facing read has no coordinate outside $I,W,M,Q,T,E,H,C,P,N$.
+
+Apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The Real-facing read also factors through the same displayed package, so it cannot introduce a selected limit or ambient completion witness.
+
+Use \autoref{thm:uniform-cauchy-criterion-overlap-refinement-determinacy} to rule out escape through refined windows. The overlap still determines the same tail ledger and seal route.
+
+Finally use \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness}. A second route to host equality, quotient streams, or completion data would require another visible seal handoff, and that handoff is absent from the accepted packet.
+\end{proof}

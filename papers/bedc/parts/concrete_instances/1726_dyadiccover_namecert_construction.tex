@@ -119,6 +119,8 @@ rows, $\FiniteWindowEnvelopeUp$ coverage witnesses, and the $\Cont$ routes
 that read $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ data into those cells.
 The handoff is a finite packet handoff, not an appeal to open-cover compactness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket\_total\_bounded\_handoff\_export}
+\leanchecked{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket\_total\_bounded\_handoff}
 \begin{proof}
 Project the carrier and choose a consumer route. The only data addressed to
 total-bounded consumers are the finite center list, radius list, interval-cell
@@ -132,6 +134,56 @@ witness.
 Thus the consumer receives exactly a finite cover packet with explicit mesh
 and radius data. Since the carrier contains no arbitrary indexed open family,
 no compactness principle and no choice of subcover can be projected from it.
+\end{proof}
+
+\begin{theorem}[DyadicCover total-bounded bridge]
+\label{thm:dyadic-cover-total-bounded-bridge}
+An accepted $\DyadicCoverUp$ packet over finite dyadic centers, rational
+radii, rational interval cells, mesh refinement rows, and
+$\FiniteWindowEnvelopeUp$ coverage witnesses supplies exactly the finite
+center-radius witness surface required by a $\TotallyBoundedUp$ consumer. The
+bridge exports the listed centers, radii, cells, window incidences, refinement
+rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ row, and exports no arbitrary open family or subcover selector.
+\end{theorem}
+\begin{proof}
+Begin with the total-bounded handoff. It identifies the consumer-facing data
+as the finite center list, radius list, interval-cell list, mesh refinement
+rows, finite-window coverage witnesses, and real-data read routes.
+
+Apply window-cell incidence. Each point covered inside the displayed window is
+attached to one listed center, one rational radius, one rational interval
+cell, and the corresponding stream, regular-rational, and real read route.
+
+Use refinement witness exhaustion to account for later mesh rows. Every
+refined witness is consumed by finite replacement along the displayed
+refinement rows, and ledger non-escape prevents the bridge from exporting an
+open-cover compactness principle or a selected subcover.
+\end{proof}
+
+\begin{theorem}[DyadicCover finite-window total-bounded correspondence]
+\label{thm:dyadic-cover-finite-window-total-bounded-correspondence}
+For an accepted $\DyadicCoverUp$ packet, the finite-window incidence rows and
+the $\TotallyBoundedUp$ center-radius rows determine the same
+consumer-visible cover package. A consumer may read the package through
+$\FiniteWindowEnvelopeUp$ cells or through finite center-radius rows, but both
+routes use the same dyadic centers, rational radii, interval cells, mesh
+refinement rows, coverage witnesses, transports, continuation routes,
+provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Read the finite-window side first. Window-cell incidence assigns every
+covered point in the displayed window to one named center, radius, interval
+cell, and real-data route.
+
+Read the total-bounded side next. The total-bounded bridge presents the same
+listed centers and radii as the finite witness surface required by the
+consumer, with the same interval cells and mesh rows.
+
+Finally compare the two routes through refinement witness exhaustion and
+ledger non-escape. Refinement changes only the displayed finite cells along
+named mesh rows, and no route introduces an arbitrary open family, subcover
+selector, quotient real equality, or ambient compactness theorem.
 \end{proof}
 
 \begin{theorem}[DyadicCover ledger nonescape]
@@ -175,6 +227,7 @@ $\RegSeqRatUp$ row, one $\RealUp$ row, and the displayed $\Cont$ route from
 the corresponding stream and regular-rational name into that real and cell
 incidence record.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicCoverUp.DyadicCoverPacket\_window\_cell\_incidence}
 \begin{proof}
 Project the tuple $D=(K,R,I,Q,W,H,C,P,N)$. The coverage coordinate of the
 carrier is indexed by the displayed finite window $W$, so a covered point

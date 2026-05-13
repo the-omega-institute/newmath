@@ -82,4 +82,54 @@ theorem BinaryExpansionPacket_regular_handoff_factorization [AskSetup] [PackageS
     congrArg (fun row => append windows row) realSealSame
   exact ⟨hsame_trans handoffWindowsSeal handoffSame, windowsDigits, approximationRegular, pkgSig⟩
 
+theorem BinaryExpansionPacket_real_readback_boundary [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg ->
+      Cont regular realSeal realRead ->
+        PkgSig bundle realRead pkg ->
+          UnaryHistory windows ∧ UnaryHistory digits ∧ UnaryHistory approximation ∧
+            UnaryHistory regular ∧ UnaryHistory realSeal ∧ UnaryHistory realRead ∧
+              Cont windows digits approximation ∧ Cont approximation regular realSeal ∧
+                Cont regular realSeal realRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet regularRealSealRead realReadPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, windowsDigitsApproximation,
+    approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed regularUnary realSealUnary regularRealSealRead
+  exact
+    ⟨windowsUnary, digitsUnary, approximationUnary, regularUnary, realSealUnary,
+      realReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
+      regularRealSealRead, provenancePkg, realReadPkg⟩
+
+theorem BinaryExpansionPacket_dyadic_ledger_exhaustion [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      dyadicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      Cont digits windows dyadicRead →
+        PkgSig bundle dyadicRead pkg →
+          UnaryHistory digits ∧ UnaryHistory windows ∧ UnaryHistory approximation ∧
+            UnaryHistory regular ∧ UnaryHistory realSeal ∧ UnaryHistory dyadicRead ∧
+              Cont windows digits approximation ∧ Cont approximation regular realSeal ∧
+                Cont digits windows dyadicRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle dyadicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet digitsWindowsRead dyadicReadPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, windowsDigitsApproximation,
+    approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  have dyadicReadUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed digitsUnary windowsUnary digitsWindowsRead
+  exact
+    ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+      dyadicReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
+      digitsWindowsRead, provenancePkg, dyadicReadPkg⟩
+
 end BEDC.Derived.BinaryExpansionUp
