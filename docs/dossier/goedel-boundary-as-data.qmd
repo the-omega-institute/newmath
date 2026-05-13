@@ -1,0 +1,141 @@
+---
+title: "Goedel Boundary as Data"
+subtitle: "Two layers at which incompleteness becomes a measurable number. The dependent-codomain obstruction in MetaCIC. The cook compile-frontier in the rule110 substrate. Both are quantified."
+author: "The Omega Institute"
+date: 2026-05-14
+description: "Goedel's second incompleteness theorem is usually treated as a wall. BEDC treats it as data. The same boundary appears at the meta-theory layer (four subject-reduction hypotheses) and at the cellular substrate layer (cook compile-frontier 64p/64t needed vs current frontier 16p/32t). The wall has coordinates."
+---
+
+```{=html}
+<div class="lang-switch"><a href="goedel-boundary-as-data.zh-CN.qmd">中文</a></div>
+```
+
+## The wall, when you actually go up to it
+
+In undergraduate logic class, Goedel's second incompleteness theorem is presented as a fact and then mostly left alone. Sufficiently strong formal systems cannot prove their own consistency. There is therefore some structural limit on what such a system can do. The limit is real, the proof is clean, and the consequences are typically waved at rather than examined.
+
+If you actually walk up to the wall and try to put your hand on it, you find something more interesting. The wall has coordinates. It is not located uniformly across the system. There are specific *places* where you can feel it. At each of those places, the distance between *where you are* and *where the wall is* is a number.
+
+BEDC has built two of those places explicitly. One is the MetaCIC chapter's four subject-reduction hypotheses. One is the rule110 substrate's cook compile-frontier. They are the same boundary at two different layers. At both layers, the boundary's distance from current capability is a small number — a constant factor in production count, four specific hypotheses, a quantity you can measure.
+
+This essay is about treating that boundary as *data* rather than as a metaphor.
+
+## Layer one: the dependent-codomain obstruction at the meta-theory
+
+The MetaCIC chapter's main result settles closed-codomain CIC at `False` as inconsistent — the `closed_normal_consistency` theorem (described in [the previous essay](metacic-first-main-result.qmd)). It does not settle the dependent-codomain case. The boundary between the two is named explicitly: four subject-reduction hypotheses sit in `lean4/BEDC/MetaCIC/SubjectReduction/Hypotheses.lean` as `structure` fields:
+
+1. Dependent codomain stability under reduction.
+2. Telescoping closure across chained dependent codomains.
+3. Strong elimination compatibility for return types depending on the scrutinee.
+4. Inductive parameter coherence under reduction.
+
+Each hypothesis is structural. None of them is a routine technical lemma; each is a specific assertion about how CIC's dependent typing apparatus interacts with the reduction relation. The exhaustiveness audit registers them as 14 convention-bound obligations within the 31-target catalog (`17 strict PASS + 14 convention = 31`). Their statements are precise; their proofs are open.
+
+This is what one face of the Goedel boundary looks like, made concrete. The wall is not abstract: it is exactly these four propositions. The distance from the project's current state to the wall is exactly the work of discharging these four propositions as theorems. The distance is finite; whether the work is feasible inside the project's constraints (mathlib-free, axiom-pure, 0 sorry) is an open empirical question. *The boundary is a finite engineering distance*, not an unsurpassable barrier.
+
+The project does not claim to have discharged it. The project does not claim it can be discharged. The project does claim that the distance is *named*, and that any progress toward it can be measured by which of the four hypotheses moved from `structure` field to `theorem`.
+
+## Layer two: the cook compile-frontier at the cellular substrate
+
+The rule110 sub-project implements the Cook 2009 construction end-to-end: a Turing machine compiles to a tag system (§1.2), the tag system compiles to a cyclic tag system (§1.3), the cyclic tag system runs as a Rule 110 evolution (§1.4). The pipeline is in `rule110/encoder/tm_to_tag.c`, `rule110/encoder/tag_to_cyclic.c`, and `rule110/encoder/cook_encode.c`, comprising roughly 611 lines of ANSI C99.
+
+The pipeline has been exercised end-to-end on small inputs. The largest cyclic-tag round-trips currently passing inside the substrate are documented in `rule110/STATUS.md`:
+
+```text
+Scale frontier: largest passing = scale_2p_16t_16384
+
+Cook packet scale cases:
+  (P=2,  T=16, S=16384)
+  (P=8,  T=8,  S=16384)
+  (P=4,  T=16, S=32768)
+  (P=2,  T=32, S=32768)
+  (P=16, T=2,  S=8192)
+```
+
+`(P, T, S)` is *productions, tape symbols, Rule 110 steps*. So the substrate has been exercised up to 16 productions, 32 tape symbols, 32768 steps, in some combination.
+
+The smallest *halted* Turing machine — one with no transition rules and a single halt state — compiles, under Cook 2009 §1.2/§1.3, to a cyclic tag system of approximately 64 productions and 64 tape symbols. The minimum is not zero or even small. The compilation is polynomial-time, in the sense Cook proved, but the constants are large enough that even a no-op TM lands at 64p/64t.
+
+The gap between *what is needed to run a real TM* and *what the substrate currently runs* is therefore approximately a factor of 4 in production count and a factor of 2 in tape size. This is the cook compile-frontier — the empirical place where the cellular substrate stops being able to host a universal computation it is *theoretically* universal enough to host.
+
+This is the other face of the Goedel boundary. The substrate is universal in principle (Cook 2004 proved that). The substrate is *not yet* universal in practice (you can't run a real Turing machine inside it at present scale). The distance from "in principle" to "in practice" is finite and measurable.
+
+## Why both layers are the same boundary
+
+Goedel's second incompleteness, read structurally, says: there is *somewhere* in every sufficiently strong system where the system cannot completely close on its own resources. The theorem locates that somewhere by an explicit construction (the self-reference / fixed-point lemma). It says nothing about how *small* the gap is at the place the construction picks out.
+
+What the two BEDC layers show is that *Goedel's boundary appears in different places at different scales of the same project*. At the meta-theory layer it appears as four open conjectures about CIC's dependent typing. At the cellular substrate layer it appears as a constant-factor scale gap between Turing universality and finite witness. Neither layer is a "small" boundary in the sense of "easy to cross" — but both are *finite* in the sense of "we can write down exactly how far the gap is right now".
+
+The structural identity of the boundary, across these layers, is this:
+
+> At every layer at which a closed observational system claims to host universal reasoning, there is a finite, measurable distance between the system's capacity in principle and its capacity in practice. That distance is one face of the Goedel boundary. The project's role is to expose the face rather than to obscure it.
+
+In MetaCIC, the face is four hypotheses. In rule110, the face is the (P, T, S) gap. In the BEDC kernel itself, the face is the no-induction theorem from [the induction essay](where-induction-comes-from.qmd): the kernel can verify finite witnesses, not universal closures.
+
+## What "as data" buys you
+
+Treating the boundary as data, rather than as a wall, has consequences for how the project moves forward.
+
+**Measurability.** When someone asks "what would it take to close the dependent-codomain case in MetaCIC?", the answer is not vague. It is: *discharge the four hypotheses listed in `SubjectReduction/Hypotheses.lean`.* Any partial progress is measurable as `4 → 3 → 2 → 1 → 0` open hypotheses. Anyone who claims to have closed the case can be checked by reading the file and looking for `theorem` versus `structure` field.
+
+**Falsifiability.** When someone asks "what would refute the rule110 substrate's universality claim?", the answer is also not vague. It is: *find a halted Turing machine whose Cook compilation can run inside the present substrate, and show that the round-trip fails.* Currently no such TM exists because the minimum compilation lies outside the present scale frontier; if engineering extends the frontier to (64, 64, S) for some S and the round-trip still fails, that would falsify the present claim. If it succeeds, the claim moves from "substrate is universal in principle" to "substrate has been exercised on a universal computation".
+
+**Comparability.** The two layers are independently measurable. Closing one does not require closing the other. This means the project's roadmap can prioritise either independently; it does not have to lump the two boundaries together as "the consistency / universality work".
+
+**Honesty.** The dossier essays do not pretend the boundaries are closed. The paper's `\closurestatus` blocks do not pretend either. The Lean code does not pretend (no `sorry`, no `True.intro` stubs, no axioms). The audits would catch the pretence immediately if anyone tried.
+
+## How the project's audit pipeline keeps the boundary measurable
+
+Three audit gates make the boundary's measurability mechanical:
+
+```bash
+python3 lean4/scripts/bedc_ci.py audit
+# Every paper \leanchecked{X} corresponds to a Lean theorem
+# Every paper \leanstmt{X} corresponds to a Lean structure field
+# Drift = 0 means the paper's claim about closure status matches the code
+
+python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+# Every BEDC theorem's transitive dependency through #print axioms
+# is checked to contain none of: Classical.choice, Quot.sound, propext
+
+cd rule110 && make test-scale
+# Reports: largest passing = scale_<P>p_<T>t_<S>
+```
+
+The first audit prevents the paper from quietly claiming a result that the Lean code does not back up. If the paper writes `\leanchecked{X}` and `X` doesn't exist in Lean, audit fails. If the paper writes `\leanstmt{X}` and `X` is registered as a theorem rather than a structure field, audit fails.
+
+The second audit prevents the project from quietly importing a stronger logical principle. If any proof somewhere in the dependency graph touches `Classical.choice`, the audit fails. This catches the case where a "minor lemma" silently weakens the constructive content of the theorem above it.
+
+The third audit reports the current cook compile-frontier as a number. There is no place to hide a soft progress claim — the largest passing case is what the test reports.
+
+Each audit is in CI. Each runs on every commit. Each refuses to allow the boundary to be quietly relocated.
+
+## What this changes about the philosophical landscape
+
+The way the second incompleteness theorem is usually taught suggests that some final question about formal systems is unanswerable, and we should be philosophically humble about it. The way BEDC treats the same boundary is different: *the boundary is real, and it has coordinates, and the coordinates are where we work*.
+
+This is not a defeat of Goedel. It is taking Goedel seriously enough to convert his structural insight into a project management constraint. The project's roadmap is structured around closing distances to the boundary at each layer. The dependent-codomain hypotheses are tracked. The cook compile-frontier is tracked. The kernel's `axiom-purity` is tracked.
+
+If the project finishes — meaning if, at some hypothetical future state, all four MetaCIC hypotheses are discharged as theorems and the cook compile-frontier reaches (64, 64, S) for some S — the Goedel boundary will have moved. It will reappear somewhere else, at some new layer. It always does. That is the content of the second incompleteness theorem.
+
+What the project will have done by then is *trace the boundary across layers*, *quantify it at each layer*, and *expose it as engineering distance rather than as philosophical limit*. The wall stays. The wall's coordinates become known. The work continues.
+
+## What this is *not*
+
+It is not a claim to have evaded Goedel. The second incompleteness theorem is correct; the project takes it as a structural fact. The two layers of boundary described above are *applications* of Goedel, not refutations.
+
+It is not a claim that engineering will close the boundary indefinitely. Closing the cook compile-frontier from 16p to 64p is a finite engineering task. Closing the dependent-codomain hypotheses is potentially much harder, possibly impossible inside the project's constraints. The honesty is in the bookkeeping, not in optimism about completion.
+
+It is not a methodology paper. It is a position: that the second incompleteness theorem becomes more useful when you treat its consequences as data points rather than as a single abstract wall.
+
+What it *is*: a working demonstration that one of the most-cited limitative results in mathematics can be unpacked into concrete, layer-by-layer distances, and that the resulting numbers are small enough to be actionable.
+
+```{=html}
+<div class="cta-choices">
+  <a href="metacic-first-main-result.qmd"><strong>← MetaCIC: BEDC's First Main Result</strong><br/>The meta-theoretic layer in detail — what is settled, what is parked behind four named hypotheses.</a>
+  <a href="rule110-visualization.qmd"><strong>Rule 110 Visualization →</strong><br/>The cellular substrate layer in motion — watch the cook compile-frontier as it actually exists.</a>
+  <a href="where-induction-comes-from.qmd"><strong>Where Induction Comes From →</strong><br/>The third face of the same boundary — at the kernel's own claim of universal verification.</a>
+</div>
+```
+
+— *The Omega Institute*
