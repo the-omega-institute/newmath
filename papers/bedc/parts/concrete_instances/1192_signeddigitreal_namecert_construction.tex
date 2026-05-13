@@ -335,6 +335,22 @@ The exact readback boundary \autoref{thm:signed-digit-real-exact-readback-bounda
 Thus the refined and coarser seal reads commute through the same finite ledger rows. Their decoded enclosure, approximation route, located-Cauchy row, and real seal boundary agree after the recorded $\hsame$ and $\Cont$ transports.
 \end{proof}
 
+\begin{theorem}[SignedDigitReal window refinement directedness]
+\label{thm:signed-digit-real-window-refinement-directedness}
+Let $R=(S,W,E,L,H,C,P,N)$ and $R'=(S',W',E',L',H',C',P',N')$ be accepted $\SignedDigitRealUp$ packets whose finite windows refine a common signed-digit source row. Then there is a shared finite refinement window for the two reads such that its decoded $\DyadicRatCore$ enclosure, its $\DyadicApproximationUp$ route, its $\LocatedCauchyUp$ row, and its $\RealUp$ seal boundary all factor through one shared finite budget recorded by the two packet ledgers and their componentwise $\hsame$ and $\Cont$ transports.
+
+The shared budget is directed only at the finite-window level. It exports no quotient stream, selected representative, trichotomy branch, choice datum, host real equality, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the common signed-digit source row and the two accepted finite windows. Apply the finite normalization-window theorem \autoref{thm:signed-digit-real-normalization-window} to decode each window into its displayed $\DyadicRatCore$ enclosure row.
+
+Use window-classifier stability from \autoref{thm:signed-digit-real-window-classifier-stability} to transport the two decoded reads along the common signed-digit source. This identifies the prefix data, enclosure rows, approximation routes, located-Cauchy rows, and seal-boundary rows as finite ledger coordinates rather than as representatives of an infinite stream.
+
+Now apply seal-ledger exactness \autoref{thm:signed-digit-real-seal-ledger-exactness} and common-window seal determinacy \autoref{thm:signed-digit-real-common-window-seal-determinacy}. These results force both seal reads to consume exactly the displayed decoded enclosure and located-Cauchy rows on a common finite window.
+
+Finally use prefix-refinement seal commutation from \autoref{thm:signed-digit-real-prefix-refinement-seal-commutes}. It repacks the two refined routes through a single narrower window and the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. Since every cited theorem works inside finite carrier coordinates, quotient streams, selected representatives, trichotomy, choice, host real equality, and $\RealUp$ completeness have no role in the directed shared-window budget.
+\end{proof}
+
 \closureat{SignedDigitRealUp}{seedStr}
 \closureat{SignedDigitRealUp}{obligationStr}
 \closureat{SignedDigitRealUp}{scopedStr}
