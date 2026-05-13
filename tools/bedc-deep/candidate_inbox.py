@@ -4,10 +4,11 @@
 from __future__ import annotations
 
 import hashlib
+import argparse
 import json
 import re
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -416,19 +417,63 @@ def record_rejections(candidates: list[dict[str, Any]], *, mode: str) -> None:
         _record("rejected", candidate, source, reason=reason, mode=mode)
 
 
-def stats(limit: int = 5000) -> dict[str, Any]:
+def _parse_record_ts(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        ts = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    if ts.tzinfo is None:
+        return ts.replace(tzinfo=timezone.utc)
+    return ts.astimezone(timezone.utc)
+
+
+def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     if not INBOX_PATH.exists():
-        return {"events": 0, "by_event": {}}
+        return {
+            "events": 0,
+            "sampled": 0,
+            "windowed": 0,
+            "latest_event_ts": None,
+            "latest_event_age_seconds": None,
+            "latest_event": None,
+            "by_event": {},
+        }
     lines = INBOX_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
-    tail = lines[-limit:]
+    tail = lines[-limit:] if limit > 0 else lines
+    window_start: datetime | None = None
+    if since_hours > 0:
+        window_start = datetime.now(timezone.utc) - timedelta(hours=since_hours)
     by_event: dict[str, int] = {}
     by_rejection_reason: dict[str, int] = {}
     by_logic_packet_reason: dict[str, int] = {}
+    by_rejection_source: dict[str, int] = {}
+    by_source_reason: dict[str, dict[str, int]] = {}
+    seen_rejection_keys: set[tuple[str, str]] = set()
+    windowed = 0
+    latest_ts: datetime | None = None
+    latest_event: dict[str, Any] | None = None
     for line in tail:
         try:
             rec = json.loads(line)
         except json.JSONDecodeError:
             continue
+        ts = _parse_record_ts(rec.get("ts"))
+        if ts is not None and (latest_ts is None or ts > latest_ts):
+            latest_ts = ts
+            latest_event = {
+                "event": rec.get("event"),
+                "source": rec.get("source"),
+                "title": rec.get("title"),
+            }
+        if window_start is not None:
+            if ts is None or ts < window_start:
+                continue
+        windowed += 1
         event = str(rec.get("event") or "unknown")
         by_event[event] = by_event.get(event, 0) + 1
         if event not in {"pre_gate_reject", "rejected"}:
@@ -436,7 +481,16 @@ def stats(limit: int = 5000) -> dict[str, Any]:
         reason = str(rec.get("reason") or "").strip()
         if not reason:
             reason = "unspecified"
+        candidate_id = str(rec.get("candidate_id") or "").strip()
+        rejection_key = (candidate_id, reason) if candidate_id else (str(id(rec)), reason)
+        if rejection_key in seen_rejection_keys:
+            continue
+        seen_rejection_keys.add(rejection_key)
+        source = str(rec.get("source") or "unknown").strip() or "unknown"
         by_rejection_reason[reason] = by_rejection_reason.get(reason, 0) + 1
+        by_rejection_source[source] = by_rejection_source.get(source, 0) + 1
+        source_counts = by_source_reason.setdefault(source, {})
+        source_counts[reason] = source_counts.get(reason, 0) + 1
         if reason.startswith("logic_packet_gate:"):
             payload = reason.split(":", 1)[1]
             for part in payload.split(";"):
@@ -453,14 +507,34 @@ def stats(limit: int = 5000) -> dict[str, Any]:
     return {
         "events": len(lines),
         "sampled": len(tail),
+        "windowed": windowed,
+        "since_hours": since_hours,
+        "window_start": window_start.isoformat(timespec="seconds") if window_start else None,
+        "latest_event_ts": latest_ts.isoformat(timespec="seconds") if latest_ts else None,
+        "latest_event_age_seconds": (
+            int((datetime.now(timezone.utc) - latest_ts).total_seconds())
+            if latest_ts else None
+        ),
+        "latest_event": latest_event,
         "by_event": dict(sorted(by_event.items())),
         "rejection_reasons": _top(by_rejection_reason),
+        "rejection_sources": _top(by_rejection_source),
+        "rejection_reasons_by_source": {
+            source: _top(counts, n=10)
+            for source, counts in sorted(by_source_reason.items())
+        },
         "logic_packet_gate_reasons": _top(by_logic_packet_reason),
     }
 
 
 def main() -> int:
-    print(json.dumps(stats(), ensure_ascii=False, indent=2))
+    parser = argparse.ArgumentParser(description="Summarize the BEDC candidate inbox")
+    parser.add_argument("--limit", type=int, default=5000, help="Maximum recent JSONL records to scan; <=0 scans all")
+    parser.add_argument("--since-hours", type=float, default=0.0, help="Only count records newer than this many hours")
+    args = parser.parse_args()
+    if args.since_hours < 0:
+        parser.error("--since-hours must be non-negative")
+    print(json.dumps(stats(limit=args.limit, since_hours=args.since_hours), ensure_ascii=False, indent=2))
     return 0
 
 

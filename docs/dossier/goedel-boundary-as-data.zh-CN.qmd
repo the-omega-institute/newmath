@@ -1,0 +1,142 @@
+---
+title: "Goedel 边界作为数据"
+subtitle: "不完备性成为可测数字的两个层. MetaCIC 中 dependent-codomain 障碍. rule110 底层中 cook compile-frontier. 两者都量化"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "Goedel 第二不完备定理通常被当作一堵墙. BEDC 把它当数据看. 同一条边界在元理论层 (四条 subject-reduction 假设) 与元胞底层 (cook compile-frontier 64p/64t 需求 vs 当前 16p/32t 前沿) 各显现一次. 墙有坐标."
+---
+
+```{=html}
+<div class="lang-switch"><a href="goedel-boundary-as-data.qmd">English</a></div>
+```
+
+## 真要走到墙跟前会看见什么
+
+逻辑课上, Goedel 第二不完备定理被作为事实讲完然后基本就放下了. 足够强的形式系统不能证出自己的一致性. 所以这样的系统有某种结构上的限制. 限制是真的, 证明是干净的, 后果通常被挥手而过, 不被检查.
+
+如果你真走到墙跟前用手按上去, 你会看到更有意思的东西. 墙有坐标. 它不是在系统里均匀分布的. 有 *具体的位置* 可以摸到它. 在每一个位置上, *你所在* 跟 *墙所在* 之间的距离是一个数.
+
+BEDC 显式地建了其中两个位置. 一个是 MetaCIC 章节的四条 subject-reduction 假设. 一个是 rule110 底层的 cook compile-frontier. 它们是同一条边界在两个不同层的显现. 在两个层上, 边界距离当前能力都是一个小数 — 生产规则数上一个常数因子、四条具体假设、一个你可测的量.
+
+这篇是关于把那条边界当 *数据* 看, 而不是当隐喻看.
+
+## 第一层: 元理论上的 dependent-codomain 障碍
+
+MetaCIC 章节的主结果把 `False` 处 closed-codomain CIC 结清为不一致 — `closed_normal_consistency` 定理 ([前一篇](metacic-first-main-result.zh-CN.qmd) 详述). 它没结清 dependent-codomain 情形. 两者之间的边界被显式命名: 四条 subject-reduction 假设躺在 `lean4/BEDC/MetaCIC/SubjectReduction/Hypotheses.lean`, 作为 `structure` 字段:
+
+1. 归约下 dependent codomain 的稳定性.
+2. 链式 dependent codomain 的 telescoping closure.
+3. 返回类型依赖于 scrutinee 的强消去相容性.
+4. 归约下的 inductive 参数协调.
+
+每条假设都是结构性的. 没有一条是常规技术引理; 每一条都是关于 CIC 依赖类型机制与归约关系互动的具体断言. 穷举审计把它们登记为 31 目标目录里的 14 条 convention-bound obligation (`17 strict PASS + 14 convention = 31`). 它们的陈述精确; 它们的证明开放.
+
+这就是 Goedel 边界其中一个面被具体化的样子. 墙不抽象: 就是这四条命题. 项目当前状态到墙的距离, 就是把这四条命题作为定理 discharge 的工作量. 距离有限; 在项目约束 (mathlib-free, axiom-pure, 0 sorry) 下是否可行, 是一个开放经验问题. *边界是有限的工程距离*, 不是不可逾越的屏障.
+
+项目不主张已 discharge 它. 项目不主张它能被 discharge. 项目主张的是, 距离被 *命名*, 朝它走的任何进展都能通过「四条假设里有几条从 `structure` 字段变成 `theorem`」来度量.
+
+## 第二层: 元胞底层上的 cook compile-frontier
+
+rule110 子项目端到端实现 Cook 2009 构造: 一个图灵机编译成 tag 系统 (§1.2), tag 系统编译成 cyclic tag 系统 (§1.3), cyclic tag 系统作为 Rule 110 演化跑 (§1.4). pipeline 在 `rule110/encoder/tm_to_tag.c`, `rule110/encoder/tag_to_cyclic.c`, `rule110/encoder/cook_encode.c`, 大约 611 行 ANSI C99.
+
+pipeline 已经在小输入上端到端跑过. 底层当前能通过的最大 cyclic-tag round-trip 在 `rule110/STATUS.md` 里:
+
+```text
+Scale frontier: largest passing = scale_2p_16t_16384
+
+Cook packet scale cases:
+  (P=2,  T=16, S=16384)
+  (P=8,  T=8,  S=16384)
+  (P=4,  T=16, S=32768)
+  (P=2,  T=32, S=32768)
+  (P=16, T=2,  S=8192)
+```
+
+`(P, T, S)` 是 *productions, tape symbols, Rule 110 steps*. 所以底层已经被压到 16 个生产规则, 32 个 tape 符号, 32768 步, 在某种组合下.
+
+最小 *halted* 图灵机 — 没有任何转移规则、一个 halt 状态 — 按 Cook 2009 §1.2/§1.3 编译, 大约得到 64 个生产规则跟 64 个 tape 符号的 cyclic tag 系统. 最小值不是零, 也不是小. 编译是多项式时间的 (Cook 证过), 但常数大到即便 no-op TM 也落在 64p/64t.
+
+*跑真实 TM 所需的规模* 跟 *底层当前跑得动的规模* 之间的差距因此大致是: 生产规则数 4 倍, tape 大小 2 倍. 这就是 cook compile-frontier — 元胞底层从「理论上足够 *普适*」走到「实际上跑得动一个普适计算」之间停下来的位置, 在经验上的所在.
+
+这是 Goedel 边界另一个面. 底层原则上普适 (Cook 2004 证过). 底层 *目前不* 实际普适 (现规模下跑不了真 TM). 「原则上」与「实际上」之间的距离, 有限, 可测.
+
+## 为什么两个层是同一条边界
+
+Goedel 第二不完备结构性地说: 每个足够强的系统里, *某处* 系统没法用自己的资源完整闭合. 定理用显式构造 (自引/不动点引理) 定位那个 *某处*. 它不说在它构造挑出的那个位置上, 距离 *有多小*.
+
+两个 BEDC 层显示出来的是: *Goedel 边界在同一项目的不同尺度下出现在不同位置*. 元理论层它显现为关于 CIC 依赖类型的四条开放猜想. 元胞底层它显现为图灵普适性与有限见证之间的常数因子规模差距. 两层都不算「小」边界 — 但两者都 *有限*, 意思是「我们能写出现在差多远」.
+
+边界跨层的结构同一性是这样:
+
+> 任何封闭观测系统在任何一层上主张承载普适推理, 该层在「原则能力」与「实际能力」之间都有一个有限可测距离. 这个距离是 Goedel 边界的一个面. 项目角色是暴露这个面, 而不是模糊它.
+
+在 MetaCIC, 这个面是四条假设. 在 rule110, 这个面是 (P, T, S) 差距. 在 BEDC 内核本身, 这个面是 [归纳法那篇](where-induction-comes-from.zh-CN.qmd) 的无归纳定理: 内核能验证有限见证, 验证不了全称闭合.
+
+## 「作为数据」买到了什么
+
+把边界当数据看而不是当墙看, 对项目如何前进有具体后果.
+
+**可测性.** 当有人问「在 MetaCIC 里闭合 dependent-codomain 情形需要什么?」, 答案不模糊. 答案是: *discharge 列在 `SubjectReduction/Hypotheses.lean` 里的四条假设.* 任何部分进展都可以读为 `4 → 3 → 2 → 1 → 0` 条未结假设. 任何声称闭合该情形的人都可以通过读该文件、查 `theorem` 还是 `structure` 字段来核对.
+
+**可证伪性.** 当有人问「什么会驳斥 rule110 底层的普适性主张?」, 答案也不模糊. 答案是: *找一个 halted 图灵机, 其 Cook 编译能在当前底层跑, 并展示 round-trip 失败.* 当前不存在这种 TM, 因为最小编译落在当前规模前沿之外; 如果工程把前沿推到 (64, 64, S), 而 round-trip 仍失败, 这就驳斥了当前主张. 如果成功, 主张从「底层原则上普适」推进到「底层已被普适计算实际跑过」.
+
+**可比性.** 两层独立可测. 闭合其中一个不要求闭合另一个. 这意味着项目的路线图可以独立排两层的优先级; 不必把两条边界打包成「一致性 / 普适性工作」.
+
+**诚实.** dossier 文章不假装边界已闭合. paper 的 `\closurestatus` 块不假装. Lean 代码不假装 (无 `sorry`, 无 `True.intro` stub, 无公理). 审计会立刻抓住任何假装的尝试.
+
+## 项目的审计 pipeline 如何让边界保持可测
+
+三道审计 gate 把边界的可测性做成机械的:
+
+```bash
+python3 lean4/scripts/bedc_ci.py audit
+# 每条 paper 的 \leanchecked{X} 对应一条 Lean 定理
+# 每条 paper 的 \leanstmt{X} 对应一条 Lean structure 字段
+# drift = 0 意味着 paper 关于闭合状态的主张跟代码匹配
+
+python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+# 每条 BEDC 定理通过 #print axioms 的传递依赖
+# 都被检查不含 Classical.choice, Quot.sound, propext
+
+cd rule110 && make test-scale
+# 输出: largest passing = scale_<P>p_<T>t_<S>
+```
+
+第一道审计防止 paper 悄悄主张代码不背书的结果. 如果 paper 写 `\leanchecked{X}` 而 `X` 在 Lean 里不存在, 审计失败. 如果 paper 写 `\leanstmt{X}` 而 `X` 被登记为定理而非 structure 字段, 审计失败.
+
+第二道审计防止项目悄悄引入更强的逻辑原则. 如果依赖图里某处的证明触到 `Classical.choice`, 审计失败. 这抓的是「一条小引理悄悄削弱了它上面定理的构造内容」的情形.
+
+第三道审计把当前 cook compile-frontier 报为一个数. 没地方藏软进展主张 — 最大通过的 case 就是测试报出的内容.
+
+每道审计都在 CI 里. 每道在每次 commit 都跑. 每道都拒绝边界被悄悄挪位置.
+
+## 这对哲学景观改变了什么
+
+第二不完备定理的常规教法暗示「关于形式系统的某个最终问题不可回答, 我们应该在哲学上谦卑」. BEDC 对同一条边界的处理不同: *边界是真的, 它有坐标, 而坐标就是我们工作的地方*.
+
+这不是 Goedel 的失败. 这是认真到把他的结构性洞见转换成项目管理约束. 项目的路线图围绕「在每一层闭合到边界的距离」来组织. dependent-codomain 假设被跟踪. cook compile-frontier 被跟踪. 内核的 `axiom-purity` 被跟踪.
+
+如果项目「完成」 — 意思是如果在某个未来状态, MetaCIC 四条假设都被 discharge 为定理, cook compile-frontier 到达某个 S 下的 (64, 64, S) — Goedel 边界会挪位. 它会在别处某个新层重现. 它总是这样. 那就是第二不完备定理的内容.
+
+到那时项目做过的事是: *跨层追踪边界*, *在每层量化它*, *把它暴露为工程距离而非哲学限制*. 墙留着. 墙的坐标变成已知. 工作继续.
+
+## 这 *不是* 什么
+
+不是「我们绕过了 Goedel」. 第二不完备定理正确; 项目把它当结构事实接受. 上面描述的两层边界是 Goedel 的 *应用*, 不是驳斥.
+
+不是「工程会无限地推动边界」. 把 cook compile-frontier 从 16p 推到 64p 是有限工程任务. 把 dependent-codomain 假设闭合可能困难得多, 在项目约束下可能不可能. 诚实在簿记里, 而不是在完成时间的乐观里.
+
+不是方法论论文. 这是一个立场: 把数学里被引最多的限制性结果之一 — 第二不完备定理 — 的后果当数据点看, 而不是当单一抽象墙看, 会更有用.
+
+它 *是* 什么: 一个工作演示, 展示一条最常被引的数学限制结果可以被拆解为具体、逐层的距离, 而结果数字小到可作行动依据.
+
+```{=html}
+<div class="cta-choices">
+  <a href="metacic-first-main-result.zh-CN.qmd"><strong>← MetaCIC: BEDC 第一个主结果</strong><br/>详谈元理论层 — 什么已结清, 什么 park 在四条命名假设之后.</a>
+  <a href="rule110-visualization.qmd"><strong>Rule 110 可视化 →</strong><br/>动起来看元胞底层 — cook compile-frontier 的实际所在.</a>
+  <a href="where-induction-comes-from.zh-CN.qmd"><strong>归纳法从哪里来 →</strong><br/>同一条边界的第三个面 — 在内核自己关于「全称验证」的主张上.</a>
+</div>
+```
+
+— *The Omega Institute*
