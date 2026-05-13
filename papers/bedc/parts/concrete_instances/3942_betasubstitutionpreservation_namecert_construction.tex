@@ -89,6 +89,46 @@ The handoff route in $K$ is the only $\SubjectReductionUp$-facing coordinate. It
 Use \autoref{thm:betasubstitutionpreservation-nonescape} for the boundary condition. The packet cannot be read as unrestricted conversion, global normalization, or closed subject reduction, so the subject-reduction consumer receives exactly the named beta-substitution preservation input.
 \end{proof}
 
+\begin{theorem}[BetaSubstitutionPreservation redex ledger exactness]
+\label{thm:betasubstitutionpreservation-redex-ledger-exactness}
+Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier. The redex ledger row $L$ records exactly the body typing row $B$, argument typing row $A$, beta-redex row $V$, codomain boundary row $C_0$, substituted body row $R$, substituted codomain row $C_1$, componentwise transports $H$, continuation routes $K$, provenance row $P$, and local naming row $N$ from \autoref{def:betasubstitutionpreservation-carrier}. It does not add host substitution semantics, a semantic term-equality row, unrestricted conversion, or closed subject reduction to the beta case.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:betasubstitutionpreservation-carrier}. The ledger row $L$ is listed after the beta source, redex, codomain, substituted-body, and substituted-codomain rows, so its source inventory is $B,A,V,C_0,R,C_1$.
+
+The existing subject-reduction handoff of \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff} reads the same finite packet through $H,K,P,N$. Thus the ledger is exact for the packet consumed by the beta case.
+
+By \autoref{thm:betasubstitutionpreservation-nonescape}, no coordinate supplies host substitution semantics, semantic term equality, unrestricted conversion, or closed subject reduction. The ledger therefore remains a finite BEDC row over the displayed carrier.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation codomain-boundary stability]
+\label{thm:betasubstitutionpreservation-codomain-boundary-stability}
+For an accepted $\BetaSubstitutionPreservationUp$ carrier $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$, the codomain boundary row $C_0$ and the substituted codomain row $C_1$ remain paired under the componentwise $\hsame$ transports $H$ and displayed continuation routes $K$. The beta case may transport this pair through the finite packet, but it may not replace the pair by host substitution semantics, unrestricted conversion, or a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Read the codomain rows from the carrier. The row $C_0$ records the codomain readback before substitution, and $C_1$ records the substituted codomain readback.
+
+The rows $H$ and $K$ transport and replay the codomain pair together with $B,A,V,R,L,P,N$. The handoff theorem \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff} uses this same packet when presenting the beta case to $\SubjectReductionUp$.
+
+Non-escape is supplied by \autoref{thm:betasubstitutionpreservation-nonescape}. Since no replacement coordinate exists for host substitution semantics, unrestricted conversion, or closed subject reduction, the codomain-boundary pair is stable only inside the displayed packet.
+\end{proof}
+
+\begin{theorem}[BetaSubstitutionPreservation beta-case obligation package]
+\label{thm:betasubstitutionpreservation-beta-case-obligation-package}
+The beta case exposed by an accepted $\BetaSubstitutionPreservationUp$ carrier is the finite BEDC package
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)
+$$
+together with the carrier obligations of \autoref{thm:betasubstitutionpreservation-namecert-obligations}, the redex closure of \autoref{thm:betasubstitutionpreservation-redex-closure}, the non-escape boundary of \autoref{thm:betasubstitutionpreservation-nonescape}, the subject-reduction handoff of \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}, the redex ledger exactness of \autoref{thm:betasubstitutionpreservation-redex-ledger-exactness}, and the codomain-boundary stability of \autoref{thm:betasubstitutionpreservation-codomain-boundary-stability}. This package is an obligation surface for the beta case; it is not host substitution semantics, unrestricted conversion, a global normalization theorem, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+The carrier obligations name the rows $B,A,V,C_0,R,C_1,L,H,K,P,N$ and the local exclusions. Redex closure then shows how the substituted body and substituted codomain are reached from the body typing, argument typing, redex, and codomain boundary rows.
+
+The handoff theorem presents the same packet to $\SubjectReductionUp$. Redex ledger exactness records that the ledger contains precisely the displayed beta rows, and codomain-boundary stability records that the codomain pair remains paired under $H$ and $K$.
+
+Combining these finite rows gives the beta-case obligation package. The non-escape theorem excludes host substitution semantics, unrestricted conversion, global normalization, and closed subject reduction from the package boundary.
+\end{proof}
+
 \closureat{BetaSubstitutionPreservationUp}{seedStr}
 
 \begin{closurestatus}{\BetaSubstitutionPreservationUp}
