@@ -1,0 +1,213 @@
+\chapter{MetaCIC Normalization partial-closure audit map}
+\label{ch:metacic-normalization-audit-map}
+
+\section{The setup}
+\label{sec:metacic-normalization-audit-map-setup}
+
+BEDC.MetaCIC's normalisation submodule is laid out across four sibling files:
+\texttt{AppAdequacy}, \texttt{ClosedSN}, \texttt{PiAdequacy}, and
+\texttt{Reducibility}. Together they aim at strong normalisation on closed terms
+via the candidate-mediated reducibility path.
+
+The operative endpoint is $\mathrm{StrongNormalizable}(t)$. The module does not
+present that endpoint as a hidden global oracle. It exposes a reducibility
+candidate layer, a closed-candidate layer, candidate-set wrappers, Pi and
+application adequacy lemmas, and closed typed term projections from those
+witnesses.
+
+This chapter records the exact reading discipline for that interface. The
+normalisation files contain many checked termination facts, but the public
+closed-term route is candidate-mediated. A manuscript citation must therefore
+name the supplied candidate evidence, closed candidate evidence, or candidate-set
+membership evidence; it must not silently cite an unconditional theorem for every
+closed typed term.
+
+\section{What is established}
+\label{sec:metacic-normalization-audit-map-established}
+
+The checked inventory has six parts.
+
+\begin{itemize}
+\item Reducibility candidate predicate. \texttt{Reducibility.lean} defines the
+  candidate surface and proves that candidates imply strong normalisation:
+  \leanvariant{BEDC.MetaCIC.Candidate}
+  \leanvariant{BEDC.MetaCIC.candidate\_implies\_sn}
+  \leanvariant{BEDC.MetaCIC.candidate\_sn}
+  \leanvariant{BEDC.MetaCIC.candidate\_closed\_under\_beta}.
+\item Closed SN from candidate. \texttt{ClosedSN.lean} projects an empty-context
+  typed closed term to strong normalisation when the corresponding candidate
+  witness is supplied:
+  \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidate}.
+\item Closed SN from closed candidate. The closed-candidate wrapper carries the
+  closedness of the type and term together with the reducibility candidate, and
+  the closed typed term projection consumes that wrapper:
+  \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_closedCandidate}
+  \leanvariant{BEDC.MetaCIC.closedCandidate\_implies\_sn}.
+\item Closed SN from candidate set. Candidate sets package membership,
+  soundness, and beta-closure; closed typed terms inherit strong normalisation
+  from membership in such a set:
+  \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidateSet}
+  \leanvariant{BEDC.MetaCIC.candidateSet\_implies\_sn}
+  \leanvariant{BEDC.MetaCIC.canonicalCandidateSet\_sound}.
+\item App adequacy. Application cases are discharged when the function side
+  supplies Pi-candidate or Pi-head candidate evidence and the argument supplies
+  domain-candidate evidence. The step lemmas keep the result inside the same
+  candidate-mediated path:
+  \leanvariant{BEDC.MetaCIC.app\_case\_candidate}
+  \leanvariant{BEDC.MetaCIC.app\_case\_sn\_from\_pi\_candidate}
+  \leanvariant{BEDC.MetaCIC.app\_case\_sn\_from\_candidate}
+  \leanvariant{BEDC.MetaCIC.app\_case\_step\_sn}.
+\item Pi adequacy. Pi candidates and neutral normal forms supply the function
+  and binder-side termination facts used by the application layer and the typed
+  examples:
+  \leanvariant{BEDC.MetaCIC.piCandidate\_implies\_sn}
+  \leanvariant{BEDC.MetaCIC.PiAdequacy.piCandidate\_implies\_sn}
+  \leanvariant{BEDC.MetaCIC.neutralNormal\_implies\_sn}
+  \leanvariant{BEDC.MetaCIC.sn\_pi}.
+\end{itemize}
+
+The no-infinite-reduction reading is also present. Strong normalisation excludes
+infinite beta chains, and the same candidate-mediated closed-term routes export
+that exclusion:
+\leanvariant{BEDC.MetaCIC.strongNormalizable\_no\_infinite\_reduction}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_no\_infinite\_reduction\_from\_candidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_no\_infinite\_reduction\_from\_closedCandidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_no\_infinite\_reduction\_from\_candidateSet}.
+
+\section{File-by-file audit reading}
+\label{sec:metacic-normalization-audit-map-file-reading}
+
+\texttt{Reducibility.lean} is the base layer. It defines
+$\mathrm{BetaStrong}$, $\mathrm{StrongNormalizable}$, candidate heads,
+candidates, closed candidates, Pi candidates, and candidate sets. The file also
+proves the core closure facts: candidates imply SN, candidates are stable under
+one beta step, candidate sets export SN through their soundness field, and the
+canonical candidate set is sound and beta-closed.
+
+The important audit point is that a candidate is not merely a term-level SN
+tag. It also carries the head-shape information needed by the Pi and application
+routes. For Pi types this head information includes the ability to send
+candidate arguments to strongly normalising applications. That is the beginning
+of the candidate-mediated application story, and it is why the application layer
+does not reduce to a simple componentwise SN claim.
+
+\texttt{ClosedSN.lean} is the closed-term projection layer. It introduces
+$\mathrm{ClosedTypedTerm}$, $\mathrm{ClosedTypedCandidate}$,
+$\mathrm{ClosedTypedPiCandidate}$, and
+$\mathrm{ClosedTypedCandidateSetMember}$. The three main closed typed term
+theorems project SN from candidate, closed-candidate, and candidate-set evidence.
+The same file then mirrors those projections into no-infinite-reduction
+statements.
+
+This file is the main public citation site for closed-term SN. Its statements
+are strong enough for the closed-normal branch of the consistency assembly, but
+their quantifier shape matters. Empty-context typing and closedness are present;
+the candidate witness is still a separate input. A citation that drops that input
+would cite a theorem that the file does not export.
+
+\texttt{PiAdequacy.lean} supplies neutral and Pi-shaped adequacy. It contains a
+namespace wrapper for Pi-candidate SN, defines neutral normal forms, proves that
+neutral normality is stable under beta steps, and derives SN for neutral
+applications and displayed Pi constructions. It also records typed-example SN
+facts for the Church gallery. These example facts are useful witnesses that the
+machinery runs on concrete closed terms, not a replacement for the general
+candidate interface.
+
+\texttt{AppAdequacy.lean} is the application-facing layer. It turns a
+PiCandidate function and a candidate argument into a candidate application, then
+projects SN and beta-step SN consequences. It also supplies closed application
+wrappers and small example applications. The file ends with the negative
+guardrail showing that componentwise SN of function and argument alone does not
+entail SN of their application.
+
+The four files therefore form a staged route:
+\begin{itemize}
+\item \texttt{Reducibility} defines the candidate objects and their SN
+  consequences;
+\item \texttt{ClosedSN} projects those consequences to closed typed term and
+  no-infinite-reduction statements;
+\item \texttt{PiAdequacy} supplies neutral and Pi-shaped adequacy facts;
+\item \texttt{AppAdequacy} discharges application cases under candidate evidence
+  and records the non-unconditional application boundary.
+\end{itemize}
+
+This route is partial closure in the precise BEDC sense. It closes the local
+candidate-mediated path and the named closed-term projections from that path. It
+does not erase the candidate layer or turn the examples into a theorem over all
+closed typed terms.
+
+\section{What remains conditional}
+\label{sec:metacic-normalization-audit-map-conditional}
+
+The normalisation files have no visible \texttt{sorry}, \texttt{admit}, or
+\texttt{axiom} marker in this submodule. The conditionality is instead at the
+interface: the closed typed term theorems consume candidate evidence,
+closed-candidate evidence, or candidate-set membership evidence. They do not
+construct such evidence for every empty-context typed closed term.
+
+The sharp reading is therefore:
+\begin{itemize}
+\item candidate evidence implies strong normalisation;
+\item closed typed terms are strongly normalising once they are placed inside the
+  candidate, closed-candidate, or candidate-set interface;
+\item Pi and application adequacy show how the candidate interface behaves over
+  the displayed Pi and application fragments;
+\item the module does not export a blanket theorem of the form every closed typed
+  BEDC.MetaCIC term is strongly normalising without candidate-mediated evidence.
+\end{itemize}
+
+This boundary is checked negatively on the application side. The file
+\texttt{AppAdequacy.lean} records a self-application counterexample to the claim
+that strong normalisation of parts alone gives unconditional strong
+normalisation of applications:
+\leanvariant{BEDC.MetaCIC.selfApplyApp\_not\_sn}
+\leanvariant{BEDC.MetaCIC.app\_sn\_from\_parts\_is\_not\_unconditional}.
+Thus the word ``candidate-mediated'' is not stylistic caution. It names the
+actual guardrail that prevents the paper from overreading componentwise
+termination as global application termination.
+
+\section{Comparison with SR obstruction and Confluence audit map}
+\label{sec:metacic-normalization-audit-map-comparison}
+
+The subject-reduction map in
+\autoref{ch:metacic-subject-reduction-obstruction} isolates a
+dependent-codomain obstruction: closed subject reduction is blocked unless four
+named preservation obligations are supplied. The confluence map in
+\autoref{ch:metacic-confluence-audit-map} isolates a residual-substitution
+boundary for the full parallel diamond and arbitrary closed star confluence.
+
+Normalisation has a different shape. It is not currently blocked by an explicit
+proof-hole marker inside the normalisation submodule, and it is not the same as
+the SR dependent-codomain obstruction or the confluence substitution boundary.
+Its public frontier is the reducibility-candidate interface: the checked SN
+projections are closed over the candidate evidence they consume, while the
+manuscript must not erase that evidence from the statement being cited.
+
+For full closed consistency, the three maps meet in
+\autoref{ch:closed-metacic-consistency-assembly}. Strong normalisation supplies
+the closed-normal branch through the candidate-mediated path. Subject reduction
+would have to transport arbitrary closed proofs while preserving the displayed
+false type. The no-closed-normal-proof-of-false theorem then rules out the
+normal endpoint. The present chapter records the SN pillar; it does not close
+the subject-reduction transport pillar.
+
+\section{Apophatic framing and boundary}
+\label{sec:metacic-normalization-audit-map-boundary}
+
+This audit map applies the same apophatic discipline as the SR and confluence
+maps. BEDC names the open cell instead of silently promoting a conditional
+interface into an unconditional closure theorem. The map is not a new
+normalisation proof. It is a paper-side handle for the exact proof state exposed
+by the Lean normalisation files.
+
+The available positive claims are the checked candidate-to-SN lemmas, the
+closed typed term projections from candidate evidence, the candidate-set
+projections, the Pi and application adequacy lemmas, the example-level SN facts,
+and the no-infinite-reduction consequences. The explicit boundary is equally
+binding: this chapter does not claim global strong normalisation for every
+closed typed MetaCIC term without candidate-mediated evidence, does not turn
+componentwise application SN into unconditional application SN, and does not
+close the subject-reduction obligations needed by full closed consistency.
+
+\concretizedIn{ch:concrete-instances-metacicnormalizationbudget-namecert}{Candidate-mediated normalization is represented as a finite budgeted NameCert surface, not as an unconditional closed-term theorem.}
+\concretizedIn{ch:concrete-instances-metacicnormalizationaudit-namecert}{MetaCIC normalization audit packets realize the finite strong-normalization scope, confluence-boundary refusal, transport, route replay, provenance, and local NameCert rows.}

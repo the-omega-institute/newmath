@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.KernelMorphismUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -275,5 +285,96 @@ theorem KernelMorphismTasteGate_single_carrier_alignment :
       · intro x y heq
         exact kernelMorphismToEventFlow_injective heq
       · rfl
+
+def KernelMorphismCarrier [AskSetup] [PackageSetup]
+    (source target graph edgeAdmission classifierLift transport routes provenance cert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+    UnaryHistory edgeAdmission ∧ UnaryHistory classifierLift ∧ UnaryHistory transport ∧
+      UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory cert ∧
+        Cont source graph edgeAdmission ∧ Cont edgeAdmission classifierLift target ∧
+          Cont transport routes provenance ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle cert pkg
+
+theorem KernelMorphismCarrier_source_target_scope [AskSetup] [PackageSetup]
+    {source target graph edgeAdmission classifierLift transport routes provenance cert sourceRead
+      targetRead graphRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismCarrier source target graph edgeAdmission classifierLift transport routes
+        provenance cert bundle pkg ->
+      hsame sourceRead source ->
+        hsame targetRead target ->
+          hsame graphRead graph ->
+            UnaryHistory sourceRead ∧ UnaryHistory targetRead ∧ UnaryHistory graphRead ∧
+              UnaryHistory edgeAdmission ∧ UnaryHistory classifierLift ∧
+                Cont source graph edgeAdmission ∧ Cont edgeAdmission classifierLift target ∧
+                  PkgSig bundle cert pkg := by
+  intro carrier sourceSame targetSame graphSame
+  obtain ⟨sourceUnary, targetUnary, graphUnary, edgeAdmissionUnary, classifierLiftUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _certUnary, sourceGraphAdmission,
+    admissionClassifierTarget, _transportRoutesProvenance, _provenancePkg, certPkg⟩ := carrier
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_transport_symm sourceUnary sourceSame
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_transport_symm targetUnary targetSame
+  have graphReadUnary : UnaryHistory graphRead :=
+    unary_transport_symm graphUnary graphSame
+  exact ⟨sourceReadUnary, targetReadUnary, graphReadUnary, edgeAdmissionUnary,
+    classifierLiftUnary, sourceGraphAdmission, admissionClassifierTarget, certPkg⟩
+
+def KernelMorphismEdgeLiftCarrier [AskSetup] [PackageSetup]
+    (source target graph edgeAdmission classifierLift transport route provenance cert
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+    UnaryHistory edgeAdmission ∧ UnaryHistory classifierLift ∧ UnaryHistory transport ∧
+      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory cert ∧
+        UnaryHistory endpoint ∧ Cont source edgeAdmission target ∧
+          Cont target classifierLift graph ∧ Cont graph route endpoint ∧
+            PkgSig bundle endpoint pkg
+
+theorem KernelMorphismCarrier_edge_lift_transport [AskSetup] [PackageSetup]
+    {source target graph edgeAdmission classifierLift transport route provenance cert endpoint
+      source' edgeAdmission' classifierLift' target' graph' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismEdgeLiftCarrier source target graph edgeAdmission classifierLift transport route
+        provenance cert endpoint bundle pkg →
+      hsame source source' →
+        hsame edgeAdmission edgeAdmission' →
+          hsame classifierLift classifierLift' →
+            Cont source' edgeAdmission' target' →
+              Cont target' classifierLift' graph' →
+                Cont graph' route endpoint' →
+                  PkgSig bundle endpoint' pkg →
+                    KernelMorphismEdgeLiftCarrier source' target' graph' edgeAdmission'
+                        classifierLift' transport route provenance cert endpoint' bundle pkg ∧
+                      hsame target target' ∧ hsame graph graph' ∧ hsame endpoint endpoint' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier sameSource sameAdmission sameLift sourceAdmission' targetLift' graphEndpoint'
+    endpointPkg'
+  obtain ⟨sourceUnary, targetUnary, graphUnary, admissionUnary, liftUnary, transportUnary,
+    routeUnary, provenanceUnary, certUnary, endpointUnary, sourceAdmission, targetLift,
+    graphEndpoint, endpointPkg⟩ := carrier
+  have sourceUnary' : UnaryHistory source' := unary_transport sourceUnary sameSource
+  have admissionUnary' : UnaryHistory edgeAdmission' :=
+    unary_transport admissionUnary sameAdmission
+  have liftUnary' : UnaryHistory classifierLift' := unary_transport liftUnary sameLift
+  have targetSame : hsame target target' :=
+    cont_respects_hsame sameSource sameAdmission sourceAdmission sourceAdmission'
+  have targetUnary' : UnaryHistory target' :=
+    unary_cont_closed sourceUnary' admissionUnary' sourceAdmission'
+  have graphSame : hsame graph graph' :=
+    cont_respects_hsame targetSame sameLift targetLift targetLift'
+  have graphUnary' : UnaryHistory graph' :=
+    unary_cont_closed targetUnary' liftUnary' targetLift'
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame graphSame (hsame_refl route) graphEndpoint graphEndpoint'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed graphUnary' routeUnary graphEndpoint'
+  exact
+    ⟨⟨sourceUnary', targetUnary', graphUnary', admissionUnary', liftUnary', transportUnary,
+        routeUnary, provenanceUnary, certUnary, endpointUnary', sourceAdmission', targetLift',
+        graphEndpoint', endpointPkg'⟩,
+      targetSame, graphSame, endpointSame⟩
 
 end BEDC.Derived.KernelMorphismUp

@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-realdiagonalmeshbudget-namecert}
 \origin{human}
 
-The $\RealDiagonalMeshBudgetUp$ interface records the finite mesh-budget route by which a diagonal Real-completion consumer turns a precision request into a bounded family of inspected windows and then into a $\RealUp$ seal read. It refines the selected-window surface of $\RealDiagonalWindowCoverageUp$ by making the mesh bound, dyadic tolerance rows, and packet budget visible before the completion-facing handoff.
+The $\RealDiagonalMeshBudgetUp$ interface records the finite mesh-budget route by which a diagonal Real-completion consumer turns a precision request into a bounded family of inspected windows and then into a $\RealUp$ seal read. It refines the selected-window surface of \autoref{ch:concrete-instances-realdiagonalwindowcoverage-namecert} by adding finite mesh budget, dyadic tolerance, and aggregation rows before the $\RealUp$ seal handoff.
 
 \begin{definition}[Real diagonal mesh-budget carrier]
 \label{def:real-diagonal-mesh-budget-carrier}
@@ -68,6 +68,7 @@ Apply the local surface description of \autoref{thm:real-diagonal-mesh-budget-na
 
 Use \autoref{thm:real-diagonal-mesh-budget-window-coverage} on the projected window data. It identifies the visible selected-window route consumed by $\RealDiagonalWindowCoverageUp$ and rules out any read through an unlisted window, quotient stream, host real equality, or ambient completeness row.
 \end{proof}
+\leanchecked{BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_selected\_window\_refinement}
 
 \begin{theorem}[Real diagonal mesh-budget RealUp handoff]
 \label{thm:real-diagonal-mesh-budget-realup-handoff}
@@ -77,6 +78,7 @@ q,b,\omega,\rho,\delta,\theta,h,c,p,n.
 $$
 Thus the handoff consumes a rational precision request, a finite mesh budget, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ tolerance ledger, a diagonal aggregation row, componentwise transport, route replay, package provenance, and local naming before the $\RealUp$ seal is read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_realup\_handoff}
 \begin{proof}
 Start with the seal coordinate $e$. It is the only $\RealUp$ row in the carrier and is listed after the precision, mesh-budget, window, readback, dyadic-ledger, and aggregation rows.
 
@@ -174,14 +176,15 @@ RealUp handoff accounts for the seal-facing route, non-escape removes unlisted a
 \closureat{RealDiagonalMeshBudgetUp}{scopedStr}[BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_window\_coverage]
 \closureat{RealDiagonalMeshBudgetUp}{publicStr}
 \closureat{RealDiagonalMeshBudgetUp}{bridgedStr}[BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_window\_coverage]
+\closureat{RealDiagonalMeshBudgetUp}{matureStr}[BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_window\_coverage]
 
 \begin{closurestatus}{\RealDiagonalMeshBudgetUp}
   \constructivestory{A $\RealDiagonalMeshBudgetUp$ packet is generated from a rational precision request, a finite mesh budget, selected stream windows, regular rational readbacks, a dyadic tolerance ledger, a diagonal aggregation row, a real-seal row, componentwise transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:real-diagonal-mesh-budget-carrier}, \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}, \autoref{thm:real-diagonal-mesh-budget-window-coverage}, \autoref{thm:real-diagonal-mesh-budget-window-refinement}, \autoref{thm:real-diagonal-mesh-budget-realup-handoff}, \autoref{thm:real-diagonal-mesh-budget-seal-route-exactness}, \autoref{thm:real-diagonal-mesh-budget-nonescape}, \autoref{thm:real-diagonal-mesh-budget-scoped-route}, and \autoref{thm:real-diagonal-mesh-budget-consumer-scope-exhaustion} bind the carrier, NameCert obligations, selected-window coverage, selected-window refinement, RealUp handoff, non-escape, scoped consumer route, and displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows from precision request through selected diagonal windows to the RealUp seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, continuous-map theorems, open-cover compactness, Lean verification, or bridge checking.}
-  \upgradepath{Mature closure requires checked examples and consumer completeness for the same finite diagonal mesh packet.}
+  \upgradepath{No further paper-axis theory upgrade remains; formal verification and bridge checking remain separate over the same finite diagonal mesh packet.}
 \end{closurestatus}

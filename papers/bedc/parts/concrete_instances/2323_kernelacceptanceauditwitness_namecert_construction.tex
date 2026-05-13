@@ -75,15 +75,76 @@ The build-replay row $R$ reconstructs the acceptance event from sources, but rep
 That separate read is $Q$. Since the carrier designates $Q$ as the axiom-query row and provides no second ancestry coordinate, any cleanliness conclusion must pass through $Q$ rather than through the local name, the generated term, or the acceptance stamp by itself.
 \end{proof}
 
+\begin{definition}[KernelAcceptanceAuditWitness terminal accepted row]
+\label{def:kernel-acceptance-audit-witness-terminal-row}
+For an accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the terminal accepted-row surface is the finite read endpoint
+$$
+A,L,Q,R,N.
+$$
+It records the accepted declaration, its environment ledger entry, the axiom-query boundary, the build-replay route, and the local naming row. It contains no coordinate for kernel correctness, host runtime correctness, or a paper claim stronger than the accepted declaration.
+\end{definition}
+
+\begin{theorem}[KernelAcceptanceAuditWitness route determinacy]
+\label{thm:kernel-acceptance-audit-witness-route-determinacy}
+For every accepted carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the replay route from the generated row $G$ to the accepted row $A$ and the axiom-query route from $A$ to $Q$ are determined by the displayed continuation coordinate $C$. Any two audit reads that agree on $C$ and on the packet rows $G,K,A,L,Q,R,H,P,N$ reach the same replay row $R$ and the same axiom-query row $Q$.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates first. The generated row, kernel candidate, accepted declaration, ledger row, axiom-query row, replay row, transport row, provenance row, and local name are fixed as the packet $W$.
+
+The only displayed continuation coordinate is $C$. Thus a replay consumer and an axiom-query consumer have no second route field from which to choose a different path through the same packet.
+
+If two audit reads agree on $C$ and on the displayed rows, their replay endpoints and axiom-query endpoints are the fixed rows $R$ and $Q$. Route determinacy is therefore read directly from the finite packet.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceAuditWitness replay and query non-escape]
+\label{thm:kernel-acceptance-audit-witness-nonescape}
+For every accepted carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+every downstream replay or axiom-query consumer factors through the terminal accepted-row surface $A,L,Q,R,N$ together with the displayed route row $C$. No such consumer can extract kernel correctness, compiler correctness, runtime correctness, dependency cleanliness without $Q$, replay success without $R$, or an unstated paper claim from the finite packet.
+\end{theorem}
+\begin{proof}
+Start with the terminal accepted-row surface of \autoref{def:kernel-acceptance-audit-witness-terminal-row}. It exposes only $A,L,Q,R,N$, so accepted-declaration access terminates at the ledger, query, replay, and naming rows.
+
+Use route determinacy from \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}. Replay and axiom-query reads are routed by $C$ to the displayed rows $R$ and $Q$ rather than to an implicit source of correctness.
+
+Finally inspect the missing coordinates of the carrier. Since $W$ has no row for kernel correctness, compiler correctness, runtime correctness, hidden dependency cleanliness, or stronger paper meaning, replay and query consumers cannot escape beyond the finite audit packet.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceAuditWitness public obligation surface]
+\label{thm:kernel-acceptance-audit-witness-obligation-surface}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the public obligation surface consists exactly of the accepted declaration row $A$, environment-ledger row $L$, axiom-query row $Q$, build-replay row $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, together with the generated and candidate rows $G,K$ needed to replay the acceptance event. Consumers cannot read kernel correctness, compiler correctness, runtime correctness, dependency cleanliness without $Q$, replay success without $R$, or stronger paper meaning from this packet.
+\end{theorem}
+\begin{proof}
+First expose the finite packet by \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}. It identifies the generated row, candidate row, accepted declaration, ledger row, axiom-query row, replay row, transport row, continuation row, provenance row, and local name as the entire NameCert surface.
+
+Next isolate the accepted endpoint. The terminal row of \autoref{def:kernel-acceptance-audit-witness-terminal-row} gives $A,L,Q,R,N$, while \autoref{thm:kernel-acceptance-audit-witness-ledger-non-escape} prevents that endpoint from becoming a certificate of kernel correctness or a stronger paper claim.
+
+Finally combine the query and route controls. The axiom-query boundary of \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary} forces dependency classification through $Q$, route determinacy from \autoref{thm:kernel-acceptance-audit-witness-route-determinacy} fixes the replay and query endpoints through $C$, and replay/query non-escape from \autoref{thm:kernel-acceptance-audit-witness-nonescape} excludes compiler correctness, runtime correctness, hidden dependency cleanliness, and stronger paper meaning.
+\end{proof}
+
 \closureat{KernelAcceptanceAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\KernelAcceptanceAuditWitnessUp}
   \constructivestory{A $\KernelAcceptanceAuditWitnessUp$ packet is generated from an elaborated term, kernel candidate, accepted declaration, environment ledger, axiom-query row, build-replay row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:kernel-acceptance-audit-witness-carrier}, \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-audit-witness-ledger-non-escape}, and \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary} bind the finite audit-witness carrier, local naming surface, ledger route, replay route, and dependency-query boundary.}
+  \scopeclosed{\autoref{def:kernel-acceptance-audit-witness-carrier}, \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-audit-witness-ledger-non-escape}, \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary}, \autoref{def:kernel-acceptance-audit-witness-terminal-row}, \autoref{thm:kernel-acceptance-audit-witness-route-determinacy}, and \autoref{thm:kernel-acceptance-audit-witness-nonescape} bind the finite audit-witness carrier, local naming surface, terminal accepted-row endpoint, ledger route, replay route, deterministic query route, and dependency-query boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, kernel correctness, host runtime correctness, compiler correctness, theorem-content strengthening beyond the accepted declaration, or a public standard bridge.}
-  \upgradepath{Obligation closure requires Lean encoding of the finite packet and checked theorems for naming obligations, ledger non-escape, replay routing, and the axiom-query boundary.}
+  \upgradepath{Obligation closure requires Lean encoding of the finite packet and checked theorems for naming obligations, terminal-row stability, ledger non-escape, route determinacy, replay non-escape, and the axiom-query boundary.}
 \end{closurestatus}

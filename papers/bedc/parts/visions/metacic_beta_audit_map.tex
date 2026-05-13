@@ -1,0 +1,186 @@
+\chapter{MetaCIC Beta module audit map}
+\label{ch:metacic-beta-audit-map}
+
+\section{The setup}
+\label{sec:metacic-beta-audit-map-setup}
+
+BEDC.MetaCIC's beta layer is the driving reduction relation used by the
+subject-reduction, confluence, normalisation, evaluation, and closed-consistency
+interfaces. Its public surface is deliberately small. The single-step relation
+is declared in \texttt{Beta.lean}, while conversion by common beta reduct is
+declared in \texttt{Beta/Conversion.lean}.
+
+The two files should be read together. \texttt{Beta.lean} gives the raw
+generator: a one-step relation $\mathrm{BetaStep}$ over MetaCIC terms, with
+one direct beta-redex constructor and congruence constructors for applications,
+lambdas, and Pi types. \texttt{Beta/Conversion.lean} builds the conversion
+interface $\mathrm{BetaConv}$ from the multi-step relation
+$\mathrm{BetaStarStep}$ and records the checked conversion lemmas that later
+modules may cite.
+
+This chapter is an audit map, not another proof layer. It records which beta
+objects are constructors, which conversion facts are checked, and where the
+relation meets the subject-reduction obstruction isolated in
+\autoref{ch:metacic-subject-reduction-obstruction}.
+
+\section{Core inductive definition}
+\label{sec:metacic-beta-audit-map-core-inductive}
+
+\subsection{BetaStep}
+\label{subsec:metacic-beta-audit-map-betastep}
+
+The core declaration is the inductive relation
+\leandef{BEDC.MetaCIC.BetaStep}. It has seven constructors.
+
+\begin{itemize}
+\item \texttt{beta} contracts an application whose function is a lambda:
+  $\mathrm{app}(\mathrm{lam}\ dom\ body)\ arg$ steps to
+  $\mathrm{substitute}\ 0\ arg\ body$.
+\item \texttt{congApp1} reduces the function position of an application while
+  leaving the argument fixed.
+\item \texttt{congApp2} reduces the argument position of an application while
+  leaving the function fixed.
+\item \texttt{congLam} reduces the body of a lambda while leaving the displayed
+  domain fixed.
+\item \texttt{congPiCod} reduces the codomain of a Pi type while leaving the
+  displayed domain fixed.
+\item \texttt{congPiDom} reduces the displayed domain of a Pi type while
+  leaving the codomain syntactically fixed.
+\item \texttt{congLamDom} reduces the displayed domain of a lambda while
+  leaving the body syntactically fixed.
+\end{itemize}
+
+The constructor list is intentionally syntax-directed. A beta step is not a
+typing judgement, not a semantic equivalence, and not a closure certificate. It
+only says that the represented term syntax admits one local reduction at a
+displayed site.
+
+\subsection{File-level reading}
+\label{subsec:metacic-beta-audit-map-file-reading}
+
+\texttt{Beta.lean} is therefore the root reduction file, not a theorem bundle.
+Its exported object is the closed inductive grammar of one-step beta movement.
+Every later theorem that mentions beta reduction receives one of these
+constructors, or a finite chain generated from them, as its reduction witness.
+
+\texttt{Beta/Conversion.lean} is the first theorem bundle over that grammar. It
+does not add a new reduction rule. It changes the reading mode from one-step
+movement to common-reduct comparability, and then proves the small algebra of
+that comparison relation that is already available in the substrate.
+
+Two features matter for later audits. First, beta contraction uses the concrete
+MetaCIC substitution operation, so all preservation claims that read across the
+redex must account for substitution through binders. Second, the domain
+congruence constructors for lambda and Pi terms change displayed binder
+annotations without reducing the body or codomain at the same time. These are
+valid reduction steps, but their typing behaviour requires separate evidence.
+
+\section{Established results}
+\label{sec:metacic-beta-audit-map-established-results}
+
+The conversion file exposes $\mathrm{BetaConv}$ as common-reduct conversion:
+there is a term $w$ such that both sides reduce to $w$ by
+$\mathrm{BetaStarStep}$.
+\leanvariant{BEDC.MetaCIC.BetaConv}
+
+The elementary conversion facts are checked directly:
+\begin{itemize}
+\item reflexivity and symmetry:
+  \leanvariant{BEDC.MetaCIC.BetaConv.refl}
+  \leanvariant{BEDC.MetaCIC.BetaConv.symm};
+\item conversion from a multi-step beta reduction on either side:
+  \leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStar\_left}
+  \leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStar\_right};
+\item conversion from a one-step beta reduction on either side:
+  \leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStep\_left}
+  \leanvariant{BEDC.MetaCIC.BetaConv.of\_betaStep\_right}.
+\end{itemize}
+
+The file also records the conditional transitivity shape. Full transitivity is
+obtained from an explicit confluence input, while a normal middle term gives a
+smaller unconditional route:
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_of\_confluence}
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_normal\_middle}
+\leanvariant{BEDC.MetaCIC.BetaConv.trans\_closed\_normal\_middle}
+
+Closed normal forms are rigid under beta conversion when both sides are closed
+and beta-strong:
+\leanvariant{BEDC.MetaCIC.BetaConv\_normal\_forms\_equal\_closed}
+
+The same conversion file also names a typing-side boundary. The closed
+beta-conversion typing invariance statement is represented as a proposition,
+and the file proves a concrete closed lambda-domain obstruction against it:
+\leanvariant{BEDC.MetaCIC.HasTypeBetaConvInvariantClosedStatement}
+\leanvariant{BEDC.MetaCIC.closedLamDomainTarget\_closed}
+\leanvariant{BEDC.MetaCIC.BetaConv\_closed\_lam\_domain\_type\_obstruction}
+\leanvariant{BEDC.MetaCIC.not\_HasType\_BetaConv\_invariant\_closed}
+
+These facts are conversion facts and obstruction facts. They are not a blanket
+permission to replace displayed types by beta-convertible types inside typing
+derivations. Any citation must preserve the exact input shape: common reduct,
+normal middle term, closed beta-strong normal forms, or the displayed negative
+typing boundary.
+
+\section{Connection to the SR obstruction}
+\label{sec:metacic-beta-audit-map-sr-connection}
+
+\autoref{ch:metacic-subject-reduction-obstruction} names four discharge
+obligations for the parameterised subject-reduction theorem. The beta module is
+where the reduction triggers behind those obligations are born.
+
+The direct \texttt{beta} constructor is the trigger for
+$\mathrm{BetaSubstitutionPreservation}$. A term
+$\mathrm{app}(\mathrm{lam}\ dom\ body)\ arg$ can reduce unconditionally to
+$\mathrm{substitute}\ 0\ arg\ body$. To turn that syntactic step into typing
+preservation, the substrate must show that substituting the argument into the
+body also transports the displayed codomain in the expected way. That is a
+typing statement about substitution, not a consequence of the beta constructor
+alone.
+
+The \texttt{congApp2} constructor is the trigger for the dependent-codomain
+application obstruction. It reduces the argument while leaving the function and
+the originally displayed application type fixed. In an independent codomain
+regime this can be harmless, and the subject-reduction map records the checked
+independent-codomain fragment. In a dependent codomain regime the codomain can
+observe the argument, so reducing the argument may change the readback type.
+That is the reason $\mathrm{AppArgTypeStable}$ is a separate obligation.
+
+The \texttt{congLamDom} and \texttt{congPiDom} constructors are the binder-domain
+triggers. They reduce displayed binder annotations. A lambda or Pi term can
+therefore take a syntactic beta step even when the typing derivation for the
+old annotation does not transfer to the new annotation at the same displayed
+external type. These are the sources of
+$\mathrm{LamDomainSubjectReduction}$ and
+$\mathrm{PiDomainSubjectReduction}$.
+
+Thus the beta relation itself is unconditional, but subject reduction under that
+relation is not unconditional in the present MetaCIC interface. The distinction
+is structural: $\mathrm{BetaStep}$ authorizes one syntax step, while subject
+reduction must also preserve typing data across the dependent codomain and
+binder interfaces touched by that step.
+
+\section{Apophatic framing and boundary}
+\label{sec:metacic-beta-audit-map-boundary}
+
+The beta audit map gives BEDC a precise negative reading discipline. The paper
+may cite \texttt{BetaStep} as the checked single-step reduction relation. It may
+cite the conversion lemmas listed above. It may cite the closed normal-form
+rigidity theorem and the checked obstruction to closed typing invariance under
+beta conversion.
+
+The paper may not infer a hidden conversion rule for typing, an unconditional
+closed subject-reduction theorem, or a full closed consistency proof from the
+existence of $\mathrm{BetaStep}$. A beta step is a syntactic generator. Its
+typing consequences require the exact preservation interfaces named in
+\autoref{ch:metacic-subject-reduction-obstruction}.
+
+This is the apophatic role of the module boundary. The beta layer says exactly
+what can reduce. The conversion layer says exactly which common-reduct facts are
+available. The subject-reduction map says exactly which typing transports are
+not supplied by those reduction facts alone. Keeping the three readings
+separate prevents the manuscript from treating reduction, conversion, and typed
+preservation as one unrecorded operation.
+
+\concretizedIn{ch:concrete-instances-typedbetacongruencetrigger-namecert}{Typed beta congruence trigger packets realize the beta audit map's congruence-constructor typing boundary as a finite MetaCIC NameCert surface.}
+\concretizedIn{ch:concrete-instances-metacicbetaaudit-namecert}{The beta audit map is realized as a finite NameCert packet separating reduction, conversion, and typing-preservation boundaries.}
+\concretizedIn{ch:concrete-instances-betastepboundary-namecert}{Beta-step boundaries are realized as finite BetaStep, BetaConv, obstruction-trigger, hsame, Cont, Pkg, and NameCert rows.}
