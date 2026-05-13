@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMergeUp$}
+\label{ch:concrete-instances-regularcauchymerge-namecert}
+\origin{human}
+
+The $\RegularCauchyMergeUp$ packet records the finite two-route merge used when a diagonal Real-completion handoff compares two regular rational sources through shared cofinal tail data. It binds two $\RegSeqRatUp$ source rows, two selector schedules, one shared cofinal tail window, two $\RealUp$ seal routes, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row as one inspectable BEDC carrier. The packet is a naming certificate for finite selector agreement; it is not a quotient of streams, a chosen host limit, an ambient completeness principle, or equality of completed reals.
+
+\begin{definition}[RegularCauchyMerge carrier]
+\label{def:regular-cauchy-merge-carrier}
+A $\RegularCauchyMergeUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R_0,R_1,S_0,S_1,W,E_0,E_1,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ source rows being compared by the diagonal-limit handoff;
+\item $S_0$ and $S_1$ are the two selector schedules that name which cofinal reads of $R_0$ and $R_1$ are opened;
+\item $W$ is the shared cofinal tail window, required to cover the two selected schedules at the requested precision;
+\item $E_0$ and $E_1$ are the two $\RealUp$ seal routes reached from the displayed source rows through the shared window;
+\item $H$ records componentwise $\hsame$ transports for $R_0,R_1,S_0,S_1,W,E_0,E_1$ and the structural rows of the packet;
+\item $C$ records the displayed $\Cont$ routes from each source row through its selector schedule, into $W$, and from $W$ into the corresponding $\RealUp$ seal route;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\RegularCauchySelectorBudgetUp$, $\TailCofinalityScheduleUp$, $\DiagonalTailSelectorUp$, $\ChoiceFreeDiagonalSelectorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyMergeUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the visible rows $R_0,R_1,S_0,S_1,W,E_0,E_1,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[RegularCauchyMerge NameCert obligations]
+\label{thm:regular-cauchy-merge-namecert-obligations}
+The local $\NameCert_{\RegularCauchyMergeUp}$ surface for \autoref{def:regular-cauchy-merge-carrier} consists exactly of carrier admission for $M=(R_0,R_1,S_0,S_1,W,E_0,E_1,H,C,P,N)$, source exposure for the two $\RegSeqRatUp$ rows, selector exposure for the two schedules, shared-window coverage through $W$, two-route $\RealUp$ seal delivery through $E_0$ and $E_1$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, local naming through $N$, and non-escape from quotient streams, host-selected limits, countable choice, ambient completeness, hidden tail oracles, and host real equality.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The rows $R_0,R_1,S_0,S_1,W,E_0,E_1$ expose the two regular rational sources, their selector schedules, the shared cofinal window, and the two real-facing seal routes.
+
+The selector and window obligations are read in order. Each selector schedule is tied to its displayed source row, and both schedules must pass through the single shared window $W$ before either seal route is available.
+
+The transport, route, provenance, and naming obligations are exactly the rows $H,C,P,N$. Since no further analytic coordinate occurs in $M$, the packet has no channel for quotient streams, host-selected limits, countable choice, ambient completeness, hidden tail oracles, or host real equality.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMerge source coherence]
+\label{thm:regular-cauchy-merge-source-coherence}
+For every accepted $\RegularCauchyMergeUp$ carrier
+$$
+M=(R_0,R_1,S_0,S_1,W,E_0,E_1,H,C,P,N),
+$$
+the two source rows $R_0$ and $R_1$ are coherent only through the displayed selector schedules and the shared cofinal window. A consumer cannot compare the sources by an unrecorded stream quotient, a host real equality test, a selected ambient limit, or an external Cauchy-completion principle.
+\end{theorem}
+\begin{proof}
+Project $R_0,R_1,S_0,S_1,W$ from the carrier. These are the only rows in the packet that can mention the two regular rational sources and their cofinal reads.
+
+The NameCert obligations force the two selector schedules to enter the same shared tail window before the seal routes are reached. Thus any source comparison is mediated by $S_0,S_1,W$ and by the continuation rows that replay those displayed choices.
+
+The structural rows $H,C,P,N$ preserve and name the same finite data. Because the carrier has no coordinate for stream quotients, host real equality, selected ambient limits, or a completion theorem, source coherence is exactly the visible two-schedule route through $W$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMerge diagonal-selector compatibility]
+\label{thm:regular-cauchy-merge-diagonal-selector-compatibility}
+Every diagonal-limit consumer of an accepted $\RegularCauchyMergeUp$ carrier factors its selector agreement through
+$$
+R_0,R_1,S_0,S_1,W,H,C,P,N.
+$$
+The first route reads $R_0$ through $S_0$ into $W$, and the second route reads $R_1$ through $S_1$ into the same $W$. The agreement is therefore a finite cofinal-window agreement between two displayed selector schedules, not a choice of a subsequence outside the packet.
+\end{theorem}
+\begin{proof}
+Start with source coherence. It identifies $S_0,S_1,W$ as the only comparison surface available to a diagonal-limit consumer.
+
+The first selector route reads $R_0$ through $S_0$ and then enters $W$. The second selector route reads $R_1$ through $S_1$ and then enters the same $W$. The continuation row $C$ records these two routes as displayed replay data.
+
+The rows $H,P,N$ transport, package, and name the same two-route surface. No row in the carrier supplies an unbounded subsequence selector, so diagonal-selector compatibility is confined to the finite route through the shared window.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMerge Real seal non-escape]
+\label{thm:regular-cauchy-merge-real-seal-nonescape}
+For every accepted $\RegularCauchyMergeUp$ carrier, the two $\RealUp$ seal routes $E_0$ and $E_1$ are reachable only after the source rows, selector schedules, shared cofinal window, transports, continuations, provenance, and local naming row have been displayed. In particular, a $\RealUp$ consumer of either route receives no quotient stream, hidden completed value, selected host limit, countable-choice selector, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations to place $E_0$ and $E_1$ downstream of $R_0,R_1,S_0,S_1,W$. Thus neither real-facing route is available before the two sources have passed through their selector schedules and the shared cofinal tail window.
+
+Apply diagonal-selector compatibility. It confines the agreement data needed by the two seal routes to the finite route $R_0,R_1,S_0,S_1,W,H,C,P,N$.
+
+Finally inspect the carrier. The remaining rows are the two seal routes themselves, and no coordinate supplies quotient streams, hidden completed values, selected host limits, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\closureat{RegularCauchyMergeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyMergeUp}
+  \constructivestory{A $\RegularCauchyMergeUp$ packet is generated from two RegSeqRat source rows, two selector schedules, one shared cofinal tail window, two RealUp seal routes, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-merge-carrier}, \autoref{thm:regular-cauchy-merge-namecert-obligations}, \autoref{thm:regular-cauchy-merge-source-coherence}, \autoref{thm:regular-cauchy-merge-diagonal-selector-compatibility}, and \autoref{thm:regular-cauchy-merge-real-seal-nonescape} bind the finite two-route cofinal selector agreement used by Real-completion diagonal handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host real equality, countable choice, host-selected limits, ambient completeness, or a public standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, source exposure, selector exposure, shared-window coverage, two-route RealUp seal delivery, transport stability, route replay, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}

@@ -239,6 +239,46 @@ Apply the RealUp handoff theorem \autoref{thm:real-diagonal-window-coverage-real
 Finally combine the non-escape boundary for $\UniformLimitUp$ with the non-escape boundary for $\RealDiagonalWindowCoverageUp$. The first boundary excludes host limits, quotient function spaces, pointwise-only convergence, compactness principles, and real completeness from $U$; the second excludes quotient streams, host real equality, unbounded diagonal streams, ambient completeness, and choice-selected limits from $G$. Thus the only common consumer route is the paired finite factorization through the uniform-limit endpoint route and the selected diagonal-window route.
 \end{proof}
 
+\begin{theorem}[UniformLimit observation-budget factorization]
+\label{thm:uniform-limit-observation-budget-factorization}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitUp$ carrier, and let
+$$
+B=(e,W,D,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ carrier. Suppose the finite windows in $W$ are displayed windows of $F$, the dyadic readbacks in $D$ are the endpoint-facing readbacks for those windows, the handoff rows in $R_B$ include the same $\RegSeqRatUp$ handoff $R$ read through $T$, and the seal rows in $S_B$ include the same endpoint-facing seal route $S,E$. Then every $\RealUp$ endpoint read exported by $U$ factors through the observation-budget route
+$$
+e \longmapsto W \longmapsto D \longmapsto R_B \longmapsto S_B
+$$
+before exposing the endpoint row $E$.
+
+Thus a common consumer of the uniform-limit packet and the observation-budget packet reads the shared finite windows, dyadic readbacks, regular handoff, seal rows, transports, and routes before the endpoint is available.
+\end{theorem}
+\begin{proof}
+First identify the uniform-limit entrance. By \autoref{thm:uniform-limit-seal-factorization}, every endpoint read of $U$ reaches $E$ only through $F,M,T,R,S$.
+
+Next apply the windowwise Cauchy obligation and the diagonal-window handoff, \autoref{thm:uniform-limit-windowwise-cauchy-obligation} and \autoref{thm:uniform-limit-diagonal-window-handoff}. Since the windows in $W$ are displayed windows of $F$ and the readbacks in $D$ are tied to those windows, the endpoint-facing read cannot bypass the shared threshold row $M$ or the tail ledger $T$.
+
+Now read the budget side. The finite-window seal-route totality theorem for $\RealObservationBudgetUp$, \autoref{thm:real-observation-budget-finite-window-seal-route-totality}, routes every admitted seal read through $e,W,D,R_B,S_B$ with the displayed transports, continuations, provenance, and local name.
+
+Finally combine the two route inventories. The shared handoff hypothesis identifies the uniform-limit $R$ with the budget handoff rows, and the shared seal hypothesis identifies $S,E$ with the budget seal route. Therefore the common endpoint read must pass through the observation-budget route before $E$ is exposed.
+\end{proof}
+
+\begin{theorem}[UniformLimit observation-budget nonchoice boundary]
+\label{thm:uniform-limit-observation-budget-nonchoice}
+Under the hypotheses of \autoref{thm:uniform-limit-observation-budget-factorization}, the common endpoint read cannot be replaced by pointwise convergence, a hidden selected limit, quotient function-space equality, an ambient completeness theorem, quotient stream equality, host real equality, or an unbounded observation schedule. Its only admissible route is the shared finite budget route through $F,M,T,R,S,E$ and $e,W,D,R_B,S_B$ with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the uniform-limit non-escape boundary. \autoref{thm:uniform-limit-non-escape-boundary} removes pointwise-only convergence, open-cover compactness, selected host limits, quotient function spaces, and $\RealUp$ completeness from the $\UniformLimitUp$ packet.
+
+Then apply the observation-budget non-escape theorem, \autoref{thm:real-observation-budget-nonescape}. It removes quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded observation schedules from the $\RealObservationBudgetUp$ packet.
+
+The factorization theorem \autoref{thm:uniform-limit-observation-budget-factorization} gives the remaining common route. Since both packets expose only their displayed rows and the shared handoff and seal hypotheses identify the overlap, a consumer has no second source from which to select the endpoint.
+\end{proof}
+
 \begin{theorem}[UniformLimit shared threshold regular seal]
 \label{thm:uniform-limit-shared-threshold-regular-seal}
 For every accepted $\UniformLimitUp$ carrier
