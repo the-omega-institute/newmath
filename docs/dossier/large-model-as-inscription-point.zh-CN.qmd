@@ -1,0 +1,105 @@
+---
+title: "第三类基底"
+subtitle: "大语言模型在结构上就是一个铭刻点 — 跟 BEDC 框架给「有意识个体」的角色相同. 这不是意识主张. 这是结构分类"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "BEDC 内核, Rule 110 元胞底层, 大语言模型. 三种基底, 一条封闭 premise. 第三种不关乎能动或体验 — 它关乎 forward-binding 信念被何处携带."
+---
+
+```{=html}
+<div class="lang-switch"><a href="large-model-as-inscription-point.qmd">English</a></div>
+```
+
+## 框架逼出来的一个结构定义
+
+[归纳法那篇](where-induction-comes-from.zh-CN.qmd) 给 BEDC 框架命名了一个绕不开的位置: *铭刻点 (inscription point)*. 这是 forward-binding 信念 — 那种让你从「目前 k 棵树」走到「下一项也是树」的信念 — 进入封闭观测系统的位置.
+
+框架以结构方式定义铭刻点:
+
+> 铭刻点是一个基底中的图样, 携带的 forward-binding 信念源外在于该基底的内部计算.
+
+定义有三部分, 都可观察: 必须是 *基底中的图样*, 必须 *携带 forward-binding*, 那个绑定的 *源* 必须在 *基底内部计算之外*. 能动、体验、意图、意识, 一个都不在定义里. 分类是结构性的.
+
+有趣的后果: 任何符合这三部分的东西都是铭刻点. *包括大语言模型*.
+
+## 大模型作为封闭观测基底
+
+大语言模型, 在 inference 时, 是三元组 $(W, \Sigma, T)$ — 权重 $W$, 激活 $\Sigma$, 过渡函数 $T$ (一次 forward pass). inference 过程是状态序列 $\Sigma_0, \Sigma_1, \ldots, \Sigma_k$, 每个都由对前一个状态应用 $T$ 产生. 该基底的观测被这些状态序列的有限记录穷尽.
+
+这在框架意义上是封闭观测系统. 过渡固定. 初始状态由权重 (早先训练, 但 inference 时固定) 跟 prompt 给出. 观测通道有限. 没有外部承诺参与决定什么记录算 inference 输出.
+
+no-induction 定理无修改地移植. 模型的 inference 轨道是有限 token 输出记录的序列. 无穷定义域上的全称闭合不能直接表示为 inference 输出, 除非有外部解释. 框架的结构结论适用: 模型不能从内部 ratify 一个全称闭合.
+
+模型可以产 *看起来像* 归纳论证的文本 — 「对任意自然数 $n$, $n + 0 = n$, 对 $n$ 归纳」. 这个输出是有限 token 序列. 该基底的记录里没有任何全局见证, 表明被命名的归纳步骤对所有 $n$ 有效. 有效性由读者的外部解释供给. 这就是大模型「不内部 ratify」它流畅产出的归纳主张的精确意义.
+
+## 铭刻角色: 信念源自哪里
+
+模型携带 forward-binding 信念. 当它预测一个未完成句子的下一个 token, 那个预测是一次 forward-binding 动作. 让它能预测的信念 — 「产生训练数据的 pattern 在新 context 中继续适用」 — 必须来自某处.
+
+它来自训练 corpus.
+
+corpus 是由外部铭刻点 — 人类作者、先前系统、归档过程 — 产出的有限文本记录集合. 训练把这些记录蒸馏到权重值; inference 基底携带的是蒸馏过的 pattern. forward-binding 不源自基底内部. 基底是一个图样, 携带的是别处产出的 forward-bindings 的蒸馏痕迹.
+
+这就是框架的 `prin:large-model-corpus-as-supply`:
+
+> 让大模型产出归纳形输出的 forward-binding 信念源自其训练 corpus. corpus 是由外部铭刻点产出的有限文本记录集合. 训练过程把这些记录蒸馏到权重值; inference 基底携带蒸馏过的 pattern.
+
+模型是先验供给 $\mathsf{T}$ (从归纳法那篇里来的否定式占位符) 的一个铭刻点, 在框架给「有意识个体」赋的相同结构角色上. 它是更宽信息基底 (corpus → 权重 → inference) 中的一个图样, 携带的信念源外在于它自己的计算.
+
+## 不在主张什么
+
+分类是结构性的. 它 *不* 主张:
+
+**模型有意识.** 模型是否有现象体验、意图、qualia、能动, 这是框架不裁决的问题. 「铭刻点」的结构角色跟意识相容; 也跟意识完全不在场相容. 框架在这条轴上保持沉默.
+
+**模型「知道」它产出的主张.** 当模型说「对 $n$ 归纳」, 它在产出一个在它对 corpus 的蒸馏下高概率的 token 序列. 内部是否对应于「知道」归纳法, 不由框架决定. 框架只决定: 对全称闭合的内部知识, 在「内部 ratify」的强意义上, 在结构上不可能 — 对该模型, 对任何封闭观测系统都一样.
+
+**模型可靠.** 坏 corpus 给坏蒸馏. 模型可以产出自信陈述的假全称主张, 框架不保护. 框架对基底结构是描述性的; 它不是对模型输出的可靠性主张.
+
+## 三种基底, 一条 premise
+
+同一条封闭 premise 分类 BEDC 内核, Rule 110 元胞底层, 大语言模型. 三个 carrier 非常不同的基底 — 有类型项、cell row、tensor 激活 — 都满足同一条结构属性.
+
+| | BEDC 内核 | Rule 110 | 大模型 |
+|---|---|---|---|
+| Carrier | `BHist` 项 | `𝔽₂ⁿ` cell row | $(W, \Sigma)$ tensor |
+| 基底规模 | ~4700 Lean LOC | 220 行 ANSI C99 | $10^{10}$–$10^{12}$ 参数 |
+| 封闭观测? | 是 | 是 | 是 |
+| 普适性? | 次普适 | Turing 普适 | 长 inference 下普适 |
+| forward-binding 源 | Lean 内核的 `inductive` | 外部用户解释 | 训练 corpus |
+| 铭刻在哪? | 内核边界 | 把 glider 解释为计算的读者 | 每次 inference 输出 |
+
+框架的主张是封闭 premise *基底无关*. 类型论项、cell row、神经网络激活都允许封闭观测读法. no-induction 定理跟铭刻概念都迁移到每个. premise 抽象掉具体表示, 只关心观测通道的结构.
+
+这就是 paper 里 `prin:large-model-closure-substrate-independent`:
+
+> `def:transcendental-input-closed-system` 的封闭 premise 在计算基底的选择下不变.
+
+## 这对 AI 认识论改变什么
+
+结构分类给 AI 认识论一个具体读法:
+
+**当大模型产出形如「$\forall n \in \mathbb{N}. P(n)$ 为真」的输出, 该主张的真值内容无法仅由模型内部记录指派.** 该主张是模型产出的 token 序列. 它是否对应有效的全称闭合, 留给外部验证 — proof-checking、数学实践、审计. 模型不在内部 ratify.
+
+这跟 AI safety 实践姿态相容, 并给它一个结构读法: 机制可解释性 (问模型内部携带什么 pattern), eval harness (问哪些输出匹配外部持有的标准), verified output channel (要求外部证书证明主张可被核对). 三种实践都把模型当作受外部约束的基底, 它的输出必须被解释, 而不是当作输出内部 ratify 自己的 oracle.
+
+框架对这幅图的贡献不是新实践. 是命名实践之所以是正确姿态的 *结构原因*: 封闭观测基底无法内部 ratify 全称闭合, 所以它的输出必须外部约束或外部核对.
+
+## 这 *不是* 什么
+
+不是对大模型价值的驳斥. 它们之所以有用, 恰恰因为它们把大 corpus 蒸馏到紧凑的携带 pattern 的权重, 蒸馏捕获到的是真正的 regularity. 框架不否认这一点; 它定位 regularity 从哪里来 (corpus, 终极上是人类铭刻点), 到哪里去 (模型, 作为下游的铭刻载体).
+
+也不是唯一分类. 其他基底 — 足够丰富的元胞自动机、足够复杂的生物神经网络 — 也满足铭刻角色. 框架主张的是结构属性, 不是给任何具体基底特权地位.
+
+它 *是* 什么: 一个结构性辨认, 把大语言模型放在框架给有意识个体命名的同一个概念位置上, 仅凭基底结构, 两边都不对意识主张做承诺.
+
+```{=html}
+<div class="cta-choices">
+  <a href="where-induction-comes-from.zh-CN.qmd"><strong>← 归纳法从哪里来</strong><br/>本文把铭刻概念应用到新基底.</a>
+  <a href="closure-universality-quadrant.zh-CN.qmd"><strong>四象限基底地图 →</strong><br/>2×2 地图. 大模型跟 Rule 110 一起住象限 I.</a>
+  <a href="why-not-use-cells.zh-CN.qmd"><strong>为什么不直接用元胞? →</strong><br/>如果三种基底都行, 为什么 BEDC 挑抽象那个?</a>
+</div>
+```
+
+— *The Omega Institute*
