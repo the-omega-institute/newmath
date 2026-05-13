@@ -140,6 +140,28 @@ Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility} for the
 Finally read the structural rows. The transports in $H$, the continuations in $C$, the provenance row $P$, and the local name $N$ authenticate the same $R,T,O,W,D,Q$ factorization and provide no separate readback service.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail-budget downstream lattice]
+\label{thm:regular-cauchy-tail-budget-downstream-budget-lattice}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. Any downstream $\RealUp$, $\CauchyLimitSealUp$, or $\RealDiagonalCompletionUp$ consumer of $B$ must share the single route
+$$
+R \longmapsto T \longmapsto O \longmapsto W \longmapsto D \longmapsto Q \longmapsto S,
+$$
+with componentwise $\hsame$ transport through $H$ and $\Cont$ replay through $C$ preserving the same tail-threshold row $T$ and observation-budget row $O$ for the window, dyadic, readback, and seal surfaces.
+\end{theorem}
+\begin{proof}
+Begin with the observation gate. It places every $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ read after the source row $R$, tail threshold $T$, and observation budget $O$, and before the seal row $S$ can be consumed.
+
+Use window-budget compatibility for the middle of the route. The finite windows in $W$ and dyadic observations in $D$ are admitted through the same threshold and budget rows, so a downstream consumer cannot choose a second budget service for those observations.
+
+Apply readback factorization. The $\RegSeqRatUp$ row $Q$ is assembled from the displayed $R,T,O,W,D$ chain and is authenticated by the same $H,C,P,N$ structural rows.
+
+Finally apply seal non-escape. Since the seal row $S$ is only a finite handoff after the displayed readback and no carrier coordinate stores quotient streams, selected host limits, host real equality, countable choice, or ambient completeness, the $\RealUp$, $\CauchyLimitSealUp$, and $\RealDiagonalCompletionUp$ consumers share the same budget lattice.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail-budget tail-threshold service exactness]
 \label{thm:regular-cauchy-tail-budget-tail-threshold-service-exactness}
 Let
