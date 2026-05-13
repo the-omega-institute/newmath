@@ -82,13 +82,48 @@ Apply the route-acceptance and ledger-exposure obligations from \autoref{thm:ins
 Finally use \autoref{thm:inscription-event-nonescape-boundary}. Any public consumer comparing inscription events is limited to the same rows, so the handoff cannot export private intention, host agency, unchecked routes, or hidden mutation outside the finite certificate.
 \end{proof}
 
+\begin{theorem}[InscriptionEvent route obligation ledger]
+\label{thm:inscription-event-obligation-route-ledger}
+For an accepted $\InscriptionEventUp$ carrier
+$$
+I=(S,M,R,K,U,G,H,C,P,N),
+$$
+the route row $R$, checker row $K$, and named statement row $M$ form the accepted route obligation. A public consumer may cite the inscription route only as the displayed passage from prior record state $S$ to named statement $M$ through the accepted checker row $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-event-namecert-carrier}. The rows $M,R,K$ are displayed coordinates, with $R$ recording the route witness and $K$ recording the accepted checker result.
+
+Apply the route-acceptance clause of \autoref{thm:inscription-event-namecert-obligations}. It forces the route witness to reach the named statement only through the accepted check row, so the route obligation is exactly the ledger formed by $R,K,M$ inside the packet.
+\end{proof}
+
+\begin{theorem}[InscriptionEvent consumer obligation ledger]
+\label{thm:inscription-event-obligation-consumer-ledger}
+For an accepted $\InscriptionEventUp$ carrier $I$, the consumer row $U$, public $\mathsf{GAP}$ row $G$, and continuation table $C$ form the consumer-ledger obligation. Every downstream use of the inscription must read the intended consumer, the open commitment residue, and the displayed continuation routes before treating the inscription as public record data.
+\end{theorem}
+\begin{proof}
+The carrier definition displays $U$, $G$, and $C$ as finite rows of the same packet. The row $U$ names the downstream consumer, $G$ records the public $\mathsf{GAP}$ ledger, and $C$ records the routes by which consumers read the packet.
+
+Use consumer accountability and ledger exposure from \autoref{thm:inscription-event-namecert-obligations}. They identify downstream use with reads through $U$ and $C$, and they keep $G$ as public certificate data rather than as private intention or host-level completion.
+\end{proof}
+
+\begin{theorem}[InscriptionEvent public package obligation]
+\label{thm:inscription-event-obligation-public-package}
+For an accepted $\InscriptionEventUp$ carrier $I$, the rows $H,C,P,N$ assemble the public package obligation over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The inscription event is therefore available to public consumers only as a finite package with displayed transports, continuation routes, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Project $H,C,P,N$ from the carrier. The row $H$ records componentwise $\hsame$ transports, $C$ records displayed $\Cont$ routes, $P$ records $\Pkg$ provenance over $\BHist$ and the public certificate data, and $N$ records the local $\NameCert$ row.
+
+The classifier locality clause in \autoref{thm:inscription-event-namecert-obligations} restricts public comparison to these displayed support rows together with the source, statement, route, check, consumer, and ledger rows. Thus the public package obligation is precisely the finite assembly over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{proof}
+
 \closureat{InscriptionEventUp}{seedStr}
 
 \begin{closurestatus}{\InscriptionEventUp}
   \constructivestory{An $\InscriptionEventUp$ packet is generated from prior record state, a named statement or record, a route witness, an accepted check row, an intended consumer, a public GAP ledger, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:inscription-event-namecert-carrier}, \autoref{thm:inscription-event-namecert-obligations}, \autoref{thm:inscription-event-carrier-stability}, \autoref{thm:inscription-event-nonescape-boundary}, and \autoref{thm:inscription-event-downstream-handoff} bind inscription events as finite public NameCert packets.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.InscriptionEventUp.InscriptionEventTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge checking, hidden agency, private intention, raw byte-change identity, host process trace semantics, or completed record ontology.}

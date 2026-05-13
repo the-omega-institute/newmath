@@ -35,6 +35,7 @@ The local $\NameCert_{\FiniteNetMinimumFoldUp}$ surface for the carrier of \auto
 \item ledger rows for rational order readback, $\Cont$ routes, $\Pkg$ provenance, and the local naming certificate.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_namecert\_obligations}
 \begin{proof}
 Project the carrier. The displayed rows contain precisely the nonempty bundle spine, its positive rational half-radius ledgers, the fold accumulator, the lower-bound certificates, transports, continuations, provenance, and local name.
 
@@ -110,6 +111,7 @@ At each successor probe, the recursion extends the accumulator by exactly the ne
 
 The transports in $H$ and routes in $C$ replay the same membership and radius rows under classifier movement. Thus the fold consumes precisely the bundle $P$, with no missing bundled probe and no probe outside $P$.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteNetMinimumFoldUp.FiniteNetMinimumFoldPacket\_nonempty\_probe\_exhaustion}
 
 \begin{theorem}[FiniteNetMinimumFold order-selector transport]
 \label{thm:finitenetminimumfold-order-selector-transport}
@@ -188,14 +190,15 @@ The package row $Q$ and local name $N$ record the provenance of the finite packe
 \closureat{FiniteNetMinimumFoldUp}{seedStr}
 \closureat{FiniteNetMinimumFoldUp}{obligationStr}
 \closureat{FiniteNetMinimumFoldUp}{scopedStr}
+\closureat{FiniteNetMinimumFoldUp}{bridgedStr}
 
 \begin{closurestatus}{\FiniteNetMinimumFoldUp}
   \constructivestory{A $\FiniteNetMinimumFoldUp$ packet is generated from a nonempty $\mathsf{ProbeBundle}$, positive $\RatUp$ half-radius ledgers, a primitive-recursive accumulator, lower-bound certificates, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{The public surface consists of the $\mathsf{ProbeBundle}$ carrier, $\RatUp$ half-radius ledgers, $\TotalOrderUp$ selector route, $\BHist$ histories, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ obligations, rational lower-bound certificate, positive precision obligation, uniform-modulus handoff, nonempty probe exhaustion, order-selector transport, modulus consumer exactness, and compact-cover consumer export for the finite-net fold packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close the full compact-uniform-continuity theorem, a public compactness bridge, host-level minima, selected probe representatives, or Lean verification.}
-  \upgradepath{Bridged closure requires a standard bridge for the same finite-net minimum-fold packet and its public compact-cover and uniform-modulus consumer surface.}
+  \upgradepath{Mature closure requires examples or completeness for downstream compact-cover and uniform-modulus consumers.}
 \end{closurestatus}

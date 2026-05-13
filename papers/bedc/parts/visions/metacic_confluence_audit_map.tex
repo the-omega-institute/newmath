@@ -1,0 +1,194 @@
+\chapter{MetaCIC Confluence partial-closure audit map}
+\label{ch:metacic-confluence-audit-map}
+
+\section{The setup}
+\label{sec:metacic-confluence-audit-map-setup}
+
+The BEDC.MetaCIC confluence module is split across six sibling files:
+\texttt{AtomJoin}, \texttt{AtomShape}, \texttt{ClosedGeneral},
+\texttt{ClosedUnconditional}, \texttt{Core}, and \texttt{Diamond}. The split is
+not cosmetic. The files separate raw reduction infrastructure, atom-shape
+facts, componentwise diamond lemmas, substitution-sensitive diamond assembly,
+closed-term bridge statements, and the unconditional fragments that are already
+available for specific closed sources.
+
+Confluence is therefore not presented as a single hidden theorem. The Lean side
+exposes the exact state: a full parallel diamond follows from a substitution
+compatibility input, closed multi-step confluence follows from a closed
+parallel-diamond input, and a smaller set of closed source shapes is discharged
+without that input.
+
+The operative relations are the multi-step closure $\mathrm{BetaStarStep}$ and
+the Tait--Martin-L\"of style parallel relation $\mathrm{BetaParallel}$. The
+ordinary proof route is also visible in the file structure: prove a diamond for
+parallel reduction, transport parallel steps into multi-step beta reduction,
+derive a strip lemma, and then derive Church--Rosser for the star relation. The
+current substrate has checked much of this route, but the point where parallel
+beta redexes require residual substitution compatibility remains an explicit
+input.
+
+\section{What is established}
+\label{sec:metacic-confluence-audit-map-established}
+
+The checked inventory has six parts.
+
+\begin{itemize}
+\item \texttt{Diamond.lean} contains the substitution-sensitive assembly. The
+  full parallel diamond is proved from the explicit substitution compatibility
+  proposition, and the unclosed substitution commutation obstruction is named:
+  \leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_from\_substitution}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_app\_shape\_diamond\_from\_substitution}
+  \leanvariant{BEDC.MetaCIC.substitute\_commutation\_unclosed\_obstruction}.
+\item \texttt{ClosedGeneral.lean} turns a closed parallel diamond into closed
+  strip and closed multi-step confluence. It also records the imported
+  unclosed substitution counterexample next to the closed-substitution
+  compatibility interface:
+  \leanvariant{BEDC.MetaCIC.betaParallel\_closed\_strip\_from\_diamond}
+  \leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_general\_of\_parallel\_diamond\_closed}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_closed\_substitution\_compatibility\_obstruction}.
+\item \texttt{ClosedUnconditional.lean} proves unconditional closed confluence
+  for normal sources and the atom cases that reduce to normality. The theorem
+  family is shape-limited, not a blanket closed confluence theorem:
+  \leanvariant{BEDC.MetaCIC.betaParallel\_diamond\_closed\_normal}
+  \leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_normal}
+  \leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_sort}
+  \leanvariant{BEDC.MetaCIC.betaStarStep\_confluence\_closed\_var\_impossible}.
+\item \texttt{Core.lean} supplies the reduction algebra: multi-step
+  concatenation, parallel-to-star transport, atom diamonds, and componentwise
+  diamonds for application, lambda, and Pi shapes:
+  \leanvariant{BEDC.MetaCIC.betaParallel\_to\_betaStar}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_app\_diamond\_of\_components}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_lam\_shape\_diamond}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_pi\_shape\_diamond}.
+\item \texttt{AtomShape.lean} proves the case analysis needed to keep atoms
+  and non-lambda applications from silently entering the beta-redex branch:
+  \leanvariant{BEDC.MetaCIC.betaStep\_app\_cases}
+  \leanvariant{BEDC.MetaCIC.betaStarStep\_app\_non\_lam\_shape}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_betaStarStep\_atom\_coincide}
+  \leanvariant{BEDC.MetaCIC.betaStar\_sort\_join}.
+\item \texttt{AtomJoin.lean} exposes the small join and inversion wrappers used
+  by the later confluence files. The atom joins are unconditional, while the
+  application shape result separates congruence targets from beta-redex targets:
+  \leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_sort}
+  \leanvariant{BEDC.MetaCIC.betaStarStep\_diamond\_var}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_app\_target\_shape}
+  \leanvariant{BEDC.MetaCIC.betaParallel\_app\_no\_beta}.
+\end{itemize}
+
+This is a genuine checked layer. The manuscript may cite componentwise
+diamonds, atom joins, parallel-to-star transport, closed normal confluence, and
+the conditional bridges from parallel diamond to closed star confluence.
+
+The inventory also fixes what cannot be inferred by proximity. The presence of
+\texttt{BetaParallelDiamondClosed} as a proposition does not itself discharge
+that proposition. The theorem
+\texttt{betaStarStep\_confluence\_general\_of\_parallel\_diamond\_closed}
+consumes such a diamond as an input; it is not the diamond. Likewise, the
+theorem \texttt{betaParallel\_diamond\_from\_substitution} consumes
+$\mathrm{BetaParallelSubstitutionCompatibility}$; it does not prove that
+compatibility proposition.
+
+\section{What is conditional}
+\label{sec:metacic-confluence-audit-map-conditional}
+
+The boundary is the substitution input. \texttt{Diamond.lean} defines
+$\mathrm{BetaParallelSubstitutionCompatibility}$ and proves full parallel
+diamond from it. \texttt{ClosedGeneral.lean} defines
+$\mathrm{BetaParallelDiamondClosed}$ and proves closed multi-step confluence
+from that input. These are parameterised results, not closed-source
+unconditional discharge.
+
+The unconditional part is narrower. Closed normal sources are confluent; sort
+sources are confluent; closed variable sources are handled through an
+impossible closedness premise; atom and non-lambda application shape lemmas
+prevent false beta-redex cases. None of these statements is the full closed
+Church--Rosser theorem for arbitrary closed terms.
+
+The sharp reading is therefore:
+\begin{itemize}
+\item full parallel diamond is conditional on
+  $\mathrm{BetaParallelSubstitutionCompatibility}$;
+\item full closed star confluence is conditional on
+  $\mathrm{BetaParallelDiamondClosed}$;
+\item closed normal, sort, and impossible closed-variable source cases are
+  unconditional;
+\item application, lambda, Pi, and atom shape lemmas are infrastructure, not
+  final closed confluence claims.
+\end{itemize}
+
+This conditional shape is constructive and useful. If the substitution
+compatibility input is later supplied inside the same first-principles
+substrate, the existing bridge theorems already specify how the result flows
+to the parallel diamond and then to closed star confluence. Until that input is
+supplied, the bridge remains a bridge from a named premise, not a closure
+certificate for the endpoint.
+
+\section{Comparison with the SR obstruction}
+\label{sec:metacic-confluence-audit-map-sr-comparison}
+
+The subject-reduction map in
+\autoref{ch:metacic-subject-reduction-obstruction} isolates a
+dependent-codomain obstruction: typing preservation across beta and binder
+congruence needs four named hypotheses. The confluence map has a different
+shape. It is not blocked by a displayed codomain that must be retyped after a
+reduction. It is blocked at the residual-substitution algebra needed to join
+parallel beta branches.
+
+That difference matters. The confluence side already proves a large amount of
+syntax-directed reduction geometry without invoking typing. The remaining
+boundary is the substitution compatibility interface that makes the
+application beta branch commute with the componentwise join. Thus the
+confluence obstruction is algebraic over terms, while the subject-reduction
+obstruction is type-preservation across dependent codomains.
+
+The two maps also differ in their positive fragments. Subject reduction already
+has a parameterised theorem whose four inputs are typing-specific. Confluence
+has a parameterised theorem whose central input is substitution compatibility,
+plus unconditional results for closed normal sources and for atom cases. A
+reader should therefore not merge the two boundaries into one generic
+``MetaCIC gap''. They name different interfaces and would be discharged by
+different proofs.
+
+\section{Apophatic framing}
+\label{sec:metacic-confluence-audit-map-apophatic}
+
+This chapter applies the same apophatic discipline as
+\autoref{ch:metacic-subject-reduction-obstruction}. BEDC names the open cell
+instead of silently promoting a conditional theorem into an unconditional
+claim. The audit map is not a confluence proof. It is a paper-side handle for
+the exact proof state exported by the Lean substrate.
+
+The positive content is still substantial: the module names the missing input,
+proves the bridges that would consume it, and proves the available closed
+normal and atom fragments. The negative content is equally binding: a full
+closed Church--Rosser theorem for arbitrary closed terms is not claimed here.
+
+This is why the chapter belongs in the visions layer rather than in a proof
+obligations chapter. It does not introduce a new axiom, a new rule of the
+calculus, or a new proof principle. It gives the paper a stable handle for
+reading the checked confluence files without inflating a conditional theorem
+into a public closure claim.
+
+\section{Boundary}
+\label{sec:metacic-confluence-audit-map-boundary}
+
+This chapter does not solve MetaCIC confluence. It records the partial closure
+state of the confluence files and forbids the manuscript from citing a theorem
+stronger than the Lean interface supplies. The available claims are the
+checked component lemmas, the substitution-conditional parallel diamond, the
+closed-diamond-to-star-confluence bridge, and the unconditional closed normal
+and atom cases.
+
+In particular, this chapter does not claim
+$\mathrm{BetaParallelSubstitutionCompatibility}$, does not claim
+$\mathrm{BetaParallelDiamondClosed}$, and does not claim arbitrary closed-term
+Church--Rosser for $\mathrm{BetaStarStep}$. Those are the boundary names that
+must remain visible when the confluence module is cited elsewhere in the
+manuscript.
+
+\concretizedIn{ch:concrete-instances-metacicconfluencenormalfragment-namecert}{The checked closed-normal and atom confluence fragments are realized as a finite NameCert packet with conditional-boundary non-escape.}
+\concretizedIn{ch:concrete-instances-closednormalconfluenceseal-namecert}{Closed-normal confluence is realized as a finite seal packet separating available normal-source joins from the substitution-compatibility boundary.}
+\concretizedIn{ch:concrete-instances-metacic-confluence-audit-packet-namecert}{Finite NameCert packet for the confluence audit-map boundary.}
+\concretizedIn{ch:concrete-instances-metacic-confluence-audit-namecert}{The conditional confluence audit map is realized as a finite NameCert packet separating checked fragments from named remaining inputs.}
+\concretizedIn{ch:concrete-instances-parallelconfluenceaudit-namecert}{The conditional parallel-diamond bridge, closed-star handoff, atom fragments, and substitution-compatibility boundary are packaged as a finite NameCert carrier.}
+\concretizedIn{ch:concrete-instances-metacicconfluenceauditwitness-namecert}{Finite audit-witness packet for the conditional MetaCIC confluence boundary.}

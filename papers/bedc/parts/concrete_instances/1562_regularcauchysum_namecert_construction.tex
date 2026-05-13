@@ -167,6 +167,7 @@ Thus the obligation surface is finite and $\mathsf{BHist}$-anchored. It does not
 \label{thm:regular-cauchy-sum-classifier-stability}
 Let two accepted $\RegularCauchySumUp$ packets have source rows, aligned windows, endpoint rows, finite error budgets, readbacks, real-seal routes, transports, continuations, package provenance, and local $\NameCert$ rows matched componentwise by their displayed $\hsame$ classifiers. Then every consumer route supplied by the obligation surface of \autoref{thm:regular-cauchy-sum-obligation-surface} transports to the corresponding route of the second packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySumUp.RegularCauchySumCarrier\_classifier\_stability}
 \begin{proof}
 Start with the componentwise classifier data. The two source rows transport together with their aligned windows, so the scheduled rational observations remain paired at the requested precision.
 
@@ -225,6 +226,23 @@ Next pass from the endpoint packet to the regular readback. The $\RegSeqRatUp$ h
 Now compare this handoff with the classifier boundary. The diagonal-window public boundary for $\RegularCauchyLimitClassifierUp$, \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary}, admits completion-facing reads only through displayed stream windows, regular readbacks, dyadic ledgers, Real seal rows, $\BHist$ history, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data. Substituting the sum readback $R$ into that boundary therefore preserves exactly the rows listed in the statement.
 
 Finally apply the seal consumer exhaustion theorem \autoref{thm:regular-cauchy-sum-seal-consumer-exhaustion}. The $\RegularCauchySumUp$ carrier has no further consumer coordinate, so the classifier cannot obtain quotient stream equality, a selected limit, host real equality, ambient completeness, or a separate completed-real addition operation from the sum.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchySumUp.RegularCauchySumCarrier\_limit\_classifier\_compatibility}
+
+\begin{theorem}[RegularCauchySum tail-selector compatibility]
+\label{thm:regular-cauchy-sum-tail-selector-compatibility}
+Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet, and let accepted $\RegularCauchyTailSelectorUp$ packets for the source rows $A$ and $B$ answer the same precision request. Every public sum read factors through the two selected-tail witness rows, the aligned $\StreamNameUp$ windows $W_A,W_B$, the $\DyadicRatCoreUp$ endpoint addition row $D$ with source endpoints $D_A,D_B$, the $\FiniteErrorBudgetUp$ ledger $E$, the $\RegSeqRatUp$ readback row $R$, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ rows.
+
+The handoff exports no quotient stream, selected limit, host real equality, ambient completeness, or independent completed-real addition law. The tail selectors supply finite witness rows for the two source windows, and the sum packet supplies only the budgeted pointwise readback built from those rows.
+\end{theorem}
+\begin{proof}
+First read the two tail-selector packets. The diagonal admissibility theorem \autoref{thm:regular-cauchy-tail-selector-diagonal-admissibility} supplies selected-tail witness rows for the same precision request, and \autoref{thm:regular-cauchy-tail-selector-precision-window-exactness} identifies each witness with its finite $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ support rows.
+
+Next compose those witnesses with the sum window. The window-budget theorem \autoref{thm:regular-cauchy-sum-window-budget} reads the aligned windows $W_A,W_B$, the endpoint rows $D_A,D_B$, the endpoint-addition row $D$, and the finite error ledger $E$ at the shared request.
+
+Now pass to the regular readback. The $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-sum-regseqrat-handoff} repacks the endpoint addition and budget rows as $R$, while the consumer obligation package records the $\hsame$, $\Cont$, $\Pkg$, and local naming rows that keep the two selected-tail witnesses attached to the sum packet.
+
+Finally combine seal exhaustion with limit-classifier compatibility. The seal consumer exhaustion theorem rules out any additional consumer coordinate, and \autoref{thm:regular-cauchy-sum-limit-classifier-compatibility} keeps completion-facing reads downstream of the displayed regular readback. Thus the compatibility handoff is finite and cannot export quotient streams, selected limits, host equality, ambient completeness, or a separate completed-real addition law.
 \end{proof}
 
 \closureat{RegularCauchySumUp}{obligationStr}

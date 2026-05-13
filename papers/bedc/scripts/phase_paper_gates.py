@@ -316,6 +316,121 @@ AXIS_CONFUSION_PHRASES = (
 )
 
 
+_SIBLING_REF_RE = re.compile(
+    r"\\autoref\{ch:concrete-instances-([a-z][a-z0-9\-]*?)(?:-namecert)?\}"
+)
+_VISION_REF_RE = re.compile(
+    r"\\autoref\{ch:visions-([a-z][a-z0-9\-]*?)\}"
+)
+# Capture the full label tail (greedy). Self-ref classification is done by
+# walking the dashed parts and joining prefixes; the lazy regex used before
+# matched just the first character as the slug, causing every self-ref to
+# look like a cross-ref. See `_label_is_self_ref` below.
+_LABEL_RE = re.compile(
+    r"\\autoref\{(?:thm|def|lem|cor|prop)[A-Za-z]*:([a-z][a-z0-9\-]*)\}"
+)
+# Allow underscores AND digits in slug (e.g.
+# `3939_metacic_subject_reduction_obstruction_namecert_construction.tex` was
+# silently skipped by the underscore-free regex, letting orphan chapters
+# slip past the gate).
+_NAMECERT_FILE_RE = re.compile(
+    r"^papers/bedc/parts/concrete_instances/(?:[^/]+/)?"
+    r"\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$"
+)
+
+
+def _label_is_self_ref(label_tail: str, own_slug_compact: str) -> bool:
+    """Decide whether `label_tail` (dashed, e.g. "subject-reduction-discharge-carrier")
+    starts with this chapter's own slug.
+
+    `own_slug_compact` is the filename slug with underscores stripped (e.g.
+    "subjectreductiondischarge" from a filename of
+    `..._subject_reduction_discharge_namecert_construction.tex` or
+    `..._subjectreductiondischarge_namecert_construction.tex`). We split the
+    dashed label into parts and try every prefix concatenation against the
+    compact slug — if any prefix concat equals own_slug, the label resolves
+    to this chapter and counts as a self-ref.
+    """
+    parts = label_tail.split("-")
+    for i in range(len(parts), 0, -1):
+        if "".join(parts[:i]) == own_slug_compact:
+            return True
+    return False
+
+
+def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
+    """Reject newly-added concrete-instances NameCert chapters that contain
+    zero cross-references to a sibling chapter or vision chapter.
+
+    Background: by 2026-05-13 the dossier dependency graph showed 447 of 652
+    concrete-instances chapters with zero `\\autoref{ch:...}` cross-refs —
+    every newly-generated chapter was a kernel-only float, citing only its
+    own `\\autoref{thm:<self-slug>-...}` labels. The pipeline accumulated a
+    star-graph fan-out from kernel instead of a horizontal lattice between
+    domains.
+
+    A new chapter must show how its content RELATES to existing chapters:
+    either via an explicit `\\autoref{ch:concrete-instances-<sibling>-namecert}`
+    macro, an `\\autoref{ch:visions-<vision>}` anchor back to the originating
+    vision narrative, OR a forward `\\autoref{thm:<sibling-slug>-...}` /
+    `\\autoref{def:<sibling-slug>-...}` cite that resolves to a different
+    sibling slug. Self-refs (slug == own slug) do not count.
+    """
+    if not base_sha:
+        return []
+    # Added (not modified) NameCert chapters in this round
+    added = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/", diff_filter="A",
+    )
+    added = [p for p in added if p.endswith(".tex")]
+    if not added:
+        return []
+
+    violations: list[str] = []
+    for rel in added:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            # `*_namecert_construction.tex` is the canonical pattern; other
+            # patterns (sub-files for one chapter) are not anchor chapters
+            # and are not gated here.
+            continue
+        # Slug from filename — may contain underscores; compact form is
+        # the underscore-stripped lowercase identifier used to match the
+        # dashed label prefixes via `_label_is_self_ref`.
+        own_slug_compact = m.group(1).replace("_", "")
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+
+        sibling_refs: set[str] = set()
+        for slug in _SIBLING_REF_RE.findall(text):
+            slug_norm = slug.replace("-", "")
+            if slug_norm and slug_norm != own_slug_compact:
+                sibling_refs.add(slug_norm)
+        vision_refs = {v for v in _VISION_REF_RE.findall(text)}
+        thm_def_refs: set[str] = set()
+        for label_tail in _LABEL_RE.findall(text):
+            if not _label_is_self_ref(label_tail, own_slug_compact):
+                thm_def_refs.add(label_tail)
+
+        if not (sibling_refs or vision_refs or thm_def_refs):
+            violations.append(
+                f"{rel}: ORPHAN — new NameCert chapter has zero cross-references "
+                f"to a sibling concrete-instances chapter or vision chapter. "
+                f"Required: at least one `\\autoref{{ch:concrete-instances-"
+                f"<sibling>-namecert}}` (or `\\autoref{{ch:visions-<slug>}}` "
+                f"if vision-anchored, or `\\autoref{{thm:<sibling>-...}}` / "
+                f"`\\autoref{{def:<sibling>-...}}` resolving to a different "
+                f"slug than `{own_slug_compact}`). Self-refs do not count."
+            )
+    return violations
+
+
 def detect_axis_confusion(*, worktree: Path, base_sha: str) -> list[str]:
     violations: list[str] = []
     for rel in _changed_tex_files(worktree=worktree, base_sha=base_sha):
@@ -339,6 +454,7 @@ GATE_DISPATCH = {
     "oversized": detect_oversized,
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
+    "orphan-new-chapter": detect_orphan_new_chapter,
 }
 
 

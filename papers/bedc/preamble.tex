@@ -8,7 +8,6 @@
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{geometry}
-\usepackage{microtype}
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -119,6 +118,9 @@
 \newcommand{\BMark}{\ensuremath{\mathsf{BMark}}}
 \newcommand{\BHist}{\ensuremath{\mathsf{BHist}}}
 \newcommand{\ClosedTermSubstitutionBoundaryUp}{\ensuremath{\mathsf{ClosedTermSubstitutionBoundary}^{\uparrow}}}
+\newcommand{\BetaSubstitutionPreservationUp}{\ensuremath{\mathsf{BetaSubstitutionPreservation}^{\uparrow}}}
+\newcommand{\ParallelConfluenceAuditUp}{\mathsf{ParallelConfluenceAudit}^{\uparrow}}
+\newcommand{\MetacicConfluenceAuditWitnessUp}{\mathsf{MetaCICConfluenceAuditWitness}^{\uparrow}}
 \newcommand{\ChapterTasteGate}{\ensuremath{\mathsf{ChapterTasteGate}}}
 \newcommand{\GroundCompiler}{\ensuremath{\mathsf{GroundCompiler}}}
 \newcommand{\CertificatePipelineStageBoundaryUp}{\mathsf{CertificatePipelineStageBoundary}^{\uparrow}}
@@ -129,6 +131,8 @@
 \newcommand{\TasteGateStabilityUp}{\ensuremath{\mathsf{TasteGateStability}^{\uparrow}}}
 \newcommand{\KernelAuditWitnessUp}{\ensuremath{\mathsf{KernelAuditWitness}^{\uparrow}}}
 \newcommand{\TypedReductionNormalFormUp}{\ensuremath{\mathsf{TypedReductionNormalForm}^{\uparrow}}}
+\newcommand{\MetaCICDischargeObligationLedgerUp}{\mathsf{MetaCICDischargeObligationLedger}^{\uparrow}}
+\newcommand{\MetaCICConfluenceAuditPacketUp}{\mathsf{MetaCICConfluenceAuditPacket}^{\uparrow}}
 \newcommand{\SourceSpec}{\mathsf{SourceSpec}}
 \newcommand{\PatternSpec}{\mathsf{PatternSpec}}
 \newcommand{\ClassifierSpec}{\mathsf{ClassifierSpec}}
@@ -141,7 +145,10 @@
 \newcommand{\StabCert}{\mathsf{StabilityCert}}
 \newcommand{\RecursorGeneratorUp}{\ensuremath{\mathsf{RecursorGenerator}^{\uparrow}}}
 \newcommand{\RecursorAuthorizationUp}{\ensuremath{\mathsf{RecursorAuthorization}^{\uparrow}}}
+\newcommand{\RecursionAuthorizationLedgerUp}{\ensuremath{\mathsf{RecursionAuthorizationLedger}^{\uparrow}}}
 \newcommand{\ApophaticSocketUp}{\mathsf{ApophaticSocket}^{\uparrow}}
+\newcommand{\ApophaticGateQuestionUp}{\mathsf{ApophaticGateQuestion}^{\uparrow}}
+\newcommand{\TypeLevelSocketExposureUp}{\mathsf{TypeLevelSocketExposure}^{\uparrow}}
 \newcommand{\ExternalityGateUp}{\mathsf{ExternalityGate}^{\uparrow}}
 \newcommand{\NegativeCertificateBoundaryUp}{\mathsf{NegativeCertificateBoundary}^{\uparrow}}
 \newcommand{\UnwitnessedExistenceClosureUp}{\mathsf{UnwitnessedExistenceClosure}^{\uparrow}}
@@ -171,6 +178,8 @@
 \newcommand{\ZeckendorfCarryValueUp}{\mathsf{ZeckendorfCarryValue}^{\uparrow}}
 \newcommand{\AxisZeckendorfCannotClaimUp}{\mathsf{AxisZeckendorfCannotClaim}^{\uparrow}}
 \newcommand{\ZeckendorfCarryNormalizationUp}{\mathsf{ZeckendorfCarryNormalization}^{\uparrow}}
+\newcommand{\AxisZeckendorfCarryBudgetUp}{\mathsf{AxisZeckendorfCarryBudget}^{\uparrow}}
+\newcommand{\AxisCarryConfluenceUp}{\mathsf{AxisCarryConfluence}^{\uparrow}}
 \newcommand{\UnaryDirectionBridgeUp}{\mathsf{UnaryDirectionBridge}^{\uparrow}}
 \newcommand{\UnaryDirectionRouterUp}{\mathsf{UnaryDirectionRouter}^{\uparrow}}
 \newcommand{\UnaryZeroSpineStandardIsoUp}{\mathsf{UnaryZeroSpineStandardIso}^{\uparrow}}
@@ -180,6 +189,7 @@
 \newcommand{\DimLiftBoundaryUp}{\mathsf{DimLiftBoundary}^{\uparrow}}
 \newcommand{\IntUp}{\mathsf{Int}^{\uparrow}}
 \newcommand{\RatUp}{\mathsf{Rat}^{\uparrow}}
+\newcommand{\DyadicRatCoreUp}{\mathsf{DyadicRatCore}^{\uparrow}}
 \newcommand{\CriticalLineWitnessUp}{\mathsf{CriticalLineWitness}^{\uparrow}}
 \newcommand{\RationalIntervalUp}{\mathsf{RationalInterval}^{\uparrow}}
 \newcommand{\RationalBallUp}{\mathsf{RationalBall}^{\uparrow}}
@@ -247,16 +257,31 @@
 \newcommand{\RealCompletionWitnessExtractorUp}{\mathsf{RealCompletionWitnessExtractor}^{\uparrow}}
 \newcommand{\RealInverseUp}{\mathsf{RealInverse}^{\uparrow}}
 \newcommand{\RealObservationBudgetUp}{\mathsf{RealObservationBudget}^{\uparrow}}
+\newcommand{\ObservableCauchySealUp}{\mathsf{ObservableCauchySeal}^{\uparrow}}
 \newcommand{\RealBudgetTailMeetUp}{\mathsf{RealBudgetTailMeet}^{\uparrow}}
 \newcommand{\RealDiagonalWindowCoverageUp}{\mathsf{RealDiagonalWindowCoverage}^{\uparrow}}
 \newcommand{\RealDiagonalMeshBudgetUp}{\mathsf{RealDiagonalMeshBudget}^{\uparrow}}
+\newcommand{\RealTailAgreementSealUp}{\mathsf{RealTailAgreementSeal}^{\uparrow}}
 \newcommand{\CofinalRegularLimitBudgetUp}{\mathsf{CofinalRegularLimitBudget}^{\uparrow}}
 \newcommand{\CofinalTailBudgetUp}{\ensuremath{\mathsf{CofinalTailBudget}^{\uparrow}}}
 \newcommand{\LimitSelectorUp}{\mathsf{LimitSelector}^{\uparrow}}
 \newcommand{\ChoiceFreeDiagonalSelectorUp}{\mathsf{ChoiceFreeDiagonalSelector}^{\uparrow}}
 \newcommand{\DiagonalTailSelectorUp}{\mathsf{DiagonalTailSelector}^{\uparrow}}
+\newcommand{\RegularCauchyMergeUp}{\mathsf{RegularCauchyMerge}^{\uparrow}}
 \newcommand{\RegularCauchyProductBudgetUp}{\mathsf{RegularCauchyProductBudget}^{\uparrow}}
 \newcommand{\RegularCauchySelectorBudgetUp}{\mathsf{RegularCauchySelectorBudget}^{\uparrow}}
+\newcommand{\ClosedNormalConsistencyUp}{\mathsf{ClosedNormalConsistency}^{\uparrow}}
+\newcommand{\ClosedConsistencyReductionBoundaryUp}{\mathsf{ClosedConsistencyReductionBoundary}^{\uparrow}}
+\newcommand{\ClosedNormalConsistencyPacketUp}{\mathsf{ClosedNormalConsistencyPacket}^{\uparrow}}
+\newcommand{\ClosedNormalConfluenceSealUp}{\mathsf{ClosedNormalConfluenceSeal}^{\uparrow}}
+\newcommand{\ClosedTermContextSealUp}{\mathsf{ClosedTermContextSeal}^{\uparrow}}
+\newcommand{\MetaCICConfluenceNormalFragmentUp}{\mathsf{MetaCICConfluenceNormalFragment}^{\uparrow}}
+\newcommand{\NormalFormConsistencySealUp}{\mathsf{NormalFormConsistencySeal}^{\uparrow}}
+\newcommand{\NormalFalseExclusionUp}{\mathsf{NormalFalseExclusion}^{\uparrow}}
+\newcommand{\MetaCICSubjectReductionObstructionUp}{\mathsf{MetaCICSubjectReductionObstruction}^{\uparrow}}
+\newcommand{\MetaCICConfluenceAuditUp}{\mathsf{MetaCICConfluenceAudit}^{\uparrow}}
+\newcommand{\CauchyInverseBudgetUp}{\mathsf{CauchyInverseBudget}^{\uparrow}}
+\newcommand{\RegularCauchyTelescopingBudgetUp}{\mathsf{RegularCauchyTelescopingBudget}^{\uparrow}}
 \newcommand{\RegularCauchySequenceUp}{\mathsf{RegularCauchySequence}^{\uparrow}}
 \newcommand{\RegularCauchyMeshUp}{\mathsf{RegularCauchyMesh}^{\uparrow}}
 \newcommand{\BoundedCauchyCoverUp}{\mathsf{BoundedCauchyCover}^{\uparrow}}
@@ -347,8 +372,16 @@
 \newcommand{\TypeCheckingDerivationTraceUp}{\mathsf{TypeCheckingDerivationTrace}^{\uparrow}}
 \newcommand{\TypeCheckingMembershipTraceUp}{\mathsf{TypeCheckingMembershipTrace}^{\uparrow}}
 \newcommand{\TypePreservingCompilerUp}{\mathsf{TypePreservingCompiler}^{\uparrow}}
+\newcommand{\SubjectReductionObligationUp}{\mathsf{SubjectReductionObligation}^{\uparrow}}
+\newcommand{\SubjectReductionDischargeUp}{\mathsf{SubjectReductionDischarge}^{\uparrow}}
+\newcommand{\SubjectReductionDischargeSocketUp}{\mathsf{SubjectReductionDischargeSocket}^{\uparrow}}
+\newcommand{\SubjectReductionDischargeLedgerUp}{\mathsf{SubjectReductionDischargeLedger}^{\uparrow}}
+\newcommand{\MetaCICSubjectReductionBoundaryUp}{\ensuremath{\mathsf{MetaCICSubjectReductionBoundaryUp}}}
+\newcommand{\MetaCICDischargeObligationUp}{\mathsf{MetaCICDischargeObligation}^{\uparrow}}
+\newcommand{\BetaSubstitutionDischargeUp}{\mathsf{BetaSubstitutionDischarge}^{\uparrow}}
 \newcommand{\ProofTermErasureTraceUp}{\mathsf{ProofTermErasureTrace}^{\uparrow}}
 \newcommand{\ProofTermErasureAuditRouteUp}{\mathsf{ProofTermErasureAuditRoute}^{\uparrow}}
+\newcommand{\ProofTermErasureClassifierUp}{\mathsf{ProofTermErasureClassifier}^{\uparrow}}
 \newcommand{\DyadicAbsoluteValueUp}{\mathsf{DyadicAbsoluteValue}^{\uparrow}}
 \newcommand{\FiniteCauchyApproximationUp}{\mathsf{FiniteCauchyApproximation}^{\uparrow}}
 \newcommand{\StableNegationBoundaryUp}{\mathsf{StableNegationBoundary}^{\uparrow}}
@@ -368,6 +401,7 @@
 \newcommand{\ZetaContinuationWitnessUp}{\mathsf{ZetaContinuationWitness}^{\uparrow}}
 \newcommand{\ContourIntegralOperationUp}{\mathsf{ContourIntegralOperation}^{\uparrow}}
 \newcommand{\ContourSumWindowUp}{\mathsf{ContourSumWindow}^{\uparrow}}
+\newcommand{\ContourAffineConcatUp}{\mathsf{ContourAffineConcat}^{\uparrow}}
 \newcommand{\ClosureWitnessLedgerUp}{\mathsf{ClosureWitnessLedger}^{\uparrow}}
 \newcommand{\GeneratorInductionBoundaryUp}{\mathsf{GeneratorInductionBoundary}^{\uparrow}}
 \newcommand{\InductionClosureLedgerUp}{\mathsf{InductionClosureLedger}^{\uparrow}}
@@ -427,6 +461,7 @@
 \newcommand{\SelfReferenceTruthBranchUp}{\mathsf{SelfReferenceTruthBranch}^{\uparrow}}
 \newcommand{\BoundedMonotoneCauchyWitnessUp}{\mathsf{BoundedMonotoneCauchyWitness}^{\uparrow}}
 \newcommand{\CriticalStripZetaZeroWitnessUp}{\mathsf{CriticalStripZetaZeroWitness}^{\uparrow}}
+\newcommand{\CriticalStripBarrierUp}{\mathsf{CriticalStripBarrier}^{\uparrow}}
 \newcommand{\NontrivialZeroClassifierUp}{\mathsf{NontrivialZeroClassifier}^{\uparrow}}
 \newcommand{\RiemannZeroCountLedgerUp}{\mathsf{RiemannZeroCountLedger}^{\uparrow}}
 \newcommand{\CountableObservationScheduleUp}{\mathsf{CountableObservationSchedule}^{\uparrow}}
@@ -435,8 +470,16 @@
 \newcommand{\CausalContinuitySocketUp}{\mathsf{CausalContinuitySocket}^{\uparrow}}
 \newcommand{\TranscendentalSupplyLedgerUp}{\mathsf{TranscendentalSupplyLedger}^{\uparrow}}
 \newcommand{\KernelAcceptanceAuditWitnessUp}{\mathsf{KernelAcceptanceAuditWitness}^{\uparrow}}
+\newcommand{\KernelAcceptanceBuildReplayUp}{\mathsf{KernelAcceptanceBuildReplay}^{\uparrow}}
 \newcommand{\KernelAcceptanceTraceUp}{\mathsf{KernelAcceptanceTrace}^{\uparrow}}
 \newcommand{\KernelSourceChannelLedgerUp}{\mathsf{KernelSourceChannelLedger}^{\uparrow}}
+\newcommand{\GeneratorAuditClosureUp}{\mathsf{GeneratorAuditClosure}^{\uparrow}}
+\newcommand{\ClosedGeneratorAuditUp}{\mathsf{ClosedGeneratorAudit}^{\uparrow}}
+\newcommand{\MetaCICSubjectReductionObligationUp}{\mathsf{MetaCICSubjectReductionObligation}^{\uparrow}}
+\newcommand{\MetaCICSubjectReductionTraceUp}{\mathsf{MetaCICSubjectReductionTrace}^{\uparrow}}
+\newcommand{\MetaCICReductionObstructionLedgerUp}{\mathsf{MetaCICReductionObstructionLedger}^{\uparrow}}
+\newcommand{\SubjectReductionObligationLedgerUp}{\mathsf{SubjectReductionObligationLedger}^{\uparrow}}
+\newcommand{\MetaCICSubjectReductionFrontierUp}{\ensuremath{\mathsf{MetaCICSubjectReductionFrontier}^{\uparrow}}}
 \newcommand{\TasteGateAuditTraceUp}{\mathsf{TasteGateAuditTrace}^{\uparrow}}
 \newcommand{\RussellAnalysisLadderUp}{\mathsf{RussellAnalysisLadder}^{\uparrow}}
 \newcommand{\BinderBudgetSealUp}{\mathsf{BinderBudgetSeal}^{\uparrow}}
@@ -507,6 +550,7 @@
 \newcommand{\concretizedIn}[2]{%
   \par\smallskip\noindent\textit{Concretized in
   \hyperref[#1]{\S\ref*{#1}}:} #2\par\smallskip}
+\newcommand{\ClosedNormalConsistencyBoundaryUp}{\mathsf{ClosedNormalConsistencyBoundary}^{\uparrow}}
 
 % --- Standard-bridge structural macros (paper bridge, separate from
 % the bridgeCheckedV verification token above) ---------------------------
