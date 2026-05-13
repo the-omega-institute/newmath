@@ -82,6 +82,11 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "next_action": "skip",
         "mathematically_blocked": True,
     },
+    "posthoc_paper_covered": {
+        "retry_budget": 0,
+        "next_action": "skip",
+        "covered_by_existing_paper": True,
+    },
     "oracle_duplicate_response": {
         "retry_budget": 0,
         "next_action": "skip",
@@ -181,6 +186,30 @@ def _is_schema_boundary_target(state: dict) -> bool:
     return False
 
 
+def _is_posthoc_paper_covered_target(state: dict) -> bool:
+    """Recognize old failed targets closed later by a paper patch.
+
+    Keep this list evidence-bound and narrow: it is only for stale lifecycle
+    alerts whose exact target now has a labeled theorem in the paper.
+    """
+    target_id = str(state.get("target_id") or "")
+    title = str(state.get("title") or "").lower()
+    if target_id == "B-398" and title == "split isomorphism inverse witnesses coincide":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "functor"
+            / "split_iso_inverse_uniqueness.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:category-split-isomorphism-inverse-witnesses-coincide" in text
+    return False
+
+
 def derive_failure_kind(state: dict) -> str:
     s1v = (state.get("stage1_verdict") or "").lower()
     s2 = state.get("stage2") or {}
@@ -210,6 +239,8 @@ def derive_failure_kind(state: dict) -> str:
         return "format_crash"
 
     if s1v == "stuck":
+        if _is_posthoc_paper_covered_target(state):
+            return "posthoc_paper_covered"
         if _is_schema_boundary_target(state):
             return "schema_boundary_target"
         return _stage1_kind_from_stuck(state)
