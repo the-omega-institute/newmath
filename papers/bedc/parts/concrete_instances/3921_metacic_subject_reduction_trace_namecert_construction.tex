@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubjectReductionTraceUp$}
+\label{ch:concrete-instances-metacic-subject-reduction-trace-namecert}
+\origin{human}
+
+The $\MetaCICSubjectReductionTraceUp$ packet turns the MetaCIC subject-reduction audit boundary into a finite BEDC naming surface. It records the parameterized subject-reduction theorem, the four discharge obligations consumed by that theorem, the checked obstruction row for the closed statement, componentwise transport, replay routes, package provenance, and a local $\NameCert$ row. The packet names the present proof frontier without claiming the four obligations or a closed subject-reduction theorem.
+
+\begin{definition}[MetaCIC subject-reduction trace carrier]
+\label{def:metacic-subject-reduction-trace-carrier}
+A $\MetaCICSubjectReductionTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(P,B,A,L,I,O,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ records the parameterized theorem row for $\mathsf{BEDC.MetaCIC.subject\_reduction}$, including the four hypothesis sockets it consumes;
+\item $B$ records the beta-substitution obligation row $\mathrm{BetaSubstitutionPreservation}$;
+\item $A$ records the application-argument-stability obligation row $\mathrm{AppArgTypeStable}$;
+\item $L$ records the lambda-domain obligation row $\mathrm{LamDomainSubjectReduction}$;
+\item $I$ records the Pi-domain obligation row $\mathrm{PiDomainSubjectReduction}$;
+\item $O$ records the obstruction theorem row for $\mathsf{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}$;
+\item $H$ records componentwise $\hsame$ transport for the theorem row, the four obligation rows, the obstruction row, replay routes, provenance, and local name;
+\item $C$ records the displayed $\Cont$ routes that replay consumers through the parameterized theorem row, the four obligation rows, and the obstruction row;
+\item $G$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the MetaCIC subject-reduction audit rows;
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionTraceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unparameterized closed subject-reduction theorem, a hidden proof of any of the four obligations, an implicit host-calculus preservation theorem, or an axiom that discharges the obstruction.
+\end{definition}
+
+\begin{theorem}[MetaCIC subject-reduction trace NameCert obligations]
+\label{thm:metacic-subject-reduction-trace-namecert-obligations}
+For every accepted $\MetaCICSubjectReductionTraceUp$ carrier
+$$
+T=(P,B,A,L,I,O,H,C,G,N),
+$$
+the local $\NameCert_{\MetaCICSubjectReductionTraceUp}$ surface consists exactly of the parameterized theorem row $P$, the four discharge-obligation rows $B,A,L,I$, the checked obstruction row $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $G$, and local naming through $N$.
+
+The packet records the four discharge obligations without proving them. A consumer that needs subject reduction must route through the parameterized theorem row $P$ and supply $B,A,L,I$; a consumer that asks for the closed statement is routed to the obstruction row $O$.
+\end{theorem}
+\begin{proof}
+Project the finite packet of \autoref{def:metacic-subject-reduction-trace-carrier}. The rows $P,B,A,L,I,O,H,C,G,N$ are the complete displayed inventory, so carrier admission and local naming are read directly from the packet.
+
+The subject-reduction side is exhausted by $P$ together with $B,A,L,I$. The row $P$ names the checked parameterized theorem, while $B,A,L,I$ name the beta-substitution, application-argument-stability, lambda-domain, and Pi-domain sockets that must be supplied before that theorem yields a preservation step.
+
+The obstruction side is exhausted by $O$. Since $O$ records the checked obstruction for the closed consistency-reduction proposition, the packet does not convert the four obligation rows into proofs and does not export a closed subject-reduction theorem.
+
+Transport, replay, provenance, and naming are confined to $H,C,G,N$. Thus the local $\NameCert$ surface is exactly the displayed trace packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction trace non-escape]
+\label{thm:metacic-subject-reduction-trace-nonescape}
+Every downstream consumer of an accepted $\MetaCICSubjectReductionTraceUp$ packet factors through
+$$
+P,B,A,L,I,O,H,C,G,N.
+$$
+A preservation consumer may read the parameterized theorem row and the four named obligation rows. An audit consumer may read the checked obstruction row. No consumer can read a closed subject-reduction theorem, a hidden proof of any obligation, or an unrecorded host-calculus preservation principle from this packet.
+\end{theorem}
+\begin{proof}
+Begin with the route row $C$. By the carrier definition, every public continuation route is displayed there and has endpoints among $P,B,A,L,I,O,H,G,N$.
+
+Use the NameCert obligation surface of \autoref{thm:metacic-subject-reduction-trace-namecert-obligations}. It separates the parameterized theorem row from the four obligation rows and from the obstruction row, so a consumer cannot collapse the rows into a stronger theorem.
+
+Componentwise transport through $H$ preserves the same row inventory. Package provenance through $G$ and local naming through $N$ bind the route to the finite packet, leaving no coordinate for a closed subject-reduction theorem or hidden discharge proof.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction trace discharge frontier]
+\label{thm:metacic-subject-reduction-trace-discharge-frontier}
+An accepted $\MetaCICSubjectReductionTraceUp$ packet excludes any closed subject-reduction theorem unless all four obligation rows
+$$
+B,A,L,I
+$$
+are supplied as discharge witnesses for the parameterized theorem row $P$. The obstruction row $O$ remains the consumer-facing answer for the closed statement whenever any one of $B,A,L,I$ is only a named obligation row.
+\end{theorem}
+\begin{proof}
+Read $P$ as the parameterized subject-reduction theorem row. Its visible interface consumes exactly the beta-substitution, application-argument-stability, lambda-domain, and Pi-domain discharge rows.
+
+Read $B,A,L,I$ as obligation rows rather than proof rows. The carrier records their names and positions, but it does not add a witness that any one of them is discharged.
+
+Now read $O$ as the checked obstruction row. If a consumer requests the closed theorem while any one of the four rows remains only an obligation, the replay route sends that request to $O$ rather than to a closed subject-reduction theorem.
+
+Finally, $H,C,G,N$ preserve and package the same frontier. They transport, replay, and name the displayed rows, but they introduce no extra discharge coordinate.
+\end{proof}
+
+\closureat{MetaCICSubjectReductionTraceUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionTraceUp}
+  \constructivestory{A $\MetaCICSubjectReductionTraceUp$ packet is generated from the parameterized MetaCIC subject-reduction theorem row, four named discharge-obligation rows, a checked obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-trace-carrier}, \autoref{thm:metacic-subject-reduction-trace-namecert-obligations}, \autoref{thm:metacic-subject-reduction-trace-nonescape}, and \autoref{thm:metacic-subject-reduction-trace-discharge-frontier} specify the finite subject-reduction trace carrier, obligation surface, consumer non-escape boundary, and discharge frontier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, route exhaustion, obstruction replay, and proof rows for all four MetaCIC subject-reduction discharge obligations.}
+\end{closurestatus}
