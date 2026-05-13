@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionRouteEquivalenceUp$}
+\label{ch:concrete-instances-subject-reduction-route-equivalence-namecert}
+\origin{human}
+
+The $\SubjectReductionRouteEquivalenceUp$ packet turns the route comparison of \autoref{ch:sr-discharge-routes} into finite BEDC data. It reads the socket-level discharge surface of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the explicit discharge packet of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, and the typed terminal-route consumer of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}. Its role is to compare how the bundle route and the setup-to-bundle route expose the same four rows; it is not a proof of those rows and not a closed subject-reduction theorem.
+
+\begin{definition}[Subject-reduction route-equivalence packet]
+\label{def:subject-reduction-route-equivalence-packet}
+A $\SubjectReductionRouteEquivalenceUp$ packet is a finite $\BHist$ carrier
+$$
+E=(B,A,L,P,U,V,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution preservation discharge row;
+\item $A$ is the application-argument stability discharge row;
+\item $L$ is the lambda-domain subject-reduction discharge row;
+\item $P$ is the Pi-domain subject-reduction discharge row;
+\item $U$ is the direct bundle route, whose public read builds the four-field discharge bundle from $B,A,L,P$;
+\item $V$ is the setup-to-bundle route, whose public read applies the setup conversion to expose the same four-field discharge bundle;
+\item $H$ records componentwise $\hsame$ transports for the four discharge rows, the two route rows, provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes for reading the direct bundle route, the setup-to-bundle route, the common discharge rows, and the downstream typed-reduction consumer handoff;
+\item $Q$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\SubjectReductionDischargeSocketUp$, $\SubjectReductionDischargeUp$, $\TypedReductionNormalFormUp$, the direct bundle route, the setup-to-bundle route, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectReductionRouteEquivalenceUp}$ row.
+\end{enumerate}
+The carrier contains no proof of any discharge row, no inhabitant for the closed-CIC setup instance, no closed subject-reduction theorem, no host conversion rule, and no erased derivation semantics.
+\end{definition}
+
+\begin{theorem}[SubjectReductionRouteEquivalence NameCert obligations]
+\label{thm:subject-reduction-route-equivalence-namecert}
+For the packet of \autoref{def:subject-reduction-route-equivalence-packet}, the local $\NameCert_{\SubjectReductionRouteEquivalenceUp}$ surface consists of carrier admission for
+$$
+E=(B,A,L,P,U,V,H,C,Q,N),
+$$
+route equivalence between $U$ and $V$ over the same four discharge rows $B,A,L,P$, componentwise transport through $H$, displayed continuation reads through $C$, provenance through $Q$, and local naming through $N$. A downstream typed-reduction consumer may therefore cite the packet as a finite comparison between the two discharge routes, but not as evidence for a missing discharge row.
+\end{theorem}
+\begin{proof}
+Project the packet first. The four discharge coordinates $B,A,L,P$ are fixed before either route row is read, and they are the same rows named by the socket and discharge chapters.
+
+Read the direct route $U$. Its public content is the four-field bundle built from $B,A,L,P$, with provenance and local naming supplied by $Q$ and $N$.
+
+Read the setup-to-bundle route $V$. Its public content is the setup conversion whose exposed bundle fields are again $B,A,L,P$. The conversion changes the route by which the bundle is obtained, not the discharge payload.
+
+Finally apply the transport and continuation rows $H$ and $C$. They keep both route reads attached to the displayed packet and hand the common discharge surface to the typed terminal-route consumer without introducing a closed subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteEquivalence non-escape]
+\label{thm:subject-reduction-route-equivalence-nonescape}
+Every public read of an accepted $\SubjectReductionRouteEquivalenceUp$ packet factors through
+$$
+B,A,L,P,U,V,H,C,Q,N.
+$$
+It may compare the direct bundle route with the setup-to-bundle route over the same four discharge rows, and it may expose that comparison to the typed-reduction normal-form boundary. It cannot prove beta-substitution preservation, application-argument stability, lambda-domain subject reduction, Pi-domain subject reduction, a closed setup instance, or a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. The packet contains the four discharge rows, two route rows, componentwise transports, displayed continuation routes, package provenance, and local naming.
+
+Use \autoref{thm:subject-reduction-route-equivalence-namecert} to compare the two route rows. Both $U$ and $V$ expose exactly the same rows $B,A,L,P$, so the comparison is a route-equivalence certificate rather than an additional discharge surface.
+
+The typed-reduction normal-form chapter consumes only the visible terminal-route boundary. Passing the route comparison to that consumer through $C,Q,N$ therefore records how a downstream consumer would receive the common discharge payload, while leaving the payload itself as supplied data.
+
+Since no coordinate stores a proof of any of the four rows, a setup instance for the closed-CIC substrate, host conversion, erased derivation semantics, or a closed subject-reduction theorem, no accepted read can export those objects.
+\end{proof}
