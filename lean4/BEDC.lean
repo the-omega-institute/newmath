@@ -154,6 +154,7 @@ import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
+import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
