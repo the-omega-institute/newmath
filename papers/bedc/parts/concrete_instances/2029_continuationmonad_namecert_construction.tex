@@ -151,6 +151,30 @@ Apply ledger exactness and the Kleisli composition boundary. They identify the c
 Since no coordinate names host function composition, quotient Kleisli arrows, or a general category primitive, the composite scope is exhausted by the listed rows.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad scoped route dependencies]
+\label{thm:continuation-monad-scoped-route-dependencies}
+For every accepted $\ContinuationMonadUp$ packet, the composite consumer route factors through exactly the displayed $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$ rows. The dependency surface is the finite route through the histories $A,B,C$, continuation tails $f,g,u$, componentwise transports, continuation ledger, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Start with carrier obligation. It projects the accepted packet to the histories, tails, transport row, continuation route row, ledger, provenance, and local certificate.
+
+Use classifier stability and ledger exactness to keep every read of the composite consumer on those rows. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings are then readings of the same displayed continuation route, not independent categorical data.
+
+Apply the Kleisli boundary and Kleisli composite scope. Together they identify the composite as the finite route through the listed BEDC rows and exhaust the scoped dependencies of the accepted packet.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad scope non-escape]
+\label{thm:continuation-monad-scope-nonescape}
+For every accepted $\ContinuationMonadUp$ packet, the scoped composite route exports no quotient Kleisli arrows, no host function composition, and no general category primitive. It exports only the displayed continuation tails, $\Cont$ route rows, componentwise $\hsame$ transports, ledger row, package provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the same packet using carrier obligation. The visible rows are finite continuation data, transport data, ledger data, package provenance, and local naming data.
+
+Classifier stability and ledger exactness keep transport and readback inside that finite route. The Kleisli composition boundary excludes quotient Kleisli arrows, host function composition, and general category primitives from the public boundary.
+
+The Kleisli composite scope supplies the final scope claim: every composite consumer has already factored through the displayed rows, so there is no exported object beyond the scoped route.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad obligation closure]
 \label{thm:continuation-monad-obligation-closure}
 For every accepted $\ContinuationMonadUp$ source packet, the carrier source, unit laws, associativity, classifier stability, ledger exactness, local $\NameCert$ package, and Kleisli composition boundary jointly supply the $\obligationClosure$ surface for $\ContinuationMonadUp$ over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$. The closure surface exports only the displayed continuation tails, route rows, transport rows, ledger rows, package provenance, and naming row.
