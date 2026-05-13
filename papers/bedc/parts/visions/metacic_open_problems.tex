@@ -1,0 +1,272 @@
+\chapter{Closed-MetaCIC open problems: consolidated obligation list}
+\label{ch:metacic-open-problems}
+
+\section{The setup}
+\label{sec:metacic-open-problems-setup}
+
+The MetaCIC audit maps deliberately separate positive checked content from the
+places where the closed-term consistency route is still blocked. The subject
+reduction map, confluence map, normalisation map, substitution map,
+decidability map, typed-example map, and consistency assembly record those
+boundaries in their own local vocabularies:
+\autoref{ch:metacic-subject-reduction-obstruction},
+\autoref{ch:metacic-confluence-audit-map},
+\autoref{ch:metacic-normalization-audit-map},
+\autoref{ch:metacic-substitution-audit-map},
+\autoref{ch:metacic-decidable-audit-map},
+\autoref{ch:metacic-typedexamples-audit-map}, and
+\autoref{ch:closed-metacic-consistency-assembly}.
+
+This chapter is the companion inventory. The synthesis view gives the reader
+the critical path; the present chapter gives the concrete list of outstanding
+obligations, obstructions, partial-closure boundaries, and frontier questions.
+It does not introduce a new proof principle, a new Lean target, or a stronger
+closure claim. It is a single reading surface for the work that remains open
+after the existing audit chapters are read together.
+
+The consolidated list has four layers. First, the subject-reduction route has
+four named discharge hypotheses and a checked obstruction to replacing them by
+an unconditional closed subject-reduction theorem. Second, confluence and
+substitution have algebraic boundaries around residual substitution and
+unrestricted commutation. Third, normalisation and decidability have
+candidate-mediated or bounded-computation interfaces that should not be erased
+by prose. Fourth, the worked examples are gallery-level witnesses, not a
+coverage theorem over all dependent or polymorphic programs.
+
+\section{Subject reduction obligations (4)}
+\label{sec:metacic-open-problems-subject-reduction}
+
+The subject-reduction frontier is the sharpest obstruction in the closed
+MetaCIC path. The parameterised theorem exists, but it consumes four discharge
+hypotheses. The checked obstruction in
+\autoref{ch:metacic-subject-reduction-obstruction} prevents the paper from
+replacing that four-input interface by a blanket closed subject-reduction
+claim for the present substrate.
+
+\begin{enumerate}
+\item $\mathrm{BetaSubstitutionPreservation}$. The beta-redex case must show
+  that substituting a typed argument into a typed body preserves the substituted
+  codomain. The obstruction blocks an unconditional proof because the dependent
+  codomain can observe the argument strongly enough for the displayed target
+  type to change after reduction.
+\item $\mathrm{AppArgTypeStable}$. The application-argument congruence case
+  must show that replacing an argument by its reduct leaves the codomain
+  readback stable. The independent-codomain case is checked, but the dependent
+  codomain case is exactly where the counterexample lives.
+\item $\mathrm{LamDomainSubjectReduction}$. The lambda-domain congruence case
+  must preserve the type of a lambda when its displayed domain annotation
+  reduces. This is not a direct consequence of syntactic beta stepping, because
+  the binder annotation participates in the typing judgement being preserved.
+\item $\mathrm{PiDomainSubjectReduction}$. The Pi-domain congruence case must
+  preserve the type of a Pi term when the displayed domain reduces. This is
+  separate from the lambda case because the Pi codomain is checked under the
+  binder induced by the domain, so domain reduction changes the context-facing
+  data.
+\end{enumerate}
+
+All four obligations are simultaneous. Supplying only the beta redex row, only
+argument stability, or only binder-domain preservation leaves the parameterised
+subject-reduction theorem unavailable as an unconditional closed theorem. The
+first-class bundle records exactly the simultaneous discharge interface:
+\leanvariant{BEDC.MetaCIC.SubjectReductionDischargeBundle}.
+
+\section{Confluence remaining questions}
+\label{sec:metacic-open-problems-confluence}
+
+The confluence map in \autoref{ch:metacic-confluence-audit-map} has a different
+shape from the subject-reduction map. It is not blocked by dependent typing.
+It is blocked at the residual-substitution algebra needed for the full
+parallel diamond and then for arbitrary closed star confluence.
+
+The unconditional confluence content is shape-limited. Closed normal sources,
+sort sources, closed variable impossibility, atom joins, non-lambda application
+shape facts, componentwise diamonds, and parallel-to-star transport are
+available at the strengths stated in the confluence audit map. Those results
+are real checked infrastructure and may be cited at that scope.
+
+The remaining confluence questions are the stronger endpoints. Does the present
+substrate support the needed
+$\mathrm{BetaParallelSubstitutionCompatibility}$ interface without importing
+unclosed substitution assumptions? Can the closed parallel diamond be supplied
+for arbitrary closed terms rather than consumed as a premise? Can the resulting
+closed multi-step Church--Rosser theorem be stated without hiding the
+substitution boundary? Until those inputs exist, arbitrary closed-term
+confluence remains conditional rather than unconditional.
+
+\section{Normalization remaining questions}
+\label{sec:metacic-open-problems-normalization}
+
+The normalisation map in \autoref{ch:metacic-normalization-audit-map} is
+candidate-mediated. Candidate evidence, closed-candidate evidence, and
+candidate-set membership imply strong normalisation; the application and Pi
+adequacy layers explain how that evidence behaves over the displayed
+fragments.
+
+The remaining question is not whether the candidate projections are checked.
+They are checked. The question is whether every empty-context typed closed
+MetaCIC term can be placed into the relevant candidate interface without adding
+an unrecorded semantic assumption. The present normalisation layer does not
+export a blanket theorem saying that all closed typed terms are strongly
+normalising independent of candidate evidence.
+
+This boundary matters for the consistency route. Closed-normal consistency can
+use beta-strong normality as an input, and candidate evidence can supply such
+normality for terms inside the candidate interface. Full closed consistency
+would still require a bridge from arbitrary closed proofs to a typed normal
+endpoint with the displayed false type preserved, which returns the problem to
+the subject-reduction frontier.
+
+\section{Decidability remaining questions}
+\label{sec:metacic-open-problems-decidability}
+
+The decidability map in \autoref{ch:metacic-decidable-audit-map} has a positive
+typing layer and a narrower conversion layer. Structural term equality,
+same-term checking, and option-valued type inference are sound and complete for
+the represented relations at the interface stated by the checker theorems.
+
+The remaining decidability questions sit around closedness and beta
+conversion. The submodule does not export a theorem named
+\texttt{Decidable (ClosedAt n t)}. It also does not export an unrestricted
+closed-term beta-conversion decider. The bounded normal-equality checker is
+sound for equality of bounded normalizer outputs and for finished closed normal
+forms when the finished-normalisation witnesses are supplied.
+
+Thus the decidability frontier is the endpoint bridge: how should bounded
+normal computation be connected to finished normal forms for the class of
+closed typed terms under discussion? A global conversion decider would require
+that bridge explicitly. Gallery success and checker completeness for typing do
+not supply it by themselves.
+
+\section{TypedExamples coverage questions}
+\label{sec:metacic-open-problems-typedexamples}
+
+The typed-examples map in \autoref{ch:metacic-typedexamples-audit-map} supplies
+a worked gallery: Church booleans, naturals, pairs, options, lists, sums,
+Leibniz equality, dependent identity, polymorphic identity, applications,
+beta-redexes, constants, Pi forms, projections, and sort-indexed context
+examples. These examples are Lean-side witnesses for concrete represented
+terms.
+
+The open question is coverage, not existence. The gallery demonstrates many
+typical dependent, polymorphic, Church-encoded, and application-shaped terms,
+but it does not claim exhaustive coverage of all dependent-program forms or all
+expected algebraic laws of every Church encoding inside MetaCIC. The examples
+therefore remain a regression and audit surface rather than a general
+metatheorem.
+
+The practical frontier is to decide which example families should be treated
+as representative enough for the paper's public narrative. Dependent
+codomains, polymorphic instantiation, eliminator computation, nested binder
+movement, and conversion-sensitive examples are the highest-value families
+because they touch the same boundaries as subject reduction, normalisation, and
+decidable conversion.
+
+\section{Cross-cutting frontier questions}
+\label{sec:metacic-open-problems-cross-cutting}
+
+\subsection{Dependent-codomain barrier}
+\label{subsec:metacic-open-problems-dependent-codomain}
+
+Subject reduction is not unconditionally available in the dependent-codomain
+case. The independent-codomain application case is checked, while the dependent
+case has a counterexample in the present substrate. This is the obstruction
+that prevents the closed-normal consistency result from automatically becoming
+full closed consistency.
+
+There are three coherent routes through the barrier. One can change the
+substrate so that a context-reduction lemma is available. One can weaken the
+subject-reduction statement so that it accepts the typing reorganisation
+forced by dependent codomains. One can also expose dependent-codomain inversion
+as a setup field or axiom-set-shaped interface rather than as an internal
+theorem. Each route changes the public meaning of the substrate, and none is
+taken here.
+
+\subsection{Bundle discharge route}
+\label{subsec:metacic-open-problems-bundle}
+
+The discharge-bundle route is conceptually clean. A value of
+$\mathrm{SubjectReductionDischargeBundle}$ packages the four subject-reduction
+inputs, and the corresponding wrapper lifts the parameterised theorem to an
+unconditional theorem relative to that bundle. This makes the discharge
+interface first-class without spreading the four hypotheses through every
+downstream citation.
+
+The same route also states the obstruction sharply. On the present closed-term
+substrate, inhabiting the bundle at the required strength is incompatible with
+the documented obstruction. The bundle is therefore a marker for a
+paper-side discharge path or for a substrate extension, not evidence that the
+closed-term substrate already contains the missing proof.
+
+\subsection{Normal-form-only consistency}
+\label{subsec:metacic-open-problems-normal-form-consistency}
+
+\autoref{ch:closed-metacic-consistency-assembly} establishes the positive
+closed-normal node. A closed proof term that is already beta-strong cannot
+inhabit the internal false encoding. This result is unconditional at its
+stated input shape and does not depend on discharging subject reduction.
+
+The open judgement is presentational and strategic. The paper can treat
+normal-form consistency as a first-class BEDC deliverable, because it is a real
+closed theorem at the normal-form boundary. Doing so would avoid overstating
+full closed consistency while still making the checked positive result visible
+as a central endpoint.
+
+\subsection{Substrate extension for dependent-codomain closure}
+\label{subsec:metacic-open-problems-substrate-extension}
+
+The strongest design decision is whether to extend the closed-CIC substrate so
+that dependent-codomain reduction can be closed internally. Such an extension
+could make the conventional subject-reduction route possible, but it would also
+change the substrate interface and the audit obligations that downstream
+chapters must respect.
+
+The conservative alternative is to keep the present substrate and report the
+closed-normal theorem as the main internal result. The expansive alternative is
+to add the exact context-reduction or setup-class field needed by the
+dependent-codomain cases, then re-audit subject reduction, confluence,
+normalisation, decidability, and examples against that enlarged interface.
+
+\section{Operational priorities}
+\label{sec:metacic-open-problems-operational-priorities}
+
+The apophatic naming discipline of
+\autoref{ch:visions-apophatic-naming-as-discipline} is binding here. The paper
+should not pretend that the obligations above are solved. They are named open
+problems with exact interfaces.
+
+The reader-facing priority order is:
+
+\begin{enumerate}
+\item Treat closed-normal consistency as a first-class deliverable. It is the
+  strongest presently assembled consistency node and it does not require
+  subject-reduction discharge.
+\item Explore a setup-class field route for dependent-codomain inversion. This
+  keeps the additional input explicit and avoids converting the obstruction
+  into an untracked theorem claim.
+\item Keep the subject-reduction obstruction documented. It should not be
+  hidden behind a proof placeholder, an informal appeal to CIC intuition, or an
+  overbroad citation of the parameterised theorem.
+\end{enumerate}
+
+This priority order also constrains citations. The paper may cite the checked
+normal-form result, the parameterised subject-reduction theorem, the
+shape-limited confluence fragments, the candidate-mediated normalisation
+projections, the typing checker, the bounded normal-equality facts, and the
+typed-example gallery. It may not cite any of those as full closed consistency,
+arbitrary closed subject reduction, arbitrary closed Church--Rosser, global
+closed-term strong normalisation, or unrestricted beta-conversion
+decidability.
+
+\section{Boundary}
+\label{sec:metacic-open-problems-boundary}
+
+This chapter is an inventory, not a discharge. It consolidates the open
+MetaCIC work exposed by the existing audit maps and the consistency assembly.
+It does not prove any of the four subject-reduction obligations. It does not
+prove residual substitution compatibility for full confluence. It does not
+erase candidate evidence from normalisation, finished-normalisation evidence
+from bounded conversion, or gallery scope from typed examples.
+
+The boundary is therefore simple: the chapter names the remaining problems and
+the available design routes, while leaving the proof state exactly where the
+Lean and paper audit maps place it.
