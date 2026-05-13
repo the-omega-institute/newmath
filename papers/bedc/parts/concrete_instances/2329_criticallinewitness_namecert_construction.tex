@@ -578,6 +578,48 @@ Use \autoref{thm:critical-line-witness-zero-row-scope}. The zero row remains tie
 Finally apply \autoref{thm:critical-line-witness-rh-nonproof-boundary} and \autoref{thm:critical-line-witness-downstream-refusal-package}. These exclude zero construction, global enumeration, $\mathsf{RH}$ proof, and analytic-continuation export from the displayed packet.
 \end{proof}
 
+\begin{theorem}[Critical-line witness zero-source totality]
+\label{thm:critical-line-witness-zero-source-totality}
+Every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$ reads its zero row only through the displayed source coordinates $Z,S,R,Q,H,C,P,N$. The zero-facing source route is therefore a finite $\ZetaZerosUp$--$\CritStripUp$--$\RealUp$--$\RatUp$ route, with componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local $\NameCert$ evidence, and not a host zero search or an ambient analytic-continuation coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. The accepted packet exposes the zero row $Z$ together with the strip row $S$, real-part row $R$, rational comparison ledger $Q$, transport row $H$, route row $C$, package row $P$, and local naming row $N$.
+
+Apply \autoref{thm:critical-line-witness-zeta-zero-boundary}. It already makes $Z$ a supplied boundary row, readable only with the remaining displayed packet coordinates.
+
+Use \autoref{thm:critical-line-witness-supplied-zero-readback} and \autoref{thm:critical-line-witness-real-strip-handoff}. These rows identify the zero read with the supplied $\ZetaZerosUp$ and $\CritStripUp$ sources and carry the real and rational coordinates through $R,Q,H,C,P,N$.
+
+The non-escape row of \autoref{thm:critical-line-witness-downstream-refusal-package} then excludes host zero search, analytic continuation, quotient representatives, and ambient completeness. Thus every zero-source read is total through the displayed finite coordinates.
+\end{proof}
+
+\begin{theorem}[Critical-line witness strip-modulus ledger triad]
+\label{thm:critical-line-witness-strip-modulus-ledger-triad}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the critical-strip row $S$, modulus request row $M$, and rational comparison ledger $Q$ form one BEDC-visible triad. The triad is transported only by the displayed $\hsame$ row $H$, replayed only by the displayed $\Cont$ row $C$, and packaged only through $P$ and $N$.
+\end{theorem}
+\begin{proof}
+Read the strip, modulus, and rational rows from the carrier. The packet lists $S,M,Q$ as public coordinates of the same finite $\BHist$ witness.
+
+Apply \autoref{thm:critical-line-witness-modulus-request-factorization}. Every depth request for $M$ factors through the real-part row, the rational comparison ledger, the transport row, and the continuation route before $M(n)$ is read.
+
+Use \autoref{thm:critical-line-witness-strip-zero-route-totality} and \autoref{thm:critical-line-witness-depth-ledger-coverage}. The first keeps the strip side on the displayed $H,C$ route, while the second exhausts every depth request by $M,R,Q,H,C,P,N$.
+
+Finally apply \autoref{thm:critical-line-witness-obligation-closure-package}. The carrier, naming, transport, continuation, package, and ledger rows are the finite obligation surface, so the strip row, modulus request, and rational ledger remain one visible triad under $\hsame$, $\Cont$, and $\Pkg$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH consumer boundary package]
+\label{thm:critical-line-witness-rh-consumer-boundary-package}
+Every downstream $\mathsf{RH}$-facing consumer of an accepted $\CriticalLineWitnessUp$ packet receives a finite witness boundary consisting of the zero-source route, the strip-modulus ledger triad, the nonproof boundary, the downstream-refusal row, and the local obligation package. The consumer receives no $\mathsf{RH}$ proof, no global zero-set classifier, no analytic-continuation certificate, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-zero-source-totality}. It confines every zero-facing read to the displayed $\ZetaZerosUp$, $\CritStripUp$, $\RealUp$, and $\RatUp$ source coordinates and their $H,C,P,N$ routes.
+
+Next use \autoref{thm:critical-line-witness-strip-modulus-ledger-triad}. It packages the strip row, modulus request, and rational comparison ledger as one finite BEDC-visible triad.
+
+Apply \autoref{thm:critical-line-witness-rh-nonproof-boundary} and \autoref{thm:critical-line-witness-downstream-refusal-package}. These rows prevent downstream consumers from reading the supplied packet as an $\mathsf{RH}$ proof, zero construction, analytic-continuation proof, completeness principle, host equality, or quotient representative.
+
+Finally apply \autoref{thm:critical-line-witness-obligation-closure-package}. The prior rows repack into the finite carrier, NameCert, transport, continuation, package, non-escape, and ledger surface. Hence RH-facing consumers receive a finite witness boundary and no RH-level conclusion.
+\end{proof}
+
 \closureat{CriticalLineWitnessUp}{seedStr}
 
 \begin{closurestatus}{\CriticalLineWitnessUp}
