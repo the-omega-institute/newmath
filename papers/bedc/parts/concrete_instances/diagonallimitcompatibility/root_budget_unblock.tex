@@ -1,0 +1,100 @@
+\begin{theorem}[Diagonal-limit compatibility root budget source]
+\label{thm:diagonal-limit-compatibility-root-budget-source}
+Every accepted $\DiagonalLimitCompatibilityUp$ packet reads its root budget
+source through the displayed finite rows
+$$
+\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The budget source is the same source exposed to
+$\RegularCauchySelectorBudgetUp$ consumers: the diagonal row, dyadic ledger,
+stream window, regular-rational handoff, seal route, componentwise transport,
+route table, provenance, and local name must already be visible before the
+compatibility packet is accepted.
+\end{theorem}
+\begin{proof}
+Project the accepted compatibility carrier. The displayed packet contains the
+diagonal source, triangle estimate, seal route, dyadic ledger, stream window,
+regular readback, Real seal row, transports, continuations, provenance, and
+local naming row.
+
+Apply the NameCert obligation theorem and the window-ledger exactness theorem.
+They force the budget-facing reads to use the same carrier, $\hsame$ rows,
+$\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ row rather than an
+undisplayed budget source.
+
+Finally use completion-boundary and non-escape. Since no host limit, quotient
+stream, choice datum, host real equality, or ambient completeness coordinate is
+exported, the accepted packet can source its budget only through the displayed
+finite rows shared with the selector-budget route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root window route]
+\label{thm:diagonal-limit-compatibility-root-window-route}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet, the
+$\StreamNameUp$ finite-window route is selected before any $\RegSeqRatUp$
+readback or $\RealUp$ seal handoff is available. A downstream consumer reaches
+the regular-rational row and the Real-facing seal only after reading the
+displayed window row, dyadic ledger, transport rows, continuation rows,
+provenance row, and local naming row.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The window row $W$ and dyadic ledger $D$
+are displayed before the readback row $Q$ and seal row $L$ are consumed.
+
+Use window-ledger exactness together with the triangle-seal route theorem.
+These results place the route to $Q,L$ behind the same $\StreamNameUp$ window
+row used by the diagonal source, triangle row, dyadic ledger, and seal route.
+
+Apply completion boundary. It adds the componentwise $\hsame$ transport,
+displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ rows to the
+same finite-window route, so no RegSeqRat or Real handoff precedes the window
+selection.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root seal boundary]
+\label{thm:diagonal-limit-compatibility-root-seal-boundary}
+Every Real-facing read of an accepted $\DiagonalLimitCompatibilityUp$ packet
+passes through the displayed $\RegSeqRatUp$ readback row and seal rows before
+it reaches the $\RealUp$ coordinate. The read is a route through
+$R,T,S,D,W,Q,L,H,C,P,N$, not a read through host real equality, a selected host
+limit, quotient stream equality, choice data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the packet through seal-route compatibility. The seal route can reach the
+regular readback and Real seal only after the diagonal source, triangle row,
+dyadic ledger, and stream window have been fixed.
+
+Now apply Real-seal exactness. It identifies the displayed route through
+$R,T,S,D,W,Q,H,C,P,N$ as the boundary through which $L$ is reached.
+
+The Real-seal non-escape theorem removes the possible host-side bypasses.
+Thus the Real-facing read is exactly a finite regular-readback and seal-route
+read inside the accepted compatibility packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root consumer non-escape]
+\label{thm:diagonal-limit-compatibility-root-consumer-nonescape}
+Every downstream $\RealUp$, $\CompletionUp$, or completion-seal consumer of an
+accepted $\DiagonalLimitCompatibilityUp$ packet can inspect only the displayed
+budget, window, diagonal, seal, transport, route, provenance, and local-name
+rows. In packet notation the consumer-visible surface is exhausted by
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted packet and list the consumer-facing coordinates. The
+budget and window information is carried by the dyadic ledger and stream
+window, the diagonal and seal information by the source, triangle, seal,
+readback, and Real rows, and the structural information by the transport,
+route, provenance, and local-name rows.
+
+Use the completion-consumer non-escape theorem. It already requires every
+completion-facing or $\RealUp$ consumer to factor through the same listed
+rows.
+
+Finally replay the root budget source, root window route, and root seal
+boundary results. Together they show that the consumer has no coordinate
+outside the displayed budget, window, diagonal, seal, transport, route,
+provenance, and local-name surface.
+\end{proof}

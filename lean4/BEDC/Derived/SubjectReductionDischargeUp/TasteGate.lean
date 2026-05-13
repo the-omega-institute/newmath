@@ -305,6 +305,9 @@ instance subjectReductionDischargeChapterTasteGate :
     intro x y hxy heq
     exact hxy (subjectReductionDischargeToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate SubjectReductionDischargeUp :=
+  subjectReductionDischargeChapterTasteGate
+
 instance subjectReductionDischargeFieldFaithful :
     FieldFaithful SubjectReductionDischargeUp where
   fields := fun x =>
