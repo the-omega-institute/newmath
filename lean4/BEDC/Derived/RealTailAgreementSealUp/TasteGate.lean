@@ -204,6 +204,9 @@ instance realTailAgreementSealChapterTasteGate : ChapterTasteGate RealTailAgreem
     intro x y hxy heq
     exact hxy (realTailAgreementSealToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RealTailAgreementSealUp :=
+  realTailAgreementSealChapterTasteGate
+
 instance realTailAgreementSealFieldFaithful : FieldFaithful RealTailAgreementSealUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>

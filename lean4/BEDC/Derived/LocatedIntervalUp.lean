@@ -249,4 +249,26 @@ theorem LocatedIntervalPacket_containment_transport_scope [AskSetup] [PackageSet
     ⟨lowerUnary, upperUnary, rationalCellsUnary, endpointUnary, cellUnary,
       rationalCellsRoute, endpointRoute, cellRoute, sameRationalCells, sameEndpoint, cellPkg⟩
 
+theorem LocatedIntervalPacket_endpoint_window_readback_exhaustion [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg ->
+      Cont streamWindows readbacks readback ->
+        PkgSig bundle readback pkg ->
+          UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory streamWindows ∧
+            UnaryHistory readbacks ∧ UnaryHistory readback ∧
+              Cont streamWindows readbacks readback ∧ PkgSig bundle readback pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro packet readbackRoute readbackPkg
+  obtain ⟨lowerUnary, upperUnary, _rationalCellsUnary, _dyadicUnary, streamWindowsUnary,
+    readbacksUnary, _sealsUnary, _nameCertUnary, _rationalCellsRoute, _endpointRoute,
+    _transportRoute, _routesRoute, _provenanceRoute, _endpointPkg⟩ := packet
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed streamWindowsUnary readbacksUnary readbackRoute
+  exact
+    ⟨lowerUnary, upperUnary, streamWindowsUnary, readbacksUnary, readbackUnary,
+      readbackRoute, readbackPkg⟩
+
 end BEDC.Derived.LocatedIntervalUp

@@ -28,6 +28,7 @@ Launch (in main checkout, daemon-style):
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -126,6 +127,106 @@ If the duplication is intentional (e.g. both theorems serve documented different
 """
 
 
+HEAL_STUCK_DIRT_PROMPT = """You are healing a stuck working tree on the BEDC `codex-auto-dev` branch.
+
+The main checkout has had the same set of tracked modifications for __TICKS__ consecutive heal cycles (__MINUTES_TOTAL__ minutes total). This is NOT a human edit-in-progress — the dirt has not changed across two ticks. A daemon (paper_builder_daemon, sync_with_auto_dev, or a stray codex round that wrote to the main checkout instead of its worktree) left work uncommitted, and the dirt now blocks every other heal pathway (axiom-purity storm repair, dup-label repair, etc.).
+
+Your task: TRIAGE each modified file and bring the working tree back to a clean state, committing in pieces if the changes are genuinely-good work or `git checkout HEAD -- <file>` reverting if they are debris.
+
+**Modified files** (`git status --porcelain` output):
+
+```
+__PORCELAIN__
+```
+
+**Decision rules per file**:
+
+1. Inspect the diff with `git diff <file>`. If the change is a substantive addition (new theorem with proof, new chapter with NameCert obligations, new \\leanchecked marker matching a real Lean declaration), it is genuinely-good work — bundle related files (e.g., a Lean theorem + its paper-side \\leanchecked marker) into one commit with subject `auto-heal-stuck-dirt: <brief description>` and a 1-2 sentence body explaining what was recovered.
+
+2. If the change is a deletion or partial-revert (a `\\input{...}` line removed without the chapter file also being removed, a `\\newcommand{\\<X>Up}{...}` removed without the chapter file referencing it being removed), it is debris from a half-finished revert. Either complete the revert (delete the chapter file too if it's no longer referenced anywhere) OR restore the deleted line (`git checkout HEAD -- <file>`).
+
+3. If the change is a marker `\\leanchecked{<X>}` whose `<X>` does not resolve to a real Lean declaration in `lean4/BEDC/`, the marker is stale — `git checkout HEAD -- <file>`.
+
+4. For any file you cannot triage with confidence in under 5 minutes, run `git checkout HEAD -- <file>` to revert. The daemon will pick the work back up via normal pipeline rounds if it was real.
+
+**Verification before commit**:
+
+- `python3 lean4/scripts/bedc_ci.py audit` must pass (if you committed paper-side changes)
+- `cd lean4 && python3 scripts/lake_gate.py build` must pass (if you committed Lean-side changes)
+- After all decisions, `git status --porcelain` must be EMPTY (no tracked modifications). Untracked `??` files are tolerated.
+
+Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Make one or more commits with the `auto-heal-stuck-dirt:` subject prefix; multiple commits are fine if the dirt naturally splits into multiple coherent groups.
+
+Stop after the working tree is clean.
+"""
+
+
+def _read_stuck_dirt_state() -> tuple[int, frozenset[str]]:
+    """Read previous stuck-dirt tick count + file set from /tmp."""
+    try:
+        if not STUCK_DIRT_STATE_FILE.exists():
+            return 0, frozenset()
+        data = json.loads(STUCK_DIRT_STATE_FILE.read_text())
+        return int(data.get("count", 0)), frozenset(data.get("files", []))
+    except Exception:
+        return 0, frozenset()
+
+
+def _write_stuck_dirt_state(count: int, files: frozenset[str]) -> None:
+    """Persist stuck-dirt state so consecutive ticks can detect persistence."""
+    try:
+        STUCK_DIRT_STATE_FILE.write_text(json.dumps({
+            "count": count,
+            "files": sorted(files),
+        }))
+    except Exception as exc:
+        print(f"[heal] could not persist stuck-dirt state: {exc}", file=sys.stderr)
+
+
+def heal_stuck_dirt(blocking: list[str]) -> bool:
+    """Invoke codex to triage a stuck working tree.
+
+    `blocking` is the list of git-status-porcelain lines describing
+    modified-but-uncommitted tracked files. Codex inspects each diff,
+    decides commit-or-revert per file, and commits any recovered work
+    under `auto-heal-stuck-dirt:` subjects. Returns True iff codex made
+    progress (at least one commit OR the tree ended up clean)."""
+    head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    porcelain_str = "\n".join(blocking)
+    minutes_total = STUCK_DIRT_THRESHOLD_TICKS * 15
+    # `.format()` would collide with literal `{...}` braces in the
+    # LaTeX-laden prompt template; substitute manually with `.replace()`.
+    prompt = (
+        HEAL_STUCK_DIRT_PROMPT
+        .replace("__TICKS__", str(STUCK_DIRT_THRESHOLD_TICKS))
+        .replace("__MINUTES_TOTAL__", str(minutes_total))
+        .replace("__PORCELAIN__", porcelain_str)
+    )
+    rc = call_codex(prompt, timeout=1800)
+    head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    # Success criteria: commit OR clean tree.
+    if head_after != head_before:
+        return True
+    final_porcelain = git("status", "--porcelain", capture=True).stdout.strip()
+    # Filter same way we did at detection time
+    blocking_after = []
+    for raw in final_porcelain.splitlines():
+        if not raw or raw[:2] == "??":
+            continue
+        path = raw[3:] if len(raw) > 3 else ""
+        if path == ".pipeline_parallel.json":
+            continue
+        blocking_after.append(raw)
+    if not blocking_after:
+        return True
+    print(
+        f"[heal] stuck-dirt: codex made no commit (rc={rc}); "
+        f"{len(blocking_after)} file(s) still dirty",
+        file=sys.stderr,
+    )
+    return False
+
+
 def run(cmd, *, cwd=REPO_ROOT, check=True, capture=False, env=None, timeout=None):
     res = subprocess.run(
         cmd, cwd=cwd, env=env,
@@ -143,6 +244,14 @@ def git(*args, **kwargs):
 
 GATE_STORM_WINDOW_MINUTES = 30
 GATE_STORM_THRESHOLD = 5  # ≥5 rounds rejected by same gate in window = storm
+
+# Stuck-dirt threshold: after N consecutive ticks (~15min each) where
+# the same set of tracked files remains modified, treat the working
+# tree as stuck and invoke codex to triage each file (commit-or-revert).
+# 2 ticks ≈ 30 minutes; enough to ensure the dirt is not from an
+# in-progress edit but a daemon that crashed mid-way.
+STUCK_DIRT_THRESHOLD_TICKS = 2
+STUCK_DIRT_STATE_FILE = Path("/tmp/auto_heal_stuck_dirt_state.json")
 LEAN_ORCH_LOG = REPO_ROOT / "lean4" / "scripts" / "logs" / "orchestrator.log"
 PAPER_ORCH_LOG = REPO_ROOT / "papers" / "bedc" / "scripts" / "logs" / "orchestrator.log"
 
@@ -182,6 +291,106 @@ GATE_PATTERNS = [
      r"OVERSIZED \.TEX:.*exceeds cap",
      r"\[(P\d+)\]"),
 ]
+
+
+HEAL_PROPEXT_PROMPT = """You are healing a `propext`-axiom dependency in a BEDC Lean theorem on the codex-auto-dev branch.
+
+`bedc_ci.py axiom-purity --strict` reports that the following theorem depends on `propext`, which is forbidden by BEDC's 0-axiom rule (constructive CIC only, no LEM / Quot.sound / propext):
+
+```
+__THEOREM__ -> propext
+```
+
+This is the **propext trap** previously hit and documented in commit `fcd515ed95` (around v5.17): typeclass projection equality (e.g. `BHistCarrier.fromEventFlow X = Y`) and similar typeclass field accesses unfold via `propext` when the instance is resolved at use-site. The pattern that triggers it is referencing `<TypeClass>.<field>` from another theorem's proof body without first concretising the resolution.
+
+Your task: rewrite the offending theorem (or its dependencies) so the proof uses concrete defs / explicit instance bodies instead of typeclass projections.
+
+**Recipe** (from the v5.17 fix):
+
+1. Read the offending theorem source: `git grep -n "__THEOREM__"` to locate the file. The theorem is usually under `lean4/BEDC/Derived/<X>Up/` or `lean4/BEDC/Derived/<X>Up.lean`.
+
+2. Identify the typeclass projection in the proof body. Common offenders:
+   - `BHistCarrier.fromEventFlow` / `.toEventFlow` (the `BHistCarrier` typeclass)
+   - `ChapterTasteGate.round_trip` / `.layer_separation`
+   - `FieldFaithful.field_faithful` / `.fields` (newly added 2026-05-13)
+   - `Nontrivial.witness_pair` (newly added 2026-05-13)
+   - `StructurallyAtomic.nearest_siblings`
+
+3. Replace each typeclass projection with a CONCRETE `def` or `theorem` reference. The chapter usually already has a `private` or top-level non-typeclass version of the same fact — e.g., `cauchySealBudgetSynchronizer_round_trip` exists as a non-typeclass theorem, and `ChapterTasteGate.round_trip` typeclass field is `:= cauchySealBudgetSynchronizer_round_trip` internally. Use the concrete name in the proof body, not the typeclass projection.
+
+4. If the chapter only has the typeclass projection and no concrete counterpart, lift a private `def`:
+
+```lean
+private def <slug>_field_faithful_concrete :
+    ∀ (x y : <X>Up), FieldFaithful.fields x = FieldFaithful.fields y → x = y :=
+  fun x y h => by
+    -- inline proof here, not `exact FieldFaithful.field_faithful`
+    ...
+
+-- then in the offending theorem
+exact <slug>_field_faithful_concrete
+```
+
+5. Verify the fix: `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` reports `pure=N impure=0 forbidden=...` with the offending theorem no longer listed.
+
+6. Also verify lake build: `cd lean4 && python3 scripts/lake_gate.py build` exits 0.
+
+7. Commit with subject `auto-heal-propext: <slug> <field-name>` and a short body identifying which typeclass projection was concretised.
+
+Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after axiom-purity --strict passes.
+"""
+
+
+def detect_propext_violations_from_log() -> list[str]:
+    """Parse the orchestrator log tail for `<theorem> -> propext` lines.
+
+    The lean orchestrator logs the full `[bedc-ci] axiom-purity FAIL`
+    output when an R-round hits the pre-merge axiom-purity gate. This
+    parser pulls the theorem names from those log entries without
+    re-running the (~60s) audit script.
+
+    Only consulted when `detect_gate_storms()` reports an
+    `axiom-purity --strict` storm — i.e., when the pipeline has
+    already surfaced the failure. Passive consumption, not active
+    polling."""
+    try:
+        size = LEAN_ORCH_LOG.stat().st_size
+        with LEAN_ORCH_LOG.open("rb") as f:
+            if size > 4 * 1024 * 1024:
+                f.seek(size - 4 * 1024 * 1024)
+            tail = f.read().decode("utf-8", errors="ignore")
+    except Exception:
+        return []
+    violations: list[str] = []
+    for line in tail.splitlines():
+        s = line.strip()
+        if " -> propext" not in s:
+            continue
+        name = s.split(" -> propext", 1)[0].strip()
+        if name and name not in violations:
+            violations.append(name)
+    return violations
+
+
+def heal_propext_violations(violations: list[str]) -> bool:
+    """Invoke codex once per violation to concretise the typeclass
+    projection. Returns True iff at least one violation was committed."""
+    head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    healed_any = False
+    for thm in violations[:3]:  # cap 3 per cycle so a bad fix can't loop
+        prompt = HEAL_PROPEXT_PROMPT.replace("__THEOREM__", thm)
+        before = git("rev-parse", "HEAD", capture=True).stdout.strip()
+        rc = call_codex(prompt, timeout=1800)
+        after = git("rev-parse", "HEAD", capture=True).stdout.strip()
+        if after != before:
+            healed_any = True
+            print(f"[heal] propext: codex healed {thm}", flush=True)
+        else:
+            print(
+                f"[heal] propext: codex made no commit for {thm} (rc={rc})",
+                file=sys.stderr,
+            )
+    return healed_any
 
 
 def detect_gate_storms() -> list[dict]:
@@ -360,13 +569,11 @@ def cycle() -> None:
         print(f"[heal] not on {BASE_BRANCH} (on {cur}); skipping cycle",
               file=sys.stderr)
         return
-    # Skip if working tree has TRACKED modifications (don't fight a human
-    # edit). Untracked files (`?? path`) are tolerated — `_mcp_snippet_*`
-    # temp files and similar tooling debris accumulate in the main checkout
-    # and would otherwise lock the daemon out forever.
-    # `.pipeline_parallel.json` is also tolerated because the autotune
-    # daemon rewrites it every 300s — racing isn't a corruption risk for
-    # the heal flow (codex never touches that file).
+    # Skip if working tree has TRACKED modifications, UNLESS the same
+    # dirt has been stuck for ≥ STUCK_DIRT_THRESHOLD_TICKS consecutive
+    # cycles. Untracked files (`?? path`) are tolerated.
+    # `.pipeline_parallel.json` is also tolerated (autotune rewrites
+    # every 300s; codex never touches it).
     porcelain = git("status", "--porcelain", capture=True).stdout
     blocking = []
     for raw in porcelain.splitlines():
@@ -380,11 +587,44 @@ def cycle() -> None:
             continue
         blocking.append(raw)
     if blocking:
-        print(f"[heal] working tree has {len(blocking)} tracked modification(s); skipping cycle",
-              file=sys.stderr)
-        for b in blocking[:3]:
-            print(f"[heal]   {b}", file=sys.stderr)
-        return
+        # Check if same dirt has been stuck across consecutive ticks.
+        # If so, invoke codex to triage (commit-or-revert each file).
+        dirt_set = frozenset(blocking)
+        stuck_count, prev_set = _read_stuck_dirt_state()
+        if dirt_set == prev_set:
+            stuck_count += 1
+        else:
+            stuck_count = 1
+        _write_stuck_dirt_state(stuck_count, dirt_set)
+
+        if stuck_count >= STUCK_DIRT_THRESHOLD_TICKS:
+            print(f"[heal] working tree dirt stuck for {stuck_count} tick(s); "
+                  f"invoking codex to triage {len(blocking)} file(s)",
+                  file=sys.stderr)
+            for b in blocking[:5]:
+                print(f"[heal]   {b}", file=sys.stderr)
+            if heal_stuck_dirt(blocking):
+                if push_to_origin():
+                    print("[heal] codex resolved stuck dirt + pushed", flush=True)
+                else:
+                    print("[heal] codex resolved stuck dirt; push failed (retry next tick)",
+                          flush=True)
+                _write_stuck_dirt_state(0, frozenset())
+                return
+            else:
+                print(f"[heal] codex could not resolve stuck dirt; "
+                      f"will retry next tick", file=sys.stderr)
+                return
+        else:
+            print(f"[heal] working tree has {len(blocking)} tracked modification(s); "
+                  f"skipping cycle (stuck tick {stuck_count}/{STUCK_DIRT_THRESHOLD_TICKS})",
+                  file=sys.stderr)
+            for b in blocking[:3]:
+                print(f"[heal]   {b}", file=sys.stderr)
+            return
+    else:
+        # Tree clean; reset stuck-dirt counter.
+        _write_stuck_dirt_state(0, frozenset())
     # Fetch and try ff.
     run(["git", "fetch", "origin", BASE_BRANCH], check=False, timeout=60)
     run(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
@@ -417,11 +657,30 @@ def cycle() -> None:
         print(f"[heal]   {s['side']}-side '{s['gate']}': {s['count']} rounds in 30min",
               flush=True)
     # Heal the worst one this cycle (next cycle picks up the next if codex's
-    # prompt fix actually drained the top storm).
+    # fix actually drained the top storm).
     top = storms[0]
     print(f"[heal] healing top storm: {top['gate']} ({top['count']} rounds)",
           flush=True)
-    if heal_gate_storm(top):
+    # Route by storm gate name: content-level failures (propext) get
+    # the focused per-theorem heal; everything else falls through to the
+    # generic prompt-fix heal.
+    healed = False
+    if "axiom-purity --strict" in top["gate"]:
+        propext_v = detect_propext_violations_from_log()
+        if propext_v:
+            print(f"[heal] axiom-purity storm: {len(propext_v)} propext violation(s) "
+                  f"parsed from log; invoking codex per-theorem", flush=True)
+            for v in propext_v[:5]:
+                print(f"[heal]   {v}", flush=True)
+            healed = heal_propext_violations(propext_v)
+        else:
+            # Storm reported axiom-purity gate but log didn't contain
+            # `-> propext` lines — fall through to generic heal.
+            healed = heal_gate_storm(top)
+    else:
+        healed = heal_gate_storm(top)
+
+    if healed:
         if push_to_origin():
             print(f"[heal] codex committed + pushed (gate storm: {top['gate']})",
                   flush=True)

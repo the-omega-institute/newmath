@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\MultihistCouplingUp$}
+\label{ch:concrete-instances-multihistcoupling-namecert}
+\origin{ai}
+
+The $\MultihistCouplingUp$ packet realizes the paired-history coupling step in the Inter-Hist Locality chain of \autoref{ch:visions-inter-hist-locality}. It sits after the no-subject observer boundary of \autoref{ch:concrete-instances-observersubjectboundary-namecert}, the observer-history identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert}, the multi-history configuration carrier of \autoref{ch:concrete-instances-multihistconfig-namecert}, and the invariant readback packet of \autoref{ch:concrete-instances-interhistinvariant-namecert}. Its role is to expose a symmetric finite coupling ledger between two displayed histories before a $\CrossHistCausalUp$ consumer reads causal dependence or a rate packet reads a maximum boundary.
+
+\begin{definition}[MultiHistCoupling carrier]
+\label{def:multihist-coupling-carrier}
+A $\MultihistCouplingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(H_0,H_1,J,S,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_0$ and $H_1$ are paired $\BHist$ rows read from the same $\MultiHistConfigUp$ surface, with the no-subject boundary inherited from $\ObserverSubjectBoundaryUp$ and the identity-facing read inherited from $\ObserverHistIdentityUp$;
+\item $J$ is the finite coupling ledger that records the two directed reads $H_0 \to H_1$ and $H_1 \to H_0$ as one symmetric coupling packet;
+\item $S$ is the observer-symmetry witness, stating that the coupling ledger is not oriented by a privileged observer, global frame, synchronized clock, or subject-substance coordinate;
+\item $T$ stores componentwise $\hsame$ transport for the two $\BHist$ rows and displayed $\psame$ transport for the probe and signature rows used by the coupling ledger;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $H_0$, reads $H_1$, checks $J$, replays $S$, and transports the same coupling packet through $T$;
+\item $P$ is the $\Pkg$ provenance over $\MultihistCouplingUp$, $\ObserverSubjectBoundaryUp$, $\ObserverHistIdentityUp$, $\MultiHistConfigUp$, $\InterHistInvariantUp$, $\CrossHistCausalUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MultihistCouplingUp}$ row.
+\end{enumerate}
+The carrier exports no global observer frame, no host equality of histories, no quotient of history pairs, no subject-substance coordinate, and no causal-dependence row outside the displayed coupling ledger.
+\end{definition}
+
+\begin{theorem}[MultiHistCoupling NameCert obligations]
+\label{thm:multihist-coupling-namecert-obligations}
+For the carrier of \autoref{def:multihist-coupling-carrier}, the local $\NameCert_{\MultihistCouplingUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $K=(H_0,H_1,J,S,T,C,P,N)$;
+\item paired-history source exactness, requiring $H_0$ and $H_1$ to be read from the displayed $\MultiHistConfigUp$ row after the no-subject boundary and observer-history identity surfaces are available;
+\item symmetric coupling ledger exactness, requiring $J$ and $S$ to expose both coupling directions without privileging either observer history;
+\item transport stability through componentwise $\hsame$, displayed $\psame$, and replay of the listed $\Cont$ routes in $T,C$;
+\item non-escape, excluding global frames, synchronized clocks, host history equality, quotient pairs, subject-substance rows, and any causal-dependence read not routed through $H_0,H_1,J,S,T,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:multihist-coupling-carrier}. The tuple lists the paired histories, coupling ledger, symmetry witness, transports, continuation routes, provenance, and local name.
+
+The source rows are consumed from the sibling surfaces. The no-subject boundary of \autoref{ch:concrete-instances-observersubjectboundary-namecert} prevents a hidden observer-substance coordinate, \autoref{ch:concrete-instances-observerhistidentity-namecert} supplies the observer-history identity read, and \autoref{ch:concrete-instances-multihistconfig-namecert} supplies the common finite multi-history configuration.
+
+The ledger rows $J$ and $S$ then make the coupling symmetric. They record both directed reads as one packet and refuse any global-frame or privileged-observer orientation.
+
+Finally $T,C,P,N$ replay, transport, package, and name the same finite rows. Since the carrier contains no coordinate for a host equality, quotient pair, subject-substance row, or external causal predicate, the five obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[MultiHistCoupling invariant handoff]
+\label{thm:multihist-coupling-invariant-handoff}
+Every accepted $\MultihistCouplingUp$ carrier
+$$
+K=(H_0,H_1,J,S,T,C,P,N)
+$$
+hands an $\InterHistInvariantUp$ or $\CrossHistCausalUp$ consumer exactly the paired-history rows, symmetric coupling ledger, observer-symmetry witness, $\hsame$ and $\psame$ transports, displayed $\Cont$ routes, package provenance, and local naming row. The consumer receives no global frame, no host equality of histories, no quotient pair, and no causal-dependence coordinate outside the displayed coupling packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed tuple. The only history rows available to the consumer are $H_0$ and $H_1$, and the only coupling row available between them is $J$ with the symmetry witness $S$.
+
+Apply the local NameCert obligations of \autoref{thm:multihist-coupling-namecert-obligations}. Paired-history source exactness fixes the upstream configuration and observer-boundary reads, while symmetric coupling ledger exactness fixes the two directed reads as one finite coupling surface.
+
+The invariant consumer of \autoref{ch:concrete-instances-interhistinvariant-namecert} may therefore read the paired histories through $J,S,T,C,P,N$. A $\CrossHistCausalUp$ consumer may use that same finite route as its input surface, but any additional causal-dependence row must be displayed by the downstream causal packet rather than projected from this carrier.
+\end{proof}
+
+\begin{theorem}[MultiHistCoupling TasteGate obligation]
+\label{thm:multihist-coupling-tastegate-obligation}
+The later Lean \texttt{Derived/MultiHistCouplingUp/TasteGate.lean} development must provide explicit $\mathsf{Nontrivial}\ \MultihistCouplingUp$ and $\mathsf{FieldFaithful}\ \MultihistCouplingUp$ instances. These instances must preserve the two paired $\BHist$ rows, symmetric coupling ledger, observer-symmetry witness, $\hsame$ and $\psame$ transports, displayed $\Cont$ routes, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+The packet is not determined by either single history alone. It contains two history rows and a separate symmetric coupling ledger between them.
+
+Nontriviality prevents collapse of $H_0$, $H_1$, and $J$ into one indistinguishable row. Field faithfulness is the projection discipline for $K=(H_0,H_1,J,S,T,C,P,N)$, preserving each displayed coordinate and keeping the coupling ledger distinct from the sibling no-subject, identity, configuration, invariant, and causal-dependence surfaces.
+\end{proof}
+
+\falsifiablePrediction{If the coupling row is omitted, no CrossHistCausalUp consumer can read the paired histories through a symmetric finite route.}
+
+\independenceWitness{observerhistidentity, observersubjectboundary, multihistconfig, interhistinvariant, crosshistcausal: MultiHistCouplingUp is not bijective to any of them because it contains both paired-history rows and a symmetric coupling ledger; each sibling lacks either the paired coupling row, the no-subject boundary, the invariant output row, or the causal-dependence row.}
+
+\closureat{MultiHistCouplingUp}{seedStr}
+
+\begin{closurestatus}{\MultihistCouplingUp}
+  \constructivestory{A $\MultihistCouplingUp$ packet is generated from two paired $\BHist$ rows, a symmetric coupling ledger, an observer-symmetry witness, componentwise $\hsame$ and displayed $\psame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:multihist-coupling-carrier}, \autoref{thm:multihist-coupling-namecert-obligations}, \autoref{thm:multihist-coupling-invariant-handoff}, and \autoref{thm:multihist-coupling-tastegate-obligation} specify the finite paired-history coupling packet, its NameCert obligations, downstream handoff, and TasteGate instance surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close CrossHistCausalUp dependence, MaxCausalRateUp bounds, Lorentz geometry, global frames, quotient history equality, Lean verification, or bridge checking for $\MultihistCouplingUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired-history source exactness, symmetric coupling exactness, transport stability, non-escape, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

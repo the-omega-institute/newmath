@@ -1,0 +1,95 @@
+\begin{theorem}[CauchyProduct budgeted root source triple]
+\label{thm:cauchy-product-budgeted-root-source-triple}
+For every accepted $\CauchyProductUp$ packet, the two $\RegularCauchyNameUp$ source rows, the paired $\StreamNameUp$ finite-window rows, and the $\DyadicRatCoreUp$ radius and observation rows form the admitted root source triple for the product classifier. The triple is the finite $\BHist$ route
+$$
+(X,Y),\quad (W_X,W_Y),\quad (M_X,M_Y,Q_X,Q_Y)
+$$
+inside the packet
+$$
+Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N),
+$$
+and it reaches the product row and $\RegSeqRatUp$ classifier only through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\CauchyProductUp}$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-namecert-source}. Its displayed coordinates put the two regular Cauchy source rows, the paired windows, and the dyadic radius and observation rows in one finite packet before the product row $P$ and classifier row $E$ are read.
+
+Apply the root source admission of \autoref{thm:cauchy-product-root-source-admission} and the root source window totality of \autoref{thm:cauchy-product-root-source-window-totality}. These rows force every product read to enter through the two source rows and the paired StreamName windows.
+
+Now use the root budget product lock of \autoref{thm:cauchy-product-root-budget-product-lock}. The dyadic observations and radius rows are the budgeted route into $P$ and $E$, while $H,C,L,N$ carry the displayed transport, continuation, package, and local naming evidence. Coordinate exhaustion leaves no second source route.
+\end{proof}
+
+\begin{theorem}[CauchyProduct window-budget NameCert ledger]
+\label{thm:cauchy-product-window-budget-namecert-ledger}
+For an accepted $\CauchyProductUp$ packet feeding a product observation into $\RegSeqRatUp$, the finite window-budget ledger is the only $\NameCert_{\CauchyProductUp}$ ledger available to that observation. It is the displayed inventory
+$$
+W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,L,H,C,N
+$$
+together with the $\RegSeqRatUp$ classifier row $E$ and, when a $\RealObservationBudgetUp$ packet consumes the read, the budget rows
+$$
+E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B.
+$$
+No separate ledger can feed the product observation into $\RegSeqRatUp$.
+\end{theorem}
+\begin{proof}
+First read the product ledger through \autoref{thm:cauchy-product-ledger-obligation}. It binds the radius rows, product row, transport rows, continuation rows, package provenance, and local naming row as one finite accounting surface.
+
+Next apply the window-budget composition surface of \autoref{thm:cauchy-product-window-budget-composition-surface}. This identifies the path from paired StreamName windows and DyadicRatCore rows to the $\RegSeqRatUp$ classifier $E$ as a single finite route.
+
+Finally use the budgeted product consumer boundary of \autoref{thm:cauchy-product-budget-product-consumer-boundary}. If a budget packet is present, it adds only the displayed budget rows, and those rows read the same product ledger. Thus the NameCert ledger feeding the RegSeqRat observation is exactly the stated inventory.
+\end{proof}
+
+\begin{theorem}[CauchyProduct Real seal root consumer boundary]
+\label{thm:cauchy-product-real-seal-root-consumer-boundary}
+Every $\RealUp$-facing product seal read of an accepted $\CauchyProductUp$ packet factors through the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the root package. The consumer boundary is the finite route from the two source rows through the paired windows, dyadic radius and observation rows, product row, ledger, classifier row, and seal handoff; it does not pass through host multiplication, quotient streams, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the budgeted root source triple of \autoref{thm:cauchy-product-budgeted-root-source-triple}. It fixes the source, window, radius, and dyadic observation rows before the product row and classifier can be inspected.
+
+Use the window-budget NameCert ledger of \autoref{thm:cauchy-product-window-budget-namecert-ledger}. The ledger identifies the exact route through $P,L,H,C,N$ and, when present, through the observation-budget rows feeding the same classifier.
+
+Finally apply the Real seal root surface of \autoref{thm:cauchy-product-real-seal-root-unblock-surface} together with the budget-triangle Real seal exhaustion of \autoref{thm:cauchy-product-budget-triangle-real-seal-exhaustion}. These theorems place every real-facing product seal behind the same finite product and budget rows, so host multiplication, quotient streams, selected limits, and ambient completeness have no consumer coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyProduct root Real seal factorization]
+\label{thm:cauchy-product-root-real-seal-factorization}
+Every $\RealUp$ seal read that consumes an accepted $\CauchyProductUp$ packet factors through the two $\RegularCauchyNameUp$ source rows, the paired $\StreamNameUp$ finite-window rows, the dyadic radius and readback rows, the product row, the $\RegSeqRatUp$ classifier row, and the local $\NameCert_{\CauchyProductUp}$ rows. In $\BHist$ coordinates the read is routed through
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N,
+$$
+with each transport witnessed by the displayed $\hsame$ rows, each admissible continuation witnessed by the displayed $\Cont$ rows, and each package handoff witnessed by the displayed $\Pkg$ and $\NameCert$ rows. No $\RealUp$ consumer obtains a separate seal factor outside this finite route.
+\end{theorem}
+\begin{proof}
+Start from the budgeted root source triple of \autoref{thm:cauchy-product-budgeted-root-source-triple}. It supplies the two regular Cauchy sources, the paired finite windows, and the dyadic budget rows before the product and classifier rows can be inspected.
+
+Use the window-budget NameCert ledger of \autoref{thm:cauchy-product-window-budget-namecert-ledger}. The ledger binds $P,E,H,C,L,N$ to the same finite route and records the local NameCert evidence for the product observation.
+
+Finally apply the Real seal root consumer boundary of \autoref{thm:cauchy-product-real-seal-root-consumer-boundary}. Since that boundary admits only the displayed root package rows for real-facing seal reads, the factorization is exactly the stated $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+\end{proof}
+
+\begin{theorem}[CauchyProduct root RegSeqRat classifier lock]
+\label{thm:cauchy-product-root-regseqrat-classifier-lock}
+For every accepted $\CauchyProductUp$ packet, the $\RegSeqRatUp$ classifier input used by a product consumer is locked to the paired-window and dyadic-budget route
+$$
+(W_X,W_Y,M_X,M_Y,Q_X,Q_Y)\longrightarrow P\longrightarrow E.
+$$
+The classifier row $E$ may read the two regular Cauchy source rows only through the displayed paired $\StreamNameUp$ windows, dyadic radius rows, dyadic readback rows, product row, $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert_{\CauchyProductUp}$ ledger. It cannot be fed by an alternate product stream, quotient representative, ambient multiplication operation, or selected limit.
+\end{theorem}
+\begin{proof}
+The budgeted root source triple in \autoref{thm:cauchy-product-budgeted-root-source-triple} identifies the only source, window, and dyadic budget coordinates available before $P$ and $E$ are formed.
+
+The window-budget NameCert ledger of \autoref{thm:cauchy-product-window-budget-namecert-ledger} then ties those coordinates to the product row and classifier row as one local accounting surface. Any classifier input that omits this ledger has no $\NameCert_{\CauchyProductUp}$ row in the packet.
+
+The Real seal root consumer boundary of \autoref{thm:cauchy-product-real-seal-root-consumer-boundary} excludes all non-root analytic routes at the consumer edge. Therefore the $\RegSeqRatUp$ classifier input is locked to the displayed paired-window and dyadic-budget route.
+\end{proof}
+
+\begin{theorem}[CauchyProduct root completion non-escape]
+\label{thm:cauchy-product-root-completion-nonescape}
+Every completion-facing product consumer of an accepted $\CauchyProductUp$ packet remains inside the finite root package route. In particular, the consumer may use only the two regular Cauchy source rows, paired windows, dyadic radius and readback rows, product row, $\RegSeqRatUp$ classifier row, $\BHist$ route, $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert_{\CauchyProductUp}$ rows displayed in the packet. Host multiplication, quotient streams, selected limits, and ambient completeness are not available as consumer witnesses for the product seal.
+\end{theorem}
+\begin{proof}
+Apply the budgeted root source triple of \autoref{thm:cauchy-product-budgeted-root-source-triple}. It places every product consumer behind the two source rows, paired windows, and dyadic budget rows.
+
+Apply the window-budget NameCert ledger of \autoref{thm:cauchy-product-window-budget-namecert-ledger}. The ledger shows that the product observation and $\RegSeqRatUp$ classifier share the same finite $\BHist$ route, transport rows, continuation rows, package provenance, and local naming row.
+
+Apply the Real seal root consumer boundary of \autoref{thm:cauchy-product-real-seal-root-consumer-boundary}. That boundary already denies host multiplication, quotient streams, selected limits, and ambient completeness at the real-facing seal edge, so a completion-facing consumer has no remaining route by which to escape the displayed root package.
+\end{proof}
