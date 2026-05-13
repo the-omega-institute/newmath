@@ -48,6 +48,19 @@ Use $T$ to admit the corresponding dyadic tail or diagonal row. The row records 
 Finally read $E$ before consuming $R$. Since $E$ is a $\FiniteErrorBudgetUp$ ledger, the downstream bound is the displayed dyadic accounting row over the chosen tolerance and not an external inequality in a host real structure.
 \end{proof}
 
+\begin{theorem}[CauchyErrorCertificate budget handoff closure]
+\label{thm:cauchy-error-certificate-budget-handoff-closure}
+Let $C=(R,M,T,E,P,N)$ be an accepted $\CauchyErrorCertificateUp$ packet. If the budget row $E$ is transported to a classifier-equivalent budget row $E'$, and if the displayed $\Cont$ routes $M \to T \to E'$ and $R \to E' \to P$ are supplied, then the transported tuple $(R,M,T,E',P,N)$ is again an accepted $\CauchyErrorCertificateUp$ packet over the same readback, modulus, tail, provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:cauchy-error-certificate-carrier}. The accepted packet supplies unary admissibility for $R,M,T,E,P,N$, the original budget-facing routes, the $\BHist$ packet, the $\Pkg$ provenance, and the local naming row.
+
+Transport only the budget admissibility along the displayed $\hsame$ comparison from $E$ to $E'$. The readback, modulus, tail, provenance, and local $\NameCert$ rows remain the same coordinates of the packet.
+
+Finally replace the two budget-facing continuation routes by the supplied routes $M \to T \to E'$ and $R \to E' \to P$. Repacking the unchanged $\BHist$, $\Pkg$, and $\NameCert$ provenance with the transported budget row yields the accepted tuple $(R,M,T,E',P,N)$.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyErrorCertificateUp.CauchyErrorCertificatePacket\_budget\_handoff\_closure}
+
 \begin{theorem}[CauchyErrorCertificate non-escape boundary]
 \label{thm:cauchy-error-certificate-non-escape-boundary}
 An accepted $\CauchyErrorCertificateUp$ carrier exports only its displayed readback route, unary precision modulus, dyadic tail or diagonal packet, finite error-budget ledger, package provenance, local naming row, and the attached $\mathsf{BHist}$, $\hsame$, and $\Cont$ transport. It exports no quotient stream equality, no selected host limit, no ambient completeness theorem, and no host real equality assertion.
