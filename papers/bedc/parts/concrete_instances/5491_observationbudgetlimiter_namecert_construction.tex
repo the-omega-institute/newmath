@@ -359,11 +359,12 @@ The follow-up Lean TasteGate for this chapter must provide \texttt{Nontrivial Ob
 
 \begin{closurestatus}{\ObservationBudgetLimiterUp}
   \constructivestory{An $\ObservationBudgetLimiterUp$ packet is generated from a finite request row, observation-budget row, budget-cap row, finite StreamName window ledger, DyadicRatCore observation ledger, RegSeqRat readback row, RealUp seal row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observation-budget-limiter-carrier}, \autoref{thm:observation-budget-limiter-namecert-obligations}, \autoref{thm:observation-budget-limiter-cap-admission}, \autoref{thm:observation-budget-limiter-seal-ordering}, \autoref{thm:observation-budget-limiter-capped-window-transport}, \autoref{thm:observation-budget-limiter-budget-monotonicity}, \autoref{thm:observation-budget-limiter-window-nonescape}, and \autoref{thm:observation-budget-limiter-vision-handoff} bind finite request caps before StreamName, RegSeqRat, and RealUp seal reads.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:observation-budget-limiter-carrier}, \autoref{thm:observation-budget-limiter-namecert-obligations}, \autoref{thm:observation-budget-limiter-cap-admission}, \autoref{thm:observation-budget-limiter-seal-ordering}, \autoref{thm:observation-budget-limiter-capped-window-transport}, \autoref{thm:observation-budget-limiter-budget-monotonicity}, \autoref{thm:observation-budget-limiter-window-nonescape}, \autoref{thm:observation-budget-limiter-vision-handoff}, \autoref{thm:observation-budget-limiter-obligation-closure-package}, \autoref{thm:observation-budget-limiter-selector-compatibility}, \autoref{thm:observation-budget-limiter-cauchy-tail-budget-factorization}, and \autoref{thm:observation-budget-limiter-service-triad-coverage} bind finite request caps, NameCert rows, selector compatibility, Cauchy tail-budget factorization, and service-triad coverage before StreamName, RegSeqRat, and RealUp seal reads.}
   \formalstatus{\unformalizedV}
+  \leanchecked{BEDC.Derived.ObservationBudgetLimiterUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, Real completeness, quotient streams, host real equality, selected limits, trichotomy, independent real carriers, or ambient completeness.}
-  \upgradepath{Obligation closure requires binding the cap admission, seal-ordering, and capped-window transport rows to the primitive scope and checked TasteGate surface of the same finite limiter packet.}
+  \upgradepath{Scoped closure requires binding these obligation rows explicitly to the BHist, hsame, Cont, Pkg, NameCert, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp primitive scopes.}
 \end{closurestatus}
