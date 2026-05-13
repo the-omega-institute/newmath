@@ -83,6 +83,61 @@ Apply the observation-gate theorem. Any $\RealUp$ consumer must first pass throu
 The excluded analytic objects have no coordinate in the packet. Since the route contains only finite carrier rows, componentwise transports, displayed continuations, package provenance, and a local naming row, the seal cannot export quotient equality, a selected limit, countable choice, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail-budget window-budget compatibility]
+\label{thm:regular-cauchy-tail-budget-window-budget-compatibility}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. Every served $\StreamNameUp$ window row in $W$ and every $\DyadicRatCoreUp$ ledger row in $D$ is admitted through the same $\ObservationBudgetLimiterUp$ row $O$ and the same tail-threshold row $T$. Thus the finite window service and the dyadic observation ledger share the single budgeted route
+$$
+R \longmapsto T \longmapsto O \longmapsto W \longmapsto D.
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows available for tail threshold, observation budget, window service, and dyadic observation are $T,O,W,D$.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-observation-gate}. It places every $\StreamNameUp$ and $\DyadicRatCoreUp$ consumer read after $R,T,O$ and before the readback and seal rows.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-seal-nonescape} to exclude a second observation channel. Since no quotient stream, selected host limit, host real equality, countable-choice selector, or ambient completeness row exists in the packet, the served windows and dyadic observations can only be read through the displayed $T,O$ budget route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget readback factorization]
+\label{thm:regular-cauchy-tail-budget-readback-factorization}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. The $\RegSeqRatUp$ readback row $Q$ factors through the finite chain
+$$
+R \longmapsto T \longmapsto O \longmapsto W \longmapsto D \longmapsto Q,
+$$
+with $H$ transporting the component rows, $C$ displaying the continuation routes, $P$ recording package provenance, and $N$ certifying the local name for that same chain.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-tail-budget-namecert-obligations}. It identifies $Q$ as the regular readback row assembled from the displayed tail threshold, finite windows, and dyadic observations.
+
+Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility} for the middle service. The rows $W$ and $D$ have already passed through the same $T,O$ budget route before $Q$ can be read.
+
+Finally read the structural rows. The transports in $H$, the continuations in $C$, the provenance row $P$, and the local name $N$ authenticate the same $R,T,O,W,D,Q$ factorization and provide no separate readback service.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget completion boundary]
+\label{thm:regular-cauchy-tail-budget-completion-boundary}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyTailBudgetUp$ packet may read the seal row $S$ only as the finite budgeted readback boundary
+$$
+R \longmapsto T \longmapsto O \longmapsto W \longmapsto D \longmapsto Q \longmapsto S,
+$$
+together with the displayed $H,C,P,N$ rows. The consumer receives no quotient stream, no selected host limit, no countable-choice selector, no host real equality, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization}. It makes the readback row $Q$ a finite factor through the source, tail threshold, budget limiter, windows, and dyadic ledger.
+
+Then apply \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. The seal row is available only after that readback route has been consumed, and the excluded analytic objects have no carrier coordinate.
+
+The displayed rows $H,C,P,N$ record transport, continuation, provenance, and naming for the same boundary. Hence a completion-facing consumer can consume $S$ as this finite budgeted handoff and not as a Real-completeness theorem.
+\end{proof}
+
 The Lean TasteGate.lean contract for this chapter requires \texttt{Nontrivial RegularCauchyTailBudgetUp} and \texttt{FieldFaithful RegularCauchyTailBudgetUp} instances whose witnesses include an explicit \texttt{witness\_pair} and constructor-field injection proofs for the regular source, tail threshold, observation budget, finite windows, dyadic observations, regular readback, seal, transport, continuation, package, and local naming fields.
 
 \closureat{RegularCauchyTailBudgetUp}{seedStr}
