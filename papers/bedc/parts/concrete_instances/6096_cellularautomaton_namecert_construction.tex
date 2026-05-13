@@ -60,6 +60,46 @@ Apply \autoref{thm:cellular-automaton-namecert-obligations}. A pattern tag or ce
 The non-escape claim is finite-route inspection. The continuation routes $C$ have no edge to an unbounded time domain, a host evaluator, quotient stream equality, or an external induction rule. The provenance and local naming rows $P,N$ therefore certify only the displayed closed-observation segment.
 \end{proof}
 
+\begin{theorem}[CellularAutomaton local rule exposure]
+\label{thm:cellular-automaton-local-rule-exposure}
+Every accepted $\CellularAutomatonUp$ read first exposes the local rule row $R$ and the initial row $I$ before any orbit, pattern tag, Rule~110 boundary, transport, continuation, provenance, or local naming row can be consumed. The read therefore cannot start from a host cellular evaluator, an implicit rule convention, or an unrecorded initial configuration.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cellular-automaton-namecert-carrier}. The first two cellular coordinates are exactly the local rule table $R$ and the initial row $I$.
+
+Apply the NameCert obligations of \autoref{thm:cellular-automaton-namecert-obligations}. Orbit exposure, pattern tags, observation-ledger replay, transport, route replay, package provenance, and local naming are all accepted only as rows of the displayed packet.
+
+Finally use the closed-observation boundary of \autoref{thm:cellular-automaton-rule110-closed-observation}. Since every Rule~110-facing read factors through $R,I,O,T,L,H,C,P,N$, no accepted route can bypass $R$ and $I$.
+\end{proof}
+
+\begin{theorem}[CellularAutomaton accepted-window exhaustion]
+\label{thm:cellular-automaton-accepted-window-exhaustion}
+Every pattern-tag read exported by an accepted $\CellularAutomatonUp$ packet is exhausted by the finite orbit ledger $O$ and the observation ledger $L$. A consumer may classify only windows already displayed in $O$ and admitted by $L$; it obtains no hidden pattern catalog, all-time orbit stream, or detached Rule~110 observation row.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:cellular-automaton-namecert-carrier}. The only orbit-facing coordinate is $O$, and the only observation-admission coordinate is $L$.
+
+Apply \autoref{thm:cellular-automaton-namecert-obligations}. The classifier row $T$ names pattern tags only through the displayed orbit and observation rows, while $H,C,P,N$ preserve and replay the same finite packet.
+
+The closed-observation boundary of \autoref{thm:cellular-automaton-rule110-closed-observation} then excludes an unbounded orbit, host evaluator, quotient stream representative, or cellular oracle. Thus the accepted pattern-window surface is exactly the finite pair $O,L$ together with the displayed certificate rows.
+\end{proof}
+
+\begin{theorem}[CellularAutomaton finite-route non-escape]
+\label{thm:cellular-automaton-finite-route-nonescape}
+No Rule~110 consumer of an accepted $\CellularAutomatonUp$ packet can bypass
+$$
+R,I,O,T,L,H,C,P,N
+$$
+into an unbounded orbit, host evaluator, quotient stream, hidden pattern catalog, or detached cellular oracle. Every public Rule~110 read remains a finite route through the displayed local rule, initial row, orbit ledger, classifier, observation ledger, transport, continuation, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cellular-automaton-namecert-carrier}. Its coordinates list the complete accepted route $R,I,O,T,L,H,C,P,N$ and no additional cellular substrate coordinate.
+
+The local NameCert obligations of \autoref{thm:cellular-automaton-namecert-obligations} force each accepted read through the displayed rows. Rule-table accountability, initial-row accountability, finite orbit exposure, classifier replay, and observation-ledger replay leave no route to an external evaluator or hidden catalog.
+
+Finally apply \autoref{thm:cellular-automaton-rule110-closed-observation}. Rule~110-facing reads are closed observations of the finite packet, so unbounded or quotient-stream routes are outside the certificate.
+\end{proof}
+
 \begin{theorem}[CellularAutomaton rule-table exactness]
 \label{thm:cellular-automaton-rule-table-exactness}
 Every transition read exported by an accepted $\CellularAutomatonUp$ carrier is one displayed local rule-table row from $R$, transported by the componentwise $\hsame$ row $H$ and replayed through the continuation row $C$. The read cannot cite a host cellular evaluator, an implicit transition convention, or a rule entry absent from $R$.
