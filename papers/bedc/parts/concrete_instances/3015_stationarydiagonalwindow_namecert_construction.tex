@@ -76,12 +76,50 @@ The NameCert obligations identify the rows available to public consumers. The cl
 The finite-window exhaustion theorem then rules out any hidden observation path outside the displayed packet. Hence the public boundary is exactly the finite tuple named in the statement, with the excluded analytic objects absent from the carrier.
 \end{proof}
 
+\begin{theorem}[Stationary diagonal window carrier-source obligation]
+\label{thm:stationary-diagonal-window-carrier-source-obligation}
+For an accepted $\StationaryDiagonalWindowUp$ carrier, source admission is exactly projection of the rows
+$$
+Q,S,G,D,R,K,H,C,P,N
+$$
+over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The admission surface has no coordinate for quotient stream equality, host real equality, selected real limits, non-stationary tails, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stationary-diagonal-window-carrier}. Its displayed coordinates are precisely the rational seed row, stream-name window row, regular-rational readback row, dyadic ledger row, real-facing diagonal row, classifier row, transport row, continuation row, package row, and local naming row.
+
+The classifier-correspondence theorem and finite-window-exhaustion theorem show that every admitted mathematical read already passes through these displayed rows. The public-boundary theorem then identifies the consumer-facing boundary with the same tuple and excludes the quotient, host-equality, selected-limit, tail, and completeness coordinates named in the statement.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window classifier-stability obligation]
+\label{thm:stationary-diagonal-window-classifier-stability-obligation}
+For an accepted $\StationaryDiagonalWindowUp$ carrier, componentwise $\hsame$ transport through $H$ and the displayed $\Cont$ routes in $C$ preserve the three classifier faces recorded in $K$ on the same selected finite window. These routes cannot replace the classifier faces by parameter-equivalence transport or by an ambient real classifier outside the packet.
+\end{theorem}
+\begin{proof}
+Read the three classifier faces from $K$ in \autoref{def:stationary-diagonal-window-carrier}. The classifier-correspondence theorem places the rational, regular-rational, and real-facing reads on the same selected finite window.
+
+The row $H$ transports the displayed components only componentwise, and the row $C$ replays only the displayed continuation routes. By finite-window exhaustion and the public boundary theorem, there is no additional parameter-equivalence carrier or ambient real-classifier coordinate available to replace the three faces in $K$.
+\end{proof}
+
+\begin{theorem}[Stationary diagonal window ledger-exactness obligation]
+\label{thm:stationary-diagonal-window-ledger-exactness-obligation}
+Every Real-completion consumer read admitted by an accepted $\StationaryDiagonalWindowUp$ packet factors through the finite rows
+$$
+Q,S,G,D,R,K,H,C,P,N.
+$$
+All hidden requests, including quotient stream requests, host-equality requests, selected-limit requests, non-stationary-tail requests, and ambient-completeness requests, remain absent from the packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition and expose the displayed tuple. The rows $Q,S,G,D,R,K$ contain the mathematical source and classifier data, while $H,C,P,N$ contain transport, continuation, provenance, and local naming.
+
+Apply the classifier-correspondence theorem to route the Real-facing classifier read through the same finite window, and apply finite-window exhaustion to rule out every consumer path outside the tuple. The public-boundary theorem then gives the exact Real-completion-facing ledger and records the absence of every hidden request named in the statement.
+\end{proof}
+
 \closureat{StationaryDiagonalWindowUp}{seedStr}
 
 \begin{closurestatus}{\StationaryDiagonalWindowUp}
   \constructivestory{A $\StationaryDiagonalWindowUp$ packet is generated from paired stationary RatUp seed rows, constant StreamNameUp windows, RegSeqRatUp readbacks, a DyadicRatCoreUp finite-window ledger, RealUp diagonal representative rows, a three-face classifier correspondence row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stationary-diagonal-window-carrier}, \autoref{thm:stationary-diagonal-window-namecert-obligations}, \autoref{thm:stationary-diagonal-window-classifier-correspondence}, \autoref{thm:stationary-diagonal-window-finite-window-exhaustion}, and \autoref{thm:stationary-diagonal-window-public-boundary} bind the finite NameCert packet for the stationary diagonal finite-window classifier correspondence over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:stationary-diagonal-window-carrier}, \autoref{thm:stationary-diagonal-window-namecert-obligations}, \autoref{thm:stationary-diagonal-window-classifier-correspondence}, \autoref{thm:stationary-diagonal-window-finite-window-exhaustion}, \autoref{thm:stationary-diagonal-window-public-boundary}, \autoref{thm:stationary-diagonal-window-carrier-source-obligation}, \autoref{thm:stationary-diagonal-window-classifier-stability-obligation}, and \autoref{thm:stationary-diagonal-window-ledger-exactness-obligation} bind the finite NameCert packet for the stationary diagonal finite-window classifier correspondence over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
