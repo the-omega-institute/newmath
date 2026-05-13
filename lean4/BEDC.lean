@@ -136,6 +136,7 @@ import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CompletionReflectionUp
+import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
@@ -187,6 +188,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.ExpMapUp
 import BEDC.Derived.FactorUp
+import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchyUp.Core
 import BEDC.Derived.FastCauchyUp.Middle
@@ -294,6 +296,7 @@ import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
 import BEDC.Derived.TrieUp.NamecertObligationSurface
 import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TuringMachineUp
+import BEDC.Derived.TasteGateCompilerWitnessUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformSpaceUp
@@ -356,6 +359,7 @@ import BEDC.Derived.SubshiftfinitetypeUp
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularityModulusUp
+import BEDC.Derived.RegularityModulusUp.CarrierSurface
 import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
