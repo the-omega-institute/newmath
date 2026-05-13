@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionRouteUp$}
+\label{ch:concrete-instances-subject-reduction-route-namecert}
+\origin{ai}
+
+The $\SubjectReductionRouteUp$ packet turns the bundle and typeclass discharge routes of \autoref{ch:sr-discharge-routes} into one finite naming surface. It reads the socket-level discharge rows of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and keeps the obstruction boundary of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert} visible: the packet names the route by which a discharge would be handed to a consumer, but it does not manufacture any missing MetaCIC discharge premise.
+
+\begin{definition}[Subject-reduction route carrier]
+\label{def:subject-reduction-route-carrier}
+A $\SubjectReductionRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,A,L,P,E,S,I,U,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution preservation discharge row;
+\item $A$ is the application-argument stability discharge row;
+\item $L$ is the lambda-domain subject-reduction discharge row;
+\item $P$ is the Pi-domain subject-reduction discharge row;
+\item $E$ is the explicit bundle row whose coordinates are exactly $B,A,L,P$;
+\item $S$ is the setup-read row whose projected bundle is exactly $E$;
+\item $I$ is the invocation row recording whether the consumer reads $E$ directly or reads $E$ through $S$;
+\item $U$ is the consumer handoff row for the downstream subject-reduction use site;
+\item $H$ records componentwise $\hsame$ transports for the discharge rows, bundle row, setup-read row, invocation row, consumer row, provenance row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which the consumer reaches the same four discharge rows through either invocation route;
+\item $Q$ is the $\Pkg$ provenance ledger over $\BHist$, $\Ext$, $\Cont$, $\SubjectReductionDischargeSocketUp$, $\SubjectReductionRouteClassifierUp$, $\TypePreservingCompilerUp$, componentwise $\hsame$, and local $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectReductionRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for closed subject reduction, host conversion, erased derivation semantics, quotient equality of terms, or an additional route outside the displayed bundle/setup pair.
+\end{definition}
+
+\begin{theorem}[SubjectReductionRoute NameCert obligations]
+\label{thm:subject-reduction-route-namecert-obligations}
+For the carrier of \autoref{def:subject-reduction-route-carrier}, the local $\NameCert_{\SubjectReductionRouteUp}$ surface consists exactly of carrier admission for
+$$
+R=(B,A,L,P,E,S,I,U,H,C,Q,N),
+$$
+the four discharge rows $B,A,L,P$, explicit bundle packaging through $E$, setup-to-bundle projection through $S$, invocation selection through $I$, consumer handoff through $U$, componentwise transport through $H$, displayed continuation reads through $C$, package provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed tuple $R$. The first four coordinates are the socket-level subject-reduction discharge rows, while $E$ and $S$ are two presentations of that same four-row packet.
+
+Read the invocation and consumer rows. The row $I$ chooses between direct bundle use and setup-mediated bundle use, and $U$ records the downstream handoff that consumes the chosen presentation.
+
+Finally read $H,C,Q,N$. These rows supply transport, route replay, provenance, and local naming for the displayed coordinates. Since the carrier exposes no further coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRoute bundle-setup correspondence]
+\label{thm:subject-reduction-route-bundle-setup-correspondence}
+In every accepted $\SubjectReductionRouteUp$ carrier, the explicit bundle row $E$ and the setup-read row $S$ determine the same discharge packet $B,A,L,P$. Direct bundle invocation and setup-mediated invocation differ only in the public route used to reach that packet. Neither route changes the discharge rows, adds a new discharge premise, or removes a row required by the subject-reduction consumer.
+\end{theorem}
+\begin{proof}
+The carrier definition fixes $B,A,L,P$ before either public route is inspected. The bundle row $E$ packages those four rows directly.
+
+The setup-read row $S$ is accepted only through projection to the same bundle row $E$. Thus a setup-mediated read reaches exactly the coordinates already present in the explicit bundle.
+
+The invocation row $I$ records which route the consumer follows, and the consumer row $U$ records the handoff after that route has reached $B,A,L,P$. There is no coordinate in the packet where either route can alter the discharge payload.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRoute obstruction non-escape]
+\label{thm:subject-reduction-route-obstruction-nonescape}
+Every accepted $\SubjectReductionRouteUp$ carrier preserves the obstruction boundary of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. A consumer may read the finite bundle/setup route packet, but cannot extract a closed MetaCIC subject-reduction theorem, a proof of any missing discharge row, a host conversion principle, erased semantics, or quotient equality of terms from that packet.
+\end{theorem}
+\begin{proof}
+Apply the NameCert-obligation theorem to identify every permitted read with one of the displayed rows of $R$.
+
+Rows $B,A,L,P$ are discharge placeholders exposed through the socket surface, and rows $E,S,I,U$ only determine how those rows are handed to a consumer. The transport, continuation, provenance, and naming rows certify this finite route; they do not add a theorem-producing coordinate.
+
+The obstruction chapter remains untouched by this packet because the carrier contains no row for closing the dependent-codomain obstruction. Therefore no accepted read can escape from route naming into a closed subject-reduction result.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRoute public handoff]
+\label{thm:subject-reduction-route-public-handoff}
+The public handoff of an accepted $\SubjectReductionRouteUp$ carrier is exactly the finite route packet
+$$
+B,A,L,P,E,S,I,U,H,C,Q,N.
+$$
+Downstream compiler and audit chapters may cite this handoff as a named route from bundle or setup presentation to the same four discharge rows. They may not cite it as an inhabitant of those rows, as a closed subject-reduction proof, or as a bridge to host semantics.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the entire public inventory. The NameCert-obligation theorem binds carrier admission and every permitted read to that inventory.
+
+The bundle-setup correspondence theorem shows that both public routes reach the same four-row discharge packet. The obstruction non-escape theorem then excludes reads that would turn the route packet into a closed MetaCIC theorem or host-semantic bridge.
+
+Thus the public handoff is a finite naming certificate for route delivery only. It supplies a stable consumer-facing packet while keeping discharge inhabitation and bridge checking on their own axes.
+\end{proof}
+
+\closureat{SubjectReductionRouteUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionRouteUp}
+  \constructivestory{A $\SubjectReductionRouteUp$ packet is generated from four subject-reduction discharge rows, explicit bundle and setup-read rows, an invocation row, a consumer handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-route-carrier}, \autoref{thm:subject-reduction-route-namecert-obligations}, \autoref{thm:subject-reduction-route-bundle-setup-correspondence}, \autoref{thm:subject-reduction-route-obstruction-nonescape}, and \autoref{thm:subject-reduction-route-public-handoff} bind the finite route packet between bundle/setup invocation and the shared subject-reduction discharge rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove any MetaCIC discharge row, construct closed subject reduction, provide Lean verification, or bridge the packet to a public schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, bundle/setup correspondence, obstruction non-escape, public handoff exactness, provenance, and local naming for the same finite route packet.}
+\end{closurestatus}
