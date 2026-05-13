@@ -2,6 +2,7 @@
 \label{thm:certificate-compiler-bridge-schema-handoff}
 Every public $\CertificateCompilerUp$ packet hands a schema bridge only the finite compiler graph, target landing rows, classifier-transport rows, continuation rows, package provenance, and source, target, and local $\NameCert$ rows. The handoff is the displayed packet surface $S,T,G,E,C,H,P,N$ together with its identity, composite, and triple-composite ledgers; it does not include host compiler semantics, optimizer correctness, decompiler behavior, ambient program equality, or unrecorded target behavior.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_bridge\_schema\_handoff}
 \begin{proof}
 Start with the carrier of \autoref{def:certificate-compiler-carrier}. It exposes source and target certificates, graph edges, landing rows, continuation rows, componentwise transports, provenance, and a local naming row.
 
@@ -14,6 +15,7 @@ Now apply edge-classifier exactness, the identity ledger, composition stability,
 \label{thm:certificate-compiler-bridge-rows-nonescape}
 The bridge-facing rows of a public $\CertificateCompilerUp$ packet export no optimizer, decompiler, program equality, ambient categorical equality, or unrecorded target behavior. Any schema bridge that consumes the packet must read the source certificate, target certificate, graph edge, landing, route, transport, provenance, and local naming rows exactly as displayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_bridge\_rows\_nonescape}
 \begin{proof}
 Project the public packet as the finite rows $S,T,G,E,C,H,P,N$. These rows are the only bridge-facing coordinates of the carrier.
 

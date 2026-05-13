@@ -1,0 +1,214 @@
+\chapter{MetaCIC TypedExamples module audit map}
+\label{ch:metacic-typedexamples-audit-map}
+
+\section{The setup}
+\label{sec:metacic-typedexamples-audit-map-setup}
+
+The BEDC.MetaCIC \texttt{TypedExamples} submodule is a worked-example gallery
+for the internal CIC fragment. Its files collect Church encodings, dependent
+identity terms, polymorphic identity terms, application forms, beta redexes,
+projection forms, Pi forms, constants, and sort-indexed context examples.
+
+This chapter reads the gallery as an audit surface. Unlike the subject
+reduction, confluence, normalisation, substitution, and decidability audit maps,
+the submodule is not primarily a metatheory module. It does not provide the
+general proof that typing is preserved by every beta step or that every closed
+typed term normalises. It supplies concrete typed terms whose elaboration and
+typing witnesses exercise the substrate on representative programs.
+
+The closure state is therefore gallery-level. Each cited target says that a
+particular encoded term has the displayed type, closedness witness, beta
+computation, or checker acceptance result. The collection is useful precisely
+because the terms are ordinary objects of the represented syntax rather than
+external examples.
+
+\section{Inventory}
+\label{sec:metacic-typedexamples-audit-map-inventory}
+
+The module has four broad strata.
+
+\begin{itemize}
+\item \texttt{ChurchGallery.lean} and the \texttt{ChurchGallery/} directory
+  provide the base Church encodings for booleans, natural numbers, pairs, and
+  options. They expose the shared terms \texttt{churchBoolTy},
+  \texttt{churchTrueTm}, \texttt{churchFalseTm}, \texttt{churchNatTy},
+  \texttt{churchZeroTm}, \texttt{churchOneTm}, and \texttt{churchSuccTm}, plus
+  typed constructors and eliminators for pair and option witnesses.
+\item The sibling files \texttt{ChurchBoolLogic}, \texttt{ChurchNatRec},
+  \texttt{ChurchNatArith}, \texttt{ChurchNatPred}, \texttt{ChurchEquality},
+  \texttt{ChurchList}, and \texttt{ChurchSum} extend the gallery with boolean
+  connectives, arithmetic operations, predecessor-style examples, Leibniz
+  equality encodings, Church lists, and Church sums.
+\item \texttt{Identity.lean} and \texttt{Polymorphic.lean} contain identity,
+  dependent identity, polymorphic identity, constant, apply, flip, and compose
+  forms. These examples check binder discipline and universe-like sort
+  movement inside the represented calculus.
+\item \texttt{AppForms.lean}, \texttt{Applications.lean},
+  \texttt{ApplicationTail.lean}, \texttt{BasicApplications.lean},
+  \texttt{BetaRedex.lean}, \texttt{ConstForms.lean}, \texttt{PiForms.lean},
+  \texttt{Projections.lean}, and \texttt{Sorts.lean} cover application,
+  beta-redex, constant, Pi, projection, and context lookup shapes.
+\end{itemize}
+
+This inventory is intentionally heterogeneous. Some files demonstrate direct
+\texttt{HasType} derivations. Some use \texttt{inferTypeCtx\_sound} to turn a
+checker result into a typing witness. Some record beta computation rows or
+closedness rows that make later examples admissible. Together they form a
+ground-truth set for the represented syntax.
+
+The file-level audit reading is similarly explicit.
+
+\begin{itemize}
+\item The gallery root imports the base boolean, natural-number, pair, and
+  option files and gives shared names to the recurring Church terms. Those
+  shared names are the vocabulary consumed by the later arithmetic, equality,
+  and list files.
+\item \texttt{BoolNat.lean} is the smallest Church-encoding source. It proves
+  the boolean and natural-number type formers, their constructors, and small
+  identity and constant examples.
+\item \texttt{Pair.lean} and \texttt{Option.lean} add product-like and
+  maybe-like data. Their role is not merely to add more examples, but to force
+  the checker through multi-argument constructors and eliminator-style terms.
+\item \texttt{ChurchBoolLogic.lean} and the arithmetic files move from typing
+  rows to computation rows. They record how boolean connectives and natural
+  number operations reduce on selected inputs under the closedness hypotheses
+  displayed in the theorem statements.
+\item \texttt{ChurchEquality.lean} is the dependent proof-object branch. It
+  checks Leibniz equality types, reflexivity proofs, closedness rows, and
+  normal-equality checker rows for selected equality examples.
+\item \texttt{ChurchList.lean} and \texttt{ChurchSum.lean} are the larger
+  binder-stress files. They combine nested type formers, constructors,
+  eliminators, closedness support, and computation rows for folds and case
+  analysis.
+\item The non-Church files remain important because they isolate syntax forms
+  without the surrounding encoding burden. They are the local probes for sort
+  contexts, Pi formation, projection behavior, constants, ordinary
+  applications, application tails, and beta redexes.
+\end{itemize}
+
+Thus the inventory should not be read as a flat list of examples. It is a
+layered gallery: atoms and binders first, then identity and application
+patterns, then Church data, then eliminators and computation rows over that
+data. The order matters for audit use because a later failure in a Church file
+can often be compared against the smaller non-Church probes to locate whether
+the issue is basic typing, binder shifting, eliminator typing, or beta
+computation.
+
+\section{Representative theorems}
+\label{sec:metacic-typedexamples-audit-map-representative-theorems}
+
+The base Church boolean and Church natural-number rows are the smallest public
+examples. The boolean type and constructors are typed in the empty context:
+\leanvariant{BEDC.MetaCIC.church\_bool\_type}
+\leanvariant{BEDC.MetaCIC.church\_true}
+\leanvariant{BEDC.MetaCIC.church\_false}.
+The natural-number encoding and its first constructors are likewise typed:
+\leanvariant{BEDC.MetaCIC.church\_nat\_type}
+\leanvariant{BEDC.MetaCIC.church\_zero}
+\leanvariant{BEDC.MetaCIC.church\_one}
+\leanvariant{BEDC.MetaCIC.church\_succ}.
+These targets establish that the gallery's basic numerals and booleans are not
+paper-only conventions; they are terms accepted by the encoded typing relation.
+
+The list gallery checks a type former, constructors, and a fold operator:
+\leanvariant{BEDC.MetaCIC.church\_list\_type\_typed}
+\leanvariant{BEDC.MetaCIC.church\_nil\_typed}
+\leanvariant{BEDC.MetaCIC.church\_cons\_typed}
+\leanvariant{BEDC.MetaCIC.church\_fold\_typed}.
+This group exercises nested Pi structure, shifted element types, and eliminator
+typing. It is a compact stress test for binder indices because the encoded list
+type moves an element type through several binders.
+
+The sum gallery records the either type, both injections, and case analysis:
+\leanvariant{BEDC.MetaCIC.church\_either\_type\_typed}
+\leanvariant{BEDC.MetaCIC.church\_inl\_typed}
+\leanvariant{BEDC.MetaCIC.church\_inr\_typed}
+\leanvariant{BEDC.MetaCIC.church\_case\_either\_typed}.
+The accompanying beta rows, such as
+\leanvariant{BEDC.MetaCIC.church\_case\_inl}
+\leanvariant{BEDC.MetaCIC.church\_case\_inr},
+show that the eliminator computes on both injection branches under the
+displayed closedness inputs.
+
+The equality gallery uses a Leibniz-style encoding:
+\leanvariant{BEDC.MetaCIC.leibniz\_eq\_type}
+\leanvariant{BEDC.MetaCIC.leibniz\_refl\_type}
+\leanvariant{BEDC.MetaCIC.refl\_zero\_proof}
+\leanvariant{BEDC.MetaCIC.refl\_true\_proof}.
+These rows show a dependent proof object, not merely first-order data. They are
+useful witnesses that the same typed-example layer includes proposition-shaped
+programs.
+
+The dependent and polymorphic identity examples give a separate binder-focused
+surface:
+\leanvariant{BEDC.MetaCIC.lam\_dependent\_identity}
+\leanvariant{BEDC.MetaCIC.polymorphic\_identity}
+\leanvariant{BEDC.MetaCIC.poly\_identity\_type}
+\leanvariant{BEDC.MetaCIC.poly\_identity\_at\_sort\_type}.
+They test the common identity pattern in both direct dependent and explicitly
+polymorphic forms.
+
+The application and beta-redex files make the gallery operational rather than
+only declarative:
+\leanvariant{BEDC.MetaCIC.app\_id\_sort\_in\_empty\_ctx}
+\leanvariant{BEDC.MetaCIC.dep\_id\_applied\_to\_arg\_in\_sort\_ctx}
+\leanvariant{BEDC.MetaCIC.id\_sort\_redex}
+\leanvariant{BEDC.MetaCIC.id\_sort\_redex\_typed}.
+These examples connect the typing gallery to the beta relation used elsewhere
+in MetaCIC.
+
+\section{Role within MetaCIC}
+\label{sec:metacic-typedexamples-audit-map-role}
+
+The submodule functions as the typing relation's ground-truth gallery. A change
+to the typing implementation, closedness infrastructure, substitution helpers,
+or beta evaluator should preserve these examples unless the represented
+calculus itself has changed. In that sense the gallery is a regression surface
+for concrete syntax, binder shifting, context lookup, application typing, and
+closed Church-encoded programs.
+
+The gallery also keeps the manuscript honest about examples. When the paper
+mentions Church booleans, naturals, lists, sums, equality, or identity programs
+inside MetaCIC, the cited rows above are the Lean-side witnesses that the terms
+exist with the stated typing or computation behavior.
+
+\section{Connection to other audit maps}
+\label{sec:metacic-typedexamples-audit-map-connection}
+
+The closest neighbour is the decidability map in
+\autoref{ch:metacic-decidable-audit-map}. Its \texttt{GalleryTests} layer checks
+that the type inference surface accepts the main closed example families. The
+present chapter records the worked examples themselves. The two layers should
+be read together: \texttt{TypedExamples} supplies the concrete programs, while
+the decidability gallery checks the option-valued inference interface on those
+program families.
+
+The subject-reduction map in
+\autoref{ch:metacic-subject-reduction-obstruction} has a different role.
+TypedExample terms that take beta steps should preserve typing along the
+expected route, but the audit map cannot promote that expectation into an
+unconditional subject-reduction theorem. The SR chapter names the preservation
+obligations that would be needed for that stronger claim.
+
+The normalisation and confluence maps are also adjacent but not identical. The
+Church examples include concrete beta computations and some normalisation-style
+rows. They are witnesses that the reduction machinery runs on selected terms,
+not a proof of arbitrary closed-term normalisation or arbitrary closed-term
+Church--Rosser.
+
+\section{Boundary}
+\label{sec:metacic-typedexamples-audit-map-boundary}
+
+This chapter is an audit map for a worked-example collection. It may be cited
+for the displayed typed Church encodings, dependent identity examples,
+polymorphic identity examples, application examples, beta-redex rows, and
+selected computation rows.
+
+It does not prove subject reduction, strong normalisation, confluence, or global
+conversion decidability. It does not claim that every Church-style encoding has
+all expected algebraic laws inside MetaCIC. It records the examples whose Lean
+targets are present and keeps their role at gallery level.
+
+\concretizedIn{ch:concrete-instances-metacictypedexamplesgallery-namecert}{TypedExamples gallery rows are represented as a finite NameCert regression surface.}
+\concretizedIn{ch:concrete-instances-typedexamplegallery-namecert}{Typed example gallery rows are packaged as a finite NameCert carrier with checker, closedness, beta, and regression-surface obligations.}
+\concretizedIn{ch:concrete-instances-metacic-typedexamples-seal-namecert}{TypedExamples gallery rows are realized as a finite worked-example seal.}

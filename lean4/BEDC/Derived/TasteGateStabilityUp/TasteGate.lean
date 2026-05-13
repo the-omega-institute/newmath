@@ -11,9 +11,8 @@ open BEDC.Meta.TasteGate
 
 inductive TasteGateStabilityUp : Type where
   | mk :
-      (candidate carrier gate compilerWitness admissionLedger transport route provenance name :
-        BHist) →
-        TasteGateStabilityUp
+      (candidate carrier tasteGate witness admission transport replay provenance name : BHist) →
+      TasteGateStabilityUp
   deriving DecidableEq
 
 def tasteGateStabilityEncodeBHist : BHist → RawEvent
@@ -40,53 +39,24 @@ private theorem tasteGateStabilityDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private theorem tasteGateStability_mk_congr
-    {candidate candidate' carrier carrier' gate gate' compilerWitness compilerWitness'
-      admissionLedger admissionLedger' transport transport' route route' provenance provenance'
-      name name' : BHist}
-    (hCandidate : candidate' = candidate)
-    (hCarrier : carrier' = carrier)
-    (hGate : gate' = gate)
-    (hCompilerWitness : compilerWitness' = compilerWitness)
-    (hAdmissionLedger : admissionLedger' = admissionLedger)
-    (hTransport : transport' = transport)
-    (hRoute : route' = route)
-    (hProvenance : provenance' = provenance)
-    (hName : name' = name) :
-    TasteGateStabilityUp.mk candidate' carrier' gate' compilerWitness' admissionLedger'
-        transport' route' provenance' name' =
-      TasteGateStabilityUp.mk candidate carrier gate compilerWitness admissionLedger transport route
-        provenance name := by
-  -- BEDC touchpoint anchor: BHist BMark
-  cases hCandidate
-  cases hCarrier
-  cases hGate
-  cases hCompilerWitness
-  cases hAdmissionLedger
-  cases hTransport
-  cases hRoute
-  cases hProvenance
-  cases hName
-  rfl
-
 def tasteGateStabilityToEventFlow : TasteGateStabilityUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | TasteGateStabilityUp.mk candidate carrier gate compilerWitness admissionLedger transport route
+  | TasteGateStabilityUp.mk candidate carrier tasteGate witness admission transport replay
       provenance name =>
       [[BMark.b0],
         tasteGateStabilityEncodeBHist candidate,
         [BMark.b1, BMark.b0],
         tasteGateStabilityEncodeBHist carrier,
         [BMark.b1, BMark.b1, BMark.b0],
-        tasteGateStabilityEncodeBHist gate,
+        tasteGateStabilityEncodeBHist tasteGate,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        tasteGateStabilityEncodeBHist compilerWitness,
+        tasteGateStabilityEncodeBHist witness,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        tasteGateStabilityEncodeBHist admissionLedger,
+        tasteGateStabilityEncodeBHist admission,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         tasteGateStabilityEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        tasteGateStabilityEncodeBHist route,
+        tasteGateStabilityEncodeBHist replay,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         tasteGateStabilityEncodeBHist provenance,
@@ -112,19 +82,19 @@ def tasteGateStabilityFromEventFlow : EventFlow → Option TasteGateStabilityUp
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | gate :: rest5 =>
+                      | tasteGate :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | compilerWitness :: rest7 =>
+                              | witness :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | admissionLedger :: rest9 =>
+                                      | admission :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
@@ -136,7 +106,7 @@ def tasteGateStabilityFromEventFlow : EventFlow → Option TasteGateStabilityUp
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | route :: rest13 =>
+                                                      | replay :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -153,15 +123,24 @@ def tasteGateStabilityFromEventFlow : EventFlow → Option TasteGateStabilityUp
                                                                           | [] =>
                                                                               some
                                                                                 (TasteGateStabilityUp.mk
-                                                                                  (tasteGateStabilityDecodeBHist candidate)
-                                                                                  (tasteGateStabilityDecodeBHist carrier)
-                                                                                  (tasteGateStabilityDecodeBHist gate)
-                                                                                  (tasteGateStabilityDecodeBHist compilerWitness)
-                                                                                  (tasteGateStabilityDecodeBHist admissionLedger)
-                                                                                  (tasteGateStabilityDecodeBHist transport)
-                                                                                  (tasteGateStabilityDecodeBHist route)
-                                                                                  (tasteGateStabilityDecodeBHist provenance)
-                                                                                  (tasteGateStabilityDecodeBHist name))
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    candidate)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    carrier)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    tasteGate)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    witness)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    admission)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    transport)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    replay)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    provenance)
+                                                                                  (tasteGateStabilityDecodeBHist
+                                                                                    name))
                                                                           | _ :: _ => none
 
 private theorem tasteGateStability_round_trip :
@@ -170,36 +149,31 @@ private theorem tasteGateStability_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk candidate carrier gate compilerWitness admissionLedger transport route provenance name =>
+  | mk candidate carrier tasteGate witness admission transport replay provenance name =>
       change
         some
           (TasteGateStabilityUp.mk
             (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist candidate))
             (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist carrier))
-            (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist gate))
-            (tasteGateStabilityDecodeBHist
-              (tasteGateStabilityEncodeBHist compilerWitness))
-            (tasteGateStabilityDecodeBHist
-              (tasteGateStabilityEncodeBHist admissionLedger))
+            (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist tasteGate))
+            (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist witness))
+            (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist admission))
             (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist transport))
-            (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist route))
+            (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist replay))
             (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist provenance))
             (tasteGateStabilityDecodeBHist (tasteGateStabilityEncodeBHist name))) =
           some
-            (TasteGateStabilityUp.mk candidate carrier gate compilerWitness admissionLedger
-              transport route provenance name)
-      exact
-        congrArg some
-          (tasteGateStability_mk_congr
-            (tasteGateStabilityDecode_encode_bhist candidate)
-            (tasteGateStabilityDecode_encode_bhist carrier)
-            (tasteGateStabilityDecode_encode_bhist gate)
-            (tasteGateStabilityDecode_encode_bhist compilerWitness)
-            (tasteGateStabilityDecode_encode_bhist admissionLedger)
-            (tasteGateStabilityDecode_encode_bhist transport)
-            (tasteGateStabilityDecode_encode_bhist route)
-            (tasteGateStabilityDecode_encode_bhist provenance)
-            (tasteGateStabilityDecode_encode_bhist name))
+            (TasteGateStabilityUp.mk candidate carrier tasteGate witness admission transport
+              replay provenance name)
+      rw [tasteGateStabilityDecode_encode_bhist candidate,
+        tasteGateStabilityDecode_encode_bhist carrier,
+        tasteGateStabilityDecode_encode_bhist tasteGate,
+        tasteGateStabilityDecode_encode_bhist witness,
+        tasteGateStabilityDecode_encode_bhist admission,
+        tasteGateStabilityDecode_encode_bhist transport,
+        tasteGateStabilityDecode_encode_bhist replay,
+        tasteGateStabilityDecode_encode_bhist provenance,
+        tasteGateStabilityDecode_encode_bhist name]
 
 private theorem tasteGateStabilityToEventFlow_injective {x y : TasteGateStabilityUp} :
     tasteGateStabilityToEventFlow x = tasteGateStabilityToEventFlow y → x = y := by

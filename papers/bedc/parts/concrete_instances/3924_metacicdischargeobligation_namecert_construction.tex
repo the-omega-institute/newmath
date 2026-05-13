@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDischargeObligationUp$}
+\label{ch:concrete-instances-metacic-discharge-obligation-namecert}
+\origin{human}
+
+The $\MetaCICDischargeObligationUp$ packet turns the four discharge obligations isolated in \autoref{ch:metacic-subject-reduction-obstruction} into a finite NameCert carrier. It is a sibling of \autoref{ch:concrete-instances-subjectreduction-namecert}: the latter records the accepted subject-reduction closure surface, while this packet records the four local inputs that must be supplied before the MetaCIC subject-reduction theorem can be consumed without hiding a closed theorem.
+
+\begin{definition}[MetaCIC discharge-obligation carrier]
+\label{def:metacic-discharge-obligation-carrier}
+A $\MetaCICDischargeObligationUp$ carrier is a finite $\BHist$ packet
+$$
+D=(B,A,L,P,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution discharge row $\mathrm{BetaSubstitutionPreservation}$;
+\item $A$ is the application-argument discharge row $\mathrm{AppArgTypeStable}$;
+\item $L$ is the lambda-domain discharge row $\mathrm{LamDomainSubjectReduction}$;
+\item $P$ is the Pi-domain discharge row $\mathrm{PiDomainSubjectReduction}$;
+\item $H$ records componentwise $\hsame$ transport for the four discharge rows, the continuation routes, package provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the four discharge rows and the support rows;
+\item $G$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the MetaCIC subject-reduction discharge interface;
+\item $N$ is the local $\NameCert_{\MetaCICDischargeObligationUp}$ row.
+\end{enumerate}
+The carrier contains no unparameterized closed subject-reduction theorem, no hidden proof of any discharge row, no host conversion rule, no erased derivation semantics, and no semantic equality of MetaCIC terms.
+\end{definition}
+
+\begin{definition}[MetaCIC discharge-obligation classifier]
+\label{def:metacic-discharge-obligation-classifier}
+The $\MetaCICDischargeObligationUp$ classifier accepts exactly those carrier reads that factor through
+$$
+B,A,L,P,H,C,G,N.
+$$
+The positive reads are the four discharge rows, their componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\Pkg$ provenance row, and the local $\NameCert$ row. A request for closed subject reduction, host conversion, hidden substitution preservation, quotient transport, or an undisplayed MetaCIC premise is classified as outside the packet.
+\end{definition}
+
+\begin{theorem}[MetaCIC discharge-obligation certificate surface]
+\label{thm:metacic-discharge-obligation-certificate-surface}
+For the carrier of \autoref{def:metacic-discharge-obligation-carrier}, the local $\NameCert_{\MetaCICDischargeObligationUp}$ surface consists exactly of carrier admission for
+$$
+D=(B,A,L,P,H,C,G,N),
+$$
+the four discharge rows $B,A,L,P$, componentwise $\hsame$ transport through $H$, displayed continuation reads through $C$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. Its only discharge coordinates are $B,A,L,P$, and its only support coordinates are $H,C,G,N$.
+
+Use the classifier of \autoref{def:metacic-discharge-obligation-classifier}. It accepts precisely reads through those rows, so the local certificate surface cannot introduce another MetaCIC premise.
+
+Finally read the local $\NameCert$ row $N$. It names the same finite packet and therefore binds the certificate surface to the displayed carrier rather than to a hidden subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC discharge-obligation parameterized interface]
+\label{thm:metacic-discharge-obligation-parameterized-interface}
+Every consumer that uses $\MetaCICDischargeObligationUp$ as input to the MetaCIC subject-reduction interface must consume all four rows $B,A,L,P$ as the beta-substitution, application-argument, lambda-domain, and Pi-domain discharge rows. The support rows $H,C,G,N$ transport, replay, package, and name those four rows, but they do not add a fifth discharge row and do not produce a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Begin with the four-row inventory in \autoref{def:metacic-discharge-obligation-carrier}. It names exactly the four hypotheses isolated by \autoref{ch:metacic-subject-reduction-obstruction}.
+
+Apply the certificate-surface theorem. Any subject-reduction-facing read sees $B,A,L,P$ together with transport, route, provenance, and naming support.
+
+The sibling package in \autoref{ch:concrete-instances-subjectreduction-namecert} records the accepted subject-reduction closure surface. This packet instead supplies the finite obligation interface that a consumer must discharge before invoking that surface, so no closed theorem is exported from $H,C,G,N$.
+\end{proof}
+
+\begin{theorem}[MetaCIC discharge-obligation non-escape]
+\label{thm:metacic-discharge-obligation-non-escape}
+Every downstream read of an accepted $\MetaCICDischargeObligationUp$ carrier factors through
+$$
+B,A,L,P,H,C,G,N.
+$$
+It cannot inspect a hidden proof of beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, host conversion, erased derivation semantics, quotient equality, or an unrecorded MetaCIC reduction principle.
+\end{theorem}
+\begin{proof}
+Read the request through the classifier. Positive reads factor through the four discharge rows or through the displayed support rows.
+
+If the request asks for a closed theorem or for an undisplayed host principle, no coordinate of $D$ can answer it. The request is therefore outside the accepted carrier rather than a hidden route through the certificate.
+
+The transport, continuation, provenance, and naming rows preserve the same inventory. They make the four obligations reusable as finite BEDC data, but they do not create another proof-producing coordinate.
+\end{proof}
+
+\closureat{MetaCICDischargeObligationUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDischargeObligationUp}
+  \constructivestory{A $\MetaCICDischargeObligationUp$ packet is generated from the four MetaCIC subject-reduction discharge rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-discharge-obligation-carrier}, \autoref{def:metacic-discharge-obligation-classifier}, \autoref{thm:metacic-discharge-obligation-certificate-surface}, \autoref{thm:metacic-discharge-obligation-parameterized-interface}, and \autoref{thm:metacic-discharge-obligation-non-escape} specify the finite four-obligation carrier, classifier, certificate surface, consumer interface, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, four-row consumption, transport stability, route replay, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}

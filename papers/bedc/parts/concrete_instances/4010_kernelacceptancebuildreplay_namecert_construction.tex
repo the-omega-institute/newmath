@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\KernelAcceptanceBuildReplayUp$}
+\label{ch:concrete-instances-kernel-acceptance-build-replay-namecert}
+\origin{ai}
+
+The $\KernelAcceptanceBuildReplayUp$ surface turns the build-replay coordinate named by \autoref{ch:visions-kernel-acceptance-as-audit-witness} into a finite \NameCert{} packet. It refines the replay row of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, reads accepted declarations through \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, and hands dependency classification to \autoref{ch:concrete-instances-axiomqueryledger-namecert}. The packet records reproducible build evidence without treating replay as a proof of kernel correctness or as a substitute for the axiom-query boundary.
+
+\begin{definition}[KernelAcceptanceBuildReplay carrier]
+\label{def:kernel-acceptance-build-replay-carrier}
+A $\KernelAcceptanceBuildReplayUp$ carrier is a finite $\BHist$ packet
+$$
+R=(G,A,B,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the generated-candidate row naming the Lean source object, declaration body, proof term, recursor output, or inductive declaration submitted for checking;
+\item $A$ is the accepted-declaration row read through the kernel-acceptance witness surface;
+\item $B$ is the build-command row naming the exact replay command, project root, toolchain row, source selection, and local build target used to reconstruct the acceptance event;
+\item $S$ is the replay-result row recording whether the build reconstructed the same accepted declaration, failed before acceptance, or reached a refusal state that remains visible to the audit consumer;
+\item $Q$ is the axiom-query handoff row that connects the replayed declaration to the strict proof-ancestry ledger;
+\item $H$ records componentwise $\hsame$ transport for the generated candidate, accepted declaration, build command, replay result, axiom-query handoff, provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes through which consumers move from generated candidate to accepted declaration, from accepted declaration to replay command, from replay command to replay result, and from replay result to axiom-query handoff;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, generated candidates, accepted declarations, build commands, replay results, axiom-query handoffs, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\KernelAcceptanceBuildReplayUp}$ row.
+\end{enumerate}
+The carrier exports no ambient host-trust row, no hidden source scan, no unrecorded command rerun, and no correctness certificate for the Lean kernel itself.
+\end{definition}
+
+\begin{theorem}[KernelAcceptanceBuildReplay NameCert obligations]
+\label{thm:kernel-acceptance-build-replay-namecert-obligations}
+For every accepted $\KernelAcceptanceBuildReplayUp$ carrier
+$$
+R=(G,A,B,S,Q,H,C,P,N),
+$$
+the local $\NameCert_{\KernelAcceptanceBuildReplayUp}$ surface consists exactly of the generated-candidate row $G$, accepted-declaration row $A$, build-command row $B$, replay-result row $S$, axiom-query handoff row $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local naming row $N$. A consumer may read build replay only through this finite packet and may not replace $B$ or $S$ by an informal claim that the project was rebuilt.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:kernel-acceptance-build-replay-carrier}. The rows $G,A,B,S,Q$ expose the candidate, accepted declaration, replay command, replay result, and dependency-query handoff as distinct finite coordinates.
+
+The transport and continuation rows bind the reads of those coordinates. The row $H$ preserves them componentwise, while $C$ displays the routes from generated candidate to accepted declaration, from accepted declaration to build command, from build command to replay result, and from replay result to axiom-query handoff.
+
+The provenance and naming rows package the same finite data as a $\NameCert_{\KernelAcceptanceBuildReplayUp}$ surface. Since no additional replay coordinate is present, a consumer cannot replace the displayed build command or replay result by an unrecorded host assertion.
+\end{proof}
+
+\begin{theorem}[KernelAcceptanceBuildReplay replay non-escape]
+\label{thm:kernel-acceptance-build-replay-nonescape}
+For every accepted $\KernelAcceptanceBuildReplayUp$ carrier
+$$
+R=(G,A,B,S,Q,H,C,P,N),
+$$
+every downstream audit read of build replay factors through the finite rows $A,B,S,Q,C,N$. The replay result may witness that the accepted declaration was reconstructed from the recorded command and source selection, but it cannot export kernel correctness, compiler correctness, runtime correctness, dependency cleanliness without the axiom-query row $Q$, or any paper-side claim stronger than the accepted declaration row $A$.
+\end{theorem}
+\begin{proof}
+Project the accepted declaration, build command, replay result, axiom-query handoff, route, and local naming rows from the carrier. These rows are the only replay-facing endpoints exposed to an audit consumer.
+
+The route coordinate $C$ determines how the read moves from $A$ to $B$, from $B$ to $S$, and from $S$ to $Q$. Thus replay success remains tied to the recorded command and result, while dependency classification remains tied to the axiom-query handoff.
+
+Finally inspect the omitted coordinates. The packet contains no row for kernel correctness, compiler correctness, runtime correctness, hidden dependency cleanliness, or stronger manuscript meaning, so a replay consumer has no route by which to extract those claims.
+\end{proof}
+
+\closureat{KernelAcceptanceBuildReplayUp}{seedStr}
+
+\begin{closurestatus}{\KernelAcceptanceBuildReplayUp}
+  \constructivestory{A $\KernelAcceptanceBuildReplayUp$ packet is generated from a generated candidate row, accepted declaration row, build command row, replay result row, axiom-query handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-acceptance-build-replay-carrier}, \autoref{thm:kernel-acceptance-build-replay-namecert-obligations}, and \autoref{thm:kernel-acceptance-build-replay-nonescape} bind the finite build-replay carrier, local naming surface, replay route, axiom-query handoff, and non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, kernel correctness, host runtime correctness, compiler correctness, dependency cleanliness without the axiom-query row, or a public standard bridge.}
+  \upgradepath{Obligation closure requires Lean encoding of the finite packet and checked theorems for naming obligations, replay-route determinacy, axiom-query handoff stability, and replay non-escape.}
+\end{closurestatus}

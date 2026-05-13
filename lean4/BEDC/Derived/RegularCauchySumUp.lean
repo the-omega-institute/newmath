@@ -284,6 +284,40 @@ theorem RegularCauchySumCarrier_consumer_obligation_package [AskSetup] [PackageS
       pkgSig,
       consumerPkg⟩
 
+theorem RegularCauchySumCarrier_ledger_exactness [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert ledgerConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg →
+      Cont budget readback ledgerConsumer →
+        PkgSig bundle ledgerConsumer pkg →
+          UnaryHistory budget ∧ UnaryHistory readback ∧ UnaryHistory ledgerConsumer ∧
+            Cont leftEndpoint rightEndpoint sumEndpoint ∧ Cont sumEndpoint budget readback ∧
+              Cont budget readback ledgerConsumer ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle ledgerConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier ledgerRoute ledgerPkg
+  obtain ⟨_leftSourceUnary, _rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, _routesUnary,
+    _provenanceUnary, _localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _provenanceRoute, provenancePkg⟩ := carrier
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have ledgerConsumerUnary : UnaryHistory ledgerConsumer :=
+    unary_cont_closed budgetUnary readbackUnary ledgerRoute
+  exact
+    ⟨budgetUnary,
+      readbackUnary,
+      ledgerConsumerUnary,
+      sumEndpointRoute,
+      readbackRoute,
+      ledgerRoute,
+      provenancePkg,
+      ledgerPkg⟩
+
 theorem RegularCauchySumCarrier_limit_classifier_compatibility [AskSetup] [PackageSetup]
     {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
       readback sumTransports sumRoutes sumProvenance localCert : BHist}
@@ -398,7 +432,7 @@ theorem RegularCauchySumCarrier_classifier_stability [AskSetup] [PackageSetup]
   have localCertUnary' : UnaryHistory localCert' :=
     unary_transport localCertUnary sameLocalCert
   exact
-    ⟨⟨leftSourceUnary',
+      ⟨⟨leftSourceUnary',
       rightSourceUnary',
       leftWindowUnary',
       rightWindowUnary',
