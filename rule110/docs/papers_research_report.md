@@ -391,3 +391,37 @@ targets are each `1/18`, and `TopologyLedgerRow / ledger_constructor_tags` is
 
 The strict gate is `make test-exhaustiveness`. Default `make test` runs the
 same tool in reporting mode.
+
+## Part 8: End-to-end TM simulation
+
+`encoder/tm_to_tag.c` implements the Cook 2009 §1.2 Cocke-Minsky
+transformation for a finite `TMSpec`. For an input machine with `m` states and
+`t` symbols it uses deletion number `s=t+2`, creates the alphabet
+`H/L/R/R*` per state plus `H/L/R` state-symbol rows, and fills the displayed
+rule families from Cook 2009 PDF page 2-3, §1.2. The pilot test uses a
+three-state binary machine over initial tape `000`; the direct C TM runner
+halts with tape `110`.
+
+`encoder/tag_to_cyclic.c` implements Cook 2009 §1.3: tag symbol `phi_i` is
+encoded as `N^{i-1} Y N^{|Phi|-i}`, the ordered tag-rule appendants become the
+first `|Phi|` cyclic appendants, and empty appendants extend the cyclic list to
+`s|Phi|`. The compiled three-state pilot has `|Phi|=48`, `s=4`, and therefore
+`192` cyclic appendants.
+
+`tests/test_tm_end_to_end.c` checks both compiler boundaries and the physical
+Rule 110 path. The full pilot TM is compiled through TM to tag to cyclic tag,
+and the resulting dimensions are checked against the Cook formulas. A compact
+two-symbol tag-system case then runs
+`tag_to_cyclic -> cook_encode_phase_exact -> r110_run_n_steps ->
+cook_decode_output`; its decoded cyclic tape is compared against
+`evaluator/cyclic_tag.c` on the same generated cyclic system, and the decoded
+unary tape reads back to the expected tag symbol.
+
+The complete 48-symbol pilot TM cyclic system is intentionally not used as the
+Rule 110 physical round-trip fixture. Its unary tape has thousands of cyclic
+symbols before the first Rule 110 row is built, while the current Cook packet
+frontier is documented in Part 5.2 as a finite phase-exact packet frontier
+rather than a full global Cook block compiler for large generated systems. The
+test therefore separates the large TM compiler surface from the smaller
+Rule 110 physical round-trip, with both paths sharing the same `tag_to_cyclic`
+implementation.
