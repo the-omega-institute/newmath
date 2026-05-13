@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ClosedConsistencyGapUp$}
+\label{ch:concrete-instances-closed-consistency-gap-namecert}
+\origin{ai}
+
+The $\ClosedConsistencyGapUp$ packet realizes the audit boundary of \autoref{ch:metacic-audit-synthesis} as finite BEDC data. It sits beside the subject-reduction packet of \autoref{ch:concrete-instances-subjectreduction-namecert} and the typed normal-form endpoint of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}: the first names the preservation-facing route, the second names the terminal normal-form surface, and this packet records why the closed-normal consistency branch cannot be read as unconditional closed consistency until the subject-reduction discharge socket is supplied.
+
+\begin{definition}[ClosedConsistencyGap carrier]
+\label{def:closed-consistency-gap-carrier}
+A $\ClosedConsistencyGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,N,S,D,T,H,C,P,L)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ is the MetaCIC audit-synthesis row that separates closed-normal consistency from unconditional closed consistency;
+\item $N$ is the closed-normal branch row, including the normal-form false exclusion and closed-normal assembly reads;
+\item $S$ is the subject-reduction handoff row, read through the finite preservation surface of \autoref{ch:concrete-instances-subjectreduction-namecert};
+\item $D$ is the discharge-socket row for the missing subject-reduction bundle, naming the dependent-codomain, application, lambda, and product preservation slots as finite obligations;
+\item $T$ is the typed normal-form endpoint row, read through \autoref{ch:concrete-instances-typedreductionnormalform-namecert};
+\item $H$ records componentwise $\hsame$ transports for the audit row, closed-normal row, subject-reduction row, discharge socket, typed normal-form row, package row, and local naming row;
+\item $C$ records the $\Cont$ routes by which a consumer reads the closed-normal branch, the subject-reduction socket, and the terminal normal-form endpoint;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-audit-synthesis}, \autoref{ch:concrete-instances-subjectreduction-namecert}, \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\ClosedConsistencyGapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a filled subject-reduction discharge bundle, a hidden transport from arbitrary closed proofs to closed normal endpoints, a global Church--Rosser theorem, candidate-free normalization, or a completed proof of unconditional closed consistency.
+\end{definition}
+
+\begin{theorem}[ClosedConsistencyGap NameCert obligations]
+\label{thm:closed-consistency-gap-namecert-obligations}
+The local $\NameCert_{\ClosedConsistencyGapUp}$ surface for \autoref{def:closed-consistency-gap-carrier} consists of carrier admission for $G=(A,N,S,D,T,H,C,P,L)$, closed-normal branch exposure through $N$ and $T$, subject-reduction socket exposure through $S$ and $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The audit row $A$, closed-normal row $N$, subject-reduction row $S$, discharge socket $D$, typed normal-form row $T$, transport row $H$, continuation row $C$, provenance row $P$, and local certificate row $L$ are the whole carrier surface.
+
+Read the positive endpoint through $N$ and $T$. These rows expose closed-normal consistency and the terminal typed normal-form boundary as named finite data, with their public reads transported only through $H$ and replayed through $C$.
+
+Read the blocked transport through $S$ and $D$. The subject-reduction row is a handoff to the preservation-facing sibling, while the discharge socket records the missing bundle as obligations rather than as a supplied theorem. Since the carrier lists no filled bundle coordinate, the local certificate stops at the displayed gap.
+\end{proof}
+
+\begin{theorem}[ClosedConsistencyGap route exhaustion]
+\label{thm:closed-consistency-gap-route-exhaustion}
+Every consumer route out of an accepted $\ClosedConsistencyGapUp$ packet factors through the displayed rows $A,N,S,D,T,H,C,P,L$. A closed-normal consistency read reaches $N$ and $T$; a preservation-facing read reaches $S$ and $D$; and no route converts agreement on the remaining rows into a closed subject-reduction theorem or unconditional closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the continuation row $C$. Its named routes are exactly the closed-normal branch route, the subject-reduction socket route, and the terminal normal-form endpoint route.
+
+The closed-normal branch is exhausted by $N$ and $T$. The sibling typed normal-form packet supplies a finite endpoint boundary, but that boundary is still read only after normality is already displayed.
+
+The subject-reduction side is exhausted by $S$ and $D$. The preservation-facing sibling names the route a discharge would use, while the socket row keeps the missing discharge bundle visible. Thus $H,C,P,L$ can transport and replay the packet, but cannot create an extra route outside it.
+\end{proof}
+
+\begin{theorem}[ClosedConsistencyGap non-escape]
+\label{thm:closed-consistency-gap-non-escape}
+An accepted $\ClosedConsistencyGapUp$ carrier exports only the finite audit gap packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It does not export a filled subject-reduction discharge bundle, a hidden closed-proof transport, an unrestricted confluence theorem, candidate-free normalization, host conversion, erased derivation semantics, or unconditional closed consistency.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory of \autoref{def:closed-consistency-gap-carrier}. Every public coordinate is either an audit row, a closed-normal row, a subject-reduction socket row, a typed normal-form endpoint, a componentwise transport, a continuation route, package provenance, or local naming.
+
+Use the obligation surface to authenticate those rows. The local $\NameCert$ accepts carrier exposure, branch exposure, socket exposure, transport, route replay, provenance, and naming, all over the same finite packet.
+
+No excluded object is a coordinate of $G$. A consumer therefore cannot replace the discharge socket by a proof, cannot transport arbitrary closed proofs into the normal endpoint, and cannot read unconditional closed consistency from the packet.
+\end{proof}
+
+\closureat{ClosedConsistencyGapUp}{seedStr}
+
+\begin{closurestatus}{\ClosedConsistencyGapUp}
+  \constructivestory{A $\ClosedConsistencyGapUp$ packet is generated from a MetaCIC audit-synthesis row, a closed-normal branch row, a subject-reduction handoff row, a discharge-socket row, a typed normal-form endpoint row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-consistency-gap-carrier}, \autoref{thm:closed-consistency-gap-namecert-obligations}, \autoref{thm:closed-consistency-gap-route-exhaustion}, and \autoref{thm:closed-consistency-gap-non-escape} state the finite packet, obligation surface, route exhaustion, and non-escape boundary for the MetaCIC closed-consistency gap.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, arbitrary closed Church--Rosser, candidate-free normalization, hidden proof transport, unconditional closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-normal branch exposure, subject-reduction socket exposure, route exhaustion, non-escape, package provenance, and local naming for the same finite gap packet.}
+\end{closurestatus}
