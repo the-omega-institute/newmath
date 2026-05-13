@@ -37,6 +37,20 @@ The ledger exactness is read row by row. The rows $T,L,B,F$ display the closed t
 The structural rows $H,C,P,N$ preserve the same finite surface by componentwise transport, displayed route replay, package provenance, and local naming. Since no further coordinate is present, the packet supplies no escape from the stated positive boundary.
 \end{proof}
 
+\begin{theorem}[Closed-normal consistency main ledger obligation scope]
+\label{thm:closed-normal-consistency-main-ledger-obligation-scope}
+In every accepted $\ClosedNormalConsistencyMainUp$ packet, the rows $T,L,B,F,R,H,C,P,N$ are consumed in three scoped groups: endpoint hypotheses $T,L,B,F$, contradiction route $R$, and structural replay, provenance, and name rows $H,C,P,N$. No consumer can read full closed consistency, subject reduction, or unrestricted normalization from this packet, because no row for any of those claims appears in any group.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q=(T,L,B,F,R,H,C,P,N)$. The endpoint-hypothesis group is exactly $T,L,B,F$: typing at the false encoding, closedness, beta-strong normality, and the false-encoding row.
+
+The contradiction-route group is exactly $R$. It consumes the endpoint hypotheses and reaches the closed beta-strong false-inhabitation exclusion, but it does not add a route from arbitrary closed proofs to typed normal endpoints.
+
+The structural group is exactly $H,C,P,N$. These rows provide componentwise transport, displayed continuation replay, package provenance, and local naming for the same finite surface.
+
+Since full closed consistency, subject reduction, and unrestricted normalization occur in none of the three groups, a consumer has no coordinate from which to read them. The accepted packet therefore exposes only the scoped ledger obligations listed in the statement.
+\end{proof}
+
 \begin{theorem}[Closed-normal consistency main positive boundary]
 \label{thm:closed-normal-consistency-main-positive-boundary}
 Every consumer of an accepted $\ClosedNormalConsistencyMainUp$ packet may read only the closed beta-strong false-inhabitation exclusion displayed by $T,L,B,F,R$. The packet does not export full closed consistency, closed subject reduction, unrestricted normalization, host evaluation, quotient conversion, or a route from arbitrary closed proofs to beta-strong normal inhabitants of the same false encoding.
