@@ -79,12 +79,30 @@ Use the sibling boundaries. The closed-normal packet of \autoref{ch:concrete-ins
 It remains to compare this branch with the blocker row. The subject-reduction ledger of \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert} keeps the missing transport edge outside the closed-normal rows, so the packet stops at the finite closed-normal boundary.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis route-union exactness]
+\label{thm:metacic-audit-synthesis-route-union-exactness}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+any packet consumer that reads confluence, normalization, substitution, decidable-checking, or closed-normal assembly must also carry the blocker row $B$ and the subject-reduction row $S$ through the same transport, route, provenance, and naming rows $H,R,P,L$. Thus the positive rows $C,N,U,D,A$ and the blocker row $B$ form one exact audit-route union over $S,H,R,P,L$. The packet supplies no hidden subject reduction, unrestricted Church--Rosser theorem, candidate-free normalization, global beta-conversion decidability, or quotient equality.
+\end{theorem}
+\begin{proof}
+Use the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface}. It identifies $S,C,N,U,D,A,B,H,R,P,L$ as the complete finite carrier and local naming surface, so the positive audit rows and blocker row are read from one packet.
+
+Next apply \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}. Every consumer route stays inside the displayed critical path, and the only transport, route, provenance, and naming rows available to that route are $H,R,P,L$.
+
+The blocker side is fixed by \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}. The row $B$ is carried together with the subject-reduction row $S$, so agreement on confluence, normalization, substitution, decidable-checking, or assembly cannot erase the obstruction.
+
+Finally use \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}. It places the closed-normal branch inside the named finite boundary rather than inside full closed consistency. Therefore the route union is exact: reading any positive row also carries $S$ and $B$ through $H,R,P,L$, while hidden subject reduction, unrestricted Church--Rosser, candidate-free normalization, global beta-conversion decidability, and quotient equality remain outside the packet.
+\end{proof}
+
 \closureat{MetaCICAuditSynthesisPacketUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICAuditSynthesisPacketUp}
   \constructivestory{A $\MetaCICAuditSynthesisPacketUp$ packet is generated from subject-reduction obstruction, confluence, normalization, substitution, decidable-checking, closed-normal assembly, blocker, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, and \autoref{thm:metacic-audit-synthesis-closed-normal-boundary} bind the finite MetaCIC audit synthesis packet and its blocker ledger.}
+  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}, and \autoref{thm:metacic-audit-synthesis-route-union-exactness} bind the finite MetaCIC audit synthesis packet and its blocker ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
