@@ -243,4 +243,59 @@ theorem ModelPredictiveControlPacket_namecert_obligation_surface [AskSetup] [Pac
       exact ⟨sourceRow.right.right, stateDynamicsRollout, rolloutHorizonProvenance⟩
   }
 
+theorem ModelPredictiveControlPacket_finite_rollout_bridge_boundary
+    [AskSetup] [PackageSetup]
+    {state input horizon dynamics cost rollout provenance nameRow prefixHorizon prefixRollout
+      prefixProvenance constraintWindow terminal exportedControl consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelPredictiveControlPacket state input horizon dynamics cost rollout provenance nameRow
+        bundle pkg ->
+      UnaryHistory prefixHorizon ->
+        Cont state dynamics prefixRollout ->
+          Cont prefixRollout prefixHorizon prefixProvenance ->
+            PkgSig bundle prefixProvenance pkg ->
+              ModelPredictiveControlConstraintLedger state input prefixHorizon dynamics cost
+                  prefixRollout prefixProvenance nameRow constraintWindow terminal bundle pkg ->
+                Cont prefixRollout prefixProvenance exportedControl ->
+                  Cont exportedControl nameRow consumer ->
+                    PkgSig bundle exportedControl pkg ->
+                      PkgSig bundle consumer pkg ->
+                        ModelPredictiveControlPacket state input prefixHorizon dynamics cost
+                            prefixRollout prefixProvenance nameRow bundle pkg ∧
+                          UnaryHistory constraintWindow ∧ UnaryHistory terminal ∧
+                            UnaryHistory exportedControl ∧ UnaryHistory consumer ∧
+                              PkgSig bundle terminal pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet prefixUnary stateDynamicsPrefix prefixRolloutPrefix prefixPkg ledger
+    exportedRoute consumerRoute _exportedPkg consumerPkg
+  have prefixPacketData :=
+    ModelPredictiveControlPacket_finite_horizon_prefix_restriction
+      packet prefixUnary stateDynamicsPrefix prefixRolloutPrefix prefixPkg
+  have prefixPacket :
+      ModelPredictiveControlPacket state input prefixHorizon dynamics cost prefixRollout
+        prefixProvenance nameRow bundle pkg :=
+    prefixPacketData.left
+  have prefixPacketOut :
+      ModelPredictiveControlPacket state input prefixHorizon dynamics cost prefixRollout
+        prefixProvenance nameRow bundle pkg :=
+    prefixPacket
+  have prefixRolloutUnary : UnaryHistory prefixRollout :=
+    prefixPacketData.right.left
+  have prefixProvenanceUnary : UnaryHistory prefixProvenance :=
+    prefixPacketData.right.right
+  obtain ⟨_ledgerPacket, horizonCostWindow, windowRolloutTerminal, terminalPkg⟩ := ledger
+  obtain ⟨_stateUnary, _inputUnary, _prefixHorizonUnary, _dynamicsUnary, costUnary,
+    nameUnary, _stateDynamicsPrefix, _prefixRolloutPrefix, _prefixPkg⟩ := prefixPacket
+  have constraintWindowUnary : UnaryHistory constraintWindow :=
+    unary_cont_closed prefixUnary costUnary horizonCostWindow
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed constraintWindowUnary prefixRolloutUnary windowRolloutTerminal
+  have exportedUnary : UnaryHistory exportedControl :=
+    unary_cont_closed prefixRolloutUnary prefixProvenanceUnary exportedRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed exportedUnary nameUnary consumerRoute
+  exact
+    ⟨prefixPacketOut, constraintWindowUnary, terminalUnary, exportedUnary, consumerUnary,
+      terminalPkg, consumerPkg⟩
+
 end BEDC.Derived.ModelPredictiveControlUp
