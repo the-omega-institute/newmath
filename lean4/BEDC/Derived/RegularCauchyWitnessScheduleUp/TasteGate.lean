@@ -248,6 +248,17 @@ instance regularCauchyWitnessScheduleChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyWitnessScheduleToEventFlow_injective heq)
 
+theorem RegularCauchyWitnessScheduleUp_taste_gate_boundary :
+    ChapterTasteGate RegularCauchyWitnessScheduleUp ∧
+      (∀ (x : RegularCauchyWitnessScheduleUp) (w : RawEvent) (m : DisplayAlphabet),
+        List.Mem w (BHistCarrier.toEventFlow x) →
+          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact regularCauchyWitnessScheduleChapterTasteGate
+  · intro x w m hw hm
+    exact ChapterTasteGate.conservativity x w m hw hm
+
 theorem RegularCauchyWitnessScheduleTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       regularCauchyWitnessScheduleDecodeBHist

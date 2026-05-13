@@ -120,6 +120,22 @@ remains within the displayed finite packet and has no coordinate from which to
 recover a total halting classifier.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction finite trace inversion]
+\label{thm:halting-distinction-finite-trace-inversion}
+Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. If a public termination-facing read of $D$ reaches a displayed $\Cont$ step, then the read determines its source pair row $Q$, finite trace row $T$, diagonal row $Z$ when the read enters the self-reference branch, transport row $H$, route row $C$, provenance row $P$, and local ledger row $N$.
+
+This inversion is exact only for the displayed finite packet. It reconstructs no hidden total halting classifier, divergence oracle, global truth predicate, or host evaluator.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. By \autoref{def:halting-distinction-carrier}, the only coordinates available to a termination-facing read are $Q,T,Z,H,C,P,N$, and the only displayed continuation routes are recorded in $C$.
+
+Apply \autoref{thm:halting-distinction-trace-readability}. A read that reaches a displayed $\Cont$ step is already inside the finite trace row $T$ and route row $C$, so the source pair row $Q$, transport row $H$, provenance row $P$, and local ledger row $N$ are fixed by the carrier projection.
+
+If the route enters the self-reference branch, apply \autoref{thm:halting-distinction-diagonal-boundary}. The diagonal row $Z$ is then the displayed self-application row reached by the route, and no external decision principle is added at that point.
+
+Finally apply \autoref{thm:halting-distinction-consumer-non-escape}. Since every public consumer receives only $Q,T,Z,H,C,P,N$, the inversion cannot reconstruct a hidden total halting classifier, divergence oracle, global truth predicate, or host evaluator.
+\end{proof}
+
 \begin{theorem}[HaltingDistinction provenance purity boundary]
 \label{thm:halting-distinction-provenance-purity-boundary}
 Let $D=(Q,T,Z,H,C,P,N)$ be an accepted $\HaltingDistinctionUp$ carrier. The
