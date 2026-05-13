@@ -152,6 +152,7 @@ import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
+import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
 import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
