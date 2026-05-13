@@ -64,15 +64,53 @@ The package and naming rows identify the same packet. Classifier stability from 
 The constructor-list and $\mathsf{GAP}$ clauses are the two remaining projections. The former says every accepted row is read through $L$; the latter says a read lacking that witness is recorded as non-escape evidence rather than as an admitted continuation.
 \end{proof}
 
+\begin{theorem}[GeneratorClosure carrier obligation]
+\label{thm:generatorclosure-carrier-obligation}
+For a finite $\BHist$ packet $K=(G,L,A,Q,W,H,C,P,N)$ as in \autoref{def:generator-closure-namecert-carrier}, carrier admission for $\GeneratorClosureUp$ is exactly the displayed generator row $G$, constructor-list provenance $L$, authorized-row ledger $A$, generator-closure classifier row $Q$, continuation-witness ledger $W$, displayed $\hsame$ transports $H$, finite $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Every generated closure witness exported by the carrier is produced by a row of $L$ and recorded in $A$ or $W$.
+\end{theorem}
+\begin{proof}
+Project the tuple in \autoref{def:generator-closure-namecert-carrier}. The only generator source is $G$, the only constructor-list provenance is $L$, and the only accepted-row ledger is $A$.
+
+Now read any exported closure witness through the displayed route $C$. If the read is accepted, the route reaches $L$ and records the result in $A$ or $W$; if it is not accepted, the carrier has no other row that can supply generated closure data.
+
+The rows $H,P,N$ transport and name the same packet. They do not add a second generator, an external induction rule, or a closure witness outside the displayed constructor list.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure classifier obligation]
+\label{thm:generatorclosure-classifier-obligation}
+Displayed $\hsame$ transport for an accepted $\GeneratorClosureUp$ carrier preserves generator endpoints and generated closure rows. In particular, if two packets transport the same $G,L,A,Q,W,H,C,P,N$ surface, then the $\GeneratorClosureUp$ classifier preserves the endpoints named by $G$ and the generated rows recorded by $A$ and $W$.
+\end{theorem}
+\begin{proof}
+Apply the classifier stability theorem \autoref{thm:generator-closure-classifier-stability}. Transport of $G$ preserves the generator endpoint, and transport of $L$ preserves the constructor-list provenance against which generated rows are checked.
+
+The accepted rows in $A$ and the continuation witnesses in $W$ are transported along the same displayed $\hsame$ rows $H$. The continuation routes $C$, package provenance $P$, and local naming row $N$ then repack the transported data as the same classifier-facing packet.
+
+Thus the classifier can move only the displayed generator endpoint and generated closure rows; it cannot introduce an endpoint or generated row outside the transported carrier.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure ledger obligation]
+\label{thm:generatorclosure-ledger-obligation}
+Every exported $\GeneratorClosureUp$ read factors through the displayed generator row $G$, constructor-list provenance $L$, authorized-row ledger $A$, continuation-witness ledger $W$, displayed $\hsame$ transport $H$, finite $\Cont$ route $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. A read without the constructor-list witness required by $L$ is recorded by the $\mathsf{GAP}$ non-escape boundary and is not exported as a generated closure row.
+\end{theorem}
+\begin{proof}
+Start with the carrier obligation of \autoref{thm:generatorclosure-carrier-obligation}. It identifies every exported closure witness with a finite read through $G,L,A,Q,W,H,C,P,N$.
+
+Use continuation witness preservation from \autoref{thm:generator-closure-continuation-witness}. A route that keeps the constructor-list witness remains inside $W$ and is therefore exported through the same packet.
+
+For a route without that witness, the carrier exposes no generated closure coordinate. The read is therefore recorded as a $\mathsf{GAP}$ boundary by the package provenance and cannot be repacked by $N$ as an accepted generated row.
+\end{proof}
+
 \closureat{GeneratorClosureUp}{seedStr}
+\closureat{GeneratorClosureUp}{obligationStr}
+\closureat{GeneratorClosureUp}{scopedStr}
 
 \begin{closurestatus}{\GeneratorClosureUp}
   \constructivestory{A $\GeneratorClosureUp$ packet is generated from an authorized generator row, finite constructor-list provenance, authorized-row ledger, generator-closure classifier row, continuation-witness ledger, displayed $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, a local $\NameCert$ row, and $\mathsf{GAP}$ non-escape evidence.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the carrier, classifier stability, continuation witness preservation, and five-row NameCert obligation surface for authorized generator rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the displayed $\BHist$ carrier, authorized generator rows, constructor-list provenance, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert_{\GeneratorClosureUp}$ rows, classifier stability, continuation witness preservation, and $\mathsf{GAP}$ non-escape evidence for authorized generator rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close free-floating induction, universal quantification over objects outside the displayed generator, host recursor correctness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, continuation witness preservation, constructor-list provenance, and $\mathsf{GAP}$ ledger non-escape for the same finite packet.}
+  \upgradepath{The next paper grade is a public exported GeneratorClosure certificate over the same authorized generator, constructor-list provenance, classifier, continuation-witness, and $\mathsf{GAP}$ ledger rows.}
 \end{closurestatus}
