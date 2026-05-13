@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateBoundaryRouterUp$}
+\label{ch:concrete-instances-twin-substrate-boundary-router-namecert}
+\origin{human}
+
+The $\TwinSubstrateBoundaryRouterUp$ packet realizes the twin-substrate architecture of \autoref{ch:twin-substrate-synthesis} as a request-level boundary router. It reads the MetaCIC audit surface of \autoref{ch:metacic-audit-synthesis}, the GroundCompiler audit map of \autoref{ch:bedc-groundcompiler-audit-map}, and the finite architecture packet of \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}. The point of this chapter is narrower than architecture naming: it binds the local certificate that decides which substrate may answer each public request, and it keeps failed cross-substrate discharges visible.
+
+\begin{definition}[Twin-substrate boundary router carrier]
+\label{def:twin-substrate-boundary-router-carrier}
+A $\TwinSubstrateBoundaryRouterUp$ carrier is a finite $\BHist$ packet
+$$
+R=(M,G,Q,D,B,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC request row, recording closed-CIC audit obligations, proof-theoretic frontiers, theorem-family references, and MetaCIC-side refusal data;
+\item $G$ is the GroundCompiler request row, recording audit-map rows, event-flow obligations, recognizer boundaries, report boundaries, and compiler-side refusal data;
+\item $Q$ is the public request classifier row, separating MetaCIC requests, GroundCompiler requests, paired-context requests, and rejected cross-substrate requests before any answer is exposed;
+\item $D$ is the discharge row, recording that a MetaCIC request can be discharged only by displayed MetaCIC data from $M$ and that a GroundCompiler request can be discharged only by displayed GroundCompiler data from $G$;
+\item $B$ is the boundary ledger, recording the exact non-discharge clauses for attempts to answer a MetaCIC request by GroundCompiler rows or a GroundCompiler request by MetaCIC rows;
+\item $H$ records componentwise $\hsame$ transports for request rows, classifier rows, discharge rows, boundary-ledger rows, continuation rows, provenance, and local naming;
+\item $C$ records displayed $\Cont$ routes by which a public consumer replays $Q,D,B$ after projecting $M$ or $G$;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:metacic-audit-synthesis}, \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateBoundaryRouterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for treating compiler reports as MetaCIC proof evidence, no coordinate for treating MetaCIC proof-theoretic rows as compiler-channel evidence, and no hidden global resolver outside the finite packet.
+\end{definition}
+
+\begin{theorem}[Twin-substrate boundary-router NameCert obligations]
+\label{thm:twin-substrate-boundary-router-namecert-obligations}
+For every accepted $\TwinSubstrateBoundaryRouterUp$ carrier
+$$
+R=(M,G,Q,D,B,H,C,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateBoundaryRouterUp}$ surface consists exactly of MetaCIC request readback through $M$, GroundCompiler request readback through $G$, public request classification through $Q$, substrate-local discharge through $D$, cross-substrate refusal through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite $\BHist$ carrier. The only request rows are $M$ and $G$, the only classifier is $Q$, and the only discharge and refusal rows are $D$ and $B$.
+
+Read the NameCert surface in that projected order. The classifier $Q$ chooses the visible request class before any answer is exposed, while $D$ records the substrate-local discharge row available for the chosen class.
+
+Componentwise $\hsame$ transport through $H$ preserves the same projected rows, and $\Cont$ route replay through $C$ exposes only the displayed classifier, discharge, and boundary-ledger sequence. The $\Pkg$ row $P$ supplies the listed provenance anchors, and $N$ binds the local name.
+
+Since the carrier contains no additional resolver coordinate, those rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Twin-substrate boundary-router disjoint discharge]
+\label{thm:twin-substrate-boundary-router-metacic-groundcompiler-disjointness}
+In every accepted $\TwinSubstrateBoundaryRouterUp$ carrier, a MetaCIC request cannot be discharged by GroundCompiler rows, and a GroundCompiler request cannot be discharged by MetaCIC rows. Paired-context requests may cite both substrate rows only as context recorded by $Q$ and $B$, not as a discharge conversion.
+\end{theorem}
+\begin{proof}
+Begin with finite carrier projection. A MetaCIC request is classified by $Q$ as reading $M$, and a GroundCompiler request is classified by $Q$ as reading $G$.
+
+For the MetaCIC case, the discharge row $D$ points back to $M$. The boundary ledger $B$ records that GroundCompiler audit-map rows, event-flow rows, recognizer rows, and report rows are not proof evidence for that request.
+
+For the GroundCompiler case, the discharge row $D$ points back to $G$. The same boundary ledger records that MetaCIC closed-CIC rows, proof-theoretic frontiers, and theorem-family references are not compiler-channel evidence for that request.
+
+The componentwise $\hsame$ transports in $H$ and the $\Cont$ route replay in $C$ preserve the chosen substrate row and its refusal clause. Provenance $P$ and local naming $N$ therefore bind disjoint discharge rather than a cross-substrate resolver.
+\end{proof}
+
+\begin{theorem}[Twin-substrate boundary-router non-escape]
+\label{thm:twin-substrate-boundary-router-nonescape}
+Every public route exported by an accepted $\TwinSubstrateBoundaryRouterUp$ carrier factors through the request classifier $Q$, the substrate-local discharge row $D$, the boundary ledger $B$, componentwise transport $H$, continuation replay $C$, package provenance $P$, and local naming $N$. The export cannot introduce a hidden request class, a hidden discharge row, or an ambient oracle that answers across the MetaCIC/GroundCompiler boundary.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations to expose the public route. Any consumer must first project the finite packet and then pass through $Q,D,B,H,C,P,N$.
+
+The classifier $Q$ makes the request class visible. The discharge row $D$ ties an accepted answer to the matching substrate row, while $B$ records the non-discharge clause for the opposite substrate.
+
+Transport and continuation do not add coordinates. They replay the same rows componentwise and in displayed finite order, so they cannot manufacture a hidden request class or an outside discharge witness.
+
+Package provenance and local naming close the route over the same finite carrier. With no ambient resolver coordinate in \autoref{def:twin-substrate-boundary-router-carrier}, public export remains non-escaping.
+\end{proof}
+
+\begin{theorem}[Twin-substrate boundary-router public surface]
+\label{thm:twin-substrate-boundary-router-public-surface}
+The public surface of an accepted $\TwinSubstrateBoundaryRouterUp$ carrier is exactly the finite packet export of $M,G,Q,D,B,H,C,P,N$. Downstream self-compilation audit readers may use it to route requests between MetaCIC audit rows and GroundCompiler audit rows, but only with the substrate-local discharge and refusal clauses displayed in the exported NameCert packet.
+\end{theorem}
+\begin{proof}
+Start from carrier projection. The public packet exposes the two substrate request rows together with classifier, discharge, refusal, transport, continuation, provenance, and naming rows.
+
+The route replay row $C$ orders consumer access to the classifier $Q$, the discharge row $D$, and the boundary ledger $B$. Thus a reader can decide where a request lands and can inspect why the opposite substrate is not an answer.
+
+The $\Pkg$ row $P$ anchors the export to the twin-substrate vision, the MetaCIC audit surface, the GroundCompiler audit map, and the concrete architecture packet. The local $\NameCert$ row $N$ names the exported surface without adding a hidden resolver.
+
+Consequently downstream self-compilation readers receive request-level routing between the two audit substrates, not a merged substrate and not an unledgered cross-substrate discharge.
+\end{proof}
+
+\closureat{TwinSubstrateBoundaryRouterUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateBoundaryRouterUp}
+  \constructivestory{A $\TwinSubstrateBoundaryRouterUp$ packet is generated from MetaCIC and GroundCompiler request rows, a public request classifier, a substrate-local discharge row, a cross-substrate boundary ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-boundary-router-carrier}, \autoref{thm:twin-substrate-boundary-router-namecert-obligations}, \autoref{thm:twin-substrate-boundary-router-metacic-groundcompiler-disjointness}, \autoref{thm:twin-substrate-boundary-router-nonescape}, and \autoref{thm:twin-substrate-boundary-router-public-surface} bind the finite request-level boundary router, disjoint discharge rule, non-escape boundary, and public export surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close MetaCIC proof-theoretic frontiers, GroundCompiler self-hosting, compiler report soundness, Lean verification, audit cleanliness, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request classification, substrate-local discharge, boundary-ledger exactness, public export exactness, transport, continuation, provenance, and naming for the same finite packet.}
+\end{closurestatus}
