@@ -136,6 +136,7 @@ import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicApproximationUp.RefinementSealCommutation
 import BEDC.Derived.DyadicApproximationUp.MeshValidatedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.FinitePackets
+import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
