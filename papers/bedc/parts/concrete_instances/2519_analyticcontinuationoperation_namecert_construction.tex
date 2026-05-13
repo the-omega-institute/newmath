@@ -123,6 +123,34 @@ It remains to check the output read. By operation ledger exactness in \autoref{t
 Now apply the socket output factorization theorem \autoref{thm:analytic-continuation-socket-operation-output-factorization} to $\operatorname{Sock}(Q,B)$. The output row $O$ factors through $F,G,U,A,H,C,P,N$, and the branch ledger $B$ records exactly the attempted reads that do not factor through those rows. The holomorphic handoff theorem \autoref{thm:analytic-continuation-socket-holomorphic-handoff} then prevents a ledger entry from becoming a second output row. Hence every $\HolomorphicUp$ output read through the operation packet factors through the extracted socket and no hidden branch selector or unrestricted analytic-continuation operator is exported.
 \end{proof}
 
+\begin{theorem}[Analytic continuation operation socket ledger consumer]
+\label{thm:analytic-continuation-operation-socket-ledger-consumer}
+Let $Q=(D_1,D_2,F,G,U,A,O,L,H,C,P,N)$ be an accepted $\AnalyticContinuationOperationUp$ carrier, and let $B$ be the displayed branch-obstruction coordinate of $L$. Every socket consumer of the operation output reads $O$ only through the finite packet
+$$
+F,G,U,A,O,B,H,C,P,N.
+$$
+The consumer may inspect the $\BHist$ ledger, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, but it cannot read a second $\HolomorphicUp$ output or a branch-sensitive continuation object outside the socket ledger.
+\end{theorem}
+\begin{proof}
+Begin with socket extraction, \autoref{thm:analytic-continuation-operation-socket-extraction}. It identifies the operation socket as $\operatorname{Sock}(Q,B)=(F,G,U,A,O,B,H,C,P,N)$ and proves that the output read factors through this packet.
+
+Now apply ledger exactness and public export. Ledger exactness confines branch-sensitive requests to $L$, and public export lists no output row beyond the displayed $\HolomorphicUp$ row $O$.
+
+Since $B$ is the branch-obstruction coordinate of $L$, a socket consumer can inspect it only as ledger data. It cannot reclassify that ledger row as another output, so every operation-output read remains inside $F,G,U,A,O,B,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Analytic continuation operation domain-overlap boundary]
+\label{thm:analytic-continuation-operation-domain-overlap-boundary}
+For an accepted $\AnalyticContinuationOperationUp$ carrier $Q=(D_1,D_2,F,G,U,A,O,L,H,C,P,N)$, the $\ComplexUp$ domain rows $D_1,D_2$ and the overlap row $U$ must be displayed before any $\HolomorphicUp$ output row is exported. A consumer can reach $O$ only after reading the source rows $F,G$, the domain-overlap evidence $D_1,D_2,U$, the $\AnalyticContUp$ operation row $A$, and the structural rows $H,C,P,N$; branch-sensitive requests remain in the ledger and cannot become a second output.
+\end{theorem}
+\begin{proof}
+Project the operation carrier. The output row $O$ is listed after the two domain rows, the two holomorphic source rows, the overlap row, and the operation row.
+
+Use overlap classifier exactness for the domain-overlap side. It forces every overlap-classifier read through $D_1,D_2,F,G,U,A$ and through the structural rows $H,C,P,N$ before any output-facing read is available.
+
+Finally apply the socket ledger consumer theorem. After the output route reaches the socket surface, the branch-obstruction coordinate remains ledger data. Thus no branch-sensitive request can bypass the displayed domain-overlap rows or become a second $\HolomorphicUp$ output.
+\end{proof}
+
 \begin{theorem}[Analytic continuation operation overlap classifier exactness]
 \label{thm:analytic-continuation-operation-overlap-classifier-exactness}
 Let $Q=(D_1,D_2,F,G,U,A,O,L,H,C,P,N)$ be an accepted $\AnalyticContinuationOperationUp$ carrier. Every overlap-classifier read of $Q$ factors through the displayed domain rows $D_1,D_2$, source rows $F,G$, finite overlap row $U$, operation row $A$, and structural rows $H,C,P,N$. The classifier cannot replace the local overlap evidence by monodromy, quotient-of-germs equality, a branch selector, or an undisplayed continuation object.

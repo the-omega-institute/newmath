@@ -195,6 +195,20 @@ Use \autoref{thm:continuation-trace-boundary-hsame-pullback} for each boundary. 
 Finally apply \autoref{thm:continuation-trace-route-support-totality} on the assembled finite packet. Every consumer route chooses exactly one of the three source ledgers, while the two boundary rows only glue adjacent endpoints. The non-escape boundary remains the one already stated for continuation traces, so host evaluators, termination predicates, quotient behaviours, and big-step semantics stay outside the public route.
 \end{proof}
 
+\begin{theorem}[ContinuationTrace scoped readback]
+\label{thm:continuation-trace-scoped-readback}
+Every accepted $\ContinuationTraceUp$ route is scoped exactly by its $\BHist$ source rows, $\BMark$ step rows, target rows, finite ledgers, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The route cannot read host evaluator semantics, host termination, quotient behaviour, or big-step data.
+\end{theorem}
+\begin{proof}
+Begin with small-step readback. It reads every displayed step from the source row, mark-and-tail row, target row, trace ledger, and continuation route.
+
+Use the non-escape boundary and public export. These identify the visible computational content with the finite trace packet and exclude host evaluators, host termination, quotient behaviours, selected evaluators, and big-step semantic objects.
+
+Now apply route support totality. Every consumer route factors through exactly one displayed source ledger together with the relevant boundary $\hsame$ row, so no undisplayed route support can enter.
+
+Finally use route composition determinacy. Composed routes remain independent of the order in which adjacent boundary rows are assembled, and every read still chooses one displayed ledger. The full scope is therefore exactly the $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface stated above.
+\end{proof}
+
 \closureat{ContinuationTraceUp}{seedStr}
 \closureat{ContinuationTraceUp}{obligationStr}[BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_namecert\_obligations]
 \closureat{ContinuationTraceUp}{scopedStr}[BEDC.Derived.ContinuationTraceUp.ContinuationTraceCarrier\_small\_step\_readback]
