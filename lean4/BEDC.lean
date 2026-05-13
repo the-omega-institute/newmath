@@ -418,7 +418,9 @@ import BEDC.Derived.RegularCauchyDiagonalUp.DownstreamRoute
 import BEDC.Derived.RegularCauchyDiagonalUp.FormalTargetBoundary
 import BEDC.Derived.RegularCauchyDiagonalUp.MatureConsumerExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.NameCertConsumerSurface
+import BEDC.Derived.RegularCauchyDiagonalUp.NameNormalizationHandoff
 import BEDC.Derived.RegularCauchyDiagonalUp.ReadbackExactness
+import BEDC.Derived.RegularCauchyDiagonalUp.RealCompletionHandoffPackage
 import BEDC.Derived.RegularCauchyDiagonalUp.RootDownstreamUnblockPackage
 import BEDC.Derived.RegularCauchyDiagonalUp.RootSourceDeterminacy
 import BEDC.Derived.RegularCauchyDiagonalUp.RootWindowLedgerExactness
