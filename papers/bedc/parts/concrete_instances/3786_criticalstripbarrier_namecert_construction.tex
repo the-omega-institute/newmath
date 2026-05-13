@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\CriticalStripBarrierUp$}
+\label{ch:concrete-instances-criticalstripbarrier-namecert}
+\origin{ai}
+
+The $\CriticalStripBarrierUp$ packet realizes the RH approach-rate witness as finite barrier-ledger data. It binds a supplied critical-strip row, a supplied zeta-zero row, a critical-line witness row, the real-part and rational lower-bound rows, transport and continuation rows, package provenance, and a local naming row. The packet records how a consumer may route a zero-localization or off-line lower-bound read; it does not prove $\mathsf{RH}$, compute zeros, or assert a global analytic lower bound outside the displayed finite rows.
+
+\begin{definition}[Critical-strip-barrier carrier]
+\label{def:critical-strip-barrier-carrier}
+A $\CriticalStripBarrierUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,Z,W,R,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the supplied $\CritStripUp$ row carrying the critical-strip membership data for the displayed source history;
+\item $Z$ is the supplied $\ZetaZerosUp$ row carrying the zeta-zero premise for the same displayed source when a zero-localization read is requested;
+\item $W$ is the supplied $\CriticalLineWitnessUp$ row available to consumers that already carry a critical-line witness route;
+\item $R$ is the real-part comparison row reading $\Re(s)$ through the $\RealUp$ carrier exposed by the strip and zero rows;
+\item $Q$ is the rational distance row recording the displayed lower-bound comparison against the rational history $1/2$ in $\RatUp$;
+\item $A$ is the approach-rate ledger row that pairs each displayed rational separation depth with the corresponding positive rational lower-bound entry;
+\item $H$ records componentwise $\hsame$ transports for $S,Z,W,R,Q,A$ and for the package and local naming coordinates;
+\item $C$ records the displayed $\Cont$ routes from the strip row to the zero row, from the real-part row to the rational distance row, from the distance row to the approach-rate ledger, and from the witness row to the RH-facing handoff;
+\item $P$ is the $\Pkg$ provenance over $\CritStripUp$, $\ZetaZerosUp$, $\CriticalLineWitnessUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CriticalStripBarrierUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed strip, zero, witness, real-part, rational-bound, approach-rate, transport, continuation, package, and naming rows.
+\end{definition}
+
+\begin{theorem}[CriticalStripBarrier NameCert obligations]
+\label{thm:critical-strip-barrier-namecert-obligations}
+The local $\NameCert_{\CriticalStripBarrierUp}$ surface for \autoref{def:critical-strip-barrier-carrier} consists exactly of six finite obligations:
+\begin{enumerate}
+\item carrier admission for $B=(S,Z,W,R,Q,A,H,C,P,N)$;
+\item zero-localization routing from the $\CritStripUp$ row $S$ to the $\ZetaZerosUp$ row $Z$ through displayed $\hsame$ and $\Cont$ rows;
+\item rational separation exposure through $R,Q,A$ as the only place where a lower-bound comparison against $1/2$ is read;
+\item witness handoff through $W$ only when a consumer already supplies the critical-line witness route;
+\item componentwise stability under the transports in $H$ and replay through the routes in $C$;
+\item non-escape from a proof of $\mathsf{RH}$, analytic zero search, host complex equality, quotient zero-set equality, or an undisplayed global lower-bound theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:critical-strip-barrier-carrier}. The strip row, zero row, witness row, real-part row, rational distance row, approach-rate ledger, transport row, continuation row, package row, and local naming row are all displayed coordinates.
+
+Zero-localization routing is read only through $S,Z,H,C$. These rows bind the supplied critical-strip premise to the supplied zeta-zero premise without replacing either one by host complex equality or by a selected representative.
+
+The approach-rate side is read through $R,Q,A$. The real row gives the displayed real part, the rational row gives the displayed comparison against $1/2$, and the ledger row gives the finite lower-bound entry attached to that comparison.
+
+The handoff row $W$ is a consumer boundary, not an RH proof. It may be read only as an already supplied critical-line witness route, so the packet does not turn a zero-in-strip premise into a proof that all zeros lie on the line.
+
+Finally inspect the carrier inventory. Since no coordinate names zero search, quotient zero-set equality, host complex equality, a global analytic lower-bound theorem, or an RH inhabitant, the six obligations exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[CriticalStripBarrier zero-localization route]
+\label{thm:critical-strip-barrier-zero-localization-route}
+For an accepted $\CriticalStripBarrierUp$ carrier
+$$
+B=(S,Z,W,R,Q,A,H,C,P,N),
+$$
+every zero-localization read factors through the displayed rows $S,Z,H,C,P,N$. The consumer receives the supplied critical-strip premise, the supplied zeta-zero premise, the componentwise transport tying them to the same displayed source, the continuation route by which the rows are replayed, package provenance, and the local name; it receives no zero search, host equality of complex histories, quotient zero-set equality, or selected representative.
+\end{theorem}
+\begin{proof}
+Project the zero-facing rows from the carrier. The rows available to such a read are $S,Z,H,C,P,N$.
+
+The strip row $S$ supplies the critical-strip side, and the zero row $Z$ supplies the zeta-zero side. The transport and continuation rows bind them as one displayed route without adding a host equality or quotient comparison.
+
+The package and local naming rows close the finite route. Because the carrier contains no coordinate for zero search or representative selection, the zero-localization read remains exactly the displayed finite packet route.
+\end{proof}
+
+\begin{theorem}[CriticalStripBarrier non-escape]
+\label{thm:critical-strip-barrier-nonescape}
+Every public read exported by an accepted $\CriticalStripBarrierUp$ packet factors through $S,Z,W,R,Q,A,H,C,P,N$. A request for a proof of $\mathsf{RH}$, an analytic zero-finding procedure, a host complex equality, a quotient zero-set equality, or a lower-bound theorem not displayed in the finite approach-rate ledger is outside the packet and is not exported as NameCert evidence.
+\end{theorem}
+\begin{proof}
+Read a public request through the displayed continuation row $C$. If the request asks for the strip row, zero row, witness row, real-part row, rational-bound row, approach-rate ledger, transport row, package provenance, or local naming row, the carrier supplies the corresponding coordinate.
+
+All other requests leave the carrier inventory. In particular, no coordinate carries an RH proof, analytic zero search, host complex equality, quotient zero-set equality, or an undisplayed lower-bound theorem.
+
+Thus the local $\NameCert$ row can certify only the finite barrier ledger and its displayed routes. It cannot export evidence that is absent from the carrier.
+\end{proof}
+
+\begin{theorem}[CriticalStripBarrier RH witness handoff]
+\label{thm:critical-strip-barrier-rh-witness-handoff}
+The RH approach-rate witness of \autoref{thm:rh-witness-approach-rate} is realized, at the concrete-instance level, by the finite $\CriticalStripBarrierUp$ packet
+$$
+S,Z,W,R,Q,A,H,C,P,N.
+$$
+An RH-facing consumer may read zero localization through $S,Z,H,C,P,N$, rational lower-bound separation through $R,Q,A,H,C,P,N$, and an already supplied critical-line witness route through $W,H,C,P,N$. The handoff is a finite NameCert packet for the witness surface; it is not a proof of $\mathsf{RH}$ and not an analytic theorem that every off-line point is bounded away from zero.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and NameCert obligations. They expose exactly the strip, zero, witness, real-part, rational-bound, approach-rate, transport, continuation, package, and local naming rows.
+
+Use the zero-localization route for $S,Z,H,C,P,N$. This supplies the premise side needed by an RH-facing consumer that is inspecting a zero in the critical strip.
+
+Use the rational-bound rows $R,Q,A,H,C,P,N$ for the approach-rate side. These rows provide only the finite lower-bound ledger entries that are displayed in the packet.
+
+Finally use the non-escape theorem. Since the carrier has no coordinate for an RH proof or a global analytic lower-bound theorem, the exported object is precisely the finite witness handoff named by $\CriticalStripBarrierUp$.
+\end{proof}
