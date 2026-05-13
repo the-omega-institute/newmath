@@ -112,4 +112,30 @@ theorem UniformCauchyCriterionPacket_shared_threshold_transport [AskSetup] [Pack
         namePkg'⟩,
       tailSame, modulusUnary', toleranceUnary', tailUnary'⟩
 
+theorem UniformCauchyCriterionPacket_real_seal_handoff [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name realRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont tail sealRow realRead ->
+        PkgSig bundle realRead pkg ->
+          UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+            UnaryHistory tolerance ∧ UnaryHistory tail ∧ UnaryHistory sealRow ∧
+              UnaryHistory realRead ∧ Cont index windows modulus ∧
+                Cont modulus tolerance tail ∧ Cont tail sealRow realRead ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet tailSealRealRead realReadPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRealRead
+  exact
+    ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+      realReadUnary, indexWindowsModulus, modulusToleranceTail, tailSealRealRead, namePkg,
+      realReadPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
