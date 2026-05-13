@@ -1,0 +1,115 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionRouteClassifierUp$}
+\label{ch:concrete-instances-subject-reduction-route-classifier-namecert}
+\origin{human}
+
+The $\SubjectReductionRouteClassifierUp$ packet realizes the route distinction of \autoref{ch:sr-discharge-routes} as finite NameCert data. It reads the shared discharge rows from \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and makes them available to compiler consumers such as \autoref{ch:concrete-instances-typepreservingcompiler-namecert} through an explicit route-kind ledger rather than through prose about bundle or typeclass invocation style.
+
+\begin{definition}[Subject-reduction route classifier carrier]
+\label{def:subject-reduction-route-classifier-carrier}
+A $\SubjectReductionRouteClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,A,L,P,K,I,U,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution preservation discharge row;
+\item $A$ is the application-argument stability discharge row;
+\item $L$ is the lambda-domain subject-reduction discharge row;
+\item $P$ is the Pi-domain subject-reduction discharge row;
+\item $K$ is the route-kind row with exactly two accepted classifier values, $\mathsf{bundle}$ and $\mathsf{typeclass}$;
+\item $I$ is the invocation row, recording either explicit bundle construction from $B,A,L,P$ or typeclass-to-bundle conversion from an ambient setup instance with the same four fields;
+\item $U$ is the consumer row, recording the downstream read that consumes the classified route as a subject-reduction discharge handoff;
+\item $H$ records componentwise $\hsame$ transports for the four discharge rows, the route-kind row, the invocation row, the consumer row, provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the discharge rows, route-kind classifier, invocation evidence, consumer handoff, provenance, and naming coordinates;
+\item $Q$ is the $\Pkg$ provenance ledger over $\BHist$, $\Ext$, $\Cont$, $\SubjectReductionUp$, $\SubjectReductionDischargeSocketUp$, $\TypePreservingCompilerUp$, the bundle route, the typeclass route, componentwise $\hsame$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectReductionRouteClassifierUp}$ row.
+\end{enumerate}
+The carrier contains no proof of any discharge row, no closed subject-reduction theorem, no host conversion rule, no erased derivation semantics, and no unrecorded route outside the displayed packet.
+\end{definition}
+
+\begin{theorem}[SubjectReductionRouteClassifier NameCert obligations]
+\label{thm:subject-reduction-route-classifier-namecert-obligations}
+For the carrier of \autoref{def:subject-reduction-route-classifier-carrier}, the local $\NameCert_{\SubjectReductionRouteClassifierUp}$ surface consists exactly of carrier admission for
+$$
+R=(B,A,L,P,K,I,U,H,C,Q,N),
+$$
+the four discharge rows $B,A,L,P$, the route-kind classifier $K$, the invocation row $I$, the consumer row $U$, componentwise transport through $H$, displayed continuation reads through $C$, package provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $R$. The first four coordinates are exactly the discharge rows already exposed by the socket chapter, so the classifier receives no extra MetaCIC premise.
+
+Read $K,I,U$ next. The route-kind row chooses one of the two accepted route classes, the invocation row records the corresponding construction of the same four-field bundle, and the consumer row records the downstream handoff.
+
+Finally inspect $H,C,Q,N$. These rows provide transport, route replay, provenance, and local naming for the displayed coordinates. Since the carrier has no other coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier bundle-typeclass correspondence]
+\label{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}
+In every accepted $\SubjectReductionRouteClassifierUp$ carrier, the $\mathsf{bundle}$ and $\mathsf{typeclass}$ route kinds classify two invocation styles for the same four-row discharge packet $B,A,L,P$. The $\mathsf{bundle}$ row reads $I$ as explicit construction of the four-field bundle. The $\mathsf{typeclass}$ row reads $I$ as extraction of the same four fields from a setup instance followed by conversion to that bundle. No route kind changes the discharge payload.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The four discharge rows $B,A,L,P$ are fixed before the route-kind row is read.
+
+For the $\mathsf{bundle}$ case, $I$ records direct construction of the bundle from those four displayed rows. The consumer row $U$ therefore receives exactly $B,A,L,P$ through the explicit packet.
+
+For the $\mathsf{typeclass}$ case, $I$ records a setup-instance read and its conversion to the bundle shape. The setup fields are the same four discharge rows, so the conversion changes only invocation style.
+
+The route-kind row $K$ has no third accepted classifier value, and the carrier has no coordinate for replacing $B,A,L,P$. Hence both accepted route kinds terminate at the same discharge payload.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier consumer non-escape]
+\label{thm:subject-reduction-route-classifier-consumer-nonescape}
+Every consumer read of an accepted $\SubjectReductionRouteClassifierUp$ carrier factors through
+$$
+B,A,L,P,K,I,U,H,C,Q,N.
+$$
+The consumer may inspect the four discharge rows, the route-kind classifier, invocation evidence, consumer handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ row. It cannot read a closed subject-reduction theorem, a proof of any missing discharge row, host conversion, erased derivation semantics, quotient equality of MetaCIC terms, or a route not named by $K$.
+\end{theorem}
+\begin{proof}
+Apply the NameCert-obligation theorem to identify the accepted carrier with the finite rows $B,A,L,P,K,I,U,H,C,Q,N$.
+
+For a permitted route read, the consumer first reads $K$, then follows $I$ to the bundle-facing form of the same four discharge rows, and finally reads the handoff recorded by $U$. The transport and route rows $H,C$ preserve that path without creating another route kind.
+
+For a request outside the classifier, the packet has no coordinate to satisfy it. In particular, no row supplies a closed subject-reduction theorem, proves a missing discharge premise, or exports host semantics. The consumer is therefore confined to the displayed classifier packet.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier public export]
+\label{thm:subject-reduction-route-classifier-public-export}
+The public export of an accepted $\SubjectReductionRouteClassifierUp$ carrier is exactly the finite route-classifier packet
+$$
+B,A,L,P,K,I,U,H,C,Q,N.
+$$
+Downstream compiler and audit chapters may cite this export as a named classifier for choosing bundle or typeclass invocation over the same socket-level discharge rows, but not as an inhabitant of those rows and not as a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+The carrier definition gives the complete public inventory. The NameCert-obligation theorem binds carrier admission, discharge-row reads, route classification, invocation evidence, consumer handoff, transport, routing, provenance, and local naming to that inventory.
+
+The bundle-typeclass correspondence theorem identifies the two accepted route kinds as presentation choices for $B,A,L,P$. The consumer non-escape theorem then prevents any public read from leaving the displayed rows.
+
+Thus the export is a finite classifier over the socket-level discharge surface. It can guide compiler and audit consumers to the chosen invocation style, while leaving discharge proofs and closed subject reduction outside the packet.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteClassifier vision concretization]
+\label{thm:subject-reduction-route-classifier-vision-concretization}
+The bundle and typeclass discharge routes of \autoref{ch:sr-discharge-routes} are realized by the finite $\SubjectReductionRouteClassifierUp$ carrier of \autoref{def:subject-reduction-route-classifier-carrier}. The realization consists of the four shared discharge rows $B,A,L,P$, the route-kind classifier $K$, the invocation row $I$, the consumer row $U$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+The route chapter identifies two ways to deliver the same subject-reduction discharge payload: explicit bundle passing and typeclass-to-bundle conversion. The carrier records that distinction in $K$ and records the corresponding invocation evidence in $I$.
+
+The socket chapter supplies the finite shape of the shared discharge rows, while the compiler chapter supplies a downstream consumer of subject-reduction handoffs. The row $U$ connects the classified invocation to that consumer-facing handoff.
+
+The public-export theorem then packages the result as a finite NameCert classifier. The chapter therefore has a concrete BEDC landing: route prose is replaced by a displayed packet whose accepted public reads are exactly the rows of $R$.
+\end{proof}
+
+\closureat{SubjectReductionRouteClassifierUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionRouteClassifierUp}
+  \constructivestory{A $\SubjectReductionRouteClassifierUp$ packet is generated from four subject-reduction discharge rows, a two-valued route-kind classifier, invocation and consumer rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-route-classifier-carrier}, \autoref{thm:subject-reduction-route-classifier-namecert-obligations}, \autoref{thm:subject-reduction-route-classifier-bundle-typeclass-correspondence}, \autoref{thm:subject-reduction-route-classifier-consumer-nonescape}, \autoref{thm:subject-reduction-route-classifier-public-export}, and \autoref{thm:subject-reduction-route-classifier-vision-concretization} bind the finite route classifier over the shared subject-reduction discharge rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove any of the four MetaCIC discharge rows, construct a closed subject-reduction theorem, verify the classifier in Lean, or bridge the packet to a public schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, route-kind coverage, bundle/typeclass correspondence, consumer non-escape, public export exactness, provenance, and local naming for the same finite classifier packet.}
+\end{closurestatus}

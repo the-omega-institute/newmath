@@ -171,6 +171,28 @@ Apply \autoref{thm:continuation-trace-concatenation-readback} and the boundary p
 Finally use \autoref{thm:continuation-trace-public-export}. The public packet is still the finite BEDC trace packet, hence the complete route support is over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
+\begin{theorem}[ContinuationTrace route composition determinacy]
+\label{thm:continuation-trace-route-composition-determinacy}
+For accepted packets
+$$
+T_0=(S_0,M_0,R_0,Q_0,H_0,C_0,P_0,N_0),\quad
+T_1=(S_1,M_1,R_1,Q_1,H_1,C_1,P_1,N_1),\quad
+T_2=(S_2,M_2,R_2,Q_2,H_2,C_2,P_2,N_2),
+$$
+suppose the displayed boundary rows match $R_0\hsame S_1$ and $R_1\hsame S_2$. Then every consumer route of the two-step concatenated $\ContinuationTraceUp$ packet factors through exactly one source ledger among $Q_0,Q_1,Q_2$ together with the two displayed boundary rows. The selected source ledger and the resulting public route are independent of whether the first boundary $R_0\hsame S_1$ or the second boundary $R_1\hsame S_2$ is assembled first.
+
+The composed packet still exports no host evaluator, host termination predicate, quotient behaviour, or big-step semantic object.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:continuation-trace-concatenation-readback} to the pair $(T_0,T_1)$ and then to the resulting packet with $T_2$. The first assembly contributes exactly the ledgers $Q_0,Q_1$ and the boundary row $R_0\hsame S_1$; the second assembly contributes $Q_2$ and the boundary row $R_1\hsame S_2$.
+
+Apply the same readback in the other order, first to $(T_1,T_2)$ and then to $T_0$ with that packet. The visible route inventory is again $Q_0,Q_1,Q_2$ plus the two displayed boundary rows.
+
+Use \autoref{thm:continuation-trace-boundary-hsame-pullback} for each boundary. Each $\hsame$ row pulls back only to the adjacent trace ledgers and does not add a third boundary source or an external endpoint.
+
+Finally apply \autoref{thm:continuation-trace-route-support-totality} on the assembled finite packet. Every consumer route chooses exactly one of the three source ledgers, while the two boundary rows only glue adjacent endpoints. The non-escape boundary remains the one already stated for continuation traces, so host evaluators, termination predicates, quotient behaviours, and big-step semantics stay outside the public route.
+\end{proof}
+
 \closureat{ContinuationTraceUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationTraceUp}
