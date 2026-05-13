@@ -256,3 +256,88 @@ u\sim_{\LinearMapUp(M,N)}v.
 $$
 The ledger is the pair of binary pointwise-sum ledgers on each associated side supplied by \autoref{thm:module-linearmap-pointwise-sum-certificate}, plus the target additive-associativity ledger in the abelian-group reduct of $N$, matching \autoref{def:linearmap-ledger-policy}.
 \end{proof}
+
+\begin{theorem}[Module LinearMap pointwise zero additive identity]
+\label{thm:module-linearmap-pointwise-zero-additive-identity}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the module classifier on $N$, write $+_N$ for module addition, and write $0_N$ for module zero. For functions $f,z:M\to N$, define $p,q:M\to N$ by
+$$
+p(x):=f(x)+_N z(x),
+\qquad
+q(x):=z(x)+_N f(x).
+$$
+Assume that
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+holds, and assume that $z$ is pointwise zero: for every carried $x:M$, the output $z(x)$ is carried in $N$ and
+$$
+z(x)\sim_N0_N.
+$$
+Then $z$, $p$, and $q$ carry LinearMap certificates,
+$$
+\mathsf{LinearMapCert}_R(M,N;z),
+\qquad
+\mathsf{LinearMapCert}_R(M,N;p),
+\qquad
+\mathsf{LinearMapCert}_R(M,N;q),
+$$
+and the two pointwise sums are classified with $f$ in $\LinearMapUp(M,N)$:
+$$
+p\sim_{\LinearMapUp(M,N)}f
+\qquad\text{and}\qquad
+q\sim_{\LinearMapUp(M,N)}f.
+$$
+Equivalently, for every carried $x:M$,
+$$
+f(x)+_N z(x)\sim_N f(x)
+\qquad\text{and}\qquad
+z(x)+_N f(x)\sim_N f(x).
+$$
+The ten-field fit is: traditional target the additive identity law in $\operatorname{Hom}_R(M,N)$; BEDC source the displayed $\mathsf{LinearMapCert}_R(M,N;f)$ package and the pointwise-zero rows for $z$ over common $\ModuleUp$ certificates; carrier the pointwise-zero map $z$ and the two pointwise-sum functions $p$ and $q$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability zero-map certification, pointwise-sum closure, and target additive unit laws; ledger the input function identifier, the pointwise-zero witnesses, the two pointwise-sum ledgers, and the left and right target additive-unit ledgers at each carried source endpoint; core theorem this block; exactness predicate the two displayed $\LinearMapUp(M,N)$ classifier comparisons; standard bridge the usual zero identity law for module homomorphisms; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-zero-linearmap-certificate} to the pointwise-zero rows for $z$. This gives
+$$
+\mathsf{LinearMapCert}_R(M,N;z).
+$$
+Apply \autoref{thm:module-linearmap-pointwise-sum-certificate} to the ordered pair $(f,z)$. This gives the certificate for $p$. Apply the same pointwise-sum theorem to the ordered pair $(z,f)$. This gives the certificate for $q$.
+
+It remains to prove the two classifier comparisons with $f$. By \autoref{def:linearmap-classifier-specification}, the $\LinearMapUp(M,N)$ classifier is pointwise comparison in the target module classifier, together with the carried map-code endpoints. The endpoint clauses are the certificate for $f$ assumed above and the certificates for $p$ and $q$ just obtained.
+
+Fix a carried source endpoint $x:M$. Unpacking the certificate for $f$ through \autoref{def:module-linearmap-certificate-package}, output closure makes $f(x)$ carried in $N$. The pointwise-zero hypothesis makes $z(x)$ carried in $N$ and gives
+$$
+z(x)\sim_N0_N.
+$$
+By \autoref{prop:module-forgets-abgroup-certificate}, the additive part of the target module is an $\AbGroupUp(N)$ certificate with the same operation $+_N$, zero $0_N$, and classifier $\sim_N$. Classifier reflexivity for the carried endpoint $f(x)$, together with target additive congruence, gives
+$$
+f(x)+_N z(x)\sim_N f(x)+_N0_N.
+$$
+The right additive-unit row in the retained abelian-group certificate gives
+$$
+f(x)+_N0_N\sim_N f(x).
+$$
+Transitivity of the target classifier yields
+$$
+p(x)=f(x)+_N z(x)\sim_N f(x).
+$$
+Similarly, target additive congruence applied to $z(x)\sim_N0_N$ and reflexivity of $f(x)$ gives
+$$
+z(x)+_N f(x)\sim_N0_N+_N f(x).
+$$
+The left additive-unit row gives
+$$
+0_N+_N f(x)\sim_N f(x),
+$$
+and transitivity yields
+$$
+q(x)=z(x)+_N f(x)\sim_N f(x).
+$$
+
+Since $x$ was arbitrary, \autoref{def:linearmap-classifier-specification} packages these two families of target comparisons, together with the carried endpoint certificates, as
+$$
+p\sim_{\LinearMapUp(M,N)}f
+\qquad\text{and}\qquad
+q\sim_{\LinearMapUp(M,N)}f.
+$$
+The ledger is assembled from the zero-map certificate supplied by \autoref{thm:module-zero-linearmap-certificate}, the two pointwise-sum certificates supplied by \autoref{thm:module-linearmap-pointwise-sum-certificate}, the target additive congruence rows, and the left and right additive-unit ledgers in the abelian-group reduct of $N$, matching \autoref{def:linearmap-ledger-policy}.
+\end{proof}
