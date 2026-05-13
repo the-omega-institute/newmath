@@ -76,6 +76,14 @@ static const char *R110_MANIFESTS[] = {
 
 static const char *ALGO_R110_MANIFESTS[] = {
     "manifests/hist/hsame_refl.algo.r110.ct",
+    "manifests/hist/hsame_symm.algo.r110.ct",
+    "manifests/hist/hsame_trans.algo.r110.ct",
+    "manifests/hist/hsame_empty_inversion.algo.r110.ct",
+    "manifests/hist/hsame_constructor_distinct.algo.r110.ct",
+    "manifests/mark/msame_refl.algo.r110.ct",
+    "manifests/mark/msame_symm.algo.r110.ct",
+    "manifests/mark/msame_trans.algo.r110.ct",
+    "manifests/mark/msame_no_confusion.algo.r110.ct",
 };
 
 static char *trim_ascii(char *s) {
