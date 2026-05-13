@@ -283,6 +283,9 @@ instance regularCauchyTailFusionChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyTailFusionToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RegularCauchyTailFusionUp :=
+  inferInstance
+
 theorem RegularCauchyTailFusionTasteGate_single_carrier_alignment :
     (∀ h : BHist, regularCauchyTailFusionDecodeBHist
       (regularCauchyTailFusionEncodeBHist h) = h) ∧
