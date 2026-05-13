@@ -242,6 +242,54 @@ theorem AnalyticContinuationSocketCarrier_rh_handoff_boundary [AskSetup] [Packag
       provenancePkg,
       boundaryPkg⟩
 
+theorem AnalyticContinuationSocketCarrier_zeta_locality_boundary [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      zetaRead branchBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg →
+      Cont output continuation zetaRead →
+        Cont zetaRead branch branchBoundary →
+          PkgSig bundle zetaRead pkg →
+            PkgSig bundle branchBoundary pkg →
+              UnaryHistory source ∧ UnaryHistory leftOverlap ∧ UnaryHistory witness ∧
+                UnaryHistory operation ∧ UnaryHistory output ∧ UnaryHistory branch ∧
+                  UnaryHistory zetaRead ∧ UnaryHistory branchBoundary ∧
+                    Cont source leftOverlap witness ∧ Cont witness operation output ∧
+                      Cont output continuation zetaRead ∧
+                        Cont zetaRead branch branchBoundary ∧
+                          Cont branch transport continuation ∧ PkgSig bundle provenance pkg ∧
+                            PkgSig bundle zetaRead pkg ∧
+                              PkgSig bundle branchBoundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier outputContinuationZeta zetaBranchBoundary zetaPkg boundaryPkg
+  obtain ⟨sourceUnary, leftOverlapUnary, witnessUnary, operationUnary, outputUnary,
+    branchUnary, _transportUnary, continuationUnary, _provenanceUnary, _nameUnary,
+    sourceLeftOverlapWitness, witnessOperationOutput, branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, provenancePkg, _namePkg⟩ :=
+      carrier
+  have zetaUnary : UnaryHistory zetaRead :=
+    unary_cont_closed outputUnary continuationUnary outputContinuationZeta
+  have boundaryUnary : UnaryHistory branchBoundary :=
+    unary_cont_closed zetaUnary branchUnary zetaBranchBoundary
+  exact
+    ⟨sourceUnary,
+      leftOverlapUnary,
+      witnessUnary,
+      operationUnary,
+      outputUnary,
+      branchUnary,
+      zetaUnary,
+      boundaryUnary,
+      sourceLeftOverlapWitness,
+      witnessOperationOutput,
+      outputContinuationZeta,
+      zetaBranchBoundary,
+      branchTransportContinuation,
+      provenancePkg,
+      zetaPkg,
+      boundaryPkg⟩
+
 theorem AnalyticContinuationSocketCarrier_local_output_handoff [AskSetup] [PackageSetup]
     {source leftOverlap witness operation output branch transport continuation provenance name
       consumer : BHist}

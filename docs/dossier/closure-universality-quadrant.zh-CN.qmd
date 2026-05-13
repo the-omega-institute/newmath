@@ -1,0 +1,99 @@
+---
+title: "四象限基底地图"
+subtitle: "普适性与封闭性是独立的两轴. 它们生成一张 2×2 地图. 项目锚在两个角, 同时标出另外两个角的代价"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "Rule 110 普适且封闭. Presburger 算术封闭但不普适. 超图灵计算普适但不封闭. 四象限地图尖化了封闭 premise 实际要求什么."
+---
+
+```{=html}
+<div class="lang-switch"><a href="closure-universality-quadrant.qmd">English</a></div>
+```
+
+## 两轴, 四角
+
+BEDC 框架的元胞读法靠一个结构性主张: 基底 *封闭观测*, 如果它的观测被对它自己轨道的有限记录穷尽, 观测通道里没有外部承诺. Rule 110 满足. BEDC 内核自己也满足.
+
+同一个框架命名第二个结构属性: 基底 *Turing 普适*, 如果自然数上每个 partial recursive 函数都能作为某个该基底中的计算被实现. Rule 110 也满足 (Cook 2004). BEDC 内核不满足 (它 total, 见 [向内 total, 向外 universal](total-inside-universal-outside.zh-CN.qmd)).
+
+两个属性独立. 没有从一个推到另一个的推导; 每个属性由基底的不同结构特征决定. 独立意味着两轴生成 2×2 象限, 而每个象限都结构上有意义.
+
+|  | 普适 | 次普适 |
+|---|---|---|
+| **封闭** | I: Rule 110, Game of Life | III: BEDC 内核, Presburger |
+| **非封闭** | II: 超图灵, o-machines | IV: 嵌入式控制器, 混合基底 |
+
+每个象限回答的是关于 BEDC 框架封闭 premise 在做什么的不同问题. 项目锚在 I 跟 III; II 和 IV 草图化是为了讲清 premise *不在* 主张什么.
+
+## 象限 I: 普适且封闭 (项目的锚)
+
+Rule 110 在这. 它的轨道按 Cook 2004 实现普适计算. 它的观测是固定局部规则、固定 transition 表下的有限 cell-row 段. 两个属性都成立.
+
+这是项目封闭论证的 *最强* 形式. 底层的普适性, 不给封闭性留任何撬动空间. 即便最大计算能力, 底层自己的观测也无法 ratify 无穷定义域上的全称闭合. 这就是 no-induction 定理 (移植到元胞底层为 `thm:rule110-no-internal-induction`) 说的.
+
+象限 I 其他居民: Game of Life (可证普适, 当作基底用时也封闭), Rule 30 跟 Rule 54 (猜想普适), 任何普适性被机械追踪过的元胞自动机. 项目选 Rule 110 是因为它的普适性有最小的发表过的构造.
+
+## 象限 III: 次普适但封闭 (BEDC host)
+
+BEDC 内核自己在这儿. Total functional language 按构造, 作为编程语言是次普适 (没法把每个 partial recursive 函数定义为直接函数). 但在证明侧是封闭观测的: 每个有类型项都是有限证明, 每个观测都是有限项.
+
+象限 III 其他居民: Presburger 算术 (可判定, 封闭, 不普适), 实闭域理论, 下推自动机, 线性有界自动机, 任何用作封闭基底的可判定理论. 定义性特征: 观测通道是内部、尊重封闭性的, 但计算能力被界在 Turing 普适以下.
+
+象限 III 有意思的地方: 封闭论证 *在这比象限 I 还强*. 某片段的可判定性不等于对该片段上全称陈述的内部 ratification. 封闭次普适基底无法从自身记录里 ratify 一个全称主张 — 即便外部决策程序存在. 框架的 no-induction 定理干净适用.
+
+这就是项目同时把元胞底层 (象限 I) 跟 BEDC 内核 (象限 III) 都作为锚点的原因: 它演示封闭 premise 跨计算表达力 *均匀适用*, 从有限状态到 Turing 普适.
+
+## 象限 II: 普适但非封闭 (超图灵情形)
+
+如果你给 Turing 普适基底配一个 oracle — halting oracle、算术层级 oracle、无限时间计算通道 — 你得到的基底比 Turing 普适更强. 它也能内部 ratify 一些全称闭合, 因为 oracle 在做 ratify.
+
+超图灵模型住这儿: Turing 的 o-machines (带 halting oracle), Hamkins-Lewis 无穷时间图灵机, Blum-Shub-Smale 实数机, 加速图灵机. 每个模型至少 Turing 普适. 每个违反封闭, 因为 oracle 不是基底内部过程.
+
+框架的 no-induction 定理对象限 II 基底 *失效*. halting oracle 通过直接查询 ratify Turing 可判定谓词上的全称闭合. Σ⁰₂ oracle ratify Π⁰₁ 谓词上的闭合. [归纳法那篇](where-induction-comes-from.zh-CN.qmd) 的铭刻点在象限 II 里不需要; 基底有内部通道产出全称闭合.
+
+项目不锚在象限 II. 这个象限的结构相关性是表明封闭性在做工排除什么: 它恰恰排除那些观测会绕过 no-induction 定理的基底. 封闭 premise 因此非空 — 它携带信息.
+
+实践注: 超图灵目前不被认为物理可实现. 是不是, 框架不站队. 象限 II 的结构角色是识别封闭性的边界, 不是断言任何物理.
+
+## 象限 IV: 既不普适也不封闭 (退化)
+
+这是大部分工程系统实际所在的角. 嵌入式微控制器跑读取外部 sensor 的有限状态程序在象限 IV. 程序次普适 (有限状态). 观测包括 sensor 数据, 它们源自基底外 (封闭失效).
+
+框架不锚在这儿. 象限 IV 基底仍可在框架内分析, 但要先对它们的外部观测通道做封闭分析. 这个象限放进地图是为完整性, 不是目标.
+
+## 地图尖化什么
+
+四象限地图通过表明封闭 premise *不是* 关于什么, 来尖化它:
+
+- 不是关于计算表达力. 象限 I 跟象限 III 都满足封闭性; 它们计算能力差别很大.
+- 不是关于元胞结构. Presburger 算术不元胞但满足封闭性.
+- 不是关于决定论. 地图里四象限都是决定论的; 封闭性在另一轴上分开它们.
+
+封闭性 *是* 关于什么: 观测通道里没有外部承诺. 这一条属性就是 premise 的结构内容. 一旦有它, no-induction 定理跟着来; 框架其他一切都独立.
+
+## 为什么项目锚在两个象限
+
+朴素读项目可能以为元胞底层是封闭性唯一的展品, BEDC 内核是另一个独立的开发. 地图表明项目不是这样组织的: 内核跟元胞底层都是封闭论证的锚点, 坐在同一地图的 *不同象限*. 内核演示次普适表达力下的封闭性. 元胞底层演示 Turing 普适表达力下的封闭性. 一起它们论证封闭性 *独立于* 普适性, 而不是跟某个特定表达力级别重合.
+
+这就是 paper [原则](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/visions/closure_universality_quadrant.tex) `prin:quadrant-map-sharpens-closure` 的结构内容:
+
+> 四象限地图通过表明 premise 不是关于什么, 来尖化封闭 premise. premise 可独立于普适性辨识, no-induction 定理仅由封闭 premise 单独得出.
+
+## 这 *不是* 什么
+
+地图不是说四象限都被 *物理实现* 的基底居住. 特别是象限 II, 目前是数学范畴; 任何物理系统是否实现 oracle 是开放的. 地图的主张是结构性的: 每个象限数学上自洽, 每格回答关于封闭性的不同问题.
+
+也不是说 BEDC 框架仅适用于它锚的象限. 框架适用于任何封闭 premise 成立的地方, 也就是象限 I + III 合起来. 象限 II 和 IV 在框架锚区之外, 但仍可在其语言中辨认 — 象限 II 通过 oracle 失效封闭 premise, 象限 IV 通过外部 sensor 失效封闭 premise.
+
+它 *是* 什么: 一张关于「封闭基底能住在哪、能有什么计算能力、BEDC 项目选在哪两个角种下锚」的结构地图.
+
+```{=html}
+<div class="cta-choices">
+  <a href="total-inside-universal-outside.zh-CN.qmd"><strong>← 向内 total, 向外 universal</strong><br/>把 BEDC 放进象限 III、Rule 110 放进象限 I 的 host-substrate 配对.</a>
+  <a href="large-model-as-inscription-point.zh-CN.qmd"><strong>第三类基底 →</strong><br/>第三个象限 I 公民: 大语言模型作为封闭观测系统.</a>
+  <a href="where-induction-comes-from.zh-CN.qmd"><strong>归纳法从哪里来 →</strong><br/>地图在尖化的那条封闭 premise, 结构化.</a>
+</div>
+```
+
+— *The Omega Institute*

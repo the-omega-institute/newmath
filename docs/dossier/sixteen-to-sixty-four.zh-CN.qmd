@@ -1,0 +1,121 @@
+---
+title: "从 16 走到 64"
+subtitle: "cook compile-frontier 当前在 16 个生产规则上. 一个 halted 图灵机需要 64. 差距是有限工程距离, 跨越它会以一种具体的方式改变「普适」意味着什么"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "Rule 110 原则上普适. 元胞底层当前 host 到 16 个生产规则 × 32 tape 符号. 最小 halted TM 编译到 ~64 生产规则 × 64 tape 符号. 差距是工程距离, 不是理论 — 跨越它的工作把『原则上普适』转换为『被见证的普适』."
+---
+
+```{=html}
+<div class="lang-switch"><a href="sixteen-to-sixty-four.qmd">English</a></div>
+```
+
+## 两个具体含义的数字
+
+[Goedel 边界那篇](goedel-boundary-as-data.zh-CN.qmd) 把一对具体数字摆上桌:
+
+> 最小 halted TM 编译到 ~(64, 64). 当前 frontier 在 ~(16, 32). 差距是有限工程距离.
+
+数字不是比喻. 它们读自具体文件: `rule110/STATUS.md`. 它们是项目元胞底层被锻炼到的工程坐标. 它们正是本文要谈的问题:
+
+*Rule 110 在实践中图灵普适意味着什么, 假如底层目前只 host Cook 编译后的 cyclic-tag 形式至多 16 个生产规则、32 tape 符号的计算?*
+
+## 编译 pipeline, 按阶段
+
+底层端到端实现 Cook 2004/2009 作为三个 pipeline 阶段:
+
+```
+图灵机  →  tag 系统  →  cyclic tag 系统  →  Rule 110 行
+ (§1.2)    (§1.3)        (§1.4)           (底层)
+```
+
+每个箭头在 `rule110/encoder/` 里实现:
+
+- `tm_to_tag.c` — Cook §1.2: TM transition 编译成 tag 系统生产规则
+- `tag_to_cyclic.c` — Cook §1.3: tag 系统编译成 cyclic tag, 带 $(P, T)$ 生产规则跟 tape 符号
+- `cook_encode.c` — Cook §1.4: cyclic tag 编译成大宽度的 Rule 110 初始行
+
+Cook 证明每个箭头多项式时间. 多项式有大常数. 阶段一对 $|Q|$ 状态、$|\Sigma|$ tape 符号的 TM 输出大小约为 $|Q| \cdot |\Sigma|$ 的 tag 系统. 阶段二把它翻倍或三倍成 $(P, T)$. 阶段三进一步爆炸: 每个 cyclic-tag 符号变成几千个 Rule 110 cell.
+
+*最小 halted TM* — 单 halt 状态, 无 transition — 已经落在 $|Q| = 1$, $|\Sigma| = 2$, 通过 pipeline 编译到约 $(64, 64)$ 的 cyclic tag. 从那里, 阶段三需要约 $10^6$ 数量级宽度的 Rule 110 初始行, 跑某个步数 $S_{\mathrm{halt}}$ 来 verify halt 状态被达到.
+
+## 底层当前能做的
+
+`rule110/tests/test_cook_packet_scale.c` 端到端跑每条编译路径, 在递增尺寸上记录最大通过. 当前 configuration 包括:
+
+```text
+(P=2,  T=16, S=16384)
+(P=8,  T=8,  S=16384)
+(P=4,  T=16, S=32768)
+(P=2,  T=32, S=32768)
+(P=16, T=2,  S=8192)
+```
+
+都在 halted-TM 目标以下. 没有一个在单 configuration 中达到 $P=64$ 或 $T=64$. 当前 pass 中 $P \cdot T$ 的乘积在 `(2, 32)` 跟 `(16, 2)` 上峰值 $64$; 目标乘积是 $64 \cdot 64 = 4096$.
+
+所以底层已经在小 cyclic-tag 计算上被锻炼过, round-trip (encode → run → decode) 成功. 底层 *没* 在真实图灵机编码上被锻炼过. 两者差距就是 cook compile-frontier.
+
+## frontier 是一个移动坐标
+
+框架的 `prin:cook-frontier-moving-coordinate` 显式说:
+
+> cook compile-frontier 不是底层的固定结构限制. 它是底层至今被锻炼到的工程坐标. 工程工作能推进坐标而不改变任何封闭定理.
+
+每个 pipeline 阶段有自己的尺寸 frontier. 推进整体 frontier 意味着推进三者最小值. 结构障碍很明确:
+
+**内存 scaling.** 在 $(64, 64)$, 编码 Rule 110 行宽度约 $10^6$ cells. evaluator `rule110/evaluator/rule110.c` 用 packed bit 数组表示行. 行宽翻倍数组翻倍; 目标处是兆字节级, 现代系统上舒服, 但非平凡. 这是最直接的障碍.
+
+**编码常数.** Cook 阶段三编码把 cyclic-tag 尺寸乘以几千得到 Rule 110 cell. 更紧凑的 glider packing、来自 Martinez 2012 的替代 glider 目录、不同的 cyclic-tag 编码都能减小常数. 这是活跃的底层工程工作.
+
+**Round-trip 验证开销.** 验证 $(64, 64, S_{\mathrm{halt}})$ 的 round-trip 要求在 $10^6$ cell 上跑 $S_{\mathrm{halt}}$ 步 Rule 110, 然后通过三阶段解码. wall-clock 开销非平凡; 量级在目标上是小时而非秒.
+
+没有一项是墙. 每项都是有限工程任务. 跨越它们推进坐标; 底层的普适性定理 (Cook 2004) 不受影响.
+
+## 跨越 frontier 会买到什么
+
+Cook 2004 证明底层 *原则上* 普适. 跨越工程 frontier 把它转换为 *被见证的* 普适: 底层在真实图灵机编码上被锻炼过, round-trip 产出预期的 halt 状态输出.
+
+转换不强化任何封闭定理. 它强化「底层在真机器尺度上确实如 Cook 2004 所预测那样行为」这条主张的经验支撑. 这是工程数据, 不是新定理.
+
+框架的 `prin:cook-frontier-witnessed-is-data` 表达这层区分:
+
+> 被见证的普适是工程数据, 不是新定理. 它是已有定理的操作实现, 在底层内部数据 (对应可识别计算结构) 上首次被锻炼的尺度上.
+
+结构状态相同: 底层普适, 底层封闭, 底层从框架继承 no-induction 定理. 改变的是普适性主张的操作覆盖度 — 底层 *跑过* 一个真 TM, 不只是原则上接纳一个.
+
+## 如果 frontier 没被跨越呢
+
+两种失败模式值得命名.
+
+**底层与 Cook 预测的偏离.** 在某个中间坐标, 底层的 round-trip 可能没法 decode 回预期输出. 底层原则上的普适性不受影响 (Cook 2004 是数学定理). 但代码库里的操作实现会有 bug 或规约不匹配. 这种失败 informative: 定位坏 commit, 把工程指向具体阶段.
+
+**内存或 wall-clock 不可行.** 如果目标在可用硬件上以可接受开销不可行, 工程坐标会停在 $(64, 64)$ 之前某处. 封闭定理仍然有效. 见证的普适角色在任何坐标上保留; 这个角色不要求达到 halted-TM 目标本身.
+
+两种情形下 *frontier-as-data* 角色都成立. 当前坐标可报告; deltas 可测量; 边界距离具体.
+
+## frontier 作为项目 artifact
+
+当前坐标在 `rule110/STATUS.md` 里, 在每次底层 scaling 改进上更新. 论文、dossier 文章、项目报告都能把工程坐标作为精确数字事实引用: 「commit $h$ 处的 cook compile-frontier 是 $(P^*, T^*, S^*)$」.
+
+进展可作为 deltas 报告: 「frontier 在版本 $v$ 上从 $(P^*_0, T^*_0, S^*_0)$ 推进到 $(P^*_1, T^*_1, S^*_1)$」. 每个 delta 都是普适性主张操作覆盖度上的具体改进.
+
+这就是让 frontier 成为 *实际项目 artifact* 而不是一次性测量的原因. 坐标是可引用状态. 从 16 到 64 的路径是一系列可引用 delta. 边界距离, 在任何给定时刻, 是一个任何人都能读到的数字.
+
+## 这 *不是* 什么
+
+跨越 frontier 不是对任何东西的证明. Cook 2004 是证明; frontier 是那个证明的经验覆盖. 在 $(64, 64, S_{\mathrm{halt}})$ 成功 round-trip 不会是更强的定理; 会是更强的操作事实.
+
+frontier 也不独属 Rule 110. 其他 Turing 普适底层都有自己的工程坐标, 各有各的常数. Game of Life 有已知基于 glider 的构造; tag 系统有自己的编译路径. 框架对 *frontier-as-data* 的读法对它们都适用.
+
+cook compile-frontier *是*: 一个小数字, 带具体目标, 在有限工程路径上, 定位到项目某子目录里某具体文件. Goedel 边界在元胞底层这一层有这些坐标. 推进坐标的工作就是缩短边界在这一具体面上距离的工作.
+
+```{=html}
+<div class="cta-choices">
+  <a href="goedel-boundary-as-data.zh-CN.qmd"><strong>← Goedel 边界作为数据</strong><br/>同一边界的另一层: MetaCIC 四条 subject-reduction 假设.</a>
+  <a href="pattern-as-mark.zh-CN.qmd"><strong>图样作为标记 →</strong><br/>本底层在 220 行 C 中锻炼的分类器纪律.</a>
+  <a href="why-not-use-cells.zh-CN.qmd"><strong>为什么不直接用元胞? →</strong><br/>为什么元胞底层是项目展品而非基础.</a>
+</div>
+```
+
+— *The Omega Institute*
