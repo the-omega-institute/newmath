@@ -360,6 +360,20 @@ Combining these rows gives a reusable consumer equality surface rather than a st
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_synchronized\_null\_tail\_consumer}
 
+\begin{theorem}[RealCauchyCompletion tail-budget coherence consumer]
+\label{thm:real-cauchy-completion-tail-budget-coherence-consumer}
+Every accepted $\RealCauchyCompletionUp$ carrier $C=(X,\mu,D,E,P,N)$ whose diagonal packet consumes a $\RegularCauchyTailBudgetUp$ row reads its completion-facing $\RealUp$ seal only after the regular-family row, unary modulus row, diagonal packet, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, and the tail-budget row of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert} have been displayed. The consumer route excludes quotient stream equality, selected limits, host real equality, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:real-cauchy-completion-carrier}. This exposes the regular-family row $X$, unary modulus $\mu$, diagonal packet $D$, completion-facing seal $E$, package provenance $P$, and local naming row $N$.
+
+Apply the diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-handoff}. The precision request must pass through $\mu$, the diagonal packet $D$, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the displayed $\DyadicRatCoreUp$ observation ledger before the seal row can be read.
+
+Now read the consumed $\RegularCauchyTailBudgetUp$ row from \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}. Its observation gate supplies the tail-threshold, finite observation service, window service, dyadic ledger, regular readback, and seal handoff that the diagonal packet is using as its budget-row source.
+
+Finally use the real-seal readback scope of \autoref{thm:real-cauchy-completion-real-seal-readback-scope} and the downstream consumer handoff of \autoref{thm:real-cauchy-completion-downstream-consumer-handoff}. They keep the completion-facing seal inside the displayed regular-family, modulus, diagonal, finite-window, readback, dyadic-ledger, tail-budget, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so no quotient stream equality, selected limit, host real equality, or ambient completeness is exported.
+\end{proof}
+
 \closureat{RealCauchyCompletionUp}{seedStr}
 \closureat{RealCauchyCompletionUp}{obligationStr}
 \closureat{RealCauchyCompletionUp}{scopedStr}
