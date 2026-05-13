@@ -287,19 +287,60 @@ The shared-bound content is exhausted by \autoref{thm:cauchy-modulus-meet-shared
 Finally apply \autoref{thm:cauchy-modulus-meet-export-non-escape}. Since no consumer can extract quotient streams, selected limits, host real equality, ambient completeness, or an independent bridge checker, the public export packet is exactly the standard shared-modulus bridge surface available to $\RegSeqRatUp$ and $\RealUp$ consumers.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet mature shared-bound readback]
+\label{thm:cauchy-modulus-meet-mature-shared-bound-readback}
+Every mature shared-bound readback of a $\CauchyModulusMeetUp$ packet is exactly the displayed surface
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+The two source stream rows and their source modulus rows provide the only $\RegSeqRatUp$-facing inputs, $\mu$ carries the shared $\DyadicRatCoreUp$ tolerance ledger, and $H,C,P,N$ supply only componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:cauchy-modulus-meet-carrier}. It names precisely the two source streams, two source modulus rows, the shared meet row, transport ledger, routes, provenance, and local certificate.
+
+The source-pair exposure and shared-bound exhaustion theorems identify the readable shared-bound data. \autoref{thm:cauchy-modulus-meet-source-pair-exposure} fixes $S_0,S_1,\mu_0,\mu_1,\mu$, while \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion} binds the tolerance ledger to the displayed $\DyadicRatCoreUp$ row carried by $\mu$.
+
+Finally use the public export surface and export consumer lock. They force every mature readback through $S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N$ and prevent any additional source, tolerance, route, provenance, or naming coordinate from entering the shared-bound read.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet mature downstream handoff]
+\label{thm:cauchy-modulus-meet-mature-downstream-handoff}
+Every downstream $\RegSeqRatUp$ read and every downstream $\RealUp$ handoff consuming the mature $\CauchyModulusMeetUp$ shared-bound package factors through the public export surface of \autoref{thm:cauchy-modulus-meet-public-export-surface} and the standard bridge certificate of \autoref{thm:cauchy-modulus-meet-standard-bridge-certificate}. In particular, the downstream consumer receives only the shared-bound readback surface of \autoref{thm:cauchy-modulus-meet-mature-shared-bound-readback}.
+\end{theorem}
+\begin{proof}
+First route the consumer through the public packet. \autoref{thm:cauchy-modulus-meet-export-consumer-lock} already locks $\RegSeqRatUp$ reads, $\RealUp$ handoffs, source-modulus projections, and dyadic tolerance reads to the public export coordinates.
+
+Next apply the diagonal handoff scope. \autoref{thm:cauchy-modulus-meet-diagonal-handoff-scope} and \autoref{thm:cauchy-modulus-meet-diagonal-consumer-sufficiency} show that real-facing diagonal consumers use the same stream, regular-rational, shared-modulus, dyadic, transport, route, provenance, and naming rows as the public shared-bound read.
+
+The standard bridge certificate then identifies that public packet as the bridge surface accepted by $\RegSeqRatUp$ and $\RealUp$. Combining it with the mature shared-bound readback theorem gives the claimed factorization through the displayed package and through no separate downstream route.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet mature non-escape]
+\label{thm:cauchy-modulus-meet-mature-nonescape}
+The mature $\CauchyModulusMeetUp$ downstream package exports no quotient stream, no selected limit, no host real equality, no ambient completeness principle, and no independent bridge checker. Its downstream readback, $\RegSeqRatUp$ handoff, and $\RealUp$ handoff remain confined to the public shared-bound export and the standard bridge certificate.
+\end{theorem}
+\begin{proof}
+Read the package through the mature shared-bound readback theorem. The only available surface is $S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N$ with the displayed $\DyadicRatCoreUp$ tolerance ledger.
+
+Now apply the mature downstream handoff theorem. It factors the $\RegSeqRatUp$ and $\RealUp$ consumer routes through the public export surface and the standard bridge certificate, so no consumer acquires a second source of analytic data.
+
+Finally use export non-escape. \autoref{thm:cauchy-modulus-meet-export-non-escape} already excludes quotient streams, selected limits, host real equality, ambient completeness, and bridge-checking oracle content from the public packet, and the standard bridge certificate repeats the same exclusion at the bridge surface.
+\end{proof}
+
 \closureat{CauchyModulusMeetUp}{seedStr}
 \closureat{CauchyModulusMeetUp}{obligationStr}
 \closureat{CauchyModulusMeetUp}{scopedStr}
 \closureat{CauchyModulusMeetUp}{publicStr}
 \closureat{CauchyModulusMeetUp}{bridgedStr}
+\closureat{CauchyModulusMeetUp}{matureStr}
 
 \begin{closurestatus}{\CauchyModulusMeetUp}
   \constructivestory{A $\CauchyModulusMeetUp$ packet is generated from two $\StreamNameUp$ rows, their $\RegSeqRatUp$ rational readbacks, two source $\CauchyModulusUp$ rows, one shared $\CauchyModulusUp$ meet row with a $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-meet-carrier}, \autoref{thm:cauchy-modulus-meet-namecert-obligations}, \autoref{thm:cauchy-modulus-meet-projection-stability}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, \autoref{thm:cauchy-modulus-meet-swap-stability}, \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, \autoref{thm:cauchy-modulus-meet-consumer-factorization}, \autoref{thm:cauchymodulusmeet-obligation-surface}, \autoref{thm:cauchy-modulus-meet-public-export}, \autoref{thm:cauchy-modulus-meet-public-export-surface}, \autoref{thm:cauchy-modulus-meet-export-consumer-lock}, \autoref{thm:cauchy-modulus-meet-export-non-escape}, \autoref{thm:cauchy-modulus-meet-common-window-coherence}, \autoref{thm:cauchy-modulus-meet-paired-regseqrat-readback}, \autoref{thm:cauchy-modulus-meet-diagonal-consumer-sufficiency}, and \autoref{thm:cauchy-modulus-meet-standard-bridge-certificate} bind the finite shared-modulus carrier, source modulus projections, dyadic tolerance ledger, Real and RegSeqRat consumer boundaries, diagonal-window consumer surface, public export certificate, and standard bridge surface over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-meet-carrier}, \autoref{thm:cauchy-modulus-meet-namecert-obligations}, \autoref{thm:cauchy-modulus-meet-projection-stability}, \autoref{thm:cauchy-modulus-meet-real-handoff-boundary}, \autoref{thm:cauchy-modulus-meet-swap-stability}, \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion}, \autoref{thm:cauchy-modulus-meet-consumer-factorization}, \autoref{thm:cauchymodulusmeet-obligation-surface}, \autoref{thm:cauchy-modulus-meet-public-export}, \autoref{thm:cauchy-modulus-meet-public-export-surface}, \autoref{thm:cauchy-modulus-meet-export-consumer-lock}, \autoref{thm:cauchy-modulus-meet-export-non-escape}, \autoref{thm:cauchy-modulus-meet-common-window-coherence}, \autoref{thm:cauchy-modulus-meet-paired-regseqrat-readback}, \autoref{thm:cauchy-modulus-meet-diagonal-consumer-sufficiency}, \autoref{thm:cauchy-modulus-meet-standard-bridge-certificate}, \autoref{thm:cauchy-modulus-meet-mature-shared-bound-readback}, \autoref{thm:cauchy-modulus-meet-mature-downstream-handoff}, and \autoref{thm:cauchy-modulus-meet-mature-nonescape} bind the finite shared-modulus carrier, source modulus projections, dyadic tolerance ledger, Real and RegSeqRat consumer boundaries, diagonal-window consumer surface, public export certificate, standard bridge surface, mature shared-bound readback, mature downstream handoff, and mature non-escape package over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, ambient completeness, host real equality, or bridge-checking oracle content.}
-  \upgradepath{Bridged closure next requires checked bridge registration for the public shared-modulus export packet.}
+  \upgradepath{Verification next requires checked bridge registration for the public shared-modulus export packet and the mature downstream handoff package.}
 \end{closurestatus}
