@@ -230,11 +230,11 @@ instance closedNormalConfluenceSealFieldFaithful :
     -- BEDC touchpoint anchor: BHist BMark
     intro x y h
     cases x with
-    | mk source₁ normal₁ routeLeft₁ routeRight₁ join₁ transports₁ continuations₁
-        provenance₁ nameCert₁ =>
+    | mk source1 normal1 routeLeft1 routeRight1 join1 transports1 continuations1
+        provenance1 nameCert1 =>
         cases y with
-        | mk source₂ normal₂ routeLeft₂ routeRight₂ join₂ transports₂ continuations₂
-            provenance₂ nameCert₂ =>
+        | mk source2 normal2 routeLeft2 routeRight2 join2 transports2 continuations2
+            provenance2 nameCert2 =>
             injection h with hsource t1
             injection t1 with hnormal t2
             injection t2 with hleft t3
@@ -244,15 +244,36 @@ instance closedNormalConfluenceSealFieldFaithful :
             injection t6 with hcontinuations t7
             injection t7 with hprovenance t8
             injection t8 with hnameCert _
-            subst hsource
-            subst hnormal
-            subst hleft
-            subst hright
-            subst hjoin
-            subst htransports
-            subst hcontinuations
-            subst hprovenance
-            subst hnameCert
+            cases hsource
+            cases hnormal
+            cases hleft
+            cases hright
+            cases hjoin
+            cases htransports
+            cases hcontinuations
+            cases hprovenance
+            cases hnameCert
             rfl
+
+theorem ClosedNormalConfluenceSealTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      closedNormalConfluenceSealDecodeBHist
+        (closedNormalConfluenceSealEncodeBHist h) = h) ∧
+      (∀ x : ClosedNormalConfluenceSealUp,
+        closedNormalConfluenceSealFromEventFlow
+          (closedNormalConfluenceSealToEventFlow x) = some x) ∧
+        (∀ x y : ClosedNormalConfluenceSealUp,
+          closedNormalConfluenceSealToEventFlow x =
+            closedNormalConfluenceSealToEventFlow y → x = y) ∧
+          closedNormalConfluenceSealEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact closedNormalConfluenceSeal_decode_encode_bhist
+  · constructor
+    · exact closedNormalConfluenceSeal_round_trip
+    · constructor
+      · intro x y heq
+        exact closedNormalConfluenceSealToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.ClosedNormalConfluenceSealUp
