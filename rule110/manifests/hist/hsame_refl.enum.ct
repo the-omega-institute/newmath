@@ -1,0 +1,19 @@
+# hsame_refl.enum.ct
+# Theorem: hsame_refl : forall h : BHist, hsame h h
+# Encoding: representative-case enumeration. BHist is countably infinite,
+# so the five cases below sample depth 0, 1, 1, 2, and 3.
+#
+# Encoding convention: option alpha from docs/bhist_encoding.md.
+# EventEncoding(BHist whose payload = [c0, c1, ..., ck-1])
+#   = body_encode([c0..ck-1]) ++ "11"
+# where c_i in {b0 = 0, b1 = 1} represents the i-th constructor choice
+# (e0 -> b0, e1 -> b1; Empty terminates the sequence).
+#
+# Case inputs are EventEncoding(h) ++ EventEncoding(h) for each representative h.
+PRODUCTIONS 0
+ASSERTIONS 5
+case empty:       input=1111             ; expect_reflexive=yes (Empty encodes to "11"; two copies concat)
+case e0_empty:    input=011011           ; expect_reflexive=yes (e0 Empty = payload [b0] -> "011")
+case e1_empty:    input=10111011         ; expect_reflexive=yes (e1 Empty = payload [b1] -> "1011")
+case e0_e1_empty: input=0101101011       ; expect_reflexive=yes (e0(e1 Empty) = payload [b0,b1] -> "01011")
+case e1_e0_e1:    input=10010111001011   ; expect_reflexive=yes (e1(e0(e1 Empty)) = payload [b1,b0,b1] -> "1001011")
