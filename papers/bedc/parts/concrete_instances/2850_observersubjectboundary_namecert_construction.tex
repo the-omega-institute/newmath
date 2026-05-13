@@ -26,6 +26,17 @@ There is no coordinate for an observer-substance type, subject identity carrier,
 \end{definition}
 \leandef{BEDC.Derived.ObserverSubjectBoundaryUp.ObserverSubjectBoundaryUp}
 
+\begin{theorem}[ObserverSubjectBoundary TasteGate carrier alignment]
+\label{thm:observer-subject-boundary-tastegate-alignment}
+The displayed rows $R,H,C,B,S,P,N$ of the $\ObserverSubjectBoundaryUp$ carrier are exactly the single-carrier surface checked by the Lean $\ChapterTasteGate$ theorem. The checked surface consists of $\BHist$ encode-decode stability, round-trip translation through the observer-subject-boundary event flow, injectivity of that event-flow view, and the empty-history normalization for the same finite observation packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.ObserverSubjectBoundaryUp.ObserverSubjectBoundaryTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+The carrier definition presents one tuple $O=(R,H,C,B,S,P,N)$ and does not add a second subject coordinate. The Lean gate reads the same single carrier through the event-flow encoder and decoder.
+
+Encode-decode stability fixes the $\BHist$ row, the round-trip clause returns the displayed $\ObserverSubjectBoundaryUp$ packet, and injectivity prevents two distinct displayed packets from sharing one event-flow view. The empty-history normalization identifies the empty observation row as the baseline ledger case for that same carrier.
+\end{proof}
+
 \begin{theorem}[ObserverSubjectBoundary NameCert obligations]
 \label{thm:observer-subject-boundary-namecert-obligations}
 For the carrier of \autoref{def:observer-subject-boundary-carrier}, the local $\NameCert_{\ObserverSubjectBoundaryUp}$ surface consists exactly of carrier admission for $O$, observation-row stability, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ readback exactness, $\Pkg$ provenance, and local naming exactness.
@@ -78,15 +89,26 @@ Next use ledger exactness to bind every observer-facing read to the displayed ro
 Finally apply the no-extra-subject theorem. The package delivered to downstream consumers is therefore a finite BEDC boundary certificate, and the absence of an additional subject carrier is part of the package surface rather than an external convention.
 \end{proof}
 
-\closureat{ObserverSubjectBoundaryUp}{seedStr}
+\begin{theorem}[ObserverSubjectBoundary nontriviality witness]
+\label{thm:observer-subject-boundary-nontriviality-witness}
+The empty observation packet and a one-step observation packet are separated by the displayed observation-ledger coordinate $R$. Consequently the $\ObserverSubjectBoundaryUp$ carrier cannot collapse to $\mathsf{PUnit}$: a consumer can distinguish the packet with no inspected $\BHist$ row from the packet whose ledger contains one inspected $\BHist$ row before reading the shared $H,C,B,S,P,N$ coordinates.
+\end{theorem}
+\begin{proof}
+Compare the first coordinate of the two packets. In the empty packet, $R$ contains no observation entry; in the one-step packet, $R$ contains one displayed $\BHist$ entry.
+
+Projection to $R$ is part of the carrier surface of \autoref{def:observer-subject-boundary-carrier}. If the carrier collapsed to $\mathsf{PUnit}$, these two packets would have the same observable ledger projection, contradicting the displayed difference between the empty ledger and the one-entry ledger.
+\end{proof}
+
+\closureat{ObserverSubjectBoundaryUp}{obligationStr}[BEDC.Derived.ObserverSubjectBoundaryUp.ObserverSubjectBoundaryTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ObserverSubjectBoundaryUp}
   \constructivestory{An $\ObserverSubjectBoundaryUp$ packet is generated from finite observation rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\mathsf{ProbeBundle}$ readback, $\mathsf{SigRel}$ readback, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:observer-subject-boundary-carrier}, \autoref{thm:observer-subject-boundary-namecert-obligations}, \autoref{thm:observer-subject-boundary-no-extra-subject}, \autoref{thm:observer-subject-boundary-ledger-exactness}, and \autoref{thm:observer-subject-boundary-namecert-package} bind the finite observer-boundary carrier and its local package surface.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:observer-subject-boundary-carrier}, \autoref{thm:observer-subject-boundary-tastegate-alignment} with \leanchecked{BEDC.Derived.ObserverSubjectBoundaryUp.taste\_gate}, \autoref{thm:observer-subject-boundary-namecert-obligations}, \autoref{thm:observer-subject-boundary-no-extra-subject}, \autoref{thm:observer-subject-boundary-ledger-exactness}, \autoref{thm:observer-subject-boundary-namecert-package}, and \autoref{thm:observer-subject-boundary-nontriviality-witness} bind the finite observer-boundary carrier, TasteGate surface, local package obligations, ledger exactness, and nontrivial observation coordinate.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ObserverSubjectBoundaryUp.ObserverSubjectBoundaryTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close observer-substance, subject identity, a hidden owner of observation rows, host equality, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, observation-row stability, route replay, probe and signature exactness, package provenance, local naming, and non-escape for the same finite packet.}
+  \notclaimed{This chapter does not close observer-substance, subject identity, a hidden owner of observation rows, host equality, public export, or bridge checking.}
+  \upgradepath{Scoped closure requires checked coverage over the same $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\Pkg$, and $\NameCert$ rows, including downstream consumer scope and public non-escape.}
 \end{closurestatus}

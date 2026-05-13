@@ -374,6 +374,38 @@ Now read the consumed $\RegularCauchyTailBudgetUp$ row from \autoref{ch:concrete
 Finally use the real-seal readback scope of \autoref{thm:real-cauchy-completion-real-seal-readback-scope} and the downstream consumer handoff of \autoref{thm:real-cauchy-completion-downstream-consumer-handoff}. They keep the completion-facing seal inside the displayed regular-family, modulus, diagonal, finite-window, readback, dyadic-ledger, tail-budget, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so no quotient stream equality, selected limit, host real equality, or ambient completeness is exported.
 \end{proof}
 
+\begin{theorem}[RealCauchyCompletion tail-fusion budget consumer]
+\label{thm:real-cauchy-completion-tail-fusion-budget-consumer}
+Every accepted $\RealCauchyCompletionUp$ carrier whose diagonal packet consumes both a $\RegularCauchyTailFusionUp$ row and a $\RegularCauchyTailBudgetUp$ row reaches its $\RealUp$ seal only through the finite route consisting of the regular-family row, unary modulus row, diagonal packet, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, the $\RegularCauchyTailFusionUp$ shared-threshold row of \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, the $\RegularCauchyTailBudgetUp$ budget row of \autoref{ch:concrete-instances-regular-cauchy-tail-budget-namecert}, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+The resulting consumer route exports no quotient stream equality, selected limit, host real equality, trichotomy, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the displayed completion carrier. The family-tail synchronization row identifies the shared finite tail window through which the regular-family input, unary modulus, diagonal packet, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger must pass before any $\RealUp$ seal is read.
+
+Next add the budgeted common-refinement row. It places the same synchronized window under the finite budget surface used by the consumer request bundle, so the precision rows, displayed radii, regular readback, dyadic observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local naming rows are read as one packet.
+
+Now read the synchronized null-tail consumer row together with the tail-budget coherence consumer row. The null-tail row supplies the consumer-visible equality surface over the shared tail window, while the tail-budget row forces the diagonal packet to expose the $\RegularCauchyTailBudgetUp$ budget ledger before the completion-facing seal is consumed.
+
+Finally insert the $\RegularCauchyTailFusionUp$ shared-threshold row into that route. The tail-fusion packet contributes only the finite cofinal threshold and seal-facing handoff already named by its public consumer surface; it does not introduce quotient stream equality, a selected host limit, host real equality, trichotomy, or ambient completeness. Hence the $\RealCauchyCompletionUp$ seal is reached exactly through the finite fusion-and-budget route stated above.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion tail-cofinality schedule factorization]
+\label{thm:real-cauchy-completion-tail-cofinality-schedule-factorization}
+Every accepted $\RealCauchyCompletionUp$ carrier whose diagonal packet consumes a $\TailCofinalityScheduleUp$ row, a $\NullSequenceUp$ zero-tail packet, and the tail-budget and tail-fusion rows of \autoref{thm:real-cauchy-completion-tail-budget-coherence-consumer} and \autoref{thm:real-cauchy-completion-tail-fusion-budget-consumer} reaches its $\RealUp$ seal only through the displayed finite schedule factorization.
+
+That factorization consists exactly of the regular-family row, unary modulus, diagonal packet, the $\TailCofinalityScheduleUp$ finite-window route, the $\NullSequenceUp$ zero-tail package, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. It exports no quotient streams, selected limits, host real equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted completion carrier and apply \autoref{thm:real-cauchy-completion-tail-fusion-budget-consumer}. This forces every seal-facing consumer to expose the regular-family row, unary modulus, diagonal packet, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, fusion row, budget row, structural transports, provenance, and local naming row before the $\RealUp$ seal is read.
+
+Next read \autoref{thm:real-cauchy-completion-synchronized-null-tail-consumer}. It identifies the same finite tail window with the $\NullSequenceUp$ zero-tail package and the dyadic budget ledger, so the consumer-visible equality surface is still a displayed BEDC packet rather than a quotient stream or selected host limit.
+
+Now insert the $\TailCofinalityScheduleUp$ packet. The schedule real-seal readback theorem \autoref{thm:tail-cofinality-schedule-real-seal-readback} orders the schedule rows as the unary request, finite window, dyadic ledger, regular-rational readback, and real seal. The scoped-binding theorem \autoref{thm:tail-cofinality-schedule-scoped-binding} keeps that route inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and the local $\NameCert$ row.
+
+Combining these three routes gives a single factorization from the completion diagonal packet to the $\RealUp$ seal. Since each cited route excludes quotient streams, selected limits, host real equality, trichotomy, ambient completeness, hidden tail oracles, and unbounded schedules, the assembled carrier reaches the seal only through the finite schedule and null-tail rows named in the statement.
+\end{proof}
+
 \closureat{RealCauchyCompletionUp}{seedStr}
 \closureat{RealCauchyCompletionUp}{obligationStr}
 \closureat{RealCauchyCompletionUp}{scopedStr}

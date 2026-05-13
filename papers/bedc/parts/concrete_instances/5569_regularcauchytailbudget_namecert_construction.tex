@@ -140,6 +140,67 @@ Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility} for the
 Finally read the structural rows. The transports in $H$, the continuations in $C$, the provenance row $P$, and the local name $N$ authenticate the same $R,T,O,W,D,Q$ factorization and provide no separate readback service.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail-budget tail-threshold service exactness]
+\label{thm:regular-cauchy-tail-budget-tail-threshold-service-exactness}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. Every served tail read of $R$ is exposed only through the route
+$$
+R \longmapsto T \longmapsto O \longmapsto W \longmapsto D \longmapsto Q \longmapsto S.
+$$
+In particular, neither the finite window row $W$ nor the seal row $S$ can be read before the tail-threshold row $T$ has been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-budget-carrier}. The only source row is $R$, the only tail-threshold row attached to that source is $T$, and the service rows following it are $O,W,D,Q,S$.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-observation-gate}. It forces each served $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ read to pass through the displayed route from $R$ to $S$.
+
+Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility} for the middle service rows. The window and dyadic ledgers are admitted only after the same threshold and budget rows have been read.
+
+Finally apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization} and \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. The readback row factors through $T,O,W,D$, and the seal row consumes that displayed readback rather than opening an earlier window or seal-facing route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget observation-budget gate totality]
+\label{thm:regular-cauchy-tail-budget-observation-budget-gate-totality}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. Every consumer route landing in $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ passes through the same $\ObservationBudgetLimiterUp$ row $O$. Thus all window service, dyadic observation, regular readback, and seal handoff rows share the single budget gate
+$$
+R \longmapsto T \longmapsto O.
+$$
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The packet has one displayed observation-budget limiter row, namely $O$, and the continuation record $C$ routes the tail threshold to that row before any service body is available.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-observation-gate}. It covers the four consumer surfaces named in the statement and places each of them after $R,T,O$ in the finite route.
+
+Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility}. It identifies $O$ as the shared gate for $W$ and $D$, so the downstream readback row $Q$ cannot obtain its displayed observations from a second budget row.
+
+Now apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization} and \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. The readback and seal rows consume the same budgeted service route, and no quotient stream, selected host limit, host real equality, countable-choice selector, or ambient completeness row supplies an alternate consumer route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget RegSeqRat readback seal handoff]
+\label{thm:regular-cauchy-tail-budget-regseqrat-readback-seal-handoff}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. The row $Q$ is the unique $\RegSeqRatUp$ readback surface for the displayed window row $W$ and dyadic ledger row $D$. The seal row $S$ may consume only this displayed readback surface together with the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:regular-cauchy-tail-budget-carrier}. The packet contains one regular source row $R$ and one regular readback row $Q$, while $W$ and $D$ are the only window-service and dyadic-observation rows feeding that readback.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility}. It places both $W$ and $D$ under the same $T,O$ service route before any readback can be formed.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization}. The row $Q$ is exactly the displayed factor through $R,T,O,W,D$, with $H,C,P,N$ authenticating the same chain.
+
+Finally use \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. Since $S$ is only a finite seal handoff after the displayed readback and no other analytic row is present, a seal-facing consumer can read $S$ only through $Q$ and the accompanying structural rows.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail-budget completion boundary]
 \label{thm:regular-cauchy-tail-budget-completion-boundary}
 Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyTailBudgetUp$ packet may read the seal row $S$ only as the finite budgeted readback boundary
@@ -154,6 +215,45 @@ Apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization}. It makes 
 Then apply \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. The seal row is available only after that readback route has been consumed, and the excluded analytic objects have no carrier coordinate.
 
 The displayed rows $H,C,P,N$ record transport, continuation, provenance, and naming for the same boundary. Hence a completion-facing consumer can consume $S$ as this finite budgeted handoff and not as a Real-completeness theorem.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget obligation-closure package]
+\label{thm:regular-cauchy-tail-budget-obligation-closure-package}
+For an accepted $\RegularCauchyTailBudgetUp$ packet
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N),
+$$
+the carrier of \autoref{def:regular-cauchy-tail-budget-carrier}, the local $\NameCert_{\RegularCauchyTailBudgetUp}$ obligations of \autoref{thm:regular-cauchy-tail-budget-namecert-obligations}, the observation gate of \autoref{thm:regular-cauchy-tail-budget-observation-gate}, the seal non-escape boundary of \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}, the window-budget compatibility of \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility}, the readback factorization of \autoref{thm:regular-cauchy-tail-budget-readback-factorization}, the tail-threshold service exactness of \autoref{thm:regular-cauchy-tail-budget-tail-threshold-service-exactness}, the observation-budget gate totality of \autoref{thm:regular-cauchy-tail-budget-observation-budget-gate-totality}, the $\RegSeqRatUp$ readback seal handoff of \autoref{thm:regular-cauchy-tail-budget-regseqrat-readback-seal-handoff}, and the completion boundary of \autoref{thm:regular-cauchy-tail-budget-completion-boundary} form the paper-side obligation package over the displayed fields $R,T,O,W,D,Q,S,H,C,P,N$.
+
+The package is fieldwise: the regular source, tail threshold, observation budget, windows, dyadic observations, readback, seal, transports, continuation routes, provenance, and local name remain separate coordinates throughout every Real-facing and Completion-facing read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-budget-carrier}. The eleven rows $R,T,O,W,D,Q,S,H,C,P,N$ are the complete coordinate list available to any local certificate or downstream consumer.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-namecert-obligations} for the local certificate surface, then apply \autoref{thm:regular-cauchy-tail-budget-observation-gate} and \autoref{thm:regular-cauchy-tail-budget-seal-nonescape} for the first route boundary. These theorems identify the same fields without adding quotient streams, host real equality, selected limits, choice, or ambient completeness.
+
+Next use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility}, \autoref{thm:regular-cauchy-tail-budget-readback-factorization}, \autoref{thm:regular-cauchy-tail-budget-tail-threshold-service-exactness}, and \autoref{thm:regular-cauchy-tail-budget-observation-budget-gate-totality}. They account for the finite service route from the regular source through the threshold, budget, windows, dyadic ledger, and readback.
+
+Finally apply \autoref{thm:regular-cauchy-tail-budget-regseqrat-readback-seal-handoff} and \autoref{thm:regular-cauchy-tail-budget-completion-boundary}. The seal and completion-facing boundary consume the same displayed readback route, so the obligation package closes over exactly the listed carrier fields.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget field-faithful boundary]
+\label{thm:regular-cauchy-tail-budget-field-faithful-boundary}
+Any later $\mathsf{FieldFaithful}\ \RegularCauchyTailBudgetUp$ instance for the carrier of \autoref{def:regular-cauchy-tail-budget-carrier} must preserve the eleven displayed fields $R,T,O,W,D,Q,S,H,C,P,N$ separately. In particular, the tail threshold $T$, observation budget $O$, finite windows $W$, dyadic observations $D$, regular readback $Q$, and seal $S$ cannot be collapsed into a single parameter echo, nor may the transport, continuation, provenance, or local naming rows replace one another.
+
+Thus a faithful instance must expose constructor-field injection for the regular source, tail threshold, observation budget, finite windows, dyadic observations, regular readback, seal, transport, continuation, package, and local naming fields as separate facts.
+\end{theorem}
+\begin{proof}
+Read the constructor shape in \autoref{def:regular-cauchy-tail-budget-carrier}. Each coordinate is named by its own row and has its own role in the displayed finite route.
+
+Use the route theorems to separate the service fields. The observation gate, window-budget compatibility, readback factorization, tail-threshold service exactness, observation-budget gate totality, and readback seal handoff assign different positions to $T,O,W,D,Q,S$ in the route
+$$
+R \longmapsto T \longmapsto O \longmapsto W \longmapsto D \longmapsto Q \longmapsto S.
+$$
+
+Use the non-escape and completion-boundary theorems to separate the structural fields. The rows $H,C,P,N$ authenticate transport, route replay, provenance, and local naming for the same packet; none of them supplies a replacement tail threshold, observation budget, window ledger, dyadic ledger, readback row, or seal.
+
+Therefore any field-faithful certificate for this carrier must project and preserve the eleven rows one by one. A single echo parameter cannot witness the stated finite observation-service boundary.
 \end{proof}
 
 The Lean TasteGate.lean contract for this chapter requires \texttt{Nontrivial RegularCauchyTailBudgetUp} and \texttt{FieldFaithful RegularCauchyTailBudgetUp} instances whose witnesses include an explicit \texttt{witness\_pair} and constructor-field injection proofs for the regular source, tail threshold, observation budget, finite windows, dyadic observations, regular readback, seal, transport, continuation, package, and local naming fields.

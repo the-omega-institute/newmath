@@ -130,6 +130,17 @@ def status_line(status: dict) -> str:
     )
 
 
+def zero_extraction_url_tails(status: dict) -> list[str]:
+    tails: list[str] = []
+    for agent_id in status.get("zero_extraction_hang_agents") or []:
+        rec = (status.get("recent_agents") or {}).get(str(agent_id)) or {}
+        metrics = rec.get("metrics") or {}
+        tail = str(metrics.get("url_tail") or "").strip()
+        if tail:
+            tails.append(tail)
+    return tails
+
+
 def print_status_hint(server_url: str) -> dict:
     try:
         status = _infer_zero_extraction_hang(server_status(server_url))
@@ -155,10 +166,13 @@ def print_status_hint(server_url: str) -> dict:
     elif status.get("diagnosis") == "agent_busy_zero_extraction_hang":
         agents = ", ".join(map(str, status.get("zero_extraction_hang_agents") or []))
         seconds = status.get("zero_extraction_hang_seconds", "?")
+        url_tails = zero_extraction_url_tails(status)
         print(
             f"[status] {agents or 'an agent'} is generating but has extracted 0 chars for >= {seconds}s.",
             flush=True,
         )
+        if url_tails:
+            print(f"[status] affected URL tail(s): {', '.join(url_tails)}", flush=True)
         print("[status] refresh only the affected ChatGPT tab, then let the queued/pending task resume.", flush=True)
     return status
 
@@ -992,6 +1006,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "compile_errors": list(getattr(result, "compile_errors", None) or []),
                 "error": result.error,
                 "closure_candidate": getattr(result, "closure_candidate", None) or {},
+                "logic_audit": getattr(result, "logic_audit", None) or {},
             }
             stage2_attempts.append(attempt_record)
             if result.appended and result.compile_ok:
@@ -1102,6 +1117,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "rejection_reasons": last.get("rejection_reasons", []),
                 "error": last.get("error", ""),
                 "closure_candidate": last.get("closure_candidate", {}),
+                "logic_audit": last.get("logic_audit", {}),
                 "attempts": stage2_attempts,
             }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))
