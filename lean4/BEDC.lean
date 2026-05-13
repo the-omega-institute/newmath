@@ -81,6 +81,7 @@ import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.BetaSubstitutionPreservationUp
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinderBudgetSealUp.TasteGate
@@ -561,6 +562,7 @@ import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StreamDiagonalSelectorUp
+import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeSocketUp
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SpectralMeasureUp
