@@ -249,6 +249,65 @@ theorem LocatedIntervalPacket_containment_transport_scope [AskSetup] [PackageSet
     ⟨lowerUnary, upperUnary, rationalCellsUnary, endpointUnary, cellUnary,
       rationalCellsRoute, endpointRoute, cellRoute, sameRationalCells, sameEndpoint, cellPkg⟩
 
+theorem LocatedIntervalPacket_stream_readback_cell_compatibility [AskSetup] [PackageSetup]
+    {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
+      provenance nameCert endpoint lower' upper' rationalCells' endpoint' cell readback :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedIntervalPacket lower upper rationalCells dyadicRefinements streamWindows readbacks
+        seals transport routes provenance nameCert endpoint bundle pkg →
+      hsame lower lower' →
+        hsame upper upper' →
+          Cont lower' upper' rationalCells' →
+            Cont rationalCells' dyadicRefinements endpoint' →
+              Cont endpoint' streamWindows cell →
+                Cont streamWindows readbacks readback →
+                  PkgSig bundle endpoint' pkg →
+                    PkgSig bundle cell pkg →
+                      PkgSig bundle readback pkg →
+                        UnaryHistory lower' ∧ UnaryHistory upper' ∧
+                          UnaryHistory rationalCells' ∧ UnaryHistory endpoint' ∧
+                            UnaryHistory cell ∧ UnaryHistory readback ∧
+                              Cont lower' upper' rationalCells' ∧
+                                Cont rationalCells' dyadicRefinements endpoint' ∧
+                                  Cont endpoint' streamWindows cell ∧
+                                    Cont streamWindows readbacks readback ∧
+                                      hsame rationalCells rationalCells' ∧
+                                        hsame endpoint endpoint' ∧ PkgSig bundle cell pkg ∧
+                                          PkgSig bundle readback pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig UnaryHistory
+  intro packet sameLower sameUpper rationalCellsRoute endpointRoute cellRoute readbackRoute
+    endpointPkg cellPkg readbackPkg
+  have moved :=
+    LocatedIntervalPacket_endpoint_transport (lower' := lower') (upper' := upper')
+      (rationalCells' := rationalCells') (endpoint' := endpoint') packet sameLower sameUpper
+      rationalCellsRoute endpointRoute endpointPkg
+  obtain ⟨movedPacket, sameRationalCells, sameEndpoint⟩ := moved
+  obtain ⟨lowerUnary, upperUnary, rationalCellsUnary, dyadicUnary, streamWindowsUnary,
+    readbacksUnary, _sealsUnary, _nameCertUnary, _rationalCellsRoute, _endpointRoute,
+    _transportRoute, _routesRoute, _provenanceRoute, _endpointPkg⟩ := movedPacket
+  have endpointUnary : UnaryHistory endpoint' :=
+    unary_cont_closed rationalCellsUnary dyadicUnary endpointRoute
+  have cellUnary : UnaryHistory cell :=
+    unary_cont_closed endpointUnary streamWindowsUnary cellRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed streamWindowsUnary readbacksUnary readbackRoute
+  exact
+    ⟨lowerUnary,
+      upperUnary,
+      rationalCellsUnary,
+      endpointUnary,
+      cellUnary,
+      readbackUnary,
+      rationalCellsRoute,
+      endpointRoute,
+      cellRoute,
+      readbackRoute,
+      sameRationalCells,
+      sameEndpoint,
+      cellPkg,
+      readbackPkg⟩
+
 theorem LocatedIntervalPacket_endpoint_window_readback_exhaustion [AskSetup] [PackageSetup]
     {lower upper rationalCells dyadicRefinements streamWindows readbacks seals transport routes
       provenance nameCert endpoint readback : BHist}
