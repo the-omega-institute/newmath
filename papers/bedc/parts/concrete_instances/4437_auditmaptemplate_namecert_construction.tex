@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapTemplateUp$}
+\label{ch:concrete-instances-auditmaptemplate-namecert}
+\origin{human}
+
+The $\AuditMapTemplateUp$ packet realizes the audit-map family template of \autoref{ch:audit-map-family-methodology} as finite NameCert data. It sits beside the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the subject-reduction route triangle of \autoref{ch:concrete-instances-subjectreductionroutetriangle-namecert}, and the closure-preservation audit trace of \autoref{ch:concrete-instances-closurepreservationaudittrace-namecert}: those siblings show concrete map, route, and trace packets, while this chapter records the reusable finite packet shape that makes an audit map inspectable without treating methodology as a theorem endpoint.
+
+\begin{definition}[AuditMapTemplate carrier]
+\label{def:audit-map-template-carrier}
+An $\AuditMapTemplateUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,E,C,O,F,R,B,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the setup row naming the substrate, local vocabulary, carrier rows, and admissible consumer interface for the audit map;
+\item $E$ is the established-inventory row listing the checked or already certified facts that the map may expose as local content;
+\item $C$ is the conditional-inventory row listing parameterized routes, setup fields, discharge bundles, or interface hypotheses that remain explicit;
+\item $O$ is the obstruction-inventory row listing no-go facts, missing inhabitants, boundary counterexamples, or shape restrictions that block a stronger reading;
+\item $F$ is the frontier row naming the strongest nearby claim that is not licensed by $S,E,C,O$;
+\item $R$ is the cross-map route row naming the neighbouring audit maps, route certificates, trace packets, and synthesis chapters that may consume or supply the displayed rows;
+\item $B$ is the boundary row stating which claims are outside the packet even after all displayed rows have been read;
+\item $H$ records componentwise $\hsame$ transports for setup, established inventory, conditional inventory, obstruction inventory, frontier, cross-map route, boundary, provenance, and local naming rows;
+\item $Q$ records displayed $\Cont$ routes by which a consumer inspects the setup, inventory, obstruction, frontier, route, and boundary rows without adding hidden coordinates;
+\item $P$ is the $\Pkg$ provenance over the source audit-map methodology, sibling concrete packets, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\AuditMapTemplateUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets carrying these eleven rows. It exports no proof of the frontier row, no inhabitant for any conditional row, no erasure of the obstruction row, no automatic bridge between neighbouring maps, and no host semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[AuditMapTemplate NameCert obligations]
+\label{thm:audit-map-template-namecert-obligations}
+The carrier of \autoref{def:audit-map-template-carrier} satisfies the local $\NameCert_{\AuditMapTemplateUp}$ obligation surface. Its obligations are carrier admission for
+$$
+A=(S,E,C,O,F,R,B,H,Q,P,N),
+$$
+setup readback through $S$, established-inventory readback through $E$, conditional-inventory readback through $C$, obstruction-inventory readback through $O$, frontier readback through $F$, cross-map route readback through $R$, boundary readback through $B$, componentwise transport through $H$, displayed continuation through $Q$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite $\BHist$ packet. Projecting $S,E,C,O$ exposes the audit map's setup, positive inventory, parameterized inventory, and obstruction inventory as separate rows rather than as blended prose.
+
+Project $F,R,B$ next. The frontier row names the nearby claim left outside the packet, the cross-map route row names the neighbouring maps that may read or supply rows, and the boundary row records the claims that remain unavailable even after the route is known.
+
+Finally inspect $H,Q,P,N$. These rows transport, replay, locate, and name the same finite packet. Since every obligation is one of the displayed rows and no hidden row is supplied by transport, continuation, provenance, or naming, the local NameCert surface is exactly the listed carrier inventory.
+\end{proof}
+
+\begin{theorem}[AuditMapTemplate frontier non-closure]
+\label{thm:audit-map-template-frontier-nonclosure}
+For an accepted $\AuditMapTemplateUp$ carrier $A=(S,E,C,O,F,R,B,H,Q,P,N)$, the frontier row $F$ is visible as a boundary object and not as a closed theorem. A consumer may cite $F$ to identify the strongest nearby claim outside $S,E,C,O$, but the packet supplies neither a proof of $F$ nor an inhabitant that discharges the conditional or obstruction rows.
+\end{theorem}
+\begin{proof}
+Read the carrier by projection. The rows $S,E,C,O$ describe the licensed setup, established facts, conditional interfaces, and obstruction facts available before the frontier is inspected.
+
+The frontier coordinate $F$ is a row of the packet, not a theorem-constructor for the frontier claim. Its role is to mark where the displayed inventory stops.
+
+The remaining coordinates $R,B,H,Q,P,N$ route, bound, transport, replay, locate, and name that same packet. None of those coordinates has the type of a frontier proof or of a discharge witness for $C$ or $O$. Thus an accepted packet makes non-closure explicit rather than silently closing the frontier.
+\end{proof}
+
+\begin{theorem}[AuditMapTemplate cross-map routing]
+\label{thm:audit-map-template-cross-map-routing}
+Every accepted $\AuditMapTemplateUp$ carrier exposes cross-map routing only through the displayed row $R$ and its supporting rows $H,Q,P,N$. Any consumer that moves from the template packet to a concrete sibling, such as the packets of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, \autoref{ch:concrete-instances-subjectreductionroutetriangle-namecert}, or \autoref{ch:concrete-instances-closurepreservationaudittrace-namecert}, must preserve the setup, established, conditional, obstruction, frontier, and boundary rows named by $S,E,C,O,F,B$.
+\end{theorem}
+\begin{proof}
+Start with the route coordinate $R$. It names neighbouring maps and consumers, but it is still a displayed row of the same finite packet.
+
+The supporting coordinates $H,Q,P,N$ control how the route is transported, replayed, sourced, and named. They do not rewrite the setup row, add facts to the established-inventory row, discharge the conditional row, delete the obstruction row, prove the frontier row, or weaken the boundary row.
+
+Therefore cross-map movement is a projection-and-replay operation over the visible packet. A sibling concrete chapter can consume the template only by reading the rows it displays, so routing preserves the audit-map separation between licensed content, conditions, obstructions, frontier, and boundary.
+\end{proof}
