@@ -350,4 +350,53 @@ theorem CauchySequenceSpaceCarrier_limit_seal_factorization [AskSetup] [PackageS
   exact
     ⟨cert, handoffUnary, sealUnary, routeToHandoff, handoffToSeal, routePkg, namePkg⟩
 
+theorem CauchySequenceSpaceCarrier_scoped_completion_route_inventory [AskSetup]
+    [PackageSetup]
+    {family schedule window tolerance completion transport route name handoff «seal»
+      inventory : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name
+        bundle pkg ->
+      Cont route name handoff ->
+        Cont handoff completion «seal» ->
+          Cont «seal» route inventory ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  CauchySequenceSpaceCarrier family schedule window tolerance completion
+                    transport route name bundle pkg ∧ hsame row completion)
+                (fun row : BHist =>
+                  CauchySequenceSpaceCarrier family schedule window tolerance completion
+                    transport route name bundle pkg ∧ hsame row completion)
+                (fun row : BHist =>
+                  CauchySequenceSpaceCarrier family schedule window tolerance completion
+                    transport route name bundle pkg ∧ hsame row completion)
+                hsame ∧
+              UnaryHistory inventory ∧ Cont «seal» route inventory ∧
+                PkgSig bundle route pkg ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier routeToHandoff handoffToSeal sealToInventory
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchySequenceSpaceCarrier family schedule window tolerance completion transport route
+            name bundle pkg ∧ hsame row completion)
+        (fun row : BHist =>
+          CauchySequenceSpaceCarrier family schedule window tolerance completion transport route
+            name bundle pkg ∧ hsame row completion)
+        (fun row : BHist =>
+          CauchySequenceSpaceCarrier family schedule window tolerance completion transport route
+            name bundle pkg ∧ hsame row completion)
+        hsame :=
+    CauchySequenceSpaceCarrier_namecert_obligation_surface carrier
+  obtain ⟨_familyUnary, _scheduleUnary, _windowUnary, _toleranceUnary, completionUnary,
+    _transportUnary, routeUnary, nameUnary, _familyRoute, _toleranceRoute, _completionRoute,
+    routePkg, namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed routeUnary nameUnary routeToHandoff
+  have sealUnary : UnaryHistory «seal» :=
+    unary_cont_closed handoffUnary completionUnary handoffToSeal
+  have inventoryUnary : UnaryHistory inventory :=
+    unary_cont_closed sealUnary routeUnary sealToInventory
+  exact ⟨cert, inventoryUnary, sealToInventory, routePkg, namePkg⟩
+
 end BEDC.Derived.CauchySequenceSpaceUp
