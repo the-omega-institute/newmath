@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionDischargeLedgerUp$}
+\label{ch:concrete-instances-subjectreductiondischargeledger-namecert}
+\origin{ai}
+
+The $\SubjectReductionDischargeLedgerUp$ packet realizes the audit map of \autoref{ch:metacic-subject-reduction-obstruction} as a finite carrier for the four preservation obligations consumed by the $\SubjectReductionUp$ route of \autoref{ch:concrete-instances-subjectreduction-namecert}. It records the obligation rows, transport rows, continuation routes, package provenance, and local naming row as a concrete BEDC object, while keeping closed subject reduction outside the exported surface.
+
+\begin{definition}[SubjectReductionDischargeLedger carrier]
+\label{def:subject-reduction-discharge-ledger-carrier}
+A $\SubjectReductionDischargeLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,A,LD,PD,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution preservation row, matching $\mathrm{BetaSubstitutionPreservation}$;
+\item $A$ is the application-argument stability row, matching $\mathrm{AppArgTypeStable}$;
+\item $LD$ is the lambda-domain subject-reduction row, matching $\mathrm{LamDomainSubjectReduction}$;
+\item $PD$ is the Pi-domain subject-reduction row, matching $\mathrm{PiDomainSubjectReduction}$;
+\item $R$ records the $\SubjectReductionUp$ route that consumes exactly $B,A,LD,PD$;
+\item $H$ records componentwise $\hsame$ transports for the four obligation rows, the route row, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ replays by which consumers read the four obligations and the $\SubjectReductionUp$ route;
+\item $P$ is the $\Pkg$ provenance over MetaCIC subject reduction, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubjectReductionDischargeLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no unparameterised closed subject-reduction theorem, no host conversion principle, no hidden substitution theorem, no erased derivation semantics, and no quotient equality of MetaCIC terms.
+\end{definition}
+
+\begin{theorem}[SubjectReductionDischargeLedger obligations]
+\label{thm:subject-reduction-discharge-ledger-obligations}
+For the carrier of \autoref{def:subject-reduction-discharge-ledger-carrier}, the local $\NameCert_{\SubjectReductionDischargeLedgerUp}$ surface consists exactly of carrier admission for
+$$
+L=(B,A,LD,PD,R,H,C,P,N),
+$$
+four-row obligation exposure for $\mathrm{BetaSubstitutionPreservation}$, $\mathrm{AppArgTypeStable}$, $\mathrm{LamDomainSubjectReduction}$, and $\mathrm{PiDomainSubjectReduction}$, the $\SubjectReductionUp$ route row $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier $L$. The four obligation rows $B,A,LD,PD$ are the only rows that can feed the subject-reduction route.
+
+Read the structural rows next. The transport row $H$ keeps the four obligations, the route row, provenance, and local name componentwise stable, while the continuation row $C$ records the finite replay routes used by downstream consumers.
+
+Finally inspect $P$ and $N$. The package row records provenance for the same displayed rows, and the local certificate names no further coordinate. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeLedger SubjectReduction handoff]
+\label{thm:subject-reduction-discharge-ledger-subjectreduction-handoff}
+Every accepted $\SubjectReductionDischargeLedgerUp$ carrier hands its MetaCIC preservation data to $\SubjectReductionUp$ only through the route row $R$ and the four obligation rows $B,A,LD,PD$. The handoff may be transported by $H$, replayed through $C$, and accounted for by $P,N$, but it does not supply a closed subject-reduction theorem or an unrecorded fifth preservation premise.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:subject-reduction-discharge-ledger-obligations}. It identifies the accepted carrier with the four obligation rows, the subject-reduction route row, and the structural rows.
+
+The route row $R$ is displayed as the only $\SubjectReductionUp$ consumer coordinate. Since $R$ consumes exactly $B,A,LD,PD$, any accepted handoff to \autoref{ch:concrete-instances-subjectreduction-namecert} passes through those four rows.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name the same handoff. They do not add another preservation obligation, so the ledger has no route for a fifth premise or a closed theorem.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeLedger non-escape]
+\label{thm:subject-reduction-discharge-ledger-nonescape}
+Every downstream read of an accepted $\SubjectReductionDischargeLedgerUp$ carrier factors through
+$$
+B,A,LD,PD,R,H,C,P,N.
+$$
+In particular, the finite ledger cannot be read as an unparameterised closed subject-reduction theorem, host conversion rule, hidden substitution preservation theorem, erased derivation semantics, quotient equality, or semantic MetaCIC interpreter.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply the obligation theorem. The only public preservation rows are $B,A,LD,PD$, and the only public subject-reduction consumer row is $R$.
+
+The transport, continuation, package, and naming rows preserve access to the displayed packet but do not create new coordinates. Therefore a consumer can read the ledger only through $B,A,LD,PD,R,H,C,P,N$.
+
+The excluded closed or host-side principles have no row in the packet. A request for one of them therefore remains outside the accepted carrier rather than becoming a hidden route through the ledger.
+\end{proof}
+
+\closureat{SubjectReductionDischargeLedgerUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionDischargeLedgerUp}
+  \constructivestory{A $\SubjectReductionDischargeLedgerUp$ packet is generated from beta-substitution, application-argument, lambda-domain, and Pi-domain obligation rows, a $\SubjectReductionUp$ route row, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-discharge-ledger-carrier}, \autoref{thm:subject-reduction-discharge-ledger-obligations}, \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff}, and \autoref{thm:subject-reduction-discharge-ledger-nonescape} bind the finite subject-reduction discharge ledger and its handoff to $\SubjectReductionUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove BetaSubstitutionPreservation, AppArgTypeStable, LamDomainSubjectReduction, PiDomainSubjectReduction, closed subject reduction, host conversion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-row exposure, subject-reduction route handoff, transport stability, continuation replay, provenance, and non-escape for the displayed ledger.}
+\end{closurestatus}
