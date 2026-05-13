@@ -115,12 +115,51 @@ Carrier admission, classifier preservation, graph lifting, target transport, and
 Since no coordinate has the type of a host function, quotient equality, or semantic compiler interpretation, acceptance has no source from which to export one. The public content of the morphism is exactly the finite NameCert packet and its displayed BEDC rows.
 \end{proof}
 
+\begin{theorem}[NameCert morphism source-target separation]
+\label{thm:namecert-morphism-source-target-separation}
+Let $M=(S,T,G,H,C,P,N)$ be an accepted $\NameCertMorphismUp$ packet. The source certificate $S$, target certificate $T$, graph row $G$, same-preservation row $H$, route row $C$, and provenance row $P$ remain displayed carrier coordinates of the accepted packet. Consequently no downstream consumer of $M$ may replace $S$ by $T$, replace $T$ by $S$, or identify either endpoint through host equality or an unstated certificate coercion.
+\end{theorem}
+
+\begin{proof}
+Read the packet through \autoref{def:namecert-morphism-carrier}. The two endpoint certificates are separate coordinates of the same finite carrier, and the graph, preservation, route, provenance, and local naming rows are stored beside them rather than derived from an ambient equality between endpoints.
+
+Now inspect the classifier in \autoref{def:namecert-morphism-classifier}. Acceptance asks for carrier admission, classifier preservation, graph lifting, target carrier transport, and ledger non-escape on those displayed coordinates. The identity row of \autoref{thm:namecert-morphism-identity-obligation} is the special case $S=T$ inside a displayed diagonal packet; it is not a rule allowing an arbitrary packet to collapse its endpoints.
+
+For non-diagonal transport, \autoref{thm:namecert-morphism-graph-lifting-obligation} and \autoref{thm:namecert-morphism-target-transport-obligation} force each read to pass through $G,H,C,P,N$ and the target certificate row. Finally, \autoref{thm:namecert-morphism-ledger-nonescape-obligation} rules out a hidden host equality or certificate coercion, so source and target separation is exactly the displayed-coordinate separation of the packet.
+\end{proof}
+
+\begin{theorem}[NameCert morphism route-composition scope]
+\label{thm:namecert-morphism-route-composition-scope}
+Let $M=(S,T,G,H,C,P,N)$ and $M'=(T,U,G',H',C',P',N')$ be accepted $\NameCertMorphismUp$ packets sharing the middle certificate row $T$. Their composite route from $S$ to $U$ is read only through the displayed graph rows $G,G'$, same-preservation rows $H,H'$, $\Cont$ route rows $C,C'$, $\Pkg$ provenance rows $P,P'$, and the local $\NameCert$ rows $N,N'$, with the identity and composition obligations supplying the route spine.
+\end{theorem}
+
+\begin{proof}
+Start with the two carrier decompositions given by \autoref{def:namecert-morphism-carrier}. The shared middle row is displayed as the target endpoint of $M$ and the source endpoint of $M'$, so the composite route has exactly the endpoint data needed for \autoref{thm:namecert-morphism-composition-obligation}.
+
+The route spine is the finite composition proof: graph lifting from \autoref{thm:namecert-morphism-graph-lifting-obligation} supplies the first edge into $T$, target transport from \autoref{thm:namecert-morphism-target-transport-obligation} reads that edge through the middle certificate, and the second packet repeats the same displayed read into $U$. The identity obligation in \autoref{thm:namecert-morphism-identity-obligation} covers the degenerate route at any displayed certificate row.
+
+All preservation data used by the composite route is already named in $H,H',C,C',P,P',N,N'$. The classifier of \autoref{def:namecert-morphism-classifier} admits no extra route oracle, and \autoref{thm:namecert-morphism-ledger-nonescape-obligation} prevents the composed packet from importing a host function, quotient, or external compiler semantics.
+\end{proof}
+
+\begin{theorem}[NameCert morphism ledger-boundary exactness]
+\label{thm:namecert-morphism-ledger-boundary-exactness}
+Every downstream read of an accepted $\NameCertMorphismUp$ packet $M=(S,T,G,H,C,P,N)$ factors through the source row $S$, target row $T$, graph-lifting row $G$, target-transport row $C$, same-preservation row $H$, provenance row $P$, local naming row $N$, and the ledger non-escape theorem. No read of $M$ factors through a host function, quotient, external equality oracle, or compiler semantic object outside those displayed rows.
+\end{theorem}
+
+\begin{proof}
+The carrier definition \autoref{def:namecert-morphism-carrier} fixes the public boundary: the only available coordinates are $S,T,G,H,C,P,N$. The classifier definition \autoref{def:namecert-morphism-classifier} then lists the admissible downstream questions as carrier admission, classifier preservation, graph lifting, target transport, and $\hsame$ preservation.
+
+For endpoint reads, use \autoref{thm:namecert-morphism-source-target-separation}. For graph and target reads, use \autoref{thm:namecert-morphism-graph-lifting-obligation} and \autoref{thm:namecert-morphism-target-transport-obligation}. For route composition, use \autoref{thm:namecert-morphism-route-composition-scope} together with \autoref{thm:namecert-morphism-identity-obligation} and \autoref{thm:namecert-morphism-composition-obligation}.
+
+The final boundary clause is exactly \autoref{thm:namecert-morphism-ledger-nonescape-obligation}: every proof object exposed to a consumer is a displayed row or a route between displayed rows. Therefore the ledger boundary is exact, and there is no remaining entry point for a host function, quotient, or external equality oracle.
+\end{proof}
+
 \closureat{NameCertMorphismUp}{seedStr}
 
 \begin{closurestatus}{\NameCertMorphismUp}
   \constructivestory{A $\NameCertMorphismUp$ packet is generated from source and target $\NameCert$ rows, a compiler graph row, componentwise $\hsame$ preservation, displayed $\Cont$ routes, package provenance, and a local naming row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:namecert-morphism-carrier}, \autoref{def:namecert-morphism-classifier}, \autoref{thm:namecert-morphism-identity-obligation}, \autoref{thm:namecert-morphism-composition-obligation}, \autoref{thm:namecert-morphism-compiler-correctness-bridge}, \autoref{thm:namecert-morphism-graph-lifting-obligation}, \autoref{thm:namecert-morphism-target-transport-obligation}, and \autoref{thm:namecert-morphism-ledger-nonescape-obligation} bind the finite classifier-preserving certificate morphism surface.}
+  \scopeclosed{\autoref{def:namecert-morphism-carrier}, \autoref{def:namecert-morphism-classifier}, \autoref{thm:namecert-morphism-identity-obligation}, \autoref{thm:namecert-morphism-composition-obligation}, \autoref{thm:namecert-morphism-compiler-correctness-bridge}, \autoref{thm:namecert-morphism-graph-lifting-obligation}, \autoref{thm:namecert-morphism-target-transport-obligation}, \autoref{thm:namecert-morphism-ledger-nonescape-obligation}, \autoref{thm:namecert-morphism-source-target-separation}, \autoref{thm:namecert-morphism-route-composition-scope}, and \autoref{thm:namecert-morphism-ledger-boundary-exactness} bind the finite classifier-preserving certificate morphism surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
