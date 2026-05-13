@@ -212,4 +212,41 @@ theorem CompletionFunctorCarrier_completion_consumer_surface [AskSetup] [Package
     ⟨unitReadUnary, extensionReadUnary, sourceTargetDenseMap, denseMapExtensionFunctorLedger,
       sameUnitRead, sameExtensionReadLedger, provenancePkg, namePkg⟩
 
+theorem CompletionFunctorCarrier_composition_route_stability [AskSetup] [PackageSetup]
+    {monad universal realCompletion source target denseMap extension functorLedger transport
+      routes provenance name firstLedger secondLedger compositeRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionFunctorCarrier monad universal realCompletion source target denseMap extension
+        functorLedger transport routes provenance name bundle pkg ->
+      Cont denseMap extension firstLedger ->
+        hsame firstLedger functorLedger ->
+          Cont firstLedger transport secondLedger ->
+            hsame secondLedger routes ->
+              Cont denseMap extension compositeRoute ->
+                hsame compositeRoute functorLedger ->
+                  UnaryHistory firstLedger /\ UnaryHistory secondLedger /\
+                    UnaryHistory compositeRoute /\ Cont denseMap extension firstLedger /\
+                      Cont firstLedger transport secondLedger /\
+                        Cont denseMap extension compositeRoute /\
+                          hsame firstLedger functorLedger /\ hsame secondLedger routes /\
+                            hsame compositeRoute functorLedger /\
+                              PkgSig bundle provenance pkg /\ PkgSig bundle name pkg := by
+  intro carrier firstLedgerRow sameFirstLedger secondLedgerRow sameSecondLedger
+    compositeRouteRow sameCompositeRoute
+  obtain ⟨_monadUnary, _universalUnary, _realCompletionUnary, _sourceUnary, _targetUnary,
+    denseMapUnary, extensionUnary, _functorLedgerUnary, transportUnary, _routesUnary,
+    _provenanceUnary, _nameUnary, _monadUniversalRealCompletion, _sourceTargetDenseMap,
+    _denseMapExtensionFunctorLedger, _functorLedgerTransportRoutes,
+    _transportRoutesProvenance, provenancePkg, namePkg⟩ := carrier
+  have firstLedgerUnary : UnaryHistory firstLedger :=
+    unary_cont_closed denseMapUnary extensionUnary firstLedgerRow
+  have secondLedgerUnary : UnaryHistory secondLedger :=
+    unary_cont_closed firstLedgerUnary transportUnary secondLedgerRow
+  have compositeRouteUnary : UnaryHistory compositeRoute :=
+    unary_cont_closed denseMapUnary extensionUnary compositeRouteRow
+  exact
+    ⟨firstLedgerUnary, secondLedgerUnary, compositeRouteUnary, firstLedgerRow,
+      secondLedgerRow, compositeRouteRow, sameFirstLedger, sameSecondLedger,
+      sameCompositeRoute, provenancePkg, namePkg⟩
+
 end BEDC.Derived.CompletionFunctorUp
