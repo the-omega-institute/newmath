@@ -1,0 +1,132 @@
+\section{StreamName finite-window transport obligations}
+\label{sec:streamname-finite-window-transport-obligations}
+
+\begin{theorem}[StreamName finite-window pointwise transport]
+\label{thm:streamname-window-pointwise-transport}
+Let $s,t,s',t':\mathsf{BHist}\to\mathsf{BHist}$ be certified
+$\StreamNameUp$ rows, let $\mathcal{P}:\mathsf{ProbeBundle}$ be a finite
+observation bundle, and suppose
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})
+$$
+is displayed together with the finite ledger rows
+$\mathsf{UnaryHistory}(n)$ and $\mathsf{InBundle}(n,\mathcal{P})$ for every
+selected observation. Suppose also that every selected $n$ carries the
+pointwise transport rows
+$$
+\hsame(s(n),s'(n))
+\qquad\text{and}\qquad
+\hsame(t(n),t'(n)),
+$$
+and that the consumer route reads the source window only through displayed
+$\Cont$ rows. Then the transported window exported to any $\RegSeqRat$ or
+finite-window $\RealUp$ consumer is exactly
+$$
+\mathsf{RatStreamNameFiniteWindowClassifier}(s',t',\mathcal{P})
+$$
+with the same $\mathsf{ProbeBundle}$, $\mathsf{InBundle}$,
+$\mathsf{UnaryHistory}$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+rows.
+
+No infinite stream object, quotient stream equality, selected real value,
+host Nat stream, or $\RealUp$ completeness principle is exported by this
+transport.
+\end{theorem}
+\begin{proof}
+First read the source finite window through the public handoff surface of
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. The available
+rows are the selected rational-history classifier rows, the finite
+$\mathsf{ProbeBundle}$ ledger, membership rows, unary observation rows, and
+their local naming data.
+
+Next apply the pointwise handoff and transport rows of
+\autoref{thm:streamname-regseqrat-pointwise-handoff} and
+\autoref{thm:streamname-regseqrat-observation-stability}. These identify the
+transported classifier by using only the displayed pointwise $\hsame$ rows at
+the certified observations of $\mathcal{P}$.
+
+Finally replay the result through the finite pullback criterion of
+\autoref{thm:streamname-regseqrat-realup-finite-window-pullback-criterion}.
+The criterion records the same $\Cont$, $\Pkg$, and local certificate rows as
+consumer-visible coordinates, so the transported packet remains the finite
+window over $\mathcal{P}$ and exports none of the excluded stream, quotient,
+real-value, host-index, or completeness data.
+\end{proof}
+
+\begin{theorem}[StreamName constant-window classifier stability]
+\label{thm:streamname-constant-window-classifier-stability}
+Let $d,e:\mathsf{BHist}$ be rational-history endpoints and let
+$r,q:\mathsf{BHist}\to\mathsf{BHist}$ be certified observation schedules over
+a finite bundle $\mathcal{P}:\mathsf{ProbeBundle}$. Suppose the constant
+window displays the rational point classifier for $d$ and $e$, the selected
+bundle rows $\mathsf{InBundle}(n,\mathcal{P})$, the unary ledger rows
+$\mathsf{UnaryHistory}(n)$, pointwise $\hsame$ transport for the scheduled
+constant observations, displayed $\Cont$ routes, $\Pkg$ provenance, and the
+local $\NameCert_{\StreamNameUp}$ row. Then every transported constant
+certified window preserves the same point classifier and ledger rows for the
+$\RegSeqRat$ and finite-window $\RealUp$ handoff.
+
+The stable constant-window packet contains no infinite stream object,
+quotient stream equality, selected real value, host Nat stream, or
+$\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the constant boundary of
+\autoref{thm:streamname-real-regseq-constant-boundary}. It says that the
+constant window contributes only the rational point classifier, finite bundle
+ledger, membership rows, unary observation rows, and local naming data.
+
+Transport the scheduled constant observations by
+\autoref{thm:streamname-realup-constant-observation-handoff}. The handoff
+reads the same endpoint classifier pointwise and leaves regularity, dyadic
+seal data, and the $\RealUp$ seal classifier on the consumer side.
+
+Now use \autoref{thm:streamname-regseqrat-pointwise-handoff} to identify the
+consumer-facing packet. The pointwise rows, bundle membership, unary ledger,
+displayed $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local
+certificate row are precisely the rows named by the theorem statement, so the
+constant classifier and ledger are stable under the certified transport.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat window handoff exactness]
+\label{thm:streamname-regseq-window-handoff-exactness}
+Let $\mathcal{W}$ be a finite $\StreamNameUp$ window over
+$s,t:\mathsf{BHist}\to\mathsf{BHist}$ with selected bundle
+$\mathcal{P}:\mathsf{ProbeBundle}$. The exact $\RegSeqRat$ handoff surface
+read from $\mathcal{W}$ consists only of the finite window classifier
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$, the
+selected point certificates $\mathsf{RatHistoryClassifier}(s(n),t(n))$, the
+pointwise $\mathsf{UnaryHistory}$ and $\mathsf{InBundle}$ ledger rows, the
+displayed $\hsame$ transports, the $\Cont$ route rows, the $\Pkg$ provenance
+row, and the local $\NameCert_{\StreamNameUp}$ row.
+
+Conversely, those finite rows determine the whole source packet handed to
+$\RegSeqRat$; no other StreamName coordinate is read. In particular, the
+handoff exports no infinite stream object, quotient stream equality, selected
+real value, host Nat stream, $\RegSeqRat$ regularity witness supplied by
+StreamName, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+For the forward direction, project $\mathcal{W}$ through
+\autoref{thm:streamname-real-regseq-finite-window-handoff}. It exposes the
+finite StreamName window rows, selected rational-history classifier rows,
+probe-bundle ledger, bundle membership, and unary-history observations.
+
+Apply the pointwise handoff theorem
+\autoref{thm:streamname-regseqrat-pointwise-handoff}. It refines the same
+source packet to point certificates
+$\mathsf{RatHistoryClassifier}(s(n),t(n))$ at exactly the selected certified
+observations of $\mathcal{P}$.
+
+For the reverse direction, repack the displayed classifier, point
+certificates, ledger rows, $\hsame$ transports, route rows, package
+provenance, and local certificate row through
+\autoref{thm:streamname-regseqrat-realup-finite-window-pullback-criterion}.
+The criterion says that these are precisely the finite pullback coordinates
+seen by the downstream consumers, so the source handoff is fully determined.
+
+Finally use \autoref{thm:streamname-real-regseq-obligation-separation}. It
+keeps $\RegSeqRat$ regularity and $\RealUp$ seal or completeness obligations
+outside the StreamName source packet, and it rules out the infinite-stream,
+quotient, selected-real, and host-index data excluded above.
+\end{proof}
