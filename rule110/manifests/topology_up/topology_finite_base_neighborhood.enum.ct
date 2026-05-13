@@ -1,0 +1,24 @@
+# topology_finite_base_neighborhood.enum.ct
+# Theorem family:
+#   BHistFiniteBaseNeighborhood_append_decomposition
+#   BHistFiniteBaseNeighborhoodCarrier_meet_scope_rows
+#
+# Encoding:
+#   BHist events use docs/bhist_encoding.md.
+#   Bundle(BHist) = zero or more BHist events, then the bundle terminator
+#   EventEncoding([1,1]) = 101011.
+#
+# Input shape:
+#   Bundle(BHist) left ++ Bundle(BHist) right ++ BHist point
+#
+# Runtime harness decodes left/right/point, checks bundleAppend list
+# concatenation, and checks the finite fixture ball semantics:
+#   Neighborhood(left ++ right, x) iff Neighborhood(left, x) and
+#   Neighborhood(right, x).
+PRODUCTIONS 0
+ASSERTIONS 5
+case empty_empty_at_empty:          input=10101110101111                         ; theorem=finite_base_append_decomposition ; left_len=0 ; right_len=0 ; append_len=0 ; point=empty ; conclusion_holds=yes
+case singleton_empty_at_e0:         input=011101011101011011                     ; theorem=finite_base_append_decomposition ; left_len=1 ; right_len=0 ; append_len=1 ; point=e0_empty ; conclusion_holds=yes
+case empty_pair_at_e1:              input=1010111011010111010111011              ; theorem=finite_base_append_decomposition ; left_len=0 ; right_len=2 ; append_len=2 ; point=e1_empty ; conclusion_holds=yes
+case pair_singleton_at_e0_e1:       input=01110111010110101110101101011          ; theorem=finite_base_append_decomposition ; left_len=2 ; right_len=1 ; append_len=3 ; point=e0_e1_empty ; conclusion_holds=yes
+case singleton_pair_at_empty:       input=10111010110110101110101111             ; theorem=finite_base_carrier_meet_scope ; left_len=1 ; right_len=2 ; append_len=3 ; point=empty ; conclusion_holds=yes
