@@ -45,3 +45,4 @@ import BEDC.MetaCIC.TypedExamples.BetaRedex
 import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
 import BEDC.MetaCIC.GeneratorClosureNatExamples
+import BEDC.MetaCIC.AuditReexport
