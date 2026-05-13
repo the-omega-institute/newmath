@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRecursorReplayUp$}
+\label{ch:concrete-instances-boundedrecursorreplay-namecert}
+\origin{human}
+
+The $\BoundedRecursorReplayUp$ packet realizes authorized recursor replay as a finite NameCert object. It sits downstream of the recursor-generator packet in \autoref{ch:concrete-instances-recursorgenerator-namecert}, the authorized generator-recursor packet in \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}, and the legal eliminator-call packet in \autoref{ch:concrete-instances-authorizedrecursor-namecert}. Its role is narrower than any of those chapters: it replays one accepted recursor call under a displayed descent budget, exposes the generated row, and records the audit boundary that prevents the replay from becoming an unrestricted recursion principle.
+
+\begin{definition}[BoundedRecursorReplay carrier]
+\label{def:bounded-recursor-replay-carrier}
+A $\BoundedRecursorReplayUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,M,B,D,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the accepted inductive-signature row, including the constructor inventory, recursive argument positions, strict-positivity gate, and emitted recursor name;
+\item $M$ is the checked motive row used by the bounded replay;
+\item $B$ is the branch-package row, with exactly one accepted branch package for each constructor displayed by $I$;
+\item $D$ is the descent-budget row, recording the finite replay bound and the structural subdata route consumed at each recursive call;
+\item $R$ is the bounded replay output row produced by running the authorized recursor under $I,M,B,D$;
+\item $A$ is the audit row, recording kernel acceptance, branch coverage, structural descent replay, source-axiom refusal, and dependency-purity refusal for the replayed output;
+\item $H$ records componentwise $\hsame$ transports for $I,M,B,D,R,A$, the route row, the provenance row, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the signature, motive, branch package, descent budget, replay output, audit row, provenance, and local certificate;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, accepted constructor signatures, checked motives, branch packages, descent budgets, bounded replay outputs, audit rows, $\hsame$, $\Cont$, and neighboring recursor certificates;
+\item $N$ is the local $\NameCert_{\BoundedRecursorReplayUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed rows $I,M,B,D,R,A,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[BoundedRecursorReplay NameCert obligations]
+\label{thm:bounded-recursor-replay-namecert-obligations}
+For the carrier of \autoref{def:bounded-recursor-replay-carrier}, the local $\NameCert_{\BoundedRecursorReplayUp}$ surface consists of carrier admission for
+$$
+Q=(I,M,B,D,R,A,H,C,P,N),
+$$
+accepted-signature replay for $I$, motive admission for $M$, branch completeness for $B$, descent-budget exactness for $D$, bounded output exposure for $R$, audit replay for $A$, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, local naming, and non-escape from unbounded recursion.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bounded-recursor-replay-carrier}. The finite tuple displays every coordinate that a consumer can inspect.
+
+The signature, motive, and branch obligations are inherited as replay inputs. The accepted signature row $I$ names the only recursor available to the packet, $M$ names the checked motive, and $B$ supplies one branch package for each constructor displayed by $I$.
+
+The bounded-replay obligations are read from $D,R,A$. The descent-budget row records the finite replay bound and the structural subdata route, the output row records the result of that bounded replay, and the audit row records the kernel, branch, descent, source, and dependency checks that make the row public.
+
+Finally $H,C,P,N$ package the replay surface. Transport and continuation access preserve the displayed rows, provenance cites the neighboring recursor certificates, and the local naming row exposes no coordinate for an unbounded recursion principle.
+\end{proof}
+
+\begin{theorem}[BoundedRecursorReplay non-escape]
+\label{thm:bounded-recursor-replay-nonescape}
+Every consumer read of an accepted $\BoundedRecursorReplayUp$ packet factors through
+$$
+I,M,B,D,R,A,H,C,P,N.
+$$
+It exports no unlisted constructor, no omitted branch, no unchecked motive, no recursive call outside the descent budget, no output outside the bounded replay row, no hidden eliminator, no unrestricted recursion principle, and no dependency route escaping the audit row.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They place the replay output downstream of the accepted signature, checked motive, complete branch package, descent budget, audit row, transports, routes, provenance, and local naming row.
+
+For constructor and branch escape, inspect $I$ and $B$. The signature row supplies the only constructor inventory, and the branch package supplies exactly the branch rows consumed by the bounded replay.
+
+For recursion escape, inspect $D$ and $R$. A recursive call can contribute to the public output only when the descent-budget row records it as structural subdata of the accepted signature and within the displayed bound.
+
+For dependency escape, inspect $A,P,N$. The audit row and provenance row record the kernel, source, and dependency boundary for the replay output. Since no carrier coordinate names an unrestricted recursion principle, hidden eliminator, or outside dependency route, no consumer can recover one from the packet.
+\end{proof}
+
+\closureat{BoundedRecursorReplayUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRecursorReplayUp}
+  \constructivestory{A $\BoundedRecursorReplayUp$ packet is generated from an accepted inductive signature, checked motive, complete branch package, finite descent budget, bounded replay output, audit row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-recursor-replay-carrier}, \autoref{thm:bounded-recursor-replay-namecert-obligations}, and \autoref{thm:bounded-recursor-replay-nonescape} bind bounded recursor replay as a finite NameCert packet over accepted signature, motive, branch, descent-budget, output, audit, route, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, general kernel soundness, all positivity checking, all termination checking, unbounded recursion, or any external classical principle.}
+  \upgradepath{Obligation closure requires checked carrier admission, accepted-signature replay, motive admission, branch completeness, descent-budget exactness, bounded output exposure, audit replay, and non-escape for the same finite packet.}
+\end{closurestatus}

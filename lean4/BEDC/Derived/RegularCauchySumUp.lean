@@ -7,6 +7,7 @@ import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 import BEDC.Derived.RegularCauchyLimitClassifierUp
+import BEDC.Derived.RegularCauchyTailSelectorUp
 
 namespace BEDC.Derived.RegularCauchySumUp
 
@@ -393,6 +394,55 @@ theorem RegularCauchySumCarrier_limit_classifier_compatibility [AskSetup] [Packa
         sumProvenancePkg,
         certPkg,
         publicReadPkg'⟩
+
+theorem RegularCauchySumCarrier_tail_selector_handoff [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert tailPrecision tailStream tailRegularity
+      tailDyadic tailRealSeal tailWitness tailTransports tailRoutes tailProvenance tailLocalCert
+      tailConsumer sumConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg →
+      BEDC.Derived.RegularCauchyTailSelectorUp.RegularCauchyTailSelectorCarrier tailPrecision
+          tailStream tailRegularity tailDyadic tailRealSeal tailWitness tailTransports tailRoutes
+          tailProvenance tailLocalCert bundle pkg →
+        Cont tailWitness tailRoutes tailConsumer →
+          Cont readback routes sumConsumer →
+            PkgSig bundle sumConsumer pkg →
+              UnaryHistory tailWitness ∧ UnaryHistory tailConsumer ∧ UnaryHistory readback ∧
+                UnaryHistory sumConsumer ∧ Cont tailRegularity tailDyadic tailWitness ∧
+                  Cont readback routes sumConsumer ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle tailProvenance pkg ∧ PkgSig bundle sumConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro sumCarrier tailCarrier tailConsumerRoute sumConsumerRoute sumConsumerPkg
+  obtain ⟨_leftSourceUnary, _rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, routesUnary,
+    _provenanceUnary, _localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _provenanceRoute, provenancePkg⟩ := sumCarrier
+  obtain ⟨_tailPrecisionUnary, _tailStreamUnary, tailRegularityUnary, tailDyadicUnary,
+    _tailRealSealUnary, _tailTransportsUnary, tailRoutesUnary, _tailProvenanceUnary,
+    _tailLocalCertUnary, tailWitnessRoute, _tailProvenanceRoute, _tailLocalCertRoute,
+    tailProvenancePkg⟩ := tailCarrier
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have sumConsumerUnary : UnaryHistory sumConsumer :=
+    unary_cont_closed readbackUnary routesUnary sumConsumerRoute
+  have tailWitnessUnary : UnaryHistory tailWitness :=
+    unary_cont_closed tailRegularityUnary tailDyadicUnary tailWitnessRoute
+  have tailConsumerUnary : UnaryHistory tailConsumer :=
+    unary_cont_closed tailWitnessUnary tailRoutesUnary tailConsumerRoute
+  exact
+    ⟨tailWitnessUnary,
+      tailConsumerUnary,
+      readbackUnary,
+      sumConsumerUnary,
+      tailWitnessRoute,
+      sumConsumerRoute,
+      provenancePkg,
+      tailProvenancePkg,
+      sumConsumerPkg⟩
 
 theorem RegularCauchySumCarrier_classifier_stability [AskSetup] [PackageSetup]
     {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
