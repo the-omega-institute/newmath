@@ -95,6 +95,28 @@ Then use \autoref{thm:picardcontraction-regseqrat-consumer-route}. The regular-s
 Finally apply \autoref{thm:picardcontraction-real-seal-noncompletion} together with \autoref{thm:picardcontraction-public-carrier-surface}. The seal is therefore the displayed endpoint row read through the finite route, with the fixed-point and completeness exclusions still in force.
 \end{proof}
 
+\begin{theorem}[PicardContraction CompleteMetric handoff]
+\label{thm:picard-contraction-complete-metric-handoff}
+For every accepted $\PicardContractionUp$ packet
+$$
+P=(B,T,L,I,M,E,H,C,G,N),
+$$
+every $\CompleteMetricUp$-facing read of $P$ factors through the finite rows
+$$
+B,T,L,I,M,E,H,C,G,N.
+$$
+The row $M$ is the explicit Cauchy modulus exposed to the downstream metric consumer, and the row $E$ is the endpoint and seal row available to real-facing consumers. The handoff exports no host fixed point, ambient completeness theorem, completed orbit, quotient stream, or selected limit.
+\end{theorem}
+\begin{proof}
+First read the public carrier surface through \autoref{thm:picardcontraction-public-carrier-surface}. It exposes exactly the rows $B,T,L,I,M,E,H,C,G,N$ and excludes the fixed-point and completion objects named in the statement.
+
+Next isolate the metric evidence. By \autoref{thm:picardcontraction-cauchy-modulus-handoff}, the only Cauchy-modulus evidence exported by the packet is the displayed row $M$.
+
+The regular-sequence side is already finite. Apply \autoref{thm:picardcontraction-regseqrat-consumer-route}; any regular-rational read is exhausted by the same carrier rows and cannot pass through a completed orbit outside the packet.
+
+Finally use \autoref{thm:picardcontraction-public-seal-export}. The real-facing endpoint and seal data factor through $M$, $E$, and the displayed finite route, so a $\CompleteMetricUp$ consumer receives the explicit modulus handoff without importing host completeness, quotient-stream data, or a selected limiting point.
+\end{proof}
+
 \begin{theorem}[PicardContraction CauchyRate source extraction]
 \label{thm:picardcontraction-cauchyrate-source-extraction}
 For every accepted $\PicardContractionUp$ packet
