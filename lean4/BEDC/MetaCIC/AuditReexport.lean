@@ -1,4 +1,5 @@
 import BEDC.MetaCIC.Consistency
+import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.SubjectReduction.DischargeBundle
 import BEDC.MetaCIC.SubjectReduction.SetupClass
@@ -23,6 +24,18 @@ export BEDC.MetaCIC (SubjectReductionDischargeBundle SubjectReductionSetup)
 
 -- Closed term operations
 export BEDC.MetaCIC (shift_closed substitute_closed)
+
+-- Closure preservation
+export BEDC.MetaCIC (
+  betaStep_preserves_closed
+  betaStarStep_preserves_closed
+  substitute_var_preserves_closed_at
+  substitute_preserves_closed_at
+  shift_one_preserves_closed_succ
+)
+
+-- Partial subject reduction discharge
+export BEDC.MetaCIC (subject_reduction_beta_sort_var)
 
 -- Counter-witnesses
 export BEDC.MetaCIC (subject_reduction_closed_app_independent_codomain subject_reduction_closed_app_counterexample)
