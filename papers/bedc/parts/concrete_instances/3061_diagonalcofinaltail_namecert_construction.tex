@@ -328,6 +328,24 @@ Now use non-escape. Any route consuming the RealUp seal, RegSeqRatUp readback, D
 Thus componentwise $\hsame$ transport preserves the displayed packet and cannot create any unlisted equality, limit, quotient-stream, or completeness datum.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail finite-window replay determinacy]
+\label{thm:diagonal-cofinal-tail-finite-window-replay-determinacy}
+Let $T$ and $T'$ be accepted $\DiagonalCofinalTailUp$ packets. Suppose the two packets share the transported $\RatUp$ seed row $Q$, the constant $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ cofinal-tail readback row $G$, the $\DyadicRatCoreUp$ finite-window ledger $D$, the transported stationary seal row $W$, and the structural rows $H,C,P,N$ along the displayed componentwise transports. If both packets replay the same finite cofinal-tail window to $\RealUp$ consumers, then their consumer-visible $R$ rows are classified together by the same route
+$$
+Q,S,G,D,R,W,H,C,P,N.
+$$
+The determinacy is only a finite-window replay statement; it does not select a limit, identify quotient streams, assert external equality, or invoke ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-cofinal-tail-tail-selector-lock}. The shared $Q,S,G,D,W$ rows determine the cofinal-tail selector visible to any replay consumer, so the two packets cannot choose different finite windows while keeping those rows fixed.
+
+Next apply \autoref{thm:diagonal-cofinal-tail-route-composition}. The RatUp seed, StreamNameUp window, RegSeqRatUp tail readback, DyadicRatCoreUp ledger, and RealUp-facing row are composed through the displayed continuation route rather than through an external equality or completion witness.
+
+Now use \autoref{thm:diagonal-cofinal-tail-hsame-transport-lock}. Componentwise transport along $H$ preserves the same packet rows and cannot add a second seal, quotient-stream equality, selected limit, or ambient completeness coordinate.
+
+Finally apply \autoref{thm:diagonal-cofinal-tail-consumer-exhaustion}. Every downstream $\RealUp$ read is exhausted by the displayed tuple, so two accepted replays over the same finite window rows classify their consumer-visible $R$ rows through the same route and no larger analytic surface.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail consumer exhaustion]
 \label{thm:diagonal-cofinal-tail-consumer-exhaustion}
 Every downstream $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer of an accepted $\DiagonalCofinalTailUp$ packet reads the displayed rows
