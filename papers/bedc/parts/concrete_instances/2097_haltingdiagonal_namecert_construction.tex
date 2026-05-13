@@ -88,6 +88,17 @@ Apply \autoref{thm:halting-diagonal-non-decision-boundary}. That theorem identif
 Thus the ledger is a boundary ledger. It records the finite obstruction and prevents the diagonal policy from being read as a global halting decision.
 \end{proof}
 
+\begin{theorem}[HaltingDiagonal to HaltingObstruction sibling route]\label{thm:halting-diagonal-halting-obstruction-sibling-route}
+Every $\HaltingDiagonalUp$ diagonal read that is consumed as a $\HaltingObstructionUp$ ledger must pass through the finite rows $P,h,E,F,D,H,C,K,N$ before entering the obstruction packet of \autoref{ch:concrete-instances-haltingobstruction-namecert}. The route therefore treats the diagonal packet as a sibling fixed-point source for the obstruction ledger, not as a global halting classifier.
+\end{theorem}
+\begin{proof}
+Start with the fixed-point package of \autoref{thm:halting-diagonal-fixed-point-package}. It identifies the rows $P,h,E,F,D,H,C,K,N$ as the displayed diagonal source, including the self-reference row $E$, fixed continuation row $F$, and diagonal policy row $D$.
+
+Next apply the ledger-boundary obligation of \autoref{thm:halting-diagonal-ledger-boundary-obligation}. That boundary prevents $K$ and $D$ from being read as a total halting classifier; they remain finite ledger rows for the displayed packet.
+
+The sibling chapter \autoref{ch:concrete-instances-haltingobstruction-namecert} consumes exactly this kind of finite obstruction packet. Hence any obstruction-facing read factors through the diagonal rows first and only then enters the HaltingObstruction ledger surface.
+\end{proof}
+
 \begin{theorem}[HaltingDiagonal scoped certificate]\label{thm:halting-diagonal-scoped-certificate}
 The source packet, fixed-point package, non-decision boundary, and NameCert obligations assemble one scoped $\HaltingDiagonalUp$ certificate over program certificate rows, input histories, $\Ext$ self-reference rows, fixed $\Cont$ rows, diagonal-divergence policy rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The certificate excludes global halting decidability, universal-machine semantics, oracle access, and infinite searches through program space.
 \end{theorem}

@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.KernelObservationSieveUp.TasteGate
+namespace BEDC.Derived.KernelObservationSieveUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,19 +10,19 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive KernelObservationSieveUp : Type where
-  | mk :
-      (observer selector filter accepted rejected transport routes provenance
-        nameCert : BHist) →
+  | mk
+      (observerHistory selectorLedger observerFilter acceptedLedger rejectedLedger transport
+        continuation provenance nameCert : BHist) :
       KernelObservationSieveUp
   deriving DecidableEq
 
-def kernelObservationSieveEncodeBHist : BHist → RawEvent
+private def kernelObservationSieveEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: kernelObservationSieveEncodeBHist h
   | BHist.e1 h => BMark.b1 :: kernelObservationSieveEncodeBHist h
 
-def kernelObservationSieveDecodeBHist : RawEvent → BHist
+private def kernelObservationSieveDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (kernelObservationSieveDecodeBHist tail)
@@ -35,25 +35,62 @@ private theorem kernelObservationSieveDecode_encode_bhist :
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def kernelObservationSieveToEventFlow :
+private theorem kernelObservationSieve_mk_congr
+    {observerHistory observerHistory' selectorLedger selectorLedger'
+      observerFilter observerFilter' acceptedLedger acceptedLedger'
+      rejectedLedger rejectedLedger' transport transport' continuation continuation'
+      provenance provenance' nameCert nameCert' : BHist}
+    (hObserverHistory : observerHistory' = observerHistory)
+    (hSelectorLedger : selectorLedger' = selectorLedger)
+    (hObserverFilter : observerFilter' = observerFilter)
+    (hAcceptedLedger : acceptedLedger' = acceptedLedger)
+    (hRejectedLedger : rejectedLedger' = rejectedLedger)
+    (hTransport : transport' = transport)
+    (hContinuation : continuation' = continuation)
+    (hProvenance : provenance' = provenance)
+    (hNameCert : nameCert' = nameCert) :
+    KernelObservationSieveUp.mk observerHistory' selectorLedger' observerFilter'
+        acceptedLedger' rejectedLedger' transport' continuation' provenance' nameCert' =
+      KernelObservationSieveUp.mk observerHistory selectorLedger observerFilter
+        acceptedLedger rejectedLedger transport continuation provenance nameCert := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hObserverHistory
+  cases hSelectorLedger
+  cases hObserverFilter
+  cases hAcceptedLedger
+  cases hRejectedLedger
+  cases hTransport
+  cases hContinuation
+  cases hProvenance
+  cases hNameCert
+  rfl
+
+private def kernelObservationSieveToEventFlow :
     KernelObservationSieveUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | KernelObservationSieveUp.mk observer selector filter accepted rejected transport routes
-      provenance nameCert =>
-      [[BMark.b0], kernelObservationSieveEncodeBHist observer, [BMark.b1, BMark.b0],
-        kernelObservationSieveEncodeBHist selector, [BMark.b1, BMark.b1, BMark.b0],
-        kernelObservationSieveEncodeBHist filter, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelObservationSieveEncodeBHist accepted,
+  | KernelObservationSieveUp.mk observerHistory selectorLedger observerFilter
+      acceptedLedger rejectedLedger transport continuation provenance nameCert =>
+      [[BMark.b0],
+        kernelObservationSieveEncodeBHist observerHistory,
+        [BMark.b1, BMark.b0],
+        kernelObservationSieveEncodeBHist selectorLedger,
+        [BMark.b1, BMark.b1, BMark.b0],
+        kernelObservationSieveEncodeBHist observerFilter,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        kernelObservationSieveEncodeBHist acceptedLedger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelObservationSieveEncodeBHist rejected,
+        kernelObservationSieveEncodeBHist rejectedLedger,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         kernelObservationSieveEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        kernelObservationSieveEncodeBHist routes,
+        kernelObservationSieveEncodeBHist continuation,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         kernelObservationSieveEncodeBHist provenance,
@@ -61,38 +98,38 @@ def kernelObservationSieveToEventFlow :
           BMark.b1, BMark.b0],
         kernelObservationSieveEncodeBHist nameCert]
 
-def kernelObservationSieveFromEventFlow :
+private def kernelObservationSieveFromEventFlow :
     EventFlow → Option KernelObservationSieveUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | observer :: rest1 =>
+      | observerHistory :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | selector :: rest3 =>
+              | selectorLedger :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | filter :: rest5 =>
+                      | observerFilter :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | accepted :: rest7 =>
+                              | acceptedLedger :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | rejected :: rest9 =>
+                                      | rejectedLedger :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
@@ -104,7 +141,7 @@ def kernelObservationSieveFromEventFlow :
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | routes :: rest13 =>
+                                                      | continuation :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -121,24 +158,15 @@ def kernelObservationSieveFromEventFlow :
                                                                           | [] =>
                                                                               some
                                                                                 (KernelObservationSieveUp.mk
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    observer)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    selector)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    filter)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    accepted)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    rejected)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    transport)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    routes)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    provenance)
-                                                                                  (kernelObservationSieveDecodeBHist
-                                                                                    nameCert))
+                                                                                  (kernelObservationSieveDecodeBHist observerHistory)
+                                                                                  (kernelObservationSieveDecodeBHist selectorLedger)
+                                                                                  (kernelObservationSieveDecodeBHist observerFilter)
+                                                                                  (kernelObservationSieveDecodeBHist acceptedLedger)
+                                                                                  (kernelObservationSieveDecodeBHist rejectedLedger)
+                                                                                  (kernelObservationSieveDecodeBHist transport)
+                                                                                  (kernelObservationSieveDecodeBHist continuation)
+                                                                                  (kernelObservationSieveDecodeBHist provenance)
+                                                                                  (kernelObservationSieveDecodeBHist nameCert))
                                                                           | _ :: _ => none
 
 private theorem kernelObservationSieve_round_trip :
@@ -148,40 +176,45 @@ private theorem kernelObservationSieve_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk observer selector filter accepted rejected transport routes provenance nameCert =>
+  | mk observerHistory selectorLedger observerFilter acceptedLedger rejectedLedger
+      transport continuation provenance nameCert =>
       change
         some
           (KernelObservationSieveUp.mk
             (kernelObservationSieveDecodeBHist
-              (kernelObservationSieveEncodeBHist observer))
+              (kernelObservationSieveEncodeBHist observerHistory))
             (kernelObservationSieveDecodeBHist
-              (kernelObservationSieveEncodeBHist selector))
+              (kernelObservationSieveEncodeBHist selectorLedger))
             (kernelObservationSieveDecodeBHist
-              (kernelObservationSieveEncodeBHist filter))
+              (kernelObservationSieveEncodeBHist observerFilter))
             (kernelObservationSieveDecodeBHist
-              (kernelObservationSieveEncodeBHist accepted))
+              (kernelObservationSieveEncodeBHist acceptedLedger))
             (kernelObservationSieveDecodeBHist
-              (kernelObservationSieveEncodeBHist rejected))
+              (kernelObservationSieveEncodeBHist rejectedLedger))
             (kernelObservationSieveDecodeBHist
               (kernelObservationSieveEncodeBHist transport))
             (kernelObservationSieveDecodeBHist
-              (kernelObservationSieveEncodeBHist routes))
+              (kernelObservationSieveEncodeBHist continuation))
             (kernelObservationSieveDecodeBHist
               (kernelObservationSieveEncodeBHist provenance))
             (kernelObservationSieveDecodeBHist
               (kernelObservationSieveEncodeBHist nameCert))) =
           some
-            (KernelObservationSieveUp.mk observer selector filter accepted rejected transport
-              routes provenance nameCert)
-      rw [kernelObservationSieveDecode_encode_bhist observer,
-        kernelObservationSieveDecode_encode_bhist selector,
-        kernelObservationSieveDecode_encode_bhist filter,
-        kernelObservationSieveDecode_encode_bhist accepted,
-        kernelObservationSieveDecode_encode_bhist rejected,
-        kernelObservationSieveDecode_encode_bhist transport,
-        kernelObservationSieveDecode_encode_bhist routes,
-        kernelObservationSieveDecode_encode_bhist provenance,
-        kernelObservationSieveDecode_encode_bhist nameCert]
+            (KernelObservationSieveUp.mk observerHistory selectorLedger
+              observerFilter acceptedLedger rejectedLedger transport continuation
+              provenance nameCert)
+      exact
+        congrArg some
+          (kernelObservationSieve_mk_congr
+            (kernelObservationSieveDecode_encode_bhist observerHistory)
+            (kernelObservationSieveDecode_encode_bhist selectorLedger)
+            (kernelObservationSieveDecode_encode_bhist observerFilter)
+            (kernelObservationSieveDecode_encode_bhist acceptedLedger)
+            (kernelObservationSieveDecode_encode_bhist rejectedLedger)
+            (kernelObservationSieveDecode_encode_bhist transport)
+            (kernelObservationSieveDecode_encode_bhist continuation)
+            (kernelObservationSieveDecode_encode_bhist provenance)
+            (kernelObservationSieveDecode_encode_bhist nameCert))
 
 private theorem kernelObservationSieveToEventFlow_injective
     {x y : KernelObservationSieveUp} :
@@ -223,20 +256,19 @@ instance kernelObservationSieveFieldFaithful :
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>
     match x with
-    | KernelObservationSieveUp.mk observer selector filter accepted rejected transport routes
-        provenance nameCert =>
-        [observer, selector, filter, accepted, rejected, transport, routes, provenance,
-          nameCert]
+    | KernelObservationSieveUp.mk observerHistory selectorLedger observerFilter
+        acceptedLedger rejectedLedger transport continuation provenance nameCert =>
+        [observerHistory, selectorLedger, observerFilter, acceptedLedger, rejectedLedger,
+          transport, continuation, provenance, nameCert]
   field_faithful := by
-    intro x y h
+    intro x y hfields
     cases x with
-    | mk observer₁ selector₁ filter₁ accepted₁ rejected₁ transport₁ routes₁ provenance₁
-        nameCert₁ =>
+    | mk observerHistory selectorLedger observerFilter acceptedLedger rejectedLedger
+        transport continuation provenance nameCert =>
         cases y with
-        | mk observer₂ selector₂ filter₂ accepted₂ rejected₂ transport₂ routes₂ provenance₂
-            nameCert₂ =>
-            simp only [] at h
-            cases h
+        | mk observerHistory' selectorLedger' observerFilter' acceptedLedger'
+            rejectedLedger' transport' continuation' provenance' nameCert' =>
+            cases hfields
             rfl
 
 instance kernelObservationSieveNontrivial :
@@ -245,15 +277,11 @@ instance kernelObservationSieveNontrivial :
   witness_pair :=
     ⟨KernelObservationSieveUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      KernelObservationSieveUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      KernelObservationSieveUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
-
-def taste_gate : ChapterTasteGate KernelObservationSieveUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  kernelObservationSieveChapterTasteGate
 
 theorem KernelObservationSieveTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -276,4 +304,4 @@ theorem KernelObservationSieveTasteGate_single_carrier_alignment :
         exact kernelObservationSieveToEventFlow_injective heq
       · rfl
 
-end BEDC.Derived.KernelObservationSieveUp.TasteGate
+end BEDC.Derived.KernelObservationSieveUp
