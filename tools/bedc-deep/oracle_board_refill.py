@@ -436,6 +436,7 @@ def main() -> int:
     print(f"[board_refill] prompt built ({len(prompt)} chars)", flush=True)
 
     if args.dry_run:
+        _write_failure_summary(ts, error="dry_run_prompt_only")
         print(prompt[:2000])
         print(f"... [{len(prompt)} chars total]")
         return 0
@@ -450,7 +451,15 @@ def main() -> int:
                 f"(attempt {attempt}/{max_attempts})",
                 flush=True,
             )
-        submit_resp = submit_refill(args.server, prompt, attach_pdf=attach_pdf)
+        try:
+            submit_resp = submit_refill(args.server, prompt, attach_pdf=attach_pdf)
+        except Exception as exc:
+            print(
+                f"[board_refill] submit failed with {type(exc).__name__}: {exc}",
+                flush=True,
+            )
+            _write_failure_summary(ts, error=f"submit_exception:{type(exc).__name__}")
+            return 1
         if "error" in submit_resp:
             print(f"[board_refill] submit failed: {submit_resp['error']}", flush=True)
             _write_failure_summary(ts, error=f"submit_failed:{submit_resp['error']}")
