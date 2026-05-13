@@ -1,0 +1,100 @@
+{
+  "schema": "bedc_rule110_operations",
+  "generated_by": "rule110/tools/bedc_operations_export.c",
+  "operations": [
+  {
+    "id": "msame_refl_b0_b0",
+    "name": "msame_refl on b0 and b0",
+    "source_manifest": "manifests/mark/msame_refl.r110.ct",
+    "case_name": "b0_b0",
+    "initial_row": "000000000000000001101100000000000000000000000000",
+    "evolution_steps": 256,
+    "expected_decode": {
+      "relation": "msame b0 b0",
+      "case_input": "011011",
+      "payload_start": 16,
+      "payload_len": 6,
+      "verdict": "pass"
+    },
+    "semantic_layers": [
+      {"label": "left fixed-zero boundary", "x_start": 0, "x_end": 16, "color": "#d9d4c7"},
+      {"label": "BEDC encoded input payload", "x_start": 16, "x_end": 22, "color": "#f2c14e"},
+      {"label": "decode window", "x_start": 16, "x_end": 22, "color": "#e15759"},
+      {"label": "left mark b0", "x_start": 16, "x_end": 19, "color": "#f2c14e"},
+      {"label": "right mark b0", "x_start": 19, "x_end": 22, "color": "#4d9de0"},
+      {"label": "right fixed-zero boundary", "x_start": 22, "x_end": 48, "color": "#d9d4c7"}
+    ]
+  },
+  {
+    "id": "hsame_refl_empty",
+    "name": "hsame_refl on Empty",
+    "source_manifest": "manifests/hist/hsame_refl.r110.ct",
+    "case_name": "empty",
+    "initial_row": "000000000000000011110000000000000000000000000000",
+    "evolution_steps": 256,
+    "expected_decode": {
+      "relation": "hsame Empty Empty",
+      "case_input": "1111",
+      "payload_start": 16,
+      "payload_len": 4,
+      "verdict": "pass"
+    },
+    "semantic_layers": [
+      {"label": "left fixed-zero boundary", "x_start": 0, "x_end": 16, "color": "#d9d4c7"},
+      {"label": "BEDC encoded input payload", "x_start": 16, "x_end": 20, "color": "#f2c14e"},
+      {"label": "decode window", "x_start": 16, "x_end": 20, "color": "#e15759"},
+      {"label": "left empty BHist", "x_start": 16, "x_end": 18, "color": "#f2c14e"},
+      {"label": "right empty BHist", "x_start": 18, "x_end": 20, "color": "#4d9de0"},
+      {"label": "right fixed-zero boundary", "x_start": 20, "x_end": 48, "color": "#d9d4c7"}
+    ]
+  },
+  {
+    "id": "ext_step_empty_b0",
+    "name": "ext_step from Empty by b0",
+    "source_manifest": "manifests/ext/ext_step.r110.ct",
+    "case_name": "empty_b0_e0_empty",
+    "initial_row": "000000000000000011011011000000000000000000000000",
+    "evolution_steps": 256,
+    "expected_decode": {
+      "relation": "Ext Empty b0 (e0 Empty)",
+      "case_input": "11011011",
+      "payload_start": 16,
+      "payload_len": 8,
+      "verdict": "pass"
+    },
+    "semantic_layers": [
+      {"label": "left fixed-zero boundary", "x_start": 0, "x_end": 16, "color": "#d9d4c7"},
+      {"label": "BEDC encoded input payload", "x_start": 16, "x_end": 24, "color": "#f2c14e"},
+      {"label": "decode window", "x_start": 16, "x_end": 24, "color": "#e15759"},
+      {"label": "source empty BHist", "x_start": 16, "x_end": 18, "color": "#f2c14e"},
+      {"label": "mark b0", "x_start": 18, "x_end": 21, "color": "#59a14f"},
+      {"label": "result e0 empty", "x_start": 21, "x_end": 24, "color": "#e15759"},
+      {"label": "right fixed-zero boundary", "x_start": 24, "x_end": 48, "color": "#d9d4c7"}
+    ]
+  },
+  {
+    "id": "cont_empty_empty",
+    "name": "cont_basic on Empty, Empty",
+    "source_manifest": "manifests/cont/cont_basic.r110.ct",
+    "case_name": "empty_empty_empty",
+    "initial_row": "00000000000000001111110000000000000000000000000000",
+    "evolution_steps": 256,
+    "expected_decode": {
+      "relation": "Cont Empty Empty Empty",
+      "case_input": "111111",
+      "payload_start": 16,
+      "payload_len": 6,
+      "verdict": "pass"
+    },
+    "semantic_layers": [
+      {"label": "left fixed-zero boundary", "x_start": 0, "x_end": 16, "color": "#d9d4c7"},
+      {"label": "BEDC encoded input payload", "x_start": 16, "x_end": 22, "color": "#f2c14e"},
+      {"label": "decode window", "x_start": 16, "x_end": 22, "color": "#e15759"},
+      {"label": "left empty BHist", "x_start": 16, "x_end": 18, "color": "#f2c14e"},
+      {"label": "right empty BHist", "x_start": 18, "x_end": 20, "color": "#4d9de0"},
+      {"label": "append result empty", "x_start": 20, "x_end": 22, "color": "#e15759"},
+      {"label": "right fixed-zero boundary", "x_start": 22, "x_end": 50, "color": "#d9d4c7"}
+    ]
+  }
+  ]
+}

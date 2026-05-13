@@ -15,6 +15,7 @@ TOOLS_DIR   := tools
 STANDALONE_BINS := $(EVAL_DIR)/rule110
 ENCODER_BINS    := $(ENCODER_DIR)/generate_r110 $(ENCODER_DIR)/generate_r110_algo
 TOOLS           := $(TOOLS_DIR)/manifest_exhaustiveness_audit
+BEDC_OPERATIONS_EXPORT := $(TOOLS_DIR)/bedc_operations_export
 VISUALIZATION_TOOL := $(TOOLS_DIR)/visualize_rule110
 TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark \
@@ -41,7 +42,7 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_topology_up_audit \
                    $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-exhaustiveness test-scale visualizations regen-manifests clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-exhaustiveness test-scale visualizations regen-manifests bedc-operations-data clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Generated manifests (.r110.ct, .algo.r110.ct) are encoder outputs — not in git.
@@ -75,6 +76,13 @@ $(ENCODER_DIR)/generate_r110_algo: $(ENCODER_DIR)/generate_r110_algo.c $(EVAL_DI
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
 	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c \
 	    $(ENCODER_DIR)/cook_glider_D1.c $(ENCODER_DIR)/cook_glider_D2.c
+
+$(BEDC_OPERATIONS_EXPORT): $(TOOLS_DIR)/bedc_operations_export.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+bedc-operations-data: $(BEDC_OPERATIONS_EXPORT) $(R110_GENERATED)
+	mkdir -p ../docs/dossier/data
+	./$(BEDC_OPERATIONS_EXPORT) > ../docs/dossier/data/bedc_operations.json
 
 # Tests
 $(TEST_DIR)/test_rule110: $(TEST_DIR)/test_rule110.c $(EVAL_DIR)/rule110.h
@@ -286,13 +294,8 @@ $(VISUALIZATION_TOOL): $(TOOLS_DIR)/visualize_rule110.c \
 	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_ossifier.c \
 	    $(ENCODER_DIR)/cook_data_block.c
 
-visualizations: $(VISUALIZATION_TOOL)
+visualizations: bedc-operations-data
 	mkdir -p ../docs/dossier/figures/rule110
-	./$(VISUALIZATION_TOOL) ether > ../docs/dossier/figures/rule110/ether_evolution.svg
-	./$(VISUALIZATION_TOOL) glider_zoo > ../docs/dossier/figures/rule110/glider_zoo.svg
-	./$(VISUALIZATION_TOOL) collision > ../docs/dossier/figures/rule110/collision_example.svg
-	./$(VISUALIZATION_TOOL) cook_packet > ../docs/dossier/figures/rule110/cook_packet_structure.svg
-	./$(VISUALIZATION_TOOL) scale > ../docs/dossier/figures/rule110/scale_frontier.svg
 
 test: $(TESTS) $(TOOLS) $(R110_GENERATED) $(ALGO_R110_GENERATED) test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard
 	@for t in $(TESTS); do \
@@ -325,7 +328,7 @@ test-exhaustiveness: $(TOOLS_DIR)/manifest_exhaustiveness_audit
 	./$(TOOLS_DIR)/manifest_exhaustiveness_audit --strict
 
 clean:
-	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TOOLS) $(VISUALIZATION_TOOL) $(TESTS) $(SCALE_TESTS)
+	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TOOLS) $(BEDC_OPERATIONS_EXPORT) $(VISUALIZATION_TOOL) $(TESTS) $(SCALE_TESTS)
 
 TESTS += $(TEST_DIR)/test_cook_glider_B \
          $(TEST_DIR)/test_cook_glider_C \
