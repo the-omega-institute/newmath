@@ -51,6 +51,7 @@ U=(I,W,M,Q,T,E,H,C,P,N).
 $$
 Suppose both subfamily ledgers factor through the same $I,W,M,Q,T$ rows. Then the paired-family ledger $J\cup K$ is accepted over the same shared threshold route. Its tail comparisons are exactly the union of the two displayed subfamily tail reads inside $T$, transported by the same $H,C$ rows and sealed through the same $E,P,N$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_paired\_family\_union\_ledger}
 \begin{proof}
 Read the two subfamily ledgers as displayed restrictions of $I$. Since both factor through the same packet $U$, neither subfamily supplies an additional window family or modulus row.
 
@@ -300,4 +301,3 @@ Apply \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} and \aut
 
 Finally use \autoref{thm:uniform-cauchy-criterion-regseqrat-uniform-consumer-exhaustion}. The RegSeqRat-facing side also has no route outside the same finite package, so a second seal handoff would require a second visible row not present in $U$. Hence every seal read is the displayed route through $E$.
 \end{proof}
-
