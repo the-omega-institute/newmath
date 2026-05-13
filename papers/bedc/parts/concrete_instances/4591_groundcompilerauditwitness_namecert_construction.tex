@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerAuditWitnessUp$}
+\label{ch:concrete-instances-groundcompilerauditwitness-namecert}
+\origin{human}
+
+The $\GroundCompilerAuditWitnessUp$ packet turns the audit-map vision of \autoref{ch:bedc-groundcompiler-audit-map} into a finite NameCert witness for the rows a GroundCompiler consumer may inspect. It sits beside the family packet of \autoref{ch:concrete-instances-auditmapfamilypacket-namecert}, the template packet of \autoref{ch:concrete-instances-auditmaptemplatepacket-namecert}, and the frontier packet of \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert}: those chapters name audit-map lattice structure, while this chapter names the GroundCompiler witness rows that separate theorem evidence from refusals, reports, metrics, and carried provenance.
+
+\begin{definition}[GroundCompilerAuditWitness carrier]
+\label{def:groundcompiler-audit-witness-carrier}
+A $\GroundCompilerAuditWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(E,T,R,M,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $E$ is the event-flow evidence row, naming the displayed source events, channel packet, losslessness gate, and accepted event-flow readback supplied by the GroundCompiler audit map;
+\item $T$ is the theorem-evidence row, naming the finite theorem identifiers, recognized certificate gates, and accepted proof-carrying rows that may be routed to BEDC evidence consumers;
+\item $R$ is the refusal row, recording rejected, absent, malformed, or boundary-only compiler observations as non-evidence;
+\item $M$ is the metric and report row, recording counts, motifs, diagnostics, summaries, generated code reports, and compiler telemetry only as non-evidence;
+\item $H$ records componentwise $\hsame$ transports for event-flow evidence, theorem-evidence rows, refusal rows, report rows, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes from event-flow evidence to theorem-evidence routing, from invalid observations to refusal routing, and from reports or metrics to non-evidence routing;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:concrete-instances-auditmapfamilypacket-namecert}, \autoref{ch:concrete-instances-auditmaptemplatepacket-namecert}, \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GroundCompilerAuditWitnessUp}$ row.
+\end{enumerate}
+The carrier exports no hidden proof-producing channel, no metric-to-proof coercion, no report-to-certificate coercion, no refusal-to-evidence promotion, and no host compiler state as formal input.
+\end{definition}
+
+\begin{theorem}[GroundCompilerAuditWitness NameCert obligations]
+\label{thm:groundcompiler-audit-witness-namecert-obligations}
+For the carrier of \autoref{def:groundcompiler-audit-witness-carrier}, the local $\NameCert_{\GroundCompilerAuditWitnessUp}$ surface consists exactly of carrier exposure for
+$$
+W=(E,T,R,M,H,C,P,N),
+$$
+event-flow evidence readback through $E$, theorem-evidence routing through $T$, refusal separation through $R$, metric and report non-evidence through $M$, componentwise transport through $H$, displayed continuation through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The row $E$ is the only event-flow evidence coordinate, and the row $T$ is the only coordinate that may route recognized theorem evidence to a BEDC consumer.
+
+Separate the boundary rows next. The refusal row $R$ classifies rejected, absent, malformed, and boundary-only observations as non-evidence, while $M$ records metrics, motifs, reports, diagnostics, summaries, code reports, and telemetry without turning them into certificate rows.
+
+The rows $H$ and $C$ preserve this routing componentwise. They transport event-flow evidence through event-flow coordinates, theorem evidence through theorem-evidence coordinates, refusals through refusal coordinates, and reports or metrics through non-evidence coordinates.
+
+Finally package the exposed rows with $P$ and $N$. Since the package cites the GroundCompiler audit map and the sibling audit-map packet chapters, the NameCert surface has exactly the displayed witness rows and no hidden proof-producing channel.
+\end{proof}
+
+\begin{theorem}[GroundCompilerAuditWitness evidence non-escape]
+\label{thm:groundcompiler-audit-witness-evidence-nonescape}
+Every accepted $\GroundCompilerAuditWitnessUp$ carrier keeps theorem evidence inside the displayed route $E,T,H,C,P,N$ and keeps refusals, metrics, reports, diagnostics, generated-code summaries, and telemetry inside the non-evidence rows $R,M,H,C,P,N$. Thus the packet cannot promote a refusal, report, metric, motif, code summary, or host compiler state into BEDC proof evidence.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. A consumer seeking theorem evidence must read through $E$ and $T$, with transport and continuation mediated by $H$ and $C$.
+
+Now inspect the non-evidence coordinates. Refusals are stored in $R$, while metrics, motifs, diagnostics, summaries, generated-code reports, and telemetry are stored in $M$. Their continuation routes in $C$ are non-evidence routes, not theorem-evidence routes.
+
+The package row $P$ records the sibling audit-map lattice references and the GroundCompiler audit-map source. It therefore records the provenance of the separation rather than adding another evidence coordinate.
+
+Consequently no omitted coordinate can serve as a proof-producing channel. Any accepted proof evidence must already be visible in the event-flow and theorem-evidence rows, and every refusal, report, metric, motif, code summary, or host compiler observation remains outside BEDC evidence.
+\end{proof}
+
+\closureat{GroundCompilerAuditWitnessUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerAuditWitnessUp}
+  \constructivestory{A $\GroundCompilerAuditWitnessUp$ packet is generated from event-flow evidence, theorem-evidence rows, refusal rows, metric and report non-evidence rows, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-audit-witness-carrier}, \autoref{thm:groundcompiler-audit-witness-namecert-obligations}, and \autoref{thm:groundcompiler-audit-witness-evidence-nonescape} bind the finite GroundCompiler audit witness packet, theorem-evidence route, refusal separation, report non-evidence row, and no-hidden-proof-channel boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close compiler correctness, proof reconstruction from reports, metric evidence, motif evidence, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, theorem-evidence routing, refusal separation, report non-evidence, transport, continuation, provenance, naming, and evidence non-escape for the same finite GroundCompiler audit witness packet.}
+\end{closurestatus}

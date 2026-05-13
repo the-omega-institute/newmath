@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\LegalChannelUp$}
+\label{ch:concrete-instances-legalchannel-namecert}
+\origin{human}
+
+The $\LegalChannelUp$ packet realizes the legal event-flow channel surface of \autoref{ch:bedc-groundcompiler-audit-map} as a finite NameCert object. It sits beside the trace discipline of \autoref{ch:concrete-instances-continuationtrace-namecert} and the audit inventory of \autoref{ch:concrete-instances-auditmapconcreteinventory-namecert}: those chapters display finite replay and finite audit rows, while the present packet binds source event-flow rows, channel-code rows, decoder rows, round-trip witnesses, transport, replay, provenance, and local naming for the GroundCompiler channel interface.
+
+\begin{definition}[LegalChannel carrier]
+\label{def:legal-channel-carrier}
+A $\LegalChannelUp$ carrier is a finite $\BHist$ packet
+$$
+L=(E,C,D,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the source event-flow row, recording the finite GroundCompiler event flow accepted as the channel input;
+\item $C$ is the legal channel code row, recording the displayed code representation admitted by the legal channel classifier;
+\item $D$ is the decoder row, recording the finite readback operation from channel code back to event-flow data;
+\item $R$ is the round-trip witness row, recording that accepted channel reads through $C$ and $D$ return the same event-flow row $E$ up to the displayed BEDC sameness rows;
+\item $H$ records componentwise $\hsame$ transport for the event-flow, code, decoder, round-trip, replay, provenance, and naming rows;
+\item $K$ records the displayed $\Cont$ replay routes by which a consumer reads the channel code, applies the decoder row, checks the round-trip row, and returns to the named event-flow row;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, channel dependencies, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LegalChannelUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible coordinates are $E,C,D,R,H,K,P,N$. It has no coordinate for a host package, proof term, source substring, metric report, motif row, theorem-code payload, or hidden compiler object outside the displayed packet.
+\end{definition}
+
+\begin{theorem}[LegalChannel lossless NameCert]
+\label{thm:legal-channel-lossless-namecert}
+For every accepted $\LegalChannelUp$ carrier $L=(E,C,D,R,H,K,P,N)$, an accepted channel read that starts from $E$, enters the legal channel code row $C$, and is decoded through $D$ preserves the event-flow row named by $E$. The preservation witness is the displayed round-trip row $R$, transported only by $H$ and replayed only through $K$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source event-flow row, code row, decoder row, and round-trip row are the coordinates $E,C,D,R$ of the same finite packet.
+
+Read the accepted channel route through $K$. The replay path first inspects $C$, then applies the displayed decoder row $D$, and then checks the round-trip witness $R$.
+
+Transport is componentwise. The only sameness data available to the route is $H$, so the decoded row can move only along the listed $\hsame$ comparisons and returns to the same named event-flow row $E$.
+
+Finally, provenance and naming are read from $P$ and $N$. They certify where the channel dependency and local name are recorded, but they add no second event-flow source. Hence the accepted read is lossless at the packet surface.
+\end{proof}
+
+\begin{theorem}[LegalChannel hidden-input exclusion]
+\label{thm:legal-channel-hidden-input-exclusion}
+For every accepted $\LegalChannelUp$ carrier $L=(E,C,D,R,H,K,P,N)$, no host package, proof term, source substring, metric report, motif row, theorem-code payload, or hidden compiler object is exported by the legal channel unless that object appears as part of the displayed packet rows $E,C,D,R,H,K,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The legal channel exposes exactly the event-flow row, channel code row, decoder row, round-trip row, transport row, replay row, provenance row, and local naming row.
+
+Suppose a consumer asks for a host package, proof term, source substring, metric report, motif row, theorem-code payload, or hidden compiler object. The classifier can answer only by pointing to one of the displayed coordinates of $L$.
+
+If the requested object is not displayed in those coordinates, there is no packet row from which the consumer can read it. The replay route $K$ and transport row $H$ preserve already displayed rows, while $P$ and $N$ cite and name the packet rather than creating another export coordinate.
+
+Therefore the legal channel excludes hidden input by finite carrier exhaustion.
+\end{proof}
+
+\begin{theorem}[LegalChannel ledger non-escape]
+\label{thm:legal-channel-ledger-nonescape}
+Every downstream consumer of an accepted $\LegalChannelUp$ packet factors through the finite ledger
+$$
+E \to C \to D \to R \to H \to K \to P \to N.
+$$
+In particular, no downstream channel consumer can bypass the event-flow row, legal code row, decoder row, round-trip witness, transport, replay, provenance, or local NameCert row.
+\end{theorem}
+\begin{proof}
+Begin with a downstream consumer read. By carrier admission, the read starts from an accepted packet whose only public coordinates are $E,C,D,R,H,K,P,N$.
+
+The channel part of the read factors through $E,C,D,R$. The event-flow row supplies the source, the code row supplies the legal representation, the decoder row supplies readback, and the round-trip row records the preservation check.
+
+The structural part of the read factors through $H,K,P,N$. Componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming are the only routes by which the channel packet can be moved, inspected, cited, and named.
+
+Thus every consumer route has the displayed ledger as its complete path. A bypass would require an extra coordinate, but the finite carrier has none.
+\end{proof}
+
+\begin{theorem}[LegalChannel GroundCompiler handoff]
+\label{thm:legal-channel-groundcompiler-handoff}
+The packet $L=(E,C,D,R,H,K,P,N)$ is the concrete $\NameCert_{\LegalChannelUp}$ handoff consumed by the GroundCompiler channel-bijection and no-hidden-input audit surface. Its channel-bijection contribution is the lossless route through $C,D,R$, and its no-hidden-input contribution is the carrier exhaustion of $E,C,D,R,H,K,P,N$.
+\end{theorem}
+\begin{proof}
+The GroundCompiler audit map separates legal event-flow encoding from hidden compiler input. The $\LegalChannelUp$ packet supplies exactly the finite rows needed for that separation.
+
+For the channel-bijection side, use \autoref{thm:legal-channel-lossless-namecert}. Accepted reads pass through the legal code row, decoder row, and round-trip row, so the event-flow row returned to the consumer is the row named by $E$.
+
+For the no-hidden-input side, use \autoref{thm:legal-channel-hidden-input-exclusion} and \autoref{thm:legal-channel-ledger-nonescape}. The first theorem excludes unlisted host, proof, source, metric, motif, theorem-code, and compiler objects; the second theorem forces every downstream read through the displayed ledger.
+
+Consequently $L$ is the concrete NameCert handoff for the GroundCompiler channel audit surface. It contributes a finite legal-channel packet rather than an ambient compiler object or host-side decoder.
+\end{proof}
+
+\closureat{LegalChannelUp}{seedStr}
+
+\begin{closurestatus}{\LegalChannelUp}
+  \constructivestory{A $\LegalChannelUp$ packet is generated from a source event-flow row, legal channel code row, decoder row, round-trip witness row, componentwise $\hsame$ transports, displayed $\Cont$ channel replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:legal-channel-carrier}, \autoref{thm:legal-channel-lossless-namecert}, \autoref{thm:legal-channel-hidden-input-exclusion}, \autoref{thm:legal-channel-ledger-nonescape}, and \autoref{thm:legal-channel-groundcompiler-handoff} bind the finite legal-channel carrier, lossless decode route, hidden-input exclusion, downstream ledger, and GroundCompiler handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close proof evidence, theorem-code evidence, self-hosting discharge, Lean verification, audit cleanliness, or standard bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, legal-code decoding, round-trip preservation, hidden-input exclusion, downstream consumer factorization, provenance, and local naming for the same finite channel packet.}
+\end{closurestatus}

@@ -599,6 +599,42 @@ Transport and route preservation are supplied by ledger consumer exactness and t
 The final formalization boundary is given by consumer horizon exhaustion and root-unblock ledger non-escape. Together they rule out every listed positive structure and leave the future Lean handoff as the finite cannot-claim registry rather than an arithmetic construction.
 \end{proof}
 
+\begin{theorem}[AxisZeckendorf seven-row refusal coverage]
+\label{thm:axis-zeckendorf-cannot-claim-seven-row-coverage}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$ of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}, the rows $a,b,c,d,e,f,g$ exhaust the source refusal surface of $\AxisZeckendorfCannotClaimUp$. The rows $a,b,c,d$ cover the negative theorem refusals, the rows $e,f,g$ cover the horizon refusals, and no accepted source refusal is supplied by $h,p,n$ or by any hidden arithmetic, completion, dimension, quotient, or rewrite coordinate.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to list the source rows before the ledger rows. It exposes exactly the four negative theorem rows $a,b,c,d$ and the three horizon rows $e,f,g$.
+
+Apply negative refusal coverage and horizon refusal coverage. These identify the theorem-level and horizon-level refusal families and leave no additional source slot in the displayed packet.
+
+Finally apply refusal-row determinacy and non-escape. Every accepted refusal read selects one of $a,b,c,d,e,f,g$, while the route and provenance rows $h,p,n$ cannot become source refusals or positive BEDC objects.
+\end{proof}
+
+\begin{theorem}[AxisZeckendorf refusal transport route exhaustion]
+\label{thm:axis-zeckendorf-cannot-claim-transport-route-exhaustion}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$, the row $h$ is the only admissible $\hsame$ and $\Cont$ transport route for the refusal rows $a,b,c,d,e,f,g$. Every downstream consumer that transports a refusal row must first choose one of those seven rows and then route it through $h$, with provenance and local naming recorded only by $p$ and $n$.
+\end{theorem}
+\begin{proof}
+Start from ledger consumer exactness. It says that every public consumer reads the selected refusal source through the route ledger $h$ and then records package and naming data through $p,n$.
+
+Refusal-row determinacy supplies the selected source row among $a,b,c,d,e,f,g$. Transport non-promotion then fixes the role of $h$: it carries the chosen refusal only as a refusal, not as a positive carrier.
+
+Since the carrier definition contains no second $\hsame$ or $\Cont$ coordinate, the transport surface is exhausted by $h$. The rows $p,n$ record the result after transport and do not supply another route.
+\end{proof}
+
+\begin{theorem}[AxisZeckendorf positive bridge exclusion]
+\label{thm:axis-zeckendorf-cannot-claim-positive-bridge-exclusion}
+For the concrete carrier $R=(a,b,c,d,e,f,g,h,p,n)$, none of the rows $p,n,h$ can promote a refusal row into $\RealUp$, $\NatUp$, $\DimLiftUp$, quotient data, kernel rewrite data, or standard-bridge data. They record provenance, local naming, and componentwise refusal transport for the seven refusal rows only.
+\end{theorem}
+\begin{proof}
+Read the three ledger rows separately. The row $h$ is the route ledger, while $p$ and $n$ record the public package and the local $\NameCert_{\AxisZeckendorfCannotClaimUp}$ name.
+
+Apply transport non-promotion to $h$. A transported source from $a,b,c,d,e,f,g$ remains a refusal row and cannot become a positive bridge, completion, replacement, dimension, quotient, or rewrite object.
+
+Apply provenance exhaustion and non-escape to $p,n$. These rows add no mathematical coordinate beyond the refusal package, so no standard-bridge or positive BEDC data can be read from them.
+\end{proof}
+
 \closureat{AxisZeckendorfCannotClaimUp}{seedStr}
 \closureat{AxisZeckendorfCannotClaimUp}{obligationStr}
 \closureat{AxisZeckendorfCannotClaimUp}{scopedStr}
