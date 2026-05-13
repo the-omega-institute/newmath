@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for \BedcSelfSubstrateUp}
+\label{ch:concrete-instances-bedc-self-substrate-namecert}
+\origin{ai}
+
+The $\BedcSelfSubstrateUp$ packet turns the identity principle of \autoref{ch:bedc-is-its-own-theory} into a substrate-facing finite certificate. It sits beside the axiom-dependency map of \autoref{ch:concrete-instances-axiomdependencymap-namecert}, the axiom-query ledger of \autoref{ch:concrete-instances-axiomqueryledger-namecert}, the kernel-acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, and the normal false exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}: those siblings consume query, verdict, acceptance, and false-exclusion rows, while this packet records the five positive substrate commitments that must be present before a downstream MetaCIC identity consumer classifies a claim.
+
+\section{Carrier and certificate surface}
+\label{sec:bedc-self-substrate-carrier}
+
+\begin{definition}[BEDC self-substrate carrier]
+\label{def:bedc-self-substrate-carrier}
+A $\BedcSelfSubstrateUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,E,R,P,A,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the closed-generator row for the BEDC.MetaCIC substrate;
+\item $E$ is the literal AST equality row used by internal identity reads;
+\item $R$ is the structural-recursion row for the closed syntax and history carriers;
+\item $P$ is the zero-axiom purity row, recording the absence of additional axiom, choice, quotient-soundness, proposition-extensionality, and host-conversion coordinates;
+\item $A$ is the apophatic-boundary row for exports not supplied by the substrate packet;
+\item $H$ records componentwise $\hsame$ transport for the five commitment rows, provenance, and local naming;
+\item $C$ records displayed $\Cont$ routes by which audit consumers read the five commitments;
+\item $Q$ is the $\Pkg$ provenance over the self-theory principle, the audit-map siblings, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BedcSelfSubstrateUp}$ row.
+\end{enumerate}
+The carrier stores no declaration-specific query row, no verdict row, no kernel-acceptance replay, and no false-exclusion witness as its own field.
+\end{definition}
+
+\begin{theorem}[BEDC self-theory obligation surface]
+\label{thm:bedc-self-theory-obligation-surface}
+For every accepted $\BedcSelfSubstrateUp$ carrier
+$$
+S=(G,E,R,P,A,H,C,Q,N),
+$$
+the local $\NameCert_{\BedcSelfSubstrateUp}$ surface is exhausted by the closed-generator, literal AST equality, structural-recursion, zero-axiom purity, and apophatic-boundary commitments, together with their componentwise transport, displayed routes, provenance, and local name.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The positive substrate commitments are exactly $G,E,R,P,A$.
+
+Read $H$ and $C$ next. Transport and continuation preserve those five rows as displayed BEDC data and give downstream consumers routes to them without adding a declaration query, verdict, acceptance replay, or false-exclusion row.
+
+Finally inspect $Q$ and $N$. Provenance cites the self-theory principle and the audit-map siblings, while local naming packages the same finite surface. Since no additional coordinate occurs in $S$, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[BEDC self-theory falsifiable boundary]
+\label{thm:bedc-self-theory-falsifiable-boundary}
+If a downstream MetaCIC identity consumer reads an accepted $\BedcSelfSubstrateUp$ packet, then any exported substrate claim factors through one of the five displayed commitment rows before it can be classified as internal, restricted, or blocked. A read that requires a declaration-specific query, verdict, acceptance replay, false-exclusion witness, quotient stream, host equality, or comparison embedding is outside this carrier.
+\end{theorem}
+\begin{proof}
+Start with the five commitment rows in \autoref{def:bedc-self-substrate-carrier}. They are the only substrate rows exposed before transport, continuation, provenance, and naming.
+
+Use the obligation-surface theorem. Every admitted route through $H,C,Q,N$ returns to one of $G,E,R,P,A$, so the consumer must classify the claim after reading one of those commitments.
+
+The excluded rows are absent from the carrier. Any consumer requiring one of them must instead cite a sibling audit packet, and therefore cannot classify that read as an internal $\BedcSelfSubstrateUp$ export.
+\end{proof}
+
+\falsifiablePrediction{If a downstream MetaCIC identity consumer reads a BEDC-self-substrate packet, then any exported substrate claim factors through one of the five displayed commitment rows before it can be classified as internal, restricted, or blocked.}
+
+\independenceWitness{Nearest siblings: axiomdependencymap, axiomqueryledger, kernelacceptanceauditwitness, normalfalseexclusion, auditgateboundary. None is bijective to this carrier because each sibling stores a query, verdict, acceptance, false-exclusion, or gate row, while this carrier stores the five positive substrate commitments and lacks a declaration-specific query row.}
