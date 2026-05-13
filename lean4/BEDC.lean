@@ -198,6 +198,7 @@ import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
+import BEDC.Derived.MetaCICClosurePreservationUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
 import BEDC.Derived.MetaCICDecidableBoundaryUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditPacketUp.TasteGate
@@ -212,6 +213,7 @@ import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplyKindRouterUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
+import BEDC.Derived.SubjectReductionRouteChoiceUp.TasteGate
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.RuntimeReflectionBoundaryUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
@@ -223,6 +225,7 @@ import BEDC.Derived.TypeCheckingDerivationTraceUp
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
+import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.StreamNameSealFactorization
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
