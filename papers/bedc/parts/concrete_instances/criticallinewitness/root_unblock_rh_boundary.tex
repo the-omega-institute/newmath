@@ -1,0 +1,49 @@
+\begin{theorem}[Critical-line witness supplied zero-strip route]
+\label{thm:critical-line-witness-supplied-zero-strip-route}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every root-facing read of the supplied $\ZetaZerosUp$ row and the $\CritStripUp$ row factors through the displayed finite route
+$$
+Z,S,H,C,P,N.
+$$
+The route is supplied by the packet carrier and local $\NameCert$ obligations, and it cannot be replaced by zero search, host complex equality, a global zero-set classifier, quotient representatives, analytic continuation, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:critical-line-witness-carrier}. The rows $Z$ and $S$ are displayed coordinates of the accepted finite packet, and $H,C,P,N$ are the transport, continuation, provenance, and local naming rows that carry them.
+
+Apply \autoref{thm:critical-line-witness-namecert-obligations} and \autoref{thm:critical-line-witness-supplied-input-carrier-row}. These results make the supplied zero and strip rows the entry point for zero-facing reads before any modulus or comparison route is consumed.
+
+Use \autoref{thm:critical-line-witness-strip-zero-compatibility}, \autoref{thm:critical-line-witness-strip-zero-route-exactness}, and \autoref{thm:critical-line-witness-supplied-zero-readback}. They keep the zero-strip read on the same displayed $\BHist$ surface and through the same $\hsame$ and $\Cont$ rows.
+
+Finally apply \autoref{thm:critical-line-witness-nonescape-boundary}. Since the excluded analytic and host-level coordinates are absent from the packet, the supplied zero-strip route is exactly the finite route through $Z,S,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus ledger entry]
+\label{thm:critical-line-witness-modulus-ledger-entry}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the $\RealUp$ and $\RatUp$ modulus-facing ledger entry is the finite route through
+$$
+M,R,Q,H,C,P,N.
+$$
+Every depth or rational-comparison read used by a downstream root consumer enters through the displayed modulus row, real-part row, rational comparison ledger, transport row, continuation row, package row, and local $\NameCert$ row, and no hidden numeric oracle or quotient representative is supplied.
+\end{theorem}
+\begin{proof}
+Begin with the modulus row and NameCert obligations from \autoref{thm:critical-line-witness-modulus-row} and \autoref{thm:critical-line-witness-namecert-obligations}. They identify $M$ as the finite row answering depth requests and attach it to $R,Q,H,C,P,N$.
+
+Next use \autoref{thm:critical-line-witness-modulus-depth-routing} and \autoref{thm:critical-line-witness-modulus-request-factorization}. These theorems force every depth request through the displayed continuation route before a public read of $M(n)$ is available.
+
+Apply \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}, \autoref{thm:critical-line-witness-ledger-exactness}, and \autoref{thm:critical-line-witness-modulus-comparison-route-totality}. They identify the rational comparison surface with $Q$ and keep the $\RealUp$ and $\RatUp$ comparison data inside the same finite ledger entry.
+
+The non-escape clauses of \autoref{thm:critical-line-witness-nonescape-boundary} and \autoref{thm:critical-line-witness-modulus-ledger-nonescape} then remove host equality, hidden numeric oracles, quotient representatives, analytic continuation, and ambient completeness from the ledger entry.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH non-escape package]
+\label{thm:critical-line-witness-rh-nonescape-package}
+The root-facing $\CriticalLineWitnessUp$ package supplies a finite witness boundary for downstream RH-facing consumers but does not supply an $\mathsf{RH}$ proof, zero search, host equality, quotient representatives, analytic continuation, or analytic completeness. A downstream read may cite only the supplied zero-strip route $Z,S,H,C,P,N$, the modulus ledger entry $M,R,Q,H,C,P,N$, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:critical-line-witness-supplied-zero-strip-route} with \autoref{thm:critical-line-witness-modulus-ledger-entry}. The first theorem supplies the finite zero-strip route, and the second theorem supplies the finite modulus and rational-comparison ledger.
+
+Next apply \autoref{thm:critical-line-witness-rh-consumer-boundary-package} and \autoref{thm:critical-line-witness-downstream-source-obligation}. These results bind every downstream RH-facing read to the displayed supplied-input packet and its finite modulus ledger.
+
+Use \autoref{thm:critical-line-witness-rh-nonclassification-boundary}, \autoref{thm:critical-line-witness-rh-nonproof-boundary}, and \autoref{thm:critical-line-witness-downstream-refusal-package}. They refuse global zero classification, zero search, analytic-continuation export, and any proof of $\mathsf{RH}$ from the accepted packet.
+
+Finally apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. The refusal ledger excludes host equality, quotient representatives, analytic completeness, and the other analytic rows, so the root-facing package is precisely the finite non-escape boundary described above.
+\end{proof}
