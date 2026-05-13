@@ -180,6 +180,43 @@ theorem RegularCauchySumCarrier_symmetric_input_handoff [AskSetup] [PackageSetup
     unary_cont_comm leftEndpointUnary rightEndpointUnary sumEndpointRoute swappedRoute
   exact ⟨swappedUnary, sameSumSwapped, sumEndpointRoute, swappedRoute, pkgSig⟩
 
+theorem RegularCauchySumCarrier_two_source_real_seal_symmetry [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert swappedEndpoint realSeal consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg ->
+      Cont rightEndpoint leftEndpoint swappedEndpoint ->
+        Cont readback provenance realSeal ->
+          Cont realSeal localCert consumer ->
+            PkgSig bundle consumer pkg ->
+              UnaryHistory swappedEndpoint ∧ UnaryHistory readback ∧ UnaryHistory realSeal ∧
+                UnaryHistory consumer ∧ hsame sumEndpoint swappedEndpoint ∧
+                  Cont rightEndpoint leftEndpoint swappedEndpoint ∧
+                    Cont readback provenance realSeal ∧ Cont realSeal localCert consumer ∧
+                      PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro carrier swappedRoute readbackProvenanceRealSeal realSealLocalCertConsumer consumerPkg
+  obtain ⟨_leftSourceUnary, _rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, _routesUnary,
+    provenanceUnary, localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute, readbackRoute,
+    _provenanceRoute, _pkgSig⟩ := carrier
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have swappedUnary : UnaryHistory swappedEndpoint :=
+    unary_cont_closed rightEndpointUnary leftEndpointUnary swappedRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary provenanceUnary readbackProvenanceRealSeal
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed realSealUnary localCertUnary realSealLocalCertConsumer
+  have sameSumSwapped : hsame sumEndpoint swappedEndpoint :=
+    unary_cont_comm leftEndpointUnary rightEndpointUnary sumEndpointRoute swappedRoute
+  exact
+    ⟨swappedUnary, readbackUnary, realSealUnary, consumerUnary, sameSumSwapped,
+      swappedRoute, readbackProvenanceRealSeal, realSealLocalCertConsumer, consumerPkg⟩
+
 theorem RegularCauchySumCarrier_realup_seal_nonempty_iff [AskSetup] [PackageSetup]
     {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
       readback transports routes provenance localCert realSeal : BHist}
