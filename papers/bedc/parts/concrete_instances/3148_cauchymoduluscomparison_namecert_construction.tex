@@ -170,6 +170,20 @@ Apply the directional routing of \autoref{thm:cauchy-modulus-comparison-directio
 Use \autoref{thm:cauchy-modulus-comparison-shared-tail-exactness} and \autoref{thm:cauchy-modulus-comparison-shared-threshold-package}. Both name the same threshold coordinate as the sole shared tail row and place $W$ and $Q$ downstream of it. Hence threshold-window coherence is exactly the displayed carrier route.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus comparison window-ledger source exhaustion]
+\label{thm:cauchy-modulus-comparison-window-ledger-source-exhaustion}
+Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. Every Real-facing comparison read whose seal row is $E$ is sourced exactly by the two schedule rows $M_0,M_1$, the single shared threshold row $T$, the selected $\StreamNameUp$ window ledger $W$, and the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ ledger $Q$. The route cannot substitute an independent window, an unlisted tolerance row, a quotient stream, host real equality, or ambient completeness for those displayed sources.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-comparison-carrier}. The rows available to a seal-facing comparison read are the two schedules $M_0,M_1$, the shared threshold $T$, the window ledger $W$, the tolerance and regular-readback ledger $Q$, the seal $E$, the transport row $H$, the route row $C$, provenance $P$, and the local naming row $N$.
+
+Apply \autoref{thm:cauchy-modulus-comparison-threshold-window-coherence}. It forces the route through $T$ before $W$ and $Q$ are read, so the selected window and tolerance ledgers are downstream of one displayed shared threshold rather than independent side data.
+
+Apply \autoref{thm:cauchy-modulus-comparison-schedule-pair-source-lock}. The only schedule sources are $M_0$ and $M_1$, and every comparison read starts from that pair before moving through the displayed threshold, window, ledger, transport, and route rows.
+
+Finally use \autoref{thm:cauchy-modulus-comparison-real-seal-comparison-nonescape}. The seal row $E$ is a downstream Real-facing row of this finite route, and the carrier inventory contains no coordinate for an independent window, unlisted tolerance row, quotient stream, host real equality, or ambient completeness. Hence the listed rows exhaust the source surface for the seal-facing comparison read.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus comparison schedule-pair source lock]
 \label{thm:cauchy-modulus-comparison-schedule-pair-source-lock}
 Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. The pair $(M_0,M_1)$ is the complete source surface for comparison reads. It cannot be replaced by a hidden third modulus schedule, an external ordering of host functions, or a comparison source not transported through the displayed $\hsame$ and $\Cont$ rows.
