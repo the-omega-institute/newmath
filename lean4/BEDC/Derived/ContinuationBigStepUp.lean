@@ -24,6 +24,53 @@ def ContinuationBigStepCarrier [AskSetup] [PackageSetup]
       Cont source trace terminal ∧ Cont terminal read replay ∧ Cont replay cert provenance ∧
         Cont provenance cert transport ∧ PkgSig bundle terminal pkg
 
+def ContinuationBigStepPacket [AskSetup] [PackageSetup]
+    (source trace terminal witness transport replay provenance nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory trace ∧ UnaryHistory terminal ∧ UnaryHistory witness ∧
+    UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+      UnaryHistory nameCert ∧ Cont source trace replay ∧ Cont replay terminal witness ∧
+        Cont witness transport provenance ∧ hsame nameCert nameCert ∧
+          PkgSig bundle nameCert pkg
+
+theorem ContinuationBigStepPacket_small_step_factorization [AskSetup] [PackageSetup]
+    {source trace terminal witness transport replay provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationBigStepPacket source trace terminal witness transport replay provenance nameCert
+        bundle pkg →
+      Cont source trace replay ∧ Cont replay terminal witness ∧ UnaryHistory trace ∧
+        UnaryHistory terminal ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PkgSig UnaryHistory
+  intro packet
+  cases packet with
+  | intro _sourceUnary rest =>
+  cases rest with
+  | intro traceUnary rest =>
+  cases rest with
+  | intro terminalUnary rest =>
+  cases rest with
+  | intro _witnessUnary rest =>
+  cases rest with
+  | intro _transportUnary rest =>
+  cases rest with
+  | intro _replayUnary rest =>
+  cases rest with
+  | intro _provenanceUnary rest =>
+  cases rest with
+  | intro _nameCertUnary rest =>
+  cases rest with
+  | intro sourceTraceReplay rest =>
+  cases rest with
+  | intro replayTerminalWitness rest =>
+  cases rest with
+  | intro _witnessTransportProvenance rest =>
+  cases rest with
+  | intro _nameCertSame nameCertPkg =>
+      exact
+        And.intro sourceTraceReplay
+          (And.intro replayTerminalWitness
+            (And.intro traceUnary (And.intro terminalUnary nameCertPkg)))
+
 theorem ContinuationBigStepCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {source trace terminal read transport replay provenance cert endpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
