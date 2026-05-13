@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DiagonalLimitBudgetUp$}
+\label{ch:concrete-instances-diagonal-limit-budget-namecert}
+\origin{ai}
+
+The $\DiagonalLimitBudgetUp$ packet is the finite budget carrier between the diagonal selector of \autoref{ch:concrete-instances-limitselector-namecert} and the RealUp seal route synchronized in \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}. It isolates the modulus, selected window, dyadic-tolerance ledger, and seal handoff that the Real completeness diagonal route consumes before any completed real value is read. The observation envelope of \autoref{ch:concrete-instances-realapproximationenvelope-namecert} supplies the sibling finite readback surface; this chapter records the budget packet that keeps that readback tied to the diagonal index request.
+
+\falsifiablePrediction{A packet with the same RealUp seal row but no displayed modulus budget row is not an accepted DiagonalLimitBudgetUp carrier.}
+
+\independenceWitness{LimitSelectorUp selects the diagonal row but lacks the seal budget; CauchySealBudgetSynchronizerUp synchronizes selector and seal rows but lacks the isolated budget carrier; RealApproximationEnvelopeUp packages observation envelopes but not the diagonal modulus budget; DiagonalLimitCompatibilityUp compares limits but does not provide the budget packet.}
+
+\begin{definition}[DiagonalLimitBudget carrier]
+\label{def:diagonal-limit-budget-carrier}
+A $\DiagonalLimitBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,M,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the diagonal index request read from the Real completeness diagonal representative of \autoref{def:real-completeness-diagonal-limit};
+\item $M$ is the modulus budget row displaying the precision request and the selected modulus value used to answer $D$;
+\item $W$ is the selected $\StreamNameUp$ and $\RegSeqRat$ window row chosen by the diagonal selector for that modulus budget;
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance and readback ledger attached to the selected window;
+\item $E$ is the $\RealUp$ seal row reached by the same diagonal route;
+\item $H$ stores componentwise $\hsame$ transports for $D,M,W,Q,E,C,P,N$;
+\item $C$ stores the $\Cont$ routes replaying the index request, budget row, selected window, dyadic ledger, seal row, provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over $\LimitSelectorUp$, $\RealApproximationEnvelopeUp$, $\CauchySealBudgetSynchronizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DiagonalLimitBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host real equality, countable choice, a host-selected limit, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[DiagonalLimitBudget non-escape]
+\label{thm:diagonal-limit-budget-nonescape}
+Every accepted $\DiagonalLimitBudgetUp$ packet read by a diagonal-limit or $\RealUp$ consumer factors through the displayed modulus budget row $M$ before it reaches the selected window $W$, dyadic ledger $Q$, or seal row $E$. A consumer that reads $E$ without exposing $D,M,W,Q,H,C,P,N$ is not reading the accepted budget carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-limit-budget-carrier}. The only route to the seal coordinate is the displayed tuple $B=(D,M,W,Q,E,H,C,P,N)$, and the budget row $M$ is the only row that records the modulus value consumed by the diagonal request.
+
+The transport rows $H$ and replay routes $C$ preserve the same coordinates. They can pass the selected window and dyadic ledger to a consumer, but they do not create a second modulus row, a second seal, or an external limit witness.
+
+Thus any accepted seal read must expose the carrier rows in order: request, budget, window, dyadic readback, seal, transport, route, provenance, and local name. Since the excluded objects have no coordinate in $B$, they cannot be recovered from an accepted packet.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitBudget seal handoff]
+\label{thm:diagonal-limit-budget-seal-handoff}
+For an accepted $\DiagonalLimitBudgetUp$ carrier $B=(D,M,W,Q,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is handed to the synchronizer route only together with the same modulus budget $M$, selected window $W$, dyadic ledger $Q$, and structural rows $H,C,P,N$. The handoff supplies a budgeted seal route, not an isolated RealUp seal.
+\end{theorem}
+\begin{proof}
+Read the budget carrier and the synchronizer sibling together. The synchronizer of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert} accepts a seal route only when a displayed budget row is available for the same request.
+
+The $\DiagonalLimitBudgetUp$ carrier provides exactly such a row: $M$ is tied to the request $D$, and $W$ and $Q$ record the finite window and dyadic readback selected for that budget. The seal coordinate $E$ is therefore exported only through the same packet.
+
+The package row $P$ and continuation row $C$ replay the sibling dependencies on $\LimitSelectorUp$, $\RealApproximationEnvelopeUp$, and $\CauchySealBudgetSynchronizerUp$. No coordinate supplies an isolated seal, host-selected limit, quotient stream, or ambient completeness route.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitBudget obligation surface]
+\label{thm:diagonal-limit-budget-obligation-surface}
+The local $\NameCert_{\DiagonalLimitBudgetUp}$ surface consists exactly of carrier admission for $B$, diagonal request exposure through $D$, modulus-budget exposure through $M$, selected $\StreamNameUp$ and $\RegSeqRat$ window exposure through $W$, $\DyadicRatCoreUp$ tolerance and readback exposure through $Q$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple. The request, budget, selected window, dyadic ledger, seal, transport, continuation, provenance, and naming rows are all explicit coordinates.
+
+The selector-facing side is exhausted by $D,M,W$: the request asks for a diagonal index, the budget row records the modulus value, and the selected window names the finite $\StreamNameUp$ and $\RegSeqRat$ read. The observation-facing side is exhausted by $Q,E$: the dyadic ledger records the tolerance and readback, and the seal row records the RealUp endpoint reached by that ledger.
+
+The structural side is exhausted by $H,C,P,N$. These rows preserve and replay the displayed packet, so the obligation surface contains no hidden classifier, no quotient stream equality, no host real equality, and no ambient completeness premise.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitBudget independence witness]
+\label{thm:diagonal-limit-budget-independence-witness}
+The $\DiagonalLimitBudgetUp$ carrier is not reducible to any one sibling route among $\LimitSelectorUp$, $\CauchySealBudgetSynchronizerUp$, $\RealApproximationEnvelopeUp$, or $\DiagonalLimitCompatibilityUp$. Its distinguishing data is the simultaneous presence of the diagonal request $D$, modulus budget $M$, selected window $W$, dyadic-tolerance ledger $Q$, RealUp seal $E$, and structural rows $H,C,P,N$ in one finite packet.
+\end{theorem}
+\begin{proof}
+Compare the sibling carriers by their displayed rows. The limit selector exposes the diagonal selection route, but it does not isolate the modulus budget as the budget object consumed by the seal handoff.
+
+The synchronizer exposes the joint seal route, but it treats the budget row as an input from another packet. The approximation envelope exposes the finite observation ledger, but it does not bind that ledger to the diagonal modulus budget. The compatibility packet compares limit routes, but it does not supply the budget carrier consumed before comparison.
+
+The packet $B=(D,M,W,Q,E,H,C,P,N)$ displays all of these rows together. Removing $M$ loses the finite budget, removing $Q$ loses the dyadic-tolerance ledger, removing $E$ loses the seal handoff, and removing $H,C,P,N$ loses transport, replay, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitBudget TasteGate readiness]
+\label{thm:diagonal-limit-budget-tastegate-readiness}
+The Lean TasteGate module for $\DiagonalLimitBudgetUp$ must include explicit $\mathsf{Nontrivial}\ \DiagonalLimitBudgetUp$ and $\mathsf{FieldFaithful}\ \DiagonalLimitBudgetUp$ instances. Nontriviality separates the modulus budget row from the seal row, and field faithfulness preserves the displayed rows $D,M,W,Q,E,H,C,P,N$ for every TasteGate-facing consumer.
+\end{theorem}
+\begin{proof}
+The carrier has two distinct analytic roles: $M$ records the finite modulus budget and $E$ records the RealUp seal reached after the budgeted route. A collapsed packet that identifies these roles would admit the seal without the displayed budget row, contradicting \autoref{thm:diagonal-limit-budget-nonescape}.
+
+Field faithfulness is the row-preservation condition needed by the same surface. A TasteGate-facing consumer may inspect the request, budget, selected window, dyadic ledger, seal, transport, route, provenance, and local naming rows, but no unlisted analytic or host-side object.
+\end{proof}

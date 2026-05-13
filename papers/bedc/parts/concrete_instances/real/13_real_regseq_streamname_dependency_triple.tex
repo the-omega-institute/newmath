@@ -218,3 +218,61 @@ quotient-stream, host-equality, selected-limit, representative-choice,
 ambient-completeness, arithmetic, order, or metric-completeness coordinate
 available.
 \end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName finite-window pullback classifier]
+\label{thm:real-regseq-streamname-finite-window-pullback-classifier}
+Let
+$$
+X=(S,Q,D,R,H,C,P,N)
+\quad\text{and}\quad
+Y=(S',Q',D',R',H',C',P',N')
+$$
+be accepted $\RealUp$ RegSeqRat StreamName dependency triples. The two triples
+classify as the same completion-facing $\RealUp$ finite-window packet if and
+only if all of the following displayed rows agree componentwise:
+\begin{enumerate}
+\item the $\StreamNameUp$ finite-window rows $S,S'$;
+\item the $\RegSeqRatUp$ readback rows $Q,Q'$;
+\item the $\DyadicRatCoreUp$ ledger rows $D,D'$;
+\item the $\RealUp$ seal rows $R,R'$;
+\item the componentwise $\hsame$ transports displayed in $H,H'$;
+\item the displayed $\Cont$ routes in $C,C'$;
+\item the $\Pkg$ provenance rows $P,P'$;
+\item the local $\NameCert$ rows $N,N'$.
+\end{enumerate}
+Equivalently, the classifier for accepted Real RegSeqRat StreamName dependency
+triples is the finite pullback of the four open-phase faces
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ together
+with the displayed transport, route, provenance, and local naming rows. It has
+no coordinate for quotient streams, host equality, selected limits, ambient
+completeness, arithmetic or order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume the two accepted triples classify as the
+same completion-facing finite-window packet. Apply
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion} to both triples.
+Each accepted route is exhausted by the displayed $\StreamNameUp$,
+$\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+Now apply \autoref{thm:real-regseq-streamname-endpoint-determinacy}. Since a
+public endpoint comparison cannot consult any coordinate outside those finite
+packets, equality of the completion-facing packet projects to componentwise
+agreement of the stream-name window, regular readback, dyadic ledger, real
+seal, transport, route, provenance, and local naming rows.
+
+For the reverse direction, assume the eight displayed rows agree
+componentwise. Use
+\autoref{thm:realup-open-phase-four-face-pullback} to repack the four
+open-phase faces as a single finite pullback packet. The matching $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows provide exactly the gluing data required
+by that pullback.
+
+Finally read the resulting packet through
+\autoref{def:real-regseq-streamname-dependency-triple}. The local dependency
+triple definition accepts precisely those rows as the completion-facing Real
+finite-window packet, so the two accepted triples classify the same packet.
+The exclusion clause in the definition removes quotient streams, host
+equality, selected limits, ambient completeness, arithmetic and order packages,
+and metric-completeness rows from the classifier.
+\end{proof}
