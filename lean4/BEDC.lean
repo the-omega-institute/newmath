@@ -200,6 +200,7 @@ import BEDC.Derived.RecursorGeneratorUp
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
+import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
