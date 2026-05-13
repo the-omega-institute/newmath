@@ -211,6 +211,42 @@ Apply \autoref{thm:generatorclosure-fixedpoint-consumer-obligation} for fixed-wi
 It remains only to name the factors. The classifier obligation \autoref{thm:generatorclosure-classifier-obligation} supplies $Q$, the ledger obligation \autoref{thm:generatorclosure-ledger-obligation} supplies the $\mathsf{GAP}$ boundary, and the carrier obligation \autoref{thm:generatorclosure-carrier-obligation} supplies $H,C,P,N$ as displayed support rows. Hence every authorized consumer factors through the stated public surface.
 \end{proof}
 
+\begin{theorem}[GeneratorClosure constructor provenance determinacy]
+\label{thm:generatorclosure-constructor-provenance-determinacy}
+Let two accepted generated-row reads of the public $\GeneratorClosureUp$ packet expose the same displayed surface $G,L,A,Q,W,H,C,P,N$. If the corresponding carrier rows, classifier rows, continuation ledgers, package rows, and local $\NameCert_{\GeneratorClosureUp}$ rows are componentwise related by $\hsame$, then the two reads determine the same constructor-list provenance row. In particular, the accepted generated row has a unique displayed $L$-provenance inside the public generator-closure surface.
+\end{theorem}
+\begin{proof}
+Begin with the carrier obligation in \autoref{thm:generatorclosure-carrier-obligation}. It places both reads in the same finite $\BHist$ packet, so their only available constructor-list provenance row is the displayed row $L$.
+
+Apply the classifier and ledger obligations of \autoref{thm:generatorclosure-classifier-obligation} and \autoref{thm:generatorclosure-ledger-obligation}. The componentwise $\hsame$ hypotheses transport the accepted generated-row classification through the same $Q$ row and keep the accepted ledgers $A$ and $W$ aligned.
+
+Finally use fixed-point consumer obligation \autoref{thm:generatorclosure-fixedpoint-consumer-obligation} and authorized consumer factorization \autoref{thm:generatorclosure-authorized-consumer-factorization}. These force every accepted consumer read through $G,L,A,Q,W,H,C,P,N$, so no second constructor-list provenance row can be selected without leaving the displayed surface.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure GAP boundary absorbs unwitnessed route]
+\label{thm:generatorclosure-gap-boundary-absorbs-unwitnessed-route}
+Every $\Cont$ route of the public $\GeneratorClosureUp$ packet that lacks the constructor-list witness supplied by $L$ is absorbed by the displayed $\mathsf{GAP}$ boundary. Such a route cannot later be exported as an accepted generated-row read through $A$ or as an accepted continuation-witness read through $W$.
+\end{theorem}
+\begin{proof}
+Use the carrier obligation \autoref{thm:generatorclosure-carrier-obligation} to confine the route to the displayed rows $G,L,A,Q,W,H,C,P,N$. There is no independent continuation surface outside the carrier packet.
+
+The classifier obligation \autoref{thm:generatorclosure-classifier-obligation} and ledger obligation \autoref{thm:generatorclosure-ledger-obligation} separate witnessed and unwitnessed routes. A route with the $L$ witness may be read by the accepted ledgers, while a route without that witness is recorded at the displayed $\mathsf{GAP}$ boundary.
+
+It remains to exclude later export. The fixed-point consumer obligation \autoref{thm:generatorclosure-fixedpoint-consumer-obligation} and authorized consumer factorization \autoref{thm:generatorclosure-authorized-consumer-factorization} require any downstream accepted read through $A$ or $W$ to carry the same displayed constructor-list provenance. The unwitnessed route has already been classified as boundary evidence, so it cannot be repacked as an accepted generated row or accepted continuation witness.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure fixed-point consumer route determinacy]
+\label{thm:generatorclosure-fixedpoint-consumer-route-determinacy}
+Every $\GeneratorFixedPointUp$ witness consumed from the public $\GeneratorClosureUp$ packet is determined by the displayed route through $G,L,Q,W$. Once the generator row $G$, constructor-list provenance row $L$, classifier row $Q$, and continuation-witness ledger $W$ are fixed up to componentwise $\hsame$, neither a host recursor nor a second generator can vary the consumed fixed witness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:generatorclosure-fixedpoint-consumer-obligation}. It states that a $\GeneratorFixedPointUp$ consumer reads the fixed witness only through the constructor-list provenance and classifier surface of $\GeneratorClosureUp$.
+
+The carrier, classifier, and ledger obligations in \autoref{thm:generatorclosure-carrier-obligation}, \autoref{thm:generatorclosure-classifier-obligation}, and \autoref{thm:generatorclosure-ledger-obligation} identify the visible route. The row $G$ supplies the generator source, $L$ supplies the constructor-list witness, $Q$ classifies the accepted fixed witness, and $W$ records the continuation witness that remains outside $\mathsf{GAP}$.
+
+Apply authorized consumer factorization \autoref{thm:generatorclosure-authorized-consumer-factorization}. Since every authorized consumer factors through the same public surface, a host recursor or second generator would have to appear as an additional public factor. No such factor is present, so the consumed witness is determined by the displayed $G,L,Q,W$ route.
+\end{proof}
+
 \closureat{GeneratorClosureUp}{seedStr}
 \closureat{GeneratorClosureUp}{obligationStr}
 \closureat{GeneratorClosureUp}{scopedStr}
