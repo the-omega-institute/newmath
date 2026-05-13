@@ -123,4 +123,34 @@ theorem ContinuationTraceCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨semantic, sourceUnary, markUnary, targetUnary, endpointUnary, sourceMarkTargetRow,
       targetLedgerRouteRow, endpointRow⟩
 
+theorem ContinuationTraceCarrier_concatenation_readback [AskSetup] [PackageSetup]
+    {source0 mark0 target0 ledger0 transports0 route0 provenance0 cert0 source1 mark1 target1
+      ledger1 transports1 route1 provenance1 cert1 consumer : BHist}
+    {bundle0 bundle1 : ProbeBundle ProbeName} {pkg0 pkg1 : Pkg} :
+    ContinuationTraceCarrier source0 mark0 target0 ledger0 transports0 route0 provenance0 cert0
+        bundle0 pkg0 ->
+      ContinuationTraceCarrier source1 mark1 target1 ledger1 transports1 route1 provenance1 cert1
+          bundle1 pkg1 ->
+        hsame target0 source1 ->
+          (Cont route0 cert0 consumer ∨ Cont route1 cert1 consumer) ->
+            UnaryHistory consumer ∧ hsame target0 source1 ∧
+              (Cont route0 cert0 consumer ∨ Cont route1 cert1 consumer) ∧
+                (PkgSig bundle0 provenance0 pkg0 ∨ PkgSig bundle1 provenance1 pkg1) := by
+  intro carrier0 carrier1 boundary routeChoice
+  obtain ⟨_sourceUnary0, _markUnary0, _targetUnary0, _ledgerUnary0, _transportsUnary0,
+    routeUnary0, _provenanceUnary0, certUnary0, _sourceMarkTargetRow0,
+    _targetLedgerRouteRow0, _routeCertProvenanceRow0, pkgSig0⟩ := carrier0
+  obtain ⟨_sourceUnary1, _markUnary1, _targetUnary1, _ledgerUnary1, _transportsUnary1,
+    routeUnary1, _provenanceUnary1, certUnary1, _sourceMarkTargetRow1,
+    _targetLedgerRouteRow1, _routeCertProvenanceRow1, pkgSig1⟩ := carrier1
+  cases routeChoice with
+  | inl route0Consumer =>
+      have consumerUnary : UnaryHistory consumer :=
+        unary_cont_closed routeUnary0 certUnary0 route0Consumer
+      exact ⟨consumerUnary, boundary, Or.inl route0Consumer, Or.inl pkgSig0⟩
+  | inr route1Consumer =>
+      have consumerUnary : UnaryHistory consumer :=
+        unary_cont_closed routeUnary1 certUnary1 route1Consumer
+      exact ⟨consumerUnary, boundary, Or.inr route1Consumer, Or.inr pkgSig1⟩
+
 end BEDC.Derived.ContinuationTraceUp
