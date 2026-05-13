@@ -1,0 +1,53 @@
+\begin{theorem}[Split isomorphism inverse witnesses coincide]
+\label{thm:category-split-isomorphism-inverse-witnesses-coincide}
+Let $\mathcal C$ be a $\CategoryUp$ certificate satisfying the obligations of
+\autoref{def:category-certificate-obligations}. Let $f:a\to b$ carry a split
+isomorphism witness pair in the sense of
+\autoref{def:category-split-isomorphism-witness-pair}, with left-inverse
+witness $g_L:b\to a$ and right-inverse witness $g_R:b\to a$. Then the two
+inverse-side witnesses are classified together in the hom carrier from $b$ to
+$a$:
+$$
+g_L\sim_{\mathcal C}g_R.
+$$
+\end{theorem}
+\begin{proof}
+Unpack the split-isomorphism witness pair. The left-oriented field supplies a
+displayed composite $c_a:a\to a$ for $g_L\circ_{\mathcal C} f$ and a
+classifier comparison
+$$
+c_a\sim_{\mathcal C}\mathsf{id}_a.
+$$
+The right-oriented field supplies a displayed composite $c_b:b\to b$ for
+$f\circ_{\mathcal C}g_R$ and a classifier comparison
+$$
+c_b\sim_{\mathcal C}\mathsf{id}_b.
+$$
+
+Choose the displayed composites needed to compare both inverse witnesses
+through the common three-factor string
+$$
+b\xrightarrow{g_R}a\xrightarrow{f}b\xrightarrow{g_L}a.
+$$
+Associativity for the $\CategoryUp$ composition relation classifies the
+right-associated composite $g_L\circ_{\mathcal C}(f\circ_{\mathcal C}g_R)$
+with the left-associated composite $(g_L\circ_{\mathcal C}f)\circ_{\mathcal C}
+g_R$, expressed in the paper's composition orientation as the two bracketings
+of $g_R,f,g_L$.
+
+On the right-associated side, replace the displayed composite
+$f\circ_{\mathcal C}g_R$ by the target identity $\mathsf{id}_b$ using the
+right-inverse comparison and classifier-respecting composition with the fixed
+factor $g_L$. The right-unit law then classifies the resulting composite with
+$g_L$.
+
+On the left-associated side, replace the displayed composite
+$g_L\circ_{\mathcal C}f$ by the source identity $\mathsf{id}_a$ using the
+left-inverse comparison and classifier-respecting composition with the fixed
+factor $g_R$. The left-unit law then classifies the resulting composite with
+$g_R$.
+
+The two reductions start from associativity-related bracketings of the same
+three displayed factors. Transitivity of the morphism classifier therefore
+compares $g_L$ with $g_R$; symmetry orients the comparison as displayed.
+\end{proof}
