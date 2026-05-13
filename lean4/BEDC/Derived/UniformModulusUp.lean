@@ -51,6 +51,24 @@ theorem UniformModulusPacket_finite_probe_bundle_fold [AskSetup] [PackageSetup]
     ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, foldUnary, exportUnary,
       foldRoute, exportRoute, exportPkg⟩
 
+theorem UniformModulusPacket_compact_metric_source_lock [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont bundleRow radius compactRead ->
+        Cont compactRead coverage transport ->
+          PkgSig bundle provenance pkg ->
+            UnaryHistory bundleRow ∧ UnaryHistory radius ∧
+              Cont bundleRow radius compactRead ∧ Cont compactRead coverage transport ∧
+                PkgSig bundle provenance pkg := by
+  intro packet compactRoute coverageRoute provenancePkg
+  obtain ⟨_toleranceUnary, _precisionUnary, bundleRowUnary, radiusUnary, _nameRowUnary,
+    _coverageRoute, _transportRoute, _packetFoldRoute, _provenanceRoute, _packetPkg⟩ :=
+    packet
+  exact ⟨bundleRowUnary, radiusUnary, compactRoute, coverageRoute, provenancePkg⟩
+
 theorem UniformModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
       nameRow exported : BHist}
