@@ -140,6 +140,60 @@ Replay the read through $H$ and $C$. Componentwise transport preserves the displ
 The remaining coordinates $P,G,N$ supply provenance, the boundary row, and local naming. Since the carrier has no coordinate for fuzzy namespace search, unresolved-string substitution, or prose interpretation, marker resolution cannot escape the exact-name ledger.
 \end{proof}
 
+\begin{theorem}[AuditGateBoundary origin-gate replay]
+\label{thm:audit-gate-boundary-origin-gate-replay}
+For an accepted $\AuditGateBoundaryUp$ packet
+$$
+A=(S,D,L,O,H,C,P,G,N),
+$$
+the displayed audit replay of origin conservativity is exactly the origin/import row $O$ transported through $H$, routed through $C$, named by $N$, and packaged by $P$. A governance consumer may replay chapter-origin rows, protected module prefixes, inspected import edges, and the pass-or-refuse classifier, but it receives no semantic conservativity theorem beyond the finite $\BHist$ row carried by $O$.
+\end{theorem}
+\begin{proof}
+Project the carrier row $O$. By \autoref{def:audit-gate-boundary-carrier}, this row is the packet's origin and import conservativity report.
+
+Apply \autoref{thm:audit-gate-boundary-origin-conservativity}. The consumer may inspect exactly the displayed origin rows, protected prefixes, import edges, and classifier result.
+
+Replay the row through the common support surface. The transport row $H$ preserves $O$ componentwise, the continuation row $C$ exposes it, and $P,N$ bind provenance and local naming.
+
+The replay ledger of \autoref{thm:audit-gate-boundary-replay-ledger} keeps this read inside the audit packet. Therefore the replay exports the finite origin gate row and not a host-wide conservativity theorem.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary strict axiom-purity replay]
+\label{thm:audit-gate-boundary-strict-axiom-purity-replay}
+For an accepted $\AuditGateBoundaryUp$ packet
+$$
+A=(S,D,L,O,H,C,P,G,N),
+$$
+strict axiom-purity replay is the joint read of the source-token row $S$ and forbidden-dependency row $D$ through $H,C,P,G,N$. The replay exposes the finite source-token refusal, the inspected theorem names, their reported proof ancestry, and the forbidden-dependency classifier for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$, with no hidden host-kernel completeness claim.
+\end{theorem}
+\begin{proof}
+Project the rows $S$ and $D$ from the accepted packet. The source-token row records file and token refusal data, while the dependency row records theorem names, ancestry, and forbidden dependency classification.
+
+Use \autoref{thm:audit-gate-boundary-axiom-purity-soundness} and \autoref{thm:audit-gate-boundary-source-token-refusal}. These theorems bind the audit-facing axiom boundary to the finite source-token and dependency rows.
+
+Use \autoref{thm:audit-gate-boundary-dependency-forbidden-set} for the strict forbidden set. The only named forbidden dependencies are $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$ inside the displayed report.
+
+Finally replay through $H,C,P,G,N$. Transport, continuation, provenance, GAP boundary, and naming keep the result inside the same $\BHist$ packet and block any host-wide completeness reading.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary marker-resolution closure]
+\label{thm:audit-gate-boundary-marker-resolution-closure}
+For an accepted $\AuditGateBoundaryUp$ packet
+$$
+A=(S,D,L,O,H,C,P,G,N),
+$$
+the marker-resolution row $L$ is closed under audit replay through the displayed ledger. A governance consumer replaying $L$ may recover only the manuscript marker text, exact Lean target name, finite resolution result, componentwise $\hsame$ transport, continuation route, $\Pkg$ provenance, GAP boundary, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the paper-Lean row $L$ from the accepted carrier. This row contains the marker text, named Lean target, and finite resolution result.
+
+Apply \autoref{thm:audit-gate-boundary-marker-resolution-nonescape}. Exact target names are preserved, and the row cannot be replaced by namespace search, unresolved strings, prose interpretation, or a different theorem name.
+
+Replay $L$ through the ledger of \autoref{thm:audit-gate-boundary-replay-ledger}. The same support rows $H,C,P,G,N$ transport, expose, package, delimit, and name the marker-resolution read.
+
+Thus marker resolution is closed only as a finite audit-row replay. It does not become a broader manuscript-validity theorem or a substitute for resolving the exact target recorded in $L$.
+\end{proof}
+
 \begin{theorem}[AuditGateBoundary replay ledger]
 \label{thm:audit-gate-boundary-replay-ledger}
 For an accepted $\AuditGateBoundaryUp$ packet
