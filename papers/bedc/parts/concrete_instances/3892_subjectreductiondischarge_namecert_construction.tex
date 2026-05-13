@@ -105,6 +105,50 @@ Apply the obligation theorem to bind local naming to those rows. The packet can 
 The excluded principles have no carrier coordinate. Therefore every downstream read factors through the displayed packet, and any attempted read outside it remains an obstruction-boundary request rather than an accepted subject-reduction discharge.
 \end{proof}
 
+\begin{theorem}[Subject-reduction discharge TasteGate obligation closure]
+\label{thm:subject-reduction-discharge-tastegate-obligation-closure}
+For the carrier
+$$
+D=(B,A,L,\Pi,S,K,O,H,C,P,N)
+$$
+of \autoref{def:subject-reduction-discharge-carrier}, the TasteGate single-carrier alignment and the local $\NameCert_{\SubjectReductionDischargeUp}$ obligation surface jointly close carrier admission and four-row exposure for $B,A,L,\Pi$. This closure does not prove $\mathrm{BetaSubstitutionPreservation}$, $\mathrm{AppArgTypeStable}$, $\mathrm{LamDomainSubjectReduction}$, or $\mathrm{PiDomainSubjectReduction}$ as MetaCIC substrate theorems.
+\end{theorem}
+\begin{proof}
+Read the carrier definition first. It makes $D$ a finite packet whose only subject-reduction discharge rows are $B,A,L,\Pi$, with $S,K,O,H,C,P,N$ serving as compiler-boundary, obstruction, transport, route, package, and naming data.
+
+The checked TasteGate marker immediately after \autoref{def:subject-reduction-discharge-carrier} supplies the single-carrier alignment for this packet. It binds admission to the displayed tuple rather than to an ambient closed subject-reduction theorem.
+
+Now apply \autoref{thm:subject-reduction-discharge-obligations}. Its NameCert surface exposes the four rows $B,A,L,\Pi$ and the support rows of $D$ exactly. The closure therefore concerns admission and exposure of the obligation rows, not discharge of the four MetaCIC hypotheses themselves.
+\end{proof}
+
+\begin{theorem}[Subject-reduction discharge transport-route exactness]
+\label{thm:subject-reduction-discharge-transport-route-exactness}
+Every accepted transport or continuation read of the four $\SubjectReductionDischargeUp$ discharge rows factors through the displayed $H,C,P,N$ coordinates of
+$$
+D=(B,A,L,\Pi,S,K,O,H,C,P,N).
+$$
+Such a read cannot introduce a fifth discharge row or a subject-reduction route outside the four rows $B,A,L,\Pi$.
+\end{theorem}
+\begin{proof}
+Start with the socket dependency of \autoref{thm:subject-reduction-discharge-socket-dependency}. It identifies the shared discharge surface as the same four rows used by the finite socket chapter.
+
+Use the four-row completeness theorem next. The beta, application-argument, lambda-domain, and Pi-domain rows are the complete discharge inventory; $S,K,O$ are support and boundary coordinates.
+
+Finally apply \autoref{thm:subject-reduction-discharge-nonescape}. Every downstream read must pass through the displayed carrier coordinates, so transport reads pass through $H$, continuation reads pass through $C$, and package or local-name reads pass through $P,N$. Since the carrier has no fifth discharge coordinate, exactness is the four-row route through those displayed coordinates.
+\end{proof}
+
+\begin{theorem}[Subject-reduction discharge obstruction preservation]
+\label{thm:subject-reduction-discharge-obstruction-preservation}
+In every downstream read of an accepted $\SubjectReductionDischargeUp$ packet, the obstruction row $O$ remains a visible boundary. The compiler-boundary rows $S,K$ support closed-substitution and generator replay, but they cannot be read as an unparameterised closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Apply the boundary theorem \autoref{thm:subject-reduction-discharge-boundary}. It separates the four parameterised discharge obligations from the unavailable closed subject-reduction statement and records $O$ as the boundary row.
+
+Read $S$ and $K$ through the same theorem and through \autoref{thm:subject-reduction-discharge-obligations}. These rows name closed-substitution, shift, compiler, and generator-audit support; they do not add an open-term subject-reduction proof or a host evaluator theorem.
+
+The non-escape theorem then keeps every downstream consumer inside $B,A,L,\Pi,S,K,O,H,C,P,N$. Since no coordinate stores an unparameterised closed subject-reduction theorem, $O$ remains visible whenever a consumer tries to replace the four-row interface by that closed statement.
+\end{proof}
+
 \closureat{SubjectReductionDischargeUp}{seedStr}
 
 \begin{closurestatus}{\SubjectReductionDischargeUp}
