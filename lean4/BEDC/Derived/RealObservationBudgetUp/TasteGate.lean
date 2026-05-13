@@ -216,6 +216,9 @@ instance realObservationBudgetChapterTasteGate : ChapterTasteGate RealObservatio
     intro x y hxy heq
     exact hxy (realObservationBudgetToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RealObservationBudgetUp :=
+  realObservationBudgetChapterTasteGate
+
 theorem RealObservationBudgetTasteGate_single_carrier_alignment :
     (∀ h : BHist, realObservationBudgetDecodeBHist (realObservationBudgetEncodeBHist h) = h) ∧
       (∀ x : RealObservationBudgetUp,
