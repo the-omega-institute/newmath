@@ -9,6 +9,18 @@ The random-variable interface $\RandomVarUp$ packages a measurable function from
 \section{The certificate}
 \label{sec:randomvar-certificate}
 
+\begin{theorem}[RandomVar preimage measure and probability lattice link]
+\label{thm:randomvar-preimage-measure-probspace-lattice-link}
+Every $\RandomVarUp$ preimage exactness theorem in this section consumes the event classifier, sigma-algebra, empty-event, union, complement, and relative-difference rows of \autoref{ch:concrete-instances-measure-namecert} together with the source probability carrier of \autoref{ch:concrete-instances-probspace-namecert}. The preimage rows transport target $\MeasureUp$ events back to source $\ProbSpaceUp$ events; they do not introduce an independent event lattice or a second source sigma-algebra.
+\end{theorem}
+\begin{proof}
+Inspect the hypotheses of the preimage exactness theorems below. Each theorem starts with a carried $\RandomVarUp$ map from a $\ProbSpaceUp$ source to a target $\MeasureUp$ carrier, then writes $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families.
+
+The event comparisons use the source classifier of \autoref{def:measure-classifier-specification}. The closure rows for binary unions, empty events, complements, and relative differences are cited from \autoref{thm:measure-sigma-algebra-obligations} and the corresponding displayed Measure rows, while the source carrier itself is the probability space of \autoref{sec:probspace-carrier}.
+
+The $\RandomVarUp$ certificate contributes only the measurable-preimage row and its membership readback. Therefore the preimage exactness surface is a horizontal consumer of Measure and ProbSpace data, not a new event lattice.
+\end{proof}
+
 \begin{theorem}[RandomVar preimage preserves disjoint binary unions]
 \label{thm:randomvar-preimage-disjoint-binary-union-exactness}
 Let $X:S\to T$ be a carried $\RandomVarUp$ map as in \autoref{sec:randomvar-carrier}, from a $\ProbSpaceUp$ source as in \autoref{sec:probspace-carrier} to a target $\MeasureUp$ carrier as in \autoref{sec:measure-carrier}. Write $\mathcal{A}_S$ and $\mathcal{A}_T$ for the source and target measurable-event families, and write $E\sim_{\mathcal{A}_S}F$ for the source event classifier of \autoref{def:measure-classifier-specification}. Let $B,C,U_T$ be target events such that $B,C,U_T\in\mathcal{A}_T$ and the displayed target binary-union row reads $U_T$ as $B\cup C$:

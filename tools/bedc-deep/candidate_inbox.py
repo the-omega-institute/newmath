@@ -25,6 +25,10 @@ FORBIDDEN_AXIS_RE = re.compile(
     r"chapter retirement",
     re.IGNORECASE,
 )
+NEGATED_FORBIDDEN_AXIS_RE = re.compile(
+    r"\b(?:not|no|without|avoid(?:s|ing)?|exclud(?:e|es|ed|ing)|rather than|instead of)\b",
+    re.IGNORECASE,
+)
 STRUCTURAL_TITLE_RE = re.compile(
     r"^\s*\\(?:label|begin|chapter|section|subsection|input|include)\b",
     re.IGNORECASE,
@@ -74,6 +78,19 @@ def _claim(candidate: dict[str, Any]) -> str:
         or candidate.get("problem")
         or ""
     ).strip()
+
+
+def _has_forbidden_axis_marker(title: str, claim: str, rationale: str) -> bool:
+    """Reject marker-axis targets without punishing negated evidence notes."""
+    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim])):
+        return True
+    for segment in re.split(r"(?<=[.!?])\s+|\n+", rationale):
+        if not FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        if NEGATED_FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        return True
+    return False
 
 
 def _candidate_id(candidate: dict[str, Any], source: str) -> str:
@@ -294,7 +311,7 @@ def _rejection_reason(
         return "missing_claim"
     if len(claim) < 30:
         return "claim_too_short"
-    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim, rationale])):
+    if _has_forbidden_axis_marker(title, claim, rationale):
         return "forbidden_axis_or_marker_candidate"
     landing_kind = str(candidate.get("landing_kind") or "").strip()
     haystack = " ".join([title, claim, rationale, str(candidate.get("chapter_worthiness") or "")])
