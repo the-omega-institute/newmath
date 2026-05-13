@@ -138,3 +138,51 @@ completeness principle, arithmetic package, order package, or
 metric-completeness row. Hence there is no non-finite route for the consumer
 to export.
 \end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName endpoint determinacy]
+\label{thm:real-regseq-streamname-endpoint-determinacy}
+Let $(S,Q,D,R,H,C,P,N)$ and $(S',Q',D',R',H',C',P',N')$ be accepted
+$\RealUp$ RegSeqRat StreamName dependency triples. Suppose the displayed
+$\StreamNameUp$ finite-window rows $S,S'$ are compared only by the advertised
+$\hsame$ transport rows in $H,H'$, and suppose the $\RegSeqRatUp$ readback
+rows $Q,Q'$ together with the $\DyadicRatCoreUp$ ledger rows $D,D'$ are the
+same displayed route through
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+Then any public $\RealUp$ endpoint comparison between the two consumers
+factors only through the finite packets
+$$
+(S,Q,D,R,H,C,P,N)
+\quad\text{and}\quad
+(S',Q',D',R',H',C',P',N').
+$$
+In particular the comparison has no coordinate for quotient streams, host
+real equality, selected host limits, representative choice, ambient
+completeness, arithmetic or order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion} to each accepted
+consumer. Each endpoint read reaches the $\RealUp$ seal only through its
+displayed $\StreamNameUp$ finite-window row, $\RegSeqRatUp$ readback row,
+$\DyadicRatCoreUp$ ledger row, local seal row, $\hsame$ transport,
+$\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row.
+
+Next use
+\autoref{thm:real-regseq-streamname-cauchy-completion-interface}. The
+completion-facing boundary is therefore the same finite route, so an endpoint
+comparison cannot consult data outside the two displayed packets before it
+compares the public endpoints.
+
+Finally apply
+\autoref{thm:real-seal-regseq-streamname-dependency-exhaustion}. That theorem
+exhausts the coordinate supply for every accepted seal consumer by the rows
+named in the dependency triple. Since the hypotheses identify the window,
+readback, and dyadic route through the three sibling chapters, the remaining
+public comparison is determined by the two finite packets alone, with no
+quotient-stream, host-equality, selected-limit, representative-choice,
+ambient-completeness, arithmetic, order, or metric-completeness coordinate
+available.
+\end{proof}
