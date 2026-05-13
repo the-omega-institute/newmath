@@ -197,6 +197,53 @@ theorem FiniteNetMinimumFoldPacket_uniformmodulus_output_exhaustion
     ⟨accumulatorUnary, lowerUnary, uniformOutputUnary, accumulatorLowerTransport,
       transportNameProvenance, provenancePkg⟩
 
+theorem FiniteNetMinimumFoldPacket_positive_precision_obligation [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow positivePrecision :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont accumulator lower transport →
+        hsame positivePrecision transport →
+          PkgSig bundle provenance pkg →
+            UnaryHistory accumulator ∧ UnaryHistory lower ∧ UnaryHistory transport ∧
+              UnaryHistory positivePrecision ∧ Cont accumulator lower transport ∧
+                hsame positivePrecision transport ∧ PkgSig bundle provenance pkg := by
+  intro packet accumulatorLowerTransport positiveSame provenancePkg
+  obtain ⟨_bundleRowUnary, _radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, _packetAccumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _packetPkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed accumulatorUnary lowerUnary accumulatorLowerTransport
+  have positivePrecisionUnary : UnaryHistory positivePrecision :=
+    unary_transport_symm transportUnary positiveSame
+  exact
+    ⟨accumulatorUnary, lowerUnary, transportUnary, positivePrecisionUnary,
+      accumulatorLowerTransport, positiveSame, provenancePkg⟩
+
+theorem FiniteNetMinimumFoldPacket_uniform_modulus_handoff [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont accumulator lower handoff →
+        hsame handoff transport →
+          PkgSig bundle handoff pkg →
+            UnaryHistory accumulator ∧ UnaryHistory lower ∧ UnaryHistory handoff ∧
+              Cont accumulator lower handoff ∧ Cont accumulator lower transport ∧
+                hsame handoff transport ∧ PkgSig bundle handoff pkg := by
+  intro packet accumulatorLowerHandoff handoffSame handoffPkg
+  obtain ⟨_bundleRowUnary, _radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, accumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _packetPkg⟩ := packet
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed accumulatorUnary lowerUnary accumulatorLowerHandoff
+  exact
+    ⟨accumulatorUnary, lowerUnary, handoffUnary, accumulatorLowerHandoff,
+      accumulatorLowerTransport, handoffSame, handoffPkg⟩
+
 theorem FiniteNetMinimumFoldPacket_selector_stability [AskSetup] [PackageSetup]
     {bundleRow radius accumulator lower transport route provenance nameRow selector selected
       exported : BHist}
