@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalConsistencyUp$}
+\label{ch:concrete-instances-closed-normal-consistency-namecert}
+\origin{human}
+
+The $\ClosedNormalConsistencyUp$ packet gives the closed-normal branch of
+\autoref{ch:visions-closed-metacic-consistency-assembly} a finite BEDC landing.
+It is deliberately downstream of
+\autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}:
+the packet records the normal-fragment consistency object that is already
+assembled from closed typing, closedness, and beta-normality, while keeping the
+subject-reduction obstruction as a separate boundary row.
+
+\begin{definition}[Closed normal consistency carrier]
+\label{def:closed-normal-consistency-carrier}
+A $\ClosedNormalConsistencyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,T,C,S,O,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the closed proof-of-false target row, naming the false encoding and
+the empty-context typing boundary;
+\item $T$ is the closed-term row, recording that the inspected term is closed at
+the empty context;
+\item $C$ is the closed-normal consistency statement row, naming
+$\mathsf{BEDC.MetaCIC.ClosedNormalConsistencyAssemblyStatement}$;
+\item $S$ is the beta-strong normality row consumed by the closed-normal
+consistency statement;
+\item $O$ is the subject-reduction obstruction handoff row, read from
+\autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert};
+\item $H$ records componentwise $\hsame$ transports for the target, closed-term,
+statement, normality, obstruction, package, and local naming rows;
+\item $R$ records the displayed $\Cont$ routes by which consistency-audit
+consumers read the finite packet;
+\item $P$ is the $\Pkg$ provenance over MetaCIC typing, closed terms,
+beta-strong normality, the subject-reduction obstruction boundary, $\BHist$,
+$\hsame$, $\Cont$, and local $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosedNormalConsistencyUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for full closed consistency, no unblocked
+closed subject-reduction theorem, no proof of the four subject-reduction
+discharge obligations, and no ambient normalization principle.
+\end{definition}
+
+\begin{theorem}[Closed normal consistency subject-reduction obstruction handoff]
+\label{thm:closed-normal-consistency-subject-reduction-obstruction-handoff}
+Every consumer of an accepted $\ClosedNormalConsistencyUp$ packet reads the
+normal-fragment consistency row through
+$$
+F,T,C,S,H,R,P,N
+$$
+and reads the subject-reduction boundary only through the separate obstruction
+row $O$ supplied by
+\autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}.
+The handoff permits citation of the closed-normal consistency statement for
+already-normal closed terms, but it does not convert the obstruction row into
+full closed subject reduction, closed reduction consistency, or a discharge of
+the beta, application-argument, lambda-domain, and Pi-domain obligations.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-normal-consistency-carrier}. The
+normal-fragment side consists of the false target row $F$, the closed-term row
+$T$, the statement row $C$, and the beta-strong row $S$, transported and routed
+only through $H,R,P,N$.
+
+The obstruction side is the single row $O$. By
+\autoref{thm:metacic-subject-reduction-obstruction-namecert-obligations}, that
+row exposes the parameterized subject-reduction theorem, the four discharge
+obligations, and the checked obstruction readback as a finite packet rather
+than as a closed subject-reduction theorem.
+
+The consumer boundary is therefore separated into two reads. The
+closed-normal consistency row may eliminate a closed normal proof-of-false
+candidate, while the subject-reduction obstruction row records why a closed
+reduction route to such a normal candidate is not part of this packet.
+
+Since no carrier coordinate supplies the four discharge obligations, an
+unparameterized closed subject-reduction proof, or closed reduction
+consistency, the handoff cannot be repacked into a stronger MetaCIC consistency
+claim.
+\end{proof}
+
+\closureat{ClosedNormalConsistencyUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalConsistencyUp}
+  \constructivestory{A $\ClosedNormalConsistencyUp$ packet is generated from the closed proof-of-false target row, closed-term row, closed-normal consistency statement row, beta-strong normality row, subject-reduction obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-consistency-carrier} and \autoref{thm:closed-normal-consistency-subject-reduction-obstruction-handoff} bind the closed-normal consistency row as a finite NameCert boundary separated from the subject-reduction obstruction.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.MetaCIC.ClosedNormalConsistencyAssemblyStatement}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close full closed consistency, closed reduction consistency, the four subject-reduction discharge obligations, checked Lean certificate coverage for this packet, or a public standard bridge.}
+  \upgradepath{Formal closure requires checked carrier admission, normal-fragment statement readback, subject-reduction obstruction handoff, transport stability, route stability, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}
