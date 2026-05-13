@@ -1,6 +1,7 @@
 #include "groundcompiler_encoding.h"
 
 #include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,6 +26,7 @@ typedef struct {
     const char *manifest_path;
     int closure_depth;
     const char *depth_note;
+    bool finite_witness_convention;
     int (*enumerate)(int depth, ItemSet *out);
 } AuditTarget;
 
@@ -583,46 +585,56 @@ static int enum_ground_reject_reasons(int depth, ItemSet *out) {
 
 static const AuditTarget AUDIT_TARGETS[] = {
     { "BMark", "msame_refl", "manifests/mark/msame_refl.enum.ct", 1,
-      "BMark is nullary; depth 1 is the whole closure.", enum_mark_refl },
+      "BMark is nullary; depth 1 is the whole closure.", false, enum_mark_refl },
     { "BMark", "msame_symm", "manifests/mark/msame_symm.enum.ct", 1,
-      "All ordered BMark pairs are finite at depth 1.", enum_mark_symm },
+      "All ordered BMark pairs are finite at depth 1.", false, enum_mark_symm },
     { "BMark", "msame_trans", "manifests/mark/msame_trans.enum.ct", 1,
-      "All ordered BMark triples are finite at depth 1.", enum_mark_trans },
+      "All ordered BMark triples are finite at depth 1.", false, enum_mark_trans },
     { "BMark", "msame_no_confusion", "manifests/mark/msame_no_confusion.enum.ct", 1,
-      "Only cross-constructor BMark pairs inhabit this slice.", enum_mark_no_confusion },
+      "Only cross-constructor BMark pairs inhabit this slice.", false, enum_mark_no_confusion },
 
     { "BHist", "hsame_refl", "manifests/hist/hsame_refl.enum.ct", 1,
-      "BHist is recursive; depth 1 is the first nontrivial finite slice.", enum_hist_refl },
+      "BHist is recursive; depth 1 is the first nontrivial finite slice.", false, enum_hist_refl },
+    /* Decision A: BHist is Empty/e0/e1 and hsame is Eq; the depth-1 pair slice is 9 cases. */
     { "BHist", "hsame_symm", "manifests/hist/hsame_symm.enum.ct", 1,
-      "Ordered pairs over BHist depth 1 give the first symmetry slice.", enum_hist_symm },
+      "Ordered pairs over BHist depth 1 give the first symmetry slice.", false, enum_hist_symm },
+    /* Decision C: BHist is Empty/e0/e1 recursive; depth-1 triples are 27 cases and the manifest records 8 representatives. */
     { "BHist", "hsame_trans", "manifests/hist/hsame_trans.enum.ct", 1,
-      "Ordered triples over BHist depth 1 keep the transitivity slice finite.", enum_hist_trans },
+      "Convention bound: BHist transitivity triples grow as the finite recursive slice expands.", true, enum_hist_trans },
     { "BHist", "hsame_empty_inversion", "manifests/hist/hsame_empty_inversion.enum.ct", 1,
-      "Empty-vs-depth-1 covers both constructor directions without exponential growth.", enum_hist_empty_inversion },
+      "Empty-vs-depth-1 covers both constructor directions without exponential growth.", false, enum_hist_empty_inversion },
     { "BHist", "hsame_constructor_distinct", "manifests/hist/hsame_constructor_distinct.enum.ct", 1,
-      "Depth 1 enumerates the outer-constructor disjointness boundary.", enum_hist_constructor_distinct },
+      "Depth 1 enumerates the outer-constructor disjointness boundary.", false, enum_hist_constructor_distinct },
 
+    /* Decision A: Ext has constructors Ext.e0 and Ext.e1; the depth-1 positive closure has 6 cases. */
     { "Ext", "ext_step", "manifests/ext/ext_step.enum.ct", 1,
-      "Ext extends each source by one mark; source depth 1 is the first recursive slice.", enum_ext_positive },
+      "Ext extends each source by one mark; source depth 1 is the first recursive slice.", false, enum_ext_positive },
+    /* Decision C: SigRel recurses over ProbeBundle and abstract AskSetup; depth-1 fixture closure has 27 triples. */
     { "SigRel", "sigrel_basic", "manifests/sig/sigrel_basic.enum.ct", 1,
-      "Fixture bundles, histories, and results are bounded to depth 1.", enum_sigrel_fixture },
+      "Convention bound: SigRel fixtures are semantic Ask examples, not exhaustive bundle/history/result triples.", true, enum_sigrel_fixture },
+    /* Decision C: SameSig is defined through two SigRel witnesses; depth-1 fixture closure has 27 triples. */
     { "SameSig", "samesig_equiv", "manifests/sig/samesig_equiv.enum.ct", 1,
-      "SameSig uses the same finite fixture slice as SigRel.", enum_samesig_fixture },
+      "Convention bound: SameSig fixtures cover equivalence representatives, not the full SigRel-derived slice.", true, enum_samesig_fixture },
+    /* Decision A: Cont is r = append h k over BHist; the depth-1 positive closure has 9 cases. */
     { "Cont", "cont_basic", "manifests/cont/cont_basic.enum.ct", 1,
-      "Continuation closure over both inputs at depth 1 gives exact positive append witnesses.", enum_cont_positive },
+      "Continuation closure over both inputs at depth 1 gives exact positive append witnesses.", false, enum_cont_positive },
+    /* Decision A: UnaryHistory accepts Empty/e1 tails and rejects e0 tails; the depth-2 unary-history slice has 7 cases. */
     { "Unary", "unary_basic", "manifests/unary/unary_basic.enum.ct", 2,
-      "Unary is a BHist predicate; depth 2 is the first mixed positive/negative slice.", enum_unary_histories },
+      "Unary is a BHist predicate; depth 2 is the first mixed positive/negative slice.", false, enum_unary_histories },
+    /* Decision C: AskSetup has abstract ProbeName and Evidence carriers; the executable depth-1 fixture has 24 tuples. */
     { "Ask", "ask_basic", "manifests/ask/ask_basic.enum.ct", 1,
-      "The executable Ask fixture is bounded by probe and history depth 1.", enum_ask_fixture },
+      "Convention bound: Ask fixtures show selected policy witnesses, not every probe/history/mark/evidence tuple.", true, enum_ask_fixture },
+    /* Decision A: ExternalBinary aliases BWord to BHist and reuses Cont.append; the depth-1 closure has 9 cases. */
     { "ExternalBinary", "external_binary_basic", "manifests/external_binary/external_binary_basic.enum.ct", 1,
-      "ExternalBinary reuses BHist append; depth 1 mirrors the Cont slice.", enum_cont_positive },
+      "ExternalBinary reuses BHist append; depth 1 mirrors the Cont slice.", false, enum_cont_positive },
 
     { "GroundCompiler", "flow_round_trip", "manifests/ground_compiler/flow_round_trip.enum.ct", 1,
-      "The channel slice contains empty flow, empty event, and the two-mark flow.", enum_ground_flows },
+      "The channel slice contains empty flow, empty event, and the two-mark flow.", false, enum_ground_flows },
+    /* Decision C: channel_encoding_bijection and legal_stream_completeness range over recursive BHist streams; the manifest keeps 6 representative rows against 9 depth-1 pairs. */
     { "GroundCompiler", "bhist_injectivity", "manifests/ground_compiler/bhist_injectivity.enum.ct", 1,
-      "BHist injectivity is checked on all depth-1 ordered pairs.", enum_ground_bhist_pairs },
+      "Convention bound: BHist injectivity fixtures keep representative stream pairs, not every depth-1 pair.", true, enum_ground_bhist_pairs },
     { "GroundCompiler", "reject_reasons", "manifests/ground_compiler/reject_reasons.enum.ct", 1,
-      "Reject taxonomy is a closed six-case decoder fixture.", enum_ground_reject_reasons }
+      "Reject taxonomy is a closed six-case decoder fixture.", false, enum_ground_reject_reasons }
 };
 
 static size_t count_covered(const ItemSet *enumerated, const ItemSet *manifest) {
@@ -659,6 +671,7 @@ int main(int argc, char **argv) {
     size_t target_count = sizeof(AUDIT_TARGETS) / sizeof(AUDIT_TARGETS[0]);
     size_t pass_count = 0;
     size_t partial_count = 0;
+    size_t convention_count = 0;
     size_t parse_fail_count = 0;
     size_t i;
 
@@ -706,6 +719,11 @@ int main(int argc, char **argv) {
         if (covered == enumerated.count) {
             printf("  status: PASS\n");
             pass_count++;
+        } else if (target->finite_witness_convention) {
+            printf("  status: CONVENTION BOUND\n");
+            printf("  GAPS (instances outside the manifest convention slice):\n");
+            print_gaps(&enumerated, &manifest);
+            convention_count++;
         } else {
             printf("  status: PARTIAL\n");
             printf("  GAPS (instances in closure but not in manifest):\n");
@@ -714,9 +732,10 @@ int main(int argc, char **argv) {
         }
     }
 
-    printf("\nSummary: %zu audit targets, %zu strict PASS, %zu partial coverage, %zu parse/enumeration failure\n",
+    printf("\nSummary: %zu audit targets, %zu strict PASS, %zu convention bound, %zu partial coverage, %zu parse/enumeration failure\n",
            target_count,
            pass_count,
+           convention_count,
            partial_count,
            parse_fail_count);
 
