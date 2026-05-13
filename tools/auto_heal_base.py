@@ -129,14 +129,14 @@ If the duplication is intentional (e.g. both theorems serve documented different
 
 HEAL_STUCK_DIRT_PROMPT = """You are healing a stuck working tree on the BEDC `codex-auto-dev` branch.
 
-The main checkout has had the same set of tracked modifications for {ticks} consecutive heal cycles ({minutes_total} minutes total). This is NOT a human edit-in-progress — the dirt has not changed across two ticks. A daemon (paper_builder_daemon, sync_with_auto_dev, or a stray codex round that wrote to the main checkout instead of its worktree) left work uncommitted, and the dirt now blocks every other heal pathway (axiom-purity storm repair, dup-label repair, etc.).
+The main checkout has had the same set of tracked modifications for __TICKS__ consecutive heal cycles (__MINUTES_TOTAL__ minutes total). This is NOT a human edit-in-progress — the dirt has not changed across two ticks. A daemon (paper_builder_daemon, sync_with_auto_dev, or a stray codex round that wrote to the main checkout instead of its worktree) left work uncommitted, and the dirt now blocks every other heal pathway (axiom-purity storm repair, dup-label repair, etc.).
 
 Your task: TRIAGE each modified file and bring the working tree back to a clean state, committing in pieces if the changes are genuinely-good work or `git checkout HEAD -- <file>` reverting if they are debris.
 
 **Modified files** (`git status --porcelain` output):
 
 ```
-{porcelain}
+__PORCELAIN__
 ```
 
 **Decision rules per file**:
@@ -194,10 +194,13 @@ def heal_stuck_dirt(blocking: list[str]) -> bool:
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
     porcelain_str = "\n".join(blocking)
     minutes_total = STUCK_DIRT_THRESHOLD_TICKS * 15
-    prompt = HEAL_STUCK_DIRT_PROMPT.format(
-        ticks=STUCK_DIRT_THRESHOLD_TICKS,
-        minutes_total=minutes_total,
-        porcelain=porcelain_str,
+    # `.format()` would collide with literal `{...}` braces in the
+    # LaTeX-laden prompt template; substitute manually with `.replace()`.
+    prompt = (
+        HEAL_STUCK_DIRT_PROMPT
+        .replace("__TICKS__", str(STUCK_DIRT_THRESHOLD_TICKS))
+        .replace("__MINUTES_TOTAL__", str(minutes_total))
+        .replace("__PORCELAIN__", porcelain_str)
     )
     rc = call_codex(prompt, timeout=1800)
     head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
