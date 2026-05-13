@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\ClosurePreservationRouteLedgerUp$}
+\label{ch:concrete-instances-closurepreservationrouteledger-namecert}
+\origin{human}
+
+The $\ClosurePreservationRouteLedgerUp$ packet turns the audit map of \autoref{ch:metacic-closure-preservation-audit-map} into a finite route ledger. It sits beside the substitution packet of \autoref{ch:concrete-instances-substitutionauditmap-namecert} and the subject-reduction socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}: the former supplies the syntactic movement rows, while the latter records why closedness routes do not discharge typed subject reduction.
+
+\begin{definition}[Closure-preservation route ledger carrier]
+\label{def:closure-preservation-route-ledger-carrier}
+A $\ClosurePreservationRouteLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(C,S,U,B,F,H,Q,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $C$ is the $\mathsf{ClosedAt}$ source row recording the closed input boundary;
+\item $S$ is the shift-preservation row for $\mathsf{shift\_one\_preserves\_closed\_succ}$;
+\item $U$ is the substitution-preservation row covering the variable and full-substitution closedness routes;
+\item $B$ is the beta-step preservation row for $\mathsf{betaStep\_preserves\_closed}$;
+\item $F$ is the beta-star preservation row for $\mathsf{betaStarStep\_preserves\_closed}$;
+\item $H$ records componentwise $\hsame$ transports for the source, preservation, route, provenance, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes by which consumers reach the shift, substitution, beta-step, and beta-star rows from the source row;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-closure-preservation-audit-map}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, \autoref{ch:concrete-instances-closure-preservation-audit-seal-namecert}, and \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert};
+\item $N$ is the local $\NameCert_{\ClosurePreservationRouteLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for typed subject reduction, host conversion, an unrestricted substitution calculus, or a full consistency theorem.
+\end{definition}
+
+\begin{theorem}[Closure-preservation route ledger NameCert obligations]
+\label{thm:closure-preservation-route-ledger-namecert-obligations}
+For the carrier of \autoref{def:closure-preservation-route-ledger-carrier}, the local $\NameCert_{\ClosurePreservationRouteLedgerUp}$ surface consists exactly of five obligation families: source closedness admission through $C$, shift preservation through $S$, substitution preservation through $U$, beta-step preservation through $B$, and beta-star preservation through $F$. The auxiliary rows $H,Q,P,N$ transport, replay, account for, and name those five families without adding a sixth preservation claim.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(C,S,U,B,F,H,Q,P,N)$. The source row $C$ fixes the displayed $\mathsf{ClosedAt}$ boundary, and the four route rows $S,U,B,F$ are the closedness-preservation routes named by \autoref{ch:metacic-closure-preservation-audit-map}.
+
+Read the transport and route rows next. The $\hsame$ row $H$ can only identify corresponding displayed coordinates, and the $\Cont$ row $Q$ can only replay the four listed preservation routes from the source boundary.
+
+Finally inspect provenance and naming. The package row $P$ records the audit-map and sibling-packet sources, while $N$ names the local certificate. Since no further coordinate is present, the five obligation families exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closure-preservation route ledger non-escape]
+\label{thm:closure-preservation-route-ledger-nonescape}
+Every public read of an accepted $\ClosurePreservationRouteLedgerUp$ packet remains inside
+$$
+C,S,U,B,F,H,Q,P,N.
+$$
+It does not export typed subject reduction, host conversion, an unrestricted substitution calculus, or full consistency.
+\end{theorem}
+\begin{proof}
+The only positive preservation rows in the carrier are $S,U,B,F$, and each is a closedness-preservation row over the displayed source boundary $C$.
+
+The substitution route is therefore the finite audited route through $U$, not a calculus for arbitrary substitution outside the listed closedness hypotheses. The beta-step and beta-star routes similarly preserve $\mathsf{ClosedAt}$ and do not introduce typing or conversion coordinates.
+
+Rows $H,Q,P,N$ preserve access discipline for the same finite packet. They transport, replay, account for, and name the visible rows, so typed subject reduction, host conversion, unrestricted substitution, and full consistency remain outside the public surface.
+\end{proof}
+
+\closureat{ClosurePreservationRouteLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ClosurePreservationRouteLedgerUp}
+  \constructivestory{A $\ClosurePreservationRouteLedgerUp$ packet is generated from a $\mathsf{ClosedAt}$ source row, shift, substitution, beta-step, and beta-star preservation rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-preservation-route-ledger-carrier}, \autoref{thm:closure-preservation-route-ledger-namecert-obligations}, and \autoref{thm:closure-preservation-route-ledger-nonescape} bind the finite closure-preservation route ledger and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close typed subject reduction, host conversion, unrestricted substitution, full consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, route replay, provenance, local naming, and public non-escape for the same finite closure-preservation ledger.}
+\end{closurestatus}
