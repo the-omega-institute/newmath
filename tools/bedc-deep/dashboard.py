@@ -448,6 +448,16 @@ def render_board_refill() -> str:
     latest = ordered[0]
     if latest.get("prompt") and not latest.get("response") and not latest.get("summary"):
         status = _infer_refill_status(latest)
+        wait_seconds = _refill_wait_seconds(latest)
+        if (
+            status == "submitted_no_response_artifact_yet"
+            and wait_seconds is not None
+            and wait_seconds >= 900
+        ):
+            lines.append(
+                "  alert: latest refill has waited >=15m with no response/summary; "
+                "confirm oracle status before deciding whether to refresh a tab."
+            )
         if status in {"prompt_only", "skip_duplicate_refill", "submitted_no_response_artifact_yet"}:
             lines.append(
                 "  note: latest refill has no response/summary yet; use this to distinguish "
