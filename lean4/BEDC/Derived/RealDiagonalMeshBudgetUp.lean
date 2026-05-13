@@ -44,4 +44,40 @@ theorem RealDiagonalMeshBudgetCarrier_window_coverage
   exact
     ⟨bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, hsame_refl theta⟩
 
+theorem RealDiagonalMeshBudgetCarrier_selected_window_refinement
+    {q b omega rho delta theta e h c p n : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      UnaryHistory h ∧ UnaryHistory theta ∧ UnaryHistory c ∧ UnaryHistory e ∧
+        Cont q b h ∧ Cont b omega theta ∧ Cont omega rho c ∧ Cont rho delta e ∧
+          hsame p p ∧ hsame n n := by
+  intro carrier
+  obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, _deltaUnary, thetaUnary, eUnary,
+    precisionBudgetRoute, budgetWindowRoute, windowReadbackRoute, readbackLedgerRoute,
+    provenanceSame, nameSame⟩ := carrier
+  have hUnary : UnaryHistory h :=
+    unary_cont_closed qUnary bUnary precisionBudgetRoute
+  have cUnary : UnaryHistory c :=
+    unary_cont_closed omegaUnary rhoUnary windowReadbackRoute
+  exact
+    ⟨hUnary, thetaUnary, cUnary, eUnary, precisionBudgetRoute, budgetWindowRoute,
+      windowReadbackRoute, readbackLedgerRoute, provenanceSame, nameSame⟩
+
+theorem RealDiagonalMeshBudgetCarrier_realup_handoff
+    {q b omega rho delta theta e h c p n sealConsumer : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      Cont theta e sealConsumer ->
+        UnaryHistory q /\ UnaryHistory b /\ UnaryHistory omega /\ UnaryHistory rho /\
+          UnaryHistory delta /\ UnaryHistory theta /\ UnaryHistory e /\
+            UnaryHistory sealConsumer /\ Cont theta e sealConsumer /\ hsame p p /\
+              hsame n n := by
+  intro carrier sealRoute
+  obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
+    _qbRoute, _budgetWindowRoute, _omegaReadbackRoute, _readbackLedgerRoute,
+    provenanceSame, nameSame⟩ := carrier
+  have sealUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed thetaUnary eUnary sealRoute
+  exact
+    ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary, sealUnary,
+      sealRoute, provenanceSame, nameSame⟩
+
 end BEDC.Derived.RealDiagonalMeshBudgetUp
