@@ -208,6 +208,7 @@ import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContourSumWindowUp.TasteGate
+import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.CstaralgebraUp
