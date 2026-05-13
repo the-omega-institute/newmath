@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\RealDiagonalWindowCoverageUp$}
+\label{ch:concrete-instances-realdiagonalwindowcoverage-namecert}
+\origin{human}
+
+The $\RealDiagonalWindowCoverageUp$ interface records the finite selected-window route used when Real completeness arguments pass from a precision request to a visible diagonal observation and then to a $\RealUp$ seal. It sits over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and it exposes only the rows needed by the diagonal-window consumer.
+
+\begin{definition}[Real diagonal-window coverage carrier]
+\label{def:real-diagonal-window-coverage-carrier}
+A $\RealDiagonalWindowCoverageUp$ carrier is a finite $\BHist$ packet
+$$
+G=(q,w,r,d,e,h,c,p,n)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $q$ is the rational precision request, read through the displayed $\RatUp$ and $\DyadicRatCoreUp$ tolerance rows;
+\item $w$ is the selected $\StreamNameUp$ window that exposes the finite diagonal observation interval requested by $q$;
+\item $r$ is the $\RegSeqRatUp$ readback row naming the rational observation selected by $w$;
+\item $d$ is the $\DyadicRatCoreUp$ observation ledger recording the endpoint, radius, comparison, and precision rows used by the readback;
+\item $e$ is the $\RealUp$ seal row reached only after $q,w,r,d$ have been exposed;
+\item $h$ stores componentwise $\hsame$ transports for the precision request, selected window, readback row, dyadic ledger, seal row, provenance, and local name;
+\item $c$ stores the displayed $\Cont$ routes from $q$ to $w$, from $w$ to $r$, from $r$ to $d$, and from $d$ to the seal row $e$;
+\item $p$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\RealDiagonalWindowCoverageUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream, no host real equality, no unbounded diagonal stream, no ambient completeness theorem, and no selected limit outside the displayed seal row.
+\end{definition}
+
+\begin{definition}[Real diagonal-window coverage classifier]
+\label{def:real-diagonal-window-coverage-classifier}
+For accepted carriers
+$$
+G=(q,w,r,d,e,h,c,p,n)
+\quad\text{and}\quad
+G'=(q',w',r',d',e',h',c',p',n'),
+$$
+the classifier $\mathsf{RealDiagonalWindowCoverageClassifier}(G,G')$ compares only the displayed precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It never compares host streams extensionally and never identifies completed reals by quotient equality.
+\end{definition}
+
+\begin{theorem}[Real diagonal-window coverage NameCert obligations]
+\label{thm:real-diagonal-window-coverage-namecert-obligations}
+The local $\NameCert_{\RealDiagonalWindowCoverageUp}$ surface for \autoref{def:real-diagonal-window-coverage-carrier} consists exactly of carrier admission for $G$, precision-request exposure through $q$, selected-window coverage through $w$, $\RegSeqRatUp$ readback through $r$, dyadic observation-ledger exactness through $d$, $\RealUp$ seal handoff through $e$, componentwise $\hsame$ transport through $h$, displayed $\Cont$ route replay through $c$, $\Pkg$ provenance through $p$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $G$. The rows $q,w,r,d,e,h,c,p,n$ list the precision request, selected window, regular rational readback, dyadic observation ledger, real seal, transports, routes, package provenance, and local name.
+
+The selected-window obligation is finite. A consumer reads $q$ first, then uses $w$ to inspect the requested diagonal interval, and then reads the rational observation through $r$ and the dyadic ledger through $d$.
+
+The remaining rows account for transport, route replay, provenance, and naming. Since no coordinate records quotient streams, host real equality, an unbounded diagonal stream, ambient completeness, or a selected external limit, the local $\NameCert$ obligation surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Real diagonal-window coverage RealUp handoff]
+\label{thm:real-diagonal-window-coverage-realup-handoff}
+Every $\RealUp$ completion or continuous-map consumer of an accepted $\RealDiagonalWindowCoverageUp$ carrier receives the seal row $e$ only through the displayed route
+$$
+q,w,r,d,h,c,p,n.
+$$
+Thus the handoff consumes a rational precision request, a selected $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, componentwise transport, route replay, package provenance, and local naming before the $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Start with the carrier row $e$. It is the only $\RealUp$ seal coordinate in the finite packet.
+
+Apply the NameCert obligations. They force a seal-facing read to pass through the precision request $q$, the selected window $w$, the readback row $r$, and the dyadic ledger $d$ before the seal is consumed.
+
+The rows $h$ and $c$ replay the displayed transport and continuation data, while $p$ and $n$ provide provenance and local naming. Because the carrier lists no host equality, quotient equality, ambient completeness, or external limit coordinate, the real-facing handoff is exactly the displayed route.
+\end{proof}
+
+\begin{theorem}[Real diagonal-window coverage non-escape]
+\label{thm:real-diagonal-window-coverage-nonescape}
+Every downstream consumer of an accepted $\RealDiagonalWindowCoverageUp$ packet factors through the finite rows
+$$
+q,w,r,d,e,h,c,p,n.
+$$
+The consumer may read the rational precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ source observation, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it cannot read quotient streams, host real equality, unbounded diagonal streams, ambient completeness, or a choice-selected limit.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and the local NameCert surface. The rows $q,w,r,d,e,h,c,p,n$ are the complete displayed packet.
+
+Use the classifier of \autoref{def:real-diagonal-window-coverage-classifier}. It compares only those rows under the stored transport and route data, so a transported consumer remains on the same finite window-read route.
+
+Use the RealUp handoff theorem for seal-facing consumers. It routes every completion or continuous-map read through $q,w,r,d,h,c,p,n$ before $e$ is consumed.
+
+Since the carrier has no remaining coordinate beyond the displayed rows, no downstream consumer can extract quotient-stream data, host real equality, unbounded diagonal data, ambient completeness, or a choice-selected limit from the packet.
+\end{proof}
+
+\closureat{RealDiagonalWindowCoverageUp}{seedStr}
+
+\begin{closurestatus}{\RealDiagonalWindowCoverageUp}
+  \constructivestory{A $\RealDiagonalWindowCoverageUp$ packet is generated from a rational precision request, a selected $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-diagonal-window-coverage-carrier}, \autoref{def:real-diagonal-window-coverage-classifier}, \autoref{thm:real-diagonal-window-coverage-namecert-obligations}, \autoref{thm:real-diagonal-window-coverage-realup-handoff}, and \autoref{thm:real-diagonal-window-coverage-nonescape} bind the finite selected-window route from precision request through StreamName and RegSeqRat readback to DyadicRatCore observations and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, continuous-map theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, selected-window coverage, RealUp handoff, and non-escape for the same finite diagonal-window packet.}
+\end{closurestatus}
