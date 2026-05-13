@@ -684,6 +684,46 @@ Use source-route exactness, \autoref{thm:diagonal-limit-compatibility-source-rou
 Completion-consumer non-escape, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}, then prevents a consumer from splitting the route. The triangle row and the seal row therefore share the displayed $D,W$ ledger rows.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility window fusion]
+\label{thm:diagonal-limit-compatibility-window-fusion}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the shared $\StreamNameUp$ window row $W$ simultaneously serves the $\RealCompletenessUp$ diagonal packet $R$, the $\RegularCauchyTriangleBoundUp$ row $T$, the $\CauchyLimitSealUp$ route $S$, the $\DyadicRatCoreUp$ ledger $D$, and the $\RegSeqRatUp$ readback row $Q$. A consumer cannot split these rows into separate window surfaces after the packet has been accepted.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the row inventory. The packet has exactly one window coordinate $W$ and places it beside the diagonal source, triangle row, seal route, dyadic ledger, readback row, and Real seal row.
+
+Apply the NameCert obligations, triangle-selector alignment, and seal-route compatibility. These force the reads of $R,T,S,D,Q$ to pass through the displayed window coordinate rather than through independently chosen window data.
+
+Now use window-ledger exactness and seal-readback exactness. The former binds the diagonal, triangle, dyadic, seal, readback, and seal rows to the same ledger $W$; the latter keeps the readback and seal route attached to that route.
+
+Finally apply Real seal non-escape and triangle-seal scope. Since the accepted packet contains no second $\StreamNameUp$ coordinate and no host completion row, every consumer sees one fused window surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility Real seal exactness]
+\label{thm:diagonal-limit-compatibility-real-seal-exactness}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the $\RealUp$ seal row $L$ is reachable exactly through the displayed route
+$$
+R,T,S,D,W,Q,H,C,P,N.
+$$
+It exports no quotient stream, selected host limit, host equality, choice datum, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and local NameCert obligations. They expose the route from the diagonal packet $R$ through the triangle row $T$, seal route $S$, dyadic ledger $D$, shared window row $W$, readback row $Q$, and support rows $H,C,P,N$ before the Real seal row can be consumed.
+
+Use triangle-selector alignment, seal-route compatibility, and window fusion. These theorems keep the triangle, seal, tolerance, window, and readback rows on the same displayed route and prevent a consumer from selecting a separate window or tolerance surface.
+
+Apply seal-readback exactness and Real seal non-escape. The read of $L$ passes through the packet's own seal readback route, while quotient streams, selected host limits, host equality, choice data, and ambient completeness are absent from the carrier.
+
+Finally use triangle-seal scope. It binds the triangle estimate and seal route to the same $D,W$ ledgers, so the listed rows are the exact Real seal boundary.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalLimitCompatibilityUp}
