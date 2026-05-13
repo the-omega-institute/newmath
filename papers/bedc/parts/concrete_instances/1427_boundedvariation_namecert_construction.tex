@@ -157,6 +157,22 @@ Use variation-ledger exactness on each block of that common refinement. The fini
 Concatenate the finite block sums inside the same common-refinement ledger. The package and naming rows remain unchanged, and the statement never ranges over all partitions or any completed function object.
 \end{proof}
 
+\begin{theorem}[BoundedVariation partition-concatenation ledger]
+\label{thm:bounded-variation-partition-concatenation-ledger}
+Let $L_0$ and $L_1$ be displayed $\BoundedVariationUp$ partition ledgers in the sense of \autoref{def:bounded-variation-partition-ledger}. Suppose the final endpoint row of $L_0$ and the initial endpoint row of $L_1$ are related by a displayed transported endpoint row over the same $\RealUp$ or $\RegSeqRatUp$ name, with matching $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\BoundedVariationUp}$ provenance. Then the concatenated ordered partition row is again a displayed $\BoundedVariationUp$ partition ledger, and its finite dyadic variation-sum row is the concatenation of the visible edge-observation sums of $L_0$ and $L_1$.
+
+This ledger composition is restricted to the displayed finite partitions and their transported shared endpoint. It does not assert Jordan decomposition, variation measures, host suprema, quotient function equality, completed function spaces, or any hidden partition family.
+\end{theorem}
+\begin{proof}
+Project $L_0$ and $L_1$ through \autoref{def:bounded-variation-partition-ledger}. Each ledger exposes an interval row, an ordered finite partition, adjacent-edge rows, endpoint-name rows, dyadic edge observations, a finite variation sum, refinement rows, transport, continuation, package provenance, and local naming data.
+
+Use the transported shared endpoint to identify the terminal endpoint row of $L_0$ with the initial endpoint row of $L_1$ inside the displayed $\hsame$ and $\Cont$ surface. This supplies the only splice row needed to concatenate the two ordered partition ledgers without adding an unrecorded endpoint.
+
+Apply \autoref{thm:bounded-variation-refinement-additivity-scope} to read the two edge lists as finite dyadic blocks, and apply \autoref{thm:bounded-variation-endpoint-transport-scope} to keep the shared endpoint and the adjacent edge observations on the displayed dependency stack. The concatenated variation row is therefore the finite concatenation of the two visible edge-observation sums.
+
+Finally use \autoref{thm:bounded-variation-no-escape-boundary}. The construction has used only displayed partition, endpoint, dyadic, transport, continuation, package, and naming rows, so the resulting ledger cannot export a host supremum, variation measure, quotient function, completed function-space carrier, or hidden partition family.
+\end{proof}
+
 \begin{theorem}[BoundedVariation endpoint transport scope]
 \label{thm:bounded-variation-endpoint-transport-scope}
 The carrier transport and no-escape boundary rows of \autoref{thm:bounded-variation-carrier-transport} and \autoref{thm:bounded-variation-no-escape-boundary} give the endpoint transport scope for $\BoundedVariationUp$. Endpoint reads may move only along displayed $\hsame$ and $\Cont$ routes for the interval row, finite partition ledger, $\RealUp$ or $\RegSeqRatUp$ endpoint names, $\StreamNameUp$ read schedule, $\DyadicRatCoreUp$ observations, finite variation ledger, $\BHist$, $\Pkg$, and $\NameCert$ provenance.
