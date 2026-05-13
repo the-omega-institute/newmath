@@ -92,6 +92,24 @@ The local NameCert obligations then impose the seal handoff. By \autoref{thm:lim
 The observation-budget seal boundary gives the Real-facing side of the same claim. \autoref{thm:real-observation-budget-real-seal-boundary} places a budget seal after its finite observation rows, and \autoref{thm:real-observation-budget-nonescape} excludes quotient streams, host real equality, hidden limit selection, unbounded schedules, and ambient completeness from the shared route.
 \end{proof}
 
+\begin{theorem}[LimitSelector shared budget Real seal determinacy]
+\label{thm:limit-selector-shared-budget-real-seal-determinacy}
+Let
+$$
+L=(R,n,\mu,k,W,D,S,H,C,P,N)
+$$
+be an accepted $\LimitSelectorUp$ packet, and let an accepted $\RealObservationBudgetUp$ packet share the rows $n,W,D,S,H,C,P,N$. Then the $\RealUp$ seal row reached by any diagonal-limit consumer of $L$ is determined by the shared observation-budget route. The consumer cannot read a second seal, a host-selected limit, quotient stream equality, or an ambient completeness route.
+\end{theorem}
+\begin{proof}
+Project the $\LimitSelectorUp$ carrier. The only seal coordinate of $L$ is the displayed row $S$, and it appears after the precision, selector, finite window, dyadic readback, transport, route, provenance, and naming rows.
+
+Apply \autoref{thm:limit-selector-observation-budget-handoff}. The accepted $\RealObservationBudgetUp$ packet shares $n,W,D,S,H,C,P,N$, so the diagonal-limit consumer reaches the seal through the same finite observation-budget route before any Real-facing read is available.
+
+Apply \autoref{thm:limit-selector-real-seal-nonescape}. The seal cannot be read as a host-selected limit, quotient stream, countable-choice selector, or ambient completeness witness.
+
+Finally use the RealObservationBudget seal boundary rows already cited above, namely \autoref{thm:real-observation-budget-real-seal-boundary} and \autoref{thm:real-observation-budget-nonescape}. They identify the shared route as the finite seal boundary, leaving no second seal or ambient route for the diagonal-limit consumer.
+\end{proof}
+
 \begin{theorem}[LimitSelector diagonal consumer exhaustion]
 \label{thm:limit-selector-diagonal-consumer-exhaustion}
 Every diagonal-limit consumer of an accepted $\LimitSelectorUp$ packet is exhausted by the carrier rows of \autoref{def:limit-selector-carrier}, the local obligations of \autoref{thm:limit-selector-namecert-obligations}, the finite witness route of \autoref{thm:limit-selector-finite-witness-route}, the observation-budget handoff of \autoref{thm:limit-selector-observation-budget-handoff}, and the seal non-escape row of \autoref{thm:limit-selector-real-seal-nonescape}. The consumer receives exactly the displayed selector, window, readback, seal, transport, route, provenance, and naming rows, with no host-selected limit or ambient completeness coordinate.
