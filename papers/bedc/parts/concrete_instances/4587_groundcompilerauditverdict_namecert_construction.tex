@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerAuditVerdictUp$}
+\label{ch:concrete-instances-groundcompilerauditverdict-namecert}
+\origin{ai}
+
+The $\GroundCompilerAuditVerdictUp$ packet concretizes the GroundCompiler audit map of \autoref{ch:bedc-groundcompiler-audit-map} as a finite verdict carrier. It sits beside the obstruction socket of \autoref{ch:concrete-instances-audit-map-obstruction-socket-namecert} and the frontier packet of \autoref{ch:concrete-instances-auditmapfrontierpacket-namecert}: those packets expose audit-family obstructions and frontier rows, while this packet binds query output, forbidden-dependency comparison, generated recognizer evidence, certificate-gate evidence, replay provenance, and no-hidden-input boundaries into one NameCert surface.
+
+\begin{definition}[GroundCompiler audit verdict carrier]
+\label{def:groundcompiler-audit-verdict-carrier}
+A $\GroundCompilerAuditVerdictUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,Q,F,V,A,R,C,B,H,K,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the GroundCompiler module row naming the inspected event-flow, channel, recognizer, certificate-gate, metric, motif, bootstrap, or main-theorem surface;
+\item $Q$ is the displayed query-output row for the inspected module surface;
+\item $F$ is the forbidden-dependency row naming dependencies and host-side evidence forms excluded by the audit;
+\item $V$ is the verdict row recording the finite comparison between $Q$ and $F$;
+\item $A$ is the audit-family alignment row tying the verdict to the audit-map obstruction and frontier classifications;
+\item $R$ is the generated-recognizer row exposed by the GroundCompiler layer;
+\item $C$ is the certificate-gate row through which accepted exports are mediated;
+\item $B$ is the no-hidden-input boundary row for code, reports, motifs, classifier quotients, source substrings, and host compiler structure;
+\item $H$ records componentwise $\hsame$ transport for module, query, forbidden, verdict, alignment, recognizer, gate, boundary, provenance, and naming rows;
+\item $K$ records displayed $\Cont$ replay routes for query exposure, forbidden-row comparison, verdict exposure, recognizer readback, certificate-gate readback, and boundary readback;
+\item $P$ is the $\Pkg$ provenance over the GroundCompiler audit map, sibling audit-map packets, recognizer rows, certificate-gate rows, $\hsame$, $\Cont$, and local $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GroundCompilerAuditVerdictUp}$ row.
+\end{enumerate}
+The carrier exports no proof from theorem code, no certificate from a metric or motif report, no raw event-flow equality from a classifier quotient, and no hidden compiler input outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[GroundCompiler audit verdict obligations]
+\label{thm:groundcompiler-audit-verdict-obligations}
+For every $\GroundCompilerAuditVerdictUp$ carrier
+$$
+G=(M,Q,F,V,A,R,C,B,H,K,P,N),
+$$
+the local $\NameCert_{\GroundCompilerAuditVerdictUp}$ surface has five obligation rows:
+\begin{enumerate}
+\item carrier exposure: every public read first projects one of $M,Q,F,V,A,R,C,B,H,K,P,N$;
+\item forbidden-row comparison: the verdict is read from the displayed comparison between $Q$ and $F$;
+\item verdict determinacy: transport of $Q$ and $F$ transports the same verdict row $V$ and creates no second clean or refusal row;
+\item replay provenance: every replay passes through the displayed continuation row $K$ and package provenance row $P$;
+\item non-escape: recognizer, certificate-gate, and no-hidden-input boundaries are exported only through $R,C,B$ and the local naming row $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+First project the carrier. The finite tuple displays the module, query, forbidden-dependency, verdict, alignment, recognizer, certificate-gate, boundary, transport, replay, provenance, and local naming rows.
+
+The forbidden-row comparison is local to $Q,F,V$. The query-output row $Q$ is paired with the forbidden row $F$, and the verdict row $V$ records that finite comparison. Because the carrier has no second verdict coordinate, componentwise transport of $Q$ and $F$ through $H$ transports the same verdict.
+
+Replay is confined to $K$ and $P$. A consumer may rerun the displayed query exposure, comparison, verdict exposure, recognizer readback, gate readback, or boundary readback only along the continuation routes recorded in $K$, with package ancestry recorded in $P$.
+
+Finally inspect the GroundCompiler-specific rows $R,C,B$. They expose generated recognizers, certificate gates, and no-hidden-input boundaries as finite rows, not as host-side audit prose. The local $\NameCert$ row $N$ names exactly this packet surface.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit verdict non-escape]
+\label{thm:groundcompiler-audit-verdict-nonescape}
+Every accepted $\GroundCompilerAuditVerdictUp$ packet exports GroundCompiler audit evidence only through the finite rows
+$$
+M,Q,F,V,A,R,C,B,H,K,P,N.
+$$
+It exports no hidden dependency query, no unrecorded verdict row, no recognizer outside the generated-recognizer row, no certificate outside the certificate-gate row, no proof from code or reports, no raw event-flow equality from a classifier quotient, and no host compiler input beyond the no-hidden-input boundary row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $G=(M,Q,F,V,A,R,C,B,H,K,P,N)$. These coordinates are the whole exported $\BHist$ surface.
+
+The audit decision is exhausted by $Q,F,V,A$. The query output, forbidden row, verdict row, and audit-family alignment row are all displayed before a consumer can treat the packet as evidence.
+
+The compiler-facing evidence is exhausted by $R,C,B$. Recognizers are read through the generated-recognizer row, accepted exports through the certificate-gate row, and exclusions through the no-hidden-input boundary row.
+
+Transport, replay, provenance, and naming are exhausted by $H,K,P,N$. Since no remaining coordinate stores hidden query data, an alternate verdict, host proof evidence, raw classifier equality, or compiler input outside the boundary, none can escape the packet.
+\end{proof}
+
+\closureat{GroundCompilerAuditVerdictUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerAuditVerdictUp}
+  \constructivestory{A $\GroundCompilerAuditVerdictUp$ packet is generated from a GroundCompiler module row, displayed query output, forbidden-dependency comparison, verdict row, audit-family alignment, generated-recognizer row, certificate-gate row, no-hidden-input boundary row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-audit-verdict-carrier}, \autoref{thm:groundcompiler-audit-verdict-obligations}, and \autoref{thm:groundcompiler-audit-verdict-nonescape} bind the GroundCompiler audit verdict as finite query, forbidden-row, verdict, recognizer, certificate-gate, no-hidden-input, replay, provenance, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove global compiler self-hosting, complete environment purity, MetaCIC subject reduction, bridge checking, or any theorem content from code, reports, motifs, or classifier quotients.}
+  \upgradepath{Obligation closure requires checked carrier admission, forbidden-row comparison, verdict determinacy, replay provenance, generated-recognizer and certificate-gate readback, and non-escape for the displayed packet.}
+\end{closurestatus}
