@@ -47,4 +47,21 @@ theorem RealCompletenessBHistCarrier_namecert_obligations [AskSetup] [PackageSet
     sealUnary, transportUnary, routeUnary, provenanceUnary, certUnary, endpointUnary,
     endpointRoute, endpointPkg⟩
 
+theorem RealCompletenessBHistCarrier_nonescape_boundary [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert
+      endpoint publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow
+        transport route provenance cert endpoint bundle pkg ->
+      Cont sealRow cert publicRead ->
+        UnaryHistory publicRead ∧ UnaryHistory sealRow ∧ UnaryHistory cert ∧
+          UnaryHistory endpoint ∧ Cont transport route endpoint ∧ PkgSig bundle endpoint pkg := by
+  intro carrier publicReadRow
+  obtain ⟨_familyUnary, _modulusUnary, _selectorUnary, _dyadicUnary, _windowsUnary,
+    _readbackUnary, sealUnary, _transportUnary, _routeUnary, _provenanceUnary, certUnary,
+    endpointUnary, endpointRoute, endpointPkg⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary certUnary publicReadRow
+  exact ⟨publicReadUnary, sealUnary, certUnary, endpointUnary, endpointRoute, endpointPkg⟩
+
 end BEDC.Derived.RealCompletenessUp
