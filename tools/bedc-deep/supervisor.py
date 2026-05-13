@@ -266,6 +266,22 @@ def candidate_inbox_health() -> dict:
         return {"error": str(exc)}
 
 
+def candidate_inbox_source_age_summary(inbox_health: dict) -> str:
+    latest = inbox_health.get("latest_by_source_sampled") or {}
+    keys = ("oracle_board_refill", "oracle", "paper_review", "direct_append")
+    parts: list[str] = []
+    for key in keys:
+        rec = latest.get(key) or {}
+        age = rec.get("age_seconds")
+        event = rec.get("event") or "?"
+        try:
+            age_s = int(age)
+        except (TypeError, ValueError):
+            continue
+        parts.append(f"{key}:{age_s}s/{event}")
+    return ",".join(parts)
+
+
 def stale_cleanup() -> int:
     from oracle_client import cleanup_stale_claims
     return cleanup_stale_claims()
@@ -1231,6 +1247,7 @@ def main() -> int:
                     f"latest_age_s={latest_age_s} "
                     f"latest_event={latest.get('event') or '?'} "
                     f"source={latest.get('source') or '?'} "
+                    f"source_ages={candidate_inbox_source_age_summary(inbox_health) or '?'} "
                     f"title={str(latest.get('title') or '')[:80]!r}"
                 )
                 last_candidate_inbox_alert_ts = _now()
