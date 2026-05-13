@@ -18235,3 +18235,32 @@ Rationale:
 This is a concrete finite-packet determinacy obligation inside an existing concrete_instances chapter. The current chapter defines the generated-candidate, accepted-declaration, build-command, replay-result, axiom-query handoff, transport, route, provenance, and naming rows, and its closure upgrade path explicitly names replay-route determinacy as a missing obligation. It is not a marker-only or closurestatus task, the landing file is short and safe, and the target is distinct from existing BOARD entries because it localizes replay-route determinacy to the KernelAcceptanceBuildReplay packet rather than restating generic kernel audit witness or axiom-query ledger non-escape.
 
 ---
+
+### B-723 - TaylorModel finite jet prefix restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | TaylorModel finite jet prefix restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted TaylorModel carrier has finite jet ledger J and a displayed prefix or subwindow J' of J that preserves the selected coefficient histories and their StreamName windows, then the projected packet over J' is again an accepted finite TaylorModel read surface and every consumer-visible coefficient read factors through J' without accessing coefficients outside J'.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1680_taylormodel_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `ripeness_risk`: low, the existing TaylorModel chapter is short and already exposes the finite jet ledger, finite-jet transport, and validated consumer boundary needed for a projection lemma.
+Rationale:
+This is a concrete finite-ledger closure result inside the existing TaylorModel chapter, not a verification marker or parameter-transport echo. The current paper proves that coefficient reads factor through the whole finite jet ledger, but it does not state the referee-natural restriction property for a displayed prefix or subwindow of that ledger. Existing BOARD entries contain many finite restriction patterns, but none for TaylorModel finite jets, and the local file is well below the line cap with a safe landing path.
+
+---
