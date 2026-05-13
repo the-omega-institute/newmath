@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\CauchyWitnessLedgerUp$}
+\label{ch:concrete-instances-cauchy-witness-ledger-namecert}
+\origin{ai}
+
+The $\CauchyWitnessLedgerUp$ packet realizes the Real completeness route of \autoref{ch:visions-real-completeness} as one finite witness ledger. It joins the diagonal selector budget of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, the observation-budget packet of \autoref{ch:concrete-instances-real-observation-budget-namecert}, the seal synchronizer of \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, and the completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}. The packet is a NameCert surface for the displayed witness route, not a quotient stream, host equality principle, hidden limit selector, countable-choice row, or ambient completeness theorem.
+
+\begin{definition}[Cauchy witness ledger carrier]
+\label{def:cauchy-witness-ledger-carrier}
+A $\CauchyWitnessLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,B,S,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\CauchyDiagonalBudgetUp$ row exposing the finite precision, mesh, comparison, and selected diagonal budget for the completion-facing request;
+\item $B$ is the $\RealObservationBudgetUp$ row repackaging the same budget into finite observation windows, dyadic readbacks, $\RegSeqRatUp$ handoff rows, and $\RealUp$ seal rows;
+\item $S$ is the $\CauchySealBudgetSynchronizerUp$ row tying the selected diagonal budget, observation budget, shared-threshold route, and seal row into one synchronized read;
+\item $K$ is the $\RealCompletionSealClassifierUp$ row classifying the completion-facing seal only after the synchronized budget and seal rows have been consumed;
+\item $H$ records componentwise $\hsame$ transports for $Q,B,S,K,C,P,N$;
+\item $C$ records displayed $\Cont$ routes from the diagonal budget to the observation budget, from the observation budget to the synchronizer, and from the synchronizer to the completion-seal classifier;
+\item $P$ records $\Pkg$ provenance over $\CauchyDiagonalBudgetUp$, $\RealObservationBudgetUp$, $\CauchySealBudgetSynchronizerUp$, $\RealCompletionSealClassifierUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyWitnessLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, host real equality, selected external limits, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy witness ledger NameCert obligations]
+\label{thm:cauchy-witness-ledger-namecert-obligations}
+For the carrier of \autoref{def:cauchy-witness-ledger-carrier}, the local $\NameCert_{\CauchyWitnessLedgerUp}$ surface consists exactly of carrier admission for
+$$
+L=(Q,B,S,K,H,C,P,N),
+$$
+diagonal-budget exposure through $Q$, observation-budget exposure through $B$, seal-synchronizer exposure through $S$, completion-seal classifier exposure through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Later Lean TasteGate work must provide explicit $\mathsf{Nontrivial}\ \CauchyWitnessLedgerUp$ and $\mathsf{FieldFaithful}\ \CauchyWitnessLedgerUp$ instances for this same row inventory.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple. The rows $Q,B,S,K,H,C,P,N$ expose every public coordinate of the witness ledger.
+
+The analytic rows are read in order. The diagonal budget $Q$ supplies the finite precision, mesh, comparison, and selected diagonal surface; the observation budget $B$ repackages that surface as windows, dyadic readbacks, regular-rational handoffs, and real seal rows.
+
+The synchronizer $S$ then ties the selected diagonal budget and observation route to the seal-facing read. The classifier $K$ is reached only after that synchronized route has been displayed.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name the same finite route. Since the carrier has no quotient stream, host equality, external limit, choice, or ambient completeness coordinate, these rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger budget factorization]
+\label{thm:cauchy-witness-ledger-budget-factorization}
+Every admitted completion-facing read of an accepted $\CauchyWitnessLedgerUp$ packet factors through the finite route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+with the displayed structural rows $H,C,P,N$. Thus the read first consumes the $\CauchyDiagonalBudgetUp$ precision, mesh, comparison, and selector data, then the $\RealObservationBudgetUp$ observation windows and handoff rows, then the $\CauchySealBudgetSynchronizerUp$ seal route, and only then the $\RealCompletionSealClassifierUp$ completion-seal classifier.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The only completion-facing analytic rows are $Q,B,S,K$, and the only structural rows are $H,C,P,N$.
+
+Apply the NameCert obligation theorem. It places diagonal-budget exposure before observation-budget exposure, observation-budget exposure before seal-synchronizer exposure, and seal-synchronizer exposure before the completion-seal classifier.
+
+The route rows in $C$ replay exactly that order, while $H$ preserves the same coordinates under componentwise transport and $P,N$ provide provenance and local naming. No hidden row remains from which a completion-facing consumer could bypass one of the four analytic rows.
+\end{proof}
+
+\begin{theorem}[Cauchy witness ledger Real completion handoff]
+\label{thm:cauchy-witness-ledger-real-completion-handoff}
+Let
+$$
+L=(Q,B,S,K,H,C,P,N)
+$$
+be an accepted $\CauchyWitnessLedgerUp$ carrier. Every $\RealUp$ completion-facing consumer that reads $L$ reaches the completion-seal classifier $K$ only through the diagonal-budget row $Q$, observation-budget row $B$, seal-synchronizer row $S$, and structural rows $H,C,P,N$. The handoff exports no quotient stream equality, host real equality, selected external limit, countable-choice row, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. The consumer route reaches $K$ by first reading $Q$, then $B$, then $S$, all replayed through $C$ and named by $N$.
+
+Read the sibling surfaces cited in the introduction. The diagonal-budget row supplies the finite selector layer, the observation-budget row supplies finite Real-facing windows and handoffs, the synchronizer ties those rows to the seal route, and the classifier consumes the synchronized seal before it can export a completion-facing read.
+
+Finally use the non-escape clause built into the carrier and NameCert obligations. Since no forbidden analytic coordinate appears in $L$, the Real completion handoff has exactly the displayed finite ledger route.
+\end{proof}
+
+\falsifiablePrediction{If a CauchyWitnessLedgerUp packet is accepted, every RealUp completion-facing read factors through the displayed diagonal-budget, observation-budget, seal-synchronizer, and completion-seal rows; a counterexample is any admitted read bypassing one row.}
+
+\independenceWitness{Nearest siblings: cauchydiagonalbudget, realobservationbudget, cauchysealbudgetsynchronizer, realcompletionsealclassifier. None is bijective to CauchyWitnessLedgerUp because each sibling lacks at least one of the four ledger coordinates and the combined packet has a NameCert obligation requiring simultaneous factorization through all four.}
+
+\closureat{CauchyWitnessLedgerUp}{seedStr}
+
+\begin{closurestatus}{\CauchyWitnessLedgerUp}
+  \constructivestory{A $\CauchyWitnessLedgerUp$ packet is generated from a Cauchy diagonal budget, Real observation budget, Cauchy seal-budget synchronizer, Real completion-seal classifier, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-witness-ledger-carrier}, \autoref{thm:cauchy-witness-ledger-namecert-obligations}, \autoref{thm:cauchy-witness-ledger-budget-factorization}, and \autoref{thm:cauchy-witness-ledger-real-completion-handoff} bind the finite witness ledger for the Real completeness route through the four displayed budget, observation, synchronizer, and classifier rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, selected external limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, route factorization, completion handoff, and TasteGate nontriviality with field faithfulness for the same finite witness ledger.}
+\end{closurestatus}

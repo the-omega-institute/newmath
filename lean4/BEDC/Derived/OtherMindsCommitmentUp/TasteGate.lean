@@ -202,6 +202,9 @@ def otherMindsCommitmentTasteGate : ChapterTasteGate OtherMindsCommitmentUp wher
     intro x y hxy heq
     exact hxy (otherMindsCommitmentToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate OtherMindsCommitmentUp :=
+  otherMindsCommitmentTasteGate
+
 instance otherMindsCommitmentTasteGate_instance : ChapterTasteGate OtherMindsCommitmentUp :=
   -- BEDC touchpoint anchor: BHist BMark
   otherMindsCommitmentTasteGate
