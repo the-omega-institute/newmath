@@ -60,6 +60,56 @@ The remaining rows do not change that classification. The $\hsame$ row $H$ moves
 No coordinate stores an admission rule for a forbidden host dependency, and no coordinate stores a fuzzy replacement for the theorem row. Thus refused ancestry cannot escape the packet as BEDC theorem content.
 \end{proof}
 
+\begin{theorem}[ForbiddenAxiomAncestry comparison exactness]
+\label{thm:forbidden-axiom-ancestry-comparison-exactness}
+For an accepted $\ForbiddenAxiomAncestryUp$ packet
+$$
+Q=(T,A,F,R,H,C,P,N),
+$$
+the comparison between the ancestry report $A$ and the forbidden row $F$ is exhausted by the displayed audit route $C$. A consumer may replay $T$, read $A$, compare it with $F$, and expose the verdict $R$ only through $C,H,P,N$, and it cannot read any other host dependency row as part of the comparison.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The theorem row $T$, ancestry report $A$, forbidden row $F$, verdict $R$, transport row $H$, audit route $C$, provenance row $P$, and local name $N$ are the only displayed coordinates.
+
+Use the NameCert obligations. They make the comparison between $A$ and $F$ one of the local certificate rows and place the audit replay in $C$.
+
+Apply non-escape. Any attempted read of a further host dependency row would have to add a coordinate outside $Q$ or reinterpret a refused dependency as BEDC theorem content. Both moves are excluded by the carrier and the refusal boundary, so the comparison is exact.
+\end{proof}
+
+\begin{theorem}[ForbiddenAxiomAncestry refusal determinacy]
+\label{thm:forbidden-axiom-ancestry-refusal-determinacy}
+Let
+$$
+Q=(T,A,F,R,H,C,P,N)
+\quad\text{and}\quad
+Q'=(T,A,F,R',H',C,P',N')
+$$
+be accepted $\ForbiddenAxiomAncestryUp$ packets with the same theorem row, ancestry report, forbidden row, and transported audit route. Then the refusal verdicts agree as displayed verdict rows: $R$ and $R'$ are the same refusal boundary for the comparison of $A$ with $F$.
+\end{theorem}
+\begin{proof}
+Project both accepted packets. Their theorem row, ancestry report, forbidden row, and audit replay route are the same displayed rows $T,A,F,C$.
+
+Apply comparison exactness to each packet. In both packets the verdict is obtained only by replaying $A$ against $F$ through the shared route $C$; no extra host dependency row or substitute theorem row can participate.
+
+Use the NameCert obligations to compare the transported structural rows. The transports, provenance rows, and local names authenticate the same finite comparison route, so the two verdict coordinates record the same refusal boundary.
+\end{proof}
+
+\begin{theorem}[ForbiddenAxiomAncestry transport replay]
+\label{thm:forbidden-axiom-ancestry-transport-replay}
+Componentwise $\hsame$ transport of an accepted $\ForbiddenAxiomAncestryUp$ packet
+$$
+Q=(T,A,F,R,H,C,P,N)
+$$
+preserves the audit replay and the refusal boundary. The transported packet reads the transported theorem row, ancestry report, forbidden row, verdict, structural rows, provenance row, and local name through the transported $H$ and the displayed route $C$, and it exports no additional host dependency row.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise transport row $H$. It transports the theorem row, ancestry report, forbidden row, verdict, audit route, provenance row, and local naming row as components of one packet.
+
+Replay the audit through $C$. The transported theorem row still reads the transported ancestry report before comparison with the transported forbidden row, and the transported verdict remains attached to that replay.
+
+Finally apply comparison exactness and non-escape. Exactness keeps the replay on the displayed route, while non-escape prevents transport from manufacturing a new host dependency row or admitting a refused dependency as BEDC theorem content.
+\end{proof}
+
 \closureat{ForbiddenAxiomAncestryUp}{seedStr}
 
 \begin{closurestatus}{\ForbiddenAxiomAncestryUp}
