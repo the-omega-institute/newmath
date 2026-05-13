@@ -85,6 +85,42 @@ Transport stability then shows that accepted reads remain inside the same displa
 Ledger exactness supplies the final packaging boundary. It rules out any hidden coordinate for a host absolute value, trichotomy, quotient normalization, or analytic completeness, so the five cited rows form one finite $\DyadicAbsoluteValueUp$ obligation package rather than an appeal to an external absolute-value operation.
 \end{proof}
 
+\begin{theorem}[Dyadic absolute-value endpoint determinacy]
+\label{thm:dyadic-absolute-value-endpoint-determinacy}
+Accepted $\DyadicAbsoluteValueUp$ carriers with the same transported $\DyadicRatCoreUp$ source row, sign-split row, and common-exponent mantissa row expose the same nonnegative endpoint row. The endpoint is determined by the displayed branch row $S$ and the mantissa row $M$, not by a host absolute-value operation or an external order oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted carriers through \autoref{def:dyadic-absolute-value-carrier}. The only rows that determine the endpoint are the source $D$, sign split $S$, common-exponent mantissa row $M$, and endpoint row $E$.
+
+Apply \autoref{thm:dyadic-absolute-value-transport-stability} to move the compared packets to the common displayed surface. On that surface the same sign-split row selects the same nonnegative branch of the same mantissa row.
+
+Finally apply \autoref{thm:dyadic-absolute-value-nonnegative-bridge}. The endpoint row is the repacking of that displayed branch with the visible dyadic provenance, so two accepted carriers with the same transported source, split, and mantissa rows expose the same endpoint row.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value tolerance-window handoff]
+\label{thm:dyadic-absolute-value-tolerance-window-handoff}
+Every $\CauchyModulusUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the absolute-value endpoint of an accepted $\DyadicAbsoluteValueUp$ carrier reads the displayed tolerance ledger $V$. No such consumer can bypass $V$ by reading a separate host absolute-value, trichotomy, quotient rational, selected real value, or completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with a downstream consumer route. By \autoref{thm:dyadic-absolute-value-nonnegative-bridge}, the consumer reaches the endpoint only through the displayed endpoint row $E$ together with the tolerance ledger $V$.
+
+The route from source to endpoint is fixed by the carrier and by \autoref{thm:dyadic-absolute-value-transport-stability}. It passes through $D,S,M,E$ and then through the continuation route from $E$ to $V$.
+
+Apply \autoref{thm:dyadic-absolute-value-ledger-exactness}. The finite ledger is exact for the route from source row through endpoint construction to completion-facing consumers, so the tolerance window $V$ is part of every accepted handoff.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value sign-split exclusion]
+\label{thm:dyadic-absolute-value-sign-split-exclusion}
+The $\DyadicAbsoluteValueUp$ packet excludes trichotomy and host integer normal forms. Its only sign data are the displayed branch row $S$, the common-exponent mantissa row $M$, the nonnegative endpoint row $E$, and the tolerance ledger $V$ routed by the finite carrier.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:dyadic-absolute-value-carrier}. The coordinate list includes the source row, sign-split row, mantissa row, endpoint row, tolerance ledger, transport, continuation, provenance, and local name, and it explicitly omits trichotomy and host integer normal forms.
+
+\autoref{thm:dyadic-absolute-value-namecert-obligations} binds the local naming surface to those displayed rows. Endpoint determinacy then shows that the endpoint is fixed by the displayed branch row and mantissa row rather than by any hidden order datum.
+
+The exclusion is stable for downstream use by \autoref{thm:dyadic-absolute-value-tolerance-window-handoff}. A consumer receives only the endpoint and tolerance ledger routed through the finite packet, so no trichotomy or host normalization row can be extracted from the certificate.
+\end{proof}
+
 \closureat{DyadicAbsoluteValueUp}{seedStr}
 
 \begin{closurestatus}{\DyadicAbsoluteValueUp}
