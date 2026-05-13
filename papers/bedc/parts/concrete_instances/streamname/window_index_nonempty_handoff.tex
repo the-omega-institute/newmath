@@ -1,0 +1,48 @@
+\section{StreamName finite-window nonempty-index handoff}
+\label{sec:streamname-window-index-nonempty-handoff}
+
+\begin{theorem}[StreamName finite-window nonempty-index handoff]
+\label{thm:streamname-window-index-nonempty-handoff}
+Let $\mathcal W$ be a finite $\StreamNameUp$ package consumed by a
+$\RegSeqRat$ certificate or by a finite-window $\RealUp$ consumer. Before any
+regularity row, dyadic ledger row, or $\RealUp$ seal row is readable, the
+handoff from $\mathcal W$ must expose at least one displayed observation row
+through a finite $\mathsf{ProbeBundle}$, an
+$\mathsf{InBundle}(n,\mathcal P)$ membership row, and a certified
+$\mathsf{UnaryHistory}(n)$ index. This exported index is only a finite
+observation witness for the displayed window.
+
+The handoff exports no host index equality, quotient stream equality,
+selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First read the public finite-window handoff. By
+\autoref{thm:streamname-real-regseq-finite-window-handoff}, a downstream
+$\RegSeqRat$ or finite-window $\RealUp$ consumer can receive only the selected
+rational-history classifier rows, the finite $\mathsf{ProbeBundle}$ ledger,
+the $\mathsf{InBundle}$ membership rows, and the certified
+$\mathsf{UnaryHistory}$ observation rows from the StreamName side.
+
+Next place that source row inside the finite meet packet of
+\autoref{def:streamname-finite-window-lattice-meet}. The meet packet lists the
+common classifier row, probe bundle, membership family, unary observation
+family, dyadic ledger surface, componentwise transports, continuation routes,
+package provenance, and local names. Hence any downstream dyadic or seal read
+already has a visible finite observation coordinate before it can be consumed.
+
+Now apply the exhaustion theorem
+\autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. It says that
+every $\RegSeqRat$ or finite-window $\RealUp$ consumer of the meet reads only
+the displayed finite observation surface and its ledger rows. Therefore the
+first consumer-visible index is a certified member of the probe bundle, not a
+host index equality or a quotient-stream coordinate.
+
+Finally use the sibling dependency theorem
+\autoref{thm:streamname-regseqrat-real-lattice-dependency}. The route from
+StreamName through $\RegSeqRatUp$ into $\RealUp$ is the same visible
+finite-window route, so regularity, dyadic ledger, and Real seal rows are
+downstream consumers of the already displayed observation witness. The
+exclusion clauses in the cited handoff, meet, exhaustion, and dependency
+results rule out quotient stream equality, selected limits, and ambient
+completeness as exported StreamName data.
+\end{proof}
