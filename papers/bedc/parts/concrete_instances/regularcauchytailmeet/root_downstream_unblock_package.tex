@@ -1,0 +1,79 @@
+\begin{theorem}[RegularCauchyTailMeet root downstream window exhaustion]
+\label{thm:regular-cauchy-tail-meet-root-downstream-window-exhaustion}
+Let $T=(R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N)$ be an accepted
+$\RegularCauchyTailMeetUp$ packet. Every downstream $\RealUp$ or
+$\CompletionUp$ root consumer that reads the TailMeet threshold must first
+exhaust the paired window-source route through the displayed $\BHist$ rows
+$R_0,R_1,W_0,W_1$, the componentwise $\hsame$ row $H$, the displayed $\Cont$
+route $C$, the finite ledger $L$, the package row $\Pkg$, and the local
+$\NameCert$ row $N$. No downstream read can reach $\tau$, $Q$, or a Real seal
+handoff before those four source-window rows have been exposed.
+\end{theorem}
+\begin{proof}
+Start with TailMeet window-source coverage. It forces any threshold-facing read
+to expose the two regular-Cauchy source rows $R_0,R_1$ and the two stream-window
+rows $W_0,W_1$ before the shared dyadic threshold is available.
+
+Next attach the structural rows. Shared-threshold transport carries the exposed
+window-source route through the componentwise $\hsame$ row $H$ and the displayed
+$\Cont$ route $C$, while consumer exactness records the same route in $L$,
+$\Pkg$, and $N$.
+
+Finally read the Real seal handoff. The handoff can consume only the already
+displayed finite TailMeet route, so a root downstream consumer cannot bypass the
+window-source rows to reach $\tau$, $Q$, or any completion-facing seal row.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root downstream threshold stability]
+\label{thm:regular-cauchy-tail-meet-root-downstream-threshold-stability}
+Let $T=(R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N)$ be an accepted
+$\RegularCauchyTailMeetUp$ packet. If a downstream root consumer transports the
+paired source-window-modulus route through the displayed $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows, then the shared threshold row $\tau$ and
+comparison row $Q$ remain the TailMeet rows read by that consumer. The consumer
+may request a stronger displayed dyadic threshold through $M_0$ and $M_1$, but
+the stabilized route still factors through $R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N$.
+\end{theorem}
+\begin{proof}
+Use the shared-threshold transport theorem to move the paired source rows,
+window rows, modulus rows, threshold row, comparison row, finite ledger, package
+row, and local name together. The transported route therefore keeps $\tau$ and
+$Q$ attached to the same TailMeet packet.
+
+Now apply shared-threshold cofinality. A stronger displayed dyadic threshold can
+serve the downstream request only through the same source modulus rows
+$M_0,M_1$ and the same paired schedules $W_0,W_1$.
+
+Consumer exactness and the Real seal handoff close the boundary. They record the
+transported threshold route in $H,C,L,N$ and prevent the downstream consumer from
+replacing it by a host equality, quotient stream, selected limit, independent
+tail oracle, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root downstream nonescape package]
+\label{thm:regular-cauchy-tail-meet-root-downstream-nonescape-package}
+For an accepted $\RegularCauchyTailMeetUp$ packet
+$T=(R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N)$, downstream root consumers receive
+exactly the finite TailMeet route certified by
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-window-exhaustion} and
+\autoref{thm:regular-cauchy-tail-meet-root-downstream-threshold-stability}. The
+package exposes the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows and exports no quotient stream, selected limit, host real
+equality, trichotomy row, independent tail oracle, or ambient completeness
+witness.
+\end{theorem}
+\begin{proof}
+First combine downstream window exhaustion with downstream threshold stability.
+The first theorem forces each root consumer through $R_0,R_1,W_0,W_1$ before the
+threshold is visible, and the second keeps the transported threshold and
+comparison rows on $\tau$ and $Q$ through $M_0,M_1,H,C,L,N$.
+
+Next compose with consumer exactness. That theorem identifies the listed rows as
+the complete consumer-facing surface of the accepted TailMeet packet, including
+the package provenance and local naming evidence.
+
+Finally apply the Real seal handoff rows. Since every Real or Completion
+consumer reaches the seal through the same TailMeet route, the downstream
+package has no coordinate from which to export quotient streams, selected
+limits, host equality, trichotomy, hidden tail data, or ambient completeness.
+\end{proof}
