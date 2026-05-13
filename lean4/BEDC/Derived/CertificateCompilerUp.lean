@@ -24,6 +24,35 @@ def CertificateCompilerCarrier [AskSetup] [PackageSetup]
       Cont source graph landing ∧ Cont landing routes target ∧ Cont provenance target cert ∧
         hsame cert (append provenance target) ∧ PkgSig bundle cert pkg
 
+def CertificateCompilerClassifier [AskSetup] [PackageSetup]
+    (source target graph landing routes transport provenance cert edge edge' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  CertificateCompilerCarrier source target graph landing routes transport provenance cert
+      bundle pkg ∧
+    UnaryHistory edge ∧ UnaryHistory edge' ∧ hsame edge edge' ∧
+      Cont graph edge landing ∧ Cont graph edge' landing ∧ Cont landing routes target
+
+theorem CertificateCompilerClassifier_displayed_edge_witness_totality [AskSetup]
+    [PackageSetup]
+    {source target graph landing routes transport provenance cert edge edge' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerClassifier source target graph landing routes transport provenance cert
+        edge edge' bundle pkg ->
+      UnaryHistory graph ∧ UnaryHistory landing ∧ UnaryHistory edge ∧ UnaryHistory edge' ∧
+        hsame edge edge' ∧ Cont source graph landing ∧ Cont graph edge landing ∧
+          Cont graph edge' landing ∧ Cont landing routes target ∧
+            hsame cert (append provenance target) ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg
+  intro classifier
+  obtain ⟨carrier, edgeUnary, edgeUnary', edgeSame, graphEdgeLanding,
+    graphEdgeLanding', landingRoutesTarget'⟩ := classifier
+  obtain ⟨_sourceUnary, _targetUnary, graphUnary, landingUnary, _routesUnary,
+    _transportUnary, _provenanceUnary, sourceGraphLanding, _landingRoutesTarget,
+    _provenanceTargetCert, certMatchesEndpoint, certPkg⟩ := carrier
+  exact
+    ⟨graphUnary, landingUnary, edgeUnary, edgeUnary', edgeSame, sourceGraphLanding,
+      graphEdgeLanding, graphEdgeLanding', landingRoutesTarget', certMatchesEndpoint, certPkg⟩
+
 theorem CertificateCompilerCarrier_target_endpoint_route [AskSetup] [PackageSetup]
     {source target graph landing routes transport provenance cert targetEndpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
