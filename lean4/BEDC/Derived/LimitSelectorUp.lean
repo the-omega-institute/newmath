@@ -28,4 +28,16 @@ theorem LimitSelectorCarrier_finite_witness_route (L : LimitSelectorCarrier) :
         Cont L.dyadicReadback L.realSeal L.route := by
   exact ⟨L.selected_index_route, L.window_readback_route, L.seal_route⟩
 
+theorem LimitSelectorCarrier_shared_budget_real_seal_determinacy
+    (L : LimitSelectorCarrier) {sharedSeal alternateSeal : BHist}
+    (sharedRoute : Cont L.dyadicReadback L.realSeal sharedSeal)
+    (alternateRoute : Cont L.dyadicReadback L.realSeal alternateSeal) :
+    hsame sharedSeal alternateSeal ∧ Cont L.dyadicReadback L.realSeal sharedSeal ∧
+      Cont L.dyadicReadback L.realSeal alternateSeal ∧
+        Cont L.precision L.modulus L.selectedIndex ∧
+          Cont L.selectedIndex L.window L.dyadicReadback := by
+  exact
+    ⟨cont_deterministic sharedRoute alternateRoute, sharedRoute, alternateRoute,
+      L.selected_index_route, L.window_readback_route⟩
+
 end BEDC.Derived.LimitSelectorUp
