@@ -97,4 +97,23 @@ theorem TypedReductionNormalFormPacket_namecert_obligations [AskSetup] [PackageS
     }
   exact ⟨semantic, membershipRow, reductionRow, endpointRow⟩
 
+theorem TypedReductionNormalFormPacket_subject_reduction_seal [AskSetup] [PackageSetup]
+    {term judgment membership reduction normal transport continuation provenance name
+      endpoint : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypedReductionNormalFormPacket term judgment membership reduction normal transport
+        continuation provenance name endpoint mark bundle pkg ->
+      Ext term mark membership ∧ Cont membership reduction normal ∧
+        Cont normal continuation endpoint ∧ hsame normal endpoint ∧
+          hsame provenance endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Ext Cont hsame PkgSig
+  intro packet
+  obtain ⟨_termUnary, _judgmentUnary, _membershipUnary, _reductionUnary, _normalUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary, _endpointUnary,
+    membershipRow, reductionRow, endpointRow, normalSameEndpoint, provenanceSameEndpoint,
+    _nameSameEndpoint, endpointPkg⟩ := packet
+  exact
+    ⟨membershipRow, reductionRow, endpointRow, normalSameEndpoint, provenanceSameEndpoint,
+      endpointPkg⟩
+
 end BEDC.Derived.TypedReductionNormalFormUp
