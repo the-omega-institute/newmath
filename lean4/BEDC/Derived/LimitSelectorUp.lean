@@ -40,4 +40,15 @@ theorem LimitSelectorCarrier_shared_budget_real_seal_determinacy
     ⟨cont_deterministic sharedRoute alternateRoute, sharedRoute, alternateRoute,
       L.selected_index_route, L.window_readback_route⟩
 
+theorem LimitSelectorCarrier_real_seal_nonescape
+    (L : LimitSelectorCarrier) {selected readback : BHist}
+    (hsel : Cont L.precision L.modulus selected)
+    (hread : Cont selected L.window readback) :
+    hsame selected L.selectedIndex ∧ hsame readback L.dyadicReadback := by
+  have sameSelected : hsame selected L.selectedIndex :=
+    cont_deterministic hsel L.selected_index_route
+  have sameReadback : hsame readback L.dyadicReadback :=
+    cont_respects_hsame sameSelected (hsame_refl L.window) hread L.window_readback_route
+  exact ⟨sameSelected, sameReadback⟩
+
 end BEDC.Derived.LimitSelectorUp
