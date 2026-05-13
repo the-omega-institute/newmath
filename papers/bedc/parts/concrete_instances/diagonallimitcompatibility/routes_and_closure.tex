@@ -238,6 +238,36 @@ coordinate, $Q$ is the exact regular-rational readback for the displayed
 compatibility route.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility uniform-window Real seal pullback]
+\label{thm:diagonal-limit-compatibility-uniform-window-real-seal-pullback}
+Let
+$$
+K=(R,T,S_D,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet and let
+$$
+U=(F,M,T_U,R_U,S,E,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\UniformLimitUp$ packet. Suppose the two packets share the displayed $\StreamNameUp$ finite-window row of \autoref{ch:concrete-instances-streamname-namecert} and the displayed $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}. Then every consumer common to the $\RealUp$ and completion-facing routes of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-uniformlimit-namecert} factors through the finite pullback surface made of the diagonal rows
+$$
+R,T,D,W,Q,L,H,C,P,N
+$$
+and the uniform-limit rows
+$$
+F,M,T_U,R_U,S,E,H_U,C_U,P_U,N_U.
+$$
+The pullback exports only the common finite window, regular readback, seal rows, displayed $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient stream, pointwise-only limit, selected host limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the diagonal side. Source-route exactness fixes the diagonal rows $R,T,D,W$ before the displayed seal route can be consumed, and regular readback exactness identifies $Q$ as the readback from the same $T,D,W$ rows.
+
+Next read the uniform-limit side. The seal factorization for $\UniformLimitUp$ routes $F,M,T_U$ through the regular handoff $R_U$, the seal row $S$, the endpoint row $E$, and the displayed support rows $H_U,C_U,P_U,N_U$.
+
+The shared-window and shared-readback hypotheses identify the two consumer surfaces at the common $\StreamNameUp$ and $\RegSeqRatUp$ rows. Pulling back along those rows leaves a finite $\BHist$ surface whose coordinates are exactly the displayed diagonal and uniform-limit rows.
+
+Finally apply the non-escape clauses on both chapters. The diagonal packet has no coordinate for a quotient stream, selected host limit, host real equality, or ambient completeness theorem, and the uniform-limit packet has no coordinate for a pointwise-only limit or selected host limit. Therefore any common Real or Completion consumer factors through the stated pullback surface and nowhere else.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility completion consumer nonescape]
 \label{thm:diagonal-limit-compatibility-completion-consumer-nonescape}
 Every completion-facing or $\RealUp$ consumer of an accepted
@@ -455,14 +485,15 @@ Finally use completion-consumer non-escape. The packet lacks quotient streams, s
 \end{proof}
 
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
+\closureat{DiagonalLimitCompatibilityUp}{obligationStr}
 
 \begin{closurestatus}{\DiagonalLimitCompatibilityUp}
   \constructivestory{A $\DiagonalLimitCompatibilityUp$ packet is generated from an accepted $\RealCompletenessUp$ diagonal-limit packet, a $\RegularCauchyTriangleBoundUp$ three-leg estimate, a $\CauchyLimitSealUp$ seal route, a $\DyadicRatCoreUp$ tolerance ledger, $\StreamNameUp$ windows, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal class, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:diagonal-limit-compatibility-carrier}, \autoref{thm:diagonal-limit-compatibility-namecert-obligations}, and \autoref{thm:diagonal-limit-compatibility-non-escape} bind the finite compatibility surface between the diagonal-limit packet and the downstream seal consumer.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:diagonal-limit-compatibility-carrier}, \autoref{thm:diagonal-limit-compatibility-namecert-obligations}, \autoref{thm:diagonal-limit-compatibility-non-escape}, \autoref{thm:diagonal-limit-compatibility-triangle-seal-route}, \autoref{thm:diagonal-limit-compatibility-window-ledger-exactness}, \autoref{thm:diagonal-limit-compatibility-completion-boundary}, \autoref{thm:diagonal-limit-compatibility-tolerance-ledger-handoff}, \autoref{thm:diagonal-limit-compatibility-seal-consumer-factorization}, \autoref{thm:diagonal-limit-compatibility-window-route-lock}, \autoref{thm:diagonal-limit-compatibility-seal-readback-exactness}, \autoref{thm:diagonal-limit-compatibility-real-seal-nonescape}, \autoref{thm:diagonal-limit-compatibility-source-route-exactness}, \autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}, \autoref{thm:diagonal-limit-compatibility-finite-source-lock}, \autoref{thm:diagonal-limit-compatibility-real-seal-source-lock}, \autoref{thm:diagonal-limit-compatibility-triangle-seal-scope}, \autoref{thm:diagonal-limit-compatibility-window-fusion}, \autoref{thm:diagonal-limit-compatibility-real-seal-exactness}, and \autoref{thm:diagonal-limit-compatibility-real-seal-route-exhaustion} bind the finite diagonal-limit compatibility carrier, obligation surface, route ledger, completion boundary, tolerance handoff, seal route, source locks, window fusion, Real-seal exactness, and route exhaustion for the displayed packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, selected host limits, host real equality, choice, or ambient completeness.}
-  \upgradepath{Obligation closure requires checked carrier admission, triangle-bound selector alignment, seal route compatibility, classifier transport, and non-escape for the same finite packet.}
+  \upgradepath{Scoped closure requires a single finite packet theorem tying the carrier, route ledger, triangle seal, window ledger, Real seal, and route exhaustion into one consumer boundary.}
 \end{closurestatus}
