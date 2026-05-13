@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\TailCofinalityScheduleUp$}
+\label{ch:concrete-instances-tail-cofinality-schedule-namecert}
+\origin{human}
+
+The $\TailCofinalityScheduleUp$ packet records the finite shared-threshold schedule used when a diagonal $\RealUp$ consumer must pass from dyadic tolerances and stream windows to $\RegSeqRatUp$ handoff rows and a $\RealUp$ seal. It names the schedule as an inspectable $\BHist$ surface, not as a host limit selector, quotient-stream equality, selected real, or ambient completeness principle.
+
+\begin{definition}[Tail cofinality schedule carrier]
+\label{def:tail-cofinality-schedule-carrier}
+A $\TailCofinalityScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+T=(E,W,D,R,L,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $E$ is the unary precision request row naming the tolerance level demanded by the diagonal consumer;
+\item $W$ is the cofinal finite-window schedule selected for that request over the relevant $\StreamNameUp$ rows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger proving that the windows in $W$ meet the requested dyadic bound;
+\item $R$ is the family of $\RegSeqRatUp$ readback rows made available after the window and dyadic ledgers have been consumed;
+\item $L$ is the $\RealUp$ seal row through which the diagonal consumer receives the scheduled regular-rational handoff;
+\item $H$ records componentwise $\hsame$ transports for $E,W,D,R,L$ and the structural rows of the packet;
+\item $C$ records the displayed $\Cont$ routes from $E$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $L$;
+\item $P$ records $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TailCofinalityScheduleUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a host-selected limit, ambient completeness, a hidden tail oracle, or an unbounded schedule.
+\end{definition}
+
+\begin{theorem}[Tail cofinality schedule NameCert obligations]
+\label{thm:tail-cofinality-schedule-namecert-obligations}
+The local $\NameCert_{\TailCofinalityScheduleUp}$ surface for \autoref{def:tail-cofinality-schedule-carrier} consists exactly of carrier admission for $T=(E,W,D,R,L,H,C,P,N)$, unary precision exposure through $E$, cofinal finite-window coverage through $W$, threshold sufficiency through the $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff through $R$, $\RealUp$ seal boundary through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, local naming through $N$, and non-escape from quotient streams, selected host limits, ambient completeness, hidden tail oracles, and unbounded schedules.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The rows $E,W,D,R,L$ expose the precision request, finite cofinal schedule, dyadic tolerance ledger, regular-rational readback, and real-facing seal.
+
+The schedule and threshold obligations are read in order. The route from $E$ to $W$ selects the finite cofinal windows, and the route from $W$ to $D$ records the dyadic sufficiency ledger for those same windows.
+
+The handoff and seal obligations then consume $R$ and $L$. Componentwise transport, route replay, provenance, and naming are exactly the rows $H,C,P,N$. Since no further analytic coordinate occurs in $T$, the listed rows exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Tail cofinality schedule diagonal handoff]
+\label{thm:tail-cofinality-schedule-diagonal-handoff}
+Every diagonal $\RealUp$ consumer of an accepted $\TailCofinalityScheduleUp$ carrier factors through the finite rows
+$$
+E,W,D,R,L,H,C,P,N.
+$$
+The consumer first reads the unary precision request, then the cofinal finite-window schedule, then the dyadic tolerance ledger, then the $\RegSeqRatUp$ readback rows, and finally the $\RealUp$ seal row. It cannot read quotient streams, selected host limits, ambient completeness, a hidden tail oracle, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the NameCert obligation surface. They display the only route from the requested precision to the real-facing seal as
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L.
+$$
+
+The cofinal window coverage and threshold sufficiency clauses force the dyadic ledger to be consumed before any regular-rational row is available. Thus a diagonal handoff cannot jump from the precision request directly to a $\RegSeqRatUp$ witness or to a $\RealUp$ seal.
+
+The rows $H,C,P,N$ replay and name the same route under transport and provenance. Because the carrier has no coordinate for quotient stream equality, host-selected limits, ambient completeness, hidden tail oracles, or unbounded schedules, every diagonal consumer remains inside the displayed finite packet.
+\end{proof}
+
+\closureat{TailCofinalityScheduleUp}{seedStr}
+
+\begin{closurestatus}{\TailCofinalityScheduleUp}
+  \constructivestory{A $\TailCofinalityScheduleUp$ packet is generated from a unary precision request, cofinal finite-window schedule, dyadic tolerance ledger, RegSeqRat readback rows, a RealUp seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tail-cofinality-schedule-carrier}, \autoref{thm:tail-cofinality-schedule-namecert-obligations}, and \autoref{thm:tail-cofinality-schedule-diagonal-handoff} register the finite shared-threshold schedule used by diagonal RealUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected host limits, ambient completeness, hidden tail oracles, unbounded schedules, or a public standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, schedule coverage, threshold sufficiency, diagonal handoff, transport stability, provenance, and non-escape for the displayed packet.}
+\end{closurestatus}
