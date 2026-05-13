@@ -545,4 +545,55 @@ theorem PicardContractionPacket_public_real_consumer_boundary [AskSetup] [Packag
       iteratesEndpointConsumer, endpointTransportSealRead, namePkg, rateSourcePkg, stepPkg,
       consumerPkg, sealReadPkg⟩
 
+def PicardContractionRootSourceWindowPacket [AskSetup] [PackageSetup]
+    (banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      request : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  PicardContractionPacket banach contraction lipschitz iterates modulus endpoint transport
+      routes provenance name bundle pkg ∧
+    UnaryHistory request
+
+theorem PicardContractionRootSourceWindowPacket_admission [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      request step consumer sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionRootSourceWindowPacket banach contraction lipschitz iterates modulus
+        endpoint transport routes provenance name request bundle pkg ->
+      Cont iterates contraction step ->
+        Cont iterates endpoint consumer ->
+          Cont endpoint transport sealRead ->
+            PkgSig bundle step pkg ->
+              PkgSig bundle consumer pkg ->
+                PkgSig bundle sealRead pkg ->
+                  PicardContractionRootSourceWindowPacket banach contraction lipschitz
+                      iterates modulus endpoint transport routes provenance name request
+                      bundle pkg ∧
+                    UnaryHistory step ∧ UnaryHistory consumer ∧ UnaryHistory sealRead ∧
+                      Cont banach contraction lipschitz ∧ Cont iterates modulus endpoint ∧
+                        Cont iterates contraction step ∧ Cont iterates endpoint consumer ∧
+                          Cont endpoint transport sealRead ∧ PkgSig bundle name pkg ∧
+                            PkgSig bundle step pkg ∧ PkgSig bundle consumer pkg ∧
+                              PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro rootPacket iteratesContractionStep iteratesEndpointConsumer endpointTransportSealRead
+    stepPkg consumerPkg sealReadPkg
+  have closedRoot :
+      PicardContractionRootSourceWindowPacket banach contraction lipschitz iterates modulus
+          endpoint transport routes provenance name request bundle pkg :=
+    rootPacket
+  obtain ⟨picardPacket, _requestUnary⟩ := rootPacket
+  obtain ⟨_banachUnary, contractionUnary, _lipschitzUnary, iteratesUnary, _modulusUnary,
+    endpointUnary, transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    banachContractionLipschitz, iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := picardPacket
+  have stepUnary : UnaryHistory step :=
+    unary_cont_closed iteratesUnary contractionUnary iteratesContractionStep
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed iteratesUnary endpointUnary iteratesEndpointConsumer
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportSealRead
+  exact
+    ⟨closedRoot, stepUnary, consumerUnary, sealReadUnary, banachContractionLipschitz,
+      iteratesModulusEndpoint, iteratesContractionStep, iteratesEndpointConsumer,
+      endpointTransportSealRead, namePkg, stepPkg, consumerPkg, sealReadPkg⟩
+
 end BEDC.Derived.PicardContractionUp
