@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSupportUp$}
+\label{ch:concrete-instances-finitesupport-namecert}
+\origin{ai}
+
+The $\FiniteSupportUp$ packet turns the kernel-as-category reading of \autoref{ch:visions-kernel-as-category} into a finite support surface for categorical consumers. It reads support as a bounded ledger of unary-continuation hom rows: each listed component is a displayed $\mathsf{CategoryHomCarrier}$ row with its $\Cont$ route, $\hsame$ transport, $\Pkg$ provenance, and local $\NameCert$ ledger. The packet is anchored by the continuation trace surface of \autoref{ch:concrete-instances-continuationtrace-namecert} and the category hom-carrier surface of \autoref{ch:concrete-instances-category-namecert}.
+
+\begin{definition}[Finite-support carrier]
+\label{def:finite-support-carrier}
+A $\FiniteSupportUp$ carrier is a finite packet
+$$
+S=(O,F,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite object-history support row, listing the unary $\BHist$ endpoints visible to the support packet;
+\item $F$ is the finite hom-support row, listing only displayed $\mathsf{CategoryHomCarrier}$ rows between endpoints in $O$;
+\item $L$ is the support ledger, recording the finite membership reads that justify each listed object and hom row;
+\item $H$ stores componentwise $\hsame$ transport for the object, hom, and ledger rows;
+\item $C$ stores the displayed $\Cont$ routes by which each support entry is consumed by a functor or naturality packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, $\FunctorUp$, $\NatTransUp$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteSupportUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite support set, a host collection, quotient morphism equality, or a category object outside the displayed BEDC rows.
+\end{definition}
+
+\begin{theorem}[Finite-support NameCert obligations]
+\label{thm:finite-support-namecert-obligations}
+The local $\NameCert_{\FiniteSupportUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for the packet $S=(O,F,L,H,C,P,N)$;
+\item object and hom support membership, requiring every listed hom row in $F$ to be a displayed $\mathsf{CategoryHomCarrier}$ row whose endpoints are listed in $O$;
+\item ledger exactness, requiring every support read to pass through the finite ledger $L$ and its displayed $\Cont$ route in $C$;
+\item classifier stability under the componentwise $\hsame$ transports in $H$;
+\item non-escape, excluding infinite support, host collections, quotient morphism equality, and external category objects from the public support surface.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-support-carrier}. The packet lists only object support, hom support, a finite ledger, transports, continuation routes, provenance, and the local certificate row.
+
+Membership reads are inherited from the category hom-carrier surface of \autoref{ch:concrete-instances-category-namecert}. Each hom-support entry is displayed as a $\mathsf{CategoryHomCarrier}$ row, and its endpoints are among the object rows recorded in $O$.
+
+Ledger exactness follows the continuation trace discipline of \autoref{ch:concrete-instances-continuationtrace-namecert}. A support consumer reads through $L$ and then through the $\Cont$ route stored in $C$, so no entry is consumed outside the displayed finite route.
+
+Stability is componentwise through $H$. The non-escape row follows because the carrier contains no field for infinite support, host collections, quotient morphism equality, or any external category object.
+\end{proof}
+
+\begin{theorem}[Finite-support ledger non-escape]
+\label{thm:finite-support-ledger-nonescape}
+Every $\FunctorUp$ or $\NatTransUp$ consumer of an accepted $\FiniteSupportUp$ packet reads only the displayed rows
+$$
+O,F,L,H,C,P,N.
+$$
+In particular, support membership cannot be replaced by an infinite host support set, an unlisted hom row, quotient morphism equality, or a category-level object outside the BEDC carrier.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates of \autoref{def:finite-support-carrier}. The public surface is exactly the finite object row $O$, hom row $F$, ledger $L$, transports $H$, routes $C$, provenance $P$, and local name $N$.
+
+Apply \autoref{thm:finite-support-namecert-obligations}. Its ledger exactness row forces every support membership read through $L$ and $C$, and its stability row keeps transported reads inside the componentwise $\hsame$ surface $H$.
+
+The categorical consumers named in \autoref{ch:visions-kernel-as-category} receive the same finite support packet. Since the carrier has no field for infinite support, unlisted hom rows, quotient morphism equality, or host category objects, those data cannot escape from the displayed ledger.
+\end{proof}
+
+\closureat{FiniteSupportUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSupportUp}
+  \constructivestory{A $\FiniteSupportUp$ packet is generated from finite unary object rows, displayed $\mathsf{CategoryHomCarrier}$ support rows, a finite ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite support carrier and its ledger non-escape boundary over $\BHist$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, infinite support, quotient morphism equality, host category objects, or arbitrary functor categories.}
+  \upgradepath{Obligation closure requires checked carrier admission, support membership, ledger exactness, classifier stability, and non-escape over the displayed finite support rows.}
+\end{closurestatus}
