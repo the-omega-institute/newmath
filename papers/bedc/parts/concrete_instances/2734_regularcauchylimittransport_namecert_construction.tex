@@ -118,6 +118,26 @@ Next apply dyadic ledger stability, \autoref{thm:regular-cauchy-limit-transport-
 Finally use ledger exactness, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}. The seal row $S$ is reached only through the displayed packet rows, with provenance $H,C,P,N$. The excluded quotient, host-equality, external-limit, trichotomy, and completeness objects have no carrier coordinate, so they cannot determine a replacement route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit transport obligation-closure package]
+\label{thm:regular-cauchy-limit-transport-obligation-closure-package}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier
+$$
+T=(R,W,D,S,H,C,P,N),
+$$
+the displayed rows jointly supply the obligation-closure package for the finite handoff from $\RegSeqRatUp$ through $\StreamNameUp$ and $\DyadicRatCoreUp$ to the $\RealUp$ seal. The package consists of carrier admission for $T$, classifier stability over the rows $R,W,D,S,H,C,P,N$, selected-window exactness through $W$, dyadic ledger stability through $D$, seal-route determinacy through $S,C,P,N$, and non-escape for every consumer of the finite handoff.
+
+The package has no quotient stream coordinate, no host real equality coordinate, no selected external limit coordinate, no trichotomy coordinate, and no $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Carrier admission is exactly the packet of \autoref{def:regular-cauchy-limit-transport-carrier}, and the classifier boundary is exactly the row comparison of \autoref{def:regular-cauchy-limit-transport-classifier}.
+
+Use \autoref{thm:regular-cauchy-limit-transport-stability} for classifier stability and \autoref{thm:regular-cauchy-limit-transport-namecert-obligations} for the local obligation surface. These two rows bind the accepted carrier and the local naming boundary to the same displayed packet.
+
+Next apply \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness} and \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}. They force the source read through the selected-window row $W$ and keep the tolerance, absolute-value, comparison, and triangle-bound data inside the dyadic ledger $D$.
+
+Finally use \autoref{thm:regular-cauchy-limit-transport-ledger-exactness} and \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}. Every seal-facing consumer is exhausted by $R,W,D,S,H,C,P,N$, so the excluded quotient, host-equality, external-limit, trichotomy, and completeness objects have no route into the package.
+\end{proof}
+
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyLimitTransportUp}
