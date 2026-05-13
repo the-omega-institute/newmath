@@ -47,3 +47,113 @@ Use \autoref{thm:critical-line-witness-rh-nonclassification-boundary}, \autoref{
 
 Finally apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. The refusal ledger excludes host equality, quotient representatives, analytic completeness, and the other analytic rows, so the root-facing package is precisely the finite non-escape boundary described above.
 \end{proof}
+
+\begin{theorem}[Critical-line witness root modulus-window totality]
+\label{thm:critical-line-witness-root-modulus-window-totality}
+Every root modulus-window read of an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$ factors through
+$$
+M,R,Q,H,C,P,N.
+$$
+The modulus row, real-part row, rational comparison ledger, componentwise
+transport, displayed continuation, package provenance, and local naming row
+are therefore the whole finite route available to a root-facing consumer. No
+hidden numeric oracle, host real equality, quotient representative, analytic
+continuation row, or ambient completeness input can answer such a read.
+\end{theorem}
+\begin{proof}
+Start with the modulus ledger entry,
+\autoref{thm:critical-line-witness-modulus-ledger-entry}. It identifies
+$M,R,Q,H,C,P,N$ as the finite ledger used by Real and rational-comparison
+reads.
+
+Next apply \autoref{thm:critical-line-witness-modulus-row},
+\autoref{thm:critical-line-witness-modulus-depth-routing}, and
+\autoref{thm:critical-line-witness-modulus-request-factorization}. These
+results force every depth request through the displayed modulus row, real-part
+row, rational comparison row, transport row, and continuation route before
+$M(n)$ is public.
+
+The rational side is supplied by
+\autoref{thm:critical-line-witness-rat-comparison-ledger-exactness} and
+\autoref{thm:critical-line-witness-modulus-comparison-route-totality}. They
+make the comparison row $Q$ the only finite rational surface attached to the
+modulus window.
+
+Finally use \autoref{thm:critical-line-witness-modulus-ledger-nonescape} and
+\autoref{thm:critical-line-witness-nonescape-boundary}. The excluded host and
+analytic coordinates are absent, so $M,R,Q,H,C,P,N$ exhaust every root
+modulus-window read.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root strip-comparison classifier]
+\label{thm:critical-line-witness-root-strip-comparison-classifier}
+The supplied zero-strip row $Z,S,H,C,P,N$ and the rational comparison row
+$M,R,Q,H,C,P,N$ of an accepted $\CriticalLineWitnessUp$ packet share the same
+finite classifier route through the displayed carrier
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+A root-facing classifier may compare the zero-strip evidence and the
+half-line rational comparison only by these rows and their componentwise
+$\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Begin with the supplied zero-strip route,
+\autoref{thm:critical-line-witness-supplied-zero-strip-route}. It locks every
+zero-facing and strip-facing read to $Z,S,H,C,P,N$.
+
+Then apply the modulus ledger entry and root modulus-window totality,
+\autoref{thm:critical-line-witness-modulus-ledger-entry} and
+\autoref{thm:critical-line-witness-root-modulus-window-totality}. Together
+they put every rational comparison read on $M,R,Q,H,C,P,N$.
+
+Use \autoref{thm:critical-line-witness-supplied-input-carrier-row} and
+\autoref{thm:critical-line-witness-namecert-obligations}. These results bind
+the supplied rows and the modulus-comparison rows to one accepted carrier and
+one local naming surface.
+
+The classifier route is therefore componentwise: $H$ transports the displayed
+rows, $C$ replays their reads, $P$ records their provenance, and $N$ names the
+local packet. The non-escape boundary excludes host equality, zero search,
+global zero classification, quotient representatives, analytic continuation,
+and ambient completeness from the comparison.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root refusal downstream gate]
+\label{thm:critical-line-witness-root-refusal-downstream-gate}
+Every RH-facing downstream consumer of an accepted $\CriticalLineWitnessUp$
+packet receives only the finite refusal package over
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The gate may expose the supplied zero-strip route, the modulus-window route,
+the rational comparison ledger, transport, continuation, provenance, and local
+name, but it does not expose an $\mathsf{RH}$ proof, zero search, global
+zero-set classifier, host equality, quotient representative, analytic
+continuation proof, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:critical-line-witness-rh-nonescape-package}. It
+states the root-facing package as a finite witness boundary for downstream
+RH-facing consumers and refuses analytic proof content.
+
+Next combine the strip-comparison classifier with the downstream source
+obligation,
+\autoref{thm:critical-line-witness-root-strip-comparison-classifier} and
+\autoref{thm:critical-line-witness-downstream-source-obligation}. The
+consumer source read is then forced through the displayed supplied rows,
+modulus rows, rational comparison ledger, and structural rows.
+
+Apply \autoref{thm:critical-line-witness-rh-consumer-boundary-package},
+\autoref{thm:critical-line-witness-rh-nonclassification-boundary}, and
+\autoref{thm:critical-line-witness-rh-nonproof-boundary}. These boundaries
+separate the finite witness route from global zero classification, zero
+search, and any proof of $\mathsf{RH}$.
+
+Finally use \autoref{thm:critical-line-witness-downstream-refusal-package} and
+\autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. Their
+refusal rows remove quotient representatives, host equality, analytic
+continuation, and ambient completeness, so the downstream gate exports exactly
+the finite refusal package.
+\end{proof}
