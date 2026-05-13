@@ -36,6 +36,7 @@ For the carrier of \autoref{def:max-causal-rate-carrier}, the local $\NameCert_{
 \item non-escape, excluding global frames, synchronized clocks, metric tensors, Lorentz geometry, and ambient real-valued rates.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.MaxCausalRateUp.MaxCausalRateTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Carrier admission is the projection of the finite tuple in \autoref{def:max-causal-rate-carrier}. The rows $M,X,U,B,H,Q,C,P,N$ display the configuration, causal witnesses, bound row, comparison ledger, transport rows, read routes, package provenance, and local naming row.
 
@@ -78,6 +79,58 @@ Project the accepted carrier and apply \autoref{thm:max-causal-rate-namecert-obl
 Apply \autoref{thm:max-causal-rate-crosshist-handoff} to every displayed witness row that a consumer reads from $X$. Each read remains a $\CrossHistCausalUp$ row over $M$ plus a finite comparison against the shared unary bound $U$.
 
 The transport rows $H,Q,C$ then replay only the listed configuration, witness, bound, and comparison data. Since every visible consumer row is one of $M,X,U,B,H,Q,C,P,N$, any request for a global frame, synchronized clock, metric tensor, Lorentz geometry, or real-valued speed leaves the $\MaxCausalRateUp$ carrier rather than projecting from it.
+\end{proof}
+
+\begin{theorem}[MaxCausalRate bound-comparison totality]
+\label{thm:max-causal-rate-bound-comparison-totality}
+For an accepted $\MaxCausalRateUp$ carrier
+$$
+R=(M,X,U,B,H,Q,C,P,N),
+$$
+the finite comparison ledger $B$ contains a displayed comparison row for every causal witness row in $X$ against the shared unary bound row $U$. A consumer may therefore read the maximum causal-rate surface only as a total finite ledger over the listed witnesses, not as a partial sample or an ambient real-valued speed function.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and inspect $X$ and $B$. The witness family $X$ is finite, and the ledger row $B$ is defined as the finite comparison row for every displayed witness in that family against $U$.
+
+Route each comparison through $C$. The consumer reaches a witness row of $X$, the shared unary bound $U$, and its corresponding comparison row in $B$ by one of the displayed continuations.
+
+The transport rows $H$ and $Q$ preserve the same witness-and-bound pairing. Since $P$ and $N$ only bind provenance and local naming, the totality claim remains a BEDC ledger fact and not a real-valued rate assertion.
+\end{proof}
+
+\begin{theorem}[MaxCausalRate witness-family stability]
+\label{thm:max-causal-rate-witness-family-stability}
+For an accepted $\MaxCausalRateUp$ carrier
+$$
+R=(M,X,U,B,H,Q,C,P,N),
+$$
+componentwise $\hsame$ transport in $H$, probe stability in $Q$, and the displayed routes in $C$ preserve the witness family $X$ together with its comparison pairing in $B$ against the shared unary bound $U$.
+
+No transported consumer may replace a listed witness by an unlisted cross-Hist row, change the unary bound, or detach the comparison from the $\MultiHistConfigUp$ row $M$.
+\end{theorem}
+\begin{proof}
+Read $M$ first and then the finite witness family $X$. Each displayed witness is anchored in the same multi-Hist configuration and selected unary slot surface.
+
+Transport through $H$ preserves $M,X,U,B$ componentwise, while $Q$ preserves the probe reads used by the cross-Hist witnesses and their bound comparisons. Thus the transported family remains paired with the same unary bound row $U$.
+
+Finally replay the reads through $C$ and bind them by $P,N$. The carrier has no coordinate for an unlisted cross-Hist witness, a second bound row, or a comparison detached from $M$, so witness-family stability is exhausted by the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[MaxCausalRate unary-bound non-escape]
+\label{thm:max-causal-rate-unary-bound-nonescape}
+For an accepted $\MaxCausalRateUp$ carrier
+$$
+R=(M,X,U,B,H,Q,C,P,N),
+$$
+the unary-bound row $U$ is the only bound exported by the packet, and it is visible only through the finite witness family $X$ and comparison ledger $B$ transported by $H,Q$ and routed by $C$.
+
+The packet cannot export real-valued speed, synchronized clocks, metric tensors, Lorentz geometry, or any rate comparison not recorded as a row of $B$ against $U$.
+\end{theorem}
+\begin{proof}
+Project $U$ from the carrier together with $X$ and $B$. The bound row is a unary ledger coordinate, and every public comparison to it is recorded in the finite row $B$.
+
+Use $H,Q,C$ to transport and read the bound surface. Componentwise $\hsame$ movement, probe stability, and continuation routing preserve the same witness family and comparison ledger.
+
+The package row $P$ and local name row $N$ bind the result to the $\MaxCausalRateUp$ certificate. Since the remaining excluded structures have no coordinate in $R$, the unary-bound surface cannot become a real-valued speed, synchronized-clock, metric-tensor, or Lorentz-geometry surface.
 \end{proof}
 
 \closureat{MaxCausalRateUp}{seedStr}

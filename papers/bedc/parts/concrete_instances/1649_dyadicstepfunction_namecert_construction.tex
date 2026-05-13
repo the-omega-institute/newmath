@@ -146,6 +146,22 @@ Use \autoref{thm:dyadic-step-function-refinement-stability} to transport each in
 Finally apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} and \autoref{thm:dyadic-step-function-ledger-exactness}. The carried values and classifier reads are already in $V$, $R$, and $L$, while $C$, $P$, and $N$ replay the same local package. Repacking those finitely many rows gives an accepted intersection packet without adding any external analytic object.
 \end{proof}
 
+\begin{theorem}[Dyadic step function common-refinement normal form]
+\label{thm:dyadic-step-function-common-refinement-normal-form}
+Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets with displayed common dyadic refinements. Every $\RegSeqRatUp$, $\RealUp$, or $\DyadicSplineUp$ consumer comparison between $S$ and $T$ has a normal form consisting of one displayed refined cell, its parent-cell maps through $M$, endpoint transports through $E$, carried-value reads through $V$ and $R$, a ledger entry in $L$, and the stored $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in $C$, $P$, and $N$.
+
+If two consumer routes name the same displayed refined cell, then their visible normal-form rows are the same $M,E,V,R,L,C,P,N$ rows. The normal form does not inspect a host step function, a quotient representative, a selected limit, or an equality oracle outside the finite common-refinement packet.
+\end{theorem}
+\begin{proof}
+First isolate the finite cell. Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}: every consumer comparison lands on one displayed common-refinement cell before any $\RegSeqRatUp$, $\RealUp$, or $\DyadicSplineUp$ handoff can be read.
+
+Next attach that cell to the packet rows. By \autoref{thm:dyadic-step-function-refinement-stability}, the refined cell carries its parent-cell maps through $M$, and the endpoint transports remain the displayed rows in $E$.
+
+Now bind the value and classifier reads. Use \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the transported carried-value reads with the rows in $V$ and $R$, then use \autoref{thm:dyadic-step-function-ledger-exactness} to pin the consumer-facing comparison to the ledger entry in $L$.
+
+Finally apply \autoref{thm:dyadic-step-function-refinement-intersection-closure}. The intersection packet stores the same $C,P,N$ local package rows for the refined cell, so two routes with the same displayed cell replay the same visible normal-form rows before reaching any downstream consumer.
+\end{proof}
+
 \begin{theorem}[Dyadic step function cellwise product closure]
 \label{thm:dyadic-step-function-product-closure}
 Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ packets. Suppose they admit a displayed common dyadic refinement whose refined cells are finite $\mathsf{BHist}$ cells, and suppose that on every refined cell the transported carried-value row of $S$, the transported carried-value row of $T$, and the displayed $\DyadicRatCoreUp$ or $\RealUp$ product row are recorded in the carrier ledger. Then the pointwise cellwise product repacks as an accepted $\DyadicStepFunctionUp$ packet.
