@@ -143,16 +143,62 @@ Now read the dyadic observation ledger through the triangle-bound packet. Apply 
 Composing the displayed $\Cont$ routes gives the route $q \to w \to r \to d \to e$. Each leg is already guarded by componentwise $\hsame$, $\Pkg$ provenance, and a local $\NameCert$ row, and the cited non-escape boundaries leave no coordinate for quotient streams, selected limits, host real equality, ambient completeness, or a hidden tail oracle.
 \end{proof}
 
+\begin{theorem}[Real diagonal-window coverage kernel scope]
+\label{thm:real-diagonal-window-coverage-kernel-scope}
+The carrier, classifier, local $\NameCert_{\RealDiagonalWindowCoverageUp}$ obligations, selected-window coverage, $\RealUp$ handoff, non-escape boundary, and tail-meet triangle handoff for an accepted $\RealDiagonalWindowCoverageUp$ packet are all routed through exactly the displayed $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No step in this kernel scope adds a quotient-stream coordinate, host real equality, unbounded diagonal stream, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:real-diagonal-window-coverage-carrier} and \autoref{def:real-diagonal-window-coverage-classifier}. They display the packet $G=(q,w,r,d,e,h,c,p,n)$ and restrict classifier comparison to the same precision request, selected window, readback row, dyadic ledger, seal row, transports, continuations, provenance, and local name.
+
+Apply \autoref{thm:real-diagonal-window-coverage-namecert-obligations} for the local certificate surface. The selected-window coverage theorem then forces every seal-facing read to display $w$ and $d$ before the $\RealUp$ row $e$ is consumed.
+
+Use \autoref{thm:real-diagonal-window-coverage-realup-handoff} and \autoref{thm:real-diagonal-window-coverage-nonescape}. They keep completion and downstream consumers on the finite route through $q,w,r,d,e,h,c,p,n$ and exclude every undisplayed real or stream coordinate.
+
+Finally, \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-handoff} composes this route with the cited $\RegularCauchyTailMeetUp$ and $\RegularCauchyTriangleBoundUp$ packets. Those packets are consumed through their displayed threshold and estimate rows, so the full kernel dependency scope is precisely the listed BEDC rows.
+\end{proof}
+
+\begin{theorem}[Real diagonal-window coverage selected-window source lock]
+\label{thm:real-diagonal-window-coverage-selected-window-source-lock}
+For an accepted $\RealDiagonalWindowCoverageUp$ packet $G=(q,w,r,d,e,h,c,p,n)$, the selected window $w$ and dyadic ledger $d$ determine the only source-lock route from the rational precision request $q$ to the $\RegSeqRatUp$ readback row $r$ and the $\RealUp$ seal row $e$. The source lock has no quotient stream, host equality, unbounded diagonal stream, selected limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-diagonal-window-coverage-carrier}. The route from $q$ to $r$ passes through the selected $\StreamNameUp$ window $w$, and the route from $r$ to $e$ passes through the $\DyadicRatCoreUp$ ledger $d$.
+
+Apply \autoref{thm:real-diagonal-window-coverage-namecert-obligations} to identify the certificate rows that expose $w$, $r$, $d$, and $e$. Then apply \autoref{thm:real-diagonal-window-coverage-selected-window-coverage}, which prevents a $\RealUp$-facing read from reaching $e$ before the selected window and dyadic ledger have been displayed.
+
+The handoff theorem \autoref{thm:real-diagonal-window-coverage-realup-handoff} supplies the same route for completion and continuous-map consumers. The non-escape theorem \autoref{thm:real-diagonal-window-coverage-nonescape} removes every other source coordinate, so $w$ and $d$ are the only source-lock route to $r$ and $e$.
+\end{proof}
+
+\begin{theorem}[Real diagonal-window coverage tail-meet triangle scope]
+\label{thm:real-diagonal-window-coverage-tail-meet-triangle-scope}
+The tail-meet and triangle-bound handoff cited by \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-handoff} consumes only the $\RegularCauchyTailMeetUp$ shared-threshold packet, the $\RegularCauchyTriangleBoundUp$ estimate packet, and the local $\RealDiagonalWindowCoverageUp$ route
+$$
+q,w,r,d,e,h,c,p,n.
+$$
+It exports no extra source stream, no selected limit, no host equality, no ambient completeness row, and no hidden tail oracle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-handoff}. Its hypotheses name exactly one accepted selected-window packet from $\RegularCauchyTailMeetUp$ and one accepted dyadic-ledger packet from $\RegularCauchyTriangleBoundUp$.
+
+The local $\RealDiagonalWindowCoverageUp$ contribution is fixed by \autoref{def:real-diagonal-window-coverage-carrier} and \autoref{thm:real-diagonal-window-coverage-namecert-obligations}. These give only the rows $q,w,r,d,e,h,c,p,n$ and the corresponding local certificate surface.
+
+The $\RealUp$ handoff and non-escape theorems keep the seal-facing consumer on the displayed route through those rows. Therefore the tail-meet and triangle-bound packets are consumed as threshold and estimate witnesses for $w$ and $d$, not as a new stream, limit, host-equality, completeness, or tail-oracle coordinate.
+\end{proof}
+
 \closureat{RealDiagonalWindowCoverageUp}{seedStr}
 \closureat{RealDiagonalWindowCoverageUp}{obligationStr}
+\closureat{RealDiagonalWindowCoverageUp}{scopedStr}
+\closureat{RealDiagonalWindowCoverageUp}{scopedStr}[BEDC.Derived.RealDiagonalWindowCoverageUp.RealDiagonalWindowCoverageCarrier\_realup\_handoff]
+\closureat{RealDiagonalWindowCoverageUp}{publicStr}
 
 \begin{closurestatus}{\RealDiagonalWindowCoverageUp}
   \constructivestory{A $\RealDiagonalWindowCoverageUp$ packet is generated from a rational precision request, a selected $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:real-diagonal-window-coverage-carrier}, \autoref{def:real-diagonal-window-coverage-classifier}, \autoref{thm:real-diagonal-window-coverage-namecert-obligations}, \autoref{thm:real-diagonal-window-coverage-selected-window-coverage}, \autoref{thm:real-diagonal-window-coverage-realup-handoff}, \autoref{thm:real-diagonal-window-coverage-nonescape}, and \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-handoff} bind the finite selected-window route from precision request through $\StreamNameUp$ and $\RegSeqRatUp$ readback to $\DyadicRatCoreUp$ observations, the $\RealUp$ seal, and the tail-meet triangle handoff.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:real-diagonal-window-coverage-carrier}, \autoref{def:real-diagonal-window-coverage-classifier}, \autoref{thm:real-diagonal-window-coverage-namecert-obligations}, \autoref{thm:real-diagonal-window-coverage-selected-window-coverage}, \autoref{thm:real-diagonal-window-coverage-realup-handoff}, \autoref{thm:real-diagonal-window-coverage-nonescape}, \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-handoff}, \autoref{thm:real-diagonal-window-coverage-kernel-scope}, \autoref{thm:real-diagonal-window-coverage-selected-window-source-lock}, and \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-scope} bind the finite selected-window route from precision request through $\StreamNameUp$ and $\RegSeqRatUp$ readback to $\DyadicRatCoreUp$ observations, the $\RealUp$ seal, and the tail-meet triangle handoff.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealDiagonalWindowCoverageUp.RealDiagonalWindowCoverageCarrier\_realup\_handoff}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, continuous-map theorems, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the carrier, classifier, selected-window coverage, RealUp handoff, non-escape, and tail-meet triangle handoff to their $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependency scope.}
+  \upgradepath{Bridged closure requires a standard bridge for the selected-window $\RealUp$ seal route.}
 \end{closurestatus}
