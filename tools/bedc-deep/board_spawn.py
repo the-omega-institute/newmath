@@ -36,6 +36,7 @@ import board_archive
 import board_context
 import candidate_inbox
 import paper_index
+import logic_packet_gate
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -73,6 +74,20 @@ PRE_TASTEGATE_OPTIONAL_FIELDS = (
     "tastegate_mode",
     "ripeness_risk",
     "conjecture_fallback",
+)
+LOGIC_PACKET_FIELDS = (
+    "axiom_budget",
+    "strength_level",
+    "budget_reason",
+    "witness_extractor",
+    "existence_mode",
+    "cut_rank",
+    "equality_kind",
+    "interpretation_kind",
+    "resource_trace",
+    "dependency_trace",
+    "rate_modulus_surface",
+    "oracle_mode",
 )
 
 
@@ -340,6 +355,14 @@ def _render_entry(target_id: str, candidate: dict) -> str:
     pretastegate_block = ""
     if pretastegate_lines:
         pretastegate_block = "\nPre-TasteGate admission:\n" + "\n".join(pretastegate_lines) + "\n"
+    logic_lines = []
+    for key in LOGIC_PACKET_FIELDS:
+        value = str(candidate.get(key) or "").strip()
+        if value:
+            logic_lines.append(f"- `{key}`: {value}")
+    logic_block = ""
+    if logic_lines:
+        logic_block = "\nLogic packet discipline:\n" + "\n".join(logic_lines) + "\n"
     return (
         f"\n### {target_id} - {title}\n\n"
         f"| field | value |\n"
@@ -357,6 +380,7 @@ def _render_entry(target_id: str, candidate: dict) -> str:
         f"Local inputs:\n{inputs_block}\n\n"
         f"{worthiness_block}"
         f"{pretastegate_block}"
+        f"{logic_block}"
         f"Rationale:\n{rationale}\n\n---\n"
     )
 
@@ -422,6 +446,13 @@ def _post_judge_landing_rejection(candidate: dict) -> str:
             return pretastegate
         return "external_signal_new_chapter_not_board_lane"
     return ""
+
+
+def _logic_packet_rejection(candidate: dict) -> str:
+    result = logic_packet_gate.validate_logic_packet(candidate)
+    if result.ok:
+        return ""
+    return "logic_packet_gate:" + ";".join(result.reasons)
 
 
 def _atomic_append_to_board(blocks: list[str]) -> None:
@@ -498,6 +529,10 @@ def spawn_from_candidates(
         landing_rejection = _post_judge_landing_rejection(c)
         if landing_rejection:
             threshold_drops.append({**c, "reason": landing_rejection})
+            continue
+        logic_rejection = _logic_packet_rejection(c)
+        if logic_rejection:
+            threshold_drops.append({**c, "reason": logic_rejection})
             continue
         try:
             fit = int(c.get("fit_score", 0))
