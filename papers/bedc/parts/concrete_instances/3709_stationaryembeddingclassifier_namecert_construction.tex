@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\StationaryEmbeddingClassifierUp$}
+\label{ch:concrete-instances-stationaryembeddingclassifier-namecert}
+\origin{human}
+
+The $\StationaryEmbeddingClassifierUp$ packet realizes the stationary rational embedding classifier correspondence as finite NameCert data. It binds two RatUp seed rows, their constant StreamName rows, their stationary $\RegSeqRat$ diagonal rows, their RealUp constant rational embedding seals, the RatUp and RealUp classifier faces, and the transport routes that identify the two readings. The packet is local to stationary rational diagonals: it does not construct quotient streams, host real equality, selected limits, or ambient completeness.
+
+\begin{definition}[Stationary-embedding-classifier carrier]
+\label{def:stationary-embedding-classifier-carrier}
+A $\StationaryEmbeddingClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,E_0,S,T,G,H,R,Q,W,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ and $E_0$ are the two accepted RatUp seed rows;
+\item $S$ and $T$ are the constant $\StreamNameUp$ rows $\mathsf{RatConstStream}_D$ and $\mathsf{RatConstStream}_{E_0}$;
+\item $G$ records the stationary $\RegSeqRat$ diagonal rows $L_D$ and $L_{E_0}$ obtained from the corresponding stationary rational Cauchy inputs;
+\item $H$ records the RealUp constant rational embedding seals $(\mathsf{RatConstStream}_D,\Eone(D))$ and $(\mathsf{RatConstStream}_{E_0},\Eone(E_0))$;
+\item $R$ is the displayed RatUp classifier face $\RatHistoryClassifier(D,E_0)$;
+\item $Q$ is the displayed RealUp classifier face $\RealClassifier(L_D,L_{E_0})$;
+\item $W$ records componentwise $\hsame$ transports for the seed, stream, diagonal, seal, classifier, package, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes that read the RatUp seed face, the constant StreamName face, the stationary diagonal face, and the RealUp embedding face through the same finite packet;
+\item $P$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRat$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\StationaryEmbeddingClassifierUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed rows $D,E_0,S,T,G,H,R,Q,W,C,P,N$.
+\end{definition}
+
+\begin{theorem}[StationaryEmbeddingClassifier NameCert obligations]
+\label{thm:stationary-embedding-classifier-namecert-obligations}
+For the carrier of \autoref{def:stationary-embedding-classifier-carrier}, the local $\NameCert_{\StationaryEmbeddingClassifierUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for $E=(D,E_0,S,T,G,H,R,Q,W,C,P,N)$;
+\item stationary-source admission, requiring $D,E_0$ to be RatUp seed rows and $S,T$ to be their constant $\StreamNameUp$ rows;
+\item diagonal-and-seal admission, requiring $G$ to expose the stationary $\RegSeqRat$ diagonals and $H$ to expose the matching RealUp constant rational embedding seals;
+\item classifier exactness, requiring the RealUp face $Q$ and the RatUp face $R$ to be transported through the same displayed $\hsame$ row $W$ and route row $C$;
+\item non-escape, requiring the packet to export no quotient stream, no host real equality, no selected limit, no ambient completeness principle, and no hidden classifier oracle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the finite tuple in \autoref{def:stationary-embedding-classifier-carrier}. The seed rows, constant stream rows, stationary diagonal rows, embedding seals, classifier faces, transport rows, route rows, provenance row, and local naming row are all displayed coordinates.
+
+Stationary-source admission reads the two RatUp rows $D,E_0$ and then the constant StreamName rows $S,T$. These rows are the same constant-stream witnesses used by the stationary rational Cauchy packet and by the constant StreamName readback surface.
+
+Diagonal-and-seal admission reads $G$ and $H$. The row $G$ names the stationary diagonal representatives of the two regular Cauchy inputs, while $H$ names the constant rational RealUp embeddings sealed by the corresponding e-one rows.
+
+Classifier exactness is the finite transport obligation. The RatUp face $R$ is read through the constant StreamName point-exactness route, then through the stationary diagonal route, and then through the RealUp constant rational embedding seal. Conversely the RealUp face $Q$ is read back through the same displayed constant-stream and e-one seal rows to the RatUp seed face.
+
+Finally inspect the carrier list. There is no coordinate for a quotient stream, host real equality, selected limit, ambient completeness principle, or hidden classifier oracle, so none of those objects can be exported by the local naming surface.
+\end{proof}
+
+\begin{theorem}[StationaryEmbeddingClassifier correspondence]
+\label{thm:stationary-embedding-classifier-correspondence}
+Let $E=(D,E_0,S,T,G,H,R,Q,W,C,P,N)$ be an accepted $\StationaryEmbeddingClassifierUp$ carrier. The public classifier reading factors through the finite equivalence
+$$
+\RealClassifier(L_D,L_{E_0})
+\quad\Longleftrightarrow\quad
+\RatHistoryClassifier(D,E_0).
+$$
+Both directions use only the displayed RatUp seed rows, constant $\StreamNameUp$ rows, stationary $\RegSeqRat$ diagonal rows, RealUp constant rational embedding seals, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the displayed rows. The RatUp side is the face $R=\RatHistoryClassifier(D,E_0)$, and the RealUp side is the face $Q=\RealClassifier(L_D,L_{E_0})$.
+
+For the forward direction, read $Q$ through the two stationary diagonal rows in $G$. The stationary rational diagonal certificate identifies each $L_D$ and $L_{E_0}$ with the corresponding constant rational RealUp embedding in $H$.
+
+The Real constant rational embedding readback then exposes the constant StreamName rows $S,T$. The constant StreamName point-exactness surface reads those rows back as the same RatUp seed classifier $R$.
+
+For the reverse direction, start from $R$. The constant StreamName witness transports the seed classifier to the constant streams $S,T$, and the stationary rational diagonal route transports those streams to the diagonal representatives in $G$.
+
+The RealUp constant rational embedding seals in $H$ identify those representatives with the RealUp face $Q$. The same $W,C,P,N$ rows carry both readings, so the two implications form the displayed finite equivalence.
+\end{proof}
+
+\begin{theorem}[StationaryEmbeddingClassifier non-escape boundary]
+\label{thm:stationary-embedding-classifier-nonescape}
+An accepted $\StationaryEmbeddingClassifierUp$ carrier exports only RatUp seed rows, constant $\StreamNameUp$ rows, stationary $\RegSeqRat$ diagonal rows, RealUp constant rational embedding seals, the RatUp and RealUp classifier faces, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. It exports no quotient stream, no host real equality, no selected limit, no ambient completeness principle, and no hidden classifier oracle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:stationary-embedding-classifier-carrier}. Every exported row is one of $D,E_0,S,T,G,H,R,Q,W,C,P,N$.
+
+The positive data remain finite and local: two seed rows, two constant stream rows, two stationary diagonal rows, two embedding seals, two classifier faces, and the rows that transport, route, package, and name them.
+
+No listed coordinate is a quotient stream, host real equality, selected limit, ambient completeness principle, or hidden classifier oracle. Therefore an accepted carrier cannot export any of those objects.
+\end{proof}
+
+\closureat{StationaryEmbeddingClassifierUp}{seedStr}
+
+\begin{closurestatus}{\StationaryEmbeddingClassifierUp}
+  \constructivestory{A $\StationaryEmbeddingClassifierUp$ packet is generated from RatUp seed rows, constant StreamName rows, stationary RegSeqRat diagonal rows, RealUp constant rational embedding seals, RatUp and RealUp classifier faces, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stationary-embedding-classifier-carrier}, \autoref{thm:stationary-embedding-classifier-namecert-obligations}, \autoref{thm:stationary-embedding-classifier-correspondence}, and \autoref{thm:stationary-embedding-classifier-nonescape} bind the finite stationary rational embedding classifier packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream identity, host real equality, selected limits, ambient completeness, bridge status, Lean verification, or a hidden classifier oracle.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier correspondence, transport exactness, and non-escape for the same stationary rational embedding classifier packet.}
+\end{closurestatus}
