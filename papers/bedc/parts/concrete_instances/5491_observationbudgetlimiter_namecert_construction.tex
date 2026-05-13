@@ -232,6 +232,7 @@ Finally apply \autoref{thm:observation-budget-limiter-seal-ordering} and \autore
 \label{thm:observation-budget-limiter-kernel-scope}
 Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. Every accepted limiter read is scoped by the displayed $\BHist$ carrier rows $E,B,K,W,D,R,S$, the componentwise $\hsame$ row $H$, the continuation-route row $C$, the package provenance row $P$, and the local $\NameCert_{\ObservationBudgetLimiterUp}$ row $N$. No accepted read of the limiter may cite a kernel object outside those rows before it reaches a downstream seal consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservationBudgetLimiterUp.ObservationBudgetLimiter\_kernel\_scope\_fields}
 \begin{proof}
 Project the carrier through \autoref{def:observation-budget-limiter-carrier}. The only carrier coordinates are $E,B,K,W,D,R,S,H,C,P,N$, with $H$ storing the componentwise $\hsame$ transports and $C$ storing the displayed $\Cont$ routes.
 
