@@ -40,6 +40,49 @@ Classifier transport uses $H$ to move every coordinate to a common finite surfac
 The dyadic tolerance ledger is stored inside the shared row $\mu$ and its associated $\DyadicRatCoreUp$ read. Since no carrier coordinate stores quotient streams, selected limits, host real equality, or an ambient completeness proof, the NameCert obligations are exhausted by the five displayed rows.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet shared-radius carrier admission]\label{thm:cauchy-modulus-meet-shared-radius-carrier-admission}
+Carrier admission for a $\CauchyModulusMeetUp$ packet
+$$
+M=(S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N)
+$$
+exposes exactly the two $\StreamNameUp$ rows $S_0,S_1$, the two source $\CauchyModulusUp$ rows $\mu_0,\mu_1$, the shared $\DyadicRatCoreUp$ tolerance meet carried by $\mu$, the componentwise $\hsame$ rows in $H$, the displayed $\Cont$ routes in $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\CauchyModulusMeetUp}$ row $N$. No carrier-admission route adds quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cauchy-modulus-meet-carrier}. Its displayed coordinates are precisely $S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N$, with $S_0,S_1$ providing the stream-name rows and $\mu_0,\mu_1,\mu$ providing the two source modulus rows and the shared meet row.
+
+Apply the NameCert obligation surface of \autoref{thm:cauchy-modulus-meet-namecert-obligations}. The carrier-admission row is one of the five local obligations, and the remaining rows only classify, stabilize, bound, route, record provenance, and name the same finite packet.
+
+Projection stability and shared-bound exhaustion identify the readable modulus content. \autoref{thm:cauchy-modulus-meet-projection-stability} keeps the source projections on the displayed transport surface, while \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion} confines the shared bound to the $\DyadicRatCoreUp$ ledger carried by $\mu$. Hence carrier admission exposes exactly the listed BEDC rows and nothing external to the packet.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet RegSeqRat classifier transport]\label{thm:cauchy-modulus-meet-regseqrat-classifier-transport}
+Every $\RegSeqRatUp$ classifier comparison between accepted $\CauchyModulusMeetUp$ packets factors through transported stream windows, the two source modulus rows, the shared meet row $\mu$, and the displayed $\hsame$ and $\Cont$ routes of the carrier in \autoref{def:cauchy-modulus-meet-carrier}. The comparison may use the $\Pkg$ and $\NameCert$ rows to identify the packet provenance and local name, but it has no access to quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the classifier row from \autoref{thm:cauchy-modulus-meet-namecert-obligations}. It transports the compared packets to a common displayed $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, and $\DyadicRatCoreUp$ surface before any classifier read is made.
+
+Now use the carrier coordinates of \autoref{def:cauchy-modulus-meet-carrier}. The only stream-window inputs are the windows routed from $S_0$ and $S_1$, the only source modulus inputs are $\mu_0$ and $\mu_1$, and the only common bound input is the shared meet row $\mu$ with its dyadic ledger.
+
+Finally apply projection stability and the shared-bound exhaustion theorem. \autoref{thm:cauchy-modulus-meet-projection-stability} keeps the two source modulus reads stable under the displayed $\hsame$ transports, and \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion} prevents the classifier from replacing $\mu$ by an undisplayed analytic datum. The classifier comparison therefore factors through the listed transported routes.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet Real seal consumer obligation]\label{thm:cauchy-modulus-meet-real-seal-consumer-obligation}
+Every $\RealUp$ consumer of a $\CauchyModulusMeetUp$ packet may read only the shared-bound route exposed by
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+Such a consumer cannot extract quotient streams, selected limits, host real equality, ambient completeness, or any real-valued seal beyond the displayed shared modulus handoff.
+\end{theorem}
+\begin{proof}
+Begin with the carrier in \autoref{def:cauchy-modulus-meet-carrier}. The packet contains stream names, regular-rational read routes, source modulus rows, the shared meet row, transport rows, continuation routes, provenance, and a local name, but no host real object or completeness witness.
+
+Use the NameCert obligations to identify the available consumer rows. By \autoref{thm:cauchy-modulus-meet-namecert-obligations}, the real-facing handoff reads are ledger rows over the same finite packet, not extra coordinates.
+
+Apply the Real handoff boundary and shared-bound exhaustion. \autoref{thm:cauchy-modulus-meet-real-handoff-boundary} forces each $\RealUp$ read through the stream-name, regular-rational, dyadic-tolerance, transport, route, provenance, and naming rows, while \autoref{thm:cauchy-modulus-meet-shared-bound-exhaustion} identifies the only readable bound as the displayed ledger carried by $\mu$.
+
+Thus the consumer obligation is exactly the shared-bound route. Since neither the carrier nor the cited obligations contain quotient streams, selected limits, host real equality, ambient completeness, or a separate real-valued seal, none can be extracted by a $\RealUp$ consumer.
+\end{proof}
+
 \begin{theorem}[CauchyModulusMeet projection stability]\label{thm:cauchy-modulus-meet-projection-stability}
 Let $M=(S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N)$ and $M'=(S'_0,S'_1,\mu'_0,\mu'_1,\mu',H',C',P',N')$ be accepted $\CauchyModulusMeetUp$ carriers whose displayed coordinates are related componentwise by the transport rows in $H$ and $H'$. Then the projected source modulus reads $\mu_0,\mu_1$ and the shared meet read $\mu$ remain readable through the transported packet, and their $\DyadicRatCoreUp$ tolerance ledger is the same displayed ledger seen by both $\RegSeqRatUp$ stream-name projections.
 \end{theorem}
