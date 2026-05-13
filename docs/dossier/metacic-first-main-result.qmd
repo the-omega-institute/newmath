@@ -1,0 +1,160 @@
+---
+title: "MetaCIC: BEDC's First Main Result"
+subtitle: "The closed-normal consistency theorem, why it works, and what the dependent-codomain barrier is structurally telling us"
+author: "The Omega Institute"
+date: 2026-05-14
+description: "Closed CIC at false is not inhabited by any closed, normal, beta-strong term. This is BEDC's first unconditional main result. Why the closed-codomain case settles unconditionally, why the dependent-codomain case parks behind four named hypotheses, and why that boundary is structural rather than incidental."
+---
+
+```{=html}
+<div class="lang-switch"><a href="metacic-first-main-result.zh-CN.qmd">中文</a></div>
+```
+
+## What an unconditional consistency theorem looks like
+
+There are not many of these in mathematics. A consistency theorem says that a formal system cannot prove a contradiction — that no closed term inhabits the type `False`. For most foundational systems, the available consistency theorems either (a) are external — proven from a stronger system that itself stands in need of a consistency proof — or (b) rely on heavy semantic apparatus that the original system does not internally validate.
+
+Goedel showed that no sufficiently strong formal system can prove its own consistency unconditionally. So when we say BEDC has a "main consistency result", we have to be careful about what exactly the theorem says, what it presupposes, and what it does *not* claim. We have to specify the scope.
+
+The result is this:
+
+> **Closed-normal consistency.** Let *t* be a closed term of the calculus of inductive constructions, typed at `False` under the empty context, and let *t* be β-strong (every reduction sequence terminates). Then a contradiction follows.
+
+The theorem is in the project's MetaCIC formalisation at `lean4/BEDC/MetaCIC/`. The Lean target is `BEDC.MetaCIC.Conservativity.closed_normal_consistency`. It is `\leanchecked` from the paper, it passes the `axiom-purity --strict` audit (no `Classical.choice`, no `Quot.sound`, no `propext`), and the build is exit 0.
+
+The theorem is *unconditional* in the sense that it does not assume any external normalisation principle, any model-theoretic background, or any consistency of a meta-system. The hypotheses are read directly from the term: *closed, typed at false, beta-strong*. The conclusion is the contradiction one expects from such a term.
+
+This is what unconditional means in this project. It does not mean *consistency of all of CIC* — that is exactly the thing Goedel's second incompleteness theorem rules out. It means *consistency of a specific named fragment*, with hypotheses on the term that are checkable by the kernel.
+
+## Why it works for the closed-codomain case
+
+The proof — much abbreviated — runs by structural induction on the closed normal term. The key cases are:
+
+- **Application of a closed type former to closed arguments.** Pushes the obligation down to the result, which is again closed and normal.
+- **Match on a closed inductive value.** Goedel-style stuck: matches on `False` need at least one constructor, but `False` has none.
+- **Closed-codomain Pi binding.** This is the cleanest case. A closed term of type `False` whose type-former path is a Pi with a *closed* codomain reduces uniformly. Subject reduction proceeds without dependent typing complications.
+
+Each of these cases can be discharged by direct structural argument on the term's constructors. The kernel-style invariants — well-typedness, β-strength, closedness — are preserved at every reduction step under the discharge.
+
+The audit of these cases is mechanical. The project runs an *exhaustiveness audit* against 31 obligation targets — every named target in the closed-normal consistency development:
+
+```text
+Exhaustiveness audit:
+  17 strict PASS  (Lean ∀-statement literally matches manifest enumeration)
+  14 convention   (BEDC finite-witness convention bridge applies)
+  31 total
+```
+
+The 17 strict PASS are obligations whose Lean statement is literally a ∀-quantification matching an enumeration that the audit can decide by direct comparison. The 14 convention-bound entries are obligations that hold under the project's stated finite-witness convention — the audit checks that the convention's premises are met. Both classes are mechanically verified; the distinction is bookkeeping about *how* the verification connects to the closed-form statement.
+
+This is what BEDC calls *the closed-codomain main result*. It is the largest piece of meta-theory the project has settled unconditionally.
+
+## Where the proof stops
+
+The proof does not extend, as written, to the *dependent-codomain* case. A closed term of type `False` whose type-former path is a Pi with a *dependent* codomain — a codomain that depends on the bound variable — introduces four subject-reduction obligations that the current proof does not internally discharge:
+
+1. **Dependent codomain stability under reduction**: if the codomain depends on a sub-term that is itself reducible, the reduction must preserve well-typedness through the dependence.
+2. **Telescoping closure**: chained dependent codomains must close uniformly when the chain is consumed.
+3. **Strong elimination compatibility**: matches whose return type depends on the scrutinee must preserve subject reduction under elimination of any constructor.
+4. **Inductive parameter coherence**: when the dependent codomain mentions a parameter of an inductive type being eliminated, the parameter and the elimination must agree under reduction.
+
+Each of these is a *named structural hypothesis*. In the BEDC paper, they appear as `\leanstmt` (statement-only) targets — registered for tracking but not asserted as theorems. In the Lean code, they sit in `lean4/BEDC/MetaCIC/SubjectReduction/Hypotheses.lean` as `structure` fields, parametrised over a setup typeclass. The project does *not* assert them, does not introduce them as axioms, and does not approximate them by a weaker structural claim.
+
+This matters more than it might appear. The four hypotheses are not optional engineering details. They are the structural locus at which CIC's dependent typing apparatus interacts with normalisation. Closing them unconditionally would mean closing a substantial fragment of CIC's meta-theory — which the project is honest about not currently having done.
+
+So the project's `\closurestatus` block for the MetaCIC chapter reads:
+
+```latex
+\theoryclosure{\scopedClosure}
+\scopeclosed{Closed-codomain CIC at False is consistent;
+            empty context; closed normal term;
+            beta-strong reduction.}
+\formalstatus{\theoremCheckedV}
+\leantarget{BEDC.MetaCIC.Conservativity.closed\_normal\_consistency}
+\notclaimed{Dependent-codomain case requires four named
+            subject-reduction hypotheses that are
+            currently registered as structure fields,
+            not theorems.}
+\upgradepath{Discharge the four hypotheses in
+            SubjectReduction/Hypotheses.lean as
+            theorems instead of structure fields.}
+```
+
+The scope is precisely named. The boundary is precisely named. The upgrade path is precisely named. Nothing is being smuggled through under softer language.
+
+## Why this is structurally honest
+
+The interesting move in the result is *not* the proof of the closed-codomain case. The interesting move is the *refusal* to extend the proof to the dependent-codomain case via informal handwaving.
+
+In the early history of MetaCIC the project had repeated drafts where the dependent-codomain case was "argued by an obvious extension" or "follows mutatis mutandis from the closed-codomain proof". These drafts were rejected, because the four obligations above are not minor extensions — they are where CIC's dependent typing apparatus interacts substantively with the reduction theory, and any handwave there is the kind of handwave that gets stuck inside Goedel's second incompleteness theorem.
+
+The rejection produced the present structure: an unconditional main result for the closed-codomain case, plus four explicitly named hypotheses for the dependent-codomain case, with the hypotheses themselves not pretending to be theorems.
+
+This is what the project means by *closure honesty*. When the proof works, the theorem is asserted. When the proof stops, the place where it stopped is registered as a named hypothesis, *with* its structural content visible, *not* hidden as a "minor technical lemma" or as a `theorem foo : True := True.intro` stub.
+
+## How the audit makes the honesty mechanical
+
+The honesty does not depend on the author's discipline. It depends on the audit pipeline.
+
+The relevant audits are:
+
+```bash
+python3 tools/check-axioms.py
+# 0 axiom keyword in lean4/BEDC/ anywhere
+
+grep -r "sorry" lean4/BEDC --include="*.lean"
+# 0 occurrences
+
+python3 lean4/scripts/bedc_ci.py audit
+# paper ↔ Lean drift = 0
+# Every \leanchecked{X} target X exists in lean4/
+
+python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+# 1837/1837 BEDC theorems pure under #print axioms
+# No Classical.choice, no Quot.sound, no propext
+
+python3 lean4/scripts/bedc_ci.py conservativity-audit
+# ai-proposed chapters do not leak into baseline imports
+```
+
+The `axiom-purity --strict` audit is the strictest. It traces every BEDC theorem's full transitive dependency through `#print axioms` and refuses any Lean stdlib axiom. The closed-normal consistency theorem passes this audit. Its proof uses only `inductive` definitions, `def`s, and CIC's basic typing machinery. No `Classical.choice`. No `propext`. No `Quot.sound`. Nothing that could quietly import a non-constructive principle.
+
+The result is therefore *Brouwer-constructive* in a precise sense. A constructive analyst willing to grant CIC's `inductive` mechanism — which is what Lean's kernel is — can accept the proof. A constructive analyst unwilling to grant `inductive` is not party to the proof at all, which is the right answer to give.
+
+## What's notable about the hypotheses themselves
+
+The four subject-reduction discharge hypotheses are encoded in Lean as fields of a `structure`, not as a `class`. The reason matters.
+
+A `class` would mean the project commits to *some* implementation existing somewhere — instances are expected, the typeclass mechanism searches for them. A `structure` means the project commits to the *shape* of the hypotheses without committing to existence. Anyone who can produce a value of the structure type — i.e., furnish all four hypotheses as theorems — gets to apply the dependent-codomain closure result. No one is committed to that being possible.
+
+The choice of `structure` over `class` is one of the things that makes the result honest. The hypotheses are not "missing instances we'll find later". They are *open conjectures* about CIC's meta-theory, marked as such in the source.
+
+## The view from below the result
+
+If you start from `inductive BHist | Empty | e0 | e1` and the four kernel verbs `Mark`, `Hist`, `Ext`, `Cont`, and you build everything else (1837 theorems' worth of mathematics) on top of them, you eventually want to know: *is this kernel itself consistent?* You can't prove it consistent from inside the kernel — Goedel's second incompleteness rules that out. But you can prove a meta-theoretic fragment consistent.
+
+The closed-normal consistency theorem is that fragment, made unconditional. It says: *the part of the meta-theory you can settle without dependent-codomain reasoning settles cleanly, with full axiomatic transparency, mechanically verified.*
+
+This is, structurally, what an honest unconditional consistency result for a foundational system looks like. The named scope. The named hypotheses for the boundary. The explicit audit. The 17 + 14 = 31 obligations tracked. The 1837 theorems pure. The dependence on `inductive` and nothing else.
+
+It is the first piece of BEDC's foundational meta-theory that has reached this level of closure. It is also a stable platform for the rest of the meta-theory development: once `closed_normal_consistency` is a theorem, every downstream meta-theoretic argument that needs it can cite it as a Lean target rather than relying on informal trust.
+
+## What this is *not*
+
+It is not a proof of CIC's consistency. CIC's full consistency is an open problem in proof theory; even if one believes it holds, the proof would require resources beyond CIC itself (Goedel, second incompleteness). The result is consistency of a *named fragment* of CIC.
+
+It is not a proof of BEDC's full meta-theoretic closure. The four dependent-codomain hypotheses are real boundaries; further work is required to close them, and there is no guarantee that closure will be possible inside the project's mathlib-free constraint.
+
+It is not a refutation of axiomatic methods. It is a demonstration that, at least for *this* fragment of meta-theory, the result can be settled without invoking the axioms Lean's standard library exposes. Other meta-theoretic results may need those axioms; the project does not claim they don't.
+
+What it *is*: the first unconditional main result of the BEDC project, with a precisely named scope, mechanically verified transitive axiom purity, and a structurally honest treatment of the boundary it doesn't yet cross. Future essays in this dossier will treat the dependent-codomain hypotheses as engineering targets and the cellular substrate as a parallel exhibit of the same closure discipline.
+
+```{=html}
+<div class="cta-choices">
+  <a href="where-induction-comes-from.qmd"><strong>← Where Induction Comes From</strong><br/>The closure boundary on universal statements, of which this is the meta-theoretic case.</a>
+  <a href="goedel-boundary-as-data.qmd"><strong>Goedel Boundary as Data →</strong><br/>The four hypotheses at one layer; the cook compile-frontier at the other. Both are numbers, not walls.</a>
+  <a href="pattern-as-mark.qmd"><strong>Pattern as Mark →</strong><br/>The same classifier discipline operating one level lower, on cellular automaton evolutions.</a>
+</div>
+```
+
+— *The Omega Institute*
