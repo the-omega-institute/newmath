@@ -70,6 +70,34 @@ theorem RegularCauchyNegationCarrier_namecert_obligations [AskSetup] [PackageSet
       exact sourceRow
   }
 
+theorem RegularCauchyNegationCarrier_diagonal_limit_readout [AskSetup] [PackageSetup]
+    {source window dyadic classifier flipped sealRow transportRow route provenance name
+      diagonalRead limitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyNegationCarrier source window dyadic classifier flipped sealRow transportRow
+        route provenance name bundle pkg ->
+      Cont window dyadic diagonalRead ->
+        Cont classifier flipped limitRead ->
+          PkgSig bundle diagonalRead pkg ->
+            PkgSig bundle limitRead pkg ->
+              UnaryHistory diagonalRead ∧ UnaryHistory limitRead ∧
+                Cont source window dyadic ∧ Cont dyadic classifier flipped ∧
+                  Cont window dyadic diagonalRead ∧ Cont classifier flipped limitRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle diagonalRead pkg ∧
+                      PkgSig bundle limitRead pkg := by
+  intro carrier windowDyadicRead classifierFlippedRead diagonalReadPkg limitReadPkg
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, classifierUnary, flippedUnary,
+    _sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    sourceWindowDyadic, dyadicClassifierFlipped, _flippedSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have diagonalReadUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicRead
+  have limitReadUnary : UnaryHistory limitRead :=
+    unary_cont_closed classifierUnary flippedUnary classifierFlippedRead
+  exact
+    ⟨diagonalReadUnary, limitReadUnary, sourceWindowDyadic, dyadicClassifierFlipped,
+      windowDyadicRead, classifierFlippedRead, provenancePkg, diagonalReadPkg, limitReadPkg⟩
+
 theorem RegularCauchyNegationCarrier_public_seal_export [AskSetup] [PackageSetup]
     {source window dyadic classifier flipped sealRow transportRow route provenance name
       realBoundary : BHist}
