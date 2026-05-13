@@ -118,6 +118,28 @@ theorem FiniteNetMinimumFoldPacket_lower_bound_certificate [AskSetup] [PackageSe
   exact
     ⟨accumulatorUnary, lowerUnary, lowerExportUnary, accumulatorLowerExport, lowerExportPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_radius_ledger_admission [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow admitted : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont bundleRow radius admitted →
+        PkgSig bundle provenance pkg →
+          UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory admitted ∧
+            Cont bundleRow radius admitted ∧ Cont bundleRow radius accumulator ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet bundleRadiusAdmitted provenancePkg
+  obtain ⟨bundleRowUnary, radiusUnary, _accumulatorUnary, _lowerUnary, _nameRowUnary,
+    bundleRadiusAccumulator, _accumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _packetPkg⟩ := packet
+  have admittedUnary : UnaryHistory admitted :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusAdmitted
+  exact
+    ⟨bundleRowUnary, radiusUnary, admittedUnary, bundleRadiusAdmitted,
+      bundleRadiusAccumulator, provenancePkg⟩
+
 theorem FiniteNetMinimumFoldPacket_compactmoduluscover_input_exactness
     [AskSetup] [PackageSetup]
     {bundleRow radius accumulator lower transport route provenance nameRow compactInput folded
