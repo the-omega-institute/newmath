@@ -199,17 +199,34 @@ theorem FiniteMultiHistPacketTasteGate_single_carrier_alignment :
       finiteMultiHistPacketDecodeBHist (finiteMultiHistPacketEncodeBHist h) = h) ∧
       (∀ x : FiniteMultiHistPacketUp,
         finiteMultiHistPacketFromEventFlow (finiteMultiHistPacketToEventFlow x) = some x) ∧
-        (∀ x y : FiniteMultiHistPacketUp,
-          finiteMultiHistPacketToEventFlow x = finiteMultiHistPacketToEventFlow y → x = y) ∧
-          finiteMultiHistPacketEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+        (∀ x : FiniteMultiHistPacketUp,
+          finiteMultiHistPacketFromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+          (∀ x y : FiniteMultiHistPacketUp,
+            finiteMultiHistPacketToEventFlow x = finiteMultiHistPacketToEventFlow y → x = y) ∧
+            (∀ x y : FiniteMultiHistPacketUp,
+              BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y) ∧
+              (∀ (x : FiniteMultiHistPacketUp) w m,
+                List.Mem w (BHistCarrier.toEventFlow x) → List.Mem m w →
+                  m = BMark.b0 ∨ m = BMark.b1) ∧
+                finiteMultiHistPacketEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
   · exact finiteMultiHistPacket_decode_encode_bhist
   · constructor
     · exact finiteMultiHistPacket_round_trip
     · constructor
-      · intro x y heq
-        exact finiteMultiHistPacketToEventFlow_injective heq
-      · rfl
+      · intro x
+        change finiteMultiHistPacketFromEventFlow (finiteMultiHistPacketToEventFlow x) = some x
+        exact finiteMultiHistPacket_round_trip x
+      · constructor
+        · intro x y heq
+          exact finiteMultiHistPacketToEventFlow_injective heq
+        · constructor
+          · intro x y heq
+            exact finiteMultiHistPacketToEventFlow_injective heq
+          · constructor
+            · intro x w m hw hm
+              exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
+            · rfl
 
 end BEDC.Derived.FiniteMultiHistPacketUp
