@@ -1,0 +1,87 @@
+\begin{theorem}[Diagonal tail selector root cofinal admission]
+\label{thm:diagonal-tail-selector-root-cofinal-admission}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Before any selector read is
+performed, the root admission surface exposes the source regular row $R$, the
+precision request $n$, the displayed modulus $\mu$, the selected threshold
+index $k$, the finite stream window $W$, the dyadic readback row $D$, the
+tail-selector handoff $T$, the Real seal row $S$, the componentwise $\hsame$
+rows $H$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance row $P$,
+and the local $\NameCert$ row $N$. No selector step may consult a row outside
+this displayed packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of $\DiagonalTailSelectorUp$. Its root packet is
+the tuple $G$, and the selector coordinate is read only after the visible
+source, modulus, window, readback, tail, seal, transport, continuation,
+provenance, and naming rows have been fixed.
+
+Apply \autoref{thm:diagonal-tail-selector-window-admission} to the first
+selector read. The theorem routes the read through $\mu$ at $n$ and then
+through $W$ and $D$, so no hidden source row is available before the
+cofinal index is selected.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector root budget handoff]
+\label{thm:diagonal-tail-selector-root-budget-handoff}
+For every accepted $\DiagonalTailSelectorUp$ packet $G$, the selected
+cofinal row factors through the visible L10 route
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\RealUp.
+$$
+The factorization consumes only the rows exposed by
+\autoref{thm:diagonal-tail-selector-root-cofinal-admission}: the cofinal
+index comes from the displayed selector/modulus budget, the finite window and
+dyadic readback supply the stream evidence, the regular Cauchy tail row
+transports the shared threshold, and the Real row receives only the resulting
+finite seal packet.
+\end{theorem}
+\begin{proof}
+Start with the root admission surface of
+\autoref{thm:diagonal-tail-selector-root-cofinal-admission}. The selector row
+is already tied to $R,n,\mu,k,W,D,T,S,H,C,P,N$, so any downstream budget
+handoff must reuse these rows.
+
+Next apply \autoref{thm:diagonal-tail-selector-limit-handoff},
+\autoref{thm:diagonal-tail-selector-source-modulus-route-exactness}, and
+\autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope}. Together
+they route the cofinal selection through the displayed limit selector,
+regular tail-selector, stream-name, dyadic readback, regular sequence, and
+Real seal rows.
+
+It remains to identify the budget boundary. The handoff contains no row
+besides the root packet and the named L10 consumers, so the selected cofinal
+row factors through exactly the displayed route.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector root seal non-escape]
+\label{thm:diagonal-tail-selector-root-seal-nonescape}
+The root budget route of an accepted $\DiagonalTailSelectorUp$ packet exports
+no quotient stream, countable-choice selector, host-selected limit, host real
+equality, hidden tail oracle, or ambient completeness row. Its public output
+is only the finite cofinal-window, dyadic-readback, regular-tail, Real-seal,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface named by the root packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:diagonal-tail-selector-root-budget-handoff} to place every
+selected cofinal row on the displayed L10 route. Each consumer receives only
+the rows exposed by the accepted root packet.
+
+Now apply \autoref{thm:diagonal-tail-selector-real-seal-source-exhaustion}
+and \autoref{thm:diagonal-tail-selector-tail-meet-consumption-scope}. These
+results exhaust the Real seal and tail-meet consumption boundaries and list
+the objects that cannot be exported through them.
+
+The remaining rows $H,C,P,N$ are structural transport, continuation,
+provenance, and naming rows. They record the visible finite route rather than
+adding quotient streams, countable choice, host limits, host equality, hidden
+tail oracles, or completeness data.
+\end{proof}

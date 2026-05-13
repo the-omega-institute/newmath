@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FiniteTailFiberScheduleUp$}
+\label{ch:concrete-instances-finite-tail-fiber-schedule-namecert}
+\origin{ai}
+
+The $\FiniteTailFiberScheduleUp$ packet realizes the finite tail route behind the Real-completeness target of \autoref{ch:visions-real-completeness}. It sits after the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic readback core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the RealUp seal of \autoref{ch:concrete-instances-real-namecert}, and the shared tail-meet route of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The packet records one finite tail fiber, its schedule row, and its seal handoff without claiming quotient reals, ambient completeness, or an unrestricted diagonal theorem.
+
+\begin{definition}[Finite tail-fiber schedule carrier]
+\label{def:finite-tail-fiber-schedule-carrier}
+A $\FiniteTailFiberScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,F,S,D,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the displayed tail index at which the finite Real-completeness route is read;
+\item $F$ is the finite fiber row over that tail index, recording the stream observations available at the selected tail;
+\item $S$ is the schedule row that binds the tail index and finite fiber to the selected RealUp seal route;
+\item $D$ is the dyadic radius ledger consumed by the finite tail readback;
+\item $R$ is the $\RegSeqRatUp$ readback row used to interpret the scheduled fiber as regular rational data;
+\item $E$ is the $\RealUp$ seal row reached by the scheduled tail-fiber route;
+\item $H$ records componentwise $\hsame$ transport for the tail index, fiber row, schedule row, dyadic radius ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal;
+\item $C$ records the displayed $\Cont$ routes for stream-name readback, dyadic-radius use, regular-rational readback, tail-meet comparison, and seal consumption;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows;
+\item $N$ is the local $\NameCert_{\FiniteTailFiberScheduleUp}$ row.
+\end{enumerate}
+The classifier compares two carriers only by the displayed rows $T,F,S,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, an infinite tail oracle, a selected host limit, countable choice, or an ambient real-completeness theorem.
+\end{definition}
+
+\begin{theorem}[FiniteTailFiberSchedule NameCert obligations]
+\label{thm:finite-tail-fiber-schedule-namecert-obligations}
+Every accepted $\FiniteTailFiberScheduleUp$ packet with carrier \autoref{def:finite-tail-fiber-schedule-carrier} carries the standard five local naming obligations:
+\begin{enumerate}
+\item carrier habitation: the tuple $Q=(T,F,S,D,R,E,H,C,P,N)$ is admitted as one finite $\BHist$ packet;
+\item classifier transport: the componentwise $\hsame$ rows in $H$ and the displayed $\Cont$ routes in $C$ preserve the tail index, finite fiber, schedule, dyadic ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, package, and naming rows;
+\item schedule-to-fiber exactness: every accepted schedule read passes through the displayed tail index $T$ and finite fiber row $F$ before it can cite a RealUp seal;
+\item dyadic and regular readback exactness: every seal-facing radius and regular-rational read passes through the dyadic ledger $D$ and the $\RegSeqRatUp$ readback row $R$;
+\item non-escape: accepted carriers export no quotient real, selected host limit, infinite tail oracle, countable-choice row, or ambient Real-completeness theorem.
+\end{enumerate}
+Thus the local $\NameCert_{\FiniteTailFiberScheduleUp}$ surface is exactly the finite schedule from a displayed tail fiber to a displayed $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Carrier habitation is the displayed finite tuple $Q=(T,F,S,D,R,E,H,C,P,N)$. Each coordinate is a visible history row or a finite route between such rows, so admission does not require an external stream space or a host real carrier.
+
+For classifier transport, read the structural rows componentwise. The $\hsame$ data in $H$ preserve each displayed coordinate, and the $\Cont$ routes in $C$ replay the stream-name, dyadic-radius, regular-rational, tail-meet, and seal-consumption reads without introducing another tail object.
+
+Schedule-to-fiber exactness follows from the shape of $S$. A schedule row is accepted only when it binds the displayed tail index $T$ to the finite fiber row $F$, and the seal row $E$ is reachable only along that same route.
+
+Dyadic and regular readback exactness then projects $D$ and $R$. The radius information used at the scheduled tail is precisely the finite dyadic ledger, and the regular-rational data are precisely the displayed $\RegSeqRatUp$ readback for that fiber.
+
+Non-escape is carrier inspection. Since no coordinate stores quotient equality, a host-selected limit, an infinite tail oracle, countable choice, or an ambient completeness theorem, every consumer of the packet must remain inside the displayed tail-fiber schedule and RealUp seal rows.
+\end{proof}
+
+\falsifiablePrediction{Any accepted finite tail-fiber schedule consumer reaches the RealUp seal only after the displayed tail index, finite fiber, dyadic radius, RegSeqRat readback, hsame, Cont, Pkg, and local NameCert rows are present.}
+
+\independenceWitness{Compare StreamName, RegSeqRat, DyadicRatCore, RealUp, and RegularCauchyTailMeet: this packet is not bijective with any of them because it carries a schedule row binding one finite tail fiber to a RealUp seal; each sibling lacks at least the schedule-to-seal obligation or the tail-fiber ledger.}
+
+The later Lean \texttt{TasteGate.lean} boundary for this carrier must provide \texttt{Nontrivial FiniteTailFiberScheduleUp} and \texttt{FieldFaithful FiniteTailFiberScheduleUp} instances with explicit witness pairs and field projections. The nontrivial witness separates a scheduled tail-fiber packet from a carrier with no seal route, while field faithfulness preserves the tail index, finite fiber, schedule row, dyadic ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\hsame$ transport, $\Cont$ routes, package provenance, and local naming row.
+
+\closureat{FiniteTailFiberScheduleUp}{seedStr}
+
+\begin{closurestatus}{\FiniteTailFiberScheduleUp}
+  \constructivestory{A $\FiniteTailFiberScheduleUp$ packet is generated from a displayed tail index, finite fiber row, schedule row, dyadic radius ledger, RegSeqRat readback, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-tail-fiber-schedule-carrier} and \autoref{thm:finite-tail-fiber-schedule-namecert-obligations} bind the finite tail-fiber schedule and RealUp seal handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient reals, host real completeness, selected limits, countable choice, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule-to-fiber exactness, dyadic and regular readback exactness, RealUp seal handoff, transport closure, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
