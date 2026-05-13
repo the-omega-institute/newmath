@@ -41,6 +41,25 @@ theorem CertificateCompilerCarrier_target_endpoint_route [AskSetup] [PackageSetu
     ⟨targetEndpointUnary, graphUnary, landingUnary, sourceGraphLanding, landingRoutesTarget,
       certMatchesEndpoint, certPkg⟩
 
+theorem CertificateCompilerCarrier_root_landing_obligation [AskSetup] [PackageSetup]
+    {source target graph landing routes transport provenance cert landingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerCarrier source target graph landing routes transport provenance cert
+        bundle pkg ->
+      hsame landingRead landing ->
+        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+          UnaryHistory landingRead ∧ Cont source graph landing ∧
+            hsame cert (append provenance target) ∧ PkgSig bundle cert pkg := by
+  intro carrier landingSame
+  obtain ⟨sourceUnary, targetUnary, graphUnary, landingUnary, _routesUnary,
+    _transportUnary, _provenanceUnary, sourceGraphLanding, _landingRoutesTarget,
+    _provenanceTargetCert, certMatchesEndpoint, certPkg⟩ := carrier
+  have landingReadUnary : UnaryHistory landingRead :=
+    unary_transport_symm landingUnary landingSame
+  exact
+    ⟨sourceUnary, targetUnary, graphUnary, landingReadUnary, sourceGraphLanding,
+      certMatchesEndpoint, certPkg⟩
+
 theorem CertificateCompilerCarrier_bridge_rows_nonescape [AskSetup] [PackageSetup]
     {source target graph landing routes transport provenance cert targetEndpoint certEndpoint :
       BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
