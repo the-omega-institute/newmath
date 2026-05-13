@@ -63,12 +63,56 @@ The structural rows only transport, route, package, and name those coordinates. 
 Therefore a read that asks for any of those external objects has no coordinate in the packet. The only Real-facing information available to downstream consumers is the finite agreement route through $R,S,W,D,A,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal tail classifier]
+\label{thm:real-tail-agreement-seal-tail-classifier}
+For a $\RealTailAgreementSealUp$ carrier $Q=(R,S,W,D,A,H,C,P,N)$, the displayed agreement row $A$ is classifier-readable only through the exposed rows $R,S,W,D$. In particular, a public classifier for the finite tail agreement must first read the paired $\RegSeqRat$ sources $R,S$, the paired $\StreamNameUp$ tail-window row $W$, and the paired $\DyadicRatCoreUp$ readback row $D$; the row $A$ carries no separate tail oracle, quotient-stream equality, or ambient real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-tail-agreement-seal-carrier}. The agreement coordinate $A$ is displayed only after the source rows $R,S$, the window row $W$, and the readback row $D$ have been named.
+
+Apply the tail-window and dyadic-readback clauses of \autoref{thm:real-tail-agreement-seal-namecert-obligations}. They force every public agreement read to pass through $W$ and $D$, so the classifier sees the same finite rows that produced $A$.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-nonescape}. Since the packet exports no quotient equality or hidden tail selector, no classifier can bypass $R,S,W,D$ while still reading the displayed agreement row.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal Real handoff]
+\label{thm:real-tail-agreement-seal-real-classifier-handoff}
+Every Real or Completion consumer of a $\RealTailAgreementSealUp$ packet receives the displayed agreement through
+$$
+R,S,W,D,A,H,C,P,N
+$$
+together with the shared-threshold surface supplied by \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The handoff is therefore the paired-tail analogue of the finite cofinal-tail route in \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, not a direct assertion of Real equality or completion convergence.
+\end{theorem}
+\begin{proof}
+The carrier supplies the local rows $R,S,W,D,A,H,C,P,N$. The RealUp handoff clause in \autoref{thm:real-tail-agreement-seal-namecert-obligations} says that a downstream consumer reaches the seal only through those rows.
+
+The agreement row is finite because its windows and readbacks are finite. The cofinal-tail route of \autoref{ch:concrete-instances-regularcauchytailfusion-namecert} gives the sibling pattern for exposing finite tail evidence, while \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} supplies the shared-threshold discipline needed for a paired comparison.
+
+The non-escape theorem then fixes the boundary of the handoff. A Real or Completion consumer may consume the displayed paired-tail agreement route, but it does not receive quotient stream equality, a selected Real value, host metric convergence, open-cover compactness, or a choice-selected tail.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal ledger exhaustion]
+\label{thm:real-tail-agreement-seal-ledger-exhaustion}
+The rows
+$$
+R,S,W,D,A,H,C,P,N
+$$
+exhaust the local $\RealTailAgreementSealUp$ ledger. Any valid local obligation is one of carrier admission, tail-window coverage, dyadic readback exactness, RealUp handoff, or non-escape; no local row remains for quotient stream equality, selected reals, host metric convergence, open-cover compactness, choice-selected tails, or hidden tail oracles.
+\end{theorem}
+\begin{proof}
+Carrier admission in \autoref{thm:real-tail-agreement-seal-namecert-obligations} lists the whole packet. The only displayed data rows are the paired sources, windows, readbacks, agreement, transport, continuation, provenance, and local naming rows.
+
+The middle obligations account for the classifier surface. Tail-window coverage accounts for $W$, dyadic readback exactness accounts for $D$ and $A$, and the RealUp handoff accounts for the consumer route through $H,C,P,N$.
+
+It remains to rule out extra ledger rows. Apply \autoref{thm:real-tail-agreement-seal-nonescape}: the packet contains no coordinate for quotient stream equality, selected reals, host metric convergence, open-cover compactness, choice-selected tails, or hidden tail oracles. Hence the five displayed obligations exhaust the local ledger.
+\end{proof}
+
 \closureat{RealTailAgreementSealUp}{seedStr}
 
 \begin{closurestatus}{\RealTailAgreementSealUp}
   \constructivestory{A $\RealTailAgreementSealUp$ packet is generated from paired RegSeqRat source rows, finite paired StreamName tail windows, paired DyadicRatCore readbacks, a displayed tail-agreement row, componentwise hsame transports, Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-tail-agreement-seal-carrier}, \autoref{thm:real-tail-agreement-seal-namecert-obligations}, and \autoref{thm:real-tail-agreement-seal-nonescape} bind the finite paired tail-window agreement packet used by Real and Completion handoff consumers.}
+  \scopeclosed{\autoref{def:real-tail-agreement-seal-carrier}, \autoref{thm:real-tail-agreement-seal-namecert-obligations}, \autoref{thm:real-tail-agreement-seal-nonescape}, \autoref{thm:real-tail-agreement-seal-tail-classifier}, \autoref{thm:real-tail-agreement-seal-real-classifier-handoff}, and \autoref{thm:real-tail-agreement-seal-ledger-exhaustion} bind the finite paired tail-window agreement packet used by Real and Completion handoff consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
