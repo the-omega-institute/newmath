@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ClosurePreservationTraceUp$}
+\label{ch:concrete-instances-closurepreservationtrace-namecert}
+\origin{human}
+
+The $\ClosurePreservationTraceUp$ packet realizes the closedness-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} as finite NameCert data. It sits alongside the subject-reduction carrier of \autoref{ch:concrete-instances-subjectreduction-namecert}, the closed-term substitution carrier of \autoref{ch:concrete-instances-closedtermsubstitution-namecert}, and the beta-substitution preservation carrier of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}. Its scope is the unconditional $\mathsf{ClosedAt}$ chain for shift, substitution, one-step beta, and finite beta paths; it does not discharge the dependent typing obligations carried by subject-reduction chapters.
+
+\begin{definition}[ClosurePreservationTrace carrier]
+\label{def:closure-preservation-trace-carrier}
+A $\ClosurePreservationTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,V,U,B,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the shift-preservation row for the one-step successor boundary;
+\item $V$ is the variable-substitution preservation row at the selected closedness boundary;
+\item $U$ is the full substitution preservation row, linking the body budget and payload budget to the receiving $\mathsf{ClosedAt}$ boundary;
+\item $B$ is the one-step beta-preservation row;
+\item $R$ is the finite beta-star preservation row;
+\item $D$ is the displayed $\mathsf{ClosedAt}$ boundary row, recording the source depth, target depth, body budget, payload budget, and endpoint boundary consumed by $S,V,U,B,R$;
+\item $H$ records componentwise $\hsame$ transports for the shift, substitution, beta-step, beta-star, boundary, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the preservation chain in the order shift, variable substitution, substitution, beta step, and beta-star closure;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-closure-preservation-audit-map}, \autoref{ch:concrete-instances-closedtermsubstitution-namecert}, \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, \autoref{ch:concrete-instances-subjectreduction-namecert}, $\BHist$, $\hsame$, $\Cont$, $\mathsf{ClosedAt}$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosurePreservationTraceUp}$ row.
+\end{enumerate}
+The carrier contains no typing derivation, no subject-reduction theorem, no conversion rule, no confluence or normalization theorem, and no route for changing the classifier from $\mathsf{ClosedAt}$ to $\mathsf{HasType}$.
+\end{definition}
+
+\begin{theorem}[ClosurePreservationTrace NameCert obligations]
+\label{thm:closure-preservation-trace-namecert-obligations}
+For the carrier of \autoref{def:closure-preservation-trace-carrier}, the local $\NameCert_{\ClosurePreservationTraceUp}$ surface consists exactly of carrier admission for
+$$
+T=(S,V,U,B,R,D,H,C,P,N),
+$$
+visibility of the five preservation rows $S,V,U,B,R$, boundary accounting through $D$, componentwise transport through $H$, displayed route replay through $C$, provenance through $P$, and local naming through $N$. The surface classifies a finite closedness trace and not a typing-preservation package.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $T$. The first five coordinates are precisely the preservation chain listed in \autoref{ch:metacic-closure-preservation-audit-map}: shift preservation, variable substitution preservation, full substitution preservation, beta-step preservation, and beta-star preservation.
+
+Read the boundary row $D$ next. It keeps the successor boundary for shift, the source and receiving boundaries for substitution, and the endpoint boundary for beta movement in one visible row, so consumers cannot silently change the closedness index while following the chain.
+
+Finally inspect $H,C,P,N$. These rows provide transport, route replay, provenance, and local naming for the displayed coordinates. Since the carrier has no typing coordinate and no host conversion coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ClosurePreservationTrace closedness route]
+\label{thm:closure-preservation-trace-closedness-route}
+Every accepted $\ClosurePreservationTraceUp$ carrier exposes a single closedness-preservation route from the source $\mathsf{ClosedAt}$ boundary through shift, substitution, one-step beta reduction, and finite beta-star closure. A consumer that starts with a displayed closed source term and follows $C$ reaches only the transported $\mathsf{ClosedAt}$ endpoint named by $D$ and cannot obtain a $\mathsf{HasType}$ endpoint from this packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection of \autoref{def:closure-preservation-trace-carrier}. The continuation route $C$ first reads the shift row $S$ and the variable-substitution row $V$, then uses the full substitution row $U$ to account for the beta-redex contractum boundary.
+
+The one-step beta row $B$ reads the same substitution boundary, while the beta-star row $R$ composes finitely many such one-step reads. The boundary row $D$ is shared by those rows, so the source and endpoint closedness claims remain on the displayed boundary route.
+
+No step in this route reads the subject-reduction carrier as a proof payload. The references to \autoref{ch:concrete-instances-subjectreduction-namecert}, \autoref{ch:concrete-instances-closedtermsubstitution-namecert}, and \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert} are provenance anchors and neighboring consumers, not hidden typing evidence.
+\end{proof}
+
+\begin{theorem}[ClosurePreservationTrace non-escape]
+\label{thm:closure-preservation-trace-nonescape}
+Every public read of an accepted $\ClosurePreservationTraceUp$ carrier factors through
+$$
+S,V,U,B,R,D,H,C,P,N.
+$$
+The read may inspect the closedness preservation rows, the $\mathsf{ClosedAt}$ boundary ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row. It cannot read a typing derivation, a subject-reduction discharge row, a conversion theorem, a confluence theorem, a normalization theorem, quotient equality of terms, or a host semantic model.
+\end{theorem}
+\begin{proof}
+Apply the NameCert-obligation theorem to identify any accepted carrier with the finite packet $T=(S,V,U,B,R,D,H,C,P,N)$.
+
+For an admitted closedness read, the consumer follows the displayed route through $C$ and transports rows componentwise through $H$. The package provenance $P$ records where the chain is cited, but it does not add another payload coordinate.
+
+For any request outside the closedness route, the carrier has no row to satisfy it. In particular, subject-reduction and beta-substitution chapters may consume or compare the closedness trace, but this packet does not inhabit their typing-preservation obligations.
+\end{proof}
+
+\closureat{ClosurePreservationTraceUp}{seedStr}
+
+\begin{closurestatus}{\ClosurePreservationTraceUp}
+  \constructivestory{A $\ClosurePreservationTraceUp$ packet is generated from finite shift, substitution, beta-step, beta-star, $\mathsf{ClosedAt}$ boundary, transport, continuation, package, and naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-preservation-trace-carrier}, \autoref{thm:closure-preservation-trace-namecert-obligations}, \autoref{thm:closure-preservation-trace-closedness-route}, and \autoref{thm:closure-preservation-trace-nonescape} bind the finite closedness-preservation trace over the audit-map chain.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove typing preservation, confluence, normalization, conversion soundness, Lean verification of the trace carrier, or a public bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, closedness-route exactness, transport stability, continuation replay, provenance, local naming, and non-escape for the same finite trace packet.}
+\end{closurestatus}
