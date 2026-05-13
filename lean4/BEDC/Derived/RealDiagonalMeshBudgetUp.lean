@@ -44,4 +44,22 @@ theorem RealDiagonalMeshBudgetCarrier_window_coverage
   exact
     ⟨bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, hsame_refl theta⟩
 
+theorem RealDiagonalMeshBudgetCarrier_selected_window_refinement
+    {q b omega rho delta theta e h c p n : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      UnaryHistory h ∧ UnaryHistory theta ∧ UnaryHistory c ∧ UnaryHistory e ∧
+        Cont q b h ∧ Cont b omega theta ∧ Cont omega rho c ∧ Cont rho delta e ∧
+          hsame p p ∧ hsame n n := by
+  intro carrier
+  obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, _deltaUnary, thetaUnary, eUnary,
+    precisionBudgetRoute, budgetWindowRoute, windowReadbackRoute, readbackLedgerRoute,
+    provenanceSame, nameSame⟩ := carrier
+  have hUnary : UnaryHistory h :=
+    unary_cont_closed qUnary bUnary precisionBudgetRoute
+  have cUnary : UnaryHistory c :=
+    unary_cont_closed omegaUnary rhoUnary windowReadbackRoute
+  exact
+    ⟨hUnary, thetaUnary, cUnary, eUnary, precisionBudgetRoute, budgetWindowRoute,
+      windowReadbackRoute, readbackLedgerRoute, provenanceSame, nameSame⟩
+
 end BEDC.Derived.RealDiagonalMeshBudgetUp

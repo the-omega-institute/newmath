@@ -110,6 +110,39 @@ theorem CauchyLimitSealCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact sourceRow
   }
 
+theorem CauchyLimitSealCarrier_dyadic_handoff [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transport provenance localCert endpoint window
+      observation realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transport provenance
+        localCert endpoint bundle pkg ->
+      Cont source schedule window ->
+        Cont window dyadic observation ->
+          Cont observation diagonal realRead ->
+            hsame dyadic observation ->
+              UnaryHistory window ∧ UnaryHistory observation ∧ UnaryHistory realRead ∧
+                Cont source schedule window ∧ Cont window dyadic observation ∧
+                  Cont observation diagonal realRead ∧ hsame sealRow realRead ∧
+                    PkgSig bundle endpoint pkg := by
+  intro carrier sourceScheduleWindow windowDyadicObservation observationDiagonalRead
+    sameDyadicObservation
+  obtain ⟨sourceUnary, scheduleUnary, dyadicUnary, diagonalUnary, _sealUnary,
+    _transportUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+    _provenanceLocalEndpoint, _sameEndpoint, endpointPkg⟩ := carrier
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed sourceUnary scheduleUnary sourceScheduleWindow
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicObservation
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed observationUnary diagonalUnary observationDiagonalRead
+  have sealSameRead : hsame sealRow realRead :=
+    cont_respects_hsame sameDyadicObservation (hsame_refl diagonal) dyadicDiagonalSeal
+      observationDiagonalRead
+  exact
+    ⟨windowUnary, observationUnary, realReadUnary, sourceScheduleWindow,
+      windowDyadicObservation, observationDiagonalRead, sealSameRead, endpointPkg⟩
+
 theorem CauchyLimitSealCarrier_realup_consumer_boundary [AskSetup] [PackageSetup]
     {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint
       realRead : BHist}
