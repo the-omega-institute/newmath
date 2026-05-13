@@ -59,3 +59,54 @@ If a consumer asks for convergence data without a displayed common-window witnes
   \notclaimed{This chapter does not close quotient nets, selected limits, ambient completeness, cofinal choice, or a uniform-space standard bridge.}
   \upgradepath{Obligation closure requires checked carrier admission, common-window classification, directed-window transport, ledger non-escape, and $\RealUp$ handoff for the same finite packet.}
 \end{closurestatus}
+
+\begin{definition}[CauchyNet witness-complete finite subwindow]
+\label{def:cauchy-net-witness-complete-finite-subwindow}
+Let
+$$
+K=(D,S,R,W,T,L,H,C,P,N)
+$$
+be an accepted $\CauchyNetUp$ carrier, and let $\Omega$ be a finite directed subwindow of the displayed index-window ledger $D$. The subwindow $\Omega$ is witness-complete for a displayed finite tolerance family $E$ when the retained rows
+$$
+D_{\Omega},S_{\Omega},R_{\Omega},W_{\Omega},T_{\Omega},L_{\Omega},H_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega}
+$$
+satisfy the following conditions:
+\begin{enumerate}
+\item $D_{\Omega}$ is the finite directed subledger of $D$ on $\Omega$, and for every tolerance request in $E$ the common upper-window witness named by the original classifier row $T$ lies in $D_{\Omega}$;
+\item $S_{\Omega}$ contains exactly the scheduled $\StreamNameUp$ observation names from $S$ whose directed addresses are in $D_{\Omega}$ and are used by those retained common-window witnesses;
+\item $W_{\Omega}$ contains exactly the $\DyadicRatCoreUp$ observation and comparison rows from $W$ read by the retained scheduled observations;
+\item $T_{\Omega}$ is the common-window classifier row restricted to the requests in $E$, with each classifier entry using its displayed witness from $D_{\Omega}$;
+\item $R_{\Omega}$ is the $\RegSeqRatUp$ row obtained by restricting the original row $R$ to the retained schedule, observation, comparison, and classifier entries;
+\item $L_{\Omega}$ is the $\RealUp$ handoff row whose source is the retained row $R_{\Omega}$;
+\item $H_{\Omega}$ and $C_{\Omega}$ are the componentwise restrictions of the displayed $\hsame$ transports and $\Cont$ routes whose endpoints are among the retained rows;
+\item $P_{\Omega}$ and $N_{\Omega}$ are the provenance and local $\NameCert_{\CauchyNetUp}$ rows restricted to the same retained coordinates.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[CauchyNet finite subwindow restriction]
+\label{thm:cauchy-net-finite-subwindow-restriction}
+Let
+$$
+K=(D,S,R,W,T,L,H,C,P,N)
+$$
+be an accepted $\CauchyNetUp$ carrier in the sense of \autoref{def:cauchy-net-carrier}. If $\Omega$ is witness-complete for a displayed finite tolerance family $E$ in the sense of \autoref{def:cauchy-net-witness-complete-finite-subwindow}, then
+$$
+K_{\Omega}=(D_{\Omega},S_{\Omega},R_{\Omega},W_{\Omega},T_{\Omega},L_{\Omega},H_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega})
+$$
+is an accepted $\CauchyNetUp$ carrier. Moreover, every $\RealUp$ read exported by $L_{\Omega}$ factors through the retained $\RegSeqRatUp$ row $R_{\Omega}$, and $R_{\Omega}$ is the restriction of the same $\RegSeqRatUp$ row $R$ used by the original packet.
+\end{theorem}
+\begin{proof}
+Unfold the carrier of \autoref{def:cauchy-net-carrier}. A $\CauchyNetUp$ carrier has exactly the displayed rows
+$$
+D,S,R,W,T,L,H,C,P,N.
+$$
+The witness-complete subwindow supplies one retained row for each of these coordinates. Thus $K_{\Omega}$ has the required directed index-window ledger, schedule, regular rational row, dyadic observation row, common-window classifier, real handoff, componentwise transports, continuation routes, provenance, and local naming row.
+
+The common-window obligation remains internal to the retained packet. For every tolerance request in $E$, witness-completeness keeps the common upper-window witness selected by $T$ inside $D_{\Omega}$. It also keeps the scheduled observation names in $S_{\Omega}$ and the dyadic comparison rows in $W_{\Omega}$ that are read at that witness. Hence the restricted classifier row $T_{\Omega}$ does not appeal to any vertex, observation, or comparison outside the finite subwindow.
+
+The regular rational row is not recomputed from an external net. By definition of witness-completeness, $R_{\Omega}$ is the restriction of the original $\RegSeqRatUp$ row $R$ to the retained schedule, observation, comparison, and classifier entries. Therefore each retained regular rational read is attached to the same finite directed-window evidence that justified it in $K$.
+
+The transport and continuation rows also remain closed under restriction. The rows $H_{\Omega}$ and $C_{\Omega}$ retain only componentwise $\hsame$ transports and $\Cont$ routes whose endpoints are among $D_{\Omega},S_{\Omega},R_{\Omega},W_{\Omega},T_{\Omega}$, and $L_{\Omega}$. The package and local naming rows $P_{\Omega}$ and $N_{\Omega}$ name precisely those retained coordinates, so no hidden cofinal choice function, quotient of nets, selected limit point, or ambient completeness theorem is introduced.
+
+Apply the obligation surface of \autoref{thm:cauchy-net-namecert-obligation-surface}. Carrier admission is the displayed restricted tuple. Eventual common-window classification is supplied by $T_{\Omega}$ because all requested witnesses remain in $D_{\Omega}$. Directed-window transport is supplied by $H_{\Omega}$ and $C_{\Omega}$. Ledger non-escape holds because a request outside $E$ or outside the retained witness ledger has no coordinate in $K_{\Omega}$ from which convergence data can be exported. Finally, the only real-facing row is $L_{\Omega}$, and its source is exactly $R_{\Omega}$. Thus every $\RealUp$ handoff factors through the same restricted $\RegSeqRatUp$ row, with $R_{\Omega}$ inherited from $R$.
+\end{proof}
