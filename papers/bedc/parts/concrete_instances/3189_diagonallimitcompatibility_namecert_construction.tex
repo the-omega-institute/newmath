@@ -167,6 +167,38 @@ streams, selected host limits, host real equality, choice data, or ambient
 completeness, so none of those objects can be exported from the packet.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit tolerance ledger handoff]
+\label{thm:diagonal-limit-compatibility-tolerance-ledger-handoff}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every tolerance-facing read that reaches the seal route first uses the same $\DyadicRatCoreUp$ ledger $D$ and $\StreamNameUp$ window family $W$ named by the diagonal packet $R$ and triangle row $T$. No downstream tolerance consumer can replace $D$ or $W$ with an alternate ledger or window family after entering the $\CauchyLimitSealUp$ route.
+\end{theorem}
+\begin{proof}
+Project the carrier $K$. The rows $R,T,D,W$ are displayed before the seal route $S$ can be read.
+
+Apply \autoref{thm:diagonal-limit-compatibility-triangle-selector-alignment}. It identifies the triangle row $T$ with the same selected window family $W$ and dyadic tolerance ledger $D$ already named by the diagonal packet $R$.
+
+Finally use non-escape, \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the packet contains no alternate tolerance ledger or second window family, every read that reaches $S$ keeps the displayed $D,W$ handoff.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit seal consumer factorization]
+\label{thm:diagonal-limit-compatibility-seal-consumer-factorization}
+Every downstream $\CauchyLimitSealUp$ or $\RealUp$ read of an accepted $\DiagonalLimitCompatibilityUp$ packet factors through
+$$
+R,T,D,W,Q,L,H,C,P,N
+$$
+and cannot bypass the triangle, tolerance, or window rows. The seal consumer may read $Q$ and $L$ only after the packet has exposed the diagonal route $R$, the triangle row $T$, the dyadic ledger $D$, and the window family $W$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. It places every seal-route read of $Q$ and $L$ behind the displayed rows $R,T,D,W$.
+
+Use classifier transport, \autoref{thm:diagonal-limit-compatibility-classifier-transport}. The componentwise transports $H$ and continuation routes $C$ preserve the same compatibility classifier and do not add another seal-consumer path.
+
+Apply non-escape, \autoref{thm:diagonal-limit-compatibility-non-escape}. The exported surface is exhausted by the listed rows and their provenance, so no $\CauchyLimitSealUp$ or $\RealUp$ consumer can bypass the triangle, tolerance, or window coordinates.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalLimitCompatibilityUp}
