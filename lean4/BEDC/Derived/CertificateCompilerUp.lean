@@ -480,4 +480,61 @@ theorem CertificateCompilerCarrier_bridge_associativity_split_index [AskSetup] [
         ⟨sourceRow.right.right, bridgeLedger, sourceGraphLanding, landingRoutesTarget⟩
   }
 
+theorem CertificateCompilerCarrier_ledger_cut_elimination [AskSetup] [PackageSetup]
+    {source target graph landing routes transport provenance cert cutEndpoint cutCert
+      retained : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerCarrier source target graph landing routes transport provenance cert
+        bundle pkg ->
+      hsame cutEndpoint target ->
+        hsame cutCert cert ->
+          Cont cutEndpoint provenance retained ->
+            PkgSig bundle retained pkg ->
+              SemanticNameCert
+                (fun row : BHist => hsame row retained ∧ UnaryHistory row ∧
+                  PkgSig bundle row pkg)
+                (fun row : BHist => Cont cutEndpoint provenance row ∧
+                  Cont source graph landing ∧ Cont landing routes target)
+                (fun row : BHist => PkgSig bundle row pkg ∧
+                  hsame cutCert (append provenance target))
+                (fun row row' : BHist => hsame row row') := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle Pkg SemanticNameCert
+  intro carrier endpointSame cutCertSame cutRoute retainedPkg
+  obtain ⟨_sourceUnary, targetUnary, _graphUnary, _landingUnary, _routesUnary,
+    _transportUnary, provenanceUnary, sourceGraphLanding, landingRoutesTarget,
+    _provenanceTargetCert, certMatchesEndpoint, _certPkg⟩ := carrier
+  have cutEndpointUnary : UnaryHistory cutEndpoint :=
+    unary_transport targetUnary (hsame_symm endpointSame)
+  have retainedUnary : UnaryHistory retained :=
+    unary_cont_closed cutEndpointUnary provenanceUnary cutRoute
+  have cutCertLedger : hsame cutCert (append provenance target) :=
+    hsame_trans cutCertSame certMatchesEndpoint
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro retained ⟨hsame_refl retained, retainedUnary, retainedPkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact
+        ⟨cont_result_hsame_transport cutRoute (hsame_symm sourceRow.left),
+          sourceGraphLanding, landingRoutesTarget⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, cutCertLedger⟩
+  }
+
 end BEDC.Derived.CertificateCompilerUp
