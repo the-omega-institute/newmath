@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedExamplesApplicationRouteUp$}
+\label{ch:concrete-instances-metacictypedexamplesapplicationroute-namecert}
+\origin{human}
+
+The $\MetaCICTypedExamplesApplicationRouteUp$ packet realizes the application and beta-redex rows of \autoref{ch:metacic-typedexamples-audit-map} as a finite route certificate. It sits beside the MetaCIC gallery of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, the worked-example seal of \autoref{ch:concrete-instances-metacic-typedexamples-seal-namecert}, the typed-example gallery of \autoref{ch:concrete-instances-typedexamplegallery-namecert}, and the audit budget of \autoref{ch:concrete-instances-typedexampleauditbudget-namecert}: those siblings expose gallery entries, checker rows, seal rows, and regression-spend rows, while this chapter isolates the route by which application-form examples and identity redex examples are carried to downstream MetaCIC audit consumers.
+
+\begin{definition}[MetaCIC typed-examples application-route carrier]
+\label{def:metacic-typedexamples-application-route-carrier}
+A $\MetaCICTypedExamplesApplicationRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,T,A,B,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the typed source-term row, recording the displayed function, argument, context, and sort information for application-form examples such as $\mathsf{app\_id\_sort\_in\_empty\_ctx}$ and dependent identity application rows;
+\item $T$ is the typed target-term row, recording the displayed result term and its type after application or beta replay;
+\item $A$ is the application spine row, listing the finite head, argument, binder, context, and instantiation packets consumed by the route;
+\item $B$ is the beta and checker row, recording the selected redex endpoint, local checker acceptance, and named beta replay for rows such as $\mathsf{id\_sort\_redex}$ and $\mathsf{id\_sort\_redex\_typed}$;
+\item $Z$ is the closedness row, recording the finite closed-term, closed-context, and well-scoped inputs needed by $S,T,A,B$;
+\item $H$ records componentwise $\hsame$ transports for source terms, target terms, application spines, beta and checker rows, closedness rows, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a downstream consumer reaches the source row, target row, application spine, beta or checker row, closedness row, and sibling handoff rows;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-typedexamples-audit-map}, \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, \autoref{ch:concrete-instances-metacic-typedexamples-seal-namecert}, \autoref{ch:concrete-instances-typedexamplegallery-namecert}, and \autoref{ch:concrete-instances-typedexampleauditbudget-namecert};
+\item $N$ is the local $\NameCert_{\MetaCICTypedExamplesApplicationRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary subject reduction, strong normalization, confluence, global checker completeness, unrestricted beta closure, or a host evaluator.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed-examples application-route NameCert obligations]
+\label{thm:metacic-typedexamples-application-route-namecert-obligations}
+For the carrier of \autoref{def:metacic-typedexamples-application-route-carrier}, the local $\NameCert_{\MetaCICTypedExamplesApplicationRouteUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for $R=(S,T,A,B,Z,H,C,P,N)$;
+\item source-target exposure through $S$ and $T$ for typed application examples and typed beta-redex endpoints named by \autoref{ch:metacic-typedexamples-audit-map};
+\item application-spine exactness through $A$, including the displayed head, argument, binder, context, and instantiation packets;
+\item beta, checker, and closedness visibility through $B$ and $Z$ for exactly the selected application and identity-redex rows;
+\item transport, continuation, provenance, and local naming through $H,C,P,N$, with sibling handoff restricted to the four concrete TypedExamples packets cited above.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the finite packet. The source row $S$ and target row $T$ expose the endpoints of the application route, while the spine row $A$ records the finite head, argument, binder, context, and instantiation data that make the route inspectable.
+
+The beta and checker row $B$ is read only together with the closedness row $Z$. Thus a consumer can replay the selected identity-redex and application examples, but it cannot replace them by an arbitrary represented term or by an unrestricted beta closure.
+
+Finally route the read through $H,C,P,N$. The transport and continuation rows keep the same displayed source, target, spine, beta, checker, and closedness coordinates, and the provenance row limits sibling access to the existing gallery, seal, typed-gallery, and audit-budget packets. Since no other coordinate is present, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples application-route soundness]
+\label{thm:metacic-typedexamples-application-route-soundness}
+Every consumer of an accepted $\MetaCICTypedExamplesApplicationRouteUp$ packet reaches a typed application or beta-redex example through the displayed rows
+$$
+S,T,A,B,Z,H,C,P,N.
+$$
+The consumer may use the packet as a finite route from a typed source term through an application spine to a typed target term, with beta, checker, closedness, transport, continuation, provenance, and local naming evidence. It receives no theorem about all MetaCIC applications, no unrestricted subject-reduction principle, no normalization endpoint selector, no confluence principle, and no global checker-completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted route packet. The only public endpoints are the typed source row $S$ and the typed target row $T$, and the only path between them is the finite application spine $A$ together with the beta and checker row $B$.
+
+Closedness is supplied by $Z$, so the checker and beta reads are tied to the displayed source, target, and spine rows rather than to an ambient term space. Componentwise transport through $H$ preserves those same rows before any comparison is made.
+
+The continuation row $C$ supplies the consumer path, while $P$ and $N$ record provenance and local naming. Because the carrier contains no coordinate for arbitrary applications, unrestricted beta closure, subject reduction, normalization, confluence, or checker completeness, every accepted consumer read remains the finite application route described in the statement.
+\end{proof}
