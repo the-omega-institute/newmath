@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateAuditBridgeUp$}
+\label{ch:concrete-instances-twin-substrate-audit-bridge-namecert}
+\origin{ai}
+
+The $\TwinSubstrateAuditBridgeUp$ packet realizes the twin-substrate architecture of \autoref{ch:twin-substrate-synthesis} as a finite bridge packet between two audit surfaces. It sits beside the shared audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert}, the synthesis packet of \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}, and the audit-coupling packet of \autoref{ch:concrete-instances-twinsubstrateauditcoupling-namecert}: those siblings name the common audit-map rows, the architecture-level handoff, and the paired audit coupling, while this chapter names the finite NameCert bridge by which a consumer can read MetaCIC and GroundCompiler audit rows together without treating either substrate as proof of the other.
+
+\begin{definition}[Twin-substrate audit-bridge carrier]
+\label{def:twin-substrate-audit-bridge-carrier}
+A $\TwinSubstrateAuditBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,G,A,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC audit-surface row, recording closed-CIC theorem inventory, proof-theoretic boundary rows, substitution and closedness rows, and named blocker rows as MetaCIC-side audit data;
+\item $G$ is the GroundCompiler audit-surface row, recording event-flow, source-channel, generated recognizer, certificate-gate, report-boundary, non-input, and non-evidence rows as compiler-side audit data;
+\item $A$ is the alignment row, displaying which MetaCIC audit row and which GroundCompiler audit row are compared by a project-level consumer;
+\item $R$ is the refusal and non-impersonation ledger, recording that compiler reports, source channels, recognizers, metric rows, and host-side artifacts do not become MetaCIC proof evidence, and that MetaCIC theorem, reduction, substitution, confluence, normalization, consistency, and blocker rows do not become compiler input or generated compiler evidence;
+\item $H$ records componentwise $\hsame$ transports for $M$, $G$, $A$, $R$, continuation routes, provenance, and local naming;
+\item $C$ records displayed $\Cont$ routes by which a consumer inspects $M$, $G$, $A$, and $R$ in finite order;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:concrete-instances-auditmapinterface-namecert}, \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}, \autoref{ch:concrete-instances-twinsubstrateauditcoupling-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateAuditBridgeUp}$ row.
+\end{enumerate}
+The classifier accepts exactly those packets whose paired reads factor through the displayed tuple $B$ and whose refusal ledger remains visible at every handoff. It rejects any packet with an undisplayed equality between $M$ and $G$, any conversion from compiler report to proof evidence, any conversion from MetaCIC theorem row to compiler input, or any bridge row that hides the NameCert carrier.
+\end{definition}
+
+\begin{theorem}[Twin-substrate audit-bridge NameCert obligations]
+\label{thm:twin-substrate-audit-bridge-namecert-obligations}
+For every accepted $\TwinSubstrateAuditBridgeUp$ carrier
+$$
+B=(M,G,A,R,H,C,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateAuditBridgeUp}$ surface consists exactly of MetaCIC audit-surface readback through $M$, GroundCompiler audit-surface readback through $G$, alignment readback through $A$, refusal and non-impersonation ledger replay through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:twin-substrate-audit-bridge-carrier}. The packet has exactly the rows $M,G,A,R,H,C,P,N$, so carrier admission and local classifier exactness are coordinate reads from the same finite $\BHist$ object.
+
+Read the two audit surfaces before reading the bridge rows. The MetaCIC row $M$ supplies closed-CIC audit data, and the GroundCompiler row $G$ supplies compiler-facing audit data. The alignment row $A$ records that a downstream consumer is comparing the two rows, but it does not identify their evidence kinds.
+
+The refusal ledger $R$ supplies the non-impersonation clauses. It is replayed through the displayed $\hsame$ and $\Cont$ rows $H$ and $C$, with provenance recorded by $P$ and the local NameCert row recorded by $N$. Since no other coordinate is present, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit-bridge non-escape]
+\label{thm:twin-substrate-audit-bridge-nonescape}
+Every public read from an accepted $\TwinSubstrateAuditBridgeUp$ carrier factors through
+$$
+M,G,A,R,H,C,P,N.
+$$
+The read may compare the MetaCIC and GroundCompiler audit rows through the alignment row and may replay the refusal ledger, but it cannot turn compiler reports, source-channel rows, generated recognizers, metric rows, or host-side artifacts into MetaCIC proof evidence, and it cannot turn MetaCIC theorem, reduction, substitution, confluence, normalization, consistency, or blocker rows into compiler input or generated compiler evidence.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:twin-substrate-audit-bridge-namecert-obligations}. Any public read must first choose one of the displayed rows of $B$.
+
+For compiler-facing data, the only source is $G$. The refusal ledger $R$ records that reports, source channels, generated recognizers, metric rows, and host-side artifacts remain compiler-side audit data.
+
+For MetaCIC-facing data, the only source is $M$. The same ledger records that theorem rows, reduction rows, substitution rows, confluence rows, normalization rows, consistency rows, and blocker rows remain MetaCIC-side audit data.
+
+The alignment row $A$ and the routes $H,C$ only transport and replay those displayed rows. They contain no equality, coercion, hidden input, or code-as-proof coordinate. Therefore no accepted public read escapes the twin-substrate boundary.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit-bridge consumer handoff]
+\label{thm:twin-substrate-audit-bridge-consumer-handoff}
+Every consumer handoff from an accepted $\TwinSubstrateAuditBridgeUp$ carrier to an audit-map, synthesis, coupling, or self-compilation reader is a finite handoff of the packet rows $M,G,A,R,H,C,P,N$. The receiving reader may cite the bridge as a NameCert surface aligning two audit namespaces, but it may not cite the bridge as subject reduction, compiler correctness, hidden input, code-as-proof, or a checked bridge theorem.
+\end{theorem}
+\begin{proof}
+Use the displayed continuation row $C$. It is the only route by which a consumer receives the MetaCIC row, the GroundCompiler row, the alignment row, and the refusal ledger.
+
+The sibling audit-map and synthesis chapters determine the permitted reading shape. \autoref{ch:concrete-instances-auditmapinterface-namecert} supplies the common audit-map interface, \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert} supplies the architecture-level handoff, and \autoref{ch:concrete-instances-twinsubstrateauditcoupling-namecert} supplies a paired audit-coupling surface.
+
+The handoff therefore exports the displayed NameCert packet and its provenance, not a theorem in either substrate. The exclusions follow from the absence of carrier coordinates for subject reduction, compiler correctness, hidden input, code-as-proof, or bridge checking.
+\end{proof}
+
+\closureat{TwinSubstrateAuditBridgeUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateAuditBridgeUp}
+  \constructivestory{A $\TwinSubstrateAuditBridgeUp$ packet is generated from a MetaCIC audit-surface row, a GroundCompiler audit-surface row, an alignment row, a refusal and non-impersonation ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-audit-bridge-carrier}, \autoref{thm:twin-substrate-audit-bridge-namecert-obligations}, \autoref{thm:twin-substrate-audit-bridge-nonescape}, and \autoref{thm:twin-substrate-audit-bridge-consumer-handoff} bind the finite bridge carrier, NameCert obligation surface, non-escape ledger, and consumer handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, compiler correctness, hidden input exclusion beyond the displayed refusal ledger, code-as-proof exclusion beyond the displayed refusal ledger, Lean verification, audit cleanliness, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, MetaCIC row exactness, GroundCompiler row exactness, alignment exactness, refusal-ledger replay, non-impersonation, consumer handoff, transport, continuation, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
