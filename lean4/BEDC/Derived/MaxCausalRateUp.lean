@@ -125,4 +125,35 @@ theorem MaxCausalRatePacket_comparison_ledger_exactness [AskSetup] [PackageSetup
     unary_transport comparisonsUnary (hsame_symm consumerSame)
   exact ⟨consumerUnary, witnessesUnary, boundUnary, witnessBoundComparison, namePkg⟩
 
+theorem MaxCausalRatePacket_witness_family_stability [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert witnesses' bound' comparisons' transported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg →
+      hsame witnesses witnesses' →
+        hsame bound bound' →
+          hsame comparisons comparisons' →
+            Cont witnesses' bound' transported →
+              hsame transported comparisons' →
+                UnaryHistory witnesses' ∧ UnaryHistory bound' ∧ UnaryHistory comparisons' ∧
+                  UnaryHistory transported ∧ Cont witnesses' bound' transported ∧
+                    PkgSig bundle nameCert pkg := by
+  intro packet sameWitnesses sameBound sameComparisons transportedRoute transportedSame
+  obtain ⟨_configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    _hsameTransportUnary, _psameStabilityUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _witnessBoundComparison, _comparisonTransportStability,
+    _stabilityRouteProvenance, _provenanceNameConfiguration, namePkg⟩ := packet
+  have witnessesUnary' : UnaryHistory witnesses' :=
+    unary_transport witnessesUnary sameWitnesses
+  have boundUnary' : UnaryHistory bound' :=
+    unary_transport boundUnary sameBound
+  have comparisonsUnary' : UnaryHistory comparisons' :=
+    unary_transport comparisonsUnary sameComparisons
+  have transportedUnary : UnaryHistory transported :=
+    unary_transport comparisonsUnary' (hsame_symm transportedSame)
+  exact
+    ⟨witnessesUnary', boundUnary', comparisonsUnary', transportedUnary, transportedRoute,
+      namePkg⟩
+
 end BEDC.Derived.MaxCausalRateUp
