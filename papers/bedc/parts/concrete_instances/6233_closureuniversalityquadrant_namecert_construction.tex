@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ClosureUniversalityQuadrantUp$}
+\label{ch:concrete-instances-closureuniversalityquadrant-namecert}
+\origin{ai}
+
+The $\ClosureUniversalityQuadrantUp$ packet realizes the two-axis map of \autoref{ch:visions-closure-universality-quadrant} as a finite NameCert object. It does not decide universality or closure for an arbitrary substrate. It records the displayed evidence by which a consumer reads a substrate as one named quadrant entry, using the cellular rule surface of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the carrier surface of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, the finite obstruction boundary of \autoref{ch:concrete-instances-haltingobstruction-namecert}, and the bounded trace surface of \autoref{ch:concrete-instances-bounded-universal-trace-namecert} as sibling anchors.
+
+\falsifiablePrediction{Any closed-quadrant consumer that reads a $\ClosureUniversalityQuadrantUp$ packet without the displayed closure-axis row is rejected by the local classifier.}
+
+\independenceWitness{cellularautomaton, cellularsubstrate, haltingobstruction, boundeduniversaltrace: no listed sibling is bijective to $\ClosureUniversalityQuadrantUp$ because the packet carries both axis-pair rows and the quadrant-tag row, while each sibling supplies only a rule, carrier, obstruction, or bounded-trace surface without the paired quadrant classifier.}
+
+\begin{definition}[Closure-universality carrier]
+\label{def:closure-universality-carrier}
+A $\ClosureUniversalityQuadrantUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(U,D,G,S,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the universality-axis row, recording whether the accepted substrate read is universal, sub-universal, or refused for lack of displayed evidence.
+\item $D$ is the closure-axis row, recording whether the accepted observation channel is closed, open, or refused for lack of displayed evidence.
+\item $G$ is the quadrant-tag row determined by the displayed pair $(U,D)$.
+\item $S$ is the substrate-witness row, naming the finite sibling surface from which the substrate read is consumed.
+\item $A$ is the sibling-anchor ledger, containing the relevant $\CellularAutomatonUp$, $\CellularSubstrateUp$, $\HaltingObstructionUp$, and $\BoundedUniversalTraceUp$ rows used by this packet.
+\item $H$ records componentwise $\hsame$ transports for $U,D,G,S,A,P,N$.
+\item $C$ records displayed $\Cont$ routes through the two axis rows, the quadrant tag, the substrate witness, and the sibling-anchor ledger.
+\item $P$ is the $\Pkg$ provenance over $\ClosureUniversalityQuadrantUp$, the quadrant vision, the sibling concrete chapters, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ClosureUniversalityQuadrantUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only by these rows. It has no coordinate for a host proof of arbitrary universality, an ambient closure oracle, a hidden substrate evaluator, or a quadrant tag detached from the displayed axis pair.
+\end{definition}
+
+\begin{theorem}[Closure-universality quadrant NameCert obligations]
+\label{thm:closure-universality-quadrant-namecert-obligations}
+For the carrier of \autoref{def:closure-universality-carrier}, the local $\NameCert_{\ClosureUniversalityQuadrantUp}$ surface consists exactly of carrier exposure for $Q=(U,D,G,S,A,H,C,P,N)$, universality-axis accountability through $U$, closure-axis accountability through $D$, quadrant-tag determinacy through $G$, substrate-witness exposure through $S$, sibling-anchor replay through $A$, componentwise stability through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. A consumer cannot read a closed quadrant, an open quadrant, a universal quadrant, or a sub-universal quadrant unless the two axis rows and their determined tag are both present.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:closure-universality-carrier}. The accepted packet displays the two axis rows, quadrant tag, substrate witness, sibling-anchor ledger, transports, continuations, provenance, and local name as its only coordinates.
+
+Axis accountability is componentwise. The universality read is taken from $U$, the closure read is taken from $D$, and the tag row $G$ is admitted only as the finite classifier row for that displayed pair.
+
+The sibling ledger $A$ and substrate witness $S$ connect the abstract quadrant entry to concrete surfaces already present in the dossier. The consumer may replay those anchors through $C$ and transport them through $H$, but it cannot replace them with a hidden universality proof, closure oracle, or host substrate evaluator.
+
+Finally $P$ and $N$ package the same finite route as the public naming surface. Since no detached quadrant tag or ambient axis oracle is carried, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Closure-universality axis independence boundary]
+\label{thm:closure-universality-axis-independence-boundary}
+An accepted $\ClosureUniversalityQuadrantUp$ packet exposes the universality-axis row $U$ and the closure-axis row $D$ as separate displayed coordinates, and the quadrant tag $G$ is read only after both coordinates are present. Thus a consumer may transport or compare the two axes componentwise, but it may not infer either axis from the other, collapse the pair to a single sibling certificate, or replace the tag by a host-level substrate classification.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:closure-universality-carrier}. The universality row, closure row, and quadrant tag are distinct coordinates, so projection of one axis does not project the other.
+
+The tag row $G$ is a classifier read from the displayed pair $(U,D)$. Therefore a tag comparison may use the componentwise transports in $H$ and the route replay in $C$, but it must keep both axis rows visible.
+
+The sibling rows in $A$ witness non-bijection rather than collapse. $\CellularAutomatonUp$ supplies rule and orbit rows, $\CellularSubstrateUp$ supplies carrier rows, $\HaltingObstructionUp$ supplies finite obstruction rows, and $\BoundedUniversalTraceUp$ supplies bounded trace rows. None supplies both axis rows and the quadrant tag as one finite packet.
+\end{proof}
+
+The later Lean TasteGate namespace $\mathsf{BEDC.Derived.ClosureUniversalityQuadrantUp}$ will provide $\mathsf{Nontrivial}\ \ClosureUniversalityQuadrantUp$ and $\mathsf{FieldFaithful}\ \ClosureUniversalityQuadrantUp$ instances for the displayed carrier.
+
+\closureat{ClosureUniversalityQuadrantUp}{seedStr}
+
+\begin{closurestatus}{\ClosureUniversalityQuadrantUp}
+  \constructivestory{A $\ClosureUniversalityQuadrantUp$ packet is generated from a universality-axis row, a closure-axis row, their quadrant tag, a substrate witness, sibling cellular anchors, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-universality-carrier}, \autoref{thm:closure-universality-quadrant-namecert-obligations}, and \autoref{thm:closure-universality-axis-independence-boundary} specify the finite two-axis quadrant packet and its non-collapse boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, arbitrary universality, arbitrary closure, host substrate classification, or completeness of all possible quadrant inhabitants.}
+  \upgradepath{Obligation closure requires checked carrier admission, axis-row accountability, quadrant-tag determinacy, sibling-anchor replay, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
