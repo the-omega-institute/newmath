@@ -229,6 +229,42 @@ public witness read with $Z,S,M,R,Q,H,C,P,N$, which is precisely the stated
 obligation package for supplied zero-in-strip inputs.
 \end{proof}
 
+\begin{theorem}[Critical-line witness zero-strip source admission]
+\label{thm:critical-line-witness-zero-strip-source-admission}
+Every accepted $\CriticalLineWitnessUp$ packet admits only a supplied zeta-zero row together with a supplied critical-strip row as its zero-in-strip source. The admission route is exactly \autoref{def:critical-line-witness-carrier}, \autoref{thm:critical-line-witness-strip-zero-compatibility}, and \autoref{thm:critical-line-witness-critical-strip-origin}; it cannot introduce a new zero row, a new strip proof, or a host complex equality between independent sources.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $W=(Z,S,M,R,Q,H,C,P,N)$. The only zero-facing coordinate is $Z$, and the only strip-facing coordinate is $S$.
+
+Use \autoref{thm:critical-line-witness-strip-zero-compatibility} to bind those two supplied rows by the displayed transport in $H$. Then use \autoref{thm:critical-line-witness-critical-strip-origin} to identify the source of $S$ as the sibling critical-strip surface for the same supplied zero row.
+
+The carrier contains no zero-producing coordinate, no independent strip constructor, and no host complex equality row. Thus zero-strip source admission is precisely the displayed pair $Z,S$ transported through $H$ and read through $C$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness comparison route exactness]
+\label{thm:critical-line-witness-comparison-route-exactness}
+Every half-line or dyadic comparison read of an accepted $\CriticalLineWitnessUp$ packet factors through the displayed rational comparison ledger $Q$ and the modulus row $M$. The exact route is given by \autoref{thm:critical-line-witness-realpart-modulus-stability}, \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}, and \autoref{thm:critical-line-witness-modulus-depth-routing}; no external real-order decision, quotient equality, or hidden numeric oracle can supply the comparison.
+\end{theorem}
+\begin{proof}
+Begin with a half-line or dyadic comparison request. By \autoref{thm:critical-line-witness-modulus-depth-routing}, the request reaches the modulus row $M$ only through the Nat depth row, the real-part row $R$, the rational comparison ledger $Q$, and the displayed route $C$.
+
+Apply \autoref{thm:critical-line-witness-realpart-modulus-stability} to keep that comparison attached to the transported real-part row for the same supplied zero-in-strip history. The comparison therefore remains inside the same finite witness packet.
+
+Finally use \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}. It identifies $Q$ as the exact finite ledger for the half-line row, dyadic tolerance row, and strict comparison row, leaving no coordinate for external real order, quotient equality, or hidden numeric evidence.
+\end{proof}
+
+\begin{theorem}[Critical-line witness local NameCert export]
+\label{thm:critical-line-witness-local-namecert-export}
+For supplied zero-in-strip inputs, the carrier, comparison route, nonclassification boundary, and ledger exactness form the local $\NameCert_{\CriticalLineWitnessUp}$ export. The exported packet is the finite surface $Z,S,M,R,Q,H,C,P,N$, with no $\mathsf{RH}$ theorem, zero production, analytic continuation, quotient representative, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier and source admission rows. \autoref{def:critical-line-witness-carrier} displays the packet, and \autoref{thm:critical-line-witness-zero-strip-source-admission} fixes the supplied zero-in-strip source as $Z,S$.
+
+Use \autoref{thm:critical-line-witness-comparison-route-exactness} for every half-line and dyadic comparison read. The comparison route is therefore carried by $M,R,Q,H,C$ rather than by an external analytic or numeric principle.
+
+The boundary clauses are supplied by \autoref{thm:critical-line-witness-rh-nonclassification-boundary} and \autoref{thm:critical-line-witness-ledger-exactness}. Together they identify the local export as $Z,S,M,R,Q,H,C,P,N$ and exclude an $\mathsf{RH}$ theorem, zero construction, analytic continuation, quotient representative, and ambient completeness.
+\end{proof}
+
 \closureat{CriticalLineWitnessUp}{seedStr}
 
 \begin{closurestatus}{\CriticalLineWitnessUp}
