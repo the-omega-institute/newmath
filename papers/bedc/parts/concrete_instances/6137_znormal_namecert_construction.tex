@@ -81,6 +81,46 @@ Then compare this surface with \autoref{ch:visions-strong-normalization-vs-turin
 Finally apply \autoref{thm:znormal-fuel-normality-nonescape}. It excludes divergence, host conversion, quotient computation, unrestricted evaluation, and global normalization routes. Consequently no consumer can turn the finite normal-form packet into host Turing completeness or a substrate halting theorem.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ terminal readback exactness]
+\label{thm:znormal-terminal-readback-exactness}
+For any accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+every terminal read factors through the displayed rows $T,F,V,R,H,C,P,N$. The read may consume the sibling normal-word row $K$ only after the terminal-normality row $V$ is displayed, and it cannot consult host conversion, quotient computation, unrestricted evaluation, or a global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The terminal read row is $R$, and the only rows before it are the typed endpoint $T$, the finite fuel row $F$, and the terminal-normality row $V$.
+
+Use the displayed continuation routes in $C$. They replay the path from $T$ through $F$ and $V$ to $R$, while $H,P,N$ transport, package, and name that same route.
+
+The row $K$ is a sibling normal-word coordinate rather than a terminal readback source. Since no coordinate names host conversion, quotient computation, unrestricted evaluation, or a global normalizer, every accepted terminal read is exactly the displayed finite readback surface.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ sibling normal-word handoff]
+\label{thm:znormal-sibling-normalword-handoff}
+The $K$ row of an accepted $\ZNormalUp$ packet may consume the sibling surfaces of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert} only as displayed finite evidence. It does not provide host computation, a conversion oracle, a quotient normalizer, or a proof that all external computations normalize.
+\end{theorem}
+\begin{proof}
+Read the sibling handoff through the carrier coordinates. The typed endpoint row $T$, finite fuel row $F$, terminal row $V$, comparison row $K$, and continuation row $R$ are separate displayed fields.
+
+The cited sibling chapters supply finite certificate surfaces: typed endpoint evidence, finite Zeckendorf normal-word evidence, local carry evidence, and terminal continuation-trace evidence. The $K$ row can package those surfaces only through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the accepted packet.
+
+No carrier coordinate supplies a host computation relation, conversion oracle, quotient normalizer, or external normalization theorem. Thus the sibling handoff remains finite evidence rather than a route to total host computation beyond the packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ obligation closure package]
+\label{thm:znormal-obligation-closure-package}
+The carrier admission of \autoref{def:znormal-carrier}, the NameCert obligations of \autoref{thm:znormal-namecert-obligations}, the fuel non-escape boundary of \autoref{thm:znormal-fuel-normality-nonescape}, the total-host boundary of \autoref{thm:znormal-total-host-boundary}, the terminal readback exactness of \autoref{thm:znormal-terminal-readback-exactness}, and the sibling normal-word handoff of \autoref{thm:znormal-sibling-normalword-handoff} assemble the five-row $\obligationClosure$ surface for $\ZNormalUp$ over $T,F,V,K,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First fix the accepted carrier $Z=(T,F,V,K,R,H,C,P,N)$. Carrier admission and local naming expose only the rows listed in \autoref{def:znormal-carrier}.
+
+Apply \autoref{thm:znormal-namecert-obligations} to bind the NameCert surface. Then use \autoref{thm:znormal-fuel-normality-nonescape} and \autoref{thm:znormal-total-host-boundary} to keep every consumer read inside finite fuel, terminal normality, continuation readback, and total-host boundary evidence.
+
+Finally use \autoref{thm:znormal-terminal-readback-exactness} and \autoref{thm:znormal-sibling-normalword-handoff}. These identify the terminal read and the sibling normal-word handoff as displayed finite rows, so the carrier, NameCert, fuel, terminal readback, sibling handoff, and host-boundary components form one obligation package.
+\end{proof}
+
 The follow-up Lean TasteGate.lean contract for this chapter must provide \texttt{Nontrivial ZNormalUp} and \texttt{FieldFaithful ZNormalUp} instances for the same carrier.
 
 \closureat{ZNormalUp}{seedStr}
@@ -88,10 +128,10 @@ The follow-up Lean TasteGate.lean contract for this chapter must provide \texttt
 \begin{closurestatus}{\ZNormalUp}
   \constructivestory{A $\ZNormalUp$ packet is generated from a typed reduction normal-form row, finite fuel row, terminal-normality row, finite Zeckendorf and carry-facing comparison row, continuation terminal-read row, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, and \autoref{thm:znormal-total-host-boundary} bind the finite normal-form packet for the host-side total-language boundary.}
+  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-total-host-boundary}, \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, and \autoref{thm:znormal-obligation-closure-package} bind the finite normal-form packet, terminal readback, sibling handoff, and host-side total-language boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove host Turing completeness, substrate halting, global normalization for external computations, host conversion, quotient computation, Lean verification, or bridge checking for $\ZNormalUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite fuel exposure, terminal-normality readback, continuation terminal-read replay, sibling normal-word handoff, non-escape, and field-faithful TasteGate instances for the same finite packet.}
+  \upgradepath{Obligation closure requires binding the finite fuel, terminal-normality, terminal readback, sibling normal-word, non-escape, and total-host boundary rows to explicit BEDC primitives and checked TasteGate instances.}
 \end{closurestatus}
