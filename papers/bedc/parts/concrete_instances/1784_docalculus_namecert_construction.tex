@@ -181,3 +181,36 @@ Therefore the probability chapter receives only the finite handoff packet
 $M,R,J,E,H,C,P,N$. No ambient probability space, completeness theorem for
 do-calculus, or counterfactual selector is supplied by this route.
 \end{proof}
+
+\begin{definition}[DoCalculus displayed prefix subledger]
+\label{def:do-calculus-displayed-prefix-subledger}
+Let $D=(I,V,A,M,R,J,E,H,C,P,N)$ be an accepted $\DoCalculusUp$ packet as in \autoref{def:do-calculus-carrier}. A displayed prefix subledger of $D$ is a finite packet
+$$
+D_{\leq k}=(I_{\leq k},V_{\leq k},A_{\leq k},M_{\leq k},R_{\leq k},J_{\leq k},E_{\leq k},H_{\leq k},C_{\leq k},P_{\leq k},N_{\leq k})
+$$
+obtained by retaining an initial segment $I_{\leq k}$ of the displayed finite order on the intervention ledger $I$ and retaining exactly the observed-variable, adjustment, distribution, independence, conditional-expectation, export, transport, continuation, package, and local naming rows whose route entries are used by intervention reads from that initial segment. Rows of $I$ strictly after the displayed prefix are called later intervention rows for $D_{\leq k}$.
+\end{definition}
+
+\begin{theorem}[DoCalculus intervention prefix locality]
+\label{thm:do-calculus-intervention-prefix-locality}
+Let $D=(I,V,A,M,R,J,E,H,C,P,N)$ be an accepted $\DoCalculusUp$ packet, and let $D_{\leq k}$ be a displayed prefix subledger of $D$ in the sense of \autoref{def:do-calculus-displayed-prefix-subledger}. Every intervention-facing consumer whose displayed intervention mark lies in $I_{\leq k}$ factors through
+$$
+I_{\leq k},V_{\leq k},A_{\leq k},M_{\leq k},R_{\leq k},H_{\leq k},C_{\leq k},P_{\leq k},N_{\leq k}.
+$$
+In particular, such a consumer cannot read any later intervention row of $I$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:do-calculus-carrier}, the intervention ledger $I$ is finite and carries a displayed order for the intervention rows. The prefix subledger retains an initial segment $I_{\leq k}$ of that order together with exactly the route rows attached to interventions in that segment.
+
+Apply the intervention non-escape theorem \autoref{thm:do-calculus-intervention-non-escape} to the accepted packet $D$. Any intervention-facing read in $D$ factors through the displayed intervention ledger, observed-variable row, adjustment ledger, distribution rows, independence certificates, transport rows, continuation routes, package provenance, and local naming row:
+$$
+I,V,A,M,R,H,C,P,N.
+$$
+For a read whose intervention mark lies in the prefix $I_{\leq k}$, the definition of displayed prefix subledger says that the relevant observed-variable, adjustment, distribution, independence, transport, continuation, package, and naming entries are exactly the retained rows
+$$
+V_{\leq k},A_{\leq k},M_{\leq k},R_{\leq k},H_{\leq k},C_{\leq k},P_{\leq k},N_{\leq k}.
+$$
+Thus restricting the non-escape factorization to the displayed prefix gives the stated factorization through the retained prefix rows.
+
+It remains to exclude later intervention rows. A later row is, by definition, a row of $I$ outside the initial segment $I_{\leq k}$. Since the consumer route has already been restricted to the retained prefix route family $C_{\leq k}$ and its retained provenance rows, no projection in that route has a source coordinate in the later part of $I$. Reading such a later row would require leaving the retained prefix packet and using an intervention coordinate not present in $D_{\leq k}$. This is impossible for an intervention-facing read that factors through the displayed prefix subledger. Therefore no later intervention row can be read.
+\end{proof}
