@@ -158,6 +158,24 @@ Use \autoref{thm:diagonal-cofinal-tail-primitive-scope}. The primitive scope per
 The remaining consumer route is precisely the finite compatibility handoff consumed by \autoref{ch:concrete-instances-diagonal-limit-compatibility-namecert}. Since the route has already passed through the displayed rows of $T$, the compatibility packet is received as a local finite handoff rather than as host equality, a selected limit, quotient-stream equality, or a completion theorem.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail public route]
+\label{thm:diagonal-cofinal-tail-public-route}
+For an accepted $\DiagonalCofinalTailUp$ carrier
+$$
+T=(Q,S,G,D,R,W,H,C,P,N),
+$$
+every downstream $\RealUp$, $\RegSeqRatUp$, $\DiagonalLimitCompatibilityUp$, or completion-seal consumer reads the public route exactly through $Q,S,G,D,R,W,H,C,P,N$. The row $Q$ is the $\RatUp$ seed row, $S$ is the $\StreamNameUp$ window row, $G$ is the $\RegSeqRatUp$ tail readback row, $D$ is the $\DyadicRatCoreUp$ ledger row, $R$ is the $\RealUp$ diagonal row, $W$ is the transported seal row, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is local $\NameCert$. The route exports no selected limit, quotient-stream equality, host equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations and seed-window readback. They identify the accepted carrier as the displayed tuple $Q,S,G,D,R,W,H,C,P,N$ and expose the RatUp seed, StreamName window, RegSeqRat tail, dyadic ledger, real-facing row, transported seal, transport, replay, provenance, and naming rows.
+
+Use the common-window refinement and the RegSeqRat--StreamName handoff. These theorems force every RegSeqRatUp or RealUp reading to refine to the same finite window surface and to pass through the displayed tail readback before reaching any real-facing consumer.
+
+Apply the primitive scope and compatibility handoff. The primitive scope blocks unrecorded preservation, hidden selector, and ambient completion data, while the compatibility handoff routes every DiagonalLimitCompatibilityUp or completion-seal consumer through the same finite tuple before it may consume the compatibility packet.
+
+The only remaining rows are $Q,S,G,D,R,W,H,C,P,N$. Since the carrier has no coordinate for a selected limit, quotient-stream equality, host equality, or ambient completeness theorem, the stated public route is exhausted by those rows.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail window exhaustion]
 \label{thm:diagonal-cofinal-tail-window-exhaustion}
 Every certified finite cofinal-tail observation exported by an accepted $\DiagonalCofinalTailUp$ carrier factors through the finite rows

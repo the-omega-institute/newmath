@@ -76,3 +76,52 @@ The non-escape clauses follow from the carrier inventory. Since no row supplies 
   \notclaimed{This chapter does not close RealUp completeness, quotient equality of regular sequences, host real equality, selected limits, infinite mesh selection, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, rowwise classifier stability, finite mesh coverage, RealUp handoff, provenance, and non-escape for the same RegularCauchyMeshUp packet.}
 \end{closurestatus}
+
+\begin{definition}[Regular Cauchy mesh displayed submesh restriction]
+\label{def:regular-cauchy-mesh-displayed-submesh-restriction}
+Let
+$$
+G=(a,j,w,r,d,m,e,h,c,p,n)
+$$
+be a $\RegularCauchyMeshUp$ carrier as in \autoref{def:regular-cauchy-mesh-carrier}. A displayed finite submesh selector for $G$ is a finite row $q$ equipped with an inclusion read $\iota:q\to j$ whose cells are entries already displayed in the mesh-index row $j$.
+
+The restriction of $G$ along $q$ is the packet
+$$
+G\vert_q=(a\vert_q,j\vert_q,w\vert_q,r\vert_q,d\vert_q,m\vert_q,e\vert_q,h\vert_q,c\vert_q,p\vert_q,n\vert_q),
+$$
+where $j\vert_q$ is the row $q$, and every other coordinate is obtained by retaining exactly the entries of the corresponding row of $G$ whose mesh index lies in the image of $\iota$. The handoff row $e\vert_q$, transport row $h\vert_q$, continuation row $c\vert_q$, provenance row $p\vert_q$, and local naming row $n\vert_q$ retain only the components whose source rows are retained by $a\vert_q,j\vert_q,w\vert_q,r\vert_q,d\vert_q,m\vert_q$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy mesh finite submesh restriction]
+\label{thm:regular-cauchy-mesh-finite-submesh-restriction}
+Let
+$$
+G=(a,j,w,r,d,m,e,h,c,p,n)
+$$
+be an accepted $\RegularCauchyMeshUp$ carrier, and let $q$ be a displayed finite submesh selector for $G$ in the sense of \autoref{def:regular-cauchy-mesh-displayed-submesh-restriction}. Suppose the retained StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, DyadicMesh compatibility row, $\RealUp$ handoff, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows are exactly the rows pulled back along the inclusion read $\iota:q\to j$. Then
+$$
+G\vert_q=(a\vert_q,j\vert_q,w\vert_q,r\vert_q,d\vert_q,m\vert_q,e\vert_q,h\vert_q,c\vert_q,p\vert_q,n\vert_q)
+$$
+is an accepted $\RegularCauchyMeshUp$ carrier.
+
+Moreover, every retained consumer read of a mesh cell in $q$ factors through the restricted rows
+$$
+a\vert_q,j\vert_q,w\vert_q,r\vert_q,d\vert_q,m\vert_q,e\vert_q,h\vert_q,c\vert_q,p\vert_q,n\vert_q.
+$$
+It cannot recover a cell of $j$ outside $q$, an infinite mesh, quotient regular-Cauchy equality, host real equality, a chosen limiting representative, or an ambient Real-completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:regular-cauchy-mesh-carrier}. The visible data are exactly the finite request row $a$, mesh-index row $j$, window row $w$, readback row $r$, dyadic ledger $d$, mesh compatibility row $m$, handoff row $e$, transport row $h$, continuation row $c$, provenance row $p$, and local name row $n$.
+
+The selector $q$ is finite and every entry of $q$ is read from the displayed mesh-index row $j$. Therefore $j\vert_q=q$ is a finite mesh-index row, and $a\vert_q$ is the corresponding finite request row obtained by keeping only the requests whose inspected mesh cells lie in $q$.
+
+For each retained mesh cell, the StreamName window, RegSeqRat readback, DyadicRatCore tolerance entry, and DyadicMesh compatibility entry are already rows of the original accepted packet. Pulling those rows back along $\iota$ gives $w\vert_q,r\vert_q,d\vert_q,m\vert_q$ without adding any analytic object. The mesh compatibility row remains a compatibility row because it now states the same cell-window agreement after both sides have been restricted to the same displayed submesh.
+
+The rows $e,h,c,p,n$ are administrative over the displayed finite route. Retaining only the components whose sources survive in $a\vert_q,j\vert_q,w\vert_q,r\vert_q,d\vert_q,m\vert_q$ yields the handoff, transport, continuation, provenance, and naming rows $e\vert_q,h\vert_q,c\vert_q,p\vert_q,n\vert_q$. These rows have exactly the roles required by \autoref{def:regular-cauchy-mesh-carrier}, so the restricted tuple is a $\RegularCauchyMeshUp$ carrier.
+
+Acceptance follows from the local certificate surface of \autoref{thm:regular-cauchy-mesh-namecert-obligation-sketch}. Carrier admission is the restricted finite tuple, finite mesh request exposure is through $a\vert_q$ and $j\vert_q$, selected windows and readbacks are $w\vert_q$ and $r\vert_q$, the dyadic and mesh rows are $d\vert_q$ and $m\vert_q$, and the handoff, transport, route, provenance, and local naming rows are $e\vert_q,h\vert_q,c\vert_q,p\vert_q,n\vert_q$.
+
+Now let a retained consumer read a cell of $q$. In the original packet such a read factors through the displayed mesh-index row $j$, the attached window row $w$, the readback row $r$, the dyadic ledger $d$, the compatibility row $m$, and then the handoff and certificate rows. Since the cell lies in the image of $\iota$, every one of those entries is present in the restricted tuple. Hence the same read factors through the restricted rows.
+
+No omitted cell can be recovered from this factorization, because every retained row was formed by pullback along $q\to j$ and contains no component indexed outside $q$. The non-escape clauses are inherited from the carrier inventory in \autoref{def:regular-cauchy-mesh-carrier}: neither $G$ nor $G\vert_q$ has a coordinate for an infinite mesh, quotient regular-Cauchy equality, host real equality, a chosen limiting representative, or an ambient Real-completeness theorem.
+\end{proof}
