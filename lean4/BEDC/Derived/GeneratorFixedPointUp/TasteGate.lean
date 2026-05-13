@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.GeneratorFixedPointUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -226,5 +238,112 @@ theorem GeneratorFixedPointTasteGate_single_carrier_alignment :
       · intro x y heq
         exact generatorFixedPointToEventFlow_injective heq
       · rfl
+
+def GeneratorFixedPointCarrier [AskSetup] [PackageSetup]
+    (generator list classifier witness output transport route provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory generator ∧ UnaryHistory list ∧ UnaryHistory classifier ∧
+    UnaryHistory witness ∧ UnaryHistory output ∧ UnaryHistory transport ∧
+      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+        Cont generator list classifier ∧ Cont classifier witness output ∧
+          Cont transport route provenance ∧ PkgSig bundle provenance pkg
+
+theorem GeneratorFixedPointCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {generator list classifier witness output transport route provenance name consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorFixedPointCarrier generator list classifier witness output transport route
+        provenance name bundle pkg →
+      Cont witness output consumer →
+        PkgSig bundle consumer pkg →
+          UnaryHistory generator ∧ UnaryHistory list ∧ UnaryHistory classifier ∧
+            UnaryHistory witness ∧ UnaryHistory output ∧ UnaryHistory transport ∧
+              UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+                UnaryHistory consumer ∧ Cont generator list classifier ∧
+                  Cont classifier witness output ∧ Cont transport route provenance ∧
+                    Cont witness output consumer ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle consumer pkg ∧
+                        SemanticNameCert
+                          (fun row : BHist => hsame row provenance ∧ UnaryHistory row)
+                          (fun row : BHist => hsame row provenance)
+                          (fun row : BHist => hsame row provenance ∧
+                            PkgSig bundle provenance pkg)
+                          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory Pkg
+  intro carrier consumerRow consumerPkg
+  have generatorUnary : UnaryHistory generator :=
+    carrier.left
+  have listUnary : UnaryHistory list :=
+    carrier.right.left
+  have classifierUnary : UnaryHistory classifier :=
+    carrier.right.right.left
+  have witnessUnary : UnaryHistory witness :=
+    carrier.right.right.right.left
+  have outputUnary : UnaryHistory output :=
+    carrier.right.right.right.right.left
+  have transportUnary : UnaryHistory transport :=
+    carrier.right.right.right.right.right.left
+  have routeUnary : UnaryHistory route :=
+    carrier.right.right.right.right.right.right.left
+  have provenanceUnary : UnaryHistory provenance :=
+    carrier.right.right.right.right.right.right.right.left
+  have nameUnary : UnaryHistory name :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have generatorListClassifier : Cont generator list classifier :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have classifierWitnessOutput : Cont classifier witness output :=
+    carrier.right.right.right.right.right.right.right.right.right.right.left
+  have transportRouteProvenance : Cont transport route provenance :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.left
+  have provenancePkg : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed witnessUnary outputUnary consumerRow
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row provenance ∧ UnaryHistory row)
+        (fun row : BHist => hsame row provenance)
+        (fun row : BHist => hsame row provenance ∧ PkgSig bundle provenance pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro provenance
+        (And.intro (hsame_refl provenance) provenanceUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' same same'
+        exact hsame_trans same same'
+      carrier_respects_equiv := by
+        intro row row' same sourceRow
+        exact And.intro (hsame_trans (hsame_symm same) sourceRow.left)
+          (unary_transport sourceRow.right same)
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact sourceRow.left
+    ledger_sound := by
+      intro _row sourceRow
+      exact And.intro sourceRow.left provenancePkg
+  }
+  exact
+    And.intro generatorUnary
+      (And.intro listUnary
+        (And.intro classifierUnary
+          (And.intro witnessUnary
+            (And.intro outputUnary
+              (And.intro transportUnary
+                (And.intro routeUnary
+                  (And.intro provenanceUnary
+                    (And.intro nameUnary
+                      (And.intro consumerUnary
+                        (And.intro generatorListClassifier
+                          (And.intro classifierWitnessOutput
+                            (And.intro transportRouteProvenance
+                              (And.intro consumerRow
+                                (And.intro provenancePkg
+                                  (And.intro consumerPkg cert)))))))))))))))
 
 end BEDC.Derived.GeneratorFixedPointUp
