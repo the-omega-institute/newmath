@@ -74,6 +74,7 @@ import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BinaryExpansionUp
+import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
@@ -232,6 +233,7 @@ import BEDC.Derived.GaloisExtUp.StdBridge
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoldenMeanShiftUp
+import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
@@ -262,6 +264,7 @@ import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
+import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverHistIdentityUp
 import BEDC.Derived.ObserverHistIdentityUp.TasteGate
@@ -379,6 +382,7 @@ import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RefutationBoundaryUp
 import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RecursiveFnUp
+import BEDC.Derived.RussellSelfMembershipBoundaryUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemiringUp
