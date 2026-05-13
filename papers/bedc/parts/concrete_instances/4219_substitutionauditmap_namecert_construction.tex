@@ -137,12 +137,64 @@ Apply \autoref{thm:substitutionauditmap-obstruction-row-exactness}. The obstruct
 Thus $P$ and $N$ can record and name only the closed substitution audit packet. A public theorem about unrestricted substitution, beta preservation, quotient equality, or host semantic equality would require a row that the carrier does not contain.
 \end{proof}
 
+\begin{theorem}[Substitution audit map closed-boundary scope]
+\label{thm:substitutionauditmap-closed-boundary-scope}
+For every accepted $\SubstitutionAuditMapUp$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, the closed-term substitution boundary and the closed substitution boundary are read only through the displayed term row $T$, closed-boundary row $C$, shift row $R$, substitute row $S$, closed-composition row $K$, and generator-closure classifier row $G$, with transport, route replay, provenance, and naming supplied by $H,Q,P,N$.
+
+The checked TasteGate carrier alignment keeps this boundary as the same finite packet. It does not export unrestricted substitution, beta preservation, closed subject reduction, quotient equality, or host semantic equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The term and closedness data are the rows $T$ and $C$, and the only closed movement rows are $R,S,K$.
+
+Use positive row coverage and obstruction row exactness. The generator-closure classifier $G$ accounts for the closed-boundary route, while the excluded substitution and equality principles remain absent carrier coordinates.
+
+Finally apply frontier route non-escape. The rows $H,Q,P,N$ transport, replay, locate, and name the same closed-boundary packet, so the scope remains the displayed finite boundary.
+\end{proof}
+
+\begin{theorem}[Substitution audit map generator-route scope]
+\label{thm:substitutionauditmap-generator-route-scope}
+For every accepted $\SubstitutionAuditMapUp$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, the generator-closure classifier row $G$ is the only generator-route source for closed shift, closed substitution, and closed-composition reads. Any consumer route through $H,Q,P,N$ must replay $G$ together with $T,C,R,S,K$ and cannot replace it by an unrestricted substitution generator.
+\end{theorem}
+\begin{proof}
+Start with the domain-codomain exposure theorem. It identifies $T,C$ as the primitive domain rows and $R,S,K,G$ as the movement and generator-route rows.
+
+Next use replay determinacy. Transported reads must pass through $H$ and $Q$ before reaching $P$ and $N$, so the generator classifier is replayed as part of the same packet.
+
+Obstruction row exactness excludes an unrestricted substitution generator. Since no such row is present before or after replay, the generator route is scoped by $G$.
+\end{proof}
+
+\begin{theorem}[Substitution audit map consumer obstruction scope]
+\label{thm:substitutionauditmap-consumer-obstruction-scope}
+For every accepted $\SubstitutionAuditMapUp$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, every downstream consumer obstruction is exact at the displayed packet boundary: beta-substitution preservation, subject reduction, quotient equality, and host semantic equality are unavailable precisely because no row of $A$ supplies them and $H,Q,P,N$ do not create them.
+\end{theorem}
+\begin{proof}
+Read the positive rows through \autoref{thm:substitutionauditmap-positive-row-coverage}. They exhaust the available term, closed-boundary, movement, and generator-classifier data.
+
+Apply obstruction row exactness. The absent obstruction rows are not hidden assumptions; they are missing carrier fields.
+
+Use ledger non-escape for the consumer-facing side. The provenance and local naming rows can name only the closed substitution audit packet, so an excluded theorem cannot be promoted into a public consumer row.
+\end{proof}
+
+\begin{theorem}[Substitution audit map scoped closure package]
+\label{thm:substitutionauditmap-scoped-closure-package}
+The carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, the checked TasteGate carrier alignment, positive row coverage, obstruction row exactness, frontier route non-escape, closed-boundary scope, generator-route scope, and consumer obstruction scope jointly bind $\SubstitutionAuditMapUp$ as a scoped finite audit package for closed-term substitution boundaries.
+
+The package closes only the displayed closed substitution audit map over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It does not close unrestricted substitution, beta preservation, subject reduction, quotient equality, or host semantic equality.
+\end{theorem}
+\begin{proof}
+Begin with the obligation closure package. It already assembles carrier admission, local NameCert obligations, positive row coverage, obstruction exactness, and frontier non-escape over the displayed finite rows.
+
+Attach the closed-boundary and generator-route scope theorems. These identify the closed-term boundary, closed substitution boundary, and generator-closure classifier as rows of the same packet rather than as external calculus assumptions.
+
+Finally attach consumer obstruction scope. Since the excluded principles remain absent under transport, replay, provenance, and naming, the finite packet is scoped-closed at exactly the displayed audit boundary.
+\end{proof}
+
 \closureat{SubstitutionAuditMapUp}{scopedStr}
 
 \begin{closurestatus}{\SubstitutionAuditMapUp}
   \constructivestory{A $\SubstitutionAuditMapUp$ packet is generated from a MetaCIC term row, a ClosedAt boundary, closed shift and substitution rows, closed-composition rows, generator-closure classifier rows, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, \autoref{thm:substitutionauditmap-frontier-route-nonescape}, \autoref{thm:substitution-audit-map-obligation-closure-package}, \autoref{thm:substitution-audit-map-domain-codomain-exposure}, \autoref{thm:substitution-audit-map-replay-determinacy}, and \autoref{thm:substitution-audit-map-ledger-nonescape} bind the closed substitution audit map, its primitive domain and movement rows, deterministic replay route, ledger boundary, obstruction rows, frontier routes, and finite obligation package.}
+  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, \autoref{thm:substitutionauditmap-frontier-route-nonescape}, \autoref{thm:substitution-audit-map-obligation-closure-package}, \autoref{thm:substitution-audit-map-domain-codomain-exposure}, \autoref{thm:substitution-audit-map-replay-determinacy}, \autoref{thm:substitution-audit-map-ledger-nonescape}, \autoref{thm:substitutionauditmap-closed-boundary-scope}, \autoref{thm:substitutionauditmap-generator-route-scope}, \autoref{thm:substitutionauditmap-consumer-obstruction-scope}, and \autoref{thm:substitutionauditmap-scoped-closure-package} bind the closed substitution audit map, its primitive domain and movement rows, deterministic replay route, ledger boundary, obstruction rows, frontier routes, closed-boundary scope, generator-route scope, consumer obstruction scope, and finite scoped package.}
   \leanchecked{BEDC.Derived.SubstitutionAuditMapUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
