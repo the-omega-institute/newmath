@@ -315,21 +315,47 @@ The theoretical bound says polynomial size/time, not that small finite layouts p
 ## Part 7: Exhaustiveness audit
 
 `tools/manifest_exhaustiveness_audit.c` audits the finite-witness reading of
-`BEDC.FKernel.Mark.msame_refl` against
-`manifests/mark/msame_refl.enum.ct`.
+selected FKernel and GroundCompiler manifests by enumerating a finite closure
+slice and comparing it with the assertion inputs listed in the corresponding
+`.enum.ct` file.
 
-For this target, `BMark` has exactly two nullary constructors, `b0` and `b1`.
-The enumerator therefore finds two closure instances at depth 3. The manifest
-contains two assertion inputs, decoded as `b0,b0` and `b1,b1` under the
-GroundCompiler event convention.
+`BMark` is nullary, so depth `1` is the whole closed domain. Recursive `BHist`
+and BHist-derived relations use small bounded slices; these are explicit
+finite-witness audits of the manifest slice, not claims about the infinite
+recursive closure.
 
-Result:
+Current result:
 
 ```text
-BMark closure enumerated to depth 3: 2 instances
-Manifest case count: 2
-Exhaustiveness: 2/2 (100.0%)
+19 audit targets
+9 strict PASS
+10 partial coverage
+0 parse/enumeration failure
 ```
 
-The strict gate is `make test-exhaustiveness`. Default `make test` runs the same
-tool in reporting mode.
+Strict PASS targets are:
+
+```text
+BMark / msame_refl: 2/2
+BMark / msame_symm: 4/4
+BMark / msame_trans: 8/8
+BMark / msame_no_confusion: 2/2
+BHist / hsame_refl: 3/3
+BHist / hsame_empty_inversion: 5/5
+BHist / hsame_constructor_distinct: 6/6
+GroundCompiler / flow_round_trip: 3/3
+GroundCompiler / reject_reasons: 6/6
+```
+
+Partial targets are genuine manifest-slice findings. Examples include
+`BHist / hsame_symm` at `3/9`, `BHist / hsame_trans` at `6/27`,
+`Ext / ext_step` at `4/6`, `Cont / cont_basic` at `4/9`,
+`Unary / unary_basic` at `6/7`, `Ask / ask_basic` at `8/24`,
+`ExternalBinary / external_binary_basic` at `4/9`, and
+`GroundCompiler / bhist_injectivity` at `4/9`. `SigRel / sigrel_basic` and
+`SameSig / samesig_equiv` are `0/27` against the depth-`1` fixture closure
+because their manifests are hand-picked semantic examples rather than complete
+depth-slice listings.
+
+The strict gate is `make test-exhaustiveness`. Default `make test` runs the
+same tool in reporting mode.
