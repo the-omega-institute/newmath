@@ -18057,3 +18057,28 @@ Rationale:
 This directly fills the gap named by the chapter itself: the current \(\DecompilerRightInverseUp\) surface has carrier, NameCert obligations, and a non-escape boundary, while its closure block says a finite right-inverse classifier theorem is still needed. The claim is a single local classifier-determinacy implication over displayed packet rows and has no BOARD duplicate or matching paper theorem.
 
 ---
+
+### B-716 - TypePreservingCompiler sequential composition
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | TypePreservingCompiler sequential composition |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If accepted \(\TypePreservingCompilerUp\) packets compile \(S\) to \(T\) and \(T\) to \(U\), then the relational composite of their compiler graphs determines an accepted \(\TypePreservingCompilerUp\) packet from \(S\) to \(U\) preserving target \(\Ext\) membership and the source/target subject-reduction ledgers.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/3009_typepreservingcompiler_namecert_construction.tex`
+
+Rationale:
+The existing \(\TypePreservingCompilerUp\) chapter has subject-reduction handoff, morphism reading, and ledger boundary theorems, but no sequential composition theorem for two accepted compiler packets. The claim is a concrete closure result over compiler graphs and subject-reduction ledgers, distinct from already-present generic classifier-morphism composition and not merely a verification-axis update.
+
+---
