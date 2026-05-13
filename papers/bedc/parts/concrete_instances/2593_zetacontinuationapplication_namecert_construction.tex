@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\ZetaContinuationApplicationUp$}
+\label{ch:concrete-instances-zetacontinuationapplication-namecert}
+\origin{ai}
+
+The $\ZetaContinuationApplicationUp$ packet records the application-level certificate that turns the zeta continuation surface into a finite NameCert object. It reads the eta continuation row, the functional-equation continuation row, pole and zero ledgers, Gamma horizon rows, application routes, transport rows, package provenance, and a local naming row. The packet is an application certificate only: it does not assert RH, complete the constructive $\GammaUp$ chapter, classify nontrivial zeros, or export a continuation branch outside the displayed routes.
+
+\begin{definition}[ZetaContinuationApplication carrier]
+\label{def:zeta-continuation-application-carrier}
+A $\ZetaContinuationApplicationUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(E,F,P,T,G,A,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the eta-continuation row, recording the $\eta$ handoff from the $\ZetaBasicUp$ source and the denominator boundary $1-2^{1-s}$;
+\item $F$ is the functional-equation continuation row, recording the reflected input $1-s$, the factors $2^s$, $\pi^{s-1}$, $\sin(\pi s/2)$, and their displayed product route;
+\item $P$ is the pole ledger row at $s=1$, recording the simple-pole boundary and residue $\Eone(\emp)$ without exporting a regular zeta value there;
+\item $T$ is the zero ledger row, recording the trivial-zero inputs witnessed by the sine factor and the absence of any nontrivial-zero-location conclusion;
+\item $G$ is the $\GammaUp$ horizon row, recording the domain boundary for $\Gamma(1-s)$, its pole exclusions, and the fact that the full constructive Gamma carrier is not supplied here;
+\item $A$ is the application-certificate row, reading $E,F,P,T,G$ as the finite application of analytic continuation to the zeta source;
+\item $H$ stores componentwise $\hsame$ transports for $E,F,P,T,G,A$ and for the local naming row;
+\item $C$ stores the finite $\Cont$ routes by which consumers read eta continuation, functional-equation continuation, pole and zero ledgers, Gamma horizon rows, application provenance, and local naming;
+\item $Q$ is the $\Pkg$ provenance row over the same application packet;
+\item $N$ is the local $\NameCert_{\ZetaContinuationApplicationUp}$ row.
+\end{enumerate}
+The carrier exposes exactly this finite application packet. It has no coordinate for a value at the pole, no complete $\GammaUp$ construction, no branch selector outside the displayed eta and functional-equation routes, and no RH-facing nontrivial-zero classifier.
+\end{definition}
+
+\begin{theorem}[ZetaContinuationApplication NameCert obligations]
+\label{thm:zeta-continuation-application-namecert-obligations}
+The local $\NameCert_{\ZetaContinuationApplicationUp}$ surface for \autoref{def:zeta-continuation-application-carrier} consists of carrier admission for $Z$, componentwise classifier stability for $E,F,P,T,G,A$, ledger exactness for pole and zero rows, Gamma-horizon boundary exactness, $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, and local naming exactness for $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple $Z$. Each continuation, ledger, horizon, application, transport, replay, package, and naming coordinate is displayed as a row of the same finite $\BHist$ packet.
+
+Classifier stability is componentwise. The transports in $H$ preserve the eta-continuation row, the functional-equation row, the pole row, the zero ledger, the Gamma horizon row, and the application-certificate row without adding a new analytic object.
+
+The replay and provenance rows then repack the same data. The routes in $C$ expose only the displayed application coordinates, $Q$ records their package provenance, and $N$ names the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Eta factorization route]
+\label{thm:zeta-continuation-application-eta-factorization}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, every eta-side continuation read factors through $E$, the application row $A$, the transport row $H$, and one of the finite replay routes in $C$. Such a read may use the displayed denominator boundary and overlap agreement with $\ZetaBasicUp$, but it cannot export a value at $s=1$ or a continuation branch outside the eta route.
+\end{theorem}
+\begin{proof}
+Read an eta-side request through the finite routes stored in $C$. If the request is inside the eta continuation surface, the route lands in $E$ and then in the application row $A$.
+
+Transport through $H$ preserves the same eta row and denominator boundary. The pole request is not part of $E$ as a regular value; it is routed to the pole ledger $P$.
+
+Thus the eta factorization is a finite application route. The certificate exports the eta handoff and overlap evidence, while pole and outside-route requests remain ledger reads.
+\end{proof}
+
+\begin{theorem}[Gamma horizon boundary]
+\label{thm:zeta-continuation-application-gamma-horizon-boundary}
+For an accepted $\ZetaContinuationApplicationUp$ carrier, every functional-equation read that touches the factor $\Gamma(1-s)$ must pass through the Gamma horizon row $G$. Inputs where the Gamma factor is outside the displayed horizon are recorded in $G$ as boundary data and are not exported as values of the continued zeta function.
+\end{theorem}
+\begin{proof}
+Begin with a functional-equation read. The factorization row $F$ records the reflected input and the elementary factors, while the Gamma factor is named only by the horizon row $G$.
+
+If the input is inside the displayed Gamma horizon, the read may continue through $F,G,A,H,C$. If the input is at a Gamma boundary, the route terminates in the ledger part of $G$.
+
+The application row $A$ therefore never converts the Gamma horizon into a completed $\GammaUp$ construction. It records exactly the boundary needed by the zeta continuation application.
+\end{proof}
+
+\begin{theorem}[Application certificate non-escape]
+\label{thm:zeta-continuation-application-non-escape}
+Every downstream consumer of an accepted $\ZetaContinuationApplicationUp$ packet factors through the displayed rows $E,F,P,T,G,A,H,C,Q,N$. Requests for a pole value, a Gamma value beyond the horizon row, an undisplayed continuation branch, or a nontrivial-zero-location claim have no carrier coordinate and are recorded only as ledger or horizon boundary reads.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer route be given. By the carrier definition, the route can inspect only the eta row, functional-equation row, pole row, zero ledger, Gamma horizon, application row, transport row, continuation routes, package row, and local naming row.
+
+Pole requests land in $P$, Gamma-boundary requests land in $G$, and trivial-zero requests land in $T$. An undisplayed branch or a nontrivial-zero-location claim is absent from the carrier inventory.
+
+Consequently every exported application fact is a read of the finite packet. The missing objects remain outside the certificate surface rather than becoming hidden application outputs.
+\end{proof}
+
+\closureat{ZetaContinuationApplicationUp}{seedStr}
+
+\begin{closurestatus}{\ZetaContinuationApplicationUp}
+  \constructivestory{A $\ZetaContinuationApplicationUp$ packet is generated from eta continuation, functional-equation continuation, pole and zero ledgers, Gamma horizon rows, application routes, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, and \autoref{thm:zeta-continuation-application-non-escape} define the local application carrier, obligation rows, eta factorization route, Gamma horizon boundary, and non-escape ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RH, nontrivial-zero classification, full constructive $\GammaUp$ construction, global meromorphic uniqueness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, pole and zero ledger exactness, Gamma horizon exactness, application-route provenance, and local naming for the same finite application packet.}
+\end{closurestatus}

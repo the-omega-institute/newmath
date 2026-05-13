@@ -1,0 +1,133 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyWitnessScheduleUp$}
+\label{ch:concrete-instances-regularcauchywitnessschedule-namecert}
+\origin{ai}
+
+The $\RegularCauchyWitnessScheduleUp$ interface records the finite witness schedule used by the real-completion diagonal construction when a regular Cauchy sequence supplies an explicit modulus. It packages the selected modulus row, the finite stream window, the dyadic observation ledger, the diagonal readback, and the $\RealUp$ seal handoff as one local naming certificate. It does not export a quotient stream, a selected completed real, host real equality, or ambient completeness.
+
+\begin{definition}[Regular Cauchy witness schedule carrier]
+\label{def:regular-cauchy-witness-schedule-carrier}
+A $\RegularCauchyWitnessScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $X$ is the $\RegSeqRatUp$ family row for the regular Cauchy input;
+\item $\mu$ is the explicit modulus row selecting the regular-Cauchy source index for a requested tolerance;
+\item $W$ is the $\StreamNameUp$ finite-window schedule at the selected modulus index;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger recording the endpoint, radius, tolerance, and comparison rows used by the scheduled read;
+\item $R$ is the diagonal readback row naming the rational observation read from $X_{\mu}$ through $W$ and $D$;
+\item $T$ is the $\RealUp$ seal handoff row reached after the displayed diagonal readback;
+\item $H$ stores componentwise $\hsame$ transport for the family row, modulus row, window schedule, dyadic ledger, readback row, seal row, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes from the modulus request to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $T$;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyWitnessScheduleUp}$ row.
+\end{enumerate}
+The carrier is a finite witness packet for the modulus-selected diagonal observation route. It contains no unbounded stream object, quotient equality, selected limit, host real equality, or completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy witness schedule NameCert obligations]
+\label{thm:regular-cauchy-witness-schedule-namecert-obligations}
+The local $\NameCert_{\RegularCauchyWitnessScheduleUp}$ surface for the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier} consists exactly of carrier admission, $\RegSeqRatUp$ family admission, explicit modulus exposure, selected $\StreamNameUp$ window scheduling, $\DyadicRatCoreUp$ observation-ledger readback, diagonal readback, $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleSemanticNameCert}
+\begin{proof}
+Carrier admission is projection from the displayed packet $S$. Its coordinates list the regular Cauchy family row, selected modulus row, finite window schedule, dyadic ledger, diagonal readback, seal handoff, transports, routes, provenance, and local name.
+
+The modulus and window rows make the diagonal observation finite. A consumer first reads the tolerance through $\mu$, then opens only the scheduled window $W$, and then reads the dyadic ledger $D$ and diagonal row $R$.
+
+The remaining rows transport and name the same route. Since the packet has no coordinate for quotient streams, selected completed reals, host equality, or ambient completeness, the listed rows exhaust the local naming certificate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule window-modulus alignment]
+\label{thm:regular-cauchy-witness-schedule-window-modulus-alignment}
+For an accepted $\RegularCauchyWitnessScheduleUp$ carrier, every scheduled window read is aligned with the displayed modulus row $\mu$. If a $\RealUp$ or $\RegSeqRatUp$ consumer asks for the diagonal observation at a tolerance already routed through $\mu$, the only admissible window is the stored finite $\StreamNameUp$ schedule $W$ at that selected modulus index, transported through $H$ and replayed through $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only source-index selector is the modulus row $\mu$, and the only scheduled window attached to that selector is $W$.
+
+Use the local NameCert obligations to bind the consumer read to the displayed coordinates. The continuation route from the modulus request to the window has no alternative branch, and the transport rows preserve the selected index and window together.
+
+Thus the read cannot replace $W$ by an independent schedule or inspect an unbounded stream. The finite window is aligned with the displayed modulus row by the carrier itself.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule diagonal readback]
+\label{thm:regular-cauchy-witness-schedule-diagonal-readback}
+For an accepted $\RegularCauchyWitnessScheduleUp$ carrier, the diagonal readback row $R$ is read only through the route
+$$
+X,\mu,W,D,H,C,P,N.
+$$
+It records the rational observation obtained from the $\RegSeqRatUp$ family row at the modulus-selected source index and the corresponding finite window, with the dyadic observation ledger $D$ supplying the displayed tolerance and comparison rows.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The row $R$ appears after $X$, $\mu$, $W$, and $D$, so any readback must first pass through the source family, the selected modulus row, the finite window, and the dyadic ledger.
+
+Apply window-modulus alignment to keep the scheduled read on the same selected index. Then use the displayed continuation route from $W$ to $D$ and from $D$ to $R$.
+
+The transport and provenance rows repack this same readback route. No carrier coordinate offers a quotient stream, a host real comparison, or a separate diagonal oracle.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule non-escape]
+\label{thm:regular-cauchy-witness-schedule-non-escape}
+Every downstream consumer of an accepted $\RegularCauchyWitnessScheduleUp$ packet factors through the finite rows
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+The consumer may read the regular Cauchy family, the explicit modulus, the selected finite window, the dyadic observation ledger, the diagonal readback, the $\RealUp$ seal handoff, componentwise transports, continuation routes, package provenance, and local naming row; it cannot read a quotient stream, selected completed real, host real equality, unbounded diagonal stream, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and the local naming surface. The displayed rows of $S$ are exactly $X,\mu,W,D,R,T,H,C,P,N$.
+
+Window-modulus alignment controls every scheduled observation route. Diagonal readback then forces the rational observation through the displayed dyadic ledger before any seal-facing row can be consumed.
+
+Since no other coordinate exists, a downstream consumer has no route to unlisted analytic data. The packet therefore keeps the diagonal witness schedule inside the finite BEDC carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule local certificate package]
+\label{thm:regular-cauchy-witness-schedule-local-certificate-package}
+The carrier, local $\NameCert$ obligations, window-modulus alignment, diagonal readback, and non-escape theorem jointly form the local certificate package for the modulus-indexed finite observation route from $\RegSeqRatUp$ and $\StreamNameUp$ data through $\DyadicRatCoreUp$ readback to the $\RealUp$ seal.
+
+The package exports no quotient stream, selected limit, host real equality, unbounded diagonal stream, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}. It exposes exactly the regular Cauchy family, modulus row, scheduled window, dyadic ledger, diagonal readback, seal handoff, transports, routes, provenance, and local name.
+
+Add the local obligation theorem. It identifies those rows as the complete $\NameCert_{\RegularCauchyWitnessScheduleUp}$ surface for the witness schedule.
+
+Window-modulus alignment and diagonal readback bind the operational route: the selected source index comes from $\mu$, the finite window is $W$, the observation ledger is $D$, and the readback is $R$.
+
+Finally apply non-escape. The package therefore presents the Real-completion diagonal observation as a finite naming certificate and not as a quotient stream or host-level real equality assertion.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule finite-route correspondence]
+\label{thm:regular-cauchy-witness-schedule-finite-route-correspondence}
+For an accepted $\RegularCauchyWitnessScheduleUp$ packet
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N),
+$$
+the finite observation route from the $\RegSeqRatUp$ family row through the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, and the $\RealUp$ seal is exactly the conjunction of the following displayed rows: modulus selection by $\mu$, window scheduling by $W$, dyadic ledger readback by $D$, diagonal row $R$, seal handoff $T$, componentwise $\hsame$ transport by $H$, displayed $\Cont$ replay by $C$, package provenance by $P$, and local $\NameCert$ naming by $N$.
+
+Equivalently, a consumer has access to that four-object route precisely when it reads the finite rows $X,\mu,W,D,R,T,H,C,P,N$ under the local certificate package of \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}. The correspondence does not assert $\RealUp$ completeness, quotient equality, host real equality, or equality of completed limits.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $S$. The carrier of \autoref{def:regular-cauchy-witness-schedule-carrier} lists exactly the RegSeqRat family row, modulus row, selected StreamName window, DyadicRatCore ledger, diagonal readback, RealUp seal handoff, transports, routes, provenance, and local name.
+
+Apply \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations} to identify those coordinates as the complete local naming surface. Then use \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment} to bind the requested tolerance to $\mu$ and the scheduled window $W$.
+
+Apply \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback} to route the rational observation through $D$ and $R$, and use \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package} to repack the handoff to $T$ with $H$, $C$, $P$, and $N$. Finally, \autoref{thm:regular-cauchy-witness-schedule-non-escape} keeps the packet finite, so no unlisted analytic object can be read from the route.
+
+Because this chapter is marked $\origin{ai}$, any later promotion beyond seed closure must cite the corresponding TasteGate target before the closure grade is advanced.
+\end{proof}
+
+\closureat{RegularCauchyWitnessScheduleUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyWitnessScheduleUp}
+  \constructivestory{A $\RegularCauchyWitnessScheduleUp$ packet is generated from a $\RegSeqRatUp$ family row, explicit modulus row, selected $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ observation ledger, diagonal readback row, $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, and \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence} bind the finite modulus-indexed route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus-window alignment, diagonal readback, RealUp seal handoff, and non-escape for the same finite witness schedule.}
+\end{closurestatus}

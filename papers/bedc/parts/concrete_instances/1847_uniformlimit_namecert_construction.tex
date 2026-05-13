@@ -53,6 +53,7 @@ F,M,T \longmapsto R \longmapsto S \longmapsto E.
 $$
 Thus the endpoint is exposed only after the displayed function/window family has been read through the shared threshold ledger, the $\UniformCauchyCriterionUp$ tail row, the $\RegSeqRatUp$ handoff, and the $\CauchyLimitSealUp$ row, together with the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformLimitUp.UniformLimitCarrier\_seal\_factorization}
 \begin{proof}
 Begin with an endpoint-facing consumer request. By the carrier definition, the only $\RealUp$ endpoint coordinate is $E$, and the continuation route to $E$ passes through the named rows of the same finite packet.
 
@@ -184,6 +185,58 @@ Apply \autoref{thm:uniform-limit-seal-route-transport} and \autoref{thm:uniform-
 Use \autoref{thm:uniform-limit-finite-endpoint-certificate}. The finite certificate packages the endpoint-facing route together with $P$ and $N$ as the visible provenance and local naming surface.
 
 Finally apply \autoref{thm:uniform-limit-non-escape-boundary} and \autoref{thm:uniform-limit-ledger-exactness-obligation}. The excluded pointwise, quotient, selected-limit, compactness, and completeness objects are not coordinates of the carrier and cannot be recovered by readback.
+\end{proof}
+
+\begin{theorem}[UniformLimit obligation closure package]
+\label{thm:uniform-limit-obligation-closure-package}
+For every accepted $\UniformLimitUp$ carrier
+$$
+U=(F,M,T,R,S,E,H,C,P,N),
+$$
+the carrier, local $\NameCert$ obligations, windowwise Cauchy obligation, limit-seal compatibility, tail-ledger exactness, seal-route transport, and endpoint readback exhaustion jointly supply the obligation surface over $\StreamNameUp$, $\UniformCauchyCriterionUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The package exports exactly the displayed function/window family, shared threshold ledger, uniform tail ledger, regular handoff, limit seal, endpoint row, transport routes, continuation routes, provenance, and local naming data. It exports no pointwise-only convergence object, open-cover compactness principle, selected host limit, quotient function space, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and local naming obligations in \autoref{def:uniform-limit-carrier} and \autoref{thm:uniform-limit-namecert-obligations}. They identify the coordinates $F,M,T,R,S,E,H,C,P,N$ and bind carrier admission, classifier transport, uniform-tail exactness, regular-seal routing, and non-escape to those coordinates.
+
+Use the windowwise Cauchy obligation of \autoref{thm:uniform-limit-windowwise-cauchy-obligation} and the limit-seal compatibility theorem \autoref{thm:uniform-limit-limit-seal-compatibility}. These force every endpoint route to read the shared threshold and the same uniform tail ledger before reaching the handoff and seal rows.
+
+Apply tail-ledger exactness from \autoref{thm:uniform-limit-tail-ledger-exactness} and seal-route transport from \autoref{thm:uniform-limit-seal-route-transport}. They show that transported endpoint reads remain on the finite route from $F,M,T$ through $R,S,E$.
+
+Finally use endpoint readback exhaustion in \autoref{thm:uniform-limit-endpoint-readback-exhaustion}. Since all downstream consumers can read only the displayed rows and their provenance, the obligation package has no coordinate for pointwise-only convergence, open-cover compactness, selected host limits, quotient function spaces, or real completeness.
+\end{proof}
+
+\begin{theorem}[UniformLimit diagonal-window handoff]
+\label{thm:uniform-limit-diagonal-window-handoff}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitUp$ carrier, and let
+$$
+G=(q,w,r,d,e,h,c,p,n)
+$$
+be an accepted $\RealDiagonalWindowCoverageUp$ carrier. Suppose that the selected window $w$ is a displayed window of $F$, and that the readback row $r$ is the $\RegSeqRatUp$ handoff read through $T$. Then every $\RealUp$-facing diagonal-window read determined by $G$ and the displayed window of $U$ factors simultaneously through the two finite routes
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E
+$$
+and
+$$
+q \longmapsto w \longmapsto r \longmapsto d \longmapsto e.
+$$
+Consequently the diagonal-window consumer can use the uniform-limit endpoint exposure only through the selected finite window, the uniform tail ledger, the regular rational handoff, the dyadic observation ledger, and the displayed $\RealUp$ seal; it gains no pointwise-only convergence row, host limit, quotient function space, ambient completeness theorem, or unbounded diagonal stream.
+\end{theorem}
+\begin{proof}
+Start from the accepted $\UniformLimitUp$ carrier. By \autoref{thm:uniform-limit-seal-factorization}, every endpoint read exported by $U$ reaches the endpoint only along the finite route through $F,M,T,R,S,E$.
+
+Use the windowwise Cauchy obligation of \autoref{thm:uniform-limit-windowwise-cauchy-obligation} and tail-ledger exactness from \autoref{thm:uniform-limit-tail-ledger-exactness}. Since $w$ is one of the displayed windows of $F$ and $r$ is the $\RegSeqRatUp$ handoff read through $T$, the diagonal read cannot bypass the shared threshold ledger or replace the uniform tail row with a pointwise witness.
+
+Now turn to the accepted $\RealDiagonalWindowCoverageUp$ carrier. The selected-window coverage theorem \autoref{thm:real-diagonal-window-coverage-selected-window-coverage} forces the seal-facing read to expose $w$ and the dyadic ledger $d$ before the seal row is consumed.
+
+Apply the RealUp handoff theorem \autoref{thm:real-diagonal-window-coverage-realup-handoff}. It routes every real-facing completion or continuous-map consumer through $q,w,r,d,h,c,p,n$ before the $\RealUp$ seal row $e$ is read, so the selected-window side is exactly the displayed route from $q$ through $e$.
+
+Finally combine the non-escape boundary for $\UniformLimitUp$ with the non-escape boundary for $\RealDiagonalWindowCoverageUp$. The first boundary excludes host limits, quotient function spaces, pointwise-only convergence, compactness principles, and real completeness from $U$; the second excludes quotient streams, host real equality, unbounded diagonal streams, ambient completeness, and choice-selected limits from $G$. Thus the only common consumer route is the paired finite factorization through the uniform-limit endpoint route and the selected diagonal-window route.
 \end{proof}
 
 \closureat{UniformLimitUp}{seedStr}

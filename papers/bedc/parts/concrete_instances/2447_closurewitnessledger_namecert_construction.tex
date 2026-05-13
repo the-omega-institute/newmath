@@ -24,11 +24,13 @@ with the following visible coordinates:
 \end{enumerate}
 The carrier exports only the displayed generator row, constructor-list provenance, finite witness ledger, classifier row, non-escape ledger, transport rows, continuation routes, package provenance, and local naming row. It does not export an induction rule over all future continuations.
 \end{definition}
+\leandef{BEDC.Derived.ClosureWitnessLedgerUp.ClosureWitnessLedgerCarrier}
 
 \begin{theorem}[ClosureWitnessLedger classifier stability]
 \label{thm:closure-witness-ledger-classifier-stability}
 Displayed $\hsame$ transport preserving the generator row $G$, constructor-list provenance $L$, closure-witness ledger $W$, non-escape ledger $E$, transport rows $H$, continuation routes $C$, package provenance $P$, and local $\NameCert$ row $N$ preserves the $\ClosureWitnessLedgerUp$ classifier $Q$. Thus two finite continuation reads classified through the same displayed generator and constructor-list provenance retain the same witness-present or $\mathsf{GAP}$-boundary status.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosureWitnessLedgerUp.ClosureWitnessLedgerCarrier\_classifier\_stability}
 \begin{proof}
 The classifier is componentwise over the packet in \autoref{def:closure-witness-ledger-carrier}. Transport of $G$ and $L$ preserves the authorized generator surface and the finite constructor-list provenance against which every witness packet is read.
 
@@ -76,6 +78,20 @@ Read the attempted continuation through its displayed route in $C$. The carrier 
 The classifier stability theorem transports this distinction without changing $G$ or $L$. A row already classified through $E$ has no witness coordinate to project, so package provenance can only preserve it as a boundary row.
 
 Thus certificate transport cannot move an absent-witness read from $E$ into $W$. Such a move would require a new constructor-list witness not present in the finite packet, and the carrier exposes no coordinate that can create one.
+\end{proof}
+
+\begin{theorem}[ClosureWitnessLedger continuation-witness exactness]
+\label{thm:closure-witness-ledger-continuation-witness-exactness}
+For an accepted $\ClosureWitnessLedgerUp$ packet $K=(G,L,W,Q,E,H,C,P,N)$, every finite continuation read through $C$ has exactly one public classification: either a witness packet in $W$ against the displayed constructor-list provenance $L$, or a $\mathsf{GAP}$ row in $E$. Componentwise $\hsame$ transport through $H$ preserves this split, and no certificate transport can move a row from $E$ to $W$ without a displayed witness from $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closure-witness-ledger-carrier}. The continuation routes in $C$ read against the same generator row $G$ and constructor-list provenance $L$, so the classifier row $Q$ is evaluated on one displayed ledger surface.
+
+Apply \autoref{thm:closure-witness-ledger-generatorclosure-handoff}. A continuation read with the required constructor-list witness is supplied from $W$, while a read without that witness is supplied from $E$ as a $\mathsf{GAP}$ boundary.
+
+The two cases are exclusive by \autoref{thm:closure-witness-ledger-gap-nonescape}. A row already recorded in $E$ cannot also be exported as a witness packet in $W$ for the same $G$ and $L$.
+
+Transport through $H$ is componentwise over $G,L,W,Q,E$ and the local naming rows. It preserves the witness-vs-boundary split and provides no coordinate that can create the missing constructor-list witness.
 \end{proof}
 
 \closureat{ClosureWitnessLedgerUp}{seedStr}

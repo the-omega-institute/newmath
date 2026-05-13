@@ -60,6 +60,7 @@ Thus every contour read remains on the finite $\mathsf{PLContour}$ boundary, and
 \label{thm:contour-integral-riemann-sum-ledger}
 For an accepted $\ContourIntegralOperationUp$ packet $T=(G,F,S,M,I,H,C,P,N)$, every approximation read of the integral factors through the finite Riemann-sum ledger $S$ and the modulus row $M$. The ledger records the subdivision count, sample rows, segment contributions, finite sum value, and precision comparison used to relate the sum to $I$; no unrecorded limiting process or sample-selection oracle is exported.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContourIntegralOperationUp.ContourIntegralOperationCarrier\_riemann\_sum\_route\_closure}
 \begin{proof}
 Begin with an approximation read. The displayed routes in $C$ first expose the contour row $G$ and holomorphic input row $F$, then enter the Riemann-sum ledger $S$.
 
@@ -78,6 +79,20 @@ The carrier definition lists every row available to public consumers. The NameCe
 The PL-contour boundary prevents path data from escaping the finite endpoint and segment surface. The Riemann-sum ledger theorem forces approximation reads through $S$ and $M$ before they reach the output row.
 
 Therefore the public export is exactly the finite BEDC operation packet over contour, holomorphic input, sums, modulus, output, transport, routes, provenance, and local naming. No host analytic integral principle is exported.
+\end{proof}
+
+\begin{theorem}[Contour-integral modulus transport]
+\label{thm:contour-integral-operation-modulus-transport}
+For accepted $\ContourIntegralOperationUp$ packets with componentwise $\hsame$ transport of the contour row $G$, holomorphic input row $F$, Riemann-sum ledger $S$, modulus row $M$, and output row $I$, the transported modulus row remains the only public witness relating finite Riemann sums to the output $\ComplexUp$ row. The transport excludes hidden sample selectors, ambient path equality, global branch choice, and unledgered limiting operations.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:contour-integral-namecert-obligations} to expose the packet rows and the classifier-stability obligation. The componentwise transport preserves $G,F,S,M,I$ as displayed coordinates, so the transported packet has the same public inventory.
+
+Apply \autoref{thm:contour-integral-riemann-sum-ledger}. Every approximation read factors through the Riemann-sum ledger $S$ and the modulus row $M$ before it reaches the output row $I$.
+
+Apply \autoref{thm:contour-integral-public-export}. The exported operation packet has no coordinate for a hidden sample selector, ambient path equality, global branch choice, or unledgered limiting operation.
+
+Therefore the transported modulus row is still the unique public bridge from finite Riemann sums to the transported $\ComplexUp$ output row. Any requested witness outside $S$ and $M$ has no row in the accepted packet.
 \end{proof}
 
 \closureat{ContourIntegralOperationUp}{seedStr}

@@ -46,6 +46,7 @@ Finally $P$ and $N$ record provenance and the local naming certificate. Since th
 \label{thm:audit-membrane-boundary-refusal}
 For an accepted $\AuditMembraneUp$ packet, the refusal row $R$ is the complete public result of applying the gate surface $G$ to the boundary-content row $B$. A consumer may read admitted certificate content only through $G,B,R,H,C,P,N$, and any source axiom, forbidden host dependency, unresolved target name, or untracked origin edge marked as refused in $R$ has no exported route into substrate theorem content.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditMembraneUp.AuditMembraneCarrier\_refusal\_replay\_closure}
 \begin{proof}
 Project the carrier and read the gate surface $G$ together with the boundary-content row $B$. These rows list the finite audit face and the finite items presented to that face.
 
@@ -96,3 +97,27 @@ The non-escape claim follows from the carrier inventory. None of the forbidden o
   \notclaimed{This chapter does not close global audit completeness, arbitrary import conservativity, host-kernel completeness, or Lean-side formal verification for $\AuditMembraneUp$.}
   \upgradepath{Scoped closure requires checked transport, refusal, drift-resolution, and consumer-boundary coverage for the displayed packet.}
 \end{closurestatus}
+
+\begin{theorem}[AuditGateBoundary to AuditMembrane refusal bridge]
+\label{thm:audit-gate-boundary-to-audit-membrane-refusal-bridge}
+Let
+$$
+A=(S,D_A,L,O,H_A,C_A,P_A,G_A,N_A)
+$$
+be an accepted $\AuditGateBoundaryUp$ packet, and let
+$$
+M=(G_M,B,R,D_M,H_M,C_M,P_M,N_M)
+$$
+be an accepted $\AuditMembraneUp$ packet. Suppose that the membrane gate surface $G_M$ is the finite audit face obtained from the source-token row $S$, the dependency row $D_A$, the paper-Lean target-resolution row $L$, the origin/import row $O$, and the $\mathsf{GAP}$ row $G_A$ of $A$. Then every boundary item refused by the corresponding $\AuditGateBoundaryUp$ row remains refused by the membrane row $R$. In particular, a refused source axiom, forbidden host dependency, unresolved target name, untracked origin/import edge, or hidden global-correctness crossing has no exported route from $M$ into substrate theorem content.
+\end{theorem}
+\begin{proof}
+Project the gate-boundary packet by \autoref{def:audit-gate-boundary-carrier}. Its displayed audit face consists of the source-token row $S$, the dependency row $D_A$, the paper-Lean target row $L$, the origin/import row $O$, and the $\mathsf{GAP}$ row $G_A$, together with transport, continuation, provenance, and local naming rows.
+
+The refusal content of these rows is fixed inside the gate-boundary packet. By \autoref{thm:audit-gate-boundary-namecert-obligations}, source-axiom admission, forbidden host-dependency admission, unresolved marker names, untracked origin flow, global semantic conservativity, and host-kernel completeness are non-escaping objects for $A$. By \autoref{thm:audit-gate-boundary-axiom-purity-soundness}, the rows $S$ and $D_A$ decide the source-token and forbidden-dependency boundary displayed by $A$. By \autoref{thm:audit-gate-boundary-paper-lean-drift-exactness}, $L$ permits only the named finite resolution result and gives no route through a nearby declaration or unresolved string. By \autoref{thm:audit-gate-boundary-origin-conservativity}, $O$ exposes only the finite origin/import ledger and gives no semantic conservativity theorem for arbitrary import flow. The row $G_A$ records the matching $\mathsf{GAP}$ boundary: the gate refuses the displayed boundary crossings and does not provide a hidden theorem of global correctness.
+
+Now project the membrane packet by \autoref{def:audit-membrane-carrier}. The hypothesis identifies its gate surface $G_M$ with precisely the displayed audit face $S,D_A,L,O,G_A$ read from $A$. Hence an item refused at the gate-boundary side is the same displayed boundary item when it is presented in the membrane boundary-content row $B$: source axioms are read through $S$, forbidden dependencies through $D_A$, target names through $L$, origin/import edges through $O$, and hidden global-correctness crossings through $G_A$.
+
+By \autoref{thm:audit-membrane-boundary-refusal}, the membrane refusal row $R$ is the complete public result of applying $G_M$ to $B$. Therefore the classification already refused by the corresponding row of $A$ cannot be changed by the membrane packet; it appears in $R$ as refused boundary content rather than admitted substrate supply.
+
+Finally, \autoref{thm:audit-membrane-consumer-boundary} confines every downstream consumer of $M$ to the finite rows $G_M,B,R,D_M,H_M,C_M,P_M,N_M$. These rows allow inspection, transport, replay, provenance, and local naming, but none of them exports a theorem object for refused boundary content. Thus every item refused by the instantiated $\AuditGateBoundaryUp$ surface remains refused at the $\AuditMembraneUp$ boundary and cannot become substrate theorem content.
+\end{proof}

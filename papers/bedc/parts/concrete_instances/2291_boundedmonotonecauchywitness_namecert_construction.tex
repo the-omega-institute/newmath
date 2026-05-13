@@ -173,11 +173,45 @@ The transport and continuation fields account for the only permitted movement of
 Consequently every public read has already appeared in the displayed ledger. The packet has no remaining coordinate for a hidden range over all real histories, an unwitnessed existential limit choice, quotient-name collapse, host real equality, ambient completeness, trichotomy, or open-cover compactness.
 \end{proof}
 
-\closureat{BoundedMonotoneCauchyWitnessUp}{seedStr}
+\begin{theorem}[Bounded monotone Cauchy witness obligation closure]
+\label{thm:bounded-monotone-cauchy-witness-obligation-closure}
+The carrier of \autoref{def:bounded-monotone-cauchy-witness-carrier} and the local theorems of this chapter assemble the $\NameCert_{\BoundedMonotoneCauchyWitnessUp}$ obligations for displayed bounded-source range, explicit Cauchy witness, $\StreamNameUp$ window schedule, $\DyadicRatCoreUp$ tolerance ledger, $\LocatedIntervalUp$ trap, $\RealUp$ seal handoff, classifier transport, and non-escape.
+
+The resulting packet admits only the rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. It has no coordinate for selected limits, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and the NameCert obligation theorem. They provide carrier admission and split the public surface into generator range discipline, explicit Cauchy witness discipline, located trap with $\RealUp$ handoff, and ledger exhaustion.
+
+For the bounded-source and Cauchy-witness parts, apply \autoref{thm:bounded-monotone-cauchy-witness-generator-range-exactness} and \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}. These force source reads through $S_{\mathrm{gen}},S_{\mathrm{mono}},S_{\mathrm{ub}}$ and force tolerance requests through $\mu,\sigma,\lambda$.
+
+For the seal and transport parts, apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-boundary}, \autoref{thm:bounded-monotone-cauchy-witness-socket-separation}, \autoref{thm:bounded-monotone-cauchy-witness-classifier-transport}, and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}. These route the located trap and real seal through the displayed rows and keep the three analysis sockets separate.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since every public read is already exhausted by $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, the excluded completion and compactness coordinates cannot be projected from the accepted packet.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness scoped dependency package]
+\label{thm:bounded-monotone-cauchy-witness-scoped-dependency-package}
+The scoped dependency package of \autoref{def:bounded-monotone-cauchy-witness-carrier} consists exactly of the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Within this package, generator range reads are controlled by $S$, tail requests are controlled by $\mu,\sigma,\lambda$, located enclosures are controlled by $I$, classifier transport is controlled by $H,C$, the real seal is controlled by $Q$, and provenance and naming are controlled by $P,N$. Selected limits, quotient equality, host real equality, trichotomy, ambient completeness, and open-cover compactness remain outside the scoped package.
+\end{theorem}
+\begin{proof}
+Start with generator range exactness. By \autoref{thm:bounded-monotone-cauchy-witness-generator-range-exactness}, every source observation is read through $S_{\mathrm{gen}}$ together with the monotone and upper-bound ledgers of $S$ and the dyadic guard data in $\lambda$.
+
+Next use tail modulus scope. By \autoref{thm:bounded-monotone-cauchy-witness-tail-modulus-scope}, every tolerance request is answered by $\mu$ on the scheduled windows $\sigma$ with the displayed dyadic tolerance ledger $\lambda$.
+
+For the seal-facing rows, apply \autoref{thm:bounded-monotone-cauchy-witness-real-seal-boundary} and \autoref{thm:bounded-monotone-cauchy-witness-real-seal-handoff}. These route every $\RealUp$ read through $F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ while keeping the bounded source row visible.
+
+Classifier movement is supplied by \autoref{thm:bounded-monotone-cauchy-witness-classifier-transport}. It transports only the displayed carrier coordinates and does not add any coordinate for selected limits, quotient equality, host real equality, trichotomy, ambient completeness, or open-cover compactness.
+
+Finally apply \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Every public read is exhausted by the listed carrier rows, so the scoped dependency package is exactly the displayed package and no excluded completion or compactness object belongs to it.
+\end{proof}
+
+\closureat{BoundedMonotoneCauchyWitnessUp}{obligationStr}
 
 \begin{closurestatus}{\BoundedMonotoneCauchyWitnessUp}
   \constructivestory{A $\BoundedMonotoneCauchyWitnessUp$ packet is generated from bounded monotone source rows, a regular rational row, a stream schedule, an explicit Cauchy tail witness, dyadic tolerance and upper-bound ledgers, a located interval trap, a real-seal row, componentwise transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed scope records the finite carrier and socket separation surface for displayed bounded monotone Cauchy witnesses.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

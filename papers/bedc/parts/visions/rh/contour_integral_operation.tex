@@ -23,6 +23,7 @@ For every BEDC single-segment \(\mathsf{PLContourSegment}(\gamma)\), there are c
 \begin{proof}
 Destructure the segment witness. The endpoint carrier fields give \(z_0\) and \(z_1\) as complex histories. Each complex history is unary, and the continuation witness closes unary histories under \(\Cont\), so \(\gamma\) is unary.
 \end{proof}
+
 \leanchecked{BEDC.Derived.ContourIntegralUp.PLContourSegment\_unary\_result}
 
 \begin{lemma}[Piecewise-linear segment \(\hsame\)-transport]
@@ -32,6 +33,8 @@ If \(\mathsf{PLContourSegment}(\gamma)\) and \(\hsame(\gamma,\gamma')\), then \(
 \begin{proof}
 Keep the same endpoints \(z_0,z_1\) and transport the continuation result from \(\gamma\) to \(\gamma'\) along \(\hsame(\gamma,\gamma')\). Unary closure for \(\gamma'\) follows from the same endpoint carriers and the transported continuation.
 \end{proof}
+
+\concretizedIn{ch:concrete-instances-contourintegralsocket-namecert}{Contour-integral sockets are realized as finite BHist operation packets for contour rows, holomorphic input rows, Riemann-sum modulus rows, ComplexUp output rows, and non-escape ledger obligations.}
 \leanchecked{BEDC.Derived.ContourIntegralUp.PLContourSegment\_hsame\_transport}
 
 \begin{lemma}[Concatenation of piecewise-linear contours]
@@ -232,3 +235,4 @@ Now apply linearity in the integrand, \autoref{lem:cont-int-linear}, to these tw
 \end{proof}
 
 \concretizedIn{ch:concrete-instances-contourintegraloperation-namecert}{Contour-integral operation packets realize piecewise-linear contour rows, Riemann-sum ledgers, uniqueness boundary, and operation-law public export as a finite NameCert surface.}
+\concretizedIn{ch:concrete-instances-contoursumwindow-namecert}{Contour integration is realized as finite contour, subdivision, Riemann-sum, output, transport, continuation, package, and NameCert rows.}

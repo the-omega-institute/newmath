@@ -48,6 +48,7 @@ The classifier first reads the displayed probes and signatures. It then checks t
 
 No further comparison generator is present. Hence stability is componentwise over the displayed observations and kernel sameness rows, with no host equality or subject-level identity added by transport.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket\_classifier\_stability}
 
 \begin{theorem}[Observer history identity ledger exactness]
 \label{thm:observer-history-identity-ledger-exactness}
@@ -65,6 +66,7 @@ Thus every classifier-relevant observation is ledgered before it is compared. Th
 \label{thm:observer-history-identity-non-escape-boundary}
 The public boundary of an accepted $\ObserverHistoryIdentityUp$ packet exports only the displayed $\mathsf{BHist}$ histories, finite $\mathsf{ProbeBundle}$ observations, finite $\mathsf{SigRel}$ rows, kernel $\hsame$ comparisons, local observation ledger, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports no observer-substance, no host equality of histories, no quotient identity, and no global subject parameter.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket\_non\_escape\_boundary}
 \begin{proof}
 Inspect the coordinates of \autoref{def:observer-history-identity-carrier}. They are exactly $H,K,B,S,R,L,C,P,N$, and each coordinate is a finite history, observation, signature, sameness, continuation, package, or naming row.
 
@@ -73,18 +75,48 @@ The classifier-stability theorem keeps all comparisons inside the displayed obse
 Therefore the boundary has no escape route beyond the finite packet. Since observer-substance, host equality, quotient identity, and global subject parameters are absent from the carrier, the public certificate cannot export them.
 \end{proof}
 
+\begin{theorem}[Observer history identity bridge boundary]
+\label{thm:observer-history-identity-bridge-boundary}
+The public $\ObserverHistoryIdentityUp$ packet bridges observed $\mathsf{BHist}$
+comparison to the acceptance schema through exactly the displayed
+$\mathsf{ProbeBundle}$ rows, $\mathsf{SigRel}$ rows, $\hsame$ rows, $\Cont$
+rows, $\mathsf{Pkg}$ provenance rows, and local $\NameCert$ rows. The bridge
+exports no observer-substance, host history equality, quotient identity, or
+global subject parameter.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:observer-history-identity-carrier}. The
+only observable comparison data are the two displayed history rows together
+with the probe, signature, sameness, continuation, package, and naming rows.
+
+Use \autoref{thm:observer-history-identity-namecert-obligations}. It binds the
+carrier, classifier, stability, ledger, and non-escape clauses to the same
+finite local $\NameCert$ packet.
+
+Apply \autoref{thm:observer-history-identity-classifier-stability} and
+\autoref{thm:observer-history-identity-ledger-exactness}. These keep every
+comparison inside the displayed probe and signature rows and require the local
+ledger before a comparison can be consumed by the acceptance schema.
+
+Finally apply \autoref{thm:observer-history-identity-non-escape-boundary}. Since
+observer-substance, host history equality, quotient identity, and global subject
+parameters have no carrier coordinate, the bridge boundary cannot export them.
+\end{proof}
+
 \closureat{ObserverHistoryIdentityUp}{seedStr}
 \closureat{ObserverHistoryIdentityUp}{obligationStr}
 \closureat{ObserverHistoryIdentityUp}{scopedStr}[BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket\_namecert\_obligations]
+\closureat{ObserverHistoryIdentityUp}{publicStr}[BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket\_namecert\_obligations]
+\closureat{ObserverHistoryIdentityUp}{bridgedStr}[BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket\_namecert\_obligations]
 
 \begin{closurestatus}{\ObserverHistoryIdentityUp}
   \constructivestory{An $\ObserverHistoryIdentityUp$ packet is generated from two displayed $\mathsf{BHist}$ histories, finite $\mathsf{ProbeBundle}$ observations, finite $\mathsf{SigRel}$ rows, kernel $\hsame$ comparisons, local observation-ledger rows, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:observer-history-identity-namecert-obligations} binds the carrier, classifier stability, ledger exactness, and non-escape obligations to the displayed finite observer-history packet.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:observer-history-identity-namecert-obligations} and \autoref{thm:observer-history-identity-bridge-boundary} bind the carrier, classifier stability, ledger exactness, non-escape obligations, and bridge boundary to the displayed finite observer-history packet.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close observer-substance, host equality of histories, quotient identity, global subject parameters, or bridge checking.}
-  \upgradepath{Public closure requires a single exported observer-history identity certificate consumed by downstream chapters.}
+  \upgradepath{Bridged closure requires a standard bridge connecting the public observer-history identity certificate to the acceptance schema.}
 \end{closurestatus}

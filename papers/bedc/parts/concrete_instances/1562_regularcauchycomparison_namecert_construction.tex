@@ -140,6 +140,18 @@ real-facing read has no access to quotient representatives, selected limits,
 host equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison seal-compatible transitivity]
+\label{thm:regular-cauchy-comparison-seal-compatible-transitivity}
+Let accepted $\RegularCauchyComparisonUp$ packets compare $X$ to $Y$ and $Y$ to $Z$. If their transported $\StreamNameUp$ schedules and rational tolerance rows refine to a common finite window ledger, then the composed comparison packet from $X$ to $Z$ has the same $\RealUp$ seal-compatible boundary through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. The composed packet does not assert quotient stream equality, selected host limits, host real equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-comparison-common-window-stability}. The two comparison packets can be read on the common finite window ledger because their transported schedules refine to that ledger.
+
+Next apply \autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}. The composed read uses only the rational tolerance rows displayed by the two packets and their common ledger refinement; it cannot introduce a host-real equality threshold.
+
+Finally use \autoref{thm:regular-cauchy-comparison-real-seal-boundary} together with \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The comparison from $X$ to $Z$ reaches the $\RealUp$ seal through the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, so the transitive handoff remains a seal-compatible finite comparison and not a statement about selected limits or quotient stream equality.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy comparison classifier transport]
 \label{thm:regular-cauchy-comparison-classifier-transport}
 Let
@@ -213,6 +225,22 @@ Project both packets to the classifier-facing rows. The shared $W,D,\tau,L,H,C,P
 Apply \autoref{thm:regular-cauchy-comparison-classifier-transport} to carry the agreed rows across the accepted packet boundary. Then apply \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization}; a seal consumer can reach $E$ only through that factored route.
 
 Thus the two consumers see the same $\RealUp$ seal row at the classifier interface. The proof never introduces a host equality test or a selected completion limit, because neither is a coordinate of the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison three-window triangle]
+\label{thm:regular-cauchy-comparison-three-window-triangle}
+Let $K_{xy}$ and $K_{yz}$ be accepted $\RegularCauchyComparisonUp$ packets for regular Cauchy names $X,Y$ and $Y,Z$. Suppose the $Y$ rows in the two packets are classified through a shared transported $\StreamNameUp$ window. Then their displayed $W,D,\tau,L,E,H,C,P,N$ rows refine to a third accepted comparison packet $K_{xz}$ for $X$ and $Z$.
+
+The $\RealUp$ seal route of $K_{xz}$ passes through the two shared finite windows and the dyadic tolerance ledger before it reaches the seal row. It does not pass through host real equality, a selected limit, or an unrecorded equality of regular-name representatives.
+\end{theorem}
+\begin{proof}
+Begin with the two finite windows. Apply \autoref{thm:regular-cauchy-comparison-common-window-stability} to $K_{xy}$ and $K_{yz}$, using the shared transported $Y$ row to align the two displayed $\StreamNameUp$ schedules.
+
+Next compose the numerical rows. By \autoref{thm:regular-cauchy-comparison-tolerance-row-stability}, each dyadic observation is read only with its recorded rational tolerance row and finite ledger. The two ledgers therefore provide the displayed tolerance surface needed for the $X,Z$ comparison packet.
+
+Now factor the real-facing seal. Apply \autoref{thm:regular-cauchy-comparison-common-window-seal-factorization} to both source packets, then use \autoref{thm:regular-cauchy-comparison-seal-uniqueness-boundary} at the shared $Y$ window to identify the visible seal route carried across the middle packet boundary.
+
+Finally repack the shared window rows, tolerance rows, ledgers, seal row, transports, continuations, provenance, and naming rows as $K_{xz}$. The constructed packet is accepted because every coordinate is one of the displayed $W,D,\tau,L,E,H,C,P,N$ rows exposed by the two source packets and their shared transported window.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy comparison symmetric window swap]
