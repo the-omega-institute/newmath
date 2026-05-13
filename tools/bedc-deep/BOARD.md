@@ -18,80 +18,176 @@ to build its initial prompt without external lookups.
 
 ---
 
-### B-725 - DoCalculus intervention prefix locality
+### B-728 - Module LinearMap pointwise zero additive identity
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
 | Source | bedc-deep topic discovery |
-| Object | DoCalculus intervention prefix locality |
+| Object | Module LinearMap pointwise zero additive identity |
 | Layer | adjacent |
 | Route | proof |
 | Risk | unknown |
-| Fit | 8/10 |
-| Novelty | 8/10 |
+| Fit | 9/10 |
+| Novelty | 6/10 |
 | Landing kind | existing_chapter_lemma |
 
 Problem:
-If an accepted \DoCalculusUp packet restricts its finite intervention ledger to a displayed prefix whose observed-variable, adjustment, independence, distribution, and expectation rows are retained, then every intervention-facing read for that prefix factors through the retained rows and cannot read a later intervention row.
+If f has LinearMapCert_R(M,N;f) and z is a pointwise-zero certified LinearMap from M to N, then the pointwise sums x |-> f(x)+_N z(x) and x |-> z(x)+_N f(x) are certified LinearMaps and are pointwise classified with f.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
 
 
 Logic packet discipline:
 - `axiom_budget`: B0_finite_witness
 - `strength_level`: B0_finite_witness
-- `budget_reason`: The target is a finite prefix projection of an already displayed intervention ledger; all rows are inherited from the packet, so the weakest adequate resource is a finite witness for the retained prefix and its retained route entries.
-- `witness_extractor`: intervention_prefix_subledger
+- `budget_reason`: The proof only projects existing finite certificate rows for pointwise sum, pointwise zero, target additive unit, and pointwise classifier packaging; no search, choice, quotient, or limit resource is needed.
+- `witness_extractor`: pointwise_sum_and_zero_linear_map_witnesses
 - `existence_mode`: constructive_witness
-- `cut_rank`: 1
-- `elimination_plan`: Eliminate the cut through the full intervention packet by projecting the prefix rows from I,V,A,M,R,H,C,P,N, then reusing the existing non-escape argument on the restricted route family.
+- `cut_rank`: 0
 - `equality_kind`: propositionally_equal
-- `interpretation_kind`: none
-- `resource_trace`: Consumes the finite intervention ledger I, observed-variable row V, adjustment ledger A, distribution rows M, independence certificates R, expectation row J, export row E, hsame rows H, Cont routes C, package row P, and local naming row N; no causal graph or counterfactual selector is introduced.
-- `dependency_trace`: The DoCalculus carrier defines I as a finite intervention ledger with displayed intervention order at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:35-37, and the intervention non-escape theorem says every intervention-facing consumer factors through I,V,A,M,R,H,C,P,N at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:136-145.
-- `oracle_mode`: witness_synthesis
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes LinearMapCert_R(M,N;f), the pointwise-zero rows for z, two applications of the pointwise-sum certificate, target additive unit rows in the ModuleUp-to-AbGroupUp reduct, and pointwise classifier packaging.
+- `dependency_trace`: Uses def:module-linearmap-certificate-package at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:98, thm:module-linearmap-pointwise-sum-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:343, thm:module-zero-linearmap-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex:150, and def:linearmap-classifier-specification from papers/bedc/parts/concrete_instances/linearmap/the_certificate.tex:15.
+- `oracle_mode`: forbid
 Rationale:
-
+This belongs in the LinearMap body, preferably near the pointwise Hom_R(M,N) laws in papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex. The theorem is the textbook additive-identity law for the abelian group of module homomorphisms, standard in any introductory algebra text covering modules, e.g. Dummit-Foote or Hungerford. Evidence for closeability is strong: the paper already has pointwise sum closure at module_linearmap_certificates.tex:343, zero linear-map certification at module_linearmap_kernel_image_and_zero.tex:150, pointwise sum commutativity at module_linearmap_kernel_image_and_zero.tex:100, and associativity at module_linearmap_kernel_image_and_zero.tex:184. A focused grep for pointwise sum identity, additive identity, and zero pointwise sum found only generic zero-row mentions and no theorem label for the identity law, so the target is open and should close by two applications of existing certificates plus the target module additive-unit row.
 
 ---
 
-### B-726 - EnrichedCat two-step composition reassociation
+### B-730 - RegularCauchyMesh finite submesh restriction
 
 | field | value |
 |---|---|
 | Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | EnrichedCat two-step composition reassociation |
-| Layer | adjacent |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | RegularCauchyMesh finite submesh restriction |
+| Layer | concrete_instances |
 | Route | proof |
 | Risk | unknown |
 | Fit | 8/10 |
-| Novelty | 8/10 |
+| Novelty | 7/10 |
 | Landing kind | existing_chapter_lemma |
 
 Problem:
-If an accepted \EnrichedCatUp packet contains three composable hom-object rows and both displayed two-step composition routes, then the consumed \MonoidalCatUp associator row classifies the two composite endpoint rows through the same public packet surface.
+If an accepted RegularCauchyMeshUp packet restricts its finite mesh-index row to a displayed submesh while retaining the corresponding StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, DyadicMesh compatibility row, RealUp handoff, transport, continuation, provenance, and local NameCert rows, then the restricted packet is again an accepted RegularCauchyMeshUp carrier and every retained consumer read factors through the restricted rows.
 
 Local inputs:
-- `papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/3168_regularcauchymesh_namecert_construction.tex`
 
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Project the finite mesh-index row to the displayed submesh, restrict each dependent StreamName, RegSeqRat, DyadicRatCore, DyadicMesh, RealUp handoff, transport, continuation, provenance, and NameCert row along that projection, and repack the resulting finite tuple.
+- `ripeness_risk`: low, the source chapter is seed-level and the theorem is a direct finite-row restriction companion to the carrier definition
 
 Logic packet discipline:
 - `axiom_budget`: B0_finite_witness
 - `strength_level`: B0_finite_witness
-- `budget_reason`: The associator and both composition routes are supplied as finite packet rows; the proof only follows displayed hom-object, tensor-composition, hsame, Cont, and Pkg rows.
-- `witness_extractor`: enriched_two_step_associator_route
+- `budget_reason`: The weakest visible resource is a finite witness because the submesh is a displayed finite row projection and no choice, compactness, quotient, or limit construction is needed.
+- `witness_extractor`: submesh_row_projection
 - `existence_mode`: constructive_witness
 - `cut_rank`: 1
-- `elimination_plan`: Cut through the consumed MonoidalCatUp boundary: project the two composition routes, apply the displayed associator transport row, and repack the resulting endpoint comparison into the EnrichedCat public packet.
+- `elimination_plan`: Project the finite mesh-index row to the displayed submesh, restrict each dependent StreamName, RegSeqRat, DyadicRatCore, DyadicMesh, RealUp handoff, transport, continuation, provenance, and NameCert row along that projection, and repack the resulting finite tuple.
 - `equality_kind`: propositionally_equal
-- `interpretation_kind`: none
-- `resource_trace`: Consumes C_obj, M_tensor, H_hom, H_comp, T_hsame, P_Pkg, and R_Cont; the only coherence resource is the associator row already exposed by the consumed MonoidalCatUp dependency.
-- `dependency_trace`: The packet stores hom-object, identity, composition, hsame, Pkg, and finite Cont rows at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:9-33; the tensor-composition scope theorem says compositions read adjacent hom-object rows and the tensor-composition boundary at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:61-68; the monoidal boundary isolates associator and unit-transport rows at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:161-181.
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes the finite request row, mesh-index row, StreamName window row, RegSeqRat readback row, DyadicRatCore tolerance ledger, DyadicMesh compatibility row, RealUp handoff row, componentwise hsame transports, Cont routes, Pkg provenance, and local NameCert rows restricted to the displayed submesh.
+- `dependency_trace`: Uses def:regular-cauchy-mesh-carrier, def:regular-cauchy-mesh-classifier, thm:regular-cauchy-mesh-namecert-obligation-sketch, and the chapter upgrade path asking for finite mesh coverage in papers/bedc/parts/concrete_instances/3168_regularcauchymesh_namecert_construction.tex.
+- `rate_modulus_surface`: The restricted packet preserves the same displayed DyadicRatCore tolerance ledger and StreamName window row for retained mesh cells; no new rate, tail modulus, limit, or completeness principle is introduced.
 - `oracle_mode`: proof_search
 Rationale:
+This is a concrete finite-row locality theorem for an existing RegularCauchyMeshUp chapter. It is not a marker, closurestatus update, or verification-axis item, and it is not already present as a theorem label. The target fills a visible obligation-level gap: the chapter currently gives the carrier, classifier, and five-row NameCert sketch, while the natural downstream use of a finite mesh packet requires restriction to displayed submeshes without exporting any additional analytic structure.
 
+---
+
+### B-731 - HankelVandermonde spectral-shadow bridge
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | HankelVandermonde spectral-shadow bridge |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted HankelVandermondeUp packet shares its displayed atom, weight, moment-index, determinant ledger, pairwise-difference, and Vandermonde-square rows with an accepted CollisionKernelSpectrumUp packet through the FoldMomentKernelUp moment surface, then every spectral-shadow consumer read factors through the HankelVandermonde finite determinant ledger and no host matrix or analytic spectrum row is exported.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1796_hankelvandermonde_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/1732_collisionkernelspectrum_namecert_construction.tex`
+- `papers/bedc/parts/concrete_instances/1289_foldmomentkernel_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Cut first through the FoldMomentKernelUp moment-index rows, then through the CollisionKernelSpectrumUp spectral-shadow projection, and finally read the resulting consumer route through the HankelVandermondeUp determinant and Vandermonde-square ledgers.
+- `ripeness_risk`: medium, the intended bridge is stated in prose but the proof must align three existing packet surfaces without turning into a restated non-escape theorem
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: All visible resources are finite ledgers: determinant-expansion rows, pairwise-difference rows, Vandermonde-square rows, moment-index rows, collision-kernel rows, and spectral-shadow rows.
+- `witness_extractor`: hankel_vandermonde_spectral_shadow_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 2
+- `elimination_plan`: Cut first through the FoldMomentKernelUp moment-index rows, then through the CollisionKernelSpectrumUp spectral-shadow projection, and finally read the resulting consumer route through the HankelVandermondeUp determinant and Vandermonde-square ledgers.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes HankelVandermonde rows A,W,M,D,Delta,Q,H,C,P,N; FoldMomentKernel finite moment-index and finite-window rows; and CollisionKernelSpectrum rows G,F,V,I,K,S,H,T,P,N.
+- `dependency_trace`: Uses thm:hankel-vandermonde-namecert-obligations, thm:fold-moment-kernel-standard-bridge-surface, thm:fold-moment-kernel-finite-window-restriction-carrier, thm:collision-kernel-spectrum-finite-window-spectral-shadow, thm:collision-kernel-spectrum-ledger-non-escape, and thm:collision-kernel-spectrum-moment-index-projection.
+- `oracle_mode`: proof_search
+Rationale:
+The candidate is not a new object or survey item; it is a bridge lemma between three already-existing finite certificate chapters. It is close to existing non-escape and spectral-shadow projection theorems, so novelty is only threshold-level, but the proposed statement adds a specific HankelVandermonde-to-CollisionKernelSpectrum consumer route that is currently only described in prose. Kept as an existing-chapter lemma, not a new chapter.
+
+---
+
+### B-732 - AuditMapFrontierIndex neighbor restriction
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | AuditMapFrontierIndex neighbor restriction |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted AuditMapFrontierIndexUp packet restricts its neighbouring-map row to a displayed finite subfamily while retaining the local audit row, positive rows, conditional route row, obstruction row, frontier row, synthesis-consumer row, transports, continuations, provenance, and local NameCert rows for that subfamily, then the restricted packet is an accepted frontier index and no unlisted neighbouring map can supply a frontier entry.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4518_auditmapfrontierindex_namecert_construction.tex`
+
+
+Pre-TasteGate admission:
+- `tastegate_mode`: existing_chapter
+- `elimination_plan`: Project the neighbouring-map row to the displayed finite subfamily and restrict the positive, conditional-route, obstruction, frontier, synthesis-consumer, transport, continuation, provenance, and local NameCert rows to the retained entries.
+- `ripeness_risk`: low, the source chapter is a finite frontier-index carrier and the proposed theorem is a direct finite-subfamily locality statement
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The weakest visible resource is a finite witness because the theorem only projects a displayed neighbouring-map row and repacks retained finite certificate coordinates.
+- `witness_extractor`: frontier_neighbor_subfamily_projection
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Project the neighbouring-map row to the displayed finite subfamily and restrict the positive, conditional-route, obstruction, frontier, synthesis-consumer, transport, continuation, provenance, and local NameCert rows to the retained entries.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: conservative_extension
+- `resource_trace`: Consumes T,A,E,P,R,O,F,S,H,C,K,N with E restricted to a displayed finite neighbouring-map subfamily and all frontier, obstruction, route, consumer, transport, continuation, provenance, and NameCert rows retained only for that subfamily.
+- `dependency_trace`: Uses def:audit-map-frontier-index-carrier and thm:audit-map-frontier-index-namecert-obligations in papers/bedc/parts/concrete_instances/4518_auditmapfrontierindex_namecert_construction.tex.
+- `oracle_mode`: proof_search
+Rationale:
+This is a concrete finite-subfamily restriction theorem inside an existing audit-map frontier chapter. It is not already covered by the carrier or the five NameCert obligations: those bind the frontier index and synthesis handoff, but do not explicitly state locality under displayed neighbouring-map restriction or the corresponding no-unlisted-neighbour non-escape result. The file is a short non-hub landing, so it is safe as an existing-chapter lemma.
 
 ---

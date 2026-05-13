@@ -18332,3 +18332,121 @@ Rationale:
 
 
 ---
+
+### B-725 - DoCalculus intervention prefix locality
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | DoCalculus intervention prefix locality |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \DoCalculusUp packet restricts its finite intervention ledger to a displayed prefix whose observed-variable, adjustment, independence, distribution, and expectation rows are retained, then every intervention-facing read for that prefix factors through the retained rows and cannot read a later intervention row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The target is a finite prefix projection of an already displayed intervention ledger; all rows are inherited from the packet, so the weakest adequate resource is a finite witness for the retained prefix and its retained route entries.
+- `witness_extractor`: intervention_prefix_subledger
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Eliminate the cut through the full intervention packet by projecting the prefix rows from I,V,A,M,R,H,C,P,N, then reusing the existing non-escape argument on the restricted route family.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes the finite intervention ledger I, observed-variable row V, adjustment ledger A, distribution rows M, independence certificates R, expectation row J, export row E, hsame rows H, Cont routes C, package row P, and local naming row N; no causal graph or counterfactual selector is introduced.
+- `dependency_trace`: The DoCalculus carrier defines I as a finite intervention ledger with displayed intervention order at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:35-37, and the intervention non-escape theorem says every intervention-facing consumer factors through I,V,A,M,R,H,C,P,N at papers/bedc/parts/concrete_instances/1784_docalculus_namecert_construction.tex:136-145.
+- `oracle_mode`: witness_synthesis
+Rationale:
+
+
+---
+
+### B-726 - EnrichedCat two-step composition reassociation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | EnrichedCat two-step composition reassociation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 8/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If an accepted \EnrichedCatUp packet contains three composable hom-object rows and both displayed two-step composition routes, then the consumed \MonoidalCatUp associator row classifies the two composite endpoint rows through the same public packet surface.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The associator and both composition routes are supplied as finite packet rows; the proof only follows displayed hom-object, tensor-composition, hsame, Cont, and Pkg rows.
+- `witness_extractor`: enriched_two_step_associator_route
+- `existence_mode`: constructive_witness
+- `cut_rank`: 1
+- `elimination_plan`: Cut through the consumed MonoidalCatUp boundary: project the two composition routes, apply the displayed associator transport row, and repack the resulting endpoint comparison into the EnrichedCat public packet.
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: none
+- `resource_trace`: Consumes C_obj, M_tensor, H_hom, H_comp, T_hsame, P_Pkg, and R_Cont; the only coherence resource is the associator row already exposed by the consumed MonoidalCatUp dependency.
+- `dependency_trace`: The packet stores hom-object, identity, composition, hsame, Pkg, and finite Cont rows at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:9-33; the tensor-composition scope theorem says compositions read adjacent hom-object rows and the tensor-composition boundary at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:61-68; the monoidal boundary isolates associator and unit-transport rows at papers/bedc/parts/concrete_instances/160_enrichedcat_namecert_construction.tex:161-181.
+- `oracle_mode`: proof_search
+Rationale:
+
+
+---
+
+### B-729 - Module LinearMap pointwise inverse additive cancellation
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | Module LinearMap pointwise inverse additive cancellation |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If f has LinearMapCert_R(M,N;f), h(x):=-_N f(x) is its pointwise inverse, and z is a pointwise-zero LinearMap, then the pointwise sums f+h and h+f are certified LinearMaps classified with z.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
+- `papers/bedc/parts/concrete_instances/linearmap/zero_linearmap_classifier_uniqueness.tex`
+
+
+Logic packet discipline:
+- `axiom_budget`: B0_finite_witness
+- `strength_level`: B0_finite_witness
+- `budget_reason`: The proof is a finite pointwise certificate composition using the already-proved pointwise inverse certificate, pointwise sum certificate, zero map certificate, additive inverse laws, and classifier transitivity.
+- `witness_extractor`: pointwise_inverse_sum_zero_witness
+- `existence_mode`: constructive_witness
+- `cut_rank`: 0
+- `equality_kind`: propositionally_equal
+- `interpretation_kind`: definitional_extension
+- `resource_trace`: Consumes the input LinearMap certificate, constructs h with the existing pointwise inverse certificate, constructs f+h and h+f with the pointwise-sum certificate, compares each value to 0_N by target additive inverse laws, then invokes the zero-map classifier package.
+- `dependency_trace`: Uses thm:module-linearmap-pointwise-inverse-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:485, thm:module-linearmap-pointwise-sum-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:343, thm:module-zero-linearmap-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex:150, and thm:module-zero-linearmap-classifier-uniqueness at papers/bedc/parts/concrete_instances/linearmap/zero_linearmap_classifier_uniqueness.tex:1.
+- `oracle_mode`: forbid
+Rationale:
+This is the missing inverse law for the textbook abelian group structure on Hom_R(M,N). The chapter already proves closure under pointwise inverse at module_linearmap_certificates.tex:485 and closure under pointwise addition at module_linearmap_certificates.tex:343, but the law that f plus its pointwise inverse is classified with the zero linear map is not stated as a theorem or labelled corollary; grep for pointwise inverse zero, sum inverse zero, and additive inverse pointwise found only the closure theorem and supporting inverse rows. It should close in one or two Codex rounds because all required ingredients already exist, including zero-map certification and uniqueness in module_linearmap_kernel_image_and_zero.tex:150 and zero_linearmap_classifier_uniqueness.tex:1.
+
+---
