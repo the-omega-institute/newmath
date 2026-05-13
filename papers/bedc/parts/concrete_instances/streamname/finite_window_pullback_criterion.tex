@@ -1,0 +1,53 @@
+\begin{theorem}[StreamName RegSeqRat RealUp finite-window pullback criterion]
+\label{thm:streamname-regseqrat-realup-finite-window-pullback-criterion}
+Let $S$ and $T$ be finite $\StreamNameUp$ handoffs accepted by a
+$\RegSeqRat$ finite-window seal consumer and by a $\RealUp$ finite-window
+seal consumer. They classify as the same consumer-visible packet precisely
+when the following finite source rows agree componentwise:
+\begin{enumerate}
+\item the public $\StreamNameUp$ finite-window rows;
+\item the accepted $\RegSeqRat$ finite-window seal rows;
+\item the DyadicRatCore endpoint ledgers;
+\item the displayed $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows;
+\item the $\mathsf{UnaryHistory}$ observation rows;
+\item the finite $\Cont$ ledger;
+\item the displayed $\hsame$ endpoint transports;
+\item the $\Pkg$ provenance rows.
+\end{enumerate}
+Equivalently, those rows form the finite pullback packet seen by both
+consumers. The criterion has no coordinate for completion rows, quotient rows,
+host index equality, off-ledger $\RealUp$ classifiers, arithmetic packages,
+order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume $S$ and $T$ classify as the same
+consumer-visible packet. Apply
+\autoref{thm:streamname-regseqrat-realup-seal-source-determinacy} to the two
+finite seal reads. It identifies the visible source with the public
+StreamName window, accepted $\RegSeqRat$ seal row, dyadic endpoint ledger,
+bundle rows, unary observations, continuation rows, endpoint transports, and
+package provenance.
+
+Next use \autoref{thm:streamname-regseqrat-realup-seal-source-minimality}.
+Since every visible source row of either handoff lies in that finite tuple,
+classification of the consumer-visible packet projects to componentwise
+agreement on each listed row.
+
+For the reverse direction, suppose the listed rows agree componentwise. Apply
+\autoref{thm:streamname-regseqrat-realup-seal-source-unique-source}. The common
+tuple determines the same visible seal source for every downstream
+$\RegSeqRat$ or $\RealUp$ finite-window consumer.
+
+Now apply \autoref{thm:realup-open-phase-four-face-pullback}. The public
+StreamName rows, dyadic endpoint ledgers, accepted regular-rational seal rows,
+and RealUp seal provenance are exactly the four open-phase faces, and the
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and certificate coordinates are
+the gluing data. Hence the componentwise agreement repacks into one finite
+pullback packet.
+
+Finally, the same four cited theorems describe all exported source
+coordinates. None exports completion data, quotient representatives, host
+index equality, off-ledger $\RealUp$ classifier rows, arithmetic or order
+packages, or metric-completeness rows, so these data are not part of the
+criterion.
+\end{proof}
