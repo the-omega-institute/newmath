@@ -156,4 +156,20 @@ theorem MaxCausalRatePacket_witness_family_stability [AskSetup] [PackageSetup]
     ⟨witnessesUnary', boundUnary', comparisonsUnary', transportedUnary, transportedRoute,
       namePkg⟩
 
+theorem MaxCausalRatePacket_configuration_locality_obligation [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      UnaryHistory configuration /\ UnaryHistory witnesses /\ UnaryHistory bound /\
+        Cont provenance nameCert configuration /\ PkgSig bundle nameCert pkg := by
+  intro packet
+  obtain ⟨configurationUnary, witnessesUnary, boundUnary, _comparisonsUnary,
+    _hsameTransportUnary, _psameStabilityUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _witnessBoundComparison, _comparisonTransportStability,
+    _stabilityRouteProvenance, provenanceNameConfiguration, namePkg⟩ := packet
+  exact
+    ⟨configurationUnary, witnessesUnary, boundUnary, provenanceNameConfiguration, namePkg⟩
+
 end BEDC.Derived.MaxCausalRateUp
