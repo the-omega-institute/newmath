@@ -229,3 +229,35 @@ hom-object, identity, composition, transport, provenance, and finite
 continuation rows. Repacking those projections gives the same public packet,
 so every such consumer factors through exactly the listed boundary.
 \end{proof}
+
+\begin{theorem}[EnrichedCat two-step composition reassociation]\label{thm:enrichedcat-two-step-composition-reassociation}
+Let
+$$
+\mathcal{E}=
+(C_{\mathrm{obj}},M_{\otimes},H_{\mathrm{hom}},H_{\mathrm{id}},H_{\mathrm{comp}},T_{\hsame},P_{\Pkg},R_{\Cont})
+$$
+be an accepted $\EnrichedCatUp$ carrier packet. Suppose $H_{\mathrm{hom}}$ contains three composable displayed hom-object rows
+$$
+H_{ab},\quad H_{bc},\quad H_{cd},
+$$
+and suppose $H_{\mathrm{comp}}$ contains the displayed composition rows needed for both two-step routes from these three rows to endpoint rows $L_{ad}$ and $R_{ad}$. Thus the left route first composes $H_{cd}$ with $H_{bc}$ and then composes the result with $H_{ab}$, while the right route first composes $H_{bc}$ with $H_{ab}$ and then composes $H_{cd}$ with the result.
+
+If the consumed $\NameCert_{\MonoidalCatUp}$ tensor boundary $M_{\otimes}$ supplies the associator row comparing the two tensor sources
+$$
+(H_{cd}\otimes H_{bc})\otimes H_{ab}
+\quad\text{and}\quad
+H_{cd}\otimes (H_{bc}\otimes H_{ab}),
+$$
+then $L_{ad}$ and $R_{ad}$ are classified by the public $\EnrichedCatUp$ packet surface. The classifying comparison is a displayed $\hsame$ row read through $T_{\hsame}$, with provenance in $P_{\Pkg}$ and finite readback in $R_{\Cont}$; it uses no host-level enriched-category equality and no coherence datum outside the consumed $\MonoidalCatUp$ boundary.
+\end{theorem}
+\begin{proof}
+Unpack the accepted packet by \autoref{def:enrichedcat-bhist-packet}. The rows $H_{ab}$, $H_{bc}$, and $H_{cd}$ are projected from $H_{\mathrm{hom}}$, so their object boundary is read from $C_{\mathrm{obj}}$ and their tensor boundary is read from $M_{\otimes}$.
+
+By \autoref{thm:enrichedcat-tensor-composition-scope}, each displayed composition row in the two routes is projected from $H_{\mathrm{comp}}$. The left route uses the adjacent pair $H_{cd},H_{bc}$ and then the adjacent pair represented by that first composite together with $H_{ab}$. The right route uses the adjacent pair $H_{bc},H_{ab}$ and then the adjacent pair $H_{cd}$ together with that first composite. In both cases the tensor-composition boundary is the same coordinate $M_{\otimes}$, and the route remains inside the displayed hom-object and composition rows of $\mathcal{E}$.
+
+The only rebracketing needed to compare the two tensor sources is the associator row already exposed by the consumed $\NameCert_{\MonoidalCatUp}$ coordinate. By \autoref{thm:enrichedcat-monoidal-category-boundary}, this associator is one of the public monoidal rows available to the enriched packet, not an additional host coherence theorem.
+
+Transport the two-step composition source along that associator row. The component transport coordinate $T_{\hsame}$ carries the transported tensor source through the two displayed composition routes, so the resulting endpoint rows $L_{ad}$ and $R_{ad}$ are compared by a displayed $\hsame$ row. The provenance and finite continuation reads of this comparison are exactly the rows $P_{\Pkg}$ and $R_{\Cont}$ attached to the same packet.
+
+Finally apply \autoref{thm:enrichedcat-source-obligation} and \autoref{thm:enrichedcat-classifier-transport-obligation}. They identify every public source and classifier row of the $\EnrichedCatUp$ certificate with one of the displayed $\BHist$, $\hsame$, $\Pkg$, and $\Cont$ coordinates of $\mathcal{E}$. Repacking the transported endpoint comparison through those coordinates gives the public comparison between $L_{ad}$ and $R_{ad}$ on the same packet surface.
+\end{proof}
