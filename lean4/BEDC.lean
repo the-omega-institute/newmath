@@ -499,6 +499,8 @@ import BEDC.Derived.UniformCauchyCriterionUp.FamilyUnion
 import BEDC.Derived.UniformCauchyCriterionUp.RootBudgetPackage
 import BEDC.Derived.UniformCauchyCriterionUp.RootInterfaces
 import BEDC.Derived.UniformCauchyCriterionUp.RegSeqRatTailEquivalence
+import BEDC.Derived.UniformCauchyCriterionUp.SealObligationSurface
+import BEDC.Derived.UniformCauchyCriterionUp.SharedWindow
 import BEDC.Derived.UniformCauchyCriterionUp.TailLedger
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
@@ -586,6 +588,7 @@ import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitTransportUp
+import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonUp
