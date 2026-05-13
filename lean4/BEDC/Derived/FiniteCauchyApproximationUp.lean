@@ -44,4 +44,24 @@ theorem FiniteCauchyApproximationCarrier_window_soundness [AskSetup] [PackageSet
     ⟨windowUnary, dyadicUnary, errorUnary, thresholdWindowDyadic, dyadicErrorHandoff,
       provenancePkg⟩
 
+theorem FiniteCauchyApproximationCarrier_real_handoff [AskSetup] [PackageSetup]
+    {source precision threshold window dyadic error handoff sameRows routes provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteCauchyApproximationCarrier source precision threshold window dyadic error handoff
+        sameRows routes provenance localCert bundle pkg ->
+      UnaryHistory handoff ∧ Cont source precision threshold ∧ Cont threshold window dyadic ∧
+        Cont dyadic error handoff ∧ Cont handoff localCert provenance ∧
+          PkgSig bundle provenance pkg := by
+  intro carrier
+  obtain ⟨_sourceUnary, _precisionUnary, _thresholdUnary, _windowUnary, dyadicUnary,
+    errorUnary, _sameRowsUnary, _routesUnary, _provenanceUnary, _localCertUnary,
+    sourcePrecisionThreshold, thresholdWindowDyadic, dyadicErrorHandoff,
+    _sameRoutesProvenance, handoffLocalProvenance, provenancePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed dyadicUnary errorUnary dyadicErrorHandoff
+  exact
+    ⟨handoffUnary, sourcePrecisionThreshold, thresholdWindowDyadic, dyadicErrorHandoff,
+      handoffLocalProvenance, provenancePkg⟩
+
 end BEDC.Derived.FiniteCauchyApproximationUp
