@@ -62,12 +62,40 @@ The trace row $T$ accounts for kernel acceptance as a finite audit event. The ro
 It remains to check escape routes. There is no carrier field for trusting a generator directly, no field for a host proof of kernel soundness, no field for an ambient environment scan, no field for clean ancestry without $Q$, and no field for compiler semantics beyond $M$. Thus the audit boundary is exactly the finite source-channel ledger surface.
 \end{proof}
 
+\begin{theorem}[Kernel source-channel ledger trace projection]
+\label{thm:kernel-source-channel-ledger-trace-projection}
+For every accepted $\KernelSourceChannelLedgerUp$ carrier
+$$
+S=(G,K,A,E,Q,R,T,M,F,H,C,P,N),
+$$
+the generated candidate, kernel stamp, accepted declaration, ancestry, query, refusal, trace, and compiler-route rows project only through the displayed finite surface $T,M,F,H,C,P,N$ after the source rows $G,K,A,E,Q,R$ have been read. No public projection may identify generated candidates with accepted declarations or replace the compiler-route row by host environment trust.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source rows $G,K,A,E,Q,R$ expose candidate generation, kernel stamping, declaration exposure, ancestry, query output, and refusal output as separate coordinates.
+
+The trace row $T$ binds those source coordinates into the kernel-acceptance event. The route row $M$ then accounts for the compiler or morphism handoff, while $F$ keeps the channels separated.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite packet. Since every projection has passed through these displayed rows, no consumer can collapse the source channels or replace them by host trust.
+\end{proof}
+
+\begin{theorem}[Kernel source-channel ledger query refusal stability]
+\label{thm:kernel-source-channel-ledger-query-refusal-stability}
+For every accepted $\KernelSourceChannelLedgerUp$ carrier $S=(G,K,A,E,Q,R,T,M,F,H,C,P,N)$, refusal stability is preserved by the displayed \texttt{\#print axioms} query row $Q$ and refusal row $R$ under $\hsame$ transport and $\Cont$ replay. The refusal row cannot be replaced by absent query output, ambient source confidence, or host-side trust in the accepted declaration.
+\end{theorem}
+\begin{proof}
+Read the query and refusal rows first. The row $Q$ records the displayed axiom query for $A$, and $R$ records the comparison against the forbidden-dependency surface.
+
+Transport through $H$ and replay through $C$ preserve those two rows as part of the same accepted packet. The trace row $T$ and channel-separation row $F$ keep the query output distinct from an absent query.
+
+Apply the audit boundary. Because the carrier has no coordinate for ambient confidence or host trust, refusal stability remains the displayed $Q,R$ fact under replay and cannot be supplied by an unstated source-channel assumption.
+\end{proof}
+
 \closureat{KernelSourceChannelLedgerUp}{seedStr}
 
 \begin{closurestatus}{\KernelSourceChannelLedgerUp}
   \constructivestory{A $\KernelSourceChannelLedgerUp$ packet is generated from a source candidate, kernel classifier stamp, accepted declaration, environment ancestry ledger, axiom-query row, refusal row, kernel-acceptance trace, certificate compiler or NameCert morphism route, channel-separation row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:kernel-source-channel-ledger-carrier}, \autoref{thm:kernel-source-channel-ledger-namecert-obligations}, and \autoref{thm:kernel-source-channel-ledger-audit-boundary} specify the finite source-channel ledger carrier, NameCert obligation surface, audit separation rows, replay provenance, and non-escape boundary.}
+  \scopeclosed{\autoref{def:kernel-source-channel-ledger-carrier}, \autoref{thm:kernel-source-channel-ledger-namecert-obligations}, \autoref{thm:kernel-source-channel-ledger-audit-boundary}, \autoref{thm:kernel-source-channel-ledger-trace-projection}, and \autoref{thm:kernel-source-channel-ledger-query-refusal-stability} specify the finite source-channel ledger carrier, NameCert obligation surface, audit separation rows, replay provenance, trace projection, query-refusal stability, and non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
