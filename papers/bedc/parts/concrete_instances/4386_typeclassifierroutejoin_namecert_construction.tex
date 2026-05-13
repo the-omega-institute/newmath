@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\TypeClassifierRouteJoinUp$}
+\label{ch:concrete-instances-typeclassifierroutejoin-namecert}
+\origin{ai}
+
+The $\TypeClassifierRouteJoinUp$ packet realizes the type-checking-as-classifier-membership vision of \autoref{ch:visions-type-checking-as-classifier-membership} as a finite route-join object. It joins the membership row of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, the route-choice row of \autoref{ch:concrete-instances-subject-reduction-route-choice-namecert}, and the discharge-socket row of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} so a compiler or preservation consumer can cite one visible packet rather than coordinate three surfaces separately.
+
+\begin{definition}[TypeClassifierRouteJoin carrier]
+\label{def:type-classifier-route-join-carrier}
+A $\TypeClassifierRouteJoinUp$ carrier is a finite $\BHist$ packet
+$$
+J=(M,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\TypeClassifierMembershipUp$ row, including its displayed term history, judgment ledger, $\Ext$ membership row, typed $\Cont$ reduction row, and local membership certificate;
+\item $R$ is the $\SubjectReductionRouteChoiceUp$ row naming whether the subject-reduction consumer reads the explicit bundle route or the setup route;
+\item $S$ is the $\SubjectReductionDischargeSocketUp$ row naming the four discharge obligations and the obstruction boundary for closed subject reduction;
+\item $H$ stores componentwise $\hsame$ transports for the membership row, route-choice row, discharge-socket row, provenance row, and local naming row;
+\item $C$ stores displayed $\Cont$ replay for reading classifier membership, route choice, and socket consumption through the same finite packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-type-checking-as-classifier-membership}, \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, \autoref{ch:concrete-instances-subject-reduction-route-choice-namecert}, and \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert};
+\item $N$ is the local $\NameCert_{\TypeClassifierRouteJoinUp}$ row.
+\end{enumerate}
+The carrier contains no host type semantics, hidden conversion relation, closed subject-reduction theorem, quotient term equality, or route selector outside $M,R,S,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[TypeClassifierRouteJoin NameCert obligations]
+\label{thm:type-classifier-route-join-namecert-obligations}
+For the carrier of \autoref{def:type-classifier-route-join-carrier}, the local $\NameCert_{\TypeClassifierRouteJoinUp}$ surface consists exactly of:
+\begin{enumerate}
+\item carrier admission for the finite packet $J=(M,R,S,H,C,P,N)$;
+\item joined classifier stability, saying that the classifier-membership row $M$ is read through the same displayed transport and continuation routes as the joined route rows;
+\item route-choice compatibility, saying that the route-choice row $R$ selects only between the explicit bundle route and setup route already displayed by its carrier;
+\item discharge-socket compatibility, saying that socket reads through $S$ consume exactly the four displayed discharge rows and the obstruction boundary recorded by the socket packet;
+\item non-escape, saying that no host type semantics, hidden conversion, closed subject-reduction theorem, quotient term equality, or second route selector is exported by the joined packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:type-classifier-route-join-carrier}. The membership, route-choice, and socket rows are visible as $M,R,S$, and every transported read must pass through $H$.
+
+Joined classifier stability is inherited at the paper level from the membership carrier of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}. The join does not alter the membership row; it only records the route and socket rows beside it and replays the same reads through $C$.
+
+Route-choice compatibility follows from \autoref{ch:concrete-instances-subject-reduction-route-choice-namecert}. The row $R$ exposes the explicit bundle route and the setup route, and it does not create a third route.
+
+Discharge-socket compatibility follows from \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. The row $S$ names the four discharge obligations and the obstruction boundary, while $P$ and $N$ account for provenance and local naming.
+\end{proof}
+
+\begin{theorem}[TypeClassifierRouteJoin non-escape]
+\label{thm:type-classifier-route-join-nonescape}
+No accepted $\TypeClassifierRouteJoinUp$ carrier exports host type semantics, a hidden conversion relation, a closed subject-reduction theorem, quotient term equality, or a second route selector. Every public read factors through the displayed membership row $M$, route-choice row $R$, discharge-socket row $S$, componentwise transport row $H$, continuation replay row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only classifier-facing coordinate is $M$, the only route-choice coordinate is $R$, and the only discharge-socket coordinate is $S$.
+
+Transport and replay cannot add a semantic coordinate. The rows $H$ and $C$ preserve and expose the displayed membership, route-choice, and socket rows componentwise.
+
+The provenance and naming rows identify the source chapters and the local certificate. Since none of $M,R,S,H,C,P,N$ names host type semantics, hidden conversion, closed subject reduction, quotient term equality, or another route selector, those objects cannot be read from the joined packet.
+\end{proof}
+
+\closureat{TypeClassifierRouteJoinUp}{seedStr}
+
+\begin{closurestatus}{\TypeClassifierRouteJoinUp}
+  \constructivestory{A $\TypeClassifierRouteJoinUp$ packet is generated from a classifier-membership row, a subject-reduction route-choice row, a discharge-socket row, componentwise $\hsame$ transports, displayed $\Cont$ replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:type-classifier-route-join-carrier}, \autoref{thm:type-classifier-route-join-namecert-obligations}, and \autoref{thm:type-classifier-route-join-nonescape} bind the finite route join over type-classifier membership, route choice, discharge socket, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close host type semantics, hidden conversion, closed subject reduction, quotient term equality, route-selection uniqueness beyond the displayed route-choice row, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, joined classifier stability, route-choice compatibility, discharge-socket compatibility, replay, provenance, local naming, and non-escape for the same finite route-join packet.}
+\end{closurestatus}
