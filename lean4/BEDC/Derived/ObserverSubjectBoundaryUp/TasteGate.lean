@@ -179,6 +179,9 @@ instance observerSubjectBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (observerSubjectBoundaryToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ObserverSubjectBoundaryUp :=
+  inferInstance
+
 instance observerSubjectBoundaryFieldFaithful : FieldFaithful ObserverSubjectBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>

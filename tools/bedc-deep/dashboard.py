@@ -25,6 +25,8 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 STATE_DIR = SCRIPT_DIR / "state"
 TARGETS_DIR = SCRIPT_DIR / "targets"
 SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
+LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
+LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -32,6 +34,21 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _parse_iso(value: object) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        ts = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    if ts.tzinfo is None:
+        return ts.replace(tzinfo=timezone.utc)
+    return ts.astimezone(timezone.utc)
 
 
 def _safe_get_server() -> dict:
@@ -76,6 +93,18 @@ def _fmt_age(seconds: object) -> str:
     return f"{days}d{hours % 24:02d}h"
 
 
+def _zero_extraction_url_tails(s: dict) -> list[str]:
+    tails: list[str] = []
+    recent = s.get("recent_agents") or {}
+    for agent_id in s.get("zero_extraction_hang_agents") or []:
+        rec = recent.get(str(agent_id)) or {}
+        metrics = rec.get("metrics") or {}
+        tail = str(metrics.get("url_tail") or "").strip()
+        if tail:
+            tails.append(tail)
+    return tails
+
+
 def render_server(s: dict) -> str:
     if "_error" in s:
         err = str(s["_error"])
@@ -99,6 +128,9 @@ def render_server(s: dict) -> str:
     ]
     for k, v in (s.get("agents") or {}).items():
         out.append(f"    busy {k}: task={v.get('task_id','?')} elapsed={v.get('elapsed','?')}s")
+    url_tails = _zero_extraction_url_tails(s)
+    if url_tails:
+        out.append(f"  affected URL tail(s): {', '.join(url_tails)}")
     return "\n".join(out)
 
 
@@ -150,6 +182,19 @@ def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
                 + (f" — {title}" if title else "")
             )
         )
+    latest_by_source = data.get("latest_by_source") or {}
+    if latest_by_source:
+        recent_sources = sorted(
+            latest_by_source.items(),
+            key=lambda kv: int((kv[1] or {}).get("age_seconds") or 10**12),
+        )[:5]
+        parts = []
+        for source, rec in recent_sources:
+            parts.append(
+                f"{source}:{_fmt_age((rec or {}).get('age_seconds'))} "
+                f"{(rec or {}).get('event') or '?'}"
+            )
+        lines.append(f"  {label} latest by source: " + ", ".join(parts))
     rejection_reasons = data.get("rejection_reasons") or []
     if rejection_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
@@ -175,6 +220,68 @@ def render_candidate_inbox() -> str:
     lines = _render_candidate_stats(data, label="all")
     lines.extend(_render_candidate_stats(recent, label="last 6h"))
     return "\n".join(lines)
+
+
+def render_loning_assimilation() -> str:
+    if not LONING_ASSIMILATION_JOURNAL.exists():
+        return "  (no loning assimilation state)"
+    try:
+        lines = LONING_ASSIMILATION_JOURNAL.read_text(
+            encoding="utf-8", errors="replace"
+        ).splitlines()
+    except OSError as exc:
+        return f"  unavailable: {exc}"
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(rec, dict):
+            continue
+        checked_at = _parse_iso(rec.get("checked_at"))
+        age = _fmt_age((datetime.now(timezone.utc) - checked_at).total_seconds()) if checked_at else "?"
+        counts = rec.get("signal_counts") or {}
+        count_text = ", ".join(
+            f"{k}={v}" for k, v in sorted(counts.items(), key=lambda kv: str(kv[0]))
+        )
+        out = [
+            (
+                f"  checked: {age} ago   relevant_commits={rec.get('relevant_commits', '?')} "
+                f"watch_entries={rec.get('watch_entries', '?')}"
+            )
+        ]
+        watch_ts = _latest_jsonl_ts(LONING_WATCH_JOURNAL)
+        if checked_at and watch_ts and watch_ts > checked_at:
+            lag = _fmt_age((watch_ts - checked_at).total_seconds())
+            out.append(f"  lag: loning_watch is {lag} newer than assimilation")
+        if count_text:
+            out.append(f"  signals: {count_text}")
+        advice = [str(item) for item in (rec.get("advice") or []) if str(item).strip()]
+        for item in advice[:3]:
+            out.append(f"  advice: {item}")
+        if len(advice) > 3:
+            out.append(f"  advice: ... {len(advice) - 3} more")
+        return "\n".join(out)
+    return "  (no parseable loning assimilation records)"
+
+
+def _latest_jsonl_ts(path: Path) -> datetime | None:
+    if not path.exists():
+        return None
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return None
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(rec, dict):
+            ts = _parse_iso(rec.get("checked_at") or rec.get("ts") or rec.get("updated_at"))
+            if ts:
+                return ts
+    return None
 
 
 def render_target_table() -> str:
@@ -281,6 +388,8 @@ def main() -> int:
     print(render_board())
     print(_section("Candidate Inbox"))
     print(render_candidate_inbox())
+    print(_section("Loning Assimilation"))
+    print(render_loning_assimilation())
     print(_section("Target lifecycle"))
     print(render_target_table())
     print(_section("failure_kind histogram"))
