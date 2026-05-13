@@ -242,4 +242,7 @@ theorem ObserverLocalityCellTasteGate_single_carrier_alignment :
         exact observerLocalityCellToEventFlow_injective heq
       · rfl
 
+def taste_gate : ChapterTasteGate ObserverLocalityCellUp :=
+  observerLocalityCellChapterTasteGate
+
 end BEDC.Derived.ObserverLocalityCellUp
