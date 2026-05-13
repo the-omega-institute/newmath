@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerRecognitionUp$}
+\label{ch:concrete-instances-groundcompilerrecognition-namecert}
+\origin{ai}
+
+The $\GroundCompilerRecognitionUp$ packet realizes the generated-recognition surface of \autoref{ch:bedc-groundcompiler-audit-map} as a finite NameCert carrier. It sits beside the finite evaluator packet of \autoref{ch:concrete-instances-finitetraceevaluator-namecert}: the evaluator records bounded trace rows and accepted-result readback, while this packet records generated recognizer rows, accepted-export rows, finite evaluator handoff rows, report non-evidence rows, and cannot-claim ledger rows before a downstream compiler consumer treats recognition as evidence.
+
+\begin{definition}[GroundCompiler recognition carrier]
+\label{def:groundcompiler-recognition-carrier}
+A $\GroundCompilerRecognitionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,G,A,T,V,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the GroundCompiler event-flow and source-channel input row under recognition;
+\item $G$ is the generated recognizer row for packages, name certificates, derivation certificates, theorem identifiers, chapter records, or manifest records;
+\item $A$ is the accepted-export row through which a recognized artifact may be consumed by a theorem-facing or NameCert-facing route;
+\item $T$ is the finite trace evaluator handoff row, read through the bounded trace and accepted-result rows of \autoref{ch:concrete-instances-finitetraceevaluator-namecert};
+\item $V$ is the report non-evidence row separating metric reports, motif reports, theorem code, chapter code, and readable source from proof or certificate evidence;
+\item $L$ is the cannot-claim ledger row for hidden compiler input, raw event-flow equality, report-as-proof, code-as-proof, and unrecorded self-hosting claims;
+\item $H$ records componentwise $\hsame$ transports for the input, recognizer, export, evaluator handoff, non-evidence, cannot-claim, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ routes for recognizer readback, accepted-export readback, finite evaluator handoff, non-evidence inspection, and ledger replay;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, \autoref{ch:bedc-groundcompiler-audit-map}, and \autoref{ch:concrete-instances-finitetraceevaluator-namecert};
+\item $N$ is the local $\NameCert_{\GroundCompilerRecognitionUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are $I,G,A,T,V,L,H,C,P,N$. It contains no host recognizer, no accepted export outside $A$, no evaluator validation outside $T$, no proof from reports or code, and no unlisted compiler input.
+\end{definition}
+
+\begin{theorem}[GroundCompiler recognition NameCert obligations]
+\label{thm:groundcompiler-recognition-namecert-obligations}
+For the carrier of \autoref{def:groundcompiler-recognition-carrier}, the local $\NameCert_{\GroundCompilerRecognitionUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $R=(I,G,A,T,V,L,H,C,P,N)$;
+\item generated-recognizer exposure through $G$ after the event-flow and source-channel input row $I$ has been displayed;
+\item accepted-export routing through $A$, with no consumer route bypassing the accepted-export row;
+\item finite trace evaluator handoff through $T$, tied to the bounded trace and accepted-result rows of \autoref{ch:concrete-instances-finitetraceevaluator-namecert};
+\item report and cannot-claim exhaustion through $V,L,H,C,P,N$, so reports, code, raw classifier quotients, and unrecorded self-hosting claims remain outside proof and certificate evidence.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection. The finite packet displays exactly $I,G,A,T,V,L,H,C,P,N$.
+
+Read recognition through $I$ and $G$. The source-like event row is visible before the generated recognizer row is consumed, so recognizer evidence cannot replace the input coordinate.
+
+Accepted export is then confined to $A$. Since the carrier has no second export coordinate, every theorem-facing or NameCert-facing route must pass through the displayed accepted-export row.
+
+The finite evaluator handoff is confined to $T$. By citing the sibling finite evaluator packet, the handoff exposes bounded trace and accepted-result rows without adding host evaluator validation or an unbounded execution stream.
+
+Finally inspect $V,L,H,C,P,N$. The report non-evidence and cannot-claim rows state the excluded readings, while the transport, route, provenance, and naming rows replay only the displayed packet. Thus the five obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognition ledger non-escape]
+\label{thm:groundcompiler-recognition-ledger-nonescape}
+Every accepted $\GroundCompilerRecognitionUp$ packet exports recognition evidence only through the finite rows
+$$
+I,G,A,T,V,L,H,C,P,N.
+$$
+It exports no hidden compiler input, no host recognizer, no accepted export outside the certificate gate row, no proof from theorem code or chapter code, no proof from metric or motif reports, no raw event-flow equality from classifier membership, and no self-hosting tower outside the displayed ledger.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:groundcompiler-recognition-carrier}. The listed rows are the whole exported $\BHist$ surface.
+
+Apply \autoref{thm:groundcompiler-recognition-namecert-obligations}. Generated recognition is read through $G$, accepted exports through $A$, and evaluator handoff through $T$.
+
+The non-evidence and cannot-claim rows then block hidden strengthening. Since $V$ separates reports and code from proof or certificate evidence, and $L$ lists the forbidden compiler readings, no public consumer can extract an unlisted recognizer, export, proof, raw equality, or compiler tower from the packet.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognition finite-trace handoff]
+\label{thm:groundcompiler-recognition-finitetrace-handoff}
+For every accepted $\GroundCompilerRecognitionUp$ carrier $R=(I,G,A,T,V,L,H,C,P,N)$, the evaluator-facing read factors through the finite trace evaluator rows cited by $T$. A downstream consumer may inspect the bounded trace and accepted-result handoff, then return to the generated recognizer and accepted-export rows $G,A$; it cannot turn the handoff into host evaluator validation, a total truth predicate, an infinite trace, or a proof object.
+\end{theorem}
+\begin{proof}
+Start with the handoff coordinate $T$. It is the only evaluator-facing row in the recognition carrier.
+
+Use the finite trace evaluator packet of \autoref{ch:concrete-instances-finitetraceevaluator-namecert}. That sibling exposes coded input, finite trace-step rows, accepted-result classification, and a validation boundary, while excluding host validation, total halting, truth, and unbounded execution.
+
+Return through $H,C,P,N$ to the recognition rows. The route records only the displayed bounded handoff and then resumes at $G$ and $A$, so it supplies recognition and accepted export evidence without adding an evaluator, proof object, infinite trace, or truth predicate.
+\end{proof}
+
+\closureat{GroundCompilerRecognitionUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerRecognitionUp}
+  \constructivestory{A $\GroundCompilerRecognitionUp$ packet is generated from event-flow and source-channel input rows, generated recognizer rows, accepted-export rows, finite trace evaluator handoff rows, report non-evidence rows, cannot-claim ledger rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-recognition-carrier}, \autoref{thm:groundcompiler-recognition-namecert-obligations}, \autoref{thm:groundcompiler-recognition-ledger-nonescape}, and \autoref{thm:groundcompiler-recognition-finitetrace-handoff} bind generated recognition, accepted export, finite-trace handoff, report non-evidence, and cannot-claim rows as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove self-hosting for every compiler candidate, validate the evaluator from inside the packet, turn reports or code into proof, identify recognizer classes with raw event-flow equality, provide Lean verification, or provide bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, generated-recognizer exposure, accepted-export routing, finite-trace handoff, report separation, cannot-claim exhaustion, and ledger non-escape over the same finite packet.}
+\end{closurestatus}

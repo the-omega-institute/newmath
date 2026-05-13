@@ -133,6 +133,24 @@ is reachable only through the displayed selector, window, tail-regularity,
 transport, continuation, provenance, and naming rows.
 \end{proof}
 
+\begin{theorem}[Diagonal tail selector obligation triad]
+\label{thm:diagonal-tail-selector-obligation-triad}
+For an accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+selector exactness, finite-window readback, and $\RealUp$ seal factorization form one obligation triad over $\LimitSelectorUp$, $\RegularCauchyTailSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Any consumer must read $k$ from $\mu$ at $n$, pass through $W,D,T$, and reach $S$ only through $H,C,P,N$. The triad supplies no quotient stream, countable-choice row, host selected limit, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read selector exactness from \autoref{thm:diagonal-tail-selector-namecert-obligations}. The accepted packet exposes $R,n,\mu,k,W,D,T,S,H,C,P,N$, and the selected index row $k$ is available only as the value read from $\mu$ at the precision request $n$.
+
+Next apply \autoref{thm:diagonal-tail-selector-window-admission}. It confines every selected observation to the finite $\StreamNameUp$ window $W$ and $\DyadicRatCoreUp$ readback row $D$ before the $\RegularCauchyTailSelectorUp$ row $T$ is consumed.
+
+Finally use \autoref{thm:diagonal-tail-selector-real-seal-factorization}. The $\RealUp$ seal row $S$ is reached only through the displayed selector, window, tail handoff, transport, continuation, provenance, and local naming rows.
+
+The non-escape clauses already present in the chapter then rule out quotient streams, countable choice, host selected limits, host equality, and ambient completeness as coordinates of the same route.
+\end{proof}
+
 \begin{theorem}[Diagonal tail selector NameCert closure]
 \label{thm:diagonal-tail-selector-namecert-closure}
 The local $\NameCert_{\DiagonalTailSelectorUp}$ package closes over the
