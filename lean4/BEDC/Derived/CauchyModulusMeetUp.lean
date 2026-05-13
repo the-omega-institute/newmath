@@ -163,4 +163,25 @@ theorem CauchyModulusMeetPacket_real_handoff_boundary [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem CauchyModulusMeetPacket_consumer_factorization [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n realRoute handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg →
+      Cont mu n realRoute →
+        Cont realRoute p handoff →
+          UnaryHistory s0 ∧ UnaryHistory s1 ∧ UnaryHistory mu0 ∧ UnaryHistory mu1 ∧
+            UnaryHistory mu ∧ UnaryHistory realRoute ∧ UnaryHistory handoff ∧
+              Cont s0 mu0 h ∧ Cont s1 mu1 c ∧ Cont h c mu ∧
+                Cont mu n realRoute ∧ Cont realRoute p handoff ∧ PkgSig bundle p pkg := by
+  intro packet realRouteRow handoffRow
+  obtain ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, muUnary, _hUnary, _cUnary, pUnary,
+    nUnary, s0Mu0H, s1Mu1C, hCMu, _samePN, pPkg⟩ := packet
+  have realRouteUnary : UnaryHistory realRoute :=
+    unary_cont_closed muUnary nUnary realRouteRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed realRouteUnary pUnary handoffRow
+  exact
+    ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, muUnary, realRouteUnary, handoffUnary,
+      s0Mu0H, s1Mu1C, hCMu, realRouteRow, handoffRow, pPkg⟩
+
 end BEDC.Derived.CauchyModulusMeetUp
