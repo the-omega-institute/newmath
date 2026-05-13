@@ -197,6 +197,9 @@ instance maxCausalRateChapterTasteGate : ChapterTasteGate MaxCausalRateUp where
     intro x y hxy heq
     exact hxy (maxCausalRateToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate MaxCausalRateUp :=
+  maxCausalRateChapterTasteGate
+
 theorem MaxCausalRateTasteGate_single_carrier_alignment :
     (∀ h : BHist, maxCausalRateDecodeBHist (maxCausalRateEncodeBHist h) = h) ∧
       (∀ x : MaxCausalRateUp,
