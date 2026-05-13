@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\ProofTermErasureClassifierUp$}
+\label{ch:concrete-instances-proof-term-erasure-classifier-namecert}
+\origin{ai}
+
+The $\ProofTermErasureClassifierUp$ packet is the classifier-level surface for proof-term erasure. It reads proof-term membership as an $\Ext$ row, exposes the erased term through displayed $\Cont$ replay and $\SigRel$ readback, and packages the resulting public classifier row with $\ProofTermErasureTraceUp$ and $\ProofTermErasureAuditRouteUp$ provenance so later consumers receive a finite erasure-preserving membership object.
+
+\begin{definition}[Proof-term erasure classifier carrier]
+\label{def:proof-term-erasure-classifier-carrier}
+A $\ProofTermErasureClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+K=(P,E,M,R,S,H,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the proof-term row whose classifier membership is tested;
+\item $E$ is the erased-term row exported to downstream classifier consumers;
+\item $M$ is the $\Ext$ membership row for the proof-term row $P$;
+\item $R$ is the $\Cont$ erasure replay route from $P$ to $E$;
+\item $S$ is the $\SigRel$ readback row naming the erased classifier output as the public reading of the membership row $M$ along $R$;
+\item $H$ records componentwise $\hsame$ transports for the proof-term row, erased-term row, $\Ext$ membership row, $\Cont$ replay row, $\SigRel$ readback row, package provenance, and local naming row;
+\item $Q$ is the $\Pkg$ provenance over the displayed $\BHist$, $\Ext$, $\Cont$, $\SigRel$, $\hsame$, $\ProofTermErasureTraceUp$, $\ProofTermErasureAuditRouteUp$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ProofTermErasureClassifierUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through $P,E,M,R,S,H,Q,N$.
+\end{definition}
+
+\begin{theorem}[Proof-term erasure classifier Ext-membership]
+\label{thm:proof-term-erasure-classifier-ext-membership}
+Every accepted $\ProofTermErasureClassifierUp$ carrier reads classifier membership only from the displayed $\Ext$ row $M$. If a downstream consumer accepts the erased row $E$ as a classifier member, the source of that membership is the proof-term row $P$ together with $M$, transported componentwise through $H$ and packaged by $Q,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proof-term-erasure-classifier-carrier}. The only membership coordinate is $M$, and it is attached to the proof-term row $P$.
+
+The erased row $E$ is not a second classifier source. It is reached from $P$ through the displayed continuation row $R$ and named for public reading by the $\SigRel$ row $S$.
+
+Finally route the membership read through $H,Q,N$. These rows preserve and package the same displayed coordinates, so a downstream consumer cannot replace $M$ by host type checking or by an undisplayed classifier.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure classifier erasure preservation]
+\label{thm:proof-term-erasure-classifier-erasure-preservation}
+For every accepted $\ProofTermErasureClassifierUp$ carrier $K=(P,E,M,R,S,H,Q,N)$, the erased public classifier row preserves the proof-term $\Ext$ membership displayed by $M$. The preservation route is exactly the $\Cont$ replay row $R$ together with the $\SigRel$ readback row $S$ and the componentwise $\hsame$ transport row $H$.
+\end{theorem}
+\begin{proof}
+Read the packet coordinates. The source membership is $M$, the erased public row is $E$, the replay route is $R$, and the public readback is $S$.
+
+Use the displayed replay row to carry the membership read from the proof-term row to the erased-term row. The $\SigRel$ row records the classifier readback attached to that replay, so the exported row is the erased reading of the same membership event.
+
+Transport is exhausted by $H$ and provenance by $Q,N$. Since no other route is present in the carrier, erasure preservation is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure classifier non-escape ledger]
+\label{thm:proof-term-erasure-classifier-ledger-nonescape}
+Every accepted $\ProofTermErasureClassifierUp$ carrier exports only the erased row $E$, the proof-term membership row $M$, the erasure replay row $R$, the readback row $S$, the transport row $H$, the package row $Q$, and the local naming row $N$. It exports no proof object as consumer evidence, no host conversion relation, no quotient syntax equality, no proof irrelevance principle, and no ambient normalization oracle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The proof-term row $P$ is present only as the source named by the membership row $M$, while the consumer-facing row is $E$.
+
+The exported evidence is routed through $R,S,H,Q,N$. These rows record replay, readback, transport, provenance, and local naming, and none of them carries a proof object or a host conversion principle.
+
+The excluded objects have no coordinate in $K$. Therefore they cannot be read from the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure classifier NameCert obligations]
+\label{thm:proof-term-erasure-classifier-namecert-obligations}
+For the carrier of \autoref{def:proof-term-erasure-classifier-carrier}, the local $\NameCert_{\ProofTermErasureClassifierUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission exposes exactly $K=(P,E,M,R,S,H,Q,N)$;
+\item membership exactness reads the accepted classifier decision only from the displayed $\Ext$ row $M$;
+\item erasure preservation routes the public erased row only through the displayed $\Cont$ row $R$ and $\SigRel$ row $S$;
+\item trace and audit provenance are carried only by the displayed $\Pkg$ row $Q$ over $\ProofTermErasureTraceUp$ and $\ProofTermErasureAuditRouteUp$ rows;
+\item the non-escape ledger binds every consumer read to $H,Q,N$ and excludes proof-object export, host conversion, quotient syntax equality, proof irrelevance, and ambient normalization.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple $K$. The local naming row exposes exactly the eight displayed coordinates and no hidden carrier field.
+
+Membership exactness is the role of $M$. Erasure preservation is then read through $R$ and $S$, which replay the erased row and name its classifier readback.
+
+The provenance obligation is carried by $Q$. It records the dependency on the proof-term erasure trace and audit-route packets while keeping the consumer surface finite.
+
+Finally apply the non-escape ledger of \autoref{thm:proof-term-erasure-classifier-ledger-nonescape}. Since every consumer read is already confined to $H,Q,N$ and the displayed erasure rows, the certificate cannot export proof objects or host-level conversion data.
+\end{proof}
+
+\closureat{ProofTermErasureClassifierUp}{seedStr}
+
+\begin{closurestatus}{\ProofTermErasureClassifierUp}
+  \constructivestory{A $\ProofTermErasureClassifierUp$ packet is generated from proof-term, erased-term, Ext-membership, Cont replay, SigRel readback, hsame transport, Pkg provenance, trace, audit-route, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-term-erasure-classifier-carrier}, \autoref{thm:proof-term-erasure-classifier-ext-membership}, \autoref{thm:proof-term-erasure-classifier-erasure-preservation}, \autoref{thm:proof-term-erasure-classifier-ledger-nonescape}, and \autoref{thm:proof-term-erasure-classifier-namecert-obligations} define the finite erasure-preserving classifier surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, public compiler correctness, host conversion, quotient syntax equality, proof irrelevance, ambient normalization, or proof-object export.}
+  \upgradepath{Obligation closure requires checked carrier admission, Ext-membership exactness, erasure preservation, trace and audit-route provenance, and non-escape for the displayed classifier rows.}
+\end{closurestatus}
