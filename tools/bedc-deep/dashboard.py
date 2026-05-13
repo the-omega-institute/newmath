@@ -182,6 +182,19 @@ def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
                 + (f" — {title}" if title else "")
             )
         )
+    latest_by_source = data.get("latest_by_source") or {}
+    if latest_by_source:
+        recent_sources = sorted(
+            latest_by_source.items(),
+            key=lambda kv: int((kv[1] or {}).get("age_seconds") or 10**12),
+        )[:5]
+        parts = []
+        for source, rec in recent_sources:
+            parts.append(
+                f"{source}:{_fmt_age((rec or {}).get('age_seconds'))} "
+                f"{(rec or {}).get('event') or '?'}"
+            )
+        lines.append(f"  {label} latest by source: " + ", ".join(parts))
     rejection_reasons = data.get("rejection_reasons") or []
     if rejection_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
