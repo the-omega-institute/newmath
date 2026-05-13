@@ -11,9 +11,10 @@ open BEDC.Meta.TasteGate
 
 inductive RegularCauchySwapBisimulationUp : Type where
   | mk :
-      (a b scheduleA scheduleB selector selectorOp modulus sealRow sealOp transports routes
-        provenance localCert : BHist) →
+      (leftSource rightSource leftSchedule rightSchedule selector oppositeSelector
+        commonLedger forwardSeal oppositeSeal transport continuation provenance name : BHist) →
       RegularCauchySwapBisimulationUp
+  deriving DecidableEq
 
 private def regularCauchySwapBisimulationEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -42,120 +43,182 @@ private theorem regularCauchySwapBisimulationDecode_encode_bhist :
       exact congrArg BHist.e1 ih
 
 private theorem regularCauchySwapBisimulation_mk_congr
-    {a a' b b' scheduleA scheduleA' scheduleB scheduleB' selector selector'
-      selectorOp selectorOp' modulus modulus' sealRow sealRow' sealOp sealOp' transports
-      transports' routes routes' provenance provenance' localCert localCert' : BHist}
-    (hA : a' = a)
-    (hB : b' = b)
-    (hScheduleA : scheduleA' = scheduleA)
-    (hScheduleB : scheduleB' = scheduleB)
+    {leftSource leftSource' rightSource rightSource' leftSchedule leftSchedule'
+      rightSchedule rightSchedule' selector selector' oppositeSelector oppositeSelector'
+      commonLedger commonLedger' forwardSeal forwardSeal' oppositeSeal oppositeSeal'
+      transport transport' continuation continuation' provenance provenance' name name' : BHist}
+    (hLeftSource : leftSource' = leftSource)
+    (hRightSource : rightSource' = rightSource)
+    (hLeftSchedule : leftSchedule' = leftSchedule)
+    (hRightSchedule : rightSchedule' = rightSchedule)
     (hSelector : selector' = selector)
-    (hSelectorOp : selectorOp' = selectorOp)
-    (hModulus : modulus' = modulus)
-    (hSeal : sealRow' = sealRow)
-    (hSealOp : sealOp' = sealOp)
-    (hTransports : transports' = transports)
-    (hRoutes : routes' = routes)
+    (hOppositeSelector : oppositeSelector' = oppositeSelector)
+    (hCommonLedger : commonLedger' = commonLedger)
+    (hForwardSeal : forwardSeal' = forwardSeal)
+    (hOppositeSeal : oppositeSeal' = oppositeSeal)
+    (hTransport : transport' = transport)
+    (hContinuation : continuation' = continuation)
     (hProvenance : provenance' = provenance)
-    (hLocalCert : localCert' = localCert) :
-    RegularCauchySwapBisimulationUp.mk a' b' scheduleA' scheduleB' selector'
-        selectorOp' modulus' sealRow' sealOp' transports' routes' provenance' localCert' =
-      RegularCauchySwapBisimulationUp.mk a b scheduleA scheduleB selector selectorOp
-        modulus sealRow sealOp transports routes provenance localCert := by
+    (hName : name' = name) :
+    RegularCauchySwapBisimulationUp.mk leftSource' rightSource' leftSchedule'
+        rightSchedule' selector' oppositeSelector' commonLedger' forwardSeal' oppositeSeal'
+        transport' continuation' provenance' name' =
+      RegularCauchySwapBisimulationUp.mk leftSource rightSource leftSchedule rightSchedule
+        selector oppositeSelector commonLedger forwardSeal oppositeSeal transport continuation
+        provenance name := by
   -- BEDC touchpoint anchor: BHist BMark
-  cases hA
-  cases hB
-  cases hScheduleA
-  cases hScheduleB
+  cases hLeftSource
+  cases hRightSource
+  cases hLeftSchedule
+  cases hRightSchedule
   cases hSelector
-  cases hSelectorOp
-  cases hModulus
-  cases hSeal
-  cases hSealOp
-  cases hTransports
-  cases hRoutes
+  cases hOppositeSelector
+  cases hCommonLedger
+  cases hForwardSeal
+  cases hOppositeSeal
+  cases hTransport
+  cases hContinuation
   cases hProvenance
-  cases hLocalCert
+  cases hName
   rfl
 
 private def regularCauchySwapBisimulationToEventFlow :
     RegularCauchySwapBisimulationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchySwapBisimulationUp.mk a b scheduleA scheduleB selector selectorOp
-      modulus sealRow sealOp transports routes provenance localCert =>
-      [regularCauchySwapBisimulationEncodeBHist a,
-        regularCauchySwapBisimulationEncodeBHist b,
-        regularCauchySwapBisimulationEncodeBHist scheduleA,
-        regularCauchySwapBisimulationEncodeBHist scheduleB,
+  | RegularCauchySwapBisimulationUp.mk leftSource rightSource leftSchedule rightSchedule
+      selector oppositeSelector commonLedger forwardSeal oppositeSeal transport continuation
+      provenance name =>
+      [[BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist leftSource,
+        [BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist rightSource,
+        [BMark.b1, BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist leftSchedule,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist rightSchedule,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         regularCauchySwapBisimulationEncodeBHist selector,
-        regularCauchySwapBisimulationEncodeBHist selectorOp,
-        regularCauchySwapBisimulationEncodeBHist modulus,
-        regularCauchySwapBisimulationEncodeBHist sealRow,
-        regularCauchySwapBisimulationEncodeBHist sealOp,
-        regularCauchySwapBisimulationEncodeBHist transports,
-        regularCauchySwapBisimulationEncodeBHist routes,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist oppositeSelector,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist commonLedger,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist forwardSeal,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist oppositeSeal,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist continuation,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         regularCauchySwapBisimulationEncodeBHist provenance,
-        regularCauchySwapBisimulationEncodeBHist localCert]
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchySwapBisimulationEncodeBHist name]
 
 private def regularCauchySwapBisimulationFromEventFlow :
     EventFlow → Option RegularCauchySwapBisimulationUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
-  | a :: rest0 =>
+  | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | b :: rest1 =>
+      | leftSource :: rest1 =>
           match rest1 with
           | [] => none
-          | scheduleA :: rest2 =>
+          | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | scheduleB :: rest3 =>
+              | rightSource :: rest3 =>
                   match rest3 with
                   | [] => none
-                  | selector :: rest4 =>
+                  | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | selectorOp :: rest5 =>
+                      | leftSchedule :: rest5 =>
                           match rest5 with
                           | [] => none
-                          | modulus :: rest6 =>
+                          | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | sealRow :: rest7 =>
+                              | rightSchedule :: rest7 =>
                                   match rest7 with
                                   | [] => none
-                                  | sealOp :: rest8 =>
+                                  | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | transports :: rest9 =>
+                                      | selector :: rest9 =>
                                           match rest9 with
                                           | [] => none
-                                          | routes :: rest10 =>
+                                          | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | provenance :: rest11 =>
+                                              | oppositeSelector :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
-                                                  | localCert :: rest12 =>
+                                                  | _tag6 :: rest12 =>
                                                       match rest12 with
-                                                      | [] =>
-                                                          some
-                                                            (RegularCauchySwapBisimulationUp.mk
-                                                              (regularCauchySwapBisimulationDecodeBHist a)
-                                                              (regularCauchySwapBisimulationDecodeBHist b)
-                                                              (regularCauchySwapBisimulationDecodeBHist scheduleA)
-                                                              (regularCauchySwapBisimulationDecodeBHist scheduleB)
-                                                              (regularCauchySwapBisimulationDecodeBHist selector)
-                                                              (regularCauchySwapBisimulationDecodeBHist selectorOp)
-                                                              (regularCauchySwapBisimulationDecodeBHist modulus)
-                                                              (regularCauchySwapBisimulationDecodeBHist sealRow)
-                                                              (regularCauchySwapBisimulationDecodeBHist sealOp)
-                                                              (regularCauchySwapBisimulationDecodeBHist transports)
-                                                              (regularCauchySwapBisimulationDecodeBHist routes)
-                                                              (regularCauchySwapBisimulationDecodeBHist provenance)
-                                                              (regularCauchySwapBisimulationDecodeBHist localCert))
-                                                      | _ :: _ => none
+                                                      | [] => none
+                                                      | commonLedger :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | forwardSeal :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | oppositeSeal :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | transport :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
+                                                                                      match rest20 with
+                                                                                      | [] => none
+                                                                                      | continuation :: rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] => none
+                                                                                          | _tag11 :: rest22 =>
+                                                                                              match rest22 with
+                                                                                              | [] => none
+                                                                                              | provenance :: rest23 =>
+                                                                                                  match rest23 with
+                                                                                                  | [] => none
+                                                                                                  | _tag12 :: rest24 =>
+                                                                                                      match rest24 with
+                                                                                                      | [] => none
+                                                                                                      | name :: rest25 =>
+                                                                                                          match rest25 with
+                                                                                                          | [] =>
+                                                                                                              some
+                                                                                                                (RegularCauchySwapBisimulationUp.mk
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist leftSource)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist rightSource)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist leftSchedule)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist rightSchedule)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist selector)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist oppositeSelector)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist commonLedger)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist forwardSeal)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist oppositeSeal)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist transport)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist continuation)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist provenance)
+                                                                                                                  (regularCauchySwapBisimulationDecodeBHist name))
+                                                                                                          | _ :: _ => none
 
 private theorem regularCauchySwapBisimulation_round_trip :
     ∀ x : RegularCauchySwapBisimulationUp,
@@ -164,61 +227,63 @@ private theorem regularCauchySwapBisimulation_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk a b scheduleA scheduleB selector selectorOp modulus sealRow sealOp transports routes
-      provenance localCert =>
+  | mk leftSource rightSource leftSchedule rightSchedule selector oppositeSelector
+      commonLedger forwardSeal oppositeSeal transport continuation provenance name =>
       change
         some
           (RegularCauchySwapBisimulationUp.mk
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist a))
+              (regularCauchySwapBisimulationEncodeBHist leftSource))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist b))
+              (regularCauchySwapBisimulationEncodeBHist rightSource))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist scheduleA))
+              (regularCauchySwapBisimulationEncodeBHist leftSchedule))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist scheduleB))
+              (regularCauchySwapBisimulationEncodeBHist rightSchedule))
             (regularCauchySwapBisimulationDecodeBHist
               (regularCauchySwapBisimulationEncodeBHist selector))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist selectorOp))
+              (regularCauchySwapBisimulationEncodeBHist oppositeSelector))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist modulus))
+              (regularCauchySwapBisimulationEncodeBHist commonLedger))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist sealRow))
+              (regularCauchySwapBisimulationEncodeBHist forwardSeal))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist sealOp))
+              (regularCauchySwapBisimulationEncodeBHist oppositeSeal))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist transports))
+              (regularCauchySwapBisimulationEncodeBHist transport))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist routes))
+              (regularCauchySwapBisimulationEncodeBHist continuation))
             (regularCauchySwapBisimulationDecodeBHist
               (regularCauchySwapBisimulationEncodeBHist provenance))
             (regularCauchySwapBisimulationDecodeBHist
-              (regularCauchySwapBisimulationEncodeBHist localCert))) =
+              (regularCauchySwapBisimulationEncodeBHist name))) =
           some
-            (RegularCauchySwapBisimulationUp.mk a b scheduleA scheduleB selector
-              selectorOp modulus sealRow sealOp transports routes provenance localCert)
+            (RegularCauchySwapBisimulationUp.mk leftSource rightSource leftSchedule
+              rightSchedule selector oppositeSelector commonLedger forwardSeal oppositeSeal
+              transport continuation provenance name)
       exact
         congrArg some
           (regularCauchySwapBisimulation_mk_congr
-            (regularCauchySwapBisimulationDecode_encode_bhist a)
-            (regularCauchySwapBisimulationDecode_encode_bhist b)
-            (regularCauchySwapBisimulationDecode_encode_bhist scheduleA)
-            (regularCauchySwapBisimulationDecode_encode_bhist scheduleB)
+            (regularCauchySwapBisimulationDecode_encode_bhist leftSource)
+            (regularCauchySwapBisimulationDecode_encode_bhist rightSource)
+            (regularCauchySwapBisimulationDecode_encode_bhist leftSchedule)
+            (regularCauchySwapBisimulationDecode_encode_bhist rightSchedule)
             (regularCauchySwapBisimulationDecode_encode_bhist selector)
-            (regularCauchySwapBisimulationDecode_encode_bhist selectorOp)
-            (regularCauchySwapBisimulationDecode_encode_bhist modulus)
-            (regularCauchySwapBisimulationDecode_encode_bhist sealRow)
-            (regularCauchySwapBisimulationDecode_encode_bhist sealOp)
-            (regularCauchySwapBisimulationDecode_encode_bhist transports)
-            (regularCauchySwapBisimulationDecode_encode_bhist routes)
+            (regularCauchySwapBisimulationDecode_encode_bhist oppositeSelector)
+            (regularCauchySwapBisimulationDecode_encode_bhist commonLedger)
+            (regularCauchySwapBisimulationDecode_encode_bhist forwardSeal)
+            (regularCauchySwapBisimulationDecode_encode_bhist oppositeSeal)
+            (regularCauchySwapBisimulationDecode_encode_bhist transport)
+            (regularCauchySwapBisimulationDecode_encode_bhist continuation)
             (regularCauchySwapBisimulationDecode_encode_bhist provenance)
-            (regularCauchySwapBisimulationDecode_encode_bhist localCert))
+            (regularCauchySwapBisimulationDecode_encode_bhist name))
 
 private theorem regularCauchySwapBisimulationToEventFlow_injective
     {x y : RegularCauchySwapBisimulationUp} :
     regularCauchySwapBisimulationToEventFlow x =
-      regularCauchySwapBisimulationToEventFlow y → x = y := by
+      regularCauchySwapBisimulationToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
