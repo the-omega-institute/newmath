@@ -74,4 +74,34 @@ theorem UniformModulusPacket_root_compact_continuous_threshold [AskSetup] [Packa
       exact ⟨sourceRow.right.right, precisionRadiusFoldLedger, exportRoute⟩
   }
 
+theorem UniformModulusPacket_root_net_minimum_row [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow threshold exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont precision radius threshold ->
+        Cont threshold nameRow exported ->
+          PkgSig bundle exported pkg ->
+            UnaryHistory precision ∧ UnaryHistory radius ∧ UnaryHistory foldLedger ∧
+              UnaryHistory threshold ∧ UnaryHistory exported ∧ hsame foldLedger threshold ∧
+                Cont precision radius threshold ∧ Cont threshold nameRow exported ∧
+                  PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg hsame
+  intro packet thresholdRoute exportRoute exportPkg
+  obtain ⟨_toleranceUnary, precisionUnary, _bundleRowUnary, radiusUnary, nameRowUnary,
+    _coverageRoute, _transportRoute, packetFoldRoute, _provenanceRoute, _provenancePkg⟩ :=
+    packet
+  have foldLedgerUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary packetFoldRoute
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed precisionUnary radiusUnary thresholdRoute
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed thresholdUnary nameRowUnary exportRoute
+  have sameFoldThreshold : hsame foldLedger threshold :=
+    hsame_symm (cont_deterministic thresholdRoute packetFoldRoute)
+  exact
+    ⟨precisionUnary, radiusUnary, foldLedgerUnary, thresholdUnary, exportedUnary,
+      sameFoldThreshold, thresholdRoute, exportRoute, exportPkg⟩
+
 end BEDC.Derived.UniformModulusUp
