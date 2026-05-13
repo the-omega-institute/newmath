@@ -112,4 +112,39 @@ theorem LocatedModulusCompletionCarrier_namecert_obligations [AskSetup] [Package
                 (And.intro limitRealEndpoint
                   (And.intro limitLocatedEndpoint pkgSig))))))))
 
+theorem LocatedModulusCompletionCarrier_regular_seal [AskSetup] [PackageSetup]
+    {source realSeal modulus limitSeal locatedEvidence transport route provenance localCert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedModulusCompletionCarrier source realSeal modulus limitSeal locatedEvidence transport
+        route provenance localCert endpoint bundle pkg →
+      UnaryHistory source ∧ UnaryHistory modulus ∧ UnaryHistory limitSeal ∧
+        UnaryHistory endpoint ∧ Cont source modulus limitSeal ∧
+          Cont limitSeal realSeal endpoint ∧ Cont limitSeal locatedEvidence endpoint ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier
+  have sourceUnary : UnaryHistory source := carrier.left
+  have realSealUnary : UnaryHistory realSeal := carrier.right.left
+  have modulusUnary : UnaryHistory modulus := carrier.right.right.left
+  have limitSealUnary : UnaryHistory limitSeal := carrier.right.right.right.left
+  have sourceModulusLimit : Cont source modulus limitSeal :=
+    carrier.right.right.right.right.right.right.left
+  have limitRealEndpoint : Cont limitSeal realSeal endpoint :=
+    carrier.right.right.right.right.right.right.right.left
+  have limitLocatedEndpoint : Cont limitSeal locatedEvidence endpoint :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle provenance pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed limitSealUnary realSealUnary limitRealEndpoint
+  exact
+    And.intro sourceUnary
+      (And.intro modulusUnary
+        (And.intro limitSealUnary
+          (And.intro endpointUnary
+            (And.intro sourceModulusLimit
+              (And.intro limitRealEndpoint
+                (And.intro limitLocatedEndpoint pkgSig))))))
+
 end BEDC.Derived.LocatedModulusCompletionUp
