@@ -85,6 +85,7 @@ import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
@@ -152,6 +153,7 @@ import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
+import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
@@ -211,6 +213,7 @@ import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
+import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyDoubleSequenceUp
@@ -219,6 +222,7 @@ import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
+import BEDC.Derived.ProductRegularCauchyLimitUp.TasteGate
 import BEDC.Derived.InscriptionPointUp.TasteGate
 import BEDC.Derived.CollisionKernelUp
 import BEDC.Derived.CollisionKernelSpectrumUp
