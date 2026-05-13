@@ -175,6 +175,11 @@ static int cook_encode_mul_size(size_t left, size_t right, size_t *out) {
     return 1;
 }
 
+static int cook_encode_leader_c(const CyclicTagInput *ct, size_t *c_out) {
+    if (ct == NULL || c_out == NULL || ct->num_productions == 0) return 0;
+    return cook_encode_mul_size(ct->num_productions, 6u, c_out);
+}
+
 static int cook_encode_validate(const CyclicTagInput *ct) {
     if (ct == NULL) return 0;
     if (ct->tape_len > 0 && ct->initial_tape == NULL) return 0;
@@ -686,6 +691,11 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
     int rc = COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
     uint8_t *final_bits = NULL;
     size_t final_len = 0;
+    size_t leader_c = 0;
+
+    if (!cook_encode_leader_c(ct, &leader_c)) {
+        return COOK_ENCODE_PHASE_EXACT_INVALID_INPUT;
+    }
 
     cook_ether_emit(out, layout->total_cells / (size_t)COOK_ETHER_WIDTH);
     cook_encode_emit_left_periodic(out,
@@ -699,7 +709,7 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
         layout->total_cells,
         LEADER_REGULAR,
         LEADER_PREPARED_AFTER_MOVING_DATA,
-        6u);
+        leader_c);
     if (rc != COOK_LEADER_PHASE_EXACT_OK) {
         return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
     }
@@ -842,9 +852,13 @@ static int cook_encode_phase_exact_compose_preview(const CyclicTagInput *ct,
                                                    const CookPhaseExactLayout *layout,
                                                    uint8_t *out) {
     int rc = COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    size_t leader_c = 0;
 
     if (layout->total_cells < (size_t)COOK_ETHER_WIDTH) {
         return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
+    }
+    if (!cook_encode_leader_c(ct, &leader_c)) {
+        return COOK_ENCODE_PHASE_EXACT_INVALID_INPUT;
     }
     cook_ether_emit(out, layout->total_cells / (size_t)COOK_ETHER_WIDTH);
     rc = cook_leader_emit_phase_exact_kind_prepared(
@@ -853,7 +867,7 @@ static int cook_encode_phase_exact_compose_preview(const CyclicTagInput *ct,
         layout->total_cells,
         LEADER_REGULAR,
         LEADER_PREPARED_AFTER_MOVING_DATA,
-        6u);
+        leader_c);
     if (rc != COOK_LEADER_PHASE_EXACT_OK &&
         layout->leader_pos < layout->total_cells) {
         return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;

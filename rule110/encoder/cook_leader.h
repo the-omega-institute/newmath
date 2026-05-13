@@ -20,6 +20,15 @@ enum leader_prepared_context {
     LEADER_PREPARED_AFTER_REJECTED_INVISIBLES = 1
 };
 
+typedef struct {
+    int v[2];
+    int w[2];
+    int x[2];
+    int y[6];
+    size_t y_repeats;
+    int total_mod4;
+} CookLeaderPreparedPlacement;
+
 void cook_leader_emit(uint8_t *out, size_t pos, size_t buf_len);
 int cook_leader_prepared_k(enum leader_prepared_context context,
                            size_t c,
@@ -28,6 +37,8 @@ int cook_leader_prepared_invisible_alignment(
     enum leader_prepared_context context,
     size_t c,
     int *alignment_out);
+int cook_leader_prepared_placement(size_t c,
+                                   CookLeaderPreparedPlacement *placement_out);
 int cook_leader_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len);
 int cook_leader_emit_phase_exact_kind(uint8_t *out,
                                       size_t pos,
