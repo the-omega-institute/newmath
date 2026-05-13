@@ -138,12 +138,28 @@ Apply the gated supply route exhaustion of \autoref{thm:apophatic-socket-gated-s
 Finally apply the boundary noninternalization ledger of \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}. The scoped packet can expose the request and its audit route, but it has no coordinate from which the requested external supply itself can be projected.
 \end{proof}
 
+\begin{theorem}[ApophaticSocket kernel-scope obligation package]
+\label{thm:apophatic-socket-kernel-scope-obligation-package}
+For an accepted $\ApophaticSocketUp$ packet, the rows
+$$
+K,S_0,G,A,L,Q,P,N
+$$
+are the complete scoped kernel surface for carrier admission, gate correspondence, noninternalization, and consumer factoring. Carrier admission reads exactly these rows; gate correspondence binds $K,S_0,G,A$ to visible socket use; noninternalization is recorded by the absence of a requested-supply coordinate; and every consumer factors through $L,Q,P,N$ together with the same displayed socket rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier and local NameCert obligations. \autoref{def:apophatic-socket-ledger-carrier} lists exactly $K,S_0,G,A,L,Q,P,N$, and \autoref{thm:apophatic-socket-namecert-obligations} reads those rows as carrier admission, socket-kind exposure, requested-supply display, gate exactness, site locality, transport, replay, provenance, and local naming.
+
+Next bind the gate and consumer routes. \autoref{thm:apophatic-socket-gate-correspondence} makes $G$ the public gate for the socket kind $K$ and requested supply shape $S_0$, while \autoref{thm:apophatic-socket-consumer-surface} forces every downstream read through the displayed packet.
+
+Finally apply the boundary and route ledgers. \autoref{thm:apophatic-socket-gated-supply-route-exhaustion} and \autoref{thm:apophatic-socket-scoped-supply-ledger} exhaust visible supply use through the same rows, and \autoref{thm:apophatic-socket-boundary-noninternalization-ledger} keeps the requested external supply outside the carrier. These clauses give the scoped kernel surface without adding an internal supply coordinate.
+\end{proof}
+
 \closureat{ApophaticSocketUp}{obligationStr}
 
 \begin{closurestatus}{\ApophaticSocketUp}
   \constructivestory{An $\ApophaticSocketUp$ packet is generated from a socket-kind row, a requested-supply-shape row, an audit-gate row, a site row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-gate-correspondence}, \autoref{thm:apophatic-socket-noninternalization-boundary}, \autoref{thm:apophatic-socket-consumer-surface}, \autoref{thm:apophatic-socket-obligation-closure-package}, \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, and \autoref{thm:apophatic-socket-boundary-noninternalization-ledger} specify the finite apophatic socket carrier, local naming obligations, gate correspondence, noninternalization boundary, consumer surface, obligation package, gated route exhaustion, and ledger noninternalization.}
+  \scopeclosed{\autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-gate-correspondence}, \autoref{thm:apophatic-socket-noninternalization-boundary}, \autoref{thm:apophatic-socket-consumer-surface}, \autoref{thm:apophatic-socket-obligation-closure-package}, \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}, and \autoref{thm:apophatic-socket-kernel-scope-obligation-package} specify the finite apophatic socket carrier, local naming obligations, gate correspondence, noninternalization boundary, consumer surface, obligation package, gated route exhaustion, ledger noninternalization, and scoped kernel surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
