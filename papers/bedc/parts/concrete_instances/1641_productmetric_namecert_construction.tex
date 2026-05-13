@@ -199,6 +199,32 @@ Next read the real-valued consumer surface. Apply \autoref{thm:productmetric-rea
 Finally use the downstream anchor and scope theorem. By \autoref{thm:productmetric-metricspace-anchor}, the metric consumer reads the product distance only through $\Pi$, the component classifiers, and $\delta$; by \autoref{thm:productmetric-distance-ledger-scope}, $\delta$ is reached after the transported component distances. Therefore the product packet exports one $\RealUp$ classifier row for the product distance, with no host pair equality, quotient product, selected real limit, or external metric proof.
 \end{proof}
 
+\begin{theorem}[ProductMetric Real classifier public export]
+\label{thm:productmetric-real-classifier-public-export}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. The scoped product packet exports a public $\MetricSpaceUp$-facing $\RealUp$ classifier surface exactly through the two component $\MetricSpaceUp$ distance rows $d_X$ and $d_Y$, the $\ProdUp$ pairing row $\Pi$, the product-distance ledger $\delta$, the displayed $\hsame$ and $\Cont$ transports, the $\Pkg$ provenance row, and the local $\NameCert_{\ProductMetricUp}$ row. It exports no host pair equality, quotient product, selected real limit, or external metric proof.
+\end{theorem}
+\begin{proof}
+First build the component distance surface. Apply \autoref{thm:productmetric-component-distance-transport}; the two component $\MetricSpaceUp$ classifiers carry the $\RealUp$ distance rows $d_X$ and $d_Y$ through the displayed $\hsame$ and $\Cont$ routes.
+
+Next collect the public consumer package. Apply \autoref{thm:productmetric-realup-consumer-package}; a $\RealUp$ consumer sees only the product row $\Pi$, the component distance witnesses, the product-distance ledger $\delta$, and the provenance and naming rows $P$ and $N$.
+
+Finally repack the route as a $\MetricSpaceUp$-facing export. Apply \autoref{thm:productmetric-metricspace-anchor} to anchor the downstream metric consumer at $\Pi$, the component classifiers, and $\delta$; apply \autoref{thm:productmetric-distance-ledger-scope} to force the ledger read after the component distances; then apply \autoref{thm:productmetric-real-classifier-bridge} to identify the exported $\RealUp$ classifier row. The excluded host and quotient data are absent because none is a coordinate of $Q$.
+\end{proof}
+
+\begin{theorem}[ProductMetric standard MetricSpace bridge certificate]
+\label{thm:productmetric-standard-metricspace-bridge-certificate}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. Then $Q$ supplies the standard $\MetricSpaceUp$ product bridge certificate exactly through the two component $\MetricSpaceUp$ classifier surfaces, the two $\RealUp$ component distance rows $d_X$ and $d_Y$, the $\ProdUp$ pairing and projection row $\Pi$, the product-distance ledger $\delta$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\ProductMetricUp}$ provenance.
+
+The bridge certificate is the public route that a downstream $\MetricSpaceUp$ consumer reads when it treats the product carrier as a metric-space object. It has no additional coordinate for host pair equality, quotient products, selected real limits, compactness, or an external metric proof.
+\end{theorem}
+\begin{proof}
+First collect the scoped packet. By \autoref{thm:productmetric-scoped-dependency-package}, every accepted product packet exposes exactly the two component metric rows, the two real distance rows, the product row, the distance ledger, and the displayed transport, continuation, package, and naming provenance.
+
+Next identify the distance route. By \autoref{thm:productmetric-distance-ledger-scope}, every product-distance read passes from $(X,Y,\Pi)$ through $(d_X,d_Y)$ to $\delta$. The existing $\MetricUp$ semantic certificate surface supplies the $\MetricSpaceUp$ distance-witness reading, and the existing $\ProdUp$ semantic certificate surface supplies the pairing and projection reading used by $\Pi$.
+
+Finally repack the public consumer view. Apply \autoref{thm:productmetric-real-classifier-public-export} to expose the $\RealUp$ classifier row carried by the product distance, and apply \autoref{thm:productmetric-projection-route-exactness} to keep each component read on the displayed projection route. These rows assemble the standard product $\MetricSpaceUp$ bridge certificate, and no non-displayed host or quotient datum is available from $Q$.
+\end{proof}
+
 \closureat{ProductMetricUp}{seedStr}
 \closureat{ProductMetricUp}{obligationStr}
 \closureat{ProductMetricUp}{scopedStr}

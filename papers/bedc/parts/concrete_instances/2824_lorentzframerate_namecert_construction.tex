@@ -72,6 +72,56 @@ Observer-symmetry preservation is the role of $S$. It states that the selected o
 The rows $H,C,P,N$ provide the remaining stability, locality, provenance, and local naming data. Since no coordinate of the carrier is a global frame, synchronized clock, metric tensor, host real-valued speed, or Lorentz geometry, the non-escape obligation is the displayed inventory boundary.
 \end{proof}
 
+\begin{theorem}[Frame-rate observer-symmetry transport]
+\label{thm:frame-rate-observer-symmetry-transport}
+Let
+$$
+L=(M,X,R,S,H,C,P,N)
+$$
+be an accepted $\LorentzFrameRateUp$ carrier. The observer-symmetry row $S$ transports the displayed maximum-rate row $R$ componentwise under the $\hsame$ data in $H$: every selected observer read named by $S$ has the same $\MaxCausalRateUp$ unary-bound surface as $R$ after applying the corresponding component of $H$, and the transported read remains routed through the same finite continuation packet $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and read the symmetry coordinate $S$. By \autoref{def:lorentz-frame-rate-carrier}, $S$ records exactly the observer reads whose maximum-rate surface is compared with the displayed row $R$.
+
+Next read the transport coordinate $H$. Its $R$- and $S$-components move the maximum-rate row and each observer-symmetry read together, so the comparison is componentwise rather than a global frame comparison.
+
+Finally use the continuation coordinate $C$. It keeps every transported observer read on the displayed route from $M$ and $X$ to $R$ and then to the local certificate, so the shared unary-bound surface is preserved as a finite $\MaxCausalRateUp$ row.
+\end{proof}
+
+\begin{theorem}[Frame-rate rate-row inheritance]
+\label{thm:frame-rate-rate-row-inheritance}
+For an accepted $\LorentzFrameRateUp$ carrier
+$$
+L=(M,X,R,S,H,C,P,N),
+$$
+the maximum-rate row $R$ is inherited only from the same upstream $\MultiHistConfigUp$ row $M$ and $\CrossHistCausalUp$ witness family $X$ displayed by the carrier. No consumer of $L$ may read $R$ as a rate row over a different configuration, an unlisted causal-witness family, or an ambient host geometry.
+\end{theorem}
+\begin{proof}
+The carrier definition binds $R$ to $M$ and $X$: $R$ is the accepted $\MaxCausalRateUp$ row whose witness family is the displayed family $X$ over the same configuration row $M$.
+
+The continuation routes preserve this dependency. A consumer reaches $R$ only through the visible route from the multi-Hist configuration row to the selected cross-Hist causal witnesses and then to the maximum-rate row.
+
+The provenance row $P$ records the same dependency surface. Since neither the carrier nor the provenance row contains a different configuration, an unlisted witness family, or an ambient geometry coordinate, the inheritance of $R$ is limited to the displayed $M$ and $X$ rows.
+\end{proof}
+
+\begin{theorem}[Frame-rate locality non-escape]
+\label{thm:frame-rate-locality-nonescape}
+The local packet
+$$
+M,X,R,S,H,C,P,N
+$$
+does not recover a global frame, synchronized clock, metric tensor, host real speed, or Lorentz geometry. These objects are not hidden consequences of observer-symmetry transport, rate-row inheritance, or the local $\NameCert_{\LorentzFrameRateUp}$ surface.
+\end{theorem}
+\begin{proof}
+Start with the non-escape theorem for the chapter. It excludes global frames, synchronized clocks, metric tensors, host real-valued speed, and Lorentz geometry as primitive inputs of the carrier.
+
+Observer-symmetry transport adds no excluded coordinate. It moves the displayed maximum-rate row componentwise under $\hsame$ and keeps the read on the visible continuation route.
+
+Rate-row inheritance also adds no excluded coordinate. It ties $R$ only to the displayed multi-Hist configuration $M$ and the selected cross-Hist witness family $X$.
+
+Thus the local certificate remains a finite observer-symmetric maximum-rate packet. Recovering any excluded structure would require data outside $M,X,R,S,H,C,P,N$.
+\end{proof}
+
 \closureat{LorentzFrameRateUp}{seedStr}
 
 \begin{closurestatus}{\LorentzFrameRateUp}

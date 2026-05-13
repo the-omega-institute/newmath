@@ -139,6 +139,24 @@ The rows $H$ and $C$ account for the only permitted movement of the displayed da
 Consequently the ledger is exact: every exported witness coordinate is one of $Z,S,M,R,Q,H,C,P,N$, and every coordinate in that tuple has a public role in the witness packet.
 \end{proof}
 
+\begin{theorem}[Critical-line witness zero-row source scope]
+\label{thm:critical-line-witness-zero-row-scope}
+An accepted $\CriticalLineWitnessUp$ packet consumes only the supplied zero row, critical-strip row, modulus route, real-part row, rational comparison ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence:
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+This finite zero-row source scope exports no proof of $\mathsf{RH}$, zero construction, global zero-set classifier, analytic continuation, host equality, quotient representative, or analytic completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligation surface. The accepted packet exposes exactly the supplied zero row $Z$, strip row $S$, modulus row $M$, real-part row $R$, comparison ledger $Q$, transports $H$, continuations $C$, provenance $P$, and local naming row $N$.
+
+Use \autoref{thm:critical-line-witness-strip-zero-compatibility} and \autoref{thm:critical-line-witness-realpart-modulus-stability} to keep the witness attached to the displayed zero-in-strip source and its inspected real-part route. The modulus row is therefore a finite witness row, not a construction of zeros or a classification of all zero rows.
+
+Apply \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness} and \autoref{thm:critical-line-witness-nonescape-boundary}. They account for the half-line comparison and exclude host equality, quotient representatives, analytic continuation, and ambient completeness from the packet surface.
+
+Finally invoke \autoref{thm:critical-line-witness-ledger-exactness}. It identifies the public ledger with $Z,S,M,R,Q,H,C,P,N$, so every accepted read is sourced by the finite zero-row packet and no global $\mathsf{RH}$-facing conclusion is exported.
+\end{proof}
+
 \closureat{CriticalLineWitnessUp}{seedStr}
 
 \begin{closurestatus}{\CriticalLineWitnessUp}

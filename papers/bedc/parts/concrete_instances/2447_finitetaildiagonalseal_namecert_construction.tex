@@ -51,6 +51,20 @@ Use the NameCert obligations of \autoref{thm:finite-tail-diagonal-seal-namecert-
 Transport and route replay are then confined to $h$ and $c$. The package and local certificate rows $p,n$ record that this is a finite packet, so the factorization has no coordinate for quotient streams, infinite diagonal data, or host real equality.
 \end{proof}
 
+\begin{theorem}[Finite-tail diagonal seal window lock]
+\label{thm:finite-tail-diagonal-seal-window-lock}
+For an accepted $\FiniteTailDiagonalSealUp$ carrier $D=(q,s,r,w,e,h,c,p,n)$, the selected finite-tail witness row $w$ is readable only under the selected $\StreamNameUp$ window row $s$ and the $\RegSeqRatUp$ source row $r$. Any $\RealUp$ seal handoff through $e$ preserves that same window lock through the componentwise transports $h$, the displayed routes $c$, the package provenance $p$, and the local $\NameCert$ row $n$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-tail-diagonal-seal-carrier}. The row $w$ is listed only as the selected finite-tail witness for the window $s$ and the regular-rational source row $r$.
+
+Apply the NameCert obligation theorem. It routes finite-window exposure through $s$, regular-Cauchy source exposure through $r$, and selected-tail witness exactness through $w$ before the seal row $e$ can be consumed.
+
+Use the window factorization theorem to keep every finite-tail read under the same $s,r,w$ boundary. The transports $h$, routes $c$, provenance $p$, and local name $n$ replay that displayed boundary rather than selecting a second window.
+
+Finally apply the non-escape boundary. Since the packet has no quotient stream, unbounded diagonal, host equality, ambient completeness, or external limit coordinate, a Real handoff through $e$ cannot release $w$ from the selected window and source rows.
+\end{proof}
+
 \begin{theorem}[Finite-tail diagonal seal Real handoff]
 \label{thm:finite-tail-diagonal-seal-real-handoff}
 Every $\RealUp$ consumer of an accepted $\FiniteTailDiagonalSealUp$ carrier receives the seal row $e$ only through the displayed chain
@@ -90,7 +104,7 @@ Since the carrier has no remaining coordinate beyond the displayed rows, no down
 \begin{closurestatus}{\FiniteTailDiagonalSealUp}
   \constructivestory{A $\FiniteTailDiagonalSealUp$ packet is generated from a rational precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ source row, selected finite-tail witness, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-tail-diagonal-seal-carrier}, \autoref{thm:finite-tail-diagonal-seal-namecert-obligations}, \autoref{thm:finite-tail-diagonal-seal-window-factorization}, \autoref{thm:finite-tail-diagonal-seal-real-handoff}, and \autoref{thm:finite-tail-diagonal-seal-non-escape} bind the finite carrier, local naming obligations, window factorization, real handoff, and non-escape boundary.}
+  \scopeclosed{\autoref{def:finite-tail-diagonal-seal-carrier}, \autoref{thm:finite-tail-diagonal-seal-namecert-obligations}, \autoref{thm:finite-tail-diagonal-seal-window-factorization}, \autoref{thm:finite-tail-diagonal-seal-window-lock}, \autoref{thm:finite-tail-diagonal-seal-real-handoff}, and \autoref{thm:finite-tail-diagonal-seal-non-escape} bind the finite carrier, local naming obligations, window factorization, window lock, real handoff, and non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
