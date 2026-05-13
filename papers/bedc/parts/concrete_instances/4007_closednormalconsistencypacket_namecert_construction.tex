@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalConsistencyPacketUp$}
+\label{ch:concrete-instances-closednormalconsistencypacket-namecert}
+\origin{human}
+
+The $\ClosedNormalConsistencyPacketUp$ surface makes the assembly map of \autoref{ch:closed-metacic-consistency-assembly} into a finite naming certificate. It sits beside \autoref{ch:concrete-instances-typedreductionnormalform-namecert}: typed normal-form packets expose a finite endpoint normal-form read, while the present packet records how closedness, typing, beta-strong normality, the contradiction row, and the subject-reduction obstruction are kept as separate rows of one MetaCIC consistency boundary.
+
+\begin{definition}[Closed-normal consistency packet carrier]
+\label{def:closed-normal-consistency-packet-carrier}
+A $\ClosedNormalConsistencyPacketUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,T,B,F,K,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the closedness row for the inspected MetaCIC term at the empty context;
+\item $T$ is the empty-context typing row for the same term;
+\item $B$ is the beta-strong normality row consumed by the closed-normal theorem;
+\item $F$ is the internal false-type row named by the typing certificate;
+\item $K$ is the checked closed-normal consistency row naming $\mathsf{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}$;
+\item $G$ is the subject-reduction obstruction row recording that arbitrary closed proofs are not transported to the normal fragment inside this packet;
+\item $H$ records componentwise $\hsame$ transports for the closedness, typing, beta-strong, false-type, theorem, obstruction, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read those rows;
+\item $P$ is the $\Pkg$ provenance over MetaCIC closedness, empty-context typing, beta-strong normality, internal false, subject-reduction obstruction, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosedNormalConsistencyPacketUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for full closed consistency, hidden subject reduction, host conversion, quotient behaviour, or a normalization oracle.
+\end{definition}
+
+\begin{theorem}[Closed-normal consistency packet NameCert obligations]
+\label{thm:closed-normal-consistency-packet-namecert-obligations}
+The local $\NameCert_{\ClosedNormalConsistencyPacketUp}$ surface for \autoref{def:closed-normal-consistency-packet-carrier} consists of carrier admission, classifier exactness on $L,T,B,F,K,G,H,C,P,N$, closedness readback, empty-context typing readback, beta-strong normality readback, contradiction-row readback, checked closed-normal theorem readback, subject-reduction obstruction exposure, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and non-escape from full closed consistency or hidden normalization transport.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite row list of \autoref{def:closed-normal-consistency-packet-carrier}. Classifier exactness compares only the displayed coordinates $L,T,B,F,K,G,H,C,P,N$, so no unlisted semantic equality can enter the packet.
+
+The positive MetaCIC data are the closedness row $L$, the typing row $T$, the beta-strong row $B$, the false row $F$, and the checked theorem row $K$. These are exactly the rows needed to read the closed-normal contradiction fragment of \autoref{ch:closed-metacic-consistency-assembly}.
+
+The obstruction row $G$ is a separate obligation. It records that the carrier has not supplied subject reduction from arbitrary closed proofs into the beta-strong normal fragment.
+
+The structural rows $H,C,P,N$ preserve and name that same finite surface. Since no coordinate names full closed consistency, hidden subject reduction, host conversion, quotient behaviour, or a normalization oracle, the local NameCert cannot export any of those claims.
+\end{proof}
+
+\begin{theorem}[Closed-normal consistency normal-fragment boundary]
+\label{thm:closed-normal-consistency-boundary-normal-fragment}
+Every accepted $\ClosedNormalConsistencyPacketUp$ carrier reads the positive closed-normal consistency fragment only through $L,T,B,F,K,H,C,P,N$. A consumer may use these rows to exclude a closed beta-strong proof candidate at the displayed internal false row, but the consumer obtains no route from an arbitrary closed proof candidate to that beta-strong boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-normal-consistency-packet-carrier}. The rows $L,T,B,F,K$ provide closedness, empty-context typing, beta-strong normality, the contradiction target, and the checked closed-normal theorem.
+
+The rows $H,C,P,N$ only transport, route, package, and locally name that surface. They do not introduce a reduction sequence or a theorem preserving typing along such a sequence.
+
+Thus the packet supports the positive normal-fragment read and stops there. The missing route from arbitrary closed proofs is not present in the carrier.
+\end{proof}
+
+\begin{theorem}[Closed-normal consistency subject-reduction gap boundary]
+\label{thm:closed-normal-consistency-boundary-subject-reduction-gap}
+The subject-reduction gap of a $\ClosedNormalConsistencyPacketUp$ carrier is exactly the displayed obstruction row $G$. Agreement on $L,T,B,F,K,H,C,P,N$ cannot be repacked as closed subject reduction, as closed reduction consistency, or as a transport from arbitrary closed proof terms to beta-strong normal inhabitants of the same false type.
+\end{theorem}
+\begin{proof}
+The classifier for the packet fixes the positive rows $L,T,B,F,K$ and the structural rows $H,C,P,N$. These rows authenticate the closed-normal contradiction fragment.
+
+The row $G$ is not derived from those rows; it is displayed as the boundary separating the positive fragment from the subject-reduction problem. Reading $G$ gives the consumer a named obstruction, not a discharge of the obstruction.
+
+Therefore the packet cannot be strengthened into closed subject reduction or closed reduction consistency by reusing the positive fragment. Any such strengthening would require a row absent from the carrier.
+\end{proof}

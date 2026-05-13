@@ -2,6 +2,10 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
+/-!
+# InscriptionPointUp TasteGate carrier.
+-/
+
 namespace BEDC.Derived.InscriptionPointUp
 
 open BEDC.FKernel.Hist
@@ -9,6 +13,7 @@ open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
+/-- Inscription point token with the ten BEDC rows visible to local consumers. -/
 inductive InscriptionPointUp : Type where
   | mk :
       (history gap supply handoff event ledger transport routes provenance nameCert : BHist) →
