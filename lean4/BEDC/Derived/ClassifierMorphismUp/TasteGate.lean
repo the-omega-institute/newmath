@@ -173,6 +173,9 @@ instance classifierMorphismChapterTasteGate : ChapterTasteGate ClassifierMorphis
     intro x y hxy heq
     exact hxy (classifierMorphismToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ClassifierMorphismUp :=
+  classifierMorphismChapterTasteGate
+
 theorem ClassifierMorphismUp_taste_gate_boundary :
     (∀ h : BHist, classifierMorphismDecodeBHist (classifierMorphismEncodeBHist h) = h) ∧
       (∀ x : ClassifierMorphismUp,
