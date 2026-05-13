@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubjectReductionObstructionUp$}
+\label{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}
+\origin{human}
+
+The $\MetaCICSubjectReductionObstructionUp$ packet turns the MetaCIC subject-reduction obstruction into finite BEDC data. It records the checked parameterized subject-reduction theorem, the four named discharge obligations, the closed-term consistency obstruction theorem, the audit consumer, and the NameCert rows that keep this surface separate from a closed subject-reduction theorem.
+
+\begin{definition}[MetaCIC subject-reduction obstruction carrier]
+\label{def:metacic-subject-reduction-obstruction-carrier}
+A $\MetaCICSubjectReductionObstructionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(T,B,A,L,\Pi,K,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the checked parameterized MetaCIC subject-reduction theorem row, naming $\mathsf{BEDC.MetaCIC.subject\_reduction}$ as a four-input interface;
+\item $B$ is the beta-substitution preservation obligation row consumed by the beta case;
+\item $A$ is the application-argument stability obligation row consumed by application-argument congruence;
+\item $L$ is the lambda-domain subject-reduction obligation row consumed by lambda-domain congruence;
+\item $\Pi$ is the Pi-domain subject-reduction obligation row consumed by Pi-domain congruence;
+\item $K$ is the checked obstruction row naming $\mathsf{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}$;
+\item $U$ is the audit-consumer row for self-compilation, consistency, and manuscript citation checks;
+\item $H$ records componentwise $\hsame$ transports for the theorem row, four obligation rows, obstruction row, audit consumer, and local structural rows;
+\item $C$ records the displayed $\Cont$ routes for reading the parameterized theorem, the four obligations, the obstruction theorem, and the audit consumer without leaving the packet;
+\item $P$ is the $\Pkg$ provenance over MetaCIC typing, beta reduction, closed-term consistency, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionObstructionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the visible rows $T,B,A,L,\Pi,K,U,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[MetaCIC subject-reduction obstruction NameCert obligations]
+\label{thm:metacic-subject-reduction-obstruction-namecert-obligations}
+The local $\NameCert_{\MetaCICSubjectReductionObstructionUp}$ surface for \autoref{def:metacic-subject-reduction-obstruction-carrier} consists of carrier admission, four-obligation exposure, parameterized-theorem exactness, checked-obstruction readback, audit-consumer accountability, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and non-escape from an unparameterized closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $O$. The theorem row $T$, the four obligation rows $B,A,L,\Pi$, the obstruction row $K$, the audit consumer $U$, and the structural rows $H,C,P,N$ are all finite coordinates.
+
+The four-obligation exposure is componentwise: $B$ names beta substitution preservation, $A$ names application-argument stability, $L$ names lambda-domain subject reduction, and $\Pi$ names Pi-domain subject reduction. The parameterized theorem row $T$ consumes exactly those obligation rows and does not erase them.
+
+Checked-obstruction readback is the role of $K$. The audit consumer can inspect $T,B,A,L,\Pi,K$ only through $C$, while $H,P,N$ record transport, provenance, and local naming. Since the carrier has no coordinate for a closed subject-reduction theorem, non-escape follows by inspection of the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction obstruction consumer boundary]
+\label{thm:metacic-subject-reduction-obstruction-consumer-boundary}
+Every self-compilation, consistency, or manuscript consumer of an accepted $\MetaCICSubjectReductionObstructionUp$ packet reads the MetaCIC subject-reduction boundary only through
+$$
+T,B,A,L,\Pi,K,U,H,C,P,N.
+$$
+The consumer may cite the parameterized theorem row, inspect the four obligation rows, and read the checked obstruction row, but it receives no closed subject-reduction theorem, hidden substitution lemma, host normalization principle, or ambient consistency shortcut.
+\end{theorem}
+\begin{proof}
+Start from the carrier in \autoref{def:metacic-subject-reduction-obstruction-carrier}. The consumer coordinate $U$ names the downstream audit route, and the continuation coordinate $C$ records how that route reads the finite packet.
+
+Apply \autoref{thm:metacic-subject-reduction-obstruction-namecert-obligations}. It forces the consumer to see the parameterized theorem together with the four discharge obligations and the checked obstruction row.
+
+The remaining rows $H,P,N$ supply only transport, package provenance, and local naming for the same packet. None of the coordinates names a closed subject-reduction theorem, a hidden substitution lemma, a host normalization principle, or an ambient consistency shortcut, so the consumer boundary is exact.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction obstruction no-escape]
+\label{thm:metacic-subject-reduction-obstruction-no-escape}
+An accepted $\MetaCICSubjectReductionObstructionUp$ carrier cannot be used to recover an unparameterized closed subject-reduction theorem. Agreement on the rows $T,B,A,L,\Pi,K,U,H,C,P,N$ fixes the public obstruction surface, but it does not identify any proof of the four discharge obligations, any closed subject-reduction proof, or any stronger consistency theorem outside the finite packet.
+\end{theorem}
+\begin{proof}
+Use the classifier clause from the carrier definition. Public comparison is restricted to the theorem row, the four obligation rows, the obstruction row, the audit consumer, and the displayed structural rows.
+
+The NameCert obligations expose $K$ as the checked obstruction readback and expose $T$ as a parameterized theorem row. Thus the public surface records both what is available and which four inputs remain required.
+
+If a consumer tried to read a closed subject-reduction proof, it would need a coordinate outside $T,B,A,L,\Pi,K,U,H,C,P,N$. No such coordinate is present. The packet therefore fixes the obstruction boundary without manufacturing any proof beyond the displayed MetaCIC rows.
+\end{proof}
+
+\closureat{MetaCICSubjectReductionObstructionUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionObstructionUp}
+  \constructivestory{A $\MetaCICSubjectReductionObstructionUp$ packet is generated from the parameterized subject-reduction theorem row, the four discharge-obligation rows, the checked obstruction theorem row, an audit-consumer row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-obstruction-carrier}, \autoref{thm:metacic-subject-reduction-obstruction-namecert-obligations}, \autoref{thm:metacic-subject-reduction-obstruction-consumer-boundary}, and \autoref{thm:metacic-subject-reduction-obstruction-no-escape} bind the MetaCIC subject-reduction obstruction as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close the four MetaCIC discharge obligations, unparameterized closed subject reduction, closed-term consistency beyond the checked obstruction surface, Lean verification for this packet, or a public standard bridge.}
+  \upgradepath{Formal closure requires checked carrier admission, four-obligation exposure, parameterized-theorem exactness, checked-obstruction readback, consumer accountability, transport stability, route stability, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}
