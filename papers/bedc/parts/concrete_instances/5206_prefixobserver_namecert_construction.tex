@@ -1,0 +1,122 @@
+\chapter{A Concrete Naming Certificate for $\PrefixObserverUp$}
+\label{ch:concrete-instances-prefixobserver-namecert}
+\origin{ai}
+
+The $\PrefixObserverUp$ surface realizes the finite-observation side of
+\autoref{ch:visions-inscription-event-as-concrete-instance}. It packages an
+inscription-facing prefix read as a finite $\BHist$ packet with a displayed
+prefix row, an accepted observation route, a check row, a consumer ledger,
+and local $\NameCert$ provenance. It is adjacent to the accepted inscription
+packet of \autoref{ch:concrete-instances-inscriptionevent-namecert}, but it
+stops one step earlier: it certifies the prefix read that a downstream
+$\InscriptionEventUp$ handoff may consume.
+
+\begin{definition}[PrefixObserver carrier]
+\label{def:prefix-observer-carrier}
+A $\PrefixObserverUp$ carrier is a finite $\BHist$ packet
+$$
+P=(S,W,R,K,U,L,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source observation-history row whose finite prefix is being read;
+\item $W$ is the displayed prefix-window row selected from $S$;
+\item $R$ is the accepted observation-route row from $S$ to $W$;
+\item $K$ is the accepted check row certifying that the route really reads the displayed prefix;
+\item $U$ is the consumer row naming the inscription-facing reader of the prefix;
+\item $L$ is the consumer-ledger row recording what the reader may carry forward from the prefix;
+\item $H$ records componentwise $\hsame$ transports for the source, prefix, route, check, consumer, ledger, package, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read $S,W,R,K,U,L$ without leaving the finite packet;
+\item $Q$ is the $\Pkg$ provenance row over $\BHist$, $\hsame$, $\Cont$, accepted-prefix checks, consumer-ledger data, and local certificate dependencies;
+\item $N$ is the local $\NameCert_{\PrefixObserverUp}$ row.
+\end{enumerate}
+The classifier for two accepted prefix observers compares only the displayed
+source row, prefix row, accepted route, check row, consumer row, ledger row,
+and their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+\end{definition}
+\leanchecked{BEDC.Derived.PrefixObserverUp.PrefixObserverTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[PrefixObserver NameCert obligations]
+\label{thm:prefix-observer-namecert-obligations}
+The local $\NameCert_{\PrefixObserverUp}$ surface for the carrier of
+\autoref{def:prefix-observer-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure: every accepted prefix observer exposes exactly the packet $P=(S,W,R,K,U,L,H,C,Q,N)$;
+\item prefix locality: public comparison is restricted to the source, displayed prefix, accepted route, check, consumer, ledger, transport, continuation, package, and local naming rows;
+\item check acceptance: the route row $R$ reaches the displayed prefix $W$ from the source row $S$ only through the accepted check row $K$;
+\item consumer accountability: every inscription-facing use first reads the consumer row $U$, the ledger row $L$, and the displayed $\Cont$ routes in $C$;
+\item provenance exposure: $Q$ and $N$ bind the prefix read to finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data rather than to a hidden observation oracle.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:prefix-observer-carrier}. The
+source, prefix window, accepted route, check, consumer, ledger, transport,
+continuation, package, and local naming rows are all displayed coordinates.
+
+Prefix locality follows from the classifier clause in the carrier definition.
+The comparison has no coordinate beyond the listed public rows and their
+recorded $\hsame$ and $\Cont$ routes, so it cannot inspect an undisplayed
+observation stream.
+
+Check acceptance and consumer accountability are read from $R,K,U,L$, and
+$C$. The route reaches the displayed prefix only after the checker row accepts
+it, and every downstream consumer receives the ledgered prefix through the
+displayed continuation surface.
+\end{proof}
+
+\begin{theorem}[PrefixObserver finite-route non-escape]
+\label{thm:prefix-observer-finite-route-nonescape}
+For an accepted $\PrefixObserverUp$ packet
+$$
+P=(S,W,R,K,U,L,H,C,Q,N),
+$$
+every public route to the observed prefix factors through $S,W,R,K,U,L,H,C,Q,N$.
+The route may expose the selected prefix and the consumer ledger, but it
+cannot export an infinite stream, an undisplayed observation row, an unchecked
+route, a private observer state, or a host-level inspection oracle.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. The only rows available to a public read
+are the source history, displayed prefix, route, check, consumer, ledger,
+transport, continuation, provenance, and local naming rows.
+
+Apply the check-acceptance obligation from
+\autoref{thm:prefix-observer-namecert-obligations}. It forces any public read
+of $W$ through $R$ and $K$, so a consumer cannot bypass the finite accepted
+route or replace it with an unchecked stream read.
+
+Finally use consumer accountability and provenance exposure. The ledger $L$,
+routes $C$, package row $Q$, and local name row $N$ carry only the displayed
+prefix packet, which leaves no coordinate for an infinite stream, private
+observer state, or host-level inspection oracle.
+\end{proof}
+
+\begin{theorem}[PrefixObserver inscription handoff]
+\label{thm:prefix-observer-inscription-handoff}
+Every accepted inscription-facing prefix read hands data to
+$\InscriptionEventUp$ consumers only through the displayed prefix and check
+rows before the inscription-event handoff. In particular, a consumer may pass
+$S,W,R,K,U,L,H,C,Q,N$ toward the inscription surface of
+\autoref{ch:concrete-instances-inscriptionevent-namecert}, but it receives no
+unselected history suffix, unchecked route, hidden observation source, private
+agency predicate, or raw host-event trace.
+\end{theorem}
+\begin{proof}
+Project the packet $P$ from \autoref{def:prefix-observer-carrier}. The
+displayed prefix row $W$ and accepted check row $K$ are explicit coordinates,
+and $U$ names the inscription-facing consumer.
+
+Use finite-route non-escape from
+\autoref{thm:prefix-observer-finite-route-nonescape}. The consumer reaches the
+prefix only through the accepted route and the displayed check, then reads the
+consumer ledger through $C,Q,N$.
+
+The handoff to \autoref{ch:concrete-instances-inscriptionevent-namecert} is
+therefore a finite packet handoff rather than a stream handoff. The inscription
+event may consume the prefix, route, check, and ledger rows, but no coordinate
+supplies an unselected suffix, hidden observer source, private agency
+predicate, or raw host trace.
+\end{proof}
+
+\falsifiablePrediction{If PrefixObserverUp is atomic, then every accepted inscription-facing prefix read factors through its displayed prefix and check rows before the InscriptionEventUp handoff.}
+\independenceWitness{Compare inscriptionevent, observersubjectboundary, observerhistidentity, finitewindowobserver, and streamname: PrefixObserverUp is not bijective to any one of them because it carries the accepted-prefix check and consumer handoff rows simultaneously.}
