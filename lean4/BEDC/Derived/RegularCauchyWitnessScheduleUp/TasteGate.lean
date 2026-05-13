@@ -248,6 +248,9 @@ instance regularCauchyWitnessScheduleChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyWitnessScheduleToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RegularCauchyWitnessScheduleUp :=
+  regularCauchyWitnessScheduleChapterTasteGate
+
 theorem RegularCauchyWitnessScheduleUp_taste_gate_boundary :
     ChapterTasteGate RegularCauchyWitnessScheduleUp ∧
       (∀ (x : RegularCauchyWitnessScheduleUp) (w : RawEvent) (m : DisplayAlphabet),
