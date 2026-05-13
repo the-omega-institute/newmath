@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\TypedExampleAuditBudgetUp$}
+\label{ch:concrete-instances-typedexampleauditbudget-namecert}
+\origin{ai}
+
+The $\TypedExampleAuditBudgetUp$ packet realizes the TypedExamples audit-map vision of \autoref{ch:metacic-typedexamples-audit-map} as a finite regression-spend certificate. It sits beside the MetaCIC gallery of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, the typed-example gallery of \autoref{ch:concrete-instances-typedexamplegallery-namecert}, the worked-example seal of \autoref{ch:concrete-instances-metacic-typedexamples-seal-namecert}, and the beta-step boundary of \autoref{ch:concrete-instances-betastepboundary-namecert}: those siblings expose gallery rows, checker rows, seal rows, and reduction-boundary rows, while this chapter records which accepted rows have regression budget and which consumer spends may read that budget.
+
+\begin{definition}[TypedExampleAuditBudget carrier]
+\label{def:typed-example-audit-budget-carrier}
+A $\TypedExampleAuditBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+A=(G,C,B,Z,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite gallery-row inventory inherited from the accepted TypedExamples and MetaCIC gallery packets;
+\item $C$ is the checker-row inventory recording the accepted local type-checker reads for the same gallery rows;
+\item $B$ is the beta-row inventory recording the selected beta computations and boundary steps that the gallery spends;
+\item $Z$ is the closedness-row inventory recording the closed term, context, and well-scoped inputs required by the checker rows;
+\item $R$ is the regression-budget row, naming the accepted gallery rows that count as covered and the consumer-spend boundary attached to each row;
+\item $H$ records componentwise $\hsame$ transports for gallery, checker, beta, closedness, regression-budget, provenance, and local naming rows;
+\item $K$ records the displayed $\Cont$ routes by which downstream checker-audit consumers reach exactly the rows $G,C,B,Z,R$;
+\item $P$ is the $\Pkg$ provenance over the sibling gallery, seal, beta-boundary, transport, continuation, and regression-budget rows;
+\item $N$ is the local $\NameCert_{\TypedExampleAuditBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global checker-completeness theorem, a subject-reduction theorem, a normalization theorem, an arbitrary beta closure, or an unbudgeted consumer spend.
+\end{definition}
+
+\begin{theorem}[TypedExampleAuditBudget NameCert obligations]
+\label{thm:typed-example-audit-budget-namecert-obligations}
+For the carrier of \autoref{def:typed-example-audit-budget-carrier}, the local $\NameCert_{\TypedExampleAuditBudgetUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for $A=(G,C,B,Z,R,H,K,P,N)$;
+\item gallery-row exactness through $G$ against the sibling gallery packets of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert} and \autoref{ch:concrete-instances-typedexamplegallery-namecert};
+\item checker, beta, and closedness exposure through $C$, $B$, and $Z$;
+\item regression-budget non-escape through $R$, including the consumer-spend boundary attached to accepted rows;
+\item transport and provenance through $H$, $K$, $P$, and the local name row $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the displayed finite packet. Every public row that a checker-audit consumer may inspect is present before the local $\NameCert$ row is read.
+
+Gallery exactness is sibling-bounded. The row $G$ names the gallery entries, while $C$, $B$, and $Z$ expose the checker, beta, and closedness evidence that the gallery and seal packets already make visible.
+
+The regression-budget row $R$ is separate from gallery acceptance. A consumer that reads an accepted gallery row must still pass through $R$ to learn whether that row is counted as covered and which spend boundary it carries.
+
+Finally $H$, $K$, $P$, and $N$ bind the row reads to displayed transport, continuation, provenance, and local naming. Since no coordinate names a global checker theorem, subject reduction, normalization, arbitrary beta closure, or unbudgeted spend, the certificate cannot export one.
+\end{proof}
+
+\begin{theorem}[TypedExampleAuditBudget regression non-escape]
+\label{thm:typed-example-audit-budget-regression-nonescape}
+Every checker-audit consumer of an accepted $\TypedExampleAuditBudgetUp$ packet can read gallery acceptance only together with the displayed checker, beta, closedness, regression-budget, transport, continuation, provenance, and local naming rows. Removing the regression-budget row $R$ destroys the consumer's ability to distinguish accepted gallery entries from entries counted as regression coverage, and no sibling gallery, seal, or beta-boundary packet can reconstruct that distinction.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $A=(G,C,B,Z,R,H,K,P,N)$. The rows $G,C,B,Z$ expose gallery acceptance, checker reads, selected beta computations, and closedness inputs, but only $R$ records regression coverage and consumer-spend boundaries.
+
+Use the transport and continuation rows $H$ and $K$ for downstream checker-audit reads. They route the consumer through the displayed coordinates and therefore preserve the separation between gallery admission and regression coverage.
+
+The sibling packets do not identify these two readings. The MetaCIC and typed-example galleries name accepted rows, the seal names worked-example closure of the gallery surface, and the beta-step boundary names reduction-boundary rows; none of them carries the regression-budget coordinate $R$ together with its spend boundary. Thus removing $R$ erases precisely the coverage distinction claimed by the packet.
+\end{proof}
+
+\falsifiablePrediction{If the regression-budget row is removed from an accepted TypedExampleAuditBudget packet, a downstream checker-audit consumer can no longer distinguish gallery acceptance from regression coverage.}
+
+\independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, betastepboundary. The budget packet is not bijective with any sibling because it carries a regression-budget row and a consumer-spend boundary that gallery and seal packets do not expose, while BetaStepBoundary carries reduction-boundary rows rather than typed-example gallery spend rows.}
+
+The proposed Lean follow-up for namespace $\mathsf{BEDC.Derived.TypedExampleAuditBudgetUp}$ places the taste-gate surface in $\mathsf{BEDC.Derived.TypedExampleAuditBudgetUp.TasteGate}$. Its file $\mathsf{lean4/BEDC/Derived/TypedExampleAuditBudgetUp/TasteGate.lean}$ includes both $\mathsf{Nontrivial}\ \TypedExampleAuditBudgetUp$ with an explicit witness pair and $\mathsf{FieldFaithful}\ \TypedExampleAuditBudgetUp$ with mk-field projections and an injection proof.
+
+\closureat{TypedExampleAuditBudgetUp}{seedStr}
+
+\begin{closurestatus}{\TypedExampleAuditBudgetUp}
+  \constructivestory{A $\TypedExampleAuditBudgetUp$ packet is generated from finite gallery rows, checker rows, beta rows, closedness rows, regression-budget rows, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typed-example-audit-budget-carrier}, \autoref{thm:typed-example-audit-budget-namecert-obligations}, and \autoref{thm:typed-example-audit-budget-regression-nonescape} bind the finite gallery, checker, beta, closedness, regression-budget, consumer-spend, transport, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, gallery-row exactness, checker exposure, beta exposure, closedness exposure, regression-budget non-escape, consumer-spend boundary visibility, componentwise transport, displayed continuation, provenance, and local naming rows.}
+\end{closurestatus}
