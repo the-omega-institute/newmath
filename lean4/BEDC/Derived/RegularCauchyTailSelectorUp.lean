@@ -102,4 +102,39 @@ theorem RegularCauchyTailSelectorPacket_precision_window_exactness [AskSetup] [P
       streamRegularityWitnessPrime
   exact ⟨witnessPrimeUnary, sameWitness⟩
 
+theorem RegularCauchyTailSelectorPacket_classifier_transport [AskSetup] [PackageSetup]
+    {precision stream regularity dyadic sealRow witnessRow transport routes provenance name
+      precision' stream' regularity' dyadic' sealRow' witnessRow' transport' routes' provenance'
+      name' consumer consumer' : BHist}
+    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    RegularCauchyTailSelectorPacket precision stream regularity dyadic sealRow witnessRow
+        transport routes provenance name bundle pkg ->
+      RegularCauchyTailSelectorPacket precision' stream' regularity' dyadic' sealRow'
+          witnessRow' transport' routes' provenance' name' bundle' pkg' ->
+        Cont witnessRow regularity consumer ->
+          Cont witnessRow' regularity' consumer' ->
+            hsame witnessRow witnessRow' ->
+              hsame regularity regularity' ->
+                UnaryHistory consumer ∧ UnaryHistory consumer' ∧ hsame consumer consumer' ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle' name' pkg' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet packet' witnessRegularityConsumer witnessRegularityConsumer' sameWitness
+    sameRegularity
+  obtain ⟨_precisionUnary, _streamUnary, regularityUnary, _dyadicUnary, _sealUnary,
+    witnessUnary, _transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _streamRegularityWitness, _witnessDyadicSeal, _sealTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := packet
+  obtain ⟨_precisionUnary', _streamUnary', regularityUnary', _dyadicUnary', _sealUnary',
+    witnessUnary', _transportUnary', _routesUnary', _provenanceUnary', _nameUnary',
+    _streamRegularityWitness', _witnessDyadicSeal', _sealTransportRoutes',
+    _routesProvenanceName', namePkg'⟩ := packet'
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed witnessUnary regularityUnary witnessRegularityConsumer
+  have consumerUnary' : UnaryHistory consumer' :=
+    unary_cont_closed witnessUnary' regularityUnary' witnessRegularityConsumer'
+  have sameConsumer : hsame consumer consumer' :=
+    cont_respects_hsame sameWitness sameRegularity witnessRegularityConsumer
+      witnessRegularityConsumer'
+  exact ⟨consumerUnary, consumerUnary', sameConsumer, namePkg, namePkg'⟩
+
 end BEDC.Derived.RegularCauchyTailSelectorUp
