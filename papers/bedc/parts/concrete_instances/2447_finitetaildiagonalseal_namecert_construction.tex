@@ -74,6 +74,7 @@ q,s,r,w,h,c,p,n.
 $$
 Thus the real-facing handoff consumes a rational precision request, a finite StreamName window, a RegSeqRat source row, a selected finite-tail witness, componentwise transport, route replay, package provenance, and local naming. It does not consume host real equality, quotient-name equality, an ambient completeness principle, or a selected limit outside the finite witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteTailDiagonalSealUp.FiniteTailDiagonalSealCarrier\_real\_handoff}
 \begin{proof}
 Start with the carrier row $e$. It is a $\RealUp$ seal coordinate inside the same finite packet as $q,s,r,w,h,c,p,n$.
 
@@ -192,11 +193,12 @@ The non-escape theorem supplies the boundary: no quotient stream, host real equa
 
 \closureat{FiniteTailDiagonalSealUp}{seedStr}
 \closureat{FiniteTailDiagonalSealUp}{obligationStr}
+\closureat{FiniteTailDiagonalSealUp}{scopedStr}
 
 \begin{closurestatus}{\FiniteTailDiagonalSealUp}
   \constructivestory{A $\FiniteTailDiagonalSealUp$ packet is generated from a rational precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ source row, selected finite-tail witness, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:finite-tail-diagonal-seal-carrier}, \autoref{thm:finite-tail-diagonal-seal-namecert-obligations}, \autoref{thm:finite-tail-diagonal-seal-window-factorization}, \autoref{thm:finite-tail-diagonal-seal-window-lock}, \autoref{thm:finite-tail-diagonal-seal-real-handoff}, and \autoref{thm:finite-tail-diagonal-seal-non-escape} bind the finite carrier, local naming obligations, window factorization, window lock, real handoff, and non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:finite-tail-diagonal-seal-carrier}, \autoref{thm:finite-tail-diagonal-seal-namecert-obligations}, \autoref{thm:finite-tail-diagonal-seal-window-factorization}, \autoref{thm:finite-tail-diagonal-seal-window-lock}, \autoref{thm:finite-tail-diagonal-seal-real-handoff}, and \autoref{thm:finite-tail-diagonal-seal-non-escape} bind the finite packet over explicit $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
