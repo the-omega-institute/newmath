@@ -23,10 +23,54 @@ with the following displayed coordinates:
 The packet is a finite naming certificate. It has no quotient morphism coordinate, no host-function coordinate, and no general category object outside $\BHist$.
 \end{definition}
 
+\begin{definition}[ContinuationMonad carrier]
+\label{def:continuation-monad-carrier}
+The concrete $\ContinuationMonadUp$ carrier is the finite $\BHist$ triple surface
+$$
+\mathcal{K}(A,B,C)=(f,g,u;H,K,L,N)
+$$
+displayed inside \autoref{def:continuation-monad-namecert-source}. The carrier rows are the source, middle, and target histories $A,B,C$; the two continuation tails $f,g$; the unit tail $u$; the componentwise $\hsame$ row $H$; the $\Cont$ route row $K$; the unit and associativity ledger $L$; and the local $\NameCert_{\ContinuationMonadUp}$ row $N$.
+
+Admission to the carrier means that these rows form the only readable continuation object. In particular, the unit tail is a displayed tail row in the same packet, and the two-step readback is a $\Cont$ ledger route rather than a host Kleisli category.
+\end{definition}
+
+\begin{theorem}[ContinuationMonad unit laws]
+\label{thm:continuation-monad-unit-laws}
+For every accepted carrier $\mathcal{K}(A,B,C)$ of \autoref{def:continuation-monad-carrier}, the displayed unit tail $u$ is left and right neutral for the finite continuation routes recorded in $K$. The left-unit route reads $u$ before $f$ and returns the same $A$-to-$B$ tail row, while the right-unit route reads $f$ before $u$ and returns the same $A$-to-$B$ tail row, both under the componentwise $\hsame$ transports stored in $H$.
+\end{theorem}
+\begin{proof}
+Read the carrier through the route row $K$. The unit route and the two small-step routes are displayed coordinates of the packet, so the left-unit and right-unit reads are finite ledger reads rather than host equalities.
+
+The transport row $H$ supplies the componentwise $\hsame$ comparisons needed to identify the returned tail row with $f$. Since the unit tail $u$ has no coordinate outside the packet, neutrality is exactly the ledger row for the displayed unit route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad associativity]
+\label{thm:continuation-monad-associativity}
+For every accepted carrier $\mathcal{K}(A,B,C)$ of \autoref{def:continuation-monad-carrier}, the two possible two-step readbacks of $f$ followed by $g$ reassociate to the same displayed composite continuation route. The equality is the associativity row in $L$ transported along $H$ and read through the $\Cont$ row $K$.
+\end{theorem}
+\begin{proof}
+The carrier contains only two non-unit continuation tails and one displayed composite readback. Thus both parenthesized route reads must land in the same $\Cont$ coordinate of $K$.
+
+The ledger row $L$ records that this shared coordinate is the associativity witness for the two-step continuation surface. Transport along $H$ preserves the source, middle, target, and tail rows, so the reassociation remains the same finite ledger fact after componentwise $\hsame$ transport.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad NameCert obligations]
+\label{thm:continuation-monad-namecert-obligations}
+The local $\NameCert_{\ContinuationMonadUp}$ surface for \autoref{def:continuation-monad-carrier} consists of five finite rows: carrier admission for $\mathcal{K}(A,B,C)$; classifier stability under componentwise $\hsame$ transport of histories and tails; unit and associativity ledger exactness for $L$; $\Pkg$ provenance over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, and $\mathsf{ContinuationMorphism}$; and local naming rows for the Kleisli composition handoff.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed tuple of \autoref{def:continuation-monad-carrier}. It fixes the readable histories, tails, routes, ledger, and local naming row.
+
+Classifier stability follows from $H$, and the route laws follow from \autoref{thm:continuation-monad-unit-laws} and \autoref{thm:continuation-monad-associativity}. These rows account for the unit and associativity behaviour inside the finite packet.
+
+The remaining provenance rows package the same data for CategoryUp and for the local naming ledger. No quotient Kleisli category, host function, or general category primitive is added by the certificate.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad carrier obligation]
 \label{thm:continuation-monad-carrier-obligation}
 For every accepted $\ContinuationMonadUp$ source packet of \autoref{def:continuation-monad-namecert-source}, carrier admission is exhausted by the rows $A,B,C,f,g,u,H,K,L,N$. The admitted object is the displayed two-step continuation surface: source and target histories, continuation tails, the unit tail, the $\Cont$ routes, componentwise $\hsame$ transports, package provenance, and the local $\NameCert_{\ContinuationMonadUp}$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_route\_closure}
 \begin{proof}
 Project the packet coordinates. The history rows $A,B,C$ supply the BEDC source, middle, and target data, while $f,g,u$ supply the displayed tails used by the small-step interpretation.
 
@@ -92,7 +136,7 @@ Use ledger exactness to identify the composed readback with the continuation rou
 \begin{closurestatus}{\ContinuationMonadUp}
   \constructivestory{A $\ContinuationMonadUp$ packet is generated from source, middle, and target histories, two displayed continuation tails, a unit tail, componentwise $\hsame$ transports, displayed $\Cont$ routes, CategoryUp continuation-morphism readings, package provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuation-monad-namecert-source}, \autoref{thm:continuation-monad-carrier-obligation}, \autoref{thm:continuation-monad-classifier-stability}, \autoref{thm:continuation-monad-ledger-exactness}, \autoref{thm:continuation-monad-namecert-package}, and \autoref{thm:continuation-monad-kleisli-composition-boundary} bind the finite continuation package and its certified Kleisli consumer boundary.}
+  \scopeclosed{\autoref{def:continuation-monad-namecert-source}, \autoref{def:continuation-monad-carrier}, \autoref{thm:continuation-monad-unit-laws}, \autoref{thm:continuation-monad-associativity}, \autoref{thm:continuation-monad-namecert-obligations}, \autoref{thm:continuation-monad-carrier-obligation}, \autoref{thm:continuation-monad-classifier-stability}, \autoref{thm:continuation-monad-ledger-exactness}, \autoref{thm:continuation-monad-namecert-package}, and \autoref{thm:continuation-monad-kleisli-composition-boundary} bind the finite continuation package and its certified Kleisli consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close full category theory, quotient Kleisli categories, host functions, standard monad laws as host equalities, arbitrary effects, or bridge checking.}

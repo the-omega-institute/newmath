@@ -10,6 +10,7 @@ BEDC was built for mathematical purposes: axiom-purity over a mathlib-free Lean 
 Observer history identity records the point where observational sameness and generated-history sameness meet. In BEDC, an observer can inspect a history only through marks, continuations, bundles, signatures, and certified classifiers. Two histories that agree under every licensed observation are therefore not identified by a host equality principle; they are compared through the internal history-sameness and classifier ledgers already present in the kernel.
 
 \concretizedIn{ch:concrete-instances-observerhistoryidentity-namecert}{Observer history identity is realized as a finite NameCert packet over BHist, hsame, Cont, licensed observations, and local ledger provenance.}
+\concretizedIn{ch:concrete-instances-observer-filter-namecert}{Observer filters realize observer-history identity as a finite BHist selection and ledger boundary.}
 
 \begin{definition}[Observer history identity]
 \label{def:observer-hist-identity}
@@ -87,6 +88,7 @@ A \emph{Hist time step} is a single application of \(\Eone\) or \(\Ezero\) to a 
 \label{def:hist-local-time-stream}
 For a Hist value \(h\), the \emph{local time stream} of \(h\) is the sequence of Cont applications producing \(h\) from \(\emp\); equivalently, the unary length \(\UnaryHistory(h)\) together with the distinction record at each step recovered from the information content of \(h\) (\autoref{def:hist-information-content}).
 \end{definition}
+\concretizedIn{ch:concrete-instances-histtimestream-namecert}{Local Hist time streams are realized as finite BHist packets over Cont-step rows, hsame transport, and a no-global-clock ledger.}
 \begin{theorem}[Cont is time-asymmetric]
 \label{thm:cont-time-asymmetric}
 The Cont relation is functional in the forward direction: given a Hist \(h\) and a distinction \(d\), the continuation \(h'\) such that \(\Cont(h, d, h')\) is uniquely determined. The inverse direction, given \(h'\) and \(d\) recover \(h\) such that \(\Cont(h, d, h')\), is not constructively decidable for a fixed \(d\) without recursion on the structure of \(h'\). The asymmetry between forward and inverse direction is the constructive arrow of time at the kernel level.

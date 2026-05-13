@@ -146,6 +146,24 @@ Now apply \autoref{thm:binary-expansion-window-prefix-stability} to transport co
 Since the carrier of \autoref{def:binary-expansion-carrier} has no coordinate for host streams, quotient equality, endpoint conventions, selected representatives, or ambient completeness, the seal read is coherent exactly with the displayed finite prefix ledger.
 \end{proof}
 
+\begin{theorem}[BinaryExpansion prefix-refinement RealUp seal determinacy]
+\label{thm:binary-expansion-prefix-refinement-real-seal-determinacy}
+Let $B=(D,W,A,R,E,H,C,P,N)$ and $B'=(D',W',A',R',E',H',C',P',N')$ be accepted $\BinaryExpansionUp$ carriers. Suppose a displayed finite prefix-refinement chain identifies the inspected $\StreamNameUp$ window of $W$ with the inspected $\StreamNameUp$ window of $W'$, transports the corresponding $\DyadicRatCoreUp$ digit rows through the displayed $\hsame$ routes, and transports the corresponding $\DyadicApproximationUp$ partial-sum and tail-radius rows through the displayed $\hsame$ and $\Cont$ routes. Then the downstream $\RegSeqRatUp$ handoff rows and $\RealUp$ seal rows reached from those inspected windows determine the same classifier-facing $\RealUp$ seal boundary.
+
+The determined boundary is exactly the boundary read through the common finite prefix ledger. It exports no host infinite stream, no quotient equality of binary expansions, no endpoint convention selection, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply prefix-window stability, \autoref{thm:binary-expansion-window-prefix-stability}, to the displayed refinement chain. The identified $\StreamNameUp$ windows remain on one finite route, and the transported digit rows remain the only $\DyadicRatCoreUp$ rows available to the comparison.
+
+Apply dyadic-ledger exhaustion, \autoref{thm:binary-expansion-dyadic-ledger-exhaustion}. The transported partial sums and tail radii exhaust the dyadic data exposed to downstream readers, so the refinement chain cannot introduce a separate approximation table or an external binary stream.
+
+Use regular handoff factorization, \autoref{thm:binary-expansion-regular-handoff-factorization}. Both $\RegSeqRatUp$ handoff rows factor through the same inspected window, partial-sum row, and tail-radius row after transport through $H,H'$ and readback through $C,C'$.
+
+Finally apply $\RealUp$ seal prefix coherence, \autoref{thm:binary-expansion-real-seal-prefix-coherence}. Since each seal citation reaches $E$ or $E'$ only through the already identified finite ledger and regular handoff, the classifier-facing seal boundary is the same.
+
+The carrier inventory of \autoref{def:binary-expansion-carrier} lists no coordinate for host infinite streams, quotient equality of expansions, endpoint convention selection, or ambient completeness. Thus the determinacy claim is exactly the displayed packet claim over $D,W,A,R,E,H,C,P,N$ and $D',W',A',R',E',H',C',P',N'$.
+\end{proof}
+
 \begin{theorem}[BinaryExpansion endpoint ambiguity ledger boundary]
 \label{thm:binary-expansion-endpoint-ambiguity-ledger-boundary}
 Any downstream endpoint convention resolver for dual binary expansions must enter as a separate ledger or socket row outside the accepted $\BinaryExpansionUp$ packet. The packet of \autoref{def:binary-expansion-carrier} exports only finite digit rows, prefix windows, dyadic partial sums, tail-radius rows, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
@@ -160,6 +178,22 @@ Apply dyadic-ledger exhaustion, \autoref{thm:binary-expansion-dyadic-ledger-exha
 The regular handoff factorization, \autoref{thm:binary-expansion-regular-handoff-factorization}, then shows that a $\RegSeqRatUp$ consumer cannot receive an independent infinite bitstream or a second representative selector. The $\RealUp$ seal prefix coherence theorem, \autoref{thm:binary-expansion-real-seal-prefix-coherence}, gives the same boundary for real-facing consumers.
 
 Therefore endpoint ambiguity is not resolved by the accepted packet. A base-two convention resolver must be represented by a separate ledger or socket row, because no coordinate of $D,W,A,R,E,H,C,P,N$ contains such a convention.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion Cauchy modulus handoff]
+\label{thm:binary-expansion-cauchy-modulus-handoff}
+Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier. Every effective precision read needed by a $\RegSeqRatUp$, $\RealUp$, or $\CauchyModulusUp$ consumer factors through the same finite route: a prefix window in $W$, the corresponding dyadic partial-sum and tail-radius rows in $A$, the regular handoff row $R$, the real-seal row $E$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H$, $C$, $P$, and $N$.
+
+Thus the effective Cauchy-modulus handoff exported by $B$ is the displayed prefix-tail-radius ledger and its regular and real-facing routes. It contains no hidden modulus, host infinite bitstream, quotient stream equality, selected representative, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a precision request made by a $\RegSeqRatUp$, $\RealUp$, or $\CauchyModulusUp$ consumer. By prefix tail-radius monotonicity, \autoref{thm:binary-expansion-prefix-tail-radius-monotonicity}, strengthening the requested precision only moves to a displayed larger prefix window and its smaller-or-equal tail-radius row; it does not create a second modulus object.
+
+Apply regular handoff factorization, \autoref{thm:binary-expansion-regular-handoff-factorization}. The $\RegSeqRatUp$ read is exactly the route from the selected window in $W$ through the partial-sum and tail-radius rows of $A$ into $R$.
+
+Next use $\RealUp$ seal prefix coherence, \autoref{thm:binary-expansion-real-seal-prefix-coherence}. Any real-facing read of $E$ reaches the seal only after passing through the same finite prefix ledger and the same regular handoff row.
+
+Finally apply dyadic-ledger exhaustion, \autoref{thm:binary-expansion-dyadic-ledger-exhaustion}. It accounts for all dyadic data available to the consumer inside $D,W,A,R,E,H,C,P,N$, so there is no additional coordinate from which a hidden modulus, infinite stream, quotient equality, representative choice, or completeness principle could be read.
 \end{proof}
 
 \begin{theorem}[BinaryExpansion scoped dependency factorization]

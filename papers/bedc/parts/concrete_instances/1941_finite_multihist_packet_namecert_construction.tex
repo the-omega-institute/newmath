@@ -22,12 +22,14 @@ with the following visible rows:
 \end{enumerate}
 The carrier is finite and every cross-component comparison available to the packet is displayed in $S$ and reached through $C$. It has no cross-Hist causal witness, no maximum-rate function, no metric row, and no synchronization object.
 \end{definition}
+\leandef{BEDC.Derived.FiniteMultiHistPacketUp.FiniteMultiHistPacketUp}
 \leanchecked{BEDC.Derived.FiniteMultiHistPacketUp.FiniteMultiHistPacketTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Finite MultiHist packet NameCert obligations]
 \label{thm:finite-multihist-packet-namecert-obligations}
 For the carrier of \autoref{def:finite-multihist-packet-carrier}, the local $\NameCert_{\FiniteMultiHistPacketUp}$ surface consists of carrier admission for $M=(H,L,S,C,B,P,N)$, component-ledger exactness for each displayed history row, pairwise $\hsame$ stability through $S$, visible read access through $C$, package provenance through $P$, local naming through $N$, and the no-global-sync boundary recorded by $B$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteMultiHistPacketUp.FiniteMultiHistPacketUp\_taste\_gate\_boundary}
 \begin{proof}
 Carrier admission is the displayed finite tuple. The rows $H,L,S,C,B,P,N$ are the only data made available to the naming certificate, so every obligation can be projected from a named coordinate of the packet.
 
@@ -90,3 +92,27 @@ The boundary condition remains negative. The row $B$ excludes a global synchroni
   \notclaimed{This chapter does not close cross-Hist causal dependence, maximum causal rates, Lorentz geometry, curved spacetime, quantum-state certificates, or a checked Lean theorem for the carrier obligations.}
   \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed finite multi-Hist packet, its transport rows, visible reads, and no-global-sync boundary.}
 \end{closurestatus}
+
+\begin{theorem}[Finite MultiHist packet subpacket restriction]
+\label{thm:finite-multihist-packet-subpacket-restriction}
+Let
+$$
+M=(H,L,S,C,B,P,N)
+$$
+be an accepted $\FiniteMultiHistPacketUp$ carrier. Let $J$ be a displayed finite subfamily of the observer-history row $H$, and suppose the subfamily ledger records every selected component read, every selected component-ledger read, and every selected pairwise comparison through the visible $\Cont$ routes already present in $C$. Write
+$$
+M|_J=(H_J,L_J,S_J,C_J,B,P_J,N_J)
+$$
+for the packet obtained by projecting $H$ to the selected histories, $L$ to the corresponding component ledgers, $S$ to the selected pairwise $\hsame$ entries, $C$ to the displayed routes that read those selected rows, and $P,N$ to the same package-provenance and local-naming data restricted to the selected rows. Then $M|_J$ is again an accepted $\FiniteMultiHistPacketUp$ carrier. Its public boundary has the same no-global-sync row $B$, so the restriction exports no privileged shared now, no global observer frame, no total observer order, and no selected synchronization map.
+\end{theorem}
+\begin{proof}
+The carrier shape is read from \autoref{def:finite-multihist-packet-carrier}. Since $H$ is finite and $J$ is a displayed finite subfamily, $H_J$ is a finite observer-history row. The component ledger $L_J$ is obtained by keeping exactly the entries $L_i$ whose histories $H_i$ are selected by $J$, so every component row of the restricted packet remains a displayed local ledger row of the original packet.
+
+The pairwise comparison row is closed under this projection. By definition, $S$ contains exactly the admitted cross-component $\hsame$ comparisons of $M$. The row $S_J$ contains precisely those entries $S_{ij}$ with both endpoints selected by $J$. Thus the restricted packet neither invents a comparison outside $S$ nor forgets the comparison data required for the displayed selected components.
+
+The visible-read condition is inherited from $C$. By hypothesis, every selected history read, component-ledger read, and pairwise comparison read factors through a route already displayed in $C$. The row $C_J$ is the subrow of those routes, so consumer access to $M|_J$ is still by visible $\Cont$ routes and has no hidden access path.
+
+The package and naming rows are restricted, not replaced. The rows $P_J$ and $N_J$ are the original provenance and local $\NameCert$ rows read only on the selected packet coordinates. Applying \autoref{thm:finite-multihist-packet-namecert-obligations} to these projected coordinates gives carrier admission, component-ledger exactness, pairwise $\hsame$ stability, visible read access, package provenance, local naming, and the boundary clause for the restricted packet. Equivalently, \autoref{thm:finite-multihist-packet-hsame-transport} applies because the projection preserves the selected component ledgers and the selected pairwise $\hsame$ row.
+
+It remains to check the boundary. The restriction keeps the row $B$ unchanged and only deletes unselected histories, ledger entries, comparison entries, and routes. Deleting displayed rows cannot create a coordinate for a shared clock, global frame, total observer order, synchronization map, causal relation, maximum-rate function, or metric row. Therefore \autoref{thm:finite-multihist-packet-no-sync-boundary} applies with the same no-global-sync boundary $B$, and the projected packet is an accepted $\FiniteMultiHistPacketUp$ carrier with the same public no-sync boundary.
+\end{proof}

@@ -32,6 +32,7 @@ S=(K,S_0,G,A,L,Q,P,N),
 $$
 socket-kind exposure, requested-supply-shape display, audit-gate exactness, site-row locality, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and non-internalization for the requested external supply.
 \end{theorem}
+\leanchecked{BEDC.Derived.ApophaticSocketUp.ApophaticSocketCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:apophatic-socket-ledger-carrier}. The packet exposes exactly the rows $K,S_0,G,A,L,Q,P,N$.
 
@@ -82,12 +83,66 @@ The consumer first reads the socket, supply-shape, gate, and site rows. These ro
 The rows $L$ and $Q$ supply all permitted transport and replay, and $P,N$ supply provenance and the local certificate. The non-extraction claim follows from the carrier inventory: none of the forbidden objects appears among the displayed rows, so no consumer route out of the packet can project it.
 \end{proof}
 
-\closureat{ApophaticSocketUp}{seedStr}
+\begin{theorem}[ApophaticSocket obligation closure package]
+\label{thm:apophatic-socket-obligation-closure-package}
+The $\ApophaticSocketUp$ obligation surface is the finite package consisting of the carrier row of \autoref{def:apophatic-socket-ledger-carrier}, the local NameCert obligations of \autoref{thm:apophatic-socket-namecert-obligations}, the gate correspondence of \autoref{thm:apophatic-socket-gate-correspondence}, the noninternalization boundary of \autoref{thm:apophatic-socket-noninternalization-boundary}, and the consumer surface of \autoref{thm:apophatic-socket-consumer-surface}. Closing $\NameCert_{\ApophaticSocketUp}$ requires exactly carrier admission, socket-kind exposure, requested-supply-shape display, audit-gate exactness, site-row locality, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming exactness for $K,S_0,G,A,L,Q,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier definition lists all rows available to the package. The NameCert theorem records the local naming obligations on those rows, while the gate, noninternalization, and consumer theorems identify the public uses that must remain visible.
+
+Reading these clauses together gives the obligation surface. Each required proof target is tied to one displayed coordinate of $K,S_0,G,A,L,Q,P,N$, and no additional supply coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[ApophaticSocket gated supply route exhaustion]
+\label{thm:apophatic-socket-gated-supply-route-exhaustion}
+Every visible use of the requested supply shape in an accepted $\ApophaticSocketUp$ packet factors through the finite rows
+$$
+K,S_0,G,A,L,Q,P,N.
+$$
+In particular, the socket kind is read through $K$, the requested supply shape through $S_0$, the gate through $G$, the invocation site through $A$, transport and replay through $L,Q$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Let a visible supply use be given. By the gate correspondence theorem, visibility means that the use has the displayed audit-gate row $G$ attached to the socket kind and requested supply shape.
+
+The only carrier coordinates that can support such a use are $K,S_0,G,A,L,Q,P,N$. The rows $L$ and $Q$ preserve and replay the same displayed packet, and $P,N$ package and name it.
+
+Therefore every visible use is exhausted by these rows. A route outside them has no accepted coordinate in the carrier and so cannot count as a visible socket use.
+\end{proof}
+
+\begin{theorem}[ApophaticSocket boundary noninternalization ledger]
+\label{thm:apophatic-socket-boundary-noninternalization-ledger}
+For an accepted $\ApophaticSocketUp$ packet, no requested supply named by $S_0$ is internalized by the ledger. The ledger may record the supply shape, the audit question, the invocation site, permitted transport, replay, provenance, and local naming, but it cannot produce the requested supply as a constructor, definition, theorem, setup field, anonymous import, or positive internal description.
+\end{theorem}
+\begin{proof}
+Project the requested-supply-shape row $S_0$. It records the boundary request as ledger data and not as a substrate object satisfying the request.
+
+The gate and site rows $G,A$ keep the request inspectable. The transport and replay rows $L,Q$ preserve the same visible request, while $P,N$ record provenance and local naming.
+
+Since the carrier inventory contains no row for the requested supply itself, no ledger projection can internalize it. The only available outputs are the displayed boundary rows and their permitted read routes.
+\end{proof}
+
+\begin{theorem}[ApophaticSocket scoped supply ledger]
+\label{thm:apophatic-socket-scoped-supply-ledger}
+Every visible supply request in an accepted $\ApophaticSocketUp$ packet is scoped by the concrete rows
+$$
+K,S_0,G,A,L,Q,P,N.
+$$
+The socket kind is read through $K$, the requested external supply shape through $S_0$, the audit gate through $G$, the invocation site through $A$, componentwise $\hsame$ transport through $L$, displayed $\Cont$ replay through $Q$, $\Pkg$ provenance through $P$, and local \NameCert{} naming through $N$. This scoped ledger records the request without internalizing the requested external supply.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-socket-ledger-carrier}. Its visible coordinates are exactly $K,S_0,G,A,L,Q,P,N$, so every accepted packet already carries the supply request as a finite displayed ledger.
+
+Apply the gated supply route exhaustion of \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}. Any visible use of the requested supply shape must pass through the socket kind, supply shape, gate, site, transport, replay, provenance, and local naming rows.
+
+Finally apply the boundary noninternalization ledger of \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}. The scoped packet can expose the request and its audit route, but it has no coordinate from which the requested external supply itself can be projected.
+\end{proof}
+
+\closureat{ApophaticSocketUp}{obligationStr}
 
 \begin{closurestatus}{\ApophaticSocketUp}
   \constructivestory{An $\ApophaticSocketUp$ packet is generated from a socket-kind row, a requested-supply-shape row, an audit-gate row, a site row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-gate-correspondence}, \autoref{thm:apophatic-socket-noninternalization-boundary}, and \autoref{thm:apophatic-socket-consumer-surface} specify the finite apophatic socket carrier, local naming obligations, gate correspondence, noninternalization boundary, and consumer surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-gate-correspondence}, \autoref{thm:apophatic-socket-noninternalization-boundary}, \autoref{thm:apophatic-socket-consumer-surface}, \autoref{thm:apophatic-socket-obligation-closure-package}, \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, and \autoref{thm:apophatic-socket-boundary-noninternalization-ledger} specify the finite apophatic socket carrier, local naming obligations, gate correspondence, noninternalization boundary, consumer surface, obligation package, gated route exhaustion, and ledger noninternalization.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
