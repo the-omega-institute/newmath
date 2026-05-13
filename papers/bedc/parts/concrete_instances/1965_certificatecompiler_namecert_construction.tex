@@ -268,6 +268,126 @@ the same displayed rows and introduce no host compiler semantics, no ambient
 program equality, and no unrecorded target behavior.
 \end{proof}
 
+\begin{theorem}[CertificateCompiler left identity unit]
+\label{thm:certificate-compiler-left-identity-unit}
+Let
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+be an accepted $\CertificateCompilerUp$ packet, and let $I_S$ be the diagonal
+identity packet on the source $\NameCert$ row $S$ supplied by
+\autoref{thm:certificate-compiler-identity-ledger}. Then the source-side
+composite $K\circ I_S$ is classified by the same displayed graph $G$, the same
+edge-landing row $E$, the same paired-edge classifier transport, the same
+continuation-compatibility row $C$, the same $\Pkg$ provenance row $P$, and
+the same local $\NameCert$ row $N$ as $K$.
+
+Thus precomposing an accepted compiler packet with the diagonal source
+identity adds no host compiler semantics, no ambient program equality, and no
+unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:certificate-compiler-identity-ledger} to read $I_S$ as the
+diagonal packet whose graph, landing, classifier, continuation, provenance,
+and local naming rows are all inherited from $S$.
+
+Apply \autoref{thm:certificate-compiler-composition-stability} to the
+composable pair $(I_S,K)$. The composite graph contains exactly the displayed
+edges of $G$, because the diagonal source edge contributes only the source row
+that $G$ already reads.
+
+The classifier of \autoref{def:certificate-compiler-classifier} then transports
+through the same componentwise $\hsame$ entries recorded in $H$, and the
+continuation route is the original route of $C$ with a diagonal prefix. By
+\autoref{thm:continuation-associativity-up-to-hsame-proof-standing}, that
+prefix changes no displayed endpoint route.
+
+Repacking the $\Pkg$ row and the local $\NameCert$ row therefore returns the
+same finite compiler packet surface as $K$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler right identity unit]
+\label{thm:certificate-compiler-right-identity-unit}
+Let
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+be an accepted $\CertificateCompilerUp$ packet, and let $I_T$ be the diagonal
+identity packet on the target $\NameCert$ row $T$ supplied by
+\autoref{thm:certificate-compiler-identity-ledger}. Then the target-side
+composite $I_T\circ K$ is classified by the same displayed graph $G$, the same
+edge-landing row $E$, the same paired-edge classifier transport, the same
+continuation-compatibility row $C$, the same $\Pkg$ provenance row $P$, and
+the same local $\NameCert$ row $N$ as $K$.
+
+Thus postcomposing an accepted compiler packet with the diagonal target
+identity adds no host compiler semantics, no ambient program equality, and no
+unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Read the target identity packet from
+\autoref{thm:certificate-compiler-identity-ledger}. Its displayed graph is
+diagonal on $T$, and its landing, classifier, continuation, provenance, and
+local naming rows are the target-side rows already available to $K$.
+
+Apply \autoref{thm:certificate-compiler-composition-stability} to $(K,I_T)$.
+Every composite edge is an edge of $G$ followed by the diagonal target edge, so
+the finite graph row is again $G$ after forgetting the diagonal witness.
+
+The edge landing remains $E$, since the target identity lands only in the same
+target row. The classifier transport is the row of
+\autoref{def:certificate-compiler-classifier} followed by diagonal
+componentwise $\hsame$ transport, and the continuation route is the row of $C$
+followed by the target diagonal route.
+
+Use \autoref{thm:continuation-associativity-up-to-hsame-proof-standing} to
+identify that diagonal suffix with the original endpoint route. The $\Pkg$ and
+local $\NameCert$ rows are unchanged, so the target-side identity composite
+classifies by the same packet surface as $K$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler finite category surface]
+\label{thm:certificate-compiler-finite-category-surface}
+The accepted $\CertificateCompilerUp$ packets form a finite category-like
+surface over local $\NameCert$ rows: each local row has the diagonal identity
+packet of \autoref{thm:certificate-compiler-identity-ledger}; each composable
+pair has the binary composite packet of
+\autoref{thm:certificate-compiler-composition-stability}; each composable
+triple has the common associative replay surface of
+\autoref{thm:certificate-compiler-triple-composite-associativity}; and every
+accepted packet satisfies the source and target unit laws of
+\autoref{thm:certificate-compiler-left-identity-unit} and
+\autoref{thm:certificate-compiler-right-identity-unit}.
+
+The surface is finite and local: its objects are the displayed local
+$\NameCert$ rows and its morphism packets are exactly the displayed graph,
+landing, classifier-transport, continuation, $\Pkg$, and local $\NameCert$
+rows recorded by the certificate compiler carrier.
+\end{theorem}
+\begin{proof}
+Identities are supplied by the diagonal ledger of
+\autoref{thm:certificate-compiler-identity-ledger}. Binary composition is
+supplied by \autoref{thm:certificate-compiler-composition-stability}, whose
+output is again a displayed compiler packet over the same row types.
+
+Associativity is the finite triple replay statement of
+\autoref{thm:certificate-compiler-triple-composite-associativity}. It says
+that the two iterated composites expose the same graph triple, landing ledger,
+ordered classifier transport, and continuation endpoint.
+
+The unit laws are exactly
+\autoref{thm:certificate-compiler-left-identity-unit} and
+\autoref{thm:certificate-compiler-right-identity-unit}. Both identify the
+identity composite with the original displayed graph, landing, classifier,
+continuation, $\Pkg$, and local $\NameCert$ rows.
+
+These rows are all read through the classifier of
+\autoref{def:certificate-compiler-classifier}. Hence the resulting surface is
+a finite local NameCert-morphism interface rather than a claim about host
+compiler semantics, ambient program equality, optimiser correctness, or
+unrecorded target behavior.
+\end{proof}
+
 \begin{theorem}[CertificateCompiler route replay scope]
 \label{thm:certificate-compiler-route-replay-scope}
 For an accepted $\CertificateCompilerUp$ packet
