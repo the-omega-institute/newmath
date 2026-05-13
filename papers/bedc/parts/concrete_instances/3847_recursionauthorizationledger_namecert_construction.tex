@@ -45,6 +45,38 @@ Branch completeness and structural descent are read from $B$ and $D$. The branch
 The output and audit obligations are the remaining rows. Consumers reach $O$ only along $C$, transport it only through $H$, and cite only the provenance in $P$ and $N$. The source gate, build gate, and purity-audit boundary named by $P$ exclude axiom channels and forbidden host principles from the ledger surface.
 \end{proof}
 
+\begin{theorem}[RecursionAuthorizationLedger signature acceptance]
+\label{thm:recursion-authorization-ledger-signature-acceptance}
+In an accepted $\RecursionAuthorizationLedgerUp$ packet
+$$
+L=(I,R,M,B,D,O,H,C,P,N),
+$$
+the emitted eliminator row $R$ and the branch package $B$ are readable only after the same accepted inductive signature row $I$. No unlisted constructor row can enter the ledger.
+\end{theorem}
+\begin{proof}
+Project the signature, eliminator, and branch coordinates $I,R,B$ from \autoref{def:recursion-authorization-ledger-carrier}. The carrier records $R$ as emitted from $I$ and $B$ as indexed by the constructor inventory displayed by $I$.
+
+Apply \autoref{thm:recursion-authorization-ledger-namecert-obligations}. Kernel-acceptance of $I$, emitted-eliminator exactness for $R$, and branch completeness for $B$ are local obligations of the same finite packet.
+
+The remaining coordinates $M,D,O,H,C,P,N$ do not add constructor rows. They check the motive, descent, output, transport, replay, provenance, and local naming of the accepted packet, so an unlisted constructor has no route into the ledger.
+\end{proof}
+
+\begin{theorem}[RecursionAuthorizationLedger output audit boundary]
+\label{thm:recursion-authorization-ledger-output-audit-boundary}
+For an accepted $\RecursionAuthorizationLedgerUp$ packet
+$$
+L=(I,R,M,B,D,O,H,C,P,N),
+$$
+the output row $O$ is exposed only through the structural descent row $D$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The packet exports no unrestricted recursion principle and no hidden eliminator.
+\end{theorem}
+\begin{proof}
+Project the descent, output, and audit coordinates $D,O,H,C,P,N$. The carrier makes $O$ a generated output row whose recursive calls are certified by $D$ and whose public reads are transported, replayed, packaged, and named through $H,C,P,N$.
+
+Use \autoref{thm:recursion-authorization-ledger-namecert-obligations} for output-row exposure and purity-audit non-escape. Then use \autoref{thm:recursion-authorization-ledger-obligation-branch-completeness} to keep the output tied to the displayed branch package and structural descent ledger.
+
+Since the carrier has no coordinate for an unrestricted recursion principle or a second eliminator, the output audit boundary is exactly the route through $D,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[RecursionAuthorizationLedger branch completeness and descent exactness]
 \label{thm:recursion-authorization-ledger-obligation-branch-completeness}
 For an accepted $\RecursionAuthorizationLedgerUp$ packet
