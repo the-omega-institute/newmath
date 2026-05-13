@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailWitnessEnvelopeUp$}
+\label{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}
+\origin{ai-composite}
+
+The $\CauchyTailWitnessEnvelopeUp$ packet is the composite finite witness envelope for the Real-completeness diagonal tail route of \autoref{ch:visions-real-completeness}. It consumes the stream window surface of \autoref{ch:concrete-instances-streamname-namecert}, the finite-window envelope of \autoref{ch:concrete-instances-finitewindowenvelope-namecert}, and the common-tail comparison packet of \autoref{ch:concrete-instances-cauchy-tail-comparison-namecert}. The packet keeps the witness route finite by storing the selected StreamName window, the finite-window endpoint ledger, the Cauchy tail-comparison row, the RealTailAgreementSeal row, the RealUp readback row, and the structural provenance needed to replay the same route.
+
+\begin{definition}[CauchyTailWitnessEnvelope carrier]
+\label{def:cauchy-tail-witness-envelope-carrier}
+A $\CauchyTailWitnessEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,F,Q,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window selected for the diagonal tail request;
+\item $F$ is the $\FiniteWindowEnvelopeUp$ row that binds the selected window to its dyadic endpoint ledger, regular-rational readback, and RealUp endpoint surface;
+\item $Q$ is the $\CauchyTailComparisonUp$ row that compares the relevant late regular-name windows through the same selected window and endpoint ledger;
+\item $A$ is the $\RealTailAgreementSealUp$ row reached after the finite-window and comparison rows have both been displayed;
+\item $R$ is the $\RealUp$ readback row exported to the diagonal Real-completeness route;
+\item $H$ records componentwise $\hsame$ transports for $S,F,Q,A,R,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes that replay the selected window, finite-window envelope, tail comparison, tail-agreement seal, RealUp readback, provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\FiniteWindowEnvelopeUp$, $\CauchyTailComparisonUp$, $\RealTailAgreementSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyTailWitnessEnvelopeUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream equality, no host real equality, no selected host limit, no countable-choice selector, and no ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[CauchyTailWitnessEnvelope NameCert obligations]
+\label{thm:cauchy-tail-witness-envelope-namecert-obligations}
+For the carrier of \autoref{def:cauchy-tail-witness-envelope-carrier}, the local $\NameCert_{\CauchyTailWitnessEnvelopeUp}$ surface consists exactly of carrier admission for
+$$
+E=(S,F,Q,A,R,H,C,P,N),
+$$
+selected $\StreamNameUp$ window exposure through $S$, finite-window envelope exposure through $F$, common-tail comparison exposure through $Q$, RealTailAgreementSeal exposure through $A$, RealUp readback exposure through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $S,F,Q,A,R,H,C,P,N$ are the only coordinates of the finite packet.
+
+Read the analytic rows in order. The selected stream window $S$ is first bound into the finite-window envelope $F$, and the tail comparison $Q$ reads its common window and dyadic endpoint ledger through that same envelope surface.
+
+The tail-agreement seal $A$ and RealUp readback $R$ are then reached only after $S,F,Q$ have been displayed. The structural rows $H,C,P,N$ transport, replay, authenticate, and name the same packet, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyTailWitnessEnvelope selector handoff]
+\label{thm:cauchy-tail-witness-envelope-selector-handoff}
+Every diagonal-tail selector read exported by an accepted $\CauchyTailWitnessEnvelopeUp$ carrier factors through the selected window $S$, the finite-window envelope $F$, and the Cauchy tail-comparison row $Q$ before the RealTailAgreementSeal row $A$ or the RealUp readback row $R$ can be consumed. The handoff supplies the finite witness route used by \autoref{ch:visions-real-completeness}, not an isolated RealUp seal or a host limit.
+\end{theorem}
+\begin{proof}
+Start with the selected window. The carrier has exactly one StreamName window coordinate $S$, and that coordinate is the source read by the envelope row $F$.
+
+Use the finite-window dependency next. The row $F$ supplies the selected window and endpoint ledger consumed by the comparison row $Q$, so the comparison is not a host-level comparison detached from the envelope.
+
+Finally read $A$ and $R$. These rows are reached after the selector, envelope, and comparison rows have been replayed through $C$ and transported through $H$. Thus the diagonal-tail handoff remains a finite witness envelope rather than a selected limit or isolated RealUp object.
+\end{proof}
+
+\begin{theorem}[CauchyTailWitnessEnvelope non-escape]
+\label{thm:cauchy-tail-witness-envelope-nonescape}
+Every downstream consumer of an accepted $\CauchyTailWitnessEnvelopeUp$ packet receives only the finite surface
+$$
+S,F,Q,A,R,H,C,P,N.
+$$
+It receives no quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness theorem. A later Lean TasteGate module for this carrier must therefore expose nontriviality and field-faithfulness over the displayed packet fields rather than over a collapsed RealUp output.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply the NameCert obligation theorem. The public surface is exhausted by the selected window, finite-window envelope, common-tail comparison, tail-agreement seal, RealUp readback, transport, replay, provenance, and local naming rows.
+
+The selector handoff theorem keeps every diagonal-tail read on those rows. In particular, the comparison row $Q$ consumes the finite-window endpoint ledger from $F$, and the seal row $A$ is unavailable before that route is displayed.
+
+The excluded objects have no coordinate in the packet. Since the carrier has no quotient stream, host real equality, host-selected limit, choice selector, or ambient completeness row, no downstream consumer can recover one from an accepted envelope.
+\end{proof}
