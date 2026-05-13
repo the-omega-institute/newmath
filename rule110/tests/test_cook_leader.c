@@ -96,6 +96,35 @@ static void test_leader_figure8_alignment(void) {
     printf("  leader_figure8_alignment: PASS\n");
 }
 
+static void test_leader_figure11_prepared_placement(void) {
+    CookLeaderPreparedPlacement placement;
+
+    assert(cook_leader_prepared_placement(6u, &placement));
+    assert(placement.v[0] == 0);
+    assert(placement.v[1] == 1);
+    assert(placement.w[0] == 2);
+    assert(placement.w[1] == 3);
+    assert(placement.x[0] == 1);
+    assert(placement.x[1] == 0);
+    assert(placement.y[0] == 1);
+    assert(placement.y[1] == 0);
+    assert(placement.y[2] == 3);
+    assert(placement.y[3] == 0);
+    assert(placement.y[4] == 3);
+    assert(placement.y[5] == 0);
+    assert(placement.y_repeats == 11u);
+    assert(placement.total_mod4 == 1);
+
+    assert(cook_leader_prepared_placement(12u, &placement));
+    assert(placement.y_repeats == 23u);
+    assert(placement.total_mod4 == 1);
+    assert(!cook_leader_prepared_placement(5u, &placement));
+    assert(!cook_leader_prepared_placement(0u, &placement));
+    assert(!cook_leader_prepared_placement(6u, NULL));
+
+    printf("  leader_figure11_prepared_placement: PASS\n");
+}
+
 static void test_leader_stable(void) {
     const size_t period_count = 260;
     const size_t len = COOK_ETHER_WIDTH * period_count;
@@ -243,6 +272,7 @@ static void test_leader_phase_exact_unwritable_buffer(void) {
 int main(void) {
     printf("== test_cook_leader ==\n");
     test_leader_figure8_alignment();
+    test_leader_figure11_prepared_placement();
     test_leader_stable();
     test_leader_does_not_destroy_ether_outside();
     test_leader_phase_exact_emits_packet();

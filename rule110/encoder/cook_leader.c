@@ -14,6 +14,7 @@ const size_t COOK_LEADER_STABILITY_STEPS = 500;
 #define COOK_LEADER_REJECTOR_A_COUNT 1
 #define COOK_LEADER_A_SPACING_TILES 3
 #define COOK_LEADER_SHORT_UP_TILES 3
+#define COOK_LEADER_PREPARED_MODULUS 4
 
 typedef struct {
     int ebar_spacing_tiles;
@@ -88,16 +89,66 @@ int cook_leader_prepared_invisible_alignment(
     return 1;
 }
 
+static int cook_leader_add_mod4(int left, int right) {
+    int value = (left + right) % COOK_LEADER_PREPARED_MODULUS;
+
+    return value < 0 ? value + COOK_LEADER_PREPARED_MODULUS : value;
+}
+
+int cook_leader_prepared_placement(size_t c,
+                                   CookLeaderPreparedPlacement *placement_out) {
+    CookLeaderPreparedPlacement placement;
+    size_t y_repeats = 0;
+    int total = 0;
+    int y_pair = 0;
+
+    if (placement_out == NULL || c == 0 || c % 6u != 0) return 0;
+    if (c > ((size_t)-1) / 2u) return 0;
+    y_repeats = (2u * c) - 1u;
+    if (y_repeats > ((size_t)-1) / 3u) return 0;
+
+    placement.v[0] = 0;
+    placement.v[1] = 1;
+    placement.w[0] = 2;
+    placement.w[1] = 3;
+    placement.x[0] = 1;
+    placement.x[1] = 0;
+    placement.y[0] = 1;
+    placement.y[1] = 0;
+    placement.y[2] = 3;
+    placement.y[3] = 0;
+    placement.y[4] = 3;
+    placement.y[5] = 0;
+    placement.y_repeats = y_repeats;
+
+    total = cook_leader_add_mod4(total, placement.v[1]);
+    total = cook_leader_add_mod4(total, placement.x[1]);
+    total = cook_leader_add_mod4(total, placement.w[1]);
+    y_pair = cook_leader_add_mod4(placement.y[1], placement.y[2]);
+    total = cook_leader_add_mod4(
+        total,
+        (int)((y_repeats * (size_t)y_pair) %
+              (size_t)COOK_LEADER_PREPARED_MODULUS));
+    total = cook_leader_add_mod4(total, placement.y[5]);
+    placement.total_mod4 = total;
+
+    if (placement.total_mod4 != 1) return 0;
+    *placement_out = placement;
+    return 1;
+}
+
 static int cook_leader_layout_for_context(const CookLeaderLayout *base,
                                           enum leader_prepared_context context,
                                           size_t c,
                                           CookLeaderLayout *out) {
     int alignment = 0;
+    CookLeaderPreparedPlacement placement;
 
     if (base == NULL || out == NULL) return 0;
     if (!cook_leader_prepared_invisible_alignment(context, c, &alignment)) {
         return 0;
     }
+    if (!cook_leader_prepared_placement(c, &placement)) return 0;
     *out = *base;
     out->invisible_alignment_tiles = alignment;
     return 1;

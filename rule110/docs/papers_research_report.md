@@ -310,7 +310,7 @@ The theoretical bound says polynomial size/time, not that small finite layouts p
 | Leader emitter uses eight `Ebar` plus four `C2` with uniform local spacings; Cook’s leader semantics are diagrammatic and accept/reject dependent | wrong algorithm for full Cook leader | Cook 2004 Figure 12, lines 1090-1129; Cook 2009 Figures 8-11, lines 759-933 | `rule110/encoder/cook_leader.c` lines 9-14 and 116-193 | **closed by W17** |
 | Ossifier emitter uses two A4 groups, while Cook 2004 states an ossifier consists of four `A4`s converting four `Ē`s into four `C2`s | wrong algorithm for full ossifier | Cook 2004 lines 1147-1155; gap form lines 1224-1227 | `rule110/encoder/cook_ossifier.c` lines 7-13 and 105-127 | **closed by W17** |
 | Cook Figure 12 `N` tape data uses `18,10,14`, and acceptor/rejector products are `A4 A1 A` / `A3` | DISCREPANCY | Cook 2004 Figure 12 and lines 1090-1112, 1252-1257 | `cook_data_block.c`; `cook_decode.c`; `cook_leader.c` | **closed by W26** |
-| Cook 2009 figure-level `k`, pass-through, prepared-leader, and ossifier branch formulas are not fully represented in phase-exact emitters | DISCREPANCY | Cook 2009 Figures 6, 8, 10, 11, lines 639-933 | `cook_data_block.c`; `cook_leader.c`; `cook_ossifier.c` | **open for Figures 10 and 11; Figures 6 and 8 closed by W30** |
+| Cook 2009 figure-level `k`, pass-through, prepared-leader, and ossifier branch formulas are not fully represented in phase-exact emitters | DISCREPANCY | Cook 2009 Figures 6, 8, 10, 11, lines 639-933 | `cook_data_block.c`; `cook_leader.c`; `cook_ossifier.c` | **open for Figure 10; Figures 6 and 8 closed by W30; Figure 11 closed by W33** |
 
 ## Part 7: Exhaustiveness audit
 
