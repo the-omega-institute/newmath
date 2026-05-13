@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -168,5 +170,61 @@ theorem CertificateCompilerCarrier_identity_composite_public_boundary [AskSetup]
     ⟨sourceUnary, targetUnary, graphUnary, landingUnary, routesUnary, identityUnary,
       compositeUnary, tripleUnary, sourceGraphLanding, landingRoutesTarget,
       targetGraphComposite, compositeRoutesTriple, triplePkg⟩
+
+theorem CertificateCompilerCarrier_bridge_schema_handoff [AskSetup] [PackageSetup]
+    {source target graph landing routes transport provenance cert bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerCarrier source target graph landing routes transport provenance cert
+        bundle pkg ->
+      hsame cert bridgeRead ->
+        PkgSig bundle bridgeRead pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row ∧
+              PkgSig bundle row pkg)
+            (fun row : BHist => Cont provenance target row ∧ Cont source graph landing ∧
+              Cont landing routes target)
+            (fun row : BHist => PkgSig bundle row pkg ∧ hsame row (append provenance target))
+            (fun row row' : BHist => hsame row row') := by
+  intro carrier certBridgeRead bridgePkg
+  obtain ⟨_sourceUnary, targetUnary, _graphUnary, _landingUnary, _routesUnary,
+    _transportUnary, provenanceUnary, sourceGraphLanding, landingRoutesTarget,
+    provenanceTargetCert, certMatchesEndpoint, certPkg⟩ := carrier
+  have certUnary : UnaryHistory cert :=
+    unary_cont_closed provenanceUnary targetUnary provenanceTargetCert
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_transport certUnary certBridgeRead
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeReadUnary, bridgePkg⟩
+      equiv_refl := by
+        intro row _sourceRow
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro row sourceRow
+      have certRow : hsame cert row :=
+        hsame_trans certBridgeRead (hsame_symm sourceRow.left)
+      exact
+        ⟨cont_result_hsame_transport provenanceTargetCert certRow, sourceGraphLanding,
+          landingRoutesTarget⟩
+    ledger_sound := by
+      intro row sourceRow
+      have bridgeCert : hsame bridgeRead cert :=
+        hsame_symm certBridgeRead
+      have rowEndpoint : hsame row (append provenance target) :=
+        hsame_trans sourceRow.left (hsame_trans bridgeCert certMatchesEndpoint)
+      exact ⟨sourceRow.right.right, rowEndpoint⟩
+  }
 
 end BEDC.Derived.CertificateCompilerUp

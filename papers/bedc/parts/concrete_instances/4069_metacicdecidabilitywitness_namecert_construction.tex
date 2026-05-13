@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\MetacicDecidabilityWitnessUp$}
+\label{ch:concrete-instances-metacicdecidabilitywitness-namecert}
+\origin{ai}
+
+The $\MetacicDecidabilityWitnessUp$ packet realizes the decidability audit map of \autoref{ch:metacic-decidable-audit-map} as a finite NameCert witness. It sits beside the normal false exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert} and the confluence normal-fragment packet of \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}: those siblings keep normal-form and confluence boundaries visible, while this packet separates typing-checker exactness from bounded beta-conversion evidence.
+
+\begin{definition}[MetaCIC decidability witness carrier]
+\label{def:metacic-decidability-witness-carrier}
+A $\MetacicDecidabilityWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,S,B,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\mathsf{inferTypeCtx}$ exactness row, containing the soundness and completeness surfaces for the encoded $\mathsf{HasType}$ relation;
+\item $S$ is the $\mathsf{checkSameTerm}$ structural equality row used by the typing checker;
+\item $B$ is the bounded beta-comparison row for $\mathsf{normalizeBounded}$ and $\mathsf{decideClosedBetaConv}$;
+\item $F$ is the finished-normal-form side-condition row consumed when a bounded comparison result is read as equality or beta-convertibility of named normal forms;
+\item $R$ records refusal of a standalone $\mathsf{ClosedAt}$ decision theorem, unrestricted closed beta-conversion decidability, and fuel-erased normalisation;
+\item $H$ records componentwise $\hsame$ transport for $T,S,B,F,R,P,N$;
+\item $C$ records displayed $\Cont$ routes for typing exactness, same-term checking, bounded comparison, finished-normal side conditions, and refusal reads;
+\item $P$ is the $\Pkg$ provenance row over the decidability audit map and its normal-form and confluence siblings;
+\item $N$ is the local $\NameCert_{\MetacicDecidabilityWitnessUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the rows $T,S,B,F,R,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[MetaCIC decidability witness NameCert obligations]
+\label{thm:metacic-decidability-witness-namecert-obligations}
+Every accepted $\MetacicDecidabilityWitnessUp$ packet binds exactly the finite NameCert obligation surface of \autoref{def:metacic-decidability-witness-carrier}: typing-checker exactness through $T$, same-term structural equality through $S$, bounded beta comparison through $B$, finished-normal side conditions through $F$, refusal boundaries through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The positive checker rows are $T$ and $S$: typing exactness is read through the inferTypeCtx row, while structural equality is read through the same-term checker row used by that typing surface.
+
+The bounded conversion rows are $B$ and $F$. The comparison row exposes only bounded normalizer output comparison, and the finished-normal side-condition row supplies the additional hypotheses under which the audit map permits equality or beta-convertibility reads for named normal forms.
+
+The refusal row $R$ remains part of the same packet. It records that no coordinate exports a standalone closedness decider, an unrestricted closed beta-conversion decider, or fuel-erased normalisation.
+
+Finally $H,C,P,N$ transport, replay, cite, and name only those displayed rows. Since the carrier has no further coordinate, the local NameCert surface is exhausted by the finite obligations listed above.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidability witness bounded conversion non-escape]
+\label{thm:metacic-decidability-witness-bounded-conversion-nonescape}
+Any consumer of an accepted $\MetacicDecidabilityWitnessUp$ packet may read conversion evidence only through $B$ together with $F$. The read can expose bounded-normal output equality and the finished-normal consequences named by the audit map, but it cannot export a global closed beta-conversion decision procedure, a fuel-erased normalisation theorem, a quotient equality over represented terms, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Begin with the conversion coordinates. The carrier separates the bounded comparison row $B$ from the finished-normal side-condition row $F$, so a consumer route that asks for conversion evidence must pass through both rows.
+
+The refusal row $R$ records the missing endpoints. It prevents the bounded comparison route from being reread as a global closed beta-conversion decider, fuel-erased normalisation theorem, quotient equality, or host evaluator.
+
+Transport and replay do not add data. The rows $H$ and $C$ preserve the same displayed comparison and side-condition routes, while $P$ and $N$ only record provenance and local naming. Thus the conversion read stays inside the bounded witness packet.
+\end{proof}
+
+\closureat{MetacicDecidabilityWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetacicDecidabilityWitnessUp}
+  \constructivestory{A $\MetacicDecidabilityWitnessUp$ packet is generated from inferTypeCtx soundness and completeness, checkSameTerm structural equality, bounded beta comparison, finished-normal side conditions, refusal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidability-witness-carrier}, \autoref{thm:metacic-decidability-witness-namecert-obligations}, and \autoref{thm:metacic-decidability-witness-bounded-conversion-nonescape} bind typing exactness and bounded conversion non-escape as one finite NameCert witness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close standalone ClosedAt decidability, unrestricted closed beta-conversion decidability, fuel-erased normalisation, quotient equality over represented terms, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checking carrier admission, typing-exactness exposure, bounded-conversion non-escape, refusal-row exactness, and provenance for the displayed witness packet.}
+\end{closurestatus}
