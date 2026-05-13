@@ -360,6 +360,34 @@ theorem CauchyCriterionCarrier_tail_budget_scope [AskSetup] [PackageSetup]
       ledgerProvenanceTailConsumer, regseqRealSealHandoff, ledgerRealSealSealRead,
       endpointPkg, tailConsumerPkg, handoffPkg, sealReadPkg⟩
 
+theorem CauchyCriterionCarrier_modulus_tail_consumer_exactness [AskSetup] [PackageSetup]
+    {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
+      consumer consumer' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCriterionCarrier window modulus tolerance ledger regseq realSeal transport route
+        provenance localCert endpoint bundle pkg ->
+      Cont ledger realSeal consumer ->
+        Cont ledger realSeal consumer' ->
+          PkgSig bundle consumer pkg ->
+            PkgSig bundle consumer' pkg ->
+              UnaryHistory consumer ∧ UnaryHistory consumer' ∧ hsame consumer consumer' ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle consumer pkg ∧
+                  PkgSig bundle consumer' pkg := by
+  intro carrier ledgerRealSealConsumer ledgerRealSealConsumer' consumerPkg consumerPkg'
+  obtain ⟨_windowUnary, _modulusUnary, _toleranceUnary, ledgerUnary, _regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary,
+    _endpointUnary, _windowModulusTolerance, _toleranceLedgerRegseq,
+    _regseqRealSealTransport, _transportLocalCertRoute, _routeProvenanceEndpoint,
+    endpointPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed ledgerUnary realSealUnary ledgerRealSealConsumer
+  have consumerUnary' : UnaryHistory consumer' :=
+    unary_cont_closed ledgerUnary realSealUnary ledgerRealSealConsumer'
+  have sameConsumer : hsame consumer consumer' :=
+    cont_respects_hsame (hsame_refl ledger) (hsame_refl realSeal) ledgerRealSealConsumer
+      ledgerRealSealConsumer'
+  exact ⟨consumerUnary, consumerUnary', sameConsumer, endpointPkg, consumerPkg, consumerPkg'⟩
+
 theorem CauchyCriterionCarrier_obligation_closure_package [AskSetup] [PackageSetup]
     {window modulus tolerance ledger regseq realSeal transport route provenance localCert endpoint
       consumer handoff scopedSeal : BHist}

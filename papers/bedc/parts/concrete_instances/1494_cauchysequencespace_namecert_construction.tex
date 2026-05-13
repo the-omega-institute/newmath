@@ -320,6 +320,58 @@ Now bind the RealUp seal boundary. Use \autoref{thm:cauchysequence-space-limit-s
 The route inventory is therefore a scoped BEDC route over the primitive rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since the carrier surface supplies no quotient-name equality, selected representative, host real equality, or ambient completeness coordinate, none of those objects is exported by the completion-facing or limit-seal route.
 \end{proof}
 
+\begin{theorem}[CauchySequenceSpace public completion export]
+\label{thm:cauchysequence-space-public-completion-export}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+be an accepted $\CauchySequenceSpaceUp$ packet. The public completion export of $S$ is the single BEDC surface consisting of the finite carrier rows $F,\sigma,W,\epsilon,Q,H,C,P,N$, the $\NameCert_{\CauchySequenceSpaceUp}$ obligation rows, the $\RealCauchyCompletionUp$ handoff row, common-window classifier transport, dyadic tolerance exactness, completion handoff stability, regular-family exhaustion, and the scoped route inventory of \autoref{thm:cauchysequence-space-scoped-completion-route-inventory}.
+
+Every completion-facing consumer of $S$ must factor through that public export before reading a completion handoff or a $\RealUp$ seal. The export is public only as a BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; it does not assert quotient completion, equality of Cauchy-name classes, uniqueness of limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:cauchysequence-space-carrier-surface} and \autoref{thm:cauchysequence-space-namecert-obligation-surface}. These identify the visible tuple $F,\sigma,W,\epsilon,Q,H,C,P,N$ and bind its local naming, transport, continuation, and package rows to the same finite packet.
+
+Next add the completion-facing rows. Apply \autoref{thm:cauchysequence-space-completion-handoff}, \autoref{thm:cauchysequence-space-common-window-classifier-transport}, and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness} to keep the handoff, classifier, windows, and dyadic tolerance on the displayed coordinates.
+
+Then use \autoref{thm:cauchysequence-space-completion-handoff-stability} and \autoref{thm:cauchysequence-space-regular-family-exhaustion}. They show that completion reads and regular-family consumers remain inside the same finite route.
+
+Finally package those rows by \autoref{thm:cauchysequence-space-scoped-completion-route-inventory}. The cited inventory is already a BEDC route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, so the public export has exactly the stated surface and no stronger completion object.
+\end{proof}
+
+\begin{theorem}[CauchySequenceSpace RealObservationBudget public consumer]
+\label{thm:cauchysequence-space-public-real-observation-consumer}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+be an accepted $\CauchySequenceSpaceUp$ packet. Suppose a $\RealObservationBudgetUp$ presentation uses the same finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, and $\RealUp$ seal factors as the completion-facing request for $S$. Then that observation presentation factors through the public completion export of \autoref{thm:cauchysequence-space-public-completion-export}.
+
+In particular, the observation consumer reads $F,\sigma,W,\epsilon,Q,H,C,P,N$ and the local $\NameCert_{\CauchySequenceSpaceUp}$ rows before it can present a real observation. It cannot bypass the public export by selecting a quotient name, a representative limit, a host real equality proof, an ambient completeness principle, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+First project the $\RealObservationBudgetUp$ presentation through \autoref{def:real-observation-budget-carrier}. The relevant observation rows are the finite request, window, dyadic readback, handoff, seal, transport, and naming data.
+
+Use \autoref{thm:real-observation-budget-window-coverage}, \autoref{thm:real-observation-budget-regseq-handoff}, and \autoref{thm:real-observation-budget-real-seal-boundary} to align those rows with the same finite windows, regular-rational handoffs, dyadic readbacks, and $\RealUp$ seal factors named by $S$.
+
+Now apply \autoref{thm:cauchysequence-space-real-observation-budget-factorization}. It already routes such an observation-budget presentation through $F,\sigma,W,\epsilon,Q,H,C,P,N$ before the completion handoff is read.
+
+Finally compose with \autoref{thm:cauchysequence-space-public-completion-export} and \autoref{thm:real-observation-budget-nonescape}. The first theorem supplies the public export for the routed packet, and the second excludes quotient names, selected representatives, host equality, ambient completeness, and unbounded schedules from the observation route.
+\end{proof}
+
+\begin{theorem}[CauchySequenceSpace public nonescape]
+\label{thm:cauchysequence-space-public-nonescape}
+For every accepted $\CauchySequenceSpaceUp$ packet $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$, the public completion export of \autoref{thm:cauchysequence-space-public-completion-export} exposes no quotient-name equality, no selected representative, no host real equality, no ambient completeness principle, and no hidden limit selector. Its observable routes are exhausted by the displayed finite carrier, obligation, completion handoff, classifier transport, tolerance, stability, family-exhaustion, and scoped-inventory rows.
+\end{theorem}
+\begin{proof}
+The public export is defined by \autoref{thm:cauchysequence-space-public-completion-export} as a package of previously displayed BEDC rows. Each row is a carrier, naming, transport, continuation, package, tolerance, handoff, stability, exhaustion, or scoped-route row over the tuple $F,\sigma,W,\epsilon,Q,H,C,P,N$.
+
+Apply \autoref{thm:cauchysequence-space-kernel-scope-packet} and \autoref{thm:cauchysequence-space-scoped-completion-route-inventory}. These two results state that completion-facing and limit-seal consumers are scoped by the displayed BEDC packet and that quotient completion, selected representatives, host real equality, and ambient completeness have no exported coordinate.
+
+It remains to exclude a hidden limit selector. The only limit-seal route available to the export is the factorization of \autoref{thm:cauchysequence-space-limit-seal-factorization}, which routes through $F,\sigma,W,\epsilon,Q,H,C,P,N$. Since that route is already included in the scoped inventory and supplies no selector coordinate, the public export cannot expose one.
+\end{proof}
+
 \closureat{CauchySequenceSpaceUp}{seedStr}
 \closureat{CauchySequenceSpaceUp}{obligationStr}
 \closureat{CauchySequenceSpaceUp}{scopedStr}

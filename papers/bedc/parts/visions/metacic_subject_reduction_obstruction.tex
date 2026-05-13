@@ -1,0 +1,114 @@
+\chapter{MetaCIC subject-reduction obstruction: an audit map}
+\label{ch:metacic-subject-reduction-obstruction}
+
+\section{The setup}
+\label{sec:metacic-subject-reduction-obstruction-setup}
+
+The BEDC.MetaCIC formalisation aims at a closed-term consistency theorem for the substrate's internal CIC fragment. The path is the canonical one: subject reduction, strong normalisation on closed terms, and no closed normal proof of $\mathsf{False}$. This chapter records the present audit state of that path, both what is already discharged and what remains as an explicit obligation.
+
+The audit point is narrow. BEDC does not hide the subject-reduction gap behind a silent proof hole. It exposes a parameterised theorem, names the four discharge hypotheses, records the partial closed-term normalisation and closed-normal consistency facts that are already checked, and proves an explicit obstruction theorem for the stronger closed subject-reduction statement in the current substrate.
+
+\section{What is already proven}
+\label{sec:metacic-subject-reduction-obstruction-proven}
+
+The checked inventory has four parts.
+
+\begin{itemize}
+\item Closed-term strong normalisation is available through the candidate-mediated closed-term interface. A closed typed term is shown strongly normalising when the corresponding candidate, closed candidate, or candidate-set membership witness is supplied: \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidate} \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_closedCandidate} \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidateSet}.
+\item No closed-normal proof of $\mathsf{False}$ is available for closed terms whose proof term is already beta-strong: \leanvariant{BEDC.MetaCIC.no\_closed\_normal\_proof\_of\_false}.
+\item Closed-normal consistency assembly is checked from empty-context typing, closedness, and beta-strong normality: \leanvariant{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}.
+\item Subject reduction is checked as a parameterised theorem conditional on the four discharge hypotheses: \leanvariant{BEDC.MetaCIC.subject\_reduction}.
+\end{itemize}
+
+Thus the substrate already closes the normal-form contradiction side and the parameterised preservation theorem. It does not close the unparameterised closed subject-reduction theorem.
+
+\section{The four discharge obligations}
+\label{sec:metacic-subject-reduction-four-obligations}
+
+The four hypotheses are not decorative assumptions. They are the named discharge obligations of the represented reduction system.
+
+\begin{definition}[BetaSubstitutionPreservation]
+\label{def:metacic-beta-substitution-preservation}
+$\mathrm{BetaSubstitutionPreservation}$ is the beta-redex obligation. It says that if a body has type $cod$ in the context extended by the shifted domain, and the argument has the unshifted domain type in the original context, then substituting the argument into the body has the substituted codomain type in the original context.
+\end{definition}
+
+This is the only obligation consumed by the direct beta case of the parameterised subject-reduction theorem. It is the place where substitution must preserve typing across the binder boundary.
+
+\begin{definition}[AppArgTypeStable]
+\label{def:metacic-app-arg-type-stable}
+$\mathrm{AppArgTypeStable}$ is the application-argument congruence obligation. It says that for a typed function $f : \Pi dom.\,cod$, a typed argument $a : dom$, and a reduct $a' : dom$, substituting $a'$ into $cod$ gives the same codomain as substituting $a$ into $cod$.
+\end{definition}
+
+This obligation is consumed when reduction steps inside the argument of an application. The function type remains the same, so the target application can be typed at the original displayed result type only if the codomain readback is stable under replacing the argument by its reduct.
+
+\begin{definition}[LamDomainSubjectReduction]
+\label{def:metacic-lam-domain-subject-reduction}
+$\mathrm{LamDomainSubjectReduction}$ is the lambda-domain congruence obligation. It says that if $\lambda d.\,b$ has a type $A$ in a context $\Gamma$, and the displayed domain $d$ takes one beta step to $d'$, then $\lambda d'.\,b$ still has type $A$ in the same context.
+\end{definition}
+
+This obligation is consumed by the lambda-domain reduction constructor. It is separate because reducing the displayed domain changes the binder annotation while leaving the body and the claimed external type fixed.
+
+\begin{definition}[PiDomainSubjectReduction]
+\label{def:metacic-pi-domain-subject-reduction}
+$\mathrm{PiDomainSubjectReduction}$ is the Pi-domain congruence obligation. It says that if $\Pi d.\,c$ has a type $A$ in a context $\Gamma$, and the displayed domain $d$ takes one beta step to $d'$, then $\Pi d'.\,c$ still has type $A$ in the same context.
+\end{definition}
+
+This obligation is consumed by the Pi-domain reduction constructor. It is separate because reducing a Pi domain changes the context against which the codomain was originally checked.
+
+\section{The explicit obstruction theorem}
+\label{sec:metacic-subject-reduction-explicit-obstruction}
+
+\begin{principle}[Closed subject reduction is documented as not available in the present substrate]
+\label{prin:metacic-closed-subject-reduction-not-available}
+The current substrate proves that the closed subject-reduction statement is not available. The theorem is a checked negation of the closed consistency reduction obstruction proposition, whose content is the closed subject-reduction statement itself:
+\leanchecked{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}
+\end{principle}
+
+The obstruction is not a prose caution. It is a Lean theorem. Consequently the manuscript must not cite a blanket closed subject-reduction theorem for BEDC.MetaCIC. The available preservation theorem is the parameterised theorem, and the unparameterised closed statement is blocked by the checked obstruction.
+
+\section{Critical path}
+\label{sec:metacic-subject-reduction-critical-path}
+
+Discharging any one of the four obligations does not unblock full subject reduction. All four are needed simultaneously. The four cover the reduction shapes that remain open at the subject-reduction interface:
+
+\begin{itemize}
+\item the beta step, governed by $\mathrm{BetaSubstitutionPreservation}$;
+\item congruence into the $\mathsf{App}$ argument, governed by $\mathrm{AppArgTypeStable}$;
+\item congruence into the $\mathsf{Lam}$ domain, governed by $\mathrm{LamDomainSubjectReduction}$;
+\item congruence into the $\mathsf{\Pi}$ domain, governed by $\mathrm{PiDomainSubjectReduction}$.
+\end{itemize}
+
+The parameterised theorem consumes exactly these four inputs. The obstruction theorem says that the project cannot replace that four-input interface by the closed subject-reduction statement in the present substrate.
+
+\section{Where this fits in BEDC's apophatic framing}
+\label{sec:metacic-subject-reduction-apophatic-framing}
+
+BEDC names the unknown rather than hides it. The four hypotheses, the parameterised subject-reduction theorem, and the explicit no-go obstruction theorem together form an apophatic name for the closed-term subject-reduction discharge problem: the substrate names what it cannot yet prove and audits where the proof would need to land.
+
+This is the same discipline described in \autoref{ch:visions-apophatic-naming-as-discipline} and \autoref{ch:visions-certificate-closure-and-generator-induction}. An unresolved discharge obligation is not converted into an axiom, a hidden host theorem, or an informal appeal to the intended calculus. It remains a named boundary with a precise interface.
+
+\section{The dependent-codomain frontier}
+\label{sec:metacic-subject-reduction-dependent-codomain-frontier}
+
+The closed application case has a checked positive side. If the function is typed at $\Pi dom.\,cod$, the original argument and its reduct are both typed at $dom$, the function and original argument are closed, and the codomain itself is closed independently of the argument, then the reduced application keeps the original displayed result type:
+\leanchecked{BEDC.MetaCIC.subject\_reduction\_closed\_app\_independent\_codomain}
+
+The dependent side is different. There is a closed function, a closed reducing argument, and a closed application beta step for which the original application has a type $A$, the reduct exists, and the reduct does not have type $A$:
+\leanchecked{BEDC.MetaCIC.subject\_reduction\_closed\_app\_counterexample}
+
+Thus the obstruction is not brute failure of closed application preservation. It is a precise frontier. Closed application subject reduction is discharged in the independent-codomain regime, where substituting the reduct argument into the codomain reads back the same result type. It fails in the dependent-codomain regime when the codomain observes the argument strongly enough for substitution after reduction to change the displayed type.
+
+This frontier places the four discharge obligations on the dependent side of the boundary. $\mathrm{AppArgTypeStable}$ must supply the missing codomain-readback stability for argument congruence. $\mathrm{BetaSubstitutionPreservation}$ must carry typing through the beta-redex binder. $\mathrm{LamDomainSubjectReduction}$ and $\mathrm{PiDomainSubjectReduction}$ must preserve the displayed binder annotations when reduction enters domains. Without those inputs, the dependent-codomain counterexample blocks any unconditional closed subject-reduction theorem for the present substrate.
+
+\section{Boundary}
+\label{sec:metacic-subject-reduction-boundary}
+
+This chapter does not claim a proof of any of the four hypotheses. It claims only that the audit map is complete at the current interface and that the critical path is sharply identified. The work of discharging the hypotheses is the substrate's outstanding meta-theoretic obligation.
+
+\concretizedIn{ch:concrete-instances-betasubstitutionpreservation-namecert}{Beta-substitution preservation is realized as a finite NameCert packet for the beta-redex typing boundary consumed by the MetaCIC subject-reduction interface.}
+\concretizedIn{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert}{MetaCIC discharge-obligation ledgers realize the four subject-reduction hypotheses and checked obstruction boundary as a finite NameCert audit packet.}
+\concretizedIn{ch:concrete-instances-subjectreductiondischarge-namecert}{SubjectReductionDischargeUp realizes the four MetaCIC subject-reduction discharge obligations as a finite NameCert packet with an explicit obstruction boundary.}
+\concretizedIn{ch:concrete-instances-subject-reduction-discharge-socket-namecert}{Finite NameCert socket for the four MetaCIC subject-reduction discharge obligations and the checked obstruction boundary.}
+\concretizedIn{ch:concrete-instances-metacic-subject-reduction-trace-namecert}{The MetaCIC subject-reduction obstruction is realized as a finite NameCert packet for the parameterized theorem, four discharge obligations, checked obstruction row, and non-escape ledger.}
+\concretizedIn{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}{Names the four MetaCIC subject-reduction discharge obligations as a finite NameCert frontier.}
+\concretizedIn{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}{The four-obligation MetaCIC subject-reduction obstruction is realized as a finite NameCert boundary packet.}

@@ -201,4 +201,39 @@ theorem GeneratorClosurePacket_gap_boundary_absorbs_unwitnessed_route [AskSetup]
     unary_cont_right_factor rejectedRoute routesUnary
   exact ⟨constructorsUnary, rejectedUnary, rejectedRoute, exportedRoute, exportedPkg⟩
 
+theorem GeneratorClosurePacket_fixedpoint_acceptance_route [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      exported fixed : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg →
+      hsame endpoint exported →
+        Cont name exported routes →
+          PkgSig bundle exported pkg →
+            Cont exported witnesses fixed →
+              PkgSig bundle fixed pkg →
+                UnaryHistory constructors ∧ UnaryHistory witnesses ∧ UnaryHistory exported ∧
+                  UnaryHistory fixed ∧ Cont name exported routes ∧
+                    Cont exported witnesses fixed ∧ PkgSig bundle endpoint pkg ∧
+                      PkgSig bundle exported pkg ∧ PkgSig bundle fixed pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint exportedRoute exportedPkg fixedRoute fixedPkg
+  obtain ⟨_generatorUnary, constructorsUnary, _authorizedUnary, _classifierUnary,
+    witnessesUnary, _transportUnary, _provenanceUnary, _nameUnary, endpointUnary,
+    _generatorRoute, _classifierRoute, _endpointRoute, endpointPkg⟩ := packet
+  have exportedUnary : UnaryHistory exported :=
+    unary_transport endpointUnary sameEndpoint
+  have fixedUnary : UnaryHistory fixed :=
+    unary_cont_closed exportedUnary witnessesUnary fixedRoute
+  exact
+    ⟨constructorsUnary,
+      witnessesUnary,
+      exportedUnary,
+      fixedUnary,
+      exportedRoute,
+      fixedRoute,
+      endpointPkg,
+      exportedPkg,
+      fixedPkg⟩
+
 end BEDC.Derived.GeneratorClosureUp
