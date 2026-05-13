@@ -1,0 +1,84 @@
+\providecommand{\FuelIndexedSubstrateBridgeUp}{\mathsf{FuelIndexedSubstrateBridge}^{\uparrow}}
+
+\chapter{A Concrete Naming Certificate for $\FuelIndexedSubstrateBridgeUp$}
+\label{ch:concrete-instances-fuel-indexed-substrate-bridge-namecert}
+\origin{ai}
+
+The $\FuelIndexedSubstrateBridgeUp$ packet realizes the step-indexed bridge of \autoref{def:strong-normalization-step-indexed-encoding} and \autoref{prin:strong-normalization-step-indexing-as-bridge} as a finite NameCert carrier. It keeps the total host and the universal substrate in different rows: the host evaluator is total and fuel-indexed, while the substrate row may name a universal computation only through a displayed finite window. The packet therefore gives the strong-normalisation vision a concrete finite carrier without claiming host partiality or unbounded substrate completion.
+
+\falsifiablePrediction{Removing the fuel row allows a consumer to confuse one finite substrate window with an unbounded computation, which the $\FuelIndexedSubstrateBridgeUp$ carrier rejects.}
+
+\independenceWitness{Nearest siblings: twinsubstratebridge, cellularsubstrate, continuationautomaton, closednormalroutecertificate, and boundeduniversaltrace. None is bijective to $\FuelIndexedSubstrateBridgeUp$ because none simultaneously carries fuel, substrate-state, total-host evaluator, and refusal rows separating a finite substrate window from an unbounded computation.}
+
+\begin{definition}[Fuel-indexed substrate bridge carrier]
+\label{def:fuel-indexed-substrate-bridge-carrier}
+A $\FuelIndexedSubstrateBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(F,S,E,W,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the fuel row, naming the finite step bound under which the host read is accepted;
+\item $S$ is the substrate-state row, naming the finite cellular, machine, or continuation state visible at that fuel;
+\item $E$ is the total-host evaluator row, naming the terminating host function that maps a fuel and substrate input to a finite readback;
+\item $W$ is the finite substrate-window row exposed to downstream consumers;
+\item $R$ is the readback row produced from $F,S,E,W$;
+\item $Q$ is the refusal row excluding unbounded completion, host partiality, hidden halting evidence, and any identification of a finite window with an all-time computation;
+\item $H$ records componentwise $\hsame$ transports for $F,S,E,W,R,Q,P,N$;
+\item $C$ records displayed $\Cont$ routes through the fuel, substrate-state, total-host evaluator, finite-window, readback, and refusal rows;
+\item $P$ is the $\Pkg$ provenance over $\FuelIndexedSubstrateBridgeUp$, \autoref{ch:visions-strong-normalization-vs-turing-completeness}, \autoref{ch:concrete-instances-cellularsubstrate-namecert}, \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FuelIndexedSubstrateBridgeUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through these displayed rows. It has no coordinate for a partial host evaluator, an unbounded substrate orbit, a halting oracle, quotient stream equality, selected nontermination evidence, or semantic completion of the universal substrate.
+\end{definition}
+
+\begin{theorem}[Fuel-indexed substrate bridge obligation surface]
+\label{thm:fuel-indexed-substrate-bridge-obligation-surface}
+For the carrier of \autoref{def:fuel-indexed-substrate-bridge-carrier}, the local $\NameCert_{\FuelIndexedSubstrateBridgeUp}$ surface consists exactly of carrier admission for $B=(F,S,E,W,R,Q,H,C,P,N)$, fuel exposure through $F$, substrate-state exposure through $S$, total-host evaluation through $E$, finite substrate-window exposure through $W$, readback through $R$, refusal accounting through $Q$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The accepted packet has exactly the coordinates $F,S,E,W,R,Q,H,C,P,N$, so carrier admission cannot introduce another fuel value, substrate state, host evaluator, window, readback, or refusal row.
+
+Read the computational rows in dependency order. The fuel row $F$ bounds the accepted host read, $S$ provides the substrate state seen at that bound, $E$ is the total evaluator that consumes the bounded input, and $W,R$ display the finite window and readback delivered to the consumer.
+
+The refusal and structural rows close the surface. The row $Q$ records the excluded escapes, while $H,C,P,N$ transport, replay, package, and name only the same finite packet. Thus the NameCert surface is exactly the displayed fuel-indexed bridge and nothing outside it.
+\end{proof}
+
+\begin{theorem}[Fuel-indexed substrate bridge total-host non-escape]
+\label{thm:fuel-indexed-substrate-bridge-total-host-nonescape}
+Every accepted $\FuelIndexedSubstrateBridgeUp$ consumer route reads the host computation through the total evaluator row $E$ under the displayed fuel row $F$. The packet exports no partial host evaluator, no host-level halting oracle, no selected nontermination witness, and no proof that the substrate computation has completed beyond the displayed finite window $W$.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:fuel-indexed-substrate-bridge-obligation-surface}. A consumer reaches the readback row only through $F,S,E,W,R,Q,H,C,P,N$.
+
+The evaluator row $E$ is consumed with the fuel row $F$. Hence the host-facing computation is the total step-indexed read described by \autoref{def:strong-normalization-step-indexed-encoding}, not a partial evaluator or an unbounded host run.
+
+The refusal row $Q$ records the missing escapes. Since the carrier has no coordinate for host partiality, a halting oracle, selected nontermination evidence, or substrate completion beyond $W$, none of those objects can be exported by the consumer route.
+\end{proof}
+
+\begin{theorem}[Fuel-indexed substrate bridge step-window boundary]
+\label{thm:fuel-indexed-substrate-bridge-step-window-boundary}
+For an accepted $\FuelIndexedSubstrateBridgeUp$ packet $B=(F,S,E,W,R,Q,H,C,P,N)$, the substrate-side content available to any downstream route is exactly the finite step window $W$ and readback $R$ obtained under $F,S,E$. In particular, one finite window cannot be consumed as an unbounded computation, a completed universal substrate run, or a quotient stream of all future substrate states.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fuel-indexed-substrate-bridge-carrier}. The only substrate-facing rows are the state row $S$, the finite window row $W$, and the readback row $R$, all governed by the fuel and evaluator rows $F,E$.
+
+Apply \autoref{thm:fuel-indexed-substrate-bridge-total-host-nonescape}. The consumer receives a total fuel-indexed host read and no unbounded host or substrate completion coordinate.
+
+It remains to identify the boundary of the substrate read. The refusal row $Q$ excludes treating $W$ as an all-time computation or as a quotient stream of future states, while $H,C,P,N$ preserve only the displayed finite route. Therefore the public substrate content is exactly the stated finite step window and readback.
+\end{proof}
+
+The Lean TasteGate module $\mathsf{BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \mathsf{FuelIndexedSubstrateBridgeUp}$ and $\mathsf{FieldFaithful}\ \mathsf{FuelIndexedSubstrateBridgeUp}$ instances for the displayed carrier.
+
+\closureat{FuelIndexedSubstrateBridgeUp}{seedStr}
+
+\begin{closurestatus}{\FuelIndexedSubstrateBridgeUp}
+  \constructivestory{A $\FuelIndexedSubstrateBridgeUp$ packet is generated from fuel, substrate-state, total-host evaluator, finite-window, readback, refusal, transport, route, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fuel-indexed-substrate-bridge-carrier}, \autoref{thm:fuel-indexed-substrate-bridge-obligation-surface}, \autoref{thm:fuel-indexed-substrate-bridge-total-host-nonescape}, and \autoref{thm:fuel-indexed-substrate-bridge-step-window-boundary} specify the finite total-host and universal-substrate bridge packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, host partiality, unbounded substrate completion, halting decidability, quotient stream equality, or semantic completion of the universal substrate.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel exposure, substrate-state exposure, total-host evaluator accountability, finite-window exactness, refusal non-escape, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
