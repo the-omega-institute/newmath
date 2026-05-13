@@ -90,6 +90,26 @@ The handoff route in $K$ is the only $\SubjectReductionUp$-facing coordinate. It
 Use \autoref{thm:betasubstitutionpreservation-nonescape} for the boundary condition. The packet cannot be read as unrestricted conversion, global normalization, or closed subject reduction, so the subject-reduction consumer receives exactly the named beta-substitution preservation input.
 \end{proof}
 
+\begin{theorem}[Beta row consumption by SubjectReductionDischarge]
+\label{thm:betasubstitutionpreservation-subjectreduction-four-row-consumption}
+An accepted $\BetaSubstitutionPreservationUp$ packet supplies exactly the $B$ row of an accepted $\SubjectReductionDischargeUp$ packet. The $A,L,\Pi$ rows remain external discharge obligations. Every downstream consumer must read the beta row through
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)
+$$
+and must read the discharge packet through the displayed four-row inventory of $\SubjectReductionDischargeUp$ rather than through a closed subject-reduction theorem or host substitution semantics.
+\end{theorem}
+\begin{proof}
+Apply the subject-reduction handoff of \autoref{thm:betasubstitutionpreservation-subjectreduction-handoff}. It presents the accepted beta packet as the finite row
+$$
+Q=(B,A,V,C_0,R,C_1,L,H,K,P,N),
+$$
+with the body typing, argument typing, redex, substituted readback, ledger, transport, route, provenance, and local naming rows available only inside that packet.
+
+Next read the downstream discharge surface. By \autoref{thm:subject-reduction-discharge-four-row-completeness}, the public inventory of $\SubjectReductionDischargeUp$ has exactly four discharge rows: beta, application-argument, lambda-domain, and Pi-domain. The beta row is therefore the only slot supplied by the $\BetaSubstitutionPreservationUp$ handoff; the $A,L,\Pi$ rows of the discharge packet remain obligations supplied outside this carrier.
+
+Finally apply the obstruction boundary of \autoref{thm:subject-reduction-discharge-boundary} together with the non-escape theorem \autoref{thm:betasubstitutionpreservation-nonescape}. These prevent the beta packet from being read as a closed subject-reduction theorem, host substitution semantics, unrestricted conversion, or a replacement for the other three discharge rows.
+\end{proof}
+
 \begin{theorem}[BetaSubstitutionPreservation redex ledger exactness]
 \label{thm:betasubstitutionpreservation-redex-ledger-exactness}
 Let $Q=(B,A,V,C_0,R,C_1,L,H,K,P,N)$ be an accepted $\BetaSubstitutionPreservationUp$ carrier. The redex ledger row $L$ records exactly the body typing row $B$, argument typing row $A$, beta-redex row $V$, codomain boundary row $C_0$, substituted body row $R$, substituted codomain row $C_1$, componentwise transports $H$, continuation routes $K$, provenance row $P$, and local naming row $N$ from \autoref{def:betasubstitutionpreservation-carrier}. It does not add host substitution semantics, a semantic term-equality row, unrestricted conversion, or closed subject reduction to the beta case.

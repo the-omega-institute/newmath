@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaClosureObstructionUp$}
+\label{ch:concrete-instances-metaclosureobstruction-namecert}
+\origin{ai}
+
+The $\MetaClosureObstructionUp$ packet realizes the forbidden-schema side of \autoref{ch:visions-reasoning-by-contradiction-boundary}. It records the permitted refutation route, the forbidden contradiction-schema request, the certificate-indexed truth-branch refusal row, the meta-loop boundary row, and the local naming ledger that separates ground-loop refutation from truth closure over the carrier of naming certificates.
+
+\begin{definition}[MetaClosureObstruction carrier]
+\label{def:meta-closure-obstruction-carrier}
+A $\MetaClosureObstructionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(R,S,F,T,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the permitted refutation route, read as a displayed assumption-to-bottom $\Cont$ packet over a fixed certificate surface;
+\item $S$ is the forbidden contradiction-schema request, naming one of existential-by-contradiction, double-negation elimination without a decidability row, or excluded middle over the carrier of naming certificates;
+\item $F$ is the refusal ledger for the requested schema, recording that the request is not an admitted certificate rule;
+\item $T$ is the truth-branch refusal row for certificate-indexed predicates;
+\item $M$ is the meta-loop boundary row separating the closed ground loop from the open truth-closure layer;
+\item $H$ records componentwise $\hsame$ transports for $R,S,F,T,M,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the refutation route, forbidden-schema request, refusal rows, and meta-loop boundary;
+\item $P$ is the $\Pkg$ provenance over $\WitnessedRefutationUp$, $\CertificateTruthBranchBoundaryUp$, $\ReflectionLimitBoundaryUp$, $\GroundLoopBoundaryUp$, and $\HaltingDistinctionLimitUp$;
+\item $N$ is the local $\NameCert_{\MetaClosureObstructionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed rows $R,S,F,T,M,H,C,P,N$. In particular, an accepted packet lacking the truth-branch refusal row $T$ is not a $\MetaClosureObstructionUp$ carrier.
+\end{definition}
+
+\begin{theorem}[MetaClosureObstruction NameCert obligations]
+\label{thm:meta-closure-obstruction-namecert-obligations}
+For the carrier of \autoref{def:meta-closure-obstruction-carrier}, the local $\NameCert_{\MetaClosureObstructionUp}$ surface consists of carrier admission for
+$$
+O=(R,S,F,T,M,H,C,P,N),
+$$
+permitted-refutation exposure through $R$, forbidden-schema request exposure through $S$, schema refusal through $F$, certificate-indexed truth-branch refusal through $T$, meta-loop boundary exposure through $M$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:meta-closure-obstruction-carrier}. The tuple displays the permitted refutation route, the forbidden-schema request, the two refusal rows, the meta-loop boundary, transport data, continuation data, provenance, and local naming row.
+
+The refutation row $R$ is ground-facing: it is read only as an assumption-to-bottom route inside a fixed certificate surface. The schema row $S$ is boundary-facing: it names the forbidden move being requested but does not supply its constructive witness, decidability row, or certificate-indexed branch family.
+
+The refusal rows $F$ and $T$ are distinct. Row $F$ refuses the local schema request, while row $T$ refuses the truth-branch family over naming certificates that the forbidden schema would supply. Row $M$ then records that this refusal is the open meta-loop boundary rather than a missing ground-loop constructor.
+
+Transport and replay are exhausted by $H$ and $C$, and provenance is exhausted by $P,N$. Since no further coordinate exists, the listed rows are exactly the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaClosureObstruction non-escape]
+\label{thm:meta-closure-obstruction-nonescape}
+Every accepted $\MetaClosureObstructionUp$ packet exports only the finite rows
+$$
+R,S,F,T,M,H,C,P,N.
+$$
+No consumer can extract from such a packet an existential witness obtained from $\neg\forall\neg$, a double-negation eliminator for an undecided classifier, an excluded-middle branch over naming certificates, a certificate-indexed truth predicate, or meta-loop truth closure. Any accepted packet lacking the truth-branch refusal row $T$ fails to be a $\MetaClosureObstructionUp$ carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the carrier inventory of \autoref{def:meta-closure-obstruction-carrier}. The only positive proof route is the permitted refutation row $R$, and the only forbidden-schema information is the request row $S$ together with the refusal rows $F,T$ and the boundary row $M$.
+
+The NameCert obligations of \autoref{thm:meta-closure-obstruction-namecert-obligations} force every consumer read through $H,C,P,N$. Thus a consumer may replay the displayed refutation and inspect the refusal boundary, but no route bypasses $F,T,M$ to produce a truth branch or a closed meta loop.
+
+The last claim follows from the carrier definition itself. Row $T$ is one of the displayed coordinates of $O$, and the classifier compares accepted packets only through all displayed rows. Removing $T$ removes the certificate-indexed truth-branch refusal coordinate, so the remaining packet is not a $\MetaClosureObstructionUp$ carrier.
+\end{proof}
+
+\independenceWitness{WitnessedRefutation, CertificateTruthBranchBoundary, ReflectionLimitBoundary, GroundLoopBoundary, HaltingDistinctionLimit: the obstruction packet contains both a forbidden-schema request row and a truth-branch refusal row. WitnessedRefutation carries the permitted refuter without the forbidden-schema packet; CertificateTruthBranchBoundary carries the branch boundary without the meta-loop obstruction packet; ReflectionLimitBoundary carries structural reflection limits without a contradiction-schema request; GroundLoopBoundary carries closed mark distinction without certificate-indexed truth refusal; HaltingDistinctionLimit carries a halting diagonal obstruction without the three-schema refusal ledger. Hence none is bijective to $\MetaClosureObstructionUp$ while preserving NameCert obligations.}
+
+\closureat{MetaClosureObstructionUp}{seedStr}
+
+\begin{closurestatus}{\MetaClosureObstructionUp}
+  \constructivestory{A $\MetaClosureObstructionUp$ packet is generated from a permitted refutation route, a forbidden contradiction-schema request, schema and truth-branch refusal rows, a meta-loop boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:meta-closure-obstruction-carrier}, \autoref{thm:meta-closure-obstruction-namecert-obligations}, and \autoref{thm:meta-closure-obstruction-nonescape} bind the finite obstruction packet separating permitted refutation from meta-loop truth closure.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close the forbidden contradiction schemas, certificate-indexed truth predicates, excluded middle over naming certificates, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked Nontrivial and FieldFaithful TasteGate witnesses for $\MetaClosureObstructionUp$ over the displayed carrier and refusal rows.}
+\end{closurestatus}
