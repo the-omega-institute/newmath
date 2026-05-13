@@ -714,6 +714,46 @@ Apply root ledger exactness and root classifier stability. These results keep ro
 Finally use the uniform-criterion consumer link. It reuses the same finite ledger for downstream reads, so quotient stream, selected limit, host equality, trichotomy, and ambient completeness rows are unavailable to those consumers.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTailMeet root threshold provenance]
+\label{thm:regular-cauchy-tail-meet-root-threshold-provenance}
+Every root threshold read of an accepted $\RegularCauchyTailMeetUp$ packet is sourced by the displayed rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+and inherits provenance only from the contributing $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier and use \autoref{thm:regular-cauchy-tail-meet-public-tail-meet-certificate}. The two source rows, two windows, two modulus rows, shared threshold, comparison, transport, continuation, ledger, and local name are the whole root-facing threshold surface.
+
+Then apply \autoref{thm:regular-cauchy-tail-meet-source-window-modulus-route}. It supplies the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ provenance for that surface, while the local $\NameCert$ row names the same finite route.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root window-modulus exactness]
+\label{thm:regular-cauchy-tail-meet-root-window-modulus-exactness}
+For an accepted $\RegularCauchyTailMeetUp$ packet, the paired window rows $W_0,W_1$ and source modulus rows $M_0,M_1$ are exactly the route to the shared dyadic threshold $\tau$. Any root-facing threshold read reaches $\tau$ through the source-window-modulus route and the shared-threshold route determinacy.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-tail-meet-source-window-modulus-route} to factor a threshold read through the paired window rows and source modulus rows. This gives the displayed route to the dyadic threshold ledger.
+
+Apply \autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}. A second root-facing read with the same transported windows and modulus rows reaches the same threshold ledger, so the paired window and modulus rows are the exact route to $\tau$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root consumer export boundary]
+\label{thm:regular-cauchy-tail-meet-root-consumer-export-boundary}
+Downstream $\RealUp$ and $\UniformCauchyCriterionUp$ consumers of an accepted $\RegularCauchyTailMeetUp$ packet receive only the finite threshold packet
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+They receive no quotient stream, selected limit, host equality, trichotomy, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-tail-meet-root-consumer-exhaustion}. It confines downstream consumers to the two-tail, one-threshold ledger and excludes quotient, selected-limit, host-equality, trichotomy, and completeness rows.
+
+Then use \autoref{thm:regular-cauchy-tail-meet-root-threshold-provenance} and \autoref{thm:regular-cauchy-tail-meet-root-window-modulus-exactness}. These identify the exported ledger with the displayed finite packet and route both $\RealUp$ and $\UniformCauchyCriterionUp$ reads through the same threshold surface.
+\end{proof}
+
+\input{parts/concrete_instances/regularcauchytailmeet/root_window_threshold_obligations}
+
 \closureat{RegularCauchyTailMeetUp}{seedStr}
 \closureat{RegularCauchyTailMeetUp}{obligationStr}
 \closureat{RegularCauchyTailMeetUp}{scopedStr}
