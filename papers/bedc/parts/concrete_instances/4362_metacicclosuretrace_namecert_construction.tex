@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICClosureTraceUp$}
+\label{ch:concrete-instances-metacicclosuretrace-namecert}
+\origin{human}
+
+The $\MetaCICClosureTraceUp$ packet gives the ClosurePreservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} a finite BEDC landing. It sits beside the audit-gate packet of \autoref{ch:concrete-instances-tastegateaudittrace-namecert} and the kernel trace packet of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}: the former records admission discipline, the latter records accepted declarations, and this packet records the closedness-preservation rows that downstream MetaCIC routes may replay.
+
+\begin{definition}[MetaCICClosureTrace carrier]
+\label{def:metacicclosuretrace-carrier}
+A $\MetaCICClosureTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,U,V,B,R,G,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the shift closedness row, naming the theorem row for \texttt{shift\_one\_preserves\_closed\_succ};
+\item $U$ is the variable-substitution closedness row, naming the theorem row for \texttt{substitute\_var\_preserves\_closed\_at};
+\item $V$ is the full-substitution closedness row, naming the theorem row for \texttt{substitute\_preserves\_closed\_at};
+\item $B$ is the one-step beta closedness row, naming the theorem row for \texttt{betaStep\_preserves\_closed};
+\item $R$ is the finite beta-chain closedness row, naming the theorem row for \texttt{betaStarStep\_preserves\_closed};
+\item $G$ records the generator-closure rows for \texttt{closed\_under\_shift\_classifier} and \texttt{closed\_under\_substitute\_classifier};
+\item $K$ records the kernel-acceptance trace rows for the accepted MetaCIC ClosurePreservation declarations and their displayed dependency ledger;
+\item $H$ records componentwise $\hsame$ transports for theorem rows, generator rows, kernel trace rows, provenance rows, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which downstream subject-reduction, closed-normal, and conversion-facing packets read the closure trace;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-closure-preservation-audit-map}, \autoref{ch:concrete-instances-tastegateaudittrace-namecert}, \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, the MetaCIC ClosurePreservation module, generator-closure rows, componentwise $\hsame$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MetaCICClosureTraceUp}$ row.
+\end{enumerate}
+The carrier contains no typing preservation theorem, no subject-reduction discharge inhabitant, no confluence theorem, no normalization theorem, no hidden kernel soundness premise, and no generator outside the displayed shift, substitution, beta-step, and finite beta-chain rows.
+\end{definition}
+
+\begin{theorem}[MetaCICClosureTrace substitution and shift generator package]
+\label{thm:metacicclosuretrace-substitution-shift-generator-package}
+For every accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$, the rows $S,U,V,G$ form a finite generator package for the closedness classifier. The shift row $S$ authorizes the one-step lift at the successor boundary, the variable row $U$ and full-substitution row $V$ authorize substitution at the receiving boundary, and the generator row $G$ records exactly those two generator-closure classifier witnesses as the package exported to downstream closure consumers.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $T$. The shift row and the two substitution rows are already separated as $S,U,V$, so the carrier has a finite inventory before any downstream consumer is considered.
+
+Read the generator row $G$. Its shift coordinate is backed by the same closedness-preservation theorem named by $S$, and its substitution coordinate is backed by the variable and full-substitution theorem rows $U,V$.
+
+Finally inspect $H,C,P,N$. Transport and continuation replay preserve the displayed package rows, while provenance and local naming bind them to the ClosurePreservation audit map. Since no other generator coordinate occurs in $T$, the exported generator package is exhausted by $S,U,V,G$.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace beta-star preservation readback]
+\label{thm:metacicclosuretrace-beta-star-preservation-readback}
+Every downstream consumer that reads finite beta-chain closedness from an accepted $\MetaCICClosureTraceUp$ carrier receives it through the route
+$$
+B,R,H,C,P,N.
+$$
+The one-step beta row $B$ supplies the local preservation step, the finite beta-chain row $R$ supplies the iterated readback, and the route may cite the checked MetaCIC theorem \texttt{BEDC.MetaCIC.betaStarStep\_preserves\_closed} as the kernel-accepted declaration recorded by $K$. The readback preserves only \texttt{ClosedAt}; it exports no typing, conversion, confluence, or normalization conclusion.
+\end{theorem}
+\begin{proof}
+Begin with the beta rows. The row $B$ names the one-step closedness preservation fact, and the row $R$ names its finite beta-chain closure.
+
+Use the kernel trace row $K$ only as an acceptance ledger for the named declaration. This ledger records that the finite beta-chain theorem is part of the accepted ClosurePreservation surface; it does not add a separate semantic premise.
+
+Now replay the consumer route through $H,C,P,N$. Componentwise transport keeps $B$ and $R$ aligned, the continuation route exposes the finite read, provenance identifies the ClosurePreservation audit map, and the local NameCert row names the packet. Because the carrier has no typing or conversion coordinate, the readback stops at closedness preservation.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace NameCert obligations]
+\label{thm:metacicclosuretrace-namecert-obligations}
+For the carrier of \autoref{def:metacicclosuretrace-carrier}, the local $\NameCert_{\MetaCICClosureTraceUp}$ surface consists exactly of carrier admission for
+$$
+T=(S,U,V,B,R,G,K,H,C,P,N),
+$$
+the five ClosurePreservation theorem rows $S,U,V,B,R$, generator-closure readback through $G$, kernel-acceptance trace accounting through $K$, componentwise transport through $H$, displayed continuation reads through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the first projection of the displayed packet $T$. This projection fixes the five theorem rows before the generator, kernel trace, transport, route, provenance, or naming rows are read.
+
+The generator and kernel obligations are then forced by $G$ and $K$. The row $G$ exposes only the shift and substitution generator-closure witnesses, while $K$ records accepted ClosurePreservation declarations and their dependency ledger.
+
+The remaining obligations are exactly the public routing rows. The row $H$ supplies componentwise $\hsame$ transport, $C$ supplies continuation replay, $P$ supplies package provenance, and $N$ supplies local naming. No carrier coordinate remains from which a stronger MetaCIC theorem could be exported.
+\end{proof}
+
+\closureat{MetaCICClosureTraceUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICClosureTraceUp}
+  \constructivestory{A $\MetaCICClosureTraceUp$ packet is generated from five MetaCIC ClosurePreservation theorem rows, shift and substitution generator-closure rows, kernel-acceptance trace rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacicclosuretrace-carrier}, \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, and \autoref{thm:metacicclosuretrace-namecert-obligations} bind the finite closure-trace packet over MetaCIC shift, substitution, beta-step, and finite beta-chain closedness preservation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove subject reduction, type preservation, confluence, normalization, kernel soundness, checked Lean carrier obligations, or a public bridge for the closure-trace packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, generator package exactness, beta-chain readback exactness, kernel-trace accounting, route replay, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}
