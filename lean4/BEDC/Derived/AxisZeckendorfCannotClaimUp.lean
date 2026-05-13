@@ -181,4 +181,55 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_refusal_transport [AskSetup] [Pa
                             exact unary_transport_symm gUnary sameG
   exact ⟨consumerUnary, routeAB, routeCD, routeEF, refusalRow, consumerPkg⟩
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_real_refusal_route [AskSetup] [PackageSetup]
+    {a b c d e f g h p n e' h' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      hsame e e' ->
+        Cont e' f h' ->
+          PkgSig bundle h' pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row h' ∧ UnaryHistory row ∧
+                PkgSig bundle row pkg)
+              (fun row : BHist => Cont e' f row ∧ UnaryHistory e' ∧ UnaryHistory f)
+              (fun row : BHist => PkgSig bundle row pkg ∧ hsame h h')
+              (fun row row' : BHist => hsame row row') := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig hsame SemanticNameCert
+  intro packet sameE routeEF' pkgSig'
+  obtain
+    ⟨_aUnary, _bUnary, _cUnary, _dUnary, eUnary, fUnary, _gUnary, _routeAB,
+      _routeCD, routeEF, _sameProvenanceName, _pkgSig⟩ := packet
+  have eUnary' : UnaryHistory e' :=
+    unary_transport eUnary sameE
+  have routeSame : hsame h h' :=
+    cont_respects_hsame sameE (hsame_refl f) routeEF routeEF'
+  have hUnary' : UnaryHistory h' :=
+    unary_cont_closed eUnary' fUnary routeEF'
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro h' ⟨hsame_refl h', hUnary', pkgSig'⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        ⟨cont_result_hsame_transport routeEF' (hsame_symm source.left), eUnary',
+          fUnary⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right.right, routeSame⟩
+  }
+
 end BEDC.Derived.AxisZeckendorfCannotClaimUp

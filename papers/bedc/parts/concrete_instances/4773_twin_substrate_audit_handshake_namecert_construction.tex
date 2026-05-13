@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateAuditHandshakeUp$}
+\label{ch:concrete-instances-twin-substrate-audit-handshake-namecert}
+\origin{human}
+
+The $\TwinSubstrateAuditHandshakeUp$ packet realizes the twin-substrate synthesis boundary of \autoref{ch:twin-substrate-synthesis} as a finite NameCert handshake. It sits beside the GroundCompiler audit map of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert} and the twin-substrate audit coupling of \autoref{ch:concrete-instances-twinsubstrateauditcoupling-namecert}: those chapters expose the compiler-facing audit map and the paired audit coupling, while this chapter names the narrower handshake that lets a reader inspect both audit surfaces without converting one substrate into the other.
+
+\begin{definition}[Twin-substrate audit-handshake carrier]
+\label{def:twin-substrate-audit-handshake-carrier}
+A $\TwinSubstrateAuditHandshakeUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,G,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC audit row, carrying closed-CIC theorem, reduction, substitution, normalisation, confluence, decidability, consistency, and obstruction-boundary references;
+\item $G$ is the GroundCompiler audit row, carrying event-flow, channel legality, generated recognizer, report-boundary, hidden-input exclusion, and non-evidence references;
+\item $B$ is the handshake boundary row, naming the finite public claim that requires both audit surfaces while preserving their separate subject matter;
+\item $R$ is the route classifier row, separating MetaCIC-facing reads, GroundCompiler-facing reads, and paired handshake reads;
+\item $H$ records componentwise $\hsame$ transports for the MetaCIC row, GroundCompiler row, handshake boundary, route classifier, continuation rows, package provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a public consumer reads $M$, reads $G$, and then reads $B$ without adding a cross-substrate conversion route;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateAuditHandshakeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for turning a GroundCompiler report into MetaCIC proof content, no coordinate for turning a MetaCIC theorem into compiler evidence, and no hidden equality that identifies $M$ with $G$.
+\end{definition}
+
+\begin{theorem}[Twin-substrate audit-handshake separation]
+\label{thm:twin-substrate-audit-handshake-separation}
+For every accepted $\TwinSubstrateAuditHandshakeUp$ carrier
+$$
+U=(M,G,B,R,H,C,P,N),
+$$
+the packet exposes both audit rows $M$ and $G$ through the displayed boundary row $B$, route classifier $R$, componentwise $\hsame$ rows $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local $\NameCert$ row $N$. A public handshake read may cite both substrates as audit context, but it cannot convert a compiler report into MetaCIC proof content and cannot convert a MetaCIC theorem into compiler evidence.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The MetaCIC row $M$ and the GroundCompiler row $G$ are distinct coordinates, and the handshake boundary row $B$ records only the public claim that needs both of them.
+
+Inspect the route classifier $R$. A MetaCIC-facing read keeps proof-theoretic content attached to $M$, and a GroundCompiler-facing read keeps compiler-pipeline content attached to $G$. A paired handshake read may mention both rows only after $R$ has recorded that it is paired.
+
+Transport and replay are componentwise through $H$ and $C$. These rows preserve the displayed coordinates and provide no route that maps compiler reports to proof content or maps theorem rows to compiler evidence.
+
+Finally read the provenance and naming rows $P,N$. They package the finite handshake over the cited audit surfaces, so any conversion between the two substrates would require a coordinate outside $U$. Since the carrier has no such coordinate, the two audit surfaces are exposed together without collapse.
+\end{proof}
+
+\closureat{TwinSubstrateAuditHandshakeUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateAuditHandshakeUp}
+  \constructivestory{A $\TwinSubstrateAuditHandshakeUp$ packet is generated from a MetaCIC audit row, a GroundCompiler audit row, a finite handshake boundary, a route classifier, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-audit-handshake-carrier} and \autoref{thm:twin-substrate-audit-handshake-separation} bind the finite twin-substrate handshake carrier and its non-conversion boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close MetaCIC frontier obligations, GroundCompiler host trust, theorem extraction from compiler reports, compiler evidence extraction from MetaCIC theorems, Lean verification, audit cleanliness, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, route classification, transport, continuation replay, provenance, naming, and non-conversion exactness for the same finite handshake packet.}
+\end{closurestatus}
