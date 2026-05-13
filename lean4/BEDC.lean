@@ -130,8 +130,10 @@ import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
+import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
+import BEDC.Derived.ObservationTimeOrderUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
@@ -141,6 +143,7 @@ import BEDC.Derived.DyadicApproximationUp.MeshValidatedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.FinitePackets
 import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
+import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
@@ -193,6 +196,7 @@ import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyErrorCertificateUp
+import BEDC.Derived.CertificateCompilerUp
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
@@ -213,6 +217,7 @@ import BEDC.Derived.CollisionKernelUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.ContinuationAutomatonUp.TasteGate
 import BEDC.Derived.AnalyticContinuationSocketUp
+import BEDC.Derived.AxisUnarySpineNormalizerUp.TasteGate
 import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
@@ -225,6 +230,7 @@ import BEDC.Derived.CstaralgebraUp
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.CompletionUniversalPropertyUp
 import BEDC.Derived.CompletionFunctorUp
+import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
