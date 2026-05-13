@@ -76,6 +76,83 @@ Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} to bind t
 Repacking these rows gives the local $\NameCert$ surface. The packet therefore realizes the bridge at the paper-certificate level and leaves the kernel carriers separate.
 \end{proof}
 
+\begin{theorem}[UnaryDirectionBridge AxisAdd handoff obligations]
+\label{thm:unary-direction-bridge-axisadd-handoff-obligations}
+Every $\AddUp/\AxisAddUp$ consumer using the standard-boundary handoff of an
+accepted $\UnaryDirectionBridgeUp$ packet must first read the rows
+$N,A,B,K,S,L,H,C,P,M$. The handoff is licensed only after the source rows,
+bridge row, kernel-distinctness ledger, standard-boundary row, policy row,
+transport row, continuation row, provenance row, and local $\NameCert$ row are
+all present.
+\end{theorem}
+\begin{proof}
+Start from the carrier of
+\autoref{def:unary-direction-bridge-namecert-carrier}. Its displayed rows are
+exactly $N,A,B,K,S,L,H,C,P,M$, so a consumer route has no additional coordinate
+from which to read a boundary.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} before
+the public boundary is used. This binds the source rows and the
+kernel-distinctness ledger.
+
+Apply \autoref{thm:unary-direction-bridge-standard-boundary} and then
+\autoref{thm:unary-direction-bridge-ledger-policy}. The first theorem supplies
+the length-preserving handoff row, and the second requires the policy and route
+rows before export.
+
+Finally, use \autoref{thm:unary-direction-bridge-namecert-surface} to repack
+the read rows as the local certificate. Thus $\AddUp/\AxisAddUp$ consumers reach
+the handoff only through the displayed packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge empty-intersection readback]
+\label{thm:unary-direction-bridge-empty-intersection-readback}
+For an accepted $\UnaryDirectionBridgeUp$ packet, the only kernel intersection
+exposed by the bridge is the empty-history row named by $K$. No consumer-facing
+readback from $B$, $S$, $L$, $H$, $C$, $P$, or $M$ exports a second intersection
+between the $\NatUp$ unary source row and the $\AxisNatUp$ zero-spine source row.
+\end{theorem}
+\begin{proof}
+Read the kernel-distinctness obligations. By
+\autoref{thm:unary-direction-bridge-kernel-distinct-obligations}, the bridge
+must cite $K$ before it compares the source rows.
+
+The standard-boundary theorem \autoref{thm:unary-direction-bridge-standard-boundary}
+then interprets nonempty rows only at the public boundary. It does not insert a
+kernel equality between the two predicates.
+
+The ledger-policy theorem \autoref{thm:unary-direction-bridge-ledger-policy}
+rules out host equality, quotienting, and routes that skip $K$. Together with
+\autoref{thm:unary-direction-bridge-namecert-surface}, this leaves the
+empty-history row named by $K$ as the sole exposed kernel intersection.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge consumer normal form]
+\label{thm:unary-direction-bridge-consumer-normal-form}
+Every consumer route out of an accepted $\UnaryDirectionBridgeUp$ packet
+normalizes to the source rows $N,A$, the bridge row $B$, the kernel-distinctness
+ledger $K$, the standard-boundary row $S$, and the local $\NameCert$ row $M$,
+with transport, continuation, provenance, and policy reads occurring only as
+displayed rows of the same packet. No normalized route contains quotient
+identification or host-level natural-number equality.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows given by
+\autoref{def:unary-direction-bridge-namecert-carrier}. A consumer can mention
+only the displayed source, bridge, kernel, standard-boundary, policy, transport,
+route, provenance, and naming rows.
+
+Apply \autoref{thm:unary-direction-bridge-ledger-policy}. It orders every
+consumer-facing route through the source rows, the bridge row, the
+kernel-distinctness ledger, and the standard-boundary row.
+
+Apply \autoref{thm:unary-direction-bridge-standard-boundary} for the public
+handoff and \autoref{thm:unary-direction-bridge-namecert-surface} for the local
+name. The resulting normal form is therefore $N,A,B,K,S,M$ with $L,H,C,P$ as
+the displayed support rows, and it has no quotient or host natural-number
+equality coordinate.
+\end{proof}
+
 \closureat{UnaryDirectionBridgeUp}{seedStr}
 
 \begin{closurestatus}{\UnaryDirectionBridgeUp}
