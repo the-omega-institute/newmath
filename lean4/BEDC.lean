@@ -164,6 +164,7 @@ import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyLedgerUp.TasteGate
+import BEDC.Derived.TranscendentalSupplyInscriptionUp.TasteGate
 import BEDC.Derived.TranscendentalSupplyTaxonomyUp.TasteGate
 import BEDC.Derived.TypeClassifierMembershipUp
 import BEDC.Derived.TypeCheckingDerivationTraceUp
@@ -230,6 +231,7 @@ import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRateUp
+import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
@@ -246,6 +248,7 @@ import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContourSumWindowUp.TasteGate
 import BEDC.Derived.CompactModulusCoverUp
+import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.TypedReductionNormalFormUp
