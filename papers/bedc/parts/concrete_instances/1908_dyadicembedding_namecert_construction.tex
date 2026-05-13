@@ -201,6 +201,24 @@ Next route real consumers through \autoref{thm:dyadic-embedding-real-seal-handof
 Finally combine \autoref{thm:dyadic-embedding-ledger-non-escape} with \autoref{thm:dyadic-embedding-public-scope}. The public surface is exactly the constant dyadic real-name route, and the excluded quotient, selected-limit, host-equality, trichotomy, and completeness data have no row in the packet.
 \end{proof}
 
+\begin{theorem}[DyadicEmbedding scoped dependency spine]
+\label{thm:dyadic-embedding-scoped-dependency-spine}
+For every accepted $\DyadicEmbeddingUp$ packet
+$$
+D=(d,S,R,Q,H,C,P,N),
+$$
+the scoped public dependency spine is exactly the finite route from the $\DyadicRatCoreUp$ row $d$ to the constant $\StreamNameUp$ schedule $S$, the stationary $\RegSeqRatUp$ readback $R$, and the $\RealUp$ seal row $Q$, with componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Every constant dyadic real-name consumer factors through that spine and cannot replace any edge by a quotient stream, selected limit, host equality, trichotomy, or completeness datum.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier. By \autoref{thm:dyadic-embedding-namecert-obligations}, the packet admits only the displayed rows $d,S,R,Q,H,C,P,N$ as the carrier and local naming surface, with classifier transport supplied componentwise by the stored $\hsame$ entries in $H$.
+
+Next identify the readback route. Apply \autoref{thm:dyadic-embedding-constant-stream-readback} to force the stream coordinate $S$ to be the constant schedule over $d$, and use \autoref{thm:dyadic-embedding-stationary-readback-exactness} to identify $R$ as the stationary regular rational readback of that same schedule.
+
+The real-name handoff is then fixed by \autoref{thm:dyadic-embedding-real-seal-obligation}. Any $\RealUp$ consumer reaches $Q$ only after passing through the dyadic source, constant stream schedule, and stationary readback, while the continuation coordinate $C$ records the displayed route edges.
+
+Finally apply \autoref{thm:dyadic-embedding-ledger-exactness-obligation}. The package provenance $P$ and local naming row $N$ exhaust the available dependencies, so no consumer has a row from which to obtain a quotient stream, selected limit, host equality, trichotomy, or completeness datum in place of an edge of the spine.
+\end{proof}
+
 \closureat{DyadicEmbeddingUp}{seedStr}
 \closureat{DyadicEmbeddingUp}{obligationStr}
 
