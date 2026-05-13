@@ -208,6 +208,7 @@ import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CompletionReflectionUp
+import BEDC.Derived.CofinalTailBudgetUp.TasteGate
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGate

@@ -204,6 +204,44 @@ theorem AnalyticContinuationSocketCarrier_branch_ledger_exhaustion [AskSetup]
       branchTransportContinuation,
       provenancePkg⟩
 
+theorem AnalyticContinuationSocketCarrier_rh_handoff_boundary [AskSetup] [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      consumer boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg →
+      Cont output continuation consumer →
+        Cont consumer branch boundary →
+          PkgSig bundle boundary pkg →
+            UnaryHistory source ∧ UnaryHistory witness ∧ UnaryHistory output ∧
+              UnaryHistory consumer ∧ UnaryHistory boundary ∧ Cont witness operation output ∧
+                Cont output continuation consumer ∧ Cont consumer branch boundary ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle boundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier outputContinuationConsumer consumerBranchBoundary boundaryPkg
+  obtain ⟨sourceUnary, _leftOverlapUnary, witnessUnary, operationUnary, _outputUnary,
+    branchUnary, _transportUnary, continuationUnary, _provenanceUnary, _nameUnary,
+    _sourceLeftOverlapWitness, witnessOperationOutput, _branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, provenancePkg, _namePkg⟩ :=
+    carrier
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed witnessUnary operationUnary witnessOperationOutput
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed outputUnary continuationUnary outputContinuationConsumer
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed consumerUnary branchUnary consumerBranchBoundary
+  exact
+    ⟨sourceUnary,
+      witnessUnary,
+      outputUnary,
+      consumerUnary,
+      boundaryUnary,
+      witnessOperationOutput,
+      outputContinuationConsumer,
+      consumerBranchBoundary,
+      provenancePkg,
+      boundaryPkg⟩
+
 def AnalyticContinuationSocketPacket [AskSetup] [PackageSetup]
     (source leftOverlap witness operation output branch transport continuation provenance
       name : BHist)
