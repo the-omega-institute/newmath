@@ -84,3 +84,25 @@ The non-escape theorem prevents pole, Gamma-boundary, branch, and nontrivial-zer
   \notclaimed{This chapter does not close RH, nontrivial-zero classification, global meromorphic uniqueness, complete $\GammaUp$ construction, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, classifier stability, pole and Gamma ledger exactness, functional-equation route provenance, trivial-zero ledger exactness, and local naming for the same finite socket packet.}
 \end{closurestatus}
+
+\begin{theorem}[ZetaContinuationSocket witness carrier bridge]
+\label{thm:zeta-continuation-socket-witness-carrier-bridge}
+Let $Z=(B,E,A,P,F,T,G,H,C,N)$ be an accepted $\ZetaContinuationSocketUp$ carrier as in \autoref{def:zeta-continuation-socket-carrier}. Suppose $R$ is a displayed $\Pkg$ provenance row over the same zeta source, eta handoff, pole ledger, functional-equation ledger, trivial-zero ledger, Gamma-boundary row, transport row, route row, and local naming row, with package scope
+$$
+\ZetaBasicUp,\ \ZetaContUp,\ \AnalyticContUp,\ \HolomorphicUp,\ \ComplexUp,\ \BHist,\ \hsame,\ \Cont,\ \NameCert.
+$$
+Then
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N)
+$$
+is an accepted $\ZetaContinuationWitnessUp$ carrier as in \autoref{def:zeta-continuation-witness-carrier}. Its downstream non-escape boundary is the same as the boundary of $Z$: pole requests land in $P$, negative-even trivial-zero requests land in $T$, Gamma-dependent requests outside the displayed functional-equation factors land in $G$, branch requests outside the displayed continuation routes land in $A$, and RH or non-trivial-zero-location requests have no exported carrier coordinate.
+\end{theorem}
+\begin{proof}
+Unpack the socket carrier. The accepted packet $Z$ already supplies the source row $B$, eta row $E$, analytic-continuation socket row $A$, pole row $P$, functional-equation factor ledger $F$, trivial-zero ledger $T$, Gamma interface $G$, componentwise transports $H$, finite continuation routes $C$, and local naming row $N$.
+
+The only coordinate required by \autoref{def:zeta-continuation-witness-carrier} and not already present in the socket tuple is the package-provenance coordinate $R$. By hypothesis, $R$ is displayed over exactly the same zeta, eta, pole, functional-equation, trivial-zero, Gamma-boundary, transport, route, and naming coordinates, and its package scope is the witness scope listed in \autoref{def:zeta-continuation-witness-carrier}. Inserting this row between $C$ and $N$ therefore gives the witness tuple $W=(B,E,A,P,F,T,G,H,C,R,N)$ with every required coordinate visible.
+
+It remains to compare the exported boundaries. The provenance row $R$ is a package row; it records how the already displayed coordinates are named through $\Pkg$, and it is not an analytic continuation row, a Gamma completion row, a pole-regularization row, or a zero-location row. Thus adding $R$ cannot create a route that bypasses $A,P,T,G,H$ or $C$.
+
+Now apply the socket non-escape statement of \autoref{thm:zeta-continuation-socket-ledger-nonescape}. The pole boundary is still the coordinate $P$, the negative-even trivial-zero ledger is still $T$, Gamma escape is still absorbed by $G$, and branch escape is still absorbed by $A$. The witness handoff statement of \autoref{thm:zeta-continuation-witness-continuation-handoff} reads these same coordinates through $W$ and exports no RH conclusion and no zero-location classifier. Hence the constructed witness has the same downstream non-escape boundary as the original socket carrier.
+\end{proof}
