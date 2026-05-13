@@ -318,6 +318,33 @@ theorem RegularCauchySumCarrier_ledger_exactness [AskSetup] [PackageSetup]
       provenancePkg,
       ledgerPkg⟩
 
+theorem RegularCauchySumCarrier_standard_bridge_source_packet [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback transports routes provenance localCert bridgeSource : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback transports routes provenance localCert bundle pkg ->
+      Cont leftSource rightSource bridgeSource ->
+        PkgSig bundle bridgeSource pkg ->
+          UnaryHistory leftSource ∧ UnaryHistory rightSource ∧ UnaryHistory bridgeSource ∧
+            Cont leftSource rightSource bridgeSource ∧ Cont leftEndpoint rightEndpoint
+              sumEndpoint ∧ Cont sumEndpoint budget readback ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle bridgeSource pkg := by
+  intro carrier bridgeRoute bridgePkg
+  obtain ⟨leftSourceUnary, rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _transportsUnary, _routesUnary,
+    _provenanceUnary, _localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _provenanceRoute, provenancePkg⟩ := carrier
+  have bridgeSourceUnary : UnaryHistory bridgeSource :=
+    unary_cont_closed leftSourceUnary rightSourceUnary bridgeRoute
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have _readbackUnary : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  exact
+    ⟨leftSourceUnary, rightSourceUnary, bridgeSourceUnary, bridgeRoute, sumEndpointRoute,
+      readbackRoute, provenancePkg, bridgePkg⟩
+
 theorem RegularCauchySumCarrier_limit_classifier_compatibility [AskSetup] [PackageSetup]
     {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
       readback sumTransports sumRoutes sumProvenance localCert : BHist}
