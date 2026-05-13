@@ -51,12 +51,48 @@ The remaining rows $H,Q,P,N$ transport, route, locate, and name that same packet
 Therefore any consumer of the accepted packet can cite only the closed substitution audit rows and their displayed routes. The non-escape exclusions are exactly the missing coordinates recorded in the carrier definition.
 \end{proof}
 
+\begin{theorem}[Substitution audit map positive row coverage]
+\label{thm:substitutionauditmap-positive-row-coverage}
+For an accepted $\SubstitutionAuditMapUp$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, every positive audit row read by the packet is exhausted by the displayed term row $T$, closed-boundary row $C$, shift row $R$, substitute row $S$, closed-composition row $K$, and generator-closure row $G$. A consumer that asks for a substitution-audit witness therefore receives only these six source rows together with their transport, route, provenance, and local naming coordinates $H,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $T,C,R,S,K,G$ are the only coordinates that carry positive MetaCIC audit data: term exposure, closed-boundary exposure, shift readback, substitute readback, closed-composition readback, and generator-closure classification.
+
+The remaining coordinates $H,Q,P,N$ do not add another audit source. They identify componentwise transport, displayed consumer routes, package provenance, and the local certificate name for the same finite packet.
+
+Thus every positive read factors through the listed rows. Since the carrier has no further source coordinate, the positive audit surface is exhausted by $T,C,R,S,K,G$.
+\end{proof}
+
+\begin{theorem}[Substitution audit map obstruction row exactness]
+\label{thm:substitutionauditmap-obstruction-row-exactness}
+For an accepted $\SubstitutionAuditMapUp$ carrier, the obstruction boundary is exact: beta-substitution preservation, closed subject reduction, unclosed substitution, quotient equality, and host semantic equality are excluded precisely because none of them is a row of $A=(T,C,R,S,K,G,H,Q,P,N)$ and none is created by $H,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Read the positive rows first. The coordinates $T,C,R,S,K,G$ name only the displayed MetaCIC term, closed boundary, closed shift, closed substitute, closed-composition, and generator-closure classifier data.
+
+Now inspect the administrative rows. Componentwise $\hsame$ transport preserves the visible coordinates, $\Cont$ routes replay them, $\Pkg$ records provenance over them, and the local $\NameCert$ row names them.
+
+It follows that no administrative row can supply beta preservation, subject reduction, unclosed substitution, quotient equality, or host semantic equality. These exclusions are therefore not loose warnings; they are exactly the missing carrier coordinates.
+\end{proof}
+
+\begin{theorem}[Substitution audit map frontier route non-escape]
+\label{thm:substitutionauditmap-frontier-route-nonescape}
+Every frontier-facing consumer route for an accepted $\SubstitutionAuditMapUp$ carrier factors through $H,Q,P,N$ after reading the positive audit rows $T,C,R,S,K,G$. Such a route can transport, replay, locate, and name the closed substitution audit packet, but it cannot acquire unrestricted substitution or any theorem absent from the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start with positive row coverage. Any consumer route that reaches substitution-audit data has already passed through the finite rows $T,C,R,S,K,G$.
+
+The frontier rows are $H,Q,P,N$. They provide transport, continuation replay, provenance, and naming for the already displayed packet, so the consumer can carry the packet across a boundary without changing its row inventory.
+
+Apply obstruction exactness to the transported packet. Since the excluded rows are absent before the frontier route and are not created by transport, replay, provenance, or naming, unrestricted substitution still cannot escape the audit map.
+\end{proof}
+
 \closureat{SubstitutionAuditMapUp}{seedStr}
 
 \begin{closurestatus}{\SubstitutionAuditMapUp}
   \constructivestory{A $\SubstitutionAuditMapUp$ packet is generated from a MetaCIC term row, a ClosedAt boundary, closed shift and substitution rows, closed-composition rows, generator-closure classifier rows, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, and \autoref{thm:substitution-audit-map-boundary-nonescape} bind the closed substitution audit map and its non-escape boundary.}
+  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, and \autoref{thm:substitutionauditmap-frontier-route-nonescape} bind the closed substitution audit map, its positive rows, its obstruction rows, and its frontier routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
