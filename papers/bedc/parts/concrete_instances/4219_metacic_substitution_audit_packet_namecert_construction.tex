@@ -1,23 +1,25 @@
 \chapter{A Concrete Naming Certificate for $\MetaCICSubstitutionAuditPacketUp$}
 \label{ch:concrete-instances-metacic-substitution-audit-packet-namecert}
-\origin{ai}
+\origin{human}
 
-The $\MetaCICSubstitutionAuditPacketUp$ packet realizes the substitution audit map of \autoref{ch:metacic-substitution-audit-map} as a finite NameCert carrier. It sits between the closed syntax boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert} and the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}: the present packet records closed movement and audit handoff rows, while the sibling obstruction packet records why those rows do not close unrestricted subject reduction.
+The $\MetaCICSubstitutionAuditPacketUp$ packet realizes the substitution audit map of \autoref{ch:metacic-substitution-audit-map} as a finite NameCert carrier. It sits between the closed substitution seal of \autoref{ch:concrete-instances-closedsubstitutionseal-namecert}, the closed syntax boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, and the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}: the present packet records closed movement and audit handoff rows, while the sibling obstruction packet records why those rows do not close unrestricted subject reduction.
 
 \begin{definition}[MetaCIC substitution audit packet carrier]
 \label{def:metacic-substitution-audit-packet-carrier}
 A $\MetaCICSubstitutionAuditPacketUp$ carrier is a finite $\BHist$ packet
 $$
-Q=(M,G,C,S,B,H,K,P,N)
+Q=(T,D,L,M,C,G,B,H,K,P,N)
 $$
 with the following visible rows:
 \begin{enumerate}
-\item $M$ records the closed syntax movement rows for shift and substitution, including the displayed closed-depth hypotheses used by the audit map;
-\item $G$ records the generator-closure classifier rows for closed-under-shift and closed-under-substitution reads;
+\item $T$ records the MetaCIC \texttt{Term} row inspected by the substitution audit;
+\item $D$ records the \texttt{ClosedAt} boundary row at which public reads of the term are admitted;
+\item $L$ records the \texttt{shift\_closed} row, namely the closed shift route visible at boundary $D$;
+\item $M$ records the \texttt{substitute\_closed} row, namely the closed substitution route visible at boundary $D$;
 \item $C$ records the closed composition rows for the closed-at-zero and closed-at-depth substitution compositions named by the audit map;
-\item $S$ records the statement-shape rows for the shift-substitute and substitute-substitute interfaces, without turning those shapes into global calculus laws;
+\item $G$ records the generator-closure classifier rows for closed-under-shift, closed-under-substitution, and closed-composition reads;
 \item $B$ records the boundary handoff to beta substitution preservation and to the four subject-reduction obstruction rows;
-\item $H$ records componentwise $\hsame$ transports for movement, generator, composition, statement-shape, boundary, provenance, and local naming rows;
+\item $H$ records componentwise $\hsame$ transports for term, boundary, movement, generator, composition, handoff, provenance, and local naming rows;
 \item $K$ records the displayed $\Cont$ routes by which consumers inspect the rows without crossing from closed syntax movement into typed preservation;
 \item $P$ is the $\Pkg$ provenance over the MetaCIC substitution audit map, the closed-substitution boundary packet, the subject-reduction obstruction packet, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
 \item $N$ is the local $\NameCert_{\MetaCICSubstitutionAuditPacketUp}$ row.
@@ -27,24 +29,48 @@ The carrier contains no unrestricted substitution calculus, no beta-substitution
 
 \begin{theorem}[MetaCIC substitution audit packet NameCert obligations]
 \label{thm:metacic-substitution-audit-packet-namecert-obligations}
-The carrier of \autoref{def:metacic-substitution-audit-packet-carrier} satisfies the local $\NameCert_{\MetaCICSubstitutionAuditPacketUp}$ obligation surface. Its obligation rows are carrier admission for $Q=(M,G,C,S,B,H,K,P,N)$, closed movement readback through $M$, generator-closure readback through $G$, closed composition readback through $C$, statement-shape routing through $S$, subject-reduction handoff routing through $B$, componentwise transport through $H$, displayed continuation through $K$, provenance through $P$, and local naming through $N$.
+The carrier of \autoref{def:metacic-substitution-audit-packet-carrier} satisfies the local $\NameCert_{\MetaCICSubstitutionAuditPacketUp}$ obligation surface. Its obligation rows are carrier admission for $Q=(T,D,L,M,C,G,B,H,K,P,N)$, classifier stability for the closed movement and generator rows, closed-boundary exactness through $D,L,M,C$, generator-closure handoff through $G,B$, and the non-escape ledger carried by $H,K,P,N$.
 \end{theorem}
 \begin{proof}
-Carrier admission is the displayed finite $\BHist$ packet. The coordinates name the closed movement, generator, composition, statement-shape, boundary, transport, continuation, provenance, and local naming rows.
+Carrier admission is the displayed finite $\BHist$ packet. The coordinates name the term, closed boundary, closed movement, closed composition, generator, subject-reduction handoff, transport, continuation, provenance, and local naming rows.
 
-Project $M,G,C,S$. These rows expose exactly the closed syntax movement and audit-shape surface described in \autoref{ch:metacic-substitution-audit-map}; they do not contain a typed preservation conclusion.
+Project $D,L,M,C,G$. These rows expose exactly the closed syntax movement and generator-closure surface described in \autoref{ch:metacic-substitution-audit-map}; they do not contain a typed preservation conclusion.
 
 Project $B$ next. The row is a handoff into the obstruction surface of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, not a discharge of beta substitution preservation or of the remaining subject-reduction obligations.
 
 Finally inspect $H,K,P,N$. These rows transport, replay, locate, and name the same finite packet. Since none of them carries a hidden typed-preservation coordinate, the local NameCert obligations are exhausted by the displayed rows.
 \end{proof}
 
-\begin{theorem}[MetaCIC substitution audit boundary non-escape]
-\label{thm:metacic-substitution-audit-packet-boundary-nonescape}
-For an accepted $\MetaCICSubstitutionAuditPacketUp$ carrier $Q=(M,G,C,S,B,H,K,P,N)$, every consumer read remains inside the closed syntax movement rows, generator-closure rows, closed composition rows, statement-shape rows, and explicit subject-reduction handoff row. In particular, agreement on $H,K,P,N$ does not export an unrestricted substitution calculus, beta-substitution preservation, or closed subject reduction.
+\begin{theorem}[MetaCIC substitution audit closed boundary]
+\label{thm:metacic-substitution-audit-packet-boundary}
+For an accepted $\MetaCICSubstitutionAuditPacketUp$ carrier $Q=(T,D,L,M,C,G,B,H,K,P,N)$, every public read factors through the \texttt{ClosedAt} boundary row $D$ and then through the closed shift and closed substitution rows $L,M$ before it can consume the subject-reduction handoff row $B$.
 \end{theorem}
 \begin{proof}
-Read the carrier by projection. The rows $M,G,C,S$ provide closed syntax movement, generator closure, closed composition, and statement-shape data, all under the displayed hypotheses.
+Read the packet by projection. The term row $T$ is public only through the displayed boundary row $D$, and the movement rows $L,M$ are the only closed shift and closed substitution coordinates tied to that boundary.
+
+The closed composition row $C$ and generator classifier row $G$ still sit on the same closed boundary. They can refine the audit read, but they do not bypass $D,L,M$.
+
+The subject-reduction handoff row $B$ appears after the closed movement rows in the carrier inventory. Thus a consumer reaches any handoff only after the closed boundary and movement coordinates have already been selected.
+\end{proof}
+
+\begin{theorem}[MetaCIC substitution audit packet non-escape]
+\label{thm:metacic-substitution-audit-packet-nonescape}
+An accepted $\MetaCICSubstitutionAuditPacketUp$ carrier exports no unrestricted substitution commutation theorem, no open-term semantic equality, no full subject-reduction theorem, and no host equality principle. Its public surface is limited to the displayed closed boundary, closed movement, closed composition, generator-closure, handoff, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+The carrier definition lists only $T,D,L,M,C,G,B,H,K,P,N$. Among these rows, the substitution-facing coordinates are the closed boundary and movement rows $D,L,M,C,G$.
+
+The handoff row $B$ points to the subject-reduction obstruction surface, so it records where the missing typed-preservation work begins. It is not itself a proof of unrestricted substitution commutation, open-term semantic equality, or full subject reduction.
+
+Rows $H,K,P,N$ only transport, replay, package, and name the finite packet. Since no host equality coordinate is present, those rows cannot export a host equality principle.
+\end{proof}
+
+\begin{theorem}[MetaCIC substitution audit boundary non-escape]
+\label{thm:metacic-substitution-audit-packet-boundary-nonescape}
+For an accepted $\MetaCICSubstitutionAuditPacketUp$ carrier $Q=(T,D,L,M,C,G,B,H,K,P,N)$, every consumer read remains inside the term row, closed boundary row, closed syntax movement rows, generator-closure rows, closed composition rows, and explicit subject-reduction handoff row. In particular, agreement on $H,K,P,N$ does not export an unrestricted substitution calculus, beta-substitution preservation, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Read the carrier by projection. The rows $T,D,L,M,C,G$ provide the term, closed boundary, closed syntax movement, generator closure, and closed composition data, all under the displayed hypotheses.
 
 The only row touching subject reduction is $B$. Its role is to point at the obstruction boundary, so a consumer can cite the missing discharge surface without obtaining the discharge itself.
 
@@ -54,12 +80,12 @@ The transport, continuation, provenance, and naming rows $H,K,P,N$ preserve the 
 \closureat{MetaCICSubstitutionAuditPacketUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICSubstitutionAuditPacketUp}
-  \constructivestory{A $\MetaCICSubstitutionAuditPacketUp$ packet is generated from closed movement rows, generator-closure rows, closed composition rows, statement-shape rows, a subject-reduction handoff boundary, componentwise transports, displayed continuation routes, package provenance, and local naming.}
+  \constructivestory{A $\MetaCICSubstitutionAuditPacketUp$ packet is generated from a MetaCIC term row, a ClosedAt boundary row, closed movement rows, generator-closure rows, closed composition rows, a subject-reduction handoff boundary, componentwise transports, displayed continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-substitution-audit-packet-carrier}, \autoref{thm:metacic-substitution-audit-packet-namecert-obligations}, and \autoref{thm:metacic-substitution-audit-packet-boundary-nonescape} bind the finite closed-substitution audit packet and its non-escape boundary.}
+  \scopeclosed{\autoref{def:metacic-substitution-audit-packet-carrier}, \autoref{thm:metacic-substitution-audit-packet-namecert-obligations}, \autoref{thm:metacic-substitution-audit-packet-boundary}, \autoref{thm:metacic-substitution-audit-packet-nonescape}, and \autoref{thm:metacic-substitution-audit-packet-boundary-nonescape} bind the finite closed-substitution audit packet and its non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
+  \origin{human}
   \notclaimed{This chapter does not close unrestricted substitution, beta-substitution preservation, closed subject reduction, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, closed movement readback, generator-closure readback, closed composition readback, statement-shape routing, handoff routing, transport, continuation, provenance, naming, and boundary non-escape for the same finite packet.}
 \end{closurestatus}
