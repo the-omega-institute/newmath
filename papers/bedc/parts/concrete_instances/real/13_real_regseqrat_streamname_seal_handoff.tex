@@ -503,3 +503,44 @@ Thus the finite packet is precisely the local $\RealUp$ open-phase
 $\NameCert$ surface, and the excluded coordinates have no carrier in the
 admission.
 \end{proof}
+
+\begin{theorem}[RealUp open-phase NameCert surface completeness]
+\label{thm:realup-open-phase-namecert-surface-completeness}
+A local $\RealUp$ open-phase $\NameCert$ surface for the seal handoff is
+admitted exactly when it is represented by one finite four-face
+$\mathsf{BHist}$ packet whose faces are the $\DyadicRatCoreUp$ observation
+rows, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$
+regularity-spine rows, and the $\RealUp$ seal/readback provenance rows. The
+only gluing coordinates of that packet are the displayed componentwise
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+
+The representing packet is unique among compatible four-face packets. The
+surface has no quotient carrier, host-equality coordinate, real-completeness
+row, arithmetic package, order package, Classical-choice row, or
+metric-completeness row.
+\end{theorem}
+\begin{proof}
+For existence, start with the four displayed faces and their componentwise
+$\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates. Apply
+\autoref{thm:realup-open-phase-four-face-namecert-admission}. It admits that
+finite packet as the local $\RealUp$ open-phase $\NameCert$ surface and leaves
+no carrier for any off-table row.
+
+For uniqueness, compare two admitted surfaces with the same displayed faces.
+Use \autoref{thm:realup-open-phase-four-face-pullback}. Compatible dyadic
+observation rows, stream-window rows, regularity-spine rows, and seal/readback
+rows determine exactly one finite $\mathsf{BHist}$ pullback packet over the
+shown coordinates.
+
+The classifier boundary is the same boundary. Apply
+\autoref{thm:realup-seal-source-classifier-correspondence}. The consumer-side
+seal-source classifier is precisely the componentwise classifier on the four
+faces, so no quotient representative, host equality, arithmetic order, or
+completeness coordinate can refine the surface.
+
+Finally apply \autoref{thm:realup-open-phase-seal-route-totality}. Every
+consumer-visible route out of the handoff is exhausted by the four-face
+packet. Therefore the admitted local $\NameCert$ surface is equivalent to that
+unique finite packet, and the listed excluded rows are outside the open-phase
+seal surface.
+\end{proof}
