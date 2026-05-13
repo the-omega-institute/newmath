@@ -5,6 +5,41 @@ The finite-window $\StreamNameUp$ package is consumed by the $\RegularCauchyName
 
 This edge is the L10 scheduled finite-window handoff from $\StreamNameUp$ into the $\RegularCauchyNameUp$, $\RegSeqRatUp$, and $\RealUp$ chain. The handoff is recorded before the $\RegSeqRatUp$ and $\RealUp$ seal rows, so the later consumer can cite the StreamName window surface without importing quotient stream equality, host sequence equality, selected limits, or ambient completeness.
 
+\begin{theorem}[StreamName L10 gateway factorization]
+\label{thm:streamname-l10-gateway-factorization}
+Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed by accepted $\RegSeqRatUp$, $\RegularCauchyNameUp$, $\FiniteTailDiagonalSealUp$, $\FiniteCauchyApproximationUp$, and $\RealUp$ rows. Then every accepted L10 read of $W$ factors through one finite displayed route:
+$$
+\begin{gathered}
+\text{$\StreamNameUp$ window rows}
+\longrightarrow
+\text{unary observations}
+\longrightarrow
+\text{$\mathsf{ProbeBundle}/\mathsf{InBundle}$ ledger}
+\longrightarrow
+\text{$\RegSeqRatUp$ regular source row}
+\\
+\longrightarrow
+\text{dyadic observation ledger}
+\longrightarrow
+\text{finite tail witness}
+\longrightarrow
+\text{finite approximation error row}
+\longrightarrow
+\text{$\RealUp$ seal row.}
+\end{gathered}
+$$
+The route is mediated only by the displayed $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert$ rows of the consumed packets. It exports no quotient stream equality, selected limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First build the shared finite-window spine. The StreamName window rows, unary observations, and $\mathsf{ProbeBundle}/\mathsf{InBundle}$ ledger are the public surface of the accepted $\StreamNameUp$ packet, and the $\RegSeqRatUp$ row reads that same surface through the regular source coordinate.
+
+Next compose the sibling handoffs. The finite-window diagonal fusion of \autoref{thm:streamname-finite-window-diagonal-fusion} identifies the common route through the $\RegSeqRatUp$, $\FiniteTailDiagonalSealUp$, $\FiniteCauchyApproximationUp$, and $\RealUp$ rows. The real regular-sequence handoff of \autoref{thm:streamname-real-regseq-finite-window-handoff} fixes the same window before the real-name seal is exposed.
+
+The remaining coordinates are supplied by the cited consumer chapters. The $\RegularCauchyNameUp$ chapter reads the regular source row, the $\FiniteTailDiagonalSealUp$ chapter supplies the finite tail witness, and the $\FiniteCauchyApproximationUp$ chapter supplies the dyadic observation ledger and finite approximation error row. The $\RealUp$ chapter receives only the resulting seal-facing finite route.
+
+Coordinate exhaustion gives the boundary clause. None of the displayed rows is a quotient stream, a limit selector, a host real equality witness, or an ambient completeness object, and the transport and continuation rows only replay the listed finite coordinates.
+\end{proof}
+
 \begin{theorem}[StreamName finite-window diagonal fusion]
 \label{thm:streamname-finite-window-diagonal-fusion}
 Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed simultaneously by an accepted $\RegSeqRatUp$ row, an accepted $\FiniteTailDiagonalSealUp$ packet, and an accepted $\FiniteCauchyApproximationUp$ packet. Then the three consumers determine one shared finite observation route into the $\RealUp$ seal: the window rows of $W$, the regular source row, the dyadic ledger, the selected tail witness, and the finite approximation error row agree through the displayed $\hsame$ transports and the displayed $\Cont$ routes.
