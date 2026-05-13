@@ -1,0 +1,61 @@
+\begin{definition}[Real L10 dependency lattice]
+\label{def:real-l10-dependency-lattice}
+The $\RealUp$ L10 dependency lattice is the ordered finite certificate route
+whose source rows are read in this order:
+\begin{enumerate}
+\item the $\DyadicRatCoreUp$ observation rows supplied by
+  \autoref{ch:concrete-instances-dyadicratcore-namecert};
+\item the $\StreamNameUp$ finite stream-window rows supplied by
+  \autoref{ch:concrete-instances-streamname-namecert};
+\item the $\RegSeqRatUp$ regular-rational classifier rows supplied by
+  \autoref{ch:concrete-instances-regseqrat-namecert};
+\item the local $\RealUp$ seal, endpoint readback, and provenance rows.
+\end{enumerate}
+The route is finite: it is carried by the displayed $\mathsf{BHist}$ packet,
+transported only by $\hsame$, read only through $\Cont$, and named only by the
+local $\NameCert$ row before the $\RealUp$ seal is consumed.
+\end{definition}
+
+\begin{theorem}[Real L10 source route non-escape]
+\label{thm:real-l10-source-route-nonescape}
+Every accepted $\RealUp$ source-route consumer for the L10 dependency lattice
+must read the $\DyadicRatCoreUp$ dyadic observation rows, then the
+$\StreamNameUp$ finite stream-window rows, then the $\RegSeqRatUp$
+regular-rational classifier rows, and only then the local $\RealUp$ seal rows.
+The consumer may transport these rows by the displayed $\hsame$ coordinates,
+read them through the displayed $\Cont$ route, and package them with the
+displayed $\Pkg$ and local $\NameCert$ rows.
+
+No accepted source-route consumer has a coordinate for a quotient stream, host
+completion, countable choice, host real equality, selected host limit,
+ambient completeness principle, arithmetic package, order package, or
+metric-completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier and source specification in
+\autoref{def:real-carrier} and \autoref{def:real-source-specification}. The
+carrier is a sealed $\RegSeqRat$ name over $\DyadicRatCore$ observations, and
+the source specification lists exactly the dyadic observation layer, the
+stream-name layer, and the regular-sequence certificate layer.
+
+Now apply the concrete seal handoff in
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. It reads those layers
+through the sibling chapters
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-streamname-namecert}, and
+\autoref{ch:concrete-instances-regseqrat-namecert}, then repacks the result as
+the local $\RealUp$ seal handoff. This gives the ordered L10 route of
+\autoref{def:real-l10-dependency-lattice}.
+
+Finally use the exhaustion and boundary theorems for the Real RegSeqRat
+StreamName dependency triple,
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion} and
+\autoref{thm:real-regseq-streamname-cauchy-completion-interface}. They say
+that every accepted consumer is exhausted by the finite rows of the displayed
+packet, with only $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structural data.
+Since none of the cited source, handoff, or dependency-triple blocks exports a
+quotient stream, host completion, countable choice, host real equality,
+selected host limit, ambient completeness, arithmetic, order, or
+metric-completeness coordinate, the consumer has no route to escape the L10
+lattice.
+\end{proof}

@@ -77,6 +77,28 @@ Apply the inventory factorization of \autoref{thm:audit-map-family-inventory-fac
 Use cross-map non-escape from \autoref{thm:audit-map-family-cross-map-nonescape}. Even when the frontier entry points at a neighbouring audit map, the route can cite only what that neighbouring map itself exposes. Thus the frontier remains a named boundary and cannot discharge an unlisted theorem.
 \end{proof}
 
+\falsifiablePrediction{An accepted $\AuditMapFamilyUp$ packet cannot turn a frontier row into a closed theorem unless that theorem is already present in the finite inventory row $I$.}
+
+\independenceWitness{metacicbetaaudit, metacic-closure-preservation-audit, substitutionauditmap, metacicnormalizationaudit, auditgatecomposition: these nearest audit siblings expose local beta, closure-preservation, substitution, normalisation, and gate-composition rows, but no bijection preserves the combined inventory, obstruction, routing, and frontier rows of the family packet.}
+
+\begin{theorem}[Audit-map family TasteGate primality commitment]
+\label{thm:audit-map-family-tastegate-primality-commitment}
+For every accepted $\AuditMapFamilyUp$ carrier
+$$
+F=(T,I,O,R,B,H,C,K,N),
+$$
+the falsifiability row saying that $B$ cannot become a closed theorem outside $I$ and the sibling-independence row separating the family packet from metacicbetaaudit, metacic-closure-preservation-audit, substitutionauditmap, metacicnormalizationaudit, and auditgatecomposition are carrier-visible commitments of the same finite packet. They are read through $I,O,R,B,H,C,K,N$ and not through a hidden theorem inventory, ambient audit equivalence, or unlisted family map.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-map-family-namecert-carrier}. The rows $I,O,R,B$ are the only rows that classify inventory, obstruction, routing, and frontier data for the family.
+
+Apply frontier non-escape from \autoref{thm:audit-map-family-frontier-nonescape}. A frontier read stays in $B$ unless the claimed theorem is already represented in $I$, so the falsifiability commitment is visible in the same carrier.
+
+Apply inventory factorization and cross-map non-escape. These force sibling reads through $R,K,H,C,N$ and prevent a local audit sibling from preserving all four family rows by a bijection that forgets obstruction or frontier data.
+
+Thus the falsifiability and independence rows are not external prose conditions. They are the TasteGate-facing primality commitments carried by the accepted finite packet.
+\end{proof}
+
 \closureat{AuditMapFamilyUp}{seedStr}
 
 \begin{closurestatus}{\AuditMapFamilyUp}
