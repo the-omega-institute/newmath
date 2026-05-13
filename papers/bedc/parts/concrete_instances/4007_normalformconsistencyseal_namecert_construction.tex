@@ -1,0 +1,139 @@
+\chapter{A Concrete Naming Certificate for $\NormalFormConsistencySealUp$}
+\label{ch:concrete-instances-normal-form-consistency-seal-namecert}
+\origin{human}
+
+The $\NormalFormConsistencySealUp$ packet gives the closed-normal branch of
+\autoref{ch:closed-metacic-consistency-assembly} a finite NameCert object. It
+sits between the closed-context carrier of
+\autoref{ch:concrete-instances-closedtermcontextseal-namecert} and the
+subject-reduction socket of
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}:
+the seal records what the normal-form consistency theorem consumes, and it
+keeps the missing subject-reduction discharge outside the packet.
+
+\begin{definition}[Normal-form consistency seal carrier]
+\label{def:normal-form-consistency-seal-carrier}
+A $\NormalFormConsistencySealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,F,N,K,X,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the empty-context MetaCIC typing row for the inspected closed
+proof candidate;
+\item $F$ is the internal false-type row named by that typing certificate;
+\item $N$ is the beta-strong normality row for the same inspected candidate;
+\item $K$ is the checked closed-normal consistency row naming
+$\mathsf{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}$;
+\item $X$ is the subject-reduction boundary row, read only through
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert};
+\item $H$ records componentwise $\hsame$ transports for the typing, false,
+normality, theorem, boundary, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads those
+finite rows;
+\item $P$ is the $\Pkg$ provenance over MetaCIC typing, closed contexts,
+beta-strong normality, $\BHist$, $\hsame$, $\Cont$, and sibling $\NameCert$
+rows;
+\item $L$ is the local $\NameCert_{\NormalFormConsistencySealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary closed reduction, no closed
+subject-reduction theorem, no hidden normalization transport, and no host-level
+consistency principle.
+\end{definition}
+
+\begin{theorem}[Normal-form consistency seal obligations]
+\label{thm:normal-form-consistency-seal-obligations}
+Every accepted $\NormalFormConsistencySealUp$ packet binds a local NameCert
+surface whose obligations are exactly carrier admission, classifier exactness
+for $S=(T,F,N,K,X,H,C,P,L)$, readback of the checked closed-normal theorem row
+$K$, componentwise $\hsame$ transport, displayed $\Cont$ route replay, package
+provenance, and non-escape from the subject-reduction boundary row $X$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite packet of
+\autoref{def:normal-form-consistency-seal-carrier}. Classifier exactness is
+componentwise: two seal packets compare only through the rows
+$T,F,N,K,X,H,C,P,L$ and the displayed $\hsame$ transports.
+
+The theorem row $K$ is read together with $T,F,N$, so the consumer obtains only
+the normal-form contradiction already assembled in
+$\mathsf{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}$. The structural
+rows $H,C,P,L$ preserve that same read under transport, route replay,
+provenance, and local naming.
+
+The boundary row $X$ is named but not discharged. Therefore the NameCert surface
+records the subject-reduction frontier without turning it into a closed
+subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal subject-reduction boundary]
+\label{thm:normal-form-consistency-seal-subject-reduction-boundary}
+The $\NormalFormConsistencySealUp$ packet factors every preservation-facing read
+through \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}
+and every closed-context read through
+\autoref{ch:concrete-instances-closedtermcontextseal-namecert}. Hence the seal
+may eliminate a closed beta-strong proof candidate of the internal false row,
+but it does not provide a route from an arbitrary closed proof candidate to such
+a normal endpoint.
+\end{theorem}
+\begin{proof}
+For closed-context data, project the rows $T,F,N$ together with the provenance
+row $P$. These rows are interpreted through the closed-term context seal, which
+keeps the empty-context typing and closedness information as finite BEDC data.
+
+For preservation-facing data, project the boundary row $X$. Its only named
+consumer is the subject-reduction discharge socket, so the seal can cite the
+frontier while leaving the beta, application-argument, lambda-domain, and
+Pi-domain discharge rows outside the present carrier.
+
+Combining these projections gives the normal-form use of $K$ without a
+reduction-to-normal-form bridge for arbitrary closed proof candidates.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal non-escape]
+\label{thm:normal-form-consistency-seal-nonescape}
+No consumer of an accepted $\NormalFormConsistencySealUp$ packet can read a
+claim stronger than the displayed normal-form consistency surface. In
+particular, the packet exports neither full closed consistency, nor closed
+subject reduction, nor hidden normalization transport, nor a host equality
+principle beyond the displayed $\hsame$ rows.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in
+\autoref{def:normal-form-consistency-seal-carrier}. The only theorem coordinate
+is $K$, and $K$ is explicitly the closed-normal consistency row. The row $X$
+records the subject-reduction boundary rather than a discharge of that
+boundary.
+
+The remaining coordinates $H,C,P,L$ are structural rows for transport, routing,
+provenance, and local naming. They preserve the finite packet but do not add
+new MetaCIC reduction, typing, or normalization facts.
+
+Thus every public read stays inside the visible normal-form seal. Anything
+requiring arbitrary closed reduction or full consistency must pass through a
+separate subject-reduction discharge packet.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal vision handoff]
+\label{thm:normal-form-consistency-seal-vision-handoff}
+The concrete $\NormalFormConsistencySealUp$ packet realizes the assembled node
+of \autoref{ch:closed-metacic-consistency-assembly} as a finite BEDC object:
+the closed-normal theorem row is public inside the seal, while the lift to full
+closed consistency remains blocked until the subject-reduction socket is
+filled by its own discharge data.
+\end{theorem}
+\begin{proof}
+The vision chapter separates three items: the available closed-normal
+consistency theorem, the missing subject-reduction route, and the blocked full
+closed-consistency conclusion. The carrier of
+\autoref{def:normal-form-consistency-seal-carrier} mirrors that separation by
+placing $K$ and $X$ in different rows.
+
+The obligation theorem and boundary theorem show how consumers may use $K$
+with the closed-context rows while routing every preservation-facing request to
+the sibling socket. The non-escape theorem then prevents the packet from being
+read as a stronger consistency claim.
+
+Therefore the handoff is a concrete finite packet rather than a promise of a
+larger MetaCIC theorem.
+\end{proof}
