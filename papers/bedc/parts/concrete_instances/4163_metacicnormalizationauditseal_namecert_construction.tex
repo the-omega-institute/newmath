@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationAuditSealUp$}
+\label{ch:concrete-instances-metacicnormalizationauditseal-namecert}
+\origin{human}
+
+The $\MetaCICNormalizationAuditSealUp$ packet realizes the normalization audit map of \autoref{ch:metacic-normalization-audit-map} as a finite seal over candidate-mediated normalization evidence. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-namecert}, the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}, and the normalization audit packet of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert}: those siblings expose confluence, consistency, and normalization-scope rows, while this seal records the finite admission, replay, and non-escape boundary that downstream consistency chapters may cite without reopening the vision layer.
+
+\begin{definition}[MetaCIC normalization audit seal carrier]
+\label{def:metacic-normalization-audit-seal-carrier}
+A $\MetaCICNormalizationAuditSealUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,R,S,B,F,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the audit-map anchor row naming the finite candidate-mediated normalization scope of \autoref{ch:metacic-normalization-audit-map};
+\item $R$ is the reducibility-candidate row exposing only displayed candidate, closed-candidate, Pi-candidate, and candidate-set membership evidence;
+\item $S$ is the strong-normalization scope row read from $R$, including the checked closed-term projection and no-infinite-reduction reads available inside the candidate route;
+\item $B$ is the boundary row separating this seal from unconditional global strong normalization, unrestricted application SN, full closed Church--Rosser, and closed subject-reduction transport;
+\item $F$ is the finite replay row by which consistency-facing consumers read the same candidate-mediated route without replacing it by prose from the audit map;
+\item $H$ records componentwise $\hsame$ comparison across $A,R,S,B,F,P,N$;
+\item $C$ records the displayed $\Cont$ routes for moving from the audit anchor to candidate evidence, from candidate evidence to the SN scope, and from the scope to a consumer-facing seal read;
+\item $P$ is the $\Pkg$ provenance over the normalization audit map, the normalization audit packet, the confluence audit sibling, and the closed-normal consistency boundary;
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationAuditSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host termination oracle, quotient equality over reductions, evidence-free global normalization, unconditional confluence, or a hidden subject-reduction theorem.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization audit seal obligations]
+\label{thm:metacic-normalization-audit-seal-obligations}
+Every accepted $\MetaCICNormalizationAuditSealUp$ packet binds exactly the finite obligation surface of \autoref{def:metacic-normalization-audit-seal-carrier}: admission of $Q=(A,R,S,B,F,H,C,P,N)$, audit-anchor visibility through $A$, candidate evidence visibility through $R$, candidate-mediated strong-normalization visibility through $S$, boundary visibility through $B$, replay through $F$ and $C$, componentwise $\hsame$ transport through $H$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The anchor row $A$ names the normalization audit map, while $R$ and $S$ expose only the candidate evidence and candidate-mediated strong-normalization reads stored in the finite packet.
+
+The boundary row $B$ is part of the same tuple. It prevents a consumer from erasing candidate evidence or rereading the seal as global strong normalization, unrestricted application SN, full closed confluence, or subject-reduction transport.
+
+The structural rows $F,H,C,P,N$ provide replay, componentwise transport, route exposure, provenance, and local naming. Since the carrier has no further coordinate, these rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit seal non-escape]
+\label{thm:metacic-normalization-audit-seal-nonescape}
+Every public read of an accepted $\MetaCICNormalizationAuditSealUp$ packet factors through the finite rows
+$$
+A,R,S,B,F,H,C,P,N.
+$$
+A consumer may cite the normalization audit map only by reading the displayed anchor, candidate evidence, candidate-mediated SN scope, boundary, replay, transport, route, provenance, and local NameCert rows. The seal exports no host termination oracle, no evidence-free global strong-normalization theorem, no quotient equality over reductions, no unconditional Church--Rosser theorem, and no hidden subject-reduction transport.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. Every public read is a projection from $Q=(A,R,S,B,F,H,C,P,N)$ or a route explicitly recorded by $C$ and $F$.
+
+The positive normalization content is stored only in $R$ and $S$. Those rows are downstream of the audit anchor $A$ and upstream of the consumer replay row, so the seal can be consumed by closed-normal consistency chapters without leaving the candidate-mediated route.
+
+The non-escape boundary is the coordinate $B$ together with the absence of any excluded coordinate. Transport and provenance preserve the same tuple through $H,P,N$, and no row names a host oracle, quotient, global normalization theorem, unconditional confluence theorem, or hidden subject-reduction transport.
+\end{proof}
+
+\closureat{MetaCICNormalizationAuditSealUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationAuditSealUp}
+  \constructivestory{A $\MetaCICNormalizationAuditSealUp$ packet is generated from an audit-map anchor row, reducibility-candidate evidence rows, candidate-mediated strong-normalization rows, boundary rows, finite replay, componentwise transport, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-audit-seal-carrier}, \autoref{thm:metacic-normalization-audit-seal-obligations}, and \autoref{thm:metacic-normalization-audit-seal-nonescape} bind the finite normalization audit seal and its candidate-mediated boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close evidence-free global strong normalization, unrestricted application SN, full closed Church--Rosser, closed subject-reduction transport, quotient equality over reductions, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-mediated SN scope exactness, boundary refusal, route replay, provenance, and non-escape for the same finite seal packet.}
+\end{closurestatus}
