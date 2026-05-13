@@ -156,12 +156,81 @@ Next apply \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness
 Finally use \autoref{thm:regular-cauchy-limit-transport-ledger-exactness} and \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}. Every seal-facing consumer is exhausted by $R,W,D,S,H,C,P,N$, so the excluded quotient, host-equality, external-limit, trichotomy, and completeness objects have no route into the package.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit transport window-dyadic-seal triangle]
+\label{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier
+$$
+T=(R,W,D,S,H,C,P,N),
+$$
+the finite route
+$$
+R \to W \to D \to S
+$$
+commutes as a single handoff from the $\RegSeqRatUp$ source row through the $\StreamNameUp$ selected-window row and the $\DyadicRatCoreUp$ ledger into the $\RealUp$ seal. The commutation is read only through the displayed $\hsame$ rows in $H$, the $\Cont$ routes in $C$, the $\Pkg$ provenance in $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Begin with selected-window exactness, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}. It sends every accepted diagonal observation from the source row $R$ through the selected-window row $W$, with the replay route recorded by $H$ and $C$.
+
+Next use dyadic ledger stability, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}. After the window read, the tolerance request, absolute-value rows, comparison rows, and triangle-bound entries remain inside the single dyadic ledger $D$.
+
+Finally apply seal-route determinacy, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, together with ledger exactness, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}. The seal row $S$ is reached through the same displayed packet rows and no other coordinate is present. Hence the selected-window, dyadic-ledger, and seal routes form one commuting finite handoff.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit transport classifier handoff coverage]
+\label{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}
+Every accepted classifier handoff of a $\RegularCauchyLimitTransportUp$ carrier is covered by the displayed rows
+$$
+R,W,D,S,H,C,P,N
+$$
+and by the triangle of \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}. The classifier has no quotient-stream coordinate, no host real equality coordinate, no selected external limit coordinate, no trichotomy coordinate, and no completeness coordinate.
+\end{theorem}
+\begin{proof}
+Read the classifier boundary from \autoref{def:regular-cauchy-limit-transport-classifier}. It compares exactly the rows $R,W,D,S,H,C,P,N$, and componentwise stability is supplied by \autoref{thm:regular-cauchy-limit-transport-stability}.
+
+The triangle theorem then identifies the only multi-row handoff inside that classifier surface: source observations pass through $W$, ledger data stays in $D$, and the seal route reaches $S$ with provenance $H,C,P,N$.
+
+The excluded objects are absent from the carrier inventory of \autoref{def:regular-cauchy-limit-transport-carrier}. Since the classifier has no slot for those objects, an accepted handoff cannot classify by quotient streams, host real equality, selected external limits, trichotomy, or completeness data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit transport completion boundary nonescape]
+\label{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}
+Let $T=(R,W,D,S,H,C,P,N)$ be an accepted $\RegularCauchyLimitTransportUp$ carrier. Any $\RealCompletenessUp$ consumer that reads this transport must factor through the triangle
+$$
+R \to W \to D \to S
+$$
+before reaching the $\RealUp$ seal. The consumer cannot bypass the triangle by selecting a quotient stream, a host real equality proof, an external limit, a trichotomy row, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First use the RealCompleteness consumer factorization theorem, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}. It says that a diagonal-seal consumer whose rows match $R,W,D,S$ must read the displayed ledger $R,W,D,S,H,C,P,N$ before it reaches the $\RealUp$ seal.
+
+Then apply the window-dyadic-seal triangle, \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}. That theorem compresses the relevant displayed ledger into the finite route $R \to W \to D \to S$ with provenance carried by $H,C,P,N$.
+
+The non-escape part follows from seal-route determinacy and ledger exactness. Both the transport packet and the matching $\RealCompletenessUp$ consumer surface lack coordinates for quotient streams, host real equality, selected external limits, trichotomy, and ambient completeness, so no consumer route can bypass the same triangle.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit transport obligation-closure export]
+\label{thm:regular-cauchy-limit-transport-obligation-closure-export}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier
+$$
+T=(R,W,D,S,H,C,P,N),
+$$
+the rows $R,W,D,S,H,C,P,N$ export the obligation-closure package for $\RegularCauchyLimitTransportUp$. The export consists exactly of carrier admission, classifier stability, selected-window exactness, dyadic ledger stability, seal-route determinacy, $\RealCompletenessUp$ consumer factorization, classifier handoff coverage, and completion-boundary non-escape.
+\end{theorem}
+\begin{proof}
+Start with the obligation-closure package of \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package}. It provides carrier admission, classifier stability, selected-window exactness, dyadic ledger stability, seal-route determinacy, and the finite exclusion boundary for the displayed rows $R,W,D,S,H,C,P,N$.
+
+Next apply the window-dyadic-seal triangle of \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}. This identifies the single handoff route $R \to W \to D \to S$ and keeps its provenance inside $H,C,P,N$.
+
+Finally combine classifier handoff coverage, \autoref{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}, with completion-boundary non-escape, \autoref{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}. The first theorem exhausts the classifier-facing handoff through the same rows, and the second forces any $\RealCompletenessUp$ consumer to factor through the triangle before reading the $\RealUp$ seal. These clauses are precisely the exported obligation-closure surface.
+\end{proof}
+
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
+\closureat{RegularCauchyLimitTransportUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyLimitTransportUp}
   \constructivestory{A $\RegularCauchyLimitTransportUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ selected-window row, a $\DyadicRatCoreUp$ tolerance and absolute-value ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, and \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, and local naming obligations.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package}, \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}, \autoref{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}, \autoref{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}, and \autoref{thm:regular-cauchy-limit-transport-obligation-closure-export} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, window-dyadic-seal triangle, classifier handoff coverage, completion boundary, obligation-closure export, and local naming obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

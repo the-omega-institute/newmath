@@ -22,6 +22,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier is exactly this finite packet. It contains no completed countable stream, no proof that every future observation exists, no hidden causal-continuity principle, and no rule converting a successful prefix into a universal law.
 \end{definition}
+\leanchecked{BEDC.Derived.CountableObservationScheduleUp.CountableObservationScheduleTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CountableObservationSchedule NameCert obligations]
 \label{thm:countable-observation-schedule-namecert-obligations}
@@ -183,6 +184,24 @@ Begin with the TasteGate surface of \autoref{thm:countable-observation-schedule-
 The event-flow rows are then read through prefix totality, finite request exhaustion, and StreamName handoff. These expose exactly the displayed prefix entries, request windows, and source-name route, with transports in $H$ and continuations in $C$.
 
 No-hidden-input alignment follows from non-escape. Because the carrier has no coordinate for causal-continuity data, an unobserved future law, a second carrier, or a completed stream, the ground compiler can only certify the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[CountableObservationSchedule ground-compiler event-flow lock]
+\label{thm:countable-observation-schedule-ground-compiler-event-flow-lock}
+Any TasteGate promotion for the finite $\CountableObservationScheduleUp$ surface must route the rows
+$$
+O,W,S,H,C,P,N
+$$
+through the displayed ground-compiler event-flow and no-hidden-input rows of \autoref{thm:countable-observation-schedule-tastegate-ground-compiler-alignment}. It cannot replace those rows by hidden causal-continuity data, a future-law row, a completed stream, or a second carrier.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the TasteGate surface. \autoref{def:countable-observation-schedule-carrier} fixes the single packet $Q=(O,W,S,H,C,P,N)$, while \autoref{thm:countable-observation-schedule-tastegate-surface} makes that packet the admissible promotion surface.
+
+Next read the event-flow rows through prefix totality, finite request exhaustion, and StreamName handoff. These theorems expose only displayed prefix entries, finite request windows, and the source-name route, with transport in $H$ and continuation replay in $C$.
+
+The ground-compiler alignment then locks the same rows to the event-flow and no-hidden-input discipline. By \autoref{thm:countable-observation-schedule-tastegate-ground-compiler-alignment}, a compiler-facing consumer may use the finite prefix, request-window, StreamName handoff, transport, continuation, provenance, and local naming packet, and no hidden input row.
+
+Finally apply StreamName prefix consumption and non-escape. The route through \autoref{thm:countable-observation-schedule-streamname-prefix-consumer} and \autoref{thm:countable-observation-schedule-nonescape} gives no coordinate for hidden causal-continuity data, a future-law row, a completed stream, or another carrier, so those replacements are outside the TasteGate-facing event-flow lock.
 \end{proof}
 
 \begin{theorem}[CountableObservationSchedule scoped obligation package]
