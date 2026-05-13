@@ -1,0 +1,18 @@
+\section{StreamName RegSeqRat Real Lattice Dependency}
+\label{sec:streamname-regseqrat-real-lattice-dependency}
+
+\begin{theorem}[StreamName RegSeqRat Real lattice dependency]
+\label{thm:streamname-regseqrat-real-lattice-dependency}
+Every accepted $\StreamNameUp$ finite-window packet consumed by $\RegSeqRatUp$ and then by $\RealUp$ factors through the same visible sibling route. The route begins with the StreamName finite-window rows, passes through the $\RegSeqRatUp$ readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and ends at the $\RealUp$ seal rows of \autoref{ch:concrete-instances-real-namecert}. Along the entire route the only shared carrier coordinates are the displayed $\BHist$ observations, the componentwise $\hsame$ transports, the finite $\Cont$ continuation rows, the $\Pkg$ provenance rows, and the local $\NameCert$ rows naming the consumed packets.
+
+The dependency exports no quotient stream, no host real equality, no selected limit, and no ambient completeness principle. In particular, the $\RealUp$ seal is read only as the downstream seal surface reached through the accepted finite StreamName and RegSeqRat packets.
+\end{theorem}
+\begin{proof}
+Start with the StreamName finite-window surface. By \autoref{thm:streamname-finite-window-real-handoff-coverage}, the handoff exposes the finite observation window, the pointwise $\RegSeqRatUp$ rows, the $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Next read the RegSeqRat sibling dependency. The pointwise handoff of \autoref{thm:streamname-regseqrat-pointwise-handoff} identifies the rows sent to $\RegSeqRatUp$ with the same StreamName carrier rows, finite-window classifier rows, certified unary observations, membership rows, and pointwise $\hsame$ comparisons. Thus the RegSeqRat readback surface of \autoref{ch:concrete-instances-regseqrat-namecert} is not a second carrier; it is the finite StreamName window read through the accepted pointwise packet.
+
+Finally pass to the Real seal boundary. The factorization theorem \autoref{thm:streamname-real-seal-factorization-boundary} says that a finite-window $\RealUp$ seal read arising from the StreamName-to-RegSeqRat handoff factors through the StreamName point rows, accepted $\RegSeqRatUp$ seal rows, bundle and membership rows, unary observations, finite $\Cont$ ledger, displayed $\hsame$ transports, and $\Pkg$ provenance. This is exactly the seal-facing surface cited in \autoref{ch:concrete-instances-real-namecert}.
+
+Coordinate exhaustion gives the exclusion clause. None of the cited finite-window, pointwise, or seal-factorization rows contains a quotient stream, host real equality witness, selected limit, or ambient completeness coordinate, so composing them cannot export one.
+\end{proof}

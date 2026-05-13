@@ -47,6 +47,7 @@ T=(Q,S,G,D,R,W,H,C,P,N),
 $$
 the stationary $\RatUp$ seed row $Q$, the constant $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ tail readback row $G$, the $\DyadicRatCoreUp$ finite-window ledger $D$, the $\RealUp$ diagonal row $R$, the transported seal row $W$, and the structural rows $H,C,P,N$ form one consumer-readable route. The route starts at the paired RatUp seed classifier, reads the constant window, consumes the regular-rational cofinal tail, records the dyadic finite-window ledger, and reaches the real-facing row only through the transported stationary seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalCofinalTailUp.DiagonalCofinalTailCarrier\_seed\_window\_readback}
 \begin{proof}
 Project the accepted carrier of \autoref{def:diagonal-cofinal-tail-carrier}. The displayed tuple already names the only rows that may be read by a consumer: $Q,S,G,D,R,W,H,C,P,N$.
 
@@ -83,6 +84,47 @@ The seed-window readback and common-window refinement identify the positive cons
 The Real seal handoff supplies the real-facing passage through the StreamNameUp, RegSeqRatUp, and DyadicRatCoreUp rows. The non-escape theorem prevents an accepted downstream route from leaving the displayed packet.
 
 Finally, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source} records that later TasteGate-facing consumers have this single cofinal-tail carrier source. Together these clauses are exactly the named obligation surface.
+\end{proof}
+
+\begin{theorem}[Diagonal cofinal-tail RegSeqRat--StreamName handoff]
+\label{thm:diagonal-cofinal-tail-regseqrat-streamname-handoff}
+Every accepted $\DiagonalCofinalTailUp$ consumer factors the
+$\RegSeqRatUp$ tail readback through the constant $\StreamNameUp$ window,
+the $\DyadicRatCoreUp$ finite-window ledger, the transported stationary seal
+row, the $\RealUp$ diagonal row, componentwise $\hsame$ transports,
+displayed $\Cont$ routes, $\Pkg$ provenance, the local $\NameCert$ row, and
+the TasteGate single-carrier surface of
+\autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}. In the
+carrier notation
+$$
+T=(Q,S,G,D,R,W,H,C,P,N),
+$$
+the readback route is exhausted by $Q,S,G,D,R,W,H,C,P,N$ and has no second
+carrier source, selected limit, quotient-stream equality, external equality,
+unrecorded selector, hidden parameter, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-cofinal-tail-carrier}. The
+accepted packet exposes the RatUp seed row $Q$, constant StreamNameUp window
+$S$, RegSeqRatUp tail row $G$, DyadicRatCoreUp ledger $D$, RealUp diagonal
+row $R$, transported stationary seal row $W$, and the structural rows
+$H,C,P,N$.
+
+Apply the NameCert obligations together with the seed-window readback. These
+results identify the RegSeqRatUp readback as the route from the stationary
+seed through the constant StreamNameUp window and the finite dyadic ledger.
+
+Use the common-window refinement and the obligation closure package. They
+keep every accepted RegSeqRatUp or RealUp consumer on the same finite
+cofinal-tail surface and route the transported stationary seal through the
+displayed $H,C,P,N$ rows.
+
+Finally apply
+\autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}. The
+TasteGate-facing consumer sees the same single carrier source, so the handoff
+cannot use a second carrier, selected limit, quotient-stream equality,
+external equality, unrecorded selector, hidden parameter, or ambient
+completeness witness.
 \end{proof}
 
 \begin{theorem}[Diagonal cofinal-tail primitive scope]

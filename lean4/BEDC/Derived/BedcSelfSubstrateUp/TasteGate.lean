@@ -87,20 +87,82 @@ def bedcSelfSubstrateToEventFlow : BedcSelfSubstrateUp → EventFlow
         bedcSelfSubstrateEncodeBHist name]
 
 def bedcSelfSubstrateFromEventFlow : EventFlow → Option BedcSelfSubstrateUp
-  | [_, generators, _, equality, _, recursors, _, purity, _, boundary, _, transport, _, route, _,
-      provenance, _, name] =>
-      some
-        (BedcSelfSubstrateUp.mk
-          (bedcSelfSubstrateDecodeBHist generators)
-          (bedcSelfSubstrateDecodeBHist equality)
-          (bedcSelfSubstrateDecodeBHist recursors)
-          (bedcSelfSubstrateDecodeBHist purity)
-          (bedcSelfSubstrateDecodeBHist boundary)
-          (bedcSelfSubstrateDecodeBHist transport)
-          (bedcSelfSubstrateDecodeBHist route)
-          (bedcSelfSubstrateDecodeBHist provenance)
-          (bedcSelfSubstrateDecodeBHist name))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | generators :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | equality :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | recursors :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | purity :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | boundary :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | route :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | name :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (BedcSelfSubstrateUp.mk
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    generators)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    equality)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    recursors)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    purity)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    boundary)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    transport)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    route)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    provenance)
+                                                                                  (bedcSelfSubstrateDecodeBHist
+                                                                                    name))
+                                                                          | _ :: _ => none
 
 private theorem bedcSelfSubstrate_round_trip :
     ∀ x : BedcSelfSubstrateUp,
@@ -185,30 +247,16 @@ instance bedcSelfSubstrateFieldFaithful : FieldFaithful BedcSelfSubstrateUp wher
         cases y with
         | mk generators' equality' recursors' purity' boundary' transport' route' provenance'
             name' =>
-            injection hfields with hGenerators hTail0
-            injection hTail0 with hEquality hTail1
-            injection hTail1 with hRecursors hTail2
-            injection hTail2 with hPurity hTail3
-            injection hTail3 with hBoundary hTail4
-            injection hTail4 with hTransport hTail5
-            injection hTail5 with hRoute hTail6
-            injection hTail6 with hProvenance hTail7
-            injection hTail7 with hName _hNil
-            cases hGenerators
-            cases hEquality
-            cases hRecursors
-            cases hPurity
-            cases hBoundary
-            cases hTransport
-            cases hRoute
-            cases hProvenance
-            cases hName
+            cases hfields
             rfl
 
 theorem BedcSelfSubstrateTasteGate_single_carrier_alignment :
     (∀ h : BHist, bedcSelfSubstrateDecodeBHist (bedcSelfSubstrateEncodeBHist h) = h) ∧
+      (∀ x : BedcSelfSubstrateUp,
+        bedcSelfSubstrateFromEventFlow (bedcSelfSubstrateToEventFlow x) = some x) ∧
       (∀ x y : BedcSelfSubstrateUp,
         bedcSelfSubstrateToEventFlow x = bedcSelfSubstrateToEventFlow y → x = y) ∧
+        bedcSelfSubstrateEncodeBHist BHist.Empty = ([] : List BMark) ∧
         (∀ x y : BedcSelfSubstrateUp,
           (match x with
             | BedcSelfSubstrateUp.mk generators equality recursors purity boundary transport
@@ -216,130 +264,59 @@ theorem BedcSelfSubstrateTasteGate_single_carrier_alignment :
                 [generators, equality, recursors, purity, boundary, transport, route,
                   provenance, name]) =
             (match y with
-              | BedcSelfSubstrateUp.mk generators equality recursors purity boundary transport
-                  route provenance name =>
-                  [generators, equality, recursors, purity, boundary, transport, route,
-                    provenance, name]) →
+            | BedcSelfSubstrateUp.mk generators equality recursors purity boundary transport
+                route provenance name =>
+                [generators, equality, recursors, purity, boundary, transport, route,
+                  provenance, name]) →
             x = y) ∧
           (∃ x y : BedcSelfSubstrateUp, x ≠ y) := by
   constructor
-  · intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
+  · exact bedcSelfSubstrateDecode_encode_bhist
   · constructor
-    · intro x y heq
-      cases x with
-      | mk generators equality recursors purity boundary transport route provenance name =>
-          cases y with
-          | mk generators' equality' recursors' purity' boundary' transport' route'
-              provenance' name' =>
-              injection heq with _ hTail0
-              injection hTail0 with hGenerators hTail1
-              injection hTail1 with _ hTail2
-              injection hTail2 with hEquality hTail3
-              injection hTail3 with _ hTail4
-              injection hTail4 with hRecursors hTail5
-              injection hTail5 with _ hTail6
-              injection hTail6 with hPurity hTail7
-              injection hTail7 with _ hTail8
-              injection hTail8 with hBoundary hTail9
-              injection hTail9 with _ hTail10
-              injection hTail10 with hTransport hTail11
-              injection hTail11 with _ hTail12
-              injection hTail12 with hRoute hTail13
-              injection hTail13 with _ hTail14
-              injection hTail14 with hProvenance hTail15
-              injection hTail15 with _ hTail16
-              injection hTail16 with hName _hNil
-              have sameGenerators : generators = generators' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hGenerators
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist generators).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist generators'))
-              have sameEquality : equality = equality' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hEquality
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist equality).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist equality'))
-              have sameRecursors : recursors = recursors' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hRecursors
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist recursors).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist recursors'))
-              have samePurity : purity = purity' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hPurity
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist purity).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist purity'))
-              have sameBoundary : boundary = boundary' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hBoundary
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist boundary).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist boundary'))
-              have sameTransport : transport = transport' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hTransport
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist transport).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist transport'))
-              have sameRoute : route = route' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hRoute
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist route).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist route'))
-              have sameProvenance : provenance = provenance' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hProvenance
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist provenance).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist provenance'))
-              have sameName : name = name' := by
-                have hDecoded := congrArg bedcSelfSubstrateDecodeBHist hName
-                exact Eq.trans (bedcSelfSubstrateDecode_encode_bhist name).symm
-                  (Eq.trans hDecoded (bedcSelfSubstrateDecode_encode_bhist name'))
-              cases sameGenerators
-              cases sameEquality
-              cases sameRecursors
-              cases samePurity
-              cases sameBoundary
-              cases sameTransport
-              cases sameRoute
-              cases sameProvenance
-              cases sameName
-              rfl
+    · exact bedcSelfSubstrate_round_trip
     · constructor
-      · intro x y hfields
-        cases x with
-        | mk generators equality recursors purity boundary transport route provenance name =>
-            cases y with
-            | mk generators' equality' recursors' purity' boundary' transport' route'
-                provenance' name' =>
-                change
-                  [generators, equality, recursors, purity, boundary, transport, route,
-                      provenance, name] =
-                    [generators', equality', recursors', purity', boundary', transport',
-                      route', provenance', name'] at hfields
-                injection hfields with hGenerators hTail0
-                injection hTail0 with hEquality hTail1
-                injection hTail1 with hRecursors hTail2
-                injection hTail2 with hPurity hTail3
-                injection hTail3 with hBoundary hTail4
-                injection hTail4 with hTransport hTail5
-                injection hTail5 with hRoute hTail6
-                injection hTail6 with hProvenance hTail7
-                injection hTail7 with hName _hNil
-                cases hGenerators
-                cases hEquality
-                cases hRecursors
-                cases hPurity
-                cases hBoundary
-                cases hTransport
-                cases hRoute
-                cases hProvenance
-                cases hName
-                rfl
-      · exact
-          ⟨BedcSelfSubstrateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-            BedcSelfSubstrateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-            by
-              intro h
-              cases h⟩
+      · intro x y heq
+        exact bedcSelfSubstrateToEventFlow_injective heq
+      · constructor
+        · rfl
+        · constructor
+          · intro x y hfields
+            cases x with
+            | mk generators equality recursors purity boundary transport route provenance name =>
+                cases y with
+                | mk generators' equality' recursors' purity' boundary' transport' route'
+                    provenance' name' =>
+                    change
+                      [generators, equality, recursors, purity, boundary, transport, route,
+                          provenance, name] =
+                        [generators', equality', recursors', purity', boundary', transport',
+                          route', provenance', name'] at hfields
+                    injection hfields with hGenerators hTail0
+                    injection hTail0 with hEquality hTail1
+                    injection hTail1 with hRecursors hTail2
+                    injection hTail2 with hPurity hTail3
+                    injection hTail3 with hBoundary hTail4
+                    injection hTail4 with hTransport hTail5
+                    injection hTail5 with hRoute hTail6
+                    injection hTail6 with hProvenance hTail7
+                    injection hTail7 with hName _hNil
+                    cases hGenerators
+                    cases hEquality
+                    cases hRecursors
+                    cases hPurity
+                    cases hBoundary
+                    cases hTransport
+                    cases hRoute
+                    cases hProvenance
+                    cases hName
+                    rfl
+          · exact
+              ⟨BedcSelfSubstrateUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+                BedcSelfSubstrateUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩
 
 end BEDC.Derived.BedcSelfSubstrateUp

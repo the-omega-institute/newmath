@@ -474,18 +474,37 @@ proof, external contraction principle, or selected limit.
 \end{proof}
 \leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_public\_namecert\_package}
 
+\begin{theorem}[PicardContraction bridged source-window package]
+\label{thm:picardcontraction-bridged-source-window-package}
+The checked public export, Banach and ODE consumer non-escape, ratio-ledger non-expansion, and root source-window checked handoff form the bridge packet from the concrete $\PicardContractionUp$ carrier to the public interface. Concretely, every public read of an accepted packet factors through the displayed rows
+$$
+B,T,L,I,M,E,H,C,G,N
+$$
+and the source-window handoff target
+\texttt{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_root\_source\_window\_checked\_handoff}
+records the checked root-side handoff for that same finite packet surface.
+\end{theorem}
+\begin{proof}
+Start with the public NameCert package. \autoref{thm:picardcontraction-public-namecert-package} assembles the source/modulus/seal export, ODE and Newton route boundary, and local obligation surface as the public package over $B,T,L,I,M,E,H,C,G,N$.
+
+Next use consumer non-escape and ratio control. \autoref{thm:picardcontraction-banach-ode-consumer-nonescape} keeps ODE and Newton reads inside the same finite carrier, while \autoref{thm:picardcontraction-ratio-ledger-nonexpansion} prevents the rational Lipschitz row from expanding into a stronger host contraction claim.
+
+Finally attach the checked source-window handoff. The Lean target named in the statement is the source-window handoff for the root-side surface, so the paper bridge is the displayed public package together with the checked handoff, not an ambient Banach fixed-point theorem or a completed-orbit construction.
+\end{proof}
+
 \closureat{PicardContractionUp}{seedStr}
 \closureat{PicardContractionUp}{obligationStr}
 \closureat{PicardContractionUp}{scopedStr}
 \closureat{PicardContractionUp}{publicStr}
+\closureat{PicardContractionUp}{bridgedStr}
 
 \begin{closurestatus}{\PicardContractionUp}
   \constructivestory{A $\PicardContractionUp$ packet is generated from a $\BanachUp$ source row, a displayed contraction-map row, a positive rational Lipschitz-ratio ledger below the unit bound, a finite Picard-iterate ledger, an explicit Cauchy-modulus row, endpoint and seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:picardcontraction-bhist-carrier}, \autoref{def:picardcontraction-classifier}, \autoref{thm:picardcontraction-finite-iterate-closure}, \autoref{thm:picardcontraction-banach-ode-boundary}, \autoref{thm:picardcontraction-namecert-obligation-surface}, \autoref{thm:picardcontraction-classifier-stability}, \autoref{thm:picardcontraction-contraction-step-package}, \autoref{thm:picardcontraction-fixed-point-ledger-boundary}, \autoref{thm:picardcontraction-modulus-window-transport}, \autoref{thm:picardcontraction-ratio-ledger-nonexpansion}, \autoref{thm:picardcontraction-finite-consumer-exhaustion}, \autoref{thm:picardcontraction-public-namecert-export}, \autoref{thm:picardcontraction-public-banach-cauchyrate-factorization}, \autoref{thm:picardcontraction-public-real-consumer-boundary}, \autoref{thm:picardcontraction-public-banach-source-modulus-seal}, \autoref{thm:picardcontraction-public-ode-newton-export}, and \autoref{thm:picardcontraction-public-namecert-package} describe the public scope: the finite packet, classifier, finite-iterate closure, consumer boundary, NameCert surface, classifier stability, contraction-step package, fixed-point ledger boundary, modulus-window transport, ratio-ledger nonexpansion, finite consumer exhaustion, public certificate export, Banach and CauchyRate factorization, real-facing consumer boundary, Banach source/modulus/seal export, ODE/Newton public export, and public NameCert package.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:picardcontraction-bhist-carrier}, \autoref{def:picardcontraction-classifier}, \autoref{thm:picardcontraction-finite-iterate-closure}, \autoref{thm:picardcontraction-banach-ode-boundary}, \autoref{thm:picardcontraction-namecert-obligation-surface}, \autoref{thm:picardcontraction-classifier-stability}, \autoref{thm:picardcontraction-contraction-step-package}, \autoref{thm:picardcontraction-fixed-point-ledger-boundary}, \autoref{thm:picardcontraction-modulus-window-transport}, \autoref{thm:picardcontraction-ratio-ledger-nonexpansion}, \autoref{thm:picardcontraction-finite-consumer-exhaustion}, \autoref{thm:picardcontraction-public-namecert-export}, \autoref{thm:picardcontraction-public-banach-cauchyrate-factorization}, \autoref{thm:picardcontraction-public-real-consumer-boundary}, \autoref{thm:picardcontraction-public-banach-source-modulus-seal}, \autoref{thm:picardcontraction-public-ode-newton-export}, \autoref{thm:picardcontraction-public-namecert-package}, and \autoref{thm:picardcontraction-bridged-source-window-package} describe the public bridge scope: the finite packet, classifier, finite-iterate closure, consumer boundary, NameCert surface, classifier stability, contraction-step package, fixed-point ledger boundary, modulus-window transport, ratio-ledger nonexpansion, finite consumer exhaustion, public certificate export, Banach and CauchyRate factorization, real-facing consumer boundary, Banach source/modulus/seal export, ODE/Newton public export, public NameCert package, and source-window bridge packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full Banach fixed-point convergence, uniqueness of a host fixed point, ambient completeness, a choice-selected limit, or bridge checking.}
-  \upgradepath{Bridge checking requires a standard bridge for the same public finite contraction packet and its Banach, rate, real, ODE, and Newton consumer boundaries.}
+  \upgradepath{Mature closure requires downstream examples or completeness-style consumer coverage for the same finite contraction packet and its Banach, rate, real, ODE, and Newton consumer boundaries.}
 \end{closurestatus}

@@ -206,6 +206,87 @@ The route therefore has no direct edge from $S$ to $Q$ and no host-level
 big-step shortcut.
 \end{proof}
 
+\begin{theorem}[ContinuationBigStep trace-prefix readback]
+\label{thm:continuation-bigstep-trace-prefix-readback}
+Let $K=(S,T,R,Q,H,C,P,N)$ be an accepted $\ContinuationBigStepUp$ carrier. Any
+consumer that reads a terminal prefix of the computation before $R$ must read
+that prefix through the finite $\ContinuationTraceUp$ ledger $T$, transported by
+$H$, replayed through $C$, and named by $P,N$. The packet has no direct terminal
+prefix row outside the trace ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier of
+\autoref{def:continuation-big-step-carrier}. Its source row is $S$, its finite
+trace ledger is $T$, and its replay endpoint is $R$.
+
+Apply the small-step factorization theorem
+\autoref{thm:continuation-big-step-small-step-factorization}. It makes the
+route from $S$ to $R$ pass through the displayed trace ledger, so a prefix read
+before $R$ is a read of an initial segment of $T$.
+
+Use \autoref{thm:continuation-bigstep-trace-row-admission} to admit the trace
+row as the $\ContinuationTraceUp$ ledger. The rows $H,C,P,N$ then transport,
+replay, source, and name that same prefix, without adding a separate terminal
+prefix coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep terminal-witness exhaustion]
+\label{thm:continuation-bigstep-terminal-witness-exhaustion}
+Let $K=(S,T,R,Q,H,C,P,N)$ be an accepted $\ContinuationBigStepUp$ carrier. Once
+$S,T,C,R$ are fixed, the terminal-read witness displayed by the packet is
+exhausted by $Q$. Any accepted terminal read using the same source, trace,
+continuation route, and replay endpoint names the same witness row $Q$ and has
+no second terminal witness outside the carrier.
+\end{theorem}
+\begin{proof}
+Read $S,T,C,R$ from \autoref{def:continuation-big-step-carrier}. These rows fix
+the source, the finite replay ledger, the displayed continuation route, and the
+replay endpoint.
+
+Apply terminal-read determinacy from
+\autoref{thm:continuation-big-step-terminal-read-determinacy}. With the replay
+route and endpoint fixed, a terminal consumer cannot choose a different
+terminal row.
+
+The row $Q$ is the only terminal-read witness coordinate in the carrier. The
+transport and naming rows $H,P,N$ preserve that witness, and $C$ is already one
+of the fixed rows, so the accepted packet exhausts terminal witnesses at $Q$.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep small-step closure package]
+\label{thm:continuation-bigstep-smallstep-closure-package}
+The $\ContinuationBigStepUp$ dependency-ready obligation package consists of
+the carrier $K=(S,T,R,Q,H,C,P,N)$, local NameCert obligations, small-step
+factorization, terminal-read determinacy, non-escape, consumer exactness,
+trace-row admission, trace-prefix readback, and terminal-row readback for the
+same finite packet. This package exports a finite $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ surface, not a host big-step evaluator.
+\end{theorem}
+\begin{proof}
+Carrier admission and the local naming obligations are those of
+\autoref{def:continuation-big-step-carrier} and
+\autoref{thm:continuation-big-step-namecert-obligations}.
+
+The operational spine is supplied by
+\autoref{thm:continuation-big-step-small-step-factorization},
+\autoref{thm:continuation-big-step-terminal-read-determinacy}, and
+\autoref{thm:continuation-big-step-nonescape}. These bind the small-step route,
+the terminal witness, and the non-escape boundary for the same rows
+$S,T,R,Q,H,C,P,N$.
+
+The consumer surface is supplied by
+\autoref{thm:continuation-big-step-consumer-exactness},
+\autoref{thm:continuation-bigstep-trace-row-admission},
+\autoref{thm:continuation-bigstep-trace-prefix-readback}, and
+\autoref{thm:continuation-bigstep-terminal-row-readback}. Together they make
+the trace row and terminal row readable by downstream packets without adding a
+host evaluator.
+
+Thus the package is dependency-ready exactly as a finite BEDC packet: the trace
+ledger, terminal witness, transport, continuation, provenance, and local name
+are all displayed coordinates, and no semantic big-step shortcut is exported.
+\end{proof}
+
 \begin{theorem}[ContinuationBigStep local NameCert package]
 \label{thm:continuation-bigstep-local-namecert-package}
 The local $\NameCert_{\ContinuationBigStepUp}$ obligation package for an

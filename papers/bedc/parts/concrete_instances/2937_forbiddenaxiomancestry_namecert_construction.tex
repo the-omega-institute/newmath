@@ -4,6 +4,8 @@
 
 The $\ForbiddenAxiomAncestryUp$ packet gives the strict axiom-purity boundary a finite local certificate. It records a theorem row, its proof-ancestry report, the forbidden host-axiom dependency row, the refusal verdict, displayed audit routes, package provenance, and the local naming row. The packet is the concrete object consumed when a theorem has no source axiom under \texttt{lean4/BEDC/} but its host proof ancestry still attempts to carry \texttt{Classical.choice}, \texttt{Quot.sound}, or \texttt{propext}.
 
+The proof-ancestry report row is consumed through the axiom-dependency tuple surface of \autoref{ch:concrete-instances-axiom-dependency-tuple-namecert}: that sibling supplies the finite dependency-budget packet, while $\ForbiddenAxiomAncestryUp$ specializes the packet to the three forbidden host rows and the refusal verdict.
+
 \begin{definition}[ForbiddenAxiomAncestry carrier]
 \label{def:forbidden-axiom-ancestry-carrier}
 A $\ForbiddenAxiomAncestryUp$ carrier is a finite $\BHist$ packet
@@ -32,6 +34,7 @@ Q=(T,A,F,R,H,C,P,N),
 $$
 the local $\NameCert_{\ForbiddenAxiomAncestryUp}$ surface consists of carrier exposure for the theorem row, proof-ancestry report, forbidden dependency row, refusal verdict, componentwise $\hsame$ transport, displayed $\Cont$ audit replay, $\Pkg$ provenance, and local naming row; exactness of the comparison between $A$ and $F$; and non-escape for \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, fuzzy theorem substitution, and source-token-only acceptance.
 \end{theorem}
+\leanchecked{BEDC.Derived.ForbiddenAxiomAncestryUp.ForbiddenAxiomAncestryTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Carrier exposure is projection from \autoref{def:forbidden-axiom-ancestry-carrier}. The packet lists exactly the rows $T,A,F,R,H,C,P,N$.
 
@@ -41,6 +44,7 @@ The verdict row $R$ records the finite comparison. Transport and replay are conf
 
 Finally $P$ and $N$ record provenance and the local naming certificate. Since the excluded objects have no coordinate outside the refusal row, the NameCert surface cannot export them as BEDC theorem content.
 \end{proof}
+\leanchecked{BEDC.Derived.ForbiddenAxiomAncestryUp.ForbiddenAxiomAncestryCarrier\_namecert\_obligations}
 
 \begin{theorem}[ForbiddenAxiomAncestry non-escape]
 \label{thm:forbidden-axiom-ancestry-non-escape}

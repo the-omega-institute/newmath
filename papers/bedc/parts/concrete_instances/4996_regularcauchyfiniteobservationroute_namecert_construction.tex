@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFiniteObservationRouteUp$}
+\label{ch:concrete-instances-regular-cauchy-finite-observation-route-namecert}
+\origin{ai}
+
+The $\RegularCauchyFiniteObservationRouteUp$ packet names the concrete route from regular-Cauchy finite windows to the observation budget and the $\RealUp$ seal used by \autoref{ch:visions-real-completeness}. It reads its finite window side through \autoref{ch:concrete-instances-streamname-namecert}, its diagonal schedule through \autoref{ch:concrete-instances-stationarypartitiondiagonal-namecert}, and its budget side through \autoref{ch:concrete-instances-real-observation-budget-namecert}. The packet keeps these sibling surfaces in one route rather than replacing any of them.
+
+\begin{definition}[Regular-Cauchy finite observation route carrier]
+\label{def:regular-cauchy-finite-observation-route-carrier}
+A $\RegularCauchyFiniteObservationRouteUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(Q,W,D,R,B,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite regular-Cauchy request row, including the requested precision and the selected diagonal index;
+\item $W$ is the finite $\StreamNameUp$ window row read by the route;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger for the window;
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the finite observations;
+\item $B$ is the $\RealObservationBudgetUp$ row admitting the same window, dyadic ledger, handoff, and seal request;
+\item $S$ is the $\RealUp$ seal row reached only after the budget row has been displayed;
+\item $H$ stores componentwise $\hsame$ transports for $Q,W,D,R,B,S,C,P,N$;
+\item $C$ stores the $\Cont$ routes reading the request, window, dyadic ledger, regular-rational handoff, observation budget, seal row, provenance, and local name;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\RealUp$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyFiniteObservationRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host real equality, hidden limit selection, unbounded observation schedules, or a $\RealUp$ seal read outside the displayed budget.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy finite observation route obligations]
+\label{thm:regular-cauchy-finite-observation-route-obligations}
+For the carrier of \autoref{def:regular-cauchy-finite-observation-route-carrier}, the local $\NameCert_{\RegularCauchyFiniteObservationRouteUp}$ surface consists exactly of carrier admission, finite $\StreamNameUp$ window admission, $\DyadicRatCoreUp$ observation readback, $\RegSeqRatUp$ handoff, $\RealObservationBudgetUp$ budget admission, $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple $Z=(Q,W,D,R,B,S,H,C,P,N)$. The first six rows expose the finite request, selected window, dyadic ledger, regular-rational handoff, observation budget, and seal row.
+
+The sibling surfaces supply the route checks. The $\StreamNameUp$ row gives the finite observation window, the $\DyadicRatCoreUp$ row gives the finite arithmetic readback, and the $\RegSeqRatUp$ row is the handoff consumed by the observation budget.
+
+The budget and seal obligations are bound by $B,S,H,C,P,N$. Since the seal row is downstream of $B$ in the carrier and in the displayed continuation routes, the local certificate has no source from which to read a $\RealUp$ seal before the finite observation budget is present.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy finite observation route non-escape]
+\label{thm:regular-cauchy-finite-observation-route-nonescape}
+An accepted $\RegularCauchyFiniteObservationRouteUp$ carrier exports no quotient stream, host real equality proof, hidden limit selector, unbounded observation schedule, or direct $\RealUp$ seal read. Every completion-facing request remains inside the displayed rows $Q,W,D,R,B,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory in \autoref{def:regular-cauchy-finite-observation-route-carrier}. The tuple lists the request, window, dyadic ledger, regular-rational handoff, observation budget, seal row, transports, continuations, provenance, and local naming data, and it lists none of the excluded objects.
+
+Apply the obligation theorem. It makes the displayed rows the whole local $\NameCert$ surface, so a consumer cannot add quotient-stream equality, host real equality, hidden limit selection, an unbounded schedule, or an early seal coordinate while remaining in the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy finite observation route Real seal handoff]
+\label{thm:regular-cauchy-finite-observation-route-realseal-handoff}
+Every $\RealUp$ seal read of an accepted $\RegularCauchyFiniteObservationRouteUp$ carrier factors through the finite route
+$$
+Q \to W \to D \to R \to B \to S
+$$
+with transport, continuation, provenance, and local naming rows $H,C,P,N$. Thus the seal is reached only after the $\RealObservationBudgetUp$ row has accepted the same $\StreamNameUp$ window, $\DyadicRatCoreUp$ readback, and $\RegSeqRatUp$ handoff.
+\end{theorem}
+\begin{proof}
+Begin with the carrier. The seal coordinate $S$ appears after the window, dyadic ledger, handoff, and observation-budget rows in the displayed packet.
+
+Read the observation-budget side through \autoref{ch:concrete-instances-real-observation-budget-namecert}. That sibling surface admits seal consumption only through finite windows, dyadic readbacks, regular-rational handoff rows, and its own budget row.
+
+The rows $H,C,P,N$ record the componentwise transport, route replay, package provenance, and local name for the same packet. Therefore every $\RealUp$ seal read follows the displayed route through $B$ and cannot bypass the finite observation budget.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy finite observation route vision concretization]
+\label{thm:regular-cauchy-finite-observation-route-vision-concretization}
+The diagonal-limit route named in \autoref{ch:visions-real-completeness} is realized by accepted $\RegularCauchyFiniteObservationRouteUp$ packets as finite $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, and $\RealUp$ seal data. The stationary diagonal side is read through \autoref{ch:concrete-instances-stationarypartitiondiagonal-namecert}, while product-facing consumers can share the finite window and handoff rows with \autoref{ch:concrete-instances-cauchyproduct-namecert} without importing quotient streams, hidden limits, or host real equality.
+\end{theorem}
+\begin{proof}
+The diagonal-limit consumer in \autoref{ch:visions-real-completeness} needs a finite observation route before a $\RealUp$ seal is inspected. The carrier supplies exactly that route: request, window, dyadic readback, regular-rational handoff, observation budget, and seal.
+
+The stationary diagonal sibling fixes the diagonal-window shape, and the CauchyProduct sibling can reuse the same kind of finite window and regular-rational handoff rows. These links do not add coordinates to $Z$; they only identify which sibling surfaces read the displayed rows.
+
+Finally apply the Real seal handoff and non-escape theorems. Together they show that the vision-facing route reaches the $\RealUp$ seal through the finite observation budget and excludes quotient streams, hidden limit selection, and host real equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted route factors through the displayed finite observation budget before any RealUp seal read; a seal read bypassing the budget refutes this chapter.}
+\independenceWitness{real-observation-budget, finiteobservationbudgetselector, stationarypartitiondiagonal, cauchyproduct, streamname: none is bijective because this carrier simultaneously records the route from regular-Cauchy finite windows to the observation budget and RealUp seal, while each sibling lacks at least one of the route, budget, diagonal, product, or stream-only rows.}
+
+\closureat{RegularCauchyFiniteObservationRouteUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFiniteObservationRouteUp}
+  \constructivestory{A $\RegularCauchyFiniteObservationRouteUp$ packet is generated from a finite regular-Cauchy request, selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ handoff, $\RealObservationBudgetUp$ budget row, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-observation-route-carrier}, \autoref{thm:regular-cauchy-finite-observation-route-obligations}, \autoref{thm:regular-cauchy-finite-observation-route-nonescape}, \autoref{thm:regular-cauchy-finite-observation-route-realseal-handoff}, and \autoref{thm:regular-cauchy-finite-observation-route-vision-concretization} define the route carrier, obligation surface, non-escape boundary, Real seal handoff, and vision-facing concretization.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient-stream equality, hidden limit selection, unbounded observation schedules, host real equality, RealUp completeness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window admission, dyadic readback, RegSeqRat handoff, observation-budget exactness, seal-handoff exactness, and non-escape for the same route packet.}
+\end{closurestatus}

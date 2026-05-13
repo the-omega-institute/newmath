@@ -68,3 +68,73 @@ cannot branch to a quotient real, selected host limit, host equality, ambient
 completeness principle, arithmetic or order package, or metric-completeness
 row. Thus every accepted read is exhausted by the stated route.
 \end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName Cauchy-completion interface]
+\label{thm:real-regseq-streamname-cauchy-completion-interface}
+For the current $\RealUp$ completion-facing phase, the Cauchy-completion
+interface exposed by a Real RegSeqRat StreamName dependency triple is exactly
+the finite route through
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert},
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, and the local
+$\RealUp$ seal row. Any completion-facing consumer must factor through this
+route before it reads a $\RealUp$ endpoint.
+
+The interface exports the displayed finite window, regular-rational readback,
+dyadic observation ledger, seal row, componentwise $\hsame$ transport,
+displayed $\Cont$ route, package provenance, and local $\NameCert$ row. It
+exports no quotient stream, selected host limit, representative choice,
+host equality, ambient completeness principle, arithmetic package, order
+package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+Start from the dependency triple of
+\autoref{def:real-regseq-streamname-dependency-triple}. Its only inbound
+sibling rows are the finite $\StreamNameUp$ window $S$, the
+$\RegSeqRatUp$ readback row $Q$, and the $\DyadicRatCoreUp$ ledger row $D$,
+with the $\RealUp$ seal row $R$ placed after them in the same finite packet.
+
+Apply the seal-route exhaustion theorem
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It identifies
+every accepted seal read as the route through $S$, then $Q$, then $D$, and
+only then $R$, transported by $H$, read through $C$, and packaged by $P,N$.
+
+The local seal row is therefore the completion-facing boundary. Since the
+packet has no coordinate for quotient streams, selected host limits,
+representative choice, host equality, completeness, arithmetic, order, or
+metric completeness, a consumer cannot read any of those objects before or
+after the $\RealUp$ endpoint. The only available interface is the stated
+finite route.
+\end{proof}
+
+\begin{theorem}[Real seal RegSeqRat StreamName dependency exhaustion]
+\label{thm:real-seal-regseq-streamname-dependency-exhaustion}
+Every accepted $\RealUp$ seal consumer that reads the dependency triple of
+\autoref{def:real-regseq-streamname-dependency-triple} factors through
+exactly the finite rows supplied by $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local
+$\NameCert$ row.
+
+The same consumer exports no quotient stream, selected host limit,
+representative choice, host equality, ambient completeness principle,
+arithmetic package, order package, or metric-completeness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion} to the seal
+read. It identifies the only accepted route as the path through the finite
+$\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, the
+$\DyadicRatCoreUp$ ledger row, and the local $\RealUp$ seal row, transported
+by $\hsame$, read through $\Cont$, and packaged by $\Pkg$ and $\NameCert$.
+
+Apply \autoref{thm:real-regseq-streamname-cauchy-completion-interface}. It
+turns the same finite route into the completion-facing interface and states
+that every completion-facing consumer must read through that interface before
+it reaches a $\RealUp$ endpoint.
+
+Finally project the dependency triple itself. Its displayed coordinates are
+only $(S,Q,D,R,H,C,P,N)$, and its exclusion clause contains no quotient
+stream, selected host limit, representative choice, host equality, ambient
+completeness principle, arithmetic package, order package, or
+metric-completeness row. Hence there is no non-finite route for the consumer
+to export.
+\end{proof}
