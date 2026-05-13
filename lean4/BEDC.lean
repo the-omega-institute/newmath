@@ -119,7 +119,6 @@ import BEDC.Derived.DyadicApproximationUp.PublicFiniteWindowExport
 import BEDC.Derived.DyadicApproximationUp.TerminalSealPullback
 import BEDC.Derived.DyadicApproximationUp.TerminalDiagonalCompletionHandoff
 import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
-import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
@@ -140,12 +139,15 @@ import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicApproximationUp.RefinementSealCommutation
 import BEDC.Derived.DyadicApproximationUp.MeshValidatedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.FinitePackets
+import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
+import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelCategoryUp
+import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
@@ -173,7 +175,6 @@ import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuationMonadUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CriticalStripZetaZeroWitnessUp
-import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp.TasteGate
@@ -185,6 +186,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
+import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
@@ -216,6 +218,8 @@ import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContourSumWindowUp.TasteGate
+import BEDC.Derived.CompactModulusCoverUp
+import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.CstaralgebraUp
@@ -321,10 +325,8 @@ import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedCutUp
 import BEDC.Derived.LocalityCellUp.TasteGate
-import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverHistIdentityUp
 import BEDC.Derived.ObserverHistIdentityUp.TasteGate
-import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ObserverCoordinateFrameUp.TasteGate
 import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
@@ -422,7 +424,9 @@ import BEDC.Derived.RegularCauchyDiagonalUp.DownstreamRoute
 import BEDC.Derived.RegularCauchyDiagonalUp.FormalTargetBoundary
 import BEDC.Derived.RegularCauchyDiagonalUp.MatureConsumerExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.NameCertConsumerSurface
+import BEDC.Derived.RegularCauchyDiagonalUp.NameNormalizationHandoff
 import BEDC.Derived.RegularCauchyDiagonalUp.ReadbackExactness
+import BEDC.Derived.RegularCauchyDiagonalUp.RealCompletionHandoffPackage
 import BEDC.Derived.RegularCauchyDiagonalUp.RootDownstreamUnblockPackage
 import BEDC.Derived.RegularCauchyDiagonalUp.RootSourceDeterminacy
 import BEDC.Derived.RegularCauchyDiagonalUp.RootWindowLedgerExactness
@@ -884,7 +888,6 @@ import BEDC.Derived.ZetaBasicUp
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CriticalLineWitnessUp
 import BEDC.Derived.ZetaZerosUp
-import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.HolomorphicUp
 import BEDC.Derived.HolomorphicUp.LedgerPolicy
 import BEDC.Derived.HolomorphicUp.OpenDiskBoundary
