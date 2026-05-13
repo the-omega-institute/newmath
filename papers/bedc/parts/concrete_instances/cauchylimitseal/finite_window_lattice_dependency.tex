@@ -1,0 +1,18 @@
+\section{CauchyLimitSeal finite-window lattice dependency}
+\label{sec:cauchy-limit-seal-finite-window-lattice-dependency}
+
+\begin{theorem}[CauchyLimitSeal finite-window lattice dependency]
+\label{thm:cauchy-limit-seal-finite-window-lattice-dependency}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier. Every $\RealUp$ or completion consumer route that reads the seal row $E$ factors first through the StreamName finite-window lattice meet surface of \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}, and then through the displayed $\RegSeqRatUp$ source row $X$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealCauchyCompletionUp$ diagonal row $G$, and the $\RealUp$ seal row $E$. The route carries only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance, and it exports no quotient stream equality, host real equality, selected host limit, hidden tail witness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition of \autoref{def:cauchy-limit-seal-carrier}. The rows $X,S,D,G,E,T,P,N$ are the only displayed coordinates available to a sealed consumer route.
+
+Apply the finite-window factorization of \autoref{thm:cauchy-limit-seal-window-factorization}. Any read that reaches the seal must pass through a scheduled $\StreamNameUp$ window, its displayed $\RegSeqRatUp$ source row, the matching dyadic ledger, and the completion diagonal row before the seal row is consumed.
+
+Next pull the route back by \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}. This identifies the same scheduled window as the common dependency surface shared by the regular source, dyadic ledger, completion diagonal, and seal.
+
+Use the StreamName lattice-meet exhaustion theorem \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. The scheduled window therefore lands on the shared finite-window meet surface, whose readable coordinates are only the selected rational classifier rows, probe-bundle rows, membership rows, unary-history rows, dyadic ledger rows, componentwise transports, continuation routes, package provenance, and local names.
+
+Finally apply the $\RealUp$ consumer boundary of \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}. The sealed route can carry only the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance over $X,D,G,E$, so quotient stream equality, host real equality, selected host limits, hidden tail witnesses, and ambient completeness remain outside the exported surface.
+\end{proof}
