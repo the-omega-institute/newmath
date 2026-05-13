@@ -91,6 +91,24 @@ Transport through $H$ and replay through $C$ preserve those two rows as part of 
 Apply the audit boundary. Because the carrier has no coordinate for ambient confidence or host trust, refusal stability remains the displayed $Q,R$ fact under replay and cannot be supplied by an unstated source-channel assumption.
 \end{proof}
 
+\begin{theorem}[Kernel source-channel ledger source-query separation]
+\label{thm:kernel-source-channel-ledger-source-query-separation}
+For every accepted $\KernelSourceChannelLedgerUp$ carrier
+$$
+S=(G,K,A,E,Q,R,T,M,F,H,C,P,N),
+$$
+the generated candidate row $G$, kernel stamp row $K$, accepted declaration row $A$, environment ancestry row $E$, printed axiom query row $Q$, and refusal row $R$ are separated before any compiler or morphism route $M$ can be read. No consumer may replace the $Q,R$ route by source confidence, ambient environment trust, or absent query output.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-source-channel-ledger-carrier}. The rows $G,K,A,E,Q,R$ are displayed source and query coordinates, while $M$ is only the later compiler or morphism route row.
+
+Apply the NameCert obligations of \autoref{thm:kernel-source-channel-ledger-namecert-obligations}. They require generated-candidate exposure, classifier-stamp exposure, accepted-declaration exposure, environment-ancestry exposure, axiom-query and refusal exposure, and compiler or morphism route exposure as separate finite duties.
+
+Next use query-refusal stability from \autoref{thm:kernel-source-channel-ledger-query-refusal-stability}. The printed query row $Q$ and refusal row $R$ persist under $\hsame$ transport and $\Cont$ replay, so absent query output cannot replace the displayed route.
+
+Finally apply the audit boundary of \autoref{thm:kernel-source-channel-ledger-audit-boundary}. Since the carrier has no coordinate for source confidence or ambient environment trust, every consumer must read the query and refusal rows before using the route row $M$.
+\end{proof}
+
 \closureat{KernelSourceChannelLedgerUp}{seedStr}
 
 \begin{closurestatus}{\KernelSourceChannelLedgerUp}

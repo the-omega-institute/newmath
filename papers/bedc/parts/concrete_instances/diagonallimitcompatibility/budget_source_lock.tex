@@ -1,0 +1,35 @@
+\begin{theorem}[Diagonal-limit compatibility budget source lock]
+\label{thm:diagonal-limit-compatibility-budget-source-lock}
+Every accepted $\DiagonalLimitCompatibilityUp$ packet reads its $\CauchyDiagonalBudgetUp$, $\RealDiagonalMeshBudgetUp$, $\RegularCauchyTriangleBoundUp$, and $\StreamNameUp$ rows before any seal route is available. The first seal-facing consumer must therefore pass through the displayed budget source, mesh budget, triangle bound, and stream-window rows of the finite compatibility packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory in \autoref{def:diagonal-limit-compatibility-carrier}. The packet names the diagonal source, triangle estimate, stream window, regular readback, Real seal row, transport rows, continuation routes, package provenance, and local certificate in one finite surface.
+
+Apply \autoref{thm:diagonal-limit-compatibility-source-ledger}, \autoref{thm:diagonal-limit-compatibility-root-dependency-triad}, and \autoref{thm:diagonal-limit-compatibility-root-budget-source}. These anchors identify the budget source with the displayed diagonal, mesh, triangle, and stream rows rather than with a hidden analytic input.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}. The seal route is synchronized with the same source rows, so no $\CauchyLimitSealUp$ read can occur before those budget rows have been exposed.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility seal-budget route]
+\label{thm:diagonal-limit-compatibility-seal-budget-route}
+The $\CauchyLimitSealUp$ and $\CauchySealBudgetSynchronizerUp$ handoff exported by an accepted $\DiagonalLimitCompatibilityUp$ packet is a displayed finite route through the budget rows of \autoref{thm:diagonal-limit-compatibility-budget-source-lock}. It has no second route through a selected limit, quotient stream, host equality test, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+The source lock fixes the budget-facing prefix. By \autoref{thm:diagonal-limit-compatibility-budget-source-lock}, the route must first read the diagonal budget, mesh budget, triangle bound, and stream-window rows.
+
+Now apply \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}, \autoref{thm:diagonal-limit-compatibility-root-seal-boundary}, and \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}. These results place the $\CauchyLimitSealUp$ read and the $\CauchySealBudgetSynchronizerUp$ handoff downstream of the same finite budget prefix.
+
+The non-escape clause is \autoref{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}. Since the packet carries no selected limit, quotient stream, host equality coordinate, or ambient completeness input, the displayed seal-budget route exhausts the available handoff.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility completion consumer gate]
+\label{thm:diagonal-limit-compatibility-completion-consumer-gate}
+Every $\CompletionUp$ or $\RealUp$ consumer of an accepted $\DiagonalLimitCompatibilityUp$ packet factors through the displayed budget-source route of \autoref{thm:diagonal-limit-compatibility-budget-source-lock} and the seal-budget route of \autoref{thm:diagonal-limit-compatibility-seal-budget-route}. The consumer gate exports no quotient stream, selected limit, host equality, or ambient completeness input.
+\end{theorem}
+\begin{proof}
+Begin with a $\CompletionUp$ or $\RealUp$ consumer route. The completion boundary and regular readback anchors, \autoref{thm:diagonal-limit-compatibility-completion-boundary} and \autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}, place that consumer downstream of the displayed regular readback and seal rows.
+
+Use \autoref{thm:diagonal-limit-compatibility-seal-budget-route}. The seal-facing part of the consumer is already forced through the budget-source prefix and the finite $\CauchyLimitSealUp$ to $\CauchySealBudgetSynchronizerUp$ handoff.
+
+It remains only to exclude hidden inputs. Apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape} and \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}; together they exhaust the consumer surface by the displayed packet rows, with no quotient stream, selected limit, host equality, or ambient completeness coordinate.
+\end{proof}

@@ -243,6 +243,24 @@ Use budget soundness from \autoref{thm:cauchy-modulus-extraction-budget-soundnes
 The carrier has no coordinate for a quotient stream, host-selected convergence modulus, selected limit, host real equality, or ambient completeness witness. Hence none of those objects can escape through the modulus row.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus-extraction budget fiber exhaustion]
+\label{thm:cauchy-modulus-extraction-budget-fiber-exhaustion}
+For an accepted $\CauchyModulusExtractionUp$ packet
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+a $\RealUp$ diagonal or completion consumer lies in the budget fiber over the displayed tolerance request $E$ and finite budget $B$ exactly when its route first reads $B$, then the $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ schedule $S$, then the $\DyadicRatCoreUp$ comparison ledger $Q$, and exports $\mathsf{Mu}$ only through $H,C,P,N$. No quotient stream equality, host real equality, selected limit, trichotomy, ambient completeness, or external modulus selector supplies another element of that budget fiber.
+\end{theorem}
+\begin{proof}
+Start with a consumer lying in the displayed budget fiber. Apply the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecert-obligations} to identify the accepted carrier rows, the exposed budget, the schedule extraction surface, the dyadic soundness row, and the transport, continuation, package, and naming rows.
+
+The finite route is then forced by budget soundness from \autoref{thm:cauchy-modulus-extraction-budget-soundness} and route exactness from \autoref{thm:cauchy-modulus-extraction-route-exactness}. The consumer first reads $B$, then uses the StreamName--RegSeqRat factorization through $W$ and $S$, then reads the dyadic ledger $Q$ before exporting $\mathsf{Mu}$ through $H,C,P,N$.
+
+Conversely, any route with exactly that read order is accepted by the same packet because each row is one of the displayed NameCert rows and the handoff to the Real diagonal surface uses the continuation rows already present in $C$.
+
+It remains to exclude other fiber elements. Apply window-schedule exhaustion from \autoref{thm:cauchy-modulus-extraction-window-schedule-exhaustion} and dyadic-ledger non-escape from \autoref{thm:cauchy-modulus-extraction-dyadic-ledger-nonescape}. These results leave no coordinate through which quotient stream equality, host real equality, selected limits, trichotomy, ambient completeness, or an external modulus selector can enter the budget fiber.
+\end{proof}
+
 \closureat{CauchyModulusExtractionUp}{seedStr}
 
 \begin{closurestatus}{\CauchyModulusExtractionUp}

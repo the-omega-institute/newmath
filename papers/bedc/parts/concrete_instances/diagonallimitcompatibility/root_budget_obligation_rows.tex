@@ -1,0 +1,35 @@
+\begin{theorem}[Diagonal-limit compatibility root budget carrier row]
+\label{thm:diagonal-limit-compatibility-root-budget-carrier-row}
+The root budget carrier row of an accepted $\DiagonalLimitCompatibilityUp$ packet is the finite packet surface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ already displayed by the compatibility packet. In packet notation, the root budget route may read only the displayed diagonal source, triangle estimate, seal route, dyadic ledger, stream window, regular readback, Real seal row, componentwise transport, continuation route, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the accepted compatibility packet. The carrier rows already list the budget-facing source, window, seal, transport, route, provenance, and local name.
+
+Apply the root budget source theorem. \autoref{thm:diagonal-limit-compatibility-root-budget-source} identifies the budget source with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface used by the selector-budget route.
+
+Since the carrier exports no extra budget coordinate, the root budget carrier row is exactly the displayed finite packet surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root budget classifier row]
+\label{thm:diagonal-limit-compatibility-root-budget-classifier-row}
+The root budget classifier of an accepted $\DiagonalLimitCompatibilityUp$ packet is stable under componentwise $\hsame$ transport of the same displayed packet rows and under replay of the displayed $\Cont$ routes. A downstream route that transports the diagonal source, dyadic ledger, stream window, regular readback, seal row, provenance, and local name by the recorded $\hsame$ rows reaches the same root budget surface after replaying the recorded $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the displayed transport rows. Componentwise $\hsame$ movement changes only the representation of each listed coordinate and leaves the packet inventory fixed.
+
+Replay the displayed continuation rows. The root window route theorem \autoref{thm:diagonal-limit-compatibility-root-window-route} places the $\StreamNameUp$ window before the $\RegSeqRatUp$ readback and $\RealUp$ seal handoff, so replay follows the same budget order after transport.
+
+The classifier therefore has no second route on which to branch. It reads the transported packet through the same finite root budget surface.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root budget ledger row]
+\label{thm:diagonal-limit-compatibility-root-budget-ledger-row}
+The root budget route of an accepted $\DiagonalLimitCompatibilityUp$ packet has exact ledger boundary and non-escape. Its source is fixed by \autoref{thm:diagonal-limit-compatibility-root-budget-source}, its window order by \autoref{thm:diagonal-limit-compatibility-root-window-route}, its seal boundary by \autoref{thm:diagonal-limit-compatibility-root-seal-boundary}, and its consumer boundary by \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}. The route also consumes the sibling L10 surfaces $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any completion-facing handoff is available.
+\end{theorem}
+\begin{proof}
+First read the source and window rows. The root budget source theorem fixes the finite budget surface, and the root window route theorem orders the $\StreamNameUp$ window before the regular readback and Real seal.
+
+Next read the seal boundary. The root seal boundary theorem forces every Real-facing read through the displayed $\RegSeqRatUp$ readback and seal rows.
+
+Finally apply consumer non-escape. \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape} exhausts the downstream surface by the displayed packet rows, so no host limit, quotient stream, choice datum, host real equality, or ambient completeness coordinate can enter the root budget route.
+\end{proof}
