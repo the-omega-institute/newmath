@@ -139,12 +139,92 @@ Therefore the handoff is a concrete finite packet rather than a promise of a
 larger MetaCIC theorem.
 \end{proof}
 
+\begin{theorem}[Normal-form consistency seal continuation replay]
+\label{thm:normal-form-consistency-seal-continuation-replay}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. Every continuation replay read first
+projects the MetaCIC typing row $T$, the false-type row $F$, the
+beta-strong normality row $N$, the closed-normal consistency row $K$, and the
+subject-reduction boundary row $X$, and only then reads through the displayed
+$\Cont$ row $C$. No continuation consumer may bypass these rows to obtain a
+closed subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+Read the carrier in
+\autoref{def:normal-form-consistency-seal-carrier}. The packet lists
+$T,F,N,K,X$ before the structural rows, so any replay route has a displayed
+typing, false-type, normality, closed-normal consistency, and boundary source.
+
+Apply the obligation surface of
+\autoref{thm:normal-form-consistency-seal-obligations}. It makes the
+continuation row part of the finite NameCert obligations for the same carrier.
+
+The subject-reduction boundary theorem
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary} and the
+non-escape theorem
+\autoref{thm:normal-form-consistency-seal-nonescape} keep the read from
+becoming a closed subject-reduction theorem. Thus continuation replay is a
+route through $C$ after the displayed rows $T,F,N,K,X$ have been projected.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal provenance exactness]
+\label{thm:normal-form-consistency-seal-provenance-exactness}
+For an accepted packet $S=(T,F,N,K,X,H,C,P,L)$, every dependency claim made by
+the $\NormalFormConsistencySealUp$ surface is confined to the provenance row
+$P$ over MetaCIC typing, closed contexts, beta-strong normality, $\BHist$,
+$\hsame$, $\Cont$, and sibling $\NameCert$ rows. The packet contains no
+additional provenance route for full closed consistency or closed subject
+reduction.
+\end{theorem}
+\begin{proof}
+Carrier admission in
+\autoref{def:normal-form-consistency-seal-carrier} displays $P$ as the only
+package provenance coordinate. The remaining structural rows $H,C,L$ transport
+and name the packet but do not create dependency claims.
+
+Use \autoref{thm:normal-form-consistency-seal-obligations} to identify the
+obligation rows governed by that provenance: MetaCIC typing, closed-context
+data, beta-strong normality, history transport, continuation routing, and the
+local naming surface.
+
+The boundary result
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary} and
+\autoref{thm:normal-form-consistency-seal-nonescape} exclude a hidden
+dependency on full closed consistency or a closed subject-reduction theorem.
+Therefore every dependency claim remains exactly in the displayed row $P$.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal local naming boundary]
+\label{thm:normal-form-consistency-seal-local-naming-boundary}
+For an accepted packet $S=(T,F,N,K,X,H,C,P,L)$, the local naming row $L$ names
+only this finite normal-form consistency seal. It identifies the displayed
+carrier, obligations, subject-reduction boundary, continuation replay, and
+provenance rows, but it does not discharge closed subject reduction.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:normal-form-consistency-seal-carrier} makes $L$
+the local naming coordinate for the finite seal. It names the same packet rows
+$T,F,N,K,X,H,C,P$ and no row outside the packet.
+
+The obligation theorem
+\autoref{thm:normal-form-consistency-seal-obligations} supplies the local
+NameCert surface, while
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary} marks
+$X$ as a boundary row rather than a discharge row.
+
+The non-escape theorem
+\autoref{thm:normal-form-consistency-seal-nonescape} prevents the local name
+from being read as full closed consistency, closed subject reduction, hidden
+normalization transport, or host equality. Hence $L$ names the finite seal and
+nothing stronger.
+\end{proof}
+
 \closureat{NormalFormConsistencySealUp}{seedStr}
 
 \begin{closurestatus}{\NormalFormConsistencySealUp}
   \constructivestory{A $\NormalFormConsistencySealUp$ packet is generated from closed-context typing, false-type, beta-strong normality, closed-normal consistency, subject-reduction boundary, transport, continuation, provenance, and local naming rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:normal-form-consistency-seal-carrier}, \autoref{thm:normal-form-consistency-seal-obligations}, \autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}, \autoref{thm:normal-form-consistency-seal-nonescape}, and \autoref{thm:normal-form-consistency-seal-vision-handoff} bind the finite normal-form consistency seal and its visible subject-reduction boundary.}
+  \scopeclosed{\autoref{def:normal-form-consistency-seal-carrier}, \autoref{thm:normal-form-consistency-seal-obligations}, \autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}, \autoref{thm:normal-form-consistency-seal-nonescape}, \autoref{thm:normal-form-consistency-seal-vision-handoff}, \autoref{thm:normal-form-consistency-seal-continuation-replay}, \autoref{thm:normal-form-consistency-seal-provenance-exactness}, and \autoref{thm:normal-form-consistency-seal-local-naming-boundary} bind the finite normal-form consistency seal, its visible subject-reduction boundary, continuation replay, provenance exactness, and local naming boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
