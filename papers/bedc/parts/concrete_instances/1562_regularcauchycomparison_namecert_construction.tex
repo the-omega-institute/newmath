@@ -140,6 +140,18 @@ real-facing read has no access to quotient representatives, selected limits,
 host equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison seal-compatible transitivity]
+\label{thm:regular-cauchy-comparison-seal-compatible-transitivity}
+Let accepted $\RegularCauchyComparisonUp$ packets compare $X$ to $Y$ and $Y$ to $Z$. If their transported $\StreamNameUp$ schedules and rational tolerance rows refine to a common finite window ledger, then the composed comparison packet from $X$ to $Z$ has the same $\RealUp$ seal-compatible boundary through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. The composed packet does not assert quotient stream equality, selected host limits, host real equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-comparison-common-window-stability}. The two comparison packets can be read on the common finite window ledger because their transported schedules refine to that ledger.
+
+Next apply \autoref{thm:regular-cauchy-comparison-tolerance-row-exactness}. The composed read uses only the rational tolerance rows displayed by the two packets and their common ledger refinement; it cannot introduce a host-real equality threshold.
+
+Finally use \autoref{thm:regular-cauchy-comparison-real-seal-boundary} together with \autoref{thm:regular-cauchy-comparison-real-classifier-handoff}. The comparison from $X$ to $Z$ reaches the $\RealUp$ seal through the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, so the transitive handoff remains a seal-compatible finite comparison and not a statement about selected limits or quotient stream equality.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy comparison classifier transport]
 \label{thm:regular-cauchy-comparison-classifier-transport}
 Let
