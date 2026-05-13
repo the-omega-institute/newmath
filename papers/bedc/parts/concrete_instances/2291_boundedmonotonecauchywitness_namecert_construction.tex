@@ -553,6 +553,22 @@ Combine this with \autoref{thm:bounded-monotone-cauchy-witness-seal-factorizatio
 Ledger exhaustion supplies the final exclusion. After $E$ has been read, the only remaining row is the seal row $Q$, so there is no carrier coordinate for quotient equality, host equality, selected limits, trichotomy, completeness, compactness, or choice-selected tails to enter the trap or the seal.
 \end{proof}
 
+\begin{theorem}[Bounded monotone Cauchy witness finite observation lock]
+\label{thm:bounded-monotone-cauchy-witness-finite-observation-lock}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier, and let $E=(S,F,\sigma,\mu,\lambda,I,H,C,P,N)$ be its scheduled tail envelope. Every finite observation request exported to a $\RealUp$ consumer, or to any completion-facing consumer reading the $\RealUp$ seal, factors through the displayed bounded source row $S$, the $\StreamNameUp$ window schedule $\sigma$, the $\CauchyModulusExtractionUp$ threshold route carried by $\sigma,\mu,\lambda$, the $\RealObservationBudgetUp$ finite-read route, the located trap $I$, and finally the $\RealUp$ seal $Q$.
+
+Thus the exported observation is locked to the finite rows $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. No selected limit, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, or choice-like tail selector is exposed by the accepted packet.
+\end{theorem}
+\begin{proof}
+Begin with the finite observation route. By \autoref{thm:bounded-monotone-cauchy-witness-real-observation-budget-handoff}, every Real-facing finite read passes through the displayed source, stream window, dyadic budget, regular-rational handoff, and seal rows of $W$.
+
+Next apply \autoref{thm:bounded-monotone-cauchy-witness-cauchy-modulus-extraction-factorization}. The threshold service used by such a read is routed through $\sigma,\mu,\lambda$, so a completion-facing consumer receives a modulus-indexed finite schedule rather than a separate tail selector.
+
+The trap and seal are then fixed by the local exactness chain. Use \autoref{thm:bounded-monotone-cauchy-witness-located-trap-factorization} for the located interval route, \autoref{thm:bounded-monotone-cauchy-witness-real-seal-schedule-exhaustion} for the seal schedule, and \autoref{thm:bounded-monotone-cauchy-witness-trap-seal-exactness} for the fact that reads of $I$ and $Q$ remain exact for the same envelope $E$.
+
+Finally invoke \autoref{thm:bounded-monotone-cauchy-witness-ledger-exhaustion}. Since the accepted packet has no further public coordinate beyond $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, the composed route exposes no selected limit, quotient real equality, host equality, trichotomy, completeness, compactness, or choice-like tail selector.
+\end{proof}
+
 \closureat{BoundedMonotoneCauchyWitnessUp}{obligationStr}
 \closureat{BoundedMonotoneCauchyWitnessUp}{scopedStr}
 
