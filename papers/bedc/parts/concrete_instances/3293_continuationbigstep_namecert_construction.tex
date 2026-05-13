@@ -108,3 +108,16 @@ The only remaining endpoint datum is the terminal-read row. By \autoref{thm:cont
 
 Thus the two accepted big-step reads are not two independent terminal computations. They are the same finite small-step replay followed by the same terminal-read operation, with the second presentation obtained from the first by classifier transport along the displayed source, trace, route, terminal, and terminal-read comparisons.
 \end{proof}
+
+\closureat{ContinuationBigStepUp}{seedStr}
+
+\begin{closurestatus}{\ContinuationBigStepUp}
+  \constructivestory{A $\ContinuationBigStepUp$ packet is generated from a source row, a finite small-step trace ledger, the terminal row reached by replay, a terminal-read witness, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, and \autoref{thm:continuation-big-step-terminal-read-determinacy} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the finite big-step packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host evaluator semantics, quotient behaviour, hidden termination, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace factorization, terminal readback, non-escape, and consumer exactness for the same finite packet.}
+\end{closurestatus}
