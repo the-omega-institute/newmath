@@ -337,7 +337,7 @@ def _render_entry(target_id: str, candidate: dict) -> str:
     fit = candidate.get("fit_score", "?")
     novelty = candidate.get("novelty", "?")
     source = candidate.get("source", "judge")
-    landing_kind = candidate.get("landing_kind", "existing_chapter_lemma")
+    landing_kind = str(candidate.get("landing_kind") or "existing_chapter_lemma").strip()
     chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     rationale = candidate.get("rationale", "")
     inputs = candidate.get("local_inputs") or []
