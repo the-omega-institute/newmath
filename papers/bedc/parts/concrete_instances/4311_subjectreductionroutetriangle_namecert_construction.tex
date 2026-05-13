@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionRouteTriangleUp$}
+\label{ch:concrete-instances-subjectreductionroutetriangle-namecert}
+\origin{human}
+
+The $\SubjectReductionRouteTriangleUp$ packet realizes the discharge-route triangle of \autoref{ch:sr-discharge-routes} as finite NameCert data. It sits beside the route certificate of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert} and the preservation packet of \autoref{ch:concrete-instances-subjectreduction-namecert}: the first names the discharge rows, the second names the subject-reduction endpoint, and this chapter records the bundle route, the setup-to-bundle route, and the obstruction boundary in one visible packet.
+
+\begin{definition}[Subject-reduction route-triangle carrier]
+\label{def:subject-reduction-route-triangle-carrier}
+A $\SubjectReductionRouteTriangleUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,S,F,E,O,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the explicit discharge bundle row carrying the four subject-reduction discharge obligations;
+\item $S$ is the setup row that exposes those four obligations through a typeclass-style interface;
+\item $F$ is the setup-to-bundle conversion row, reading $S$ and producing the same four-field bundle payload as $B$;
+\item $E$ is the represented $\SubjectReductionUp$ endpoint row reached only after the discharge payload has been displayed;
+\item $O$ is the obstruction row recording the present closed-CIC non-inhabitation boundary for the missing discharge hypotheses;
+\item $L$ is the route-ledger row, recording whether the consumer entered through $B$ directly or through $S$ followed by $F$;
+\item $H$ records componentwise $\hsame$ transports for the bundle, setup, conversion, endpoint, obstruction, ledger, provenance, and local name;
+\item $C$ records displayed $\Cont$ routes from the bundle and setup rows to the endpoint and from the obstruction row to the route ledger;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:sr-discharge-routes}, \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert};
+\item $N$ is the local $\NameCert_{\SubjectReductionRouteTriangleUp}$ row.
+\end{enumerate}
+The carrier is only this finite triangle packet. It contains no inhabitant of the missing discharge hypotheses, no closed subject-reduction theorem for the present closed-CIC substrate, no host conversion rule, and no route outside the displayed bundle, setup, obstruction, and ledger rows.
+\end{definition}
+
+\begin{theorem}[SubjectReductionRouteTriangle bundle projection]
+\label{thm:subject-reduction-route-triangle-bundle-projection}
+Every accepted $\SubjectReductionRouteTriangleUp$ carrier projects an explicit discharge-bundle route
+$$
+B,H,C,P,N
+$$
+whose payload is the same four-row discharge surface consumed by \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}. This projection may be read as a bundle-facing handoff to the represented $\SubjectReductionUp$ endpoint $E$, but it does not certify that the four discharge rows are inhabited for the present closed-CIC substrate.
+\end{theorem}
+\begin{proof}
+Project the carrier $T=(B,S,F,E,O,L,H,C,P,N)$ to its bundle coordinate. The row $B$ is already a displayed packet row, and the transport, route, provenance, and local naming coordinates $H,C,P,N$ preserve that row as finite NameCert data.
+
+The sibling discharge chapter supplies the semantic boundary for the four discharge obligations. Reading $B$ through \autoref{ch:concrete-instances-subjectreductiondischarge-namecert} therefore exposes the obligation surface, not an inhabitant of the obligations.
+
+Finally pass to $E$ only through the displayed continuation row. Since the carrier also keeps the obstruction row $O$, the projection cannot be confused with a closed subject-reduction theorem for the present substrate.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteTriangle setup projection]
+\label{thm:subject-reduction-route-triangle-setup-projection}
+Every accepted $\SubjectReductionRouteTriangleUp$ carrier projects a setup route
+$$
+S,F,H,C,P,N
+$$
+in which $S$ exposes the four discharge fields and $F$ converts that setup-facing surface to the same bundle payload read by $B$. The setup projection changes only the invocation route; the represented endpoint row $E$ and the obstruction row $O$ remain the same packet coordinates.
+\end{theorem}
+\begin{proof}
+Start with the setup row $S$. It is a displayed coordinate of the route triangle, so a consumer reaches it through the finite packet rather than through ambient instance search.
+
+Next read the conversion row $F$. The row records setup-to-bundle transport for the same four discharge fields, and the continuation route in $C$ directs the converted payload to the same endpoint row $E$ used by the explicit bundle projection.
+
+The route ledger $L$ records that the setup route was used, while $O$ remains present as the non-inhabitation boundary. Thus the setup projection is a route presentation of the same discharge payload, not an independent theorem and not a way around the missing hypotheses.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteTriangle obstruction boundary]
+\label{thm:subject-reduction-route-triangle-obstruction-boundary}
+In every accepted $\SubjectReductionRouteTriangleUp$ carrier, the obstruction row $O$ separates route transport from discharge inhabitation. The packet may expose the bundle projection, the setup projection, and the represented $\SubjectReductionUp$ endpoint row, but any consumer that asks whether the present closed-CIC substrate supplies the four missing discharge hypotheses must read $O$ and cannot replace it by $B$, $S$, $F$, or $E$.
+\end{theorem}
+\begin{proof}
+Read the triangle inventory. The bundle row, setup row, conversion row, endpoint row, and obstruction row are separate coordinates of $T$.
+
+The two projection theorems identify the routes available to a consumer. They transport the same four-field payload to the represented endpoint row, while neither projection claims an inhabitant for the present closed-CIC discharge obligations.
+
+It remains to inspect the obstruction coordinate. The route ledger records which route was used, and $O$ records the boundary at which the closed-CIC substrate still lacks the required inhabitants. Since $O$ is not definitionally one of $B,S,F,E$, no consumer can erase that boundary by choosing a route.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteTriangle NameCert obligations]
+\label{thm:subject-reduction-route-triangle-namecert-obligations}
+For the carrier of \autoref{def:subject-reduction-route-triangle-carrier}, the local $\NameCert_{\SubjectReductionRouteTriangleUp}$ surface has five rows:
+\begin{enumerate}
+\item the explicit discharge bundle row $B$;
+\item the setup-to-bundle row pair $S,F$;
+\item the represented subject-reduction endpoint row $E$;
+\item the obstruction and non-inhabitation boundary row $O$;
+\item the route ledger row $L$, transported and replayed through $H,C,P,N$.
+\end{enumerate}
+These five rows exhaust the public route-triangle certificate. The certificate names how bundle and setup access reach the subject-reduction endpoint and where the present obstruction remains, without adding host conversion, hidden discharge evidence, erased derivation semantics, quotient equality of MetaCIC terms, or a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+First expose the carrier row by row. The rows $B,S,F,E,O,L$ are the finite data being certified, while $H,C,P,N$ provide transport, route replay, provenance, and local naming for exactly those rows.
+
+The five-row sketch follows by grouping the carrier coordinates by their route role. The bundle row gives the direct route, the setup and conversion rows give the typeclass-style route, the endpoint row records the represented preservation consumer, the obstruction row records the missing-inhabitant boundary, and the ledger records which route has been followed.
+
+The sibling chapters supply the boundary checks. The discharge packet of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert} fixes the obligation surface, and the subject-reduction packet of \autoref{ch:concrete-instances-subjectreduction-namecert} fixes the endpoint surface. Since no other coordinate appears in $T$, the listed rows exhaust the local NameCert obligations and leave the excluded objects outside the packet.
+\end{proof}
+
+\closureat{SubjectReductionRouteTriangleUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionRouteTriangleUp}
+  \constructivestory{A $\SubjectReductionRouteTriangleUp$ packet is generated from an explicit discharge bundle row, a setup row, a setup-to-bundle conversion row, a represented subject-reduction endpoint, an obstruction boundary row, a route ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-route-triangle-carrier}, \autoref{thm:subject-reduction-route-triangle-bundle-projection}, \autoref{thm:subject-reduction-route-triangle-setup-projection}, \autoref{thm:subject-reduction-route-triangle-obstruction-boundary}, and \autoref{thm:subject-reduction-route-triangle-namecert-obligations} bind the finite route triangle over the bundle, setup, endpoint, obstruction, and ledger rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not inhabit the four MetaCIC discharge obligations, construct a setup instance for the present closed-CIC substrate, prove closed subject reduction, verify the route triangle in Lean, or bridge the packet to a public schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, bundle projection, setup projection, obstruction separation, route-ledger exactness, provenance, and local naming for the same finite route-triangle packet.}
+\end{closurestatus}
