@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICConfluenceAuditUp$}
+\label{ch:concrete-instances-metacic-confluence-audit-namecert}
+
+The $\MetaCICConfluenceAuditUp$ packet turns the audit map of \autoref{ch:metacic-confluence-audit-map} into concrete finite BEDC data next to the subject-reduction boundary packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. It names the checked confluence fragments, the substitution-compatibility input, the closed-diamond input, and the arbitrary closed-term Church--Rosser boundary without treating any remaining input as a proved theorem.
+
+\section{Carrier}
+\label{sec:metacic-confluence-audit-carrier}
+
+\begin{definition}[MetaCIC confluence audit carrier]
+\label{def:metacic-confluence-audit-carrier}
+A $\MetaCICConfluenceAuditUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(N,A,S,D,C,H,R,P,M)
+$$
+with the following rows:
+\begin{enumerate}
+  \item $N$ is the checked normal and atom confluence-fragment row;
+  \item $A$ is the checked parallel administrative-fragment row;
+  \item $S$ is the named $\mathrm{BetaParallelSubstitutionCompatibility}$ input row;
+  \item $D$ is the named $\mathrm{BetaParallelDiamondClosed}$ input row;
+  \item $C$ is the named arbitrary closed-term Church--Rosser boundary row for $\mathrm{BetaStarStep}$;
+  \item $H$ is the componentwise $\hsame$ transport row for these five audit entries;
+  \item $R$ is the displayed $\Cont$ read route for confluence consumers;
+  \item $P$ is the $\Pkg$ provenance over the MetaCIC confluence files and the subject-reduction boundary packet;
+  \item $M$ is the local $\NameCert_{\MetaCICConfluenceAuditUp}$ row.
+\end{enumerate}
+The classifier accepts exactly those packets whose consumers read the confluence surface through these rows and do not replace $S$, $D$, or $C$ by a closed proof.
+\end{definition}
+
+\begin{theorem}[MetaCIC confluence audit NameCert obligations]
+\label{thm:metacic-confluence-audit-namecert-obligations}
+For an accepted $\MetaCICConfluenceAuditUp$ carrier, the local $\NameCert$ surface consists of carrier admission, checked-fragment readback for $N$ and $A$, named-input exposure for $S$ and $D$, arbitrary-closed-term boundary exposure for $C$, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and non-escape from an unchecked closed confluence theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:metacic-confluence-audit-carrier}. They already separate the checked rows $N,A$ from the named rows $S,D,C$.
+
+Use the local $M$ row to package these rows as the visible certificate. Componentwise transport is supplied by $H$, while $R$ supplies the only displayed consumer route.
+
+Finally read provenance through $P$. Since $P$ records the relation to the MetaCIC confluence audit map and the subject-reduction obstruction packet without adding a proof row for $S$, $D$, or $C$, every accepted consumer remains inside the displayed audit packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit boundary]
+\label{thm:metacic-confluence-audit-conditional-boundary}
+Agreement on the rows of an accepted $\MetaCICConfluenceAuditUp$ packet preserves the checked normal, atom, and administrative confluence fragments, but it does not yield $\mathrm{BetaParallelSubstitutionCompatibility}$, $\mathrm{BetaParallelDiamondClosed}$, or arbitrary closed-term Church--Rosser for $\mathrm{BetaStarStep}$.
+\end{theorem}
+\begin{proof}
+The checked rows $N$ and $A$ are read back directly from the packet, so agreement on $Q$ preserves those fragment claims.
+
+The rows $S$, $D$, and $C$ have different status. They are named boundary entries, not theorem rows. Transport along $H$ and reading through $R$ can preserve their names and consumer visibility, but it cannot create a proof object not carried by the packet.
+
+Thus the packet supports finite audit citation while keeping the three remaining confluence inputs outside the closed theorem surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit vision handoff]
+\label{thm:metacic-confluence-audit-vision-handoff}
+Every manuscript consumer that cites the confluence audit map through $\MetaCICConfluenceAuditUp$ factors through $Q=(N,A,S,D,C,H,R,P,M)$ before citing any MetaCIC confluence claim. The handoff exports the checked fragment rows and the three named boundary rows, and it exports no arbitrary closed-term confluence theorem, no closed subject-reduction theorem, and no host-level confluence principle.
+\end{theorem}
+\begin{proof}
+First follow the citation into \autoref{ch:metacic-confluence-audit-map}. The map supplies the semantic grouping of checked fragments and remaining inputs.
+
+Next pass through the carrier of \autoref{def:metacic-confluence-audit-carrier}. The finite packet turns that grouping into rows $N,A,S,D,C$ with transport, route, provenance, and local naming data.
+
+The sibling boundary of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert} supplies the comparison surface for subject-reduction claims. Combining the two packets gives a citation route, not a closed theorem beyond the displayed rows.
+\end{proof}

@@ -88,12 +88,30 @@ For a Cauchy-operation consumer, follow the routes in $C$ to the operation ledge
 Both consumers then read $\Pkg$ provenance and local naming through $P$ and $N$. The handoff is therefore bounded by the displayed socket packet and does not expose any standalone host contour-integral operation.
 \end{proof}
 
+\begin{theorem}[Contour-integral socket boundary route totality]
+\label{thm:contour-integral-socket-boundary-route-totality}
+Every accepted analytic-continuation, Cauchy-operation, or contour-law consumer route for $\ContourIntegralSocketUp$ is exhausted by the displayed packet rows
+$$
+G,F,M,I,L,H,C,P,N.
+$$
+Requests for data outside the contour row, holomorphic input row, Riemann-sum modulus row, complex output row, operation-law ledger, componentwise transport, finite route, package provenance, and local naming row are outside the socket boundary.
+\end{theorem}
+\begin{proof}
+Start with the local obligations from \autoref{thm:contour-integral-socket-namecert-obligations}. They identify carrier admission, classifier stability, ledger exactness, provenance, and naming as finite rows of the same packet.
+
+Apply ledger exactness. Any contour-law request must land in $L$ or in one of the supporting rows $G,F,M,I,H,C,P,N$, so no separate analytic law row is available.
+
+Use non-escape to handle requests outside the displayed boundary. A request for a host theorem, quotient path equality, choice witness, or hidden completeness object has no coordinate in $S$ and is recorded as outside the socket.
+
+Finally apply the handoff theorem. Analytic-continuation and Cauchy-operation consumers receive their data only by following the finite routes through $C$ to $G,F,M,I,L,H,P,N$, which proves route totality for the socket boundary.
+\end{proof}
+
 \closureat{ContourIntegralSocketUp}{seedStr}
 
 \begin{closurestatus}{\ContourIntegralSocketUp}
   \constructivestory{A $\ContourIntegralSocketUp$ packet is generated from a $\mathsf{PLContour}$ row, a $\HolomorphicUp$ input row, a Riemann-sum modulus row, a $\ComplexUp$ output row, operation-law ledger rows, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:contour-integral-socket-carrier}, \autoref{thm:contour-integral-socket-namecert-obligations}, \autoref{thm:contour-integral-socket-transport}, \autoref{thm:contour-integral-socket-ledger-exactness}, \autoref{thm:contour-integral-socket-non-escape}, and \autoref{thm:contour-integral-socket-handoff} define the finite operation socket, transport rows, operation-law ledger exactness, non-escape boundary, and downstream handoff.}
+  \scopeclosed{\autoref{def:contour-integral-socket-carrier}, \autoref{thm:contour-integral-socket-namecert-obligations}, \autoref{thm:contour-integral-socket-transport}, \autoref{thm:contour-integral-socket-ledger-exactness}, \autoref{thm:contour-integral-socket-non-escape}, \autoref{thm:contour-integral-socket-handoff}, and \autoref{thm:contour-integral-socket-boundary-route-totality} define the finite operation socket, transport rows, operation-law ledger exactness, non-escape boundary, downstream handoff, and route-total boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a host contour-integral function, quotient path spaces, global complex analysis, RH zero-location consequences, Lean verification, or bridge checking.}

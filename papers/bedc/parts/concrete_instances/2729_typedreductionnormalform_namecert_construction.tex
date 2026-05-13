@@ -60,6 +60,42 @@ Replay the route through $C$ and transport the visible rows through $H$. The pac
 Finally read the terminal boundary from $F$ and authenticate it through $N$. The carrier inventory has no row for host conversion, semantic equality, global normalization, erased derivation semantics, or a normalization oracle, so none of those objects can participate in the public read.
 \end{proof}
 
+\begin{theorem}[TypedReductionNormalForm route exactness]
+\label{thm:typed-reduction-normal-form-route-exactness}
+Let $Q=(T,J,E,R,F,H,C,P,N)$ be an accepted $\TypedReductionNormalFormUp$ packet. Every packet-visible typed reduction read is the displayed route $R$ together with the named continuation reads in $C$. The read may use the term row $T$, judgment ledger $J$, membership row $E$, componentwise transports $H$, provenance row $P$, and local naming row $N$, but it has no route through host conversion, semantic equality of terms, erased derivation semantics, a global normalization theorem, or a normalization oracle.
+\end{theorem}
+\begin{proof}
+Project the packet using \autoref{def:typed-reduction-normal-form-packet}. The only row that stores typed reduction is $R$, and the only row that replays it for consumers is $C$.
+
+Apply the NameCert obligation surface of \autoref{thm:typed-reduction-normal-form-namecert-obligations}. It names reduction-route exactness as a local obligation and binds every intermediate step to the displayed $\Cont$ rows.
+
+The subject-reduction seal of \autoref{thm:typed-reduction-normal-form-subject-reduction-seal} keeps target membership reads on the same route. Since the carrier contains no host conversion, semantic equality, erased derivation, global normalization, or oracle coordinate, the displayed route is exact.
+\end{proof}
+
+\begin{theorem}[TypedReductionNormalForm terminal-boundary non-escape]
+\label{thm:typed-reduction-normal-form-terminal-boundary-nonescape}
+For an accepted $\TypedReductionNormalFormUp$ packet $Q=(T,J,E,R,F,H,C,P,N)$, every normal-form access is bound to the terminal boundary row $F$. A consumer may authenticate the boundary through $H,C,P,N$ and may read the surrounding typed route through $T,J,E,R$, but it cannot replace $F$ by host conversion, semantic equality of terms, erased derivation semantics, a global normalization theorem, or a normalization oracle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. The terminal normal-form boundary is represented by the row $F$, while the source, target, judgment, membership, and route data are represented by $T,J,E,R$.
+
+Use the NameCert obligations to expose the boundary row. They state that terminal access is accepted only at $F$ and that further typed-reduction consumption must be a displayed packet row.
+
+Finally combine this with the subject-reduction seal. Target membership arrives through $E$ and $R$, then the terminal boundary is read from $F$ and authenticated through $H,C,P,N$; no hidden conversion, semantic equality, erased derivation, global normalization, or oracle row is available.
+\end{proof}
+
+\begin{theorem}[TypedReductionNormalForm transport stability]
+\label{thm:typed-reduction-normal-form-transport-stability}
+Accepted $\TypedReductionNormalFormUp$ packets preserve their finite route and terminal-boundary surface under the componentwise transports $H$ and continuation reads $C$. If the rows $T,J,E,R,F,P,N$ are transported componentwise, then the source membership, typed reduction route, target membership, and normal-form boundary remain the same packet surface over $Q=(T,J,E,R,F,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Read the transport rows from the packet definition. The row $H$ records componentwise $\hsame$ transports for terms, judgments, memberships, reduction routes, normal-form boundaries, package rows, and certificate rows, while $C$ records the corresponding continuation reads.
+
+Apply the NameCert obligations. Carrier exposure, route exactness, the subject-reduction seal, and the normal-form boundary all refer to the same displayed rows, so transporting one component cannot introduce a new route or boundary object.
+
+The subject-reduction seal then repacks the transported source membership, typed reduction route, target membership, and terminal boundary through $E,R,F,H,C,P,N$. Thus transport stability preserves exactly the finite packet surface and excludes host conversion, semantic equality, global normalization, erased derivation semantics, and normalization oracles.
+\end{proof}
+
 \closureat{TypedReductionNormalFormUp}{seedStr}
 
 \begin{closurestatus}{\TypedReductionNormalFormUp}

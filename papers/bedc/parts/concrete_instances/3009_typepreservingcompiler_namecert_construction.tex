@@ -125,3 +125,17 @@ It remains to check the type-preserving reduction handoff. Start with a public r
 
 The two subject-reduction reads are ledgered before consumption by \autoref{thm:subject-reduction-ledger-exactness}, and their $\Ext$-$\Cont$ closure is internal by \autoref{thm:subject-reduction-ext-cont-closure}. Concatenating them through the displayed middle row $T$ gives $R_{SU}=R_{TU}\circ_T R_{ST}$. The boundary theorem \autoref{thm:type-preserving-compiler-ledger-boundary} then accounts for every consumer-visible row of the composite packet: source and target type-classifier membership, graph lifting, target $\Ext$ preservation, subject-reduction handoff, $\hsame$ transport, $\Cont$ routing, package provenance, and local $\NameCert$ data. Since the carrier definition has no coordinate for host reduction semantics, erased derivations, quotient equality, semantic target interpretation, or an unrecorded compiler function, the displayed packet $K_{SU}$ is the accepted $\TypePreservingCompilerUp$ carrier determined by the sequential composite.
 \end{proof}
+
+\begin{theorem}[TypePreservingCompiler subject-reduction socket consumption]
+\label{thm:type-preserving-compiler-subject-reduction-socket-consumption}
+Let $K=(S,T,G,E,R,H,C,P,N)$ be an accepted $\TypePreservingCompilerUp$ carrier. Every $\SubjectReductionUp$ read consumed by $K$ enters through the displayed row $R$, the classifier-preservation ledger $E$, the componentwise transport row $H$, the continuation route row $C$, the package provenance row $P$, and the local $\NameCert$ row $N$. If a $\SubjectReductionDischargeSocketUp$ row is present, it is read only as a finite obligation socket for the same $R$-facing subject-reduction rows. The compiler packet exports no host compiler semantics, erased derivation semantics, quotient equality, semantic target interpreter, or unrecorded compiler function.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K$. By \autoref{thm:type-preserving-compiler-subject-reduction-handoff}, a public subject-reduction read that starts on the source side reaches the target typing surface only through $T$ and the subject-reduction ledger $R$ after the graph route has been fixed.
+
+The graph and classifier-preservation part is controlled by \autoref{thm:type-preserving-compiler-morphism-correctness}. It reads $G,E,R,H,C,P,N$ as the finite morphism data and therefore places every type-preserving compiler request on the displayed certificate surface.
+
+The ledger boundary theorem \autoref{thm:type-preserving-compiler-ledger-boundary} and sequential-composition theorem \autoref{thm:type-preserving-compiler-sequential-composition} account for the same rows under downstream consumption and composition. They expose source and target type-classifier membership, graph lifting, target $\Ext$ preservation, subject-reduction handoff, transport, routing, provenance, and local naming, but no additional compiler coordinate.
+
+When a $\SubjectReductionDischargeSocketUp$ row is available, \autoref{thm:subject-reduction-discharge-socket-obligation-consumption} permits the compiler chapter to read it as the finite obligation socket feeding the $R$ coordinate. That socket does not supply a host compiler semantics, an erased derivation semantics, quotient equality, a semantic target interpreter, or an unrecorded compiler function, so the accepted compiler packet consumes subject-reduction data only through its displayed rows.
+\end{proof}

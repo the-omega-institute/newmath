@@ -1,0 +1,231 @@
+\chapter{Closed-MetaCIC consistency assembly: a partial closure map}
+\label{ch:closed-metacic-consistency-assembly}
+
+\section{The setup}
+\label{sec:closed-metacic-consistency-assembly-setup}
+
+BEDC.MetaCIC aims at unconditional closed-term consistency of the substrate's
+internal CIC fragment. The canonical path is the standard one: subject
+reduction, strong normalisation on closed terms, and no closed normal proof of
+$\mathsf{False}$. This chapter records which pieces of the path are already
+discharged and which constitute the open frontier.
+
+The relevant distinction is between closed-normal consistency and full closed
+consistency. Closed-normal consistency speaks only about closed proof terms that
+are already beta-strong. Full closed consistency would also need to transport an
+arbitrary closed proof term along reduction until the normal-form theorem can be
+applied. That transport is exactly the subject-reduction boundary.
+
+\section{The assembled positive content}
+\label{sec:closed-metacic-consistency-assembly-positive-content}
+
+\subsection{Closed-term strong normalisation}
+\label{subsec:closed-metacic-consistency-assembly-closed-sn}
+
+The strong-normalisation content is available through the candidate-mediated
+closed-term interface. The substrate verifies that an empty-context typed closed
+term is strongly normalising when the appropriate candidate evidence is
+supplied:
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_closedCandidate}
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidateSet}.
+
+These theorems are not themselves a closed subject-reduction theorem. They are
+the normalisation side of the assembly path. They say that the candidate
+interface can deliver termination of closed typed terms once the term has been
+placed inside the relevant reducibility certificate.
+
+\subsection{No closed-normal proof of False}
+\label{subsec:closed-metacic-consistency-assembly-no-normal-false}
+
+The contradiction-side theorem is also available:
+\leanvariant{BEDC.MetaCIC.no\_closed\_normal\_proof\_of\_false}. The substrate
+verifies that any closed proof term whose beta reduction is already strong
+cannot inhabit the internal false encoding.
+
+In formula form, the checked content has the shape:
+
+$$
+\begin{aligned}
+  \mathsf{Closed}(t)
+  \wedge
+  \mathsf{BetaStrong}(t)
+  \wedge
+  \mathsf{HasType}([],t,\mathsf{False})
+  &\Rightarrow
+  \bot.
+\end{aligned}
+$$
+
+The theorem is closed over normal-form inhabitants of $\mathsf{False}$. It does
+not need to assert that every closed proof term can be reduced while preserving
+its displayed type; that assertion belongs to the subject-reduction frontier.
+
+\subsection{Closed-normal consistency assembly}
+\label{subsec:closed-metacic-consistency-assembly-normal-assembly}
+
+The substrate also has the direct assembly statement:
+\leanvariant{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}. It composes
+empty-context typing, closedness, and beta-strong normality into a single
+audit-checkable statement.
+
+The theorem is the positive closed-normal node of the path:
+
+$$
+\begin{aligned}
+  \mathsf{HasType}([],t,\mathsf{False})
+  \wedge
+  \mathsf{Closed}(t)
+  \wedge
+  \mathsf{BetaStrong}(t)
+  &\Rightarrow
+  \bot.
+\end{aligned}
+$$
+
+Thus BEDC.MetaCIC already establishes the consistency statement for the
+normal-form fragment. The remaining question is whether every closed proof of
+$\mathsf{False}$ can be connected to that fragment without losing the typing
+certificate.
+
+\section{The unassembled frontier}
+\label{sec:closed-metacic-consistency-assembly-frontier}
+
+\subsection{Conditional subject reduction}
+\label{subsec:closed-metacic-consistency-assembly-conditional-sr}
+
+Subject reduction is available as a parameterised theorem in BEDC.MetaCIC,
+conditional on four discharge hypotheses. Those hypotheses govern beta
+substitution preservation, application-argument codomain stability,
+lambda-domain preservation, and Pi-domain preservation. The interface is mapped
+in \autoref{ch:metacic-subject-reduction-obstruction}.
+
+This is the exact point where the closed-normal theorem would have to become a
+full closed consistency theorem. A closed proof term of $\mathsf{False}$ must be
+normalised, and the displayed false type must remain attached throughout the
+reduction path. Without that preservation step, the normal-form theorem cannot
+be applied to an arbitrary closed proof term.
+
+\subsection{The closed reduction obstruction}
+\label{subsec:closed-metacic-consistency-assembly-reduction-obstruction}
+
+The substrate proves the closed reduction obstruction:
+\leanvariant{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}.
+This theorem establishes that closed-term subject reduction is not directly
+available on the present substrate. Consequently unconditional closed-term
+consistency via the standard subject-reduction path is blocked at that node.
+
+The obstruction does not weaken the positive closed-normal theorem. It locates
+the missing lift. The available consistency theorem applies once beta-strong
+normality is already part of the input; the unavailable theorem would justify
+transporting arbitrary closed proofs to that input form.
+
+\section{The assembly diagram}
+\label{sec:closed-metacic-consistency-assembly-diagram}
+
+The dependency map is:
+
+\begin{verbatim}
+Closed-term SN
+  status: AVAILABLE
+  witnesses:
+    BEDC.MetaCIC.closed_typed_term_sn_from_candidate
+    BEDC.MetaCIC.closed_typed_term_sn_from_closedCandidate
+    BEDC.MetaCIC.closed_typed_term_sn_from_candidateSet
+
+No closed-normal proof of False
+  status: AVAILABLE
+  witness:
+    BEDC.MetaCIC.no_closed_normal_proof_of_false
+
+Closed-normal consistency
+  status: AVAILABLE
+  witness:
+    BEDC.MetaCIC.closed_normal_consistency_assembly
+
+Closed reduction by subject reduction
+  status: BLOCKED
+  obstruction:
+    BEDC.MetaCIC.closed_consistency_reduction_obstruction_not_available
+
+Full closed consistency
+  required inputs:
+    Closed-normal consistency
+    Closed reduction by subject reduction
+  status: BLOCKED
+  reason:
+    the subject-reduction discharge is blocked
+\end{verbatim}
+
+The assembled node is therefore closed-normal consistency, not full closed
+consistency. BEDC.MetaCIC establishes the normal-form sub-consistency
+unconditionally. It cannot lift that statement to arbitrary closed proofs of
+$\mathsf{False}$ without discharging the subject-reduction obligations.
+
+\section{What this partial closure does establish}
+\label{sec:closed-metacic-consistency-assembly-establishes}
+
+The partial closure that already holds is strong. Any closed proof term that is
+beta-strong cannot inhabit the internal $\mathsf{False}$ encoding. Equivalently,
+the substrate rules out a closed false proof inside the normal-form fragment.
+
+This is a non-trivial statement about normal-form inhabitants of
+$\mathsf{False}$. The substrate has established not no-consistency-at-all but
+consistency on the normal-form fragment. The positive theorem is narrow because
+its input includes beta-strong normality, and it is sharp because its conclusion
+is contradiction from a closed false proof under exactly that input.
+
+\section{What discharge would buy}
+\label{sec:closed-metacic-consistency-assembly-discharge-value}
+
+Discharging all four subject-reduction obligations would buy the lift from
+closed-normal consistency to unconditional closed consistency. The lift would
+have the following shape:
+
+$$
+\begin{aligned}
+  \mathsf{HasType}([],t,\mathsf{False})
+  \wedge
+  \mathsf{Closed}(t)
+  &\Rightarrow
+  \mathsf{HasType}([],n,\mathsf{False})
+  \wedge
+  \mathsf{Closed}(n)
+  \wedge
+  \mathsf{BetaStrong}(n)
+\end{aligned}
+$$
+
+for a normal endpoint $n$ reached from $t$. The closed-normal consistency
+assembly would then eliminate the right-hand side. The discharge would have to
+traverse the dependent-codomain boundary identified in
+\autoref{ch:metacic-subject-reduction-obstruction}.
+
+\section{Apophatic framing}
+\label{sec:closed-metacic-consistency-assembly-apophatic-framing}
+
+The partial closure is itself an apophatic name. The substrate names what it has
+and what it does not have, sharply. The unassembled frontier is not hidden
+behind a proof hole; it is documented as four named hypotheses and an explicit
+obstruction theorem.
+
+This is the BEDC discipline applied to its own meta-theory: name the open cells,
+and do not cover them with an informal appeal to the intended calculus. The
+reader can see the positive assembled theorem, the blocked subject-reduction
+node, and the exact reason full closed consistency is not claimed.
+
+\concretizedIn{ch:concrete-instances-closed-normal-consistency-boundary-namecert}{Closed-normal MetaCIC consistency is realized as a finite boundary packet separating beta-strong consistency from the blocked subject-reduction lift.}
+
+\section{Boundary}
+\label{sec:closed-metacic-consistency-assembly-boundary}
+
+This chapter records the present assembly state, not a proposal for discharging
+the four obligations. The discharge problem is open and resides at the
+dependent-codomain frontier identified in
+\autoref{ch:metacic-subject-reduction-obstruction}.
+
+\concretizedIn{ch:concrete-instances-normalfalseexclusion-namecert}{The normal-form false-proof exclusion is exposed as a concrete NameCert packet without claiming full closed consistency.}
+\concretizedIn{ch:concrete-instances-closed-normal-consistency-namecert}{Closed-normal consistency is represented as a finite NameCert boundary separated from the subject-reduction obstruction.}
+\concretizedIn{ch:concrete-instances-closed-consistency-reduction-boundary-namecert}{Closed-consistency reduction-boundary packets realize the frontier between closed-normal consistency and full closed consistency as finite subject-reduction, normal-endpoint, obstruction, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-closednormalconsistencypacket-namecert}{Closed-normal consistency packets realize the MetaCIC assembly boundary as finite closedness, typing, beta-strong normality, contradiction, and subject-reduction obstruction rows.}
+\concretizedIn{ch:concrete-instances-normal-form-consistency-seal-namecert}{The closed-normal consistency assembly is realized as a finite normal-form seal packet with an explicit subject-reduction boundary.}
