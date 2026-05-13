@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\FableClockOrderUp$}
+\label{ch:concrete-instances-fableclockorder-namecert}
+\origin{human}
+
+The $\FableClockOrderUp$ packet realizes the Empty-fable machine's local clock-order surface as finite certificate data. It records selector-ledger rows, local fable-clock ticks, adjacent step-order witnesses, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row. The packet is local to the displayed fable trace and has no coordinate for a synchronized clock shared across unrelated histories.
+
+\begin{definition}[FableClockOrder carrier]
+\label{def:fable-clock-order-carrier}
+A $\FableClockOrderUp$ carrier is a finite $\BHist$ packet
+$$
+F=(H,S,T,E,W,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the source $\Hist$ row whose Empty-fable trace is being read;
+\item $S$ is the finite selector-ledger row beginning at $\emp$ and recording the enacted marks in order;
+\item $T$ is the finite local fable-clock tick row, one tick for each displayed selector step;
+\item $E$ records the adjacent $\Ext$ rows that move the ledger from one displayed history to the next;
+\item $W$ records adjacent step-order witnesses connecting successive ledger positions and ticks;
+\item $L$ records componentwise $\hsame$ transport for $H,S,T,E,W$ and the local naming row;
+\item $C$ records the visible $\Cont$ routes by which consumers read the source history, selector ledger, local ticks, adjacent extensions, step-order witnesses, and local name;
+\item $P$ is the $\Pkg$ provenance over $\Hist$, $\BHist$, $\Ext$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, selector-ledger rows, and local fable-clock ticks;
+\item $N$ is the local $\NameCert_{\FableClockOrderUp}$ row.
+\end{enumerate}
+The carrier contains exactly these rows. It has no slot for an ambient host time, a clock shared by distinct histories, a comparison of unrelated fable traces, or a hidden chooser for missing selector steps.
+\end{definition}
+
+\begin{definition}[FableClockOrder classifier]
+\label{def:fable-clock-order-classifier}
+The $\FableClockOrderUp$ classifier compares two accepted packets only by the displayed tuple
+$$
+H,S,T,E,W,L,C,P,N.
+$$
+Two packet presentations agree when their source history rows, selector ledgers, local tick rows, adjacent extension rows, step-order witness rows, componentwise $\hsame$ transports, continuation routes, provenance rows, and local naming rows agree componentwise. The classifier does not compare ambient times, synchronize unrelated histories, or choose a missing branch outside the displayed selector ledger.
+\end{definition}
+
+\begin{theorem}[FableClockOrder NameCert obligations]
+\label{thm:fable-clock-order-namecert-obligations}
+The local $\NameCert_{\FableClockOrderUp}$ surface for \autoref{def:fable-clock-order-carrier} consists exactly of carrier admission for
+$$
+F=(H,S,T,E,W,L,C,P,N),
+$$
+classifier exactness for the rows of \autoref{def:fable-clock-order-classifier}, selector-ledger exposure, local tick exposure, adjacent step-order witness exposure, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and no-global-clock non-escape.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:fable-clock-order-carrier}. The source history, selector ledger, local tick row, adjacent extension row, witness row, transport row, continuation row, provenance row, and local naming row are all displayed coordinates.
+
+Classifier exactness is projection from \autoref{def:fable-clock-order-classifier}. Agreement is componentwise on the same rows, so the certificate has no second comparison surface.
+
+The remaining obligations are carried by $L,C,P,N$. Componentwise transport preserves the displayed rows, continuation routes expose them to consumers, provenance names the package boundary, and the local naming row binds the packet without exporting an ambient clock.
+\end{proof}
+
+\begin{theorem}[FableClockOrder local step-order]
+\label{thm:fable-clock-order-local-step-order}
+For an accepted $\FableClockOrderUp$ packet
+$$
+F=(H,S,T,E,W,L,C,P,N),
+$$
+each displayed selector step in $S$ has a corresponding local tick in $T$ and an adjacent step-order witness in $W$. Consumer reads of this order factor through the same componentwise transport row $L$, continuation row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The selector ledger $S$, local tick row $T$, adjacent extension row $E$, and witness row $W$ are coordinates of the same finite packet.
+
+Read adjacent order through $E$ and $W$. The extension row records each displayed move between neighboring history positions, while the witness row attaches the corresponding local tick from $T$ to that move.
+
+Transport and replay are then fixed by $L$ and $C$. Componentwise $\hsame$ movement preserves the rows being ordered, and the continuation route exposes only this local step-order surface.
+
+Finally $P$ and $N$ bind the handoff to the named packet. Since the carrier has no coordinate for unrelated histories or ambient time, the order is local to the displayed selector ledger.
+\end{proof}
+
+\begin{theorem}[FableClockOrder no-global-clock non-escape]
+\label{thm:fable-clock-order-no-global-clock}
+Every accepted $\FableClockOrderUp$ packet exports only the finite local order carried by
+$$
+H,S,T,E,W,L,C,P,N.
+$$
+It does not export a synchronized clock across distinct histories, an ambient host-time parameter, a global ordering of all fable traces, or a hidden chooser for selector steps not recorded in $S$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only time-like row is the local tick row $T$, and it is paired with the selector ledger $S$ and adjacent witnesses $W$.
+
+Use the local step-order theorem to delimit consumer access. Any read of order passes through the displayed transport, continuation, provenance, and naming rows attached to the same packet.
+
+The excluded clock objects have no coordinate in the carrier and no clause in the classifier. Therefore no projection from an accepted packet can produce a synchronized clock, host-time parameter, global trace order, or hidden selector for steps outside $S$.
+\end{proof}
+
+\closureat{FableClockOrderUp}{seedStr}
+
+\begin{closurestatus}{\FableClockOrderUp}
+  \constructivestory{A $\FableClockOrderUp$ packet is generated from a source $\Hist$ row, a finite selector ledger, local fable-clock ticks, adjacent $\Ext$ and step-order witness rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fable-clock-order-carrier}, \autoref{def:fable-clock-order-classifier}, \autoref{thm:fable-clock-order-namecert-obligations}, \autoref{thm:fable-clock-order-local-step-order}, and \autoref{thm:fable-clock-order-no-global-clock} bind local fable-clock order as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, synchronized clocks across distinct histories, ambient host time, global ordering of all fable traces, or hidden selector choice.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, local step-order replay, no-global-clock non-escape, and NameCert row coverage for the same finite packet.}
+\end{closurestatus}
