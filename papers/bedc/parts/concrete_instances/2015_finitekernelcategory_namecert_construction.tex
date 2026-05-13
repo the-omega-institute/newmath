@@ -78,6 +78,20 @@ A $\FunctorUp$ consumer reads objects and hom histories through $O$ and $M$, the
 A $\NatTransUp$ consumer uses the same rows for component and naturality reads. The only public routes are the continuations in $C$ and the provenance in $P$ and $N$, so the handoff remains a BEDC-native certificate surface.
 \end{proof}
 
+\begin{theorem}[Finite-kernel category interface handoff]
+\label{thm:finite-kernel-category-category-interface-handoff}
+Every accepted $\FiniteKernelCategoryUp$ carrier exports a $\CategoryUp$-readable interface only through the displayed object-history row $O$, hom-history row $M$, identity row $I$, composition row $Q$, associativity and unit ledgers $A,U$, and structural rows $H,C,P,N$ of \autoref{def:finite-kernel-category-carrier}. Any $\FunctorUp$ or $\NatTransUp$ consumer must first read that $\CategoryUp$ boundary before it reads preservation or naturality data. The handoff exports no quotient morphism type, host equality of arrows, functor category, or external category library.
+\end{theorem}
+\begin{proof}
+Project the finite carrier $K=(O,M,I,Q,A,U,H,C,P,N)$. The object and hom surfaces are the rows $O$ and $M$, while the public identity and composite reads are exactly $I$ and $Q$.
+
+Use \autoref{thm:finite-kernel-category-composition-laws} for the identity, composition, associativity, and unit rows. It identifies the category laws with $I,Q,A,U$ transported through $H$ and consumed through $C$, so the $\CategoryUp$ interface is the displayed finite ledger of \autoref{ch:concrete-instances-category-namecert}.
+
+Now apply \autoref{thm:finite-kernel-category-functor-nattrans-handoff}. A $\FunctorUp$ consumer as in \autoref{ch:concrete-instances-functor-namecert} and a $\NatTransUp$ consumer as in \autoref{ch:concrete-instances-nattrans-namecert} read only after that boundary has exposed objects, hom histories, identities, composites, associativity, and unit ledgers.
+
+The excluded structures are not carrier coordinates. Since $K$ contains no quotient morphism type, host arrow equality, functor category, or library category object, no continuation route or provenance row can export one.
+\end{proof}
+
 \closureat{FiniteKernelCategoryUp}{seedStr}
 
 \begin{closurestatus}{\FiniteKernelCategoryUp}
