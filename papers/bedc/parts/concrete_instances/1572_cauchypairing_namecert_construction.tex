@@ -152,6 +152,7 @@ Start with the carrier packet of \autoref{def:cauchy-pairing-namecert-source}. I
 
 The classifier boundary and scoped package then provide the remaining rows. By \autoref{thm:cauchy-pairing-classifier-transport-exactness} and \autoref{thm:cauchy-pairing-scoped-dependency-package}, the meet source can use only the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already in $K$.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyPairingUp.CauchyPairingCarrier\_meet\_source}
 
 \begin{theorem}[Cauchy pairing shared-bound consumer]
 \label{thm:cauchy-pairing-shared-bound-consumer}
@@ -178,16 +179,28 @@ Begin with a $\RealUp$ handoff route. By \autoref{thm:cauchy-pairing-paired-seal
 The remaining exclusions follow from \autoref{thm:cauchy-pairing-public-export-certificate}. The public export surface has no coordinate for quotient equality, selected host limits, host real equality, or ambient completeness, so the $\RealUp$ handoff cannot export them.
 \end{proof}
 
+\begin{theorem}[Cauchy pairing bilinear error ledger]
+\label{thm:cauchy-pairing-bilinear-error-ledger}
+Let an accepted $\CauchyPairingUp$ packet carry two synchronized finite-window sources, shared dyadic bound rows, and the $\RealUp$ handoff surface of \autoref{thm:cauchy-pairing-real-handoff-non-escape}. Then it exports a single bilinear error ledger row. The left and right error budgets are read through the same finite-window classifier determined by the synchronized modulus route, the shared-bound rows are read through the same $\CauchyModulusMeetUp$ source, and the output route is stable under componentwise $\hsame$ transport on both source streams. The ledger exposes only the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with synchronized-window stability from \autoref{thm:cauchy-pairing-synchronized-window-stability}. It forces matched finite requests on the two source streams to pass through the same synchronized modulus classifier before either side window is inspected.
+
+Next apply the shared-bound consumer theorem of \autoref{thm:cauchy-pairing-shared-bound-consumer}. The left and right dyadic bound rows are read through the shared $\CauchyModulusMeetUp$ source, so the two side budgets are entries of one ledger rather than independent host-side error claims.
+
+Finally use the $\RealUp$ handoff non-escape theorem of \autoref{thm:cauchy-pairing-real-handoff-non-escape}. It keeps the output route downstream of the synchronized finite windows, dyadic ledgers, shared meet row, paired seal, transports, continuations, provenance, and local naming row. Componentwise $\hsame$ transport on both streams preserves those displayed rows, and no quotient equality, selected host limit, host real equality, or ambient completeness coordinate is available.
+\end{proof}
+
 \begin{theorem}[Cauchy pairing synchronized-window bridge schema]
 \label{thm:cauchy-pairing-bridge-synchronized-window-schema}
-The carrier of \autoref{def:cauchy-pairing-namecert-source}, the local $\NameCert$ obligations of \autoref{thm:cauchy-pairing-namecert-obligations}, the public export certificate of \autoref{thm:cauchy-pairing-public-export-certificate}, the meet source of \autoref{thm:cauchy-pairing-meet-source}, the shared-bound consumer of \autoref{thm:cauchy-pairing-shared-bound-consumer}, and the $\RealUp$ handoff non-escape theorem of \autoref{thm:cauchy-pairing-real-handoff-non-escape} assemble the bridge surface from the concrete synchronized packet to the abstract $\CauchyPairingUp$ schema. The bridge exposes only $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+The carrier of \autoref{def:cauchy-pairing-namecert-source}, the local $\NameCert$ obligations of \autoref{thm:cauchy-pairing-namecert-obligations}, the public export certificate of \autoref{thm:cauchy-pairing-public-export-certificate}, the meet source of \autoref{thm:cauchy-pairing-meet-source}, the shared-bound consumer of \autoref{thm:cauchy-pairing-shared-bound-consumer}, the bilinear error ledger of \autoref{thm:cauchy-pairing-bilinear-error-ledger}, and the $\RealUp$ handoff non-escape theorem of \autoref{thm:cauchy-pairing-real-handoff-non-escape} assemble the bridge surface from the concrete synchronized packet to the abstract $\CauchyPairingUp$ schema. The bridge exposes only $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{theorem}
 \begin{proof}
 Project the synchronized packet $K$ of \autoref{def:cauchy-pairing-namecert-source}. Its visible coordinates are the two regular names, finite windows, dyadic ledgers, side and synchronized modulus schedules, source and paired seal rows, transports, continuations, provenance, and local naming row.
 
 Apply the public export certificate. It identifies the finite synchronized surface that a public consumer may read, while the meet source theorem turns the side moduli and synchronized modulus into the displayed $\CauchyModulusMeetUp$ source row.
 
-Use the shared-bound consumer theorem and then the $\RealUp$ handoff non-escape theorem. These force shared-bound and real-facing reads through the same synchronized finite-window route before any seal row is available.
+Use the bilinear error ledger and then the $\RealUp$ handoff non-escape theorem. These force shared-bound, error-budget, and real-facing reads through the same synchronized finite-window route before any seal row is available.
 
 Thus the abstract $\CauchyPairingUp$ schema receives exactly the rows listed in the statement. The packet contains no coordinate for quotient equality, selected host limits, host real equality, or ambient completeness, so none is exported by the bridge surface.
 \end{proof}

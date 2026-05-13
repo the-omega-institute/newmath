@@ -312,19 +312,117 @@ Use \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. The handoff row 
 Finally apply \autoref{thm:cauchycriterion-real-completion-consumer-bridge}. The $\RealUp$ and completion-facing consumer routes read the same seal row $E$ after the modulus, ledger, and handoff rows have been fixed, so the consumer-visible tail bound is exact for every displayed readback route.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion tail-budget seal determinacy]
+\label{thm:cauchycriterion-tail-budget-seal-determinacy}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ and $K'=(W',M',T',Q',E',H',C',P',N')$ be
+accepted $\CauchyCriterionUp$ packets. If they display the same modulus row,
+dyadic tolerance row, finite tail ledger, and $\RegSeqRatUp$ handoff, then
+they expose the same $\RealUp$ seal route through $H,C,P,N$. The seal route
+cannot be changed by quotient stream equality, a selected limit, host real
+equality, uniqueness of limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the shared tail-budget seal comparison of
+\autoref{thm:cauchycriterion-shared-tail-budget-seal-comparison}. The seal
+row is read from the displayed modulus threshold, dyadic tail ledger, regular
+rational handoff, and real endpoint, not from an ambient limit construction.
+
+Use \autoref{thm:cauchycriterion-real-seal-scope}. The $\RealUp$ seal remains
+inside the carrier rows together with the displayed transports,
+continuations, package provenance, and local naming row.
+
+Finally apply
+\autoref{thm:cauchycriterion-modulus-tail-consumer-exactness}. Once the
+modulus row, dyadic tolerance row, tail ledger, and $\RegSeqRatUp$ handoff are
+the same, every completion-facing readback route sees the same consumer-visible
+tail bound and hence the same seal route through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion completion-facing readback normal form]
+\label{thm:cauchycriterion-completion-facing-readback-normal-form}
+Every completion-facing consumer route for an accepted $\CauchyCriterionUp$
+packet normalizes to the displayed route
+$$
+M \to Q \to T \to W \to E
+$$
+together with the transport, continuation, provenance, and local naming rows
+$H,C,P,N$. No normal form may use a selected limit, quotient stream, host real
+equality, uniqueness-of-limit theorem, ambient completeness principle, or
+unrecorded completion object.
+\end{theorem}
+\begin{proof}
+First use the public certificate
+\autoref{thm:cauchycriterion-public-certificate}. It assembles the carrier,
+classifier, modulus row, dyadic tolerance row, finite tail ledger,
+$\RegSeqRatUp$ handoff, $\RealUp$ seal, transports, continuations,
+provenance, and local certificate into one finite packet.
+
+Next apply
+\autoref{thm:cauchycriterion-real-completion-consumer-bridge}. Every
+completion-facing consumer factors through the same displayed modulus,
+dyadic tolerance, finite tail ledger, regular rational window, and real seal
+route.
+
+The exactness theorem
+\autoref{thm:cauchycriterion-modulus-tail-consumer-exactness} fixes the order
+of the readback: the modulus row feeds the dyadic tolerance and tail ledger,
+the ledger feeds the regular rational handoff, and the handoff reaches the
+$\RealUp$ seal through $H,C,P,N$.
+
+Thus the consumer route has the stated normal form and has no coordinate from
+which to read selected limits, quotient stream equality, host real equality,
+uniqueness of limits, ambient completeness, or an unrecorded completion
+object.
+\end{proof}
+
+\begin{theorem}[CauchyCriterion mature downstream examples]
+\label{thm:cauchycriterion-mature-downstream-examples}
+The public certificate, real-completion consumer bridge, modulus-tail consumer
+exactness, tail-budget seal determinacy, and completion-facing readback normal
+form for an accepted $\CauchyCriterionUp$ packet give representative downstream
+consumers for the same displayed rows
+$$
+W,M,T,Q,E,H,C,P,N.
+$$
+In particular, $\RealUp$ seal reads, completion-facing readback routes, and
+$\RegSeqRatUp$ handoff consumers receive only those rows. They receive no
+quotient stream, selected limit, host real equality, uniqueness-of-limit
+theorem, ambient completeness principle, or unrecorded completion object.
+\end{theorem}
+\begin{proof}
+First assemble the public packet by
+\autoref{thm:cauchycriterion-public-certificate}. The carrier rows
+$W,M,T,Q,E,H,C,P,N$ are the sole exposed certificate surface.
+
+Next attach the downstream routes. Apply
+\autoref{thm:cauchycriterion-real-completion-consumer-bridge} for
+completion-facing consumers and
+\autoref{thm:cauchycriterion-modulus-tail-consumer-exactness} for the
+$\RegSeqRatUp$ handoff path through the modulus, tail ledger, and dyadic
+tolerance rows.
+
+Finally use \autoref{thm:cauchycriterion-tail-budget-seal-determinacy} and
+\autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. These
+results fix the $\RealUp$ seal read and the completion-facing normal form on
+the same finite row set, so none of the excluded quotient, host equality,
+limit-selection, uniqueness, completeness, or unrecorded completion data can be
+consumed downstream.
+\end{proof}
+
 \closureat{CauchyCriterionUp}{seedStr}
 \closureat{CauchyCriterionUp}{obligationStr}
 \closureat{CauchyCriterionUp}{scopedStr}
 \closureat{CauchyCriterionUp}{publicStr}
 \closureat{CauchyCriterionUp}{bridgedStr}
+\closureat{CauchyCriterionUp}{matureStr}
 
 \begin{closurestatus}{\CauchyCriterionUp}
   \constructivestory{A $\CauchyCriterionUp$ packet is generated from a $\RegSeqRatUp$ source window, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ finite tail ledger, a $\DyadicRatCoreUp$ tolerance row, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:cauchycriterion-classifier-stability-scope}, \autoref{thm:cauchycriterion-tail-budget-scope}, \autoref{thm:cauchycriterion-real-seal-scope}, and \autoref{thm:cauchycriterion-real-completion-consumer-bridge} bind the carrier, classifier, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic tail ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal rows, and downstream completion-facing bridge to one finite constructive Cauchy criterion packet.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:cauchycriterion-classifier-stability-scope}, \autoref{thm:cauchycriterion-tail-budget-scope}, \autoref{thm:cauchycriterion-real-seal-scope}, \autoref{thm:cauchycriterion-real-completion-consumer-bridge}, and \autoref{thm:cauchycriterion-mature-downstream-examples} bind the carrier, classifier, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic tail ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal rows, completion-facing bridge, and representative downstream consumers to one finite constructive Cauchy criterion packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, uniqueness of limits, or bridge checking.}
-  \upgradepath{Mature closure requires representative downstream examples consuming the constructive Cauchy criterion packet through the same $\RealUp$ and completion-facing bridge.}
+  \upgradepath{No further paper-axis theory step remains for this packet; formal verification and bridge checking remain separate verification-axis work.}
 \end{closurestatus}
