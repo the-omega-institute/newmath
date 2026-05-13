@@ -1,0 +1,47 @@
+# package_basic.enum.ct
+# Relation family: PackageSetup, TokIntro, psame, and PackageTokenPolicy.
+#
+# The executable fixture uses:
+#   ProbeName := Nat
+#   ProbeBundle := unary probe-name event list, terminated by event([1,1])
+#   Pkg := BHist
+#   TokIntro bundle s p := byte-equality of BHist payloads s and p
+#
+# Tags:
+#   tag(0): token input
+#     tag ++ BundleEncoding(bundle) ++ BHistEncoding(s) ++ PkgEncoding(p)
+#   tag(1): psame input
+#     tag ++ BundleEncoding(bundle) ++ BHistEncoding(s) ++ BHistEncoding(t)
+#         ++ PkgEncoding(p) ++ PkgEncoding(q)
+#   tag(2): token-policy classification input
+#     tag ++ BundleEncoding(bundle) ++ BHistEncoding(s) ++ BHistEncoding(t)
+#         ++ PkgEncoding(p) ++ PkgEncoding(q) ++ event([claimed_psame, claimed_hsame])
+#   tag(3): two-step psame chain input
+#     tag ++ BundleEncoding(bundle) ++ BHistEncoding(a) ++ BHistEncoding(b)
+#         ++ BHistEncoding(c) ++ PkgEncoding(p) ++ PkgEncoding(q)
+#         ++ PkgEncoding(r)
+#
+# For tag(2), the checker accepts exactly when the two claim bits match the
+# fixture truth values. This covers the soundness and reflection directions of
+# PackageTokenPolicy on introduced tokens.
+PRODUCTIONS 0
+ASSERTIONS 19
+case token_empty_empty:        input=10111010111111                              ; token=yes
+case token_bundle_mixed:       input=101110110010111010110101101011              ; token=yes
+case token_wrong_pkg:          input=10111010110111011                           ; token=no
+case token_malformed_bundle:   input=1011111111                                  ; token=no
+case token_trailing_input:     input=101110101111111011                          ; token=no
+case psame_refl_empty:         input=0101110101111111111                         ; psame=yes
+case psame_symm_forward:       input=010110101110101101011010110101101011        ; psame=yes
+case psame_symm_reverse:       input=010110101110101101011010110101101011        ; psame=yes
+case psame_distinct_history:   input=0101110101101110110111011                   ; psame=no
+case psame_nonintroduced:      input=010111010110110110111011                    ; psame=no
+case psame_trailing_input:     input=0101110101111111111011                      ; psame=no
+case classify_equal_yes:       input=00101110101111111111101011                  ; classification=yes
+case classify_distinct_no:     input=0010111011101011011101101110110011          ; classification=yes
+case classify_wrong_psame:     input=0010111010111111111101011                   ; classification=no
+case classify_wrong_hsame:     input=0010111010110111011011101101011             ; classification=no
+case classify_nonintroduced:   input=0010111010110110110111011101011             ; classification=no
+case chain_transitive:         input=0001011101011100111001110011100111001110011 ; chain=yes
+case chain_broken_tail:        input=000101110101101101110110110111011           ; chain=no
+case unknown_tag:              input=00001011101011                              ; reject=yes
