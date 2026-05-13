@@ -186,4 +186,35 @@ theorem DyadicBisectionCarrier_retained_interval_nonempty_iff [AskSetup] [Packag
     exact append_nonempty_iff
   exact ⟨retainedUnary, retainedNonempty, routePkg⟩
 
+theorem DyadicBisectionCarrier_nested_window_handoff [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {initial precision midpoint branch nested endpoint regseq stream real transport route name
+      selected retained sealRow : BHist} :
+    DyadicBisectionCarrier initial precision midpoint branch nested endpoint regseq stream real
+        transport route name bundle pkg ->
+      Cont branch nested selected ->
+        Cont selected endpoint retained ->
+          Cont retained stream sealRow ->
+            PkgSig bundle sealRow pkg ->
+              UnaryHistory selected /\ UnaryHistory retained /\ UnaryHistory sealRow /\
+                hsame selected (append branch nested) /\
+                  hsame retained (append selected endpoint) /\
+                    hsame sealRow (append retained stream) /\
+                      PkgSig bundle route pkg /\ PkgSig bundle sealRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectedRow retainedRow sealRoute sealSig
+  obtain ⟨_initialUnary, _precisionUnary, _midpointUnary, branchUnary, nestedUnary,
+    endpointUnary, _regseqUnary, streamUnary, _realUnary, _transportUnary, _routeUnary,
+    _nameUnary, _initialPrecision, _midpointBranch, _nestedEndpoint, _regseqStream,
+    _realTransport, routePkg, _namePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed branchUnary nestedUnary selectedRow
+  have retainedUnary : UnaryHistory retained :=
+    unary_cont_closed selectedUnary endpointUnary retainedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed retainedUnary streamUnary sealRoute
+  exact
+    ⟨selectedUnary, retainedUnary, sealUnary, selectedRow, retainedRow, sealRoute, routePkg,
+      sealSig⟩
+
 end BEDC.Derived.DyadicBisectionUp
