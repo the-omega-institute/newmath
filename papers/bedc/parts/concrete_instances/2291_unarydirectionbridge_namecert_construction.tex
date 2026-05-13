@@ -360,6 +360,52 @@ Use ledger exactness, ledger policy, and the standard boundary. These exclude ho
 Finally combine the scoped additive route with the obligation closure. The resulting transported $\NameCert_{\UnaryDirectionBridgeUp}$ packet is the same finite bridge surface over $\BHist,\hsame,\Cont,\Pkg,\NameCert$, so transport preserves the route without identifying the two source classifiers.
 \end{proof}
 
+\begin{theorem}[UnaryDirectionBridge standard-boundary consumer factorization]
+\label{thm:unary-direction-bridge-standard-boundary-consumer-factorization}
+Every $\AddUp$ or $\AxisAddUp$ consumer of the standard boundary of an accepted $\UnaryDirectionBridgeUp$ packet
+$$
+U=(N,A,B,K,S,L,H,C,P,M)
+$$
+factors through the displayed unary source row $N$, zero-spine source row $A$, bridge row $B$, kernel-distinctness ledger $K$, standard-boundary row $S$, ledger policy $L$, componentwise transports $H$, continuation routes $C$, package provenance $P$, and local name $M$. The consumer receives no carrier equivalence between $\NatUp$ and $\AxisNatUp$, no host natural-number equality, and no quotient identification of histories.
+\end{theorem}
+\begin{proof}
+Start from carrier admission and the standard-boundary theorem. They make $S$ a row of the accepted packet and place it after the source rows, bridge row, and kernel-distinctness ledger.
+
+Apply the scoped source anchors. They require $N,A,B,K,S,L,H,C,P,M$ before any boundary consumer can read the packet, and they keep the unary and zero-spine source classifiers separate.
+
+Now use the scoped additive route and additive consumer exactness. These route every $\AddUp/\AxisAddUp$ read through the displayed bridge packet rather than through a host-side equality or a quotient transport.
+
+Finally apply scoped NameCert transport. Componentwise transport preserves the same packet surface, so any standard-boundary consumer factors through the displayed rows and through no alternate carrier/classifier equivalence.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge AxisZeckendorf ledger gate]
+\label{thm:unary-direction-bridge-axiszeckendorf-ledger-gate}
+Any $\AxisZeckendorfCannotClaimUp$ consumer of an accepted $\UnaryDirectionBridgeUp$ packet must read the kernel-distinctness ledger $K$ and the additive route through $N,A,B,S,L,H,C,P,M$ before it can see the bridge as a downstream obstruction. In particular, the consumer cannot bypass the ledger by identifying the $\NatUp$ unary source classifier with the $\AxisNatUp$ zero-spine source classifier.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The carrier and kernel-distinct obligations expose $K$ as the row that separates the unary and zero-spine source classifiers.
+
+Use the ledger policy and ledger exactness. They make $K$ and $L$ mandatory for downstream reads and exclude host equality, quotient identification, or a second kernel carrier as substitute evidence.
+
+Apply additive consumer exactness, kernel-axis composition, and the downstream seal. These results route $\AxisZeckendorfCannotClaimUp$ consumers through the additive bridge packet before the obstruction row is visible.
+
+Therefore the bridge can be consumed only after the kernel-distinctness ledger and additive route have been read from the same displayed packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge root-unblock readback package]
+\label{thm:unary-direction-bridge-root-unblock-readback-package}
+The accepted $\UnaryDirectionBridgeUp$ packet $U=(N,A,B,K,S,L,H,C,P,M)$ forms a root-unblock readback package for downstream $\AddUp$, $\AxisAddUp$, and $\AxisZeckendorfCannotClaimUp$ consumers. The package consists exactly of carrier admission, kernel-distinct classifier rows, ledger exactness, the standard-boundary consumer factorization of \autoref{thm:unary-direction-bridge-standard-boundary-consumer-factorization}, the AxisZeckendorf ledger gate of \autoref{thm:unary-direction-bridge-axiszeckendorf-ledger-gate}, scoped NameCert transport, and the downstream seal.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission. It fixes the readback packet as the ten displayed rows $N,A,B,K,S,L,H,C,P,M$.
+
+Add the kernel-distinct obligations and ledger exactness. These make the source classifiers separate at the kernel row and make the ledger the public witness for that separation.
+
+Use standard-boundary consumer factorization to bind $\AddUp/\AxisAddUp$ consumers to the same packet. Use the AxisZeckendorf ledger gate to ensure that obstruction-facing consumers read the ledger and additive route before the bridge can be consumed.
+
+Finally combine scoped NameCert transport with the downstream seal. The assembled package exports the bridge as the displayed finite readback surface and does not export carrier equivalence transport, host natural-number equality, or quotient identification.
+\end{proof}
+
 \closureat{UnaryDirectionBridgeUp}{seedStr}
 \closureat{UnaryDirectionBridgeUp}{obligationStr}
 \closureat{UnaryDirectionBridgeUp}{scopedStr}

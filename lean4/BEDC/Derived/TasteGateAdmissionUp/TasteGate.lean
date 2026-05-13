@@ -226,6 +226,10 @@ instance tasteGateAdmissionChapterTasteGate : ChapterTasteGate TasteGateAdmissio
     intro x y hxy heq
     exact hxy (tasteGateAdmissionToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate TasteGateAdmissionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  tasteGateAdmissionChapterTasteGate
+
 theorem TasteGateAdmissionTasteGate_single_carrier_alignment :
     (∀ h : BHist, tasteGateAdmissionDecodeBHist (tasteGateAdmissionEncodeBHist h) = h) ∧
       (∀ x : TasteGateAdmissionUp,
