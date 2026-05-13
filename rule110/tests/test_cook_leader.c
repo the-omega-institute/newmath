@@ -44,6 +44,27 @@ static int differs_from_ether(const uint8_t *cells, size_t start, size_t end) {
     return 0;
 }
 
+static size_t count_bits_at(const uint8_t *cells,
+                            size_t start,
+                            size_t end,
+                            const char *bits) {
+    size_t count = 0;
+    size_t bits_len = strlen(bits);
+
+    if (bits_len == 0 || end < start || end - start < bits_len) return 0;
+    for (size_t pos = start; pos + bits_len <= end; pos++) {
+        int match = 1;
+
+        for (size_t i = 0; i < bits_len; i++) {
+            uint8_t bit = bits[i] == '1' ? 1u : 0u;
+
+            if (cells[pos + i] != bit) match = 0;
+        }
+        if (match) count++;
+    }
+    return count;
+}
+
 static void test_leader_stable(void) {
     const size_t period_count = 260;
     const size_t len = COOK_ETHER_WIDTH * period_count;
@@ -109,6 +130,9 @@ static void test_leader_phase_exact_accept_reject_differ(void) {
     uint8_t accept_cells[2048];
     uint8_t reject_cells[2048];
     int rc = 0;
+    size_t accept_a4_count = 0;
+    size_t accept_a2_count = 0;
+    size_t reject_a3_count = 0;
 
     cook_ether_emit(accept_cells, sizeof(accept_cells) / COOK_ETHER_WIDTH);
     memcpy(reject_cells, accept_cells, sizeof(accept_cells));
@@ -125,8 +149,48 @@ static void test_leader_phase_exact_accept_reject_differ(void) {
     assert(differs_from_ether(accept_cells, 154, 1100));
     assert(differs_from_ether(reject_cells, 154, 1100));
     assert_buffers_differ(accept_cells + 154, reject_cells + 154, 946);
+    accept_a4_count = count_bits_at(accept_cells, 858, 1280, "111110");
+    accept_a2_count = count_bits_at(accept_cells,
+                                    858,
+                                    1280,
+                                    "11111000111000100110");
+    reject_a3_count = count_bits_at(reject_cells,
+                                    880,
+                                    1280,
+                                    "11111000100110100110");
+    assert(accept_a4_count >= 1);
+    assert(accept_a2_count == 0);
+    assert(reject_a3_count >= 1);
 
     printf("  leader_phase_exact_accept_reject_differ: PASS\n");
+}
+
+static void test_leader_phase_exact_short_leader_offset(void) {
+    uint8_t regular_cells[2048];
+    uint8_t short_cells[2048];
+    int rc = 0;
+
+    cook_ether_emit(regular_cells, sizeof(regular_cells) / COOK_ETHER_WIDTH);
+    memcpy(short_cells, regular_cells, sizeof(regular_cells));
+
+    rc = cook_leader_emit_phase_exact_kind(regular_cells,
+                                           154,
+                                           sizeof(regular_cells),
+                                           LEADER_REGULAR);
+    assert(rc == COOK_LEADER_PHASE_EXACT_OK);
+    rc = cook_leader_emit_phase_exact_kind(short_cells,
+                                           154,
+                                           sizeof(short_cells),
+                                           LEADER_SHORT);
+    assert(rc == COOK_LEADER_PHASE_EXACT_OK);
+
+    assert_buffers_differ(regular_cells + 154, short_cells + 154, 1100);
+    assert(memcmp(short_cells, regular_cells, 154) == 0);
+    assert(differs_from_ether(short_cells,
+                              154 + (3 * COOK_ETHER_WIDTH),
+                              154 + (3 * COOK_ETHER_WIDTH) + 120));
+
+    printf("  leader_phase_exact_short_leader_offset: PASS\n");
 }
 
 static void test_leader_phase_exact_unwritable_buffer(void) {
@@ -151,6 +215,7 @@ int main(void) {
     test_leader_does_not_destroy_ether_outside();
     test_leader_phase_exact_emits_packet();
     test_leader_phase_exact_accept_reject_differ();
+    test_leader_phase_exact_short_leader_offset();
     test_leader_phase_exact_unwritable_buffer();
     printf("ALL test_cook_leader tests passed\n");
     return 0;

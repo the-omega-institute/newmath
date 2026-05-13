@@ -9,15 +9,18 @@ const size_t COOK_LEADER_STABILITY_STEPS = 500;
 #define COOK_LEADER_EBAR_COUNT 8
 #define COOK_LEADER_C2_COUNT 4
 #define COOK_LEADER_INVISIBLE_COUNT 2
-#define COOK_LEADER_ACCEPTOR_A_COUNT 6
-#define COOK_LEADER_REJECTOR_A_COUNT 3
+#define COOK_LEADER_MAX_A_COUNT 3
+#define COOK_LEADER_ACCEPTOR_A_COUNT 3
+#define COOK_LEADER_REJECTOR_A_COUNT 1
 #define COOK_LEADER_A_SPACING_TILES 3
+#define COOK_LEADER_SHORT_UP_TILES 3
 
 typedef struct {
     int ebar_spacing_tiles;
     int ebar_to_c2_tiles;
     int c2_spacing_tiles;
     int c2_phases[COOK_LEADER_C2_COUNT];
+    int a_phases[COOK_LEADER_MAX_A_COUNT];
     int a_count;
 } CookLeaderLayout;
 
@@ -26,7 +29,8 @@ static const CookLeaderLayout COOK_LEADER_ACCEPT_LAYOUT = {
     3,
     3,
     {1, 2, 3, 4},
-    0
+    {4, 1, 1},
+    COOK_LEADER_ACCEPTOR_A_COUNT
 };
 
 static const CookLeaderLayout COOK_LEADER_REJECT_LAYOUT = {
@@ -34,7 +38,8 @@ static const CookLeaderLayout COOK_LEADER_REJECT_LAYOUT = {
     4,
     5,
     {4, 3, 2, 1},
-    0
+    {3, 0, 0},
+    COOK_LEADER_REJECTOR_A_COUNT
 };
 
 static int cook_leader_add_size(size_t left, size_t right, size_t *out) {
@@ -63,7 +68,15 @@ static int cook_leader_step_width(int spacing_tiles,
     return cook_leader_add_size(glider_len, gap_width, width_out);
 }
 
+static int cook_leader_tile_width(int spacing_tiles, size_t *width_out) {
+    if (spacing_tiles < 0 || width_out == NULL) return 0;
+    return cook_leader_mul_size((size_t)spacing_tiles,
+                                (size_t)COOK_ETHER_WIDTH,
+                                width_out);
+}
+
 static int cook_leader_packet_width(const CookLeaderLayout *layout,
+                                    enum leader_kind kind,
                                     size_t *width_out) {
     size_t ebar_len = 0;
     size_t c2_len = 0;
@@ -77,6 +90,14 @@ static int cook_leader_packet_width(const CookLeaderLayout *layout,
     if (glider_phase("A", NULL, 1, &a_len) == NULL) return 0;
 
     width = ebar_len;
+    if (kind == LEADER_SHORT) {
+        if (!cook_leader_tile_width(COOK_LEADER_SHORT_UP_TILES, &step)) {
+            return 0;
+        }
+        if (!cook_leader_add_size(width, step, &width)) return 0;
+    } else if (kind != LEADER_REGULAR) {
+        return 0;
+    }
     for (size_t i = 1; i < COOK_LEADER_INVISIBLE_COUNT; i++) {
         if (!cook_leader_step_width(layout->ebar_spacing_tiles,
                                     ebar_len,
@@ -183,7 +204,8 @@ void cook_leader_emit(uint8_t *out, size_t pos, size_t buf_len) {
 static int cook_leader_emit_layout(uint8_t *out,
                                    size_t pos,
                                    size_t buf_len,
-                                   const CookLeaderLayout *layout) {
+                                   const CookLeaderLayout *layout,
+                                   enum leader_kind kind) {
     size_t width = 0;
     size_t ebar_len = 0;
     size_t c2_len = 0;
@@ -192,7 +214,7 @@ static int cook_leader_emit_layout(uint8_t *out,
     static const int ebar_phases[COOK_LEADER_EBAR_COUNT] =
         {1, 2, 3, 4, 1, 2, 3, 4};
 
-    if (!cook_leader_packet_width(layout, &width)) {
+    if (!cook_leader_packet_width(layout, kind, &width)) {
         return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
     }
     if (!cook_leader_row_is_writable(out, pos, buf_len, width)) {
@@ -201,6 +223,16 @@ static int cook_leader_emit_layout(uint8_t *out,
     if (glider_phase("Ebar", "A", 1, &ebar_len) == NULL ||
         glider_phase("C2", "A", 1, &c2_len) == NULL ||
         glider_phase("A", NULL, 1, &a_len) == NULL) {
+        return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    }
+    if (kind == LEADER_SHORT) {
+        size_t step = 0;
+
+        if (!cook_leader_tile_width(COOK_LEADER_SHORT_UP_TILES, &step)) {
+            return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+        }
+        cursor += step;
+    } else if (kind != LEADER_REGULAR) {
         return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
     }
 
@@ -281,7 +313,7 @@ static int cook_leader_emit_layout(uint8_t *out,
                                   buf_len,
                                   "A",
                                   NULL,
-                                  1,
+                                  layout->a_phases[i],
                                   NULL) != 0) {
                 return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
             }
@@ -302,21 +334,53 @@ static int cook_leader_emit_layout(uint8_t *out,
 int cook_leader_emit_phase_exact_accept(uint8_t *out,
                                         size_t pos,
                                         size_t buf_len) {
+    return cook_leader_emit_phase_exact_accept_kind(out,
+                                                    pos,
+                                                    buf_len,
+                                                    LEADER_REGULAR);
+}
+
+int cook_leader_emit_phase_exact_accept_kind(uint8_t *out,
+                                             size_t pos,
+                                             size_t buf_len,
+                                             enum leader_kind kind) {
     return cook_leader_emit_layout(out,
                                    pos,
                                    buf_len,
-                                   &COOK_LEADER_ACCEPT_LAYOUT);
+                                   &COOK_LEADER_ACCEPT_LAYOUT,
+                                   kind);
 }
 
 int cook_leader_emit_phase_exact_reject(uint8_t *out,
                                         size_t pos,
                                         size_t buf_len) {
+    return cook_leader_emit_phase_exact_reject_kind(out,
+                                                    pos,
+                                                    buf_len,
+                                                    LEADER_REGULAR);
+}
+
+int cook_leader_emit_phase_exact_reject_kind(uint8_t *out,
+                                             size_t pos,
+                                             size_t buf_len,
+                                             enum leader_kind kind) {
     return cook_leader_emit_layout(out,
                                    pos,
                                    buf_len,
-                                   &COOK_LEADER_REJECT_LAYOUT);
+                                   &COOK_LEADER_REJECT_LAYOUT,
+                                   kind);
 }
 
 int cook_leader_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len) {
-    return cook_leader_emit_phase_exact_accept(out, pos, buf_len);
+    return cook_leader_emit_phase_exact_kind(out,
+                                            pos,
+                                            buf_len,
+                                            LEADER_REGULAR);
+}
+
+int cook_leader_emit_phase_exact_kind(uint8_t *out,
+                                      size_t pos,
+                                      size_t buf_len,
+                                      enum leader_kind kind) {
+    return cook_leader_emit_phase_exact_accept_kind(out, pos, buf_len, kind);
 }

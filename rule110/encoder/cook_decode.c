@@ -255,7 +255,7 @@ static size_t collect_packets(const C2Hit *hits,
                               CookPacket *packets,
                               size_t packet_cap) {
     static const int Y_SPACINGS[3] = {18, 18, 14};
-    static const int N_SPACINGS[3] = {28, 10, 14};
+    static const int N_SPACINGS[3] = {18, 10, 14};
     size_t count = 0;
 
     for (size_t i = 0; i < hit_count; i++) {

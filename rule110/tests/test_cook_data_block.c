@@ -140,7 +140,7 @@ static void test_data_block_phase_exact_emits_full_tape(void) {
     uint8_t cells[4096];
     const uint8_t tape_bits[3] = {1, 0, 1};
     static const int Y_SPACINGS[3] = {18, 18, 14};
-    static const int N_SPACINGS[3] = {28, 10, 14};
+    static const int N_SPACINGS[3] = {18, 10, 14};
     int rc = 0;
 
     cook_ether_emit(cells, sizeof(cells) / COOK_ETHER_WIDTH);
