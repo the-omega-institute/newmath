@@ -57,6 +57,7 @@ import BEDC.Derived.AdjointRepUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.ApophaticNameUp
+import BEDC.Derived.ExternalityGateUp.TasteGate
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.AspectChainUp.TasteGate
@@ -162,6 +163,7 @@ import BEDC.Derived.CriticalStripZetaZeroWitnessUp
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
+import BEDC.Derived.RecursorGeneratorUp
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosureWitnessLedgerUp
@@ -429,6 +431,7 @@ import BEDC.Derived.UnwitnessedExistenceClosureUp.TasteGate
 import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemiringUp
+import BEDC.Derived.SelectorLedgerUp
 import BEDC.Derived.SignedDigitRealUp
 import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
