@@ -87,20 +87,73 @@ def bedcSelfSubstrateToEventFlow : BedcSelfSubstrateUp → EventFlow
         bedcSelfSubstrateEncodeBHist name]
 
 def bedcSelfSubstrateFromEventFlow : EventFlow → Option BedcSelfSubstrateUp
-  | [_, generators, _, equality, _, recursors, _, purity, _, boundary, _, transport, _, route, _,
-      provenance, _, name] =>
-      some
-        (BedcSelfSubstrateUp.mk
-          (bedcSelfSubstrateDecodeBHist generators)
-          (bedcSelfSubstrateDecodeBHist equality)
-          (bedcSelfSubstrateDecodeBHist recursors)
-          (bedcSelfSubstrateDecodeBHist purity)
-          (bedcSelfSubstrateDecodeBHist boundary)
-          (bedcSelfSubstrateDecodeBHist transport)
-          (bedcSelfSubstrateDecodeBHist route)
-          (bedcSelfSubstrateDecodeBHist provenance)
-          (bedcSelfSubstrateDecodeBHist name))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | generators :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | equality :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | recursors :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | purity :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | boundary :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | transport :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | route :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | name :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              some
+                                                                                (BedcSelfSubstrateUp.mk
+                                                                                  (bedcSelfSubstrateDecodeBHist generators)
+                                                                                  (bedcSelfSubstrateDecodeBHist equality)
+                                                                                  (bedcSelfSubstrateDecodeBHist recursors)
+                                                                                  (bedcSelfSubstrateDecodeBHist purity)
+                                                                                  (bedcSelfSubstrateDecodeBHist boundary)
+                                                                                  (bedcSelfSubstrateDecodeBHist transport)
+                                                                                  (bedcSelfSubstrateDecodeBHist route)
+                                                                                  (bedcSelfSubstrateDecodeBHist provenance)
+                                                                                  (bedcSelfSubstrateDecodeBHist name))
+                                                                          | _ :: _ => none
 
 private theorem bedcSelfSubstrate_round_trip :
     ∀ x : BedcSelfSubstrateUp,
