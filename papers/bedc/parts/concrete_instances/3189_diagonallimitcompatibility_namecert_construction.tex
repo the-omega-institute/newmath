@@ -638,6 +638,52 @@ displayed rows alone, and no host-level completion object can enter through
 the compatibility certificate.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility finite source lock]
+\label{thm:diagonal-limit-compatibility-finite-source-lock}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every compatibility read starts from the displayed $\RealCompletenessUp$ source row $R$, the $\RegularCauchyTriangleBoundUp$ estimate row $T$, the $\CauchyLimitSealUp$ route row $S$, the $\DyadicRatCoreUp$ ledger row $D$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, the $\RealUp$ seal row $L$, and the support rows $H,C,P,N$. No compatibility consumer may introduce a second source route or an ambient completion principle outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the finite row list $R,T,S,D,W,Q,L,H,C,P,N$. These are the only coordinates available to a compatibility consumer.
+
+Use source-route exactness, \autoref{thm:diagonal-limit-compatibility-source-route-exactness}. It identifies the unique displayed route from $R$ through $T,D,W,S,Q$ to $L$.
+
+Use completion-consumer non-escape, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}. It forces every completion-facing or $\RealUp$ consumer to factor through the same listed rows.
+
+The general non-escape theorem, \autoref{thm:diagonal-limit-compatibility-non-escape}, excludes quotient streams, selected host limits, host real equality, choice data, and ambient completeness. Therefore the source lock is exactly the finite packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility Real seal source lock]
+\label{thm:diagonal-limit-compatibility-real-seal-source-lock}
+Every $\RealUp$ seal-facing read of an accepted $\DiagonalLimitCompatibilityUp$ packet factors through the $\CauchyLimitSealUp$ route row $S$ and the $\RegSeqRatUp$ readback row $Q$ before it reaches the seal row $L$. The read cannot bypass $S$ or $Q$ by appealing to host real equality, a selected host limit, a quotient stream, or an ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Start with seal-readback exactness, \autoref{thm:diagonal-limit-compatibility-seal-readback-exactness}. It binds the $\RealUp$ seal row $L$ to the displayed seal route and readback rows.
+
+Apply source-route exactness, \autoref{thm:diagonal-limit-compatibility-source-route-exactness}. The route to $L$ passes through $S$ and $Q$ after the source, triangle, dyadic, and window rows have been fixed.
+
+Use regular-readback exactness, \autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}. The readback $Q$ is determined by the same $D,W,T$ rows and is not an independent host real witness.
+
+Finally apply completion-consumer non-escape, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}. Every seal-facing read remains inside $S,Q,L$ and the packet support rows, with no host completion bypass.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility triangle-seal scope]
+\label{thm:diagonal-limit-compatibility-triangle-seal-scope}
+In an accepted $\DiagonalLimitCompatibilityUp$ packet, the triangle estimate row $T$ and the seal route row $S$ share the same dyadic ledger row $D$ and stream-window row $W$. A consumer may not read the triangle estimate against one tolerance/window ledger and the seal route against another.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and isolate $T,S,D,W$. The carrier has one dyadic ledger row and one stream-window row for both the triangle estimate and the route to the seal.
+
+Use regular-readback exactness, \autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}. It fixes $Q$ from the same $T,D,W$ rows used by the diagonal source route.
+
+Use source-route exactness, \autoref{thm:diagonal-limit-compatibility-source-route-exactness}. The seal route $S$ appears on that same route, after $R,T,D,W$ and before $Q,L$.
+
+Completion-consumer non-escape, \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}, then prevents a consumer from splitting the route. The triangle row and the seal row therefore share the displayed $D,W$ ledger rows.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalLimitCompatibilityUp}

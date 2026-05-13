@@ -74,6 +74,24 @@ Finally apply root seal consumer non-escape, \autoref{thm:uniform-cauchy-criteri
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCauchyCriterionUp.UniformCauchyCriterionPacket\_root\_shared\_tail\_meet}
 
+\begin{theorem}[Uniform Cauchy criterion tail-meet root export]
+\label{thm:uniform-cauchy-criterion-tail-meet-root-export}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted root $\UniformCauchyCriterionUp$ packet whose family thresholds share a $\RegularCauchyTailMeetUp$ row. Then the shared tail-meet row is exported through the same finite schedule row $M$, tolerance ledger $Q,T$, root seal consumer $E$, componentwise $\hsame$ row $H$, displayed $\Cont$ route row $C$, package provenance $P$, and local $\NameCert$ row $N$. The export is therefore a consumer-facing root packet over the sibling source \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, not a quotient-stream comparison, selected limit, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First read the root schedule. By \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determinacy}, every threshold request reaches the displayed schedule row $M$ after the finite index row $I$ and the shared window-family row $W$.
+
+Next read the tolerance ledger. By \autoref{thm:uniform-cauchy-criterion-root-tolerance-ledger-exactness}, the dyadic tolerance and tail comparison data downstream of $M$ are exactly the finite ledger rows $Q,T$.
+
+Now apply the shared-tail theorem, \autoref{thm:uniform-cauchy-criterion-root-shared-tail-meet}. Its hypothesis identifies the same schedule and ledger surface as the one consumed by the $\RegularCauchyTailMeetUp$ sibling, and \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} supplies that sibling source.
+
+Finally use root seal consumer non-escape, \autoref{thm:uniform-cauchy-criterion-root-seal-consumer-nonescape}. The seal-facing route reaches $E$ only through $I,W,M,Q,T$ and the structural rows $H,C,P,N$, so the exported tail-meet row remains inside the finite root schedule, tolerance ledger, displayed $\Cont$, $\Pkg$, and local $\NameCert$ surface.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion root budget package]
 \label{thm:uniform-cauchy-criterion-root-budget-package}
 For an accepted $\UniformCauchyCriterionUp$ packet
