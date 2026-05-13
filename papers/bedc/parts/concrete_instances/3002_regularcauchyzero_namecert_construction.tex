@@ -38,6 +38,24 @@ The route begins at the rational zero seed, passes through the constant stream a
 Since the excluded objects are not coordinates and are not produced by the displayed continuations, the local certificate surface is exhausted by the listed rows.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy zero StreamName--Dyadic sibling route]
+\label{thm:regular-cauchy-zero-streamname-dyadic-sibling-route}
+Every accepted $\RegularCauchyZeroUp$ packet routes its zero seed through the sibling finite-window surface of \autoref{ch:concrete-instances-streamname-namecert} and the dyadic observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} before any $\RegSeqRatUp$, $\RegularCauchyTailMeetUp$, or $\RealUp$ consumer may read it. In carrier coordinates
+$$
+Z=(q,s,r,m,\mu,e,h,c,p,n),
+$$
+the seed is read first as $q$, then as the constant window row $s$, then through the regular row $r$, the zero modulus row $m$, the identity meet row $\mu$, and finally the seal row $e$; the rows $h,c,p,n$ record the $\hsame$ transports, $\Cont$ route replay, $\Pkg$ provenance, and local $\NameCert$ naming for that sibling route.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $q,s,r,m,\mu,e,h,c,p,n$ from the accepted packet. The zero seed is the row $q$, and the existing $\NameCert_{\RegularCauchyZeroUp}$ obligations force the constant stream, regular readback, modulus, meet, seal, transport, continuation, provenance, and naming rows to be exactly the displayed coordinates.
+
+Use \autoref{thm:regular-cauchy-zero-namecert-obligations} to identify the finite route-visible surface. The stream coordinate $s$ is the packet's only $\StreamNameUp$ window row, and it is the row supplied by the sibling finite-window chapter \autoref{ch:concrete-instances-streamname-namecert}.
+
+The zero modulus and meet rows $m,\mu$ expose the dyadic observation boundary before the tail-meet or real-seal consumers can inspect the seed. That boundary is the dyadic ledger supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}, routed through $c$ and recorded in $p$.
+
+Therefore any $\RegSeqRatUp$, $\RegularCauchyTailMeetUp$, or $\RealUp$ consumer reads the zero seed only after the StreamName and DyadicRatCore sibling surfaces have been traversed. No kernel-only floating zero source remains outside the displayed packet route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy zero tail-meet identity]
 \label{thm:regular-cauchy-zero-tail-meet-identity}
 For an accepted $\RegularCauchyZeroUp$ carrier $Z=(q,s,r,m,\mu,e,h,c,p,n)$, the tail-meet route exported through $\mu$ has source modulus $m$ on both sides and returns the same displayed zero tail threshold. Every $\RegularCauchyTailMeetUp$ or $\FiniteTailDiagonalSealUp$ consumer of the zero source therefore reads the identity meet row rather than a second modulus or an external equality proof.

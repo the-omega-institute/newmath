@@ -1,0 +1,16 @@
+# reject_reasons.enum.ct
+# C-level implementation contract:
+#   encoder/groundcompiler_encoding.h GcStatus taxonomy.
+#
+# Input shape:
+#   malformed GroundCompiler display channel.
+#   input=<empty> means zero display glyphs.
+#   display=... is used when the raw spelling is intentionally noncanonical.
+PRODUCTIONS 0
+ASSERTIONS 6
+case dangling_one:          input=1       ; theorem=groundcompiler_reject_taxonomy ; expected_reject=DANGLING_ONE
+case unfinished_event:      input=010     ; theorem=groundcompiler_reject_taxonomy ; expected_reject=UNFINISHED_EVENT
+case nonbinary_character:   input=01x11   ; theorem=groundcompiler_reject_taxonomy ; expected_reject=NONBINARY_CHARACTER
+case empty_input_policy:    input=<empty> ; theorem=groundcompiler_reject_taxonomy ; expected_reject=EMPTY_INPUT_POLICY
+case resource_bound_excess: input=00011   ; theorem=groundcompiler_reject_taxonomy ; fuel=2 ; expected_reject=RESOURCE_BOUND_EXCESS
+case noncanonical_display:  display=01011_ ; theorem=groundcompiler_reject_taxonomy ; expected_reject=NONCANONICAL_DISPLAY
