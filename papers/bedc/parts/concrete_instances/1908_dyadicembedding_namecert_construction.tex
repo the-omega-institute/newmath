@@ -50,6 +50,7 @@ The non-escape clause follows from the carrier inventory. Since the tuple contai
 \label{thm:dyadic-embedding-constant-stream-readback}
 Every accepted $\DyadicEmbeddingUp$ carrier reads its $\StreamNameUp$ coordinate as a constant schedule over the same $\DyadicRatCoreUp$ row $d$. The resulting $\RegSeqRatUp$ row is the stationary rational diagonal named by $\StationaryRationalDiagonalUp$, and no separate rational stream or unrecorded convergence witness participates in the readback.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicEmbeddingUp.DyadicEmbeddingCarrier\_constant\_stream\_readback}
 \begin{proof}
 Project the dyadic source and stream coordinates from $D$. The route from $d$ to $S$ is displayed in $C$, so every admitted window of the stream schedule is read through the same source row.
 
@@ -168,6 +169,22 @@ Project the package row $P$ and local naming row $N$ from \autoref{def:dyadic-em
 Use \autoref{thm:dyadic-embedding-ledger-non-escape} for the base dependency boundary. Then apply \autoref{thm:dyadic-embedding-public-scope} to identify that boundary as the public constant dyadic real-name surface.
 
 The stationary-source and real-seal obligations show that every consumer route remains inside $d,S,R,Q,H,C,P,N$. Therefore quotient streams, selected limits, host equality, trichotomy, and completeness would require extra rows not present in the accepted packet.
+\end{proof}
+
+\begin{theorem}[DyadicEmbedding source-window-seal factorization]
+\label{thm:dyadic-embedding-source-window-seal-factorization}
+For every accepted $\DyadicEmbeddingUp$ packet
+$$
+D=(d,S,R,Q,H,C,P,N),
+$$
+any $\RealUp$ consumer factors through the same dyadic source row $d$, the constant $\StreamNameUp$ schedule $S$, the stationary $\RegSeqRatUp$ readback $R$, the real seal row $Q$, and the displayed transport, continuation, package, and local naming rows $H,C,P,N$. No varying stream, selected limit, host equality, trichotomy, or completeness row participates in the route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-embedding-carrier}. The source, stream, readback, seal, transport, continuation, package, and naming rows are precisely the coordinates $d,S,R,Q,H,C,P,N$.
+
+Use \autoref{thm:dyadic-embedding-stationary-source-obligation} to force the stream and regular rational readback through the same dyadic source row. Then apply \autoref{thm:dyadic-embedding-real-seal-obligation} to route the $\RealUp$ consumer through $Q$ only after the stationary readback has been consumed.
+
+Finally apply \autoref{thm:dyadic-embedding-ledger-exactness-obligation}. The ledger is exhausted by the displayed rows, so no varying stream, selected limit, host equality, trichotomy, or completeness coordinate remains available to the consumer.
 \end{proof}
 
 \begin{theorem}[DyadicEmbedding obligation closure surface]
