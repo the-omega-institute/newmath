@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDiagonalFusionUp$}
+\label{ch:concrete-instances-cauchydiagonalfusion-namecert}
+\origin{ai}
+
+The $\CauchyDiagonalFusionUp$ packet is the finite naming certificate that joins the observation-budget route, the regular Cauchy witness schedule, and the schedule-fusion row before the $\RealUp$ diagonal seal is read. It presents one completion-facing handoff over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\RegularCauchyWitnessScheduleUp$, $\RealScheduleFusionUp$, and $\RealUp$, while withholding quotient streams, host real equality, selected limits, and ambient completeness.
+
+\begin{definition}[Cauchy diagonal fusion carrier]
+\label{def:cauchy-diagonal-fusion-carrier}
+A $\CauchyDiagonalFusionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(E,B,W,S,D,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the precision request row whose tolerance selects the diagonal observation;
+\item $B$ is the $\RealObservationBudgetUp$ row exposing the finite stream windows, dyadic readbacks, regular-sequence handoffs, and real-seal boundary for $E$;
+\item $W$ is the $\RegularCauchyWitnessScheduleUp$ row exposing the modulus-indexed witness window used by the diagonal read;
+\item $S$ is the $\RealScheduleFusionUp$ row that locks the schedule, window ledger, regular-rational readback, and seal handoff into one route;
+\item $D$ is the $\DyadicRatCoreUp$ readback row consumed by both the observation budget and the witness schedule;
+\item $R$ is the $\RegSeqRatUp$ handoff row reached after the dyadic readback and before the real seal;
+\item $L$ is the $\RealUp$ diagonal seal row exported to completion-facing consumers;
+\item $H$ records componentwise $\hsame$ transports for $E,B,W,S,D,R,L$ and the structural rows;
+\item $C$ records the displayed $\Cont$ routes from precision request to observation budget, witness schedule, schedule fusion, dyadic readback, regular-rational handoff, and diagonal seal;
+\item $P$ is the $\Pkg$ provenance over the listed rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyDiagonalFusionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, host real equality, a selected completed limit, an unbounded schedule, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Cauchy diagonal fusion NameCert obligations]
+\label{thm:cauchy-diagonal-fusion-namecert-obligations}
+The local $\NameCert_{\CauchyDiagonalFusionUp}$ surface consists exactly of carrier admission for $F=(E,B,W,S,D,R,L,H,C,P,N)$, precision request exposure, $\RealObservationBudgetUp$ observation routing, $\RegularCauchyWitnessScheduleUp$ witness-window routing, $\RealScheduleFusionUp$ schedule locking, $\DyadicRatCoreUp$ readback exposure, $\RegSeqRatUp$ handoff routing, $\RealUp$ diagonal seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-diagonal-fusion-carrier}. The rows $E,B,W,S,D,R,L$ are the only mathematical coordinates, and $H,C,P,N$ are the only transport, route, package, and naming coordinates.
+
+The observation row $B$, witness row $W$, and schedule-fusion row $S$ are read before any seal consumer reaches $L$. Thus the local certificate is assembled from the same finite route rather than from a host completion object.
+
+Since quotient streams, host equality, selected limits, unbounded schedules, and ambient completeness have no row in $F$, no local $\NameCert$ projection can export them.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal fusion schedule lock]
+\label{thm:cauchy-diagonal-fusion-schedule-lock}
+For an accepted $\CauchyDiagonalFusionUp$ carrier, every precision request routed through $E$ reaches the same $\RealObservationBudgetUp$ row $B$, $\RegularCauchyWitnessScheduleUp$ row $W$, and $\RealScheduleFusionUp$ row $S$ before reading the dyadic row $D$. The schedule fusion therefore fixes the finite window ledger and regular-rational readback used by the diagonal route.
+\end{theorem}
+\begin{proof}
+Start with the precision request row $E$. The displayed continuations in $C$ send this request to $B,W,S$ before $D$ is available.
+
+The transport row $H$ carries the same observation budget, witness schedule, and schedule-fusion rows componentwise. Therefore a transported precision request cannot select a second window family or a second schedule after the diagonal route has begun.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal fusion RealUp seal handoff]
+\label{thm:cauchy-diagonal-fusion-real-seal-handoff}
+Every $\RealUp$ diagonal seal read exported by an accepted $\CauchyDiagonalFusionUp$ packet factors through the finite route
+$$
+E \longmapsto B \longmapsto W \longmapsto S \longmapsto D \longmapsto R \longmapsto L.
+$$
+The seal receives only the precision request, observation-budget row, witness-schedule row, schedule-fusion row, dyadic readback, regular-rational handoff, transports, routes, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Apply the schedule-lock theorem to place every seal-facing request after $E,B,W,S,D$. The dyadic readback is therefore already tied to the displayed observation budget and witness schedule.
+
+The regular-rational handoff row $R$ is the only source-facing row between the dyadic readback and the seal. The continuation route then reaches $L$ with $H,C,P,N$ as visible structural data.
+
+No further analytic object is present in the carrier, so the seal handoff cannot bypass the finite diagonal route.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal fusion non-escape]
+\label{thm:cauchy-diagonal-fusion-nonescape}
+An accepted $\CauchyDiagonalFusionUp$ packet exports only the rows $E,B,W,S,D,R,L,H,C,P,N$ of \autoref{def:cauchy-diagonal-fusion-carrier}. It exports no quotient stream, no host real equality, no selected completed limit, no unbounded schedule, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The route-visible data are the precision request, observation budget, witness schedule, schedule fusion, dyadic readback, regular-rational handoff, and diagonal seal, together with the structural rows $H,C,P,N$.
+
+The NameCert obligation theorem identifies this list as the local naming surface. The schedule-lock theorem and seal-handoff theorem then force every downstream read to pass through that surface.
+
+Because the excluded objects are not coordinates and are not produced by the displayed continuations, no consumer can recover them from the packet.
+\end{proof}
