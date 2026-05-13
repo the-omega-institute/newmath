@@ -1,0 +1,98 @@
+---
+title: "The Four Substrate Quadrant"
+subtitle: "Universality and closure are independent axes. They generate a 2×2 map. The project anchors at two corners and identifies what the other two cost."
+author: "The Omega Institute"
+date: 2026-05-14
+description: "Rule 110 is universal and closed. Presburger arithmetic is closed but not universal. Hypercomputation is universal but not closed. The four-quadrant map sharpens what the closure premise actually requires."
+---
+
+```{=html}
+<div class="lang-switch"><a href="closure-universality-quadrant.zh-CN.qmd">中文</a></div>
+```
+
+## Two axes, four corners
+
+The cellular reading of the BEDC framework rests on a structural claim: a substrate is *closed observational* if its observations are exhausted by finite records of its own orbits, with no external commitments in the observation channel. Rule 110 satisfies this. So does the BEDC kernel itself.
+
+The same framework names a second structural property: a substrate is *Turing universal* if every partial recursive function on natural numbers can be realised as some computation in the substrate. Rule 110 satisfies this too (Cook 2004). The BEDC kernel does not (it is total, see [Total Inside, Universal Outside](total-inside-universal-outside.qmd)).
+
+The two properties are independent. There is no derivation from one to the other; each is set by separate structural features of the substrate. Independence means the two axes generate a 2×2 quadrant, and every cell of the quadrant is structurally meaningful.
+
+|  | Universal | Sub-universal |
+|---|---|---|
+| **Closed** | I: Rule 110, Game of Life | III: BEDC kernel, Presburger |
+| **Not closed** | II: Hypercomputation, o-machines | IV: Embedded controllers, mixed substrates |
+
+Each cell answers a different question about what the closure premise of the BEDC framework is doing. The project anchors at Quadrants I and III; Quadrants II and IV are sketched to clarify what the premise is *not* claiming.
+
+## Quadrant I: universal and closed (the project's anchor)
+
+Rule 110 lives here. Its orbits realise universal computation by Cook 2004. Its observations are finite cell-row segments under a fixed local rule with a fixed transition table. Both properties hold.
+
+This is the *strongest* form of the closure argument the project makes. Universality, in the substrate, buys no leverage against closure. Even at maximum computational power, the substrate's own observations cannot ratify universal closures over an infinite domain. That is what the no-induction theorem (transported to the cellular substrate as `thm:rule110-no-internal-induction`) says.
+
+Other Quadrant I citizens include the Game of Life (provably universal, also closed when used as a substrate), Rule 30 and Rule 54 (conjectured universal), and any cellular automaton whose universality has been mechanically traced. Rule 110 is the project's choice because its universality has the smallest published construction.
+
+## Quadrant III: not universal but closed (the BEDC host)
+
+This is where the BEDC kernel itself lives. Total functional languages, by construction, are sub-universal as programming languages (they can't define every partial recursive function as a direct function). But they are closed observational on the proof side: every typed term is a finite proof, every observation is a finite term.
+
+Other Quadrant III citizens include Presburger arithmetic (decidable, closed, not universal), the theory of real closed fields, pushdown automata, linear-bounded automata, and any decidable theory used as a closure substrate. The defining feature is: the observation channel is internal and closure-respecting, but the computational power is bounded below Turing universality.
+
+The interesting thing about Quadrant III is that the closure argument *is even stronger here than in Quadrant I*. Decidability of a fragment is not the same as internal ratification of universal statements over that fragment. A closed sub-universal substrate cannot, from its own records, ratify a universal claim — even if an external decision procedure exists. The framework's no-induction theorem applies cleanly.
+
+This is why the project has both the cellular substrate (Quadrant I) and the BEDC kernel (Quadrant III) as anchor points: it demonstrates that the closure premise applies uniformly across computational expressiveness, from finite-state to Turing-universal.
+
+## Quadrant II: universal but not closed (the hypercomputation case)
+
+If you augment a Turing-universal substrate with an oracle — a halting oracle, an arithmetic hierarchy oracle, an infinite-time computation channel — you get a substrate that is universal in a stronger sense than Turing universal. It can also ratify some universal closures internally, because the oracle does the ratifying.
+
+Hypercomputation models live here: Turing's o-machines (with halting oracles), Hamkins-Lewis infinite-time Turing machines, Blum-Shub-Smale real-number machines, accelerating Turing machines. Each model is at least Turing universal. Each violates closure because the oracle is not a substrate-internal process.
+
+The framework's no-induction theorem *fails* for Quadrant II substrates. A halting oracle ratifies universal closures over Turing-decidable predicates by direct query. A Σ⁰₂ oracle ratifies closures over Π⁰₁ predicates. The inscription point of the [induction essay](where-induction-comes-from.qmd) is not needed in Quadrant II; the substrate has an internal channel that produces the universal closure.
+
+The project does not anchor in Quadrant II. The structural relevance of the quadrant is to show what closure is doing work to exclude: it excludes exactly the substrates whose observations would otherwise bypass the no-induction theorem. The closure premise is therefore not vacuous — it carries information.
+
+A practical note: hypercomputation is not currently believed to be physically realisable. Whether it is or isn't is not a question the framework takes a position on. The structural role of Quadrant II is to identify the boundary of closure, not to assert anything about physics.
+
+## Quadrant IV: neither universal nor closed (degenerate)
+
+This is the corner where most engineering systems actually live. An embedded microcontroller running a finite-state program that reads from external sensors is in Quadrant IV. The program is sub-universal (finite-state). The observations include sensor data, which originate outside the substrate (closure fails).
+
+The framework does not anchor here. Quadrant IV substrates can still be analysed within the framework, but only after their external observation channels are themselves given a closure analysis. The quadrant is included in the map for completeness, not as a target.
+
+## What the map sharpens
+
+The four-quadrant map sharpens the closure premise by showing what it is *not* a statement about:
+
+- Not about computational expressiveness. Quadrant I and Quadrant III both satisfy closure; they have very different computational power.
+- Not about cellular structure. Presburger arithmetic satisfies closure without being cellular.
+- Not about determinism. All four quadrants in the map are deterministic; closure separates them on a different axis.
+
+What closure *is* a statement about: the absence of external commitments in the observation channel. That single property is the structural content of the premise. Once you have it, the no-induction theorem follows; everything else in the framework is independent.
+
+## Why the project anchors in two quadrants
+
+A naïve reading of the project might assume the cellular substrate is the only exhibit of closure, with the BEDC kernel as a separate development. The map shows that this is not how the project is structured: both the kernel and the cellular substrate are anchor points of the closure argument, sitting in *different quadrants* of the same map. The kernel demonstrates closure under sub-universal expressiveness. The cellular substrate demonstrates closure under Turing-universal expressiveness. Together they argue that closure is *independent* of universality, not coincident with any specific expressiveness level.
+
+This is the structural content of the [paper's principle](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/visions/closure_universality_quadrant.tex) `prin:quadrant-map-sharpens-closure`:
+
+> The four-quadrant map sharpens the closure premise by showing what the premise is not. The premise is identifiable independently of universality, and the no-induction theorem is the conclusion of the closure premise alone.
+
+## What this is *not*
+
+The map is not a proof that all four quadrants are inhabited by *physically realised* substrates. Quadrant II in particular is currently a mathematical category; whether any physical system implements an oracle is open. The map's claim is structural: each quadrant is mathematically coherent and each cell answers a different question about closure.
+
+It is also not a claim that the BEDC framework applies only to the quadrants it anchors in. The framework applies anywhere the closure premise holds, which is Quadrants I and III together. Quadrants II and IV are outside the framework's anchor zone but are still legible in its terms — Quadrant II by failing the closure premise via oracle, Quadrant IV by failing it via external sensor.
+
+What it *is*: a structural map of where closure substrates can live, what computational power they can have, and where the BEDC project chose to plant its two anchors.
+
+```{=html}
+<div class="cta-choices">
+  <a href="total-inside-universal-outside.qmd"><strong>← Total Inside, Universal Outside</strong><br/>The host-substrate pairing that places BEDC in Quadrant III and Rule 110 in Quadrant I.</a>
+  <a href="large-model-as-inscription-point.qmd"><strong>The Third Substrate →</strong><br/>A third Quadrant-I citizen: large language models as closed observational systems.</a>
+  <a href="where-induction-comes-from.qmd"><strong>Where Induction Comes From →</strong><br/>The closure premise the map is sharpening, made structural.</a>
+</div>
+```
+
+— *The Omega Institute*

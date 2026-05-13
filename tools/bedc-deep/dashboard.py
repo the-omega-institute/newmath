@@ -232,6 +232,19 @@ def _refill_stem(path: Path) -> str:
     return path.stem
 
 
+def _refill_stem_time(stem: object) -> datetime | None:
+    text = str(stem or "")
+    match = re.fullmatch(r"refill_(\d{8})_(\d{6})", text)
+    if not match:
+        return None
+    try:
+        return datetime.strptime("".join(match.groups()), "%Y%m%d%H%M%S").replace(
+            tzinfo=timezone.utc,
+        )
+    except ValueError:
+        return None
+
+
 def _read_text_prefix(path: Path, *, max_chars: int = 2000) -> str:
     try:
         text = path.read_text(encoding="utf-8", errors="replace")
@@ -253,6 +266,20 @@ def _response_failure_kind(text: str) -> str:
     if not low:
         return "empty_response"
     return "unparseable_or_unclassified_response"
+
+
+def _refill_wait_seconds(rec: dict) -> int | None:
+    log_path = rec.get("log")
+    if not isinstance(log_path, Path) or not log_path.exists():
+        return None
+    text = _read_text_prefix(log_path, max_chars=12000)
+    matches = re.findall(r"waiting\.\.\.\s+(\d+)s elapsed", text)
+    if not matches:
+        return None
+    try:
+        return max(int(item) for item in matches)
+    except ValueError:
+        return None
 
 
 def _infer_refill_status(rec: dict) -> str:
@@ -301,6 +328,59 @@ def _infer_refill_status(rec: dict) -> str:
     return "unknown"
 
 
+def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
+    """Merge pre-run-id refill log/prompt artifacts that belong together.
+
+    Older supervisor runs created the supervisor log timestamp before
+    oracle_board_refill.py created the prompt timestamp, so one real refill can
+    appear as two adjacent records. Keep this display-only and conservative:
+    only merge a prompt-only record into a nearby submitted log-only record.
+    """
+    items = list(records.values())
+    consumed: set[str] = set()
+    log_records = [
+        rec for rec in items
+        if rec.get("log") and not rec.get("prompt") and not rec.get("response") and not rec.get("summary")
+    ]
+    prompt_records = [
+        rec for rec in items
+        if rec.get("prompt") and not rec.get("log") and not rec.get("response") and not rec.get("summary")
+    ]
+    for log_rec in log_records:
+        if _infer_refill_status(log_rec) != "submitted_no_response_artifact_yet":
+            continue
+        log_time = _refill_stem_time(log_rec.get("stem"))
+        if log_time is None:
+            continue
+        nearest: dict | None = None
+        nearest_delta = 999999.0
+        for prompt_rec in prompt_records:
+            stem = str(prompt_rec.get("stem") or "")
+            if stem in consumed:
+                continue
+            prompt_time = _refill_stem_time(stem)
+            if prompt_time is None:
+                continue
+            delta = abs((prompt_time - log_time).total_seconds())
+            if delta <= 10.0 and delta < nearest_delta:
+                nearest = prompt_rec
+                nearest_delta = delta
+        if nearest is None:
+            continue
+        log_rec["prompt"] = nearest.get("prompt")
+        log_rec["prompt_mtime"] = nearest.get("prompt_mtime")
+        log_rec["latest_mtime"] = max(
+            float(log_rec.get("latest_mtime") or 0.0),
+            float(nearest.get("latest_mtime") or 0.0),
+        )
+        merged = list(log_rec.get("merged_stems") or [])
+        merged.append(str(nearest.get("stem") or ""))
+        log_rec["merged_stems"] = merged
+        consumed.add(str(nearest.get("stem") or ""))
+
+    return [rec for rec in items if str(rec.get("stem") or "") not in consumed]
+
+
 def render_board_refill() -> str:
     records: dict[str, dict] = {}
     patterns = [
@@ -317,14 +397,20 @@ def render_board_refill() -> str:
             rec = records.setdefault(stem, {"stem": stem, "latest_mtime": 0.0})
             rec[kind] = path
             try:
-                rec["latest_mtime"] = max(float(rec["latest_mtime"]), path.stat().st_mtime)
+                mtime = path.stat().st_mtime
+                rec[f"{kind}_mtime"] = mtime
+                rec["latest_mtime"] = max(float(rec["latest_mtime"]), mtime)
             except OSError:
                 pass
 
     if not records:
         return "  (no board refill artifacts)"
 
-    ordered = sorted(records.values(), key=lambda item: float(item["latest_mtime"]), reverse=True)
+    ordered = sorted(
+        _coalesce_split_refill_records(records),
+        key=lambda item: float(item["latest_mtime"]),
+        reverse=True,
+    )
     now = datetime.now(timezone.utc)
     lines: list[str] = []
     for rec in ordered[:6]:
@@ -336,8 +422,13 @@ def render_board_refill() -> str:
             name for name in ("prompt", "response", "summary", "log") if rec.get(name)
         )
         status = _infer_refill_status(rec)
+        wait_seconds = _refill_wait_seconds(rec)
+        wait_note = f" wait={_fmt_age(wait_seconds)}" if wait_seconds is not None else ""
+        merged = rec.get("merged_stems") or []
+        merged_note = f" merged={','.join(merged)}" if merged else ""
         lines.append(
-            f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   {status}"
+            f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   "
+            f"{status}{wait_note}{merged_note}"
         )
 
     latest = ordered[0]
