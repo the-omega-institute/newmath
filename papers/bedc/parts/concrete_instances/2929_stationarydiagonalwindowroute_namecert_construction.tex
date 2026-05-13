@@ -147,6 +147,24 @@ Now attach the real-and-completion handoff. The seal-consumption handoff of \aut
 Finally apply non-escape. \autoref{thm:stationary-diagonal-window-route-nonescape} excludes quotient streams, selected limits, host equality, non-stationary tails, and ambient completeness from the carrier, so any public real-facing or completion-facing consumer must factor through the finite rows $Q,S,G,D,R,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Stationary diagonal window route formal target]
+\label{thm:stationary-diagonal-window-route-formal-target}
+The public export of \autoref{thm:stationary-diagonal-window-route-public-export} is the formal target for $\StationaryDiagonalWindowRouteUp$: every accepted carrier
+$$
+W=(Q,S,G,D,R,H,C,P,N)
+$$
+exposes the stationary $\RatUp$ seed, constant $\StreamNameUp$ window, $\RegSeqRatUp$ seal row, $\DyadicRatCoreUp$ ledger, $\RealUp$ finite-window row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row as the complete consumer surface.
+\end{theorem}
+\begin{proof}
+Start with the public export theorem. It identifies $Q,S,G,D,R,H,C,P,N$ as the finite real-facing and completion-facing handoff from the transported stationary rational seed through the stream, regular-sequence, dyadic, and real rows.
+
+The dyadic ledger exposure theorem supplies the ledger side of the target surface. It forces every $\RealUp$ finite-window read to consume the $\DyadicRatCoreUp$ ledger $D$ together with the $\RegSeqRatUp$ seal row $G$ through the displayed route.
+
+The seal-consumption handoff supplies the regular-sequence side. It places $G$ on the same finite route to $R$, with $H,C,P,N$ carrying transport, continuation, provenance, and local naming.
+
+Finally apply non-escape. Since the carrier exports no quotient stream, selected limit, host real equality, non-stationary tail, or ambient completeness coordinate, these displayed rows form the complete consumer surface for the later Lean target.
+\end{proof}
+
 \closureat{StationaryDiagonalWindowRouteUp}{seedStr}
 \closureat{StationaryDiagonalWindowRouteUp}{obligationStr}
 \closureat{StationaryDiagonalWindowRouteUp}{scopedStr}
