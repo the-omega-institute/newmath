@@ -191,6 +191,38 @@ The completion-facing side is controlled by \autoref{thm:regular-cauchy-tail-fus
 Repack these rows as the public export packet. Since each cited theorem excludes quotient streams, host real equality, selected limits, unbounded diagonal data, hidden tail oracles, and ambient completeness, the public export exposes only the displayed finite route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail fusion shared-source readback]
+\label{thm:regular-cauchy-tail-fusion-shared-source-readback}
+Every accepted $\RegularCauchyTailFusionUp$ packet
+$$
+F=(Q,X,W,D,T,M,R,L,H,C,P,N)
+$$
+reads its source rows $Q,X,W,D,T,M,R$ through one shared finite route before the $\RealUp$ seal row $L$ is consumed. The route starts with the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ ledger row $D$, and the regular-family source row $X$, then passes through the $\RegularCauchyTailMeetUp$ shared threshold $M$ and the diagonal readback row $R$. No downstream consumer may split this read into an independent stream name, dyadic ledger, tail threshold, or diagonal readback source.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. Its only source-side coordinates before the seal row are $Q,X,W,D,T,M,R$, with $H,C,P,N$ recording transport, continuation, provenance, and local naming data rather than separate source objects.
+
+Use the tail-meet handoff and shared-threshold exhaustion. They identify $M$ as the sibling $\RegularCauchyTailMeetUp$ threshold row reached from the same $X,W,D,T$ source route, so the tail evidence cannot be read as a hidden or independently selected cofinal tail.
+
+Apply window monotonicity and the limit-transport link. The window and dyadic rows remain the finite predecessor of the diagonal readback row $R$, and the transport row carries that readback toward the seal without introducing another source coordinate.
+
+Finally use the public export packet. Since the public packet exposes exactly $Q,X,W,D,T,M,R,L,H,C,P,N$, every accepted consumer reads the source rows through the same finite route before $L$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fusion Real seal consumer boundary]
+\label{thm:regular-cauchy-tail-fusion-real-seal-consumer-boundary}
+Every $\RealUp$ or completion-facing consumer of the seal row $L$ in an accepted $\RegularCauchyTailFusionUp$ packet factors through the shared-source readback of \autoref{thm:regular-cauchy-tail-fusion-shared-source-readback} and then through the displayed rows $H,C,P,N$. The boundary exposes no quotient stream, host equality, selected limit, hidden tail oracle, ambient completeness principle, or independent route around $Q,X,W,D,T,M,R$.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for the seal row $L$. By shared-source readback, the request first reaches the rows $Q,X,W,D,T,M,R$ through one $\StreamNameUp$--$\DyadicRatCoreUp$--$\RegularCauchyTailMeetUp$ route.
+
+Apply the Real limit handoff. The handoff reads $L$ only after the diagonal readback row $R$ has been exposed, and it treats $L$ as a seal row rather than as a selected completed limit or ambient completeness witness.
+
+Use the limit-transport link to move from $R$ to the seal-facing surface. The transport is recorded by the displayed $H$ and $C$ rows, with $P$ and $N$ carrying provenance and local naming for the same finite packet.
+
+Finally apply the bridged consumer packet. It leaves every $\RealUp$ or completion-facing consumer behind the public export surface and the displayed rows $H,C,P,N$, so no quotient stream, host equality, selected limit, hidden tail oracle, ambient completeness principle, or independent route remains available.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail fusion bridged consumer packet]
 \label{thm:regular-cauchy-tail-fusion-bridged-consumer-packet}
 Every completion-facing consumer of an accepted $\RegularCauchyTailFusionUp$ packet
