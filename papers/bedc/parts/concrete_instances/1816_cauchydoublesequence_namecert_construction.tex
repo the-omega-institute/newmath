@@ -203,12 +203,31 @@ Apply real seal non-escape to the final stage. The only real-facing coordinate i
 Since the scoped route contains no coordinate for host convergence, quotient equality, selected limits, or unscoped completeness, those objects cannot be extracted from the packet.
 \end{proof}
 
+\begin{theorem}[CauchyDoubleSequence seal-route determinacy]
+\label{thm:cauchy-double-sequence-seal-route-determinacy}
+Let
+$$
+A=(X,\mu,\tau,D,R,E,H,C,P,N)
+$$
+be an accepted $\CauchyDoubleSequenceUp$ packet. Any two $\RealCauchyCompletionUp$ or $\RealUp$ consumer reads of $A$ that use the same displayed rows $X,\mu,\tau,D,R,E,H,C,P,N$ factor through the same scoped diagonal route of \autoref{def:cauchy-double-sequence-scoped-route} and classify at the same $\RealUp$ seal row $E$. Neither read may use host double-sequence convergence, quotient array equality, selected limits, or unscoped completeness to obtain a different seal classification.
+\end{theorem}
+\begin{proof}
+First apply the scoped diagonal route theorem. It sends each accepted real-completion read through the displayed dependency surface
+$$
+(X,\mu,\tau,H,C,P,N)\longmapsto D\longmapsto R\longmapsto E.
+$$
+
+Next use two-axis seal factorization and completion consumer scope. They identify $D$ as the only diagonal readback, $R$ as the only completion-consumer row after $D$, and $E$ as the only real-facing seal row after $R$.
+
+Finally apply scoped non-escape. Since the packet has no coordinate for host convergence, quotient array equality, selected limits, or unscoped completeness, two reads that start from the same displayed rows cannot leave the route to produce different seal classifications.
+\end{proof}
+
 \closureat{CauchyDoubleSequenceUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyDoubleSequenceUp}
   \constructivestory{A $\CauchyDoubleSequenceUp$ packet is generated from a two-parameter $\RegSeqRatUp$ family, a $\CauchyRateUp$ diagonal schedule, a $\DyadicTailBoundUp$ tolerance row, a diagonal $\RegSeqRatUp$ readback, a $\RealCauchyCompletionUp$ consumer, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ evidence.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:cauchy-double-sequence-scoped-route}, \autoref{thm:cauchy-double-sequence-scoped-diagonal-route}, \autoref{thm:cauchy-double-sequence-cofinal-tail-stability}, and \autoref{thm:cauchy-double-sequence-scoped-nonescape} bind the finite diagonal-array carrier, schedule, tolerance, readback, completion consumer, real seal, transport, continuation, package, and local naming rows as one scoped dependency surface.}
+  \scopeclosed{\autoref{def:cauchy-double-sequence-scoped-route}, \autoref{thm:cauchy-double-sequence-scoped-diagonal-route}, \autoref{thm:cauchy-double-sequence-cofinal-tail-stability}, \autoref{thm:cauchy-double-sequence-scoped-nonescape}, and \autoref{thm:cauchy-double-sequence-seal-route-determinacy} bind the finite diagonal-array carrier, schedule, tolerance, readback, completion consumer, real seal, transport, continuation, package, and local naming rows as one scoped dependency surface with a unique real-facing seal classification.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
