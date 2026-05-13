@@ -89,6 +89,84 @@ The compact row is the coverage coordinate $C$ together with the bundled centers
 The rational fold row is \autoref{thm:uniformmodulus-finite-probebundle-fold}. Repacking these rows with $L$, $Q$, $P$, and $N$ gives exactly the finite local $\NameCert_{\UniformModulusUp}$ surface, and no hidden selector or analytic compactness object is available to the consumer.
 \end{proof}
 
+\begin{theorem}[UniformModulus root compact-continuous threshold]
+\label{thm:uniformmodulus-root-compact-continuous-threshold}
+For an accepted $\UniformModulusUp$ packet
+$$
+U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N),
+$$
+the compact finite-net coverage row $C$ together with the pointwise
+$\ContinuousMapUp$ rows $M$ determine the threshold surface read by a
+compact-continuous consumer. The row $D$ is admitted as that threshold only
+after the finite $\mathsf{ProbeBundle}$ fold $F$ has compared it with the
+displayed positive $\RatUp$ radius rows $R$.
+\end{theorem}
+\begin{proof}
+Use the carrier definition \autoref{def:uniformmodulus-bhist-carrier}. The only
+compact-continuous source rows are the bundle $\mathcal{P}$, radius ledger $R$,
+coverage row $C$, pointwise-modulus rows $M$, and finite fold $F$.
+
+Apply \autoref{thm:uniformmodulus-finite-probebundle-fold} to produce the
+precision row $D$ below the displayed half-radius rows. The fold is finite and
+internal to the $\mathsf{ProbeBundle}$ spine.
+
+The obligation surface of
+\autoref{thm:uniformmodulus-namecert-obligation-surface} then repacks the
+compact, continuous, rational-fold, transport, route, package, and local naming
+rows as the threshold surface. No additional compactness or continuity object is
+needed by the consumer.
+\end{proof}
+
+\begin{theorem}[UniformModulus root net minimum row]
+\label{thm:uniformmodulus-root-net-minimum-row}
+If the fold coordinate $F$ of an accepted $\UniformModulusUp$ packet is supplied
+by a $\FiniteNetMinimumFoldUp$ row over the same finite $\mathsf{ProbeBundle}$
+spine and positive $\RatUp$ radius rows, then $F$ supplies the positive
+precision row $D$ without invoking a host minimum, an ambient finite-set
+operator, or an external selector.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniformmodulus-finite-net-consumer-threshold-package}.
+It identifies a supplying $\FiniteNetMinimumFoldUp$ packet as the source of the
+consumer threshold when the bundle and radius rows agree.
+
+Use \autoref{thm:uniformmodulus-finite-probebundle-fold}. The row $D$ is
+obtained by finite recursion over the displayed $\mathsf{ProbeBundle}$ spine
+and by positive $\RatUp$ comparisons stored in $F$.
+
+Finally apply classifier transport stability from
+\autoref{thm:uniformmodulus-classifier-transport-stability}. Transport preserves
+the same fold row and cannot introduce a host minimum or external selector.
+\end{proof}
+
+\begin{theorem}[UniformModulus root consumer package]
+\label{thm:uniformmodulus-root-consumer-package}
+Every $\UniformModulusUp$ consumer of the compact-continuous threshold factors
+through the displayed $\CompactMetricUp$, $\ContinuousMapUp$, $\MetricUp$,
+$\RatUp$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+rows. The consumer-visible package is exactly
+$$
+E,D,\mathcal{P},R,C,M,F,L,Q,P,N,
+$$
+with no open-cover compactness, host minimum, sequential compactness, or
+external modulus coordinate.
+\end{theorem}
+\begin{proof}
+Read the threshold using
+\autoref{thm:uniformmodulus-root-compact-continuous-threshold}. The compact row
+$C$, continuous rows $M$, finite bundle $\mathcal{P}$, radius rows $R$, and fold
+row $F$ determine the threshold surface.
+
+Apply \autoref{thm:uniformmodulus-root-net-minimum-row} to identify the positive
+$\RatUp$ precision source. The precision is the finite fold output, not a host
+minimum.
+
+Close the consumer route with
+\autoref{thm:uniformmodulus-namecert-obligation-surface}. Its downstream
+boundary forces every read through $L,Q,P,N$, so all compact-continuous
+consumers factor through the displayed BEDC rows and nothing outside them.
+\end{proof}
+
 \begin{theorem}[UniformModulus carrier obligation]
 \label{thm:uniformmodulus-modulus-carrier-obligation}
 For an accepted $\UniformModulusUp$ carrier $U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N)$, carrier admission is exactly the displayed finite $\BHist$ packet of \autoref{def:uniformmodulus-bhist-carrier}. The admitted rows are the positive $\RatUp$ tolerance $E$, the positive $\RatUp$ precision $D$, the nonempty $\mathsf{ProbeBundle}$ finite fold spine $\mathcal{P}$, the $\RatUp$ tolerance and precision rows in $R$, the $\CompactMetricUp$ finite-net row $C$, the $\ContinuousMapUp$ pointwise-modulus rows $M$, the finite rational fold $F$, componentwise $\hsame$ data $L$, displayed $\Cont$ routes $Q$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$.
