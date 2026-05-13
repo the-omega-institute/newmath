@@ -99,6 +99,17 @@ def _record(event: str, candidate: dict[str, Any], source: str, **extra: Any) ->
         "local_inputs": _as_list(candidate.get("local_inputs")),
         "fit_score": candidate.get("fit_score"),
         "novelty": candidate.get("novelty"),
+        "landing_kind": candidate.get("landing_kind"),
+        "tastegate_mode": candidate.get("tastegate_mode"),
+        "carrier_surface": candidate.get("carrier_surface"),
+        "classifier_surface": candidate.get("classifier_surface"),
+        "nontrivial_witness_plan": candidate.get("nontrivial_witness_plan"),
+        "field_faithful_plan": candidate.get("field_faithful_plan"),
+        "structural_atomicity": candidate.get("structural_atomicity"),
+        "falsifiable_prediction": candidate.get("falsifiable_prediction"),
+        "independence_witness": candidate.get("independence_witness"),
+        "ripeness_risk": candidate.get("ripeness_risk"),
+        "conjecture_fallback": candidate.get("conjecture_fallback"),
         **extra,
     }
     with file_lock("candidate_inbox"):
