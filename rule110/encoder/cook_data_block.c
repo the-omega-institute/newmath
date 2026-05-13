@@ -63,7 +63,7 @@ static int cook_data_block_tape_width(const uint8_t *tape_bits,
 
     for (size_t i = 0; i < tape_len; i++) {
         static const int Y_SPACINGS[3] = {18, 18, 14};
-        static const int N_SPACINGS[3] = {28, 10, 14};
+        static const int N_SPACINGS[3] = {18, 10, 14};
         const int *spacings = tape_bits[i] == 0 ? N_SPACINGS : Y_SPACINGS;
         size_t symbol_width = 0;
 
@@ -141,7 +141,7 @@ int cook_data_block_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len,
                                      const uint8_t *tape_bits,
                                      size_t tape_len) {
     static const int Y_SPACINGS[3] = {18, 18, 14};
-    static const int N_SPACINGS[3] = {28, 10, 14};
+    static const int N_SPACINGS[3] = {18, 10, 14};
     size_t c2_len = 0;
     size_t width = 0;
     const char *c2_bits = glider_phase("C2", "A", 1, &c2_len);

@@ -79,7 +79,7 @@ static int round_up_ether_width(size_t in, size_t *out) {
 #define COOK_PREVIEW_OSSIFIER_TO_DATA_PERIODS 96
 #define COOK_PREVIEW_SYMBOL_STRIDE_PERIODS 64
 
-#define COOK_ENCODE_PHASE_LEADER_WIDTH 704
+#define COOK_ENCODE_PHASE_LEADER_WIDTH 1024
 #define COOK_ENCODE_PHASE_OSSIFIER_WIDTH 234
 #define COOK_ENCODE_PHASE_DATA_BLOCK_WIDTH 867
 #define COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH 65536
@@ -148,7 +148,7 @@ typedef struct {
    The phase-exact packet layout places the initial cyclic-tag tape in the
    data band starting at data_pos. Each symbol occupies one data_symbol_stride
    slot and is emitted as a four-C2 packet. Cook Y is encoded by C2 spacings
-   18,18,14 ether tiles; Cook N is encoded by 28,10,14. The output decoder
+   18,18,14 ether tiles; Cook N is encoded by 18,10,14. The output decoder
    searches evolved rows for those C2 spacing packets and reads the largest
    packet band as the visible tape window.
 */
