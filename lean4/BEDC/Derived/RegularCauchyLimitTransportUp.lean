@@ -262,4 +262,35 @@ theorem RegularCauchyLimitTransportCarrier_selected_window_exactness [AskSetup]
     ⟨sourceUnary, windowUnary, observedUnary, dyadicObserved, selectedWindowRoute,
       provenancePkg, certPkg⟩
 
+theorem RegularCauchyLimitTransportCarrier_window_dyadic_seal_triangle [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert observed sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      Cont source window observed ->
+        Cont observed sealRow sealRead ->
+          UnaryHistory observed ∧ UnaryHistory sealRead ∧ hsame dyadic observed ∧
+            hsame routes sealRead ∧ Cont source window observed ∧
+              Cont observed sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectedWindowRoute observedSealRead
+  obtain ⟨sourceUnary, windowUnary, _dyadicUnary, sealUnary, _transportUnary,
+    _routesUnary, _provenanceUnary, _certUnary, storedWindowRoute, dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, _transportMatchesSeal, provenancePkg,
+    certPkg⟩ := carrier
+  have observedUnary : UnaryHistory observed :=
+    unary_cont_closed sourceUnary windowUnary selectedWindowRoute
+  have dyadicObserved : hsame dyadic observed :=
+    cont_respects_hsame (hsame_refl source) (hsame_refl window) storedWindowRoute
+      selectedWindowRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed observedUnary sealUnary observedSealRead
+  have routesSealRead : hsame routes sealRead :=
+    cont_respects_hsame dyadicObserved (hsame_refl sealRow) dyadicSealRoutes observedSealRead
+  exact
+    ⟨observedUnary, sealReadUnary, dyadicObserved, routesSealRead, selectedWindowRoute,
+      observedSealRead, provenancePkg, certPkg⟩
+
 end BEDC.Derived.RegularCauchyLimitTransportUp
