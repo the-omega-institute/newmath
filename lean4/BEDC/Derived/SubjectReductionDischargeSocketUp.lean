@@ -318,4 +318,31 @@ theorem SubjectReductionDischargeSocketCarrier_namecert_obligations :
                 · rfl
                 · rfl
 
+theorem SubjectReductionDischargeSocketPacket_four_row_ledger_exactness [AskSetup]
+    [PackageSetup]
+    {beta appArg lamDomain piDomain transport routes ledger name betaRead lamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubjectReductionDischargeSocketPacket beta appArg lamDomain piDomain transport routes
+        ledger name bundle pkg →
+      Cont beta appArg betaRead →
+        Cont lamDomain piDomain lamRead →
+          UnaryHistory beta ∧ UnaryHistory appArg ∧ UnaryHistory lamDomain ∧
+            UnaryHistory piDomain ∧ UnaryHistory betaRead ∧ UnaryHistory lamRead ∧
+              Cont beta appArg transport ∧ Cont lamDomain piDomain routes ∧
+                Cont transport routes ledger ∧ Cont ledger name beta ∧
+                  Cont beta appArg betaRead ∧ Cont lamDomain piDomain lamRead ∧
+                    PkgSig bundle name pkg := by
+  intro packet betaReadRoute lamReadRoute
+  obtain ⟨betaUnary, appArgUnary, lamDomainUnary, piDomainUnary, _transportUnary,
+    _routesUnary, _ledgerUnary, _nameUnary, betaAppTransport, domainRoute,
+    transportRoutesLedger, ledgerNameBeta, namePkg⟩ := packet
+  have betaReadUnary : UnaryHistory betaRead :=
+    unary_cont_closed betaUnary appArgUnary betaReadRoute
+  have lamReadUnary : UnaryHistory lamRead :=
+    unary_cont_closed lamDomainUnary piDomainUnary lamReadRoute
+  exact
+    ⟨betaUnary, appArgUnary, lamDomainUnary, piDomainUnary, betaReadUnary,
+      lamReadUnary, betaAppTransport, domainRoute, transportRoutesLedger,
+      ledgerNameBeta, betaReadRoute, lamReadRoute, namePkg⟩
+
 end BEDC.Derived.SubjectReductionDischargeSocketUp
