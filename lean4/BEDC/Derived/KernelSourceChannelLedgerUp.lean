@@ -45,6 +45,26 @@ theorem KernelSourceChannelLedgerPacket_namecert_obligations [AskSetup] [Package
     ⟨generatedUnary, stampUnary, acceptedUnary, ancestryUnary, queryUnary, refusalUnary,
       generatedStampAccepted, queryRefusalSeparation, namePkg⟩
 
+theorem KernelSourceChannelLedgerPacket_trace_projection [AskSetup] [PackageSetup]
+    {generated stamp accepted ancestry query refusal trace route separation transport replay
+      provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelSourceChannelLedgerPacket generated stamp accepted ancestry query refusal trace route
+        separation transport replay provenance name bundle pkg ->
+      UnaryHistory trace ∧ UnaryHistory route ∧ UnaryHistory separation ∧
+        UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+          UnaryHistory name ∧ Cont trace route transport ∧ Cont transport replay provenance ∧
+            PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet
+  obtain ⟨_generatedUnary, _stampUnary, _acceptedUnary, _ancestryUnary, _queryUnary,
+    _refusalUnary, traceUnary, routeUnary, separationUnary, transportUnary, replayUnary,
+    provenanceUnary, nameUnary, _generatedStampAccepted, _queryRefusalSeparation,
+    traceRouteTransport, transportReplayProvenance, namePkg⟩ := packet
+  exact
+    ⟨traceUnary, routeUnary, separationUnary, transportUnary, replayUnary, provenanceUnary,
+      nameUnary, traceRouteTransport, transportReplayProvenance, namePkg⟩
+
 theorem KernelSourceChannelLedgerPacket_audit_boundary [AskSetup] [PackageSetup]
     {generated stamp accepted ancestry query refusal trace route separation transport replay
       provenance name auditRead : BHist}

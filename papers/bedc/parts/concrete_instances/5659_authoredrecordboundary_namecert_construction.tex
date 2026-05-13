@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\AuthoredRecordBoundaryUp$}
+\label{ch:concrete-instances-authoredrecordboundary-namecert}
+\origin{ai}
+
+The $\AuthoredRecordBoundaryUp$ surface makes the inscription-event vision of \autoref{ch:visions-inscription-event-as-concrete-instance} into a finite authored-record carrier. It sits after the observer-history identity row of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, the finite prefix scheduling row of \autoref{ch:concrete-instances-countableobservationschedule-namecert}, and the stream naming row of \autoref{ch:concrete-instances-streamname-namecert}. Those siblings supply the public history, schedule, and finite name rows; this chapter records the boundary at which a mismatch notice is accepted as an authored route and then exported as a public record.
+
+\begin{definition}[Authored-record boundary carrier]
+\label{def:authored-record-boundary-carrier}
+An $\AuthoredRecordBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+A=(O,S,M,R,W,F,T,Q,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the observer-history row consumed from $\ObserverHistoryIdentityUp$;
+\item $S$ is the countable finite-prefix schedule row consumed from $\CountableObservationScheduleUp$;
+\item $M$ is the mismatch-notice row that identifies the finite gap between the prior record surface and the proposed authored record;
+\item $R$ is the accepted-route row that binds the mismatch notice to a reusable public record route;
+\item $W$ is the written public-record row;
+\item $F$ is the refusal row excluding bypass reads that skip $M$ or $R$;
+\item $T$ is the transport row for moving $O,S,M,R,W,F$ componentwise through displayed $\hsame$ comparisons;
+\item $Q$ is the route-replay row of displayed $\Cont$ steps from prior record, through mismatch notice and accepted route, to public record;
+\item $V$ is the provenance row naming the source vision, observer-history, schedule, stream-name, closed-observation-system, and inscription-acceptance-budget dependencies;
+\item $H$ records the local handoff to $\ClosedObservationSystemUp$ and $\InscriptionAcceptanceBudgetUp$ consumers;
+\item $C$ records the public consumer routes for authored-record reads;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\ObserverHistoryIdentityUp$, $\CountableObservationScheduleUp$, $\StreamNameUp$, $\ClosedObservationSystemUp$, $\InscriptionAcceptanceBudgetUp$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuthoredRecordBoundaryUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only the displayed prior-record, mismatch-notice, accepted-route, public-record, refusal, transport, route, provenance, handoff, consumer, package, and local naming rows. It has no coordinate for private intention, raw byte authorship, host psychological identity, hidden checker state, or a record route that bypasses $M$ or $R$.
+\end{definition}
+
+\begin{theorem}[Authored-record boundary NameCert obligations]
+\label{thm:authored-record-boundary-namecert-obligations}
+For the carrier of \autoref{def:authored-record-boundary-carrier}, the local $\NameCert_{\AuthoredRecordBoundaryUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure: every accepted packet exposes exactly $A=(O,S,M,R,W,F,T,Q,V,H,C,P,N)$;
+\item mismatch accountability: the public record row $W$ is admitted only after the mismatch-notice row $M$ is displayed against the prior observer-history and schedule rows $O,S$;
+\item accepted-route accountability: every authored-record read passes through the accepted-route row $R$ and the route-replay row $Q$;
+\item refusal stability: the refusal row $F$ is transported by $T$ and remains visible to every consumer route in $C$;
+\item provenance exactness: observer-history, finite schedule, stream-name, closed-observation-system, inscription-acceptance-budget, package, and local naming dependencies are exhausted by $V,H,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:authored-record-boundary-carrier}. The displayed tuple lists the prior record rows, mismatch notice, accepted route, public record, refusal, transport, route replay, provenance, handoff, consumer, package, and local naming rows.
+
+Mismatch accountability reads $M$ beside $O$ and $S$. Since $W$ is not a standalone row but the public record reached after the mismatch and route rows are displayed, an authored-record read cannot begin at the written record alone.
+
+Accepted-route accountability reads $R$ and $Q$. The route row names the accepted articulation, and the continuation row replays the finite path from prior record through mismatch notice to the public record.
+
+Refusal stability is the role of $F$ and $T$. The refusal row records that bypassing $M$ or $R$ is outside the carrier, and transport moves that refusal together with the other displayed rows.
+
+Finally, provenance exactness is obtained by inspecting $V,H,P,N$. These rows name the observer-history, schedule, stream-name, closed-observation-system, inscription-acceptance-budget, package, and local certificate surfaces consumed by the boundary, with no extra source coordinate.
+\end{proof}
+
+\begin{theorem}[Authored-record boundary non-escape]
+\label{thm:authored-record-boundary-nonescape}
+Every public read of an accepted $\AuthoredRecordBoundaryUp$ carrier factors through the finite rows
+$$
+O,S,M,R,W,F,T,Q,V,H,C,P,N.
+$$
+A read that bypasses the mismatch-notice row $M$, bypasses the accepted-route row $R$, imports private intention, treats raw byte equality as authorship, or replaces the displayed provenance rows by a hidden host process has left the accepted carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its public-record coordinate is $W$, but its admission route is the displayed chain through $O,S,M,R,Q$ with refusal, transport, provenance, and consumer rows $F,T,V,H,C,P,N$.
+
+Apply \autoref{thm:authored-record-boundary-namecert-obligations}. The mismatch-accountability and accepted-route clauses force every authored-record read through $M$ and $R$, while the refusal-stability clause records the boundary for bypass attempts.
+
+No coordinate of the packet stores private intention, byte-level authorship, hidden checker state, or a host process trace. Therefore every public read is exhausted by the displayed rows listed above.
+\end{proof}
+
+\begin{theorem}[Authored-record boundary vision handoff]
+\label{thm:authored-record-boundary-vision-handoff}
+The authored-record boundary realizes the inscription-event reading of \autoref{ch:visions-inscription-event-as-concrete-instance} as a finite NameCert packet: prior record rows are supplied by $\ObserverHistoryIdentityUp$ and $\CountableObservationScheduleUp$, finite naming is supplied by $\StreamNameUp$, the closed observation side is bounded by $\ClosedObservationSystemUp$, the accepted-route budget is bounded by $\InscriptionAcceptanceBudgetUp$, and the public authored record is exported only through $M,R,W,F,T,Q,V,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the source vision. Its inscription event requires a prior-record surface, a mismatch or gap notice, an accepted route, and a public named record. These are exactly the $O,S,M,R,W$ coordinates of \autoref{def:authored-record-boundary-carrier}.
+
+The sibling dependencies supply the finite inputs. Observer-history identity gives the public history row, countable observation schedules give finite prefix windows, StreamName gives the nameable stream surface, closed observation systems bound the prior-record side, and inscription-acceptance budgets bound the accepted route and downstream consumer side.
+
+The non-escape theorem \autoref{thm:authored-record-boundary-nonescape} then supplies the handoff boundary. A public authored-record consumer receives only the displayed mismatch, accepted-route, record, refusal, transport, route, provenance, package, and local naming rows.
+\end{proof}
+
+\falsifiablePrediction{A public authored-record read that bypasses the mismatch-notice row or accepted-route row refutes the carrier.}
+
+\independenceWitness{observerhistoryidentity, countableobservationschedule, streamname, closedobservationsystem, inscriptionacceptancebudget: $\AuthoredRecordBoundaryUp$ is not bijective to any listed sibling because it carries the paired mismatch-notice and accepted-route rows together with public-record refusal and authored-record provenance; each sibling lacks at least one of those boundary rows.}
+
+The follow-up Lean TasteGate must provide $\mathsf{Nontrivial}\ \AuthoredRecordBoundaryUp$ and $\mathsf{FieldFaithful}\ \AuthoredRecordBoundaryUp$ instances before the carrier can be promoted beyond the paper-side obligation surface. The expected Lean target is $\mathsf{BEDC.Derived.AuthoredRecordBoundaryUp.AuthoredRecordBoundaryTasteGate\_single\_carrier\_alignment}$.
+
+\closureat{AuthoredRecordBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\AuthoredRecordBoundaryUp}
+  \constructivestory{An $\AuthoredRecordBoundaryUp$ packet is generated from prior observer-history and schedule rows, mismatch notice, accepted route, public record, refusal, componentwise transport, route replay, provenance, handoff, public consumer, package, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:authored-record-boundary-carrier}, \autoref{thm:authored-record-boundary-namecert-obligations}, \autoref{thm:authored-record-boundary-nonescape}, and \autoref{thm:authored-record-boundary-vision-handoff} bind the finite authored-record boundary over observer-history, schedule, stream-name, closed-observation-system, and inscription-acceptance-budget rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, private intention, raw byte authorship, hidden checker state, or authored-record reads that bypass the mismatch-notice and accepted-route rows.}
+  \upgradepath{Obligation closure requires a checked TasteGate carrier together with Nontrivial and FieldFaithful instances for $\AuthoredRecordBoundaryUp$.}
+\end{closurestatus}
