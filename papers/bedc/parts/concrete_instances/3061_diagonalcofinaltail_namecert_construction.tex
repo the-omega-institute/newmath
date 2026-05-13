@@ -218,6 +218,42 @@ The window exhaustion theorem forces every cofinal-tail observation through the 
 Combining these facts leaves no accepted route outside $Q,S,G,D,R,W,H,C,P,N$. The route therefore factors through the displayed packet rows.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail public export]
+\label{thm:diagonal-cofinal-tail-public-export}
+The $\DiagonalCofinalTailUp$ public surface is the single displayed packet
+$$
+T=(Q,S,G,D,R,W,H,C,P,N).
+$$
+It exports the carrier of \autoref{def:diagonal-cofinal-tail-carrier}, the NameCert obligations of \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, seed-window readback, common-window refinement, Real seal handoff, non-escape, the TasteGate single-carrier alignment of \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, hidden-input refusal, and route composition as one consumer-readable $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations. They expose exactly the rows $Q,S,G,D,R,W,H,C,P,N$ and the local naming surface attached to those rows.
+
+Seed-window readback and common-window refinement then give the positive downstream route. They identify the stationary RatUp seed, constant StreamNameUp window, RegSeqRatUp tail readback, DyadicRatCoreUp ledger, and RealUp-facing rows as one finite window surface.
+
+The Real seal handoff and non-escape theorem close the real-facing boundary. The seal is read only through the displayed StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp rows, and no selected limit, quotient-stream equality, unrecorded selector, external equality, or ambient completeness coordinate is present.
+
+Finally apply \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, hidden-input refusal, and route composition. The TasteGate-facing route has one carrier source, refuses inputs outside the tuple, and composes every accepted consumer read through the same displayed packet.
+\end{proof}
+
+\begin{theorem}[Diagonal cofinal-tail public consumer exactness]
+\label{thm:diagonal-cofinal-tail-public-consumer-exactness}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of the public $\DiagonalCofinalTailUp$ surface reads exactly the rows
+$$
+Q,S,G,D,R,W,H,C,P,N
+$$
+of the accepted packet. Such a consumer reads no selected limit, quotient-stream equality, unrecorded selector, external equality, ambient completeness witness, second carrier source, or hidden parameter outside the displayed cofinal-tail tuple.
+\end{theorem}
+\begin{proof}
+Use the public export theorem to fix the only exported surface as $T=(Q,S,G,D,R,W,H,C,P,N)$. The consumer starts from that packet and not from a separate RegSeqRatUp or RealUp parameter source.
+
+Route composition forces every accepted read through the displayed continuation chain. The $\hsame$ transport lock preserves those same rows under componentwise movement and does not add external equality or quotient-stream data.
+
+Apply \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source} and the hidden-input refusal theorem. The later consumer has a single carrier source and any request for an unrecorded selector, selected limit, external equality, ambient completeness witness, second carrier, or hidden parameter is outside the packet.
+
+Therefore the exact consumer surface is precisely the listed tuple and nothing beyond it.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail hsame transport lock]
 \label{thm:diagonal-cofinal-tail-hsame-transport-lock}
 For an accepted $\DiagonalCofinalTailUp$ packet, componentwise $\hsame$ transport preserves the same cofinal-tail packet rows $Q,S,G,D,R,W,H,C,P,N$. In particular, transport along $H$ cannot introduce an external equality identification, a selected limit, quotient-stream equality, or ambient completeness as an additional carrier row or consumer-readable route.
