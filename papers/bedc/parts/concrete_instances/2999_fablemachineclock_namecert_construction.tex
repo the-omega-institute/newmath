@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\FableMachineClockUp$}
+\label{ch:concrete-instances-fablemachineclock-namecert}
+\origin{ai}
+
+The $\FableMachineClockUp$ interface realizes the local-clock reading of the Empty Fable Machine of \autoref{ch:visions-empty-fable-machine}. It is not a shared time stream and not a global order on histories. It packages one finite selector-ledger read as a local step-order packet for a single source $\Hist$ row.
+
+\begin{definition}[FableMachineClock carrier]
+\label{def:fable-machine-clock-carrier}
+A $\FableMachineClockUp$ carrier is a finite $\BHist$ packet
+$$
+K=(H,I,M,S,B,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the source $\Hist$ row whose Empty-fable constructor spine is being read;
+\item $I$ is the finite step-index ledger for that source row, recording only the local order of inspected steps;
+\item $M$ is the selected mark row at each inspected step;
+\item $S$ is the selector witness row exposing the $\mathsf{SelStep}$ data that chooses the displayed mark from the local branch surface;
+\item $B$ is the local clock boundary row, stating that the step ledger belongs only to the source row $H$;
+\item $T$ records componentwise $\hsame$ transports for the source row, step-index ledger, selected marks, selector witnesses, clock boundary, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $H$, $I$, $M$, $S$, $B$, and the local naming row;
+\item $P$ is the $\Pkg$ provenance row naming $\Hist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\hsame$, $\Cont$, $\Pkg$, and the Empty-fable source packets;
+\item $N$ is the local $\NameCert_{\FableMachineClockUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these displayed rows. It has no coordinate for a shared clock, global time, host sequence equality, global chooser function, or ambient temporal order.
+\end{definition}
+
+\begin{theorem}[FableMachineClock NameCert obligations]
+\label{thm:fable-machine-clock-namecert-obligations}
+The local $\NameCert_{\FableMachineClockUp}$ surface for the carrier of \autoref{def:fable-machine-clock-carrier} consists exactly of carrier admission for $K$, source-Hist admission for $H$, step-index admission for $I$, selected-mark admission for $M$, selector-witness admission for $S$, local clock-boundary admission for $B$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ routing through $C$, package provenance through $P$, and the local naming row $N$.
+
+Every obligation is read from finite Empty-fable selector-ledger data and the BEDC $\BHist$, $\Ext$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No obligation introduces a shared clock or a global chooser.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet $K$. The source history, step ledger, selected marks, selector witnesses, local clock boundary, transports, continuations, provenance, and local name are precisely the displayed coordinates of \autoref{def:fable-machine-clock-carrier}.
+
+The Empty-fable data are read through the selector witness row $S$. Each selected mark in $M$ is attached to a displayed $\mathsf{SelStep}$ row, and each such row belongs to the constructor spine of the source $H$.
+
+Transport and continuation are componentwise. The row $T$ moves only the displayed local-clock coordinates, while $C$ records the reads available to consumers. Since the carrier has no shared-clock or chooser coordinate, the local $\NameCert$ row cannot export one.
+\end{proof}
+
+\begin{theorem}[FableMachineClock step-ledger exactness]
+\label{thm:fable-machine-clock-step-ledger-exactness}
+Let $K=(H,I,M,S,B,T,C,P,N)$ be an accepted $\FableMachineClockUp$ carrier. Every local-clock read exported from $K$ is exact: each step index in $I$ is paired with the selected mark row in $M$, that mark is justified by the corresponding selector witness in $S$, and the clock boundary $B$ keeps the step order attached to the single source row $H$.
+
+Thus a downstream consumer receives a finite local step-order packet over $\Hist$, $\Ext$, $\mathsf{Trace}$, $\mathsf{SelStep}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not a host-indexed time stream.
+\end{theorem}
+\begin{proof}
+Begin with the local step ledger $I$. It is a displayed finite row of the carrier, so a consumer can inspect only the indices recorded there.
+
+For each inspected index, read the selected mark from $M$ and the selector witness from $S$. The witness exposes the corresponding Empty-fable branch step and prevents the mark from being treated as the value of an undisplayed selector function.
+
+Finally read the boundary row $B$. It attaches the ledger to the source $H$ and is transported only through $T$ and $C$. Therefore exactness is local to the displayed packet and does not create a shared clock for other histories.
+\end{proof}
+
+\begin{theorem}[FableMachineClock no global clock boundary]
+\label{thm:fable-machine-clock-no-global-clock-boundary}
+Every consumer read of an accepted $\FableMachineClockUp$ carrier factors through $H,I,M,S,B,T,C,P,N$. The packet exports no shared clock, no global time parameter, no host sequence equality, no global chooser function, and no ambient temporal order relating unrelated $\Hist$ rows.
+
+The only clock-facing datum is the finite local step ledger $I$ constrained by the boundary row $B$ for the single source $H$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. Clock-facing information appears only in $I$ and $B$: the former records the finite local order of displayed steps, and the latter states that this order belongs to $H$.
+
+The selected marks and selector witnesses are still local rows. They expose the Empty-fable branch evidence for the inspected steps, but they do not provide a function choosing branches across all histories.
+
+Package provenance and the local naming row repack this same surface for consumers. Since no coordinate names a shared clock, global time, host sequence equality, global chooser, or ambient temporal order, none can be exported through the $\NameCert$ boundary.
+\end{proof}
+
+\begin{theorem}[FableMachineClock downstream handoff]
+\label{thm:fable-machine-clock-downstream-handoff}
+Every downstream Empty-fable, observer-locality, or Hist-time consumer of an accepted $\FableMachineClockUp$ carrier receives exactly the source Hist row $H$, finite step-index ledger $I$, selected mark row $M$, selector witness row $S$, local clock boundary $B$, componentwise transport row $T$, continuation row $C$, package provenance $P$, and local naming row $N$.
+
+The handoff preserves the no-global-clock boundary of \autoref{thm:fable-machine-clock-no-global-clock-boundary}; it gives consumers a finite local step-order packet and no shared clock, global time, host sequence equality, global chooser function, or ambient temporal order.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The downstream packet is obtained by reading the displayed rows $H,I,M,S,B,T,C,P,N$ and no further coordinate.
+
+Apply \autoref{thm:fable-machine-clock-step-ledger-exactness}. It identifies each local step index with a selected mark and a displayed selector witness, all under the local boundary row $B$ for the source history.
+
+Apply \autoref{thm:fable-machine-clock-no-global-clock-boundary}. The consumer can reuse the local step-order packet, but it cannot promote that packet to a shared time axis or a chooser over unrelated histories.
+\end{proof}
+
+\closureat{FableMachineClockUp}{seedStr}
+
+\begin{closurestatus}{\FableMachineClockUp}
+  \constructivestory{A $\FableMachineClockUp$ packet is generated from a source Hist row, finite local step-index ledger, selected mark rows, selector witnesses, local clock boundary, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the carrier, NameCert obligation surface, step-ledger exactness, no-global-clock boundary, and downstream handoff for one finite Empty-fable local-clock packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close shared clocks, global time, host sequence equality, global chooser functions, ambient temporal order, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, step-ledger exactness, local-boundary transport, continuation routing, package provenance, and no-global-clock rows for the displayed packet.}
+\end{closurestatus}
