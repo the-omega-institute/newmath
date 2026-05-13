@@ -8,11 +8,13 @@ LDFLAGS ?=
 EVAL_DIR    := evaluator
 ENCODER_DIR := encoder
 TEST_DIR    := tests
+TOOLS_DIR   := tools
 
 # Only rule110 evaluator ships as a standalone binary (with STANDALONE_MAIN).
 # cyclic_tag and groundcompiler_encoding are libraries compiled into test binaries.
 STANDALONE_BINS := $(EVAL_DIR)/rule110
 ENCODER_BINS    := $(ENCODER_DIR)/generate_r110 $(ENCODER_DIR)/generate_r110_algo
+TOOLS           := $(TOOLS_DIR)/manifest_exhaustiveness_audit
 TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark \
                    $(TEST_DIR)/test_cook_ether $(TEST_DIR)/test_cook_glider_A \
@@ -38,7 +40,7 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_topology_up_audit \
                    $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-scale regen-manifests clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-exhaustiveness test-scale regen-manifests clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Generated manifests (.r110.ct, .algo.r110.ct) are encoder outputs — not in git.
@@ -256,11 +258,18 @@ $(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)
 	    $(ENCODER_DIR)/cook_construction.c \
 	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c
 
-test: $(TESTS) $(R110_GENERATED) $(ALGO_R110_GENERATED) test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard
+$(TOOLS_DIR)/manifest_exhaustiveness_audit: $(TOOLS_DIR)/manifest_exhaustiveness_audit.c $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(ENCODER_DIR) -o $@ \
+	    $(TOOLS_DIR)/manifest_exhaustiveness_audit.c \
+	    $(ENCODER_DIR)/groundcompiler_encoding.c
+
+test: $(TESTS) $(TOOLS) $(R110_GENERATED) $(ALGO_R110_GENERATED) test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard
 	@for t in $(TESTS); do \
 	    echo "== $$t =="; \
 	    ./$$t || exit 1; \
 	done
+	@echo "== $(TOOLS_DIR)/manifest_exhaustiveness_audit =="
+	@./$(TOOLS_DIR)/manifest_exhaustiveness_audit
 	@echo "ALL TESTS PASSED"
 
 test-r110: $(TEST_DIR)/test_r110_round_trip
@@ -281,8 +290,11 @@ test-algo-size-guard: $(ALGO_R110_GENERATED)
 test-collision-audit: $(TEST_DIR)/test_cook_collision_martinez
 	./$(TEST_DIR)/test_cook_collision_martinez --strict
 
+test-exhaustiveness: $(TOOLS_DIR)/manifest_exhaustiveness_audit
+	./$(TOOLS_DIR)/manifest_exhaustiveness_audit --strict
+
 clean:
-	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TESTS) $(SCALE_TESTS)
+	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TOOLS) $(TESTS) $(SCALE_TESTS)
 
 TESTS += $(TEST_DIR)/test_cook_glider_B \
          $(TEST_DIR)/test_cook_glider_C \

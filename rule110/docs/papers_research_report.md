@@ -310,3 +310,25 @@ The theoretical bound says polynomial size/time, not that small finite layouts p
 | Leader emitter uses eight `Ebar` plus four `C2` with uniform local spacings; Cook’s leader semantics are diagrammatic and accept/reject dependent | wrong algorithm for full Cook leader | Cook 2004 Figure 12, lines 1090-1129; Cook 2009 Figures 8-11, lines 759-933 | `rule110/encoder/cook_leader.c` lines 9-14 and 116-193 | **closed by W17** |
 | Ossifier emitter uses two A4 groups, while Cook 2004 states an ossifier consists of four `A4`s converting four `Ē`s into four `C2`s | wrong algorithm for full ossifier | Cook 2004 lines 1147-1155; gap form lines 1224-1227 | `rule110/encoder/cook_ossifier.c` lines 7-13 and 105-127 | **closed by W17** |
 | Cook figure-level alignment data are not fully represented in phase-exact emitters: `N` tape data is `18,10,14` in Cook 2004 but current emitter/decoder use `28,10,14`; acceptor/rejector `A` products and Cook 2009 `k` formulas are absent from fixed leader/ossifier layouts | DISCREPANCY | Cook 2004 Figure 12 and lines 1252-1257; Cook 2009 Figures 6-11, lines 639-933 | `cook_data_block.c` lines 143-144; `cook_decode.c` lines 257-258; `cook_leader.c` lines 20-38; `cook_ossifier.c` lines 8-32 | **open** |
+
+## Part 7: Exhaustiveness audit
+
+`tools/manifest_exhaustiveness_audit.c` audits the finite-witness reading of
+`BEDC.FKernel.Mark.msame_refl` against
+`manifests/mark/msame_refl.enum.ct`.
+
+For this target, `BMark` has exactly two nullary constructors, `b0` and `b1`.
+The enumerator therefore finds two closure instances at depth 3. The manifest
+contains two assertion inputs, decoded as `b0,b0` and `b1,b1` under the
+GroundCompiler event convention.
+
+Result:
+
+```text
+BMark closure enumerated to depth 3: 2 instances
+Manifest case count: 2
+Exhaustiveness: 2/2 (100.0%)
+```
+
+The strict gate is `make test-exhaustiveness`. Default `make test` runs the same
+tool in reporting mode.
