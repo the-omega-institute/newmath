@@ -57,3 +57,20 @@ Finally, the seal and non-escape rows inspect $e,h,c,p,n$. They give the only ro
   \notclaimed{This chapter does not close Lean verification, quotient-stream equality, host real equality, selected ambient limits, countable choice, hidden completeness, or a public standard bridge.}
   \upgradepath{Scoped closure requires Lean encoding of the carrier and checked obligations for cofinal-window coverage, RegSeqRat handoff, RealUp seal routing, ledger provenance, and non-escape.}
 \end{closurestatus}
+
+\begin{definition}[CofinalRegularLimitBudget route-competing windows]
+\label{def:cofinal-regular-limit-budget-route-competing-windows}
+Let $B=(q,w,r,e,h,c,p,n)$ be an accepted $\CofinalRegularLimitBudgetUp$ carrier as in \autoref{def:cofinal-regular-limit-budget-carrier}. A pair of displayed cofinal-window ledgers $w_0,w_1$ is route-competing for $B$ when each $w_i$ is presented as the window row for the same precision request $q$, each presentation is read by the displayed $\Cont$ route $c$ before the same $\RegSeqRatUp$ handoff row $r$ and the same $\RealUp$ seal row $e$, and the presentation uses no rows other than $q,w_i,r,e,h,c,p,n$.
+\end{definition}
+
+\begin{theorem}[CofinalRegularLimitBudget window-route determinacy]
+\label{thm:cofinal-regular-limit-budget-window-route-determinacy}
+Let $B=(q,w,r,e,h,c,p,n)$ be an accepted $\CofinalRegularLimitBudgetUp$ carrier. If $w_0,w_1$ are route-competing cofinal-window ledgers for $B$ in the sense of \autoref{def:cofinal-regular-limit-budget-route-competing-windows}, then the carrier transport ledger $h$ records $\hsame(w_0,w_1)$. Thus, for a fixed precision request $q$, fixed displayed route $c$, fixed $\RegSeqRatUp$ handoff row $r$, and fixed $\RealUp$ seal row $e$, the cofinal-window ledger consumed by the route is determined up to the displayed $\hsame$ transport of the carrier.
+\end{theorem}
+\begin{proof}
+By carrier admission in \autoref{thm:cofinal-regular-limit-budget-namecert-obligations}, every accepted object exposes the finite packet $B=(q,w,r,e,h,c,p,n)$ and nothing outside those displayed rows is part of the local certificate surface. Cofinal-window coverage then says that every precision request consumed by the diagonal route passes through the displayed window ledger before any regular rational handoff is available.
+
+Apply this to the two route-competing presentations $w_0$ and $w_1$. Both are presented for the same request row $q$ and both are consumed by the same continuation row $c$ before the same handoff row $r$. The $\RegSeqRatUp$ handoff obligation requires $r$ to be reached only after the request and cofinal-window rows have been fixed, so the two presentations cannot diverge at or after $r$ by choosing a further window. The $\RealUp$ seal-routing obligation likewise requires $e$ to be reached only through $q,w,r,h,c,p,n$, so the seal cannot introduce an additional cofinal-window coordinate.
+
+It remains only to compare the two displayed window presentations inside the accepted packet. The classifier in \autoref{def:cofinal-regular-limit-budget-carrier} compares the displayed rows $q,w,r,e,h,c,p,n$, and the transport row $h$ is the componentwise $\hsame$ ledger for the request, window, handoff, seal, route, provenance, and local naming rows. Since $w_0$ and $w_1$ share $q,c,r,e,p,n$ and the non-escape row of \autoref{thm:cofinal-regular-limit-budget-namecert-obligations} provides no quotient-stream equality, host real equality, selected limit, hidden completeness row, or unrecorded diagonal stream from which a second route could be read, the only admitted comparison between the two displayed window rows is the window component of $h$. Hence $h$ records $\hsame(w_0,w_1)$.
+\end{proof}
