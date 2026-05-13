@@ -50,6 +50,24 @@ Replay discipline is then forced by $C$ and $R$. The continuation row selects on
 The non-escape clause is inspection of the carrier inventory. Since no coordinate names $P=Q$, $\mathsf{propext}$, host rewrite, or arbitrary context transport, the local naming surface cannot export any of them.
 \end{proof}
 
+\begin{theorem}[PropextTransportBoundary direction determinacy]
+\label{thm:propext-transport-boundary-direction-determinacy}
+For every $\PropextTransportBoundaryUp$ carrier
+$$
+T=(B,D,R,H,C,P,N),
+$$
+any consumer of an implication row in $B$ must first select a direction row in $D$. If two accepted packets agree on $D,H,C,P,N$, then the exposed read is determined directionwise: a forward selection exposes the same $P\Rightarrow Q$ read, and a reverse selection exposes the same $Q\Rightarrow P$ read. No unordered identification of the two implication rows, witness of $P=Q$, invocation of $\mathsf{propext}$, host rewrite, or arbitrary proposition-valued context transport is exported by this agreement.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates from \autoref{def:propext-transport-boundary-carrier}. The implication evidence is stored in $B$, but \autoref{thm:propext-transport-boundary-namecert-obligations} makes each use pass through a chosen row of $D$ before either implication row can be read.
+
+Now compare two accepted packets whose $D,H,C,P,N$ coordinates agree. The common $D$ row fixes whether the consumer asks for the forward or reverse implication read. The common $H$ rows move proposition labels and packet coordinates componentwise, while the common $C$ routes replay the selected request through the displayed continuation surface.
+
+The common provenance row $P$ and local naming row $N$ ensure that this replay is still the same named boundary consumption, not a host-side rewrite. Thus a forward request remains the directed $P\Rightarrow Q$ read, and a reverse request remains the directed $Q\Rightarrow P$ read.
+
+Finally inspect the carrier inventory. Since the packet has no coordinate for unordered proposition equality, $\mathsf{propext}$, host rewrite through $P=Q$, or arbitrary proposition-valued context transport, direction agreement cannot export any of these operations.
+\end{proof}
+
 \begin{theorem}[PropextTransportBoundary non-escape]
 \label{thm:propext-transport-boundary-non-escape}
 For every $\PropextTransportBoundaryUp$ carrier
@@ -99,7 +117,7 @@ Rejection is the complement of this displayed surface. A request requiring $P=Q$
 \begin{closurestatus}{\PropextTransportBoundaryUp}
   \constructivestory{A $\PropextTransportBoundaryUp$ packet is generated from bidirectional implication evidence, chosen direction rows, context-read replacement routes, componentwise $\hsame$ and $\psame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:propext-transport-boundary-carrier}, \autoref{thm:propext-transport-boundary-namecert-obligations}, \autoref{thm:propext-transport-boundary-non-escape}, \autoref{thm:propext-transport-boundary-ledger-exactness}, and \autoref{thm:propext-transport-boundary-tastegate-handoff} bind the finite proposition-stratum replacement carrier, local naming obligations, non-escape boundary, provenance ledger, and gate handoff.}
+  \scopeclosed{\autoref{def:propext-transport-boundary-carrier}, \autoref{thm:propext-transport-boundary-namecert-obligations}, \autoref{thm:propext-transport-boundary-direction-determinacy}, \autoref{thm:propext-transport-boundary-non-escape}, \autoref{thm:propext-transport-boundary-ledger-exactness}, and \autoref{thm:propext-transport-boundary-tastegate-handoff} bind the finite proposition-stratum replacement carrier, local naming obligations, direction determinacy, non-escape boundary, provenance ledger, and gate handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
