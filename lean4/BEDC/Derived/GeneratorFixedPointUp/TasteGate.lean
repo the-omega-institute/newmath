@@ -223,6 +223,8 @@ instance generatorFixedPointChapterTasteGate : ChapterTasteGate GeneratorFixedPo
     intro x y hxy heq
     exact hxy (generatorFixedPointToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate GeneratorFixedPointUp := generatorFixedPointChapterTasteGate
+
 theorem GeneratorFixedPointTasteGate_single_carrier_alignment :
     (∀ h : BHist, generatorFixedPointDecodeBHist (generatorFixedPointEncodeBHist h) = h) ∧
       (∀ x : GeneratorFixedPointUp,
