@@ -148,6 +148,42 @@ The package provenance $P$ and local naming row $N$ then record that projection 
 If the route is not one of the displayed witness routes, \autoref{thm:generator-fixed-point-non-escape} applies. The attempt lacks the required constructor-list witness and is recorded as a $\mathsf{GAP}$ boundary rather than as a fixed-output export.
 \end{proof}
 
+\begin{theorem}[Generator fixed-point TasteGate witness route]
+\label{thm:generator-fixed-point-tastegate-witness-route}
+Every TasteGate-admissible witness read of an accepted $\GeneratorFixedPointUp$ packet factors through the authorized generator row $G$, constructor-list provenance $L$, $\GeneratorClosureUp$ classifier row $Q$, fixed-output witness $W$, displayed output row $O$, componentwise $\hsame$ transport row $H$, $\Cont$ route row $C$, $\Pkg$ provenance row $P$, local $\NameCert_{\GeneratorFixedPointUp}$ row $N$, and the AI-roadmap TasteGate discipline that permits only displayed witness routes.
+\end{theorem}
+\begin{proof}
+Start with the admitted packet row. It exposes only $G,L,Q,W,O,H,C,P,N$, so a TasteGate witness request cannot begin from a host fixed-point theorem or a self-application oracle.
+
+Use the classifier transport row to keep the $\GeneratorClosureUp$ classifier attached to the transported authorized generator and constructor-list provenance. The same transport keeps the fixed-output witness attached to the displayed output and to the listed continuation routes.
+
+Finally apply the witness ledger row. TasteGate-admissible reads are exactly the reads that pass through $W,O,C,P,N$ after the generator and classifier rows have been displayed, so the route is a finite certificate route rather than an ambient generation principle.
+\end{proof}
+
+\begin{theorem}[Generator fixed-point diagonal obstruction scope]
+\label{thm:generator-fixed-point-diagonal-obstruction-scope}
+For an accepted $\GeneratorFixedPointUp$ packet, any diagonal or self-application attempt outside the authorized generator row, constructor-list provenance, $\GeneratorClosureUp$ classifier, fixed-output witness, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, local $\NameCert$ row, and TasteGate witness discipline is a $\mathsf{GAP}$ boundary. It is not a fixed-output witness and cannot be read as a generator fixed point.
+\end{theorem}
+\begin{proof}
+Read the attempted diagonal route through the carrier. If it lacks the displayed constructor-list provenance or classifier row, the source admission row and non-escape theorem already classify the attempt as boundary evidence.
+
+If the attempt carries those rows but lacks the fixed-output witness route, the witness ledger row applies. It permits public witness reads only through $W,O,C,P,N$, so the attempted diagonal has no exported witness coordinate.
+
+The TasteGate witness route then supplies the scope boundary. It admits displayed witness routes and excludes self-application routes that are not already carried by the finite packet.
+\end{proof}
+
+\begin{theorem}[Generator fixed-point audit non-escape ledger]
+\label{thm:generator-fixed-point-audit-nonescape-ledger}
+The public audit ledger for an accepted $\GeneratorFixedPointUp$ packet is exhausted by the authorized generator row, $\GeneratorClosureUp$ classifier row, fixed-output witness, $\hsame$ transport, $\Cont$ routes, $\Pkg$ provenance, local $\NameCert$ row, and the TasteGate witness-route discipline. The ledger exports no unlisted continuation, host fixed-point principle, self-application oracle, or semantic completeness claim.
+\end{theorem}
+\begin{proof}
+First combine the public obligation package with the admitted packet row. Together they make every public read a projection of $G,L,Q,W,O,H,C,P,N$.
+
+Next apply the TasteGate witness route. It identifies the accepted witness route as the displayed generator, classifier, fixed-output, transport, continuation, provenance, and naming surface.
+
+The diagonal obstruction scope handles the remaining cases. Any read outside that surface is a $\mathsf{GAP}$ boundary, so the audit ledger has no coordinate from which to export an unlisted continuation, a host fixed-point principle, a self-application oracle, or semantic completeness.
+\end{proof}
+
 \closureat{GeneratorFixedPointUp}{seedStr}
 
 \begin{closurestatus}{\GeneratorFixedPointUp}
