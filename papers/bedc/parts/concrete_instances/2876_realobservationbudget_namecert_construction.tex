@@ -306,6 +306,22 @@ Use \autoref{thm:real-observation-budget-tastegate-cited-obligation} for the AI-
 Thus the seed-to-obligation boundary has two requirements: the finite row surface must remain exhaustive, and the TasteGate target must resolve. Without both, the paper has readiness data but not an obligation-closure ledger.
 \end{proof}
 
+\begin{theorem}[Real observation budget finite-window ledger resolution]
+\label{thm:real-observation-budget-finite-window-ledger-resolution}
+For an accepted $\RealObservationBudgetUp$ carrier
+$$
+B=(E,W,D,R,S,H,C,P,N),
+$$
+every finite-window ledger read used by a $\RegSeqRatUp$ or $\RealUp$ consumer is resolved by $E,W,D$ together with $H,C,P,N$ before $R$ or $S$ is consumed. No such read may use quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+First read the request and window side. Request totality exposes the finite path from $E$ to $W$ and then to $D$, while window coverage binds every dyadic readback and displayed radius to the windows selected by the unary precision row.
+
+Next use the consumer-facing handoff theorems. The regular-sequence handoff places $R$ downstream of $E,W,D,H,C,P,N$, and the real-seal boundary places $S$ downstream of the same finite route.
+
+Finally apply classifier exactness and non-escape. Classifier exactness confines comparison to the displayed packet rows, and non-escape excludes quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules from the ledger.
+\end{proof}
+
 \begin{theorem}[Real observation budget window-request totalization]
 \label{thm:real-observation-budget-window-request-totalization}
 For an accepted $\RealObservationBudgetUp$ carrier
@@ -352,6 +368,52 @@ First read the local certificate. \autoref{thm:real-observation-budget-namecert-
 Next add classifier and transport exactness. \autoref{thm:real-observation-budget-classifier-exactness} confines classifier comparison to the displayed rows, and \autoref{thm:real-observation-budget-transport-stability} preserves the same rows under componentwise $\hsame$ replay.
 
 Finally combine finite-route coverage with the AI-origin obligation package. \autoref{thm:real-observation-budget-finite-route-coverage} routes each seal read through the finite ledger, and \autoref{thm:real-observation-budget-ai-origin-obligation-package} packages exactly these carrier, classifier, transport, route, provenance, and naming fields before any TasteGate citation is available.
+\end{proof}
+
+\begin{theorem}[Real observation budget TasteGate target consumption]
+\label{thm:real-observation-budget-tastegate-target-consumption}
+Any $\RealObservationBudgetUp$ closure claim beyond seed status must consume a resolving $\ChapterTasteGate$ target named \texttt{BEDC.Derived.RealObservationBudgetUp.taste\_gate}. Until that Lean declaration exists, the chapter exposes only the unformalized finite-row obligation over
+$$
+E,W,D,R,S,H,C,P,N.
+$$
+The paper obligation does not itself supply a checked TasteGate marker, and no downstream $\RealUp$ or $\RegSeqRatUp$ consumer may treat prose, host equality, quotient stream equality, hidden limit selection, ambient completeness, or an unbounded observation schedule as a substitute for that target.
+\end{theorem}
+\begin{proof}
+Read the AI-origin row together with the carrier definition. The chapter declares its origin as AI, and \autoref{def:real-observation-budget-carrier} gives the only carrier packet $B=(E,W,D,R,S,H,C,P,N)$.
+
+Use the TasteGate-visible surface and the ground-compiler alignment theorem. \autoref{thm:real-observation-budget-tastegate-ground-compiler-alignment} says the $\ChapterTasteGate$ read is confined to the displayed rows under ground-compiler event-flow and no-hidden-input discipline.
+
+Finally apply the paper-Lean marker rule. Since no resolving declaration named \texttt{BEDC.Derived.RealObservationBudgetUp.taste\_gate} is present for this site, the paper records an unformalized obligation only; it cannot promote the closure axis or cite a checked TasteGate target.
+\end{proof}
+
+\begin{theorem}[Real observation budget RegSeqRat RealUp consumer factorization]
+\label{thm:real-observation-budget-regseq-real-consumer-factorization}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer admitted by an accepted $\RealObservationBudgetUp$ carrier factors through the finite route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto S
+$$
+with the displayed $\hsame$ row $H$, $\Cont$ row $C$, $\Pkg$ row $P$, and local $\NameCert_{\RealObservationBudgetUp}$ row $N$. The factorization has no read channel for quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+First compose the request and window coverage. \autoref{thm:real-observation-budget-window-request-totalization} and \autoref{thm:real-observation-budget-window-coverage} route each admitted dyadic readback and radius through $E,W,D$.
+
+Next attach the consumer handoff rows. \autoref{thm:real-observation-budget-regseq-handoff} places $\RegSeqRatUp$ consumption at $R$, while \autoref{thm:real-observation-budget-real-seal-boundary} and \autoref{thm:real-observation-budget-seal-ledger-exhaustion} place $\RealUp$ consumption at the seal row $S$.
+
+Transport stability then preserves the same evidence rows. \autoref{thm:real-observation-budget-transport-stability} keeps the componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ data attached to the route.
+
+Finally use non-escape and classifier exactness. \autoref{thm:real-observation-budget-nonescape} and \autoref{thm:real-observation-budget-classifier-exactness} exclude quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules from every admitted consumer read.
+\end{proof}
+
+\begin{theorem}[Real observation budget closure-axis obligation ledger]
+\label{thm:real-observation-budget-closure-axis-obligation-ledger}
+The seed-to-obligation ledger for $\RealObservationBudgetUp$ consists of carrier admission for $B=(E,W,D,R,S,H,C,P,N)$, the local $\NameCert$ obligations, classifier exactness, $\RegSeqRatUp$ and $\RealUp$ consumer factorization, non-escape, and $\ChapterTasteGate$ target consumption. The closure status remains seed-level until the resolving TasteGate target is available and cited through the paper-Lean marker channel.
+\end{theorem}
+\begin{proof}
+Assemble the carrier and local certificate rows from \autoref{def:real-observation-budget-carrier} and \autoref{thm:real-observation-budget-namecert-obligations}. These rows give the finite packet and its local naming obligations.
+
+Add the consumer and classifier obligations. \autoref{thm:real-observation-budget-classifier-exactness} confines comparison to the displayed rows, and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} supplies the finite $\RegSeqRatUp$ and $\RealUp$ route.
+
+Close the paper-side ledger with non-escape and TasteGate target consumption. \autoref{thm:real-observation-budget-nonescape} rules out hidden analytic input, while \autoref{thm:real-observation-budget-tastegate-target-consumption} keeps the closure axis at seed status until the named TasteGate target resolves.
 \end{proof}
 
 \closureat{RealObservationBudgetUp}{seedStr}
