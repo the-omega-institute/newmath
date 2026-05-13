@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\SupplyKindRouterUp$}
+\label{ch:concrete-instances-supply-kind-router-namecert}
+\origin{ai}
+
+The $\SupplyKindRouterUp$ surface is the concrete classifier router for the seven $\mathsf{T}$-supply socket kinds of \autoref{ch:visions-transcendental-supply-taxonomy}. It refines the ledger surfaces by forcing every consumer to pass through one displayed kind row before reading the requested-shape and refusal rows attached to that kind. The router is a finite packet over visible BEDC rows; it does not supply the requested content behind the socket.
+
+\begin{definition}[SupplyKindRouter carrier]
+\label{def:supply-kind-router-carrier}
+A $\SupplyKindRouterUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,K,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\Gap$ socket site at which the requested supply would be consumed;
+\item $K$ is exactly one of the seven supply-kind rows: free-floating induction, unwitnessed witness, extensional identification, causal continuity, inter-history coordination, inscription novelty, or self-reference closure;
+\item $R$ is the requested-shape row for the missing discharge named at $S$;
+\item $A$ is the audit-gate and refusal row attached to the chosen kind $K$;
+\item $H$ records componentwise $\hsame$ transport for the socket site, kind row, requested-shape row, audit-gate row, provenance row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the site, choose the kind row, inspect the requested shape, and return the refusal row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Gap$, the seven supply-kind rows, requested-shape rows, audit gates, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SupplyKindRouterUp}$ row.
+\end{enumerate}
+The carrier exports no row for unrestricted induction, an unseen witness, quotient equality, empirical persistence, shared host history, an inscription source, or truth-total self-validation.
+\end{definition}
+
+\begin{theorem}[SupplyKindRouter NameCert obligations]
+\label{thm:supply-kind-router-namecert-obligations}
+For the carrier of \autoref{def:supply-kind-router-carrier}, the local $\NameCert_{\SupplyKindRouterUp}$ surface consists exactly of carrier admission for
+$$
+U=(S,K,R,A,H,C,P,N),
+$$
+socket-site exposure through $S$, one-kind classifier exposure through $K$, requested-shape accountability through $R$, audit-gate and refusal routing through $A$, componentwise transport through $H$, continuation locality through $C$, package provenance through $P$, local naming through $N$, and non-discharge of the requested supply.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:supply-kind-router-carrier}. The packet exposes the socket site, one supply-kind row, the requested-shape row, the refusal row, transport, continuation, provenance, and local naming data as its complete visible inventory.
+
+The classifier obligation is the row $K$. Since $K$ is required to be exactly one of the seven displayed kinds, every accepted read of the router must first choose that finite row before the requested shape or refusal row is available.
+
+The routing obligations are the rows $A,H,C,P,N$. They preserve the same socket boundary through audit, transport, continuation, provenance, and local naming, and none of those rows contains the requested discharge itself.
+\end{proof}
+
+\begin{theorem}[SupplyKindRouter kind exhaustion]
+\label{thm:supply-kind-router-kind-exhaustion}
+Every accepted $\SupplyKindRouterUp$ packet routes its socket through exactly one of the seven displayed supply kinds before any consumer reads the corresponding requested-shape row or refusal row. The router has no eighth kind, no default catch-all branch, and no route from the socket site $S$ to a ledger read that bypasses the classifier row $K$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $U=(S,K,R,A,H,C,P,N)$. The only kind coordinate is $K$, and the carrier definition restricts that coordinate to the seven rows named in \autoref{sec:transcendental-supply-unified-table}.
+
+Now apply the NameCert obligations of \autoref{thm:supply-kind-router-namecert-obligations}. They place requested-shape accountability and audit refusal downstream of the one-kind classifier exposure, so a consumer cannot reach $R$ or $A$ without passing through $K$.
+
+The absence of hidden branches follows from the carrier inventory. No coordinate names an additional kind, a default route, or a ledger read outside the finite classifier.
+\end{proof}
+
+\begin{theorem}[SupplyKindRouter non-escape]
+\label{thm:supply-kind-router-nonescape}
+Every consumer of an accepted $\SupplyKindRouterUp$ packet reads only
+$$
+S,K,R,A,H,C,P,N.
+$$
+The consumer may learn which one of the seven socket kinds governs the site, which requested shape is being refused, and which audit route records the refusal. It receives no unrestricted induction principle, selected witness, quotient equality, empirical persistence law, shared host history, inscription source, truth-total self-description, hidden source object, or supplied $\mathsf{T}$-content.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligation surface. Together they list the complete router inventory and force every read of the requested-shape and refusal rows through the displayed classifier row.
+
+Use kind exhaustion next. Since the accepted route has exactly one of the seven kinds and no hidden branch, the consumer has no alternate path from the socket site to a ledger read.
+
+Finally inspect the packet coordinates. The rows $H,C,P,N$ transport, replay, cite, and name the same finite route; they do not add the missing supply. Hence all refused objects remain outside the router.
+\end{proof}
+
+\closureat{SupplyKindRouterUp}{seedStr}
+
+\begin{closurestatus}{\SupplyKindRouterUp}
+  \constructivestory{A $\SupplyKindRouterUp$ packet is generated from a $\Gap$ socket site, exactly one of the seven supply-kind rows, a requested-shape row, an audit-gate refusal row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:supply-kind-router-carrier}, \autoref{thm:supply-kind-router-namecert-obligations}, \autoref{thm:supply-kind-router-kind-exhaustion}, and \autoref{thm:supply-kind-router-nonescape} bind the finite classifier router, seven-kind coverage, requested-shape routing, audit refusal, transport, continuation, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, any $\Gap$ discharge, unrestricted induction, hidden witness selection, quotient equality, empirical persistence, inter-history recognition, inscription-source explanation, self-reference closure, or a public standard bridge.}
+  \upgradepath{Obligation closure requires Lean encoding of the router packet and checked theorems for one-kind routing, requested-shape handoff, audit refusal, transport stability, provenance, and non-discharge of the requested supply.}
+\end{closurestatus}
