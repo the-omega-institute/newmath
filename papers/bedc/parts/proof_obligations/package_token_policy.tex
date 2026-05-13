@@ -601,3 +601,42 @@ $$
 \begin{proof}
 The forward implication is \autoref{thm:concrete-package-token-policy-reflects-token-unique}. The reverse implication is \autoref{thm:package-token-policy-from-token-unique}: token-introduction uniqueness supplies the reflection field, and the single constructor of the concrete signature-token relation supplies the soundness field.
 \end{proof}
+
+\begin{proposition}[Empty introduction separates package-token policy from token existence]
+\label{prop:empty-introduction-separates-package-token-policy-from-token-existence}
+Assume that no package token is introduced by $\Pi$:
+$$
+  \forall s,p,\;\neg\,\TokIntro(\Pi,s,p).
+$$
+Then $\PkgTokPol(\Pi)$ holds, but package-wide token totality fails:
+$$
+  \neg\Bigl(\forall s,\;\exists p,\;\TokIntro(\Pi,s,p)\Bigr).
+$$
+Thus the soundness and reflection clauses of $\PkgTokPol(\Pi)$ have no token-existence consequence.
+\end{proposition}
+
+\begin{proof}
+Let $E$ denote the displayed no-introduction hypothesis. We first verify the two fields in \autoref{def:package-token-policy}. For soundness, suppose
+$$
+  \TokIntro(\Pi,s,p),\quad
+  \TokIntro(\Pi,t,q),\quad
+  \hsame(s,t).
+$$
+The first token-introduction premise contradicts $E$ at $s,p$, so the required conclusion $\psame(p,q)$ follows by contradiction elimination. For reflection, suppose
+$$
+  \TokIntro(\Pi,s,p),\quad
+  \TokIntro(\Pi,t,q),\quad
+  \psame(p,q).
+$$
+Again the first token-introduction premise contradicts $E$ at $s,p$, so the required conclusion $\hsame(s,t)$ follows by contradiction elimination. These are exactly the soundness and reflection clauses of $\PkgTokPol(\Pi)$.
+
+It remains to show that token totality fails. If
+$$
+  \forall s,\;\exists p,\;\TokIntro(\Pi,s,p)
+$$
+held, then instantiating it at the empty history $\emp$ would give a token $p$ with $\TokIntro(\Pi,\emp,p)$. This contradicts $E$ at $\emp,p$. Hence
+$$
+  \neg\Bigl(\forall s,\;\exists p,\;\TokIntro(\Pi,s,p)\Bigr).
+$$
+The policy fields therefore classify pairs of already introduced tokens only; they do not manufacture an introduced token for any history.
+\end{proof}

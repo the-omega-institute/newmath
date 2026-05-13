@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalEndpointLedgerUp$}
+\label{ch:concrete-instances-closednormalendpointledger-namecert}
+\origin{ai}
+
+The $\ClosedNormalEndpointLedgerUp$ packet records the endpoint rows consumed by the closed-normal consistency boundary of \autoref{ch:closed-normal-consistency-main-result}. It sits beside the main-result packet of \autoref{ch:concrete-instances-closednormalconsistencymain-namecert}, the normal false-exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, and the closed-normal consistency packet of \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}: those siblings expose the checked theorem and the refusal of full closed consistency, while the present ledger keeps the endpoint rows available as one finite NameCert surface for downstream audit consumers.
+
+\begin{definition}[Closed-normal endpoint-ledger carrier]
+\label{def:closed-normal-endpoint-ledger-carrier}
+A $\ClosedNormalEndpointLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,L,B,F,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the typed-row displaying $\mathsf{HasType}([],t,\mathsf{falseEncoding})$ for the inspected endpoint;
+\item $L$ is the $\mathsf{ClosedAt}(0,t)$ row;
+\item $B$ is the $\mathsf{BetaStrong}(t)$ row;
+\item $F$ is the false-encoding row naming the internal false target read by $T$;
+\item $R$ is the contradiction-route row that consumes $T,L,B,F$ through the closed-normal consistency theorem;
+\item $H$ records componentwise $\hsame$ transport for typing, closedness, beta-strong normality, false encoding, contradiction route, continuation, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $T,L,B,F,R$ without leaving the finite endpoint packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:closed-normal-consistency-main-result}, \autoref{ch:concrete-instances-closednormalconsistencymain-namecert}, \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedNormalEndpointLedgerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for subject reduction, arbitrary closed consistency, unrestricted normalization, host evaluation, quotient conversion, or a route from non-normal closed false proofs to the beta-strong endpoint.
+\end{definition}
+
+\begin{theorem}[Closed-normal endpoint-ledger NameCert obligations]
+\label{thm:closed-normal-endpoint-ledger-namecert-obligations}
+For the carrier of \autoref{def:closed-normal-endpoint-ledger-carrier}, the local $\NameCert_{\ClosedNormalEndpointLedgerUp}$ surface consists exactly of carrier admission for $E=(T,L,B,F,R,H,C,P,N)$, typed-row readback through $T$, $\mathsf{ClosedAt}$ readback through $L$, beta-strong readback through $B$, false-encoding readback through $F$, contradiction-route readback through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ route replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the endpoint carrier first. The rows $T,L,B,F$ are the three hypotheses and target row separated in \autoref{ch:closed-normal-consistency-main-result}: typed at the internal false encoding, closed at the empty context boundary, and already beta-strong.
+
+Read $R$ next. It is the only contradiction route of the packet, and it consumes exactly the displayed endpoint rows rather than an arbitrary closed proof candidate.
+
+Finally inspect $H,C,P,N$. Componentwise transport preserves the endpoint rows, displayed continuations replay them, package provenance ties the ledger to the three sibling certificates, and the local name row registers the same finite surface. Since the carrier has no other coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Closed-normal endpoint-ledger normal boundary]
+\label{thm:closed-normal-endpoint-ledger-normal-boundary}
+Every accepted $\ClosedNormalEndpointLedgerUp$ carrier exports only the closed beta-strong false-endpoint exclusion displayed by $T,L,B,F,R$. A downstream consumer may use the ledger to reject an endpoint already typed at the false encoding, already closed, and already beta-strong, but it obtains no full closed consistency theorem, no subject-reduction transport, and no hidden normalization route from arbitrary closed false proofs.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint rows $T,L,B,F$. They are the exact boundary rows isolated by \autoref{ch:concrete-instances-closednormalconsistencymain-namecert} and \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}; none of them records an arbitrary reduction path.
+
+Apply the contradiction route $R$ only after those rows are present. This matches the normal false-exclusion surface of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}: the route is available at the beta-strong endpoint and not before.
+
+The transport, continuation, provenance, and naming rows $H,C,P,N$ replay that same finite endpoint ledger. Because subject reduction, unrestricted normalization, host evaluation, quotient conversion, and full closed consistency are absent from the carrier, no public consumer can read them from the ledger.
+\end{proof}
+
+\closureat{ClosedNormalEndpointLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalEndpointLedgerUp}
+  \constructivestory{A $\ClosedNormalEndpointLedgerUp$ packet is generated from typed-row, ClosedAt-row, BetaStrong-row, false-encoding row, contradiction-route row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-endpoint-ledger-carrier}, \autoref{thm:closed-normal-endpoint-ledger-namecert-obligations}, and \autoref{thm:closed-normal-endpoint-ledger-normal-boundary} bind the endpoint ledger for closed beta-strong false-exclusion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close full closed consistency, subject reduction, unrestricted normalization, host evaluation, quotient conversion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-row readback, contradiction-route readback, transport, continuation, provenance, naming, and non-escape for the same finite ledger.}
+\end{closurestatus}
