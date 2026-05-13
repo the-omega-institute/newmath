@@ -68,6 +68,46 @@ The continuation row $C$ then replays the same generator-internal read of the di
 Finally $P$ and $N$ repack the transported rows as the same local certificate surface. No new continuation route is introduced, so a boundary attempt remains outside the fixed-point witness.
 \end{proof}
 
+\begin{theorem}[Generator fixed-point admitted packet row]
+\label{thm:generator-fixed-point-admitted-packet-row}
+Every accepted $\GeneratorFixedPointUp$ packet exposes exactly the rows
+$$
+G,L,Q,W,O,H,C,P,N
+$$
+of \autoref{def:generator-fixed-point-carrier}. A public or local read of the packet first projects one of these displayed rows: the authorized generator row $G$, constructor-list provenance $L$, $\GeneratorClosureUp$ classifier row $Q$, fixed-output witness $W$, displayed output row $O$, componentwise $\hsame$ transport row $H$, $\Cont$ route row $C$, $\Pkg$ provenance row $P$, or local $\NameCert_{\GeneratorFixedPointUp}$ row $N$. No accepted packet contains an additional host fixed-point principle, self-application oracle, or unlisted continuation coordinate.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The accepted packet is the finite $\BHist$ tuple displayed there, so admission is projection from the nine named coordinates and not from an ambient fixed-point operator.
+
+The route row $C$ and provenance row $P$ determine how consumers read the tuple. Since every such route is attached to one of the displayed coordinates, any accepted read factors through $G,L,Q,W,O,H,C,P,N$.
+
+The last assertion is the non-escape side of the same inventory. The carrier definition lists no host theorem, oracle, or extra continuation field, and the local naming row $N$ certifies only the displayed packet shape.
+\end{proof}
+
+\begin{theorem}[Generator fixed-point classifier transport row]
+\label{thm:generator-fixed-point-classifier-transport-row}
+Let $F=(G,L,Q,W,O,H,C,P,N)$ and $F'=(G',L',Q',W',O',H',C',P',N')$ be accepted $\GeneratorFixedPointUp$ packets related by componentwise $\hsame$ transport of the displayed generator row, constructor-list provenance, classifier row, fixed-output witness, output row, routes, package provenance, and local naming row. Then the transported packet preserves the $\GeneratorClosureUp$ classifier row and the fixed-output witness route: $Q'$ classifies the transported generator-internal continuation under the transported constructor-list provenance, and $W'$ remains attached to the transported output row $O'$ through the transported $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Use the transport row $H$ of $F$ together with the matching row $H'$ of $F'$. These rows relate the generator, constructor-list provenance, classifier, witness, output, routes, provenance, and naming coordinates component by component.
+
+The classifier part is the transported $Q$ row. Because the constructor-list provenance $L$ is transported with the generator row $G$, the $\GeneratorClosureUp$ classifier reads the same generator-internal boundary after transport.
+
+The fixed-output part is the transported $W$ row. Since the output row $O$ and continuation routes $C$ are transported in the same packet, the witness route remains attached to $O'$ and does not create a separate boundary read.
+\end{proof}
+
+\begin{theorem}[Generator fixed-point witness ledger row]
+\label{thm:generator-fixed-point-witness-ledger-row}
+For every accepted $\GeneratorFixedPointUp$ packet, any public witness read factors through the fixed-output witness row $W$, displayed output row $O$, continuation route row $C$, package provenance row $P$, and local naming row $N$. A read that does not factor through this witness ledger remains a $\mathsf{GAP}$ boundary; in particular, non-witness generator routes and continuations outside the constructor-list provenance are not exported as fixed-output witnesses.
+\end{theorem}
+\begin{proof}
+Read a public witness request through the route row $C$. If the route is a witness route, it must project the displayed witness $W$ together with the displayed output row $O$.
+
+The package provenance $P$ and local naming row $N$ then record that projection as part of the finite certificate surface. Thus a witness consumer receives the same $W,O,C,P,N$ ledger, not an unrecorded fixed-point principle.
+
+If the route is not one of the displayed witness routes, \autoref{thm:generator-fixed-point-non-escape} applies. The attempt lacks the required constructor-list witness and is recorded as a $\mathsf{GAP}$ boundary rather than as a fixed-output export.
+\end{proof}
+
 \closureat{GeneratorFixedPointUp}{seedStr}
 
 \begin{closurestatus}{\GeneratorFixedPointUp}
