@@ -71,15 +71,133 @@ For a type-stratum consumer, project $Q$ and the classifier part of $H$. The rou
 For a proposition-stratum consumer, project $R$ and the implication part of $H$. The route selects one displayed implication direction from the bidirectional datum and composes ordinary proof functions; it never identifies propositions by an equality token. The axiom-purity boundary of \autoref{thm:unwitnessed-existence-closure-axiom-purity-boundary} then rules out any alternate oracle route.
 \end{proof}
 
-\closureat{UnwitnessedExistenceClosureUp}{seedStr}
+\begin{theorem}[UnwitnessedExistenceClosure primitive scope]
+\label{thm:unwitnessed-existence-closure-primitive-scope}
+For an accepted $\UnwitnessedExistenceClosureUp$ carrier $U=(T,Q,R,C,S,L,H,E,P,N)$, the primitive scope is exactly the displayed finite packet: $T,Q,R$ are the three replacement strata, $C$ is the classifier row over those strata, $S$ is the componentwise stability row, $L$ is the non-exportable ledger, $H$ is the replacement handoff, $E$ records $\hsame$ and $\Cont$ transport, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert$ row. The rows bind only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the three replacement surfaces named in \autoref{def:three-axioms-replacement-choice}, \autoref{def:three-axioms-replacement-quot}, and \autoref{def:three-axioms-replacement-propext}.
+\end{theorem}
+\begin{proof}
+Project the carrier. The coordinate list of \autoref{def:unwitnessed-existence-closure-carrier} supplies the term, type, proposition, classifier, stability, ledger, handoff, transport, package, and naming rows directly.
+
+Apply the NameCert obligations. Carrier admission, classifier comparison, stability transport, ledger non-escape, and replacement handoff are all read from those same coordinates, so no primitive outside the listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and replacement-surface rows is introduced.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure ledger refusal]
+\label{thm:unwitnessed-existence-closure-ledger-refusal}
+For every accepted $\UnwitnessedExistenceClosureUp$ carrier, the ledger row $L$ refuses $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$ exactly at the carrier boundary: no coordinate of $U=(T,Q,R,C,S,L,H,E,P,N)$ stores a global choice function, quotient representative selector, proposition equality token obtained from implication equivalence alone, or host axiom output.
+\end{theorem}
+\begin{proof}
+Inspect the positive replacement rows first. The term route exposes $T$, the quotient-facing route exposes $Q$, and the proposition-facing route exposes $R$; each is a displayed replacement surface rather than an oracle output.
+
+Read the administrative rows next. The classifier, stability, handoff, transport, provenance, and naming coordinates preserve or route the displayed replacement data, but none of them stores a global choice function, quotient representative selector, or proposition equality token.
+
+The remaining coordinate is the ledger $L$. By the axiom-purity boundary it names $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$ only as non-exportable rows, so the refusal is exact at the finite carrier boundary.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure scoped boundary package]
+\label{thm:unwitnessed-existence-closure-scoped-boundary-package}
+The carrier definition, NameCert obligation theorem, axiom-purity boundary, effective replacement handoff, primitive-scope theorem, and ledger-refusal theorem jointly bind $\UnwitnessedExistenceClosureUp$ as a scoped finite package over the three replacement strata $T,Q,R$ and the rows $C,S,L,H,E,P,N$.
+
+The package closes only the displayed replacement boundary. It does not close a global choice principle, quotient representatives, proposition extensionality, host axioms, bridge checking, or any consumer route outside the finite $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligation theorem. They expose the ten visible rows and state that carrier admission, classifier comparison, stability, ledger non-escape, and replacement handoff are exhausted by those rows.
+
+Add the axiom-purity boundary and effective replacement handoff. These identify the three allowed consumer routes and exclude the corresponding host-oracle exits.
+
+Finally apply primitive scope and ledger refusal. The primitive-scope theorem fixes the rows as $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and replacement-surface data, while ledger refusal blocks the three forbidden non-constructive closures at the carrier boundary. The resulting package is scoped exactly to the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure replacement surface totality]
+\label{thm:unwitnessed-existence-closure-replacement-surface-totality}
+Every accepted $\UnwitnessedExistenceClosureUp$ carrier read chooses exactly one of the three displayed replacement surfaces: the term surface $T$ for positive existential data, the type surface $Q$ for quotient-facing classifier transport, or the proposition surface $R$ for implication transport. No accepted read lands in a host choice row, a host quotient row, a proposition-extensionality row, or any unlisted oracle coordinate.
+\end{theorem}
+\begin{proof}
+Project an accepted packet $U=(T,Q,R,C,S,L,H,E,P,N)$. Its consumer-facing logical rows are precisely $T$, $Q$, and $R$, while $C$, $S$, $L$, $H$, $E$, $P$, and $N$ only classify, transport, record non-export, route handoff, or store provenance for those rows.
+
+A term request is therefore read from $T$ and the term component of $H$. A quotient or classifier request is read from $Q$ together with $C$ and $S$. A proposition request is read from $R$ and the proposition component of $H$.
+
+The axiom-purity boundary of \autoref{thm:unwitnessed-existence-closure-axiom-purity-boundary} removes every alternate row named by $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. Thus the three displayed replacement surfaces are total for accepted reads and exclusive of host-oracle surfaces.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure stability transport]
+\label{thm:unwitnessed-existence-closure-stability-transport}
+Componentwise $\hsame$ and $\Cont$ transport of an accepted $\UnwitnessedExistenceClosureUp$ packet preserves the term, type, and proposition replacement strata $T,Q,R$, the classifier row $C$, the stability row $S$, the ledger row $L$, the handoff row $H$, and the provenance rows $E,P,N$.
+\end{theorem}
+\begin{proof}
+Use the displayed transport routes stored in $E$. They move each visible carrier coordinate componentwise, so the transported packet has corresponding rows $T,Q,R,C,S,L,H,E,P,N$ with the same row roles.
+
+The classifier row $C$ is preserved because it compares only the transported replacement strata. The stability row $S$ is preserved because its content is exactly the componentwise $\hsame$ and $\Cont$ closure condition for those strata.
+
+The ledger and handoff rows are transported as ledger and handoff rows, not recomputed through host principles. The provenance rows $E,P,N$ record the same finite route, package, and local naming evidence after transport, so no displayed obligation row is lost.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure ledger handoff exhaustion]
+\label{thm:unwitnessed-existence-closure-ledger-handoff-exhaustion}
+The axiom-purity ledger row $L$ and the handoff row $H$ exhaust all downstream reads of an accepted $\UnwitnessedExistenceClosureUp$ packet through the explicit replacement-choice, replacement-quotient, and replacement-propext surfaces. A downstream consumer has no further route to an unwitnessed existential result, a quotient selector, or a proposition equality token.
+\end{theorem}
+\begin{proof}
+Begin with the effective handoff of \autoref{thm:unwitnessed-existence-closure-effective-replacement-handoff}. It sends each downstream consumer to the term recipe, the explicit classifier transport, or the selected implication map.
+
+The ledger row $L$ then blocks the three forbidden exits. It names $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$ only as non-exportable boundaries, and the carrier contains no coordinate storing their host-level outputs.
+
+Combining $H$ with $L$ accounts for every consumer-visible logical read. The remaining rows classify, stabilize, transport, package, or name the same replacement data, so they cannot create an additional downstream oracle route.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure term replacement route]
+\label{thm:unwitnessed-existence-closure-term-replacement-route}
+Let $U=(T,Q,R,C,S,L,H,E,P,N)$ be an accepted $\UnwitnessedExistenceClosureUp$ packet. Every term-stratum read that asks for positive existential data is routed through the displayed row $T$, the handoff row $H$, and the replacement-choice surface of \autoref{def:three-axioms-replacement-choice}. The accepted packet therefore exposes a finite witness recipe and its membership evidence, not a global choice function and not an unwitnessed existential result.
+\end{theorem}
+\begin{proof}
+Project the term row $T$ and the term-facing component of $H$. These rows are part of the carrier inventory, so the consumer can inspect only the displayed recipe, the named membership evidence, and the finite $\hsame$ and $\Cont$ routes stored in $E$.
+
+The replacement-choice surface supplies the allowed route from the positive existential request to a constructed term row. Since $L$ lists $\mathsf{Classical.choice}$ as non-exportable and the carrier contains no choice-function coordinate, the term consumer cannot bypass the displayed route.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure quotient replacement route]
+\label{thm:unwitnessed-existence-closure-quotient-replacement-route}
+Let $U=(T,Q,R,C,S,L,H,E,P,N)$ be an accepted $\UnwitnessedExistenceClosureUp$ packet. Every quotient-facing or classifier-facing read is routed through the displayed row $Q$, the classifier row $C$, the stability row $S$, and the replacement-quotient surface of \autoref{def:three-axioms-replacement-quot}. The route transports classifiers by explicit $\psame$-respecting data and exports no quotient representative selector.
+\end{theorem}
+\begin{proof}
+Project $Q,C,S$ and the quotient-facing component of $H$. The classifier may compare accepted packets only by the displayed replacement rows and the componentwise transports attached to them.
+
+The replacement-quotient surface provides the permitted classifier transport. The ledger row $L$ marks $\mathsf{Quot.sound}$ as non-exportable, and no coordinate of $U$ stores a representative selector. Thus the quotient-facing consumer receives only the explicit transport row and its finite provenance.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure proposition replacement route]
+\label{thm:unwitnessed-existence-closure-proposition-replacement-route}
+Let $U=(T,Q,R,C,S,L,H,E,P,N)$ be an accepted $\UnwitnessedExistenceClosureUp$ packet. Every proposition-stratum read is routed through the displayed row $R$, the proposition-facing component of $H$, and the replacement-propext surface of \autoref{def:three-axioms-replacement-propext}. The route may compose the selected implication maps, but it exports no proposition equality token obtained from bidirectional implication alone.
+\end{theorem}
+\begin{proof}
+Project $R$ and the proposition component of $H$. These rows name the two implication directions and the selected ordinary proof-function route available to a downstream consumer.
+
+The replacement-propext surface permits implication transport, not proposition equality. Since $L$ records $\mathsf{propext}$ as non-exportable and $U$ has no coordinate for an equality token, the proposition-facing read stays inside the displayed implication route.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure TasteGate boundary]
+\label{thm:unwitnessed-existence-closure-tastegate-boundary}
+The $\UnwitnessedExistenceClosureUp$ chapter gate accepts the finite packet only at the displayed replacement and ledger boundary: term reads pass through $T$, quotient and classifier reads pass through $Q,C,S$, proposition reads pass through $R$, and forbidden axiom ancestry is confined to the non-exportable ledger row $L$. A packet missing one of those displayed replacement rows, or asking to export $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$, is outside the gate.
+\end{theorem}
+\leanchecked{BEDC.Derived.UnwitnessedExistenceClosureUp.taste\_gate}
+\begin{proof}
+Read the chapter gate against the carrier coordinates. The accepted surface has exactly the term, quotient, proposition, classifier, stability, ledger, handoff, transport, provenance, and naming rows listed in \autoref{def:unwitnessed-existence-closure-carrier}.
+
+The three replacement-route theorems isolate the only consumer-facing routes. The axiom-purity boundary then prevents a consumer from replacing those routes by a choice function, quotient selector, or proposition-extensionality equality token. The Lean-checked gate records the same carrier-level acceptance boundary for this chapter.
+\end{proof}
+
+\falsifiablePrediction{Deleting any one of $T,Q,R,L$ admits a concrete rejected packet: a term consumer without the replacement-choice recipe, a quotient consumer without explicit classifier transport, a proposition consumer without implication transport, or a ledger consumer that cannot refuse forbidden axiom ancestry.}
+
+\independenceWitness{propexttransportboundary, quotientsoundnessboundary, forbiddenaxiomancestry, axiomqueryledger: no listed sibling is bijective to $\UnwitnessedExistenceClosureUp$ because this carrier stores all three replacement routes together with one non-exportable axiom ledger, while each sibling isolates a single boundary, ancestry, or query surface.}
+
+\closureat{UnwitnessedExistenceClosureUp}{obligationStr}[BEDC.Derived.UnwitnessedExistenceClosureUp.taste\_gate]
 
 \begin{closurestatus}{\UnwitnessedExistenceClosureUp}
   \constructivestory{An $\UnwitnessedExistenceClosureUp$ packet is generated from term, type, and proposition replacement rows, a componentwise classifier, stability transports, an axiom-purity ledger, a replacement handoff row, finite $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier, five-row NameCert obligation surface, axiom-purity boundary, and effective replacement handoff over the three replacement strata of \autoref{ch:visions-three-axioms-one-closure}.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope records the finite carrier, five-row NameCert surface, the three separate replacement-route obligations, the TasteGate boundary, and axiom-purity non-escape over the three replacement strata of \autoref{ch:visions-three-axioms-one-closure}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.UnwitnessedExistenceClosureUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean implementation, bridge checking, a global choice principle, quotient representatives, proposition extensionality, or any host axiom.}
-  \upgradepath{Scoped closure requires checked carrier admission, classifier transport, stability, ledger non-escape, and replacement handoff rows for the finite packet.}
+  \notclaimed{This chapter does not close bridge checking, a global choice principle, quotient representatives, proposition extensionality, host axioms, or the full scoped NameCert implementation.}
+  \upgradepath{Scoped closure requires checked carrier admission, classifier transport, stability, ledger non-escape, and replacement handoff rows beyond the chapter gate.}
 \end{closurestatus}

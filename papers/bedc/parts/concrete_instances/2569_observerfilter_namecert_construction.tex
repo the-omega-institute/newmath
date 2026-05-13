@@ -4,6 +4,8 @@
 
 The $\ObserverFilterUp$ surface packages observer-history identity as a finite selection of $\BHist$ rows together with a ledger for everything the observer does not export. It is a reusable filter carrier: an observer may retain a finite subhistory for downstream naming, while the omitted rows remain visible as a boundary ledger rather than disappearing into host equality, quotient identity, or an unrecorded subject parameter.
 
+The filter consumes observer-history identity through \autoref{ch:concrete-instances-observerhistoryidentity-namecert} and hands selected rows to the StreamName surface of \autoref{ch:concrete-instances-streamname-namecert}; the omitted-row ledger remains a boundary certificate rather than stream data.
+
 \begin{definition}[ObserverFilter BHist carrier]
 \label{def:observer-filter-bhist-carrier}
 An $\ObserverFilterUp$ carrier is a finite $\BHist$ packet
@@ -100,3 +102,14 @@ The induction hypothesis accounts for the preceding source rows. The two filter-
 \end{proof}
 
 \closureat{ObserverFilterUp}{seedStr}
+
+\begin{closurestatus}{\ObserverFilterUp}
+  \constructivestory{An $\ObserverFilterUp$ packet is generated from a source BHist row, selected subhistory row, omitted-row ledger, componentwise hsame transports, observer ledger, displayed Cont routes, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-filter-bhist-carrier}, \autoref{thm:observer-filter-namecert-obligations}, \autoref{thm:observer-filter-identity-stability}, \autoref{thm:observer-filter-streamname-handoff}, \autoref{thm:observer-filter-observer-history-factorization}, and \autoref{thm:observer-filter-ledger-exactness} specify the BHist filter carrier, selected and omitted ledgers, hsame transport, Cont route, Pkg provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close hidden observer state, quotient identity, unledgered deletion, Lean verification, or bridge checking for $\ObserverFilterUp$.}
+  \upgradepath{Obligation closure requires carrier admission, identity stability, StreamName handoff, ObserverHistoryIdentity factorization, and ledger exactness over the displayed finite rows.}
+\end{closurestatus}

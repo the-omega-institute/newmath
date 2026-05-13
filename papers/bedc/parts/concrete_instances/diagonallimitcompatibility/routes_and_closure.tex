@@ -238,6 +238,36 @@ coordinate, $Q$ is the exact regular-rational readback for the displayed
 compatibility route.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility uniform-window Real seal pullback]
+\label{thm:diagonal-limit-compatibility-uniform-window-real-seal-pullback}
+Let
+$$
+K=(R,T,S_D,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet and let
+$$
+U=(F,M,T_U,R_U,S,E,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\UniformLimitUp$ packet. Suppose the two packets share the displayed $\StreamNameUp$ finite-window row of \autoref{ch:concrete-instances-streamname-namecert} and the displayed $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}. Then every consumer common to the $\RealUp$ and completion-facing routes of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-uniformlimit-namecert} factors through the finite pullback surface made of the diagonal rows
+$$
+R,T,D,W,Q,L,H,C,P,N
+$$
+and the uniform-limit rows
+$$
+F,M,T_U,R_U,S,E,H_U,C_U,P_U,N_U.
+$$
+The pullback exports only the common finite window, regular readback, seal rows, displayed $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient stream, pointwise-only limit, selected host limit, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the diagonal side. Source-route exactness fixes the diagonal rows $R,T,D,W$ before the displayed seal route can be consumed, and regular readback exactness identifies $Q$ as the readback from the same $T,D,W$ rows.
+
+Next read the uniform-limit side. The seal factorization for $\UniformLimitUp$ routes $F,M,T_U$ through the regular handoff $R_U$, the seal row $S$, the endpoint row $E$, and the displayed support rows $H_U,C_U,P_U,N_U$.
+
+The shared-window and shared-readback hypotheses identify the two consumer surfaces at the common $\StreamNameUp$ and $\RegSeqRatUp$ rows. Pulling back along those rows leaves a finite $\BHist$ surface whose coordinates are exactly the displayed diagonal and uniform-limit rows.
+
+Finally apply the non-escape clauses on both chapters. The diagonal packet has no coordinate for a quotient stream, selected host limit, host real equality, or ambient completeness theorem, and the uniform-limit packet has no coordinate for a pointwise-only limit or selected host limit. Therefore any common Real or Completion consumer factors through the stated pullback surface and nowhere else.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility completion consumer nonescape]
 \label{thm:diagonal-limit-compatibility-completion-consumer-nonescape}
 Every completion-facing or $\RealUp$ consumer of an accepted

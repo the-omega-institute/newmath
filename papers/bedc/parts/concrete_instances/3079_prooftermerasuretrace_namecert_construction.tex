@@ -107,15 +107,88 @@ Apply \autoref{thm:proofterm-erasure-trace-namecert-obligations}. Carrier admiss
 Therefore the downstream ledger is exhausted by the displayed rows. Any requested host conversion, quotient equality, semantic erasure theorem, proof irrelevance principle, or hidden proof evidence is outside the accepted public-row surface.
 \end{proof}
 
-\closureat{ProofTermErasureTraceUp}{seedStr}
+\begin{theorem}[Proof-term erasure trace proof-row obligation]
+\label{thm:proofterm-erasure-trace-proof-row-obligation}
+For any accepted $\ProofTermErasureTraceUp$ packet
+$$
+Z=(p,e,T,E,R,H,C,P,N),
+$$
+the proof-term row $p$ remains a displayed carrier coordinate. It may be used
+as the source of the typing $\Ext$ row $T$, the erasure $\Cont$ route $E$, and
+the subject-reduction compatibility row $R$, but it is not exported after
+erasure as proof irrelevance, host conversion, semantic erasure correctness,
+or hidden erased evidence outside $Z$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:proofterm-erasure-trace-carrier}. The row $p$ is one of the
+displayed coordinates, and the rows $T,E,R,H,C,P,N$ record exactly how it is
+typed, erased, transported, replayed, and named.
+
+Apply \autoref{thm:proofterm-erasure-trace-namecert-obligations}. Carrier
+admission keeps $p$ in the finite tuple, while erased-term non-escape excludes
+proof irrelevance, host conversion, semantic erasure correctness, and hidden
+proof evidence from the exported surface.
+
+Now use \autoref{thm:proofterm-erasure-trace-typed-reduction-boundary} and
+\autoref{thm:proofterm-erasure-trace-erasure-route-replay}. These results show
+that the proof row is consumed only through the typing, erasure, and
+subject-reduction rows already displayed in the packet.
+
+Finally combine
+\autoref{thm:proofterm-erasure-trace-ext-membership-factorization} with
+\autoref{thm:proofterm-erasure-trace-public-row-ledger-exhaustion}. Public
+membership and downstream ledger reads have no additional proof-evidence
+coordinate beyond the displayed row $p$ and its local routes.
+\end{proof}
+
+\begin{theorem}[Proof-term erasure trace erasure membership lock]
+\label{thm:proofterm-erasure-trace-erasure-membership-lock}
+For any accepted $\ProofTermErasureTraceUp$ packet
+$$
+Z=(p,e,T,E,R,H,C,P,N),
+$$
+every public membership read of the erased row $e$ factors through the
+displayed $\Ext$ row $T$, the erasure $\Cont$ route $E$, the
+subject-reduction row $R$, and the local rows $H,C,P,N$. The read cannot be
+certified by host conversion, quotient term equality, proof irrelevance,
+semantic erasure correctness, or an erased proof witness outside the packet.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The erased row $e$ is displayed together
+with the typing row $T$, erasure route $E$, subject-reduction row $R$, and
+local rows $H,C,P,N$; no separate host membership coordinate is present.
+
+Apply \autoref{thm:proofterm-erasure-trace-namecert-obligations}. Its
+$\Ext$ membership-preservation and subject-reduction compatibility rows bind
+the erased public read to $T$, $E$, and $R$.
+
+Next apply
+\autoref{thm:proofterm-erasure-trace-ext-membership-factorization} and
+\autoref{thm:proofterm-erasure-trace-erasure-route-replay}. Membership of $e$
+is read through the displayed typing row and replayed along the displayed
+erasure route, with $H$ and $C$ supplying only componentwise transport and
+continuation replay.
+
+Finally use
+\autoref{thm:proofterm-erasure-trace-typed-reduction-boundary} and
+\autoref{thm:proofterm-erasure-trace-public-row-ledger-exhaustion}. The
+public ledger is exhausted by $p,e,T,E,R,H,C,P,N$, so no host conversion,
+quotient equality, proof irrelevance, semantic erasure theorem, or erased
+proof witness can certify membership of $e$ outside the packet.
+\end{proof}
+
+\closureat{ProofTermErasureTraceUp}{obligationStr}[BEDC.Derived.ProofTermErasureTraceUp.ProofTermErasureTraceTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ProofTermErasureTraceUp}
   \constructivestory{A $\ProofTermErasureTraceUp$ packet is generated from proof-term and erased-term rows, a typing Ext row, an erasure Cont route, a subject-reduction compatibility row, componentwise hsame transports, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier and five local obligations for proof-term erasure traces as classifier-membership preservation through erasure.}
-  \formalstatus{\unformalizedV}
+  \leanchecked{BEDC.Derived.ProofTermErasureTraceUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:proofterm-erasure-trace-carrier}, the TasteGate alignment marker, \autoref{thm:proofterm-erasure-trace-namecert-obligations}, \autoref{thm:proofterm-erasure-trace-typed-reduction-boundary}, \autoref{thm:proofterm-erasure-trace-ext-membership-factorization}, \autoref{thm:proofterm-erasure-trace-erasure-route-replay}, \autoref{thm:proofterm-erasure-trace-public-row-ledger-exhaustion}, \autoref{thm:proofterm-erasure-trace-proof-row-obligation}, and \autoref{thm:proofterm-erasure-trace-erasure-membership-lock} bind the carrier, TasteGate alignment, NameCert obligations, typed-reduction boundary, Ext membership factorization, erasure-route replay, public-row ledger exhaustion, proof-row obligation, and erasure membership lock as the obligation surface.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.ProofTermErasureTraceUp.ProofTermErasureTraceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close host conversion, quotient term equality, normalization oracles, proof irrelevance, or semantic erasure correctness outside the displayed finite packet.}
-  \upgradepath{Obligation closure requires a Lean carrier encoding and checked local NameCert obligation theorem for the displayed erasure trace rows.}
+  \upgradepath{Scoped closure requires checked local NameCert obligation rows for the displayed erasure trace packet.}
 \end{closurestatus}

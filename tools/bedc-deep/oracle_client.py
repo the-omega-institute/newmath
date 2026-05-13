@@ -43,6 +43,7 @@ import codex_track  # v2 codex track
 import board_spawn  # v2 BOARD spawn gate
 import board_archive
 import candidate_inbox
+import logic_packet_gate
 from locks import file_lock
 
 
@@ -53,6 +54,8 @@ WRITE_LATEX_PROMPT_PATH = SCRIPT_DIR / "prompts" / "write_paper_latex.txt"
 DEFAULT_SAFETY_NET_TURNS = 3
 DEFAULT_WALL_CLOCK_HOURS = 12
 DEFAULT_LOW_PROGRESS_THRESHOLD = 1
+CLIENT_ZERO_EXTRACTION_HANG_SECONDS = 900
+CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 
 
 def http_post(url: str, data: dict, timeout: int = 30) -> dict:
@@ -74,6 +77,47 @@ def server_status(server_url: str) -> dict:
     return http_get(f"{server_url}/status", timeout=5)
 
 
+def _safe_int(value, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _infer_zero_extraction_hang(status: dict) -> dict:
+    """Backfill zero-extraction hang diagnosis for older oracle servers."""
+    if status.get("zero_extraction_hang_agents"):
+        return status
+    pending = status.get("agents") or {}
+    recent = status.get("recent_agents") or {}
+    hung: list[str] = []
+    for aid in pending:
+        rec = recent.get(aid) or {}
+        if rec.get("event") != "heartbeat" or not rec.get("recent", False):
+            continue
+        metrics = rec.get("metrics") or {}
+        if metrics.get("generating") is not True:
+            continue
+        elapsed = _safe_int(metrics.get("elapsed_seconds"))
+        extracted = _safe_int(metrics.get("extracted_chars"))
+        page_chars = _safe_int(metrics.get("page_chars"))
+        if (
+            elapsed >= CLIENT_ZERO_EXTRACTION_HANG_SECONDS
+            and extracted == 0
+            and page_chars >= CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS
+        ):
+            hung.append(str(aid))
+    if not hung:
+        return status
+    out = dict(status)
+    out["zero_extraction_hang_agents"] = hung
+    out.setdefault("zero_extraction_hang_seconds", CLIENT_ZERO_EXTRACTION_HANG_SECONDS)
+    out.setdefault("zero_extraction_min_page_chars", CLIENT_ZERO_EXTRACTION_MIN_PAGE_CHARS)
+    if out.get("diagnosis") == "agent_busy":
+        out["diagnosis"] = "agent_busy_zero_extraction_hang"
+    return out
+
+
 def status_line(status: dict) -> str:
     recent = status.get("active_recent_agents") or []
     zero_hang = status.get("zero_extraction_hang_agents") or []
@@ -86,9 +130,20 @@ def status_line(status: dict) -> str:
     )
 
 
+def zero_extraction_url_tails(status: dict) -> list[str]:
+    tails: list[str] = []
+    for agent_id in status.get("zero_extraction_hang_agents") or []:
+        rec = (status.get("recent_agents") or {}).get(str(agent_id)) or {}
+        metrics = rec.get("metrics") or {}
+        tail = str(metrics.get("url_tail") or "").strip()
+        if tail:
+            tails.append(tail)
+    return tails
+
+
 def print_status_hint(server_url: str) -> dict:
     try:
-        status = server_status(server_url)
+        status = _infer_zero_extraction_hang(server_status(server_url))
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         raise SystemExit(
             f"oracle server is not reachable at {server_url}; "
@@ -111,10 +166,13 @@ def print_status_hint(server_url: str) -> dict:
     elif status.get("diagnosis") == "agent_busy_zero_extraction_hang":
         agents = ", ".join(map(str, status.get("zero_extraction_hang_agents") or []))
         seconds = status.get("zero_extraction_hang_seconds", "?")
+        url_tails = zero_extraction_url_tails(status)
         print(
             f"[status] {agents or 'an agent'} is generating but has extracted 0 chars for >= {seconds}s.",
             flush=True,
         )
+        if url_tails:
+            print(f"[status] affected URL tail(s): {', '.join(url_tails)}", flush=True)
         print("[status] refresh only the affected ChatGPT tab, then let the queued/pending task resume.", flush=True)
     return status
 
@@ -306,6 +364,21 @@ def save_cursor(target: BedcTarget, cursor: dict) -> None:
 
 DEFAULT_CANDIDATE_FIT_THRESHOLD = 7
 DEFAULT_CANDIDATE_NOVELTY_THRESHOLD = 6
+LOGIC_PACKET_FIELDS = (
+    "axiom_budget",
+    "strength_level",
+    "budget_reason",
+    "witness_extractor",
+    "existence_mode",
+    "cut_rank",
+    "elimination_plan",
+    "equality_kind",
+    "interpretation_kind",
+    "resource_trace",
+    "dependency_trace",
+    "rate_modulus_surface",
+    "oracle_mode",
+)
 
 
 def existing_target_ids() -> list[str]:
@@ -321,7 +394,7 @@ def next_target_id() -> str:
 
 def render_candidate_entry(target_id: str, candidate: dict) -> str:
     title = candidate.get("title", "(untitled)")
-    claim = candidate.get("concrete_claim", "")
+    claim = candidate.get("claim") or candidate.get("concrete_claim") or ""
     inputs = candidate.get("local_inputs") or []
     rationale = candidate.get("rationale", "")
     fit = candidate.get("fit_score", "?")
@@ -330,6 +403,14 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
     chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (none provided)"
     worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
+    logic_lines = []
+    for key in LOGIC_PACKET_FIELDS:
+        value = str(candidate.get(key) or "").strip()
+        if value:
+            logic_lines.append(f"- `{key}`: {value}")
+    logic_block = ""
+    if logic_lines:
+        logic_block = "\nLogic packet discipline:\n" + "\n".join(logic_lines) + "\n"
     return (
         f"\n### {target_id} - {title}\n\n"
         f"| field | value |\n"
@@ -346,8 +427,16 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
         f"Problem:\n{claim}\n\n"
         f"Local inputs:\n{inputs_block}\n\n"
         f"{worthiness_block}"
+        f"{logic_block}"
         f"Rationale:\n{rationale}\n\n---\n"
     )
+
+
+def _logic_packet_rejection(candidate: dict) -> str:
+    result = logic_packet_gate.validate_logic_packet(candidate)
+    if result.ok:
+        return ""
+    return "logic_packet_gate:" + ";".join(result.reasons)
 
 
 def append_candidates_to_board(
@@ -381,6 +470,10 @@ def append_candidates_to_board(
                 continue
             if fit < fit_threshold or nov < novelty_threshold:
                 late_rejections.append({**cand, "reason": f"below_threshold fit={fit} nov={nov}"})
+                continue
+            logic_rejection = _logic_packet_rejection(cand)
+            if logic_rejection:
+                late_rejections.append({**cand, "reason": logic_rejection})
                 continue
             title = cand.get("title", "").strip()
             if not title:
@@ -913,6 +1006,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "compile_errors": list(getattr(result, "compile_errors", None) or []),
                 "error": result.error,
                 "closure_candidate": getattr(result, "closure_candidate", None) or {},
+                "logic_audit": getattr(result, "logic_audit", None) or {},
             }
             stage2_attempts.append(attempt_record)
             if result.appended and result.compile_ok:
@@ -1023,6 +1117,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "rejection_reasons": last.get("rejection_reasons", []),
                 "error": last.get("error", ""),
                 "closure_candidate": last.get("closure_candidate", {}),
+                "logic_audit": last.get("logic_audit", {}),
                 "attempts": stage2_attempts,
             }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))

@@ -77,12 +77,12 @@ L=(B,A,LD,PD,R,H,C,P,N).
 $$
 The projection admits the beta-substitution, application-argument, lambda-domain, Pi-domain, route, transport, continuation, provenance, and local naming rows as one displayed ledger packet; it does not expose a closed subject-reduction theorem, host conversion row, hidden substitution theorem, or erased derivation semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionDischargeLedgerTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Use the carrier definition and the non-escape theorem. They identify the ledger with the displayed tuple and exclude every closed or host-side principle from the accepted packet.
 
 The TasteGate-facing projection can therefore read the ledger only as $L$. Splitting the read into an unrecorded preservation theorem or adding a host conversion coordinate would require a field outside $B,A,LD,PD,R,H,C,P,N$, which the carrier does not contain.
 \end{proof}
-
 \begin{theorem}[SubjectReductionDischargeLedger field-faithful surface]
 \label{thm:subject-reduction-discharge-ledger-field-faithful-surface}
 The field-faithful row for a future $\SubjectReductionDischargeLedgerUp$ TasteGate must separate the displayed fields $B,A,LD,PD,R,H,C,P,N$. A consumer that preserves the ledger must preserve beta-substitution exposure, application-argument stability, lambda-domain subject-reduction exposure, Pi-domain subject-reduction exposure, the $\SubjectReductionUp$ route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming as distinct public rows.
@@ -143,6 +143,24 @@ Read $P$ and $N$ from the carrier definition. The package row names the finite p
 Apply \autoref{thm:subject-reduction-discharge-ledger-obligations}. The obligation surface already accounts for the four preservation rows, route row, transport row, continuation row, package row, and name row.
 
 Use the handoff theorem and non-escape theorem to close the provenance boundary. Since all downstream reads factor through the same displayed packet, $P$ and $N$ authenticate the finite ledger without creating a closed subject-reduction theorem or any excluded host-side principle.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeLedger route exhaustion]
+\label{thm:subject-reduction-discharge-ledger-route-exhaustion}
+Every accepted $\SubjectReductionDischargeLedgerUp$ carrier whose public rows are
+$$
+B,A,LD,PD,R,H,C,P,N
+$$
+routes $\SubjectReductionUp$ consumption only through the four obligation rows $B,A,LD,PD$ and the route row $R$. The rows $H,C,P,N$ may transport, replay, authenticate, and name the same finite route, but they cannot create closed subject reduction, host conversion, hidden substitution preservation, erased derivation semantics, quotient equality, or a fifth preservation premise.
+\end{theorem}
+\begin{proof}
+Project the displayed tuple from \autoref{def:subject-reduction-discharge-ledger-carrier}. Its only preservation coordinates are $B,A,LD,PD$, and its only $\SubjectReductionUp$ consumer coordinate is $R$.
+
+Apply \autoref{thm:subject-reduction-discharge-ledger-obligations} and \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff}. These identify $R$ as the row that consumes exactly the four obligation rows and account for the handoff through the local certificate surface.
+
+It remains to exhaust the structural rows. The non-escape theorem \autoref{thm:subject-reduction-discharge-ledger-nonescape} confines every downstream read to the displayed packet, while \autoref{thm:subject-reduction-discharge-ledger-provenance-exactness} makes $P$ and $N$ exact provenance and naming rows for that same packet.
+
+Thus $H,C,P,N$ can only transport, replay, authenticate, and name the finite route already determined by $B,A,LD,PD,R$. None of those rows supplies an additional preservation premise or any of the excluded closed or host-side principles.
 \end{proof}
 
 \closureat{SubjectReductionDischargeLedgerUp}{seedStr}
