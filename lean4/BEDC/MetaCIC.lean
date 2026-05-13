@@ -21,7 +21,6 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.SubjectReduction.ClosedDischarge
 import BEDC.MetaCIC.SubjectReduction.ClosedBinderDischarge
 import BEDC.MetaCIC.SubjectReduction.DischargeBundle
-import BEDC.MetaCIC.SubjectReduction.ClosedConsistencyFromBundle
 import BEDC.MetaCIC.Normalization
 import BEDC.MetaCIC.Consistency
 import BEDC.MetaCIC.Evaluation.EvalClosed
