@@ -174,6 +174,56 @@ Now attach the located completion route. \autoref{thm:located-modulus-completion
 Finally apply \autoref{thm:located-modulus-completion-classifier-ledger-seal}. It preserves the same modulus and limit-seal ledger under classifier transport, so the combined route has no coordinate for quotient streams, selected host limits, ambient completeness, host equality, or an unbounded schedule.
 \end{proof}
 
+\begin{theorem}[LocatedModulusCompletion real observation-budget route]
+\label{thm:located-modulus-completion-real-observation-budget-route}
+Let $L=(R,Q,M,S,E,H,C,P,N)$ be an accepted $\LocatedModulusCompletionUp$ carrier, and let
+$$
+B=(E_0,W,D,R_0,S_0,H_0,C_0,P_0,N_0)
+$$
+be an accepted $\RealObservationBudgetUp$ packet whose regular-sequence row $R_0$ and $\RealUp$ seal row $S_0$ agree with the displayed rows $R$ and $Q$ of $L$. Then every $\RealUp$ or $\LocatedRealUp$ read of $L$ first factors through the accepted observation-budget rows
+$$
+E_0,W,D,R_0,S_0
+$$
+and only then through the displayed modulus row $M$ and limit-seal row $S$ before reaching $Q$ or $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:located-modulus-completion-carrier}. The only consumer-facing rows are the $\RealUp$ seal row $Q$ and the $\LocatedRealUp$ evidence row $E$, and both are attached to the same displayed packet $R,M,S,H,C,P,N$.
+
+Apply \autoref{thm:located-modulus-completion-observation-budget-handoff}. It routes every real or located-real consumer through the accepted budget packet $E_0,W,D,R_0,S_0$ before the located-modulus rows are read.
+
+Use \autoref{thm:located-modulus-completion-regular-seal} and \autoref{thm:located-modulus-completion-schedule-seal}. The regular source, modulus threshold, and limit-seal route are consumed in the displayed order before $Q$ or $E$ is exposed.
+
+Finally apply \autoref{thm:located-modulus-completion-ledger-exactness} and \autoref{thm:located-modulus-completion-classifier-ledger-seal}. They identify the consumed threshold with the displayed ledger row and preserve that ledger under classifier transport, so the route is exactly the finite observation-budget packet followed by $M,S$ and then the consumer row.
+\end{proof}
+
+\begin{theorem}[LocatedModulusCompletion threshold source coherence]
+\label{thm:located-modulus-completion-threshold-source-coherence}
+Under the hypotheses of \autoref{thm:located-modulus-completion-real-observation-budget-route}, the modulus threshold row consumed by $R$ is the same threshold ledger routed through the observation-budget window. It cannot be replaced by an unrecorded convergence rate, an alternate modulus packet, or a source row outside the displayed agreement between $R_0$ and $R$.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and budget packet. The observation-budget handoff fixes the regular-sequence row by the agreement between $R_0$ and $R$, and \autoref{thm:located-modulus-completion-real-observation-budget-route} places the subsequent located-modulus read downstream of that finite packet.
+
+Apply \autoref{thm:located-modulus-completion-ledger-exactness}. The threshold used by the route is the one recorded in the displayed modulus row $M$, not a hidden convergence rate.
+
+Use \autoref{thm:located-modulus-completion-schedule-seal}. It reads $M$ before the regular source row is consumed by the seal-facing route and then carries the same source through $S$ before $Q$ or $E$ is exposed.
+
+The carrier of \autoref{def:located-modulus-completion-carrier}, the regular-seal theorem, and the classifier-ledger seal leave no coordinate for a second threshold ledger. Hence the threshold consumed by $R$ is coherent with the observation-budget window and cannot be exchanged for an unrecorded rate.
+\end{proof}
+
+\begin{theorem}[LocatedModulusCompletion consumer-window non-escape]
+\label{thm:located-modulus-completion-consumer-window-nonescape}
+For every accepted pair $(B,L)$ satisfying the agreement hypotheses of \autoref{thm:located-modulus-completion-real-observation-budget-route}, the combined consumer window exports only the observation-budget rows $E_0,W,D,R_0,S_0$ followed by the located-modulus rows $M,S,Q,E$ and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. It exports no quotient stream, selected completed value, host equality, trichotomy, ambient completeness principle, or unbounded schedule.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and budget packet. Their visible rows are the finite observation-budget packet, the located modulus and limit-seal rows, the two consumer rows, and the displayed transport, continuation, provenance, and naming data.
+
+Apply \autoref{thm:located-modulus-completion-observation-budget-handoff} and \autoref{thm:located-modulus-completion-real-observation-budget-route}. These theorems force each real or located-real read through $E_0,W,D,R_0,S_0$ and then through $M,S$ before $Q$ or $E$ can be consumed.
+
+Use \autoref{thm:located-modulus-completion-threshold-source-coherence}. The threshold row is the recorded ledger row for the same source route, so the consumer cannot switch to an unrecorded convergence schedule.
+
+Finally combine \autoref{thm:located-modulus-completion-regular-seal}, \autoref{thm:located-modulus-completion-ledger-exactness}, \autoref{thm:located-modulus-completion-schedule-seal}, and \autoref{thm:located-modulus-completion-classifier-ledger-seal}. These results exhaust the displayed route and preserve it under classifier transport, while the carrier contains no row for quotient streams, selected completed values, host equality, trichotomy, ambient completeness, or unbounded schedules.
+\end{proof}
+
 \begin{theorem}[LocatedModulusCompletion classifier ledger seal]
 \label{thm:located-modulus-completion-classifier-ledger-seal}
 Let $L=(R,Q,M,S,E,H,C,P,N)$ and $L'=(R',Q',M',S',E',H',C',P',N')$ be accepted $\LocatedModulusCompletionUp$ carriers whose displayed rows are related componentwise by the stored $\hsame$ transports. If the modulus row $M$ transports to $M'$ request by request, and the limit-seal attachment $S$ transports to the limit-seal attachment $S'$ for the transported regular source, then every transported route to $Q'$ or $E'$ consumes the transported threshold from $M'$ and the transported seal $S'$. Hence classifier transport preserves the same modulus row and limit-seal ledger, and no quotient stream, selected completed value, host equality, trichotomy, or ambient completeness principle can enter through the transported classifier.
