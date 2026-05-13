@@ -66,6 +66,7 @@ import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
+import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
