@@ -189,6 +189,28 @@ For $\RealUp$ reads, use \autoref{thm:real-completeness-diagonal-limit-candidate
 The route is therefore total over the displayed carrier rows and nowhere else. By \autoref{thm:real-completeness-nonescape-boundary}, quotient streams, selected host limits, host equality, countable choice, and ambient completeness are absent from the public boundary.
 \end{proof}
 
+\begin{theorem}[Real completeness public seal export]
+\label{thm:real-completeness-public-seal-export}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ carrier. The public export consumed by $\RealUp$, $\CauchyLimitSealUp$, and $\CauchySequenceSpaceUp$ is exactly the seal row $S$ reached through the displayed rows
+$$
+\mu,\Delta,D,W,Q,H,C,P,N.
+$$
+Any two consumer reads with the same displayed rows reach the same seal ledger. The export does not claim quotient stream equality, selected host limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with consumer route totality. By \autoref{thm:real-completeness-consumer-route-totality}, every $\RealUp$, $\CauchyLimitSealUp$, or $\CauchySequenceSpaceUp$ read factors through the displayed carrier rows and no external completion object.
+
+Identify the endpoint. Apply \autoref{thm:real-completeness-diagonal-limit-candidate} and \autoref{thm:real-completeness-regseq-seal-handoff}; the diagonal observations selected by $\Delta$ pass through $D,W,Q$ and reach the public seal row $S$ through $\mu,H,C,P,N$.
+
+Now compare two consumer reads with the same displayed rows. The selector readback determinacy theorem \autoref{thm:real-completeness-selector-readback-determinacy} fixes the finite readback route, so both reads arrive at the same seal ledger.
+
+Finally apply the non-escape boundary. By \autoref{thm:real-completeness-nonescape-boundary}, quotient streams, selected host limits, countable choice, and ambient completeness are not coordinates of the packet, and therefore cannot be exported by the public seal row.
+\end{proof}
+
 \begin{theorem}[Real completeness diagonal limit candidate]
 \label{thm:real-completeness-diagonal-limit-candidate}
 Let
