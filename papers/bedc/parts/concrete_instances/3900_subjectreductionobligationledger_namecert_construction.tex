@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionObligationLedgerUp$}
+\label{ch:concrete-instances-subjectreductionobligationledger-namecert}
+\origin{human}
+
+The $\SubjectReductionObligationLedgerUp$ packet records the four MetaCIC discharge rows named in \autoref{ch:metacic-subject-reduction-obstruction} as a finite BEDC ledger adjacent to the ordinary $\SubjectReductionUp$ certificate of \autoref{ch:concrete-instances-subjectreduction-namecert}. It does not close subject reduction. It exposes the exact obligation surface that a later discharge must fill before any closed MetaCIC preservation claim can be read.
+
+\begin{definition}[Subject-reduction obligation ledger carrier]
+\label{def:subject-reduction-obligation-ledger-carrier}
+A $\SubjectReductionObligationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,A,D,I,R,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ records the $\mathrm{BetaSubstitutionPreservation}$ discharge row consumed by the beta case;
+\item $A$ records the $\mathrm{AppArgTypeStable}$ discharge row consumed by application-argument congruence;
+\item $D$ records the $\mathrm{LamDomainSubjectReduction}$ discharge row consumed by lambda-domain congruence;
+\item $I$ records the $\mathrm{PiDomainSubjectReduction}$ discharge row consumed by Pi-domain congruence;
+\item $R$ records the parameterized subject-reduction theorem row whose visible inputs are exactly $B,A,D,I$;
+\item $O$ records the obstruction row for the unavailable closed subject-reduction statement;
+\item $H$ records componentwise $\hsame$ transport for the four obligation rows, $R$, $O$, package provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes from obligation reads to the parameterized theorem row and from closed-statement requests to the obstruction row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, the MetaCIC subject-reduction interface, and the earlier $\SubjectReductionUp$ packet;
+\item $N$ is the local $\NameCert_{\SubjectReductionObligationLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no proof of any one of the four discharge rows, no closed subject-reduction theorem, no hidden substitution lemma, no host conversion relation, and no semantic equality model for MetaCIC terms.
+\end{definition}
+
+\begin{theorem}[Subject-reduction obligation ledger NameCert obligations]
+\label{thm:subject-reduction-obligation-ledger-namecert-obligations}
+For every accepted $\SubjectReductionObligationLedgerUp$ carrier $L=(B,A,D,I,R,O,H,C,P,N)$, the local $\NameCert$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $L$;
+\item obligation inventory for the beta, application-argument, lambda-domain, and Pi-domain discharge rows $B,A,D,I$;
+\item parameterized theorem routing, which permits $R$ to be consumed only after all four obligation rows have been displayed;
+\item obstruction routing, which sends any closed subject-reduction request not backed by the four rows to $O$;
+\item non-escape provenance through $H,C,P,N$, excluding hidden discharge proofs, host conversion, erased typing derivations, semantic equality, and a global preservation theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple of \autoref{def:subject-reduction-obligation-ledger-carrier}. The four discharge coordinates $B,A,D,I$ are displayed separately, so a consumer can inspect which obligation row is present without receiving a proof of that obligation.
+
+The parameterized theorem route is the $R$ coordinate. Its continuation row in $C$ has the four obligation rows as displayed inputs, and the package row $P$ ties that route to the MetaCIC subject-reduction interface and to the earlier $\SubjectReductionUp$ certificate surface.
+
+The obstruction route is the $O$ coordinate. It is the consumer-facing answer for a closed statement request when the four rows have not all been discharged; it is not a substitute for any one of $B,A,D,I$.
+
+The transport and naming rows $H,C,P,N$ complete the ledger. Since the carrier has no coordinate for hidden substitution preservation, host conversion, erased typing derivations, semantic equality, or global preservation, these five rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Subject-reduction obligation ledger non-escape]
+\label{thm:subject-reduction-obligation-ledger-nonescape}
+Every downstream consumer of an accepted $\SubjectReductionObligationLedgerUp$ packet factors through
+$$
+B,A,D,I,R,O,H,C,P,N.
+$$
+Preservation-facing consumers may read the four displayed obligation rows and the parameterized theorem row. Audit-facing consumers may read the obstruction row. No consumer can extract a closed MetaCIC subject-reduction theorem, a hidden proof of beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, host conversion, erased typing semantics, or semantic equality of terms from the packet.
+\end{theorem}
+\begin{proof}
+Start with the finite carrier. The only preservation-facing rows are $B,A,D,I,R$, and the only obstruction-facing row is $O$.
+
+Apply \autoref{thm:subject-reduction-obligation-ledger-namecert-obligations}. The obligation inventory separates the four rows, the parameterized theorem route requires those rows before $R$ is consumed, and the obstruction route keeps a closed-statement request attached to $O$.
+
+Finally read the transport, continuation, package, and naming rows. They preserve and replay the same finite inventory, but none of them adds a proof row or a host semantic object. Thus every consumer remains inside $B,A,D,I,R,O,H,C,P,N$.
+\end{proof}
+
+\closureat{SubjectReductionObligationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionObligationLedgerUp}
+  \constructivestory{A $\SubjectReductionObligationLedgerUp$ packet is generated from four displayed MetaCIC subject-reduction discharge rows, the parameterized theorem row, the obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-obligation-ledger-carrier}, \autoref{thm:subject-reduction-obligation-ledger-namecert-obligations}, and \autoref{thm:subject-reduction-obligation-ledger-nonescape} bind the four discharge rows and the obstruction route as one finite obligation ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove beta substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, closed consistency from reduction, global normalization, or bridge checking.}
+  \upgradepath{Formal work remains to encode the ledger carrier and then supply checked rows for the four MetaCIC discharge obligations.}
+\end{closurestatus}

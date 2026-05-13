@@ -77,6 +77,42 @@ Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} to bind t
 Repacking these rows gives the local $\NameCert$ surface. The packet therefore realizes the bridge at the paper-certificate level and leaves the kernel carriers separate.
 \end{proof}
 
+\begin{theorem}[UnaryDirectionBridge source obligation inventory]
+\label{thm:unary-direction-bridge-source-obligation-inventory}
+Every accepted $\UnaryDirectionBridgeUp$ packet exposes exactly the source rows needed before any bridge comparison: the $\NatUp$ unary-spine row $N$, the $\AxisNatUp$ zero-spine row $A$, the $\AddUp$ and $\AxisAddUp$ standard-boundary consumer rows read through $S$, the carrier history row $\BHist$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ routes through $C$, package provenance through $P$, and the local $\NameCert$ row $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. The source coordinates are $N$ and $A$, while $S$ is the only displayed row through which $\AddUp/\AxisAddUp$ consumers may read the public boundary.
+
+Use \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} to keep the source rows separate before the boundary is inspected. Then use \autoref{thm:unary-direction-bridge-standard-boundary} and \autoref{thm:unary-direction-bridge-ledger-policy} to account for the boundary, route, and policy rows.
+
+Finally, \autoref{thm:unary-direction-bridge-namecert-surface} repacks the same inventory as the local certificate. Since the carrier has no further coordinate, the listed rows exhaust the source obligation surface.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge kernel-boundary obligation]
+\label{thm:unary-direction-bridge-kernel-boundary-obligation}
+Any $\UnaryDirectionBridgeUp$ read that reaches the standard-boundary row $S$ must first pass through the kernel-distinctness ledger $K$. Thus a consumer cannot interpret the displayed $\AddUp/\AxisAddUp$ boundary until the unary $\NatUp$ row, the zero-spine $\AxisNatUp$ row, and the one-point kernel-intersection policy have been recorded in the same packet.
+\end{theorem}
+\begin{proof}
+Start from the kernel-distinctness obligations. By \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}, the rows $N,A,B,K$ are read before any comparison is exported.
+
+The standard boundary of \autoref{thm:unary-direction-bridge-standard-boundary} is therefore downstream of $K$. It reads nonempty unary and zero-spine histories through the displayed boundary, but it does not identify the two kernel carriers.
+
+The ledger policy of \autoref{thm:unary-direction-bridge-ledger-policy} rules out a route that skips $K$. Repacking through \autoref{thm:unary-direction-bridge-namecert-surface} gives the required boundary obligation for every accepted packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge standard handoff obligation]
+\label{thm:unary-direction-bridge-standard-handoff-obligation}
+$\AddUp/\AxisAddUp$ consumers of an accepted $\UnaryDirectionBridgeUp$ packet read only the displayed standard-boundary row $S$, the componentwise transport rows $H$, the continuation routes $C$, package provenance $P$, the local $\NameCert$ row $M$, and the source and ledger rows required by $N,A,B,K,L$. They receive no host natural-number equality, quotient of histories, or carrier identity between $\NatUp$ and $\AxisNatUp$.
+\end{theorem}
+\begin{proof}
+First expose the public boundary. \autoref{thm:unary-direction-bridge-standard-boundary} places every $\AddUp/\AxisAddUp$ handoff on $S$ after the source rows and the kernel ledger have been transported.
+
+Next apply the ledger policy. \autoref{thm:unary-direction-bridge-ledger-policy} requires the route to cite $N,A,B,K,S,L,H,C,P,M$ before it can export a comparison to additive consumers.
+
+Finally use the NameCert surface. \autoref{thm:unary-direction-bridge-namecert-surface} packages exactly those rows and keeps $\NatUp$ and $\AxisNatUp$ distinct inside the kernel, so the standard handoff cannot export host equality, quotient identification, or carrier identity.
+\end{proof}
+
 \begin{theorem}[UnaryDirectionBridge AxisAdd handoff obligations]
 \label{thm:unary-direction-bridge-axisadd-handoff-obligations}
 Every $\AddUp/\AxisAddUp$ consumer using the standard-boundary handoff of an
