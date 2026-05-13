@@ -154,4 +154,99 @@ theorem FanTheoremPacket_bar_uniform_modulus [AskSetup] [PackageSetup]
     ⟨depthUnary, windowUnary, provenanceUnary, modulusConsumerUnary, treeBarDepth,
       depthWindowEndpoint, windowProvenanceModulusConsumer, endpointPkg, modulusConsumerPkg⟩
 
+theorem FanTheoremPacket_public_uniform_bar_export [AskSetup] [PackageSetup]
+    {tree bar depth window transport traversal provenance nameCert endpoint
+      modulusConsumer realConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FanTheoremPacket tree bar depth window transport traversal provenance nameCert endpoint
+        bundle pkg ->
+      Cont window provenance modulusConsumer ->
+        PkgSig bundle modulusConsumer pkg ->
+          Cont endpoint provenance realConsumer ->
+            PkgSig bundle realConsumer pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row endpoint ∧
+                      FanTheoremPacket tree bar depth window transport traversal provenance
+                        nameCert endpoint bundle pkg ∧
+                        Cont window provenance modulusConsumer ∧
+                          Cont endpoint provenance realConsumer)
+                  (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+                  (fun row : BHist =>
+                    hsame row endpoint ∧ PkgSig bundle modulusConsumer pkg ∧
+                      PkgSig bundle realConsumer pkg)
+                  hsame ∧
+                UnaryHistory modulusConsumer ∧ UnaryHistory realConsumer ∧
+                  PkgSig bundle endpoint pkg ∧ PkgSig bundle modulusConsumer pkg ∧
+                    PkgSig bundle realConsumer pkg := by
+  intro packet windowProvenanceModulusConsumer modulusConsumerPkg
+    endpointProvenanceRealConsumer realConsumerPkg
+  have packetWitness := packet
+  obtain ⟨_treeUnary, _barUnary, _depthUnary, windowUnary, _transportUnary,
+    _traversalUnary, provenanceUnary, _nameCertUnary, endpointUnary, _treeBarDepth,
+    _depthWindowEndpoint, _transportTraversalProvenance, endpointPkg⟩ := packet
+  have modulusConsumerUnary : UnaryHistory modulusConsumer :=
+    unary_cont_closed windowUnary provenanceUnary windowProvenanceModulusConsumer
+  have realConsumerUnary : UnaryHistory realConsumer :=
+    unary_cont_closed endpointUnary provenanceUnary endpointProvenanceRealConsumer
+  have endpointSource :
+      (fun row : BHist =>
+        hsame row endpoint ∧
+          FanTheoremPacket tree bar depth window transport traversal provenance nameCert
+            endpoint bundle pkg ∧
+            Cont window provenance modulusConsumer ∧ Cont endpoint provenance realConsumer)
+        endpoint := by
+    exact
+      ⟨hsame_refl endpoint, packetWitness, windowProvenanceModulusConsumer,
+        endpointProvenanceRealConsumer⟩
+  have core :
+      NameCert
+        (fun row : BHist =>
+          hsame row endpoint ∧
+            FanTheoremPacket tree bar depth window transport traversal provenance nameCert
+              endpoint bundle pkg ∧
+              Cont window provenance modulusConsumer ∧ Cont endpoint provenance realConsumer)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro endpoint endpointSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _other _third sameRO sameOT
+        exact hsame_trans sameRO sameOT
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left, source.right.left,
+            source.right.right.left, source.right.right.right⟩
+    }
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row endpoint ∧
+              FanTheoremPacket tree bar depth window transport traversal provenance nameCert
+                endpoint bundle pkg ∧
+                Cont window provenance modulusConsumer ∧ Cont endpoint provenance realConsumer)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle endpoint pkg)
+          (fun row : BHist =>
+            hsame row endpoint ∧ PkgSig bundle modulusConsumer pkg ∧
+              PkgSig bundle realConsumer pkg)
+          hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro _row source
+        exact ⟨source.left, endpointPkg⟩
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, modulusConsumerPkg, realConsumerPkg⟩
+    }
+  exact
+    ⟨cert, modulusConsumerUnary, realConsumerUnary, endpointPkg, modulusConsumerPkg,
+      realConsumerPkg⟩
+
 end BEDC.Derived.FanTheoremUp
