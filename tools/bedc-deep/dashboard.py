@@ -288,12 +288,11 @@ def _latest_jsonl_ts(path: Path) -> datetime | None:
     return None
 
 
-def render_target_table() -> str:
+def render_target_table(limit: int = 80) -> str:
     from lifecycle import derive_failure_kind, decide_next_action
-    rows: list[str] = []
+    items: list[dict] = []
     if not STATE_DIR.exists():
         return "  (no state files)"
-    rows.append(f"  {'TARGET':<8} {'KIND':<28} {'ATTEMPTS':<10} {'NEXT':<14} TITLE")
     for f in sorted(STATE_DIR.glob("*.json")):
         try:
             d = json.loads(f.read_text(encoding="utf-8"))
@@ -302,9 +301,36 @@ def render_target_table() -> str:
         kind = d.get("failure_kind") or derive_failure_kind(d)
         action = decide_next_action({**d, "failure_kind": kind})
         attempts = d.get("attempts", 1)
+        items.append({
+            "target_id": d.get("target_id", "?"),
+            "kind": kind,
+            "attempts": attempts,
+            "action": action,
+            "title": (d.get("title") or "")[:40],
+        })
+
+    def priority(item: dict) -> tuple[int, str]:
+        action = str(item.get("action") or "")
+        kind = str(item.get("kind") or "")
+        if action not in {"skip", ""}:
+            return (0, str(item.get("target_id") or ""))
+        if kind not in {"none", "pre_flight_duplicate", "stage2_duplicate_content"}:
+            return (1, str(item.get("target_id") or ""))
+        return (2, str(item.get("target_id") or ""))
+
+    ordered = sorted(items, key=priority)
+    shown = ordered if limit <= 0 else ordered[:limit]
+    rows: list[str] = [
+        f"  {'TARGET':<8} {'KIND':<28} {'ATTEMPTS':<10} {'NEXT':<14} TITLE"
+    ]
+    for item in shown:
         rows.append(
-            f"  {d.get('target_id','?'):<8} {kind:<28} {str(attempts):<10} {action:<14} {(d.get('title') or '')[:40]}"
+            f"  {item.get('target_id','?'):<8} {item.get('kind','?'):<28} "
+            f"{str(item.get('attempts', 1)):<10} {item.get('action','?'):<14} "
+            f"{item.get('title','')}"
         )
+    if limit > 0 and len(ordered) > len(shown):
+        rows.append(f"  ... {len(ordered) - len(shown)} lower-priority rows omitted; use --target-limit 0 for full table")
     return "\n".join(rows)
 
 
@@ -414,6 +440,7 @@ def render_supervisor_tail(n: int = 8) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC bedc-deep dashboard")
     parser.add_argument("--no-clear", action="store_true", help="Skip clearing the screen")
+    parser.add_argument("--target-limit", type=int, default=80, help="Max target lifecycle rows; 0 shows all")
     args = parser.parse_args()
 
     if not args.no_clear and sys.stdout.isatty():
@@ -429,7 +456,7 @@ def main() -> int:
     print(_section("Loning Assimilation"))
     print(render_loning_assimilation())
     print(_section("Target lifecycle"))
-    print(render_target_table())
+    print(render_target_table(limit=args.target_limit))
     print(_section("failure_kind histogram"))
     print(render_histogram())
     print(_section("Stage 2 reject clusters"))
