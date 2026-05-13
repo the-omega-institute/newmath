@@ -173,6 +173,8 @@ blocked, and which supply must enter to remove the block.
 \section{Why this is more informative than classical CIC formalisation}
 \label{sec:bedc-axiom-dependency-map-more-informative}
 
+\concretizedIn{ch:concrete-instances-axiomdependencymap-namecert}{finite dependency tuple packet for the axiom-map reading}
+
 Classical CIC formalisation projects prove many theorems inside an environment where conversion and library-level extensional principles are already available. In Lean-based developments, tools such as \texttt{\#print axioms} can inspect the transitive constants of a theorem after the fact. That inspection is valuable, but it is not the organising principle of the project.
 
 BEDC reverses the organisation. The substrate begins with no project axioms in \texttt{lean4/BEDC/}, forbids \texttt{axiom} declarations, and audits transitive dependencies through \texttt{axiom-purity --strict}. The map is therefore first-class. A theorem that survives the gate records a zero-supply region. A theorem that needs a named hypothesis records a socket. A counterexample records the mechanical failure of the universal claim under the current substrate.

@@ -1,0 +1,41 @@
+\chapter{A Concrete Naming Certificate for $\AxiomDependencyMapUp$}
+\label{ch:concrete-instances-axiomdependencymap-namecert}
+\origin{human}
+
+The $\AxiomDependencyMapUp$ packet turns the dependency-map reading of \autoref{ch:bedc-axiom-dependency-map} into a finite naming certificate. It refines the proof-ancestry ledger of \autoref{ch:concrete-instances-axiomqueryledger-namecert} and uses the audit-boundary surface of \autoref{ch:concrete-instances-auditgateboundary-namecert} as the sibling route that keeps forbidden supply visible to downstream consumers.
+
+\begin{definition}[AxiomDependencyMap packet carrier]
+\label{def:axiom-dependency-map-packet-carrier}
+An $\AxiomDependencyMapUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,W,R,H,C,P,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the mode row, recording whether the inspected claim is read as an internally checked proof, a restricted checked surface, or an obstruction with named supply;
+\item $W$ is the witness row, carrying the proof term, restricted theorem, counterexample, refusal report, or named socket that makes the mode auditable;
+\item $R$ is the required-supply ledger, listing exactly the displayed supply rows needed for the public dependency tuple and recording the empty ledger when no supply is required;
+\item $H$ records componentwise $\hsame$ transport for the mode, witness, required-supply ledger, continuation route, provenance row, boundary row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the mode, witness, required-supply ledger, audit handoff, and tuple export;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Hist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, axiom-query ledgers, audit-gate boundaries, and dependency-map rows;
+\item $G$ is the $\mathsf{GAP}$ boundary row separating the displayed dependency tuple from hidden choice, quotient, propext, host-completeness, and ambient theorem-supply claims;
+\item $N$ is the local $\NameCert_{\AxiomDependencyMapUp}$ row.
+\end{enumerate}
+The packet has no coordinate for reclassifying the inspected claim by host taste, adding a concealed axiom row, replacing the witness by an unrecorded proof, or treating a global host-completeness assertion as part of the BEDC dependency tuple.
+\end{definition}
+
+\begin{theorem}[AxiomDependencyMap tuple ledger]
+\label{thm:axiom-dependency-tuple-mode-ledger}
+For an accepted $\AxiomDependencyMapUp$ carrier
+$$
+D=(M,W,R,H,C,P,G,N),
+$$
+the public dependency tuple is determined by the mode row $M$, the witness row $W$, and the required-supply ledger $R$, transported through $H$ and exported only along the displayed routes in $C$. The exported tuple cannot contain hidden $\mathsf{Classical.choice}$ supply, quotient soundness, propositional extensionality, host-completeness supply, or any ambient theorem row absent from $R$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The mode, witness, and required-supply coordinates are exactly $M,W,R$, and the carrier definition lists no second mode row, no alternate witness row, and no hidden supply ledger.
+
+Transport and export are then confined by $H$ and $C$. Componentwise $\hsame$ preserves the displayed rows, while the continuation routes expose only the recorded mode, witness, required-supply ledger, audit handoff, and tuple export.
+
+Finally read the boundary row $G$ together with provenance $P$ and the local certificate $N$. Since hidden choice, quotient soundness, propositional extensionality, host completeness, and unlisted ambient theorem supply have no carrier coordinate, no public read of the packet can place them into the exported dependency tuple.
+\end{proof}
