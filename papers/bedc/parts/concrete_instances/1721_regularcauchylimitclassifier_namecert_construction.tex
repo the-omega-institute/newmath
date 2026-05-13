@@ -134,6 +134,62 @@ Now apply the diagonal-window public boundary and public export, \autoref{thm:re
 Finally use the bridge source packet of \autoref{thm:regular-cauchy-limit-classifier-bridge-source-packet}. Since the bridge-facing packet has no coordinate for quotient stream equality, a selected host limit, host real equality, or ambient completeness, the shared sealed route is the only public route available to both classifiers.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit classifier observation-budget factorization]
+\label{thm:regular-cauchy-limit-classifier-observation-budget-factorization}
+Let
+$$
+Q=(X,\mu,\Delta,W,R,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLimitClassifierUp$ packet, and let
+$$
+B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet. If the diagonal windows, dyadic ledger, regular readback, and $\RealUp$ seal row of $Q$ are read through the displayed rows of $B$, then every $\RealUp$ seal handoff of $Q$ factors through the observation-budget route
+$$
+E_B \longmapsto W_B \longmapsto D_B \longmapsto R_B \longmapsto S_B.
+$$
+The factorization is a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route; it adds no quotient stream equality, host real equality, selected limit, ambient completeness premise, hidden limit selector, or unbounded schedule.
+\end{theorem}
+\begin{proof}
+Start with the classifier rows. By \autoref{thm:regular-cauchy-limit-classifier-stability} and \autoref{thm:regular-cauchy-limit-real-seal-handoff}, the only $\RealUp$ handoff exported by $Q$ is downstream of $\Delta,W,R,D,E$.
+
+Now read those rows through the observation-budget packet. \autoref{thm:real-observation-budget-finite-window-seal-route-totality} makes every admitted seal read pass through $E_B,W_B,D_B,R_B,S_B$, and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} places both the $\RegSeqRatUp$ and $\RealUp$ consumers on that same finite route.
+
+Finally apply the public boundary and non-escape results. \autoref{thm:regular-cauchy-limit-classifier-diagonal-window-public-boundary} keeps the classifier read inside the displayed public packet, while \autoref{thm:real-observation-budget-nonescape} rules out quotient streams, host equality, hidden selectors, ambient completeness, and unbounded schedules.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier finite-route exactness]
+\label{thm:regular-cauchy-limit-classifier-finite-route-exactness}
+Under the hypotheses of \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization}, the classifier rows $\Delta,W,R,D,E,H,C,P,N$ and the budget rows $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$ determine the same finite window, dyadic ledger, regular readback, and seal boundary up to the displayed $\hsame$ transports and $\Cont$ routes. Equivalently, any accepted completion-facing read that agrees with both packets on those displayed rows is the same finite route from the diagonal classifier to the observation-budget seal boundary.
+\end{theorem}
+\begin{proof}
+First identify the classifier side. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} says that shared diagonal windows, readbacks, dyadic ledgers, and seal rows force every public completion-facing read through the same sealed diagonal-window route.
+
+Next identify the observation-budget side. \autoref{thm:real-observation-budget-classifier-exactness} confines classifier comparison to $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$, and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} routes every admitted $\RegSeqRatUp$ or $\RealUp$ consumer through those rows.
+
+The factorization theorem now composes the two identifications. The displayed $\hsame$ rows carry row equality, the displayed $\Cont$ rows replay the consumer route, and no additional analytic coordinate is available to distinguish the classifier route from the observation-budget route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit classifier completion-consumer boundary]
+\label{thm:regular-cauchy-limit-classifier-completion-consumer-boundary}
+Composing an accepted $\RegularCauchyLimitClassifierUp$ packet with an accepted $\RealObservationBudgetUp$ packet through the factorization of \autoref{thm:regular-cauchy-limit-classifier-observation-budget-factorization} gives a completion consumer only the finite rows
+$$
+\Delta,W,R,D,E,H,C,P,N
+$$
+and
+$$
+E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B.
+$$
+It gives no quotient stream equality, host real equality, selected limit, ambient completeness theorem, hidden limit selector, or unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Read the composed packet through the classifier first. \autoref{thm:regular-cauchy-limit-classifier-stability} and \autoref{thm:regular-cauchy-limit-real-seal-handoff} restrict the limit-classifier handoff to $\Delta,W,R,D,E$ with the displayed transport, route, provenance, and local naming rows.
+
+Read the same packet through the budget route next. \autoref{thm:real-observation-budget-finite-window-seal-route-totality} and \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} place every admitted consumer on $E_B,W_B,D_B,R_B,S_B$ with $H_B,C_B,P_B,N_B$.
+
+Finally combine diagonal uniqueness with budget non-escape. \autoref{thm:regular-cauchy-limit-classifier-diagonal-seal-uniqueness} prevents a second public classifier route with the same displayed seal rows, and \autoref{thm:real-observation-budget-nonescape} excludes quotient stream equality, host real equality, hidden selection, ambient completeness, and unbounded schedules from the budget side.
+\end{proof}
+
 \closureat{RegularCauchyLimitClassifierUp}{seedStr}
 \closureat{RegularCauchyLimitClassifierUp}{obligationStr}
 \closureat{RegularCauchyLimitClassifierUp}{scopedStr}
