@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\EmptyBoundaryStepUp$}
+\label{ch:concrete-instances-emptyboundarystep-namecert}
+\origin{human}
+
+The $\EmptyBoundaryStepUp$ packet realizes the one-step birth surface of \autoref{def:efm-empty-step} as a finite naming certificate. It records the source $\Hist$ row, the enacted mark, the resulting $\Hist$ row, and the displayed $\Ext$ fact that ties them together. The packet is local to that step: it does not choose marks for other histories, does not decide admissibility predicates, and does not convert local branch actualisation into a global choice principle.
+
+\begin{definition}[Empty-boundary step carrier]
+\label{def:empty-boundary-step-carrier}
+An $\EmptyBoundaryStepUp$ carrier is a finite $\BHist$ packet
+$$
+S=(H,M,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the source $\Hist$ row whose empty boundary is filled;
+\item $M$ is the enacted mark row, one of the kernel marks $b_0$ or $b_1$;
+\item $R$ is the resulting $\Hist$ row produced by recording $M$ above $H$;
+\item $E$ is the displayed $\Ext(H,M,R)$ row;
+\item $T$ records componentwise $\hsame$ transports for $H,M,R,E$ and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the source row, enacted mark, result row, extension row, and local name;
+\item $P$ is the $\Pkg$ provenance over $\Hist$, $\Ext$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the Empty-boundary reading of \autoref{def:efm-empty-step};
+\item $N$ is the local $\NameCert_{\EmptyBoundaryStepUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed rows $H,M,R,E,T,C,P,N$. It has no coordinate for a hidden selector, a branch policy over unrelated histories, a truth oracle, a host equality on traces, or an accumulated ledger.
+\end{definition}
+
+\begin{theorem}[Empty-boundary step NameCert obligations]
+\label{thm:empty-boundary-step-namecert-obligations}
+The local $\NameCert_{\EmptyBoundaryStepUp}$ surface for the carrier of \autoref{def:empty-boundary-step-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission, requiring every accepted object to expose $S=(H,M,R,E,T,C,P,N)$;
+\item source-boundary admission, requiring $H$ to be the displayed $\Hist$ row whose empty boundary is filled;
+\item enacted-step exactness, requiring $M$, $R$, and $E$ to exhibit the same $\Ext(H,M,R)$ step;
+\item transport-and-route stability, requiring all public reads to pass through the componentwise $\hsame$ row $T$ and displayed $\Cont$ row $C$;
+\item non-escape, requiring the packet to export no hidden selector, no branch policy for unrelated histories, no truth oracle, no host trace equality, and no accumulated ledger.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:empty-boundary-step-carrier}. The source history, enacted mark, result history, extension row, transport row, continuation row, provenance row, and naming row are all displayed coordinates.
+
+Source-boundary admission reads $H$ before the next mark is consumed. The empty boundary is therefore the slot above this source row, matching the reading of \autoref{def:efm-empty-boundary}, rather than a reset to $\emp$.
+
+Enacted-step exactness ties $M$, $R$, and $E$ together. Since $E$ is the displayed $\Ext(H,M,R)$ row, a consumer cannot replace the enacted mark by an unrecorded branch while keeping the same certificate.
+
+Transport-and-route stability uses $T$ and $C$. These rows move and expose the displayed step data componentwise, but they do not add another source of branch information.
+
+Finally $P$ and $N$ delimit the packet as local NameCert data. Because the carrier has no coordinate for a hidden selector, unrelated branch policy, truth oracle, host trace equality, or accumulated ledger, the packet cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Empty-boundary step local actualisation]
+\label{thm:empty-boundary-step-local-actualisation}
+Let $S=(H,M,R,E,T,C,P,N)$ be an accepted $\EmptyBoundaryStepUp$ carrier. Every public read of the step factors through the finite route
+$$
+H,M,R,E,T,C,P,N.
+$$
+The read exposes exactly one enacted empty-boundary step and does not supply a function selecting marks for any other $\Hist$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to its displayed rows. The only branch data in the packet are the enacted mark $M$, the result row $R$, and the extension row $E$ attached to the source $H$.
+
+Read the step through $E$. The row $E$ records $\Ext(H,M,R)$, so the public route identifies the enacted step by inspecting the displayed extension fact rather than by consulting an external chooser.
+
+The transport row $T$ and continuation row $C$ keep the same data visible to consumers. Package provenance and the local NameCert row close the route without adding a coordinate for unrelated histories.
+
+Thus every public read factors through $H,M,R,E,T,C,P,N$ and remains a single local actualisation of the empty boundary above $H$.
+\end{proof}
+
+\closureat{EmptyBoundaryStepUp}{seedStr}
+
+\begin{closurestatus}{\EmptyBoundaryStepUp}
+  \constructivestory{An $\EmptyBoundaryStepUp$ packet is generated from a source $\Hist$ row, enacted mark, result $\Hist$ row, displayed $\Ext$ row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:empty-boundary-step-carrier}, \autoref{thm:empty-boundary-step-namecert-obligations}, and \autoref{thm:empty-boundary-step-local-actualisation} bind one local empty-boundary step as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, global choice, branch policies for unrelated histories, truth oracles, host trace equality, accumulated ledgers, or a public standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, enacted-step exactness, transport-and-route stability, non-escape, and local actualisation for the same finite empty-boundary step packet.}
+\end{closurestatus}
