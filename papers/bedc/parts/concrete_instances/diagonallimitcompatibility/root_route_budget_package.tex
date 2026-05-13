@@ -53,3 +53,15 @@ Now apply \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape} and
 
 Therefore a root-route read has no exported coordinate from which the excluded objects could be recovered. The read remains inside the finite $\BHist/\hsame/\Cont/\Pkg/\NameCert$ package.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root-route public factorization]
+\label{thm:diagonal-limit-compatibility-root-route-public-factorization}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Every public $\RealUp$ or $\CompletionUp$ route that consumes the root route of $K$ factors through the exact package of \autoref{thm:diagonal-limit-compatibility-root-route-budget-package}. The factorization exposes the budget-source, mesh-budget, triangle-bound, stream-window, regular-readback, seal-route, Real-seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any public read, and exports no host limit, quotient stream, host real equality, choice datum, hidden tail oracle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-limit-compatibility-root-route-consumer-exactness}. It identifies the public $\RealUp$ and $\CompletionUp$ consumer surface with exactly the displayed root-route package, so every public read begins from the budget-source, mesh-budget, triangle-bound, stream-window, regular-readback, seal-route, Real-seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next use \autoref{thm:diagonal-limit-compatibility-root-route-transport-stability}. The classifier survives componentwise $\hsame$ transport and replay of the displayed $\Cont$ routes, so the factorization is reusable by downstream public consumers rather than tied to a single presentation of $K$.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-root-route-nonescape}. The same package exports no host limit, quotient stream, host real equality, choice datum, hidden tail oracle, or ambient completeness coordinate. Thus the public route factors through the exact finite root-route package before any public read and has no escape coordinate outside it.
+\end{proof}
