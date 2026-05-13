@@ -28,6 +28,30 @@ The carrier has no coordinate for host real equality, quotient endpoints, a comp
 \end{definition}
 \leandef{BEDC.Derived.DyadicMidpointUp.DyadicMidpointCarrier}
 
+\begin{theorem}[DyadicMidpoint endpoint-source route]
+\label{thm:dyadic-midpoint-endpoint-source-route}
+For every accepted $\DyadicMidpointUp$ packet
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N),
+$$
+the endpoint rows are read first as $L$ and $R$ through \autoref{ch:concrete-instances-dyadicratcore-namecert} or through the rational interval endpoint surface of \autoref{ch:concrete-instances-rationalinterval-namecert}. Only after those two endpoint rows and the common-denominator row $S$ are present does the packet expose the midpoint row $\mu$ and the branch row $B$ to the bisection consumer of \autoref{ch:concrete-instances-dyadicbisection-namecert} through the displayed finite route $W,H,C,P,N$.
+
+Thus a $\DyadicBisectionUp$ consumer cannot read a midpoint branch without first inheriting the dyadic endpoint data named by the source endpoint rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N).
+$$
+The first two coordinates are the only endpoint source rows in the packet. By \autoref{def:dyadic-midpoint-carrier}, they are accepted by $\DyadicRatCoreUp$ or exposed through a $\RationalIntervalUp$ endpoint surface.
+
+The common-denominator row $S$ is the only row that transports those two endpoint rows to a shared dyadic denominator. The midpoint row $\mu$ is then read from that displayed scaled endpoint ledger, so the midpoint calculation has no independent endpoint source.
+
+The branch row $B$ is the only coordinate that records a side selection at the midpoint. Hence a $\DyadicBisectionUp$ consumer receives the branch through $B$ and the finite route $W,H,C,P,N$, with $L,R,S,\mu$ as the displayed prerequisites.
+
+No remaining coordinate of the carrier can supply host real equality, quotient endpoints, completed intersections, or ambient completeness. The coordinate list is exhausted by $L,R,S,\mu,B,W,H,C,P,N$, so the endpoint-source route into bisection is exactly the stated finite route.
+\end{proof}
+
 \begin{theorem}[DyadicMidpoint NameCert obligations]
 \label{thm:dyadic-midpoint-namecert-obligations}
 The seed $\NameCert_{\DyadicMidpointUp}$ surface consists of six finite obligations:
