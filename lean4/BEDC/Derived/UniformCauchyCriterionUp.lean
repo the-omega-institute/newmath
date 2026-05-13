@@ -112,6 +112,71 @@ theorem UniformCauchyCriterionPacket_shared_threshold_transport [AskSetup] [Pack
         namePkg'⟩,
       tailSame, modulusUnary', toleranceUnary', tailUnary'⟩
 
+theorem UniformCauchyCriterionPacket_subfamily_restriction [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name subIndex subTail
+      subSealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      hsame index subIndex ->
+        hsame tail subTail ->
+          hsame sealRow subSealRow ->
+            Cont subIndex windows modulus ->
+              Cont modulus tolerance subTail ->
+                UniformCauchyCriterionPacket subIndex windows modulus tolerance subTail subSealRow
+                    transports routes provenance name bundle pkg ∧
+                  UnaryHistory subIndex ∧ UnaryHistory subTail ∧ UnaryHistory subSealRow ∧
+                    Cont subIndex windows modulus ∧ Cont modulus tolerance subTail := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet sameIndex sameTail sameSealRow subIndexWindowsModulus modulusToleranceSubTail
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    transportsUnary, routesUnary, provenanceUnary, nameUnary, _indexWindowsModulus,
+    _modulusToleranceTail, tailSealRowTransports, transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have subIndexUnary : UnaryHistory subIndex :=
+    unary_transport indexUnary sameIndex
+  have subTailUnary : UnaryHistory subTail :=
+    unary_transport tailUnary sameTail
+  have subSealRowUnary : UnaryHistory subSealRow :=
+    unary_transport sealRowUnary sameSealRow
+  have subTailSealRowTransports : Cont subTail subSealRow transports := by
+    cases sameTail
+    cases sameSealRow
+    exact tailSealRowTransports
+  exact
+    ⟨⟨subIndexUnary, windowsUnary, modulusUnary, toleranceUnary, subTailUnary, subSealRowUnary,
+        transportsUnary, routesUnary, provenanceUnary, nameUnary, subIndexWindowsModulus,
+        modulusToleranceSubTail, subTailSealRowTransports, transportsRoutesProvenance,
+        namePkg⟩,
+      subIndexUnary, subTailUnary, subSealRowUnary, subIndexWindowsModulus,
+      modulusToleranceSubTail⟩
+
+theorem UniformCauchyCriterionPacket_empty_family_tail_ledger [AskSetup] [PackageSetup]
+    {windows modulus tolerance sealRow transports routes provenance name sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket BHist.Empty windows modulus tolerance BHist.Empty sealRow
+        transports routes provenance name bundle pkg ->
+      Cont BHist.Empty sealRow sealRead ->
+        PkgSig bundle sealRead pkg ->
+          UnaryHistory BHist.Empty ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+            UnaryHistory tolerance ∧ UnaryHistory sealRead ∧ Cont BHist.Empty windows modulus ∧
+              Cont modulus tolerance BHist.Empty ∧ Cont BHist.Empty sealRow sealRead ∧
+                hsame sealRead sealRow ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet emptySealRead sealReadPkg
+  obtain ⟨emptyUnary, windowsUnary, modulusUnary, toleranceUnary, _tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, emptyWindowsModulus,
+    modulusToleranceEmpty, _emptySealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed emptyUnary sealRowUnary emptySealRead
+  have sealReadSameSealRow : hsame sealRead sealRow :=
+    cont_left_unit_result emptySealRead
+  exact
+    ⟨emptyUnary, windowsUnary, modulusUnary, toleranceUnary, sealReadUnary, emptyWindowsModulus,
+      modulusToleranceEmpty, emptySealRead, sealReadSameSealRow, namePkg, sealReadPkg⟩
+
 theorem UniformCauchyCriterionPacket_real_seal_handoff [AskSetup] [PackageSetup]
     {index windows modulus tolerance tail sealRow transports routes provenance name realRead :
       BHist}
