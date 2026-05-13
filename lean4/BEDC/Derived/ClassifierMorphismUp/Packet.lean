@@ -63,4 +63,35 @@ theorem ClassifierMorphismPacket_ext_sigrel_preservation [AskSetup] [PackageSetu
     exact contUnary
   exact ⟨contExact, contUnary'⟩
 
+theorem ClassifierMorphismPacket_composition_closure [AskSetup] [PackageSetup]
+    {source middle target graphAB graphBD extAB sigB contAB extBD sigD contBD compositeGraph
+      compositeCont transport provenance nameCert : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierMorphismPacket source middle graphAB extAB sigB contAB transport provenance
+        nameCert mark bundle pkg →
+      ClassifierMorphismPacket middle target graphBD extBD sigD contBD transport provenance
+        nameCert mark bundle pkg →
+        Cont graphAB graphBD compositeGraph →
+          Cont extAB sigD compositeCont →
+            PkgSig bundle compositeCont pkg →
+              ClassifierMorphismPacket source target compositeGraph extAB sigD compositeCont
+                compositeCont compositeCont compositeCont mark bundle pkg := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Ext SigRel Cont hsame UnaryHistory
+  intro packetAB packetBD graphComposite contComposite compositePkg
+  obtain ⟨sourceUnary, _middleUnaryAB, graphABUnary, extABUnary, _sigBUnary, _contABUnary,
+    _transportABUnary, _provenanceABUnary, _nameABUnary, extABRow, _sigBRow, _contABRow,
+    _transportABSame, _provenanceABSame, _nameABSame, _pkgAB⟩ := packetAB
+  obtain ⟨_middleUnaryBD, targetUnary, graphBDUnary, _extBDUnary, sigDUnary, _contBDUnary,
+    _transportBDUnary, _provenanceBDUnary, _nameBDUnary, _extBDRow, sigDRow, _contBDRow,
+    _transportBDSame, _provenanceBDSame, _nameBDSame, _pkgBD⟩ := packetBD
+  have compositeGraphUnary : UnaryHistory compositeGraph :=
+    unary_cont_closed graphABUnary graphBDUnary graphComposite
+  have compositeContUnary : UnaryHistory compositeCont :=
+    unary_cont_closed extABUnary sigDUnary contComposite
+  exact
+    ⟨sourceUnary, targetUnary, compositeGraphUnary, extABUnary, sigDUnary, compositeContUnary,
+      compositeContUnary, compositeContUnary, compositeContUnary, extABRow, sigDRow,
+      contComposite, hsame_refl compositeCont, hsame_refl compositeCont,
+      hsame_refl compositeCont, compositePkg⟩
+
 end BEDC.Derived.ClassifierMorphismUp
