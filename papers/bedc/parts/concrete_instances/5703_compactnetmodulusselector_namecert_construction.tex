@@ -1,0 +1,131 @@
+\chapter{A Concrete Naming Certificate for $\CompactNetModulusSelectorUp$}
+\label{ch:concrete-instances-compactnetmodulusselector-namecert}
+\origin{ai}
+
+The $\CompactNetModulusSelectorUp$ interface is the concrete finite selector behind the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}. It consumes the compact finite-net rows of \autoref{ch:concrete-instances-compact-namecert}, the pointwise-modulus rows of \autoref{ch:concrete-instances-continuous-namecert}, the metric-distance rows of \autoref{ch:concrete-instances-metric-namecert}, the positive rational order rows of \autoref{ch:concrete-instances-rat-namecert}, and the finite lower-bound fold surface of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}. Its output is the single finite packet a uniform-modulus consumer reads when a tolerance history is converted into a precision history by a compact net.
+
+\begin{definition}[Compact net modulus selector carrier]
+\label{def:compact-net-modulus-selector-carrier}
+A $\CompactNetModulusSelectorUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the displayed compact metric source row, including the located finite-net coverage data for the requested tolerance history;
+\item $Y$ is the displayed target metric row whose distance comparisons are consumed after the pointwise-modulus reads;
+\item $E$ is the positive $\RatUp$ tolerance history requested by the uniform-modulus consumer;
+\item $\mathcal{P}$ is the nonempty finite $\mathsf{ProbeBundle}$ spine of compact-net centers;
+\item $C$ records bundled center histories and half-radius coverage rows for the source metric;
+\item $R$ records the positive $\RatUp$ subordinate radius rows attached to the bundled centers;
+\item $M$ records the $\ContinuousFunctionUp$ pointwise-modulus rows at the centers of $\mathcal{P}$ for the tolerance history $E$;
+\item $F$ is the accepted $\FiniteNetMinimumFoldUp$ lower-bound row over $\mathcal{P}$ and $R$;
+\item $D$ is the selected positive precision history exported by the fold row $F$;
+\item $H$ records componentwise $\hsame$ transport for the metric, compact-net, tolerance, radius, pointwise-modulus, fold, precision, route, provenance, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes through which compact, continuous, metric, rational, fold, and uniform-modulus consumers read the packet;
+\item $P$ is the $\Pkg$ provenance over $\CompactUp$, $\ContinuousFunctionUp$, $\MetricSpaceUp$, $\RatUp$, $\FiniteNetMinimumFoldUp$, $\mathsf{ProbeBundle}$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and local naming rows;
+\item $N$ is the local $\NameCert_{\CompactNetModulusSelectorUp}$ row.
+\end{enumerate}
+The carrier exports only the compact-net input, pointwise-modulus radii, selected lower-bound fold row, tolerance-to-precision handoff, transport rows, continuation routes, package provenance, and local naming row. It has no coordinate for open-cover compactness, a host minimum, a choice-selected center, a quotient of point histories, or an external modulus function.
+\end{definition}
+
+\begin{theorem}[Compact net modulus selector NameCert obligations]
+\label{thm:compact-net-modulus-selector-namecert-obligations}
+The local $\NameCert_{\CompactNetModulusSelectorUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet of \autoref{def:compact-net-modulus-selector-carrier};
+\item compact-net exactness, requiring $X,\mathcal{P},C,R$ to display the located finite $\varepsilon$-net rows read from the compact source certificate;
+\item pointwise-modulus exactness, requiring every row of $M$ to be attached to a bundled center and to the displayed tolerance history $E$;
+\item lower-bound fold exactness, requiring $F$ to be the $\FiniteNetMinimumFoldUp$ row over the same $\mathcal{P}$ and $R$ and requiring $D$ to be its exported positive lower-bound history;
+\item non-escape, requiring every consumer read of $D$ to pass through $X,Y,E,\mathcal{P},C,R,M,F,H,Q,P,N$ and forbidding open-cover compactness, host minima, choice-selected centers, quotient point equality, and external modulus functions.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Carrier admission is projection from \autoref{def:compact-net-modulus-selector-carrier}. The packet displays the source and target metric rows, tolerance history, finite probe spine, compact coverage rows, subordinate radius rows, pointwise-modulus rows, fold row, selected precision, transports, routes, provenance, and local name.
+
+Compact-net exactness reads the finite coverage surface from $X,\mathcal{P},C,R$. The center and radius rows are not reconstructed by the selector; they are the displayed input rows supplied by the compact naming certificate.
+
+Pointwise-modulus exactness then reads $M$ only at bundled centers. Each local row is tied to the same tolerance history $E$ and to the source and target metric rows already displayed in the carrier.
+
+Lower-bound fold exactness reads $F$ over the same probe spine and radius ledger. The selected precision $D$ is accepted only as the positive lower-bound output of that finite fold.
+
+The non-escape obligation is the carrier inventory together with the displayed routes. Since no excluded object is a coordinate of $S$, no local naming projection or continuation route can export one.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector fold soundness]
+\label{thm:compact-net-modulus-selector-fold-soundness}
+Let
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N)
+$$
+be an accepted $\CompactNetModulusSelectorUp$ carrier. If a source-distance read is certified below the selected precision history $D$, then the compact-continuous handoff for tolerance $E$ factors through one bundled center of $\mathcal{P}$, the corresponding pointwise-modulus row in $M$, and the same lower-bound fold certificate $F$.
+
+The handoff uses the selected row only as a finite $\RatUp$ lower bound below every displayed subordinate radius row in $R$.
+\end{theorem}
+
+\begin{proof}
+Begin with the compact-net coordinate. The accepted carrier exposes $\mathcal{P}$ as a nonempty finite probe spine and $C$ as the coverage row assigning each source-point history to a bundled center with a displayed half-radius comparison.
+
+Read the selected precision through $F$. By the lower-bound fold exactness obligation, $D$ is below every radius ledger in $R$ through the $\RatUp$ classifier and the stored transport rows in $H$.
+
+Use the metric rows of $X$ to route a source-distance read below $D$ through the bundled center supplied by $C$. The comparison $D \le R_p$ keeps the second point inside the local ball named by the same probe.
+
+Finally apply the corresponding pointwise-modulus row of $M$ and the target metric row $Y$. The output distance estimate is therefore read from $X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N$, not from an external modulus selector.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector non-escape]
+\label{thm:compact-net-modulus-selector-nonescape}
+Every consumer read of an accepted $\CompactNetModulusSelectorUp$ packet factors through the displayed compact-net input, pointwise-modulus radii, selected lower-bound fold row, transport rows, continuation routes, provenance, and local naming row of \autoref{def:compact-net-modulus-selector-carrier}. The packet exports no open-cover compactness principle, no host minimum over rationals, no choice-selected center, no quotient point equality, no sequential compactness argument, and no external modulus function.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier. Its coordinates are exactly $X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N$.
+
+The NameCert obligations force compact reads through $X,\mathcal{P},C,R$, pointwise-modulus reads through $M$, and selected-precision reads through $F,D$. The transport and continuation rows $H,Q$ replay those same routes componentwise.
+
+No coordinate remains from which a consumer could read open-cover compactness, host minima, choice-selected centers, quotient point equality, sequential compactness, or an external modulus function. Thus every public read stays within the finite selector packet.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector independence boundary]
+\label{thm:compact-net-modulus-selector-independence-boundary}
+The $\CompactNetModulusSelectorUp$ carrier is not bijective, as a NameCert obligation surface, to any one of its compact, continuous, metric, rational, finite-net-minimum-fold, or uniform-modulus siblings. It is the joint packet that stores the compact-net input, pointwise-modulus radii, selected lower-bound fold row, and tolerance-only handoff together.
+\end{theorem}
+
+\begin{proof}
+The compact sibling supplies finite-net coverage but has no pointwise-modulus row, no selected lower-bound fold output, and no target-metric handoff.
+
+The continuous sibling supplies pointwise-modulus rows but has no compact probe spine and no finite lower-bound fold over a bundled radius ledger.
+
+The metric and rational siblings supply distance and order readbacks only. They do not carry the compact coverage row, the bundled center ledger, or the tolerance-to-precision handoff.
+
+The finite-net-minimum-fold sibling supplies the lower-bound fold but not the compact coverage input, pointwise-modulus rows, or target-metric consumer route. The uniform-modulus sibling reads the resulting precision packet, while this selector records the compact-net and pointwise-modulus source rows that justify that precision. Hence no bijection preserves the listed NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector TasteGate obligation]
+\label{thm:compact-net-modulus-selector-tastegate-obligation}
+The later Lean TasteGate file for namespace $\mathsf{BEDC.Derived.CompactNetModulusSelectorUp}$ must provide $\mathsf{Nontrivial}\ \CompactNetModulusSelectorUp$ and $\mathsf{FieldFaithful}\ \CompactNetModulusSelectorUp$ instances for the same finite carrier. These instances must preserve the compact-net input, pointwise-modulus radius rows, selected lower-bound fold row, tolerance-to-precision handoff, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+
+\begin{proof}
+Nontriviality is witnessed by the dependency mix of the carrier. Removing the compact-net rows leaves no bundled source for the fold; removing the pointwise-modulus rows leaves no local continuity handoff; removing the fold row leaves no selected tolerance-only precision.
+
+Field faithfulness records that these rows are preserved as one packet. A TasteGate consumer must therefore distinguish $\CompactNetModulusSelectorUp$ from its compact, continuous, metric, rational, finite-fold, and uniform-modulus siblings by the full coordinate surface $X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N$.
+\end{proof}
+
+\falsifiablePrediction{Removing the selected lower-bound row breaks the uniform-modulus handoff while leaving compact-net coverage and pointwise-modulus rows readable.}
+
+\independenceWitness{Compare compact, continuous, metric, finite-net-minimum-fold, and uniform-modulus siblings: none is bijective because this carrier alone stores the compact-net input, pointwise-modulus radii, selected lower-bound fold row, and tolerance-only handoff together.}
+
+\closureat{CompactNetModulusSelectorUp}{seedStr}
+
+\begin{closurestatus}{\CompactNetModulusSelectorUp}
+  \constructivestory{A $\CompactNetModulusSelectorUp$ packet is generated from a compact metric finite-net row, a target metric row, a positive tolerance history, a nonempty $\mathsf{ProbeBundle}$ of centers, positive subordinate radius rows, pointwise-modulus rows at the bundled centers, a finite lower-bound fold, selected precision, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-net-modulus-selector-carrier}, \autoref{thm:compact-net-modulus-selector-namecert-obligations}, \autoref{thm:compact-net-modulus-selector-fold-soundness}, \autoref{thm:compact-net-modulus-selector-nonescape}, and \autoref{thm:compact-net-modulus-selector-independence-boundary} specify the finite compact-net selector packet, its local NameCert obligations, fold soundness, non-escape boundary, and sibling independence boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, sequential compactness, a host minimum, a choice-selected center, quotient point equality, or an external modulus function for $\CompactNetModulusSelectorUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-net exactness, pointwise-modulus exactness, lower-bound fold exactness, non-escape, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

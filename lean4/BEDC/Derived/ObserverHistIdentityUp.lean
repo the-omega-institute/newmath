@@ -29,4 +29,26 @@ theorem ObserverHistoryIdentityPacket_transport_stability [AskSetup] [PackageSet
       provenanceUnary, unary_transport nameCertUnary sameName, sameRows, ledgerRoutes,
       provenancePkg, signaturesPkg⟩, sameRows, ledgerRoutes⟩
 
+theorem ObserverHistIdentityPacket_consumer_surface [AskSetup] [PackageSetup]
+    {leftHistory rightHistory signatures samenessRows ledger routes provenance nameCert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket leftHistory
+        rightHistory signatures samenessRows ledger routes provenance nameCert bundle pkg ->
+      Cont samenessRows nameCert endpoint ->
+        PkgSig bundle endpoint pkg ->
+          BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket leftHistory
+              rightHistory signatures samenessRows ledger routes provenance nameCert bundle pkg ∧
+            SameSig bundle leftHistory rightHistory ∧ Cont ledger routes samenessRows ∧
+              UnaryHistory endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro packet samenessEndpoint endpointPkg
+  have packetWitness := packet
+  obtain ⟨_leftUnary, _rightUnary, _signaturesUnary, samenessRowsUnary, _ledgerUnary,
+    _routesUnary, _provenanceUnary, nameCertUnary, sameRows, ledgerRoutes, _provenancePkg,
+    _signaturesPkg⟩ := packet
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed samenessRowsUnary nameCertUnary samenessEndpoint
+  exact ⟨packetWitness, sameRows, ledgerRoutes, endpointUnary, endpointPkg⟩
+
 end BEDC.Derived.ObserverHistIdentityUp

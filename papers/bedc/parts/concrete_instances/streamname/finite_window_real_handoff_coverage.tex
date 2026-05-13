@@ -32,3 +32,35 @@ Now apply \autoref{thm:streamname-real-seal-factorization-boundary} to the share
 
 Finally use \autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}. Common-window determinacy identifies the two consumer reads once their finite StreamName window, RegSeqRat row, and Real seal boundary agree. Repacking those common rows under the local $\NameCert$ surface gives the stated public packet and rules out any quotient, host-equality, representative, or ambient-completeness exposure.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window budget monotonicity]
+\label{thm:streamname-finite-window-budget-monotonicity}
+Let $P \leq Q$ be finite observation budgets for two $\StreamNameUp$-mediated $\RegSeqRat$-to-$\RealUp$ handoff reads. Suppose the $Q$-budget packet restricts on $P$ to the same selected StreamName rows, the same accepted $\RegSeqRat$ pointwise row, and the same $\RealUp$ seal boundary as the $P$-budget packet. Then enlarging the budget from $P$ to $Q$ preserves the downstream $\RealUp$ seal consumer's public source surface.
+
+The preserved surface consists only of finite $\mathsf{BHist}$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, pointwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows visible in the restricted packet. The monotone handoff exports no quotient stream, no host sequence equality, no selected limit, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-window-real-handoff-coverage} to the $P$-budget handoff and to the $Q$-budget handoff. Both consumers are therefore confined to finite StreamName, RegSeqRat, Real-boundary, transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:streamname-regseqrat-pointwise-handoff} on the restriction of the $Q$ packet to $P$. The hypothesis identifies the selected StreamName rows and the accepted pointwise RegSeqRat row with the $P$ packet, so the componentwise $\hsame$ and unary-history coordinates read by the Real consumer are the same on the restricted window.
+
+Next apply \autoref{thm:streamname-real-seal-factorization-boundary}. The RealUp seal still factors through the displayed finite route: bundle membership, accepted RegSeqRat rows, displayed $\Cont$ rows, $\Pkg$ provenance, and the local transport rows. The larger budget supplies no additional seal-facing coordinate once its restriction has the same boundary row.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-window-factorization} to the shared restricted window. It identifies the public source surface seen by the downstream RealUp seal consumer, and the identified surface contains exactly the finite BEDC rows named in the statement. Quotient streams, host sequence equality, selected limits, and ambient completeness remain outside the handoff packet.
+\end{proof}
+
+\begin{theorem}[StreamName Real-RegSeq common-window lattice coherence]
+\label{thm:streamname-real-regseq-window-lattice-coherence}
+Suppose two $\StreamNameUp$-mediated $\RegSeqRat$-to-$\RealUp$ handoff reads are compared through a certified common finite-window lattice meet. If their accepted $\RegSeqRat$ pointwise rows and their $\RealUp$ seal boundary agree on that meet, then both reads expose the same finite $\mathsf{BHist}$ source surface. The common surface consists exactly of the $\mathsf{RatHistoryClassifier}$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, accepted $\RegSeqRat$ pointwise seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows carried by the meet packet.
+
+This lattice coherence statement exports no quotient stream equality, no host sequence equality, no ambient $\RealUp$ completeness, no selected completion representative, and no metric-completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-window-real-handoff-coverage} to each handoff read. Each read is already confined to the finite StreamName window, accepted RegSeqRat pointwise rows, the Real seal boundary, transport rows, continuation rows, provenance, and local naming rows.
+
+Next apply \autoref{thm:streamname-regseqrat-real-window-factorization}. The assumed agreement of the accepted pointwise rows and the Real seal boundary identifies the RegSeqRat and Real-facing rows that both reads can expose over the same window.
+
+Now use \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. The certified meet is a shared finite observation packet, so every RegSeqRat consumer and every finite-window RealUp consumer reads only its classifier, bundle, membership, unary-history, dyadic ledger, transport, continuation, provenance, and local naming coordinates.
+
+Finally apply \autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}. Common-window determinacy identifies the consumer reads on the certified meet surface. Repacking that identified surface gives the same finite $\mathsf{BHist}$ source packet for both handoffs and leaves quotient equality, host sequence equality, ambient Real completeness, selected representatives, and metric-completeness rows outside the public lattice surface.
+\end{proof}
