@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySelectorBudgetUp$}
+\label{ch:concrete-instances-regularcauchyselectorbudget-namecert}
+\origin{human}
+
+The $\RegularCauchySelectorBudgetUp$ packet records the finite selector-budget step used by the Real completeness diagonal construction. It binds a displayed regular Cauchy modulus, the selected finite window budget, StreamName observation rows, a RegSeqRat witness row, the RealUp seal handoff, and the BEDC transport rows as one inspectable naming certificate. It is a local finite packet between modulus selection and seal delivery; it is not a host limit, quotient stream equality, countable choice principle, or ambient completeness theorem.
+
+\begin{definition}[RegularCauchySelectorBudget carrier]
+\label{def:regular-cauchy-selector-budget-carrier}
+A $\RegularCauchySelectorBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(\mu,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\mu$ is the selector-modulus row read from the regular Cauchy input at the requested precision;
+\item $W$ is the finite window-budget row naming the selected indices and StreamName observation extent allowed by $\mu$;
+\item $S$ is the finite family of $\StreamNameUp$ observation rows opened by the selected window budget;
+\item $R$ is the $\RegSeqRatUp$ witness row assembled from those observations for the diagonal handoff;
+\item $E$ is the $\RealUp$ seal row through which the completion-facing consumer reads the selected regular witness;
+\item $H$ records componentwise $\hsame$ transports for the modulus, window budget, StreamName rows, RegSeqRat witness, RealUp seal, and local structural rows;
+\item $C$ records the displayed $\Cont$ routes for modulus inspection, window coverage, observation readback, RegSeqRat handoff, RealUp seal delivery, and non-escape inspection;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchySelectorBudgetUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the visible rows $\mu,W,S,R,E,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[RegularCauchySelectorBudget NameCert obligations]
+\label{thm:regular-cauchy-selector-budget-namecert-obligations}
+The local $\NameCert_{\RegularCauchySelectorBudgetUp}$ surface for \autoref{def:regular-cauchy-selector-budget-carrier} consists of carrier admission, selector-modulus exactness, finite window-budget coverage, StreamName observation readback, $\RegSeqRatUp$ witness handoff, $\RealUp$ seal boundary, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and non-escape from host limits, quotient streams, countable choice, hidden window enlargement, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple in \autoref{def:regular-cauchy-selector-budget-carrier}. It displays the selector modulus, finite window budget, StreamName rows, RegSeqRat witness, RealUp seal, transports, routes, provenance, and local naming row.
+
+Selector-modulus exactness and window-budget coverage are read from $\mu$ and $W$. The StreamName observations $S$ and the RegSeqRat witness $R$ are listed after those rows, so the witness route cannot bypass the selected finite budget.
+
+The RealUp seal boundary is the role of $E$, while the structural obligations are the roles of $H,C,P,N$. Since the carrier has no coordinate for a host limit, quotient stream equality, countable choice, hidden window enlargement, or ambient completeness, non-escape follows by inspection of the displayed packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchySelectorBudget window coverage]
+\label{thm:regular-cauchy-selector-budget-window-coverage}
+Every accepted $\RegularCauchySelectorBudgetUp$ carrier covers its diagonal observation request through the displayed finite window budget $W$. For
+$$
+Q=(\mu,W,S,R,E,H,C,P,N),
+$$
+each StreamName row in $S$ is opened only inside the indices and observation extent named by $W$, and the budget $W$ is itself read from the selector modulus row $\mu$.
+\end{theorem}
+\begin{proof}
+Project the rows $\mu$ and $W$ from the carrier. The window budget is an explicit coordinate whose role is to name the finite indices and observation extent admitted by the selected modulus route.
+
+The StreamName rows $S$ are listed after $W$ and are consumed by the same continuation data. Thus an accepted observation row is available only as part of the selected finite budget.
+
+The remaining rows $R,E,H,C,P,N$ consume the displayed observations. No row permits an unbounded stream scan or a second selector, so window coverage is confined to $W$.
+\end{proof}
+
+\begin{theorem}[RegularCauchySelectorBudget RegSeqRat handoff]
+\label{thm:regular-cauchy-selector-budget-regseqrat-handoff}
+Every $\RegSeqRatUp$ witness exported by an accepted $\RegularCauchySelectorBudgetUp$ carrier factors through the finite route
+$$
+\mu,W,S,R,H,C,P,N.
+$$
+The handoff preserves the selected modulus, finite window budget, StreamName observation rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-selector-budget-window-coverage} to identify the selected modulus and finite window budget. This fixes $\mu,W,S$ as the only observation data available to the witness route.
+
+The witness row $R$ is listed after the observations and is routed through the same structural rows. Therefore every exported $\RegSeqRatUp$ witness consumes the displayed StreamName packet before it can be read by a downstream consumer.
+
+Inspect $H,C,P,N$. These rows keep the handoff stable under $\hsame$ transport, continuation replay, package provenance, and local naming, so the RegSeqRat handoff is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[RegularCauchySelectorBudget Real seal boundary]
+\label{thm:regular-cauchy-selector-budget-real-seal-boundary}
+Every Real completeness consumer of an accepted $\RegularCauchySelectorBudgetUp$ carrier reaches $\RealUp$ only through the seal row $E$ after the $\RegSeqRatUp$ witness row $R$ has been assembled from the selected StreamName window budget. The carrier exports no host-selected limit, quotient stream equality, countable choice selector, hidden observation budget, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the seal row $E$ from the carrier. It appears after the RegSeqRat witness $R$, so a real-facing route reaches $\RealUp$ only after the finite witness handoff has been assembled.
+
+Apply \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}. The witness $R$ is already bound to the modulus, window budget, StreamName observations, transports, routes, provenance, and local naming row.
+
+The carrier contains no coordinate for a host-selected limit, quotient stream equality, countable choice selector, hidden observation budget, or ambient completeness. Hence the RealUp seal is a boundary around the displayed finite packet and exports no additional real object.
+\end{proof}
+
+\begin{theorem}[RegularCauchySelectorBudget non-escape]
+\label{thm:regular-cauchy-selector-budget-nonescape}
+An accepted $\RegularCauchySelectorBudgetUp$ carrier cannot be used to recover data outside the displayed tuple $\mu,W,S,R,E,H,C,P,N$. In particular, it does not produce an unbounded family of StreamName observations, a second modulus selector, a quotient of regular sequences, a host real limit, or a completeness principle for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates from \autoref{def:regular-cauchy-selector-budget-carrier}. Every exported route is one of the displayed finite rows, with $H,C,P,N$ providing only transport, continuation, provenance, and naming structure for those rows.
+
+The window coverage theorem confines StreamName observations to $W$, and the RegSeqRat handoff confines the witness to $\mu,W,S,R,H,C,P,N$. The Real seal boundary then confines completion-facing reads to $E$ after that finite witness route.
+
+Since no additional coordinate is present, the packet has no source for unbounded observations, a second selector, quotient regular sequences, host real limits, or a RealUp completeness principle.
+\end{proof}
+
+\closureat{RegularCauchySelectorBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySelectorBudgetUp}
+  \constructivestory{A $\RegularCauchySelectorBudgetUp$ packet is generated from a selector modulus, finite window budget, StreamName observation rows, a RegSeqRat witness, a RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, and \autoref{thm:regular-cauchy-selector-budget-nonescape} bind the finite selector-budget carrier and its local NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host real limits, countable choice, hidden window enlargement, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector-modulus exactness, finite window-budget coverage, StreamName readback, RegSeqRat handoff, RealUp seal boundary, transport stability, route stability, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}
