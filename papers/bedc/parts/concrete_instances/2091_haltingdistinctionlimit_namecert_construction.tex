@@ -77,12 +77,30 @@ For downstream consumers, inspect the carrier again. Every exported read is one 
 \end{proof}
 \leanchecked{BEDC.Derived.HaltingDistinctionLimitUp.HaltingDistinctionLimitTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Halting distinction limit sibling boundary]
+\label{thm:halting-distinction-limit-sibling-boundary}
+Every diagonal obstruction read in an accepted $\HaltingDistinctionLimitUp$ packet factors through the obstruction classifier boundary supplied by \autoref{ch:concrete-instances-haltingobstruction-namecert} and the fixed-point vision boundary of \autoref{ch:visions-halting-as-form-of-distinction-limit}. The exported surface remains only
+$$
+P,h,T,D,H,C,K,N,
+$$
+and it does not become a halting decision procedure.
+\end{theorem}
+\begin{proof}
+Project the local carrier of \autoref{def:halting-distinction-limit-carrier}. The only obstruction-facing rows are the program row $P$, input history $h$, finite trace $T$, diagonal row $D$, and the structural rows $H,C,K,N$.
+
+The classifier of \autoref{def:halting-distinction-limit-classifier} permits comparison only through those displayed rows. Thus a diagonal read cannot bypass the local packet and cannot add a total halting predicate.
+
+Apply \autoref{thm:halting-distinction-limit-fixed-point-boundary} and \autoref{thm:halting-distinction-limit-namecert-obligations}. They route the self-application read through $D$ and keep the trace finite before any downstream consumer can see the obstruction.
+
+The sibling packet of \autoref{ch:concrete-instances-haltingobstruction-namecert} is exactly the downstream obstruction classifier boundary, and \autoref{ch:visions-halting-as-form-of-distinction-limit} names the fixed-point limit being exposed. Therefore the public read factors through that sibling boundary while exporting only $P,h,T,D,H,C,K,N$.
+\end{proof}
+
 \closureat{HaltingDistinctionLimitUp}{seedStr}
 
 \begin{closurestatus}{\HaltingDistinctionLimitUp}
   \constructivestory{A $\HaltingDistinctionLimitUp$ packet is generated from a program-certificate row, an input history row, a finite $\Cont_P$ trace row, a diagonal obstruction row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ ledger.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:halting-distinction-limit-carrier}, \autoref{def:halting-distinction-limit-classifier}, \autoref{thm:halting-distinction-limit-fixed-point-boundary}, and \autoref{thm:halting-distinction-limit-namecert-obligations} bind the finite carrier, displayed classifier, fixed-point boundary, non-decision ledger, and downstream non-escape surface.}
+  \scopeclosed{\autoref{def:halting-distinction-limit-carrier}, \autoref{def:halting-distinction-limit-classifier}, \autoref{thm:halting-distinction-limit-fixed-point-boundary}, \autoref{thm:halting-distinction-limit-namecert-obligations}, and \autoref{thm:halting-distinction-limit-sibling-boundary} bind the finite carrier, displayed classifier, fixed-point boundary, obstruction sibling boundary, non-decision ledger, and downstream non-escape surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
