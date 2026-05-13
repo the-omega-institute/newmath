@@ -1,0 +1,32 @@
+\begin{theorem}[Diagonal-limit compatibility budget-selector carrier]\label{thm:diagonal-limit-compatibility-budget-selector-carrier}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet. Any completion-facing read that uses $K$ as a diagonal compatibility source consumes the $\FiniteObservationBudgetSelectorUp$ route before the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the $\RealUp$ seal row $L$ are made available to the downstream consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted compatibility packet. The carrier displays the diagonal source, triangle row, seal route, dyadic ledger, stream-window row, regular readback, Real seal, transports, continuations, provenance, and local naming row.
+
+Insert the finite observation-budget selector at the point where the diagonal route asks for its selected observation budget. The selector route supplies the finite budget-to-schedule passage that determines which window and dyadic rows may be read.
+
+Only after that selector route is fixed may the consumer read $W$, then the dyadic and regular-rational handoff through $D,Q$, and finally the Real seal row $L$. Thus the selector is consumed before the window, readback, and seal rows are exported.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility budget-selector route]\label{thm:diagonal-limit-compatibility-budget-selector-route}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet, the displayed budget-selector handoff is mediated only by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The handoff uses the same finite support rows $H,C,P,N$ that expose the diagonal route, so the selector read cannot introduce an additional analytic coordinate between the budget request and the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the support coordinates of the compatibility packet. The rows $H,C,P,N$ record componentwise history transport, continuation replay, package provenance, and local naming data.
+
+The finite observation-budget selector is read as a BEDC packet through those same support coordinates. Its budget-to-schedule, finite-window, dyadic-ledger, handoff, and seal rows are therefore reached by displayed $\BHist$ rows, transported by $\hsame$, replayed by $\Cont$, and packaged by $\Pkg$ under the local $\NameCert$ surface.
+
+No further mediator is present in the carrier. Hence the selector handoff is exhausted by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility budget-selector non-escape]\label{thm:diagonal-limit-compatibility-budget-selector-nonescape}
+No quotient stream, choice-selected limit, host real equality, or ambient completeness coordinate can enter an accepted $\DiagonalLimitCompatibilityUp$ packet through the budget-selector handoff. Every such handoff remains inside the displayed $\FiniteObservationBudgetSelectorUp$ route and the compatibility rows $R,T,S,D,W,Q,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use the selector route theorem to identify the only mediation rows. They are structural BEDC rows and contain no quotient stream, choice datum, host equality test, or completeness oracle.
+
+Use the carrier inventory for the compatibility packet. Its analytic-facing rows are the displayed dyadic ledger, stream-window family, regular readback, and Real seal reached along the named finite route.
+
+Since the selector handoff has no other coordinate and the compatibility packet has no hidden analytic field, none of the excluded objects can enter through the handoff. Every exported read remains inside the displayed selector route and the compatibility packet rows.
+\end{proof}

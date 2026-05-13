@@ -181,6 +181,52 @@ Apply \autoref{thm:observation-budget-limiter-budget-cap-totality} for the entry
 Finally apply \autoref{thm:observation-budget-limiter-vision-handoff}. The Real and Completion consumer may use this packet only as a capped observation service. The visible boundary is therefore the same $H,C,P,N$ provenance carried by $L$, with no completeness, quotient, selected-limit, host-equality, trichotomy, or independent-real coordinate added at the seal.
 \end{proof}
 
+\begin{theorem}[Observation-budget limiter finite service triad]
+\label{thm:observation-budget-limiter-finite-service-triad}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. The finite service surface exposed by $L$ consists exactly of the request row $E$, the $\RealObservationBudgetUp$ row $B$, the cap row $K$, the $\StreamNameUp$ window ledger $W$, the $\DyadicRatCoreUp$ observation ledger $D$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal row $S$, the componentwise transports $H$, the displayed routes $C$, the package provenance $P$, and the local $\NameCert_{\ObservationBudgetLimiterUp}$ row $N$. A downstream Real or Completion consumer may cite this surface as the limiter triad
+$$
+(E,B,K) \quad (W,D,R) \quad (S,H,C,P,N),
+$$
+and receives no additional unbounded schedule, quotient stream, host real equality, selected limit, trichotomy row, independent real carrier, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:observation-budget-limiter-carrier} and apply \autoref{thm:observation-budget-limiter-namecert-obligations}. These rows expose the request, budget, cap, window, dyadic, readback, seal, transport, route, provenance, and naming coordinates as the whole carrier surface.
+
+For the entry part, use \autoref{thm:observation-budget-limiter-cap-admission} and \autoref{thm:observation-budget-limiter-budget-cap-totality}. They force every served window, readback, or seal read to pass through $E,B,K$ before any downstream row is available.
+
+For the middle part, use \autoref{thm:observation-budget-limiter-capped-window-transport}, \autoref{thm:observation-budget-limiter-budget-monotonicity}, and \autoref{thm:observation-budget-limiter-window-nonescape}. These theorems keep the window and dyadic service inside the displayed $W,D,R$ rows under the same cap.
+
+For the exit part, apply \autoref{thm:observation-budget-limiter-window-readback-exactness} and \autoref{thm:observation-budget-limiter-real-seal-cap-boundary}. The seal row is therefore read only after the exact capped source-window-readback chain, with $H,C,P,N$ recording the visible transport, route, package, and local certificate data.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter source-window-readback lock]
+\label{thm:observation-budget-limiter-source-window-readback-lock}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. Every downstream read of the capped service factors through the same source-window-readback rows
+$$
+E \to B \to K \to W \to D \to R.
+$$
+In particular, no downstream read may replace $W,D,R$ by host real equality, a hidden selector, an uncapped schedule, or a second readback route outside the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $L$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:observation-budget-limiter-cap-admission}. It places the source request and observation-budget rows before the cap row, and it makes the cap a coordinate of the accepted packet rather than an external numerical side condition.
+
+Next apply \autoref{thm:observation-budget-limiter-capped-window-transport}. Transport may move the displayed rows componentwise, but it does not create a new observation source or an uncapped service. The monotonicity theorem \autoref{thm:observation-budget-limiter-budget-monotonicity} has the same shape: it can widen an accepted cap while preserving the same displayed route discipline.
+
+Finally use \autoref{thm:observation-budget-limiter-window-nonescape} and \autoref{thm:observation-budget-limiter-window-readback-exactness}. They identify $K \to W \to D \to R$ as the only regular readback route in the packet. Hence a host equality, hidden selector, uncapped schedule, or second readback has no carrier row and no local $\NameCert$ clause from which a downstream read can be certified.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter downstream seal eligibility]
+\label{thm:observation-budget-limiter-downstream-seal-eligibility}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. A $\CauchyLimitSealUp$, $\UniformLimitUp$, or Real-route consumer is eligible to consume the limiter only after it has read the finite service triad of \autoref{thm:observation-budget-limiter-finite-service-triad}. Thus every eligible seal consumer has already displayed the request-budget-cap entry, the source-window-readback middle, and the $\RealUp$ seal boundary with the same $H,C,P,N$ provenance.
+\end{theorem}
+\begin{proof}
+First read the limiter as a finite service packet by \autoref{thm:observation-budget-limiter-finite-service-triad}. This exposes the three parts of the surface without adding a completion theorem, quotient stream, selected limit, host equality, or independent real carrier.
+
+Next apply \autoref{thm:observation-budget-limiter-source-window-readback-lock}. Any downstream consumer of the capped service must use the same $E,B,K,W,D,R$ chain, so the consumer cannot replace the middle route by a hidden selector or host real equality.
+
+Finally apply \autoref{thm:observation-budget-limiter-seal-ordering} and \autoref{thm:observation-budget-limiter-real-seal-cap-boundary}. They place the $\RealUp$ seal row after the capped readback and identify $H,C,P,N$ as the seal-facing boundary. A $\CauchyLimitSealUp$, $\UniformLimitUp$, or Real-route consumer therefore becomes eligible only after the displayed finite service triad has been read.
+\end{proof}
+
 The follow-up Lean TasteGate for this chapter must provide \texttt{Nontrivial ObservationBudgetLimiterUp} and \texttt{FieldFaithful ObservationBudgetLimiterUp} instances for the same carrier.
 
 \closureat{ObservationBudgetLimiterUp}{seedStr}

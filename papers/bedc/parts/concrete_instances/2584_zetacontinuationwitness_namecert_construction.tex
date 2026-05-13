@@ -132,6 +132,42 @@ Apply the carrier definition and the NameCert obligation surface. They account f
 The conclusion follows by coordinate exhaustion. Since the critical-strip route is a $\Cont$ read from the same packet, it receives only the displayed rows and has no input slot for the excluded data.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationWitness critical-strip bridge row]
+\label{thm:zeta-continuation-witness-critical-strip-bridge-row}
+Every critical-strip consumer of an accepted $\ZetaContinuationWitnessUp$ packet can read only the displayed rows $B,E,A,P,F,T,G,H,C,R,N$. The consumer cannot import an RH predicate, a non-trivial-zero location row, or a global zero classifier as packet input; those objects are outside the carrier, outside the NameCert obligation surface, and outside the exhausted consumer ledger.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the NameCert obligation surface. The carrier lists exactly $B,E,A,P,F,T,G,H,C,R,N$, and the obligation rows account for source, eta, continuation, pole, functional-equation, trivial-zero, Gamma, transport, route, provenance, and local naming reads.
+
+Apply the pole-Gamma boundary and critical-strip input refusal. These rows exclude RH predicates, non-trivial-zero locators, global zero classifiers, and completed Gamma certificates from the packet input.
+
+Finally use route-carrier admission and consumer-ledger exhaustion. Any critical-strip route must be replayed through the same displayed $\Cont$ row and authenticated by $R,N$, so there is no remaining bridge through which an excluded critical-strip object can enter.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness pole-ledger refusal row]
+\label{thm:zeta-continuation-witness-pole-ledger-refusal-row}
+Every pole-facing read of an accepted $\ZetaContinuationWitnessUp$ packet stays in the displayed pole ledger $P$ and its authentication rows $H,C,R,N$. The pole row cannot become a separate pole-completion object, cannot supply a second continuation carrier, and cannot bypass the eta, functional-equation, Gamma-boundary, and consumer-ledger rows already displayed by the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate the pole coordinate $P$. It is a ledger row inside $W=(B,E,A,P,F,T,G,H,C,R,N)$, not an independent completion carrier.
+
+Use the NameCert obligation surface together with the pole-Gamma boundary. The obligation surface treats pole exactness as a finite ledger read, and the boundary keeps pole reads in $P$ while routing Gamma-dependent reads through $F$ or $G$.
+
+Route-carrier admission and consumer-ledger exhaustion close the refusal. Every pole-facing consumer must replay the displayed route through $C$ and authenticate it through $R,N$, so the pole row cannot split off as a separate object or bypass the displayed witness packet.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness Gamma-horizon consumer row]
+\label{thm:zeta-continuation-witness-gamma-horizon-consumer-row}
+Every Gamma-dependent consumer of an accepted $\ZetaContinuationWitnessUp$ packet either reads a Gamma factor already displayed in the functional-equation row $F$ or stops at the Gamma-horizon boundary $G$. The packet supplies no completed Gamma certificate and no hidden Gamma route beyond $F,G,H,C,R,N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligation surface. The only Gamma-facing coordinates are the displayed factor inside $F$ and the horizon boundary $G$.
+
+Apply the pole-Gamma boundary and critical-strip input refusal. They prevent a Gamma-dependent read from importing a completed Gamma certificate or using Gamma data as an RH-facing critical-strip input.
+
+Use route-carrier admission and consumer-ledger exhaustion for the final route. Once the read lands in $F$ or $G$, it is transported, replayed, packaged, and named only through $H,C,R,N$, so no further Gamma-horizon consumer row is available.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationWitness eta-functional route coverage]
 \label{thm:zeta-continuation-witness-eta-functional-route-coverage}
 Every exported continuation route of an accepted $\ZetaContinuationWitnessUp$ packet is covered by one of five displayed rows: the eta-continuation row $E$, the pole ledger $P$, the functional-equation row $F$, the trivial-zero ledger $T$, or the Gamma-horizon boundary $G$. There is no unrecorded continuation branch outside those rows and their accompanying $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ authentication data.
