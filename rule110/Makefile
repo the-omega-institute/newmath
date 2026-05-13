@@ -42,7 +42,7 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_topology_up_audit \
                    $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-exhaustiveness test-scale visualizations regen-manifests bedc-operations-data clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-exhaustiveness test-scale visualizations regen-manifests bedc-data bedc-operations-data clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Generated manifests (.r110.ct, .algo.r110.ct) are encoder outputs — not in git.
@@ -80,7 +80,7 @@ $(ENCODER_DIR)/generate_r110_algo: $(ENCODER_DIR)/generate_r110_algo.c $(EVAL_DI
 $(BEDC_OPERATIONS_EXPORT): $(TOOLS_DIR)/bedc_operations_export.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-bedc-operations-data: $(BEDC_OPERATIONS_EXPORT) $(R110_GENERATED)
+bedc-data bedc-operations-data: $(BEDC_OPERATIONS_EXPORT) $(R110_GENERATED) $(ALGO_R110_GENERATED)
 	mkdir -p ../docs/dossier/data
 	./$(BEDC_OPERATIONS_EXPORT) > ../docs/dossier/data/bedc_operations.json
 
