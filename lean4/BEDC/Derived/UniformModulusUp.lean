@@ -311,4 +311,70 @@ theorem UniformModulusPacket_root_compact_cover_row_totality [AskSetup] [Package
     ⟨bundleRowUnary, radiusUnary, compactReadUnary, boundaryUnary,
       bundleRadiusCompactRead, compactReadCoverageBoundary, boundaryPkg⟩
 
+theorem UniformModulusPacket_probe_bundle_membership_exhaustion [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance nameRow
+      center coverageRead exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg →
+      Cont bundleRow radius center →
+        Cont center coverage coverageRead →
+          Cont coverageRead nameRow exported →
+            PkgSig bundle exported pkg →
+              UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory center ∧
+                UnaryHistory coverageRead ∧ UnaryHistory exported ∧
+                  Cont bundleRow radius center ∧ Cont center coverage coverageRead ∧
+                    Cont coverageRead nameRow exported ∧ PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro packet centerRoute coverageReadRoute exportRoute exportPkg
+  obtain ⟨toleranceUnary, _precisionUnary, bundleRowUnary, radiusUnary, nameRowUnary,
+    coverageRoute, _transportRoute, _foldRoute, _provenanceRoute, _packetPkg⟩ := packet
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed toleranceUnary bundleRowUnary coverageRoute
+  have centerUnary : UnaryHistory center :=
+    unary_cont_closed bundleRowUnary radiusUnary centerRoute
+  have coverageReadUnary : UnaryHistory coverageRead :=
+    unary_cont_closed centerUnary coverageUnary coverageReadRoute
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed coverageReadUnary nameRowUnary exportRoute
+  exact
+    ⟨bundleRowUnary, radiusUnary, centerUnary, coverageReadUnary, exportedUnary,
+      centerRoute, coverageReadRoute, exportRoute, exportPkg⟩
+
+theorem UniformModulusPacket_root_pointwise_modulus_row_totality [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow compactRead pointwiseRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      UnaryHistory pointwise ->
+        Cont bundleRow radius compactRead ->
+          Cont compactRead pointwise pointwiseRead ->
+            Cont pointwiseRead transport consumer ->
+              PkgSig bundle consumer pkg ->
+                UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory compactRead ∧
+                  UnaryHistory pointwiseRead ∧ UnaryHistory transport ∧
+                    UnaryHistory consumer ∧ Cont bundleRow radius compactRead ∧
+                      Cont compactRead pointwise pointwiseRead ∧
+                        Cont pointwiseRead transport consumer ∧
+                          PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro packet pointwiseUnary compactRoute pointwiseRoute consumerRoute consumerPkg
+  obtain ⟨toleranceUnary, _precisionUnary, bundleRowUnary, radiusUnary, _nameRowUnary,
+    coverageRoute, transportRoute, _packetFoldRoute, _provenanceRoute, _provenancePkg⟩ :=
+    packet
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed toleranceUnary bundleRowUnary coverageRoute
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed bundleRowUnary radiusUnary compactRoute
+  have pointwiseReadUnary : UnaryHistory pointwiseRead :=
+    unary_cont_closed compactReadUnary pointwiseUnary pointwiseRoute
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed coverageUnary pointwiseUnary transportRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed pointwiseReadUnary transportUnary consumerRoute
+  exact
+    ⟨bundleRowUnary, radiusUnary, compactReadUnary, pointwiseReadUnary, transportUnary,
+      consumerUnary, compactRoute, pointwiseRoute, consumerRoute, consumerPkg⟩
+
 end BEDC.Derived.UniformModulusUp
