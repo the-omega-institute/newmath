@@ -232,6 +232,7 @@ Finally apply \autoref{thm:observation-budget-limiter-seal-ordering} and \autore
 \label{thm:observation-budget-limiter-kernel-scope}
 Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. Every accepted limiter read is scoped by the displayed $\BHist$ carrier rows $E,B,K,W,D,R,S$, the componentwise $\hsame$ row $H$, the continuation-route row $C$, the package provenance row $P$, and the local $\NameCert_{\ObservationBudgetLimiterUp}$ row $N$. No accepted read of the limiter may cite a kernel object outside those rows before it reaches a downstream seal consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservationBudgetLimiterUp.ObservationBudgetLimiter\_kernel\_scope\_fields}
 \begin{proof}
 Project the carrier through \autoref{def:observation-budget-limiter-carrier}. The only carrier coordinates are $E,B,K,W,D,R,S,H,C,P,N$, with $H$ storing the componentwise $\hsame$ transports and $C$ storing the displayed $\Cont$ routes.
 
@@ -401,18 +402,39 @@ Next apply \autoref{thm:observation-budget-limiter-seal-ordering}. The seal row 
 Finally use \autoref{thm:observation-budget-limiter-finite-service-triad} and \autoref{thm:observation-budget-limiter-source-window-readback-lock}. These identify $H,C,P,N$ as the displayed provenance for that route and exclude any second source, hidden selector, host equality, quotient, selected limit, independent real carrier, or completeness witness.
 \end{proof}
 
+\begin{theorem}[Observation-budget limiter public seal interface]
+\label{thm:observation-budget-limiter-public-seal-interface}
+Every public consumer of an accepted $\ObservationBudgetLimiterUp$ packet reads the capped finite window, budget cap, selector compatibility, Cauchy tail-budget factorization, and Real-seal boundary only through the displayed carrier rows
+$$
+E,B,K,W,D,R,S,H,C,P,N
+$$
+and their $\Cont$, $\Pkg$, and local $\NameCert_{\ObservationBudgetLimiterUp}$ provenance. No public consumer receives an unbounded observation schedule, hidden selector, quotient stream, selected limit, host real equality, independent real carrier, or ambient completeness row from the packet.
+\end{theorem}
+\begin{proof}
+Begin with the public service triad of \autoref{thm:observation-budget-limiter-service-triad-coverage}. It identifies the consumer-visible surface as
+$$
+(E,B,K) \quad (W,D,R) \quad (S,H,C,P,N).
+$$
+
+Apply \autoref{thm:observation-budget-limiter-selector-compatibility}. Selector-facing consumers must read the capped service through $E,B,K,W,D,R,S,H,C,P,N$, so selector compatibility is a carrier projection rather than a hidden selector row.
+
+Next apply \autoref{thm:observation-budget-limiter-cauchy-tail-budget-factorization} and \autoref{thm:observation-budget-limiter-tail-budget-shared-cap}. A $\RegularCauchyTailBudgetUp$ consumer inherits the same cap row $K$ and the same provenance rows when it consumes the limiter as its observation-budget field.
+
+Finally use \autoref{thm:observation-budget-limiter-real-seal-cap-boundary} and \autoref{thm:observation-budget-limiter-scoped-route-factorization}. The Real-seal endpoint is reached only through the displayed route, and the route exports no unbounded schedule, hidden selector, quotient stream, selected limit, host equality, independent carrier, or ambient completeness principle.
+\end{proof}
+
 The follow-up Lean TasteGate for this chapter must provide \texttt{Nontrivial ObservationBudgetLimiterUp} and \texttt{FieldFaithful ObservationBudgetLimiterUp} instances for the same carrier.
 
 \closureat{ObservationBudgetLimiterUp}{seedStr}
 
 \begin{closurestatus}{\ObservationBudgetLimiterUp}
   \constructivestory{An $\ObservationBudgetLimiterUp$ packet is generated from a finite request row, observation-budget row, budget-cap row, finite StreamName window ledger, DyadicRatCore observation ledger, RegSeqRat readback row, RealUp seal row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:observation-budget-limiter-carrier}, \autoref{thm:observation-budget-limiter-namecert-obligations}, \autoref{thm:observation-budget-limiter-cap-admission}, \autoref{thm:observation-budget-limiter-seal-ordering}, \autoref{thm:observation-budget-limiter-capped-window-transport}, \autoref{thm:observation-budget-limiter-budget-monotonicity}, \autoref{thm:observation-budget-limiter-window-nonescape}, \autoref{thm:observation-budget-limiter-vision-handoff}, \autoref{thm:observation-budget-limiter-primitive-scope}, \autoref{thm:observation-budget-limiter-scoped-route-factorization}, \autoref{thm:observation-budget-limiter-obligation-closure-package}, \autoref{thm:observation-budget-limiter-selector-compatibility}, \autoref{thm:observation-budget-limiter-cauchy-tail-budget-factorization}, \autoref{thm:observation-budget-limiter-tail-budget-shared-cap}, and \autoref{thm:observation-budget-limiter-service-triad-coverage} bind finite request caps, NameCert rows, selector compatibility, Cauchy tail-budget factorization, tail-budget shared-cap routing, service-triad coverage, and the primitive route $E \to B \to K \to W \to D \to R \to S$ before StreamName, RegSeqRat, DyadicRatCore, and RealUp seal reads.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:observation-budget-limiter-carrier}, \autoref{thm:observation-budget-limiter-namecert-obligations}, \autoref{thm:observation-budget-limiter-cap-admission}, \autoref{thm:observation-budget-limiter-seal-ordering}, \autoref{thm:observation-budget-limiter-capped-window-transport}, \autoref{thm:observation-budget-limiter-budget-monotonicity}, \autoref{thm:observation-budget-limiter-window-nonescape}, \autoref{thm:observation-budget-limiter-vision-handoff}, \autoref{thm:observation-budget-limiter-primitive-scope}, \autoref{thm:observation-budget-limiter-scoped-route-factorization}, \autoref{thm:observation-budget-limiter-obligation-closure-package}, \autoref{thm:observation-budget-limiter-selector-compatibility}, \autoref{thm:observation-budget-limiter-cauchy-tail-budget-factorization}, \autoref{thm:observation-budget-limiter-tail-budget-shared-cap}, and \autoref{thm:observation-budget-limiter-service-triad-coverage} bind finite request caps, NameCert rows, selector compatibility, Cauchy tail-budget factorization, tail-budget shared-cap routing, service-triad coverage, the paper bridge surface, and the primitive route $E \to B \to K \to W \to D \to R \to S$ before StreamName, RegSeqRat, DyadicRatCore, and RealUp seal reads.}
   \formalstatus{\unformalizedV}
   \leanchecked{BEDC.Derived.ObservationBudgetLimiterUp.taste\_gate}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, Real completeness, quotient streams, host real equality, selected limits, trichotomy, independent real carriers, or ambient completeness.}
-  \upgradepath{Public closure requires Lean verification for the scoped route factorization and a public object surface beyond the finite limiter service.}
+  \upgradepath{Bridge checking requires a Lean-side standard bridge target for the displayed limiter service; the current bridge surface is paper-side only.}
 \end{closurestatus}
