@@ -268,6 +268,20 @@ def _response_failure_kind(text: str) -> str:
     return "unparseable_or_unclassified_response"
 
 
+def _refill_wait_seconds(rec: dict) -> int | None:
+    log_path = rec.get("log")
+    if not isinstance(log_path, Path) or not log_path.exists():
+        return None
+    text = _read_text_prefix(log_path, max_chars=12000)
+    matches = re.findall(r"waiting\.\.\.\s+(\d+)s elapsed", text)
+    if not matches:
+        return None
+    try:
+        return max(int(item) for item in matches)
+    except ValueError:
+        return None
+
+
 def _infer_refill_status(rec: dict) -> str:
     summary_path = rec.get("summary")
     if isinstance(summary_path, Path) and summary_path.exists():
@@ -408,10 +422,13 @@ def render_board_refill() -> str:
             name for name in ("prompt", "response", "summary", "log") if rec.get(name)
         )
         status = _infer_refill_status(rec)
+        wait_seconds = _refill_wait_seconds(rec)
+        wait_note = f" wait={_fmt_age(wait_seconds)}" if wait_seconds is not None else ""
         merged = rec.get("merged_stems") or []
         merged_note = f" merged={','.join(merged)}" if merged else ""
         lines.append(
-            f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   {status}{merged_note}"
+            f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   "
+            f"{status}{wait_note}{merged_note}"
         )
 
     latest = ordered[0]
