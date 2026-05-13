@@ -29,6 +29,12 @@ typedef struct {
     int total_mod4;
 } CookLeaderPreparedPlacement;
 
+typedef struct {
+    int first_moving_after_invisible;
+    int invisible_c2_spacing;
+    int moving_after_moving;
+} CookLeaderFigure10Alignment;
+
 void cook_leader_emit(uint8_t *out, size_t pos, size_t buf_len);
 int cook_leader_prepared_k(enum leader_prepared_context context,
                            size_t c,
@@ -39,6 +45,8 @@ int cook_leader_prepared_invisible_alignment(
     int *alignment_out);
 int cook_leader_prepared_placement(size_t c,
                                    CookLeaderPreparedPlacement *placement_out);
+int cook_leader_figure10_alignment(
+    CookLeaderFigure10Alignment *alignment_out);
 int cook_leader_emit_phase_exact(uint8_t *out, size_t pos, size_t buf_len);
 int cook_leader_emit_phase_exact_kind(uint8_t *out,
                                       size_t pos,
