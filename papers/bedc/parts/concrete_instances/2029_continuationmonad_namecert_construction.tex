@@ -131,6 +131,24 @@ Use classifier stability to move along componentwise $\hsame$ without changing t
 Use ledger exactness to identify the composed readback with the continuation route recorded in $K$ and $L$. Therefore a Kleisli-style consumer is bounded by the named BEDC rows and cannot read quotient Kleisli categories, host functions, host monad equalities, or a general category primitive.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad Kleisli composite scope]
+\label{thm:continuation-monad-kleisli-composite-scope}
+For an accepted $\ContinuationMonadUp$ packet, any composite consumer that reads
+$$
+A \xrightarrow{\,f\,} B \xrightarrow{\,g\,} C
+$$
+must factor through the displayed tails $f,g,u$, the $\Cont$ route row $K$, the componentwise $\hsame$ row $H$, the ledger row $L$, the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings, $\Pkg$ provenance, and the local $\NameCert_{\ContinuationMonadUp}$ row $N$. The consumer cannot replace this finite composite by host function composition, quotient Kleisli arrows, or a general category primitive.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission. The accepted packet exposes only the histories $A,B,C$, the tails $f,g,u$, the transport row $H$, the continuation route row $K$, the ledger row $L$, package provenance, and the local name.
+
+Use classifier stability to move through the componentwise $\hsame$ row without changing the displayed two-step route. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings are therefore readings of those same continuation rows, not additional morphism objects.
+
+Apply ledger exactness and the Kleisli composition boundary. They identify the composite readback with the recorded $K,L$ route and confine every consumer of the composite to the displayed BEDC packet.
+
+Since no coordinate names host function composition, quotient Kleisli arrows, or a general category primitive, the composite scope is exhausted by the listed rows.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad obligation closure]
 \label{thm:continuation-monad-obligation-closure}
 For every accepted $\ContinuationMonadUp$ source packet, the carrier source, unit laws, associativity, classifier stability, ledger exactness, local $\NameCert$ package, and Kleisli composition boundary jointly supply the $\obligationClosure$ surface for $\ContinuationMonadUp$ over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$. The closure surface exports only the displayed continuation tails, route rows, transport rows, ledger rows, package provenance, and naming row.
