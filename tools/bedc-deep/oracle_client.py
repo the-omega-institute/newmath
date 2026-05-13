@@ -43,6 +43,7 @@ import codex_track  # v2 codex track
 import board_spawn  # v2 BOARD spawn gate
 import board_archive
 import candidate_inbox
+import logic_packet_gate
 from locks import file_lock
 
 
@@ -306,6 +307,21 @@ def save_cursor(target: BedcTarget, cursor: dict) -> None:
 
 DEFAULT_CANDIDATE_FIT_THRESHOLD = 7
 DEFAULT_CANDIDATE_NOVELTY_THRESHOLD = 6
+LOGIC_PACKET_FIELDS = (
+    "axiom_budget",
+    "strength_level",
+    "budget_reason",
+    "witness_extractor",
+    "existence_mode",
+    "cut_rank",
+    "elimination_plan",
+    "equality_kind",
+    "interpretation_kind",
+    "resource_trace",
+    "dependency_trace",
+    "rate_modulus_surface",
+    "oracle_mode",
+)
 
 
 def existing_target_ids() -> list[str]:
@@ -321,7 +337,7 @@ def next_target_id() -> str:
 
 def render_candidate_entry(target_id: str, candidate: dict) -> str:
     title = candidate.get("title", "(untitled)")
-    claim = candidate.get("concrete_claim", "")
+    claim = candidate.get("claim") or candidate.get("concrete_claim") or ""
     inputs = candidate.get("local_inputs") or []
     rationale = candidate.get("rationale", "")
     fit = candidate.get("fit_score", "?")
@@ -330,6 +346,14 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
     chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (none provided)"
     worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
+    logic_lines = []
+    for key in LOGIC_PACKET_FIELDS:
+        value = str(candidate.get(key) or "").strip()
+        if value:
+            logic_lines.append(f"- `{key}`: {value}")
+    logic_block = ""
+    if logic_lines:
+        logic_block = "\nLogic packet discipline:\n" + "\n".join(logic_lines) + "\n"
     return (
         f"\n### {target_id} - {title}\n\n"
         f"| field | value |\n"
@@ -346,8 +370,16 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
         f"Problem:\n{claim}\n\n"
         f"Local inputs:\n{inputs_block}\n\n"
         f"{worthiness_block}"
+        f"{logic_block}"
         f"Rationale:\n{rationale}\n\n---\n"
     )
+
+
+def _logic_packet_rejection(candidate: dict) -> str:
+    result = logic_packet_gate.validate_logic_packet(candidate)
+    if result.ok:
+        return ""
+    return "logic_packet_gate:" + ";".join(result.reasons)
 
 
 def append_candidates_to_board(
@@ -381,6 +413,10 @@ def append_candidates_to_board(
                 continue
             if fit < fit_threshold or nov < novelty_threshold:
                 late_rejections.append({**cand, "reason": f"below_threshold fit={fit} nov={nov}"})
+                continue
+            logic_rejection = _logic_packet_rejection(cand)
+            if logic_rejection:
+                late_rejections.append({**cand, "reason": logic_rejection})
                 continue
             title = cand.get("title", "").strip()
             if not title:
