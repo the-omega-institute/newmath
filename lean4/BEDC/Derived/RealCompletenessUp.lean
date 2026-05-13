@@ -127,4 +127,40 @@ theorem RealCompletenessBHistCarrier_nonescape_boundary [AskSetup] [PackageSetup
     unary_cont_closed sealUnary certUnary publicReadRow
   exact ⟨publicReadUnary, sealUnary, certUnary, endpointUnary, endpointRoute, endpointPkg⟩
 
+theorem RealCompletenessBHistCarrier_regseq_seal_handoff [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert endpoint
+      familyModulus selected readbackRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow
+        transport route provenance cert endpoint bundle pkg ->
+      Cont family modulus familyModulus ->
+        Cont familyModulus selector selected ->
+          Cont selected readback readbackRoute ->
+            Cont readbackRoute sealRow endpoint ->
+              UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory familyModulus ∧
+                UnaryHistory selector ∧ UnaryHistory selected ∧ UnaryHistory readback ∧
+                  UnaryHistory readbackRoute ∧ UnaryHistory sealRow ∧ UnaryHistory endpoint ∧
+                    Cont family modulus familyModulus ∧
+                      Cont familyModulus selector selected ∧
+                        Cont selected readback readbackRoute ∧
+                          Cont readbackRoute sealRow endpoint ∧
+                            PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier familyModulusRoute selectedRoute readbackRouteStep sealRoute
+  obtain ⟨familyUnary, modulusUnary, selectorUnary, _dyadicUnary, _windowsUnary,
+    readbackUnary, sealUnary, _transportUnary, _routeUnary, _provenanceUnary, _certUnary,
+    _endpointUnary, _endpointRoute, endpointPkg⟩ := carrier
+  have familyModulusUnary : UnaryHistory familyModulus :=
+    unary_cont_closed familyUnary modulusUnary familyModulusRoute
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed familyModulusUnary selectorUnary selectedRoute
+  have readbackRouteUnary : UnaryHistory readbackRoute :=
+    unary_cont_closed selectedUnary readbackUnary readbackRouteStep
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed readbackRouteUnary sealUnary sealRoute
+  exact
+    ⟨familyUnary, modulusUnary, familyModulusUnary, selectorUnary, selectedUnary,
+      readbackUnary, readbackRouteUnary, sealUnary, endpointUnary, familyModulusRoute,
+      selectedRoute, readbackRouteStep, sealRoute, endpointPkg⟩
+
 end BEDC.Derived.RealCompletenessUp
