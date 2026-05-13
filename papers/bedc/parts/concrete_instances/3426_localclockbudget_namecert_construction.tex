@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\LocalClockBudgetUp$}
+\label{ch:concrete-instances-localclockbudget-namecert}
+\origin{human}
+
+The $\LocalClockBudgetUp$ packet realizes observer local time as a finite certificate surface. It reads a single $\Hist$ stream through bounded $\Cont$ windows, records the local unary budget for those windows, transports the same rows by $\hsame$, and exposes a no-global-clock ledger for downstream consumers. The packet does not synchronize distinct histories, choose an ambient clock, or import a hidden limit schedule.
+
+\begin{definition}[Local clock budget carrier]
+\label{def:local-clock-budget-carrier}
+A $\LocalClockBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+C=(H,T,W,B,L,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the observed $\Hist$ row whose local time stream is being budgeted;
+\item $T$ is the finite local-time-stream row, recording the $\Cont$ applications from $\emp$ to the displayed history surface;
+\item $W$ is the finite family of $\Cont$-step window rows selected for the budget;
+\item $B$ is the unary budget row that counts the admitted local steps and window endpoints;
+\item $L$ records componentwise $\hsame$ transport for the history row, local stream row, window rows, budget row, route row, package row, and local naming row;
+\item $Q$ records the displayed $\Cont$ routes for history projection, stream readback, window inspection, budget readback, and consumer handoff;
+\item $P$ is the $\Pkg$ provenance over $\Hist$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, local time streams, and no-global-clock ledgers;
+\item $N$ is the local $\NameCert_{\LocalClockBudgetUp}$ row.
+\end{enumerate}
+The carrier contains exactly these rows. It has no coordinate for a global clock, inter-history synchronization value, host time parameter, limit scheduler, or observer-substance distinct from the recorded history.
+\end{definition}
+
+\begin{theorem}[Local clock budget window totality]
+\label{thm:local-clock-budget-window-totality}
+Every accepted $\LocalClockBudgetUp$ carrier exposes a finite local time stream and a finite covering family of $\Cont$-step windows. Each window is selected from the row $T$ of local $\Cont$ applications, counted by the unary budget row $B$, and replayed through the displayed route row $Q$ inside the same packet
+$$
+C=(H,T,W,B,L,Q,P,N).
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:local-clock-budget-carrier}. The rows $H,T,W,B,L,Q,P,N$ display the observed history, its local stream, finite windows, unary budget, transport, routes, provenance, and local name.
+
+The local stream row $T$ is read before the window family $W$. Therefore each admitted window is a finite part of the displayed $\Cont$ route from $\emp$ toward the history row $H$.
+
+The unary row $B$ counts the selected windows and endpoints, while $Q$ replays their inspection for consumers. Since the carrier has no unbounded schedule or ambient time coordinate, every admitted window is exhausted by the finite packet.
+\end{proof}
+
+\begin{theorem}[Local clock budget route determinacy]
+\label{thm:local-clock-budget-route-determinacy}
+Let two accepted $\LocalClockBudgetUp$ consumer routes display the same rows $H,T,W,B,L,Q,P,N$. Then they determine the same local-time-budget surface up to the componentwise $\hsame$ transports recorded in $L$. No second route may distinguish the same local stream by appealing to a global clock, a host time parameter, or an inter-history synchronization value.
+\end{theorem}
+\begin{proof}
+Start with the displayed history and stream rows. The rows $H$ and $T$ fix the local source surface that any consumer route may inspect.
+
+Apply window totality. \autoref{thm:local-clock-budget-window-totality} binds the window family $W$ and budget row $B$ to the same finite $\Cont$-step stream and routes their readback through $Q$.
+
+Finally use the transport row $L$. Componentwise $\hsame$ transport preserves the displayed history, stream, windows, budget, provenance, and local name, while the carrier inventory excludes every global or host-side clock coordinate that could separate the two routes.
+\end{proof}
+
+\begin{theorem}[Local clock budget NameCert obligations]
+\label{thm:local-clock-budget-namecert-obligations}
+The local $\NameCert_{\LocalClockBudgetUp}$ surface for \autoref{def:local-clock-budget-carrier} consists exactly of carrier admission for $C=(H,T,W,B,L,Q,P,N)$, observed-history projection, local-time-stream exposure, finite $\Cont$-window totality, unary budget readback, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, no-global-clock ledger exclusion, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The rows $H,T,W,B$ provide the observed history, local stream, finite windows, and unary budget.
+
+The window-totality theorem supplies the finite coverage clause, and route determinacy supplies the consumer-facing uniqueness of the budget surface up to the displayed $\hsame$ transports.
+
+The remaining rows $L,Q,P,N$ give transport, replay, provenance, and local naming. Since the carrier has no coordinate for a global clock, inter-history synchronization value, host time parameter, limit scheduler, or separate observer-substance, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Local clock budget observer handoff]
+\label{thm:local-clock-budget-observer-handoff}
+Every downstream observer-facing consumer of an accepted $\LocalClockBudgetUp$ packet receives only the finite rows
+$$
+H,T,W,B,L,Q,P,N.
+$$
+The consumer may inspect the observed history, its local time stream, the selected $\Cont$ windows, the unary budget, componentwise $\hsame$ transports, displayed replay routes, provenance, and local naming. It may not extract a global clock, a synchronized comparison between distinct histories, an ambient time parameter, a hidden limit schedule, or an observer-substance beyond $\Hist$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only consumer-visible coordinates are $H,T,W,B,L,Q,P,N$.
+
+Use the local NameCert obligations to order the handoff through observed-history projection, stream exposure, window totality, budget readback, transport, replay, provenance, and local naming.
+
+Route determinacy then rules out alternate clock readings of the same packet. The no-global-clock exclusions are carrier exclusions: none of the forbidden objects appears as a coordinate, so no consumer can project it from the handoff.
+\end{proof}
+
+\closureat{LocalClockBudgetUp}{seedStr}
+
+\begin{closurestatus}{\LocalClockBudgetUp}
+  \constructivestory{A $\LocalClockBudgetUp$ packet is generated from one observed $\Hist$ row, its finite local $\Cont$ stream, finite step-window rows, a unary budget row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:local-clock-budget-carrier}, \autoref{thm:local-clock-budget-window-totality}, \autoref{thm:local-clock-budget-route-determinacy}, \autoref{thm:local-clock-budget-namecert-obligations}, and \autoref{thm:local-clock-budget-observer-handoff} bind the finite local-clock-budget carrier, local stream windows, route determinacy, NameCert obligations, and observer handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close global clocks, synchronized time across distinct histories, host time parameters, hidden limit schedules, observer-substance beyond $\Hist$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window totality, route determinacy, no-global-clock ledger exclusion, and observer handoff for the same finite packet.}
+\end{closurestatus}
