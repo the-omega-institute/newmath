@@ -84,3 +84,41 @@ coordinate for quotient stream equality, host index equality, selected
 limits, or ambient completeness, so none of those objects can act as a second
 route to the downstream seal.
 \end{proof}
+
+\begin{theorem}[StreamName Real RegSeq observation pullback lock]
+\label{thm:streamname-real-regseq-observation-pullback-lock}
+Let $\mathcal W$ be an accepted finite $\StreamNameUp$ window consumed first
+by a $\RegSeqRatUp$ readback and then by a $\RealUp$ seal. The first
+observation exposed to that route is only the certified
+$\mathsf{ProbeBundle}$ member together with its
+$\mathsf{UnaryHistory}$ row, and every downstream seal read factors through
+the same four-row pullback: the StreamName finite-window row, the RegSeqRat
+readback row, the $\DyadicRatCoreUp$ ledger row, and the $\RealUp$ seal row.
+
+The lock exports no host index equality, quotient stream equality, selected
+limit, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-window-index-nonempty-handoff}. It forces
+the first visible observation to be a finite $\mathsf{ProbeBundle}$ member
+paired with its certified $\mathsf{UnaryHistory}$ row before a RegSeqRat or
+Real consumer can read the packet.
+
+Use \autoref{thm:streamname-window-index-route-determinacy} to keep that
+observation on one finite route. Once the displayed window coordinate,
+membership row, unary history row, and meet coordinates are fixed, no host
+index equality or quotient stream equality can supply a second downstream
+path.
+
+Now apply
+\autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} and
+\autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}.
+These results identify the downstream surface as the four displayed rows:
+StreamName finite window, RegSeqRat readback, DyadicRatCore ledger, and Real
+seal.
+
+Coordinate exhaustion gives the lock. The four-row pullback has no coordinate
+for a selected limit, trichotomy, or ambient completeness, and the initial
+observation coordinate remains the certified bundle member plus unary history
+row throughout the downstream seal read.
+\end{proof}

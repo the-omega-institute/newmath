@@ -145,6 +145,24 @@ Apply \autoref{thm:subject-reduction-discharge-ledger-obligations}. The obligati
 Use the handoff theorem and non-escape theorem to close the provenance boundary. Since all downstream reads factor through the same displayed packet, $P$ and $N$ authenticate the finite ledger without creating a closed subject-reduction theorem or any excluded host-side principle.
 \end{proof}
 
+\begin{theorem}[SubjectReductionDischargeLedger route exhaustion]
+\label{thm:subject-reduction-discharge-ledger-route-exhaustion}
+Every accepted $\SubjectReductionDischargeLedgerUp$ carrier whose public rows are
+$$
+B,A,LD,PD,R,H,C,P,N
+$$
+routes $\SubjectReductionUp$ consumption only through the four obligation rows $B,A,LD,PD$ and the route row $R$. The rows $H,C,P,N$ may transport, replay, authenticate, and name the same finite route, but they cannot create closed subject reduction, host conversion, hidden substitution preservation, erased derivation semantics, quotient equality, or a fifth preservation premise.
+\end{theorem}
+\begin{proof}
+Project the displayed tuple from \autoref{def:subject-reduction-discharge-ledger-carrier}. Its only preservation coordinates are $B,A,LD,PD$, and its only $\SubjectReductionUp$ consumer coordinate is $R$.
+
+Apply \autoref{thm:subject-reduction-discharge-ledger-obligations} and \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff}. These identify $R$ as the row that consumes exactly the four obligation rows and account for the handoff through the local certificate surface.
+
+It remains to exhaust the structural rows. The non-escape theorem \autoref{thm:subject-reduction-discharge-ledger-nonescape} confines every downstream read to the displayed packet, while \autoref{thm:subject-reduction-discharge-ledger-provenance-exactness} makes $P$ and $N$ exact provenance and naming rows for that same packet.
+
+Thus $H,C,P,N$ can only transport, replay, authenticate, and name the finite route already determined by $B,A,LD,PD,R$. None of those rows supplies an additional preservation premise or any of the excluded closed or host-side principles.
+\end{proof}
+
 \closureat{SubjectReductionDischargeLedgerUp}{seedStr}
 
 \begin{closurestatus}{\SubjectReductionDischargeLedgerUp}
