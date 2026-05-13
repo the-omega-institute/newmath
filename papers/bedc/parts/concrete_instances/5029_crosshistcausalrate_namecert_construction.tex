@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\CrossHistCausalRateUp$}
+\label{ch:concrete-instances-crosshistcausalrate-namecert}
+\origin{ai}
+
+The $\CrossHistCausalRateUp$ packet realizes the maximum cross-Hist causal-rate direction as a finite NameCert carrier. It sits after the two-history causal witness surface of \autoref{ch:concrete-instances-crosshistcausal-namecert} and the unary bound surface of \autoref{ch:concrete-instances-maxcausalrate-namecert}, while exposing the observer-symmetric invariant reading used by \autoref{ch:concrete-instances-interhistinvariant-namecert}. The packet also consumes observer-Hist identity from \autoref{ch:concrete-instances-observerhistidentity-namecert} and finite route replay from \autoref{ch:concrete-instances-continuationtrace-namecert}: those siblings provide the observer rows and displayed continuation routes, while this chapter binds them to a maximum-rate read with no global frame.
+
+\begin{definition}[Cross-Hist causal-rate carrier]
+\label{def:cross-hist-causal-rate-carrier}
+A $\CrossHistCausalRateUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,B,D,M,S,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two observer-history slots, each read through the observer-Hist identity surface;
+\item $D$ is the displayed causal-dependence route family, whose entries are finite $\CrossHistCausalUp$ rows over the ordered pair $A,B$ and selected unary slots;
+\item $M$ is the maximum-rate row, read as a $\MaxCausalRateUp$ unary-bound packet over exactly the dependence routes in $D$;
+\item $S$ is the observer-symmetry row, recording that swapping the two Hist slots preserves the same maximum-rate read after displayed transport;
+\item $G$ is the no-global-frame ledger, recording absence of a global synchronization row, shared clock row, metric tensor row, or privileged observer-frame row;
+\item $H$ records componentwise $\hsame$ transport for the two Hist slots, dependence routes, maximum-rate row, observer-symmetry row, no-global-frame ledger, continuation routes, provenance row, and local naming row;
+\item $C$ records displayed $\Cont$ routes by which a consumer reads the two histories, replays each causal-dependence route, reads the maximum-rate row, checks observer symmetry, and checks the no-global-frame ledger;
+\item $P$ is the $\Pkg$ provenance over $\CrossHistCausalRateUp$, $\ObserverHistIdentityUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\InterHistInvariantUp$, $\ContinuationTraceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CrossHistCausalRateUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a global observer frame, synchronized clock, metric tensor, host real-valued speed, unlisted causal witness, or maximum-rate read detached from the displayed dependence routes.
+\end{definition}
+
+\begin{theorem}[Cross-Hist causal-rate NameCert obligations]
+\label{thm:cross-hist-causal-rate-namecert-obligations}
+For the carrier of \autoref{def:cross-hist-causal-rate-carrier}, the local $\NameCert_{\CrossHistCausalRateUp}$ surface consists exactly of carrier admission for
+$$
+R=(A,B,D,M,S,G,H,C,P,N),
+$$
+two observer-history slots, finite causal-dependence route replay, maximum-rate row exactness, observer-symmetry preservation, no-global-frame refusal, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cross-hist-causal-rate-carrier}. The rows $A,B,D,M,S,G,H,C,P,N$ expose every public coordinate.
+
+The observer slots are read through $A$ and $B$, with observer-Hist identity supplied by the sibling surface. The dependence routes in $D$ are finite $\CrossHistCausalUp$ rows, and the continuation routes in $C$ replay those rows without adding a hidden causal witness.
+
+The maximum-rate read is the row $M$. It is attached to exactly the displayed dependence route family $D$, so the rate surface cannot detach from the two histories or from the selected unary slots.
+
+The observer-symmetry row $S$ and the no-global-frame ledger $G$ provide the two public gates for a maximum-rate read. The remaining rows $H,C,P,N$ transport, replay, package, and name the same packet, so the NameCert obligations are exhausted by the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate invariant boundary]
+\label{thm:cross-hist-causal-rate-invariant-boundary}
+Every accepted $\CrossHistCausalRateUp$ packet reads its maximum-rate row as an observer-symmetric inter-Hist invariant over the two displayed history slots. A consumer may reach the rate only through $A,B,D,M,S,G,H,C,P,N$, and it may not read a maximum-rate value when either the observer-symmetry row $S$ or the no-global-frame ledger $G$ is absent.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The two histories are the rows $A$ and $B$, and all causal content is the finite route family $D$.
+
+Read the maximum-rate row $M$ through the same route family. Since $M$ is specified over the displayed dependence routes, it is not a host real-valued speed and not a metric row.
+
+Now apply the observer-symmetry row $S$. It records that swapping $A$ and $B$ preserves the same maximum-rate read after componentwise transport, matching the finite invariant surface of \autoref{ch:concrete-instances-interhistinvariant-namecert}.
+
+Finally inspect the no-global-frame ledger $G$. Without $G$, the read could not certify that the rate is independent of a privileged synchronization surface; without $S$, it could not certify observer symmetry. Hence a public maximum-rate read requires both rows.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate TasteGate obligation]
+\label{thm:cross-hist-causal-rate-tastegate-obligation}
+The later Lean \texttt{TasteGate.lean} development for $\CrossHistCausalRateUp$ must include explicit $\mathsf{Nontrivial}\ \CrossHistCausalRateUp$ and $\mathsf{FieldFaithful}\ \CrossHistCausalRateUp$ instances. These gate-facing instances must preserve the two Hist slots, causal-dependence route family, maximum-rate row, observer-symmetry row, no-global-frame ledger, transport rows, continuation routes, provenance row, and local naming row.
+\end{theorem}
+\begin{proof}
+The packet is not determined by a single event name. Its carrier has separate rows for two histories, dependence routes, the maximum-rate row, observer symmetry, and no-global-frame refusal.
+
+Nontriviality rules out an empty encoding in which every carrier collapses to one indistinct point. Field faithfulness records preservation of the displayed row inventory, so a TasteGate consumer can distinguish the two Hist slots, the dependence routes, the maximum-rate row, the symmetry row, and the no-global-frame ledger.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CrossHistCausalRateUp$ packet admits no maximum-rate read unless both observer-symmetry and no-global-sync rows are present.}
+
+\independenceWitness{interhistinvariant, observerhistidentity, histtimestream, continuationtrace, supplykindrouter: $\CrossHistCausalRateUp$ has two Hist slots, a causal-dependence route, a maximum-rate row, and no-global-frame refusal data; these rows are not bijective with invariant-only, identity-only, time-stream-only, trace-only, or socket-router packets.}
+
+\closureat{CrossHistCausalRateUp}{seedStr}
+
+\begin{closurestatus}{\CrossHistCausalRateUp}
+  \constructivestory{A $\CrossHistCausalRateUp$ packet is generated from two observer-history slots, finite causal-dependence route rows, a maximum-rate row, an observer-symmetry row, a no-global-frame ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cross-hist-causal-rate-carrier}, \autoref{thm:cross-hist-causal-rate-namecert-obligations}, \autoref{thm:cross-hist-causal-rate-invariant-boundary}, and \autoref{thm:cross-hist-causal-rate-tastegate-obligation} specify the finite maximum-rate direction packet, its NameCert obligations, invariant boundary, and TasteGate instance surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not derive a numerical speed constant, Lorentz geometry, metric tensors, synchronized clocks, global frames, Lean verification, or bridge checking for $\CrossHistCausalRateUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, causal-route replay, maximum-rate exactness, observer-symmetry preservation, no-global-frame refusal, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

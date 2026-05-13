@@ -1,34 +1,37 @@
 \section{Finite-BHist-Injection Admits StdBridge}
 \label{sec:conjectures-finite-bhist-injection-admits-stdbridge}
 
-\begin{conjecture}[Finite-BHist-Injection Admits StdBridge]
+\begin{conjecture}[Finite EventFlow Enumeration Admits StdBridge]
 \label{conj:finite-bhist-injection-admits-stdbridge}
-For every BEDC chapter $\langle X\rangle\mathsf{Up}$ that
+For every BEDC chapter $\langle X\rangle\mathsf{Up}$ equipped with a fixed finite-event-flow presentation that
 \begin{enumerate}
-  \item inhabits $\BHistCarrier$ whose $\toEventFlow$ image is isomorphic to a fixed finite set $\{w_0,w_1,\ldots,w_k\}$ of $\EventFlow$ values,
-  \item inhabits $\ChapterTasteGate$ (i.e. $\roundTrip$ and $\layerSeparation$ hold),
-  \item exposes a fixed enumeration of those image values together with the displayed $\fromEventFlow \circ \toEventFlow = \mathsf{some}$ readback for each enumerated case,
+  \item displays a finite list $[e_0,e_1,\ldots,e_k]$ of $\EventFlow$ values;
+  \item supplies a $\toEventFlow$ image proof that every accepted carrier row maps into that list;
+  \item supplies a $\fromEventFlow$ readback row with $\fromEventFlow(e_i)=\mathsf{some}(b_i)$ for each listed value $e_i$;
+  \item presents the chapter carrier as a fixed-arity $\BHist$ tuple $(b_0,b_1,\ldots,b_k)$ whose $\NameCert$ rows are transported componentwise along those readback rows;
+  \item inhabits $\ChapterTasteGate$ for the displayed tuple presentation;
 \end{enumerate}
-there exists a $\langle X\rangle\mathsf{UpStdBridge}$ theorem in $\BEDC.Derived.\langle X\rangle\mathsf{Up}$ that bridges the
-chapter's $\NameCert$ obligation surface to the standard reflection schema.
+there exists a $\langle X\rangle\mathsf{UpStdBridge}$ theorem in $\BEDC.Derived.\langle X\rangle\mathsf{Up}$ that bridges the displayed finite tuple's $\NameCert$ obligation surface to the standard reflection schema.
 \end{conjecture}
 
 \conjectureStatus{weakened}
 
 \paragraph{Status notes.}
-The obligation is now the fixed finite-image route. The bridge follows by
-case analysis over $\{w_0,w_1,\ldots,w_k\}$, replaying the displayed
-$\fromEventFlow \circ \toEventFlow = \mathsf{some}$ readback in each case
-and packaging the resulting finite family as the chapter's standard
+The obligation is the fixed finite-event-flow route. The bridge follows by
+case analysis over $[e_0,e_1,\ldots,e_k]$, replaying the displayed
+$\fromEventFlow(e_i)=\mathsf{some}(b_i)$ readback for each listed value,
+and transporting the tuple carrier's $\NameCert$ rows component by
+component before packaging the finite family as the chapter's standard
 reflection bridge.
 
-The statement does not assert a uniform recogniser theorem for arbitrary
-regular-language injections into BHist field tuples. Such a theorem would
-require a separate construction of a regular-language recogniser as a
-uniform BHist surface and is outside this conjecture.
+The remaining open part is the general transport from arbitrary
+regular-language recognisers to $\BHist$ tuple presentations. That route
+would need a recogniser-to-carrier construction and a uniform component
+transport theorem not supplied by the fixed finite-event-flow test target.
 
 \paragraph{Refutation route (if false).}
-Find a chapter satisfying premises (1)-(3) for which a $\langle X\rangle\mathsf{UpStdBridge}$
-theorem demonstrably cannot exist (e.g. because the chapter's NameCert
-obligation requires a non-standard reflection axis incompatible with the
-schema).
+Find a chapter satisfying the displayed finite-list, image, readback,
+fixed-tuple, and $\ChapterTasteGate$ premises for which a
+$\langle X\rangle\mathsf{UpStdBridge}$ theorem demonstrably cannot exist
+(e.g. because the chapter's NameCert obligation requires a non-standard
+reflection axis incompatible with the schema).
