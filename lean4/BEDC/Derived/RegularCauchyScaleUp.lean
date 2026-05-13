@@ -80,4 +80,83 @@ theorem RegularCauchyScaleCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact sourceRow
   }
 
+theorem RegularCauchyScaleCarrier_source_factorization [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+        UnaryHistory scalarEndpoint ∧ UnaryHistory sourceEndpoint ∧
+          UnaryHistory scaledEndpoint ∧ UnaryHistory budget ∧ UnaryHistory readback ∧
+            UnaryHistory (append scalar source) ∧ Cont scalar window scalarEndpoint ∧
+              Cont source window sourceEndpoint ∧ Cont scalarEndpoint sourceEndpoint
+                scaledEndpoint ∧ Cont scaledEndpoint budget readback ∧
+                  Cont readback route provenance ∧ Cont provenance namecert endpoint ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier
+  have scalarUnary : UnaryHistory scalar := carrier.left
+  have sourceUnary : UnaryHistory source := carrier.right.left
+  have windowUnary : UnaryHistory window := carrier.right.right.left
+  have scalarEndpointUnary : UnaryHistory scalarEndpoint := carrier.right.right.right.left
+  have sourceEndpointUnary : UnaryHistory sourceEndpoint :=
+    carrier.right.right.right.right.left
+  have scaledEndpointUnary : UnaryHistory scaledEndpoint :=
+    carrier.right.right.right.right.right.left
+  have budgetUnary : UnaryHistory budget := carrier.right.right.right.right.right.right.left
+  have readbackUnary : UnaryHistory readback :=
+    carrier.right.right.right.right.right.right.right.left
+  have sameRowsUnary : UnaryHistory sameRows :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have scalarWindow : Cont scalar window scalarEndpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have sourceWindow : Cont source window sourceEndpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have endpointsScaled : Cont scalarEndpoint sourceEndpoint scaledEndpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have scaledBudget : Cont scaledEndpoint budget readback :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have readbackRoute : Cont readback route provenance :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have provenanceNamecert : Cont provenance namecert endpoint :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have sameRowsAppend : hsame sameRows (append scalar source) :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have pkgSig : PkgSig bundle endpoint pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  have appendUnary : UnaryHistory (append scalar source) :=
+    unary_transport sameRowsUnary sameRowsAppend
+  constructor
+  · exact scalarUnary
+  · constructor
+    · exact sourceUnary
+    · constructor
+      · exact windowUnary
+      · constructor
+        · exact scalarEndpointUnary
+        · constructor
+          · exact sourceEndpointUnary
+          · constructor
+            · exact scaledEndpointUnary
+            · constructor
+              · exact budgetUnary
+              · constructor
+                · exact readbackUnary
+                · constructor
+                  · exact appendUnary
+                  · constructor
+                    · exact scalarWindow
+                    · constructor
+                      · exact sourceWindow
+                      · constructor
+                        · exact endpointsScaled
+                        · constructor
+                          · exact scaledBudget
+                          · constructor
+                            · exact readbackRoute
+                            · constructor
+                              · exact provenanceNamecert
+                              · exact pkgSig
+
 end BEDC.Derived.RegularCauchyScaleUp
