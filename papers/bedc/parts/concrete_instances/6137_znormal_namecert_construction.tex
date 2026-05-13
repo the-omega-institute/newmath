@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\ZNormalUp$}
+\label{ch:concrete-instances-znormal-namecert}
+\origin{ai}
+
+The $\ZNormalUp$ packet realizes the total-host boundary named by \autoref{ch:visions-strong-normalization-vs-turing-completeness} as finite normal-form certificate data. It sits beside the typed endpoint packet of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the finite Zeckendorf normal-form packet of \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, and the terminal continuation packet of \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. The packet records terminal normality, bounded fuel replay, and non-escape from total host evidence without exporting a divergence oracle, host conversion row, or global normalization procedure.
+
+\falsifiablePrediction{Every accepted ZNormalUp packet exposes a finite terminal-normality row and admits no consumer route to a divergence oracle or host conversion row.}
+
+\independenceWitness{Nearest siblings: typedreductionnormalform, zeckendorf-normal, zcarry, continuationtracenormalform, and normalformconsistencyseal. None is bijective to $\ZNormalUp$ because typedreductionnormalform records a typed endpoint route, zeckendorf-normal records a finite combinatorial normal-word classifier, zcarry records a local carry classifier, continuationtracenormalform records a terminal continuation trace, and normalformconsistencyseal records a consistency-facing seal; $\ZNormalUp$ keeps the total-host normal-form boundary itself as a finite packet.}
+
+\begin{definition}[$\ZNormalUp$ carrier]
+\label{def:znormal-carrier}
+A $\ZNormalUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed reduction normal-form row read through $\TypedReductionNormalFormUp$;
+\item $F$ is the finite fuel row naming the bounded host reduction segment;
+\item $V$ is the terminal-normality row asserting that the segment ends at a normal form;
+\item $K$ is the Zeckendorf and carry-facing normal-form comparison row read through $\ZeckendorfNormalUp$ and $\ZCarryUp$ where a finite word boundary is present;
+\item $R$ is the continuation terminal-read row read through $\ContinuationTraceNormalFormUp$;
+\item $H$ records componentwise $\hsame$ transport for typed endpoint, fuel, terminal normality, finite word comparison, continuation read, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes from typed endpoint to fuel replay, from fuel replay to terminal normality, from terminal normality to the continuation read, and from those rows to the consumer-facing packet boundary;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-strong-normalization-vs-turing-completeness}, \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-continuationtracenormalform-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ZNormalUp}$ row.
+\end{enumerate}
+The carrier accepts only packets whose normal-form claim is read through a finite terminal row. It has no coordinate for a divergence oracle, host conversion row, quotient computation, unrestricted evaluator, or ambient proof that every external computation halts.
+\end{definition}
+
+\begin{theorem}[$\ZNormalUp$ NameCert obligations]
+\label{thm:znormal-namecert-obligations}
+For the carrier of \autoref{def:znormal-carrier}, the local $\NameCert_{\ZNormalUp}$ surface consists exactly of carrier admission for
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+typed endpoint readback through $T$, finite fuel exposure through $F$, terminal-normality exposure through $V$, finite normal-word comparison through $K$, continuation terminal-read exposure through $R$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $T,F,V,K,R,H,C,P,N$ are the only fields of an accepted $\ZNormalUp$ packet.
+
+Read the endpoint rows first. The typed reduction row $T$ is supplied by \autoref{ch:concrete-instances-typedreductionnormalform-namecert}; the finite fuel row $F$ and terminal-normality row $V$ bind that endpoint to a displayed total-host reduction segment.
+
+Read the sibling normal-form rows next. The row $K$ may cite the finite word discipline of \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, while $R$ may cite the terminal trace surface of \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. These rows are auxiliary certificate coordinates, not routes to host conversion or general normalization.
+
+Finally inspect $H,C,P,N$. They transport, replay, package, and name the same finite surface. Since no carrier coordinate names divergence, quotient computation, host conversion, or an unrestricted evaluator, the listed obligations exhaust the packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ fuel normality non-escape]
+\label{thm:znormal-fuel-normality-nonescape}
+Every accepted $\ZNormalUp$ packet exposes its terminal normal-form claim only through the finite route
+$$
+T \longmapsto F \longmapsto V \longmapsto R
+$$
+with the normal-word comparison row $K$ available only as displayed sibling evidence. No consumer can use the packet to read a divergence oracle, a host conversion row, a quotient computation, an unrestricted evaluator, or a global normalizer.
+\end{theorem}
+\begin{proof}
+Start from the typed endpoint row $T$. By construction it is a packet-visible endpoint row rather than a host conversion judgment.
+
+Next read $F$ and $V$. The fuel row names the finite replay segment, and the terminal-normality row records the endpoint of that segment. A consumer therefore receives a bounded normal-form packet, not an unbounded computation.
+
+Use $R$ and $K$ only after the terminal row is displayed. The continuation trace row replays the terminal read, while the Zeckendorf and carry-facing row records finite word comparison where that sibling surface is relevant.
+
+The excluded objects have no carrier coordinate. Thus transport, continuation replay, provenance, and local naming cannot manufacture a divergence oracle, host conversion row, quotient computation, unrestricted evaluator, or global normalizer from the accepted packet.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host boundary]
+\label{thm:znormal-total-host-boundary}
+The $\ZNormalUp$ packet gives a concrete finite interface for the host-side total-language boundary of \autoref{ch:visions-strong-normalization-vs-turing-completeness}. A public consumer may read the typed endpoint, finite fuel, terminal normality, finite normal-word comparison, continuation terminal read, transports, routes, provenance, and local name of
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+but it may not reread this surface as Turing completeness of the host, as a proof that every substrate computation halts, or as a route from substrate universality to host-level partial functions.
+\end{theorem}
+\begin{proof}
+First bind the host-side surface. The carrier of \autoref{def:znormal-carrier} records exactly the typed endpoint, finite replay, terminal-normality, sibling normal-word, continuation-read, transport, route, provenance, and naming rows.
+
+Then compare this surface with \autoref{ch:visions-strong-normalization-vs-turing-completeness}. That chapter separates the total host from the universal substrate. The $\ZNormalUp$ packet inhabits the host side of that separation because every accepted read is through finite terminal-normality rows.
+
+Finally apply \autoref{thm:znormal-fuel-normality-nonescape}. It excludes divergence, host conversion, quotient computation, unrestricted evaluation, and global normalization routes. Consequently no consumer can turn the finite normal-form packet into host Turing completeness or a substrate halting theorem.
+\end{proof}
+
+The follow-up Lean TasteGate.lean contract for this chapter must provide \texttt{Nontrivial ZNormalUp} and \texttt{FieldFaithful ZNormalUp} instances for the same carrier.
+
+\closureat{ZNormalUp}{seedStr}
+
+\begin{closurestatus}{\ZNormalUp}
+  \constructivestory{A $\ZNormalUp$ packet is generated from a typed reduction normal-form row, finite fuel row, terminal-normality row, finite Zeckendorf and carry-facing comparison row, continuation terminal-read row, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, and \autoref{thm:znormal-total-host-boundary} bind the finite normal-form packet for the host-side total-language boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove host Turing completeness, substrate halting, global normalization for external computations, host conversion, quotient computation, Lean verification, or bridge checking for $\ZNormalUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite fuel exposure, terminal-normality readback, continuation terminal-read replay, sibling normal-word handoff, non-escape, and field-faithful TasteGate instances for the same finite packet.}
+\end{closurestatus}
