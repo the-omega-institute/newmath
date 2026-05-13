@@ -238,6 +238,54 @@ Use \autoref{thm:apophatic-name-gate-source-compatibility} to keep the first fou
 The sibling socket and gate references give the same exactness at the boundary. The socket noninternalization boundary \autoref{thm:apophatic-socket-noninternalization-boundary} excludes replacement by a generated object, and the visible gate-question boundary \autoref{thm:apophatic-gate-question-visible-socket-nonescape} excludes replacement by an admitted supply. Replaying those rows through $H,C,P,N$ gives precisely the stated downstream route.
 \end{proof}
 
+\begin{theorem}[ApophaticName gate-ledger separation]
+\label{thm:apophatic-name-gate-ledger-separation}
+For every accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N),
+$$
+the socket row $S$, refusal gate $G$, and refusal ledger $L$ remain separate readable rows while being transported together by $H,C,P,N$. The gate records the refusal decision, the ledger records permitted reads and barred conversions, and the socket row remains the visible downstream handle; none of these rows is absorbed into another row or converted into supplied content.
+\end{theorem}
+\begin{proof}
+Project $A$ through \autoref{def:apophatic-name-carrier}. The socket, request, gate, and ledger are distinct coordinates of the finite carrier, while $H,C,P,N$ are the displayed transport, replay, provenance, and local naming rows.
+
+Use the sibling surfaces named by the chapter introduction. \autoref{thm:apophatic-socket-consumer-surface} keeps the socket readable as a socket boundary, and \autoref{thm:apophatic-gate-question-visible-socket-nonescape} keeps the gate attached to that visible boundary without admitting the requested supply.
+
+Finally apply \autoref{thm:apophatic-name-refusal-ledger} and \autoref{thm:apophatic-name-downstream-socket-route-exactness}. They transport the separate socket, gate, and ledger rows together through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while excluding generated witnesses, host data, quotient representatives, hidden theorems, assumed propositions, and supplied external objects.
+\end{proof}
+
+\begin{theorem}[ApophaticName socket-refusal correspondence]
+\label{thm:apophatic-name-socket-refusal-correspondence}
+For every accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N),
+$$
+each downstream read of the socket row $S$ corresponds to the refusal recorded by $G$ and ledgered by $L$. The correspondence is transported only through the displayed $\hsame$ row $H$, the $\Cont$ route $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$; it is not a route to the refused external object.
+\end{theorem}
+\begin{proof}
+Begin with downstream socket route exactness. \autoref{thm:apophatic-name-downstream-socket-route-exactness} says that every downstream read factors through $S,R,G,L,H,C,P,N$ and has no route outside those rows.
+
+Compare the socket and gate sides. The socket boundary of \autoref{thm:apophatic-socket-noninternalization-boundary} prevents the visible socket from becoming a generated object, while \autoref{thm:apophatic-gate-question-visible-socket-nonescape} prevents the refusal gate from becoming an admitted supply.
+
+The correspondence is therefore the displayed refusal route itself. Transport through $H$, replay through $C$, provenance through $P$, and naming through $N$ preserve the same socket-refusal packet and do not add host equality, quotient representatives, hidden theorem content, or supplied external content.
+\end{proof}
+
+\begin{theorem}[ApophaticName ledger-refusal transport exactness]
+\label{thm:apophatic-name-ledger-refusal-transport-exactness}
+For every accepted $\ApophaticNameUp$ packet
+$$
+A=(S,R,G,L,H,C,P,N),
+$$
+transport of the refusal ledger is exact: any transported downstream consumer reads the same refusal relation between $S$, $R$, and $G$ through $L,H,C,P,N$, and no transported route can replace the ledger by a generated witness, host-side datum, quotient representative, hidden theorem, assumed proposition, or supplied external dependency.
+\end{theorem}
+\begin{proof}
+Start from classifier-refusal transport, \autoref{thm:apophatic-name-classifier-refusal-transport}. It moves the refusal classifier componentwise through $H$ and replays the consumer route through $C,P,N$.
+
+Use ledger nonescape and source-refusal totality, \autoref{thm:apophatic-name-ledger-nonescape} and \autoref{thm:apophatic-name-source-refusal-totality}. Together they exhaust every source-side and downstream read by the displayed ledgered packet.
+
+Finally apply gate-ledger separation and socket-refusal correspondence. The first keeps $S,G,L$ as separate finite rows, and the second identifies every socket read with the same refusal route, so the transported ledger remains exact over $S,R,G,L,H,C,P,N$ and exposes no unlisted content.
+\end{proof}
+
 \begin{theorem}[ApophaticName closure refusal package]
 \label{thm:apophatic-name-closure-refusal-package}
 The accepted $\ApophaticNameUp$ carrier assembles a five-row refusal package:
