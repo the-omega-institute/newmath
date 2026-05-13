@@ -1,8 +1,10 @@
-\chapter{A Concrete Naming Certificate for $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$}
+\chapter{A Concrete Naming Certificate for $\CellularTrustSubstrateUp$}
 \label{ch:concrete-instances-cellular-trust-substrate-namecert}
 \origin{ai}
 
-The $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ surface realizes the cellular trust substrate of \autoref{def:cellular-trust-substrate} as a finite NameCert packet. It is not merely a cellular-rule carrier: it binds the local transition table, the orbit window, the classifier, the manifest row, and the audit route into one closed observation surface. The resulting packet gives later Rule 110 and no-induction arguments a concrete certificate object to cite instead of a narrative-only substrate.
+The $\CellularTrustSubstrateUp$ surface realizes the cellular trust substrate of \autoref{def:cellular-trust-substrate} as a finite NameCert packet. It is not merely a cellular-rule carrier: it binds the local transition table, the orbit window, the classifier, the manifest row, and the audit route into one closed observation surface. The resulting packet gives later Rule 110 and no-induction arguments a concrete certificate object to cite instead of a narrative-only substrate.
+
+The packet consumes the local substrate carrier of \autoref{ch:concrete-instances-cellularsubstrate-namecert} and the finite local read boundary of \autoref{ch:concrete-instances-localitycell-namecert}. Its trust rows add manifest and audit-route accountability on top of those sibling surfaces, so an accepted read must first expose the cellular carrier and local boundary before the manifest and replay rows can certify the trusted substrate packet.
 
 \falsifiablePrediction{Removing the local-rule row permits two orbit windows with different update tables to classify as the same substrate packet; removing the manifest row prevents a finite audit replay from reconstructing the displayed observation boundary.}
 
@@ -10,7 +12,7 @@ The $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ surface realizes t
 
 \begin{definition}[Cellular trust substrate carrier]
 \label{def:cellular-trust-substrate-carrier}
-A $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ carrier is a finite $\BHist$ packet
+A $\CellularTrustSubstrateUp$ carrier is a finite $\BHist$ packet
 $$
 S=(R,W,K,M,A,H,C,P,N)
 $$
@@ -23,15 +25,15 @@ with the following displayed rows:
 \item $A$ is the audit-route row replaying the finite generation of each displayed orbit window and each classifier decision;
 \item $H$ records componentwise $\hsame$ transports for $R,W,K,M,A,P,N$;
 \item $C$ records displayed $\Cont$ routes through the local rule, orbit window, classifier, manifest, and audit route;
-\item $P$ is the $\Pkg$ provenance over $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$, \autoref{def:cellular-trust-substrate}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
-\item $N$ is the local $\NameCert_{\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}}$ row.
+\item $P$ is the $\Pkg$ provenance over $\CellularTrustSubstrateUp$, \autoref{def:cellular-trust-substrate}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CellularTrustSubstrateUp}$ row.
 \end{enumerate}
 The local classifier compares accepted carriers only by the displayed rule table, orbit window, substrate classifier, manifest, audit route, transport rows, continuation routes, provenance, and naming row. It has no coordinate for an unbounded orbit, host evaluator identity, hidden update table, detached manifest schema, quotient stream equality, or external induction principle.
 \end{definition}
 
 \begin{theorem}[Cellular trust substrate obligation surface]
 \label{thm:cellular-trust-substrate-obligation-surface}
-For the carrier of \autoref{def:cellular-trust-substrate-carrier}, the local $\NameCert_{\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}}$ surface consists exactly of carrier exposure for $S=(R,W,K,M,A,H,C,P,N)$, local-rule accountability through $R$, orbit-window exposure through $W$, classifier accountability through $K$, manifest replay through $M$, finite audit routing through $A$, componentwise stability through $H$, displayed continuation through $C$, package provenance through $P$, and local naming through $N$. No consumer can read a cellular trust substrate, a Rule 110 substrate, a closed observation boundary, or a no-induction substrate premise as $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ evidence without passing through these rows.
+For the carrier of \autoref{def:cellular-trust-substrate-carrier}, the local $\NameCert_{\CellularTrustSubstrateUp}$ surface consists exactly of carrier exposure for $S=(R,W,K,M,A,H,C,P,N)$, local-rule accountability through $R$, orbit-window exposure through $W$, classifier accountability through $K$, manifest replay through $M$, finite audit routing through $A$, componentwise stability through $H$, displayed continuation through $C$, package provenance through $P$, and local naming through $N$. No consumer can read a cellular trust substrate, a Rule 110 substrate, a closed observation boundary, or a no-induction substrate premise as $\CellularTrustSubstrateUp$ evidence without passing through these rows.
 \end{theorem}
 \begin{proof}
 Carrier exposure is projection from \autoref{def:cellular-trust-substrate-carrier}. The packet displays the rule table, orbit window, classifier, manifest, audit route, transports, continuation routes, provenance, and local naming row as its only coordinates.
@@ -43,7 +45,7 @@ The remaining rows close the NameCert surface. The $H,C,P,N$ rows transport, rep
 
 \begin{theorem}[Local-rule nonescape]
 \label{thm:cellular-trust-substrate-local-rule-nonescape}
-Every accepted classifier read exported by a $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ carrier factors through the displayed local rule row $R$ and the finite orbit-window row $W$. In particular, two packets whose accepted evidence differs only by a hidden update table, a host evaluator, or an unstated boundary convention cannot be classified as the same cellular trust substrate packet.
+Every accepted classifier read exported by a $\CellularTrustSubstrateUp$ carrier factors through the displayed local rule row $R$ and the finite orbit-window row $W$. In particular, two packets whose accepted evidence differs only by a hidden update table, a host evaluator, or an unstated boundary convention cannot be classified as the same cellular trust substrate packet.
 \end{theorem}
 \begin{proof}
 Begin with the accepted-read route. By \autoref{thm:cellular-trust-substrate-obligation-surface}, a classifier read reaches the local NameCert row only through $R,W,K,M,A,H,C,P,N$.
@@ -55,12 +57,12 @@ Thus changing the update table, host evaluator, or boundary convention without c
 
 \begin{theorem}[Orbit observation boundary]
 \label{thm:cellular-trust-substrate-orbit-observation-boundary}
-Every closed observation exported by a $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ carrier is bounded by the manifest row $M$ and replayed by the audit-route row $A$. Consequently, a consumer obtains a finite observation boundary for the displayed orbit window, not an unbounded orbit, a stream quotient, or an internal induction rule over all cellular times.
+Every closed observation exported by a $\CellularTrustSubstrateUp$ carrier is bounded by the manifest row $M$ and replayed by the audit-route row $A$. Consequently, a consumer obtains a finite observation boundary for the displayed orbit window, not an unbounded orbit, a stream quotient, or an internal induction rule over all cellular times.
 \end{theorem}
 \begin{proof}
 The manifest row $M$ states the accepted text-format schema, replay bounds, and observation boundary. The audit-route row $A$ then replays each displayed orbit-window and classifier read against that schema.
 
-Apply \autoref{thm:cellular-trust-substrate-obligation-surface}. A closed observation is accepted as $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ evidence only when the route through $M$ and $A$ reaches the local naming row $N$.
+Apply \autoref{thm:cellular-trust-substrate-obligation-surface}. A closed observation is accepted as $\CellularTrustSubstrateUp$ evidence only when the route through $M$ and $A$ reaches the local naming row $N$.
 
 It follows that the exported boundary is finite and displayed. The carrier has no coordinate for an all-time orbit, quotient stream representative, or induction rule over cellular time, so no such object is obtained by consuming the packet.
 \end{proof}
@@ -69,8 +71,8 @@ The Lean TasteGate namespace $\mathsf{BEDC.Derived.CellularTrustSubstrateUp.Tast
 
 \closureat{CellularTrustSubstrateUp}{seedStr}
 
-\begin{closurestatus}{\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}}
-  \constructivestory{A $\ensuremath{\mathsf{CellularTrustSubstrate}^{\uparrow}}$ packet is generated from a fixed local cellular rule, a finite orbit window, a substrate classifier, a manifest row, an audit route, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+\begin{closurestatus}{\CellularTrustSubstrateUp}
+  \constructivestory{A $\CellularTrustSubstrateUp$ packet is generated from a fixed local cellular rule, a finite orbit window, a substrate classifier, a manifest row, an audit route, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cellular-trust-substrate-carrier}, \autoref{thm:cellular-trust-substrate-obligation-surface}, \autoref{thm:cellular-trust-substrate-local-rule-nonescape}, and \autoref{thm:cellular-trust-substrate-orbit-observation-boundary} specify the finite local-rule, orbit-window, classifier, manifest, and audit-route certificate surface.}
   \formalstatus{\unformalizedV}
