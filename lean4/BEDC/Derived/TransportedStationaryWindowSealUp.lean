@@ -67,4 +67,23 @@ theorem TransportedStationaryWindowSealPacket_namecert_obligations
       endpointPkg'⟩
   exact And.intro transported endpointSame
 
+theorem TransportedStationaryWindowSealPacket_readback_determinacy
+    [AskSetup] [PackageSetup]
+    {ratRow ratRow' streamWindow streamWindow' sealRow sealRow' envelope realRow diagonalRow
+      routes provenance nameCert endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TransportedStationaryWindowSealPacket ratRow streamWindow sealRow envelope realRow
+        diagonalRow routes provenance nameCert endpoint bundle pkg ->
+      hsame ratRow ratRow' ->
+        hsame streamWindow streamWindow' ->
+          Cont ratRow' streamWindow' sealRow' ->
+            hsame sealRow sealRow' ∧ Cont ratRow streamWindow sealRow ∧
+              Cont ratRow' streamWindow' sealRow' := by
+  intro packet ratSame windowSame transportedRoute
+  have originalRoute : Cont ratRow streamWindow sealRow :=
+    packet.right.right.right.right.right.right.right.right.left
+  have sealSame : hsame sealRow sealRow' :=
+    cont_respects_hsame ratSame windowSame originalRoute transportedRoute
+  exact ⟨sealSame, originalRoute, transportedRoute⟩
+
 end BEDC.Derived.TransportedStationaryWindowSealUp
