@@ -229,6 +229,24 @@ Now use the checked TasteGate single-carrier marker already recorded after \auto
 Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the carrier has no coordinate for a global frame, metric tensor, Lorentz geometry, synchronized clock, or host real-valued speed, the public export is exactly the finite unary-bound row routed through the displayed packet.
 \end{proof}
 
+\begin{theorem}[MaxCausalRate unary-bound consumer bridge]
+\label{thm:max-causal-rate-unary-bound-consumer-bridge}
+Every public causal-rate consumer bridge of an accepted $\MaxCausalRateUp$ packet factors through the displayed $\MultiHistConfigUp$ row $M$, the $\CrossHistCausalUp$ witness family $X$, the shared unary bound $U$, the comparison ledger $B$, and the transport, provenance, continuation, and naming rows $H,Q,C,P,N$.
+
+The bridge uses the checked TasteGate marker $\mathsf{MaxCausalRateTasteGate\_single\_carrier\_alignment}$ as the single-carrier alignment guard. It exports only the same finite packet surface and does not claim Lorentz geometry, metric tensors, synchronized clocks, a global frame, or real-valued speed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The public consumer bridge begins with the same tuple $M,X,U,B,H,Q,C,P,N$ used by \autoref{thm:max-causal-rate-public-unary-bound-export}.
+
+Apply \autoref{thm:max-causal-rate-crosshist-handoff}. It routes every witness read in $X$ through displayed $\CrossHistCausalUp$ rows over the configuration $M$.
+
+Next apply \autoref{thm:max-causal-rate-public-unary-bound-export} and \autoref{thm:max-causal-rate-comparison-ledger-exactness}. These keep the shared bound $U$ attached to the comparison ledger $B$ and the structural rows $H,Q,C,P,N$.
+
+Use the checked TasteGate marker recorded in the chapter as the single-carrier alignment guard. It prevents the consumer bridge from reading $U$ as an abstract rate parameter detached from $M,X,B,H,Q,C,P,N$.
+
+Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the carrier has no global frame, metric tensor, Lorentz geometry, synchronized clock, or host real-valued speed coordinate, the bridge exposes only the displayed finite unary-bound packet.
+\end{proof}
+
 \closureat{MaxCausalRateUp}{seedStr}
 \closureat{MaxCausalRateUp}{obligationStr}
 \closureat{MaxCausalRateUp}{scopedStr}[BEDC.Derived.MaxCausalRateUp.taste\_gate]
