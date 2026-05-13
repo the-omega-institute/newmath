@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalConsistencyUp$}
+\label{ch:concrete-instances-closednormalconsistency-namecert}
+\origin{ai}
+
+The $\ClosedNormalConsistencyUp$ packet realizes the closed-normal node of \autoref{ch:closed-metacic-consistency-assembly} as finite BEDC data. It reads beside the subject-reduction boundary certificates in \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}, and \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert}: those chapters name the transport frontier, while this chapter names the closed-normal route that is already usable once beta-strong normality is part of the displayed input.
+
+\begin{definition}[Closed-normal consistency NameCert carrier]
+\label{def:closed-normal-consistency-namecert-carrier}
+A $\ClosedNormalConsistencyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,C,B,N,O,P)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the empty-context MetaCIC typing row for a proof candidate of the internal $\mathsf{False}$ encoding;
+\item $C$ is the closedness row for the same term;
+\item $B$ is the $\mathsf{BetaStrong}$ normality row that places the term in the closed-normal fragment;
+\item $N$ is the no-closed-normal-false exclusion row, read as the checked normal-form contradiction boundary;
+\item $O$ is the obstruction row separating this closed-normal route from an arbitrary closed proof route through subject reduction;
+\item $P$ is the local $\NameCert_{\ClosedNormalConsistencyUp}$ row, including provenance over $\BHist$, $\hsame$, $\Cont$, the MetaCIC typing and closedness rows, the beta-strong row, the normal-false exclusion row, and the obstruction row.
+\end{enumerate}
+The carrier has no coordinate for closed subject reduction, no proof of the four MetaCIC discharge obligations, and no transport row that turns an arbitrary closed proof of $\mathsf{False}$ into a beta-strong normal proof.
+\end{definition}
+
+\begin{theorem}[Closed-normal consistency NameCert obligations]
+\label{thm:closed-normal-consistency-namecert-obligations}
+The local $\NameCert_{\ClosedNormalConsistencyUp}$ surface for \autoref{def:closed-normal-consistency-namecert-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure, requiring every accepted object to display the packet $K=(T,C,B,N,O,P)$;
+\item typing-closedness alignment, requiring $T$ and $C$ to name the same closed MetaCIC proof candidate;
+\item normality alignment, requiring $B$ to be the beta-strong row for that same candidate;
+\item normal-false exclusion readback, requiring $N$ to consume exactly the displayed typing, closedness, and beta-strong rows;
+\item obstruction separation, requiring $O$ to keep the packet separate from closed subject reduction, the four discharge proofs, and full closed consistency.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the tuple in \autoref{def:closed-normal-consistency-namecert-carrier}. The packet displays the typing, closedness, beta-strong, normal-false exclusion, obstruction, and local naming rows.
+
+Typing-closedness alignment and normality alignment use the shared candidate named by $T,C,B$. A consumer may read the empty-context typing row, the closedness row, and the beta-strong row, but the packet provides no alternate term coordinate.
+
+Normal-false exclusion is the row $N$. It is applied only after the displayed $T,C,B$ rows have been read, so the contradiction boundary is the closed-normal theorem surface rather than a theorem about arbitrary closed proofs.
+
+The obstruction row $O$ records the missing transport route. Since the carrier has no proof of the subject-reduction discharge rows and no closed subject-reduction theorem, the local certificate cannot export full closed consistency.
+\end{proof}
+
+\begin{theorem}[Closed-normal consistency subject-reduction boundary]
+\label{thm:closed-normal-consistency-subject-reduction-boundary}
+An accepted $\ClosedNormalConsistencyUp$ carrier closes only the closed-normal route
+$$
+T,C,B \to N.
+$$
+It cannot export full closed consistency unless an additional subject-reduction transport row connects arbitrary closed proofs of $\mathsf{False}$ to a beta-strong normal endpoint while preserving the displayed false type.
+\end{theorem}
+\begin{proof}
+Read the carrier through \autoref{def:closed-normal-consistency-namecert-carrier}. The only positive route is from the displayed typing row $T$, closedness row $C$, and beta-strong row $B$ to the normal-false exclusion row $N$.
+
+Apply the obligations of \autoref{thm:closed-normal-consistency-namecert-obligations}. The normal-false exclusion readback is exact for the closed-normal rows, and obstruction separation keeps subject reduction outside the packet.
+
+The sibling boundary chapters identify the missing surface: \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert} names the obstruction, \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert} names the four-row frontier, and \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert} names the discharge ledger. Without an additional transport row from that boundary, this certificate remains a closed-normal consistency certificate and not a full closed consistency certificate.
+\end{proof}
+
+\closureat{ClosedNormalConsistencyUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalConsistencyUp}
+  \constructivestory{A $\ClosedNormalConsistencyUp$ packet is generated from an empty-context typing row, closedness row, beta-strong normality row, normal-false exclusion row, subject-reduction obstruction row, and local NameCert provenance.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-consistency-namecert-carrier}, \autoref{thm:closed-normal-consistency-namecert-obligations}, and \autoref{thm:closed-normal-consistency-subject-reduction-boundary} bind the finite closed-normal consistency route and its subject-reduction boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close full closed consistency, closed subject reduction, any of the four MetaCIC discharge obligations, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, typing-closedness alignment, beta-strong alignment, normal-false exclusion readback, obstruction separation, and non-escape for the same finite packet.}
+\end{closurestatus}
