@@ -37,19 +37,16 @@ format:
 ```{=html}
 <style>
   body { background: #fbfbfa; }
-  /* Lock the Quarto wrapper to viewport height (minus 62px navbar) so
-     the map shell can fit on a 13" laptop without forcing scroll.
-     Wrapper paddings and Quarto's default page footer are zeroed. */
   #quarto-content {
-    height: calc(100vh - 62px) !important;
+    min-height: calc(100vh - 62px) !important;
     padding: 0 !important;
-    overflow: hidden;
+    overflow: visible;
   }
   main.content {
     padding: 0 !important; margin: 0 !important;
     max-width: 100% !important;
-    height: calc(100vh - 62px) !important;
-    overflow: hidden;
+    min-height: calc(100vh - 62px) !important;
+    overflow: visible;
   }
   .page-footer, #quarto-content > footer { display: none !important; }
   #title-block-header { display: none; }
@@ -59,11 +56,7 @@ format:
     grid-template-columns: minmax(0, 1fr) 240px;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas: "header header" "graph detail" "footer footer";
-    /* Parent (#quarto-content) is locked to viewport-minus-navbar, so
-       the shell just fills its parent. min-height is a tablet floor.
-       overflow:hidden + min-height:0 on grid items prevents the
-       detail panel's min-content from inflating the grid past parent. */
-    height: 100%;
+    height: calc(100vh - 62px);
     min-height: 540px;
     overflow: hidden;
     gap: 0;

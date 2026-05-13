@@ -1,0 +1,15 @@
+# bhist_injectivity.enum.ct
+# Lean targets:
+#   BEDC.GroundCompiler.ChannelEncoding.channel_encoding_bijection
+#   BEDC.GroundCompiler.ChannelEncoding.legal_stream_completeness
+#
+# Input shape:
+#   EventEncoding(left BHist choices) ++ EventEncoding(right BHist choices)
+PRODUCTIONS 0
+ASSERTIONS 6
+case empty_empty:       input=1111         ; theorem=channel_encoding_bijection ; left=empty ; right=empty ; same_source=yes ; same_encoding=yes
+case e0_e0:             input=011011       ; theorem=channel_encoding_bijection ; left=e0 ; right=e0 ; same_source=yes ; same_encoding=yes
+case e1_e1:             input=10111011     ; theorem=channel_encoding_bijection ; left=e1 ; right=e1 ; same_source=yes ; same_encoding=yes
+case e0_e1:             input=0111011      ; theorem=legal_stream_completeness ; left=e0 ; right=e1 ; same_source=no ; same_encoding=no
+case e0e1_e0e1:         input=0101101011   ; theorem=channel_encoding_bijection ; left=e0e1 ; right=e0e1 ; same_source=yes ; same_encoding=yes
+case e1e0_e0e1:         input=10011101011  ; theorem=legal_stream_completeness ; left=e1e0 ; right=e0e1 ; same_source=no ; same_encoding=no

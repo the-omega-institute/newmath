@@ -1,0 +1,13 @@
+# hsame_empty_inversion.enum.ct
+# Theorems:
+#   hsame_empty_inversion : hsame Empty x -> x = Empty
+#   hsame_empty_iff       : hsame h Empty <-> h = Empty
+# Strategy: Empty equals only Empty; one-step constructor cases are unequal
+# on either side.
+PRODUCTIONS 0
+ASSERTIONS 5
+case empty_empty:     input=1111   ; empty_match=yes
+case empty_e0_empty:  input=11011  ; empty_match=no
+case empty_e1_empty:  input=111011 ; empty_match=no
+case e0_empty_empty:  input=01111  ; empty_match=no
+case e1_empty_empty:  input=101111 ; empty_match=no

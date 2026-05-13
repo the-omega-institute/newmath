@@ -75,6 +75,18 @@ For the exchanged packet, use the componentwise classifier carried by $H$ and re
 The carrier has no coordinate for a host-level completed-real addition law, quotient stream, selected limit, or completeness object. Thus the symmetric handoff is exactly the finite paired-source surface described by the packet classifier.
 \end{proof}
 
+\begin{theorem}[RegularCauchySum two-source Real seal symmetry]
+\label{thm:regular-cauchy-sum-two-source-real-seal-symmetry}
+Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet. Exchanging the two accepted $\RegSeqRatUp$ source rows preserves the $\RealUp$ seal route: any real-facing consumer still reads both aligned $\StreamNameUp$ windows $W_A,W_B$, both $\DyadicRatCoreUp$ endpoint rows $D_A,D_B$, the same finite error-budget row $E$, the $\RegSeqRatUp$ readback $R$, and the same local $\NameCert_{\RegularCauchySumUp}$ provenance through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-sum-symmetric-input-handoff}. It gives the componentwise exchange of the two source rows together with their matched windows and endpoint rows, while leaving the displayed addition row, finite budget row, readback row, transport rows, continuation rows, package provenance, and local naming row on the same carrier surface.
+
+Apply \autoref{thm:regular-cauchy-sum-regseqrat-handoff} to the exchanged surface. The $\RegSeqRatUp$ consumer still receives the aligned endpoint and budgeted pointwise-sum data through $R$, so the swap has not introduced a one-sided source route or an ambient completed-real operation.
+
+Finally use \autoref{thm:regular-cauchy-sum-realup-seal-boundary}. Since every $\RealUp$ consumer factors through the displayed readback $R$ and its visible provenance, the real seal route is insensitive to the order of the two accepted source rows and remains the finite two-source route listed in the statement.
+\end{proof}
+
 \begin{theorem}[RegularCauchySum RegSeqRat handoff]
 \label{thm:regular-cauchy-sum-regseqrat-handoff}
 The budgeted pointwise-sum windows of \autoref{thm:regular-cauchy-sum-window-budget} repack as the $\RegSeqRatUp$ readback row $R$ of \autoref{def:regular-cauchy-sum-carrier}. A consumer of $R$ reads only the aligned input windows, the dyadic endpoint addition rows, the finite error-budget ledger, the displayed $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ row.

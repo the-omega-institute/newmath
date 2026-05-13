@@ -139,6 +139,24 @@ The sibling preservation surface is read only as a boundary for finite packet co
 Thus every consumer read remains inside the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the cofinal-tail packet, while \autoref{ch:concrete-instances-subjectreduction-namecert} supplies only the named preservation boundary against which the packet is scoped.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail compatibility handoff]
+\label{thm:diagonal-cofinal-tail-compatibility-handoff}
+For an accepted $\DiagonalCofinalTailUp$ carrier
+$$
+T=(Q,S,G,D,R,W,H,C,P,N),
+$$
+any downstream $\DiagonalLimitCompatibilityUp$, $\RealUp$, or completion-seal consumer that uses the compatibility packet must read the same stationary seed row $Q$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ tail readback $G$, $\DyadicRatCoreUp$ ledger $D$, $\RealUp$ diagonal row $R$, transported seal row $W$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before using that packet. The handoff is therefore the finite compatibility route from \autoref{thm:diagonal-cofinal-tail-regseqrat-streamname-handoff} and \autoref{thm:diagonal-cofinal-tail-primitive-scope} into the carrier surface of \autoref{ch:concrete-instances-diagonal-limit-compatibility-namecert}, not a host equality, selected limit, quotient-stream equality, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+Project the accepted cofinal-tail carrier. Its available rows are exactly the stationary seed, constant window, regular-rational tail readback, dyadic ledger, real diagonal row, transported seal row, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:diagonal-cofinal-tail-regseqrat-streamname-handoff}. It forces every RegSeqRatUp tail readback through the displayed tuple $Q,S,G,D,R,W,H,C,P,N$, so a downstream compatibility consumer has no independent seed, window, ledger, seal, transport, continuation, provenance, or local-name source.
+
+Use \autoref{thm:diagonal-cofinal-tail-primitive-scope}. The primitive scope permits only finite packet consumption through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and excludes unrecorded preservation theorems and ambient completion principles.
+
+The remaining consumer route is precisely the finite compatibility handoff consumed by \autoref{ch:concrete-instances-diagonal-limit-compatibility-namecert}. Since the route has already passed through the displayed rows of $T$, the compatibility packet is received as a local finite handoff rather than as host equality, a selected limit, quotient-stream equality, or a completion theorem.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail window exhaustion]
 \label{thm:diagonal-cofinal-tail-window-exhaustion}
 Every certified finite cofinal-tail observation exported by an accepted $\DiagonalCofinalTailUp$ carrier factors through the finite rows
