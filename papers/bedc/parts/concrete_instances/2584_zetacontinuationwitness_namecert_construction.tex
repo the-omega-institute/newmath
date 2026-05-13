@@ -191,6 +191,52 @@ If the consumer asks about the pole at $s=1$ or a negative even input, the reque
 The remaining analytic escape route is Gamma-dependent. That route is absorbed by $G$ unless the requested factor is already one of the displayed functional-equation rows. Therefore the downstream consumer receives only the finite continuation witness packet and does not receive an RH proof, a non-trivial-zero locator, or a completed Gamma certificate.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationWitness zero-consumer handoff]
+\label{thm:zeta-continuation-witness-zero-consumer-handoff}
+Every $\ZetaZerosUp$ or critical-strip consumer of an accepted $\ZetaContinuationWitnessUp$ packet first exposes the finite rows
+$$
+B,E,A,P,F,T,G,H,C,R,N.
+$$
+The handoff cannot present a zero-facing conclusion before carrier admission, NameCert obligation display, route-carrier admission, pole-Gamma boundary control, critical-strip input refusal, and consumer-ledger exhaustion have displayed those rows.
+\end{theorem}
+\begin{proof}
+Begin with the carrier $W=(B,E,A,P,F,T,G,H,C,R,N)$ and the NameCert obligation surface. These two rows provide the only public inventory for a zero-facing or critical-strip read.
+
+Use route-carrier admission to move from the raw carrier to the admitted continuation route. The admitted route is replayed only through the displayed $\Cont$ rows and authenticated only by the displayed provenance and naming rows.
+
+Apply pole-Gamma boundary control and critical-strip input refusal. Pole-facing requests stay in $P$, Gamma-dependent requests stay in $G$ unless already displayed in $F$, and critical-strip requests cannot import RH predicates, non-trivial-zero locators, global zero classifiers, or completed Gamma data.
+
+Consumer-ledger exhaustion then closes the handoff. Since every surviving consumer read has already landed in $B,E,A,P,F,T,G,H,C,R,N$, there is no remaining route by which a zero-facing consumer can receive an off-packet conclusion.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness critical-strip pole boundary]
+\label{thm:zeta-continuation-witness-critical-strip-pole-boundary}
+Every pole-facing or critical-strip route of an accepted $\ZetaContinuationWitnessUp$ packet must pass through the displayed pole ledger $P$, functional-equation row $F$, and Gamma-horizon row $G$ before it reaches any downstream consumer. No such route can bypass $P,F,G$ by using an RH predicate, a non-trivial-zero locator, a global critical-strip classifier, or a completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate the boundary rows $P,F,G$. The pole row is the only pole-facing ledger, the functional-equation row is the only displayed factor route, and the Gamma-horizon row is the only Gamma-dependent boundary outside the factors already stored in $F$.
+
+The NameCert obligation surface and pole-Gamma boundary identify these coordinates as mandatory boundary reads. A pole-facing request cannot leave $P$, while a Gamma-dependent request terminates at $G$ unless the datum is already part of $F$.
+
+Critical-strip input refusal removes the external shortcuts. The packet has no RH coordinate, no non-trivial-zero locator, no global classifier row, and no completed Gamma certificate.
+
+Finally apply route-carrier admission and consumer-ledger exhaustion. Every admitted continuation route is replayed through the same displayed carrier and named by $R,N$, so a pole-facing or critical-strip consumer must pass through $P,F,G$ rather than bypassing the boundary.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness Gamma-route non-escape ledger]
+\label{thm:zeta-continuation-witness-gamma-route-nonescape-ledger}
+Every Gamma-dependent read of an accepted $\ZetaContinuationWitnessUp$ packet terminates at the displayed Gamma-horizon row $G$ unless the requested Gamma datum is already displayed in the functional-equation row $F$. After that landing, the read is transported, replayed, packaged, and named only through $H,C,R,N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier and the NameCert obligation surface. They expose $F$ and $G$ as the only Gamma-facing rows of the packet.
+
+Use the pole-Gamma boundary. It sends Gamma-dependent reads to $G$ unless the requested factor has already appeared inside the functional-equation row $F$.
+
+Critical-strip input refusal prevents the Gamma read from being reinterpreted as a critical-strip shortcut. The packet does not supply RH data, a zero-location classifier, or a completed Gamma object.
+
+Route-carrier admission and consumer-ledger exhaustion finish the ledger check. Once the read has landed in $F$ or $G$, the only remaining public rows are $H,C,R,N$, so the Gamma route has no off-packet escape.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationWitness route-carrier admission]
 \label{thm:zeta-continuation-witness-route-carrier-admission}
 An accepted $\ZetaContinuationWitnessUp$ packet admits a continuation route only when the route is carried by the displayed eta-continuation row $E$, pole ledger $P$, functional-equation row $F$, trivial-zero ledger $T$, Gamma-horizon boundary $G$, componentwise $\hsame$ transports $H$, $\Cont$ reads $C$, $\Pkg$ provenance $R$, and local $\NameCert$ row $N$. No continuation route is admitted from an unrecorded branch, an RH predicate, a global zero-location classifier, or a completed Gamma certificate.
@@ -522,6 +568,52 @@ Begin with package provenance exactness. It identifies the public package as the
 Add the source-lock and pole-Gamma rows. They ensure that source, eta, analytic-continuation, pole, functional-equation, trivial-zero, and Gamma-boundary data are carried by the single packet $W$ before the local name is exported.
 
 Use critical-strip refusal and ledger scope for downstream reads. A consumer preserving the scoped package preserves exactly the rows $B,E,A,P,F,T,G,H,C,R,N$ and receives no RH predicate, non-trivial-zero locator, completed Gamma certificate, or off-packet analytic-continuation primitive.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness scoped route package]
+\label{thm:zeta-continuation-witness-scoped-route-package}
+For an accepted $\ZetaContinuationWitnessUp$ packet
+$$
+W=(B,E,A,P,F,T,G,H,C,R,N),
+$$
+carrier admission, route-carrier admission, classifier stability, pole-ledger exactness, continuation handoff, trivial-zero non-escape, Gamma boundary control, critical-strip handoff, package provenance, and local naming assemble one scoped witness surface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The surface exposes exactly the source row $B$, eta route $E$, analytic-continuation row $A$, pole ledger $P$, functional-equation route $F$, trivial-zero ledger $T$, Gamma boundary $G$, transports $H$, routes $C$, provenance $R$, and local name $N$.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and route-carrier admission. They identify the accepted object as the displayed finite packet $W$ and make the eta, analytic-continuation, pole, functional-equation, trivial-zero, Gamma, transport, route, provenance, and naming rows available as packet coordinates.
+
+Next apply classifier stability, pole-ledger exactness, continuation handoff, and trivial-zero non-escape. These results keep the classifier, continuation route, pole row, and trivial-zero row inside the same $\BHist$ witness surface.
+
+Then use the Gamma boundary, critical-strip handoff, and package provenance theorems. They force Gamma-facing and critical-strip-facing consumers to read the same $H,C,R,N$ rows before receiving the witness packet.
+
+The local naming row closes the scoped package. No RH predicate, non-trivial-zero locator, completed Gamma certificate, or off-packet analytic branch is exported, because no such row occurs in $W$.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness critical-strip source boundary]
+\label{thm:zeta-continuation-witness-critical-strip-source-boundary}
+Every critical-strip consumer of an accepted $\ZetaContinuationWitnessUp$ packet must read the source row, eta route, analytic-continuation row, pole ledger, functional-equation route, trivial-zero ledger, Gamma boundary, transports, continuation routes, provenance, and local name before receiving the packet. Equivalently, the consumer boundary is the finite route
+$$
+B,E,A,P,F,T,G,H,C,R,N
+$$
+inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ package.
+\end{theorem}
+\begin{proof}
+Use source-lock coverage and route-carrier admission. They place the source row $B$, eta route $E$, and analytic-continuation row $A$ at the entrance of every continuation-facing read.
+
+Use pole-ledger exactness, the functional-boundary theorem, trivial-zero non-escape, and Gamma boundary control for the exceptional rows. These results require $P,F,T,G$ to be read as ledger coordinates of the same packet.
+
+Finally apply critical-strip handoff and package provenance exactness. The consumer receives the packet only after the displayed transports, routes, provenance, and local name have been read, so the boundary is exactly the listed finite route.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness Gamma ledger exhaustion]
+\label{thm:zeta-continuation-witness-gamma-ledger-exhaustion}
+For an accepted $\ZetaContinuationWitnessUp$ packet $W=(B,E,A,P,F,T,G,H,C,R,N)$, every Gamma-facing or pole-facing read is exhausted by the rows $P,F,G,H,C,R,N$. Such a read cannot import RH, a non-trivial-zero locator, a closed Gamma certificate, or a hidden analytic branch into the witness packet.
+\end{theorem}
+\begin{proof}
+Project the boundary coordinates of $W$. The pole row $P$, functional-equation route $F$, Gamma boundary $G$, transports $H$, routes $C$, provenance $R$, and local name $N$ are the only rows available to a Gamma-facing or pole-facing consumer.
+
+Apply the pole-Gamma boundary, functional-boundary scoped exactness, and trivial-zero non-escape theorems. They separate pole, functional-equation, Gamma, and trivial-zero data while keeping all four inside the displayed ledger.
+
+Close with package provenance exactness and critical-strip refusal. Since $R$ and $N$ authenticate only the finite packet, a consumer cannot attach RH, a non-trivial-zero locator, a completed Gamma certificate, or another analytic branch to the Gamma-facing or pole-facing read.
 \end{proof}
 
 \closureat{ZetaContinuationWitnessUp}{seedStr}

@@ -112,3 +112,25 @@ Now use \autoref{thm:streamname-real-regseq-window-lattice-coherence}. The commo
 
 When an accepted $\ObservationBudgetLimiterUp$ packet is present, its request, budget, cap, and window rows are exactly the displayed limiter boundary through which that finite observation packet is read. Since neither the StreamName handoff nor the limiter carrier contains an uncapped schedule, hidden selector, quotient stream, host real equality, selected limit, independent real carrier, or ambient completeness coordinate, none of those objects can be exported by the factorization.
 \end{proof}
+
+\begin{theorem}[StreamName Real observation-budget route]
+\label{thm:streamname-real-observation-budget-route}
+Any finite-window $\StreamNameUp$ packet consumed by $\RegSeqRatUp$ and sealed as $\RealUp$, when read by a $\RealObservationBudgetUp$ consumer, factors through the request, budget, and window route of \autoref{ch:concrete-instances-real-observation-budget-namecert}. The route first exposes the finite StreamName surface, the $\RegSeqRat$ pointwise row, and the $\RealUp$ seal boundary, and then repacks them as the $\RealObservationBudgetUp$ packet
+$$
+E,W,D,R,S,H,C,P,N
+$$
+over the precision request, selected finite windows, dyadic readbacks and radii, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal rows, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+This route exports no uncapped schedule, quotient stream, host sequence equality, selected limit, independent real carrier, ambient completeness principle, or host real equality.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window handoff coverage. By \autoref{thm:streamname-finite-window-real-handoff-coverage}, the StreamName-to-Real packet already exposes only finite StreamName observations, $\RegSeqRat$ pointwise rows, the $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Next apply \autoref{thm:streamname-regseqrat-real-window-factorization}. It identifies the public source surface of the consumed packet with the same finite StreamName window, the same accepted $\RegSeqRat$ pointwise row, and the same $\RealUp$ seal boundary before the observation-budget consumer reads it.
+
+Now use \autoref{thm:streamname-real-regseq-window-lattice-coherence}. The common finite-window lattice pins the classifier observations, bundle rows, membership rows, unary-history observations, dyadic ledger, transports, routes, provenance, and local names to one finite observation packet.
+
+Apply \autoref{thm:streamname-real-seal-observation-budget-factorization} to pass that packet through the displayed observation-budget limiter boundary. The limiter supplies the request, budget, cap, and window discipline needed before a bounded real-facing consumer can inspect the StreamName handoff.
+
+Finally route the bounded packet through \autoref{ch:concrete-instances-real-observation-budget-namecert}. Its carrier \autoref{def:real-observation-budget-carrier} and non-escape theorem \autoref{thm:real-observation-budget-nonescape} repack the same finite surface as $E,W,D,R,S,H,C,P,N$, with componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and the local $\NameCert_{\RealObservationBudgetUp}$ row. Since neither the source handoff nor the observation-budget carrier contains an uncapped schedule, quotient stream, host sequence equality, selected limit, independent real carrier, ambient completeness row, or host real equality row, the routed consumer cannot export any of those objects.
+\end{proof}

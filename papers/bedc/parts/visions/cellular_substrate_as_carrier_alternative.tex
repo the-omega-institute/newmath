@@ -1,0 +1,142 @@
+\chapter{The Cellular-Carrier Alternative: Could BEDC Be Built on the Substrate Directly?}
+\label{ch:visions-cellular-substrate-as-carrier-alternative}
+
+The current BEDC carrier is \texttt{inductive BHist} (\autoref{ch:core-raw-marks-and-mark-sameness}), a two-constructor recursive type expressing the form of distinction. The cellular reading of \autoref{ch:visions-cellular-automaton-substrate-reading} shows that an alternative carrier is structurally available: the orbit of a closed cellular substrate. This chapter examines that alternative as an architectural possibility. It does not propose to switch BEDC's carrier; it identifies the equivalence relation between the two carriers, lists the structural costs and benefits of each, and explains why the project maintains its current commitment while keeping the alternative legible. The chapter's purpose is to make the carrier choice's structural content visible rather than to advocate a change.
+
+\section{Setup: two carriers, one closure premise}
+\label{sec:cellular-carrier-setup}
+
+\begin{definition}[BHist-carrier semantics]
+\label{def:cellular-carrier-bhist-semantics}
+The \emph{BHist-carrier semantics} of BEDC takes the carrier as the inductive type
+$$
+\mathsf{BHist} ::= \mathsf{Empty} \mid \mathsf{e0}(\mathsf{BHist}) \mid \mathsf{e1}(\mathsf{BHist}).
+$$
+Every kernel observation, every typed term, every certificate in BEDC is a value of \texttt{BHist} or a finite tuple of such values. The kernel's principal verbs (\autoref{ch:core-form-of-distinction-kernel-verbs}) operate on \texttt{BHist}; the audit pipeline validates statements about \texttt{BHist}.
+\end{definition}
+
+\begin{definition}[Cellular-carrier semantics]
+\label{def:cellular-carrier-cellular-semantics}
+The \emph{cellular-carrier semantics} of BEDC takes the carrier as the orbit of a closed cellular substrate of \autoref{def:cellular-trust-substrate}, with observations expressed as finite orbit segments. Every kernel observation would be a finite-length cell-row sequence under a fixed local rule (such as Rule~110); every typed term would be a label assigned to such a sequence by a classifier of \autoref{def:cellular-automaton-pattern-classifier}.
+\end{definition}
+
+\begin{principle}[Both carriers are closed observational]
+\label{prin:cellular-carrier-both-closed-observational}
+The BHist-carrier semantics is closed observational at the BEDC kernel level (\autoref{rem:quadrant-bedc-kernel-as-subuniversal-closed}). The cellular-carrier semantics is closed observational at the cellular substrate level (\autoref{thm:rule110-no-internal-induction}). The closure premise of \autoref{def:transcendental-input-closed-system} is satisfied by both; the choice of carrier does not affect the no-induction theorem.
+\end{principle}
+
+\section{The equivalence: bit-string encoding}
+\label{sec:cellular-carrier-equivalence}
+
+\begin{definition}[BHist to bit-string]
+\label{def:cellular-carrier-bhist-to-bitstring}
+The function $\mathsf{toBits} \colon \mathsf{BHist} \to \{0,1\}^*$ is defined recursively by $\mathsf{toBits}(\mathsf{Empty}) = \epsilon$, $\mathsf{toBits}(\mathsf{e0}(h)) = 0 \cdot \mathsf{toBits}(h)$, and $\mathsf{toBits}(\mathsf{e1}(h)) = 1 \cdot \mathsf{toBits}(h)$, where $\epsilon$ is the empty string and $\cdot$ is concatenation. The function is a bijection between \texttt{BHist} values and finite binary strings.
+\end{definition}
+
+\begin{definition}[Bit-string as cell row]
+\label{def:cellular-carrier-bitstring-as-row}
+A finite binary string of length $n$ can be embedded into the cellular substrate's initial cell row as the first $n$ cells of a row of width $W \geq n$, with the remaining cells fixed to a stated default (typically the ether pattern of \autoref{ex:cellular-automaton-glider-catalog}). The orbit of the substrate on this initial row produces a sequence of rows; the orbit at time zero recovers the original bit string up to embedding.
+\end{definition}
+
+\begin{principle}[Carriers are equivalent under encoding]
+\label{prin:cellular-carrier-equivalence-under-encoding}
+Composing $\mathsf{toBits}$ with the bit-string-to-row embedding gives an injection from \texttt{BHist} values into cellular substrate initial rows. The inverse direction recovers \texttt{BHist} values from row-shaped cellular configurations of finite length. The two carriers are therefore equivalent at the level of finite observable data; what distinguishes them is the kernel verb structure and the audit pipeline that operates on them.
+\end{principle}
+
+\section{What the alternative would change}
+\label{sec:cellular-carrier-what-would-change}
+
+\begin{remark}[Kernel verb realignment]
+\label{rem:cellular-carrier-kernel-verb-realignment}
+Switching to the cellular-carrier semantics would realign the kernel's principal verbs from \texttt{Mark} / \texttt{Hist} / \texttt{Ext} / \texttt{Cont} (defined on \texttt{BHist}) to substrate-internal classifier verbs (defined on cell rows). \texttt{Mark} would become ``cell row is ether'' versus ``cell row is glider $G$''; \texttt{Hist} would become ``orbit segment of length $n$''; \texttt{Ext} would become ``orbit extension''; \texttt{Cont} would become ``orbit continuation under R110''. The semantic content of each verb is preserved; the substrate of their statements changes.
+\end{remark}
+
+\begin{remark}[Library transposition cost]
+\label{rem:cellular-carrier-library-transposition-cost}
+The Lean~4 development \texttt{lean4/BEDC/} contains approximately 1837 mechanically-verified theorems on \texttt{BHist} and its derived structures. Transposing this development to the cellular-carrier semantics would require: rewriting every theorem statement to reference cellular substrate orbits instead of \texttt{BHist}, updating every proof to operate at the new substrate, regenerating every audit gate to validate the new statements. The engineering scale is substantial; the structural content of each theorem is preserved under the equivalence of \autoref{prin:cellular-carrier-equivalence-under-encoding}, but the realisation as Lean~4 source would change uniformly.
+\end{remark}
+
+\begin{remark}[Aliasing with NKS and digital physics]
+\label{rem:cellular-carrier-aliasing-nks}
+The cellular-carrier alternative aligns the project's surface presentation with Wolfram's \emph{A New Kind of Science} (NKS) thesis that cellular automata are the natural carrier of physical reality. The alignment is presentational, not metaphysical: the closure premise is what does the work in both readings, and the cellular substrate is one carrier choice that satisfies the premise. The project does not adopt NKS's physical claim; the cellular-carrier alternative would adopt NKS's carrier convention while keeping BEDC's epistemological framework.
+\end{remark}
+
+\section{Why the project keeps the BHist carrier}
+\label{sec:cellular-carrier-why-bhist}
+
+\begin{principle}[Minimum residual commitment]
+\label{prin:cellular-carrier-minimum-residual-commitment}
+The BHist carrier expresses the form of distinction (\autoref{def:form-of-distinction}) with the smallest possible inductive structure: one nullary constructor and two unary recursive constructors. Switching to the cellular carrier would introduce additional structural commitments: a width parameter, a neighbourhood discipline, a transition table (Rule~110's eight-entry table). Each of these is a commitment that BHist does not require. The BHist carrier minimises residual commitment in the structural sense; the cellular carrier expands it.
+\end{principle}
+
+\begin{principle}[Substrate-independence is a feature]
+\label{prin:cellular-carrier-substrate-independence-is-feature}
+The closure premise is substrate-independent (\autoref{prin:large-model-closure-substrate-independent}); the project's preference for the BHist carrier is precisely that BHist is the carrier with no substrate identification. Cellular automaton, Turing machine, lambda calculus, register machine -- each of these could be the carrier. Choosing BHist refuses to privilege any one of them, and identifies the form of distinction as prior to any specific computational substrate. The cellular carrier specialises this position by committing to a specific substrate; this is a presentational gain in concreteness at the cost of structural generality.
+\end{principle}
+
+\begin{remark}[The cellular carrier is the exhibit, not the foundation]
+\label{rem:cellular-carrier-as-exhibit}
+The \texttt{rule110/} sub-system stands to the cellular-carrier alternative as exhibit stands to foundation. The project uses Rule~110 to illustrate the closure premise's content at minimal concrete scale (\autoref{rem:cellular-automaton-rule110-as-exhibit}); the substrate is offered as a witness to the framework's claims, not as the framework's definitional basis. Promoting the substrate from exhibit to foundation would conflate the witness role with the definitional role, which is what the BHist carrier deliberately avoids.
+\end{remark}
+
+\section{What would justify a switch}
+\label{sec:cellular-carrier-switch-conditions}
+
+\begin{remark}[Physical-realisation evidence]
+\label{rem:cellular-carrier-physical-realisation-evidence}
+If physical evidence accumulated that some specific cellular substrate is the actual carrier of the universe-for-the-observer (the working hypothesis of \autoref{def:cellular-automaton-cosmological-reading} promoted from working to confirmed), the project would have empirical motivation to align its carrier with the physical carrier. This motivation does not currently apply; the cosmological reading remains a working hypothesis, and the project does not depend on it.
+\end{remark}
+
+\begin{remark}[Engineering convergence]
+\label{rem:cellular-carrier-engineering-convergence}
+If the \texttt{rule110/} sub-system's audit pipeline ever became the principal audit pipeline of the project (rather than a side audit alongside the Lean~4 kernel), there would be engineering motivation to align the kernel's carrier with the audit pipeline's carrier. The current configuration has Lean~4 \texttt{lake build} as the principal audit and \texttt{rule110/} as a side audit on a substrate witness; the asymmetry justifies keeping the BHist carrier at the kernel.
+\end{remark}
+
+\begin{remark}[Theoretical reduction]
+\label{rem:cellular-carrier-theoretical-reduction}
+If a theorem were proved that the cellular substrate of \autoref{def:cellular-trust-substrate} is in some specific sense \emph{more primitive} than the BHist carrier (rather than equivalent under encoding), the project would have structural motivation to adopt the cellular carrier as the kernel substrate. No such theorem is currently known; the BHist carrier and the cellular substrate are equivalent under bit-string encoding, with neither being structurally prior to the other.
+\end{remark}
+
+\section{The position read structurally}
+\label{sec:cellular-carrier-position-read-structurally}
+
+\begin{principle}[Carrier choice is a presentational decision]
+\label{prin:cellular-carrier-presentational-decision}
+Under \autoref{prin:cellular-carrier-equivalence-under-encoding}, the carrier choice between BHist and the cellular substrate is presentational rather than structural. Both carriers satisfy the closure premise; both admit the no-induction theorem; both can host the inscription concept. The project chooses the BHist carrier because it minimises residual commitment (\autoref{prin:cellular-carrier-minimum-residual-commitment}) and preserves substrate-independence (\autoref{prin:cellular-carrier-substrate-independence-is-feature}). A different project, with different priorities (NKS alignment, cellular-substrate empirical evidence, audit pipeline convergence), could rationally choose the cellular carrier without changing the structural content of the framework.
+\end{principle}
+
+\section{Mapping to BEDC engineering}
+\label{sec:cellular-carrier-mapping-engineering}
+
+\begin{longtable}{p{0.34\textwidth}p{0.58\textwidth}}
+\toprule
+\textbf{Carrier-alternative reading} & \textbf{BEDC engineering realisation} \\
+\midrule
+BHist carrier as current commitment &
+\texttt{lean4/BEDC/Core/RawMark/} defines \texttt{BHist}; all kernel verbs operate on it. \\
+\midrule
+Cellular substrate as exhibit &
+\texttt{rule110/} 220-line ANSI~C99 trust path; substrate witness for the closure premise. \\
+\midrule
+Carrier equivalence under encoding &
+$\mathsf{toBits}$ function definable in Lean~4 over \texttt{BHist}; bit-string-to-row embedding implementable in \texttt{rule110/encoder/}. \\
+\midrule
+Switch cost &
+\textasciitilde 4700 Lean LOC of \texttt{lean4/BEDC/FKernel/} would require uniform realignment; structural content preserved under encoding, source presentation changed. \\
+\midrule
+Minimum residual commitment &
+BHist has no width / neighbourhood / transition table; cellular substrate has all three. \\
+\midrule
+Substrate-independence preservation &
+BHist carrier does not identify with any specific computational substrate; cellular carrier commits to Rule~110 or a chosen alternative. \\
+\bottomrule
+\end{longtable}
+
+\section{Closure remarks}
+\label{sec:cellular-carrier-closure}
+
+This chapter has examined the cellular-carrier alternative to the BHist carrier as a structural possibility, established the equivalence of the two carriers under bit-string encoding, and identified the project's reasons for keeping the BHist carrier as the kernel substrate. The reasons are: minimum residual commitment, substrate-independence preservation, and the structural role of the cellular substrate as exhibit rather than foundation.
+
+The chapter does not advocate a switch. It makes the carrier choice's structural content visible by exhibiting the alternative and naming the structural commitments each carrier introduces. A reader who finds the cellular carrier more compelling for presentational reasons (NKS alignment, audit pipeline convergence) is given a precise account of what would change under such a switch and what would be preserved.
+
+The boundary of this chapter is: the cellular carrier is a structurally available alternative under \autoref{prin:cellular-carrier-equivalence-under-encoding}; the project keeps BHist because it minimises residual commitment and preserves substrate-independence; the cellular substrate continues to function as exhibit (\autoref{rem:cellular-carrier-as-exhibit}). No new theorem is introduced and no carrier change is proposed; the chapter makes a presentational decision legible as a presentational decision rather than as a hidden structural commitment.
