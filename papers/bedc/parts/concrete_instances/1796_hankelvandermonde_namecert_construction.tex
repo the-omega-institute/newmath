@@ -66,3 +66,36 @@ Non-escape follows from the carrier definition. Since no coordinate names a host
   \notclaimed{This chapter does not close host matrix theory, analytic spectra, quotient moment spaces, external field algebra, external theorem reuse, or a checked Lean certificate.}
   \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed determinant and Vandermonde-square rows.}
 \end{closurestatus}
+
+
+\begin{theorem}[Hankel-Vandermonde spectral-shadow bridge]
+\label{thm:hankel-vandermonde-spectral-shadow-bridge}
+Let
+$$
+V_H=(A,W,M,D,\Delta,Q,H_H,C_H,P_H,N_H)
+$$
+be an accepted $\HankelVandermondeUp$ carrier. Let
+$$
+K_{\Omega}=(W_{\Omega},F_{\Omega},L_{\Omega},I_{\Omega},Q_{\Omega},T_{\Omega},C_{\Omega},P_{\Omega},N_{\Omega})
+$$
+be an accepted $\FoldMomentKernelUp$ finite-window carrier, and let
+$$
+C_S=(G,F,V,I,K,S,H_S,T_S,P_S,N_S)
+$$
+be an accepted $\CollisionKernelSpectrumUp$ carrier. Suppose the shared $\FoldMomentKernelUp$ moment surface identifies the collision moment-index row $I$ with the retained row $I_{\Omega}$, and suppose every displayed spectral-shadow request in $S$ is read at the same finite moment address of the Hankel row $M$. Suppose also that, at those addresses, the displayed atom row $A$, weight row $W$, determinant ledger $D$, pairwise-difference row $\Delta$, and Vandermonde-square row $Q$ are the rows recorded by the $\CollisionKernelSpectrumUp$ provenance through $P_S$ and by the $\FoldMomentKernelUp$ provenance through $P_{\Omega}$.
+
+Then every downstream consumer route that reads the spectral-shadow row $S$ factors through the finite $\HankelVandermondeUp$ determinant surface
+$$
+A,W,M,D,\Delta,Q,H_H,C_H,P_H,N_H.
+$$
+More explicitly, each such read first reaches $S$ as a finite row-sum, diagonal weight, or selected moment shadow of the displayed kernel row $K$, then passes through the common finite moment-index row $I=I_{\Omega}$, then reads the Hankel moment row $M$, and finally reaches the determinant ledger $D$ and the Vandermonde-square readback rows $\Delta,Q$. No such consumer route exports a host matrix, analytic spectrum, quotient moment space, selected eigenbasis, external field algebra, or ambient linear-algebra object.
+\end{theorem}
+\begin{proof}
+Project the accepted $\CollisionKernelSpectrumUp$ carrier through \autoref{def:collision-kernel-spectrum-carrier}. By \autoref{thm:collision-kernel-spectrum-finite-window-spectral-shadow}, the row $S$ is not an independent analytic spectrum: each of its displayed entries is a row-sum, diagonal weight, or selected moment shadow of the finite kernel entries in $K$. By \autoref{thm:collision-kernel-spectrum-moment-index-projection}, any exported spectral-shadow read must pass through the finite moment-index row $I$ together with the visible rows $G,F,V,K,H_S,T_S,P_S,N_S$.
+
+The hypothesis identifies that moment-index row with the retained $\FoldMomentKernelUp$ row $I_{\Omega}$. Apply \autoref{thm:fold-moment-kernel-standard-bridge-surface} to the accepted finite-window carrier $K_{\Omega}$. A moment read over this surface can inspect only the displayed window, fold-source, fiber-ledger, moment-index, collision-count, transport, continuation, package, and local naming rows. If the route is restricted to the retained window, \autoref{thm:fold-moment-kernel-finite-window-restriction-carrier} keeps the same conclusion inside the packet $K_{\Omega}$. Thus the spectral-shadow consumer cannot leave the finite moment surface before it reaches the shared Hankel moment address.
+
+At that shared address, the second hypothesis names the Hankel-Vandermonde rows $A,W,M,D,\Delta,Q$ as the rows carried by the collision-spectrum provenance and by the fold-moment provenance. Now apply \autoref{thm:hankel-vandermonde-namecert-obligations}. Determinant-ledger exactness forces every determinant read of $M$ through the finite permutation ledger $D$, and Vandermonde-square readback forces the product read through the displayed pairwise-difference row $\Delta$ and the Vandermonde-square row $Q$, with componentwise transport and continuation stored in $H_H$ and $C_H$.
+
+Combining the three projections gives the announced factorization. A read of $S$ factors through $K$, then through the common finite moment-index row $I=I_{\Omega}$, then through the Hankel moment row $M$, and finally through $D,\Delta,Q$ inside the carrier $V_H$. The non-escape clauses of \autoref{thm:collision-kernel-spectrum-ledger-non-escape}, \autoref{thm:fold-moment-kernel-standard-bridge-surface}, and \autoref{thm:hankel-vandermonde-namecert-obligations} exclude exactly the remaining host matrix, analytic spectrum, quotient moment, selected eigenbasis, external field-algebra, and ambient linear-algebra exports.
+\end{proof}
