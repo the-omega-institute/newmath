@@ -83,6 +83,7 @@ import BEDC.Derived.BinderBudgetSealUp.TasteGate
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
+import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
@@ -213,6 +214,7 @@ import BEDC.Derived.CompletionUniversalPropertyUp
 import BEDC.Derived.CompletionFunctorUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
+import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.IntUp
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
@@ -287,6 +289,7 @@ import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InterpolationUp
+import BEDC.Derived.InscriptionEventUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.KKTUp
