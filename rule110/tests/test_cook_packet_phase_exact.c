@@ -78,11 +78,13 @@ static void test_manual_packet_layout_survives_512_steps(void) {
     assert(cells != NULL);
     cook_ether_emit(cells, periods);
 
-    rc = cook_ossifier_emit_phase_exact(cells,
-                                        ossifier_pos,
-                                        len,
-                                        production,
-                                        1);
+    rc = cook_ossifier_emit_phase_exact_branch(cells,
+                                               ossifier_pos,
+                                               len,
+                                               production,
+                                               1,
+                                               OSSIFIER_AFTER_MOVING_DATA,
+                                               OSSIFY_PRODUCE_C2);
     assert(rc == COOK_OSSIFIER_PHASE_EXACT_OK);
     rc = cook_data_block_emit_phase_exact(cells, data_pos, len, tape_y, 1);
     assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_OK);

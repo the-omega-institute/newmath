@@ -17,6 +17,7 @@ const size_t COOK_LEADER_STABILITY_STEPS = 500;
 
 typedef struct {
     int ebar_spacing_tiles;
+    int invisible_alignment_tiles;
     int ebar_to_c2_tiles;
     int c2_spacing_tiles;
     int c2_phases[COOK_LEADER_C2_COUNT];
@@ -26,6 +27,7 @@ typedef struct {
 
 static const CookLeaderLayout COOK_LEADER_ACCEPT_LAYOUT = {
     3,
+    5,
     3,
     3,
     {1, 2, 3, 4},
@@ -35,6 +37,7 @@ static const CookLeaderLayout COOK_LEADER_ACCEPT_LAYOUT = {
 
 static const CookLeaderLayout COOK_LEADER_REJECT_LAYOUT = {
     2,
+    1,
     4,
     5,
     {4, 3, 2, 1},
@@ -52,6 +55,58 @@ static int cook_leader_mul_size(size_t left, size_t right, size_t *out) {
     if (left != 0 && right > ((size_t)-1) / left) return 0;
     *out = left * right;
     return 1;
+}
+
+int cook_leader_prepared_k(enum leader_prepared_context context,
+                           size_t c,
+                           int *k_out) {
+    size_t raw = 0;
+
+    if (k_out == NULL || c == 0 || c % 6u != 0) return 0;
+    if (context == LEADER_PREPARED_AFTER_MOVING_DATA) {
+        *k_out = 0;
+        return 1;
+    }
+    if (context == LEADER_PREPARED_AFTER_REJECTED_INVISIBLES) {
+        if (!cook_leader_mul_size(c, 10u, &raw)) return 0;
+        if (!cook_leader_add_size(raw, 2u, &raw)) return 0;
+        *k_out = (int)(raw % 6u);
+        return 1;
+    }
+    return 0;
+}
+
+int cook_leader_prepared_invisible_alignment(
+    enum leader_prepared_context context,
+    size_t c,
+    int *alignment_out) {
+    int k = 0;
+
+    if (alignment_out == NULL) return 0;
+    if (!cook_leader_prepared_k(context, c, &k)) return 0;
+    *alignment_out = (k + 5) % 6;
+    return 1;
+}
+
+static int cook_leader_layout_for_context(const CookLeaderLayout *base,
+                                          enum leader_prepared_context context,
+                                          size_t c,
+                                          CookLeaderLayout *out) {
+    int alignment = 0;
+
+    if (base == NULL || out == NULL) return 0;
+    if (!cook_leader_prepared_invisible_alignment(context, c, &alignment)) {
+        return 0;
+    }
+    *out = *base;
+    out->invisible_alignment_tiles = alignment;
+    return 1;
+}
+
+static int cook_leader_ebar_spacing_for_pair(const CookLeaderLayout *layout,
+                                             size_t left_index) {
+    if (left_index == 0) return layout->invisible_alignment_tiles;
+    return layout->ebar_spacing_tiles;
 }
 
 static int cook_leader_step_width(int spacing_tiles,
@@ -99,7 +154,8 @@ static int cook_leader_packet_width(const CookLeaderLayout *layout,
         return 0;
     }
     for (size_t i = 1; i < COOK_LEADER_INVISIBLE_COUNT; i++) {
-        if (!cook_leader_step_width(layout->ebar_spacing_tiles,
+        if (!cook_leader_step_width(cook_leader_ebar_spacing_for_pair(layout,
+                                                                      i - 1),
                                     ebar_len,
                                     &step)) {
             return 0;
@@ -107,7 +163,9 @@ static int cook_leader_packet_width(const CookLeaderLayout *layout,
         if (!cook_leader_add_size(width, step, &width)) return 0;
     }
 
-    if (!cook_leader_step_width(layout->ebar_spacing_tiles,
+    if (!cook_leader_step_width(cook_leader_ebar_spacing_for_pair(
+                                    layout,
+                                    COOK_LEADER_INVISIBLE_COUNT - 1),
                                 ebar_len,
                                 &step)) {
         return 0;
@@ -117,7 +175,8 @@ static int cook_leader_packet_width(const CookLeaderLayout *layout,
     for (size_t i = COOK_LEADER_INVISIBLE_COUNT + 1;
          i < COOK_LEADER_EBAR_COUNT;
          i++) {
-        if (!cook_leader_step_width(layout->ebar_spacing_tiles,
+        if (!cook_leader_step_width(cook_leader_ebar_spacing_for_pair(layout,
+                                                                      i - 1),
                                     ebar_len,
                                     &step)) {
             return 0;
@@ -255,7 +314,9 @@ static int cook_leader_emit_layout(uint8_t *out,
             return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
         }
         if (i + 1 < COOK_LEADER_EBAR_COUNT) {
-            if (!cook_leader_step_width(layout->ebar_spacing_tiles,
+            if (!cook_leader_step_width(cook_leader_ebar_spacing_for_pair(
+                                            layout,
+                                            i),
                                         ebar_len,
                                         &step)) {
                 return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
@@ -344,10 +405,34 @@ int cook_leader_emit_phase_exact_accept_kind(uint8_t *out,
                                              size_t pos,
                                              size_t buf_len,
                                              enum leader_kind kind) {
+    return cook_leader_emit_phase_exact_accept_prepared(
+        out,
+        pos,
+        buf_len,
+        kind,
+        LEADER_PREPARED_AFTER_MOVING_DATA,
+        6u);
+}
+
+int cook_leader_emit_phase_exact_accept_prepared(
+    uint8_t *out,
+    size_t pos,
+    size_t buf_len,
+    enum leader_kind kind,
+    enum leader_prepared_context context,
+    size_t c) {
+    CookLeaderLayout layout;
+
+    if (!cook_leader_layout_for_context(&COOK_LEADER_ACCEPT_LAYOUT,
+                                        context,
+                                        c,
+                                        &layout)) {
+        return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    }
     return cook_leader_emit_layout(out,
                                    pos,
                                    buf_len,
-                                   &COOK_LEADER_ACCEPT_LAYOUT,
+                                   &layout,
                                    kind);
 }
 
@@ -364,10 +449,34 @@ int cook_leader_emit_phase_exact_reject_kind(uint8_t *out,
                                              size_t pos,
                                              size_t buf_len,
                                              enum leader_kind kind) {
+    return cook_leader_emit_phase_exact_reject_prepared(
+        out,
+        pos,
+        buf_len,
+        kind,
+        LEADER_PREPARED_AFTER_REJECTED_INVISIBLES,
+        6u);
+}
+
+int cook_leader_emit_phase_exact_reject_prepared(
+    uint8_t *out,
+    size_t pos,
+    size_t buf_len,
+    enum leader_kind kind,
+    enum leader_prepared_context context,
+    size_t c) {
+    CookLeaderLayout layout;
+
+    if (!cook_leader_layout_for_context(&COOK_LEADER_REJECT_LAYOUT,
+                                        context,
+                                        c,
+                                        &layout)) {
+        return COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+    }
     return cook_leader_emit_layout(out,
                                    pos,
                                    buf_len,
-                                   &COOK_LEADER_REJECT_LAYOUT,
+                                   &layout,
                                    kind);
 }
 
@@ -383,4 +492,19 @@ int cook_leader_emit_phase_exact_kind(uint8_t *out,
                                       size_t buf_len,
                                       enum leader_kind kind) {
     return cook_leader_emit_phase_exact_accept_kind(out, pos, buf_len, kind);
+}
+
+int cook_leader_emit_phase_exact_kind_prepared(
+    uint8_t *out,
+    size_t pos,
+    size_t buf_len,
+    enum leader_kind kind,
+    enum leader_prepared_context context,
+    size_t c) {
+    return cook_leader_emit_phase_exact_accept_prepared(out,
+                                                        pos,
+                                                        buf_len,
+                                                        kind,
+                                                        context,
+                                                        c);
 }
