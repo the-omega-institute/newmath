@@ -83,4 +83,21 @@ theorem DiagonalCofinalTailCarrier_namecert_obligations [AskSetup] [PackageSetup
       nUnary, consumerUnary, qsRoute, gdRoute, whRoute, consumerRoute, pPkg,
       consumerPkg, cert⟩
 
+theorem DiagonalCofinalTailCarrier_seed_window_readback [AskSetup] [PackageSetup]
+    {q s g d r w h c p n windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont c r windowRead →
+        PkgSig bundle windowRead pkg →
+          UnaryHistory w ∧ UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory r ∧
+            UnaryHistory windowRead ∧ Cont w h c ∧ Cont c r windowRead ∧
+              PkgSig bundle p pkg ∧ PkgSig bundle windowRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro carrier windowRoute windowPkg
+  obtain ⟨_qUnary, _sUnary, _gUnary, _dUnary, rUnary, wUnary, hUnary, cUnary,
+    _pUnary, _nUnary, _qsRoute, _gdRoute, whRoute, pPkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed cUnary rUnary windowRoute
+  exact ⟨wUnary, hUnary, cUnary, rUnary, windowUnary, whRoute, windowRoute, pPkg, windowPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
