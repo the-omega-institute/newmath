@@ -50,6 +50,42 @@ The threshold clause uses the single row $T$. Since $T$ is the only tail-meet co
 Finally $H,C,P,N$ repack the route as a local NameCert surface. With no carrier coordinate for quotient streams, host real equality, selected limits, hidden tail oracles, or ambient completeness, the six rows exhaust the public comparison packet.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus comparison paired schedule admission]
+\label{thm:cauchy-modulus-comparison-paired-schedule-admission}
+Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. Before any comparison route is read, the packet exposes exactly the two $\CauchyModulusUp$ schedule rows $M_0$ and $M_1$. No third schedule row, ambient order on modulus functions, quotient stream representative, or hidden tail oracle is available to the comparison consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:cauchy-modulus-comparison-carrier}. The first two coordinates are precisely the displayed $\CauchyModulusUp$ rows $M_0$ and $M_1$.
+
+Use the paired schedule row of \autoref{thm:cauchy-modulus-comparison-namecert-obligations}. It names those two rows before the threshold, window, tolerance, seal, transport, continuation, package, and local certificate coordinates are consumed.
+
+The later directional route in \autoref{thm:cauchy-modulus-comparison-directional-monotonicity} starts from the same two rows and then passes through $T,W,Q,H,C,P,N$. Since the carrier contains no additional schedule coordinate or ambient ordering field, admission is exactly the displayed pair $M_0,M_1$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus comparison finite-window tolerance exactness]
+\label{thm:cauchy-modulus-comparison-finite-window-tolerance-exactness}
+Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. Every comparison read passes through the shared threshold $T$, the finite window ledger $W$, and the tolerance-readback ledger $Q$. Hence the read is mediated by $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ tolerance rows, and $\RegSeqRatUp$ readbacks before any $\RealUp$ seal row can be consumed.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory and the finite-window row of \autoref{thm:cauchy-modulus-comparison-namecert-obligations}. The only comparison path after the two schedules proceeds through the threshold coordinate $T$ and then the selected window coordinate $W$.
+
+Apply \autoref{thm:cauchy-modulus-comparison-directional-monotonicity} for comparison-facing reads. Its route includes $T,W,Q$ before any public comparison conclusion is available.
+
+Use \autoref{thm:cauchy-modulus-comparison-shared-tail-exactness} to identify $T$ as the single shared tail threshold and $W$ as the downstream finite window ledger. Then use \autoref{thm:cauchy-modulus-comparison-real-seal-handoff}: the $\RealUp$ seal $E$ is reached only after $Q$ has supplied the dyadic tolerance and regular rational readback rows. This proves exactness of the displayed finite-window tolerance route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus comparison transport route stability]
+\label{thm:cauchy-modulus-comparison-transport-route-stability}
+For an accepted $\CauchyModulusComparisonUp$ carrier $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$, componentwise $\hsame$ rows in $H$ and displayed $\Cont$ routes in $C$ preserve the schedule, threshold, window, tolerance, seal, package, and local $\NameCert$ coordinates. A transported read therefore remains a read of the same displayed packet rows $M_0,M_1,T,W,Q,E,P,N$.
+\end{theorem}
+\begin{proof}
+Project the transport and continuation coordinates of the carrier. The row $H$ is indexed componentwise over the schedule rows, threshold, windows, tolerance-readback ledger, seal row, package provenance, local name, and packet shape; $C$ displays the replay routes between those coordinates.
+
+Use the stability row of \autoref{thm:cauchy-modulus-comparison-namecert-obligations}. It requires transported comparison reads to move along these displayed $\hsame$ and $\Cont$ rows, so transport cannot replace any schedule, threshold, window, tolerance, seal, package, or local naming coordinate by an unlisted one.
+
+The directional, shared-tail, and seal-facing conclusions of \autoref{thm:cauchy-modulus-comparison-directional-monotonicity}, \autoref{thm:cauchy-modulus-comparison-shared-tail-exactness}, and \autoref{thm:cauchy-modulus-comparison-real-seal-handoff} all use the same route inventory. Thus stability preserves the displayed packet coordinates through every public comparison read.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus comparison directional monotonicity]
 \label{thm:cauchy-modulus-comparison-directional-monotonicity}
 Let $K=(M_0,M_1,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusComparisonUp$ carrier. Any consumer read asserting that the first schedule is no harder than the second schedule factors through the displayed route
