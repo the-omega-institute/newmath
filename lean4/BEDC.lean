@@ -114,6 +114,8 @@ import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
+import BEDC.Derived.ObserverRegularUp.TasteGate
+import BEDC.Derived.ObserverLocalityCellUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
 import BEDC.Derived.DyadicApproximationUp.ValidatedEnclosureRoute
 import BEDC.Derived.DyadicApproximationUp.RefinementSealCommutation
@@ -122,6 +124,7 @@ import BEDC.Derived.DyadicApproximationUp.FinitePackets
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
+import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.StreamNameSealFactorization
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
@@ -141,6 +144,7 @@ import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
+import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
