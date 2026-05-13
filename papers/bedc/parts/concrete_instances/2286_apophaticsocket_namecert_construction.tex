@@ -154,12 +154,28 @@ Next bind the gate and consumer routes. \autoref{thm:apophatic-socket-gate-corre
 Finally apply the boundary and route ledgers. \autoref{thm:apophatic-socket-gated-supply-route-exhaustion} and \autoref{thm:apophatic-socket-scoped-supply-ledger} exhaust visible supply use through the same rows, and \autoref{thm:apophatic-socket-boundary-noninternalization-ledger} keeps the requested external supply outside the carrier. These clauses give the scoped kernel surface without adding an internal supply coordinate.
 \end{proof}
 
+\begin{theorem}[ApophaticSocket positive supply refusal scope]
+\label{thm:apophatic-socket-positive-supply-refusal-scope}
+For an accepted $\ApophaticSocketUp$ packet with visible boundary request rows
+$$
+K,S_0,G,A,L,Q,P,N,
+$$
+any visible request through these rows remains a request row. It cannot be consumed as a constructor, theorem, setup field, import permission, or positive internal description of the requested supply.
+\end{theorem}
+\begin{proof}
+Use the gate correspondence of \autoref{thm:apophatic-socket-gate-correspondence}. Visibility of the request is exposed only through the socket kind $K$, requested supply shape $S_0$, audit gate $G$, and site row $A$.
+
+Next apply the noninternalization boundary of \autoref{thm:apophatic-socket-noninternalization-boundary} and the boundary noninternalization ledger of \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}. These results say that the carrier records the request shape and its audit route without supplying a constructor, theorem, setup field, import permission, or positive internal description.
+
+Finally use the scoped supply ledger of \autoref{thm:apophatic-socket-scoped-supply-ledger} together with the kernel-scope obligation package of \autoref{thm:apophatic-socket-kernel-scope-obligation-package}. They exhaust every visible consumer route through $K,S_0,G,A,L,Q,P,N$, so no downstream consumer can reinterpret the visible boundary request as positive internal supply.
+\end{proof}
+
 \closureat{ApophaticSocketUp}{obligationStr}
 
 \begin{closurestatus}{\ApophaticSocketUp}
   \constructivestory{An $\ApophaticSocketUp$ packet is generated from a socket-kind row, a requested-supply-shape row, an audit-gate row, a site row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-gate-correspondence}, \autoref{thm:apophatic-socket-noninternalization-boundary}, \autoref{thm:apophatic-socket-consumer-surface}, \autoref{thm:apophatic-socket-obligation-closure-package}, \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}, and \autoref{thm:apophatic-socket-kernel-scope-obligation-package} specify the finite apophatic socket carrier, local naming obligations, gate correspondence, noninternalization boundary, consumer surface, obligation package, gated route exhaustion, ledger noninternalization, and scoped kernel surface.}
+  \scopeclosed{\autoref{def:apophatic-socket-ledger-carrier}, \autoref{thm:apophatic-socket-namecert-obligations}, \autoref{thm:apophatic-socket-gate-correspondence}, \autoref{thm:apophatic-socket-noninternalization-boundary}, \autoref{thm:apophatic-socket-consumer-surface}, \autoref{thm:apophatic-socket-obligation-closure-package}, \autoref{thm:apophatic-socket-gated-supply-route-exhaustion}, \autoref{thm:apophatic-socket-boundary-noninternalization-ledger}, \autoref{thm:apophatic-socket-kernel-scope-obligation-package}, and \autoref{thm:apophatic-socket-positive-supply-refusal-scope} specify the finite apophatic socket carrier, local naming obligations, gate correspondence, noninternalization boundary, consumer surface, obligation package, gated route exhaustion, ledger noninternalization, scoped kernel surface, and positive supply refusal scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
