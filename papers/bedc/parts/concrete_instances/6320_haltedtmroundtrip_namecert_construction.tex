@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\HaltedTmRoundTripUp$}
+\label{ch:concrete-instances-halted-tm-round-trip-namecert}
+\origin{ai}
+
+The $\HaltedTmRoundTripUp$ packet is the finite certificate target for the Cook compile-frontier engineering path of \autoref{ch:visions-cook-compile-frontier-engineering-path}. It joins a staged Turing-machine compilation row, a Rule 110 orbit row, an inverse decode row, a halted readback row, and a scale-threshold row in one NameCert carrier. The packet sits beside the cellular trust substrate of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the bounded universal trace of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, the compiler optimization endomorphism of \autoref{ch:concrete-instances-compiler-optimization-endomorphism-namecert}, and the universal closed substrate of \autoref{ch:concrete-instances-universal-closed-substrate-namecert}; it is not reducible to any one of those siblings because it records the complete round trip from machine input to halted readback at a finite frontier coordinate.
+
+\falsifiablePrediction{Deleting the decode row permits an orbit witness without a halted-TM readback; deleting the scale-threshold row permits a frontier claim without the finite Cook-stage budget.}
+
+\independenceWitness{cellulartrustsubstrate, cellularautomaton, boundeduniversaltrace, compiler-optimization-endomorphism, universalclosedsubstrate; none is bijective because none preserves all staged compile, orbit, decode, halt, and frontier-scale rows.}
+
+\begin{definition}[HaltedTmRoundTrip carrier]
+\label{def:halted-tm-round-trip-carrier}
+A $\HaltedTmRoundTripUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,G,Y,R,D,Q,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the halted Turing-machine source row, naming the finite state set, tape alphabet, transition table, initial configuration, and halted output row selected for the target machine;
+\item $G$ is the staged Cook compilation row, recording the TM-to-tag, tag-to-cyclic, and cyclic-to-Rule-110 stages as finite compiler rows;
+\item $Y$ is the cyclic-tag schedule row, including the production count, tape-symbol count, initial cyclic word, and finite schedule bound used by the compiled run;
+\item $R$ is the Rule 110 initial row and local-rule orbit row, with the finite cell window, step budget, and accepted observation coordinates;
+\item $D$ is the inverse decode row from the observed Rule 110 window back through cyclic-tag and tag-system readback;
+\item $Q$ is the halted readback row, stating that the decoded machine row matches the halted output named by $M$;
+\item $F$ is the frontier-scale row, recording the finite production, tape-symbol, row-width, and step-budget thresholds used by the compile-frontier read;
+\item $H$ records componentwise $\hsame$ transports for $M,G,Y,R,D,Q,F,P,N$;
+\item $C$ records displayed $\Cont$ routes through the staged compile, Rule 110 orbit, inverse decode, halted readback, and frontier-scale rows;
+\item $P$ is the $\Pkg$ provenance over $\HaltedTmRoundTripUp$, \autoref{ch:visions-cook-compile-frontier-engineering-path}, \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, \autoref{ch:concrete-instances-compiler-optimization-endomorphism-namecert}, \autoref{ch:concrete-instances-universal-closed-substrate-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HaltedTmRoundTripUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $M,G,Y,R,D,Q,F,H,C,P,N$. It has no coordinate for an unbounded halting predicate, host evaluator equality, a detached Rule 110 orbit, a decode-free universality claim, or a scale-free frontier assertion.
+\end{definition}
+
+\begin{theorem}[HaltedTmRoundTrip NameCert obligations]
+\label{thm:halted-tm-round-trip-namecert-obligations}
+For the carrier of \autoref{def:halted-tm-round-trip-carrier}, the local $\NameCert_{\HaltedTmRoundTripUp}$ surface consists exactly of carrier admission for $T=(M,G,Y,R,D,Q,F,H,C,P,N)$, staged compile accountability through $G$, cyclic-tag schedule accountability through $Y$, Rule 110 orbit accountability through $R$, inverse decode exactness through $D$, halted readback exactness through $Q$, frontier-scale accountability through $F$, and componentwise transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:halted-tm-round-trip-carrier}. The source machine, staged compiler, cyclic schedule, Rule 110 orbit, inverse decode, halt readback, scale row, transport, route, provenance, and naming rows are the only coordinates available to a consumer.
+
+The compile side is read through $M,G,Y,R$. The source row names the halted machine, the staged compiler row records the three Cook stages, the schedule row fixes the finite cyclic-tag budget, and the Rule 110 row records the finite orbit window accepted for observation.
+
+The readback side is read through $D,Q,F$. The decode row returns from the observed orbit to the machine-facing row, the halt row checks that decoded row against the displayed halted output, and the scale row records the finite frontier budget under which the route is being claimed.
+
+Finally $H,C,P,N$ bind the NameCert surface. Since the carrier has no coordinate for unbounded halting, host evaluator equality, a detached orbit witness, a decode-free readback, or a scale-free frontier claim, the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[HaltedTmRoundTrip scale-threshold route]
+\label{thm:halted-tm-round-trip-scale-threshold-route}
+Every compile-frontier read exported by an accepted $\HaltedTmRoundTripUp$ packet factors through the staged finite route
+$$
+M,G,Y,R,D,Q,F,H,C,P,N .
+$$
+The route may state that the displayed halted machine has been compiled through the Cook stages, evaluated on a finite Rule 110 orbit, decoded back to the halted row, and checked at the thresholds recorded by $F$. It may not state the frontier claim without the scale row, the halted readback without the decode row, or the Rule 110 orbit without the staged compile row.
+\end{theorem}
+\begin{proof}
+Begin with the route row $C$. Its admitted paths replay the staged compiler rows, then the cyclic-tag schedule, then the Rule 110 orbit, then the inverse decode and halted readback.
+
+The scale-threshold row $F$ is read on the same route. It records the finite production count, tape-symbol count, row-width budget, and step-budget threshold used by the frontier claim, so the exported read is a bounded certificate rather than an ambient universality assertion.
+
+The dependency on $D$ and $Q$ is essential. Without $D$, the packet contains an orbit observation but no machine-facing readback; without $Q$, it contains a decode but no halted-row match; without $F$, it contains a round trip but no Cook-frontier coordinate.
+\end{proof}
+
+\begin{theorem}[HaltedTmRoundTrip nonescape]
+\label{thm:halted-tm-round-trip-nonescape}
+An accepted $\HaltedTmRoundTripUp$ packet exports no unbounded halting predicate, no host evaluator equality, no detached Rule 110 orbit certificate, no decode-free halted readback, no scale-free frontier claim, and no semantic proof that every Turing machine is handled by the displayed route. Its public content is exactly the finite packet $M,G,Y,R,D,Q,F,H,C,P,N$ of \autoref{def:halted-tm-round-trip-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The source row names one finite halted-machine target, the compile rows name one staged Cook route, and the orbit row names one finite Rule 110 observation window.
+
+The readback and scale rows restrict the export. The decoded row $D$ and halt row $Q$ bind the orbit to the named halted output, while $F$ binds the read to a finite frontier coordinate.
+
+The excluded objects require rows absent from the carrier. Unbounded halting needs a global decision predicate, host evaluator equality needs a semantic equality row, a detached orbit certificate would omit $G$, a decode-free halt read would omit $D$, and a scale-free frontier claim would omit $F$. None of these coordinates is present, so the packet exports only the displayed finite NameCert surface.
+\end{proof}
+
+The Lean \texttt{TasteGate.lean} development for $\HaltedTmRoundTripUp$ will need $\mathsf{Nontrivial}\ \HaltedTmRoundTripUp$ and $\mathsf{FieldFaithful}\ \HaltedTmRoundTripUp$ instances. These instances must preserve the halted-machine source row, staged compile row, cyclic-tag schedule, Rule 110 orbit, inverse decode, halted readback, frontier-scale row, componentwise transport, replay route, package provenance, and local naming row.
+
+\closureat{HaltedTmRoundTripUp}{seedStr}
+
+\begin{closurestatus}{\HaltedTmRoundTripUp}
+  \constructivestory{A $\HaltedTmRoundTripUp$ packet is generated from a halted Turing-machine source row, staged Cook compile row, cyclic-tag schedule, Rule 110 orbit row, inverse decode row, halted readback row, frontier-scale row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:halted-tm-round-trip-carrier}, \autoref{thm:halted-tm-round-trip-namecert-obligations}, \autoref{thm:halted-tm-round-trip-scale-threshold-route}, and \autoref{thm:halted-tm-round-trip-nonescape} specify the finite Cook compile-frontier round-trip certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, host evaluator equality, global Rule 110 correctness, all-machine universality, or a detached decode-free frontier result.}
+  \upgradepath{Obligation closure requires checked carrier admission, staged compile accountability, Rule 110 orbit accountability, inverse decode exactness, halted readback exactness, frontier-scale accountability, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
