@@ -214,6 +214,34 @@ theorem UniformModulusPacket_root_unblock_consumer_threshold_route [AskSetup] [P
       exact ⟨sourceRow.right.right, toleranceBundleCoverage, coveragePointwiseTransport⟩
   }
 
+theorem UniformModulusPacket_root_consumer_threshold_row [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow threshold exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont tolerance precision threshold ->
+        Cont threshold foldLedger exported ->
+          PkgSig bundle exported pkg ->
+            UnaryHistory tolerance ∧ UnaryHistory precision ∧ UnaryHistory threshold ∧
+              UnaryHistory foldLedger ∧ UnaryHistory exported ∧
+                Cont tolerance precision threshold ∧ Cont threshold foldLedger exported ∧
+                  PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet thresholdRoute exportRoute exportPkg
+  obtain ⟨toleranceUnary, precisionUnary, _bundleRowUnary, radiusUnary, _nameRowUnary,
+    _toleranceBundleCoverage, _coveragePointwiseTransport, precisionRadiusFoldLedger,
+    _foldNameProvenance, _provenancePkg⟩ := packet
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed toleranceUnary precisionUnary thresholdRoute
+  have foldLedgerUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary precisionRadiusFoldLedger
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed thresholdUnary foldLedgerUnary exportRoute
+  exact
+    ⟨toleranceUnary, precisionUnary, thresholdUnary, foldLedgerUnary, exportedUnary,
+      thresholdRoute, exportRoute, exportPkg⟩
+
 theorem UniformModulusPacket_root_fold_threshold_exhaustion [AskSetup] [PackageSetup]
     {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
       nameRow threshold exported : BHist}
@@ -564,5 +592,37 @@ theorem UniformModulusPacket_compact_continuous_nonescape [AskSetup] [PackageSet
       intro _row sourceRow
       exact ⟨sourceRow.right.right, consumerRoute, exportRoute⟩
   }
+
+theorem UniformModulusPacket_metric_distance_route_soundness [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow compactRead pointwiseRead distance exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      UnaryHistory pointwise -> Cont bundleRow radius compactRead ->
+      Cont compactRead pointwise pointwiseRead -> Cont pointwiseRead foldLedger distance ->
+      Cont distance nameRow exported -> PkgSig bundle exported pkg ->
+        UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory compactRead ∧
+          UnaryHistory pointwiseRead ∧ UnaryHistory foldLedger ∧ UnaryHistory distance ∧
+            UnaryHistory exported ∧ Cont bundleRow radius compactRead ∧
+              Cont compactRead pointwise pointwiseRead ∧ Cont pointwiseRead foldLedger distance ∧
+                Cont distance nameRow exported ∧ PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet pointwiseUnary compactRoute pointwiseRoute distanceRoute exportRoute exportPkg
+  obtain ⟨_toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, nameRowUnary,
+    _coverageRoute, _transportRoute, foldRoute, _provenanceRoute, _packetPkg⟩ := packet
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed bundleRowUnary radiusUnary compactRoute
+  have pointwiseReadUnary : UnaryHistory pointwiseRead :=
+    unary_cont_closed compactReadUnary pointwiseUnary pointwiseRoute
+  have foldLedgerUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary foldRoute
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed pointwiseReadUnary foldLedgerUnary distanceRoute
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed distanceUnary nameRowUnary exportRoute
+  exact ⟨bundleRowUnary, radiusUnary, compactReadUnary, pointwiseReadUnary, foldLedgerUnary,
+    distanceUnary, exportedUnary, compactRoute, pointwiseRoute, distanceRoute, exportRoute,
+    exportPkg⟩
 
 end BEDC.Derived.UniformModulusUp
