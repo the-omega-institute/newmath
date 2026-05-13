@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionRouteChoiceUp$}
+\label{ch:concrete-instances-subject-reduction-route-choice-namecert}
+\origin{ai}
+
+The $\SubjectReductionRouteChoiceUp$ packet records the finite choice point between the two subject-reduction discharge routes of \autoref{ch:sr-discharge-routes}. It reads the discharge bundle surface of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, the socket boundary of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and the downstream subject-reduction consumer of \autoref{ch:concrete-instances-subjectreduction-namecert}; it does not choose or discharge the missing closed-CIC obstruction.
+
+\begin{definition}[SubjectReductionRouteChoice carrier]
+\label{def:subject-reduction-route-choice-carrier}
+A $\SubjectReductionRouteChoiceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,T,F,V,S,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the explicit bundle row naming the $\mathrm{SubjectReductionDischargeBundle}$ shape and its four discharge coordinates;
+\item $T$ is the typeclass setup row naming the $\mathrm{SubjectReductionSetup}$ publication protocol for the same four coordinates;
+\item $F$ is the setup-to-bundle row corresponding to $\mathrm{SubjectReductionSetup.toBundle}$;
+\item $V$ is the bundle-consumption row corresponding to $\mathrm{subject\_reduction\_from\_bundle}$;
+\item $S$ is the setup-consumption row corresponding to $\mathrm{subject\_reduction\_via\_setup}$;
+\item $O$ is the obstruction-boundary row stating that neither route is inhabited for the present closed-CIC substrate inside this packet;
+\item $H$ records componentwise $\hsame$ transports for the bundle, setup, conversion, consumption, obstruction, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the bundle route, the setup route, the conversion row, the subject-reduction socket, and the subject-reduction packet;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:sr-discharge-routes}, \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert};
+\item $N$ is the local $\NameCert_{\SubjectReductionRouteChoiceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows and the visible transport and continuation routes.
+\end{definition}
+
+\begin{theorem}[SubjectReductionRouteChoice obligations]
+\label{thm:subject-reduction-route-choice-obligations}
+For the carrier of \autoref{def:subject-reduction-route-choice-carrier}, the local $\NameCert_{\SubjectReductionRouteChoiceUp}$ surface consists exactly of carrier admission for
+$$
+R=(B,T,F,V,S,O,H,C,P,N),
+$$
+route visibility for $B,T,F,V,S$, obstruction-boundary visibility for $O$, componentwise transport through $H$, displayed continuation reads through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $B,T,F,V,S$ are the only route rows, and the row $O$ is the only obstruction-boundary row.
+
+Transport and replay are then read through $H$ and $C$. These rows preserve the displayed carrier coordinates and do not create a discharge coordinate outside $R$.
+
+Finally, $P$ and $N$ account for the finite provenance and local name. Hence the listed rows exhaust the NameCert obligations for the route-choice packet.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice bundle-typeclass exhaustion]
+\label{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}
+Every consumer read of an accepted $\SubjectReductionRouteChoiceUp$ packet chooses between exactly two public route surfaces: the explicit bundle surface $B,V$ and the typeclass setup surface $T,F,S$. Both surfaces expose the same four discharge coordinates named by the subject-reduction discharge interface, and no third route, hidden instance, or host conversion rule is exported by the packet.
+\end{theorem}
+\begin{proof}
+Inspect the route coordinates in \autoref{def:subject-reduction-route-choice-carrier}. The explicit route is the pair $B,V$, while the typeclass route is the triple $T,F,S$.
+
+The conversion row $F$ sends setup evidence to the bundle shape before the setup-side consumption row is read. Thus the typeclass route reaches the same bundle payload rather than a separate subject-reduction principle.
+
+Since every consumer read factors through $C$ and every transported read factors through $H$, no route coordinate outside the displayed bundle and setup surfaces is available.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice obstruction boundary]
+\label{thm:subject-reduction-route-choice-obstruction-boundary}
+The $\SubjectReductionRouteChoiceUp$ packet keeps the obstruction row $O$ separate from the route rows. It may record that a downstream substrate can use the explicit bundle route or the typeclass setup route, but it does not supply an inhabited $\mathrm{SubjectReductionDischargeBundle}$, a closed-CIC $\mathrm{SubjectReductionSetup}$ instance, a proof of the dependent-codomain discharge row, or a closed subject-reduction theorem for the present substrate.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The route rows $B,T,F,V,S$ name how a discharge would be consumed once supplied, while $O$ names the boundary where the present substrate lacks the required discharge.
+
+The provenance row ties this boundary to the discharge, socket, and subject-reduction chapters. Those references identify the finite interfaces, not inhabitants of the missing closed-CIC discharge.
+
+Therefore the packet can expose the route choice to downstream audits while keeping closed subject reduction outside its exported surface.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice vision handoff]
+\label{thm:subject-reduction-route-choice-vision-handoff}
+The two formal routes of \autoref{ch:sr-discharge-routes} are realized as the finite $\SubjectReductionRouteChoiceUp$ carrier of \autoref{def:subject-reduction-route-choice-carrier}. The handoff consists of the explicit bundle row, the setup row, the setup-to-bundle conversion row, the two consumption rows, the obstruction-boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+The vision chapter distinguishes the bundle route from the typeclass route and states that both terminate at the same four-field discharge interface. The carrier mirrors that distinction by placing $B,V$ and $T,F,S$ in separate displayed rows.
+
+The route-choice packet also records $O$, so the handoff is not read as a closed subject-reduction proof for the present substrate. Consumers can cite the finite choice surface and must still obtain discharge data elsewhere.
+\end{proof}
+
+\closureat{SubjectReductionRouteChoiceUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionRouteChoiceUp}
+  \constructivestory{A $\SubjectReductionRouteChoiceUp$ packet is generated from explicit bundle, setup, setup-to-bundle, bundle-consumption, setup-consumption, obstruction-boundary, transport, continuation, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-route-choice-carrier}, \autoref{thm:subject-reduction-route-choice-obligations}, \autoref{thm:subject-reduction-route-choice-bundle-typeclass-exhaustion}, \autoref{thm:subject-reduction-route-choice-obstruction-boundary}, and \autoref{thm:subject-reduction-route-choice-vision-handoff} bind the finite route-choice packet between bundle and typeclass discharge access.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not discharge the four MetaCIC subject-reduction obligations, construct a closed-CIC setup instance, construct an inhabited discharge bundle, prove closed subject reduction, or give Lean verification of the route-choice packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, route-choice exhaustion, obstruction-boundary non-escape, route replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

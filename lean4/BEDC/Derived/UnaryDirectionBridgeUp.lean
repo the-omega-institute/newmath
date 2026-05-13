@@ -128,6 +128,37 @@ theorem UnaryDirectionBridgeCarrier_standard_boundary_readout [AskSetup] [Packag
     ⟨boundaryReadUnary, additiveReadUnary, bridgeKernelBoundary, boundaryLedgerTransports,
       boundaryLedgerRead, readRoutesAdditive, provenancePkg, boundaryReadPkg, additiveReadPkg⟩
 
+theorem UnaryDirectionBridgeCarrier_source_obligation_inventory [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name
+      sourceRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      Cont natRow axisRow sourceRead ->
+        Cont boundary ledger boundaryRead ->
+          PkgSig bundle sourceRead pkg ->
+            PkgSig bundle boundaryRead pkg ->
+              UnaryHistory natRow /\ UnaryHistory axisRow /\ UnaryHistory sourceRead /\
+                UnaryHistory boundaryRead /\ Cont natRow axisRow bridge /\
+                  Cont natRow axisRow sourceRead /\ Cont bridge kernel boundary /\
+                    Cont boundary ledger boundaryRead /\ PkgSig bundle provenance pkg /\
+                      PkgSig bundle name pkg /\ PkgSig bundle sourceRead pkg /\
+                        PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier natAxisSource boundaryLedgerRead sourceReadPkg boundaryReadPkg
+  obtain ⟨natUnary, axisUnary, _bridgeUnary, _kernelUnary, boundaryUnary, ledgerUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, natAxisBridge,
+    bridgeKernelBoundary, _boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed natUnary axisUnary natAxisSource
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed boundaryUnary ledgerUnary boundaryLedgerRead
+  exact
+    ⟨natUnary, axisUnary, sourceReadUnary, boundaryReadUnary, natAxisBridge,
+      natAxisSource, bridgeKernelBoundary, boundaryLedgerRead, provenancePkg, namePkg,
+      sourceReadPkg, boundaryReadPkg⟩
+
 theorem UnaryDirectionBridgeCarrier_source_classifier_transport [AskSetup] [PackageSetup]
     {natRow axisRow bridge kernel boundary ledger transports routes provenance name
       natRow' axisRow' bridge' kernel' boundary' ledger' transports' routes'
@@ -189,5 +220,64 @@ theorem UnaryDirectionBridgeCarrier_ledger_policy [AskSetup] [PackageSetup]
     ⟨natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, ledgerUnary,
       transportsUnary, ledgerReadUnary, natAxisBridge, bridgeKernelBoundary,
       boundaryLedgerTransports, ledgerTransportRead, provenancePkg, namePkg, ledgerReadPkg⟩
+
+theorem UnaryDirectionBridgeCarrier_additive_consumer_exactness [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name handoff
+      additiveRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      Cont boundary ledger handoff ->
+        Cont handoff routes additiveRead ->
+          PkgSig bundle handoff pkg ->
+            PkgSig bundle additiveRead pkg ->
+              UnaryHistory natRow ∧ UnaryHistory axisRow ∧ UnaryHistory bridge ∧
+                UnaryHistory kernel ∧ UnaryHistory boundary ∧ UnaryHistory ledger ∧
+                  UnaryHistory transports ∧ UnaryHistory handoff ∧ UnaryHistory additiveRead ∧
+                    Cont natRow axisRow bridge ∧ Cont bridge kernel boundary ∧
+                      Cont boundary ledger transports ∧ Cont boundary ledger handoff ∧
+                        Cont handoff routes additiveRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle name pkg ∧ PkgSig bundle handoff pkg ∧
+                            PkgSig bundle additiveRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier boundaryLedgerHandoff handoffRoutesAdditive handoffPkg additiveReadPkg
+  obtain ⟨natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, ledgerUnary,
+    transportsUnary, routesUnary, _provenanceUnary, _nameUnary, natAxisBridge,
+    bridgeKernelBoundary, boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed boundaryUnary ledgerUnary boundaryLedgerHandoff
+  have additiveReadUnary : UnaryHistory additiveRead :=
+    unary_cont_closed handoffUnary routesUnary handoffRoutesAdditive
+  exact
+    ⟨natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, ledgerUnary,
+      transportsUnary, handoffUnary, additiveReadUnary, natAxisBridge, bridgeKernelBoundary,
+      boundaryLedgerTransports, boundaryLedgerHandoff, handoffRoutesAdditive, provenancePkg,
+      namePkg, handoffPkg, additiveReadPkg⟩
+
+theorem UnaryDirectionBridgeCarrier_empty_intersection_readback [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name
+      kernelRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      Cont bridge kernel boundary ->
+        Cont kernel boundary kernelRead ->
+          PkgSig bundle kernelRead pkg ->
+            UnaryHistory kernel ∧ UnaryHistory boundary ∧ UnaryHistory kernelRead ∧
+              Cont bridge kernel boundary ∧ Cont kernel boundary kernelRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle kernelRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier displayedBoundary kernelBoundaryRead kernelReadPkg
+  obtain ⟨_natUnary, _axisUnary, _bridgeUnary, kernelUnary, boundaryUnary, _ledgerUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _natAxisBridge,
+    _bridgeKernelBoundary, _boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have kernelReadUnary : UnaryHistory kernelRead :=
+    unary_cont_closed kernelUnary boundaryUnary kernelBoundaryRead
+  exact
+    ⟨kernelUnary, boundaryUnary, kernelReadUnary, displayedBoundary, kernelBoundaryRead,
+      provenancePkg, namePkg, kernelReadPkg⟩
 
 end BEDC.Derived.UnaryDirectionBridgeUp
