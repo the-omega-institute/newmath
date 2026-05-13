@@ -248,6 +248,9 @@ instance substitutionAuditMapChapterTasteGate :
     intro x y hxy heq
     exact hxy (SubstitutionAuditMapTasteGate_single_carrier_alignment_injective heq)
 
+theorem taste_gate : ChapterTasteGate SubstitutionAuditMapUp := by
+  exact inferInstance
+
 theorem SubstitutionAuditMapTasteGate_single_carrier_alignment :
     (forall h : BHist, substitutionAuditMapDecodeBHist
       (substitutionAuditMapEncodeBHist h) = h) /\
