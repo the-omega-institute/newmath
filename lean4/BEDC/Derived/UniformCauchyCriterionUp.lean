@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -240,6 +241,53 @@ theorem UniformCauchyCriterionPacket_root_downstream_unblock [AskSetup] [Package
       tailReadUnary, realReadUnary, consumerUnary, indexWindowsModulus, modulusToleranceTail,
       indexTailRead, tailSealRealRead, tailRealConsumer, namePkg, tailReadPkg, realReadPkg,
       consumerPkg⟩
+
+theorem UniformCauchyCriterionPacket_finite_family_seal_nonescape [AskSetup]
+    [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name tailRead
+      realRead consumer hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index tail tailRead ->
+        Cont tail sealRow realRead ->
+          Cont tailRead realRead consumer ->
+            PkgSig bundle tailRead pkg ->
+              PkgSig bundle realRead pkg ->
+                PkgSig bundle consumer pkg ->
+                  UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+                    UnaryHistory tolerance ∧ UnaryHistory tail ∧ UnaryHistory sealRow ∧
+                      UnaryHistory tailRead ∧ UnaryHistory realRead ∧
+                        UnaryHistory consumer ∧ Cont index windows modulus ∧
+                          Cont modulus tolerance tail ∧ Cont index tail tailRead ∧
+                            Cont tail sealRow realRead ∧ Cont tailRead realRead consumer ∧
+                              PkgSig bundle name pkg ∧ PkgSig bundle tailRead pkg ∧
+                                PkgSig bundle realRead pkg ∧ PkgSig bundle consumer pkg ∧
+                                  (Cont consumer (BHist.e0 hostTail) tailRead -> False) ∧
+                                    (Cont consumer (BHist.e1 hostTail) tailRead ->
+                                      False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet indexTailRead tailSealRealRead tailReadRealConsumer tailReadPkg realReadPkg
+    consumerPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+      packet
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed indexUnary tailUnary indexTailRead
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRealRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tailReadUnary realReadUnary tailReadRealConsumer
+  exact
+    ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+      tailReadUnary, realReadUnary, consumerUnary, indexWindowsModulus, modulusToleranceTail,
+      indexTailRead, tailSealRealRead, tailReadRealConsumer, namePkg, tailReadPkg,
+      realReadPkg, consumerPkg,
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.left tailReadRealConsumer hostReturn),
+      (fun hostReturn =>
+        cont_mutual_extension_right_tail_absurd.right tailReadRealConsumer hostReturn)⟩
 
 theorem UniformCauchyCriterionPacket_root_tolerance_ledger_exactness [AskSetup]
     [PackageSetup]
