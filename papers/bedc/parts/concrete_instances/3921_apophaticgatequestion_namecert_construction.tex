@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ApophaticGateQuestionUp$}
+\label{ch:concrete-instances-apophaticgatequestion-namecert}
+\origin{human}
+
+The $\ApophaticGateQuestionUp$ packet realizes the name-to-gate correspondence as a finite question object. It starts from an apophatic socket name, records the gate question that audits the named outside-supply position, keeps the refusal ledger visible, and exposes only the readback rows needed by downstream audit gates.
+
+\begin{definition}[Apophatic gate question carrier]
+\label{def:apophatic-gate-question-carrier}
+An $\ApophaticGateQuestionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,Q,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the visible $\ApophaticSocketUp$ or $\ApophaticNameUp$ row naming the external supply position;
+\item $Q$ is the gate-question row asking whether a consumer route used the named socket, which supply kind it requested, and whether the use remained externally marked;
+\item $R$ is the refusal-ledger row excluding hidden axioms, forbidden host ancestry, quotient collapse, proposition-extensionality collapse, unmarked selectors, and unrecorded inscription novelty;
+\item $A$ is the audit-readback row that records the answer to $Q$ as a finite ledger entry rather than as a host-level judgment;
+\item $H$ records componentwise $\hsame$ transports for the socket row, question row, refusal ledger, readback row, provenance row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which audit, paper-Lean, axiom-purity, and conservativity consumers may read $S,Q,R,A,H,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\ApophaticSocketUp$, $\ApophaticNameUp$, audit gates, refusal ledgers, $\hsame$, $\Cont$, and \NameCert{} rows;
+\item $N$ is the local $\NameCert_{\ApophaticGateQuestionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for the requested outside supply itself, a hidden theorem premise, an axiom channel, a host proof of semantic harmlessness, or an unmarked route that internalizes the socket.
+\end{definition}
+
+\begin{theorem}[Apophatic gate question NameCert obligations]
+\label{thm:apophatic-gate-question-namecert-obligations}
+For the carrier of \autoref{def:apophatic-gate-question-carrier}, the local $\NameCert_{\ApophaticGateQuestionUp}$ surface consists exactly of carrier admission for
+$$
+G=(S,Q,R,A,H,C,P,N),
+$$
+socket-name exposure through $S$, gate-question exactness through $Q$, refusal-ledger coverage through $R$, audit-readback exactness through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, dependency provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $G$. The rows $S,Q,R,A,H,C,P,N$ list the socket name, gate question, refusal ledger, audit readback, transports, continuations, provenance, and local certificate.
+
+The question obligation reads $S$ before $Q$. This forces the gate question to target the named socket rather than a free-form host predicate, and it records the supply kind and marked-use condition as finite rows.
+
+The refusal and readback obligations read $R$ and $A$. The refusal ledger excludes the hidden channels named in the statement, while the readback row stores the gate answer as a BEDC ledger entry.
+
+The rows $H,C,P,N$ provide the only transport, continuation, provenance, and local naming routes. Since the carrier has no further coordinate, the local $\NameCert_{\ApophaticGateQuestionUp}$ obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question visible socket non-escape]
+\label{thm:apophatic-gate-question-visible-socket-nonescape}
+Every consumer read of an accepted $\ApophaticGateQuestionUp$ packet factors through the displayed socket row, gate-question row, refusal ledger, audit-readback row, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. The read cannot export the requested outside supply, a hidden axiom, a quotient equality, a proposition-extensionality collapse, an unmarked selector, an unrecorded inscription novelty, or a host-level replacement for the gate answer.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:apophatic-gate-question-namecert-obligations}. It identifies the accepted packet with the finite rows $S,Q,R,A,H,C,P,N$ and gives the complete local certificate inventory.
+
+For the visible socket route, read $S$ and $Q$. The socket row names the outside-supply position, and the question row asks only whether a route used that named socket and kept the use externally marked.
+
+For non-escape, read $R$ and $A$. The refusal ledger excludes hidden axiom channels, quotient collapse, proposition-extensionality collapse, unmarked selectors, and unrecorded inscription novelty; the audit-readback row prevents replacing the ledger answer by a host judgment.
+
+Finally route through $H,C,P,N$. These rows account for transport, continuation, provenance, and local naming, and the carrier contains no coordinate for the excluded objects. Hence the consumer surface remains the finite visible-socket gate question.
+\end{proof}
+
+\closureat{ApophaticGateQuestionUp}{seedStr}
+
+\begin{closurestatus}{\ApophaticGateQuestionUp}
+  \constructivestory{An $\ApophaticGateQuestionUp$ packet is generated from a visible apophatic socket-name row, a gate-question row, a refusal ledger, an audit-readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:apophatic-gate-question-carrier}, \autoref{thm:apophatic-gate-question-namecert-obligations}, and \autoref{thm:apophatic-gate-question-visible-socket-nonescape} bind the finite name-to-gate question packet for apophatic socket audits.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, existence of the requested outside supply, global audit completeness, or every possible gate-question grammar.}
+  \upgradepath{Obligation closure requires checked carrier admission, gate-question exactness, refusal-ledger coverage, audit-readback exactness, provenance, and visible-socket non-escape for the same finite packet.}
+\end{closurestatus}
