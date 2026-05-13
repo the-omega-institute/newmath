@@ -30,7 +30,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier accepts only packets whose regular Cauchy tail threshold is served by a displayed finite observation budget before any $\RealUp$ seal row is read.
 \end{definition}
-\leanchecked{BEDC.Derived.RegularCauchyTailBudgetUp.RegularCauchyTailBudgetTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.RegularCauchyTailBudgetUp.taste\_gate}
 
 \begin{theorem}[Regular Cauchy tail-budget NameCert obligations]
 \label{thm:regular-cauchy-tail-budget-namecert-obligations}
@@ -376,14 +376,16 @@ Finally use \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. The exclude
 The Lean TasteGate.lean contract for this chapter requires \texttt{Nontrivial RegularCauchyTailBudgetUp} and \texttt{FieldFaithful RegularCauchyTailBudgetUp} instances whose witnesses include an explicit \texttt{witness\_pair} and constructor-field injection proofs for the regular source, tail threshold, observation budget, finite windows, dyadic observations, regular readback, seal, transport, continuation, package, and local naming fields.
 
 \closureat{RegularCauchyTailBudgetUp}{seedStr}
+\closureat{RegularCauchyTailBudgetUp}{obligationStr}[BEDC.Derived.RegularCauchyTailBudgetUp.RegularCauchyTailBudgetTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyTailBudgetUp}
   \constructivestory{A $\RegularCauchyTailBudgetUp$ packet is generated from a $\RegSeqRatUp$ source row, shared tail-threshold row, $\ObservationBudgetLimiterUp$ row, finite $\StreamNameUp$ window-service ledger, $\DyadicRatCoreUp$ observation ledger, $\RegSeqRatUp$ readback row, $\RealUp$ seal row, componentwise transports, displayed routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-budget-carrier}, \autoref{thm:regular-cauchy-tail-budget-namecert-obligations}, \autoref{thm:regularcauchytailbudget-obligation-closure-promoted}, \autoref{thm:regularcauchytailbudget-budget-window-readback-totality}, and \autoref{thm:regularcauchytailbudget-real-seal-nonescape-package} specify the finite regular Cauchy tail-budget packet, its obligation package, total budget-window readback route, and Real seal non-escape boundary.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-budget-carrier}, \autoref{thm:regular-cauchy-tail-budget-namecert-obligations}, \autoref{thm:regularcauchytailbudget-obligation-closure-promoted}, \autoref{thm:regularcauchytailbudget-budget-window-readback-totality}, and \autoref{thm:regularcauchytailbudget-real-seal-nonescape-package} specify the finite regular Cauchy tail-budget packet, its obligation package, total budget-window readback route, Real seal non-escape boundary, and the checked TasteGate instance \texttt{BEDC.Derived.RegularCauchyTailBudgetUp.taste\_gate}.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyTailBudgetUp.RegularCauchyTailBudgetTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not prove Real completeness, quotient equality of streams, host real equality, selected-limit existence, countable choice, Lean verification, or bridge checking for $\RegularCauchyTailBudgetUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, tail-threshold service exactness, observation-budget gating, regular readback handoff, seal non-escape, and field-faithful TasteGate instances for the same finite packet.}
+  \notclaimed{This chapter does not prove Real completeness, quotient equality of streams, host real equality, selected-limit existence, countable choice, or bridge checking for $\RegularCauchyTailBudgetUp$.}
+  \upgradepath{Scoped closure next requires binding the existing obligation rows to their explicit BEDC primitives and sibling routes for threshold service, observation budgeting, window readback, and seal handoff.}
 \end{closurestatus}
