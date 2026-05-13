@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerRecognizerBoundaryUp$}
+\label{ch:concrete-instances-groundcompilerrecognizerboundary-namecert}
+\origin{ai}
+
+The $\GroundCompilerRecognizerBoundaryUp$ packet realizes the recognizer-facing boundary of the GroundCompiler audit map in \autoref{ch:bedc-groundcompiler-audit-map} as a finite NameCert carrier. It sits beside the audit-map family certificate of \autoref{ch:concrete-instances-auditmapfamily-namecert} and the obstruction socket of \autoref{ch:concrete-instances-audit-map-obstruction-socket-namecert}: those chapters expose family-level row classes and obstruction handoffs, while this packet binds the GroundCompiler event-flow, source-channel, recognizer, certificate-gate, metric, motif, and bootstrap rows without turning generated code or reports into proof.
+
+\begin{definition}[GroundCompiler recognizer-boundary carrier]
+\label{def:groundcompiler-recognizer-boundary-carrier}
+A $\GroundCompilerRecognizerBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(E,S,R,Q,M,V,B,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $E$ is the GroundCompiler event-flow row naming the source-like event packet under inspection;
+\item $S$ is the source-channel row recording the encoded, decoded, and lossless channel evidence available to the compiler layer;
+\item $R$ is the generated recognizer row that classifies the event-flow packet without treating raw source identity as proof identity;
+\item $Q$ is the certificate-gate row through which accepted exports must pass before a downstream theorem or NameCert consumer may cite them;
+\item $M$ is the metric-report row, readable only as compiler-layer measurement data;
+\item $V$ is the motif-report row, readable only as compiler-layer similarity or pattern data;
+\item $B$ is the bootstrap-evidence row recording the finite self-compilation or hierarchy evidence actually displayed;
+\item $H$ records componentwise $\hsame$ transports for the event-flow, source-channel, recognizer, gate, metric, motif, bootstrap, continuation, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the recognizer and certificate-gate rows without bypassing the gate;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:concrete-instances-auditmapfamily-namecert}, and the local GroundCompiler boundary rows;
+\item $N$ is the local $\NameCert_{\GroundCompilerRecognizerBoundaryUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are the displayed event-flow, source-channel, recognizer, certificate-gate, metric, motif, bootstrap, transport, continuation, provenance, and local naming rows. It exports no theorem from generated code alone, no proof from a metric report, no proof from a motif report, no raw event-flow equality in place of recognizer classification, and no unconditional self-hosting tower.
+\end{definition}
+
+\begin{theorem}[GroundCompiler recognizer-boundary NameCert obligations]
+\label{thm:groundcompiler-recognizer-boundary-namecert-obligations}
+For the carrier of \autoref{def:groundcompiler-recognizer-boundary-carrier}, the local $\NameCert_{\GroundCompilerRecognizerBoundaryUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $G=(E,S,R,Q,M,V,B,H,C,P,N)$;
+\item event-flow and source-channel readback through $E$ and $S$ before any recognizer row is consumed;
+\item recognizer and certificate-gate exactness through $R$ and $Q$, with every accepted export routed through the gate;
+\item report boundary separation for $M,V,B$, so metric, motif, and bootstrap rows remain evidence rows rather than theorem rows;
+\item transport, continuation, provenance, and naming replay through $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the finite packet $G$. The event-flow row $E$ and source-channel row $S$ are visible before the recognizer row is read, so the packet separates source-like compiler input from recognizer evidence.
+
+Read the recognizer and gate rows next. The row $R$ records the generated recognizer result, while $Q$ records the certificate gate through which accepted exports pass. A consumer cannot skip $Q$, because no alternate accepted-export coordinate occurs in the carrier.
+
+Now inspect the report rows. The metric row $M$, motif row $V$, and bootstrap row $B$ are separate evidence rows. They may be cited as displayed compiler-layer data, but they are not theorem rows and do not discharge a missing proof obligation.
+
+Finally project $H,C,P,N$. These rows transport the same components, replay the displayed consumer routes, cite the GroundCompiler audit map and audit-map family sibling as provenance, and bind the local name. Hence the NameCert surface is exhausted by the five listed obligations.
+\end{proof}
+
+\begin{theorem}[GroundCompiler recognizer-boundary non-escape]
+\label{thm:groundcompiler-recognizer-boundary-nonescape}
+For every accepted $\GroundCompilerRecognizerBoundaryUp$ carrier $G=(E,S,R,Q,M,V,B,H,C,P,N)$, every compiler-facing or theorem-facing consumer read remains inside the displayed event-flow, source-channel, recognizer, certificate-gate, metric-report, motif-report, bootstrap-evidence, transport, continuation, provenance, and local naming rows. In particular, generated theorem code is not read as proof, recognizer classification is not raw event-flow equality, and report evidence is not certificate evidence.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The packet lists only $E,S,R,Q,M,V,B,H,C,P,N$, so every consumer read must enter through one of those displayed rows.
+
+Apply the NameCert obligations of \autoref{thm:groundcompiler-recognizer-boundary-namecert-obligations}. They force recognizer reads to pass through $E,S,R$ and accepted-export reads to pass through $Q$, while report reads stay in $M,V,B$.
+
+The provenance and route rows then block hidden strengthening. Since $P$ cites the GroundCompiler audit map and its audit-map family sibling only as visible row sources, and since $C$ replays only displayed routes, no consumer can extract proof, raw identity, or an unconditional compiler tower from the accepted packet.
+\end{proof}
+
+\closureat{GroundCompilerRecognizerBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerRecognizerBoundaryUp}
+  \constructivestory{A $\GroundCompilerRecognizerBoundaryUp$ packet is generated from event-flow, source-channel, recognizer, certificate-gate, metric-report, motif-report, bootstrap-evidence, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-recognizer-boundary-carrier}, \autoref{thm:groundcompiler-recognizer-boundary-namecert-obligations}, and \autoref{thm:groundcompiler-recognizer-boundary-nonescape} bind the recognizer-facing GroundCompiler evidence boundary as a finite NameCert carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close self-hosting for every compiler candidate, turn generated theorem code into proof, identify recognizer classes with raw event-flow equality, provide Lean verification, or provide bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-channel readback, recognizer exactness, certificate-gate routing, report separation, bootstrap evidence readback, route replay, provenance, naming, and non-escape over the same finite packet.}
+\end{closurestatus}
