@@ -161,6 +161,28 @@ Apply \autoref{thm:regular-cauchy-sequence-selected-window-coverage}. Those sele
 Finally use \autoref{thm:regular-cauchy-sequence-realseal-handoff}. The row $E$ is reachable only after $F,\mu,W,D,R,G$ have been displayed, so the coverage handoff consumes the listed rows and nothing outside the finite packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence diagonal tail selector factorization]
+\label{thm:regular-cauchy-sequence-diagonal-tail-selector-factorization}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet. Let
+$$
+Q=(R',n',\mu',k',W',D',T',S',H',C',P',N')
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet whose $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows match the selected-window and handoff rows of $S$ by the displayed $\hsame$ transports. Then every diagonal-tail consumer factors first through \autoref{thm:regular-cauchy-sequence-diagonal-window-coverage-handoff} and then through \autoref{thm:diagonal-tail-selector-limit-handoff}. The readable route is exactly the selected windows, dyadic ledger, regular readback, coverage row, selector modulus, selected index, finite selector window, selector readback, tail-regularity row, displayed transports, continuations, provenance, and local $\NameCert$ rows. The factorization exports no quotient stream, host real equality, countable-choice selector, host-selected limit, hidden tail oracle, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First confine the regular Cauchy side. By \autoref{thm:regular-cauchy-sequence-selected-window-coverage}, every selected read of $S$ is already routed through $F,\mu,W,D,R,H,C,P,N$. The diagonal-window handoff theorem then identifies $G$ as the $\RealDiagonalWindowCoverageUp$ row that consumes those selected windows together with the dyadic ledger, regular readback, seal row, transports, continuations, provenance, and local naming row.
+
+The seal order is fixed by \autoref{thm:regular-cauchy-sequence-realseal-handoff}. Thus the $\RealUp$ row visible to the selector side is not an independent completed value; it is reached only after the finite regular-family rows and the coverage row have been displayed.
+
+Now read the selector packet. The obligations in \autoref{thm:diagonal-tail-selector-namecert-obligations} bind $R',n',\mu',k',W',D',T',S',H',C',P',N'$ into one finite selector surface, with $k'$ read from $\mu'$ at $n'$ and the tail-regularity row tied to the displayed regular-source row. The displayed $\hsame$ transports identify the selector's $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows with the corresponding selected-window and handoff rows of $S$.
+
+Finally apply \autoref{thm:diagonal-tail-selector-limit-handoff} and \autoref{thm:diagonal-tail-selector-seal-nonescape}. The completion-facing consumer therefore passes through the regular Cauchy diagonal-window coverage handoff before it reaches the selector limit handoff, and the selector seal contributes no quotient stream, host real equality, countable-choice selector, host-selected limit, hidden tail oracle, or ambient completeness theorem.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence obligation closure]
 \label{thm:regular-cauchy-sequence-obligation-closure}
 The $\RegularCauchySequenceUp$ carrier, classifier, selected-window regularity, non-escape boundary, transport stability, diagonal-window coverage handoff, $\RealUp$ handoff, and provenance rows form the full seed-to-obligation package for the local NameCert surface. Concretely, every accepted packet
