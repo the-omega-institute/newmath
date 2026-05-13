@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICBetaAuditUp$}
+\label{ch:concrete-instances-metacicbetaaudit-namecert}
+\origin{human}
+
+The $\MetaCICBetaAuditUp$ packet realizes the audit discipline of \autoref{ch:metacic-beta-audit-map} as a finite NameCert boundary. It keeps the reduction inventory, common-reduct conversion facts, normal-form rigidity rows, and subject-reduction obstruction rows as separate coordinates, so a consumer cannot treat beta reduction, beta conversion, and typing preservation as one unrecorded operation. The packet reads the obstruction side through \autoref{ch:metacic-subject-reduction-obstruction} and its concrete NameCert surfaces in \autoref{ch:concrete-instances-subjectreduction-namecert} and \autoref{ch:concrete-instances-typedreductionnormalform-namecert}.
+
+\begin{definition}[MetaCIC beta audit carrier]
+\label{def:metacic-beta-audit-carrier}
+A $\MetaCICBetaAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,V,T,F,O,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is the $\mathrm{BetaStep}$ constructor inventory, separating the direct beta-redex constructor from application, lambda, and Pi congruence constructors;
+\item $V$ is the $\mathrm{BetaConv}$ common-reduct ledger, recording the two $\mathrm{BetaStarStep}$ routes to the displayed common reduct;
+\item $T$ is the $\mathrm{BetaStarStep}$ route data consumed by conversion and by one-step-to-multi-step inclusions;
+\item $F$ is the normal-form rigidity row, read only under the displayed closed beta-strong normal hypotheses;
+\item $O$ is the subject-reduction obstruction ledger, with rows for substitution preservation, application-argument type stability, lambda-domain preservation, and Pi-domain preservation;
+\item $H$ records componentwise $\hsame$ transports for the reduction, conversion, route, rigidity, and obstruction rows;
+\item $C$ records the displayed $\Cont$ routes by which consumers inspect those rows;
+\item $P$ is the $\Pkg$ provenance over the MetaCIC beta files, the subject-reduction obstruction surface, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MetaCICBetaAuditUp}$ row.
+\end{enumerate}
+The carrier contains no hidden typing-conversion rule, no unconditional subject-reduction theorem, no closed-consistency theorem, and no extra beta constructor beyond the displayed inventory.
+\end{definition}
+
+\begin{theorem}[Reduction and conversion boundary]
+\label{thm:metacic-beta-audit-reduction-conversion-boundary}
+For an accepted $\MetaCICBetaAuditUp$ carrier $A=(S,V,T,F,O,H,C,P,N)$, every reduction read factors through the $\mathrm{BetaStep}$ inventory $S$ and every conversion read factors through the $\mathrm{BetaConv}$ common-reduct ledger $V$ together with the $\mathrm{BetaStarStep}$ route data $T$. A consumer may use the normal-form rigidity row $F$ only under its displayed closed beta-strong normal hypotheses, and it has no route from $S,V,T,F$ to a typing-preservation claim.
+\end{theorem}
+\begin{proof}
+Project the carrier. The row $S$ is the only one-step reduction inventory, while $V$ and $T$ are the only common-reduct and multi-step route rows.
+
+Read conversion through $V$. Its data is a common reduct and two routes supplied by $T$, not a typing judgement and not a closure certificate.
+
+The rigidity row $F$ is then read under its own closed normal-form hypotheses. Since the carrier keeps $O$ as a separate obstruction ledger and has no hidden typing-conversion coordinate, reduction and conversion cannot be promoted to subject reduction by projection.
+\end{proof}
+
+\begin{theorem}[Subject-reduction obstruction ledger]
+\label{thm:metacic-beta-audit-subject-reduction-obstruction-ledger}
+For an accepted $\MetaCICBetaAuditUp$ carrier $A=(S,V,T,F,O,H,C,P,N)$, every subject-reduction citation factors through the obstruction row $O$. The ledger $O$ separates beta substitution preservation, dependent application-argument stability, lambda-domain preservation, and Pi-domain preservation, and it is the only coordinate that may be read by consumers of \autoref{ch:metacic-subject-reduction-obstruction}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The reduction inventory $S$, conversion ledger $V$, route data $T$, and rigidity row $F$ do not contain typing-preservation fields.
+
+The obstruction row $O$ is the unique coordinate listing the four preservation interfaces needed by the subject-reduction boundary. Componentwise transport through $H$ and route replay through $C$ preserve those four rows without merging them.
+
+Package provenance $P$ and the local name $N$ record that the obstruction ledger is part of the same finite packet. Because no other coordinate carries typing preservation, a subject-reduction consumer must enter through $O$.
+\end{proof}
+
+\begin{theorem}[MetaCIC beta audit NameCert obligations]
+\label{thm:metacic-beta-audit-namecert-obligations}
+The local $\NameCert_{\MetaCICBetaAuditUp}$ surface consists exactly of carrier admission for $A=(S,V,T,F,O,H,C,P,N)$, reduction inventory routing through $S$, common-reduct conversion routing through $V,T$, normal-form rigidity routing through $F$, subject-reduction obstruction routing through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. It displays the reduction, conversion, route, rigidity, obstruction, transport, continuation, provenance, and local naming coordinates.
+
+Use \autoref{thm:metacic-beta-audit-reduction-conversion-boundary} for the reduction and conversion side. It keeps one-step reduction, common-reduct conversion, multi-step routes, and normal-form rigidity in their own rows.
+
+Use \autoref{thm:metacic-beta-audit-subject-reduction-obstruction-ledger} for the typing side. It makes $O$ the only row that can serve subject-reduction consumers and keeps the four preservation obligations separate.
+
+The rows $H,C,P,N$ then account for transport, route replay, provenance, and naming. Since the packet has no hidden conversion-for-typing coordinate, no unconditional subject-reduction coordinate, and no closed-consistency coordinate, the obligation surface is exhausted by the displayed rows.
+\end{proof}
+
+\closureat{MetaCICBetaAuditUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICBetaAuditUp}
+  \constructivestory{A $\MetaCICBetaAuditUp$ packet is generated from a BetaStep constructor inventory, BetaConv common-reduct ledger, BetaStarStep route data, normal-form rigidity row, subject-reduction obstruction ledger, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-beta-audit-carrier}, \autoref{thm:metacic-beta-audit-reduction-conversion-boundary}, \autoref{thm:metacic-beta-audit-subject-reduction-obstruction-ledger}, and \autoref{thm:metacic-beta-audit-namecert-obligations} bind the finite carrier and the reduction, conversion, rigidity, and typing-obstruction boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close unconditional subject reduction, hidden conversion for typing, closed consistency, new beta constructors, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked routing for the displayed reduction inventory, conversion ledger, route data, rigidity row, obstruction ledger, transport rows, continuation rows, provenance row, and local name.}
+\end{closurestatus}
