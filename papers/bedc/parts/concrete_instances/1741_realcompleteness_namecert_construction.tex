@@ -57,6 +57,7 @@ R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
 $$
 be an accepted $\RealCompletenessUp$ carrier. For every precision request read by a $\RealUp$ or completion-facing consumer, the diagonal witness schedule is a finite $\BHist$ route inside $R$: the request is bounded by the displayed modulus row $\mu$, selected by $\Delta$, read through the $\DyadicRatCoreUp$ ledger $D$, the $\StreamNameUp$ windows $W$, and the $\RegSeqRatUp$ readback row $Q$, transported by the $\hsame$ rows in $H$, routed by $\Cont$ rows in $C$, and packaged by the $\Pkg$ and $\NameCert$ rows $P,N$ before it reaches the seal row $S$. The schedule contains no quotient real, external limit choice, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealCompletenessUp.RealCompletenessBHistCarrier\_diagonal\_witness\_schedule}
 \begin{proof}
 Project the accepted carrier through \autoref{def:real-completeness-carrier}. The displayed tuple already contains the family row, modulus, diagonal selector, dyadic ledger, stream windows, regular readback, seal row, transports, continuations, package provenance, and local naming row.
 
@@ -306,6 +307,7 @@ Apply \autoref{thm:real-completeness-diagonal-limit-candidate}. Every candidate-
 
 The excluded objects are absent from the tuple. Therefore the boundary cannot export a quotient real, host real equality, external selected limit, choice principle, or host completeness theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletenessUp.RealCompletenessBHistCarrier\_nonescape\_boundary}
 
 \begin{theorem}[Real completeness scoped finite seal pullback]
 \label{thm:real-completeness-scoped-finite-seal-pullback}
@@ -593,6 +595,70 @@ Now attach the selector handoff. Apply \autoref{thm:real-completeness-limitselec
 Then attach the downstream handoff. Use \autoref{thm:real-completeness-cauchysequence-space-shared-window-handoff} when the regular-family row is supplied through $\CauchySequenceSpaceUp$, and use \autoref{thm:real-completeness-diagonal-seal-totality} to keep every seal consumer on the same displayed route.
 
 Finally apply \autoref{thm:real-completeness-scoped-consumer-seal-exhaustion}. The assembled package is exactly the scoped finite consumer surface. Since the chapter boundary excludes quotient streams, selected host limits, host equality, countable choice, and ambient completeness, the package does not close $\RealUp$ completeness as a public theorem.
+\end{proof}
+
+\begin{theorem}[Real completeness selector route coverage]
+\label{thm:real-completeness-selector-route-coverage}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet, and let
+$$
+L=(R_L,n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L)
+$$
+be an accepted $\LimitSelectorUp$ packet whose selected observation is the displayed diagonal observation consumed from $R$. Every selected diagonal observation consumed by a $\RealUp$ reader or a $\CauchyLimitSealUp$ reader factors through the finite $\LimitSelectorUp$ route
+$$
+n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L
+$$
+and through the $\RealCompletenessUp$ rows
+$$
+\mu,\Delta,D,W,Q,S,H,C,P,N.
+$$
+The coverage is a finite route statement: it names the reader path that reaches the common seal row $S$, and it does not export a host-selected limit, quotient-stream equality, countable-choice selector, host equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First expose the selector side. Apply \autoref{thm:limit-selector-namecert-obligations} to read the packet rows of $L$, and use \autoref{thm:limit-selector-finite-witness-route} to force every selected diagonal-limit read through $n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L$.
+
+Next compare the selected observation with the $\RealCompletenessUp$ diagonal rows. The handoff theorem \autoref{thm:real-completeness-limitselector-handoff} identifies the selector route with the diagonal read of $R$, while \autoref{thm:real-completeness-modulus-diagonal-exactness} pins that read to $\mu,\Delta,D,W,Q$.
+
+Finally bind the consumer endpoint. Apply \autoref{thm:real-completeness-limit-uniqueness-classifier} to keep the transported seal-ledger classifier fixed, and apply \autoref{thm:real-completeness-nonescape-boundary} to rule out the listed external completion objects.
+\end{proof}
+
+\begin{theorem}[Real completeness modulus-selector factorization]
+\label{thm:real-completeness-modulus-selector-factorization}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet. The modulus row and the selector row are not independently readable by any selected-observation consumer. Every selected index is justified first by the displayed modulus row $\mu$, then by the selector row $\Delta$, and then by the finite route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the $\RealUp$ seal rows $D,W,Q,S$. The remaining transport, continuation, package, and local naming rows $H,C,P,N$ record the same route for downstream seal consumers.
+\end{theorem}
+\begin{proof}
+Begin with the modulus obligation. The RealCompleteness obligations bind every precision request to the displayed modulus row, and \autoref{thm:real-completeness-modulus-diagonal-exactness} turns the selected diagonal read into a route through $\mu,\Delta,D,W,Q$.
+
+The selector cannot be detached from that modulus route. When the observation is presented through $\LimitSelectorUp$, \autoref{thm:limit-selector-namecert-obligations} and \autoref{thm:limit-selector-finite-witness-route} expose only the finite selector rows, and \autoref{thm:real-completeness-limitselector-handoff} identifies those rows with the same $\mu,\Delta,D,W,Q$ diagonal read.
+
+It remains to seal the endpoint. Apply \autoref{thm:real-completeness-limit-uniqueness-classifier} and \autoref{thm:real-completeness-nonescape-boundary}. The first fixes the seal-ledger classifier along $S,H,C,P,N$, and the second excludes an independent quotient, host, choice, or ambient-completeness interpretation of the selected index.
+\end{proof}
+
+\begin{theorem}[Real completeness seal consumer exhaustion]
+\label{thm:real-completeness-seal-consumer-exhaustion}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet, and let
+$$
+L=(R_L,n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L)
+$$
+be an accepted $\LimitSelectorUp$ packet reading a selected diagonal observation from $R$. Every downstream consumer of the shared seal exhausts the same finite route: it consumes the selector rows $n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L$ when the observation is selector-presented, consumes the RealCompleteness rows $\mu,\Delta,D,W,Q,S,H,C,P,N$ when the observation is read from $R$, and exports no quotient stream, selected host limit, countable-choice selector, host equality, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First route the selector-presented observation. Theorems~\ref{thm:limit-selector-namecert-obligations} and~\ref{thm:limit-selector-finite-witness-route} expose the selector rows and give the finite witness route to the common seal row $S$.
+
+Now route the same observation from the $\RealCompletenessUp$ packet. Use \autoref{thm:real-completeness-modulus-diagonal-exactness} for the diagonal rows and \autoref{thm:real-completeness-limitselector-handoff} for the comparison between the selector packet and $R$.
+
+Finally exhaust the downstream consumer surface. Apply \autoref{thm:real-completeness-limit-uniqueness-classifier} to keep the seal-ledger classifier determined by the displayed rows, and apply \autoref{thm:real-completeness-nonescape-boundary} to exclude quotient streams, host-selected limits, countable-choice selectors, host equality, and ambient completeness from the export surface.
 \end{proof}
 
 \closureat{RealCompletenessUp}{scopedStr}

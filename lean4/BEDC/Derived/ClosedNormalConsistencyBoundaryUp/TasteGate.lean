@@ -2,10 +2,6 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-/-!
-# ClosedNormalConsistencyBoundaryUp TasteGate carrier.
--/
-
 namespace BEDC.Derived.ClosedNormalConsistencyBoundaryUp
 
 open BEDC.FKernel.Hist
@@ -13,27 +9,29 @@ open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
-/-- Closed-normal consistency boundary packet with the ten displayed BEDC rows. -/
 inductive ClosedNormalConsistencyBoundaryUp : Type where
   | mk :
-      (typing closedness normality falseType positiveNode refusal transport continuation provenance
-        nameCert : BHist) →
+      (typing closed normal falseRow obstruction refusal transport route provenance nameCert :
+        BHist) ->
       ClosedNormalConsistencyBoundaryUp
   deriving DecidableEq
 
-private def encodeBHist : BHist → RawEvent
+def closedNormalConsistencyBoundaryEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: encodeBHist h
-  | BHist.e1 h => BMark.b1 :: encodeBHist h
+  | BHist.e0 h => BMark.b0 :: closedNormalConsistencyBoundaryEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: closedNormalConsistencyBoundaryEncodeBHist h
 
-private def decodeBHist : RawEvent → BHist
+def closedNormalConsistencyBoundaryDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (closedNormalConsistencyBoundaryDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (closedNormalConsistencyBoundaryDecodeBHist tail)
 
-private theorem decode_encode_bhist : ∀ h : BHist, decodeBHist (encodeBHist h) = h := by
+private theorem ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode :
+    forall h : BHist,
+      closedNormalConsistencyBoundaryDecodeBHist
+        (closedNormalConsistencyBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -44,37 +42,37 @@ private theorem decode_encode_bhist : ∀ h : BHist, decodeBHist (encodeBHist h)
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def closedNormalConsistencyBoundaryToEventFlow :
-    ClosedNormalConsistencyBoundaryUp → EventFlow
+def closedNormalConsistencyBoundaryToEventFlow :
+    ClosedNormalConsistencyBoundaryUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ClosedNormalConsistencyBoundaryUp.mk typing closedness normality falseType positiveNode refusal
-      transport continuation provenance nameCert =>
+  | ClosedNormalConsistencyBoundaryUp.mk typing closed normal falseRow obstruction refusal
+      transport route provenance nameCert =>
       [[BMark.b0],
-        encodeBHist typing,
+        closedNormalConsistencyBoundaryEncodeBHist typing,
         [BMark.b1, BMark.b0],
-        encodeBHist closedness,
+        closedNormalConsistencyBoundaryEncodeBHist closed,
         [BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist normality,
+        closedNormalConsistencyBoundaryEncodeBHist normal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist falseType,
+        closedNormalConsistencyBoundaryEncodeBHist falseRow,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist positiveNode,
+        closedNormalConsistencyBoundaryEncodeBHist obstruction,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist refusal,
+        closedNormalConsistencyBoundaryEncodeBHist refusal,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist transport,
+        closedNormalConsistencyBoundaryEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        encodeBHist continuation,
+        closedNormalConsistencyBoundaryEncodeBHist route,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        encodeBHist provenance,
+        closedNormalConsistencyBoundaryEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        encodeBHist nameCert]
+        closedNormalConsistencyBoundaryEncodeBHist nameCert]
 
-private def closedNormalConsistencyBoundaryFromEventFlow :
-    EventFlow → Option ClosedNormalConsistencyBoundaryUp
+def closedNormalConsistencyBoundaryFromEventFlow :
+    EventFlow -> Option ClosedNormalConsistencyBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -86,25 +84,25 @@ private def closedNormalConsistencyBoundaryFromEventFlow :
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | closedness :: rest3 =>
+              | closed :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | normality :: rest5 =>
+                      | normal :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | falseType :: rest7 =>
+                              | falseRow :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | positiveNode :: rest9 =>
+                                      | obstruction :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
@@ -122,7 +120,7 @@ private def closedNormalConsistencyBoundaryFromEventFlow :
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | continuation :: rest15 =>
+                                                              | route :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
@@ -139,54 +137,67 @@ private def closedNormalConsistencyBoundaryFromEventFlow :
                                                                                   | [] =>
                                                                                       some
                                                                                         (ClosedNormalConsistencyBoundaryUp.mk
-                                                                                          (decodeBHist typing)
-                                                                                          (decodeBHist closedness)
-                                                                                          (decodeBHist normality)
-                                                                                          (decodeBHist falseType)
-                                                                                          (decodeBHist positiveNode)
-                                                                                          (decodeBHist refusal)
-                                                                                          (decodeBHist transport)
-                                                                                          (decodeBHist continuation)
-                                                                                          (decodeBHist provenance)
-                                                                                          (decodeBHist nameCert))
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist typing)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist closed)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist normal)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist falseRow)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist obstruction)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist refusal)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist transport)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist route)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist provenance)
+                                                                                          (closedNormalConsistencyBoundaryDecodeBHist nameCert))
                                                                                   | _ :: _ => none
 
-private theorem closedNormalConsistencyBoundary_round_trip :
-    ∀ x : ClosedNormalConsistencyBoundaryUp,
+private theorem ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_round_trip :
+    forall x : ClosedNormalConsistencyBoundaryUp,
       closedNormalConsistencyBoundaryFromEventFlow
         (closedNormalConsistencyBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk typing closedness normality falseType positiveNode refusal transport continuation provenance
-      nameCert =>
+  | mk typing closed normal falseRow obstruction refusal transport route provenance nameCert =>
       change
         some
           (ClosedNormalConsistencyBoundaryUp.mk
-            (decodeBHist (encodeBHist typing))
-            (decodeBHist (encodeBHist closedness))
-            (decodeBHist (encodeBHist normality))
-            (decodeBHist (encodeBHist falseType))
-            (decodeBHist (encodeBHist positiveNode))
-            (decodeBHist (encodeBHist refusal))
-            (decodeBHist (encodeBHist transport))
-            (decodeBHist (encodeBHist continuation))
-            (decodeBHist (encodeBHist provenance))
-            (decodeBHist (encodeBHist nameCert))) =
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist typing))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist closed))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist normal))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist falseRow))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist obstruction))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist refusal))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist transport))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist route))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist provenance))
+            (closedNormalConsistencyBoundaryDecodeBHist
+              (closedNormalConsistencyBoundaryEncodeBHist nameCert))) =
           some
-            (ClosedNormalConsistencyBoundaryUp.mk typing closedness normality falseType
-              positiveNode refusal transport continuation provenance nameCert)
-      rw [decode_encode_bhist typing, decode_encode_bhist closedness,
-        decode_encode_bhist normality, decode_encode_bhist falseType,
-        decode_encode_bhist positiveNode, decode_encode_bhist refusal,
-        decode_encode_bhist transport, decode_encode_bhist continuation,
-        decode_encode_bhist provenance, decode_encode_bhist nameCert]
+            (ClosedNormalConsistencyBoundaryUp.mk typing closed normal falseRow obstruction
+              refusal transport route provenance nameCert)
+      rw [ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode typing,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode closed,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode normal,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode falseRow,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode obstruction,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode refusal,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode transport,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode route,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode provenance,
+        ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode nameCert]
 
-private theorem closedNormalConsistencyBoundaryToEventFlow_injective
+private theorem ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_injective
     {x y : ClosedNormalConsistencyBoundaryUp} :
     closedNormalConsistencyBoundaryToEventFlow x =
-        closedNormalConsistencyBoundaryToEventFlow y →
-      x = y := by
+      closedNormalConsistencyBoundaryToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -196,8 +207,10 @@ private theorem closedNormalConsistencyBoundaryToEventFlow_injective
           (closedNormalConsistencyBoundaryToEventFlow y) :=
     congrArg closedNormalConsistencyBoundaryFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (closedNormalConsistencyBoundary_round_trip x).symm
-      (Eq.trans hread (closedNormalConsistencyBoundary_round_trip y)))
+    (Eq.trans
+      (ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_round_trip y)))
 
 instance closedNormalConsistencyBoundaryBHistCarrier :
     BHistCarrier ClosedNormalConsistencyBoundaryUp where
@@ -210,14 +223,12 @@ instance closedNormalConsistencyBoundaryChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      closedNormalConsistencyBoundaryFromEventFlow
-          (closedNormalConsistencyBoundaryToEventFlow x) =
-        some x
-    exact closedNormalConsistencyBoundary_round_trip x
+    change closedNormalConsistencyBoundaryFromEventFlow
+      (closedNormalConsistencyBoundaryToEventFlow x) = some x
+    exact ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (closedNormalConsistencyBoundaryToEventFlow_injective heq)
+    exact hxy (ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_injective heq)
 
 theorem ClosedNormalConsistencyBoundaryUp_taste_gate_boundary :
     ∃ x : ClosedNormalConsistencyBoundaryUp,
@@ -231,5 +242,43 @@ theorem ClosedNormalConsistencyBoundaryUp_taste_gate_boundary :
   exact
     ⟨ClosedNormalConsistencyBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
       BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty, rfl, rfl⟩
+
+theorem ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment :
+    (forall h : BHist,
+      closedNormalConsistencyBoundaryDecodeBHist
+        (closedNormalConsistencyBoundaryEncodeBHist h) = h) ∧
+      (forall x : ClosedNormalConsistencyBoundaryUp,
+        closedNormalConsistencyBoundaryFromEventFlow
+          (closedNormalConsistencyBoundaryToEventFlow x) = some x) ∧
+        (forall x : ClosedNormalConsistencyBoundaryUp,
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
+          (forall x y : ClosedNormalConsistencyBoundaryUp,
+            closedNormalConsistencyBoundaryToEventFlow x =
+              closedNormalConsistencyBoundaryToEventFlow y -> x = y) ∧
+            (forall x y : ClosedNormalConsistencyBoundaryUp,
+              BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y -> x = y) ∧
+              (forall (x : ClosedNormalConsistencyBoundaryUp) w m,
+                List.Mem w (BHistCarrier.toEventFlow x) ->
+                List.Mem m w -> m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_decode
+  · constructor
+    · exact ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_round_trip
+    · constructor
+      · intro x
+        change closedNormalConsistencyBoundaryFromEventFlow
+          (closedNormalConsistencyBoundaryToEventFlow x) = some x
+        exact ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_round_trip x
+      · constructor
+        · intro x y heq
+          exact ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_injective heq
+        · constructor
+          · intro x y heq
+            change closedNormalConsistencyBoundaryToEventFlow x =
+              closedNormalConsistencyBoundaryToEventFlow y at heq
+            exact ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_injective heq
+          · intro x w m hw hm
+            exact event_flow_conservativity (S := BHistCarrier.toEventFlow x) hw hm
 
 end BEDC.Derived.ClosedNormalConsistencyBoundaryUp
