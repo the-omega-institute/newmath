@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\RealTailAgreementTransitivityUp$}
+\label{ch:concrete-instances-realtailagreementtransitivity-namecert}
+\origin{ai}
+
+The $\RealTailAgreementTransitivityUp$ packet composes two finite tail-agreement seals into one completion-facing transitivity route. It consumes the left-middle seal and the middle-right seal of \autoref{ch:concrete-instances-realtailagreementseal-namecert}, shares the displayed middle $\RegSeqRatUp$ source and $\StreamNameUp$ tail-window rows between them, reads the paired $\DyadicRatCoreUp$ observation ledgers, and exports only the resulting RealUp handoff row. The cofinal-tail route is the same finite discipline used by \autoref{ch:concrete-instances-regularcauchytailfusion-namecert}, while the constructive motivation is the real-completion axiom-purity surface of \autoref{sec:real-completeness-axiom-purity}.
+
+\falsifiablePrediction{A composed RealTailAgreementTransitivityUp read is invalid if its two RealTailAgreementSealUp inputs do not share the displayed middle RegSeqRat and StreamName tail-window rows.}
+
+\independenceWitness{Nearest siblings: realtailagreementseal, regularcauchytailfusion, regularcauchytailmeet, diagonalcofinaltail, regularlimituniqueness. The transitivity packet is not bijective to any of them because it carries two agreement inputs and a shared middle-tail compatibility row; the siblings carry a single agreement, fusion, meet, cofinal-tail, or uniqueness surface.}
+
+\begin{definition}[Real tail-agreement transitivity carrier]
+\label{def:real-tail-agreement-transitivity-carrier}
+A $\RealTailAgreementTransitivityUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R_0,R_1,R_2,W_{01},W_{12},D_{01},D_{12},A_{01},A_{12},M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0,R_1,R_2$ are the three $\RegSeqRatUp$ source rows whose left-middle and middle-right tails are compared;
+\item $W_{01}$ and $W_{12}$ are the two finite $\StreamNameUp$ paired-window rows, with the $R_1$ side displayed as the same middle tail-window row in both seals;
+\item $D_{01}$ and $D_{12}$ are the two $\DyadicRatCoreUp$ readback ledgers for those paired windows;
+\item $A_{01}$ and $A_{12}$ are the two accepted $\RealTailAgreementSealUp$ rows, the first for $R_0,R_1$ and the second for $R_1,R_2$;
+\item $M$ is the middle-tail compatibility row recording that the $R_1$ source, its $\StreamNameUp$ window, and its dyadic readback are the same displayed data in both agreement inputs;
+\item $H$ stores componentwise $\hsame$ transport for the three sources, the two paired windows, both dyadic ledgers, both agreement rows, the middle compatibility row, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes that read the left-middle seal, the middle-right seal, the shared middle rows, and the completion-facing handoff;
+\item $P$ is the $\Pkg$ provenance over $\RealTailAgreementSealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealTailAgreementTransitivityUp}$ row.
+\end{enumerate}
+The carrier exports only the finite transitivity packet through these rows. It has no coordinate for quotient stream equality, host real equality, selected completed limits, unbounded tail search, open-cover compactness, or choice-selected tails.
+\end{definition}
+
+\begin{theorem}[Real tail-agreement transitivity NameCert obligations]
+\label{thm:real-tail-agreement-transitivity-namecert-obligations}
+The local $\NameCert_{\RealTailAgreementTransitivityUp}$ surface for \autoref{def:real-tail-agreement-transitivity-carrier} consists of carrier admission, two $\RealTailAgreementSealUp$ input admissions, shared middle $\RegSeqRatUp$ admission, paired finite $\StreamNameUp$ window coverage, two $\DyadicRatCoreUp$ readback exactness rows, middle-tail compatibility, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, RealUp handoff, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier $T$. Its displayed coordinates list the three regular rational sources, the two paired window rows, the two dyadic readback ledgers, the two agreement inputs, the shared middle row, and the structural rows.
+
+Use \autoref{ch:concrete-instances-realtailagreementseal-namecert} for each agreement input. The first seal admits the finite route from $R_0$ to $R_1$, and the second seal admits the finite route from $R_1$ to $R_2$.
+
+The middle-tail compatibility row $M$ is the extra transitivity datum. It forces the $R_1$ source, its tail window, and its dyadic readback to be the same displayed rows in both seals, so the composition cannot splice unrelated middle evidence.
+
+The remaining obligations are structural. The rows $H,C,P,N$ transport, replay, record provenance, and name exactly the displayed packet, while the RealUp handoff is downstream of the two accepted seal inputs and the shared middle row.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement transitivity route]
+\label{thm:real-tail-agreement-transitivity-route}
+Every completion-facing read of an accepted $\RealTailAgreementTransitivityUp$ packet factors through the finite route
+$$
+R_0,R_1,R_2,W_{01},W_{12},D_{01},D_{12},A_{01},A_{12},M,H,C,P,N.
+$$
+The composed route is a finite three-source tail-window packet over two $\RealTailAgreementSealUp$ rows and the shared middle-tail compatibility row, not an equality of quotient streams or a selected ambient real limit.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing consumer of the transitivity packet. The carrier gives the consumer no direct RealUp coordinate except the handoff routed through the two accepted agreement rows and the shared middle row.
+
+Read the left-middle and middle-right inputs through \autoref{ch:concrete-instances-realtailagreementseal-namecert}. Each input exposes only its finite $\RegSeqRatUp$ sources, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks, displayed agreement row, and structural route.
+
+Apply the middle-tail compatibility row $M$. Since both agreement inputs display the same $R_1$ source-window-readback data, the two seal routes compose through one named middle tail rather than through a hidden selector.
+
+Finally replay the route with $H,C,P,N$. This places the completion-facing read inside the displayed finite tuple and excludes quotient streams, host real equality, selected limits, unbounded tail search, open-cover compactness, and choice-selected tails.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement transitivity non-escape]
+\label{thm:real-tail-agreement-transitivity-nonescape}
+An accepted $\RealTailAgreementTransitivityUp$ packet cannot export quotient stream equality, host real equality, selected completed limits, unbounded tail search, open-cover compactness, choice-selected tails, or a hidden middle representative. Any such read is outside the packet unless it factors through the finite rows
+$$
+R_0,R_1,R_2,W_{01},W_{12},D_{01},D_{12},A_{01},A_{12},M,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier. The only comparison inputs are the two accepted $\RealTailAgreementSealUp$ rows $A_{01}$ and $A_{12}$, and the only bridge between them is the displayed middle-tail compatibility row $M$.
+
+Use the route theorem above. Every completion-facing read must pass through the three source rows, the two paired window rows, the dyadic ledgers, the two agreement inputs, and the shared middle row before the structural handoff is consumed.
+
+Coordinate exhaustion closes the claim. None of the listed rows is a quotient, a host equality proof, a selected limit, an unbounded search functional, an open-cover compactness witness, a choice row, or a second middle representative.
+\end{proof}
+
+The Lean TasteGate file for this packet must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances as prerequisites for the carrier-alignment theorem. The intended target is
+$$
+\mathsf{BEDC.Derived.RealTailAgreementTransitivityUp.RealTailAgreementTransitivityTasteGate\_single\_carrier\_alignment}.
+$$
+
+\closureat{RealTailAgreementTransitivityUp}{seedStr}
+
+\begin{closurestatus}{\RealTailAgreementTransitivityUp}
+  \constructivestory{A $\RealTailAgreementTransitivityUp$ packet is generated from three RegSeqRat source rows, two paired StreamName tail-window rows, two DyadicRatCore readback ledgers, two RealTailAgreementSealUp inputs, a shared middle-tail compatibility row, componentwise hsame transports, Cont route replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-tail-agreement-transitivity-carrier}, \autoref{thm:real-tail-agreement-transitivity-namecert-obligations}, \autoref{thm:real-tail-agreement-transitivity-route}, and \autoref{thm:real-tail-agreement-transitivity-nonescape} bind the finite three-source tail-agreement composition packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, host real equality, selected completed limits, unbounded tail search, open-cover compactness, choice-selected tails, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked Lean carrier admission, two seal-input admissions, shared middle-tail compatibility, route composition, explicit Nontrivial and FieldFaithful TasteGate instances, RealUp handoff, and non-escape for the same finite packet.}
+\end{closurestatus}

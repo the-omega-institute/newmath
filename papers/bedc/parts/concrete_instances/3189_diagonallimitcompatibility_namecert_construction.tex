@@ -724,6 +724,25 @@ Apply seal-readback exactness and Real seal non-escape. The read of $L$ passes t
 Finally use triangle-seal scope. It binds the triangle estimate and seal route to the same $D,W$ ledgers, so the listed rows are the exact Real seal boundary.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility tail-selector scope]\label{thm:diagonal-limit-compatibility-tail-selector-scope}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet $K=(R,T,S,D,W,Q,L,H,C,P,N)$, every tail-selector read is mediated by the displayed $\StreamNameUp$ finite-window row $W$ and the route $R,T,D,W,S,Q,L$. It cannot choose a host tail, a second window surface, or an ambient completion witness.
+\end{theorem}
+\begin{proof}
+Source-route exactness fixes the route from $R$ through $T,D,W,S,Q$ to $L$, while window fusion and Real seal source lock keep the selector attached to that same $W$ row. Regular readback exactness identifies $Q$ with the displayed $T,D,W$ data, and completion-consumer non-escape excludes any host tail or ambient completion coordinate.
+\end{proof}
+\begin{theorem}[Diagonal-limit compatibility Real--regular source factorization]\label{thm:diagonal-limit-compatibility-real-regseq-source-factorization}
+Every $\RealUp$ readback from an accepted $\DiagonalLimitCompatibilityUp$ packet factors through the displayed $\RegSeqRatUp$ row $Q$ and the $\DyadicRatCoreUp$ tolerance ledger $D$ already carried by the packet. The readback has no source outside the cited regular, dyadic, stream-window, and seal rows.
+\end{theorem}
+\begin{proof}
+Apply regular readback exactness to bind $Q$ to $T,D,W$, then apply source-route exactness to place this readback on the same route from $R$ to $L$ through $S$. Real seal source lock forces every seal-facing read through $S,Q,L$, and completion-consumer non-escape removes quotient streams, selected host limits, host real equality, choice data, and ambient completeness from the factorization.
+\end{proof}
+\begin{theorem}[Diagonal-limit compatibility completion seal budget]\label{thm:diagonal-limit-compatibility-completion-seal-budget}
+Any $\CompletionUp$-facing consumer of an accepted $\DiagonalLimitCompatibilityUp$ packet is bounded by the displayed seal budget $R,T,S,D,W,Q,L,H,C,P,N$. It may consume the packet as a finite compatibility route, but it cannot claim ambient completeness or a host-level completion object.
+\end{theorem}
+\begin{proof}
+The source route and Real seal source lock identify the whole budget ending at $L$, and regular readback exactness accounts for the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ coordinates used by that route. Completion-consumer non-escape permits reads through the displayed packet and rules out any additional completeness, limit-selection, quotient, choice, or host-real coordinate.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalLimitCompatibilityUp}
