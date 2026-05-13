@@ -113,4 +113,31 @@ theorem CollisionKernelCarrier_obligation_closure_package [AskSetup] [PackageSet
       shadowReadUnary, windowRoute, ledgerRoute, matrixRoute, momentRoute, shadowReadRoute,
       shadowReadSame, provenancePkg, nameCertPkg⟩
 
+theorem CollisionKernelCarrier_moment_readback_exhaustion [AskSetup] [PackageSetup]
+    {window fold ledger matrix moment shadow transport route provenance nameCert momentRead
+      shadowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance
+        nameCert bundle pkg ->
+      Cont moment matrix momentRead ->
+        Cont moment matrix shadowRead ->
+          hsame momentRead shadow ->
+            UnaryHistory moment ∧ UnaryHistory matrix ∧ UnaryHistory shadow ∧
+              UnaryHistory momentRead ∧ UnaryHistory shadowRead ∧ Cont moment matrix shadow ∧
+                Cont moment matrix momentRead ∧ Cont moment matrix shadowRead ∧
+                  hsame momentRead shadow ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier momentReadRoute shadowReadRoute momentReadSame
+  obtain ⟨_windowUnary, _foldUnary, _ledgerUnary, matrixUnary, momentUnary, shadowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowRoute,
+    _ledgerRoute, momentRoute, provenancePkg, nameCertPkg⟩ := carrier
+  have momentReadUnary : UnaryHistory momentRead :=
+    unary_cont_closed momentUnary matrixUnary momentReadRoute
+  have shadowReadUnary : UnaryHistory shadowRead :=
+    unary_cont_closed momentUnary matrixUnary shadowReadRoute
+  exact
+    ⟨momentUnary, matrixUnary, shadowUnary, momentReadUnary, shadowReadUnary, momentRoute,
+      momentReadRoute, shadowReadRoute, momentReadSame, provenancePkg, nameCertPkg⟩
+
 end BEDC.Derived.CollisionKernelUp
