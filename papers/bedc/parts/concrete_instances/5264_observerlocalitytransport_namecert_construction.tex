@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\ObserverLocalityTransportUp$}
+\label{ch:concrete-instances-observer-locality-transport-namecert}
+\origin{ai}
+
+The $\ObserverLocalityTransportUp$ packet realizes the transport boundary in the Inter-Hist Locality chain of \autoref{ch:visions-inter-hist-locality}. It sits after the observer-locality cell surface of \autoref{ch:concrete-instances-observer-locality-cell-namecert}, the causal-route surface of \autoref{ch:concrete-instances-crosshistcausal-namecert}, and the unary-bound surface of \autoref{ch:concrete-instances-maxcausalrate-namecert}; it is the route-level sibling read by the cross-Hist causal-rate packet of \autoref{ch:concrete-instances-crosshistcausalrate-namecert}. The packet records the finite path by which a consumer transports locality-cell data through causal rows and maximum-rate rows without entering a global observer frame.
+
+\begin{definition}[Observer-locality transport carrier]
+\label{def:observer-locality-transport-carrier}
+An $\ObserverLocalityTransportUp$ carrier is a finite $\BHist$ packet
+$$
+T=(O,D,R,L,H,Q,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\ObserverLocalityCellUp$ row that supplies the two-observer locality cell being transported;
+\item $D$ is the finite family of $\CrossHistCausalUp$ rows that records the causal route through which the locality-cell read is moved between the two displayed histories;
+\item $R$ is the $\MaxCausalRateUp$ row whose unary bound is read only after the causal routes in $D$ have been exposed;
+\item $L$ is the no-global-frame ledger, recording that the transport route contains no privileged observer frame, synchronized clock, metric tensor, Lorentz-geometry coordinate, or host real-valued speed row;
+\item $H$ records componentwise $\hsame$ transport for the locality cell, causal rows, maximum-rate row, no-global-frame ledger, probe-stability row, continuation routes, provenance row, and local naming row;
+\item $Q$ records $\psame$ stability for the probe reads used by the locality-cell row, causal rows, and maximum-rate row;
+\item $C$ records displayed $\Cont$ routes by which a consumer reads $O$, replays each row of $D$, reads $R$, checks $L$, and transports the same packet through $H$ and $Q$;
+\item $P$ is the $\Pkg$ provenance over $\ObserverLocalityTransportUp$, $\ObserverLocalityCellUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\CrossHistCausalRateUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverLocalityTransportUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed locality cell, causal rows, maximum-rate row, no-global-frame ledger, transport rows, continuation routes, provenance, and local naming data.
+\end{definition}
+
+\begin{theorem}[Observer-locality transport NameCert obligations]
+\label{thm:observer-locality-transport-namecert-obligations}
+For the carrier of \autoref{def:observer-locality-transport-carrier}, the local $\NameCert_{\ObserverLocalityTransportUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $T=(O,D,R,L,H,Q,C,P,N)$;
+\item locality-cell source exactness, requiring the transported row to be the $\ObserverLocalityCellUp$ row $O$ and not a detached observer-frame coordinate;
+\item causal-route handoff, requiring every transport route to pass through the displayed $\CrossHistCausalUp$ family $D$ before the maximum-rate row $R$ is read;
+\item transport stability through componentwise $\hsame$ in $H$, probe stability in $Q$, and displayed $\Cont$ replay in $C$;
+\item non-escape, excluding global frames, synchronized clocks, metric tensors, Lorentz geometry, host real-valued speed, and any locality read not routed through $O,D,R,L,H,Q,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observer-locality-transport-carrier}. The rows $O,D,R,L,H,Q,C,P,N$ display the locality cell, causal family, maximum-rate row, no-global-frame ledger, transports, routes, provenance, and local name.
+
+Locality-cell source exactness reads $O$ first. The packet has no separate observer-frame coordinate, so the transported locality surface is the finite cell row rather than an ambient frame.
+
+Causal-route handoff then reads $D$ before $R$. Each maximum-rate read is attached to the displayed causal family, so a consumer cannot replace the route witness by a bare unary bound.
+
+Transport stability is componentwise through $H,Q,C$, and the non-escape claim is the carrier inventory. Since no excluded structure is a coordinate of $T$, no local certificate projection can export one.
+\end{proof}
+
+\begin{theorem}[Observer-locality transport boundary]
+\label{thm:observer-locality-transport-boundary}
+Every public consumer of an accepted $\ObserverLocalityTransportUp$ packet reads the locality-cell row only through
+$$
+O,D,R,L,H,Q,C,P,N.
+$$
+In particular, the consumer must pass from the $\ObserverLocalityCellUp$ row $O$ through the $\CrossHistCausalUp$ rows $D$ before it reads the $\MaxCausalRateUp$ row $R$ or the cross-Hist causal-rate surface of \autoref{ch:concrete-instances-crosshistcausalrate-namecert}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The locality-cell source is the row $O$, and the only displayed route family connecting it to rate data is $D$.
+
+Use the causal-route handoff in \autoref{thm:observer-locality-transport-namecert-obligations}. It places the $\CrossHistCausalUp$ rows before the maximum-rate row $R$, so the rate read is not a substitute for the transport route.
+
+Finally route through $H,Q,C,P,N$ and check the no-global-frame ledger $L$. The consumer remains inside the finite packet and cannot read a global frame, metric tensor, Lorentz geometry, synchronized clock, or host real-valued speed.
+\end{proof}
+
+\begin{theorem}[Observer-locality transport TasteGate obligation]
+\label{thm:observer-locality-transport-tastegate-obligation}
+The later Lean \texttt{TasteGate.lean} development for $\ObserverLocalityTransportUp$ must include explicit $\mathsf{Nontrivial}\ \ObserverLocalityTransportUp$ and $\mathsf{FieldFaithful}\ \ObserverLocalityTransportUp$ instances. These instances must preserve the locality-cell row, causal-route family, maximum-rate row, no-global-frame ledger, $\hsame$ transport, $\psame$ stability, $\Cont$ routes, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+The packet is not determined by a single locality cell or a single rate row. It carries a route-level transport witness between the cell and the maximum-rate surface.
+
+Nontriviality rules out a collapsed carrier in which the route witness is indistinguishable from the cell or rate rows. Field faithfulness records preservation of all displayed coordinates $O,D,R,L,H,Q,C,P,N$, so a TasteGate consumer can distinguish the route-level transport row from the sibling surfaces it connects.
+\end{proof}
+
+\falsifiablePrediction{If the transport packet is atomic, a consumer cannot replace the displayed locality-cell row by a MaxCausalRate row without passing through CrossHistCausal transport.}
+
+\independenceWitness{Nearest siblings: observerlocalitycell, crosshistcausal, maxcausalrate, crosshistcausalrate. The transport packet is not bijective to any of them because it carries a route-level transport row between sibling surfaces, while those siblings carry cell, causal, bound, or rate rows without this route witness.}
+
+\closureat{ObserverLocalityTransportUp}{seedStr}
+
+\begin{closurestatus}{\ObserverLocalityTransportUp}
+  \constructivestory{An $\ObserverLocalityTransportUp$ packet is generated from an observer-locality cell, finite cross-Hist causal route rows, a maximum-rate row, a no-global-frame ledger, componentwise $\hsame$ transport, $\psame$ stability, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-locality-transport-carrier}, \autoref{thm:observer-locality-transport-namecert-obligations}, \autoref{thm:observer-locality-transport-boundary}, and \autoref{thm:observer-locality-transport-tastegate-obligation} specify the finite transport packet, its NameCert obligations, public boundary, and TasteGate instance surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not derive Lorentz geometry, metric tensors, synchronized clocks, global frames, host real-valued speed, Lean verification, or bridge checking for $\ObserverLocalityTransportUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, locality-cell exactness, causal-route handoff, maximum-rate routing, transport stability, no-global-frame refusal, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

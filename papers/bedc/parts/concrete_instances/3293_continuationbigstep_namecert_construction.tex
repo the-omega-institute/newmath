@@ -413,12 +413,48 @@ boundary of
 result a terminal ledger package rather than a host semantics.
 \end{proof}
 
+\begin{theorem}[ContinuationBigStep trace-ledger threshold]
+\label{thm:continuation-bigstep-trace-ledger-threshold}
+Every terminal-read consumer of an accepted $\ContinuationBigStepUp$ packet must pass through the displayed $\ContinuationTraceUp$ ledger before the terminal row is readable. Concretely, if $K=(S,T,R,Q,H,C,P,N)$ is accepted, then any read of $R$ or $Q$ factors through the carrier row $T$, the local $\NameCert$ obligations, the small-step factorization route, terminal-read determinacy, and consumer exactness for the same finite packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:continuation-big-step-carrier}. The rows $S,T,R,Q,H,C,P,N$ are the only rows available to a terminal-read consumer, and $T$ is the displayed $\ContinuationTraceUp$ ledger.
+
+Apply \autoref{thm:continuation-big-step-namecert-obligations} and \autoref{thm:continuation-big-step-small-step-factorization}. These force terminal computation reads through the route from $S$ to $T$, then through the displayed continuation replay to $R$.
+
+Use \autoref{thm:continuation-big-step-terminal-read-determinacy} and \autoref{thm:continuation-big-step-consumer-exactness}. The terminal row and its witness are readable only after the trace ledger and replay route have been fixed, so a consumer cannot reach $R$ or $Q$ by bypassing $T$.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep terminal consumer package]
+\label{thm:continuation-bigstep-terminal-consumer-package}
+The rows $S,T,R,Q,H,C,P,N$ form the complete terminal-read package over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package consists of carrier admission, local $\NameCert_{\ContinuationBigStepUp}$ obligations, small-step factorization through $T$, terminal-read determinacy at $R,Q$, and consumer exactness over the same finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:continuation-big-step-carrier}, and the naming obligations are \autoref{thm:continuation-big-step-namecert-obligations}. These two items fix the finite rows $S,T,R,Q,H,C,P,N$ and the BEDC structural objects $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The operational route is supplied by \autoref{thm:continuation-big-step-small-step-factorization}. It makes the terminal read pass from the source row through the $\ContinuationTraceUp$ ledger and the displayed continuation replay before reaching the terminal row.
+
+Finally apply \autoref{thm:continuation-big-step-terminal-read-determinacy} and \autoref{thm:continuation-big-step-consumer-exactness}. They make the terminal witness determined by the displayed route and prevent consumers from importing any row outside the package.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep non-escape scope package]
+\label{thm:continuation-bigstep-nonescape-scope-package}
+The terminal consumer package of \autoref{thm:continuation-bigstep-terminal-consumer-package} excludes host evaluators, quotient behaviours, hidden termination, and direct source-to-result shortcuts. Every accepted terminal read remains inside the finite rows $S,T,R,Q,H,C,P,N$ and the local $\NameCert_{\ContinuationBigStepUp}$ surface.
+\end{theorem}
+\begin{proof}
+Use the carrier and local obligations first. By \autoref{def:continuation-big-step-carrier} and \autoref{thm:continuation-big-step-namecert-obligations}, the accepted packet has no coordinate for a host evaluator, quotient behaviour, hidden termination row, or direct source-to-result edge.
+
+Next apply \autoref{thm:continuation-big-step-small-step-factorization} and \autoref{thm:continuation-big-step-terminal-read-determinacy}. They make any terminal result pass through the displayed trace ledger and terminal row rather than through an external evaluator.
+
+The boundary is closed by \autoref{thm:continuation-big-step-consumer-exactness}. Since consumers can read only the displayed package rows, the non-escape scope is exactly the finite $\ContinuationBigStepUp$ surface.
+\end{proof}
+
 \closureat{ContinuationBigStepUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationBigStepUp}
   \constructivestory{A $\ContinuationBigStepUp$ packet is generated from a source row, a finite small-step trace ledger, the terminal row reached by replay, a terminal-read witness, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, \autoref{thm:continuation-big-step-terminal-read-determinacy}, \autoref{thm:continuation-big-step-nonescape}, \autoref{thm:continuation-big-step-consumer-exactness}, \autoref{thm:continuation-bigstep-subject-reduction-socket-handoff}, \autoref{thm:continuation-bigstep-preservation-boundary-nonescape}, and \autoref{thm:continuation-bigstep-terminal-ledger-package} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, non-escape boundary, consumer exactness, subject-reduction socket handoff, and terminal ledger package for the finite big-step packet.}
+  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, \autoref{thm:continuation-big-step-terminal-read-determinacy}, \autoref{thm:continuation-big-step-nonescape}, \autoref{thm:continuation-big-step-consumer-exactness}, \autoref{thm:continuation-bigstep-subject-reduction-socket-handoff}, \autoref{thm:continuation-bigstep-preservation-boundary-nonescape}, \autoref{thm:continuation-bigstep-terminal-ledger-package}, \autoref{thm:continuation-bigstep-trace-ledger-threshold}, \autoref{thm:continuation-bigstep-terminal-consumer-package}, and \autoref{thm:continuation-bigstep-nonescape-scope-package} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, non-escape boundary, consumer exactness, subject-reduction socket handoff, terminal ledger package, trace-ledger threshold, terminal consumer package, and non-escape scope package for the finite big-step packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
