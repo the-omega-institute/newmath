@@ -144,6 +144,30 @@ $$
 the public boundary is exported only as this finite packet boundary. It does not supply completeness, quotient equality, or host real equality.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy witness schedule seal-source determinacy]
+\label{thm:regular-cauchy-witness-schedule-seal-source-determinacy}
+For an accepted $\RegularCauchyWitnessScheduleUp$ packet
+$$
+S=(X,\mu,W,D,R,T,H,C,P,N),
+$$
+every $\RealUp$ seal consumer route for the scheduled observation is determined by the displayed modulus-window-dyadic route. If two accepted consumer presentations expose the same $\RegSeqRatUp$ family row $X$, modulus row $\mu$, selected finite window $W$, dyadic ledger $D$, diagonal readback $R$, seal row $T$, componentwise transports $H$, continuation routes $C$, package provenance $P$, and local name $N$, then they expose the same consumer-visible seal row $T$.
+
+No quotient stream, selected completed limit, host real equality, or ambient completeness row can supply an alternate seal source for the scheduled read.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}. It places the family row, modulus selector, finite window, dyadic ledger, diagonal readback, $\RealUp$ seal, transports, routes, provenance, and local name in one finite $\BHist$ packet.
+
+Apply the NameCert obligations and window-modulus alignment. These force any seal-facing read to use the same modulus row $\mu$ and the same selected finite window $W$ before it reaches the dyadic ledger.
+
+Next use diagonal readback and finite-route correspondence. The rational observation is routed through $D$ and $R$, and the seal handoff is then the displayed row $T$ transported and replayed through $H,C,P,N$.
+
+The public boundary theorem rules out any consumer-visible source outside the finite packet. Because the chapter carries the displayed TasteGate marker
+$$
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleTasteGate\_single\_carrier\_alignment},
+$$
+the $\origin{ai}$ packet is consumed only through this carrier-aligned route. Thus two accepted presentations with the same displayed rows have the same seal source $T$, and no quotient stream, selected limit, host equality, or completeness row can provide another one.
+\end{proof}
+
 \closureat{RegularCauchyWitnessScheduleUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyWitnessScheduleUp}
