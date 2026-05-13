@@ -1,0 +1,105 @@
+\chapter{RegularCauchyTelescopingBudget NameCert Construction}
+\label{ch:concrete-instances-regular-cauchy-telescoping-budget-namecert}
+\origin{ai}
+
+The $\RegularCauchyTelescopingBudgetUp$ packet records the finite chained-window error ledger used by Real-completion diagonal handoffs. It starts with one precision request, opens a finite chain of selected $\StreamNameUp$ windows, reads their dyadic error rows, transports the result through $\RegSeqRatUp$, seals the terminal row through $\RealUp$, and records the telescoping composition that makes the intermediate errors visible. The packet is a NameCert surface for finite budget composition; it is not a quotient of streams, a selected host limit, countable choice, or an ambient completeness principle.
+
+\begin{definition}[RegularCauchyTelescopingBudget carrier]
+\label{def:regular-cauchy-telescoping-budget-carrier}
+A $\RegularCauchyTelescopingBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,W,D,R,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the precision request whose requested Real-completion tolerance is being budgeted;
+\item $W$ is a finite chain of selected $\StreamNameUp$ windows opened from the displayed regular Cauchy sources;
+\item $D$ is the $\DyadicRatCoreUp$ error ledger read from the successive windows in $W$;
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained after the selected dyadic errors have been composed;
+\item $S$ is the $\RealUp$ seal row reached from the handoff $R$ at the requested precision;
+\item $T$ is the telescoping composition ledger, recording the finite sum of adjacent-window errors and the remaining budget after each handoff;
+\item $H$ records componentwise $\hsame$ transports for $E,W,D,R,S,T$ and for the structural rows of the packet;
+\item $C$ records the displayed $\Cont$ routes for precision exposure, window-chain admission, dyadic-ledger reads, telescoping composition, $\RegSeqRatUp$ handoff, and $\RealUp$ seal delivery;
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchySequenceUp$, $\RegularCauchyWindowFusionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegularCauchyTelescopingBudgetUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the visible rows $E,W,D,R,S,T,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[RegularCauchyTelescopingBudget NameCert obligations]
+\label{thm:regular-cauchy-telescoping-budget-namecert-obligations}
+The local $\NameCert_{\RegularCauchyTelescopingBudgetUp}$ surface for \autoref{def:regular-cauchy-telescoping-budget-carrier} consists of carrier admission for
+$$
+B=(E,W,D,R,S,T,H,C,P,N),
+$$
+precision exposure through $E$, finite window-chain admission through $W$, dyadic error-ledger exposure through $D$, telescoping composition through $T$, $\RegSeqRatUp$ handoff through $R$, $\RealUp$ seal delivery through $S$, componentwise $\hsame$ stability, displayed $\Cont$ route replay, $\Pkg$ provenance, local naming, and non-escape from quotient streams, selected host limits, countable choice, ambient completeness, hidden comparison rows, and unrecorded error budgets.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-telescoping-budget-carrier}. The packet contains exactly the rows $E,W,D,R,S,T,H,C,P,N$.
+
+The analytic-facing obligations are read in order. The precision request $E$ determines which finite chain of selected $\StreamNameUp$ windows $W$ is opened. The dyadic ledger $D$ records the error rows read from those windows, and the telescoping ledger $T$ records their finite composition before the $\RegSeqRatUp$ handoff $R$ is exposed.
+
+The real-facing obligation is the seal row $S$. It is reached only after $R$ has consumed the displayed window chain and the telescoping ledger.
+
+Finally $H,C,P,N$ preserve, route, package, and name the same finite packet. Because no coordinate names quotient streams, selected host limits, countable choice, ambient completeness, hidden comparison rows, or unrecorded budgets, the local NameCert exports none of that data.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTelescopingBudget window chain]
+\label{thm:regular-cauchy-telescoping-budget-window-chain}
+For every accepted $\RegularCauchyTelescopingBudgetUp$ carrier
+$$
+B=(E,W,D,R,S,T,H,C,P,N),
+$$
+the selected windows form a finite chain read through $\RegularCauchySequenceUp$ and $\RegularCauchyWindowFusionUp$ surfaces. Each adjacent-window error consumed by the chain is recorded in $D$, and each transfer of remaining precision is recorded in $T$ before the handoff row $R$ is available.
+\end{theorem}
+\begin{proof}
+Project $E,W,D,T$ from the carrier. The precision row $E$ fixes the requested tolerance, and the window row $W$ is the only coordinate that opens selected $\StreamNameUp$ windows.
+
+Use the existing $\RegularCauchySequenceUp$ and $\RegularCauchyWindowFusionUp$ surfaces as the displayed sources of the chain. They expose finite selected windows and shared-window Real-facing routes without selecting a host limit or quotient representative.
+
+Now read the dyadic and telescoping rows. The ledger $D$ stores the adjacent-window error rows, while $T$ composes them and records the remaining budget passed to the next window. Since $R$ appears only after $D$ and $T$, the $\RegSeqRatUp$ handoff is downstream of the finite chain.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTelescopingBudget Real seal handoff]
+\label{thm:regular-cauchy-telescoping-budget-real-seal-handoff}
+Every $\RealUp$ seal read exported by an accepted $\RegularCauchyTelescopingBudgetUp$ carrier factors through the route
+$$
+E,W,D,T,R,S,H,C,P,N.
+$$
+The route first consumes the requested precision, then the selected window chain, then the dyadic error ledger, then the telescoping composition ledger, then the $\RegSeqRatUp$ handoff, and only then the $\RealUp$ seal row.
+\end{theorem}
+\begin{proof}
+Begin with the window-chain theorem. It places the selected windows, dyadic error rows, telescoping composition, and $\RegSeqRatUp$ handoff in the displayed order $E,W,D,T,R$.
+
+Read the seal coordinate. The row $S$ is the only $\RealUp$ seal row in the carrier, and the continuation row $C$ exposes it only after the route through $E,W,D,T,R$ has been replayed.
+
+The rows $H,P,N$ transport, package, and name the same route. Therefore every Real-facing consumer receives the seal through $E,W,D,T,R,S,H,C,P,N$ and through no independent completion object.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTelescopingBudget non-escape]
+\label{thm:regular-cauchy-telescoping-budget-nonescape}
+For an accepted $\RegularCauchyTelescopingBudgetUp$ carrier, the finite telescoping budget exports no quotient stream equality, selected host limit, countable-choice selector, ambient completeness principle, hidden comparison row, unrecorded error budget, or independent RealUp carrier. All exported data are confined to
+$$
+E,W,D,R,S,T,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations to identify the complete carrier surface. The only admitted rows are $E,W,D,R,S,T,H,C,P,N$.
+
+Use the window-chain theorem and the Real seal handoff theorem. They force every path to the $\RegSeqRatUp$ handoff and the $\RealUp$ seal to consume the finite selected windows, dyadic ledger, and telescoping composition ledger.
+
+Inspect the packet boundary. No coordinate stores quotient stream equality, selected host limits, countable choice, ambient completeness, hidden comparisons, unrecorded budgets, or an independent real carrier. The exported surface is exactly the displayed finite packet.
+\end{proof}
+
+\closureat{RegularCauchyTelescopingBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTelescopingBudgetUp}
+  \constructivestory{A $\RegularCauchyTelescopingBudgetUp$ packet is generated from a precision request, a finite chain of selected $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ error ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, a telescoping composition ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-telescoping-budget-carrier}, \autoref{thm:regular-cauchy-telescoping-budget-namecert-obligations}, \autoref{thm:regular-cauchy-telescoping-budget-window-chain}, \autoref{thm:regular-cauchy-telescoping-budget-real-seal-handoff}, and \autoref{thm:regular-cauchy-telescoping-budget-nonescape} bind the finite chained-window telescoping budget for Real-completion diagonal handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, selected host limits, countable choice, ambient completeness, hidden comparison rows, unrecorded error budgets, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, window-chain admission, dyadic ledger exposure, telescoping composition, RegSeqRat handoff, RealUp seal delivery, transport stability, route replay, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}
