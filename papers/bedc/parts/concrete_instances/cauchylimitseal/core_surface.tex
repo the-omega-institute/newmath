@@ -688,6 +688,22 @@ Next apply seal-ledger exhaustion from \autoref{thm:cauchy-limit-seal-seal-ledge
 Use diagonal-row compatibility from \autoref{thm:cauchy-limit-seal-diagonal-row-compatibility}. A completion read tied to the selected schedule and dyadic observation must consume the carrier diagonal row $G$, which prevents replacing the sealed endpoint by an independent completion object.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal lattice-meet terminal factorization]
+\label{thm:cauchy-limit-seal-lattice-meet-terminal-factorization}
+Let a terminal $\CauchyLimitSealUp$ $\RealUp$ read or completion-facing read use a schedule assembled from two accepted finite $\StreamNameUp$ windows. Then the terminal read first factors through the finite-window lattice meet packet of \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. Only after that meet surface is displayed may the consumer read the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ observation ledger, the $\RealUp$ seal row, the displayed $\hsame$ and $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ rows of the accepted $\CauchyLimitSealUp$ packet.
+
+Thus the terminal factorization exposes only the shared finite-window meet surface and the carrier route $X,S,D,G,E,T,P,N$. It supplies no quotient stream, selected host limit, host real equality, uniqueness principle, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the two accepted $\StreamNameUp$ windows. The finite-window lattice meet exhaustion theorem \autoref{thm:streamname-finite-window-lattice-meet-exhaustion} supplies one shared meet packet carrying the common classifier, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, unary-history rows, dyadic ledger, transports, routes, package provenance, and local names.
+
+Next pass the resulting schedule to the seal carrier. The window factorization theorem \autoref{thm:cauchy-limit-seal-window-factorization} sends the scheduled window through the matching $\RegSeqRatUp$ source row and $\DyadicRatCoreUp$ observation ledger before any diagonal completion or $\RealUp$ seal read is consumed.
+
+Now apply the public route boundary of \autoref{thm:cauchy-limit-seal-public-route-boundary}. The terminal $\RealUp$ or completion-facing consumer is confined to the displayed carrier route $X,S,D,G,E,T,P,N$, and \autoref{thm:cauchy-limit-seal-consumer-ledger-totality} exhausts the consumer-visible ledger along that route.
+
+Finally use non-escape from \autoref{thm:cauchy-limit-seal-non-escape}. Since neither the StreamName meet packet nor the CauchyLimitSeal carrier has a coordinate for quotient streams, selected host limits, host real equality, uniqueness principles, or ambient completeness, the terminal read can only be the displayed finite meet followed by the displayed seal route.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal NameCert downstream unblock package]
 \label{thm:cauchy-limit-seal-namecert-downstream-unblock-package}
 The source-schedule ledger coherence row of \autoref{thm:cauchy-limit-seal-source-schedule-ledger-coherence} and the sealed endpoint route exhaustion row of \autoref{thm:cauchy-limit-seal-sealed-endpoint-route-exhaustion}, together with \autoref{thm:cauchy-limit-seal-namecert-obligations}, \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}, and \autoref{thm:cauchy-limit-seal-non-escape}, supply the downstream obligation package for $\RealUp$ and completion consumers over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exposes only the finite sealed boundary and does not claim real completeness, quotient stream identity, selected host limits, or uniqueness of ambient real values.

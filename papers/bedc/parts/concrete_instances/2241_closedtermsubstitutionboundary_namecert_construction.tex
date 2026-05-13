@@ -89,14 +89,15 @@ Finally use \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. T
 \end{proof}
 
 \closureat{ClosedTermSubstitutionBoundaryUp}{seedStr}
+\closureat{ClosedTermSubstitutionBoundaryUp}{obligationStr}
 
 \begin{closurestatus}{\ClosedTermSubstitutionBoundaryUp}
   \constructivestory{A $\ClosedTermSubstitutionBoundaryUp$ packet is generated from displayed $\mathsf{Term}$ rows, $\mathsf{ClosedAt}$ witnesses, a depth row, closed $\mathsf{shift}$ and $\mathsf{substitute}$ boundary rows, a finite closedness ledger, an audit-visible non-escape row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:closed-term-substitution-boundary-carrier}, \autoref{def:closed-term-substitution-boundary-classifier}, \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, and \autoref{thm:closed-term-substitution-boundary-consumer-boundary} bind closed-term substitution as a finite NameCert packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close full compiler correctness, subject reduction, host syntax quotienting, hidden semantic models, or bridge checking.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for the boundary classifier, NameCert obligations, ledger non-escape, and consumer boundary over the existing closed shift and substitution theorems.}
+  \upgradepath{Scoped closure requires one scope proof over the carrier, classifier, NameCert obligations, ledger non-escape, and consumer-boundary rows for the same closed-term substitution packet.}
 \end{closurestatus}
