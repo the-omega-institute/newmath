@@ -284,18 +284,40 @@ Finally apply completion-boundary non-escape. Since the boundary theorem exclude
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_public\_export}
 
+\begin{theorem}[Regular Cauchy limit transport bridge packet]
+\label{thm:regular-cauchy-limit-transport-bridge-packet}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier
+$$
+T=(R,W,D,S,H,C,P,N),
+$$
+the public export packet
+$$
+R \to W \to D \to S
+$$
+with provenance $H,C,P,N$ is exactly the bridge packet consumed by $\RealCompletenessUp$ finite-witness routes. The bridge preserves $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance while excluding quotient streams, host equality, selected external limits, trichotomy, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with public export, \autoref{thm:regular-cauchy-limit-transport-public-export}. It identifies the consumer-facing packet as the finite handoff $R \to W \to D \to S$ with provenance $H,C,P,N$.
+
+Apply the RealCompleteness consumer factorization theorem. A matching $\RealCompletenessUp$ diagonal-seal consumer must pass through the same rows $R,W,D,S,H,C,P,N$ before reading the $\RealUp$ seal.
+
+Finally use completion-boundary non-escape. The excluded quotient, host-equality, external-limit, trichotomy, and ambient-completeness objects have no coordinate in the transport packet or in the finite-witness consumer route. Therefore the public export is already the bridge packet read by the finite RealCompleteness route.
+\end{proof}
+
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
 \closureat{RegularCauchyLimitTransportUp}{obligationStr}
 \closureat{RegularCauchyLimitTransportUp}{scopedStr}
 \closureat{RegularCauchyLimitTransportUp}{publicStr}
+\closureat{RegularCauchyLimitTransportUp}{bridgedStr}[BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_public\_export]
 
 \begin{closurestatus}{\RegularCauchyLimitTransportUp}
   \constructivestory{A $\RegularCauchyLimitTransportUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ selected-window row, a $\DyadicRatCoreUp$ tolerance and absolute-value ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package}, \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}, \autoref{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}, \autoref{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-export}, \autoref{thm:regular-cauchy-limit-transport-scoped-dependency-boundary}, \autoref{thm:regular-cauchy-limit-transport-visible-scope-exhaustion}, and \autoref{thm:regular-cauchy-limit-transport-public-export} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, window-dyadic-seal triangle, classifier handoff coverage, completion boundary, obligation-closure export, scoped dependency boundary, visible scope exhaustion, public export, and local naming obligations.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package}, \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}, \autoref{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}, \autoref{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-export}, \autoref{thm:regular-cauchy-limit-transport-scoped-dependency-boundary}, \autoref{thm:regular-cauchy-limit-transport-visible-scope-exhaustion}, \autoref{thm:regular-cauchy-limit-transport-public-export}, and \autoref{thm:regular-cauchy-limit-transport-bridge-packet} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, window-dyadic-seal triangle, classifier handoff coverage, completion boundary, obligation-closure export, scoped dependency boundary, visible scope exhaustion, public export, bridge packet, and local naming obligations.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_public\_export}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, host real equality, selected external limits, trichotomy, $\RealUp$ completeness, Lean verification, or a public standard bridge.}
-  \upgradepath{Lean verification of \autoref{thm:regular-cauchy-limit-transport-public-export} must certify the consumer-facing packet before any public standard bridge is claimed.}
+  \upgradepath{Mature closure requires a consumer example or completeness statement beyond the bridge source.}
 \end{closurestatus}

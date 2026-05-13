@@ -10,28 +10,28 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchyProductBudgetUp : Type where
-  | mk :
+  | mk
       (sourceA sourceB windowA windowB dyadicA dyadicB product budget readback sealRow
-        transports routes provenance nameCert : BHist) →
-        RegularCauchyProductBudgetUp
+        transport routes provenance name : BHist) :
+      RegularCauchyProductBudgetUp
   deriving DecidableEq
 
-def regularCauchyProductBudgetEncodeBHist : BHist → RawEvent
+private def regularCauchyProductBudgetUpEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: regularCauchyProductBudgetEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: regularCauchyProductBudgetEncodeBHist h
+  | BHist.e0 h => BMark.b0 :: regularCauchyProductBudgetUpEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regularCauchyProductBudgetUpEncodeBHist h
 
-def regularCauchyProductBudgetDecodeBHist : RawEvent → BHist
+private def regularCauchyProductBudgetUpDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (regularCauchyProductBudgetDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (regularCauchyProductBudgetDecodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (regularCauchyProductBudgetUpDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regularCauchyProductBudgetUpDecodeBHist tail)
 
-private theorem regularCauchyProductBudgetDecodeEncodeBHist :
+private theorem regularCauchyProductBudgetUp_decode_encode_bhist :
     ∀ h : BHist,
-      regularCauchyProductBudgetDecodeBHist
-        (regularCauchyProductBudgetEncodeBHist h) = h := by
+      regularCauchyProductBudgetUpDecodeBHist
+        (regularCauchyProductBudgetUpEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -42,337 +42,173 @@ private theorem regularCauchyProductBudgetDecodeEncodeBHist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def regularCauchyProductBudgetToEventFlow :
+private def regularCauchyProductBudgetUpToEventFlow :
     RegularCauchyProductBudgetUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyProductBudgetUp.mk sourceA sourceB windowA windowB dyadicA dyadicB
-      product budget readback sealRow transports routes provenance nameCert =>
+      product budget readback sealRow transport routes provenance name =>
       [[BMark.b0],
-        regularCauchyProductBudgetEncodeBHist sourceA,
+        regularCauchyProductBudgetUpEncodeBHist sourceA,
         [BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist sourceB,
+        regularCauchyProductBudgetUpEncodeBHist sourceB,
         [BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist windowA,
+        regularCauchyProductBudgetUpEncodeBHist windowA,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist windowB,
+        regularCauchyProductBudgetUpEncodeBHist windowB,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist dyadicA,
+        regularCauchyProductBudgetUpEncodeBHist dyadicA,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist dyadicB,
+        regularCauchyProductBudgetUpEncodeBHist dyadicB,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist product,
+        regularCauchyProductBudgetUpEncodeBHist product,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        regularCauchyProductBudgetEncodeBHist budget,
+        regularCauchyProductBudgetUpEncodeBHist budget,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist readback,
+        regularCauchyProductBudgetUpEncodeBHist readback,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist sealRow,
+        regularCauchyProductBudgetUpEncodeBHist sealRow,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist transports,
+        regularCauchyProductBudgetUpEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist routes,
+        regularCauchyProductBudgetUpEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist provenance,
+        regularCauchyProductBudgetUpEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyProductBudgetEncodeBHist nameCert]
+        regularCauchyProductBudgetUpEncodeBHist name]
 
-def regularCauchyProductBudgetFromEventFlow :
+private def regularCauchyProductBudgetUpDecodeRows :
+    RawEvent → RawEvent → RawEvent → RawEvent → RawEvent → RawEvent → RawEvent →
+      RawEvent → RawEvent → RawEvent → RawEvent → RawEvent → RawEvent → RawEvent →
+        RegularCauchyProductBudgetUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | sourceA, sourceB, windowA, windowB, dyadicA, dyadicB, product, budget,
+      readback, sealRow, transport, routes, provenance, name =>
+      RegularCauchyProductBudgetUp.mk
+        (regularCauchyProductBudgetUpDecodeBHist sourceA)
+        (regularCauchyProductBudgetUpDecodeBHist sourceB)
+        (regularCauchyProductBudgetUpDecodeBHist windowA)
+        (regularCauchyProductBudgetUpDecodeBHist windowB)
+        (regularCauchyProductBudgetUpDecodeBHist dyadicA)
+        (regularCauchyProductBudgetUpDecodeBHist dyadicB)
+        (regularCauchyProductBudgetUpDecodeBHist product)
+        (regularCauchyProductBudgetUpDecodeBHist budget)
+        (regularCauchyProductBudgetUpDecodeBHist readback)
+        (regularCauchyProductBudgetUpDecodeBHist sealRow)
+        (regularCauchyProductBudgetUpDecodeBHist transport)
+        (regularCauchyProductBudgetUpDecodeBHist routes)
+        (regularCauchyProductBudgetUpDecodeBHist provenance)
+        (regularCauchyProductBudgetUpDecodeBHist name)
+
+private def regularCauchyProductBudgetUpFromEventFlow :
     EventFlow → Option RegularCauchyProductBudgetUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: rest0 =>
-      match rest0 with
-      | [] => none
-      | sourceA :: rest1 =>
-          match rest1 with
-          | [] => none
-          | _tag1 :: rest2 =>
-              match rest2 with
-              | [] => none
-              | sourceB :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | _tag2 :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | windowA :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | _tag3 :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | windowB :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | _tag4 :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | dyadicA :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | _tag5 :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | dyadicB :: rest11 =>
-                                                  match rest11 with
-                                                  | [] => none
-                                                  | _tag6 :: rest12 =>
-                                                      match rest12 with
-                                                      | [] => none
-                                                      | product :: rest13 =>
-                                                          match rest13 with
-                                                          | [] => none
-                                                          | _tag7 :: rest14 =>
-                                                              match rest14 with
-                                                              | [] => none
-                                                              | budget :: rest15 =>
-                                                                  match rest15 with
-                                                                  | [] => none
-                                                                  | _tag8 ::
-                                                                      rest16 =>
-                                                                      match
-                                                                        rest16
-                                                                      with
-                                                                      | [] =>
-                                                                          none
-                                                                      | readback ::
-                                                                          rest17 =>
-                                                                          match
-                                                                            rest17
-                                                                          with
-                                                                          | [] =>
-                                                                              none
-                                                                          | _tag9 ::
-                                                                              rest18 =>
-                                                                              match
-                                                                                rest18
-                                                                              with
-                                                                              | [] =>
-                                                                                  none
-                                                                              | sealRow ::
-                                                                                  rest19 =>
-                                                                                  match
-                                                                                    rest19
-                                                                                  with
-                                                                                  | [] =>
-                                                                                      none
-                                                                                  | _tag10 ::
-                                                                                      rest20 =>
-                                                                                      match
-                                                                                        rest20
-                                                                                      with
-                                                                                      | [] =>
-                                                                                          none
-                                                                                      | transports ::
-                                                                                          rest21 =>
-                                                                                          match
-                                                                                            rest21
-                                                                                          with
-                                                                                          | [] =>
-                                                                                              none
-                                                                                          | _tag11 ::
-                                                                                              rest22 =>
-                                                                                              match
-                                                                                                rest22
-                                                                                              with
-                                                                                              | [] =>
-                                                                                                  none
-                                                                                              | routes ::
-                                                                                                  rest23 =>
-                                                                                                  match
-                                                                                                    rest23
-                                                                                                  with
-                                                                                                  | [] =>
-                                                                                                      none
-                                                                                                  | _tag12 ::
-                                                                                                      rest24 =>
-                                                                                                      match
-                                                                                                        rest24
-                                                                                                      with
-                                                                                                      | [] =>
-                                                                                                          none
-                                                                                                      | provenance ::
-                                                                                                          rest25 =>
-                                                                                                          match
-                                                                                                            rest25
-                                                                                                          with
-                                                                                                          | [] =>
-                                                                                                              none
-                                                                                                          | _tag13 ::
-                                                                                                              rest26 =>
-                                                                                                              match
-                                                                                                                rest26
-                                                                                                              with
-                                                                                                              | [] =>
-                                                                                                                  none
-                                                                                                              | nameCert ::
-                                                                                                                  rest27 =>
-                                                                                                                  match
-                                                                                                                    rest27
-                                                                                                                  with
-                                                                                                                  | [] =>
-                                                                                                                      some
-                                                                                                                        (RegularCauchyProductBudgetUp.mk
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            sourceA)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            sourceB)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            windowA)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            windowB)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            dyadicA)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            dyadicB)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            product)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            budget)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            readback)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            sealRow)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            transports)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            routes)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            provenance)
-                                                                                                                          (regularCauchyProductBudgetDecodeBHist
-                                                                                                                            nameCert))
-                                                                                                                  | _ :: _ =>
-                                                                                                                      none
+  | [_tag0, sourceA, _tag1, sourceB, _tag2, windowA, _tag3, windowB, _tag4,
+      dyadicA, _tag5, dyadicB, _tag6, product, _tag7, budget, _tag8, readback,
+      _tag9, sealRow, _tag10, transport, _tag11, routes, _tag12, provenance, _tag13,
+      name] =>
+      some
+        (regularCauchyProductBudgetUpDecodeRows sourceA sourceB windowA windowB
+          dyadicA dyadicB product budget readback sealRow transport routes provenance name)
+  | _ => none
 
-private theorem regularCauchyProductBudgetRoundTrip :
+private theorem regularCauchyProductBudgetUp_round_trip :
     ∀ x : RegularCauchyProductBudgetUp,
-      regularCauchyProductBudgetFromEventFlow
-        (regularCauchyProductBudgetToEventFlow x) = some x := by
+      regularCauchyProductBudgetUpFromEventFlow
+        (regularCauchyProductBudgetUpToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk sourceA sourceB windowA windowB dyadicA dyadicB product budget readback sealRow
-      transports routes provenance nameCert =>
+      transport routes provenance name =>
       change
         some
           (RegularCauchyProductBudgetUp.mk
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist sourceA))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist sourceB))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist windowA))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist windowB))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist dyadicA))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist dyadicB))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist product))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist budget))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist readback))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist sealRow))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist transports))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist routes))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist provenance))
-            (regularCauchyProductBudgetDecodeBHist
-              (regularCauchyProductBudgetEncodeBHist nameCert))) =
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist sourceA))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist sourceB))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist windowA))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist windowB))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist dyadicA))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist dyadicB))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist product))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist budget))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist readback))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist sealRow))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist transport))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist routes))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist provenance))
+            (regularCauchyProductBudgetUpDecodeBHist
+              (regularCauchyProductBudgetUpEncodeBHist name))) =
           some
             (RegularCauchyProductBudgetUp.mk sourceA sourceB windowA windowB dyadicA
-              dyadicB product budget readback sealRow transports routes provenance nameCert)
-      rw [regularCauchyProductBudgetDecodeEncodeBHist sourceA,
-        regularCauchyProductBudgetDecodeEncodeBHist sourceB,
-        regularCauchyProductBudgetDecodeEncodeBHist windowA,
-        regularCauchyProductBudgetDecodeEncodeBHist windowB,
-        regularCauchyProductBudgetDecodeEncodeBHist dyadicA,
-        regularCauchyProductBudgetDecodeEncodeBHist dyadicB,
-        regularCauchyProductBudgetDecodeEncodeBHist product,
-        regularCauchyProductBudgetDecodeEncodeBHist budget,
-        regularCauchyProductBudgetDecodeEncodeBHist readback,
-        regularCauchyProductBudgetDecodeEncodeBHist sealRow,
-        regularCauchyProductBudgetDecodeEncodeBHist transports,
-        regularCauchyProductBudgetDecodeEncodeBHist routes,
-        regularCauchyProductBudgetDecodeEncodeBHist provenance,
-        regularCauchyProductBudgetDecodeEncodeBHist nameCert]
+              dyadicB product budget readback sealRow transport routes provenance name)
+      rw [regularCauchyProductBudgetUp_decode_encode_bhist sourceA,
+        regularCauchyProductBudgetUp_decode_encode_bhist sourceB,
+        regularCauchyProductBudgetUp_decode_encode_bhist windowA,
+        regularCauchyProductBudgetUp_decode_encode_bhist windowB,
+        regularCauchyProductBudgetUp_decode_encode_bhist dyadicA,
+        regularCauchyProductBudgetUp_decode_encode_bhist dyadicB,
+        regularCauchyProductBudgetUp_decode_encode_bhist product,
+        regularCauchyProductBudgetUp_decode_encode_bhist budget,
+        regularCauchyProductBudgetUp_decode_encode_bhist readback,
+        regularCauchyProductBudgetUp_decode_encode_bhist sealRow,
+        regularCauchyProductBudgetUp_decode_encode_bhist transport,
+        regularCauchyProductBudgetUp_decode_encode_bhist routes,
+        regularCauchyProductBudgetUp_decode_encode_bhist provenance,
+        regularCauchyProductBudgetUp_decode_encode_bhist name]
 
-private theorem regularCauchyProductBudgetToEventFlow_injective
+private theorem regularCauchyProductBudgetUpToEventFlow_injective
     {x y : RegularCauchyProductBudgetUp} :
-    regularCauchyProductBudgetToEventFlow x =
-      regularCauchyProductBudgetToEventFlow y → x = y := by
+    regularCauchyProductBudgetUpToEventFlow x =
+      regularCauchyProductBudgetUpToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      regularCauchyProductBudgetFromEventFlow
-          (regularCauchyProductBudgetToEventFlow x) =
-        regularCauchyProductBudgetFromEventFlow
-          (regularCauchyProductBudgetToEventFlow y) :=
-    congrArg regularCauchyProductBudgetFromEventFlow heq
+      regularCauchyProductBudgetUpFromEventFlow
+          (regularCauchyProductBudgetUpToEventFlow x) =
+        regularCauchyProductBudgetUpFromEventFlow
+          (regularCauchyProductBudgetUpToEventFlow y) :=
+    congrArg regularCauchyProductBudgetUpFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchyProductBudgetRoundTrip x).symm
-      (Eq.trans hread (regularCauchyProductBudgetRoundTrip y)))
+    (Eq.trans (regularCauchyProductBudgetUp_round_trip x).symm
+      (Eq.trans hread (regularCauchyProductBudgetUp_round_trip y)))
 
-instance regularCauchyProductBudgetBHistCarrier :
+instance regularCauchyProductBudgetUpBHistCarrier :
     BHistCarrier RegularCauchyProductBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := regularCauchyProductBudgetToEventFlow
-  fromEventFlow := regularCauchyProductBudgetFromEventFlow
+  toEventFlow := regularCauchyProductBudgetUpToEventFlow
+  fromEventFlow := regularCauchyProductBudgetUpFromEventFlow
 
-instance regularCauchyProductBudgetChapterTasteGate :
+instance regularCauchyProductBudgetUpChapterTasteGate :
     ChapterTasteGate RegularCauchyProductBudgetUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
-      regularCauchyProductBudgetFromEventFlow
-        (regularCauchyProductBudgetToEventFlow x) = some x
-    exact regularCauchyProductBudgetRoundTrip x
+      regularCauchyProductBudgetUpFromEventFlow
+        (regularCauchyProductBudgetUpToEventFlow x) = some x
+    exact regularCauchyProductBudgetUp_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyProductBudgetToEventFlow_injective heq)
-
-theorem RegularCauchyProductBudgetTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      regularCauchyProductBudgetDecodeBHist
-        (regularCauchyProductBudgetEncodeBHist h) = h) ∧
-      (∀ x : RegularCauchyProductBudgetUp,
-        regularCauchyProductBudgetFromEventFlow
-          (regularCauchyProductBudgetToEventFlow x) = some x) ∧
-        (∀ x y : RegularCauchyProductBudgetUp,
-          regularCauchyProductBudgetToEventFlow x =
-            regularCauchyProductBudgetToEventFlow y → x = y) ∧
-          (∀ (x : RegularCauchyProductBudgetUp) w m,
-            List.Mem w (regularCauchyProductBudgetToEventFlow x) →
-              List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) ∧
-            regularCauchyProductBudgetEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact regularCauchyProductBudgetDecodeEncodeBHist
-  · constructor
-    · intro x
-      exact regularCauchyProductBudgetRoundTrip x
-    · constructor
-      · intro x y heq
-        exact regularCauchyProductBudgetToEventFlow_injective heq
-      · constructor
-        · intro x w m hw hm
-          exact BMark_generated_cases m
-        · rfl
-
-def taste_gate : (fun _ : BHist => ChapterTasteGate RegularCauchyProductBudgetUp) BHist.Empty :=
-  regularCauchyProductBudgetChapterTasteGate
+    exact hxy (regularCauchyProductBudgetUpToEventFlow_injective heq)
 
 end BEDC.Derived.RegularCauchyProductBudgetUp
