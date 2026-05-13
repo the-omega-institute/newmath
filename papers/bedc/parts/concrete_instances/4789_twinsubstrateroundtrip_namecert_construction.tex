@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateRoundtripUp$}
+\label{ch:concrete-instances-twinsubstrateroundtrip-namecert}
+\origin{human}
+
+The $\TwinSubstrateRoundtripUp$ packet turns the twin-substrate architecture of \autoref{ch:twin-substrate-synthesis} into a finite roundtrip boundary. It sits beside the MetaCIC synthesis certificate of \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, the GroundCompiler audit-map packet of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, the synthesis packet of \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}, and the audit-coupling packet of \autoref{ch:concrete-instances-twinsubstrateauditcoupling-namecert}. Those siblings expose substrate-local audit rows and paired-read rows; this chapter packages the roundtrip read without making either substrate certify the other by hidden equality.
+
+\begin{definition}[TwinSubstrateRoundtrip packet]
+\label{def:twin-substrate-roundtrip-packet}
+A $\TwinSubstrateRoundtripUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,G,A,R,F,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC synthesis row read through \autoref{ch:concrete-instances-metacicauditsynthesis-namecert};
+\item $G$ is the GroundCompiler audit-map row read through \autoref{ch:concrete-instances-groundcompilerauditmap-namecert};
+\item $A$ is the architecture row naming the substrate separation of \autoref{ch:twin-substrate-synthesis};
+\item $R$ is the roundtrip route row, recording the finite order in which a consumer reads the MetaCIC surface, the compiler-facing surface, and the return-to-audit boundary;
+\item $F$ is the frontier row recording which MetaCIC obligations and which GroundCompiler obligations remain substrate-local after the roundtrip read;
+\item $E$ is the export row naming the downstream packet handed to self-compilation or audit-map consumers;
+\item $H$ records componentwise $\hsame$ transport for the substrate rows, architecture row, route row, frontier row, export row, provenance row, and local name row;
+\item $C$ records displayed $\Cont$ routes by which a consumer reads $M,G,A,R,F,E$ in finite order;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}, \autoref{ch:concrete-instances-twinsubstrateauditcoupling-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateRoundtripUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for identifying $M$ with $G$, converting a compiler report into proof evidence, reading a closed-CIC theorem as a compiler input channel, or discharging either substrate frontier by an unrecorded host assertion.
+\end{definition}
+
+\begin{theorem}[TwinSubstrateRoundtrip obligation surface]
+\label{thm:twin-substrate-roundtrip-obligation-surface}
+For every accepted $\TwinSubstrateRoundtripUp$ carrier
+$$
+Q=(M,G,A,R,F,E,H,C,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateRoundtripUp}$ surface consists exactly of MetaCIC synthesis readback through $M$, GroundCompiler audit-map readback through $G$, architecture separation through $A$, roundtrip route replay through $R$, frontier preservation through $F$, export readback through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The substrate rows $M$ and $G$ are separate coordinates, and $A$ records the architecture boundary that keeps their audit questions distinct.
+
+Read the route and frontier rows next. The row $R$ gives the finite roundtrip order, while $F$ records which obligations remain MetaCIC-local or GroundCompiler-local after the read.
+
+The export row $E$ is then a packaged public surface, not a hidden conversion between substrates. Rows $H,C,P,N$ transport, replay, package, and name the same displayed coordinates.
+
+Since the packet contains no additional coordinate, the listed rows exhaust the local obligation surface. In particular, no compiler report, closed-CIC theorem row, hidden equality, or host assertion can enter the certificate outside $M,G,A,R,F,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateRoundtrip noncollapse]
+\label{thm:twin-substrate-roundtrip-noncollapse}
+Every public roundtrip read from an accepted $\TwinSubstrateRoundtripUp$ carrier factors through the displayed rows $M,G,A,R,F,E,H,C,P,N$ of \autoref{def:twin-substrate-roundtrip-packet}. Such a read may package MetaCIC and GroundCompiler audit surfaces together, but it cannot collapse the substrates, identify their classifiers, convert reports into proof evidence, or use closed-CIC rows as compiler input channels.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:twin-substrate-roundtrip-obligation-surface}. It forces every public read to expose the MetaCIC row $M$ and the GroundCompiler row $G$ as separate coordinates before consulting the route or export rows.
+
+The architecture row $A$ and frontier row $F$ preserve the substrate distinction. They record that MetaCIC proof-theoretic boundaries and GroundCompiler pipeline boundaries remain attached to their own rows even when a roundtrip consumer reads both.
+
+The route row $R$ and export row $E$ supply a finite package for downstream consumers. Transport and continuation through $H$ and $C$, with provenance and naming through $P,N$, replay that package without adding a common equality or host-level audit oracle.
+
+Therefore a public roundtrip read can carry both audit surfaces, but it cannot identify them or move evidence across the boundary except through the displayed packet rows.
+\end{proof}
+
+\closureat{TwinSubstrateRoundtripUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateRoundtripUp}
+  \constructivestory{A $\TwinSubstrateRoundtripUp$ packet is generated from a MetaCIC synthesis row, a GroundCompiler audit-map row, an architecture row, a roundtrip route row, a frontier row, an export row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-roundtrip-packet}, \autoref{thm:twin-substrate-roundtrip-obligation-surface}, and \autoref{thm:twin-substrate-roundtrip-noncollapse} bind the finite roundtrip package and its substrate noncollapse boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close MetaCIC subject reduction, GroundCompiler host trust, self-hosting correctness, Lean verification, audit cleanliness, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked substrate-row readback, route replay, frontier preservation, export exactness, transport, continuation, provenance, naming, and noncollapse for the same finite roundtrip packet.}
+\end{closurestatus}
