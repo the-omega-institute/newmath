@@ -236,4 +236,34 @@ theorem GeneratorClosurePacket_fixedpoint_acceptance_route [AskSetup] [PackageSe
       exportedPkg,
       fixedPkg⟩
 
+theorem GeneratorClosurePacket_constructor_provenance_determinacy [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg →
+      hsame endpoint exported →
+        Cont name exported routes →
+          PkgSig bundle exported pkg →
+            Cont exported constructors provenance →
+              UnaryHistory constructors ∧ UnaryHistory provenance ∧
+                Cont generator constructors authorized ∧ Cont name exported routes ∧
+                  Cont exported constructors provenance ∧ PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint exportedRoute exportedPkg provenanceRoute
+  obtain ⟨generatorUnary, constructorsUnary, _authorizedUnary, _classifierUnary,
+    _witnessesUnary, _transportUnary, _provenanceUnary, _nameUnary, endpointUnary,
+    generatorRoute, _classifierRoute, _endpointRoute, _endpointPkg⟩ := packet
+  have exportedUnary : UnaryHistory exported :=
+    unary_transport endpointUnary sameEndpoint
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed exportedUnary constructorsUnary provenanceRoute
+  exact
+    ⟨constructorsUnary,
+      provenanceUnary,
+      generatorRoute,
+      exportedRoute,
+      provenanceRoute,
+      exportedPkg⟩
+
 end BEDC.Derived.GeneratorClosureUp
