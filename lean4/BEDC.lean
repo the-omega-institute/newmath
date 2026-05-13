@@ -388,6 +388,8 @@ import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TasteGateCompilerWitnessUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
+import BEDC.Derived.ChoiceFreeLimitScheduleUp
+import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
 import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformSpaceUp
