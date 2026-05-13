@@ -192,6 +192,22 @@ $X$-to-$Z$ finite comparison, with no appeal to quotient streams, selected
 limits, host real equality, or completeness outside the carrier.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy comparison diagonal-budget handoff]
+\label{thm:regular-cauchy-comparison-diagonal-budget-handoff}
+Let $K=(X,Y,W,D,\tau,L,E,H,C,P,N)$ be an accepted $\RegularCauchyComparisonUp$ packet. Suppose the shared window $W$ and tolerance rows $D,\tau,L$ are consumed by an accepted $\CauchyDiagonalBudgetUp$ packet and an accepted $\TailCofinalityScheduleUp$ packet. Then $K$ exports one diagonal $\RealUp$ handoff through the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The exported handoff is only the finite route from comparison windows and dyadic tolerance ledgers into the diagonal budget and tail schedule. It does not expose quotient streams, selected host limits, host real equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with common-window stability. The accepted comparison packet makes the two $\RegSeqRatUp$ names readable only through the transported $\StreamNameUp$ window $W$, so the diagonal budget and tail schedule consume the same finite window rather than two unrelated stream views.
+
+Next use tolerance-row exactness. The $\DyadicRatCoreUp$ observations and the rational tolerance row $\tau$ are the only tolerance data recorded in $D$ and $L$, hence the diagonal-budget consumer receives exactly the displayed tolerance ledger.
+
+The $\RealUp$ seal boundary then fixes the endpoint of the handoff. The comparison packet reaches the real-facing row through $E$ after the regular-rational, stream-window, dyadic, ledger, transport, route, provenance, and naming rows have been read.
+
+Finally combine the finite route obligations already recorded by the $\CauchyDiagonalBudgetUp$ and $\TailCofinalityScheduleUp$ consumers. Those packets consume the shared window and tolerance ledger before the tail schedule reaches its $\RegSeqRatUp$ readback and $\RealUp$ seal. Since none of the three packets contains a coordinate for quotient streams, selected host limits, host real equality, or ambient completeness, the composite handoff remains the single displayed finite route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy comparison classifier transport]
 \label{thm:regular-cauchy-comparison-classifier-transport}
 Let
@@ -467,8 +483,8 @@ The bridge-facing read therefore has no remaining coordinate from which to obtai
 
 \begin{closurestatus}{\RegularCauchyComparisonUp}
   \constructivestory{A $\RegularCauchyComparisonUp$ packet is generated from two $\RegSeqRatUp$ regular Cauchy names, a shared $\StreamNameUp$ schedule, displayed $\DyadicRatCoreUp$ observations, a rational tolerance row, a finite ledger, $\RealUp$ seal provenance, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local naming row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The bridged scope records carrier admission, classifier stability, common-window exactness, tolerance exactness, $\RealUp$ seal handoff, the public export certificate, the standard bridge source, and bridge non-escape over the displayed comparison rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature scope records carrier admission, classifier stability, common-window exactness, tolerance exactness, $\RealUp$ seal handoff, the public export certificate, the standard bridge source, and bridge non-escape over the displayed comparison rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \origin{human}
