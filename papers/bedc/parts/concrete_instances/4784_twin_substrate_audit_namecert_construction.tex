@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateAuditUp$}
+\label{ch:concrete-instances-twin-substrate-audit-namecert}
+\origin{human}
+
+The $\TwinSubstrateAuditUp$ packet gives the twin-substrate synthesis of \autoref{ch:twin-substrate-synthesis} a concrete NameCert surface for audit handoff. It sits between the MetaCIC audit synthesis of \autoref{ch:metacic-audit-synthesis} and the GroundCompiler audit map of \autoref{ch:bedc-groundcompiler-audit-map}, while the naming discipline follows the apophatic boundary of \autoref{ch:visions-apophatic-naming-as-discipline}: each row names what may be read, and every absent conversion remains absent.
+
+\begin{definition}[Twin-substrate audit carrier]
+\label{def:twin-substrate-audit-carrier}
+A $\TwinSubstrateAuditUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,G,A,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC audit row, carrying the closed-calculus theorem inventory, conditional proof-theoretic fronts, and obstruction boundaries named by \autoref{ch:metacic-audit-synthesis};
+\item $G$ is the GroundCompiler audit row, carrying the legal channel, generated recognizer, event-flow, report-boundary, and no-hidden-input rows named by \autoref{ch:bedc-groundcompiler-audit-map};
+\item $A$ is the roundtrip alignment row that records which MetaCIC audit read and which GroundCompiler audit read are being compared at the handoff surface;
+\item $H$ records componentwise $\hsame$ transport for $M$, $G$, $A$, $C$, $P$, and $N$;
+\item $C$ records the displayed $\Cont$ routes through which a consumer reads the MetaCIC row, the GroundCompiler row, and the alignment row in finite order;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:metacic-audit-synthesis}, \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:visions-apophatic-naming-as-discipline}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateAuditUp}$ row.
+\end{enumerate}
+The carrier exports no subject-reduction proof, no compiler report as proof evidence, no hidden host input, and no collapse of the two audit substrates.
+\end{definition}
+
+\begin{theorem}[Twin-substrate audit NameCert obligations]
+\label{thm:twin-substrate-audit-namecert-obligations}
+For every accepted $\TwinSubstrateAuditUp$ carrier
+$$
+Q=(M,G,A,H,C,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateAuditUp}$ surface consists exactly of MetaCIC audit readback through $M$, GroundCompiler audit readback through $G$, roundtrip alignment through $A$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. Its coordinates are precisely the two audit rows, the alignment row, the transport row, the continuation row, the provenance row, and the local naming row.
+
+Read $M$ and $G$ separately. The MetaCIC coordinate carries proof-theoretic audit status from \autoref{ch:metacic-audit-synthesis}; the GroundCompiler coordinate carries compiler-layer audit status from \autoref{ch:bedc-groundcompiler-audit-map}. The alignment coordinate $A$ names a handoff comparison, but it does not identify the two audit rows.
+
+Finally, $H$, $C$, $P$, and $N$ transport, replay, package, and name those displayed rows. Since no other coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit roundtrip non-escape]
+\label{thm:twin-substrate-audit-roundtrip-nonescape}
+Every public roundtrip read from an accepted $\TwinSubstrateAuditUp$ carrier factors through the displayed MetaCIC audit row, GroundCompiler audit row, roundtrip alignment row, componentwise $\hsame$ row, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:twin-substrate-audit-carrier}. Such a read exports no subject-reduction proof, no compiler report as proof evidence, no hidden host input, and no collapse of the two audit substrates.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligation surface. A public read must choose a displayed coordinate of $Q$ and then follow the stored continuation route; there is no independent route around $M,G,A,H,C,P,N$.
+
+For a MetaCIC-facing read, the consumer sees $M$ and the alignment row that relates it to the compiler audit surface. For a GroundCompiler-facing read, the consumer sees $G$ and the same alignment row. Componentwise $\hsame$ transport preserves the distinction between the rows being compared.
+
+The excluded objects are not carrier coordinates. Subject-reduction proof evidence, compiler-report proof evidence, hidden host input, and substrate collapse therefore cannot be exported by any accepted roundtrip read.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit vision concretization]
+\label{thm:twin-substrate-audit-vision-concretization}
+The $\TwinSubstrateAuditUp$ carrier of \autoref{def:twin-substrate-audit-carrier} concretizes the twin-substrate audit handoff of \autoref{ch:twin-substrate-synthesis} as a finite NameCert packet. The concretization preserves the MetaCIC and GroundCompiler audit roles as separate rows, records their roundtrip alignment as a displayed row, and keeps the apophatic exclusions of \autoref{ch:visions-apophatic-naming-as-discipline} at the local naming boundary.
+\end{theorem}
+\begin{proof}
+The vision chapter names two cooperating audit substrates. The carrier supplies one finite row for the MetaCIC audit surface and one finite row for the GroundCompiler audit surface, so the two roles remain visible.
+
+The roundtrip alignment row gives the concrete handoff point. It is read through displayed continuation routes and transported only componentwise, so it records comparison without turning one substrate into the other.
+
+The local $\NameCert$ row then applies the naming discipline: what is present is named by $M,G,A,H,C,P,N$, and what is absent remains outside the packet. This is exactly the finite concrete surface claimed by the vision reading.
+\end{proof}
+
+\closureat{TwinSubstrateAuditUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateAuditUp}
+  \constructivestory{A $\TwinSubstrateAuditUp$ packet is generated from a MetaCIC audit row, a GroundCompiler audit row, a roundtrip alignment row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-audit-carrier}, \autoref{thm:twin-substrate-audit-namecert-obligations}, \autoref{thm:twin-substrate-audit-roundtrip-nonescape}, and \autoref{thm:twin-substrate-audit-vision-concretization} bind the finite audit handoff packet and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close subject reduction, prove compiler self-hosting, turn compiler reports into proof evidence, import hidden host input, collapse the two audit substrates, provide Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, audit-row exactness, alignment readback, transport, continuation, provenance, naming, and roundtrip non-escape for the same finite packet.}
+\end{closurestatus}
