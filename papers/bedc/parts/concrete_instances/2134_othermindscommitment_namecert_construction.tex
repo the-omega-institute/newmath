@@ -63,6 +63,20 @@ Transport along $H$ and $C$ carries the same public evidence into the same $\Pkg
 The agreement is not a private-state identity. By \autoref{thm:other-minds-commitment-locality-cell-soundness}, the carrier has no direct candidate $\mathsf{Self}$ coordinate and no host mental-state predicate.
 \end{proof}
 
+\begin{theorem}[OtherMindsCommitment public evidence ledger]
+\label{thm:other-minds-commitment-public-evidence-ledger}
+Every consumer of an accepted $\OtherMindsCommitmentUp$ packet must factor an other-minds read through the displayed rows $A,B,L,E,G,H,C,P,N$. In particular, the consumer reaches the candidate-other commitment only through the public evidence row $E$ together with the locality-cell row $L$; no private $\mathsf{Self}$ row, host mental-state predicate, or unrecorded history is available as a consumer route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $O=(A,B,L,E,G,H,C,P,N)$. These are the only rows exposed by \autoref{def:other-minds-commitment-carrier}.
+
+Use \autoref{thm:other-minds-commitment-locality-cell-soundness} to locate the candidate-other commitment inside the locality-cell row $L$. A consumer may read that commitment only as a public locality-cell coordinate of the observer's finite history.
+
+Use \autoref{thm:other-minds-commitment-behavioural-evidence-compatibility} to identify the evidence consumed by the read with the displayed behavioural evidence row $E$, transported by $H$ and routed by $C$ into $P$ and $N$.
+
+There is no remaining coordinate for a private $\mathsf{Self}$, a host mental-state predicate, or an unrecorded history. Thus the public evidence ledger is the sole consumer route for the other-minds read.
+\end{proof}
+
 \begin{theorem}[OtherMindsCommitment non-escape boundary]
 \label{thm:other-minds-commitment-non-escape-boundary}
 An accepted $\OtherMindsCommitmentUp$ carrier exports only the observer row, candidate-other public row, locality-cell commitment row, behavioural evidence row, $\mathsf{GAP}$ and provenance row, displayed $\hsame$ and $\Cont$ transports, $\Pkg$ row, and local $\NameCert$ row. It exports no direct candidate $\mathsf{Self}$ access, no private-history read, no host mental-state predicate, no metaphysical identity assertion, and no decision procedure for whether every candidate other system is conscious.
@@ -80,10 +94,10 @@ No remaining coordinate names a host mental-state predicate, a metaphysical iden
 \begin{closurestatus}{\OtherMindsCommitmentUp}
   \constructivestory{An $\OtherMindsCommitmentUp$ packet is generated from an observer row, a candidate-other public row, a locality-cell commitment row, behavioural evidence, $\mathsf{GAP}$ provenance, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:other-minds-commitment-carrier}, \autoref{thm:other-minds-commitment-namecert-obligations}, \autoref{thm:other-minds-commitment-locality-cell-soundness}, \autoref{thm:other-minds-commitment-behavioural-evidence-compatibility}, and \autoref{thm:other-minds-commitment-non-escape-boundary} bind the finite locality-cell commitment surface for public other-minds evidence.}
+  \scopeclosed{\autoref{def:other-minds-commitment-carrier}, \autoref{thm:other-minds-commitment-namecert-obligations}, \autoref{thm:other-minds-commitment-locality-cell-soundness}, \autoref{thm:other-minds-commitment-behavioural-evidence-compatibility}, \autoref{thm:other-minds-commitment-public-evidence-ledger}, and \autoref{thm:other-minds-commitment-non-escape-boundary} bind the finite locality-cell commitment surface for public other-minds evidence.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, direct access to another system's $\mathsf{Self}$, private-history reads, host mental-state predicates, metaphysical identity, or a global consciousness decision procedure.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for NameCert obligations, locality-cell soundness, behavioural-evidence compatibility, and the non-escape boundary.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for NameCert obligations, locality-cell soundness, behavioural-evidence compatibility, the public evidence ledger, and the non-escape boundary.}
 \end{closurestatus}
