@@ -132,7 +132,7 @@ manifest assertion PASS/FAIL
 - [~] T-B.4: 实施 `cook_encode_phase_exact()` bodies; 当前输出 phase-exact ether + A + Ebar(A,f1_1) 的保守组合
 - [x] T-B.5: 为 FKernel `.enum.ct` 生成对应 `.r110` direct-carrier initial pattern
 - [x] T-B.6: round-trip 验证: Rule 110 evolution on `.r110` decode = `.ct` direct-carrier input
-- [x] T-B.7: `make test` 扩到 FKernel `.r110` smoke test; Beyond-FKernel appendix 四目录不纳入覆盖
+- [x] T-B.7: `make test` 覆盖 FKernel `.r110` smoke test 与 Beyond-FKernel appendix 四目录
 - [x] T-B.8: 更新 STATUS.md 标 Tier B ship; tag `rule110-v3.0-fkernel-tier-b`
 - [~] T-B.9: `.algo.ct` Cook packet diagnostic track. `hist/hsame_refl.algo.ct`
   generates `hist/hsame_refl.algo.r110.ct` through phase-exact
@@ -140,7 +140,7 @@ manifest assertion PASS/FAIL
   test-algo-r110`. This remains a diagnostic track until the evolved Rule 110
   row has a decoded cyclic-tag output window.
 
-**Tier B ship 状态**: `.enum.ct` direct-carrier 子集已 ship. `.algo.ct` 与 Beyond-FKernel 显式不在 Tier B 范围.
+**Tier B ship 状态**: `.enum.ct` direct-carrier 子集已 ship. `.algo.ct` 不在 Tier B ship 范围; Beyond-FKernel appendix 四目录具备 `.r110.ct` 直接承载并在 `make test` 链路内运行.
 
 ---
 
@@ -160,19 +160,19 @@ manifest assertion PASS/FAIL
 
 ### L5 Beyond-FKernel mirrors (附录)
 
-已 merge 的 L5.* 产物保留在仓库, 不主动维护, 不参与 ship gate:
+已 merge 的 L5.* 产物保留在仓库, 不主动维护, 不参与 ship gate; 四个 manifest 目录均有 `.r110.ct` 直接承载, 并由 `make test` 中的对应 binary 运行:
 
 | 目录 | 对应 Lean | 状态 |
 |---|---|---|
-| `manifests/topology_up/` | `Derived/TopologyUp` | merged, exploratory |
-| `manifests/circle_up/` | `Derived/S1Up + ModNUp` | merged, exploratory |
-| `manifests/fold_up/` | `Derived/FoldMomentKernelUp` | merged, exploratory |
-| `manifests/meta_cic/` | `MetaCIC` | merged, exploratory |
-| `docs/base_reflection_design.md` | `BaseReflection` | merged, design-only |
+| `manifests/topology_up/` | `Derived/TopologyUp` | appendix, `.r110.ct`, `test_topology_up` |
+| `manifests/circle_up/` | `Derived/S1Up + ModNUp` | appendix, `.r110.ct`, `test_circle_up` |
+| `manifests/fold_up/` | `Derived/FoldMomentKernelUp` | appendix, `.r110.ct`, `test_fold_up` |
+| `manifests/meta_cic/` | `MetaCIC` | appendix, `.r110.ct`, `test_meta_cic` |
+| `docs/base_reflection_design.md` | `BaseReflection` | design note |
 
 未 merge 的 L5.2 RealUp 和 L5.8 Capstones: 决定**不 merge**, worktree 清理.
 
-未来如果 BEDC scope 扩展到某个 Derived 模块, 这些附录可上升到主线 (需要补 .r110 + cross-check + CI gate).
+未来如果 BEDC scope 扩展到某个 Derived 模块, 这些附录可上升到主线 (需要补 cross-check + CI gate).
 
 ---
 
