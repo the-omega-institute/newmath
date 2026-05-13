@@ -51,4 +51,29 @@ theorem CompactModulusCoverCarrier_finite_net_source_exhaustion [AskSetup] [Pack
     unary_cont_closed pointwiseRowsUnary radiusFamilyUnary foldReadRow
   exact ⟨coverReadUnary, pointwiseReadUnary, foldReadUnary, provenancePkg⟩
 
+theorem CompactModulusCoverCarrier_real_completion_handoff [AskSetup] [PackageSetup]
+    {compactSource continuousRow tolerance bundleRow coverRows pointwiseRows handoff radiusFamily
+      transports routes provenance localCert handoffRead uniformRead foldRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactModulusCoverCarrier compactSource continuousRow tolerance bundleRow coverRows
+        pointwiseRows handoff radiusFamily transports routes provenance localCert bundle pkg ->
+      Cont pointwiseRows radiusFamily handoffRead ->
+        Cont handoff transports uniformRead ->
+          Cont pointwiseRows radiusFamily foldRead ->
+            UnaryHistory handoffRead ∧ UnaryHistory uniformRead ∧ UnaryHistory foldRead ∧
+              Cont handoff transports routes ∧ PkgSig bundle localCert pkg := by
+  intro carrier handoffReadRow uniformReadRow foldReadRow
+  obtain ⟨_compactSourceUnary, _continuousRowUnary, _toleranceUnary, _bundleRowUnary,
+    _coverRowsUnary, pointwiseRowsUnary, _handoffUnary, radiusFamilyUnary, transportsUnary,
+    _routesUnary, _provenanceUnary, _localCertUnary, _compactRoute, _pointwiseRoute,
+    _handoffRoute, handoffTransportRoute, _localCertRoute, _provenancePkg, localCertPkg⟩ :=
+    carrier
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed pointwiseRowsUnary radiusFamilyUnary handoffReadRow
+  have uniformReadUnary : UnaryHistory uniformRead :=
+    unary_cont_closed _handoffUnary transportsUnary uniformReadRow
+  have foldReadUnary : UnaryHistory foldRead :=
+    unary_cont_closed pointwiseRowsUnary radiusFamilyUnary foldReadRow
+  exact ⟨handoffReadUnary, uniformReadUnary, foldReadUnary, handoffTransportRoute, localCertPkg⟩
+
 end BEDC.Derived.CompactModulusCoverUp
