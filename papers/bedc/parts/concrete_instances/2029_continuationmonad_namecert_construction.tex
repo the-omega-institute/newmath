@@ -175,6 +175,42 @@ Classifier stability and ledger exactness keep transport and readback inside tha
 The Kleisli composite scope supplies the final scope claim: every composite consumer has already factored through the displayed rows, so there is no exported object beyond the scoped route.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad route readback determinacy]
+\label{thm:continuation-monad-route-readback-determinacy}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, the displayed $\Cont$ route row determines the unit readback, first-step readback, second-step readback, and composite readback under componentwise $\hsame$ transport. Any consumer reading those four results must use the same rows $u,f,g,H,K,L,N$ and receives no second host route, host function composition, quotient Kleisli arrow, or host monad equality.
+\end{theorem}
+\begin{proof}
+Start with carrier obligation and classifier stability. Carrier admission supplies the displayed tails $f,g,u$ and the route row $K$, while classifier stability keeps componentwise $\hsame$ transport on the same histories and continuation tails.
+
+Use ledger exactness to read the unit, first step, second step, and composite from $K$ and $L$. The ledger records the readbacks as finite continuation data attached to $Z$, not as host functions or quotient arrows.
+
+Finally apply the Kleisli composition boundary and scope non-escape. The only route available to a public consumer is the displayed $\Cont$ route row, so no second host route or host monad equality can be projected.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad unit route non-escape]
+\label{thm:continuation-monad-unit-route-nonescape}
+Every public unit-law read of an accepted $\ContinuationMonadUp$ packet factors through the unit tail $u$, componentwise transport row $H$, continuation route row $K$, ledger row $L$, and local $\NameCert_{\ContinuationMonadUp}$ row $N$. The read may expose the finite $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows of the packet, but it cannot export host monad equality, a host identity function, or a quotient Kleisli unit.
+\end{theorem}
+\begin{proof}
+Use carrier obligation to project the unit tail $u$ and the visible package rows. The unit law is therefore attached to the same finite packet as the non-unit continuation tails.
+
+Classifier stability keeps transport through $H$, and ledger exactness records the unit read through $K$ and $L$. The public read is a ledger read of the displayed route, not a host equality proof.
+
+The local NameCert package and Kleisli composition boundary give the non-escape conclusion. Since the accepted packet contains no host monad equality coordinate, no host identity-function coordinate, and no quotient Kleisli unit coordinate, a public unit-law consumer cannot export any of them.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad category handoff exactness]
+\label{thm:continuation-monad-category-handoff-exactness}
+For every accepted $\ContinuationMonadUp$ packet, the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings consume exactly the displayed continuation tails $f,g,u$ together with the $\Cont$ route row $K$, componentwise $\hsame$ row $H$, ledger row $L$, package provenance, and local naming row. They do not consume quotient Kleisli arrows, host functions, host monad equalities, or an independent category object.
+\end{theorem}
+\begin{proof}
+Read the handoff through carrier obligation. The only category-facing rows exposed by the packet are the histories, tails, transport, continuation route, ledger, provenance, and local name.
+
+Use classifier stability and ledger exactness to align the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings with the same $f,g,u,H,K,L,N$ route. The category-facing names therefore read the continuation packet rather than a separate host category.
+
+Apply the Kleisli composition boundary and scope non-escape. Together they rule out quotient Kleisli arrows, host functions, host monad equalities, and independent category objects as sources for the handoff.
+\end{proof}
+
 \begin{theorem}[ContinuationMonad obligation closure]
 \label{thm:continuation-monad-obligation-closure}
 For every accepted $\ContinuationMonadUp$ source packet, the carrier source, unit laws, associativity, classifier stability, ledger exactness, local $\NameCert$ package, and Kleisli composition boundary jointly supply the $\obligationClosure$ surface for $\ContinuationMonadUp$ over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$. The closure surface exports only the displayed continuation tails, route rows, transport rows, ledger rows, package provenance, and naming row.
@@ -226,17 +262,80 @@ Ledger exactness supplies the unit, associativity, and composed-read facts throu
 Finally the package provenance and Kleisli boundary expose exactly the rows named in the kernel scope. Downstream consumers may depend on that surface, but they receive no route outside $A,B,C,f,g,u,H,K,L,N$.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad route bridge boundary]
+\label{thm:continuation-monad-route-bridge-boundary}
+For every accepted $\ContinuationMonadUp$ packet
+$$
+Z=(A,B,C,f,g,u,H,K,L,N),
+$$
+the bridge from the displayed finite route
+$$
+A \xrightarrow{\,f\,} B \xrightarrow{\,g\,} C
+$$
+to the standard monad-reading boundary is mediated only by the rows $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$. The boundary exports no quotient Kleisli arrow, no host function composition, and no host monad equality.
+\end{theorem}
+\begin{proof}
+Begin with the public package of \autoref{thm:continuation-monad-namecert-package}. It supplies carrier admission, classifier stability, ledger exactness, package provenance, and the Kleisli boundary for the same packet $Z$.
+
+Apply \autoref{thm:continuation-monad-kleisli-composition-boundary} to the displayed two-step route. The standard monad-reading boundary can see only the finite continuation route named by $A,B,C,f,g,u,H,K,L,N$.
+
+Finally use \autoref{thm:continuation-monad-scoped-route-dependencies}. The CategoryUp hom-carrier and continuation-morphism readings are readings of the same $\BHist$, $\Cont$, and $\hsame$ rows, so no quotient arrow, host composition, or host monad equality is exported.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad finite standard handoff]
+\label{thm:continuation-monad-finite-standard-handoff}
+The public $\ContinuationMonadUp$ handoff to standard monad notation is finite: the source, middle, and target histories are $A,B,C$; the displayed non-unit tails are $f,g$; the unit tail is $u$; the transport, route, ledger, and naming rows are $H,K,L,N$. Every standard-looking unit or composite read is a reading of these rows through $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$, not a host-side monad structure.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:continuation-monad-kleisli-composite-scope}. It identifies every composite consumer with the displayed tails, route row, transport row, ledger row, CategoryUp readings, package provenance, and local certificate.
+
+Next apply \autoref{thm:continuation-monad-scoped-route-dependencies}. The standard notation has no separate carrier once the dependency surface has been restricted to the named BEDC rows.
+
+The public package of \autoref{thm:continuation-monad-namecert-package} supplies the carrier, stability, exactness, provenance, and boundary obligations for this handoff. Hence the handoff is finite and contains no host monad equality, host function composition, or quotient Kleisli arrow.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad public route bridge totality]
+\label{thm:continuation-monad-public-route-bridge-totality}
+The public $\ContinuationMonadUp$ route bridge is total on the displayed packet $Z=(A,B,C,f,g,u,H,K,L,N)$. Every downstream Real, completion, category, or unary-continuation consumer that asks for the standard monad-reading boundary receives exactly the finite route surface over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$; no consumer receives an extra quotient Kleisli arrow, host function composition, or host monad equality.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-monad-downstream-unblock-surface}. It states that each downstream consumer must use carrier admission, classifier stability, ledger exactness, package provenance, and the Kleisli boundary of the same packet.
+
+Then use \autoref{thm:continuation-monad-route-bridge-boundary}. The route bridge has already identified the only rows through which the standard boundary is readable.
+
+Finally apply \autoref{thm:continuation-monad-finite-standard-handoff}. Since the handoff is finite and contains no host-side monad structure, totality holds for all displayed downstream consumers exactly on the route rows $A,B,C,f,g,u,H,K,L,N$.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad bridge package]
+\label{thm:continuation-monad-bridge-package}
+The public $\ContinuationMonadUp$ packet forms a bridge package from its displayed finite route
+$$
+A \xrightarrow{\,f\,} B \xrightarrow{\,g\,} C
+$$
+and unit tail $u$ to the standard monad-reading boundary. The package consists precisely of the $\BHist$ rows $A,B,C$, the $\Cont$ route row $K$, the componentwise $\hsame$ row $H$, the $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings, the $\Pkg$ provenance row, and the $\NameCert_{\ContinuationMonadUp}$ row $N$. It exports no quotient Kleisli arrow, no host function composition, and no host monad equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-namecert-package}. It supplies the public NameCert package containing carrier admission, classifier stability, ledger exactness, package provenance, and the Kleisli composition boundary.
+
+Use \autoref{thm:continuation-monad-kleisli-composition-boundary} and \autoref{thm:continuation-monad-kleisli-composite-scope} to bind the standard-looking composite read to the displayed route through $f$ and $g$, with $u$ as the unit tail inside the same packet.
+
+Apply \autoref{thm:continuation-monad-scoped-route-dependencies} to restrict every dependency to $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$.
+
+Finally use \autoref{thm:continuation-monad-downstream-unblock-surface} and \autoref{thm:continuation-monad-public-route-bridge-totality}. They show that downstream consumers receive the complete bridge package and no quotient Kleisli arrow, host function composition, or host monad equality.
+\end{proof}
+
 \closureat{ContinuationMonadUp}{seedStr}
 \closureat{ContinuationMonadUp}{obligationStr}
 \closureat{ContinuationMonadUp}{scopedStr}
 \closureat{ContinuationMonadUp}{publicStr}
+\closureat{ContinuationMonadUp}{bridgedStr}
 
 \begin{closurestatus}{\ContinuationMonadUp}
   \constructivestory{A $\ContinuationMonadUp$ packet is generated from source, middle, and target histories, two displayed continuation tails, a unit tail, componentwise $\hsame$ transports, displayed $\Cont$ routes, CategoryUp continuation-morphism readings, package provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:continuation-monad-namecert-package} and \autoref{thm:continuation-monad-downstream-unblock-surface} expose the public $\NameCert$ package and downstream unblock surface for the same finite continuation route rows over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:continuation-monad-bridge-package} exposes the public bridge package from the finite continuation route rows $A,B,C,f,g,u,H,K,L,N$ to the standard monad-reading boundary over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close full category theory, quotient Kleisli categories, host functions, standard monad laws as host equalities, arbitrary effects, or bridge checking.}
-  \upgradepath{The next theory-axis obligation is bridged closure for the same continuation route rows, with a complete standard bridge over the public $\NameCert$ surface.}
+  \upgradepath{The next theory-axis obligation is mature closure for examples and downstream completeness consumers that cite the finite $\ContinuationMonadUp$ bridge package.}
 \end{closurestatus}

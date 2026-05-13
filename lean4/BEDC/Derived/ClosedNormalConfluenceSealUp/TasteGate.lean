@@ -11,8 +11,8 @@ open BEDC.Meta.TasteGate
 
 inductive ClosedNormalConfluenceSealUp : Type where
   | mk :
-      (source normal routeLeft routeRight join transport continuation provenance localName :
-        BHist) →
+      (source normal routeLeft routeRight join transports continuations provenance
+        nameCert : BHist) →
       ClosedNormalConfluenceSealUp
   deriving DecidableEq
 
@@ -30,8 +30,8 @@ def closedNormalConfluenceSealDecodeBHist : RawEvent → BHist
 
 private theorem closedNormalConfluenceSeal_decode_encode_bhist :
     ∀ h : BHist,
-      closedNormalConfluenceSealDecodeBHist
-        (closedNormalConfluenceSealEncodeBHist h) = h := by
+      closedNormalConfluenceSealDecodeBHist (closedNormalConfluenceSealEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -45,8 +45,8 @@ private theorem closedNormalConfluenceSeal_decode_encode_bhist :
 def closedNormalConfluenceSealToEventFlow :
     ClosedNormalConfluenceSealUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ClosedNormalConfluenceSealUp.mk source normal routeLeft routeRight join transport
-      continuation provenance localName =>
+  | ClosedNormalConfluenceSealUp.mk source normal routeLeft routeRight join transports
+      continuations provenance nameCert =>
       [[BMark.b0],
         closedNormalConfluenceSealEncodeBHist source,
         [BMark.b1, BMark.b0],
@@ -58,15 +58,15 @@ def closedNormalConfluenceSealToEventFlow :
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         closedNormalConfluenceSealEncodeBHist join,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        closedNormalConfluenceSealEncodeBHist transport,
+        closedNormalConfluenceSealEncodeBHist transports,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        closedNormalConfluenceSealEncodeBHist continuation,
+        closedNormalConfluenceSealEncodeBHist continuations,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         closedNormalConfluenceSealEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        closedNormalConfluenceSealEncodeBHist localName]
+        closedNormalConfluenceSealEncodeBHist nameCert]
 
 def closedNormalConfluenceSealFromEventFlow :
     EventFlow → Option ClosedNormalConfluenceSealUp
@@ -105,56 +105,39 @@ def closedNormalConfluenceSealFromEventFlow :
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | transport :: rest11 =>
+                                              | transports :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | continuation :: rest13 =>
+                                                      | continuations :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | provenance ::
-                                                                  rest15 =>
-                                                                  match rest15
-                                                                    with
+                                                              | provenance :: rest15 =>
+                                                                  match rest15 with
                                                                   | [] => none
-                                                                  | _tag8 ::
-                                                                      rest16 =>
-                                                                      match rest16
-                                                                        with
-                                                                      | [] =>
-                                                                          none
-                                                                      | localName ::
-                                                                          rest17 =>
-                                                                          match rest17
-                                                                            with
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | nameCert :: rest17 =>
+                                                                          match rest17 with
                                                                           | [] =>
                                                                               some
                                                                                 (ClosedNormalConfluenceSealUp.mk
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    source)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    normal)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    routeLeft)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    routeRight)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    join)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    transport)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    continuation)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    provenance)
-                                                                                  (closedNormalConfluenceSealDecodeBHist
-                                                                                    localName))
-                                                                          | _ :: _ =>
-                                                                              none
+                                                                                  (closedNormalConfluenceSealDecodeBHist source)
+                                                                                  (closedNormalConfluenceSealDecodeBHist normal)
+                                                                                  (closedNormalConfluenceSealDecodeBHist routeLeft)
+                                                                                  (closedNormalConfluenceSealDecodeBHist routeRight)
+                                                                                  (closedNormalConfluenceSealDecodeBHist join)
+                                                                                  (closedNormalConfluenceSealDecodeBHist transports)
+                                                                                  (closedNormalConfluenceSealDecodeBHist continuations)
+                                                                                  (closedNormalConfluenceSealDecodeBHist provenance)
+                                                                                  (closedNormalConfluenceSealDecodeBHist nameCert))
+                                                                          | _ :: _ => none
 
 private theorem closedNormalConfluenceSeal_round_trip :
     ∀ x : ClosedNormalConfluenceSealUp,
@@ -163,7 +146,8 @@ private theorem closedNormalConfluenceSeal_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source normal routeLeft routeRight join transport continuation provenance localName =>
+  | mk source normal routeLeft routeRight join transports continuations provenance
+      nameCert =>
       change
         some
           (ClosedNormalConfluenceSealUp.mk
@@ -178,25 +162,25 @@ private theorem closedNormalConfluenceSeal_round_trip :
             (closedNormalConfluenceSealDecodeBHist
               (closedNormalConfluenceSealEncodeBHist join))
             (closedNormalConfluenceSealDecodeBHist
-              (closedNormalConfluenceSealEncodeBHist transport))
+              (closedNormalConfluenceSealEncodeBHist transports))
             (closedNormalConfluenceSealDecodeBHist
-              (closedNormalConfluenceSealEncodeBHist continuation))
+              (closedNormalConfluenceSealEncodeBHist continuations))
             (closedNormalConfluenceSealDecodeBHist
               (closedNormalConfluenceSealEncodeBHist provenance))
             (closedNormalConfluenceSealDecodeBHist
-              (closedNormalConfluenceSealEncodeBHist localName))) =
+              (closedNormalConfluenceSealEncodeBHist nameCert))) =
           some
-            (ClosedNormalConfluenceSealUp.mk source normal routeLeft routeRight join transport
-              continuation provenance localName)
+            (ClosedNormalConfluenceSealUp.mk source normal routeLeft routeRight join
+              transports continuations provenance nameCert)
       rw [closedNormalConfluenceSeal_decode_encode_bhist source,
         closedNormalConfluenceSeal_decode_encode_bhist normal,
         closedNormalConfluenceSeal_decode_encode_bhist routeLeft,
         closedNormalConfluenceSeal_decode_encode_bhist routeRight,
         closedNormalConfluenceSeal_decode_encode_bhist join,
-        closedNormalConfluenceSeal_decode_encode_bhist transport,
-        closedNormalConfluenceSeal_decode_encode_bhist continuation,
+        closedNormalConfluenceSeal_decode_encode_bhist transports,
+        closedNormalConfluenceSeal_decode_encode_bhist continuations,
         closedNormalConfluenceSeal_decode_encode_bhist provenance,
-        closedNormalConfluenceSeal_decode_encode_bhist localName]
+        closedNormalConfluenceSeal_decode_encode_bhist nameCert]
 
 private theorem closedNormalConfluenceSealToEventFlow_injective
     {x y : ClosedNormalConfluenceSealUp} :
@@ -227,7 +211,8 @@ instance closedNormalConfluenceSealChapterTasteGate :
     intro x
     change
       closedNormalConfluenceSealFromEventFlow
-        (closedNormalConfluenceSealToEventFlow x) = some x
+          (closedNormalConfluenceSealToEventFlow x) =
+        some x
     exact closedNormalConfluenceSeal_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -235,37 +220,39 @@ instance closedNormalConfluenceSealChapterTasteGate :
 
 instance closedNormalConfluenceSealFieldFaithful :
     FieldFaithful ClosedNormalConfluenceSealUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields
-    | ClosedNormalConfluenceSealUp.mk source normal routeLeft routeRight join transport
-        continuation provenance localName =>
-        [source, normal, routeLeft, routeRight, join, transport, continuation, provenance,
-          localName]
+  fields := fun x =>
+    match x with
+    | ClosedNormalConfluenceSealUp.mk source normal routeLeft routeRight join transports
+        continuations provenance nameCert =>
+        [source, normal, routeLeft, routeRight, join, transports, continuations,
+          provenance, nameCert]
   field_faithful := by
-    intro x y hfields
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
     cases x with
-    | mk source normal routeLeft routeRight join transport continuation provenance localName =>
+    | mk source1 normal1 routeLeft1 routeRight1 join1 transports1 continuations1
+        provenance1 nameCert1 =>
         cases y with
-        | mk source' normal' routeLeft' routeRight' join' transport' continuation'
-            provenance' localName' =>
-            injection hfields with hSource hTail0
-            injection hTail0 with hNormal hTail1
-            injection hTail1 with hRouteLeft hTail2
-            injection hTail2 with hRouteRight hTail3
-            injection hTail3 with hJoin hTail4
-            injection hTail4 with hTransport hTail5
-            injection hTail5 with hContinuation hTail6
-            injection hTail6 with hProvenance hTail7
-            injection hTail7 with hLocalName _hNil
-            cases hSource
-            cases hNormal
-            cases hRouteLeft
-            cases hRouteRight
-            cases hJoin
-            cases hTransport
-            cases hContinuation
-            cases hProvenance
-            cases hLocalName
+        | mk source2 normal2 routeLeft2 routeRight2 join2 transports2 continuations2
+            provenance2 nameCert2 =>
+            injection h with hsource t1
+            injection t1 with hnormal t2
+            injection t2 with hleft t3
+            injection t3 with hright t4
+            injection t4 with hjoin t5
+            injection t5 with htransports t6
+            injection t6 with hcontinuations t7
+            injection t7 with hprovenance t8
+            injection t8 with hnameCert _
+            cases hsource
+            cases hnormal
+            cases hleft
+            cases hright
+            cases hjoin
+            cases htransports
+            cases hcontinuations
+            cases hprovenance
+            cases hnameCert
             rfl
 
 theorem ClosedNormalConfluenceSealTasteGate_single_carrier_alignment :

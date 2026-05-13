@@ -1,6 +1,8 @@
 \section{StreamName RegSeqRat Real Lattice Dependency}
 \label{sec:streamname-regseqrat-real-lattice-dependency}
 
+The $\StreamNameUp$ finite-window packet is not an isolated kernel float. Its consumer route is the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the $\RealUp$ seal surface of \autoref{ch:concrete-instances-real-namecert}; the lattice edge is carried through the child route below rather than by the hub file.
+
 \begin{theorem}[StreamName RegSeqRat Real lattice dependency]
 \label{thm:streamname-regseqrat-real-lattice-dependency}
 Every accepted $\StreamNameUp$ finite-window packet consumed by $\RegSeqRatUp$ and then by $\RealUp$ factors through the same visible sibling route. The route begins with the StreamName finite-window rows, passes through the $\RegSeqRatUp$ readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and ends at the $\RealUp$ seal rows of \autoref{ch:concrete-instances-real-namecert}. Along the entire route the only shared carrier coordinates are the displayed $\BHist$ observations, the componentwise $\hsame$ transports, the finite $\Cont$ continuation rows, the $\Pkg$ provenance rows, and the local $\NameCert$ rows naming the consumed packets.

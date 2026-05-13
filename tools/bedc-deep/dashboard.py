@@ -213,6 +213,16 @@ def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
     if logic_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
         lines.append(f"  {label} logic gate rejects: {top}")
+    current_logic_reasons = data.get("current_logic_packet_gate_reasons") or []
+    stale_logic_rejections = int(data.get("stale_logic_packet_gate_rejections") or 0)
+    if current_logic_reasons:
+        top = ", ".join(
+            f"{r.get('reason')}={r.get('count')}" for r in current_logic_reasons[:5]
+        )
+        suffix = f"; stale={stale_logic_rejections}" if stale_logic_rejections else ""
+        lines.append(f"  {label} current logic gate rejects: {top}{suffix}")
+    elif stale_logic_rejections:
+        lines.append(f"  {label} current logic gate rejects: none; stale={stale_logic_rejections}")
     return lines
 
 
@@ -277,6 +287,9 @@ def _refill_wait_seconds(rec: dict) -> int | None:
     if not isinstance(log_path, Path) or not log_path.exists():
         return None
     text = _read_text_prefix(log_path, max_chars=12000)
+    submitted = list(re.finditer(r"\[board_refill\] submitted task=", text))
+    if submitted:
+        text = text[submitted[-1].start():]
     matches = re.findall(r"waiting\.\.\.\s+(\d+)s elapsed", text)
     if not matches:
         return None
@@ -438,6 +451,16 @@ def render_board_refill() -> str:
     latest = ordered[0]
     if latest.get("prompt") and not latest.get("response") and not latest.get("summary"):
         status = _infer_refill_status(latest)
+        wait_seconds = _refill_wait_seconds(latest)
+        if (
+            status == "submitted_no_response_artifact_yet"
+            and wait_seconds is not None
+            and wait_seconds >= 900
+        ):
+            lines.append(
+                "  alert: latest refill has waited >=15m with no response/summary; "
+                "confirm oracle status before deciding whether to refresh a tab."
+            )
         if status in {"prompt_only", "skip_duplicate_refill", "submitted_no_response_artifact_yet"}:
             lines.append(
                 "  note: latest refill has no response/summary yet; use this to distinguish "

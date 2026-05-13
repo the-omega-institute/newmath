@@ -25,6 +25,10 @@ FORBIDDEN_AXIS_RE = re.compile(
     r"chapter retirement",
     re.IGNORECASE,
 )
+NEGATED_FORBIDDEN_AXIS_RE = re.compile(
+    r"\b(?:not|no|without|avoid(?:s|ing)?|exclud(?:e|es|ed|ing)|rather than|instead of)\b",
+    re.IGNORECASE,
+)
 STRUCTURAL_TITLE_RE = re.compile(
     r"^\s*\\(?:label|begin|chapter|section|subsection|input|include)\b",
     re.IGNORECASE,
@@ -74,6 +78,19 @@ def _claim(candidate: dict[str, Any]) -> str:
         or candidate.get("problem")
         or ""
     ).strip()
+
+
+def _has_forbidden_axis_marker(title: str, claim: str, rationale: str) -> bool:
+    """Reject marker-axis targets without punishing negated evidence notes."""
+    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim])):
+        return True
+    for segment in re.split(r"(?<=[.!?])\s+|\n+", rationale):
+        if not FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        if NEGATED_FORBIDDEN_AXIS_RE.search(segment):
+            continue
+        return True
+    return False
 
 
 def _candidate_id(candidate: dict[str, Any], source: str) -> str:
@@ -294,7 +311,7 @@ def _rejection_reason(
         return "missing_claim"
     if len(claim) < 30:
         return "claim_too_short"
-    if FORBIDDEN_AXIS_RE.search(" ".join([title, claim, rationale])):
+    if _has_forbidden_axis_marker(title, claim, rationale):
         return "forbidden_axis_or_marker_candidate"
     landing_kind = str(candidate.get("landing_kind") or "").strip()
     haystack = " ".join([title, claim, rationale, str(candidate.get("chapter_worthiness") or "")])
@@ -453,9 +470,11 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     by_event: dict[str, int] = {}
     by_rejection_reason: dict[str, int] = {}
     by_logic_packet_reason: dict[str, int] = {}
+    by_current_logic_packet_reason: dict[str, int] = {}
     by_rejection_source: dict[str, int] = {}
     by_source_reason: dict[str, dict[str, int]] = {}
     seen_rejection_keys: set[tuple[str, str]] = set()
+    stale_logic_packet_rejections = 0
     windowed = 0
     latest_ts: datetime | None = None
     latest_event: dict[str, Any] | None = None
@@ -522,6 +541,21 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
                 key = part.split(":", 1)[0].strip()
                 if key:
                     by_logic_packet_reason[key] = by_logic_packet_reason.get(key, 0) + 1
+            try:
+                import logic_packet_gate
+
+                replay = logic_packet_gate.validate_logic_packet(rec)
+            except Exception:
+                replay = None
+            if replay is not None and replay.ok:
+                stale_logic_packet_rejections += 1
+            elif replay is not None:
+                for part in replay.reasons:
+                    key = part.split(":", 1)[0].strip()
+                    if key:
+                        by_current_logic_packet_reason[key] = (
+                            by_current_logic_packet_reason.get(key, 0) + 1
+                        )
 
     def _top(counts: dict[str, int], n: int = 20) -> list[dict[str, Any]]:
         return [
@@ -563,6 +597,8 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             for source, counts in sorted(by_source_reason.items())
         },
         "logic_packet_gate_reasons": _top(by_logic_packet_reason),
+        "current_logic_packet_gate_reasons": _top(by_current_logic_packet_reason),
+        "stale_logic_packet_gate_rejections": stale_logic_packet_rejections,
     }
 
 
