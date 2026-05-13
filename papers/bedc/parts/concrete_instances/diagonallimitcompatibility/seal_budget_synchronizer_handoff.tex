@@ -1,0 +1,43 @@
+\begin{theorem}[Diagonal-limit compatibility seal-budget synchronizer handoff]
+\label{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}
+Let
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. If its seal route is read through an accepted $\CauchySealBudgetSynchronizerUp$ packet whose displayed request, seal, budget, tail schedule, selector, compatibility, transport, route, provenance, and local naming rows are transported into the same seal route, then the compatibility consumer reads the synchronizer rows before it reads the regular-rational row $Q$ and the $\RealUp$ seal row $L$.
+\end{theorem}
+\begin{proof}
+Start with the compatibility carrier and its seal-route compatibility theorem. The route to $Q$ and $L$ is already constrained by $R,T,S,D,W,H,C,P,N$, so a seal consumer has no entry point outside the displayed compatibility packet.
+
+Now insert the accepted $\CauchySealBudgetSynchronizerUp$ packet at the seal route $S$. Apply \autoref{thm:cauchy-seal-budget-synchronizer-obligations}: its request, seal, budget, shared-tail schedule, diagonal selector, joint compatibility, transport, continuation, provenance, and naming rows must be exposed before its seal row is usable.
+
+Finally use \autoref{thm:diagonal-limit-compatibility-window-ledger-exactness} and \autoref{thm:diagonal-limit-compatibility-real-seal-exactness}. They bind the compatibility ledger and final seal to the same finite window and dyadic surface, so the synchronizer rows are consumed before $Q,L$ rather than after the seal has escaped the packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility tail-schedule readback]
+\label{thm:diagonal-limit-compatibility-tail-schedule-readback}
+Let $K=(R,T,S,D,W,Q,L,H,C,P,N)$ be an accepted $\DiagonalLimitCompatibilityUp$ packet whose seal-budget synchronizer supplies the tail schedule row. Then the compatibility route reads the $\TailCofinalityScheduleUp$ packet before the $\RegSeqRatUp$ row $Q$ and the $\RealUp$ seal row $L$. The readback keeps the tail schedule, finite window row, dyadic ledger, regular-rational row, and real seal row on the same displayed route.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:diagonal-limit-compatibility-seal-budget-synchronizer-handoff}. The synchronizer rows are upstream of the compatibility readback through $Q,L$, so its tail schedule row is available before the final seal is consumed.
+
+Next use \autoref{thm:tail-cofinality-schedule-diagonal-handoff}. The schedule route reads the precision request, finite-window schedule, dyadic ledger, regular-rational readback, and real seal in that order.
+
+Transport this route back through the compatibility packet by \autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}. The regular row $Q$ is fixed by the same triangle, dyadic, and window rows already displayed in $K$.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-source-route-exactness}. It places the schedule-supported readback on the route from $R$ through $T,D,W,S,Q$ to $L$, so the tail schedule is read before the RegSeqRat and RealUp seal rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility real-seal budget nonescape]
+\label{thm:diagonal-limit-compatibility-real-seal-budget-nonescape}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet whose seal route is read through an accepted $\CauchySealBudgetSynchronizerUp$ packet and whose tail schedule is supplied by $\TailCofinalityScheduleUp$, the combined route exports only the displayed compatibility rows, synchronizer rows, tail-schedule rows, regular-rational readback, and $\RealUp$ seal. It exports no quotient stream, host real equality, selected host limit, countable choice row, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape} for the compatibility packet. It removes quotient streams, selected host limits, host real equality, choice data, and ambient completeness from every completion-facing read of $K$.
+
+Use \autoref{thm:cauchy-seal-budget-synchronizer-nonescape} for the inserted synchronizer route. A seal read must factor through both the displayed seal row and the displayed budget row, and any tail use must pass through the selector, shared threshold, and compatibility row.
+
+Use \autoref{thm:tail-cofinality-schedule-real-seal-readback} for the schedule component. It forces the readback through the finite schedule, dyadic ledger, regular-rational row, and real seal, while excluding quotient streams, host-selected limits, ambient completeness, hidden tail oracles, and unbounded schedules.
+
+Combining these three boundaries leaves only the displayed finite packets and their structural rows. There is no coordinate in the combined route from which a quotient stream, host real equality, selected host limit, countable choice row, or ambient completeness theorem can be exported.
+\end{proof}
