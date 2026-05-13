@@ -206,4 +206,7 @@ theorem LorentzFrameRateTasteGate_single_carrier_alignment :
         exact lorentzFrameRateToEventFlow_injective heq
       · rfl
 
+def taste_gate : ChapterTasteGate LorentzFrameRateUp :=
+  lorentzFrameRateChapterTasteGate
+
 end BEDC.Derived.LorentzFrameRateUp
