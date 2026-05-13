@@ -1,0 +1,34 @@
+\begin{definition}[DiagonalLimitCompatibility root formal source]
+\label{def:diagonal-limit-compatibility-root-formal-source}
+A $\DiagonalLimitCompatibilityUp$ root formal source is a finite packet
+$$
+S=(B,T,W,R,L,H,C,P,N)
+$$
+where $B$ is the $\CauchyDiagonalBudgetUp$ source row, $T$ is the $\DiagonalTailSelectorUp$ selector row, $W$ is the $\StreamNameUp$ finite-window row, $R$ is the $\RegSeqRatUp$ regular handoff row, $L$ is the $\RealUp$ seal row, $H$ records componentwise $\hsame$ transports, $C$ records displayed $\Cont$ routes, $P$ records $\Pkg$ provenance, and $N$ is the local $\NameCert_{\DiagonalLimitCompatibilityUp}$ row.
+
+The sibling sources are the budget packet of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, the selector packet of \autoref{ch:concrete-instances-diagonaltailselector-namecert}, the finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the seal surface of \autoref{ch:concrete-instances-real-namecert}. The tuple contains no quotient stream, host limit, countable-choice selector, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[DiagonalLimitCompatibility root formal route]
+\label{thm:diagonal-limit-compatibility-root-formal-route}
+Every accepted $\DiagonalLimitCompatibilityUp$ route that is available to a root formal consumer factors through the finite source tuple of \autoref{def:diagonal-limit-compatibility-root-formal-source}. In particular, the consumer reads the budget row $B$, selector row $T$, finite window row $W$, regular handoff row $R$, and $\RealUp$ seal row $L$ before the local $\NameCert_{\DiagonalLimitCompatibilityUp}$ route is accepted.
+\end{theorem}
+\begin{proof}
+Project the source tuple $S=(B,T,W,R,L,H,C,P,N)$. The diagonal budget row $B$ supplies the precision and mesh budget, and the selector row $T$ supplies the cofinal tail selection used by the diagonal route.
+
+The finite-window and regular handoff rows are then read in order. The $\StreamNameUp$ row $W$ displays the finite observation window, and the $\RegSeqRatUp$ row $R$ is the regular sequence handoff attached to that same window.
+
+Only after those rows are visible does the route reach the $\RealUp$ seal row $L$. The transports in $H$, continuations in $C$, provenance in $P$, and local naming row $N$ replay that same order for the accepted $\DiagonalLimitCompatibilityUp$ consumer, so the route factors through the listed source tuple.
+\end{proof}
+
+\begin{theorem}[DiagonalLimitCompatibility root formal non-escape]
+\label{thm:diagonal-limit-compatibility-root-formal-nonescape}
+An accepted root formal route for $\DiagonalLimitCompatibilityUp$ cannot use quotient streams, host limits, countable choice, or ambient completeness to replace any row of the finite source tuple of \autoref{def:diagonal-limit-compatibility-root-formal-source}.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory of \autoref{def:diagonal-limit-compatibility-root-formal-source}. Its only source rows are $B,T,W,R,L,H,C,P,N$, and each row is tied to a displayed sibling chapter: Cauchy diagonal budget, diagonal tail selector, StreamName finite window, RegSeqRat regular handoff, and Real seal.
+
+Quotient streams and host limits would require additional equality or limit coordinates, but none are present in the tuple. Countable choice would require an unbounded selector family beyond $T$, while ambient completeness would require a completion principle beyond the seal row $L$.
+
+Thus every accepted route stays inside the finite handoff packet. Any consumer that asks for one of the excluded principles has asked for data not carried by the $\DiagonalLimitCompatibilityUp$ source tuple.
+\end{proof}
