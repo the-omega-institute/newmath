@@ -1,0 +1,274 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
+import BEDC.Meta.TasteGate
+
+namespace BEDC.Derived.DefiniteDescriptionBoundaryUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive DefiniteDescriptionBoundaryUp : Type where
+  | mk :
+      (description existence uniqueness stability transport replay provenance localName : BHist) →
+      DefiniteDescriptionBoundaryUp
+  deriving DecidableEq
+
+def definiteDescriptionBoundaryEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: definiteDescriptionBoundaryEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: definiteDescriptionBoundaryEncodeBHist h
+
+def definiteDescriptionBoundaryDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (definiteDescriptionBoundaryDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (definiteDescriptionBoundaryDecodeBHist tail)
+
+private theorem definiteDescriptionBoundaryDecode_encode_bhist :
+    ∀ h : BHist,
+      definiteDescriptionBoundaryDecodeBHist (definiteDescriptionBoundaryEncodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
+
+def definiteDescriptionBoundaryToEventFlow : DefiniteDescriptionBoundaryUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | DefiniteDescriptionBoundaryUp.mk description existence uniqueness stability transport replay
+      provenance localName =>
+      [[BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist description,
+        [BMark.b1, BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist existence,
+        [BMark.b1, BMark.b1, BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist uniqueness,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist stability,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        definiteDescriptionBoundaryEncodeBHist localName]
+
+def definiteDescriptionBoundaryFromEventFlow : EventFlow → Option DefiniteDescriptionBoundaryUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | description :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | existence :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | uniqueness :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | stability :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | transport :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | replay :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | provenance :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | localName :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] =>
+                                                                      some
+                                                                        (DefiniteDescriptionBoundaryUp.mk
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            description)
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            existence)
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            uniqueness)
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            stability)
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            transport)
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            replay)
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            provenance)
+                                                                          (definiteDescriptionBoundaryDecodeBHist
+                                                                            localName))
+                                                                  | _ :: _ => none
+
+private theorem definiteDescriptionBoundary_round_trip :
+    ∀ x : DefiniteDescriptionBoundaryUp,
+      definiteDescriptionBoundaryFromEventFlow
+        (definiteDescriptionBoundaryToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
+  cases x with
+  | mk description existence uniqueness stability transport replay provenance localName =>
+      change
+        some
+          (DefiniteDescriptionBoundaryUp.mk
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist description))
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist existence))
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist uniqueness))
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist stability))
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist transport))
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist replay))
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist provenance))
+            (definiteDescriptionBoundaryDecodeBHist
+              (definiteDescriptionBoundaryEncodeBHist localName))) =
+          some
+            (DefiniteDescriptionBoundaryUp.mk description existence uniqueness stability
+              transport replay provenance localName)
+      rw [definiteDescriptionBoundaryDecode_encode_bhist description,
+        definiteDescriptionBoundaryDecode_encode_bhist existence,
+        definiteDescriptionBoundaryDecode_encode_bhist uniqueness,
+        definiteDescriptionBoundaryDecode_encode_bhist stability,
+        definiteDescriptionBoundaryDecode_encode_bhist transport,
+        definiteDescriptionBoundaryDecode_encode_bhist replay,
+        definiteDescriptionBoundaryDecode_encode_bhist provenance,
+        definiteDescriptionBoundaryDecode_encode_bhist localName]
+
+private theorem definiteDescriptionBoundaryToEventFlow_injective
+    {x y : DefiniteDescriptionBoundaryUp} :
+    definiteDescriptionBoundaryToEventFlow x = definiteDescriptionBoundaryToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hread :
+      definiteDescriptionBoundaryFromEventFlow (definiteDescriptionBoundaryToEventFlow x) =
+        definiteDescriptionBoundaryFromEventFlow (definiteDescriptionBoundaryToEventFlow y) :=
+    congrArg definiteDescriptionBoundaryFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (definiteDescriptionBoundary_round_trip x).symm
+      (Eq.trans hread (definiteDescriptionBoundary_round_trip y)))
+
+instance definiteDescriptionBoundaryBHistCarrier : BHistCarrier DefiniteDescriptionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := definiteDescriptionBoundaryToEventFlow
+  fromEventFlow := definiteDescriptionBoundaryFromEventFlow
+
+instance definiteDescriptionBoundaryChapterTasteGate :
+    ChapterTasteGate DefiniteDescriptionBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  round_trip := by
+    intro x
+    change
+      definiteDescriptionBoundaryFromEventFlow
+        (definiteDescriptionBoundaryToEventFlow x) = some x
+    exact definiteDescriptionBoundary_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (definiteDescriptionBoundaryToEventFlow_injective heq)
+
+theorem DefiniteDescriptionBoundaryTasteGate_single_carrier_alignment :
+    (∀ h : BHist, definiteDescriptionBoundaryDecodeBHist
+      (definiteDescriptionBoundaryEncodeBHist h) = h) ∧
+      (∀ x : DefiniteDescriptionBoundaryUp,
+        definiteDescriptionBoundaryFromEventFlow
+          (definiteDescriptionBoundaryToEventFlow x) = some x) ∧
+        (∀ x y : DefiniteDescriptionBoundaryUp,
+          definiteDescriptionBoundaryToEventFlow x =
+            definiteDescriptionBoundaryToEventFlow y → x = y) ∧
+          definiteDescriptionBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have hdecode :
+      ∀ h : BHist,
+        definiteDescriptionBoundaryDecodeBHist
+          (definiteDescriptionBoundaryEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty =>
+        rfl
+    | e0 h ih =>
+        exact congrArg BHist.e0 ih
+    | e1 h ih =>
+        exact congrArg BHist.e1 ih
+  have hround :
+      ∀ x : DefiniteDescriptionBoundaryUp,
+        definiteDescriptionBoundaryFromEventFlow
+          (definiteDescriptionBoundaryToEventFlow x) = some x := by
+    intro x
+    cases x with
+    | mk description existence uniqueness stability transport replay provenance localName =>
+        change
+          some
+            (DefiniteDescriptionBoundaryUp.mk
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist description))
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist existence))
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist uniqueness))
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist stability))
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist transport))
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist replay))
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist provenance))
+              (definiteDescriptionBoundaryDecodeBHist
+                (definiteDescriptionBoundaryEncodeBHist localName))) =
+            some
+              (DefiniteDescriptionBoundaryUp.mk description existence uniqueness stability
+                transport replay provenance localName)
+        rw [hdecode description, hdecode existence, hdecode uniqueness,
+          hdecode stability, hdecode transport, hdecode replay, hdecode provenance,
+          hdecode localName]
+  have hinj :
+      ∀ x y : DefiniteDescriptionBoundaryUp,
+        definiteDescriptionBoundaryToEventFlow x =
+          definiteDescriptionBoundaryToEventFlow y → x = y := by
+    intro x y heq
+    have hread :
+        definiteDescriptionBoundaryFromEventFlow (definiteDescriptionBoundaryToEventFlow x) =
+          definiteDescriptionBoundaryFromEventFlow (definiteDescriptionBoundaryToEventFlow y) :=
+      congrArg definiteDescriptionBoundaryFromEventFlow heq
+    exact Option.some.inj
+      (Eq.trans (hround x).symm (Eq.trans hread (hround y)))
+  exact ⟨hdecode, hround, hinj, rfl⟩
+
+end BEDC.Derived.DefiniteDescriptionBoundaryUp
