@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalRouteCertificateUp$}
+\label{ch:concrete-instances-closed-normal-route-certificate-namecert}
+\origin{ai}
+
+The $\ClosedNormalRouteCertificateUp$ packet realizes the route consumed by the closed-normal consistency main result of \autoref{ch:closed-normal-consistency-main-result}. It sits beside the main-result packet of \autoref{ch:concrete-instances-closednormalconsistencymain-namecert}, the normal false exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, and the candidate-evidence route of \autoref{ch:concrete-instances-candidate-evidencesn-route-namecert}. Those siblings supply the endpoint exclusion, obstruction boundary, candidate-mediated route, and consumer-facing main-result surface; the present packet records the finite route certificate that threads them without promoting the boundary to full closed consistency.
+
+\begin{definition}[Closed-normal route certificate carrier]
+\label{def:closed-normal-route-certificate-carrier}
+A $\ClosedNormalRouteCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,E,O,K,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\ClosedNormalConsistencyMainUp$ row naming the checked main-result endpoint as a closed beta-strong false-inhabitation exclusion;
+\item $E$ is the $\NormalFalseExclusionUp$ row carrying the already-normal false-endpoint exclusion consumed by the endpoint route;
+\item $O$ is the $\MetaCICSubjectReductionObstructionUp$ row recording that arbitrary closed proofs are not transported into the normal fragment by this certificate;
+\item $K$ is the $\CandidateEvidenceSNRouteUp$ row naming the candidate-mediated route that supplies the strong-normalization side of the normal endpoint;
+\item $R$ is the closed-normal route row from $K,E,O$ to the main-result endpoint $M$;
+\item $H$ stores componentwise $\hsame$ transports for the sibling rows and the route row;
+\item $C$ stores displayed $\Cont$ routes from the sibling packets to the route row and from the route row to the main-result consumer;
+\item $P$ records $\Pkg$ provenance over the main-result chapter and the four sibling concrete packets;
+\item $N$ is the local $\NameCert_{\ClosedNormalRouteCertificateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for full closed consistency, closed subject reduction, unrestricted normalization, quotient proof conversion, host evaluation, ambient consistency, or a proof that every closed false proof reaches the normal endpoint.
+\end{definition}
+
+\begin{theorem}[Closed-normal route certificate NameCert obligations]
+\label{thm:closed-normal-route-certificate-namecert-obligations}
+Every accepted $\ClosedNormalRouteCertificateUp$ packet binds exactly the finite obligation surface of \autoref{def:closed-normal-route-certificate-carrier}: carrier admission for $Q=(M,E,O,K,R,H,C,P,N)$, sibling-row exactness for the main-result endpoint, normal false exclusion, subject-reduction obstruction, and candidate-evidence route, route-row exactness for $R$, componentwise classifier stability through $H$, displayed continuation stability through $C$, package provenance through $P$, local naming through $N$, and non-escape from full closed consistency or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Admission exposes only the finite tuple $Q=(M,E,O,K,R,H,C,P,N)$, so every public read starts from the four sibling rows and the displayed route row.
+
+The positive endpoint is $M$. The rows $E$ and $K$ supply the already-normal false exclusion and the candidate-mediated route that feed the endpoint, while $O$ records the subject-reduction obstruction that prevents the packet from being reread as full closed consistency.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name only this route surface. Since no coordinate supplies closed subject reduction, unrestricted normalization, quotient proof conversion, host evaluation, or ambient consistency, the accepted packet certifies only the closed-normal endpoint route displayed by $R$.
+\end{proof}
+
+\closureat{ClosedNormalRouteCertificateUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalRouteCertificateUp}
+  \constructivestory{A $\ClosedNormalRouteCertificateUp$ packet is generated from the main-result endpoint row, normal false exclusion row, subject-reduction obstruction row, candidate-evidence route row, route certificate row, componentwise transports, displayed continuations, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-route-certificate-carrier} and \autoref{thm:closed-normal-route-certificate-namecert-obligations} bind the finite NameCert route from candidate evidence and normal false exclusion through the subject-reduction obstruction boundary to the closed-normal main-result endpoint.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close full closed consistency, closed subject reduction, unrestricted normalization, quotient conversion, host evaluation, ambient consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sibling-row exactness, route-row exactness, classifier stability, continuation stability, provenance, local naming, and non-escape for the same finite route certificate.}
+\end{closurestatus}
