@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ObserverTraceKernelUp$}
+\label{ch:concrete-instances-observertracekernel-namecert}
+\origin{ai}
+
+The $\ObserverTraceKernelUp$ packet realizes the observer-history identity vision of \autoref{ch:visions-observer-hist-identity} as a finite kernel trace-row surface. It is the row-level companion of \autoref{ch:concrete-instances-observerkerneltrace-namecert} and \autoref{ch:concrete-instances-observer-distinction-trace-namecert}: the former exposes observer identity through a finite kernel trace, while the latter orders distinction steps. This chapter binds those two readings into one $\NameCert$ packet whose consumer sees only $\BHist$, $\hsame$, $\Cont$, observation, provenance, and no-subject rows.
+
+\begin{definition}[ObserverTraceKernel carrier]
+\label{def:observer-trace-kernel-carrier}
+An $\ObserverTraceKernelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(H,T,Q,O,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the finite source-history ledger, whose entries are $\BHist$ rows available to the observer-facing consumer;
+\item $T$ is the kernel trace row recording the ordered finite observation route above $H$;
+\item $Q$ is the componentwise $\hsame$ transport row for source histories, trace rows, observation rows, provenance rows, and the local name;
+\item $O$ is the finite observation ledger, including the displayed $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ reads licensed for the same trace;
+\item $L$ is the no-subject ledger recording that every exported observer read is one of the displayed rows of $K$;
+\item $C$ records the displayed $\Cont$ routes from $H$ through $T,O,L$ to the local naming row;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistIdentityUp$, $\ObserverKernelTraceUp$, $\ObserverDistinctionTraceUp$, $\ObserverSubjectBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, observation, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverTraceKernelUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an observer-substance type, host equality of observers, hidden owner of observations, or trace object outside the displayed finite kernel rows.
+\end{definition}
+
+\begin{theorem}[ObserverTraceKernel carrier row]
+\label{thm:observer-trace-kernel-carrier-row}
+For the carrier of \autoref{def:observer-trace-kernel-carrier}, the local $\NameCert_{\ObserverTraceKernelUp}$ surface consists exactly of carrier admission for $K=(H,T,Q,O,L,C,P,N)$, kernel trace-row exposure, componentwise $\hsame$ transport, finite observation readback, displayed $\Cont$ route replay, no-subject ledger exactness, $\Pkg$ provenance, and local naming exactness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $K$. The rows $H,T,Q,O,L,C,P,N$ list the source histories, kernel trace, transports, observations, no-subject ledger, continuation routes, provenance, and local name.
+
+The trace-row and observation clauses are read together. The kernel trace $T$ records the finite route over the histories in $H$, while $O$ records only the licensed observation rows attached to that same route.
+
+Transport and replay are also componentwise. The row $Q$ preserves the displayed coordinates under $\hsame$, and $C$ gives the only permitted reads from source histories to observation and naming rows. Since the tuple has no further coordinate, the listed clauses exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[ObserverTraceKernel no-subject ledger]
+\label{thm:observer-trace-kernel-no-subject-ledger}
+Every accepted $\ObserverTraceKernelUp$ packet exports observer-history identity only through the finite rows $H,T,Q,O,L,C,P,N$. No consumer can extract an observer-substance carrier, subject identity row, hidden owner of the trace, host equality of observers, or observation truth predicate outside $\BHist$, $\hsame$, $\Cont$, observation, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and inspect the no-subject ledger $L$. It records each exported observer-facing read as a row already listed in $H,T,Q,O,C,P,N$.
+
+Apply \autoref{thm:observer-trace-kernel-carrier-row}. The local certificate surface admits only kernel trace rows, transports, finite observation rows, route replay, provenance, and local naming.
+
+An observer-substance carrier or hidden owner would require an additional coordinate outside $K$. Because no such coordinate is present, every accepted consumer remains inside the displayed trace rows and cannot export subject identity or host equality data.
+\end{proof}
+
+\begin{theorem}[ObserverTraceKernel composition boundary]
+\label{thm:observer-trace-kernel-composition-boundary}
+Every consumer route from an accepted $\ObserverTraceKernelUp$ packet to an observer-history identity read factors through the finite composition
+$$
+H \longmapsto T \longmapsto O \longmapsto L \longmapsto C \longmapsto P \longmapsto N.
+$$
+The route composes the $\ObserverKernelTraceUp$ trace surface, the $\ObserverDistinctionTraceUp$ distinction-step surface, the $\ObserverHistIdentityUp$ observation surface, and the $\ObserverSubjectBoundaryUp$ exclusion surface without adding a new observer carrier, quotient observer identity, ambient time parameter, or host equality of subjects.
+\end{theorem}
+\begin{proof}
+Begin with the kernel trace sibling \autoref{ch:concrete-instances-observerkerneltrace-namecert}. It confines observer trace reads to finite $\BHist$, $\hsame$, $\Cont$, probe, signature, provenance, and naming rows.
+
+Next use the distinction-trace sibling \autoref{ch:concrete-instances-observer-distinction-trace-namecert}. It orders distinction-step reads through displayed $\Hist$ growth and $\Cont$ routes, so the trace row $T$ remains a finite kernel row rather than a detached observer state.
+
+Finally apply the observer-history identity and subject-boundary surfaces. \autoref{ch:concrete-instances-observerhistidentity-namecert} supplies the observation readback, and \autoref{ch:concrete-instances-observersubjectboundary-namecert} prevents the route from exporting a subject coordinate. The displayed route through $H,T,O,L,C,P,N$ is therefore the whole consumer boundary.
+\end{proof}
+
+The later Lean target in \texttt{lean4/BEDC/Derived/ObserverTraceKernelUp.lean} must provide $\mathsf{Nontrivial}\ \ObserverTraceKernelUp$ and $\mathsf{FieldFaithful}\ \ObserverTraceKernelUp$ instances. The witnesses must distinguish the source-history ledger, kernel trace row, $\hsame$ transports, observation ledger, no-subject ledger, displayed $\Cont$ routes, provenance, and local name.
+
+\falsifiablePrediction{Any accepted ObserverTraceKernelUp consumer route factors through the displayed kernel trace, observation, Cont, provenance, and no-subject rows before reading the local NameCert row.}
+
+\independenceWitness{observerkerneltrace, observerdistinctiontrace, observerhistidentity, observersubjectboundary: the packet records a kernel trace-row composition rather than trace exposure alone, distinction ordering alone, observation identity alone, or subject-boundary exclusion alone.}
+
+\closureat{ObserverTraceKernelUp}{seedStr}
+
+\begin{closurestatus}{\ObserverTraceKernelUp}
+  \constructivestory{An $\ObserverTraceKernelUp$ packet is generated from source-history rows, a finite kernel trace row, componentwise hsame transports, observation rows, a no-subject ledger, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-trace-kernel-carrier}, \autoref{thm:observer-trace-kernel-carrier-row}, \autoref{thm:observer-trace-kernel-no-subject-ledger}, and \autoref{thm:observer-trace-kernel-composition-boundary} bind the finite kernel trace-row packet for observer-history identity.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a host observer model, quotient observer identity, ambient time, or an observer-substance behind the trace.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace-row exposure, hsame transport, observation readback, Cont route replay, provenance, no-subject exactness, and the stated Nontrivial and FieldFaithful instances.}
+\end{closurestatus}
