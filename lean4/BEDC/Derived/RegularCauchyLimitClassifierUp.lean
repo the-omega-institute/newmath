@@ -154,6 +154,31 @@ theorem RegularCauchyLimitClassifierCarrier_public_export [AskSetup] [PackageSet
       readbackLedgerSeal, provenanceSealCert, certRoutesPublicRead, sameCert, certPkg,
       publicReadPkg⟩
 
+theorem RegularCauchyLimitClassifierCarrier_bridge_source_packet [AskSetup] [PackageSetup]
+    {input modulus diagonal windows readback ledger sealRow transportRow routes provenance
+      cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitClassifierCarrier input modulus diagonal windows readback ledger sealRow
+        transportRow routes provenance cert bundle pkg ->
+      UnaryHistory input ∧ UnaryHistory modulus ∧ UnaryHistory diagonal ∧
+        UnaryHistory windows ∧ UnaryHistory readback ∧ UnaryHistory ledger ∧
+          UnaryHistory sealRow ∧ UnaryHistory cert ∧ Cont input modulus diagonal ∧
+            Cont diagonal windows readback ∧ Cont readback ledger sealRow ∧
+              Cont provenance sealRow cert ∧ hsame cert (append provenance sealRow) ∧
+                PkgSig bundle cert pkg := by
+  intro carrier
+  have stable :=
+    RegularCauchyLimitClassifierCarrier_stability carrier
+  obtain ⟨readbackUnary, ledgerUnary, sealUnary, certUnary, diagonalWindowsReadback,
+    readbackLedgerSeal, sameCert, certPkg⟩ := stable
+  exact
+    ⟨carrier.left, carrier.right.left, carrier.right.right.left, carrier.right.right.right.left,
+      readbackUnary, ledgerUnary, sealUnary, certUnary,
+      carrier.right.right.right.right.right.right.right.right.left, diagonalWindowsReadback,
+      readbackLedgerSeal,
+      carrier.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      sameCert, certPkg⟩
+
 theorem RegularCauchyLimitClassifierCarrier_diagonal_seal_uniqueness [AskSetup] [PackageSetup]
     {input modulus diagonal windows readback ledger sealRow transportRow routes provenance cert
       cert' publicRead publicRead' : BHist}

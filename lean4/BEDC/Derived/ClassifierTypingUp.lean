@@ -116,4 +116,27 @@ theorem ClassifierTypingCarrier_signature_gap_readback [AskSetup] [PackageSetup]
     ⟨signatureUnary, termMembership, termReductionSignature, termSignature, provenancePkg,
       hsame_refl name⟩
 
+theorem ClassifierTypingCarrier_subject_reduction_cont_stability [AskSetup] [PackageSetup]
+    {term membership reduction signature transport routes provenance name targetMembership : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierTypingCarrier term membership reduction signature transport routes provenance name
+        bundle pkg ->
+      Cont signature routes targetMembership ->
+        PkgSig bundle targetMembership pkg ->
+          UnaryHistory term ∧ UnaryHistory membership ∧ UnaryHistory signature ∧
+            UnaryHistory targetMembership ∧ Ext term BMark.b0 membership ∧
+              Cont term reduction signature ∧ Cont signature routes targetMembership ∧
+                SigRel bundle term signature ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle targetMembership pkg := by
+  intro carrier signatureRoutesTarget targetPkg
+  obtain
+    ⟨termUnary, membershipUnary, _reductionUnary, signatureUnary, _transportUnary,
+      routesUnary, _provenanceUnary, _nameUnary, termMembership, termReductionSignature,
+      _membershipRoutesName, termSignature, provenancePkg⟩ := carrier
+  have targetUnary : UnaryHistory targetMembership :=
+    unary_cont_closed signatureUnary routesUnary signatureRoutesTarget
+  exact
+    ⟨termUnary, membershipUnary, signatureUnary, targetUnary, termMembership,
+      termReductionSignature, signatureRoutesTarget, termSignature, provenancePkg, targetPkg⟩
+
 end BEDC.Derived.ClassifierTypingUp
