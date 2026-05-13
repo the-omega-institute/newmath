@@ -173,6 +173,7 @@ import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelAcceptanceTraceUp
+import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
@@ -580,6 +581,7 @@ import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeSocketUp
+import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp
@@ -1385,6 +1387,7 @@ import BEDC.Derived.StreamNameUp.RegSeqRatPointwiseHandoff
 import BEDC.Derived.StreamNameUp.ScheduledConstantObservation
 import BEDC.Derived.StreamNameUp.PointwiseHandoff
 import BEDC.Derived.StreamNameUp.StdBridge
+import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.SuccessorReindexing
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
