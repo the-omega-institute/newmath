@@ -37,3 +37,94 @@ Next project through \autoref{thm:critical-line-witness-root-carrier-projection}
 
 Finally apply the root refusal route of \autoref{thm:critical-line-witness-root-refusal-route}. The refusal route excludes $\mathsf{RH}$ proof data, zero search, global zero classification, analytic continuation, quotient representatives, host equality, and ambient completeness, so the consumer boundary is exact for the displayed packet.
 \end{proof}
+
+\begin{theorem}[Critical-line witness root dependency scope]
+\label{thm:critical-line-witness-root-dependency-scope}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet.
+The root downstream dependency scope of $W$ is exactly the finite route through
+the supplied $\ZetaZerosUp$ row $Z$, supplied $\CritStripUp$ row $S$,
+$\NatUp$ depth requests for the modulus row $M$, the $\RealUp$ real-part row
+$R$, the $\RatUp$ comparison ledger $Q$, and the displayed $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
+
+The scope contains no $\mathsf{RH}$ proof data, global zero classifier, analytic
+continuation certificate, quotient representative, host equality, detached zero
+oracle, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the downstream package of
+\autoref{thm:critical-line-witness-root-downstream-package}. It gives every
+root-facing consumer the finite row list $Z,S,M,R,Q,H,C,P,N$ and excludes the
+analytic and quotient data outside that list.
+
+Next use the carrier projection of
+\autoref{thm:critical-line-witness-root-carrier-projection}. The projection
+identifies those rows as the complete finite carrier surface available to the
+consumer, with no extra root evidence hidden behind the packet.
+
+Finally combine the root modulus ledger scope of
+\autoref{thm:critical-line-witness-root-modulus-ledger-scope} with the root
+zero-strip exclusion of
+\autoref{thm:critical-line-witness-root-zero-strip-exclusion}. The first binds
+$M,R,Q,H,C,P,N$ to the modulus and rational-comparison route, while the second
+binds $Z,S$ to the supplied zero-strip source. Together they give exactly the
+dependency scope stated above.
+\end{proof}
+
+\begin{theorem}[Critical-line witness downstream refusal factorization]
+\label{thm:critical-line-witness-downstream-refusal-factorization}
+Every downstream refusal read of an accepted $\CriticalLineWitnessUp$ packet
+factors through the dependency scope of
+\autoref{thm:critical-line-witness-root-dependency-scope}. A refusal consumer
+may cite the supplied zero row, strip row, modulus row, real-part row, rational
+comparison ledger, transport, continuation, provenance, and local naming row,
+and it may cite no additional RH-facing proof surface.
+\end{theorem}
+\begin{proof}
+First read the exact consumer boundary of
+\autoref{thm:critical-line-witness-root-refusal-consumer-exactness}. It states
+that a downstream consumer may cite only $Z,S,M,R,Q,H,C,P,N$ as root evidence.
+
+Now apply the dependency scope theorem just established. The allowed rows are
+not an unstructured list: $Z$ and $S$ are the supplied
+$\ZetaZerosUp$--$\CritStripUp$ source, $M$ is read at $\NatUp$ depths, $R$ is
+the $\RealUp$ row, $Q$ is the $\RatUp$ comparison ledger, and $H,C,P,N$ are the
+BEDC transport, route, provenance, and naming rows.
+
+Finally use the RH-boundary refusal of
+\autoref{thm:critical-line-witness-root-rh-boundary-refusal}. It removes
+$\mathsf{RH}$ proof data, global zero classifiers, zero search, analytic
+continuation, quotient representatives, host equality, and ambient completeness
+from the downstream route, so every refusal read factors through the named
+scope.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip-modulus package exhaustion]
+\label{thm:critical-line-witness-zero-strip-modulus-package-exhaustion}
+For an accepted $\CriticalLineWitnessUp$ packet
+$W=(Z,S,M,R,Q,H,C,P,N)$, the supplied zero row, supplied critical-strip row,
+modulus row, real-part row, and rational comparison ledger exhaust the root
+package together with $H,C,P,N$. There is no remaining coordinate from which a
+consumer can read another zero source, another strip certificate, another
+modulus, another rational comparison row, an RH proof, analytic continuation,
+host equality, quotient representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:critical-line-witness-root-dependency-scope}. It
+identifies the full dependency route as
+$Z,S,M,R,Q,H,C,P,N$ over $\ZetaZerosUp$, $\CritStripUp$, $\NatUp$, $\RealUp$,
+$\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Use the root modulus ledger scope to exhaust the modulus and rational
+comparison side. Every modulus or comparison read is already forced through
+$M,R,Q,H,C,P,N$.
+
+Use the root zero-strip exclusion to exhaust the zero and strip side. The
+supplied rows $Z$ and $S$ stay attached to the same displayed history and cannot
+be replaced by a detached oracle or analytic certificate.
+
+Finally apply the RH-boundary refusal. Since the refusal boundary exports only
+the finite package and none of the excluded analytic or host-level data, the
+zero, strip, modulus, and rational comparison rows listed above exhaust the
+root package.
+\end{proof}
