@@ -33,7 +33,7 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_topology_up $(TEST_DIR)/test_fold_up \
                    $(TEST_DIR)/test_circle_up $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent regen-manifests clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-collision-audit regen-manifests clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Generated manifests (.r110.ct, .algo.r110.ct) are encoder outputs — not in git.
@@ -253,6 +253,9 @@ test-algo-r110-semantic: $(TEST_DIR)/test_r110_round_trip
 
 test-algo-r110-idempotent: $(ENCODER_DIR)/generate_r110_algo
 	./$(TEST_DIR)/test_algo_r110_idempotent.sh
+
+test-collision-audit: $(TEST_DIR)/test_cook_collision_martinez
+	./$(TEST_DIR)/test_cook_collision_martinez --strict
 
 clean:
 	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TESTS)
