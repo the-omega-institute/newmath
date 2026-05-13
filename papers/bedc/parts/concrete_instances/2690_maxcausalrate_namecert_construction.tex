@@ -210,6 +210,24 @@ Next use \autoref{thm:max-causal-rate-witness-family-stability}, \autoref{thm:ma
 Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the packet has no global-frame, synchronized-clock, metric, Lorentz, or real-speed coordinate, the displayed rows give the scoped kernel boundary for downstream reads.
 \end{proof}
 
+\begin{theorem}[MaxCausalRate public unary-bound export]
+\label{thm:max-causal-rate-public-unary-bound-export}
+Every public $\MaxCausalRateUp$ consumer reads the unary bound row $U$ only through the single carrier tuple
+$$
+M,X,U,B,H,Q,C,P,N,
+$$
+the $\CrossHistCausalUp$ handoff for the witness family $X$, and the existing TasteGate single-carrier marker $\mathsf{MaxCausalRateTasteGate\_single\_carrier\_alignment}$. The exported interface supplies a finite unary-bound ledger only: it exports no global frame, metric tensor, Lorentz geometry, synchronized clock, or real-valued speed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $U$ is a coordinate of the displayed tuple $M,X,U,B,H,Q,C,P,N$, not a separate ambient rate surface.
+
+Use \autoref{thm:max-causal-rate-crosshist-handoff}. Every consumer reaches the witness family $X$ through displayed $\CrossHistCausalUp$ rows before it reads the comparison ledger against $U$.
+
+Now use the checked TasteGate single-carrier marker already recorded after \autoref{thm:max-causal-rate-namecert-obligations}. It keeps the tuple as one carrier surface, so the public read cannot split $U$ away from $M,X,B,H,Q,C,P,N$.
+
+Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the carrier has no coordinate for a global frame, metric tensor, Lorentz geometry, synchronized clock, or host real-valued speed, the public export is exactly the finite unary-bound row routed through the displayed packet.
+\end{proof}
+
 \closureat{MaxCausalRateUp}{seedStr}
 \closureat{MaxCausalRateUp}{obligationStr}
 \closureat{MaxCausalRateUp}{scopedStr}[BEDC.Derived.MaxCausalRateUp.taste\_gate]
@@ -217,7 +235,7 @@ Finally apply \autoref{thm:max-causal-rate-non-escape}. Since the packet has no 
 \begin{closurestatus}{\MaxCausalRateUp}
   \constructivestory{A $\MaxCausalRateUp$ packet is generated from a $\MultiHistConfigUp$ row, finitely many $\CrossHistCausalUp$ witness rows over selected history pairs and unary slots, one shared $\Unary$ bound row, finite bound comparisons, displayed $\hsame$ and $\psame$ transport, visible $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:max-causal-rate-carrier}, \autoref{thm:max-causal-rate-namecert-obligations}, \autoref{thm:max-causal-rate-crosshist-handoff}, \autoref{thm:max-causal-rate-non-escape}, \autoref{thm:max-causal-rate-bound-comparison-totality}, \autoref{thm:max-causal-rate-witness-family-stability}, \autoref{thm:max-causal-rate-unary-bound-nonescape}, \autoref{thm:max-causal-rate-configuration-locality-obligation}, \autoref{thm:max-causal-rate-comparison-ledger-exactness}, \autoref{thm:max-causal-rate-obligation-closure-package}, and \autoref{thm:max-causal-rate-scoped-kernel-boundary} bind the finite multi-Hist configuration, displayed cross-Hist causal witnesses, shared unary bound, finite comparison ledger, transport rows, visible routes, package provenance, local naming row, and downstream read boundary.}
+  \scopeclosed{\autoref{def:max-causal-rate-carrier}, \autoref{thm:max-causal-rate-namecert-obligations}, \autoref{thm:max-causal-rate-crosshist-handoff}, \autoref{thm:max-causal-rate-non-escape}, \autoref{thm:max-causal-rate-bound-comparison-totality}, \autoref{thm:max-causal-rate-witness-family-stability}, \autoref{thm:max-causal-rate-unary-bound-nonescape}, \autoref{thm:max-causal-rate-configuration-locality-obligation}, \autoref{thm:max-causal-rate-comparison-ledger-exactness}, \autoref{thm:max-causal-rate-obligation-closure-package}, \autoref{thm:max-causal-rate-scoped-kernel-boundary}, and \autoref{thm:max-causal-rate-public-unary-bound-export} bind the finite multi-Hist configuration, displayed cross-Hist causal witnesses, shared unary bound, finite comparison ledger, transport rows, visible routes, package provenance, local naming row, downstream read boundary, and public unary-bound export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
