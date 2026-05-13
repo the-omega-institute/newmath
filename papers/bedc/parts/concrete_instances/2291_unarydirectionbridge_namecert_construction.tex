@@ -231,16 +231,105 @@ Add the handoff obligations and empty-intersection readback from \autoref{thm:un
 Finally apply \autoref{thm:unary-direction-bridge-consumer-normal-form}, \autoref{thm:unary-direction-bridge-source-classifier-transport}, and \autoref{thm:unary-direction-bridge-additive-consumer-exactness}. The resulting local NameCert obligation closure is exactly the displayed bridge packet, with no asserted kernel equality.
 \end{proof}
 
+\begin{theorem}[UnaryDirectionBridge scoped source bindings]
+\label{thm:unary-direction-bridge-scoped-source-bindings}
+For an accepted $\UnaryDirectionBridgeUp$ carrier $U=(N,A,B,K,S,L,H,C,P,M)$, the rows $N,A,B,K,S,L,H,C,P,M$ bind the bridge packet to $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The binding is scoped to the displayed carrier rows: $N$ and $A$ are the two source classifiers, $B,K,S,L$ are the bridge, kernel-distinctness, boundary, and policy rows, $H$ and $C$ are the transport and continuation rows, $P$ is the package provenance row, and $M$ is the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. The row list already names the two source surfaces, the bridge object, the kernel ledger, the boundary, the policy, the transport, the route, the package row, and the local $\NameCert$ row.
+
+Apply \autoref{thm:unary-direction-bridge-kernel-distinct-obligations}. This keeps $N$ and $A$ as separate source classifiers and forces every comparison to cite $K$ before a public boundary is read.
+
+Use \autoref{thm:unary-direction-bridge-standard-boundary} for the $S$ row and \autoref{thm:unary-direction-bridge-ledger-policy} for the $L$ row. The transport and route rows $H,C$ carry these displayed rows without creating a host equality or quotient coordinate.
+
+Finally apply \autoref{thm:unary-direction-bridge-namecert-surface}. The provenance row $P$ and local name $M$ therefore bind the packet to the listed BEDC dependencies as scoped rows of the same finite carrier.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge additive route scope]
+\label{thm:unary-direction-bridge-additive-route-scope}
+Every $\AddUp/\AxisAddUp$ handoff route out of an accepted $\UnaryDirectionBridgeUp$ packet factors through $K,S,H,C,P,M$ together with the source rows $N,A$ and the bridge row $B$. Such a route cannot use host equality of natural numbers, quotient identification of histories, or a second kernel carrier for the unary and zero-spine sources.
+\end{theorem}
+\begin{proof}
+Start with the additive consumer exactness of \autoref{thm:unary-direction-bridge-additive-consumer-exactness}. It says that an $\AddUp/\AxisAddUp$ consumer receives the displayed source, bridge, kernel, policy, transport, route, provenance, and local naming rows before the boundary is used.
+
+Apply the source-classifier transport theorem \autoref{thm:unary-direction-bridge-source-classifier-transport}. The transported packet still has separate $\NatUp$ and $\AxisNatUp$ source rows, so the additive route cannot be reinterpreted as a single kernel carrier.
+
+Use the empty-intersection readback of \autoref{thm:unary-direction-bridge-empty-intersection-readback} and the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form}. These exclude a second kernel intersection, quotient identification, and host equality from the normalized route.
+
+The remaining route is therefore exactly the displayed additive handoff through $K,S,H,C,P,M$, with $N,A,B$ supplying the source and bridge context.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped NameCert package]
+\label{thm:unary-direction-bridge-namecert-scoped-package}
+The scoped source bindings of \autoref{thm:unary-direction-bridge-scoped-source-bindings}, the additive route scope of \autoref{thm:unary-direction-bridge-additive-route-scope}, and the obligation closure of \autoref{thm:unary-direction-bridge-namecert-obligation-closure} assemble the scoped $\NameCert_{\UnaryDirectionBridgeUp}$ package. The package exposes the carrier rows, the obligation closure, the scoped BEDC dependency bindings, and the additive handoff route, while preserving the separation of $\NatUp$ and $\AxisNatUp$ inside the kernel.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:unary-direction-bridge-namecert-obligation-closure}. It supplies the local closure of the carrier, kernel-distinctness obligations, standard boundary, ledger policy, consumer normal form, source-classifier transport, and additive consumer exactness.
+
+Apply \autoref{thm:unary-direction-bridge-scoped-source-bindings}. This binds the same finite packet to $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ through displayed carrier rows.
+
+Apply \autoref{thm:unary-direction-bridge-additive-route-scope}. The additive route is then confined to the scoped bridge packet and cannot pass through host equality, quotient identification, or a second kernel carrier.
+
+Repacking these rows gives the scoped local $\NameCert$ package for $\UnaryDirectionBridgeUp$. Its public commitment is the displayed BEDC bridge packet, not an identification of the two source kernels.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped source anchors]
+\label{thm:unary-direction-bridge-scope-source-anchors}
+Every accepted $\UnaryDirectionBridgeUp$ packet $U=(N,A,B,K,S,L,H,C,P,M)$ binds the $\NatUp$ unary source, the $\AxisNatUp$ zero-spine source, the kernel-distinctness ledger, and the standard-boundary row to the displayed support
+$$
+\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The binding is a source-route obligation: $N$ and $A$ remain separate source classifiers, $K$ records their kernel separation, $S$ is the only standard-boundary row, and $L,H,C,P,M$ are the ledger, transport, continuation, provenance, and local certificate rows through which downstream consumers read the packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier and carrier admission results, \autoref{def:unary-direction-bridge-namecert-carrier} and \autoref{thm:unary-direction-bridge-carrier-admission}. They make $N,A,B,K,S,L,H,C,P,M$ the complete admitted packet surface and place the source rows, bridge row, ledger row, boundary row, transport rows, route row, package row, and local name in one carrier.
+
+Apply the kernel-distinct obligations and standard boundary, \autoref{thm:unary-direction-bridge-kernel-distinct-obligations} and \autoref{thm:unary-direction-bridge-standard-boundary}. These force every source comparison to read $K$ before $S$ and prevent the unary and zero-spine source classifiers from being merged.
+
+Use the ledger policy, classifier stability, and ledger exactness of \autoref{thm:unary-direction-bridge-ledger-policy}, \autoref{thm:unary-direction-bridge-classifier-stability}, and \autoref{thm:unary-direction-bridge-ledger-exactness}. The only stable transport route is the displayed $H,C,P,M$ route, so every accepted source read is anchored to the listed BEDC support.
+
+Finally apply the obligation closure of \autoref{thm:unary-direction-bridge-namecert-obligation-closure}. It repacks these rows as the local $\NameCert_{\UnaryDirectionBridgeUp}$ obligation surface, with no additional kernel equality or host natural-number route.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped additive route]
+\label{thm:unary-direction-bridge-scope-additive-route}
+Every $\AddUp/\AxisAddUp$ consumer route out of an accepted $\UnaryDirectionBridgeUp$ packet factors through the scoped source anchors of \autoref{thm:unary-direction-bridge-scope-source-anchors} before reaching the standard boundary. Thus the additive route receives the unary source, zero-spine source, bridge row, kernel-distinctness ledger, ledger policy, componentwise $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row before any standard-boundary read.
+\end{theorem}
+\begin{proof}
+First apply the scoped source anchors. They bind $N,A,B,K,S,L,H,C,P,M$ to the finite BEDC support and make $K$ available before the standard-boundary row is consumed.
+
+Next use the additive consumer exactness and additive route scope, \autoref{thm:unary-direction-bridge-additive-consumer-exactness} and \autoref{thm:unary-direction-bridge-additive-route-scope}. These results identify the $\AddUp/\AxisAddUp$ route as a consumer of the displayed packet, not as a separate operation over host equality or quotient histories.
+
+The carrier admission theorem and ledger policy keep the route inside the admitted rows. The standard-boundary theorem then places $S$ after the source and kernel-distinctness anchors, while classifier stability transports the same route through $H,C,P,M$.
+
+Finally the obligation closure repacks the route as a downstream obligation of the same local certificate. The consumer therefore reaches the boundary only through the scoped source anchors and the displayed bridge packet.
+\end{proof}
+
+\begin{theorem}[UnaryDirectionBridge scoped NameCert transport]
+\label{thm:unary-direction-bridge-scope-namecert-transport}
+Componentwise $\hsame$ transport of an accepted $\UnaryDirectionBridgeUp$ packet preserves the scoped bridge packet of \autoref{thm:unary-direction-bridge-scope-source-anchors} and the additive route of \autoref{thm:unary-direction-bridge-scope-additive-route}. The transported packet cannot collapse the $\NatUp$ unary source classifier and the $\AxisNatUp$ zero-spine source classifier into one kernel row.
+\end{theorem}
+\begin{proof}
+Begin with classifier stability and source-classifier transport, \autoref{thm:unary-direction-bridge-classifier-stability} and \autoref{thm:unary-direction-bridge-source-classifier-transport}. They state that componentwise transport preserves the source rows, bridge row, kernel ledger, standard-boundary row, route rows, package provenance, and local naming row.
+
+Apply the scoped source anchors to the transported packet. The anchors still require $N$ and $A$ as separate source classifiers and still require $K$ before any comparison reaches $S$.
+
+Use ledger exactness, ledger policy, and the standard boundary. These exclude host natural-number equality, quotient identification of histories, and any second kernel carrier as sources for the transported route.
+
+Finally combine the scoped additive route with the obligation closure. The resulting transported $\NameCert_{\UnaryDirectionBridgeUp}$ packet is the same finite bridge surface over $\BHist,\hsame,\Cont,\Pkg,\NameCert$, so transport preserves the route without identifying the two source classifiers.
+\end{proof}
+
 \closureat{UnaryDirectionBridgeUp}{seedStr}
 \closureat{UnaryDirectionBridgeUp}{obligationStr}
+\closureat{UnaryDirectionBridgeUp}{scopedStr}
 
 \begin{closurestatus}{\UnaryDirectionBridgeUp}
   \constructivestory{A $\UnaryDirectionBridgeUp$ packet is generated by a $\NatUp$ unary source row, an $\AxisNatUp$ zero-spine source row, the displayed bridge object, kernel-distinctness witness, standard-boundary row, ledger policy, $\hsame$ transports, $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface binds the carrier, kernel-distinctness obligations, standard boundary, ledger policy, local NameCert surface, consumer normal form, source-classifier transport, additive consumer exactness, and obligation closure for the unary-direction bridge packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped surface binds the carrier, obligation closure, scoped source rows for $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, the additive route scope, and the local scoped NameCert package for the unary-direction bridge packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not identify $\NatUp$ and $\AxisNatUp$ inside the kernel, close the full standard-model isomorphism, or provide Lean verification for the NameCert packet.}
-  \upgradepath{Scoped closure requires binding these bridge obligations to $\NatUp$, $\AxisNatUp$, $\AddUp$, $\AxisAddUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ as checked downstream certificate routes.}
+  \upgradepath{Public closure requires a verified public-object surface for the unary-direction bridge package and its downstream additive consumers.}
 \end{closurestatus}
