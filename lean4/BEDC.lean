@@ -154,6 +154,7 @@ import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
+import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceTraceUp
@@ -476,6 +477,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.SelectorWindowFunctoriality
 import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
 import BEDC.Derived.RegularCauchyFamilyUp
+import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitTransportUp
