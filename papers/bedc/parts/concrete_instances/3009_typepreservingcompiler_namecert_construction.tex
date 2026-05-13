@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\TypePreservingCompilerUp$}
+\label{ch:concrete-instances-typepreservingcompiler-namecert}
+\origin{human}
+
+The $\TypePreservingCompilerUp$ interface joins the type-checking classifier surface with the certificate-morphism compiler surface. It records source and target type-classifier packets, a compiler graph between their displayed histories, subject-reduction rows on both sides, and preservation ledgers ensuring that every compiled output is read through target $\Ext$ membership rather than through a host semantic compiler.
+
+\begin{definition}[Type-preserving compiler carrier]
+\label{def:type-preserving-compiler-carrier}
+A $\TypePreservingCompilerUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,G,E,R,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is the source $\TypeClassifierMembershipUp$ row, including its displayed term history, judgment ledger, $\Ext$ membership row, and typed $\Cont$ reduction row;
+\item $T$ is the target $\TypeClassifierMembershipUp$ row, including the target term history, judgment ledger, target $\Ext$ membership row, and target typed $\Cont$ reduction row;
+\item $G$ is the compiler graph row from source histories accepted by $S$ to target histories displayed by $T$;
+\item $E$ is the classifier-preservation ledger recording that source $\Ext$ membership transported along $G$ lands in target $\Ext$ membership;
+\item $R$ records source and target $\SubjectReductionUp$ rows and the handoff from compiled source steps to target typed reduction reads;
+\item $H$ stores componentwise $\hsame$ transports for source rows, target rows, graph edges, classifier-preservation rows, and subject-reduction rows;
+\item $C$ stores displayed $\Cont$ routes for type-checking membership, compiler graph lifting, target-carrier readback, subject-reduction handoff, and downstream NameCert-morphism consumption;
+\item $P$ records $\Pkg$ provenance over $\BHist$, $\Ext$, $\Cont$, $\TypeClassifierMembershipUp$, $\SubjectReductionUp$, $\ClassifierMorphismUp$, $\NameCertMorphismUp$, $\hsame$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TypePreservingCompilerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host operational semantics, erased typing derivations, quotient equality of terms, a semantic target interpreter, or a compiler function outside the displayed graph.
+\end{definition}
+
+\begin{theorem}[TypePreservingCompiler NameCert obligations]
+\label{thm:type-preserving-compiler-namecert-obligations}
+The local $\NameCert_{\TypePreservingCompilerUp}$ surface for \autoref{def:type-preserving-compiler-carrier} consists exactly of carrier admission for
+$$
+K=(S,T,G,E,R,H,C,P,N),
+$$
+source and target type-classifier membership, compiler graph lifting, target $\Ext$ preservation, source and target subject-reduction rows, componentwise $\hsame$ transport, displayed $\Cont$ routing, dependency provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $S,T,G,E,R,H,C,P,N$ are the only coordinates available to the local certificate.
+
+The source and target classifier reads come from $S$ and $T$. Graph lifting is read from $G$ through $C$, and the classifier-preservation ledger $E$ records that a source membership read transported along the graph is consumed as target membership.
+
+The subject-reduction component is the row $R$, transported by $H$ and routed by $C$. Since the carrier contains no host compiler function, semantic interpreter, quotient equality, or erased derivation row, the listed coordinates exhaust the local $\NameCert_{\TypePreservingCompilerUp}$ obligations.
+\end{proof}
+
+\begin{theorem}[TypePreservingCompiler subject-reduction handoff]
+\label{thm:type-preserving-compiler-subject-reduction-handoff}
+Let $K=(S,T,G,E,R,H,C,P,N)$ be an accepted $\TypePreservingCompilerUp$ carrier. Every public read that starts with source $\Ext$ membership in $S$, follows a source typed $\Cont$ step, and then compiles through $G$ reaches the target typing surface only through the target $\Ext$ row of $T$ and the subject-reduction ledger $R$. The handoff exports no host reduction semantics, erased typing derivation, or global normalization theorem.
+\end{theorem}
+\begin{proof}
+Read the source side through $S$. The source membership row and typed $\Cont$ row are already part of the source $\TypeClassifierMembershipUp$ coordinate.
+
+Apply the graph-lifting and classifier-preservation rows $G,E$. They move the source membership read into a target history displayed by $T$ and record the corresponding target $\Ext$ membership.
+
+It remains to account for reduction preservation. The row $R$ stores the source and target $\SubjectReductionUp$ data, while $H$ and $C$ transport and replay the handoff. No other coordinate can supply host reduction semantics or a normalization theorem, so every public subject-reduction read factors through the displayed target membership and ledger rows.
+\end{proof}
+
+\begin{theorem}[TypePreservingCompiler morphism reading]
+\label{thm:type-preserving-compiler-morphism-correctness}
+Every accepted $\TypePreservingCompilerUp$ carrier determines an accepted classifier-preserving NameCert-morphism read from the source type-checking certificate to the target type-checking certificate. The morphism data are exactly the compiler graph $G$, the classifier-preservation ledger $E$, the subject-reduction handoff $R$, the transport row $H$, the route row $C$, provenance $P$, and the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Start from the source and target certificate rows $S$ and $T$. These rows provide the two visible classifier surfaces required by the NameCert-morphism reading.
+
+The compiler graph is the displayed row $G$. Its graph-lifting and target-carrier readback are routed by $C$, while $\hsame$ preservation is supplied by $H$ and classifier preservation by $E$.
+
+Finally insert $R$ as the type-preservation component of the morphism. It binds the source and target subject-reduction rows to the same graph route, so compiler acceptance is read as preservation of the named classifier and reduction surfaces, not as an external semantic compiler.
+\end{proof}
+
+\begin{theorem}[TypePreservingCompiler ledger boundary]
+\label{thm:type-preserving-compiler-ledger-boundary}
+The public ledger boundary of an accepted $\TypePreservingCompilerUp$ carrier is exactly the displayed packet
+$$
+S,T,G,E,R,H,C,P,N.
+$$
+Every downstream consumer of the compiler reads source type-checking membership, target type-checking membership, graph lifting, $\Ext$ preservation, subject-reduction handoff, $\hsame$ transport, $\Cont$ routing, package provenance, and local $\NameCert$ data through those rows. No read factors through host operational semantics, quotient equality of terms, semantic target interpretation, erased derivation representatives, or an unrecorded compiler function.
+\end{theorem}
+\begin{proof}
+The carrier definition gives the complete inventory of public rows. The NameCert-obligation theorem then binds carrier admission, classifier membership, graph lifting, target preservation, subject reduction, transport, routing, provenance, and local naming to that inventory.
+
+For type preservation, apply the subject-reduction handoff. It forces every source reduction and membership read to reach the target through $T$ and $R$ after the graph route has been fixed.
+
+For compiler consumption, apply the morphism reading. It repacks the same finite rows as a classifier-preserving NameCert morphism. The carrier contains no further coordinate, so no host semantics, quotient equality, erased derivation, or unrecorded compiler function can be exported.
+\end{proof}
+
+\closureat{TypePreservingCompilerUp}{seedStr}
+
+\begin{closurestatus}{\TypePreservingCompilerUp}
+  \constructivestory{A $\TypePreservingCompilerUp$ packet is generated from source and target type-classifier membership rows, a compiler graph row, classifier-preservation and subject-reduction ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:type-preserving-compiler-carrier}, \autoref{thm:type-preserving-compiler-namecert-obligations}, \autoref{thm:type-preserving-compiler-subject-reduction-handoff}, \autoref{thm:type-preserving-compiler-morphism-correctness}, and \autoref{thm:type-preserving-compiler-ledger-boundary} bind the finite classifier-preserving compiler packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host compiler semantics, quotient equality of terms, erased typing derivations, semantic target interpretation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, graph lifting, target $\Ext$ preservation, source and target subject reduction, morphism reading, and ledger non-escape for the same finite compiler packet.}
+\end{closurestatus}
