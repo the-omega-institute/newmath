@@ -207,6 +207,7 @@ import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
 import BEDC.Derived.ContourSumWindowUp.TasteGate
+import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.CstaralgebraUp
@@ -320,6 +321,7 @@ import BEDC.Derived.RealScheduleFusionUp.TasteGate
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
+import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.MapperUp
 import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
@@ -1082,6 +1084,7 @@ import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
 import BEDC.Derived.FullAxisSealUp
+import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.GaloisExtUp.SeparabilityObligationRow
 import BEDC.Derived.GaloisExtUp.SharedCarrierCoverage
 import BEDC.Derived.GaloisGroupUp
