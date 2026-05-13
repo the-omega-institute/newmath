@@ -1,0 +1,51 @@
+\section{StreamName finite-window budget handoff}
+\label{sec:streamname-real-regseq-finite-window-budget-handoff}
+
+\begin{theorem}[StreamName Real RegSeq finite-window budget handoff]
+\label{thm:streamname-real-regseq-finite-window-budget-handoff}
+Let $\mathcal W$ be an accepted finite $\StreamNameUp$ package consumed by a
+$\RegSeqRatUp$ certificate, by a finite-window $\RealUp$ seal route, or by a
+route that passes through a $\RegularCauchyTailBudgetUp$ or
+$\ObservationBudgetLimiterUp$ packet. Then any consumer-visible regularity
+row, dyadic tolerance row, or $\RealUp$ seal row must be downstream of the same
+finite observation-budget surface:
+$$
+\mathsf{ProbeBundle},\quad \mathsf{InBundle},\quad
+\mathsf{UnaryHistory},\quad \ObservationBudgetLimiterUp,\quad
+\RegularCauchyTailBudgetUp.
+$$
+Thus the StreamName handoff first exposes the finite window, membership,
+unary-history, budget-limiter, and tail-budget rows before any RegSeqRat
+regularity, dyadic tolerance, or Real seal row is consumed.
+
+The handoff exports no quotient stream, selected host limit, countable-choice
+selector, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-real-regseq-finite-window-handoff}. The
+public StreamName package exports only selected rational-history classifier
+rows, the finite $\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$ membership
+rows, and $\mathsf{UnaryHistory}$ observation rows to a $\RegSeqRatUp$ or
+finite-window $\RealUp$ consumer.
+
+Next apply
+\autoref{thm:streamname-real-regseq-obligation-separation}. It places
+regularity and dyadic-tolerance rows on the $\RegSeqRatUp$ side and the seal
+classifier on the $\RealUp$ side, so none of those rows can be consumed as
+StreamName source data.
+
+Now route the same finite observation surface through the sibling budget
+chapters. The limiter factorization
+\autoref{thm:observation-budget-limiter-cauchy-tail-budget-factorization}
+forces any $\RegularCauchyTailBudgetUp$ use of the limiter row through the
+request-budget-cap service triad before tail windows, dyadic observations,
+readback, and seal rows are served.
+
+Finally use
+\autoref{thm:regular-cauchy-tail-budget-observation-gate}. It orders the
+regular source, tail threshold, observation limiter, finite StreamName window,
+dyadic ledger, RegSeqRat readback, and Real seal as one finite route. Since
+the cited StreamName, limiter, and tail-budget surfaces contain no coordinates
+for quotient streams, selected host limits, countable choice, or host real
+equality, those objects cannot be alternate sources for the handoff.
+\end{proof}
