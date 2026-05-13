@@ -75,7 +75,12 @@ static const char *R110_MANIFESTS[] = {
 };
 
 static const char *ALGO_R110_MANIFESTS[] = {
+    "manifests/ask/ask_basic.algo.r110.ct",
+    "manifests/bundle/bundle_length.algo.r110.ct",
+    "manifests/bundle/bundle_membership.algo.r110.ct",
+    "manifests/external_binary/external_binary_basic.algo.r110.ct",
     "manifests/hist/hsame_refl.algo.r110.ct",
+    "manifests/unary/unary_basic.algo.r110.ct",
 };
 
 static char *trim_ascii(char *s) {
