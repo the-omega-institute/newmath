@@ -431,6 +431,113 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
     return violations
 
 
+_ORIGIN_AI_RE = re.compile(r"\\origin\{ai\}")
+_FIELD_FAITHFUL_INSTANCE_RE = re.compile(
+    r"\binstance\s+\w+FieldFaithful\s*:?\s*FieldFaithful\s+\w+Up\b"
+)
+
+
+def detect_ai_chapter_missing_field_faithful(*, worktree: Path, base_sha: str) -> list[str]:
+    """Reject newly-added or newly-marked `\\origin{ai}` chapters whose
+    Lean-side `TasteGate.lean` does not contain a `FieldFaithful <X>Up`
+    instance. Background: TasteGate `round_trip` + `layer_separation`
+    forces injectivity on inhabitants but not field-level faithfulness
+    — a chapter with `XUp.mk a b c ... i` (9 BHist fields) could pass
+    those gates while `toEventFlow` only encodes 2 of the 9 fields.
+    `FieldFaithful` closes that loophole; `\\origin{ai}` chapters MUST
+    inhabit it. `\\origin{human}` chapters are exempt.
+    """
+    if not base_sha:
+        return []
+    # New or modified concrete_instances NameCert chapters in this round
+    changed = _changed_files(
+        worktree=worktree, base_sha=base_sha,
+        prefix="papers/bedc/parts/concrete_instances/",
+    )
+    changed = [p for p in changed if p.endswith(".tex")]
+    if not changed:
+        return []
+
+    violations: list[str] = []
+    for rel in changed:
+        m = _NAMECERT_FILE_RE.match(rel)
+        if not m:
+            continue
+        own_slug = m.group(1).replace("_", "")
+        path = worktree / rel
+        if not path.exists():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        if not _ORIGIN_AI_RE.search(text):
+            continue  # `\origin{human}` or no origin — exempt
+
+        # Locate the chapter's TasteGate.lean. Convention: PascalCase the
+        # compact slug then append `Up/TasteGate.lean`. e.g.
+        # `dyadicprecision` → `DyadicPrecisionUp/TasteGate.lean`. Walk
+        # the BEDC/Derived/ tree case-insensitively to find a folder
+        # whose lowercase name matches `<own_slug>up`.
+        derived_root = worktree / "lean4" / "BEDC" / "Derived"
+        if not derived_root.exists():
+            # Tree not present in this worktree's view — skip gate.
+            continue
+        target_folder = None
+        target_token = own_slug + "up"
+        for child in derived_root.iterdir():
+            if child.is_dir() and child.name.lower() == target_token:
+                target_folder = child
+                break
+        if target_folder is None:
+            # Chapter's Lean folder not created yet. For newly-added
+            # AI chapters this is a violation (the round adding the
+            # paper chapter must also add the Lean scaffold). For
+            # chapters merely re-marked `\origin{ai}`, skip — the
+            # operator may be backfilling.
+            if rel in _changed_files(
+                worktree=worktree, base_sha=base_sha,
+                prefix="papers/bedc/parts/concrete_instances/",
+                diff_filter="A",
+            ):
+                violations.append(
+                    f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — newly-added "
+                    f"\\origin{{ai}} chapter has no `lean4/BEDC/Derived/"
+                    f"<X>Up/TasteGate.lean` folder; the FieldFaithful "
+                    f"instance must be created alongside the paper chapter."
+                )
+            continue
+
+        taste_file = target_folder / "TasteGate.lean"
+        has_ff_instance = False
+        if taste_file.exists():
+            try:
+                taste_text = taste_file.read_text(encoding="utf-8", errors="ignore")
+            except OSError:
+                taste_text = ""
+            if _FIELD_FAITHFUL_INSTANCE_RE.search(taste_text):
+                has_ff_instance = True
+        # Also accept the instance elsewhere in the chapter's folder
+        if not has_ff_instance:
+            for lean_file in target_folder.rglob("*.lean"):
+                try:
+                    body = lean_file.read_text(encoding="utf-8", errors="ignore")
+                except OSError:
+                    continue
+                if _FIELD_FAITHFUL_INSTANCE_RE.search(body):
+                    has_ff_instance = True
+                    break
+
+        if not has_ff_instance:
+            violations.append(
+                f"{rel}: ORIGIN-AI MISSING FIELDFAITHFUL — `\\origin{{ai}}` "
+                f"chapter has no `instance ... : FieldFaithful <X>Up` in "
+                f"`lean4/BEDC/Derived/{target_folder.name}/`. Add the "
+                f"instance to TasteGate.lean per phase_c.txt §FieldFaithful."
+            )
+    return violations
+
+
 def detect_axis_confusion(*, worktree: Path, base_sha: str) -> list[str]:
     violations: list[str] = []
     for rel in _changed_tex_files(worktree=worktree, base_sha=base_sha):
@@ -455,6 +562,7 @@ GATE_DISPATCH = {
     "leanvariant": detect_leanvariant,
     "axis-confusion": detect_axis_confusion,
     "orphan-new-chapter": detect_orphan_new_chapter,
+    "ai-missing-fieldfaithful": detect_ai_chapter_missing_field_faithful,
 }
 
 

@@ -1891,6 +1891,13 @@ def verify_worktree_commits(
             logger.error(f"[P{wt.round_number}] ORPHAN NEW CHAPTER: {v}")
         return False, new
 
+    # Gate FF — \origin{ai} chapter missing FieldFaithful instance.
+    ff_v = gate_results.get("ai-missing-fieldfaithful", [])
+    if ff_v:
+        for v in ff_v[:10]:
+            logger.error(f"[P{wt.round_number}] AI MISSING FIELDFAITHFUL: {v}")
+        return False, new
+
     # Gate F — PDF compile
     ok, tail = run_pdf_build(wt)
     if not ok:
