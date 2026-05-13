@@ -69,6 +69,43 @@ theorem UniformModulusPacket_compact_metric_source_lock [AskSetup] [PackageSetup
     packet
   exact ⟨bundleRowUnary, radiusUnary, compactRoute, coverageRoute, provenancePkg⟩
 
+theorem UniformModulusPacket_root_carrier_row_exactness [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow compactRead foldedExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont bundleRow radius compactRead ->
+        Cont compactRead coverage transport ->
+          Cont precision radius foldLedger ->
+            Cont foldLedger nameRow foldedExport ->
+              PkgSig bundle foldedExport pkg ->
+                UnaryHistory tolerance ∧ UnaryHistory precision ∧ UnaryHistory bundleRow ∧
+                  UnaryHistory radius ∧ UnaryHistory coverage ∧ UnaryHistory compactRead ∧
+                    UnaryHistory foldLedger ∧ UnaryHistory foldedExport ∧
+                      Cont tolerance bundleRow coverage ∧ Cont bundleRow radius compactRead ∧
+                        Cont compactRead coverage transport ∧
+                          Cont precision radius foldLedger ∧
+                            Cont foldLedger nameRow foldedExport ∧
+                              PkgSig bundle foldedExport pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet compactRoute coverageRoute foldRoute exportRoute exportPkg
+  obtain ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, nameRowUnary,
+    toleranceBundleCoverage, _coveragePointwiseTransport, _packetFoldRoute,
+    _provenanceRoute, _provenancePkg⟩ := packet
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed toleranceUnary bundleRowUnary toleranceBundleCoverage
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed bundleRowUnary radiusUnary compactRoute
+  have foldLedgerUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary foldRoute
+  have foldedExportUnary : UnaryHistory foldedExport :=
+    unary_cont_closed foldLedgerUnary nameRowUnary exportRoute
+  exact
+    ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, coverageUnary,
+      compactReadUnary, foldLedgerUnary, foldedExportUnary, toleranceBundleCoverage,
+      compactRoute, coverageRoute, foldRoute, exportRoute, exportPkg⟩
+
 theorem UniformModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
       nameRow exported : BHist}
