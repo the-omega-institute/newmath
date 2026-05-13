@@ -64,6 +64,40 @@ Apply the NameCert obligation theorem. It binds the tail-witness exposure to $T$
 Because the classifier of \autoref{def:regular-cauchy-tail-fusion-classifier} compares only the displayed rows, no transported carrier can introduce a second tail source or an external comparison. The diagonal readback therefore receives the tail-meet handoff through exactly the finite route shown above.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail fusion monotone window handoff]
+\label{thm:regular-cauchy-tail-fusion-window-monotone-handoff}
+Every accepted $\RegularCauchyTailFusionUp$ packet reads its selected $\StreamNameUp$ finite windows $W$ and dyadic ledger $D$ before the tail witnesses $T$ and shared threshold $M$ are consumed. Later $\RealUp$ seal reads through $L$ cannot skip $W,D$ or replace them by an unwindowed tail oracle, quotient stream comparison, selected limit, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project
+$$
+F=(Q,X,W,D,T,M,R,L,H,C,P,N).
+$$
+The carrier orders the finite windows and dyadic ledger before tail witnesses and before the shared threshold row.
+
+Use \autoref{thm:regular-cauchy-tail-fusion-tail-meet-handoff}. It routes every cofinal tail witness through $Q,X,W,D,T,M,H,C,P,N$ before the diagonal readback $R$ is reached.
+
+Now apply the limit-transport link to the later seal row. Since the $\RealUp$ handoff reads $L$ only after the displayed diagonal readback route, coordinate exhaustion leaves no route that bypasses $W,D$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fusion shared-threshold exhaustion]
+\label{thm:regular-cauchy-tail-fusion-shared-threshold-exhaustion}
+Every $\RegularCauchyTailFusionUp$ route that reaches the diagonal readback $R$ or the $\RealUp$ seal $L$ uses the single displayed shared-threshold row $M$ supplied by the $\RegularCauchyTailMeetUp$ sibling. The packet has no second tail oracle, quotient stream comparison, selected limit, ambient completeness row, or independent threshold coordinate.
+\end{theorem}
+\begin{proof}
+Project
+$$
+F=(Q,X,W,D,T,M,R,L,H,C,P,N).
+$$
+The only shared-threshold coordinate in the carrier is $M$.
+
+Apply \autoref{thm:regular-cauchy-tail-fusion-tail-meet-handoff}. It sends each cofinal tail witness to $R$ through $M$, with all movement recorded by the displayed transport, continuation, provenance, and local naming rows.
+
+Use the sibling link to \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} to identify $M$ as the shared finite threshold surface. Use the link to \autoref{ch:concrete-instances-regularcauchylimittransport-namecert} for the subsequent route from $R$ to $L$.
+
+Coordinate exhaustion closes the claim. Since no other carrier coordinate has the role of a threshold, tail oracle, quotient comparison, selected limit, or completeness witness, every route to $R$ or $L$ uses the displayed $M$ row.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail fusion Real limit handoff]
 \label{thm:regular-cauchy-tail-fusion-real-limit-handoff}
 Every $\RealUp$ diagonal-limit consumer of an accepted $\RegularCauchyTailFusionUp$ packet reads the seal row $L$ only after the precision request, regular rational family, selected finite windows, dyadic tolerance ledger, finite tail witnesses, shared tail-meet row, diagonal readback, componentwise transports, continuation routes, package provenance, and local name have been displayed.
@@ -107,7 +141,7 @@ Finally apply the Real limit handoff theorem above. Since the carrier omits quot
 \begin{closurestatus}{\RegularCauchyTailFusionUp}
   \constructivestory{A $\RegularCauchyTailFusionUp$ packet is generated from a precision request, $\RegSeqRatUp$ regular-family row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, finite tail witnesses, a $\RegularCauchyTailMeetUp$ shared-threshold row, diagonal readback, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-fusion-carrier}, \autoref{def:regular-cauchy-tail-fusion-classifier}, \autoref{thm:regular-cauchy-tail-fusion-namecert-obligations}, \autoref{thm:regular-cauchy-tail-fusion-tail-meet-handoff}, \autoref{thm:regular-cauchy-tail-fusion-real-limit-handoff}, and \autoref{thm:regular-cauchy-tail-fusion-limit-transport-link} bind the finite cofinal tail-fusion packet from regular rational tail witnesses through the shared tail-meet row and limit-transport surface to the $\RealUp$ diagonal seal.}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-fusion-carrier}, \autoref{def:regular-cauchy-tail-fusion-classifier}, \autoref{thm:regular-cauchy-tail-fusion-namecert-obligations}, \autoref{thm:regular-cauchy-tail-fusion-tail-meet-handoff}, \autoref{thm:regular-cauchy-tail-fusion-window-monotone-handoff}, \autoref{thm:regular-cauchy-tail-fusion-shared-threshold-exhaustion}, \autoref{thm:regular-cauchy-tail-fusion-real-limit-handoff}, and \autoref{thm:regular-cauchy-tail-fusion-limit-transport-link} bind the finite cofinal tail-fusion packet from regular rational tail witnesses through the shared tail-meet row and limit-transport surface to the $\RealUp$ diagonal seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
