@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\CellularCarrierEncodingUp$}
+\label{ch:concrete-instances-cellularcarrierencoding-namecert}
+\origin{ai}
+
+The $\CellularCarrierEncodingUp$ packet realizes the cellular-carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as a finite NameCert surface. It sits beside the cellular-rule certificate of \autoref{ch:concrete-instances-cellularautomaton-namecert} and the closed Rule 110 trust substrate of \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}: those siblings certify cellular dynamics and trust-path replay, while this carrier certifies the encoding bridge from a $\BHist$ value to a displayed cell row.
+
+\falsifiablePrediction{A packet that omits the cell-row embedding coordinate cannot satisfy the CellularCarrierEncodingUp non-escape theorem.}
+
+\independenceWitness{Nearest siblings: cellularautomaton, cellulartrustsubstrate, groundcompilereventflowaudit, twin-substrate-audit. The carrier is not bijective to any sibling because it includes both BHist-to-bit encoding and cellular row embedding obligations, while the siblings expose only substrate dynamics, trust, audit flow, or two-substrate alignment rows.}
+
+\begin{definition}[Cellular carrier encoding carrier]
+\label{def:cellular-carrier-encoding-carrier}
+A $\CellularCarrierEncodingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(B,T,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\BHist$ row whose constructor trace is being encoded.
+\item $T$ is the $\mathsf{toBits}$ and readback row, recording the finite binary word obtained from $B$ and the inverse read that reconstructs the same $\BHist$ constructor trace.
+\item $R$ is the cell-row embedding coordinate, naming the finite width, default fill, start coordinate, and row slice that contains the word from $T$.
+\item $S$ is the cellular substrate witness row, citing the local cellular rule, admissible initial row, and finite observation window through which the embedded row is read.
+\item $H$ records componentwise $\hsame$ transports for $B,T,R,S,P,N$.
+\item $C$ records displayed $\Cont$ routes through the source $\BHist$ row, the bit encoding, the cell-row embedding, the substrate witness, the provenance row, and the local certificate.
+\item $P$ is the $\Pkg$ provenance over $\CellularCarrierEncodingUp$, $\BHist$, $\CellularAutomatonUp$, $\CellularTrustSubstrateUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CellularCarrierEncodingUp}$ row.
+\end{enumerate}
+The classifier compares carriers only by the displayed source $\BHist$ row, bit encoding and readback row, embedding coordinate, substrate witness, transports, continuation routes, package provenance, and local naming row. It has no coordinate for a host byte string, an unstated row offset, an unbounded cellular orbit, a detached substrate evaluator, or a quotient of encodings.
+\end{definition}
+
+\begin{theorem}[CellularCarrierEncoding NameCert obligations]
+\label{thm:cellular-carrier-encoding-namecert-obligations}
+For the carrier of \autoref{def:cellular-carrier-encoding-carrier}, the local $\NameCert_{\CellularCarrierEncodingUp}$ surface consists exactly of carrier exposure for $E=(B,T,R,S,H,C,P,N)$, source accountability through $B$, bit encoding and readback exactness through $T$, cell-row embedding accountability through $R$, cellular substrate witnessing through $S$, componentwise stability through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. No consumer can read a BHist-to-cell-row carrier equivalence, a cellular substrate row, or a finite encoding bridge as $\CellularCarrierEncodingUp$ evidence without passing through these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cellular-carrier-encoding-carrier}. The packet displays the source $\BHist$ row, the bit encoding and readback row, the cell-row embedding coordinate, the substrate witness, transports, continuation routes, provenance, and local naming row as its only coordinates.
+
+Source accountability and bit-readback exactness are read from $B$ and $T$. The row $T$ is tied to the constructor trace of $B$, so a consumer cannot replace the displayed source by a host byte string or a different binary word after the packet is accepted.
+
+Embedding accountability and substrate witnessing are read from $R$ and $S$. The embedding coordinate states where the finite word is placed in the cell row, and the substrate witness states which local cellular surface reads that row.
+
+The remaining rows close the NameCert surface. The $H,C,P,N$ rows transport, replay, record, and name exactly the displayed packet. Since the carrier lacks coordinates for unstated row offsets, unbounded orbits, detached evaluators, and quotient encodings, the listed rows exhaust the public obligation surface.
+\end{proof}
+
+\begin{theorem}[Cell-row embedding non-escape]
+\label{thm:cellular-carrier-encoding-nonescape}
+Every accepted $\CellularCarrierEncodingUp$ read factors through the displayed cell-row embedding coordinate $R$. In particular, a packet may certify the finite route
+$$
+B \longmapsto T \longmapsto R \longmapsto S \longmapsto H,C,P,N,
+$$
+but it cannot identify two encodings that differ only by an omitted row coordinate, hidden default fill, host-side byte layout, detached cellular evaluator, or unbounded orbit read.
+\end{theorem}
+\begin{proof}
+Start with an accepted encoding read. By \autoref{thm:cellular-carrier-encoding-namecert-obligations}, the read reaches the local NameCert row only through $B,T,R,S,H,C,P,N$.
+
+The row $T$ supplies the finite bit word and readback to $B$, but it does not by itself place the word inside the cellular substrate. The coordinate $R$ supplies that placement by naming the finite width, default fill, start coordinate, and row slice.
+
+The substrate witness $S$ then reads only the row supplied by $R$. Since the carrier has no hidden coordinate for another offset, byte layout, evaluator, or infinite orbit, omitting $R$ removes the route by which the cellular read can be tied back to the source $\BHist$ packet.
+\end{proof}
+
+The Lean follow-up must provide \texttt{Nontrivial CellularCarrierEncodingUp} and \texttt{FieldFaithful CellularCarrierEncodingUp} instances in \texttt{lean4/BEDC/Derived/CellularCarrierEncodingUp/TasteGate.lean}, with the canonical alignment surface expected at \texttt{BEDC.Derived.CellularCarrierEncodingUp.CellularCarrierEncodingTasteGate\_single\_carrier\_alignment}.
+
+\closureat{CellularCarrierEncodingUp}{seedStr}
