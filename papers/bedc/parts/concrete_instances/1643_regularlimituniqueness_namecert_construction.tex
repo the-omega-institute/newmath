@@ -238,6 +238,22 @@ Next apply the separated-limit certificate, classifier determinacy, and readback
 Finally use the shared-family scope, separated-comparison scope, scoped handoff, and ledger non-escape scope. Together they make the route public for completion consumers while excluding quotient streams, selected host limits, host equality, ambient completeness, and choice from the exported surface.
 \end{proof}
 
+\begin{theorem}[RegularLimitUniqueness consumer determinacy]
+\label{thm:regular-limit-uniqueness-consumer-determinacy}
+Let
+$$
+A=(F,D0,D1,\mu,R0,R1,E0,E1,S,H,C,P,N)
+$$
+be an accepted $\RegularLimitUniquenessUp$ packet. Any two completion consumers that read the public completion export of \autoref{thm:regular-limit-uniqueness-public-completion-export} determine the same separated $\RealUp$ seal comparison through the displayed row $S$. No such consumer can distinguish the two reads through quotient stream equality, selected host limits, host real equality, ambient completeness, or choice.
+\end{theorem}
+\begin{proof}
+Begin with classifier determinacy and readback seal exactness. These results identify the comparison route from the shared family $F$ through the two diagonal completion rows $D0,D1$, the readback rows $R0,R1$, the seal rows $E0,E1$, and the separated row $S$.
+
+Next apply the scoped handoff and the public completion export. They make that route the public completion-consumer surface for the displayed packet, so both consumers read the same separated comparison row rather than independent host data.
+
+Finally use the ledger non-escape scope. It excludes quotient stream equality, selected host limits, host real equality, ambient completeness, and choice from the exported route, leaving $S$ as the unique separated $\RealUp$ seal comparison available to either consumer.
+\end{proof}
+
 \closureat{RegularLimitUniquenessUp}{seedStr}
 \closureat{RegularLimitUniquenessUp}{obligationStr}
 \closureat{RegularLimitUniquenessUp}{scopedStr}
@@ -246,7 +262,7 @@ Finally use the shared-family scope, separated-comparison scope, scoped handoff,
 \begin{closurestatus}{\RegularLimitUniquenessUp}
   \constructivestory{A $\RegularLimitUniquenessUp$ packet is generated from one regular-Cauchy family, two diagonal completion candidates, a shared Cauchy threshold, two regular-rational readbacks, two real seal rows, one separated comparison row, displayed transport and continuation rows, package provenance, and local naming.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{The public surface records the carrier, classifier transport, shared-family route, readback-to-seal exactness, separated comparison exactness, ledger non-escape rows, and completion-consumer export for two regular-Cauchy completion candidates over the same displayed input and boundary.}
+  \scopeclosed{The public surface records the carrier, classifier transport, shared-family route, readback-to-seal exactness, separated comparison exactness, ledger non-escape rows, completion-consumer export, and consumer determinacy for two regular-Cauchy completion candidates over the same displayed input and boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
