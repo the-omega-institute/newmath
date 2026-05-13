@@ -66,6 +66,7 @@ import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.AtiyahSingerUp
+import BEDC.Derived.AuditMapMethodologyUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AuditGateBoundaryUp
 import BEDC.Derived.AuditGateCompositionUp.TasteGate
@@ -100,6 +101,7 @@ import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
@@ -194,6 +196,7 @@ import BEDC.Derived.TypeCheckingDerivationTraceUp
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.StreamNameSealFactorization
+import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
 import BEDC.Derived.DyadicBallUp.ObligationClosure
 import BEDC.Derived.DyadicBallUp.RefinementHandoff
