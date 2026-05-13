@@ -1,0 +1,18 @@
+\section{StreamName lattice-meet terminal factorization}
+\label{sec:streamname-lattice-meet-terminal-factorization}
+
+\begin{theorem}[StreamName lattice-meet terminal factorization]
+\label{thm:streamname-lattice-meet-terminal-factorization}
+A $\StreamNameUp$ finite-window lattice meet packet determines the terminal finite surface consumed by $\RegSeqRatUp$ readback and finite $\RealUp$ seal handoffs. The terminal surface consists exactly of the shared rational classifier, the $\mathsf{ProbeBundle}$ row, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observation rows, the $\DyadicRatCoreUp$ ledger, the $\RegSeqRatUp$ readback surface, the finite $\RealUp$ seal row, the displayed $\hsame$ and $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert$ rows.
+
+No terminal consumer of the meet packet may replace that surface by quotient stream equality, host index equality, selected limits, host real equality, ambient completeness, or an off-ledger $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+Start with the meet exhaustion theorem \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. It identifies the common finite packet read by RegSeqRat and RealUp consumers: classifier, probe bundle, membership, unary-history, dyadic, transport, continuation, provenance, and local naming rows.
+
+Next use the synchronized-window Real seal handoff of \autoref{thm:streamname-synchronized-window-real-seal-handoff}. The synchronized window sends the same selected observations to the finite $\RealUp$ seal route, so the seal-facing read is not independent of the meet packet.
+
+Now apply the RegSeqRat--RealUp source-boundary exhaustion theorem \autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion}. It places the $\RegSeqRatUp$ readback and finite $\RealUp$ handoff on the same StreamName, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, and local naming rows.
+
+Finally combine the pointwise handoff \autoref{thm:streamname-regseqrat-pointwise-handoff} with the Real seal factorization boundary \autoref{thm:streamname-real-seal-factorization-boundary}. These rows account for the terminal readback and seal coordinates and leave no carrier slot for quotient streams, host index equality, selected limits, host real equality, ambient completeness, or off-ledger seal data.
+\end{proof}
