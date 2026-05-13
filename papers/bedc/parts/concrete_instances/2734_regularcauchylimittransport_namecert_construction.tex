@@ -106,6 +106,7 @@ Now read the ledger exactness theorem \autoref{thm:regular-cauchy-limit-transpor
 
 Combining the two statements fixes the dyadic data inside $D$ throughout the transport. Since the carrier and classifier expose no additional arithmetic coordinate, the transported handoff cannot select a separate dyadic ledger or attach a hidden side condition.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_dyadic\_ledger\_stability}
 
 \begin{theorem}[Regular Cauchy limit transport seal-route determinacy]
 \label{thm:regular-cauchy-limit-transport-seal-route-determinacy}
@@ -262,17 +263,38 @@ Now use classifier handoff coverage and completion-boundary non-escape. Those th
 Because every consumer read factors through the same displayed rows, there is no place where an external stream quotient, host equality proof, selected limit, order trichotomy, or ambient completeness principle can enter.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit transport public export]
+\label{thm:regular-cauchy-limit-transport-public-export}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier
+$$
+T=(R,W,D,S,H,C,P,N),
+$$
+the public $\RegularCauchyLimitTransportUp$ export is exactly the finite handoff
+$$
+R \to W \to D \to S
+$$
+with provenance $H,C,P,N$. This export is the consumer-facing packet read by $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\RealCompletenessUp$, and it excludes quotient streams, host equality, selected external limits, trichotomy, and ambient completeness.
+\end{theorem}
+\begin{proof}
+First collect the route components. Selected-window exactness fixes the $R \to W$ read, dyadic ledger stability fixes the $W \to D$ ledger passage, and seal-route determinacy fixes the $D \to S$ seal handoff with provenance retained in $H,C,P,N$.
+
+Next use classifier-handoff coverage to make the packet visible to every named consumer. The $\RegSeqRatUp$ source, $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, and $\RealCompletenessUp$ consumer all read the same displayed rows.
+
+Finally apply completion-boundary non-escape. Since the boundary theorem excludes quotient streams, host equality, selected external limits, trichotomy, and ambient completeness, the public export contains exactly the finite handoff and its displayed provenance, with no further carrier coordinate.
+\end{proof}
+
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
 \closureat{RegularCauchyLimitTransportUp}{obligationStr}
 \closureat{RegularCauchyLimitTransportUp}{scopedStr}
+\closureat{RegularCauchyLimitTransportUp}{publicStr}
 
 \begin{closurestatus}{\RegularCauchyLimitTransportUp}
   \constructivestory{A $\RegularCauchyLimitTransportUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ selected-window row, a $\DyadicRatCoreUp$ tolerance and absolute-value ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package}, \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}, \autoref{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}, \autoref{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-export}, \autoref{thm:regular-cauchy-limit-transport-scoped-dependency-boundary}, and \autoref{thm:regular-cauchy-limit-transport-visible-scope-exhaustion} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, window-dyadic-seal triangle, classifier handoff coverage, completion boundary, obligation-closure export, scoped dependency boundary, visible scope exhaustion, and local naming obligations.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package}, \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}, \autoref{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}, \autoref{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-export}, \autoref{thm:regular-cauchy-limit-transport-scoped-dependency-boundary}, \autoref{thm:regular-cauchy-limit-transport-visible-scope-exhaustion}, and \autoref{thm:regular-cauchy-limit-transport-public-export} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, window-dyadic-seal triangle, classifier handoff coverage, completion boundary, obligation-closure export, scoped dependency boundary, visible scope exhaustion, public export, and local naming obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, host real equality, selected external limits, trichotomy, $\RealUp$ completeness, Lean verification, or a public standard bridge.}
-  \upgradepath{A future public export must expose the same scoped route as a stable consumer-facing packet without adding quotient streams, host equality, selected external limits, trichotomy, or ambient completeness.}
+  \upgradepath{Lean verification of \autoref{thm:regular-cauchy-limit-transport-public-export} must certify the consumer-facing packet before any public standard bridge is claimed.}
 \end{closurestatus}
