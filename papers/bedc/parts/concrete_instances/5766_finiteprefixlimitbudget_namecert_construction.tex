@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrefixLimitBudgetUp$}
+\label{ch:concrete-instances-finite-prefix-limit-budget-namecert}
+\origin{ai}
+
+The $\FinitePrefixLimitBudgetUp$ packet concretizes the bounded observation surface used by the Real completeness route of \autoref{ch:visions-real-completeness}. It consumes the selector discipline of \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, the finite window naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real-facing observation budget of \autoref{ch:concrete-instances-real-observation-budget-namecert}. Its role is to classify prefix-depth exhaustion before a $\RealUp$ seal read, so a diagonal-limit consumer can see exactly which finite rows have been spent.
+
+\falsifiablePrediction{Every accepted finite-prefix limit-budget packet has no route to host real equality, quotient streams, selected limits, or countable choice outside the displayed prefix-window rows.}
+
+\independenceWitness{finiteobservationbudgetselector, regularcauchyfiniteobservationroute, budgetedrealsealroute, cauchysealbudgetsynchronizer: this carrier fixes prefix-depth exhaustion before the seal read, while those siblings select budgets, route observations, synchronize seals, or package seal routes without this prefix-budget classifier.}
+
+\begin{definition}[Finite-prefix limit-budget carrier]
+\label{def:finite-prefix-limit-budget-carrier}
+A $\FinitePrefixLimitBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+F=(Q,B,W,D,R,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite diagonal request row naming the precision, prefix depth, and consumer site;
+\item $B$ is the $\FiniteObservationBudgetSelectorUp$ row that admits the displayed request as a finite observation budget;
+\item $W$ is the finite $\StreamNameUp$ prefix-window ledger selected under $B$;
+\item $D$ is the prefix-depth exhaustion row recording that every admitted offset lies inside the displayed finite window and that no later offset is served by this packet;
+\item $R$ is the $\RegSeqRatUp$ readback row assembled from the spent prefix windows;
+\item $S$ is the $\RealUp$ or completion-facing seal row reached only after $Q,B,W,D,R$ have been displayed;
+\item $E$ is the local exclusion ledger for host real equality, quotient streams, selected limits, countable choice, and unbounded schedules;
+\item $H$ records componentwise $\hsame$ transports for all displayed rows;
+\item $C$ records $\Cont$ routes from request to budget, from budget to prefix windows, from prefix exhaustion to regular readback, and from readback to the seal;
+\item $P$ records $\Pkg$ provenance over $\FiniteObservationBudgetSelectorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealObservationBudgetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FinitePrefixLimitBudgetUp}$ row.
+\end{enumerate}
+The carrier is a finite budget classifier. It exports no host real equality, quotient-stream carrier, selected completed limit, countable choice principle, hidden tail schedule, or ambient completeness witness.
+\end{definition}
+
+\begin{theorem}[Finite-prefix limit-budget NameCert obligations]
+\label{thm:finite-prefix-limit-budget-namecert-obligations}
+For the carrier of \autoref{def:finite-prefix-limit-budget-carrier}, the local $\NameCert_{\FinitePrefixLimitBudgetUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for $F=(Q,B,W,D,R,S,E,H,C,P,N)$ as a $\BHist$ packet;
+\item prefix-budget selection, requiring $Q$ to be admitted through the finite selector row $B$ before any $\StreamNameUp$ window is served;
+\item prefix-window exhaustion, requiring $D$ to account for every offset admitted by $W$ and to refuse every outside-prefix read;
+\item regular and seal handoff, requiring $R$ and $S$ to be reached only through the spent prefix-window route;
+\item non-escape, requiring $E,H,C,P,N$ to preserve the same finite route and to block host real equality, quotient streams, selected limits, countable choice, hidden tail schedules, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier. The displayed coordinates $Q,B,W,D,R,S,E,H,C,P,N$ are the only rows available to the local naming certificate.
+
+Read the selection side first. The selector row $B$ admits the finite request $Q$, and the window ledger $W$ lists exactly the prefix windows served by that admitted budget.
+
+Next read the exhaustion row $D$. It ties every served offset to the finite prefix window and records refusal for outside-prefix reads before the regular readback row $R$ or the seal row $S$ can be consumed.
+
+Finally use $E,H,C,P,N$. The exclusion ledger blocks the unlisted analytic objects, while transport, continuation, provenance, and local naming replay only the finite route already displayed by the packet.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget seal ordering]
+\label{thm:finite-prefix-limit-budget-seal-ordering}
+Every $\RealUp$ or completion-facing consumer of an accepted $\FinitePrefixLimitBudgetUp$ packet reaches its seal row only through the ordered finite route
+$$
+Q \to B \to W \to D \to R \to S.
+$$
+The displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows certify no route that reads the seal before the prefix-depth exhaustion row has been consumed.
+\end{theorem}
+\begin{proof}
+Start with the five NameCert rows of \autoref{thm:finite-prefix-limit-budget-namecert-obligations}. The prefix-budget and prefix-window rows place $Q,B,W$ before the exhaustion row $D$.
+
+The regular and seal handoff row then places $R$ and $S$ after $D$. Thus a seal-facing consumer must read the spent prefix route before it can reach the completion-facing seal.
+
+The transport and continuation rows preserve that order under componentwise $\hsame$ and $\Cont$ replay. Since the exclusion ledger contains no host equality, quotient stream, selected limit, countable choice, hidden tail schedule, or ambient completeness coordinate, there is no alternate seal route inside the packet.
+\end{proof}
+
+\begin{theorem}[Finite-prefix limit-budget Real route handoff]
+\label{thm:finite-prefix-limit-budget-real-route-handoff}
+The Real completeness route of \autoref{ch:visions-real-completeness} may consume an accepted $\FinitePrefixLimitBudgetUp$ packet as the finite classifier between selected prefix observations and a $\RealUp$ seal read. The handoff is compatible with \autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-observation-budget-namecert} because it preserves their budget, window, regular readback, and seal rows inside one displayed prefix-depth surface.
+\end{theorem}
+\begin{proof}
+Read the sibling selector first. The $\FiniteObservationBudgetSelectorUp$ row supplies the finite request budget consumed by $B$, and no observation is served before that row is displayed.
+
+Read the window and regular-rational siblings next. The $\StreamNameUp$ windows in $W$ and the $\RegSeqRatUp$ readback in $R$ are tied together by the prefix-depth exhaustion row $D$, so the route records which prefix rows have been spent before the seal-facing handoff.
+
+Finally compare with the $\RealObservationBudgetUp$ surface. That chapter supplies the completion-facing observation discipline; the present packet narrows it to the finite prefix-budget classifier needed before the Real completeness seal read. The non-escape row keeps quotient streams, host real equality, selected limits, countable choice, hidden tail schedules, and ambient completeness outside the handoff.
+\end{proof}
+
+\closureat{FinitePrefixLimitBudgetUp}{seedStr}
+
+\begin{closurestatus}{\FinitePrefixLimitBudgetUp}
+  \constructivestory{A $\FinitePrefixLimitBudgetUp$ packet is generated from a finite diagonal request, finite observation-budget selector row, finite StreamName prefix-window ledger, prefix-depth exhaustion row, RegSeqRat readback row, Real-facing seal row, exclusion ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-prefix-limit-budget-carrier}, \autoref{thm:finite-prefix-limit-budget-namecert-obligations}, \autoref{thm:finite-prefix-limit-budget-seal-ordering}, and \autoref{thm:finite-prefix-limit-budget-real-route-handoff} specify the finite prefix-budget carrier, five NameCert rows, seal ordering, and Real-route handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove real completeness, select a completed limit, identify quotient streams, assert host real equality, use countable choice, or close a Lean implementation.}
+  \upgradepath{Scoped closure requires checked carrier, prefix-exhaustion, seal-ordering, and Real-route handoff theorems for the same finite prefix-budget packet.}
+\end{closurestatus}
