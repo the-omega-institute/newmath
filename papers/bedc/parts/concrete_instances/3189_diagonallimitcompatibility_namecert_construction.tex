@@ -251,6 +251,87 @@ Use classifier transport, \autoref{thm:diagonal-limit-compatibility-classifier-t
 Apply non-escape, \autoref{thm:diagonal-limit-compatibility-non-escape}. The exported surface is exhausted by the listed rows and their provenance, so no $\CauchyLimitSealUp$ or $\RealUp$ consumer can bypass the triangle, tolerance, or window coordinates.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit window route lock]
+\label{thm:diagonal-limit-compatibility-window-route-lock}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the $\StreamNameUp$ window row $W$ is locked before any triangle estimate,
+tolerance read, seal-route read, or $\RealUp$ read can be consumed. Every such
+consumer uses the same displayed window family $W$ already named by the
+carrier and cannot choose a second window route after the packet has been
+accepted.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-limit-compatibility-carrier}.
+The row $W$ is part of the accepted packet, displayed before the downstream
+triangle, tolerance, seal, and real-facing reads are interpreted.
+
+Apply the shared-window ledger theorem,
+\autoref{thm:diagonal-limit-compatibility-shared-window-ledger}. It ties the
+diagonal source route to the same stream-window row $W$ used by the packet.
+
+Now apply the tolerance ledger handoff theorem,
+\autoref{thm:diagonal-limit-compatibility-tolerance-ledger-handoff}. Since
+the tolerance route reaches the seal through the fixed $D,W$ pair, no later
+triangle, seal, or $\RealUp$ consumer has a fresh window coordinate from
+which to build an alternate route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit seal readback exactness]
+\label{thm:diagonal-limit-compatibility-seal-readback-exactness}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every $\CauchyLimitSealUp$ consumer reaches the readback row $Q$ and the
+seal row $L$ only through the displayed route
+$$
+R,T,D,W,H,C,P,N.
+$$
+Thus $Q$ and $L$ are read as the packet's own seal readback and real seal
+coordinates, not as independently selectable completion data.
+\end{theorem}
+\begin{proof}
+Start with seal-route compatibility,
+\autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. It
+places the reads of $Q$ and $L$ behind the diagonal source row $R$, triangle
+row $T$, dyadic ledger $D$, and window row $W$.
+
+Use seal consumer factorization,
+\autoref{thm:diagonal-limit-compatibility-seal-consumer-factorization}. The
+factorization adds the transport, continuation, provenance, and local naming
+rows $H,C,P,N$ to the same route and excludes bypasses around the displayed
+triangle, tolerance, and window data.
+
+Consequently every seal consumer reads $Q$ and $L$ through the listed rows,
+so the readback and seal coordinates are exact coordinates of the accepted
+packet.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit Real seal non-escape]
+\label{thm:diagonal-limit-compatibility-real-seal-nonescape}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet, the $\RealUp$ seal row
+$L$ exports no quotient stream, selected host limit, host real equality,
+choice datum, or ambient completeness principle. A $\RealUp$ consumer can read
+$L$ only as the displayed seal coordinate reached through the packet route and
+cannot extract host-level completion data from it.
+\end{theorem}
+\begin{proof}
+Apply the non-escape theorem,
+\autoref{thm:diagonal-limit-compatibility-non-escape}. The exported
+$\DiagonalLimitCompatibilityUp$ surface contains only the named rows of the
+accepted packet and not any quotient stream, selected host limit, host real
+equality, choice datum, or ambient completeness principle.
+
+Now use seal readback exactness,
+\autoref{thm:diagonal-limit-compatibility-seal-readback-exactness}. It forces
+any $\RealUp$ read of $L$ to pass through the displayed seal route and
+readback rows, so $L$ cannot be used as an escape hatch into a host-level
+completion object.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit compatibility source-route exactness]
 \label{thm:diagonal-limit-compatibility-source-route-exactness}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet
