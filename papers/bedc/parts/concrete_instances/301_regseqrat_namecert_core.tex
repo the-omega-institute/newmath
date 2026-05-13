@@ -716,3 +716,43 @@ the tail-stable cover exhausts the whole seal-facing source surface and
 leaves no off-table quotient, host-equality, completion, or extra seal row to
 read.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-stable cover common-window lock]
+\label{thm:regseqrat-tail-stable-cover-common-window-lock}
+Let $\mathcal W$ be a finite cover family of public $\StreamNameUp$ windows
+over one accepted $\RegSeqRatUp$ packet. Suppose the cover is tail-stable,
+every overlap glues by refined-window gluing, and two $\RealUp$ seal
+consumers read through members of $\mathcal W$. Then the two seal reads factor
+through one accepted common finite window.
+
+The common window exposes exactly the $\StreamNameUp$ schedule rows, the
+$\DyadicRatCoreUp$ endpoint and radius ledgers, the $\RegSeqRatUp$
+classifier and regularity ledgers, and the displayed $\hsame$, $\Cont$,
+$\mathsf{Pkg}$, and $\NameCert$ provenance. It exposes no quotient stream,
+host real equality, selected limit, metric-completeness datum, completion
+point, or additional $\RealUp$ seal coordinate.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:regseqrat-tail-stable-window-cover-exhaustion} to the cover.
+Each seal consumer is forced onto the finite tail-stable cover surface, so
+neither read can leave the public $\StreamNameUp$ windows and their displayed
+regular-rational ledgers.
+
+Next connect the two selected cover members by the finite overlap chain and
+apply \autoref{thm:regseqrat-refined-window-chain-exhaustion}. The overlap
+gluing hypotheses repack that chain into one accepted common finite window
+whose rows are the displayed schedule, endpoint, radius, classifier,
+regularity, transport, package, and naming rows.
+
+Use \autoref{thm:regseqrat-common-refinement-classifier-determinacy} on the
+overlapping classifier reads. The determinacy row identifies the source rows
+seen by the two consumers, so their apparent cover-window origins are two
+restrictions of the same accepted common packet.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. Since the seal
+handoff consumes exactly that finite regular-rational source surface, both
+consumers factor through the single common window and no quotient-stream,
+host-equality, selected-limit, completion, metric-completeness, or extra seal
+coordinate remains available.
+\end{proof}
