@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\ObservationCouplingUp$}
+\label{ch:concrete-instances-observationcoupling-namecert}
+\origin{human}
+
+The $\ObservationCouplingUp$ packet realizes inter-history locality as a finite two-history naming surface. It records two displayed $\BHist$ rows, paired observation routes, componentwise transports, a symmetric coupling ledger, package provenance, and a local $\NameCert$ row. The packet gives downstream multi-observer consumers a bounded coupling object without adding a global frame, synchronized clock, host metric, or observer-independent carrier outside the displayed histories.
+
+\begin{definition}[Observation coupling carrier]
+\label{def:observation-coupling-carrier}
+An $\ObservationCouplingUp$ carrier is a finite $\BHist$ packet
+$$
+O=(h_a,h_b,r_a,r_b,H,C,L,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $h_a$ and $h_b$ are the two displayed $\BHist$ history rows being compared;
+\item $r_a$ and $r_b$ are paired $\Cont$ routes that expose the inspected observation windows from $h_a$ and $h_b$;
+\item $H$ records componentwise $\hsame$ transports for both history rows, both route rows, the coupling ledger, package provenance, and the local naming row;
+\item $C$ records the displayed consumer routes that read the two history windows and replay the coupling comparison;
+\item $L$ is the symmetric coupling ledger, storing the same finite boundary when the two history slots are exchanged;
+\item $P$ is the $\Pkg$ provenance over the two $\BHist$ rows, paired $\Cont$ routes, componentwise transports, coupling ledger, and local naming row;
+\item $N$ is the local $\NameCert_{\ObservationCouplingUp}$ row.
+\end{enumerate}
+The carrier contains no global frame, synchronized clock, ambient metric, cross-history equality oracle, host causal-rate coordinate, or observer-substance beyond the two displayed history rows.
+\end{definition}
+
+\begin{theorem}[Observation coupling locality obligations]
+\label{thm:observation-coupling-locality-obligations}
+Every accepted $\ObservationCouplingUp$ packet exposes inter-history comparison only through the finite rows
+$$
+h_a,h_b,r_a,r_b,H,C,L,P,N.
+$$
+A positive coupling witness must first read the two displayed $\BHist$ rows, then the paired $\Cont$ routes, then the componentwise $\hsame$ transports and symmetric ledger. No consumer may project a comparison from a global synchronization row, ambient frame, host metric, or hidden equality oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observation-coupling-carrier}. The only history data are $h_a$ and $h_b$, and the only observation accessors are the paired route rows $r_a$ and $r_b$.
+
+The locality obligation reads the histories through those routes before any comparison is consumed. The transport row $H$ keeps the comparison componentwise over the same displayed histories, while $C$ records the consumer replay paths.
+
+The ledger row $L$ is the only cross-history coupling row. Since the carrier has no global frame, synchronized clock, ambient metric, host causal-rate coordinate, or equality oracle, every accepted locality witness remains inside the finite packet.
+\end{proof}
+
+\begin{theorem}[Observation coupling symmetric rate boundary]
+\label{thm:observation-coupling-symmetric-rate-boundary}
+The coupling ledger $L$ of an accepted $\ObservationCouplingUp$ packet is observer-symmetric: exchanging $h_a,r_a$ with $h_b,r_b$ reads the same finite boundary through the transported rows $H$ and the displayed routes $C$. Any maximum cross-history causal-rate consumer can receive only this symmetric ledger boundary and cannot choose a preferred observer slot, global clock, or host-side metric ratio.
+\end{theorem}
+\begin{proof}
+Start with the displayed tuple $O=(h_a,h_b,r_a,r_b,H,C,L,P,N)$. The two observation sides are represented by matching history and route rows, and the carrier gives no distinguished anchor outside those rows.
+
+Use the ledger row $L$. By definition it stores the coupling boundary in a form that is replayed after either slot exchange, with $H$ carrying the componentwise $\hsame$ transports and $C$ carrying the consumer routes.
+
+A maximum-rate consumer therefore receives a symmetric finite ledger boundary rather than a host-side rate object. The absence of a preferred observer slot, global clock, and ambient metric prevents any asymmetric projection from the accepted packet.
+\end{proof}
+
+\begin{theorem}[Observation coupling NameCert obligations]
+\label{thm:observation-coupling-namecert-obligations}
+The local $\NameCert_{\ObservationCouplingUp}$ surface consists exactly of carrier admission for $O=(h_a,h_b,r_a,r_b,H,C,L,P,N)$, two displayed $\BHist$ source rows, paired $\Cont$ route exposure, componentwise $\hsame$ stability, symmetric ledger replay, $\Pkg$ provenance, local naming, and no-global-frame exclusion.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observation-coupling-carrier}. The two source rows, paired route rows, transport row, route replay row, ledger row, package row, and local naming row are all displayed coordinates.
+
+The locality obligations supply the reading order for the two histories and their paired routes. The symmetric rate boundary supplies the slot-exchange clause for the ledger $L$.
+
+The remaining obligation is exclusion. Because the carrier lists no global frame, synchronized clock, ambient metric, cross-history equality oracle, or observer-substance coordinate, the local certificate surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Observation coupling ledger non-escape]
+\label{thm:observation-coupling-ledger-nonescape}
+Every downstream consumer of an accepted $\ObservationCouplingUp$ packet factors through $h_a,h_b,r_a,r_b,H,C,L,P,N$. The packet exports no global synchronization value, no host observer frame, no ambient spacetime coordinate, no selected maximum-rate witness, no quotient equality between histories, and no causal relation outside the displayed symmetric ledger.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The consumer-visible rows are exactly $h_a,h_b,r_a,r_b,H,C,L,P,N$.
+
+Apply the locality obligations to force any inter-history read through the two displayed histories and paired $\Cont$ routes. Apply the NameCert obligations to keep the read attached to the componentwise transports, replay routes, package provenance, and local name.
+
+Finally apply the symmetric boundary theorem. The only cross-history content exported to downstream rate or invariant consumers is the ledger $L$, so no global synchronization value, host observer frame, ambient spacetime coordinate, selected maximum-rate witness, quotient equality, or undisplayed causal relation can be projected from the packet.
+\end{proof}
+
+\closureat{ObservationCouplingUp}{seedStr}
+
+\begin{closurestatus}{\ObservationCouplingUp}
+  \constructivestory{An $\ObservationCouplingUp$ packet is generated from two displayed $\BHist$ rows, paired $\Cont$ observation routes, componentwise $\hsame$ transports, consumer replay routes, a symmetric coupling ledger, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observation-coupling-carrier}, \autoref{thm:observation-coupling-locality-obligations}, \autoref{thm:observation-coupling-symmetric-rate-boundary}, \autoref{thm:observation-coupling-namecert-obligations}, and \autoref{thm:observation-coupling-ledger-nonescape} bind the finite two-history coupling packet and its no-global-frame boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close multi-history causal semantics, numeric light-speed values, global synchronization, ambient metric geometry, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, locality obligations, symmetric ledger replay, NameCert obligations, and ledger non-escape for the same finite packet.}
+\end{closurestatus}
