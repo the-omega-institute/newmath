@@ -1,21 +1,3 @@
-\section{Constructive content and axiom purity}
-\label{sec:real-completeness-axiom-purity}
-
-\begin{remark}[Explicit moduli throughout]
-\label{rem:real-completeness-explicit-moduli}
-Every modulus appearing in \autoref{def:real-completeness-regular-cauchy-rat}, \autoref{def:real-completeness-diagonal-limit}, and \autoref{thm:real-completeness-limit-exists-unique} is specified as a function on naturals and rationals computed by primitive recursion on the inductive carriers of \autoref{ch:concrete-instances-rat-namecert}. The required proof obligations are exactly the certificate-level regularity, convergence, and $\psame$-closure facts that avoid quotienting an equivalence relation by a host-level $\Quot$-soundness step. These obligations are the axiom-pure targets for the later machine-checked real-completion layer.
-\end{remark}
-
-\begin{remark}[Reuse for the continuous certificate]
-\label{rem:real-completeness-reuse-continuous}
-The diagonal limit construction (\autoref{def:real-completeness-diagonal-limit}) identifies the limit step expected by the continuous certificate $\NameCert_{\ContinuousFunctionUp}$ (\autoref{ch:concrete-instances-continuous-namecert}). A continuous function on $\NameCert_{\RealUp}$ is, in BEDC, a function on $\RegSeqRat$ together with an explicit pointwise modulus; once the real-completion obligations are checked, downstream continuity certificates can consume the same diagonal regularity bound. The reuse is structural, not a separate construction.
-\end{remark}
-
-\begin{remark}[Composition with the compact uniform-continuity capstone]
-\label{rem:real-completeness-compact-composition}
-After $\NameCert_{\RealUp}$ has the supplied completion certificate and the continuous-function certificate is available, the compact uniform-continuity capstone (\autoref{ch:visions-compact-uniform-continuity}) can be instantiated on closed bounded intervals $[a, b] \subset \RealUp$. The downstream consumer is a future kernel theorem that, for every continuous $f \colon [a, b] \to \RealUp$, derives a uniform modulus depending only on the tolerance from the checked compactness and continuity certificates.
-\end{remark}
-
 \concretizedIn{ch:concrete-instances-regularcauchydiagonal-namecert}{Stationary regular Cauchy diagonal packets are represented as finite NameCert carriers over RatUp, StreamNameUp, RegSeqRatUp, and RealUp.}
 \concretizedIn{ch:concrete-instances-finitewindowenvelope-namecert}{Finite observation windows are realized as a NameCert envelope linking DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp seals.}
 \concretizedIn{ch:concrete-instances-regular-cauchy-limit-modulus-namecert}{The diagonal-limit modulus is represented as a finite NameCert packet over RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, and RealUp.}
@@ -35,5 +17,3 @@ After $\NameCert_{\RealUp}$ has the supplied completion certificate and the cont
 \concretizedIn{ch:concrete-instances-stationarydiagonalwindow-namecert}{Stationary diagonal finite-window classifier correspondence is realized as a concrete NameCert packet linking RatUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp.}
 \concretizedIn{ch:concrete-instances-modulus-indexed-tail-cover-namecert}{The modulus-indexed finite tail-window cover is realized as a concrete NameCert packet from unary precision requests through CauchyModulusUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp seal rows.}
 \concretizedIn{ch:concrete-instances-productregularcauchylimit-namecert}{Product regular-Cauchy limit packets realize the product-limit handoff across CauchyProductUp, RegularCauchyLimitClassifierUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-bounded-cauchy-cover-namecert}{Bounded Cauchy covers realize the finite budget-to-window-to-RegSeqRat-to-RealUp seal route used by the real-completion diagonal argument.}
-\concretizedIn{ch:concrete-instances-stationarywindowlattice-namecert}{Stationary window lattices realize common finite-window refinement for stationary Real-completeness diagonal consumers.}
