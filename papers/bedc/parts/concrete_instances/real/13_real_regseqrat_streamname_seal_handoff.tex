@@ -584,3 +584,44 @@ carrier, host equality, selected limit, completeness row, arithmetic or order
 package, Classical-choice row, or metric-completeness row is present in the
 source packet, so none can be exported by the consumer-visible splice.
 \end{proof}
+
+\begin{theorem}[RealUp open-phase terminal consumer non-escape]
+\label{thm:realup-open-phase-terminal-consumer-nonescape}
+A terminal $\RealUp$ seal consumer boundary is accepted exactly when its route
+factors through the finite four-face packet consisting of the
+$\DyadicRatCoreUp$ observation rows, the $\StreamNameUp$ finite-window rows,
+the $\RegSeqRatUp$ regularity-spine rows, and the $\RealUp$ seal/readback
+rows, glued only by the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ coordinates.
+
+Consequently the terminal boundary exports no quotient carrier, host equality,
+selected limit, completeness row, arithmetic package, order package,
+Classical-choice row, or metric-completeness coordinate. Every accepted
+terminal read is a read of the four displayed faces themselves.
+\end{theorem}
+\begin{proof}
+First identify the admissible surface. Apply
+\autoref{thm:realup-open-phase-namecert-surface-completeness}. It says the
+local $\NameCert$ surface for an open-phase seal is exhausted by the dyadic
+observation face, stream-window face, regularity-spine face, seal/readback
+face, and the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+coordinates.
+
+Now route the terminal consumer read. Apply
+\autoref{thm:realup-open-phase-seal-route-totality}. A consumer-visible
+terminal route out of the seal has no fifth source row; it must pass through
+the same four-face packet before any public read is accepted.
+
+It remains to check that the route is stable under the naming and classifier
+surface. Use \autoref{thm:realup-seal-source-classifier-correspondence} to
+transport seal-source classifiers componentwise, and use
+\autoref{thm:realup-streamname-factorization-pullback-correspondence} to keep
+the stream-name factorization inside the displayed finite-window pullback.
+
+Thus both directions are fixed by the same finite packet: every accepted
+terminal consumer route factors through the four faces, and every route built
+from those faces is accepted by the open-phase $\NameCert$ surface. Since the
+packet contains no quotient carrier, host equality, selected limit,
+completeness row, arithmetic or order package, Classical-choice row, or
+metric-completeness coordinate, none can be exported at the terminal boundary.
+\end{proof}
