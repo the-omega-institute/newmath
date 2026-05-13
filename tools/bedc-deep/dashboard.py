@@ -114,7 +114,16 @@ def render_candidate_inbox() -> str:
     if not by_event:
         return "  events: 0"
     parts = [f"{k}={v}" for k, v in by_event.items()]
-    return f"  events: {data.get('events', 0)}   " + "   ".join(parts)
+    lines = [f"  events: {data.get('events', 0)}   " + "   ".join(parts)]
+    rejection_reasons = data.get("rejection_reasons") or []
+    if rejection_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
+        lines.append(f"  top rejects: {top}")
+    logic_reasons = data.get("logic_packet_gate_reasons") or []
+    if logic_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
+        lines.append(f"  logic gate rejects: {top}")
+    return "\n".join(lines)
 
 
 def render_target_table() -> str:
