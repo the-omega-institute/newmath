@@ -16,6 +16,12 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+inductive AuditGateBoundaryUp : Type where
+  | mk
+      (sourceScan dependencyReport targetAudit originLedger transport continuation provenance gap name :
+        BHist) :
+      AuditGateBoundaryUp
+
 def AuditGateBoundaryCarrier [AskSetup] [PackageSetup]
     (sourceScan dependencyReport markerResolution originLedger transport route provenance gap
       nameCert : BHist)
