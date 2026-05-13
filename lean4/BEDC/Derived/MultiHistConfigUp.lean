@@ -158,6 +158,27 @@ theorem MultiHistConfigCarrier_no_global_sync_ledger [AskSetup] [PackageSetup]
         targetProvenanceLocal, targetPkgSig⟩,
       sameSameRow, sameProvenance, sameLedger1⟩
 
+theorem MultiHistConfigCarrier_finite_ledger_obligations [AskSetup] [PackageSetup]
+    {h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MultiHistConfigCarrier h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert
+        bundle pkg ->
+      Cont ledger0 route ledgerRead ->
+        UnaryHistory ledgerRead ∧ hsame ledgerRead ledgerRead ∧
+          MultiHistConfigVisibleRow h0 h1 ledger0 ledger1 noSync sameRow route provenance
+            localCert ledger0 := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory ProbeBundle Pkg
+  intro carrier ledgerRouteRead
+  obtain ⟨h0Unary, h1Unary, _noSyncUnary, routeUnary, _localCertUnary, h0H1Ledger,
+    _ledgerNoSyncSame, _sameRouteProvenance, _provenanceLocalLedger, _pkgSig⟩ := carrier
+  have ledger0Unary : UnaryHistory ledger0 :=
+    unary_cont_closed h0Unary h1Unary h0H1Ledger
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed ledger0Unary routeUnary ledgerRouteRead
+  exact
+    ⟨ledgerReadUnary, hsame_refl ledgerRead,
+      Or.inr (Or.inr (Or.inl (hsame_refl ledger0)))⟩
+
 theorem MultiHistConfigCarrier_component_transport_scope [AskSetup] [PackageSetup]
     {h0 h1 ledger0 ledger1 noSync sameRow route provenance localCert h0' h1' ledger0'
       ledger1' noSync' sameRow' provenance' : BHist} {bundle : ProbeBundle ProbeName}
