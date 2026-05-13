@@ -1,0 +1,99 @@
+---
+title: "Total Inside, Universal Outside"
+subtitle: "BEDC is not Turing complete. Rule 110 is. Both facts are true simultaneously, and the way they fit together is structurally forced."
+author: "The Omega Institute"
+date: 2026-05-14
+description: "Why total functional languages and Turing-complete substrates coexist without contradiction. BEDC is in the same family as Coq, Agda, Lean, Idris 2 — but with the smallest axiomatic footprint of any of them currently audited."
+---
+
+```{=html}
+<div class="lang-switch"><a href="total-inside-universal-outside.zh-CN.qmd">中文</a></div>
+```
+
+## A question the cellular substrate sharpens
+
+Rule 110 is Turing complete (Cook 2004). The BEDC project hosts Rule 110 inside its kernel as a Lean development. Naively one would expect this to make BEDC Turing complete by association. It does not. The host and the substrate live at different layers of the project, and the two layers have different totality discipline.
+
+This is not a defect of the host. It is structurally forced.
+
+## The two facts, made precise
+
+**Fact one.** Every BEDC function terminates. There is no `partial` annotation, no general recursion, no escape hatch. The Lean 4 kernel rejects any term whose termination it cannot verify; BEDC adds the further constraint of `axiom-purity --strict`, which rules out even the imported axioms that might quietly weaken the discipline (`Classical.choice`, `Quot.sound`, `propext`). BEDC is a *total functional language*: 1837 theorems, every one of them a finite typed term.
+
+**Fact two.** The cellular substrate at `rule110/` is Turing universal. Cook proved that you can compile any Turing machine into a cyclic tag system, then encode the cyclic tag system as the initial row of a Rule 110 evolution. The substrate, given the right starting configuration, can simulate any computation that any Turing machine can do.
+
+Both facts are true. The question is how.
+
+## The bridge: step-indexed encoding
+
+The bridge between a total host and a universal substrate is *step-indexed encoding*. Instead of writing the substrate's evolution as a function `evolve : InitialRow → FinalRow` (which would be partial, since some initial rows lead to non-terminating evolutions), you write it as a family of functions
+
+```lean
+r110_run_n_steps : Nat → InitialRow → CellRow
+```
+
+The `Nat` parameter is *fuel*. Each value of fuel produces a total function: given fuel `n` and any initial row, return the state after exactly `n` steps. The substrate's potentially-infinite computation is decomposed into a family of finite computations, one per fuel value.
+
+This is what `lean4/BEDC/FKernel/` does in practice. The Rule 110 evaluator inside BEDC takes a fuel parameter and returns the orbit after `n` steps. The substrate's universality is preserved on the substrate side; the host's totality is preserved on the host side; neither property transfers across the boundary.
+
+## Why the host has to be total
+
+You could imagine a different design where the host language admits partial functions, so it could express "run Rule 110 until it halts" directly. There are languages that do this — Haskell, OCaml, Standard ML, Python. They all admit non-termination as a language feature.
+
+The reason BEDC does not, and cannot, take that route is structural rather than aesthetic. The visions chapter [Where Induction Comes From](where-induction-comes-from.qmd) explains why: a closed observational system records finite observations. If the host's terms can be divergent processes rather than finite proofs, then host-level "observations" stop being finite, and the closure premise of the whole framework fails. A non-total host is structurally incompatible with the project's epistemological reading of its own kernel.
+
+The theorem from the [paper's visions chapter](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/visions/strong_normalization_vs_turing_completeness.tex) is `thm:strong-normalization-closed-observation-forces-totality`:
+
+> Let *H* be a host system that claims to describe a closed observational system *S* by recording finite observations of *S* as terms of *H*. Then *H* must itself be total, on pain of contradicting the closure premise.
+
+The argument runs: if *H* is non-total, it admits a divergent term *t*. The semantic content of *t* is not a finite observation. Then either the observation it claims to record is divergent (contradicting closure) or the record diverges from the observation (contradicting the structural correspondence). Either way the framework fails.
+
+So the host's totality is not a design choice; it is what the framework requires of any system that wants to record a closed substrate.
+
+## BEDC's neighbours: Coq, Agda, Lean, Idris 2
+
+Several total functional languages already exist. The family is well-populated:
+
+| Language | Universe levels | Default axioms | Partial annotation |
+|---|---|---|---|
+| Coq | Predicative + impredicative `Prop` | `funext`, sometimes `propext` | None |
+| Agda | Predicative; `--without-K` flag | None by default | None |
+| Lean 4 | Predicative `Type u`; impredicative `Prop` | `Classical.choice`, `Quot.sound`, `propext` (stdlib) | None |
+| Idris 2 (QTT mode) | Predicative + quantitative | None | `partial` (explicit) |
+| **BEDC (Lean 4 + audit)** | Lean 4's | **None** (audited) | None |
+
+BEDC sits at the minimum-commitment end of this family. The `axiom-purity --strict` audit runs `#print axioms` on every BEDC theorem and rejects any standard library axiom. Currently 1837/1837 theorems pass. Among total functional languages in active use, this is the smallest residual axiomatic footprint that has been audited mechanically.
+
+A reader who finds total functional languages restrictive should note: every theorem any of these languages produces is a *proof*. Under the Curry-Howard correspondence, a non-total language would allow "proofs" that go on forever — equivalent to allowing arbitrary statements to be derived by an infinite loop. The cost of admitting non-termination is the cost of giving up consistency as a proof system. Total functional languages take the trade in the other direction: they accept the loss of direct partial function definitions in exchange for proof-system consistency.
+
+## What BEDC cannot directly express
+
+A total host cannot directly define, as a function of type `A → B`, any algorithm whose termination is not internally provable. There exist Turing-computable functions whose totality is provable in a stronger meta-theory but not in CIC. These functions can be *described* inside BEDC via step-indexed encoding (`evaluate up to fuel n`), but they cannot be defined as direct BEDC functions of type `A → B`.
+
+The set of BEDC-definable functions is therefore a strict subset of the Turing-realisable partial functions on natural numbers. The difference is exactly the set of computable functions whose totality is unprovable inside CIC.
+
+This is the precise statement of "BEDC is not Turing complete". It does not mean BEDC can't talk about universal computation; it can, via step indexing. It means BEDC can't *be* the universal computation.
+
+## The cleanness of the separation
+
+The two layers — host total, substrate universal — meet without interfering. The substrate's universality means it can host any computation. The host's totality means every host proof is finite. These are independent properties: one is about what computations the substrate can simulate, the other is about what proofs the host can write. The bridge (step-indexed encoding) preserves both properties on their own side without transferring either across.
+
+This is what the paper calls *the independence of universality and closure* (`prin:cellular-automaton-universality-vs-closure`). The cellular reading takes the principle and gives it a substrate exhibit. The strong-normalisation reading takes the principle and gives it a host-side exhibit. Together they show that the framework's commitment is exactly to *the observation channel structure*, not to the computational power of either side.
+
+## What this is *not*
+
+This is not a claim that total functional languages are the only valid programming paradigm. Haskell does excellent work as a non-total functional language; OCaml does excellent work as a partially-total functional language. BEDC's totality is not a normative claim about all programming, just about the specific class of systems that want to record a closed observational substrate.
+
+It is also not a claim that BEDC has *more* expressive power than non-total languages. It has strictly less, on the partial-function axis. The trade is consistency-as-proof-system in exchange for the lost partial functions.
+
+What it *is*: a precise reading of why the host and the substrate can have different totality discipline, why the discipline is forced rather than chosen, and where BEDC sits in the family of languages that have made the same trade.
+
+```{=html}
+<div class="cta-choices">
+  <a href="pattern-as-mark.qmd"><strong>← Pattern as Mark</strong><br/>The classifier discipline at the substrate side of this same architecture.</a>
+  <a href="closure-universality-quadrant.qmd"><strong>The Four Substrate Quadrant →</strong><br/>The 2×2 map of universality × closure, and where BEDC's host and substrate each sit.</a>
+  <a href="where-induction-comes-from.qmd"><strong>Where Induction Comes From →</strong><br/>The closure premise that forces the host's totality, made structural.</a>
+</div>
+```
+
+— *The Omega Institute*

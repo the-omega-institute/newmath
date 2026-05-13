@@ -1,0 +1,120 @@
+---
+title: "Why Not Use Cells?"
+subtitle: "If Rule 110 and BHist are equivalent under encoding, why does BEDC pick the abstract carrier? The answer is structural, and it explains why the project keeps an exhibit rather than promoting it to a foundation."
+author: "The Omega Institute"
+date: 2026-05-14
+description: "BEDC's carrier is `inductive BHist`. The cellular substrate could be the carrier instead — they are equivalent under bit-string encoding. The project keeps BHist because it minimises residual commitment. The exhibit-vs-foundation distinction, made structural."
+---
+
+```{=html}
+<div class="lang-switch"><a href="why-not-use-cells.zh-CN.qmd">中文</a></div>
+```
+
+## A question the cellular reading invites
+
+The [cellular reading](pattern-as-mark.qmd) of BEDC frames Rule 110 as the project's substrate exhibit. The 220-line ANSI C99 sub-system instantiates the closed-observational framework at minimum scale. Wolfram has argued for years, in *A New Kind of Science*, that cellular automata are the natural carrier of physical reality. The cellular substrate looks like an obvious candidate to be promoted from exhibit to foundation: rewrite BEDC so its kernel terms *are* cellular orbits rather than abstract inductive structures.
+
+The project does not do this. The reasons are not aesthetic. They are structural, and they say something about how the framework allocates commitments.
+
+## The equivalence: two carriers, one observable content
+
+A `BHist` value is a finite binary string. The recursive definition
+```lean
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+gives, by reading constructors right-to-left, a one-to-one correspondence between `BHist` values and finite binary strings.
+
+A finite binary string of length $n$ can be embedded into a cellular substrate's initial row as the first $n$ cells, with the remaining cells set to a stated default (typically the ether pattern). The orbit of the substrate on this initial row generates a sequence of rows; at time zero, the orbit recovers the original string.
+
+The composition is straightforward:
+
+```
+BHist value ←→ binary string ←→ initial cell row
+```
+
+So the two carriers are *equivalent at the level of finite observable data*. Both store the same finite information; both let the framework's verbs operate on the same content. The closure premise is satisfied by both — `BHist` at the kernel layer (a sub-universal-closed substrate), cellular orbits at the substrate layer (a universal-closed substrate). The no-induction theorem transports either way.
+
+The visible difference is which *next step* each carrier privileges: `BHist` provides `e0(_)` and `e1(_)` as the canonical extensions; the cellular substrate provides the Rule 110 transition as the canonical next-state. Beyond that, the observable content is the same.
+
+## What changes if you switch carriers
+
+Switching from `BHist` to a cellular carrier would realign every kernel verb:
+
+| Kernel verb (current) | Defined on `BHist` | Cellular equivalent |
+|---|---|---|
+| `Mark` | Constructor pattern | Cell row classified as ether / glider $G$ |
+| `Hist` | Sequence of constructors | Orbit segment of length $n$ |
+| `Ext` | History extension | Orbit extension by one R110 step |
+| `Cont` | History continuation | Orbit continuation under R110 |
+
+The *semantic content* of each verb is preserved across the switch. What changes is the carrier on which the verb is defined. Every theorem in `lean4/BEDC/` would be rewritten to reference cellular orbits instead of `BHist` terms; every audit gate would validate the new statements; the Lean 4 build would have to be regenerated.
+
+The work is not small. The `lean4/BEDC/FKernel/` development contains ~1837 mechanically-verified theorems on `BHist`. Transposing them is uniform but extensive. The *structural content* would be preserved; the realisation as Lean 4 source would change uniformly.
+
+So if the structural content is preserved, why not switch?
+
+## Why the project keeps `BHist`
+
+Two structural reasons.
+
+**Minimum residual commitment.** `BHist` expresses the form of distinction with the smallest possible inductive structure: one nullary constructor, two unary recursive constructors. There is no width parameter, no neighbourhood discipline, no transition table.
+
+Switching to a cellular carrier would introduce all three. The width determines what observations the substrate admits; the neighbourhood discipline determines locality; the transition table determines the substrate's specific dynamics. Each of these is a commitment that `BHist` does not require.
+
+`BHist` therefore *minimises residual commitment* in a structural sense. The cellular carrier *expands* it. The project's stated discipline is to minimise commitment at the foundation (the [distinction-as-foundation](distinction-as-foundation.qmd) essay makes this position explicit); the cellular carrier would violate that discipline by adding structure that is not foundationally necessary.
+
+**Substrate-independence.** The closure premise is substrate-independent. Type-theoretic terms, cellular rows, and tensor activations (see [The Third Substrate](large-model-as-inscription-point.qmd)) all admit closed observational reading. The framework's claims do not depend on any specific substrate.
+
+Choosing `BHist` *refuses to privilege* any one substrate. Cellular automaton, Turing machine, lambda calculus, register machine — each of these could be the carrier. `BHist` is the carrier that doesn't commit. It identifies the form of distinction as prior to any specific computational substrate.
+
+The cellular carrier specialises this position. It commits to one substrate (cellular automaton) over the others (lambda calculus, register machine, etc.). Doing so is a presentational gain in concreteness at the cost of structural generality.
+
+## Exhibit vs foundation
+
+The framework's `rem:cellular-carrier-as-exhibit` makes the structural relationship explicit:
+
+> The `rule110/` sub-system stands to the cellular-carrier alternative as exhibit stands to foundation. The project uses Rule 110 to illustrate the closure premise's content at minimal concrete scale; the substrate is offered as a witness to the framework's claims, not as the framework's definitional basis.
+
+The distinction matters. An exhibit demonstrates the framework's content; a foundation defines it. Rule 110 demonstrates that the closure premise has a concrete instance at the smallest practical scale (220 lines). It does not define what closure is; closure is defined on any substrate, with Rule 110 happening to be one instance.
+
+Promoting the substrate to foundation would conflate the witness role with the definitional role. The framework's claims would *appear* to depend on the cellular reading specifically, when in fact they depend only on the substrate-independent closure structure. The Wolfram-style move (cellular automata as the carrier of physical reality) is not the BEDC move; BEDC is structurally neutral about which substrate carries reality, and `BHist` is the carrier that respects that neutrality.
+
+## What would justify a switch
+
+The chapter `cellular_substrate_as_carrier_alternative.tex` names three conditions under which a switch would be motivated. None currently applies.
+
+**Physical-realisation evidence.** If empirical evidence accumulated that some specific cellular substrate is the actual carrier of physical reality, the project would have empirical motivation to align its carrier with the physical one. The cosmological reading of `def:cellular-automaton-cosmological-reading` is currently a working hypothesis, not a confirmed fact. The project does not depend on it.
+
+**Engineering convergence.** If `rule110/` ever became the principal audit pipeline of the project (rather than a side audit alongside the Lean kernel), the kernel carrier might be re-aligned with the audit pipeline. Currently the asymmetry is in the other direction: Lean 4 `lake build` is the principal audit, `rule110/` is a side audit on a substrate witness.
+
+**Theoretical reduction.** If a theorem proved the cellular substrate is in some specific structural sense *more primitive* than `BHist` (rather than equivalent under encoding), there would be structural motivation to switch. No such theorem is currently known. Under bit-string encoding the two are equivalent; neither is structurally prior.
+
+## What the discipline buys you
+
+Keeping `BHist` as the kernel carrier and `rule110/` as the substrate exhibit gives the project two things at once:
+
+- **A foundation that minimises residual commitment.** `BHist` has no width, no neighbourhood, no transition table. It is the smallest inductive structure that expresses recursive distinction.
+- **An exhibit that demonstrates concrete content.** `rule110/` shows what the closure premise looks like at minimal practical scale, in 220 lines of substrate-internal code, with audit pipelines that anyone can run.
+
+A foundation that *is* the cellular substrate would have to choose between these two things. By keeping them as separate roles, the project gets both: minimum foundation, concrete exhibit, clean structural relationship between them.
+
+## What this is *not*
+
+This is not a position against cellular automata, NKS, or digital physics. The project does not deny that cellular automata might be the actual carrier of physical reality. It denies only that the *framework* should commit to that specific carrier at the foundation. Empirical commitments belong to physics; the framework provides structural tools that are usable whether or not the cellular reading turns out to be the physical reading.
+
+It is also not a claim that the cellular substrate is incidental. It is the project's central exhibit. Its 220-line scale, its `\thm:rule110-no-internal-induction`, its cook compile-frontier — all carry structural weight. But the weight is exhibit-weight, not foundation-weight.
+
+What it *is*: the structural reading of why BEDC keeps an abstract carrier at the kernel while running a concrete cellular substrate as exhibit, and why that arrangement is what the framework's minimum-commitment discipline actually requires.
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.qmd"><strong>← Distinction as Foundation</strong><br/>The minimum-commitment discipline this essay applies to the carrier choice.</a>
+  <a href="pattern-as-mark.qmd"><strong>Pattern as Mark →</strong><br/>The cellular substrate read as exhibit of the same mark discipline.</a>
+  <a href="sixteen-to-sixty-four.qmd"><strong>Sixteen to Sixty-Four →</strong><br/>The cellular substrate's current engineering coordinate, and what crossing the next number would buy.</a>
+</div>
+```
+
+— *The Omega Institute*
