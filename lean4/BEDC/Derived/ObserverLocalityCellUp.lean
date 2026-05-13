@@ -196,6 +196,37 @@ theorem ObserverLocalityCellPacket_scoped_export_surface [AskSetup] [PackageSetu
           · exact exportedProvenance
           · exact exportedPkg
 
+theorem ObserverLocalityCellPacket_consumer_boundary [AskSetup] [PackageSetup]
+    {observerLeft observerRight eventLeft eventRight gapLeft gapRight transport continuation
+      provenance nameCert leftRead rightRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverLocalityCellPacket observerLeft observerRight eventLeft eventRight gapLeft gapRight
+        transport continuation provenance nameCert bundle pkg →
+      Cont observerLeft eventLeft leftRead →
+        Cont observerRight eventRight rightRead →
+          PkgSig bundle nameCert pkg →
+            UnaryHistory observerLeft ∧ UnaryHistory observerRight ∧
+              UnaryHistory eventLeft ∧ UnaryHistory eventRight ∧ UnaryHistory gapLeft ∧
+                UnaryHistory gapRight ∧ UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                  Cont observerLeft eventLeft leftRead ∧
+                    Cont observerRight eventRight rightRead ∧
+                      Cont gapLeft gapRight transport ∧
+                        Cont transport continuation provenance ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg UnaryHistory
+  intro packet leftConsumer rightConsumer packetPkg
+  obtain ⟨observerLeftUnary, observerRightUnary, eventLeftUnary, eventRightUnary,
+    gapLeftUnary, gapRightUnary, _transportUnary, _continuationUnary, _provenanceUnary,
+    _nameCertUnary, _leftGap, _rightGap, gapTransport, transportProvenance, _namePkg⟩ :=
+      packet
+  have leftReadUnary : UnaryHistory leftRead :=
+    unary_cont_closed observerLeftUnary eventLeftUnary leftConsumer
+  have rightReadUnary : UnaryHistory rightRead :=
+    unary_cont_closed observerRightUnary eventRightUnary rightConsumer
+  exact
+    ⟨observerLeftUnary, observerRightUnary, eventLeftUnary, eventRightUnary, gapLeftUnary,
+      gapRightUnary, leftReadUnary, rightReadUnary, leftConsumer, rightConsumer,
+        gapTransport, transportProvenance, packetPkg⟩
+
 theorem ObserverLocalityCellPacket_semantic_name_certificate [AskSetup] [PackageSetup]
     {observerLeft observerRight eventLeft eventRight gapLeft gapRight transport continuation
       provenance nameCert : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
