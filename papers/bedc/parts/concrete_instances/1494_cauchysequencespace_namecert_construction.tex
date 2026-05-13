@@ -377,17 +377,34 @@ Apply \autoref{thm:cauchysequence-space-kernel-scope-packet} and \autoref{thm:ca
 It remains to exclude a hidden limit selector. The only limit-seal route available to the export is the factorization of \autoref{thm:cauchysequence-space-limit-seal-factorization}, which routes through $F,\sigma,W,\epsilon,Q,H,C,P,N$. Since that route is already included in the scoped inventory and supplies no selector coordinate, the public export cannot expose one.
 \end{proof}
 
+\begin{theorem}[CauchySequenceSpace tail-window factorization]
+\label{thm:cauchysequence-space-tail-window-factorization}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+be an accepted $\CauchySequenceSpaceUp$ packet. Every tail-window completion-facing read of $S$ factors through the displayed $\RegSeqRatUp$ family $F$, the $\StreamNameUp$ schedule $\sigma$, the cofinal Cauchy-window ledger $W$, the $\DyadicRatCoreUp$ tolerance row $\epsilon$, the completion handoff $Q$, the transport row $H$, the continuation row $C$, the package row $P$, and the local $\NameCert_{\CauchySequenceSpaceUp}$ row $N$. The route reaches completion and any $\RealUp$ seal only through those finite BEDC rows, not through quotient-name equality, selected representatives, host real equality, ambient completeness, or a hidden limit selector.
+\end{theorem}
+\begin{proof}
+Begin with the public completion surface. The public completion export theorem \autoref{thm:cauchysequence-space-public-completion-export} packages the visible tuple $F,\sigma,W,\epsilon,Q,H,C,P,N$ together with the completion handoff and scoped route inventory, while public nonescape \autoref{thm:cauchysequence-space-public-nonescape} excludes quotient, representative, host equality, completeness, and selector coordinates.
+
+Next isolate the finite tail window. Regular-window factorization \autoref{thm:cauchysequence-space-regular-window-factorization} routes the completion-facing read through the displayed regular family, schedule, cofinal ledger, tolerance row, transport, continuation, package, and naming rows. Cofinal schedule stability \autoref{thm:cauchysequence-space-cofinal-schedule-stability} keeps every cofinal request attached to the same schedule and ledger.
+
+Finally read the tolerance and terminal handoff. Dyadic tolerance ledger exactness \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness} fixes the tolerance row before the completion handoff is consumed, and the public export supplies the handoff, transport, continuation, package, and NameCert rows. Thus every tail-window completion-facing read factors through the displayed finite route.
+\end{proof}
+
 \closureat{CauchySequenceSpaceUp}{seedStr}
 \closureat{CauchySequenceSpaceUp}{obligationStr}
 \closureat{CauchySequenceSpaceUp}{scopedStr}
 \closureat{CauchySequenceSpaceUp}{publicStr}
+\closureat{CauchySequenceSpaceUp}{bridgedStr}
 
 \begin{closurestatus}{\CauchySequenceSpaceUp}
   \constructivestory{A $\CauchySequenceSpaceUp$ packet is generated from a displayed family of regular rational names, a stream schedule, finite Cauchy-window evidence, dyadic tolerance data, a completion handoff, componentwise transport, displayed continuation routes, package provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:cauchysequence-space-public-completion-export} and \autoref{thm:cauchysequence-space-public-nonescape} provide the public completion surface over the scoped route inventory of \autoref{thm:cauchysequence-space-scoped-completion-route-inventory} for completion-facing and limit-seal reads of finite spaces of Cauchy names.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:cauchysequence-space-public-completion-export} and \autoref{thm:cauchysequence-space-public-nonescape} supply the paper bridge from the public finite Cauchy-name surface to the choice-free completion-consumer reading over the scoped route inventory of \autoref{thm:cauchysequence-space-scoped-completion-route-inventory}.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close quotient completion construction, equality of Cauchy-name classes, uniqueness of limits, host real equality, ambient completeness, or bridge checking.}
   \upgradepath{Bridge closure requires a standard bridge from the public completion export to the choice-free completion consumer reading.}

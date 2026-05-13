@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-auditgateboundary-namecert}
 \origin{human}
 
-The $\AuditGateBoundaryUp$ surface packages the manuscript and Lean audit gates as a finite naming certificate. It is not a proof that the entire repository is complete. It records the exact boundary packets by which source-token scans, axiom-purity reports, paper-Lean target audits, origin and import conservativity ledgers, transport rows, continuation routes, package provenance, GAP boundary rows, and the local naming row remain visible to downstream governance consumers.
+The $\AuditGateBoundaryUp$ surface packages the manuscript and Lean audit gates as a finite naming certificate. It is not a proof that the entire repository is complete. It records the exact boundary packets by which source-token scans, axiom-purity reports, paper-Lean target audits, origin and import conservativity ledgers, transport rows, continuation routes, package provenance, GAP boundary rows, and the local naming row remain visible to downstream governance consumers. The displayed audit consumer routes use the finite continuation-trace reading of \autoref{ch:concrete-instances-continuationtrace-namecert} as the sibling surface that makes replay and route inspection explicit.
 
 \begin{definition}[AuditGateBoundary carrier]
 \label{def:audit-gate-boundary-carrier}
@@ -229,6 +229,7 @@ Replay proceeds through the shared support rows. The transport row $H$ preserves
 
 The boundary row $G$ fixes the scope of the replay. Since the carrier contains no coordinate for host-wide semantic conservativity, the exact replay exports only the finite origin/import row.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_origin\_import\_replay\_exactness}
 
 \begin{theorem}[AuditGateBoundary drift row transport]
 \label{thm:audit-gate-boundary-drift-row-transport}
@@ -241,6 +242,7 @@ Transport the row componentwise through $H$. The transported ledger is still the
 
 Route and package the transported row through $C,P,G,N$. The replay ledger and marker-resolution non-escape theorems then keep the read inside the finite audit packet, with no host-wide correctness claim attached to the transported drift row.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_drift\_row\_transport}
 
 \begin{theorem}[AuditGateBoundary axiom-purity report non-escape]
 \label{thm:audit-gate-boundary-axiom-purity-report-nonescape}

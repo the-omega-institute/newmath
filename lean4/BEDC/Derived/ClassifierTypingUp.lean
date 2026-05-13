@@ -168,4 +168,58 @@ theorem ClassifierTypingCarrier_visible_answer_determinacy [AskSetup] [PackageSe
     cont_respects_hsame sameSignature sameRoutes answerRoute answerRoute'
   exact ⟨sameAnswer, termSignature, termSignature'⟩
 
+theorem ClassifierTypingCarrier_reduction_route_ledger_exhaustion [AskSetup] [PackageSetup]
+    {term membership reduction signature transport routes provenance name target answer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierTypingCarrier term membership reduction signature transport routes provenance name
+        bundle pkg ->
+      Cont signature routes target ->
+        PkgSig bundle target pkg ->
+          Cont signature routes answer ->
+            UnaryHistory term ∧ UnaryHistory membership ∧ UnaryHistory reduction ∧
+              UnaryHistory signature ∧ UnaryHistory routes ∧ UnaryHistory target ∧
+                Ext term BMark.b0 membership ∧ Cont term reduction signature ∧
+                  Cont signature routes target ∧ Cont signature routes answer ∧
+                    SigRel bundle term signature ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle target pkg ∧ hsame answer target := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Ext Cont SigRel ProbeBundle PkgSig hsame
+  intro carrier signatureRoutesTarget targetPkg signatureRoutesAnswer
+  have targetData :=
+    ClassifierTypingCarrier_subject_reduction_cont_stability (pkg := pkg) carrier
+      signatureRoutesTarget targetPkg
+  obtain
+    ⟨termUnary, membershipUnary, reductionUnary, signatureUnary, _transportUnary,
+      routesUnary, _provenanceUnary, _nameUnary, termMembership, termReductionSignature,
+      _membershipRoutesName, termSignature, provenancePkg⟩ := carrier
+  have targetUnary : UnaryHistory target := targetData.right.right.right.left
+  have sameAnswerTarget : hsame answer target :=
+    cont_respects_hsame (hsame_refl signature) (hsame_refl routes) signatureRoutesAnswer
+      signatureRoutesTarget
+  exact
+    ⟨termUnary, membershipUnary, reductionUnary, signatureUnary, routesUnary, targetUnary,
+      termMembership, termReductionSignature, signatureRoutesTarget, signatureRoutesAnswer,
+      termSignature, provenancePkg, targetPkg, sameAnswerTarget⟩
+
+theorem ClassifierTypingCarrier_kernel_scope_binding [AskSetup] [PackageSetup]
+    {term membership reduction signature transport routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierTypingCarrier term membership reduction signature transport routes provenance name
+        bundle pkg ->
+      UnaryHistory term ∧ UnaryHistory membership ∧ UnaryHistory reduction ∧
+        UnaryHistory signature ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+          UnaryHistory provenance ∧ UnaryHistory name ∧ Ext term BMark.b0 membership ∧
+            Cont term reduction signature ∧ Cont membership routes name ∧
+              SigRel bundle term signature ∧ PkgSig bundle provenance pkg ∧
+                hsame name name := by
+  -- BEDC touchpoint anchor: BHist Ext Cont SigRel Pkg hsame
+  intro carrier
+  obtain
+    ⟨termUnary, membershipUnary, reductionUnary, signatureUnary, transportUnary,
+      routesUnary, provenanceUnary, nameUnary, termMembership, termReductionSignature,
+      membershipRoutesName, termSignature, provenancePkg⟩ := carrier
+  exact
+    ⟨termUnary, membershipUnary, reductionUnary, signatureUnary, transportUnary,
+      routesUnary, provenanceUnary, nameUnary, termMembership, termReductionSignature,
+      membershipRoutesName, termSignature, provenancePkg, hsame_refl name⟩
+
 end BEDC.Derived.ClassifierTypingUp

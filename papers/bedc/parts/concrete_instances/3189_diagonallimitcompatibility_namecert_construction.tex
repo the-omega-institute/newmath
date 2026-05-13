@@ -219,6 +219,150 @@ Now apply \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. T
 Finally use \autoref{thm:diagonal-limit-compatibility-non-escape}. Because the packet exports no selected host limit, host real equality, choice datum, or ambient completeness principle, the displayed rows form the threshold for every downstream seal consumer.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit source ledger]
+\label{thm:diagonal-limit-compatibility-source-ledger}
+For an accepted $\DiagonalLimitCompatibilityUp$ $\BHist$ carrier
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the source ledger is exactly the displayed $\RealCompletenessUp$ row $R$,
+triangle row $T$, seal route $S$, dyadic tolerance ledger $D$, stream-window
+row $W$, regular-rational readback row $Q$, $\RealUp$ seal row $L$,
+componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$
+provenance $P$, and local $\NameCert$ row $N$ of
+\autoref{def:diagonal-limit-compatibility-carrier}. By
+\autoref{thm:diagonal-limit-compatibility-non-escape}, no other source row is
+available to the compatibility packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:diagonal-limit-compatibility-carrier}. The coordinates
+$R,T,S,D,W,Q,L$ are the only source, estimate, seal, tolerance, window,
+readback, and real-seal rows in the packet.
+
+Read the structural rows $H,C,P,N$. They do not create further source data;
+they transport, route, record provenance, and name the already displayed
+coordinates.
+
+Apply \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the packet
+exports no host limit, quotient stream, choice datum, host real equality, or
+ambient completeness principle, the listed rows are the whole source ledger.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit consumer transport]
+\label{thm:diagonal-limit-compatibility-consumer-transport}
+For accepted $\DiagonalLimitCompatibilityUp$ $\BHist$ carriers
+$K=(R,T,S,D,W,Q,L,H,C,P,N)$ and
+$K'=(R',T',S',D',W',Q',L',H',C',P',N')$, every downstream seal or
+$\RealUp$ consumer that reads through the carrier of
+\autoref{def:diagonal-limit-compatibility-carrier} factors through the
+displayed componentwise $\hsame$ rows in $H,H'$ and the displayed $\Cont$
+routes in $C,C'$, with $\Pkg$ provenance $P,P'$ and local $\NameCert$ rows
+$N,N'$ preserving the same compatibility surface. By
+\autoref{thm:diagonal-limit-compatibility-non-escape}, no consumer may bypass
+those rows.
+\end{theorem}
+\begin{proof}
+Start with the two accepted carriers and isolate the consumer-facing rows
+$S,Q,L$ and $S',Q',L'$. The carrier definition places both reads behind the
+same diagonal, triangle, tolerance, and window coordinates.
+
+Use the componentwise transport rows $H,H'$. They identify the source rows by
+$\hsame$ before a consumer reaches the seal or $\RealUp$ rows, so the
+classifier transported to the consumer is the displayed one.
+
+Use the continuation rows $C,C'$ next. Every read of the seal route, regular
+readback, or real-seal row is replayed through the displayed $\Cont$ routes,
+and $P,P',N,N'$ record only that finite route surface.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-non-escape}. Since no
+alternate host-limit, quotient-stream, choice, or ambient-completeness route is
+exported, downstream consumers factor through the displayed transport and
+continuation rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit ambient completeness refusal]
+\label{thm:diagonal-limit-compatibility-ambient-completeness-refusal}
+An accepted $\DiagonalLimitCompatibilityUp$ $\BHist$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+from \autoref{def:diagonal-limit-compatibility-carrier} exports no host limit,
+no quotient stream, no choice datum, and no ambient completeness principle.
+Its only exported surface is the displayed source ledger, componentwise
+$\hsame$ transport $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$,
+and local $\NameCert$ row $N$; this is exactly the non-escape boundary of
+\autoref{thm:diagonal-limit-compatibility-non-escape}.
+\end{theorem}
+\begin{proof}
+Project the packet $K$. The visible coordinates are the diagonal packet,
+triangle row, seal route, tolerance ledger, window row, readback row, real
+seal row, transport, continuation, provenance, and naming row.
+
+Inspect the omitted coordinates. There is no row for a selected host limit,
+no row for quotienting streams, no row for a choice datum, and no row for an
+ambient completeness principle.
+
+Apply \autoref{thm:diagonal-limit-compatibility-non-escape}. The non-escape
+boundary therefore turns the omission into a consumer rule: a downstream
+chapter may read the displayed compatibility packet, but it may not treat that
+read as host completeness or as a hidden quotient construction.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit source gate]
+\label{thm:diagonallimitcompatibility-source-gate}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+every accepted downstream read first fixes the $\RealCompletenessUp$ diagonal packet $R$, the $\StreamNameUp$ window family $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\RegSeqRatUp$ readback row $Q$ before any consumer treats the seal route $S$ or the $\RealUp$ seal row $L$ as available. The source gate is exactly the route displayed by \autoref{def:diagonal-limit-compatibility-carrier}; it is not a host limit selection and not an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier $K$ from \autoref{def:diagonal-limit-compatibility-carrier}. The diagonal source $R$, windows $W$, dyadic ledger $D$, readback $Q$, seal route $S$, and seal row $L$ are all named coordinates of the same finite packet.
+
+Apply \autoref{thm:diagonal-limit-compatibility-triangle-selector-alignment} and \autoref{thm:diagonal-limit-compatibility-seal-consumer-threshold}. The selector alignment fixes $W,D$ at the diagonal source, and the threshold theorem places every downstream seal read behind $R,T,D,W,H,C,P,N$.
+
+Use \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility} to route the read of $Q,L$ through the displayed rows. Then use \autoref{thm:diagonal-limit-compatibility-classifier-transport} to keep the same classifier under $H$ and $C$.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-non-escape}. Since the packet exports no selected host limit, host real equality, choice datum, or ambient completeness principle, the displayed source gate is the only way a downstream consumer reaches the seal-facing rows.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit triangle-seal interface]
+\label{thm:diagonallimitcompatibility-triangle-seal-interface}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the $\RegularCauchyTriangleBoundUp$ row $T$ is the sole public interface between the diagonal selector carried by $R,W,D$ and the $\CauchyLimitSealUp$ route $S$. A consumer may pass from the diagonal source to the seal route only through the triangle row together with the displayed dyadic ledger, stream-window ledger, classifier transport, continuation routes, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Start with the carrier. The only row naming the three-leg estimate between the diagonal source and the seal route is $T$, and the only ledgers available to it are $D$ and $W$.
+
+Apply \autoref{thm:diagonal-limit-compatibility-triangle-selector-alignment}. It binds $T$ to the same selected windows and dyadic tolerance ledger named by $R,W,D$, so the selector side has no second interface row.
+
+Next apply \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. The route $S$ reaches $Q,L$ only through $R,T,D,W$, so the seal side also has no bypass around the triangle estimate.
+
+Classifier transport and non-escape close the interface. By \autoref{thm:diagonal-limit-compatibility-classifier-transport} the same interface is preserved through $H,C$, and by \autoref{thm:diagonal-limit-compatibility-non-escape} no quotient stream, selected host limit, choice datum, or ambient completeness coordinate can supply another route.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit downstream consumer gate]
+\label{thm:diagonallimitcompatibility-downstream-consumer-gate}
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N)
+$$
+factors through the displayed rows $R,T,S,D,W,Q,L,H,C,P,N$. The consumer may use the diagonal packet, triangle interface, seal route, dyadic ledger, stream-window ledger, regular rational readback, real seal row, componentwise transport, continuation routes, package provenance, and local naming row, but it cannot introduce host limits, quotient streams, choice data, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the consumer from the carrier. The displayed coordinates already list the only source, interface, route, ledger, readback, transport, continuation, provenance, and naming rows available to the packet.
+
+Use \autoref{thm:diagonallimitcompatibility-source-gate} to force the source-side order. The diagonal packet, stream windows, dyadic ledger, and regular rational readback are fixed before the consumer treats the seal-facing rows as available.
+
+Use \autoref{thm:diagonallimitcompatibility-triangle-seal-interface} together with \autoref{thm:diagonal-limit-compatibility-seal-route-compatibility}. These theorems force the route from the diagonal selector to the seal consumer through $T,D,W,S$ and then to $Q,L$.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-classifier-transport} and \autoref{thm:diagonal-limit-compatibility-non-escape}. Transport preserves the displayed classifier, and non-escape excludes every host-limit, quotient-stream, choice, host-equality, or ambient-completeness coordinate not carried by $K$.
+\end{proof}
+
 \begin{theorem}[Diagonal-limit triangle seal route]
 \label{thm:diagonal-limit-compatibility-triangle-seal-route}
 For an accepted $\DiagonalLimitCompatibilityUp$ packet

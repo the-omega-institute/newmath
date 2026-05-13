@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateAuditCouplingUp$}
+\label{ch:concrete-instances-twinsubstrateauditcoupling-namecert}
+\origin{ai}
+
+The $\TwinSubstrateAuditCouplingUp$ packet realizes the twin-substrate audit architecture of \autoref{ch:twin-substrate-synthesis} as one finite NameCert surface. It sits beside the GroundCompiler audit-map packet of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, the closed-window substitution route of \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert}, and the two-history comparison packet of \autoref{ch:concrete-instances-observationcoupling-namecert}. Those siblings already name one-substrate audit rows or paired observation rows; this chapter names the finite coupling boundary that lets MetaCIC and GroundCompiler be read together without collapsing either substrate into the other.
+
+\begin{definition}[Twin-substrate audit-coupling carrier]
+\label{def:twin-substrate-audit-coupling-carrier}
+A $\TwinSubstrateAuditCouplingUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,G,R,L,C,H,T,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC audit row, recording closed-CIC reduction, closedness, substitution, normalisation, confluence, decidability, consistency, and subject-reduction boundary references as MetaCIC-side audit data;
+\item $G$ is the GroundCompiler audit row, recording event-flow, channel legality, generated recognizer, certificate gate, report boundary, non-input, and non-evidence references as compiler-side audit data;
+\item $R$ is the route classifier row, separating MetaCIC reads, GroundCompiler reads, and paired reads before any downstream consumer receives a coupled packet;
+\item $L$ is the coupling ledger, recording which public project-level audit claim reads both $M$ and $G$ and which substrate boundary remains attached to each read;
+\item $C$ is the non-collapse classifier row, marking MetaCIC proof evidence, kernel acceptance, and closed-CIC theorem content as unavailable from $G$, and marking host compiler trust, hidden input, source-channel legality, generated recognizers, and report artifacts as unavailable from $M$;
+\item $H$ records componentwise $\hsame$ transports for MetaCIC rows, GroundCompiler rows, route classifiers, coupling ledger entries, non-collapse classifiers, continuation rows, provenance, and local naming;
+\item $T$ records displayed $\Cont$ routes by which a consumer inspects $M,G,R,L,C$ in finite order;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert}, \autoref{ch:concrete-instances-observationcoupling-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateAuditCouplingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for converting GroundCompiler reports into MetaCIC proof evidence, no coordinate for reading MetaCIC closed-CIC facts as compiler input channels, no shared hidden equality between the two substrates, and no host-side project audit oracle outside the displayed packet.
+\end{definition}
+
+\begin{theorem}[Twin-substrate audit-coupling NameCert obligations]
+\label{thm:twin-substrate-audit-coupling-namecert-obligations}
+For every accepted $\TwinSubstrateAuditCouplingUp$ carrier
+$$
+U=(M,G,R,L,C,H,T,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateAuditCouplingUp}$ surface consists exactly of MetaCIC audit readback through $M$, GroundCompiler audit readback through $G$, route classification through $R$, paired coupling-ledger replay through $L$, non-collapse classification through $C$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The first two rows expose the two audit substrates, and the next three rows record how they may be read together.
+
+Read $M$ and $G$ first. The MetaCIC row carries closed-CIC audit content, while the GroundCompiler row carries compiler event-flow, recognizer, gate, report, non-input, and non-evidence content.
+
+Then inspect $R,L,C$. The route classifier separates one-substrate reads from paired reads, the ledger records which public audit claim consumes both rows, and the non-collapse classifier keeps proof-evidence and compiler-channel claims on their proper sides.
+
+Finally $H,T,P,N$ replay transport, continuation, provenance, and naming over the same finite rows. Since the carrier lists no hidden equality or project oracle, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit-coupling MetaCIC route]
+\label{thm:twin-substrate-audit-coupling-metacic-route}
+Every MetaCIC-facing public read from an accepted $\TwinSubstrateAuditCouplingUp$ carrier factors through the MetaCIC row $M$, the route classifier $R$, the coupling ledger $L$, the non-collapse row $C$, and the displayed transport and continuation rows $H,T$. Such a read may cite the GroundCompiler row $G$ only as paired audit context and cannot turn compiler reports, generated recognizers, hidden-input exclusions, or source-channel legality into MetaCIC proof evidence.
+\end{theorem}
+\begin{proof}
+Start with a MetaCIC-facing read. Carrier projection gives $M$ as the only closed-CIC audit row and $R$ as the classifier that records the read as MetaCIC-facing.
+
+The ledger row $L$ may attach a paired GroundCompiler context to the same project-level audit claim. That attachment is a ledgered reference to $G$, not a projection from $G$ into proof evidence.
+
+Use the non-collapse row $C$ to preserve the boundary. It explicitly records that reports, recognizers, hidden-input exclusions, and source-channel legality remain compiler-side audit data.
+
+Transport and continuation through $H$ and $T$ replay these rows componentwise. Therefore a MetaCIC-facing read remains a read of $M$ with bounded paired context, not a conversion of GroundCompiler artifacts into MetaCIC proof evidence.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit-coupling GroundCompiler route]
+\label{thm:twin-substrate-audit-coupling-groundcompiler-route}
+Every GroundCompiler-facing public read from an accepted $\TwinSubstrateAuditCouplingUp$ carrier factors through the GroundCompiler row $G$, the route classifier $R$, the coupling ledger $L$, the non-collapse row $C$, and the displayed transport and continuation rows $H,T$. Such a read may cite the MetaCIC row $M$ only as paired audit context and cannot turn closed-CIC reduction, substitution, normalisation, confluence, decidability, consistency, or subject-reduction boundary rows into host compiler trust, hidden input, source-channel legality, or generated recognizer evidence.
+\end{theorem}
+\begin{proof}
+Begin with a GroundCompiler-facing read. Carrier projection gives $G$ as the only compiler-side audit row and $R$ as the classifier that marks the read as GroundCompiler-facing.
+
+The ledger $L$ may require the read to be accompanied by a MetaCIC audit row when the project-level claim mentions closed-CIC content. This accompaniment does not make $M$ a compiler channel or a recognizer source.
+
+The row $C$ records the separating clauses. Closed-CIC reduction, substitution, normalisation, confluence, decidability, consistency, and subject-reduction boundaries remain MetaCIC-side data; host compiler trust, hidden input, source-channel legality, and generated recognizers remain GroundCompiler-side obligations.
+
+Rows $H$ and $T$ preserve that separation under public transport and replay. Hence the GroundCompiler route is a read of $G$ with paired MetaCIC context, not a compiler-side extraction from MetaCIC theorem rows.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit-coupling non-collapse]
+\label{thm:twin-substrate-audit-coupling-noncollapse}
+An accepted $\TwinSubstrateAuditCouplingUp$ carrier permits paired project-level audit reads only through the ledger row $L$ and the route classifier row $R$. It does not identify $M$ with $G$, does not make either substrate a subtype of the other, and does not export a common equality, shared proof evidence, shared compiler input, or host-side audit oracle outside the packet.
+\end{theorem}
+\begin{proof}
+Project $U=(M,G,R,L,C,H,T,P,N)$. The two substrate rows are separate coordinates, and the only paired-read coordinates are $R$ and $L$.
+
+If a consumer asks for a project-level audit read, $R$ classifies whether the read is MetaCIC-facing, GroundCompiler-facing, or paired. The ledger $L$ records paired reads without changing the underlying row identities.
+
+The non-collapse row $C$ blocks the remaining identifications. It keeps proof evidence, kernel acceptance, theorem content, compiler trust, hidden input, source-channel legality, recognizers, and reports attached to their substrate rows.
+
+Because the packet contains no equality oracle, common proof-evidence coordinate, common compiler-input coordinate, or host-side audit oracle, the two substrates remain coupled but not collapsed.
+\end{proof}
+
+\begin{theorem}[Twin-substrate audit-coupling public export]
+\label{thm:twin-substrate-audit-coupling-public-export}
+Every public export of an accepted $\TwinSubstrateAuditCouplingUp$ carrier is a finite packet export of $M,G,R,L,C,H,T,P,N$. The export may be consumed by audit-map, substitution-route, observation-coupling, or self-compilation readers only as a NameCert surface that preserves the MetaCIC/GroundCompiler distinction recorded in \autoref{ch:twin-substrate-synthesis}.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations. They list the full public surface as the substrate rows, route classifier, coupling ledger, non-collapse classifier, transport, continuation, provenance, and local name.
+
+The sibling chapters provide permitted consumer shapes. \autoref{ch:concrete-instances-groundcompilerauditmap-namecert} reads GroundCompiler audit rows, \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert} reads a closed-window MetaCIC route boundary, and \autoref{ch:concrete-instances-observationcoupling-namecert} shows how a finite coupling ledger can serve a downstream reader without adding a global coordinate.
+
+An export to those consumers therefore carries the displayed packet and its provenance. It does not export a collapsed substrate, a hidden equality, or an ambient audit oracle.
+\end{proof}
+
+\closureat{TwinSubstrateAuditCouplingUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateAuditCouplingUp}
+  \constructivestory{A $\TwinSubstrateAuditCouplingUp$ packet is generated from a MetaCIC audit row, a GroundCompiler audit row, route classifiers, a coupling ledger, non-collapse classifiers, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-audit-coupling-carrier}, \autoref{thm:twin-substrate-audit-coupling-namecert-obligations}, \autoref{thm:twin-substrate-audit-coupling-metacic-route}, \autoref{thm:twin-substrate-audit-coupling-groundcompiler-route}, \autoref{thm:twin-substrate-audit-coupling-noncollapse}, and \autoref{thm:twin-substrate-audit-coupling-public-export} bind the finite paired MetaCIC/GroundCompiler audit-coupling packet, route classifiers, ledger, non-collapse boundary, and public export surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close MetaCIC subject reduction, GroundCompiler host trust, self-hosting tower correctness, Lean verification, audit cleanliness, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, MetaCIC route readback, GroundCompiler route readback, paired ledger replay, non-collapse classification, public export exactness, transport, continuation, provenance, and naming for the same finite packet.}
+\end{closurestatus}

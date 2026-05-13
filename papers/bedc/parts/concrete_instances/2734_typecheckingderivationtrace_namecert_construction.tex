@@ -113,12 +113,49 @@ Read subject reduction through \autoref{thm:type-checking-derivation-trace-subje
 It remains to inspect the carrier inventory. The tuple $T,E,C,D,H,R,P,N$ contains no normalizer row, host equality row, hidden reduction coordinate, or external proof-object coordinate. Therefore a normal-form-facing consumer can only consume the finite trace and its displayed typing and reduction certificates.
 \end{proof}
 
+\begin{theorem}[TypeCheckingDerivationTrace membership-ledger exactness]
+\label{thm:type-checking-derivation-trace-membership-ledger-exactness}
+For every accepted $\TypeCheckingDerivationTraceUp$ carrier $Z=(T,E,C,D,H,R,P,N)$, every $\TypeClassifierMembershipUp$ and $\ClassifierTypingUp$ read factors through the displayed classifier row $E$, derivation ledger $D$, componentwise transports $H$, package provenance $P$, and local $\NameCert$ row $N$. No membership or classifier-typing consumer may replace $E$ by a host typing judgment, replace $D$ by an unrecorded rule ledger, or bypass the local packet route.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate the classifier-facing rows. The only displayed membership coordinate is $E$, and the only displayed account of rule use is the derivation ledger $D$.
+
+Apply \autoref{thm:type-checking-derivation-trace-classifier-membership-readback}. It already routes $\TypeClassifierMembershipUp$ and $\ClassifierTypingUp$ reads through $E,D,H,P,N$.
+
+Finally use \autoref{thm:type-checking-derivation-trace-normal-form-consumer-boundary}. That boundary excludes hidden normalizers, host equality, unrecorded reduction steps, and external proof objects, so the membership ledger is exact for the finite packet.
+\end{proof}
+
+\begin{theorem}[TypeCheckingDerivationTrace subject-reduction route coverage]
+\label{thm:type-checking-derivation-trace-subject-reduction-route-coverage}
+Every $\SubjectReductionUp$ consumer of an accepted $\TypeCheckingDerivationTraceUp$ carrier reads the source row, target row, and reduction route from the finite packet $Z=(T,E,C,D,H,R,P,N)$. The source and target term entries are read from $T$, classifier membership is read from $E$, the reduction route is read from $C$, and the target typing boundary is read through $R,H,P,N$ rather than through host computation or an unrecorded reduction path.
+\end{theorem}
+\begin{proof}
+Start with the subject-reduction surface. It identifies the source and target typing judgments by reading $T$ and $E$, then follows the displayed continuation route $C$.
+
+Use \autoref{thm:type-checking-derivation-trace-subject-reduction-transport}. The subject-reduction row $R$ is transported only along $C$ and $H$, with package and local naming supplied by $P,N$.
+
+The normal-form consumer boundary of \autoref{thm:type-checking-derivation-trace-normal-form-consumer-boundary} rules out a hidden normalizer or unrecorded reduction step. Thus every $\SubjectReductionUp$ consumer is covered by the finite packet rows.
+\end{proof}
+
+\begin{theorem}[TypeCheckingDerivationTrace host normalizer non-escape]
+\label{thm:type-checking-derivation-trace-host-normalizer-nonescape}
+No accepted $\TypeCheckingDerivationTraceUp$ carrier exports a hidden normalizer, host equality of terms, or an unrecorded reduction step. Every normal-form-facing, classifier-facing, or subject-reduction-facing consumer remains inside the displayed rows $T,E,C,D,H,R,P,N$ and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data named there.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory in \autoref{def:type-checking-derivation-trace-carrier}. The tuple $T,E,C,D,H,R,P,N$ contains term rows, classifier rows, continuation routes, derivation ledgers, transports, subject-reduction rows, provenance, and local naming, but no host normalizer or host equality coordinate.
+
+For classifier-facing consumers, apply \autoref{thm:type-checking-derivation-trace-membership-ledger-exactness}. For subject-reduction-facing consumers, apply \autoref{thm:type-checking-derivation-trace-subject-reduction-route-coverage}.
+
+The remaining normal-form-facing case is exactly \autoref{thm:type-checking-derivation-trace-normal-form-consumer-boundary}. Together these boundaries keep every public read inside the finite trace packet.
+\end{proof}
+
 \closureat{TypeCheckingDerivationTraceUp}{seedStr}
+\closureat{TypeCheckingDerivationTraceUp}{obligationStr}
 
 \begin{closurestatus}{\TypeCheckingDerivationTraceUp}
   \constructivestory{A $\TypeCheckingDerivationTraceUp$ packet is generated from term rows, $\Ext$-membership classifier rows, $\Cont$ reduction routes, derivation ledgers, componentwise $\hsame$ transports, subject-reduction rows, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:type-checking-derivation-trace-carrier}, \autoref{thm:type-checking-derivation-trace-subject-reduction-surface}, and \autoref{thm:type-checking-derivation-trace-namecert-obligations} bind the finite carrier, subject-reduction surface, and local naming obligations for type-checking derivation traces.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:type-checking-derivation-trace-carrier}, \autoref{thm:type-checking-derivation-trace-subject-reduction-surface}, \autoref{thm:type-checking-derivation-trace-namecert-obligations}, \autoref{thm:type-checking-derivation-trace-classifier-membership-readback}, \autoref{thm:type-checking-derivation-trace-subject-reduction-transport}, and \autoref{thm:type-checking-derivation-trace-host-normalizer-nonescape} bind the carrier, subject-reduction surface, NameCert obligations, classifier membership readback, subject-reduction transport, and host-normalizer non-escape rows as the obligation package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

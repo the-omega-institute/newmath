@@ -18134,3 +18134,104 @@ Rationale:
 The socket and witness chapters already expose closely aligned zeta-continuation packets, but the paper states only their separate obligation, handoff, and concretization surfaces. A bridge from socket plus provenance to witness is distinct enough to merit a local target because it turns one accepted BEDC packet into the other without exporting RH, zero-location, branch-choice, or completed Gamma data. Novelty is moderate because the two chapters are adjacent and structurally similar, but no existing BOARD entry or paper label covers this carrier bridge.
 
 ---
+
+### B-719 - CofinalRegularLimitBudget window-route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep topic discovery |
+| Object | CofinalRegularLimitBudget window-route determinacy |
+| Layer | adjacent |
+| Route | proof |
+| Risk | unknown |
+| Fit | 7/10 |
+| Novelty | 8/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If a CofinalRegularLimitBudget carrier routes the same precision request through two displayed cofinal-window ledgers to the same RegSeqRat and RealUp seal rows, then the two window ledgers are hsame under the carrier transport ledger.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/3409_cofinalregularlimitbudget_namecert_construction.tex`
+
+Rationale:
+The carrier is a finite packet B=(q,w,r,e,h,c,p,n) with q as the precision request, w as the cofinal-window ledger, r as RegSeqRat handoff, e as RealUp seal, h as componentwise hsame transports, and c as the displayed Cont route at papers/bedc/parts/concrete_instances/3409_cofinalregularlimitbudget_namecert_construction.tex:7-24. The existing theorem at lines 27-37 lists carrier admission, cofinal-window coverage, handoff, seal routing, and non-escape, but it does not state uniqueness or determinacy of w for a shared request-route endpoint. Focused rg for CofinalRegularLimitBudget found only this chapter, its index input, and one vision concretization reference; there is no separate theorem label for window determinacy or cofinal-window uniqueness. The claim is a finite route determinacy theorem about the existing budget packet and its displayed hsame/Cont rows.
+
+---
+
+### B-720 - PackageTokenPolicy has no token-existence consequence
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | PackageTokenPolicy has no token-existence consequence |
+| Layer | proof_obligations |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 7/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+If TokIntro(Pi,-,-) is empty and the package-token soundness and reflection clauses are universally quantified over introduced-token premises, then PackageTokenPolicy(Pi) holds while the token-existence assertion forall s exists p, TokIntro(Pi,s,p) fails.
+
+Local inputs:
+- `papers/bedc/parts/proof_obligations/package_token_policy.tex`
+
+Rationale:
+This is a BEDC-native obstruction target inside the existing package-token policy surface. The paper already states that token existence is a separate premise from PackageTokenPolicy, but the proposed candidate isolates the irredundancy as a concrete vacuity counterexample: classification fields over introduced tokens do not manufacture introduced tokens. It is not a duplicate of the existing positive PackageTokenPolicy, TokUnique, or token-reflection targets, because those compare already introduced tokens rather than separating policy satisfaction from witness existence.
+
+---
+
+### B-721 - Signature append cut decomposition uniqueness
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (oracle) |
+| Object | Signature append cut decomposition uniqueness |
+| Layer | core |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_lemma |
+
+Problem:
+If BundleAskPolicy(Pi,D), BundleAskPolicy(Theta,D), h is admitted by D, and Sig(BAppend(Pi,Theta),h,u,Lambda) has two append-inversion decompositions with component results (s,t) and (s',t'), then hsame(s,s') and hsame(t,t').
+
+Local inputs:
+- `papers/bedc/parts/core/probe_bundles/02_signature_generation.tex`
+- `papers/bedc/parts/core/probe_bundles/01_bundle_grammar.tex`
+
+Rationale:
+This lands as a small core lemma next to the existing signature append generation, inversion, decomposition, and component-determinacy theorems. It is close to the established append-splitting surface, so novelty is only threshold-level, but it states a distinct fixed-source uniqueness property for two recovered cut pairs rather than an existence decomposition or a sameSig comparison between two sources. The local files are ordinary content files under the line cap and the target can be expressed as a single deterministic implication under the existing bundle-local policy hypotheses.
+
+---
+
+### B-722 - KernelAcceptanceBuildReplay replay-route determinacy
+
+| field | value |
+|---|---|
+| Status | Candidate (auto-spawned) |
+| Source | bedc-deep board_spawn (paper_review) |
+| Object | KernelAcceptanceBuildReplay replay-route determinacy |
+| Layer | concrete_instances |
+| Route | proof |
+| Risk | unknown |
+| Fit | 9/10 |
+| Novelty | 6/10 |
+| Landing kind | existing_chapter_obligation |
+
+Problem:
+For accepted KernelAcceptanceBuildReplay carriers, agreement on the displayed route coordinate and rows G,A,B,S,Q,H,P,N implies that replay consumers reach the same build-command row, replay-result row, and axiom-query handoff row.
+
+Local inputs:
+- `papers/bedc/parts/concrete_instances/4010_kernelacceptancebuildreplay_namecert_construction.tex`
+
+Rationale:
+This is a concrete finite-packet determinacy obligation inside an existing concrete_instances chapter. The current chapter defines the generated-candidate, accepted-declaration, build-command, replay-result, axiom-query handoff, transport, route, provenance, and naming rows, and its closure upgrade path explicitly names replay-route determinacy as a missing obligation. It is not a marker-only or closurestatus task, the landing file is short and safe, and the target is distinct from existing BOARD entries because it localizes replay-route determinacy to the KernelAcceptanceBuildReplay packet rather than restating generic kernel audit witness or axiom-query ledger non-escape.
+
+---

@@ -1,0 +1,254 @@
+\chapter{BEDC.MetaCIC is its own type theory: a framing principle}
+\label{ch:bedc-is-its-own-theory}
+
+\section{The framing correction}
+\label{sec:bedc-is-its-own-theory-framing-correction}
+
+A common misread of BEDC.MetaCIC's relation to classical CIC treats
+classical CIC as the reference object and BEDC.MetaCIC as a subtractive
+presentation of that reference. This inverts the relationship.
+BEDC.MetaCIC is a positively defined type theory with its own
+first-principles commitments. Classical CIC is a different type theory
+that shares some syntactic shape but adopts different design decisions.
+
+The principle of this chapter is therefore simple:
+$$
+\text{BEDC.MetaCIC is its own theory, not a derivative of classical CIC.}
+$$
+The comparison with classical CIC is useful only after this identity has
+already been fixed. It is an analytical comparison between neighbouring
+theories, not a definition of BEDC.MetaCIC by reference to a parent
+calculus.
+
+\section{What BEDC.MetaCIC positively is}
+\label{sec:bedc-is-its-own-theory-positive-definition}
+
+BEDC.MetaCIC is determined by five first-principles commitments. These
+commitments give the substrate its identity directly.
+
+\subsection{Closed generating types}
+\label{subsec:bedc-is-its-own-theory-closed-generators}
+
+The term-level and certificate-level objects of the substrate come from
+a finite collection of \texttt{inductive} declarations, including
+\texttt{Term}, \texttt{BMark}, \texttt{BHist}, and related closed
+carriers. Each declaration has a displayed constructor list. No
+constructor is added by axiom, ambient library supply, quotient
+identification, or unstated semantic interpretation.
+
+The closed generator is the first unit of the theory. If an object is
+not produced by the displayed constructors, then it is not an internal
+object of that generator. External mathematical intentions may motivate
+the naming, but they do not enlarge the internal carrier.
+
+\subsection{Literal AST type equality}
+\label{subsec:bedc-is-its-own-theory-literal-ast-equality}
+
+Type equality on \texttt{Term}, and on any type-level object represented
+inside the substrate, is literal syntactic equality of the underlying
+AST. The substrate does not install a conversion rule that promotes
+computational equivalence to typing identity. It does not treat two
+types as identical merely because an external reduction theory relates
+their encodings.
+
+This point is central. Literal equality is not an impoverished
+conversion relation. It is the equality relation chosen by the theory.
+The resulting subject-reduction boundary of
+\autoref{ch:metacic-subject-reduction-obstruction} is therefore an
+internal fact about the chosen substrate, not a defect measured against a
+different calculus.
+
+\subsection{Structural recursors from closed generators}
+\label{subsec:bedc-is-its-own-theory-structural-recursors}
+
+For each \texttt{inductive} declaration, the Lean kernel supplies the
+corresponding eliminator, such as \texttt{.rec}. These eliminators are
+the universal-induction primitives available for that closed generator.
+They authorize structural induction over exactly the displayed
+constructors.
+
+BEDC.MetaCIC therefore has internal induction capacity, but that
+capacity is generator-local and structural. It is not a free principle
+over arbitrary semantic domains. When a claim needs an induction
+principle beyond the closed generator it names, that supply must be
+displayed as external input rather than silently imported into the
+substrate.
+
+\subsection{Zero axiom, strict purity}
+\label{subsec:bedc-is-its-own-theory-zero-axiom}
+
+The substrate does not include \texttt{Classical.choice},
+\texttt{Quot.sound}, \texttt{propext}, or any other Lean stdlib axiom as
+a dependency of BEDC.MetaCIC theorems. A strict purity audit asks each
+accepted theorem for its transitive axiom dependencies. For theorem
+content belonging to the BEDC.MetaCIC substrate, \texttt{\#print axioms}
+returns no axioms, and \texttt{axiom-purity --strict} enforces the same
+boundary at project scale.
+
+This is not a rhetorical preference for fewer assumptions. It is a
+typing discipline for the project. If a result needs choice,
+extensionality, quotient soundness, or propositional extensionality, the
+need must appear as a named external route, a displayed setup field, or
+an explicit boundary. It is not part of the substrate by default.
+
+\subsection{Apophatic external boundary}
+\label{subsec:bedc-is-its-own-theory-apophatic-boundary}
+
+Anything beyond the preceding commitments is treated as external supply.
+The supply is named apophatically: the project states what is not
+internally derivable from the current substrate and exposes a socket for
+that input. It does not convert the socket into a hidden axiom.
+
+The apophatic discipline of
+\autoref{ch:visions-apophatic-naming-as-discipline} is thus part of the
+identity of BEDC.MetaCIC. A named hypothesis, setup field, or GAP socket
+is not a disguised internal theorem. It is a visible boundary marker
+where the substrate stops and an external route may begin.
+
+\section{The defining conjunction}
+\label{sec:bedc-is-its-own-theory-defining-conjunction}
+
+The five commitments are not independent slogans. Together they define
+the theory:
+$$
+\begin{aligned}
+\mathrm{BEDC.MetaCIC}
+  ={}& \text{closed generators}\\
+  &+ \text{literal AST equality}\\
+  &+ \text{structural recursors}\\
+  &+ \text{zero-axiom strict purity}\\
+  &+ \text{apophatic external boundary}.
+\end{aligned}
+$$
+This is a positive definition. The theory is not identified by taking a
+different calculus and removing a feature from it. It is identified by
+the commitments it actually makes.
+
+Consequently, the first question to ask of a BEDC.MetaCIC theorem is not
+which classical theorem it resembles. The first question is which closed
+generators, recursors, literal equalities, and named boundaries its proof
+uses. Only after that internal reading is fixed does a comparison with
+classical CIC become meaningful.
+
+\section{Why classical CIC is a different theory}
+\label{sec:bedc-is-its-own-theory-classical-cic-different}
+
+Classical CIC has its own first-principles commitments. In familiar
+presentations, a conversion rule permits typing to move across
+computational equality:
+$$
+T_1 \equiv_{\beta} T_2
+\quad\Longrightarrow\quad
+(t : T_1) \Leftrightarrow (t : T_2).
+$$
+This rule is a type-level identification principle. It changes how
+typing judgments behave and gives subject-reduction arguments access to
+a kind of equality that BEDC.MetaCIC does not install.
+
+Many classical CIC environments also provide, or commonly sit beside,
+extensional and classical principles such as propositional
+extensionality, function extensionality, quotient soundness, and
+classical choice. Different systems choose different packages of this
+supply. The shared point is that the resulting environment is organized
+around a broader practical proof surface than BEDC.MetaCIC's closed
+audit substrate.
+
+The design objectives also differ. Classical CIC is built to support a
+large mechanized mathematics environment. BEDC.MetaCIC is built to
+delimit the smallest audit-clean closed-observational substrate on which
+its meta-theory can run. These objectives produce neighbouring theories
+with different commitments. Neither one is the technical parent of the
+other.
+
+\section{What comparison is good for}
+\label{sec:bedc-is-its-own-theory-comparison-good}
+
+Comparison with classical CIC is useful when it isolates a specific
+design decision and its consequences. The axiom dependency map of
+\autoref{ch:bedc-axiom-dependency-map} is one such comparison. It asks
+how a classical-looking universal claim meets the BEDC.MetaCIC
+substrate and records whether the result is an unconditional proof, a
+restricted proof, or an obstruction with named supply.
+
+In that role, comparison is secondary and diagnostic. It helps readers
+see why conversion, extensionality, quotient soundness, or choice matter
+for particular proof routes. It does not define BEDC.MetaCIC's identity.
+The theory exists on its own footing, and its theorems are first read as
+theorems of that theory.
+
+\section{What comparison is not good for}
+\label{sec:bedc-is-its-own-theory-comparison-not-good}
+
+Subtractive slogans about BEDC.MetaCIC are structurally misleading. They
+imply that classical CIC is the reference and that BEDC.MetaCIC is
+valuable only as a depleted copy. That implication is false. Both
+theories have first-principles definitions, and neither is the other's
+reference point.
+
+They also suggest that BEDC.MetaCIC is missing something required for
+its own identity. That is false as well. BEDC.MetaCIC has exactly the
+commitments that define it: closed generators, literal AST equality,
+structural recursors, strict purity, and visible external boundaries. A
+principle present in another calculus is not an absence inside
+BEDC.MetaCIC unless BEDC.MetaCIC itself claims that principle.
+
+Finally, they misread obstruction theorems. The subject-reduction
+obstruction of \autoref{ch:metacic-subject-reduction-obstruction} is
+not a failure relative to an external yardstick. It is a positive theorem
+about what happens when dependent codomains are read through literal AST
+equality on the BEDC.MetaCIC substrate. Classical CIC avoids that
+obstruction by making different type-theoretic commitments.
+
+\section{The label classical CIC}
+\label{sec:bedc-is-its-own-theory-classical-label}
+
+The label ``classical CIC'' is itself coarse-grained. Coq libraries,
+Lean libraries, Agda libraries, and other mechanized settings make
+different decisions about axioms, quotients, extensionality, universe
+features, and library conventions. BEDC.MetaCIC does not target any one
+of these environments as its origin.
+
+The target is instead a specific positive substrate. Classical CIC can
+serve as a comparison family, but not as a unitary reference object from
+which BEDC.MetaCIC receives its meaning. Treating that family label as
+the definition of BEDC.MetaCIC is a category error.
+
+\section{Implications for related chapters}
+\label{sec:bedc-is-its-own-theory-implications}
+
+The audit map family of \autoref{ch:audit-map-family-methodology}, the
+obstruction analysis of \autoref{ch:metacic-subject-reduction-obstruction},
+the discharge routes of \autoref{ch:sr-discharge-routes}, the axiom
+dependency map of \autoref{ch:bedc-axiom-dependency-map}, and the
+closed-normal consistency result of
+\autoref{ch:closed-normal-consistency-main-result} are all to be read as
+internal-to-BEDC statements first.
+
+They describe what BEDC.MetaCIC does on its own substrate. References to
+classical CIC in those chapters are analytical comparisons. They are not
+definitional references, and they do not turn BEDC.MetaCIC into a
+subtheory relation with classical CIC.
+
+\section{Apophatic framing of this principle}
+\label{sec:bedc-is-its-own-theory-apophatic-framing}
+
+The apophatic framing is internally consistent with this principle.
+BEDC.MetaCIC names what is not derivable from its own substrate. It does
+not name what another calculus possesses and then define itself by lack.
+
+This distinction matters for the reading of every named boundary. A GAP
+socket, setup field, or discharge obligation is a statement about the
+current BEDC.MetaCIC substrate. It says where the internal proof route
+stops. It is not a confession that the theory ought to have been a
+different theory.
+
+\section{Boundary}
+\label{sec:bedc-is-its-own-theory-boundary}
+
+This chapter is a framing principle, not a new proof and not a new Lean
+target. It declares how to read BEDC.MetaCIC: as its own type theory,
+defined from first principles. Other chapters may cite this principle
+when their comparison language needs to keep BEDC.MetaCIC's identity
+separate from the identity of classical CIC.
+
+\concretizedIn{ch:concrete-instances-metacic-theory-identity-namecert}{The MetaCIC theory-identity packet records the five positive commitments as finite NameCert rows.}
