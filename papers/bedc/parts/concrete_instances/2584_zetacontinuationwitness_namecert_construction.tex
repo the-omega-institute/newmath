@@ -62,6 +62,42 @@ If the consumer asks about the pole at $s=1$ or a negative even input, the reque
 The remaining analytic escape route is Gamma-dependent. That route is absorbed by $G$ unless the requested factor is already one of the displayed functional-equation rows. Therefore the downstream consumer receives only the finite continuation witness packet and does not receive an RH proof, a non-trivial-zero locator, or a completed Gamma certificate.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationWitness route-carrier admission]
+\label{thm:zeta-continuation-witness-route-carrier-admission}
+An accepted $\ZetaContinuationWitnessUp$ packet admits a continuation route only when the route is carried by the displayed eta-continuation row $E$, pole ledger $P$, functional-equation row $F$, trivial-zero ledger $T$, Gamma-horizon boundary $G$, componentwise $\hsame$ transports $H$, $\Cont$ reads $C$, $\Pkg$ provenance $R$, and local $\NameCert$ row $N$. No continuation route is admitted from an unrecorded branch, an RH predicate, a global zero-location classifier, or a completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(B,E,A,P,F,T,G,H,C,R,N)$. The eta-continuation coordinate $E$, the analytic-continuation coordinate $A$, and the functional-equation coordinate $F$ are the only route-bearing analytic rows.
+
+The ledger rows $P$ and $T$ restrict the exceptional reads, while $G$ records the Gamma-horizon boundary. Transport through $H$ and replay through $C$ preserve those displayed rows and do not add a branch.
+
+Finally authenticate the route through $R$ and $N$. Since the carrier contains no RH coordinate, no non-trivial-zero locator, and no closed Gamma chapter, admission is exactly the displayed finite route carrier.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness classifier stability]
+\label{thm:zeta-continuation-witness-classifier-stability}
+The $\ZetaContinuationWitnessUp$ classifier is stable under componentwise $\hsame$ and displayed $\Cont$ transport of the source zeta row, eta-continuation route, pole ledger, functional-equation route, trivial-zero ledger, Gamma-horizon boundary, $\Pkg$ provenance, and local $\NameCert$ rows. Transported packets keep the same finite witness surface and do not gain RH, global zero-location, or analytic-continuation data beyond the displayed witness packet.
+\end{theorem}
+\begin{proof}
+Compare two accepted packets componentwise. The source row $B$, eta route $E$, analytic-continuation row $A$, pole ledger $P$, functional-equation row $F$, trivial-zero ledger $T$, and Gamma boundary $G$ are transported only along the corresponding rows of $H$.
+
+The continuation reads in $C$ replay those transported rows in the same order. They preserve the route carrier and the exceptional ledgers because each read targets a displayed coordinate of the packet.
+
+Package provenance $R$ and local naming $N$ then repack the transported surface. No classifier coordinate mentions RH, a non-trivial-zero locator, a global branch theorem, or a completed Gamma chapter, so stability remains finite-packet stability.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness pole-ledger exactness]
+\label{thm:zeta-continuation-witness-pole-ledger-exactness}
+Every pole-facing read of an accepted $\ZetaContinuationWitnessUp$ packet is exactly the displayed pole ledger $P$ together with the eta-continuation, functional-equation, Gamma-horizon, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows needed to authenticate that ledger. The read does not decide non-trivial zeros, does not prove RH, and does not extend analytic continuation beyond the witness packet.
+\end{theorem}
+\begin{proof}
+Read the exceptional coordinate $P$ from the carrier. It records the simple-pole row and residue-one readback at $s=1$, so a pole-facing consumer has a named ledger rather than an ambient meromorphic theorem.
+
+The surrounding rows $E,F,G,H,C,R,N$ authenticate the ledger. The eta and functional-equation routes place the pole row inside the witness packet, the Gamma boundary limits Gamma-dependent access, and the transport and continuation rows replay only displayed data.
+
+The trivial-zero ledger $T$ remains separate. Therefore pole exactness does not locate non-trivial zeros, does not assert RH, and does not supply continuation data outside the finite certificate.
+\end{proof}
+
 \begin{theorem}[ZetaContinuationWitness vision concretization]
 \label{thm:zeta-continuation-witness-vision-concretization}
 The zeta-continuation application of \autoref{ch:concrete-instances-zeta-continuation} is concretized by $\ZetaContinuationWitnessUp$ as a finite $\BHist$ NameCert packet over the eta-continuation route, pole ledger, functional-equation route, trivial-zero ledger, Gamma-horizon boundary, componentwise $\hsame$ transports, finite $\Cont$ reads, $\Pkg$ provenance, and local naming.
