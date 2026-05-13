@@ -85,6 +85,26 @@ Use \autoref{thm:real-diagonal-mesh-budget-window-coverage}. It shows that the d
 The rows $h$ and $c$ replay the displayed transports and continuations, while $p$ and $n$ provide provenance and local naming. Therefore the seal is reached exactly through the displayed route and not through a hidden completeness or quotient-equality coordinate.
 \end{proof}
 
+\begin{theorem}[Real diagonal mesh-budget seal-route exactness]
+\label{thm:real-diagonal-mesh-budget-seal-route-exactness}
+For an accepted $\RealDiagonalMeshBudgetUp$ carrier
+$$
+M=(q,b,\omega,\rho,\delta,\theta,e,h,c,p,n),
+$$
+a $\RealUp$ seal read is admitted precisely when it is routed through $q,b,\omega,\rho,\delta,\theta$ with the displayed $h,c,p,n$ rows before the row $e$ is read.
+
+Any proposed $\RealUp$ seal read missing one of the precision request, finite mesh budget, selected-window family, readback family, dyadic ledger, aggregation row, componentwise transport, continuation route, provenance, or local $\NameCert$ row is outside the carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The coordinates $q,b,\omega,\rho,\delta,\theta,e,h,c,p,n$ are the full packet, and \autoref{thm:real-diagonal-mesh-budget-namecert-obligations} identifies them as the complete local NameCert inventory.
+
+For the admitted direction, use \autoref{thm:real-diagonal-mesh-budget-window-coverage} and \autoref{thm:real-diagonal-mesh-budget-window-refinement}. They confine the selected-window side to the finite route through $b,\omega,\rho,\delta,\theta$ and preserve the displayed transport, continuation, and provenance rows.
+
+Then apply \autoref{thm:real-diagonal-mesh-budget-realup-handoff}. It states that a real-facing consumer reaches $e$ only after the displayed route through $q,b,\omega,\rho,\delta,\theta,h,c,p,n$ has been traversed.
+
+For the excluded direction, remove any one of those rows from a proposed seal read. The NameCert inventory has no alternate carrier coordinate for the missing datum, and the selected-window and RealUp handoff results provide no hidden quotient, host equality, ambient completeness, or unlisted window route. Such a read is therefore not a read from the accepted carrier.
+\end{proof}
+
 \begin{theorem}[Real diagonal mesh-budget non-escape]
 \label{thm:real-diagonal-mesh-budget-nonescape}
 Every downstream consumer of an accepted $\RealDiagonalMeshBudgetUp$ packet factors through the finite rows
@@ -105,7 +125,7 @@ No remaining carrier coordinate exists beyond those rows. Hence no downstream co
 
 \begin{theorem}[Real diagonal mesh-budget obligation closure package]
 \label{thm:real-diagonal-mesh-budget-obligation-closure-package}
-The carrier of \autoref{def:real-diagonal-mesh-budget-carrier}, the NameCert obligations of \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}, finite window coverage from \autoref{thm:real-diagonal-mesh-budget-window-coverage}, selected-window refinement from \autoref{thm:real-diagonal-mesh-budget-window-refinement}, RealUp handoff from \autoref{thm:real-diagonal-mesh-budget-realup-handoff}, and non-escape from \autoref{thm:real-diagonal-mesh-budget-nonescape} constitute the finite mesh-budget obligation package over $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+The carrier of \autoref{def:real-diagonal-mesh-budget-carrier}, the NameCert obligations of \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}, finite window coverage from \autoref{thm:real-diagonal-mesh-budget-window-coverage}, selected-window refinement from \autoref{thm:real-diagonal-mesh-budget-window-refinement}, RealUp handoff from \autoref{thm:real-diagonal-mesh-budget-realup-handoff}, seal-route exactness from \autoref{thm:real-diagonal-mesh-budget-seal-route-exactness}, and non-escape from \autoref{thm:real-diagonal-mesh-budget-nonescape} constitute the finite mesh-budget obligation package over $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 
 The package binds a rational precision request to a finite mesh budget, selected StreamName windows, regular rational readbacks, dyadic tolerance rows, diagonal aggregation, the RealUp seal row, componentwise transports, displayed continuations, provenance, and local naming.
 \end{theorem}
@@ -114,7 +134,7 @@ The carrier theorem fixes the packet $M=(q,b,\omega,\rho,\delta,\theta,e,h,c,p,n
 
 Apply finite window coverage and selected-window refinement. These results identify the visible route through $b,\omega,\rho,\delta,\theta$ and show that the same rows project to the selected-window surface without adding an unlisted window or a quotient stream.
 
-Apply the RealUp handoff theorem and then non-escape. The seal row $e$ is consumed only after the precision, budget, selected windows, readbacks, dyadic ledger, aggregation row, transports, routes, provenance, and local name have been displayed.
+Apply the RealUp handoff theorem, seal-route exactness, and then non-escape. The seal row $e$ is consumed only after the precision, budget, selected windows, readbacks, dyadic ledger, aggregation row, transports, routes, provenance, and local name have been displayed.
 
 No infinite mesh selection, quotient reals, host real equality, or ambient completeness row exists in the carrier. Therefore the cited rows form the complete finite mesh-budget obligation package and nothing stronger.
 \end{proof}
@@ -125,7 +145,7 @@ No infinite mesh selection, quotient reals, host real equality, or ambient compl
 \begin{closurestatus}{\RealDiagonalMeshBudgetUp}
   \constructivestory{A $\RealDiagonalMeshBudgetUp$ packet is generated from a rational precision request, a finite mesh budget, selected stream windows, regular rational readbacks, a dyadic tolerance ledger, a diagonal aggregation row, a real-seal row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:real-diagonal-mesh-budget-carrier}, \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}, \autoref{thm:real-diagonal-mesh-budget-window-coverage}, \autoref{thm:real-diagonal-mesh-budget-window-refinement}, \autoref{thm:real-diagonal-mesh-budget-realup-handoff}, and \autoref{thm:real-diagonal-mesh-budget-nonescape} bind the finite mesh-budget route from precision request through selected diagonal windows to the RealUp seal.}
+  \scopeclosed{\autoref{def:real-diagonal-mesh-budget-carrier}, \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}, \autoref{thm:real-diagonal-mesh-budget-window-coverage}, \autoref{thm:real-diagonal-mesh-budget-window-refinement}, \autoref{thm:real-diagonal-mesh-budget-realup-handoff}, \autoref{thm:real-diagonal-mesh-budget-seal-route-exactness}, and \autoref{thm:real-diagonal-mesh-budget-nonescape} bind the finite mesh-budget route from precision request through selected diagonal windows to the RealUp seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
