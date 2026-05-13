@@ -131,12 +131,27 @@ Use classifier stability to move along componentwise $\hsame$ without changing t
 Use ledger exactness to identify the composed readback with the continuation route recorded in $K$ and $L$. Therefore a Kleisli-style consumer is bounded by the named BEDC rows and cannot read quotient Kleisli categories, host functions, host monad equalities, or a general category primitive.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad obligation closure]
+\label{thm:continuation-monad-obligation-closure}
+For every accepted $\ContinuationMonadUp$ source packet, the carrier source, unit laws, associativity, classifier stability, ledger exactness, local $\NameCert$ package, and Kleisli composition boundary jointly supply the $\obligationClosure$ surface for $\ContinuationMonadUp$ over $\BHist$, $\Cont$, $\hsame$, $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, $\Pkg$, and $\NameCert$. The closure surface exports only the displayed continuation tails, route rows, transport rows, ledger rows, package provenance, and naming row.
+\end{theorem}
+\begin{proof}
+First use the carrier source and carrier obligation. They identify the finite packet rows $A,B,C,f,g,u,H,K,L,N$ and exclude quotient morphisms, host functions, and any general category primitive outside the displayed packet.
+
+Next apply the unit laws and associativity rows. These bind the unit tail and the two-step readback as ledger facts about the displayed $\Cont$ routes rather than as host monad equalities.
+
+Use classifier stability and ledger exactness to transport the same route data along componentwise $\hsame$. The $\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ readings are therefore readings of the same finite continuation rows.
+
+Finally apply the local NameCert package and the Kleisli composition boundary. They repack carrier admission, stability, exactness, provenance, and consumer boundary as the public obligation surface for $\ContinuationMonadUp$.
+\end{proof}
+
 \closureat{ContinuationMonadUp}{seedStr}
+\closureat{ContinuationMonadUp}{obligationStr}
 
 \begin{closurestatus}{\ContinuationMonadUp}
   \constructivestory{A $\ContinuationMonadUp$ packet is generated from source, middle, and target histories, two displayed continuation tails, a unit tail, componentwise $\hsame$ transports, displayed $\Cont$ routes, CategoryUp continuation-morphism readings, package provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuation-monad-namecert-source}, \autoref{def:continuation-monad-carrier}, \autoref{thm:continuation-monad-unit-laws}, \autoref{thm:continuation-monad-associativity}, \autoref{thm:continuation-monad-namecert-obligations}, \autoref{thm:continuation-monad-carrier-obligation}, \autoref{thm:continuation-monad-classifier-stability}, \autoref{thm:continuation-monad-ledger-exactness}, \autoref{thm:continuation-monad-namecert-package}, and \autoref{thm:continuation-monad-kleisli-composition-boundary} bind the finite continuation package and its certified Kleisli consumer boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:continuation-monad-obligation-closure} binds the carrier source, unit laws, associativity, classifier stability, ledger exactness, NameCert package, and Kleisli composition boundary as the finite continuation obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close full category theory, quotient Kleisli categories, host functions, standard monad laws as host equalities, arbitrary effects, or bridge checking.}
