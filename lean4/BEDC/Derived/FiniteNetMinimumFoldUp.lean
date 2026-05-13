@@ -173,4 +173,28 @@ theorem FiniteNetMinimumFoldPacket_compactmoduluscover_input_exactness
       exportedUnary, bundleRadiusCompact, compactAccumulatorFolded, foldedLowerExported,
       transportNameProvenance, provenancePkg, exportedPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_uniformmodulus_output_exhaustion
+    [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow uniformOutput :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      hsame uniformOutput accumulator →
+        PkgSig bundle provenance pkg →
+          UnaryHistory accumulator ∧ UnaryHistory lower ∧ UnaryHistory uniformOutput ∧
+            Cont accumulator lower transport ∧ Cont transport nameRow provenance ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg
+  intro packet outputSame provenancePkg
+  obtain ⟨_bundleRowUnary, _radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, accumulatorLowerTransport, transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _packetPkg⟩ := packet
+  have uniformOutputUnary : UnaryHistory uniformOutput :=
+    unary_transport_symm accumulatorUnary outputSame
+  exact
+    ⟨accumulatorUnary, lowerUnary, uniformOutputUnary, accumulatorLowerTransport,
+      transportNameProvenance, provenancePkg⟩
+
 end BEDC.Derived.FiniteNetMinimumFoldUp
