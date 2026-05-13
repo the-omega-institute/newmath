@@ -1,0 +1,18 @@
+# circle_s1_rows.enum.ct
+# Theorem family:
+#   SOneHistoryCarrier_e1_components_carrier_exactness
+#   SOneHistoryCarrier_public_constructor_scope
+#   SOneStandardTopologicalCircleAcceptance_factorization_public_rows
+#
+# Input shape:
+#   BHist x ++ BHist y ++ BHist equation ++ BHist point ++ BHist pointTail
+#
+# Runtime harness checks the discrete e1-component surface:
+#   x = e1 dx, y = e1 dy, equation = e1(e1 Empty),
+#   point = e1 pointTail, and pointTail = append x dy.
+PRODUCTIONS 0
+ASSERTIONS 4
+case unit_empty_components:       input=101110111010111010111011                   ; theorem=s1_e1_components_carrier_exactness ; x=e1_empty ; y=e1_empty ; equation=e1_e1_empty ; point=e1_e1_empty ; point_tail=e1_empty ; conclusion_holds=yes
+case unary_mixed_components:      input=100111010111010111010100111010011         ; theorem=s1_public_constructor_scope ; x=e1_e0_empty ; y=e1_e1_empty ; equation=e1_e1_empty ; point=e1_e1_e1_e0_empty ; point_tail=e1_e1_e0_empty ; conclusion_holds=yes
+case two_tail_components:         input=101011100101110101110010101011010101011   ; theorem=s1_topological_acceptance_shape ; x=e1_e1_empty ; y=e1_e0_e1_empty ; equation=e1_e1_empty ; point=e1_e0_e1_e1_e1_empty ; point_tail=e0_e1_e1_e1_empty ; conclusion_holds=yes
+case longer_tail_components:      input=100101110001110101110001001011001001011   ; theorem=s1_topological_acceptance_shape ; x=e1_e0_e1_empty ; y=e1_e0_e0_empty ; equation=e1_e1_empty ; point=e1_e0_e0_e1_e0_e1_empty ; point_tail=e0_e0_e1_e0_e1_empty ; conclusion_holds=yes

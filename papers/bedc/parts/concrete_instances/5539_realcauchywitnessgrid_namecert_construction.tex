@@ -1,0 +1,105 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyWitnessGridUp$}
+\label{ch:concrete-instances-real-cauchy-witness-grid-namecert}
+\origin{ai}
+
+The $\RealCauchyWitnessGridUp$ packet realizes the diagonal witness route of \autoref{ch:visions-real-completeness} as one finite grid. It joins the witness ledger of \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert}, the completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, the selector-budget surface of \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}, and the tail-witness envelope of \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert}. The grid is a NameCert surface for the displayed selector, ledger, seal, and tail rows; it is not a quotient stream, host real equality, selected external limit, countable-choice row, or ambient completeness theorem.
+
+\begin{definition}[Real Cauchy witness grid carrier]
+\label{def:real-cauchy-witness-grid-carrier}
+A $\RealCauchyWitnessGridUp$ carrier is a finite $\BHist$ packet
+$$
+G=(B,L,K,T,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\RegularCauchySelectorBudgetUp$ row exposing the finite selector modulus and selected observation window for the diagonal request;
+\item $L$ is the $\CauchyWitnessLedgerUp$ row recording the diagonal budget, observation budget, seal synchronizer, and completion-seal classifier route;
+\item $K$ is the $\RealCompletionSealClassifierUp$ row reached by the completion-facing seal read;
+\item $T$ is the $\CauchyTailWitnessEnvelopeUp$ row storing the selected StreamName window, finite-window endpoint ledger, tail comparison, tail-agreement seal, and RealUp readback;
+\item $S$ records the $\StreamNameUp$ finite windows shared by the selector and tail rows;
+\item $R$ records the $\RegSeqRatUp$ witness rows assembled from the selected windows;
+\item $E$ records the $\RealUp$ seal and readback rows exported after the ledger and classifier rows are displayed;
+\item $H$ records componentwise $\hsame$ transports for $B,L,K,T,S,R,E,C,P,N$;
+\item $C$ records displayed $\Cont$ routes from the selector budget to the witness ledger, completion-seal classifier, tail-witness envelope, StreamName rows, RegSeqRat rows, RealUp seal rows, provenance, and local naming row;
+\item $P$ records $\Pkg$ provenance over $\RegularCauchySelectorBudgetUp$, $\CauchyWitnessLedgerUp$, $\RealCompletionSealClassifierUp$, $\CauchyTailWitnessEnvelopeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealCauchyWitnessGridUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient stream equality, host real equality, selected external limits, countable choice, hidden selector enlargement, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Real Cauchy witness grid NameCert obligations]
+\label{thm:real-cauchy-witness-grid-namecert-obligations}
+For the carrier of \autoref{def:real-cauchy-witness-grid-carrier}, the local $\NameCert_{\RealCauchyWitnessGridUp}$ surface consists exactly of carrier admission for
+$$
+G=(B,L,K,T,S,R,E,H,C,P,N),
+$$
+selector-budget exposure through $B$, witness-ledger exposure through $L$, completion-seal classifier exposure through $K$, tail-witness exposure through $T$, shared StreamName window exposure through $S$, RegSeqRat witness exposure through $R$, RealUp seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple. The rows $B,L,K,T,S,R,E,H,C,P,N$ are all public coordinates of the grid.
+
+The analytic rows are read in order. The selector-budget row $B$ supplies the finite modulus and window request; the witness-ledger row $L$ stores the diagonal budget, observation budget, synchronizer, and classifier route; the classifier row $K$ reads the completion-seal boundary; and the tail-witness row $T$ stores the selected tail envelope.
+
+The shared rows $S,R,E$ expose the StreamName, RegSeqRat, and RealUp handoff data consumed by those four packets. The structural rows $H,C,P,N$ transport, replay, authenticate, and name the same grid. Since the carrier has no forbidden analytic coordinate, these rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real Cauchy witness grid selector exactness]
+\label{thm:real-cauchy-witness-grid-selector-exactness}
+Every selector read admitted by an accepted $\RealCauchyWitnessGridUp$ carrier factors through the displayed finite route
+$$
+B \longmapsto (S,R) \longmapsto (L,T)
+$$
+before the completion-seal classifier $K$ or RealUp seal row $E$ can be consumed. Thus the selected modulus and window are the only selector source for both the ledger side and the tail-witness side of the grid.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to $G=(B,L,K,T,S,R,E,H,C,P,N)$. The only selector-budget coordinate is $B$, and the only shared observation and regular-witness coordinates are $S$ and $R$.
+
+Apply the NameCert obligation surface. It exposes selector-budget data through $B$, shared StreamName data through $S$, and RegSeqRat witness data through $R$ before either the ledger row $L$ or tail-witness row $T$ is consumed.
+
+The route rows in $C$ replay exactly this order, while $H$ preserves the same coordinates under componentwise transport. No second selector or hidden window coordinate remains in the carrier, so the selector route is exact.
+\end{proof}
+
+\begin{theorem}[Real Cauchy witness grid Real handoff]
+\label{thm:real-cauchy-witness-grid-real-handoff}
+Every Real-completion consumer of an accepted $\RealCauchyWitnessGridUp$ carrier reaches $\RealUp$ only through the finite route
+$$
+B,S,R,L,T,K,E,H,C,P,N.
+$$
+In particular, the consumer first reads the selector-budget row, the shared StreamName and RegSeqRat rows, the ledger and tail-witness rows, and the completion-seal classifier before receiving the RealUp seal or readback row.
+\end{theorem}
+\begin{proof}
+Start with selector exactness. By \autoref{thm:real-cauchy-witness-grid-selector-exactness}, the selected window and RegSeqRat witness are fixed by $B,S,R$ before the ledger row $L$ or tail-witness row $T$ can be used.
+
+Read the sibling packets. The witness ledger of \autoref{ch:concrete-instances-cauchy-witness-ledger-namecert} supplies the diagonal budget and synchronizer route, while the tail-witness envelope of \autoref{ch:concrete-instances-cauchy-tail-witness-envelope-namecert} supplies the finite tail readback route.
+
+The completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert} is then reached through $K$, and the RealUp seal or readback row is $E$. The structural rows $H,C,P,N$ preserve and name this route, so no Real-completion consumer receives a different handoff.
+\end{proof}
+
+\begin{theorem}[Real Cauchy witness grid non-escape]
+\label{thm:real-cauchy-witness-grid-nonescape}
+An accepted $\RealCauchyWitnessGridUp$ carrier exports only the displayed rows $B,L,K,T,S,R,E,H,C,P,N$. It exports no quotient stream equality, host real equality, selected external limit, countable-choice row, hidden selector enlargement, unlisted tail witness, or ambient Real completeness theorem. Lean-facing work for this packet must provide $\mathsf{Nontrivial}\ \RealCauchyWitnessGridUp$ with an explicit witness pair and $\mathsf{FieldFaithful}\ \RealCauchyWitnessGridUp$ by constructor-field injection.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply the NameCert obligation theorem. Every exported row is one of the selector-budget, witness-ledger, completion-seal classifier, tail-witness, StreamName, RegSeqRat, RealUp, transport, route, provenance, and local naming rows.
+
+The selector-exactness theorem prevents replacement of $B,S,R$ by another selector source. The Real handoff theorem prevents replacement of $L,T,K,E$ by a host limit or a detached RealUp output.
+
+The excluded objects have no coordinate in the tuple. Therefore no accepted consumer can recover them from the grid, and the Lean-facing nontriviality and field-faithfulness tasks must be witnessed over the displayed fields.
+\end{proof}
+
+\falsifiablePrediction{If the witness grid is atomic, then every Real-completion diagonal consumer factors through the displayed selector-budget and completion-seal grid before reaching RealUp; a consumer bypassing both sibling ledgers refutes the chapter.}
+
+\independenceWitness{Nearest siblings: cauchywitnessledger, realcompletionsealclassifier, regularcauchyselectorbudget, cauchytailwitnessenvelope. The grid is not bijective to any one sibling because it simultaneously stores selector rows, ledger rows, seal-classifier rows, and tail-witness rows, while each sibling omits at least one of those obligation rows.}
+
+\closureat{RealCauchyWitnessGridUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyWitnessGridUp}
+  \constructivestory{A $\RealCauchyWitnessGridUp$ packet is generated from a selector budget, witness ledger, completion-seal classifier, tail-witness envelope, shared StreamName rows, RegSeqRat witness rows, RealUp seal rows, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-witness-grid-carrier}, \autoref{thm:real-cauchy-witness-grid-namecert-obligations}, \autoref{thm:real-cauchy-witness-grid-selector-exactness}, \autoref{thm:real-cauchy-witness-grid-real-handoff}, and \autoref{thm:real-cauchy-witness-grid-nonescape} bind the finite diagonal witness grid for the Real completeness route through the displayed selector, ledger, classifier, tail, StreamName, RegSeqRat, RealUp, transport, route, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, selected external limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector exactness, Real handoff, non-escape, and TasteGate nontriviality with field faithfulness for the same finite witness grid.}
+\end{closurestatus}

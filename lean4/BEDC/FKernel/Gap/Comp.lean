@@ -17,6 +17,7 @@ def CompGap {Source Inter Final : Type}
     (z : Final) (x : Source) : Prop :=
   ∃ y : Inter, firstGap y x ∧ secondGap z y
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_iff_exists
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -26,6 +27,7 @@ theorem compGap_iff_exists
       exists y : Inter, firstGap y x /\ secondGap z y := by
   rfl
 
+omit [AskSetup] [PackageSetup] G in
 theorem hardening_composite_gap_ledger_witnesses
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -35,6 +37,7 @@ theorem hardening_composite_gap_ledger_witnesses
       exists y : Inter, firstGap y x /\ secondGap z y := by
   rfl
 
+omit [AskSetup] [PackageSetup] G in
 theorem composite_gap_ledger
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -44,6 +47,7 @@ theorem composite_gap_ledger
       exists y : Inter, firstGap y x /\ secondGap z y := by
   rfl
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_witness_pair_iff
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -53,6 +57,7 @@ theorem compGap_witness_pair_iff
       exists y : Inter, firstGap y x /\ secondGap z y := by
   rfl
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_intro
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -62,6 +67,7 @@ theorem compGap_intro
   intro hfirst hsecond
   exact Exists.intro y (And.intro hfirst hsecond)
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_inversion
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -72,6 +78,7 @@ theorem compGap_inversion
   intro h
   exact h
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_pullback_witnesses
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
@@ -84,6 +91,7 @@ theorem compGap_pullback_witnesses
   | intro y data =>
       exact Exists.intro y (And.intro data.left data.right)
 
+omit [AskSetup] [PackageSetup] G in
 theorem composite_gap_ledger_witnesses
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}
@@ -93,6 +101,7 @@ theorem composite_gap_ledger_witnesses
   intro h
   exact h
 
+omit [AskSetup] [PackageSetup] G in
 theorem ledger_composition_principle
     {A B C D : Type} {first : B → A → Prop} {second : C → B → Prop}
     {third : D → C → Prop} {z : D} {x : A} :
@@ -112,6 +121,7 @@ theorem ledger_composition_principle
                       (And.intro hfirst
                         (And.intro hsecond hthird)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem ledger_composition_principle_inverse
     {A B C D : Type} {first : B -> A -> Prop} {second : C -> B -> Prop}
     {third : D -> C -> Prop} {z : D} {x : A} :
@@ -131,6 +141,7 @@ theorem ledger_composition_principle_inverse
                       (Exists.intro b (And.intro hfirst hsecond))
                       hthird)
 
+omit [AskSetup] [PackageSetup] G in
 theorem ledger_composition_principle_proof_standing [AskSetup] [PackageSetup] [DomainSetup]
     {A B C D : Type} {first : B → A → Prop} {second : C → B → Prop}
     {third : D → C → Prop} {z : D} {x : A} :
@@ -164,6 +175,7 @@ theorem ledger_composition_principle_proof_standing [AskSetup] [PackageSetup] [D
                         (Exists.intro b (And.intro hfirst hsecond))
                         hthird)
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_left_witness
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}
@@ -175,6 +187,7 @@ theorem compGap_left_witness
   | intro y data =>
       exact Exists.intro y data.left
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_right_witness
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}
@@ -186,6 +199,7 @@ theorem compGap_right_witness
   | intro y data =>
       exact Exists.intro y data.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_left_right_witness_pair
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}
@@ -198,6 +212,7 @@ theorem compGap_left_right_witness_pair
   | intro y data =>
       exact And.intro (Exists.intro y data.left) (Exists.intro y data.right)
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_second_first_witness
     {Source Inter Final : Type}
     {firstGap : Inter → Source → Prop}
@@ -209,6 +224,7 @@ theorem compGap_second_first_witness
   | intro y data =>
       exact Exists.intro y (And.intro data.right data.left)
 
+omit [AskSetup] [PackageSetup] G in
 theorem compGap_separation_from_layers
     {Source Inter Final : Type}
     {firstGap : Inter -> Source -> Prop}
