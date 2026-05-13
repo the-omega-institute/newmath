@@ -229,6 +229,48 @@ public witness read with $Z,S,M,R,Q,H,C,P,N$, which is precisely the stated
 obligation package for supplied zero-in-strip inputs.
 \end{proof}
 
+\begin{theorem}[Critical-line witness root carrier scope]
+\label{thm:critical-line-witness-root-carrier-scope}
+Every accepted $\CriticalLineWitnessUp$ packet factors through exactly the displayed rows
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The root carrier scope consumes no global zero classifier, no proof of $\mathsf{RH}$, no zero-producing search, no host complex equality, no quotient representative, and no ambient analytic completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:critical-line-witness-carrier} and the NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations}. They expose only the supplied zero row, supplied critical-strip row, modulus row, real-part row, rational comparison ledger, componentwise transports, displayed continuations, provenance, and local naming.
+
+Use \autoref{thm:critical-line-witness-strip-zero-compatibility} to bind the zero and strip rows to the same displayed history. Use \autoref{thm:critical-line-witness-realpart-modulus-stability} to keep the modulus route attached to the same real-part row.
+
+Apply \autoref{thm:critical-line-witness-nonescape-boundary} and \autoref{thm:critical-line-witness-ledger-exactness}. These rows exhaust the public packet and exclude global zero classification, zero search, host equality, quotient representatives, and analytic completeness from the root carrier scope.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus ledger non-escape]
+\label{thm:critical-line-witness-modulus-ledger-nonescape}
+The modulus row $M$ and rational comparison ledger $Q$ of an accepted $\CriticalLineWitnessUp$ packet cannot export host equality, quotient representatives, zero search, a global zero classifier, or analytic completeness. Their public reads remain confined to the supplied zero row $Z$, strip row $S$, real-part row $R$, componentwise transports $H$, continuations $C$, provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the modulus and ledger rows from the carrier. The row $M$ answers depth requests, while $Q$ stores the half-line, dyadic tolerance, and strict comparison rows used by that answer.
+
+Invoke \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}. The rational comparison surface is exactly the finite ledger consumed by $M$, so it has no off-ledger route to host equality, quotient representatives, or hidden numeric oracles.
+
+Use \autoref{thm:critical-line-witness-modulus-depth-routing} and \autoref{thm:critical-line-witness-nonescape-boundary}. The depth route factors through $R,Q,H,C,P,N$, and the non-escape boundary removes zero search, global zero classification, and analytic completeness from the public read.
+\end{proof}
+
+\begin{theorem}[Critical-line witness strip-zero route exactness]
+\label{thm:critical-line-witness-strip-zero-route-exactness}
+For an accepted $\CriticalLineWitnessUp$ packet, the supplied zeta-zero row $Z$ and supplied critical-strip row $S$ are the only sibling-origin rows for the displayed history inspected by the witness. Any public strip-zero read factors through $Z,S,H,C,P,N$ before it reaches the modulus and rational ledger rows, and no additional sibling row may be substituted for the same history.
+\end{theorem}
+\begin{proof}
+Read the sibling-origin rows from \autoref{def:critical-line-witness-carrier}. The packet has one $\ZetaZerosUp$ coordinate $Z$ and one $\CritStripUp$ coordinate $S$.
+
+Apply \autoref{thm:critical-line-witness-strip-zero-compatibility}. The displayed $\hsame$ transport in $H$ is the only route tying $Z$ and $S$ to the same supplied history, and continuation through $C$ only replays that route.
+
+Use \autoref{thm:critical-line-witness-critical-strip-origin} to identify the sibling sources and \autoref{thm:critical-line-witness-zero-row-scope} to keep the read inside $Z,S,M,R,Q,H,C,P,N$.
+
+Finally apply \autoref{thm:critical-line-witness-ledger-exactness}. Since the ledger contains no additional zero or strip coordinate for the same history, the strip-zero route is exact.
+\end{proof}
+
 \closureat{CriticalLineWitnessUp}{seedStr}
 
 \begin{closurestatus}{\CriticalLineWitnessUp}

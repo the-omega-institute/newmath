@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\ClosurePreservationAuditWitnessUp$}
+\label{ch:concrete-instances-closurepreservationauditwitness-namecert}
+\origin{human}
+
+The $\ClosurePreservationAuditWitnessUp$ packet realizes the closedness-preservation chain of \autoref{ch:metacic-closure-preservation-audit-map} as finite BEDC NameCert data. It sits beside the main closed-normal consistency boundary of \autoref{ch:concrete-instances-closednormalconsistencymain-namecert}, the confluence audit witness of \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}, and the beta-step boundary of \autoref{ch:concrete-instances-betastepboundary-namecert}: those chapters consume closed endpoints, confluence rows, and beta-step rows, while this packet records how the five closedness-preservation theorems remain visible as a single replayable carrier.
+
+\begin{definition}[ClosurePreservationAuditWitness carrier]
+\label{def:closure-preservation-audit-witness-carrier}
+A $\ClosurePreservationAuditWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,V,F,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the shift-one closedness-preservation row;
+\item $V$ is the variable-substitution closedness-preservation row;
+\item $F$ is the full-substitution closedness-preservation row;
+\item $B$ is the beta-step closedness-preservation row;
+\item $R$ is the finite beta-star closedness-preservation row;
+\item $H$ records componentwise $\hsame$ transports for the five theorem rows, replay routes, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which consumers replay the shift, substitution, beta-step, and beta-star rows without leaving the closedness classifier;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\NameCert$, the closure-preservation audit map, the closed-normal consistency main packet, the MetaCIC confluence audit witness, and the beta-step boundary;
+\item $N$ is the local $\NameCert_{\ClosurePreservationAuditWitnessUp}$ row.
+\end{enumerate}
+The carrier contains no subject-reduction theorem, no typing transport, no host conversion rule, no quotient equality of MetaCIC terms, and no route from closedness preservation to full closed consistency.
+\end{definition}
+
+\begin{theorem}[ClosurePreservationAuditWitness NameCert obligations]
+\label{thm:closure-preservation-audit-witness-namecert-obligations}
+For the carrier of \autoref{def:closure-preservation-audit-witness-carrier}, the local $\NameCert_{\ClosurePreservationAuditWitnessUp}$ surface consists exactly of carrier admission for
+$$
+W=(S,V,F,B,R,H,C,P,N),
+$$
+readback of the shift-one row $S$, variable-substitution row $V$, full-substitution row $F$, beta-step row $B$, and beta-star row $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $W$. The first five coordinates are the theorem rows named by the closure-preservation audit map, so carrier admission exposes exactly the closedness-preservation chain and no typing premise.
+
+Read $H$ and $C$ next. Transport keeps each theorem row componentwise stable, while continuation replay lets a consumer reach the shift, substitution, beta-step, and beta-star rows in the same finite packet.
+
+Finally inspect $P$ and $N$. Provenance anchors the packet in the source audit map and in the sibling closed-normal, confluence, and beta-boundary chapters, while the local naming row names the carrier itself. Since no other coordinate is present, these rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[ClosurePreservationAuditWitness beta-step row]
+\label{thm:closure-preservation-audit-witness-beta-step-row}
+In every accepted $\ClosurePreservationAuditWitnessUp$ carrier, the beta-step row $B$ is read only as closedness preservation for a single MetaCIC beta contraction. Its permitted inputs are the closedness rows supplied by the shift and substitution coordinates $S,V,F$, transported through $H$ and replayed through $C$. It does not export typing preservation for the contracted redex.
+\end{theorem}
+\begin{proof}
+Project $W$ and isolate the beta-step coordinate $B$. The carrier places $B$ after the shift and substitution rows, so the displayed read of $B$ depends only on closedness budgets already present in the packet.
+
+The transport row $H$ preserves those coordinates componentwise, and the replay row $C$ exposes the beta-step theorem through the same closedness classifier. Neither row contains a typing derivation or a codomain transport.
+
+Thus $B$ certifies the closedness boundary for one beta contraction and nothing stronger.
+\end{proof}
+
+\begin{theorem}[ClosurePreservationAuditWitness beta-star row]
+\label{thm:closure-preservation-audit-witness-beta-star-row}
+In every accepted $\ClosurePreservationAuditWitnessUp$ carrier, the beta-star row $R$ is the finite-path replay of the beta-step closedness row $B$. A consumer may cite $R$ to keep the endpoint of a finite beta path inside the same closedness classifier, but may not cite it as Church--Rosser, normalization, subject reduction, or closed consistency.
+\end{theorem}
+\begin{proof}
+The carrier exposes $B$ and $R$ as separate rows. The beta-star row is consumed after the single-step row has been made available, and its replay route is recorded in $C$.
+
+Componentwise $\hsame$ transport through $H$ preserves the finite-path row without altering its classifier. The provenance row $P$ points to the confluence and consistency siblings only as consumers of closed endpoints, not as consequences of the beta-star row.
+
+Therefore $R$ is exactly a finite beta-chain closedness row. It cannot be repacked as a confluence theorem, a normalization theorem, a typing-preservation theorem, or a consistency theorem.
+\end{proof}
+
+\begin{theorem}[ClosurePreservationAuditWitness substitution row]
+\label{thm:closure-preservation-audit-witness-substitution-row}
+In every accepted $\ClosurePreservationAuditWitnessUp$ carrier, the substitution surface consists of the variable-substitution row $V$ and full-substitution row $F$ together with the shift-one row $S$ needed under binders. The packet exposes these rows as closedness-preservation data for MetaCIC syntax and does not add a typing-substitution lemma, dependent codomain transport, or host-level substitution semantics.
+\end{theorem}
+\begin{proof}
+Project the substitution coordinates of $W$. The shift row $S$ supplies the binder-index motion, the variable-substitution row $V$ supplies the local variable case, and the full-substitution row $F$ supplies the recursive substitution read.
+
+The transport and replay rows $H,C$ keep these three rows available as closedness facts. They do not introduce a typing context, a displayed codomain, or a semantic substitution relation.
+
+Hence the substitution surface is exactly the closedness-preservation surface named by $S,V,F$.
+\end{proof}
+
+\begin{theorem}[ClosurePreservationAuditWitness non-escape]
+\label{thm:closure-preservation-audit-witness-nonescape}
+Every consumer read of an accepted $\ClosurePreservationAuditWitnessUp$ carrier factors through
+$$
+S,V,F,B,R,H,C,P,N.
+$$
+The consumer may inspect the five closedness-preservation theorem rows, their componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and local $\NameCert$ naming. It cannot extract a subject-reduction theorem, a typing conversion rule, a confluence diamond, a normalization theorem, a closed-consistency theorem, or any row not displayed by the carrier.
+\end{theorem}
+\begin{proof}
+Apply the NameCert-obligation theorem to identify the accepted carrier with the finite tuple $S,V,F,B,R,H,C,P,N$.
+
+The beta-step theorem, beta-star theorem, and substitution theorem above describe the only theorem rows with downstream computational content. Each remains a closedness-preservation row and is replayed only through $C$ after componentwise transport through $H$.
+
+For every stronger request, inspect the carrier inventory. No coordinate supplies a typing derivation, a conversion rule, a confluence proof, a normalization proof, or a consistency proof. The consumer is therefore confined to the displayed closedness-preservation witness packet.
+\end{proof}
+
+\closureat{ClosurePreservationAuditWitnessUp}{seedStr}
+
+\begin{closurestatus}{\ClosurePreservationAuditWitnessUp}
+  \constructivestory{A $\ClosurePreservationAuditWitnessUp$ packet is generated from shift-one preservation, variable substitution, full substitution, beta-step preservation, beta-star preservation, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-preservation-audit-witness-carrier}, \autoref{thm:closure-preservation-audit-witness-namecert-obligations}, \autoref{thm:closure-preservation-audit-witness-beta-step-row}, \autoref{thm:closure-preservation-audit-witness-beta-star-row}, \autoref{thm:closure-preservation-audit-witness-substitution-row}, and \autoref{thm:closure-preservation-audit-witness-nonescape} bind the finite closedness-preservation audit witness packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove subject reduction, typing substitution, confluence, normalization, closed consistency, Lean verification of the witness packet, or a public schema bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, theorem-row readback, beta-step exactness, beta-star exactness, substitution exactness, replay routes, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}

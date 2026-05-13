@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICClosurePreservationAuditUp$}
+\label{ch:concrete-instances-metacicclosurepreservationaudit-namecert}
+\origin{ai}
+
+The $\MetaCICClosurePreservationAuditUp$ packet realizes the closure-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} as a finite NameCert surface. It sits beside the kernel admission packet of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, the substitution audit packet of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the normalization audit seal of \autoref{ch:concrete-instances-metacicnormalizationauditseal-namecert}, and the preservation-facing packet of \autoref{ch:concrete-instances-subjectreduction-namecert}. Those siblings expose admission, substitution, closed-normal, and typed-preservation boundaries; this packet records only the closedness-preserving route from shift and substitution through one-step and finite beta movement.
+
+\begin{definition}[MetaCIC closure preservation audit carrier]
+\label{def:metacic-closure-preservation-audit-carrier}
+A $\MetaCICClosurePreservationAuditUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,G,S,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the five-row theorem ledger for $\texttt{shift\_one\_preserves\_closed\_succ}$, $\texttt{substitute\_var\_preserves\_closed\_at}$, $\texttt{substitute\_preserves\_closed\_at}$, $\texttt{betaStep\_preserves\_closed}$, and $\texttt{betaStarStep\_preserves\_closed}$;
+\item $G$ is the generator-closure ledger for the closed-under-shift and closed-under-substitute classifier rows named in \autoref{sec:metacic-closure-preservation-audit-map-generator-classifier};
+\item $S$ is the handoff ledger that records how the substitution rows feed the beta-step row and how the beta-step row feeds the finite beta-chain row;
+\item $H$ records componentwise $\hsame$ transport for theorem rows, generator-closure rows, handoff rows, continuation rows, provenance rows, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes for reading shift closedness, variable substitution closedness, full substitution closedness, one-step beta closedness, and beta-chain closedness in dependency order;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-closure-preservation-audit-map}, \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, \autoref{ch:concrete-instances-metacicnormalizationauditseal-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert};
+\item $N$ is the local $\NameCert_{\MetaCICClosurePreservationAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for typing preservation, conversion typing, closed subject reduction, host reduction semantics, quotient equality of terms, or an external proof oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC closure preservation audit NameCert obligations]
+\label{thm:metacic-closure-preservation-audit-namecert-obligations}
+For the carrier of \autoref{def:metacic-closure-preservation-audit-carrier}, the local $\NameCert_{\MetaCICClosurePreservationAuditUp}$ surface consists exactly of carrier admission for $Q=(T,G,S,H,C,P,N)$, theorem-ledger readback through $T$, generator-closure readback through $G$, substitution-to-beta handoff readback through $S$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The five theorem rows in $T$ are the complete checked closedness-preservation chain named by \autoref{ch:metacic-closure-preservation-audit-map}.
+
+Read $G$ and $S$ next. The generator rows authorize shift and substitution only relative to the closedness classifier, while the handoff row orders the substitution endpoint before beta-step and beta-chain reads.
+
+The structural rows $H,C,P,N$ transport, replay, locate, and name the same packet. Since no further coordinate is present, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC closure preservation substitution-to-beta handoff]
+\label{thm:metacic-closure-preservation-audit-substitution-beta-chain}
+Every accepted $\MetaCICClosurePreservationAuditUp$ carrier routes closedness preservation from substitution to beta movement through the ordered ledger
+$$
+\texttt{substitute\_preserves\_closed\_at}
+\longrightarrow
+\texttt{betaStep\_preserves\_closed}
+\longrightarrow
+\texttt{betaStarStep\_preserves\_closed}.
+$$
+The route may read the shift and variable-substitution rows as prerequisites of the full substitution row, but it cannot bypass the displayed substitution row when certifying the beta-redex case or bypass the one-step row when certifying a finite beta chain.
+\end{theorem}
+\begin{proof}
+Start with the handoff coordinate $S$. Its first dependency records that the full substitution theorem is obtained from the shift and variable-substitution rows in the theorem ledger.
+
+The beta-step read then consumes that substitution row only at the beta-redex boundary. Congruence cases stay inside the same theorem ledger and do not create a typing or conversion route.
+
+Finally the finite beta-chain read consumes the one-step beta row. The continuation row $C$ preserves this order for downstream consumers, so the packet exposes a dependency chain rather than an unstructured collection of theorem names.
+\end{proof}
+
+\begin{theorem}[MetaCIC closure preservation subject-reduction boundary]
+\label{thm:metacic-closure-preservation-audit-subject-reduction-boundary}
+An accepted $\MetaCICClosurePreservationAuditUp$ packet may be consumed by the subject-reduction surface of \autoref{ch:concrete-instances-subjectreduction-namecert} only as closedness-stability data. It exports the displayed rows $T,G,S,H,C,P,N$ and no row for $\mathsf{HasType}$ preservation, dependent-codomain transport, binder-domain preservation, beta-substitution typing, conversion typing, or closed subject reduction.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The theorem ledger $T$ is stated over the closedness classifier, and $G$ records generator closure for that classifier rather than for typing membership.
+
+The handoff row $S$ reaches beta-step and beta-chain closedness, not target typing. Its routes are therefore usable around the preservation-facing packet of \autoref{ch:concrete-instances-subjectreduction-namecert} without supplying any of the typed discharge rows named there.
+
+The exclusion follows from the missing coordinates. The transport, continuation, provenance, and naming rows replay $T,G,S$ componentwise, so they cannot introduce a hidden subject-reduction theorem.
+\end{proof}
+
+\closureat{MetaCICClosurePreservationAuditUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICClosurePreservationAuditUp}
+  \constructivestory{A $\MetaCICClosurePreservationAuditUp$ packet is generated from five closedness-preservation theorem rows, two generator-closure rows, a substitution-to-beta handoff ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closure-preservation-audit-carrier}, \autoref{thm:metacic-closure-preservation-audit-namecert-obligations}, \autoref{thm:metacic-closure-preservation-audit-substitution-beta-chain}, and \autoref{thm:metacic-closure-preservation-audit-subject-reduction-boundary} bind the finite closure-preservation audit packet and its subject-reduction boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close typing preservation, conversion typing, closed subject reduction, dependent-codomain transport, host reduction semantics, quotient equality of terms, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, theorem-ledger exactness, generator-closure exactness, substitution-to-beta route ordering, transport, route replay, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}
