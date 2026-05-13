@@ -298,6 +298,56 @@ Use ledger exactness to inspect every public read. Each governance claim is forc
 The excluded claims have no coordinate in the carrier. Since the GAP boundary is part of the same packet, the surface cannot export fuzzy target matching, source-axiom admission, forbidden host dependency acceptance, inventory completeness, host-kernel completeness, or arbitrary-import conservativity.
 \end{proof}
 
+\begin{theorem}[AuditGateBoundary kernel-query scope]
+\label{thm:audit-gate-boundary-kernel-query-scope}
+For an accepted $\AuditGateBoundaryUp$ packet
+$$
+A=(S,D,L,O,H,C,P,G,N),
+$$
+the source-token row $S$ and the dependency report row $D$ are the only rows by which source-token reads and axiom-query reads enter the boundary. Every such read must then pass through the shared support rows $H,C,P,G,N$ before it can be consumed as an $\AuditGateBoundaryUp$ verdict surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-boundary-carrier}. The row $S$ is the only source-token scan row, and the row $D$ is the only axiom-purity dependency report row.
+
+Apply \autoref{thm:audit-gate-boundary-axiom-purity-soundness}. It binds the audit-facing axiom boundary to the finite pair consisting of the source-token scan and the dependency report.
+
+Apply \autoref{thm:audit-gate-boundary-source-token-refusal} for the source side and \autoref{thm:audit-gate-boundary-dependency-forbidden-set} for the query side. These theorems route the two reads through $H,C,P,G,N$ and leave $L$ and $O$ as distinct audit faces.
+
+Finally use \autoref{thm:audit-gate-boundary-nonescape}. Since no other carrier row can introduce source-token or axiom-query content, the kernel-query scope is exactly $S,D$ plus the shared support rows.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary forbidden-dependency scope]
+\label{thm:audit-gate-boundary-forbidden-dependency-scope}
+For an accepted $\AuditGateBoundaryUp$ packet, the forbidden-dependency classifier is exactly the displayed row for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$ transported through $H$ and routed through $C$. No consumer may replace that finite classifier by a broader host-dependency predicate, a theorem-inventory completeness claim, or a different forbidden-name set.
+\end{theorem}
+\begin{proof}
+Start from the dependency row $D$ in \autoref{def:audit-gate-boundary-carrier}. Its displayed classifier names exactly $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$.
+
+Use \autoref{thm:audit-gate-boundary-dependency-forbidden-set}. It fixes the inspected theorem names, reported proof ancestry, and pass-or-refuse result as the content carried by $D$.
+
+Now apply \autoref{thm:audit-gate-boundary-axiom-purity-soundness}. The strict axiom-facing conclusion is local to the finite dependency report, so transport through $H$ and replay through $C$ cannot widen the forbidden set.
+
+The non-escape theorem \autoref{thm:audit-gate-boundary-nonescape} closes the boundary. It excludes host-kernel completeness and theorem-inventory completeness, leaving only the displayed three-name classifier.
+\end{proof}
+
+\begin{theorem}[AuditGateBoundary verdict scope]
+\label{thm:audit-gate-boundary-verdict-scope}
+Every verdict read from an accepted $\AuditGateBoundaryUp$ packet factors through
+$$
+S,D,L,O,H,C,P,G,N.
+$$
+The verdict may combine source-token refusal, strict dependency reporting, exact marker resolution, and origin/import separation, but it cannot be replaced by an ambient host claim about repository correctness, theorem inventory completeness, source admission, or semantic conservativity.
+\end{theorem}
+\begin{proof}
+Project the carrier. The public audit faces are $S,D,L,O$, and the support rows are $H,C,P,G,N$.
+
+Use \autoref{thm:audit-gate-boundary-source-token-refusal} and \autoref{thm:audit-gate-boundary-dependency-forbidden-set} for the source and dependency verdict components. Use \autoref{thm:audit-gate-boundary-axiom-purity-soundness} to bind their joint axiom-facing reading.
+
+The remaining rows stay inside the same accepted packet. The carrier definition provides marker-resolution and origin/import rows, while the support rows transport, replay, package, delimit, and name the verdict surface.
+
+Apply \autoref{thm:audit-gate-boundary-nonescape}. It blocks ambient host claims and leaves the verdict as a finite read through $S,D,L,O,H,C,P,G,N$ alone.
+\end{proof}
+
 \closureat{AuditGateBoundaryUp}{seedStr}
 \closureat{AuditGateBoundaryUp}{obligationStr}
 

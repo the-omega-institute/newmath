@@ -100,4 +100,24 @@ theorem SubstitutionAuditMapCarrier_namecert_obligations [AskSetup] [PackageSetu
     ⟨cert, termUnary, closedUnary, shiftUnary, substituteUnary, compositionUnary,
       generatorUnary, provenancePkg⟩
 
+theorem SubstitutionAuditMapCarrier_positive_row_coverage [AskSetup] [PackageSetup]
+    {term closed shift substitute composition generator transport route provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionAuditMapCarrier term closed shift substitute composition generator transport route
+        provenance name bundle pkg ->
+      (UnaryHistory term ∧ UnaryHistory closed ∧ UnaryHistory shift ∧
+          UnaryHistory substitute ∧ UnaryHistory composition ∧ UnaryHistory generator) ∧
+        (hsame term closed ∧ hsame shift substitute ∧ hsame composition generator) ∧
+          (PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg) := by
+  intro carrier
+  obtain ⟨termUnary, closedUnary, shiftUnary, substituteUnary, compositionUnary,
+    generatorUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    termClosed, shiftSubstitute, compositionGenerator, _transportRoute, _provenanceName,
+    _nameGenerator, provenancePkg, namePkg⟩ := carrier
+  exact
+    ⟨⟨termUnary, closedUnary, shiftUnary, substituteUnary, compositionUnary,
+      generatorUnary⟩,
+      ⟨termClosed, shiftSubstitute, compositionGenerator⟩,
+      ⟨provenancePkg, namePkg⟩⟩
+
 end BEDC.Derived.SubstitutionAuditMapUp
