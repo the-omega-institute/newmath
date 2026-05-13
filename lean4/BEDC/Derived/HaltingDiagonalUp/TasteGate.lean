@@ -4,31 +4,32 @@ import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HaltingDiagonalUp
 
-open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Hist
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive HaltingDiagonalUp : Type where
   | mk :
-      (program input selfRef fixed diagonal transport continuation provenance name : BHist) ->
-        HaltingDiagonalUp
+      (program input selfReference fixedContinuation diagonalPolicy transport routes provenance
+        nameCert : BHist) →
+      HaltingDiagonalUp
   deriving DecidableEq
 
-def haltingDiagonalEncodeBHist : BHist -> RawEvent
+def haltingDiagonalEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: haltingDiagonalEncodeBHist h
   | BHist.e1 h => BMark.b1 :: haltingDiagonalEncodeBHist h
 
-def haltingDiagonalDecodeBHist : RawEvent -> BHist
+def haltingDiagonalDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (haltingDiagonalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (haltingDiagonalDecodeBHist tail)
 
-private theorem haltingDiagonalDecode_encode_bhist :
-    forall h : BHist, haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist h) = h := by
+theorem HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist, haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -39,32 +40,32 @@ private theorem haltingDiagonalDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def haltingDiagonalToEventFlow : HaltingDiagonalUp -> EventFlow
+def haltingDiagonalToEventFlow : HaltingDiagonalUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | HaltingDiagonalUp.mk program input selfRef fixed diagonal transport continuation
-      provenance name =>
+  | HaltingDiagonalUp.mk program input selfReference fixedContinuation diagonalPolicy transport
+      routes provenance nameCert =>
       [[BMark.b0],
         haltingDiagonalEncodeBHist program,
         [BMark.b1, BMark.b0],
         haltingDiagonalEncodeBHist input,
         [BMark.b1, BMark.b1, BMark.b0],
-        haltingDiagonalEncodeBHist selfRef,
+        haltingDiagonalEncodeBHist selfReference,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        haltingDiagonalEncodeBHist fixed,
+        haltingDiagonalEncodeBHist fixedContinuation,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        haltingDiagonalEncodeBHist diagonal,
+        haltingDiagonalEncodeBHist diagonalPolicy,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         haltingDiagonalEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        haltingDiagonalEncodeBHist continuation,
+        haltingDiagonalEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
         haltingDiagonalEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        haltingDiagonalEncodeBHist name]
+        haltingDiagonalEncodeBHist nameCert]
 
-def haltingDiagonalFromEventFlow : EventFlow -> Option HaltingDiagonalUp
+def haltingDiagonalFromEventFlow : EventFlow → Option HaltingDiagonalUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -82,19 +83,19 @@ def haltingDiagonalFromEventFlow : EventFlow -> Option HaltingDiagonalUp
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | selfRef :: rest5 =>
+                      | selfReference :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | fixed :: rest7 =>
+                              | fixedContinuation :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | diagonal :: rest9 =>
+                                      | diagonalPolicy :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
@@ -106,7 +107,7 @@ def haltingDiagonalFromEventFlow : EventFlow -> Option HaltingDiagonalUp
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | continuation :: rest13 =>
+                                                      | routes :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
@@ -118,7 +119,8 @@ def haltingDiagonalFromEventFlow : EventFlow -> Option HaltingDiagonalUp
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | name :: rest17 =>
+                                                                      | nameCert ::
+                                                                          rest17 =>
                                                                           match rest17 with
                                                                           | [] =>
                                                                               some
@@ -128,51 +130,56 @@ def haltingDiagonalFromEventFlow : EventFlow -> Option HaltingDiagonalUp
                                                                                   (haltingDiagonalDecodeBHist
                                                                                     input)
                                                                                   (haltingDiagonalDecodeBHist
-                                                                                    selfRef)
+                                                                                    selfReference)
                                                                                   (haltingDiagonalDecodeBHist
-                                                                                    fixed)
+                                                                                    fixedContinuation)
                                                                                   (haltingDiagonalDecodeBHist
-                                                                                    diagonal)
+                                                                                    diagonalPolicy)
                                                                                   (haltingDiagonalDecodeBHist
                                                                                     transport)
                                                                                   (haltingDiagonalDecodeBHist
-                                                                                    continuation)
+                                                                                    routes)
                                                                                   (haltingDiagonalDecodeBHist
                                                                                     provenance)
                                                                                   (haltingDiagonalDecodeBHist
-                                                                                    name))
+                                                                                    nameCert))
                                                                           | _ :: _ => none
 
 private theorem haltingDiagonal_round_trip :
-    forall x : HaltingDiagonalUp,
+    ∀ x : HaltingDiagonalUp,
       haltingDiagonalFromEventFlow (haltingDiagonalToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk program input selfRef fixed diagonal transport continuation provenance name =>
+  | mk program input selfReference fixedContinuation diagonalPolicy transport routes provenance
+      nameCert =>
       change
         some
           (HaltingDiagonalUp.mk
             (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist program))
             (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist input))
-            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist selfRef))
-            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist fixed))
-            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist diagonal))
+            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist selfReference))
+            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist fixedContinuation))
+            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist diagonalPolicy))
             (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist transport))
-            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist continuation))
+            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist routes))
             (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist provenance))
-            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist name))) =
+            (haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist nameCert))) =
           some
-            (HaltingDiagonalUp.mk program input selfRef fixed diagonal transport
-              continuation provenance name)
-      rw [haltingDiagonalDecode_encode_bhist program, haltingDiagonalDecode_encode_bhist input,
-        haltingDiagonalDecode_encode_bhist selfRef, haltingDiagonalDecode_encode_bhist fixed,
-        haltingDiagonalDecode_encode_bhist diagonal, haltingDiagonalDecode_encode_bhist transport,
-        haltingDiagonalDecode_encode_bhist continuation,
-        haltingDiagonalDecode_encode_bhist provenance, haltingDiagonalDecode_encode_bhist name]
+            (HaltingDiagonalUp.mk program input selfReference fixedContinuation diagonalPolicy
+              transport routes provenance nameCert)
+      rw [HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode program,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode input,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode selfReference,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode fixedContinuation,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode diagonalPolicy,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode transport,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode routes,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode provenance,
+        HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode nameCert]
 
 private theorem haltingDiagonalToEventFlow_injective {x y : HaltingDiagonalUp} :
-    haltingDiagonalToEventFlow x = haltingDiagonalToEventFlow y -> x = y := by
+    haltingDiagonalToEventFlow x = haltingDiagonalToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -199,15 +206,15 @@ instance haltingDiagonalChapterTasteGate : ChapterTasteGate HaltingDiagonalUp wh
     exact hxy (haltingDiagonalToEventFlow_injective heq)
 
 theorem HaltingDiagonalTasteGate_single_carrier_alignment :
-    (forall h : BHist, haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist h) = h) /\
-      (forall x : HaltingDiagonalUp,
-        haltingDiagonalFromEventFlow (haltingDiagonalToEventFlow x) = some x) /\
-        (forall x y : HaltingDiagonalUp,
-          haltingDiagonalToEventFlow x = haltingDiagonalToEventFlow y -> x = y) /\
+    (∀ h : BHist, haltingDiagonalDecodeBHist (haltingDiagonalEncodeBHist h) = h) ∧
+      (∀ x : HaltingDiagonalUp,
+        haltingDiagonalFromEventFlow (haltingDiagonalToEventFlow x) = some x) ∧
+        (∀ x y : HaltingDiagonalUp,
+          haltingDiagonalToEventFlow x = haltingDiagonalToEventFlow y → x = y) ∧
           haltingDiagonalEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact haltingDiagonalDecode_encode_bhist
+  · exact HaltingDiagonalTasteGate_single_carrier_alignment_decode_encode
   · constructor
     · exact haltingDiagonal_round_trip
     · constructor
