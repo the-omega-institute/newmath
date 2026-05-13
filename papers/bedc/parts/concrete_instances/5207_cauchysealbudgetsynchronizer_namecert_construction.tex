@@ -99,20 +99,41 @@ Now apply \autoref{thm:cauchy-seal-budget-synchronizer-nonescape}. Any $\RealUp$
 There is no coordinate in the carrier for quotient streams, host real equality, selected external limits, countable choice, or ambient completeness. Those resources therefore cannot be recovered as hidden seal exporters, and the finite row list exhausts the Real-facing seal route.
 \end{proof}
 
+\begin{theorem}[Cauchy seal-budget synchronizer scoped row grounding]
+\label{thm:cauchy-seal-budget-synchronizer-scoped-row-grounding}
+For an accepted packet
+$$
+Z=(E,S,B,T,D,L,H,C,P,N),
+$$
+every scoped obligation of $\CauchySealBudgetSynchronizerUp$ is grounded by exactly the displayed request, seal, budget, tail schedule, diagonal selector, compatibility, transport, route, provenance, and $\NameCert$ rows. The seal row $S$ is consumed from \autoref{ch:concrete-instances-cauchylimitseal-namecert}; the budget row $B$ is consumed from \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert} or \autoref{ch:concrete-instances-real-observation-budget-namecert}; the tail schedule row $T$ is consumed from \autoref{ch:concrete-instances-tail-cofinality-schedule-namecert}; the selector row $D$ is consumed from \autoref{ch:concrete-instances-diagonal-tail-selector-namecert}; and the seal read ends at the $\RealUp$ row named in the provenance package. No additional scoped obligation is discharged by quotient streams, host real equality, selected external limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The packet has exactly the ten displayed coordinates $E,S,B,T,D,L,H,C,P,N$, so a scoped obligation can only be admitted through one of those rows.
+
+Apply the local obligation package in \autoref{thm:cauchy-seal-budget-synchronizer-obligations}. Carrier admission gives $Z$; selector, budget, shared-tail, seal, and compatibility exposure give $D,B,T,S,L$; classifier stability and route replay give $H$ and $C$; package provenance and local naming give $P$ and $N$.
+
+Next apply the shared budget lock and tail-selector compatibility theorems. They force the sibling rows to be consumed together: $S$ comes from the Cauchy limit seal surface, $B$ comes from the diagonal-budget or observation-budget surface, $T$ supplies the tail schedule, $D$ supplies the selected diagonal tail, and $L$ ties these rows to the Real-facing seal read.
+
+Finally project $P$. Its provenance list names the sibling dependency rows over $\CauchyLimitSealUp$, $\CauchyDiagonalBudgetUp$, $\RealObservationBudgetUp$, $\TailCofinalityScheduleUp$, $\DiagonalTailSelectorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Use the non-escape theorem to close the scope. Since the accepted carrier contains no coordinate for quotient streams, host real equality, selected external limits, countable choice, or ambient completeness, none of those objects can discharge a hidden synchronizer obligation. Thus the scoped obligation surface is exhausted by the displayed rows.
+\end{proof}
+
 \falsifiablePrediction{If an accepted synchronizer packet is read by a RealCompleteness consumer, the read factors through both a displayed CauchyLimitSealUp row and a displayed CauchyDiagonalBudgetUp or RealObservationBudgetUp row; a seal read bypassing both refutes the packet.}
 
 \independenceWitness{cauchylimitseal, cauchydiagonalbudget, realobservationbudget, tailcofinalityschedule, diagonaltailselector: none is bijective because the synchronizer has one joint compatibility row tying selector, observation budget, shared threshold, and seal rows; each sibling lacks at least one of these rows.}
 
 \closureat{CauchySealBudgetSynchronizerUp}{seedStr}[BEDC.Derived.CauchySealBudgetSynchronizerUp.CauchySealBudgetSynchronizerTasteGate\_single\_carrier\_alignment]
 \closureat{CauchySealBudgetSynchronizerUp}{obligationStr}[BEDC.Derived.CauchySealBudgetSynchronizerUp.CauchySealBudgetSynchronizerTasteGate\_single\_carrier\_alignment]
+\closureat{CauchySealBudgetSynchronizerUp}{scopedStr}[BEDC.Derived.CauchySealBudgetSynchronizerUp.CauchySealBudgetSynchronizerTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CauchySealBudgetSynchronizerUp}
   \constructivestory{A $\CauchySealBudgetSynchronizerUp$ packet is generated from a finite precision request, completion-facing seal row, budget row, tail schedule row, diagonal selector row, joint compatibility row, componentwise transports, displayed routes, package provenance, and local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-seal-budget-synchronizer-carrier}, \autoref{thm:cauchy-seal-budget-synchronizer-obligations}, \autoref{thm:cauchy-seal-budget-synchronizer-nonescape}, \autoref{thm:cauchy-seal-budget-synchronizer-shared-budget-lock}, \autoref{thm:cauchy-seal-budget-synchronizer-tail-selector-compatibility}, \autoref{thm:cauchy-seal-budget-synchronizer-real-seal-budget-exhaustion}, and the checked TasteGate marker bind the synchronizer carrier, finite obligation package, row lock, selector-tail compatibility boundary, Real-facing budget exhaustion, and non-escape surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-seal-budget-synchronizer-carrier}, \autoref{thm:cauchy-seal-budget-synchronizer-obligations}, \autoref{thm:cauchy-seal-budget-synchronizer-nonescape}, \autoref{thm:cauchy-seal-budget-synchronizer-shared-budget-lock}, \autoref{thm:cauchy-seal-budget-synchronizer-tail-selector-compatibility}, \autoref{thm:cauchy-seal-budget-synchronizer-real-seal-budget-exhaustion}, \autoref{thm:cauchy-seal-budget-synchronizer-scoped-row-grounding}, and the checked TasteGate marker bind the synchronizer carrier, finite obligation package, row lock, selector-tail compatibility boundary, Real-facing budget exhaustion, scoped row grounding, and non-escape surface.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.CauchySealBudgetSynchronizerUp.CauchySealBudgetSynchronizerTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, selected external limits, countable choice, ambient completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires grounding the obligation rows against the displayed $\CauchyLimitSealUp$, $\CauchyDiagonalBudgetUp$, $\RealObservationBudgetUp$, $\TailCofinalityScheduleUp$, $\DiagonalTailSelectorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Public closure requires a single exported synchronizer $\NameCert$ surface for downstream Real completeness consumers.}
 \end{closurestatus}
