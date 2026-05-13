@@ -253,7 +253,11 @@ def render_loning_assimilation() -> str:
         watch_ts = _latest_jsonl_ts(LONING_WATCH_JOURNAL)
         if checked_at and watch_ts and watch_ts > checked_at:
             lag = _fmt_age((watch_ts - checked_at).total_seconds())
-            out.append(f"  lag: loning_watch is {lag} newer than assimilation")
+            out.append(
+                "  lag: loning_watch is "
+                f"{lag} newer than assimilation "
+                f"(watch={watch_ts.isoformat()} assimilation={checked_at.isoformat()})"
+            )
         if count_text:
             out.append(f"  signals: {count_text}")
         advice = [str(item) for item in (rec.get("advice") or []) if str(item).strip()]
