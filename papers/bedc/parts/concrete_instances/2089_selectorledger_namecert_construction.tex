@@ -66,6 +66,20 @@ A branch read must therefore project a row of $S$. That projection exposes the m
 A trace read must project $T$ and then transport it through $H$ and $C$. Package provenance and the naming row record that this is the whole public surface. Since no coordinate names a global chooser, host trace quotient, or oracle, none can be exported.
 \end{proof}
 
+\begin{theorem}[SelectorLedger inscription-event consumer route]
+\label{thm:selector-ledger-inscription-event-consumer-route}
+Every accepted $\SelectorLedgerUp$ consumer route that is used as public record data factors as an $\InscriptionEventUp$-style consumer route through displayed history, trace, selector-step witness, accepted continuation, intended consumer, and local $\mathsf{GAP}$ and provenance rows, in the sense of \autoref{ch:concrete-instances-inscriptionevent-namecert}.
+
+Thus the public record view of a selector ledger is not a standalone chooser interface. It is finite inscription-event route data whose readable branch content is already exposed by the displayed ledger packet.
+\end{theorem}
+\begin{proof}
+Write the accepted selector ledger as $L=(h,T,S,H,C,P,N)$. By \autoref{thm:selector-ledger-no-hidden-choice}, any consumer read of $L$ can reach branch information only by projecting a displayed $\mathsf{SelStep}$ row from $S$, and can reach trace information only through the finite trace row $T$ transported by the displayed $\hsame$ and $\Cont$ rows in $H$ and $C$.
+
+Compare this projected packet with the inscription-event carrier of \autoref{ch:concrete-instances-inscriptionevent-namecert}. The displayed history row supplies the source record state, the trace and selector-step row supply the named route witness, the accepted continuation row supplies the checkable public route, the intended consumer is the consumer of the selector-ledger read, and the local $\mathsf{GAP}$, package, and naming rows are the public ledger/provenance data.
+
+The factorization is therefore finite and public: it uses only $h,T,S,H,C,P,N$ and the inscription-event source/name/route/check/consumer/$\mathsf{GAP}$ packet shape. No step introduces a global branch chooser, a hidden host trace quotient, or a record mutation outside the displayed carrier.
+\end{proof}
+
 \closureat{SelectorLedgerUp}{seedStr}
 
 \begin{closurestatus}{\SelectorLedgerUp}
