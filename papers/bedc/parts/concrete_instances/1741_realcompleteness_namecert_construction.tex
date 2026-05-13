@@ -258,6 +258,24 @@ Finally apply \autoref{thm:real-completeness-nonescape-boundary}. The excluded o
 \end{proof}
 
 \begin{theorem}[RealCompleteness scoped consumer seal exhaustion]
+\label{thm:real-completeness-scoped-closure}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet. The diagonal-limit surface of $R$ is scoped exactly by the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, and $\CauchySequenceSpaceUp$ consumer rows, together with the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the packet. It contains no quotient stream, selected host limit, host real equality, countable-choice row, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the local naming surface. Apply \autoref{thm:real-completeness-namecert-obligations}. Its carrier, classifier, diagonal readback, and package-closure clauses expose only the rows $X,\mu,\Delta,D,W,Q,S,H,C,P,N$.
+
+Next bind the diagonal construction to finite observations. Apply \autoref{thm:real-completeness-modulus-diagonal-exactness}; the selected diagonal reads are exactly the reads justified by the explicit modulus, dyadic ledger, finite stream windows, and regular-sequence readback rows. Apply \autoref{thm:real-completeness-realup-seal-ledger} to route the resulting seal through the displayed $\RealUp$ row and the same transport, continuation, provenance, and naming rows.
+
+For seal consumers, apply \autoref{thm:real-completeness-cauchylimitseal-transport-stability}. It keeps the $\CauchyLimitSealUp$ route attached to the same diagonal seal and the same $H,C,P,N$ ledger. For completion-facing consumers whose regular family is supplied through $\CauchySequenceSpaceUp$, apply \autoref{thm:real-completeness-cauchysequence-space-shared-window-handoff}; the handoff contributes only its displayed finite window rows before returning to the same $\RealCompletenessUp$ packet.
+
+Finally apply \autoref{thm:real-completeness-diagonal-seal-totality}. The diagonal-seal route is exhausted by the displayed rows, so no consumer can replace it by a quotient stream, selected host limit, host real equality, countable-choice row, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[RealCompleteness scoped consumer seal exhaustion]
 \label{thm:real-completeness-scoped-consumer-seal-exhaustion}
 Let
 $$
