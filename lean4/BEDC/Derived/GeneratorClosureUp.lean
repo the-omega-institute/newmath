@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -299,5 +301,49 @@ theorem GeneratorClosurePacket_authorized_row_exhaustion [AskSetup] [PackageSetu
       generatedRoute,
       exportedRoute,
       exportedPkg⟩
+
+theorem GeneratorClosurePacket_namecert_obligations [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          GeneratorClosurePacket generator constructors authorized classifier witnesses transport
+            routes provenance name endpoint bundle pkg /\ hsame row endpoint)
+        (fun row : BHist =>
+          GeneratorClosurePacket generator constructors authorized classifier witnesses transport
+            routes provenance name endpoint bundle pkg /\ hsame row endpoint)
+        (fun row : BHist =>
+          GeneratorClosurePacket generator constructors authorized classifier witnesses transport
+            routes provenance name endpoint bundle pkg /\ hsame row endpoint)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert
+  intro packet
+  exact
+    {
+      core := {
+        carrier_inhabited := Exists.intro endpoint (And.intro packet (hsame_refl endpoint))
+        equiv_refl := by
+          intro row source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' same
+          exact hsame_symm same
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' same source
+          exact And.intro source.left (hsame_trans (hsame_symm same) source.right)
+      }
+      pattern_sound := by
+        intro row source
+        exact source
+      ledger_sound := by
+        intro row source
+        exact source
+    }
 
 end BEDC.Derived.GeneratorClosureUp
