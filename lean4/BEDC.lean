@@ -86,6 +86,7 @@ import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.StableNegationBoundaryUp
+import BEDC.Derived.StableNegationBoundaryUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicApproximationUp
@@ -121,6 +122,7 @@ import BEDC.Derived.DyadicApproximationUp.FinitePackets
 import BEDC.Derived.FoldMomentKernelUp.TasteGate
 import BEDC.Derived.HankelVandermondeUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
+import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.DyadicApproximationUp.SharedRealBoundary
 import BEDC.Derived.DyadicApproximationUp.StreamNameSealFactorization
 import BEDC.Derived.DyadicBallUp.MatureObservationEnvelope
@@ -229,6 +231,7 @@ import BEDC.Derived.GeomQuantizationUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GoedelIncompletenessUp
+import BEDC.Derived.HaltingDiagonalUp.TasteGate
 import BEDC.Derived.HaltingDistinctionLimitUp.TasteGate
 import BEDC.Derived.HolonomyUp
 import BEDC.Derived.HolonomyUp.FiniteTransportClassifier
