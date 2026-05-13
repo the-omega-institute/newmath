@@ -3,14 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TM_TAG_CLASS_H 0
-#define TM_TAG_CLASS_L 1
-#define TM_TAG_CLASS_R 2
-#define TM_TAG_CLASS_RS 3
-#define TM_TAG_CLASS_HS 4
-#define TM_TAG_CLASS_LS 5
-#define TM_TAG_CLASS_RS_PAIR 6
-
 static int checked_mul_size(size_t a, size_t b, size_t *out) {
     if (out == NULL) return 0;
     if (a != 0 && b > ((size_t)-1) / a) return 0;
@@ -465,4 +457,78 @@ void tag_system_free(TagSystem *tag) {
     tag->num_alphabet = 0;
     tag->s_deletion = 0;
     tag->num_rules = 0;
+}
+
+int tm_tag_symbol_index(const TMSpec *tm,
+                        int symbol_class,
+                        int state,
+                        int tape_symbol) {
+    if (!valid_tm(tm)) return -1;
+    return symbol_index(tm, symbol_class, state, tape_symbol);
+}
+
+int tag_to_tm_tape_inverse(const TMSpec *tm,
+                           const uint8_t *tag_tape,
+                           size_t tag_tape_len,
+                           uint8_t *out_tm_tape,
+                           size_t out_tm_tape_len,
+                           int *out_state) {
+    int s = 0;
+    size_t pos = 0;
+    int state = -1;
+    size_t head_run = 0;
+    size_t right_run = 0;
+
+    if (!valid_tm(tm) ||
+        tag_tape == NULL ||
+        out_tm_tape == NULL ||
+        out_state == NULL ||
+        out_tm_tape_len == 0) {
+        return 0;
+    }
+    memset(out_tm_tape, 0, out_tm_tape_len);
+    s = tm->num_symbols + 2;
+
+    for (int candidate = 0; candidate < tm->num_states; candidate++) {
+        int h = symbol_index(tm, TM_TAG_CLASS_H, candidate, 0);
+
+        head_run = 0;
+        while (head_run < tag_tape_len && tag_tape[head_run] == (uint8_t)h) {
+            head_run++;
+        }
+        if (head_run > 0 && head_run <= (size_t)s) {
+            state = candidate;
+            break;
+        }
+    }
+    if (state < 0) return 0;
+    {
+        int head_symbol = s - (int)head_run;
+
+        if (head_symbol < 0 || head_symbol >= tm->num_symbols) return 0;
+        out_tm_tape[0] = (uint8_t)head_symbol;
+    }
+
+    pos = head_run;
+    while (pos < tag_tape_len) {
+        int r = symbol_index(tm, TM_TAG_CLASS_R, state, 0);
+
+        if (tag_tape[pos] != (uint8_t)r) return 0;
+        right_run++;
+        pos++;
+    }
+
+    for (size_t cell = 1; cell < out_tm_tape_len; cell++) {
+        size_t digit = right_run % (size_t)s;
+
+        if (digit > (size_t)(s - 1)) return 0;
+        if (digit < 2) {
+            out_tm_tape[cell] = (uint8_t)((s - 1) - digit);
+        } else {
+            out_tm_tape[cell] = 0;
+        }
+        right_run /= (size_t)s;
+    }
+    *out_state = state;
+    return 1;
 }

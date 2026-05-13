@@ -124,6 +124,47 @@ int tag_to_cyclic(const TagSystem *tag,
     return 1;
 }
 
+int cyclic_to_tag_inverse(const TagSystem *tag,
+                          const char *cyclic_tape,
+                          uint8_t *out_tag_tape,
+                          size_t out_tag_tape_cap,
+                          size_t *out_tag_tape_len) {
+    size_t alphabet = 0;
+    size_t bit_len = 0;
+    size_t symbol_count = 0;
+
+    if (tag == NULL ||
+        cyclic_tape == NULL ||
+        out_tag_tape == NULL ||
+        out_tag_tape_len == NULL ||
+        tag->num_alphabet <= 0) {
+        return 0;
+    }
+    alphabet = (size_t)tag->num_alphabet;
+    bit_len = strlen(cyclic_tape);
+    if (bit_len % alphabet != 0) return 0;
+    symbol_count = bit_len / alphabet;
+    if (symbol_count > out_tag_tape_cap) return 0;
+
+    for (size_t pos = 0; pos < bit_len; pos += alphabet) {
+        size_t found = alphabet;
+
+        for (size_t i = 0; i < alphabet; i++) {
+            char bit = cyclic_tape[pos + i];
+
+            if (bit != 'N' && bit != 'Y') return 0;
+            if (bit == 'Y') {
+                if (found != alphabet) return 0;
+                found = i;
+            }
+        }
+        if (found == alphabet) return 0;
+        out_tag_tape[pos / alphabet] = (uint8_t)found;
+    }
+    *out_tag_tape_len = symbol_count;
+    return 1;
+}
+
 void cyclic_tag_input_free(CyclicTagInput *cyclic) {
     if (cyclic == NULL) return;
     if (cyclic->productions != NULL) {
