@@ -101,6 +101,32 @@ theorem RegularCauchyTailMeetPacket_real_seal_handoff [AskSetup] [PackageSetup]
     ⟨tauUnary, qUnary, lUnary, nUnary, realSealUnary, m0m1Row, tauqRow,
       sealRoute, pkgRow⟩
 
+theorem RegularCauchyTailMeetPacket_limit_seal_threshold_route [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n limitSeal diagonalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      Cont l n limitSeal ->
+        Cont tau limitSeal diagonalRead ->
+          PkgSig bundle limitSeal pkg ->
+            PkgSig bundle diagonalRead pkg ->
+              UnaryHistory tau ∧ UnaryHistory q ∧ UnaryHistory l ∧ UnaryHistory n ∧
+                UnaryHistory limitSeal ∧ UnaryHistory diagonalRead ∧ Cont m0 m1 tau ∧
+                  Cont tau q l ∧ Cont l n limitSeal ∧
+                    Cont tau limitSeal diagonalRead ∧ PkgSig bundle l pkg ∧
+                      PkgSig bundle limitSeal pkg ∧ PkgSig bundle diagonalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet limitRoute diagonalRoute limitPkg diagonalPkg
+  obtain ⟨_r0Unary, _r1Unary, _w0Unary, _w1Unary, _m0Unary, _m1Unary,
+    tauUnary, qUnary, _hUnary, _cUnary, lUnary, nUnary, _r0w0Row, _r1w1Row,
+    m0m1Row, tauqRow, pkgRow⟩ := packet
+  have limitUnary : UnaryHistory limitSeal :=
+    unary_cont_closed lUnary nUnary limitRoute
+  have diagonalUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed tauUnary limitUnary diagonalRoute
+  exact
+    ⟨tauUnary, qUnary, lUnary, nUnary, limitUnary, diagonalUnary, m0m1Row, tauqRow,
+      limitRoute, diagonalRoute, pkgRow, limitPkg, diagonalPkg⟩
+
 theorem RegularCauchyTailMeetPacket_root_window_threshold_coverage [AskSetup]
     [PackageSetup]
     {r0 r1 w0 w1 m0 m1 tau q h c l n rootRead : BHist}
