@@ -193,3 +193,48 @@ source rows and listed sibling BEDC rows, with no quotient stream, selected
 host limit, countable-choice schedule, host real equality, ambient
 completeness, or hidden tail oracle.
 \end{proof}
+
+\begin{theorem}[Diagonal tail selector public budget export]
+\label{thm:diagonal-tail-selector-public-budget-export}
+The public budget source of
+\autoref{def:diagonal-tail-selector-public-budget-source} exports exactly
+the finite route through the $\DiagonalTailSelectorUp$ packet and the
+sibling schedules of
+\autoref{ch:concrete-instances-tail-cofinality-schedule-namecert},
+\autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}, and
+\autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} before
+any $\CauchyLimitSealUp$ or $\RealUp$ consumer reads the seal row $S$.
+Thus the exported route is precisely
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N
+$$
+together with the displayed precision, modulus, cofinal-window,
+dyadic-readback, regular-rational, tail-meet, seal, continuation,
+provenance, and local naming rows. It exports no quotient stream,
+host-selected limit, countable choice schedule, host real equality,
+ambient completeness, or hidden tail oracle.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diagonal-tail-selector-tail-cofinality-factorization}. The
+Real-completion consumer reaches the seal-facing selector only after the
+precision request, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$
+ledger, $\RegSeqRatUp$ readback row, and $\RealUp$ seal route have been
+ordered by the TailCofinalitySchedule schedule named in
+\autoref{ch:concrete-instances-tail-cofinality-schedule-namecert}.
+
+Next use
+\autoref{thm:diagonal-tail-selector-tail-budget-compatibility}. The same
+finite rows $R,n,\mu,k,W,D,H,C,P,N$ feed the selector budget and the
+transported tail-meet route, so the budget surface is the one shared with
+\autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert} and
+\autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, with
+$T$ consumed only as the displayed shared-threshold certificate.
+
+Finally apply
+\autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}. The
+$\CauchyLimitSealUp$ and $\RealUp$ readers of $S$ stay inside the public
+budget source and the listed sibling rows. Consequently the export contains
+exactly the displayed finite route and none of the excluded quotient,
+choice, host-equality, completeness, or hidden-oracle data.
+\end{proof}
