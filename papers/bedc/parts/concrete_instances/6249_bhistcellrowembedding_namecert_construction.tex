@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\BHistCellRowEmbeddingUp$}
+\label{ch:concrete-instances-bhist-cell-row-embedding-namecert}
+\origin{ai}
+
+The $\BHistCellRowEmbeddingUp$ packet concretizes the carrier-equivalence reading of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as a finite naming certificate from a $\BHist$ row to a cellular row observation. It sits beside the closed cellular trust packet of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the finite orbit packet of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, and the public record packet of \autoref{ch:concrete-instances-inscriptionevent-namecert}. Those siblings certify cellular trust, orbit observation, and inscription exposure; this carrier certifies the explicit row-level bridge that keeps the original $\BHist$ source and its cellular readback in one packet.
+
+\falsifiablePrediction{Removing the inverse readback row leaves a cellular row observation but breaks the BHist carrier recovery route.}
+
+\independenceWitness{Nearest siblings: cellulartrustsubstrate, cellularorbitsubstrate, inscriptionevent, and cellularautomaton. None is bijective to $\BHistCellRowEmbeddingUp$ because none stores both the source $\BHist$ row and the explicit bit-row embedding together with the inverse readback row that recovers the same carrier source.}
+
+\begin{definition}[BHist cell-row embedding carrier]
+\label{def:bhist-cell-row-embedding-carrier}
+A $\BHistCellRowEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(B,I,W,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\BHist$ row whose constructor trace is embedded.
+\item $I$ is the bit-row image obtained from the displayed constructor trace of $B$.
+\item $W$ is the width and default-padding row, naming the finite row width, padding value, origin coordinate, and the bounded slice in which $I$ is placed.
+\item $O$ is the orbit-zero row, recording the cellular row observation before any cellular transition is consumed.
+\item $R$ is the inverse readback row, recovering the same source $\BHist$ constructor trace from the displayed bit-row image and the padding convention.
+\item $H$ records componentwise $\hsame$ transports for $B,I,W,O,R,P,N$.
+\item $C$ records displayed $\Cont$ routes through source reading, bit-row embedding, orbit-zero observation, inverse readback, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\CellularAutomatonUp$, $\CellularTrustSubstrateUp$, $\CellularOrbitSubstrateUp$, $\InscriptionEventUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BHistCellRowEmbeddingUp}$ row for carrier admission, row embedding exactness, inverse readback exactness, non-escape, and TasteGate boundary exposure.
+\end{enumerate}
+The carrier contains no host byte string, no unbounded cellular orbit, no detached cellular evaluator, no quotient of encodings, and no cellular transition claim beyond the displayed orbit-zero row.
+\end{definition}
+
+\begin{theorem}[BHist cell-row embedding NameCert obligations]
+\label{thm:bhist-cell-row-embedding-namecert-obligations}
+For the carrier of \autoref{def:bhist-cell-row-embedding-carrier}, the local $\NameCert_{\BHistCellRowEmbeddingUp}$ surface consists exactly of carrier admission for $E=(B,I,W,O,R,H,C,P,N)$, bit-row image accountability through $I$, width and default-padding accountability through $W$, orbit-zero observation through $O$, inverse readback exactness through $R$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$. No cellular row observation is accepted as a $\BHist$ carrier bridge unless it passes through those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bhist-cell-row-embedding-carrier}. The packet displays the source $\BHist$ row, bit-row image, width and padding row, orbit-zero row, inverse readback row, transports, routes, provenance, and local name as its only coordinates.
+
+The embedding rows $I$ and $W$ account for the cellular row image. The row $I$ records the finite binary image of the constructor trace, while $W$ records where the image sits and how every unmentioned cell is padded.
+
+The readback row $R$ is the carrier-recovery check. It ties the displayed cellular row back to the same source trace $B$, so the observation cannot be replaced by a host byte layout or by another row with the same visible finite slice but a different carrier source.
+
+The rows $H,C,P,N$ repack those data as transport, replay, provenance, and naming evidence. Since the packet has no coordinate for an unbounded orbit, detached evaluator, quotient encoding, or cellular transition claim, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BHist cell-row embedding non-escape]
+\label{thm:bhist-cell-row-embedding-nonescape}
+Every accepted $\BHistCellRowEmbeddingUp$ read factors through the finite route
+$$
+B \longmapsto I \longmapsto W \longmapsto O \longmapsto R \longmapsto H,C,P,N.
+$$
+The route exports the source $\BHist$ row, its bit-row image, the width and default-padding convention, the orbit-zero row observation, the inverse readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and the local $\NameCert$ row. It exports no host byte string, no omitted padding convention, no unbounded cellular orbit, no hidden substrate evaluator, no quotient of encodings, and no selected cellular transition history.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and apply the NameCert obligations of \autoref{thm:bhist-cell-row-embedding-namecert-obligations}. Every public read reaches the local name only through $B,I,W,O,R,H,C,P,N$.
+
+The row observation itself is bounded by $I,W,O$. These rows name the finite bit image, its width and padding convention, and the cellular row at orbit zero. They do not supply later cellular dynamics or a host evaluator.
+
+The inverse readback row $R$ closes the recovery route to $B$. Once the readback has been fixed, no consumer can substitute a different source trace, host byte layout, or quotient representative without leaving the displayed packet.
+
+The remaining rows are transport and provenance rows. They move and replay the same finite data but introduce no further object, so the excluded outputs have no coordinate from which to escape.
+\end{proof}
+
+\begin{theorem}[BHist cell-row embedding TasteGate boundary]
+\label{thm:bhist-cell-row-embedding-tastegate-boundary}
+The TasteGate-facing boundary of an accepted $\BHistCellRowEmbeddingUp$ carrier is exactly the finite witness-pair surface consisting of the source row $B$ and the readback row $R$, together with field projections to $I,W,O,H,C,P,N$. A later Lean implementation of $\mathsf{BEDC.Derived.BHistCellRowEmbeddingUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \BHistCellRowEmbeddingUp$ and $\mathsf{FieldFaithful}\ \BHistCellRowEmbeddingUp$ instances by giving explicit witness-pair and field projection proofs for those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The witness pair is available because the packet contains both the source $\BHist$ row $B$ and the inverse readback row $R$ in the same finite certificate.
+
+Use the NameCert obligation theorem to read every other field as a displayed coordinate of the same packet. The bit-row image, width and padding row, orbit-zero row, transports, continuations, provenance, and local name are therefore field projections rather than hidden predicates.
+
+Apply non-escape. Since the boundary exports no host byte string, quotient encoding, unbounded orbit, hidden evaluator, or selected transition history, the TasteGate implementation must be faithful to these finite fields and cannot discharge faithfulness by appealing to a non-packet cellular object.
+\end{proof}
+
+\closureat{BHistCellRowEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\BHistCellRowEmbeddingUp}
+  \constructivestory{A $\BHistCellRowEmbeddingUp$ packet is generated from a source $\BHist$ row, a bit-row image, width and default-padding data, an orbit-zero cellular row observation, an inverse readback row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bhist-cell-row-embedding-carrier}, \autoref{thm:bhist-cell-row-embedding-namecert-obligations}, \autoref{thm:bhist-cell-row-embedding-nonescape}, and \autoref{thm:bhist-cell-row-embedding-tastegate-boundary} name the finite BHist-to-cell-row bridge surface without closing its formal route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a kernel carrier switch, Rule 110 trust replay, unbounded cellular evolution, host byte equality, quotient encoding, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, inverse readback exactness, non-escape, and TasteGate field-faithfulness rows for the same BHist cell-row embedding packet.}
+\end{closurestatus}
