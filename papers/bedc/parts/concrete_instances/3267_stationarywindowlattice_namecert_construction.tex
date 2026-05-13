@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\StationaryWindowLatticeUp$}
+\label{ch:concrete-instances-stationarywindowlattice-namecert}
+\origin{ai}
+
+The $\StationaryWindowLatticeUp$ packet records the common finite-window refinement used by stationary Real-completeness diagonal consumers. It joins stationary rational seed rows, transported stationary-window seal rows, mesh-budget rows, witness-schedule rows, cofinal-tail rows, transports, continuations, provenance, and local naming into one finite $\BHist$ carrier. The packet is a refinement lattice over displayed windows; it is not an infinite diagonal object, a quotient stream, a selected host limit, or an ambient completeness principle.
+
+\begin{definition}[Stationary window lattice carrier]
+\label{def:stationary-window-lattice-carrier}
+A $\StationaryWindowLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,S,R,D,W,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the stationary $\RatUp$ seed row whose rational histories determine the constant diagonal source;
+\item $S$ is the finite $\StreamNameUp$ window family selected from $Q$;
+\item $R$ is the $\RegSeqRatUp$ readback row over the same selected windows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the endpoint, radius, and comparison rows used by the selected windows;
+\item $W$ is the transported stationary-window seal row linking the stationary diagonal window packet to the $\RealUp$ seal surface;
+\item $M$ is the common refinement-meet row that simultaneously refines the mesh budget, witness schedule, cofinal tail, and transported stationary window rows;
+\item $H$ records componentwise $\hsame$ transports for $Q,S,R,D,W,M$ and the structural rows;
+\item $C$ records the displayed $\Cont$ routes from stationary seeds to windows, from windows to readbacks, from readbacks to dyadic tolerance rows, from those rows to the transported seal, and from all selected windows to the common refinement-meet row;
+\item $P$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\TransportedStationaryWindowSealUp$, $\RealDiagonalMeshBudgetUp$, $\RegularCauchyWitnessScheduleUp$, $\DiagonalCofinalTailUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\StationaryWindowLatticeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host real equality, unbounded window families, selected limits, choice data, or ambient Real-completeness witnesses.
+\end{definition}
+
+\begin{theorem}[Stationary window lattice NameCert obligations]
+\label{thm:stationary-window-lattice-namecert-obligations}
+The local $\NameCert_{\StationaryWindowLatticeUp}$ surface for \autoref{def:stationary-window-lattice-carrier} consists exactly of carrier admission for $L=(Q,S,R,D,W,M,H,C,P,N)$, stationary $\RatUp$ seed exposure through $Q$, selected $\StreamNameUp$ window exposure through $S$, $\RegSeqRatUp$ readback through $R$, $\DyadicRatCoreUp$ tolerance-ledger exactness through $D$, transported stationary-window seal exposure through $W$, common refinement-meet exposure through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ route replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.StationaryWindowLatticeUp.StationaryWindowLatticeTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:stationary-window-lattice-carrier}. The rows $Q,S,R,D,W,M$ list the mathematical data available to the lattice consumer, and $H,C,P,N$ list the transport, route, provenance, and naming data.
+
+The stationary source is read first through $Q$, then through the selected finite windows $S$, the regular-rational readback $R$, and the dyadic tolerance ledger $D$. The transported seal row $W$ can be reached only after those rows are visible.
+
+The refinement row $M$ is the only row that compares the mesh budget, witness schedule, cofinal tail, and transported stationary window data. The remaining rows $H,C,P,N$ preserve that comparison componentwise and record the local NameCert surface. Since the carrier has no other coordinates, the displayed rows exhaust the obligations.
+\end{proof}
+
+\begin{theorem}[Stationary window lattice refinement meet]
+\label{thm:stationary-window-lattice-refinement-meet}
+For an accepted $\StationaryWindowLatticeUp$ carrier $L=(Q,S,R,D,W,M,H,C,P,N)$, the row $M$ is the common finite refinement for every stationary-window consumer that reads the mesh budget, witness schedule, cofinal tail, or transported stationary-window seal. Any such consumer must factor its selected windows through $S,R,D,W$ and then through $M$ before a $\RealUp$ seal-facing row is exported.
+\end{theorem}
+\begin{proof}
+Read $S,R,D,W$ from the carrier. These rows are the selected finite windows, the regular-rational readbacks, the dyadic tolerance ledger, and the transported stationary-window seal surface.
+
+Use the NameCert obligation theorem. It identifies $M$ as the only common refinement-meet row and routes the displayed continuations in $C$ through that row. Thus mesh-budget, witness-schedule, cofinal-tail, and transported-window consumers cannot choose independent finite windows after $M$ has been fixed.
+
+Componentwise transport through $H$ preserves the same selected rows, while $P$ and $N$ record provenance and local naming. Hence the meet is a finite refinement of the displayed window data and not a second source of diagonal information.
+\end{proof}
+
+\begin{theorem}[Stationary window lattice Real seal handoff]
+\label{thm:stationary-window-lattice-real-seal-handoff}
+Every $\RealUp$ or completion-seal consumer of an accepted $\StationaryWindowLatticeUp$ packet receives the transported stationary-window seal row only through the displayed route
+$$
+Q,S,R,D,W,M,H,C,P,N.
+$$
+The handoff preserves the same refinement meet $M$ for the stationary diagonal window, mesh budget, witness schedule, and cofinal-tail surfaces.
+\end{theorem}
+\begin{proof}
+Start from the transported stationary-window seal row $W$. It sits in the same finite packet as the stationary rational seed $Q$, the selected windows $S$, the regular readback $R$, the dyadic ledger $D$, and the refinement meet $M$.
+
+Apply \autoref{thm:stationary-window-lattice-refinement-meet}. Every seal-facing read that uses the stationary window data must pass through $M$ after the selected windows, readbacks, and tolerance ledger have been exposed.
+
+The rows $H$ and $C$ then replay the displayed transports and continuations, and $P,N$ provide provenance and local naming. There is no carrier coordinate for a different Real seal route, so the handoff is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Stationary window lattice non-escape]
+\label{thm:stationary-window-lattice-nonescape}
+Every downstream consumer of an accepted $\StationaryWindowLatticeUp$ packet factors through the finite rows
+$$
+Q,S,R,D,W,M,H,C,P,N.
+$$
+The consumer may read the stationary rational seed, finite StreamName windows, RegSeqRat readback rows, DyadicRatCore tolerance ledger, transported stationary-window seal, common refinement meet, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it cannot read quotient streams, host real equality, unbounded window families, selected limits, choice data, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and the local NameCert surface. The rows $Q,S,R,D,W,M,H,C,P,N$ are the complete displayed packet.
+
+Use the refinement-meet theorem for window-facing consumers. It confines mesh-budget, witness-schedule, cofinal-tail, and transported-window reads to the same selected finite windows and to the common meet row $M$.
+
+Use the Real seal handoff theorem for seal-facing consumers. It routes every $\RealUp$ or completion-seal read through the displayed finite route before the transported seal is exported.
+
+No remaining carrier coordinate exists beyond those rows. Therefore no downstream consumer can extract quotient-stream data, host real equality, unbounded window data, selected limits, choice data, or ambient completeness from the packet.
+\end{proof}
+
+\closureat{StationaryWindowLatticeUp}{seedStr}
+
+\begin{closurestatus}{\StationaryWindowLatticeUp}
+  \constructivestory{A $\StationaryWindowLatticeUp$ packet is generated from stationary $\RatUp$ seed rows, selected $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ tolerance ledger, transported stationary-window seal rows, a common refinement-meet row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stationary-window-lattice-carrier}, \autoref{thm:stationary-window-lattice-namecert-obligations}, \autoref{thm:stationary-window-lattice-refinement-meet}, \autoref{thm:stationary-window-lattice-real-seal-handoff}, and \autoref{thm:stationary-window-lattice-nonescape} bind the finite common-refinement lattice for stationary Real-completeness window consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, host real equality, unbounded diagonal windows, selected limits, choice data, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, common refinement-meet exactness, Real seal handoff, and non-escape for the same stationary finite-window lattice packet.}
+\end{closurestatus}

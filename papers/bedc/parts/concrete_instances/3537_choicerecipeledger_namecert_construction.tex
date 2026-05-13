@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceRecipeLedgerUp$}
+\label{ch:concrete-instances-choice-recipe-ledger-namecert}
+\origin{human}
+
+The $\ChoiceRecipeLedgerUp$ surface records the finite term-stratum ledger left when a consumer asks for a choice output but the available BEDC data contains only inspected witness recipes. It turns the witness-recipe loss of \autoref{prop:term-stratum-meta-closure-drops-witness-family} into explicit $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and axiom-purity refusal rows.
+
+\begin{definition}[ChoiceRecipeLedger carrier]
+\label{def:choice-recipe-ledger-carrier}
+A $\ChoiceRecipeLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,F,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the term-stratum request row, recording the finite consumer site at which a choice output would be used;
+\item $F$ is the finite family row, listing the inspected witness recipes and the addresses at which each recipe is available;
+\item $Q$ is the requested-output row, recording the missing uniform choice value and the consumer route that asks for it;
+\item $A$ is the axiom-purity refusal row, recording that no inspected recipe supplies an unrestricted selection operator, hidden witness family, or host choice principle;
+\item $H$ records componentwise $\hsame$ transport for the request row, recipe-family row, requested-output row, refusal row, package provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads the request, inspects the finite recipes, reaches the requested-output boundary, and returns the refusal row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, term rows, finite witness recipes, requested-output rows, axiom-purity refusals, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ChoiceRecipeLedgerUp}$ row.
+\end{enumerate}
+The carrier exports no selected witness family, no unrestricted choice functional, no hidden recipe evaluator, no quotient of recipe addresses, and no host-level selection rule.
+\end{definition}
+
+\begin{theorem}[ChoiceRecipeLedger NameCert obligations]
+\label{thm:choice-recipe-ledger-namecert-obligations}
+For the carrier of \autoref{def:choice-recipe-ledger-carrier}, the local $\NameCert_{\ChoiceRecipeLedgerUp}$ surface consists of carrier admission for
+$$
+L=(T,F,Q,A,H,C,P,N),
+$$
+term-stratum request exposure through $T$, finite witness-recipe coverage through $F$, requested-output accountability through $Q$, axiom-purity refusal through $A$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ route stability through $C$, package provenance through $P$, local naming through $N$, and non-discharge of the requested choice output.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:choice-recipe-ledger-carrier}. The tuple lists the request row, finite recipe family, requested-output boundary, refusal row, transport, continuation, provenance, and local naming as the complete public inventory.
+
+The request and coverage obligations are the rows $T,F,Q$. A consumer first reads the term-stratum site, then the finite family of inspected recipes, and only then the requested output boundary.
+
+The refusal and stability obligations are $A,H,C,P,N$. They record axiom-purity refusal, replay the same finite route under componentwise $\hsame$ and $\Cont$, cite the package provenance, and bind the route to the local $\NameCert$ without producing the missing choice output.
+\end{proof}
+
+\begin{theorem}[ChoiceRecipeLedger non-escape]
+\label{thm:choice-recipe-ledger-non-escape}
+Every consumer of an accepted $\ChoiceRecipeLedgerUp$ packet reads only
+$$
+T,F,Q,A,H,C,P,N.
+$$
+The consumer may inspect the finite recipe family and the refusal row, but it cannot extract a selected witness family, unrestricted choice functional, hidden recipe evaluator, quotient-selected address, or host choice rule from the packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligations. Together they expose exactly the finite recipe ledger, requested-output boundary, refusal row, transport, continuation, provenance, and local naming data.
+
+The axiom-purity refusal row $A$ is downstream of the inspected recipe family $F$. It records the boundary between finite recipe inspection and a uniform choice output, so the refusal is not itself a selector.
+
+Finally inspect the missing coordinates. No row names a selected witness family, choice functional, hidden evaluator, quotient of addresses, or host-level rule. The structural rows $H,C,P,N$ preserve and package the same finite refusal route, so no escape path is available.
+\end{proof}
+
+\begin{theorem}[ChoiceRecipeLedger term-stratum handoff]
+\label{thm:choice-recipe-ledger-term-stratum-handoff}
+The term-stratum handoff of an accepted $\ChoiceRecipeLedgerUp$ packet factors through the finite route
+$$
+T,F,Q,A,H,C,P,N.
+$$
+It presents the consumer site, the inspected witness recipes, the requested-output boundary, and the axiom-purity refusal as one $\BHist$ package with componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and a local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Use the carrier to identify the source of the handoff. The term-stratum request row is $T$, and the only finite recipe-family row attached to that request is $F$.
+
+The requested-output boundary and refusal are then $Q$ and $A$. They state exactly what output the consumer asks for and why the inspected recipes do not provide it as a uniform selection.
+
+The handoff is completed by $H,C,P,N$. These rows transport, replay, cite, and name the same finite packet, so a downstream term-stratum consumer receives a recorded refusal package rather than an unrecorded choice object.
+\end{proof}
+
+\begin{theorem}[ChoiceRecipeLedger effective replacement boundary]
+\label{thm:choice-recipe-ledger-effective-replacement-boundary}
+An accepted $\ChoiceRecipeLedgerUp$ packet gives an effective replacement for choice-output demand only at the level of finite recipe inspection and refusal accounting. It replaces the unavailable selected witness family by the recorded $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and axiom-purity refusal rows, and it does not claim a choice output, selected family, host-level selector, or global term-stratum closure.
+\end{theorem}
+\begin{proof}
+Apply the term-stratum handoff. It supplies the finite request, recipe family, requested-output boundary, refusal row, transport, continuation, provenance, and local naming data as the replacement object available to consumers.
+
+Apply non-escape. The packet has no coordinate for a selected family, host selector, hidden evaluator, or unrestricted choice functional, so the replacement cannot be read as the missing output.
+
+Thus the boundary is exact: the effective object is the finite ledger and its refusal package. The statement of \autoref{prop:term-stratum-meta-closure-drops-witness-family} is realized concretely by recording what survives in the term stratum and by refusing the unrecorded choice-output jump.
+\end{proof}
+
+\closureat{ChoiceRecipeLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceRecipeLedgerUp}
+  \constructivestory{A $\ChoiceRecipeLedgerUp$ packet is generated from a term-stratum request row, a finite witness-recipe family, a requested-output boundary, an axiom-purity refusal row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-recipe-ledger-carrier}, \autoref{thm:choice-recipe-ledger-namecert-obligations}, \autoref{thm:choice-recipe-ledger-non-escape}, \autoref{thm:choice-recipe-ledger-term-stratum-handoff}, and \autoref{thm:choice-recipe-ledger-effective-replacement-boundary} bind the finite choice-recipe ledger and its local refusal surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, unrestricted choice, selected witness families, quotient-selected recipe addresses, host-level selection rules, global term-stratum closure, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite recipe coverage, requested-output accountability, axiom-purity refusal, transport stability, continuation stability, provenance, non-escape, and effective replacement boundary for the displayed ledger.}
+\end{closurestatus}

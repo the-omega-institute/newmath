@@ -39,6 +39,47 @@ The classifier obligation is constructive because two packets are compared by fi
 The consumer obligations are the finite coverage and handoff clauses proved below. Together they show that every point read by a regular Cauchy or real consumer is accounted for by a visible cell, visible endpoints, a visible carried value, and a visible BEDC route.
 \end{proof}
 
+\begin{definition}[Dyadic step function finite window carrier]
+\label{def:dyadic-step-function-window-carrier}
+A $\DyadicStepFunctionUp$ finite-window carrier is the carrier of \autoref{def:dyadic-step-function-carrier} read as the public window
+$$
+W=(I,M,E,V,R,L,C,P,N).
+$$
+Here $I$ exposes the finite partition cells, $M$ exposes endpoint-parent transport under common refinement, $E$ exposes endpoint ledgers, $V$ exposes carried values, $R$ exposes classifier rows, $L$ exposes the finite consumer ledger, $C$ exposes $\hsame$ and $\Cont$ routes, $P$ exposes the $\Pkg$ provenance, and $N$ exposes the local $\NameCert_{\DyadicStepFunctionUp}$ row. The partition coordinate $\Pi$ remains the source of the cells in $I$, but every downstream consumer reads the packet through the displayed window $W$.
+\end{definition}
+
+\begin{theorem}[Dyadic step function finite-window obligations]
+\label{thm:dyadic-step-function-window-obligations}
+For every accepted $\DyadicStepFunctionUp$ finite-window carrier $W=(I,M,E,V,R,L,C,P,N)$, the public obligation surface consists of finite partition-cell coverage, endpoint transport, carried-value exposure, classifier-row exposure, $\RegSeqRatUp$ handoff, $\RealUp$ seal reading, componentwise $\hsame$ and $\Cont$ transport, $\Pkg$ provenance, and local $\NameCert_{\DyadicStepFunctionUp}$ naming. Every $\RegSeqRatUp$, $\RealUp$, or completion-facing consumer read through $W$ must first land on a displayed common-refinement cell and then consume only the rows $I,M,E,V,R,L,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations of \autoref{def:dyadic-step-function-carrier} and \autoref{thm:dyadic-step-function-namecert-obligations}. They expose the partition, cells, endpoint transport, carried values, classifier reads, finite ledger, transport rows, provenance, and local name.
+
+Next route a consumer read through common refinement. Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage}: the read lands on one displayed cell in $I$, then uses $M$ for the parent-cell route and $E$ for endpoint transport.
+
+Now bind the value side. Apply \autoref{thm:dyadic-step-function-endpoint-value-transport-determinacy} to identify the endpoint route with the carried-value route through $V$ and $R$, and apply \autoref{thm:dyadic-step-function-ledger-exactness} to record the read in $L$.
+
+Finally use \autoref{thm:dyadic-step-function-regseqrat-handoff} and \autoref{thm:dyadic-step-function-real-seal-window-exactness}. The regular-sequence handoff and the real seal read consume the same finite rows, while $C,P,N$ supply the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface for replay and naming.
+\end{proof}
+
+\begin{theorem}[Dyadic step function finite-window non-escape]
+\label{thm:dyadic-step-function-nonescape}
+Every accepted $\DyadicStepFunctionUp$ finite-window carrier exports its step-function, $\RegSeqRatUp$, $\RealUp$, and completion-facing behavior only through
+$$
+I,M,E,V,R,L,C,P,N.
+$$
+It exports no hidden host step function, quotient representative, selected limit, measure completion, open-cover compactness, or ambient equality oracle; every downstream read is routed through common-refinement cell coverage and ledger exactness before any handoff or seal row is consumed.
+\end{theorem}
+\begin{proof}
+Project the finite-window carrier through \autoref{def:dyadic-step-function-window-carrier}. The rows $I,M,E,V,R,L,C,P,N$ are the only public coordinates of the window.
+
+Use \autoref{thm:dyadic-step-function-window-obligations} to force each consumer read onto a displayed common-refinement cell. The endpoint route is read from $E$, the parent-cell route from $M$, the carried value from $V$, the classifier row from $R$, and the ledger entry from $L$.
+
+The handoff rows do not add a second surface. By \autoref{thm:dyadic-step-function-regseqrat-handoff} and \autoref{thm:dyadic-step-function-real-seal-window-exactness}, $\RegSeqRatUp$ and $\RealUp$ consumers receive the same finite-cell data after the ledger row has been exposed.
+
+Finally apply \autoref{thm:dyadic-step-function-ledger-exactness}. Because every permitted read is already accounted for by the displayed rows and their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, none of the excluded host, quotient, completion, limit, compactness, or equality objects has an escape route.
+\end{proof}
+
 \begin{theorem}[Dyadic step function refinement stability]
 \label{thm:dyadic-step-function-refinement-stability}
 Let $S$ and $T$ be accepted $\DyadicStepFunctionUp$ carriers. If their partitions refine to a displayed common dyadic partition and every refined cell transports to parent cells whose carried values are classified together by the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier, then the $\DyadicStepFunctionUp$ classifier identifies $S$ and $T$. The identification is stable under further $\hsame$ and $\Cont$ transport of the displayed partition, endpoint, value, and ledger rows.
@@ -68,6 +109,7 @@ A $\DyadicSplineUp$ or regular Cauchy consumer therefore receives only a finite 
 \label{thm:dyadic-step-function-ledger-exactness}
 For every accepted $\DyadicStepFunctionUp$ carrier, the ledger $L$ accounts for exactly the finite cell coverage of $\Pi$, the endpoint transport recorded in $E$, the refinement-parent relation recorded in $M$, and the carried-value reads recorded in $V$ and $R$. No exported $\RegSeqRatUp$, $\RealUp$, $\DyadicSplineUp$, or completion-facing read factors through a hidden quotient, a measure completion, an unlisted representative, or an ambient choice principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionCarrier\_ledger\_exactness}
 \begin{proof}
 Project the carrier and inspect the finite cell list $I$. Exact coverage means every displayed consumer read names one cell of $I$, and every cell of $I$ has its endpoints, adjacency data, and carried value recorded in the packet.
 

@@ -212,6 +212,7 @@ The tail ledger and regular rational handoff remain inside the same packet by \a
 
 Thus every classifier-related read is repacked through $H,H'$, $C,C'$, $P,P'$, and $N,N'$ over the displayed carrier rows. Since the classifier has no field for the excluded analytic data, stability cannot export such a field.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_tail\_budget\_scope}
 
 \begin{theorem}[CauchyCriterion tail-budget scope]
 \label{thm:cauchycriterion-tail-budget-scope}
@@ -300,6 +301,7 @@ Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$ carrier. The mod
 
 Equivalently, any such consumer route reads the tail bound by passing through the displayed modulus threshold, the same dyadic tolerance row, the same finite tail ledger, the same regular rational handoff, and the same real seal. It cannot obtain a different bound from quotient streams, selected limits, host real equality, uniqueness of limits, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCriterionUp.CauchyCriterionCarrier\_modulus\_tail\_consumer\_exactness}
 \begin{proof}
 Start with \autoref{thm:cauchycriterion-modulus-threshold-stability}. It fixes the threshold row $M$ as the only modulus-facing entry point for a precision request in the carrier.
 
@@ -314,14 +316,15 @@ Finally apply \autoref{thm:cauchycriterion-real-completion-consumer-bridge}. The
 \closureat{CauchyCriterionUp}{obligationStr}
 \closureat{CauchyCriterionUp}{scopedStr}
 \closureat{CauchyCriterionUp}{publicStr}
+\closureat{CauchyCriterionUp}{bridgedStr}
 
 \begin{closurestatus}{\CauchyCriterionUp}
   \constructivestory{A $\CauchyCriterionUp$ packet is generated from a $\RegSeqRatUp$ source window, a $\CauchyModulusUp$ schedule, a $\DyadicTailBoundUp$ finite tail ledger, a $\DyadicRatCoreUp$ tolerance row, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:cauchycriterion-classifier-stability-scope}, \autoref{thm:cauchycriterion-tail-budget-scope}, and \autoref{thm:cauchycriterion-real-seal-scope} bind the carrier, classifier, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic tail ledger, $\RegSeqRatUp$ handoff, and $\RealUp$ seal rows to one finite constructive Cauchy criterion packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:cauchycriterion-classifier-stability-scope}, \autoref{thm:cauchycriterion-tail-budget-scope}, \autoref{thm:cauchycriterion-real-seal-scope}, and \autoref{thm:cauchycriterion-real-completion-consumer-bridge} bind the carrier, classifier, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, dyadic tail ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal rows, and downstream completion-facing bridge to one finite constructive Cauchy criterion packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, uniqueness of limits, or bridge checking.}
-  \upgradepath{Bridge closure requires a bridge from the exported constructive Cauchy criterion packet to downstream $\RealUp$ and completion-facing consumer interfaces.}
+  \upgradepath{Mature closure requires representative downstream examples consuming the constructive Cauchy criterion packet through the same $\RealUp$ and completion-facing bridge.}
 \end{closurestatus}
