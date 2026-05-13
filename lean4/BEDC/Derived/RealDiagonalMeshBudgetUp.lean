@@ -121,4 +121,30 @@ theorem RealDiagonalMeshBudgetCarrier_consumer_scope_exhaustion
     ⟨sealUnary, downstreamUnary, qbRoute, budgetWindowRoute, omegaReadbackRoute,
       readbackLedgerRoute, sealRoute, downstreamRoute, provenanceSame, nameSame⟩
 
+theorem RealDiagonalMeshBudgetCarrier_budget_monotonicity
+    {q b bPrime omega rho delta theta e h hPrime c p n : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      UnaryHistory bPrime ->
+        Cont q bPrime hPrime ->
+          Cont bPrime omega theta ->
+            hsame h hPrime ->
+              UnaryHistory hPrime ∧ UnaryHistory theta ∧ UnaryHistory c ∧
+                UnaryHistory e ∧ Cont q bPrime hPrime ∧ Cont bPrime omega theta ∧
+                  Cont omega rho c ∧ Cont rho delta e ∧ hsame h hPrime ∧ hsame p p ∧
+                    hsame n n := by
+  intro carrier bPrimeUnary enlargedBudgetRoute enlargedWindowRoute sameBudgetResult
+  obtain ⟨qUnary, _bUnary, omegaUnary, rhoUnary, _deltaUnary, _thetaUnary, eUnary,
+    _qbRoute, _budgetWindowRoute, omegaReadbackRoute, readbackLedgerRoute,
+    _provenanceUnary, provenanceSame, nameSame⟩ := carrier
+  have hPrimeUnary : UnaryHistory hPrime :=
+    unary_cont_closed qUnary bPrimeUnary enlargedBudgetRoute
+  have thetaUnary : UnaryHistory theta :=
+    unary_cont_closed bPrimeUnary omegaUnary enlargedWindowRoute
+  have cUnary : UnaryHistory c :=
+    unary_cont_closed omegaUnary rhoUnary omegaReadbackRoute
+  exact
+    ⟨hPrimeUnary, thetaUnary, cUnary, eUnary, enlargedBudgetRoute,
+      enlargedWindowRoute, omegaReadbackRoute, readbackLedgerRoute, sameBudgetResult,
+      provenanceSame, nameSame⟩
+
 end BEDC.Derived.RealDiagonalMeshBudgetUp
