@@ -268,6 +268,48 @@ the same displayed rows and introduce no host compiler semantics, no ambient
 program equality, and no unrecorded target behavior.
 \end{proof}
 
+\begin{theorem}[CertificateCompiler route replay scope]
+\label{thm:certificate-compiler-route-replay-scope}
+For an accepted $\CertificateCompilerUp$ packet
+$$
+K=(S,T,G,E,C,H,P,N),
+$$
+every accepted compiler read replays through the displayed compiler graph $G$, edge-landing row $E$, paired-edge classifier row, continuation row $C$, transport row $H$, package provenance $P$, and local $\NameCert$ row $N$. No consumer of $K$ can replace that replay by host compiler semantics, ambient program equality, optimiser correctness, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:certificate-compiler-carrier}. Its only displayed compiler coordinates are the source and target naming rows $S,T$, the graph $G$, the landing row $E$, the continuation row $C$, the transport row $H$, the package row $P$, and the local naming row $N$.
+
+Apply the classifier of \autoref{def:certificate-compiler-classifier} and the edge-classifier exactness theorem. They force an accepted read to inspect the graph edge, its source classifier row, its landing in the target carrier, and the componentwise $\hsame$ and $\Cont$ routes.
+
+The identity ledger and composition stability theorems show that replay is stable under identity and binary composition, while \autoref{thm:certificate-compiler-triple-composite-associativity} gives the same replay surface for triple composites. Therefore every accepted compiler read remains inside the displayed finite rows of $K$.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler middle-row handoff]
+\label{thm:certificate-compiler-middle-row-handoff}
+Let $K_{01}=(S_0,S_1,G_{01},E_{01},C_{01},H_{01},P_{01},N_{01})$ and $K_{12}=(S_1,S_2,G_{12},E_{12},C_{12},H_{12},P_{12},N_{12})$ be composable accepted $\CertificateCompilerUp$ packets. Their composite can hand off from the first compiler packet to the second only through the displayed middle $\NameCert$ row $S_1$, together with the edge-landing, classifier-transport, and continuation rows that read $S_1$.
+
+The handoff exports no independent middle compiler semantics, program equivalence witness, optimiser correctness proof, or unrecorded target behavior.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The target naming row of $K_{01}$ and the source naming row of $K_{12}$ are the same displayed row $S_1$, and this is the only middle carrier coordinate available to both packets.
+
+Use \autoref{thm:certificate-compiler-edge-classifier-exactness}. It makes every edge comparison pass through the landing row into the target carrier, the transported classifier row, and the continuation route over the displayed middle certificate.
+
+Composition stability then forms the composite graph only from pairs of displayed edges whose middle landing reads $S_1$. The identity ledger supplies the degenerate case, and triple composite associativity shows that repeated handoffs still expose the same middle rows rather than a hidden compiler coordinate.
+\end{proof}
+
+\begin{theorem}[CertificateCompiler finite-graph nonescape]
+\label{thm:certificate-compiler-finite-graph-nonescape}
+For an accepted $\CertificateCompilerUp$ carrier $K=(S,T,G,E,C,H,P,N)$, every packet exported by the compiler certificate is a finite graph packet over the displayed rows $S,T,G,E,C,H,P,N$. It exports no host compiler semantics, no program equivalence relation, no optimiser correctness theorem, and no target behavior that is absent from the displayed graph, landing, classifier, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier rows. The carrier lists only $S,T,G,E,C,H,P,N$, and the classifier reads graph edges through displayed landing, $\hsame$, and $\Cont$ rows.
+
+The edge-classifier exactness theorem prevents a consumer from accepting an edge by an external compiler semantics. The identity ledger and composition stability theorems keep identity and composite packets inside the same finite graph surface.
+
+Finally apply \autoref{thm:certificate-compiler-triple-composite-associativity}. Triple composites expose only triples of graph edges and their two displayed middle landing matches. Since no excluded compiler or target object appears in those rows, there is no escape from the finite graph packet.
+\end{proof}
+
 \closureat{CertificateCompilerUp}{obligationStr}
 
 \begin{closurestatus}{\CertificateCompilerUp}
