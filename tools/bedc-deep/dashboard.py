@@ -358,6 +358,40 @@ def render_reject_clusters() -> str:
     )
 
 
+def render_logic_audit_warnings() -> str:
+    if not TARGETS_DIR.exists():
+        return "  (no targets dir)"
+    counts: dict[str, int] = {}
+    examples: dict[str, str] = {}
+    audited = 0
+    warned = 0
+    for f in TARGETS_DIR.glob("*/stage2_result.json"):
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        audit = d.get("logic_audit") or {}
+        if not audit:
+            continue
+        audited += 1
+        warnings = audit.get("warnings") or []
+        if warnings:
+            warned += 1
+        target = f.parent.name
+        for warning in warnings:
+            if not isinstance(warning, dict):
+                continue
+            code = str(warning.get("code") or "unknown")
+            counts[code] = counts.get(code, 0) + 1
+            examples.setdefault(code, target)
+    if not counts:
+        return f"  audited={audited} warned={warned} (no post-write logic warnings)"
+    lines = [f"  audited={audited} warned={warned}"]
+    for code, n in sorted(counts.items(), key=lambda kv: -kv[1])[:8]:
+        lines.append(f"  {code:<48} {n:>3}  example={examples.get(code, '?')}")
+    return "\n".join(lines)
+
+
 def render_recent_commits(n: int = 5) -> str:
     out = _git(["log", "--oneline", f"-{n}"])
     return "\n".join(f"  {ln}" for ln in out.splitlines())
@@ -396,6 +430,8 @@ def main() -> int:
     print(render_histogram())
     print(_section("Stage 2 reject clusters"))
     print(render_reject_clusters())
+    print(_section("Stage 2 logic audit"))
+    print(render_logic_audit_warnings())
     print(_section("Recent commits"))
     print(render_recent_commits())
     print(_section("Supervisor tail"))
