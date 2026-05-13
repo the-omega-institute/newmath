@@ -109,8 +109,8 @@ manifest assertion PASS/FAIL
 
 ## Tier A 收尾步骤 (剩余 ship 工作)
 
-- [ ] T-A.7: tag `rule110-v2.0-fkernel-tier-a` 到 origin (HEAD `d3ae91028`)
-- [ ] T-A.8: 在 `papers/bedc/` 引用 Tier A ship commit hash + cross-check 状态作为 BEDC 引文外部见证
+- [x] T-A.7: tag `rule110-v2.0-fkernel-tier-a` 到 origin at `d3ae91028`
+- [x] T-A.8: `papers/bedc/appendices/build_and_verification_log.tex` 引用 Tier A ship state (commit `031c700be`)
 
 **完成 T-A.7 + T-A.8 = Tier A ship 标准达成**.
 
