@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\ObserverKernelTraceUp$}
+\label{ch:concrete-instances-observerkerneltrace-namecert}
+\origin{human}
+
+The $\ObserverKernelTraceUp$ surface realizes observer identity as a finite trace packet rather than as a subject behind the trace. It packages history rows, history-sameness transport, continuation reads, licensed probe and signature observations, provenance, and a local naming row into one $\NameCert$ boundary. A consumer may compare observer traces through the displayed packet, but it receives no observer-substance coordinate and no host equality of subjects.
+
+\begin{definition}[ObserverKernelTrace carrier]
+\label{def:observer-kernel-trace-carrier}
+An $\ObserverKernelTraceUp$ carrier is a finite $\BHist$ packet
+$$
+O=(T,H,C,B,S,L,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite observer-trace ledger, whose entries are $\BHist$ rows recording the histories available to an observer-facing consumer;
+\item $H$ records componentwise $\hsame$ transport for trace rows, observation rows, licensed readback rows, provenance rows, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads trace rows, transports, probe bundles, signature events, provenance, and local naming;
+\item $B$ is the finite $\mathsf{ProbeBundle}$ observation row attached to the same trace ledger;
+\item $S$ is the $\mathsf{SigRel}$ observation row attached to the bundled probe reads;
+\item $L$ is the no-subject ledger recording that every exported observer read is one of the displayed trace, transport, route, probe, signature, provenance, or local naming rows;
+\item $P$ is the $\Pkg$ provenance over $T,H,C,B,S,L$;
+\item $N$ is the local $\NameCert_{\ObserverKernelTraceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an observer-substance type, subject identity row, hidden owner of the observations, or host equality principle outside $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\Pkg$, and $\NameCert$.
+\end{definition}
+
+\begin{theorem}[ObserverKernelTrace NameCert obligations]
+\label{thm:observer-kernel-trace-namecert-obligations}
+For the carrier of \autoref{def:observer-kernel-trace-carrier}, the local $\NameCert_{\ObserverKernelTraceUp}$ surface consists exactly of carrier admission for $O$, trace-ledger stability, componentwise $\hsame$ transport, displayed $\Cont$ route replay, licensed $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ observation exactness, no-subject ledger exactness, $\Pkg$ provenance, and local naming exactness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet $O$. The trace ledger $T$, transports $H$, routes $C$, probe row $B$, signature row $S$, no-subject ledger $L$, package row $P$, and local naming row $N$ are the displayed coordinates of the carrier.
+
+The stability and replay obligations are componentwise. Transport through $H$ preserves the trace and observation rows, while the routes in $C$ replay only the listed reads.
+
+Probe and signature exactness come from $B$ and $S$, and the no-subject ledger $L$ records every exported observer read before it reaches the consumer. Since the carrier has no coordinate beyond $T,H,C,B,S,L,P,N$, the local naming certificate is exhausted by the stated finite obligations.
+\end{proof}
+
+\begin{theorem}[ObserverKernelTrace no-subject non-escape]
+\label{thm:observer-kernel-trace-non-escape}
+Every accepted $\ObserverKernelTraceUp$ packet exposes observer identity only through its finite $\BHist$ trace rows, $\hsame$ transport, $\Cont$ routes, licensed $\mathsf{ProbeBundle}$ readback, licensed $\mathsf{SigRel}$ readback, no-subject ledger, $\Pkg$ provenance, and local $\NameCert$ row. It exports no observer-substance carrier, subject identity coordinate, hidden owner of the trace, or host equality of subjects.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and inspect the coordinates of \autoref{def:observer-kernel-trace-carrier}. The only rows available to a consumer are $T,H,C,B,S,L,P,N$.
+
+Apply the NameCert obligations from \autoref{thm:observer-kernel-trace-namecert-obligations}. They identify transport, route replay, probe readback, signature readback, no-subject ledgering, package provenance, and local naming as the whole certificate surface.
+
+A requested subject carrier would require a coordinate outside the displayed tuple. Because no such coordinate is part of the packet, the accepted boundary cannot export observer-substance, subject identity, hidden ownership, or host equality data.
+\end{proof}
+
+\closureat{ObserverKernelTraceUp}{seedStr}
+
+\begin{closurestatus}{\ObserverKernelTraceUp}
+  \constructivestory{An $\ObserverKernelTraceUp$ packet is generated from finite $\BHist$ trace rows, componentwise $\hsame$ transport, displayed $\Cont$ routes, licensed $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ observations, a no-subject ledger, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:observer-kernel-trace-namecert-obligations} binds the carrier, licensed observation rows, no-subject ledger, provenance, and local naming boundary for observer-kernel traces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean theorem, a host observer model, subject identity, hidden ownership, global observation equivalence, or equality of subjects.}
+  \upgradepath{Obligation closure requires a Lean carrier and checked theorems for trace stability, licensed observation exactness, ledger exactness, and non-escape.}
+\end{closurestatus}
