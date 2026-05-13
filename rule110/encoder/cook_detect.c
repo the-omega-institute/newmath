@@ -16,17 +16,40 @@ static const GliderMotion GLIDER_MOTIONS[] = {
     {"A", 3, 2},
     {"B", 4, -2},
     {"Bbar", 12, -6},
+    {"Bhat", 12, -6},
     {"C1", 7, 0},
     {"C2", 7, 0},
     {"C3", 7, 0},
     {"D1", 10, 2},
     {"D2", 10, 2},
+    {"E", 15, -4},
     {"Ebar", 30, -8},
     {"F", 36, -4},
     {"G", 42, -14},
     {"H", 92, -18},
     {"Gun", 77, -20}
 };
+
+typedef struct {
+    const char *name;
+    const char *neighbors[12];
+} PhaseScanSpec;
+
+static const PhaseScanSpec PHASE_SCAN_SPECS[] = {
+    {"Bbar", {"A", "B", "C", NULL}},
+    {"C1", {"A", "B", NULL}},
+    {"C2", {"A", "B", NULL}},
+    {"C3", {"A", "B", NULL}},
+    {"G", {"A", "B", "C", "D", "E", "F", "G", "H", "A2", "B2", "C2", NULL}}
+};
+
+typedef struct {
+    const GliderMotion *motion;
+    const char *neighbor;
+    int phase;
+    const char *bits;
+    size_t len;
+} PhasePattern;
 
 static void diff_against_ether(const uint8_t *evolved,
                                const uint8_t *ether,
@@ -184,6 +207,31 @@ static int diff_window_repeats(const uint8_t *diffs,
     return 1;
 }
 
+static int phase_window_matches(const uint8_t *rows,
+                                const uint8_t *diffs,
+                                size_t len,
+                                size_t t,
+                                size_t pos,
+                                const PhasePattern *pattern) {
+    size_t row_offset = t * len;
+    int has_diff = 0;
+
+    if (pattern == NULL || pattern->bits == NULL || pattern->len == 0u ||
+        pos > len || pattern->len > len - pos) {
+        return 0;
+    }
+
+    for (size_t i = 0; i < pattern->len; i++) {
+        if (rows[row_offset + pos + i] !=
+            (uint8_t)(pattern->bits[i] == '1')) {
+            return 0;
+        }
+        if (diffs[row_offset + pos + i] != 0) has_diff = 1;
+    }
+    if (!has_diff) return 0;
+    return 1;
+}
+
 static void maybe_record_hit(GliderHit *hits_out,
                              size_t hits_cap,
                              size_t *hit_count,
@@ -212,6 +260,111 @@ static void maybe_record_hit(GliderHit *hits_out,
     }
 }
 
+static int glider_name_recorded(const GliderHit *hits,
+                                size_t hit_count,
+                                const char *name) {
+    for (size_t i = 0; i < hit_count; i++) {
+        if (strcmp(hits[i].name, name) == 0) return 1;
+    }
+    return 0;
+}
+
+static size_t collect_phase_patterns(PhasePattern *patterns,
+                                     size_t patterns_cap) {
+    size_t count = 0;
+
+    for (size_t g = 0;
+         g < sizeof(PHASE_SCAN_SPECS) / sizeof(PHASE_SCAN_SPECS[0]);
+         g++) {
+        const PhaseScanSpec *scan = &PHASE_SCAN_SPECS[g];
+        const GliderMotion *motion = NULL;
+
+        for (size_t m = 0;
+             m < sizeof(GLIDER_MOTIONS) / sizeof(GLIDER_MOTIONS[0]);
+             m++) {
+            if (strcmp(GLIDER_MOTIONS[m].name, scan->name) == 0) {
+                motion = &GLIDER_MOTIONS[m];
+                break;
+            }
+        }
+        if (motion == NULL) continue;
+        for (size_t n = 0; scan->neighbors[n] != NULL; n++) {
+            for (int phase = 1; phase <= 4; phase++) {
+                size_t phase_len = 0;
+                const char *bits = glider_phase(motion->name,
+                                                scan->neighbors[n],
+                                                phase,
+                                                &phase_len);
+
+                if (bits == NULL || phase_len == 0u) continue;
+                if (count < patterns_cap) {
+                    patterns[count].motion = motion;
+                    patterns[count].neighbor = scan->neighbors[n];
+                    patterns[count].phase = phase;
+                    patterns[count].bits = bits;
+                    patterns[count].len = phase_len;
+                }
+                count++;
+            }
+        }
+    }
+    return count > patterns_cap ? patterns_cap : count;
+}
+
+static void scan_phase_catalog_at_runs(const uint8_t *rows,
+                                       const uint8_t *diffs,
+                                       size_t len,
+                                       size_t t,
+                                       const size_t *run_starts,
+                                       const size_t *run_lens,
+                                       size_t run_count,
+                                       GliderHit *hits_out,
+                                       size_t hits_cap,
+                                       size_t *hit_count,
+                                       const PhasePattern *patterns,
+                                       size_t pattern_count) {
+    enum { PAD = 96 };
+
+    for (size_t run = 0; run < run_count; run++) {
+        size_t start = run_starts[run] > (size_t)PAD ?
+            run_starts[run] - (size_t)PAD : 0u;
+        size_t end = run_starts[run] + run_lens[run] + (size_t)PAD;
+
+        if (end > len) end = len;
+        for (size_t p = 0; p < pattern_count; p++) {
+            const PhasePattern *pattern = &patterns[p];
+
+            if (pattern->len > len ||
+                glider_name_recorded(hits_out,
+                                     *hit_count < hits_cap ?
+                                     *hit_count : hits_cap,
+                                     pattern->motion->name)) {
+                continue;
+            }
+            for (size_t pos = start;
+                 pos < end && pos <= len - pattern->len;
+                 pos++) {
+                if (phase_window_matches(rows,
+                                         diffs,
+                                         len,
+                                         t,
+                                         pos,
+                                         pattern)) {
+                    maybe_record_hit(hits_out,
+                                     hits_cap,
+                                     hit_count,
+                                     pattern->motion,
+                                     pattern->neighbor,
+                                     pattern->phase,
+                                     pos,
+                                     pos);
+                    break;
+                }
+            }
+        }
+    }
+}
+
 int cook_detect_gliders(const uint8_t *initial_row,
                         size_t initial_len,
                         size_t total_steps,
@@ -222,6 +375,8 @@ int cook_detect_gliders(const uint8_t *initial_row,
     uint8_t *diffs = NULL;
     size_t *run_starts = NULL;
     size_t *run_lens = NULL;
+    PhasePattern phase_patterns[96];
+    size_t phase_pattern_count = 0;
     size_t hit_count = 0;
 
     if (initial_row == NULL || (hits_out == NULL && hits_cap > 0u)) return -1;
@@ -245,6 +400,9 @@ int cook_detect_gliders(const uint8_t *initial_row,
     memcpy(rows, initial_row, initial_len);
     fill_best_ether(initial_row, initial_len, ethers);
     diff_against_ether(rows, ethers, initial_len, diffs);
+    phase_pattern_count = collect_phase_patterns(phase_patterns,
+                                                 sizeof(phase_patterns) /
+                                                 sizeof(phase_patterns[0]));
 
     for (size_t t = 1; t <= total_steps; t++) {
         memcpy(rows + (t * initial_len),
@@ -268,6 +426,18 @@ int cook_detect_gliders(const uint8_t *initial_row,
                                             run_lens,
                                             initial_len);
 
+        scan_phase_catalog_at_runs(rows,
+                                   diffs,
+                                   initial_len,
+                                   t,
+                                   run_starts,
+                                   run_lens,
+                                   run_count,
+                                   hits_out,
+                                   hits_cap,
+                                   &hit_count,
+                                   phase_patterns,
+                                   phase_pattern_count);
         for (size_t run = 0; run < run_count; run++) {
             for (size_t g = 0;
                  g < sizeof(GLIDER_MOTIONS) / sizeof(GLIDER_MOTIONS[0]);
