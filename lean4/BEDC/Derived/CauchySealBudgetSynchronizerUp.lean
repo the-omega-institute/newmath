@@ -69,22 +69,90 @@ def cauchySealBudgetSynchronizerToEventFlow :
 
 def cauchySealBudgetSynchronizerFromEventFlow :
     EventFlow → Option CauchySealBudgetSynchronizerUp
-  | [_tag0, request, _tag1, sealRow, _tag2, budget, _tag3, tail, _tag4, selector,
-      _tag5, compatibility, _tag6, transport, _tag7, route, _tag8, provenance,
-      _tag9, nameCert] =>
-      some
-        (CauchySealBudgetSynchronizerUp.mk
-          (cauchySealBudgetSynchronizerDecodeBHist request)
-          (cauchySealBudgetSynchronizerDecodeBHist sealRow)
-          (cauchySealBudgetSynchronizerDecodeBHist budget)
-          (cauchySealBudgetSynchronizerDecodeBHist tail)
-          (cauchySealBudgetSynchronizerDecodeBHist selector)
-          (cauchySealBudgetSynchronizerDecodeBHist compatibility)
-          (cauchySealBudgetSynchronizerDecodeBHist transport)
-          (cauchySealBudgetSynchronizerDecodeBHist route)
-          (cauchySealBudgetSynchronizerDecodeBHist provenance)
-          (cauchySealBudgetSynchronizerDecodeBHist nameCert))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | request :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | sealRow :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | budget :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | tail :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | selector :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | compatibility :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transport :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | route :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | provenance :: rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | nameCert :: rest19 =>
+                                                                                  match rest19 with
+                                                                                  | [] =>
+                                                                                      some
+                                                                                        (CauchySealBudgetSynchronizerUp.mk
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            request)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            sealRow)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            budget)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            tail)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            selector)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            compatibility)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            transport)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            route)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            provenance)
+                                                                                          (cauchySealBudgetSynchronizerDecodeBHist
+                                                                                            nameCert))
+                                                                                  | _ :: _ => none
 
 private theorem cauchySealBudgetSynchronizer_round_trip :
     ∀ x : CauchySealBudgetSynchronizerUp,
@@ -181,7 +249,8 @@ instance cauchySealBudgetSynchronizerNontrivial :
 
 instance cauchySealBudgetSynchronizerFieldFaithful :
     FieldFaithful CauchySealBudgetSynchronizerUp where
-  fields
+  fields := fun x =>
+    match x with
     | CauchySealBudgetSynchronizerUp.mk request sealRow budget tail selector compatibility
         transport route provenance nameCert =>
         [request, sealRow, budget, tail, selector, compatibility, transport, route, provenance,
@@ -244,10 +313,41 @@ theorem CauchySealBudgetSynchronizerTasteGate_single_carrier_alignment :
       · intro x y heq
         exact cauchySealBudgetSynchronizerToEventFlow_injective heq
       · constructor
-        · exact FieldFaithful.field_faithful
-        · exact
-            ⟨cauchySealBudgetSynchronizerNontrivial.witness_pair.1,
-              cauchySealBudgetSynchronizerNontrivial.witness_pair.2.1,
-              cauchySealBudgetSynchronizerNontrivial.witness_pair.2.2⟩
+        · intro x y hfields
+          cases x with
+          | mk request sealRow budget tail selector compatibility transport route provenance nameCert =>
+              cases y with
+              | mk request' sealRow' budget' tail' selector' compatibility' transport' route'
+                  provenance' nameCert' =>
+                  injection hfields with hRequest hTail0
+                  injection hTail0 with hSealRow hTail1
+                  injection hTail1 with hBudget hTail2
+                  injection hTail2 with hTail hTail3
+                  injection hTail3 with hSelector hTail4
+                  injection hTail4 with hCompatibility hTail5
+                  injection hTail5 with hTransport hTail6
+                  injection hTail6 with hRoute hTail7
+                  injection hTail7 with hProvenance hTail8
+                  injection hTail8 with hNameCert _hNil
+                  cases hRequest
+                  cases hSealRow
+                  cases hBudget
+                  cases hTail
+                  cases hSelector
+                  cases hCompatibility
+                  cases hTransport
+                  cases hRoute
+                  cases hProvenance
+                  cases hNameCert
+                  rfl
+        · refine
+            ⟨CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty,
+              CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty, ?_⟩
+          intro h
+          cases h
 
 end BEDC.Derived.CauchySealBudgetSynchronizerUp
