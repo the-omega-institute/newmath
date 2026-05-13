@@ -284,6 +284,7 @@ import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
+import BEDC.Derived.FiniteNetMinimumFoldUp
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteMapUp
@@ -317,6 +318,7 @@ import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.InscriptionEventUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
+import BEDC.Derived.InscriptionPointUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
@@ -462,6 +464,7 @@ import BEDC.Derived.RegularCauchyProductUp
 import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchySubsequenceUp
 import BEDC.Derived.RegularCauchySumUp
+import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp
 import BEDC.Derived.RegularCauchyWitnessScheduleUp.TasteGate
