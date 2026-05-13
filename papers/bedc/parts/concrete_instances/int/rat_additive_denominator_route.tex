@@ -1,0 +1,11 @@
+\begin{theorem}[IntUp Rat additive denominator route]
+\label{thm:int-rat-additive-denominator-route}
+The $\IntUp$ signed-pair balancing route consumes the unary magnitude rows of \autoref{ch:concrete-instances-nat-namecert} and the continuation-compatible addition rows of \autoref{ch:concrete-instances-add-namecert} before $\RatUp$ reads the signed numerator beside the positive denominator of \autoref{ch:concrete-instances-rat-namecert}. Thus the rational denominator packet receives an already balanced signed numerator row rather than a fresh integer quotient or a field-level equality witness.
+\end{theorem}
+\begin{proof}
+Read the $\IntUp$ signed-pair carrier. Its magnitude coordinates are unary rows, so their source is the Nat certificate, and its balancing step is an additive comparison, so its route is through the Add continuation ledger.
+
+Only after those rows are displayed does the rational carrier read numerator data. The $\RatUp$ packet places the balanced signed numerator beside the positive denominator row in the same finite certificate.
+
+Therefore the denominator route is horizontal through Nat, Add, Int, and Rat packet rows. It does not rebuild integer equality as an ambient quotient and does not import a field-level rational equality before the signed numerator and denominator witnesses are present.
+\end{proof}

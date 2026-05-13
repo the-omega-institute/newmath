@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\ObserverDistinctionTraceUp$}
+\label{ch:concrete-instances-observer-distinction-trace-namecert}
+\origin{ai}
+
+The $\ObserverDistinctionTraceUp$ packet realizes the distinction-trace face of \autoref{ch:visions-observer-hist-identity} as a finite BEDC carrier. It reads observer-history identity through \autoref{ch:concrete-instances-observerhistidentity-namecert}, the subject boundary through \autoref{ch:concrete-instances-observersubjectboundary-namecert}, and local stream rows through \autoref{ch:concrete-instances-histtimestream-namecert}. Unlike those siblings, it stores the ordered distinction-step trace itself: the displayed $\Hist$ growth rows, the $\Cont$ route rows that generate them, the $\hsame$ transports that preserve their order, and the no-subject provenance that prevents the trace from exporting an observer-substance coordinate.
+
+\begin{definition}[ObserverDistinctionTrace carrier]
+\label{def:observer-distinction-trace-carrier}
+An $\ObserverDistinctionTraceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(H,T,K,C,L,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the observed $\Hist$ source row whose distinction trace is being read;
+\item $T$ is the finite ordered trace of $\Eone$ and $\Ezero$ distinction-step rows above the source surface;
+\item $K$ is the trace-growth ledger, recording the successive $\Hist$ rows reached by the ordered distinction steps;
+\item $C$ records the displayed $\Cont$ routes that read each step of $T$ into the corresponding growth row in $K$;
+\item $L$ records componentwise $\hsame$ transport for the source, trace, growth, route, provenance, and local naming rows;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistIdentityUp$, $\ObserverSubjectBoundaryUp$, $\HistTimeStreamUp$, $\LocalClockBudgetUp$, $\BHist$, $\Hist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ObserverDistinctionTraceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an observer-substance, a host equality of observers, a global clock, or a trace value detached from the displayed $\Hist$ and $\Cont$ rows.
+\end{definition}
+
+\begin{theorem}[ObserverDistinctionTrace NameCert obligations]
+\label{thm:observer-distinction-trace-namecert-obligations}
+For the carrier of \autoref{def:observer-distinction-trace-carrier}, the local $\NameCert_{\ObserverDistinctionTraceUp}$ surface consists exactly of carrier admission for $D=(H,T,K,C,L,P,N)$, ordered distinction-step exposure, $\Hist$ growth-row exactness, displayed $\Cont$ route replay, componentwise $\hsame$ transport, no-subject provenance, and local naming exactness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet. The rows $H,T,K,C,L,P,N$ display the observed source, the ordered distinction steps, the growth ledger, the continuation routes, transport, provenance, and local name.
+
+The ordered trace rows $T$ and $K$ are read together. Each listed $\Eone$ or $\Ezero$ step is attached to a displayed growth row, so the packet records a finite trace rather than an unindexed observer state.
+
+The route row $C$ supplies the only permitted reads of those steps, and $L$ preserves the same trace componentwise under $\hsame$. The package row $P$ ties the trace to observer-history identity, subject-boundary exclusion, local stream, and clock-budget surfaces without adding any new observer-substance coordinate.
+\end{proof}
+
+\begin{theorem}[ObserverDistinctionTrace temporal factorization]
+\label{thm:observer-distinction-trace-temporal-factorization}
+Every accepted $\ObserverDistinctionTraceUp$ consumer route factors through the displayed temporal rows
+$$
+H \to T \to K \to C
+$$
+and then through the transport, provenance, and local naming rows $L,P,N$. Thus the trace is read as ordered $\Hist$ growth by distinction steps and displayed $\Cont$ routes, not as an ambient time parameter or a detached clock value.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only temporal data are the source history $H$, the ordered distinction list $T$, the growth ledger $K$, and the displayed continuation routes $C$.
+
+Use the Hist time-stream sibling of \autoref{ch:concrete-instances-histtimestream-namecert} and the local clock-budget sibling of \autoref{ch:concrete-instances-localclockbudget-namecert}. They read time through finite $\Cont$ rows and local step budgets, so a consumer of the distinction trace must pass through the same displayed rows.
+
+Finally transport and name the route through $L,P,N$. Since the carrier contains no global clock or detached time coordinate, every accepted temporal read factors through the displayed $\Hist$ and $\Cont$ trace rows.
+\end{proof}
+
+\begin{theorem}[ObserverDistinctionTrace non-escape]
+\label{thm:observer-distinction-trace-nonescape}
+Every accepted $\ObserverDistinctionTraceUp$ packet exports only the finite rows
+$$
+H,T,K,C,L,P,N.
+$$
+No consumer can extract from the packet an observer-substance carrier, subject identity row, hidden owner of the trace, host equality of observers, global clock, or trace coordinate outside the displayed distinction-step ledger.
+\end{theorem}
+\begin{proof}
+Begin with the observer-history identity sibling. \autoref{ch:concrete-instances-observerhistidentity-namecert} permits observer-facing reads only through displayed history, observation, transport, route, package, and naming rows.
+
+Next apply the subject-boundary sibling. \autoref{ch:concrete-instances-observersubjectboundary-namecert} excludes an additional subject carrier behind the observation rows, so the distinction trace cannot be assigned to a hidden owner outside $\Hist$.
+
+The remaining carrier coordinates are exactly $H,T,K,C,L,P,N$. Thus any accepted consumer receives a finite ordered distinction-step packet and no observer-substance, host equality, global clock, or off-packet trace object.
+\end{proof}
+
+\begin{theorem}[ObserverDistinctionTrace TasteGate obligation]
+\label{thm:observer-distinction-trace-tastegate-obligation}
+The later Lean target in \texttt{lean4/BEDC/Derived/ObserverDistinctionTraceUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \ObserverDistinctionTraceUp$ and $\mathsf{FieldFaithful}\ \ObserverDistinctionTraceUp$ instances. The witnesses must distinguish the source $\Hist$ row, ordered distinction trace, growth ledger, displayed $\Cont$ routes, $\hsame$ transport, no-subject provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Nontriviality is forced by the ordered trace shape. A packet that collapses the source, step ledger, and growth rows cannot witness a distinction trace.
+
+Field faithfulness is forced by the carrier inventory. Each projection must preserve the source row, distinction-step rows, growth rows, route rows, transport row, provenance row, and local name separately so consumers can reject any read that bypasses the displayed trace.
+\end{proof}
+
+\falsifiablePrediction{Any accepted ObserverDistinctionTraceUp trace factors through the displayed Hist and Cont rows and cannot export an observer-substance coordinate.}
+
+\independenceWitness{observerhistidentity, observersubjectboundary, histtimestream, localclockbudget: the packet records ordered distinction-step trace rows rather than identity comparison, subject-boundary exclusion alone, local time stream alone, or clock-budget rows.}
+
+\closureat{ObserverDistinctionTraceUp}{seedStr}
+
+\begin{closurestatus}{\ObserverDistinctionTraceUp}
+  \constructivestory{An $\ObserverDistinctionTraceUp$ packet is generated from an observed Hist source row, an ordered finite distinction-step trace, a Hist growth ledger, displayed Cont routes, componentwise hsame transport, no-subject package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-distinction-trace-carrier}, \autoref{thm:observer-distinction-trace-namecert-obligations}, \autoref{thm:observer-distinction-trace-temporal-factorization}, \autoref{thm:observer-distinction-trace-nonescape}, and \autoref{thm:observer-distinction-trace-tastegate-obligation} specify the finite observer distinction trace packet, its temporal route, and its no-subject boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host observer identity, global time, or an observer-substance behind the trace.}
+  \upgradepath{Obligation closure requires checked carrier admission, ordered distinction-step exposure, Hist growth exactness, Cont route replay, hsame transport, no-subject provenance, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
