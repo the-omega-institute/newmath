@@ -30,6 +30,7 @@ The classifier of a carrier $T=(R,W,D,S,H,C,P,N)$ compares only the displayed ro
 
 The classifier has no coordinate for quotient streams, host real equality, selected external limits, trichotomy of reals, or $\RealUp$ completeness. A consumer asking for any of those objects leaves the packet boundary.
 \end{definition}
+\leandef{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportClassifier}
 
 \begin{theorem}[Regular Cauchy limit transport stability]
 \label{thm:regular-cauchy-limit-transport-stability}
@@ -52,6 +53,7 @@ R,W,D,S,H,C,P,N.
 $$
 The tolerance request, absolute-value rows, triangle-bound entries, selected windows, regular rational source observations, and seal route are exactly the rows displayed by the packet. No consumer can replace them by a quotient-stream comparison, a host real equality proof, an externally selected limit, a trichotomy argument, or a $\RealUp$ completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_ledger\_exactness}
 \begin{proof}
 The carrier inventory gives the full ledger. Rows $R$ and $W$ name the regular rational source observations and their selected finite windows, while $D$ records the dyadic tolerance, absolute-value, and triangle-bound data used to justify the transported read.
 
@@ -128,6 +130,7 @@ R,W,D,S,H,C,P,N
 $$
 before reading the $\RealUp$ seal. The factorization exposes no quotient stream, selected external limit, host real equality, trichotomy row, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_real\_completeness\_consumer\_factorization}
 \begin{proof}
 First apply selected-window exactness, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}. It forces each diagonal observation to enter the source row $R$ through the displayed selected-window row $W$ and through the same transport and continuation rows $H,C$.
 
@@ -186,6 +189,7 @@ R,W,D,S,H,C,P,N
 $$
 and by the triangle of \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}. The classifier has no quotient-stream coordinate, no host real equality coordinate, no selected external limit coordinate, no trichotomy coordinate, and no completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_classifier\_handoff\_coverage}
 \begin{proof}
 Read the classifier boundary from \autoref{def:regular-cauchy-limit-transport-classifier}. It compares exactly the rows $R,W,D,S,H,C,P,N$, and componentwise stability is supplied by \autoref{thm:regular-cauchy-limit-transport-stability}.
 
@@ -202,6 +206,7 @@ R \to W \to D \to S
 $$
 before reaching the $\RealUp$ seal. The consumer cannot bypass the triangle by selecting a quotient stream, a host real equality proof, an external limit, a trichotomy row, or an ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_completion\_boundary\_nonescape}
 \begin{proof}
 First use the RealCompleteness consumer factorization theorem, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}. It says that a diagonal-seal consumer whose rows match $R,W,D,S$ must read the displayed ledger $R,W,D,S,H,C,P,N$ before it reaches the $\RealUp$ seal.
 
@@ -228,14 +233,15 @@ Finally combine classifier handoff coverage, \autoref{thm:regular-cauchy-limit-t
 
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
 \closureat{RegularCauchyLimitTransportUp}{obligationStr}
+\closureat{RegularCauchyLimitTransportUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyLimitTransportUp}
   \constructivestory{A $\RegularCauchyLimitTransportUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ selected-window row, a $\DyadicRatCoreUp$ tolerance and absolute-value ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}, \autoref{thm:regular-cauchy-limit-transport-obligation-closure-package}, \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}, \autoref{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}, \autoref{thm:regular-cauchy-limit-transport-completion-boundary-nonescape}, and \autoref{thm:regular-cauchy-limit-transport-obligation-closure-export} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, RealCompleteness consumer factorization, obligation package, window-dyadic-seal triangle, classifier handoff coverage, completion boundary, obligation-closure export, and local naming obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient streams, host real equality, selected external limits, trichotomy, $\RealUp$ completeness, Lean verification, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, selected-window exactness, dyadic ledger exactness, and seal handoff non-escape for the same displayed packet.}
+  \upgradepath{Scoped closure is supplied by the displayed carrier, classifier, selected-window, dyadic-ledger, seal-route, RealCompleteness consumer, and non-escape scope; the next step is Lean verification of the same displayed packet.}
 \end{closurestatus}

@@ -1,0 +1,279 @@
+\chapter{Closed-normal consistency: BEDC's first unconditional main result}
+\label{ch:closed-normal-consistency-main-result}
+
+\section{The result}
+\label{sec:closed-normal-consistency-main-result-result}
+
+The BEDC project uses the closed-CIC substrate as its internal metatheoretic
+base. Within that substrate, the strongest presently established unconditional
+consistency result is closed-normal consistency. If $t$ is a closed term, $t$
+has the internal false encoding as its type, and $t$ is beta-strong, then $t$
+is impossible:
+\leanvariant{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}.
+
+The checked statement has the following shape:
+
+$$
+\begin{aligned}
+  \mathsf{HasType}([],t,\mathsf{falseEncoding})
+  \wedge
+  \mathsf{ClosedAt}(0,t)
+  \wedge
+  \mathsf{BetaStrong}(t)
+  &\Rightarrow
+  \bot.
+\end{aligned}
+$$
+
+The three hypotheses are not interchangeable. The typing row says that the
+term is displayed at the internal false encoding. The closedness row says that
+the term is not depending on an external context entry. The beta-strong row
+says that no beta step can still be taken from the displayed term. The
+conclusion is contradiction inside the substrate's Lean formalisation.
+
+Equivalently, the substrate has no closed beta-normal proof of its internal
+false type:
+\leanvariant{BEDC.MetaCIC.no\_closed\_normal\_proof\_of\_false}. The target is
+not merely a line in the assembly map of
+\autoref{ch:closed-metacic-consistency-assembly}; following the operational
+priority in \autoref{ch:metacic-open-problems}, this chapter treats that node
+as a first-class BEDC main result.
+
+The proposition that full closed consistency would target is separately named:
+\leandef{BEDC.MetaCIC.no\_closed\_proof\_of\_false}. That definition removes
+the beta-strong input. The distinction between the two statements is the
+central boundary of this chapter. Closed-normal consistency is checked as a
+theorem. Full closed consistency is a stronger proposition whose missing
+transport step is documented elsewhere.
+
+\section{Why this is a first-class main result}
+\label{sec:closed-normal-consistency-main-result-first-class}
+
+The result is non-trivial for exactly the reason that full closed consistency
+is not claimed. It is not a corollary of closed subject reduction. Closed
+subject reduction is documented as unavailable on the present substrate in
+\autoref{ch:metacic-subject-reduction-obstruction}. The dependent-codomain
+obstruction prevents an arbitrary closed proof term from being transported
+through beta reduction while preserving the displayed false type.
+
+Closed-normal consistency bypasses that blocked lift. It works directly at the
+normal-form boundary. Its input already contains beta-strong normality, so the
+proof does not consume the four subject-reduction discharge hypotheses, does
+not require dependent-codomain inversion, and does not import a quotient or
+Church--Rosser theorem to repair the missing transport step.
+
+This is why the result deserves main-result status rather than being treated as
+a minor helper lemma. It is the largest consistency statement that the present
+closed-CIC substrate supports without additional setup fields. The theorem
+touches the object of interest, the internal false encoding, and it eliminates
+that object under exactly the normal-form hypotheses that the substrate can
+audit.
+
+The result also has the right failure behaviour. If a reader asks for arbitrary
+closed consistency, the chapter can point to the missing subject-reduction
+transport. If a reader asks what is already established without that transport,
+the chapter can point to a single Lean theorem. The paper therefore has a
+central positive statement and a central boundary statement, instead of an
+ambiguous promise that depends on informal CIC intuition.
+
+This makes the theorem an unconditional positive result of the current
+BEDC.MetaCIC substrate. The substrate cannot yet say that every closed proof of
+false is impossible. It can say, without any additional logical commitment,
+that a closed proof already in beta-normal form cannot inhabit false.
+
+\section{Constructive content}
+\label{sec:closed-normal-consistency-main-result-constructive}
+
+The result has a concrete audit reading. Given a represented closed term $t$,
+the decidability layer supplies the mechanical typing surface described in
+\autoref{ch:metacic-decidable-audit-map}. In particular, the
+\texttt{inferTypeCtxClosed} interface is sound and complete for empty-context
+typing at the stated \texttt{HasType} relation.
+
+The checker contribution is intentionally only a typing contribution. A
+successful checker run exposes a type judgement for the represented relation,
+and the completeness theorem says that represented typing judgements are seen
+by the checker. This is enough for the first row of the main result. It does
+not decide every semantic question about the term, and it does not decide the
+full conversion theory of the substrate.
+
+Given a well-typed closed term $t$, the normalisation layer supplies
+candidate-mediated strong normalisation when the relevant candidate evidence is
+present:
+\leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidate}. The audit
+map in \autoref{ch:metacic-normalization-audit-map} keeps that evidence
+visible. It is not erased into a global theorem over every closed typed term.
+
+The normalisation contribution is likewise exact. Candidate evidence gives a
+strong-normalisation witness. A beta-strong endpoint is already at the
+normal-form boundary required by the consistency theorem. In the cases where
+the audit chain supplies candidate evidence and a beta-strong endpoint, the
+theorem closes the false-inhabitation question at once.
+
+Given a closed beta-strong well-typed term $t$, the present main result rules
+out inhabitation of the false encoding. The pipeline is therefore:
+
+\begin{enumerate}
+\item use the checker layer to expose the empty-context typing judgement;
+\item use candidate-mediated normalisation when the candidate witness is part
+  of the audited input;
+\item apply the closed-normal consistency theorem at the beta-strong boundary;
+\item keep every Lean marker tied to a kernel-checked BEDC.MetaCIC declaration.
+\end{enumerate}
+
+This constructive content is deliberately narrow. It is Lean-kernel verified,
+and the BEDC audit discipline requires it to remain independent of forbidden
+stdlib logical dependencies. It is also explicit about its inputs: typing,
+closedness, and beta-strong normality are separate rows, not prose assumptions
+hidden inside a single word such as consistency.
+
+This separation is important for reproducibility. A consumer can inspect which
+row is being supplied by a checker theorem, which row is supplied by closedness
+evidence, which row is supplied by normal-form evidence, and which row is
+discharged by the consistency theorem. No row is silently converted into
+another. The proof is therefore useful even when the surrounding metatheory is
+still being audited, because it tells the reader exactly what data reaches the
+contradiction.
+
+\section{Relation to classical results}
+\label{sec:closed-normal-consistency-main-result-classical}
+
+Classical CIC consistency is usually read through a three-part route: strong
+normalisation, Church--Rosser or subject reduction, and a no-false-inhabitant
+argument for normal forms. That route eliminates arbitrary proof terms by
+reducing them to a normal endpoint while preserving the relevant type.
+
+BEDC's closed-normal statement is the normal-form version of that route. It
+contains the no-false-inhabitant endpoint, and it can be paired with the
+candidate-mediated normalisation facts where their evidence is available. It
+does not contain the subject-reduction transport from arbitrary closed proofs
+to typed normal endpoints.
+
+The comparison can be read as a factorisation:
+
+$$
+\begin{aligned}
+  \text{arbitrary closed proof}
+  &\longrightarrow
+  \text{typed normal endpoint}
+  \longrightarrow
+  \bot.
+\end{aligned}
+$$
+
+Classical presentations often package the first arrow through subject
+reduction, confluence, and normalisation. BEDC's theorem establishes the
+second arrow for the closed beta-strong endpoint. The first arrow is not
+available unconditionally in the present substrate.
+
+The result is therefore weaker than full classical closed consistency, but it
+is strictly stronger than having no consistency theorem. The subject-reduction
+counterexample prevents the paper from elevating arbitrary closed consistency
+on the current substrate. The closed-normal theorem is the maximal positive
+consistency claim available without crossing that obstruction.
+
+The word ``maximal'' is used here only relative to the stated substrate and
+the stated obstruction. It does not mean that stronger metatheorems are
+mathematically impossible. It means that the paper has a checked theorem at
+the normal boundary and a checked reason not to erase the reduction boundary.
+That is exactly the main-result shape that BEDC can honestly export.
+
+\section{What it does not claim}
+\label{sec:closed-normal-consistency-main-result-not-claim}
+
+The theorem does not claim full closed consistency:
+\leandef{BEDC.MetaCIC.no\_closed\_proof\_of\_false}. That proposition is the
+stronger statement excluding every closed proof of false, whether or not it is
+already beta-strong. The present chapter does not mark it as checked.
+
+It does not claim that every closed proof term has a displayed false type
+preserved along every beta path. Such a statement would be a subject-reduction
+or typed-normal-endpoint theorem. The current closed-normal theorem starts
+after that transport problem has already been resolved in the input.
+
+It also does not claim a global theorem that all closed typed terms reduce to
+normal form without candidate-mediated evidence. The normalisation audit map
+records checked projections from candidate evidence, closed-candidate evidence,
+and candidate-set membership. Those projections are central to the positive
+pipeline, but they are not a blanket closed-term strong-normalisation theorem.
+
+It does not claim unrestricted closed beta-conversion decidability. The
+bounded normal-equality checker described in
+\autoref{ch:metacic-decidable-audit-map} has its own finished-normalisation
+boundary. That checker is part of the audit surface, not a replacement for the
+missing closed-consistency transport.
+
+Finally, the result does not solve the dependent-codomain obstruction. The
+four subject-reduction discharge hypotheses remain exactly where
+\autoref{ch:metacic-subject-reduction-obstruction} and
+\autoref{ch:metacic-open-problems} place them. Closed-normal consistency is a
+main result because it is clean at its boundary, not because it hides the
+boundary.
+
+These non-claims are not qualifications that weaken the theorem. They are the
+conditions that make the theorem readable. A full consistency claim would need
+different hypotheses and different Lean evidence. The closed-normal claim has
+the evidence it needs and stops there.
+
+\section{The role of the BEDC project}
+\label{sec:closed-normal-consistency-main-result-project-role}
+
+BEDC's current mature metatheoretic deliverable is this closed-normal
+consistency theorem. It is produced by the MetaCIC substrate, the normal-form
+audit chain, the explicit decidability surface for represented typing, and
+the apophatic discipline that refuses to blur open obligations into finished
+proofs.
+
+The project role is therefore not merely documentary. BEDC turns a blocked
+classical route into a precise theorem plus a precise boundary. The theorem is
+not an announcement that all conventional consistency infrastructure has been
+internalised. It is the part of that infrastructure that the present substrate
+can state, check, and maintain as a public result.
+
+This also gives the surrounding audit chapters a common endpoint. The
+subject-reduction chapter explains why arbitrary closed consistency is blocked.
+The normalisation chapter explains what evidence supplies termination. The
+decidability chapter explains the typing-checker surface. The assembly chapter
+shows the route. The present chapter names the resulting theorem as a main
+BEDC deliverable.
+
+The role of \autoref{ch:visions-apophatic-naming-as-discipline} is positive
+here. By naming the missing subject-reduction lift and the candidate-mediated
+normalisation boundary, the paper can elevate the unconditional theorem
+without overstating it. The negative names make room for the positive result:
+closed-normal consistency is visible precisely because full closed consistency
+is not silently claimed.
+
+In that sense, closed-normal consistency is the first main result with the
+right BEDC shape. It is mathematically specific, Lean-linked, substrate-local,
+and bounded by named non-claims. A reader can cite it without inheriting an
+unstated subject-reduction promise.
+
+\section{Boundary}
+\label{sec:closed-normal-consistency-main-result-boundary}
+
+This chapter elevates no statement through a proof hole. It does not pretend
+that the subject-reduction obstruction has been discharged. It does not
+identify normal-form consistency with full closed consistency. It records
+BEDC's first-class main consistency result at its exact checked strength:
+closed, typed, beta-strong terms do not inhabit the internal false encoding.
+
+The boundary can be summarised as:
+
+$$
+\begin{aligned}
+  \text{closed} + \text{typed at false} + \text{beta-strong}
+  &\Rightarrow
+  \bot, \\
+  \text{closed} + \text{typed at false}
+  &\nRightarrow_{\text{present substrate}}
+  \bot.
+\end{aligned}
+$$
+
+The first line is the main result of this chapter. The second line is the
+refused overclaim. Keeping both lines visible is the point of the
+closed-normal consistency elevation.
+
+\concretizedIn{ch:concrete-instances-closednormalconsistencymain-namecert}{NameCert surface for the closed-normal consistency main-result boundary.}
+\concretizedIn{ch:concrete-instances-closednormalcanonicity-namecert}{Closed-normal canonicity certificate for the false-endpoint exclusion boundary.}

@@ -58,6 +58,7 @@ The additive consumers $\AddUp$ and $\AxisAddUp$ are reached through this transp
 \label{thm:unary-direction-bridge-ledger-policy}
 Every consumer-facing route out of an accepted $\UnaryDirectionBridgeUp$ packet factors through the displayed rows $N,A,B,K,S,L,H,C,P,M$. The ledger policy row $L$ rejects any route that compares $\NatUp$ and $\AxisNatUp$ by host equality, by quotienting histories, or by skipping the kernel-distinctness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_ledger\_policy}
 \begin{proof}
 Take any consumer-facing route and inspect the finite packet. The available source, bridge, kernel, standard-boundary, policy, transport, continuation, provenance, and naming rows are exactly $N,A,B,K,S,L,H,C,P,M$.
 
@@ -237,6 +238,7 @@ Finally apply the empty-intersection readback of \autoref{thm:unary-direction-br
 \label{thm:unary-direction-bridge-source-classifier-transport}
 For an accepted $\UnaryDirectionBridgeUp$ carrier $U=(N,A,B,K,S,L,H,C,P,M)$, componentwise $\hsame$ transport of $N,A,B,K,S,L,H,C,P,M$ preserves the separate $\NatUp$ unary source classifier and the $\AxisNatUp$ zero-spine source classifier. The transported packet keeps the two source classifiers as distinct rows and does not collapse them into a kernel equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_source\_classifier\_transport}
 \begin{proof}
 Project the carrier of \autoref{def:unary-direction-bridge-namecert-carrier}. Rows $N$ and $A$ are separate source rows, while $H$ supplies componentwise transport for those rows together with the bridge, ledger, route, provenance, and local name.
 
@@ -249,6 +251,7 @@ Use \autoref{thm:unary-direction-bridge-empty-intersection-readback} to keep the
 \label{thm:unary-direction-bridge-additive-consumer-exactness}
 Every $\AddUp/\AxisAddUp$ consumer of an accepted $\UnaryDirectionBridgeUp$ carrier reads the standard-boundary row only after the source rows, bridge row, kernel-distinctness ledger, ledger policy, transports, routes, provenance, and local $\NameCert$ row are present. The consumer receives the rows $N,A,B,K,S,L,H,C,P,M$ in that order of dependence and receives no kernel equality between $\NatUp$ and $\AxisNatUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.UnaryDirectionBridgeUp.UnaryDirectionBridgeCarrier\_additive\_consumer\_exactness}
 \begin{proof}
 Start with the consumer normal form of \autoref{thm:unary-direction-bridge-consumer-normal-form}. It limits every consumer route to the source rows, bridge row, kernel-distinctness ledger, standard-boundary row, local name, and the displayed support rows.
 

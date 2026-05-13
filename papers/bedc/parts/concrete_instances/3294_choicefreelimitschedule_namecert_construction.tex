@@ -4,6 +4,8 @@
 
 The $\ChoiceFreeLimitScheduleUp$ packet records the finite precision-to-window route used by Real-completion consumers before a $\RealUp$ seal is reached. It keeps the precision request, schedule row, selected $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ handoff, $\RealUp$ seal, transports, routes, provenance, and local naming row in one displayed $\BHist$ packet, so the limit-facing surface is finite and contains no choice operator.
 
+The concrete completion consumer is the RealCompleteness finite seal route of \autoref{ch:concrete-instances-realcompleteness-namecert}. That consumer may read the schedule row, selected $\StreamNameUp$ windows, dyadic observations, $\RegSeqRatUp$ handoff, and $\RealUp$ seal exposed by $\ChoiceFreeLimitScheduleUp$, but it receives no countable choice, hidden selector, or ambient completeness coordinate from the schedule packet.
+
 \begin{definition}[Choice-free limit schedule carrier]
 \label{def:choice-free-limit-schedule-carrier}
 A $\ChoiceFreeLimitScheduleUp$ carrier is a finite $\BHist$ packet
@@ -58,6 +60,7 @@ E,M,W,D,R,S,H,C,P,N.
 $$
 The consumer may inspect the precision request, schedule row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It cannot inspect quotient streams, host equality of completed reals, countable choice, hidden limit selectors, or an ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeLimitScheduleUp.ChoiceFreeLimitSchedulePacket\_nonescape}
 \begin{proof}
 Start from the accepted carrier $L=(E,M,W,D,R,S,H,C,P,N)$. The only request-facing route begins at $E$ and reaches the schedule row $M$ through the displayed continuation coordinate.
 
@@ -128,6 +131,7 @@ and through the same componentwise transport, continuation, provenance, and loca
 
 Consequently the consumer-facing surface of the packet is the finite schedule-to-seal route together with $H,C,P,N$. It exposes no alternate schedule classifier, no separate $\RegSeqRatUp$ handoff, no stronger $\RealUp$ completion object, no quotient-stream equality, no host real equality, no countable-choice row, no hidden selector, and no ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeLimitScheduleUp.ChoiceFreeLimitSchedulePacket\_consumer\_readback}
 \begin{proof}
 Begin with the carrier and NameCert obligations. Carrier exposure fixes the displayed packet, request-to-schedule exactness fixes the segment from $E$ to $M$, window and dyadic readback coverage fixes the segments from $M$ to $W$ and from $W$ to $D$, and handoff and seal discipline fixes the segments from $D$ to $R$ and from $R$ to $S$ under the same $H,C,P,N$ rows.
 
@@ -188,14 +192,17 @@ The handoff and seal are then constrained by \autoref{thm:choice-free-limit-sche
 
 \closureat{ChoiceFreeLimitScheduleUp}{scopedStr}
 \closureat{ChoiceFreeLimitScheduleUp}{publicStr}
+\closureat{ChoiceFreeLimitScheduleUp}{bridgedStr}[BEDC.Derived.ChoiceFreeLimitScheduleUp.ChoiceFreeLimitSchedulePacket\_consumer\_readback]
+\closureat{ChoiceFreeLimitScheduleUp}{matureStr}
 
 \begin{closurestatus}{\ChoiceFreeLimitScheduleUp}
   \constructivestory{A $\ChoiceFreeLimitScheduleUp$ packet is generated from a precision request, finite schedule row, StreamNameUp windows, DyadicRatCoreUp observations, RegSeqRatUp handoff, RealUp seal, componentwise transports, continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:choice-free-limit-schedule-public-seal-export} binds the public finite schedule-to-seal export from precision request through schedule, windows, dyadic ledger, RegSeqRatUp handoff, RealUp seal, and the displayed BHist, hsame, Cont, Pkg, and NameCert rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ChoiceFreeLimitScheduleUp.ChoiceFreeLimitSchedulePacket\_consumer\_readback}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, a public standard bridge, countable choice, or Lean verification.}
-  \upgradepath{Public closure requires a public export theorem for the finite schedule-to-seal route.}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, a public standard bridge, countable choice, audit cleanliness, or machine bridge checking.}
+  \upgradepath{No further paper-side theory-grade target is open; verification-axis audit cleanliness or machine bridge checking remains separate.}
 \end{closurestatus}

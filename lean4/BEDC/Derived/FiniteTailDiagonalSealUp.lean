@@ -68,4 +68,102 @@ theorem FiniteTailDiagonalSealCarrier_window_lock [AskSetup] [PackageSetup]
         namePkg⟩
   exact ⟨transported, sameSource, sameSeal, sameRoute⟩
 
+theorem FiniteTailDiagonalSealCarrier_obligation_package [AskSetup] [PackageSetup]
+    {precisionRow windowRow sourceRow witnessRow sealRow transportRow routeRow provenanceRow
+      nameRow sealRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailDiagonalSealCarrier precisionRow windowRow sourceRow witnessRow sealRow
+        transportRow routeRow provenanceRow nameRow bundle pkg →
+      Cont sourceRow witnessRow sealRead →
+        Cont sealRead transportRow routeRead →
+          PkgSig bundle routeRead pkg →
+            UnaryHistory precisionRow ∧ UnaryHistory windowRow ∧ UnaryHistory sourceRow ∧
+              UnaryHistory witnessRow ∧ UnaryHistory sealRow ∧ UnaryHistory sealRead ∧
+                UnaryHistory routeRead ∧ Cont precisionRow windowRow sourceRow ∧
+                  Cont sourceRow witnessRow sealRead ∧ Cont sealRead transportRow routeRead ∧
+                    hsame sealRow sealRead ∧ hsame routeRow routeRead ∧
+                      PkgSig bundle routeRead pkg ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sourceWitnessSealRead sealReadTransportRouteRead routeReadPkg
+  obtain ⟨precisionUnary, windowUnary, sourceUnary, witnessUnary, sealUnary, transportUnary,
+    _routeUnary, _provenanceUnary, _nameUnary, precisionWindowSource, sourceWitnessSeal,
+    sealTransportRoute, _provenancePkg, namePkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed sourceUnary witnessUnary sourceWitnessSealRead
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed sealReadUnary transportUnary sealReadTransportRouteRead
+  have sameSeal : hsame sealRow sealRead :=
+    cont_respects_hsame (hsame_refl sourceRow) (hsame_refl witnessRow) sourceWitnessSeal
+      sourceWitnessSealRead
+  have sameRoute : hsame routeRow routeRead :=
+    cont_respects_hsame sameSeal (hsame_refl transportRow) sealTransportRoute
+      sealReadTransportRouteRead
+  exact
+    ⟨precisionUnary, windowUnary, sourceUnary, witnessUnary, sealUnary, sealReadUnary,
+      routeReadUnary, precisionWindowSource, sourceWitnessSealRead, sealReadTransportRouteRead,
+      sameSeal, sameRoute, routeReadPkg, namePkg⟩
+
+theorem FiniteTailDiagonalSealCarrier_selected_tail_exactness [AskSetup] [PackageSetup]
+    {precisionRow windowRow sourceRow witnessRow sealRow transportRow routeRow provenanceRow
+      nameRow witnessRow' sealRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailDiagonalSealCarrier precisionRow windowRow sourceRow witnessRow sealRow
+        transportRow routeRow provenanceRow nameRow bundle pkg ->
+      hsame witnessRow witnessRow' ->
+        Cont sourceRow witnessRow' sealRead ->
+          Cont sealRead transportRow routeRead ->
+            PkgSig bundle routeRead pkg ->
+              hsame sealRow sealRead ∧ hsame routeRow routeRead ∧
+                Cont sourceRow witnessRow' sealRead ∧ Cont sealRead transportRow routeRead ∧
+                  PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier sameWitness sourceWitnessSealRead sealReadTransportRouteRead _routeReadPkg
+  obtain ⟨_precisionUnary, _windowUnary, _sourceUnary, _witnessUnary, _sealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _precisionWindowSource,
+    sourceWitnessSeal, sealTransportRoute, _provenancePkg, namePkg⟩ := carrier
+  have sameSeal : hsame sealRow sealRead :=
+    cont_respects_hsame (hsame_refl sourceRow) sameWitness sourceWitnessSeal
+      sourceWitnessSealRead
+  have sameRoute : hsame routeRow routeRead :=
+    cont_respects_hsame sameSeal (hsame_refl transportRow) sealTransportRoute
+      sealReadTransportRouteRead
+  exact
+    ⟨sameSeal, sameRoute, sourceWitnessSealRead, sealReadTransportRouteRead, namePkg⟩
+
+theorem FiniteTailDiagonalSealCarrier_real_handoff [AskSetup] [PackageSetup]
+    {precisionRow windowRow sourceRow witnessRow sealRow transportRow routeRow provenanceRow
+      nameRow handoffRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteTailDiagonalSealCarrier precisionRow windowRow sourceRow witnessRow sealRow
+        transportRow routeRow provenanceRow nameRow bundle pkg ->
+      Cont sourceRow witnessRow handoffRead ->
+        Cont handoffRead transportRow routeRead ->
+          PkgSig bundle handoffRead pkg ->
+            PkgSig bundle routeRead pkg ->
+              UnaryHistory precisionRow ∧ UnaryHistory windowRow ∧ UnaryHistory sourceRow ∧
+                UnaryHistory witnessRow ∧ UnaryHistory handoffRead ∧ UnaryHistory routeRead ∧
+                  Cont precisionRow windowRow sourceRow ∧ Cont sourceRow witnessRow handoffRead ∧
+                    Cont handoffRead transportRow routeRead ∧ hsame sealRow handoffRead ∧
+                      hsame routeRow routeRead ∧ PkgSig bundle handoffRead pkg ∧
+                        PkgSig bundle routeRead pkg ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sourceWitnessHandoff handoffTransportRoute handoffPkg routePkg
+  obtain ⟨precisionUnary, windowUnary, sourceUnary, witnessUnary, _sealUnary, transportUnary,
+    _routeUnary, _provenanceUnary, _nameUnary, precisionWindowSource, sourceWitnessSeal,
+    sealTransportRoute, _provenancePkg, namePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed sourceUnary witnessUnary sourceWitnessHandoff
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed handoffUnary transportUnary handoffTransportRoute
+  have sameSeal : hsame sealRow handoffRead :=
+    cont_respects_hsame (hsame_refl sourceRow) (hsame_refl witnessRow) sourceWitnessSeal
+      sourceWitnessHandoff
+  have sameRoute : hsame routeRow routeRead :=
+    cont_respects_hsame sameSeal (hsame_refl transportRow) sealTransportRoute
+      handoffTransportRoute
+  exact
+    ⟨precisionUnary, windowUnary, sourceUnary, witnessUnary, handoffUnary, routeUnary,
+      precisionWindowSource, sourceWitnessHandoff, handoffTransportRoute, sameSeal,
+      sameRoute, handoffPkg, routePkg, namePkg⟩
+
 end BEDC.Derived.FiniteTailDiagonalSealUp

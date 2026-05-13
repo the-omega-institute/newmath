@@ -1,0 +1,259 @@
+\chapter{Subject reduction discharge routes: bundle and typeclass}
+\label{ch:sr-discharge-routes}
+
+\section{The setup}
+\label{sec:sr-discharge-routes-setup}
+
+BEDC.MetaCIC subject reduction for the closed CIC substrate is not
+an unparameterised theorem of the substrate itself.
+As recorded in \autoref{ch:metacic-subject-reduction-obstruction},
+the available subject-reduction theorem is parameterised by four
+named discharge hypotheses.
+Discharging those four hypotheses gives an unconditional subject
+reduction theorem for the same represented reduction interface.
+
+The substrate exposes two complementary formal routes for carrying
+that discharge information.
+The first is a bundle route.
+It packages the four hypotheses as explicit data and passes that
+data to the subject-reduction theorem.
+The second is a typeclass route.
+It makes the same four hypotheses available through Lean's instance
+synthesis and then converts the instance to the same bundle shape.
+
+\section{Bundle route}
+\label{sec:sr-discharge-routes-bundle-route}
+
+\subsection{Definition}
+\label{subsec:sr-discharge-routes-bundle-definition}
+
+The bundle route is centred on
+\leanvariant{BEDC.MetaCIC.SubjectReductionDischargeBundle}.
+This Lean object is a structure of four propositions.
+Each field is one of the subject-reduction discharge hypotheses.
+The structure is carrier-agnostic:
+it does not say where the four propositions come from,
+which substrate implements them,
+or how an implementation proves them.
+In the project audit trail, this route is associated with PR~\#171.
+
+This makes the bundle a minimal discharge packet.
+Any caller that can provide the four fields can build the packet.
+No global instance is required, and no typeclass search is involved.
+The bundle is therefore the most direct form of the subject-reduction
+interface.
+
+\subsection{Subject reduction from bundle}
+\label{subsec:sr-discharge-routes-subject-reduction-from-bundle}
+
+The theorem
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_from\_bundle}
+consumes a
+\leanvariant{BEDC.MetaCIC.SubjectReductionDischargeBundle}
+and yields the unparameterised subject-reduction conclusion for the
+represented reduction step.
+The theorem does not prove the four hypotheses.
+It records that once those four hypotheses are explicitly supplied,
+the parameterised subject-reduction theorem has no remaining open
+argument.
+
+This route is the simplest route at a call site.
+Code constructs a bundle, passes it to the theorem, and receives the
+subject-reduction result.
+The discharge evidence is visible in the term that invokes the theorem.
+The proof script cannot accidentally depend on instance search, because
+there is no instance search in the route.
+
+\section{Typeclass route}
+\label{sec:sr-discharge-routes-typeclass-route}
+
+\subsection{Definition}
+\label{subsec:sr-discharge-routes-typeclass-definition}
+
+The typeclass route is centred on
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup}.
+This Lean object is a typeclass with four fields, again corresponding
+exactly to the four subject-reduction discharge hypotheses.
+The difference is not mathematical content.
+The difference is how the content is made available to theorem calls.
+In the project audit trail, this route is associated with PR~\#186.
+
+An instance of
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup}
+is a carrier-driven implementation protocol.
+It says that the ambient substrate supplies the four hypotheses in the
+way Lean expects for typeclass synthesis.
+Once such an instance is in scope, theorem calls can use the four fields
+without carrying an explicit bundle argument at every call site.
+
+\subsection{Conversion to bundle}
+\label{subsec:sr-discharge-routes-conversion-to-bundle}
+
+The bridge from the typeclass route to the bundle route is
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup.toBundle}.
+Given an available
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup}
+instance, this definition constructs the corresponding
+\leanvariant{BEDC.MetaCIC.SubjectReductionDischargeBundle}.
+
+This conversion fixes the relationship between the two routes.
+The typeclass route is not a second subject-reduction principle.
+It is an ergonomic layer that produces the same four-field bundle from
+instance fields.
+The underlying discharge content remains the same four hypotheses.
+
+\subsection{Subject reduction via setup}
+\label{subsec:sr-discharge-routes-subject-reduction-via-setup}
+
+The theorem
+\leanvariant{BEDC.MetaCIC.subject\_reduction\_via\_setup}
+gives subject reduction when a
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup}
+instance is available.
+Internally, the theorem uses
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup.toBundle}
+and then follows the bundle route.
+
+Thus the theorem is unconditional relative to the ambient instance.
+A caller does not pass an explicit bundle parameter.
+Lean synthesises the setup instance, extracts the four fields, converts
+them to the bundle shape, and invokes the same discharge mechanism.
+
+\section{When to use which}
+\label{sec:sr-discharge-routes-when-to-use-which}
+
+The two routes are functionally equivalent at the level of mathematical
+content.
+Both say that subject reduction follows once the four discharge
+hypotheses are supplied.
+They differ in proof engineering and in how much ambient infrastructure
+they ask from the caller.
+
+\subsection{Bundle: explicit, single-shot}
+\label{subsec:sr-discharge-routes-bundle-single-shot}
+
+The bundle route is appropriate when the discharge evidence is local to
+one proof, one module, or one explicit construction.
+The caller builds the four-field packet and passes it directly.
+The call site shows exactly which discharge object is being used.
+
+This route does not add anything to Lean's typeclass environment.
+It is therefore suitable for isolated developments, tests of a proposed
+substrate, or proofs where the author wants every dependency to remain
+visible in the theorem term.
+
+\subsection{Typeclass: implicit, multi-shot}
+\label{subsec:sr-discharge-routes-typeclass-multi-shot}
+
+The typeclass route is appropriate when the same substrate supports many
+subject-reduction calls.
+The implementation declares one
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup}
+instance, and later calls can rely on typeclass synthesis.
+
+This is the same ergonomic pattern used by algebraic interfaces such as
+\texttt{Monoid}.
+A module proves once that its carrier satisfies the interface.
+After that, theorem calls can use the interface without threading the
+dictionary explicitly through every term.
+
+\section{Why provide both}
+\label{sec:sr-discharge-routes-why-both}
+
+Providing both routes keeps two concerns separate.
+The bundle route is minimal infrastructure.
+It exposes the four hypotheses as explicit data and leaves the carrier
+story completely outside the structure.
+The typeclass route is carrier-implementation infrastructure.
+It gives a substrate a standard way to publish the same four hypotheses
+as reusable ambient evidence.
+
+The project does not force downstream work into one proof style.
+An explicit proof can stay explicit.
+A carrier implementation that expects many subject-reduction invocations
+can make the discharge protocol implicit.
+Both routes terminate at the same subject-reduction interface and both
+respect the same obstruction boundary.
+
+\section{Why the present substrate has no instance}
+\label{sec:sr-discharge-routes-no-present-instance}
+
+The closed-CIC substrate presently does not provide a
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup}
+instance and does not construct an inhabited
+\leanvariant{BEDC.MetaCIC.SubjectReductionDischargeBundle}.
+This is deliberate.
+The four hypotheses are not all unconditionally provable for the closed
+CIC substrate described in
+\autoref{ch:metacic-subject-reduction-obstruction}.
+
+The blocker is the dependent-codomain frontier.
+The obstruction chapter records that closed application preservation is
+available in the independent-codomain regime, but the dependent-codomain
+case can change the displayed result type after reduction.
+Consequently, a blanket instance or bundle for the present substrate
+would hide the exact place where the meta-theory is blocked.
+
+Any inhabited bundle or setup instance must therefore come from a richer
+substrate, a restricted interface that discharges the dependent-codomain
+case, or an explicit paper-side stipulation.
+The present substrate supplies the routes, not a fake inhabitant of
+their discharge payload.
+
+\section{The bundle / typeclass / obstruction triangle}
+\label{sec:sr-discharge-routes-triangle}
+
+The three objects have independent roles.
+
+\begin{itemize}
+\item The bundle is a carrier-agnostic data container for the four
+subject-reduction hypotheses.
+\item The typeclass is a carrier-driven implementation protocol for the
+same four hypotheses.
+\item The obstruction theorem
+\leanvariant{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}
+records that the closed-CIC substrate does not supply the unconditional
+closed subject-reduction statement.
+\end{itemize}
+
+Together they form a self-audit of the substrate.
+The bundle and typeclass routes identify exactly what a discharge would
+need to provide.
+The obstruction theorem prevents the manuscript from treating the
+present substrate as if that discharge were already inhabited.
+
+Thus the relationship is not a conflict.
+The bundle says what must be packaged.
+The typeclass says how a carrier can publish that package through
+instance synthesis.
+The obstruction theorem says why the present closed-CIC carrier does not
+currently publish either inhabitant.
+
+\section{Boundary}
+\label{sec:sr-discharge-routes-boundary}
+
+This chapter does not solve the dependent-codomain obstruction.
+It does not provide a
+\leanvariant{BEDC.MetaCIC.SubjectReductionSetup}
+instance for the closed-CIC substrate.
+It does not construct a
+\leanvariant{BEDC.MetaCIC.SubjectReductionDischargeBundle}
+for that substrate.
+It records the two discharge routes and the design reason for exposing
+both of them.
+
+The documentation-facing result is therefore open but honest.
+The routes are available for downstream substrates that can supply the
+four hypotheses.
+The present closed-CIC substrate remains at the obstruction boundary
+until its dependent-codomain side is discharged by additional structure.
+
+\concretizedIn{ch:concrete-instances-subject-reduction-bundle-trace-namecert}{The bundle/typeclass discharge route is represented as a finite BEDC trace packet.}
+\concretizedIn{ch:concrete-instances-subject-reduction-route-classifier-namecert}{The bundle and typeclass discharge routes are realized as a finite NameCert classifier over the shared subject-reduction discharge rows.}
+\concretizedIn{ch:concrete-instances-srdischargerouteaudit-namecert}{The bundle/typeclass subject-reduction discharge routes are realized as a finite NameCert route-audit packet with explicit four-row payload and obstruction non-escape.}
+\concretizedIn{ch:concrete-instances-subject-reduction-route-namecert}{The bundle and typeclass subject-reduction discharge routes are realized as one finite BEDC route packet.}
+\concretizedIn{ch:concrete-instances-subject-reduction-route-equivalence-namecert}{Subject-reduction route equivalence is realized as finite bundle, typeclass, toBundle, hsame, Cont, Pkg, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-subjectreductiondischargeroutecert-namecert}{The bundle and typeclass discharge routes are realized as a finite NameCert route certificate.}
+\concretizedIn{ch:concrete-instances-subjectreductionroutetriangle-namecert}{The bundle/typeclass/obstruction triangle is represented as a finite route-triangle NameCert packet.}
+\concretizedIn{ch:concrete-instances-subjectreductionsetupbundleprojection-namecert}{The setup-to-bundle projection route is recorded as a finite NameCert packet.}
+\concretizedIn{ch:concrete-instances-subject-reduction-route-choice-namecert}{The bundle and typeclass subject-reduction discharge routes are realized as a finite route-choice NameCert packet with the obstruction boundary still explicit.}

@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedExamplesGalleryUp$}
+\label{ch:concrete-instances-metacictypedexamplesgallery-namecert}
+\origin{human}
+
+The $\MetaCICTypedExamplesGalleryUp$ packet realizes the typed-example audit map of \autoref{ch:metacic-typedexamples-audit-map} as a finite NameCert gallery. It sits beside the confluence audit surface of \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and the closed-term substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}: those chapters constrain global metatheorem reads, while this chapter exposes the worked syntax and typing examples as finite rows.
+
+\begin{definition}[MetaCIC typed-examples gallery carrier]
+\label{def:metacic-typedexamples-gallery-carrier}
+A $\MetaCICTypedExamplesGalleryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ records the Church Bool example rows, including the displayed true, false, and eliminator typing reads;
+\item $N$ records the Church Nat example rows, including zero, successor, and numeral typing reads;
+\item $L$ records the Church List example rows, including nil, cons, and eliminator typing reads;
+\item $S$ records the Church Sum example rows, including left injection, right injection, and case-analysis typing reads;
+\item $E$ records equality example rows, including reflexivity and transport-shaped reads that stay inside the displayed typing ledger;
+\item $I$ records identity example rows, including polymorphic identity and dependent identity examples;
+\item $A$ records application example rows, including function application and argument instantiation reads;
+\item $R$ records beta-redex example rows and their displayed reduction endpoints;
+\item $K$ records checker-acceptance rows for the example families named by $B,N,L,S,E,I,A,R$;
+\item $H$ records componentwise $\hsame$ transport for every gallery row, route row, provenance row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes for syntax readback, typing readback, beta-redex replay, checker-acceptance replay, and consumer exposure;
+\item $P$ records $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, the MetaCIC typed-example rows, and the checker rows named by \autoref{ch:metacic-typedexamples-audit-map};
+\item $M$ is the local $\NameCert_{\MetaCICTypedExamplesGalleryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these displayed rows. It has no coordinate for arbitrary closed-term normalization, confluence, subject reduction, conversion decidability, or a complete algebraic theory of the Church encodings.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed-examples gallery NameCert obligations]
+\label{thm:metacic-typedexamples-gallery-namecert-obligations}
+For every accepted $\MetaCICTypedExamplesGalleryUp$ carrier
+$$
+G=(B,N,L,S,E,I,A,R,K,H,C,P,M),
+$$
+the local $\NameCert_{\MetaCICTypedExamplesGalleryUp}$ surface consists exactly of carrier exposure for the finite gallery, representative theorem inventory for the Church Bool, Nat, List, Sum, equality, identity, application, and beta-redex rows, regression exactness for the displayed example endpoints, checker handoff through $K$, non-escape from global metatheorems, and ledger provenance through $P,M$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typedexamples-gallery-carrier}. The rows $B,N,L,S,E,I,A,R$ are the complete representative theorem inventory exposed by this gallery packet.
+
+The checker handoff is the row $K$, and every read of $K$ is replayed through the displayed route row $C$. Componentwise transport through $H$ preserves the same example rows and does not add a new theorem coordinate.
+
+Finally read provenance through $P$ and local naming through $M$. Since the carrier has no coordinate for subject reduction, confluence, normalization, or conversion decidability, the gallery obligations are exhausted by the finite example rows and their checker-acceptance routes.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-examples gallery regression surface]
+\label{thm:metacic-typedexamples-gallery-regression-surface}
+An accepted $\MetaCICTypedExamplesGalleryUp$ packet is a finite regression surface for represented syntax and typing. Consumers may inspect the Church Bool, Nat, List, Sum, equality, identity, application, beta-redex, checker-acceptance, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows, but they cannot read the packet as a subject-reduction theorem, a confluence theorem, a normalization theorem, or a decidability theorem.
+\end{theorem}
+\begin{proof}
+Start with the visible coordinates of $G$. They are example rows and routes for syntax, typing, beta-redex replay, checker acceptance, transport, provenance, and local naming.
+
+Each consumer read factors through the finite route row $C$ and the checker row $K$. These rows can replay the represented gallery examples, but they have no endpoint for a global preservation or conversion principle.
+
+Therefore the accepted packet is exactly a finite regression surface for the displayed examples. The excluded metatheorems remain outside the carrier because no row of $G$ can be projected as such a theorem.
+\end{proof}
