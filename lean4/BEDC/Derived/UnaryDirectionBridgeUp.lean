@@ -128,4 +128,31 @@ theorem UnaryDirectionBridgeCarrier_standard_boundary_readout [AskSetup] [Packag
     ⟨boundaryReadUnary, additiveReadUnary, bridgeKernelBoundary, boundaryLedgerTransports,
       boundaryLedgerRead, readRoutesAdditive, provenancePkg, boundaryReadPkg, additiveReadPkg⟩
 
+theorem UnaryDirectionBridgeCarrier_ledger_policy [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      Cont ledger transports ledgerRead ->
+        PkgSig bundle ledgerRead pkg ->
+          UnaryHistory natRow /\ UnaryHistory axisRow /\ UnaryHistory bridge /\
+            UnaryHistory kernel /\ UnaryHistory boundary /\ UnaryHistory ledger /\
+              UnaryHistory transports /\ UnaryHistory ledgerRead /\
+                Cont natRow axisRow bridge /\ Cont bridge kernel boundary /\
+                  Cont boundary ledger transports /\ Cont ledger transports ledgerRead /\
+                    PkgSig bundle provenance pkg /\ PkgSig bundle name pkg /\
+                      PkgSig bundle ledgerRead pkg := by
+  intro carrier ledgerTransportRead ledgerReadPkg
+  obtain ⟨natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, ledgerUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, natAxisBridge,
+    bridgeKernelBoundary, boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed ledgerUnary transportsUnary ledgerTransportRead
+  exact
+    ⟨natUnary, axisUnary, bridgeUnary, kernelUnary, boundaryUnary, ledgerUnary,
+      transportsUnary, ledgerReadUnary, natAxisBridge, bridgeKernelBoundary,
+      boundaryLedgerTransports, ledgerTransportRead, provenancePkg, namePkg, ledgerReadPkg⟩
+
 end BEDC.Derived.UnaryDirectionBridgeUp
