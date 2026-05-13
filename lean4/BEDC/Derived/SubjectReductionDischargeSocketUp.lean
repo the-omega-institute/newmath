@@ -345,4 +345,39 @@ theorem SubjectReductionDischargeSocketPacket_four_row_ledger_exactness [AskSetu
       lamReadUnary, betaAppTransport, domainRoute, transportRoutesLedger,
       ledgerNameBeta, betaReadRoute, lamReadRoute, namePkg⟩
 
+theorem SubjectReductionDischargeSocketPacket_obligation_consumption [AskSetup]
+    [PackageSetup]
+    {beta appArg lamDomain piDomain transport routes ledger name betaRead appRead lamRead
+      piRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubjectReductionDischargeSocketPacket beta appArg lamDomain piDomain transport routes
+        ledger name bundle pkg →
+      Cont beta appArg betaRead →
+        Cont appArg beta appRead →
+          Cont lamDomain piDomain lamRead →
+            Cont piDomain lamDomain piRead →
+              UnaryHistory beta ∧ UnaryHistory appArg ∧ UnaryHistory lamDomain ∧
+                UnaryHistory piDomain ∧ UnaryHistory betaRead ∧ UnaryHistory appRead ∧
+                  UnaryHistory lamRead ∧ UnaryHistory piRead ∧ Cont beta appArg betaRead ∧
+                    Cont appArg beta appRead ∧ Cont lamDomain piDomain lamRead ∧
+                      Cont piDomain lamDomain piRead ∧ Cont transport routes ledger ∧
+                        PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro packet betaReadRoute appReadRoute lamReadRoute piReadRoute
+  obtain ⟨betaUnary, appArgUnary, lamDomainUnary, piDomainUnary, _transportUnary,
+    _routesUnary, _ledgerUnary, _nameUnary, _betaAppTransport, _domainRoute,
+    transportRoutesLedger, _ledgerNameBeta, namePkg⟩ := packet
+  have betaReadUnary : UnaryHistory betaRead :=
+    unary_cont_closed betaUnary appArgUnary betaReadRoute
+  have appReadUnary : UnaryHistory appRead :=
+    unary_cont_closed appArgUnary betaUnary appReadRoute
+  have lamReadUnary : UnaryHistory lamRead :=
+    unary_cont_closed lamDomainUnary piDomainUnary lamReadRoute
+  have piReadUnary : UnaryHistory piRead :=
+    unary_cont_closed piDomainUnary lamDomainUnary piReadRoute
+  exact
+    ⟨betaUnary, appArgUnary, lamDomainUnary, piDomainUnary, betaReadUnary, appReadUnary,
+      lamReadUnary, piReadUnary, betaReadRoute, appReadRoute, lamReadRoute, piReadRoute,
+      transportRoutesLedger, namePkg⟩
+
 end BEDC.Derived.SubjectReductionDischargeSocketUp
