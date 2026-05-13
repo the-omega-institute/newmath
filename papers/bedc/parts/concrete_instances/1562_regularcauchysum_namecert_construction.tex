@@ -276,6 +276,22 @@ Now pass to the regular readback. The $\RegSeqRatUp$ handoff of \autoref{thm:reg
 Finally combine seal exhaustion with limit-classifier compatibility. The seal consumer exhaustion theorem rules out any additional consumer coordinate, and \autoref{thm:regular-cauchy-sum-limit-classifier-compatibility} keeps completion-facing reads downstream of the displayed regular readback. Thus the compatibility handoff is finite and cannot export quotient streams, selected limits, host equality, ambient completeness, or a separate completed-real addition law.
 \end{proof}
 
+\begin{theorem}[RegularCauchySum shared-tail-meet handoff]
+\label{thm:regular-cauchy-sum-shared-tail-meet-handoff}
+Let $S=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchySumUp$ packet. Suppose the source rows $A$ and $B$ have accepted $\RegularCauchyTailSelectorUp$ packets for the same precision request, and suppose those two selector packets are absorbed by one accepted $\RegularCauchyTailMeetUp$ shared-threshold packet for that request. Then every $\RealUp$-facing read of the sum factors through the shared threshold row of the tail-meet packet, the two selected-tail witness rows, the aligned $\StreamNameUp$ windows $W_A,W_B$, the $\DyadicRatCoreUp$ endpoint addition row $D$ with source endpoints $D_A,D_B$, the $\FiniteErrorBudgetUp$ ledger $E$, the $\RegSeqRatUp$ readback row $R$, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ rows of the sum, selectors, and shared-tail meet packet.
+
+In particular, a diagonal $\RealUp$ consumer cannot read the two source selectors independently once the shared-tail meet certificate is supplied. Its sum read is mediated by the single shared threshold and then by the same endpoint-addition, budget, readback, transport, continuation, provenance, and naming surface already displayed by the $\RegularCauchySumUp$ packet.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:regular-cauchy-sum-tail-selector-compatibility}. It places every public sum read behind the two selected-tail witness rows, the aligned windows, endpoint rows, endpoint-addition row, finite error ledger, regular readback, and the displayed structural rows of the sum packet.
+
+Next use \autoref{thm:regular-cauchy-tail-meet-selector-admission}. The two selector witnesses for the common precision request are admitted into one paired schedule and one shared-threshold route rather than into two unrelated tail routes.
+
+Then apply \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. The accepted tail-meet packet exposes its threshold as a public finite certificate over the paired source rows, paired windows, source modulus rows, dyadic threshold ledger, comparison row, transports, continuations, provenance, and local naming data.
+
+Finally compose this certificate with \autoref{thm:regular-cauchy-sum-limit-classifier-compatibility}. Completion-facing and diagonal $\RealUp$ reads of the sum must pass through the regular readback $R$, and the readback is already downstream of the shared threshold, selected-tail witnesses, aligned windows, endpoint addition, finite ledger, transports, routes, provenance, and naming rows. Hence the handoff exports no quotient stream, selected limit, host real equality, ambient completeness, or independent completed-real addition law.
+\end{proof}
+
 \closureat{RegularCauchySumUp}{obligationStr}
 \closureat{RegularCauchySumUp}{scopedStr}
 \closureat{RegularCauchySumUp}{publicStr}

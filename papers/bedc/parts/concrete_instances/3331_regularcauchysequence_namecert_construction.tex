@@ -306,6 +306,26 @@ Now read the imported shared threshold. The import theorem routes the accepted $
 It remains to identify what a downstream consumer can see. Apply \autoref{thm:regular-cauchy-tail-meet-obligation-closure-package} and \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. These expose only the shared-tail rows of the tail-meet packet, so the combined surface is exactly the displayed regular Cauchy sequence packet plus those shared-tail rows.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence observation-budget TailMeet consumer]
+\label{thm:regular-cauchy-sequence-observation-budget-tail-meet-consumer}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet. Suppose a downstream consumer reads a $\RealObservationBudgetUp$ route for the seal row of $S$ and also reads an accepted $\RegularCauchyTailMeetUp$ route whose shared threshold is imported through the displayed selected-window, dyadic, readback, transport, continuation, provenance, and local naming rows of $S$. Then the consumer reaches the $\RealUp$ seal only through one shared finite route: the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff rows, $\DyadicRatCoreUp$ ledger rows, shared threshold row, $\hsame$ transports, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchySequenceUp}$ row.
+
+No accepted consumer may use the observation budget to bypass the imported TailMeet threshold, replace the displayed route by quotient streams or host real equality, read hidden selector rows, or import ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the observation-budget side. By \autoref{thm:regular-cauchy-sequence-real-observation-budget-seal-factorization}, every $\RealUp$-facing read of $S$ through a $\RealObservationBudgetUp$ packet first factors through the finite window, dyadic, readback, coverage, seal, transport, continuation, provenance, and naming rows displayed by the budget-to-seal route.
+
+Next attach the TailMeet side. The consumer-surface theorem \autoref{thm:regular-cauchy-sequence-tail-meet-consumer-surface} says that an imported $\RegularCauchyTailMeetUp$ threshold is visible to downstream Real or completion consumers only as the regular Cauchy packet together with the accepted tail-meet rows transported through the same displayed finite surface.
+
+The two routes therefore share the selected $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger rows, $\RegSeqRatUp$ handoff rows, seal row, transports, continuations, provenance, and local name. The shared threshold is read after those rows have been displayed and before any consumer can treat the seal as available.
+
+Finally use the carrier inventory of \autoref{def:regular-cauchy-sequence-carrier} and the non-escape boundary of \autoref{lem:regular-cauchy-sequence-non-escape}. Since the carrier has no coordinate for quotient streams, host real equality, hidden selector rows, or ambient completeness, and since both cited routes consume only the displayed rows, no alternate path to the $\RealUp$ seal remains.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence tail-selector budget lock]
 \label{thm:regular-cauchy-sequence-tail-selector-budget-lock}
 Let
