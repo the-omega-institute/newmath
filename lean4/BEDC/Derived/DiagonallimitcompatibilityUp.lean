@@ -52,6 +52,33 @@ theorem DiagonalLimitCompatibilityNonEscape [AskSetup] [PackageSetup]
       realSealUnary, endpointUnary, diagonalTriangleSeal, dyadicWindowsReadback,
       readbackEndpoint, provenancePkg, endpointPkg⟩
 
+theorem DiagonalLimitCompatibilityCarrier_selector_budget_source_lock [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      selector locked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal windows selector ->
+        Cont selector readback locked ->
+          PkgSig bundle locked pkg ->
+            UnaryHistory diagonal ∧ UnaryHistory windows ∧ UnaryHistory readback ∧
+              UnaryHistory selector ∧ UnaryHistory locked ∧ Cont diagonal windows selector ∧
+                Cont selector readback locked ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle locked pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier diagonalWindowsSelector selectorReadbackLocked lockedPkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealUnary, _dyadicUnary, windowsUnary,
+    readbackUnary, _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed diagonalUnary windowsUnary diagonalWindowsSelector
+  have lockedUnary : UnaryHistory locked :=
+    unary_cont_closed selectorUnary readbackUnary selectorReadbackLocked
+  exact
+    ⟨diagonalUnary, windowsUnary, readbackUnary, selectorUnary, lockedUnary,
+      diagonalWindowsSelector, selectorReadbackLocked, provenancePkg, lockedPkg⟩
+
 theorem DiagonalLimitCompatibility_tolerance_ledger_handoff [AskSetup] [PackageSetup]
     {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
       endpoint : BHist}
