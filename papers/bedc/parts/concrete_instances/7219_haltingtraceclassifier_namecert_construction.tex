@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\HaltingTraceClassifierUp$}
+\label{ch:concrete-instances-haltingtraceclassifier-namecert}
+\origin{ai}
+
+The $\HaltingTraceClassifierUp$ packet realizes the positive finite-trace side of the halting obstruction in \autoref{ch:visions-halting-as-form-of-distinction-limit} without presenting a total halting decision. It sits beside the certificate-history obstruction of \autoref{ch:concrete-instances-haltingdistinction-namecert}, the displayed trace packet of \autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, the machine-step surface of \autoref{ch:concrete-instances-turingmachine-namecert}, and the inscription-event naming surface of \autoref{ch:concrete-instances-inscriptionevent-namecert}.
+
+\begin{definition}[Halting trace-classifier carrier]
+\label{def:halting-trace-classifier-carrier}
+A $\HaltingTraceClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,h,F,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the machine or certificate row whose one-step behavior is read through the $\TuringMachineUp$ and $\NameCert$ surfaces;
+\item $h$ is the initial history row;
+\item $F$ is a finite positive $\Cont$ trace from $h$ to a displayed halted row;
+\item $R$ is the positive classifier row accepting exactly the displayed trace $F$ as terminating evidence;
+\item $D$ is the diagonal refusal row stating that no accepted classifier read may decide divergence or non-termination outside the displayed finite trace;
+\item $H$ records componentwise $\hsame$ transports for the machine row, initial history, trace row, positive classifier row, refusal row, package provenance, and local name;
+\item $C$ records the displayed $\Cont$ routes that replay the trace, transport the positive read, and return the diagonal refusal to the same packet;
+\item $P$ is the $\Pkg$ provenance over $\TuringMachineUp$, $\HaltingDistinctionUp$, $\HaltingDistinctionTraceUp$, $\InscriptionEventUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\HaltingTraceClassifierUp}$ row.
+\end{enumerate}
+The carrier contains no row for a total halting predicate, no negative divergence decider, no unbounded search certificate, and no host-level proof that an absent continuation never appears.
+\end{definition}
+
+\begin{theorem}[Halting trace-classifier positive trace soundness]
+\label{thm:halting-trace-classifier-positive-trace-soundness}
+Every accepted positive read of a $\HaltingTraceClassifierUp$ packet factors through the displayed finite trace row $F$. A consumer may classify $M$ at $h$ as positively halted only by replaying the finite $\Cont$ route from $h$ to the displayed halted row through $C$, together with the transported trace and classifier rows $F,R,H$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to $T=(M,h,F,R,D,H,C,P,N)$. The positive classifier row is $R$, and the only evidence row it may read is the finite trace $F$.
+
+The continuation routes in $C$ replay that trace from the initial history row to the displayed halted row. Componentwise transport through $H$ moves $M,h,F,R$ together, so the positive read remains attached to the same displayed trace after transport.
+
+The package and local naming rows $P,N$ expose no second trace source. Hence every accepted positive halting classification factors through the finite $\Cont$ trace $F$ rather than through an ambient decision procedure.
+\end{proof}
+
+\begin{theorem}[Halting trace-classifier diagonal refusal]
+\label{thm:halting-trace-classifier-diagonal-refusal}
+The diagonal row $D$ of an accepted $\HaltingTraceClassifierUp$ packet refuses any request to turn the positive trace classifier into a total halting classifier. In particular, an absent displayed trace cannot be read as divergence, non-termination, or a negative halting verdict.
+\end{theorem}
+\begin{proof}
+Read the refusal coordinate $D$ from the carrier. It is paired with the positive classifier row $R$ to state exactly where the packet stops: $R$ accepts displayed finite traces, while $D$ rejects requests that ask for a verdict outside those traces.
+
+The route data in $C$ can replay a finite $\Cont$ trace already present as $F$, but it has no route for an unbounded search over all continuations. The transport row $H$ preserves this boundary because it transports $D$ with the positive classifier and trace rows.
+
+Since no coordinate stores a divergence decider, total halting predicate, or proof that all future continuations are absent, the diagonal request has no source row in the packet. It is therefore refused by the displayed carrier itself.
+\end{proof}
+
+\begin{theorem}[Halting trace-classifier non-escape]
+\label{thm:halting-trace-classifier-nonescape}
+No consumer of an accepted $\HaltingTraceClassifierUp$ packet can extract a decision about divergence outside the displayed trace row $F$. The packet exports positive finite-trace evidence and diagonal refusal, but it does not export a total classifier over all machine-history pairs.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The positive evidence is $F$ together with $R$, and the refusal evidence is $D$ together with its replay and transport rows.
+
+Apply positive trace soundness to any accepted positive read. The read must use the displayed finite trace. Apply diagonal refusal to any request for a negative or total verdict. Such a request asks for a coordinate absent from $T$.
+
+The provenance and local naming rows $P,N$ only account for these displayed rows. They do not add unbounded search, divergence, or totality data, so no consumer can escape from the finite positive-trace and refusal surface.
+\end{proof}
+
+\begin{theorem}[Halting trace-classifier NameCert obligations]
+\label{thm:halting-trace-classifier-namecert-obligations}
+The local $\NameCert_{\HaltingTraceClassifierUp}$ surface for \autoref{def:halting-trace-classifier-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed packet $T=(M,h,F,R,D,H,C,P,N)$;
+\item positive trace soundness, requiring every accepted positive read to factor through the displayed finite $\Cont$ trace $F$;
+\item diagonal refusal, requiring every total-halting or divergence request outside $F$ to be rejected by $D$;
+\item transport stability for the machine row, history row, trace row, classifier row, refusal row, provenance, and local naming row through $H$;
+\item ledger exactness, requiring all replay, package, and naming reads to factor through $C,P,N$ with no hidden divergence decider.
+\end{enumerate}
+The later Lean \texttt{TasteGate.lean} development must provide explicit $\mathsf{Nontrivial}\ \HaltingTraceClassifierUp$ and $\mathsf{FieldFaithful}\ \HaltingTraceClassifierUp$ instances for this finite carrier.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:halting-trace-classifier-carrier}. The tuple lists the machine row, initial history, finite trace, positive classifier, diagonal refusal, transports, continuation routes, provenance, and local name.
+
+Positive trace soundness is \autoref{thm:halting-trace-classifier-positive-trace-soundness}, and diagonal refusal is \autoref{thm:halting-trace-classifier-diagonal-refusal}. Together they separate accepted finite halting evidence from forbidden total classification.
+
+Transport stability follows from the componentwise role of $H$. Replay and ledger exactness follow from $C,P,N$, which are the only rows carrying continuation replay, package provenance, and local naming.
+
+Nontriviality rules out identifying a positive trace row with the diagonal refusal row. Field faithfulness requires the TasteGate implementation to preserve $M,h,F,R,D,H,C,P,N$, so a future gate cannot discharge the packet by forgetting either the finite trace evidence or the refusal boundary.
+\end{proof}
+
+\falsifiablePrediction{Every accepted HaltingTraceClassifierUp positive read factors through a displayed finite Cont trace and cannot decide divergence outside that trace.}
+
+\independenceWitness{haltingdistinction, haltingdistinctiontrace, turingmachine, inscriptionevent, continuationtracenormalform: none is bijective because none simultaneously carries positive finite-trace classification and diagonal refusal rows.}
+
+\closureat{HaltingTraceClassifierUp}{seedStr}
+
+\begin{closurestatus}{\HaltingTraceClassifierUp}
+  \constructivestory{A $\HaltingTraceClassifierUp$ packet is generated from one machine row, one initial history row, one displayed finite Cont trace, one positive classifier row, one diagonal refusal row, componentwise transports, replay routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:halting-trace-classifier-carrier}, \autoref{thm:halting-trace-classifier-positive-trace-soundness}, \autoref{thm:halting-trace-classifier-diagonal-refusal}, \autoref{thm:halting-trace-classifier-nonescape}, and \autoref{thm:halting-trace-classifier-namecert-obligations} bind the finite positive-trace classifier and diagonal refusal surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a total halting predicate, divergence decision, unbounded search certificate, Lean proof, or public standard bridge.}
+  \upgradepath{Checked closure requires Lean encoding of the carrier and TasteGate proofs for nontriviality, field faithfulness, positive trace soundness, diagonal refusal, and non-escape.}
+\end{closurestatus}
