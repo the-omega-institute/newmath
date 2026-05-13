@@ -128,14 +128,15 @@ Finally use the non-escape boundary of \autoref{thm:binder-context-substitution-
 \end{proof}
 
 \closureat{BinderContextSubstitutionSealUp}{seedStr}
+\closureat{BinderContextSubstitutionSealUp}{obligationStr}
 
 \begin{closurestatus}{\BinderContextSubstitutionSealUp}
   \constructivestory{A $\BinderContextSubstitutionSealUp$ packet is generated from a \texttt{Term} row, a binder-depth row, a substitution payload, a replayed \texttt{substitute} result, a \texttt{ClosedAt} inertness witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier, local naming obligations, non-escape boundary, and compiler handoff for closed-boundary substitution over MetaCIC terms.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:binder-context-substitution-seal-carrier}, \autoref{thm:binder-context-substitution-seal-namecert-obligations}, \autoref{thm:binder-context-substitution-seal-obligation-rows}, \autoref{thm:binder-context-substitution-seal-closed-boundary-exactness}, \autoref{thm:binder-context-substitution-seal-route-determinacy}, and \autoref{thm:binder-context-substitution-seal-obligation-consumer} bind the obligation rows over \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute}, inertness, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close semantic substitution correctness for open terms, global evaluator correctness, subject reduction, a public compiler bridge, or Lean verification.}
-  \upgradepath{Obligation closure requires checked carrier admission, closed-boundary substitution replay, inertness exactness, classifier transport, non-escape, and compiler handoff for the same finite packet.}
+  \upgradepath{Scoped closure requires a checked downstream compiler interface for the same closed-boundary substitution packet.}
 \end{closurestatus}

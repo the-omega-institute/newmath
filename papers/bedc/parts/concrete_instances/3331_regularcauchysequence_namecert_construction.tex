@@ -257,6 +257,26 @@ Now read the imported shared threshold. The import theorem routes the accepted $
 It remains to identify what a downstream consumer can see. Apply \autoref{thm:regular-cauchy-tail-meet-obligation-closure-package} and \autoref{thm:regular-cauchy-tail-meet-public-shared-threshold-certificate}. These expose only the shared-tail rows of the tail-meet packet, so the combined surface is exactly the displayed regular Cauchy sequence packet plus those shared-tail rows.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence tail-selector budget lock]
+\label{thm:regular-cauchy-sequence-tail-selector-budget-lock}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ route. Suppose its selected-window rows factor through the sibling $\RegularCauchySelectorBudgetUp$ packet of \autoref{ch:concrete-instances-regularcauchyselectorbudget-namecert}, and suppose its shared threshold factors through an accepted $\RegularCauchyTailMeetUp$ packet from \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. Then every $\RealUp$-facing tail consumer of $S$ must read the same displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows carried by the selected-window and shared-threshold route.
+
+The locked consumer packet is the finite surface presented by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} as those rows occur inside $S$ and the transported tail-meet certificate. It contains no quotient stream, no host limit, no hidden selector, and no alternate tail threshold.
+\end{theorem}
+\begin{proof}
+First apply the selector-budget factorization of \autoref{thm:regular-cauchy-sequence-selector-budget-factor}. It forces each Real-facing selected-window read through the finite selector-budget packet before the $\RegSeqRatUp$ witness and $\RealUp$ seal can be consumed.
+
+Next apply the tail-meet consumer surface of \autoref{thm:regular-cauchy-sequence-tail-meet-consumer-surface}. The shared threshold imported from \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} is visible only through the same selected-window, dyadic, readback, seal, transport, continuation, provenance, and local naming rows already displayed by the regular Cauchy sequence packet.
+
+The concrete sibling chapters identify the projected rows. The $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ packet surfaces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} are therefore read at the coordinates exposed by $S$ and by the transported tail-meet threshold, not at fresh host coordinates.
+
+Since both routes share $H,C,P,N$, there is no remaining coordinate from which a consumer could obtain a quotient stream, host limit, hidden selector, or alternate tail threshold. The tail-facing Real consumer is locked to the single displayed finite packet.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence root obligation export]
 \label{thm:regular-cauchy-sequence-root-obligation-export}
 The $\RegularCauchySequenceUp$ root obligation exported to later Real and Completion formalization consists of the local obligation closure of \autoref{thm:regular-cauchy-sequence-obligation-closure}, the shared-threshold import of \autoref{thm:regular-cauchy-sequence-shared-threshold-import}, and the consumer-surface boundary of \autoref{thm:regular-cauchy-sequence-tail-meet-consumer-surface}. Thus a later diagonal route may consume regular-family data through the displayed packet and a transported $\RegularCauchyTailMeetUp$ shared threshold, but it receives no quotient stream, selected limit, host equality, choice coordinate, hidden tail oracle, or ambient completeness theorem.
