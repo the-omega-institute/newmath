@@ -293,6 +293,102 @@ GATE_PATTERNS = [
 ]
 
 
+HEAL_PROPEXT_PROMPT = """You are healing a `propext`-axiom dependency in a BEDC Lean theorem on the codex-auto-dev branch.
+
+`bedc_ci.py axiom-purity --strict` reports that the following theorem depends on `propext`, which is forbidden by BEDC's 0-axiom rule (constructive CIC only, no LEM / Quot.sound / propext):
+
+```
+__THEOREM__ -> propext
+```
+
+This is the **propext trap** previously hit and documented in commit `fcd515ed95` (around v5.17): typeclass projection equality (e.g. `BHistCarrier.fromEventFlow X = Y`) and similar typeclass field accesses unfold via `propext` when the instance is resolved at use-site. The pattern that triggers it is referencing `<TypeClass>.<field>` from another theorem's proof body without first concretising the resolution.
+
+Your task: rewrite the offending theorem (or its dependencies) so the proof uses concrete defs / explicit instance bodies instead of typeclass projections.
+
+**Recipe** (from the v5.17 fix):
+
+1. Read the offending theorem source: `git grep -n "__THEOREM__"` to locate the file. The theorem is usually under `lean4/BEDC/Derived/<X>Up/` or `lean4/BEDC/Derived/<X>Up.lean`.
+
+2. Identify the typeclass projection in the proof body. Common offenders:
+   - `BHistCarrier.fromEventFlow` / `.toEventFlow` (the `BHistCarrier` typeclass)
+   - `ChapterTasteGate.round_trip` / `.layer_separation`
+   - `FieldFaithful.field_faithful` / `.fields` (newly added 2026-05-13)
+   - `Nontrivial.witness_pair` (newly added 2026-05-13)
+   - `StructurallyAtomic.nearest_siblings`
+
+3. Replace each typeclass projection with a CONCRETE `def` or `theorem` reference. The chapter usually already has a `private` or top-level non-typeclass version of the same fact — e.g., `cauchySealBudgetSynchronizer_round_trip` exists as a non-typeclass theorem, and `ChapterTasteGate.round_trip` typeclass field is `:= cauchySealBudgetSynchronizer_round_trip` internally. Use the concrete name in the proof body, not the typeclass projection.
+
+4. If the chapter only has the typeclass projection and no concrete counterpart, lift a private `def`:
+
+```lean
+private def <slug>_field_faithful_concrete :
+    ∀ (x y : <X>Up), FieldFaithful.fields x = FieldFaithful.fields y → x = y :=
+  fun x y h => by
+    -- inline proof here, not `exact FieldFaithful.field_faithful`
+    ...
+
+-- then in the offending theorem
+exact <slug>_field_faithful_concrete
+```
+
+5. Verify the fix: `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` reports `pure=N impure=0 forbidden=...` with the offending theorem no longer listed.
+
+6. Also verify lake build: `cd lean4 && python3 scripts/lake_gate.py build` exits 0.
+
+7. Commit with subject `auto-heal-propext: <slug> <field-name>` and a short body identifying which typeclass projection was concretised.
+
+Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after axiom-purity --strict passes.
+"""
+
+
+def detect_propext_violations() -> list[str]:
+    """Run bedc_ci.py axiom-purity --strict; parse `X -> propext` lines.
+
+    Returns the fully-qualified theorem names that depend on propext.
+    Empty list when audit is clean."""
+    try:
+        res = run(
+            ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
+            check=False, capture=True, timeout=300,
+        )
+    except subprocess.TimeoutExpired:
+        return []
+    if res.returncode == 0:
+        return []
+    out = (res.stdout or "") + (res.stderr or "")
+    violations: list[str] = []
+    for line in out.splitlines():
+        s = line.strip()
+        # Format: `  BEDC.Foo.barTheorem -> propext`
+        if " -> propext" not in s:
+            continue
+        name = s.split(" -> propext", 1)[0].strip()
+        if name and name not in violations:
+            violations.append(name)
+    return violations
+
+
+def heal_propext_violations(violations: list[str]) -> bool:
+    """Invoke codex once per violation to concretise the typeclass
+    projection. Returns True iff at least one violation was committed."""
+    head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
+    healed_any = False
+    for thm in violations[:3]:  # cap 3 per cycle so a bad fix can't loop
+        prompt = HEAL_PROPEXT_PROMPT.replace("__THEOREM__", thm)
+        before = git("rev-parse", "HEAD", capture=True).stdout.strip()
+        rc = call_codex(prompt, timeout=1800)
+        after = git("rev-parse", "HEAD", capture=True).stdout.strip()
+        if after != before:
+            healed_any = True
+            print(f"[heal] propext: codex healed {thm}", flush=True)
+        else:
+            print(
+                f"[heal] propext: codex made no commit for {thm} (rc={rc})",
+                file=sys.stderr,
+            )
+    return healed_any
+
+
 def detect_gate_storms() -> list[dict]:
     """Scan orchestrator logs for any single gate that has rejected
     >= GATE_STORM_THRESHOLD rounds in the last GATE_STORM_WINDOW_MINUTES.
@@ -546,6 +642,26 @@ def cycle() -> None:
             return  # one heal per cycle is enough
     else:
         print("[heal] audit clean (0 dup labels)", flush=True)
+
+    # Detect propext-axiom violations (the typeclass-projection trap).
+    # Fixes are content-level (rewrite proof), not prompt-level — so this
+    # runs separately from the generic gate-storm heal that targets
+    # prompt-fix-able recurring failures.
+    propext_v = detect_propext_violations()
+    if propext_v:
+        print(f"[heal] {len(propext_v)} propext violation(s) detected; invoking codex",
+              flush=True)
+        for v in propext_v[:5]:
+            print(f"[heal]   {v}", flush=True)
+        if heal_propext_violations(propext_v):
+            if push_to_origin():
+                print("[heal] codex committed + pushed (propext)", flush=True)
+            else:
+                print("[heal] codex committed but push failed (will retry next tick)",
+                      flush=True)
+            return  # one heal per cycle is enough
+    else:
+        print("[heal] axiom-purity clean (0 propext violations)", flush=True)
 
     # Detect generic gate-failure storms in orchestrator logs.
     storms = detect_gate_storms()
