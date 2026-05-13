@@ -78,12 +78,52 @@ Classifier stability is supplied by \autoref{thm:regular-cauchy-limit-transport-
 Dyadic ledger exactness is the row $D$: it records the tolerance, absolute-value, comparison, and triangle-bound entries consumed by the transported handoff. Finally \autoref{thm:regular-cauchy-limit-transport-ledger-exactness} identifies the seal-facing non-escape boundary through $S,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit transport selected-window exactness]
+\label{thm:regular-cauchy-limit-transport-selected-window-exactness}
+Let $T=(R,W,D,S,H,C,P,N)$ be an accepted $\RegularCauchyLimitTransportUp$ carrier. Every diagonal observation read from $T$ reaches the $\RegSeqRatUp$ source row $R$ only through the displayed $\StreamNameUp$ selected-window row $W$, is transported by the componentwise rows in $H$, and is replayed to downstream consumers through the continuation routes in $C$. No external window selector or undisplayed source-row read can replace $W$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:regular-cauchy-limit-transport-carrier}. The only source-facing rows in the packet are the $\RegSeqRatUp$ row $R$ and the $\StreamNameUp$ selected-window row $W$, with their transport and replay data recorded by $H$ and $C$.
+
+Use the classifier specification of \autoref{def:regular-cauchy-limit-transport-classifier}. It compares carriers by the displayed rows $R,W,D,S,H,C,P,N$ and has no coordinate for an external selector.
+
+Thus a diagonal observation can be read from the source row only by passing through the selected window already present in $W$. The componentwise transport rows in $H$ and the continuation routes in $C$ may replay that read, but they cannot introduce a second source-row access path.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit transport dyadic ledger stability]
+\label{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}
+Let $T=(R,W,D,S,H,C,P,N)$ be an accepted $\RegularCauchyLimitTransportUp$ carrier. Under any componentwise $\hsame$ transport accepted by the rows in $H$, the tolerance request, absolute-value rows, comparison rows, and triangle-bound entries used by the limit handoff remain entries of the single $\DyadicRatCoreUp$ ledger $D$. The transport creates no second dyadic ledger and no independent arithmetic side condition.
+\end{theorem}
+\begin{proof}
+Start from the stability theorem \autoref{thm:regular-cauchy-limit-transport-stability}. It says that componentwise transport of the displayed rows preserves the accepted carrier and the same diagonal-limit classifier surface.
+
+Now read the ledger exactness theorem \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}. The tolerance request, absolute-value rows, comparison rows, and triangle-bound entries consumed by a $\RealUp$ handoff are exactly the rows displayed by the packet.
+
+Combining the two statements fixes the dyadic data inside $D$ throughout the transport. Since the carrier and classifier expose no additional arithmetic coordinate, the transported handoff cannot select a separate dyadic ledger or attach a hidden side condition.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit transport seal-route determinacy]
+\label{thm:regular-cauchy-limit-transport-seal-route-determinacy}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier $T=(R,W,D,S,H,C,P,N)$, every $\RealUp$ seal handoff exported by $T$ factors through the finite route
+$$
+R \to W \to D \to S
+$$
+with provenance recorded by $H,C,P,N$. The route cannot be replaced by quotient streams, host real equality, selected external limits, trichotomy, or a $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First apply selected-window exactness, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}. It forces each diagonal source read to pass from $R$ through the displayed selected-window row $W$ and then through the recorded transport and continuation rows.
+
+Next apply dyadic ledger stability, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}. The tolerance, absolute-value, comparison, and triangle-bound data used after the window read remain in the single ledger $D$ under componentwise transport.
+
+Finally use ledger exactness, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}. The seal row $S$ is reached only through the displayed packet rows, with provenance $H,C,P,N$. The excluded quotient, host-equality, external-limit, trichotomy, and completeness objects have no carrier coordinate, so they cannot determine a replacement route.
+\end{proof}
+
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyLimitTransportUp}
   \constructivestory{A $\RegularCauchyLimitTransportUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\StreamNameUp$ selected-window row, a $\DyadicRatCoreUp$ tolerance and absolute-value ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, and \autoref{thm:regular-cauchy-limit-transport-namecert-obligations} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, and local naming obligations.}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-transport-carrier}, \autoref{def:regular-cauchy-limit-transport-classifier}, \autoref{thm:regular-cauchy-limit-transport-stability}, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}, \autoref{thm:regular-cauchy-limit-transport-namecert-obligations}, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}, and \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy} bind the finite transported diagonal-limit carrier, classifier, stability, ledger exactness, selected-window route, dyadic ledger stability, seal-route determinacy, and local naming obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

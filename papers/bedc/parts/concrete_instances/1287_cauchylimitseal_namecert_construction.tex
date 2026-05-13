@@ -592,6 +592,18 @@ Route exactness then forces every read through the public route boundary, family
 Therefore composition of the four route constraints leaves no escape row for the bridge to add. The bridge is a public projection of the sealed packet, not an additional completion or selection principle.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal RealUp uniqueness handoff]
+\label{thm:cauchy-limit-seal-realup-uniqueness-handoff}
+For an accepted $\CauchyLimitSealUp$ packet, let two $\RealUp$-facing consumer reads both factor through the displayed $\StreamNameUp$ scheduled window, $\DyadicRatCoreUp$ observation row, $\RegSeqRatUp$ regular-Cauchy readback, $\RealUp$ seal route, bridge route exactness row, and bridge non-escape row. Then the two reads determine the same $\RealUp$ consumer surface up to $\hsame$. The conclusion is only a consumer-surface handoff: it does not identify quotient streams, choose a limit, assert host real equality, or import ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with seal-route determinacy from \autoref{thm:cauchy-limit-seal-seal-route-determinacy}. Once the scheduled window, dyadic observation, regular-Cauchy readback, and seal route are fixed, replaying the accepted packet cannot select a second seal-facing route.
+
+Next apply bridge route exactness from \autoref{thm:cauchy-limit-seal-bridge-route-exactness}. It forces each bridge read to pass through the same public route, pulled-back family window, exhausted family ledger, and factored source surface, so the two reads have the same displayed coordinates before the $\RealUp$ handoff is consumed.
+
+Finally use bridge non-escape from \autoref{thm:cauchy-limit-seal-bridge-nonescape}. Since the bridge contributes no quotient stream, selected host limit, uniqueness principle, alternate seal, or completeness datum, repacking the shared window and seal coordinates gives one $\RealUp$ consumer surface, with equality understood only through the packet's displayed $\hsame$ transport.
+\end{proof}
+
 \closureat{CauchyLimitSealUp}{seedStr}
 \closureat{CauchyLimitSealUp}{obligationStr}
 \closureat{CauchyLimitSealUp}{scopedStr}
@@ -602,10 +614,10 @@ Therefore composition of the four route constraints leaves no escape row for the
 \begin{closurestatus}{\CauchyLimitSealUp}
   \constructivestory{A $\CauchyLimitSealUp$ packet is generated from a displayed $\RegSeqRatUp$ family, a $\StreamNameUp$ schedule, a $\DyadicRatCore$ observation ledger, a $\RealCauchyCompletionUp$ diagonal row, a $\RealUp$ seal row, finite $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
-  \scopeclosed{The mature paper-side surface is the sealed $\RealUp$ route, bridge interface, bridge non-escape, and consumer examples routed through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \scopeclosed{The mature surface consists of the sealed $\RealUp$ public route, family-window pullback, family ledger exhaustion, source factorization, bridge interface, bridge route exactness, and bridge non-escape over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealCauchyCompletionUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient Cauchy completion, uniqueness of limits, host real construction, ambient real completeness, or Lean-side bridge checking.}
-  \upgradepath{Verification closure requires Lean targets for the sealed route, bridge interface, bridge non-escape, and consumer examples without changing the paper-side maturity claim.}
+  \upgradepath{No further paper-theory upgrade remains; Lean formalization and bridge checking remain separate verification-axis work.}
 \end{closurestatus}
