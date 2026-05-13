@@ -65,6 +65,18 @@ Sequence information appears only in $T$ and $F$. These rows are transported thr
 The package row $P$ and certificate row $N$ record the same local dependency surface. Since no carrier coordinate names $\mathsf{Classical.choice}$, a truth oracle, host sequence equality, or an undisplayed branch selector, no such datum is exported by the NameCert boundary.
 \end{proof}
 
+\begin{theorem}[EmptyFableLedger continuation-trace dependency]
+\label{thm:empty-fable-ledger-continuation-trace-dependency}
+Let $E=(H,T,S,F,C,P,N)$ be an accepted $\EmptyFableLedgerUp$ carrier. Every accepted trace row $T$ and continuation-route row $C$ are read through the finite trace replay discipline of \autoref{ch:concrete-instances-continuationtrace-namecert} before the selector ledger is exposed. Thus the fable ledger is a consumer of the sibling finite trace route, not a separate trace oracle.
+\end{theorem}
+\begin{proof}
+Project the displayed rows $H,T,S,F,C,P,N$. The trace row $T$ is read from the constructor spine of $H$, and the continuation row $C$ records the displayed routes by which a consumer reads that trace, the selector-step witnesses, and the fable-ledger row.
+
+Now use the finite trace replay discipline of \autoref{ch:concrete-instances-continuationtrace-namecert}. It fixes the trace consumer to the displayed history row and its continuation route before any downstream ledger can inspect selected marks.
+
+The selector ledger is then exposed only through the already replayed trace route and the rows $S$ and $F$. Since no coordinate of $E$ stores a trace oracle or host sequence equality, the fable-ledger read is a consumer of the sibling continuation-trace surface.
+\end{proof}
+
 \closureat{EmptyFableLedgerUp}{seedStr}
 
 \begin{closurestatus}{\EmptyFableLedgerUp}

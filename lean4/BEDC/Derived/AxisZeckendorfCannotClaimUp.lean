@@ -123,6 +123,54 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_semantic_name_certificate [AskSe
       exact source
   }
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_ledger_exactness [AskSetup]
+    [PackageSetup] {a b c d e f g h p n : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      hsame p n ∧
+        PkgSig bundle p pkg ∧
+          SemanticNameCert
+            (fun row : BHist => hsame row p ∧ hsame p n)
+            (fun row : BHist => PkgSig bundle p pkg ∧ hsame row n)
+            (fun row : BHist =>
+              AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ∧
+                hsame row n)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist hsame PkgSig SemanticNameCert
+  intro packet
+  have packetWitness :
+      AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg := packet
+  obtain
+    ⟨_aUnary, _bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, _routeAB,
+      _routeCD, _routeEF, sameProvenanceName, pkgSig⟩ := packet
+  constructor
+  · exact sameProvenanceName
+  · constructor
+    · exact pkgSig
+    · exact {
+        core := {
+          carrier_inhabited := Exists.intro p ⟨hsame_refl p, sameProvenanceName⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _row' sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _row' _row'' sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _row' sameRows source
+            exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+        }
+        pattern_sound := by
+          intro _row source
+          exact ⟨pkgSig, hsame_trans source.left sameProvenanceName⟩
+        ledger_sound := by
+          intro _row source
+          exact ⟨packetWitness, hsame_trans source.left sameProvenanceName⟩
+      }
+
 theorem AxisZeckendorfCannotClaimRegistryPacket_root_unblock_downstream_boundary [AskSetup]
     [PackageSetup] {a b c d e f g h p n downstream : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
