@@ -253,7 +253,11 @@ def render_loning_assimilation() -> str:
         watch_ts = _latest_jsonl_ts(LONING_WATCH_JOURNAL)
         if checked_at and watch_ts and watch_ts > checked_at:
             lag = _fmt_age((watch_ts - checked_at).total_seconds())
-            out.append(f"  lag: loning_watch is {lag} newer than assimilation")
+            out.append(
+                "  lag: loning_watch is "
+                f"{lag} newer than assimilation "
+                f"(watch={watch_ts.isoformat()} assimilation={checked_at.isoformat()})"
+            )
         if count_text:
             out.append(f"  signals: {count_text}")
         advice = [str(item) for item in (rec.get("advice") or []) if str(item).strip()]
@@ -284,23 +288,64 @@ def _latest_jsonl_ts(path: Path) -> datetime | None:
     return None
 
 
-def render_target_table() -> str:
+def render_target_table(limit: int = 80) -> str:
     from lifecycle import derive_failure_kind, decide_next_action
-    rows: list[str] = []
+    items: list[dict] = []
     if not STATE_DIR.exists():
         return "  (no state files)"
-    rows.append(f"  {'TARGET':<8} {'KIND':<28} {'ATTEMPTS':<10} {'NEXT':<14} TITLE")
     for f in sorted(STATE_DIR.glob("*.json")):
         try:
             d = json.loads(f.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
-        kind = d.get("failure_kind") or derive_failure_kind(d)
+        if not isinstance(d, dict):
+            continue
+        if not d.get("target_id") and not (d.get("stage1_verdict") or d.get("stage2")):
+            continue
+        kind = derive_failure_kind(d)
         action = decide_next_action({**d, "failure_kind": kind})
         attempts = d.get("attempts", 1)
+        items.append({
+            "target_id": d.get("target_id") or f.stem,
+            "kind": kind,
+            "attempts": attempts,
+            "action": action,
+            "title": (d.get("title") or "")[:40],
+        })
+
+    def priority(item: dict) -> tuple[int, str]:
+        action = str(item.get("action") or "")
+        kind = str(item.get("kind") or "")
+        if action not in {"skip", ""}:
+            return (0, str(item.get("target_id") or ""))
+        if kind not in {"none", "pre_flight_duplicate", "stage2_duplicate_content"}:
+            return (1, str(item.get("target_id") or ""))
+        return (2, str(item.get("target_id") or ""))
+
+    ordered = sorted(items, key=priority)
+    shown = ordered if limit <= 0 else ordered[:limit]
+    summary: dict[tuple[str, str], list[str]] = {}
+    for item in items:
+        key = (str(item.get("action") or "?"), str(item.get("kind") or "?"))
+        summary.setdefault(key, []).append(str(item.get("target_id") or "?"))
+    rows: list[str] = []
+    for (action, kind), targets in sorted(
+        summary.items(),
+        key=lambda kv: (kv[0][0] != "alert_user", kv[0][0], -len(kv[1]), kv[0][1]),
+    )[:8]:
         rows.append(
-            f"  {d.get('target_id','?'):<8} {kind:<28} {str(attempts):<10} {action:<14} {(d.get('title') or '')[:40]}"
+            f"  summary {action:<14} {kind:<28} {len(targets):>3} "
+            f"examples={', '.join(targets[:4])}"
         )
+    rows.append(f"  {'TARGET':<8} {'KIND':<28} {'ATTEMPTS':<10} {'NEXT':<14} TITLE")
+    for item in shown:
+        rows.append(
+            f"  {item.get('target_id','?'):<8} {item.get('kind','?'):<28} "
+            f"{str(item.get('attempts', 1)):<10} {item.get('action','?'):<14} "
+            f"{item.get('title','')}"
+        )
+    if limit > 0 and len(ordered) > len(shown):
+        rows.append(f"  ... {len(ordered) - len(shown)} lower-priority rows omitted; use --target-limit 0 for full table")
     return "\n".join(rows)
 
 
@@ -358,6 +403,40 @@ def render_reject_clusters() -> str:
     )
 
 
+def render_logic_audit_warnings() -> str:
+    if not TARGETS_DIR.exists():
+        return "  (no targets dir)"
+    counts: dict[str, int] = {}
+    examples: dict[str, str] = {}
+    audited = 0
+    warned = 0
+    for f in TARGETS_DIR.glob("*/stage2_result.json"):
+        try:
+            d = json.loads(f.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        audit = d.get("logic_audit") or {}
+        if not audit:
+            continue
+        audited += 1
+        warnings = audit.get("warnings") or []
+        if warnings:
+            warned += 1
+        target = f.parent.name
+        for warning in warnings:
+            if not isinstance(warning, dict):
+                continue
+            code = str(warning.get("code") or "unknown")
+            counts[code] = counts.get(code, 0) + 1
+            examples.setdefault(code, target)
+    if not counts:
+        return f"  audited={audited} warned={warned} (no post-write logic warnings)"
+    lines = [f"  audited={audited} warned={warned}"]
+    for code, n in sorted(counts.items(), key=lambda kv: -kv[1])[:8]:
+        lines.append(f"  {code:<48} {n:>3}  example={examples.get(code, '?')}")
+    return "\n".join(lines)
+
+
 def render_recent_commits(n: int = 5) -> str:
     out = _git(["log", "--oneline", f"-{n}"])
     return "\n".join(f"  {ln}" for ln in out.splitlines())
@@ -376,6 +455,7 @@ def render_supervisor_tail(n: int = 8) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC bedc-deep dashboard")
     parser.add_argument("--no-clear", action="store_true", help="Skip clearing the screen")
+    parser.add_argument("--target-limit", type=int, default=80, help="Max target lifecycle rows; 0 shows all")
     args = parser.parse_args()
 
     if not args.no_clear and sys.stdout.isatty():
@@ -391,11 +471,13 @@ def main() -> int:
     print(_section("Loning Assimilation"))
     print(render_loning_assimilation())
     print(_section("Target lifecycle"))
-    print(render_target_table())
+    print(render_target_table(limit=args.target_limit))
     print(_section("failure_kind histogram"))
     print(render_histogram())
     print(_section("Stage 2 reject clusters"))
     print(render_reject_clusters())
+    print(_section("Stage 2 logic audit"))
+    print(render_logic_audit_warnings())
     print(_section("Recent commits"))
     print(render_recent_commits())
     print(_section("Supervisor tail"))
