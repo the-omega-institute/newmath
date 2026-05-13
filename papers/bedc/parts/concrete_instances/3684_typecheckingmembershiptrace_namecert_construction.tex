@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TypeCheckingMembershipTraceUp$}
+\label{ch:concrete-instances-typecheckingmembershiptrace-namecert}
+\origin{human}
+
+The $\TypeCheckingMembershipTraceUp$ surface packages a type-checking read as finite classifier membership rather than as a host typing judgment. It joins the membership row of $\TypeClassifierMembershipUp$, the classifier typing row of $\ClassifierTypingUp$, the subject-reduction handoff of $\SubjectReductionUp$, the finite derivation route of $\TypeCheckingDerivationTraceUp$, and the proof-erasure readback of $\ProofTermErasureTraceUp$ into one locally named packet.
+
+\begin{definition}[TypeCheckingMembershipTrace carrier]
+\label{def:typechecking-membership-trace-carrier}
+A $\TypeCheckingMembershipTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\Ext$-membership row read as the local type-classifier decision;
+\item $D$ is the finite derivation trace row recording the classifier typing route;
+\item $R$ is the displayed $\Cont$ subject-reduction route attached to the same membership read;
+\item $S$ is the $\SigRel$ readback row relating the derivation route to the visible classifier name;
+\item $H$ records componentwise $\hsame$ transport for $M,D,R,S$ and the local naming row;
+\item $C$ records the displayed $\Cont$ replay by which consumers reread membership, derivation, subject-reduction, and readback rows;
+\item $P$ is the $\Pkg$ provenance row over $\TypeClassifierMembershipUp$, $\ClassifierTypingUp$, $\SubjectReductionUp$, $\TypeCheckingDerivationTraceUp$, $\ProofTermErasureTraceUp$, $\Ext$, $\Cont$, $\SigRel$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\TypeCheckingMembershipTraceUp}$ row.
+\end{enumerate}
+The local classifier compares two accepted carriers only through the displayed membership, derivation, subject-reduction, readback, transport, continuation, package, and naming rows.
+\end{definition}
+
+\begin{theorem}[TypeCheckingMembershipTrace classifier stability]
+\label{thm:typechecking-membership-trace-classifier-stability}
+Let
+$$
+T=(M,D,R,S,H,C,P,N)
+$$
+and
+$$
+T'=(M',D',R',S',H',C',P',N')
+$$
+be accepted $\TypeCheckingMembershipTraceUp$ carriers whose classifier rows are related by the displayed local comparison. Then the $\Ext$-membership read, finite derivation route, $\Cont$ subject-reduction handoff, and $\SigRel$ readback are preserved through the componentwise $\hsame$ rows and the displayed $\Cont$ replay. The preserved object is the same finite membership-trace packet; it supplies no host typing judgment, conversion oracle, or quotient proof-term equality.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:typechecking-membership-trace-carrier}. The rows $M,D,R,S$ name the classifier membership, derivation route, subject-reduction handoff, and readback boundary, while $H$ records componentwise transport for those rows.
+
+Use the displayed continuation replay $C$ and $C'$ to reread the same rows after transport. Since replay is attached to the packet coordinates, it cannot introduce an external typing derivation or conversion decision.
+
+Finally repack the transported rows with the provenance and local naming rows $P,N$ and $P',N'$. The result is still the finite $\TypeCheckingMembershipTraceUp$ surface, so quotient proof-term equality and host type equality remain outside the exported classifier evidence.
+\end{proof}
+
+\begin{theorem}[TypeCheckingMembershipTrace NameCert obligations]
+\label{thm:typechecking-membership-trace-namecert-obligations}
+The local $\NameCert_{\TypeCheckingMembershipTraceUp}$ surface has five finite obligations:
+\begin{enumerate}
+\item carrier admission exposes exactly $T=(M,D,R,S,H,C,P,N)$;
+\item membership classification reads accepted type-checking only from the displayed $\Ext$ row $M$;
+\item derivation-route exactness keeps the classifier typing route inside $D$ and its $\SigRel$ readback inside $S$;
+\item subject-reduction handoff uses only the displayed $\Cont$ route $R$ and its replay through $C$;
+\item the non-escape ledger excludes host type equality, global normalization, proof irrelevance, quotient syntax, conversion oracles, and any proof-term equality not displayed in the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple. The membership row, derivation row, subject-reduction row, readback row, transport row, replay row, package row, and local naming row are all coordinates of the same $\BHist$ packet.
+
+The classifier and derivation obligations are read from $M,D,S$. The row $M$ is the only accepted $\Ext$-membership decision, $D$ is the only derivation route, and $S$ is the only signature readback attached to that route.
+
+The subject-reduction handoff is read from $R$ and replayed through $C$. Because every exported row is packaged with $H,P,N$, no host type equality, global normalization theorem, proof irrelevance principle, quotient syntax, conversion oracle, or external proof-term equality can be recovered from the certificate surface.
+\end{proof}
+
+\closureat{TypeCheckingMembershipTraceUp}{seedStr}
+
+\begin{closurestatus}{\TypeCheckingMembershipTraceUp}
+  \constructivestory{A $\TypeCheckingMembershipTraceUp$ packet is generated from finite Ext-membership, derivation-route, subject-reduction, SigRel readback, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typechecking-membership-trace-carrier}, \autoref{thm:typechecking-membership-trace-classifier-stability}, and \autoref{thm:typechecking-membership-trace-namecert-obligations} define the finite membership-trace surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host type equality, global normalization, proof irrelevance, quotient syntax, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires the displayed membership, derivation, subject-reduction, readback, transport, replay, package, and naming rows to be bound to a checked local certificate.}
+\end{closurestatus}
