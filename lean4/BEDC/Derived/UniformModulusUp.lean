@@ -51,6 +51,24 @@ theorem UniformModulusPacket_finite_probe_bundle_fold [AskSetup] [PackageSetup]
     ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, foldUnary, exportUnary,
       foldRoute, exportRoute, exportPkg⟩
 
+theorem UniformModulusPacket_compact_metric_source_lock [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont bundleRow radius compactRead ->
+        Cont compactRead coverage transport ->
+          PkgSig bundle provenance pkg ->
+            UnaryHistory bundleRow ∧ UnaryHistory radius ∧
+              Cont bundleRow radius compactRead ∧ Cont compactRead coverage transport ∧
+                PkgSig bundle provenance pkg := by
+  intro packet compactRoute coverageRoute provenancePkg
+  obtain ⟨_toleranceUnary, _precisionUnary, bundleRowUnary, radiusUnary, _nameRowUnary,
+    _coverageRoute, _transportRoute, _packetFoldRoute, _provenanceRoute, _packetPkg⟩ :=
+    packet
+  exact ⟨bundleRowUnary, radiusUnary, compactRoute, coverageRoute, provenancePkg⟩
+
 theorem UniformModulusPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
       nameRow exported : BHist}
@@ -180,5 +198,34 @@ theorem UniformModulusPacket_covered_point_radius_route [AskSetup] [PackageSetup
   exact
     ⟨coverageUnary, foldLedgerUnary, distanceUnary, consumerUnary,
       coveragePointwiseDistance, distanceFoldConsumer, precisionRadiusFoldLedger, consumerPkg⟩
+
+theorem UniformModulusPacket_finite_net_realizer_unblock [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow realized : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont tolerance bundleRow coverage ->
+        Cont precision radius foldLedger ->
+          Cont foldLedger nameRow realized ->
+            PkgSig bundle realized pkg ->
+              UnaryHistory tolerance ∧ UnaryHistory bundleRow ∧ UnaryHistory radius ∧
+                UnaryHistory coverage ∧ UnaryHistory foldLedger ∧ UnaryHistory realized ∧
+                  Cont tolerance bundleRow coverage ∧ Cont precision radius foldLedger ∧
+                    Cont foldLedger nameRow realized ∧ PkgSig bundle realized pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro packet coverageRoute foldRoute realizedRoute realizedPkg
+  obtain ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, nameRowUnary,
+    _packetCoverageRoute, _packetTransportRoute, _packetFoldRoute, _packetProvenanceRoute,
+    _packetPkg⟩ := packet
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed toleranceUnary bundleRowUnary coverageRoute
+  have foldUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary foldRoute
+  have realizedUnary : UnaryHistory realized :=
+    unary_cont_closed foldUnary nameRowUnary realizedRoute
+  exact
+    ⟨toleranceUnary, bundleRowUnary, radiusUnary, coverageUnary, foldUnary, realizedUnary,
+      coverageRoute, foldRoute, realizedRoute, realizedPkg⟩
 
 end BEDC.Derived.UniformModulusUp

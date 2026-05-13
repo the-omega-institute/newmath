@@ -227,6 +227,16 @@ instance compactModulusCoverChapterTasteGate : ChapterTasteGate CompactModulusCo
     intro x y hxy heq
     exact hxy (compactModulusCoverToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate CompactModulusCoverUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  round_trip := by
+    intro x
+    change compactModulusCoverFromEventFlow (compactModulusCoverToEventFlow x) = some x
+    exact compactModulusCover_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (compactModulusCoverToEventFlow_injective heq)
+
 theorem CompactModulusCoverTasteGate_single_carrier_alignment :
     (∀ h : BHist, compactModulusCoverDecodeBHist (compactModulusCoverEncodeBHist h) = h) ∧
       (∀ x : CompactModulusCoverUp,
