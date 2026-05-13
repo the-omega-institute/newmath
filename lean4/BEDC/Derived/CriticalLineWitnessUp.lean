@@ -44,4 +44,24 @@ theorem CriticalLineWitnessCarrier_modulus_route_closure {Z S M R Q H C P N : BH
     unary_cont_closed unaryC unaryP routeN
   exact ⟨unaryQ, unaryC, unaryN, sameH⟩
 
+theorem CriticalLineWitnessCarrier_modulus_depth_route_determinacy
+    {Z S M R Q H C P N Qp Cp : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont M R Qp ->
+        Cont Qp H Cp ->
+          hsame Cp C ->
+            hsame Qp Q ∧ UnaryHistory Qp ∧ UnaryHistory Cp ∧ hsame H (append Z S) := by
+  intro packet routeQp routeCp _sameCp
+  obtain ⟨unaryZ, unaryS, unaryM, unaryR, _unaryP, sameH, routeQ, _routeC, _routeN⟩ :=
+    packet
+  have sameQp : hsame Qp Q :=
+    cont_deterministic routeQp routeQ
+  have unaryQp : UnaryHistory Qp :=
+    unary_cont_closed unaryM unaryR routeQp
+  have unaryH : UnaryHistory H :=
+    unary_transport (unary_cont_closed unaryZ unaryS (cont_intro rfl)) (hsame_symm sameH)
+  have unaryCp : UnaryHistory Cp :=
+    unary_cont_closed unaryQp unaryH routeCp
+  exact ⟨sameQp, unaryQp, unaryCp, sameH⟩
+
 end BEDC.Derived.CriticalLineWitnessUp
