@@ -232,4 +232,25 @@ theorem CriticalStripZetaZeroWitnessPacket_concretizes_rh [AskSetup] [PackageSet
     }
   · exact And.intro stripZeroTransport (And.intro lineBoundaryRoute endpointPkg)
 
+theorem CriticalStripZetaZeroWitnessPacket_source_route_exhaustion [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint sourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      Cont sourceRead route endpoint ->
+        hsame sourceRead transport ∧ UnaryHistory sourceRead ∧ Cont strip zero sourceRead ∧
+          PkgSig bundle endpoint pkg := by
+  intro packet sourceRouteEndpoint
+  obtain ⟨_stripUnary, _zeroUnary, _lineUnary, _boundaryUnary, transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _endpointUnary, stripZeroTransport, _lineBoundaryRoute,
+    transportRouteEndpoint, _endpointProvenanceName, _endpointSameTransportRoute,
+    endpointPkg⟩ := packet
+  have sameSourceTransport : hsame sourceRead transport :=
+    cont_right_cancel sourceRouteEndpoint transportRouteEndpoint
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_transport transportUnary (hsame_symm sameSourceTransport)
+  have stripZeroSource : Cont strip zero sourceRead :=
+    cont_result_hsame_transport stripZeroTransport (hsame_symm sameSourceTransport)
+  exact ⟨sameSourceTransport, sourceUnary, stripZeroSource, endpointPkg⟩
+
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp

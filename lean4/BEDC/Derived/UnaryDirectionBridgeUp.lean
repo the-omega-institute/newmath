@@ -194,6 +194,55 @@ theorem UnaryDirectionBridgeCarrier_source_classifier_transport [AskSetup] [Pack
   cases sameName
   exact carrier
 
+theorem UnaryDirectionBridgeCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name natRow'
+      axisRow' bridge' kernel' boundary' ledger' transports' routes' provenance' name'
+      boundaryRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      hsame natRow natRow' ->
+        hsame axisRow axisRow' ->
+          hsame bridge bridge' ->
+            hsame kernel kernel' ->
+              hsame boundary boundary' ->
+                hsame ledger ledger' ->
+                  hsame transports transports' ->
+                    hsame routes routes' ->
+                      hsame provenance provenance' ->
+                        hsame name name' ->
+                          Cont boundary' ledger' boundaryRead' ->
+                            PkgSig bundle boundaryRead' pkg ->
+                              UnaryDirectionBridgeCarrier natRow' axisRow' bridge' kernel'
+                                  boundary' ledger' transports' routes' provenance' name'
+                                  bundle pkg ∧
+                                UnaryHistory boundaryRead' ∧ Cont bridge' kernel' boundary' ∧
+                                  Cont boundary' ledger' boundaryRead' ∧
+                                    PkgSig bundle provenance' pkg ∧
+                                      PkgSig bundle name' pkg ∧
+                                        PkgSig bundle boundaryRead' pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig hsame
+  intro carrier sameNat sameAxis sameBridge sameKernel sameBoundary sameLedger
+    sameTransports sameRoutes sameProvenance sameName boundaryLedgerRead boundaryReadPkg
+  have transported :
+      UnaryDirectionBridgeCarrier natRow' axisRow' bridge' kernel' boundary' ledger'
+        transports' routes' provenance' name' bundle pkg :=
+    UnaryDirectionBridgeCarrier_source_classifier_transport (pkg := pkg) carrier sameNat
+      sameAxis sameBridge sameKernel sameBoundary sameLedger sameTransports sameRoutes
+      sameProvenance sameName
+  have transportedCarrier :
+      UnaryDirectionBridgeCarrier natRow' axisRow' bridge' kernel' boundary' ledger'
+        transports' routes' provenance' name' bundle pkg := transported
+  obtain ⟨_natUnary, _axisUnary, _bridgeUnary, _kernelUnary, boundaryUnary, ledgerUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _natAxisBridge,
+    bridgeKernelBoundary, _boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := transported
+  have boundaryReadUnary : UnaryHistory boundaryRead' :=
+    unary_cont_closed boundaryUnary ledgerUnary boundaryLedgerRead
+  exact
+    ⟨transportedCarrier, boundaryReadUnary, bridgeKernelBoundary, boundaryLedgerRead,
+      provenancePkg, namePkg, boundaryReadPkg⟩
+
 theorem UnaryDirectionBridgeCarrier_ledger_policy [AskSetup] [PackageSetup]
     {natRow axisRow bridge kernel boundary ledger transports routes provenance name
       ledgerRead : BHist}
