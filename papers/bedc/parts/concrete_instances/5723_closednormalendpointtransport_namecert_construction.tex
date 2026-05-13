@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalEndpointTransportUp$}
+\label{ch:concrete-instances-closed-normal-endpoint-transport-namecert}
+\origin{ai}
+
+The $\ClosedNormalEndpointTransportUp$ packet realizes the typed normal endpoint boundary isolated by \autoref{ch:closed-normal-consistency-main-result}. It sits beside the endpoint ledger of \autoref{ch:concrete-instances-closednormalendpointledger-namecert}, the route certificate of \autoref{ch:concrete-instances-closed-normal-route-certificate-namecert}, and the subject-reduction route of \autoref{ch:concrete-instances-subject-reduction-route-namecert}: those siblings expose the closed beta-strong endpoint, the route certificate, and the blocked transport surface, while the present packet records the finite NameCert transport row that a downstream consumer must display before reading the closed-normal contradiction route.
+
+\begin{definition}[Closed-normal endpoint transport carrier]
+\label{def:closed-normal-endpoint-transport-carrier}
+A $\ClosedNormalEndpointTransportUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,B,T,F,O,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source proof row naming the closed proof candidate before the endpoint handoff;
+\item $B$ is the beta-route row naming the finite reduction route available to the packet;
+\item $T$ is the typed normal endpoint row consumed by the closed-normal consistency main result;
+\item $F$ is the false-type preservation socket, displayed as a socket rather than as a discharged subject-reduction theorem;
+\item $O$ is the subject-reduction obstruction row that prevents the transport from being reread as full closed consistency;
+\item $L$ is the non-escape ledger recording that arbitrary closed proofs are not exported beyond the typed normal endpoint boundary;
+\item $H$ stores componentwise $\hsame$ transports for source proof, beta-route, typed endpoint, socket, obstruction, and non-escape rows;
+\item $C$ stores displayed $\Cont$ routes from the source proof and beta-route rows to the endpoint row and from the endpoint row to the closed-normal route certificate;
+\item $P$ records $\Pkg$ provenance over \autoref{ch:closed-normal-consistency-main-result}, \autoref{ch:concrete-instances-closednormalendpointledger-namecert}, \autoref{ch:concrete-instances-closed-normal-route-certificate-namecert}, \autoref{ch:concrete-instances-subject-reduction-route-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ClosedNormalEndpointTransportUp}$ row.
+\end{enumerate}
+The classifier compares two carriers only by the finite rows $S,B,T,F,O,L,H,C,P,N$. No coordinate contains full closed consistency, a closed subject-reduction theorem, unrestricted normalization, quotient conversion, host evaluation, or an ambient proof that every closed false proof reaches a typed normal endpoint.
+\end{definition}
+
+\begin{theorem}[Closed-normal endpoint transport NameCert obligations]
+\label{thm:closed-normal-endpoint-transport-namecert-obligations}
+Every accepted $\ClosedNormalEndpointTransportUp$ packet binds exactly the finite obligation surface of \autoref{def:closed-normal-endpoint-transport-carrier}: carrier admission for $E=(S,B,T,F,O,L,H,C,P,N)$, source proof row exactness through $S$, beta-route exactness through $B$, typed normal endpoint exactness through $T$, false-type preservation socket visibility through $F$, obstruction visibility through $O$, non-escape through $L$, componentwise classifier stability through $H$, displayed continuation stability through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Admission exposes only the finite tuple $E=(S,B,T,F,O,L,H,C,P,N)$, so every public read starts from the displayed source proof, beta-route, endpoint, socket, obstruction, and non-escape rows.
+
+The endpoint transport is read in two stages. The rows $S$ and $B$ name the source proof and beta route, while $T$ names the typed normal endpoint already at the boundary consumed by \autoref{ch:closed-normal-consistency-main-result}. The socket $F$ is visible but not discharged into a closed subject-reduction theorem.
+
+The rows $O$ and $L$ record the negative boundary. They keep the subject-reduction obstruction and non-escape ledger in the same packet as the positive endpoint row, so a consumer cannot erase the missing first arrow from arbitrary closed proof to typed normal endpoint.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name only this finite surface. Since no coordinate supplies full closed consistency, unrestricted normalization, quotient conversion, host evaluation, or ambient consistency, the accepted packet exports only the displayed endpoint transport boundary.
+\end{proof}
+
+\begin{theorem}[Closed-normal endpoint transport boundary]
+\label{thm:closed-normal-endpoint-transport-boundary}
+Every consumer of an accepted $\ClosedNormalEndpointTransportUp$ packet that reaches a beta-strong false endpoint must factor through either the displayed transport row from $S,B$ to $T$ together with the socket $F$, or through the displayed obstruction row $O$ and non-escape ledger $L$. A consumer that asks for full closed consistency, closed subject reduction, unrestricted normalization, quotient proof conversion, host evaluation, or an unlisted route from arbitrary closed proofs to typed normal endpoints is outside the carrier.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of the packet and project the carrier. The only endpoint coordinate is $T$, and the only rows leading to it are the displayed source proof row $S$, beta-route row $B$, and socket row $F$.
+
+If the read uses the positive endpoint route, then it is already a finite closed-normal endpoint read and can be handed to the route certificate of \autoref{ch:concrete-instances-closed-normal-route-certificate-namecert}. The rows $H$ and $C$ preserve that route componentwise and do not add a subject-reduction discharge.
+
+If the read asks for the missing first arrow, it must encounter $O$ and $L$. Those rows record that the transport surface is an obstruction-aware endpoint packet, not a proof of arbitrary closed consistency.
+
+Thus every accepted read either stays on the displayed endpoint transport row or stops at the displayed obstruction boundary. The package and naming rows $P,N$ make that boundary public without adding any unlisted consistency principle.
+\end{proof}
+
+\falsifiablePrediction{A consumer that reaches a beta-strong false endpoint without the displayed transport row or obstruction row is not accepted by this carrier.}
+
+\independenceWitness{closednormalendpointledger, closed-normal-route-certificate, subjectreductionroute, subjectreductionobligation: none is bijective because endpoint transport carries both route-preservation and obstruction rows, while each sibling omits at least one of those coordinates.}
+
+The later Lean target in \texttt{lean4/BEDC/Derived/ClosedNormalEndpointTransportUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \ClosedNormalEndpointTransportUp$ and $\mathsf{FieldFaithful}\ \ClosedNormalEndpointTransportUp$ instances for this same finite carrier. Nontriviality separates the endpoint transport row from the obstruction row, while field faithfulness preserves the displayed coordinates $S,B,T,F,O,L,H,C,P,N$ for every TasteGate-facing consumer.
+
+\closureat{ClosedNormalEndpointTransportUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalEndpointTransportUp}
+  \constructivestory{A $\ClosedNormalEndpointTransportUp$ packet is generated from source proof, beta-route, typed normal endpoint, false-type preservation socket, subject-reduction obstruction, non-escape ledger, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-endpoint-transport-carrier}, \autoref{thm:closed-normal-endpoint-transport-namecert-obligations}, and \autoref{thm:closed-normal-endpoint-transport-boundary} bind the finite NameCert endpoint transport boundary for closed-normal consistency.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close full closed consistency, closed subject reduction, unrestricted normalization, quotient conversion, host evaluation, ambient consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-route exactness, socket visibility, obstruction visibility, classifier stability, continuation stability, provenance, local naming, nontriviality, and field faithfulness for the same finite endpoint transport packet.}
+\end{closurestatus}
