@@ -123,6 +123,27 @@ theorem RegularCauchyTailMeetPacket_root_window_threshold_coverage [AskSetup]
     ⟨r0Unary, r1Unary, w0Unary, w1Unary, m0Unary, m1Unary, tauUnary, qUnary,
       rootUnary, r0w0Row, r1w1Row, m0m1Row, tauqRow, rootRoute, pkgRow⟩
 
+theorem RegularCauchyTailMeetPacket_root_downstream_window_exhaustion [AskSetup]
+    [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg →
+      Cont q n rootRead →
+        UnaryHistory r0 ∧ UnaryHistory r1 ∧ UnaryHistory w0 ∧ UnaryHistory w1 ∧
+          UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory l ∧ UnaryHistory rootRead ∧
+            Cont r0 w0 h ∧ Cont r1 w1 c ∧ Cont tau q l ∧ Cont q n rootRead ∧
+              PkgSig bundle l pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet rootRoute
+  obtain ⟨r0Unary, r1Unary, w0Unary, w1Unary, _m0Unary, _m1Unary, _tauUnary,
+    qUnary, hUnary, cUnary, lUnary, nUnary, r0w0Row, r1w1Row, _m0m1Row,
+    tauqRow, pkgRow⟩ := packet
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed qUnary nUnary rootRoute
+  exact
+    ⟨r0Unary, r1Unary, w0Unary, w1Unary, hUnary, cUnary, lUnary, rootUnary,
+      r0w0Row, r1w1Row, tauqRow, rootRoute, pkgRow⟩
+
 theorem RegularCauchyTailMeetPacket_root_downstream_threshold_stability [AskSetup]
     [PackageSetup]
     {r0 r1 w0 w1 m0 m1 tau q h c l n r0' r1' w0' w1' m0' m1' tau' q' h' c'
