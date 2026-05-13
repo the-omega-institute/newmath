@@ -62,3 +62,62 @@ Read the terminal witness $Q$ from $R$. This gives the terminal-read surface of 
 
 For the reverse direction, suppose a consumer starts with the displayed replay of $T$ through $C$ and then reads $Q$ at $R$. The carrier has exactly the coordinates required to repack that route as $B$, so the consumer obtains the same finite terminal-read packet and no host-wide big-step semantics.
 \end{proof}
+
+\begin{theorem}[ContinuationBigStep terminal-read determinacy]
+\label{thm:continuation-big-step-terminal-read-determinacy}
+Let
+$$
+B_0=(S_0,T_0,R_0,Q_0,H_0,C_0,P_0,N_0)
+\qquad\text{and}\qquad
+B_1=(S_1,T_1,R_1,Q_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\ContinuationBigStepUp$ carriers. Suppose their source rows, small-step trace ledgers, replay routes, and terminal rows are classifier-same:
+$$
+S_0\hsame S_1,
+\qquad
+T_0\hsame T_1,
+\qquad
+C_0\hsame C_1,
+\qquad
+R_0\hsame R_1.
+$$
+Then the terminal-read witnesses are classifier-same,
+$$
+Q_0\hsame Q_1,
+$$
+and both accepted big-step reads factor through one finite route presentation. More precisely, the read of $B_0$ factors through
+$$
+S_0\longrightarrow T_0\longrightarrow C_0\longrightarrow R_0\longrightarrow Q_0,
+$$
+while the read of $B_1$ is the classifier transport of this same route through the displayed comparisons on $S,T,C,R$ and the induced comparison on $Q$.
+\end{theorem}
+\begin{proof}
+By \autoref{def:continuation-big-step-carrier}, an accepted $\ContinuationBigStepUp$ packet has exactly the displayed coordinates $S,T,R,Q,H,C,P,N$. The coordinate $T$ is the finite $\ContinuationTraceUp$ ledger, $C$ is the displayed $\Cont$ replay route from the source row to the terminal row, $R$ is the terminal row reached by that replay, and $Q$ is the terminal-read witness attached to $R$.
+
+Apply \autoref{thm:continuation-big-step-small-step-factorization} to $B_0$ and $B_1$. The first packet reads through
+$$
+S_0\longrightarrow T_0\longrightarrow C_0\longrightarrow R_0\longrightarrow Q_0,
+$$
+and the second reads through
+$$
+S_1\longrightarrow T_1\longrightarrow C_1\longrightarrow R_1\longrightarrow Q_1.
+$$
+The hypotheses identify the source, ledger, replay, and terminal rows of these two routes by the local classifier. Hence the two routes have the same finite replay spine after componentwise transport.
+
+The only remaining endpoint datum is the terminal-read row. By \autoref{thm:continuation-big-step-namecert-obligations}, terminal readback is read from the terminal row through the witness $Q$, and consumer exactness allows reads only through the displayed coordinates $S,T,R,Q,H,C,P,N$. Since the source, trace ledger, replay route, and terminal row have already been matched, there is no second carrier coordinate from which a different terminal-read endpoint can be selected. Transporting the readback of $Q_0$ along $R_0\hsame R_1$ and the matched replay route therefore gives the readback of $Q_1$, so $Q_0\hsame Q_1$.
+
+Thus the two accepted big-step reads are not two independent terminal computations. They are the same finite small-step replay followed by the same terminal-read operation, with the second presentation obtained from the first by classifier transport along the displayed source, trace, route, terminal, and terminal-read comparisons.
+\end{proof}
+
+\closureat{ContinuationBigStepUp}{seedStr}
+
+\begin{closurestatus}{\ContinuationBigStepUp}
+  \constructivestory{A $\ContinuationBigStepUp$ packet is generated from a source row, a finite small-step trace ledger, the terminal row reached by replay, a terminal-read witness, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuation-big-step-carrier}, \autoref{thm:continuation-big-step-namecert-obligations}, \autoref{thm:continuation-big-step-small-step-factorization}, and \autoref{thm:continuation-big-step-terminal-read-determinacy} bind the carrier, NameCert obligations, small-step factorization, terminal-read determinacy, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for the finite big-step packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host evaluator semantics, quotient behaviour, hidden termination, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace factorization, terminal readback, non-escape, and consumer exactness for the same finite packet.}
+\end{closurestatus}

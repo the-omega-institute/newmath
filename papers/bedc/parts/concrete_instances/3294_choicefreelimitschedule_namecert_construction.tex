@@ -67,15 +67,85 @@ Pass to the completion-facing rows. The handoff row $R$ and seal row $S$ are rea
 Finally apply the non-escape obligation of \autoref{thm:choice-free-limit-schedule-namecert-obligations}. The excluded analytic objects do not occur as coordinates of $L$, so no public read can export quotient streams, host equality of completed reals, countable choice, hidden limit selectors, or an ambient completeness theorem.
 \end{proof}
 
-\closureat{ChoiceFreeLimitScheduleUp}{obligationStr}
+\begin{theorem}[Choice-free limit schedule classifier transport]
+\label{thm:choice-free-limit-schedule-classifier-transport}
+Let $L=(E,M,W,D,R,S,H,C,P,N)$ be an accepted $\ChoiceFreeLimitScheduleUp$ packet. The schedule classifier of $L$ is the finite public test that reads exactly the displayed request row $E$, schedule row $M$, selected $\StreamNameUp$ windows $W$, $\DyadicRatCoreUp$ observation ledger $D$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal row $S$, componentwise transports $H$, continuation routes $C$, provenance $P$, and local name $N$.
+
+If each of these rows is transported componentwise by the corresponding $\hsame$ coordinate in $H$, the classifier is preserved. The transported packet still has no coordinate from which a quotient stream, host real equality of completed reals, countable choice, hidden limit selector, or ambient completeness theorem can be introduced.
+\end{theorem}
+\begin{proof}
+The carrier definition fixes the classifier domain to the rows of the packet $L$. Since the classifier reads no object outside $E,M,W,D,R,S,H,C,P,N$, transporting the displayed rows componentwise through $H$ preserves exactly the same finite test.
+
+Apply the NameCert obligations of \autoref{thm:choice-free-limit-schedule-namecert-obligations}. Carrier exposure, request-to-schedule exactness, window and dyadic readback coverage, handoff and seal discipline, and non-escape are all stated for the same displayed rows.
+
+Finally use \autoref{thm:choice-free-limit-schedule-nonescape}. Every public read remains inside the finite packet after transport, so there is no route that can add quotient streams, host real equality, countable choice, hidden selectors, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Choice-free limit schedule RegSeqRat handoff exactness]
+\label{thm:choice-free-limit-schedule-regseq-handoff-exactness}
+Let $L=(E,M,W,D,R,S,H,C,P,N)$ be an accepted $\ChoiceFreeLimitScheduleUp$ packet. Every $\RegSeqRatUp$ handoff row in $R$ is reached only through the displayed route
+$$
+E \to M \to W \to D
+$$
+together with the transport, route replay, provenance, and local naming rows $H,C,P,N$.
+
+Thus no downstream consumer can read a handoff row through an unlisted stream representative, a quotient-stream equality, a countable-choice selector, host real equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The row $R$ occurs after the precision request $E$, schedule row $M$, window family $W$, and dyadic ledger $D$, and the continuation coordinate $C$ displays the route from $E$ to $M$, from $M$ to $W$, from $W$ to $D$, and from $D$ to $R$.
+
+Apply the NameCert obligations. Request-to-schedule exactness fixes the first segment, window and dyadic readback coverage fixes the middle segments, and handoff discipline fixes the passage from $D$ to $R$ under the same $H,C,P,N$ rows.
+
+Use non-escape to close the boundary. Since the handoff is read through the displayed packet, the packet cannot export an unlisted representative, quotient equality, choice selector, host real equality, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Choice-free limit schedule RealUp seal discipline]
+\label{thm:choice-free-limit-schedule-real-seal-discipline}
+Let $L=(E,M,W,D,R,S,H,C,P,N)$ be an accepted $\ChoiceFreeLimitScheduleUp$ packet. Every $\RealUp$ seal read through $S$ factors through the finite route
+$$
+E \to M \to W \to D \to R
+$$
+and then through the same componentwise transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+The exported seal is only the displayed $\RealUp$ row of the packet. It does not provide a stronger completion object, a uniqueness theorem for completed limits, quotient equality of streams, host real equality, countable choice, a hidden selector, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the seal coordinate from the carrier $L$. The definition places $S$ after the request, schedule, selected windows, dyadic observations, and $\RegSeqRatUp$ handoff, and the continuation coordinate records the route into $S$.
+
+Apply the NameCert obligations for handoff and seal discipline. They require the seal row to be reached through $D$ and $R$ and then repacked only through the displayed $H,C,P,N$ rows.
+
+Apply \autoref{thm:choice-free-limit-schedule-nonescape}. A completion-facing consumer may read the finite route and the seal row, but no stronger completion object or excluded analytic principle is present in the packet.
+\end{proof}
+
+\begin{theorem}[Choice-free limit schedule consumer readback]
+\label{thm:choice-free-limit-schedule-consumer-readback}
+Let $L=(E,M,W,D,R,S,H,C,P,N)$ be an accepted $\ChoiceFreeLimitScheduleUp$ packet. Every completion-facing consumer read of $L$ factors through the same displayed route
+$$
+E \to M \to W \to D \to R \to S
+$$
+and through the same componentwise transport, continuation, provenance, and local naming rows $H,C,P,N$.
+
+Consequently the consumer-facing surface of the packet is the finite schedule-to-seal route together with $H,C,P,N$. It exposes no alternate schedule classifier, no separate $\RegSeqRatUp$ handoff, no stronger $\RealUp$ completion object, no quotient-stream equality, no host real equality, no countable-choice row, no hidden selector, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations. Carrier exposure fixes the displayed packet, request-to-schedule exactness fixes the segment from $E$ to $M$, window and dyadic readback coverage fixes the segments from $M$ to $W$ and from $W$ to $D$, and handoff and seal discipline fixes the segments from $D$ to $R$ and from $R$ to $S$ under the same $H,C,P,N$ rows.
+
+Use classifier transport to keep the public test on those rows after componentwise transport. By \autoref{thm:choice-free-limit-schedule-classifier-transport}, the transported packet still reads exactly $E,M,W,D,R,S,H,C,P,N$ and cannot add an alternate analytic coordinate.
+
+Apply \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness} and \autoref{thm:choice-free-limit-schedule-real-seal-discipline}. The handoff and seal are both reached by replaying the finite route, so a completion-facing read cannot bypass the schedule, the selected windows, or the dyadic ledger.
+
+Finally apply \autoref{thm:choice-free-limit-schedule-nonescape}. Since all public reads remain inside the displayed packet, the consumer readback exports only the finite route and the displayed $H,C,P,N$ rows.
+\end{proof}
+
+\closureat{ChoiceFreeLimitScheduleUp}{scopedStr}
 
 \begin{closurestatus}{\ChoiceFreeLimitScheduleUp}
   \constructivestory{A $\ChoiceFreeLimitScheduleUp$ packet is generated from a precision request, finite schedule row, StreamNameUp windows, DyadicRatCoreUp observations, RegSeqRatUp handoff, RealUp seal, componentwise transports, continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:choice-free-limit-schedule-carrier}, \autoref{thm:choice-free-limit-schedule-namecert-obligations}, and \autoref{thm:choice-free-limit-schedule-nonescape} bind the finite precision-to-window-to-seal packet consumed by Real-completion routes.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:choice-free-limit-schedule-carrier}, \autoref{thm:choice-free-limit-schedule-namecert-obligations}, \autoref{thm:choice-free-limit-schedule-classifier-transport}, \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness}, \autoref{thm:choice-free-limit-schedule-real-seal-discipline}, \autoref{thm:choice-free-limit-schedule-consumer-readback}, and \autoref{thm:choice-free-limit-schedule-nonescape} bind the finite precision-to-window-to-seal packet consumed by Real-completion routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, a public standard bridge, countable choice, or Lean verification.}
-  \upgradepath{Scoped closure requires binding the schedule classifier, transport stability, RegSeqRatUp handoff exactness, RealUp seal discipline, and consumer readback to the same displayed rows.}
+  \upgradepath{Public closure requires a public export theorem for the finite schedule-to-seal route.}
 \end{closurestatus}

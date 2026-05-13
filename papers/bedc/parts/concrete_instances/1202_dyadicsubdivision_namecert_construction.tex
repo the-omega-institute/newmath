@@ -74,6 +74,7 @@ Since the subdivision carrier contains no further coverage coordinate, the paren
 \label{thm:dyadic-subdivision-validated-enclosure-handoff}
 A $\ValidatedNumericsUp$ consumer of an accepted $\DyadicSubdivisionUp$ packet may read exactly the parent $\RationalIntervalUp$ row, common dyadic level row, ordered finite cell ledger, child $\DyadicMeshUp$ packets, attached $\ValidatedNumericsUp$ containment rows, $\hsame$ transports, $\Cont$ routes, package provenance, and local $\NameCert$ row. The handoff supplies a finite enclosure subdivision and does not assert solver correctness, floating-point hardware semantics, classical real completeness, or an infinite refinement theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicSubdivisionUp.DyadicSubdivisionSource\_validated\_enclosure\_public\_export}
 \begin{proof}
 Project the carrier. The validated-numerics side first sees the parent interval, the level row, and the ordered cell list; these rows determine which finite child packets can be inspected.
 
@@ -81,6 +82,7 @@ For each child, read the matching $\DyadicMeshUp$ packet and the corresponding $
 
 Thus the handoff is the finite enclosure subdivision formed by these rows. No coordinate supplies solver correctness, hardware semantics, classical completeness, or an infinite refinement principle.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicSubdivisionUp.DyadicSubdivisionSource\_validated\_enclosure\_handoff}
 
 \begin{theorem}[DyadicSubdivision refinement composition]
 \label{thm:dyadic-subdivision-refinement-composition}
@@ -101,6 +103,7 @@ It remains to identify the consumer surface. Mesh coverage reads only the finite
 \label{thm:dyadic-subdivision-common-refinement-exhaustion}
 Let $S_0=(I,L_0,C_0,M_0,V_0,P_0,N_0)$ and $S_1=(I,L_1,C_1,M_1,V_1,P_1,N_1)$ be two accepted $\DyadicSubdivisionUp$ packets over the same displayed $\RationalIntervalUp$ parent row $I$. If both packets carry finite $\DyadicMeshUp$ refinement ledgers for the same parent interval, then there is a finite accepted child-ledger over $\DyadicMeshUp$ rows that refines both $C_0$ and $C_1$ and whose validated enclosure rows are transported through the corresponding $\ValidatedNumericsUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicSubdivisionUp.DyadicSubdivisionPacket\_common\_refinement\_exhaustion}
 \begin{proof}
 Read both packets through \autoref{def:dyadic-subdivision-source}. Each subdivision has a displayed parent interval row, a dyadic level row, a finite ordered cell list, a finite family of mesh cells, and a finite family of validated enclosure rows.
 

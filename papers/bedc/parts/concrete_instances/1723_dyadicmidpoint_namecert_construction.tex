@@ -97,6 +97,7 @@ Endpoint and midpoint transport then proceeds through $H$ and $C$. These rows mo
 
 The package row $P$ records which surrounding certificates may consume the route, and $N$ records the local naming registration. Therefore the route into rational intervals, dyadic intervals, nested intervals, finite-window envelopes, dyadic bisection, dyadic rational rows, and real names is exhausted by the displayed finite packet.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicMidpointUp.DyadicMidpointCarrier\_readback\_closure}
 
 \begin{theorem}[DyadicMidpoint nested interval non-escape]
 \label{thm:dyadic-midpoint-nested-interval-non-escape}
@@ -194,6 +195,24 @@ Project the accepted carrier. The endpoint rows $L,R$, common-denominator row $S
 Apply \autoref{thm:dyadic-midpoint-branch-comparison-handoff} to identify the branch read with the displayed branch-comparison row. Use \autoref{thm:dyadicmidpoint-bisection-ledger-exactness} and \autoref{thm:dyadic-midpoint-branch-ledger-totality} to bind the retained endpoint, midpoint, and branch decision to $L,R,S,\mu,B,W,H,C,P,N$.
 
 Finally apply \autoref{thm:dyadic-midpoint-common-denominator-consumer-exactness}. It forces every midpoint consumer to read $S$ before $\mu$, so the branch route available to bisection, subdivision, located-interval, and real-name consumers is exhausted by the common-denominator branch ledger and exports none of the excluded completion or host-equality rows.
+\end{proof}
+
+\begin{theorem}[DyadicMidpoint selected-window denominator seal]
+\label{thm:dyadic-midpoint-selected-window-denominator-seal}
+For every accepted $\DyadicMidpointUp$ carrier
+$$
+M=(L,R,S,\mu,B,W,H,C,P,N),
+$$
+any $\RealUp$ or $\StreamNameUp$ consumer that reads the selected midpoint window must consume the common-denominator row $S$, midpoint row $\mu$, branch row $B$, finite-window row $W$, and provenance rows $H,C,P,N$ before any seal-facing read. No quotient endpoint, completed interval intersection, host real equality, or ambient completeness row can mediate that handoff.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:dyadic-midpoint-common-denominator-consumer-exactness}. It forces every midpoint read through the displayed common-denominator row $S$ before the midpoint row $\mu$ can be consumed.
+
+Apply \autoref{thm:dyadic-midpoint-common-denominator-branch-exhaustion}. The selected window then reads the branch row $B$ through $W,H,C,P,N$, so a bisection, subdivision, located-interval, real-name, or stream-name consumer cannot select a midpoint branch outside the finite packet.
+
+Finally use \autoref{thm:dyadic-midpoint-real-handoff-noncompletion}. The $\RealUp$ seal route receives only the finite dyadic-name packet for the current window, and the same finite-window boundary is the one a $\StreamNameUp$ consumer can observe.
+
+The carrier contains no quotient endpoint, completed interval intersection, host real equality, or ambient completeness row. Therefore the selected-window denominator route is the only seal-facing handoff for midpoint consumers.
 \end{proof}
 
 \begin{theorem}[DyadicMidpoint RealUp handoff without completion]
