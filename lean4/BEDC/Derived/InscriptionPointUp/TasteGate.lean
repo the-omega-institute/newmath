@@ -16,7 +16,7 @@ open BEDC.Meta.TasteGate
 /-- Inscription point token with the ten BEDC rows visible to local consumers. -/
 inductive InscriptionPointUp : Type where
   | mk :
-      (history gap supply handoff event ledger transport route provenance localName : BHist) →
+      (history gap supply handoff event ledger transport routes provenance nameCert : BHist) →
       InscriptionPointUp
   deriving DecidableEq
 
@@ -32,7 +32,7 @@ def inscriptionPointDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (inscriptionPointDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (inscriptionPointDecodeBHist tail)
 
-private theorem inscriptionPoint_decode_encode_bhist :
+private theorem inscriptionPointDecode_encode_bhist :
     ∀ h : BHist, inscriptionPointDecodeBHist (inscriptionPointEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -46,8 +46,8 @@ private theorem inscriptionPoint_decode_encode_bhist :
 
 def inscriptionPointToEventFlow : InscriptionPointUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | InscriptionPointUp.mk history gap supply handoff event ledger transport route provenance
-      localName =>
+  | InscriptionPointUp.mk history gap supply handoff event ledger transport routes provenance
+      nameCert =>
       [[BMark.b0],
         inscriptionPointEncodeBHist history,
         [BMark.b1, BMark.b0],
@@ -64,13 +64,13 @@ def inscriptionPointToEventFlow : InscriptionPointUp → EventFlow
         inscriptionPointEncodeBHist transport,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        inscriptionPointEncodeBHist route,
+        inscriptionPointEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
         inscriptionPointEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        inscriptionPointEncodeBHist localName]
+        inscriptionPointEncodeBHist nameCert]
 
 def inscriptionPointFromEventFlow : EventFlow → Option InscriptionPointUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -120,54 +120,34 @@ def inscriptionPointFromEventFlow : EventFlow → Option InscriptionPointUp
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | route :: rest15 =>
+                                                              | routes :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | provenance ::
-                                                                          rest17 =>
+                                                                      | provenance :: rest17 =>
                                                                           match rest17 with
                                                                           | [] => none
-                                                                          | _tag9 ::
-                                                                              rest18 =>
-                                                                              match
-                                                                                rest18
-                                                                              with
-                                                                              | [] =>
-                                                                                  none
-                                                                              | localName ::
-                                                                                  rest19 =>
-                                                                                  match
-                                                                                    rest19
-                                                                                  with
+                                                                          | _tag9 :: rest18 =>
+                                                                              match rest18 with
+                                                                              | [] => none
+                                                                              | nameCert :: rest19 =>
+                                                                                  match rest19 with
                                                                                   | [] =>
                                                                                       some
                                                                                         (InscriptionPointUp.mk
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            history)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            gap)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            supply)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            handoff)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            event)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            ledger)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            transport)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            route)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            provenance)
-                                                                                          (inscriptionPointDecodeBHist
-                                                                                            localName))
-                                                                                  | _ ::
-                                                                                      _ =>
-                                                                                      none
+                                                                                          (inscriptionPointDecodeBHist history)
+                                                                                          (inscriptionPointDecodeBHist gap)
+                                                                                          (inscriptionPointDecodeBHist supply)
+                                                                                          (inscriptionPointDecodeBHist handoff)
+                                                                                          (inscriptionPointDecodeBHist event)
+                                                                                          (inscriptionPointDecodeBHist ledger)
+                                                                                          (inscriptionPointDecodeBHist transport)
+                                                                                          (inscriptionPointDecodeBHist routes)
+                                                                                          (inscriptionPointDecodeBHist provenance)
+                                                                                          (inscriptionPointDecodeBHist nameCert))
+                                                                                  | _ :: _ => none
 
 private theorem inscriptionPoint_round_trip :
     ∀ x : InscriptionPointUp,
@@ -175,7 +155,7 @@ private theorem inscriptionPoint_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk history gap supply handoff event ledger transport route provenance localName =>
+  | mk history gap supply handoff event ledger transport routes provenance nameCert =>
       change
         some
           (InscriptionPointUp.mk
@@ -186,22 +166,22 @@ private theorem inscriptionPoint_round_trip :
             (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist event))
             (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist ledger))
             (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist transport))
-            (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist route))
+            (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist routes))
             (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist provenance))
-            (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist localName))) =
+            (inscriptionPointDecodeBHist (inscriptionPointEncodeBHist nameCert))) =
           some
-            (InscriptionPointUp.mk history gap supply handoff event ledger transport route
-              provenance localName)
-      rw [inscriptionPoint_decode_encode_bhist history,
-        inscriptionPoint_decode_encode_bhist gap,
-        inscriptionPoint_decode_encode_bhist supply,
-        inscriptionPoint_decode_encode_bhist handoff,
-        inscriptionPoint_decode_encode_bhist event,
-        inscriptionPoint_decode_encode_bhist ledger,
-        inscriptionPoint_decode_encode_bhist transport,
-        inscriptionPoint_decode_encode_bhist route,
-        inscriptionPoint_decode_encode_bhist provenance,
-        inscriptionPoint_decode_encode_bhist localName]
+            (InscriptionPointUp.mk history gap supply handoff event ledger transport routes
+              provenance nameCert)
+      rw [inscriptionPointDecode_encode_bhist history,
+        inscriptionPointDecode_encode_bhist gap,
+        inscriptionPointDecode_encode_bhist supply,
+        inscriptionPointDecode_encode_bhist handoff,
+        inscriptionPointDecode_encode_bhist event,
+        inscriptionPointDecode_encode_bhist ledger,
+        inscriptionPointDecode_encode_bhist transport,
+        inscriptionPointDecode_encode_bhist routes,
+        inscriptionPointDecode_encode_bhist provenance,
+        inscriptionPointDecode_encode_bhist nameCert]
 
 private theorem inscriptionPointToEventFlow_injective {x y : InscriptionPointUp} :
     inscriptionPointToEventFlow x = inscriptionPointToEventFlow y → x = y := by
@@ -211,11 +191,9 @@ private theorem inscriptionPointToEventFlow_injective {x y : InscriptionPointUp}
       inscriptionPointFromEventFlow (inscriptionPointToEventFlow x) =
         inscriptionPointFromEventFlow (inscriptionPointToEventFlow y) :=
     congrArg inscriptionPointFromEventFlow heq
-  have hsome : some x = some y :=
-    Eq.trans (inscriptionPoint_round_trip x).symm
-      (Eq.trans hread (inscriptionPoint_round_trip y))
-  cases hsome
-  rfl
+  exact Option.some.inj
+    (Eq.trans (inscriptionPoint_round_trip x).symm
+      (Eq.trans hread (inscriptionPoint_round_trip y)))
 
 instance inscriptionPointBHistCarrier : BHistCarrier InscriptionPointUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -236,17 +214,17 @@ theorem InscriptionPointTasteGate_single_carrier_alignment :
     (∀ h : BHist, inscriptionPointDecodeBHist (inscriptionPointEncodeBHist h) = h) ∧
       (∀ x : InscriptionPointUp,
         inscriptionPointFromEventFlow (inscriptionPointToEventFlow x) = some x) ∧
-      (∀ x y : InscriptionPointUp,
-        inscriptionPointToEventFlow x = inscriptionPointToEventFlow y → x = y) ∧
-      inscriptionPointEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : InscriptionPointUp,
+          inscriptionPointToEventFlow x = inscriptionPointToEventFlow y → x = y) ∧
+          inscriptionPointEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact inscriptionPoint_decode_encode_bhist
+  · exact inscriptionPointDecode_encode_bhist
   · constructor
     · exact inscriptionPoint_round_trip
     · constructor
-      · intro x y sameFlow
-        exact inscriptionPointToEventFlow_injective sameFlow
+      · intro x y heq
+        exact inscriptionPointToEventFlow_injective heq
       · rfl
 
 end BEDC.Derived.InscriptionPointUp

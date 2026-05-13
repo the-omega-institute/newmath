@@ -17,18 +17,20 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def FiniteNetMinimumFoldPacket [AskSetup] [PackageSetup]
-    (probeRow radiusRow accumulator lowerBound transportRow provenance nameRow : BHist)
+    (bundleRow radius accumulator lower transport route provenance nameRow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory probeRow ∧ UnaryHistory radiusRow ∧ UnaryHistory accumulator ∧
-    UnaryHistory lowerBound ∧ UnaryHistory nameRow ∧
-      Cont probeRow radiusRow accumulator ∧ Cont accumulator lowerBound transportRow ∧
-        Cont transportRow nameRow provenance ∧ PkgSig bundle provenance pkg
+  UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory accumulator ∧
+    UnaryHistory lower ∧ UnaryHistory nameRow ∧
+      Cont bundleRow radius accumulator ∧ Cont accumulator lower transport ∧
+        Cont transport nameRow provenance ∧ Cont bundleRow radius transport ∧
+          Cont transport accumulator lower ∧ Cont lower route provenance ∧
+            PkgSig bundle provenance pkg
 
 theorem FiniteNetMinimumFoldPacket_namecert_obligations [AskSetup] [PackageSetup]
-    {probeRow radiusRow accumulator lowerBound transportRow provenance nameRow exported : BHist}
+    {probeRow radiusRow accumulator lowerBound transportRow routeRow provenance nameRow exported : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     FiniteNetMinimumFoldPacket probeRow radiusRow accumulator lowerBound transportRow
-        provenance nameRow bundle pkg →
+        routeRow provenance nameRow bundle pkg →
       Cont accumulator lowerBound exported →
         PkgSig bundle exported pkg →
           SemanticNameCert
@@ -43,6 +45,7 @@ theorem FiniteNetMinimumFoldPacket_namecert_obligations [AskSetup] [PackageSetup
   intro packet exportRoute exportPkg
   obtain ⟨probeUnary, radiusUnary, accumulatorUnary, lowerBoundUnary, _nameRowUnary,
     probeRadiusAccumulator, _accumulatorLowerTransport, transportNameProvenance,
+    _probeRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
     _provenancePkg⟩ := packet
   have exportedUnary : UnaryHistory exported :=
     unary_cont_closed accumulatorUnary lowerBoundUnary exportRoute
@@ -73,5 +76,26 @@ theorem FiniteNetMinimumFoldPacket_namecert_obligations [AskSetup] [PackageSetup
       intro _row sourceRow
       exact ⟨sourceRow.right.right, transportNameProvenance⟩
   }
+
+theorem FiniteNetMinimumFoldPacket_nonempty_probe_exhaustion [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow consumed : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont bundleRow radius consumed →
+        Cont consumed accumulator lower →
+          PkgSig bundle provenance pkg →
+            UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory accumulator ∧
+              UnaryHistory consumed ∧ Cont bundleRow radius consumed ∧
+                Cont consumed accumulator lower ∧ PkgSig bundle provenance pkg := by
+  intro packet bundleRadiusConsumed consumedAccumulatorLower provenancePkg
+  obtain ⟨bundleRowUnary, radiusUnary, accumulatorUnary, _lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, _accumulatorLowerTransport, _transportNameProvenance,
+    _transportRoute, _lowerRoute, _provenanceRoute, _packetPkg⟩ := packet
+  have consumedUnary : UnaryHistory consumed :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusConsumed
+  exact
+    ⟨bundleRowUnary, radiusUnary, accumulatorUnary, consumedUnary, bundleRadiusConsumed,
+      consumedAccumulatorLower, provenancePkg⟩
 
 end BEDC.Derived.FiniteNetMinimumFoldUp
