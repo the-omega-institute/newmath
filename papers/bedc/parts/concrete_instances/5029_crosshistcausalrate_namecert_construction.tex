@@ -155,6 +155,42 @@ The packet is not determined by a single event name. Its carrier has separate ro
 Nontriviality rules out an empty encoding in which every carrier collapses to one indistinct point. Field faithfulness records preservation of the displayed row inventory, so a TasteGate consumer can distinguish the two Hist slots, the dependence routes, the maximum-rate row, the symmetry row, and the no-global-frame ledger.
 \end{proof}
 
+\begin{theorem}[Cross-Hist causal-rate route obligation package]
+\label{thm:cross-hist-causal-rate-route-obligation-package}
+For the carrier
+$$
+R=(A,B,D,M,S,G,H,C,P,N)
+$$
+of \autoref{def:cross-hist-causal-rate-carrier}, the rows $A,B,D,M,S,G,H,C,P,N$ supply the complete $\CrossHistCausalRateUp$ obligation package: carrier admission for the two observer-history slots, finite route replay for the displayed causal-dependence family, maximum-rate exactness for $M$, observer symmetry for $S$, no-global-frame refusal for $G$, componentwise $\hsame$ transport, displayed continuation replay, package provenance, and the local $\NameCert_{\CrossHistCausalRateUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The two observer slots are $A$ and $B$, the finite causal-dependence route family is $D$, and the maximum-rate row is $M$.
+
+The rows $S$ and $G$ are the two boundary gates for reading $M$ as an observer-symmetric invariant rather than a global-frame value. The introduction fixes the sibling sources for observer identity, cross-Hist causal rows, maximum causal rate, inter-Hist invariant reading, and finite continuation replay, so the package consumes exactly those public surfaces.
+
+Finally $H,C,P,N$ provide the transport, replay, provenance, and local naming rows. Since the carrier contains no additional coordinate, the listed rows exhaust the obligation package.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate route replay obligation]
+\label{thm:cross-hist-causal-rate-route-replay-obligation}
+Every accepted $\CrossHistCausalRateUp$ causal-rate read must replay the finite route family $D$ before reading the maximum-rate row $M$. A read that reaches $M$ without the displayed $D$ routes is not a read of the carrier $R=(A,B,D,M,S,G,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the carrier and inspect the order of the public rows. The row $M$ is specified as a maximum-rate packet over exactly the dependence routes displayed in $D$.
+
+The continuation coordinate $C$ records the consumer route: read the two histories, replay each route in $D$, then read $M$. Thus $M$ is not an independent host-valued speed row and cannot be consumed before the finite route family has been replayed.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate observer symmetry obligation]
+\label{thm:cross-hist-causal-rate-observer-symmetry-obligation}
+An observer-symmetric $\CrossHistCausalRateUp$ rate read requires both the observer-symmetry row $S$ and the no-global-frame ledger $G$. The row $S$ supplies invariance under swapping the two Hist slots, while $G$ refuses synchronized clocks, privileged observer frames, and global synchronization data.
+\end{theorem}
+\begin{proof}
+The invariant boundary theorem already identifies $S$ and $G$ as the two public gates for a maximum-rate read. Projecting the carrier shows that $S$ is the only row recording preservation under the observer swap, and $G$ is the only row excluding the forbidden global-frame data.
+
+If $S$ is absent, the read has no observer-symmetry witness. If $G$ is absent, the same numerical-looking read could depend on a hidden synchronization surface. Hence an observer-symmetric rate read requires both rows.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CrossHistCausalRateUp$ packet admits no maximum-rate read unless both observer-symmetry and no-global-sync rows are present.}
 
 \independenceWitness{interhistinvariant, observerhistidentity, histtimestream, continuationtrace, supplykindrouter: $\CrossHistCausalRateUp$ has two Hist slots, a causal-dependence route, a maximum-rate row, and no-global-frame refusal data; these rows are not bijective with invariant-only, identity-only, time-stream-only, trace-only, or socket-router packets.}
