@@ -273,4 +273,43 @@ theorem RegularCauchyInterleavingPacket_schedule_window_coverage [AskSetup] [Pac
         (cont_respects_hsame (hsame_refl selector) sameRightSchedule rightSealRoute
           readRoute)
 
+theorem RegularCauchyInterleavingPacket_selector_transport_determinacy
+    [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint leftSchedule' rightSchedule'
+      leftSeal' rightSeal' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg ->
+      hsame leftSchedule leftSchedule' ->
+        hsame rightSchedule rightSchedule' ->
+          Cont selector leftSchedule' leftSeal' ->
+            Cont selector rightSchedule' rightSeal' ->
+              UnaryHistory leftSchedule' ∧ UnaryHistory rightSchedule' ∧
+                UnaryHistory leftSeal' ∧ UnaryHistory rightSeal' ∧ hsame leftSeal leftSeal' ∧
+                  hsame rightSeal rightSeal' := by
+  intro packet sameLeftSchedule sameRightSchedule leftSealRoute' rightSealRoute'
+  obtain ⟨_leftNameUnary, _rightNameUnary, leftScheduleUnary, rightScheduleUnary,
+    selectorUnary, _modulusUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, leftSealRoute, rightSealRoute, _interleavedRoute, _endpointRoute,
+    _endpointPkg⟩ := packet
+  have leftScheduleUnary' : UnaryHistory leftSchedule' :=
+    unary_transport leftScheduleUnary sameLeftSchedule
+  have rightScheduleUnary' : UnaryHistory rightSchedule' :=
+    unary_transport rightScheduleUnary sameRightSchedule
+  have leftSealUnary' : UnaryHistory leftSeal' :=
+    unary_cont_closed selectorUnary leftScheduleUnary' leftSealRoute'
+  have rightSealUnary' : UnaryHistory rightSeal' :=
+    unary_cont_closed selectorUnary rightScheduleUnary' rightSealRoute'
+  have sameLeftSeal : hsame leftSeal leftSeal' :=
+    cont_respects_hsame (hsame_refl selector) sameLeftSchedule leftSealRoute
+      leftSealRoute'
+  have sameRightSeal : hsame rightSeal rightSeal' :=
+    cont_respects_hsame (hsame_refl selector) sameRightSchedule rightSealRoute
+      rightSealRoute'
+  exact
+    ⟨leftScheduleUnary', rightScheduleUnary', leftSealUnary', rightSealUnary',
+      sameLeftSeal, sameRightSeal⟩
+
 end BEDC.Derived.RegularCauchyInterleavingUp
