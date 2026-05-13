@@ -72,6 +72,7 @@ REFILL_TASK_PREFIX = "bedc_board_refill_"
 
 DEFAULT_TIMEOUT = 14400  # Match oracle server TASK_TIMEOUT; refill prompts can run long.
 DEFAULT_POLL_INTERVAL = 30
+DEFAULT_TRANSPORT_RETRIES = 1
 ZERO_EXTRACTION_HANG_SECONDS = 900
 ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
 
@@ -161,6 +162,34 @@ def _zero_extraction_hang_agents(status: dict) -> list[str]:
         ):
             out.append(agent_id)
     return out
+
+
+def _response_failure_kind(response: str) -> str:
+    text = (response or "").strip().lower()
+    if text.startswith("error: response too short or empty"):
+        return "oracle_transport_empty_response"
+    if text.startswith("error: duplicate response"):
+        return "oracle_transport_duplicate_response"
+    if text.startswith("error:"):
+        return "oracle_transport_error_response"
+    return "unparseable_response"
+
+
+def _write_failure_summary(ts: str, *, error: str, response_len: int = 0) -> None:
+    summary = {
+        "ok": False,
+        "candidates_proposed": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "appended_ids": [],
+        "error": error,
+        "response_len": response_len,
+        "ts": ts,
+    }
+    (LOG_DIR / f"refill_{ts}.summary.json").write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
 
 def _board_content() -> str:
@@ -355,6 +384,8 @@ def main() -> int:
     parser.add_argument("--server", default=ORACLE_SERVER)
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT)
     parser.add_argument("--poll-interval", type=int, default=DEFAULT_POLL_INTERVAL)
+    parser.add_argument("--transport-retries", type=int, default=DEFAULT_TRANSPORT_RETRIES,
+                        help="Fresh refill retries after oracle transport-only empty/error responses.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Only build + print prompt, don't submit.")
     parser.add_argument("--allow-queue-without-tabs", action="store_true",
@@ -408,29 +439,51 @@ def main() -> int:
         return 1
 
     attach_pdf = None if args.no_attach_pdf else Path(args.attach_pdf)
-    submit_resp = submit_refill(args.server, prompt, attach_pdf=attach_pdf)
-    if "error" in submit_resp:
-        print(f"[board_refill] submit failed: {submit_resp['error']}", flush=True)
-        return 1
-    task_id = submit_resp.get("task_id", "")
-    conv_id = submit_resp.get("conversation_id", "")
-    print(f"[board_refill] submitted task={task_id} conv={conv_id[:14]}", flush=True)
+    response = ""
+    max_attempts = max(1, int(args.transport_retries or 0) + 1)
+    for attempt in range(1, max_attempts + 1):
+        if attempt > 1:
+            print(
+                f"[board_refill] retrying fresh refill after transport failure "
+                f"(attempt {attempt}/{max_attempts})",
+                flush=True,
+            )
+        submit_resp = submit_refill(args.server, prompt, attach_pdf=attach_pdf)
+        if "error" in submit_resp:
+            print(f"[board_refill] submit failed: {submit_resp['error']}", flush=True)
+            _write_failure_summary(ts, error=f"submit_failed:{submit_resp['error']}")
+            return 1
+        task_id = submit_resp.get("task_id", "")
+        conv_id = submit_resp.get("conversation_id", "")
+        print(f"[board_refill] submitted task={task_id} conv={conv_id[:14]}", flush=True)
 
-    response = poll_result(args.server, task_id, args.timeout, args.poll_interval)
-    if response is None:
-        print("[board_refill] stopped before receiving a response", flush=True)
-        return 1
-    if not response:
-        print(f"[board_refill] timeout waiting for response (limit={args.timeout}s)",
-              flush=True)
-        return 1
+        response = poll_result(args.server, task_id, args.timeout, args.poll_interval)
+        if response is None:
+            print("[board_refill] stopped before receiving a response", flush=True)
+            _write_failure_summary(ts, error="stopped_before_response")
+            return 1
+        if not response:
+            print(f"[board_refill] timeout waiting for response (limit={args.timeout}s)",
+                  flush=True)
+            _write_failure_summary(ts, error="timeout_waiting_for_response")
+            return 1
+        failure_kind = _response_failure_kind(response)
+        if failure_kind.startswith("oracle_transport_") and attempt < max_attempts:
+            print(
+                f"[board_refill] {failure_kind}; retrying once with a fresh task",
+                flush=True,
+            )
+            continue
+        break
 
     (LOG_DIR / f"refill_{ts}.response.md").write_text(response, encoding="utf-8")
     print(f"[board_refill] received {len(response)} chars", flush=True)
 
     parsed = _extract_json_object(response)
     if not parsed:
-        print("[board_refill] response was not parseable JSON", flush=True)
+        failure_kind = _response_failure_kind(response)
+        print(f"[board_refill] response was not parseable JSON ({failure_kind})", flush=True)
+        _write_failure_summary(ts, error=failure_kind, response_len=len(response))
         return 1
 
     candidates = parsed.get("candidates") or []
