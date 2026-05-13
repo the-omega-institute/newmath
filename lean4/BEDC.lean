@@ -369,6 +369,7 @@ import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
+import BEDC.Derived.PicardContractionUp.SourceWindow
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.InducedRepUp
