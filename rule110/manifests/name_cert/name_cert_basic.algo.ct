@@ -1,0 +1,110 @@
+# name_cert_basic.algo.ct
+# Bounded algorithm witness for the NameCert finite ground fixture.
+#
+# Scope:
+#   NameCert is parameterized by arbitrary Carrier and Equiv predicates plus
+#   descent, composition, and stability-mode interfaces. This manifest covers
+#   the concrete bounded-depth fixture used by name_cert_basic.enum.ct and by
+#   the bounded sweep in tests/test_name_cert.c.
+#
+# Program:
+#   Production i emits 1 followed by the six-bit binary index i. During the
+#   first input-length steps, every head bit equal to 1 appends the certificate
+#   for that input position. Head bit 0 appends nothing. The test harness runs
+#   exactly input_length steps and compares the remaining tape with the
+#   positional certificate for that tagged NameCert input.
+PRODUCTIONS 64
+1000000
+1000001
+1000010
+1000011
+1000100
+1000101
+1000110
+1000111
+1001000
+1001001
+1001010
+1001011
+1001100
+1001101
+1001110
+1001111
+1010000
+1010001
+1010010
+1010011
+1010100
+1010101
+1010110
+1010111
+1011000
+1011001
+1011010
+1011011
+1011100
+1011101
+1011110
+1011111
+1100000
+1100001
+1100010
+1100011
+1100100
+1100101
+1100110
+1100111
+1101000
+1101001
+1101010
+1101011
+1101100
+1101101
+1101110
+1101111
+1110000
+1110001
+1110010
+1110011
+1110100
+1110101
+1110110
+1110111
+1111000
+1111001
+1111010
+1111011
+1111100
+1111101
+1111110
+1111111
+ASSERTIONS 29
+case core_empty_chain:                  input=1011101111111110101011           ; name_cert=yes
+case core_depth_one_chain:              input=101101011011101101110101011      ; name_cert=yes
+case core_vacuous_relation:             input=10111011011101111100011          ; name_cert=yes
+case core_transport_reject:             input=10111011111011101110101011       ; name_cert=no
+case core_bad_source_bit:               input=10111011011101101110101011       ; name_cert=no
+case semantic_empty_transport:          input=01011101111111110101011          ; name_cert=yes
+case semantic_chain_depth_two:          input=0101100101101011101011001110101011; name_cert=yes
+case semantic_source_outside_vacuous:   input=01011101101110110111010011       ; name_cert=yes
+case semantic_bad_classifier:           input=01011001011011101011001110101011 ; name_cert=no
+case semantic_bad_source_bit:           input=010111011011101101110101011      ; name_cert=no
+case seal_thread0_bound0:               input=00101110111011                   ; name_cert=yes
+case seal_thread2_bound1:               input=00101100101101011                ; name_cert=yes
+case seal_trailing_reject:              input=0010111011101111                 ; name_cert=no
+case seal_bad_thread:                   input=001011111011                     ; name_cert=no
+case stable_empty:                      input=00010111111101011                ; name_cert=yes
+case stable_depth_one:                  input=00010110111011101011             ; name_cert=yes
+case stable_not_same_vacuous:           input=000101111101101011               ; name_cert=yes
+case stable_bad_same_bit:               input=0001011111011101011              ; name_cert=no
+case stable_no_ledger:                  input=0001011011101110011              ; name_cert=no
+case composition_empty:                 input=00001011111110101011             ; name_cert=yes
+case composition_depth_two:             input=00001011010111001110101011       ; name_cert=yes
+case composition_not_same_vacuous:      input=000010111110110101011            ; name_cert=yes
+case composition_bad_same:              input=0000101111101110101011           ; name_cert=no
+case composition_missing_right_ledger:  input=0000101101110111010011           ; name_cert=no
+case mode_closure_reuse:                input=000001011101101011              ; name_cert=yes
+case mode_descent_composition:          input=0000010110010110001011          ; name_cert=yes
+case mode_composition_seal:             input=000001011000101100001011        ; name_cert=yes
+case mode_same_reject:                  input=00000101110111011               ; name_cert=no
+case mode_invalid_reject:               input=00000101100001011000001011      ; name_cert=no
