@@ -1,0 +1,116 @@
+\begin{theorem}[Diagonal-limit compatibility root budget coherence]
+\label{thm:diagonal-limit-compatibility-root-budget-coherence}
+For an accepted $\DiagonalLimitCompatibilityUp$ packet
+$$
+K=(R,T,S,D,W,Q,L,H,C,P,N),
+$$
+the root-budget route is the same displayed route used by the rows
+$D,W,Q,L,H,C,P,N$. It reads the $\DyadicRatCoreUp$ ledger $D$, the
+$\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, the
+$\RealUp$ seal row $L$, the componentwise $\hsame$ transports $H$, the
+displayed $\Cont$ routes $C$, the $\Pkg$ provenance $P$, and the local
+$\NameCert$ row $N$ through the carrier of
+\autoref{def:diagonal-limit-compatibility-carrier}. It has no root-budget
+source outside that $\BHist/\hsame/\Cont/\Pkg/\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only root-facing data in the packet are the
+displayed rows $R,T,S,D,W,Q,L,H,C,P,N$, with $D,W,Q,L$ carrying the budget,
+window, readback, and seal coordinates and $H,C,P,N$ carrying transport,
+route, provenance, and naming.
+
+Apply the root budget source theorem,
+\autoref{thm:diagonal-limit-compatibility-root-budget-source}. It identifies
+the budget source with the same finite structural surface used by the
+selector-budget route, rather than with a hidden host-side source.
+
+Now use the root window route and root seal boundary theorems,
+\autoref{thm:diagonal-limit-compatibility-root-window-route} and
+\autoref{thm:diagonal-limit-compatibility-root-seal-boundary}. They keep the
+route through $W,Q,L$ after the displayed ledger and window rows and before
+any Real-facing handoff.
+
+Finally apply root consumer non-escape,
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}. Since no
+additional budget coordinate is exported, the root-budget route is exactly
+the route already used by $D,W,Q,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility root selector budget exhaustion]
+\label{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}
+Every selector-budget consumer of an accepted $\DiagonalLimitCompatibilityUp$
+packet factors through
+$$
+R,T,S,D,W,Q,L.
+$$
+It must first read the accepted diagonal source $R$, the triangle selector row
+$T$, the seal route $S$, the dyadic ledger $D$, the finite window row $W$, the
+regular readback row $Q$, and the Real seal row $L$, transported by the same
+$H,C,P,N$ support rows. No selector-budget consumer can introduce a second
+diagonal route, alternate window route, alternate dyadic ledger, selected
+host limit, quotient stream, choice datum, or ambient completeness input.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. A selector-budget consumer sees one
+diagonal source row $R$, one triangle selector row $T$, one seal route $S$,
+one dyadic ledger $D$, one stream-window row $W$, one regular readback $Q$,
+and one Real seal row $L$.
+
+Use triangle selector alignment together with source-route exactness,
+\autoref{thm:diagonal-limit-compatibility-triangle-selector-alignment} and
+\autoref{thm:diagonal-limit-compatibility-source-route-exactness}. These
+theorems attach the selector route to the same $R,T,D,W$ rows and place the
+route to $Q,L$ on that displayed source path.
+
+Next apply the root budget carrier and classifier rows,
+\autoref{thm:diagonal-limit-compatibility-root-budget-carrier-row} and
+\autoref{thm:diagonal-limit-compatibility-root-budget-classifier-row}. The
+carrier row supplies the finite packet surface, and the classifier row keeps
+componentwise $\hsame$ transport and $\Cont$ replay on that same route.
+
+The exhaustion claim follows from root budget ledger row and completion
+consumer non-escape,
+\autoref{thm:diagonal-limit-compatibility-root-budget-ledger-row} and
+\autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}.
+Together they leave no selector-budget coordinate outside
+$R,T,S,D,W,Q,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility Real seal readback lock]
+\label{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}
+Every $\RealUp$ or $\CompletionUp$ seal read of an accepted
+$\DiagonalLimitCompatibilityUp$ packet reaches $L$ only after the
+$\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, the
+$\DyadicRatCoreUp$ ledger $D$, and the $\CauchyLimitSealUp$ route $S$ have
+been fixed on the displayed compatibility route. The read is therefore locked
+to the carrier route
+$$
+R,T,S,D,W,Q,L,H,C,P,N
+$$
+and cannot be replaced by a host real equality, selected limit, quotient
+stream, choice datum, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First read the seal source synchronization theorem,
+\autoref{thm:diagonal-limit-compatibility-seal-source-synchronization}. It
+fixes $R,T,S,D,W,Q,L$ together with $H,C,P,N$ before a seal-facing consumer
+can inspect the readback or seal rows.
+
+Next apply the triangle readback lock and regular readback exactness,
+\autoref{thm:diagonal-limit-compatibility-triangle-readback-lock} and
+\autoref{thm:diagonal-limit-compatibility-regular-readback-exactness}. These
+results place $Q$ behind the same $T,D,W$ route used by the seal row and
+exclude an independent regular readback source.
+
+Now use seal readback exactness and Real seal exactness,
+\autoref{thm:diagonal-limit-compatibility-seal-readback-exactness} and
+\autoref{thm:diagonal-limit-compatibility-real-seal-exactness}. They identify
+the route to $L$ with the displayed seal, dyadic, window, readback, transport,
+continuation, provenance, and local naming rows.
+
+Finally apply the completion consumer gate,
+\autoref{thm:diagonal-limit-compatibility-completion-consumer-gate}. Every
+$\RealUp$ or $\CompletionUp$ read remains downstream of the same finite
+budget-source and seal-budget routes, so no host-side completion data can
+replace the locked readback route.
+\end{proof}
