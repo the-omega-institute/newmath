@@ -41,3 +41,19 @@ Next use \autoref{thm:critical-line-witness-rh-nonescape-package} and \autoref{t
 
 Finally apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. The refusal ledger removes global zero classification, zero search, host equality, quotient representatives, analytic continuation, and ambient completeness from downstream access, so RH-facing consumers receive only the displayed refusal boundary.
 \end{proof}
+
+\begin{theorem}[Critical-line witness depth-comparison scope]
+\label{thm:critical-line-witness-depth-comparison-scope}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every comparison-window route that uses the modulus-depth row $M$ and rational comparison ledger $Q$ remains inside
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+Changing the depth request, the zero-strip row, or the comparison ledger leaves the local $\CriticalLineWitnessUp$ packet rather than projecting a new RH-facing source from the same certificate.
+\end{theorem}
+\begin{proof}
+Begin with the zero-strip depth lock. By \autoref{thm:critical-line-witness-zero-strip-depth-lock}, a zero-strip read that reaches $Z$ and $S$ locks the later modulus-depth request to the displayed row $M$ under the same $H,C,P,N$ surface.
+
+Next apply \autoref{thm:critical-line-witness-comparison-window-totality}. It exhausts comparison-window reads by the finite route $Z,S,M,R,Q,H,C,P,N$, so the rational comparison ledger $Q$ is not interchangeable with an external comparison source.
+
+Finally use \autoref{thm:critical-line-witness-rh-boundary-downstream-lock}. RH-facing consumers receive only the refusal boundary over these rows. Replacing the depth request, zero-strip row, or comparison ledger therefore leaves the local packet and cannot create a new RH-facing source.
+\end{proof}
