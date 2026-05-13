@@ -401,6 +401,36 @@ def main() -> int:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     ts = _now_tag()
 
+    if not args.dry_run:
+        # Verify server readiness before building/logging a prompt. Duplicate or
+        # tabless skips are control-plane decisions, not refill attempts.
+        try:
+            status = _http_get(f"{args.server}/status", timeout=5)
+            if _has_refill_in_server(status) and not args.allow_duplicate_refill:
+                print(
+                    "[board_refill] existing board-refill task is queued or active; "
+                    "skipping submit.",
+                    flush=True,
+                )
+                return 0
+            if not status.get("project_active_poll_agents"):
+                if not args.allow_queue_without_tabs:
+                    print(
+                        "[board_refill] no compatible BEDC Project tabs polling; "
+                        "skipping submit instead of queueing.",
+                        flush=True,
+                    )
+                    return 0
+                print(
+                    f"[board_refill] WARN: no compatible BEDC Project tabs polling. "
+                    f"Submit will queue but won't dispatch. Open the BEDC Project "
+                    f"tabs first.",
+                    flush=True,
+                )
+        except Exception as exc:
+            print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
+            return 1
+
     prompt = build_refill_prompt()
     (LOG_DIR / f"refill_{ts}.prompt.txt").write_text(prompt, encoding="utf-8")
     print(f"[board_refill] prompt built ({len(prompt)} chars)", flush=True)
@@ -409,34 +439,6 @@ def main() -> int:
         print(prompt[:2000])
         print(f"... [{len(prompt)} chars total]")
         return 0
-
-    # Verify server reachable
-    try:
-        status = _http_get(f"{args.server}/status", timeout=5)
-        if _has_refill_in_server(status) and not args.allow_duplicate_refill:
-            print(
-                "[board_refill] existing board-refill task is queued or active; "
-                "skipping submit.",
-                flush=True,
-            )
-            return 0
-        if not status.get("project_active_poll_agents"):
-            if not args.allow_queue_without_tabs:
-                print(
-                    "[board_refill] no compatible BEDC Project tabs polling; "
-                    "skipping submit instead of queueing.",
-                    flush=True,
-                )
-                return 0
-            print(
-                f"[board_refill] WARN: no compatible BEDC Project tabs polling. "
-                f"Submit will queue but won't dispatch. Open the BEDC Project "
-                f"tabs first.",
-                flush=True,
-            )
-    except Exception as exc:
-        print(f"[board_refill] server unreachable at {args.server}: {exc}", flush=True)
-        return 1
 
     attach_pdf = None if args.no_attach_pdf else Path(args.attach_pdf)
     response = ""
