@@ -227,6 +227,54 @@ Next apply \autoref{thm:observation-budget-limiter-source-window-readback-lock}.
 Finally apply \autoref{thm:observation-budget-limiter-seal-ordering} and \autoref{thm:observation-budget-limiter-real-seal-cap-boundary}. They place the $\RealUp$ seal row after the capped readback and identify $H,C,P,N$ as the seal-facing boundary. A $\CauchyLimitSealUp$, $\UniformLimitUp$, or Real-route consumer therefore becomes eligible only after the displayed finite service triad has been read.
 \end{proof}
 
+\begin{theorem}[Observation-budget limiter selector compatibility]
+\label{thm:observation-budget-limiter-selector-compatibility}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. Any $\FiniteObservationBudgetSelectorUp$ consumer may read the limiter only through the request-budget-cap service triad
+$$
+(E,B,K) \quad (W,D,R) \quad (S,H,C,P,N).
+$$
+In particular, selector-facing use of the cap row $K$ does not expose a hidden selector, an uncapped observation schedule, a quotient stream, selected host limit, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:observation-budget-limiter-finite-service-triad}. It identifies the whole exported surface of the limiter as the request-budget-cap entry, the source-window-readback middle, and the seal boundary with $H,C,P,N$.
+
+Apply \autoref{thm:observation-budget-limiter-source-window-readback-lock}. A selector-facing consumer cannot replace $E,B,K,W,D,R$ by a hidden selector or second readback route, because the capped service has no such carrier row.
+
+Finally use \autoref{thm:observation-budget-limiter-downstream-seal-eligibility}. Any downstream consumer that continues toward a seal must already have displayed the same finite service triad, so selector compatibility is a projection of the limiter surface rather than a separate observation primitive.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter Cauchy tail-budget factorization]
+\label{thm:observation-budget-limiter-cauchy-tail-budget-factorization}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ packet. Any $\RegularCauchyTailBudgetUp$ consumer that uses $L$ as its $O$ row must first factor that row through the same limiter triad
+$$
+(E,B,K) \quad (W,D,R) \quad (S,H,C,P,N)
+$$
+before it serves tail windows, dyadic observations, regular readback, and seal rows. Thus the tail-budget route inherits the limiter's displayed $H,C,P,N$ provenance and no uncapped observation source.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:observation-budget-limiter-finite-service-triad} to expose the service consumed as $O$. The limiter row contributes exactly $E,B,K,W,D,R,S,H,C,P,N$ and no external cap primitive.
+
+Use \autoref{thm:observation-budget-limiter-source-window-readback-lock} for the window and readback portion. It forces any downstream use of the capped service to pass through $E \to B \to K \to W \to D \to R$ before a seal-facing row is available.
+
+Then apply \autoref{thm:observation-budget-limiter-seal-ordering} and \autoref{thm:observation-budget-limiter-downstream-seal-eligibility}. They make any tail-budget seal consumer eligible only after the same triad has been read, so a $\RegularCauchyTailBudgetUp$ packet can consume $O$ only as this finite limiter service.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter service triad coverage]
+\label{thm:observation-budget-limiter-service-triad-coverage}
+Every listed $\CauchyLimitSealUp$, $\UniformLimitUp$, and Real-route consumer of an accepted $\ObservationBudgetLimiterUp$ packet receives exactly the visible service triad
+$$
+(E,B,K) \quad (W,D,R) \quad (S,H,C,P,N),
+$$
+including the same transport, continuation, package, and local naming rows $H,C,P,N$. No such consumer receives an unbounded schedule, hidden selector, quotient stream, selected host limit, host real equality, independent real carrier, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:observation-budget-limiter-downstream-seal-eligibility}. It states that $\CauchyLimitSealUp$, $\UniformLimitUp$, and Real-route consumers become eligible only after the finite service triad has been read.
+
+Next apply \autoref{thm:observation-budget-limiter-seal-ordering}. The seal row is reached only through $E \to B \to K \to W \to D \to R \to S$, so the visible triad covers the full entry, readback, and seal-facing route.
+
+Finally use \autoref{thm:observation-budget-limiter-finite-service-triad} and \autoref{thm:observation-budget-limiter-source-window-readback-lock}. These identify $H,C,P,N$ as the displayed provenance for that route and exclude any second source, hidden selector, host equality, quotient, selected limit, independent real carrier, or completeness witness.
+\end{proof}
+
 The follow-up Lean TasteGate for this chapter must provide \texttt{Nontrivial ObservationBudgetLimiterUp} and \texttt{FieldFaithful ObservationBudgetLimiterUp} instances for the same carrier.
 
 \closureat{ObservationBudgetLimiterUp}{seedStr}
