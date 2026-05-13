@@ -31,8 +31,22 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_topology_up $(TEST_DIR)/test_fold_up \
                    $(TEST_DIR)/test_circle_up $(TEST_DIR)/test_r110_round_trip
 
-.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent regen-manifests clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
+
+# Generated manifests (.r110.ct, .algo.r110.ct) are encoder outputs — not in git.
+# Pattern rules below regenerate them from source manifests (.enum.ct, .algo.ct)
+# whenever the source or generator binary changes.
+R110_GENERATED      := $(patsubst %.enum.ct,%.r110.ct,$(wildcard manifests/*/*.enum.ct))
+ALGO_R110_GENERATED := $(patsubst %.algo.ct,%.algo.r110.ct,$(wildcard manifests/*/*.algo.ct))
+
+manifests/%.r110.ct: manifests/%.enum.ct $(ENCODER_DIR)/generate_r110
+	./$(ENCODER_DIR)/generate_r110 $< $@
+
+manifests/%.algo.r110.ct: manifests/%.algo.ct $(ENCODER_DIR)/generate_r110_algo
+	./$(ENCODER_DIR)/generate_r110_algo $< $@
+
+regen-manifests: $(R110_GENERATED) $(ALGO_R110_GENERATED)
 
 # Evaluators
 $(EVAL_DIR)/rule110: $(EVAL_DIR)/rule110.c $(EVAL_DIR)/rule110.h
@@ -202,7 +216,7 @@ $(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)
 	    $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_decode.c $(ENCODER_DIR)/glider_phases.c
 
-test: $(TESTS)
+test: $(TESTS) $(R110_GENERATED) $(ALGO_R110_GENERATED)
 	@for t in $(TESTS); do \
 	    echo "== $$t =="; \
 	    ./$$t || exit 1; \
