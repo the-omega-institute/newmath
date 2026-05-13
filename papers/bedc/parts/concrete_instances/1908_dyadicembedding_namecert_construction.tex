@@ -170,6 +170,22 @@ Use \autoref{thm:dyadic-embedding-ledger-non-escape} for the base dependency bou
 The stationary-source and real-seal obligations show that every consumer route remains inside $d,S,R,Q,H,C,P,N$. Therefore quotient streams, selected limits, host equality, trichotomy, and completeness would require extra rows not present in the accepted packet.
 \end{proof}
 
+\begin{theorem}[DyadicEmbedding source-window-seal factorization]
+\label{thm:dyadic-embedding-source-window-seal-factorization}
+For every accepted $\DyadicEmbeddingUp$ packet
+$$
+D=(d,S,R,Q,H,C,P,N),
+$$
+any $\RealUp$ consumer factors through the same dyadic source row $d$, the constant $\StreamNameUp$ schedule $S$, the stationary $\RegSeqRatUp$ readback $R$, the real seal row $Q$, and the displayed transport, continuation, package, and local naming rows $H,C,P,N$. No varying stream, selected limit, host equality, trichotomy, or completeness row participates in the route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-embedding-carrier}. The source, stream, readback, seal, transport, continuation, package, and naming rows are precisely the coordinates $d,S,R,Q,H,C,P,N$.
+
+Use \autoref{thm:dyadic-embedding-stationary-source-obligation} to force the stream and regular rational readback through the same dyadic source row. Then apply \autoref{thm:dyadic-embedding-real-seal-obligation} to route the $\RealUp$ consumer through $Q$ only after the stationary readback has been consumed.
+
+Finally apply \autoref{thm:dyadic-embedding-ledger-exactness-obligation}. The ledger is exhausted by the displayed rows, so no varying stream, selected limit, host equality, trichotomy, or completeness coordinate remains available to the consumer.
+\end{proof}
+
 \begin{theorem}[DyadicEmbedding obligation closure surface]
 \label{thm:dyadic-embedding-obligation-closure-surface}
 The carrier, local $\NameCert_{\DyadicEmbeddingUp}$ obligations, constant stream readback, real seal handoff, ledger non-escape, public scope, stationary readback exactness, and real seal obligation of \autoref{def:dyadic-embedding-carrier}, \autoref{thm:dyadic-embedding-namecert-obligations}, \autoref{thm:dyadic-embedding-constant-stream-readback}, \autoref{thm:dyadic-embedding-real-seal-handoff}, \autoref{thm:dyadic-embedding-ledger-non-escape}, \autoref{thm:dyadic-embedding-public-scope}, \autoref{thm:dyadic-embedding-stationary-readback-exactness}, and \autoref{thm:dyadic-embedding-real-seal-obligation} jointly supply the obligation surface for the constant dyadic real-name route. Every accepted consumer factors through the displayed rows $d,S,R,Q,H,C,P,N$ and obtains no quotient stream, selected limit, host real equality, trichotomy, or ambient completeness principle.
