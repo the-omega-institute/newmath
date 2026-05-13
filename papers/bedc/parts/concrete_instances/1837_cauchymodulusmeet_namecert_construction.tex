@@ -560,6 +560,28 @@ Now route the diagonal and common-window consumers. \autoref{thm:cauchy-modulus-
 Finally route the rational and real consumers. \autoref{thm:cauchy-modulus-meet-paired-regseqrat-readback}, \autoref{thm:cauchy-modulus-meet-joint-consumer-exactness}, and \autoref{thm:cauchy-modulus-meet-mature-downstream-handoff} put $\RegSeqRatUp$ and $\RealUp$ on the same packet, and \autoref{thm:cauchy-modulus-meet-mature-nonescape} excludes every undisplayed analytic route.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet uniform-family tail-threshold factorization]
+\label{thm:cauchy-modulus-meet-uniform-family-tail-threshold-factorization}
+Let an accepted $\CauchyModulusMeetUp$ packet export its shared meet row to a finite-family $\UniformCauchyCriterionUp$ ledger and to an accepted $\RegularCauchyTailMeetUp$ packet. If both consumers read the shared tail threshold supplied by the meet packet, then both consumer routes factor through the same displayed rows
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+The finite-family ledger and the tail-meet packet may transport the row through their own displayed $\hsame$ and $\Cont$ routes, but neither consumer may replace $\mu$ by an independent tail selector, quotient stream, selected limit, host equality, ambient completeness witness, or any tail-threshold row not read from the displayed $\CauchyModulusMeetUp$ packet.
+\end{theorem}
+\begin{proof}
+Begin with the exported meet surface. \autoref{thm:cauchy-modulus-meet-root-unblock-export} fixes the two source stream rows, the two source modulus rows, the shared meet row, transport, continuation, provenance, and local naming rows as the only root-unblock packet available to downstream consumers.
+
+Next attach the regular tail-meet consumer. \autoref{thm:regular-cauchy-tail-meet-finite-family-threshold-absorption} says that a finite-family threshold request absorbed by $\RegularCauchyTailMeetUp$ must pass through the displayed tail-meet route rather than a separate selector or completion object.
+
+Now read the finite-family side. \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} keeps the family threshold request on the shared transported threshold row, and \autoref{thm:uniform-cauchy-criterion-family-tail-intersection} keeps subfamily tail reads inside the same finite family ledger.
+
+Combining these routes identifies the tail-meet threshold and the finite-family threshold as two consumer views of the same displayed row $\mu$ inside
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+The exclusions follow because each cited route is a ledger-read theorem over displayed BEDC rows and none exposes quotient streams, selected limits, host equality, ambient completeness, or an external tail selector.
+\end{proof}
+
 \closureat{CauchyModulusMeetUp}{seedStr}
 \closureat{CauchyModulusMeetUp}{obligationStr}
 \closureat{CauchyModulusMeetUp}{scopedStr}
