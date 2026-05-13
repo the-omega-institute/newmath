@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\AuditReexportNamespaceUp$}
+\label{ch:concrete-instances-auditreexportnamespace-namecert}
+\origin{ai}
+
+The $\AuditReexportNamespaceUp$ packet realizes the audit reexport namespace layer of \autoref{ch:twin-substrate-synthesis} as a finite NameCert carrier. It sits beside the twin-substrate packet of \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert} and the audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert}: those siblings name the two-substrate architecture and the generic audit-map consumer surface, while this chapter names the concrete namespace-addressing packet through which downstream audit readers cite the two reexport namespaces without collapsing them.
+
+\begin{definition}[Audit reexport namespace carrier]
+\label{def:audit-reexport-namespace-carrier}
+An $\AuditReexportNamespaceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,G,S,L,B,R,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the \texttt{BEDC.MetaCIC.Audit} namespace row, recording the MetaCIC audit exports that may be cited as theorem-side audit addresses;
+\item $G$ is the \texttt{BEDC.GroundCompiler.Audit} namespace row, recording the GroundCompiler audit exports that may be cited as compiler-side audit addresses;
+\item $S$ records the substrate tag rows that classify each namespace address as MetaCIC-facing, GroundCompiler-facing, or a paired project-level citation;
+\item $L$ is the export-address ledger, listing the finite public addresses exposed by $M$ and $G$ and the local citation names by which consumers reach them;
+\item $B$ is the separation witness, marking compiler audit rows as unavailable as MetaCIC theorem rows and MetaCIC theorem rows as unavailable as compiler audit rows;
+\item $R$ is the consumer route, recording which downstream audit-map, twin-substrate, or self-compilation reader consumes the namespace packet and through which displayed continuation;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:twin-substrate-synthesis}, \autoref{ch:concrete-instances-twinsubstratesynthesis-namecert}, \autoref{ch:concrete-instances-auditmapinterface-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AuditReexportNamespaceUp}$ row.
+\end{enumerate}
+The carrier predicate is $\mathsf{AuditReexportNamespacePacket}(A)$. Its public rows are exactly the two namespace rows, substrate tags, export-address ledger, separation witness, consumer route, package provenance, and local naming row.
+\end{definition}
+
+\begin{theorem}[Audit reexport namespace NameCert obligations]
+\label{thm:audit-reexport-namespace-namecert-obligations}
+For every accepted $\AuditReexportNamespaceUp$ carrier
+$$
+A=(M,G,S,L,B,R,P,N),
+$$
+the local $\NameCert_{\AuditReexportNamespaceUp}$ surface consists of five displayed obligation rows: carrier admission for the finite packet of \autoref{def:audit-reexport-namespace-carrier}; namespace address readback for $M,G,L$; substrate-tag exactness for $S$; separation and nonconversion readback for $B$; and consumer-route, package, and local-name stability for $R,P,N$ under the displayed $\hsame$ and $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The tuple exposes the two namespace rows, the tag row, the ledger, the separation row, the consumer route, provenance, and local naming.
+
+The first obligation is carrier admission for exactly those rows. The second reads the public namespace addresses through $M,G,L$, so a citation has a displayed export address before a consumer can use it.
+
+The third and fourth obligations inspect $S$ and $B$. The tag row classifies each address by substrate, and the separation witness records that the two address classes are not conversion rules.
+
+Finally $R,P,N$ bind the downstream route, package provenance, and local name to the same packet. Componentwise transport and continuation replay these rows without adding a hidden namespace equality, so the five displayed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Audit reexport namespace non-collapse]
+\label{thm:audit-reexport-namespace-noncollapse}
+Every consumer of an accepted $\AuditReexportNamespaceUp$ carrier may cite \texttt{BEDC.MetaCIC.Audit} through $M$ and \texttt{BEDC.GroundCompiler.Audit} through $G$ only along the displayed address ledger $L$, substrate tag row $S$, separation witness $B$, and route $R$. Such a citation cannot convert a compiler audit row into a MetaCIC theorem row, cannot convert a MetaCIC theorem row into a compiler audit row, and cannot export a shared hidden equality between the two namespace layers.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They force every consumer citation to pass through the visible namespace rows and export-address ledger.
+
+If the cited address is MetaCIC-facing, $S$ tags it as a MetaCIC address and $B$ records that compiler audit evidence is not available as a theorem row. The consumer route $R$ may attach paired compiler context, but only as a ledgered citation through $G,L$.
+
+If the cited address is GroundCompiler-facing, $S$ tags it as a compiler-side audit address and $B$ records that theorem rows are not compiler audit evidence. The paired MetaCIC context remains a cited namespace row, not a compiler artifact.
+
+Because the packet has no coordinate identifying $M$ with $G$ and no conversion row between their evidence classes, the namespace layer gives two citeable audit surfaces while preserving the noncollapse boundary.
+\end{proof}
+
+\closureat{AuditReexportNamespaceUp}{seedStr}
+
+\begin{closurestatus}{\AuditReexportNamespaceUp}
+  \constructivestory{An $\AuditReexportNamespaceUp$ packet is generated from MetaCIC and GroundCompiler audit namespace rows, substrate tags, an export-address ledger, a separation witness, a consumer route, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-reexport-namespace-carrier}, \autoref{thm:audit-reexport-namespace-namecert-obligations}, and \autoref{thm:audit-reexport-namespace-noncollapse} bind the finite two-substrate namespace packet, its five-row NameCert surface, and the boundary forbidding compiler-to-theorem or theorem-to-compiler conversion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, audit cleanliness, axiom cleanliness, bridge checking, self-compilation correctness, or conversion between MetaCIC theorem evidence and GroundCompiler audit evidence.}
+  \upgradepath{Obligation closure requires checked carrier admission, namespace address readback, substrate-tag exactness, separation readback, consumer-route stability, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
