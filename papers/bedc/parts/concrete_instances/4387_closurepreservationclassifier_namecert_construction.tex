@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\ClosurePreservationClassifierUp$}
+\label{ch:concrete-instances-closure-preservation-classifier-namecert}
+\origin{ai}
+
+The $\ClosurePreservationClassifierUp$ surface turns the MetaCIC closure-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} into a finite classifier-facing NameCert packet. It also reuses the generator-closure reading of \autoref{ch:concrete-instances-generatorclosure-namecert}: a displayed generator row is accepted only when its action stays inside the displayed classifier boundary.
+
+\begin{definition}[Closure-preservation classifier carrier]
+\label{def:closure-preservation-classifier-carrier}
+A $\ClosurePreservationClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+X=(K,S,U,B,F,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $K$ is the $\mathsf{ClosedAt}$ boundary row, naming the depth-indexed closedness classifier consumed by the audit;
+\item $S$ is the shift-generator row, recording the displayed shift action and its closedness-preservation certificate against $K$;
+\item $U$ is the substitution-generator row, recording the displayed substitution action and its closedness-preservation certificate against $K$;
+\item $B$ is the beta-step route row, exposing the single-step preservation route whose redex case consumes $U$ and whose congruence cases stay inside $K$;
+\item $F$ is the beta-star route row, exposing the finite iteration route obtained by replaying $B$ over the displayed step ledger;
+\item $H$ records componentwise $\hsame$ transports for the closedness boundary, generator rows, beta-step route, beta-star route, package row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes through which consumers inspect $K,S,U,B,F,H,P,N$;
+\item $P$ is the $\Pkg$ provenance over MetaCIC terms, depth rows, $\mathsf{ClosedAt}$, shift and substitution generators, beta-step and beta-star routes, $\BHist$, $\hsame$, $\Cont$, and local naming;
+\item $N$ is the local $\NameCert_{\ClosurePreservationClassifierUp}$ row.
+\end{enumerate}
+The packet is a classifier packet for closedness preservation. It contains no typing-preservation row, no normalization theorem, no confluence theorem, no quotient term equality, and no host conversion procedure.
+\end{definition}
+
+\begin{theorem}[Closure-preservation classifier NameCert obligations]
+\label{thm:closure-preservation-classifier-namecert-obligations}
+The local $\NameCert_{\ClosurePreservationClassifierUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for the packet $X=(K,S,U,B,F,H,C,P,N)$ of \autoref{def:closure-preservation-classifier-carrier};
+\item classifier boundary admission, stating that every accepted read of the packet begins at the displayed $\mathsf{ClosedAt}$ row $K$;
+\item generator preservation admission, stating that the shift row $S$ and substitution row $U$ are the only generator rows allowed to witness closure inside $K$;
+\item beta route admission, stating that the beta-step row $B$ and beta-star row $F$ are read as finite replays of the displayed generator-preservation data;
+\item non-escape and ledger exactness, stating that accepted consumers may inspect only $K,S,U,B,F,H,C,P,N$ and cannot import typing preservation, normalization, confluence, quotient terms, or host conversion.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite tuple in \autoref{def:closure-preservation-classifier-carrier}. The tuple names the closedness classifier, the two generator rows, the beta routes, transports, continuations, provenance, and local certificate.
+
+The classifier boundary row is $K$. Both generator rows are checked against that same row, so a public read cannot replace the closedness classifier by a typing classifier or by an ambient host predicate.
+
+The beta rows are then read through the displayed generator data. The beta-step route $B$ uses the substitution row for the redex case and componentwise closedness reads for congruence cases, while $F$ repeats $B$ over a finite route.
+
+Finally inspect the carrier inventory. Since $X$ has no typing-preservation, normalization, confluence, quotient, or host-conversion coordinate, the local certificate exports only the ClosedAt generator-closure audit surface.
+\end{proof}
+
+\begin{theorem}[Closure-preservation classifier generator closure]
+\label{thm:closure-preservation-classifier-generator-closure}
+Every accepted $\ClosurePreservationClassifierUp$ packet instantiates the GeneratorClosure reading for the $\mathsf{ClosedAt}$ classifier. Its shift row $S$ and substitution row $U$ are the generator witnesses, its beta-step row $B$ and beta-star row $F$ are the finite route witnesses, and its $H,C,P,N$ rows record transport, continuation, provenance, and local naming. The accepted packet therefore exposes closedness preservation for the displayed generator routes without exporting typing preservation, normalization, confluence, quotient terms, or host conversion.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $X=(K,S,U,B,F,H,C,P,N)$. The classifier coordinate is $K$, and the generator coordinates available to the GeneratorClosure reading are exactly $S$ and $U$.
+
+Read the beta-step route through $B$. Its redex branch uses the substitution generator row, and its structural branches replay closedness through the displayed classifier boundary. Read the beta-star route through $F$, which is a finite iteration of those accepted beta-step reads.
+
+The transport and continuation rows $H$ and $C$ keep every read attached to the same displayed packet, while $P$ and $N$ record package provenance and local certificate membership. No remaining coordinate can provide typing preservation, normalization, confluence, quotient-term equality, or host conversion, so the conclusion is exactly the ClosedAt generator-closure surface.
+\end{proof}
+
+\closureat{ClosurePreservationClassifierUp}{seedStr}
+
+\begin{closurestatus}{\ClosurePreservationClassifierUp}
+  \constructivestory{A $\ClosurePreservationClassifierUp$ packet is generated from a $\mathsf{ClosedAt}$ boundary row, shift and substitution generator rows, beta-step and beta-star route rows, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-preservation-classifier-carrier}, \autoref{thm:closure-preservation-classifier-namecert-obligations}, and \autoref{thm:closure-preservation-classifier-generator-closure} record the finite ClosedAt generator-closure packet and its local non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not export typing preservation, normalization, confluence, quotient terms, host conversion, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, ClosedAt classifier admission, shift and substitution generator preservation, beta-route replay, and non-escape for the displayed packet.}
+\end{closurestatus}
