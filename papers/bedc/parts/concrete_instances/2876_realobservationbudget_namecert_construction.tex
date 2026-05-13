@@ -306,6 +306,22 @@ Use \autoref{thm:real-observation-budget-tastegate-cited-obligation} for the AI-
 Thus the seed-to-obligation boundary has two requirements: the finite row surface must remain exhaustive, and the TasteGate target must resolve. Without both, the paper has readiness data but not an obligation-closure ledger.
 \end{proof}
 
+\begin{theorem}[Real observation budget finite-window ledger resolution]
+\label{thm:real-observation-budget-finite-window-ledger-resolution}
+For an accepted $\RealObservationBudgetUp$ carrier
+$$
+B=(E,W,D,R,S,H,C,P,N),
+$$
+every finite-window ledger read used by a $\RegSeqRatUp$ or $\RealUp$ consumer is resolved by $E,W,D$ together with $H,C,P,N$ before $R$ or $S$ is consumed. No such read may use quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+First read the request and window side. Request totality exposes the finite path from $E$ to $W$ and then to $D$, while window coverage binds every dyadic readback and displayed radius to the windows selected by the unary precision row.
+
+Next use the consumer-facing handoff theorems. The regular-sequence handoff places $R$ downstream of $E,W,D,H,C,P,N$, and the real-seal boundary places $S$ downstream of the same finite route.
+
+Finally apply classifier exactness and non-escape. Classifier exactness confines comparison to the displayed packet rows, and non-escape excludes quotient stream equality, host real equality, ambient completeness, hidden limit selection, and unbounded schedules from the ledger.
+\end{proof}
+
 \begin{theorem}[Real observation budget window-request totalization]
 \label{thm:real-observation-budget-window-request-totalization}
 For an accepted $\RealObservationBudgetUp$ carrier
