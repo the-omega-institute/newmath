@@ -111,29 +111,41 @@ def render_board() -> str:
     return "\n".join(out)
 
 
+def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
+    by_event = data.get("by_event") or {}
+    if not by_event:
+        return [f"  {label}: events=0"]
+    parts = [f"{k}={v}" for k, v in by_event.items()]
+    lines = [
+        (
+            f"  {label}: events={data.get('windowed', data.get('sampled', 0))} "
+            f"sampled={data.get('sampled', 0)}   " + "   ".join(parts)
+        )
+    ]
+    rejection_reasons = data.get("rejection_reasons") or []
+    if rejection_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
+        lines.append(f"  {label} top rejects: {top}")
+    rejection_sources = data.get("rejection_sources") or []
+    if rejection_sources:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_sources[:5])
+        lines.append(f"  {label} reject sources: {top}")
+    logic_reasons = data.get("logic_packet_gate_reasons") or []
+    if logic_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
+        lines.append(f"  {label} logic gate rejects: {top}")
+    return lines
+
+
 def render_candidate_inbox() -> str:
     try:
         import candidate_inbox
         data = candidate_inbox.stats()
+        recent = candidate_inbox.stats(since_hours=6)
     except Exception as exc:
         return f"  unavailable: {exc}"
-    by_event = data.get("by_event") or {}
-    if not by_event:
-        return "  events: 0"
-    parts = [f"{k}={v}" for k, v in by_event.items()]
-    lines = [f"  events: {data.get('events', 0)}   " + "   ".join(parts)]
-    rejection_reasons = data.get("rejection_reasons") or []
-    if rejection_reasons:
-        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
-        lines.append(f"  top rejects: {top}")
-    rejection_sources = data.get("rejection_sources") or []
-    if rejection_sources:
-        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_sources[:5])
-        lines.append(f"  reject sources: {top}")
-    logic_reasons = data.get("logic_packet_gate_reasons") or []
-    if logic_reasons:
-        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
-        lines.append(f"  logic gate rejects: {top}")
+    lines = _render_candidate_stats(data, label="all")
+    lines.extend(_render_candidate_stats(recent, label="last 6h"))
     return "\n".join(lines)
 
 
