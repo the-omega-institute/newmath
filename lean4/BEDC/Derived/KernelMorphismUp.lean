@@ -414,4 +414,38 @@ theorem KernelMorphismCarrier_edge_lift_transport [AskSetup] [PackageSetup]
         graphEndpoint', endpointPkg'⟩,
       targetSame, graphSame, endpointSame⟩
 
+theorem KernelMorphismCarrier_composition_scope [AskSetup] [PackageSetup]
+    {source middle target graphLeft graphRight edgeLeft edgeRight liftLeft liftRight
+      transportLeft routesLeft provenanceLeft certLeft transportRight routesRight provenanceRight
+      certRight compositeGraph compositeEdge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelMorphismCarrier source middle graphLeft edgeLeft liftLeft transportLeft routesLeft
+        provenanceLeft certLeft bundle pkg →
+      KernelMorphismCarrier middle target graphRight edgeRight liftRight transportRight
+          routesRight provenanceRight certRight bundle pkg →
+        Cont graphLeft graphRight compositeGraph →
+          Cont edgeLeft edgeRight compositeEdge →
+            PkgSig bundle compositeEdge pkg →
+              UnaryHistory source ∧ UnaryHistory middle ∧ UnaryHistory target ∧
+                UnaryHistory graphLeft ∧ UnaryHistory graphRight ∧ UnaryHistory compositeGraph ∧
+                  UnaryHistory compositeEdge ∧ Cont graphLeft graphRight compositeGraph ∧
+                    Cont edgeLeft edgeRight compositeEdge ∧ PkgSig bundle compositeEdge pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro leftCarrier rightCarrier graphComposition edgeComposition compositePkg
+  obtain ⟨sourceUnary, middleUnary, graphLeftUnary, edgeLeftUnary, _liftLeftUnary,
+    _transportLeftUnary, _routesLeftUnary, _provenanceLeftUnary, _certLeftUnary,
+    _sourceGraphLeftEdge, _edgeLiftLeftMiddle, _transportLeftRoutesProvenance,
+    _provenanceLeftPkg, _certLeftPkg⟩ := leftCarrier
+  obtain ⟨_middleUnaryRight, targetUnary, graphRightUnary, edgeRightUnary, _liftRightUnary,
+    _transportRightUnary, _routesRightUnary, _provenanceRightUnary, _certRightUnary,
+    _middleGraphRightEdge, _edgeLiftRightTarget, _transportRightRoutesProvenance,
+    _provenanceRightPkg, _certRightPkg⟩ := rightCarrier
+  have compositeGraphUnary : UnaryHistory compositeGraph :=
+    unary_cont_closed graphLeftUnary graphRightUnary graphComposition
+  have compositeEdgeUnary : UnaryHistory compositeEdge :=
+    unary_cont_closed edgeLeftUnary edgeRightUnary edgeComposition
+  exact
+    ⟨sourceUnary, middleUnary, targetUnary, graphLeftUnary, graphRightUnary,
+      compositeGraphUnary, compositeEdgeUnary, graphComposition, edgeComposition, compositePkg⟩
+
 end BEDC.Derived.KernelMorphismUp
