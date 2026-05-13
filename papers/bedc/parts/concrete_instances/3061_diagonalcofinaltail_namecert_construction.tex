@@ -54,6 +54,24 @@ Apply \autoref{thm:real-completeness-transported-stationary-window-seal-exhausti
 The continuations in $C$ replay only those readings, and $H$ transports them componentwise. No carrier coordinate remains for an unbounded window family, so every cofinal-tail observation is exhausted by the displayed finite packet.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail selector lock]
+\label{thm:diagonal-cofinal-tail-tail-selector-lock}
+For an accepted $\DiagonalCofinalTailUp$ carrier
+$$
+T=(Q,S,G,D,R,W,H,C,P,N),
+$$
+any cofinal-tail selector visible to a $\RegSeqRatUp$ or $\RealUp$ consumer is determined by the displayed stationary $\RatUp$ seed row $Q$, the constant $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ tail readback row $G$, the $\DyadicRatCoreUp$ finite-window ledger $D$, the transported seal row $W$, and the route rows $H,C,P,N$. No unrecorded selector, quotient-stream equality, selected limit, or ambient completeness datum can select a different tail for that consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only tail-bearing rows are the stationary seed row, the constant window row, the regular-rational readback row, the dyadic finite-window ledger, and the transported seal row, with $H,C,P,N$ giving transport, route replay, provenance, and local naming.
+
+Apply \autoref{thm:diagonal-cofinal-tail-window-exhaustion}. It forces every finite cofinal-tail observation read by a downstream consumer through the same displayed packet $Q,S,G,D,R,W,H,C,P,N$.
+
+Now use \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}. The $\RealUp$-facing read is the transported stationary diagonal row named by the $\RatUp$ seed classifier, so the real-facing selector and the $\RegSeqRatUp$ tail readback are the same finite route.
+
+Since the carrier contains no coordinate for an unrecorded selector, quotient-stream equality, selected limit, or ambient completeness datum, no consumer-visible route remains that could choose a different cofinal tail.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail Real seal handoff]
 \label{thm:diagonal-cofinal-tail-real-seal-handoff}
 For an accepted $\DiagonalCofinalTailUp$ carrier, the $\RealUp$ finite-window classifier exported by $R$ and $W$ is reached only through the displayed StreamNameUp window, RegSeqRatUp seal consumption row, and DyadicRatCoreUp finite-window ledger. Thus the real-facing seal handoff is the same transported stationary diagonal row named by the RatUp seed classifier in $Q$.
@@ -78,12 +96,56 @@ The Real seal handoff theorem then covers the only real-facing consumer path. It
 Since no further coordinate is present, a downstream consumer cannot leave the packet to obtain an external equality identification, selected limit, unrecorded selector, or ambient completeness witness.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail TasteGate carrier single source]
+\label{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}
+For an accepted $\DiagonalCofinalTailUp$ packet
+$$
+T=(Q,S,G,D,R,W,H,C,P,N),
+$$
+every carrier row available to a later TasteGate-facing consumer is generated from this single displayed cofinal-tail packet. The consumer may read the RatUp seed row $Q$, StreamNameUp window $S$, RegSeqRatUp tail readback $G$, DyadicRatCoreUp ledger $D$, RealUp representative $R$, transported seal $W$, and structural rows $H,C,P,N$; it has no second carrier, second selector, or parameter source.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:diagonal-cofinal-tail-carrier}. The displayed tuple lists every public row of the cofinal-tail packet.
+
+Apply \autoref{thm:diagonal-cofinal-tail-namecert-obligations}. The local naming surface uses exactly those rows for carrier admission, classifier exposure, transport, continuation, provenance, and naming.
+
+The window exhaustion theorem, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, keeps every finite cofinal-tail observation inside the same tuple. Hence a later TasteGate-facing read has only this carrier source.
+\end{proof}
+
+\begin{theorem}[Diagonal cofinal-tail TasteGate hidden input refusal]
+\label{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}
+An accepted $\DiagonalCofinalTailUp$ packet refuses every TasteGate-facing hidden input that is not a coordinate of
+$$
+T=(Q,S,G,D,R,W,H,C,P,N).
+$$
+In particular, consumers cannot read unrecorded selectors, quotient-stream equality, selected limits, ambient completeness, or external equality, because none of these objects is a displayed carrier row or structural route.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-cofinal-tail-tail-selector-lock}. It rules out unrecorded selectors, quotient-stream equality, selected limits, and ambient completeness as alternate tail-selection data.
+
+Use \autoref{thm:diagonal-cofinal-tail-nonescape} for the full consumer boundary. Any route consuming the RealUp seal, RegSeqRatUp readback, DyadicRatCoreUp ledger, StreamNameUp window, or RatUp seed classifier must remain inside $Q,S,G,D,R,W,H,C,P,N$.
+
+External equality has no coordinate in the carrier definition and no route in $C$. Therefore it cannot be read by a TasteGate-facing consumer.
+\end{proof}
+
+\begin{theorem}[Diagonal cofinal-tail TasteGate flow recognition]
+\label{thm:diagonal-cofinal-tail-tastegate-flow-recognition}
+For an accepted $\DiagonalCofinalTailUp$ carrier, the visible recognition route from the $\RatUp$ seed rows through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is the only flow available to later TasteGate wiring. Every recognized read follows the displayed rows $Q,S,G,D,R,W,H,C,P,N$, and no later wiring may recognize an unlisted analytic or host-side object as part of this packet.
+\end{theorem}
+\begin{proof}
+First identify the positive flow. The carrier definition lists $Q$ for RatUp, $S$ for StreamNameUp, $G$ for RegSeqRatUp, $D$ for DyadicRatCoreUp, $R$ and $W$ for RealUp-facing seal data, and $H,C,P,N$ for transport, continuation, package, and naming.
+
+Apply \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}. The RealUp-facing row is reached only through the StreamNameUp, RegSeqRatUp, and DyadicRatCoreUp rows named by the RatUp seed classifier.
+
+Finally combine \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source} with \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}. The single-source result supplies the only recognized route, while the refusal result excludes hidden inputs outside the displayed packet.
+\end{proof}
+
 \closureat{DiagonalCofinalTailUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalCofinalTailUp}
   \constructivestory{A $\DiagonalCofinalTailUp$ packet is generated from paired stationary RatUp seed rows, constant StreamNameUp windows, RegSeqRatUp cofinal-tail readbacks, DyadicRatCoreUp finite-window ledgers, RealUp diagonal representative rows, a transported stationary seal row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, and \autoref{thm:diagonal-cofinal-tail-nonescape} bind the finite cofinal-tail NameCert packet for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:diagonal-cofinal-tail-carrier}, \autoref{thm:diagonal-cofinal-tail-namecert-obligations}, \autoref{thm:diagonal-cofinal-tail-window-exhaustion}, \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}, \autoref{thm:diagonal-cofinal-tail-nonescape}, \autoref{thm:diagonal-cofinal-tail-tastegate-carrier-single-source}, \autoref{thm:diagonal-cofinal-tail-tastegate-hidden-input-refusal}, and \autoref{thm:diagonal-cofinal-tail-tastegate-flow-recognition} bind the finite cofinal-tail NameCert packet for the transported stationary diagonal window over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

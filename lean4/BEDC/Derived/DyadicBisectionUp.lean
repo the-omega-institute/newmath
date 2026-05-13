@@ -235,4 +235,40 @@ theorem DyadicBisectionCarrier_nested_window_handoff [AskSetup] [PackageSetup]
     ⟨selectedUnary, retainedUnary, sealUnary, selectedRow, retainedRow, sealRoute, routePkg,
       sealSig⟩
 
+theorem DyadicBisectionCarrier_public_branch_totality [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {initial precision midpoint branch nested endpoint regseq stream real transport route name
+      selected retained sealRow publicRoute : BHist} :
+    DyadicBisectionCarrier initial precision midpoint branch nested endpoint regseq stream real
+        transport route name bundle pkg ->
+      Cont branch nested selected ->
+        Cont selected endpoint retained ->
+          Cont retained stream sealRow ->
+            Cont sealRow name publicRoute ->
+              PkgSig bundle sealRow pkg ->
+                PkgSig bundle publicRoute pkg ->
+                  UnaryHistory retained ∧ UnaryHistory sealRow ∧ UnaryHistory publicRoute ∧
+                    hsame selected (append branch nested) ∧
+                      hsame retained (append selected endpoint) ∧
+                        hsame sealRow (append retained stream) ∧
+                          Cont sealRow name publicRoute ∧ PkgSig bundle route pkg ∧
+                            PkgSig bundle publicRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectedRow retainedRow sealRoute publicRouteRow _sealSig publicRouteSig
+  obtain ⟨_initialUnary, _precisionUnary, _midpointUnary, branchUnary, nestedUnary,
+    endpointUnary, _regseqUnary, streamUnary, _realUnary, _transportUnary, _routeUnary,
+    nameUnary, _initialPrecision, _midpointBranch, _nestedEndpoint, _regseqStream,
+    _realTransport, routePkg, _namePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed branchUnary nestedUnary selectedRow
+  have retainedUnary : UnaryHistory retained :=
+    unary_cont_closed selectedUnary endpointUnary retainedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed retainedUnary streamUnary sealRoute
+  have publicRouteUnary : UnaryHistory publicRoute :=
+    unary_cont_closed sealUnary nameUnary publicRouteRow
+  exact
+    ⟨retainedUnary, sealUnary, publicRouteUnary, selectedRow, retainedRow, sealRoute,
+      publicRouteRow, routePkg, publicRouteSig⟩
+
 end BEDC.Derived.DyadicBisectionUp
