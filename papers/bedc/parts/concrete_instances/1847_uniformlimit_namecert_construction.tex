@@ -207,6 +207,38 @@ Apply tail-ledger exactness from \autoref{thm:uniform-limit-tail-ledger-exactnes
 Finally use endpoint readback exhaustion in \autoref{thm:uniform-limit-endpoint-readback-exhaustion}. Since all downstream consumers can read only the displayed rows and their provenance, the obligation package has no coordinate for pointwise-only convergence, open-cover compactness, selected host limits, quotient function spaces, or real completeness.
 \end{proof}
 
+\begin{theorem}[UniformLimit diagonal-window handoff]
+\label{thm:uniform-limit-diagonal-window-handoff}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitUp$ carrier, and let
+$$
+G=(q,w,r,d,e,h,c,p,n)
+$$
+be an accepted $\RealDiagonalWindowCoverageUp$ carrier. Suppose that the selected window $w$ is a displayed window of $F$, and that the readback row $r$ is the $\RegSeqRatUp$ handoff read through $T$. Then every $\RealUp$-facing diagonal-window read determined by $G$ and the displayed window of $U$ factors simultaneously through the two finite routes
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E
+$$
+and
+$$
+q \longmapsto w \longmapsto r \longmapsto d \longmapsto e.
+$$
+Consequently the diagonal-window consumer can use the uniform-limit endpoint exposure only through the selected finite window, the uniform tail ledger, the regular rational handoff, the dyadic observation ledger, and the displayed $\RealUp$ seal; it gains no pointwise-only convergence row, host limit, quotient function space, ambient completeness theorem, or unbounded diagonal stream.
+\end{theorem}
+\begin{proof}
+Start from the accepted $\UniformLimitUp$ carrier. By \autoref{thm:uniform-limit-seal-factorization}, every endpoint read exported by $U$ reaches the endpoint only along the finite route through $F,M,T,R,S,E$.
+
+Use the windowwise Cauchy obligation of \autoref{thm:uniform-limit-windowwise-cauchy-obligation} and tail-ledger exactness from \autoref{thm:uniform-limit-tail-ledger-exactness}. Since $w$ is one of the displayed windows of $F$ and $r$ is the $\RegSeqRatUp$ handoff read through $T$, the diagonal read cannot bypass the shared threshold ledger or replace the uniform tail row with a pointwise witness.
+
+Now turn to the accepted $\RealDiagonalWindowCoverageUp$ carrier. The selected-window coverage theorem \autoref{thm:real-diagonal-window-coverage-selected-window-coverage} forces the seal-facing read to expose $w$ and the dyadic ledger $d$ before the seal row is consumed.
+
+Apply the RealUp handoff theorem \autoref{thm:real-diagonal-window-coverage-realup-handoff}. It routes every real-facing completion or continuous-map consumer through $q,w,r,d,h,c,p,n$ before the $\RealUp$ seal row $e$ is read, so the selected-window side is exactly the displayed route from $q$ through $e$.
+
+Finally combine the non-escape boundary for $\UniformLimitUp$ with the non-escape boundary for $\RealDiagonalWindowCoverageUp$. The first boundary excludes host limits, quotient function spaces, pointwise-only convergence, compactness principles, and real completeness from $U$; the second excludes quotient streams, host real equality, unbounded diagonal streams, ambient completeness, and choice-selected limits from $G$. Thus the only common consumer route is the paired finite factorization through the uniform-limit endpoint route and the selected diagonal-window route.
+\end{proof}
+
 \closureat{UniformLimitUp}{seedStr}
 
 \begin{closurestatus}{\UniformLimitUp}
