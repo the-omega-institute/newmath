@@ -25,14 +25,13 @@ with the following displayed rows:
 The classifier compares two carriers only by these displayed rows and their $\hsame$ and $\Cont$ transports.
 \end{definition}
 \leandef{BEDC.Derived.OtherMindsCommitmentUp.OtherMindsCommitmentUp}
-\leanchecked{BEDC.Derived.OtherMindsCommitmentUp.otherMindsCommitmentTasteGate}
 
 \begin{theorem}[OtherMindsCommitment TasteGate obligation boundary]
 \label{thm:other-minds-commitment-taste-gate-obligation-boundary}
 Every paper-side obligation beyond seed closure for $\OtherMindsCommitmentUp$
 is read through the finite carrier rows $A,B,L,E,G,H,C,P,N$ together with the
 checked TasteGate target
-\texttt{BEDC.Derived.OtherMindsCommitmentUp.otherMindsCommitmentTasteGate}.
+\texttt{BEDC.Derived.OtherMindsCommitmentUp.taste\_gate}.
 No closure promotion may replace those rows by a direct candidate
 $\mathsf{Self}$ row, a host mental-state predicate, a private-history read, or
 a metaphysical identity assertion.
@@ -121,7 +120,7 @@ No remaining coordinate names a host mental-state predicate, a metaphysical iden
 
 \begin{theorem}[OtherMindsCommitment obligation-closure package]
 \label{thm:other-minds-commitment-obligation-closure-package}
-The carrier of \autoref{def:other-minds-commitment-carrier}, the checked TasteGate target \texttt{BEDC.Derived.OtherMindsCommitmentUp.otherMindsCommitmentTasteGate}, the obligation boundary of \autoref{thm:other-minds-commitment-taste-gate-obligation-boundary}, the finite $\NameCert$ obligations of \autoref{thm:other-minds-commitment-namecert-obligations}, locality-cell soundness from \autoref{thm:other-minds-commitment-locality-cell-soundness}, behavioural-evidence compatibility from \autoref{thm:other-minds-commitment-behavioural-evidence-compatibility}, the public evidence ledger of \autoref{thm:other-minds-commitment-public-evidence-ledger}, and the non-escape boundary of \autoref{thm:other-minds-commitment-non-escape-boundary} form the complete obligation-closure package for the AI-origin $\OtherMindsCommitmentUp$ chapter.
+The carrier of \autoref{def:other-minds-commitment-carrier}, the checked TasteGate target \texttt{BEDC.Derived.OtherMindsCommitmentUp.taste\_gate}, the obligation boundary of \autoref{thm:other-minds-commitment-taste-gate-obligation-boundary}, the finite $\NameCert$ obligations of \autoref{thm:other-minds-commitment-namecert-obligations}, locality-cell soundness from \autoref{thm:other-minds-commitment-locality-cell-soundness}, behavioural-evidence compatibility from \autoref{thm:other-minds-commitment-behavioural-evidence-compatibility}, the public evidence ledger of \autoref{thm:other-minds-commitment-public-evidence-ledger}, and the non-escape boundary of \autoref{thm:other-minds-commitment-non-escape-boundary} form the complete obligation-closure package for the AI-origin $\OtherMindsCommitmentUp$ chapter.
 
 The package closes only the public locality-cell commitment surface over the finite rows $A,B,L,E,G,H,C,P,N$. It introduces no direct candidate $\mathsf{Self}$ access, no host mental-state predicate, no private-history read, and no metaphysical identity assertion.
 \end{theorem}
@@ -136,14 +135,16 @@ Finally use \autoref{thm:other-minds-commitment-non-escape-boundary}. Since the 
 \end{proof}
 
 \closureat{OtherMindsCommitmentUp}{seedStr}
+\closureat{OtherMindsCommitmentUp}{obligationStr}[BEDC.Derived.OtherMindsCommitmentUp.otherMindsCommitmentTasteGate]
 
 \begin{closurestatus}{\OtherMindsCommitmentUp}
   \constructivestory{An $\OtherMindsCommitmentUp$ packet is generated from an observer row, a candidate-other public row, a locality-cell commitment row, behavioural evidence, $\mathsf{GAP}$ provenance, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \leanchecked{BEDC.Derived.OtherMindsCommitmentUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:other-minds-commitment-carrier}, \autoref{thm:other-minds-commitment-namecert-obligations}, \autoref{thm:other-minds-commitment-locality-cell-soundness}, \autoref{thm:other-minds-commitment-behavioural-evidence-compatibility}, \autoref{thm:other-minds-commitment-public-evidence-ledger}, \autoref{thm:other-minds-commitment-non-escape-boundary}, and \autoref{thm:other-minds-commitment-obligation-closure-package} bind the finite locality-cell commitment surface for public other-minds evidence.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, bridge status, direct access to another system's $\mathsf{Self}$, private-history reads, host mental-state predicates, metaphysical identity, or a global consciousness decision procedure.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for NameCert obligations, locality-cell soundness, behavioural-evidence compatibility, the public evidence ledger, and the non-escape boundary.}
+  \upgradepath{Scoped closure requires grounding the obligation rows against the displayed locality-cell commitment, public evidence ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}

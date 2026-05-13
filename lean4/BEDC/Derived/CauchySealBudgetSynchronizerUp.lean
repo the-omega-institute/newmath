@@ -67,24 +67,46 @@ def cauchySealBudgetSynchronizerToEventFlow :
           BMark.b1, BMark.b1, BMark.b0],
         cauchySealBudgetSynchronizerEncodeBHist nameCert]
 
+private def cauchySealBudgetSynchronizerRawAt : Nat → EventFlow → RawEvent
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => cauchySealBudgetSynchronizerRawAt n rest
+
+private def cauchySealBudgetSynchronizerLengthEq : Nat → EventFlow → Bool
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => cauchySealBudgetSynchronizerLengthEq n rest
+
 def cauchySealBudgetSynchronizerFromEventFlow :
     EventFlow → Option CauchySealBudgetSynchronizerUp
-  | [_tag0, request, _tag1, sealRow, _tag2, budget, _tag3, tail, _tag4, selector,
-      _tag5, compatibility, _tag6, transport, _tag7, route, _tag8, provenance,
-      _tag9, nameCert] =>
+  | flow =>
+      match cauchySealBudgetSynchronizerLengthEq 20 flow with
+      | true =>
       some
         (CauchySealBudgetSynchronizerUp.mk
-          (cauchySealBudgetSynchronizerDecodeBHist request)
-          (cauchySealBudgetSynchronizerDecodeBHist sealRow)
-          (cauchySealBudgetSynchronizerDecodeBHist budget)
-          (cauchySealBudgetSynchronizerDecodeBHist tail)
-          (cauchySealBudgetSynchronizerDecodeBHist selector)
-          (cauchySealBudgetSynchronizerDecodeBHist compatibility)
-          (cauchySealBudgetSynchronizerDecodeBHist transport)
-          (cauchySealBudgetSynchronizerDecodeBHist route)
-          (cauchySealBudgetSynchronizerDecodeBHist provenance)
-          (cauchySealBudgetSynchronizerDecodeBHist nameCert))
-  | _ => none
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 1 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 3 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 5 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 7 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 9 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 11 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 13 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 15 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 17 flow))
+          (cauchySealBudgetSynchronizerDecodeBHist
+            (cauchySealBudgetSynchronizerRawAt 19 flow)))
+      | false => none
 
 private theorem cauchySealBudgetSynchronizer_round_trip :
     ∀ x : CauchySealBudgetSynchronizerUp,
@@ -119,16 +141,47 @@ private theorem cauchySealBudgetSynchronizer_round_trip :
           some
             (CauchySealBudgetSynchronizerUp.mk request sealRow budget tail selector
               compatibility transport route provenance nameCert)
-      rw [cauchySealBudgetSynchronizerDecode_encode_bhist request,
-        cauchySealBudgetSynchronizerDecode_encode_bhist sealRow,
-        cauchySealBudgetSynchronizerDecode_encode_bhist budget,
-        cauchySealBudgetSynchronizerDecode_encode_bhist tail,
-        cauchySealBudgetSynchronizerDecode_encode_bhist selector,
-        cauchySealBudgetSynchronizerDecode_encode_bhist compatibility,
-        cauchySealBudgetSynchronizerDecode_encode_bhist transport,
-        cauchySealBudgetSynchronizerDecode_encode_bhist route,
-        cauchySealBudgetSynchronizerDecode_encode_bhist provenance,
-        cauchySealBudgetSynchronizerDecode_encode_bhist nameCert]
+      let mkCongr
+          {request' sealRow' budget' tail' selector' compatibility' transport' route'
+            provenance' nameCert' : BHist}
+          (hRequest : request' = request)
+          (hSealRow : sealRow' = sealRow)
+          (hBudget : budget' = budget)
+          (hTail : tail' = tail)
+          (hSelector : selector' = selector)
+          (hCompatibility : compatibility' = compatibility)
+          (hTransport : transport' = transport)
+          (hRoute : route' = route)
+          (hProvenance : provenance' = provenance)
+          (hNameCert : nameCert' = nameCert) :
+          CauchySealBudgetSynchronizerUp.mk request' sealRow' budget' tail' selector'
+              compatibility' transport' route' provenance' nameCert' =
+            CauchySealBudgetSynchronizerUp.mk request sealRow budget tail selector
+              compatibility transport route provenance nameCert := by
+        cases hRequest
+        cases hSealRow
+        cases hBudget
+        cases hTail
+        cases hSelector
+        cases hCompatibility
+        cases hTransport
+        cases hRoute
+        cases hProvenance
+        cases hNameCert
+        rfl
+      exact
+        congrArg some
+          (mkCongr
+            (cauchySealBudgetSynchronizerDecode_encode_bhist request)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist sealRow)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist budget)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist tail)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist selector)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist compatibility)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist transport)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist route)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist provenance)
+            (cauchySealBudgetSynchronizerDecode_encode_bhist nameCert))
 
 private theorem cauchySealBudgetSynchronizerToEventFlow_injective
     {x y : CauchySealBudgetSynchronizerUp} :
@@ -179,41 +232,49 @@ instance cauchySealBudgetSynchronizerNontrivial :
         intro h
         cases h⟩
 
+def cauchySealBudgetSynchronizerFields :
+    CauchySealBudgetSynchronizerUp → List BHist
+  | CauchySealBudgetSynchronizerUp.mk request sealRow budget tail selector compatibility
+      transport route provenance nameCert =>
+      [request, sealRow, budget, tail, selector, compatibility, transport, route, provenance,
+        nameCert]
+
+private theorem cauchySealBudgetSynchronizer_field_faithful_concrete :
+    ∀ x y : CauchySealBudgetSynchronizerUp,
+      cauchySealBudgetSynchronizerFields x =
+        cauchySealBudgetSynchronizerFields y → x = y := by
+  intro x y hfields
+  cases x with
+  | mk request sealRow budget tail selector compatibility transport route provenance nameCert =>
+      cases y with
+      | mk request' sealRow' budget' tail' selector' compatibility' transport route'
+          provenance' nameCert' =>
+          injection hfields with hRequest hTail0
+          injection hTail0 with hSealRow hTail1
+          injection hTail1 with hBudget hTail2
+          injection hTail2 with hTail hTail3
+          injection hTail3 with hSelector hTail4
+          injection hTail4 with hCompatibility hTail5
+          injection hTail5 with hTransport hTail6
+          injection hTail6 with hRoute hTail7
+          injection hTail7 with hProvenance hTail8
+          injection hTail8 with hNameCert _hNil
+          cases hRequest
+          cases hSealRow
+          cases hBudget
+          cases hTail
+          cases hSelector
+          cases hCompatibility
+          cases hTransport
+          cases hRoute
+          cases hProvenance
+          cases hNameCert
+          rfl
+
 instance cauchySealBudgetSynchronizerFieldFaithful :
     FieldFaithful CauchySealBudgetSynchronizerUp where
-  fields
-    | CauchySealBudgetSynchronizerUp.mk request sealRow budget tail selector compatibility
-        transport route provenance nameCert =>
-        [request, sealRow, budget, tail, selector, compatibility, transport, route, provenance,
-          nameCert]
-  field_faithful := by
-    intro x y hfields
-    cases x with
-    | mk request sealRow budget tail selector compatibility transport route provenance nameCert =>
-        cases y with
-        | mk request' sealRow' budget' tail' selector' compatibility' transport' route'
-            provenance' nameCert' =>
-            injection hfields with hRequest hTail0
-            injection hTail0 with hSealRow hTail1
-            injection hTail1 with hBudget hTail2
-            injection hTail2 with hTail hTail3
-            injection hTail3 with hSelector hTail4
-            injection hTail4 with hCompatibility hTail5
-            injection hTail5 with hTransport hTail6
-            injection hTail6 with hRoute hTail7
-            injection hTail7 with hProvenance hTail8
-            injection hTail8 with hNameCert _hNil
-            cases hRequest
-            cases hSealRow
-            cases hBudget
-            cases hTail
-            cases hSelector
-            cases hCompatibility
-            cases hTransport
-            cases hRoute
-            cases hProvenance
-            cases hNameCert
-            rfl
+  fields := cauchySealBudgetSynchronizerFields
+  field_faithful := cauchySealBudgetSynchronizer_field_faithful_concrete
 
 instance cauchySealBudgetSynchronizerStructurallyAtomic :
     StructurallyAtomic CauchySealBudgetSynchronizerUp where
@@ -234,7 +295,8 @@ theorem CauchySealBudgetSynchronizerTasteGate_single_carrier_alignment :
           cauchySealBudgetSynchronizerToEventFlow x =
             cauchySealBudgetSynchronizerToEventFlow y → x = y) ∧
           (∀ x y : CauchySealBudgetSynchronizerUp,
-            FieldFaithful.fields x = FieldFaithful.fields y → x = y) ∧
+            cauchySealBudgetSynchronizerFields x =
+              cauchySealBudgetSynchronizerFields y → x = y) ∧
             (∃ x y : CauchySealBudgetSynchronizerUp, x ≠ y) := by
   constructor
   · exact cauchySealBudgetSynchronizerDecode_encode_bhist
@@ -244,10 +306,16 @@ theorem CauchySealBudgetSynchronizerTasteGate_single_carrier_alignment :
       · intro x y heq
         exact cauchySealBudgetSynchronizerToEventFlow_injective heq
       · constructor
-        · exact FieldFaithful.field_faithful
+        · exact cauchySealBudgetSynchronizer_field_faithful_concrete
         · exact
-            ⟨cauchySealBudgetSynchronizerNontrivial.witness_pair.1,
-              cauchySealBudgetSynchronizerNontrivial.witness_pair.2.1,
-              cauchySealBudgetSynchronizerNontrivial.witness_pair.2.2⟩
+            ⟨CauchySealBudgetSynchronizerUp.mk BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty,
+              CauchySealBudgetSynchronizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty,
+              by
+                intro h
+                cases h⟩
 
 end BEDC.Derived.CauchySealBudgetSynchronizerUp
