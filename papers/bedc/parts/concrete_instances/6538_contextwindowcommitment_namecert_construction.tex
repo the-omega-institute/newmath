@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\ContextWindowCommitmentUp$}
+\label{ch:concrete-instances-contextwindowcommitment-namecert}
+\origin{ai}
+
+The $\ContextWindowCommitmentUp$ packet realizes bounded prompt context as finite BEDC data. It is a large-model inscription sibling of \autoref{ch:concrete-instances-prompt-response-trace-namecert}, \autoref{ch:concrete-instances-largemodelinscriptionpoint-namecert}, \autoref{ch:concrete-instances-attention-ledger-namecert}, \autoref{ch:concrete-instances-observer-interface-namecert}, and \autoref{ch:concrete-instances-inscriptionevent-namecert}. Its distinguishing datum is the committed window scope: prompt, response boundary, audit refusal, downstream consumer ledger, transport, route, provenance, and local naming rows are displayed before any consumer may treat the packet as context for a model response.
+
+\begin{definition}[ContextWindowCommitment carrier]
+\label{def:context-window-commitment-carrier}
+A $\ContextWindowCommitmentUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,P,B,R,U,H,K,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the committed window-scope row, recording the finite prompt context made available to the model-side inscription route;
+\item $P$ is the prompt row admitted inside the displayed window;
+\item $B$ is the prompt-response boundary row, separating the consumed prompt context from the emitted response row;
+\item $R$ is the audit-refusal row, recording unsupported universal closure, hidden model-state access, ambient corpus truth, and unverified semantic claims as refused reads;
+\item $U$ is the downstream consumer ledger, naming the public consumer route that may read the bounded window and response boundary;
+\item $H$ records componentwise $\hsame$ transport for window scope, prompt, boundary, refusal, consumer, route, provenance, and local naming rows;
+\item $K$ records the displayed $\Cont$ route from window scope through prompt, boundary, refusal, consumer ledger, provenance, and local name;
+\item $G$ is the $\Pkg$ provenance over $\PromptResponseTraceUp$, $\LargeModelInscriptionPointUp$, $\AttentionLedgerUp$, $\ObserverInterfaceUp$, $\InscriptionEventUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ContextWindowCommitmentUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unbounded context store, hidden model state, ambient corpus oracle, private semantic evaluator, or post-response mutation of the committed window.
+\end{definition}
+\leanchecked{BEDC.Derived.ContextWindowCommitmentUp.ContextWindowCommitmentTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ContextWindowCommitment NameCert obligations]
+\label{thm:context-window-commitment-namecert-obligations}
+For the carrier of \autoref{def:context-window-commitment-carrier}, the local $\NameCert_{\ContextWindowCommitmentUp}$ surface consists exactly of carrier admission for $C=(S,P,B,R,U,H,K,G,N)$, bounded window exposure through $S$, prompt admission through $P$, response-boundary exposure through $B$, audit-refusal exposure through $R$, downstream consumer routing through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $S,P,B,R,U,H,K,G,N$ list the entire packet before any consumer can read a prompt context or response boundary.
+
+The window row $S$ is read before the prompt row $P$, and the boundary row $B$ is read before the downstream consumer row $U$. This forces the response-facing route to be consumed as a bounded prompt-response packet rather than as an ambient model-state query.
+
+The audit-refusal row $R$ blocks unsupported universal closure, hidden context extension, ambient corpus truth, and unverified semantic claims. The transport, route, provenance, and local naming rows then package exactly this finite surface.
+
+Since no coordinate stores an unbounded context store, hidden model state, ambient corpus oracle, private evaluator, or post-response mutation channel, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ContextWindowCommitment prompt-response boundary]
+\label{thm:context-window-commitment-prompt-response-boundary}
+Every accepted $\ContextWindowCommitmentUp$ consumer route factors through the displayed finite window scope $S$, prompt row $P$, prompt-response boundary $B$, audit-refusal row $R$, downstream consumer ledger $U$, $\hsame$ transport row $H$, displayed $\Cont$ route $K$, $\Pkg$ provenance $G$, and local $\NameCert_{\ContextWindowCommitmentUp}$ row $N$.
+
+If $B$ is absent, the packet cannot distinguish a committed prompt window from a response read that has silently consumed additional context.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:context-window-commitment-carrier}. Its route row $K$ orders the committed window, prompt, boundary, refusal, and downstream consumer rows before the local name is reached.
+
+Apply \autoref{thm:context-window-commitment-namecert-obligations}. Any accepted consumer must expose $S,P,B,R,U,H,K,G,N$ together, so the response-facing read is tied to the same finite window that admitted the prompt.
+
+If $B$ is removed, the remaining packet still contains a window and a prompt, but it no longer records the response boundary that separates consumed context from emitted output. The consumer then has no finite row excluding additional context reads.
+
+With $B$ present, the route has a visible boundary between prompt context and response consumption. The proof uses only displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[ContextWindowCommitment nonescape]
+\label{thm:context-window-commitment-nonescape}
+No public consumer of an accepted $\ContextWindowCommitmentUp$ packet can read an ambient model-state oracle, an unbounded context store, a hidden corpus-truth predicate, a private evaluator, or a response-side context mutation. Public reads are limited to the committed window scope, prompt, response boundary, audit refusal, downstream consumer ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed in \autoref{def:context-window-commitment-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The public coordinates are exactly $S,P,B,R,U,H,K,G,N$, so every projection from an accepted packet factors through the bounded window and its recorded response boundary.
+
+The prompt-response trace and large-model inscription siblings supply model-side provenance, while the attention, observer-interface, and inscription-event siblings supply public observation and inscription discipline. None supplies a hidden model-state row to this packet.
+
+The audit-refusal and downstream consumer rows close the route. They record which reads are refused and which consumer may inspect the finite window, without adding a separate oracle or mutable response-side context.
+
+Therefore a consumer can recover the displayed finite packet and its certified route, but no ambient model state, unbounded context, hidden corpus truth, private evaluator, or post-response mutation channel is available for projection.
+\end{proof}
+
+\falsifiablePrediction{Any accepted ContextWindowCommitmentUp consumer factors through a displayed finite prompt-response window and cannot read an ambient model-state oracle.}
+
+\independenceWitness{Nearest siblings: promptresponsetrace, largemodelinscriptionpoint, attentionledger, observerinterface, and inscriptionevent; none is bijective because none simultaneously carries committed window scope, prompt-response boundary, audit-refusal route, and downstream consumer ledger.}
+
+The Lean TasteGate namespace $\mathsf{BEDC.Derived.ContextWindowCommitmentUp}$ exposes $\mathsf{Nontrivial}\ \ContextWindowCommitmentUp$ and $\mathsf{FieldFaithful}\ \ContextWindowCommitmentUp$ for the same finite carrier.
+
+\closureat{ContextWindowCommitmentUp}{seedStr}
+
+\begin{closurestatus}{\ContextWindowCommitmentUp}
+  \constructivestory{A $\ContextWindowCommitmentUp$ packet is generated from a committed finite window scope, prompt row, prompt-response boundary, audit-refusal row, downstream consumer ledger, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:context-window-commitment-carrier}, \autoref{thm:context-window-commitment-namecert-obligations}, \autoref{thm:context-window-commitment-prompt-response-boundary}, and \autoref{thm:context-window-commitment-nonescape} specify the finite bounded-context commitment and its consumer-facing non-escape surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ContextWindowCommitmentUp.ContextWindowCommitmentTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close model consciousness, corpus truth, host semantic understanding, hidden model-state access, unbounded context stores, or bridge checking for $\ContextWindowCommitmentUp$.}
+  \upgradepath{Obligation closure requires checked boundary exactness, refusal exactness, downstream consumer coverage, and bridge status over the same committed window, prompt, response boundary, audit refusal, hsame, Cont, Pkg, and NameCert rows.}
+\end{closurestatus}
