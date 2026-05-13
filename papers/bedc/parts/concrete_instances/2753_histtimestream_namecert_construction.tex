@@ -105,6 +105,22 @@ Next use schedule classifier stability. It keeps the step ledger and $\Cont$ rep
 Finally inspect the package and local naming rows. They certify only the displayed $\BHist$, $\Hist$, $\Cont$, $\hsame$, $\mathsf{ProbeBundle}$, $\Pkg$, and $\NameCert$ provenance for this one local stream, so the finite coordinate list exhausts the public NameCert ledger and leaves no synchronization or rate claim to read.
 \end{proof}
 
+\begin{theorem}[HistTimeStream observer-locality lattice link]
+\label{thm:histtimestream-observer-locality-lattice-link}
+Every accepted $\HistTimeStreamUp$ read of
+$$
+Q=(H,T,S,C,L,P,N)
+$$
+is consumed as the local-time component of the observer-history identity and observer-locality surfaces of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert}. The stream supplies the displayed source history, finite step ledger, continuation replay, and no-global-clock transport row, but it supplies no inter-Hist synchronization, shared clock, or imported host-time index.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $Q=(H,T,S,C,L,P,N)$. The rows $H,T,S,C$ give the source history, start-at-empty finite schedule, and displayed $\Cont$ replay that the observer-history identity surface reads as its local growth component.
+
+Use \autoref{thm:histtimestream-namecert-ledger-exhaustion}. Its no-global-clock ledger keeps the read attached to the single source row $H$ and blocks any second Hist from importing $T$ as a synchronizing clock.
+
+The sibling packets of \autoref{ch:concrete-instances-observerhistidentity-namecert} and \autoref{ch:concrete-instances-observer-locality-transport-namecert} therefore consume this same local stream through $L,P,N$. They may use it to identify observer-history locality and transport surfaces, but they add no inter-Hist clock equality, host-time coordinate, or cross-history synchronization row.
+\end{proof}
+
 \closureat{HistTimeStreamUp}{seedStr}
 \closureat{HistTimeStreamUp}{obligationStr}
 
