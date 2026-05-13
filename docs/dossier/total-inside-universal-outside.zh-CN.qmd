@@ -1,0 +1,100 @@
+---
+title: "向内 total, 向外 universal"
+subtitle: "BEDC 不是图灵完备. Rule 110 是. 两件事同时为真, 它们之间的配合在结构上是被逼出来的"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "为什么 total functional language 跟 Turing 完备 substrate 能共存而不冲突. BEDC 跟 Coq / Agda / Lean / Idris 2 是同一家族 — 但项目目前的 axiomatic footprint 是它们里面最小的, 而且是机械审计过的."
+---
+
+```{=html}
+<div class="lang-switch"><a href="total-inside-universal-outside.qmd">English</a></div>
+```
+
+## 元胞底层尖化的一个问题
+
+Rule 110 是图灵完备的 (Cook 2004). BEDC 项目把 Rule 110 host 在自己的内核里, 作为 Lean 开发. 朴素地, 你会期望这让 BEDC 跟着也图灵完备. 它不是. host 跟 substrate 活在项目的不同层, 两层有不同的 totality 纪律.
+
+这不是 host 的缺陷. 这是被结构逼出来的.
+
+## 两个事实, 精确化
+
+**事实一.** 每个 BEDC 函数都终止. 没有 `partial` annotation, 没有 general recursion, 没有逃生通道. Lean 4 内核拒绝任何它无法 verify 终止性的项; BEDC 进一步约束 `axiom-purity --strict`, 把任何可能悄悄削弱纪律的标准库公理 (`Classical.choice`, `Quot.sound`, `propext`) 也排除掉. BEDC 是一个 *total functional language*: 1837 条定理, 每一条都是一个有限的有类型的项.
+
+**事实二.** `rule110/` 的元胞底层是 Turing 普适的. Cook 证明了你可以把任何图灵机编译成 cyclic tag 系统, 再把 cyclic tag 系统编码为 Rule 110 演化的初始行. 给底层正确的起始 configuration, 它可以模拟任何图灵机能做的任何计算.
+
+两件事都是真的. 问题是怎么配合.
+
+## 桥: step-indexed encoding
+
+total host 跟 universal substrate 之间的桥是 *step-indexed encoding*. 不写底层演化作为函数 `evolve : InitialRow → FinalRow` (那会是 partial 的, 因为某些初始行导致不终止的演化), 你写成函数族
+
+```lean
+r110_run_n_steps : Nat → InitialRow → CellRow
+```
+
+`Nat` 参数是 *fuel*. 每个 fuel 值产出一个 total 函数: 给定 fuel `n` 和任何初始行, 返回 *正好 n 步之后* 的状态. 底层潜在的无穷计算被分解成有限计算的一族, 每个 fuel 值一个.
+
+`lean4/BEDC/FKernel/` 实际就是这么做的. BEDC 内部的 Rule 110 evaluator 拿一个 fuel 参数, 返回 `n` 步之后的轨道. 底层的普适性在 substrate 一侧被保留; host 的 totality 在 host 一侧被保留; 两个属性都不跨边界传染.
+
+## 为什么 host 必须 total
+
+你可以想象一种不同的设计: host 语言允许 partial 函数, 这样它能直接写「跑 Rule 110 直到 halt」. 有些语言这么做 — Haskell, OCaml, Standard ML, Python. 它们都允许不终止作为语言特性.
+
+BEDC 不能走那条路, 原因是结构性而不是审美的. visions 章节 [归纳法从哪里来](where-induction-comes-from.zh-CN.qmd) 说清楚了: 封闭观测系统记录有限观测. 如果 host 的项可以是发散过程而不是有限证明, 那么 host 层的「观测」就不再是有限的, 整个框架的封闭 premise 就垮了. 非 total 的 host 跟项目对自己内核的认识论读法在结构上不相容.
+
+[paper visions 章节](https://github.com/the-omega-institute/newmath/blob/dev/papers/bedc/parts/visions/strong_normalization_vs_turing_completeness.tex) 的定理 `thm:strong-normalization-closed-observation-forces-totality`:
+
+> 设 *H* 是声称通过把 *S* 的有限观测记录为 *H* 的项, 来描述封闭观测系统 *S* 的 host 系统. 那么 *H* 自身必须 total, 否则就违反封闭 premise.
+
+论证: 如果 *H* 非 total, 它允许一个发散项 *t*. *t* 的语义内容不是有限观测. 那么要么它声称记录的观测发散 (违反封闭), 要么记录从观测发散 (违反结构对应). 两种情况下框架都垮.
+
+所以 host 的 totality 不是设计选择; 是任何想要记录封闭底层的系统都要求.
+
+## BEDC 的邻居: Coq, Agda, Lean, Idris 2
+
+几个 total functional language 已经存在. 这个家族人口不少:
+
+| 语言 | universe 层级 | 默认公理 | partial annotation |
+|---|---|---|---|
+| Coq | predicative + impredicative `Prop` | `funext`, 有时 `propext` | 无 |
+| Agda | predicative; `--without-K` flag | 默认无 | 无 |
+| Lean 4 | predicative `Type u`; impredicative `Prop` | `Classical.choice`, `Quot.sound`, `propext` (stdlib) | 无 |
+| Idris 2 (QTT mode) | predicative + quantitative | 无 | `partial` (显式) |
+| **BEDC (Lean 4 + 审计)** | Lean 4 的 | **无** (审计过) | 无 |
+
+BEDC 坐在这个家族 commitment 最小那一端. `axiom-purity --strict` 审计对每条 BEDC 定理跑 `#print axioms`, 拒绝任何标准库公理. 当前 1837/1837 定理通过. 在活跃使用的 total functional language 里, 这是机械审计过的最小残余公理 footprint.
+
+如果有人觉得 total functional language 受限, 注意: 这些语言产出的每条定理都是 *证明*. Curry-Howard 对应下, 非 total 语言允许 "走得没完没了" 的 "证明" — 等价于允许靠无穷循环 "推出" 任何陈述. 接受不终止的代价是放弃 "作为证明系统的一致性". Total functional language 走的是另一头: 接受直接定义 partial 函数的损失, 换取证明系统一致性.
+
+## BEDC 直接表达不出来的
+
+total host 无法把「终止性在内部不可证」的算法直接定义为类型 `A → B` 的函数. 存在一些 Turing 可计算函数, 它们的 totality 在更强元理论里可证, 但在 CIC 里不可证. 这些函数能在 BEDC 内通过 step-indexed encoding 描述 (「fuel 到 n 之内的 evaluate」), 但不能定义为类型 `A → B` 的直接 BEDC 函数.
+
+BEDC 可定义函数集合因此是自然数上 Turing 可实现的 partial 函数集合的真子集. 差是恰好 totality 在 CIC 内不可证的可计算函数集合.
+
+这是「BEDC 不图灵完备」的精确陈述. 不是说 BEDC 不能谈普适计算; 它能, 通过 step indexing. 是说 BEDC 不能 *成为* 那个普适计算.
+
+## 分离的干净
+
+两层 — host total, substrate universal — 相遇而不互相干扰. 底层普适意味着它能 host 任何计算. host total 意味着任何 host 证明都有限. 这是独立的属性: 一个关于底层能模拟什么计算, 一个关于 host 能写什么证明. 桥 (step-indexed encoding) 在两边各自保持各自的属性, 不跨边界传染.
+
+这就是 paper 所说 *普适性与封闭性独立* (`prin:cellular-automaton-universality-vs-closure`). 元胞读法拿这条原则给底层展品. 强归一读法拿这条原则给 host 一侧的展品. 两者一起表明框架的承诺恰恰是 *观测通道的结构*, 而不是任何一侧的计算能力.
+
+## 这 *不是* 什么
+
+不是说 total functional language 是唯一有效的编程范式. Haskell 作为非 total functional language 干的活很好; OCaml 作为部分 total 的也很好. BEDC 的 totality 不是对所有编程的规范性主张, 只是对「想要记录封闭观测底层的特定系统类」的主张.
+
+也不是说 BEDC 比非 total 语言有 *更多* 表达力. 在 partial 函数轴上严格更少. 交换的是「作为证明系统的一致性」换「失去的 partial 函数」.
+
+它 *是*: 对「为什么 host 跟 substrate 可以有不同的 totality 纪律, 为什么纪律是被逼出而不是被选的, BEDC 在做相同交换的语言家族里坐在哪」的精确读法.
+
+```{=html}
+<div class="cta-choices">
+  <a href="pattern-as-mark.zh-CN.qmd"><strong>← 图样作为标记</strong><br/>同一架构在 substrate 一侧的分类器纪律.</a>
+  <a href="closure-universality-quadrant.zh-CN.qmd"><strong>四象限基底地图 →</strong><br/>普适性 × 封闭性 的 2×2 地图, BEDC host 跟 Rule 110 各自坐在哪.</a>
+  <a href="where-induction-comes-from.zh-CN.qmd"><strong>归纳法从哪里来 →</strong><br/>逼出 host 必须 total 的那条封闭 premise, 结构化.</a>
+</div>
+```
+
+— *The Omega Institute*
