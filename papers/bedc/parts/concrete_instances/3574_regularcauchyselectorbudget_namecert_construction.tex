@@ -212,6 +212,28 @@ $$
 where $\mu$ is the selector-modulus row, $W$ is the selected finite window budget, $S$ is the StreamName observation family, $R$ is the $\RegSeqRatUp$ witness row, $D$ is the $\DyadicRatCoreUp$ tolerance row requested by the tail consumer, $E$ is the $\RealUp$ seal, $H$ records componentwise $\hsame$ transports, $C$ records displayed $\Cont$ routes, $P$ records $\Pkg$ provenance, and $N$ is the local $\NameCert$ source.
 \end{definition}
 
+\begin{theorem}[RegularCauchySelectorBudget tail-precision exactness]
+\label{thm:regular-cauchy-selector-budget-tail-precision-exactness}
+For an accepted $\RegularCauchySelectorBudgetUp$ packet with tail-precision source
+$$
+\mathsf{TailPrec}(Q)=(\mu,W,S,R,D,E,H,C,P,N),
+$$
+the dyadic tolerance row $D$ determines the only permitted finite window budget through $\mu,W$. Every StreamName observation read is inside $S$, every $\RegSeqRatUp$ witness read factors through $R$, and every $\RealUp$ consumer reaches only $E$ after the route
+$$
+D \longrightarrow \mu \longrightarrow W \longrightarrow S \longrightarrow R \longrightarrow E
+$$
+with transport, replay, provenance, and local naming supplied by $H,C,P,N$. No accepted route exports a quotient stream, host real equality, chosen limit, infinite tail, hidden window enlargement, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the finite tail-precision tuple. The tolerance row $D$, selector-modulus row $\mu$, and finite window row $W$ are explicit coordinates of \autoref{def:regular-cauchy-selector-budget-tail-precision-source}, so a precision read has no source for a second tolerance-to-window route.
+
+Apply \autoref{thm:regular-cauchy-selector-budget-window-coverage} and \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}. These bind the selected StreamName observations to the finite budget chosen through $\mu,W$ and force the tail consumer to pass through $D,\mu,W,S,R,E,H,C,P,N$.
+
+Next use \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}. The $\RegSeqRatUp$ witness row is downstream of the displayed StreamName observations, so every regular-rational witness factors through $R$ together with the same structural rows.
+
+Finally apply \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape} and \autoref{thm:regular-cauchy-selector-budget-real-seal-nonescape-package}. The Real-facing read reaches only the seal row $E$ after the finite route has been displayed, and the excluded quotient, host equality, chosen-limit, infinite-tail, hidden-budget, and ambient-completeness data are not coordinates of the packet.
+\end{proof}
+
 \begin{theorem}[RegularCauchySelectorBudget tail budget totality]
 \label{thm:regular-cauchy-selector-budget-tail-budget-totality}
 Every accepted $\RegularCauchySelectorBudgetUp$ packet exposes the requested tail precision and its selected finite window through the rows of \autoref{def:regular-cauchy-selector-budget-tail-precision-source}. A tail consumer may read the $\DyadicRatCoreUp$ tolerance row $D$, the selector modulus $\mu$, and the finite budget $W$, and may assemble the corresponding StreamName and $\RegSeqRatUp$ evidence only through $S,R,H,C,P,N$ before reaching the $\RealUp$ seal $E$.
@@ -354,7 +376,7 @@ Finally use \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}
 \begin{closurestatus}{\RegularCauchySelectorBudgetUp}
   \constructivestory{A $\RegularCauchySelectorBudgetUp$ packet is generated from a selector modulus, finite window budget, StreamName observation rows, a RegSeqRat witness, a RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, \autoref{thm:regular-cauchy-selector-budget-formal-target-surface}, \autoref{thm:regular-cauchy-selector-budget-verification-handoff}, \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-selector-compatibility}, \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}, \autoref{def:regular-cauchy-selector-budget-tail-precision-source}, \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}, \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-threshold-coverage}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-route-determinacy}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-nonescape}, \autoref{thm:regular-cauchy-selector-budget-selector-budget-exactness}, \autoref{thm:regular-cauchy-selector-budget-finite-window-provenance}, and \autoref{thm:regular-cauchy-selector-budget-real-seal-nonescape-package} bind the finite selector-budget carrier and its local NameCert obligation surface.}
+  \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, \autoref{thm:regular-cauchy-selector-budget-formal-target-surface}, \autoref{thm:regular-cauchy-selector-budget-verification-handoff}, \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-selector-compatibility}, \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}, \autoref{def:regular-cauchy-selector-budget-tail-precision-source}, \autoref{thm:regular-cauchy-selector-budget-tail-precision-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}, \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-threshold-coverage}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-route-determinacy}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-nonescape}, \autoref{thm:regular-cauchy-selector-budget-selector-budget-exactness}, \autoref{thm:regular-cauchy-selector-budget-finite-window-provenance}, and \autoref{thm:regular-cauchy-selector-budget-real-seal-nonescape-package} bind the finite selector-budget carrier and its local NameCert obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

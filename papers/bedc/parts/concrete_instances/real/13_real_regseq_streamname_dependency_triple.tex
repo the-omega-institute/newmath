@@ -139,6 +139,38 @@ metric-completeness row. Hence there is no non-finite route for the consumer
 to export.
 \end{proof}
 
+\begin{theorem}[Real finite-window completion boundary]
+\label{thm:real-finite-window-completion-boundary}
+For any accepted $\RealUp$ RegSeqRat StreamName dependency triple
+$(S,Q,D,R,H,C,P,N)$, every completion-facing $\RealUp$ consumer factors through
+the finite $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ readback row $Q$,
+the $\DyadicRatCoreUp$ ledger row $D$, and the local $\RealUp$ seal row $R$.
+The passage is transported by the componentwise $\hsame$ row $H$, read through
+the displayed $\Cont$ route $C$, and packaged by $\Pkg$ provenance and the
+local $\NameCert$ row $N$.
+
+No quotient stream, selected host limit, representative choice, host equality,
+ambient completeness principle, arithmetic package, order package, or
+metric-completeness row is exported by this completion-facing boundary.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It gives the
+only seal-facing route through the finite $\StreamNameUp$, $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, and local $\RealUp$ seal rows, with the displayed
+$H,C,P,N$ transport, continuity, package, and naming data.
+
+Next apply
+\autoref{thm:real-regseq-streamname-cauchy-completion-interface}. This turns
+the same finite route into the completion-facing interface and forces every
+completion consumer to pass through it before reading a $\RealUp$ endpoint.
+
+Finally use the coordinate exclusion clause in
+\autoref{def:real-regseq-streamname-dependency-triple}. The accepted packet
+has only the rows $(S,Q,D,R,H,C,P,N)$, so no quotient stream, selected host
+limit, representative choice, host equality, ambient completeness principle,
+arithmetic package, order package, or metric-completeness row can be exported.
+\end{proof}
+
 \begin{theorem}[Real RegSeqRat StreamName endpoint determinacy]
 \label{thm:real-regseq-streamname-endpoint-determinacy}
 Let $(S,Q,D,R,H,C,P,N)$ and $(S',Q',D',R',H',C',P',N')$ be accepted
