@@ -11,18 +11,17 @@ open BEDC.Meta.TasteGate
 
 inductive RegularCauchyMeshUp : Type where
   | mk :
-      (mesh modulus index lower upper diameter refinement cauchy regular witness provenance :
-        BHist) →
+      (request meshIndex streamWindow regseqReadback tolerance meshCompatibility realHandoff
+        transports routes provenance name : BHist) →
       RegularCauchyMeshUp
-  deriving DecidableEq
 
-def regularCauchyMeshEncodeBHist : BHist → RawEvent
+private def regularCauchyMeshEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: regularCauchyMeshEncodeBHist h
   | BHist.e1 h => BMark.b1 :: regularCauchyMeshEncodeBHist h
 
-def regularCauchyMeshDecodeBHist : RawEvent → BHist
+private def regularCauchyMeshDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (regularCauchyMeshDecodeBHist tail)
@@ -41,171 +40,152 @@ private theorem regularCauchyMeshDecode_encode_bhist :
       exact congrArg BHist.e1 ih
 
 private theorem regularCauchyMesh_mk_congr
-    {mesh mesh' modulus modulus' index index' lower lower' upper upper' diameter diameter'
-      refinement refinement' cauchy cauchy' regular regular' witness witness' provenance
-      provenance' : BHist}
-    (hMesh : mesh' = mesh)
-    (hModulus : modulus' = modulus)
-    (hIndex : index' = index)
-    (hLower : lower' = lower)
-    (hUpper : upper' = upper)
-    (hDiameter : diameter' = diameter)
-    (hRefinement : refinement' = refinement)
-    (hCauchy : cauchy' = cauchy)
-    (hRegular : regular' = regular)
-    (hWitness : witness' = witness)
-    (hProvenance : provenance' = provenance) :
-    RegularCauchyMeshUp.mk mesh' modulus' index' lower' upper' diameter' refinement'
-        cauchy' regular' witness' provenance' =
-      RegularCauchyMeshUp.mk mesh modulus index lower upper diameter refinement cauchy regular
-        witness provenance := by
+    {request request' meshIndex meshIndex' streamWindow streamWindow' regseqReadback
+      regseqReadback' tolerance tolerance' meshCompatibility meshCompatibility' realHandoff
+      realHandoff' transports transports' routes routes' provenance provenance' name name' : BHist}
+    (hRequest : request' = request)
+    (hMeshIndex : meshIndex' = meshIndex)
+    (hStreamWindow : streamWindow' = streamWindow)
+    (hRegseqReadback : regseqReadback' = regseqReadback)
+    (hTolerance : tolerance' = tolerance)
+    (hMeshCompatibility : meshCompatibility' = meshCompatibility)
+    (hRealHandoff : realHandoff' = realHandoff)
+    (hTransports : transports' = transports)
+    (hRoutes : routes' = routes)
+    (hProvenance : provenance' = provenance)
+    (hName : name' = name) :
+    RegularCauchyMeshUp.mk request' meshIndex' streamWindow' regseqReadback' tolerance'
+        meshCompatibility' realHandoff' transports' routes' provenance' name' =
+      RegularCauchyMeshUp.mk request meshIndex streamWindow regseqReadback tolerance
+        meshCompatibility realHandoff transports routes provenance name := by
   -- BEDC touchpoint anchor: BHist BMark
-  cases hMesh
-  cases hModulus
-  cases hIndex
-  cases hLower
-  cases hUpper
-  cases hDiameter
-  cases hRefinement
-  cases hCauchy
-  cases hRegular
-  cases hWitness
+  cases hRequest
+  cases hMeshIndex
+  cases hStreamWindow
+  cases hRegseqReadback
+  cases hTolerance
+  cases hMeshCompatibility
+  cases hRealHandoff
+  cases hTransports
+  cases hRoutes
   cases hProvenance
+  cases hName
   rfl
 
-def regularCauchyMeshToEventFlow : RegularCauchyMeshUp → EventFlow
+private def regularCauchyMeshToEventFlow : RegularCauchyMeshUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyMeshUp.mk mesh modulus index lower upper diameter refinement cauchy regular
-      witness provenance =>
+  | RegularCauchyMeshUp.mk request meshIndex streamWindow regseqReadback tolerance
+      meshCompatibility realHandoff transports routes provenance name =>
       [[BMark.b0],
-        regularCauchyMeshEncodeBHist mesh,
+        regularCauchyMeshEncodeBHist request,
         [BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist modulus,
+        regularCauchyMeshEncodeBHist meshIndex,
         [BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist index,
+        regularCauchyMeshEncodeBHist streamWindow,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist lower,
+        regularCauchyMeshEncodeBHist regseqReadback,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist upper,
+        regularCauchyMeshEncodeBHist tolerance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist diameter,
+        regularCauchyMeshEncodeBHist meshCompatibility,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist refinement,
+        regularCauchyMeshEncodeBHist realHandoff,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        regularCauchyMeshEncodeBHist cauchy,
+        regularCauchyMeshEncodeBHist transports,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist regular,
+        regularCauchyMeshEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist witness,
+        regularCauchyMeshEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        regularCauchyMeshEncodeBHist provenance]
+        regularCauchyMeshEncodeBHist name]
 
-def regularCauchyMeshFromEventFlow : EventFlow → Option RegularCauchyMeshUp
+private def regularCauchyMeshFromEventFlow : EventFlow → Option RegularCauchyMeshUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | mesh :: rest1 =>
+      | request :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | modulus :: rest3 =>
+              | meshIndex :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | index :: rest5 =>
+                      | streamWindow :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | lower :: rest7 =>
+                              | regseqReadback :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | upper :: rest9 =>
+                                      | tolerance :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | diameter :: rest11 =>
+                                              | meshCompatibility :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | refinement :: rest13 =>
+                                                      | realHandoff :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | cauchy :: rest15 =>
+                                                              | transports :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | regular :: rest17 =>
+                                                                      | routes :: rest17 =>
                                                                           match rest17 with
                                                                           | [] => none
-                                                                          | _tag9 ::
-                                                                              rest18 =>
+                                                                          | _tag9 :: rest18 =>
                                                                               match rest18 with
-                                                                              | [] =>
-                                                                                  none
-                                                                              | witness ::
-                                                                                  rest19 =>
+                                                                              | [] => none
+                                                                              | provenance :: rest19 =>
                                                                                   match rest19 with
-                                                                                  | [] =>
-                                                                                      none
-                                                                                  | _tag10 ::
-                                                                                      rest20 =>
+                                                                                  | [] => none
+                                                                                  | _tag10 :: rest20 =>
                                                                                       match rest20 with
-                                                                                      | [] =>
-                                                                                          none
-                                                                                      | provenance ::
-                                                                                          rest21 =>
+                                                                                      | [] => none
+                                                                                      | name :: rest21 =>
                                                                                           match rest21 with
                                                                                           | [] =>
                                                                                               some
                                                                                                 (RegularCauchyMeshUp.mk
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    mesh)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    modulus)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    index)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    lower)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    upper)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    diameter)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    refinement)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    cauchy)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    regular)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    witness)
-                                                                                                  (regularCauchyMeshDecodeBHist
-                                                                                                    provenance))
-                                                                                          | _ :: _ =>
-                                                                                              none
+                                                                                                  (regularCauchyMeshDecodeBHist request)
+                                                                                                  (regularCauchyMeshDecodeBHist meshIndex)
+                                                                                                  (regularCauchyMeshDecodeBHist streamWindow)
+                                                                                                  (regularCauchyMeshDecodeBHist regseqReadback)
+                                                                                                  (regularCauchyMeshDecodeBHist tolerance)
+                                                                                                  (regularCauchyMeshDecodeBHist meshCompatibility)
+                                                                                                  (regularCauchyMeshDecodeBHist realHandoff)
+                                                                                                  (regularCauchyMeshDecodeBHist transports)
+                                                                                                  (regularCauchyMeshDecodeBHist routes)
+                                                                                                  (regularCauchyMeshDecodeBHist provenance)
+                                                                                                  (regularCauchyMeshDecodeBHist name))
+                                                                                          | _ :: _ => none
 
 private theorem regularCauchyMesh_round_trip :
     ∀ x : RegularCauchyMeshUp,
@@ -213,38 +193,39 @@ private theorem regularCauchyMesh_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk mesh modulus index lower upper diameter refinement cauchy regular witness provenance =>
+  | mk request meshIndex streamWindow regseqReadback tolerance meshCompatibility realHandoff
+      transports routes provenance name =>
       change
         some
           (RegularCauchyMeshUp.mk
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist mesh))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist modulus))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist index))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist lower))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist upper))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist diameter))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist refinement))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist cauchy))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist regular))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist witness))
-            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist provenance))) =
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist request))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist meshIndex))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist streamWindow))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist regseqReadback))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist tolerance))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist meshCompatibility))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist realHandoff))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist transports))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist routes))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist provenance))
+            (regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist name))) =
           some
-            (RegularCauchyMeshUp.mk mesh modulus index lower upper diameter refinement cauchy
-              regular witness provenance)
+            (RegularCauchyMeshUp.mk request meshIndex streamWindow regseqReadback tolerance
+              meshCompatibility realHandoff transports routes provenance name)
       exact
         congrArg some
           (regularCauchyMesh_mk_congr
-            (regularCauchyMeshDecode_encode_bhist mesh)
-            (regularCauchyMeshDecode_encode_bhist modulus)
-            (regularCauchyMeshDecode_encode_bhist index)
-            (regularCauchyMeshDecode_encode_bhist lower)
-            (regularCauchyMeshDecode_encode_bhist upper)
-            (regularCauchyMeshDecode_encode_bhist diameter)
-            (regularCauchyMeshDecode_encode_bhist refinement)
-            (regularCauchyMeshDecode_encode_bhist cauchy)
-            (regularCauchyMeshDecode_encode_bhist regular)
-            (regularCauchyMeshDecode_encode_bhist witness)
-            (regularCauchyMeshDecode_encode_bhist provenance))
+            (regularCauchyMeshDecode_encode_bhist request)
+            (regularCauchyMeshDecode_encode_bhist meshIndex)
+            (regularCauchyMeshDecode_encode_bhist streamWindow)
+            (regularCauchyMeshDecode_encode_bhist regseqReadback)
+            (regularCauchyMeshDecode_encode_bhist tolerance)
+            (regularCauchyMeshDecode_encode_bhist meshCompatibility)
+            (regularCauchyMeshDecode_encode_bhist realHandoff)
+            (regularCauchyMeshDecode_encode_bhist transports)
+            (regularCauchyMeshDecode_encode_bhist routes)
+            (regularCauchyMeshDecode_encode_bhist provenance)
+            (regularCauchyMeshDecode_encode_bhist name))
 
 private theorem regularCauchyMeshToEventFlow_injective {x y : RegularCauchyMeshUp} :
     regularCauchyMeshToEventFlow x = regularCauchyMeshToEventFlow y → x = y := by
@@ -273,7 +254,7 @@ instance regularCauchyMeshChapterTasteGate : ChapterTasteGate RegularCauchyMeshU
     intro x y hxy heq
     exact hxy (regularCauchyMeshToEventFlow_injective heq)
 
-theorem RegularCauchyMeshCarrier_namecert_obligations :
+theorem RegularCauchyMeshTasteGate_single_carrier_alignment :
     (∀ h : BHist, regularCauchyMeshDecodeBHist (regularCauchyMeshEncodeBHist h) = h) ∧
       (∀ x : RegularCauchyMeshUp,
         regularCauchyMeshFromEventFlow (regularCauchyMeshToEventFlow x) = some x) ∧
