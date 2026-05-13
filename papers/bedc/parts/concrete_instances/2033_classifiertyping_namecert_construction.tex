@@ -76,12 +76,54 @@ Readback follows the displayed continuation routes in $C$. These routes determin
 Since the packet has no coordinate for host type checking, erased derivations, or normalization, the consumer can read only the finite signature-gap packet named by $S$ and authenticated by $N$.
 \end{proof}
 
+\begin{theorem}[ClassifierTyping subject-reduction Cont stability]
+\label{thm:classifiertyping-subject-reduction-cont-stability}
+Let $X=(T,E,R,S,H,C,P,N)$ be an accepted $\ClassifierTypingUp$ carrier. Every subject-reduction read of $X$ is a $\Cont$-stable read: the source membership is read through the visible $\Ext$ row $E$, the reduction step is read through $R$, the typing answer is read through $\mathsf{SigRel}$ row $S$, and the target membership is reached only by replaying the displayed $\hsame$, $\Pkg$, and $\NameCert_{\ClassifierTypingUp}$ rows $H,P,N$ along the continuation routes in $C$.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:classifier-typing-carrier}. The packet displays the term row $T$, the membership row $E$, the reduction row $R$, the signature-answer row $S$, the transport row $H$, the route row $C$, the package row $P$, and the local naming row $N$.
+
+Apply \autoref{def:classifier-typing-classifier}. A reduction-preservation read can compare only the exposed $\Ext$, $\Cont$, and $\mathsf{SigRel}$ rows under the recorded $\hsame$ transports, so the source membership and typing answer cannot be replaced by a host derivation.
+
+Use \autoref{thm:classifier-typing-membership-stability} for the membership side. It routes transported membership through $E,H,C$ and excludes a fresh classifier or semantic conversion rule.
+
+Use \autoref{thm:classifier-typing-signature-gap-readback} for the answer side. It forces the typing answer through $S,E,R,N$, with $P$ recording the finite provenance. Hence the subject-reduction read is exactly the displayed $\Cont$ route from source data to target membership inside $X$.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping visible-answer determinacy]
+\label{thm:classifiertyping-visible-answer-determinacy}
+Let $X=(T,E,R,S,H,C,P,N)$ and $X'=(T',E',R',S',H',C',P',N')$ be accepted $\ClassifierTypingUp$ carriers that classify together. If a public consumer reads a typing answer from both packets, then the two answers are the same displayed $\mathsf{SigRel}$ answer under the recorded $\hsame$ transports and $\Cont$ routes. No second visible answer can be produced from $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, or $\NameCert$ rows outside the displayed packets.
+\end{theorem}
+\begin{proof}
+Begin with the classifier of \autoref{def:classifier-typing-classifier}. Classification of $X$ with $X'$ compares the visible membership rows, signature-answer rows, and reduction rows, and the comparison is mediated only by $H,H',C,C'$.
+
+Apply \autoref{thm:classifier-typing-signature-gap-readback} to each packet. Each readable answer factors through $S$ or $S'$ together with the corresponding membership row, reduction route, and local ledger.
+
+Apply \autoref{thm:classifier-typing-membership-stability}. The membership rows used by the answer reads are transported by the same displayed $\hsame$ and $\Cont$ data that the classifier already exposes.
+
+The package and naming rows $P,N,P',N'$ record the provenance of those finite reads. Since neither carrier contains a host type checker, erased derivation, semantic conversion rule, or normalization theorem, the paired reads determine one visible $\mathsf{SigRel}$ answer and leave no route for a second answer.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping reduction-route ledger exhaustion]
+\label{thm:classifiertyping-reduction-route-ledger-exhaustion}
+For every accepted $\ClassifierTypingUp$ carrier $X=(T,E,R,S,H,C,P,N)$, every reduction-preservation route exported by the packet is exhausted by the displayed rows $T,E,R,S,H,C,P,N$. In particular, a consumer that asks for subject reduction receives the visible $\Ext$ membership row, $\Cont$ reduction row, $\mathsf{SigRel}$ answer row, componentwise $\hsame$ transports, $\Pkg$ provenance, and $\NameCert_{\ClassifierTypingUp}$ ledger, and receives no hidden typing derivation, semantic conversion, erased representative, or normalization oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:classifier-typing-carrier}. Its reduction-facing coordinates are precisely the term, membership, reduction, signature-answer, transport, route, package, and local ledger rows.
+
+Use \autoref{thm:classifiertyping-subject-reduction-cont-stability}. Subject-reduction reads are replayed through the visible $\Cont$ route, with source membership from $E$, reduction from $R$, and target membership authenticated by $H,P,N$.
+
+Use \autoref{thm:classifiertyping-visible-answer-determinacy}. Any answer read along that route is the displayed $\mathsf{SigRel}$ answer named by $S$, so the reduction route cannot branch to an extra answer source.
+
+The exclusion clauses of the carrier and classifier rule out host typing semantics, erased derivations, semantic conversion, and normalization. Therefore the reduction-route ledger is exhausted by $T,E,R,S,H,C,P,N$.
+\end{proof}
+
 \closureat{ClassifierTypingUp}{seedStr}
 
 \begin{closurestatus}{\ClassifierTypingUp}
   \constructivestory{A $\ClassifierTypingUp$ packet is generated from a visible term row, an $\Ext$ membership row, a $\Cont$ reduction row, a $\mathsf{SigRel}$ typing-answer row, componentwise $\hsame$ transports, displayed $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:classifier-typing-carrier}, \autoref{def:classifier-typing-classifier}, \autoref{thm:classifier-typing-namecert-obligations}, \autoref{thm:classifier-typing-membership-stability}, and \autoref{thm:classifier-typing-signature-gap-readback} name the carrier, classifier, NameCert, membership, and signature-gap rows.}
+  \scopeclosed{\autoref{def:classifier-typing-carrier}, \autoref{def:classifier-typing-classifier}, \autoref{thm:classifier-typing-namecert-obligations}, \autoref{thm:classifier-typing-membership-stability}, \autoref{thm:classifier-typing-signature-gap-readback}, \autoref{thm:classifiertyping-subject-reduction-cont-stability}, \autoref{thm:classifiertyping-visible-answer-determinacy}, and \autoref{thm:classifiertyping-reduction-route-ledger-exhaustion} name the carrier, classifier, NameCert, membership, signature-gap, reduction-stability, visible-answer, and ledger-exhaustion rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
