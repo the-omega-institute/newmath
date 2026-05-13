@@ -422,6 +422,8 @@ def stats(limit: int = 5000) -> dict[str, Any]:
     lines = INBOX_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
     tail = lines[-limit:]
     by_event: dict[str, int] = {}
+    by_rejection_reason: dict[str, int] = {}
+    by_logic_packet_reason: dict[str, int] = {}
     for line in tail:
         try:
             rec = json.loads(line)
@@ -429,7 +431,32 @@ def stats(limit: int = 5000) -> dict[str, Any]:
             continue
         event = str(rec.get("event") or "unknown")
         by_event[event] = by_event.get(event, 0) + 1
-    return {"events": len(lines), "sampled": len(tail), "by_event": dict(sorted(by_event.items()))}
+        if event not in {"pre_gate_reject", "rejected"}:
+            continue
+        reason = str(rec.get("reason") or "").strip()
+        if not reason:
+            reason = "unspecified"
+        by_rejection_reason[reason] = by_rejection_reason.get(reason, 0) + 1
+        if reason.startswith("logic_packet_gate:"):
+            payload = reason.split(":", 1)[1]
+            for part in payload.split(";"):
+                key = part.split(":", 1)[0].strip()
+                if key:
+                    by_logic_packet_reason[key] = by_logic_packet_reason.get(key, 0) + 1
+
+    def _top(counts: dict[str, int], n: int = 20) -> list[dict[str, Any]]:
+        return [
+            {"reason": key, "count": count}
+            for key, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
+        ]
+
+    return {
+        "events": len(lines),
+        "sampled": len(tail),
+        "by_event": dict(sorted(by_event.items())),
+        "rejection_reasons": _top(by_rejection_reason),
+        "logic_packet_gate_reasons": _top(by_logic_packet_reason),
+    }
 
 
 def main() -> int:
