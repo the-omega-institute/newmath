@@ -442,6 +442,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             "latest_event_age_seconds": None,
             "latest_event": None,
             "latest_by_source": {},
+            "latest_by_source_sampled": {},
             "by_event": {},
         }
     lines = INBOX_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
@@ -459,6 +460,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     latest_ts: datetime | None = None
     latest_event: dict[str, Any] | None = None
     latest_by_source: dict[str, tuple[datetime, dict[str, Any]]] = {}
+    latest_by_source_sampled: dict[str, tuple[datetime, dict[str, Any]]] = {}
     for line in tail:
         try:
             rec = json.loads(line)
@@ -474,9 +476,9 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             }
         source_key = str(rec.get("source") or "unknown").strip() or "unknown"
         if ts is not None:
-            current = latest_by_source.get(source_key)
+            current = latest_by_source_sampled.get(source_key)
             if current is None or ts > current[0]:
-                latest_by_source[source_key] = (
+                latest_by_source_sampled[source_key] = (
                     ts,
                     {
                         "event": rec.get("event"),
@@ -487,6 +489,16 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             if ts is None or ts < window_start:
                 continue
         windowed += 1
+        if ts is not None:
+            current = latest_by_source.get(source_key)
+            if current is None or ts > current[0]:
+                latest_by_source[source_key] = (
+                    ts,
+                    {
+                        "event": rec.get("event"),
+                        "title": rec.get("title"),
+                    },
+                )
         event = str(rec.get("event") or "unknown")
         by_event[event] = by_event.get(event, 0) + 1
         if event not in {"pre_gate_reject", "rejected"}:
@@ -517,6 +529,18 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             for key, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
         ]
 
+    def _latest_source_payload(
+        latest: dict[str, tuple[datetime, dict[str, Any]]],
+    ) -> dict[str, dict[str, Any]]:
+        return {
+            source: {
+                "ts": ts.isoformat(timespec="seconds"),
+                "age_seconds": int((datetime.now(timezone.utc) - ts).total_seconds()),
+                **event,
+            }
+            for source, (ts, event) in sorted(latest.items())
+        }
+
     return {
         "events": len(lines),
         "sampled": len(tail),
@@ -529,14 +553,8 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             if latest_ts else None
         ),
         "latest_event": latest_event,
-        "latest_by_source": {
-            source: {
-                "ts": ts.isoformat(timespec="seconds"),
-                "age_seconds": int((datetime.now(timezone.utc) - ts).total_seconds()),
-                **event,
-            }
-            for source, (ts, event) in sorted(latest_by_source.items())
-        },
+        "latest_by_source": _latest_source_payload(latest_by_source),
+        "latest_by_source_sampled": _latest_source_payload(latest_by_source_sampled),
         "by_event": dict(sorted(by_event.items())),
         "rejection_reasons": _top(by_rejection_reason),
         "rejection_sources": _top(by_rejection_source),
