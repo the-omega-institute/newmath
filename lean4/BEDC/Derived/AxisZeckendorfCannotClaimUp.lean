@@ -123,4 +123,19 @@ theorem AxisZeckendorfCannotClaimRegistryPacket_semantic_name_certificate [AskSe
       exact source
   }
 
+theorem AxisZeckendorfCannotClaimRegistryPacket_root_unblock_downstream_boundary [AskSetup]
+    [PackageSetup] {a b c d e f g h p n downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisZeckendorfCannotClaimRegistryPacket a b c d e f g h p n bundle pkg ->
+      Cont a b downstream ->
+        hsame h downstream ∧ hsame p n ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg PkgSig
+  intro packet downstreamRoute
+  obtain
+    ⟨_aUnary, _bUnary, _cUnary, _dUnary, _eUnary, _fUnary, _gUnary, rootRoute, _routeCD,
+      _routeEF, sameProvenanceName, pkgSig⟩ := packet
+  have sameRootDownstream : hsame h downstream :=
+    cont_deterministic rootRoute downstreamRoute
+  exact ⟨sameRootDownstream, sameProvenanceName, pkgSig⟩
+
 end BEDC.Derived.AxisZeckendorfCannotClaimUp
