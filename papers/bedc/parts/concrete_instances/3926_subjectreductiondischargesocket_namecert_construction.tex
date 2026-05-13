@@ -71,6 +71,46 @@ The transport and route rows $H,C$ preserve those inputs as the rows named by th
 For the obstruction coordinate, read $Q$ in the opposite direction: it reports that the closed subject-reduction statement is blocked at this socket boundary. Hence downstream consumers can cite the finite socket as an obligation surface, but cannot turn it into a closed subject-reduction theorem.
 \end{proof}
 
+\begin{theorem}[SubjectReductionDischargeSocket row exhaustion]
+\label{thm:subject-reduction-discharge-socket-row-exhaustion}
+Let $O=(B,A,L,P,H,C,Q,N)$ be an accepted $\SubjectReductionDischargeSocketUp$ carrier. Every admissible subject-reduction socket read is one of the four discharge rows $B,A,L,P$, the parameterised $\SubjectReductionUp$ row recorded by $Q$, the closed-obstruction row recorded by $Q$, or the local $\NameCert$ provenance carried by $H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier $O$. The displayed coordinates expose exactly the four discharge rows $B,A,L,P$ and the structural rows $H,C,Q,N$.
+
+Read the ledger $Q$. It contains the parameterised subject-reduction consumer row and the closed-obstruction boundary row. These are ledger entries over the displayed discharge rows, not extra carrier coordinates.
+
+The remaining admissible reads are local provenance reads through $H,C,Q,N$. Since the carrier has no further slot, every socket read belongs to one of the listed classes.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeSocket transport stability]
+\label{thm:subject-reduction-discharge-socket-transport-stability}
+Let $O=(B,A,L,P,H,C,Q,N)$ and $O'=(B',A',L',P',H',C',Q',N')$ be accepted $\SubjectReductionDischargeSocketUp$ carriers. If the rows are matched componentwise by the displayed $\hsame$ data in $H,H'$ and the subject-reduction reads follow the displayed $\Cont$ routes in $C,C'$, then $O$ and $O'$ expose the same row inventory: the four discharge rows, the parameterised row, the obstruction row, and the local NameCert provenance rows.
+\end{theorem}
+\begin{proof}
+Use the componentwise $\hsame$ rows first. They identify $B,A,L,P$ with $B',A',L',P'$ as the same four discharge coordinates inside the socket classifier.
+
+Next follow the displayed $\Cont$ routes. They replay the same parameterised subject-reduction and obstruction reads through $Q,N$ and through $Q',N'$.
+
+Transport does not add a coordinate to either carrier. Therefore the row inventory exposed by the two accepted sockets is stable under the displayed $\hsame$ and $\Cont$ data.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeSocket downstream consumer boundary]
+\label{thm:subject-reduction-discharge-socket-downstream-consumer-boundary}
+Every route-equivalence or route-classifier chapter that consumes an accepted $\SubjectReductionDischargeSocketUp$ carrier
+$$
+O=(B,A,L,P,H,C,Q,N)
+$$
+can consume the socket only through the four discharge rows, the parameterised subject-reduction row, the obstruction row, and the local NameCert provenance rows. Such a consumer cannot manufacture a closed subject-reduction theorem, a host conversion route, an erased derivation semantics, or quotient equality of MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Begin with row exhaustion. Any admissible read from the socket is one of the listed discharge, parameterised, obstruction, or provenance rows.
+
+Then apply transport stability. Route-equivalence and route-classifier consumers may move the same rows along displayed $\hsame$ and $\Cont$ routes, but those routes preserve the inventory rather than creating a new theorem coordinate.
+
+The excluded closed subject-reduction, host conversion, erased semantics, and quotient-equality objects are absent from the carrier. Hence downstream consumers can cite the socket as a finite boundary and cannot turn it into a closed subject-reduction result.
+\end{proof}
+
 \begin{theorem}[SubjectReductionDischargeSocket vision handoff]
 \label{thm:subject-reduction-discharge-socket-vision-handoff}
 The MetaCIC subject-reduction obstruction vision is realized by the finite $\SubjectReductionDischargeSocketUp$ packet of \autoref{def:subject-reduction-discharge-socket-carrier}. Its concrete handoff consists of the four discharge rows $B,A,L,P$, the parameterised $\SubjectReductionUp$ consumption ledger, the checked closed-obstruction boundary, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming. No downstream chapter may cite this handoff as a closed subject-reduction theorem.
@@ -88,7 +128,7 @@ Thus the vision is handed to downstream chapters as a finite socket: it is a con
 \begin{closurestatus}{\SubjectReductionDischargeSocketUp}
   \constructivestory{A $\SubjectReductionDischargeSocketUp$ packet is generated from beta-substitution, application-argument, lambda-domain, and Pi-domain discharge rows, a parameterised subject-reduction consumption ledger, a checked closed-obstruction boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:subject-reduction-discharge-socket-carrier}, \autoref{thm:subject-reduction-discharge-socket-namecert-obligations}, \autoref{thm:subject-reduction-discharge-socket-nonescape}, \autoref{thm:subject-reduction-discharge-socket-obligation-consumption}, and \autoref{thm:subject-reduction-discharge-socket-vision-handoff} bind the finite MetaCIC subject-reduction discharge socket.}
+  \scopeclosed{\autoref{def:subject-reduction-discharge-socket-carrier}, \autoref{thm:subject-reduction-discharge-socket-namecert-obligations}, \autoref{thm:subject-reduction-discharge-socket-nonescape}, \autoref{thm:subject-reduction-discharge-socket-obligation-consumption}, \autoref{thm:subject-reduction-discharge-socket-row-exhaustion}, \autoref{thm:subject-reduction-discharge-socket-transport-stability}, \autoref{thm:subject-reduction-discharge-socket-downstream-consumer-boundary}, and \autoref{thm:subject-reduction-discharge-socket-vision-handoff} bind the finite MetaCIC subject-reduction discharge socket.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
