@@ -1,0 +1,211 @@
+\chapter{The twin substrate architecture: MetaCIC and GroundCompiler}
+\label{ch:twin-substrate-synthesis}
+
+\section{The setup}
+\label{sec:twin-substrate-synthesis-setup}
+
+BEDC has two main Lean substrates for the self-compilation story.
+They are not two presentations of the same module. They answer two
+different audit questions.
+
+\texttt{BEDC.MetaCIC} is the closed-CIC meta-theory substrate. Its
+subject matter is the formal grammar and proof-theoretic behaviour of a
+closed calculus: typing surfaces, beta steps, closedness, substitution,
+consistency assembly, subject reduction, normalisation, confluence, and
+decidable checking. Its paper-facing synthesis is
+\autoref{ch:metacic-audit-synthesis}.
+
+\texttt{BEDC.GroundCompiler} is the self-compilation substrate. Its subject
+matter is the compiler-facing route from event flows and source channels to
+generated recognisers, certificate gates, metric boundaries, cannot-claim
+rows, and streaming compiler discipline. Its paper-facing audit map is
+\autoref{ch:bedc-groundcompiler-audit-map}.
+
+The two substrates cooperate in the BEDC roundtrip, but each remains
+separately audit-able. MetaCIC records what the closed calculus can and
+cannot support. GroundCompiler records what the self-compile pipeline can and
+cannot count as generated, encoded, certified, or excluded as hidden input.
+
+\section{Why two substrates}
+\label{sec:twin-substrate-synthesis-why-two}
+
+BEDC self-compilation needs two forms of assurance.
+
+The first assurance is meta-theoretic. The project needs a closed substrate in
+which reduction, closedness, normalisation, confluence, substitution, and
+consistency claims have explicit proof status. This is the work of MetaCIC.
+The central question is not whether a compiler report is trustworthy. The
+central question is whether the represented closed calculus supports the
+meta-theoretic transport steps that the paper wants to use.
+
+The second assurance is compiler-facing. The project needs a pipeline in
+which a source-like event stream is encoded, normalised, recognised, packaged,
+reported, and gated without importing hidden host structure as formal input.
+This is the work of GroundCompiler. The central question is not whether
+closed-CIC subject reduction holds. The central question is whether a
+compiler-layer artifact is allowed to count as a BEDC input, output,
+certificate, report, or non-evidence row.
+
+Keeping these assurances apart makes obstructions visible. MetaCIC has the
+dependent-codomain subject-reduction frontier described in
+\autoref{ch:metacic-subject-reduction-obstruction}. GroundCompiler has
+compiler-pipeline boundaries around conservativity, address analysis,
+source-channel separation, certificate mediation, and cannot-claim ledgers.
+These are different boundary kinds. A structural boundary in closed CIC is
+not the same thing as a self-compile pipeline boundary.
+
+\section{Audit map family per substrate}
+\label{sec:twin-substrate-synthesis-audit-families}
+
+\subsection{MetaCIC audit family}
+\label{subsec:twin-substrate-synthesis-metacic-family}
+
+The MetaCIC audit family is deliberately granular. The reader is meant to
+move among specialised maps rather than treat the substrate as one large
+claim. The family contains subject reduction, confluence, normalisation,
+substitution, decidability, typed examples, beta, closure preservation, and
+consistency assembly sites, with the cross-map reading gathered in
+\autoref{ch:metacic-audit-synthesis}.
+
+This granularity reflects the depth of the substrate. A substitution theorem
+does not become a subject-reduction theorem. A confluence bridge does not
+become closed consistency. A decidable checker does not become a global
+decision oracle for every meta-theoretic property. The audit family keeps
+these handoffs explicit, and the synthesis chapter records the critical path
+without merging the roles.
+
+\subsection{GroundCompiler audit map}
+\label{subsec:twin-substrate-synthesis-groundcompiler-family}
+
+GroundCompiler has a single module-level audit map in
+\autoref{ch:bedc-groundcompiler-audit-map}. That map inventories the
+compiler-facing file groups, the aggregate statement cells, the checked
+theorem wrappers, the conditional cells, and the boundary of the
+self-compilation claim.
+
+The asymmetry is informative. MetaCIC is the deeper proof-theoretic substrate
+and therefore has a finer audit-map family. GroundCompiler is organised as a
+pipeline audit surface with a single chapter collecting event-flow, channel,
+recogniser, certificate, metric, motif, and bootstrap boundaries. The
+difference does not make one substrate more fundamental than the other. It
+shows that their audit surfaces have different shapes.
+
+\section{Audit reexport namespaces}
+\label{sec:twin-substrate-synthesis-audit-reexports}
+
+\subsection{\texttt{BEDC.MetaCIC.Audit}}
+\label{subsec:twin-substrate-synthesis-metacic-audit-namespace}
+
+\texttt{BEDC.MetaCIC.Audit} is the single namespace for MetaCIC
+audit-relevant exports. It collects the obstruction theorem, the subject
+reduction interfaces, the discharge bundle and setup interfaces, closed-term
+operations, closure-preservation facts, partial discharge witnesses, and
+counter-witnesses that downstream audit code may need to cite.
+
+The namespace does not change the logical status of any theorem. It is an
+addressing layer. Its purpose is to make the MetaCIC audit surface available
+from one place while preserving the distinctions recorded by the specialised
+paper maps.
+
+\subsection{\texttt{BEDC.GroundCompiler.Audit}}
+\label{subsec:twin-substrate-synthesis-groundcompiler-audit-namespace}
+
+\texttt{BEDC.GroundCompiler.Audit} plays the corresponding role for
+GroundCompiler. It collects the main statement cells, main theorem witnesses,
+input and channel facts, generated-structure and export boundaries, canonical
+code and classifier witnesses, metric conservativity, and cannot-claim
+registry interfaces.
+
+This namespace gives the compiler substrate the same kind of audit reference
+point that MetaCIC has. A downstream reader can point to
+\texttt{BEDC.MetaCIC.Audit} for closed-CIC audit content and to
+\texttt{BEDC.GroundCompiler.Audit} for self-compile pipeline audit content.
+The common shape is intentional: each substrate exposes one namespace for
+audit consumption, while each namespace preserves its own subject matter.
+
+\section{The cross-substrate synthesis result}
+\label{sec:twin-substrate-synthesis-cross-result}
+
+The BEDC self-compilation roundtrip is a composition of the two substrates,
+not a collapse of one into the other. GroundCompiler supplies the
+compiler-facing side: a source program is represented through event flow and
+channel structure, transformed through generated recognisers and certificate
+gates, and recorded as a ledgered artifact with explicit non-input and
+non-evidence boundaries.
+
+MetaCIC supplies the meta-theoretic side: the ledgered artifact is read
+against a closed calculus whose reduction, closedness, substitution,
+normalisation, confluence, decidability, and consistency interfaces have
+their own audit status. A compiler ledger step is therefore not accepted just
+because it is textually present. It must be located in the corresponding
+MetaCIC legality story when the step claims closed-CIC content.
+
+The synthesis claim is architectural: project-level audit cleanliness requires
+both maps to be clean in their own sense. GroundCompiler must not smuggle
+hidden compiler input or promote reports into proof evidence. MetaCIC must not
+pretend that a blocked closed-CIC transport edge has been supplied. The BEDC
+roundtrip is credible only when both refusals hold at the same time.
+
+\section{Apophatic framing of the twin substrate}
+\label{sec:twin-substrate-synthesis-apophatic}
+
+This architecture follows the naming discipline of
+\autoref{ch:visions-apophatic-naming-as-discipline}. A substrate boundary is
+not left anonymous. It is named, routed to the proper audit map, and kept out
+of neighbouring claims.
+
+For MetaCIC, the named boundary is the subject-reduction frontier in the
+dependent-codomain setting. The paper can discuss closed-normal consistency,
+candidate-mediated normalisation, substitution facts, and conditional
+transport paths without pretending that the missing closed arbitrary-proof
+transport is available.
+
+For GroundCompiler, the named boundaries are compiler-pipeline boundaries:
+global conservativity, address analysis, source-channel separation,
+certificate-mediated export, metric non-evidence, motif non-evidence, and
+cannot-claim registry adequacy. These names stop the self-compile story from
+converting code, reports, motifs, or host structure into proof content by
+prose.
+
+The twin substrate architecture is therefore apophatic in a project-level
+sense. Each substrate says what it can use, what it cannot use, and where the
+next required supply would have to appear. The two sets of names are not
+interchangeable.
+
+\section{Why not collapse into one substrate}
+\label{sec:twin-substrate-synthesis-no-collapse}
+
+Collapsing MetaCIC and GroundCompiler into one substrate would blur two audit
+gates that need different questions. A closed-CIC structural property asks
+about terms, reduction, closedness, binders, typing surfaces, and normal
+forms. A compiler-pipeline property asks about source channels, encodings,
+recognisers, generated structure, certificates, reports, ledgers, and hidden
+input.
+
+The distinction matters for reuse. A downstream formalisation that needs
+closed substitution or closed-normal consistency should cite the MetaCIC
+surface. A downstream compiler audit that needs channel losslessness,
+certificate-mediated export, or metric conservativity should cite the
+GroundCompiler surface. A chapter that needs the full self-compilation
+roundtrip must say where each half of the claim is discharged.
+
+The split also prevents category mistakes. A theorem saying code is not proof
+does not solve subject reduction. A theorem about closed substitution does not
+prove that a compiler report is a certificate. A confluence bridge does not
+make a hidden compiler input visible. A channel bijection does not establish
+closed-CIC consistency. The architecture keeps these refusals local and
+auditable.
+
+\section{Boundary}
+\label{sec:twin-substrate-synthesis-boundary}
+
+This chapter is an architecture description. It is not a proof attempt for
+the remaining MetaCIC frontier, and it is not a claim that the compiler
+pipeline alone completes BEDC self-compilation.
+
+The allowed reading is narrower and stronger. BEDC has two cooperating
+substrates for the roundtrip. MetaCIC carries the closed-CIC meta-theory audit
+surface. GroundCompiler carries the self-compile pipeline audit surface. Their
+audit namespaces provide parallel reference points, and their paper maps
+record distinct boundary kinds. The project-level self-compilation story
+depends on both, while neither is allowed to impersonate the other.
