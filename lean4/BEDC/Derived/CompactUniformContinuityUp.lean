@@ -265,4 +265,35 @@ theorem CompactUniformContinuityPacket_root_uniform_modulus_row [AskSetup] [Pack
       modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision,
       precisionToleranceUniform, precisionPkg, uniformReadPkg⟩
 
+theorem CompactUniformContinuityPacket_source_metric_totality [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow metricRead handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg ->
+      Cont source net metricRead ->
+        Cont metricRead transport handoff ->
+          PkgSig bundle metricRead pkg ->
+            PkgSig bundle handoff pkg ->
+              UnaryHistory source ∧ UnaryHistory net ∧ UnaryHistory metricRead ∧
+                UnaryHistory handoff ∧ Cont net coverage modulusRows ∧
+                  Cont modulusRows radiusRows fold ∧ Cont fold transport route ∧
+                    Cont source net metricRead ∧ Cont metricRead transport handoff ∧
+                      PkgSig bundle precision pkg ∧ PkgSig bundle metricRead pkg ∧
+                        PkgSig bundle handoff pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro packet sourceNetMetric metricTransportHandoff metricReadPkg handoffPkg
+  obtain ⟨sourceUnary, _targetUnary, _graphUnary, _toleranceUnary, netUnary,
+    coverageUnary, radiusRowsUnary, transportUnary, _nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, foldTransportRoute, _routeNamePrecision, precisionPkg⟩ :=
+      packet
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed sourceUnary netUnary sourceNetMetric
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed metricReadUnary transportUnary metricTransportHandoff
+  exact
+    ⟨sourceUnary, netUnary, metricReadUnary, handoffUnary, netCoverageModulusRows,
+      modulusRowsRadiusRowsFold, foldTransportRoute, sourceNetMetric, metricTransportHandoff,
+      precisionPkg, metricReadPkg, handoffPkg⟩
+
 end BEDC.Derived.CompactUniformContinuityUp
