@@ -354,6 +354,22 @@ Apply the seal factorization package of \autoref{thm:located-cut-real-seal-facto
 Finally use \autoref{thm:located-cut-scoped-kernel-route}. The public export is therefore a repacking of the scoped package and seal factorization rows, and it exposes no coordinate for quotient cuts, selected suprema, host real equality, ambient completeness, or classical choice.
 \end{proof}
 
+\begin{theorem}[LocatedCut window monotonic refinement]
+\label{thm:located-cut-window-monotonic-refinement}
+Let an accepted $\LocatedCutUp$ packet refine its $\StreamNameUp$ window to a narrower lower-upper dyadic interval inside the same located-cut ledger. The refined window preserves the $\RegSeqRatUp$ handoff row and the $\RealUp$ seal boundary through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance as the coarser window.
+
+In particular, narrowing the finite interval changes only the visible lower-upper dyadic window row. It does not introduce a quotient cut, selected supremum, host real equality, ambient completeness row, or classical choice datum.
+\end{theorem}
+\begin{proof}
+Begin with located-window exactness from \autoref{thm:located-cut-located-window-exactness}. It represents every visible precision as a finite lower-upper dyadic pair inside the displayed $\StreamNameUp$ window row.
+
+Dyadic interval exhaustion supplies the narrower window as another finite lower-upper pair in the same ledger. Ledger-pair coherence from \autoref{thm:located-cut-ledger-pair-coherence} keeps the lower and upper rows attached to the same packet under componentwise $\hsame$ transport.
+
+Apply common-window refinement from \autoref{thm:located-cut-common-window-refinement}. The refined and coarser windows route to the same $\RegSeqRatUp$ handoff row through the displayed $\Cont$ paths, with unchanged $\Pkg$ provenance and local $\NameCert$ row.
+
+Finally use seal-boundary exactness from \autoref{thm:located-cut-seal-boundary-exactness}. Since the real seal consumes the handoff row reached by the displayed finite route, the narrower window preserves the same $\RealUp$ boundary and adds no quotient, selected supremum, host equality, ambient completeness, or classical choice coordinate.
+\end{proof}
+
 \closureat{LocatedCutUp}{seedStr}
 \closureat{LocatedCutUp}{obligationStr}
 \closureat{LocatedCutUp}{scopedStr}
