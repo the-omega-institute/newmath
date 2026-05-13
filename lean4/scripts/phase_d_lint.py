@@ -261,7 +261,16 @@ def main() -> int:
                 concl_no_hsame = _strip_hsame_tokens(conclusion)
                 if not BHIST_CONSTRUCTOR_RE.search(concl_no_hsame):
                     echo_hits.append(name)
-        if is_derived and not BHIST_CONSTRUCTOR_RE.search(sig):
+        # Anchor check matches the orchestrator's
+        # detect_decls_without_kernel_touchpoint (codex_formalize.py:2138):
+        # scan the full block including body comments, not just the
+        # signature. The two gates were previously inconsistent — adding
+        # a `-- BEDC touchpoint anchor: BHist BMark` comment satisfied
+        # the orchestrator gate but not phase_d_lint, so typeclass
+        # instances like `instance fooChapterTasteGate : ChapterTasteGate
+        # FooUp` whose signature has no bare `BHist` token would pass
+        # orchestrator and fail Phase D. Use the full block here too.
+        if is_derived and not BHIST_CONSTRUCTOR_RE.search(body):
             anchor_hits.append(name)
 
     shallow_hits: list[str] = []
