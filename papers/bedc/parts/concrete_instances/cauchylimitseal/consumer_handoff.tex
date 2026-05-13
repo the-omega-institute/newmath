@@ -188,6 +188,22 @@ Then apply window factorization from \autoref{thm:cauchy-limit-seal-window-facto
 Finally pull the family side through \autoref{thm:cauchy-limit-seal-uniform-criterion-pullback} and package the budget-facing endpoint by \autoref{thm:cauchy-limit-seal-real-observation-budget-consumer-package}. The resulting surface is the stated collection of concrete BEDC rows and no hidden completion coordinate remains.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal finite-route uniqueness envelope]
+\label{thm:cauchy-limit-seal-finite-route-uniqueness-envelope}
+For an accepted $\CauchyLimitSealUp$ packet, a $\RealUp$- or completion-facing consumer route is uniqueness-admissible exactly when it factors through the displayed finite envelope consisting of the $\RegSeqRatUp$ source family, $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ observation ledger, $\RealCauchyCompletionUp$ diagonal row, $\RealUp$ seal row, null-comparison and tail-comparison rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. A route that requires a quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, or ambient completeness datum is outside the envelope and is not uniqueness-admissible for the packet.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with tail extraction from \autoref{thm:cauchy-limit-seal-tail-extraction}. It projects every admitted tail read onto the displayed regular source family, scheduled window, dyadic observation ledger, completion diagonal, and visible transport route.
+
+Next apply the uniqueness boundary of \autoref{thm:cauchy-limit-seal-uniqueness-boundary}. It adds only the visible null-sequence and tail-comparison route to the same finite surface and excludes host uniqueness, quotient-stream equality, selected limits, hidden family limits, and ambient completeness.
+
+Now use ledger non-escape totality from \autoref{thm:cauchy-limit-seal-ledger-nonescape-totality} and the formal target surface of \autoref{thm:cauchy-limit-seal-formal-target-surface}. These two rows say that downstream Real-and-Completion consumers have no remaining coordinate beyond the displayed history, transport, continuation, provenance, and naming rows.
+
+Finally attach the $\RegSeqRatUp$--$\StreamNameUp$--$\DyadicRatCoreUp$ handoff of \autoref{thm:cauchy-limit-seal-regseq-stream-dyadic-handoff}. The consumer therefore reaches any uniqueness-facing comparison only through the stated finite envelope.
+
+Conversely, any route already factoring through that envelope uses exactly the rows admitted by the tail-extraction, uniqueness-boundary, non-escape, target-surface, and handoff theorems. Replaying those rows gives an admitted packet-local uniqueness route, with no quotient stream, selected host limit, host real equality, hidden family limit, unbounded schedule, or ambient completeness datum to discharge.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal Lean carrier admission]
 \label{thm:cauchy-limit-seal-lean-carrier-admission}
 A formal $\CauchyLimitSealUp$ carrier is admitted only when its displayed $\mathsf{BHist}$ packet presents the same $\StreamNameUp$ schedule, $\RegSeqRatUp$ source, $\UniformCauchyCriterionUp$ tail criterion, $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row consumed by the chapter route. A tuple lacking one of these rows is outside the carrier surface.
