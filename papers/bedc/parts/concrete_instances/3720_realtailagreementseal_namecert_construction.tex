@@ -209,6 +209,53 @@ Apply \autoref{thm:real-tail-agreement-seal-dyadic-exactness}. Once $W$ has sele
 Finally use \autoref{thm:real-tail-agreement-seal-source-separation-obligation}. Since no second window selector, second readback row, or host equality row is present in the local ledger, every Real or Completion consumer that stays on the displayed boundary must follow $W \to D \to A$.
 \end{proof}
 
+\begin{theorem}[Real tail-agreement seal terminal consumer factorization]
+\label{thm:real-tail-agreement-seal-terminal-consumer-factorization}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet. Every terminal $\RealUp$ or $\CompletionUp$ consumer of $Q$ factors its public read through the displayed route
+$$
+R,S,W,D,A,H,C,P,N.
+$$
+In particular, the consumer first agrees with the paired source and tail-window rows, then reads the dyadic agreement route $W \to D \to A$, and only then uses the structural rows $H,C,P,N$ for transport, continuation, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-tail-agreement-seal-realup-consumer-threshold-factorization}. It identifies the Real-facing threshold route through the carrier rows and prevents the consumer from entering the packet through an unlisted analytic boundary.
+
+Apply \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}. Once the consumer agrees with $R,S,W,H,C,P,N$, every public agreement read follows the finite route $W \to D \to A$.
+
+Finally apply \autoref{thm:real-tail-agreement-seal-source-separation-obligation}. The only source, window, readback, agreement, transport, continuation, package, and name rows available to a terminal Real or Completion consumer are the displayed coordinates of $Q$.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal dyadic terminal non-escape]
+\label{thm:real-tail-agreement-seal-dyadic-terminal-nonescape}
+Let $Q=(R,S,W,D,A,H,C,P,N)$ be an accepted $\RealTailAgreementSealUp$ packet. A terminal $\RealUp$ or $\CompletionUp$ consumer of $Q$ cannot replace the route
+$$
+W \to D \to A
+$$
+by quotient stream equality, selected real equality, host metric convergence, open-cover compactness, or choice-selected tails.
+\end{theorem}
+\begin{proof}
+By \autoref{def:real-tail-agreement-seal-window-coverage}, the public read reaches the finite paired tail windows selected by $W$ before it reaches any agreement row.
+
+Apply \autoref{thm:real-tail-agreement-seal-dyadic-exactness}. The selected windows are read back through the dyadic row $D$, and the agreement visible to the consumer is the displayed row $A$.
+
+Apply \autoref{thm:real-tail-agreement-seal-shared-threshold-nonescape}. The shared threshold is not a quotient-stream equality, a selected real, a host metric convergence proof, an open-cover compactness argument, or a choice-selected tail. Hence no terminal consumer can substitute any of those objects for $W \to D \to A$.
+\end{proof}
+
+\begin{theorem}[Real tail-agreement seal Completion consumer exactness]
+\label{thm:real-tail-agreement-seal-completion-consumer-exactness}
+Every $\CompletionUp$-facing consumer of an accepted $\RealTailAgreementSealUp$ packet reads the same paired tail-window agreement surface before any completion seal read. The only rows it receives are the displayed BEDC rows over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$:
+$$
+R,S,W,D,A,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-tail-agreement-seal-terminal-consumer-factorization} to place the Completion-facing consumer on the terminal packet route. Its public read factors through the displayed rows before it can consume a completion seal.
+
+Use \autoref{thm:real-tail-agreement-seal-dyadic-terminal-nonescape} to fix the agreement surface. The consumer must read $W \to D \to A$, and it cannot replace that dyadic route by quotient streams, selected limits, host convergence, compactness, or choice-selected tails.
+
+It remains to identify the received rows. Apply \autoref{thm:real-tail-agreement-seal-nonescape} together with the chapter closure scope: the local packet exposes only the finite BEDC carrier rows over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{proof}
+
 \falsifiablePrediction{Deleting any one of $R,S,W,D,A$ breaks a different public read of the seal: source membership for $R,S$, shared tail-window selection for $W$, dyadic exactness for $D$, and displayed agreement for $A$.}
 
 \independenceWitness{Nearest Real and Completion siblings share some source or handoff vocabulary, but none is bijective to this carrier while preserving the five distinct rows $R,S,W,D,A$: a single-source regularity packet lacks the paired source split, a tail-selector packet lacks dyadic agreement, a dyadic readback packet lacks the paired window lock, and a Real handoff packet lacks the displayed agreement boundary.}
@@ -234,7 +281,7 @@ Apply \autoref{thm:real-tail-agreement-seal-source-separation-obligation} and \a
   \constructivestory{A $\RealTailAgreementSealUp$ packet is generated from paired RegSeqRat source rows, finite paired StreamName tail windows, paired DyadicRatCore readbacks, a displayed tail-agreement row, componentwise hsame transports, Cont routes, Pkg provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.RealTailAgreementSealUp.taste\_gate}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:real-tail-agreement-seal-carrier}, \autoref{thm:real-tail-agreement-seal-namecert-obligations}, \autoref{thm:real-tail-agreement-seal-nonescape}, \autoref{thm:real-tail-agreement-seal-tail-classifier}, \autoref{thm:real-tail-agreement-seal-real-classifier-handoff}, \autoref{thm:real-tail-agreement-seal-ledger-exhaustion}, \autoref{thm:real-tail-agreement-seal-source-separation-obligation}, \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}, and \autoref{thm:real-tail-agreement-seal-tastegate-independence-boundary} bind the finite paired tail-window agreement packet, source separation, paired-window route, dyadic readback, and TasteGate independence boundary used by Real and Completion handoff consumers.}
+  \scopeclosed{\autoref{def:real-tail-agreement-seal-carrier}, \autoref{thm:real-tail-agreement-seal-namecert-obligations}, \autoref{thm:real-tail-agreement-seal-nonescape}, \autoref{thm:real-tail-agreement-seal-tail-classifier}, \autoref{thm:real-tail-agreement-seal-real-classifier-handoff}, \autoref{thm:real-tail-agreement-seal-ledger-exhaustion}, \autoref{thm:real-tail-agreement-seal-source-separation-obligation}, \autoref{thm:real-tail-agreement-seal-paired-window-source-lock}, \autoref{thm:real-tail-agreement-seal-terminal-consumer-factorization}, \autoref{thm:real-tail-agreement-seal-dyadic-terminal-nonescape}, \autoref{thm:real-tail-agreement-seal-completion-consumer-exactness}, and \autoref{thm:real-tail-agreement-seal-tastegate-independence-boundary} bind the finite paired tail-window agreement packet, source separation, paired-window route, dyadic readback, terminal consumer factorization, Completion exactness, and TasteGate independence boundary used by Real and Completion handoff consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
