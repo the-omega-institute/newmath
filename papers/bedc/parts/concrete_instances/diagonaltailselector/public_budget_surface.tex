@@ -120,6 +120,7 @@ and modulus row $\mu$ determine the displayed cofinal index $k$, and $k$
 opens the finite $\StreamNameUp$ window $W$ and $\DyadicRatCoreUp$ readback
 $D$ used by every downstream seal consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorCarrier\_window\_choice\_totality}
 \begin{proof}
 Project the carrier of \autoref{def:diagonal-tail-selector-carrier}. The
 rows $R,n,\mu,k,W,D,T,S,H,C,P,N$ are all displayed before a seal consumer
@@ -239,4 +240,47 @@ $\CauchyLimitSealUp$ and $\RealUp$ readers of $S$ stay inside the public
 budget source and the listed sibling rows. Consequently the export contains
 exactly the displayed finite route and none of the excluded quotient,
 choice, host-equality, completeness, or hidden-oracle data.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector finite observation-budget handoff]
+\label{thm:diagonal-tail-selector-finite-observation-budget-selector-link}
+Every accepted $\DiagonalTailSelectorUp$ public budget source of
+\autoref{def:diagonal-tail-selector-public-budget-source} whose displayed
+rows are read as a finite observation-budget selector factors through the
+$\FiniteObservationBudgetSelectorUp$ route of
+\autoref{ch:concrete-instances-finiteobservationbudgetselector-namecert}
+before any $\CauchyLimitSealUp$ or $\RealUp$ consumer reads the seal row.
+Equivalently, the consumer first reads the finite route
+$$
+B \to S_F \to W_F \to D_F \to R_F \to E_F
+$$
+given by \autoref{thm:finite-observation-budget-selector-public-export} and
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary},
+and only then consumes the $\DiagonalTailSelectorUp$ public export of
+\autoref{thm:diagonal-tail-selector-public-budget-export}. The handoff
+exports no quotient stream, host-selected limit, countable-choice schedule,
+host real equality, ambient completeness, or hidden tail oracle, by
+\autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}.
+\end{theorem}
+\begin{proof}
+First identify the displayed $\DiagonalTailSelectorUp$ rows. By
+\autoref{thm:diagonal-tail-selector-public-budget-export}, an accepted public
+budget source exports exactly the finite selector packet
+$R,n,\mu,k,W,D,T,S,H,C,P,N$ and the listed sibling schedule, tail-meet, seal,
+stream, dyadic, regular-rational, and Real rows before a seal consumer reads
+$S$.
+
+Next read those rows through the finite observation-budget selector. Apply
+\autoref{thm:finite-observation-budget-selector-public-export} to identify
+the public route $B \to S_F \to W_F \to D_F \to R_F \to E_F$, and then use
+\autoref{thm:finite-observation-budget-selector-diagonal-consumer-boundary}
+to make every diagonal-limit or Real-completion consumer read that route
+before the seal row is consumed.
+
+Finally use the DiagonalTailSelector non-escape boundary. By
+\autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}, the
+$\CauchyLimitSealUp$ and $\RealUp$ consumers remain inside the displayed
+public budget source. Thus the handoff cannot pass through quotient streams,
+host-selected limits, countable choice, host real equality, ambient
+completeness, or hidden tail oracles.
 \end{proof}

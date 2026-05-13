@@ -46,6 +46,24 @@ Use the continuation routes in $C$ to inspect that resolving row. The inspection
 The transport row $H$ supplies the componentwise equality witnesses needed when the same state is read after prefix transport. Since the only exposed coordinates are $A$, $R$, $W$, $L$, $H$, and $C$, the soundness claim remains inside the finite prefix-observer packet.
 \end{proof}
 
+\begin{theorem}[ObserverRegular prefix-resolution totality]
+\label{thm:observerregular-prefix-resolution-totality}
+For every accepted prefix row in an $\ObserverRegularUp$ carrier
+$$
+O=(A,R,S,W,L,H,C,P,N),
+$$
+exactly one of the finite observer routes is consumer-readable. Either the prefix row in $A$ exposes no accepted resolving state, in which case no downstream $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$ window or readback row is readable from that prefix; or it exposes one of the displayed resolving-state rows in $R$, after which the only consumer route is through $W,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the prefix carrier of \autoref{def:observerregular-prefix-carrier}. The prefix row $A$ is the sole entry point for a consumer request, and the resolving-state row $R$ is the sole coordinate that can authorize a downstream window or readback.
+
+In the positive case, the accepted prefix exposes one of the displayed resolving-state rows in $R$. Apply resolving-window soundness to that row; it produces the finite $\StreamNameUp$ window in $W$ and the matching $\RegSeqRatUp$ readback in $L$, and the remaining consumer route passes through $H,C,P,N$.
+
+In the negative case, the accepted prefix exposes no resolving-state row. Coordinate exhaustion then leaves no row from which a downstream window, readback, $\RealUp$ seal request, or $\CompletionUp$ readback can be obtained, because $W$ and $L$ are reached only through $R$ and the displayed continuation route.
+
+Thus every accepted prefix is total as a finite case analysis: either it has no consumer-readable downstream route, or it has exactly the resolving-state route through $W,L,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[ObserverRegular NameCert obligations]
 \label{thm:observerregular-namecert-obligations}
 The seed $\NameCert_{\ObserverRegularUp}$ surface has five obligations:

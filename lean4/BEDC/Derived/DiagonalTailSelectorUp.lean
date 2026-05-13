@@ -24,6 +24,25 @@ def DiagonalTailSelectorCarrier [AskSetup] [PackageSetup]
       UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory name ∧
         Cont n mu k ∧ Cont k w d ∧ PkgSig bundle p pkg
 
+theorem DiagonalTailSelectorCarrier_window_choice_totality [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name sourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg →
+      Cont h c sourceRead →
+      PkgSig bundle sourceRead pkg →
+        UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧ UnaryHistory w ∧
+          UnaryHistory d ∧ UnaryHistory sourceRead ∧ Cont n mu k ∧ Cont k w d ∧
+            Cont h c sourceRead ∧ PkgSig bundle sourceRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier sourceRoute sourcePkg
+  obtain ⟨_rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, _tUnary, _sUnary,
+    hUnary, cUnary, _pUnary, _nameUnary, nmuRoute, kwRoute, _pPkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed hUnary cUnary sourceRoute
+  exact
+    ⟨nUnary, muUnary, kUnary, wUnary, dUnary, sourceUnary, nmuRoute, kwRoute,
+      sourceRoute, sourcePkg⟩
+
 theorem DiagonalTailSelectorCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -169,5 +188,27 @@ theorem DiagonalTailSelectorCarrier_tail_cofinality_factorization [AskSetup] [Pa
     unary_cont_closed tUnary sUnary consumerRoute
   exact ⟨scheduleDyadicUnary, scheduleSealUnary, consumerUnary, sameScheduleSeal,
     wdRoute, consumerRoute, consumerPkg⟩
+
+theorem DiagonalTailSelectorCarrier_root_cofinal_admission [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name admissionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg ->
+      Cont p name admissionRead ->
+        PkgSig bundle p pkg ->
+          UnaryHistory r ∧ UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧
+            UnaryHistory w ∧ UnaryHistory d ∧ UnaryHistory t ∧ UnaryHistory s ∧
+              UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory name ∧
+                UnaryHistory admissionRead ∧ Cont n mu k ∧ Cont k w d ∧
+                  Cont p name admissionRead ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier pNameAdmission _pPkg
+  obtain ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary,
+    hUnary, cUnary, pUnary, nameUnary, nMuK, kWD, carrierPkg⟩ := carrier
+  have admissionUnary : UnaryHistory admissionRead :=
+    unary_cont_closed pUnary nameUnary pNameAdmission
+  exact
+    ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnary, sUnary, hUnary,
+      cUnary, pUnary, nameUnary, admissionUnary, nMuK, kWD, pNameAdmission,
+      carrierPkg⟩
 
 end BEDC.Derived.DiagonalTailSelectorUp
