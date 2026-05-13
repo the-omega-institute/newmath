@@ -425,11 +425,22 @@ cook_decode_output`; its decoded cyclic tape is compared against
 `evaluator/cyclic_tag.c` on the same generated cyclic system, and the decoded
 unary tape reads back to the expected tag symbol.
 
-The complete 48-symbol pilot TM cyclic system is intentionally not used as the
-Rule 110 physical round-trip fixture. Its unary tape has thousands of cyclic
-symbols before the first Rule 110 row is built, while the current Cook packet
-frontier is documented in Part 5.2 as a finite phase-exact packet frontier
-rather than a full global Cook block compiler for large generated systems. The
-test therefore separates the large TM compiler surface from the smaller
-Rule 110 physical round-trip, with both paths sharing the same `tag_to_cyclic`
-implementation.
+`tests/test_tm_minimal_full.c` measures the smallest `TMSpec` instances that
+can pass through the same compiler. With the Cook §1.2 alphabet formula
+`4m+3m(t+2)` and deletion number `t+2`, even the one-state halted binary
+machine compiles to `|Phi|=16`, `s=4`, hence `64` cyclic appendants and an
+initial cyclic tape of length `64`. The single active transition machine
+`(q0,0) -> write 1, halt` compiles to `|Phi|=32`, `s=4`, hence `128`
+cyclic appendants and an initial cyclic tape of length `128`. The test runs
+the C TM interpreter to the expected tape, compiles through TM to tag to cyclic
+tag, runs the cyclic-tag reference evaluator for the phase-exact ledger round,
+and decodes the unary cyclic string back to tag symbols. It also decodes the
+initial tag tape back to the TM tape byte-for-byte.
+
+The complete TM-generated cyclic systems are outside the current physical
+Rule 110 packet frontier. The tested frontier contains small finite packet
+cases such as `8p x 8t x 16384` and `2p x 32t x 32768`; the smallest
+TM-generated case is already `64p x 64t`. The physical Rule 110 capstone for a
+TM-generated system is therefore blocked by scale, while the compiler and
+inverse boundaries are exercised without replacing the TM-generated system by
+a compact fixture.

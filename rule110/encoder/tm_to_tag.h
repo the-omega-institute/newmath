@@ -12,6 +12,14 @@
 #define TM_MOVE_STAY  0
 #define TM_MOVE_RIGHT 1
 
+#define TM_TAG_CLASS_H 0
+#define TM_TAG_CLASS_L 1
+#define TM_TAG_CLASS_R 2
+#define TM_TAG_CLASS_RS 3
+#define TM_TAG_CLASS_HS 4
+#define TM_TAG_CLASS_LS 5
+#define TM_TAG_CLASS_RS_PAIR 6
+
 typedef struct {
     int num_states;
     int num_symbols;
@@ -43,5 +51,17 @@ int tm_to_tag_initial_tape(const TMSpec *tm,
                            size_t *out_tag_tape_len);
 
 void tag_system_free(TagSystem *tag);
+
+int tm_tag_symbol_index(const TMSpec *tm,
+                        int symbol_class,
+                        int state,
+                        int tape_symbol);
+
+int tag_to_tm_tape_inverse(const TMSpec *tm,
+                           const uint8_t *tag_tape,
+                           size_t tag_tape_len,
+                           uint8_t *out_tm_tape,
+                           size_t out_tm_tape_len,
+                           int *out_state);
 
 #endif

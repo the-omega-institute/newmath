@@ -495,9 +495,24 @@ $(TEST_DIR)/test_tm_end_to_end: $(TEST_DIR)/test_tm_end_to_end.c $(EVAL_DIR)/rul
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
 	    $(ENCODER_DIR)/tm_to_tag.c $(ENCODER_DIR)/tag_to_cyclic.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
-	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_ossifier.c \
+	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_collision_identity.c \
+	    $(ENCODER_DIR)/cook_ossifier.c \
 	    $(ENCODER_DIR)/cook_data_block.c $(ENCODER_DIR)/cook_encode.c \
 	    $(ENCODER_DIR)/cook_decode.c
 
 TESTS += $(TEST_DIR)/test_tm_end_to_end
 test: $(TEST_DIR)/test_tm_end_to_end
+
+$(TEST_DIR)/test_tm_minimal_full: $(TEST_DIR)/test_tm_minimal_full.c $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/tm_to_tag.h $(ENCODER_DIR)/tag_to_cyclic.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/cook_decode.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_tm_minimal_full.c \
+	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
+	    $(ENCODER_DIR)/tm_to_tag.c $(ENCODER_DIR)/tag_to_cyclic.c \
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_collision_identity.c \
+	    $(ENCODER_DIR)/cook_ossifier.c \
+	    $(ENCODER_DIR)/cook_data_block.c $(ENCODER_DIR)/cook_encode.c \
+	    $(ENCODER_DIR)/cook_decode.c
+
+TESTS += $(TEST_DIR)/test_tm_minimal_full
+test: $(TEST_DIR)/test_tm_minimal_full
