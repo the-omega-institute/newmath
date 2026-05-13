@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ReductionFuelBoundaryUp$}
+\label{ch:concrete-instances-reductionfuelboundary-namecert}
+\origin{ai}
+
+The $\ReductionFuelBoundaryUp$ packet is the finite refusal certificate for the fuel boundary named by \autoref{ch:visions-strong-normalization-vs-turing-completeness}. It sits between the total-host packet of \autoref{ch:concrete-instances-step-indexed-total-host-namecert}, the bounded universal trace of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, and the typed endpoint surface of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}. Its role is narrower than a global normalization theorem: it records the finite fuel row, the displayed reduction trace, the endpoint row, and the timeout refusal that prevents a missing endpoint from being reread as convergence.
+
+\falsifiablePrediction{Deleting the fuel row makes timeout and normal-endpoint packets indistinguishable to the local classifier; the accepted carrier must reject that packet because the boundary can no longer separate finite endpoint readback from fuel exhaustion.}
+
+\independenceWitness{stepindexedtotalhost, boundeduniversaltrace, typedreductionnormalform, cellulartrustsubstrate, znormal: none is bijective because each sibling omits at least one of the fuel boundary, timeout-refusal ledger, endpoint readback, or total-host substrate comparison rows.}
+
+\begin{definition}[ReductionFuelBoundary carrier]
+\label{def:reduction-fuel-boundary-carrier}
+A $\ReductionFuelBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(H,F,T,E,U,A,X,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the total-host reduction row, read through the host-facing side of $\StepIndexedTotalHostUp$;
+\item $F$ is the finite fuel row naming the boundary at which the reduction trace is inspected;
+\item $T$ is the bounded trace row, read through $\BoundedUniversalTraceUp$ and tied to the same fuel row $F$;
+\item $E$ is the typed endpoint row, read through $\TypedReductionNormalFormUp$ when the trace reaches a displayed normal endpoint;
+\item $U$ is the timeout-refusal row, recording that fuel exhaustion is a refused endpoint rather than a proof of nontermination, halting, or convergence;
+\item $A$ is the audit row separating normal endpoint, timeout, missing fuel, detached trace, and host-substrate equality requests;
+\item $X$ records componentwise $\hsame$ transports for $H,F,T,E,U,A,C,P,N$;
+\item $C$ records displayed $\Cont$ routes from host reduction to fuel, from fuel to bounded trace, from trace to endpoint or timeout refusal, and from each barred semantic request to the audit row;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-strong-normalization-vs-turing-completeness}, $\StepIndexedTotalHostUp$, $\BoundedUniversalTraceUp$, $\TypedReductionNormalFormUp$, $\CellularTrustSubstrateUp$, $\ZNormalUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ReductionFuelBoundaryUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $H,F,T,E,U,A,X,C,P,N$. It has no coordinate for an unbounded reduction, a global halting predicate, a substrate universality transfer, a quotient endpoint, or host equality with the bounded trace.
+\end{definition}
+
+\begin{theorem}[ReductionFuelBoundary NameCert obligations]
+\label{thm:reduction-fuel-boundary-namecert-obligations}
+For the carrier of \autoref{def:reduction-fuel-boundary-carrier}, the local $\NameCert_{\ReductionFuelBoundaryUp}$ surface consists exactly of carrier admission for
+$$
+Q=(H,F,T,E,U,A,X,C,P,N),
+$$
+total-host reduction exposure through $H$, finite fuel exposure through $F$, bounded trace exposure through $T$, typed endpoint readback through $E$, timeout-refusal exactness through $U$, audit separation through $A$, componentwise transport through $X$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reduction-fuel-boundary-carrier}. The accepted packet displays exactly $H,F,T,E,U,A,X,C,P,N$, so every public read is either one of those rows or a displayed route replaying them.
+
+The endpoint branch is finite. The host reduction row $H$ is read at fuel $F$, the trace row $T$ is bounded by the same fuel, and the endpoint row $E$ is available only when the typed normal-form boundary is displayed.
+
+The timeout branch is also finite. The refusal row $U$ records fuel exhaustion as a boundary outcome, while the audit row $A$ separates timeout from normal endpoint, missing fuel, detached trace, host-substrate equality, quotient endpoint, and unbounded convergence requests.
+
+Transport, continuation replay, provenance, and local naming are the remaining rows $X,C,P,N$. Since no carrier coordinate names an unbounded reduction or global halting predicate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ReductionFuelBoundary total-host nonescape]
+\label{thm:reduction-fuel-boundary-total-host-nonescape}
+Every accepted $\ReductionFuelBoundaryUp$ packet exports no total-host reduction read except through the finite route
+$$
+H,F,T,E,U,A,X,C,P,N .
+$$
+A downstream consumer may read a bounded trace, a typed endpoint when displayed, or a timeout refusal at the same fuel boundary. It may not convert timeout into nontermination, convert endpoint readback into an unbounded convergence theorem, identify host reduction with substrate universality, or replace the audit row by quotient endpoint equality.
+\end{theorem}
+\begin{proof}
+Begin with the displayed route row $C$. Its admissible paths pass from the host reduction row $H$ to the fuel row $F$, then to the bounded trace row $T$, and then to either the typed endpoint row $E$ or the timeout-refusal row $U$.
+
+The audit row $A$ keeps those outcomes separate. Endpoint readback requires $E$; timeout requires $U$; missing fuel, detached trace, host-substrate equality, quotient endpoint, and unbounded convergence requests are ledgered as refusals rather than exported facts.
+
+The componentwise transport and provenance rows preserve the same boundary. Moving the packet through $X$, replaying it through $C$, and packaging it through $P,N$ cannot create a new coordinate for halting, nontermination, substrate universality transfer, or endpoint quotienting.
+
+Thus the packet realizes the total-host side of bounded substrate computation as finite fuel, trace, endpoint, timeout-refusal, audit, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+The Lean \texttt{lean4/BEDC/Derived/ReductionFuelBoundaryUp/TasteGate.lean} development must include explicit $\mathsf{Nontrivial}\ \ReductionFuelBoundaryUp$ and $\mathsf{FieldFaithful}\ \ReductionFuelBoundaryUp$ instances. These instances must preserve the total-host reduction row, finite fuel row, bounded trace row, endpoint row, timeout-refusal row, audit row, componentwise transports, displayed continuation routes, package provenance, and local naming row.
+
+\closureat{ReductionFuelBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ReductionFuelBoundaryUp}
+  \constructivestory{A $\ReductionFuelBoundaryUp$ packet is generated from a total-host reduction row, finite fuel row, bounded trace row, typed endpoint row, timeout-refusal row, audit row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reduction-fuel-boundary-carrier}, \autoref{thm:reduction-fuel-boundary-namecert-obligations}, and \autoref{thm:reduction-fuel-boundary-total-host-nonescape} specify the finite fuel boundary packet separating endpoint readback from timeout refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, global convergence, nontermination, quotient endpoint equality, or transfer of substrate universality to the total host.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel exposure, bounded-trace exposure, typed-endpoint readback, timeout-refusal exactness, audit separation, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
