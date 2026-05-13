@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubjectReductionFrontierUp$}
+\label{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}
+\origin{human}
+
+The $\MetaCICSubjectReductionFrontierUp$ packet names the finite subject-reduction boundary that remains after the parameterized MetaCIC theorem has been isolated. It records exactly the four discharge obligations consumed by that theorem, together with transport, replay, provenance, and local naming rows. The packet is a frontier object: it exposes the boundary without asserting a closed subject-reduction theorem.
+
+\begin{definition}[MetaCIC subject-reduction frontier carrier]
+\label{def:metacic-subject-reduction-frontier-carrier}
+A $\MetaCICSubjectReductionFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,A,L,P,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\mathrm{BetaSubstitutionPreservation}$ obligation row;
+\item $A$ is the $\mathrm{AppArgTypeStable}$ obligation row;
+\item $L$ is the $\mathrm{LamDomainSubjectReduction}$ obligation row;
+\item $P$ is the $\mathrm{PiDomainSubjectReduction}$ obligation row;
+\item $H$ records componentwise $\hsame$ transport for the four obligation rows, displayed replay, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a preservation consumer reads the four obligation rows;
+\item $G$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the four MetaCIC subject-reduction discharge rows;
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionFrontierUp}$ row.
+\end{enumerate}
+The carrier has no row for the parameterized theorem itself, no row for a closed subject-reduction theorem, and no row that turns an obligation name into a proof of that obligation.
+\end{definition}
+
+\begin{theorem}[MetaCIC subject-reduction frontier obligation surface]
+\label{thm:metacic-subject-reduction-frontier-obligation-surface}
+For every accepted $\MetaCICSubjectReductionFrontierUp$ carrier
+$$
+F=(B,A,L,P,H,C,G,N),
+$$
+the local $\NameCert_{\MetaCICSubjectReductionFrontierUp}$ surface consists exactly of the four discharge-obligation rows $B,A,L,P$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-subject-reduction-frontier-carrier}. Its only subject-reduction coordinates are $B,A,L,P$, so the visible preservation boundary is the beta-substitution, application-argument-stability, lambda-domain, and Pi-domain obligation surface.
+
+The transport row $H$ preserves those four coordinates componentwise, and the continuation row $C$ displays the only routes by which a consumer may read them. Provenance through $G$ and local naming through $N$ package the same finite inventory as a $\NameCert_{\MetaCICSubjectReductionFrontierUp}$ row.
+
+Since the carrier contains no theorem coordinate and no hidden discharge coordinate, the local naming surface is exactly the displayed frontier packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction frontier non-escape]
+\label{thm:metacic-subject-reduction-frontier-nonescape}
+Every downstream consumer of an accepted $\MetaCICSubjectReductionFrontierUp$ carrier factors through
+$$
+B,A,L,P,H,C,G,N.
+$$
+The consumer may learn which four MetaCIC subject-reduction obligations must be supplied, and may transport or replay that finite list through the displayed rows. It cannot read a closed subject-reduction theorem, a proof of any listed obligation, an unlisted preservation principle, or an axiom from the frontier packet.
+\end{theorem}
+\begin{proof}
+Begin with the displayed continuation row $C$. It names the consumer routes for the four obligation rows and supplies no endpoint outside $B,A,L,P,H,G,N$.
+
+Next use componentwise transport through $H$. Transport preserves the same four obligation coordinates rather than adding a theorem coordinate or a discharge witness.
+
+Finally, package the result through $G$ and $N$. Package provenance and local naming certify the finite frontier surface, while the missing coordinates in the carrier rule out escape into a closed theorem, hidden proof, unlisted preservation principle, or axiom.
+\end{proof}
+
+\closureat{MetaCICSubjectReductionFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionFrontierUp}
+  \constructivestory{A $\MetaCICSubjectReductionFrontierUp$ packet is generated from the beta-substitution, application-argument-stability, lambda-domain, and Pi-domain subject-reduction obligation rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-frontier-carrier}, \autoref{thm:metacic-subject-reduction-frontier-obligation-surface}, and \autoref{thm:metacic-subject-reduction-frontier-nonescape} specify the finite obligation frontier and its consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, parameterized subject reduction, closed subject reduction, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the frontier carrier, route exhaustion, and checked non-escape for the four MetaCIC subject-reduction discharge rows.}
+\end{closurestatus}
