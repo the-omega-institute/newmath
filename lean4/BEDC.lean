@@ -439,6 +439,7 @@ import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.RootCompactContinuousThreshold
 import BEDC.Derived.UniformModulusUp.RootClassifierRow
+import BEDC.Derived.UniformModulusUp.RootPublicRows
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelPredictiveControlUp
