@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyZeroUp$}
+\label{ch:concrete-instances-regularcauchyzero-namecert}
+\origin{human}
+
+The $\RegularCauchyZeroUp$ packet records the finite identity surface by which the rational zero seed is read as a constant stream, a regular rational row, a zero modulus row, a tail-meet identity row, and finally a $\RealUp$ seal. It gives tail-meet, diagonal, and completion-facing consumers a named zero source without quotient streams, host real equality, selected limits, or ambient completeness.
+
+\begin{definition}[Regular Cauchy zero carrier]
+\label{def:regular-cauchy-zero-carrier}
+A $\RegularCauchyZeroUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(q,s,r,m,\mu,e,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $q$ is the $\RatUp$ zero seed row;
+\item $s$ is the $\StreamNameUp$ constant zero row generated from $q$;
+\item $r$ is the $\RegSeqRatUp$ zero regular row read through the constant stream $s$;
+\item $m$ is the zero $\CauchyModulusUp$ row whose every displayed precision request is routed to the zero window;
+\item $\mu$ is the $\CauchyModulusMeetUp$ identity row, meeting $m$ with itself without changing the displayed tail threshold;
+\item $e$ is the $\RealUp$ seal row exported only after $q,s,r,m,\mu$ have been displayed;
+\item $h$ records componentwise $\hsame$ transports for the zero seed, constant stream, regular row, modulus row, meet row, seal row, provenance, and local name;
+\item $c$ records the displayed $\Cont$ routes from $q$ to $s$, from $s$ to $r$, from $r$ to $m$, from $m$ to $\mu$, and from $\mu$ to $e$;
+\item $p$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchyTailMeetUp$, $\FiniteTailDiagonalSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\RegularCauchyZeroUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream equality, no host zero equality, no selected real limit, no nonzero witness stream, and no ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy zero NameCert obligations]
+\label{thm:regular-cauchy-zero-namecert-obligations}
+The local $\NameCert_{\RegularCauchyZeroUp}$ surface for \autoref{def:regular-cauchy-zero-carrier} consists exactly of carrier admission for $Z$, $\RatUp$ zero-seed exposure through $q$, constant $\StreamNameUp$ routing through $s$, $\RegSeqRatUp$ zero-row readback through $r$, zero $\CauchyModulusUp$ exposure through $m$, $\CauchyModulusMeetUp$ identity exposure through $\mu$, $\RealUp$ seal handoff through $e$, componentwise $\hsame$ transport through $h$, displayed $\Cont$ route replay through $c$, $\Pkg$ provenance through $p$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of $Z$. The mathematical rows are exactly $q,s,r,m,\mu,e$, and the structural rows are exactly $h,c,p,n$.
+
+The route begins at the rational zero seed, passes through the constant stream and regular rational readback, and then displays the zero modulus before the meet identity is available. Thus every local naming obligation is witnessed by one coordinate of the finite packet.
+
+Since the excluded objects are not coordinates and are not produced by the displayed continuations, the local certificate surface is exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero tail-meet identity]
+\label{thm:regular-cauchy-zero-tail-meet-identity}
+For an accepted $\RegularCauchyZeroUp$ carrier $Z=(q,s,r,m,\mu,e,h,c,p,n)$, the tail-meet route exported through $\mu$ has source modulus $m$ on both sides and returns the same displayed zero tail threshold. Every $\RegularCauchyTailMeetUp$ or $\FiniteTailDiagonalSealUp$ consumer of the zero source therefore reads the identity meet row rather than a second modulus or an external equality proof.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $m$ and $\mu$. The row $m$ is the only modulus coordinate in $Z$, and $\mu$ is the only meet coordinate.
+
+The continuation row $c$ routes the regular readback through $m$ before it reaches $\mu$. The transport row $h$ preserves this same modulus row componentwise, so the two sides of the displayed meet cannot be separated into different modulus sources.
+
+Thus a tail-meet or finite-tail diagonal consumer receives the zero threshold through the identity meet row of the packet and not through host zero equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero RealUp seal non-escape]
+\label{thm:regular-cauchy-zero-real-seal-nonescape}
+Every $\RealUp$ seal read exported by an accepted $\RegularCauchyZeroUp$ packet factors through
+$$
+q \longmapsto s \longmapsto r \longmapsto m \longmapsto \mu \longmapsto e.
+$$
+The seal receives only the zero seed, constant stream, zero regular row, zero modulus row, meet identity row, componentwise transports, continuation routes, package provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+The seal row $e$ is the only $\RealUp$ coordinate in the carrier. The displayed continuations reach it only after the zero seed, stream, regular row, modulus row, and meet identity have been read.
+
+Apply \autoref{thm:regular-cauchy-zero-namecert-obligations} to identify the full route-visible surface. The structural rows $h,c,p,n$ account for transport, route replay, provenance, and local naming.
+
+No quotient stream, host zero equality, selected real limit, nonzero witness stream, or ambient completeness principle appears in the packet, so the seal cannot export such data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy zero downstream handoff]
+\label{thm:regular-cauchy-zero-downstream-handoff}
+The packet of \autoref{def:regular-cauchy-zero-carrier} gives downstream $\RegularCauchyTailMeetUp$, $\FiniteTailDiagonalSealUp$, $\RegularCauchyLimitTransportUp$, and $\RealUp$ consumers a single zero-source boundary:
+$$
+(q,s,r,m,\mu,h,c,p,n).
+$$
+Any such consumer may use the zero seed, constant stream, zero regular row, zero modulus row, meet identity row, displayed transports, continuation routes, package provenance, and local naming row, and it cannot read quotient streams, host real equality, selected limits, nonzero witnesses, or ambient completeness from the handoff.
+\end{theorem}
+\begin{proof}
+For tail-meet and finite-tail diagonal consumers, use \autoref{thm:regular-cauchy-zero-tail-meet-identity}. It confines the shared threshold to the displayed zero modulus and identity meet rows.
+
+For limit-transport and real-seal consumers, use \autoref{thm:regular-cauchy-zero-real-seal-nonescape}. It routes every seal-facing read through the same finite zero-source boundary before $e$ is exported.
+
+The carrier has no further coordinates. Therefore every downstream handoff is exhausted by the displayed packet rows and cannot draw on an external equality or completeness object.
+\end{proof}
