@@ -162,8 +162,7 @@ def _zero_extraction_hang_agents(status: dict) -> list[str]:
         except (TypeError, ValueError):
             continue
         if (
-            metrics.get("generating") is True
-            and elapsed >= ZERO_EXTRACTION_HANG_SECONDS
+            elapsed >= ZERO_EXTRACTION_HANG_SECONDS
             and extracted == 0
             and page_chars >= ZERO_EXTRACTION_MIN_PAGE_CHARS
         ):
