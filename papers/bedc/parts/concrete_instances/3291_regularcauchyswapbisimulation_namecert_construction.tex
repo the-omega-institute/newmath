@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySwapBisimulationUp$}
+\label{ch:concrete-instances-regularcauchyswapbisimulation-namecert}
+\origin{ai}
+
+The $\RegularCauchySwapBisimulationUp$ packet names the finite symmetry surface between an alternating regular-Cauchy interleaving and the same interleaving read with the two source sides exchanged. It is a Real-and-Completion certificate over displayed $\RegSeqRatUp$, $\StreamNameUp$, $\RegularCauchyInterleavingUp$, and $\RealUp$ rows; it is not an equality of quotient reals, a host-level limit comparison, or an appeal to ambient completeness.
+
+\begin{definition}[Regular Cauchy swap bisimulation carrier]
+\label{def:regular-cauchy-swap-bisimulation-carrier}
+A $\RegularCauchySwapBisimulationUp$ carrier is a finite $\BHist$ packet
+$$
+W=(A,B,S_A,S_B,\sigma,\sigma^{\mathrm{op}},M,E,E',H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source names whose finite rational observations may be interleaved;
+\item $S_A$ and $S_B$ are the two $\StreamNameUp$ schedules that expose the selected finite windows for $A$ and $B$;
+\item $\sigma$ is the alternating selector row that reads $A$ on its even side and $B$ on its odd side;
+\item $\sigma^{\mathrm{op}}$ is the opposite selector row that reads the same schedules after exchanging the two source sides;
+\item $M$ is the combined modulus ledger shared by the two selector presentations;
+\item $E$ is the $\RealUp$ seal row reached through the $A,B,\sigma$ interleaving route;
+\item $E'$ is the $\RealUp$ seal row reached through the $B,A,\sigma^{\mathrm{op}}$ interleaving route;
+\item $H$ stores componentwise $\hsame$ transports for $A,B,S_A,S_B,\sigma,\sigma^{\mathrm{op}},M,E,E'$ and for the local packet shape;
+\item $C$ stores the displayed $\Cont$ routes from each selector read through the selected schedule, the matching component of $M$, the corresponding $\RegularCauchyInterleavingUp$ row, and the real-facing seal boundary;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\RegularCauchyInterleavingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchySwapBisimulationUp}$ row.
+\end{enumerate}
+The carrier contains no quotient-real equality row, no selected host limit, no ambient completeness coordinate, and no third schedule.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy swap bisimulation NameCert obligations]
+\label{thm:regular-cauchy-swap-bisimulation-namecert-obligations}
+The local $\NameCert_{\RegularCauchySwapBisimulationUp}$ surface for \autoref{def:regular-cauchy-swap-bisimulation-carrier} consists of six finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the packet $W=(A,B,S_A,S_B,\sigma,\sigma^{\mathrm{op}},M,E,E',H,C,P,N)$;
+\item forward interleaving admission through $A,B,S_A,S_B,\sigma,M,E$;
+\item opposite interleaving admission through $B,A,S_B,S_A,\sigma^{\mathrm{op}},M,E'$;
+\item selector-symmetry exactness stating that the opposite selector exchanges the same two schedule windows and the same two ledger components;
+\item componentwise stability under the displayed $\hsame$ transports and replay through the displayed $\Cont$ routes;
+\item real-seal non-escape stating that both real-facing rows are consumed only after the selected source name, selected schedule, shared ledger, interleaving row, package provenance, and local naming row have been displayed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple in \autoref{def:regular-cauchy-swap-bisimulation-carrier}. The packet lists exactly the two source names, two schedules, two selector rows, common ledger, two seal rows, transports, continuations, provenance, and local name.
+
+The forward admission row is the ordinary $\RegularCauchyInterleavingUp$ route through $A,B,S_A,S_B,\sigma,M,E$. The opposite admission row uses the same data after exchanging the source and schedule coordinates and reading $\sigma^{\mathrm{op}}$.
+
+Selector-symmetry exactness and stability are then local rows of the same packet. The $\hsame$ transports preserve each displayed coordinate componentwise, and the $\Cont$ routes replay only the chosen schedule and matching ledger component.
+
+Finally, $P$ and $N$ repack those rows as the local certificate surface. Since the carrier has no coordinate for quotient real equality, selected host limits, ambient completeness, or a third schedule, the six rows exhaust the available certificate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy swap bisimulation selector symmetry]
+\label{thm:regular-cauchy-swap-bisimulation-selector-symmetry}
+For an accepted $\RegularCauchySwapBisimulationUp$ carrier $W$, every even read of $\sigma$ through $A,S_A$ and the first component of $M$ is matched by an odd read of $\sigma^{\mathrm{op}}$ through the same $A,S_A$ route and the same ledger component. Every odd read of $\sigma$ through $B,S_B$ and the second component of $M$ is matched by an even read of $\sigma^{\mathrm{op}}$ through the same $B,S_B$ route and the same ledger component. The matching is preserved by the displayed $\hsame$ transports and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Unpack the carrier. The only source rows are $A$ and $B$, the only schedule rows are $S_A$ and $S_B$, and the only selector rows are $\sigma$ and $\sigma^{\mathrm{op}}$.
+
+Apply the selector parity exactness of $\RegularCauchyInterleavingUp$ to the forward route. It identifies the even reads with $A,S_A$ and the first component of $M$, and the odd reads with $B,S_B$ and the second component.
+
+Apply the same exactness to the opposite route. Because $\sigma^{\mathrm{op}}$ is stored as the selector after exchanging the two source sides, its odd reads recover the forward even route and its even reads recover the forward odd route.
+
+The stored $H$ and $C$ rows preserve this pairing componentwise. No third schedule or unlisted ledger component is present in the carrier, so the selector symmetry is confined to the displayed two-sided packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy swap bisimulation Real seal non-escape]
+\label{thm:regular-cauchy-swap-bisimulation-real-seal-nonescape}
+Every $\RealUp$ consumer of the seal rows $E$ or $E'$ in an accepted $\RegularCauchySwapBisimulationUp$ carrier factors through one of the two displayed interleaving routes, the selected $\RegSeqRatUp$ source name, the selected $\StreamNameUp$ schedule, the shared modulus ledger $M$, the displayed $\hsame$ transport, the displayed $\Cont$ route, the package provenance $P$, and the local naming row $N$. The packet exports no quotient real equality, selected host limit, ambient completeness proof, or third schedule.
+\end{theorem}
+\begin{proof}
+Start from the two seal coordinates. The row $E$ is downstream of the forward interleaving route, while $E'$ is downstream of the opposite interleaving route.
+
+Use selector symmetry to identify which source side and schedule are read before each seal. The two routes differ only by the stored exchange of source sides and selector parity; both consume the same shared ledger $M$ through a displayed component.
+
+The rows $H$ and $C$ attach the required transport and replay data to those finite reads. The provenance row $P$ and local name $N$ then close the packet without adding any real object beyond the two seal boundaries.
+
+Since the carrier definition has no field for quotient real equality, selected limits, ambient completeness, or an unlisted schedule, a real-facing consumer cannot leave the displayed packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy swap bisimulation public handoff]
+\label{thm:regular-cauchy-swap-bisimulation-public-handoff}
+The public handoff of an accepted $\RegularCauchySwapBisimulationUp$ carrier is exactly the finite packet
+$$
+A,B,S_A,S_B,\sigma,\sigma^{\mathrm{op}},M,E,E',H,C,P,N.
+$$
+It presents two selector-swapped $\RegularCauchyInterleavingUp$ routes with the same $\RegSeqRatUp$ source names, $\StreamNameUp$ schedules, combined modulus ledger, displayed transports, displayed continuations, package provenance, and local $\NameCert$ row. A downstream Real-and-Completion consumer receives this finite boundary and receives no quotient real equality, selected host limit, ambient completeness principle, or bridge-checked schema.
+\end{theorem}
+\begin{proof}
+Carrier admission gives the listed tuple as the whole accepted object. The NameCert obligations identify the forward and opposite interleaving admissions, selector-symmetry row, stability rows, and seal-boundary row as local obligations of that same tuple.
+
+The selector-symmetry theorem binds the two interleaving presentations to the same pair of source schedules and the same ledger components. Thus the public route does not introduce a fresh interleaving carrier; it exposes the two stored presentations of one finite packet.
+
+The Real seal non-escape theorem confines every consumer of $E$ or $E'$ to those displayed rows. Repacking the carrier, obligations, selector symmetry, and non-escape boundary yields the announced public handoff.
+\end{proof}
+
+\closureat{RegularCauchySwapBisimulationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySwapBisimulationUp}
+  \constructivestory{A $\RegularCauchySwapBisimulationUp$ packet is generated from two $\RegSeqRatUp$ source names, two $\StreamNameUp$ schedules, an alternating selector, its opposite selector, a shared modulus ledger, two $\RealUp$ seal rows, displayed $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-swap-bisimulation-carrier}, \autoref{thm:regular-cauchy-swap-bisimulation-namecert-obligations}, \autoref{thm:regular-cauchy-swap-bisimulation-selector-symmetry}, \autoref{thm:regular-cauchy-swap-bisimulation-real-seal-nonescape}, and \autoref{thm:regular-cauchy-swap-bisimulation-public-handoff} bind the finite selector-swapped interleaving packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient real equality, selected host limits, ambient completeness, bridge checking, or any route through a third schedule.}
+  \upgradepath{Obligation closure requires checked carrier admission, forward and opposite interleaving admission, selector-symmetry exactness, componentwise stability, and RealUp seal non-escape for the displayed packet.}
+\end{closurestatus}
