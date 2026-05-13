@@ -44,4 +44,27 @@ theorem TypeClassifierMembershipPacket_subject_reduction_boundary [AskSetup] [Pa
     cont_respects_hsame (hsame_refl term) membershipSame reductionCont reductionBoundary
   exact ⟨membershipSame, reductionSame, reductionBoundary, namePkg, reductionPkg⟩
 
+theorem TypeClassifierMembershipPacket_reduction_target_coverage [AskSetup] [PackageSetup]
+    {term judgment membership reduction transports routes provenance name membership' reduction'
+      targetRead : BHist}
+    {tag : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypeClassifierMembershipPacket term judgment membership reduction transports routes provenance
+        name tag bundle pkg ->
+      Ext judgment tag membership' ->
+        Cont term membership' reduction' ->
+          Cont reduction' routes targetRead ->
+            PkgSig bundle targetRead pkg ->
+              hsame membership membership' ∧ hsame reduction reduction' ∧
+                Cont term membership' reduction' ∧ Cont reduction' routes targetRead ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle targetRead pkg := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Ext Cont hsame
+  intro packet membershipBoundary reductionBoundary targetRoute targetPkg
+  obtain ⟨membershipExt, reductionCont, _transportCont, _routesCont, _provenancePkg,
+    namePkg⟩ := packet
+  have membershipSame : hsame membership membership' :=
+    ext_deterministic membershipExt membershipBoundary
+  have reductionSame : hsame reduction reduction' :=
+    cont_respects_hsame (hsame_refl term) membershipSame reductionCont reductionBoundary
+  exact ⟨membershipSame, reductionSame, reductionBoundary, targetRoute, namePkg, targetPkg⟩
+
 end BEDC.Derived.TypeClassifierMembershipUp
