@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubjectReductionObligationUp$}
+\label{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}
+\origin{human}
+
+The $\MetaCICSubjectReductionObligationUp$ packet turns the four MetaCIC subject-reduction discharge faces into a finite obligation-boundary certificate. It records the beta-substitution, application-argument, lambda-domain, and Pi-domain obligations beside the parameterised subject-reduction theorem row, the checked closed-consistency obstruction row, audit-query provenance, transport, refusal, and local naming data. The packet is the finite boundary read by downstream audit consumers; it is not a closed subject-reduction theorem.
+
+\begin{definition}[MetaCIC subject-reduction obligation carrier]
+\label{def:metacic-subject-reduction-obligation-carrier}
+A $\MetaCICSubjectReductionObligationUp$ carrier is a finite $\BHist$ packet
+$$
+O=(B,A,L,P,Q,R,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ records $\mathrm{BetaSubstitutionPreservation}$, the beta-redex substitution obligation consumed by the direct beta case;
+\item $A$ records $\mathrm{AppArgTypeStable}$, the application-argument codomain-stability obligation;
+\item $L$ records $\mathrm{LamDomainSubjectReduction}$, the lambda-domain subject-reduction obligation;
+\item $P$ records $\mathrm{PiDomainSubjectReduction}$, the Pi-domain subject-reduction obligation;
+\item $Q$ records the parameterised theorem row $\mathsf{BEDC.MetaCIC.subject\_reduction}$ and its four visible input sockets $B,A,L,P$;
+\item $R$ records the checked closed-consistency obstruction row $\mathsf{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}$;
+\item $H$ records componentwise $\hsame$ transport for the four obligation rows, the parameterised theorem row, the obstruction row, the audit-query row, the refusal row, the package row, and the local name;
+\item $C$ records the displayed $\Cont$ routes by which consumers replay accepted subject-reduction reads only through $Q$ after all four obligation rows are supplied;
+\item $G$ records $\Pkg$ provenance for the audit query, the kernel-acceptance witness surface, the $\mathsf{GAP}$ refusal for closed subject reduction, and the local $\NameCert$ row;
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionObligationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unparameterised closed subject-reduction theorem, a host conversion rule, an erased derivation semantics, a quotient equality of MetaCIC terms, or a hidden normalization theorem.
+\end{definition}
+
+\begin{theorem}[Four-way subject-reduction obligation boundary]
+\label{thm:metacic-subject-reduction-obligation-four-way-boundary}
+Let $O=(B,A,L,P,Q,R,H,C,G,N)$ be an accepted $\MetaCICSubjectReductionObligationUp$ carrier. The packet exposes all four discharge faces $B,A,L,P$ simultaneously before any closed subject-reduction consumer can read the parameterised theorem row $Q$. A consumer that does not display all four faces is routed to the obstruction row $R$ and the $\mathsf{GAP}$ refusal recorded in $G$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-subject-reduction-obligation-carrier}. The only rows naming discharge data are $B,A,L,P$, and the only subject-reduction theorem row is $Q$.
+
+The accepted read surface is the one isolated by $\SubjectReductionUp$ in \autoref{ch:concrete-instances-subjectreduction-namecert}. There, a public subject-reduction read must pass through the displayed ledger, transport, and continuation routes rather than through an ambient typing theorem.
+
+For this MetaCIC packet, the ledger row $Q$ records the same discipline at the four-input interface. It is readable as a preservation row only after the beta-substitution, application-argument, lambda-domain, and Pi-domain rows have all been displayed.
+
+Audit replay is accounted for by the $\KernelAcceptanceAuditWitnessUp$ surface of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}. The provenance row $G$ therefore records the query and replay rows as finite audit data, not as an extra proof source.
+
+If one of the four faces is absent, the checked obstruction principle \autoref{prin:metacic-closed-subject-reduction-not-available} supplies the refusal boundary. The row $R$ and the $\mathsf{GAP}$ entry in $G$ are then the consumer-facing answer, so the packet exposes the four-way boundary before any preservation read can proceed.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction obligation non-escape]
+\label{thm:metacic-subject-reduction-obligation-nonescape}
+Every downstream consumer of an accepted $\MetaCICSubjectReductionObligationUp$ packet factors through
+$$
+B,A,L,P,Q,R,H,C,G,N.
+$$
+The consumer may inspect the four obligation rows, the parameterised subject-reduction row, the checked obstruction row, audit-query provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\mathsf{GAP}$ refusal, and local naming. It cannot turn the packet into an unparameterised closed subject-reduction theorem, a host conversion rule, or a hidden normalization theorem.
+\end{theorem}
+\begin{proof}
+Start with the finite inventory. The carrier displays exactly the rows $B,A,L,P,Q,R,H,C,G,N$, so every public read must be routed through one of these coordinates.
+
+The preservation-facing route is constrained by \autoref{thm:metacic-subject-reduction-obligation-four-way-boundary}. It reaches $Q$ only through the four displayed discharge rows and through the transport and continuation rows $H,C$.
+
+The audit-facing route is constrained by \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}. Its query, replay, and dependency rows are finite provenance data in $G$, and they do not add a closed MetaCIC preservation theorem.
+
+The refusal-facing route is constrained by \autoref{prin:metacic-closed-subject-reduction-not-available}. The obstruction row $R$ and the $\mathsf{GAP}$ row in $G$ answer closed-subject-reduction requests without exporting the closed theorem.
+
+Since no carrier coordinate names host conversion, erased derivation semantics, quotient equality, or global normalization, none of those objects can be read from the packet. Thus the downstream surface remains the displayed finite obligation boundary.
+\end{proof}
+
+\closureat{MetaCICSubjectReductionObligationUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionObligationUp}
+  \constructivestory{A $\MetaCICSubjectReductionObligationUp$ packet is generated from the four MetaCIC discharge-obligation rows, the parameterised subject-reduction theorem row, the checked obstruction row, audit-query provenance, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\mathsf{GAP}$ refusal, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-obligation-carrier}, \autoref{thm:metacic-subject-reduction-obligation-four-way-boundary}, and \autoref{thm:metacic-subject-reduction-obligation-nonescape} bind the finite four-obligation carrier, classifier boundary, audit replay rows, refusal row, and downstream non-escape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, host conversion, global normalization, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-face exposure, parameterised theorem consumption, obstruction replay, refusal exactness, provenance accounting, transport stability, and non-escape for the same finite packet.}
+\end{closurestatus}

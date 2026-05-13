@@ -25,7 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exposes exactly this local socket. It contains no unrestricted analytic-continuation operator, no global branch selector, no quotient of germs, and no host complex-analysis theorem.
 \end{definition}
-\leandef{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketUp}
+\leandef{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier}
 
 \begin{theorem}[AnalyticContinuationSocket NameCert obligations]
 \label{thm:analytic-continuation-socket-namecert-obligations}
@@ -122,6 +122,7 @@ Use \autoref{thm:analytic-continuation-socket-namecert-obligations} to attach th
 
 The non-factorizing case is handled by \autoref{thm:analytic-continuation-socket-ledger-nonescape}. Any read outside $F,G,U,A,H,C,P,N$ is recorded in $B$, and \autoref{thm:analytic-continuation-socket-holomorphic-handoff} prevents that ledger entry from becoming an additional $\HolomorphicUp$ output.
 \end{proof}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_operation\_output\_factorization}
 
 \begin{theorem}[AnalyticContinuationSocket RH handoff boundary]
 \label{thm:analytic-continuation-socket-rh-handoff-boundary}
@@ -184,6 +185,82 @@ $B$ rather than exporting them as continuation or zero-location evidence.
 The RH handoff boundary then removes the remaining escape paths. Monodromy,
 branch selection, global continuation, and zero-location conclusions are not
 consumer-visible coordinates of the root socket.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket branch-obstruction consumer lock]
+\label{thm:analytic-continuation-socket-branch-obstruction-consumer-lock}
+Every nonlocal continuation request made by a downstream consumer of an
+accepted $\AnalyticContinuationSocketUp$ carrier is locked to the
+branch-obstruction row $B$. The request may be transported and named through
+$H,C,P,N$, but it cannot be exported as a holomorphic continuation row,
+source row, overlap witness, operation row, output row, branch selector,
+monodromy datum, or zero-location consequence.
+\end{theorem}
+\begin{proof}
+Start with the root branch ledger. It sends every nonlocal continuation
+request to $B$ and denies export as source, overlap, operation, output,
+holomorphic continuation, branch-selection, or zero-location data.
+
+Apply branch-ledger exhaustion and ledger non-escape. They identify the
+positive carrier-visible routes and record every request outside those routes
+as branch-obstruction data rather than as continuation evidence.
+
+Finally use overlap transport and the RH handoff boundary. Transport through
+$H,C,P,N$ preserves the same ledger coordinate, and Riemann-hypothesis-facing
+consumers receive no zero-location or global-continuation consequence from
+that coordinate.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket zeta locality boundary]
+\label{thm:analytic-continuation-socket-zeta-locality-boundary}
+Every zeta-facing consumer of an accepted $\AnalyticContinuationSocketUp$
+carrier receives only the local socket rows
+$$
+F,G,U,A,O,H,C,P,N
+$$
+together with the branch ledger $B$. The consumer receives no monodromy
+theorem, global analytic-continuation principle, branch selector,
+quotient-of-germs equality, or zero-location consequence.
+\end{theorem}
+\begin{proof}
+Read the RH handoff boundary first. It exposes the finite local operation
+socket and the branch-obstruction ledger, while excluding monodromy, global
+continuation, quotient-of-germs equality, branch selection, and zero-location
+conclusions.
+
+Use the root source-overlap theorem and local output handoff. They force the
+output row $O$ to pass through $F,G,U,A,H,C,P,N$ before any downstream
+consumer can inspect it.
+
+Now apply the root branch ledger. A zeta-facing request outside that local
+socket is routed to $B$, where it remains branch-obstruction data rather than
+a zero-location consequence.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket output-branch separation]
+\label{thm:analytic-continuation-socket-output-branch-separation}
+For an accepted $\AnalyticContinuationSocketUp$ carrier, the output row $O$
+factors through
+$$
+F,G,U,A,H,C,P,N,
+$$
+while branch-sensitive requests factor through $B$. These two routes do not
+collapse into a global analytic-continuation principle, branch selector,
+monodromy theorem, quotient-of-germs equality, or zero-location theorem.
+\end{theorem}
+\begin{proof}
+Project the operation-output factorization. The output coordinate $O$ is a
+local operation result over $F,G,U,A$ and is certified only through
+$H,C,P,N$.
+
+Next apply branch-ledger exhaustion, ledger non-escape, and the root branch
+ledger. Requests that do not factor through the source-overlap-output route
+are recorded in $B$.
+
+Finally combine holomorphic handoff with the RH handoff boundary. The output
+route supplies a local $\HolomorphicUp$ handoff, while the branch route
+remains obstruction data; the two routes therefore do not yield a global
+continuation or zero-location principle.
 \end{proof}
 
 \begin{theorem}[AnalyticContinuationSocket root downstream unblock]
