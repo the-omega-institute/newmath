@@ -51,6 +51,26 @@ theorem LimitSelectorCarrier_real_seal_nonescape
     cont_respects_hsame sameSelected (hsame_refl L.window) hread L.window_readback_route
   exact ⟨sameSelected, sameReadback⟩
 
+theorem LimitSelectorCarrier_diagonal_consumer_exhaustion
+    (L : LimitSelectorCarrier) {selected readback sealConsumer downstreamConsumer : BHist}
+    (hsel : Cont L.precision L.modulus selected)
+    (hread : Cont selected L.window readback)
+    (hseal : Cont readback L.realSeal sealConsumer)
+    (hdown : Cont sealConsumer L.provenance downstreamConsumer) :
+    hsame selected L.selectedIndex ∧ hsame readback L.dyadicReadback ∧
+      hsame sealConsumer L.route ∧ Cont sealConsumer L.provenance downstreamConsumer ∧
+        Cont L.precision L.modulus L.selectedIndex ∧
+          Cont L.selectedIndex L.window L.dyadicReadback := by
+  have sameSelected : hsame selected L.selectedIndex :=
+    cont_deterministic hsel L.selected_index_route
+  have sameReadback : hsame readback L.dyadicReadback :=
+    cont_respects_hsame sameSelected (hsame_refl L.window) hread L.window_readback_route
+  have sameSeal : hsame sealConsumer L.route :=
+    cont_respects_hsame sameReadback (hsame_refl L.realSeal) hseal L.seal_route
+  exact
+    ⟨sameSelected, sameReadback, sameSeal, hdown, L.selected_index_route,
+      L.window_readback_route⟩
+
 theorem LimitSelectorCarrier_observation_budget_handoff
     (L : LimitSelectorCarrier) {selected readback budgetSeal : BHist}
     (selectedRoute : Cont L.precision L.modulus selected)
