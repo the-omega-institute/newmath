@@ -60,6 +60,46 @@ Ledger exactness is supplied by $D$. Each typing-rule premise and conclusion con
 The classifier transport and non-escape clauses then follow from $H,P,N$ and the carrier inventory. Componentwise $\hsame$ rows transport only the displayed data, while the missing coordinates rule out host equality, hidden reductions, external proof objects, and ambient metatheory.
 \end{proof}
 
+\begin{theorem}[Type-checking derivation trace classifier membership readback]
+\label{thm:type-checking-derivation-trace-classifier-membership-readback}
+Every accepted $\TypeCheckingDerivationTraceUp$ carrier exposes the $\TypeClassifierMembershipUp$ and $\ClassifierTypingUp$ reads only through the displayed classifier row $E$, the derivation ledger $D$, the componentwise $\hsame$ transport $H$, the $\Pkg$ row $P$, and the local $\NameCert$ row $N$. A consumer may read classifier membership for the source and target typing rows, but it cannot replace that membership by a host typing judgment or an unrecorded classifier.
+\end{theorem}
+\begin{proof}
+Project the carrier $Z=(T,E,C,D,H,R,P,N)$. The only classifier coordinate is $E$, and the only derivation account that justifies the reads of $E$ is the displayed ledger $D$.
+
+Use the subject-reduction surface next. It already routes the typed source row and typed target row through $\Ext$ and $\Cont$ data, so classifier membership is read inside the same finite packet rather than through an ambient typing oracle.
+
+The NameCert obligations then bind the readback to $H,P,N$. Componentwise $\hsame$ preserves the same classifier row, package provenance records the same $\BHist$ source, and local naming keeps the consumer at the $\TypeCheckingDerivationTraceUp$ certificate boundary.
+\end{proof}
+
+\begin{theorem}[Type-checking derivation trace subject-reduction transport]
+\label{thm:type-checking-derivation-trace-subject-reduction-transport}
+For every accepted $\TypeCheckingDerivationTraceUp$ carrier, the $\SubjectReductionUp$ row $R$ is transported only along the displayed $\Cont$ route $C$ and the componentwise $\hsame$ row $H$. The transported target typing judgment is therefore the one packaged by $P,N$ from the source classifier row $E$ and derivation ledger $D$.
+\end{theorem}
+\begin{proof}
+Start from the subject-reduction surface. It states that a consumer reading a source typing judgment from $E$ and a reduction step from $C$ reaches the target typing judgment through $R$.
+
+The carrier makes $C$ and $H$ the only continuation and transport rows. Thus subject reduction can be replayed only over the displayed $\Cont$ path and only under componentwise $\hsame$ for the same term row, classifier row, derivation ledger, and provenance data.
+
+Finally apply the NameCert obligations. They require subject reduction, ledger exactness, classifier transport, and non-escape in one local package, so the transported target judgment is the one recorded by $R$ and cited by $P,N$, not an external proof object or a host computation.
+\end{proof}
+
+\begin{theorem}[Type-checking derivation trace normal-form consumer boundary]
+\label{thm:type-checking-derivation-trace-normal-form-consumer-boundary}
+Every normal-form-facing consumer of an accepted $\TypeCheckingDerivationTraceUp$ packet receives only the finite trace
+$$
+T,E,C,D,H,R,P,N.
+$$
+The consumer may use the $\ClassifierTypingUp$, $\TypeClassifierMembershipUp$, and $\SubjectReductionUp$ rows recorded in that packet, but it receives no hidden normalizer, no host equality of terms, no unrecorded reduction step, and no proof object outside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Read classifier membership through \autoref{thm:type-checking-derivation-trace-classifier-membership-readback}. This fixes the classifier-facing rows as $E,D,H,P,N$ inside the same accepted carrier.
+
+Read subject reduction through \autoref{thm:type-checking-derivation-trace-subject-reduction-transport}. This fixes the reduction-facing rows as $C,H,R,P,N$ and prevents the target typing judgment from being supplied by host computation.
+
+It remains to inspect the carrier inventory. The tuple $T,E,C,D,H,R,P,N$ contains no normalizer row, host equality row, hidden reduction coordinate, or external proof-object coordinate. Therefore a normal-form-facing consumer can only consume the finite trace and its displayed typing and reduction certificates.
+\end{proof}
+
 \closureat{TypeCheckingDerivationTraceUp}{seedStr}
 
 \begin{closurestatus}{\TypeCheckingDerivationTraceUp}
