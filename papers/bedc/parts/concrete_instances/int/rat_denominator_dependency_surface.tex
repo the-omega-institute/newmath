@@ -1,0 +1,13 @@
+\begin{theorem}[IntUp Rat denominator dependency surface]
+\label{thm:int-rat-denominator-dependency-surface}
+The $\IntUp$ signed-pair denominator route consumed by $\RatUp$ in \autoref{ch:concrete-instances-rat-namecert} factors through the signed-pair carrier before the rational denominator packet is read. A rational consumer first receives the displayed sign and unary-magnitude rows of $\IntUp$, then the balancing route that normalizes the signed numerator, and only then pairs that signed row with the positive denominator witness used by $\RatUp$.
+
+Thus the denominator dependency is a horizontal sibling route from the integer signed-pair surface to the rational carrier, not a hidden rational quotient, host field equality, or denominator row independent of the displayed integer packet.
+\end{theorem}
+\begin{proof}
+Start with the signed-pair interface. The integer packet exposes a sign mark and unary magnitude row, together with the local zero-sign normalization and balancing context.
+
+Apply \autoref{lem:int-rat-signed-denominator-dependency} and \autoref{thm:int-rat-additive-denominator-route}. These rows show that the rational carrier reads already displayed integer numerator data before it pairs that data with its positive denominator witness.
+
+The sibling link of \autoref{sec:int-rat-denominator-sibling-link} identifies \autoref{ch:concrete-instances-rat-namecert} as the rational consumer of that route. Since no step introduces an independent quotient or field-equality coordinate, the dependency surface is exactly the signed-pair carrier followed by the RatUp denominator packet.
+\end{proof}
