@@ -130,6 +130,17 @@ def status_line(status: dict) -> str:
     )
 
 
+def zero_extraction_url_tails(status: dict) -> list[str]:
+    tails: list[str] = []
+    for agent_id in status.get("zero_extraction_hang_agents") or []:
+        rec = (status.get("recent_agents") or {}).get(str(agent_id)) or {}
+        metrics = rec.get("metrics") or {}
+        tail = str(metrics.get("url_tail") or "").strip()
+        if tail:
+            tails.append(tail)
+    return tails
+
+
 def print_status_hint(server_url: str) -> dict:
     try:
         status = _infer_zero_extraction_hang(server_status(server_url))
@@ -155,10 +166,13 @@ def print_status_hint(server_url: str) -> dict:
     elif status.get("diagnosis") == "agent_busy_zero_extraction_hang":
         agents = ", ".join(map(str, status.get("zero_extraction_hang_agents") or []))
         seconds = status.get("zero_extraction_hang_seconds", "?")
+        url_tails = zero_extraction_url_tails(status)
         print(
             f"[status] {agents or 'an agent'} is generating but has extracted 0 chars for >= {seconds}s.",
             flush=True,
         )
+        if url_tails:
+            print(f"[status] affected URL tail(s): {', '.join(url_tails)}", flush=True)
         print("[status] refresh only the affected ChatGPT tab, then let the queued/pending task resume.", flush=True)
     return status
 
