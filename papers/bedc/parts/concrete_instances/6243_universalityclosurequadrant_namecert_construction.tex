@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\UniversalityClosureQuadrantUp$}
+\label{ch:concrete-instances-universality-closure-quadrant-namecert}
+\origin{ai}
+
+The $\UniversalityClosureQuadrantUp$ packet realizes the two-axis map of \autoref{ch:visions-closure-universality-quadrant} as a finite $\NameCert$ carrier. It sits beside the Rule 110 substrate surface of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the trust packet of \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}, and the orbit packet of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}. Its distinguishing datum is not another cellular run; it is the displayed pair of axis certificates and the quadrant provenance row that records how a substrate is classified without identifying the axes.
+
+\falsifiablePrediction{Deleting either the universality row or the closure row collapses the quadrant classifier and prevents distinguishing Rule110-like closed-universal substrates from oracle-open substrates.}
+
+\independenceWitness{Nearest siblings: cellularautomaton, cellulartrustsubstrate, cellularorbitsubstrate, largemodelinscriptionpoint, and kernelobservationsieve; none is bijective because this carrier stores two independent axis certificates and quadrant provenance rather than a single substrate, orbit, inscription, or sieve row.}
+
+\begin{definition}[Universality-closure quadrant carrier]
+\label{def:universality-closure-quadrant-carrier}
+A $\UniversalityClosureQuadrantUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,U,K,G,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the substrate-name row, naming the cellular, machine, oracle, finite-state, or host-side substrate whose location is being certified;
+\item $U$ is the universality-axis row, recording the displayed value $\mathsf{Univ}(S)$ together with the finite witness or refusal ledger used by the classifier;
+\item $K$ is the closure-axis row, recording the displayed value $\mathsf{Closed}(S)$ together with the finite observation-channel witness or refusal ledger;
+\item $G$ is the quadrant row, one of universal-and-closed, universal-and-open, subuniversal-and-closed, or subuniversal-and-open;
+\item $W$ is the provenance witness row linking $S,U,K,G$ to the relevant substrate surface, such as the Rule 110 row, oracle row, Presburger-like closed row, or external-sensor row of the quadrant map;
+\item $H$ records componentwise $\hsame$ transports for $S,U,K,G,W,P,N$;
+\item $C$ records displayed $\Cont$ routes that replay the two independent axis reads and the quadrant selection;
+\item $P$ is the $\Pkg$ provenance over $\UniversalityClosureQuadrantUp$, \autoref{ch:visions-closure-universality-quadrant}, the sibling substrate certificates, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\UniversalityClosureQuadrantUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the substrate name, universality row, closure row, quadrant row, witness row, transport rows, replay routes, provenance, and naming row. It has no coordinate for deriving closure from universality, deriving universality from closure, importing an oracle into a closed packet, or replacing a displayed axis value by a host-level semantic judgement.
+\end{definition}
+
+\begin{theorem}[Universality-closure quadrant NameCert obligations]
+\label{thm:universality-closure-quadrant-namecert-obligations}
+For the carrier of \autoref{def:universality-closure-quadrant-carrier}, the local $\NameCert_{\UniversalityClosureQuadrantUp}$ surface consists exactly of six finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for $Q=(S,U,K,G,W,H,C,P,N)$;
+\item universality-axis accountability through $U$ and the substrate row $S$;
+\item closure-axis accountability through $K$ and the observation-channel witness row $W$;
+\item quadrant selection through the ordered pair $(U,K)$ and no other classifier coordinate;
+\item componentwise stability through $H$ and displayed replay through $C$;
+\item non-escape through $P$ and $N$, excluding axis collapse, oracle import into closed rows, hidden host semantics, and quotient-level substrate equality.
+\end{enumerate}
+No consumer can cite the quadrant map as $\UniversalityClosureQuadrantUp$ evidence unless both axis rows and the quadrant provenance row are present in the same finite packet.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:universality-closure-quadrant-carrier}. The packet displays the substrate row, two axis rows, quadrant row, witness row, transports, replay routes, provenance, and local naming row as its only coordinates.
+
+Universality and closure accountability are separate reads. The row $U$ records the computational-power classifier and $K$ records the observation-channel classifier; the route $C$ may replay each row, but it does not identify them or turn one into evidence for the other.
+
+Quadrant selection is therefore a finite product read. The row $G$ is accepted only as the classifier value determined by the displayed pair $(U,K)$ and the witness row $W$, so a consumer cannot replace the two-axis packet by a single substrate, orbit, inscription, or sieve row.
+
+Finally, $H,P,N$ transport, package, and name the same finite packet. Since the carrier has no coordinate for an oracle inside a closed row, hidden semantic equality, quotient substrate equality, or a derivation between the axes, the listed obligation rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Universality-closure quadrant axis independence]
+\label{thm:universality-closure-quadrant-axis-independence}
+In an accepted $\UniversalityClosureQuadrantUp$ packet, neither the universality-axis row $U$ nor the closure-axis row $K$ determines the other. The quadrant row $G$ is determined only by the displayed pair $(U,K)$ together with the provenance witness $W$. Thus the closed-universal Rule 110-style site, the universal-open oracle site, the subuniversal-closed host or Presburger-style site, and the subuniversal-open external-sensor site remain four distinct classifier outcomes.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to $S,U,K,G,W$. The carrier has one row for universality and one row for closure, and the two rows are listed as separate coordinates.
+
+The replay routes in $C$ preserve that separation. A universality read may inspect the computational-power witness carried by $U$, while a closure read may inspect the observation-channel witness carried by $K$ and $W$; neither route rewrites one row into the other.
+
+The quadrant classifier then reads the ordered pair. Changing either coordinate changes the admissible quadrant value: Rule 110-like closed universality, oracle-open universality, subuniversal closure, and subuniversal external openness occupy different cells in \autoref{ch:visions-closure-universality-quadrant}.
+
+Since no carrier coordinate identifies the axes, any collapse would require a row absent from $Q$. The accepted packet therefore certifies axis independence at the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Universality-closure quadrant non-escape]
+\label{thm:universality-closure-quadrant-nonescape}
+Every public read exported by an accepted $\UniversalityClosureQuadrantUp$ packet factors through the finite route
+$$
+S,U,K,G,W,H,C,P,N .
+$$
+The route can certify the two-axis quadrant location of a displayed substrate, but it exports no proof of Rule 110 universality, no oracle computation, no universal closure over an infinite domain, no quotient equality of substrates, no host semantic equality, and no derivation from one axis to the other.
+\end{theorem}
+\begin{proof}
+Begin with carrier projection. The public packet contains only the substrate row $S$, universality row $U$, closure row $K$, quadrant row $G$, witness row $W$, transports $H$, replay routes $C$, provenance $P$, and local name $N$.
+
+The axis-independence theorem forces every quadrant read through the pair $(U,K)$. The witness row may point to a cellular substrate, cellular trust packet, cellular orbit packet, oracle-open comparison, host-side closed substrate, or external-sensor comparison, but that pointer is provenance for a row already displayed in the packet.
+
+The excluded objects require coordinates not present in $Q$. Rule 110 universality needs the separate substrate proof, oracle computation needs an oracle row, universal closure needs an infinite-domain ratifier, quotient equality needs a quotient classifier, host semantic equality needs a host semantic row, and axis collapse needs an identification between $U$ and $K$. None is exported by the finite quadrant certificate.
+\end{proof}
+
+The later Lean \texttt{TasteGate.lean} development for $\UniversalityClosureQuadrantUp$ must include explicit $\mathsf{Nontrivial}\ \UniversalityClosureQuadrantUp$ and $\mathsf{FieldFaithful}\ \UniversalityClosureQuadrantUp$ instances for the displayed two-axis carrier. These instances must preserve the substrate row, universality row, closure row, quadrant row, provenance witness, transport rows, replay routes, package provenance, and local naming row.
+
+\closureat{UniversalityClosureQuadrantUp}{seedStr}
+
+\begin{closurestatus}{\UniversalityClosureQuadrantUp}
+  \constructivestory{A $\UniversalityClosureQuadrantUp$ packet is generated from a substrate row, universality-axis row, closure-axis row, quadrant row, provenance witness, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:universality-closure-quadrant-carrier}, \autoref{thm:universality-closure-quadrant-namecert-obligations}, \autoref{thm:universality-closure-quadrant-axis-independence}, and \autoref{thm:universality-closure-quadrant-nonescape} specify the finite two-axis substrate quadrant certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, Rule 110 universality, oracle computation, universal closure over an infinite domain, quotient equality, host semantic equality, or derivability between the axes.}
+  \upgradepath{Obligation closure requires checked carrier admission, universality-axis accountability, closure-axis accountability, quadrant selection, axis independence, non-escape, nontriviality, and field faithfulness for the same two-axis carrier.}
+\end{closurestatus}
