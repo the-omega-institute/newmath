@@ -58,6 +58,7 @@ Finally the seal handoff reads $S$ only after $R$. Since the carrier contains no
 \label{thm:observation-budget-limiter-cap-admission}
 Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ be an accepted $\ObservationBudgetLimiterUp$ carrier. Every admitted read of the finite window row $W$, dyadic ledger row $D$, regular readback row $R$, or real seal row $S$ first reads the incoming request row $E$, then the $\RealObservationBudgetUp$ row $B$, and then the budget-cap row $K$. The cap admission row is therefore a carrier projection certified by the local $\NameCert_{\ObservationBudgetLimiterUp}$ obligations, not a numerical side condition external to the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObservationBudgetLimiterUp.ObservationBudgetLimiterCarrier\_cap\_admission}
 \begin{proof}
 Project the accepted carrier $L$ and apply \autoref{thm:observation-budget-limiter-namecert-obligations}. Carrier admission exposes the rows $E,B,K,W,D,R,S,H,C,P,N$, while budget-cap admission places $K$ after $E$ and $B$ and before any served window row.
 
