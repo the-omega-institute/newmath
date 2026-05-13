@@ -35,13 +35,24 @@ Bbar 和某些 E/F variant 注册 canonical lookup，detector 找不到这些 gl
 - (b) 改 detector 用更稳健的算法（diff against pure ether evolution +
    connected-component 识别），不依赖 phase string 精确匹配。
 
-## Martinez 2012 cross-check: 33/33 matched
+## Martinez 2012 cross-check: 33/33 matched (after table data correction)
 
 `Martinez 2012 Table 1/Table 2 cross-check: 33 rows, 33 matched, 0 only-in-paper, 0 only-in-table`
 
-`encoder/cook_collisions.c` 全 33 行 outcome 字符串跟 `encoder/martinez_2012_collisions.txt`
-(从 `ignores/martinez-2012-solitons.pdf` 抽取的 curated extraction) 逐行一致。两条独立
-数据源对每个 outcome 都同意。
+W9 audit 发现 `cook_collisions.c:55` 跟 Martinez 2012 Table 2 不符 (page 127):
+```
+F(H,f1_1)-e-B̄(C,f1_1) = {Ē, A⁵}    ← 论文原文
+```
+table 之前登记的是 `{Ebar, A^3}`。`encoder/martinez_2012_collisions.txt:70` 早期抽取
+也带相同错误 (A^3 而非 A^5)，两边 transcribe 错的 source 一致让 cross-check 之前看上去
+"matched"。经 PDF 原页直接核对 (Martinez--Adamatzky--Chen--Chua 2012, Complex Systems
+21.2.2 page 127, Table 2)，原文是 A⁵。三处同步改为 `{Ebar, A^5}`：
+- `encoder/cook_collisions.c:55`
+- `encoder/martinez_2012_collisions.txt:70`
+- `tests/test_cook_collision_martinez.c::MARTINEZ_ROWS[27]`
+
+校对后 cross-check 33/33 matched，cook_collisions.c table 数据跟 Martinez 2012 印刷
+原文一致。
 
 ## 跟 ship 的关系
 

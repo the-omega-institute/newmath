@@ -90,7 +90,7 @@ static const MartinezRow MARTINEZ_ROWS[] = {
     {"F(G,f1_1)", "Bbar(C,f1_1)", 1, "{B, F} *", "martinez_row_24"},
     {"F(H,f1_1)", "Bbar(A,f1_1)", 1, "{A, C2}", "martinez_row_25"},
     {"F(H,f1_1)", "Bbar(B,f1_1)", 1, "{Ebar, A^5}", "martinez_row_26"},
-    {"F(H,f1_1)", "Bbar(C,f1_1)", 1, "{Ebar, A^3}", "martinez_row_27"},
+    {"F(H,f1_1)", "Bbar(C,f1_1)", 1, "{Ebar, A^5}", "martinez_row_27"},
     {"F(A2,f1_1)", "Bbar(A,f1_1)", 1, "{C1}", "martinez_row_28"},
     {"F(A2,f1_1)", "Bbar(B,f1_1)", 1, "{A, B^3, Ebar}", "martinez_row_29"},
     {"F(A,f1_1)", "B(f1_1)", 1, "{Bbar, F} *", "martinez_row_30"},

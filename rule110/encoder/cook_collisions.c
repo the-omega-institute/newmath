@@ -52,7 +52,7 @@ static const CollisionLookupRecord COLLISION_LOOKUPS[] = {
     {"F(G,f1_1)", "Bbar(C,f1_1)", 1, "{B, F} *"},
     {"F(H,f1_1)", "Bbar(A,f1_1)", 1, "{A, C2}"},
     {"F(H,f1_1)", "Bbar(B,f1_1)", 1, "{Ebar, A^5}"},
-    {"F(H,f1_1)", "Bbar(C,f1_1)", 1, "{Ebar, A^3}"},
+    {"F(H,f1_1)", "Bbar(C,f1_1)", 1, "{Ebar, A^5}"},
     {"F(A2,f1_1)", "Bbar(A,f1_1)", 1, "{C1}"},
     {"F(A2,f1_1)", "Bbar(B,f1_1)", 1, "{A, B^3, Ebar}"},
     {"F(A,f1_1)", "B(f1_1)", 1, "{Bbar, F} *"},
