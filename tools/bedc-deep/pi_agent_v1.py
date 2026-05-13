@@ -510,11 +510,14 @@ def _shallow_completed_candidate() -> dict:
         audit_score = max(audit_scores) if audit_scores else 0
         if audit_score > 8:
             continue
+        target_id = str(data.get("target_id") or "").strip()
+        if not target_id or _find_target_by_id(target_id) is None:
+            continue
         text = _deliverable_text(slug, data)
         if not text.strip() or _has_obligation_traversal_evidence(text):
             continue
         candidates.append((state_file.stat().st_mtime, {
-            "target_id": data.get("target_id"),
+            "target_id": target_id,
             "title": data.get("title"),
             "slug": slug,
             "reason": (
@@ -528,6 +531,50 @@ def _shallow_completed_candidate() -> dict:
         return {}
     candidates.sort(key=lambda item: item[0], reverse=True)
     return candidates[0][1]
+
+
+def _snapshot_has_active_refill(snapshot: dict) -> bool:
+    server = snapshot.get("server") or {}
+    for task in (server.get("agents") or {}).values():
+        task_id = str((task or {}).get("task_id") or "")
+        if task_id.startswith("bedc_board_refill_"):
+            return True
+    for task in server.get("queued_tasks") or []:
+        task_id = str((task or {}).get("task_id") or "")
+        tag = str((task or {}).get("tag") or "")
+        if task_id.startswith("bedc_board_refill_") or tag == "bedc-deep-board-refill":
+            return True
+    if _recent_refill_artifacts_pending():
+        return True
+    return False
+
+
+def _recent_refill_artifacts_pending(max_age_seconds: int = 7200) -> bool:
+    """Best-effort refill-in-flight detector when localhost status is sandboxed."""
+    now = time.time()
+    board_logs = SCRIPT_DIR / "state" / "board_refill_logs"
+    supervisor_logs = SCRIPT_DIR / "state" / "supervisor_logs"
+    start_paths = list(board_logs.glob("refill_*.prompt.txt"))
+    start_paths.extend(supervisor_logs.glob("refill_*.log"))
+    finish_paths = list(board_logs.glob("refill_*.response.md"))
+    finish_paths.extend(board_logs.glob("refill_*.summary.json"))
+    latest_start = 0.0
+    for path in start_paths:
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            continue
+        if now - mtime <= max_age_seconds:
+            latest_start = max(latest_start, mtime)
+    if not latest_start:
+        return False
+    latest_finish = 0.0
+    for path in finish_paths:
+        try:
+            latest_finish = max(latest_finish, path.stat().st_mtime)
+        except OSError:
+            continue
+    return latest_finish + 10.0 < latest_start
 
 
 def _completion_rates() -> dict:
@@ -1237,7 +1284,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
             for a in autonomous_actions
             if isinstance(a, dict)
         )
-        if shallow and not has_deepen:
+        if shallow and not has_deepen and not _snapshot_has_active_refill(snapshot):
             autonomous_actions.append({
                 "action": "request_deepen_target",
                 "args": {
