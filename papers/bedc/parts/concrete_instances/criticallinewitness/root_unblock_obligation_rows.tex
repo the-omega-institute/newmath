@@ -33,3 +33,39 @@ Use downstream source obligation from \autoref{thm:critical-line-witness-downstr
 
 Finally apply downstream refusal package from \autoref{thm:critical-line-witness-downstream-refusal-package} and ledger non-escape obligation from \autoref{thm:critical-line-witness-ledger-nonescape-obligation}. These rows exclude $\mathsf{RH}$ proof data, global zero classification, analytic continuation, quotient representatives, host equality, and ambient completeness from the ledger, so the refusal surface is complete for the listed downstream exclusions.
 \end{proof}
+
+\begin{theorem}[Critical-line witness root source triad]
+\label{thm:critical-line-witness-root-source-triad}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The supplied zero row $Z$, the critical-strip row $S$, and the rational comparison ledger $Q$ are exposed as one finite $\BHist$ source triad before any downstream boundary may read the packet. The triad is carried only through the displayed transport row $H$, continuation row $C$, package row $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:critical-line-witness-carrier}. Its accepted packet has $Z$, $S$, and $Q$ as displayed rows, so the root-facing source data are already finite $\BHist$ coordinates rather than host zero data or analytic structure.
+
+Apply \autoref{thm:critical-line-witness-namecert-obligations}. The local naming row requires the carrier, classifier, transport, package, and ledger obligations to be discharged on the same visible packet.
+
+Finally combine \autoref{thm:critical-line-witness-modulus-comparison-route-totality} with \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock}. The comparison ledger is total through the displayed modulus and rational comparison rows, while the zero and strip rows stay locked to $H,C,P,N$. Hence $Z,S,Q$ form the finite source triad available to downstream boundary chapters.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root comparison ledger]
+\label{thm:critical-line-witness-root-comparison-ledger}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every root-facing rational comparison used by a downstream consumer factors through the finite ledger $Q$ together with $M,R,H,C,P,N$. The comparison route does not read a global zero set, a quotient representative, analytic continuation, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the modulus comparison route totality of \autoref{thm:critical-line-witness-modulus-comparison-route-totality}. It places every comparison request on the displayed modulus, real-part, rational comparison, transport, continuation, package, and naming rows.
+
+Use \autoref{thm:critical-line-witness-namecert-obligations} to bind that comparison route to the local carrier and ledger obligations. The obligation surface is finite and names only the accepted packet coordinates.
+
+The supplied zero-strip transport lock of \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock} prevents the comparison route from being replaced by a host zero search, quotient representative, analytic continuation certificate, or ambient completeness row. Thus the root-facing comparison ledger is exactly the displayed finite route through $Q$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root refusal route]
+\label{thm:critical-line-witness-root-refusal-route}
+The root-facing route of an accepted $\CriticalLineWitnessUp$ packet refuses every downstream request for an $\mathsf{RH}$ proof, zero search, global zero classifier, analytic-continuation certificate, quotient representative, host equality, or ambient completeness witness. A downstream chapter may cite only the finite source triad $Z,S,Q$ and the displayed rows $M,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the root source triad of \autoref{thm:critical-line-witness-root-source-triad}. It exposes the supplied zero row, critical-strip row, and rational comparison ledger as finite $\BHist$ rows under the same transport and naming surface.
+
+Next use the root comparison ledger of \autoref{thm:critical-line-witness-root-comparison-ledger}. It forces every rational comparison read through the displayed $Q$ route and rules out analytic and quotient replacements.
+
+Finally apply \autoref{thm:critical-line-witness-rh-refusal-ledger-completeness}. The refusal ledger already excludes $\mathsf{RH}$ proof data, zero classification, analytic continuation, quotient representatives, host equality, and ambient completeness, so the root-facing route is a finite refusal package rather than an analytic proof surface.
+\end{proof}

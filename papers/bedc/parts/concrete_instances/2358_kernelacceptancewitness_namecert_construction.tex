@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exposes no host-kernel completeness theorem, no hidden proof-producing channel, no acceptance for a candidate absent from $A$, and no purity claim outside the displayed query row $Q$.
 \end{definition}
+\leanchecked{BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[KernelAcceptanceWitness NameCert obligations]
 \label{thm:kernel-acceptance-witness-namecert-obligations}
@@ -51,6 +52,7 @@ Refusal separation is read from $R$. Failed candidates and forbidden dependency 
 
 The transport, continuation, package, and local naming obligations are componentwise over the displayed rows. They can move or read the packet, but they do not add a kernel-completeness theorem or a hidden proof-producing channel.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessPacket\_semantic\_name\_certificate}
 
 \begin{theorem}[KernelAcceptanceWitness ledger purity]
 \label{thm:kernel-acceptance-witness-ledger-purity}
@@ -87,7 +89,8 @@ Finally apply ledger purity from \autoref{thm:kernel-acceptance-witness-ledger-p
   \constructivestory{A $\KernelAcceptanceWitnessUp$ packet is generated from a candidate declaration row, an accepted declaration row, an environment ledger row, an axiom-query row, refusal-boundary evidence, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:kernel-acceptance-witness-carrier}, \autoref{thm:kernel-acceptance-witness-namecert-obligations}, and \autoref{thm:kernel-acceptance-witness-ledger-purity} bind Lean kernel acceptance as a finite NameCert packet over accepted declarations, environment ledger rows, dependency queries, and refusal boundaries.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean implementation, host-kernel completeness, semantic conservativity of all accepted declarations, bridge checking, or acceptance for candidates on the refusal side.}
