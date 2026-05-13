@@ -4,6 +4,8 @@
 
 The $\ProofTermErasureTraceUp$ surface records a type-checking run whose proof evidence is erased while its typing membership and reduction compatibility remain visible. It sits between derivation traces and compiler packets: the carrier keeps the proof-term row, the erased-term row, the $\Ext$ typing row, the erasure route, the subject-reduction compatibility row, the transport rows, provenance, and local naming in one finite certificate.
 
+The trace consumes the derivation-route surface of \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert} and the preservation boundary of \autoref{ch:concrete-instances-subjectreduction-namecert}. $\ProofTermErasureTraceUp$ does not create its own typing judgment; it packages the erased public row only after those sibling rows have supplied membership and reduction compatibility.
+
 \begin{definition}[Proof-term erasure trace carrier]
 \label{def:proofterm-erasure-trace-carrier}
 A $\ProofTermErasureTraceUp$ carrier is a finite $\BHist$ packet

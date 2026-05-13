@@ -79,6 +79,7 @@ The $\UniformModulusUp$ consumer reads $M$ together with the same transport, rou
 
 No completion step is part of this packet. Real consumers may use the resulting uniform-modulus ledger downstream, but the $\CompactModulusCoverUp$ carrier itself exports only the finite compact-net and pointwise-modulus source packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactModulusCoverUp.CompactModulusCoverCarrier\_real\_completion\_handoff}
 
 \begin{theorem}[CompactModulusCover obligation triad]
 \label{thm:compact-modulus-cover-obligation-triad}
@@ -114,15 +115,16 @@ The fold-facing and consumer-facing rows are then fixed. The row $H$ is the $\Fi
 Finally read the structural rows $C,Q,N$. They provide componentwise transport, displayed routes, and the local naming surface for the same packet, so an obligation-closure read cannot bypass the displayed carrier or use a second source packet.
 \end{proof}
 
-\closureat{CompactModulusCoverUp}{seedStr}
+\closureat{CompactModulusCoverUp}{obligationStr}
 
 \begin{closurestatus}{\CompactModulusCoverUp}
   \constructivestory{A $\CompactModulusCoverUp$ packet is generated from a compact source row, a continuous map or function row, a positive tolerance request, a finite $\mathsf{ProbeBundle}$, compact-net coverage rows, pointwise-modulus rows, positive $\RatUp$ radius ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:compact-modulus-cover-carrier}, \autoref{thm:compact-modulus-cover-namecert-obligations}, \autoref{thm:compact-modulus-cover-finite-net-source-exhaustion}, and \autoref{thm:compact-modulus-cover-real-completion-handoff} register the finite compact-net and pointwise-modulus packet used before the lower-bound fold and uniform-modulus handoff.}
   \formalstatus{\formalTargetV}
+  \leanchecked{BEDC.Derived.CompactModulusCoverUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close the rational lower-bound fold, the final uniform-modulus theorem, Cauchy completion, host real completeness, external subcover selection, or bridge checking.}
-  \upgradepath{Scoped closure requires Lean encoding and checked carrier admission, classifier stability, finite-net coverage exactness, pointwise-modulus compatibility, positive-radius compatibility, and consumer non-escape for the same displayed packet.}
+  \upgradepath{Scoped closure requires checked scope for carrier admission, classifier stability, finite-net coverage exactness, pointwise-modulus compatibility, positive-radius compatibility, and consumer non-escape for the same displayed packet.}
 \end{closurestatus}
