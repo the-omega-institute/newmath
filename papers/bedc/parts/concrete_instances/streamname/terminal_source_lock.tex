@@ -1,0 +1,101 @@
+\section{StreamName terminal source lock}
+\label{sec:streamname-terminal-source-lock}
+
+\begin{definition}[StreamName-RegSeqRat-RealUp terminal source lock]
+\label{def:streamname-regseqrat-realup-terminal-source-lock}
+A $\StreamNameUp$--$\RegSeqRat$--$\RealUp$ terminal source lock is the finite
+packet
+$$
+\mathcal{L}=(W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is a finite public $\StreamNameUp$ window over certified unary
+observations, including the selected rational-history classifier rows, the
+finite $\mathsf{ProbeBundle}$ ledger, $\mathsf{InBundle}$ membership rows, and
+$\mathsf{UnaryHistory}$ observation rows;
+\item $R$ is the accepted $\RegSeqRat$ finite seal row over the same certified
+indices, including the regularity, dyadic-tolerance, stream-spine, and
+pointwise seal classifier rows supplied on the $\RegSeqRat$ side;
+\item $S$ is the finite-window $\RealUp$ seal row induced by reading $W$
+through $R$;
+\item $H$ is the displayed componentwise $\hsame$ row comparing the
+StreamName point rows, the $\RegSeqRat$ seal rows, the unary observation rows,
+the bundle-membership rows, and the induced $\RealUp$ seal row;
+\item $C$ is the displayed $\Cont$ ledger routing the read from the finite
+StreamName window through the accepted $\RegSeqRat$ seal row to the finite
+$\RealUp$ seal row;
+\item $P$ is the $\Pkg$ provenance naming the StreamName source certificate,
+the $\RegSeqRat$ finite seal certificate, the finite continuation ledger, and
+the induced $\RealUp$ seal read;
+\item $N$ is the local $\NameCert$ row for this finite handoff packet.
+\end{enumerate}
+The packet has no coordinate for a completion witness, quotient stream
+equality, host index equality, or off-ledger $\RealUp$ classifier row.
+\end{definition}
+
+\begin{theorem}[StreamName-RegSeqRat-RealUp terminal source lock]
+\label{thm:streamname-regseqrat-realup-terminal-source-lock}
+Every finite $\RealUp$ seal read induced from a public $\StreamNameUp$ window
+through an accepted $\RegSeqRat$ finite seal factors through exactly the packet
+of \autoref{def:streamname-regseqrat-realup-terminal-source-lock}. The
+StreamName coordinates are read from $W$, the regularity and pointwise seal
+coordinates from $R$, the induced finite $\RealUp$ seal row from $S$, and the
+transport, continuation, provenance, and local naming rows from $H$, $C$, $P$,
+and $N$.
+
+Conversely, any finite packet carrying precisely those rows repacks as the
+same induced finite-window $\RealUp$ seal read.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:streamname-real-regseq-obligation-separation}. It separates the
+visible StreamName source rows, the downstream $\RegSeqRat$ regularity and
+seal rows, and the finite $\RealUp$ seal classifier into their distinct source
+surfaces.
+
+Next apply \autoref{thm:streamname-regseqrat-uniform-finite-window-seal}. The
+accepted $\RegSeqRat$ seal is stable under finite-window restriction, so the
+source window and the seal row keep the same displayed certified indices and
+the same pointwise classifier rows.
+
+Finally apply \autoref{thm:streamname-real-seal-factorization-boundary}. It
+states that the finite $\RealUp$ seal read factors through exactly the
+StreamName point rows, accepted $\RegSeqRat$ seal rows, bundle membership,
+unary observations, finite $\Cont$ ledger, displayed $\hsame$ transports, and
+$\Pkg$ provenance. These rows are precisely the coordinates of
+$\mathcal{L}$, with $N$ recording the local naming ledger, and no further
+coordinate is available for the reverse packing.
+\end{proof}
+
+\begin{theorem}[StreamName-RegSeqRat-RealUp terminal non-escape]
+\label{thm:streamname-regseqrat-realup-terminal-nonescape}
+Let $\mathcal{L}=(W,R,S,H,C,P,N)$ be a terminal source lock. A consumer of the
+finite handoff can read only the finite StreamName window $W$, the accepted
+$\RegSeqRat$ seal row $R$, the induced finite $\RealUp$ seal row $S$, the
+displayed $\hsame$ transports $H$, the displayed $\Cont$ routes $C$, the
+$\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. It cannot extract a
+completion witness, quotient stream equality, host index equality, or
+off-ledger $\RealUp$ classifier row from the lock.
+\end{theorem}
+\begin{proof}
+Project the consumer read through
+\autoref{thm:streamname-regseqrat-realup-terminal-source-lock}. Every induced
+finite $\RealUp$ seal read is already factored by the displayed lock packet.
+
+The separation theorem
+\autoref{thm:streamname-real-regseq-obligation-separation} assigns each
+visible row to StreamName, $\RegSeqRat$, or finite $\RealUp$ seal data, and it
+excludes completion witnesses, quotient rows, and host index equalities from
+the StreamName source surface.
+
+The boundary theorem
+\autoref{thm:streamname-real-seal-factorization-boundary} rules out any
+completion datum, quotient representative, host index equality, choice row, or
+$\RealUp$ completeness coordinate outside the displayed accepted
+$\RegSeqRat$ seal rows. The uniform finite-window theorem prevents a
+restriction of the lock from adding an off-ledger classifier row.
+
+Thus the terminal packet is a finite source surface only. Every consumer read
+stays inside $W$, $R$, $S$, $H$, $C$, $P$, and $N$.
+\end{proof}

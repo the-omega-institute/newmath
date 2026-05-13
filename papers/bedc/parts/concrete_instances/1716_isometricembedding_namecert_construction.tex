@@ -121,6 +121,50 @@ The package rows $T,Q,P,N$ record transport, continuation, provenance, and local
 \end{proof}
 \leanchecked{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier\_separated\_consumer\_route}
 
+\begin{theorem}[IsometricEmbedding distance preservation obligation]
+\label{thm:isometric-embedding-distance-preservation-obligation}
+Let
+$$
+I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)
+$$
+be an accepted $\IsometricEmbeddingUp$ packet. The distance-preservation obligation says that every displayed source-distance read in $D_X$ is transported along the graph row $F$ to the displayed target-distance read in $D_Y$, and the equality of the two distance observations is read only through the $\RealUp$ row $R$ and the provenance rows $T,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier surfaces of \autoref{def:isometric-embedding-carrier} and \autoref{def:isometric-embedding-classifier}. They bind the source metric row $X$, target metric row $Y$, graph row $F$, distance witnesses $D_X,D_Y$, and real-distance row $R$ as one finite packet.
+
+Apply the NameCert obligations of \autoref{thm:isometric-embedding-namecert-obligations}. The distance-preservation row is the clause that pairs the source distance witness with the target distance witness through $R$.
+
+Finally use distance reflection. Since no host function or quotient map is exported, the preservation claim is exactly the displayed source-to-target real-distance comparison.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding completion reflection handoff]
+\label{thm:isometric-embedding-completion-reflection-handoff}
+Every $\CompletionReflectionUp$ consumer of an accepted $\IsometricEmbeddingUp$ packet $I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)$ receives its embedding input through the displayed metric rows $X,Y$, graph row $F$, distance witnesses $D_X,D_Y$, real-distance reflection row $R$, and provenance rows $T,Q,P,N$. The handoff supplies a separated completion-facing route, not a quotient map, host function equality, selected representative, or ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Begin with the completion boundary theorem \autoref{thm:isometric-embedding-completion-boundary}. It restricts every completion-facing consumer to the metric, graph, distance, reflection, transport, route, package, and naming rows of the accepted packet.
+
+Use classifier transport to keep these rows componentwise under the displayed $\hsame$ and $\Cont$ routes. The NameCert obligations then identify the same rows as the local certificate surface.
+
+The separated consumer route theorem supplies the final handoff: downstream consumers obtain a distance-preserving route through the displayed packet and receive no completion object outside it.
+\end{proof}
+
+\begin{theorem}[IsometricEmbedding Hausdorff separation boundary]
+\label{thm:isometric-embedding-hausdorff-separation-boundary}
+Every $\HausdorffCompletionUp$ consumer of an accepted $\IsometricEmbeddingUp$ packet can use separatedness only through the displayed rows
+$$
+X,Y,F,D_X,D_Y,R,T,Q,P,N.
+$$
+The packet may certify the finite distance-reflection route needed by a separated consumer, but it does not identify completion classes, choose representatives, export quotient maps, or assert an external Hausdorff-completion theorem.
+\end{theorem}
+\begin{proof}
+Read the packet through the carrier definition. The only rows visible to a Hausdorff separatedness consumer are the source and target metric rows, the graph row, the two distance witnesses, the real-distance reflection row, and the transport and provenance rows.
+
+Apply the distance-preservation obligation and the separated consumer route. Together they give the finite route from source distance data to target distance data and then to the separated completion-facing consumer.
+
+The completion boundary theorem supplies the non-escape boundary. Because the carrier has no quotient map, selected representative, or ambient completion theorem, separatedness remains a consumer boundary over the displayed distance route.
+\end{proof}
+
 \closureat{IsometricEmbeddingUp}{seedStr}
 
 \begin{closurestatus}{\IsometricEmbeddingUp}
