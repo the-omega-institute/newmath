@@ -34,6 +34,7 @@ The $\RealObservationBudgetUp$ consumer package of \autoref{thm:cauchy-limit-sea
 \label{thm:cauchy-limit-seal-budget-selector-coherence}
 In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, let an accepted selector route be admitted through the same $\CauchyLimitSealUp$ packet as an accepted $\RealObservationBudgetUp$ read over the same precision request and finite $\StreamNameUp$ window. Then the selector read and the observation-budget read meet on one displayed route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Their selector leg and budget leg agree on the dyadic-window ledger identified by \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}, and the route exports no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_budget\_selector\_coherence}
 \begin{proof}
 First take the root choice-free route from \autoref{thm:cauchy-limit-seal-root-choice-free-route}. It confines selector access to the accepted seal packet and its displayed regular source, stream window, dyadic ledger, real seal, transport, continuation, provenance, and naming rows.
 
@@ -42,6 +43,18 @@ Next apply the tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-me
 Then use the dyadic-window exactness theorem \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. It identifies the budget ledger with the scheduled seal-side dyadic window, so the selector leg and budget leg read one $\DyadicRatCoreUp$ ledger rather than two independent ledgers.
 
 Finally apply completion-consumer non-escape from \autoref{thm:cauchy-limit-seal-root-completion-consumer-nonescape}. Since the common route has already been projected to the displayed finite packet, no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate can be exported.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeal budget finite-approximation route]
+\label{thm:cauchy-limit-seal-budget-approximation-route}
+In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, let an accepted $\FiniteCauchyApproximationUp$ packet read the same precision request and the same finite $\StreamNameUp$ window as the accepted $\RealObservationBudgetUp$ route. Then the observation-budget route and the finite-approximation route meet on one displayed packet over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The shared packet exports the precision request, finite window, dyadic observation ledger, finite error consumer row, real-facing handoff, transport, continuation, provenance, and local name, but it exports no quotient stream identity, host real equality, selected limit, hidden family limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First apply budget selector coherence from \autoref{thm:cauchy-limit-seal-budget-selector-coherence}. It places the selector leg and the observation-budget leg on the same displayed route over the accepted $\CauchyLimitSealUp$ packet, with the precision request and finite $\StreamNameUp$ window already fixed.
+
+Next use dyadic-window exactness from \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. The dyadic ledger read by the budget route is the scheduled finite-window ledger exposed by the seal packet, so the finite approximation cannot introduce an independent $\DyadicRatCoreUp$ observation.
+
+Finally use the finite consumer surface of \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}. Its accepted $\FiniteCauchyApproximationUp$ packet consumes the same source, precision request, finite window, dyadic ledger, finite error row, handoff, transport, continuation, provenance, and naming rows. The non-escape boundary from the selector-coherence route therefore remains in force, excluding quotient stream identity, host real equality, selected limit, hidden family limit, and ambient completeness.
 \end{proof}
 
 \begin{theorem}[CauchyLimitSeal root completion consumer non-escape]

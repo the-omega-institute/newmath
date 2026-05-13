@@ -118,4 +118,59 @@ theorem FiniteNetMinimumFoldPacket_lower_bound_certificate [AskSetup] [PackageSe
   exact
     ⟨accumulatorUnary, lowerUnary, lowerExportUnary, accumulatorLowerExport, lowerExportPkg⟩
 
+theorem FiniteNetMinimumFoldPacket_radius_ledger_admission [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow admitted : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont bundleRow radius admitted →
+        PkgSig bundle provenance pkg →
+          UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory admitted ∧
+            Cont bundleRow radius admitted ∧ Cont bundleRow radius accumulator ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet bundleRadiusAdmitted provenancePkg
+  obtain ⟨bundleRowUnary, radiusUnary, _accumulatorUnary, _lowerUnary, _nameRowUnary,
+    bundleRadiusAccumulator, _accumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _packetPkg⟩ := packet
+  have admittedUnary : UnaryHistory admitted :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusAdmitted
+  exact
+    ⟨bundleRowUnary, radiusUnary, admittedUnary, bundleRadiusAdmitted,
+      bundleRadiusAccumulator, provenancePkg⟩
+
+theorem FiniteNetMinimumFoldPacket_compactmoduluscover_input_exactness
+    [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow compactInput folded
+      exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont bundleRow radius compactInput →
+        Cont compactInput accumulator folded →
+          Cont folded lower exported →
+            PkgSig bundle exported pkg →
+              UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory accumulator ∧
+                UnaryHistory lower ∧ UnaryHistory compactInput ∧ UnaryHistory folded ∧
+                  UnaryHistory exported ∧ Cont bundleRow radius compactInput ∧
+                    Cont compactInput accumulator folded ∧ Cont folded lower exported ∧
+                      Cont transport nameRow provenance ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle exported pkg := by
+  intro packet bundleRadiusCompact compactAccumulatorFolded foldedLowerExported exportedPkg
+  obtain ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, _accumulatorLowerTransport, transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    provenancePkg⟩ := packet
+  have compactInputUnary : UnaryHistory compactInput :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusCompact
+  have foldedUnary : UnaryHistory folded :=
+    unary_cont_closed compactInputUnary accumulatorUnary compactAccumulatorFolded
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed foldedUnary lowerUnary foldedLowerExported
+  exact
+    ⟨bundleRowUnary, radiusUnary, accumulatorUnary, lowerUnary, compactInputUnary, foldedUnary,
+      exportedUnary, bundleRadiusCompact, compactAccumulatorFolded, foldedLowerExported,
+      transportNameProvenance, provenancePkg, exportedPkg⟩
+
 end BEDC.Derived.FiniteNetMinimumFoldUp

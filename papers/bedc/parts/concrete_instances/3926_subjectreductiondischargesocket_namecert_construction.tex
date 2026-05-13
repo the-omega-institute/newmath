@@ -32,6 +32,7 @@ O=(B,A,L,P,H,C,Q,N),
 $$
 the beta-substitution row $B$, the application-argument row $A$, the lambda-domain row $L$, the Pi-domain row $P$, componentwise transport through $H$, displayed continuation reads through $C$, provenance and classifier ledgering through $Q$, and local naming through $N$. The ledger $Q$ records the parameterised $\SubjectReductionUp$ row as consuming precisely $B,A,L,P$, and records the checked closed-obstruction row as excluding any unparameterised closed subject-reduction export.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeSocketUp.SubjectReductionDischargeSocketCarrier\_namecert\_obligations}
 \begin{proof}
 Project the displayed packet $O$. The four discharge rows $B,A,L,P$ are the only rows that can feed the parameterised $\SubjectReductionUp$ theorem.
 
@@ -71,6 +72,94 @@ The transport and route rows $H,C$ preserve those inputs as the rows named by th
 For the obstruction coordinate, read $Q$ in the opposite direction: it reports that the closed subject-reduction statement is blocked at this socket boundary. Hence downstream consumers can cite the finite socket as an obligation surface, but cannot turn it into a closed subject-reduction theorem.
 \end{proof}
 
+\begin{theorem}[SubjectReductionDischargeSocket row exhaustion]
+\label{thm:subject-reduction-discharge-socket-row-exhaustion}
+Let $O=(B,A,L,P,H,C,Q,N)$ be an accepted $\SubjectReductionDischargeSocketUp$ carrier. Every admissible subject-reduction socket read is one of the four discharge rows $B,A,L,P$, the parameterised $\SubjectReductionUp$ row recorded by $Q$, the closed-obstruction row recorded by $Q$, or the local $\NameCert$ provenance carried by $H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier $O$. The displayed coordinates expose exactly the four discharge rows $B,A,L,P$ and the structural rows $H,C,Q,N$.
+
+Read the ledger $Q$. It contains the parameterised subject-reduction consumer row and the closed-obstruction boundary row. These are ledger entries over the displayed discharge rows, not extra carrier coordinates.
+
+The remaining admissible reads are local provenance reads through $H,C,Q,N$. Since the carrier has no further slot, every socket read belongs to one of the listed classes.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeSocket transport stability]
+\label{thm:subject-reduction-discharge-socket-transport-stability}
+Let $O=(B,A,L,P,H,C,Q,N)$ and $O'=(B',A',L',P',H',C',Q',N')$ be accepted $\SubjectReductionDischargeSocketUp$ carriers. If the rows are matched componentwise by the displayed $\hsame$ data in $H,H'$ and the subject-reduction reads follow the displayed $\Cont$ routes in $C,C'$, then $O$ and $O'$ expose the same row inventory: the four discharge rows, the parameterised row, the obstruction row, and the local NameCert provenance rows.
+\end{theorem}
+\begin{proof}
+Use the componentwise $\hsame$ rows first. They identify $B,A,L,P$ with $B',A',L',P'$ as the same four discharge coordinates inside the socket classifier.
+
+Next follow the displayed $\Cont$ routes. They replay the same parameterised subject-reduction and obstruction reads through $Q,N$ and through $Q',N'$.
+
+Transport does not add a coordinate to either carrier. Therefore the row inventory exposed by the two accepted sockets is stable under the displayed $\hsame$ and $\Cont$ data.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeSocket transport route stability]
+\label{thm:subject-reduction-discharge-socket-transport-route-stability}
+Let $O=(B,A,L,P,H,C,Q,N)$ and $O'=(B',A',L',P',H',C',Q',N')$ be accepted $\SubjectReductionDischargeSocketUp$ carriers. If every coordinate $B,A,L,P,H,C,Q,N$ is matched with its primed coordinate by the displayed componentwise $\hsame$ data and every consumer read is replayed through the displayed $\Cont$ routes, then the two sockets expose the same beta-substitution, application-argument, lambda-domain, Pi-domain, transport, route, provenance-ledger, and local naming obligations.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. The only coordinates of the first socket are $B,A,L,P,H,C,Q,N$, and the only coordinates of the second socket are $B',A',L',P',H',C',Q',N'$.
+
+Use the componentwise $\hsame$ data to match the four discharge rows and the structural rows. The match preserves their classifier positions: beta remains beta, application remains application, lambda remains lambda, Pi remains Pi, transport remains transport, route remains route, ledger remains ledger, and name remains name.
+
+Now replay consumer reads through $C$ and $C'$. Continuation data can move along the displayed route, but it returns to the matched coordinate class rather than creating an extra socket row.
+
+Thus transport and route replay preserve the complete obligation inventory of the accepted socket.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeSocket four-row ledger exactness]
+\label{thm:subject-reduction-discharge-socket-four-row-ledger-exactness}
+Let $O=(B,A,L,P,H,C,Q,N)$ be an accepted $\SubjectReductionDischargeSocketUp$ carrier. The subject-reduction discharge ledger in $Q,N$ consumes exactly the beta-substitution row $B$, the application-argument row $A$, the lambda-domain row $L$, and the Pi-domain row $P$. No consumer route through $Q,N$ may replace one of these four rows, add a fifth discharge row, or treat the closed-obstruction boundary as one of the four discharge inputs.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory. The only discharge coordinates are $B,A,L,P$, and the remaining coordinates $H,C,Q,N$ are transport, route, provenance, and naming rows.
+
+Inspect the ledger part of $Q,N$. It records the parameterised subject-reduction row as a consumer of the four named discharge inputs, so each permitted discharge read must point back to one of $B,A,L,P$.
+
+The obstruction entry in $Q$ has a different classifier role. It records the absent closed theorem boundary and therefore cannot be counted as beta, application, lambda, or Pi discharge evidence.
+
+Since the packet contains no fifth discharge coordinate and no replacement coordinate for any of the four rows, the four-row consumption ledger is exact.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeSocket obligation closure package]
+\label{thm:subject-reduction-discharge-socket-obligation-closure-package}
+The $\SubjectReductionDischargeSocketUp$ chapter supplies an obligation-closed paper package for the finite socket carrier. The package consists of carrier admission, the local NameCert obligations, non-escape, obligation consumption, vision handoff, transport route stability, and four-row ledger exactness for
+$$
+O=(B,A,L,P,H,C,Q,N).
+$$
+It exposes the socket as the finite subject-reduction discharge boundary and does not claim Lean verification, closed subject reduction, host conversion, erased derivation semantics, quotient equality, or bridge checking.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:subject-reduction-discharge-socket-carrier}. The local NameCert surface is \autoref{thm:subject-reduction-discharge-socket-namecert-obligations}, and non-escape is \autoref{thm:subject-reduction-discharge-socket-nonescape}.
+
+For downstream consumption, use \autoref{thm:subject-reduction-discharge-socket-obligation-consumption}. It identifies the subject-reduction route as a consumer of the displayed four discharge rows and keeps the obstruction row as a boundary.
+
+For the methodology handoff, use \autoref{thm:subject-reduction-discharge-socket-vision-handoff}. It records why the socket is a finite BEDC packet rather than an unparameterised preservation theorem.
+
+Finally apply transport route stability and four-row ledger exactness. These two clauses show that the same obligation inventory is preserved under displayed $\hsame$ and $\Cont$ data, and that $Q,N$ consume exactly $B,A,L,P$.
+
+The excluded structures are absent from the carrier and are already ruled out by the non-escape theorem. The displayed clauses therefore assemble the obligation-closed paper package without changing the verification axis.
+\end{proof}
+
+\begin{theorem}[SubjectReductionDischargeSocket downstream consumer boundary]
+\label{thm:subject-reduction-discharge-socket-downstream-consumer-boundary}
+Every route-equivalence or route-classifier chapter that consumes an accepted $\SubjectReductionDischargeSocketUp$ carrier
+$$
+O=(B,A,L,P,H,C,Q,N)
+$$
+can consume the socket only through the four discharge rows, the parameterised subject-reduction row, the obstruction row, and the local NameCert provenance rows. Such a consumer cannot manufacture a closed subject-reduction theorem, a host conversion route, an erased derivation semantics, or quotient equality of MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Begin with row exhaustion. Any admissible read from the socket is one of the listed discharge, parameterised, obstruction, or provenance rows.
+
+Then apply transport stability. Route-equivalence and route-classifier consumers may move the same rows along displayed $\hsame$ and $\Cont$ routes, but those routes preserve the inventory rather than creating a new theorem coordinate.
+
+The excluded closed subject-reduction, host conversion, erased semantics, and quotient-equality objects are absent from the carrier. Hence downstream consumers can cite the socket as a finite boundary and cannot turn it into a closed subject-reduction result.
+\end{proof}
+
 \begin{theorem}[SubjectReductionDischargeSocket vision handoff]
 \label{thm:subject-reduction-discharge-socket-vision-handoff}
 The MetaCIC subject-reduction obstruction vision is realized by the finite $\SubjectReductionDischargeSocketUp$ packet of \autoref{def:subject-reduction-discharge-socket-carrier}. Its concrete handoff consists of the four discharge rows $B,A,L,P$, the parameterised $\SubjectReductionUp$ consumption ledger, the checked closed-obstruction boundary, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming. No downstream chapter may cite this handoff as a closed subject-reduction theorem.
@@ -84,14 +173,15 @@ Thus the vision is handed to downstream chapters as a finite socket: it is a con
 \end{proof}
 
 \closureat{SubjectReductionDischargeSocketUp}{seedStr}
+\closureat{SubjectReductionDischargeSocketUp}{obligationStr}[BEDC.Derived.SubjectReductionDischargeSocketUp.SubjectReductionDischargeSocketPacket\_nonescape]
 
 \begin{closurestatus}{\SubjectReductionDischargeSocketUp}
   \constructivestory{A $\SubjectReductionDischargeSocketUp$ packet is generated from beta-substitution, application-argument, lambda-domain, and Pi-domain discharge rows, a parameterised subject-reduction consumption ledger, a checked closed-obstruction boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:subject-reduction-discharge-socket-carrier}, \autoref{thm:subject-reduction-discharge-socket-namecert-obligations}, \autoref{thm:subject-reduction-discharge-socket-nonescape}, \autoref{thm:subject-reduction-discharge-socket-obligation-consumption}, and \autoref{thm:subject-reduction-discharge-socket-vision-handoff} bind the finite MetaCIC subject-reduction discharge socket.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:subject-reduction-discharge-socket-carrier}, \autoref{thm:subject-reduction-discharge-socket-namecert-obligations}, \autoref{thm:subject-reduction-discharge-socket-nonescape}, \autoref{thm:subject-reduction-discharge-socket-obligation-consumption}, \autoref{thm:subject-reduction-discharge-socket-row-exhaustion}, \autoref{thm:subject-reduction-discharge-socket-transport-stability}, \autoref{thm:subject-reduction-discharge-socket-transport-route-stability}, \autoref{thm:subject-reduction-discharge-socket-four-row-ledger-exactness}, \autoref{thm:subject-reduction-discharge-socket-obligation-closure-package}, \autoref{thm:subject-reduction-discharge-socket-downstream-consumer-boundary}, and \autoref{thm:subject-reduction-discharge-socket-vision-handoff} bind the finite MetaCIC subject-reduction discharge socket and its obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close any of the four MetaCIC discharge obligations, the closed subject-reduction theorem, Lean verification of the socket, host conversion, erased derivation semantics, quotient equality, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, four-row discharge consumption, obstruction-boundary exactness, transport stability, route replay, provenance, and non-escape for the same finite socket.}
+  \upgradepath{Scoped closure requires Lean-backed carrier admission, four-row discharge consumption, obstruction-boundary exactness, transport stability, route replay, provenance, and non-escape for the same finite socket.}
 \end{closurestatus}

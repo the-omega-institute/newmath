@@ -1,0 +1,92 @@
+\section{StreamName finite-window lattice meet}
+\label{sec:streamname-finite-window-lattice-meet}
+
+\begin{definition}[StreamName finite-window lattice meet packet]
+\label{def:streamname-finite-window-lattice-meet}
+Let $\mathcal W_L$ and $\mathcal W_R$ be accepted finite-window
+$\StreamNameUp$ packages over displayed source maps $s,t:\mathsf{BHist}\to
+\mathsf{BHist}$. A StreamName finite-window lattice meet packet for
+$(\mathcal W_L,\mathcal W_R)$ is the finite $\mathsf{BHist}$ surface
+$$
+\mathcal M=(Q,B,I,U,D,H,C,P,N_L,N_R)
+$$
+whose rows are as follows:
+\begin{enumerate}
+\item $Q$ is the common selected rational classifier row
+$\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal Q)$ read on the
+shared $\mathsf{ProbeBundle}$ $\mathcal Q$;
+\item $B$ is the displayed $\mathsf{ProbeBundle}$ row for $\mathcal Q$,
+together with its restrictions to the selected bundles of $\mathcal W_L$ and
+$\mathcal W_R$;
+\item $I$ is the family of $\mathsf{InBundle}(n,\mathcal Q)$ membership rows
+for selected unary observations;
+\item $U$ is the family of $\mathsf{UnaryHistory}(n)$ observation rows paired
+with the pointwise rational classifier rows read by $Q$;
+\item $D$ is the dyadic ledger surface handed to $\RegSeqRat$ and to the
+finite-window $\RealUp$ consumer, including endpoint, radius, denominator,
+and finite ledger-policy rows;
+\item $H$ is the componentwise $\hsame$ transport comparing selected rational
+classifier rows, probe rows, membership rows, unary rows, dyadic rows,
+handoff rows, provenance rows, and local names;
+\item $C$ is the displayed $\Cont$ route ledger from each accepted
+$\StreamNameUp$ window through the meet surface to the $\RegSeqRat$ handoff
+and the finite-window $\RealUp$ seal;
+\item $P$ is the $\Pkg$ provenance over the accepted windows, the
+synchronized-window union, the cover-refinement classifier, the common-window
+transport, and the Real--RegSeq handoff boundary;
+\item $N_L$ and $N_R$ are the local $\NameCert_{\StreamNameUp}$ rows proving
+that the left and right accepted packages expose this same meet surface.
+\end{enumerate}
+The packet is only this finite observation surface. It has no coordinate for
+quotient stream equality, host index equality, selected limits, host real
+equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[StreamName finite-window lattice meet exhaustion]
+\label{thm:streamname-finite-window-lattice-meet-exhaustion}
+Let $\mathcal M$ be a StreamName finite-window lattice meet packet for two
+accepted finite-window $\StreamNameUp$ packages. Every $\RegSeqRat$ consumer
+or finite-window $\RealUp$ consumer of $\mathcal M$ reads only the common
+selected rational classifier rows, the $\mathsf{ProbeBundle}$ rows, the
+$\mathsf{InBundle}$ membership rows, the $\mathsf{UnaryHistory}$ observation
+rows, the dyadic ledger rows, the componentwise transports, the continuation
+routes, the package provenance, and the local naming rows displayed in
+\autoref{def:streamname-finite-window-lattice-meet}.
+
+Consequently the meet packet is a shared finite observation surface for the
+RegSeqRat and RealUp handoffs. It does not provide quotient stream equality,
+host index equality, selected limits, host real equality, ambient
+completeness, or any consumer-visible row outside the finite StreamName,
+RegSeqRat, and RealUp ledger surfaces listed above.
+\end{theorem}
+\begin{proof}
+First pass both accepted windows through
+\autoref{thm:streamname-public-finite-window-interface}. The public interface
+restricts each window to its finite classifier, probe bundle, membership,
+unary-history, pointwise rational classifier, $\hsame$, $\Cont$, $\Pkg$, and
+local naming rows.
+
+Next apply \autoref{thm:streamname-synchronized-window-union-carrier}. The
+two accepted windows are repacked over one synchronized carrier, so their
+shared selected observations have one displayed $\mathsf{ProbeBundle}$ row,
+one membership family, one unary-history family, and one provenance ledger.
+
+Use \autoref{thm:streamname-finite-window-cover-refinement-classifier} to
+read the common probe bundle as a covered finite-window classifier. The
+cover-refinement step supplies the common selected rational classifier row
+and keeps the selected endpoint package on the same finite observation rows.
+
+Now apply \autoref{thm:streamname-regseqrat-common-window-transport}. Any
+$\RegSeqRat$ handoff through the left or right accepted window reads the same
+common-window surface, with the same componentwise $\hsame$ transports,
+continuation routes, and package provenance.
+
+Finally use
+\autoref{thm:streamname-regseqrat-realup-source-boundary-exhaustion} together
+with \autoref{thm:streamname-real-regseq-obligation-separation}. These
+handoff results identify the dyadic ledger rows and the finite-window RealUp
+consumer rows, while keeping regularity, sealing, limits, quotient rows, host
+index equality, host real equality, and ambient completeness outside the meet
+packet. The displayed coordinates of $\mathcal M$ therefore exhaust every
+consumer read.
+\end{proof}

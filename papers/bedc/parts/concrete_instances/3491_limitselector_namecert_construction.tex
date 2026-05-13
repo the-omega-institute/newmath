@@ -4,6 +4,8 @@
 
 The $\LimitSelectorUp$ surface packages the finite selector used by the diagonal-limit construction of \autoref{def:real-completeness-diagonal-limit}. It names the precision request, the modulus-selected member, the finite observation window, the regular-rational readback, the RealUp seal, and the BEDC transport rows as one inspectable packet. It is a selector certificate over displayed finite data, not a host-selected limit or a quotient of streams.
 
+The selector is a downstream L10 consumer of the certified countable-name interface of \autoref{ch:concrete-instances-streamname-namecert} and the RealUp sealing interface of \autoref{ch:concrete-instances-real-namecert}; its own packet records only the finite witness route between those sibling surfaces.
+
 \begin{definition}[LimitSelector carrier]
 \label{def:limit-selector-carrier}
 A $\LimitSelectorUp$ carrier is a finite $\BHist$ packet
@@ -26,6 +28,7 @@ with the following displayed rows:
 \end{enumerate}
 The local classifier compares accepted packets only through the displayed rows $R,n,\mu,k,W,D,S,H,C,P,N$.
 \end{definition}
+\leandef{BEDC.Derived.LimitSelectorUp.LimitSelectorCarrier}
 
 \begin{theorem}[LimitSelector NameCert obligations]
 \label{thm:limit-selector-namecert-obligations}
@@ -56,6 +59,7 @@ n,\mu,k,W,D,S,H,C,P,N.
 $$
 The consumer may inspect the precision request, displayed modulus, selected index, finite stream window, dyadic readback, RealUp seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming row. It receives no host-selected limit, no quotient-stream equality, no countable-choice selector, and no ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LimitSelectorUp.LimitSelectorCarrier\_finite\_witness\_route}
 \begin{proof}
 Start with the consumer route $C$. Its first reads are the precision request $n$ and the modulus row $\mu$, followed by the selected index $k$ named by the modulus-selector obligation of \autoref{thm:limit-selector-namecert-obligations}.
 
@@ -176,5 +180,5 @@ Conclude with \autoref{thm:limit-selector-diagonal-consumer-exhaustion}. Since t
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, real completeness, quotient-stream equality, host real equality, countable choice, host-selected limits, or a public standard bridge.}
-  \upgradepath{Paper-side theory closure is mature; further progress requires Lean verification of the same displayed selector packet.}
+  \upgradepath{No further paper-theory closure upgrade remains; Lean verification and bridge checking remain on the verification axis.}
 \end{closurestatus}

@@ -4,6 +4,8 @@
 
 The $\ChoiceFreeLimitScheduleUp$ packet records the finite precision-to-window route used by Real-completion consumers before a $\RealUp$ seal is reached. It keeps the precision request, schedule row, selected $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ handoff, $\RealUp$ seal, transports, routes, provenance, and local naming row in one displayed $\BHist$ packet, so the limit-facing surface is finite and contains no choice operator.
 
+The concrete completion consumer is the RealCompleteness finite seal route of \autoref{ch:concrete-instances-realcompleteness-namecert}. That consumer may read the schedule row, selected $\StreamNameUp$ windows, dyadic observations, $\RegSeqRatUp$ handoff, and $\RealUp$ seal exposed by $\ChoiceFreeLimitScheduleUp$, but it receives no countable choice, hidden selector, or ambient completeness coordinate from the schedule packet.
+
 \begin{definition}[Choice-free limit schedule carrier]
 \label{def:choice-free-limit-schedule-carrier}
 A $\ChoiceFreeLimitScheduleUp$ carrier is a finite $\BHist$ packet
@@ -191,15 +193,16 @@ The handoff and seal are then constrained by \autoref{thm:choice-free-limit-sche
 \closureat{ChoiceFreeLimitScheduleUp}{scopedStr}
 \closureat{ChoiceFreeLimitScheduleUp}{publicStr}
 \closureat{ChoiceFreeLimitScheduleUp}{bridgedStr}[BEDC.Derived.ChoiceFreeLimitScheduleUp.ChoiceFreeLimitSchedulePacket\_consumer\_readback]
+\closureat{ChoiceFreeLimitScheduleUp}{matureStr}
 
 \begin{closurestatus}{\ChoiceFreeLimitScheduleUp}
   \constructivestory{A $\ChoiceFreeLimitScheduleUp$ packet is generated from a precision request, finite schedule row, StreamNameUp windows, DyadicRatCoreUp observations, RegSeqRatUp handoff, RealUp seal, componentwise transports, continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:choice-free-limit-schedule-public-seal-export} binds the public finite schedule-to-seal export from precision request through schedule, windows, dyadic ledger, RegSeqRatUp handoff, RealUp seal, and the displayed BHist, hsame, Cont, Pkg, and NameCert rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.ChoiceFreeLimitScheduleUp.ChoiceFreeLimitSchedulePacket\_consumer\_readback}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, a public standard bridge, countable choice, or Lean verification.}
-  \upgradepath{Bridged closure requires a bridge theorem from the finite schedule-to-seal packet to the standard choice-free limit-schedule reading.}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, a public standard bridge, countable choice, audit cleanliness, or machine bridge checking.}
+  \upgradepath{No further paper-side theory-grade target is open; verification-axis audit cleanliness or machine bridge checking remains separate.}
 \end{closurestatus}

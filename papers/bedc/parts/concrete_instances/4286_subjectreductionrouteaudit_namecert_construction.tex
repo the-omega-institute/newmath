@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionRouteAuditUp$}
+\label{ch:concrete-instances-subject-reduction-route-audit-namecert}
+\origin{human}
+
+The $\SubjectReductionRouteAuditUp$ packet is the finite audit surface for the bundle and typeclass discharge-route comparison described in \autoref{ch:sr-discharge-routes}. It keeps the obstruction boundary of \autoref{ch:metacic-subject-reduction-obstruction} visible while consuming the socket rows of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. The packet records route comparison and handoff data only; it does not inhabit the four MetaCIC discharge hypotheses and does not close subject reduction.
+
+\begin{definition}[Subject-reduction route-audit carrier]
+\label{def:subject-reduction-route-audit-carrier}
+A $\SubjectReductionRouteAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(B,T,F,E,I,U,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the explicit bundle row naming the four subject-reduction discharge hypotheses as one $\mathrm{SubjectReductionDischargeBundle}$ packet;
+\item $T$ is the setup row naming the typeclass presentation of the same four discharge hypotheses;
+\item $F$ is the setup-to-bundle projection row, reading $T$ into the bundle shape $B$;
+\item $E$ is the route-equivalence row comparing direct bundle access with setup-mediated access after projection;
+\item $I$ is the invocation row recording which public route a downstream consumer follows;
+\item $U$ is the socket handoff row through which the consumer reaches the displayed discharge socket surface;
+\item $S$ is the $\SubjectReductionDischargeSocketUp$ row carrying the four named discharge sockets;
+\item $H$ records componentwise $\hsame$ transports for the bundle row, setup row, projection row, equivalence row, invocation row, socket row, handoff row, provenance row, and local name;
+\item $C$ records the displayed $\Cont$ routes from route comparison to socket handoff and downstream subject-reduction consumption;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\SubjectReductionDischargeSocketUp$, the bundle route, and the setup-to-bundle route;
+\item $N$ is the local $\NameCert_{\SubjectReductionRouteAuditUp}$ row.
+\end{enumerate}
+The carrier classifier compares only the displayed route rows, socket rows, transports, continuations, provenance, and local naming data. It has no coordinate for closed subject reduction, host conversion, quotient equality of terms, erased semantics, or an inhabitant of any missing discharge hypothesis.
+\end{definition}
+
+\begin{theorem}[SubjectReductionRouteAudit NameCert obligations]
+\label{thm:subject-reduction-route-audit-namecert-obligations}
+For the carrier of \autoref{def:subject-reduction-route-audit-carrier}, the local $\NameCert_{\SubjectReductionRouteAuditUp}$ surface consists exactly of carrier admission for
+$$
+A=(B,T,F,E,I,U,S,H,C,P,N),
+$$
+bundle-route visibility through $B$, typeclass-route visibility through $T$, setup-to-bundle projection through $F$, route-equivalence comparison through $E$, invocation selection through $I$, socket handoff through $U,S$, componentwise transport through $H$, displayed continuation reads through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $A$. The bundle row $B$ and setup row $T$ are the two public presentations, while $F$ is the only row that converts setup evidence into the bundle shape.
+
+Read the comparison row $E$ and invocation row $I$. They compare route access and record which access path is used, but they do not add a fifth discharge row and do not alter the four-row socket payload.
+
+The handoff rows $U,S$ place the comparison in the socket surface. The transports $H$ and continuations $C$ replay only the displayed route and socket coordinates, and $P,N$ record provenance and local naming. These rows exhaust the finite NameCert obligations.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteAudit socket handoff]
+\label{thm:subject-reduction-route-audit-socket-handoff}
+Every downstream consumer of an accepted $\SubjectReductionRouteAuditUp$ packet reaches the subject-reduction discharge socket only through
+$$
+B,T,F,E,I,U,S,H,C,P,N.
+$$
+The explicit bundle route and the setup-mediated route hand off the same socket payload after $F$ projects the setup row to the bundle shape. The audit packet exports no closed subject-reduction theorem, no proof of the four discharge hypotheses, no host conversion rule, and no route outside the displayed bundle/setup comparison.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the NameCert-obligation theorem. They identify every permitted consumer read with one of the displayed rows of $A$.
+
+The bundle route reaches the socket through $B,U,S$. The setup route reaches the same socket only after the projection row $F$ reads $T$ into the bundle shape, and the comparison row $E$ records that both paths expose the same four-row payload.
+
+Transport and replay are then forced through $H$ and $C$. Since the packet has no coordinate for an inhabited discharge hypothesis, host conversion, closed subject reduction, or an alternate route, the socket handoff remains a finite audit row for route comparison alone.
+\end{proof}
+
+\closureat{SubjectReductionRouteAuditUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionRouteAuditUp}
+  \constructivestory{A $\SubjectReductionRouteAuditUp$ packet is generated from an explicit bundle row, a setup row, a setup-to-bundle projection, a route-equivalence comparison, an invocation row, a socket handoff, the discharge socket row, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-route-audit-carrier}, \autoref{thm:subject-reduction-route-audit-namecert-obligations}, and \autoref{thm:subject-reduction-route-audit-socket-handoff} bind the finite route-audit packet between bundle/setup comparison and subject-reduction socket handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove any MetaCIC discharge hypothesis, construct closed subject reduction, provide Lean verification, or bridge the packet to a public schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, bundle/setup route comparison, setup-to-bundle projection exactness, socket handoff exactness, non-escape, provenance, and local naming for the same finite route-audit packet.}
+\end{closurestatus}

@@ -86,6 +86,7 @@ The only way such a ledger entry is tied to an observer row is through the displ
 
 The no-global-sync witness $S$ records the boundary condition that no common clock, synchronization history, or privileged observer is available to complete the ledger externally. The package and naming rows contain provenance and certificate identity, not extra observations. Thus the ledger surface is exhausted by $L$, $S$, and $C$, with no host-side list equality, quotient carrier, or hidden observation source.
 \end{proof}
+\leanchecked{BEDC.Derived.MultiHistConfigUp.MultiHistConfigCarrier\_finite\_ledger\_obligations}
 
 \begin{theorem}[MultiHistConfig handoff boundary]
 \label{thm:multihistconfig-crosshist-maxcausal-handoff}
@@ -107,6 +108,7 @@ M=(H,L,S,R,C,P,N),
 $$
 the carrier row, habitation theorem, componentwise classifier stability, no-global-sync ledger, finite ledger obligations, and downstream handoff assemble the local $\NameCert_{\MultiHistConfigUp}$ obligation package over $\BHist$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exposes exactly the seven visible coordinates of $M$ and leaves causal predicates and maximum-rate bounds outside the present packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.MultiHistConfigUp.MultiHistConfigCarrier\_namecert\_obligation\_package}
 \begin{proof}
 Project the accepted packet through \autoref{def:multi-hist-config-namecert-carrier}. The seven coordinates $H,L,S,R,C,P,N$ give the finite observer rows, probe ledgers, no-global-sync witness, componentwise transport table, continuation routes, package provenance, and local naming row.
 
@@ -134,6 +136,7 @@ The package and local naming rows record provenance and certificate identity for
 \label{thm:multihist-config-consumer-projection-boundary}
 Every consumer of an accepted $\MultiHistConfigUp$ carrier may project only the listed observer rows $H$, finite $\mathsf{ProbeBundle}$ ledgers $L$, no-global-sync witness $S$, transport rows $R$, continuation routes $C$, provenance row $P$, and local $\NameCert$ row $N$. The public surface exports no global clock, quotient configuration, hidden synchronization history, or observer outside the finite row.
 \end{theorem}
+\leanchecked{BEDC.Derived.MultiHistConfigUp.MultiHistConfigCarrier\_consumer\_projection\_boundary}
 \begin{proof}
 The public packet is exactly $M=(H,L,S,R,C,P,N)$. A consumer projection is a read of one of these coordinates through the routes displayed in the carrier.
 
@@ -152,10 +155,10 @@ There is no coordinate for a global clock, quotient of configurations, hidden sy
   \constructivestory{A $\MultiHistConfigUp$ packet is generated from two or more $\BHist$ observer rows, finite $\mathsf{ProbeBundle}$ ledgers, a no-global-sync witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The scoped packet binds the carrier, component transport scope, finite ledger obligations, and consumer projection boundary over the same $\BHist$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
-  \formalstatus{\encodedDefV}
-  \leantarget{BEDC.Derived.InterHist.MultiHistConfig}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.MultiHistConfigUp.MultiHistConfigCarrier\_finite\_ledger\_obligations}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not define a cross-Hist causal predicate, a maximum causal rate, Lorentz geometry, curved spacetime gluing, quantum-state superposition, or a checked Lean certificate.}
+  \notclaimed{This chapter does not define a cross-Hist causal predicate, a maximum causal rate, Lorentz geometry, curved spacetime gluing, quantum-state superposition, or a checked bridge certificate.}
   \upgradepath{The theory axis is at mature closure; remaining movement is verification-axis bridge checking for the existing public packet and its downstream $\mathsf{CrossHistCausal}^{\uparrow}$ and $\mathsf{MaxCausalRate}^{\uparrow}$ consumers.}
 \end{closurestatus}
