@@ -453,9 +453,11 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
     by_event: dict[str, int] = {}
     by_rejection_reason: dict[str, int] = {}
     by_logic_packet_reason: dict[str, int] = {}
+    by_current_logic_packet_reason: dict[str, int] = {}
     by_rejection_source: dict[str, int] = {}
     by_source_reason: dict[str, dict[str, int]] = {}
     seen_rejection_keys: set[tuple[str, str]] = set()
+    stale_logic_packet_rejections = 0
     windowed = 0
     latest_ts: datetime | None = None
     latest_event: dict[str, Any] | None = None
@@ -522,6 +524,21 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
                 key = part.split(":", 1)[0].strip()
                 if key:
                     by_logic_packet_reason[key] = by_logic_packet_reason.get(key, 0) + 1
+            try:
+                import logic_packet_gate
+
+                replay = logic_packet_gate.validate_logic_packet(rec)
+            except Exception:
+                replay = None
+            if replay is not None and replay.ok:
+                stale_logic_packet_rejections += 1
+            elif replay is not None:
+                for part in replay.reasons:
+                    key = part.split(":", 1)[0].strip()
+                    if key:
+                        by_current_logic_packet_reason[key] = (
+                            by_current_logic_packet_reason.get(key, 0) + 1
+                        )
 
     def _top(counts: dict[str, int], n: int = 20) -> list[dict[str, Any]]:
         return [
@@ -563,6 +580,8 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
             for source, counts in sorted(by_source_reason.items())
         },
         "logic_packet_gate_reasons": _top(by_logic_packet_reason),
+        "current_logic_packet_gate_reasons": _top(by_current_logic_packet_reason),
+        "stale_logic_packet_gate_rejections": stale_logic_packet_rejections,
     }
 
 
