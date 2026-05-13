@@ -95,6 +95,54 @@ Use the NameCert obligations of \autoref{thm:recursion-authorization-ledger-name
 The remaining rows $H,C,P,N$ only transport, expose, package, and name those displayed coordinates. Since they add no branch coordinate and no recursion coordinate, the public ledger exports neither an omitted branch nor a non-structural recursive call.
 \end{proof}
 
+\begin{theorem}[RecursionAuthorizationLedger motive-output route]
+\label{thm:recursion-authorization-ledger-motive-output-route}
+For an accepted $\RecursionAuthorizationLedgerUp$ packet
+$$
+L=(I,R,M,B,D,O,H,C,P,N),
+$$
+the motive row $M$ and generated output row $O$ are consumed only through the finite ledger. In particular, a public output read first uses the accepted signature $I$, the emitted eliminator $R$, the checked motive $M$, the branch package $B$, and the descent ledger $D$, and only then exposes $O$ through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $I,R,M,B,D,O$ occur in the displayed order of the ledger packet, with $M$ recorded as the checked motive for the emitted eliminator and $O$ recorded as the generated output row.
+
+Use \autoref{thm:recursion-authorization-ledger-namecert-obligations}. Motive admission, branch completeness, structural descent exactness, and output-row exposure are all local obligations for the same finite packet.
+
+Finally apply \autoref{thm:recursion-authorization-ledger-obligation-branch-completeness}. The output row cannot be read apart from the branch package and descent ledger that justify the recursive subcalls, so the motive-output route stays inside $L$.
+\end{proof}
+
+\begin{theorem}[RecursionAuthorizationLedger descent transport stability]
+\label{thm:recursion-authorization-ledger-descent-transport-stability}
+For an accepted $\RecursionAuthorizationLedgerUp$ packet
+$$
+L=(I,R,M,B,D,O,H,C,P,N),
+$$
+componentwise $\hsame$ transport preserves the structural descent ledger $D$, the branch package $B$, and the output row $O$ as one finite authorization route. A transported read cannot replace $D$ by a non-structural recursion row or replace $O$ by a hidden eliminator output.
+\end{theorem}
+\begin{proof}
+Read the transport row $H$ from the carrier. Its componentwise clauses cover the signature, emitted eliminator, motive, branch package, descent ledger, output row, provenance row, and local naming row.
+
+Apply the NameCert obligations. Structural descent exactness is attached to $D$, branch completeness is attached to $B$, and output-row exposure is attached to $O$, all within the same packet $L$.
+
+The continuation and provenance rows $C,P,N$ replay and name the transported route. Since the carrier has no coordinate for a non-structural recursive call or a second eliminator, transport preserves the finite descent-output surface rather than producing an escape route.
+\end{proof}
+
+\begin{theorem}[RecursionAuthorizationLedger audit provenance exhaustion]
+\label{thm:recursion-authorization-ledger-audit-provenance-exhaustion}
+For an accepted $\RecursionAuthorizationLedgerUp$ packet
+$$
+L=(I,R,M,B,D,O,H,C,P,N),
+$$
+all audit provenance for the signature, motive, descent, output, and purity boundary is exhausted by the rows $P$ and $N$ together with the displayed read routes $C$. The ledger exports no unlisted constructor, no omitted branch, no non-structural recursive call, no hidden eliminator, and no output provenance outside $L$.
+\end{theorem}
+\begin{proof}
+Project $P,N$ and the continuation row $C$. The carrier describes $P$ as provenance over the accepted signature, emitted eliminator, branch completeness check, structural descent check, purity audit boundary, and neighboring generator certificates.
+
+Use \autoref{thm:recursion-authorization-ledger-namecert-obligations}. Package provenance, local naming, displayed route replay, and purity-audit non-escape are obligations of the same finite packet as $I,R,M,B,D,O,H$.
+
+Apply the branch-completeness theorem and the non-escape theorem. They rule out omitted branches, non-structural recursive calls, hidden eliminators, unrestricted recursion principles, and outside audit channels, so the provenance ledger is exhausted by $C,P,N$ over $L$.
+\end{proof}
+
 \begin{theorem}[RecursionAuthorizationLedger non-escape]
 \label{thm:recursion-authorization-ledger-nonescape}
 Every consumer read of an accepted $\RecursionAuthorizationLedgerUp$ packet factors through
