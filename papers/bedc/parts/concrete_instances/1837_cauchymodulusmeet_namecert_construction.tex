@@ -327,6 +327,56 @@ Now apply the mature downstream handoff theorem. It factors the $\RegSeqRatUp$ a
 Finally use export non-escape. \autoref{thm:cauchy-modulus-meet-export-non-escape} already excludes quotient streams, selected limits, host real equality, ambient completeness, and bridge-checking oracle content from the public packet, and the standard bridge certificate repeats the same exclusion at the bridge surface.
 \end{proof}
 
+\begin{theorem}[CauchyModulusMeet modulus-meet associativity]
+\label{thm:cauchy-modulus-meet-modulus-meet-associativity}
+Let $M_{01}$, $M_{12}$, and $M_{02}$ be accepted $\CauchyModulusMeetUp$ packets whose source rows are respectively $(S_0,S_1)$, $(S_1,S_2)$, and the displayed shared meet row obtained by composing those two packets through the common $S_1$ source. Then every downstream consumer of the three packets reads the same finite shared-bound surface
+$$
+S_0,S_1,S_2,\mu_0,\mu_1,\mu_2,\mu_{01},\mu_{12},\mu_{02},H,C,P,N
+$$
+as the iterated meet packet. The comparison is only a public readback equality of exported rows; it does not assert quotient stream equality, host real equality, a selected limit, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the public export surface. \autoref{thm:cauchy-modulus-meet-public-export-surface} exposes exactly the source stream rows, source modulus rows, shared meet row, transport rows, displayed routes, provenance, and local name for each packet.
+
+Use source-pair exposure for $M_{01}$ and $M_{12}$. The shared $S_1$ row and its modulus row are displayed before either meet row is consumed, so the two packets can be read through the common finite source-pair surface.
+
+Now read the composed shared bound. \autoref{thm:cauchy-modulus-meet-mature-shared-bound-readback} fixes each mature readback to the displayed meet row and its $\DyadicRatCoreUp$ ledger, and \autoref{thm:cauchy-modulus-meet-export-consumer-lock} keeps downstream consumers on those rows.
+
+Finally apply export non-escape. Since no packet exports quotient streams, selected limits, host real equality, ambient completeness, or a bridge-checking oracle, the two parenthesizations of the three accepted meet packets have the same downstream surface precisely because they display the same finite rows.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet meet-projection pair determinacy]
+\label{thm:cauchy-modulus-meet-meet-projection-pair-determinacy}
+Let $M$ and $M'$ be accepted $\CauchyModulusMeetUp$ packets. If both packets expose the same two source $\StreamNameUp$ rows, the same two source $\CauchyModulusUp$ rows, and the same shared meet row up to the displayed $\hsame$ transport, then their $\RegSeqRatUp$-facing source-pair reads and their $\DyadicRatCoreUp$ tolerance ledgers have the same public readback surface.
+\end{theorem}
+\begin{proof}
+First apply projection stability. \autoref{thm:cauchy-modulus-meet-projection-stability} transports the two source modulus projections componentwise, so $M$ and $M'$ retain the same visible source-pair coordinates under the displayed $\hsame$ rows.
+
+Next use source-pair exposure. \autoref{thm:cauchy-modulus-meet-source-pair-exposure} identifies the $\RegSeqRatUp$-facing reads with the two displayed source stream and modulus rows before the shared meet row is consumed.
+
+The tolerance ledger is then determined by the mature shared-bound readback. \autoref{thm:cauchy-modulus-meet-mature-shared-bound-readback} binds the shared meet row to its $\DyadicRatCoreUp$ ledger and leaves no second ledger coordinate in the carrier.
+
+Thus the public readback surfaces agree. The conclusion is only determinacy of the displayed source-pair and tolerance rows, not equality of quotient streams, selected limits, host real values, or ambient completeness witnesses.
+\end{proof}
+
+\begin{theorem}[CauchyModulusMeet regular-limit consumer triad]
+\label{thm:cauchy-modulus-meet-regular-limit-consumer-triad}
+Every $\RealDiagonalWindowCoverageUp$, $\RegularCauchyTriangleBoundUp$, or $\RegSeqRatUp$ consumer of an accepted $\CauchyModulusMeetUp$ packet factors through the same rows
+$$
+S_0,S_1,\mu_0,\mu_1,\mu,H,C,P,N.
+$$
+The three consumer kinds may use those rows differently, but none obtains an additional quotient stream, selected limit, host real equality, ambient completeness principle, or bridge-checking oracle.
+\end{theorem}
+\begin{proof}
+Start with common-window coherence. \autoref{thm:cauchy-modulus-meet-common-window-coherence} places diagonal-window and regular-tail consumers on the same stream, source-modulus, shared-modulus, dyadic-ledger, transport, route, provenance, and naming rows.
+
+Next use paired $\RegSeqRatUp$ readback. \autoref{thm:cauchy-modulus-meet-paired-regseqrat-readback} exposes the two source readbacks before the $\RealUp$ handoff, so a regular-rational consumer reads the same source pair as a diagonal-window consumer.
+
+Now apply diagonal consumer sufficiency. \autoref{thm:cauchy-modulus-meet-diagonal-consumer-sufficiency} shows that the displayed packet already supplies the shared bound needed by diagonal-window and regular-Cauchy tail consumers.
+
+Finally use mature downstream handoff. \autoref{thm:cauchy-modulus-meet-mature-downstream-handoff} factors the downstream $\RegSeqRatUp$ and $\RealUp$ routes through the public export surface and the standard bridge certificate, while the non-escape boundary rules out every undisplayed analytic coordinate.
+\end{proof}
+
 \closureat{CauchyModulusMeetUp}{seedStr}
 \closureat{CauchyModulusMeetUp}{obligationStr}
 \closureat{CauchyModulusMeetUp}{scopedStr}
