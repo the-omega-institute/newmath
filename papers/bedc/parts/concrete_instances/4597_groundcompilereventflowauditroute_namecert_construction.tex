@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerEventFlowAuditRouteUp$}
+\label{ch:concrete-instances-groundcompilereventflowauditroute-namecert}
+\origin{human}
+
+The $\GroundCompilerEventFlowAuditRouteUp$ packet realizes the GroundCompiler audit map of \autoref{ch:bedc-groundcompiler-audit-map} as a finite route from event-flow input to certificate-gated export. It uses the audit-map template of \autoref{ch:concrete-instances-auditmaptemplate-namecert} and the concrete inventory discipline of \autoref{ch:concrete-instances-audit-map-concrete-inventory-namecert}: those chapters display the reusable audit rows, while this chapter fixes the GroundCompiler route that keeps source channels, generated recognizers, certificate gates, address analysis, reports, motifs, and metrics in separate NameCert coordinates.
+
+\begin{definition}[GroundCompiler event-flow audit route carrier]
+\label{def:groundcompiler-event-flow-audit-route-carrier}
+A $\GroundCompilerEventFlowAuditRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(E,C,L,G,A,B,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the event-flow input row naming the formal GroundCompiler event stream before any generated recognizer can read it;
+\item $C$ is the legal source-channel encoding row, including the displayed channel packet and its decoder-facing address;
+\item $L$ is the lossless boundary row witnessing that the channel readback returns the displayed event flow rather than hidden host input;
+\item $G$ is the generated-recognizer mediation row for packages, name certificates, derivation certificates, theorem identifiers, and chapter flows;
+\item $A$ is the certificate-gate export row through which any accepted generated artifact is read as a certificate-facing output;
+\item $B$ is the non-evidence boundary row separating reports, motifs, metrics, address-analysis summaries, proof text, and host compiler state from BEDC evidence;
+\item $H$ records componentwise $\hsame$ transports for the event-flow, channel, lossless boundary, recognizer, certificate gate, non-evidence boundary, provenance, and local name rows;
+\item $K$ records displayed $\Cont$ routes from event-flow input to legal channel encoding, from channel readback to generated recognition, from generated recognition to certificate gate, and from reports or motifs to the non-evidence boundary;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:concrete-instances-auditmaptemplate-namecert}, \autoref{ch:concrete-instances-audit-map-concrete-inventory-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GroundCompilerEventFlowAuditRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for hidden compiler input, proof evidence extracted from source text, report evidence, motif identity, metric evidence, or an unmediated generated export.
+\end{definition}
+
+\begin{definition}[GroundCompiler event-flow audit route classifier]
+\label{def:groundcompiler-event-flow-audit-route-classifier}
+Two accepted $\GroundCompilerEventFlowAuditRouteUp$ carriers classify together exactly when their displayed event-flow inputs, legal channel encodings, lossless boundaries, generated-recognizer rows, certificate-gate exports, and non-evidence boundaries are related componentwise by the stored $\hsame$ transports and replay the same $\Cont$ route from event-flow input through the certificate gate and non-evidence boundary.
+
+The classifier compares only the coordinates of \autoref{def:groundcompiler-event-flow-audit-route-carrier}. It does not compare host compiler states, quotient recognizer classes, proof texts, report counts, motif similarities, metric summaries, or certificate evidence outside the displayed gate row.
+\end{definition}
+
+\begin{theorem}[GroundCompiler event-flow audit route NameCert obligations]
+\label{thm:groundcompiler-event-flow-audit-route-namecert-obligations}
+For the carrier of \autoref{def:groundcompiler-event-flow-audit-route-carrier}, the local $\NameCert_{\GroundCompilerEventFlowAuditRouteUp}$ surface consists exactly of five public obligation rows: event-flow input exposure through $E$, legal channel encoding and lossless readback through $C,L$, generated recognizer mediation through $G$, certificate-gate export through $A$, and report, motif, metric, address-analysis, proof-text, and host-state non-evidence through $B$. Transport through $H$, route replay through $K$, provenance through $P$, and local naming through $N$ preserve those five rows as finite BEDC data.
+\end{theorem}
+\begin{proof}
+Project the finite packet $R=(E,C,L,G,A,B,H,K,P,N)$. The rows $E,C,L,G,A,B$ are the only public data rows, and they display the event-flow input, legal channel, lossless readback, generated recognizer, certificate gate, and non-evidence boundary.
+
+Read the five obligation rows in order. The event-flow row supplies the formal input surface; the channel and lossless rows encode and recover that surface; the recognizer row mediates generated structure; the gate row is the only export point; and the boundary row classifies reports, motifs, metrics, address summaries, proof text, and host compiler state as non-evidence.
+
+The rows $H,K,P,N$ transport, replay, locate, and name the same packet. Since none of them introduces another public data coordinate, the five-row obligation surface exhausts the local naming certificate.
+\end{proof}
+
+\begin{theorem}[GroundCompiler event-flow audit route channel lossless boundary]
+\label{thm:groundcompiler-event-flow-audit-route-channel-lossless-boundary}
+Every accepted $\GroundCompilerEventFlowAuditRouteUp$ route that exports a generated recognizer result through $A$ first reads the event-flow input $E$, legal channel encoding $C$, lossless channel boundary $L$, and generated-recognizer mediation row $G$. The export route factors through
+$$
+E,C,L,G,A,H,K,P,N
+$$
+and cannot replace the displayed channel readback by source text, carried metadata, host compiler input, report counts, motif similarity, metric summaries, or proof evidence.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:groundcompiler-event-flow-audit-route-classifier}. It allows a route to reach the certificate gate only by replaying the displayed continuation from event-flow input through channel readback and generated recognition.
+
+Apply the NameCert obligation surface. It places the channel encoding and its lossless boundary before generated-recognizer mediation, and it places generated-recognizer mediation before the certificate-gate export.
+
+The omitted endpoints are precisely the objects named by the non-evidence row. Because the carrier has no coordinate that converts them into channel readback or certificate evidence, the accepted route remains lossless at the displayed event-flow boundary.
+\end{proof}
+
+\begin{theorem}[GroundCompiler event-flow audit route non-evidence boundary]
+\label{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}
+For every accepted $\GroundCompilerEventFlowAuditRouteUp$ carrier, reports, motifs, metrics, address-analysis summaries, proof text, source text, carried metadata, and host compiler state can only be read through the displayed non-evidence boundary row $B$. They cannot be promoted to event-flow input, legal channel readback, generated recognition, certificate-gate evidence, or BEDC proof evidence by $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, or the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only row whose role is to classify reports, motifs, metrics, address-analysis summaries, proof text, source text, carried metadata, and host compiler state is $B$.
+
+Use the channel lossless boundary theorem to account for every route that reaches $A$. Such a route has already passed through $E,C,L,G$ and therefore cannot treat a non-evidence object as the channel readback or generated-recognizer witness.
+
+Finally read the structural rows $H,K,P,N$. They preserve and route displayed coordinates, but none of them supplies a constructor from $B$ to $E$, $C$, $L$, $G$, $A$, or BEDC proof evidence. Hence every non-evidence read remains at the boundary named by $B$.
+\end{proof}
+
+\closureat{GroundCompilerEventFlowAuditRouteUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerEventFlowAuditRouteUp}
+  \constructivestory{A $\GroundCompilerEventFlowAuditRouteUp$ packet is generated from event-flow input, legal channel encoding, lossless channel readback, generated-recognizer mediation, certificate-gate export, report/motif/metric non-evidence, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-event-flow-audit-route-carrier}, \autoref{def:groundcompiler-event-flow-audit-route-classifier}, \autoref{thm:groundcompiler-event-flow-audit-route-namecert-obligations}, \autoref{thm:groundcompiler-event-flow-audit-route-channel-lossless-boundary}, and \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary} bind the finite GroundCompiler event-flow audit route, channel lossless boundary, generated-recognizer mediation, certificate-gate export, and report/motif/metric non-evidence boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close compiler correctness, proof reconstruction from source text, report evidence, motif evidence, metric evidence, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, event-flow input exposure, legal channel losslessness, generated-recognizer mediation, certificate-gate export, and non-evidence boundary preservation for the same finite route.}
+\end{closurestatus}
