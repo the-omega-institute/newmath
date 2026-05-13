@@ -4,6 +4,8 @@
 
 The $\DyadicTailBoundUp$ interface records the finite tail-budget certificate used by Bishop--Bridges constructive analysis when a real-facing construction presents explicit rational tail control. It sits between $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$: the packet names the displayed precision row, the modulus row that selects the inspected tail, the dyadic tolerance used for the comparison, the finite ledger of tail estimates, and the seal-facing readback route. It does not form quotient streams, select limits, identify host real equality, or assume ambient completeness.
 
+The tail-budget packet consumes the CauchyModulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the regular-rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}. These sibling dependencies explain how later regular-Cauchy and $\RealUp$ packets read the same finite threshold, tolerance, and ledger rows without adding a quotient stream or an ambient completeness input.
+
 \begin{definition}[DyadicTailBound BHist carrier]
 \label{def:dyadic-tail-bound-carrier}
 A $\DyadicTailBoundUp$ carrier is a finite $\mathsf{BHist}$ packet
