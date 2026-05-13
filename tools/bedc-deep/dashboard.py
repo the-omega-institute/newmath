@@ -76,6 +76,18 @@ def _fmt_age(seconds: object) -> str:
     return f"{days}d{hours % 24:02d}h"
 
 
+def _zero_extraction_url_tails(s: dict) -> list[str]:
+    tails: list[str] = []
+    recent = s.get("recent_agents") or {}
+    for agent_id in s.get("zero_extraction_hang_agents") or []:
+        rec = recent.get(str(agent_id)) or {}
+        metrics = rec.get("metrics") or {}
+        tail = str(metrics.get("url_tail") or "").strip()
+        if tail:
+            tails.append(tail)
+    return tails
+
+
 def render_server(s: dict) -> str:
     if "_error" in s:
         err = str(s["_error"])
@@ -99,6 +111,9 @@ def render_server(s: dict) -> str:
     ]
     for k, v in (s.get("agents") or {}).items():
         out.append(f"    busy {k}: task={v.get('task_id','?')} elapsed={v.get('elapsed','?')}s")
+    url_tails = _zero_extraction_url_tails(s)
+    if url_tails:
+        out.append(f"  affected URL tail(s): {', '.join(url_tails)}")
     return "\n".join(out)
 
 
