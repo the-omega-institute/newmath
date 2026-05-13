@@ -144,6 +144,101 @@ Use \autoref{thm:continuation-big-step-terminal-read-determinacy}. A terminal re
 The remaining rows $H,P,N$ account for componentwise transport, package provenance, and local naming. They move or name the same finite route; they do not add a second evaluator or a host-level terminal semantics.
 \end{proof}
 
+\begin{theorem}[ContinuationBigStep trace-row admission]
+\label{thm:continuation-bigstep-trace-row-admission}
+Every accepted $\ContinuationBigStepUp$ packet admits its trace row only as
+the displayed $\ContinuationTraceUp$ small-step ledger $T$ in
+\autoref{def:continuation-big-step-carrier}. The carrier, package, and local
+$\NameCert$ rows may name and transport that ledger, but they cannot replace
+it by a host evaluator, a quotient behaviour class, or an unrecorded
+termination witness.
+\end{theorem}
+\begin{proof}
+Start with the carrier tuple in
+\autoref{def:continuation-big-step-carrier}. Its trace coordinate is the
+displayed finite ledger $T$, and the surrounding rows are source, terminal,
+terminal-read, transport, continuation, provenance, and naming data.
+
+Use \autoref{thm:continuation-big-step-namecert-obligations}. The local
+certificate binds admission to those displayed rows, so the trace row must be
+the row named by the packet.
+
+Finally use
+\autoref{thm:continuation-big-step-small-step-factorization}. Every accepted
+terminal computation factors through the same small-step ledger, so there is
+no independent trace source available to consumers.
+
+The consumer boundary is the one stated in
+\autoref{thm:continuation-big-step-consumer-exactness}. Consumers therefore
+receive this admitted trace row only through the finite replay route, not
+through a host-level big-step shortcut.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep terminal-row readback]
+\label{thm:continuation-bigstep-terminal-row-readback}
+For every accepted $\ContinuationBigStepUp$ packet, the terminal-read witness
+$Q$ is reachable only after replaying the displayed trace ledger $T$ through
+the continuation row $C$ to the terminal row $R$. A consumer therefore reads
+$Q$ through the finite route
+$$
+S \longrightarrow T \longrightarrow C \longrightarrow R \longrightarrow Q,
+$$
+with transport and package provenance supplied by the displayed $H,P,N$ rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier tuple of
+\autoref{def:continuation-big-step-carrier}. Its visible rows are the only
+rows available for terminal readback.
+
+Use \autoref{thm:continuation-big-step-namecert-obligations} to bind those
+rows to the local $\NameCert$ obligation package. The certificate does not
+name an additional terminal computation.
+
+Then use \autoref{thm:continuation-big-step-small-step-factorization} to
+obtain the replay route from the source row through the trace ledger and the
+continuation row to the terminal row.
+
+Finally use \autoref{thm:continuation-big-step-consumer-exactness}. It states
+that terminal-read consumers reach $Q$ only after the trace replay reaches
+$R$, and that $H,P,N$ merely transport and name that same finite route.
+
+The route therefore has no direct edge from $S$ to $Q$ and no host-level
+big-step shortcut.
+\end{proof}
+
+\begin{theorem}[ContinuationBigStep local NameCert package]
+\label{thm:continuation-bigstep-local-namecert-package}
+The local $\NameCert_{\ContinuationBigStepUp}$ obligation package for an
+accepted packet is the assembly of carrier admission, trace-row admission,
+terminal-row readback, non-escape, and consumer exactness over the same rows
+$$
+S,T,R,Q,H,C,P,N.
+$$
+It records a finite continuation computation packet and does not export host
+evaluator semantics, quotient behaviour, or hidden termination.
+\end{theorem}
+\begin{proof}
+Carrier admission is given by
+\autoref{def:continuation-big-step-carrier}, and the local certificate
+obligations are those of
+\autoref{thm:continuation-big-step-namecert-obligations}.
+
+Trace factorization is supplied by
+\autoref{thm:continuation-big-step-small-step-factorization} and by
+\autoref{thm:continuation-bigstep-trace-row-admission}. The accepted trace is
+the displayed small-step ledger $T$.
+
+Terminal readback is supplied by
+\autoref{thm:continuation-bigstep-terminal-row-readback}, while non-escape is
+the boundary of \autoref{thm:continuation-big-step-nonescape}. The consumer
+surface is exactly
+\autoref{thm:continuation-big-step-consumer-exactness}.
+
+Together these clauses package the same finite rows $S,T,R,Q,H,C,P,N$ under
+the local $\NameCert$ row, with no additional host evaluator or hidden
+semantic carrier.
+\end{proof}
+
 \closureat{ContinuationBigStepUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationBigStepUp}
