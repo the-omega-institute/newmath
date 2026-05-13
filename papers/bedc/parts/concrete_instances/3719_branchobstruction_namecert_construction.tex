@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\BranchObstructionUp$}
+\label{ch:concrete-instances-branchobstruction-namecert}
+\origin{ai}
+
+The $\BranchObstructionUp$ interface isolates the finite ledger row used when an analytic-continuation request leaves the displayed local source, overlap, operation, and output packet. It turns the branch-sensitive boundary of \autoref{def:branch-obstruction-schema} into a concrete $\BHist$ packet: a consumer can inspect where the request was recorded, which continuation socket supplied the local rows, and which routes preserve the ledger, but cannot extract a branch selector, quotient-of-germs equality, monodromy theorem, or new holomorphic output.
+
+\begin{definition}[BranchObstruction carrier]
+\label{def:branch-obstruction-carrier}
+A $\BranchObstructionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,B,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $S$ is an accepted $\AnalyticContinuationSocketUp$ row displaying the two $\HolomorphicUp$ source rows, overlap witness, operation row, output row, branch-obstruction ledger, componentwise transports, continuation routes, package provenance, and local naming row;
+\item $B$ is the branch-obstruction ledger coordinate selected from $S$;
+\item $H$ records componentwise $\hsame$ transport for $S$, $B$, the visible routes, the provenance row, and the local naming row;
+\item $C$ records the visible $\Cont$ routes from the socket row into the selected ledger row and the local naming surface;
+\item $P$ is the $\Pkg$ provenance over $\BranchObstructionUp$, $\AnalyticContinuationSocketUp$, $\HolomorphicUp$, $\AnalyticContinuationOperationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BranchObstructionUp}$ row.
+\end{enumerate}
+The carrier exports only the socket row, selected obstruction ledger, transport rows, continuation routes, package provenance, and local naming data. It contains no global analytic-continuation operator, branch selector, quotient of germs, monodromy invariant, or additional $\HolomorphicUp$ output row.
+\end{definition}
+
+\begin{theorem}[BranchObstruction NameCert obligations]
+\label{thm:branch-obstruction-namecert-obligations}
+For the carrier of \autoref{def:branch-obstruction-carrier}, the local $\NameCert_{\BranchObstructionUp}$ surface consists exactly of five finite obligations: carrier admission for $R=(S,B,H,C,P,N)$; socket compatibility, requiring $B$ to be the branch-obstruction coordinate displayed by the accepted $\AnalyticContinuationSocketUp$ row $S$; ledger exactness, requiring every branch-sensitive continuation request outside the local socket rows to be recorded in $B$; transport stability through $H$ and the visible routes in $C$; and non-escape, excluding branch selectors, quotient germs, monodromy theorems, global continuation principles, zero-location data, and new holomorphic outputs.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite tuple in \autoref{def:branch-obstruction-carrier}. The rows $S,B,H,C,P,N$ display the socket, selected obstruction ledger, componentwise transport, routes, provenance, and local naming row.
+
+Socket compatibility follows by reading $S$ before any obstruction row is inspected. The accepted socket already names the two source rows, overlap witness, operation row, output row, and branch-obstruction coordinate, so $B$ is a selected row of the displayed socket rather than an ambient analytic-continuation object.
+
+Ledger exactness is inherited from the socket ledger. Requests that leave the source, overlap, operation, and output rows are assigned to $B$ as ledger data.
+
+Transport stability is componentwise through $H$ and $C$. These rows replay the same socket and selected obstruction ledger under accepted $\hsame$ movement and visible continuation routes.
+
+The non-escape clause is an inventory argument. Since the carrier has no coordinate for branch selection, quotient-of-germs equality, monodromy, global continuation, zero-location data, or another $\HolomorphicUp$ output, no local $\NameCert_{\BranchObstructionUp}$ projection can export one.
+\end{proof}
+
+\begin{theorem}[BranchObstruction ledger non-escape]
+\label{thm:branch-obstruction-ledger-nonescape}
+Every branch-sensitive read of an accepted $\BranchObstructionUp$ carrier factors through the finite rows
+$$
+S,B,H,C,P,N.
+$$
+If the read asks for continuation data not displayed by the accepted socket row $S$, the request remains in the selected ledger row $B$ and is not exported as a branch selector, quotient-of-germs equality, monodromy theorem, or new $\HolomorphicUp$ output.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and apply \autoref{thm:branch-obstruction-namecert-obligations}. The only branch-sensitive coordinate exposed by the packet is the selected ledger row $B$.
+
+For a read internal to the socket, apply the socket rows displayed by $S$. The consumer obtains only the source, overlap, operation, output, transport, route, provenance, and local naming data already present in the accepted $\AnalyticContinuationSocketUp$ packet.
+
+For a read outside those rows, use the ledger exactness obligation. Such a request lands in $B$ as obstruction accounting and does not become a continuation witness.
+
+Finally route the result through $H,C,P,N$. These rows preserve and name the same finite ledger surface, so no exported branch selector, quotient germ, monodromy theorem, or extra holomorphic output can appear.
+\end{proof}
+
+\begin{theorem}[BranchObstruction holomorphic handoff boundary]
+\label{thm:branch-obstruction-holomorphic-handoff-boundary}
+Every downstream $\HolomorphicUp$ consumer of an accepted $\BranchObstructionUp$ carrier receives holomorphic data only through the output row already displayed by the socket coordinate $S$. The selected obstruction ledger $B$ may accompany that handoff as boundary accounting, but it cannot create or certify an additional $\HolomorphicUp$ output row.
+\end{theorem}
+\begin{proof}
+Read the socket coordinate $S$. Its holomorphic handoff has already passed through the accepted $\AnalyticContinuationSocketUp$ packet, where the output row is displayed as part of the local source-overlap-operation-output surface.
+
+Read the selected obstruction row $B$ separately. By \autoref{thm:branch-obstruction-ledger-nonescape}, $B$ records requests outside that local surface as obstruction ledger data.
+
+The transport and route rows $H$ and $C$ preserve this separation: socket output rows remain socket output rows, while obstruction requests remain ledger rows. The package and local naming rows $P,N$ bind the same separation to the $\BranchObstructionUp$ certificate, so the handoff cannot manufacture another $\HolomorphicUp$ output.
+\end{proof}
+
+\begin{theorem}[BranchObstruction monodromy non-export]
+\label{thm:branch-obstruction-monodromy-nonexport}
+An accepted $\BranchObstructionUp$ carrier may record a request for monodromy, branch selection, or quotient-of-germs comparison in the selected ledger row $B$. It does not export such a request as a monodromy theorem, branch selector, quotient equality, global continuation principle, zero-location datum, or holomorphic output beyond the socket row $S$.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory of \autoref{def:branch-obstruction-carrier}. The displayed rows are exactly $S,B,H,C,P,N$, and none of them is a monodromy object, branch selector, quotient-germ representative, global continuation operator, zero-location row, or additional holomorphic output.
+
+Apply \autoref{thm:branch-obstruction-ledger-nonescape} to any nonlocal continuation request. The request is recorded in $B$ and remains ledger data under the visible routes.
+
+Apply \autoref{thm:branch-obstruction-holomorphic-handoff-boundary} for downstream holomorphic consumers. Such consumers see only the socket output already displayed by $S$, with $B$ retained as boundary accounting rather than exported analytic evidence.
+\end{proof}
+
+\closureat{BranchObstructionUp}{seedStr}
+
+\begin{closurestatus}{\BranchObstructionUp}
+  \constructivestory{A $\BranchObstructionUp$ packet is generated from an $\AnalyticContinuationSocketUp$ row, a selected branch-obstruction ledger row, componentwise $\hsame$ transport, visible $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite socket row, selected obstruction ledger, transport rows, visible routes, package provenance, local naming row, and non-export boundary for branch-sensitive continuation requests.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global analytic continuation, branch selection, quotient-of-germs equality, monodromy invariance, Riemann-hypothesis zero-location data, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier compatibility, ledger exactness, holomorphic handoff boundary, and monodromy non-export obligations for the displayed socket and obstruction rows.}
+\end{closurestatus}
