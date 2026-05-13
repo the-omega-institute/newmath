@@ -13,7 +13,7 @@ def RealDiagonalMeshBudgetCarrier
   UnaryHistory q ∧ UnaryHistory b ∧ UnaryHistory omega ∧ UnaryHistory rho ∧
     UnaryHistory delta ∧ UnaryHistory theta ∧ UnaryHistory e ∧
       Cont q b h ∧ Cont b omega theta ∧ Cont omega rho c ∧ Cont rho delta e ∧
-        hsame p p ∧ hsame n n
+        UnaryHistory p ∧ hsame p p ∧ hsame n n
 
 theorem RealDiagonalMeshBudgetCarrier_namecert_obligations
     {q b omega rho delta theta e h c p n : BHist} :
@@ -24,7 +24,7 @@ theorem RealDiagonalMeshBudgetCarrier_namecert_obligations
   intro carrier
   obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
     qbRoute, _budgetWindowRoute, omegaReadbackRoute, _readbackLedgerRoute,
-    provenanceSame, nameSame⟩ := carrier
+    _provenanceUnary, provenanceSame, nameSame⟩ := carrier
   exact
     ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
       qbRoute, omegaReadbackRoute, provenanceSame, nameSame⟩
@@ -38,7 +38,7 @@ theorem RealDiagonalMeshBudgetCarrier_window_coverage
   intro carrier selectedWindowRoute
   obtain ⟨_qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, _thetaUnary, _eUnary,
     _qbRoute, _budgetWindowRoute, _omegaReadbackRoute, _readbackLedgerRoute,
-    _provenanceSame, _nameSame⟩ := carrier
+    _provenanceUnary, _provenanceSame, _nameSame⟩ := carrier
   have thetaUnary : UnaryHistory theta :=
     unary_cont_closed bUnary omegaUnary selectedWindowRoute
   exact
@@ -53,7 +53,7 @@ theorem RealDiagonalMeshBudgetCarrier_selected_window_refinement
   intro carrier
   obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, _deltaUnary, thetaUnary, eUnary,
     precisionBudgetRoute, budgetWindowRoute, windowReadbackRoute, readbackLedgerRoute,
-    provenanceSame, nameSame⟩ := carrier
+    _provenanceUnary, provenanceSame, nameSame⟩ := carrier
   have hUnary : UnaryHistory h :=
     unary_cont_closed qUnary bUnary precisionBudgetRoute
   have cUnary : UnaryHistory c :=
@@ -73,7 +73,7 @@ theorem RealDiagonalMeshBudgetCarrier_realup_handoff
   intro carrier sealRoute
   obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
     _qbRoute, _budgetWindowRoute, _omegaReadbackRoute, _readbackLedgerRoute,
-    provenanceSame, nameSame⟩ := carrier
+    _provenanceUnary, provenanceSame, nameSame⟩ := carrier
   have sealUnary : UnaryHistory sealConsumer :=
     unary_cont_closed thetaUnary eUnary sealRoute
   exact
@@ -92,12 +92,33 @@ theorem RealDiagonalMeshBudgetCarrier_seal_route_exactness
   intro carrier sealRoute
   obtain ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary,
     qbRoute, budgetWindowRoute, omegaReadbackRoute, readbackLedgerRoute,
-    provenanceSame, nameSame⟩ := carrier
+    _provenanceUnary, provenanceSame, nameSame⟩ := carrier
   have sealUnary : UnaryHistory sealConsumer :=
     unary_cont_closed thetaUnary eUnary sealRoute
   exact
     ⟨qUnary, bUnary, omegaUnary, rhoUnary, deltaUnary, thetaUnary, eUnary, sealUnary,
       qbRoute, budgetWindowRoute, omegaReadbackRoute, readbackLedgerRoute, sealRoute,
       provenanceSame, nameSame⟩
+
+theorem RealDiagonalMeshBudgetCarrier_consumer_scope_exhaustion
+    {q b omega rho delta theta e h c p n sealConsumer downstreamConsumer : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n →
+      Cont theta e sealConsumer →
+        Cont sealConsumer p downstreamConsumer →
+          UnaryHistory sealConsumer ∧ UnaryHistory downstreamConsumer ∧ Cont q b h ∧
+            Cont b omega theta ∧ Cont omega rho c ∧ Cont rho delta e ∧
+              Cont theta e sealConsumer ∧ Cont sealConsumer p downstreamConsumer ∧
+                hsame p p ∧ hsame n n := by
+  intro carrier sealRoute downstreamRoute
+  obtain ⟨_qUnary, _bUnary, omegaUnary, rhoUnary, _deltaUnary, thetaUnary, eUnary,
+    qbRoute, budgetWindowRoute, omegaReadbackRoute, readbackLedgerRoute,
+    provenanceUnary, provenanceSame, nameSame⟩ := carrier
+  have sealUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed thetaUnary eUnary sealRoute
+  have downstreamUnary : UnaryHistory downstreamConsumer :=
+    unary_cont_closed sealUnary provenanceUnary downstreamRoute
+  exact
+    ⟨sealUnary, downstreamUnary, qbRoute, budgetWindowRoute, omegaReadbackRoute,
+      readbackLedgerRoute, sealRoute, downstreamRoute, provenanceSame, nameSame⟩
 
 end BEDC.Derived.RealDiagonalMeshBudgetUp

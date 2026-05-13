@@ -83,4 +83,22 @@ theorem RegularCauchyTailMeetPacket_classifier_stability [AskSetup] [PackageSetu
         tauqRow, pkgRow⟩,
       tauSame, lSame⟩
 
+theorem RegularCauchyTailMeetPacket_real_seal_handoff [AskSetup] [PackageSetup]
+    {r0 r1 w0 w1 m0 m1 tau q h c l n realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailMeetPacket r0 r1 w0 w1 m0 m1 tau q h c l n bundle pkg ->
+      Cont l n realSeal ->
+        UnaryHistory tau ∧ UnaryHistory q ∧ UnaryHistory l ∧ UnaryHistory n ∧
+          UnaryHistory realSeal ∧ Cont m0 m1 tau ∧ Cont tau q l ∧
+            Cont l n realSeal ∧ PkgSig bundle l pkg := by
+  intro packet sealRoute
+  obtain ⟨_r0Unary, _r1Unary, _w0Unary, _w1Unary, _m0Unary, _m1Unary,
+    tauUnary, qUnary, _hUnary, _cUnary, lUnary, nUnary, _r0w0Row, _r1w1Row,
+    m0m1Row, tauqRow, pkgRow⟩ := packet
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed lUnary nUnary sealRoute
+  exact
+    ⟨tauUnary, qUnary, lUnary, nUnary, realSealUnary, m0m1Row, tauqRow,
+      sealRoute, pkgRow⟩
+
 end BEDC.Derived.RegularCauchyTailMeetUp
