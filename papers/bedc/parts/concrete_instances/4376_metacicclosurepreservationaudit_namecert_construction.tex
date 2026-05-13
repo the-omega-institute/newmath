@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICClosurePreservationAuditUp$}
+\label{ch:concrete-instances-metacic-closure-preservation-audit-namecert}
+\origin{ai}
+
+The $\MetaCICClosurePreservationAuditUp$ packet turns the closure-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} into a finite NameCert audit object. It sits between the row-level seal of \autoref{ch:concrete-instances-closure-preservation-audit-seal-namecert}, the downstream subject-reduction socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and the closed-normal boundary of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. The packet records where closedness travels through shift, substitution, beta-step, and beta-star routes; it does not add a typing-preservation route.
+
+\begin{definition}[MetaCIC closure-preservation audit packet]
+\label{def:metacic-closure-preservation-audit-packet}
+A $\MetaCICClosurePreservationAuditUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,S,R,V,U,B,Z,X,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the audit-map anchor naming \autoref{ch:metacic-closure-preservation-audit-map};
+\item $S$ is the sibling audit-seal row from \autoref{ch:concrete-instances-closure-preservation-audit-seal-namecert};
+\item $R$ is the closed shift row for the shift-one closedness route;
+\item $V$ is the closed variable-substitution row;
+\item $U$ is the closed full-substitution row;
+\item $B$ is the closed one-step beta row;
+\item $Z$ is the closed finite beta-star row;
+\item $X$ is the subject-reduction frontier row, pointing to \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert};
+\item $H$ records componentwise $\hsame$ transports for the anchor, seal, five closedness rows, frontier row, route rows, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the anchor, seal, closedness rows, beta-star export, frontier boundary, provenance, and local naming;
+\item $P$ is the $\Pkg$ provenance over the audit map, audit seal, subject-reduction socket, normal-form consistency seal, componentwise $\hsame$, displayed $\Cont$, and local $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MetaCICClosurePreservationAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for closed subject reduction, full typed preservation, quotient equality of beta paths, host conversion, global normalization, or confluence.
+\end{definition}
+
+\begin{theorem}[MetaCIC closure-preservation audit finite obligation surface]
+\label{thm:metacic-closure-preservation-audit-finite-obligation-surface}
+For the carrier of \autoref{def:metacic-closure-preservation-audit-packet}, the local $\NameCert_{\MetaCICClosurePreservationAuditUp}$ obligation surface consists exactly of carrier admission for
+$$
+M=(A,S,R,V,U,B,Z,X,H,C,P,N),
+$$
+audit-map anchoring through $A$, sibling audit-seal replay through $S$, the five closedness rows $R,V,U,B,Z$, the subject-reduction frontier row $X$, componentwise transport through $H$, displayed continuation reads through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $M$. The audit anchor $A$ fixes the source map, and $S$ imports the finite audit-seal interface without replacing the local rows $R,V,U,B,Z$.
+
+The five closedness rows are then read directly. They account for shift, variable substitution, full substitution, one-step beta, and finite beta-star closedness. The row $X$ is separate: it points to the subject-reduction socket and the normal-form consistency seal as frontier consumers, not as extra closedness theorems.
+
+Finally inspect $H,C,P,N$. Transport, route replay, provenance, and local naming preserve the rows already present in $M$. Since the carrier contains no other coordinate, the listed rows exhaust the finite obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC closure-preservation audit beta-star closedness export]
+\label{thm:metacic-closure-preservation-audit-beta-star-closedness-export}
+Every accepted $\MetaCICClosurePreservationAuditUp$ packet exports beta-star closedness only through the displayed row $Z$, its componentwise $\hsame$ transport in $H$, its displayed $\Cont$ replay in $C$, the provenance row $P$, and the local naming row $N$. A consumer from \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert} may cite this export as a closedness row, but not as subject reduction, typed conversion transport, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the packet projection and isolate the beta-star coordinate $Z$. The theorem-row inventory in \autoref{thm:metacic-closure-preservation-audit-finite-obligation-surface} names $Z$ as the only beta-star closedness row.
+
+Route replay then passes through $H,C,P,N$. These rows preserve and expose the same beta-star row; they do not introduce a typing derivation, a conversion rule, or a closed-consistency theorem.
+
+For a normal-form consumer, the allowed read is therefore a finite closedness export. Any stronger claim would require a coordinate outside $M$, and the carrier definition provides none.
+\end{proof}
+
+\begin{theorem}[MetaCIC closure-preservation audit subject-reduction frontier separation]
+\label{thm:metacic-closure-preservation-audit-sr-frontier-separation}
+Every subject-reduction-facing read of an accepted $\MetaCICClosurePreservationAuditUp$ packet factors through the frontier row $X$ and then through the finite socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. The read may use the closedness rows $R,V,U,B,Z$ as audit evidence, but it cannot manufacture a closed subject-reduction theorem, discharge the four subject-reduction rows, or bypass the normal-form boundary of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}.
+\end{theorem}
+\begin{proof}
+Read the frontier coordinate $X$. Its role is to name the crossing from closure preservation to subject-reduction consumers, and its cited socket is the only displayed route for that crossing.
+
+The closedness rows $R,V,U,B,Z$ remain available as evidence rows. They are transported by $H$ and replayed by $C$, but their conclusions are closedness statements, not typed preservation statements.
+
+The normal-form consistency seal receives beta-star closedness only as a bounded input. Because the packet has no coordinate for closed subject reduction or full consistency, the frontier read stops at the socket and the normal-form boundary.
+\end{proof}
+
+\closureat{MetaCICClosurePreservationAuditUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICClosurePreservationAuditUp}
+  \constructivestory{A $\MetaCICClosurePreservationAuditUp$ packet is generated from an audit-map anchor, an audit-seal row, five closure-preservation theorem rows, a subject-reduction frontier row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closure-preservation-audit-packet}, \autoref{thm:metacic-closure-preservation-audit-finite-obligation-surface}, \autoref{thm:metacic-closure-preservation-audit-beta-star-closedness-export}, and \autoref{thm:metacic-closure-preservation-audit-sr-frontier-separation} bind the finite closure-preservation audit packet and its subject-reduction frontier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close typed subject reduction, full typed preservation, quotient equality of beta paths, host conversion, global normalization, confluence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, theorem-row exactness, beta-star export, subject-reduction frontier separation, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}
