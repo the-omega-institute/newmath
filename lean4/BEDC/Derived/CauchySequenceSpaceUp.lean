@@ -244,6 +244,39 @@ theorem CauchySequenceSpaceCarrier_completion_handoff_stability [AskSetup] [Pack
         completionRoute', routePkg', namePkg⟩,
       handoffUnary, handoffUnary', routeSame, handoffSame, routePkg'⟩
 
+theorem CauchySequenceSpaceCarrier_diagonal_rate_compatibility [AskSetup] [PackageSetup]
+    {family schedule window tolerance completion transport route name family' schedule'
+      window' tolerance' completion' transport' route' name' diagonal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+      CauchySequenceSpaceCarrier family schedule window tolerance completion transport route name
+        bundle pkg ->
+      CauchySequenceSpaceCarrier family' schedule' window' tolerance' completion'
+          transport' route' name' bundle pkg ->
+        hsame schedule schedule' ->
+          hsame window window' ->
+            hsame tolerance tolerance' ->
+              hsame transport transport' ->
+                Cont completion completion' diagonal ->
+                  UnaryHistory diagonal /\ hsame completion completion' /\
+                    hsame route route' /\ Cont completion completion' diagonal /\
+                      PkgSig bundle route pkg /\ PkgSig bundle route' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier carrier' _sameSchedule sameWindow sameTolerance sameTransport diagonalRoute
+  obtain ⟨_familyUnary, _scheduleUnary, _windowUnary, _toleranceUnary, completionUnary,
+    _transportUnary, _routeUnary, _nameUnary, _familyRoute, toleranceRoute,
+    completionRoute, routePkg, _namePkg⟩ := carrier
+  obtain ⟨_familyUnary', _scheduleUnary', _windowUnary', _toleranceUnary',
+    completionUnary', _transportUnary', _routeUnary', _nameUnary', _familyRoute',
+    toleranceRoute', completionRoute', routePkg', _namePkg'⟩ := carrier'
+  have sameCompletion : hsame completion completion' :=
+    cont_respects_hsame sameWindow sameTolerance toleranceRoute toleranceRoute'
+  have sameRoute : hsame route route' :=
+    cont_respects_hsame sameCompletion sameTransport completionRoute completionRoute'
+  have diagonalUnary : UnaryHistory diagonal :=
+    unary_cont_closed completionUnary completionUnary' diagonalRoute
+  exact
+    ⟨diagonalUnary, sameCompletion, sameRoute, diagonalRoute, routePkg, routePkg'⟩
+
 theorem CauchySequenceSpaceCarrier_regular_family_exhaustion [AskSetup] [PackageSetup]
     {family schedule window tolerance completion transport route name handoff «seal» : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

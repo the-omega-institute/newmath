@@ -27,6 +27,7 @@ with the following visible rows:
 The carrier has no coordinate for a host open cover, a selected subcover outside the finite compact-net row, a host-level Lebesgue number, an already folded uniform precision, or a real-completeness theorem. Its role is exactly the finite compact-net and pointwise-modulus source packet consumed by $\FiniteNetMinimumFoldUp$ and then by $\UniformModulusUp$.
 \end{definition}
 \leandef{BEDC.Derived.CompactModulusCoverUp.CompactModulusCoverCarrier}
+\leanchecked{BEDC.Derived.CompactModulusCoverUp.CompactModulusCoverTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CompactModulusCover NameCert obligations]
 \label{thm:compact-modulus-cover-namecert-obligations}
@@ -45,6 +46,7 @@ The radius family $H$ is the only row passed to the $\FiniteNetMinimumFoldUp$ lo
 
 Thus the named obligations exhaust the local certificate surface. Since no carrier coordinate stores a host open cover, a selected subcover, a host-level Lebesgue number, a folded uniform precision, or a real-completeness theorem, the certificate cannot export any of those objects.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactModulusCoverUp.CompactModulusCoverCarrier\_namecert\_obligations}
 
 \begin{theorem}[CompactModulusCover finite-net source exhaustion]
 \label{thm:compact-modulus-cover-finite-net-source-exhaustion}
@@ -78,6 +80,7 @@ The $\UniformModulusUp$ consumer reads $M$ together with the same transport, rou
 
 No completion step is part of this packet. Real consumers may use the resulting uniform-modulus ledger downstream, but the $\CompactModulusCoverUp$ carrier itself exports only the finite compact-net and pointwise-modulus source packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactModulusCoverUp.CompactModulusCoverCarrier\_real\_completion\_handoff}
 
 \begin{theorem}[CompactModulusCover obligation triad]
 \label{thm:compact-modulus-cover-obligation-triad}
@@ -94,16 +97,36 @@ Next separate the three consumer obligations. Finite-net source exhaustion suppl
 
 The non-escape clauses in those theorems rule out every unlisted analytic object. Since the carrier contains no host open cover, host-selected subcover, Lebesgue number, folded uniform precision, or real-completeness theorem, the triad is the whole pre-$\UniformModulusUp$ surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactModulusCoverUp.CompactModulusCoverCarrier\_obligation\_triad}
 
-\closureat{CompactModulusCoverUp}{seedStr}
+\begin{theorem}[CompactModulusCover AI TasteGate scope]
+\label{thm:compact-modulus-cover-ai-tastegate-scope}
+Any obligation-closure read for $\CompactModulusCoverUp$ must pass through the same single-carrier packet
+$$
+K=(X,F,E,P,R,U,M,H,C,Q,N)
+$$
+of \autoref{def:compact-modulus-cover-carrier}. The read must include the finite-net source exhaustion of \autoref{thm:compact-modulus-cover-finite-net-source-exhaustion} and must preserve carrier alignment for the finite-net rows, pointwise-modulus rows, fold handoff, transport rows, route rows, and local $\NameCert$ row before any closure promotion is recorded.
+\end{theorem}
+\begin{proof}
+Project the carrier $K$. The compact finite-net source is read from $X,P,R$, and the pointwise-modulus data are read from $F,E,U$.
+
+Apply finite-net source exhaustion. It ties every source history used by the $\UniformModulusUp$ handoff to the finite bundle $P$, and it ties every bundled center with a pointwise row in $U$ to the positive rational radius family $H$.
+
+The fold-facing and consumer-facing rows are then fixed. The row $H$ is the $\FiniteNetMinimumFoldUp$ radius family, and the row $M$ is the $\UniformModulusUp$ handoff row before a folded precision is available.
+
+Finally read the structural rows $C,Q,N$. They provide componentwise transport, displayed routes, and the local naming surface for the same packet, so an obligation-closure read cannot bypass the displayed carrier or use a second source packet.
+\end{proof}
+
+\closureat{CompactModulusCoverUp}{obligationStr}
 
 \begin{closurestatus}{\CompactModulusCoverUp}
   \constructivestory{A $\CompactModulusCoverUp$ packet is generated from a compact source row, a continuous map or function row, a positive tolerance request, a finite $\mathsf{ProbeBundle}$, compact-net coverage rows, pointwise-modulus rows, positive $\RatUp$ radius ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:compact-modulus-cover-carrier}, \autoref{thm:compact-modulus-cover-namecert-obligations}, \autoref{thm:compact-modulus-cover-finite-net-source-exhaustion}, and \autoref{thm:compact-modulus-cover-real-completion-handoff} register the finite compact-net and pointwise-modulus packet used before the lower-bound fold and uniform-modulus handoff.}
   \formalstatus{\formalTargetV}
+  \leanchecked{BEDC.Derived.CompactModulusCoverUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close the rational lower-bound fold, the final uniform-modulus theorem, Cauchy completion, host real completeness, external subcover selection, or bridge checking.}
-  \upgradepath{Scoped closure requires Lean encoding and checked carrier admission, classifier stability, finite-net coverage exactness, pointwise-modulus compatibility, positive-radius compatibility, and consumer non-escape for the same displayed packet.}
+  \upgradepath{Scoped closure requires checked scope for carrier admission, classifier stability, finite-net coverage exactness, pointwise-modulus compatibility, positive-radius compatibility, and consumer non-escape for the same displayed packet.}
 \end{closurestatus}

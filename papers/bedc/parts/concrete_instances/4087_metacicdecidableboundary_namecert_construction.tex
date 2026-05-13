@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDecidableBoundaryUp$}
+\label{ch:concrete-instances-metacicdecidableboundary-namecert}
+\origin{ai}
+
+The $\MetaCICDecidableBoundaryUp$ packet realizes the decidability audit map of \autoref{ch:metacic-decidable-audit-map} as a finite NameCert object. It sits next to the normal-form exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, the closed-normal confluence seal of \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert}, and the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. The packet records the checked finite procedures and their refusal boundaries without promoting bounded normal comparison into global beta-conversion decidability.
+
+\begin{definition}[MetaCIC decidable boundary carrier]
+\label{def:metacic-decidable-boundary-carrier}
+A $\MetaCICDecidableBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+D=(T,S,B,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\mathsf{inferTypeCtx}$ checker row for the encoded $\mathsf{HasType}$ relation;
+\item $S$ is the $\mathsf{checkSameTerm}$ structural-equality row used by the checker;
+\item $B$ is the bounded normal-equality row for $\mathsf{normalizeBounded}$ and $\mathsf{decideClosedBetaConv}$;
+\item $F$ is the finished-normal-form side-condition row consumed by the bounded comparison soundness theorems;
+\item $R$ records the refusal rows for a standalone $\mathsf{ClosedAt}$ decision theorem and for global closed beta-conversion decidability;
+\item $H$ records componentwise $\hsame$ transport across $T,S,B,F,R,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which consumers replay checker, comparison, refusal, and side-condition reads;
+\item $P$ is the $\Pkg$ provenance over the decidability audit map, the normal-form exclusion sibling, the closed-normal confluence seal sibling, and the subject-reduction obstruction sibling;
+\item $N$ is the local $\NameCert_{\MetaCICDecidableBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no row for a global $\mathsf{ClosedAt}$ decider, no unrestricted beta-conversion oracle, no fuel-erased normalisation theorem, no quotient of represented terms, and no host evaluator.
+\end{definition}
+
+\begin{theorem}[MetaCIC decidable boundary NameCert obligations]
+\label{thm:metacic-decidable-boundary-namecert-obligations}
+Every accepted $\MetaCICDecidableBoundaryUp$ packet binds exactly the finite obligation surface displayed in \autoref{def:metacic-decidable-boundary-carrier}: carrier admission for $D=(T,S,B,F,R,H,C,P,N)$, checker visibility for $T$, structural equality visibility for $S$, bounded normal comparison visibility for $B$, finished-normal side-condition visibility for $F$, refusal visibility for $R$, componentwise $\hsame$ transport through $H$, finite $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The positive checker rows are $T,S,B,F$: the typing checker reads $T$ together with the structural equality row $S$, and the conversion checker reads the bounded normal comparison row $B$ together with the finished-normal side-condition row $F$.
+
+The refusal row $R$ is part of the same finite packet. It records that the carrier does not contain a separate $\mathsf{ClosedAt}$ decision theorem and does not contain an unrestricted beta-conversion decider for arbitrary closed terms.
+
+The structural rows $H,C,P,N$ only transport, replay, package, and name those displayed reads. Since no further coordinate is present, the local NameCert surface is exhausted by the listed obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary bounded comparison non-escape]
+\label{thm:metacic-decidable-boundary-bounded-comparison-nonescape}
+Any consumer of an accepted $\MetaCICDecidableBoundaryUp$ packet may read bounded normal equality only through $B$ and $F$. The read can expose equality or beta-convertibility of the bounded normalizer outputs under the finished-normal-form side conditions, but it cannot export a global closed beta-conversion decision procedure, a fuel-erased normalisation theorem, or a quotient equality over represented terms.
+\end{theorem}
+\begin{proof}
+Begin with the bounded comparison coordinates. The carrier separates $B$, the bounded normalizer comparison row, from $F$, the row that supplies the finished-normal-form side conditions.
+
+The refusal coordinate $R$ records the missing promotion from bounded comparison to global closed beta conversion. Thus a consumer cannot skip $F$ or erase the fuel boundary by rereading $B$ as an unrestricted oracle.
+
+Finally use the structural rows. The $\hsame$ and $\Cont$ routes in $H,C$ replay the same finite comparison route, while $P,N$ only record provenance and local naming. None of these rows adds a quotient equality, host evaluator, or global normalisation endpoint.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary sibling provenance]
+\label{thm:metacic-decidable-boundary-sibling-provenance}
+The provenance row $P$ places $\MetaCICDecidableBoundaryUp$ between the audit map of \autoref{ch:metacic-decidable-audit-map}, the normal false exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, the closed-normal confluence seal of \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert}, and the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. Agreement on $H,C,P,N$ preserves only finite route and naming data among those chapters; it does not identify their theorem rows or discharge their missing global endpoints.
+\end{theorem}
+\begin{proof}
+Read $P$ as package provenance. It cites the audit map and the three sibling concrete chapters as anchors for typing, normal-form, confluence, and subject-reduction boundaries.
+
+The shared rows $H,C,P,N$ give only componentwise transport, continuation replay, package provenance, and local naming. They do not collapse the sibling packets into one theorem because each sibling keeps its own theorem and refusal rows.
+
+Therefore the sibling route is a finite citation and transport surface. It preserves the decidability boundary without turning normal false exclusion, closed-normal confluence, or subject-reduction obstruction into a global conversion or consistency theorem.
+\end{proof}
+
+\closureat{MetaCICDecidableBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDecidableBoundaryUp}
+  \constructivestory{A $\MetaCICDecidableBoundaryUp$ packet is generated from inferTypeCtx checking, checkSameTerm structural equality, bounded normal comparison, finished-normal side conditions, refusal rows for ClosedAt and global beta conversion, componentwise transport, continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-boundary-carrier}, \autoref{thm:metacic-decidable-boundary-namecert-obligations}, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}, and \autoref{thm:metacic-decidable-boundary-sibling-provenance} bind the finite checker, bounded-comparison, refusal, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a standalone ClosedAt decider, global beta-conversion decidability, fuel-erased normalisation, quotient equality over represented terms, or bridge checking.}
+  \upgradepath{Obligation closure requires checking carrier admission, checker-row visibility, bounded-comparison non-escape, refusal-row exactness, and sibling provenance for the displayed packet.}
+\end{closurestatus}

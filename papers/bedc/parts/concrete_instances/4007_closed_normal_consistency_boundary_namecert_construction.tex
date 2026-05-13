@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalConsistencyBoundaryUp$}
+\label{ch:concrete-instances-closed-normal-consistency-boundary-namecert}
+\origin{ai}
+
+The $\ClosedNormalConsistencyBoundaryUp$ packet realizes the closed-normal MetaCIC consistency assembly of \autoref{ch:closed-metacic-consistency-assembly} as finite BEDC data. It sits beside the obstruction ledger of \autoref{ch:concrete-instances-metacic-reduction-obstruction-ledger-namecert} and the subject-reduction frontier of \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}: those packets display the blocked lift, while this one records the positive normal-form consistency node and the exact boundary that prevents it from becoming full closed consistency.
+
+\begin{definition}[Closed-normal consistency boundary carrier]
+\label{def:closed-normal-consistency-boundary-carrier}
+A $\ClosedNormalConsistencyBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,C,N,F,O,R,H,Q,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the empty-context MetaCIC typing row for the closed proof candidate;
+\item $C$ is the closedness row for the same term;
+\item $N$ is the beta-strong normality row consumed by the closed-normal consistency theorem;
+\item $F$ is the displayed internal false-type row;
+\item $O$ is the checked no-closed-normal-false row and the closed-normal consistency assembly row read as positive obstruction-to-false data;
+\item $R$ is the subject-reduction refusal row inherited from the closed reduction obstruction;
+\item $H$ records componentwise $\hsame$ transport for the typing, closedness, normality, false-type, positive theorem, refusal, route, provenance, and naming rows;
+\item $Q$ records the displayed $\Cont$ routes by which a consumer reads the positive closed-normal node before it reaches the refusal boundary;
+\item $P$ is the $\Pkg$ provenance over the MetaCIC consistency assembly, the reduction obstruction ledger, the subject-reduction frontier, $\BHist$, $\hsame$, $\Cont$, and local certificate rows;
+\item $M$ is the local $\NameCert_{\ClosedNormalConsistencyBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unparameterized closed subject-reduction theorem, no route from arbitrary closed proofs to beta-strong normal proofs, no hidden discharge of beta substitution or dependent-codomain stability, and no host consistency theorem outside the displayed rows.
+\end{definition}
+\leanchecked{BEDC.Derived.ClosedNormalConsistencyBoundaryUp.ClosedNormalConsistencyBoundaryTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Closed-normal consistency boundary NameCert obligations]
+\label{thm:closed-normal-consistency-boundary-namecert-obligations}
+For an accepted $\ClosedNormalConsistencyBoundaryUp$ carrier $B=(T,C,N,F,O,R,H,Q,P,M)$, the local $\NameCert$ surface exposes exactly the empty-context typing row $T$, closedness row $C$, beta-strong normality row $N$, false-type row $F$, positive closed-normal consistency row $O$, subject-reduction refusal row $R$, componentwise transport $H$, displayed replay routes $Q$, package provenance $P$, and local naming $M$. A consumer may eliminate only the closed normal false-proof configuration displayed by $T,C,N,F,O$; it may not use the packet as a full closed consistency theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedNormalConsistencyBoundaryUp.ClosedNormalConsistencyBoundaryUp\_taste\_gate\_boundary}
+\begin{proof}
+Project the carrier of \autoref{def:closed-normal-consistency-boundary-carrier}. The rows $T,C,N,F$ display the precise closed normal false-proof input consumed by the positive theorem row $O$.
+
+Use the assembly chapter \autoref{ch:closed-metacic-consistency-assembly}. Its positive node is closed-normal consistency, so the elimination route requires beta-strong normality as an input row rather than deriving it from an arbitrary closed proof.
+
+Use the sibling obstruction ledger \autoref{ch:concrete-instances-metacic-reduction-obstruction-ledger-namecert} and the subject-reduction frontier \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}. They account for the missing lift through the displayed refusal and frontier rows, which this packet records as $R$ instead of erasing.
+
+The support rows $H,Q,P,M$ transport, replay, package, and name the same inventory. Since no further coordinate is present, the local certificate exposes the closed-normal boundary and does not export closed subject reduction or full closed consistency.
+\end{proof}
+
+\begin{theorem}[Closed-normal consistency boundary non-discharge]
+\label{thm:closed-normal-consistency-boundary-non-discharge}
+The $\ClosedNormalConsistencyBoundaryUp$ packet does not discharge the MetaCIC subject-reduction frontier. Every request to turn an arbitrary closed false proof into the beta-strong input required by $O$ must pass through the refusal row $R$ and the sibling frontier packets of \autoref{ch:concrete-instances-metacic-reduction-obstruction-ledger-namecert} and \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}; no compiler semantics, host normalization theorem, quotient conversion, hidden discharge proof, or ambient consistency principle can replace those rows.
+\end{theorem}
+\begin{proof}
+Begin with the positive route. The carrier exposes $O$ only together with $T,C,N,F$, so the theorem it packages is the closed-normal node described in \autoref{ch:closed-metacic-consistency-assembly}.
+
+Now consider a request for full closed consistency. Such a request needs a route from arbitrary closed typing to the beta-strong row $N$ while preserving the false-type row $F$.
+
+The only row addressing that route is $R$. By the construction of the packet, $R$ points outward to the obstruction ledger and subject-reduction frontier rather than supplying the missing preservation theorem internally.
+
+Finally inspect the remaining support rows. Transport, replay, provenance, and local naming preserve the displayed packet, but none of them adds compiler semantics, quotient conversion, a hidden discharge proof, or an ambient consistency principle. Thus the boundary is recorded without discharging it.
+\end{proof}
+
+\closureat{ClosedNormalConsistencyBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalConsistencyBoundaryUp}
+  \constructivestory{A $\ClosedNormalConsistencyBoundaryUp$ packet is generated from empty-context typing, closedness, beta-strong normality, internal false typing, the positive closed-normal consistency row, the subject-reduction refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-consistency-boundary-carrier}, \autoref{thm:closed-normal-consistency-boundary-namecert-obligations}, and \autoref{thm:closed-normal-consistency-boundary-non-discharge} bind the finite positive-normal node and its blocked closed-consistency lift.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove closed subject reduction, beta-substitution preservation, dependent-codomain stability, full closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exact positive-theorem consumption, refusal replay, provenance accounting, transport stability, and non-escape for the same finite packet.}
+\end{closurestatus}
