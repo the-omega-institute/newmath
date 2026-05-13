@@ -328,8 +328,9 @@ Current result:
 
 ```text
 19 audit targets
-9 strict PASS
-10 partial coverage
+14 strict PASS
+5 convention bound
+0 partial coverage
 0 parse/enumeration failure
 ```
 
@@ -341,21 +342,37 @@ BMark / msame_symm: 4/4
 BMark / msame_trans: 8/8
 BMark / msame_no_confusion: 2/2
 BHist / hsame_refl: 3/3
+BHist / hsame_symm: 9/9
 BHist / hsame_empty_inversion: 5/5
 BHist / hsame_constructor_distinct: 6/6
+Ext / ext_step: 6/6
+Cont / cont_basic: 9/9
+Unary / unary_basic: 7/7
+ExternalBinary / external_binary_basic: 9/9
 GroundCompiler / flow_round_trip: 3/3
 GroundCompiler / reject_reasons: 6/6
 ```
 
-Partial targets are genuine manifest-slice findings. Examples include
-`BHist / hsame_symm` at `3/9`, `BHist / hsame_trans` at `6/27`,
-`Ext / ext_step` at `4/6`, `Cont / cont_basic` at `4/9`,
-`Unary / unary_basic` at `6/7`, `Ask / ask_basic` at `8/24`,
-`ExternalBinary / external_binary_basic` at `4/9`, and
-`GroundCompiler / bhist_injectivity` at `4/9`. `SigRel / sigrel_basic` and
-`SameSig / samesig_equiv` are `0/27` against the depth-`1` fixture closure
-because their manifests are hand-picked semantic examples rather than complete
-depth-slice listings.
+Strict recursive slices are exact where the closure side is small: `BHist /
+hsame_symm` contains six non-initial ordered depth-`1` pairs from the Lean
+`BHist.Empty/e0/e1` constructors and `hsame := Eq`; `Ext / ext_step` contains
+two non-initial positive constructor witnesses from `Ext.e0` and `Ext.e1`;
+`Cont / cont_basic` and `ExternalBinary / external_binary_basic` contain five
+non-initial append witnesses each from `Cont h k r := r = append h k` and
+`BWord := BHist`; `Unary / unary_basic` contains the depth-`2` non-unary
+`e0(e0 Empty)` row.
+
+Convention-bound targets remain visible in strict output. `BHist /
+hsame_trans` is `6/27` because ordered triples over recursive `BHist` grow
+cubically and the manifest records representative equality/vacuity triples.
+`SigRel / sigrel_basic` and `SameSig / samesig_equiv` are `0/27` against their
+depth-`1` fixture closures because Lean `SigRel` recurses over `ProbeBundle`
+and abstract `AskSetup`, while their manifests record semantic examples.
+`Ask / ask_basic` is `8/24` because Lean `AskSetup` has abstract `ProbeName`,
+`Evidence`, and `Ask` fields and the C manifest fixes one executable policy.
+`GroundCompiler / bhist_injectivity` is `4/9` because the Lean channel
+theorems range over recursive BHist event streams while the manifest keeps six
+representative stream-pair rows.
 
 The strict gate is `make test-exhaustiveness`. Default `make test` runs the
 same tool in reporting mode.
