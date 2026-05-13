@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ClosurePreservationAuditSealUp$}
+\label{ch:concrete-instances-closure-preservation-audit-seal-namecert}
+\origin{ai}
+
+The $\ClosurePreservationAuditSealUp$ packet realizes the closure-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} as a finite NameCert seal. It sits beside the substitution audit packet of \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}, the normalization audit seal of \autoref{ch:concrete-instances-metacicnormalizationauditseal-namecert}, and the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}: those siblings consume closed syntax movement and consistency-facing beta routes, while this seal records exactly where shift, substitution, beta-step, and beta-star closedness are available as finite audit rows.
+
+\begin{definition}[Closure-preservation audit seal carrier]
+\label{def:closure-preservation-audit-seal-carrier}
+A $\ClosurePreservationAuditSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,R,V,U,B,Z,G,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the audit-map anchor row naming \autoref{ch:metacic-closure-preservation-audit-map};
+\item $R$ is the shift row for $\mathsf{shift\_one\_preserves\_closed\_succ}$;
+\item $V$ is the variable-substitution row for $\mathsf{substitute\_var\_preserves\_closed\_at}$;
+\item $U$ is the full-substitution row for $\mathsf{substitute\_preserves\_closed\_at}$;
+\item $B$ is the one-step beta row for $\mathsf{betaStep\_preserves\_closed}$;
+\item $Z$ is the finite beta-star row for $\mathsf{betaStarStep\_preserves\_closed}$;
+\item $G$ is the $\mathsf{GAP}$ boundary row separating closedness preservation from typing preservation, conversion transport, global normalization, and confluence;
+\item $H$ records componentwise $\hsame$ transports for the anchor, the five closure theorem rows, the boundary row, route rows, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which consumers read the shift, substitution, beta-step, beta-star, sibling-packet, and boundary rows;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-closure-preservation-audit-map}, \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}, \autoref{ch:concrete-instances-metacicnormalizationauditseal-namecert}, and \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert};
+\item $N$ is the local $\NameCert_{\ClosurePreservationAuditSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a $\mathsf{HasType}$ preservation theorem, no subject-reduction discharge bundle, no quotient equality over beta paths, no host conversion oracle, and no route from beta-star closedness to a closed typed preservation theorem.
+\end{definition}
+
+\begin{theorem}[Closure-preservation audit seal NameCert obligations]
+\label{thm:closure-preservation-audit-seal-namecert-obligations}
+For the carrier of \autoref{def:closure-preservation-audit-seal-carrier}, the local $\NameCert_{\ClosurePreservationAuditSealUp}$ surface consists exactly of carrier admission for
+$$
+S=(A,R,V,U,B,Z,G,H,C,P,N),
+$$
+audit-anchor visibility through $A$, closed shift visibility through $R$, variable-substitution visibility through $V$, full-substitution visibility through $U$, beta-step visibility through $B$, beta-star visibility through $Z$, the displayed $\mathsf{GAP}$ refusal through $G$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed $\BHist$ packet. The audit anchor $A$ fixes the source chapter, while $R,V,U,B,Z$ are exactly the five closure-preservation theorem rows listed there.
+
+Read the boundary row $G$ next. It records that the seal is a closedness-classifier object: the packet may expose shift, substitution, beta-step, and beta-star closedness, but it does not expose typing preservation, conversion transport, normalization, confluence, or subject reduction.
+
+Finally inspect $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same finite rows and add no hidden coordinate. Hence the displayed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Closure-preservation audit seal route exactness]
+\label{thm:closure-preservation-audit-seal-route-exactness}
+Every downstream read of an accepted $\ClosurePreservationAuditSealUp$ packet that claims a closedness-preservation route factors through one of the displayed theorem rows $R,V,U,B,Z$, then through the matching $\Cont$ route in $C$, and then through the same $\hsame$, $\Pkg$, and $\NameCert$ rows $H,P,N$. In particular, a closed-normal or subject-reduction-boundary consumer may cite beta-star closedness only through $Z$ together with the finite replay and provenance rows; it may not replace that route by a direct appeal to vision prose or by an unrecorded typing-preservation step.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet and project the route component $C$. Its displayed continuations have sources only in $R,V,U,B,Z$ and in the sibling-facing rows named by $P$.
+
+For a shift or substitution read, the route reaches $R,V,U$ and then uses the same transport row $H$ before it is reported to a consumer. This is the route used by the substitution audit packet, so the consumer receives a finite closed-syntax movement row rather than an unrestricted substitution calculus.
+
+For a beta-step or beta-star read, the route reaches $B$ or $Z$ and then passes through $H,P,N$. The closed-normal consistency boundary can therefore cite a finite beta closedness route, while the $\mathsf{GAP}$ row keeps subject-reduction discharge and typed conversion outside the route.
+\end{proof}
+
+\begin{theorem}[Closure-preservation audit seal non-escape]
+\label{thm:closure-preservation-audit-seal-nonescape}
+Every public read of an accepted $\ClosurePreservationAuditSealUp$ packet remains inside the finite rows
+$$
+A,R,V,U,B,Z,G,H,C,P,N.
+$$
+The seal exports no $\mathsf{HasType}$ preservation theorem, no closed subject-reduction theorem, no discharge of beta-substitution typing, application-argument typing, lambda-domain typing, or Pi-domain typing obligations, no quotient equality over reductions, and no host semantic conversion principle.
+\end{theorem}
+\begin{proof}
+The only positive theorem rows in the carrier are $R,V,U,B,Z$. They are closedness-preservation rows over the closedness classifier, and their replay routes are the displayed continuations in $C$.
+
+The $\mathsf{GAP}$ row names the excluded crossings. It separates the finite closedness theorem surface from typing preservation, subject-reduction discharge, quotient equality, and host conversion.
+
+Componentwise transport and provenance cannot create an omitted coordinate. Since $H,P,N$ only preserve and name the rows already projected from $S$, every public read remains inside the displayed finite packet.
+\end{proof}
+
+\closureat{ClosurePreservationAuditSealUp}{seedStr}
+
+\begin{closurestatus}{\ClosurePreservationAuditSealUp}
+  \constructivestory{A $\ClosurePreservationAuditSealUp$ packet is generated from a closure-preservation audit-map anchor, five checked closedness theorem rows for shift, variable substitution, full substitution, beta-step, and beta-star routes, a displayed $\mathsf{GAP}$ boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closure-preservation-audit-seal-carrier}, \autoref{thm:closure-preservation-audit-seal-namecert-obligations}, \autoref{thm:closure-preservation-audit-seal-route-exactness}, and \autoref{thm:closure-preservation-audit-seal-nonescape} bind the finite closure-preservation audit seal and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close typed subject reduction, typed conversion transport, normalization, confluence, quotient equality over reductions, Lean verification of the seal, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, theorem-row exactness, route replay, boundary refusal, provenance, local naming, and non-escape for the same finite seal packet.}
+\end{closurestatus}
