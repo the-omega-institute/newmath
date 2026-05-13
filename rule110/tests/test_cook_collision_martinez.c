@@ -12,7 +12,7 @@
 #define MAX_PRODUCTS 8
 #define MAX_DETECTED_HITS 512
 #define DETECT_TRACK_STEPS 184
-#define TABLE_AUDIT_PASS_GATE 20
+#define TABLE_AUDIT_PASS_GATE 33
 
 typedef struct {
     const char *encoded;
@@ -110,7 +110,7 @@ static const MartinezRow MARTINEZ_ROWS[] = {
 
 static const TableAuditRow TABLE_AUDIT_ROWS[] = {
     /* Martinez 2012 soliton (a), cook_collisions.c:29 */
-    {"Martinez 2012 soliton (a)", 29, -40, 220},
+    {"Martinez 2012 soliton (a)", 29, -120, 120},
     /* Martinez 2012 soliton (b), cook_collisions.c:30 */
     {"Martinez 2012 soliton (b)", 30, -39, 80},
     /* Martinez 2012 soliton (c), cook_collisions.c:31 */
@@ -148,11 +148,11 @@ static const TableAuditRow TABLE_AUDIT_ROWS[] = {
     /* Martinez 2012 Table 2, cook_collisions.c:47 */
     {"Martinez 2012 Table 2", 47, -40, 260},
     /* Martinez 2012 Table 2, cook_collisions.c:48 */
-    {"Martinez 2012 Table 2", 48, -40, 260},
+    {"Martinez 2012 Table 2", 48, -120, 120},
     /* Martinez 2012 Table 2, cook_collisions.c:49 */
-    {"Martinez 2012 Table 2", 49, -40, 260},
+    {"Martinez 2012 Table 2", 49, -120, 120},
     /* Martinez 2012 Table 2, cook_collisions.c:50 */
-    {"Martinez 2012 Table 2", 50, -40, 260},
+    {"Martinez 2012 Table 2", 50, -120, 120},
     /* Martinez 2012 Table 2, cook_collisions.c:51 */
     {"Martinez 2012 Table 2", 51, -40, 260},
     /* Martinez 2012 Table 2, cook_collisions.c:52 */
@@ -170,7 +170,7 @@ static const TableAuditRow TABLE_AUDIT_ROWS[] = {
     /* Martinez 2012 Table 2, cook_collisions.c:58 */
     {"Martinez 2012 Table 2", 58, -40, 260},
     /* Martinez 2012 Table 2, cook_collisions.c:59 */
-    {"Martinez 2012 Table 2", 59, -40, 260},
+    {"Martinez 2012 Table 2", 59, -120, 120},
     /* Martinez 2012 Table 2, cook_collisions.c:60 */
     {"Martinez 2012 Table 2", 60, -40, 260},
     /* Martinez 2012 Table 2, cook_collisions.c:61 */
