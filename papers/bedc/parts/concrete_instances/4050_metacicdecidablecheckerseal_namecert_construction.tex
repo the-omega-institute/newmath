@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\MetacicDecidableCheckerSealUp$}
+\label{ch:concrete-instances-metacicdecidablecheckerseal-namecert}
+\origin{human}
+
+The $\MetacicDecidableCheckerSealUp$ packet is the concrete NameCert surface drawn from the decidability audit map of \autoref{ch:metacic-decidable-audit-map}. It packages the checked typing-inference rows, the same-term decision rows, and the bounded normal-equality rows as one finite consumer-facing seal. The packet sits beside the normal-form carriers of \autoref{ch:concrete-instances-typedreductionnormalform-namecert} and \autoref{ch:concrete-instances-continuationtracenormalform-namecert}: those chapters expose terminal normal-form readback, while this chapter exposes the decidable checker rows that may be safely consumed without claiming a global closed-term conversion decider.
+
+\begin{definition}[Metacic decidable checker seal carrier]
+\label{def:metacic-decidable-checker-seal-carrier}
+A $\MetacicDecidableCheckerSealUp$ carrier is a finite $\BHist$ packet
+$$
+D=(E,T,S,N,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the structural term-equality row for encoded MetaCIC syntax;
+\item $T$ is the typing-inference row, including the checked soundness and completeness surfaces for the encoded \texttt{HasType} relation;
+\item $S$ is the same-term checker row for the displayed syntax layer;
+\item $N$ is the bounded normal-equality row, including the finished-normalisation consequences recorded by the audit map;
+\item $H$ records componentwise $\hsame$ transport for $E,T,S,N$, route data, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads structural equality, typing inference, same-term checking, and bounded normal equality;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the MetaCIC decidability audit rows named in \autoref{ch:metacic-decidable-audit-map};
+\item $L$ is the local $\NameCert_{\MetacicDecidableCheckerSealUp}$ row.
+\end{enumerate}
+The carrier contains no row for unrestricted closedness decidability, no row for global closed-term beta-conversion decidability, and no row turning bounded normal equality into an unbounded conversion theorem.
+\end{definition}
+
+\begin{theorem}[Metacic decidable checker seal NameCert obligations]
+\label{thm:metacic-decidable-checker-seal-namecert-obligations}
+For every accepted $\MetacicDecidableCheckerSealUp$ carrier
+$$
+D=(E,T,S,N,H,C,P,L),
+$$
+the local $\NameCert_{\MetacicDecidableCheckerSealUp}$ surface consists exactly of structural term-equality admission through $E$, typing-inference soundness and completeness through $T$, same-term checking through $S$, bounded normal-equality soundness through $N$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-checker-seal-carrier}. Its checker coordinates are exactly $E,T,S,N$, so the visible decision surface is structural equality, typing inference, same-term checking, and bounded normal equality.
+
+The transport row $H$ preserves those four coordinates componentwise. The continuation row $C$ supplies the only routes by which a downstream consumer may read them, and those routes end inside the same packet.
+
+Package provenance through $P$ records the audit-map dependency, while the local row $L$ names the packet as a $\NameCert_{\MetacicDecidableCheckerSealUp}$ surface. Since the carrier has no further checker coordinate, the NameCert obligations are exactly the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Metacic decidable checker seal non-escape]
+\label{thm:metacic-decidable-checker-seal-non-escape}
+Every downstream consumer of an accepted $\MetacicDecidableCheckerSealUp$ carrier factors through
+$$
+E,T,S,N,H,C,P,L.
+$$
+The consumer may read structural term equality, typing-inference soundness and completeness, same-term checking, bounded normal-equality soundness, componentwise transports, displayed continuation routes, provenance, and the local naming row. It cannot read unrestricted closedness decidability, global closed-term beta-conversion decidability, a confluence theorem, a subject-reduction theorem, or an external normalizer from the checker seal.
+\end{theorem}
+\begin{proof}
+Begin with the displayed continuation row $C$. It names consumer routes only for $E,T,S,N$ and has no endpoint for a closedness decider, a global conversion decider, confluence, subject reduction, or an external normalizer.
+
+Next use componentwise transport through $H$. Transport moves the same four checker rows and cannot manufacture a theorem coordinate absent from the carrier.
+
+Finally package the result through $P$ and $L$. Provenance and local naming certify the finite checker surface described by \autoref{ch:metacic-decidable-audit-map}, while the missing coordinates rule out escape beyond $E,T,S,N,H,C,P,L$.
+\end{proof}
+
+\closureat{MetacicDecidableCheckerSealUp}{seedStr}
+
+\begin{closurestatus}{\MetacicDecidableCheckerSealUp}
+  \constructivestory{A $\MetacicDecidableCheckerSealUp$ packet is generated from structural term equality, typing-inference soundness and completeness, same-term checking, bounded normal-equality soundness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-checker-seal-carrier}, \autoref{thm:metacic-decidable-checker-seal-namecert-obligations}, and \autoref{thm:metacic-decidable-checker-seal-non-escape} bind the decidable MetaCIC checker rows as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close unrestricted closedness decidability, global closed-term beta-conversion decidability, confluence, subject reduction, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the checker-seal carrier, route exhaustion, and checked non-escape for the structural equality, typing-inference, same-term, and bounded normal-equality rows.}
+\end{closurestatus}

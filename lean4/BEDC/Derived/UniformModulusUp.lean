@@ -284,4 +284,31 @@ theorem UniformModulusPacket_finite_net_realizer_unblock [AskSetup] [PackageSetu
     ⟨toleranceUnary, bundleRowUnary, radiusUnary, coverageUnary, foldUnary, realizedUnary,
       coverageRoute, foldRoute, realizedRoute, realizedPkg⟩
 
+theorem UniformModulusPacket_root_compact_cover_row_totality [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow compactRead boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg →
+      Cont bundleRow radius compactRead →
+        Cont compactRead coverage boundary →
+          PkgSig bundle boundary pkg →
+            UnaryHistory bundleRow ∧ UnaryHistory radius ∧ UnaryHistory compactRead ∧
+              UnaryHistory boundary ∧ Cont bundleRow radius compactRead ∧
+                Cont compactRead coverage boundary ∧ PkgSig bundle boundary pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet bundleRadiusCompactRead compactReadCoverageBoundary boundaryPkg
+  obtain ⟨toleranceUnary, _precisionUnary, bundleRowUnary, radiusUnary, _nameRowUnary,
+    toleranceBundleCoverage, _coveragePointwiseTransport, _precisionRadiusFoldLedger,
+    _foldNameProvenance, _provenancePkg⟩ := packet
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed toleranceUnary bundleRowUnary toleranceBundleCoverage
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed bundleRowUnary radiusUnary bundleRadiusCompactRead
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed compactReadUnary coverageUnary compactReadCoverageBoundary
+  exact
+    ⟨bundleRowUnary, radiusUnary, compactReadUnary, boundaryUnary,
+      bundleRadiusCompactRead, compactReadCoverageBoundary, boundaryPkg⟩
+
 end BEDC.Derived.UniformModulusUp
