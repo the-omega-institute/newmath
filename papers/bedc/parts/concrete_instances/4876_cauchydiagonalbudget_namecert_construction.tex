@@ -120,13 +120,49 @@ The carrier and NameCert obligation rows identify $S$ as the seal handoff and $H
 Finally invoke \autoref{thm:cauchy-diagonal-budget-nonescape}. Since quotient streams, host real equality, selected external limits, trichotomy, and ambient completeness are absent from the finite packet, the seal handoff factors through the displayed boundary rows and no external boundary can be spliced in.
 \end{proof}
 
+\begin{theorem}[Cauchy diagonal budget RegSeqRat window scope]
+\label{thm:cauchy-diagonal-budget-regseq-window-scope}
+For every accepted $\CauchyDiagonalBudgetUp$ carrier $B=(\epsilon,M,W,D,K,S,H,C,P,N)$, each comparison obligation exposed to a regular-Cauchy consumer factors through the displayed rows $M,W,D,K$. The row $W$ is the selected stream-naming window of \autoref{ch:concrete-instances-streamname-namecert}, the row $D$ is the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the row $K$ is the regular-Cauchy comparison packet of \autoref{ch:concrete-instances-regular-cauchy-comparison-namecert} read on that same finite window. No comparison witness for the local $\NameCert_{\CauchyDiagonalBudgetUp}$ surface may bypass $M,W,D,K$ or replace them with a quotient stream, host real equality, selected external limit, trichotomy row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:cauchy-diagonal-budget-carrier}. Its comparison-facing coordinates are exactly $M,W,D,K$: the mesh budget $M$, the selected naming window $W$, the dyadic ledger $D$, and the comparison packet $K$.
+
+Apply mesh-comparison exactness from \autoref{thm:cauchy-diagonal-budget-mesh-comparison-exactness}. The mesh side supplies the finite diagonal observation budget through $M,W,D$, and the comparison side supplies the regular-Cauchy row $K$ on that window.
+
+The cited StreamName, DyadicRatCore, and RegularCauchyComparison chapters are therefore consumed only through their displayed rows. The non-escape boundary of \autoref{thm:cauchy-diagonal-budget-nonescape} excludes any undisplayed quotient, host equality, external limit, trichotomy, or completeness data from discharging the comparison surface.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal budget Real seal scope]
+\label{thm:cauchy-diagonal-budget-real-seal-scope}
+For every accepted $\CauchyDiagonalBudgetUp$ carrier $B=(\epsilon,M,W,D,K,S,H,C,P,N)$, the $\RealUp$-facing handoff is scoped exactly by the boundary rows $S,H,C,P,N$ after the finite route $\epsilon,M,W,D,K$ has been consumed. The handoff targets the Real naming surface of \autoref{ch:concrete-instances-real-namecert}; its seal boundary is the factorization of \autoref{thm:cauchy-diagonal-budget-seal-boundary-factorization}, with $S$ as the seal row, $H$ as componentwise $\hsame$ transport, $C$ as the displayed $\Cont$ routes, $P$ as $\Pkg$ provenance, and $N$ as the local $\NameCert_{\CauchyDiagonalBudgetUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the finite route supplied by \autoref{thm:cauchy-diagonal-budget-real-completeness-handoff}. A diagonal-limit consumer must read $\epsilon,M,W,D,K$ before it reaches the seal coordinate $S$.
+
+Now apply the seal-boundary factorization theorem. It identifies the only handoff boundary as $S,H,C,P,N$, so the Real-facing surface is not a free ambient completion claim but the displayed seal row together with its transport, route, provenance, and naming witnesses.
+
+The Real chapter is reached at that boundary. Since the carrier has no second seal coordinate and no coordinate for quotient streams, host equality, selected external limits, trichotomy, or ambient completeness, the $\RealUp$ handoff is scoped exactly by the stated rows.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal budget excluded surface scope]
+\label{thm:cauchy-diagonal-budget-nonescape-scope}
+For every accepted $\CauchyDiagonalBudgetUp$ carrier $B=(\epsilon,M,W,D,K,S,H,C,P,N)$, quotient streams, host real equality, selected external limits, trichotomy, and ambient completeness are not coordinates of the carrier and cannot discharge the local $\NameCert_{\CauchyDiagonalBudgetUp}$ surface. Any accepted certificate must be witnessed by the displayed finite rows $\epsilon,M,W,D,K,S,H,C,P,N$ and by no larger host-real surface.
+\end{theorem}
+\begin{proof}
+Use the carrier inventory of \autoref{def:cauchy-diagonal-budget-carrier}. The displayed coordinates are the precision request, mesh budget, selected window, dyadic ledger, comparison packet, seal handoff, transports, continuation routes, provenance, and local naming row.
+
+Apply \autoref{thm:cauchy-diagonal-budget-nonescape}. It states that quotient streams, host equality of reals, selected external limits, trichotomy rows, and ambient completeness theorems are outside those displayed rows and cannot become another selector or another seal.
+
+The NameCert obligations of \autoref{thm:cauchy-diagonal-budget-namecert-obligations} therefore close only over the finite carrier surface. Because each excluded item lacks a carrier coordinate, none can discharge carrier admission, classifier stability, mesh-budget exactness, comparison exactness, seal-handoff exactness, or non-escape for $\CauchyDiagonalBudgetUp$.
+\end{proof}
+
 \closureat{CauchyDiagonalBudgetUp}{seedStr}
 \closureat{CauchyDiagonalBudgetUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyDiagonalBudgetUp}
   \constructivestory{A $\CauchyDiagonalBudgetUp$ packet is generated from a finite precision request, a $\RealDiagonalMeshBudgetUp$ mesh-budget row, selected $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ ledger, a $\RegularCauchyComparisonUp$ comparison row, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-diagonal-budget-carrier}, \autoref{thm:cauchy-diagonal-budget-namecert-obligations}, \autoref{thm:cauchy-diagonal-budget-selection-determinacy}, \autoref{thm:cauchy-diagonal-budget-real-completeness-handoff}, and \autoref{thm:cauchy-diagonal-budget-nonescape} define the finite budget-selector carrier, obligation rows, selection determinacy, RealCompleteness handoff, and non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-diagonal-budget-carrier}, \autoref{thm:cauchy-diagonal-budget-namecert-obligations}, \autoref{thm:cauchy-diagonal-budget-selection-determinacy}, \autoref{thm:cauchy-diagonal-budget-real-completeness-handoff}, \autoref{thm:cauchy-diagonal-budget-nonescape}, \autoref{thm:cauchy-diagonal-budget-regseq-window-scope}, \autoref{thm:cauchy-diagonal-budget-real-seal-scope}, and \autoref{thm:cauchy-diagonal-budget-nonescape-scope} define the finite budget-selector carrier, obligation rows, selection determinacy, RealCompleteness handoff, non-escape boundary, RegSeqRat window scope, Real seal scope, and excluded surface scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
