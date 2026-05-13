@@ -91,6 +91,7 @@ A \emph{Hist time step} is a single application of \(\Eone\) or \(\Ezero\) to a 
 For a Hist value \(h\), the \emph{local time stream} of \(h\) is the sequence of Cont applications producing \(h\) from \(\emp\); equivalently, the unary length \(\UnaryHistory(h)\) together with the distinction record at each step recovered from the information content of \(h\) (\autoref{def:hist-information-content}).
 \end{definition}
 \concretizedIn{ch:concrete-instances-histtimestream-namecert}{Local Hist time streams are realized as finite BHist packets over Cont-step rows, hsame transport, and a no-global-clock ledger.}
+\concretizedIn{ch:concrete-instances-localclockbudget-namecert}{Local clock budgets realize observer local time as finite BHist packets over Cont-step windows, hsame transport, and a no-global-clock ledger.}
 \begin{theorem}[Cont is time-asymmetric]
 \label{thm:cont-time-asymmetric}
 The Cont relation is functional in the forward direction: given a Hist \(h\) and a distinction \(d\), the continuation \(h'\) such that \(\Cont(h, d, h')\) is uniquely determined. The inverse direction, given \(h'\) and \(d\) recover \(h\) such that \(\Cont(h, d, h')\), is not constructively decidable for a fixed \(d\) without recursion on the structure of \(h'\). The asymmetry between forward and inverse direction is the constructive arrow of time at the kernel level.
