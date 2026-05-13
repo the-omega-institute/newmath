@@ -139,6 +139,7 @@ import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverRegularUp.Carrier
 import BEDC.Derived.ObserverRegularUp.TasteGate
+import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp
@@ -250,6 +251,7 @@ import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyLimitSealUp.ChoiceFreeSelector
 import BEDC.Derived.CauchyLimitSealUp.RootFormalHandoff
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
+import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
@@ -446,6 +448,7 @@ import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TasteGateCompilerWitnessUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionUp
+import BEDC.Derived.UniformCauchyCriterionUp.RootInterfaces
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
