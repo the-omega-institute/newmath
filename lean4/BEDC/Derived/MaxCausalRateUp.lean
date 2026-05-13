@@ -73,6 +73,37 @@ theorem MaxCausalRatePacket_non_escape [AskSetup] [PackageSetup]
       psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary, consumerUnary,
         stabilityRouteProvenance, consumerRoute, namePkg, consumerPkg⟩
 
+theorem MaxCausalRatePacket_scoped_kernel_boundary [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert downstream : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg →
+      Cont routes provenance downstream →
+        PkgSig bundle downstream pkg →
+          UnaryHistory configuration ∧ UnaryHistory witnesses ∧ UnaryHistory bound ∧
+            UnaryHistory comparisons ∧ UnaryHistory hsameTransport ∧
+              UnaryHistory psameStability ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+                UnaryHistory nameCert ∧ UnaryHistory downstream ∧
+                  Cont witnesses bound comparisons ∧
+                    Cont comparisons hsameTransport psameStability ∧
+                      Cont psameStability routes provenance ∧
+                        Cont routes provenance downstream ∧ PkgSig bundle nameCert pkg ∧
+                          PkgSig bundle downstream pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg UnaryHistory
+  intro packet downstreamRoute downstreamPkg
+  obtain ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    hsameTransportUnary, psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary,
+    witnessBoundComparison, comparisonTransportStability, stabilityRouteProvenance,
+    _provenanceNameConfiguration, namePkg⟩ := packet
+  have downstreamUnary : UnaryHistory downstream :=
+    unary_cont_closed routesUnary provenanceUnary downstreamRoute
+  exact
+    ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary, hsameTransportUnary,
+      psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary, downstreamUnary,
+        witnessBoundComparison, comparisonTransportStability, stabilityRouteProvenance,
+          downstreamRoute, namePkg, downstreamPkg⟩
+
 theorem MaxCausalRatePacket_bound_comparison_totality [AskSetup] [PackageSetup]
     {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
       nameCert : BHist}
