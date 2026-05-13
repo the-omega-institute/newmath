@@ -100,4 +100,25 @@ theorem DiagonalCofinalTailCarrier_seed_window_readback [AskSetup] [PackageSetup
     unary_cont_closed cUnary rUnary windowRoute
   exact ⟨wUnary, hUnary, cUnary, rUnary, windowUnary, whRoute, windowRoute, pPkg, windowPkg⟩
 
+theorem DiagonalCofinalTailCarrier_common_window_refinement [AskSetup] [PackageSetup]
+    {q s g d r w h c p n leftRead rightRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalCofinalTailCarrier q s g d r w h c p n bundle pkg →
+      Cont c r leftRead →
+        Cont c r rightRead →
+          PkgSig bundle leftRead pkg →
+            PkgSig bundle rightRead pkg →
+              UnaryHistory leftRead ∧ UnaryHistory rightRead ∧ Cont c r leftRead ∧
+                Cont c r rightRead ∧ PkgSig bundle p pkg ∧ PkgSig bundle leftRead pkg ∧
+                  PkgSig bundle rightRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro carrier leftRoute rightRoute leftPkg rightPkg
+  obtain ⟨_qUnary, _sUnary, _gUnary, _dUnary, rUnary, _wUnary, _hUnary, cUnary,
+    _pUnary, _nUnary, _qsRoute, _gdRoute, _whRoute, pPkg⟩ := carrier
+  have leftUnary : UnaryHistory leftRead :=
+    unary_cont_closed cUnary rUnary leftRoute
+  have rightUnary : UnaryHistory rightRead :=
+    unary_cont_closed cUnary rUnary rightRoute
+  exact ⟨leftUnary, rightUnary, leftRoute, rightRoute, pPkg, leftPkg, rightPkg⟩
+
 end BEDC.Derived.DiagonalCofinalTailUp
