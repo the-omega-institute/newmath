@@ -61,4 +61,17 @@ theorem RegularCauchyWitnessScheduleSemanticNameCert :
       exact sourceRow
   }
 
+theorem RegularCauchyWitnessScheduleCarrier_window_modulus_alignment
+    {family modulus window dyadic readback sealRow transport route provenance name
+      scheduledWindow : BHist} :
+    RegularCauchyWitnessScheduleCarrier family modulus window dyadic readback sealRow transport
+        route provenance name ->
+      Cont modulus window scheduledWindow ->
+        Cont window dyadic readback /\ hsame scheduledWindow route /\ hsame sealRow readback := by
+  intro carrier scheduledWindowRead
+  obtain ⟨modulusWindowRoute, windowDyadicReadback, sealReadback, _nameSame⟩ := carrier
+  exact
+    ⟨windowDyadicReadback, hsame_symm (cont_deterministic modulusWindowRoute scheduledWindowRead),
+      sealReadback⟩
+
 end BEDC.Derived.RegularCauchyWitnessScheduleUp
