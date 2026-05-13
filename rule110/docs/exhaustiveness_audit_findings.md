@@ -7,7 +7,7 @@ slice instance is present in the manifest.
 
 ## Target set
 
-The current audit set contains nineteen concrete targets:
+The audit set contains thirty-one concrete targets:
 
 | target | closure slice | manifest cases | covered | status |
 |---|---:|---:|---:|---|
@@ -30,13 +30,25 @@ The current audit set contains nineteen concrete targets:
 | `GroundCompiler / flow_round_trip` | 3 | 5 | 3/3 | PASS |
 | `GroundCompiler / bhist_injectivity` | 9 | 6 | 4/9 | CONVENTION BOUND |
 | `GroundCompiler / reject_reasons` | 6 | 6 | 6/6 | PASS |
+| `CircleModN / modn_classifier_concrete_rows` | 3 | 4 | 3/3 | PASS |
+| `CircleModN / modn_singleton_operation_descent` | 3 | 4 | 3/3 | PASS |
+| `CircleS1 / s1_e1_components_carrier_exactness` | 9 | 4 | 2/9 | CONVENTION BOUND |
+| `FoldMomentKernelUp / fold_round_trip` | 3 | 3 | 1/3 | CONVENTION BOUND |
+| `FoldMomentKernelUp / fold_tag_layout` | 3 | 3 | 1/3 | CONVENTION BOUND |
+| `FoldMomentKernelUp / fold_event_flow_injective` | 3 | 3 | 1/3 | CONVENTION BOUND |
+| `MetaCICAtom / inferAtom` | 20 | 7 | 6/20 | CONVENTION BOUND |
+| `MetaCICBHist / bhistLen_natToBHist` | 4 | 5 | 4/4 | PASS |
+| `MetaCICBHist / bhistToTerm_injective` | 12 | 8 | 6/12 | CONVENTION BOUND |
+| `TopologyCarrier / finite_base_append_decomposition` | 18 | 5 | 1/18 | CONVENTION BOUND |
+| `TopologyCarrier / finite_base_carrier_meet_scope` | 18 | 4 | 1/18 | CONVENTION BOUND |
+| `TopologyLedgerRow / ledger_constructor_tags` | 21 | 9 | 9/21 | CONVENTION BOUND |
 
 Summary:
 
 ```text
-19 audit targets
-14 strict PASS
-5 convention bound
+31 audit targets
+17 strict PASS
+14 convention bound
 0 partial coverage
 0 parse/enumeration failure
 ```
@@ -50,13 +62,21 @@ depth-`2` slice. Relational fixtures such as `Ext`, `Cont`, and
 histories up to depth `1`. GroundCompiler reject reasons are a closed
 six-case decoder taxonomy.
 
+Beyond-FKernel targets use the same explicit finite-slice convention. ModN
+rows enumerate unary modulus values through depth `2` with singleton carrier
+operands. S1 rows enumerate depth-`1` e1-component tails. FoldMomentKernelUp
+rows enumerate a depth-`1` window-varying nine-field carrier surface. MetaCIC
+rows enumerate bounded atom contexts, all-e0 `natToBHist` rows, and a mixed
+closed/injective BHist term-embedding surface. Topology rows enumerate bounded
+finite-base bundles and the six closed ledger constructor tags.
+
 The audit target set only includes targets with an implemented C enumerator.
 The tag-heavy fixture manifests for `Bundle`, `Gap`, `Package`, `NameCert`,
 and `Settled` are not counted in the strict denominator here.
 
 ## Strict slices
 
-Five recursive or derived targets are strict finite slices because the missing
+Eight recursive or derived targets are strict finite slices because the missing
 closure side is small and matches the manifest schema directly:
 
 ```text
@@ -65,14 +85,17 @@ Ext / ext_step: 2 closure cases, Lean Ext.e0 and Ext.e1 constructors
 Cont / cont_basic: 5 closure cases, Lean Cont h k r := r = append h k
 Unary / unary_basic: 1 closure case, Lean UnaryHistory rejects e0 tails
 ExternalBinary / external_binary_basic: 5 closure cases, Lean BWord := BHist and append reuse
+CircleModN / modn_classifier_concrete_rows: 3 unary modulus cases with singleton carrier fields
+CircleModN / modn_singleton_operation_descent: 3 unary modulus cases with Empty operation results
+MetaCICBHist / bhistLen_natToBHist: 4 all-e0 rows through depth 3
 ```
 
 Classification count:
 
 ```text
-A: 5
+A: 8
 B: 0
-C: 5
+C: 14
 ```
 
 No target uses a smaller closure depth. The partial targets are either small
@@ -110,6 +133,35 @@ fixture closure has `24` tuples with `8` covered by the manifest.
 recursive BHist event streams. The manifest records `6` representative rows
 against the `9` ordered depth-`1` BHist pairs, with `4` rows covered by the
 generated closure.
+
+`CircleS1 / s1_e1_components_carrier_exactness` is bounded because the Lean
+carrier ranges over recursive rational component tails. The manifest records
+`4` positive e1-component rows against the depth-`1` dx/dy tail surface, with
+`2` rows covered by the generated closure.
+
+The three `FoldMomentKernelUp` targets are bounded because the Lean carrier is
+a nine-field recursive BHist product. The manifest records three visible kernel
+flows, while the audit uses a depth-`1` slice that varies the first field and
+keeps the other eight fields at `Empty`; each target covers `1/3`.
+
+`MetaCICAtom / inferAtom` is bounded because context length and variable index
+grow independently. The audit enumerates sort and var atoms over sort-only
+contexts through length `3`; the manifest records `7` representative rows and
+covers `6/20`.
+
+`MetaCICBHist / bhistToTerm_injective` is bounded because the manifest combines
+single-history closedness rows with pairwise injectivity rows. The generated
+mixed surface has `12` inputs and the manifest covers `6`.
+
+The two `TopologyCarrier` targets are bounded because finite-base bundles are
+recursive and the Lean carrier is parametric in the ball predicate. The audit
+uses left/right bundle length at most `1` with depth-`1` BHist items; the
+manifests cover `1/18` representative rows.
+
+`TopologyLedgerRow / ledger_constructor_tags` is bounded because the six
+constructor tags are closed but full pairwise no-confusion has fifteen
+unordered pairs. The manifest covers all six positive tag rows plus three
+representative no-confusion rows, for `9/21`.
 
 ## Gate behavior
 

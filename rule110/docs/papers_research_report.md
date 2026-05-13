@@ -315,9 +315,9 @@ The theoretical bound says polynomial size/time, not that small finite layouts p
 ## Part 7: Exhaustiveness audit
 
 `tools/manifest_exhaustiveness_audit.c` audits the finite-witness reading of
-selected FKernel and GroundCompiler manifests by enumerating a finite closure
-slice and comparing it with the assertion inputs listed in the corresponding
-`.enum.ct` file.
+selected FKernel, GroundCompiler, and Beyond-FKernel manifests by enumerating a
+finite closure slice and comparing it with the assertion inputs listed in the
+corresponding `.enum.ct` file.
 
 `BMark` is nullary, so depth `1` is the whole closed domain. Recursive `BHist`
 and BHist-derived relations use small bounded slices; these are explicit
@@ -327,9 +327,9 @@ recursive closure.
 Current result:
 
 ```text
-19 audit targets
-14 strict PASS
-5 convention bound
+31 audit targets
+17 strict PASS
+14 convention bound
 0 partial coverage
 0 parse/enumeration failure
 ```
@@ -351,6 +351,9 @@ Unary / unary_basic: 7/7
 ExternalBinary / external_binary_basic: 9/9
 GroundCompiler / flow_round_trip: 3/3
 GroundCompiler / reject_reasons: 6/6
+CircleModN / modn_classifier_concrete_rows: 3/3
+CircleModN / modn_singleton_operation_descent: 3/3
+MetaCICBHist / bhistLen_natToBHist: 4/4
 ```
 
 Strict recursive slices are exact where the closure side is small: `BHist /
@@ -360,7 +363,9 @@ two non-initial positive constructor witnesses from `Ext.e0` and `Ext.e1`;
 `Cont / cont_basic` and `ExternalBinary / external_binary_basic` contain five
 non-initial append witnesses each from `Cont h k r := r = append h k` and
 `BWord := BHist`; `Unary / unary_basic` contains the depth-`2` non-unary
-`e0(e0 Empty)` row.
+`e0(e0 Empty)` row. The strict Beyond-FKernel slices are exact for ModN
+singleton-carrier rows through unary modulus depth `2` and for MetaCIC all-e0
+`natToBHist` rows through depth `3`.
 
 Convention-bound targets remain visible in strict output. `BHist /
 hsame_trans` is `6/27` because ordered triples over recursive `BHist` grow
@@ -373,6 +378,16 @@ and abstract `AskSetup`, while their manifests record semantic examples.
 `GroundCompiler / bhist_injectivity` is `4/9` because the Lean channel
 theorems range over recursive BHist event streams while the manifest keeps six
 representative stream-pair rows.
+
+Beyond-FKernel convention-bound targets cover the four derived manifest
+modules. `CircleS1 / s1_e1_components_carrier_exactness` is `2/9` over the
+depth-`1` dx/dy tail surface. The three `FoldMomentKernelUp` targets are each
+`1/3` over a depth-`1` window-varying nine-field carrier slice. `MetaCICAtom /
+inferAtom` is `6/20` over sort and var atoms in sort-only contexts through
+length `3`, and `MetaCICBHist / bhistToTerm_injective` is `6/12` over the
+mixed closedness/injectivity surface. The two finite-base topology carrier
+targets are each `1/18`, and `TopologyLedgerRow / ledger_constructor_tags` is
+`9/21` over the six constructor tags plus pairwise no-confusion rows.
 
 The strict gate is `make test-exhaustiveness`. Default `make test` runs the
 same tool in reporting mode.
