@@ -64,6 +64,10 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "retry_budget": 3,
         "next_action": "retry_resume",
     },
+    "resolved_prompt_format_crash": {
+        "retry_budget": 0,
+        "next_action": "skip",
+    },
     "wall_clock_exhausted": {
         "retry_budget": 1,
         "next_action": "retry_resume",
@@ -134,6 +138,29 @@ def _stage2_reject_kind(stage2: dict) -> str:
     return "stage2_hygiene_reject"
 
 
+def _is_resolved_literal_x_format_crash(state: dict) -> bool:
+    """Recognize pre-fix `{X}` prompt-format crashes.
+
+    Commit aa5aaf9c8d escaped the literal `{X}` examples in the affected
+    prompts on 2026-05-03T13:55:34+00:00. Older target states should not keep
+    surfacing as live user alerts, but a future matching crash should remain a
+    normal format_crash.
+    """
+    if state.get("error") != "'X'":
+        return False
+    completed_at = str(state.get("completed_at") or "")
+    if not completed_at or completed_at >= "2026-05-03T13:55:34+00:00":
+        return False
+    traceback = str(state.get("traceback") or "")
+    return (
+        "KeyError: 'X'" in traceback
+        and (
+            "codex_corrective_attempt" in traceback
+            or "theory_probe" in traceback
+        )
+    )
+
+
 def derive_failure_kind(state: dict) -> str:
     s1v = (state.get("stage1_verdict") or "").lower()
     s2 = state.get("stage2") or {}
@@ -153,6 +180,8 @@ def derive_failure_kind(state: dict) -> str:
         return "unknown"
 
     if s1v == "crashed":
+        if _is_resolved_literal_x_format_crash(state):
+            return "resolved_prompt_format_crash"
         err = (state.get("error") or "").lower()
         if "duplicate response" in err:
             return "oracle_duplicate_response"
@@ -276,6 +305,6 @@ def histogram() -> dict[str, int]:
             data = json.loads(state_file.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
-        kind = data.get("failure_kind") or derive_failure_kind(data)
+        kind = derive_failure_kind(data)
         counts[kind] = counts.get(kind, 0) + 1
     return counts
