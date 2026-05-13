@@ -70,4 +70,65 @@ theorem RegularCauchyProductCarrier_window_budget [AskSetup] [PackageSetup]
     ⟨windowAUnary, windowBUnary, endpointAUnary, endpointBUnary, productUnary, budgetUnary,
       windowTransportRow, endpointProductRow, productBudgetRow⟩
 
+theorem RegularCauchyProductCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name readbackConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      Cont readback provenance readbackConsumer ->
+        PkgSig bundle readbackConsumer pkg ->
+          UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory product ∧
+            UnaryHistory budget ∧ UnaryHistory readback ∧ UnaryHistory readbackConsumer ∧
+              Cont endpointA endpointB product ∧ Cont product budget readback ∧
+                Cont readback provenance readbackConsumer ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle readbackConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier readbackProvenanceConsumer readbackConsumerPkg
+  obtain ⟨sourceAUnary, sourceBUnary, _windowAUnary, _windowBUnary, endpointAUnary,
+    endpointBUnary, budgetUnary, _routeUnary, provenanceUnary, _windowTransportRow,
+    endpointProductRow, productBudgetRow, _provenanceTransportName, namePkg⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed endpointAUnary endpointBUnary endpointProductRow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed productUnary budgetUnary productBudgetRow
+  have readbackConsumerUnary : UnaryHistory readbackConsumer :=
+    unary_cont_closed readbackUnary provenanceUnary readbackProvenanceConsumer
+  exact
+    ⟨sourceAUnary, sourceBUnary, productUnary, budgetUnary, readbackUnary,
+      readbackConsumerUnary, endpointProductRow, productBudgetRow, readbackProvenanceConsumer,
+      namePkg, readbackConsumerPkg⟩
+
+theorem RegularCauchyProductCarrier_source_window_transport [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB endpointA endpointB product budget readback transport route
+      provenance name sourceA' sourceB' windowA' windowB' transport' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyProductCarrier sourceA sourceB windowA windowB endpointA endpointB product budget
+        readback transport route provenance name bundle pkg ->
+      hsame sourceA sourceA' ->
+        hsame sourceB sourceB' ->
+          hsame windowA windowA' ->
+            hsame windowB windowB' ->
+              Cont windowA' windowB' transport' ->
+                hsame transport transport' /\ UnaryHistory sourceA' /\ UnaryHistory sourceB' /\
+                  UnaryHistory windowA' /\ UnaryHistory windowB' /\ Cont windowA windowB transport /\
+                    Cont windowA' windowB' transport' := by
+  intro carrier sourceASame sourceBSame windowASame windowBSame transportedWindow
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, _endpointAUnary,
+    _endpointBUnary, _budgetUnary, _routeUnary, _provenanceUnary, windowTransportRow,
+    _endpointProductRow, _productBudgetRow, _provenanceTransportName, _namePkg⟩ := carrier
+  have sourceAUnary' : UnaryHistory sourceA' :=
+    unary_transport sourceAUnary sourceASame
+  have sourceBUnary' : UnaryHistory sourceB' :=
+    unary_transport sourceBUnary sourceBSame
+  have windowAUnary' : UnaryHistory windowA' :=
+    unary_transport windowAUnary windowASame
+  have windowBUnary' : UnaryHistory windowB' :=
+    unary_transport windowBUnary windowBSame
+  have transportSame : hsame transport transport' :=
+    cont_respects_hsame windowASame windowBSame windowTransportRow transportedWindow
+  exact
+    ⟨transportSame, sourceAUnary', sourceBUnary', windowAUnary', windowBUnary',
+      windowTransportRow, transportedWindow⟩
+
 end BEDC.Derived.RegularCauchyProductUp

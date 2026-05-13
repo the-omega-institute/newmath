@@ -138,4 +138,68 @@ theorem UniformCauchyCriterionPacket_real_seal_handoff [AskSetup] [PackageSetup]
       realReadUnary, indexWindowsModulus, modulusToleranceTail, tailSealRealRead, namePkg,
       realReadPkg⟩
 
+theorem UniformCauchyCriterionPacket_root_downstream_unblock [AskSetup] [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name tailRead
+      realRead consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index tail tailRead ->
+        Cont tail sealRow realRead ->
+          Cont tail realRead consumer ->
+            PkgSig bundle tailRead pkg ->
+              PkgSig bundle realRead pkg ->
+                PkgSig bundle consumer pkg ->
+                  UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+                    UnaryHistory tolerance ∧ UnaryHistory tail ∧ UnaryHistory sealRow ∧
+                      UnaryHistory tailRead ∧ UnaryHistory realRead ∧
+                        UnaryHistory consumer ∧ Cont index windows modulus ∧
+                          Cont modulus tolerance tail ∧ Cont index tail tailRead ∧
+                            Cont tail sealRow realRead ∧ Cont tail realRead consumer ∧
+                              PkgSig bundle name pkg ∧ PkgSig bundle tailRead pkg ∧
+                                PkgSig bundle realRead pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet indexTailRead tailSealRealRead tailRealConsumer tailReadPkg realReadPkg consumerPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed indexUnary tailUnary indexTailRead
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary sealRowUnary tailSealRealRead
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tailUnary realReadUnary tailRealConsumer
+  exact
+    ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, sealRowUnary,
+      tailReadUnary, realReadUnary, consumerUnary, indexWindowsModulus, modulusToleranceTail,
+      indexTailRead, tailSealRealRead, tailRealConsumer, namePkg, tailReadPkg, realReadPkg,
+      consumerPkg⟩
+
+theorem UniformCauchyCriterionPacket_root_tolerance_ledger_exactness [AskSetup]
+    [PackageSetup]
+    {index windows modulus tolerance tail sealRow transports routes provenance name tailRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCauchyCriterionPacket index windows modulus tolerance tail sealRow transports routes
+        provenance name bundle pkg ->
+      Cont index tail tailRead ->
+        PkgSig bundle tailRead pkg ->
+          UnaryHistory index ∧ UnaryHistory windows ∧ UnaryHistory modulus ∧
+            UnaryHistory tolerance ∧ UnaryHistory tail ∧ UnaryHistory tailRead ∧
+              Cont index windows modulus ∧ Cont modulus tolerance tail ∧
+                Cont index tail tailRead ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle tailRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet indexTailRead tailReadPkg
+  obtain ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, _sealRowUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, indexWindowsModulus,
+    modulusToleranceTail, _tailSealRowTransports, _transportsRoutesProvenance, namePkg⟩ :=
+    packet
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed indexUnary tailUnary indexTailRead
+  exact
+    ⟨indexUnary, windowsUnary, modulusUnary, toleranceUnary, tailUnary, tailReadUnary,
+      indexWindowsModulus, modulusToleranceTail, indexTailRead, namePkg, tailReadPkg⟩
+
 end BEDC.Derived.UniformCauchyCriterionUp
