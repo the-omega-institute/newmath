@@ -33,3 +33,15 @@ Use \autoref{thm:diagonal-limit-compatibility-seal-budget-route}. The seal-facin
 
 It remains only to exclude hidden inputs. Apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape} and \autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape}; together they exhaust the consumer surface by the displayed packet rows, with no quotient stream, selected limit, host equality, or ambient completeness coordinate.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility budget-source readback totality]
+\label{thm:diagonal-limit-compatibility-budget-source-readback-totality}
+Every $\RegSeqRatUp$, $\RealUp$, or $\CompletionUp$ consumer of an accepted $\DiagonalLimitCompatibilityUp$ packet first reads the displayed $\CauchyDiagonalBudgetUp$, $\RealDiagonalMeshBudgetUp$, $\RegularCauchyTriangleBoundUp$, and $\StreamNameUp$ rows. After that readback prefix, the consumer must pass through the seal-budget route of \autoref{thm:diagonal-limit-compatibility-seal-budget-route} before any $\CauchyLimitSealUp$ read or $\CauchySealBudgetSynchronizerUp$ handoff is available. The consumer surface has no alternate route through quotient streams, selected limits, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+The budget-source lock \autoref{thm:diagonal-limit-compatibility-budget-source-lock} fixes the first visible prefix of the packet. Thus any consumer that reaches the regular readback, Real row, or completion row has already read the displayed diagonal budget, mesh budget, triangle bound, and stream-window rows.
+
+Next use the seal-budget route of \autoref{thm:diagonal-limit-compatibility-seal-budget-route}. It places the $\CauchyLimitSealUp$ read and the $\CauchySealBudgetSynchronizerUp$ handoff downstream of that same finite budget prefix, so the seal-facing part of the consumer cannot bypass the displayed source rows.
+
+Finally apply \autoref{thm:diagonal-limit-compatibility-completion-consumer-gate}. Its consumer gate covers the $\RealUp$ and $\CompletionUp$ exits, and the regular readback row is one of the displayed rows feeding those exits. The non-escape clauses exclude quotient streams, selected limits, host equality, and ambient completeness, so the budget-source readback prefix is total for all listed consumers.
+\end{proof}

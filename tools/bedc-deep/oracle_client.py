@@ -96,8 +96,6 @@ def _infer_zero_extraction_hang(status: dict) -> dict:
         if rec.get("event") != "heartbeat" or not rec.get("recent", False):
             continue
         metrics = rec.get("metrics") or {}
-        if metrics.get("generating") is not True:
-            continue
         elapsed = _safe_int(metrics.get("elapsed_seconds"))
         extracted = _safe_int(metrics.get("extracted_chars"))
         page_chars = _safe_int(metrics.get("page_chars"))
@@ -168,7 +166,7 @@ def print_status_hint(server_url: str) -> dict:
         seconds = status.get("zero_extraction_hang_seconds", "?")
         url_tails = zero_extraction_url_tails(status)
         print(
-            f"[status] {agents or 'an agent'} is generating but has extracted 0 chars for >= {seconds}s.",
+            f"[status] {agents or 'an agent'} has an active task but extracted 0 chars for >= {seconds}s.",
             flush=True,
         )
         if url_tails:
@@ -399,7 +397,7 @@ def render_candidate_entry(target_id: str, candidate: dict) -> str:
     rationale = candidate.get("rationale", "")
     fit = candidate.get("fit_score", "?")
     novelty = candidate.get("novelty", "?")
-    landing_kind = candidate.get("landing_kind", "existing_chapter_lemma")
+    landing_kind = str(candidate.get("landing_kind") or "existing_chapter_lemma").strip()
     chapter_worthiness = str(candidate.get("chapter_worthiness") or "").strip()
     inputs_block = "\n".join(f"- `{p}`" for p in inputs) if inputs else "- (none provided)"
     worthiness_block = f"\nChapter worthiness:\n{chapter_worthiness}\n" if chapter_worthiness else ""
@@ -608,7 +606,25 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
         or bool(turns)
         or raw_latex_path.exists()
     )
-    codex_close_path = bool(codex_summary.get("close_path", False))
+    codex_close_value = codex_summary.get("close_path", False)
+    codex_close_path = bool(codex_close_value)
+    if (
+        codex_close_path
+        and not raw_latex_path.exists()
+        and isinstance(codex_close_value, str)
+        and "\\begin{" in codex_close_value
+    ):
+        insertion_hint = (
+            f"Insertion target: {codex_summary.get('tex_file')}\n\n"
+            if codex_summary.get("tex_file")
+            else ""
+        )
+        write_text(raw_latex_path, insertion_hint + codex_close_value.rstrip() + "\n")
+        print(
+            f"[v2 resume] {target.target_id} materialized {raw_latex_path.name} "
+            "from cursor codex_track.close_path; continuing to Stage 2",
+            flush=True,
+        )
     # Resume case: cursor was written under v1 Stage 0 (key: "stage0") with
     # accept verdict OR raw_oracle_latex.md exists from prior closed run.
     # Treat that content as a closed track — do NOT re-engage oracle.
@@ -1006,6 +1022,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "compile_errors": list(getattr(result, "compile_errors", None) or []),
                 "error": result.error,
                 "closure_candidate": getattr(result, "closure_candidate", None) or {},
+                "logic_audit": getattr(result, "logic_audit", None) or {},
             }
             stage2_attempts.append(attempt_record)
             if result.appended and result.compile_ok:
@@ -1116,6 +1133,7 @@ def run_target_v2(args: argparse.Namespace, target: BedcTarget) -> dict:
                 "rejection_reasons": last.get("rejection_reasons", []),
                 "error": last.get("error", ""),
                 "closure_candidate": last.get("closure_candidate", {}),
+                "logic_audit": last.get("logic_audit", {}),
                 "attempts": stage2_attempts,
             }
         write_text(out_dir / "stage2_result.json", json.dumps(stage2_summary, ensure_ascii=False, indent=2))

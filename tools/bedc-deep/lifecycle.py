@@ -64,6 +64,10 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "retry_budget": 3,
         "next_action": "retry_resume",
     },
+    "resolved_prompt_format_crash": {
+        "retry_budget": 0,
+        "next_action": "skip",
+    },
     "wall_clock_exhausted": {
         "retry_budget": 1,
         "next_action": "retry_resume",
@@ -72,6 +76,16 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "retry_budget": 0,
         "next_action": "skip",
         "mathematically_blocked": True,
+    },
+    "schema_boundary_target": {
+        "retry_budget": 0,
+        "next_action": "skip",
+        "mathematically_blocked": True,
+    },
+    "posthoc_paper_covered": {
+        "retry_budget": 0,
+        "next_action": "skip",
+        "covered_by_existing_paper": True,
     },
     "oracle_duplicate_response": {
         "retry_budget": 0,
@@ -134,6 +148,145 @@ def _stage2_reject_kind(stage2: dict) -> str:
     return "stage2_hygiene_reject"
 
 
+def _is_resolved_literal_x_format_crash(state: dict) -> bool:
+    """Recognize pre-fix `{X}` prompt-format crashes.
+
+    Commit aa5aaf9c8d escaped the literal `{X}` examples in the affected
+    prompts on 2026-05-03T13:55:34+00:00. Older target states should not keep
+    surfacing as live user alerts, but a future matching crash should remain a
+    normal format_crash.
+    """
+    if state.get("error") != "'X'":
+        return False
+    completed_at = str(state.get("completed_at") or "")
+    if not completed_at or completed_at >= "2026-05-03T13:55:34+00:00":
+        return False
+    traceback = str(state.get("traceback") or "")
+    return (
+        "KeyError: 'X'" in traceback
+        and (
+            "codex_corrective_attempt" in traceback
+            or "theory_probe" in traceback
+        )
+    )
+
+
+def _is_schema_boundary_target(state: dict) -> bool:
+    """Recognize old BOARD targets that point at schema-only roadmap surfaces.
+
+    These are not completed paper theorems, but retrying them as ordinary B-lane
+    theorem targets is misleading: the paper explicitly says the witnesses live
+    in a future constructive layer. Keep the match narrow so genuinely new
+    schema-boundary failures still surface for review.
+    """
+    target_id = str(state.get("target_id") or "")
+    title = str(state.get("title") or "").lower()
+    if target_id == "B-500" and title == "causal dependence implies positive max-rate":
+        return True
+    return False
+
+
+def _is_posthoc_paper_covered_target(state: dict) -> bool:
+    """Recognize old failed targets closed later by a paper patch.
+
+    Keep this list evidence-bound and narrow: it is only for stale lifecycle
+    alerts whose exact target now has a labeled theorem in the paper.
+    """
+    target_id = str(state.get("target_id") or "")
+    title = str(state.get("title") or "").lower()
+    if target_id == "B-398" and title == "split isomorphism inverse witnesses coincide":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "functor"
+            / "split_iso_inverse_uniqueness.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:category-split-isomorphism-inverse-witnesses-coincide" in text
+    if target_id == "B-495" and title == "distribution↑ null-completion random-variable descent":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "distribution"
+            / "null_completion_descent.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:distribution-null-completion-random-variable-descent" in text
+    if target_id == "B-725" and title == "docalculus intervention prefix locality":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "1784_docalculus_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return (
+                "def:do-calculus-displayed-prefix-subledger" in text
+                and "thm:do-calculus-intervention-prefix-locality" in text
+            )
+    if target_id == "B-726" and title == "enrichedcat two-step composition reassociation":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "160_enrichedcat_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:enrichedcat-two-step-composition-reassociation" in text
+    if target_id == "B-728" and title == "module linearmap pointwise zero additive identity":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "linearmap"
+            / "module_linearmap_kernel_image_and_zero.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:module-linearmap-pointwise-zero-additive-identity" in text
+    if target_id == "B-730" and title == "regularcauchymesh finite submesh restriction":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "3168_regularcauchymesh_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:regular-cauchy-mesh-finite-submesh-restriction" in text
+    if target_id == "B-731" and title == "hankelvandermonde spectral-shadow bridge":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "1796_hankelvandermonde_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:hankel-vandermonde-spectral-shadow-bridge" in text
+    return False
+
+
 def derive_failure_kind(state: dict) -> str:
     s1v = (state.get("stage1_verdict") or "").lower()
     s2 = state.get("stage2") or {}
@@ -142,13 +295,31 @@ def derive_failure_kind(state: dict) -> str:
     if s1v == "already_in_paper":
         return "pre_flight_duplicate"
 
+    if s1v == "manual_block":
+        existing = state.get("failure_kind")
+        if existing in FAILURE_KINDS and existing != "unknown":
+            return str(existing)
+        if state.get("covered_by_existing_paper"):
+            return "pre_flight_duplicate"
+        if state.get("mathematically_blocked"):
+            return "math_stuck"
+        return "unknown"
+
     if s1v == "crashed":
+        if _is_resolved_literal_x_format_crash(state):
+            return "resolved_prompt_format_crash"
         err = (state.get("error") or "").lower()
+        if "duplicate response" in err:
+            return "oracle_duplicate_response"
         if "replacement index" in err or "format" in err:
             return "format_crash"
         return "format_crash"
 
     if s1v == "stuck":
+        if _is_posthoc_paper_covered_target(state):
+            return "posthoc_paper_covered"
+        if _is_schema_boundary_target(state):
+            return "schema_boundary_target"
         return _stage1_kind_from_stuck(state)
 
     if s1v == "done":
@@ -157,6 +328,8 @@ def derive_failure_kind(state: dict) -> str:
         if s2v == "duplicate_of":
             return "stage2_duplicate_content"
         if s2v == "compile_failed":
+            if _is_posthoc_paper_covered_target(state):
+                return "posthoc_paper_covered"
             return "stage2_compile_failed"
         if s2v == "reject":
             attempts = s2.get("attempts") or []
@@ -264,6 +437,6 @@ def histogram() -> dict[str, int]:
             data = json.loads(state_file.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
-        kind = data.get("failure_kind") or derive_failure_kind(data)
+        kind = derive_failure_kind(data)
         counts[kind] = counts.get(kind, 0) + 1
     return counts

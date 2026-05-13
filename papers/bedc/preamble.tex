@@ -65,19 +65,7 @@
 \lhead{BEDC Theory Manuscript}
 \rhead{BEDC Theory}
 \cfoot{\thepage}
-\newtheorem{definition}{Definition}[chapter]
-\newtheorem{principle}[definition]{Principle}
-\newtheorem{kernelrule}[definition]{Kernel Rule}
-\newtheorem{rulebox}[definition]{Kernel Rule}
-\newtheorem{convention}[definition]{Convention}
-\newtheorem{lemma}[definition]{Lemma}
-\newtheorem{theorem}[definition]{Theorem}
-\newtheorem{corollary}[definition]{Corollary}
-\newtheorem{proposition}[definition]{Proposition}
-\newtheorem{protocol}[definition]{Protocol}
-\newtheorem{remark}[definition]{Remark}
-\newtheorem{example}[definition]{Example}
-\newtheorem{axiomlike}[definition]{Closure Principle}
+\input{preamble_theorem_envs.tex}
 \newcommand{\BEDC}{\mathsf{BEDC}}
 \newcommand{\bzero}{\mathsf{b0}}
 \newcommand{\bone}{\mathsf{b1}}
@@ -216,7 +204,7 @@
 \newcommand{\CrossHistCausalRouteUp}{\mathsf{CrossHistCausalRoute}^{\uparrow}}
 \newcommand{\CrossHistCausalRateUp}{\mathsf{CrossHistCausalRate}^{\uparrow}}
 \newcommand{\ObserverFrameRefusalUp}{\mathsf{ObserverFrameRefusal}^{\uparrow}}
-\newcommand{\InterHistLocalityLedgerUp}{\mathsf{InterHistLocalityLedger}^{\uparrow}}
+\newcommand{\InterHistLocalityLedgerUp}{\mathsf{InterHistLocalityLedger}^{\uparrow}}\newcommand{\MaxRateReadGateUp}{\mathsf{MaxRateReadGate}^{\uparrow}}
 \newcommand{\ObserverLocalityTransportUp}{\mathsf{ObserverLocalityTransport}^{\uparrow}}
 \newcommand{\HistTimeStreamUp}{\mathsf{HistTimeStream}^{\uparrow}}
 \newcommand{\ObservationTimeOrderUp}{\mathsf{ObservationTimeOrder}^{\uparrow}}
@@ -322,10 +310,10 @@
 \newcommand{\FiniteTailFiberScheduleUp}{\mathsf{FiniteTailFiberSchedule}^{\uparrow}}
 \newcommand{\RealInverseUp}{\mathsf{RealInverse}^{\uparrow}}
 \newcommand{\RealObservationBudgetUp}{\mathsf{RealObservationBudget}^{\uparrow}}
-\newcommand{\ObservationBudgetLimiterUp}{\mathsf{ObservationBudgetLimiter}^{\uparrow}}
+\newcommand{\ObservationBudgetLimiterUp}{\ensuremath{\mathsf{ObservationBudgetLimiter}^{\uparrow}}}
 \newcommand{\FinitePrefixLimitBudgetUp}{\mathsf{FinitePrefixLimitBudget}^{\uparrow}}
 \newcommand{\RegularCauchyFiniteObservationRouteUp}{\mathsf{RegularCauchyFiniteObservationRoute}^{\uparrow}}
-\newcommand{\RegularCauchyTailBudgetUp}{\mathsf{RegularCauchyTailBudget}^{\uparrow}}
+\newcommand{\RegularCauchyTailBudgetUp}{\ensuremath{\mathsf{RegularCauchyTailBudget}^{\uparrow}}}
 \newcommand{\CauchyRateBudgetUp}{\mathsf{CauchyRateBudget}^{\uparrow}}
 \newcommand{\TailBudgetCoherenceUp}{\mathsf{TailBudgetCoherence}^{\uparrow}}
 \newcommand{\DyadicTailRadiusLedgerUp}{\mathsf{DyadicTailRadiusLedger}^{\uparrow}}
@@ -469,6 +457,15 @@
 \newcommand{\PackageReflection}{\mathsf{PackageReflection}}
 
 \input{parts/concrete_instances/00_concrete_instance_macros.tex}
+\newcommand{\HaltedTmRoundTripUp}{\ensuremath{\mathsf{HaltedTmRoundTrip}^{\uparrow}}}
+\newcommand{\CompileFrontierWitnessUp}{\mathsf{CompileFrontierWitness}^{\uparrow}}
+\newcommand{\UniversalityClosureQuadrantUp}{\mathsf{UniversalityClosureQuadrant}^{\uparrow}}
+\newcommand{\ClosedSubstrateQuadrantUp}{\mathsf{ClosedSubstrateQuadrant}^{\uparrow}}
+\newcommand{\QuadrantSubstrateUp}{\ensuremath{\mathsf{QuadrantSubstrate}^{\uparrow}}}
+\newcommand{\UniversalClosedSubstrateUp}{\mathsf{UniversalClosedSubstrate}^{\uparrow}}
+\newcommand{\CookCompileFrontierWitnessUp}{\mathsf{CookCompileFrontierWitness}^{\uparrow}}
+\newcommand{\PresburgerSubUniversalUp}{\mathsf{PresburgerSubUniversal}^{\uparrow}}
+\newcommand{\CookFrontierWitnessUp}{\mathsf{CookFrontierWitness}^{\uparrow}}
 \newcommand{\RealSealCongruenceUp}{\mathsf{RealSealCongruence}^{\uparrow}}
 \newcommand{\AxisUnarySpineNormalizerUp}{\ensuremath{\mathsf{AxisUnarySpineNormalizer}^{\uparrow}}}
 \newcommand{\CauchyNetUp}{\mathsf{CauchyNet}^{\uparrow}}
@@ -578,7 +575,9 @@
 \newcommand{\HostDelegationSocketUp}{\mathsf{HostDelegationSocket}^{\uparrow}}
 \newcommand{\OperationalMembraneUp}{\mathsf{OperationalMembrane}^{\uparrow}}
 \newcommand{\ClosedTermSubstitutionCompilerUp}{\mathsf{ClosedTermSubstitutionCompiler}^{\uparrow}}
+\newcommand{\OracleAugmentedSubstrateUp}{\mathsf{OracleAugmentedSubstrate}^{\uparrow}}
 \newcommand{\CompilerOptimizationEndomorphismUp}{\mathsf{CompilerOptimizationEndomorphism}^{\uparrow}}
+\newcommand{\CookFrontierCoordinateUp}{\ensuremath{\mathsf{CookFrontierCoordinate}^{\uparrow}}}
 \newcommand{\CompilerCompositionTraceUp}{\mathsf{CompilerCompositionTrace}^{\uparrow}}
 \newcommand{\AuditMembraneUp}{\ensuremath{\mathsf{AuditMembrane}^{\uparrow}}}
 \newcommand{\ForbiddenAxiomAncestryUp}{\mathsf{ForbiddenAxiomAncestry}^{\uparrow}}
@@ -639,6 +638,7 @@
 \newcommand{\EmptyBoundaryStepUp}{\mathsf{EmptyBoundaryStep}^{\uparrow}}
 \newcommand{\NegativeNameBoundaryUp}{\mathsf{NegativeNameBoundary}^{\uparrow}}
 \newcommand{\InscriptionPointUp}{\mathsf{InscriptionPoint}^{\uparrow}}
+\newcommand{\LargeModelInscriptionPointUp}{\mathsf{LargeModelInscriptionPoint}^{\uparrow}}
 \newcommand{\InscriptionEventUp}{\mathsf{InscriptionEvent}^{\uparrow}}
 \newcommand{\AuthoredRecordBoundaryUp}{\mathsf{AuthoredRecordBoundary}^{\uparrow}}
 \newcommand{\PrefixObserverUp}{\mathsf{PrefixObserver}^{\uparrow}}
@@ -652,7 +652,11 @@
 \newcommand{\DefiniteDescriptionBoundaryUp}{\mathsf{DefiniteDescriptionBoundary}^{\uparrow}}
 \newcommand{\AuthorizedGeneratorRecursorUp}{\mathsf{AuthorizedGeneratorRecursor}^{\uparrow}}
 \newcommand{\AuthorizedRecursorUp}{\mathsf{AuthorizedRecursor}^{\uparrow}}
-
+\providecommand{\CellularTrustSubstrateUp}{\mathsf{CellularTrustSubstrate}^{\uparrow}}
+\newcommand{\CellularCarrierEncodingUp}{\mathsf{CellularCarrierEncoding}^{\uparrow}}
+\newcommand{\ClosureUniversalityQuadrantUp}{\mathsf{ClosureUniversalityQuadrant}^{\uparrow}}
+\newcommand{\BHistCellRowEmbeddingUp}{\mathsf{BHistCellRowEmbedding}^{\uparrow}}
+\newcommand{\OracleSubstrateBoundaryUp}{\mathsf{OracleSubstrateBoundary}^{\uparrow}}
 % Closure-and-verification discipline macros
 % (\autoref{ch:closure-and-verification-discipline})
 
@@ -751,6 +755,7 @@
 \newcommand{\DependentCodomainInversionBoundaryUp}{\mathsf{DependentCodomainInversionBoundary}^{\uparrow}}
 \newcommand{\ClosurePreservationClassifierUp}{\mathsf{ClosurePreservationClassifier}^{\uparrow}}
 \newcommand{\ClosurePreservationAuditTraceUp}{\mathsf{ClosurePreservationAuditTrace}^{\uparrow}}
+\newcommand{\CellularSubstrateClassifierUp}{\mathsf{CellularSubstrateClassifier}^{\uparrow}}
 
 % --- Standard-bridge structural macros (paper bridge, separate from
 % the bridgeCheckedV verification token above) ---------------------------

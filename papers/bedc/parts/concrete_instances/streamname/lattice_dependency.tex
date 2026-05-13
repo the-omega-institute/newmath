@@ -85,3 +85,19 @@ Finally use \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}
 
 Coordinate exhaustion gives the exclusion clause. None of the three accepted consumers contains a coordinate for quotient stream equality, a selected limit, host real equality, or ambient completeness, so the fused route cannot export any of those endpoints.
 \end{proof}
+
+\begin{theorem}[StreamName dyadic RegSeqRat Real pullback exactness]
+\label{thm:streamname-dyadic-regseq-real-pullback-exactness}
+Let $W$ be an accepted $\StreamNameUp$ finite-window packet consumed by accepted $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows. Then the pullback source of the accepted read is the same whether the consumer reads through the StreamName point rows, the $\DyadicRatCoreUp$ observation ledger, the $\RegSeqRatUp$ regular source row, or the $\RealUp$ seal row.
+
+Equivalently, the four visible routes agree through the displayed $\BHist$ observations, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The common pullback exports no quotient stream equality, selected limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First identify the source rows. Apply \autoref{thm:streamname-rat-regseqrat-lattice-source} to read the accepted StreamName finite window as pointwise carrier and classifier rows before the regular-sequence or real-seal consumer is exposed.
+
+Next factor the L10 route. By \autoref{thm:streamname-l10-gateway-factorization}, every accepted L10 read passes through the StreamName window rows, unary observations, bundle ledger, $\RegSeqRatUp$ regular source row, dyadic observation ledger, finite tail witness, finite approximation row, and $\RealUp$ seal row.
+
+Now fuse the finite windows. Apply \autoref{thm:streamname-finite-window-diagonal-fusion} to identify the shared route into the $\RealUp$ seal through the displayed $\hsame$ transports and $\Cont$ routes.
+
+Project the four sibling rows. The StreamName point rows, dyadic observation ledger, RegSeqRat regular source row, and RealUp seal row all read the same displayed window, transport, route, provenance, and local naming coordinates. Coordinate exhaustion then gives the pullback exactness claim and excludes quotient stream equality, selected limits, host real equality, and ambient completeness from the common source.
+\end{proof}

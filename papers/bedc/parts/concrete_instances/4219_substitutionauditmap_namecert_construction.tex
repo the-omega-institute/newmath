@@ -4,6 +4,8 @@
 
 The $\SubstitutionAuditMapUp$ packet realizes the MetaCIC substitution audit map of \autoref{ch:metacic-substitution-audit-map} as finite NameCert data. It sits beside the closed-substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert} and the closed-term substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}: those siblings name the inert boundary rows, while this packet records the audit map through which later closed-normal and subject-reduction consumers inspect those rows without acquiring an unrestricted substitution calculus.
 
+The generator-closure classifier row is read through the concrete $\GeneratorClosureUp$ certificate of \autoref{ch:concrete-instances-generatorclosure-namecert} before it is specialized to closed shift, closed substitution, and closed-composition audit rows.
+
 \begin{definition}[Substitution audit map carrier]
 \label{def:substitution-audit-map-carrier}
 A $\SubstitutionAuditMapUp$ carrier is a finite $\BHist$ packet
@@ -51,6 +53,7 @@ The remaining rows $H,Q,P,N$ transport, route, locate, and name that same packet
 
 Therefore any consumer of the accepted packet can cite only the closed substitution audit rows and their displayed routes. The non-escape exclusions are exactly the missing coordinates recorded in the carrier definition.
 \end{proof}
+\leanchecked{BEDC.Derived.SubstitutionAuditMapUp.SubstitutionAuditMapCarrier\_boundary\_nonescape}
 
 \begin{theorem}[Substitution audit map positive row coverage]
 \label{thm:substitutionauditmap-positive-row-coverage}
