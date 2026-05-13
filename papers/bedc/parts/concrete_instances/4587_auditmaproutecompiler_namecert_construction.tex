@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapRouteCompilerUp$}
+\label{ch:concrete-instances-audit-map-route-compiler-namecert}
+\origin{ai}
+
+The $\AuditMapRouteCompilerUp$ packet realizes the GroundCompiler audit map of \autoref{ch:bedc-groundcompiler-audit-map} as a finite route-compiler NameCert surface. It sits beside the concrete inventory of \autoref{ch:concrete-instances-audit-map-concrete-inventory-namecert} and the obstruction socket of \autoref{ch:concrete-instances-audit-map-obstruction-socket-namecert}: the inventory names the available audit rows, the socket records the visible obstruction boundary, and the present packet compiles event-flow, source-channel, recognizer, certificate-gate, theorem-code, chapter-code, metric, motif, and cannot-claim rows into routes that downstream GroundCompiler consumers may inspect.
+
+\begin{definition}[AuditMapRouteCompiler carrier]
+\label{def:audit-map-route-compiler-carrier}
+An $\AuditMapRouteCompilerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(E,S,G,A,T,C,M,F,L,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the GroundCompiler event-flow row naming the finite source event, generated event, and replay route being compiled;
+\item $S$ is the source-channel row, separating source input, channel code, carried metadata, and compiler report evidence;
+\item $G$ is the generated-recognizer row that decides which generated recognizer may consume the event-flow output;
+\item $A$ is the certificate-gate row that records the local admission route for recognized compiler-layer evidence;
+\item $T$ is the theorem-code route row, keeping theorem code, proof evidence, and accepted theorem export in distinct coordinates;
+\item $C$ is the chapter-code route row, keeping chapter code, topic code, and downstream chapter claims in distinct coordinates;
+\item $M$ is the metric and motif route row, displaying similarity, metric, and motif reports only as audit-map observations;
+\item $F$ is the cannot-claim ledger row, listing the compiler-layer claims that remain unavailable to this packet;
+\item $L$ is the route-compiler ledger from event-flow rows through recognizer and certificate-gate rows to theorem-code, chapter-code, metric, motif, and cannot-claim outputs;
+\item $H$ records componentwise $\hsame$ transports for $E,S,G,A,T,C,M,F,L,P,N$;
+\item $K$ records displayed $\Cont$ routes by which downstream consumers read the same finite route inventory;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-groundcompiler-audit-map}, \autoref{ch:concrete-instances-audit-map-concrete-inventory-namecert}, \autoref{ch:concrete-instances-audit-map-obstruction-socket-namecert}, $\BHist$, $\hsame$, $\Cont$, and local compiler-layer rows;
+\item $N$ is the local $\NameCert_{\AuditMapRouteCompilerUp}$ row.
+\end{enumerate}
+The carrier contains no hidden compiler input, no proof extracted from theorem code, no chapter claim extracted from topic code, no metric-to-evidence coercion, and no closed correctness theorem for the GroundCompiler layer.
+\end{definition}
+
+\begin{theorem}[AuditMapRouteCompiler NameCert obligations]
+\label{thm:audit-map-route-compiler-namecert-obligations}
+For the carrier of \autoref{def:audit-map-route-compiler-carrier}, the local $\NameCert_{\AuditMapRouteCompilerUp}$ surface consists exactly of route admission for $R=(E,S,G,A,T,C,M,F,L,H,K,P,N)$, source-channel separation through $S$, generated-recognizer gating through $G$, certificate-gate admission through $A$, theorem-code and chapter-code routing through $T,C$, metric and motif observation through $M$, cannot-claim ledgering through $F$, route-compiler exactness through $L$, componentwise transport through $H$, displayed continuation through $K$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The event-flow row $E$ and source-channel row $S$ are the only entries from which a compiler-layer route can begin.
+
+Next read the generated-recognizer and certificate-gate rows $G,A$. They determine whether the event-flow output may be consumed as admitted audit evidence, and they keep recognizer output distinct from certificate evidence.
+
+The theorem-code, chapter-code, metric, motif, and cannot-claim coordinates are then read through $T,C,M,F$ and accounted for by $L$. The structural rows $H,K,P,N$ transport, replay, package, and name exactly those rows, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[AuditMapRouteCompiler non-escape]
+\label{thm:audit-map-route-compiler-nonescape}
+Every accepted $\AuditMapRouteCompilerUp$ packet exports GroundCompiler audit-map evidence only through
+$$
+E,S,G,A,T,C,M,F,L,H,K,P,N.
+$$
+A downstream consumer may read event flows, source channels, generated recognizers, certificate gates, theorem-code routes, chapter-code routes, metric and motif observations, cannot-claim ledgers, route ledgers, transports, continuations, provenance, and the local $\NameCert$ row. It cannot obtain hidden compiler input, proof evidence from theorem code, chapter closure from topic code, BEDC evidence from metric or motif reports, a closed compiler correctness theorem, or an unrecorded route outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They confine every admitted route to the displayed carrier rows and identify $L$ as the only route-compiler ledger.
+
+For event-flow and source-channel reads, the consumer must use $E,S,G,A$ before any evidence row is available. For theorem-code, chapter-code, metric, motif, and cannot-claim reads, the consumer must use $T,C,M,F$ together with the ledger row $L$.
+
+The rows $H,K,P,N$ preserve and replay the same finite inventory. Since the carrier has no coordinate for hidden compiler input, proof extraction from code, chapter closure from topic code, evidence extraction from metric reports, closed compiler correctness, or unrecorded routes, those objects cannot escape from the packet.
+\end{proof}
+
+\begin{theorem}[AuditMapRouteCompiler GroundCompiler handoff]
+\label{thm:audit-map-route-compiler-groundcompiler-handoff}
+The GroundCompiler audit map of \autoref{ch:bedc-groundcompiler-audit-map} hands off to downstream concrete-instance chapters through the finite $\AuditMapRouteCompilerUp$ carrier of \autoref{def:audit-map-route-compiler-carrier}. The handoff routes event flows, source channels, generated recognizers, certificate gates, theorem-code rows, chapter-code rows, metric and motif observations, and cannot-claim ledgers through $E,S,G,A,T,C,M,F,L,H,K,P,N$, with the sibling inventory and obstruction rows supplied by \autoref{ch:concrete-instances-audit-map-concrete-inventory-namecert} and \autoref{ch:concrete-instances-audit-map-obstruction-socket-namecert}.
+\end{theorem}
+\begin{proof}
+Read the GroundCompiler audit map as the source of the route inventory. The concrete inventory chapter supplies the audit rows that may be named, and the obstruction socket supplies the boundary rows that may be reported without closing them.
+
+The carrier then compiles those rows into the displayed route ledger $L$. Event-flow, source-channel, recognizer, certificate-gate, theorem-code, chapter-code, metric, motif, and cannot-claim data are all rows of the same finite packet.
+
+Finally apply non-escape. The handoff is therefore a NameCert route compiler for visible audit-map data, not a hidden compiler input channel, a proof extractor, a chapter-closure mechanism, or a GroundCompiler correctness theorem.
+\end{proof}
+
+\closureat{AuditMapRouteCompilerUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapRouteCompilerUp}
+  \constructivestory{An $\AuditMapRouteCompilerUp$ packet is generated from GroundCompiler event-flow, source-channel, generated-recognizer, certificate-gate, theorem-code, chapter-code, metric, motif, cannot-claim, route-ledger, transport, continuation, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-route-compiler-carrier}, \autoref{thm:audit-map-route-compiler-namecert-obligations}, \autoref{thm:audit-map-route-compiler-nonescape}, and \autoref{thm:audit-map-route-compiler-groundcompiler-handoff} bind the finite route-compiler carrier and its GroundCompiler audit-map handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close GroundCompiler correctness, hidden-input absence beyond the displayed route rows, theorem-code proof extraction, chapter-code closure, metric evidence, motif evidence, or bridge checking.}
+  \upgradepath{Lean encoding remains to bind carrier admission, route-ledger exactness, non-escape, and GroundCompiler handoff for the same finite route-compiler packet.}
+\end{closurestatus}
