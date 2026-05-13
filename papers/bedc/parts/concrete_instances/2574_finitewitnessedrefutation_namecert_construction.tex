@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWitnessedRefutationUp$}
+\label{ch:concrete-instances-finitewitnessedrefutation-namecert}
+\origin{human}
+
+The $\FiniteWitnessedRefutationUp$ interface records a causal-commitment failure as a finite contrary-record packet. It turns the causality reading of \autoref{sec:hard-problems-causality} into a concrete naming surface: an observed regularity ledger, a forward-binding $\Gap$ commitment, a contrary record, and the GAP non-escape ledger through which downstream consumers may inspect the failure.
+
+\begin{definition}[Finite witnessed refutation carrier]
+\label{def:finite-witnessed-refutation-carrier}
+A $\FiniteWitnessedRefutationUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,G,K,V,D,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $R$ is the finite observed-regularity ledger that supported the causal commitment;
+\item $G$ is the $\Gap$-tagged forward-binding commitment asserting that the recorded regularity persists beyond the currently observed history;
+\item $K$ is the finite commitment key naming the prediction, tolerance, domain cell, and record shape against which a contrary record is checked;
+\item $V$ is the contrary-record witness, displayed as a finite observation row whose classifier conflicts with the commitment key;
+\item $D$ is the decision ledger recording the local comparison between $K$ and $V$;
+\item $H$ stores the displayed $\hsame$ transports for the regularity ledger, commitment row, commitment key, contrary witness, and decision ledger;
+\item $C$ stores the $\Cont$ routes by which consumers inspect the support record, commitment, witness, and decision row;
+\item $P$ is the $\Pkg$ provenance row over $\BHist$, $\hsame$, $\Cont$, $\Gap$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteWitnessedRefutationUp}$ registration row.
+\end{enumerate}
+The local classifier compares two carriers only through these rows. It does not decide universal causality, does not choose a host law, and does not erase the $\Gap$ commitment; it records that the named finite witness conflicts with the named finite commitment key.
+\end{definition}
+
+\begin{theorem}[Finite witnessed refutation NameCert obligations]
+\label{thm:finite-witnessed-refutation-namecert-obligations}
+The local $\NameCert_{\FiniteWitnessedRefutationUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier formation for the finite packet of \autoref{def:finite-witnessed-refutation-carrier};
+\item classifier stability for the transported support ledger $R$, commitment row $G$, key $K$, contrary witness $V$, and decision ledger $D$;
+\item witness exactness, requiring the contrary record consumed by the refutation to be exactly the displayed row $V$;
+\item decision exactness, requiring the conflict claim to be read only through the comparison row $D$ between $K$ and $V$;
+\item package closure, requiring the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows to contain exactly the provenance used by downstream causal-commitment consumers.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier formation is the tuple assembly of \autoref{def:finite-witnessed-refutation-carrier}. The support ledger, commitment, key, contrary witness, decision row, transport rows, continuation routes, package provenance, and naming row are all visible coordinates of $F$.
+
+Classifier stability is componentwise. Transport the support ledger and commitment first, then transport the key and contrary witness, and finally transport the decision ledger that compares them.
+
+Witness exactness and decision exactness are projections of the same finite packet. A consumer may cite a refutation only by reading $V$ against $K$ through $D$.
+
+Package closure follows by projecting $H$, $C$, $P$, and $N$. No host causal law, all-future causal closure, or external failure oracle occurs as a coordinate of the carrier.
+\end{proof}
+
+\begin{theorem}[Finite witnessed refutation ledger exactness]
+\label{thm:finite-witnessed-refutation-ledger-exactness}
+For every accepted packet
+$$
+F=(R,G,K,V,D,H,C,P,N),
+$$
+the public refutation read is exactly the finite route from the support ledger $R$ and forward-binding commitment $G$ to the key $K$, contrary witness $V$, and comparison ledger $D$, transported by $H$, routed by $C$, packaged by $P$, and named by $N$. No refutation read may use a witness, comparison, or support record absent from the packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-witnessed-refutation-namecert-obligations}. Its witness exactness clause binds every contrary record to $V$, and its decision exactness clause binds the conflict claim to $D$.
+
+The support side is also finite. The rows $R$ and $G$ state which observed regularity and which forward-binding $\Gap$ commitment are under inspection, while $K$ states the finite prediction cell tested by $V$.
+
+The remaining rows $H,C,P,N$ carry transport, continuation, provenance, and local naming. Hence the refutation route is exactly the displayed finite ledger, not a hidden appeal to an ambient theory of causation.
+\end{proof}
+
+\begin{theorem}[Finite witnessed refutation non-escape]
+\label{thm:finite-witnessed-refutation-non-escape}
+The public boundary of $\FiniteWitnessedRefutationUp$ exports only the finite contrary-record packet over $\BHist$, $\Gap$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It exports no host causal law, no global falsification principle, no all-future causal closure, no external observation selector, and no erasure of the original $\Gap$ commitment.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:finite-witnessed-refutation-carrier}. The only failure-facing rows are the support ledger, commitment row, key, contrary witness, and decision ledger.
+
+Apply \autoref{thm:finite-witnessed-refutation-ledger-exactness}. Every public refutation read passes through those rows and their displayed transport, continuation, package, and naming data.
+
+The excluded objects are absent from the tuple. The packet therefore records a finite witnessed conflict with a causal commitment, while the wider question of universal causal closure remains outside the exported boundary.
+\end{proof}
+
+\begin{theorem}[Finite witnessed refutation public packet]
+\label{thm:finite-witnessed-refutation-public-packet}
+An accepted $\FiniteWitnessedRefutationUp$ packet is a public causal-commitment failure surface for downstream BEDC consumers. Such a consumer may inspect the supporting observations, the forward-binding $\Gap$ row, the commitment key, the contrary witness, and the decision ledger, but every read must factor through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by the carrier.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:finite-witnessed-refutation-namecert-obligations} to obtain the carrier, stability, witness, decision, and package clauses. These clauses identify the rows available to a public consumer.
+
+Next apply \autoref{thm:finite-witnessed-refutation-ledger-exactness}. It forces the refutation read through $R,G,K,V,D,H,C,P,N$ and rules out any absent witness or comparison row.
+
+Finally apply \autoref{thm:finite-witnessed-refutation-non-escape}. Since the carrier has no coordinate for a host law, global falsification principle, external observation selector, or erased $\Gap$, the exported object is exactly the finite public packet.
+\end{proof}
+
+\closureat{FiniteWitnessedRefutationUp}{obligationStr}
