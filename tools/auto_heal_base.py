@@ -341,25 +341,29 @@ Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after a
 """
 
 
-def detect_propext_violations() -> list[str]:
-    """Run bedc_ci.py axiom-purity --strict; parse `X -> propext` lines.
+def detect_propext_violations_from_log() -> list[str]:
+    """Parse the orchestrator log tail for `<theorem> -> propext` lines.
 
-    Returns the fully-qualified theorem names that depend on propext.
-    Empty list when audit is clean."""
+    The lean orchestrator logs the full `[bedc-ci] axiom-purity FAIL`
+    output when an R-round hits the pre-merge axiom-purity gate. This
+    parser pulls the theorem names from those log entries without
+    re-running the (~60s) audit script.
+
+    Only consulted when `detect_gate_storms()` reports an
+    `axiom-purity --strict` storm — i.e., when the pipeline has
+    already surfaced the failure. Passive consumption, not active
+    polling."""
     try:
-        res = run(
-            ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
-            check=False, capture=True, timeout=300,
-        )
-    except subprocess.TimeoutExpired:
+        size = LEAN_ORCH_LOG.stat().st_size
+        with LEAN_ORCH_LOG.open("rb") as f:
+            if size > 4 * 1024 * 1024:
+                f.seek(size - 4 * 1024 * 1024)
+            tail = f.read().decode("utf-8", errors="ignore")
+    except Exception:
         return []
-    if res.returncode == 0:
-        return []
-    out = (res.stdout or "") + (res.stderr or "")
     violations: list[str] = []
-    for line in out.splitlines():
+    for line in tail.splitlines():
         s = line.strip()
-        # Format: `  BEDC.Foo.barTheorem -> propext`
         if " -> propext" not in s:
             continue
         name = s.split(" -> propext", 1)[0].strip()
@@ -643,26 +647,6 @@ def cycle() -> None:
     else:
         print("[heal] audit clean (0 dup labels)", flush=True)
 
-    # Detect propext-axiom violations (the typeclass-projection trap).
-    # Fixes are content-level (rewrite proof), not prompt-level — so this
-    # runs separately from the generic gate-storm heal that targets
-    # prompt-fix-able recurring failures.
-    propext_v = detect_propext_violations()
-    if propext_v:
-        print(f"[heal] {len(propext_v)} propext violation(s) detected; invoking codex",
-              flush=True)
-        for v in propext_v[:5]:
-            print(f"[heal]   {v}", flush=True)
-        if heal_propext_violations(propext_v):
-            if push_to_origin():
-                print("[heal] codex committed + pushed (propext)", flush=True)
-            else:
-                print("[heal] codex committed but push failed (will retry next tick)",
-                      flush=True)
-            return  # one heal per cycle is enough
-    else:
-        print("[heal] axiom-purity clean (0 propext violations)", flush=True)
-
     # Detect generic gate-failure storms in orchestrator logs.
     storms = detect_gate_storms()
     if not storms:
@@ -673,11 +657,30 @@ def cycle() -> None:
         print(f"[heal]   {s['side']}-side '{s['gate']}': {s['count']} rounds in 30min",
               flush=True)
     # Heal the worst one this cycle (next cycle picks up the next if codex's
-    # prompt fix actually drained the top storm).
+    # fix actually drained the top storm).
     top = storms[0]
     print(f"[heal] healing top storm: {top['gate']} ({top['count']} rounds)",
           flush=True)
-    if heal_gate_storm(top):
+    # Route by storm gate name: content-level failures (propext) get
+    # the focused per-theorem heal; everything else falls through to the
+    # generic prompt-fix heal.
+    healed = False
+    if "axiom-purity --strict" in top["gate"]:
+        propext_v = detect_propext_violations_from_log()
+        if propext_v:
+            print(f"[heal] axiom-purity storm: {len(propext_v)} propext violation(s) "
+                  f"parsed from log; invoking codex per-theorem", flush=True)
+            for v in propext_v[:5]:
+                print(f"[heal]   {v}", flush=True)
+            healed = heal_propext_violations(propext_v)
+        else:
+            # Storm reported axiom-purity gate but log didn't contain
+            # `-> propext` lines — fall through to generic heal.
+            healed = heal_gate_storm(top)
+    else:
+        healed = heal_gate_storm(top)
+
+    if healed:
         if push_to_origin():
             print(f"[heal] codex committed + pushed (gate storm: {top['gate']})",
                   flush=True)

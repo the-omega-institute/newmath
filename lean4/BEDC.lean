@@ -99,6 +99,7 @@ import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
+import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
@@ -170,7 +171,9 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
+import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelAcceptanceTraceUp
+import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
@@ -578,6 +581,7 @@ import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeSocketUp
+import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.StackUp

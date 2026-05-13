@@ -163,6 +163,26 @@ Apply \autoref{thm:regular-cauchy-sequence-selected-window-coverage}. Those sele
 Finally use \autoref{thm:regular-cauchy-sequence-realseal-handoff}. The row $E$ is reachable only after $F,\mu,W,D,R,G$ have been displayed, so the coverage handoff consumes the listed rows and nothing outside the finite packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence budget-window synchronization]
+\label{thm:regular-cauchy-sequence-budget-window-synchronization}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet. Suppose the selected-window surface of $S$ is consumed by an accepted $\RealObservationBudgetUp$ route or by an accepted $\CauchyLimitSealUp$ budget route. Then the budget route and the $\RegularCauchySequenceUp$ handoff read the same finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal row through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Equivalently, the budget-facing consumer may only use the selected windows $W$, dyadic ledger $D$, regular readback $R$, diagonal-window coverage row $G$, seal row $E$, transports $H$, continuations $C$, provenance $P$, and local name $N$ already displayed by $S$ and by the seal-budget route. It receives no quotient stream, host real equality, selected limit, countable-choice coordinate, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First confine the regular-family side. By \autoref{thm:regular-cauchy-sequence-selected-window-coverage}, every selected-window read of $S$ is already routed through $F,\mu,W,D,R,H,C,P,N$, with no extra host stream or completeness coordinate.
+
+Next apply the diagonal-window handoff of \autoref{thm:regular-cauchy-sequence-diagonal-window-coverage-handoff}. It identifies $G$ as the consumer row that reads the selected $\StreamNameUp$ windows together with the $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal row, displayed transports, continuations, provenance, and local naming row.
+
+Now read the budget route. Budget root source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality} says an accepted $\RealObservationBudgetUp$ or $\CauchyLimitSealUp$ budget consumer is sourced by the displayed seal and budget rows, rather than by an independent completion object.
+
+Finally use dyadic-window exactness from \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. The budget ledger is the scheduled finite window ledger already exposed by the seal packet, so the composed route reads the same $W,D,R,E,H,C,P,N$ surface as the regular Cauchy sequence handoff. The non-escape clauses in the cited rows exclude quotient streams, host real equality, selected limits, countable choice, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence diagonal tail selector factorization]
 \label{thm:regular-cauchy-sequence-diagonal-tail-selector-factorization}
 Let
@@ -309,6 +329,26 @@ Next attach the shared-threshold route by \autoref{thm:regular-cauchy-sequence-s
 Finally apply \autoref{thm:regular-cauchy-sequence-root-obligation-export}. The root export is therefore a scoped dependency surface over exactly the listed rows, and the non-escape clauses rule out quotient streams, host limits, choice, hidden tail oracles, and ambient completeness for every downstream consumer.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence public export]
+\label{thm:regular-cauchy-sequence-public-export}
+For every accepted $\RegularCauchySequenceUp$ packet
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N),
+$$
+the carrier, rowwise classifier, selected-window regularity, diagonal-window coverage, selector-budget factor, shared-threshold import, and $\RealUp$ seal handoff assemble into one public $\NameCert_{\RegularCauchySequenceUp}$ export. The export is exactly the finite surface over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ already displayed by the packet.
+
+No quotient stream, host limit, selected external limit, choice coordinate, hidden tail oracle, or ambient completeness theorem is part of this public export.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-sequence-obligation-closure}. It packages the carrier, classifier, selected-window regularity, diagonal-window coverage, $\RealUp$ handoff, transport, provenance, and non-escape rows for the single finite packet $S$.
+
+Next apply \autoref{thm:regular-cauchy-sequence-scope-dependency-surface}. This identifies the exact dependency surface over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Attach the tail-facing factors through \autoref{thm:regular-cauchy-sequence-selector-budget-factor}, \autoref{thm:regular-cauchy-sequence-tail-selector-budget-lock}, and \autoref{thm:regular-cauchy-sequence-root-obligation-export}. These theorems route the selected-window budget and shared threshold through the same displayed packet before any Real-facing consumer can read the seal.
+
+The resulting public $\NameCert_{\RegularCauchySequenceUp}$ export is therefore the displayed finite packet and its imported shared-threshold surface. The non-escape clauses in the cited theorems rule out quotient streams, host limits, choice, hidden tail oracles, selected external limits, and ambient completeness.
+\end{proof}
+
 \closureat{RegularCauchySequenceUp}{seedStr}
 \closureat{RegularCauchySequenceUp}{obligationStr}
 \closureat{RegularCauchySequenceUp}{scopedStr}
@@ -316,7 +356,7 @@ Finally apply \autoref{thm:regular-cauchy-sequence-root-obligation-export}. The 
 \begin{closurestatus}{\RegularCauchySequenceUp}
   \constructivestory{A $\RegularCauchySequenceUp$ packet is generated from a finite regular Cauchy family row, explicit modulus, selected StreamName windows, a DyadicRatCore readback ledger, RegSeqRat readbacks, RealDiagonalWindowCoverage coverage, a RealUp handoff row, componentwise transports, continuation routes, package provenance, and local naming.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-sequence-carrier}, \autoref{def:regular-cauchy-sequence-classifier}, \autoref{thm:regular-cauchy-sequence-window-regularity}, \autoref{thm:regular-cauchy-sequence-namecert-obligations}, \autoref{lem:regular-cauchy-sequence-non-escape}, \autoref{lem:regular-cauchy-sequence-transport-stability}, \autoref{thm:regular-cauchy-sequence-realseal-handoff}, \autoref{thm:regular-cauchy-sequence-obligation-closure}, \autoref{thm:regular-cauchy-sequence-root-obligation-export}, and \autoref{thm:regular-cauchy-sequence-scope-dependency-surface} bind the seed carrier, rowwise classifier, finite selected-window obligations, transport discipline, non-escape boundary, RealUp handoff surface, shared-threshold import, root obligation export, and exact scoped dependency surface for regular Cauchy family data.}
+  \scopeclosed{\autoref{def:regular-cauchy-sequence-carrier}, \autoref{def:regular-cauchy-sequence-classifier}, \autoref{thm:regular-cauchy-sequence-window-regularity}, \autoref{thm:regular-cauchy-sequence-namecert-obligations}, \autoref{lem:regular-cauchy-sequence-non-escape}, \autoref{lem:regular-cauchy-sequence-transport-stability}, \autoref{thm:regular-cauchy-sequence-realseal-handoff}, \autoref{thm:regular-cauchy-sequence-obligation-closure}, \autoref{thm:regular-cauchy-sequence-root-obligation-export}, \autoref{thm:regular-cauchy-sequence-scope-dependency-surface}, and \autoref{thm:regular-cauchy-sequence-public-export} bind the seed carrier, rowwise classifier, finite selected-window obligations, transport discipline, non-escape boundary, RealUp handoff surface, shared-threshold import, root obligation export, exact scoped dependency surface, and public NameCert export for regular Cauchy family data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

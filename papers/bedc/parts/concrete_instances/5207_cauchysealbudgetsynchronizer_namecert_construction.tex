@@ -50,19 +50,60 @@ Apply the NameCert obligation theorem. It requires every admitted consumer route
 Thus a seal read that omits the budget row has no route to $B$, and a seal read that omits both the selector row and the shared-threshold compatibility row has no route to $D,T,L$. Since the carrier contains no quotient stream, host real equality, selected external limit, countable-choice row, or ambient completeness theorem, no omitted analytic object can be repacked as a second seal route.
 \end{proof}
 
+\begin{theorem}[Cauchy seal-budget synchronizer obligation package]
+\label{thm:cauchy-seal-budget-synchronizer-obligation-package}
+For an accepted $\CauchySealBudgetSynchronizerUp$ carrier
+$$
+Z=(E,S,B,T,D,L,H,C,P,N),
+$$
+the rows $E,S,B,T,D,L,H,C,P,N$ exhaust the local obligation package: carrier admission by $E$, selector exposure by $D$, budget exposure by $B$, shared-tail exposure by $T$, seal exposure by $S$, joint compatibility by $L$, componentwise $\hsame$ transport by $H$, displayed $\Cont$ replay by $C$, $\Pkg$ provenance by $P$, and local $\NameCert_{\CauchySealBudgetSynchronizerUp}$ naming by $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier displayed in \autoref{def:cauchy-seal-budget-synchronizer-carrier}. Its ten coordinates are exactly the request, seal, budget, tail schedule, selector, compatibility, transport, continuation, provenance, and naming rows.
+
+Apply \autoref{thm:cauchy-seal-budget-synchronizer-obligations}. It identifies the local $\NameCert$ surface with carrier admission, selector exposure, budget exposure, shared-tail exposure, seal exposure, compatibility, componentwise transport, displayed route replay, package provenance, and local naming.
+
+Finally use \autoref{thm:cauchy-seal-budget-synchronizer-nonescape}. Since no consumer can bypass both the budget row and the selector-threshold compatibility row while exporting the seal, no hidden quotient stream, selected external limit, countable-choice row, or ambient-completeness object can enlarge the obligation package beyond the displayed carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy seal-budget synchronizer route replay]
+\label{thm:cauchy-seal-budget-synchronizer-route-replay}
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer route reading an accepted $\CauchySealBudgetSynchronizerUp$ packet reads the selector row $D$, budget row $B$, shared-tail row $T$, compatibility row $L$, and seal row $S$ through the transport, continuation, provenance, and naming rows $H,C,P,N$. A consumer route that reaches $S$ without replaying $D,B,T,L$ is not a route through the carrier $Z=(E,S,B,T,D,L,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Start with the route rows in the carrier. The continuation coordinate $C$ displays the consumer paths for the request, selector, budget, shared threshold, compatibility row, seal row, provenance, and local name.
+
+Apply \autoref{thm:cauchy-seal-budget-synchronizer-obligation-package}. It fixes $H,C,P,N$ as the transport, replay, provenance, and naming rows for the same finite packet, so a consumer cannot read a detached seal row outside those routes.
+
+The non-escape theorem then forces the seal-facing read through $B$ and through the selector-threshold compatibility surface $D,T,L$. Hence every $\RealUp$ or $\CauchyLimitSealUp$ read of the packet replays the displayed route family before exporting the seal.
+\end{proof}
+
+\begin{theorem}[Cauchy seal-budget synchronizer budget-seal compatibility]
+\label{thm:cauchy-seal-budget-synchronizer-budget-seal-compatibility}
+An accepted $\CauchySealBudgetSynchronizerUp$ seal read is admitted only when the displayed budget row $B$ and the compatibility row $L$ bind the same selected diagonal tail $D$ and the same shared threshold $T$ used by the seal row $S$. A read with a budget from one selector-threshold pair and a seal from another is outside the local $\NameCert_{\CauchySealBudgetSynchronizerUp}$ surface.
+\end{theorem}
+\begin{proof}
+Project the compatibility row $L$ from \autoref{def:cauchy-seal-budget-synchronizer-carrier}. It is the only row that ties the selector $D$, budget $B$, shared threshold $T$, and seal $S$ into one route.
+
+Apply \autoref{thm:cauchy-seal-budget-synchronizer-route-replay}. Every seal-facing consumer route reads $D,B,T,L,S$ through the same $H,C,P,N$ surface, so the budget and seal cannot be assembled from two unrelated route fragments.
+
+The non-escape theorem excludes a bypass through quotient streams, host real equality, selected external limits, countable choice, or ambient completeness. Therefore the admitted seal read is exactly the one whose budget and compatibility rows bind the same selected diagonal tail and shared threshold.
+\end{proof}
+
 \falsifiablePrediction{If an accepted synchronizer packet is read by a RealCompleteness consumer, the read factors through both a displayed CauchyLimitSealUp row and a displayed CauchyDiagonalBudgetUp or RealObservationBudgetUp row; a seal read bypassing both refutes the packet.}
 
 \independenceWitness{cauchylimitseal, cauchydiagonalbudget, realobservationbudget, tailcofinalityschedule, diagonaltailselector: none is bijective because the synchronizer has one joint compatibility row tying selector, observation budget, shared threshold, and seal rows; each sibling lacks at least one of these rows.}
 
 \closureat{CauchySealBudgetSynchronizerUp}{seedStr}[BEDC.Derived.CauchySealBudgetSynchronizerUp.CauchySealBudgetSynchronizerTasteGate\_single\_carrier\_alignment]
+\closureat{CauchySealBudgetSynchronizerUp}{obligationStr}[BEDC.Derived.CauchySealBudgetSynchronizerUp.CauchySealBudgetSynchronizerTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CauchySealBudgetSynchronizerUp}
   \constructivestory{A $\CauchySealBudgetSynchronizerUp$ packet is generated from a finite precision request, completion-facing seal row, budget row, tail schedule row, diagonal selector row, joint compatibility row, componentwise transports, displayed routes, package provenance, and local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-seal-budget-synchronizer-carrier}, \autoref{thm:cauchy-seal-budget-synchronizer-obligations}, \autoref{thm:cauchy-seal-budget-synchronizer-nonescape}, the TasteGate marker, the falsifiable prediction, and the independence witness bind the synchronizer carrier, NameCert obligations, non-escape boundary, and public seed evidence for the finite seal-budget synchronization surface.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-seal-budget-synchronizer-carrier}, \autoref{thm:cauchy-seal-budget-synchronizer-obligations}, \autoref{thm:cauchy-seal-budget-synchronizer-nonescape}, \autoref{thm:cauchy-seal-budget-synchronizer-obligation-package}, \autoref{thm:cauchy-seal-budget-synchronizer-route-replay}, \autoref{thm:cauchy-seal-budget-synchronizer-budget-seal-compatibility}, and the checked TasteGate marker bind the synchronizer carrier, finite obligation package, route replay, compatibility boundary, and non-escape surface.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.CauchySealBudgetSynchronizerUp.CauchySealBudgetSynchronizerTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, selected external limits, countable choice, ambient completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked naming obligations and route non-escape for the same finite synchronizer packet.}
+  \upgradepath{Scoped closure requires grounding the obligation rows against the displayed $\CauchyLimitSealUp$, $\CauchyDiagonalBudgetUp$, $\RealObservationBudgetUp$, $\TailCofinalityScheduleUp$, $\DiagonalTailSelectorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
