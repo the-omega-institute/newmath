@@ -263,6 +263,36 @@ theorem RealCompletenessBHistCarrier_carrier_transport [AskSetup] [PackageSetup]
       sealUnary', transportUnary', routeUnary', provenanceUnary', certUnary', endpointUnary',
       endpointRoute', endpointPkg'⟩, sameEndpoint⟩
 
+theorem RealCompletenessBHistCarrier_candidate_uniqueness_boundary [AskSetup] [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert endpoint
+      family' modulus' selector' dyadic' windows' readback' sealRow' endpoint' diagonal diagonal'
+      candidate candidate' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow transport
+        route provenance cert endpoint bundle pkg ->
+      hsame selector selector' ->
+        hsame dyadic dyadic' ->
+          hsame windows windows' ->
+            hsame sealRow sealRow' ->
+              Cont selector dyadic diagonal ->
+                Cont selector' dyadic' diagonal' ->
+                  Cont diagonal windows candidate ->
+                    Cont diagonal' windows' candidate' ->
+                      Cont candidate sealRow endpoint ->
+                        Cont candidate' sealRow' endpoint' ->
+                          hsame diagonal diagonal' ∧ hsame candidate candidate' ∧
+                            hsame endpoint endpoint' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro _carrier sameSelector sameDyadic sameWindows sameSeal selectorDyadic selectorDyadic'
+    diagonalWindows diagonalWindows' candidateSeal candidateSeal'
+  have sameDiagonal : hsame diagonal diagonal' :=
+    cont_respects_hsame sameSelector sameDyadic selectorDyadic selectorDyadic'
+  have sameCandidate : hsame candidate candidate' :=
+    cont_respects_hsame sameDiagonal sameWindows diagonalWindows diagonalWindows'
+  have sameEndpoint : hsame endpoint endpoint' :=
+    cont_respects_hsame sameCandidate sameSeal candidateSeal candidateSeal'
+  exact ⟨sameDiagonal, sameCandidate, sameEndpoint⟩
+
 theorem RealCompletenessBHistCarrier_consumer_route_totality [AskSetup] [PackageSetup]
     {family modulus selector dyadic windows readback sealRow transport route provenance cert endpoint
       request diagonal witness consumer : BHist}
