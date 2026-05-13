@@ -177,6 +177,62 @@ theorem UniformModulusPacket_root_unblock_consumer_threshold_route [AskSetup] [P
       exact ⟨sourceRow.right.right, toleranceBundleCoverage, coveragePointwiseTransport⟩
   }
 
+theorem UniformModulusPacket_root_fold_threshold_exhaustion [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow threshold exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg ->
+      Cont precision radius threshold ->
+        Cont threshold foldLedger exported ->
+          PkgSig bundle exported pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row exported ∧ UnaryHistory row ∧
+                PkgSig bundle row pkg)
+              (fun row : BHist => Cont threshold foldLedger row ∧
+                Cont precision radius threshold ∧ Cont precision radius foldLedger)
+              (fun row : BHist => PkgSig bundle row pkg ∧
+                Cont tolerance bundleRow coverage ∧ Cont coverage pointwise transport)
+              (fun row row' : BHist => hsame row row') := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro packet thresholdRoute exportRoute exportPkg
+  obtain ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, _nameRowUnary,
+    toleranceBundleCoverage, coveragePointwiseTransport, precisionRadiusFoldLedger,
+    _foldNameProvenance, _provenancePkg⟩ := packet
+  have thresholdUnary : UnaryHistory threshold :=
+    unary_cont_closed precisionUnary radiusUnary thresholdRoute
+  have foldLedgerUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary precisionRadiusFoldLedger
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed thresholdUnary foldLedgerUnary exportRoute
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro exported ⟨hsame_refl exported, exportedUnary, exportPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _row' same sourceRow
+        cases same
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        ⟨cont_result_hsame_transport exportRoute (hsame_symm sourceRow.left),
+          thresholdRoute, precisionRadiusFoldLedger⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right.right, toleranceBundleCoverage, coveragePointwiseTransport⟩
+  }
+
 theorem UniformModulusPacket_classifier_transport_stability [AskSetup] [PackageSetup]
     {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
       nameRow tolerance' precision' bundleRow' radius' coverage' pointwise' foldLedger'
