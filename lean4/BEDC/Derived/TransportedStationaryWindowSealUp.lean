@@ -86,4 +86,27 @@ theorem TransportedStationaryWindowSealPacket_readback_determinacy
     cont_respects_hsame ratSame windowSame originalRoute transportedRoute
   exact ⟨sealSame, originalRoute, transportedRoute⟩
 
+theorem TransportedStationaryWindowSealPacket_real_factorization
+    [AskSetup] [PackageSetup]
+    {ratRow streamWindow sealRow envelope realRow diagonalRow routes provenance nameCert endpoint
+      realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TransportedStationaryWindowSealPacket ratRow streamWindow sealRow envelope realRow diagonalRow
+        routes provenance nameCert endpoint bundle pkg ->
+      Cont realRow routes realRead ->
+        UnaryHistory realRow /\ UnaryHistory routes /\ UnaryHistory realRead /\
+          Cont sealRow envelope realRow /\ Cont realRow diagonalRow routes /\
+            Cont realRow routes realRead /\ PkgSig bundle endpoint pkg := by
+  intro packet realReadRoute
+  obtain ⟨_ratUnary, _streamUnary, sealUnary, envelopeUnary, _diagonalUnary, routesUnary,
+    _provenanceUnary, _nameCertUnary, _ratStreamSeal, sealEnvelopeReal, realDiagonalRoutes,
+    _routesProvenanceNameCert, _endpointCont, endpointPkg⟩ := packet
+  have realUnary : UnaryHistory realRow :=
+    unary_cont_closed sealUnary envelopeUnary sealEnvelopeReal
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed realUnary routesUnary realReadRoute
+  exact
+    ⟨realUnary, routesUnary, realReadUnary, sealEnvelopeReal, realDiagonalRoutes,
+      realReadRoute, endpointPkg⟩
+
 end BEDC.Derived.TransportedStationaryWindowSealUp
