@@ -138,6 +138,7 @@ INTERPRETATION_KINDS = [
     "quotient_projection",
     "substrate_mirror",
     "heuristic_translation",
+    "none",
 ]
 
 EXISTENCE_MODES = [
