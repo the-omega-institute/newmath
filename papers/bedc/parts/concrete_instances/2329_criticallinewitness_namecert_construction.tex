@@ -157,6 +157,42 @@ Apply \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness} and \a
 Finally invoke \autoref{thm:critical-line-witness-ledger-exactness}. It identifies the public ledger with $Z,S,M,R,Q,H,C,P,N$, so every accepted read is sourced by the finite zero-row packet and no global $\mathsf{RH}$-facing conclusion is exported.
 \end{proof}
 
+\begin{theorem}[Critical-line witness obligation closure package]
+\label{thm:critical-line-witness-obligation-closure-package}
+For supplied zero-in-strip inputs, \autoref{def:critical-line-witness-carrier},
+\autoref{thm:critical-line-witness-namecert-obligations},
+\autoref{thm:critical-line-witness-strip-zero-compatibility},
+\autoref{thm:critical-line-witness-realpart-modulus-stability},
+\autoref{thm:critical-line-witness-rat-comparison-ledger-exactness},
+\autoref{thm:critical-line-witness-nonescape-boundary},
+\autoref{thm:critical-line-witness-ledger-exactness}, and
+\autoref{thm:critical-line-witness-zero-row-scope} jointly form the
+$\CriticalLineWitnessUp$ obligation package. The package is exactly the finite
+surface $Z,S,M,R,Q,H,C,P,N$ and preserves the exclusions: no proof of
+$\mathsf{RH}$, no zero production, no global zero-set classifier, no analytic
+continuation, no host equality, no quotient representative, and no analytic
+completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier and local naming rows first. The carrier definition and
+NameCert obligations display the supplied zero row, critical-strip row,
+modulus route, real-part row, rational comparison ledger, transports,
+continuations, provenance, and local certificate.
+
+Next use the compatibility and stability rows. The zero-strip compatibility
+theorem keeps $Z$ and $S$ tied to the same supplied history, and the real-part
+modulus stability theorem keeps every depth request attached to $R,M,Q$.
+
+The rational ledger exactness theorem accounts for the half-line and dyadic
+comparison rows. Non-escape then removes the host equality, quotient,
+zero-production, global-classifier, analytic-continuation, and completeness
+channels.
+
+Finally apply ledger exactness and zero-row source scope. They identify every
+public witness read with $Z,S,M,R,Q,H,C,P,N$, which is precisely the stated
+obligation package for supplied zero-in-strip inputs.
+\end{proof}
+
 \closureat{CriticalLineWitnessUp}{seedStr}
 
 \begin{closurestatus}{\CriticalLineWitnessUp}
