@@ -189,6 +189,28 @@ theorem DyadicSubdivisionSource_mesh_coverage [AskSetup] [PackageSetup]
                                               · exact provenancePkg
                                               exact namePkg
 
+theorem DyadicSubdivisionSource_validated_enclosure_handoff [AskSetup] [PackageSetup]
+    {parent level cells mesh validated provenance name enclosure : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionSource parent level cells mesh validated provenance name bundle pkg ->
+      Cont mesh validated enclosure ->
+        PkgSig bundle enclosure pkg ->
+          UnaryHistory parent ∧ UnaryHistory level ∧ UnaryHistory cells ∧
+            UnaryHistory mesh ∧ UnaryHistory validated ∧ UnaryHistory enclosure ∧
+              Cont parent level cells ∧ Cont cells mesh validated ∧
+                Cont mesh validated enclosure ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle enclosure pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro source enclosureRoute enclosurePkg
+  obtain ⟨parentUnary, levelUnary, cellsUnary, meshUnary, validatedUnary, _provenanceUnary,
+    _nameUnary, parentLevelCells, cellsMeshValidated, _validatedProvenanceName,
+    _provenancePkg, namePkg⟩ := source
+  have enclosureUnary : UnaryHistory enclosure :=
+    unary_cont_closed meshUnary validatedUnary enclosureRoute
+  exact
+    ⟨parentUnary, levelUnary, cellsUnary, meshUnary, validatedUnary, enclosureUnary,
+      parentLevelCells, cellsMeshValidated, enclosureRoute, namePkg, enclosurePkg⟩
+
 theorem DyadicSubdivisionSource_cell_ledger_transport [AskSetup] [PackageSetup]
     {parent level cells mesh validated provenance name parent' level' cells' mesh' validated'
       provenance' name' : BHist}
