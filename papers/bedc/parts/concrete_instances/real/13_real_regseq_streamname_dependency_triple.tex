@@ -107,6 +107,48 @@ after the $\RealUp$ endpoint. The only available interface is the stated
 finite route.
 \end{proof}
 
+\begin{theorem}[Real open-phase dependency triple current surface]
+\label{thm:real-open-phase-dependency-triple-current-surface}
+Every current Phase Real and completion-facing $\RealUp$ seal consumer of the
+dependency triple
+$$
+(S,Q,D,R,H,C,P,N)
+$$
+factors through exactly four displayed faces: the $\DyadicRatCoreUp$
+observation face $D$, the $\StreamNameUp$ finite-window face $S$, the
+$\RegSeqRatUp$ regularity and readback face $Q$, and the local $\RealUp$ seal
+face $R$. The factorization is transported only by the displayed
+componentwise $\hsame$ row $H$, the $\Cont$ route row $C$, the $\Pkg$
+provenance row $P$, and the local $\NameCert$ row $N$.
+
+Conversely, those four faces together with $H,C,P,N$ assemble the accepted
+current surface for such consumers. The surface has no coordinate for quotient
+streams, host equality, selected limits, ambient completeness, arithmetic
+packages, order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+Start with the displayed dependency triple of
+\autoref{def:real-regseq-streamname-dependency-triple}. Its carrier rows are
+exactly $S,Q,D,R,H,C,P,N$, so any current consumer must begin from those
+coordinates.
+
+Apply \autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It exhausts
+each accepted seal route by the finite-window row $S$, the regular readback row
+$Q$, the dyadic observation row $D$, and the local seal row $R$, transported
+through $H,C,P,N$.
+
+Apply \autoref{thm:real-regseq-streamname-cauchy-completion-interface}. The
+same route is the completion-facing interface before a $\RealUp$ endpoint is
+read, so Phase Real and completion RealUp seal consumers share the displayed
+four-face surface.
+
+For the converse, assemble the accepted surface from the four listed faces and
+the transport, route, provenance, and certificate rows. The exclusion clause in
+the dependency triple removes quotient streams, host equality, selected
+limits, ambient completeness, arithmetic packages, order packages, and
+metric-completeness rows, leaving no further coordinate to add.
+\end{proof}
+
 \begin{theorem}[Real seal RegSeqRat StreamName dependency exhaustion]
 \label{thm:real-seal-regseq-streamname-dependency-exhaustion}
 Every accepted $\RealUp$ seal consumer that reads the dependency triple of
@@ -326,4 +368,51 @@ componentwise agreement hypotheses are exactly the pullback agreement
 conditions for the four open-phase faces and their structural rows. Therefore
 every completion-facing comparison factors through that common finite window
 lock and through nothing larger.
+\end{proof}
+
+\begin{theorem}[Real L10 four-face route lock]
+\label{thm:real-l10-four-face-route-lock}
+Let
+$$
+X=(S,Q,D,R,H,C,P,N)
+\quad\text{and}\quad
+Y=(S',Q',D',R',H',C',P',N')
+$$
+be accepted $\RealUp$ RegSeqRat StreamName dependency triples. Every current
+Phase Real and Completion consumer comparison between $X$ and $Y$ factors
+through exactly the four open-phase faces
+$$
+\DyadicRatCoreUp,\qquad \StreamNameUp,\qquad
+\RegSeqRatUp,\qquad \RealUp .
+$$
+The only comparison structure available to that factorization is the
+displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in the two packets.
+
+Thus no quotient stream, host equality, selected limit, ambient completeness,
+arithmetic package, order package, or metric-completeness row is available to
+the comparison. The comparison is locked to the local finite route through the
+dyadic observation ledger, stream-name finite window, regular-rational
+readback, and local real seal.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:real-regseq-streamname-seal-route-exhaustion}. It exhausts every
+accepted seal-facing route by the displayed $\StreamNameUp$ finite-window row,
+$\RegSeqRatUp$ readback row, $\DyadicRatCoreUp$ ledger row, local $\RealUp$
+seal row, and the shown $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply
+\autoref{thm:real-regseq-streamname-finite-window-pullback-classifier}. The
+classifier for accepted Real RegSeqRat StreamName dependency triples is the
+finite pullback of those four open-phase faces together with the displayed
+structural rows, so a consumer comparison has no independent coordinate
+outside that pullback.
+
+Finally apply
+\autoref{thm:real-regseq-streamname-dyadic-window-lock}. The common finite
+window lock forces every completion-facing comparison between accepted packets
+through the shared four-face window. Since the three results already remove
+quotient streams, host equality, selected limits, ambient completeness,
+arithmetic and order packages, and metric-completeness rows, the Real L10
+comparison route is exactly the four-face route stated above.
 \end{proof}

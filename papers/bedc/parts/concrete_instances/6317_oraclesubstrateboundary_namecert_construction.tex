@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\OracleSubstrateBoundaryUp$}
+\label{ch:concrete-instances-oracle-substrate-boundary-namecert}
+\origin{ai}
+
+The $\OracleSubstrateBoundaryUp$ packet realizes the oracle-open substrate boundary of \autoref{ch:visions-closure-universality-quadrant} as a finite $\NameCert$ carrier. It sits beside the two-axis quadrant packet of \autoref{ch:concrete-instances-universality-closure-quadrant-namecert}, the closed cellular trust surface of \autoref{ch:concrete-instances-cellulartrustsubstrate-namecert}, and the finite cellular ledger of \autoref{ch:concrete-instances-cellularautomaton-namecert}. Its distinguishing datum is an explicit external-channel row: the packet can name an oracle-query boundary without converting that row into a closed substrate observation.
+
+\falsifiablePrediction{Removing the external-channel row makes the packet indistinguishable from a closed cellular substrate, while removing the refusal ledger permits an internal-induction read.}
+
+\independenceWitness{Nearest siblings: universalityclosurequadrant, cellulartrustsubstrate, cellularautomaton, kernelobservationsieve, and boundeduniversaltrace; none is bijective because this carrier has an oracle-query boundary and refusal ledger absent from closed substrate packets.}
+
+\begin{definition}[Oracle-substrate boundary carrier]
+\label{def:oracle-substrate-boundary-carrier}
+An $\OracleSubstrateBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+O=(S,Q,E,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the substrate row, naming the machine, cellular, or host-side carrier whose observation boundary is being inspected;
+\item $Q$ is the oracle-query row, listing the finite query sites that leave the closed substrate interface;
+\item $E$ is the external-channel row, recording the boundary at which a query is routed outside the closed observation ledger;
+\item $R$ is the refusal ledger, recording which internal-induction, closed-observation, quotient-equality, and host-semantic reads are rejected for the same packet;
+\item $L$ is the local observation ledger, recording the closed substrate rows that remain visible on the substrate side of the boundary;
+\item $H$ records componentwise $\hsame$ transports for $S,Q,E,R,L,P,N$;
+\item $C$ records displayed $\Cont$ routes that replay the local observation rows, the oracle-query boundary read, and the refusal ledger;
+\item $P$ is the $\Pkg$ provenance over $\OracleSubstrateBoundaryUp$, \autoref{ch:visions-closure-universality-quadrant}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\OracleSubstrateBoundaryUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the substrate row, oracle-query row, external-channel row, refusal ledger, local observation ledger, componentwise transports, replay routes, provenance, and naming row. It has no coordinate for replacing the external channel by a closed cellular observation or for reading oracle refusal as an induction principle internal to the substrate.
+\end{definition}
+
+\begin{theorem}[Oracle-substrate boundary NameCert obligations]
+\label{thm:oracle-substrate-boundary-namecert-obligations}
+For the carrier of \autoref{def:oracle-substrate-boundary-carrier}, the local $\NameCert_{\OracleSubstrateBoundaryUp}$ surface consists exactly of six finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for $O=(S,Q,E,R,L,H,C,P,N)$;
+\item substrate-side observation accountability through $S$ and $L$;
+\item oracle-query accountability through the displayed query row $Q$;
+\item external-channel boundary accountability through $E$;
+\item refusal accountability through $R$, excluding closed-substrate induction, quotient equality, hidden host semantics, and oracle import into local observations;
+\item componentwise stability, route replay, package provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No consumer can cite an oracle-open substrate boundary as $\OracleSubstrateBoundaryUp$ evidence unless the query row, external-channel row, and refusal ledger are present in the same finite packet.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:oracle-substrate-boundary-carrier}. The accepted packet displays the substrate row, oracle-query row, external-channel row, refusal ledger, local observation ledger, transports, routes, package provenance, and local name as its only coordinates.
+
+Substrate accountability and oracle accountability are separate reads. The local observation ledger $L$ records closed substrate rows, while $Q$ and $E$ record the query sites and the boundary through which those sites leave the closed interface.
+
+The refusal ledger blocks the escape modes named in the statement. A consumer may replay the finite boundary route through $C$, but there is no coordinate that turns an external query into closed-substrate induction, quotient equality, hidden host semantics, or an oracle imported into the local observation rows.
+
+Finally, $H,P,N$ transport, package, and name exactly the same finite packet. These rows certify stability and provenance for the displayed carrier; they do not add any missing closed-substrate or internal-induction coordinate.
+\end{proof}
+
+\begin{theorem}[Oracle-substrate boundary external-channel non-escape]
+\label{thm:oracle-substrate-boundary-external-channel-nonescape}
+Every public boundary read exported by an accepted $\OracleSubstrateBoundaryUp$ packet factors through the finite route
+$$
+S,Q,E,R,L,H,C,P,N .
+$$
+The route can certify that a displayed substrate has an oracle-query boundary and a refusal ledger, but it exports no closed cellular substrate certificate, no internal induction principle for oracle answers, no quotient equality of behaviours, no host semantic equality, and no oracle computation detached from the displayed boundary row.
+\end{theorem}
+\begin{proof}
+Begin with carrier projection. The only public rows are the substrate row $S$, oracle-query row $Q$, external-channel row $E$, refusal ledger $R$, local observation ledger $L$, transports $H$, replay routes $C$, provenance $P$, and local name $N$.
+
+The query boundary must be read through $Q$ and $E$. The closed substrate side remains only the finite observation ledger $L$, so the carrier keeps the oracle-facing boundary distinct from the cellular or host-side rows it may reference.
+
+The refusal ledger records the missing routes. A closed cellular substrate certificate would require the external-channel row to disappear; an internal induction principle for oracle answers would require a rule absent from $R$; quotient equality and host semantic equality would require coordinates not present in the packet.
+
+Thus every accepted public read remains a finite boundary certificate. It may identify the oracle-open edge of the substrate, but it cannot export an oracle computation or closed-substrate conclusion outside the displayed route.
+\end{proof}
+
+The Lean development $\mathsf{BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate}$ will later provide $\mathsf{Nontrivial}\ \OracleSubstrateBoundaryUp$ and $\mathsf{FieldFaithful}\ \OracleSubstrateBoundaryUp$ instances for the displayed carrier. These instances must preserve the substrate row, oracle-query row, external-channel row, refusal ledger, local observation ledger, transport rows, continuation routes, package provenance, and local naming row.
+
+\closureat{OracleSubstrateBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\OracleSubstrateBoundaryUp}
+  \constructivestory{An $\OracleSubstrateBoundaryUp$ packet is generated from a substrate row, oracle-query row, external-channel row, refusal ledger, local observation ledger, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:oracle-substrate-boundary-carrier}, \autoref{thm:oracle-substrate-boundary-namecert-obligations}, and \autoref{thm:oracle-substrate-boundary-external-channel-nonescape} specify the finite oracle-query boundary certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, oracle computation, closed cellular substrate completeness, internal induction over oracle answers, quotient equality, or host semantic equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, substrate-side accountability, oracle-query accountability, external-channel accountability, refusal-ledger exactness, nontriviality, and field faithfulness for the same boundary carrier.}
+\end{closurestatus}

@@ -203,4 +203,31 @@ theorem MaxCausalRatePacket_configuration_locality_obligation [AskSetup] [Packag
   exact
     ⟨configurationUnary, witnessesUnary, boundUnary, provenanceNameConfiguration, namePkg⟩
 
+theorem MaxCausalRatePacket_public_unary_bound_export [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert witnessRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      Cont witnesses bound witnessRead ->
+        Cont witnessRead routes publicRead ->
+          PkgSig bundle witnessRead pkg ->
+            PkgSig bundle publicRead pkg ->
+              UnaryHistory bound ∧ UnaryHistory witnessRead ∧ UnaryHistory publicRead ∧
+                Cont witnesses bound witnessRead ∧ Cont witnessRead routes publicRead ∧
+                  PkgSig bundle nameCert pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro packet witnessRoute publicRoute _witnessPkg publicPkg
+  obtain ⟨_configurationUnary, witnessesUnary, boundUnary, _comparisonsUnary,
+    _hsameTransportUnary, _psameStabilityUnary, routesUnary, _provenanceUnary,
+    _nameCertUnary, _witnessBoundComparison, _comparisonTransportStability,
+    _stabilityRouteProvenance, _provenanceNameConfiguration, namePkg⟩ := packet
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed witnessesUnary boundUnary witnessRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed witnessReadUnary routesUnary publicRoute
+  exact
+    ⟨boundUnary, witnessReadUnary, publicReadUnary, witnessRoute, publicRoute, namePkg,
+      publicPkg⟩
+
 end BEDC.Derived.MaxCausalRateUp

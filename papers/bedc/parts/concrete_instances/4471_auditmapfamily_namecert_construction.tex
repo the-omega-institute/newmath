@@ -77,6 +77,64 @@ Apply the inventory factorization of \autoref{thm:audit-map-family-inventory-fac
 Use cross-map non-escape from \autoref{thm:audit-map-family-cross-map-nonescape}. Even when the frontier entry points at a neighbouring audit map, the route can cite only what that neighbouring map itself exposes. Thus the frontier remains a named boundary and cannot discharge an unlisted theorem.
 \end{proof}
 
+\falsifiablePrediction{An accepted $\AuditMapFamilyUp$ packet cannot turn a frontier row into a closed theorem unless that theorem is already present in the finite inventory row $I$.}
+
+\independenceWitness{metacicbetaaudit, metacic-closure-preservation-audit, substitutionauditmap, metacicnormalizationaudit, auditgatecomposition: these nearest audit siblings expose local beta, closure-preservation, substitution, normalisation, and gate-composition rows, but no bijection preserves the combined inventory, obstruction, routing, and frontier rows of the family packet.}
+
+\begin{theorem}[Audit-map family TasteGate primality commitment]
+\label{thm:audit-map-family-tastegate-primality-commitment}
+For every accepted $\AuditMapFamilyUp$ carrier
+$$
+F=(T,I,O,R,B,H,C,K,N),
+$$
+the falsifiability row saying that $B$ cannot become a closed theorem outside $I$ and the sibling-independence row separating the family packet from metacicbetaaudit, metacic-closure-preservation-audit, substitutionauditmap, metacicnormalizationaudit, and auditgatecomposition are carrier-visible commitments of the same finite packet. They are read through $I,O,R,B,H,C,K,N$ and not through a hidden theorem inventory, ambient audit equivalence, or unlisted family map.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-map-family-namecert-carrier}. The rows $I,O,R,B$ are the only rows that classify inventory, obstruction, routing, and frontier data for the family.
+
+Apply frontier non-escape from \autoref{thm:audit-map-family-frontier-nonescape}. A frontier read stays in $B$ unless the claimed theorem is already represented in $I$, so the falsifiability commitment is visible in the same carrier.
+
+Apply inventory factorization and cross-map non-escape. These force sibling reads through $R,K,H,C,N$ and prevent a local audit sibling from preserving all four family rows by a bijection that forgets obstruction or frontier data.
+
+Thus the falsifiability and independence rows are not external prose conditions. They are the TasteGate-facing primality commitments carried by the accepted finite packet.
+\end{proof}
+
+\begin{theorem}[Audit-map family obstruction row exactness]
+\label{thm:audit-map-family-obstruction-row-exactness}
+For every accepted $\AuditMapFamilyUp$ carrier $F=(T,I,O,R,B,H,C,K,N)$, a blocked or conditional audit fact is read exactly through the obstruction row $O$. Such a fact remains an obstruction entry transported by $H$ and read through $C,K,N$; it cannot become an inventory theorem in $I$, a closed frontier row in $B$, or a discharge route absent from the displayed family packet.
+\end{theorem}
+\begin{proof}
+Read the partition of rows from \autoref{thm:audit-map-family-inventory-factorization}. Established local material passes through $I$, while blocked or conditional material passes through $O$.
+
+Transport does not change that class. The componentwise row $H$ preserves the displayed family coordinates, and the continuation row $C$ only reads those coordinates; neither row converts an obstruction entry into an inventory theorem.
+
+Finally apply frontier non-escape. \autoref{thm:audit-map-family-frontier-nonescape} prevents named frontier boundaries from acting as closed proofs, so an obstruction entry cannot be discharged by re-reading it through $B$ or through an unlisted route.
+\end{proof}
+
+\begin{theorem}[Audit-map family routing row exhaustion]
+\label{thm:audit-map-family-routing-row-exhaustion}
+Every cross-map route in an accepted $\AuditMapFamilyUp$ packet factors through the displayed rows $R,H,C,K,N$ and names only local audit rows listed by the finite inventory $I$. The routing row may cite neighbouring beta, substitution, closure-preservation, confluence, normalisation, decidable-checking, typed-example, subject-reduction, or consistency-assembly entries when those entries are present, but it exports no unlisted audit map, hidden obstruction bypass, host semantic equality, or stronger theorem than the cited local row records.
+\end{theorem}
+\begin{proof}
+Start from cross-map non-escape. \autoref{thm:audit-map-family-cross-map-nonescape} requires a cross-map read to cite the source row, target row, routing row $R$, transport row $H$, continuation row $C$, provenance row $K$, and local naming row $N$.
+
+Use inventory factorization to bind the names. \autoref{thm:audit-map-family-inventory-factorization} forces local audit facts through $I$, so a route can name only rows present in the finite family inventory.
+
+Obstruction exactness prevents hidden detours. \autoref{thm:audit-map-family-obstruction-row-exactness} keeps blocked and conditional facts in $O$, so routing cannot bypass an obstruction or strengthen a cited local row into host equality or an unlisted theorem.
+\end{proof}
+
+\begin{theorem}[Audit-map family obligation unblock package]
+\label{thm:audit-map-family-obligation-unblock-package}
+The $\AuditMapFamilyUp$ obligation package for the finite family packet $F=(T,I,O,R,B,H,C,K,N)$ consists of inventory factorization, cross-map non-escape, frontier stability, frontier non-escape, obstruction row exactness, and routing row exhaustion. This package makes the family obligation-ready while still excluding subject reduction, confluence, normalisation, closed consistency, host equality, hidden obstruction discharge, and unlisted family maps unless the corresponding row is displayed in the packet.
+\end{theorem}
+\begin{proof}
+Assemble the carrier rows first. \autoref{thm:audit-map-family-inventory-factorization} partitions consumer reads through $T,I,O,R,B,H,C,K,N$, and \autoref{thm:audit-map-family-cross-map-nonescape} confines neighbouring-map access to displayed source, target, route, transport, continuation, provenance, and naming rows.
+
+Add the frontier rows. \autoref{thm:audit-map-family-frontier-stability} preserves the frontier under $\hsame$ transport, and \autoref{thm:audit-map-family-frontier-nonescape} prevents frontier entries from becoming closed proofs.
+
+Finally attach the obstruction and routing rows. \autoref{thm:audit-map-family-obstruction-row-exactness} keeps blocked or conditional facts in $O$, while \autoref{thm:audit-map-family-routing-row-exhaustion} forces every cross-map route through $R,H,C,K,N$ and the listed local rows. The resulting package is obligation-ready because every visible family read has a concrete row and every excluded theorem lacks a carrier coordinate.
+\end{proof}
+
 \closureat{AuditMapFamilyUp}{seedStr}
 
 \begin{closurestatus}{\AuditMapFamilyUp}

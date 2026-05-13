@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\KernelObservationSieveUp$}
+\label{ch:concrete-instances-kernel-observation-sieve-namecert}
+\origin{ai}
+
+The $\KernelObservationSieveUp$ surface realizes the inscription-event route of \autoref{ch:visions-inscription-event-as-concrete-instance} as a finite observation sieve. It consumes the observer-history identity packet of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, the selector-ledger packet of \autoref{ch:concrete-instances-selectorledger-namecert}, and the observer-filter split of \autoref{ch:concrete-instances-observer-filter-namecert}. The carrier records accepted rows and rejected rows together, so the public inscription-facing route cannot erase the rows that failed the sieve.
+
+\begin{definition}[Kernel observation sieve carrier]
+\label{def:kernel-observation-sieve-carrier}
+A $\KernelObservationSieveUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,S,F,A,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the source observer-history row supplied by $\ObserverHistoryIdentityUp$;
+\item $S$ is the selector-ledger row supplied by $\SelectorLedgerUp$;
+\item $F$ is the observer-filter row that classifies source observations as accepted or rejected;
+\item $A$ is the accepted-row ledger, listing the finite observation rows admitted to the inscription-facing route;
+\item $R$ is the rejected-row ledger, listing the finite observation rows refused by the same sieve together with their boundary reasons;
+\item $T$ records componentwise $\hsame$ transport for $O,S,F,A,R,P,N$;
+\item $C$ records displayed $\Cont$ routes through the source history, selector ledger, filter row, accepted ledger, and rejected ledger;
+\item $P$ is the $\Pkg$ provenance over $\ObserverHistoryIdentityUp$, $\SelectorLedgerUp$, $\ObserverFilterUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\KernelObservationSieveUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these displayed rows. It has no coordinate for a hidden observation oracle, host equality of histories, quotient stream equality, unledgered deletion, or an inscription route that forgets the rejected-row ledger.
+\end{definition}
+\leanchecked{BEDC.Derived.KernelObservationSieveUp.KernelObservationSieveTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Kernel observation sieve NameCert obligations]
+\label{thm:kernel-observation-sieve-namecert-obligations}
+For the carrier of \autoref{def:kernel-observation-sieve-carrier}, the local $\NameCert_{\KernelObservationSieveUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier exposure: every accepted packet exposes exactly $K=(O,S,F,A,R,T,C,P,N)$;
+\item selector accountability: the selector-ledger row $S$ is read before an observation row can enter the accepted ledger $A$;
+\item paired-ledger exactness: every source observation accounted for by the sieve is visible in exactly one of the accepted ledger $A$ or the rejected ledger $R$;
+\item transport and route stability: $T$ and $C$ move and replay only the displayed observer-history, selector, filter, accepted, rejected, provenance, and naming rows;
+\item provenance exposure: $P$ and $N$ bind the sieve to $\ObserverHistoryIdentityUp$, $\SelectorLedgerUp$, $\ObserverFilterUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data rather than to a host-side observation source.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:kernel-observation-sieve-carrier}. The observer-history, selector-ledger, filter, accepted-ledger, rejected-ledger, transport, route, provenance, and naming rows are all displayed coordinates.
+
+Selector accountability reads $S$ beside $O$ and $F$. An observation reaches the accepted ledger only after the selector and filter rows have classified it inside the finite packet.
+
+Paired-ledger exactness is the defining split between $A$ and $R$. The accepted side can feed an inscription-facing consumer, while the rejected side remains visible as boundary data.
+
+Transport, route stability, and provenance exposure are supplied by $T,C,P,N$. Since the carrier lacks a hidden observation oracle, host history equality, quotient stream equality, unledgered deletion, and any route that forgets $R$, these rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Kernel observation sieve non-escape]
+\label{thm:kernel-observation-sieve-nonescape}
+No consumer of an accepted $\KernelObservationSieveUp$ packet can recover an omitted observation row without passing through the rejected-row ledger $R$. A consumer may read accepted observations through $A$ and displayed routes $C$, but omitted rows remain boundary data in $R$ and cannot be reconstructed from $\ObserverHistoryIdentityUp$, $\SelectorLedgerUp$, $\ObserverFilterUp$, host equality, quotient stream equality, or an unrecorded inscription event.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(O,S,F,A,R,T,C,P,N)$. The omitted observations are named only in the rejected-row ledger $R$, while accepted observations are named in $A$.
+
+Apply \autoref{thm:kernel-observation-sieve-namecert-obligations}. Paired-ledger exactness places every accounted observation in exactly one of the two ledgers, and selector accountability requires the route through $S$ and $F$ before either ledger can be consumed.
+
+The transport and route rows $T$ and $C$ replay this same split. The provenance row $P$ names only the observer-history, selector-ledger, and observer-filter sibling certificates, so no hidden source remains from which a consumer could recover an omitted row without reading $R$.
+\end{proof}
+
+\begin{theorem}[Kernel observation sieve inscription handoff]
+\label{thm:kernel-observation-sieve-inscription-handoff}
+The finite observation sieve hands data to the inscription-event surface of \autoref{ch:visions-inscription-event-as-concrete-instance} only through the accepted ledger $A$, while the rejected ledger $R$ remains part of the same public certificate. Thus the inscription-facing route receives $O,S,F,A,T,C,P,N$ together with the visible refusal boundary $R$, and it receives no unfiltered observation stream, hidden selector, or host-level source of omitted rows.
+\end{theorem}
+\begin{proof}
+Start from the vision handoff. The inscription-event route requires a finite public record surface rather than an unbounded observation stream.
+
+Use \autoref{thm:kernel-observation-sieve-namecert-obligations}. The accepted ledger $A$ is available only after $O,S,F$ are displayed, and the rejected ledger $R$ remains in the same packet as the boundary for omitted rows.
+
+Finally apply non-escape from \autoref{thm:kernel-observation-sieve-nonescape}. Since omitted rows cannot be recovered without $R$, the inscription-facing consumer receives the accepted ledger together with the refusal boundary and no hidden observation source.
+\end{proof}
+
+\falsifiablePrediction{No accepted $\KernelObservationSieveUp$ consumer can recover an omitted observation row without passing through the rejected-row ledger $R$.}
+
+\independenceWitness{observerhistoryidentity, selectorledger, observerfilter, inscriptionevent-related surface: the sieve has both accepted and rejected row ledgers, which these siblings lack as a paired carrier.}
+
+The Lean TasteGate namespace $\mathsf{BEDC.Derived.KernelObservationSieveUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \KernelObservationSieveUp$ and $\mathsf{FieldFaithful}\ \KernelObservationSieveUp$ instances for the displayed carrier.
+
+\closureat{KernelObservationSieveUp}{seedStr}
+
+\begin{closurestatus}{\KernelObservationSieveUp}
+  \constructivestory{A $\KernelObservationSieveUp$ packet is generated from observer-history identity, selector-ledger, observer-filter, accepted-row ledger, rejected-row ledger, componentwise hsame transport, displayed continuation, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-observation-sieve-carrier}, \autoref{thm:kernel-observation-sieve-namecert-obligations}, \autoref{thm:kernel-observation-sieve-nonescape}, and \autoref{thm:kernel-observation-sieve-inscription-handoff} specify the finite accepted-and-rejected observation sieve and its inscription-facing boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, hidden observation recovery, quotient stream equality, host history equality, or inscription-event completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector accountability, paired-ledger exactness, transport and route stability, non-escape, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}

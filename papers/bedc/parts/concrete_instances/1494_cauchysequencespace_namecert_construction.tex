@@ -70,6 +70,7 @@ S=(F,\sigma,W,\epsilon,Q,H,C,P,N).
 $$
 Every completion-facing consumer read of $Q$ factors through the displayed $\RegSeqRatUp$ family row $F$, the $\StreamNameUp$ schedule $\sigma$, the cofinal Cauchy-window ledger $W$, the $\DyadicRatCoreUp$ tolerance row $\epsilon$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ read routes $C$, the package row $P$, and the local $\NameCert$ row $N$. No quotient-name equality, selected representative, host real equality, or ambient completeness row participates in this route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_regular\_window\_factorization}
 \begin{proof}
 Project the accepted carrier by \autoref{def:cauchysequence-space-carrier-surface}. This identifies the only available coordinates as the displayed family $F$, schedule $\sigma$, window ledger $W$, tolerance row $\epsilon$, completion handoff $Q$, transport row $H$, continuation row $C$, package row $P$, and local naming row $N$.
 
@@ -138,6 +139,26 @@ Use the NameCert obligation surface of \autoref{thm:cauchysequence-space-namecer
 Apply \autoref{thm:cauchysequence-space-regular-window-factorization}, \autoref{thm:cauchysequence-space-common-window-classifier-transport}, \autoref{thm:cauchysequence-space-cofinal-schedule-stability}, and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness}. These results keep the read on the displayed regular family, schedule, cofinal window ledger, and tolerance ledger before it reaches $Q$.
 
 Finally, \autoref{thm:cauchysequence-space-completion-handoff} identifies the terminal route to completion. Since the carrier lists no quotient-name equality, selected representative, host real equality, or ambient completeness row, the limit-seal consumer read has no hidden coordinate through which to bypass the displayed factorization.
+\end{proof}
+
+\begin{theorem}[CauchySequenceSpace RegSeqRat StreamName Real seal factorization]
+\label{thm:cauchysequence-space-regseqrat-streamname-real-seal-factorization}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+be an accepted $\CauchySequenceSpaceUp$ packet. Every $\RealUp$ limit-seal consumer route and every $\RealCauchyCompletionUp$-facing consumer route factors first through the displayed $\RegSeqRatUp$ family $F$, then through the $\StreamNameUp$ schedule $\sigma$, then through the cofinal-window ledger $W$, then through the $\DyadicRatCoreUp$ tolerance row $\epsilon$, and only then reaches the completion handoff $Q$ and the $\RealUp$ seal boundary.
+
+The resulting route exports no quotient stream, no selected limit, no host real equality, and no ambient completeness coordinate outside $F,\sigma,W,\epsilon,Q,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the regular-family route. Apply \autoref{thm:cauchysequence-space-regular-window-factorization} to expose $F$ as the finite rational family through which completion-facing reads must first pass.
+
+Next attach the schedule and cofinal ledger. Use \autoref{thm:cauchysequence-space-cofinal-schedule-stability} to keep $\sigma$ and $W$ as the only scheduled window surface available to the consumer.
+
+Then read the tolerance and handoff rows. Apply \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness} for $\epsilon$ and \autoref{thm:cauchysequence-space-completion-handoff-stability} for $Q$, so the completion-facing route cannot reach the handoff before the displayed dyadic tolerance row has been consumed.
+
+Finally apply \autoref{thm:cauchysequence-space-limit-seal-factorization}. It identifies the $\RealUp$ seal boundary with the same displayed packet and excludes quotient streams, selected limits, host real equality, and ambient completeness coordinates from the consumer route.
 \end{proof}
 
 \begin{theorem}[CauchySequenceSpace two-stage window composition]
@@ -387,6 +408,7 @@ S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
 $$
 be an accepted $\CauchySequenceSpaceUp$ packet. Every tail-window completion-facing read of $S$ factors through the displayed $\RegSeqRatUp$ family $F$, the $\StreamNameUp$ schedule $\sigma$, the cofinal Cauchy-window ledger $W$, the $\DyadicRatCoreUp$ tolerance row $\epsilon$, the completion handoff $Q$, the transport row $H$, the continuation row $C$, the package row $P$, and the local $\NameCert_{\CauchySequenceSpaceUp}$ row $N$. The route reaches completion and any $\RealUp$ seal only through those finite BEDC rows, not through quotient-name equality, selected representatives, host real equality, ambient completeness, or a hidden limit selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_tail\_window\_factorization}
 \begin{proof}
 Begin with the public completion surface. The public completion export theorem \autoref{thm:cauchysequence-space-public-completion-export} packages the visible tuple $F,\sigma,W,\epsilon,Q,H,C,P,N$ together with the completion handoff and scoped route inventory, while public nonescape \autoref{thm:cauchysequence-space-public-nonescape} excludes quotient, representative, host equality, completeness, and selector coordinates.
 
