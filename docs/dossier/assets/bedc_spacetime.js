@@ -4,12 +4,34 @@
   const DATA_URL = "data/bedc_operations.json";
   const state = {
     operations: [],
+    operationById: {},
     activeIndex: 0,
     rows: [],
     currentStep: 0,
     playing: false,
     lastFrameMs: 0
   };
+
+  const MODULE_ORDER = [
+    "Mark",
+    "Hist",
+    "Ext",
+    "Sig",
+    "Cont",
+    "Bundle",
+    "Unary",
+    "Ask",
+    "ExternalBinary",
+    "Gap",
+    "Package",
+    "NameCert",
+    "Settled",
+    "GroundCompiler",
+    "CircleUp",
+    "FoldUp",
+    "MetaCIC",
+    "TopologyUp"
+  ];
 
   function byId(id) {
     return document.getElementById(id);
@@ -41,6 +63,12 @@
     return ratio;
   }
 
+  function displayValue(value) {
+    if (value === undefined || value === null) return "";
+    if (value === "") return "<empty>";
+    return String(value);
+  }
+
   function drawRows(ctx, rows, visibleRows, cellSize) {
     ctx.fillStyle = "#faf9f5";
     ctx.fillRect(0, 0, rows[0].length * cellSize, visibleRows * cellSize);
@@ -61,6 +89,7 @@
     for (const layer of operation.semantic_layers || []) {
       const yStart = Number.isFinite(layer.y_start) ? layer.y_start : 0;
       if (yStart >= visibleRows) continue;
+      if (layer.x_end <= layer.x_start) continue;
       const x = layer.x_start * cellSize;
       const w = Math.max(cellSize, (layer.x_end - layer.x_start) * cellSize);
       const y = yStart * cellSize;
@@ -98,20 +127,20 @@
     meta.innerHTML = "";
 
     const entries = [
-      ["manifest", operation.source_manifest],
+      ["manifest", operation.source_manifest || operation.manifest_file],
       ["case", operation.case_name],
-      ["relation", decode.relation],
-      ["input", decode.case_input],
-      ["decode", `${decode.verdict || "pass"} at payload [${decode.payload_start}, ${decode.payload_start + decode.payload_len})`]
+      ["steps", operation.evolution_steps],
+      ["verdict", decode.verdict || "pass"],
+      ["payload", `[${decode.payload_start}, ${decode.payload_start + decode.payload_len})`]
     ];
 
     for (const [label, value] of entries) {
       const row = document.createElement("div");
       const key = document.createElement("span");
       const val = document.createElement("code");
-      row.className = "bedc-meta-row";
+      row.className = "bedc-meta-card";
       key.textContent = label;
-      val.textContent = value || "";
+      val.textContent = displayValue(value);
       row.append(key, val);
       meta.appendChild(row);
     }
@@ -124,9 +153,12 @@
     if (!operation || !canvas || state.rows.length === 0) return;
 
     const visibleRows = clamp(state.currentStep + 1, 1, state.rows.length);
-    const hostWidth = canvas.parentElement ? canvas.parentElement.clientWidth : 900;
+    const host = canvas.parentElement;
+    const hostWidth = host ? Math.max(1, host.clientWidth - 2) : 900;
+    const hostHeight = host ? Math.max(1, host.clientHeight - 2) : 420;
     const width = state.rows[0].length;
-    const cellSize = Math.max(2, Math.floor(hostWidth / width));
+    const fitCellSize = Math.floor(Math.min(hostWidth / width, hostHeight / visibleRows));
+    const cellSize = Math.max(1, Math.min(8, fitCellSize));
     const cssWidth = width * cellSize;
     const cssHeight = visibleRows * cellSize;
     const ratio = setupCanvasSize(canvas, cssWidth, cssHeight);
@@ -163,6 +195,44 @@
     render();
   }
 
+  function groupOperationsByModule() {
+    const groups = {};
+    for (const operation of state.operations) {
+      const moduleName = operation.module || "Other";
+      if (!groups[moduleName]) groups[moduleName] = [];
+      groups[moduleName].push(operation);
+    }
+    return groups;
+  }
+
+  function appendOptionsForModule(select, moduleName, operations) {
+    const group = document.createElement("optgroup");
+    group.label = moduleName;
+    for (const operation of operations) {
+      const option = document.createElement("option");
+      option.value = operation.id;
+      option.textContent = `${operation.manifest_file || operation.name} · ${operation.case_name}`;
+      group.appendChild(option);
+    }
+    select.appendChild(group);
+  }
+
+  function populateOperationSelect(select) {
+    const groups = groupOperationsByModule();
+    const seen = new Set();
+
+    select.innerHTML = "";
+    for (const moduleName of MODULE_ORDER) {
+      if (!groups[moduleName]) continue;
+      appendOptionsForModule(select, moduleName, groups[moduleName]);
+      seen.add(moduleName);
+    }
+    for (const moduleName of Object.keys(groups).sort()) {
+      if (seen.has(moduleName)) continue;
+      appendOptionsForModule(select, moduleName, groups[moduleName]);
+    }
+  }
+
   function setPlaying(next) {
     state.playing = next;
     const button = byId("bedc-play-toggle");
@@ -196,16 +266,11 @@
     const speedLabel = byId("bedc-speed-label");
 
     if (select) {
-      select.innerHTML = "";
-      state.operations.forEach((operation, index) => {
-        const option = document.createElement("option");
-        option.value = String(index);
-        option.textContent = operation.name;
-        select.appendChild(option);
-      });
+      populateOperationSelect(select);
       select.addEventListener("change", () => {
+        const index = state.operationById[select.value];
         setPlaying(false);
-        setOperation(Number(select.value));
+        setOperation(Number.isFinite(index) ? index : 0);
       });
     }
 
@@ -239,6 +304,10 @@
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
       state.operations = data.operations || [];
+      state.operationById = {};
+      state.operations.forEach((operation, index) => {
+        state.operationById[operation.id] = index;
+      });
       bindControls();
       setOperation(0);
       window.requestAnimationFrame(tick);
