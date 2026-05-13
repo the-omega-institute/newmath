@@ -258,12 +258,56 @@ Now apply \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape
 Thus every consumer route first passes through the TailMeet shared-threshold row and only then reaches the selector-budget real seal $E$. The resulting route is a finite factorization through the displayed packet rows, with none of the excluded quotient, host, selection, tail, completeness, or oracle data exported.
 \end{proof}
 
+\begin{theorem}[RegularCauchySelectorBudget tail-meet threshold coverage]
+\label{thm:regular-cauchy-selector-budget-tail-meet-threshold-coverage}
+Let $Q$ be an accepted $\RegularCauchySelectorBudgetUp$ packet with tail-precision source
+$$
+\mathsf{TailPrec}(Q)=(\mu,W,S,R,D,E,H,C,P,N).
+$$
+Let $T$ be an accepted $\RegularCauchyTailMeetUp$ packet whose shared-threshold route transports the same tolerance row $D$, finite window budget $W$, StreamName observations $S$, $\RegSeqRatUp$ witness $R$, $\RealUp$ seal $E$, componentwise transports $H$, displayed routes $C$, provenance $P$, and local naming rows. Then every Real-facing read of $Q$ is covered by the TailMeet shared-threshold row before $E$ is read.
+\end{theorem}
+\begin{proof}
+First project the tail-precision source. The displayed selector-budget rows are exactly $\mu,W,S,R,D,E,H,C,P,N$, so a Real-facing read has no source outside this finite packet.
+
+Use \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality} and \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape}. They force the tolerance row, selector modulus, finite window budget, observations, regular witness, seal, transports, routes, provenance, and name to remain visible before the seal can be consumed.
+
+Now apply \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}. The transported tolerance, window, witness, structural, provenance, and naming rows are the rows consumed by $T$.
+
+Finally use \autoref{thm:regular-cauchy-tail-meet-consumer-exactness} and \autoref{thm:regular-cauchy-tail-meet-shared-threshold-nonescape}. The TailMeet packet supplies the shared threshold as the finite ledger reached before any Real-facing read, and it exports no hidden threshold oracle or ambient completeness data.
+\end{proof}
+
+\begin{theorem}[RegularCauchySelectorBudget tail-meet route determinacy]
+\label{thm:regular-cauchy-selector-budget-tail-meet-route-determinacy}
+Two selector-budget reads using the same accepted $\RegularCauchyTailMeetUp$ packet and the same transported $D,W,S,R,H,C,P,N$ rows reach the same shared dyadic threshold ledger. The determinacy is internal to the selector-budget tail source, the TailMeet shared-threshold route, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the two selector-budget reads and project their tail-precision sources. The hypothesis identifies the tolerance row $D$, finite window budget $W$, StreamName observations $S$, regular witness $R$, transports $H$, routes $C$, provenance $P$, and naming rows $N$ componentwise.
+
+Apply \autoref{thm:regular-cauchy-selector-budget-tail-meet-threshold-coverage}. Both reads must pass through the TailMeet shared threshold before any Real-facing seal read can occur.
+
+Use \autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}. The transported source, window, and modulus data in the TailMeet route determine one displayed dyadic threshold ledger.
+
+The selector-budget factorization theorem then repacks that ledger for both reads. Since the structural rows are the same transported $H,C,P,N$ rows, the two selector-budget reads reach the same shared threshold entry.
+\end{proof}
+
+\begin{theorem}[RegularCauchySelectorBudget tail-meet non-escape]
+\label{thm:regular-cauchy-selector-budget-tail-meet-nonescape}
+The composite $\RegularCauchySelectorBudgetUp$ and $\RegularCauchyTailMeetUp$ route exports no quotient stream, host real equality, chosen limit, infinite tail, ambient completeness principle, or hidden threshold oracle. Its public data are only the selector-budget tail source rows $\mu,W,S,R,D,E,H,C,P,N$ and the TailMeet shared-threshold rows reached through the same displayed transports, routes, provenance, and local names.
+\end{theorem}
+\begin{proof}
+Begin on the selector-budget side. The precision-window non-escape theorem \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape} excludes quotient streams, host equality of regular sequences, chosen limits, infinite tails, and ambient completeness from $\mathsf{TailPrec}(Q)$.
+
+Move to the shared-threshold side through \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}. The factorization routes admitted consumers into the TailMeet shared threshold rather than into an external completion or selection object.
+
+Finally apply \autoref{thm:regular-cauchy-tail-meet-shared-threshold-nonescape} and \autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinacy}. The TailMeet ledger has no hidden threshold oracle, and duplicate transported reads reach the same displayed dyadic ledger. Therefore the composite route exports only the named finite rows and none of the excluded quotient, host, selection, tail, completeness, or oracle data.
+\end{proof}
+
 \closureat{RegularCauchySelectorBudgetUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchySelectorBudgetUp}
   \constructivestory{A $\RegularCauchySelectorBudgetUp$ packet is generated from a selector modulus, finite window budget, StreamName observation rows, a RegSeqRat witness, a RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, \autoref{thm:regular-cauchy-selector-budget-formal-target-surface}, \autoref{thm:regular-cauchy-selector-budget-verification-handoff}, \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-selector-compatibility}, \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}, \autoref{def:regular-cauchy-selector-budget-tail-precision-source}, \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}, \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape}, and \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization} bind the finite selector-budget carrier and its local NameCert obligation surface.}
+  \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, \autoref{thm:regular-cauchy-selector-budget-formal-target-surface}, \autoref{thm:regular-cauchy-selector-budget-verification-handoff}, \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-selector-compatibility}, \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}, \autoref{def:regular-cauchy-selector-budget-tail-precision-source}, \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}, \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-factorization}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-threshold-coverage}, \autoref{thm:regular-cauchy-selector-budget-tail-meet-route-determinacy}, and \autoref{thm:regular-cauchy-selector-budget-tail-meet-nonescape} bind the finite selector-budget carrier and its local NameCert obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
