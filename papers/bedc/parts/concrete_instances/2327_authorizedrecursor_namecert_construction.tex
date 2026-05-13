@@ -64,6 +64,46 @@ Branch coverage binds the branch package to the accepted constructor signature. 
 Repacking these rows gives the advertised finite \NameCert{} surface. Since every consumer read factors through the displayed packet, host recursion never appears as an untracked generator.
 \end{proof}
 
+\begin{theorem}[AuthorizedRecursor carrier exposure]
+\label{thm:authorized-recursor-carrier-exposure}
+Every public read of an accepted $\AuthorizedRecursorUp$ carrier projects only the displayed rows
+$$
+(I,\Sigma,R,M,B,D,A,O,H,C,P,N).
+$$
+The read may inspect the accepted inductive name, constructor signature, emitted recursor, motive, branch package, structural descent ledger, audit gate, output row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it has no coordinate for a host recursion primitive or an unlisted eliminator.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:recursor-generator-branch-coverage}. It binds all branch reads to the constructor signature $\Sigma$ and prevents an omitted or additional constructor case from entering through the public output row.
+
+Use \autoref{thm:recursor-generator-non-escape-ledger}. It confines output reads to $R,M,B,D,A$ and records that no host generator, non-structural recursive call, unchecked proof principle, or naming bypass is exported.
+
+Finally apply \autoref{thm:authorized-recursor-certificate-surface}. Repacking its finite \NameCert{} surface leaves exactly the carrier coordinates $I,\Sigma,R,M,B,D,A,O,H,C,P,N$ as the public exposure boundary.
+\end{proof}
+
+\begin{theorem}[AuthorizedRecursor structural descent locality]
+\label{thm:authorized-recursor-structural-descent-locality}
+Every recursive occurrence consumed by the output row $O$ of an accepted $\AuthorizedRecursorUp$ carrier is witnessed inside the displayed structural descent ledger $D$ and is transported only through $H,C,P,N$. No recursive occurrence may be supplied by a host-side recursion principle, an extra branch coordinate, or a route outside the local certificate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:recursor-generator-branch-coverage}. It identifies the branch package $B$ as the constructor-indexed source for all recursive occurrences used by the emitted recursor row.
+
+Apply \autoref{thm:recursor-generator-non-escape-ledger}. The output row $O$ factors through the structural descent ledger $D$, so every recursive occurrence consumed by $O$ must already be recorded there.
+
+The certificate surface theorem \autoref{thm:authorized-recursor-certificate-surface} then transports the recorded occurrences only through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$. These rows preserve the finite ledger; they do not add a separate recursion source.
+\end{proof}
+
+\begin{theorem}[AuthorizedRecursor output consumer handoff]
+\label{thm:authorized-recursor-output-consumer-handoff}
+Downstream recursor-generator and self-compilation consumers may consume the output row $O$ of an accepted $\AuthorizedRecursorUp$ carrier only after the branch coverage row, non-escape ledger, and certificate-surface row are retained with the packet. The handoff exports the finite authorized recursor surface, not unrestricted host recursion or an unchecked generated eliminator.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:recursor-generator-branch-coverage}. It supplies the branch inventory required before any consumer can treat $O$ as an output of the accepted constructor signature.
+
+Next apply \autoref{thm:recursor-generator-non-escape-ledger}. It attaches the motive, branch, descent, audit, and local naming restrictions that prevent $O$ from being read as a host-generated recursion principle.
+
+Finally use \autoref{thm:authorized-recursor-certificate-surface}. With branch coverage and non-escape retained, the downstream consumer receives $O$ only as part of the finite $\AuthorizedRecursorUp$ \NameCert{} surface available to recursor-generator and self-compilation interfaces.
+\end{proof}
+
 \closureat{AuthorizedRecursorUp}{seedStr}
 
 \begin{closurestatus}{\AuthorizedRecursorUp}
