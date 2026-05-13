@@ -163,6 +163,70 @@ Next use the $\RegSeqRatUp$ handoff \autoref{thm:regular-cauchy-product-regseqra
 Finally combine error-budget exactness, downstream source lock, and the public export certificate. These results exhaust the consumer-visible rows and exclude quotient streams, selected limits, ambient completeness, host real equality, completed-real multiplication, and unlisted algebra laws from the product boundary.
 \end{proof}
 
+\begin{theorem}[RegularCauchyProduct bounded-source handoff]
+\label{thm:regular-cauchy-product-bounded-source-handoff}
+Let
+$$
+M=(A,B,W_A,W_B,D_A,D_B,D,E,R,H,C,P,N)
+$$
+be an accepted $\RegularCauchyProductUp$ packet. If the two source windows
+$W_A$ and $W_B$ expose dyadic endpoint magnitude bounds in the finite
+product-error ledger $E$, then every $\RegSeqRatUp$ readback of the product
+factors through $W_A,W_B$, the dyadic product row $D$, and the same ledger row
+$E$. No readback may replace those bounded windows by a quotient stream,
+selected limit, host real equality, ambient completeness, or completed-real
+multiplication law.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-product-window-budget}. The product
+row $D$ is computed from the displayed source windows and the dyadic endpoint
+rows, and the product tolerance is recorded in the finite ledger $E$.
+
+Use \autoref{thm:regular-cauchy-product-source-window-transport}. Transported
+consumers still see the windows attached to the source rows $A$ and $B$, so
+the endpoint magnitude bounds remain the bounds supplied by $W_A$ and $W_B$.
+
+Apply \autoref{thm:regular-cauchy-product-error-budget-exactness}. The error
+budget exposed to a readback is exactly the displayed product ledger, with no
+additional completed-real algebra coordinate.
+
+Finally use \autoref{thm:regular-cauchy-product-downstream-source-lock}. Any
+downstream $\RegSeqRatUp$ handoff must keep the same source windows, dyadic
+product row, and ledger row $E$, which gives the stated bounded-source
+factorization.
+\end{proof}
+
+\begin{theorem}[RegularCauchyProduct real seal product budget]
+\label{thm:regular-cauchy-product-real-seal-product-budget}
+Every $\RealUp$ algebra consumer of the product seal in an accepted
+$\RegularCauchyProductUp$ packet receives the finite product-budget row $E$
+before the $\RegSeqRatUp$ handoff row $R$. The consumer cannot replace this
+budget by completed-real multiplication, quotient stream equality, selected
+limits, ambient completeness, host real equality, or any unlisted algebra law.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-product-real-seal-boundary}. The
+real-facing endpoint is read through the visible product provenance and
+regular readback route, not through completed-real multiplication.
+
+Next use \autoref{thm:regular-cauchy-product-real-algebra-boundary}. A
+$\RealUp$ algebra consumer must read the finite error ledger $E$, the
+$\RegSeqRatUp$ handoff $R$, the dyadic product row, transports, continuations,
+provenance, and local name.
+
+The public export certificate
+\autoref{thm:regular-cauchy-product-public-export-certificate} supplies the
+same row order at the public surface. The packet contains the product ledger
+and readback row, but no quotient stream, selected limit, ambient
+completeness, or host real equality.
+
+Finally invoke
+\autoref{thm:regular-cauchy-product-bounded-source-handoff}. Since every
+readback factors through the bounded source windows, dyadic product row, and
+ledger $E$, the real seal consumer receives the finite product budget before
+it can consume the regular rational handoff.
+\end{proof}
+
 \closureat{RegularCauchyProductUp}{seedStr}
 \closureat{RegularCauchyProductUp}{obligationStr}
 \closureat{RegularCauchyProductUp}{scopedStr}
