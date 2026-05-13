@@ -269,6 +269,9 @@ instance productRegularCauchyLimitChapterTasteGate :
     intro x y hxy heq
     exact hxy (productRegularCauchyLimitToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate ProductRegularCauchyLimitUp :=
+  inferInstance
+
 theorem ProductRegularCauchyLimitTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       productRegularCauchyLimitDecodeBHist (productRegularCauchyLimitEncodeBHist h) = h) ∧
