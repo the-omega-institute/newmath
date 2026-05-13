@@ -128,6 +128,50 @@ It remains to rule out escape around the extracted source. Apply \autoref{thm:pi
 \end{proof}
 \leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_cauchyrate\_real\_seal\_compatibility}
 
+\begin{theorem}[PicardContraction finite-rate seal triangle]
+\label{thm:picardcontraction-finite-rate-seal-triangle}
+For every accepted $\PicardContractionUp$ packet
+$$
+P=(B,T,L,I,M,E,H,C,G,N),
+$$
+the $\CauchyRateUp$ source extraction, $\RealUp$ seal compatibility, and public seal export form a single finite triangle over the rows $L,I,M,E,H,C,G,N$. A downstream consumer may move from the Picard packet to the CauchyRate source, from that source to the Real seal, and back to the public seal export only through the displayed finite carrier rows; it cannot insert ambient completeness, a completed Picard orbit, a host fixed point, quotient stream equality, or a selected real representative at any side of the triangle.
+\end{theorem}
+\begin{proof}
+First read the source side through \autoref{thm:picardcontraction-cauchyrate-source-extraction}. It identifies the finite rate-facing packet with the visible iterate, ratio, modulus, endpoint, transport, route, provenance, and local naming rows.
+
+Next read the seal side through \autoref{thm:picardcontraction-cauchyrate-real-seal-compatibility}. The real-facing path must pass through those same finite rate rows before the seal is read.
+
+Finally close the public side with \autoref{thm:picardcontraction-public-seal-export}. The public seal export factors through $M$, $E$, and the same finite carrier route, so the three sides share the displayed rows and exclude the omitted completion objects.
+\end{proof}
+
+\begin{theorem}[PicardContraction Newton ODE shared modulus route]
+\label{thm:picardcontraction-newton-ode-shared-modulus-route}
+Every $\NewtonIterationUp$ or $\OdeUp$ consumer of an accepted $\PicardContractionUp$ packet uses the same finite modulus row $M$, rational ratio ledger $L$, and finite iterate ledger $I$. The two consumer families may read these rows through the displayed $\hsame$ transports $H$, $\Cont$ routes $C$, $\Pkg$ provenance $G$, and local naming row $N$, but neither consumer receives a second modulus source, a completed orbit, a host fixed point, an ambient completeness proof, or a selected limiting state.
+\end{theorem}
+\begin{proof}
+Start with the public iterate ledger. By \autoref{thm:picardcontraction-public-iterate-ledger}, the only iteration evidence exported to Newton and ODE consumers is the finite ledger $I$ together with $L$ and the displayed transport and route rows.
+
+Attach the Cauchy evidence using \autoref{thm:picardcontraction-cauchy-modulus-handoff}. This theorem identifies $M$ as the only modulus evidence available from the packet.
+
+Now apply \autoref{thm:picardcontraction-banach-ode-consumer-nonescape} and \autoref{thm:picardcontraction-public-ode-newton-export}. They exhaust both consumer families by the same finite packet rows, so Newton and ODE reads share $L,I,M$ rather than branching to omitted completion or fixed-point data.
+\end{proof}
+
+\begin{theorem}[PicardContraction RegSeqRat Real rate non-escape]
+\label{thm:picardcontraction-regseqrat-real-rate-nonescape}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\PicardContractionUp$ packet that reads rate information factors through the finite rows
+$$
+L,I,M,E,H,C,G,N.
+$$
+The consumer may use the rational ratio ledger, finite iterate ledger, Cauchy modulus row, endpoint and seal row, transport rows, continuation routes, provenance, and local naming row, but it cannot bypass the finite rate packet through ambient completeness, a completed orbit, a host fixed point, quotient stream equality, selected limits, or extra real representatives.
+\end{theorem}
+\begin{proof}
+For regular-rational reads, use \autoref{thm:picardcontraction-regseqrat-consumer-route}. The route binds the consumer to the finite carrier rows and excludes a completed orbit built outside the packet.
+
+For real-facing reads, use \autoref{thm:picardcontraction-real-seal-noncompletion}. The seal boundary supplies only the endpoint and finite route, not a host fixed point or a selected limit.
+
+Finally apply \autoref{thm:picardcontraction-finite-rate-seal-triangle}. It forces both consumer families to pass through the extracted CauchyRate source and the public seal route, so no quotient stream equality, ambient completeness row, or extra real representative can be inserted around the finite rate packet.
+\end{proof}
+
 \begin{theorem}[PicardContraction CauchyRate root-unblock package]
 \label{thm:picardcontraction-cauchyrate-root-unblock-package}
 The public $\PicardContractionUp$ surface assembles a $\CauchyRateUp$-facing root-unblock package for downstream $\RegSeqRatUp$, $\RealUp$, $\OdeUp$, and $\NewtonIterationUp$ consumers. The package consists of the carrier surface of \autoref{thm:picardcontraction-public-carrier-surface}, the iteration ledger of \autoref{thm:picardcontraction-public-iterate-ledger}, the seal export of \autoref{thm:picardcontraction-public-seal-export}, the source extraction of \autoref{thm:picardcontraction-cauchyrate-source-extraction}, and the real-seal compatibility of \autoref{thm:picardcontraction-cauchyrate-real-seal-compatibility}. Its conclusion is a finite rate/modulus bridge only; it is not a Banach fixed-point theorem, an ambient completeness theorem, a completed-orbit construction, or a selected-limit principle.
