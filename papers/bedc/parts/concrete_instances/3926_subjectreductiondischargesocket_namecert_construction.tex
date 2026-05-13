@@ -71,6 +71,7 @@ The transport and route rows $H,C$ preserve those inputs as the rows named by th
 
 For the obstruction coordinate, read $Q$ in the opposite direction: it reports that the closed subject-reduction statement is blocked at this socket boundary. Hence downstream consumers can cite the finite socket as an obligation surface, but cannot turn it into a closed subject-reduction theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionDischargeSocketUp.SubjectReductionDischargeSocketPacket\_obligation\_consumption}
 
 \begin{theorem}[SubjectReductionDischargeSocket row exhaustion]
 \label{thm:subject-reduction-discharge-socket-row-exhaustion}
@@ -175,14 +176,16 @@ Thus the vision is handed to downstream chapters as a finite socket: it is a con
 
 \closureat{SubjectReductionDischargeSocketUp}{seedStr}
 \closureat{SubjectReductionDischargeSocketUp}{obligationStr}[BEDC.Derived.SubjectReductionDischargeSocketUp.SubjectReductionDischargeSocketPacket\_nonescape]
+\closureat{SubjectReductionDischargeSocketUp}{scopedStr}[BEDC.Derived.SubjectReductionDischargeSocketUp.SubjectReductionDischargeSocketPacket\_nonescape]
 
 \begin{closurestatus}{\SubjectReductionDischargeSocketUp}
   \constructivestory{A $\SubjectReductionDischargeSocketUp$ packet is generated from beta-substitution, application-argument, lambda-domain, and Pi-domain discharge rows, a parameterised subject-reduction consumption ledger, a checked closed-obstruction boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:subject-reduction-discharge-socket-carrier}, \autoref{thm:subject-reduction-discharge-socket-namecert-obligations}, \autoref{thm:subject-reduction-discharge-socket-nonescape}, \autoref{thm:subject-reduction-discharge-socket-obligation-consumption}, \autoref{thm:subject-reduction-discharge-socket-row-exhaustion}, \autoref{thm:subject-reduction-discharge-socket-transport-stability}, \autoref{thm:subject-reduction-discharge-socket-transport-route-stability}, \autoref{thm:subject-reduction-discharge-socket-four-row-ledger-exactness}, \autoref{thm:subject-reduction-discharge-socket-obligation-closure-package}, \autoref{thm:subject-reduction-discharge-socket-downstream-consumer-boundary}, and \autoref{thm:subject-reduction-discharge-socket-vision-handoff} bind the finite MetaCIC subject-reduction discharge socket and its obligation surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.SubjectReductionDischargeSocketUp.SubjectReductionDischargeSocketPacket\_nonescape}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close any of the four MetaCIC discharge obligations, the closed subject-reduction theorem, Lean verification of the socket, host conversion, erased derivation semantics, quotient equality, or bridge checking.}
-  \upgradepath{Scoped closure requires Lean-backed carrier admission, four-row discharge consumption, obstruction-boundary exactness, transport stability, route replay, provenance, and non-escape for the same finite socket.}
+  \upgradepath{Axiom-clean audit remains to show the cited socket theorem has no forbidden transitive dependency.}
 \end{closurestatus}
