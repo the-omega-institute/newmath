@@ -204,15 +204,78 @@ Apply diagonal readback to obtain the observation row $R$. Then apply seal-sourc
 Finally inspect the frontier rows $H,C,P,N$. They transport, replay, locate, and name the handoff without adding a quotient stream, selected limit, host equality, or completeness row. Thus $T$ is a finite handoff, not an analytic closure claim.
 \end{proof}
 
-\closureat{RegularCauchyWitnessScheduleUp}{seedStr}
+\begin{theorem}[Regular Cauchy witness schedule shared-window lock]
+\label{thm:regular-cauchy-witness-schedule-shared-window-lock}
+Let two accepted $\RegularCauchyWitnessScheduleUp$ packets expose the same displayed rows
+$$
+X,\mu,W,D,R,T,H,C,P,N.
+$$
+Then they expose the same finite schedule route from the $\RegSeqRatUp$ family row through the selected $\StreamNameUp$ window, the $\DyadicRatCoreUp$ ledger, the diagonal readback row, and the $\RealUp$ seal row. No alternate stream source, selected limit source, or completeness source can supply a second route for the same displayed packet.
+\end{theorem}
+\begin{proof}
+Project both accepted packets to the displayed carrier. The coordinates agree on the family row $X$, modulus selector $\mu$, finite window $W$, dyadic ledger $D$, readback $R$, seal row $T$, transports $H$, routes $C$, provenance $P$, and local name $N$.
+
+Apply window-modulus alignment to both packets. The requested tolerance reaches the same selector $\mu$, so the only admissible scheduled window in either packet is the displayed row $W$.
+
+Next apply diagonal readback and Real handoff. Both routes pass through $D$ and $R$ before reaching the same seal row $T$, and the rows $H,C,P,N$ replay and name that route without adding a second source.
+
+Because the chapter carries the displayed TasteGate target
+$$
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleTasteGate\_single\_carrier\_alignment},
+$$
+the $\origin{ai}$ packet is consumed only through the carrier-aligned finite route. Non-escape and the public boundary rule out an alternate unbounded stream, selected limit, or completeness witness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule tail-threshold readback]
+\label{thm:regular-cauchy-witness-schedule-tail-threshold-readback}
+For an accepted $\RegularCauchyWitnessScheduleUp$ packet, every tail-facing threshold request must pass through the modulus row $\mu$, the finite window row $W$, the dyadic ledger row $D$, and the diagonal readback row $R$ before it reaches the $\RealUp$ seal row $T$. The request cannot bypass those rows through a quotient stream, a host real equality row, or an ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The only threshold selector displayed in the packet is $\mu$, and the only scheduled stream window attached to that selector is $W$.
+
+Use window coverage to bind any tail-facing threshold read to $X,\mu,W,D$. The dyadic ledger row $D$ records the tolerance-facing observation data consumed by the selected window.
+
+Apply diagonal readback to force the request through $R$. Then apply Real handoff to identify $T$ as the finite $\RealUp$ seal row reached after that readback.
+
+The displayed TasteGate boundary
+$$
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleUp\_taste\_gate\_boundary}
+$$
+keeps this $\origin{ai}$ route inside the finite packet. Non-escape excludes quotient streams, host equality, and ambient completeness as bypasses around $\mu,W,D,R,T$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy witness schedule Real seal readiness]
+\label{thm:regular-cauchy-witness-schedule-real-seal-readiness}
+The carrier of \autoref{def:regular-cauchy-witness-schedule-carrier}, the local $\NameCert$ obligations, window-modulus alignment, diagonal readback, non-escape, public boundary, shared-window lock, and tail-threshold readback form the finite obligation package for the $\RegularCauchyWitnessScheduleUp$ route from $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ data to the $\RealUp$ seal row.
+
+The package is limited to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It does not assert $\RealUp$ completeness, equality of completed limits, quotient equality of streams, host real equality, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligation theorem. They expose the rows $X,\mu,W,D,R,T,H,C,P,N$ and identify carrier admission, family admission, modulus exposure, window scheduling, dyadic readback, diagonal readback, seal handoff, transports, routes, provenance, and local naming as the certificate surface.
+
+Window-modulus alignment, diagonal readback, and non-escape bind the operational route. Every scheduled observation uses $\mu$, $W$, $D$, and $R$, and no unlisted analytic object can be read from the packet.
+
+The public boundary then packages the same rows for completion-facing consumers. Shared-window lock makes two accepted presentations with the same displayed rows expose the same finite route, while tail-threshold readback forces every tail-facing threshold request through $\mu,W,D,R$ before $T$.
+
+Finally cite the two TasteGate anchors
+$$
+\begin{gathered}
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleTasteGate\_single\_carrier\_alignment},\\
+\text{BEDC.Derived.RegularCauchyWitnessScheduleUp.RegularCauchyWitnessScheduleUp\_taste\_gate\_boundary}.
+\end{gathered}
+$$
+They record that the $\origin{ai}$ route is consumed through the finite carrier boundary. The resulting package is therefore an obligation package over the displayed RegSeqRat, StreamName, DyadicRatCore, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows, not a completeness or quotient-equality theorem.
+\end{proof}
+
+\closureat{RegularCauchyWitnessScheduleUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyWitnessScheduleUp}
   \constructivestory{A $\RegularCauchyWitnessScheduleUp$ packet is generated from a $\RegSeqRatUp$ family row, explicit modulus row, selected $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ observation ledger, diagonal readback row, $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regularcauchywitnessschedule-window-coverage}, \autoref{thm:regularcauchywitnessschedule-tail-route}, and \autoref{thm:regularcauchywitnessschedule-real-handoff} bind the finite modulus-indexed route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\leanchecked{BEDC.Derived.RegularCauchyWitnessScheduleUp.taste\_gate} \autoref{def:regular-cauchy-witness-schedule-carrier}, \autoref{thm:regular-cauchy-witness-schedule-namecert-obligations}, \autoref{thm:regular-cauchy-witness-schedule-window-modulus-alignment}, \autoref{thm:regular-cauchy-witness-schedule-diagonal-readback}, \autoref{thm:regular-cauchy-witness-schedule-non-escape}, \autoref{thm:regular-cauchy-witness-schedule-local-certificate-package}, \autoref{thm:regular-cauchy-witness-schedule-finite-route-correspondence}, \autoref{thm:regular-cauchy-witness-schedule-public-boundary}, \autoref{thm:regularcauchywitnessschedule-window-coverage}, \autoref{thm:regularcauchywitnessschedule-tail-route}, \autoref{thm:regularcauchywitnessschedule-real-handoff}, \autoref{thm:regular-cauchy-witness-schedule-shared-window-lock}, \autoref{thm:regular-cauchy-witness-schedule-tail-threshold-readback}, and \autoref{thm:regular-cauchy-witness-schedule-real-seal-readiness} bind the finite modulus-indexed obligation route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, modulus-window alignment, diagonal readback, RealUp seal handoff, and non-escape for the same finite witness schedule.}
+  \upgradepath{Scoped closure requires a checked finite-route theorem over the same RegSeqRat, StreamName, DyadicRatCore, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
 \end{closurestatus}

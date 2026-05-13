@@ -130,6 +130,24 @@ Then apply \autoref{thm:real-diagonal-mesh-budget-realup-handoff}. It states tha
 For the excluded direction, remove any one of those rows from a proposed seal read. The NameCert inventory has no alternate carrier coordinate for the missing datum, and the selected-window and RealUp handoff results provide no hidden quotient, host equality, ambient completeness, or unlisted window route. Such a read is therefore not a read from the accepted carrier.
 \end{proof}
 
+\begin{theorem}[Real diagonal mesh-budget observation-budget handoff]
+\label{thm:real-diagonal-mesh-budget-observation-budget-handoff}
+Let $M=(q,b,\omega,\rho,\delta,\theta,e,h,c,p,n)$ be an accepted $\RealDiagonalMeshBudgetUp$ packet, and let an accepted $\RealObservationBudgetUp$ packet display the same precision request, selected-window family, dyadic ledger, regular readback rows, and seal rows as a finite observation packet
+$$
+E,W,D,R,S,H,C,P,N.
+$$
+Then every $\RealUp$ seal read of $M$ factors through that observation budget before the seal row is consumed. The handoff exports no quotient stream, host real equality, ambient completeness, hidden limit selection, or unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Start with mesh-budget seal-route exactness. It admits a seal read only through the displayed precision request, finite mesh budget, selected windows, readbacks, dyadic ledger, aggregation row, and structural rows before $e$ is read.
+
+Next use mesh-budget window coverage. The selected-window family in $M$ is already finite and is tied to the same request and dyadic ledger that the observation-budget packet records.
+
+Now read the observation-budget side. Request totality supplies the finite observation request, consumer exactness identifies the regular-rational and real-facing reads with that packet, and the seal boundary places every $\RealUp$ seal read after $E,W,D,R,S,H,C,P,N$.
+
+Finally apply observation-budget non-escape. Since the budget packet carries no quotient stream, host equality, ambient completeness, hidden selector, or unbounded schedule coordinate, the mesh-budget seal consumer receives exactly the finite observation-budget handoff.
+\end{proof}
+
 \begin{theorem}[Real diagonal mesh-budget non-escape]
 \label{thm:real-diagonal-mesh-budget-nonescape}
 Every downstream consumer of an accepted $\RealDiagonalMeshBudgetUp$ packet factors through the finite rows
