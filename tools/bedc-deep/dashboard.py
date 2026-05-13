@@ -39,7 +39,7 @@ def _safe_get_server() -> dict:
         with urllib.request.urlopen(f"{ORACLE_SERVER_URL}/status", timeout=3) as r:
             return json.loads(r.read().decode("utf-8"), strict=False)
     except Exception as exc:
-        return {"_error": str(exc)}
+        return {"_error": str(exc), "_error_type": type(exc).__name__}
 
 
 def _git(args: list[str]) -> str:
@@ -61,6 +61,13 @@ def _section(title: str) -> str:
 
 def render_server(s: dict) -> str:
     if "_error" in s:
+        err = str(s["_error"])
+        if "Operation not permitted" in err:
+            return (
+                "  status: UNAVAILABLE (local sandbox denied localhost status check)\n"
+                "  hint: run `python3 tools/bedc-deep/oracle_client.py --status` "
+                "for authoritative oracle health"
+            )
         return f"  status: DOWN ({s['_error']})"
     diag = s.get("diagnosis", "?")
     busy = s.get("agents_busy", "?")
