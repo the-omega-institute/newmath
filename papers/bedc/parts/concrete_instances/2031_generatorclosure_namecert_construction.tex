@@ -151,6 +151,42 @@ Apply the classifier obligation in \autoref{thm:generatorclosure-classifier-obli
 Use \autoref{thm:generator-closure-continuation-witness} for finite continuation reads, and then apply the ledger obligation in \autoref{thm:generatorclosure-ledger-obligation}. A read that carries the required constructor-list witness remains inside $W$; a read without that witness is recorded by the displayed $\mathsf{GAP}$ boundary. These are exactly the rows available to the downstream schema.
 \end{proof}
 
+\begin{theorem}[GeneratorClosure bridge carrier obligation]
+\label{thm:generatorclosure-bridge-carrier-obligation}
+The public bridge out of an accepted $\GeneratorClosureUp$ packet consumes exactly the carrier row already fixed by the chapter. Its carrier-facing read is the authorized generator row $G$, constructor-list provenance $L$, authorized-row ledger $A$, classifier row $Q$, continuation-witness ledger $W$, componentwise $\hsame$ rows $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, local $\NameCert_{\GeneratorClosureUp}$ row $N$, and the displayed $\mathsf{GAP}$ boundary; it receives no second generator source, independent constructor rule, or host-side recursor.
+\end{theorem}
+\begin{proof}
+Begin with the carrier obligation \autoref{thm:generatorclosure-carrier-obligation}. It identifies the public packet with the finite carrier rows $G,L,A,Q,W,H,C,P,N$ and leaves no coordinate for a second generator source.
+
+Apply the public bridge schema handoff \autoref{thm:generatorclosure-public-bridge-schema-handoff}. The handoff permits downstream schema readers to consume only the same displayed carrier, transport, continuation, provenance, local name, and boundary rows.
+
+Thus the bridge carrier obligation is not an additional carrier construction. It is the carrier obligation read through the public bridge boundary, with the same constructor-list provenance and the same $\mathsf{GAP}$ non-escape row.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure bridge classifier obligation]
+\label{thm:generatorclosure-bridge-classifier-obligation}
+The public bridge classifier for an accepted $\GeneratorClosureUp$ packet consumes exactly the authorized generator row, constructor-list provenance, classifier row, continuation-witness ledger, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, local $\NameCert_{\GeneratorClosureUp}$ row, and $\mathsf{GAP}$ rows already fixed by the chapter. Every accepted bridge classification factors through $G,L,Q,W,H,C,P,N$, and every read without the constructor-list witness remains a displayed $\mathsf{GAP}$ boundary.
+\end{theorem}
+\begin{proof}
+Use the classifier obligation \autoref{thm:generatorclosure-classifier-obligation}. It transports the accepted generator endpoint and generated-row surface through the same displayed constructor-list provenance and carrier rows.
+
+The public bridge schema handoff \autoref{thm:generatorclosure-public-bridge-schema-handoff} exposes no classifier row other than $Q$ and no constructor provenance other than $L$. Hence a bridge classification cannot be read from an external predicate or host recursor.
+
+Finally use \autoref{thm:generator-closure-continuation-witness} to separate witnessed and unwitnessed continuation reads. Witnessed reads remain in the continuation-witness ledger $W$, while unwitnessed reads stay in the displayed $\mathsf{GAP}$ boundary.
+\end{proof}
+
+\begin{theorem}[GeneratorClosure bridge ledger obligation]
+\label{thm:generatorclosure-bridge-ledger-obligation}
+The public bridge ledger for an accepted $\GeneratorClosureUp$ packet consumes exactly the authorized-row ledger, continuation-witness ledger, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, local $\NameCert_{\GeneratorClosureUp}$ row, and $\mathsf{GAP}$ rows already fixed by the chapter. A bridge read is accepted only through $A$ or $W$ with the constructor-list provenance supplied by $L$; otherwise the read is recorded as a displayed $\mathsf{GAP}$ row and is not exported as generated data.
+\end{theorem}
+\begin{proof}
+Start from the ledger obligation \autoref{thm:generatorclosure-ledger-obligation}. It records the accepted generated rows and continuation witnesses in $A$ and $W$, and it sends reads lacking the constructor-list witness to the displayed boundary.
+
+Combine this with the public bridge schema handoff \autoref{thm:generatorclosure-public-bridge-schema-handoff}. The bridge reads only the authorized generator row, constructor-list provenance, classifier, continuation ledger, transport, continuation routes, package provenance, local name, and $\mathsf{GAP}$ rows named there.
+
+Therefore the ledger exported to downstream bridge consumers is exactly the chapter ledger. The bridge does not introduce an unledgered generator continuation, a free induction rule, or an additional row from which generated data could be recovered.
+\end{proof}
+
 \begin{theorem}[GeneratorClosure fixed-point consumer obligation]
 \label{thm:generatorclosure-fixedpoint-consumer-obligation}
 Every $\GeneratorFixedPointUp$ consumer of a $\GeneratorClosureUp$ packet must read the fixed witness through the $\GeneratorClosureUp$ constructor-list provenance and classifier surface. Concretely, the fixed witness is admissible only when its read factors through $G,L,A,Q,W,H,C,P,N$ and the constructor-list row $L$ supplies the witness required by the classifier row $Q$.

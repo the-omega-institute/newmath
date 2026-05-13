@@ -259,6 +259,44 @@ Apply the ledger non-escape theorem \autoref{thm:analytic-continuation-socket-le
 Finally use the holomorphic handoff of \autoref{thm:analytic-continuation-socket-holomorphic-handoff}. Downstream $\HolomorphicUp$ consumers receive $O$ only through $F,G,U,A,H,C,P,N$, so a branch-obstruction read remains ledger data and cannot turn into another output row.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationSocket operation landing exactness]
+\label{thm:analytic-continuation-socket-operation-landing-exactness}
+For an accepted $\AnalyticContinuationSocketUp$ packet $S=(F,G,U,A,O,B,H,C,P,N)$, every exported operation landing at the output row $O$ factors through the finite rows $F,G,U,A,H,C,P,N$. The row $O$ may be transported, replayed, packaged, and locally named by those rows, but it cannot be replaced by a global analytic-continuation operator, hidden branch rule, monodromy theorem, or quotient-of-germs equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:analytic-continuation-socket-carrier}. The only output coordinate is $O$, and it is displayed beside the source rows $F,G$, overlap witness $U$, operation row $A$, transport row $H$, continuation routes $C$, package provenance $P$, and local naming row $N$.
+
+Apply the local NameCert obligations of \autoref{thm:analytic-continuation-socket-namecert-obligations}. Carrier admission, classifier stability, package provenance, and local naming all read the same finite socket packet.
+
+Use overlap transport and holomorphic handoff, \autoref{thm:analytic-continuation-socket-overlap-transport} and \autoref{thm:analytic-continuation-socket-holomorphic-handoff}, to keep every downstream read of $O$ on the displayed source-overlap-operation route. The ledger exactness obligation \autoref{thm:analytic-continuation-socket-ledger-exactness-obligation} and ledger non-escape theorem \autoref{thm:analytic-continuation-socket-ledger-nonescape} send every non-factorizing continuation request to $B$ rather than to another output row.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket overlap classifier route]
+\label{thm:analytic-continuation-socket-overlap-classifier-route}
+For an accepted $\AnalyticContinuationSocketUp$ packet $S=(F,G,U,A,O,B,H,C,P,N)$, every accepted overlap classifier read factors through $F,G,U,H,C,P,N$. The read may identify the operation row $A$ and output row $O$ only after the displayed source-overlap classifier has been transported through $H$, replayed through $C$, packaged by $P$, and named by $N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition and the local NameCert obligations. They place the source rows $F,G$ and overlap witness $U$ in the same finite packet as the transport, route, package, and naming rows $H,C,P,N$.
+
+Apply overlap transport \autoref{thm:analytic-continuation-socket-overlap-transport}. It keeps the overlap witness on the displayed $\hsame$ and $\Cont$ paths and forbids replacement by monodromy, quotient-of-germs equality, or a branch selector.
+
+Finally use holomorphic handoff together with ledger exactness and ledger non-escape. Reads that reach $A$ or $O$ do so through the same overlap route, while reads outside $F,G,U,H,C,P,N$ are recorded in $B$ and are not accepted as overlap-classifier output.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket branch obstruction nonexport]
+\label{thm:analytic-continuation-socket-branch-obstruction-nonexport}
+For an accepted $\AnalyticContinuationSocketUp$ packet $S=(F,G,U,A,O,B,H,C,P,N)$, every nonlocal continuation request is recorded in the branch-obstruction ledger $B$. Such a request may be transported by $H$, replayed by $C$, packaged by $P$, and locally named by $N$, but it cannot export a $\HolomorphicUp$ output, branch selector, quotient-of-germs equality, monodromy theorem, or zero-location datum.
+\end{theorem}
+\begin{proof}
+Project the branch-obstruction coordinate from \autoref{def:analytic-continuation-socket-carrier}. The carrier assigns nonlocal continuation requests to $B$ and lists no separate coordinate for branch selection, monodromy, quotient-of-germs equality, or zero-location data.
+
+Use the local NameCert obligations and overlap transport to identify the permitted finite reads. The source rows, overlap witness, operation row, output row, transport routes, package provenance, and local naming are all read from $F,G,U,A,O,H,C,P,N$.
+
+Apply ledger non-escape and the ledger exactness obligation. A request outside those rows remains branch-obstruction data in $B$ rather than an exported continuation witness.
+
+The holomorphic handoff then rules out the remaining export path: downstream $\HolomorphicUp$ consumers receive the displayed local output $O$ only through $F,G,U,A,H,C,P,N$, so a nonlocal branch request cannot become a holomorphic output or a zero-location datum.
+\end{proof}
+
 \begin{theorem}[AnalyticContinuationSocket carrier obligation]
 \label{thm:analytic-continuation-socket-carrier-obligation}
 For an accepted $\AnalyticContinuationSocketUp$ packet
