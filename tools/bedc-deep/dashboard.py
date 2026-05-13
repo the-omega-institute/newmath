@@ -26,6 +26,7 @@ STATE_DIR = SCRIPT_DIR / "state"
 TARGETS_DIR = SCRIPT_DIR / "targets"
 SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
+LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -236,6 +237,10 @@ def render_loning_assimilation() -> str:
                 f"watch_entries={rec.get('watch_entries', '?')}"
             )
         ]
+        watch_ts = _latest_jsonl_ts(LONING_WATCH_JOURNAL)
+        if checked_at and watch_ts and watch_ts > checked_at:
+            lag = _fmt_age((watch_ts - checked_at).total_seconds())
+            out.append(f"  lag: loning_watch is {lag} newer than assimilation")
         if count_text:
             out.append(f"  signals: {count_text}")
         advice = [str(item) for item in (rec.get("advice") or []) if str(item).strip()]
@@ -245,6 +250,25 @@ def render_loning_assimilation() -> str:
             out.append(f"  advice: ... {len(advice) - 3} more")
         return "\n".join(out)
     return "  (no parseable loning assimilation records)"
+
+
+def _latest_jsonl_ts(path: Path) -> datetime | None:
+    if not path.exists():
+        return None
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return None
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(rec, dict):
+            ts = _parse_iso(rec.get("checked_at") or rec.get("ts") or rec.get("updated_at"))
+            if ts:
+                return ts
+    return None
 
 
 def render_target_table() -> str:
