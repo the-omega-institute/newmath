@@ -348,6 +348,7 @@ import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.InscriptionEventUp.TasteGate
+import BEDC.Derived.InscriptionAcceptanceBudgetUp.TasteGate
 import BEDC.Derived.InscriptionAuditTraceUp.TasteGate
 import BEDC.Derived.InscriptionGapLedgerUp.TasteGate
 import BEDC.Derived.InscriptionPointUp.TasteGate
@@ -1541,6 +1542,7 @@ import BEDC.Derived.FieldUp.StdBridge
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Reflection
 import BEDC.MetaCIC
+import BEDC.GroundCompiler.AuditReexport
 import BEDC.MetaCIC.Confluence.Core
 import BEDC.MetaCIC.Confluence.AtomShape
 import BEDC.MetaCIC.Confluence.AtomJoin
