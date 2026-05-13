@@ -1,0 +1,121 @@
+---
+title: "为什么不直接用元胞?"
+subtitle: "如果 Rule 110 跟 BHist 在 encoding 下等价, BEDC 为什么挑抽象那个? 答案是结构性的, 也解释了为什么项目保留一个展品而不是把它升格成基础"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "BEDC 的 carrier 是 `inductive BHist`. 元胞底层本可以做 carrier — 它们在 bit-string encoding 下等价. 项目保留 BHist 是因为它最小化残余承诺. 展品 vs 基础的区分, 结构化."
+---
+
+```{=html}
+<div class="lang-switch"><a href="why-not-use-cells.qmd">English</a></div>
+```
+
+## 元胞读法引出的一个问题
+
+BEDC 的 [元胞读法](pattern-as-mark.zh-CN.qmd) 把 Rule 110 框定为项目的基底展品. 220 行 ANSI C99 子项目把封闭观测框架实例化到最小尺寸. Wolfram 在 *A New Kind of Science* 中多年来主张元胞自动机是物理实在的自然载体. 元胞底层看起来是显而易见的候选, 应该从展品升格成基础: 重写 BEDC, 让内核项 *就是* 元胞轨道, 而不是抽象 inductive 结构.
+
+项目不这么做. 原因不审美. 是结构性的, 它们说出框架如何分配承诺.
+
+## 等价: 两个 carrier, 一份可观测内容
+
+`BHist` 值是有限二进制串. 递归定义
+```lean
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+按构造子从右向左读, 给出 `BHist` 值跟有限二进制串的一一对应.
+
+长度 $n$ 的有限二进制串可以嵌入到元胞底层初始行的前 $n$ 个 cell, 其余 cell 设为某个声明的默认 (通常是 ether pattern). 该底层在这个初始行上的轨道生成行序列; 时间零时, 轨道回收原始串.
+
+合成很直接:
+
+```
+BHist 值 ←→ 二进制串 ←→ 初始 cell row
+```
+
+两个 carrier 在 *有限可观测数据的层面等价*. 都存同样的有限信息; 都让框架的动词在同样的内容上作用. 封闭 premise 两边都满足 — `BHist` 在内核层 (次普适封闭基底), 元胞轨道在底层 (普适封闭基底). no-induction 定理两边都迁移得过去.
+
+可见的差别是, 每个 carrier 看重的 *下一步* 是什么: `BHist` 提供 `e0(_)` 跟 `e1(_)` 作 canonical 延展; 元胞底层提供 Rule 110 transition 作 canonical 下一态. 除此之外可观测内容相同.
+
+## 换 carrier 会改变什么
+
+从 `BHist` 切到元胞 carrier 会把每个内核动词重新对齐:
+
+| 内核动词 (当前) | 定义在 `BHist` 上 | 元胞对应物 |
+|---|---|---|
+| `Mark` | 构造子 pattern | cell row 分类为 ether / glider $G$ |
+| `Hist` | 构造子序列 | 长度 $n$ 的轨道段 |
+| `Ext` | history 延展 | 由一步 R110 延展的轨道 |
+| `Cont` | history 延续 | R110 下的轨道延续 |
+
+每个动词的 *语义内容* 在切换中被保留. 改变的是定义动词的 carrier. `lean4/BEDC/` 中每条定理都需要改写以引用元胞轨道而非 `BHist` 项; 每道审计 gate 都需要 validate 新陈述; Lean 4 build 要重新生成.
+
+工作量不小. `lean4/BEDC/FKernel/` 开发约 1837 条机械验证定理在 `BHist` 上. 移植是均匀但量大的. *结构内容* 保留; 作为 Lean 4 源的呈现均匀改变.
+
+那么如果结构内容保留, 为什么不切?
+
+## 为什么项目保留 `BHist`
+
+两个结构原因.
+
+**最小残余承诺.** `BHist` 用最小可能的 inductive 结构表达 form of distinction: 一个零元构造子, 两个一元递归构造子. 没有宽度参数, 没有邻域纪律, 没有 transition 表.
+
+切到元胞 carrier 会引入这三样. 宽度决定底层接纳什么观测; 邻域纪律决定 locality; transition 表决定底层的具体动力学. 每一项都是 `BHist` 不要求的承诺.
+
+`BHist` 因此 *最小化残余承诺*, 在结构意义上. 元胞 carrier *扩大* 它. 项目陈述的纪律是基础上最小化承诺 ([区分作为根基](distinction-as-foundation.zh-CN.qmd) 那篇明确这条立场); 元胞 carrier 会通过加上基础上不必要的结构来违反这条纪律.
+
+**基底无关性.** 封闭 premise 基底无关. 类型论项、cell row、tensor 激活 (见 [第三类基底](large-model-as-inscription-point.zh-CN.qmd)) 都允许封闭观测读法. 框架的主张不依赖任何具体基底.
+
+选 `BHist` *拒绝给* 任何一种基底特权. 元胞自动机、图灵机、lambda calculus、寄存器机 — 任何一个都可以做 carrier. `BHist` 是不承诺的那个 carrier. 它把 form of distinction 辨认为先于任何具体计算基底.
+
+元胞 carrier 特化这个位置. 它在元胞自动机这一种基底上承诺, 排在其他 (lambda calculus, 寄存器机, 等) 之上. 这么做是「以结构一般性为代价的具体性表达增益」.
+
+## 展品 vs 基础
+
+框架的 `rem:cellular-carrier-as-exhibit` 显式表达这层结构关系:
+
+> `rule110/` 子项目对元胞 carrier 替代品的关系, 是展品对基础的关系. 项目用 Rule 110 在最小具体尺寸上展示封闭 premise 的内容; 底层作为框架主张的见证, 而非框架的定义性根基.
+
+区别要紧. 展品 *演示* 框架内容; 基础 *定义* 它. Rule 110 演示封闭 premise 在最小实用尺寸 (220 行) 上有具体实例. 它不定义封闭是什么; 封闭在任何基底上都有定义, Rule 110 恰好是其中一个实例.
+
+把底层升格到基础会混淆见证角色跟定义角色. 框架的主张会 *看起来* 依赖元胞读法本身, 而实际上它们只依赖基底无关的封闭结构. Wolfram 风格的走法 (元胞自动机作为物理实在的载体) 不是 BEDC 的走法; BEDC 对「什么基底承载实在」结构上中立, 而 `BHist` 是尊重这种中立的 carrier.
+
+## 什么会justifying 切换
+
+章节 `cellular_substrate_as_carrier_alternative.tex` 命名了三个促成切换的条件. 当下都不适用.
+
+**物理实现证据.** 如果经验证据累积表明某个具体元胞底层是物理实在的实际载体, 项目就会有经验动力把 carrier 跟物理载体对齐. `def:cellular-automaton-cosmological-reading` 的宇宙学读法目前是工作假说, 不是确认事实. 项目不依赖它.
+
+**工程汇合.** 如果 `rule110/` 哪天成了项目的主审计 pipeline (而不是 Lean 内核之外的旁路审计), 内核 carrier 可能需要跟审计 pipeline carrier 对齐. 当前不对称在另一个方向: Lean 4 `lake build` 是主审计, `rule110/` 是基底见证的旁路审计.
+
+**理论归约.** 如果某个定理证明元胞底层在某个具体结构意义上比 `BHist` *更原始* (而不是在 encoding 下等价), 就有结构动力切换. 目前没有这样的定理. 在 bit-string encoding 下二者等价; 谁也不结构上先于谁.
+
+## 这套纪律换来什么
+
+保留 `BHist` 作内核 carrier、保留 `rule110/` 作基底展品, 同时给项目两样东西:
+
+- **一个最小化残余承诺的基础.** `BHist` 没有宽度, 没有邻域, 没有 transition 表. 它是表达递归区分的最小 inductive 结构.
+- **一个演示具体内容的展品.** `rule110/` 在 220 行基底内部代码中, 配可跑的审计 pipeline, 展示封闭 premise 在最小实用尺寸上长什么样.
+
+一个 *就是* 元胞底层的基础, 必须在这两件事之间选一个. 通过把它们作为分开角色保留, 项目两个都拿到: 最小基础, 具体展品, 之间干净的结构关系.
+
+## 这 *不是* 什么
+
+不是反对元胞自动机、NKS 或数字物理. 项目不否认元胞自动机可能是物理实在的实际载体. 它只否认 *框架* 应该在基础上承诺那个具体载体. 经验承诺属于物理学; 框架提供结构工具, 不管元胞读法最终是不是物理读法, 工具都可用.
+
+也不是说元胞底层是偶然的. 它是项目的核心展品. 它的 220 行尺寸, 它的 `thm:rule110-no-internal-induction`, 它的 cook compile-frontier — 都承结构重量. 但重量是展品重量, 不是基础重量.
+
+它 *是* 什么: 一个结构读法, 关于「为什么 BEDC 在内核保留抽象 carrier 同时跑一个具体元胞底层作展品, 为什么这个安排恰好是框架最小承诺纪律所要求的」.
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.zh-CN.qmd"><strong>← 区分作为根基</strong><br/>本文把最小承诺纪律应用到 carrier 选择.</a>
+  <a href="pattern-as-mark.zh-CN.qmd"><strong>图样作为标记 →</strong><br/>同一标记纪律, 元胞底层作展品读法.</a>
+  <a href="sixteen-to-sixty-four.zh-CN.qmd"><strong>从 16 走到 64 →</strong><br/>元胞底层当前的工程坐标, 跨越下一个数字会买到什么.</a>
+</div>
+```
+
+— *The Omega Institute*
