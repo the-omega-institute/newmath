@@ -126,6 +126,10 @@ def render_candidate_inbox() -> str:
     if rejection_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
         lines.append(f"  top rejects: {top}")
+    rejection_sources = data.get("rejection_sources") or []
+    if rejection_sources:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_sources[:5])
+        lines.append(f"  reject sources: {top}")
     logic_reasons = data.get("logic_packet_gate_reasons") or []
     if logic_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
