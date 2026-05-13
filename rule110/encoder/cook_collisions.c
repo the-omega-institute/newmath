@@ -461,3 +461,27 @@ const char *cook_collision_lookup(const char *glider_left,
 
     return NULL;
 }
+
+size_t cook_collision_lookup_count(void) {
+    return sizeof(COLLISION_LOOKUPS) / sizeof(COLLISION_LOOKUPS[0]);
+}
+
+const char *cook_collision_lookup_left(size_t index) {
+    if (index >= cook_collision_lookup_count()) return NULL;
+    return COLLISION_LOOKUPS[index].left;
+}
+
+const char *cook_collision_lookup_right(size_t index) {
+    if (index >= cook_collision_lookup_count()) return NULL;
+    return COLLISION_LOOKUPS[index].right;
+}
+
+int cook_collision_lookup_gap(size_t index) {
+    if (index >= cook_collision_lookup_count()) return 0;
+    return COLLISION_LOOKUPS[index].gap;
+}
+
+const char *cook_collision_lookup_result(size_t index) {
+    if (index >= cook_collision_lookup_count()) return NULL;
+    return COLLISION_LOOKUPS[index].result;
+}
