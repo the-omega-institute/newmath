@@ -12,7 +12,7 @@ open BEDC.Meta.TasteGate
 inductive PiApplicationAdequacyRouteUp : Type where
   | mk :
       (functionEvidence argumentEvidence applicationCandidate typedApplication stepSN
-        noInfinite route name provenance transport query : BHist) →
+        noInfiniteReduction route name provenance transport query : BHist) →
       PiApplicationAdequacyRouteUp
   deriving DecidableEq
 
@@ -42,12 +42,17 @@ private theorem piApplicationAdequacyRoute_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def piApplicationAdequacyRouteToEventFlow :
-    PiApplicationAdequacyRouteUp → EventFlow
+def piApplicationAdequacyRouteFields : PiApplicationAdequacyRouteUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | PiApplicationAdequacyRouteUp.mk functionEvidence argumentEvidence
-      applicationCandidate typedApplication stepSN noInfinite route name provenance
-      transport query =>
+  | PiApplicationAdequacyRouteUp.mk functionEvidence argumentEvidence applicationCandidate
+      typedApplication stepSN noInfiniteReduction route name provenance transport query =>
+      [functionEvidence, argumentEvidence, applicationCandidate, typedApplication, stepSN,
+        noInfiniteReduction, route, name, provenance, transport, query]
+
+def piApplicationAdequacyRouteToEventFlow : PiApplicationAdequacyRouteUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | PiApplicationAdequacyRouteUp.mk functionEvidence argumentEvidence applicationCandidate
+      typedApplication stepSN noInfiniteReduction route name provenance transport query =>
       [[BMark.b0],
         piApplicationAdequacyRouteEncodeBHist functionEvidence,
         [BMark.b1, BMark.b0],
@@ -59,7 +64,7 @@ def piApplicationAdequacyRouteToEventFlow :
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         piApplicationAdequacyRouteEncodeBHist stepSN,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        piApplicationAdequacyRouteEncodeBHist noInfinite,
+        piApplicationAdequacyRouteEncodeBHist noInfiniteReduction,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         piApplicationAdequacyRouteEncodeBHist route,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
@@ -112,7 +117,7 @@ def piApplicationAdequacyRouteFromEventFlow :
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | noInfinite :: rest11 =>
+                                              | noInfiniteReduction :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
@@ -158,7 +163,7 @@ def piApplicationAdequacyRouteFromEventFlow :
                                                                                                   (piApplicationAdequacyRouteDecodeBHist
                                                                                                     stepSN)
                                                                                                   (piApplicationAdequacyRouteDecodeBHist
-                                                                                                    noInfinite)
+                                                                                                    noInfiniteReduction)
                                                                                                   (piApplicationAdequacyRouteDecodeBHist
                                                                                                     route)
                                                                                                   (piApplicationAdequacyRouteDecodeBHist
@@ -179,7 +184,7 @@ private theorem piApplicationAdequacyRoute_round_trip :
   intro x
   cases x with
   | mk functionEvidence argumentEvidence applicationCandidate typedApplication stepSN
-      noInfinite route name provenance transport query =>
+      noInfiniteReduction route name provenance transport query =>
       change
         some
           (PiApplicationAdequacyRouteUp.mk
@@ -194,7 +199,7 @@ private theorem piApplicationAdequacyRoute_round_trip :
             (piApplicationAdequacyRouteDecodeBHist
               (piApplicationAdequacyRouteEncodeBHist stepSN))
             (piApplicationAdequacyRouteDecodeBHist
-              (piApplicationAdequacyRouteEncodeBHist noInfinite))
+              (piApplicationAdequacyRouteEncodeBHist noInfiniteReduction))
             (piApplicationAdequacyRouteDecodeBHist
               (piApplicationAdequacyRouteEncodeBHist route))
             (piApplicationAdequacyRouteDecodeBHist
@@ -207,14 +212,14 @@ private theorem piApplicationAdequacyRoute_round_trip :
               (piApplicationAdequacyRouteEncodeBHist query))) =
           some
             (PiApplicationAdequacyRouteUp.mk functionEvidence argumentEvidence
-              applicationCandidate typedApplication stepSN noInfinite route name
+              applicationCandidate typedApplication stepSN noInfiniteReduction route name
               provenance transport query)
       rw [piApplicationAdequacyRoute_decode_encode_bhist functionEvidence,
         piApplicationAdequacyRoute_decode_encode_bhist argumentEvidence,
         piApplicationAdequacyRoute_decode_encode_bhist applicationCandidate,
         piApplicationAdequacyRoute_decode_encode_bhist typedApplication,
         piApplicationAdequacyRoute_decode_encode_bhist stepSN,
-        piApplicationAdequacyRoute_decode_encode_bhist noInfinite,
+        piApplicationAdequacyRoute_decode_encode_bhist noInfiniteReduction,
         piApplicationAdequacyRoute_decode_encode_bhist route,
         piApplicationAdequacyRoute_decode_encode_bhist name,
         piApplicationAdequacyRoute_decode_encode_bhist provenance,
@@ -237,6 +242,21 @@ private theorem piApplicationAdequacyRouteToEventFlow_injective
     (Eq.trans (piApplicationAdequacyRoute_round_trip x).symm
       (Eq.trans hread (piApplicationAdequacyRoute_round_trip y)))
 
+private theorem PiApplicationAdequacyRouteTasteGate_single_carrier_alignment_field_faithful :
+    ∀ x y : PiApplicationAdequacyRouteUp,
+      piApplicationAdequacyRouteFields x = piApplicationAdequacyRouteFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk functionEvidence argumentEvidence applicationCandidate typedApplication stepSN
+      noInfiniteReduction route name provenance transport query =>
+      cases y with
+      | mk functionEvidence' argumentEvidence' applicationCandidate' typedApplication' stepSN'
+          noInfiniteReduction' route' name' provenance' transport' query' =>
+          cases hfields
+          rfl
+
 instance piApplicationAdequacyRouteBHistCarrier :
     BHistCarrier PiApplicationAdequacyRouteUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -256,40 +276,30 @@ instance piApplicationAdequacyRouteChapterTasteGate :
     intro x y hxy heq
     exact hxy (piApplicationAdequacyRouteToEventFlow_injective heq)
 
+instance piApplicationAdequacyRouteFieldFaithful :
+    FieldFaithful PiApplicationAdequacyRouteUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := piApplicationAdequacyRouteFields
+  field_faithful :=
+    PiApplicationAdequacyRouteTasteGate_single_carrier_alignment_field_faithful
+
 instance piApplicationAdequacyRouteNontrivial :
     Nontrivial PiApplicationAdequacyRouteUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨PiApplicationAdequacyRouteUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+    ⟨PiApplicationAdequacyRouteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      PiApplicationAdequacyRouteUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty,
+      PiApplicationAdequacyRouteUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-instance piApplicationAdequacyRouteFieldFaithful :
-    FieldFaithful PiApplicationAdequacyRouteUp where
+def taste_gate : ChapterTasteGate PiApplicationAdequacyRouteUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | PiApplicationAdequacyRouteUp.mk functionEvidence argumentEvidence
-        applicationCandidate typedApplication stepSN noInfinite route name provenance
-        transport query =>
-        [functionEvidence, argumentEvidence, applicationCandidate, typedApplication,
-          stepSN, noInfinite, route, name, provenance, transport, query]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk functionEvidence argumentEvidence applicationCandidate typedApplication stepSN
-        noInfinite route name provenance transport query =>
-        cases y with
-        | mk functionEvidence' argumentEvidence' applicationCandidate' typedApplication'
-            stepSN' noInfinite' route' name' provenance' transport' query' =>
-            cases h
-            rfl
+  piApplicationAdequacyRouteChapterTasteGate
 
 theorem PiApplicationAdequacyRouteTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -301,7 +311,11 @@ theorem PiApplicationAdequacyRouteTasteGate_single_carrier_alignment :
         (∀ x y : PiApplicationAdequacyRouteUp,
           piApplicationAdequacyRouteToEventFlow x =
             piApplicationAdequacyRouteToEventFlow y → x = y) ∧
-          piApplicationAdequacyRouteEncodeBHist BHist.Empty = ([] : List BMark) := by
+          piApplicationAdequacyRouteEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ x y : PiApplicationAdequacyRouteUp,
+              piApplicationAdequacyRouteFields x =
+                piApplicationAdequacyRouteFields y → x = y) ∧
+              (∃ x y : PiApplicationAdequacyRouteUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact piApplicationAdequacyRoute_decode_encode_bhist
@@ -310,6 +324,19 @@ theorem PiApplicationAdequacyRouteTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact piApplicationAdequacyRouteToEventFlow_injective heq
-      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · exact PiApplicationAdequacyRouteTasteGate_single_carrier_alignment_field_faithful
+          · exact
+              ⟨PiApplicationAdequacyRouteUp.mk BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty,
+                PiApplicationAdequacyRouteUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩
 
 end BEDC.Derived.PiApplicationAdequacyRouteUp

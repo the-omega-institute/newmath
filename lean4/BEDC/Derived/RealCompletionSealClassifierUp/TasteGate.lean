@@ -11,8 +11,8 @@ open BEDC.Meta.TasteGate
 
 inductive RealCompletionSealClassifierUp : Type where
   | mk :
-      (agreementSeal limitSeal synchronizer budget regularHandoff streamWindow
-        dyadicLedger transport route provenance name : BHist) →
+      (agreementSeal limitSeal synchronizer budget regularHandoff streamWindow dyadicLedger
+        transport route provenance name : BHist) →
       RealCompletionSealClassifierUp
   deriving DecidableEq
 
@@ -41,6 +41,14 @@ private theorem realCompletionSealClassifier_decode_encode_bhist :
       exact congrArg BHist.e0 ih
   | e1 h ih =>
       exact congrArg BHist.e1 ih
+
+def realCompletionSealClassifierFields :
+    RealCompletionSealClassifierUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RealCompletionSealClassifierUp.mk agreementSeal limitSeal synchronizer budget
+      regularHandoff streamWindow dyadicLedger transport route provenance name =>
+      [agreementSeal, limitSeal, synchronizer, budget, regularHandoff, streamWindow,
+        dyadicLedger, transport, route, provenance, name]
 
 def realCompletionSealClassifierToEventFlow :
     RealCompletionSealClassifierUp → EventFlow
@@ -235,6 +243,21 @@ private theorem realCompletionSealClassifierToEventFlow_injective
     (Eq.trans (realCompletionSealClassifier_round_trip x).symm
       (Eq.trans hread (realCompletionSealClassifier_round_trip y)))
 
+private theorem RealCompletionSealClassifierTasteGate_single_carrier_alignment_field_faithful :
+    ∀ x y : RealCompletionSealClassifierUp,
+      realCompletionSealClassifierFields x = realCompletionSealClassifierFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk agreementSeal limitSeal synchronizer budget regularHandoff streamWindow dyadicLedger
+      transport route provenance name =>
+      cases y with
+      | mk agreementSeal' limitSeal' synchronizer' budget' regularHandoff' streamWindow'
+          dyadicLedger' transport' route' provenance' name' =>
+          cases hfields
+          rfl
+
 instance realCompletionSealClassifierBHistCarrier :
     BHistCarrier RealCompletionSealClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -254,39 +277,30 @@ instance realCompletionSealClassifierChapterTasteGate :
     intro x y hxy heq
     exact hxy (realCompletionSealClassifierToEventFlow_injective heq)
 
+instance realCompletionSealClassifierFieldFaithful :
+    FieldFaithful RealCompletionSealClassifierUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realCompletionSealClassifierFields
+  field_faithful :=
+    RealCompletionSealClassifierTasteGate_single_carrier_alignment_field_faithful
+
 instance realCompletionSealClassifierNontrivial :
     Nontrivial RealCompletionSealClassifierUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨RealCompletionSealClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+    ⟨RealCompletionSealClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
-      RealCompletionSealClassifierUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty,
+      RealCompletionSealClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-instance realCompletionSealClassifierFieldFaithful :
-    FieldFaithful RealCompletionSealClassifierUp where
+def taste_gate : ChapterTasteGate RealCompletionSealClassifierUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | RealCompletionSealClassifierUp.mk agreementSeal limitSeal synchronizer budget
-        regularHandoff streamWindow dyadicLedger transport route provenance name =>
-        [agreementSeal, limitSeal, synchronizer, budget, regularHandoff,
-          streamWindow, dyadicLedger, transport, route, provenance, name]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk agreementSeal limitSeal synchronizer budget regularHandoff streamWindow
-        dyadicLedger transport route provenance name =>
-        cases y with
-        | mk agreementSeal' limitSeal' synchronizer' budget' regularHandoff'
-            streamWindow' dyadicLedger' transport' route' provenance' name' =>
-            cases h
-            rfl
+  realCompletionSealClassifierChapterTasteGate
 
 theorem RealCompletionSealClassifierTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -298,7 +312,11 @@ theorem RealCompletionSealClassifierTasteGate_single_carrier_alignment :
         (∀ x y : RealCompletionSealClassifierUp,
           realCompletionSealClassifierToEventFlow x =
             realCompletionSealClassifierToEventFlow y → x = y) ∧
-          realCompletionSealClassifierEncodeBHist BHist.Empty = ([] : List BMark) := by
+          realCompletionSealClassifierEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ x y : RealCompletionSealClassifierUp,
+              realCompletionSealClassifierFields x =
+                realCompletionSealClassifierFields y → x = y) ∧
+              (∃ x y : RealCompletionSealClassifierUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact realCompletionSealClassifier_decode_encode_bhist
@@ -307,6 +325,19 @@ theorem RealCompletionSealClassifierTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact realCompletionSealClassifierToEventFlow_injective heq
-      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · exact RealCompletionSealClassifierTasteGate_single_carrier_alignment_field_faithful
+          · exact
+              ⟨RealCompletionSealClassifierUp.mk BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty,
+                RealCompletionSealClassifierUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty,
+                by
+                  intro h
+                  cases h⟩
 
 end BEDC.Derived.RealCompletionSealClassifierUp
