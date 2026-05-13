@@ -94,3 +94,51 @@ Use the seal handoff to keep Real-facing reads on the same route. By \autoref{th
 
 The excluded analytic objects do not occur as coordinates of $F$. Therefore no public consumer read can export quotient streams, host equality of completed reals, countable choice, hidden limit selectors, or an ambient completeness theorem.
 \end{proof}
+
+\begin{theorem}[Finite observation-budget selector route determinacy]
+\label{thm:finite-observation-budget-selector-budget-route-determinacy}
+Let $F$ and $F'$ be accepted $\FiniteObservationBudgetSelectorUp$ packets with the same displayed $B,S,W,D,R,E,H,C,P,N$ rows. Then they determine the same finite budget-to-seal route
+$$
+B \to S \to W \to D \to R \to E.
+$$
+In particular, a Real-completion consumer cannot obtain two distinct routes from the same displayed rows: schedule admission fixes $B \to S$, window and dyadic coverage fix $S \to W \to D$, and seal handoff fixes $D \to R \to E$ under the shared $H,C,P,N$ surface.
+\end{theorem}
+\begin{proof}
+Start with the common carrier rows. Both packets expose the same budget row, schedule row, window family, dyadic ledger, regular-sequence handoff, real seal, transports, routes, provenance, and local naming row.
+
+The first segment is determined by schedule admission. By \autoref{thm:finite-observation-budget-selector-schedule-admission}, the budget row $B$ is read only through the displayed selected schedule row $S$.
+
+The middle segment is determined by the NameCert coverage obligations. Window selection uses the displayed route from $S$ to $W$, and every dyadic observation exported by $D$ is read through the displayed windows in $W$.
+
+The final segment is determined by the seal handoff. By \autoref{thm:finite-observation-budget-selector-real-seal-handoff}, the $\RealUp$ seal is reached only after the dyadic ledger and the $\RegSeqRatUp$ handoff, and the same $H,C,P,N$ rows repack the result. Thus two accepted packets with the same displayed rows have the same finite route.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector dyadic-window exhaustion]
+\label{thm:finite-observation-budget-selector-dyadic-window-exhaustion}
+For every accepted $\FiniteObservationBudgetSelectorUp$ packet, each dyadic observation exported by the $\DyadicRatCoreUp$ ledger $D$ is exhausted by the selected finite $\StreamNameUp$ windows in $W$. No exported dyadic observation has a route to quotient streams, host equality of completed reals, countable choice, hidden limit selectors, or any unbounded observation surface outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Use the carrier exposure clause to identify the finite window family $W$ and the dyadic ledger $D$ inside the packet. The carrier contains no additional stream coordinate and no ambient selector from which an observation could be read.
+
+Apply the window and dyadic ledger coverage obligation from \autoref{thm:finite-observation-budget-selector-namecert-obligations}. It requires the schedule row $S$ to select only the finite $\StreamNameUp$ windows in $W$ and requires every exported $\DyadicRatCoreUp$ observation in $D$ to be read from those windows.
+
+The non-escape theorem removes the remaining alternatives. By \autoref{thm:finite-observation-budget-selector-nonescape}, public reads cannot export quotient streams, host real equality, countable-choice data, hidden limit selectors, or an ambient completeness theorem. Hence the selected finite windows exhaust the dyadic observations exported by $D$.
+\end{proof}
+
+\begin{theorem}[Finite observation-budget selector diagonal consumer boundary]
+\label{thm:finite-observation-budget-selector-diagonal-consumer-boundary}
+Every diagonal-limit or Real-completion consumer that uses an accepted $\FiniteObservationBudgetSelectorUp$ packet factors through the displayed route
+$$
+B \to S \to W \to D \to R \to E
+$$
+together with the $H,C,P,N$ rows. This is the boundary needed by the Real-completeness vision of \autoref{ch:visions-real-completeness}, the selected-tail surface of \autoref{ch:concrete-instances-regularcauchytailselector-namecert}, and the diagonal-completion packet of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}: each such consumer may use the finite budget route, but it receives no quotient stream, host real equality, countable choice, hidden selector, or independent completeness oracle from this selector.
+\end{theorem}
+\begin{proof}
+Begin with the non-escape theorem. It already states that Real-completion, diagonal-limit, tail-selection, and schedule consumers of an accepted packet factor through the displayed finite packet and cannot inspect excluded analytic objects.
+
+Refine the factorization by route determinacy. By \autoref{thm:finite-observation-budget-selector-budget-route-determinacy}, the displayed rows determine one finite route from the budget to the seal, so a downstream consumer cannot branch into an alternate completion path while using the same selector.
+
+Use dyadic-window exhaustion for the observation boundary. By \autoref{thm:finite-observation-budget-selector-dyadic-window-exhaustion}, every dyadic observation supplied to the diagonal route is already read from the selected finite windows.
+
+The sibling selected-tail and diagonal-completion chapters named in the introduction consume exactly these visible rows before reaching a $\RealUp$ seal. Therefore any such downstream consumer factors through $B \to S \to W \to D \to R \to E$ together with $H,C,P,N$, and the selector contributes no further completion principle.
+\end{proof}

@@ -114,3 +114,42 @@ $\RealUp$ or $\CompletionUp$ read remains downstream of the same finite
 budget-source and seal-budget routes, so no host-side completion data can
 replace the locked readback route.
 \end{proof}
+
+\begin{theorem}[Diagonal-limit compatibility finite-window handoff boundary]
+\label{thm:diagonal-limit-compatibility-finite-window-handoff-boundary}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
+$\DiagonalLimitCompatibilityUp$ packet reaches the public handoff only through
+the displayed finite route
+$$
+R,T,S,D,W,Q,L,H,C,P,N.
+$$
+The handoff consumes the root-budget route, the selector-budget route, and the
+Real seal readback lock as one carrier boundary. It cannot be replaced by host
+real equality, a quotient stream, a selected limit, choice data, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:diagonal-limit-compatibility-root-budget-coherence}. This fixes
+the root-budget route on the same $D,W,Q,L,H,C,P,N$ surface that the accepted
+carrier exposes to downstream consumers.
+
+Next apply
+\autoref{thm:diagonal-limit-compatibility-root-selector-budget-exhaustion}.
+The selector-budget read is exhausted by $R,T,S,D,W,Q,L$ and the structural
+rows, so no second diagonal route, second window route, alternate ledger, or
+choice datum is available.
+
+Finally apply
+\autoref{thm:diagonal-limit-compatibility-root-real-seal-readback-lock}. The
+seal read reaches $L$ only after $S,D,W,Q$ have been fixed on the displayed
+compatibility route.
+
+The non-escape clauses
+\autoref{thm:diagonal-limit-compatibility-root-consumer-nonescape} and
+\autoref{thm:diagonal-limit-compatibility-completion-consumer-nonescape}
+remove host real equality, quotient streams, selected limits, and ambient
+completeness from the public handoff. Therefore the finite route
+$R,T,S,D,W,Q,L,H,C,P,N$ is the complete boundary for $\RealUp$ and
+$\CompletionUp$ consumers.
+\end{proof}
