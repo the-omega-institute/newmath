@@ -366,6 +366,45 @@ Use \autoref{thm:uniformmodulus-compact-continuous-handoff}, \autoref{thm:unifor
 Close with \autoref{thm:uniform-modulus-compact-continuous-consumer-exactness}. Every exported precision read is exhausted by the displayed packet rows, so the fold threshold has no escape route outside $F,R,L,Q,P,N$ and the compact-continuous rows that consume them.
 \end{proof}
 
+\begin{theorem}[UniformModulus compact-continuous finite-fold correspondence]
+\label{thm:uniformmodulus-compact-continuous-finite-fold-correspondence}
+For an accepted $\UniformModulusUp$ packet
+$$
+U=(E,D,\mathcal{P},R,C,M,F,L,Q,P,N),
+$$
+the finite-net fold precision row $D$ is available to a compact-continuous
+consumer if and only if the consumer route displays the compact finite-net
+center row $C$, the pointwise modulus rows $M$, the positive rational radius
+ledger $R$, the $\FiniteNetMinimumFoldUp$ lower-bound certificate $F$, and the
+local transport and provenance rows $L,Q,P,N$.
+
+Thus the compact-continuous consumer receives the finite-fold data precisely
+through the displayed $\BHist$ packet, $\mathsf{ProbeBundle}$ spine,
+$\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$
+certificate, with no host minimum, external modulus selector, or ambient
+compactness row.
+\end{theorem}
+\begin{proof}
+For the forward direction, start from a consumer that receives the precision
+row $D$. Apply \autoref{thm:uniform-modulus-finite-net-minimum-handoff} to
+identify the handoff as the finite-net minimum fold over the displayed compact
+row and bundled centers.
+
+Use \autoref{thm:uniform-modulus-rational-lower-bound-ledger}. The available
+positive lower bound is the rational ledger over $R$, so the precision row is
+carried by the finite fold certificate $F$ rather than by a host minimum.
+Then apply \autoref{thm:uniformmodulus-fold-threshold-nonescape} to keep the
+threshold route inside $F,R,L,Q,P,N$ and the compact-continuous rows that
+consume them.
+
+For the reverse direction, suppose the route displays $C,M,R,F,L,Q,P,N$ with
+the finite $\mathsf{ProbeBundle}$ spine. Repack these rows through
+\autoref{thm:uniform-modulus-compact-continuous-consumer-exactness}. That
+exactness theorem exports the accepted compact-continuous surface from the
+same displayed packet, so the fold precision row $D$ is available to the
+consumer.
+\end{proof}
+
 \begin{theorem}[UniformModulus root carrier public row]
 \label{thm:uniformmodulus-root-carrier-public-row}
 For an accepted $\UniformModulusUp$ packet
