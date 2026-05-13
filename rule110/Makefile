@@ -211,11 +211,12 @@ $(TEST_DIR)/test_circle_up: $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_ru
 	    $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_runner.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
 
-$(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_decode.h $(ENCODER_DIR)/block_assembler.h $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.h $(ENCODER_DIR)/cook_blocks.c
+$(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_decode.h $(ENCODER_DIR)/block_assembler.h $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.h $(ENCODER_DIR)/cook_blocks.c $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_construction.c
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_r110_round_trip.c \
 	    $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_decode.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/cook_construction.c \
 	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c
 
 test: $(TESTS) $(R110_GENERATED) $(ALGO_R110_GENERATED)
@@ -329,12 +330,12 @@ $(TEST_DIR)/test_cook_encode_arbitrary: $(TEST_DIR)/test_cook_encode_arbitrary.c
 TESTS += $(TEST_DIR)/test_cook_encode_arbitrary
 test: $(TEST_DIR)/test_cook_encode_arbitrary
 
-$(TEST_DIR)/test_cook_packet_phase_exact: $(TEST_DIR)/test_cook_packet_phase_exact.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_ossifier.h $(ENCODER_DIR)/cook_data_block.h $(ENCODER_DIR)/cook_encode.h
+$(TEST_DIR)/test_cook_packet_phase_exact: $(TEST_DIR)/test_cook_packet_phase_exact.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_ossifier.h $(ENCODER_DIR)/cook_data_block.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/cook_decode.h $(ENCODER_DIR)/cook_decode.c
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_packet_phase_exact.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
-	    $(ENCODER_DIR)/cook_encode.c
+	    $(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_decode.c
 
 TESTS += $(TEST_DIR)/test_cook_packet_phase_exact
 test: $(TEST_DIR)/test_cook_packet_phase_exact

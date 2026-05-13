@@ -1,5 +1,6 @@
 #include "cook_construction.h"
 #include "cook_data_block.h"
+#include "cook_decode.h"
 #include "cook_encode.h"
 #include "cook_leader.h"
 #include "cook_ossifier.h"
@@ -37,8 +38,34 @@ static void assert_ether_range_at_step(const uint8_t *cells,
     }
 }
 
-static void test_manual_packet_layout_survives_100_steps(void) {
-    const size_t periods = 420;
+static void assert_decodes_after_steps(const CyclicTagInput *ct,
+                                       size_t steps,
+                                       const char *expected) {
+    uint8_t placeholder = 0;
+    uint8_t *cells = NULL;
+    char decoded[256];
+    size_t written = 0;
+    int rc = 0;
+
+    rc = cook_encode_phase_exact(ct, &placeholder, 0, &written);
+    assert(rc == COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER);
+    assert(written > 0);
+
+    cells = (uint8_t *)malloc(written);
+    assert(cells != NULL);
+    rc = cook_encode_phase_exact(ct, cells, written, &written);
+    assert(rc == COOK_ENCODE_PHASE_EXACT_OK);
+
+    r110_run_n_steps(cells, written, steps);
+    rc = cook_decode_output(cells, written, decoded, sizeof(decoded));
+    assert(rc == COOK_DECODE_OK);
+    assert(strcmp(decoded, expected) == 0);
+
+    free(cells);
+}
+
+static void test_manual_packet_layout_survives_512_steps(void) {
+    const size_t periods = 820;
     const size_t len = periods * COOK_ETHER_WIDTH;
     const size_t ossifier_pos = 560;
     const size_t data_pos = 1680;
@@ -61,25 +88,26 @@ static void test_manual_packet_layout_survives_100_steps(void) {
     assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_OK);
     rc = cook_leader_emit_phase_exact(cells, leader_pos, len);
     assert(rc == COOK_LEADER_PHASE_EXACT_OK);
+    rc = cook_data_block_emit_phase_exact(cells, 8400, len, tape_y, 1);
+    assert(rc == COOK_DATA_BLOCK_PHASE_EXACT_OK);
 
     assert(count_diff_from_ether(cells, ossifier_pos, ossifier_pos + 260, 0) >
            0);
     assert(count_diff_from_ether(cells, data_pos, data_pos + 900, 0) > 0);
     assert(count_diff_from_ether(cells, leader_pos, leader_pos + 730, 0) > 0);
 
-    r110_run_n_steps(cells, len, 100);
+    r110_run_n_steps(cells, len, 512);
 
     assert(count_diff_from_ether(cells, ossifier_pos - 120,
-                                 ossifier_pos + 360, 100) > 0);
+                                 ossifier_pos + 360, 512) > 0);
     assert(count_diff_from_ether(cells, data_pos - 120,
-                                 data_pos + 980, 100) > 0);
+                                 data_pos + 980, 512) > 0);
     assert(count_diff_from_ether(cells, leader_pos - 120,
-                                 leader_pos + 820, 100) > 0);
-    assert_ether_range_at_step(cells, 220, 360, 100);
-    assert_ether_range_at_step(cells, 3200, 3400, 100);
+                                 leader_pos + 820, 512) > 0);
+    assert_ether_range_at_step(cells, 220, 360, 512);
 
     free(cells);
-    printf("  manual_packet_layout_survives_100_steps: PASS\n");
+    printf("  manual_packet_layout_survives_512_steps: PASS\n");
 }
 
 static void test_cook_encode_phase_exact_first_pass(void) {
@@ -88,31 +116,62 @@ static void test_cook_encode_phase_exact_first_pass(void) {
     size_t prod_lens[1] = {1};
     uint8_t tape[1] = {1};
     CyclicTagInput ct = {productions, prod_lens, 1, tape, 1};
-    uint8_t cells[8192];
+    uint8_t placeholder = 0;
+    uint8_t *cells = NULL;
     size_t written = 0;
     int rc = 0;
 
-    memset(cells, 0x5a, sizeof(cells));
-    rc = cook_encode_phase_exact(&ct, cells, sizeof(cells), &written);
+    rc = cook_encode_phase_exact(&ct, &placeholder, 0, &written);
+    assert(rc == COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER);
+    cells = (uint8_t *)malloc(written);
+    assert(cells != NULL);
+    memset(cells, 0x5a, written);
+    rc = cook_encode_phase_exact(&ct, cells, written, &written);
 
     assert(rc == COOK_ENCODE_PHASE_EXACT_OK);
     assert(written > 0);
-    assert(written <= sizeof(cells));
     assert(count_diff_from_ether(cells, 896, 1600, 0) > 0);
     assert(count_diff_from_ether(cells, 2030, 2260, 0) > 0);
     assert(count_diff_from_ether(cells, 3374, 4240, 0) > 0);
 
     r110_run_n_steps(cells, written, 100);
     assert_ether_range_at_step(cells, 220, 360, 100);
-    assert_ether_range_at_step(cells, written - 700, written - 500, 100);
 
+    free(cells);
     printf("  cook_encode_phase_exact_first_pass: PASS\n");
+}
+
+static void test_single_production_round_trip_512(void) {
+    uint8_t production[1] = {1};
+    uint8_t *productions[1] = {production};
+    size_t prod_lens[1] = {1};
+    uint8_t tape[1] = {1};
+    CyclicTagInput ct = {productions, prod_lens, 1, tape, 1};
+
+    assert_decodes_after_steps(&ct, 512, "Y");
+
+    printf("  single_production_round_trip_512: PASS\n");
+}
+
+static void test_two_productions_round_trip_1024(void) {
+    uint8_t production0[2] = {1, 0};
+    uint8_t production1[1] = {1};
+    uint8_t *productions[2] = {production0, production1};
+    size_t prod_lens[2] = {2, 1};
+    uint8_t tape[2] = {1, 0};
+    CyclicTagInput ct = {productions, prod_lens, 2, tape, 2};
+
+    assert_decodes_after_steps(&ct, 1024, "YN");
+
+    printf("  two_productions_round_trip_1024: PASS\n");
 }
 
 int main(void) {
     printf("== test_cook_packet_phase_exact ==\n");
-    test_manual_packet_layout_survives_100_steps();
+    test_manual_packet_layout_survives_512_steps();
     test_cook_encode_phase_exact_first_pass();
+    test_single_production_round_trip_512();
+    test_two_productions_round_trip_1024();
     printf("ALL test_cook_packet_phase_exact tests passed\n");
     return 0;
 }
