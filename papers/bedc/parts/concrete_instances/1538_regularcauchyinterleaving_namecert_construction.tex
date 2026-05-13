@@ -220,6 +220,20 @@ The seal boundary is controlled by \autoref{thm:regular-cauchy-interleaving-real
 Finally apply the public Real seal export, \autoref{thm:regular-cauchy-interleaving-public-real-seal-export}. A bridge readback that begins from that public export can only read back the rows exported there, so it factors through $A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N$ and cannot access quotient equality, selected host limits, ambient completeness, or an unlisted schedule.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleaving finite-tail consumer boundary]
+\label{thm:regular-cauchy-interleaving-finite-tail-consumer-boundary}
+Every downstream consumer that reads the interleaved $\RealUp$ seal of an accepted $\RegularCauchyInterleavingUp$ packet through a finite-tail or diagonal-limit route must factor through one of the two displayed $\StreamNameUp$ schedules, the matching $\RegSeqRatUp$ source row, the combined modulus ledger, and the local $\NameCert$ row before it can consume a $\FiniteTailDiagonalSealUp$-style witness. The route is the sibling surface of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regularcauchyname-namecert}, and \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert}.
+\end{theorem}
+\begin{proof}
+Use selector parity exactness. An even read is routed through $A,S_A$ and the first component of $M$, while an odd read is routed through $B,S_B$ and the second component.
+
+Apply combined modulus exactness and schedule-window coverage. Together they make the selected schedule, matching regular source row, and selected modulus component the only finite window route into the interleaved seal.
+
+Use the Real seal non-escape theorem and the bridge readback scope. They keep every seal-facing consumer downstream of the displayed $\hsame$ transports, $\Cont$ routes, package row, and local $\NameCert$ row.
+
+The finite-tail handoff therefore has no coordinate for quotient reals, host limits, ambient completeness, or a third schedule. Any $\FiniteTailDiagonalSealUp$-style witness consumed downstream must use the displayed finite-window route.
+\end{proof}
+
 \closureat{RegularCauchyInterleavingUp}{seedStr}
 \closureat{RegularCauchyInterleavingUp}{obligationStr}
 \closureat{RegularCauchyInterleavingUp}{scopedStr}
