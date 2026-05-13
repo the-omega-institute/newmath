@@ -341,3 +341,96 @@ q\sim_{\LinearMapUp(M,N)}f.
 $$
 The ledger is assembled from the zero-map certificate supplied by \autoref{thm:module-zero-linearmap-certificate}, the two pointwise-sum certificates supplied by \autoref{thm:module-linearmap-pointwise-sum-certificate}, the target additive congruence rows, and the left and right additive-unit ledgers in the abelian-group reduct of $N$, matching \autoref{def:linearmap-ledger-policy}.
 \end{proof}
+
+
+\begin{theorem}[Module LinearMap pointwise inverse sum zero classifier]
+\label{thm:module-linearmap-pointwise-inverse-sum-zero-classifier}
+Let $R$ carry a $\RingUp$ certificate, and let $M$ and $N$ carry $\ModuleUp(R,M)$ and $\ModuleUp(R,N)$ certificates over the same scalar source. Write $\sim_N$ for the module classifier on $N$, $+_N$ for module addition, $0_N$ for module zero, and $-_N$ for target additive inverse. Let $f,z:M\to N$ be functions, and define $h,s,t:M\to N$ by
+$$
+h(x):=-_N f(x),
+\qquad
+s(x):=f(x)+_N h(x),
+\qquad
+t(x):=h(x)+_N f(x).
+$$
+Assume
+$$
+\mathsf{LinearMapCert}_R(M,N;f)
+$$
+and assume that $z$ satisfies the zero-linear-map hypotheses of \autoref{thm:module-zero-linearmap-certificate}: for every carried $x:M$, the output $z(x)$ is carried in $N$ and
+$$
+z(x)\sim_N0_N.
+$$
+Then the pointwise inverse and the two inverse sums carry certified linear-map packages
+$$
+\mathsf{LinearMapCert}_R(M,N;h),
+\qquad
+\mathsf{LinearMapCert}_R(M,N;s),
+\qquad
+\mathsf{LinearMapCert}_R(M,N;t),
+$$
+the zero map $z$ carries a certified zero-linear-map package
+$$
+\mathsf{LinearMapCert}_R(M,N;z),
+$$
+and the two inverse sums are classified with $z$ by the pointwise $\LinearMapUp(M,N)$ classifier:
+$$
+s\sim_{\LinearMapUp(M,N)}z
+\qquad\text{and}\qquad
+t\sim_{\LinearMapUp(M,N)}z.
+$$
+Equivalently, for every carried $x:M$,
+$$
+f(x)+_N(-_N f(x))\sim_N0_N
+\qquad\text{and}\qquad
+(-_N f(x))+_Nf(x)\sim_N0_N,
+$$
+and these pointwise zero rows classify both pointwise sums with every certified pointwise-zero representative $z$.
+The ten-field fit is: traditional target the additive inverse law in $\operatorname{Hom}_R(M,N)$; BEDC source the displayed $\mathsf{LinearMapCert}_R(M,N;f)$ package, the pointwise inverse construction, and the pointwise-zero witnesses for $z$; carrier the three functions $h$, $s$, and $t$; classifier the pointwise target classifier from \autoref{def:linearmap-classifier-specification}; stability pointwise inverse closure, pointwise-sum closure, target additive inverse laws, and zero-map classification; ledger the input function identifier, the inverse ledger, the two pointwise-sum ledgers, the target inverse-law ledgers at each carried source endpoint, and the zero-classifier comparison ledger; core theorem this block; exactness predicate the two displayed $\LinearMapUp(M,N)$ classifier comparisons; standard bridge the usual equality $f+(-f)=0=(-f)+f$ in the additive group of module homomorphisms; status $\mathsf{ProofTarget}$.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:module-linearmap-pointwise-inverse-certificate} to the input certificate for $f$. This gives
+$$
+\mathsf{LinearMapCert}_R(M,N;h).
+$$
+Apply \autoref{thm:module-linearmap-pointwise-sum-certificate} to the ordered pair $(f,h)$ and then to the ordered pair $(h,f)$. This gives
+$$
+\mathsf{LinearMapCert}_R(M,N;s)
+\qquad\text{and}\qquad
+\mathsf{LinearMapCert}_R(M,N;t).
+$$
+
+It remains to identify these two certified sums with the chosen zero representative $z$. By \autoref{thm:module-zero-linearmap-classifier-uniqueness}, it is enough to verify the zero-linear-map hypotheses for $s$ and for $t$, because the same hypotheses are assumed for $z$.
+
+Fix a carried source endpoint $x:M$. Unpacking the certificate for $f$ through \autoref{def:module-linearmap-certificate-package}, output closure makes $f(x)$ carried in $N$. The additive inverse closure row in the target module, read through \autoref{prop:module-forgets-abgroup-certificate}, makes $h(x)=-_N f(x)$ carried. Target additive closure then makes both
+$$
+s(x)=f(x)+_N h(x)
+\qquad\text{and}\qquad
+t(x)=h(x)+_N f(x)
+$$
+carried in $N$.
+
+The additive part of $N$ is an $\AbGroupUp(N)$ certificate with the same $+_N$, $0_N$, $-_N$, and $\sim_N$ by \autoref{prop:module-forgets-abgroup-certificate}. The right-inverse and left-inverse rows listed in \autoref{def:abgroup-stability-certificate}, applied to the carried endpoint $f(x)$, give
+$$
+f(x)+_N(-_N f(x))\sim_N0_N
+\qquad\text{and}\qquad
+(-_N f(x))+_Nf(x)\sim_N0_N.
+$$
+By the definitions of $h$, $s$, and $t$, these are exactly
+$$
+s(x)\sim_N0_N
+\qquad\text{and}\qquad
+t(x)\sim_N0_N.
+$$
+Thus $s$ and $t$ satisfy the carried-output and pointwise-zero hypotheses of \autoref{thm:module-zero-linearmap-certificate}.
+
+Apply \autoref{thm:module-zero-linearmap-classifier-uniqueness} to the pair $(s,z)$. The zero hypotheses for $s$ are the rows just proved, and the zero hypotheses for $z$ are assumed. This supplies the zero-linear-map certificate for $z$ and the classifier comparison
+$$
+s\sim_{\LinearMapUp(M,N)}z.
+$$
+Apply the same theorem to the pair $(t,z)$. This supplies the classifier comparison
+$$
+t\sim_{\LinearMapUp(M,N)}z.
+$$
+The certificate clauses for $s$ and $t$ are also the pointwise-sum certificates already obtained from \autoref{thm:module-linearmap-pointwise-sum-certificate}. The ledger is the inverse certificate ledger for $h$, the two pointwise-sum ledgers for $s$ and $t$, the target additive inverse-law ledgers at each carried input, and the zero-classifier uniqueness ledger of \autoref{thm:module-zero-linearmap-classifier-uniqueness}, matching \autoref{def:linearmap-ledger-policy}.
+\end{proof}
