@@ -674,6 +674,46 @@ Next use \autoref{thm:regular-cauchy-tail-meet-shared-threshold-route-determinac
 Finally combine the public shared-threshold certificate with real-seal route totality. The public certificate exposes the shared threshold as finite NameCert data, while the route-totality boundary keeps seal-facing consumers inside the same tail-meet window and excludes quotient, selection, host-equality, and ambient-completeness data.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTailMeet root threshold source ledger]
+\label{thm:regular-cauchy-tail-meet-root-threshold-source-ledger}
+Every root-facing threshold read of an accepted $\RegularCauchyTailMeetUp$ packet factors through
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N
+$$
+before it reaches a downstream root consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier to expose the two source rows $R_0,R_1$, the two window rows $W_0,W_1$, the two modulus rows $M_0,M_1$, the shared threshold $\tau$, comparison row $Q$, transport $H$, continuation $C$, ledger $L$, and local name $N$.
+
+Apply the root carrier admission, root classifier stability, and root ledger exactness results. They identify those displayed rows as the root-facing threshold surface and exclude a second root threshold coordinate.
+
+Finally use the uniform-criterion consumer link. It reads the same finite ledger before any UniformCauchyCriterionUp consumer sees the packet, so every root-facing threshold read factors through the listed rows.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root shared-threshold coverage]
+\label{thm:regular-cauchy-tail-meet-root-shared-threshold-coverage}
+The shared threshold $\tau$ in an accepted $\RegularCauchyTailMeetUp$ packet covers both source modulus rows $M_0$ and $M_1$ before any $\RealUp$ or $\UniformCauchyCriterionUp$ consumer reads the packet.
+\end{theorem}
+\begin{proof}
+Use the carrier and root carrier admission to project the paired sources, windows, modulus rows, and shared threshold.
+
+Apply root classifier stability and root ledger exactness. The threshold row is recorded once in the ledger and is classified against both source modulus rows, so it is not a one-sided witness.
+
+Then apply the uniform-criterion consumer link together with the real-seal route. Both downstream consumers enter through the same displayed threshold ledger, hence the shared threshold covers $M_0$ and $M_1$ before either consumer reads the packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet root consumer exhaustion]
+\label{thm:regular-cauchy-tail-meet-root-consumer-exhaustion}
+Downstream consumers of an accepted $\RegularCauchyTailMeetUp$ packet receive only the two-tail, one-threshold finite ledger. They receive no quotient stream, selected limit, host equality, trichotomy, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier and the public tail-meet certificate. They expose exactly the paired source rows, paired window rows, source modulus rows, one shared threshold ledger, comparison, transport, continuations, package provenance, and local name.
+
+Apply root ledger exactness and root classifier stability. These results keep root consumers on the displayed two-tail and one-threshold surface rather than on a quotient or selected-limit surface.
+
+Finally use the uniform-criterion consumer link. It reuses the same finite ledger for downstream reads, so quotient stream, selected limit, host equality, trichotomy, and ambient completeness rows are unavailable to those consumers.
+\end{proof}
+
 \closureat{RegularCauchyTailMeetUp}{seedStr}
 \closureat{RegularCauchyTailMeetUp}{obligationStr}
 \closureat{RegularCauchyTailMeetUp}{scopedStr}
