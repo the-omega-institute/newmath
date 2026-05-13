@@ -110,9 +110,49 @@ Now project the unary rows in the carrier. The row $V$ records the invariant rea
 Finally apply \autoref{thm:interhist-invariant-observer-symmetry} and \autoref{thm:interhist-invariant-max-rate-consumer-boundary}. Together they make $V$ and $S$ the whole unary surface consumed by $\MaxCausalRateUp$, with no carrier coordinate left for a global or quotient object.
 \end{proof}
 
+\begin{theorem}[InterHistInvariant finite-multihistory projection lock]
+\label{thm:interhist-invariant-finite-multihist-projection-lock}
+Let $I=(A,B,R,V,S,H,C,P,N)$ be an accepted $\InterHistInvariantUp$ packet. If $R$ is the relation row supplied by $\FiniteMultiHistPacketUp$, then every read of $A,B,R,V,S$ factors through the finite two-history packet displayed by $A,B,R,H,C,P,N$. No consumer of this packet receives an ambient relation on histories, a host relation outside $R$, or a second relation row not present in the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:interhist-invariant-carrier}. The only history coordinates are $A$ and $B$, and the only relation coordinate in the finite-multihistory case is the displayed row $R$.
+
+Use \autoref{thm:interhist-invariant-namecert-obligations} to order the read through carrier admission and two-history projection. The continuation routes in $C$ inspect $R$ after $A$ and $B$ are displayed, so relation access is locked to the same finite packet.
+
+Finally apply \autoref{thm:interhist-invariant-hsame-stability}. Transport replays the same rows $A,B,R,V,S$ on a common finite surface and supplies no coordinate from which an ambient relation or additional relation row could be read.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant causal-row choice boundary]
+\label{thm:interhist-invariant-causal-row-choice-boundary}
+Let $I=(A,B,R,V,S,H,C,P,N)$ be an accepted $\InterHistInvariantUp$ packet. If $R$ is supplied by $\CrossHistCausalUp$, then consumers receive only the displayed causal-witness row together with $A,B,V,S,H,C,P,N$. They do not receive a global causal order, a synchronized clock, a metric time coordinate, or any rule choosing causal comparisons beyond the row $R$.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:interhist-invariant-carrier} gives a single slot for the relation or causal-witness row. In the causal case that slot is $R$, and there is no second coordinate for an order, clock, or metric time.
+
+Apply \autoref{thm:interhist-invariant-namecert-obligations}. The causal witness is read only through the two-history projection and then through the unary invariant readback, so the consumer sees the displayed causal row as packet data.
+
+The stability theorem \autoref{thm:interhist-invariant-hsame-stability} transports this same row with the two histories and the readback rows. Transport preserves the finite causal witness surface; it does not create a global causal order or synchronized clock.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant rate-consumer readback exhaustion]
+\label{thm:interhist-invariant-rate-consumer-readback-exhaustion}
+Every $\MaxCausalRateUp$ consumer of an accepted $\InterHistInvariantUp$ packet receives exactly the rows
+$$
+A,B,R,V,S,H,C,P,N
+$$
+before any maximum-rate boundary is read. This readback exhausts the available inter-history invariant surface: the consumer has no host real-valued speed, host real equality, quotient construction, metric geometry, synchronized clock, or global frame from which to refine the rate boundary.
+\end{theorem}
+\begin{proof}
+First project the carrier of \autoref{def:interhist-invariant-carrier}. The row list $A,B,R,V,S,H,C,P,N$ is the complete list of visible carrier coordinates.
+
+Use \autoref{thm:interhist-invariant-namecert-obligations} to pass from the carrier list to the local obligation surface, and use \autoref{thm:interhist-invariant-hsame-stability} to transport that same surface to the consumer. No step adds a numerical speed or quotient coordinate.
+
+Finally apply \autoref{thm:interhist-invariant-max-rate-consumer-boundary}. The maximum-rate boundary consumes the finite packet after those rows are displayed, so the rate-facing readback is exhausted by the carrier inventory itself.
+\end{proof}
+
 \begin{theorem}[InterHistInvariant obligation closure package]
 \label{thm:interhist-invariant-obligation-closure-package}
-The carrier of \autoref{def:interhist-invariant-carrier}, the local obligations of \autoref{thm:interhist-invariant-namecert-obligations}, hsame stability from \autoref{thm:interhist-invariant-hsame-stability}, observer symmetry from \autoref{thm:interhist-invariant-observer-symmetry}, the maximum-rate boundary of \autoref{thm:interhist-invariant-max-rate-consumer-boundary}, two-history route exactness from \autoref{thm:interhist-invariant-two-history-route-exactness}, and unary readback coverage from \autoref{thm:interhist-invariant-unary-readback-coverage} form the full obligation surface for $\InterHistInvariantUp$ over the finite packet
+The carrier of \autoref{def:interhist-invariant-carrier}, the local obligations of \autoref{thm:interhist-invariant-namecert-obligations}, hsame stability from \autoref{thm:interhist-invariant-hsame-stability}, observer symmetry from \autoref{thm:interhist-invariant-observer-symmetry}, the maximum-rate boundary of \autoref{thm:interhist-invariant-max-rate-consumer-boundary}, two-history route exactness from \autoref{thm:interhist-invariant-two-history-route-exactness}, unary readback coverage from \autoref{thm:interhist-invariant-unary-readback-coverage}, the finite-multihistory projection lock of \autoref{thm:interhist-invariant-finite-multihist-projection-lock}, the causal-row choice boundary of \autoref{thm:interhist-invariant-causal-row-choice-boundary}, and rate-consumer readback exhaustion from \autoref{thm:interhist-invariant-rate-consumer-readback-exhaustion} form the full obligation surface for $\InterHistInvariantUp$ over the finite packet
 $$
 I=(A,B,R,V,S,H,C,P,N).
 $$
@@ -123,7 +163,9 @@ The carrier and NameCert rows give the admission layer. They display exactly the
 
 The route layer is supplied by the two exactness theorems. Two-history content is confined to $A,B,R,H,C,P,N$, while the maximum-rate unary readback is confined to $V,S$ after those rows have been displayed.
 
-The stability and consumer layers are supplied by the remaining local theorems. Componentwise $\hsame$ transport preserves the same packet surface, observer symmetry keeps the swapped presentation on that surface, and the maximum-rate boundary gives the downstream handoff.
+The projection and choice layers are supplied by the finite-multihistory lock and causal-row boundary. They distinguish the relation-row and causal-row readings of $R$ without adding any ambient relation, global order, synchronized clock, or metric time.
+
+The stability and consumer layers are supplied by the remaining local theorems. Componentwise $\hsame$ transport preserves the same packet surface, observer symmetry keeps the swapped presentation on that surface, and the maximum-rate boundary together with rate-consumer exhaustion gives the downstream handoff.
 
 These pieces exhaust the visible carrier coordinates. Since no additional coordinate names a global frame, synchronized clock, metric geometry, host equality, or quotient, the listed rows are the full obligation surface for $\InterHistInvariantUp$.
 \end{proof}
