@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowObserverUp$}
+\label{ch:concrete-instances-finitewindowobserver-namecert}
+\origin{human}
+
+The $\FiniteWindowObserverUp$ packet realizes the inscription-event vision as a finite observation window with an explicit naming certificate. It keeps the prior observation state, selected public window, inscription record, checker result, downstream interface, transport, replay, provenance, and local name in one displayed $\BHist$ carrier. The packet is a concrete consumer surface; it does not appeal to private psychology, unbounded memory, hidden agency predicates, or an external semantic observer.
+
+\begin{definition}[FiniteWindowObserver carrier]
+\label{def:finite-window-observer-carrier}
+A $\FiniteWindowObserverUp$ carrier is a finite $\BHist$ packet
+$$
+W=(O,F,I,K,D,H,C,P,N)
+$$
+whose displayed rows are as follows:
+\begin{enumerate}
+\item $O$ is the prior observation state from which the inscription event is read;
+\item $F$ is the finite selected window of public records made visible to the observer;
+\item $I$ is the inscription record containing the named commitment and its visible route;
+\item $K$ is the checker and admission result for the proposed record;
+\item $D$ is the downstream interface row that records which consumer may cite the accepted inscription;
+\item $H$ is the componentwise $\hsame$ transport row for the observation state, selected window, inscription record, checker result, downstream interface, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes for window selection, checker replay, admission, downstream handoff, and local NameCert comparison;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\BMark$, $\InscriptionEventUp$, $\InscriptionGapLedgerUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteWindowObserverUp}$ row.
+\end{enumerate}
+Two accepted carriers classify together only when these nine displayed rows are transported to the same finite observation window and the same inscription-facing consumer interface. The carrier has no coordinate for a private mental state, global observer identity, hidden source of agency, or unbounded history.
+\end{definition}
+
+\begin{theorem}[FiniteWindowObserver NameCert obligations]
+\label{thm:finite-window-observer-namecert-obligations}
+The local $\NameCert_{\FiniteWindowObserverUp}$ surface for the carrier of \autoref{def:finite-window-observer-carrier} consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet $W=(O,F,I,K,D,H,C,P,N)$;
+\item classifier transport of the prior observation state, finite window, inscription record, checker result, and downstream interface;
+\item checker replay and admission exactness for the visible inscription record;
+\item downstream consumer handoff through the displayed interface row;
+\item ledger non-escape for private psychology, global observer identity, hidden agency predicates, unbounded history, and external semantic observation.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-window-observer-carrier}. The accepted packet exposes the prior observation state, finite selected window, inscription record, checker result, downstream interface, transports, continuations, provenance, and local naming row.
+
+Classifier transport uses $H$ to align those rows componentwise. Once transported, the continuation row $C$ is the only displayed route for selecting the window, replaying the checker, admitting the inscription, and handing the accepted record to a consumer.
+
+Checker exactness is read from $K$ together with the inscription row $I$. The downstream handoff is read from $D$, and the package provenance $P$ fixes the inscription-event and GAP-ledger anchors for the same finite packet.
+
+The carrier contains no row for private psychology, global observer identity, hidden agency predicates, unbounded history, or external semantic observation. Hence the five obligations exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[FiniteWindowObserver inscription handoff]
+\label{thm:finite-window-observer-inscription-handoff}
+For an accepted $\FiniteWindowObserverUp$ carrier $W=(O,F,I,K,D,H,C,P,N)$, every inscription-event consumer reads the accepted record through the finite route
+$$
+O \longrightarrow F \longrightarrow I \longrightarrow K \longrightarrow D.
+$$
+The route first selects the finite public window, then reads the named inscription record, then replays the checker and admission result, and finally exposes only the downstream interface row certified by the local $\NameCert$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-observer-carrier}. The rows $O$ and $F$ determine the prior observation state and the finite selected window in which the event is read.
+
+The inscription row $I$ provides the named commitment and visible route. The checker row $K$ records the admission result for that same displayed record, while $H$ transports the rows to the common classifier surface.
+
+Replay the route through $C$. The continuation first selects $F$ from $O$, then reads $I$, then checks and admits it through $K$, and finally hands the accepted record to the downstream interface $D$.
+
+The local rows $P,N$ bind the route to package provenance and naming. Since no other carrier coordinate can be read by the consumer, the inscription handoff is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[FiniteWindowObserver ledger non-escape]
+\label{thm:finite-window-observer-ledger-nonescape}
+Every consumer-facing route out of an accepted $\FiniteWindowObserverUp$ carrier factors through the finite rows $O,F,I,K,D,H,C,P,N$. No route exports a private mental state, global observer identity, hidden agency predicate, unbounded observation history, external semantic observer, or unchecked inscription acceptance.
+\end{theorem}
+\begin{proof}
+Take any consumer-facing route and project the accepted carrier. The only observation-facing rows are the prior state $O$, selected window $F$, inscription record $I$, checker result $K$, and downstream interface $D$.
+
+The remaining rows $H,C,P,N$ transport, replay, record provenance, and name the packet. They do not introduce a second source of observer identity or a separate semantic acceptance relation.
+
+By the NameCert obligations of \autoref{thm:finite-window-observer-namecert-obligations}, checker replay, admission, and consumer handoff are already exhausted by the displayed finite rows. Therefore the ledger cannot export anything outside $O,F,I,K,D,H,C,P,N$.
+\end{proof}
+
+\closureat{FiniteWindowObserverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowObserverUp}
+  \constructivestory{A $\FiniteWindowObserverUp$ packet is generated from a prior observation state, a finite selected public window, an inscription record, an accepted checker row, a downstream interface, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-observer-carrier}, \autoref{thm:finite-window-observer-namecert-obligations}, \autoref{thm:finite-window-observer-inscription-handoff}, and \autoref{thm:finite-window-observer-ledger-nonescape} bind the finite observation-window carrier, local NameCert obligations, inscription-event handoff, and ledger non-escape rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close private psychology, global observer identity, hidden agency predicates, unbounded observation histories, external semantic observation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, checker replay, downstream handoff, and non-escape for the same finite observation-window packet.}
+\end{closurestatus}
