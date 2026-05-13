@@ -144,14 +144,15 @@ Composing the displayed $\Cont$ routes gives the route $q \to w \to r \to d \to 
 \end{proof}
 
 \closureat{RealDiagonalWindowCoverageUp}{seedStr}
+\closureat{RealDiagonalWindowCoverageUp}{obligationStr}
 
 \begin{closurestatus}{\RealDiagonalWindowCoverageUp}
   \constructivestory{A $\RealDiagonalWindowCoverageUp$ packet is generated from a rational precision request, a selected $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-diagonal-window-coverage-carrier}, \autoref{def:real-diagonal-window-coverage-classifier}, \autoref{thm:real-diagonal-window-coverage-namecert-obligations}, \autoref{thm:real-diagonal-window-coverage-realup-handoff}, and \autoref{thm:real-diagonal-window-coverage-nonescape} bind the finite selected-window route from precision request through StreamName and RegSeqRat readback to DyadicRatCore observations and the RealUp seal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:real-diagonal-window-coverage-carrier}, \autoref{def:real-diagonal-window-coverage-classifier}, \autoref{thm:real-diagonal-window-coverage-namecert-obligations}, \autoref{thm:real-diagonal-window-coverage-selected-window-coverage}, \autoref{thm:real-diagonal-window-coverage-realup-handoff}, \autoref{thm:real-diagonal-window-coverage-nonescape}, and \autoref{thm:real-diagonal-window-coverage-tail-meet-triangle-handoff} bind the finite selected-window route from precision request through $\StreamNameUp$ and $\RegSeqRatUp$ readback to $\DyadicRatCoreUp$ observations, the $\RealUp$ seal, and the tail-meet triangle handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, continuous-map theorems, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, selected-window coverage, RealUp handoff, and non-escape for the same finite diagonal-window packet.}
+  \upgradepath{Scoped closure requires binding the carrier, classifier, selected-window coverage, RealUp handoff, non-escape, and tail-meet triangle handoff to their $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependency scope.}
 \end{closurestatus}
