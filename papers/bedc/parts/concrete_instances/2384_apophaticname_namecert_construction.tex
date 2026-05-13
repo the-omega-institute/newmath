@@ -80,12 +80,30 @@ Continuation and package provenance are the rows $C$ and $P$. They expose the sa
 Non-escape is \autoref{thm:apophatic-name-non-escape-certificate}. Together these five rows form the local NameCert surface for an apophatic socket name.
 \end{proof}
 
+\begin{theorem}[ApophaticName classifier stability]
+\label{thm:apophatic-name-classifier-stability}
+Accepted $\ApophaticNameUp$ packets transported componentwise along the displayed $\hsame$ rows preserve the socket-name row, requested supply shape, refusal gate, refusal ledger, continuation routes, package provenance, and local $\NameCert_{\ApophaticNameUp}$ row. For a packet
+$$
+A=(S,R,G,L,H,C,P,N),
+$$
+the transported classifier still reads only $S,R,G,L,H,C,P,N$ and cannot gain a supplied object, axiom, quotient representative, hidden theorem, or host-side realization.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $A=(S,R,G,L,H,C,P,N)$ from \autoref{def:apophatic-name-carrier}. The classifier-facing coordinates are exactly the socket, request, refusal gate, ledger, transport, continuation, package, and naming rows.
+
+Use the refusal ledger of \autoref{thm:apophatic-name-refusal-ledger}. It records the permitted socket reads and the barred conversions from requested supply to internal object, axiom, quotient representative, hidden theorem, or host-side datum.
+
+Apply the obligation surface of \autoref{thm:apophatic-name-obligation-surface}. Its classifier-stability, ledger-exactness, continuation, package, and non-escape rows exhaust the local NameCert obligations for the same tuple.
+
+Componentwise $\hsame$ transport can therefore move only the displayed coordinates. Since $C$ and $P$ preserve the continuation and package provenance rows, and since $N$ remains the local naming row for that transported packet, no additional coordinate appears in which a supplied object, axiom, quotient representative, hidden theorem, or host-side realization could be stored.
+\end{proof}
+
 \closureat{ApophaticNameUp}{seedStr}
 
 \begin{closurestatus}{\ApophaticNameUp}
   \constructivestory{An $\ApophaticNameUp$ packet is generated from a finite socket-name row, a requested supply-shape row, a refusal-gate row, a refusal ledger, componentwise transport, continuation routes, package provenance, and a local naming certificate.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:apophatic-name-carrier}, \autoref{thm:apophatic-name-refusal-ledger}, \autoref{thm:apophatic-name-non-escape-certificate}, and \autoref{thm:apophatic-name-obligation-surface} bind the seed carrier, refusal ledger, non-escape certificate, and five-row NameCert surface for named externality.}
+  \scopeclosed{\autoref{def:apophatic-name-carrier}, \autoref{thm:apophatic-name-refusal-ledger}, \autoref{thm:apophatic-name-non-escape-certificate}, \autoref{thm:apophatic-name-obligation-surface}, and \autoref{thm:apophatic-name-classifier-stability} bind the seed carrier, refusal ledger, non-escape certificate, classifier transport, and five-row NameCert surface for named externality.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

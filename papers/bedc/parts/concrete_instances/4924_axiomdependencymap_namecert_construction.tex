@@ -88,12 +88,44 @@ The factorization result of \autoref{thm:axiom-dependency-map-query-ledger-facto
 Since no further coordinate exists, a consumer has no place from which to obtain unrestricted closure, hidden supply, obstruction discharge, or host-axiom admission. All public reads remain inside the finite packet.
 \end{proof}
 
+\begin{theorem}[Axiom-dependency-map required-supply separation]
+\label{thm:axiom-dependency-map-required-supply-separation}
+For every accepted $\AxiomDependencyMapUp$ packet
+$$
+X=(\Phi,M,W,A,H,C,P,N),
+$$
+the required-axiom-set row $A$ separates the three displayed supply modes: empty supply for internal proof, restricted-surface conditions for restricted internal proof, and named external supply for obstruction or socket rows. No downstream consumer may read one supply mode as another through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Apply mode soundness from \autoref{thm:axiom-dependency-map-mode-soundness}. The three cases for $M$ pair $W$ and $A$ with empty supply, restricted surface, or named supply respectively.
+
+Next apply the query-ledger factorization theorem \autoref{thm:axiom-dependency-map-query-ledger-factorization}. Any consumer that treats $A$ as proof-ancestry data must replay the corresponding ledger, family, compiler, or weave route named in $P$ and routed by $C$.
+
+Finally use the boundary theorem \autoref{thm:axiom-dependency-map-boundary}. The transport, continuation, provenance, and naming rows preserve the displayed tuple only. Since the packet contains no row that converts one supply mode into another, no consumer can read empty supply, restricted surface, and named external supply interchangeably.
+\end{proof}
+
+\begin{theorem}[Axiom-dependency-map restricted-row non-escape]
+\label{thm:axiom-dependency-map-restricted-row-nonescape}
+For every accepted $\AxiomDependencyMapUp$ packet
+$$
+X=(\Phi,M,W,A,H,C,P,N),
+$$
+if the mode row $M$ reads as restricted internal proof, then the witness row $W$ and required-supply row $A$ remain restricted under $H,C,P,N$. They cannot be exported as unconditional BEDC theorems, and the local $\NameCert_{\AxiomDependencyMapUp}$ row exposes only the restricted dependency tuple.
+\end{theorem}
+\begin{proof}
+Start with mode soundness. In the restricted branch, $W$ is a restricted witness and $A$ is the restricted-surface condition; the carrier records no row that erases that condition.
+
+Use query-ledger factorization to inspect any downstream replay. A consumer must pass through the finite ledger, family, compiler, or dependency-weave route named by $P$, so the restricted branch remains tied to the ledger that justifies the restricted reading.
+
+Apply the non-escape boundary. The rows $H,C,P,N$ transport, replay, package, and name the same displayed tuple, and the carrier has no coordinate for unrestricted theorem export. Therefore a restricted proof row remains restricted and cannot be read as an unconditional BEDC theorem.
+\end{proof}
+
 \closureat{AxiomDependencyMapUp}{seedStr}
 
 \begin{closurestatus}{\AxiomDependencyMapUp}
   \constructivestory{An $\AxiomDependencyMapUp$ packet is generated from a claim row, a mode row, a witness row, a required-axiom-set row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:axiom-dependency-map-certificate}, \autoref{thm:axiom-dependency-map-ledger-obligations}, \autoref{thm:axiom-dependency-map-mode-soundness}, \autoref{thm:axiom-dependency-map-query-ledger-factorization}, and \autoref{thm:axiom-dependency-map-boundary} specify the finite claim-level dependency-map packet, mode soundness, ledger factorization, and non-escape boundary.}
+  \scopeclosed{\autoref{def:axiom-dependency-map-certificate}, \autoref{thm:axiom-dependency-map-ledger-obligations}, \autoref{thm:axiom-dependency-map-mode-soundness}, \autoref{thm:axiom-dependency-map-query-ledger-factorization}, \autoref{thm:axiom-dependency-map-boundary}, \autoref{thm:axiom-dependency-map-required-supply-separation}, and \autoref{thm:axiom-dependency-map-restricted-row-nonescape} specify the finite claim-level dependency-map packet, mode soundness, ledger factorization, supply separation, restricted-row non-escape, and public boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

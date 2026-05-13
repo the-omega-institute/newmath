@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\ObservationBudgetLimiterUp$}
+\label{ch:concrete-instances-observationbudgetlimiter-namecert}
+\origin{ai}
+
+The $\ObservationBudgetLimiterUp$ packet realizes the finite request-cap side of the Real and Completion route of \autoref{ch:visions-real-completeness}. It sits between the observation-budget service of \autoref{ch:concrete-instances-real-observation-budget-namecert} and the seal-facing routes of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet is a concrete gate: it records which finite request rows may be served before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ seal read is consumed.
+
+\falsifiablePrediction{Deleting the budget-cap row permits a RealUp seal consumer to bypass the finite request bound, while deleting the window or dyadic rows breaks StreamName and RegSeqRat readback.}
+
+\independenceWitness{Nearest siblings: realobservationbudget, cauchysealbudgetsynchronizer, realcompletionsealclassifier, streamname, and regseqrat; none is bijective because this carrier has a separate budget-cap gate between request and seal rows.}
+
+\begin{definition}[Observation-budget limiter carrier]
+\label{def:observation-budget-limiter-carrier}
+An $\ObservationBudgetLimiterUp$ carrier is a finite $\BHist$ packet
+$$
+L=(E,B,K,W,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the incoming finite precision or observation request;
+\item $B$ is the accepted $\RealObservationBudgetUp$ service row covering the request;
+\item $K$ is the budget-cap row that bounds how many request windows may be served before the seal is read;
+\item $W$ is the finite $\StreamNameUp$ window ledger admitted under the cap;
+\item $D$ is the $\DyadicRatCoreUp$ observation ledger read through those windows;
+\item $R$ is the $\RegSeqRatUp$ readback row assembled from $W$ and $D$;
+\item $S$ is the $\RealUp$ seal row reached only after the capped request, window, dyadic, and regular readback rows have been consumed;
+\item $H$ stores componentwise $\hsame$ transports for $E,B,K,W,D,R,S,C,P,N$;
+\item $C$ stores the displayed $\Cont$ routes from the request to the budget row, from the budget-cap row to the window ledger, from the window and dyadic ledgers to the regular readback, and from the readback to the seal;
+\item $P$ records $\Pkg$ provenance over $\RealObservationBudgetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ObservationBudgetLimiterUp}$ row.
+\end{enumerate}
+The carrier exports a finite budget gate for Real and Completion consumers. It exports no unbounded observation schedule, quotient stream, selected limit, host real equality, trichotomy row, independent real carrier, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Observation-budget limiter NameCert obligations]
+\label{thm:observation-budget-limiter-namecert-obligations}
+For the carrier of \autoref{def:observation-budget-limiter-carrier}, the local $\NameCert_{\ObservationBudgetLimiterUp}$ surface consists of six finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $L=(E,B,K,W,D,R,S,H,C,P,N)$;
+\item budget-cap admission, requiring $K$ to be read after the request row $E$ and budget row $B$ and before any window row $W$ is served;
+\item finite-window coverage, requiring every served window to be one of the $\StreamNameUp$ rows admitted by $W$ under $K$;
+\item dyadic and regular readback, requiring each $\DyadicRatCoreUp$ observation in $D$ and the resulting $\RegSeqRatUp$ row $R$ to be read through the same capped window route;
+\item seal handoff, requiring the $\RealUp$ seal row $S$ to be consumed only after $E,B,K,W,D,R$ have been displayed;
+\item non-escape, excluding unbounded schedules, quotient streams, selected limits, host real equality, trichotomy, independent real carriers, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:observation-budget-limiter-carrier}. The request, observation budget, cap, window, dyadic, regular readback, seal, transport, route, provenance, and local name are all explicit coordinates.
+
+Budget-cap admission reads $K$ between $B$ and $W$. Thus the finite request is served by the displayed budget row before any window ledger is exposed, and the cap row fixes which subsequent windows are available.
+
+Finite-window coverage, dyadic readback, and regular readback are then read along the displayed route $K \to W \to D \to R$. Componentwise transports in $H$ preserve the same rows, and the continuation rows in $C$ replay them without adding another observation source.
+
+Finally the seal handoff reads $S$ only after $R$. Since the carrier contains no row for an unbounded schedule, quotient stream, selected limit, host real equality, trichotomy, independent real carrier, or ambient completeness principle, the non-escape obligation is exactly the visible finite inventory.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter budget monotonicity]
+\label{thm:observation-budget-limiter-budget-monotonicity}
+Let $L=(E,B,K,W,D,R,S,H,C,P,N)$ and $L'=(E',B',K',W',D',R',S',H',C',P',N')$ be accepted $\ObservationBudgetLimiterUp$ carriers. If the request and budget rows agree componentwise and the budget-cap row $K'$ admits every window admitted by $K$, then every seal-facing read admitted by $L$ is also admitted by $L'$ through the transported rows $W',D',R',S'$ and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of $L$. A seal-facing read must pass through $E,B,K,W,D,R,S$ in that order by \autoref{thm:observation-budget-limiter-namecert-obligations}.
+
+Use the componentwise agreement of the request and budget rows to transport the entry route from $E,B$ to $E',B'$. The cap hypothesis then sends each $K$-admitted window to a $K'$-admitted window, so the same finite window service is available in $W'$.
+
+Read the dyadic and regular rows through the transported windows. The rows $D',R'$ are the matching dyadic and $\RegSeqRatUp$ readback rows under the larger cap, and the route to $S'$ is displayed by $C'$ with provenance $P',N'$. Thus widening the cap preserves every previously admitted seal read and does not add any excluded analytic object.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter window non-escape]
+\label{thm:observation-budget-limiter-window-nonescape}
+Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer served by an accepted $\ObservationBudgetLimiterUp$ carrier factors through the finite rows
+$$
+E,B,K,W,D,R,S,H,C,P,N.
+$$
+In particular, no consumer may reach the regular readback row $R$ or the real seal row $S$ without first displaying the budget-cap row $K$, the finite window row $W$, and the dyadic observation row $D$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and apply \autoref{thm:observation-budget-limiter-namecert-obligations}. The obligations order the request, budget, cap, window, dyadic, regular, and seal rows before any consumer-facing read is available.
+
+For a $\StreamNameUp$ consumer, the route stops at the capped window ledger $W$. For a $\RegSeqRatUp$ consumer, the route continues through $D$ to $R$. For a $\RealUp$ consumer, the route continues through the same readback to $S$.
+
+The displayed transport, continuation, provenance, and naming rows authenticate these routes and no others. Therefore any route that bypasses $K$, $W$, or $D$ has no carrier coordinate from which to read $R$ or $S$.
+\end{proof}
+
+\begin{theorem}[Observation-budget limiter vision handoff]
+\label{thm:observation-budget-limiter-vision-handoff}
+The Real and Completion route of \autoref{ch:visions-real-completeness} may consume an accepted $\ObservationBudgetLimiterUp$ packet as the finite gate between observation-budget availability and seal consumption. The handoff first reads the $\RealObservationBudgetUp$ row, then the budget cap, then the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, $\RegSeqRatUp$ readback, and finally the $\RealUp$ seal. The resulting route is compatible with \autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert} and \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert} as a capped observation service, not as a completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the observation-budget row $B$ and the cap row $K$. These rows turn the availability of an observation service into a finite request gate before any stream or seal consumer is reached.
+
+Next compose the capped window route with the dyadic and regular readback rows. The route $W,D,R$ is the same finite surface used by StreamName, DyadicRatCore, and RegSeqRat consumers, so it gives the Real and Completion side a displayed readback rather than an implicit analytic primitive.
+
+Finally read the seal row $S$ through the same packet. The synchronizer and completion-seal classifier chapters may consume this packet as a capped observation service before they read their seal-facing rows. Since the carrier contains no completeness, quotient, selected-limit, host-equality, trichotomy, or independent-real coordinate, the handoff is a finite gate and not an analytic closure theorem.
+\end{proof}
+
+The follow-up Lean TasteGate for this chapter must provide \texttt{Nontrivial ObservationBudgetLimiterUp} and \texttt{FieldFaithful ObservationBudgetLimiterUp} instances for the same carrier.
+
+\closureat{ObservationBudgetLimiterUp}{seedStr}
+
+\begin{closurestatus}{\ObservationBudgetLimiterUp}
+  \constructivestory{An $\ObservationBudgetLimiterUp$ packet is generated from a finite request row, observation-budget row, budget-cap row, finite StreamName window ledger, DyadicRatCore observation ledger, RegSeqRat readback row, RealUp seal row, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observation-budget-limiter-carrier}, \autoref{thm:observation-budget-limiter-namecert-obligations}, \autoref{thm:observation-budget-limiter-budget-monotonicity}, \autoref{thm:observation-budget-limiter-window-nonescape}, and \autoref{thm:observation-budget-limiter-vision-handoff} bind finite request caps before StreamName, RegSeqRat, and RealUp seal reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, Real completeness, quotient streams, host real equality, selected limits, trichotomy, independent real carriers, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, cap monotonicity, window non-escape, and Real and Completion handoff for the same finite limiter packet.}
+\end{closurestatus}

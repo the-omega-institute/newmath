@@ -163,6 +163,55 @@ Apply \autoref{thm:regular-cauchy-sequence-selected-window-coverage}. Those sele
 Finally use \autoref{thm:regular-cauchy-sequence-realseal-handoff}. The row $E$ is reachable only after $F,\mu,W,D,R,G$ have been displayed, so the coverage handoff consumes the listed rows and nothing outside the finite packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy sequence budget-window synchronization]
+\label{thm:regular-cauchy-sequence-budget-window-synchronization}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet. Suppose the selected-window surface of $S$ is consumed by an accepted $\RealObservationBudgetUp$ route or by an accepted $\CauchyLimitSealUp$ budget route. Then the budget route and the $\RegularCauchySequenceUp$ handoff read the same finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, and $\RealUp$ seal row through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Equivalently, the budget-facing consumer may only use the selected windows $W$, dyadic ledger $D$, regular readback $R$, diagonal-window coverage row $G$, seal row $E$, transports $H$, continuations $C$, provenance $P$, and local name $N$ already displayed by $S$ and by the seal-budget route. It receives no quotient stream, host real equality, selected limit, countable-choice coordinate, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First confine the regular-family side. By \autoref{thm:regular-cauchy-sequence-selected-window-coverage}, every selected-window read of $S$ is already routed through $F,\mu,W,D,R,H,C,P,N$, with no extra host stream or completeness coordinate.
+
+Next apply the diagonal-window handoff of \autoref{thm:regular-cauchy-sequence-diagonal-window-coverage-handoff}. It identifies $G$ as the consumer row that reads the selected $\StreamNameUp$ windows together with the $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal row, displayed transports, continuations, provenance, and local naming row.
+
+Now read the budget route. Budget root source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality} says an accepted $\RealObservationBudgetUp$ or $\CauchyLimitSealUp$ budget consumer is sourced by the displayed seal and budget rows, rather than by an independent completion object.
+
+Finally use dyadic-window exactness from \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. The budget ledger is the scheduled finite window ledger already exposed by the seal packet, so the composed route reads the same $W,D,R,E,H,C,P,N$ surface as the regular Cauchy sequence handoff. The non-escape clauses in the cited rows exclude quotient streams, host real equality, selected limits, countable choice, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sequence Real observation budget seal factorization]
+\label{thm:regular-cauchy-sequence-real-observation-budget-seal-factorization}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet, and let
+$$
+B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)
+$$
+be an accepted $\RealObservationBudgetUp$ packet whose displayed rows read the selected windows, dyadic ledger, $\RegSeqRatUp$ readback, diagonal-window coverage, and $\RealUp$ seal of $S$ through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then every $\RealUp$-facing consumer of $S$ factors through the finite route
+$$
+E_B \longmapsto W_B \longmapsto D_B \longmapsto R_B \longmapsto S_B
+$$
+before reaching the seal row $E$. The factorization exports no quotient stream, host real equality, selected limit, countable-choice coordinate, hidden schedule, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First synchronize the two visible window ledgers. By \autoref{thm:regular-cauchy-sequence-budget-window-synchronization}, the $\RealObservationBudgetUp$ packet and the regular Cauchy handoff read the same finite selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, diagonal-window coverage, and $\RealUp$ seal surface through the displayed transport, continuation, provenance, and local naming rows.
+
+Next use the observation-budget route totality. \autoref{thm:real-observation-budget-finite-window-seal-route-totality} forces every admitted $\RealUp$ seal read of $B$ through
+$$
+E_B \longmapsto W_B \longmapsto D_B \longmapsto R_B \longmapsto S_B.
+$$
+
+Now attach the consumer side. \autoref{thm:real-observation-budget-regseq-real-consumer-factorization} says that every admitted $\RegSeqRatUp$ or $\RealUp$ consumer of the budget packet factors through the same finite route with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Since the synchronized rows are exactly the selected-window and seal rows of $S$, the $\RealUp$-facing consumer of $S$ must pass through $E_B,W_B,D_B,R_B,S_B$ before reaching $E$.
+
+Finally close the non-escape boundary. \autoref{lem:regular-cauchy-sequence-non-escape} and \autoref{thm:real-observation-budget-nonescape} leave no coordinate for quotient streams, host real equality, selected limits, countable choice, hidden schedules, or ambient completeness, so no consumer can bypass the finite route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy sequence diagonal tail selector factorization]
 \label{thm:regular-cauchy-sequence-diagonal-tail-selector-factorization}
 Let

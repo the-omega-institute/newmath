@@ -65,4 +65,29 @@ theorem KernelSourceChannelLedgerPacket_trace_projection [AskSetup] [PackageSetu
     ⟨traceUnary, routeUnary, separationUnary, transportUnary, replayUnary, provenanceUnary,
       nameUnary, traceRouteTransport, transportReplayProvenance, namePkg⟩
 
+theorem KernelSourceChannelLedgerPacket_audit_boundary [AskSetup] [PackageSetup]
+    {generated stamp accepted ancestry query refusal trace route separation transport replay
+      provenance name auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelSourceChannelLedgerPacket generated stamp accepted ancestry query refusal trace route
+        separation transport replay provenance name bundle pkg ->
+      Cont accepted query auditRead ->
+        PkgSig bundle auditRead pkg ->
+          UnaryHistory generated ∧ UnaryHistory stamp ∧ UnaryHistory accepted ∧
+            UnaryHistory query ∧ UnaryHistory refusal ∧ UnaryHistory auditRead ∧
+              Cont generated stamp accepted ∧ Cont query refusal separation ∧
+                Cont accepted query auditRead ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro packet acceptedQueryAudit auditPkg
+  obtain ⟨generatedUnary, stampUnary, acceptedUnary, _ancestryUnary, queryUnary, refusalUnary,
+    _traceUnary, _routeUnary, _separationUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _nameUnary, generatedStampAccepted, queryRefusalSeparation, _traceRouteTransport,
+    _transportReplayProvenance, namePkg⟩ := packet
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed acceptedUnary queryUnary acceptedQueryAudit
+  exact
+    ⟨generatedUnary, stampUnary, acceptedUnary, queryUnary, refusalUnary, auditUnary,
+      generatedStampAccepted, queryRefusalSeparation, acceptedQueryAudit, namePkg, auditPkg⟩
+
 end BEDC.Derived.KernelSourceChannelLedgerUp

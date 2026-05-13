@@ -81,6 +81,46 @@ Now inspect the carrier of \autoref{def:groundcompiler-audit-packet-carrier}. No
 Therefore a MetaCIC consumer has no projection from this packet to the proof evidence it needs. It must instead read a dedicated MetaCIC packet, while the GroundCompiler packet remains a finite compiler-audit certificate.
 \end{proof}
 
+\begin{theorem}[GroundCompiler audit packet carrier exposure]
+\label{thm:groundcompiler-audit-packet-carrier-exposure}
+Every accepted $\GroundCompilerAuditPacketUp$ packet exposes exactly the finite carrier rows
+$$
+E,S,R,C,Q,M,B,X,H,T,P,N.
+$$
+These rows are the $\BHist$ event-flow, source-channel, recognizer, certificate-gate, report-boundary, module-inventory, no-hidden-input, source-channel export, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows of the packet, and no additional compiler trust, host source scan, kernel acceptance evidence, or MetaCIC proof evidence row is exposed.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $G=(E,S,R,C,Q,M,B,X,H,T,P,N)$ from \autoref{def:groundcompiler-audit-packet-carrier}. The carrier is a finite $\BHist$ packet, so the only rows available for public inspection are the displayed coordinates.
+
+Apply \autoref{thm:groundcompiler-audit-packet-namecert-obligations}. It identifies the local $\NameCert$ surface with exactly those event-flow, channel, recognizer, gate, report, module, no-hidden-input, export, $\hsame$, $\Cont$, $\Pkg$, and naming rows.
+
+The classifier of \autoref{def:groundcompiler-audit-packet-classifier} rejects packets that read reports as proof, treat source substrings as decoded event data outside the legal channel, import kernel acceptance evidence, or import MetaCIC proof evidence. Hence no extra row can be exposed by an accepted packet.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit packet query replay]
+\label{thm:groundcompiler-audit-packet-query-replay}
+Every no-hidden-input query and every report-boundary read replayed from an accepted $\GroundCompilerAuditPacketUp$ packet must pass through the rows $B,Q,M,T,P,N$. The replay reads $B$ for the no-hidden-input $\BHist$ surface, $Q$ for report separation, $M$ for the inspected module ledger, $T$ for displayed $\Cont$ order, $P$ for $\Pkg$ provenance, and $N$ for local $\NameCert$ naming, with all componentwise $\hsame$ transport confined to the exposed carrier rows.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier and isolate the rows that a query replay can inspect. The no-hidden-input claim is named only by $B$, and the report-boundary claim is named only by $Q$.
+
+The module row $M$ supplies the inspected GroundCompiler ledger for both reads. The continuation row $T$ fixes the finite order in which a consumer can inspect $B$ and $Q$, while $P$ and $N$ record provenance and local naming for the same finite packet.
+
+By \autoref{thm:groundcompiler-audit-packet-export-non-escape}, public exports cannot introduce hidden compiler input, host source scans, or report-as-proof conversions. Thus query replay is forced through $B,Q,M,T,P,N$, with $\hsame$ transport used only to preserve the displayed carrier rows.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit packet refusal separation]
+\label{thm:groundcompiler-audit-packet-refusal-separation}
+In an accepted $\GroundCompilerAuditPacketUp$ packet, report rows, motif rows, host source scans, and kernel acceptance evidence cannot be exported as compiler proof evidence. The $\BHist$ carrier records report separation through $Q$, generated classifier and motif-facing recognition through $R$, no-hidden-input refusal through $B$, source-channel routing through $S$ and $X$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local $\NameCert$ naming through $N$; none of these rows converts a report, motif, host scan, or kernel acceptance row into proof evidence.
+\end{theorem}
+\begin{proof}
+Inspect the report and recognition rows first. The row $Q$ places metric reports, motif reports, theorem code, chapter code, and source reports on the report-boundary side, while $R$ records generated recognizer output rather than a proof object.
+
+Next inspect the channel and refusal rows. The source-channel row $S$ and the export row $X$ route legal source-channel information, and $B$ records the no-hidden-input boundary. These rows do not add a host source scan coordinate or a kernel acceptance proof coordinate to the compiler packet.
+
+Finally apply \autoref{thm:groundcompiler-audit-packet-metacic-separation} together with \autoref{thm:groundcompiler-audit-packet-carrier-exposure}. The only remaining rows are $H,T,P,N$, which preserve, replay, package, and name the same finite carrier; they do not turn report rows, motif rows, host scans, or kernel acceptance evidence into compiler proof evidence.
+\end{proof}
+
 \closureat{GroundCompilerAuditPacketUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerAuditPacketUp}

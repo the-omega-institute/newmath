@@ -58,11 +58,13 @@ theorem internalized_signature_gap_iff [AskSetup] [PackageSetup] [DomainSetup]
       InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
   rfl
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_iff_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ↔ InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
   rfl
 
+omit [AskSetup] [PackageSetup] G in
 theorem signature_gap_membership_iff [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ↔ InDom D h ∧ ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
@@ -107,6 +109,7 @@ theorem PolicySupportedSignatureGap_domain_transport_with_signature [AskSetup] [
   have hdom : InDom D k := policy.transport (inGapSig_domain_witness sourceGap) hhk
   exact And.intro hdom (Exists.intro s (And.intro hsig htok))
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_elim [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->
@@ -114,6 +117,7 @@ theorem inGapSig_elim [AskSetup] [PackageSetup] [DomainSetup]
   intro hgap
   exact hgap
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_domain_and_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->
@@ -121,6 +125,7 @@ theorem inGapSig_domain_and_signature_witness [AskSetup] [PackageSetup] [DomainS
   intro hgap
   exact hgap
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_domain_signature_token_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->
@@ -128,6 +133,7 @@ theorem inGapSig_domain_signature_token_witnesses [AskSetup] [PackageSetup] [Dom
   intro hgap
   exact hgap
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->
@@ -155,6 +161,7 @@ theorem inGapSig_domain_signature_token_witness_pair [AskSetup] [PackageSetup] [
           | intro hsig htok =>
               exact Exists.intro s (And.intro hdom (And.intro hsig htok))
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_intro_from_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     (∃ s : BHist, InDom D h ∧ SigRel bundle h s ∧ TokIntro bundle s p) →
@@ -168,6 +175,7 @@ theorem inGapSig_intro_from_witness_pair [AskSetup] [PackageSetup] [DomainSetup]
           | intro hsig htok =>
               exact And.intro hdom (Exists.intro s (And.intro hsig htok))
 
+omit [AskSetup] [PackageSetup] G in
 theorem signature_gap_membership [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h <->
@@ -208,18 +216,21 @@ theorem policy_supported_signature_gap_iff_witness_pair [AskSetup] [PackageSetup
   exact inGapSig_witness_pair_iff
     (bundle := bundle) (D := D) (p := p) (h := h)
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s /\ TokIntro bundle s p := by
   intro hgap
   exact hgap.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_signature_and_token_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, SigRel bundle h s ∧ TokIntro bundle s p := by
   intro hgap
   exact hgap.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_token_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h -> exists s : BHist, TokIntro bundle s p := by
@@ -241,6 +252,7 @@ theorem policySupportedSignatureGap_token_witness [AskSetup] [PackageSetup] [Dom
       | intro s data =>
           exact Exists.intro s data.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_domain_token_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h → InDom D h ∧ ∃ s : BHist, TokIntro bundle s p := by
@@ -251,6 +263,7 @@ theorem inGapSig_domain_token_witness [AskSetup] [PackageSetup] [DomainSetup]
     | intro s data =>
         exact Exists.intro s data.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist} :
     InGapSig bundle D p h ->

@@ -1,0 +1,39 @@
+\begin{theorem}[Critical-line witness root zero-strip route]
+\label{thm:critical-line-witness-root-zero-strip-route}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The supplied zero row $Z$ and critical-strip row $S$ route through the displayed $\hsame$ row $H$ and $\Cont$ row $C$ before any modulus, rational comparison, or downstream RH-facing read is exposed. No consumer may replace this route by zero search, host equality, a quotient representative, analytic continuation, or an ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:critical-line-witness-carrier}. The rows $Z$ and $S$ are displayed coordinates of the accepted $\BHist$ packet, while $H$ and $C$ are the local transport and replay rows that carry those coordinates.
+
+Apply the supplied zero-strip route of \autoref{thm:critical-line-witness-supplied-zero-strip-route}. It identifies the root-facing read of the supplied zero and strip rows with the finite route $Z,S,H,C,P,N$.
+
+Use the supplied zero-strip transport lock of \autoref{thm:critical-line-witness-supplied-zero-strip-transport-lock}. Since the lock rules out host equality, zero search, quotient identification, analytic continuation, and ambient completeness, the root zero-strip route remains exactly the displayed $\hsame$ and $\Cont$ route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root modulus ledger]
+\label{thm:critical-line-witness-root-modulus-ledger}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, each natural-number depth request for the modulus row reads only the finite ledger
+$$
+M,R,Q,H,C,P,N.
+$$
+The request may use the displayed modulus row, real-part row, rational comparison ledger, transport row, continuation row, package row, and local naming row, but it receives no hidden numeric oracle, host equality, quotient representative, analytic-continuation certificate, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the modulus ledger entry of \autoref{thm:critical-line-witness-modulus-ledger-entry}. It names $M,R,Q,H,C,P,N$ as the finite route for the $\RealUp$ and $\RatUp$ modulus-facing ledger.
+
+Next apply \autoref{thm:critical-line-witness-modulus-depth-routing} and \autoref{thm:critical-line-witness-modulus-request-factorization}. These results force each natural-number depth request through the displayed continuation route before any public modulus read is available.
+
+Finally use \autoref{thm:critical-line-witness-root-comparison-ledger}. The rational comparison part stays inside $Q$ together with $M,R,H,C,P,N$, so the depth request cannot escape to a hidden numeric oracle, host equality, quotient data, analytic continuation, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root non-escape package]
+\label{thm:critical-line-witness-root-nonescape-package}
+The root-facing $\CriticalLineWitnessUp$ package exported to downstream consumers consists only of the supplied zero-strip route, the modulus ledger route, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no $\mathsf{RH}$ proof, no zero search, no global zero classifier, no host equality, no quotient representative, and no ambient analytic completeness.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:critical-line-witness-root-zero-strip-route} with \autoref{thm:critical-line-witness-root-modulus-ledger}. The first theorem supplies the finite zero-strip route, and the second theorem supplies the finite modulus and rational-comparison route.
+
+Next apply \autoref{thm:critical-line-witness-rh-nonescape-package}. It packages the downstream RH-facing boundary as the supplied zero-strip route, modulus ledger entry, and local BEDC rows.
+
+Finally use \autoref{thm:critical-line-witness-root-refusal-route}. That route refuses $\mathsf{RH}$ proof data, zero search, global zero classification, host equality, quotient representatives, analytic continuation, and ambient completeness, so the exported package contains exactly the finite boundary described above.
+\end{proof}
