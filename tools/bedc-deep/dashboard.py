@@ -39,7 +39,7 @@ def _safe_get_server() -> dict:
         with urllib.request.urlopen(f"{ORACLE_SERVER_URL}/status", timeout=3) as r:
             return json.loads(r.read().decode("utf-8"), strict=False)
     except Exception as exc:
-        return {"_error": str(exc)}
+        return {"_error": str(exc), "_error_type": type(exc).__name__}
 
 
 def _git(args: list[str]) -> str:
@@ -61,6 +61,13 @@ def _section(title: str) -> str:
 
 def render_server(s: dict) -> str:
     if "_error" in s:
+        err = str(s["_error"])
+        if "Operation not permitted" in err:
+            return (
+                "  status: UNAVAILABLE (local sandbox denied localhost status check)\n"
+                "  hint: run `python3 tools/bedc-deep/oracle_client.py --status` "
+                "for authoritative oracle health"
+            )
         return f"  status: DOWN ({s['_error']})"
     diag = s.get("diagnosis", "?")
     busy = s.get("agents_busy", "?")
@@ -114,7 +121,20 @@ def render_candidate_inbox() -> str:
     if not by_event:
         return "  events: 0"
     parts = [f"{k}={v}" for k, v in by_event.items()]
-    return f"  events: {data.get('events', 0)}   " + "   ".join(parts)
+    lines = [f"  events: {data.get('events', 0)}   " + "   ".join(parts)]
+    rejection_reasons = data.get("rejection_reasons") or []
+    if rejection_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_reasons[:5])
+        lines.append(f"  top rejects: {top}")
+    rejection_sources = data.get("rejection_sources") or []
+    if rejection_sources:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in rejection_sources[:5])
+        lines.append(f"  reject sources: {top}")
+    logic_reasons = data.get("logic_packet_gate_reasons") or []
+    if logic_reasons:
+        top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
+        lines.append(f"  logic gate rejects: {top}")
+    return "\n".join(lines)
 
 
 def render_target_table() -> str:

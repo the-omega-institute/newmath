@@ -422,6 +422,11 @@ def stats(limit: int = 5000) -> dict[str, Any]:
     lines = INBOX_PATH.read_text(encoding="utf-8", errors="replace").splitlines()
     tail = lines[-limit:]
     by_event: dict[str, int] = {}
+    by_rejection_reason: dict[str, int] = {}
+    by_logic_packet_reason: dict[str, int] = {}
+    by_rejection_source: dict[str, int] = {}
+    by_source_reason: dict[str, dict[str, int]] = {}
+    seen_rejection_keys: set[tuple[str, str]] = set()
     for line in tail:
         try:
             rec = json.loads(line)
@@ -429,7 +434,46 @@ def stats(limit: int = 5000) -> dict[str, Any]:
             continue
         event = str(rec.get("event") or "unknown")
         by_event[event] = by_event.get(event, 0) + 1
-    return {"events": len(lines), "sampled": len(tail), "by_event": dict(sorted(by_event.items()))}
+        if event not in {"pre_gate_reject", "rejected"}:
+            continue
+        reason = str(rec.get("reason") or "").strip()
+        if not reason:
+            reason = "unspecified"
+        candidate_id = str(rec.get("candidate_id") or "").strip()
+        rejection_key = (candidate_id, reason) if candidate_id else (str(id(rec)), reason)
+        if rejection_key in seen_rejection_keys:
+            continue
+        seen_rejection_keys.add(rejection_key)
+        source = str(rec.get("source") or "unknown").strip() or "unknown"
+        by_rejection_reason[reason] = by_rejection_reason.get(reason, 0) + 1
+        by_rejection_source[source] = by_rejection_source.get(source, 0) + 1
+        source_counts = by_source_reason.setdefault(source, {})
+        source_counts[reason] = source_counts.get(reason, 0) + 1
+        if reason.startswith("logic_packet_gate:"):
+            payload = reason.split(":", 1)[1]
+            for part in payload.split(";"):
+                key = part.split(":", 1)[0].strip()
+                if key:
+                    by_logic_packet_reason[key] = by_logic_packet_reason.get(key, 0) + 1
+
+    def _top(counts: dict[str, int], n: int = 20) -> list[dict[str, Any]]:
+        return [
+            {"reason": key, "count": count}
+            for key, count in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:n]
+        ]
+
+    return {
+        "events": len(lines),
+        "sampled": len(tail),
+        "by_event": dict(sorted(by_event.items())),
+        "rejection_reasons": _top(by_rejection_reason),
+        "rejection_sources": _top(by_rejection_source),
+        "rejection_reasons_by_source": {
+            source: _top(counts, n=10)
+            for source, counts in sorted(by_source_reason.items())
+        },
+        "logic_packet_gate_reasons": _top(by_logic_packet_reason),
+    }
 
 
 def main() -> int:
