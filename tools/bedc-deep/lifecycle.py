@@ -142,8 +142,20 @@ def derive_failure_kind(state: dict) -> str:
     if s1v == "already_in_paper":
         return "pre_flight_duplicate"
 
+    if s1v == "manual_block":
+        existing = state.get("failure_kind")
+        if existing in FAILURE_KINDS and existing != "unknown":
+            return str(existing)
+        if state.get("covered_by_existing_paper"):
+            return "pre_flight_duplicate"
+        if state.get("mathematically_blocked"):
+            return "math_stuck"
+        return "unknown"
+
     if s1v == "crashed":
         err = (state.get("error") or "").lower()
+        if "duplicate response" in err:
+            return "oracle_duplicate_response"
         if "replacement index" in err or "format" in err:
             return "format_crash"
         return "format_crash"

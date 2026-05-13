@@ -96,3 +96,19 @@ Now use \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. The cert
 
 Finally apply \autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}. Common-window determinacy identifies the consumer reads on the certified meet surface. Repacking that identified surface gives the same finite $\mathsf{BHist}$ source packet for both handoffs and leaves quotient equality, host sequence equality, ambient Real completeness, selected representatives, and metric-completeness rows outside the public lattice surface.
 \end{proof}
+
+\begin{theorem}[StreamName Real seal observation-budget factorization]
+\label{thm:streamname-real-seal-observation-budget-factorization}
+Any finite-window $\StreamNameUp$ packet whose read is consumed by $\RegSeqRatUp$ and sealed as $\RealUp$ factors through the displayed observation-budget limiter route whenever an accepted $\ObservationBudgetLimiterUp$ packet is present. The common route is the request row, budget row, cap row, window row, dyadic ledger, $\RegSeqRat$ readback, $\RealUp$ seal, and structural rows named by the limiter surface of \autoref{ch:concrete-instances-observation-budget-limiter-namecert}.
+
+This factorization exports no uncapped schedule, hidden selector, quotient stream, host real equality, selected limit, independent real carrier, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the finite-window handoff coverage. By \autoref{thm:streamname-finite-window-real-handoff-coverage}, the StreamName-to-Real route already exposes only finite StreamName observations, RegSeqRat pointwise rows, the Real seal boundary, transport rows, continuation rows, provenance, and local naming rows.
+
+Refine the route through \autoref{thm:streamname-regseqrat-real-window-factorization}. The RegSeqRat readback and Real seal have the same public source surface whenever the finite window, accepted pointwise row, and seal boundary agree.
+
+Now use \autoref{thm:streamname-real-regseq-window-lattice-coherence}. The common-window lattice pins the classifier observations, bundle rows, membership rows, unary-history observations, dyadic ledger, transports, routes, provenance, and local names to one finite observation packet.
+
+When an accepted $\ObservationBudgetLimiterUp$ packet is present, its request, budget, cap, and window rows are exactly the displayed limiter boundary through which that finite observation packet is read. Since neither the StreamName handoff nor the limiter carrier contains an uncapped schedule, hidden selector, quotient stream, host real equality, selected limit, independent real carrier, or ambient completeness coordinate, none of those objects can be exported by the factorization.
+\end{proof}
