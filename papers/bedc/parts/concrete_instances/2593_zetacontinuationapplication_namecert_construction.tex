@@ -28,7 +28,6 @@ with the following displayed rows:
 The carrier exposes exactly this finite application packet. It has no coordinate for a value at the pole, no complete $\GammaUp$ construction, no branch selector outside the displayed eta and functional-equation routes, and no RH-facing nontrivial-zero classifier.
 \end{definition}
 \leandef{BEDC.Derived.ZetaContinuationApplicationUp.ZetaContinuationApplicationUp}
-\leanchecked{BEDC.Derived.ZetaContinuationApplicationUp.ZetaContinuationApplicationTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[ZetaContinuationApplication NameCert obligations]
 \label{thm:zeta-continuation-application-namecert-obligations}
@@ -41,6 +40,42 @@ Carrier admission is projection from the tuple $Z$. Each continuation, ledger, h
 Classifier stability is componentwise. The transports in $H$ preserve the eta-continuation row, the functional-equation row, the pole row, the zero ledger, the Gamma horizon row, and the application-certificate row without adding a new analytic object.
 
 The replay and provenance rows then repack the same data. The routes in $C$ expose only the displayed application coordinates, $Q$ records their package provenance, and $N$ names the local certificate surface.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication carrier admission]
+\label{thm:zeta-continuation-application-carrier-admission}
+For the displayed carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$ of \autoref{def:zeta-continuation-application-carrier}, the admissible $\ZetaContinuationApplicationUp$ packet is exactly the finite application certificate whose source locks are the $\GammaUp$ horizon row of \autoref{ch:concrete-instances-gamma-namecert}, the analytic-operation routing surface of \autoref{ch:concrete-instances-analyticcontinuationoperation-namecert}, and the $\ZetaBasicUp$ eta source of \autoref{ch:concrete-instances-zeta-basic-namecert}. The checked TasteGate alignment recorded at this site fixes those rows as the single carrier surface consumed by the chapter.
+\end{theorem}
+\begin{proof}
+Project the tuple $Z$. Its displayed coordinates are precisely the eta row $E$, functional-equation row $F$, pole row $P$, zero row $T$, Gamma horizon row $G$, application row $A$, transport row $H$, replay row $C$, provenance row $Q$, and local naming row $N$.
+
+The sibling source locks identify where those coordinates may be read. The Gamma-facing data enters only through $G$, the analytic-operation data enters only through $A$, and the zeta source data enters only through $E$.
+
+The TasteGate marker attached to the carrier definition records that these rows share one carrier alignment. Hence carrier admission is the displayed finite packet rather than an undisplayed analytic object.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication componentwise stability]
+\label{thm:zeta-continuation-application-componentwise-stability}
+For an accepted carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, every $\hsame$ or $\Cont$ replay that preserves the checked TasteGate alignment preserves the components $E,F,P,T,G,A$ separately. In particular, the $\GammaUp$, analytic-operation, and $\ZetaBasicUp$ sibling locks may be transported only through their own displayed rows and may not be exchanged for a different continuation source.
+\end{theorem}
+\begin{proof}
+Read the transport coordinate $H$ componentwise. It stores preservation data for the eta, functional-equation, pole, zero, Gamma-horizon, application, and naming rows without adding a mixed row between them.
+
+Replay through $C$ keeps the same separation. Eta-side requests return to $E$, functional-equation requests return to $F$, ledger requests return to $P$ or $T$, Gamma-facing requests return to $G$, and application requests return to $A$.
+
+Since the TasteGate marker fixes the single-carrier alignment, these componentwise routes cannot swap the sibling locks. The accepted packet remains stable row by row.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationApplication ledger exactness]
+\label{thm:zeta-continuation-application-ledger-exactness}
+For an accepted carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, the pole ledger $P$, zero ledger $T$, Gamma horizon row $G$, application provenance $Q$, and local name $N$ are exact ledgers for the displayed application certificate. They record only the pole boundary, trivial-zero surface, Gamma horizon boundary, analytic-operation application route, package provenance, and local naming already present in $Z$, and they export no pole value, completed $\GammaUp$ construction, nontrivial-zero classifier, or continuation branch outside the finite replay routes in $C$.
+\end{theorem}
+\begin{proof}
+Inspect the ledger coordinates. The pole boundary is stored in $P$, the zero surface is stored in $T$, the Gamma boundary is stored in $G$, and provenance and naming are stored in $Q$ and $N$.
+
+Apply the carrier admission and componentwise stability rows. Each ledger read is routed back through the same coordinate of $Z$ and through the same sibling source lock named in the chapter introduction.
+
+The carrier has no coordinate for the positive objects excluded in the statement. Therefore exactness is ledger exactness for the displayed packet, not a hidden continuation theorem.
 \end{proof}
 
 \begin{theorem}[Eta factorization route]
@@ -116,11 +151,12 @@ Consequently every exported application fact is a read of the finite packet. The
 \end{proof}
 
 \closureat{ZetaContinuationApplicationUp}{seedStr}
+\closureat{ZetaContinuationApplicationUp}{obligationStr}
 
 \begin{closurestatus}{\ZetaContinuationApplicationUp}
   \constructivestory{A $\ZetaContinuationApplicationUp$ packet is generated from eta continuation, functional-equation continuation, pole and zero ledgers, Gamma horizon rows, application routes, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, \autoref{thm:zeta-continuation-application-gamma-eta-handoff}, \autoref{thm:zeta-continuation-application-analytic-operation-boundary}, \autoref{thm:zeta-continuation-application-zeta-basic-source-lock}, and \autoref{thm:zeta-continuation-application-non-escape} define the local application carrier, obligation rows, eta factorization route, Gamma horizon boundary, sibling source locks, analytic-operation boundary, and non-escape ledger.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-carrier-admission}, \autoref{thm:zeta-continuation-application-componentwise-stability}, \autoref{thm:zeta-continuation-application-ledger-exactness}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, \autoref{thm:zeta-continuation-application-gamma-eta-handoff}, \autoref{thm:zeta-continuation-application-analytic-operation-boundary}, \autoref{thm:zeta-continuation-application-zeta-basic-source-lock}, and \autoref{thm:zeta-continuation-application-non-escape} with \leanchecked{BEDC.Derived.ZetaContinuationApplicationUp.taste\_gate} define the local application carrier, obligation rows, carrier admission, componentwise stability, ledger exactness, eta factorization route, Gamma horizon boundary, sibling source locks, analytic-operation boundary, and non-escape ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
