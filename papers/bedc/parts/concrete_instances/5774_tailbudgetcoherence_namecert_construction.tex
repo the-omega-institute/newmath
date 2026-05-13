@@ -100,24 +100,24 @@ Apply \autoref{thm:tail-budget-coherence-real-completion-handoff}. Any Real or C
 Finally inspect the carrier definition. It contains no coordinate for quotient stream equality, host real equality, selected host limit, countable-choice selector, or ambient completeness, and the NameCert obligations package only the displayed finite rows.
 \end{proof}
 
-\begin{theorem}[Tail budget coherence obligation closure]
-\label{thm:tail-budget-coherence-obligation-closure}
-The carrier of \autoref{def:tail-budget-coherence-carrier}, the NameCert obligations of \autoref{thm:tail-budget-coherence-namecert-obligations}, the Real-completion handoff of \autoref{thm:tail-budget-coherence-real-completion-handoff}, the threshold-budget exposure of \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, the window-readback exactness of \autoref{thm:tail-budget-coherence-window-readback-exactness}, and the seal non-escape boundary of \autoref{thm:tail-budget-coherence-seal-nonescape} jointly supply the $\obligationClosure$ surface for $\TailBudgetCoherenceUp$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\RegularCauchyTailMeetUp$, $\RealObservationBudgetUp$, $\RegularCauchySelectorBudgetUp$, $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$.
+\begin{theorem}[Tail budget coherence obligation-closure package]
+\label{thm:tail-budget-coherence-obligation-closure-package}
+For an accepted $\TailBudgetCoherenceUp$ packet
+$$
+T=(M,O,S,A,L,W,R,D,H,C,P,N),
+$$
+the carrier of \autoref{def:tail-budget-coherence-carrier}, the NameCert obligations of \autoref{thm:tail-budget-coherence-namecert-obligations}, the Real-completion handoff of \autoref{thm:tail-budget-coherence-real-completion-handoff}, the threshold-budget exposure of \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, the window-readback exactness of \autoref{thm:tail-budget-coherence-window-readback-exactness}, and the seal non-escape boundary of \autoref{thm:tail-budget-coherence-seal-nonescape} assemble the fieldwise $\obligationClosure$ surface for $\TailBudgetCoherenceUp$.
 
-This surface is exactly the finite Real-completion tail-budget route
-$$
-M,O,S,W,D,R,A,L,H,C,P,N
-$$
-and it exports no quotient stream, host real equality, selected limit, countable-choice selector, or ambient completeness coordinate.
+The rows remain separate carrier, NameCert, handoff, threshold-budget, finite-window, readback, tolerance-ledger, agreement-seal, and limit-seal obligations. The package exports no quotient stream, host real equality, selected limit, countable-choice selector, or ambient completeness row.
 \end{theorem}
 \begin{proof}
-Use the carrier definition to fix the displayed packet $T=(M,O,S,A,L,W,R,D,H,C,P,N)$ and its ambient BEDC rows. The classifier has access only to the listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates and to the named sibling rows.
+Project the carrier definition to fix the displayed packet $T=(M,O,S,A,L,W,R,D,H,C,P,N)$ and its ambient BEDC rows. The classifier has access only to the listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates and to the named sibling rows.
 
-Apply the NameCert obligations to bind the carrier admission, local naming row, componentwise transports, continuation replay, package provenance, threshold row, budget rows, window row, tolerance ledger, readback row, agreement seal, and limit seal.
+Invoke \autoref{thm:tail-budget-coherence-namecert-obligations} to bind the carrier admission, local naming row, componentwise transports, continuation replay, package provenance, threshold row, budget rows, window row, tolerance ledger, readback row, agreement seal, and limit seal.
 
-Apply the handoff theorem to route every Real or Completion consumer through the finite sequence $M,O,S,W,D,R,A,L,H,C,P,N$. Apply threshold-budget exposure to ensure that $M,O,S$ are read before any window, tolerance, readback, or seal row is consumed.
+Chain \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, and \autoref{thm:tail-budget-coherence-window-readback-exactness}. These theorems route every Real or Completion consumer through the finite sequence $M,O,S,W,D,R,A,L,H,C,P,N$, expose $M,O,S$ before any readback-facing row, and identify $W,D,R$ as the exact finite readback route under those exposed threshold and budget rows.
 
-Apply window-readback exactness to identify $W,D,R$ as the exact finite readback route under those threshold and budget rows. Finally apply seal non-escape to close the boundary: the agreement seal and limit seal are reachable only through the displayed finite packet, and no quotient stream, host real equality, selected host limit, countable-choice selector, or ambient completeness coordinate is exported.
+Finally apply \autoref{thm:tail-budget-coherence-seal-nonescape}. The agreement seal and limit seal are reachable only through the displayed finite packet, and no quotient stream, host real equality, selected host limit, countable-choice selector, or ambient completeness coordinate is exported. The composite-dependency explanation therefore keeps the result as a finite Real-completion handoff package, not an atomic analytic object.
 \end{proof}
 
 \falsifiablePrediction{If a completion-facing consumer reads the limit seal without a displayed TailMeet threshold, observation budget, selector budget, finite window ledger, dyadic tolerance ledger, regular readback, and agreement-seal row, that read is not accepted by $\TailBudgetCoherenceUp$.}
@@ -129,7 +129,7 @@ The composite-dependency explanation is the replacement for an atomic independen
 \begin{closurestatus}{\TailBudgetCoherenceUp}
   \constructivestory{A $\TailBudgetCoherenceUp$ packet is generated from TailMeet threshold, Real observation-budget, regular Cauchy selector-budget, RealTailAgreementSeal, CauchyLimitSeal, finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:tail-budget-coherence-carrier}, \autoref{thm:tail-budget-coherence-namecert-obligations}, \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, \autoref{thm:tail-budget-coherence-window-readback-exactness}, \autoref{thm:tail-budget-coherence-seal-nonescape}, and \autoref{thm:tail-budget-coherence-obligation-closure} specify the composite finite coherence packet and its obligation surface for the Real-completion tail-budget handoff.}
+  \scopeclosed{\autoref{def:tail-budget-coherence-carrier}, \autoref{thm:tail-budget-coherence-namecert-obligations}, \autoref{thm:tail-budget-coherence-real-completion-handoff}, \autoref{thm:tail-budget-coherence-threshold-budget-exposure}, \autoref{thm:tail-budget-coherence-window-readback-exactness}, \autoref{thm:tail-budget-coherence-seal-nonescape}, and \autoref{thm:tail-budget-coherence-obligation-closure-package} specify the composite finite coherence packet and its obligation surface for the Real-completion tail-budget handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
