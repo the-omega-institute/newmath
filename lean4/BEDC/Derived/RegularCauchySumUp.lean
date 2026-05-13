@@ -6,6 +6,7 @@ import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
+import BEDC.Derived.RegularCauchyLimitClassifierUp
 
 namespace BEDC.Derived.RegularCauchySumUp
 
@@ -282,6 +283,55 @@ theorem RegularCauchySumCarrier_consumer_obligation_package [AskSetup] [PackageS
       consumerRow,
       pkgSig,
       consumerPkg⟩
+
+theorem RegularCauchySumCarrier_limit_classifier_compatibility [AskSetup] [PackageSetup]
+    {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
+      readback sumTransports sumRoutes sumProvenance localCert : BHist}
+    {input modulus diagonal windows ledger sealRow transportRow limitRoutes limitProvenance cert
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySumCarrier leftSource rightSource leftWindow rightWindow leftEndpoint
+        rightEndpoint sumEndpoint budget readback sumTransports sumRoutes sumProvenance localCert
+        bundle pkg →
+      BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier input
+        modulus diagonal windows readback ledger sealRow transportRow limitRoutes limitProvenance
+        cert bundle pkg →
+        Cont cert limitRoutes publicRead →
+          PkgSig bundle publicRead pkg →
+            UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory cert ∧
+              UnaryHistory publicRead ∧ Cont sumEndpoint budget readback ∧
+                Cont diagonal windows readback ∧ Cont readback ledger sealRow ∧
+                  hsame cert (append limitProvenance sealRow) ∧
+                    PkgSig bundle sumProvenance pkg ∧ PkgSig bundle cert pkg ∧
+                      PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro sumCarrier limitCarrier certRoutesPublicRead publicReadPkg
+  obtain ⟨_leftSourceUnary, _rightSourceUnary, _leftWindowUnary, _rightWindowUnary,
+    leftEndpointUnary, rightEndpointUnary, budgetUnary, _sumTransportsUnary, _sumRoutesUnary,
+    _sumProvenanceUnary, _localCertUnary, _leftRoute, _rightRoute, sumEndpointRoute,
+    readbackRoute, _sumProvenanceRoute, sumProvenancePkg⟩ := sumCarrier
+  have sumEndpointUnary : UnaryHistory sumEndpoint :=
+    unary_cont_closed leftEndpointUnary rightEndpointUnary sumEndpointRoute
+  have readbackUnaryFromSum : UnaryHistory readback :=
+    unary_cont_closed sumEndpointUnary budgetUnary readbackRoute
+  have boundary :=
+    _root_.BEDC.Derived.RegularCauchyLimitClassifierUp.RegularCauchyLimitClassifierCarrier_diagonal_window_public_boundary
+      limitCarrier certRoutesPublicRead publicReadPkg
+  obtain ⟨_readbackUnaryFromLimit, _ledgerUnary, sealRowUnary, certUnary, publicReadUnary,
+    diagonalWindowsReadback, readbackLedgerSeal, _certRoutesPublicRead, sameCert,
+    certPkg, publicReadPkg'⟩ := boundary
+  exact
+    ⟨readbackUnaryFromSum,
+      sealRowUnary,
+      certUnary,
+      publicReadUnary,
+        readbackRoute,
+        diagonalWindowsReadback,
+        readbackLedgerSeal,
+        sameCert,
+        sumProvenancePkg,
+        certPkg,
+        publicReadPkg'⟩
 
 theorem RegularCauchySumCarrier_classifier_stability [AskSetup] [PackageSetup]
     {leftSource rightSource leftWindow rightWindow leftEndpoint rightEndpoint sumEndpoint budget
