@@ -237,4 +237,29 @@ theorem RegularCauchyLimitTransportCarrier_real_completeness_consumer_factorizat
     ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, publicReadUnary, sourceWindowDyadic,
       dyadicSealRoutes, sealCertPublicRead, certPkg, endpointPkg⟩
 
+theorem RegularCauchyLimitTransportCarrier_selected_window_exactness [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert observed : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      Cont source window observed ->
+        UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory observed ∧
+          hsame dyadic observed ∧ Cont source window observed ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectedWindowRoute
+  obtain ⟨sourceUnary, windowUnary, _dyadicUnary, _sealUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, _certUnary, storedWindowRoute, _dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, _transportMatchesSeal, provenancePkg,
+    certPkg⟩ := carrier
+  have observedUnary : UnaryHistory observed :=
+    unary_cont_closed sourceUnary windowUnary selectedWindowRoute
+  have dyadicObserved : hsame dyadic observed :=
+    cont_respects_hsame (hsame_refl source) (hsame_refl window) storedWindowRoute
+      selectedWindowRoute
+  exact
+    ⟨sourceUnary, windowUnary, observedUnary, dyadicObserved, selectedWindowRoute,
+      provenancePkg, certPkg⟩
+
 end BEDC.Derived.RegularCauchyLimitTransportUp

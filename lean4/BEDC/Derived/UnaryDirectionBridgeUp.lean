@@ -255,4 +255,29 @@ theorem UnaryDirectionBridgeCarrier_additive_consumer_exactness [AskSetup] [Pack
       boundaryLedgerTransports, boundaryLedgerHandoff, handoffRoutesAdditive, provenancePkg,
       namePkg, handoffPkg, additiveReadPkg⟩
 
+theorem UnaryDirectionBridgeCarrier_empty_intersection_readback [AskSetup] [PackageSetup]
+    {natRow axisRow bridge kernel boundary ledger transports routes provenance name
+      kernelRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryDirectionBridgeCarrier natRow axisRow bridge kernel boundary ledger transports routes
+        provenance name bundle pkg ->
+      Cont bridge kernel boundary ->
+        Cont kernel boundary kernelRead ->
+          PkgSig bundle kernelRead pkg ->
+            UnaryHistory kernel ∧ UnaryHistory boundary ∧ UnaryHistory kernelRead ∧
+              Cont bridge kernel boundary ∧ Cont kernel boundary kernelRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle kernelRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier displayedBoundary kernelBoundaryRead kernelReadPkg
+  obtain ⟨_natUnary, _axisUnary, _bridgeUnary, kernelUnary, boundaryUnary, _ledgerUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary, _natAxisBridge,
+    _bridgeKernelBoundary, _boundaryLedgerTransports, _transportsRoutesProvenance,
+    _routesProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have kernelReadUnary : UnaryHistory kernelRead :=
+    unary_cont_closed kernelUnary boundaryUnary kernelBoundaryRead
+  exact
+    ⟨kernelUnary, boundaryUnary, kernelReadUnary, displayedBoundary, kernelBoundaryRead,
+      provenancePkg, namePkg, kernelReadPkg⟩
+
 end BEDC.Derived.UnaryDirectionBridgeUp
