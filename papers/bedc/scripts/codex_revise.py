@@ -1884,6 +1884,13 @@ def verify_worktree_commits(
             logger.error(f"[P{wt.round_number}] OVERSIZED .TEX: {v}")
         return False, new
 
+    # Gate O — orphan new chapter (no sibling/vision cross-ref).
+    orphan_v = gate_results.get("orphan-new-chapter", [])
+    if orphan_v:
+        for v in orphan_v[:10]:
+            logger.error(f"[P{wt.round_number}] ORPHAN NEW CHAPTER: {v}")
+        return False, new
+
     # Gate F — PDF compile
     ok, tail = run_pdf_build(wt)
     if not ok:
