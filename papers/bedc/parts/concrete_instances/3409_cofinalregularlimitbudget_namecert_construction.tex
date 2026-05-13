@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\CofinalRegularLimitBudgetUp$}
+\label{ch:concrete-instances-cofinalregularlimitbudget-namecert}
+\origin{ai}
+
+The $\CofinalRegularLimitBudgetUp$ surface records the finite precision-budget packet used when the Real completeness diagonal target is consumed through cofinal windows. It packages request rows, selected finite windows, regular rational readback, RealUp seal routing, transport, continuation, provenance, and local naming in one displayed $\BHist$ carrier. The packet is a budgeted route for a diagonal-limit consumer; it is not a quotient stream, host real equality, selected ambient limit, or completeness principle.
+
+\begin{definition}[CofinalRegularLimitBudget carrier]
+\label{def:cofinal-regular-limit-budget-carrier}
+A $\CofinalRegularLimitBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(q,w,r,e,h,c,p,n)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $q$ is the finite precision-request row read by the diagonal-limit consumer;
+\item $w$ is the cofinal-window ledger assigning each displayed request to a finite $\StreamNameUp$ observation window;
+\item $r$ is the $\RegSeqRatUp$ handoff row reached after the selected windows have been fixed;
+\item $e$ is the $\RealUp$ seal row reached from the displayed regular rational readback;
+\item $h$ records componentwise $\hsame$ transports for the request, window, handoff, seal, route, provenance, and local naming rows;
+\item $c$ records the displayed $\Cont$ route from $q$ through $w$ and $r$ into $e$;
+\item $p$ is the $\Pkg$ provenance over $\BHist$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, and local certificate rows;
+\item $n$ is the local $\NameCert_{\CofinalRegularLimitBudgetUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only the displayed rows $q,w,r,e,h,c,p,n$. It has no coordinate for quotient-stream equality, host real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CofinalRegularLimitBudget NameCert obligations]
+\label{thm:cofinal-regular-limit-budget-namecert-obligations}
+The local $\NameCert_{\CofinalRegularLimitBudgetUp}$ surface for \autoref{def:cofinal-regular-limit-budget-carrier} consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission, requiring every accepted object to display the finite packet $B=(q,w,r,e,h,c,p,n)$;
+\item cofinal-window coverage, requiring each precision request consumed by the diagonal route to pass through the displayed window ledger $w$;
+\item $\RegSeqRatUp$ handoff, requiring the regular rational readback row $r$ to be reached only after the request and cofinal-window rows are fixed;
+\item $\RealUp$ seal routing, requiring the seal row $e$ to be reached only through $q,w,r,h,c,p,n$;
+\item ledger non-escape, requiring the packet to export no quotient stream, host real equality, selected limit, hidden completeness row, or unrecorded diagonal stream.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple in \autoref{def:cofinal-regular-limit-budget-carrier}. The request, window, handoff, seal, transport, continuation, provenance, and local naming rows are all visible coordinates of one finite $\BHist$ packet.
+
+Cofinal-window coverage reads $q$ and then $w$ before any regular rational handoff is available. Since $w$ is the only window ledger in the carrier, the consumer cannot redirect a precision request to an unnamed tail or to a host-level stream.
+
+The $\RegSeqRatUp$ handoff is then forced through $r$. The row is attached to the displayed request and selected windows, so it cannot be replaced by quotient-stream equality or a selected ambient limit.
+
+Finally, the seal and non-escape rows inspect $e,h,c,p,n$. They give the only route into the $\RealUp$ seal and provide no coordinate for host real equality, hidden completeness, or an unrecorded diagonal stream.
+\end{proof}
+
+\closureat{CofinalRegularLimitBudgetUp}{seedStr}
+
+\begin{closurestatus}{\CofinalRegularLimitBudgetUp}
+  \constructivestory{A $\CofinalRegularLimitBudgetUp$ packet is generated from a precision request, a cofinal-window ledger, a RegSeqRat handoff row, a RealUp seal row, componentwise transports, continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-regular-limit-budget-carrier} and \autoref{thm:cofinal-regular-limit-budget-namecert-obligations} bind the finite precision-budget route from diagonal requests through cofinal windows into RegSeqRat handoff and RealUp seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient-stream equality, host real equality, selected ambient limits, countable choice, hidden completeness, or a public standard bridge.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier and checked obligations for cofinal-window coverage, RegSeqRat handoff, RealUp seal routing, ledger provenance, and non-escape.}
+\end{closurestatus}
