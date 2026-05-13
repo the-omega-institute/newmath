@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Ext
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 
 namespace BEDC.Derived.TypeClassifierMembershipUp
@@ -13,6 +14,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Ext
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 
 def TypeClassifierMembershipPacket [AskSetup] [PackageSetup]
@@ -130,5 +132,62 @@ theorem TypeClassifierMembershipPacket_obligation_closure_package [AskSetup] [Pa
   exact
     ⟨membershipSame, reductionSame, transportsSame, provenanceSame, reductionBoundary,
       transportBoundary, provenanceBoundary, provenancePkg, namePkg⟩
+
+theorem TypeClassifierMembershipPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {term judgment membership reduction transports routes provenance name : BHist}
+    {tag : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypeClassifierMembershipPacket term judgment membership reduction transports routes provenance
+        name tag bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          TypeClassifierMembershipPacket term judgment membership reduction transports routes
+            provenance name tag bundle pkg ∧ hsame row membership)
+        (fun row : BHist =>
+          TypeClassifierMembershipPacket term judgment membership reduction transports routes
+            provenance name tag bundle pkg ∧ hsame row membership)
+        (fun row : BHist =>
+          TypeClassifierMembershipPacket term judgment membership reduction transports routes
+            provenance name tag bundle pkg ∧ hsame row membership)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg SemanticNameCert hsame
+  intro packet
+  have sourceMembership :
+      (fun row : BHist =>
+        TypeClassifierMembershipPacket term judgment membership reduction transports routes
+          provenance name tag bundle pkg ∧ hsame row membership) membership := by
+    exact And.intro packet (hsame_refl membership)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          TypeClassifierMembershipPacket term judgment membership reduction transports routes
+            provenance name tag bundle pkg ∧ hsame row membership)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro membership sourceMembership
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row row' row'' sameRowRow' sameRow'Row''
+        exact hsame_trans sameRowRow' sameRow'Row''
+      carrier_respects_equiv := by
+        intro row row' sameRowRow' sourceRow
+        have sameRowMembership : hsame row membership := sourceRow.right
+        have sameRow'Membership : hsame row' membership :=
+          hsame_trans (hsame_symm sameRowRow') sameRowMembership
+        exact And.intro sourceRow.left sameRow'Membership
+    }
+  exact {
+    core := core
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.TypeClassifierMembershipUp

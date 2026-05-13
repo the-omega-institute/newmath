@@ -1,0 +1,117 @@
+\chapter{A Concrete Naming Certificate for $\BoundedBetaComparisonUp$}
+\label{ch:concrete-instances-bounded-beta-comparison-namecert}
+
+The $\BoundedBetaComparisonUp$ packet turns the normal-equality surface of
+\autoref{ch:metacic-decidable-audit-map} into concrete finite BEDC data. It
+sits next to the normal-form seal of
+\autoref{ch:concrete-instances-normal-form-consistency-seal-namecert} and the
+confluence audit packet of
+\autoref{ch:concrete-instances-metacic-confluence-audit-namecert}: all three
+chapters name bounded or conditional MetaCIC evidence without promoting it to
+an unrestricted closed-term theorem.
+
+\begin{definition}[Bounded beta-comparison carrier]
+\label{def:bounded-beta-comparison-carrier}
+A $\BoundedBetaComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+B=(f,t,u,n_t,n_u,e,w_t,w_u,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $f$ is the fuel row used by the bounded normalizer;
+\item $t,u$ are the closed MetaCIC term rows being compared;
+\item $n_t,n_u$ are the bounded-normal output rows computed from $t$ and $u$
+at fuel $f$;
+\item $e$ is the structural $\mathsf{Term.eq}$ comparison row applied to
+$n_t$ and $n_u$;
+\item $w_t,w_u$ are the finished-normalisation witness rows when the fuel is
+known to finish on $t$ and $u$;
+\item $H$ records componentwise $\hsame$ transports for the fuel, term,
+bounded-normal, equality, witness, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ route by which a consumer reads the
+bounded comparison and any finished-normalisation boundary data;
+\item $P$ is the $\Pkg$ provenance over \texttt{NormalEqDecide},
+\texttt{Term.eq}, closed MetaCIC syntax, $\BHist$, $\hsame$, $\Cont$, and
+sibling $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BoundedBetaComparisonUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through the displayed rows
+$f,t,u,n_t,n_u,e,w_t,w_u,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Bounded beta-comparison NameCert obligations]
+\label{thm:bounded-beta-comparison-namecert-obligations}
+The local $\NameCert_{\BoundedBetaComparisonUp}$ surface for
+\autoref{def:bounded-beta-comparison-carrier} consists of carrier admission,
+bounded-normal output readback, structural $\mathsf{Term.eq}$ readback,
+componentwise $\hsame$ transport, displayed $\Cont$ route replay, provenance,
+and non-escape from any fuel-erased beta-conversion theorem.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple
+$B=(f,t,u,n_t,n_u,e,w_t,w_u,H,C,P,N)$. The fuel, closed term rows,
+bounded-normal outputs, equality comparison, optional witness rows, transport,
+route, provenance, and local naming row are all displayed coordinates.
+
+The bounded-normal readback and $\mathsf{Term.eq}$ readback inspect only
+$f,t,u,n_t,n_u,e$. Thus a successful comparison is a row about the displayed
+bounded-normal outputs, not a row about unrestricted closed-term conversion.
+
+The structural rows $H,C,P,N$ preserve the same finite packet under transport,
+consumer routing, provenance, and local naming. Since none of these rows
+contains a fuel-erased normalisation theorem, the local NameCert exports no
+stronger beta-conversion surface.
+\end{proof}
+
+\begin{theorem}[Bounded beta-comparison finished soundness boundary]
+\label{thm:bounded-beta-comparison-finished-soundness-boundary}
+For an accepted $\BoundedBetaComparisonUp$ packet, a true bounded comparison
+identifies only the displayed bounded-normal outputs $n_t$ and $n_u$. When the
+finished-normalisation witness rows $w_t$ and $w_u$ are present, the same
+packet also exposes the finished-normal-form boundary for those named outputs.
+Without those witness rows, the packet exports no conclusion that $t$ and $u$
+have fuel-independent normal forms.
+\end{theorem}
+\begin{proof}
+Read the comparison row $e$ through the carrier. The row is the
+$\mathsf{Term.eq}$ comparison of $n_t$ and $n_u$, so its positive content is
+equality of the two bounded-normal outputs displayed at fuel $f$.
+
+If $w_t$ and $w_u$ are present, they supply the extra endpoint data consumed by
+the finished-normalisation soundness theorems named in
+\autoref{ch:metacic-decidable-audit-map}. The boundary is therefore tied to
+the particular fuel, terms, bounded outputs, and witness rows carried by the
+packet.
+
+If either witness row is absent, the carrier still records the bounded
+comparison row, but it has no coordinate witnessing that the bounded outputs
+are final normal forms. The consumer cannot erase the fuel or infer a global
+normalisation endpoint from the packet alone.
+\end{proof}
+
+\begin{theorem}[Bounded beta-comparison non-escape]
+\label{thm:bounded-beta-comparison-nonescape}
+Every consumer of an accepted $\BoundedBetaComparisonUp$ packet is exhausted by
+the carrier of \autoref{def:bounded-beta-comparison-carrier}, the local
+NameCert obligations of
+\autoref{thm:bounded-beta-comparison-namecert-obligations}, and the
+finished-normal-form boundary of
+\autoref{thm:bounded-beta-comparison-finished-soundness-boundary}. The packet
+exports no global closed-term beta-conversion decider, no fuel-erased
+normalisation theorem, no quotient equality, and no host conversion oracle.
+\end{theorem}
+\begin{proof}
+Begin with the displayed carrier rows. They provide exactly the fuel, two
+closed terms, two bounded-normal outputs, one structural equality comparison,
+optional finished-normalisation witnesses, and the structural BEDC rows.
+
+Apply the NameCert obligations. They route every consumer through the same
+bounded-normal and $\mathsf{Term.eq}$ rows before any comparison result is
+read.
+
+Finally apply the finished soundness boundary. The only strengthening available
+from a true comparison comes from the explicit witness rows $w_t,w_u$ when
+they are present. Since the packet has no coordinate for fuel erasure,
+quotient equality, host conversion, or arbitrary closed-term normalisation,
+none of those readings can be exported.
+\end{proof}
