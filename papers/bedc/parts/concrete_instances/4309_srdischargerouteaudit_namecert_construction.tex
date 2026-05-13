@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\SrDischargeRouteAuditUp$}
+\label{ch:concrete-instances-srdischargerouteaudit-namecert}
+\origin{human}
+
+The $\SrDischargeRouteAuditUp$ packet realizes the route discipline of \autoref{ch:sr-discharge-routes} as a finite NameCert audit surface. It sits beside the discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the discharge packet of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, the obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, and the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. Those sibling chapters name the payload and the blocked edge; the present chapter records how bundle and typeclass discharge routes are audited without turning either route into a closed subject-reduction proof.
+
+\begin{definition}[SrDischargeRouteAudit carrier]
+\label{def:sr-discharge-route-audit-carrier}
+A $\SrDischargeRouteAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(B,S,L,P,R,O,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution preservation discharge row;
+\item $S$ is the application-argument stability discharge row;
+\item $L$ is the lambda-domain subject-reduction discharge row;
+\item $P$ is the Pi-domain subject-reduction discharge row;
+\item $R$ is the route-audit row, recording the public read as either explicit $\SubjectReductionDischargeBundle$ consumption or $\SubjectReductionSetup$-to-bundle conversion through $\mathsf{SubjectReductionSetup.toBundle}$;
+\item $O$ is the obstruction row inherited from the MetaCIC subject-reduction obstruction packet;
+\item $H$ records componentwise $\hsame$ transport for the four discharge rows, the route-audit row, the obstruction row, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ reads from each admitted route to the same four-row discharge payload and to the obstruction boundary;
+\item $Q$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\NameCert$, $\SubjectReductionDischargeSocketUp$, $\SubjectReductionDischargeUp$, $\MetaCICSubjectReductionBoundaryUp$, $\SubjectReductionBundleTraceUp$, $\SubjectReductionRouteClassifierUp$, and the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert};
+\item $N$ is the local $\NameCert_{\SrDischargeRouteAuditUp}$ row.
+\end{enumerate}
+The carrier contains no fifth discharge row, no hidden $\SubjectReductionSetup$ instance, no proof of the obstruction row, no erased derivation semantics, and no closed subject-reduction theorem.
+\end{definition}
+
+\begin{theorem}[SrDischargeRouteAudit bundle-typeclass coherence]
+\label{thm:sr-discharge-route-audit-bundle-typeclass-coherence}
+For an accepted $\SrDischargeRouteAuditUp$ carrier, the explicit bundle route and the typeclass route are coherent exactly when both public reads terminate at the same four discharge rows $B,S,L,P$ and the same obstruction row $O$. The route-audit row $R$ may record direct $\SubjectReductionDischargeBundle$ consumption or $\SubjectReductionSetup$ conversion through $\mathsf{SubjectReductionSetup.toBundle}$, but it cannot change the payload consumed by $\mathsf{subject\_reduction\_via\_setup}$.
+\end{theorem}
+\begin{proof}
+Project the carrier $A$. The rows $B,S,L,P$ are fixed before the route-audit row is inspected, and the obstruction row $O$ is a separate displayed coordinate.
+
+For the explicit bundle route, $R$ records consumption of a $\SubjectReductionDischargeBundle$ whose four fields are exactly $B,S,L,P$. The displayed $\Cont$ rows in $C$ replay those fields to the consumer, while $H$ only transports the named rows componentwise.
+
+For the typeclass route, $R$ records a $\SubjectReductionSetup$ read followed by $\mathsf{SubjectReductionSetup.toBundle}$. The conversion exposes the same four field positions and therefore reaches the same $B,S,L,P$ payload before $\mathsf{subject\_reduction\_via\_setup}$ is read.
+
+The obstruction row $O$ remains present in both reads. Since the carrier has no coordinate for replacing $B,S,L,P$ or for dropping $O$, the two route styles are coherent only as two routes into the same finite audit packet.
+\end{proof}
+
+\begin{theorem}[SrDischargeRouteAudit non-escape]
+\label{thm:sr-discharge-route-audit-nonescape}
+Every public read of an accepted $\SrDischargeRouteAuditUp$ carrier factors through
+$$
+B,S,L,P,R,O,H,C,Q,N.
+$$
+The reader may inspect the four discharge rows, the bundle/typeclass route audit, the obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. It cannot extract a missing discharge proof, a closed subject-reduction theorem, host conversion semantics, quotient equality of MetaCIC terms, or an unrecorded route around the obstruction row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. The only discharge-bearing coordinates are $B,S,L,P$, and the only route coordinate is $R$.
+
+Apply the bundle-typeclass coherence theorem. A permitted consumer may follow $R$ through direct bundle consumption or through setup-to-bundle conversion, but both routes end at the same four discharge rows and preserve the obstruction row $O$.
+
+Now inspect $H,C,Q,N$. These rows provide transport, replay, provenance, and local naming for the displayed packet. None of them introduces a discharge proof, a host conversion relation, quotient equality, or another route around $O$.
+
+Therefore every public read stays inside the finite audit packet and the obstruction boundary remains visible at the point where the route is consumed.
+\end{proof}
+
+\begin{theorem}[SrDischargeRouteAudit NameCert obligations]
+\label{thm:sr-discharge-route-audit-namecert-obligations}
+The local $\NameCert_{\SrDischargeRouteAuditUp}$ surface for \autoref{def:sr-discharge-route-audit-carrier} consists exactly of carrier admission for $A=(B,S,L,P,R,O,H,C,Q,N)$, four-row discharge payload exposure, route-audit coherence between explicit bundle and typeclass reads, obstruction-row preservation, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. These obligations certify the finite audit packet as a sibling lattice node for the subject-reduction discharge route relationship.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:sr-discharge-route-audit-carrier}. It names the four discharge rows, the route-audit row, the obstruction row, transport rows, continuation rows, provenance, and local naming.
+
+Payload exposure follows by projecting $B,S,L,P$. The bundle-typeclass coherence theorem binds both accepted route styles to those same four rows and keeps $O$ attached to the route boundary.
+
+Stability and replay are supplied by $H$ and $C$. The package row $Q$ records the neighboring socket, discharge, obstruction, route-classifier, bundle-trace, and critical-path chapters from which the audit packet is read.
+
+Finally, the non-escape theorem excludes every stronger consumer request. Hence the listed rows are not merely sufficient for the local $\NameCert$ surface; they exhaust it.
+\end{proof}
+
+\closureat{SrDischargeRouteAuditUp}{seedStr}

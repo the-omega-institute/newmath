@@ -118,4 +118,27 @@ theorem TypedReductionNormalFormPacket_route_exactness [AskSetup] [PackageSetup]
     exact cont_deterministic endpointRow continuationRead
   exact ⟨normalExact, endpointExact⟩
 
+theorem TypedReductionNormalFormPacket_terminal_boundary_nonescape [AskSetup] [PackageSetup]
+    {term judgment membership reduction normal transport continuation provenance name
+      endpoint endpoint' : BHist}
+    {mark : BMark} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypedReductionNormalFormPacket term judgment membership reduction normal transport
+        continuation provenance name endpoint mark bundle pkg ->
+      Cont normal continuation endpoint' ->
+        hsame endpoint endpoint' ∧ hsame normal endpoint' ∧ UnaryHistory endpoint' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet endpointRead
+  obtain ⟨_termUnary, _judgmentUnary, _membershipUnary, _reductionUnary, normalUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary, endpointUnary,
+    _membershipExt, _reductionRow, endpointRow, normalSameEndpoint, _provenanceSameEndpoint,
+    _nameSameEndpoint, _endpointPkg⟩ := packet
+  have endpointExact : hsame endpoint endpoint' :=
+    cont_deterministic endpointRow endpointRead
+  have normalSameEndpoint' : hsame normal endpoint' :=
+    hsame_trans normalSameEndpoint endpointExact
+  have endpointUnary' : UnaryHistory endpoint' := by
+    cases endpointExact
+    exact endpointUnary
+  exact ⟨endpointExact, normalSameEndpoint', endpointUnary'⟩
+
 end BEDC.Derived.TypedReductionNormalFormUp
