@@ -1,0 +1,117 @@
+---
+title: "Pattern as Mark"
+subtitle: "Wolfram's four classes, Martinez's glider catalog, and why pattern recognition is the same act as typing"
+author: "The Omega Institute"
+date: 2026-05-14
+description: "When you point at a region of a Rule 110 evolution and call it 'a glider', you are doing exactly what the BEDC kernel does when it assigns a type. There is no separate 'pattern recognition' faculty — recognition is classifier choice, and classifier choice is the mark discipline."
+---
+
+```{=html}
+<div class="lang-switch"><a href="pattern-as-mark.zh-CN.qmd">中文</a></div>
+```
+
+## What you see, and what you've already done
+
+Open any rendering of Rule 110 running on a wide row of cells for ten thousand steps. The screen fills with a dense, structured rain. You start to see things in it: a background that fills most of the screen, like wallpaper. Long diagonal threads sliding through that wallpaper at different angles. Occasional flashes where two threads meet. You don't ask anyone what to call them. You just *see* them.
+
+This is already a classification. You drew a line around the dense fill and said *that's one thing*. You drew a line around the diagonal thread and said *that's a different thing*. You have decided that two visually similar diagonal threads belong to the same category, and that two visually different ones don't.
+
+Decades ago Stephen Wolfram looked at hundreds of one-dimensional cellular automata and decided they all fell into four classes:
+
+| Class | Description |
+|---|---|
+| 1 | Uniform fixed point — every initial row dies to the same constant row |
+| 2 | Periodic — orbits settle into simple repeating patterns |
+| 3 | Chaotic — orbits look statistically random |
+| 4 | Complex — long-lived structures move and interact |
+
+Rule 110 is class four. That four-way scheme is a *classifier*: a function from "the orbit of a CA on some initial row" to a finite tag set `{1, 2, 3, 4}`. Wolfram's contribution was not to *invent* the structures; it was to *commit to a finite tag set* and assign each rule a tag.
+
+Twenty years later Genaro Martinez published a much finer classifier for Rule 110 specifically. The diagonal threads got names: A, B, B̄, C₁, C₂, E, Ē, F, G, H. The wallpaper got a name too: ether. Each glider has a fundamental period, a per-period displacement, and a phase string — a specific arrangement of zeros and ones repeating within the rule's lattice. There are 177 phase entries in the project's `rule110/encoder/glider_phases.c`, drawn directly from Martinez 2007. Each entry is a finite bit pattern with a label.
+
+You did the same thing when you looked at the screen. You only got two or three tags out before you stopped. Martinez got eleven. Wolfram got four. The procedure is the same: pick a tag set, decide on a recognition rule, assign tags.
+
+## The recognition rule, written down
+
+Here is one row of Martinez data:
+
+```text
+A      | 2     | 3      | +2/3        | 6
+```
+
+This says: glider A has a per-period displacement of 2 cells, a fundamental period of 3 steps, a velocity of +2/3, and a visible volume of 6 cells. The phase string is a finite bit pattern; matching it inside a wider row at a given offset is decidable by direct comparison.
+
+So the recognition rule is mechanical:
+
+1. Slide the phase string along the row.
+2. At each offset, check whether the row's bits match the phase string at that offset under the rule's neighbour discipline.
+3. If yes, label that offset with the glider's tag.
+
+There is no soft step. No "well, sort of looks like an A". The classifier is a finite-domain function with a finite codomain.
+
+Now compare what the BEDC kernel does when it assigns a type to a history. A history is an element of `BHist`:
+
+```lean
+inductive BHist where
+  | Empty
+  | e0 (h : BHist)
+  | e1 (h : BHist)
+```
+
+Membership in a kernel-level predicate — `UnaryHistory h`, `Mark h`, `Cont a f b` — is decided by a structural rule on the constructors of `BHist`. Two histories belong to the same `hsame`-class when a recursive comparison on their constructors succeeds. The kernel does not *interpret* the histories; it *classifies* them by reading their structure off the constructors and applying a decidable comparison.
+
+Pattern recognition on a cellular automaton row is the same act, with a different carrier. The carrier is `𝔽₂ⁿ` instead of `BHist`. The classifier is the phase catalog instead of `hsame`. The act — *commit to a finite tag set, decide membership locally* — is the same act.
+
+This is why we say *pattern recognition is the mark discipline*. There is no cognitive faculty being smuggled in. The kernel does it, the catalog does it, you do it when you watch the screen. The only difference is what you point at.
+
+## The classifier disagreement boundary
+
+Once you have a classifier, you have a place where it can be *wrong*. The project's `rule110/tests/test_cook_collision_martinez.c` runs that audit explicitly. It takes the 33 collision rows of `encoder/cook_collisions.c` — each row says "left glider plus right glider, evolved together for some steps, equals this set of output gliders" — and checks two layers:
+
+1. **Direct simulation**: place the input gliders on an ether row, run `r110_run_n_steps`, run the detector on the result, compare to the table's claimed outcome.
+2. **Paper cross-check**: the table's entries must match what Martinez 2012 prints in its Table 1 and Table 2 (Complex Systems 21.2.2).
+
+The current numbers are:
+
+```text
+table audit (cook_collisions.c full 33 rows): 26/33 PASS, 7 FAIL
+Martinez 2012 Table 1/Table 2 cross-check: 33/33 matched
+```
+
+The 33/33 paper cross-check means the table's claims are what the paper printed. The 26/33 strict detector PASS means that for 26 of those rows the direct simulation reproduces the claimed outcome under the detector's recognition rule. The remaining 7 are "detector cannot name the output glider" — the classifier's tag set doesn't have a phase entry for one of the produced gliders, so the detector can see something arrived at a given offset but can't assign it a name.
+
+This is what classifier disagreement looks like when it is exposed. It is not a fault. It is an honest reading of where the catalog's tag set stops covering what the substrate produces. The relevant value of the project's audit setup is precisely that this reading is *visible* — the audit prints `INFO N audit finding(s)`, the boundary doesn't get smoothed out by a softer recognition rule.
+
+Compare what would happen without the disagreement boundary. The detector could be made more permissive — "well, this output kind of looks like Ē, call it Ē". The strict count would go up. The catalog's actual coverage would not change at all. The classifier discipline would have been silently weakened.
+
+## What the BEDC kernel disagreement boundary looks like
+
+The kernel has the same kind of boundary in the same kind of place. When BEDC tries to apply its `closed-normal consistency` theorem to a closed term whose codomain depends on a typed sub-term, it stops. The kernel doesn't pretend that case is settled; it names four `subject-reduction` discharge hypotheses and tracks them as `\formalstatus{formalTargetV}` rather than `\theoremCheckedV`. The closed-codomain case has 17 strict obligations PASS in the project's exhaustiveness audit; the dependent-codomain case is parked behind the four hypotheses.
+
+This is the same kind of structural honesty. The classifier — here the kernel's normalisation argument — has a coverage. Beyond that coverage, no recognition tag is assigned. The boundary is *visible* in the audit, not hidden in a more permissive rule.
+
+[The MetaCIC essay →](metacic-first-main-result.qmd) goes into what that closed-codomain main result actually says and why the dependent-codomain barrier is structural rather than incidental.
+
+## Why pattern recognition feels like a separate faculty
+
+It feels like a separate faculty because pattern recognition on natural images is *over*-saturated. Your visual cortex has more tag-recognition machinery than you can introspect. You see a tree and you cannot point at the moment the recognition happened, so it feels like seeing the tree directly. When you watch a Rule 110 evolution, the saturation is gone. You can feel yourself drawing the line around the diagonal thread the first time. The act of classifier choice is *visible to you* in a way it normally isn't.
+
+So the cellular automaton substrate is doing something philosophically useful that has nothing to do with universality. It is showing you, in slow motion, the act that your perceptual system performs in milliseconds. *Pick a tag set. Decide membership locally. Tag.* That is pattern recognition. That is also typing. The kernel does it on histories. The catalog does it on cell rows. Your eyes do it on the screen.
+
+## What this is *not*
+
+This is not a claim that all cognition is cellular-automaton classification. The mark discipline applies wherever a finite tag set is committed to and membership is locally decidable. That is much narrower than "all cognition". It excludes anything that requires unbounded comparison, anything that requires a global property of the substrate, anything that requires assigning tags whose membership rule cites another assignment. Most actual human cognition lives outside this class.
+
+It is also not a claim that classifier choice is automatic. Wolfram chose four. Martinez chose eleven. The detector in `rule110/encoder/cook_detect.c` chooses eleven plus ether. Each of these is a *commitment* — a decision that future observations will be tagged from this set. The act of commitment is the work; the act of tagging individual rows is the mechanical follow-through.
+
+What it *is*: the smallest concrete case where the act of recognising a pattern and the act of assigning a type are literally the same act, performed by the same kind of finite local rule on different carriers. Once you see this in the Rule 110 evolution, you stop being able to unsee it in the kernel.
+
+```{=html}
+<div class="cta-choices">
+  <a href="rule110-visualization.qmd"><strong>← Rule 110 Visualization</strong><br/>Watch the substrate evolve and the gliders get tagged in real time.</a>
+  <a href="where-induction-comes-from.qmd"><strong>Where Induction Comes From →</strong><br/>The classifier can decide membership locally. It cannot ratify a universal closure. Where does the universal closure come from?</a>
+  <a href="metacic-first-main-result.qmd"><strong>MetaCIC: BEDC's First Main Result →</strong><br/>The closed-normal consistency theorem and the dependent-codomain barrier — the same classifier-coverage discipline at the meta-theory layer.</a>
+</div>
+```
+
+— *The Omega Institute*
