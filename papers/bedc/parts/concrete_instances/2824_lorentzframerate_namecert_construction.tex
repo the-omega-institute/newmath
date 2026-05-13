@@ -24,7 +24,7 @@ with the following visible coordinates:
 The carrier exports a finite observer-symmetric maximum-rate packet. Its classifier preserves the displayed maximum-rate row under accepted observer transport while excluding global frames, synchronized clocks, metric tensors, host real-valued speed, and Lorentz geometry as primitive input.
 \end{definition}
 \leandef{BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateUp}
-\leanchecked{BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.LorentzFrameRateUp.taste\_gate}
 
 \begin{theorem}[LorentzFrameRate boundary]
 \label{thm:lorentz-frame-rate-boundary}
@@ -162,7 +162,7 @@ The $\LorentzFrameRateUp$ chapter presents the obligation surface
 $$
 M,X,R,S,H,C,P,N
 $$
-as a single finite package: carrier admission is \autoref{def:lorentz-frame-rate-carrier}; inherited-row exactness is given by \autoref{thm:lorentz-frame-rate-configuration-causal-inheritance}; observer-symmetry transport is given by \autoref{thm:frame-rate-observer-symmetry-transport} and \autoref{thm:lorentz-frame-rate-symmetry-classifier-exactness}; provenance is the row $P$; locality is the row $C$; non-escape is \autoref{thm:frame-rate-locality-nonescape}; and the existing TasteGate alignment marker attached to \autoref{def:lorentz-frame-rate-carrier} records that this AI-origin carrier is admitted only at the displayed single-carrier surface.
+as a single finite package: carrier admission is \autoref{def:lorentz-frame-rate-carrier}; inherited-row exactness is given by \autoref{thm:lorentz-frame-rate-configuration-causal-inheritance}; observer-symmetry transport is given by \autoref{thm:frame-rate-observer-symmetry-transport} and \autoref{thm:lorentz-frame-rate-symmetry-classifier-exactness}; provenance is the row $P$; locality is the row $C$; non-escape is \autoref{thm:frame-rate-locality-nonescape}; and the existing TasteGate marker attached to \autoref{def:lorentz-frame-rate-carrier} records that this AI-origin carrier is admitted only at the displayed single-carrier surface.
 \end{theorem}
 \begin{proof}
 Carrier admission is the finite packet definition. It exposes precisely the eight coordinates $M,X,R,S,H,C,P,N$ and no ambient Lorentz-geometric structure.
@@ -171,18 +171,68 @@ The inherited-row obligations are discharged by reading the dependency chain in 
 
 The observer-symmetry obligations are discharged by the two classifier theorems. They compare selected observer reads only after componentwise $\hsame$ transport and visible continuation routing, so the comparison remains a statement about the same finite maximum-rate row.
 
-The remaining obligations are local bookkeeping. The row $P$ records provenance, $C$ records the visible continuation routes, \autoref{thm:frame-rate-locality-nonescape} supplies non-escape, and the TasteGate alignment marker already attached to the carrier records the AI-origin admission boundary without adding a second marker at this theorem site.
+The remaining obligations are local bookkeeping. The row $P$ records provenance, $C$ records the visible continuation routes, \autoref{thm:frame-rate-locality-nonescape} supplies non-escape, and the TasteGate marker already attached to the carrier records the AI-origin admission boundary without adding a second marker at this theorem site.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate upstream row coherence]
+\label{thm:lorentz-frame-rate-upstream-row-coherence}
+For an accepted $\LorentzFrameRateUp$ carrier
+$$
+L=(M,X,R,S,H,C,P,N),
+$$
+the rows $M$, $X$, and $R$ form one coherent upstream surface. Every row of the family $X$ is a $\CrossHistCausalUp$ witness over the displayed $\MultiHistConfigUp$ row $M$, and the row $R$ is the $\MaxCausalRateUp$ maximum-rate row over exactly that displayed $X$-family and the same configuration row $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(M,X,R,S,H,C,P,N)$. The first three coordinates are not independent imports: the definition binds $X$ to selected history pairs from $M$ and binds $R$ to the same displayed witness family.
+
+Apply \autoref{thm:frame-rate-rate-row-inheritance}. It states that a consumer may read $R$ only over the same upstream $\MultiHistConfigUp$ row $M$ and $\CrossHistCausalUp$ witness family $X$, and not over a different configuration, unlisted witness family, or ambient host geometry.
+
+Thus the upstream surface available through $L$ is the single displayed chain $M$ to $X$ to $R$.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate symmetry classifier totality]
+\label{thm:lorentz-frame-rate-symmetry-classifier-totality}
+For an accepted $\LorentzFrameRateUp$ carrier
+$$
+L=(M,X,R,S,H,C,P,N),
+$$
+every observer-symmetry read factors through the classifier row $S$ together with the componentwise transport row $H$ and the displayed continuation row $C$. No observer-symmetry read exports a hidden global frame, synchronized clock, metric tensor, host real-valued speed, Lorentz geometry, or rate row outside the displayed upstream surface.
+\end{theorem}
+\begin{proof}
+Read the classifier coordinate first. By \autoref{thm:frame-rate-observer-symmetry-transport}, $S$ compares selected observer reads of the displayed maximum-rate row $R$ only after componentwise $\hsame$ transport in $H$ and along the same finite continuation packet $C$.
+
+Then apply \autoref{thm:frame-rate-locality-nonescape}. The transported comparison has no route to a global frame, synchronized clock, metric tensor, host real speed, or Lorentz geometry.
+
+Finally combine this with \autoref{thm:lorentz-frame-rate-upstream-row-coherence}. Since the rate row being compared is still the displayed $R$ over $M$ and $X$, the classifier is total only over the local packet surface and not over an ambient observer frame or clock.
+\end{proof}
+
+\begin{theorem}[LorentzFrameRate obligation closure package]
+\label{thm:lorentz-frame-rate-obligation-closure-package}
+The $\LorentzFrameRateUp$ chapter closes the local $\NameCert_{\LorentzFrameRateUp}$ obligation surface for
+$$
+M,X,R,S,H,C,P,N.
+$$
+Carrier admission is \autoref{def:lorentz-frame-rate-carrier}; upstream row coherence is \autoref{thm:lorentz-frame-rate-upstream-row-coherence}; symmetry classifier totality is \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}; transport locality is \autoref{thm:frame-rate-observer-symmetry-transport}; provenance is the row $P$; locality is the row $C$; non-escape is \autoref{thm:frame-rate-locality-nonescape}; and the existing TasteGate marker on the AI-origin carrier records the single-carrier admission boundary.
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet definition. It displays exactly the rows $M,X,R,S,H,C,P,N$ and supplies the local $\NameCert_{\LorentzFrameRateUp}$ row without adding global geometric input.
+
+The upstream and classifier obligations are now explicit. The upstream coherence theorem binds $M$, $X$, and $R$ as one dependency surface, while the classifier totality theorem forces observer-symmetry reads through $S,H,C$ over that same surface.
+
+The remaining rows complete the certificate boundary. Transport locality is supplied by the observer-symmetry transport theorem, provenance is recorded by $P$, visible continuation by $C$, and non-escape by the locality theorem. The TasteGate marker already attached to the carrier remains the Lean-side admission marker for this AI-origin single-carrier surface.
 \end{proof}
 
 \closureat{LorentzFrameRateUp}{seedStr}
+\closureat{LorentzFrameRateUp}{obligationStr}[BEDC.Derived.LorentzFrameRateUp.LorentzFrameRateTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\LorentzFrameRateUp}
   \constructivestory{A $\LorentzFrameRateUp$ packet is generated from a $\MultiHistConfigUp$ row, finitely many $\CrossHistCausalUp$ witness rows, one $\MaxCausalRateUp$ maximum-rate row over the same configuration, an observer-symmetry classifier, finite $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite observer-symmetric maximum-rate packet over MultiHistConfig, CrossHistCausal, MaxCausalRate, hsame, Cont, Pkg, and NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:lorentz-frame-rate-carrier}, \autoref{thm:lorentz-frame-rate-upstream-row-coherence}, \autoref{thm:lorentz-frame-rate-symmetry-classifier-totality}, \autoref{thm:lorentz-frame-rate-obligation-closure-package}, \autoref{thm:frame-rate-observer-symmetry-transport}, and \autoref{thm:frame-rate-locality-nonescape} bind the finite observer-symmetric maximum-rate packet over MultiHistConfig, CrossHistCausal, MaxCausalRate, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.LorentzFrameRateUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lorentz geometry, metric tensors, light-cone distance, synchronized clocks, global frames, host real-valued speed, curved spacetime, or Lean-side verification.}
-  \upgradepath{Obligation closure requires carrier admission, observer-symmetry preservation, upstream row inheritance, transport locality, provenance, and non-escape obligations for the displayed finite frame-rate packet.}
+  \upgradepath{The next grade requires scoped consumer exactness and Lean verification for the same displayed finite frame-rate packet.}
 \end{closurestatus}

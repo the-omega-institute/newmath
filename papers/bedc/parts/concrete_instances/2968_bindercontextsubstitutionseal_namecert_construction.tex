@@ -4,6 +4,24 @@
 
 The $\BinderContextSubstitutionSealUp$ interface packages the closed-boundary substitution site used by the MetaCIC self-compilation account. It records a term, a binder depth, a substitution payload, the attempted substitution result, and the boundary certificate proving that the payload has no visible target inside the classified term.
 
+\begin{theorem}[BinderContextSubstitutionSeal closed-term boundary dependency]
+\label{thm:binder-context-substitution-seal-closed-term-boundary-dependency}
+Every accepted $\BinderContextSubstitutionSealUp$ packet reads its \texttt{ClosedAt} boundary and inertness row as a refinement of the sibling $\ClosedTermSubstitutionBoundaryUp$ surface of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} before exporting the binder-depth payload route to compiler or evaluator consumers.
+\end{theorem}
+\begin{proof}
+Project the packet rows as
+$$
+S=(t,d,v,s,b,H,C,P,N).
+$$
+The row $b$ is the displayed closed-boundary witness: it carries \texttt{ClosedAt} $d$ $t$ together with the inertness equality read by the substitution seal.
+
+The sibling surface of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert} supplies exactly the closed-term boundary that makes a substitution read inert at a displayed depth. The seal adds the payload row $v$, the binder-depth row $d$, replay through $s=\texttt{substitute}(d,v,t)$, and local transport and provenance rows, but it does not replace that closed-term boundary with an independent open-substitution semantics.
+
+Apply \autoref{thm:binder-context-substitution-seal-non-escape} and \autoref{thm:binder-context-substitution-seal-compiler-handoff}. They show that consumers receive the payload route only through the equality certified by $b$ and only through the finite packet rows exported by the handoff.
+
+Hence the closed-term substitution boundary is a real dependency of the binder-context seal. The seal refines that sibling boundary by adding depth, payload, replay, transport, and naming rows while preserving the same closed-boundary source for compiler and evaluator reads.
+\end{proof}
+
 \begin{definition}[BinderContextSubstitutionSeal carrier]
 \label{def:binder-context-substitution-seal-carrier}
 A $\BinderContextSubstitutionSealUp$ carrier is a finite $\BHist$ packet
