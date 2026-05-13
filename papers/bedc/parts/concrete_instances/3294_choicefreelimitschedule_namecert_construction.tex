@@ -157,6 +157,34 @@ Transport and handoff are then read through the same packet. By \autoref{thm:cho
 Finally use \autoref{thm:choice-free-limit-schedule-consumer-readback} and \autoref{thm:choice-free-limit-schedule-nonescape}. Completion-facing consumers read exactly the finite schedule-to-seal surface and cannot export any excluded analytic object outside the displayed rows.
 \end{proof}
 
+\begin{theorem}[Choice-free limit schedule well-founded readback]
+\label{thm:choice-free-limit-schedule-choice-free-well-founded-readback}
+Every completion-facing readback of an accepted $\ChoiceFreeLimitScheduleUp$ packet follows the finite route
+$$
+E \to M \to W \to D \to R \to S.
+$$
+The read descends structurally through the displayed schedule row $M$ and the finite window family $W$, then through the dyadic ledger $D$, the $\RegSeqRatUp$ handoff $R$, and the $\RealUp$ seal $S$. Its well-foundedness is therefore measured on the finite packet of \autoref{def:choice-free-limit-schedule-carrier}, not on a selected limit object.
+\end{theorem}
+\begin{proof}
+Start with the carrier $L=(E,M,W,D,R,S,H,C,P,N)$ from \autoref{def:choice-free-limit-schedule-carrier}. The only completion-facing spine displayed by the packet is the route from the precision request to the schedule, finite windows, dyadic observations, regular-sequence handoff, and real seal.
+
+Apply the NameCert obligations of \autoref{thm:choice-free-limit-schedule-namecert-obligations}. Request-to-schedule exactness fixes $E \to M$, window and dyadic readback coverage fixes $M \to W \to D$, and handoff and seal discipline fixes $D \to R \to S$.
+
+Use \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness}, \autoref{thm:choice-free-limit-schedule-real-seal-discipline}, and \autoref{thm:choice-free-limit-schedule-public-seal-export}. These rows make the consumer read replay the displayed route, so the descent is over the finite schedule and window rows rather than over a chosen completed limit.
+\end{proof}
+
+\begin{theorem}[Choice-free limit schedule no selector extraction]
+\label{thm:choice-free-limit-schedule-no-selector-extraction}
+No accepted $\ChoiceFreeLimitScheduleUp$ packet exports a hidden selector from precision requests to representatives. All exported data are the schedule row $M$, finite window family $W$, dyadic ledger $D$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $S$, and the transport, route, provenance, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:choice-free-limit-schedule-carrier}. Its public coordinates are exactly $E,M,W,D,R,S,H,C,P,N$, and no coordinate is a selector from requests to hidden representatives.
+
+The obligations of \autoref{thm:choice-free-limit-schedule-namecert-obligations} keep each public read inside those rows. In particular, request-to-schedule exactness exposes only the schedule row, and window and dyadic readback coverage exposes only the finite windows and dyadic ledger selected by that schedule.
+
+The handoff and seal are then constrained by \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness} and \autoref{thm:choice-free-limit-schedule-real-seal-discipline}. Finally \autoref{thm:choice-free-limit-schedule-public-seal-export} states that the exported surface is the finite schedule-to-seal route with $H,C,P,N$, so a hidden selector is not part of the public packet.
+\end{proof}
+
 \closureat{ChoiceFreeLimitScheduleUp}{scopedStr}
 
 \begin{closurestatus}{\ChoiceFreeLimitScheduleUp}
