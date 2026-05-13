@@ -15,13 +15,13 @@ inductive TranscendentalSupplyInscriptionUp : Type where
       TranscendentalSupplyInscriptionUp
   deriving DecidableEq
 
-def transcendentalSupplyInscriptionEncodeBHist : BHist → RawEvent
+private def transcendentalSupplyInscriptionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: transcendentalSupplyInscriptionEncodeBHist h
   | BHist.e1 h => BMark.b1 :: transcendentalSupplyInscriptionEncodeBHist h
 
-def transcendentalSupplyInscriptionDecodeBHist : RawEvent → BHist
+private def transcendentalSupplyInscriptionDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (transcendentalSupplyInscriptionDecodeBHist tail)
@@ -30,8 +30,7 @@ def transcendentalSupplyInscriptionDecodeBHist : RawEvent → BHist
 private theorem transcendentalSupplyInscriptionDecode_encode_bhist :
     ∀ h : BHist,
       transcendentalSupplyInscriptionDecodeBHist
-          (transcendentalSupplyInscriptionEncodeBHist h) =
-        h := by
+        (transcendentalSupplyInscriptionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -68,7 +67,7 @@ private theorem transcendentalSupplyInscription_mk_congr
   cases hNameCert
   rfl
 
-def transcendentalSupplyInscriptionToEventFlow :
+private def transcendentalSupplyInscriptionToEventFlow :
     TranscendentalSupplyInscriptionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | TranscendentalSupplyInscriptionUp.mk supply closedSystem inscription gap transport routes
@@ -91,7 +90,7 @@ def transcendentalSupplyInscriptionToEventFlow :
           BMark.b0],
         transcendentalSupplyInscriptionEncodeBHist nameCert]
 
-def transcendentalSupplyInscriptionFromEventFlow :
+private def transcendentalSupplyInscriptionFromEventFlow :
     EventFlow → Option TranscendentalSupplyInscriptionUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
@@ -201,8 +200,7 @@ private theorem transcendentalSupplyInscription_round_trip :
 private theorem transcendentalSupplyInscriptionToEventFlow_injective
     {x y : TranscendentalSupplyInscriptionUp} :
     transcendentalSupplyInscriptionToEventFlow x =
-        transcendentalSupplyInscriptionToEventFlow y →
-      x = y := by
+      transcendentalSupplyInscriptionToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -238,16 +236,14 @@ instance transcendentalSupplyInscriptionChapterTasteGate :
 theorem TranscendentalSupplyInscriptionTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       transcendentalSupplyInscriptionDecodeBHist
-          (transcendentalSupplyInscriptionEncodeBHist h) =
-        h) ∧
+        (transcendentalSupplyInscriptionEncodeBHist h) = h) ∧
       (∀ x : TranscendentalSupplyInscriptionUp,
         transcendentalSupplyInscriptionFromEventFlow
             (transcendentalSupplyInscriptionToEventFlow x) =
           some x) ∧
         (∀ x y : TranscendentalSupplyInscriptionUp,
           transcendentalSupplyInscriptionToEventFlow x =
-              transcendentalSupplyInscriptionToEventFlow y →
-            x = y) ∧
+            transcendentalSupplyInscriptionToEventFlow y → x = y) ∧
           transcendentalSupplyInscriptionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor

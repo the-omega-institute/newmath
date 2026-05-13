@@ -25,12 +25,13 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exposes exactly this local socket. It contains no unrestricted analytic-continuation operator, no global branch selector, no quotient of germs, and no host complex-analysis theorem.
 \end{definition}
-\leandef{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketUp}
+\leandef{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier}
 
 \begin{theorem}[AnalyticContinuationSocket NameCert obligations]
 \label{thm:analytic-continuation-socket-namecert-obligations}
 The local $\NameCert_{\AnalyticContinuationSocketUp}$ surface for \autoref{def:analytic-continuation-socket-carrier} consists of five finite rows: carrier admission for $S$; classifier stability for the two holomorphic source rows, the overlap witness, the operation row, and the output row; ledger exactness for the branch-obstruction coordinate $B$; $\Pkg$ provenance over $F,G,U,A,O,B,H,C$; and local naming exactness for $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection of the finite tuple $S$. The source, overlap, operation, output, obstruction, transport, continuation, package, and local naming rows are all visible coordinates of the same $\BHist$ packet.
 
@@ -43,6 +44,7 @@ The package and local naming rows repack these coordinates without adding a host
 \label{thm:analytic-continuation-socket-overlap-transport}
 For an accepted $\AnalyticContinuationSocketUp$ carrier $S=(F,G,U,A,O,B,H,C,P,N)$, the local overlap witness $U$ transports only along the displayed $\hsame$ row $H$ and the displayed $\Cont$ routes $C$. The transported read preserves the two $\HolomorphicUp$ source rows $F,G$, the $\ComplexUp$ overlap boundary named by $U$, the analytic-continuation operation row $A$, the output row $O$, the package row $P$, and the local $\NameCert$ row $N$; it does not create a monodromy theorem, global continuation operator, quotient of germs, or branch selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketPacket\_overlap\_transport}
 \begin{proof}
 Project the carrier. The overlap witness $U$ is displayed in the same finite packet as the two source rows, operation row, output row, transport row, continuation routes, package provenance, and local naming row.
 
@@ -120,6 +122,7 @@ Use \autoref{thm:analytic-continuation-socket-namecert-obligations} to attach th
 
 The non-factorizing case is handled by \autoref{thm:analytic-continuation-socket-ledger-nonescape}. Any read outside $F,G,U,A,H,C,P,N$ is recorded in $B$, and \autoref{thm:analytic-continuation-socket-holomorphic-handoff} prevents that ledger entry from becoming an additional $\HolomorphicUp$ output.
 \end{proof}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_operation\_output\_factorization}
 
 \begin{theorem}[AnalyticContinuationSocket RH handoff boundary]
 \label{thm:analytic-continuation-socket-rh-handoff-boundary}
