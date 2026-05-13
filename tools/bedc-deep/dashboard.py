@@ -287,6 +287,9 @@ def _refill_wait_seconds(rec: dict) -> int | None:
     if not isinstance(log_path, Path) or not log_path.exists():
         return None
     text = _read_text_prefix(log_path, max_chars=12000)
+    submitted = list(re.finditer(r"\[board_refill\] submitted task=", text))
+    if submitted:
+        text = text[submitted[-1].start():]
     matches = re.findall(r"waiting\.\.\.\s+(\d+)s elapsed", text)
     if not matches:
         return None
