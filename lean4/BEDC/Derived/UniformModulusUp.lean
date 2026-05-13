@@ -168,6 +168,37 @@ theorem UniformModulusPacket_classifier_transport_stability [AskSetup] [PackageS
       provenancePkg'⟩,
       sameProvenance⟩
 
+theorem UniformModulusPacket_covered_point_radius_route [AskSetup] [PackageSetup]
+    {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
+      nameRow distance consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformModulusPacket tolerance precision bundleRow radius coverage pointwise foldLedger
+        transport provenance nameRow bundle pkg →
+      UnaryHistory pointwise →
+        Cont coverage pointwise distance →
+          Cont distance foldLedger consumer →
+            PkgSig bundle consumer pkg →
+              UnaryHistory coverage ∧ UnaryHistory foldLedger ∧ UnaryHistory distance ∧
+                UnaryHistory consumer ∧ Cont coverage pointwise distance ∧
+                  Cont distance foldLedger consumer ∧ Cont precision radius foldLedger ∧
+                    PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg
+  intro packet pointwiseUnary coveragePointwiseDistance distanceFoldConsumer consumerPkg
+  obtain ⟨toleranceUnary, precisionUnary, bundleRowUnary, radiusUnary, _nameRowUnary,
+    toleranceBundleCoverage, _coveragePointwiseTransport, precisionRadiusFoldLedger,
+    _foldNameProvenance, _provenancePkg⟩ := packet
+  have coverageUnary : UnaryHistory coverage :=
+    unary_cont_closed toleranceUnary bundleRowUnary toleranceBundleCoverage
+  have foldLedgerUnary : UnaryHistory foldLedger :=
+    unary_cont_closed precisionUnary radiusUnary precisionRadiusFoldLedger
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed coverageUnary pointwiseUnary coveragePointwiseDistance
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed distanceUnary foldLedgerUnary distanceFoldConsumer
+  exact
+    ⟨coverageUnary, foldLedgerUnary, distanceUnary, consumerUnary,
+      coveragePointwiseDistance, distanceFoldConsumer, precisionRadiusFoldLedger, consumerPkg⟩
+
 theorem UniformModulusPacket_finite_net_realizer_unblock [AskSetup] [PackageSetup]
     {tolerance precision bundleRow radius coverage pointwise foldLedger transport provenance
       nameRow realized : BHist}
