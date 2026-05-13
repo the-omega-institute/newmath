@@ -1,4 +1,5 @@
 #include "cook_construction.h"
+#include "cook_collision_identity.h"
 #include "cook_data_block.h"
 #include <assert.h>
 #include <stdint.h>
@@ -136,6 +137,21 @@ static void test_data_block_phase_exact_emits_y_and_n(void) {
     printf("  data_block_phase_exact_emits_y_and_n: PASS\n");
 }
 
+static void test_data_block_figure10_alignment(void) {
+    CookDataBlockFigure10Alignment alignment;
+
+    assert(cook_data_block_figure10_alignment(&alignment));
+    assert(alignment.c2_spacing == 2);
+    assert(alignment.regenerated_c2_from_ebar == 2);
+    assert(alignment.next_moving_data_spacing == 3);
+    assert(cook_figure_10_accepts_c2_spacing(COOK_FIGURE10_INVISIBLE, 18));
+    assert(cook_figure_10_accepts_c2_spacing(COOK_FIGURE10_INVISIBLE, 10));
+    assert(cook_figure_10_accepts_c2_spacing(COOK_FIGURE10_INVISIBLE, 14));
+    assert(!cook_data_block_figure10_alignment(NULL));
+
+    printf("  data_block_figure10_alignment: PASS\n");
+}
+
 static void test_data_block_phase_exact_emits_full_tape(void) {
     uint8_t cells[4096];
     const uint8_t tape_bits[3] = {1, 0, 1};
@@ -182,6 +198,7 @@ int main(void) {
     test_data_block_5bit_tape();
     test_data_block_empty();
     test_data_block_phase_exact_emits_y_and_n();
+    test_data_block_figure10_alignment();
     test_data_block_phase_exact_emits_full_tape();
     test_data_block_phase_exact_unwritable_buffer();
     printf("ALL test_cook_data_block tests passed\n");

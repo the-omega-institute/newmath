@@ -1,4 +1,5 @@
 #include "cook_data_block.h"
+#include "cook_collision_identity.h"
 #include "cook_construction.h"
 #include "glider_phases.h"
 #include <string.h>
@@ -34,6 +35,11 @@ static int cook_data_block_spacing_width(int spacing_tiles,
     return cook_data_block_add_size(glider_len, gap_width, width_out);
 }
 
+static int cook_data_block_c2_spacing_passes_figure10(int spacing_tiles) {
+    return cook_figure_10_accepts_c2_spacing(COOK_FIGURE10_INVISIBLE,
+                                             spacing_tiles);
+}
+
 static int cook_data_block_packet_width(const int spacings[3],
                                         size_t c2_len,
                                         size_t *width_out) {
@@ -43,6 +49,9 @@ static int cook_data_block_packet_width(const int spacings[3],
     for (size_t i = 0; i < 3; i++) {
         size_t step = 0;
 
+        if (!cook_data_block_c2_spacing_passes_figure10(spacings[i])) {
+            return 0;
+        }
         if (!cook_data_block_spacing_width(spacings[i], c2_len, &step)) {
             return 0;
         }
@@ -50,6 +59,36 @@ static int cook_data_block_packet_width(const int spacings[3],
     }
 
     *width_out = width;
+    return 1;
+}
+
+int cook_data_block_figure10_alignment(
+    CookDataBlockFigure10Alignment *alignment_out) {
+    const CookFigure10PassThrough *invisible =
+        cook_figure_10_pass_through(COOK_FIGURE10_INVISIBLE);
+    const CookFigure10PassThrough *moving =
+        cook_figure_10_pass_through(COOK_FIGURE10_MOVING_AFTER_MOVING);
+    int regenerated = 0;
+
+    if (alignment_out == NULL || invisible == NULL || moving == NULL) {
+        return 0;
+    }
+    if (!cook_figure_10_regenerated_c2_offset(COOK_FIGURE10_INVISIBLE,
+                                              &regenerated)) {
+        return 0;
+    }
+    if (!cook_data_block_c2_spacing_passes_figure10(invisible->c2_spacing)) {
+        return 0;
+    }
+    if (!cook_figure_10_accepts_ebar_spacing(
+            COOK_FIGURE10_MOVING_AFTER_MOVING,
+            moving->ebar_spacing)) {
+        return 0;
+    }
+
+    alignment_out->c2_spacing = invisible->c2_spacing;
+    alignment_out->regenerated_c2_from_ebar = regenerated;
+    alignment_out->next_moving_data_spacing = moving->ebar_spacing;
     return 1;
 }
 

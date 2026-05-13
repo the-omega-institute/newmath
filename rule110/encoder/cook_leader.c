@@ -1,4 +1,5 @@
 #include "cook_leader.h"
+#include "cook_collision_identity.h"
 #include "cook_construction.h"
 #include "glider_phases.h"
 #include <string.h>
@@ -137,20 +138,59 @@ int cook_leader_prepared_placement(size_t c,
     return 1;
 }
 
+int cook_leader_figure10_alignment(
+    CookLeaderFigure10Alignment *alignment_out) {
+    const CookFigure10PassThrough *first =
+        cook_figure_10_pass_through(COOK_FIGURE10_FIRST_MOVING_AFTER_INVISIBLE);
+    const CookFigure10PassThrough *invisible =
+        cook_figure_10_pass_through(COOK_FIGURE10_INVISIBLE);
+    const CookFigure10PassThrough *moving =
+        cook_figure_10_pass_through(COOK_FIGURE10_MOVING_AFTER_MOVING);
+
+    if (alignment_out == NULL || first == NULL ||
+        invisible == NULL || moving == NULL) {
+        return 0;
+    }
+    if (!cook_figure_10_accepts_ebar_spacing(
+            COOK_FIGURE10_FIRST_MOVING_AFTER_INVISIBLE,
+            first->ebar_spacing)) {
+        return 0;
+    }
+    if (!cook_figure_10_accepts_c2_spacing(COOK_FIGURE10_INVISIBLE,
+                                           invisible->c2_spacing)) {
+        return 0;
+    }
+    if (!cook_figure_10_accepts_ebar_spacing(
+            COOK_FIGURE10_MOVING_AFTER_MOVING,
+            moving->ebar_spacing)) {
+        return 0;
+    }
+
+    alignment_out->first_moving_after_invisible = first->ebar_spacing;
+    alignment_out->invisible_c2_spacing = invisible->c2_spacing;
+    alignment_out->moving_after_moving = moving->ebar_spacing;
+    return 1;
+}
+
 static int cook_leader_layout_for_context(const CookLeaderLayout *base,
                                           enum leader_prepared_context context,
                                           size_t c,
                                           CookLeaderLayout *out) {
     int alignment = 0;
     CookLeaderPreparedPlacement placement;
+    CookLeaderFigure10Alignment pass_through;
 
     if (base == NULL || out == NULL) return 0;
     if (!cook_leader_prepared_invisible_alignment(context, c, &alignment)) {
         return 0;
     }
     if (!cook_leader_prepared_placement(c, &placement)) return 0;
+    if (!cook_leader_figure10_alignment(&pass_through)) return 0;
     *out = *base;
     out->invisible_alignment_tiles = alignment;
+    if (base->a_count == COOK_LEADER_ACCEPTOR_A_COUNT) {
+        out->ebar_spacing_tiles = pass_through.moving_after_moving;
+    }
     return 1;
 }
 

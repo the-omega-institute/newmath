@@ -1,4 +1,5 @@
 #include "cook_construction.h"
+#include "cook_collision_identity.h"
 #include "cook_leader.h"
 #include "rule110.h"
 #include <assert.h>
@@ -123,6 +124,38 @@ static void test_leader_figure11_prepared_placement(void) {
     assert(!cook_leader_prepared_placement(6u, NULL));
 
     printf("  leader_figure11_prepared_placement: PASS\n");
+}
+
+static void test_leader_figure10_alignment(void) {
+    CookLeaderFigure10Alignment alignment;
+    const CookFigure10PassThrough *first =
+        cook_figure_10_pass_through(COOK_FIGURE10_FIRST_MOVING_AFTER_INVISIBLE);
+    const CookFigure10PassThrough *invisible =
+        cook_figure_10_pass_through(COOK_FIGURE10_INVISIBLE);
+    const CookFigure10PassThrough *moving =
+        cook_figure_10_pass_through(COOK_FIGURE10_MOVING_AFTER_MOVING);
+
+    assert(cook_leader_figure10_alignment(&alignment));
+    assert(alignment.first_moving_after_invisible == 3);
+    assert(alignment.invisible_c2_spacing == 2);
+    assert(alignment.moving_after_moving == 3);
+    assert(first != NULL);
+    assert(first->label_count == 3u);
+    assert(first->labels[0] == 0);
+    assert(first->labels[1] == 1);
+    assert(first->labels[2] == 2);
+    assert(invisible != NULL);
+    assert(invisible->label_count == 2u);
+    assert(invisible->labels[0] == 2);
+    assert(invisible->labels[1] == 1);
+    assert(moving != NULL);
+    assert(moving->label_count == 3u);
+    assert(moving->labels[0] == 0);
+    assert(moving->labels[1] == 1);
+    assert(moving->labels[2] == 2);
+    assert(!cook_leader_figure10_alignment(NULL));
+
+    printf("  leader_figure10_alignment: PASS\n");
 }
 
 static void test_leader_stable(void) {
@@ -273,6 +306,7 @@ int main(void) {
     printf("== test_cook_leader ==\n");
     test_leader_figure8_alignment();
     test_leader_figure11_prepared_placement();
+    test_leader_figure10_alignment();
     test_leader_stable();
     test_leader_does_not_destroy_ether_outside();
     test_leader_phase_exact_emits_packet();

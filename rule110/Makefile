@@ -71,6 +71,7 @@ $(ENCODER_DIR)/generate_r110_algo: $(ENCODER_DIR)/generate_r110_algo.c $(EVAL_DI
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
 	    $(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_construction.c \
 	    $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
 	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c \
 	    $(ENCODER_DIR)/cook_glider_D1.c $(ENCODER_DIR)/cook_glider_D2.c
@@ -149,10 +150,12 @@ $(TEST_DIR)/test_cook_ossifier: $(TEST_DIR)/test_cook_ossifier.c $(EVAL_DIR)/rul
 	    $(TEST_DIR)/test_cook_ossifier.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_ossifier.c
 
-$(TEST_DIR)/test_cook_data_block: $(TEST_DIR)/test_cook_data_block.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_data_block.h
+$(TEST_DIR)/test_cook_data_block: $(TEST_DIR)/test_cook_data_block.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_data_block.h $(ENCODER_DIR)/cook_collision_identity.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_data_block.c $(EVAL_DIR)/rule110.c \
-	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_data_block.c
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
+	    $(ENCODER_DIR)/cook_data_block.c
 
 $(TEST_DIR)/test_mark: $(TEST_DIR)/test_mark.c $(TEST_DIR)/manifest_runner.c $(TEST_DIR)/manifest_runner.h $(EVAL_DIR)/cyclic_tag.h $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/groundcompiler_encoding.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
@@ -269,6 +272,7 @@ $(VISUALIZATION_TOOL): $(TOOLS_DIR)/visualize_rule110.c \
 		$(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/glider_phases.h \
 		$(ENCODER_DIR)/cook_detect.c $(ENCODER_DIR)/cook_detect.h \
 		$(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_encode.h \
+		$(ENCODER_DIR)/cook_collision_identity.c $(ENCODER_DIR)/cook_collision_identity.h \
 		$(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/cook_construction.h \
 		$(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_leader.h \
 		$(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_ossifier.h \
@@ -278,6 +282,7 @@ $(VISUALIZATION_TOOL): $(TOOLS_DIR)/visualize_rule110.c \
 	    $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_detect.c \
 	    $(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_construction.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_ossifier.c \
 	    $(ENCODER_DIR)/cook_data_block.c
 
@@ -368,10 +373,12 @@ $(TEST_DIR)/test_cook_collisions: $(TEST_DIR)/test_cook_collisions.c $(EVAL_DIR)
 	    $(ENCODER_DIR)/cook_glider_C.c $(ENCODER_DIR)/cook_glider_D.c \
 	    $(ENCODER_DIR)/cook_collisions.c
 
-$(TEST_DIR)/test_cook_leader: $(TEST_DIR)/test_cook_leader.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h
+$(TEST_DIR)/test_cook_leader: $(TEST_DIR)/test_cook_leader.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_leader.h $(ENCODER_DIR)/cook_collision_identity.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_leader.c $(EVAL_DIR)/rule110.c \
-	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c
+	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
+	    $(ENCODER_DIR)/cook_leader.c
 
 TESTS += $(TEST_DIR)/test_cook_leader
 test: $(TEST_DIR)/test_cook_leader
@@ -380,6 +387,7 @@ $(TEST_DIR)/test_cook_encode_empty: $(TEST_DIR)/test_cook_encode_empty.c $(EVAL_
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_encode_empty.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
 	    $(ENCODER_DIR)/cook_encode.c
 
@@ -398,6 +406,7 @@ $(TEST_DIR)/test_cook_encode_one: $(TEST_DIR)/test_cook_encode_one.c $(EVAL_DIR)
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_encode_one.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
 	    $(ENCODER_DIR)/cook_encode.c
 
@@ -408,6 +417,7 @@ $(TEST_DIR)/test_cook_encode_arbitrary: $(TEST_DIR)/test_cook_encode_arbitrary.c
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_encode_arbitrary.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
 	    $(ENCODER_DIR)/cook_encode.c
 
@@ -418,6 +428,7 @@ $(TEST_DIR)/test_cook_packet_phase_exact: $(TEST_DIR)/test_cook_packet_phase_exa
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_packet_phase_exact.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
 	    $(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_decode.c
 
@@ -430,6 +441,7 @@ $(TEST_DIR)/test_cook_packet_scale: $(TEST_DIR)/test_cook_packet_scale.c $(EVAL_
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
 	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_ossifier.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_data_block.c $(ENCODER_DIR)/cook_encode.c \
 	    $(ENCODER_DIR)/cook_decode.c
 
@@ -445,6 +457,7 @@ $(TEST_DIR)/test_enum_cook_full_roundtrip: $(TEST_DIR)/test_enum_cook_full_round
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c \
 	    $(ENCODER_DIR)/cook_leader.c $(ENCODER_DIR)/cook_ossifier.c \
+	    $(ENCODER_DIR)/cook_collision_identity.c \
 	    $(ENCODER_DIR)/cook_data_block.c $(ENCODER_DIR)/cook_encode.c \
 	    $(ENCODER_DIR)/cook_decode.c
 
