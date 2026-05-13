@@ -180,6 +180,22 @@ The regular handoff factorization, \autoref{thm:binary-expansion-regular-handoff
 Therefore endpoint ambiguity is not resolved by the accepted packet. A base-two convention resolver must be represented by a separate ledger or socket row, because no coordinate of $D,W,A,R,E,H,C,P,N$ contains such a convention.
 \end{proof}
 
+\begin{theorem}[BinaryExpansion Cauchy modulus handoff]
+\label{thm:binary-expansion-cauchy-modulus-handoff}
+Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier. Every effective precision read needed by a $\RegSeqRatUp$, $\RealUp$, or $\CauchyModulusUp$ consumer factors through the same finite route: a prefix window in $W$, the corresponding dyadic partial-sum and tail-radius rows in $A$, the regular handoff row $R$, the real-seal row $E$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H$, $C$, $P$, and $N$.
+
+Thus the effective Cauchy-modulus handoff exported by $B$ is the displayed prefix-tail-radius ledger and its regular and real-facing routes. It contains no hidden modulus, host infinite bitstream, quotient stream equality, selected representative, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a precision request made by a $\RegSeqRatUp$, $\RealUp$, or $\CauchyModulusUp$ consumer. By prefix tail-radius monotonicity, \autoref{thm:binary-expansion-prefix-tail-radius-monotonicity}, strengthening the requested precision only moves to a displayed larger prefix window and its smaller-or-equal tail-radius row; it does not create a second modulus object.
+
+Apply regular handoff factorization, \autoref{thm:binary-expansion-regular-handoff-factorization}. The $\RegSeqRatUp$ read is exactly the route from the selected window in $W$ through the partial-sum and tail-radius rows of $A$ into $R$.
+
+Next use $\RealUp$ seal prefix coherence, \autoref{thm:binary-expansion-real-seal-prefix-coherence}. Any real-facing read of $E$ reaches the seal only after passing through the same finite prefix ledger and the same regular handoff row.
+
+Finally apply dyadic-ledger exhaustion, \autoref{thm:binary-expansion-dyadic-ledger-exhaustion}. It accounts for all dyadic data available to the consumer inside $D,W,A,R,E,H,C,P,N$, so there is no additional coordinate from which a hidden modulus, infinite stream, quotient equality, representative choice, or completeness principle could be read.
+\end{proof}
+
 \begin{theorem}[BinaryExpansion scoped dependency factorization]
 \label{thm:binary-expansion-scoped-dependency-factorization}
 Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier. Every scoped obligation exported by $\BinaryExpansionUp$ factors through exactly the displayed packet rows: the $\DyadicRatCoreUp$ binary digit rows in $D$, the $\StreamNameUp$ prefix-window rows in $W$, the $\DyadicApproximationUp$ partial-sum and tail-radius rows in $A$, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal row $E$, and the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes $H$, $C$, $P$, and $N$.

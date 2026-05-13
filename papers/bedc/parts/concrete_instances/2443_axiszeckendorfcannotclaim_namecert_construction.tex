@@ -69,15 +69,29 @@ The negative reads factor through $a,b,c,d$, and the horizon reads factor throug
 The package row $p$ and local name row $n$ do not add mathematical structure; they record where the displayed rows come from. Since none of the excluded objects appears as a coordinate, no public consumer can extract a positive bridge, equality, dimension, or rewrite from the registry packet.
 \end{proof}
 
+\begin{theorem}[AxisZeckendorf cannot-claim consumer horizon exhaustion]
+\label{thm:axis-zeckendorf-cannot-claim-consumer-horizon-exhaustion}
+Any downstream consumer of an accepted $\AxisZeckendorfCannotClaimUp$ registry packet can read only the negative theorem rows $a,b,c,d$, the horizon refusal rows $e,f,g$, the transport and route ledger $h$, the provenance row $p$, and the local $\NameCert$ row $n$. Consequently the packet cannot supply a $\RealUp$ completion, a $\NatUp$ replacement, a primitive dimension-lift operation, a kernel rewrite, a quotient of histories, or a standard-model bridge.
+\end{theorem}
+\begin{proof}
+Start with the registry packet of \autoref{def:axis-zeckendorf-cannot-claim-registry-packet}. Its displayed rows are exactly $a,b,c,d,e,f,g,h,p,n$.
+
+The theorem-level consumer reads are exhausted by \autoref{thm:axis-zeckendorf-cannot-claim-negative-theorem-surface}: they are precisely the negative rows $a,b,c,d$.
+
+The remaining horizon reads are the refusal rows $e,f,g$, transported and routed through $h$ and recorded through $p,n$. By \autoref{thm:axis-zeckendorf-cannot-claim-non-escape}, this public surface cannot export any coordinate beyond the registry inventory.
+
+Since a $\RealUp$ completion, $\NatUp$ replacement, primitive dimension-lift operation, kernel rewrite, quotient, or standard-model bridge would require a positive coordinate not present in the registry, no downstream consumer can derive one from the packet.
+\end{proof}
+
 \closureat{AxisZeckendorfCannotClaimUp}{seedStr}
 
 \begin{closurestatus}{\AxisZeckendorfCannotClaimUp}
   \constructivestory{An $\AxisZeckendorfCannotClaimUp$ packet records four checked negative theorem rows, three horizon refusal rows, componentwise $\hsame$ and $\Cont$ routing, $\Pkg$ provenance, and a local $\NameCert$ row, while exporting no RealUp, NatUp replacement, dimension, quotient, or kernel-rewrite coordinate.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite registry carrier, NameCert obligation families, negative theorem surface, and non-escape boundary for the AxisZeckendorf cannot-claim packet.}
+  \scopeclosed{The seed scope records the finite registry carrier, NameCert obligation families, negative theorem surface, non-escape boundary, and consumer horizon exhaustion for the AxisZeckendorf cannot-claim packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove a Lean implementation, a standard bridge, RealUp completeness for FullAxisUp, AxisNatUp equality with NatUp, primitive dimension lift, host arithmetic equality, or kernel rewriting.}
-  \upgradepath{Obligation closure requires checking the carrier, classifier routing, refusal-row coverage, and ledger exactness for the displayed registry packet.}
+  \upgradepath{Obligation closure requires checking the carrier, classifier routing, refusal-row coverage, consumer horizon exhaustion, and ledger exactness for the displayed registry packet.}
 \end{closurestatus}
