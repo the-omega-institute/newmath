@@ -139,6 +139,29 @@ theorem CauchyPairingCarrier_paired_seal_non_escape [AskSetup] [PackageSetup]
     ⟨wAUnary, wBUnary, lAUnary, lBUnary, eUnary, sealConsumerUnary, muWARow,
       muWBRow, lAlBRow, eProvenanceSealConsumer, ePkg, sealConsumerPkg⟩
 
+theorem CauchyPairingCarrier_shared_bound_consumer [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
+      sharedBound : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      Cont muA muB sharedBound ->
+        PkgSig bundle sharedBound pkg ->
+          UnaryHistory mu ∧ UnaryHistory muA ∧ UnaryHistory muB ∧
+            UnaryHistory sharedBound ∧ Cont mu wA lA ∧ Cont mu wB lB ∧
+              Cont muA muB sharedBound ∧ PkgSig bundle e pkg ∧
+                PkgSig bundle sharedBound pkg := by
+  intro carrier sharedBoundRow sharedBoundPkg
+  obtain ⟨_aUnary, _bUnary, _wAUnary, _wBUnary, _lAUnary, _lBUnary, muAUnary,
+    muBUnary, muUnary, _eAUnary, _eBUnary, _eUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _localCertUnary, muWARow, muWBRow, _lAlBRow,
+    _eProvenanceTransport, _transportLocalRoute, ePkg⟩ := carrier
+  have sharedBoundUnary : UnaryHistory sharedBound :=
+    unary_cont_closed muAUnary muBUnary sharedBoundRow
+  exact
+    ⟨muUnary, muAUnary, muBUnary, sharedBoundUnary, muWARow, muWBRow, sharedBoundRow,
+      ePkg, sharedBoundPkg⟩
+
 theorem CauchyPairingCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
