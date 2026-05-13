@@ -93,3 +93,35 @@ For compiler consumption, apply the morphism reading. It repacks the same finite
   \notclaimed{This chapter does not close host compiler semantics, quotient equality of terms, erased typing derivations, semantic target interpretation, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, graph lifting, target $\Ext$ preservation, source and target subject reduction, morphism reading, and ledger non-escape for the same finite compiler packet.}
 \end{closurestatus}
+
+\begin{theorem}[TypePreservingCompiler sequential composition]
+\label{thm:type-preserving-compiler-sequential-composition}
+Let
+$$
+K_{ST}=(S,T,G_{ST},E_{ST},R_{ST},H_{ST},C_{ST},P_{ST},N_{ST})
+$$
+and
+$$
+K_{TU}=(T,U,G_{TU},E_{TU},R_{TU},H_{TU},C_{TU},P_{TU},N_{TU})
+$$
+be accepted $\TypePreservingCompilerUp$ carriers sharing the same middle $\TypeClassifierMembershipUp$ row $T$. Define the sequential compiler graph $G_{SU}$ by relational composition:
+$$
+G_{SU}(s,u)\quad\text{holds exactly when there is a middle history }t\text{ with }G_{ST}(s,t)\text{ and }G_{TU}(t,u).
+$$
+Then $G_{SU}$ determines an accepted $\TypePreservingCompilerUp$ carrier from $S$ to $U$ whose public packet is
+$$
+K_{SU}=(S,U,G_{SU},E_{SU},R_{SU},H_{SU},C_{SU},P_{SU},N_{SU}).
+$$
+Here $E_{SU}$ is the concatenated target-$\Ext$ preservation ledger $E_{TU}\circ_T E_{ST}$, $R_{SU}$ is the middle-handoff subject-reduction ledger $R_{TU}\circ_T R_{ST}$, and $H_{SU},C_{SU},P_{SU},N_{SU}$ are the componentwise transported sameness, continuation-route, package-provenance, and local naming rows obtained by composing the displayed rows of $K_{ST}$ and $K_{TU}$ through $T$. Consequently every public read from source $\Ext$ membership in $S$ through a source typed $\Cont$ step and then through $G_{SU}$ reaches $U$ only through the target $\Ext$ row of $U$ and the composed subject-reduction ledger $R_{SU}$.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers by \autoref{def:type-preserving-compiler-carrier}. The first packet exposes only $S,T,G_{ST},E_{ST},R_{ST},H_{ST},C_{ST},P_{ST},N_{ST}$, and the second exposes only $T,U,G_{TU},E_{TU},R_{TU},H_{TU},C_{TU},P_{TU},N_{TU}$. The shared coordinate is the displayed type-classifier membership row $T$, so a relational edge from $S$ to $U$ can be formed only by passing through a middle history already read in $T$.
+
+The classifier-preserving part is closed by \autoref{thm:classifiermorphism-composition-closure}. Applied to the classifier-morphism reads supplied by \autoref{thm:type-preserving-compiler-morphism-correctness}, it turns the graph rows $G_{ST}$ and $G_{TU}$ into the relational composite $G_{SU}$ and composes their $\Ext$, $\mathsf{SigRel}$, $\Cont$, and $\hsame$ preservation rows. In particular, a source membership row accepted by the $\Ext$ coordinate of $S$ is first consumed by $E_{ST}$ as target membership in $T$, and the resulting middle membership is then consumed by $E_{TU}$ as target membership in $U$. This is exactly the ledger $E_{SU}=E_{TU}\circ_T E_{ST}$.
+
+The naming-certificate morphism part is closed by \autoref{thm:namecert-morphism-composition-obligation} and its route provenance statement \autoref{thm:namecert-morphism-composite-route-provenance}. These theorems concatenate graph lifting, target transport, $\hsame$ preservation, $\Cont$ routing, package provenance, and local naming through the same middle certificate row. Thus the composed graph and its transport rows repack as one finite source-to-target morphism boundary from $S$ to $U$, without adding a host compiler function or quotient equality.
+
+It remains to check the type-preserving reduction handoff. Start with a public read consisting of source $\Ext$ membership in $S$, a source typed $\Cont$ step, and a composite graph edge $G_{SU}(s,u)$. By definition of $G_{SU}$ there is a displayed middle history $t$ with $G_{ST}(s,t)$ and $G_{TU}(t,u)$. Applying \autoref{thm:type-preserving-compiler-subject-reduction-handoff} to $K_{ST}$ sends the source membership and source typed step into the middle target surface only through the target $\Ext$ row of $T$ and the ledger $R_{ST}$. Applying the same theorem to $K_{TU}$ consumes that middle membership as the source side of the second compiler packet and reaches $U$ only through the target $\Ext$ row of $U$ and the ledger $R_{TU}$.
+
+The two subject-reduction reads are ledgered before consumption by \autoref{thm:subject-reduction-ledger-exactness}, and their $\Ext$-$\Cont$ closure is internal by \autoref{thm:subject-reduction-ext-cont-closure}. Concatenating them through the displayed middle row $T$ gives $R_{SU}=R_{TU}\circ_T R_{ST}$. The boundary theorem \autoref{thm:type-preserving-compiler-ledger-boundary} then accounts for every consumer-visible row of the composite packet: source and target type-classifier membership, graph lifting, target $\Ext$ preservation, subject-reduction handoff, $\hsame$ transport, $\Cont$ routing, package provenance, and local $\NameCert$ data. Since the carrier definition has no coordinate for host reduction semantics, erased derivations, quotient equality, semantic target interpretation, or an unrecorded compiler function, the displayed packet $K_{SU}$ is the accepted $\TypePreservingCompilerUp$ carrier determined by the sequential composite.
+\end{proof}
