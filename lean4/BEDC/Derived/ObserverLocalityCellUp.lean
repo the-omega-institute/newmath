@@ -165,4 +165,33 @@ theorem ObserverLocalityCellPacket_classifier_stability_obligation [AskSetup] [P
         targetProvenance, targetPkgSig⟩,
       sameGapLeft, sameGapRight, sameTransport, sameProvenance⟩
 
+theorem ObserverLocalityCellPacket_scoped_export_surface [AskSetup] [PackageSetup]
+    {observerLeft observerRight eventLeft eventRight gapLeft gapRight transport continuation
+      provenance nameCert provenance' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverLocalityCellPacket observerLeft observerRight eventLeft eventRight gapLeft gapRight
+        transport continuation provenance nameCert bundle pkg ->
+      Cont transport continuation provenance' ->
+        PkgSig bundle nameCert pkg ->
+          hsame provenance provenance' ∧ Cont observerLeft eventLeft gapLeft ∧
+            Cont observerRight eventRight gapRight ∧ Cont gapLeft gapRight transport ∧
+              Cont transport continuation provenance' ∧ PkgSig bundle nameCert pkg := by
+  intro packet exportedProvenance exportedPkg
+  have sourceProvenance : Cont transport continuation provenance :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have sameProvenance : hsame provenance provenance' :=
+    cont_respects_hsame (hsame_refl transport) (hsame_refl continuation) sourceProvenance
+      exportedProvenance
+  constructor
+  · exact sameProvenance
+  · constructor
+    · exact packet.right.right.right.right.right.right.right.right.right.right.left
+    · constructor
+      · exact packet.right.right.right.right.right.right.right.right.right.right.right.left
+      · constructor
+        · exact packet.right.right.right.right.right.right.right.right.right.right.right.right.left
+        · constructor
+          · exact exportedProvenance
+          · exact exportedPkg
+
 end BEDC.Derived.ObserverLocalityCellUp
