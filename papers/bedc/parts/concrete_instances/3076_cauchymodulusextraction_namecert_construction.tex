@@ -49,6 +49,54 @@ Dyadic soundness is the role of $Q$. It stores the half-radius split and compari
 Finally, $H,C,P,N$ repack the same rows under componentwise transport, route replay, package provenance, and local naming. Since no remaining coordinate contains an external modulus selector, these five obligations exhaust the local certificate surface.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus-extraction budget-window coverage]
+\label{thm:cauchy-modulus-extraction-budget-window-coverage}
+For an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+every tolerance request $E$ that is accepted by the packet is routed through the finite budget row $B$ before any $\StreamNameUp$ window in $W$ is inspected and before any $\RegSeqRatUp$ schedule row $S$ is used to export $\mathsf{Mu}$. Thus the budget-window surface covers the whole route from requested tolerance to inspected stream data.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the displayed tuple. The rows available between the tolerance request and the modulus export are exactly the finite budget $B$, the window family $W$, and the schedule row $S$, together with the dyadic and certificate rows used later in the packet.
+
+Use the NameCert obligations of \autoref{thm:cauchy-modulus-extraction-namecert-obligations}. Budget exposure identifies $B$ as the only finite observation budget available for $E$, and schedule extraction states that $W$ and $S$ are read before $\mathsf{Mu}$ is exported.
+
+It follows that a consumer cannot inspect a StreamName window or use a RegSeqRat schedule directly from the tolerance request. The accepted route first passes through $B$, then through $W$ and $S$, so the finite budget-window surface covers the route to the extracted modulus.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus-extraction dyadic ledger positivity]
+\label{thm:cauchy-modulus-extraction-dyadic-ledger-positivity}
+For an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N),
+$$
+the dyadic ledger row $Q$ supplies the positive half-radius and comparison rows used by the extracted modulus row $\mathsf{Mu}$. No threshold can be exported from the packet unless that export is justified through the displayed $\DyadicRatCoreUp$ ledger $Q$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The displayed row $Q$ is the packet coordinate assigned to the $\DyadicRatCoreUp$ comparison and half-radius ledger, and $\mathsf{Mu}$ is the only extracted modulus row.
+
+Apply dyadic soundness from \autoref{thm:cauchy-modulus-extraction-namecert-obligations}. That obligation binds the positive half-radius split and comparison data needed by the threshold to $Q$.
+
+Since the carrier contains no second dyadic ledger and no external threshold selector, any exported threshold must use the same $Q$ row. Therefore the positivity and comparison data required by $\mathsf{Mu}$ are supplied by the displayed ledger and cannot be bypassed inside the packet.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus-extraction RealUp seal boundary]
+\label{thm:cauchy-modulus-extraction-real-seal-boundary}
+Every $\RealUp$-facing consumer of an accepted $\CauchyModulusExtractionUp$ carrier
+$$
+M=(E,B,W,S,\mathsf{Mu},Q,H,C,P,N)
+$$
+reaches the RealUp seal only after the finite budget $B$, StreamName windows $W$, RegSeqRat schedule $S$, dyadic ledger $Q$, and extracted modulus row $\mathsf{Mu}$ have been displayed by the same packet. The seal-facing route imports no quotient stream equality, host real equality, trichotomy, selected limits, ambient completeness, or threshold chosen outside the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the continuation row $C$. The displayed routes go from tolerance to budget, from budget to windows, from windows to schedule reads, from schedule reads to $\mathsf{Mu}$, and from $\mathsf{Mu}$ to the $\RealUp$ diagonal consumer.
+
+Use budget-window coverage to place $B,W,S$ before the extracted modulus, and use dyadic ledger positivity to place $Q$ before the threshold export. These rows account for the data consumed by the RealUp-facing route before the seal is reached.
+
+Finally apply ledger exactness from \autoref{thm:cauchy-modulus-extraction-namecert-obligations}. The carrier has no coordinate for quotient stream equality, host real equality, trichotomy, selected limits, ambient completeness, or an outside threshold selector, so the RealUp seal boundary is exactly the displayed finite packet boundary.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus-extraction budget soundness]
 \label{thm:cauchy-modulus-extraction-budget-soundness}
 For an accepted $\CauchyModulusExtractionUp$ carrier
