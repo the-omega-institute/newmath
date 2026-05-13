@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\AxiomDependencyAuditMapUp$}
+\label{ch:concrete-instances-axiom-dependency-audit-map-namecert}
+\origin{human}
+
+The $\AxiomDependencyAuditMapUp$ packet realizes the dependency-map vision of \autoref{ch:bedc-axiom-dependency-map} as a finite audit carrier. It sits beside the paper-marker resolution witness of \autoref{ch:concrete-instances-paper-lean-drift-witness-namecert} and the forbidden-host-axiom boundary of \autoref{ch:concrete-instances-forbidden-axiom-ancestry-namecert}: those chapters certify marker resolution and forbidden ancestry refusal, while this chapter packages the mode, witness, and required-axiom rows that make a dependency-map entry readable by a $\NameCert$ consumer.
+
+\begin{definition}[AxiomDependencyAuditMap carrier]
+\label{def:axiom-dependency-audit-map-carrier}
+An $\AxiomDependencyAuditMapUp$ carrier is a finite $\BHist$ packet
+$$
+D=(K,M,W,A,L,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $K$ is the audited claim or declaration row whose dependency status is being read;
+\item $M$ is the mode row, with one of the displayed readings internal, restricted, or externally supplied;
+\item $W$ is the witness row for the selected mode, carrying the internal proof witness, restricted witness, refusal witness, counterexample row, or named socket;
+\item $A$ is the required-axiom row, recording empty supply, a restricted-surface condition, or the finite named supply required by the mode;
+\item $L$ is the finite audit ledger linking the claim row to the marker-resolution and forbidden-ancestry packets named by provenance;
+\item $H$ records componentwise $\hsame$ transport for the claim, mode, witness, required-axiom, ledger, continuation, package, and local naming rows;
+\item $C$ records the visible $\Cont$ routes by which a consumer replays the mode read, witness read, required-axiom read, and ledger read;
+\item $P$ is the $\Pkg$ provenance over the dependency-map vision, $\PaperLeanDriftWitnessUp$, $\ForbiddenAxiomAncestryUp$, $\AxiomDependencyMapUp$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AxiomDependencyAuditMapUp}$ row.
+\end{enumerate}
+The carrier exports no hidden proof oracle, no global theorem census, no host axiom permission, and no conversion from a restricted or supplied row into an unconditional BEDC theorem.
+\end{definition}
+
+\begin{theorem}[AxiomDependencyAuditMap mode totality]
+\label{thm:axiom-dependency-audit-map-mode-totality}
+For every accepted $\AxiomDependencyAuditMapUp$ packet
+$$
+D=(K,M,W,A,L,H,C,P,N),
+$$
+the mode row $M$ is exhausted by the three displayed readings internal, restricted, and externally supplied. The internal reading pairs $W$ with an internal witness and $A$ with empty supply; the restricted reading pairs $W$ with a restricted witness and $A$ with the restricted surface; the externally supplied reading pairs $W$ with the refusal, counterexample, or socket row and $A$ with the named finite supply.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and inspect its mode coordinate $M$. The carrier definition lists only the internal, restricted, and externally supplied readings, so the case split has exactly those branches.
+
+In the internal branch, the witness row and required-axiom row are read together: $W$ records the displayed internal witness and $A$ records empty supply.
+
+In the restricted branch, the same projection keeps the restriction visible by pairing $W$ with the restricted witness and $A$ with the restricted surface. No carrier coordinate erases that restriction.
+
+In the externally supplied branch, $W$ records the refusal, counterexample, or socket row, while $A$ records the named finite supply. The packet therefore reports supply as audit data rather than as a BEDC proof.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyAuditMap NameCert obligations]
+\label{thm:axiom-dependency-audit-map-namecert-obligations}
+For the carrier of \autoref{def:axiom-dependency-audit-map-carrier}, the local $\NameCert_{\AxiomDependencyAuditMapUp}$ surface consists exactly of carrier exposure for $D$, mode totality for $M$, witness exposure for $W$, required-axiom exposure for $A$, finite ledger exposure for $L$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row $N$. Every consumer of $N$ must read the dependency lattice through these rows and cannot replace them by an unrecorded host-kernel comparison.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection of \autoref{def:axiom-dependency-audit-map-carrier}. The claim, mode, witness, required-axiom, ledger, transport, replay, package, and local naming rows are all visible coordinates of the same finite packet.
+
+Mode totality is supplied by \autoref{thm:axiom-dependency-audit-map-mode-totality}. It fixes how $M,W,A$ may be consumed in the internal, restricted, and externally supplied branches.
+
+The ledger row $L$ links the claim to the paper-marker and forbidden-ancestry packets named by $P$. The transport and continuation rows $H,C$ preserve that link componentwise.
+
+Since the carrier has no coordinate for a host proof oracle or an unrecorded axiom comparison, the local $\NameCert$ surface is exhausted by the displayed dependency rows.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyAuditMap non-escape]
+\label{thm:axiom-dependency-audit-map-nonescape}
+Every public read from an accepted $\AxiomDependencyAuditMapUp$ packet remains inside the displayed claim, mode, witness, required-axiom, ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The packet cannot turn a restricted row into an unrestricted theorem, a required-supply row into internal BEDC content, a refusal row into a proof, or a dependency-map entry into a hidden host axiom.
+\end{theorem}
+\begin{proof}
+Project the packet as $D=(K,M,W,A,L,H,C,P,N)$. These rows are the complete carrier surface.
+
+Apply \autoref{thm:axiom-dependency-audit-map-namecert-obligations}. It requires every consumer to pass through the displayed mode, witness, required-axiom, and ledger rows before reading the local naming certificate.
+
+The mode-totality theorem fixes the interpretation of $M,W,A$ in each branch. The internal, restricted, and externally supplied branches remain disjoint audit readings, and no branch exports the excluded host objects.
+
+Finally replay the packet through $H,C,P,N$. Componentwise transport and package provenance preserve the same finite rows, so there is no route to an unrestricted theorem, hidden supply, proof oracle, or host axiom outside the carrier.
+\end{proof}
+
+\closureat{AxiomDependencyAuditMapUp}{seedStr}
+
+\begin{closurestatus}{\AxiomDependencyAuditMapUp}
+  \constructivestory{An $\AxiomDependencyAuditMapUp$ packet is generated from an audited claim row, a mode row, a witness row, a required-axiom row, a finite audit ledger, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axiom-dependency-audit-map-carrier}, \autoref{thm:axiom-dependency-audit-map-mode-totality}, \autoref{thm:axiom-dependency-audit-map-namecert-obligations}, and \autoref{thm:axiom-dependency-audit-map-nonescape} specify the finite dependency-map packet for mode, witness, required-axiom, ledger, and non-escape reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not enumerate all declarations, prove global dependency-map completeness, certify host-kernel proof ancestry, discharge named external supply, or bridge the packet to an external schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, mode totality, witness and required-axiom exactness, ledger exposure, and non-escape for the displayed packet.}
+\end{closurestatus}

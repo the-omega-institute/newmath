@@ -2,7 +2,11 @@
 \label{ch:concrete-instances-interhistinvariant-namecert}
 \origin{ai}
 
-The $\InterHistInvariantUp$ interface packages a finite two-history invariant readback for the Inter-Hist locality chain. It consumes the multi-history packet rows already exposed by $\FiniteMultiHistPacketUp$, the causal-witness rows supplied by $\CrossHistCausalUp$ when present, and the unary maximum-rate boundary consumed by $\MaxCausalRateUp$, while keeping the whole read inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The packet is not a global frame, a synchronized clock, a metric geometry, a host real equality, or a quotient of histories.
+The $\InterHistInvariantUp$ interface packages a finite two-history invariant readback for the Inter-Hist locality chain. It consumes the multi-history packet rows already exposed by $\FiniteMultiHistPacketUp$, the causal-witness rows supplied by $\CrossHistCausalUp$ when present, and the unary maximum-rate boundary consumed by $\MaxCausalRateUp$, while keeping the whole read inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The causal row is consumed through \autoref{ch:concrete-instances-crosshistcausal-namecert}, and the downstream unary-rate boundary is the consumer surface of \autoref{ch:concrete-instances-maxcausalrate-namecert}. The packet is not a global frame, a synchronized clock, a metric geometry, a host real equality, or a quotient of histories.
+
+\falsifiablePrediction{Every accepted $\InterHistInvariantUp$ consumer reaches the invariant through the displayed finitemulthistpacket, crosshistcausal, maxcausalrate, and crosshistcausalrate sibling rows; a consumer route that bypasses those sibling rows refutes the packet.}
+
+\independenceWitness{Nearest siblings: finitemulthistpacket, crosshistcausal, maxcausalrate, crosshistcausalrate. None is bijective to this carrier because $\InterHistInvariantUp$ simultaneously stores two history slots, one relation or causal row, one unary invariant row, one observer-symmetry row, transport, route, provenance, and local naming data, while each sibling omits at least one of those rows or records a rate-facing object instead of the invariant readback.}
 
 \begin{definition}[InterHistInvariant carrier]
 \label{def:interhist-invariant-carrier}
@@ -82,15 +86,149 @@ Use \autoref{thm:interhist-invariant-namecert-obligations} to order the read thr
 The observer-symmetry theorem supplies the packet read that a maximum-rate boundary may consume. Since the packet exports only $A,B,R,V,S,H,C,P,N$, the consumer has no source for global frames, synchronized clocks, metric geometry, host real-valued speeds, host real equality, or quotient constructions.
 \end{proof}
 
+\begin{theorem}[InterHistInvariant two-history route exactness]
+\label{thm:interhist-invariant-two-history-route-exactness}
+For every accepted $\InterHistInvariantUp$ packet
+$$
+I=(A,B,R,V,S,H,C,P,N),
+$$
+all two-history content exposed by the packet is reached through the rows $A,B,R,H,C,P,N$. The rows $A$ and $B$ are the only history inputs, $R$ is the only relation or causal-witness row, and $H,C,P,N$ are the only transport, continuation, provenance, and naming rows by which that content can be replayed. Hence every two-history read factors through the sibling surfaces $\FiniteMultiHistPacketUp$, $\CrossHistCausalUp$, and $\MaxCausalRateUp$, and no read can introduce a global frame, synchronized clock, metric geometry, host equality, or quotient.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interhist-invariant-carrier}. The only rows that name two histories are $A$ and $B$, and the only row that relates them is $R$.
+
+The structural route is then forced by the same carrier projection. The row $H$ supplies componentwise $\hsame$ transport, $C$ supplies the displayed $\Cont$ routes, $P$ supplies package provenance, and $N$ supplies the local naming row.
+
+Use \autoref{thm:interhist-invariant-namecert-obligations} and \autoref{thm:interhist-invariant-hsame-stability}. They identify the two-history projection and its transported replay with the finite multi-history, cross-history, and maximum-rate consumer surfaces already named in the packet.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant unary readback coverage]
+\label{thm:interhist-invariant-unary-readback-coverage}
+For every accepted $\InterHistInvariantUp$ packet $I=(A,B,R,V,S,H,C,P,N)$, the unary readback route consumed by $\MaxCausalRateUp$ is exhausted by the rows $V$ and $S$ after the two-history route has displayed $A,B,R,H,C,P,N$. The row $V$ is the invariant readback row, and $S$ is the observer-symmetry row that keeps the swapped two-history presentation on the same unary surface. These rows provide the complete maximum-rate consumer handoff and do not introduce a global frame, synchronized clock, metric geometry, host equality, or quotient.
+\end{theorem}
+\begin{proof}
+First expose the two-history route by \autoref{thm:interhist-invariant-two-history-route-exactness}. The unary readback is not available before the rows $A,B,R,H,C,P,N$ have supplied the finite two-history surface.
+
+Now project the unary rows in the carrier. The row $V$ records the invariant readback obtained from the transported pair and relation row, while $S$ records the observer-symmetry comparison for the swapped presentation.
+
+Finally apply \autoref{thm:interhist-invariant-observer-symmetry} and \autoref{thm:interhist-invariant-max-rate-consumer-boundary}. Together they make $V$ and $S$ the whole unary surface consumed by $\MaxCausalRateUp$, with no carrier coordinate left for a global or quotient object.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant finite-multihistory projection lock]
+\label{thm:interhist-invariant-finite-multihist-projection-lock}
+Let $I=(A,B,R,V,S,H,C,P,N)$ be an accepted $\InterHistInvariantUp$ packet. If $R$ is the relation row supplied by $\FiniteMultiHistPacketUp$, then every read of $A,B,R,V,S$ factors through the finite two-history packet displayed by $A,B,R,H,C,P,N$. No consumer of this packet receives an ambient relation on histories, a host relation outside $R$, or a second relation row not present in the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:interhist-invariant-carrier}. The only history coordinates are $A$ and $B$, and the only relation coordinate in the finite-multihistory case is the displayed row $R$.
+
+Use \autoref{thm:interhist-invariant-namecert-obligations} to order the read through carrier admission and two-history projection. The continuation routes in $C$ inspect $R$ after $A$ and $B$ are displayed, so relation access is locked to the same finite packet.
+
+Finally apply \autoref{thm:interhist-invariant-hsame-stability}. Transport replays the same rows $A,B,R,V,S$ on a common finite surface and supplies no coordinate from which an ambient relation or additional relation row could be read.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant causal-row choice boundary]
+\label{thm:interhist-invariant-causal-row-choice-boundary}
+Let $I=(A,B,R,V,S,H,C,P,N)$ be an accepted $\InterHistInvariantUp$ packet. If $R$ is supplied by $\CrossHistCausalUp$, then consumers receive only the displayed causal-witness row together with $A,B,V,S,H,C,P,N$. They do not receive a global causal order, a synchronized clock, a metric time coordinate, or any rule choosing causal comparisons beyond the row $R$.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:interhist-invariant-carrier} gives a single slot for the relation or causal-witness row. In the causal case that slot is $R$, and there is no second coordinate for an order, clock, or metric time.
+
+Apply \autoref{thm:interhist-invariant-namecert-obligations}. The causal witness is read only through the two-history projection and then through the unary invariant readback, so the consumer sees the displayed causal row as packet data.
+
+The stability theorem \autoref{thm:interhist-invariant-hsame-stability} transports this same row with the two histories and the readback rows. Transport preserves the finite causal witness surface; it does not create a global causal order or synchronized clock.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant rate-consumer readback exhaustion]
+\label{thm:interhist-invariant-rate-consumer-readback-exhaustion}
+Every $\MaxCausalRateUp$ consumer of an accepted $\InterHistInvariantUp$ packet receives exactly the rows
+$$
+A,B,R,V,S,H,C,P,N
+$$
+before any maximum-rate boundary is read. This readback exhausts the available inter-history invariant surface: the consumer has no host real-valued speed, host real equality, quotient construction, metric geometry, synchronized clock, or global frame from which to refine the rate boundary.
+\end{theorem}
+\begin{proof}
+First project the carrier of \autoref{def:interhist-invariant-carrier}. The row list $A,B,R,V,S,H,C,P,N$ is the complete list of visible carrier coordinates.
+
+Use \autoref{thm:interhist-invariant-namecert-obligations} to pass from the carrier list to the local obligation surface, and use \autoref{thm:interhist-invariant-hsame-stability} to transport that same surface to the consumer. No step adds a numerical speed or quotient coordinate.
+
+Finally apply \autoref{thm:interhist-invariant-max-rate-consumer-boundary}. The maximum-rate boundary consumes the finite packet after those rows are displayed, so the rate-facing readback is exhausted by the carrier inventory itself.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant consumer row exactness]
+\label{thm:interhist-invariant-consumer-row-exactness}
+For every accepted $\InterHistInvariantUp$ packet
+$$
+I=(A,B,R,V,S,H,C,P,N),
+$$
+every consumer read of $A,B,R,V,S,H,C,P,N$ is routed through the finite packet rows supplied by $\FiniteMultiHistPacketUp$ or through the displayed causal row supplied by $\CrossHistCausalUp$. The consumer receives exactly the two history slots, relation or causal row, unary invariant row, observer-symmetry row, transport row, continuation row, provenance row, and local naming row; it receives no global frame, synchronized clock, metric geometry, host equality, or quotient route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interhist-invariant-carrier}. The tuple lists the two history slots $A,B$, the relation or causal row $R$, the unary readback $V$, the symmetry row $S$, and the structural rows $H,C,P,N$.
+
+Use \autoref{thm:interhist-invariant-two-history-route-exactness} for the route to $A,B,R,H,C,P,N$. If $R$ is a finite-multihistory relation row, the route is locked by \autoref{thm:interhist-invariant-finite-multihist-projection-lock}; if $R$ is causal, it is confined by \autoref{thm:interhist-invariant-causal-row-choice-boundary}.
+
+Finally apply \autoref{thm:interhist-invariant-unary-readback-coverage}. It exhausts the remaining consumer-facing rows $V$ and $S$, so no off-packet frame, clock, metric, host equality, or quotient coordinate is available to the consumer.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant rate handoff exactness]
+\label{thm:interhist-invariant-rate-handoff-exactness}
+Every $\MaxCausalRateUp$ read exported from an accepted $\InterHistInvariantUp$ packet consumes only the displayed unary invariant row $V$, the observer-symmetry row $S$, and the structural rows $H,C,P,N$ after the two-history relation row $R$ has been displayed. The handoff does not consume a hidden speed coordinate, synchronized clock, metric geometry, host real equality, quotient of histories, or global reference frame.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:interhist-invariant-max-rate-consumer-boundary}. It states that the maximum-rate consumer first reads $A,B,R,V,S,H,C,P,N$ from the finite packet.
+
+The unary part of the handoff is then exactly \autoref{thm:interhist-invariant-unary-readback-coverage}. The row $V$ supplies the invariant readback, and $S$ supplies the observer-symmetry comparison on the same transported two-history surface.
+
+Use \autoref{thm:interhist-invariant-rate-consumer-readback-exhaustion} to finish the boundary. Since the row inventory is exhausted before the rate boundary is read, no hidden speed, clock, metric, host equality, quotient, or global frame can enter the handoff.
+\end{proof}
+
+\begin{theorem}[InterHistInvariant TasteGate field contract]
+\label{thm:interhist-invariant-tastegate-field-contract}
+The checked TasteGate anchor for $\InterHistInvariantUp$ is the single-carrier alignment
+$$
+\mathsf{BEDC.Derived.InterHistInvariantUp.InterHistInvariantTasteGate\_single\_carrier\_alignment}.
+$$
+The Lean TasteGate surface for this same packet must include explicit $\mathsf{Nontrivial}\ \InterHistInvariantUp$ and $\mathsf{FieldFaithful}\ \InterHistInvariantUp$ instances preserving the two history slots, relation row, invariant row, symmetry row, transport row, continuation route, package provenance, and local name row.
+\end{theorem}
+\begin{proof}
+The paper anchor is the checked marker immediately after \autoref{def:interhist-invariant-carrier}. It identifies the TasteGate surface with the displayed carrier rather than with an external event-flow object.
+
+Nontriviality is required because a singleton carrier would erase the distinction between the two history slots, the relation row, the invariant row, and the symmetry row. Such a collapse cannot support the consumer exactness and rate handoff theorems above.
+
+Field faithfulness is required because each carrier coordinate has a separate consumer role. Preserving $A,B,R,V,S,H,C,P,N$ as distinct fields keeps the TasteGate route aligned with the same finite packet read by the paper obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.InterHistInvariantUp.taste\_gate}
+
+\begin{theorem}[InterHistInvariant obligation closure package]
+\label{thm:interhist-invariant-obligation-closure-package}
+The carrier of \autoref{def:interhist-invariant-carrier}, the local obligations of \autoref{thm:interhist-invariant-namecert-obligations}, hsame stability from \autoref{thm:interhist-invariant-hsame-stability}, observer symmetry from \autoref{thm:interhist-invariant-observer-symmetry}, the maximum-rate boundary of \autoref{thm:interhist-invariant-max-rate-consumer-boundary}, two-history route exactness from \autoref{thm:interhist-invariant-two-history-route-exactness}, unary readback coverage from \autoref{thm:interhist-invariant-unary-readback-coverage}, the finite-multihistory projection lock of \autoref{thm:interhist-invariant-finite-multihist-projection-lock}, the causal-row choice boundary of \autoref{thm:interhist-invariant-causal-row-choice-boundary}, rate-consumer readback exhaustion from \autoref{thm:interhist-invariant-rate-consumer-readback-exhaustion}, consumer row exactness from \autoref{thm:interhist-invariant-consumer-row-exactness}, rate handoff exactness from \autoref{thm:interhist-invariant-rate-handoff-exactness}, and the TasteGate field contract of \autoref{thm:interhist-invariant-tastegate-field-contract} form the full obligation surface for $\InterHistInvariantUp$ over the finite packet
+$$
+I=(A,B,R,V,S,H,C,P,N).
+$$
+Every accepted packet is therefore certified by carrier admission, two-history route exactness, unary readback coverage, componentwise transport stability, observer symmetry, maximum-rate consumer boundary, package provenance, and local naming, and it exports no global frame, synchronized clock, metric geometry, host equality, or quotient.
+\end{theorem}
+\begin{proof}
+The carrier and NameCert rows give the admission layer. They display exactly the rows $A,B,R,V,S,H,C,P,N$ and list the local obligations that must be discharged for the packet.
+
+The route layer is supplied by the two exactness theorems. Two-history content is confined to $A,B,R,H,C,P,N$, while the maximum-rate unary readback is confined to $V,S$ after those rows have been displayed.
+
+The projection and choice layers are supplied by the finite-multihistory lock and causal-row boundary. They distinguish the relation-row and causal-row readings of $R$ without adding any ambient relation, global order, synchronized clock, or metric time.
+
+The stability and consumer layers are supplied by the remaining local theorems. Componentwise $\hsame$ transport preserves the same packet surface, observer symmetry keeps the swapped presentation on that surface, and the maximum-rate boundary together with rate-consumer exhaustion gives the downstream handoff.
+
+These pieces exhaust the visible carrier coordinates. Since no additional coordinate names a global frame, synchronized clock, metric geometry, host equality, or quotient, the listed rows are the full obligation surface for $\InterHistInvariantUp$.
+\end{proof}
+
 \closureat{InterHistInvariantUp}{seedStr}
+\closureat{InterHistInvariantUp}{obligationStr}
 
 \begin{closurestatus}{\InterHistInvariantUp}
   \constructivestory{An $\InterHistInvariantUp$ packet is generated from two history rows, a finite relation or causal-witness row, a unary invariant readback row, an observer-symmetry row, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope identifies the finite carrier, local NameCert obligations, componentwise transport, observer-symmetry row, and maximum-rate consumer boundary for inter-history invariant packets.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{The obligation scope identifies the finite carrier, local NameCert obligations, componentwise transport, observer-symmetry row, consumer row exactness, maximum-rate handoff exactness, and TasteGate field-faithfulness commitment for inter-history invariant packets, with TasteGate instance \leanchecked{BEDC.Derived.InterHistInvariantUp.taste\_gate}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close nontrivial multi-history physics, global frames, synchronized clocks, metric geometry, host real equality, quotient constructions, or a checked Lean theorem for the packet.}
-  \upgradepath{Obligation closure requires carrier-admission, stability, observer-symmetry, maximum-rate consumer exactness, and TasteGate wiring for the same finite invariant packet.}
+  \upgradepath{Scoped closure requires checked carrier admission, stability, observer symmetry, consumer exactness, maximum-rate handoff, and TasteGate wiring for the same finite invariant packet.}
 \end{closurestatus}

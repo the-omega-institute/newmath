@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-productregularcauchylimit-namecert}
 \origin{ai}
 
-The $\ProductRegularCauchyLimitUp$ packet names the finite Real-and-Completion handoff where a product of regular Cauchy names is read as a regular Cauchy limit classifier. It joins the product-observation surface of $\CauchyProductUp$ with the diagonal-window limit classifier of $\RegularCauchyLimitClassifierUp$, while keeping every consumer route inside displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. The packet does not supply ambient completeness, quotient stream equality, a selected host limit, or host real multiplication.
+The $\ProductRegularCauchyLimitUp$ packet names the finite Real-and-Completion handoff where a product of regular Cauchy names is read as a regular Cauchy limit classifier. It consumes the product-observation surface of $\CauchyProductUp$ from \autoref{ch:concrete-instances-cauchyproduct-namecert} and the classifier handoff of $\RegularCauchyLimitClassifierUp$ from \autoref{ch:concrete-instances-regularcauchylimitclassifier-namecert}, while keeping every consumer route inside displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. The packet does not supply ambient completeness, quotient stream equality, a selected host limit, or host real multiplication.
 
 \begin{definition}[Product regular-Cauchy limit carrier]
 \label{def:product-regular-cauchy-limit-carrier}
@@ -51,15 +51,82 @@ The shared-window and stability clauses are the roles of $W,R,D,E,H,C$. They kee
 Finally, $L$ and $N$ repack those rows as the local certificate surface. Since the carrier has no coordinate for host multiplication, quotient stream equality, ambient completeness, or an independent selected limit, the public ledger exports only the displayed product-limit packet.
 \end{proof}
 
+\begin{theorem}[Product regular-Cauchy limit product-source admission]
+\label{thm:product-regular-cauchy-limit-product-source-admission}
+In a $\ProductRegularCauchyLimitUp$ carrier $U=(P,Q,W,R,D,E,H,C,L,N)$, the row $P$ is the only product-observation source. Every public product read of $U$ is consumed through the $\CauchyProductUp$ sibling surface of \autoref{ch:concrete-instances-cauchyproduct-namecert}, specifically through the paired-window source admission of \autoref{thm:cauchy-product-paired-window-source-admission} and the budget-route exactness of \autoref{thm:cauchy-product-budget-route-exactness}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:product-regular-cauchy-limit-carrier}. The only coordinate named as a product observation is $P$, and it is explicitly an accepted $\CauchyProductUp$ packet.
+
+The sibling certificate supplies the product read. By \autoref{thm:cauchy-product-paired-window-source-admission}, the source windows for the product read are the paired windows inside the $\CauchyProductUp$ packet. By \autoref{thm:cauchy-product-budget-route-exactness}, the dyadic product observation and regular readback route are consumed through that same sibling budget surface.
+
+Since $U$ contains no second product-observation coordinate, every public product read factors through $P$ and its displayed $\CauchyProductUp$ surface.
+\end{proof}
+
+\begin{theorem}[Product regular-Cauchy limit classifier admission]
+\label{thm:product-regular-cauchy-limit-limit-classifier-admission}
+In a $\ProductRegularCauchyLimitUp$ carrier $U=(P,Q,W,R,D,E,H,C,L,N)$, the row $Q$ is the only completion-facing diagonal-limit classifier. A consumer reads the product-limit handoff through the $\RegularCauchyLimitClassifierUp$ sibling surface of \autoref{ch:concrete-instances-regularcauchylimitclassifier-namecert}, not through an ambient selected limit.
+\end{theorem}
+\begin{proof}
+Inspect the displayed rows of the carrier. The only coordinate whose role is a completion-facing diagonal-limit handoff is $Q$, and its declared source is the accepted $\RegularCauchyLimitClassifierUp$ packet.
+
+The classifier is therefore read through the sibling chapter named in the statement. The surrounding rows $R,D,E$ are inputs and seals for that classifier route; they do not create an independent completion theorem or selected host limit.
+
+Thus every completion-facing product-limit read uses $Q$ as its classifier row and remains inside the finite diagonal-window handoff.
+\end{proof}
+
+\begin{theorem}[Product regular-Cauchy limit shared-window exactness]
+\label{thm:product-regular-cauchy-limit-shared-window-exactness}
+For a $\ProductRegularCauchyLimitUp$ carrier $U=(P,Q,W,R,D,E,H,C,L,N)$, the shared route through $W,R,D,E$ is ordered through the displayed sibling surfaces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The relevant dependency chapters are \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Begin with the shared window row. The carrier states that $W$ is the joint $\StreamNameUp$ window ledger combining the product windows with the selected diagonal-limit windows, so the first read is the StreamName sibling surface.
+
+Next the dyadic and regular readback rows are fixed. The row $D$ supplies the $\DyadicRatCoreUp$ endpoint, radius, comparison, and precision ledger, while $R$ is the $\RegSeqRatUp$ readback row produced by the product-radius ledger and consumed by the limit classifier.
+
+Finally the row $E$ is the $\RealUp$ seal through which the completion consumer sees the product-limit candidate. The route therefore has the displayed order $W,D,R,E$ across the four sibling surfaces, with no extra route outside those finite rows.
+\end{proof}
+
+\begin{theorem}[Product regular-Cauchy limit transport stability]
+\label{thm:product-regular-cauchy-limit-transport-stability}
+Componentwise $\hsame$ transport and the displayed $\Cont$ replay of a $\ProductRegularCauchyLimitUp$ carrier preserve the same product row $P$, classifier row $Q$, shared rows $W,R,D,E$, provenance row $L$, and local naming row $N$. The transported carrier has the same finite public rows and the same product-limit read surface.
+\end{theorem}
+\begin{proof}
+The row $H$ stores componentwise $\hsame$ transports for $P,Q,W,R,D,E,L,N$ and for the local packet shape. Hence transport cannot replace the product source, classifier source, shared ledger, provenance, or name row with a row outside the displayed tuple.
+
+The row $C$ stores the finite $\Cont$ routes for the public reads of the product row, diagonal-window classifier, dyadic ledger, regular readback, Real seal, package provenance, and local naming row. Replaying these routes after componentwise transport therefore reads the same named coordinates in the transported packet.
+
+Thus the transported packet preserves the public product-limit surface exactly at the level of displayed rows.
+\end{proof}
+
+\begin{theorem}[Product regular-Cauchy limit ledger exactness]
+\label{thm:product-regular-cauchy-limit-ledger-exactness}
+For a $\ProductRegularCauchyLimitUp$ carrier $U=(P,Q,W,R,D,E,H,C,L,N)$, the ledger row $L$ and local naming row $N$ exhaust the public reads. The packet exports no host multiplication primitive, no quotient stream equality, no selected limit, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+The provenance row $L$ names exactly the dependency surfaces listed in the carrier: $\CauchyProductUp$, $\RegularCauchyLimitClassifierUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+
+The local row $N$ is the $\NameCert_{\ProductRegularCauchyLimitUp}$ row for this finite tuple. Together with $L$, it gives the public naming ledger for every accepted read of the packet.
+
+The carrier has no coordinate for host multiplication, quotient streams, selected limits, or ambient completeness. Any read requiring one of those objects has no source row in $U$, so the public surface is exhausted by $P,Q,W,R,D,E,H,C,L,N$.
+\end{proof}
+
 \closureat{ProductRegularCauchyLimitUp}{seedStr}
+\closureat{ProductRegularCauchyLimitUp}{obligationStr}[BEDC.Derived.ProductRegularCauchyLimitUp.ProductRegularCauchyLimitTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ProductRegularCauchyLimitUp}
   \constructivestory{A $\ProductRegularCauchyLimitUp$ packet is generated from a $\CauchyProductUp$ product row, a $\RegularCauchyLimitClassifierUp$ diagonal-window classifier, shared $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal, transport routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:product-regular-cauchy-limit-carrier} and \autoref{thm:product-regular-cauchy-limit-namecert-obligations} bind the product-to-limit handoff as a finite Real-and-Completion NameCert packet.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:product-regular-cauchy-limit-carrier}, \autoref{thm:product-regular-cauchy-limit-namecert-obligations}, \autoref{thm:product-regular-cauchy-limit-product-source-admission}, \autoref{thm:product-regular-cauchy-limit-limit-classifier-admission}, \autoref{thm:product-regular-cauchy-limit-shared-window-exactness}, \autoref{thm:product-regular-cauchy-limit-transport-stability}, and \autoref{thm:product-regular-cauchy-limit-ledger-exactness} bind the product-to-limit handoff as a finite Real-and-Completion NameCert packet.}
+  \leanchecked{BEDC.Derived.ProductRegularCauchyLimitUp.taste\_gate}
+  \leantarget{BEDC.Derived.ProductRegularCauchyLimitUp.ProductRegularCauchyLimitTasteGate\_single\_carrier\_alignment}
+  \formalstatus{\auditCleanV}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close RealUp completeness, quotient stream equality, selected host limits, host real multiplication, a public standard bridge, or a checked Lean target.}
-  \upgradepath{Obligation closure requires checked carrier admission, product-source admission, limit-classifier admission, shared-window exactness, transport stability, and ledger exactness for the displayed packet.}
+  \notclaimed{This chapter does not close RealUp completeness, quotient stream equality, selected host limits, host real multiplication, or a public standard bridge.}
+  \upgradepath{Public closure requires a single public export assembling the product-source admission, limit-classifier admission, shared-window exactness, transport stability, and ledger exactness rows.}
 \end{closurestatus}
