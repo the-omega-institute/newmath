@@ -4,6 +4,8 @@
 
 The $\ZetaContinuationApplicationUp$ packet records the application-level certificate that turns the zeta continuation surface into a finite NameCert object. It reads the eta continuation row, the functional-equation continuation row, pole and zero ledgers, Gamma horizon rows, application routes, transport rows, package provenance, and a local naming row. The packet is an application certificate only: it does not assert RH, complete the constructive $\GammaUp$ chapter, classify nontrivial zeros, or export a continuation branch outside the displayed routes.
 
+The carrier consumes the $\GammaUp$ horizon row from \autoref{ch:concrete-instances-gamma-namecert}, the analytic-operation routing surface from \autoref{ch:concrete-instances-analyticcontinuationoperation-namecert}, and the $\ZetaBasicUp$ source row from \autoref{ch:concrete-instances-zeta-basic-namecert}. These sibling rows are classifier inputs for the finite packet: $G$ bounds Gamma reads, $A$ routes analytic continuation through the operation surface, and $E$ records the eta handoff from the basic zeta source without turning that source row into a global continuation theorem.
+
 \begin{definition}[ZetaContinuationApplication carrier]
 \label{def:zeta-continuation-application-carrier}
 A $\ZetaContinuationApplicationUp$ carrier is a finite $\BHist$ packet
@@ -65,6 +67,42 @@ If the input is inside the displayed Gamma horizon, the read may continue throug
 The application row $A$ therefore never converts the Gamma horizon into a completed $\GammaUp$ construction. It records exactly the boundary needed by the zeta continuation application.
 \end{proof}
 
+\begin{theorem}[Gamma eta handoff source lock]
+\label{thm:zeta-continuation-application-gamma-eta-handoff}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, every eta-factorization read that uses a Gamma-facing horizon fact consumes the $\GammaUp$ row through \autoref{ch:concrete-instances-gamma-namecert}. The read must pass through $E$, $G$, $A$, the componentwise $\hsame$ transport row $H$, and a finite route in $C$; it cannot replace the Gamma horizon row by an undisplayed Gamma construction.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The eta side is stored in $E$, while the only Gamma-facing coordinate is the horizon row $G$.
+
+Use \autoref{thm:zeta-continuation-application-eta-factorization} to route the eta read through $E,A,H,C$. If the route also needs a Gamma-facing horizon fact, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary} forces that fact to pass through $G$.
+
+The sibling $\GammaUp$ chapter supplies the source row named by $G$, and the local packet only records that consumption. Since no coordinate of $Z$ stores a completed Gamma construction, the handoff remains a finite source lock.
+\end{proof}
+
+\begin{theorem}[Analytic operation boundary]
+\label{thm:zeta-continuation-application-analytic-operation-boundary}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, every application-level continuation read factors through the analytic-operation surface of \autoref{ch:concrete-instances-analyticcontinuationoperation-namecert}. The row $A$ records the application of that operation to the eta, functional-equation, pole, zero, and Gamma-horizon rows; it does not create a second continuation operation outside $E,F,P,T,G,H,C$.
+\end{theorem}
+\begin{proof}
+Read an application-level continuation request through $C$. By the carrier definition, the only row that names application of continuation data is $A$, and its inputs are the displayed rows $E,F,P,T,G$.
+
+The analytic-operation sibling supplies the operation boundary consumed by $A$. Componentwise transport through $H$ preserves the inputs as inputs to that operation surface rather than as independent analytic continuations.
+
+Apply \autoref{thm:zeta-continuation-application-non-escape} to the outside cases. A request for an undisplayed branch or another operation row has no carrier coordinate, so the application route remains locked to the finite analytic-operation boundary.
+\end{proof}
+
+\begin{theorem}[ZetaBasic source lock]
+\label{thm:zeta-continuation-application-zeta-basic-source-lock}
+For an accepted $\ZetaContinuationApplicationUp$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$, the $\ZetaBasicUp$ row consumed from \autoref{ch:concrete-instances-zeta-basic-namecert} is only the finite source lock for the eta handoff. It licenses the displayed source row and its $\hsame$ transport into $E$, but it does not by itself license analytic continuation, pole removal, Gamma-factor transport, or any branch outside the routes displayed in $C$.
+\end{theorem}
+\begin{proof}
+Project the source dependency from the carrier. The source row enters through $E$, where the eta handoff and denominator boundary are stored.
+
+Use \autoref{thm:zeta-continuation-application-eta-factorization} to read the source through $E,A,H,C$. The transport row $H$ preserves the source handoff componentwise, and the replay row $C$ exposes only the finite eta route.
+
+The remaining analytic content is held in $F,P,T,G,A$, not in the $\ZetaBasicUp$ source row. By \autoref{thm:zeta-continuation-application-non-escape}, pole removal, Gamma transport, and outside-branch requests therefore remain outside the source lock unless the corresponding displayed row supplies them.
+\end{proof}
+
 \begin{theorem}[Application certificate non-escape]
 \label{thm:zeta-continuation-application-non-escape}
 Every downstream consumer of an accepted $\ZetaContinuationApplicationUp$ packet factors through the displayed rows $E,F,P,T,G,A,H,C,Q,N$. Requests for a pole value, a Gamma value beyond the horizon row, an undisplayed continuation branch, or a nontrivial-zero-location claim have no carrier coordinate and are recorded only as ledger or horizon boundary reads.
@@ -82,7 +120,7 @@ Consequently every exported application fact is a read of the finite packet. The
 \begin{closurestatus}{\ZetaContinuationApplicationUp}
   \constructivestory{A $\ZetaContinuationApplicationUp$ packet is generated from eta continuation, functional-equation continuation, pole and zero ledgers, Gamma horizon rows, application routes, componentwise $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, and \autoref{thm:zeta-continuation-application-non-escape} define the local application carrier, obligation rows, eta factorization route, Gamma horizon boundary, and non-escape ledger.}
+  \scopeclosed{\autoref{def:zeta-continuation-application-carrier}, \autoref{thm:zeta-continuation-application-namecert-obligations}, \autoref{thm:zeta-continuation-application-eta-factorization}, \autoref{thm:zeta-continuation-application-gamma-horizon-boundary}, \autoref{thm:zeta-continuation-application-gamma-eta-handoff}, \autoref{thm:zeta-continuation-application-analytic-operation-boundary}, \autoref{thm:zeta-continuation-application-zeta-basic-source-lock}, and \autoref{thm:zeta-continuation-application-non-escape} define the local application carrier, obligation rows, eta factorization route, Gamma horizon boundary, sibling source locks, analytic-operation boundary, and non-escape ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
