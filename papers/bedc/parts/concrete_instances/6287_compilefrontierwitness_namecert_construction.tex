@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CompileFrontierWitnessUp$}
+\label{ch:concrete-instances-compilefrontierwitness-namecert}
+\origin{ai}
+
+The $\CompileFrontierWitnessUp$ packet realizes the Cook compile-frontier engineering path of \autoref{ch:visions-cook-compile-frontier-engineering-path} as finite NameCert data. It records the present frontier coordinate, the halted-machine target coordinate, the three compile stages, the audit rows, and the nonchoice boundary through which a substrate read is allowed to leave the packet. It is anchored by the displayed cellular classifier of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, the finite rule and orbit surface of \autoref{ch:concrete-instances-cellularautomaton-namecert}, and the obstruction ledger of \autoref{ch:concrete-instances-haltingobstruction-namecert}.
+
+\falsifiablePrediction{If the compile-frontier witness carrier is accepted, every halted-TM target read factors through a displayed frontier-coordinate row and no hidden evaluator coordinate can be exported.}
+
+\independenceWitness{cellularsubstrateclassifier, cellularautomaton, haltingobstruction, compiler-optimization-endomorphism: none is bijective to $\CompileFrontierWitnessUp$ because none simultaneously carries present coordinate, target coordinate, stage route, audit row, and nonchoice boundary.}
+
+\begin{definition}[Compile-frontier witness carrier]
+\label{def:compile-frontier-witness-carrier}
+A $\CompileFrontierWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(F,T,S,A,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the frontier-coordinate row, naming the present Cook coordinate $(P^*,T^*,S^*)$ accepted by the substrate audit.
+\item $T$ is the target-coordinate row, naming the halted-TM coordinate $(64,64,S_{\mathrm{halt}})$ and the finite machine/input pair whose halted read is sought.
+\item $S$ is the stage-route row, displaying TM-to-tag, tag-to-cyclic, and cyclic-to-Rule-110 routes as the only compile stages available to the packet.
+\item $A$ is the audit-row ledger, recording the stage audit, substrate round-trip audit, decode audit, and refusal rows for failed reads.
+\item $B$ is the nonchoice boundary row, saying that the packet exposes a witnessed-coordinate route but not a hidden evaluator, oracle, global halting classifier, or unrecorded compiler step.
+\item $H$ records componentwise $\hsame$ transport for frontier coordinates, target coordinates, stage routes, audit rows, boundary rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ routes through the frontier coordinate, target coordinate, compile stages, cellular substrate classifier, Rule 110 orbit surface, obstruction boundary, audit ledger, and nonchoice boundary.
+\item $P$ is the $\Pkg$ provenance over $\CompileFrontierWitnessUp$, the Cook compile-frontier engineering path, $\CellularSubstrateClassifierUp$, $\CellularAutomatonUp$, $\HaltingObstructionUp$, $\CompilerOptimizationEndomorphismUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompileFrontierWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,T,S,A,B,H,C,P,N$. It has no coordinate for a host evaluator, detached compiler correctness theorem, hidden decoder, global halting decision, or substrate run not named by the audit row.
+\end{definition}
+
+\begin{theorem}[Compile-frontier witness NameCert obligations]
+\label{thm:compile-frontier-witness-namecert-obligations}
+For the carrier of \autoref{def:compile-frontier-witness-carrier}, the local $\NameCert_{\CompileFrontierWitnessUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item frontier-coordinate carrier, exposing the present coordinate $F$ and the halted target $T$ as displayed BEDC rows;
+\item displayed coordinate classifier, comparing frontier and target reads only by componentwise $\hsame$ transport through $H$;
+\item pipeline-stage route exactness, forcing every compile read through the TM-to-tag, tag-to-cyclic, and cyclic-to-Rule-110 route row $S$;
+\item audit-row nonescape, requiring every substrate, decode, and refusal read to pass through the audit ledger $A$ and the displayed continuation routes $C$;
+\item ledger exhaustion, saying that $B,P,N$ exclude hidden evaluator coordinates, detached compiler steps, oracle reads, and global halting classifiers.
+\end{enumerate}
+Thus a public compile-frontier witness may be consumed only as a finite witnessed-coordinate NameCert packet.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:compile-frontier-witness-carrier}. The present coordinate, target coordinate, stage route, audit row, nonchoice boundary, transport, replay, provenance, and local naming rows are the only coordinates of $W$.
+
+The displayed coordinate classifier is the componentwise read through $H$. It can compare frontier rows and target rows only where the packet exposes them, so no host coordinate or hidden substrate evaluator can be inserted.
+
+Pipeline exactness is the route row $S$ together with the continuation row $C$. A halted-TM target read must pass through TM-to-tag, tag-to-cyclic, and cyclic-to-Rule-110 before it can reach the cellular classifier of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert} and the Rule 110 orbit surface of \autoref{ch:concrete-instances-cellularautomaton-namecert}.
+
+The audit ledger $A$ records the substrate round trip, decode check, and refusal boundary. The obstruction sibling of \autoref{ch:concrete-instances-haltingobstruction-namecert} supplies the finite boundary saying that the packet exposes an obstruction-aware route rather than a global halting classifier.
+
+Finally, $B,P,N$ close the local ledger. Since none of these rows names an oracle, host evaluator, detached compiler step, or unrecorded decoder, the five listed rows exhaust the public NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compile-frontier witness nonchoice boundary]
+\label{thm:compile-frontier-witness-nonchoice-boundary}
+Every public read exported by an accepted $\CompileFrontierWitnessUp$ packet factors through
+$$
+F,T,S,A,B,H,C,P,N .
+$$
+The route may certify that a displayed halted-TM target is being pursued through the Cook compile-frontier stage route and its audit rows, but it cannot export a hidden evaluator coordinate, a detached compiler oracle, an unrecorded decode step, a global halting decision, or a choice of successful run outside the finite ledger.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. A public read has access to the present coordinate $F$, target coordinate $T$, stage route $S$, audit ledger $A$, nonchoice boundary $B$, and the structural rows $H,C,P,N$.
+
+The route through the Cook path is finite. The stage row $S$ names the three compile stages of \autoref{ch:visions-cook-compile-frontier-engineering-path}; $C$ replays them as displayed continuation rows; $A$ records the accepted audit rows and the refusal rows.
+
+The cellular anchors are also finite. The classifier surface of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert} and the orbit surface of \autoref{ch:concrete-instances-cellularautomaton-namecert} supply displayed substrate rows, while \autoref{ch:concrete-instances-haltingobstruction-namecert} keeps the halted-read boundary from becoming a decision procedure.
+
+Therefore the witness is a finite coordinate certificate. It can expose where the frontier route succeeds or refuses, but it cannot choose a hidden run, evaluate a program outside the ledger, or export an unrecorded compiler coordinate.
+\end{proof}
+
+The later Lean development in \texttt{lean4/BEDC/Derived/CompileFrontierWitnessUp/TasteGate.lean} must provide \texttt{Nontrivial CompileFrontierWitnessUp} and \texttt{FieldFaithful CompileFrontierWitnessUp} instances for the same displayed carrier.
+
+\closureat{CompileFrontierWitnessUp}{seedStr}
+
+\begin{closurestatus}{\CompileFrontierWitnessUp}
+  \constructivestory{A $\CompileFrontierWitnessUp$ packet is generated from a present frontier coordinate, halted-machine target coordinate, Cook stage route, audit ledger, nonchoice boundary, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compile-frontier-witness-carrier}, \autoref{thm:compile-frontier-witness-namecert-obligations}, and \autoref{thm:compile-frontier-witness-nonchoice-boundary} specify the finite compile-frontier witness carrier, its five NameCert rows, and its nonchoice boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, Cook universality, compiler correctness, hidden evaluator soundness, arbitrary halting, or successful frontier crossing.}
+  \upgradepath{Obligation closure requires checked carrier admission, coordinate classifier stability, stage-route exactness, audit-row nonescape, ledger exhaustion, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}

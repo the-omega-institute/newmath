@@ -96,14 +96,32 @@ Associativity and unit exactness are inherited as continuation ledger rows from 
 The provenance and local naming rows package those finite facts for consumers. Since every algebraic read has already factored through the listed kernel rows, the ledger cannot escape to host monoids, quotient products, or external carrier equality.
 \end{proof}
 
+\begin{theorem}[Unary Cont monoid public NameCert export]
+\label{thm:unary-cont-monoid-public-namecert-export}
+The carrier of \autoref{def:unary-cont-monoid-carrier}, the NameCert obligations of \autoref{thm:unary-cont-monoid-namecert-obligations}, the associativity and unit exactness of \autoref{thm:unary-cont-monoid-cont-associativity}, the sibling dependency of \autoref{thm:unary-cont-monoid-sibling-dependency}, the kernel scope of \autoref{def:unary-cont-monoid-kernel-scope}, and the scoped grounding of \autoref{thm:unary-cont-monoid-scoped-grounding} assemble a public $\NameCert_{\UnaryContMonoidUp}$ export over
+$$
+\mathsf{UnaryHistory},\quad \ContR,\quad \hsame,\quad \emp,\quad \Pkg,\quad \NameCert,\quad \ContinuationMonadUp,\quad \CategoryUp .
+$$
+The export excludes host monoids, quotient products, arbitrary carrier monoids, and external algebraic equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation rows. The carrier of \autoref{def:unary-cont-monoid-carrier} exposes unary histories, displayed continuation composition, the empty unit, transport, route, provenance, and local naming rows; \autoref{thm:unary-cont-monoid-namecert-obligations} states that these rows exhaust the local NameCert surface.
+
+The algebraic rows are already internal to the continuation ledger. Associativity and the two unit laws are supplied by \autoref{thm:unary-cont-monoid-cont-associativity}, while the sibling dependency of \autoref{thm:unary-cont-monoid-sibling-dependency} records that the same rows are consumed from $\ContinuationMonadUp$ and $\CategoryUp$.
+
+The public export surface is therefore the finite kernel scope of \autoref{def:unary-cont-monoid-kernel-scope}. The scoped grounding theorem \autoref{thm:unary-cont-monoid-scoped-grounding} says that every accepted read factors through exactly those rows.
+
+Since no listed row names a host monoid, quotient product, arbitrary carrier monoid, or external equality relation, the public $\NameCert_{\UnaryContMonoidUp}$ export is a BEDC continuation packet and not an imported algebraic object.
+\end{proof}
+
 \closureat{UnaryContMonoidUp}{scopedStr}
 
 \begin{closurestatus}{\UnaryContMonoidUp}
   \constructivestory{A $\UnaryContMonoidUp$ packet is generated from unary histories, displayed $\Cont$ composition rows, the empty-history unit, componentwise $\hsame$ transport, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:unary-cont-monoid-carrier}, \autoref{thm:unary-cont-monoid-namecert-obligations}, \autoref{thm:unary-cont-monoid-cont-associativity}, and \autoref{thm:unary-cont-monoid-sibling-dependency} bind the $\BHist$ unary carrier, $\mathsf{UnaryHistory}$ row, $\Cont$ operation, $\hsame$ transport, $\Pkg$ provenance, $\NameCert$ obligations, and the $\ContinuationMonadUp/\CategoryUp$ sibling scope.}
+  \scopeclosed{\autoref{def:unary-cont-monoid-carrier}, \autoref{thm:unary-cont-monoid-namecert-obligations}, \autoref{thm:unary-cont-monoid-cont-associativity}, \autoref{thm:unary-cont-monoid-sibling-dependency}, and \autoref{thm:unary-cont-monoid-public-namecert-export} bind the $\BHist$ unary carrier, $\mathsf{UnaryHistory}$ row, $\Cont$ operation, $\hsame$ transport, $\Pkg$ provenance, $\NameCert$ obligations, public export, and the $\ContinuationMonadUp/\CategoryUp$ sibling scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close commutativity, additive naming, host monoids, quotient products, arbitrary carrier monoids, or machine bridge checking.}
-  \upgradepath{Public closure requires a public exported NameCert theorem for the scoped packet.}
+  \upgradepath{Formal closure requires Lean encoding of the public exported NameCert theorem for the scoped packet.}
 \end{closurestatus}
