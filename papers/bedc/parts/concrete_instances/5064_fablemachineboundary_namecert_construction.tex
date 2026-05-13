@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FableMachineBoundaryUp$}
+\label{ch:concrete-instances-fable-machine-boundary-namecert}
+\origin{ai}
+
+The $\FableMachineBoundaryUp$ interface gives the Empty Fable Machine of \autoref{ch:visions-empty-fable-machine} a finite boundary packet. It combines the Empty-fable ledger of \autoref{ch:concrete-instances-empty-fable-ledger-namecert}, the single-branch witness of \autoref{ch:concrete-instances-fablebranchwitness-namecert}, the local-clock row of \autoref{ch:concrete-instances-fablemachineclock-namecert}, and the selector-ledger consumer surface of \autoref{ch:concrete-instances-selectorledger-namecert}. The packet is not a subject behind the observer and not a hidden chooser; it is the displayed boundary at which a finite selector ledger, enacted boundary row, and no-hidden-subject condition are read together.
+
+\begin{definition}[FableMachineBoundary carrier]
+\label{def:fable-machine-boundary-carrier}
+A $\FableMachineBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(H,E,L,S,W,K,T,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $H$ is the generated $\Hist$ row whose constructor spine supplies the observer sequence;
+\item $E$ is the empty-boundary slot row above the displayed source history;
+\item $L$ is the finite Empty-fable selector ledger read from the same $\Hist$ row;
+\item $S$ is the enacted selector row, including the selected mark and its displayed $\Ext$ edge;
+\item $W$ is the local fable-branch witness tying the enacted selector row to the boundary slot;
+\item $K$ is the local fable-machine clock row for the same finite step surface;
+\item $T$ records componentwise $\hsame$ transports for the history, boundary, ledger, selector, branch-witness, and clock rows;
+\item $C$ records the $\Cont$ routes by which consumers read those rows;
+\item $P$ records $\Pkg$ provenance over $\BHist$, $\Ext$, selector-ledger, fable-branch, fable-clock, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FableMachineBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through this displayed tuple. It has no coordinate for a hidden observer-substance, global branch chooser, host trace quotient, truth oracle, or selector rule outside the finite ledger.
+\end{definition}
+
+\begin{theorem}[FableMachineBoundary NameCert obligations]
+\label{thm:fable-machine-boundary-namecert-obligations}
+The local $\NameCert_{\FableMachineBoundaryUp}$ surface for the carrier of \autoref{def:fable-machine-boundary-carrier} consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for $B=(H,E,L,S,W,K,T,C,P,N)$;
+\item empty-boundary admission tying $E$ to the displayed source $\Hist$ row and its enacted $\Ext$ edge;
+\item selector-ledger exactness tying $L$ and $S$ to the same finite Empty-fable trace;
+\item branch and clock compatibility tying $W$ and $K$ to the enacted selector row rather than to an external chooser;
+\item consumer non-escape through $T,C,P,N$ for every history, boundary, ledger, selector, witness, and clock read.
+\end{enumerate}
+Every obligation is read from the displayed $\BHist$, $\Ext$, $\hsame$, $\Cont$, $\Pkg$, selector-ledger, fable-branch, fable-machine-clock, and $\NameCert$ rows. No obligation introduces a hidden subject coordinate or a chooser row not already visible in the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The empty-boundary slot $E$, selector ledger $L$, enacted selector row $S$, branch witness $W$, and local clock $K$ are separate coordinates of the same finite packet.
+
+Use the Empty-fable ledger and selector-ledger surfaces to read the trace and enacted selector from $L$ and $S$. The branch witness then attaches the selected mark to the displayed $\Ext$ edge, while the fable-machine clock records the same local step order.
+
+The transport, continuation, package, and naming rows $T,C,P,N$ replay those reads componentwise. Since the carrier contains no observer-substance, global chooser, host trace quotient, or truth oracle coordinate, the five obligations exhaust the boundary certificate.
+\end{proof}
+
+\begin{theorem}[FableMachineBoundary selector non-escape]
+\label{thm:fable-machine-boundary-selector-nonescape}
+Every consumer read of an accepted $\FableMachineBoundaryUp$ packet factors through
+$$
+H,E,L,S,W,K,T,C,P,N.
+$$
+In particular, the selected branch can be read only as the displayed selector row $S$ together with the fable-branch witness $W$ and the finite selector ledger $L$. No consumer route reaches a hidden chooser row, observer-substance coordinate, global branch policy, or host-level trace equality.
+\end{theorem}
+\begin{proof}
+Read the consumer request through $C$. If it asks for the generated history, empty-boundary row, selector ledger, enacted selector row, branch witness, clock row, transport row, provenance row, or local name, the carrier supplies exactly the corresponding displayed coordinate.
+
+For any request for a hidden chooser, observer-substance coordinate, global branch policy, or host trace equality, inspect the carrier inventory. None of those objects occurs in $B=(H,E,L,S,W,K,T,C,P,N)$, and the NameCert obligations admit selector data only through $L,S,W,K$.
+
+Thus every accepted read remains inside the finite boundary packet, and the enacted selector cannot escape as an undisplayed chooser.
+\end{proof}
+
+\falsifiablePrediction{Any accepted FableMachineBoundaryUp packet factors through the displayed empty-boundary selector ledger and admits no consumer route to a hidden chooser row.}
+
+\independenceWitness{Nearest siblings: empty-fable-ledger, fablebranchwitness, fablemachineclock, selectorledger, emptyboundaryselector. FableMachineBoundaryUp is not bijective to any of them because it simultaneously carries the empty-boundary slot, enacted selector row, and no-hidden-chooser boundary; each sibling lacks at least one of those obligation rows.}
+
+\closureat{FableMachineBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\FableMachineBoundaryUp}
+  \constructivestory{A $\FableMachineBoundaryUp$ packet is generated from a displayed $\Hist$ row, empty-boundary slot, finite selector ledger, enacted selector row, fable-branch witness, local fable-clock row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, NameCert obligation surface, selector non-escape route, and no-hidden-subject boundary for Empty-fable machine boundaries over $\BHist$, $\Ext$, selector ledgers, branch witnesses, local clock rows, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, standard bridging, global branch selection, host trace equality, observer-substance, or truth-oracle semantics.}
+  \upgradepath{Scoped closure requires a checked classifier-stability and field-faithfulness surface for the displayed finite boundary packet.}
+\end{closurestatus}
