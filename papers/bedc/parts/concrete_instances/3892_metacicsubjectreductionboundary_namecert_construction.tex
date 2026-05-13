@@ -1,0 +1,78 @@
+\chapter{MetaCIC Subject-Reduction Boundary NameCert Construction}
+\label{ch:concrete-instances-metacic-subject-reduction-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICSubjectReductionBoundaryUp$ packet realizes the MetaCIC subject-reduction obstruction as a finite naming boundary. It packages the four discharge obligations, the parameterized preservation theorem, the checked obstruction row, audit-visible non-escape ledgers, transport data, continuation routes, package provenance, and the local $\NameCert$ row. The packet is not a proof of closed subject reduction; it is the certificate surface that prevents the obstruction from being replaced by an unrecorded theorem.
+
+\begin{definition}[MetaCIC subject-reduction boundary carrier]
+\label{def:metacic-subject-reduction-boundary-carrier}
+A $\MetaCICSubjectReductionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,A,L,P_i,R,O,Q,H,C,K,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $B$ records the $\mathrm{BetaSubstitutionPreservation}$ discharge obligation;
+\item $A$ records the $\mathrm{AppArgTypeStable}$ discharge obligation;
+\item $L$ records the $\mathrm{LamDomainSubjectReduction}$ discharge obligation;
+\item $P_i$ records the $\mathrm{PiDomainSubjectReduction}$ discharge obligation;
+\item $R$ records the parameterized $\mathrm{subject\_reduction}$ theorem whose hypotheses are exactly the four obligation rows;
+\item $O$ records the checked obstruction row $\mathrm{closed\_consistency\_reduction\_obstruction\_not\_available}$;
+\item $Q$ is the audit ledger saying which of the four obligations has been displayed before any preservation read is consumed;
+\item $H$ stores componentwise $\hsame$ transports for the four obligation rows, the parameterized theorem row, the obstruction row, the audit ledger, the package row, and the local naming row;
+\item $C$ stores the displayed $\Cont$ routes by which consumers read the obligation rows, the parameterized theorem row, and the obstruction row;
+\item $K$ is the $\Pkg$ provenance over the MetaCIC typing interface, beta-step constructors, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no unparameterized closed subject-reduction theorem, no hidden substitution lemma, no ambient conversion theorem, and no semantic equality model for MetaCIC terms.
+\end{definition}
+
+\begin{theorem}[MetaCIC subject-reduction boundary NameCert obligations]
+\label{thm:metacic-subject-reduction-boundary-namecert-obligations}
+The local $\NameCert_{\MetaCICSubjectReductionBoundaryUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the packet $M=(B,A,L,P_i,R,O,Q,H,C,K,N)$ of \autoref{def:metacic-subject-reduction-boundary-carrier};
+\item obligation exposure, saying that the beta, application-argument, lambda-domain, and Pi-domain discharge rows are all displayed before $R$ is consumed;
+\item parameterized preservation exactness, saying that $R$ may be read only as the theorem conditional on the four displayed obligation rows;
+\item obstruction exactness, saying that $O$ records the checked non-availability of the closed consistency reduction obstruction and is not a substitute for any of the four obligations;
+\item audit non-escape from hidden substitution preservation, host conversion, erased typing derivations, semantic equality of terms, global normalization, or an unrecorded closed subject-reduction theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the finite packet of \autoref{def:metacic-subject-reduction-boundary-carrier}. Its rows display the four named discharge obligations, the parameterized preservation theorem, the checked obstruction theorem, the audit ledger, transport data, continuation routes, package provenance, and local naming certificate.
+
+Obligation exposure is recorded by the ledger $Q$. A consumer reaches $R$ only after the rows $B,A,L,P_i$ have been displayed, so the parameterized theorem cannot be read as a closed theorem with the hypotheses erased.
+
+Obstruction exactness is the role of $O$. It records the checked obstruction row described in \autoref{prin:metacic-closed-subject-reduction-not-available}; the row blocks replacement of the four-input interface by a blanket closed subject-reduction statement.
+
+The non-escape clause follows from absence of coordinates. Hidden substitution preservation, host conversion, erased typing derivations, semantic equality, global normalization, and unrecorded closed subject reduction are not rows of $M$ and cannot be reconstructed by $\hsame$ transport or a $\Cont$ read.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction boundary non-escape]
+\label{thm:metacic-subject-reduction-boundary-nonescape}
+Every accepted $\MetaCICSubjectReductionBoundaryUp$ packet exposes MetaCIC subject reduction only through the rows
+$$
+B,A,L,P_i,R,O,Q,H,C,K,N.
+$$
+Any preservation-facing consumer must factor through the four displayed discharge obligations and the parameterized theorem row, while any obstruction-facing consumer must factor through the checked obstruction row. No consumer receives an unparameterized closed subject-reduction theorem, a hidden substitution lemma, host conversion, erased typing derivation semantics, semantic equality of terms, or a global normalization oracle from the packet.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates from \autoref{def:metacic-subject-reduction-boundary-carrier}. The only preservation rows are the four obligations and the parameterized theorem, and the only obstruction row is $O$.
+
+Apply the NameCert obligations of \autoref{thm:metacic-subject-reduction-boundary-namecert-obligations}. They require obligation exposure before $R$ is consumed and keep the obstruction row separate from the discharge rows.
+
+The exclusions are immediate from the packet inventory. Since the carrier has no coordinate for hidden substitution preservation, host conversion, erased derivation semantics, semantic equality, global normalization, or unparameterized closed subject reduction, no public route can export any of those objects.
+\end{proof}
+
+\closureat{MetaCICSubjectReductionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionBoundaryUp}
+  \constructivestory{A $\MetaCICSubjectReductionBoundaryUp$ packet is generated from four displayed MetaCIC subject-reduction discharge rows, a parameterized preservation theorem row, a checked obstruction row, an audit ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-boundary-carrier}, \autoref{thm:metacic-subject-reduction-boundary-namecert-obligations}, and \autoref{thm:metacic-subject-reduction-boundary-nonescape} bind the MetaCIC subject-reduction obstruction as a finite boundary packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove any of the four discharge obligations, closed subject reduction, closed consistency from reduction, global normalization, host conversion, semantic equality, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, checked obligation exposure, parameterized preservation exactness, obstruction exactness, and public non-escape for the same finite MetaCIC boundary packet.}
+\end{closurestatus}
