@@ -137,12 +137,32 @@ Apply \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness} and \aut
 Finally apply \autoref{thm:choice-free-limit-schedule-nonescape}. Since all public reads remain inside the displayed packet, the consumer readback exports only the finite route and the displayed $H,C,P,N$ rows.
 \end{proof}
 
+\begin{theorem}[Choice-free limit schedule public seal export]
+\label{thm:choice-free-limit-schedule-public-seal-export}
+The carrier of \autoref{def:choice-free-limit-schedule-carrier}, the local $\NameCert_{\ChoiceFreeLimitScheduleUp}$ obligations of \autoref{thm:choice-free-limit-schedule-namecert-obligations}, the classifier transport row of \autoref{thm:choice-free-limit-schedule-classifier-transport}, the $\RegSeqRatUp$ handoff exactness row of \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness}, the $\RealUp$ seal discipline row of \autoref{thm:choice-free-limit-schedule-real-seal-discipline}, the non-escape boundary of \autoref{thm:choice-free-limit-schedule-nonescape}, and the consumer readback row of \autoref{thm:choice-free-limit-schedule-consumer-readback} assemble one public finite schedule-to-seal export for $\RealUp$ and completion-facing consumers.
+
+The exported surface is exactly the displayed route
+$$
+E \to M \to W \to D \to R \to S
+$$
+together with the componentwise transport, continuation, provenance, and local naming rows $H,C,P,N$. It exports no quotient stream, host equality of completed reals, countable-choice row, hidden limit selector, stronger completion object, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the finite carrier. \autoref{def:choice-free-limit-schedule-carrier} exposes the precision request $E$, schedule row $M$, selected windows $W$, dyadic observations $D$, regular-sequence handoff $R$, real seal $S$, transports $H$, routes $C$, provenance $P$, and local naming row $N$ as the only coordinates of the packet.
+
+The certificate obligations make this route public. Apply \autoref{thm:choice-free-limit-schedule-namecert-obligations} to fix carrier exposure, request-to-schedule exactness, window and dyadic readback coverage, handoff and seal discipline, and the non-escape boundary for those rows.
+
+Transport and handoff are then read through the same packet. By \autoref{thm:choice-free-limit-schedule-classifier-transport}, componentwise $\hsame$ transport preserves the classifier on $E,M,W,D,R,S,H,C,P,N$. By \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness} and \autoref{thm:choice-free-limit-schedule-real-seal-discipline}, the $\RegSeqRatUp$ handoff and the $\RealUp$ seal are reached only by replaying the displayed finite route.
+
+Finally use \autoref{thm:choice-free-limit-schedule-consumer-readback} and \autoref{thm:choice-free-limit-schedule-nonescape}. Completion-facing consumers read exactly the finite schedule-to-seal surface and cannot export any excluded analytic object outside the displayed rows.
+\end{proof}
+
 \closureat{ChoiceFreeLimitScheduleUp}{scopedStr}
 
 \begin{closurestatus}{\ChoiceFreeLimitScheduleUp}
   \constructivestory{A $\ChoiceFreeLimitScheduleUp$ packet is generated from a precision request, finite schedule row, StreamNameUp windows, DyadicRatCoreUp observations, RegSeqRatUp handoff, RealUp seal, componentwise transports, continuation routes, package provenance, and a local naming row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:choice-free-limit-schedule-carrier}, \autoref{thm:choice-free-limit-schedule-namecert-obligations}, \autoref{thm:choice-free-limit-schedule-classifier-transport}, \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness}, \autoref{thm:choice-free-limit-schedule-real-seal-discipline}, \autoref{thm:choice-free-limit-schedule-consumer-readback}, and \autoref{thm:choice-free-limit-schedule-nonescape} bind the finite precision-to-window-to-seal packet consumed by Real-completion routes.}
+  \scopeclosed{\autoref{def:choice-free-limit-schedule-carrier}, \autoref{thm:choice-free-limit-schedule-namecert-obligations}, \autoref{thm:choice-free-limit-schedule-classifier-transport}, \autoref{thm:choice-free-limit-schedule-regseq-handoff-exactness}, \autoref{thm:choice-free-limit-schedule-real-seal-discipline}, \autoref{thm:choice-free-limit-schedule-consumer-readback}, and \autoref{thm:choice-free-limit-schedule-nonescape} bind the schedule classifier, transport stability, RegSeqRatUp handoff exactness, RealUp seal discipline, and consumer readback to the displayed BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
