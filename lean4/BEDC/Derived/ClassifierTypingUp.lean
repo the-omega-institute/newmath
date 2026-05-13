@@ -99,4 +99,21 @@ theorem ClassifierTypingCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact sourceRow
   }
 
+theorem ClassifierTypingCarrier_signature_gap_readback [AskSetup] [PackageSetup]
+    {term membership reduction signature transport routes provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClassifierTypingCarrier term membership reduction signature transport routes provenance name
+        bundle pkg ->
+      UnaryHistory signature ∧ Ext term BMark.b0 membership ∧
+        Cont term reduction signature ∧ SigRel bundle term signature ∧
+          PkgSig bundle provenance pkg ∧ hsame name name := by
+  intro carrier
+  obtain
+    ⟨_termUnary, _membershipUnary, _reductionUnary, signatureUnary, _transportUnary,
+      _routesUnary, _provenanceUnary, _nameUnary, termMembership, termReductionSignature,
+      _membershipRoutesName, termSignature, provenancePkg⟩ := carrier
+  exact
+    ⟨signatureUnary, termMembership, termReductionSignature, termSignature, provenancePkg,
+      hsame_refl name⟩
+
 end BEDC.Derived.ClassifierTypingUp
