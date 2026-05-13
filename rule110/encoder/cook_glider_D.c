@@ -26,7 +26,7 @@ int cook_glider_D_emit_phase_exact(uint8_t *out,
                                    const char *variant,
                                    const char *neighbor,
                                    int phase) {
-    const char *name = variant == NULL ? "D" : variant;
+    const char *name = variant == NULL ? "D1" : variant;
 
     return glider_phase_emit(out, pos, buf_len, name, neighbor, phase, NULL);
 }
