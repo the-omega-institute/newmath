@@ -46,3 +46,41 @@ exclusion clauses in the cited handoff, meet, exhaustion, and dependency
 results rule out quotient stream equality, selected limits, and ambient
 completeness as exported StreamName data.
 \end{proof}
+
+\begin{theorem}[StreamName window-index route determinacy]
+\label{thm:streamname-window-index-route-determinacy}
+Let $\mathcal W$ and $\mathcal W'$ be accepted finite $\StreamNameUp$ packets
+consumed by $\RegSeqRatUp$ and $\RealUp$ rows. If both packets expose the same
+finite $\mathsf{ProbeBundle}$ member $n$, the same certified
+$\mathsf{UnaryHistory}(n)$ row, and the same finite-window meet coordinates,
+then every downstream $\RegSeqRatUp$ and $\RealUp$ seal consumer reads the
+same finite route through the StreamName window, the RegSeqRat readback, the
+dyadic ledger, and the Real seal.
+
+No quotient stream equality, host index equality, selected limit, or ambient
+completeness theorem can provide an alternate route for either packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-window-index-nonempty-handoff} to both packets.
+The common visible index is a certified member of the finite
+$\mathsf{ProbeBundle}$ and is already paired with the displayed
+$\mathsf{UnaryHistory}(n)$ row before any RegSeqRat or Real consumer reads the
+packet.
+
+Place both packets in the finite meet packet of
+\autoref{def:streamname-finite-window-lattice-meet}. The hypothesis that the
+meet coordinates agree identifies the common classifier row, probe-bundle
+membership row, unary observation row, dyadic ledger surface, componentwise
+transport, continuation, provenance, and local name.
+
+Use \autoref{thm:streamname-finite-window-lattice-meet-exhaustion} together
+with \autoref{thm:streamname-regseqrat-real-lattice-dependency}. These results
+force the RegSeqRat readback and Real seal to be downstream reads of the same
+finite meet surface, so the consumer route is determined by the displayed
+coordinates.
+
+Coordinate exhaustion closes the claim. The agreed meet surface has no
+coordinate for quotient stream equality, host index equality, selected
+limits, or ambient completeness, so none of those objects can act as a second
+route to the downstream seal.
+\end{proof}
