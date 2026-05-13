@@ -53,6 +53,37 @@ theorem CertificateCompilerClassifier_displayed_edge_witness_totality [AskSetup]
     ⟨graphUnary, landingUnary, edgeUnary, edgeUnary', edgeSame, sourceGraphLanding,
       graphEdgeLanding, graphEdgeLanding', landingRoutesTarget', certMatchesEndpoint, certPkg⟩
 
+theorem CertificateCompilerCarrier_consumer_replay_obligation_triad [AskSetup]
+    [PackageSetup]
+    {source target graph landing routes transport provenance cert edge edge' replay certEndpoint :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CertificateCompilerClassifier source target graph landing routes transport provenance cert
+        edge edge' bundle pkg ->
+      Cont landing routes replay ->
+        hsame cert certEndpoint ->
+          PkgSig bundle certEndpoint pkg ->
+            UnaryHistory graph ∧ UnaryHistory landing ∧ UnaryHistory replay ∧
+              hsame edge edge' ∧ Cont graph edge landing ∧ Cont graph edge' landing ∧
+                Cont landing routes target ∧ Cont landing routes replay ∧
+                  hsame certEndpoint (append provenance target) ∧
+                    PkgSig bundle certEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg
+  intro classifier landingRoutesReplay certEndpointSame certEndpointPkg
+  obtain ⟨carrier, _edgeUnary, _edgeUnary', edgeSame, graphEdgeLanding,
+    graphEdgeLanding', landingRoutesTarget'⟩ := classifier
+  obtain ⟨_sourceUnary, _targetUnary, graphUnary, landingUnary, routesUnary,
+    _transportUnary, _provenanceUnary, _sourceGraphLanding, _landingRoutesTarget,
+    _provenanceTargetCert, certMatchesEndpoint, _certPkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed landingUnary routesUnary landingRoutesReplay
+  have certEndpointMatches : hsame certEndpoint (append provenance target) :=
+    hsame_trans (hsame_symm certEndpointSame) certMatchesEndpoint
+  exact
+    ⟨graphUnary, landingUnary, replayUnary, edgeSame, graphEdgeLanding,
+      graphEdgeLanding', landingRoutesTarget', landingRoutesReplay, certEndpointMatches,
+      certEndpointPkg⟩
+
 theorem CertificateCompilerCarrier_target_endpoint_route [AskSetup] [PackageSetup]
     {source target graph landing routes transport provenance cert targetEndpoint : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
