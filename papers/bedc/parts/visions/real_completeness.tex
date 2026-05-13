@@ -762,40 +762,4 @@ Status: $\mathsf{ProofTarget}$.
 
 \input{parts/visions/real_completeness/transported_stationary_diagonal}
 
-\section{Constructive content and axiom purity}
-\label{sec:real-completeness-axiom-purity}
-
-\begin{remark}[Explicit moduli throughout]
-\label{rem:real-completeness-explicit-moduli}
-Every modulus appearing in \autoref{def:real-completeness-regular-cauchy-rat}, \autoref{def:real-completeness-diagonal-limit}, and \autoref{thm:real-completeness-limit-exists-unique} is specified as a function on naturals and rationals computed by primitive recursion on the inductive carriers of \autoref{ch:concrete-instances-rat-namecert}. The required proof obligations are exactly the certificate-level regularity, convergence, and $\psame$-closure facts that avoid quotienting an equivalence relation by a host-level $\Quot$-soundness step. These obligations are the axiom-pure targets for the later machine-checked real-completion layer.
-\end{remark}
-
-\begin{remark}[Reuse for the continuous certificate]
-\label{rem:real-completeness-reuse-continuous}
-The diagonal limit construction (\autoref{def:real-completeness-diagonal-limit}) identifies the limit step expected by the continuous certificate $\NameCert_{\ContinuousFunctionUp}$ (\autoref{ch:concrete-instances-continuous-namecert}). A continuous function on $\NameCert_{\RealUp}$ is, in BEDC, a function on $\RegSeqRat$ together with an explicit pointwise modulus; once the real-completion obligations are checked, downstream continuity certificates can consume the same diagonal regularity bound. The reuse is structural, not a separate construction.
-\end{remark}
-
-\begin{remark}[Composition with the compact uniform-continuity capstone]
-\label{rem:real-completeness-compact-composition}
-After $\NameCert_{\RealUp}$ has the supplied completion certificate and the continuous-function certificate is available, the compact uniform-continuity capstone (\autoref{ch:visions-compact-uniform-continuity}) can be instantiated on closed bounded intervals $[a, b] \subset \RealUp$. The downstream consumer is a future kernel theorem that, for every continuous $f \colon [a, b] \to \RealUp$, derives a uniform modulus depending only on the tolerance from the checked compactness and continuity certificates.
-\end{remark}
-
-\concretizedIn{ch:concrete-instances-regularcauchydiagonal-namecert}{Stationary regular Cauchy diagonal packets are represented as finite NameCert carriers over RatUp, StreamNameUp, RegSeqRatUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-finitewindowenvelope-namecert}{Finite observation windows are realized as a NameCert envelope linking DyadicRatCore, StreamNameUp, RegSeqRat, and RealUp seals.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-limit-modulus-namecert}{The diagonal-limit modulus is represented as a finite NameCert packet over RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-regularcauchylimitclassifier-namecert}{Regular Cauchy limit classifiers are realized as finite NameCert packets linking RegSeqRatUp diagonal extraction, StreamNameUp windows, and RealUp seal handoff.}
-\concretizedIn{ch:concrete-instances-transportedstationarywindowseal-namecert}{Transported stationary diagonal window-seal packets are realized as a finite NameCert carrier over RatUp, StreamNameUp, RegSeqRatUp, FiniteWindowEnvelopeUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-realcompleteness-namecert}{The Real completeness diagonal-limit target is represented as a finite NameCert seed over DyadicRatCore, StreamNameUp, RegSeqRatUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-triangle-bound-namecert}{The three-leg diagonal regularity estimate is realized as a finite NameCert packet over DyadicRatCore, StreamNameUp, RegSeqRatUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-finitetaildiagonalseal-namecert}{Finite-tail diagonal seals realize the selected regular-Cauchy tail window as a RealUp-facing NameCert packet without quotient streams or host real equality.}
-\concretizedIn{ch:concrete-instances-regular-cauchy-tail-meet-namecert}{Regular Cauchy tail-meet packets realize the shared dyadic tail threshold needed by diagonal RealUp completion consumers.}
-\concretizedIn{ch:concrete-instances-dyadicabsolutevalue-namecert}{Dyadic absolute-value rows are realized as finite DyadicRatCore BHist packets with sign-split, nonnegative-output, and tolerance-ledger surfaces.}
-\concretizedIn{ch:concrete-instances-realdiagonalwindowcoverage-namecert}{Real diagonal-window coverage realizes the finite selected-window route from StreamName and RegSeqRat data through DyadicRatCore observations to the RealUp seal.}
-\concretizedIn{ch:concrete-instances-realdiagonalmeshbudget-namecert}{Finite diagonal mesh-budget packets realize the precision-to-window-to-dyadic-readback route used by Real completeness consumers before the RealUp seal.}
-\concretizedIn{ch:concrete-instances-regularcauchylimittransport-namecert}{Regular Cauchy limit transport packets realize classifier-stable diagonal-limit handoff across RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, and RealUp rows.}
-\concretizedIn{ch:concrete-instances-regularcauchywitnessschedule-namecert}{Regular Cauchy witness schedules realize the modulus-indexed finite observation route from RegSeqRat and StreamName data through DyadicRatCore readback to the RealUp seal.}
-\concretizedIn{ch:concrete-instances-cauchydiagonalfusion-namecert}{Cauchy diagonal fusion realizes the finite route from observation budgets and witness schedules through schedule fusion to the RealUp diagonal seal.}
-\concretizedIn{ch:concrete-instances-regularcauchyzero-namecert}{Regular Cauchy zero packets realize the zero-source identity surface for tail-meet, diagonal, and RealUp seal consumers.}
-\concretizedIn{ch:concrete-instances-stationarydiagonalwindow-namecert}{Stationary diagonal finite-window classifier correspondence is realized as a concrete NameCert packet linking RatUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp.}
-\concretizedIn{ch:concrete-instances-modulus-indexed-tail-cover-namecert}{The modulus-indexed finite tail-window cover is realized as a concrete NameCert packet from unary precision requests through CauchyModulusUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp seal rows.}
-\concretizedIn{ch:concrete-instances-productregularcauchylimit-namecert}{Product regular-Cauchy limit packets realize the product-limit handoff across CauchyProductUp, RegularCauchyLimitClassifierUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp.}
+\input{parts/visions/real_completeness/constructive_content_axiom_purity}
