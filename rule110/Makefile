@@ -55,14 +55,15 @@ $(EVAL_DIR)/rule110: $(EVAL_DIR)/rule110.c $(EVAL_DIR)/rule110.h
 $(ENCODER_DIR)/generate_r110: $(ENCODER_DIR)/generate_r110.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-$(ENCODER_DIR)/generate_r110_algo: $(ENCODER_DIR)/generate_r110_algo.c $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/block_assembler.h $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.h $(ENCODER_DIR)/cook_blocks.c
+$(ENCODER_DIR)/generate_r110_algo: $(ENCODER_DIR)/generate_r110_algo.c $(EVAL_DIR)/rule110.h $(EVAL_DIR)/cyclic_tag.h $(ENCODER_DIR)/cook_encode.h $(ENCODER_DIR)/block_assembler.h $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.h $(ENCODER_DIR)/cook_blocks.c $(ENCODER_DIR)/cook_glider_D1.h $(ENCODER_DIR)/cook_glider_D1.c $(ENCODER_DIR)/cook_glider_D2.h $(ENCODER_DIR)/cook_glider_D2.c
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(ENCODER_DIR)/generate_r110_algo.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c \
 	    $(ENCODER_DIR)/cook_encode.c $(ENCODER_DIR)/cook_construction.c \
 	    $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_leader.c \
 	    $(ENCODER_DIR)/cook_ossifier.c $(ENCODER_DIR)/cook_data_block.c \
-	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c
+	    $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.c \
+	    $(ENCODER_DIR)/cook_glider_D1.c $(ENCODER_DIR)/cook_glider_D2.c
 
 # Tests
 $(TEST_DIR)/test_rule110: $(TEST_DIR)/test_rule110.c $(EVAL_DIR)/rule110.h
@@ -243,11 +244,15 @@ clean:
 TESTS += $(TEST_DIR)/test_cook_glider_B \
          $(TEST_DIR)/test_cook_glider_C \
          $(TEST_DIR)/test_cook_glider_D \
+         $(TEST_DIR)/test_cook_glider_D1 \
+         $(TEST_DIR)/test_cook_glider_D2 \
          $(TEST_DIR)/test_cook_collisions
 
 test: $(TEST_DIR)/test_cook_glider_B \
       $(TEST_DIR)/test_cook_glider_C \
       $(TEST_DIR)/test_cook_glider_D \
+      $(TEST_DIR)/test_cook_glider_D1 \
+      $(TEST_DIR)/test_cook_glider_D2 \
       $(TEST_DIR)/test_cook_collisions
 
 $(TEST_DIR)/test_cook_glider_B: $(TEST_DIR)/test_cook_glider_B.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_glider_B.h
@@ -264,6 +269,16 @@ $(TEST_DIR)/test_cook_glider_D: $(TEST_DIR)/test_cook_glider_D.c $(EVAL_DIR)/rul
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
 	    $(TEST_DIR)/test_cook_glider_D.c $(EVAL_DIR)/rule110.c \
 	    $(ENCODER_DIR)/cook_construction.c $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_glider_D.c
+
+$(TEST_DIR)/test_cook_glider_D1: $(TEST_DIR)/test_cook_glider_D1.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/glider_phases.h $(ENCODER_DIR)/cook_glider_D1.h $(ENCODER_DIR)/cook_glider_D1.c
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_glider_D1.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_glider_D1.c
+
+$(TEST_DIR)/test_cook_glider_D2: $(TEST_DIR)/test_cook_glider_D2.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/glider_phases.h $(ENCODER_DIR)/cook_glider_D2.h $(ENCODER_DIR)/cook_glider_D2.c
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_cook_glider_D2.c $(EVAL_DIR)/rule110.c \
+	    $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_glider_D2.c
 
 $(TEST_DIR)/test_cook_collisions: $(TEST_DIR)/test_cook_collisions.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_collisions.h $(ENCODER_DIR)/cook_glider_B.h $(ENCODER_DIR)/cook_glider_C.h $(ENCODER_DIR)/cook_glider_D.h
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
