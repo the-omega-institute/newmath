@@ -46,3 +46,4 @@ import BEDC.MetaCIC.PrettyPrint
 import BEDC.MetaCIC.BHistSubstrate
 import BEDC.MetaCIC.GeneratorClosureNatExamples
 import BEDC.MetaCIC.AuditReexport
+import BEDC.MetaCIC.AuditReexportExamples
