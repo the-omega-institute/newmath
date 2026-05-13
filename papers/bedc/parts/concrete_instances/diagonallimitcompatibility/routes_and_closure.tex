@@ -378,6 +378,28 @@ Any $\CompletionUp$-facing consumer of an accepted $\DiagonalLimitCompatibilityU
 The source route and Real seal source lock identify the whole budget ending at $L$, and regular readback exactness accounts for the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ coordinates used by that route. Completion-consumer non-escape permits reads through the displayed packet and rules out any additional completeness, limit-selection, quotient, choice, or host-real coordinate.
 \end{proof}
 
+\begin{theorem}[Diagonal-limit compatibility regular Cauchy sequence handoff]
+\label{thm:diagonal-limit-compatibility-regular-cauchy-sequence-handoff}
+Let
+$$
+S=(F,\mu,W,D,R,G,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySequenceUp$ packet and let
+$$
+K=(R_0,T,S_0,D_0,W_0,Q,L,H_0,C_0,P_0,N_0)
+$$
+be an accepted $\DiagonalLimitCompatibilityUp$ packet. Suppose the selected-window rows $W,W_0$, the dyadic ledgers $D,D_0$, the $\RegSeqRatUp$ readback rows $R,Q$, and the $\RealUp$ seal rows $E,L$ are related by the displayed $\hsame$ transports carried by $H$ and $H_0$, and suppose the continuation, provenance, and local naming rows $C,P,N$ and $C_0,P_0,N_0$ expose the same consumer-facing route. Then every $\CompletionUp$-facing read of $K$ that consumes the regular-family data of $S$ factors first through \autoref{thm:regular-cauchy-sequence-diagonal-window-coverage-handoff} and \autoref{thm:regular-cauchy-sequence-diagonal-tail-selector-factorization}, then through \autoref{thm:diagonal-tail-selector-limit-handoff}, \autoref{thm:diagonal-limit-compatibility-seal-consumer-factorization}, \autoref{thm:cauchy-limit-seal-realup-consumer-boundary}, and \autoref{thm:diagonal-limit-compatibility-completion-seal-budget}. The resulting route exports the finite family row, modulus, selected windows, dyadic ledgers, $\RegSeqRatUp$ readbacks, tail-selector handoff, seal route, $\RealUp$ seal rows, displayed transports, continuations, provenance, and local $\NameCert$ rows, but exports no quotient stream, selected host limit, host real equality, choice data, hidden tail oracle, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First read the accepted $\RegularCauchySequenceUp$ packet. The diagonal-window coverage handoff confines the family-facing data to $F,\mu,W,D,R,G,E,H,C,P,N$, so a downstream consumer sees the selected windows, dyadic ledger, regular readback, and Real seal handoff only through the displayed finite packet.
+
+Next apply \autoref{thm:regular-cauchy-sequence-diagonal-tail-selector-factorization}. The matching $\hsame$ transports identify the regular packet's selected-window, dyadic, readback, and seal rows with the rows consumed by the diagonal-tail selector route.
+
+Now pass through \autoref{thm:diagonal-tail-selector-limit-handoff}. This attaches the selector route to the same finite windows and readbacks before any diagonal-limit or seal-facing consumer can read the compatibility packet.
+
+Finally use the diagonal-limit compatibility and seal boundaries. The seal consumer factorization, the $\CauchyLimitSealUp$ $\RealUp$ consumer boundary, and the completion seal budget force the remaining read through $R_0,T,S_0,D_0,W_0,Q,L,H_0,C_0,P_0,N_0$ and exclude quotient streams, selected host limits, host real equality, choice data, hidden tail oracles, and ambient completeness.
+\end{proof}
+
 \closureat{DiagonalLimitCompatibilityUp}{seedStr}
 
 \begin{closurestatus}{\DiagonalLimitCompatibilityUp}
