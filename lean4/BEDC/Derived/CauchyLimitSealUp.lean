@@ -7,6 +7,7 @@ import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
 import BEDC.Derived.RegularCauchyTailSelectorUp
+import BEDC.Derived.UniformCauchyCriterionUp
 
 namespace BEDC.Derived.CauchyLimitSealUp
 
@@ -18,6 +19,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.Derived.RegularCauchyTailSelectorUp
+open BEDC.Derived.UniformCauchyCriterionUp
 
 def CauchyLimitSealPacket [AskSetup] [PackageSetup]
     (source schedule ledger diagonal sealed transportRow provenance certificate : BHist)
@@ -355,5 +357,68 @@ theorem CauchyLimitSealCarrier_root_budget_seal_coverage [AskSetup] [PackageSetu
   exact
     ⟨budgetWindowUnary, budgetReadUnary, completionReadUnary, selectorReadUnary,
       rootReadUnary, sameSealCompletion, sameSelectorBudget, endpointPkg, selectorPkgSig⟩
+
+theorem CauchyLimitSealCarrier_uniform_criterion_pullback [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint index
+      windows modulus tolerance tail uniformSeal uniformTransports routes uniformProvenance
+      uniformName sealWindow observation completionRead tailRead realRead sharedRoute : BHist}
+    {sealBundle uniformBundle : ProbeBundle ProbeName} {sealPkg uniformPkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint sealBundle sealPkg ->
+      UniformCauchyCriterionPacket index windows modulus tolerance tail uniformSeal
+          uniformTransports routes uniformProvenance uniformName uniformBundle uniformPkg ->
+        Cont schedule source sealWindow ->
+          Cont sealWindow dyadic observation ->
+            Cont observation diagonal completionRead ->
+              hsame dyadic observation ->
+                Cont index tail tailRead ->
+                  Cont tail uniformSeal realRead ->
+                    Cont tailRead realRead sharedRoute ->
+                      PkgSig uniformBundle tailRead uniformPkg ->
+                        PkgSig uniformBundle realRead uniformPkg ->
+                          PkgSig uniformBundle sharedRoute uniformPkg ->
+                            UnaryHistory sealWindow ∧ UnaryHistory observation ∧
+                              UnaryHistory completionRead ∧ UnaryHistory tailRead ∧
+                                UnaryHistory realRead ∧ UnaryHistory sharedRoute ∧
+                                  hsame sealRow completionRead ∧ Cont index windows modulus ∧
+                                    Cont modulus tolerance tail ∧ Cont index tail tailRead ∧
+                                      Cont tail uniformSeal realRead ∧
+                                        Cont tailRead realRead sharedRoute ∧
+                                          PkgSig sealBundle endpoint sealPkg ∧
+                                            PkgSig uniformBundle uniformName uniformPkg ∧
+                                              PkgSig uniformBundle sharedRoute uniformPkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier uniformPacket scheduleSourceSealWindow sealWindowDyadicObservation
+    observationDiagonalCompletion sameDyadicObservation indexTailRead tailUniformReal
+    tailReadRealShared tailReadPkg realReadPkg sharedPkg
+  obtain ⟨sourceUnary, scheduleUnary, dyadicUnary, diagonalUnary, _sealUnary,
+    _transportUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+    _provenanceLocalEndpoint, _sameEndpoint, endpointPkg⟩ := carrier
+  obtain ⟨indexUnary, _windowsUnary, _modulusUnary, _toleranceUnary, tailUnary,
+    uniformSealUnary, _uniformTransportsUnary, _routesUnary, _uniformProvenanceUnary,
+    _uniformNameUnary, indexWindowsModulus, modulusToleranceTail,
+    _tailUniformTransports, _transportsRoutesProvenance, uniformNamePkg⟩ :=
+    uniformPacket
+  have sealWindowUnary : UnaryHistory sealWindow :=
+    unary_cont_closed scheduleUnary sourceUnary scheduleSourceSealWindow
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed sealWindowUnary dyadicUnary sealWindowDyadicObservation
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed observationUnary diagonalUnary observationDiagonalCompletion
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed indexUnary tailUnary indexTailRead
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed tailUnary uniformSealUnary tailUniformReal
+  have sharedRouteUnary : UnaryHistory sharedRoute :=
+    unary_cont_closed tailReadUnary realReadUnary tailReadRealShared
+  have sameSealCompletion : hsame sealRow completionRead :=
+    cont_respects_hsame sameDyadicObservation (hsame_refl diagonal) dyadicDiagonalSeal
+      observationDiagonalCompletion
+  exact
+    ⟨sealWindowUnary, observationUnary, completionReadUnary, tailReadUnary, realReadUnary,
+      sharedRouteUnary, sameSealCompletion, indexWindowsModulus, modulusToleranceTail,
+      indexTailRead, tailUniformReal, tailReadRealShared, endpointPkg, uniformNamePkg,
+      sharedPkg⟩
 
 end BEDC.Derived.CauchyLimitSealUp
