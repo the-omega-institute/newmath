@@ -68,21 +68,20 @@ manifest assertion PASS/FAIL
 - 每个 `.enum.ct` 有对应 `.r110`
 - Rule 110 evolution 在 `.r110` 上跑出来 decode 后 = `.ct` 对应直接承载输入
 
-**当前状态**: FKernel 直接承载层和 Cook packet 层均已覆盖.
+**当前状态**: FKernel 直接承载层和 Cook packet 层均已覆盖, Round 1-6 工程面由 `make test` 覆盖.
 
-- L3.1 glider A `(f1_1)=111110` phase-exact ✓
-- L3.2 collision A-A 直接模拟验证 ✓
-- L3.3 leader/ossifier/data_block phase-exact entry points + structural docs ✓
-- L3.4 cook_encode interface + composition design ✓
-- Martinez 2001/2004 phase catalog 已进入 `encoder/glider_phases.c/h`
-- Martinez 2012 collision / soliton table 已进入 `cook_collision_lookup`
-- L3.5-L3.7 FKernel `.r110` direct-carrier manifest 生成 + round-trip + smoke test 已接入 `make test`
+- Martinez 2012 collision table: paper-table cross-check `33/33`, strict detector audit `33/33`; 锚点为 Martinez 2012 Table 1 / Table 2, 并按 Cook 2004 的 crossing / spacing 语义解释 passthrough 和 data spacing.
+- Martinez phase verifier: `177` entries 通过 period / displacement 检查; 锚点为 Martinez 2007 Table 2 与 Appendix A.
+- External anchors: `11` baseline checks 覆盖 ether, A, B, C1, C2, Bbar, E, Ebar, F, G, H; 锚点为 Martinez 2007 phase rows, Cook 2004 data / crossing semantics, Cook 2009 block construction.
+- Cook packet scale frontier: `2p×16t×16384`; 锚点为 Cook 2009 §1.4 的 cyclic-tag-to-Rule-110 block compiler 和 Neary-Woods 2007 polynomial Rule 110 simulation bound.
+- Beyond-FKernel appendix: `4` audit binaries 覆盖 `topology_up`, `circle_up`, `fold_up`, `meta_cic`; 锚点为 Cook 2009 Rule 110 initial-state substrate route 和 Neary-Woods 2007 efficient Rule 110 simulation context.
+- FKernel `.r110` direct-carrier manifest 生成 + round-trip + smoke test 已接入 `make test`; `.algo.r110.ct` Cook packet 语义 round-trip 覆盖 22 个 `.algo.ct` manifest.
 
 **Tier B ship 状态**: direct-carrier `.r110` 覆盖 FKernel `.enum.ct` 位串承载; Cook packet composition 覆盖 leader / ossifier / data block phase-exact bodies, 并经 Rule 110 evolution + decoded output window 验证 `.algo.ct` 子集端到端.
 
 ---
 
-## 当前状态快照 (Tier A 已 ship — 仅余 tag + 论文引文)
+## 当前状态快照
 
 | FKernel 模块 | `.enum.ct` | `.algo.ct` | C 端测试 |
 |---|---|---|---|
@@ -101,7 +100,7 @@ manifest assertion PASS/FAIL
 | Settled | ✓ | ✓ bounded | ✓ |
 | GroundCompiler | ✓ (L5.7) | n/a (本身就是 encoding) | ✓ |
 
-`.algo.ct` 全部 bounded 状态. 在新框架下, **universal CT recognizer 不在追求范围** (BEDC 不需要 universal). 已有的 bounded recognizer 是 session 早期 dispatch 产物, 保留不维护.
+`.algo.ct` 全部 bounded 状态. 在新框架下, **universal CT recognizer 不在追求范围** (BEDC 不需要 universal). 已有的 bounded recognizer 是 session 早期分派产物, 保留不维护.
 
 `make -C rule110 test` exit 0. CI 在 `pr-gate.yml` 已配置 `Rule110 Cross-Check` job.
 
@@ -121,6 +120,7 @@ manifest assertion PASS/FAIL
 - `encoder/listPhasesR110.txt`: Martinez 2001 / 2004 Rule 110 phase catalog, 包含 ether、A、B、C1、C2、C3、Ebar、F、G、H 和 glider gun 的 phase strings.
 - `encoder/martinez_2012_collisions.txt`: Martinez 2012 Complex Systems 21.2.2 collision / soliton table, 包含 18 个 binary soliton 和 F/Bbar/B collision rows.
 - `encoder/glider_phases.c/h`: C99 static const lookup, 当前覆盖 Cook construction 核心使用的 phase strings.
+- `docs/papers_research_report.md`: 项目唯一 paper 引用入口, 汇总 Cook 2004 / Cook 2009 / Martinez 2007 / Martinez 2012 / Neary-Woods 2007 的可抽取数据、figure 限制和项目 findings 状态.
 - 参考: Cook 2004; Martinez 2007 arXiv:0706.3348; Martinez, Adamatzky, Chen, Chua 2012, Complex Systems 21.2.2.
 
 ## Tier B 推进步骤 (严格目标)
@@ -137,6 +137,15 @@ manifest assertion PASS/FAIL
 - [x] T-B.9: `.algo.ct` Cook packet round-trip. 22 个 .algo.r110.ct 通过 `make test-algo-r110-semantic` 用真 Rule 110 evolution + cook_decode_output 比对, 全 PASS。`single_production_round_trip_512` / `two_productions_round_trip_1024` 锁定端到端。
 
 **Tier B ship 状态**: `.enum.ct` direct-carrier 子集和 `.algo.ct` Cook packet 子集均在本地验证链路内闭合; Beyond-FKernel appendix 四目录具备 `.r110.ct` 直接承载, 22 个 `.algo.r110.ct` manifest 具备 Rule 110 evolution + decoded output window round-trip.
+
+---
+
+## 后续可推进项
+
+- Scale frontier 更大规模探索: production-count cases beyond current `2p×16t×16384` pending.
+- External anchor 扩面: `11` anchors 可继续扩到 `20+`, 优先补 Martinez Appendix A 中更宽的 neighbor / phase surface.
+- Cook 2004 / Cook 2009 Figure 6-11 视觉数据抽取: PDF figure 是图像, `pdftotext` 不给逐 cell row string.
+- Paper-side `\leanchecked` doctrine 同步: 范围在 `papers/bedc/`, 需用户授权后再动.
 
 ---
 
@@ -205,3 +214,4 @@ manifest assertion PASS/FAIL
 4. **附录不动**: `manifests/topology_up|circle_up|fold_up|meta_cic/` 不主动改
 5. **每个 commit 自洽**: `make -C rule110 test` PASS + 0 axiom + cross-check PASS
 6. **merge 不 rebase**: 永远 push 不 force; 单 commit 原子
+7. **paper 数据入口**: 任何要从 PDF 抽数据的工作先查 `docs/papers_research_report.md`; 缺数据再用 `pdftotext`, 并把 extraction 追加到报告对应 Part.
