@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\AxiomQueryLedgerUp$}
+\label{ch:concrete-instances-axiomqueryledger-namecert}
+\origin{human}
+
+The $\AxiomQueryLedgerUp$ packet names the finite audit surface consumed by strict proof-ancestry checks. It records an accepted declaration, the printed axiom-query report for that declaration, the forbidden-dependency comparison row, the refusal verdict, replay provenance, and the local $\NameCert$ row in one $\BHist$ certificate. The packet turns the kernel-acceptance query \texttt{\#print axioms} into a concrete ledger entry rather than an informal host-side statement about dependencies.
+
+\begin{definition}[Axiom-query ledger packet]
+\label{def:axiom-query-ledger-packet}
+An $\AxiomQueryLedgerUp$ packet is a finite $\BHist$ tuple
+$$
+L=(D,Q,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the accepted declaration row, naming the checked BEDC theorem, lemma, definition, structure, class, or inductive declaration whose ancestry is queried;
+\item $Q$ is the axiom-query output row returned by the displayed \texttt{\#print axioms} read for $D$;
+\item $F$ is the forbidden-dependency row for \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, and any project-level host dependency excluded by the strict audit;
+\item $R$ is the verdict row recording whether the query output is admitted as clean or refused because it meets a forbidden dependency row;
+\item $H$ records componentwise $\hsame$ transport for declarations, query outputs, forbidden rows, verdicts, replay routes, provenance, and local names;
+\item $C$ records the displayed $\Cont$ routes by which a consumer replays the declaration read, the query invocation, the comparison with $F$, and the verdict exposure;
+\item $P$ is the $\Pkg$ provenance over kernel acceptance, axiom-query replay, forbidden-dependency comparison, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ source packets;
+\item $N$ is the local $\NameCert_{\AxiomQueryLedgerUp}$ row.
+\end{enumerate}
+The packet has no coordinate for accepting a forbidden dependency as BEDC theorem content, replacing $D$ by a neighboring declaration, treating source-token absence as ancestry purity, or hiding a query report outside the displayed ledger rows.
+\end{definition}
+
+\begin{theorem}[Axiom-query ledger obligations]
+\label{thm:axiom-query-ledger-obligations}
+For every $\AxiomQueryLedgerUp$ packet
+$$
+L=(D,Q,F,R,H,C,P,N),
+$$
+the local $\NameCert_{\AxiomQueryLedgerUp}$ surface consists exactly of accepted-declaration exposure, axiom-query output exposure, forbidden-dependency row exposure, verdict exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. Its non-exported surface excludes hidden host axioms, declaration substitution, source-token-only acceptance, and unrecorded query reruns.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:axiom-query-ledger-packet}. The finite tuple lists exactly the rows $D,Q,F,R,H,C,P,N$.
+
+The audit obligations are read through $Q,F,R$. The query row supplies the printed ancestry report for the accepted declaration, the forbidden row supplies the excluded dependency names, and the verdict row records the finite comparison.
+
+Transport, replay, provenance, and naming are confined to $H,C,P,N$. These rows account for every public route by which a consumer can move, rerun, package, or name the same ledger entry.
+
+Since no remaining coordinate stores a hidden host axiom, an alternate declaration, source-token-only proof, or unrecorded query rerun, the displayed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Axiom-query ledger query soundness]
+\label{thm:axiom-query-ledger-query-soundness}
+Let
+$$
+L=(D,Q,F,R,H,C,P,N)
+$$
+be an accepted $\AxiomQueryLedgerUp$ packet. Any downstream claim that the declaration row $D$ passed strict axiom-query audit must factor through the displayed query row $Q$, the forbidden-dependency row $F$, the verdict row $R$, and the replay route in $C$. A clean verdict is therefore a statement about the recorded query output for $D$, not about an unstated ambient environment scan.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet and project its declaration row $D$. The only query output attached to this declaration inside the carrier is the row $Q$.
+
+The strict audit comparison is stored by the pair $F,R$. The row $F$ names the excluded dependencies, and $R$ records the comparison result for the query output already paired with $D$.
+
+Replay is visible only through $C$, with componentwise transport and provenance supplied by $H$ and $P$. Thus a downstream clean-audit claim must pass through the recorded query, comparison, verdict, and replay rows rather than through an unstated environment-level assertion.
+\end{proof}
+
+\begin{theorem}[Axiom-query ledger refusal boundary]
+\label{thm:axiom-query-ledger-refusal-boundary}
+If the query row $Q$ of an $\AxiomQueryLedgerUp$ packet meets the forbidden-dependency row $F$, the only exported classification of that meeting is the refusal content in $R$. The packet does not export an alternate proof, a renamed declaration, a weaker declaration row, or a host-side permission to treat the forbidden dependency as BEDC content.
+\end{theorem}
+\begin{proof}
+Inspect the packet $L=(D,Q,F,R,H,C,P,N)$. The declaration and query rows expose the checked declaration and its printed ancestry report.
+
+When $Q$ meets $F$, the carrier records that meeting in the verdict row $R$. The comparison has no second verdict coordinate and no alternate declaration coordinate.
+
+The remaining rows preserve and replay the same packet. The transport row $H$, continuation row $C$, provenance row $P$, and naming row $N$ cannot introduce a replacement proof, weaker declaration, or permission row. Therefore the forbidden meeting is exported only as refusal content.
+\end{proof}
+
+\begin{theorem}[Axiom-query ledger non-escape]
+\label{thm:axiom-query-ledger-nonescape}
+Every accepted $\AxiomQueryLedgerUp$ packet exports axiom-query information only through the finite rows
+$$
+D,Q,F,R,H,C,P,N.
+$$
+It exports no host-level proof oracle, no hidden dependency list, no quotient or classical principle, no declaration substitution rule, and no downstream route that bypasses the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $L=(D,Q,F,R,H,C,P,N)$. The definition lists every row exported by the finite ledger.
+
+The query side is exhausted by $D,Q,F,R$. These rows record the accepted declaration, the printed axiom-query output, the forbidden dependency list, and the verdict.
+
+The consumer side is exhausted by $H,C,P,N$. These rows record transport, replay, provenance, and the local name for the same ledger entry.
+
+No coordinate remains for a proof oracle, hidden dependency list, quotient or classical principle, declaration substitution rule, or bypass route. The packet therefore has the stated non-escape boundary.
+\end{proof}
+
+\closureat{AxiomQueryLedgerUp}{seedStr}
+
+\begin{closurestatus}{\AxiomQueryLedgerUp}
+  \constructivestory{An $\AxiomQueryLedgerUp$ packet is generated from an accepted declaration row, a displayed \texttt{\#print axioms} query output, a forbidden-dependency row, a verdict row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axiom-query-ledger-packet}, \autoref{thm:axiom-query-ledger-obligations}, \autoref{thm:axiom-query-ledger-query-soundness}, \autoref{thm:axiom-query-ledger-refusal-boundary}, and \autoref{thm:axiom-query-ledger-nonescape} specify the finite axiom-query ledger packet, strict dependency comparison, refusal boundary, replay provenance, and non-escape surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove global host-kernel purity, completeness of all environment dependency queries, Lean-side formal verification, bridge checking, or acceptance of any dependency outside the displayed finite packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, query-output exactness, forbidden-dependency comparison determinacy, refusal stability, replay provenance, and consumer non-escape for the displayed packet.}
+\end{closurestatus}
