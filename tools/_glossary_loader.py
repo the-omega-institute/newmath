@@ -29,7 +29,10 @@ stdlib only (project rule).
 
 from __future__ import annotations
 
-import tomllib
+try:
+    import tomllib  # type: ignore[import-not-found]
+except ModuleNotFoundError:  # Python < 3.11 fallback (CI uses 3.11+; local dev may run 3.9)
+    import tomli as tomllib  # type: ignore[import-not-found,no-redef]
 from pathlib import Path
 
 GLOSSARY_DIR = Path(__file__).resolve().parents[1] / "docs" / "dossier" / "data_source" / "glossary"
