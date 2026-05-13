@@ -1,7 +1,9 @@
 \chapter{A Concrete Naming Certificate for \(\MonoidUp\)}
 \label{ch:concrete-instances-monoid-namecert}
 
-The monoid interface \(\MonoidUp\) is licensed by an abstract carrier endowed with a binary operation \(\cdot : C \times C \to C\), an identity element \(e : C\), associativity of \(\cdot\), and left and right identity laws of \(e\) under the carrier's source classifier. It is the simplest algebraic NameCert and is self-contained: no other licensed object is required as a dependency. It is not a primitive structure; it is licensed only when the carrier's classifier admits the algebraic equational fields.
+The monoid interface \(\MonoidUp\) is licensed by an abstract carrier endowed with a binary operation \(\cdot : C \times C \to C\), an identity element \(e : C\), associativity of \(\cdot\), and left and right identity laws of \(e\) under the carrier's source classifier. At the abstract interface level, no other licensed object is required as a dependency. It is not a primitive structure; it is licensed only when the carrier's classifier admits the algebraic equational fields.
+
+The concrete history monoid instance extends the unary-history semigroup of \autoref{ch:concrete-instances-semigroup-namecert}. It reuses the same append carrier, append associativity, and classifier route, and adds the empty-history unit rows that witness the left and right identity laws.
 
 \section{Carrier definition}
 
