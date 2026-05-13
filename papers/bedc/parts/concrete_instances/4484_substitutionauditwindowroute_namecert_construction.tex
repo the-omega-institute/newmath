@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\SubstitutionAuditWindowRouteUp$}
+\label{ch:concrete-instances-substitutionauditwindowroute-namecert}
+\origin{ai}
+
+The $\SubstitutionAuditWindowRouteUp$ packet realizes the closed-window route implicit in the MetaCIC substitution audit map of \autoref{ch:metacic-substitution-audit-map}. It sits beside the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert} and the MetaCIC substitution audit packet of \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}: those chapters expose the audit rows and packet inventory, while this chapter records the finite route through which a consumer reads closed shift, closed substitution, closed composition, generator closure, and the subject-reduction handoff boundary without treating the handoff as a proof of subject reduction.
+
+\begin{definition}[Substitution audit window route carrier]
+\label{def:substitution-audit-window-route-carrier}
+A $\SubstitutionAuditWindowRouteUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,D,L,M,C,G,B,H,R,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC $\mathsf{Term}$ row inspected by the substitution audit;
+\item $D$ is the $\mathsf{ClosedAt}$ window at which the term is read;
+\item $L$ is the closed shift row, recording the $\mathsf{shift\_closed}$ route under $D$;
+\item $M$ is the closed substitution row, recording the $\mathsf{substitute\_closed}$ route under $D$;
+\item $C$ is the closed composition row for the available closed substitution compositions, including the closed-at-depth and closed-at-zero composition surfaces;
+\item $G$ is the generator-closure classifier row for closed-under-shift, closed-under-substitution, and the closed composition route;
+\item $B$ is the subject-reduction handoff row, naming the beta-substitution and dependent-typing boundary without discharging it;
+\item $H$ records componentwise $\hsame$ transports for term, window, movement, composition, classifier, handoff, route, provenance, and naming rows;
+\item $R$ records the displayed $\Cont$ routes by which a consumer inspects the rows in the listed order;
+\item $P$ is the $\Pkg$ provenance over the substitution audit map, the sibling substitution audit packet, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SubstitutionAuditWindowRouteUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose coordinates are the displayed term, closed-window, closed shift, closed substitution, closed composition, generator-closure, handoff, transport, continuation, provenance, and local naming rows. It exports no unrestricted substitution calculus, no beta-substitution preservation theorem, no closed subject-reduction theorem, no quotient equality, and no host semantic equality coordinate.
+\end{definition}
+
+\begin{theorem}[Substitution audit window route NameCert obligations]
+\label{thm:substitution-audit-window-route-namecert-obligations}
+For the carrier of \autoref{def:substitution-audit-window-route-carrier}, the local $\NameCert_{\SubstitutionAuditWindowRouteUp}$ surface consists exactly of carrier admission for
+$$
+W=(T,D,L,M,C,G,B,H,R,P,N),
+$$
+closed-window readback through $T,D$, closed shift readback through $L$, closed substitution readback through $M$, closed-composition readback through $C$, generator-closure classification through $G$, subject-reduction handoff exposure through $B$, componentwise transport through $H$, displayed continuation through $R$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite $\BHist$ packet. Projecting $T$ and $D$ exposes the audited term together with the closed window at which public substitution reads are admitted.
+
+Read the movement rows next. The row $L$ records the closed shift route, $M$ records the closed substitution route, and $C$ records the closed composition route. These are exactly the closed rows named by \autoref{ch:metacic-substitution-audit-map}.
+
+Read $G$ and $B$ after the movement rows. The generator-closure row classifies the shift, substitute, and composition routes as closed-window generator data, while the handoff row records the subject-reduction boundary as a boundary row rather than as typed preservation.
+
+Finally inspect $H,R,P,N$. The transport, continuation, provenance, and local naming rows replay the same finite carrier. Since the packet has no coordinate for unrestricted substitution, beta-substitution preservation, closed subject reduction, quotient equality, or host semantic equality, the NameCert surface is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Substitution audit window route closed composition handoff]
+\label{thm:substitution-audit-window-route-closed-composition-handoff}
+For every accepted $\SubstitutionAuditWindowRouteUp$ carrier $W=(T,D,L,M,C,G,B,H,R,P,N)$, any consumer read of the subject-reduction handoff row $B$ first factors through the closed window $D$, the closed shift row $L$, the closed substitution row $M$, the closed composition row $C$, and the generator-closure row $G$. The handoff may cite those rows as syntax-side closure data, but it cannot export beta-substitution preservation, dependent typing preservation, or a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier order. The handoff row $B$ is listed after the closed movement and classifier rows, so an accepted route to $B$ has already selected $D,L,M,C,G$.
+
+Use the NameCert obligations of \autoref{thm:substitution-audit-window-route-namecert-obligations}. They route closed-window readback through $D$, closed movement through $L,M$, closed composition through $C$, and generator closure through $G$ before the handoff row can be consumed.
+
+The rows $H$ and $R$ preserve that order under componentwise transport and displayed continuation. Provenance through $P$ points back to \autoref{ch:concrete-instances-substitutionauditmap-namecert} and \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}, while the local name $N$ binds the route as a finite packet.
+
+It remains only to record the boundary. The carrier has no coordinate for beta-substitution preservation, dependent typing preservation, unrestricted substitution commutation, or a closed subject-reduction theorem. Therefore the handoff is readable as a named downstream boundary, not as a discharge of that boundary.
+\end{proof}
+
+\closureat{SubstitutionAuditWindowRouteUp}{seedStr}
+
+\begin{closurestatus}{\SubstitutionAuditWindowRouteUp}
+  \constructivestory{A $\SubstitutionAuditWindowRouteUp$ packet is generated from a MetaCIC term row, a ClosedAt window, closed shift and substitution rows, closed composition rows, generator-closure classifier rows, a subject-reduction handoff row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:substitution-audit-window-route-carrier}, \autoref{thm:substitution-audit-window-route-namecert-obligations}, and \autoref{thm:substitution-audit-window-route-closed-composition-handoff} bind the finite closed-window route from substitution audit rows to the subject-reduction handoff boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close unrestricted substitution, beta-substitution preservation, dependent typing preservation, closed subject reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-window readback, closed movement readback, closed-composition readback, generator-closure readback, handoff exposure, transport, continuation, provenance, naming, and boundary non-escape for the same finite packet.}
+\end{closurestatus}

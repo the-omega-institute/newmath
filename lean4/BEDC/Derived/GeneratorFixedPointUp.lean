@@ -49,4 +49,52 @@ theorem GeneratorFixedPointPacket_source_admission_row [AskSetup] [PackageSetup]
       namePkg,
       admittedPkg⟩
 
+theorem GeneratorFixedPointPacket_transport_row [AskSetup] [PackageSetup]
+    {generator list classifier witness output transport routes provenance name generator' list'
+      classifier' witness' output' routes' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorFixedPointPacket generator list classifier witness output transport routes
+        provenance name bundle pkg →
+      hsame generator generator' →
+        hsame list list' →
+          hsame classifier classifier' →
+            hsame witness witness' →
+              hsame output output' →
+                hsame routes routes' →
+                  Cont generator' list' classifier' →
+                    Cont witness' output' routes' →
+                      UnaryHistory generator' ∧ UnaryHistory list' ∧
+                        UnaryHistory classifier' ∧ UnaryHistory witness' ∧
+                          UnaryHistory output' ∧ UnaryHistory routes' ∧
+                            Cont generator' list' classifier' ∧
+                              Cont witness' output' routes' ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet sameGenerator sameList sameClassifier sameWitness sameOutput sameRoutes
+    generatorListClassifier witnessOutputRoutes
+  obtain ⟨generatorUnary, listUnary, classifierUnary, witnessUnary, outputUnary,
+    _transportUnary, routesUnary, _provenanceUnary, _nameUnary, _generatorListClassifier,
+    _witnessOutputRoutes, namePkg⟩ := packet
+  have generatorUnary' : UnaryHistory generator' :=
+    unary_transport generatorUnary sameGenerator
+  have listUnary' : UnaryHistory list' :=
+    unary_transport listUnary sameList
+  have classifierUnary' : UnaryHistory classifier' :=
+    unary_transport classifierUnary sameClassifier
+  have witnessUnary' : UnaryHistory witness' :=
+    unary_transport witnessUnary sameWitness
+  have outputUnary' : UnaryHistory output' :=
+    unary_transport outputUnary sameOutput
+  have routesUnary' : UnaryHistory routes' :=
+    unary_transport routesUnary sameRoutes
+  exact
+    ⟨generatorUnary',
+      listUnary',
+      classifierUnary',
+      witnessUnary',
+      outputUnary',
+      routesUnary',
+      generatorListClassifier,
+      witnessOutputRoutes,
+      namePkg⟩
+
 end BEDC.Derived.GeneratorFixedPointUp

@@ -145,6 +145,31 @@ theorem AnalyticContinuationSocketCarrier_operation_output_factorization [AskSet
       provenancePkg,
       consumerPkg⟩
 
+theorem AnalyticContinuationSocketCarrier_branch_ledger_exhaustion [AskSetup]
+    [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg →
+      hsame consumer branch →
+        UnaryHistory consumer ∧ UnaryHistory branch ∧ Cont branch transport continuation ∧
+          PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameConsumerBranch
+  obtain ⟨_sourceUnary, _leftOverlapUnary, _witnessUnary, _operationUnary, _outputUnary,
+    branchUnary, _transportUnary, _continuationUnary, _provenanceUnary, _nameUnary,
+    _sourceLeftOverlapWitness, _witnessOperationOutput, branchTransportContinuation,
+    _outputContinuationProvenance, _continuationNameProvenance, provenancePkg, _namePkg⟩ :=
+    carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_transport branchUnary (hsame_symm sameConsumerBranch)
+  exact
+    ⟨consumerUnary,
+      branchUnary,
+      branchTransportContinuation,
+      provenancePkg⟩
+
 def AnalyticContinuationSocketPacket [AskSetup] [PackageSetup]
     (source leftOverlap witness operation output branch transport continuation provenance
       name : BHist)
