@@ -54,6 +54,24 @@ Apply \autoref{thm:real-completeness-transported-stationary-window-seal-exhausti
 The continuations in $C$ replay only those readings, and $H$ transports them componentwise. No carrier coordinate remains for an unbounded window family, so every cofinal-tail observation is exhausted by the displayed finite packet.
 \end{proof}
 
+\begin{theorem}[Diagonal cofinal-tail selector lock]
+\label{thm:diagonal-cofinal-tail-tail-selector-lock}
+For an accepted $\DiagonalCofinalTailUp$ carrier
+$$
+T=(Q,S,G,D,R,W,H,C,P,N),
+$$
+any cofinal-tail selector visible to a $\RegSeqRatUp$ or $\RealUp$ consumer is determined by the displayed stationary $\RatUp$ seed row $Q$, the constant $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ tail readback row $G$, the $\DyadicRatCoreUp$ finite-window ledger $D$, the transported seal row $W$, and the route rows $H,C,P,N$. No unrecorded selector, quotient-stream equality, selected limit, or ambient completeness datum can select a different tail for that consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only tail-bearing rows are the stationary seed row, the constant window row, the regular-rational readback row, the dyadic finite-window ledger, and the transported seal row, with $H,C,P,N$ giving transport, route replay, provenance, and local naming.
+
+Apply \autoref{thm:diagonal-cofinal-tail-window-exhaustion}. It forces every finite cofinal-tail observation read by a downstream consumer through the same displayed packet $Q,S,G,D,R,W,H,C,P,N$.
+
+Now use \autoref{thm:diagonal-cofinal-tail-real-seal-handoff}. The $\RealUp$-facing read is the transported stationary diagonal row named by the $\RatUp$ seed classifier, so the real-facing selector and the $\RegSeqRatUp$ tail readback are the same finite route.
+
+Since the carrier contains no coordinate for an unrecorded selector, quotient-stream equality, selected limit, or ambient completeness datum, no consumer-visible route remains that could choose a different cofinal tail.
+\end{proof}
+
 \begin{theorem}[Diagonal cofinal-tail Real seal handoff]
 \label{thm:diagonal-cofinal-tail-real-seal-handoff}
 For an accepted $\DiagonalCofinalTailUp$ carrier, the $\RealUp$ finite-window classifier exported by $R$ and $W$ is reached only through the displayed StreamNameUp window, RegSeqRatUp seal consumption row, and DyadicRatCoreUp finite-window ledger. Thus the real-facing seal handoff is the same transported stationary diagonal row named by the RatUp seed classifier in $Q$.
