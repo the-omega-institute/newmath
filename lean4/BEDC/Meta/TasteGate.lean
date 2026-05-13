@@ -177,4 +177,55 @@ class FieldFaithful (X : Type) [BHistCarrier X] where
     `.mk`-derived `fields` projection and proving `field_faithful`
     by case-analysis on `.mk`. -/
 
+/-! ## Nontrivial: carrier has ≥ 2 distinct inhabitants.
+
+    `ChapterTasteGate.layer_separation` is vacuously satisfied for
+    `PUnit` / `Empty` / any 1-element carrier — the implication
+    `x ≠ y → ...` has no antecedent witness to discharge. `Nontrivial`
+    closes the loophole by demanding a concrete pair of distinct
+    inhabitants, which is the minimum cardinality required to make
+    `layer_separation` semantically meaningful. -/
+
+/-- Witness that a chapter carrier has at least 2 distinct inhabitants.
+    Forbids `PUnit` / `Empty` / any 1-element carrier (which would make
+    `layer_separation` vacuously true). -/
+class Nontrivial (X : Type) where
+  witness_pair : Σ' (x : X) (y : X), x ≠ y
+
+/-! ## StructurallyAtomic: chapter is not reducible to listed siblings.
+
+    Even with `FieldFaithful`, a chapter could be a Cartesian product
+    or refinement of an existing chapter — its carrier rows are real,
+    encoded faithfully, but the *concept* is composite, derivable from
+    sibling concepts. `StructurallyAtomic` asks the chapter to commit
+    a list of nearest siblings and prove the carrier admits no
+    bijection (injection ∧ surjection) to any of them. The proof is
+    usually a counter-witness: an inhabitant in `X` whose forward
+    image misses a row required by `Y`, or vice versa.
+
+    This is intentionally OPT-IN. Chapters that are genuinely composite
+    (e.g. `<X>UpProduct YUp ZUp`) decline this class; the paper-side
+    closure block records `\origin{ai-composite}` rather than
+    `\origin{ai}`. Only chapters claiming structural atomicity inhabit. -/
+
+/-- Witness that a chapter carrier is not bijective to any of a
+    listed set of sibling carriers. The chapter selects its nearest
+    siblings (typically 3-5) and provides a `not_bijection_to` row for
+    each, proving no Y inhabitant maps onto every X inhabitant via an
+    injection. -/
+class StructurallyAtomic (X : Type) where
+  /-- Names of nearest sibling chapter carrier types, as Lean type
+      identifiers. Phase D paper-gate cross-checks this against the
+      paper-side `\independenceWitness{...}` row. -/
+  nearest_siblings : List String
+
+  /-- For each sibling `Y` in `nearest_siblings`, prove the carrier
+      cannot be bijected (injection ∧ surjection) into `Y`. A trivial
+      cardinality argument works when |X| ≠ |Y|, but for same-rank
+      carriers the chapter must show a structural distinction —
+      typically by exhibiting a NameCert obligation row of `X` that
+      cannot be reduced through any `X → Y` map preserving the carrier
+      shape. -/
+  not_reducible_witness : String
+
 end BEDC.Meta.TasteGate
