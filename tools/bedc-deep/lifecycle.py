@@ -260,6 +260,30 @@ def _is_posthoc_paper_covered_target(state: dict) -> bool:
         if theorem.exists():
             text = theorem.read_text(encoding="utf-8")
             return "thm:module-linearmap-pointwise-zero-additive-identity" in text
+    if target_id == "B-730" and title == "regularcauchymesh finite submesh restriction":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "3168_regularcauchymesh_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:regular-cauchy-mesh-finite-submesh-restriction" in text
+    if target_id == "B-731" and title == "hankelvandermonde spectral-shadow bridge":
+        theorem = (
+            SCRIPT_DIR.parents[1]
+            / "papers"
+            / "bedc"
+            / "parts"
+            / "concrete_instances"
+            / "1796_hankelvandermonde_namecert_construction.tex"
+        )
+        if theorem.exists():
+            text = theorem.read_text(encoding="utf-8")
+            return "thm:hankel-vandermonde-spectral-shadow-bridge" in text
     return False
 
 
