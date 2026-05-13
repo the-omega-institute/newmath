@@ -1,0 +1,54 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.CompactModulusCoverUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def CompactModulusCoverCarrier [AskSetup] [PackageSetup]
+    (compactSource continuousRow tolerance bundleRow coverRows pointwiseRows handoff radiusFamily
+      transports routes provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory compactSource ∧ UnaryHistory continuousRow ∧ UnaryHistory tolerance ∧
+    UnaryHistory bundleRow ∧ UnaryHistory coverRows ∧ UnaryHistory pointwiseRows ∧
+      UnaryHistory handoff ∧ UnaryHistory radiusFamily ∧ UnaryHistory transports ∧
+        UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+          Cont compactSource bundleRow coverRows ∧ Cont continuousRow tolerance pointwiseRows ∧
+            Cont pointwiseRows radiusFamily handoff ∧ Cont handoff transports routes ∧
+              Cont routes provenance localCert ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle localCert pkg
+
+theorem CompactModulusCoverCarrier_finite_net_source_exhaustion [AskSetup] [PackageSetup]
+    {compactSource continuousRow tolerance bundleRow coverRows pointwiseRows handoff radiusFamily
+      transports routes provenance localCert coverRead pointwiseRead foldRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactModulusCoverCarrier compactSource continuousRow tolerance bundleRow coverRows
+        pointwiseRows handoff radiusFamily transports routes provenance localCert bundle pkg ->
+      Cont compactSource bundleRow coverRead ->
+        Cont continuousRow tolerance pointwiseRead ->
+          Cont pointwiseRows radiusFamily foldRead ->
+            UnaryHistory coverRead ∧ UnaryHistory pointwiseRead ∧ UnaryHistory foldRead ∧
+              PkgSig bundle provenance pkg := by
+  intro carrier coverReadRow pointwiseReadRow foldReadRow
+  obtain ⟨compactSourceUnary, continuousRowUnary, toleranceUnary, bundleRowUnary,
+    _coverRowsUnary, pointwiseRowsUnary, _handoffUnary, radiusFamilyUnary, _transportsUnary,
+    _routesUnary, _provenanceUnary, _localCertUnary, _compactRoute, _pointwiseRoute,
+    _handoffRoute, _routesTransport, _localCertRoute, provenancePkg, _localCertPkg⟩ := carrier
+  have coverReadUnary : UnaryHistory coverRead :=
+    unary_cont_closed compactSourceUnary bundleRowUnary coverReadRow
+  have pointwiseReadUnary : UnaryHistory pointwiseRead :=
+    unary_cont_closed continuousRowUnary toleranceUnary pointwiseReadRow
+  have foldReadUnary : UnaryHistory foldRead :=
+    unary_cont_closed pointwiseRowsUnary radiusFamilyUnary foldReadRow
+  exact ⟨coverReadUnary, pointwiseReadUnary, foldReadUnary, provenancePkg⟩
+
+end BEDC.Derived.CompactModulusCoverUp
