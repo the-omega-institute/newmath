@@ -55,6 +55,28 @@ Since the carrier has no coordinate for an infinite mesh, unlisted stream window
 \end{proof}
 \leanchecked{BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_window\_coverage}
 
+\begin{theorem}[Real diagonal mesh-budget monotonicity]
+\label{thm:real-diagonal-mesh-budget-budget-monotonicity}
+Let
+$$
+M=(q,b,\omega,\rho,\delta,\theta,e,h,c,p,n)
+$$
+and
+$$
+M'=(q,b',\omega,\rho,\delta,\theta,e,h,c,p,n)
+$$
+be accepted $\RealDiagonalMeshBudgetUp$ packets whose precision request and route rows agree. Suppose the finite budget $b'$ contains every inspected index and radius row of $b$, and suppose the selected $\StreamNameUp$ windows $\omega$, $\RegSeqRatUp$ readbacks $\rho$, $\DyadicRatCoreUp$ ledger rows $\delta$, and aggregation row $\theta$ are preserved as the same displayed rows. Then every $\RealUp$ seal read admitted by the smaller budget $b$ is admitted by the larger displayed budget $b'$. The enlargement adds no infinite mesh, quotient stream, host real equality, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The shared rows $q,\omega,\rho,\delta,\theta,e,h,c,p,n$ fix the precision request, selected windows, readbacks, dyadic ledger, aggregation row, seal endpoint, transports, continuation routes, provenance, and local name.
+
+Use the NameCert obligations of \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}. They make the finite budget row the only place where inspected indices and radii can enter the packet. Since $b'$ contains every inspected row of $b$, each budget read used by the smaller packet is still visible in the larger packet.
+
+Apply \autoref{thm:real-diagonal-mesh-budget-window-coverage}. The admitted diagonal observation for the smaller budget already factors through the preserved rows $\omega,\rho,\delta,\theta$, so replacing $b$ by $b'$ does not change the visible selected-window route.
+
+Finally replay \autoref{thm:real-diagonal-mesh-budget-realup-handoff} through the shared rows. The same route reaches the same seal row $e$ through $q,b',\omega,\rho,\delta,\theta,h,c,p,n$, and the carrier has no coordinate for an infinite mesh, quotient stream, host real equality, or ambient completeness witness.
+\end{proof}
+
 \begin{theorem}[Real diagonal mesh-budget selected-window refinement]
 \label{thm:real-diagonal-mesh-budget-window-refinement}
 Every accepted $\RealDiagonalMeshBudgetUp$ packet determines a $\RealDiagonalWindowCoverageUp$ selected-window surface by projecting the precision row $q$, mesh budget $b$, selected $\StreamNameUp$ windows $\omega$, $\RegSeqRatUp$ readbacks $\rho$, $\DyadicRatCoreUp$ tolerance ledger $\delta$, and aggregation row $\theta$.
@@ -171,6 +193,7 @@ The NameCert obligations and finite window coverage account for precision, budge
 
 RealUp handoff accounts for the seal-facing route, non-escape removes unlisted analytic data, and the obligation-closure package repacks those rows as one finite mesh-budget packet. Thus the scoped surface is exhausted and cannot supply infinite mesh data, quotient streams, host real equality, ambient completeness, selected limits, or open-cover compactness.
 \end{proof}
+\leanchecked{BEDC.Derived.RealDiagonalMeshBudgetUp.RealDiagonalMeshBudgetCarrier\_consumer\_scope\_exhaustion}
 
 \closureat{RealDiagonalMeshBudgetUp}{seedStr}
 \closureat{RealDiagonalMeshBudgetUp}{obligationStr}
