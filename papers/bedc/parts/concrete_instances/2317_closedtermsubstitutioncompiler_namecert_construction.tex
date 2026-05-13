@@ -94,6 +94,42 @@ Next read the operation row $V$ and the witness row $F$. The syntactic operation
 Finally repack the route through $C,P,N$. The continuation, provenance, and local naming rows record a self-compilation boundary step, while the absence of evaluator-soundness and subject-reduction coordinates fixes the stated scope.
 \end{proof}
 
+\begin{theorem}[ClosedTermSubstitutionCompiler classifier transport]
+\label{thm:closed-term-substitution-compiler-classifier-transport}
+For accepted $\ClosedTermSubstitutionCompilerUp$ packets, componentwise $\hsame$ transport preserves the displayed $\mathsf{ClosedAt}$ row, the $\mathsf{shift}$ row, the $\mathsf{substitute}$ row, the witness row containing $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$, the self-compile route, provenance, and the local $\NameCert_{\ClosedTermSubstitutionCompilerUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-term-substitution-compiler}. The rows $T,D,V,F,H,C,P,N$ expose the closedness classifier, syntactic operation rows, fixed-boundary witnesses, continuation route, provenance, and naming certificate.
+
+Use the transport obligation in \autoref{thm:closed-term-substitution-compiler-namecert-obligations}. Its classifier clause moves $D$ and the operation-witness rows through the displayed entries of $H$.
+
+The self-compile route of \autoref{thm:closed-term-substitution-compiler-self-compile-route} is then replayed through $C$, while $P$ and $N$ keep the transported read inside the same local certificate surface.
+\end{proof}
+
+\begin{theorem}[ClosedTermSubstitutionCompiler shift-substitute compatibility]
+\label{thm:closed-term-substitution-compiler-shift-substitute-compatibility}
+In every accepted $\ClosedTermSubstitutionCompilerUp$ packet, the displayed $\mathsf{shift\_closed}$ witness and the displayed $\mathsf{substitute\_closed}$ witness share the same closed-boundary classifier before any compiler-facing read may consume either equality.
+\end{theorem}
+\begin{proof}
+Read the carrier row $D$ before the witness row $F$. By \autoref{thm:closed-term-substitution-compiler-boundary}, the substitution and shift routes are both exposed as closed-boundary routes rather than as evaluator facts.
+
+The NameCert obligations of \autoref{thm:closed-term-substitution-compiler-namecert-obligations} require substitution-boundary exactness and shift-boundary compatibility. Thus both witnesses are admitted only after the same displayed $\mathsf{ClosedAt}$ classifier has been read.
+
+The self-compile route of \autoref{thm:closed-term-substitution-compiler-self-compile-route} may compose with the shift row, but the composition stays inside the shared classifier boundary.
+\end{proof}
+
+\begin{theorem}[ClosedTermSubstitutionCompiler public non-escape]
+\label{thm:closed-term-substitution-compiler-public-nonescape}
+No public consumer of an accepted $\ClosedTermSubstitutionCompilerUp$ packet can read evaluator soundness, subject reduction, host CIC truth, or open-term semantics from the packet. Public reads are limited to the displayed $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, witness, route, provenance, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:closed-term-substitution-compiler}. It contains rows for the MetaCIC term generator, closedness classifier, syntactic operations, fixed-boundary witnesses, transports, routes, provenance, and local naming.
+
+\autoref{thm:closed-term-substitution-compiler-boundary} and \autoref{thm:closed-term-substitution-compiler-self-compile-route} describe exactly the public routes: closedness, syntactic operation, fixed-boundary witness, and local NameCert.
+
+The excluded principles are absent from the carrier and are rejected by the non-escape obligation in \autoref{thm:closed-term-substitution-compiler-namecert-obligations}. Hence no public projection can recover evaluator soundness, subject reduction, host CIC truth, or open-term semantics.
+\end{proof}
+
 \closureat{ClosedTermSubstitutionCompilerUp}{seedStr}
 
 \begin{closurestatus}{\ClosedTermSubstitutionCompilerUp}
