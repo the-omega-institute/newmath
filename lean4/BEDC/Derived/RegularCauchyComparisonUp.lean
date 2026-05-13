@@ -240,4 +240,25 @@ theorem RegularCauchyComparisonCarrier_common_window_stability [AskSetup] [Packa
     ⟨windowUnary, sharedLeftUnary, sharedRightUnary, observationReadUnary, toleranceReadUnary,
       sameShared, ledgerSame, provenancePkg⟩
 
+theorem RegularCauchyComparisonCarrier_seal_uniqueness_boundary [AskSetup] [PackageSetup]
+    {leftName rightName leftName' rightName' window observations tolerance ledger sealRow
+      sealRow' sameRows routes provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyComparisonCarrier leftName rightName window observations tolerance ledger sealRow
+        sameRows routes provenance nameCert bundle pkg ->
+      RegularCauchyComparisonCarrier leftName' rightName' window observations tolerance ledger
+          sealRow' sameRows routes provenance nameCert bundle pkg ->
+        hsame sealRow sealRow' := by
+  intro carrier carrier'
+  obtain ⟨_leftUnary, _rightUnary, _windowUnary, _observationsUnary, _toleranceUnary,
+    _ledgerUnary, _sealUnary, _sameRowsUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, _leftWindowSameRows, _rightWindowSameRows, _sameRowsObservationsRoutes,
+    _observationsToleranceLedger, ledgerSealProvenance, _ledgerSame, _pkgSig⟩ := carrier
+  obtain ⟨_leftUnary', _rightUnary', _windowUnary', _observationsUnary', _toleranceUnary',
+    _ledgerUnary', _sealUnary', _sameRowsUnary', _routesUnary', _provenanceUnary',
+    _nameCertUnary', _leftWindowSameRows', _rightWindowSameRows',
+    _sameRowsObservationsRoutes', _observationsToleranceLedger', ledgerSealProvenance',
+    _ledgerSame', _pkgSig'⟩ := carrier'
+  exact cont_left_cancel ledgerSealProvenance ledgerSealProvenance'
+
 end BEDC.Derived.RegularCauchyComparisonUp
