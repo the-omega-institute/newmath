@@ -1,0 +1,67 @@
+\chapter{MetaCIC Audit Map Family Name Certificate Construction}
+\label{ch:concrete-instances-metacicauditmapfamily-namecert}
+\origin{ai}
+
+The $\MetaCICAuditMapFamilyUp$ packet turns the audit-map family methodology of \autoref{ch:audit-map-family-methodology} into one finite MetaCIC NameCert carrier. It sits beside the synthesis packet of \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, and the closure-preservation audit packet of \autoref{ch:concrete-instances-metacicclosurepreservationaudit-namecert}: those chapters expose local rows, while this packet records how the rows are collected into a family without converting local audit data into global MetaCIC closure.
+
+\begin{definition}[MetaCIC audit-map family carrier]
+\label{def:metacic-audit-map-family-carrier}
+A $\MetaCICAuditMapFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,S,O,F,D,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the finite family of local MetaCIC audit-map rows, including substitution, closure-preservation, normalization, confluence, beta, decidability, typed-example, subject-reduction, and consistency-facing maps when those rows are present;
+\item $S$ is the finite family of synthesis rows that read local map entries into the MetaCIC audit synthesis surface;
+\item $O$ is the obstruction ledger for local rows that must remain visible as blockers rather than hidden discharge evidence;
+\item $F$ is the frontier ledger for conditional or consumer-facing rows whose use is permitted only through named neighbouring maps;
+\item $D$ is the cross-map dependency ledger recording which synthesis, obstruction, and frontier rows consume which local audit-map rows;
+\item $H$ records componentwise $\hsame$ transports for the local map rows, synthesis rows, obstruction rows, frontier rows, dependency ledger, continuation routes, provenance, and local name;
+\item $C$ records the displayed $\Cont$ routes by which consumers replay local-map reads, synthesis reads, obstruction reads, frontier handoffs, dependency reads, provenance reads, and the local name;
+\item $P$ is the $\Pkg$ provenance over the audit-map methodology, the concrete audit-map siblings, the synthesis packet, the obstruction ledgers, the frontier ledgers, and the local MetaCIC substrates;
+\item $N$ is the local $\NameCert_{\MetaCICAuditMapFamilyUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible coordinates are the rows $M,S,O,F,D,H,C,P,N$. It exports no unlisted theorem of subject reduction, closure preservation, normalization, confluence, closed consistency, or host semantic equality.
+\end{definition}
+
+\begin{theorem}[MetaCIC audit-map family NameCert obligations]
+\label{thm:metacic-audit-map-family-namecert-obligations}
+For the carrier of \autoref{def:metacic-audit-map-family-carrier}, the local $\NameCert_{\MetaCICAuditMapFamilyUp}$ surface consists exactly of carrier admission for
+$$
+A=(M,S,O,F,D,H,C,P,N),
+$$
+local audit-map row exposure through $M$, synthesis-row exposure through $S$, obstruction-row exposure through $O$, frontier-row exposure through $F$, cross-map dependency readback through $D$, componentwise route replay through $H$ and $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $A$. The row $M$ names the local audit maps before any synthesis or frontier read can be consumed.
+
+Read the row families $S,O,F$ next. The synthesis rows expose positive family assembly data, the obstruction rows expose blocked or conditional cells, and the frontier rows expose only the named handoffs available to downstream consumers.
+
+Finally inspect $D,H,C,P,N$. The dependency ledger records which local rows each cross-map read may use, transport and continuation replay those reads componentwise, provenance cites the displayed sibling chapters, and the local name binds the packet. No other NameCert obligation is available from the carrier.
+\end{proof}
+
+\begin{theorem}[MetaCIC audit-map family non-escape]
+\label{thm:metacic-audit-map-family-nonescape}
+For every accepted $\MetaCICAuditMapFamilyUp$ carrier $A=(M,S,O,F,D,H,C,P,N)$, every consumer read remains inside the displayed local audit-map rows, synthesis rows, obstruction rows, frontier rows, cross-map dependency ledger, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. In particular, a consumer cannot turn one local audit map, or the finite family of such maps, into global MetaCIC closure, subject reduction, normalization, confluence, full closed consistency, or host semantic equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The only public coordinates are $M,S,O,F,D,H,C,P,N$, so every consumer-facing read must pass through the displayed local map rows and the displayed family ledgers.
+
+Use the NameCert obligations of \autoref{thm:metacic-audit-map-family-namecert-obligations}. They force synthesis reads through $S$, obstruction reads through $O$, frontier reads through $F$, and cross-map reads through $D$ with transport and continuation replay supplied by $H$ and $C$.
+
+The provenance and naming rows do not add theorem content. Since $P$ cites only visible sibling packets and $N$ names only the local carrier, no read can manufacture a missing global closure theorem or discharge an obstruction absent from the packet.
+\end{proof}
+
+\closureat{MetaCICAuditMapFamilyUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICAuditMapFamilyUp}
+  \constructivestory{A $\MetaCICAuditMapFamilyUp$ packet is generated from local MetaCIC audit-map rows, synthesis rows, obstruction rows, frontier rows, a cross-map dependency ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-audit-map-family-carrier}, \autoref{thm:metacic-audit-map-family-namecert-obligations}, and \autoref{thm:metacic-audit-map-family-nonescape} bind the finite MetaCIC audit-map family packet and its non-escape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global MetaCIC closure, subject reduction, normalization, confluence, full closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, local row exposure, synthesis row exposure, obstruction row exposure, frontier row exposure, dependency readback, route replay, provenance, naming, and non-escape for the same finite packet.}
+\end{closurestatus}
