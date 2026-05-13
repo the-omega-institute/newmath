@@ -7,21 +7,35 @@ seal handoff package. Its exported rows are the
 $\mathsf{RatStreamNameClassifier}$ row, the
 $\mathsf{RealUnaryStreamClassifier}$ transport row, the certified unary
 endpoint carriers, the finite-window ledger, and the seal/readback provenance.
+This handoff is the concrete route through
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-dyadicratcore-namecert} before the local
+$\RealUp$ seal is read.
 
 No quotient carrier, host equality, real completeness, arithmetic package,
 order package, or metric-completeness row is exported by this handoff.
 \end{theorem}
 \begin{proof}
-First project the scoped stream-name interface. Theorem~\ref{thm:regseqrat-streamname-scoped-interface}
+First project the scoped stream-name interface.
+\autoref{thm:regseqrat-streamname-scoped-interface}
 supplies the $\mathsf{RatStreamNameClassifier}$ row, the transported
 $\mathsf{RealUnaryStreamClassifier}$ row, and the certified unary endpoint
-carrier rows used by the $\RealUp$ stream-prefix certificate.
+carrier rows used by the $\RealUp$ stream-prefix certificate. These rows are
+exactly the sibling chapter surfaces named by
+\autoref{ch:concrete-instances-streamname-namecert} and
+\autoref{ch:concrete-instances-regseqrat-namecert}, not additional analytic
+structure.
 
-Next read the finite-window seal boundary. Theorems
-\ref{thm:regseqrat-finite-window-seal-coverage} and
-\ref{thm:regseqrat-finite-window-real-seal-interface} identify the finite
+Next read the finite-window seal boundary.
+\autoref{thm:regseqrat-finite-window-seal-coverage} and
+\autoref{thm:regseqrat-finite-window-real-seal-interface} identify the finite
 window, the pointwise dyadic observation rows, and the $\RegSeqRat$ spine
-ledger consumed by the public $\RealUp$ seal.
+ledger consumed by the public $\RealUp$ seal. These rows are exactly the
+sibling chapter surfaces named by
+\autoref{ch:concrete-instances-dyadicratcore-namecert} and
+\autoref{ch:concrete-instances-regseqrat-namecert}, not additional analytic
+structure.
 
 Finally use the endpoint readback and hidden-data ledger rows of the
 stream-prefix certificate boundary. They repack the displayed classifier,
@@ -78,6 +92,51 @@ and the second identifies that package as the finite seal handoff. Since every
 row used in both directions is one of the displayed four faces, no quotient
 carrier, host equality, completeness, arithmetic, order, or
 metric-completeness datum is introduced.
+\end{proof}
+
+\begin{theorem}[RealUp open-phase four-face consumer totality]
+\label{thm:realup-open-phase-four-face-consumer-totality}
+Every downstream $\RealUp$, $\RegSeqRatUp$, completion-facing, or
+stream-facing consumer of an accepted finite $\RealUp$ seal source factors
+through exactly the four displayed open-phase faces:
+\begin{enumerate}
+  \item the $\DyadicRatCoreUp$ observation rows over the finite unary window;
+  \item the $\StreamNameUp$ finite-window classifier rows and transported
+  stream-name rows;
+  \item the $\RegSeqRatUp$ regularity-spine rows over the same scheduled
+  observations;
+  \item the $\RealUp$ seal, endpoint readback, and provenance rows.
+\end{enumerate}
+The only structural rows available to the consumer are the displayed
+$\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows. The
+consumer route has no coordinate for quotient carriers, host equality, ambient
+completeness, arithmetic packages, order packages, or metric-completeness rows.
+\end{theorem}
+\begin{proof}
+Project the accepted finite seal source through
+\autoref{thm:realup-open-phase-seal-exactness}. Exactness reads the seal source
+as one $\BHist$ packet whose projections are precisely the dyadic observation
+face, the stream-name finite-window face, the regular-rational spine face, and
+the $\RealUp$ seal/readback provenance face.
+
+Now use \autoref{thm:realup-regseqrat-streamname-seal-handoff}. The handoff
+identifies the seal-facing rows consumed at the $\RealUp$ and $\RegSeqRatUp$
+boundary: classifier rows, transported stream rows, endpoint carriers,
+finite-window ledger, and provenance. These rows are already contained in the
+four projected faces.
+
+For the stream-facing side, cite the scoped $\StreamNameUp$ finite-window
+coverage used in the surrounding handoff proof. For the completion-facing side,
+cite the finite-window $\RegSeqRatUp$ seal rows that place every regularity
+read on the same scheduled dyadic observations. Both consumers therefore read
+only rows already present in the same four-face packet.
+
+It remains to exclude off-table data. Coordinate exhaustion leaves only the
+displayed $\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$
+structural rows after the four faces are projected. Since none of those rows is
+a quotient carrier, host equality, ambient completeness datum, arithmetic or
+order package, or metric-completeness row, no downstream consumer can factor
+through a fifth face.
 \end{proof}
 
 \begin{theorem}[RealUp finite seal source uniqueness]
