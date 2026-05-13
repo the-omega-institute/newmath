@@ -212,6 +212,26 @@ theorem CompactUniformContinuityPacket_probe_bundle_coverage [AskSetup] [Package
       modulusRowsRadiusRowsFold, foldTransportRoute, routeNamePrecision, sourceNetRead,
       precisionPkg, sourceReadPkg⟩
 
+theorem CompactUniformContinuityPacket_root_compact_net_row [AskSetup] [PackageSetup]
+    {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
+      route nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactUniformContinuityPacket source target graph tolerance precision net coverage
+        modulusRows radiusRows fold transport route nameRow bundle pkg →
+      UnaryHistory net ∧ UnaryHistory coverage ∧ UnaryHistory modulusRows ∧
+        Cont net coverage modulusRows ∧ Cont modulusRows radiusRows fold ∧
+          Cont fold transport route ∧ PkgSig bundle precision pkg := by
+  intro packet
+  obtain ⟨_sourceUnary, _targetUnary, _graphUnary, _toleranceUnary, netUnary,
+    coverageUnary, _radiusRowsUnary, _transportUnary, _nameRowUnary, netCoverageModulusRows,
+    modulusRowsRadiusRowsFold, foldTransportRoute, _routeNamePrecision, precisionPkg⟩ :=
+      packet
+  have modulusRowsUnary : UnaryHistory modulusRows :=
+    unary_cont_closed netUnary coverageUnary netCoverageModulusRows
+  exact
+    ⟨netUnary, coverageUnary, modulusRowsUnary, netCoverageModulusRows,
+      modulusRowsRadiusRowsFold, foldTransportRoute, precisionPkg⟩
+
 theorem CompactUniformContinuityPacket_root_uniform_modulus_row [AskSetup] [PackageSetup]
     {source target graph tolerance precision net coverage modulusRows radiusRows fold transport
       route nameRow uniformRead : BHist}
