@@ -120,6 +120,22 @@ Use route determinacy from \autoref{thm:kernel-acceptance-audit-witness-route-de
 Finally inspect the missing coordinates of the carrier. Since $W$ has no row for kernel correctness, compiler correctness, runtime correctness, hidden dependency cleanliness, or stronger paper meaning, replay and query consumers cannot escape beyond the finite audit packet.
 \end{proof}
 
+\begin{theorem}[KernelAcceptanceAuditWitness public obligation surface]
+\label{thm:kernel-acceptance-audit-witness-obligation-surface}
+For every accepted $\KernelAcceptanceAuditWitnessUp$ carrier
+$$
+W=(G,K,A,L,Q,R,H,C,P,N),
+$$
+the public obligation surface consists exactly of the accepted declaration row $A$, environment-ledger row $L$, axiom-query row $Q$, build-replay row $R$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, together with the generated and candidate rows $G,K$ needed to replay the acceptance event. Consumers cannot read kernel correctness, compiler correctness, runtime correctness, dependency cleanliness without $Q$, replay success without $R$, or stronger paper meaning from this packet.
+\end{theorem}
+\begin{proof}
+First expose the finite packet by \autoref{thm:kernel-acceptance-audit-witness-namecert-obligations}. It identifies the generated row, candidate row, accepted declaration, ledger row, axiom-query row, replay row, transport row, continuation row, provenance row, and local name as the entire NameCert surface.
+
+Next isolate the accepted endpoint. The terminal row of \autoref{def:kernel-acceptance-audit-witness-terminal-row} gives $A,L,Q,R,N$, while \autoref{thm:kernel-acceptance-audit-witness-ledger-non-escape} prevents that endpoint from becoming a certificate of kernel correctness or a stronger paper claim.
+
+Finally combine the query and route controls. The axiom-query boundary of \autoref{thm:kernel-acceptance-audit-witness-axiom-query-boundary} forces dependency classification through $Q$, route determinacy from \autoref{thm:kernel-acceptance-audit-witness-route-determinacy} fixes the replay and query endpoints through $C$, and replay/query non-escape from \autoref{thm:kernel-acceptance-audit-witness-nonescape} excludes compiler correctness, runtime correctness, hidden dependency cleanliness, and stronger paper meaning.
+\end{proof}
+
 \closureat{KernelAcceptanceAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\KernelAcceptanceAuditWitnessUp}
