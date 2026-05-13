@@ -13,6 +13,7 @@ rows $H$, the displayed $\Cont$ routes $C$, the $\Pkg$ provenance row $P$,
 and the local $\NameCert$ row $N$. No selector step may consult a row outside
 this displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DiagonalTailSelectorUp.DiagonalTailSelectorCarrier\_root\_cofinal\_admission}
 \begin{proof}
 Project the accepted carrier of $\DiagonalTailSelectorUp$. Its root packet is
 the tuple $G$, and the selector coordinate is read only after the visible
@@ -84,4 +85,85 @@ The remaining rows $H,C,P,N$ are structural transport, continuation,
 provenance, and naming rows. They record the visible finite route rather than
 adding quotient streams, countable choice, host limits, host equality, hidden
 tail oracles, or completeness data.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector cofinal budget replay]
+\label{thm:diagonal-tail-selector-cofinal-budget-replay}
+For every accepted $\DiagonalTailSelectorUp$ packet
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N),
+$$
+the same cofinal budget is replayed through
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\RealUp.
+$$
+The replay first reads the root admission rows $R,n,\mu,k,W,D,T,S,H,C,P,N$,
+then consumes the selected cofinal index and finite window through the
+displayed L10 route, and finally checks compatibility with the tail budget of
+\autoref{thm:diagonal-tail-selector-tail-budget-compatibility}. No consumer
+may replace this replay by a fresh selector, quotient stream, hidden tail row,
+or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:diagonal-tail-selector-root-cofinal-admission}. It
+projects the accepted packet $G$ and fixes the source regular row, precision
+request, modulus, threshold, finite window, dyadic readback, tail handoff,
+Real seal, transport, route, provenance, and naming rows before any selector
+read is performed.
+
+Apply \autoref{thm:diagonal-tail-selector-root-budget-handoff}. The selected
+cofinal row is routed through the displayed L10 consumers
+$\LimitSelectorUp$, $\RegularCauchyTailSelectorUp$, $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ using only the rows named
+by the root packet.
+
+Now use
+\autoref{thm:diagonal-tail-selector-tail-budget-compatibility}. The public
+budget source and the tail budget consume the same rows
+$R,n,\mu,k,W,D,H,C,P,N$ before $S$ is read, so the replay cannot fork into a
+separate selector or hidden tail source.
+
+Finally invoke \autoref{thm:diagonal-tail-selector-root-seal-nonescape}. The
+root seal has no coordinate for quotient streams, countable choice,
+host-selected limits, host real equality, hidden tail oracles, or ambient
+completeness. Hence the replay is exactly the displayed cofinal budget route.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector budget readback non-escape]
+\label{thm:diagonal-tail-selector-budget-readback-nonescape}
+The readback exported by the cofinal budget replay of
+\autoref{thm:diagonal-tail-selector-cofinal-budget-replay} is only the finite
+root packet
+$$
+R,n,\mu,k,W,D,T,S,H,C,P,N
+$$
+together with its displayed L10 consumer route. It exports no quotient stream,
+choice selector, host-selected limit, host real equality, hidden tail oracle,
+or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:diagonal-tail-selector-cofinal-budget-replay} to put the
+readback on the same cofinal budget route through $\LimitSelectorUp$,
+$\RegularCauchyTailSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and $\RealUp$.
+
+The root packet contributes exactly the rows listed in
+\autoref{thm:diagonal-tail-selector-root-cofinal-admission}. The budget
+handoff of \autoref{thm:diagonal-tail-selector-root-budget-handoff} then
+consumes those rows without adding any external selector coordinate.
+
+For the tail-facing part, apply
+\autoref{thm:diagonal-tail-selector-tail-budget-compatibility}. It identifies
+the shared finite budget consumed by the schedule and tail-meet routes before
+the Real seal row is read.
+
+The excluded objects are precisely the objects ruled out by
+\autoref{thm:diagonal-tail-selector-root-seal-nonescape}. Since the readback
+has no row beyond the accepted packet and its displayed L10 route, none of
+them can be exported.
 \end{proof}
