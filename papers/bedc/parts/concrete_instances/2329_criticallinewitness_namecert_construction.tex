@@ -303,6 +303,46 @@ public witness read with $Z,S,M,R,Q,H,C,P,N$, which is precisely the stated
 obligation package for supplied zero-in-strip inputs.
 \end{proof}
 
+\begin{theorem}[Critical-line witness supplied input carrier row]
+\label{thm:critical-line-witness-supplied-input-carrier-row}
+Every accepted $\CriticalLineWitnessUp$ packet must expose the supplied zeta-zero row $Z$ and supplied critical-strip row $S$ before any public read of the modulus row $M$. The modulus request therefore begins from the displayed supplied-input carrier surface and cannot replace $Z,S$ by zero search, a global zero classifier, or host complex equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:critical-line-witness-carrier}. The rows $Z$ and $S$ are the first supplied inputs of the finite packet, while $M$ is read only as the later modulus row.
+
+Use \autoref{thm:critical-line-witness-strip-zero-compatibility} and \autoref{thm:critical-line-witness-zero-row-scope}. They keep the zero and strip rows on the same displayed history and keep every zero-facing read inside $Z,S,M,R,Q,H,C,P,N$.
+
+Finally apply \autoref{thm:critical-line-witness-modulus-depth-routing}. Since each modulus request routes through the displayed packet after the supplied rows have been exposed, the request has no route to zero search, global classification, or host complex equality.
+\end{proof}
+
+\begin{theorem}[Critical-line witness comparison ledger admission]
+\label{thm:critical-line-witness-comparison-ledger-admission}
+For an accepted $\CriticalLineWitnessUp$ packet, the rational comparison ledger $Q$ admits exactly the half-line, dyadic tolerance, and strict-comparison rows needed by the modulus row $M$. It admits no quotient representative, host real equality, hidden numeric oracle, or ambient analytic completeness row.
+\end{theorem}
+\begin{proof}
+Read the rational ledger through \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}. The available comparison surface is the finite ledger $Q$, consisting of the half-line, dyadic tolerance, and strict-comparison rows.
+
+Attach the ledger to modulus requests by \autoref{thm:critical-line-witness-modulus-depth-routing}. The row $M$ consumes $Q$ through the displayed route and does not read an external comparison oracle.
+
+The nonclassification and non-escape boundaries of \autoref{thm:critical-line-witness-rh-nonclassification-boundary} and \autoref{thm:critical-line-witness-nonescape-boundary} remove the excluded analytic and host-level coordinates. Thus ledger admission is exactly the comparison surface required by $M$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness public consumer factorization]
+\label{thm:critical-line-witness-public-consumer-factorization}
+Every public consumer of an accepted $\CriticalLineWitnessUp$ packet factors through the displayed rows
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+The factorization may expose the supplied zero-in-strip input, the modulus route, the rational comparison ledger, transport, continuation, provenance, and local naming, but it cannot export $\mathsf{RH}$, produce zeros, classify all zeros, or invoke ambient analytic completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:critical-line-witness-supplied-input-carrier-row}. It places every public read after the supplied $Z,S$ rows and before any admissible modulus use.
+
+Use \autoref{thm:critical-line-witness-comparison-ledger-admission} for the $M,R,Q$ part of the route. The comparison data consumed by the modulus is exactly the finite ledger available in the carrier.
+
+Finally apply \autoref{thm:critical-line-witness-rh-nonclassification-boundary}, \autoref{thm:critical-line-witness-local-rh-boundary}, and \autoref{thm:critical-line-witness-obligation-closure-package}. These results keep the consumer inside $Z,S,M,R,Q,H,C,P,N$ and preserve the nonclassification boundary for $\mathsf{RH}$.
+\end{proof}
+
 \begin{theorem}[Critical-line witness root carrier scope]
 \label{thm:critical-line-witness-root-carrier-scope}
 Every accepted $\CriticalLineWitnessUp$ packet factors through exactly the displayed rows
