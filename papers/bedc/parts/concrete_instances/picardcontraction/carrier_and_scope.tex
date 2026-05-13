@@ -14,6 +14,14 @@ an explicit modulus window, transport routes, provenance, and a local
 $\NameCert$ row. It does not add a host fixed point, ambient completeness
 theorem, or selected limit.
 
+\autoref{ch:concrete-instances-banach-namecert} is the substantive source for
+the Banach row read by this packet, and
+\autoref{ch:concrete-instances-lipschitzmap-namecert} is the substantive
+source for the contraction-map and modulus ledger rows. The Picard carrier
+therefore exports a finite route between those sibling chapters and the
+$\OdeUp$ or $\NewtonIterationUp$ consumers that read only the displayed
+endpoint and seal rows.
+
 \begin{definition}[PicardContraction BHist carrier]
 \label{def:picardcontraction-bhist-carrier}
 A $\PicardContractionUp$ carrier is a finite $\mathsf{BHist}$ packet
@@ -134,6 +142,18 @@ finite contraction surface named in the statement, with full fixed-point
 convergence and ambient completeness outside the BEDC packet.
 \end{proof}
 \leanchecked{BEDC.Derived.PicardContractionUp.PicardContractionPacket\_banach\_ode\_boundary}
+
+\begin{theorem}[PicardContraction Cauchy modulus sibling route]
+\label{thm:picardcontraction-cauchy-modulus-sibling-route}
+Let $P=(B,T,L,I,M,E,H,C,G,N)$ be an accepted $\PicardContractionUp$ packet. Before any $\OdeUp$ or $\NewtonIterationUp$ consumer can read the endpoint and seal row $E$, the packet reads the $\BanachUp$ source row $B$ and the $\LipschitzMapUp$ contraction-map and modulus ledger rows $T,L,M$ through the finite classifier and displayed continuation surface. Thus the consumer-facing endpoint is downstream of concrete sibling routes rather than a kernel-only island.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:picardcontraction-bhist-carrier}. The Banach source row $B$, contraction-map row $T$, Lipschitz-ratio ledger $L$, finite iterate ledger $I$, Cauchy-modulus row $M$, and endpoint seal $E$ are distinct visible rows of the accepted packet.
+
+Use the classifier of \autoref{def:picardcontraction-classifier}. It permits transport only componentwise through the displayed $\hsame$ and $\Cont$ rows, so the Banach and contraction-map data must be read before the endpoint seal can be compared or exported.
+
+Finally apply \autoref{thm:picardcontraction-banach-ode-boundary}. Every $\OdeUp$ or $\NewtonIterationUp$ read factors through the Banach source, contraction-map ledger, Lipschitz-ratio ledger, explicit Cauchy modulus, and displayed endpoint route. This is exactly the finite sibling route from Banach and LipschitzMap material to the downstream endpoint consumer.
+\end{proof}
 
 \begin{theorem}[PicardContraction NameCert obligation surface]
 \label{thm:picardcontraction-namecert-obligation-surface}
