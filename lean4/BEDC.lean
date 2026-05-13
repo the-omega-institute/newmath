@@ -91,6 +91,7 @@ import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.GroundLoopBoundaryUp.TasteGate
+import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
@@ -221,6 +222,7 @@ import BEDC.Derived.FableBranchWitnessUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
+import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.RecursorGeneratorUp
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionUp.TasteGate
@@ -329,6 +331,7 @@ import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.ForbiddenAxiomAncestryUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
@@ -568,6 +571,7 @@ import BEDC.Derived.StateSpaceModelUp
 import BEDC.Derived.StationaryPartitionDiagonalUp
 import BEDC.Derived.StationaryRationalCauchyUp
 import BEDC.Derived.StreamDiagonalSelectorUp
+import BEDC.Derived.SubjectReductionDischargeUp
 import BEDC.Derived.SubjectReductionDischargeUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeSocketUp
 import BEDC.Derived.SubjectReductionUp
