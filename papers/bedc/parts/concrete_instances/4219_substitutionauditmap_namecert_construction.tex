@@ -189,16 +189,62 @@ Attach the closed-boundary and generator-route scope theorems. These identify th
 Finally attach consumer obstruction scope. Since the excluded principles remain absent under transport, replay, provenance, and naming, the finite packet is scoped-closed at exactly the displayed audit boundary.
 \end{proof}
 
+\begin{theorem}[Substitution audit map public export]
+\label{thm:substitutionauditmap-public-export}
+The finite carrier $A=(T,C,R,S,K,G,H,Q,P,N)$, the checked TasteGate carrier alignment, positive row coverage, obstruction exactness, replay determinacy, and scoped closure jointly form the public export surface for $\SubstitutionAuditMapUp$.
+
+The exported surface presents exactly the displayed $\BHist$ packet, its $\hsame$ transport row, $\Cont$ consumer routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports the closed substitution audit map as finite data only; it does not export beta-substitution preservation, subject reduction, quotient equality, or host semantic equality.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and TasteGate alignment. The definition of the carrier fixes the ten rows $T,C,R,S,K,G,H,Q,P,N$, and the checked alignment following it records that these rows are the accepted finite surface.
+
+Use positive row coverage and obstruction row exactness. The positive rows $T,C,R,S,K,G$ exhaust the available audit data, while the excluded preservation and equality principles are exactly absent from the carrier.
+
+Next apply replay determinacy. Any downstream read has to replay the same packet through $H$ and $Q$ before it reaches $P$ and $N$.
+
+Finally use the scoped closure package. It packages the carrier, classifier alignment, coverage, obstruction, replay, provenance, and local naming rows as the public surface available to consumers.
+\end{proof}
+
+\begin{theorem}[Substitution audit map downstream reader boundary]
+\label{thm:substitutionauditmap-downstream-reader-boundary}
+Every downstream reader of an accepted $\SubstitutionAuditMapUp$ packet must factor through the displayed rows
+$$
+T,C,R,S,K,G,H,Q,P,N.
+$$
+Such a reader may inspect the term row, closed-boundary row, shift row, substitute row, closed-composition row, generator-closure classifier row, componentwise transport row, continuation route row, provenance row, and local naming row. It cannot acquire beta-substitution preservation, subject reduction, quotient equality, or host semantic equality from the packet.
+\end{theorem}
+\begin{proof}
+First read the positive surface. By \autoref{thm:substitutionauditmap-positive-row-coverage}, every positive audit read is confined to $T,C,R,S,K,G$.
+
+Next route the reader through the administrative surface. By \autoref{thm:substitution-audit-map-replay-determinacy}, transported reads pass through $H$ and $Q$ before reaching $P$ and $N$.
+
+It remains to exclude the requested external conclusions. Apply \autoref{thm:substitutionauditmap-obstruction-row-exactness} and \autoref{thm:substitutionauditmap-consumer-obstruction-scope}; the absent preservation and equality rows are not created by transport, continuation replay, provenance, or naming.
+\end{proof}
+
+\begin{theorem}[Substitution audit map formal target package]
+\label{thm:substitutionauditmap-formal-target-package}
+The Lean-facing target package for $\SubstitutionAuditMapUp$ is the finite $\BHist$ carrier $A=(T,C,R,S,K,G,H,Q,P,N)$ together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Its intended target is the public export theorem over those rows, with the downstream reader boundary as the exact non-escape condition.
+
+The package does not require a new primitive carrier, a new classifier, beta preservation, subject reduction, quotient equality, or host semantic equality. Its formal surface is the existing carrier inventory and the row-factorization theorems cited in this chapter.
+\end{theorem}
+\begin{proof}
+Start from the public export theorem. It identifies the finite carrier, TasteGate alignment, coverage, obstruction, replay determinacy, and scoped closure as the consumer-facing package.
+
+Then apply the downstream reader boundary. Every reader factors through $T,C,R,S,K,G,H,Q,P,N$, so the target package needs only the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already visible in the carrier.
+
+The excluded principles are handled by obstruction exactness and consumer obstruction scope. Since none of them is a carrier coordinate, the Lean-facing target can be stated over the displayed packet without adding another primitive object.
+\end{proof}
+
 \closureat{SubstitutionAuditMapUp}{scopedStr}
 
 \begin{closurestatus}{\SubstitutionAuditMapUp}
   \constructivestory{A $\SubstitutionAuditMapUp$ packet is generated from a MetaCIC term row, a ClosedAt boundary, closed shift and substitution rows, closed-composition rows, generator-closure classifier rows, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, \autoref{thm:substitutionauditmap-frontier-route-nonescape}, \autoref{thm:substitution-audit-map-obligation-closure-package}, \autoref{thm:substitution-audit-map-domain-codomain-exposure}, \autoref{thm:substitution-audit-map-replay-determinacy}, \autoref{thm:substitution-audit-map-ledger-nonescape}, \autoref{thm:substitutionauditmap-closed-boundary-scope}, \autoref{thm:substitutionauditmap-generator-route-scope}, \autoref{thm:substitutionauditmap-consumer-obstruction-scope}, and \autoref{thm:substitutionauditmap-scoped-closure-package} bind the closed substitution audit map, its primitive domain and movement rows, deterministic replay route, ledger boundary, obstruction rows, frontier routes, closed-boundary scope, generator-route scope, consumer obstruction scope, and finite scoped package.}
+  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, \autoref{thm:substitutionauditmap-frontier-route-nonescape}, \autoref{thm:substitution-audit-map-obligation-closure-package}, \autoref{thm:substitution-audit-map-domain-codomain-exposure}, \autoref{thm:substitution-audit-map-replay-determinacy}, \autoref{thm:substitution-audit-map-ledger-nonescape}, \autoref{thm:substitutionauditmap-closed-boundary-scope}, \autoref{thm:substitutionauditmap-generator-route-scope}, \autoref{thm:substitutionauditmap-consumer-obstruction-scope}, \autoref{thm:substitutionauditmap-scoped-closure-package}, \autoref{thm:substitutionauditmap-public-export}, \autoref{thm:substitutionauditmap-downstream-reader-boundary}, and \autoref{thm:substitutionauditmap-formal-target-package} bind the closed substitution audit map, its primitive domain and movement rows, deterministic replay route, ledger boundary, obstruction rows, frontier routes, closed-boundary scope, generator-route scope, consumer obstruction scope, finite scoped package, public export surface, downstream reader boundary, and formal target package.}
   \leanchecked{BEDC.Derived.SubstitutionAuditMapUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close unrestricted substitution, beta-substitution preservation, closed subject reduction, Lean verification, or bridge checking.}
-  \upgradepath{The next paper-axis step is a public export theorem for the scoped packet; Lean verification remains an independent formal target.}
+  \upgradepath{Lean verification for the public export theorem, downstream reader boundary, and formal target package remains an independent formal target.}
 \end{closurestatus}
