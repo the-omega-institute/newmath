@@ -25,6 +25,7 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 STATE_DIR = SCRIPT_DIR / "state"
 TARGETS_DIR = SCRIPT_DIR / "targets"
 SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
+LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
 
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -32,6 +33,21 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _parse_iso(value: object) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        ts = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    if ts.tzinfo is None:
+        return ts.replace(tzinfo=timezone.utc)
+    return ts.astimezone(timezone.utc)
 
 
 def _safe_get_server() -> dict:
@@ -192,6 +208,45 @@ def render_candidate_inbox() -> str:
     return "\n".join(lines)
 
 
+def render_loning_assimilation() -> str:
+    if not LONING_ASSIMILATION_JOURNAL.exists():
+        return "  (no loning assimilation state)"
+    try:
+        lines = LONING_ASSIMILATION_JOURNAL.read_text(
+            encoding="utf-8", errors="replace"
+        ).splitlines()
+    except OSError as exc:
+        return f"  unavailable: {exc}"
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(rec, dict):
+            continue
+        checked_at = _parse_iso(rec.get("checked_at"))
+        age = _fmt_age((datetime.now(timezone.utc) - checked_at).total_seconds()) if checked_at else "?"
+        counts = rec.get("signal_counts") or {}
+        count_text = ", ".join(
+            f"{k}={v}" for k, v in sorted(counts.items(), key=lambda kv: str(kv[0]))
+        )
+        out = [
+            (
+                f"  checked: {age} ago   relevant_commits={rec.get('relevant_commits', '?')} "
+                f"watch_entries={rec.get('watch_entries', '?')}"
+            )
+        ]
+        if count_text:
+            out.append(f"  signals: {count_text}")
+        advice = [str(item) for item in (rec.get("advice") or []) if str(item).strip()]
+        for item in advice[:3]:
+            out.append(f"  advice: {item}")
+        if len(advice) > 3:
+            out.append(f"  advice: ... {len(advice) - 3} more")
+        return "\n".join(out)
+    return "  (no parseable loning assimilation records)"
+
+
 def render_target_table() -> str:
     from lifecycle import derive_failure_kind, decide_next_action
     rows: list[str] = []
@@ -296,6 +351,8 @@ def main() -> int:
     print(render_board())
     print(_section("Candidate Inbox"))
     print(render_candidate_inbox())
+    print(_section("Loning Assimilation"))
+    print(render_loning_assimilation())
     print(_section("Target lifecycle"))
     print(render_target_table())
     print(_section("failure_kind histogram"))
