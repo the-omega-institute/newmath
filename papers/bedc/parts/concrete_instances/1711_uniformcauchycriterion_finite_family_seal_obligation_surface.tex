@@ -79,6 +79,28 @@ The nonescape ledger of \autoref{thm:uniform-cauchy-criterion-finite-family-none
 Finally apply the root seal package of \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-package}. It preserves the same finite rows under root-facing overlap refinement, so a route omitting $W$ or $T$ has no remaining public path to a tail or seal consumer.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion shared seal-route determinacy]
+\label{thm:uniform-cauchy-criterion-finite-family-shared-seal-route-determinacy}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family seal obligation surface. Suppose two $\RegSeqRatUp$-visible or $\RealUp$-visible consumers preserve the displayed finite index ledger $I$, shared window family $W$, shared threshold schedule $M$, dyadic tolerance row $Q$, tail ledger $T$, seal handoff $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local $\NameCert$ row $N$. Then the two consumers determine the same route
+$$
+I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E.
+$$
+No consumer may split that route into a second $\StreamNameUp$ family, $\RegSeqRatUp$ tail row, $\RealUp$ seal row, quotient stream, host real equality, selected limit, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start from the finite-family seal obligation package. By \autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}, every admissible tail or seal consumer sees exactly the rows $I,W,M,Q,T,E,H,C,P,N$ and no completion-facing coordinate outside them.
+
+Next apply the RegSeqRat--Real handoff. \autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff} makes both $\RegSeqRatUp$ tail reads and $\RealUp$ seal reads factor through the same ordered route from $I$ to $E$.
+
+The nonescape and exhaustion results remove the possible branches. \autoref{thm:uniform-cauchy-criterion-finite-family-nonescape-ledger} excludes selected limits, quotient streams, host real equality, ambient completeness, and detached tail data, while \autoref{thm:uniform-cauchy-criterion-finite-family-window-seal-exhaustion} says that finite-window consumers cannot bypass $W$ or $T$.
+
+Thus two consumers preserving the displayed ledger rows have no coordinate at which to diverge. The shared route is determined as $I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E$, with all repacking confined to $H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion finite-family root seal package]
 \label{thm:uniform-cauchy-criterion-finite-family-root-seal-package}
 For an accepted $\UniformCauchyCriterionUp$ packet
