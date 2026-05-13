@@ -233,4 +233,76 @@ theorem ApophaticSocketCarrier_noninternalization_boundary [AskSetup] [PackageSe
     }
   exact ⟨cert, supplyShapeUnary, supplyReplay⟩
 
+theorem ApophaticSocketCarrier_consumer_surface [AskSetup] [PackageSetup]
+    {socketKind supplyShape auditGate site transport replay provenance nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay provenance
+        nameCert bundle pkg ->
+      Cont replay provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+                provenance nameCert bundle pkg /\ hsame row consumer)
+            (fun row : BHist => hsame row consumer /\ UnaryHistory row)
+            (fun row : BHist => PkgSig bundle consumer pkg /\ hsame row consumer)
+            hsame /\ UnaryHistory socketKind /\ UnaryHistory supplyShape /\
+              UnaryHistory auditGate /\ UnaryHistory site /\ PkgSig bundle consumer pkg := by
+  intro carrier replayProvenanceConsumer consumerPkg
+  have carrierWitness := carrier
+  obtain ⟨socketKindUnary, supplyShapeUnary, auditGateUnary, siteUnary, _transportUnary,
+    replayUnary, provenanceUnary, _nameCertUnary, _nameCertAuditGate, _kindSupplyGate,
+    _gateSiteReplay, _replayProvenanceNameCert, _provenancePkg, _nameCertPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed replayUnary provenanceUnary replayProvenanceConsumer
+  have sourceConsumer :
+      (fun row : BHist =>
+        ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+          provenance nameCert bundle pkg /\ hsame row consumer) consumer := by
+    exact And.intro carrierWitness (hsame_refl consumer)
+  have core :
+      NameCert
+        (fun row : BHist =>
+          ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+            provenance nameCert bundle pkg /\ hsame row consumer)
+        hsame := by
+    exact {
+      carrier_inhabited := Exists.intro consumer sourceConsumer
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _left _middle _right sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other same sourceRow
+        have sameRowConsumer : hsame row consumer := sourceRow.right
+        have sameOtherConsumer : hsame other consumer :=
+          hsame_trans (hsame_symm same) sameRowConsumer
+        exact And.intro sourceRow.left sameOtherConsumer
+    }
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          ApophaticSocketCarrier socketKind supplyShape auditGate site transport replay
+            provenance nameCert bundle pkg /\ hsame row consumer)
+        (fun row : BHist => hsame row consumer /\ UnaryHistory row)
+        (fun row : BHist => PkgSig bundle consumer pkg /\ hsame row consumer)
+        hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro row sourceRow
+        have rowUnary : UnaryHistory row :=
+          unary_transport consumerUnary (hsame_symm sourceRow.right)
+        exact And.intro sourceRow.right rowUnary
+      ledger_sound := by
+        intro row sourceRow
+        exact And.intro consumerPkg sourceRow.right
+    }
+  exact ⟨cert, socketKindUnary, supplyShapeUnary, auditGateUnary, siteUnary, consumerPkg⟩
+
 end BEDC.Derived.ApophaticSocketUp
