@@ -17,17 +17,20 @@ theorem domain_transport {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
   intro hh hhk
   exact policy.transport hh hhk
 
+omit [AskSetup] [PackageSetup] G in
 theorem DomainPolicy_transport_field [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) :
     (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) := by
   exact policy.transport
 
+omit [AskSetup] [PackageSetup] G in
 theorem domain_transport_refl [AskSetup] [PackageSetup] [DomainSetup] {D : Domain}
     (policy : DomainPolicy D) {h : BHist} :
     InDom D h -> InDom D h := by
   intro hdom
   exact policy.transport hdom (hsame_refl h)
 
+omit [AskSetup] [PackageSetup] G in
 theorem domain_policy_transport_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) :
     (∀ {h k : BHist}, InDom D h → hsame h k → InDom D k) ∧
@@ -38,6 +41,7 @@ theorem domain_policy_transport_witnesses [AskSetup] [PackageSetup] [DomainSetup
   · intro h hdom
     exact hdom
 
+omit [AskSetup] [PackageSetup] G in
 theorem DomainPolicy_iff_transport [AskSetup] [PackageSetup] [DomainSetup] {D : Domain} :
     DomainPolicy D <-> (forall {h k : BHist}, InDom D h -> hsame h k -> InDom D k) := by
   constructor
@@ -72,6 +76,7 @@ theorem DomainPolicy_iff_transport_and_invariance [AskSetup] [PackageSetup] [Dom
       transport := fields.left
     }
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_domain_transport_source [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
     (policy : DomainPolicy D) :
@@ -79,6 +84,7 @@ theorem inGapSig_domain_transport_source [AskSetup] [PackageSetup] [DomainSetup]
   intro hgap hhk
   exact policy.transport hgap.left hhk
 
+omit [AskSetup] [PackageSetup] G in
 theorem inGapSig_transport_existing_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h k : BHist}
     (policy : DomainPolicy D) :
@@ -90,24 +96,28 @@ theorem inGapSig_transport_existing_signature_witness [AskSetup] [PackageSetup] 
   | intro hdom _ =>
       exact And.intro (policy.transport hdom hhk) sigTok
 
+omit [AskSetup] [PackageSetup] G in
 theorem domain_transport_symmetric [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k : BHist} :
     InDom D k → hsame h k → InDom D h := by
   intro hk hhk
   exact policy.transport hk (hsame_symm hhk)
 
+omit [AskSetup] [PackageSetup] G in
 theorem domain_transport_transitive [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k l : BHist} :
     InDom D h -> hsame h k -> hsame k l -> InDom D l := by
   intro hdom hhk hkl
   exact policy.transport (policy.transport hdom hhk) hkl
 
+omit [AskSetup] [PackageSetup] G in
 theorem domain_transport_three_step_chain [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k l m : BHist} :
     InDom D h → hsame h k → hsame k l → hsame l m → InDom D m := by
   intro hdom hhk hkl hlm
   exact policy.transport (policy.transport (policy.transport hdom hhk) hkl) hlm
 
+omit [AskSetup] [PackageSetup] G in
 theorem domain_transport_four_step_chain [AskSetup] [PackageSetup] [DomainSetup]
     {D : Domain} (policy : DomainPolicy D) {h k l m n : BHist} :
     InDom D h → hsame h k → hsame k l → hsame l m → hsame m n → InDom D n := by

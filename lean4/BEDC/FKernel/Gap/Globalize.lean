@@ -62,6 +62,7 @@ theorem internalized_globalize_completeness_concrete
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     packagePolicy hp hq hpq
 
+omit [AskSetup] [PackageSetup] G in
 theorem concrete_globalize_completeness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
@@ -73,6 +74,7 @@ theorem concrete_globalize_completeness [AskSetup] [PackageSetup] [DomainSetup]
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     packagePolicy hp hq hpq
 
+omit [AskSetup] [PackageSetup] G in
 theorem globalize_completeness_primary [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
@@ -100,6 +102,7 @@ theorem globalize_completeness_primary [AskSetup] [PackageSetup] [DomainSetup]
                                 (And.intro ht
                                   (packagePolicy.reflection hpTok hqTok hpq))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem concrete_globalize_completeness_sameSig [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
@@ -116,6 +119,7 @@ theorem concrete_globalization_completeness [AskSetup] [PackageSetup] [DomainSet
       psame bundle p q -> SameSig bundle h k := by
   exact concrete_globalize_completeness_sameSig
 
+omit [AskSetup] [PackageSetup] G in
 theorem globalize_completeness_from_package_reflection [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
@@ -141,6 +145,7 @@ theorem globalize_completeness_from_package_reflection [AskSetup] [PackageSetup]
                                 (And.intro ht
                                   (packagePolicy.reflection hpTok hqTok hpq))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem globalize_completeness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
@@ -187,6 +192,7 @@ theorem internalized_globalize_completeness_with_tokens
                                     (And.intro hqTok
                                       (packagePolicy.reflection hpTok hqTok hpq))))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem concrete_globalize_completeness_with_tokens [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle → InGapSig bundle D p h → InGapSig bundle D q k →
@@ -251,6 +257,7 @@ theorem internalized_globalize_completeness_hsame_only
                       | intro hqTok hst =>
                           exact Exists.intro s (Exists.intro t hst)
 
+omit [AskSetup] [PackageSetup] G in
 theorem internalized_globalize_completeness_projection [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg} :
     PackageTokenPolicy bundle -> InGapSig bundle D p h -> InGapSig bundle D q k ->
@@ -439,6 +446,7 @@ theorem concrete_globalize_classifies_by_signatures
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     askPolicy packagePolicy hp hq
 
+omit [AskSetup] [PackageSetup] G in
 theorem internalized_globalize_classifies_iff [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
     (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
@@ -505,6 +513,7 @@ theorem globalize_equals_signature_classification_concrete [AskSetup] [PackageSe
     (bundle := bundle) (D := D) (h := h) (k := k) (p := p) (q := q)
     askPolicy packagePolicy hp hq
 
+omit [AskSetup] [PackageSetup] G in
 theorem concrete_globalize_classifies_by_signatures_directions [AskSetup] [PackageSetup]
     [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} {h k : BHist} {p q : Pkg}
     (askPolicy : AskPolicy (InDom D)) (packagePolicy : PackageTokenPolicy bundle)
