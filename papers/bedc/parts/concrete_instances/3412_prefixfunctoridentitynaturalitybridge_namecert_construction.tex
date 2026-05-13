@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\PrefixFunctorIdentityNaturalityBridgeUp$}
+\label{ch:concrete-instances-prefixfunctoridentitynaturalitybridge-namecert}
+\origin{human}
+
+The $\PrefixFunctorIdentityNaturalityBridgeUp$ packet records the finite BEDC data consumed by the prefix-functor identity naturality bridge of \autoref{thm:prefix-functor-nattrans-identity-bridge}. It packages the prefix history, source and target object histories, the displayed hom history, the left and right empty-composite continuation rows, the prefix-lifted hom carriers, the component row used by $\NatTransUp$, the $\hsame$ transport rows, the $\FunctorUp$ and $\NatTransUp$ certificate rows, the continuation ledger, provenance, and local naming. The packet is a concrete NameCert surface; it is not a host category, a quotient morphism class, or a naturality proof imported from an external categorical library.
+
+\begin{definition}[Prefix functor identity-naturality bridge carrier]
+\label{def:prefix-functor-identity-naturality-bridge-carrier}
+A $\PrefixFunctorIdentityNaturalityBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(p,a,b,f,L,R,U,V,E,H,F,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $p$ is the unary prefix history read by the prefix-functor route;
+\item $a$ and $b$ are the unary source and target object histories;
+\item $f$ is the displayed hom history carrying $\mathsf{CategoryHomCarrier}(a,b,f)$;
+\item $L$ records the left empty-composite continuation row $\ContR(\emp,f,L)$;
+\item $R$ records the right empty-composite continuation row $\ContR(f,\emp,R)$;
+\item $U$ is the prefix-lifted hom-carrier row from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ obtained from $L$;
+\item $V$ is the prefix-lifted hom-carrier row from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$ obtained from $R$;
+\item $E$ is the empty identity component row used by the prefix functor identity law at each unary object;
+\item $H$ records componentwise $\hsame$ transports comparing $U$ and $V$ and reading them back to the original carrier $f$;
+\item $F$ is the local $\FunctorUp$ row for the prefix functor on the checked unary-continuation $\CategoryUp$ packet;
+\item $T$ is the local $\NatTransUp$ row for the identity naturality component surface;
+\item $C$ records the displayed $\Cont$ routes for left unit, right unit, prefix lift, component readback, and consumer handoff;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\CategoryUp$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, $\FunctorUp$, $\NatTransUp$, and local certificate rows;
+\item $N$ is the local $\NameCert_{\PrefixFunctorIdentityNaturalityBridgeUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only the displayed rows $p,a,b,f,L,R,U,V,E,H,F,T,C,P,N$. It has no coordinate for an external category object, quotient morphism equality, host natural-transformation equality, or an unrecorded naturality square.
+\end{definition}
+
+\begin{theorem}[Prefix functor identity-naturality NameCert obligations]
+\label{thm:prefix-functor-identity-naturality-bridge-namecert-obligations}
+The local $\NameCert_{\PrefixFunctorIdentityNaturalityBridgeUp}$ surface for \autoref{def:prefix-functor-identity-naturality-bridge-carrier} consists of seven finite obligation rows:
+\begin{enumerate}
+\item carrier admission, requiring every accepted object to display the packet $K=(p,a,b,f,L,R,U,V,E,H,F,T,C,P,N)$;
+\item category source binding, requiring $a,b,f$ to enter through the checked $\CategoryUp$ hom-carrier row $\mathsf{CategoryHomCarrier}(a,b,f)$;
+\item left and right empty-composite binding, requiring $L$ and $R$ to be the displayed $\ContR(\emp,f,L)$ and $\ContR(f,\emp,R)$ continuation rows consumed by the bridge;
+\item prefix-lift exactness, requiring $U$ and $V$ to be the two prefix-lifted hom-carrier rows from $\mathsf{append}(p,a)$ to $\mathsf{append}(p,b)$;
+\item identity-naturality comparison, requiring $H$ to expose $\hsame(U,V)$ and the readback transports from the prefix-lifted rows to $f$;
+\item functor and natural-transformation coverage, requiring $F$ and $T$ to be the local $\FunctorUp$ and $\NatTransUp$ rows that consume the same prefix, identity component, hom-carrier, and transport data;
+\item ledger non-escape, requiring all public reads to pass through $\BHist$, $\mathsf{CategoryHomCarrier}$, $\hsame$, $\Cont$, $\FunctorUp$, $\NatTransUp$, $\Pkg$, and $\NameCert$, excluding external category libraries, quotient morphisms, and host naturality equality.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:prefix-functor-identity-naturality-bridge-carrier}. The rows $p,a,b,f,L,R,U,V,E,H,F,T,C,P,N$ display the full prefix, hom-carrier, empty-composite, lifted-carrier, component, transport, functor, natural-transformation, route, provenance, and local naming packet.
+
+The category source binding reads $a,b,f$ through $\mathsf{CategoryHomCarrier}(a,b,f)$. The left and right rows $L$ and $R$ are the only displayed empty-composite continuation rows, so the prefix-lifted rows $U$ and $V$ are forced to use the same original hom history $f$.
+
+Prefix-lift exactness then applies the bridge in \autoref{thm:prefix-functor-nattrans-identity-bridge}. It supplies the two hom-carrier rows over $\mathsf{append}(p,a)$ and $\mathsf{append}(p,b)$ and the $\hsame$ comparison between them.
+
+The functor and natural-transformation rows $F$ and $T$ consume exactly those carriers, the empty identity component row $E$, and the componentwise transports in $H$. Since the packet has no external categorical coordinate, the ledger non-escape clause follows by inventory of the displayed rows.
+\end{proof}
+
+\begin{theorem}[Prefix functor identity-naturality public handoff]
+\label{thm:prefix-functor-identity-naturality-bridge-public-handoff}
+Every downstream consumer of an accepted $\PrefixFunctorIdentityNaturalityBridgeUp$ packet receives only the finite rows
+$$
+p,a,b,f,L,R,U,V,E,H,F,T,C,P,N.
+$$
+The consumer may inspect the unary prefix, the original $\CategoryUp$ hom-carrier, the left and right empty-composite continuation rows, the two prefix-lifted hom carriers, their $\hsame$ comparison, the empty component row, the $\FunctorUp$ and $\NatTransUp$ certificate rows, displayed $\Cont$ routes, provenance, and local naming. It may not extract a host category, quotient morphism equality, ambient functor category, or naturality equality outside the displayed BEDC packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed rows are exactly $p,a,b,f,L,R,U,V,E,H,F,T,C,P,N$.
+
+Use the NameCert obligations to order the public read through category source binding, empty-composite binding, prefix-lift exactness, identity-naturality comparison, functor coverage, natural-transformation coverage, and ledger non-escape.
+
+The only comparison row exposed to the consumer is $H$, which records the componentwise $\hsame$ transports and the readback from the two lifted carriers to $f$. Because no host category, quotient morphism class, or external naturality equality appears as a coordinate of the carrier, the handoff cannot project any such object.
+\end{proof}
+
+\closureat{PrefixFunctorIdentityNaturalityBridgeUp}{seedStr}
+
+\begin{closurestatus}{\PrefixFunctorIdentityNaturalityBridgeUp}
+  \constructivestory{A $\PrefixFunctorIdentityNaturalityBridgeUp$ packet is generated from a unary prefix, original category hom rows, left and right empty-composite continuation rows, two prefix-lifted hom carriers, identity component rows, componentwise $\hsame$ transport, $\FunctorUp$ and $\NatTransUp$ rows, continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:prefix-functor-identity-naturality-bridge-carrier}, \autoref{thm:prefix-functor-identity-naturality-bridge-namecert-obligations}, and \autoref{thm:prefix-functor-identity-naturality-bridge-public-handoff} bind the finite carrier, NameCert obligations, and public handoff for the prefix-functor identity naturality bridge.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, external category interfaces, quotient morphism equality, ambient functor categories, host naturality equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-lift exactness, identity-naturality comparison, functor and natural-transformation coverage, ledger provenance, and public handoff for the same finite packet.}
+\end{closurestatus}
