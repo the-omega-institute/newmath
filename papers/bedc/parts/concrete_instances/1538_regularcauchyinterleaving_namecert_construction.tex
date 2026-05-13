@@ -91,6 +91,20 @@ In the even case, \autoref{thm:regular-cauchy-interleaving-classifier} reads the
 The stored row $H$ transports the selector, both schedules, both regular names, and the combined modulus ledger componentwise. The stored row $C$ only routes consumers through the selected schedule and the selected ledger component, so transport preserves the parity partition rather than mixing the two source sides.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interleaving swap symmetry boundary]
+\label{thm:regular-cauchy-interleaving-swap-symmetry-boundary}
+Let $I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)$ be an accepted $\RegularCauchyInterleavingUp$ source packet. Exchanging the two $\RegSeqRatUp$ source names $A,B$, exchanging the two schedules $S_A,S_B$, and replacing the alternating selector $\sigma$ by its opposite selector preserves the same public $\RealUp$ seal boundary through the displayed $\hsame$ transports, $\Cont$ routes, combined modulus ledger, $\Pkg$ provenance, and local $\NameCert$ row. The boundary is only the finite selector-swapped interleaving surface; it does not assert quotient real equality, selected host limits, ambient completeness, or access to a third schedule.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness}. The forward selector sends even reads through $A,S_A$ and the first component of $M$, and odd reads through $B,S_B$ and the second component.
+
+After the source and schedule exchange, the opposite selector sends its odd reads through the transported $A,S_A$ route and its even reads through the transported $B,S_B$ route. Thus the two presentations inspect the same two finite windows with only the selector parity exchanged.
+
+Use \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness} to keep each selected read attached to the same component of $M$. Then use \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage} to rule out any route through a schedule other than $S_A$ or $S_B$.
+
+Finally apply \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape}. The real-facing seal can be consumed only after the selected source row, selected schedule, combined ledger, displayed transport, displayed continuation route, package provenance, and local name have been read. Since the carrier has no quotient-real, host-limit, ambient-completeness, or third-schedule coordinate, the swapped presentation preserves exactly the public seal boundary and nothing stronger.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy interleaving selector transport determinacy]
 \label{thm:regular-cauchy-interleaving-selector-transport-determinacy}
 For classified accepted $\RegularCauchyInterleavingUp$ packets, transported selector rows preserve the even and odd routes. Every even transported read factors through the transported $A$-side schedule and the first component of the combined modulus ledger, and every odd transported read factors through the transported $B$-side schedule and the second component. No transported read can switch sides or use a third schedule.
