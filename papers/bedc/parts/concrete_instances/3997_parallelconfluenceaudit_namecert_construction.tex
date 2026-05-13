@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\ParallelConfluenceAuditUp$}
+\label{ch:concrete-instances-parallelconfluenceaudit-namecert}
+\origin{ai}
+
+The $\ParallelConfluenceAuditUp$ packet realizes the confluence-side audit map of \autoref{ch:metacic-confluence-audit-map} as a finite NameCert surface. It sits next to the beta-substitution packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert} and the beta-discharge packet of \autoref{ch:concrete-instances-betasubstitutiondischarge-namecert}; the closed-term side is compatible with the seal of \autoref{ch:concrete-instances-closedtermcontextseal-namecert}. The packet records the parallel-step route, substitution-compatibility boundary, conditional parallel-diamond handoff, closed-diamond-to-star-confluence handoff, closed-normal and atom fragments, non-claim boundary, componentwise transports, displayed routes, provenance, and local naming row without turning the conditional Lean bridges into an unconditional closed Church--Rosser theorem.
+
+\begin{definition}[ParallelConfluenceAudit carrier]
+\label{def:parallel-confluence-audit-carrier}
+A $\ParallelConfluenceAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(P,S,D,C,Nm,At,No,H,R,L,G)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the parallel-step route row for the MetaCIC $\mathrm{BetaParallel}$ geometry;
+\item $S$ is the substitution-compatibility boundary row naming $\mathrm{BetaParallelSubstitutionCompatibility}$ as an input, not as a proved coordinate;
+\item $D$ is the conditional parallel-diamond handoff row corresponding to the route from $S$ to the parallel diamond;
+\item $C$ is the closed-diamond-to-star-confluence handoff row for the closed $\mathrm{BetaStarStep}$ confluence route;
+\item $Nm$ is the closed-normal fragment row recording the unconditional normal-source cases;
+\item $At$ is the atom and non-lambda shape row recording the unconditional atom-side and impossible-shape fragments;
+\item $No$ records the non-claim boundary for arbitrary closed Church--Rosser, $\mathrm{BetaParallelSubstitutionCompatibility}$, and $\mathrm{BetaParallelDiamondClosed}$;
+\item $H$ records componentwise $\hsame$ transports for $P,S,D,C,Nm,At,No,L,G$;
+\item $R$ displays the $\Cont$ routes through which consumers may read the parallel-step, conditional bridge, closed-star, normal-fragment, atom-fragment, and non-claim rows;
+\item $L$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\BetaSubstitutionPreservationUp$, $\BetaSubstitutionDischargeUp$, $\ClosedTermContextSealUp$, and the MetaCIC confluence audit map;
+\item $G$ is the local $\NameCert_{\ParallelConfluenceAuditUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It contains no proof of $\mathrm{BetaParallelSubstitutionCompatibility}$, no proof of $\mathrm{BetaParallelDiamondClosed}$, and no arbitrary closed Church--Rosser theorem for $\mathrm{BetaStarStep}$.
+\end{definition}
+
+\begin{theorem}[ParallelConfluenceAudit NameCert obligations]
+\label{thm:parallel-confluence-audit-namecert-obligations}
+For the carrier of \autoref{def:parallel-confluence-audit-carrier}, the local $\NameCert_{\ParallelConfluenceAuditUp}$ surface consists of carrier admission for
+$$
+A=(P,S,D,C,Nm,At,No,H,R,L,G),
+$$
+parallel-step route visibility, substitution-boundary visibility, conditional parallel-diamond handoff visibility, closed-diamond-to-star-confluence handoff visibility, closed-normal fragment visibility, atom and non-lambda fragment visibility, non-claim exactness, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The inventory is exactly $P,S,D,C,Nm,At,No,H,R,L,G$, so every local naming obligation is read from a displayed finite row.
+
+The positive confluence-side rows are $P,D,C,Nm,At$. The route $P$ records the parallel-step geometry, $D$ records only the substitution-conditional parallel-diamond handoff, $C$ records only the closed-diamond-to-star-confluence handoff, and $Nm,At$ record the unconditional closed-normal and atom fragments.
+
+The boundary rows are $S$ and $No$. The row $S$ names the substitution-compatibility input as a premise boundary, while $No$ records the absence of an arbitrary closed Church--Rosser theorem and the absence of proofs of the two named premises.
+
+Finally $H,R,L,G$ provide transport, continuation replay, provenance, and the local name for the same packet. Since no other coordinate exists, the obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[ParallelConfluenceAudit conditional bridge]
+\label{thm:parallel-confluence-audit-conditional-bridge}
+Let $A=(P,S,D,C,Nm,At,No,H,R,L,G)$ be an accepted $\ParallelConfluenceAuditUp$ carrier. Any read of the conditional confluence bridge reaches the parallel-diamond row $D$ only through the substitution-compatibility boundary $S$, and reaches the closed-star confluence handoff $C$ only through the parallel-diamond handoff row $D$. The closed-normal row $Nm$ and atom row $At$ remain unconditional fragments, not replacements for $S,D,C$.
+\end{theorem}
+\begin{proof}
+Begin with the conditional route data. The displayed continuation row $R$ exposes the parallel-step route $P$, then the substitution boundary $S$, and only then the parallel-diamond handoff $D$.
+
+The closed-star handoff is downstream of $D$. A consumer that reads $C$ therefore reads the closed-diamond-to-star bridge as a handoff from the parallel diamond, not as an independent proof of the diamond premise.
+
+The rows $Nm$ and $At$ are separate fragment rows. They may be cited for closed-normal sources, atom sources, and non-lambda shape cases, but their carrier positions do not provide either $S$ or $D$.
+
+The package row $L$ and local name $G$ keep these dependencies in one NameCert packet. Thus every bridge read factors through $S,D,C$ in that order.
+\end{proof}
+
+\begin{theorem}[ParallelConfluenceAudit non-escape]
+\label{thm:parallel-confluence-audit-nonescape}
+Every accepted $\ParallelConfluenceAuditUp$ packet exposes confluence data only through the rows
+$$
+P,S,D,C,Nm,At,No,H,R,L,G.
+$$
+It exports no arbitrary closed Church--Rosser theorem for $\mathrm{BetaStarStep}$, no proof of $\mathrm{BetaParallelSubstitutionCompatibility}$, and no proof of $\mathrm{BetaParallelDiamondClosed}$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only positive rows are the parallel-step route, the two conditional handoffs, and the closed-normal and atom fragments.
+
+Use \autoref{thm:parallel-confluence-audit-conditional-bridge}. Reads of the bridge rows must pass through $S,D,C$, so the conditional premises remain visible at every consumer-facing route.
+
+Use \autoref{thm:parallel-confluence-audit-namecert-obligations} for local naming and provenance. The non-claim row $No$ is part of the same finite packet as the displayed routes, and the missing endpoint theorems have no carrier coordinate.
+
+Therefore a downstream consumer may cite the audit packet only as the finite confluence-side map described above. It cannot turn the map into arbitrary closed Church--Rosser, a proof of substitution compatibility, or a proof of the closed parallel diamond.
+\end{proof}
+
+\closureat{ParallelConfluenceAuditUp}{seedStr}
+
+\begin{closurestatus}{\ParallelConfluenceAuditUp}
+  \constructivestory{A $\ParallelConfluenceAuditUp$ packet is generated from a parallel-step route, substitution-compatibility boundary, conditional parallel-diamond handoff, closed-diamond-to-star-confluence handoff, closed-normal fragment row, atom and non-lambda shape row, non-claim row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:parallel-confluence-audit-carrier}, \autoref{thm:parallel-confluence-audit-namecert-obligations}, \autoref{thm:parallel-confluence-audit-conditional-bridge}, and \autoref{thm:parallel-confluence-audit-nonescape} bind the finite confluence audit packet and its conditional bridge boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove arbitrary closed Church--Rosser for $\mathrm{BetaStarStep}$, $\mathrm{BetaParallelSubstitutionCompatibility}$, $\mathrm{BetaParallelDiamondClosed}$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, conditional-route exactness through $S,D,C$, fragment coverage for $Nm$ and $At$, and non-escape for the named confluence endpoints.}
+\end{closurestatus}

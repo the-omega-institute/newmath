@@ -40,6 +40,7 @@ The source and target classifier reads come from $S$ and $T$. Graph lifting is r
 
 The subject-reduction component is the row $R$, transported by $H$ and routed by $C$. Since the carrier contains no host compiler function, semantic interpreter, quotient equality, or erased derivation row, the listed coordinates exhaust the local $\NameCert_{\TypePreservingCompilerUp}$ obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.TypePreservingCompilerUp.TypePreservingCompilerCarrier\_namecert\_obligations}
 
 \begin{theorem}[TypePreservingCompiler subject-reduction handoff]
 \label{thm:type-preserving-compiler-subject-reduction-handoff}
@@ -82,16 +83,18 @@ For compiler consumption, apply the morphism reading. It repacks the same finite
 \end{proof}
 
 \closureat{TypePreservingCompilerUp}{seedStr}
+\closureat{TypePreservingCompilerUp}{obligationStr}
 
 \begin{closurestatus}{\TypePreservingCompilerUp}
   \constructivestory{A $\TypePreservingCompilerUp$ packet is generated from source and target type-classifier membership rows, a compiler graph row, classifier-preservation and subject-reduction ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:type-preserving-compiler-carrier}, \autoref{thm:type-preserving-compiler-namecert-obligations}, \autoref{thm:type-preserving-compiler-subject-reduction-handoff}, \autoref{thm:type-preserving-compiler-morphism-correctness}, and \autoref{thm:type-preserving-compiler-ledger-boundary} bind the finite classifier-preserving compiler packet.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:type-preserving-compiler-carrier}, \autoref{thm:type-preserving-compiler-namecert-obligations}, \autoref{thm:type-preserving-compiler-subject-reduction-handoff}, \autoref{thm:type-preserving-compiler-morphism-correctness}, \autoref{thm:type-preserving-compiler-ledger-boundary}, \autoref{thm:type-preserving-compiler-sequential-composition}, and \autoref{thm:type-preserving-compiler-subject-reduction-socket-consumption} bind the finite classifier-preserving compiler obligation surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.TypePreservingCompilerUp.TypePreservingCompilerCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close host compiler semantics, quotient equality of terms, erased typing derivations, semantic target interpretation, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, graph lifting, target $\Ext$ preservation, source and target subject reduction, morphism reading, and ledger non-escape for the same finite compiler packet.}
+  \notclaimed{This chapter does not close host compiler semantics, quotient equality of terms, erased typing derivations, semantic target interpretation, or bridge checking.}
+  \upgradepath{Formal verification requires checked carrier admission, graph lifting, target $\Ext$ preservation, source and target subject reduction, morphism reading, and ledger non-escape for the same finite compiler packet.}
 \end{closurestatus}
 
 \begin{theorem}[TypePreservingCompiler sequential composition]

@@ -54,3 +54,19 @@ Next use \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determina
 
 Finally apply \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization} and \autoref{thm:uniform-cauchy-criterion-seal-route-uniqueness}. The real-facing consumer is exhausted by the displayed route, so quotient streams, selected limits, host equality, and ambient completeness have no coordinate through which to enter.
 \end{proof}
+
+\begin{theorem}[UniformCauchyCriterion root shared tail meet]
+\label{thm:uniform-cauchy-criterion-root-shared-tail-meet}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet whose shared window-family schedule and tolerance ledger are consumed by a $\RegularCauchyTailMeetUp$ packet. Every $\RealUp$-facing seal read then factors through the same finite rows $I,W,M,Q,T,E,H,C,P,N$ and through the sibling shared-tail packet of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The factorization does not claim RealUp completeness, quotient-stream equality, selected limits, host equality, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with root threshold schedule determinacy. \autoref{thm:uniform-cauchy-criterion-root-threshold-schedule-determinacy} forces every downstream threshold read through the displayed schedule row $M$ after $I,W$.
+
+Next use tolerance ledger exactness. By \autoref{thm:uniform-cauchy-criterion-root-tolerance-ledger-exactness}, the dyadic tolerance and tail comparison data consumed after $M$ are exactly the finite $Q,T$ ledger.
+
+Finally apply root seal consumer non-escape, \autoref{thm:uniform-cauchy-criterion-root-seal-consumer-nonescape}. The $\RealUp$-facing seal route reaches $E$ only through $I,W,M,Q,T$ and the structural rows $H,C,P,N$, while \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} consumes the same shared-tail surface as a sibling packet rather than as a quotient or completeness theorem.
+\end{proof}

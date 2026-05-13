@@ -1,0 +1,280 @@
+\chapter{MetaCIC audit synthesis: closed-CIC critical-path overview}
+\label{ch:metacic-audit-synthesis}
+
+\section{The setup}
+\label{sec:metacic-audit-synthesis-setup}
+
+BEDC.MetaCIC is the closed CIC meta-theory formalisation inside the BEDC
+project. Its closed-term meta-properties are distributed across the subject
+reduction, confluence, normalisation, substitution, decidable-checking, and
+consistency-assembly files. The relevant paper audit maps are
+\autoref{ch:metacic-subject-reduction-obstruction},
+\autoref{ch:metacic-confluence-audit-map},
+\autoref{ch:metacic-normalization-audit-map},
+\autoref{ch:metacic-substitution-audit-map},
+\autoref{ch:metacic-decidable-audit-map}, and
+\autoref{ch:closed-metacic-consistency-assembly}.
+
+This chapter gives a single reader-facing overview of that state. It does not
+replace the sibling audit maps. It points to them, aligns their boundaries, and
+extracts the closed-MetaCIC critical path: which nodes are already available,
+which nodes are conditional, and where unconditional closed consistency is
+blocked.
+
+\section{The five submodule audit maps}
+\label{sec:metacic-audit-synthesis-five-maps}
+
+\subsection{Reading rule}
+\label{subsec:metacic-audit-synthesis-reading-rule}
+
+The five maps are not interchangeable evidence. Each map exports a different
+kind of checked object. Subject reduction exports an obstruction and a
+four-input preservation interface. Confluence exports reduction-geometry
+fragments and conditional bridges. Normalisation exports reducibility-candidate
+routes. Substitution exports closed syntactic laws. Decidability exports
+executable checking surfaces.
+
+A citation to one map therefore cannot silently stand in for another. A
+substitution lemma may support the beta case of a later preservation proof, but
+it is not the preservation proof. A confluence bridge may show how a supplied
+diamond would flow to closed star confluence, but it is not the supplied
+diamond. A decidable checker may certify a displayed typing computation, but it
+is not a decision procedure for all meta-theoretic predicates. This is the
+reading discipline used throughout this synthesis.
+
+\subsection{Subject reduction}
+\label{subsec:metacic-audit-synthesis-subject-reduction}
+
+The subject-reduction map records a parameterised preservation theorem,
+four documented discharge obligations, and a checked obstruction theorem for
+the unparameterised closed subject-reduction statement. Closed subject
+reduction is therefore explicitly not available in the present substrate; see
+\autoref{ch:metacic-subject-reduction-obstruction}.
+
+\subsection{Confluence}
+\label{subsec:metacic-audit-synthesis-confluence}
+
+The confluence map records a substitution-conditional parallel diamond,
+bridges from closed parallel diamond to closed star confluence, and
+unconditional fragments for closed normal sources and atom shapes. It does not
+claim arbitrary closed-term Church--Rosser; see
+\autoref{ch:metacic-confluence-audit-map}.
+
+\subsection{Normalization}
+\label{subsec:metacic-audit-synthesis-normalization}
+
+The normalisation map records the candidate-mediated strong-normalisation path
+for closed typed terms. Candidate, closed-candidate, or candidate-set evidence
+delivers strong normalisation and no-infinite-reduction consequences, but the
+map does not erase that evidence into a blanket theorem over all closed typed
+terms; see \autoref{ch:metacic-normalization-audit-map}.
+
+\subsection{Substitution}
+\label{subsec:metacic-audit-synthesis-substitution}
+
+The substitution map records unconditional closed syntactic laws:
+\texttt{shift\_closed}, \texttt{substitute\_closed}, and closed composition
+fragments. These facts supply syntax-side binder movement, but they do not
+discharge beta typing preservation or full subject reduction; see
+\autoref{ch:metacic-substitution-audit-map}.
+
+\subsection{Decidability}
+\label{subsec:metacic-audit-synthesis-decidability}
+
+The decidable map records executable equality and type-checking surfaces, their
+soundness and completeness wrappers, gallery sanity witnesses, and bounded
+normal-form comparison under finished-normalisation evidence. It is a local
+checking layer, not a decision oracle for subject reduction, confluence,
+normalisation, or consistency; see
+\autoref{ch:metacic-decidable-audit-map}.
+
+\section{The critical path to unconditional closed consistency}
+\label{sec:metacic-audit-synthesis-critical-path}
+
+The closed-MetaCIC consistency assembly in
+\autoref{ch:closed-metacic-consistency-assembly} can be read as the following
+critical path.
+
+\begin{enumerate}
+\item Closed strong normalisation is available through the candidate-mediated
+  normalisation interface. Its public witnesses include
+  \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidate},
+  \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_closedCandidate},
+  and
+  \leanvariant{BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidateSet}.
+\item No closed normal proof of false is available:
+  \leanvariant{BEDC.MetaCIC.no\_closed\_normal\_proof\_of\_false}.
+\item Closed normal consistency assembly is available:
+  \leanvariant{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}.
+\item Closed reduction by subject reduction is blocked by the dependent-codomain
+  obstruction:
+  \leanvariant{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}.
+\item The discharge bundle required for an unconditional preservation lift is
+  explicitly named:
+  \leanvariant{BEDC.MetaCIC.SubjectReductionDischargeBundle}.
+\item Unconditional closed consistency remains blocked until the bundle is
+  supplied and the closed-normal theorem can be transported from arbitrary
+  closed proofs to their normal endpoints.
+\end{enumerate}
+
+The same dependency can be displayed as a compact audit graph:
+
+\begin{verbatim}
+Candidate-mediated closed SN
+  status: AVAILABLE
+  feeds:
+    closed-normal consistency branch
+
+No closed normal proof of False
+  status: AVAILABLE
+  witness:
+    BEDC.MetaCIC.no_closed_normal_proof_of_false
+
+Closed normal consistency
+  status: AVAILABLE
+  witness:
+    BEDC.MetaCIC.closed_normal_consistency_assembly
+
+Closed reduction by subject reduction
+  status: BLOCKED
+  reason:
+    dependent-codomain obstruction
+  required interface:
+    BEDC.MetaCIC.SubjectReductionDischargeBundle
+
+Unconditional closed consistency
+  status: BLOCKED
+  reason:
+    closed-normal consistency cannot be lifted without closed reduction
+\end{verbatim}
+
+\section{Status matrix}
+\label{sec:metacic-audit-synthesis-status-matrix}
+
+The same state can be read as a matrix of positive results and non-claims.
+
+\begin{center}
+\begin{tabular}{p{0.21\linewidth}p{0.32\linewidth}p{0.36\linewidth}}
+\textbf{Map} & \textbf{Available} & \textbf{Not claimed} \\
+\hline
+Subject reduction &
+parameterised preservation, four named inputs, checked obstruction &
+unparameterised closed subject reduction \\
+Confluence &
+conditional parallel diamond route, closed normal and atom fragments &
+arbitrary closed Church--Rosser \\
+Normalisation &
+candidate-mediated closed strong normalisation routes &
+candidate-free global strong normalisation \\
+Substitution &
+closed shift, closed substitution, closed composition fragments &
+unrestricted substitution calculus or beta typing preservation \\
+Decidability &
+term equality, type-checking soundness and completeness, bounded comparison &
+global decision procedure for meta-theoretic properties \\
+Assembly &
+closed-normal consistency &
+unconditional closed consistency \\
+\end{tabular}
+\end{center}
+
+The matrix is deliberately asymmetric. The positive column records what the
+Lean substrate and paper maps can be used for directly. The non-claim column
+records the strongest nearby statement that must not be inferred from that
+positive result. The synthesis depends on this asymmetry: the project has many
+checked local nodes, but the closed-consistency endpoint needs a specific
+transport edge that those local nodes do not themselves supply.
+
+\section{How the maps interact}
+\label{sec:metacic-audit-synthesis-interaction}
+
+The interaction pattern is a supply chain with named handoffs rather than a
+single theorem with hidden premises. Substitution supplies closed syntactic
+facts about moving terms across binders. Subject reduction would have to turn
+the relevant binder movement into type preservation across beta and domain
+congruence. Normalisation supplies the target normal-form side once the proof
+term is inside the candidate-mediated strong-normalisation interface.
+Consistency assembly consumes the normal-form theorem, but only after the
+displayed false type has been preserved along reduction.
+
+Confluence and decidability sit beside that path. Confluence describes how
+reduction branches can be joined under the available and conditional diamond
+interfaces. Decidability describes which local syntactic and typing questions
+are executable inside the represented fragment. Both constrain how later work
+may cite the substrate, but neither bypasses the subject-reduction lift.
+
+The useful reading is therefore:
+
+\begin{enumerate}
+\item Substitution is syntax algebra.
+\item Subject reduction is type-preservation transport.
+\item Normalisation is termination-to-normal-form evidence.
+\item Closed-normal consistency is the contradiction eliminator at the normal
+  endpoint.
+\item Full closed consistency is the composition of transport and the normal
+  endpoint.
+\end{enumerate}
+
+The missing edge is item 2 in the closed arbitrary-proof setting. Once that
+edge is unavailable, items 3 and 4 remain valid but cannot be composed into
+item 5 for every closed proof term.
+
+\section{The frontier shape}
+\label{sec:metacic-audit-synthesis-frontier-shape}
+
+The substrate currently establishes normal-form sub-consistency
+unconditionally. This is the strongest closed-consistency node available: a
+closed proof term that is already beta-strong cannot inhabit the internal false
+encoding. The result is sharp because it states exactly the normal-form
+fragment, and it is useful because it is the endpoint that a successful
+subject-reduction lift would consume.
+
+The lift to full closed consistency requires one of two project-level moves.
+The first route is to discharge the four subject-reduction hypotheses named in
+\autoref{ch:metacic-subject-reduction-obstruction}. The second route is to
+extend the substrate beyond the present closed-CIC surface so that the missing
+context-reduction and dependent-codomain readback lemmas become expressible and
+provable. On the current substrate, the checked obstruction theorem prevents
+the paper from treating that lift as a local proof exercise.
+
+Confluence and decidability do not remove this frontier. Confluence supplies
+reduction geometry and conditional bridges, while decidability supplies local
+checking procedures. Substitution supplies closed syntax algebra. All three are
+necessary audit context, but none of them replaces the subject-reduction
+transport needed to carry an arbitrary closed proof of false to the closed
+normal-form theorem.
+
+\section{Apophatic discipline applied to meta-theory}
+\label{sec:metacic-audit-synthesis-apophatic}
+
+The MetaCIC audit maps apply BEDC's apophatic naming discipline to the
+project's own meta-theory. The substrate names what it has: checked closed
+normal consistency, candidate-mediated normalisation, closed substitution
+laws, local decidable checking, atom and normal-source confluence fragments, and
+conditional bridges. It also names what it does not have: unparameterised closed
+subject reduction, arbitrary closed Church--Rosser, unrestricted substitution
+commutation, a global decidability oracle, and unconditional closed
+consistency.
+
+This synthesis chapter combines those names into one critical-path map. Its
+purpose is to prevent the reader from overreading a neighbouring checked layer
+as the missing endpoint. The current state is strong, but it is not ambiguous:
+the assembled theorem is closed-normal consistency, and the blocked edge is the
+subject-reduction lift across the dependent-codomain frontier.
+
+\section{Boundary}
+\label{sec:metacic-audit-synthesis-boundary}
+
+This chapter is an audit overview, not a proposal and not a proof of any open
+obligation. It does not discharge the subject-reduction bundle, does not claim
+full closed confluence, does not strengthen the candidate-mediated
+normalisation interface, and does not turn decidable local checking into a
+global meta-theoretic decision procedure.
+
+The claim is exactly the synthesis claim: the five audit maps and the
+consistency assembly form a closed critical-path diagram for the present
+BEDC.MetaCIC state. The available endpoint is normal-form closed consistency.
+The unavailable endpoint is unconditional closed consistency, blocked at the
+named subject-reduction discharge interface.
+
+\concretizedIn{ch:concrete-instances-metacicauditsynthesis-namecert}{MetaCIC audit synthesis is realized as a finite NameCert packet over submap status rows, closed-normal consistency rows, and the blocked subject-reduction handoff ledger.}
