@@ -57,6 +57,7 @@ The strict audit comparison is stored by the pair $F,R$. The row $F$ names the e
 
 Replay is visible only through $C$, with componentwise transport and provenance supplied by $H$ and $P$. Thus a downstream clean-audit claim must pass through the recorded query, comparison, verdict, and replay rows rather than through an unstated environment-level assertion.
 \end{proof}
+\leanchecked{BEDC.Derived.AxiomQueryLedgerUp.AxiomQueryLedgerCarrier\_query\_soundness}
 
 \begin{theorem}[Axiom-query ledger refusal boundary]
 \label{thm:axiom-query-ledger-refusal-boundary}
@@ -134,7 +135,8 @@ The provenance row $P$ records the package ancestry for that replay, and the loc
   \constructivestory{An $\AxiomQueryLedgerUp$ packet is generated from an accepted declaration row, a displayed \texttt{\#print axioms} query output, a forbidden-dependency row, a verdict row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:axiom-query-ledger-packet}, \autoref{thm:axiom-query-ledger-obligations}, \autoref{thm:axiom-query-ledger-query-soundness}, \autoref{thm:axiom-query-ledger-refusal-boundary}, and \autoref{thm:axiom-query-ledger-nonescape} specify the finite axiom-query ledger packet, strict dependency comparison, refusal boundary, replay provenance, and non-escape surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.AxiomQueryLedgerUp.AxiomQueryLedgerCarrier\_query\_soundness}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove global host-kernel purity, completeness of all environment dependency queries, Lean-side formal verification, bridge checking, or acceptance of any dependency outside the displayed finite packet.}
