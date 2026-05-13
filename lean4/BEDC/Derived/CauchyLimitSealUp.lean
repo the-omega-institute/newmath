@@ -5,6 +5,8 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.FKernel.Unary.History
+import BEDC.Derived.RegularCauchyTailSelectorUp
 
 namespace BEDC.Derived.CauchyLimitSealUp
 
@@ -15,6 +17,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.RegularCauchyTailSelectorUp
 
 def CauchyLimitSealPacket [AskSetup] [PackageSetup]
     (source schedule ledger diagonal sealed transportRow provenance certificate : BHist)
@@ -194,5 +197,56 @@ theorem CauchyLimitSealCarrier_verification_handoff [AskSetup] [PackageSetup]
   exact
     ⟨windowUnary, observationUnary, realReadUnary, sameSealRead, sameEndpoint,
       endpointPkg⟩
+
+theorem CauchyLimitSealCarrier_tail_budget_meet [AskSetup] [PackageSetup]
+    {source schedule dyadic diagonal sealRow transportRow provenance localCert endpoint
+      precision stream regularity selectorDyadic selectorSeal witness selectorTransport routes
+      selectorProvenance selectorName budgetWindow budgetRead completionRead selectorRead :
+        BHist}
+    {sealBundle selectorBundle : ProbeBundle ProbeName} {sealPkg selectorPkg : Pkg} :
+    CauchyLimitSealCarrier source schedule dyadic diagonal sealRow transportRow provenance
+        localCert endpoint sealBundle sealPkg ->
+      RegularCauchyTailSelectorPacket precision stream regularity selectorDyadic selectorSeal
+          witness selectorTransport routes selectorProvenance selectorName selectorBundle
+          selectorPkg ->
+        Cont schedule source budgetWindow ->
+          Cont budgetWindow dyadic budgetRead ->
+            Cont budgetRead diagonal completionRead ->
+              Cont witness regularity selectorRead ->
+                hsame dyadic budgetRead ->
+                  hsame selectorDyadic dyadic ->
+                    UnaryHistory budgetWindow ∧ UnaryHistory budgetRead ∧
+                      UnaryHistory completionRead ∧ UnaryHistory selectorRead ∧
+                        hsame sealRow completionRead ∧ hsame selectorDyadic budgetRead ∧
+                          PkgSig sealBundle endpoint sealPkg ∧
+                            PkgSig selectorBundle selectorName selectorPkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier selectorPacket scheduleSourceBudget budgetDyadicRead readDiagonalCompletion
+    witnessRegularityRead sameDyadicBudget sameSelectorDyadic
+  obtain ⟨sourceUnary, scheduleUnary, dyadicUnary, diagonalUnary, _sealUnary,
+    _transportUnary, _provenanceUnary, _localCertUnary, _endpointUnary,
+    _sourceScheduleDyadic, dyadicDiagonalSeal, _sealTransportProvenance,
+    _provenanceLocalEndpoint, _sameEndpoint, endpointPkg⟩ := carrier
+  obtain ⟨_precisionUnary, _streamUnary, regularityUnary, _selectorDyadicUnary,
+    _selectorSealUnary, witnessUnary, _selectorTransportUnary, _routesUnary,
+    _selectorProvenanceUnary, _selectorNameUnary, _streamRegularityWitness,
+    _witnessSelectorDyadicSeal, _sealTransportRoutes, _routesProvenanceName,
+    selectorPkgSig⟩ := selectorPacket
+  have budgetWindowUnary : UnaryHistory budgetWindow :=
+    unary_cont_closed scheduleUnary sourceUnary scheduleSourceBudget
+  have budgetReadUnary : UnaryHistory budgetRead :=
+    unary_cont_closed budgetWindowUnary dyadicUnary budgetDyadicRead
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed budgetReadUnary diagonalUnary readDiagonalCompletion
+  have selectorReadUnary : UnaryHistory selectorRead :=
+    unary_cont_closed witnessUnary regularityUnary witnessRegularityRead
+  have sameSealCompletion : hsame sealRow completionRead :=
+    cont_respects_hsame sameDyadicBudget (hsame_refl diagonal) dyadicDiagonalSeal
+      readDiagonalCompletion
+  have sameSelectorBudget : hsame selectorDyadic budgetRead :=
+    hsame_trans sameSelectorDyadic sameDyadicBudget
+  exact
+    ⟨budgetWindowUnary, budgetReadUnary, completionReadUnary, selectorReadUnary,
+      sameSealCompletion, sameSelectorBudget, endpointPkg, selectorPkgSig⟩
 
 end BEDC.Derived.CauchyLimitSealUp
