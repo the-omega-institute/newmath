@@ -466,6 +466,70 @@ Apply \autoref{thm:critical-line-witness-rh-nonclassification-boundary} and \aut
 Finally use \autoref{thm:critical-line-witness-obligation-closure-package}. It repacks the same carrier, NameCert obligations, strip-zero compatibility, modulus-depth routing, non-escape boundary, and ledger exactness as the finite obligation surface available to downstream consumers.
 \end{proof}
 
+\begin{theorem}[Critical-line witness carrier source]
+\label{thm:critical-line-witness-carrier-source}
+Every downstream read of an accepted $\CriticalLineWitnessUp$ carrier begins with the finite $\BHist$ packet
+$$
+W=(Z,S,M,R,Q,H,C,P,N).
+$$
+The rows $Z,S,M,R,Q$ supply the zero, strip, modulus, real-part, and rational comparison data, while $H,C,P,N$ supply the displayed transports, consumer routes, package provenance, and local $\NameCert$ row. No read starts from a host zero search, quotient representative, or ambient analytic-completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:critical-line-witness-carrier}. The tuple displays exactly the rows $Z,S,M,R,Q,H,C,P,N$.
+
+Use the carrier-admission row of \autoref{thm:critical-line-witness-namecert-obligations}. It makes the finite packet the entry point for zero, strip, modulus, real-part, comparison, transport, route, provenance, and naming reads.
+
+The non-escape discipline in the same obligation list excludes host zero search, quotient representatives, and analytic completeness. Therefore every downstream read begins with the displayed $\BHist$ packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness classifier separation]
+\label{thm:critical-line-witness-classifier-separation}
+The classifier-facing content of an accepted $\CriticalLineWitnessUp$ carrier separates the supplied zero row $Z$, the critical-strip row $S$, and the critical-line modulus row $M$. The displayed $\hsame$ and $\Cont$ rows may transport and replay their alignment, but the packet does not identify these rows by host equality, collapse them into an $\mathsf{RH}$ classifier, or turn the supplied witness into a global zero-set classification.
+\end{theorem}
+\begin{proof}
+Read $Z$, $S$, and $M$ as separate coordinates of the carrier. The zero row, strip row, and modulus row have distinct jobs in the finite packet.
+
+Apply \autoref{thm:critical-line-witness-strip-zero-compatibility} for the displayed alignment of $Z$ and $S$, and apply \autoref{thm:critical-line-witness-modulus-request-factorization} for the route from depth requests through $M,R,Q$.
+
+Finally use \autoref{thm:critical-line-witness-rh-nonclassification-boundary}. The classifier-facing rows remain separated by their displayed routes and cannot become host equality, a global $\mathsf{RH}$ classifier, or a zero-set classification.
+\end{proof}
+
+\begin{theorem}[Critical-line witness NameCert ledger]
+\label{thm:critical-line-witness-namecert-ledger}
+For an accepted $\CriticalLineWitnessUp$ packet, the local $\NameCert$ ledger is exhausted by carrier admission, zero-strip compatibility, modulus discipline, non-escape, and ledger exactness for the rows $Z,S,M,R,Q,H,C,P,N$. A consumer may cite these rows as a finite supplied-witness certificate and may not add a hidden analytic-continuation row, host equality row, or zero-producing row.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:critical-line-witness-namecert-obligations}. It lists the five local obligation rows for the displayed carrier.
+
+Use \autoref{thm:critical-line-witness-ledger-exactness} to identify the public witness surface with the zero, strip, modulus, real-part, rational comparison, transport, route, provenance, and naming rows.
+
+The non-escape and downstream refusal theorems exclude analytic continuation, host equality, and zero production. Thus the local $\NameCert$ ledger is exactly the finite packet obligation surface.
+\end{proof}
+
+\begin{theorem}[Critical-line witness real-strip handoff]
+\label{thm:critical-line-witness-real-strip-handoff}
+Every real-part read used by an accepted $\CriticalLineWitnessUp$ packet factors through the supplied critical-strip row $S$, the real-part row $R$, the rational comparison ledger $Q$, and the modulus row $M$, with transport and replay controlled by $H$ and $C$. The handoff records a finite strip-to-real witness route only; it does not close analytic continuation, host complex equality, or real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the strip row $S$ and the real-part row $R$ in the carrier. The strip row supplies the displayed critical-strip context, and $R$ is the only real-part coordinate consumed by the modulus.
+
+Apply \autoref{thm:critical-line-witness-realpart-modulus-stability}. It keeps transported depth requests aligned with the same $R$ row and the comparison ledger $Q$.
+
+Then use \autoref{thm:critical-line-witness-rat-comparison-ledger-exactness}. The rational comparison rows are precisely the finite rows used by $M$, so the handoff is a finite strip-to-real route and not an analytic-continuation or completeness principle.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zeta-zero boundary]
+\label{thm:critical-line-witness-zeta-zero-boundary}
+The supplied $\ZetaZerosUp$ row $Z$ in an accepted $\CriticalLineWitnessUp$ packet is a boundary row for the witness surface: downstream consumers may read it only together with $S,M,R,Q,H,C,P,N$ as the finite supplied-zero packet, and cannot extract a zero constructor, global zeta-zero enumeration, $\mathsf{RH}$ proof, or analytic-continuation certificate from it.
+\end{theorem}
+\begin{proof}
+Project the zero row $Z$ from the finite carrier. It is stored as supplied input, not as an output of a search or construction coordinate.
+
+Use \autoref{thm:critical-line-witness-zero-row-scope}. The zero row remains tied to the same strip, modulus, real-part, comparison, transport, route, provenance, and naming rows.
+
+Finally apply \autoref{thm:critical-line-witness-rh-nonproof-boundary} and \autoref{thm:critical-line-witness-downstream-refusal-package}. These exclude zero construction, global enumeration, $\mathsf{RH}$ proof, and analytic-continuation export from the displayed packet.
+\end{proof}
+
 \closureat{CriticalLineWitnessUp}{seedStr}
 
 \begin{closurestatus}{\CriticalLineWitnessUp}
