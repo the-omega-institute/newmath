@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\AnalyticContinuationSocketUp$}
+\label{ch:concrete-instances-analytic-continuation-socket-namecert}
+\origin{human}
+
+The $\AnalyticContinuationSocketUp$ interface turns the analytic-continuation operation of \autoref{ch:concrete-instances-analytic-continuation} into a finite operation-socket certificate. It does not assert a global monodromy theorem or a host analytic continuation principle. It names the local source rows, overlap witnesses, continuation output rows, transport routes, and branch-obstruction ledger that a downstream $\HolomorphicUp$ or Riemann-hypothesis-facing consumer may inspect.
+
+\begin{definition}[AnalyticContinuationSocket carrier]
+\label{def:analytic-continuation-socket-carrier}
+An $\AnalyticContinuationSocketUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,G,U,A,O,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source $\HolomorphicUp$ row on the first $\ComplexUp$ domain;
+\item $G$ is the overlapping $\HolomorphicUp$ row on the second $\ComplexUp$ domain;
+\item $U$ is the finite overlap witness row, including the displayed nontrivial overlap and agreement evidence needed by the local identity route;
+\item $A$ is the analytic-continuation operation row that reads $F,G,U$ and proposes an output continuation;
+\item $O$ is the output $\HolomorphicUp$ row on the displayed union domain;
+\item $B$ is the branch-obstruction ledger, recording every requested continuation route that leaves the displayed overlap-and-output packet as a $\mathsf{GAP}$ boundary;
+\item $H$ stores componentwise $\hsame$ transports for $F,G,U,A,O,B$ and the local naming rows;
+\item $C$ stores the finite $\Cont$ routes by which consumers read the source rows, overlap witness, output row, branch ledger, package provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over the same finite operation-socket packet;
+\item $N$ is the local $\NameCert_{\AnalyticContinuationSocketUp}$ row.
+\end{enumerate}
+The carrier exposes exactly this local socket. It contains no unrestricted analytic-continuation operator, no global branch selector, no quotient of germs, and no host complex-analysis theorem.
+\end{definition}
+
+\begin{theorem}[AnalyticContinuationSocket NameCert obligations]
+\label{thm:analytic-continuation-socket-namecert-obligations}
+The local $\NameCert_{\AnalyticContinuationSocketUp}$ surface for \autoref{def:analytic-continuation-socket-carrier} consists of five finite rows: carrier admission for $S$; classifier stability for the two holomorphic source rows, the overlap witness, the operation row, and the output row; ledger exactness for the branch-obstruction coordinate $B$; $\Pkg$ provenance over $F,G,U,A,O,B,H,C$; and local naming exactness for $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite tuple $S$. The source, overlap, operation, output, obstruction, transport, continuation, package, and local naming rows are all visible coordinates of the same $\BHist$ packet.
+
+Classifier stability is componentwise. Transport of $F,G,U$ preserves the two source rows and the overlap agreement evidence, transport of $A,O$ preserves the proposed continuation output, and transport of $B$ preserves the recorded non-escape boundary.
+
+The package and local naming rows repack these coordinates without adding a host continuation principle. Thus the socket certificate consists exactly of the five displayed obligation rows.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket ledger non-escape]
+\label{thm:analytic-continuation-socket-ledger-nonescape}
+Every consumer read exported by an accepted $\AnalyticContinuationSocketUp$ carrier factors through the displayed rows $F,G,U,A,O,B,H,C,P,N$. If a read asks for continuation data outside the source rows, overlap witness, proposed output, and displayed transport routes, the request is recorded in $B$ as a $\mathsf{GAP}$ boundary and is not exported as a holomorphic continuation row.
+\end{theorem}
+\begin{proof}
+Read the consumer request through the displayed $\Cont$ route $C$. If the request lands in the two source rows, the overlap witness, the operation row, the output row, or the package and naming rows, the carrier supplies exactly that coordinate.
+
+If the request leaves those coordinates, no row of $S$ can supply a continuation witness. The branch-obstruction ledger $B$ is the only remaining classifier-visible coordinate for such a request, so the read is recorded as non-escape evidence rather than as an output continuation.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket holomorphic handoff]
+\label{thm:analytic-continuation-socket-holomorphic-handoff}
+For an accepted $\AnalyticContinuationSocketUp$ carrier $S=(F,G,U,A,O,B,H,C,P,N)$, every downstream $\HolomorphicUp$ consumer of the output row $O$ also reads the source rows $F,G$, the overlap witness $U$, the operation row $A$, and the transport, continuation, package, and local naming rows $H,C,P,N$. The handoff exposes no standalone continuation function and no branch choice outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Begin with the output row $O$. In the carrier definition it appears only as the result coordinate of the operation row $A$ over the displayed source rows $F,G$ and overlap witness $U$.
+
+Transport through $H$ preserves the same source-overlap-output boundary, and the continuation routes in $C$ expose the output only through that boundary. The package and local naming rows $P,N$ then identify the same finite packet for downstream consumers.
+
+The branch ledger $B$ rules out the remaining escape case. A consumer that asks for a branch choice or continuation function outside the displayed packet reaches $B$, not another $\HolomorphicUp$ row.
+\end{proof}
+
+\begin{theorem}[AnalyticContinuationSocket vision concretization]
+\label{thm:analytic-continuation-socket-vision-concretization}
+The analytic-continuation operation surface of \autoref{ch:concrete-instances-analytic-continuation} is concretized by $\AnalyticContinuationSocketUp$ as a finite $\BHist$ operation-socket packet over holomorphic source rows, overlap witnesses, continuation outputs, componentwise transport, continuation routes, package provenance, local naming, and branch-obstruction non-escape.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:analytic-continuation-socket-carrier} supplies the finite operation-socket packet. The NameCert obligations of \autoref{thm:analytic-continuation-socket-namecert-obligations} bind carrier admission, classifier stability, branch-ledger exactness, package provenance, and local naming.
+
+The ledger non-escape theorem prevents undisplayed continuation routes from becoming output rows, and the holomorphic handoff theorem shows how downstream $\HolomorphicUp$ consumers read the displayed continuation output. These clauses are exactly the finite BEDC concretization of the operation surface.
+\end{proof}
+
+\closureat{AnalyticContinuationSocketUp}{seedStr}
+\closureat{AnalyticContinuationSocketUp}{obligationStr}
+
+\begin{closurestatus}{\AnalyticContinuationSocketUp}
+  \constructivestory{An $\AnalyticContinuationSocketUp$ packet is generated from two $\HolomorphicUp$ source rows, a finite overlap witness, an analytic-continuation operation row, an output $\HolomorphicUp$ row, a branch-obstruction ledger, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:analytic-continuation-socket-carrier}, \autoref{thm:analytic-continuation-socket-namecert-obligations}, \autoref{thm:analytic-continuation-socket-ledger-nonescape}, and \autoref{thm:analytic-continuation-socket-holomorphic-handoff} define the local operation-socket carrier, obligation rows, non-escape ledger, and downstream holomorphic handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close global monodromy, quotient-of-germs construction, branch selection, RH zero-location consequences, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, branch-ledger exactness, package provenance, and local naming for the same finite socket packet.}
+\end{closurestatus}
