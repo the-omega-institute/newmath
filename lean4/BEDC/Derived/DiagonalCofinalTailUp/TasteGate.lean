@@ -232,6 +232,9 @@ instance diagonalCofinalTailChapterTasteGate :
     intro x y hxy heq
     exact hxy (diagonalCofinalTailToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate DiagonalCofinalTailUp :=
+  diagonalCofinalTailChapterTasteGate
+
 theorem DiagonalCofinalTailTasteGate_single_carrier_alignment :
     (∀ h : BHist, diagonalCofinalTailDecodeBHist
       (diagonalCofinalTailEncodeBHist h) = h) ∧
