@@ -178,6 +178,35 @@ theorem RegularCauchyLimitTransportCarrier_classifier_handoff_coverage [AskSetup
         sameProvenance, sameCert⟩
   exact ⟨classifier, sameDyadic, sameRoutes, sameProvenance, sameCert⟩
 
+theorem RegularCauchyLimitTransportCarrier_completion_boundary_nonescape [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert handoff boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance
+        cert bundle pkg ->
+      Cont routes cert handoff ->
+        Cont handoff sealRow boundary ->
+          UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+            UnaryHistory sealRow ∧ UnaryHistory routes ∧ UnaryHistory handoff ∧
+              UnaryHistory boundary ∧ Cont source window dyadic ∧
+                Cont dyadic sealRow routes ∧ Cont routes cert handoff ∧
+                  Cont handoff sealRow boundary ∧ hsame transport (append source sealRow) ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier routesCertHandoff handoffSealBoundary
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, _transportUnary, routesUnary,
+    _provenanceUnary, certUnary, sourceWindowDyadic, dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, transportMatchesSeal,
+    provenancePkg, certPkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed routesUnary certUnary routesCertHandoff
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed handoffUnary sealUnary handoffSealBoundary
+  exact
+    ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, routesUnary, handoffUnary,
+      boundaryUnary, sourceWindowDyadic, dyadicSealRoutes, routesCertHandoff,
+      handoffSealBoundary, transportMatchesSeal, provenancePkg, certPkg⟩
+
 theorem RegularCauchyLimitTransportCarrier_real_completeness_consumer_factorization
     [AskSetup] [PackageSetup]
     {source window dyadic sealRow transport routes provenance cert family modulus readback endpoint
