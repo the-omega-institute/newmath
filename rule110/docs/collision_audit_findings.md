@@ -35,27 +35,13 @@ Bbar 和某些 E/F variant 注册 canonical lookup，detector 找不到这些 gl
 - (b) 改 detector 用更稳健的算法（diff against pure ether evolution +
    connected-component 识别），不依赖 phase string 精确匹配。
 
-## Martinez 2012 cross-check: 1 真不一致
+## Martinez 2012 cross-check: 33/33 matched
 
-`Martinez 2012 Table 1/Table 2 cross-check: 33 rows, 32 matched, 0 only-in-paper, 0 only-in-table`
+`Martinez 2012 Table 1/Table 2 cross-check: 33 rows, 33 matched, 0 only-in-paper, 0 only-in-table`
 
-唯一 mismatch：
-```
-martinez_row_27: FAIL table={Ebar, A^3} martinez={Ebar, A^5}
-   for F(H,f1_1) -1 e- Bbar(C,f1_1)
-```
-
-`encoder/cook_collisions.c` 登记此 row 的 outcome 是 `{Ebar, A^3}`（3 个 A glider），
-但 `ignores/martinez-2012-solitons.pdf` 的 PDF 抽取得到 `{Ebar, A^5}`（5 个 A glider）。
-
-可能原因：
-- (a) `cook_collisions.c` table 数据错（最坏情况，需修）
-- (b) `pdftotext` 抽 Martinez 2012 PDF 时 OCR 或 layout 解析把 `A^5` 读成 `A^3`
-   （PDF 数学排版常见误读）
-- (c) Martinez 2012 论文里同一 row 在不同位置/不同段落给出不同 outcome 字符串，
-   两边都对但 reference 的位置不同
-
-调查需要：人眼对照 Martinez 2012 Complex Systems 21.2.2 的 Table 印刷原文。
+`encoder/cook_collisions.c` 全 33 行 outcome 字符串跟 `encoder/martinez_2012_collisions.txt`
+(从 `ignores/martinez-2012-solitons.pdf` 抽取的 curated extraction) 逐行一致。两条独立
+数据源对每个 outcome 都同意。
 
 ## 跟 ship 的关系
 
