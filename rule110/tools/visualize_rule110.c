@@ -190,6 +190,101 @@ static void emit_downsampled_group(uint8_t *cells,
     free(acc);
 }
 
+/* Grayscale variant: bucket density into 5 levels per output cell. Thresholds
+ * are clustered in 50-75% range because long Rule 110 evolutions from Cook
+ * packets settle into this band; finer steps inside the observed range
+ * expose Cook block structure that a binary majority loses. */
+#define DOWNSAMPLED_GRAY_LEVELS 5
+static const char *const GRAY_FILLS[DOWNSAMPLED_GRAY_LEVELS] = {
+    "#dadcd3",  /* ≥ 50% */
+    "#a8aba2",  /* ≥ 55% */
+    "#787b72",  /* ≥ 60% */
+    "#4a4d44",  /* ≥ 65% */
+    "#1a1c18"   /* ≥ 75% */
+};
+static const size_t GRAY_NUMER[DOWNSAMPLED_GRAY_LEVELS] = { 50u, 55u, 60u, 65u, 75u };
+static const size_t GRAY_DENOM = 100u;
+
+static void emit_downsampled_grayscale_group(uint8_t *cells,
+                                             size_t width,
+                                             size_t steps,
+                                             size_t out_w,
+                                             size_t out_h,
+                                             double x,
+                                             double y,
+                                             double plot_w,
+                                             double plot_h) {
+    size_t *acc = (size_t *)xmalloc(out_w * sizeof(*acc));
+    uint8_t *density_buf = (uint8_t *)xmalloc(out_w * out_h);
+    size_t t = 0;
+
+    /* Pass 1: compute density level per bin (0..DOWNSAMPLED_GRAY_LEVELS). */
+    for (size_t oy = 0; oy < out_h; oy++) {
+        size_t start_t = (oy * steps) / out_h;
+        size_t end_t = ((oy + 1u) * steps) / out_h;
+        size_t row_count = end_t > start_t ? end_t - start_t : 1u;
+
+        while (t < start_t) {
+            r110_run_n_steps(cells, width, 1);
+            t++;
+        }
+
+        memset(acc, 0, out_w * sizeof(*acc));
+        for (; t < end_t; t++) {
+            for (size_t ox = 0; ox < out_w; ox++) {
+                size_t sx0 = (ox * width) / out_w;
+                size_t sx1 = ((ox + 1u) * width) / out_w;
+                if (sx1 <= sx0) sx1 = sx0 + 1u;
+                if (sx1 > width) sx1 = width;
+                for (size_t sx = sx0; sx < sx1; sx++) {
+                    acc[ox] += cells[sx] ? 1u : 0u;
+                }
+            }
+            if (t + 1u < steps) r110_run_n_steps(cells, width, 1);
+        }
+
+        for (size_t ox = 0; ox < out_w; ox++) {
+            size_t sx0 = (ox * width) / out_w;
+            size_t sx1 = ((ox + 1u) * width) / out_w;
+            size_t bin_w = sx1 > sx0 ? sx1 - sx0 : 1u;
+            size_t total = bin_w * row_count;
+            uint8_t level = 0;
+            for (size_t L = 0; L < DOWNSAMPLED_GRAY_LEVELS; L++) {
+                if (acc[ox] * GRAY_DENOM >= total * GRAY_NUMER[L]) level = (uint8_t)(L + 1u);
+            }
+            density_buf[oy * out_w + ox] = level;
+        }
+    }
+
+    /* Pass 2: emit one path per gray level using horizontal-run compression.
+     * fill is set directly on the path (not via class) because `.pix` has
+     * fill:none which would otherwise override the inherited group fill. */
+    for (uint8_t L = 1u; L <= DOWNSAMPLED_GRAY_LEVELS; L++) {
+        printf("<g transform=\"translate(%.2f %.2f) scale(%.5f %.5f)\">\n",
+               x,
+               y,
+               plot_w / (double)out_w,
+               plot_h / (double)out_h);
+        printf("<path fill=\"%s\" stroke=\"none\" shape-rendering=\"crispEdges\" d=\"",
+               GRAY_FILLS[L - 1u]);
+        for (size_t oy = 0; oy < out_h; oy++) {
+            size_t ox = 0;
+            while (ox < out_w) {
+                while (ox < out_w && density_buf[oy * out_w + ox] != L) ox++;
+                if (ox < out_w) {
+                    size_t start = ox;
+                    while (ox < out_w && density_buf[oy * out_w + ox] == L) ox++;
+                    printf("M%zu %zu h%zu v1 H%zu Z ", start, oy, ox - start, start);
+                }
+            }
+        }
+        printf("\"/>\n</g>\n");
+    }
+
+    free(density_buf);
+    free(acc);
+}
+
 static void emit_initial_strip(const uint8_t *cells,
                                size_t width,
                                size_t out_w,
@@ -337,7 +432,7 @@ static void render_collision(void) {
     const size_t pos_a = 130;
     const size_t pos_ebar = pos_a + 6u + (4u * 14u) - 51u;
     const double plot_x = 34.0;
-    const double plot_y = 44.0;
+    const double plot_y = 60.0;
     const double cell_w = 2.5;
     const double cell_h = 1.78;
     int hit_count = 0;
@@ -346,9 +441,9 @@ static void render_collision(void) {
     emit_phase_at(cells, W, pos_a, "A", NULL);
     emit_phase_at(cells, W, pos_ebar, "Ebar", "A");
 
-    svg_begin(970.0, 500.0, "A + Ebar(A) &#8594; {Ebar, A}");
-    text_at(24.0, 26.0, 18, "700", "A + Ebar(A) &#8594; {Ebar, A}");
-    text_at(24.0, 43.0, 11, "400", "Martinez 2012 Table 2 row 8; initial gap 4 ether periods, audit delta -51.");
+    svg_begin(970.0, 516.0, "A + Ebar(A) &#8594; {Ebar, A}");
+    text_at(24.0, 28.0, 18, "700", "A + Ebar(A) &#8594; {Ebar, A}");
+    text_at(24.0, 48.0, 11, "400", "Martinez 2012 Table 2 row 8; initial gap 4 ether periods, audit delta -51.");
     panel_background(plot_x, plot_y, W * cell_w, T * cell_h, "#fff");
     emit_spacetime_group(cells, W, T, plot_x, plot_y, cell_w, cell_h);
     memcpy(final_row, cells, sizeof(final_row));
@@ -458,13 +553,13 @@ static void packet_layout_slices(const CyclicTagInput *ct,
 
     slices[0].start = 64u * 14u;
     slices[0].end = left_end;
-    slices[0].label = "left periodic A blocks";
+    slices[0].label = "L: A blocks";
     slices[1].start = left_end;
     slices[1].end = central_end;
-    slices[1].label = "central C(E/F)D...G";
+    slices[1].label = "C: tape";
     slices[2].start = central_end;
     slices[2].end = right_end;
-    slices[2].label = "right appendant blocks";
+    slices[2].label = "R: appendants";
     *slice_count = 3u;
 }
 
@@ -492,9 +587,13 @@ static void emit_packet_slice_labels(const PacketSlice *slices,
                y - 4.0,
                ex,
                y + strip_h + 8.0);
+        /* Stagger label y across alternating slices to avoid horizontal overlap
+         * when slice widths differ a lot (e.g. small packet → narrow right
+         * appendant slice would crowd the central label). */
+        double label_y = (i % 2u == 0u) ? (y - 22.0) : (y - 9.0);
         printf("<text class=\"small\" text-anchor=\"middle\" x=\"%.2f\" y=\"%.2f\">%s</text>\n",
                mid,
-               y - 9.0,
+               label_y,
                slices[i].label);
     }
 }
@@ -512,10 +611,10 @@ static void render_cook_packet(void) {
     PacketSlice slices[3];
     size_t slice_count = 0;
     const double plot_x = 34.0;
-    const double strip_y = 74.0;
-    const double plot_y = 126.0;
+    const double strip_y = 88.0;
+    const double plot_y = 138.0;
     const double plot_w = 900.0;
-    const double plot_h = 430.0;
+    const double plot_h = 418.0;
     const size_t out_w = 720;
     const size_t out_h = 344;
 
@@ -585,9 +684,9 @@ static void render_scale(void) {
     evolve = (uint8_t *)xmalloc(len);
     memcpy(evolve, cells, len);
 
-    svg_begin(490.0,
+    svg_begin(880.0,
               590.0,
-              "Cook packet scale frontier: 2 production x 16 tape bit x 16384 steps");
+              "Cook packet scale frontier: 2p x 16 tape bit x 16384 steps");
     text_at(24.0,
             28.0,
             18,
@@ -597,18 +696,18 @@ static void render_scale(void) {
             49.0,
             11,
             "400",
-            "The 16384-step run is majority-downsampled to a compact viewport.");
+            "Initial row encoded once; the 16384-step evolution is rendered with 5-level density buckets (50/55/60/65/75% thresholds) over a 280x280 viewport.");
     emit_initial_strip(cells, len, out_w, plot_x, strip_y, plot_w, 16.0);
     panel_background(plot_x, plot_y, plot_w, plot_h, "#fff");
-    emit_downsampled_group(evolve,
-                           len,
-                           16384u,
-                           out_w,
-                           out_h,
-                           plot_x,
-                           plot_y,
-                           plot_w,
-                           plot_h);
+    emit_downsampled_grayscale_group(evolve,
+                                     len,
+                                     16384u,
+                                     out_w,
+                                     out_h,
+                                     plot_x,
+                                     plot_y,
+                                     plot_w,
+                                     plot_h);
     emit_axis_labels(plot_x, plot_y, plot_w, plot_h);
     svg_end();
 
