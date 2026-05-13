@@ -30,8 +30,9 @@ def AnalyticContinuationSocketCarrier [AskSetup] [PackageSetup]
     UnaryHistory operation ∧ UnaryHistory output ∧ UnaryHistory branch ∧
       UnaryHistory transport ∧ UnaryHistory continuation ∧ UnaryHistory provenance ∧
         UnaryHistory name ∧ Cont source leftOverlap witness ∧ Cont witness operation output ∧
-          Cont branch transport continuation ∧ Cont continuation name provenance ∧
-            PkgSig bundle provenance pkg
+          Cont branch transport continuation ∧ Cont output continuation provenance ∧
+            Cont continuation name provenance ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle name pkg
 
 theorem AnalyticContinuationSocketCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {source leftOverlap witness operation output branch transport continuation provenance name
@@ -56,36 +57,10 @@ theorem AnalyticContinuationSocketCarrier_namecert_obligations [AskSetup] [Packa
                           hsame := by
   -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory Pkg
   intro carrier consumerRow consumerPkg
-  have sourceUnary : UnaryHistory source :=
-    carrier.left
-  have leftOverlapUnary : UnaryHistory leftOverlap :=
-    carrier.right.left
-  have witnessUnary : UnaryHistory witness :=
-    carrier.right.right.left
-  have operationUnary : UnaryHistory operation :=
-    carrier.right.right.right.left
-  have outputUnary : UnaryHistory output :=
-    carrier.right.right.right.right.left
-  have branchUnary : UnaryHistory branch :=
-    carrier.right.right.right.right.right.left
-  have transportUnary : UnaryHistory transport :=
-    carrier.right.right.right.right.right.right.left
-  have continuationUnary : UnaryHistory continuation :=
-    carrier.right.right.right.right.right.right.right.left
-  have provenanceUnary : UnaryHistory provenance :=
-    carrier.right.right.right.right.right.right.right.right.left
-  have nameUnary : UnaryHistory name :=
-    carrier.right.right.right.right.right.right.right.right.right.left
-  have sourceOverlapWitness : Cont source leftOverlap witness :=
-    carrier.right.right.right.right.right.right.right.right.right.right.left
-  have witnessOperationOutput : Cont witness operation output :=
-    carrier.right.right.right.right.right.right.right.right.right.right.right.left
-  have branchTransportContinuation : Cont branch transport continuation :=
-    carrier.right.right.right.right.right.right.right.right.right.right.right.right.left
-  have continuationNameProvenance : Cont continuation name provenance :=
-    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.left
-  have provenancePkg : PkgSig bundle provenance pkg :=
-    carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  obtain ⟨sourceUnary, leftOverlapUnary, witnessUnary, operationUnary, outputUnary, branchUnary,
+    transportUnary, continuationUnary, provenanceUnary, nameUnary, sourceOverlapWitness,
+    witnessOperationOutput, branchTransportContinuation, _outputContinuationProvenance,
+    continuationNameProvenance, provenancePkg, _namePkg⟩ := carrier
   have consumerUnary : UnaryHistory consumer :=
     unary_cont_closed outputUnary branchUnary consumerRow
   have cert :
@@ -137,6 +112,38 @@ theorem AnalyticContinuationSocketCarrier_namecert_obligations [AskSetup] [Packa
                                   (And.intro consumerRow
                                     (And.intro provenancePkg
                                       (And.intro consumerPkg cert)))))))))))))))))
+
+theorem AnalyticContinuationSocketCarrier_operation_output_factorization [AskSetup]
+    [PackageSetup]
+    {source leftOverlap witness operation output branch transport continuation provenance name
+      consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AnalyticContinuationSocketCarrier source leftOverlap witness operation output branch
+        transport continuation provenance name bundle pkg →
+      Cont output continuation consumer →
+        PkgSig bundle consumer pkg →
+          UnaryHistory output ∧ UnaryHistory consumer ∧ Cont witness operation output ∧
+            Cont output continuation consumer ∧ Cont output continuation provenance ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier outputContinuationConsumer consumerPkg
+  obtain ⟨_sourceUnary, _leftOverlapUnary, witnessUnary, operationUnary, _outputUnary,
+    _branchUnary, _transportUnary, continuationUnary, _provenanceUnary, _nameUnary,
+    _sourceLeftOverlapWitness, witnessOperationOutput, _branchTransportContinuation,
+    outputContinuationProvenance, _continuationNameProvenance, provenancePkg, _namePkg⟩ :=
+    carrier
+  have outputUnary : UnaryHistory output :=
+    unary_cont_closed witnessUnary operationUnary witnessOperationOutput
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed outputUnary continuationUnary outputContinuationConsumer
+  exact
+    ⟨outputUnary,
+      consumerUnary,
+      witnessOperationOutput,
+      outputContinuationConsumer,
+      outputContinuationProvenance,
+      provenancePkg,
+      consumerPkg⟩
 
 def AnalyticContinuationSocketPacket [AskSetup] [PackageSetup]
     (source leftOverlap witness operation output branch transport continuation provenance
