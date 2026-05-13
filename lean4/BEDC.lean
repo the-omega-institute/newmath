@@ -196,6 +196,7 @@ import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
 import BEDC.Derived.CauchyCompletionMonadUp
 import BEDC.Derived.CauchyErrorCertificateUp
+import BEDC.Derived.CertificateCompilerUp
 import BEDC.Derived.CauchyCriterionUp
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyPairingUp
