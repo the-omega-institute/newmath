@@ -148,6 +148,22 @@ The separated comparison row is $S$. By \autoref{thm:regular-limit-uniqueness-se
 The exclusion statement follows from the ledger boundary in \autoref{thm:regular-limit-uniqueness-completion-consumer-boundary}. The omitted host and quotient objects are not coordinates of $U$.
 \end{proof}
 
+\begin{theorem}[RegularLimitUniqueness dyadic-window separation pullback]
+\label{thm:regular-limit-uniqueness-dyadic-window-separation-pullback}
+Let $U=(F,D_0,D_1,\mu,R_0,R_1,E_0,E_1,S,H,C,P,N)$ be an accepted $\RegularLimitUniquenessUp$ packet. Suppose the two candidate routes share the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ observation ledger read by those windows, and the $\HausdorffCompletionUp$ separated comparison row whose endpoint is the $\RealUp$ seal comparison $S$.
+
+Then every completion consumer reaches the same $\RealUp$ seal comparison through that finite pullback surface. The consumer route is forced through $R_0,R_1,E_0,E_1,S$ and through the shared $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $U$; it cannot be replaced by quotient streams, selected host limits, host real equality, ambient completeness, or choice.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-limit-uniqueness-readback-seal-exactness}. The accepted packet identifies the two diagonal candidates only after the displayed readbacks $R_0,R_1$ reach the seal rows $E_0,E_1$ and the separated comparison row $S$.
+
+Next apply \autoref{thm:regular-limit-uniqueness-shared-family-scope}. The common family row $F$, threshold row $\mu$, both diagonal candidates, and their transport, continuation, package, and naming rows remain inside the same $\RegularLimitUniquenessUp$ packet.
+
+The finite pullback is supplied by \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} and \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. The shared $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ ledger, and $\RealUp$ seal rows determine one finite surface for downstream seal comparison.
+
+Finally use the completion consumer boundary from \autoref{thm:regular-limit-uniqueness-completion-consumer-boundary}. Since every consumer has already been routed through the displayed finite surface, no quotient stream, selected host limit, host equality, ambient completeness row, or choice witness can enter the uniqueness comparison.
+\end{proof}
+
 \begin{theorem}[RegularLimitUniqueness choice-free ledger exhaustion]
 \label{thm:regular-limit-uniqueness-choice-free-ledger-exhaustion}
 Every completion consumer route exported by an accepted $\RegularLimitUniquenessUp$ packet is exhausted by
