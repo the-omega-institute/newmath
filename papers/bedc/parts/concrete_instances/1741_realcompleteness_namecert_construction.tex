@@ -133,6 +133,26 @@ Now identify the rows consumed by those clauses. Carrier formation gives $R$; cl
 The exclusion statement follows from the same projection. Quotient real equality, selected host limits, countable choice, and ambient completeness are absent from the packet, so they cannot appear among the obligations exposed by the local $\NameCert_{\RealCompletenessUp}$ surface.
 \end{proof}
 
+\begin{theorem}[Real completeness dependency lattice]
+\label{thm:real-completeness-dependency-lattice}
+For every accepted $\RealCompletenessUp$ carrier
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N),
+$$
+the accepted completion route factors through the upstream packet lattice in the following order: $\DyadicRatCoreUp$ observation ledgers in $D$, $\StreamNameUp$ windows in $W$, $\RegSeqRatUp$ readbacks in $Q$, $\FiniteTailDiagonalSealUp$ selected-tail witnesses, and the final $\RealUp$ seal row $S$. The rows $H,C,P,N$ preserve the same route through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route refuses quotient real equality, selected host limits, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:real-completeness-carrier}. The displayed carrier already separates the dyadic ledger $D$, stream windows $W$, regular readback row $Q$, seal row $S$, and the transport, continuation, provenance, and naming rows $H,C,P,N$.
+
+Apply \autoref{thm:real-completeness-namecert-obligations} and \autoref{thm:real-completeness-finite-obligation-surface}. Their diagonal readback clauses force selected observations through $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows, while package closure routes the result through $H,C,P,N$ before the $\RealUp$ seal is consumed.
+
+Now insert the finite-tail handoff supplied by \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert}. Its selected-tail witness package sits exactly between the $\RegSeqRatUp$ readback and the $\RealUp$ seal, using the same precision, window, source, witness, transport, route, provenance, and local naming discipline.
+
+The sibling chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} name the upstream rows consumed by this lattice. They provide the window, regular-rational, dyadic, and real-seal anchors without adding a quotient real or a host completeness principle.
+
+Finally use \autoref{thm:real-completeness-nonescape-boundary}. Since quotient real equality, selected host limits, countable choice, and ambient completeness are absent from the carrier, they cannot appear in the dependency lattice.
+\end{proof}
+
 \begin{theorem}[Real completeness modulus domain coverage]
 \label{thm:real-completeness-modulus-domain-coverage}
 Let
@@ -286,6 +306,7 @@ Apply \autoref{thm:real-completeness-diagonal-limit-candidate}. Every candidate-
 
 The excluded objects are absent from the tuple. Therefore the boundary cannot export a quotient real, host real equality, external selected limit, choice principle, or host completeness theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCompletenessUp.RealCompletenessBHistCarrier\_nonescape\_boundary}
 
 \begin{theorem}[Real completeness scoped finite seal pullback]
 \label{thm:real-completeness-scoped-finite-seal-pullback}
