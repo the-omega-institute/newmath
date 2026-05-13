@@ -377,6 +377,49 @@ uniqueness of limits, ambient completeness, or an unrecorded completion
 object.
 \end{proof}
 
+\begin{theorem}[CauchyCriterion RegSeqRat StreamName RealUp handoff]
+\label{thm:cauchycriterion-regseqrat-streamname-realup-handoff}
+Let $K=(W,M,T,Q,E,H,C,P,N)$ be an accepted $\CauchyCriterionUp$
+carrier. Suppose the $W$ row is read from a finite public
+$\StreamNameUp$ observation window and is accepted by the $\RegSeqRatUp$
+handoff. Then every $\RealUp$ seal read of $K$ factors through exactly the
+route
+$$
+\StreamNameUp\text{ finite window}
+\to
+\RegSeqRatUp\text{ source row}
+\to
+\CauchyModulusUp,\DyadicTailBoundUp,\DyadicRatCoreUp\text{ budget rows}
+\to
+\RealUp\text{ seal}.
+$$
+No quotient stream, selected host limit, host real equality, or ambient
+completeness row can enter this route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. Its displayed rows expose the regular
+rational handoff $W$, modulus row $M$, tail ledger $T$, dyadic tolerance
+row $Q$, real seal row $E$, and the transport, continuation, provenance,
+and local naming rows $H,C,P,N$.
+
+Apply \autoref{thm:cauchycriterion-tail-bound-real-seal}. The tail-bound
+budget is read through the modulus, dyadic tolerance, tail ledger, and
+real seal rows already present in $K$.
+
+Use \autoref{thm:cauchycriterion-regseqrat-handoff-exhaustion}. The
+$\RegSeqRatUp$ handoff exhausts the finite source rows available from the
+displayed observation window, so the source cannot be replaced by a
+quotient stream or by a selected host limit.
+
+Finally apply
+\autoref{thm:cauchycriterion-completion-facing-readback-normal-form}. The
+completion-facing route normalizes to the same displayed rows. Together
+with the sibling inputs named in the chapter introduction for
+$\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, this
+binds every seal read to the stated finite handoff route and excludes host
+real equality and ambient completeness rows.
+\end{proof}
+
 \begin{theorem}[CauchyCriterion mature downstream examples]
 \label{thm:cauchycriterion-mature-downstream-examples}
 The public certificate, real-completion consumer bridge, modulus-tail consumer
