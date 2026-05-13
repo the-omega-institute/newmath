@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\TwinSubstrateAuditPacketUp$}
+\label{ch:concrete-instances-twin-substrate-audit-packet-namecert}
+\origin{ai}
+
+The $\TwinSubstrateAuditPacketUp$ surface makes the architecture of \autoref{ch:twin-substrate-synthesis} into one finite concrete-instance packet. It reads the compiler-facing side through \autoref{ch:concrete-instances-groundcompiler-audit-packet-namecert} and the closed-CIC audit side through \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert}, while keeping the two non-escape ledgers separate.
+
+\begin{definition}[TwinSubstrateAuditPacket carrier]
+\label{def:twin-substrate-audit-packet}
+A $\TwinSubstrateAuditPacketUp$ carrier is a finite $\BHist$ packet
+$$
+T=(G,M,A,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GroundCompilerAuditPacketUp$ route carrying event-flow, source-channel, recognizer, certificate-gate, report-boundary, module-inventory, no-hidden-input, and compiler export rows;
+\item $M$ is the $\MetaCICAuditSynthesisPacketUp$ route carrying subject-reduction obstruction, confluence, normalization, substitution, decidable-checking, closed-normal assembly, and blocker rows;
+\item $A$ is the cross-substrate address row naming which compiler artifact route is read against which closed-CIC audit route;
+\item $B$ is the boundary ledger with one compiler non-escape side and one MetaCIC blocker side;
+\item $H$ records componentwise $\hsame$ transports for the compiler route, MetaCIC route, address row, boundary ledger, route, package, and local naming rows;
+\item $C$ records displayed $\Cont$ routes by which consumers read $G$, $M$, $A$, and $B$ without identifying their evidence kinds;
+\item $P$ is the $\Pkg$ provenance over the twin-substrate architecture, the GroundCompiler audit packet, the MetaCIC audit synthesis packet, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TwinSubstrateAuditPacketUp}$ row.
+\end{enumerate}
+The classifier accepts exactly those packets whose consumer reads factor through the displayed tuple $T$ and whose compiler-facing evidence remains separated from closed-CIC proof evidence. It rejects any packet that treats a compiler report as a MetaCIC theorem, a MetaCIC blocker as a compiler input, a source-channel row as proof evidence, or a closed-CIC audit row as a generated compiler artifact.
+\end{definition}
+
+\begin{theorem}[TwinSubstrateAuditPacket NameCert obligation surface]
+\label{thm:twin-substrate-audit-packet-namecert}
+For every accepted $\TwinSubstrateAuditPacketUp$ carrier
+$$
+T=(G,M,A,B,H,C,P,N),
+$$
+the local $\NameCert_{\TwinSubstrateAuditPacketUp}$ surface consists exactly of GroundCompiler audit-packet readback through $G$, MetaCIC audit-synthesis readback through $M$, cross-substrate address readback through $A$, separate compiler and MetaCIC boundary readback through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:twin-substrate-audit-packet}. Its visible rows are precisely $G,M,A,B,H,C,P,N$, so local carrier admission and classifier exactness are coordinate reads from the same finite packet.
+
+Read the two substrate routes separately. The row $G$ is interpreted by the GroundCompiler audit packet, while $M$ is interpreted by the MetaCIC audit synthesis packet. The address row $A$ records their pairing but does not merge the evidence types.
+
+Finally read $B,H,C,P,N$. The boundary ledger preserves the compiler non-escape side and the MetaCIC blocker side as distinct rows, and the transport, continuation, package, and naming rows only replay that displayed separation. Hence the NameCert obligation surface is exhausted by the packet.
+\end{proof}
+
+\begin{theorem}[TwinSubstrateAuditPacket non-escape]
+\label{thm:twin-substrate-audit-packet-nonescape}
+Every consumer of an accepted $\TwinSubstrateAuditPacketUp$ carrier factors through
+$$
+G,M,A,B,H,C,P,N.
+$$
+The consumer may inspect the GroundCompiler audit route, the MetaCIC audit-synthesis route, the cross-substrate address row, and the two-sided boundary ledger. It cannot convert compiler reports, source-channel rows, generated recognizers, or metric boundaries into MetaCIC proof evidence, and it cannot convert MetaCIC reduction, typing, normalization, confluence, or blocker rows into hidden compiler input or generated compiler evidence.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:twin-substrate-audit-packet-namecert}. Every accepted read is already routed through the finite NameCert surface of $T$.
+
+For compiler-facing reads, use the GroundCompiler audit packet route carried by $G$. Its non-escape ledger keeps report rows, source-channel rows, generated recognizers, and metric boundaries on the compiler side of the packet.
+
+For MetaCIC-facing reads, use the audit synthesis route carried by $M$. Its blocker ledger keeps closed-CIC obstruction and proof-theoretic rows inside the MetaCIC side.
+
+The address row $A$ only records which two routes are being compared in the project-level audit story, and $B$ records the two refusals without adding a conversion row. Since the carrier has no coordinate that identifies the two evidence kinds, no consumer can escape the displayed twin-substrate boundary.
+\end{proof}
+
+\closureat{TwinSubstrateAuditPacketUp}{seedStr}
+
+\begin{closurestatus}{\TwinSubstrateAuditPacketUp}
+  \constructivestory{A $\TwinSubstrateAuditPacketUp$ packet is generated from a GroundCompiler audit-packet row, a MetaCIC audit-synthesis row, a cross-substrate address row, a two-sided boundary ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:twin-substrate-audit-packet}, \autoref{thm:twin-substrate-audit-packet-namecert}, and \autoref{thm:twin-substrate-audit-packet-nonescape} bind the finite twin-substrate carrier, classifier, NameCert surface, and separate non-escape ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close subject reduction, full closed consistency, self-hosted compiler trust, report-to-proof conversion, cross-substrate evidence identity, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, GroundCompiler route readback, MetaCIC route readback, address and boundary ledger exactness, separate non-escape rows, transport, route replay, provenance, and local naming for the displayed finite packet.}
+\end{closurestatus}
