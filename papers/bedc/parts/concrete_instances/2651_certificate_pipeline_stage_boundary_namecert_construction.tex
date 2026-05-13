@@ -48,3 +48,35 @@ Continuation composition is the corresponding route in $C$. It concatenates the 
 
 No further coordinate remains in the carrier. Hence host compiler semantics, program equality, global optimisation correctness, and unrecorded target behavior cannot witness the adjacent-stage boundary.
 \end{proof}
+
+\begin{theorem}[CertificatePipelineStageBoundary middle-row determinacy]
+\label{thm:certificate-pipeline-stage-boundary-middle-row-determinacy}
+Let
+$$
+B=(S,M,T,K_{SM},K_{MT},J,H,C,P,N)
+$$
+and
+$$
+B'=(S',M',T',K_{SM},K_{MT},J',H',C',P',N')
+$$
+be accepted $\CertificatePipelineStageBoundaryUp$ carriers in the sense of \autoref{def:certificate-pipeline-stage-boundary-carrier} and \autoref{thm:certificate-pipeline-stage-boundary-namecert-obligations}. Assume that both displayed compatibility rows identify the target $\NameCert$ row read by the shared first compiler packet $K_{SM}$ with the source $\NameCert$ row read by the shared second compiler packet $K_{MT}$. Then the displayed middle rows $M$ and $M'$ are classifier-same as the common middle $\NameCert$ row of the adjacent compiler pair, and every composed boundary read exported by either $B$ or $B'$ factors through that common middle row before it reaches the target row.
+\end{theorem}
+\begin{proof}
+Project the shared first compiler packet as
+$$
+K_{SM}=(S_{0},M_{0},G_{SM},E_{SM},C_{SM},H_{SM},P_{SM},N_{SM}).
+$$
+By \autoref{thm:certificate-compiler-endpoint-certificate-availability}, every accepted read of $K_{SM}$ exposes its endpoint $\NameCert$ rows before any landing or classifier comparison is consumed. Since the same packet $K_{SM}$ occurs in both boundary carriers, the target endpoint available to both boundary reads is the single displayed row $M_{0}$.
+
+Project the shared second compiler packet as
+$$
+K_{MT}=(M_{1},T_{0},G_{MT},E_{MT},C_{MT},H_{MT},P_{MT},N_{MT}).
+$$
+The same endpoint-availability result says that the source endpoint available to every accepted read of $K_{MT}$ is the single displayed row $M_{1}$.
+
+Now read the two compatibility rows. In $B$, the row $J$ asserts that the target row read from $K_{SM}$ is the source row read from $K_{MT}$. Hence $J$ identifies $M_{0}$ and $M_{1}$ as the displayed middle certificate used by the boundary carrier, so $M$ is classified with that common middle row. The same argument with $J'$ shows that $M'$ is classified with the same common middle row. By transitivity of the local $\NameCert$ classifier comparison, $M$ and $M'$ are classifier-same.
+
+It remains to identify the route used by a composed boundary read. The boundary obligation theorem makes the composed read the continuation row in $C$ obtained by replaying the first compiler route, the middle-stage handoff, and the second compiler route. The first route reaches the target endpoint of $K_{SM}$, the second route starts from the source endpoint of $K_{MT}$, and the compatibility row is exactly the displayed identification between those two endpoint reads. Thus the composed read in $B$ factors through the common middle row before any target read in $T$ is available.
+
+The same reasoning applies to $B'$ with $C'$ and $T'$. No alternative middle row can be inserted, because \autoref{thm:certificate-compiler-middle-row-handoff} forces a composite of the two accepted compiler packets to hand off only through their displayed middle $\NameCert$ row, and \autoref{thm:certificate-compiler-edge-classifier-exactness} makes classifier transport pass through the displayed landing, $\hsame$, and $\Cont$ rows of those same packets. Since the boundary carrier has no coordinate for an independent middle certificate, host compiler semantics, program equivalence theorem, or unrecorded target behavior, every composed boundary read of either accepted packet factors through that common middle row.
+\end{proof}
