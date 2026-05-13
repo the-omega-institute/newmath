@@ -143,4 +143,24 @@ theorem CauchyModulusMeetPacket_swap_stability [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.right.right.right.right.right⟩,
       hsame_refl mu⟩
 
+theorem CauchyModulusMeetPacket_real_handoff_boundary [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n realRoute handoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      Cont mu n realRoute -> Cont realRoute p handoff ->
+        UnaryHistory realRoute /\ UnaryHistory handoff /\ hsame p n /\ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg
+  intro packet realRouteRow handoffRow
+  have realRouteUnary : UnaryHistory realRoute :=
+    unary_cont_closed packet.right.right.right.right.left
+      packet.right.right.right.right.right.right.right.right.left realRouteRow
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed realRouteUnary packet.right.right.right.right.right.right.right.left
+      handoffRow
+  exact
+    ⟨realRouteUnary,
+      handoffUnary,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.CauchyModulusMeetUp
