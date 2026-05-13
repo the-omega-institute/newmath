@@ -280,6 +280,42 @@ Now fix the downstream boundary. Theorem~\ref{thm:cauchy-error-certificate-readb
 Finally package the seal-facing read. Theorem~\ref{thm:cauchy-error-certificate-seal-budget-package} repacks the same displayed rows as the finite $\RealUp$ seal budget package, while the non-escape boundary leaves quotient streams, selected host limits, host real equality, and ambient completeness outside the composed handoff.
 \end{proof}
 
+\begin{theorem}[CauchyErrorCertificate schedule-fusion shared-modulus budget]
+\label{thm:cauchy-error-certificate-schedule-fusion-shared-modulus-budget}
+Let $C=(R,M,T,E,P,N)$ be an accepted $\CauchyErrorCertificateUp$ packet. Suppose $C$ consumes a displayed $\CauchyModulusMeetUp$ shared-bound certificate whose meet row is the same unary modulus row $M$, and suppose the same schedule rows are packaged by an accepted $\RealScheduleFusionUp$ carrier. Then every $\RealUp$ or $\CompletionUp$ consumer read factors through the single finite route
+$$
+\begin{gathered}
+\text{fused schedule row}
+\longrightarrow
+\text{window ledger}
+\longrightarrow
+\RegSeqRatUp\text{ readback}
+\longrightarrow
+\text{shared meet modulus}
+\\
+\longrightarrow
+\text{dyadic tolerance ledger}
+\longrightarrow
+\text{finite Cauchy error budget}
+\longrightarrow
+\RealUp\text{ seal}.
+\end{gathered}
+$$
+
+The route is carried only by the displayed schedule, window, readback, shared meet, dyadic tolerance, budget, provenance, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no quotient stream, selected host limit, ambient completeness theorem, host real equality, or bridge-checking oracle content.
+\end{theorem}
+\begin{proof}
+First bind the Cauchy budget route. Theorem~\ref{thm:cauchy-error-certificate-composed-budget-readback-handoff} factors the completion-facing read through the finite budget and readback handoff of the accepted $\CauchyErrorCertificateUp$ packet, so the read reaches $R$ only after it has passed through $M$, $T$, $E$, and $P$.
+
+Next bind the shared modulus surface. Theorem~\ref{thm:cauchy-modulus-meet-standard-bridge-certificate} supplies the displayed shared-bound certificate for the $\CauchyModulusMeetUp$ row, and Theorem~\ref{thm:cauchy-modulus-meet-shared-bound-consumer-read} forces each shared-bound consumer through the source modulus rows and the meet row before any downstream read is exposed.
+
+Now lock the schedule side. Theorem~\ref{thm:realschedulefusion-real-completion-handoff} routes the $\RealUp$ and $\CompletionUp$ consumers through the fused schedule, window ledger, and regular-rational readback rows. Theorem~\ref{thm:realschedulefusion-seal-schedule-noninterference} keeps that schedule route independent of seal-facing data not displayed by the carrier.
+
+Finally identify the common route. The hypotheses say that the meet row read by the shared-modulus certificate is the same row $M$ consumed by $C$, and that the fused schedule rows are the rows seen by the downstream consumer. Combining the three displayed routes gives the announced sequence from schedule row through window ledger, readback, shared meet modulus, dyadic tolerance ledger, finite error budget, and Real seal.
+
+The non-escape clauses of the cited certificates leave quotient streams, selected limits, ambient completeness, host real equality, and bridge-checking oracle content outside the packet. Thus no consumer can bypass the single finite route by appealing to a host completion object.
+\end{proof}
+
 \begin{theorem}[CauchyErrorCertificate scoped budget-window package]
 \label{thm:cauchy-error-certificate-scoped-budget-window-package}
 For an accepted $\CauchyErrorCertificateUp$ packet $C=(R,M,T,E,P,N)$, the displayed modulus row, tail-or-diagonal packet, finite error-budget ledger, provenance row, readback boundary, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows form the scoped dependency surface for every dyadic error request. The scoped package exports no quotient stream, selected host limit, host real equality, or ambient completeness row.

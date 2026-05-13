@@ -138,16 +138,63 @@ Next fix the route followed by every absolute-value read. Transport stability ke
 Finally apply ledger exactness together with sign-split exclusion. Those theorems rule out quotient rationals, selected real values, trichotomy, host integer normal forms, external absolute-value rows, and $\RealUp$ completeness, so the scoped boundary is precisely the displayed finite packet.
 \end{proof}
 
-\closureat{DyadicAbsoluteValueUp}{obligationStr}[BEDC.Derived.DyadicAbsoluteValueUp.DyadicAbsoluteValuePacket\_transport\_stability]
+\begin{theorem}[Dyadic absolute-value scoped public handoff]
+\label{thm:dyadic-absolute-value-scoped-closure-public-handoff}
+The scoped certificate boundary of $\DyadicAbsoluteValueUp$ exposes a public consumer surface for $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ consisting exactly of the rows
+$$
+D,S,M,E,V,H,C,P,N.
+$$
+Every accepted public handoff reads the nonnegative endpoint through $E$, reads tolerance information through $V$, and cites the scoped boundary before any completion-facing consumer can use the packet.
+\end{theorem}
+\begin{proof}
+Begin with the scoped certificate boundary. It binds every consumer read to the finite rows $D,S,M,E,V,H,C,P,N$ over the dyadic source, sign split, mantissa row, endpoint, tolerance ledger, transport, route, provenance, and local naming surface.
+
+Apply the nonnegative bridge and tolerance-window handoff. The bridge identifies the endpoint row $E$ as the only nonnegative dyadic endpoint exported to downstream consumers, and the handoff forces every completion-facing read to include the tolerance ledger $V$.
+
+Finally apply ledger exactness and sign-split exclusion. These results remove quotient rationals, selected real values, trichotomy, host integer normal forms, external absolute-value operations, and $\RealUp$ completeness from the public surface, so the cited handoff is exactly the scoped finite boundary.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value RegSeqRat consumer exhaustion]
+\label{thm:dyadic-absolute-value-regseqrat-consumer-exhaustion}
+Every $\RegSeqRatUp$ tolerance read of an accepted $\DyadicAbsoluteValueUp$ carrier factors through the displayed rows
+$$
+D,S,M,E,V,H,C,P,N.
+$$
+In particular, a regular-Cauchy consumer can inspect the source dyadic row, sign split, common-exponent mantissa, nonnegative endpoint, tolerance ledger, transports, routes, provenance, and local name, but it cannot inspect any absolute-value datum outside those rows.
+\end{theorem}
+\begin{proof}
+Take a $\RegSeqRatUp$ consumer route. By the tolerance-window handoff, the route reaches the absolute-value endpoint only through $E$ and then reads the tolerance window through $V$.
+
+The source of that endpoint is fixed by transport stability and endpoint determinacy. Together they force the endpoint to be the transported sign-split branch of the common-exponent mantissa row, so the consumer also factors through $D,S,M,H,C$.
+
+The remaining rows are packaging rows. The NameCert obligations and ledger exactness bind provenance and local naming to $P,N$ and rule out any extra host absolute-value row, quotient rational, selected real, trichotomy witness, host normal form, or completeness witness. Thus the regular-Cauchy consumer surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value Real tolerance non-escape]
+\label{thm:dyadic-absolute-value-real-tolerance-non-escape}
+No $\RealUp$ tolerance read of an accepted $\DyadicAbsoluteValueUp$ carrier can export a selected real value, trichotomy witness, quotient rational, host integer normal form, or $\RealUp$ completeness row. The real-facing read is limited to the nonnegative dyadic endpoint $E$, the tolerance ledger $V$, and the transport, route, provenance, and local naming rows already present in
+$$
+D,S,M,E,V,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with a real-facing endpoint read. The nonnegative bridge routes the read through the displayed endpoint $E$, and the tolerance-window handoff requires the tolerance ledger $V$ before any $\RealUp$ consumer can use the endpoint.
+
+The sign data are already exhausted by the sign-split exclusion theorem. It permits only the branch row $S$, mantissa row $M$, endpoint row $E$, and tolerance row $V$, and it excludes trichotomy and host integer normal forms.
+
+Apply ledger exactness and the scoped certificate boundary. They rule out quotient rationals, selected real values, external absolute-value operations, and $\RealUp$ completeness rows, leaving only the displayed finite packet for the real tolerance read.
+\end{proof}
+
+\closureat{DyadicAbsoluteValueUp}{scopedStr}[BEDC.Derived.DyadicAbsoluteValueUp.DyadicAbsoluteValuePacket\_transport\_stability]
 
 \begin{closurestatus}{\DyadicAbsoluteValueUp}
   \constructivestory{A $\DyadicAbsoluteValueUp$ packet is generated from a $\DyadicRatCoreUp$ source row, a sign-split row, a common-exponent mantissa row, a nonnegative endpoint row, a tolerance and absolute-value ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:dyadic-absolute-value-carrier}, \autoref{thm:dyadic-absolute-value-namecert-obligations}, \autoref{thm:dyadic-absolute-value-transport-stability}, \autoref{thm:dyadic-absolute-value-nonnegative-bridge}, and \autoref{thm:dyadic-absolute-value-ledger-exactness} bind the finite dyadic absolute-value carrier, sign split, nonnegative endpoint, transport surface, and tolerance ledger.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.DyadicAbsoluteValueUp.DyadicAbsoluteValuePacket\_transport\_stability}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close quotient rationals, selected real values, trichotomy, host integer normal forms, $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires binding these obligation rows to the $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependency scope.}
+  \notclaimed{This chapter does not close quotient rationals, selected real values, trichotomy, host integer normal forms, $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{The next formal upgrade is bridge checking for the scoped $\DyadicAbsoluteValueUp$ packet.}
 \end{closurestatus}
