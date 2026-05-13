@@ -43,31 +43,6 @@ This directly fills the gap named by the chapter itself: the current \(\Decompil
 
 ---
 
-### B-715 - ContinuationBigStep terminal-read determinacy
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep board_spawn (paper_review) |
-| Object | ContinuationBigStep terminal-read determinacy |
-| Layer | concrete_instances |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 8/10 |
-| Landing kind | existing_chapter_lemma |
-
-Problem:
-If two accepted \(\ContinuationBigStepUp\) packets have classifier-same source row, small-step trace ledger, replay route, and terminal row, then their terminal-read witnesses are classifier-same and both big-step reads factor through the same finite route.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/3293_continuationbigstep_namecert_construction.tex`
-
-Rationale:
-The chapter already exposes the terminal-read witness \(Q\), componentwise transport, replay route, and small-step factorization theorem, but it does not state endpoint determinacy for \(Q\) under fixed source, trace, route, and terminal rows. This is a concrete determinacy target for an existing finite computation packet and is not covered by the existing BOARD title index.
-
----
-
 ### B-716 - TypePreservingCompiler sequential composition
 
 | field | value |
