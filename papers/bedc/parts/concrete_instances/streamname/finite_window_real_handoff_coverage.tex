@@ -32,3 +32,19 @@ Now apply \autoref{thm:streamname-real-seal-factorization-boundary} to the share
 
 Finally use \autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}. Common-window determinacy identifies the two consumer reads once their finite StreamName window, RegSeqRat row, and Real seal boundary agree. Repacking those common rows under the local $\NameCert$ surface gives the stated public packet and rules out any quotient, host-equality, representative, or ambient-completeness exposure.
 \end{proof}
+
+\begin{theorem}[StreamName Real-RegSeq common-window lattice coherence]
+\label{thm:streamname-real-regseq-window-lattice-coherence}
+Suppose two $\StreamNameUp$-mediated $\RegSeqRat$-to-$\RealUp$ handoff reads are compared through a certified common finite-window lattice meet. If their accepted $\RegSeqRat$ pointwise rows and their $\RealUp$ seal boundary agree on that meet, then both reads expose the same finite $\mathsf{BHist}$ source surface. The common surface consists exactly of the $\mathsf{RatHistoryClassifier}$ observations, $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows, $\mathsf{UnaryHistory}$ observations, accepted $\RegSeqRat$ pointwise seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows carried by the meet packet.
+
+This lattice coherence statement exports no quotient stream equality, no host sequence equality, no ambient $\RealUp$ completeness, no selected completion representative, and no metric-completeness row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-window-real-handoff-coverage} to each handoff read. Each read is already confined to the finite StreamName window, accepted RegSeqRat pointwise rows, the Real seal boundary, transport rows, continuation rows, provenance, and local naming rows.
+
+Next apply \autoref{thm:streamname-regseqrat-real-window-factorization}. The assumed agreement of the accepted pointwise rows and the Real seal boundary identifies the RegSeqRat and Real-facing rows that both reads can expose over the same window.
+
+Now use \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. The certified meet is a shared finite observation packet, so every RegSeqRat consumer and every finite-window RealUp consumer reads only its classifier, bundle, membership, unary-history, dyadic ledger, transport, continuation, provenance, and local naming coordinates.
+
+Finally apply \autoref{thm:streamname-real-regseq-common-window-consumer-determinacy}. Common-window determinacy identifies the consumer reads on the certified meet surface. Repacking that identified surface gives the same finite $\mathsf{BHist}$ source packet for both handoffs and leaves quotient equality, host sequence equality, ambient Real completeness, selected representatives, and metric-completeness rows outside the public lattice surface.
+\end{proof}
