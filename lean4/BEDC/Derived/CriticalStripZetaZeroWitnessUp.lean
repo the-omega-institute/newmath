@@ -144,4 +144,19 @@ theorem CriticalStripZetaZeroWitnessCarrier_namecert_obligations [AskSetup] [Pac
                     (And.intro provenanceUnary nameUnary))))))
   }
 
+theorem CriticalStripZetaZeroWitnessPacket_package_sameness [AskSetup] [PackageSetup]
+    {strip zero line boundary transport route provenance name endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg ->
+      CriticalStripZetaZeroWitnessPacket strip zero line boundary transport route provenance name
+        endpoint bundle pkg' ->
+      psame bundle pkg pkg' := by
+  intro leftPacket rightPacket
+  have leftPkg : PkgSig bundle endpoint pkg :=
+    leftPacket.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  have rightPkg : PkgSig bundle endpoint pkg' :=
+    rightPacket.right.right.right.right.right.right.right.right.right.right.right.right.right.right
+  exact PkgSig_psame_intro leftPkg rightPkg (hsame_refl endpoint)
+
 end BEDC.Derived.CriticalStripZetaZeroWitnessUp

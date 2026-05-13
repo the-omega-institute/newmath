@@ -254,4 +254,43 @@ theorem DyadicSubdivisionPacket_refinement_composition [AskSetup] [PackageSetup]
     ⟨second.left, hsame_trans first.right.left second.right.left,
       hsame_trans first.right.right second.right.right⟩
 
+theorem DyadicSubdivisionPacket_common_refinement_exhaustion [AskSetup] [PackageSetup]
+    {parent level0 cells0 mesh0 validation0 provenance0 name0 level1 cells1 mesh1
+      validation1 provenance1 name1 levelCommon cellsCommon meshCommon validationCommon
+      provenanceCommon nameCommon : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionPacket parent level0 cells0 mesh0 validation0 provenance0 name0
+        bundle pkg ->
+      DyadicSubdivisionPacket parent level1 cells1 mesh1 validation1 provenance1 name1
+        bundle pkg ->
+        hsame level0 levelCommon -> hsame cells0 cellsCommon ->
+          hsame provenance0 provenanceCommon -> hsame name0 nameCommon ->
+            hsame level1 levelCommon -> hsame cells1 cellsCommon ->
+              hsame provenance1 provenanceCommon -> hsame name1 nameCommon ->
+                Cont levelCommon cellsCommon meshCommon ->
+                  Cont meshCommon validationCommon provenanceCommon ->
+                    PkgSig bundle provenanceCommon pkg ->
+                      DyadicSubdivisionPacket parent levelCommon cellsCommon meshCommon
+                          validationCommon provenanceCommon nameCommon bundle pkg ∧
+                        hsame mesh0 meshCommon ∧ hsame validation0 validationCommon ∧
+                          hsame mesh1 meshCommon ∧ hsame validation1 validationCommon := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro leftPacket rightPacket levelSame0 cellsSame0 provenanceSame0 nameSame0 levelSame1
+    cellsSame1 provenanceSame1 nameSame1 commonMesh commonValidation commonPkg
+  have leftRefined :
+      DyadicSubdivisionPacket parent levelCommon cellsCommon meshCommon validationCommon
+          provenanceCommon nameCommon bundle pkg ∧
+        hsame mesh0 meshCommon ∧ hsame validation0 validationCommon :=
+    DyadicSubdivisionPacket_refinement_stability leftPacket (hsame_refl parent) levelSame0
+      cellsSame0 provenanceSame0 nameSame0 commonMesh commonValidation commonPkg
+  have rightRefined :
+      DyadicSubdivisionPacket parent levelCommon cellsCommon meshCommon validationCommon
+          provenanceCommon nameCommon bundle pkg ∧
+        hsame mesh1 meshCommon ∧ hsame validation1 validationCommon :=
+    DyadicSubdivisionPacket_refinement_stability rightPacket (hsame_refl parent) levelSame1
+      cellsSame1 provenanceSame1 nameSame1 commonMesh commonValidation commonPkg
+  exact
+    ⟨leftRefined.left, leftRefined.right.left, leftRefined.right.right,
+      rightRefined.right.left, rightRefined.right.right⟩
+
 end BEDC.Derived.DyadicSubdivisionUp
