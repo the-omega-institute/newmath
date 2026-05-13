@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\mathsf{FiniteRealRouteCommitment}^{\uparrow}$}
+\label{ch:concrete-instances-finite-real-route-commitment-namecert}
+\origin{ai}
+
+The $\mathsf{FiniteRealRouteCommitment}^{\uparrow}$ packet realizes the Real-completion route of \autoref{ch:visions-real-completeness} as one finite NameCert commitment. It sits downstream of the $\RealUp$ seal surface of \autoref{ch:concrete-instances-real-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the request cap of \autoref{ch:concrete-instances-observationbudgetlimiter-namecert}, the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the sealed Cauchy-limit route of \autoref{ch:concrete-instances-cauchylimitseal-namecert}. The packet records finite precision, budget, StreamName, RegSeqRat, RealUp seal, and non-escape rows; it is not a host completeness principle, a quotient stream, a selected limit, or a hidden equality rule.
+
+\begin{definition}[Finite Real route-commitment carrier]
+\label{def:finite-real-route-commitment-carrier}
+A $\mathsf{FiniteRealRouteCommitment}^{\uparrow}$ carrier is a finite $\BHist$ packet
+$$
+F=(E,B,W,Q,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite precision request row consumed by the route;
+\item $B$ is the observation-budget limiter row that admits the request before any downstream window read;
+\item $W$ is the $\StreamNameUp$ finite-window row selected under that budget;
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows;
+\item $S$ is the $\RealUp$ seal row reached only after $E,B,W,Q$ have been displayed;
+\item $L$ is the $\CauchyLimitSealUp$ handoff row that consumes the same sealed route as finite Cauchy-limit evidence;
+\item $H$ stores componentwise $\hsame$ transports for the precision, budget, window, readback, seal, handoff, route, provenance, and local naming rows;
+\item $C$ stores the displayed $\Cont$ routes from precision request to budget admission, from budget admission to StreamName window, from window to RegSeqRat readback, from readback to RealUp seal, and from the seal to the CauchyLimitSeal handoff;
+\item $P$ records $\Pkg$ provenance over $\ObservationBudgetLimiterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyLimitSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\mathsf{FiniteRealRouteCommitment}^{\uparrow}}$ row.
+\end{enumerate}
+The carrier exports exactly this finite route commitment and no unbounded observation schedule, quotient stream, selected host limit, host real equality, trichotomy row, independent real carrier, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Finite Real route-commitment NameCert obligations]
+\label{thm:finite-real-route-commitment-namecert-obligations}
+For the carrier of \autoref{def:finite-real-route-commitment-carrier}, the local $\NameCert_{\mathsf{FiniteRealRouteCommitment}^{\uparrow}}$ surface consists of six finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $F=(E,B,W,Q,S,L,H,C,P,N)$;
+\item budget admission, requiring the precision request $E$ to pass through the observation-budget limiter row $B$ before any StreamName window is served;
+\item window readback, requiring the $\StreamNameUp$ row $W$ to be the only finite window source for the $\RegSeqRatUp$ readback row $Q$;
+\item seal ordering, requiring the $\RealUp$ seal row $S$ to be read only after $E,B,W,Q$ are displayed;
+\item Cauchy-limit handoff, requiring the $\CauchyLimitSealUp$ row $L$ to consume the same displayed seal route rather than a selected host limit;
+\item route non-escape, excluding unbounded schedules, quotient streams, selected limits, host real equality, trichotomy, independent real carriers, and ambient completeness.
+\end{enumerate}
+The Lean \texttt{TasteGate.lean} development for this packet must provide \texttt{Nontrivial FiniteRealRouteCommitmentUp} and \texttt{FieldFaithful FiniteRealRouteCommitmentUp} instances for this same carrier surface.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-real-route-commitment-carrier}. The precision request, budget limiter, window, readback, seal, handoff, transport, continuation, provenance, and local naming rows are all displayed coordinates.
+
+Budget admission and window readback compose the sibling surfaces of \autoref{ch:concrete-instances-observationbudgetlimiter-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert}. The route therefore reads $E$ through $B$, then $W$, then $Q$, without exposing a second window source.
+
+Seal ordering and Cauchy-limit handoff use the same continuation rows in $C$. The $\RealUp$ seal row $S$ is available only after the finite readback, and the $\CauchyLimitSealUp$ row $L$ consumes that same displayed seal route.
+
+The non-escape obligation follows from the carrier inventory. None of $F$ stores an unbounded schedule, quotient stream, selected limit, host equality, trichotomy row, independent real carrier, or completeness theorem, so no accepted read can import one.
+\end{proof}
+
+\begin{theorem}[Finite Real route-commitment budget non-escape]
+\label{thm:finite-real-route-commitment-budget-nonescape}
+Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of an accepted $\mathsf{FiniteRealRouteCommitment}^{\uparrow}$ packet factors through the finite route
+$$
+E \to B \to W \to Q \to S \to L .
+$$
+In particular, a consumer cannot reach the RealUp seal or the Cauchy-limit handoff without first displaying the observation budget, StreamName window, and RegSeqRat readback rows.
+\end{theorem}
+\begin{proof}
+Start with the local obligation surface of \autoref{thm:finite-real-route-commitment-namecert-obligations}. It places the budget row before the StreamName window, the StreamName window before the RegSeqRat readback, the readback before the RealUp seal, and the seal before the CauchyLimitSeal handoff.
+
+The displayed transport and continuation rows preserve that order. Componentwise $\hsame$ transport moves the same rows, while $C$ replays only the route named in the carrier.
+
+Finally apply the non-escape obligation. Since the packet has no coordinate for an unbounded schedule, quotient stream, selected host limit, host equality, trichotomy, independent real carrier, or ambient completeness, every seal-facing and Cauchy-limit-facing consumer remains inside the finite route.
+\end{proof}
+
+\falsifiablePrediction{Removing the route-commitment row permits a RealUp seal consumer to bypass either the observation budget or the StreamName window before the RegSeqRat readback.}
+
+\independenceWitness{real, streamname, regseqrat, observationbudgetlimiter, cauchylimitseal: no sibling is bijective to $\mathsf{FiniteRealRouteCommitment}^{\uparrow}$ because this packet stores the route commitment that joins precision, budget, StreamName window, RegSeqRat readback, RealUp seal, and CauchyLimitSeal handoff rows in one NameCert surface.}
+
+\closureat{FiniteRealRouteCommitmentUp}{seedStr}
