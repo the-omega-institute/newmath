@@ -47,6 +47,32 @@ theorem MaxCausalRatePacket_crosshist_handoff [AskSetup] [PackageSetup]
   exact ⟨configurationUnary, witnessesUnary, boundUnary, consumerUnary, consumerRoute, namePkg,
     consumerPkg⟩
 
+theorem MaxCausalRatePacket_non_escape [AskSetup] [PackageSetup]
+    {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
+      nameCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MaxCausalRatePacket configuration witnesses bound comparisons hsameTransport psameStability
+        routes provenance nameCert bundle pkg ->
+      Cont routes provenance consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory configuration ∧ UnaryHistory witnesses ∧ UnaryHistory bound ∧
+            UnaryHistory comparisons ∧ UnaryHistory hsameTransport ∧
+              UnaryHistory psameStability ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+                UnaryHistory nameCert ∧ UnaryHistory consumer ∧
+                  Cont psameStability routes provenance ∧ Cont routes provenance consumer ∧
+                    PkgSig bundle nameCert pkg ∧ PkgSig bundle consumer pkg := by
+  intro packet consumerRoute consumerPkg
+  obtain ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary,
+    hsameTransportUnary, psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary,
+    _witnessBoundComparison, _comparisonTransportStability, stabilityRouteProvenance,
+    _provenanceNameConfiguration, namePkg⟩ := packet
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed routesUnary provenanceUnary consumerRoute
+  exact
+    ⟨configurationUnary, witnessesUnary, boundUnary, comparisonsUnary, hsameTransportUnary,
+      psameStabilityUnary, routesUnary, provenanceUnary, nameCertUnary, consumerUnary,
+        stabilityRouteProvenance, consumerRoute, namePkg, consumerPkg⟩
+
 theorem MaxCausalRatePacket_bound_comparison_totality [AskSetup] [PackageSetup]
     {configuration witnesses bound comparisons hsameTransport psameStability routes provenance
       nameCert : BHist}
