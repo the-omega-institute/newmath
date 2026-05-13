@@ -57,47 +57,6 @@ This belongs in the LinearMap body, preferably near the pointwise Hom_R(M,N) law
 
 ---
 
-
-### B-729 - Module LinearMap pointwise inverse additive cancellation
-
-| field | value |
-|---|---|
-| Status | Candidate (auto-spawned) |
-| Source | bedc-deep topic discovery |
-| Object | Module LinearMap pointwise inverse additive cancellation |
-| Layer | adjacent |
-| Route | proof |
-| Risk | unknown |
-| Fit | 9/10 |
-| Novelty | 6/10 |
-| Landing kind | existing_chapter_lemma |
-
-Problem:
-If f has LinearMapCert_R(M,N;f), h(x):=-_N f(x) is its pointwise inverse, and z is a pointwise-zero LinearMap, then the pointwise sums f+h and h+f are certified LinearMaps classified with z.
-
-Local inputs:
-- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex`
-- `papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex`
-- `papers/bedc/parts/concrete_instances/linearmap/zero_linearmap_classifier_uniqueness.tex`
-
-
-Logic packet discipline:
-- `axiom_budget`: B0_finite_witness
-- `strength_level`: B0_finite_witness
-- `budget_reason`: The proof is a finite pointwise certificate composition using the already-proved pointwise inverse certificate, pointwise sum certificate, zero map certificate, additive inverse laws, and classifier transitivity.
-- `witness_extractor`: pointwise_inverse_sum_zero_witness
-- `existence_mode`: constructive_witness
-- `cut_rank`: 0
-- `equality_kind`: propositionally_equal
-- `interpretation_kind`: definitional_extension
-- `resource_trace`: Consumes the input LinearMap certificate, constructs h with the existing pointwise inverse certificate, constructs f+h and h+f with the pointwise-sum certificate, compares each value to 0_N by target additive inverse laws, then invokes the zero-map classifier package.
-- `dependency_trace`: Uses thm:module-linearmap-pointwise-inverse-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:485, thm:module-linearmap-pointwise-sum-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_certificates.tex:343, thm:module-zero-linearmap-certificate at papers/bedc/parts/concrete_instances/linearmap/module_linearmap_kernel_image_and_zero.tex:150, and thm:module-zero-linearmap-classifier-uniqueness at papers/bedc/parts/concrete_instances/linearmap/zero_linearmap_classifier_uniqueness.tex:1.
-- `oracle_mode`: forbid
-Rationale:
-This is the missing inverse law for the textbook abelian group structure on Hom_R(M,N). The chapter already proves closure under pointwise inverse at module_linearmap_certificates.tex:485 and closure under pointwise addition at module_linearmap_certificates.tex:343, but the law that f plus its pointwise inverse is classified with the zero linear map is not stated as a theorem or labelled corollary; grep for pointwise inverse zero, sum inverse zero, and additive inverse pointwise found only the closure theorem and supporting inverse rows. It should close in one or two Codex rounds because all required ingredients already exist, including zero-map certification and uniqueness in module_linearmap_kernel_image_and_zero.tex:150 and zero_linearmap_classifier_uniqueness.tex:1.
-
----
-
 ### B-730 - RegularCauchyMesh finite submesh restriction
 
 | field | value |
@@ -142,7 +101,6 @@ Rationale:
 This is a concrete finite-row locality theorem for an existing RegularCauchyMeshUp chapter. It is not a marker, closurestatus update, or verification-axis item, and it is not already present as a theorem label. The target fills a visible obligation-level gap: the chapter currently gives the carrier, classifier, and five-row NameCert sketch, while the natural downstream use of a finite mesh packet requires restriction to displayed submeshes without exporting any additional analytic structure.
 
 ---
-
 
 ### B-731 - HankelVandermonde spectral-shadow bridge
 
@@ -190,7 +148,6 @@ The candidate is not a new object or survey item; it is a bridge lemma between t
 
 ---
 
-
 ### B-732 - AuditMapFrontierIndex neighbor restriction
 
 | field | value |
@@ -234,4 +191,3 @@ Rationale:
 This is a concrete finite-subfamily restriction theorem inside an existing audit-map frontier chapter. It is not already covered by the carrier or the five NameCert obligations: those bind the frontier index and synthesis handoff, but do not explicitly state locality under displayed neighbouring-map restriction or the corresponding no-unlisted-neighbour non-escape result. The file is a short non-hub landing, so it is safe as an existing-chapter lemma.
 
 ---
-
