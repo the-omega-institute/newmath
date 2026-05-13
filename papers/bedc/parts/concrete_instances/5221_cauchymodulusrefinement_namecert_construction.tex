@@ -64,17 +64,106 @@ The shared meet row $U$ is required before the refinement witness $V$ can be rea
 If a packet presents the same seal row but omits the shared meet row, its displayed coordinate list is not the carrier of \autoref{def:cauchy-modulus-refinement-carrier}. Such a packet therefore witnesses failure of the concrete carrier claim rather than a second accepted refinement surface.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus refinement classifier transport]
+\label{thm:cauchy-modulus-refinement-classifier-transport}
+For every accepted $\CauchyModulusRefinementUp$ packet
+$$
+R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N),
+$$
+classifier stability is transported componentwise by the $\hsame$ row $H$ and replayed by the displayed $\Cont$ routes in $C$:
+$$
+\begin{gathered}
+\Cont(M_0,U),\quad \Cont(M_1,U),\quad \Cont(U,V),\quad \Cont(V,T),\\
+\Cont(T,W),\quad \Cont(W,Q),\quad \Cont(Q,E),\quad
+\Cont(M_0,M_1,U,V,T,W,Q,E,H,C,P,N).
+\end{gathered}
+$$
+Thus any accepted classifier read of $R$ remains a read of the same two source schedules, shared meet row, refinement witness, selector-budget row, finite-window ledger, tolerance ledger, $\RealUp$ seal row, provenance row, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the packet $R$. The only transport data in the carrier are the componentwise $\hsame$ entries stored in $H$, and the only replay data are the displayed $\Cont$ routes stored in $C$.
+
+The first two routes place the source schedules $M_0,M_1$ before the shared meet row $U$. The next five routes carry the same read through $V,T,W,Q,E$, so a transported classifier cannot switch to a different witness, budget, window ledger, tolerance ledger, or seal row.
+
+The final packet route authenticates the whole displayed tuple with $P$ and $N$. Since the carrier has no hidden classifier coordinate, componentwise $\hsame$ transport and the displayed $\Cont$ route list exhaust the classifier transport surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement source-meet exactness]
+\label{thm:cauchy-modulus-refinement-source-meet-exactness}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the refinement witness row $V$ is forced through the displayed source-meet spine
+$$
+M_0,M_1 \longrightarrow U \longrightarrow V.
+$$
+No accepted read of $V$ may replace $U$ by a second meet row, bypass either source schedule, or import an external modulus comparison not displayed by $R$.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The packet has exactly two source schedules, one shared meet row, and one refinement witness row.
+
+Use classifier transport to follow the displayed routes. The $\Cont(M_0,U)$ and $\Cont(M_1,U)$ entries bind both source schedules to $U$, and $\Cont(U,V)$ is the only route that reaches the refinement witness.
+
+The non-escape theorem removes the remaining alternatives. A second meet row, hidden selector, external ordering, or host completeness witness is not a coordinate of $R$, so it cannot supply an accepted source for $V$.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement window tolerance exactness]
+\label{thm:cauchy-modulus-refinement-window-tolerance-exactness}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, all selected-window and dyadic-tolerance reads are forced through the route
+$$
+V \longrightarrow T \longrightarrow W \longrightarrow Q.
+$$
+The selector-budget row $T$, finite $\StreamNameUp$ window ledger $W$, and $\DyadicRatCoreUp$ and $\RegSeqRatUp$ tolerance ledger $Q$ are the only packet coordinates that may feed the selected-window tolerance surface.
+\end{theorem}
+\begin{proof}
+Project the selected-window portion of $R$. The carrier stores one selector-budget row $T$, one finite-window ledger $W$, and one tolerance-readback ledger $Q$.
+
+Follow the displayed continuation rows. The route $\Cont(V,T)$ makes the selector budget downstream of the refinement witness, $\Cont(T,W)$ selects the finite windows, and $\Cont(W,Q)$ attaches the dyadic and regular-rational readbacks to those same windows.
+
+Apply non-escape to exclude hidden routes. Since $R$ contains no second window ledger, hidden selector, selected host limit, or ambient completeness coordinate, every tolerance read accepted by the packet is the $T,W,Q$ read.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement Real seal factorization]
+\label{thm:cauchy-modulus-refinement-real-seal-factorization}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the $\RealUp$ seal row $E$ factors through the displayed refinement and tolerance route
+$$
+U \longrightarrow V \longrightarrow T \longrightarrow W \longrightarrow Q \longrightarrow E.
+$$
+Consequently $E$ cannot be accepted from a quotient stream, host real equality, selected limit, hidden selector, second meet row, or ambient completeness witness outside the packet.
+\end{theorem}
+\begin{proof}
+First bind the source of the seal route. Source-meet exactness places the refinement witness $V$ downstream of the shared meet row $U$ and the two source schedules.
+
+Next bind the tolerance surface. Window tolerance exactness forces the selected-window and dyadic-tolerance data through $T,W,Q$.
+
+The route $\Cont(Q,E)$ is the only displayed continuation into the $\RealUp$ seal row. Together with the componentwise transports in $H$ and the provenance and naming rows $P,N$, this makes $E$ a factor of the displayed $U,V,T,W,Q$ spine rather than an independent Real-facing object.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus refinement obligation closure package]
+\label{thm:cauchy-modulus-refinement-obligation-closure-package}
+For every accepted $\CauchyModulusRefinementUp$ packet $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$, the carrier of \autoref{def:cauchy-modulus-refinement-carrier}, the NameCert obligation rows of \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, classifier transport of \autoref{thm:cauchy-modulus-refinement-classifier-transport}, source-meet exactness of \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, window tolerance exactness of \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, Real seal factorization of \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, and non-escape of \autoref{thm:cauchy-modulus-refinement-nonescape} jointly form the $\obligationClosure$ surface for $\CauchyModulusRefinementUp$.
+
+The package exports exactly the two $\CauchyModulusUp$ source schedules, shared $\CauchyModulusMeetUp$ row, $\CauchyModulusExtractionUp$ witness row, $\RegularCauchySelectorBudgetUp$ row, finite $\StreamNameUp$ window ledger, $\DyadicRatCoreUp$ and $\RegSeqRatUp$ tolerance ledger, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $R$. The carrier and NameCert obligation theorem supply the finite row inventory and the five required local certificate clauses.
+
+Read the classifier and source rows. Classifier transport keeps every accepted read on the componentwise $\hsame$ and displayed $\Cont$ routes, while source-meet exactness fixes $V$ as the witness reached from $M_0,M_1$ through $U$.
+
+Read the selected-window and Real-facing rows. Window tolerance exactness binds the tolerance surface to $T,W,Q$, and Real seal factorization places $E$ after the shared meet, refinement witness, selector budget, windows, and tolerance ledger.
+
+Finally combine these rows with non-escape. All excluded objects are absent from the carrier, so the assembled package is precisely the written obligation surface and no external Real-completeness or host-equality route remains.
+\end{proof}
+
 The closest siblings are $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, and $\RegularCauchyLimitTransportUp$. The packet is composite because it consumes their rows as coordinates rather than presenting an atomic independent carrier. A later Lean TasteGate module should still provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over the packet fields, since the finite carrier separates the comparison, meet, witness, budget, window, ledger, seal, transport, route, provenance, and local certificate coordinates.
 
 \closureat{CauchyModulusRefinementUp}{seedStr}
+\closureat{CauchyModulusRefinementUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyModulusRefinementUp}
   \constructivestory{A $\CauchyModulusRefinementUp$ packet is generated from displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, and \autoref{thm:cauchy-modulus-refinement-nonescape} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one seed carrier surface.}
+  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:cauchy-modulus-refinement-classifier-transport}, \autoref{thm:cauchy-modulus-refinement-source-meet-exactness}, \autoref{thm:cauchy-modulus-refinement-window-tolerance-exactness}, \autoref{thm:cauchy-modulus-refinement-real-seal-factorization}, \autoref{thm:cauchy-modulus-refinement-obligation-closure-package}, and \autoref{thm:cauchy-modulus-refinement-nonescape} bind the displayed modulus comparison, meet, extraction, selector-budget, finite-window, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one seed carrier with a written obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, hidden selectors, second meet rows, ambient completeness, Lean verification, or bridge checking for $\CauchyModulusRefinementUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, refinement-source exactness, shared-window tolerance exactness, and $\RealUp$ seal non-escape over the same displayed refinement packet.}
+  \upgradepath{Obligation closure requires TasteGate-backed checked carrier admission, classifier transport, refinement-source exactness, shared-window tolerance exactness, $\RealUp$ seal factorization, and non-escape over the same displayed refinement packet.}
 \end{closurestatus}
