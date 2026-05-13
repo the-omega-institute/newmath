@@ -253,6 +253,7 @@ import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
+import BEDC.Derived.ClosurePreservationAuditTraceUp.TasteGate
 import BEDC.Derived.CrossHistCausalRouteUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
@@ -272,6 +273,7 @@ import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyLimitSealUp
 import BEDC.Derived.CauchyLimitSealUp.ChoiceFreeSelector
 import BEDC.Derived.CauchyLimitSealUp.RootFormalHandoff
+import BEDC.Derived.CauchyLimitSealUp.SourceScheduleLedger
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
@@ -294,6 +296,7 @@ import BEDC.Derived.InscriptionPointUp.TasteGate
 import BEDC.Derived.CollisionKernelUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.ContinuationAutomatonUp.TasteGate
+import BEDC.Derived.CellularRowClassifierUp.TasteGate
 import BEDC.Derived.AnalyticContinuationSocketUp
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AxisUnarySpineNormalizerUp.TasteGate
@@ -565,6 +568,7 @@ import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
+import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.ObservationBudgetLimiterUp.TasteGate
