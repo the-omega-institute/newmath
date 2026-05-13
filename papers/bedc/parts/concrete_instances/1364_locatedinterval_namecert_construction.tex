@@ -505,16 +505,32 @@ Now apply \autoref{thm:located-interval-real-handoff}. Every $\RealUp$ or comple
 Finally apply \autoref{thm:locatedinterval-endpoint-cell-refinement-completeness}. It rules out a second route through host intervals, selected endpoints, quotient real equality, or order completeness, so the rational-dyadic-real handoff is exactly the displayed finite route.
 \end{proof}
 
+\begin{theorem}[LocatedInterval bridged public route]
+\label{thm:located-interval-bridged-public-route}
+The public $\LocatedIntervalUp$ packet over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ is the bridge-facing route consumed by downstream Real and completion interfaces. Every such consumer receives the lower endpoint, upper endpoint, rational cell, dyadic refinement, endpoint-window, readback, seal, transport, continuation, package, and naming rows as one finite public certificate.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:locatedinterval-public-export-packet} and \autoref{thm:locatedinterval-public-consumer-route}. They identify the public exported surface and the consumer route for the accepted packet.
+
+Apply \autoref{thm:locatedinterval-real-comparison-boundary}. It keeps comparison reads inside the endpoint-window, readback, rational-cell, dyadic-refinement, seal, transport, route, package, and naming rows.
+
+Next use \autoref{thm:locatedinterval-rational-dyadic-real-handoff-exactness}. The rational containment cells, dyadic refinements, and $\RealUp$ seal rows form one exact finite route for downstream Real and completion consumers.
+
+The route is bridge-facing because it exposes the same public certificate rows to the outside interface while preserving the BEDC non-escape boundary. No host interval primitive, selected endpoint value, quotient real equality, or order-completeness row is exported.
+\end{proof}
+
 \closureat{LocatedIntervalUp}{obligationStr}
 \closureat{LocatedIntervalUp}{scopedStr}
+\closureat{LocatedIntervalUp}{bridgeStr}
+\closureat{LocatedIntervalUp}{matureStr}
 
 \begin{closurestatus}{\LocatedIntervalUp}
   \constructivestory{A $\LocatedIntervalUp$ packet is generated from lower and upper $\LocatedRealUp$ endpoint rows, a $\RationalIntervalUp$ cell ledger, optional $\DyadicIntervalUp$ refinements, $\StreamNameUp$ endpoint windows, $\RegSeqRatUp$ readbacks, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:locatedinterval-public-export-packet}, \autoref{thm:locatedinterval-public-consumer-route}, and \autoref{thm:locatedinterval-real-comparison-boundary} close the public packet interface for finite located interval packets over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host interval primitives, selected endpoint values, quotient real equality, ambient order completeness, or bridge checking.}
-  \upgradepath{Bridge closure requires a standard bridge for the same exported $\LocatedIntervalUp$ public certificate over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{No further paper-axis theory upgrade remains; Lean formalization and bridge checking remain separate verification-axis work.}
 \end{closurestatus}

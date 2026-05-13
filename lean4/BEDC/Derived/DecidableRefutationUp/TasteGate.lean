@@ -190,6 +190,9 @@ instance decidableRefutationChapterTasteGate : ChapterTasteGate DecidableRefutat
     intro x y hxy heq
     exact hxy (decidableRefutationToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate DecidableRefutationUp :=
+  decidableRefutationChapterTasteGate
+
 theorem DecidableRefutationUp_taste_gate_boundary :
     ChapterTasteGate DecidableRefutationUp /\
       (forall (x : DecidableRefutationUp) (w : RawEvent) (m : DisplayAlphabet),

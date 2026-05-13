@@ -65,4 +65,28 @@ theorem DyadicMidpointCarrier_readback_closure [AskSetup] [PackageSetup]
     unary_cont_closed branchUnary windowClosed branchRoute
   exact ⟨windowClosed, routeClosed, midpointRoute, branchRoute, nameCertPkg⟩
 
+theorem DyadicMidpointCarrier_endpoint_classifier_stability [AskSetup] [PackageSetup]
+    {left right scale midpoint branch window sameRows transport route provenance nameCert
+      endpoint endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicMidpointCarrier left right scale midpoint branch window sameRows transport route
+        provenance nameCert endpoint bundle pkg ->
+      Cont left right endpointRead ->
+        hsame endpointRead scale ->
+          UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory scale ∧
+            UnaryHistory endpointRead ∧ Cont left right scale ∧
+              Cont left right endpointRead ∧ hsame endpointRead scale ∧
+                PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont
+  intro carrier endpointReadRoute endpointReadSame
+  obtain ⟨leftUnary, rightUnary, scaleUnary, _midpointUnary, _branchUnary, _windowUnary,
+    _sameRowsUnary, _routeUnary, _transportUnary, _provenanceUnary, _nameCertUnary,
+    _endpointUnary, _midpointRow, _endpointRoute, scaleRoute, _midpointRoute, _branchRoute,
+    endpointPkg, _provenancePkg, _nameCertPkg⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed leftUnary rightUnary endpointReadRoute
+  exact
+    ⟨leftUnary, rightUnary, scaleUnary, endpointReadUnary, scaleRoute, endpointReadRoute,
+      endpointReadSame, endpointPkg⟩
+
 end BEDC.Derived.DyadicMidpointUp

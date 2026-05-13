@@ -67,6 +67,7 @@ The handoff obligation repacks the finite retained windows into $\RegSeqRatUp$, 
 \label{thm:dyadic-bisection-nested-interval-bridge}
 For every accepted $\DyadicBisectionUp$ carrier $B$, the displayed branch ledger determines a finite $\NestedIntervalUp$ refinement row whose $k$th interval is the subinterval selected by the $k$th midpoint comparison. The bridge exposes the initial $\RationalIntervalUp$ row, the dyadic midpoint ledger, the left/right branch ledger, the endpoint readbacks, and the $\NestedIntervalUp$ row, and it exports no completed intersection of the nested intervals.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBisectionUp.DyadicBisectionCarrier\_nested\_interval\_bridge}
 \begin{proof}
 Project the carrier of \autoref{def:dyadic-bisection-carrier}. The midpoint chain $M$ and branch ledger $L$ have the same finite length, so the $k$th midpoint comparison has a unique displayed branch row.
 
@@ -79,6 +80,7 @@ Pack the resulting finite chain into the $\NestedIntervalUp$ row $J$. This row i
 \label{thm:dyadic-bisection-real-stream-handoff}
 For every accepted $\DyadicBisectionUp$ carrier and every unary precision request $n$, the consumer-visible $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ reads factor through the retained dyadic endpoint window at tolerance $2^{-n}$, the branch ledger prefix needed to reach that window, the $\NestedIntervalUp$ refinement row, the displayed $\hsame$ transports, the $\Cont$ routes, the $\Pkg$ provenance row, and the local $\NameCert$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBisectionUp.DyadicBisectionCarrier\_real\_stream\_endpoint\_scope}
 \begin{proof}
 Start with the precision row $\pi$ and the displayed request $n$. The carrier uses that row to select a finite branch-prefix length and the corresponding retained endpoint window in $E$.
 
@@ -93,6 +95,7 @@ Thus every real-facing read has the stated finite factorization. The handoff doe
 \label{thm:dyadic-bisection-nested-window-handoff}
 For every accepted $\DyadicBisectionUp$ carrier and every unary precision request $n$, the $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ reads are determined by the unique branch-prefix ledger segment that reaches the retained nested interval window at tolerance $2^{-n}$, together with the endpoint readbacks and displayed $\hsame$ and $\Cont$ transports. This handoff introduces no host intersection, completed real root, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicBisectionUp.DyadicBisectionCarrier\_nested\_window\_handoff}
 \begin{proof}
 Project the branch ledger of \autoref{def:dyadic-bisection-carrier}. The precision request $n$ selects the finite prefix length whose branch choices reach the retained endpoint window recorded in $E$.
 
@@ -180,17 +183,97 @@ Apply \autoref{thm:dyadic-bisection-nested-window-handoff} to identify the $\Reg
 Finally use \autoref{thm:dyadic-bisection-branch-nested-window-scope}. The selected branch ledger, nested row, endpoint ledger, and handoff rows remain inside the carried packet $B$, so no host root, real trichotomy, or completed intersection object participates in the stability claim.
 \end{proof}
 
+\begin{theorem}[DyadicBisection public branch totality]
+\label{thm:dyadic-bisection-public-branch-totality}
+For every accepted $\DyadicBisectionUp$ carrier
+$$
+B=(I,\pi,M,L,J,E,R,S,H,C,P,N),
+$$
+and every unary precision request $n$, the public finite branch-consumer route
+is exhausted by the branch endpoint transport, the branch nested-window scope,
+the real stream endpoint scope, and the retained interval nonempty read. The
+route exposes exactly the initial interval row, precision row, finite midpoint
+chain, selected branch-prefix ledger, retained endpoint readbacks,
+$\NestedIntervalUp$ row, $\RegSeqRatUp$ row, $\StreamNameUp$ window, $\RealUp$
+handoff surface, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$ provenance,
+and $\NameCert_{\DyadicBisectionUp}$ row.
+
+It exports no host root, infinite intersection, trichotomy decision, Dedekind
+cut, hidden midpoint oracle, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the selected branch-prefix ledger for the request $n$. Apply
+\autoref{thm:dyadic-bisection-branch-endpoint-determinacy} to determine the
+retained lower endpoint, upper endpoint, midpoint, tolerance row, nested
+interval row, and downstream handoff rows.
+
+Next apply \autoref{thm:dyadic-bisection-branch-nested-window-scope}. This
+places the branch prefix, endpoint rows, nested row, regular readback, and
+real-stream handoff inside the displayed carrier packet and transports them
+through $H$ and $C$.
+
+Use \autoref{thm:dyadic-bisection-real-stream-handoff} to expose the
+$\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ consumer reads at the same
+finite retained endpoint window.
+
+Finally apply the retained interval stability theorem of this chapter. The
+retained interval row and its endpoint readbacks remain componentwise stable
+under the displayed transports and continuation routes. Hence the public route
+is exactly the finite packet listed above, with no off-table analytic object.
+\end{proof}
+
+\begin{theorem}[DyadicBisection retained interval consumer route]
+\label{thm:dyadic-bisection-retained-interval-consumer-route}
+Two accepted $\DyadicBisectionUp$ carriers with the same transported initial
+interval, precision row, midpoint chain, branch ledger, retained endpoint
+readbacks, nested interval row, $\RegSeqRatUp$ row, $\StreamNameUp$ window,
+$\RealUp$ handoff surface, $\hsame$ transports, $\Cont$ routes, $\mathsf{Pkg}$
+provenance, and $\NameCert_{\DyadicBisectionUp}$ row have the same public
+retained-interval consumer route. Conversely, equality of the public
+retained-interval route is witnessed by componentwise agreement of those
+displayed finite rows.
+
+The route is the public object surface for dyadic bisection consumers. It does
+not assert a completed intersection, a host real root, real trichotomy, or a
+Dedekind-cut carrier.
+\end{theorem}
+\begin{proof}
+For the forward direction, assume componentwise agreement of the displayed
+finite rows. Apply
+\autoref{thm:dyadic-bisection-public-branch-totality} to both carriers. Each
+public branch-consumer route is exhausted by the same finite branch prefix,
+endpoint ledger, nested interval row, regular readback, stream window, real
+handoff, transport, continuation, package, and certificate rows.
+
+The retained interval stability theorem identifies the retained interval row
+and endpoint readbacks after transport. The branch nested-window scope and real
+stream handoff then route the same retained window to the same public consumer
+surface.
+
+For the reverse direction, suppose the public retained-interval consumer routes
+are equal. Project the route through
+\autoref{thm:dyadic-bisection-public-branch-totality}. The projection exposes
+only the listed finite carrier rows, so route equality supplies componentwise
+agreement of the interval, precision, midpoint, branch, endpoint, nested,
+regular, stream, real, transport, continuation, package, and certificate rows.
+
+No further coordinate is available in the carrier. Thus equality of the public
+route is exactly componentwise agreement of the displayed finite rows, and the
+off-table host and completeness objects cannot participate.
+\end{proof}
+
 \closureat{DyadicBisectionUp}{seedStr}
 \closureat{DyadicBisectionUp}{obligationStr}
 \closureat{DyadicBisectionUp}{scopedStr}
+\closureat{DyadicBisectionUp}{publicStr}[BEDC.Derived.DyadicBisectionUp.DyadicBisectionCarrier\_retained\_interval\_nonempty\_iff]
 
 \begin{closurestatus}{\DyadicBisectionUp}
   \constructivestory{A $\DyadicBisectionUp$ packet is generated from an initial $\RationalIntervalUp$ row, a unary precision row, finite $\DyadicIntervalUp$ or $\DyadicMeshUp$ midpoint comparisons, an exact left/right branch ledger, a $\NestedIntervalUp$ refinement row, endpoint readbacks, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ handoff rows, displayed $\hsame$ and $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped packet binds the carrier, finite-window classifier, NameCert obligation surface, nested interval bridge, real-stream handoff, branch endpoint determinacy, branch nested-window scope, and selector interval stability for dyadic bisection over $\RationalIntervalUp$, $\DyadicIntervalUp$, $\DyadicMeshUp$, $\NestedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public packet binds the carrier, finite-window classifier, NameCert obligation surface, nested interval bridge, real-stream handoff, branch endpoint determinacy, branch nested-window scope, selector interval stability, public branch totality, and retained-interval consumer route for dyadic bisection over $\RationalIntervalUp$, $\DyadicIntervalUp$, $\DyadicMeshUp$, $\NestedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close completeness, root existence, trichotomy, Dedekind cuts, uniqueness of a limit point, or host real intersection.}
-  \upgradepath{Public closure requires a single exported $\DyadicBisectionUp$ bisection-consumer theorem over the displayed finite interval packet.}
+  \upgradepath{Formal closure requires a checked $\DyadicBisectionUp$ bisection-consumer theorem over the displayed finite interval packet.}
 \end{closurestatus}

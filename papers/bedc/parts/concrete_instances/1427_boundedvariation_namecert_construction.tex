@@ -171,16 +171,97 @@ Then use \autoref{thm:bounded-variation-no-escape-boundary}. The public boundary
 The two rows together give the endpoint transport scope. Every endpoint read remains attached to the displayed dependency stack, and no absent host object is exported.
 \end{proof}
 
+\begin{definition}[BoundedVariation partition ledger]
+\label{def:bounded-variation-partition-ledger}
+A $\BoundedVariationUp$ partition ledger is a finite $\BHist$ packet
+$$
+L=(I,\Pi,E,X,D,V,R,H,C,P,N)
+$$
+whose rows refine the carrier of \autoref{def:bounded-variation-carrier} for a
+single displayed interval read:
+\begin{enumerate}
+\item $I$ is the displayed rational or nested interval row;
+\item $\Pi$ is a finite ordered partition of $I$ with endpoint order and edge rows;
+\item $E$ is the finite edge ledger induced by adjacent endpoints of $\Pi$;
+\item $X$ records the endpoint $\RealUp$ rows or their $\RegSeqRatUp$ regular-name representatives;
+\item $D$ records the $\DyadicRatCoreUp$ edge observations used to compare adjacent endpoint values;
+\item $V$ is the finite dyadic variation sum over exactly the edge observations in $D$;
+\item $R$ records refinement rows comparing $\Pi$ with displayed finer partitions and their transported edge ledgers;
+\item $H$ records the componentwise $\hsame$ transports for interval, partition, endpoint, edge-observation, finite-sum, refinement, package, and naming rows;
+\item $C$ records the displayed $\Cont$ routes from an interval request to endpoints, dyadic edge reads, finite variation sums, refinement comparison, and consumer exposure;
+\item $P$ and $N$ are the $\Pkg$ provenance and local $\NameCert_{\BoundedVariationUp}$ rows.
+\end{enumerate}
+The ledger has no coordinate for a host supremum over all partitions, a
+completed function space, a variation measure, a quotient of real-valued
+functions, or a hidden partition family.
+\end{definition}
+
+\begin{theorem}[BoundedVariation partition refinement monotonicity]
+\label{thm:bounded-variation-partition-refinement-monotonicity}
+Let $L=(I,\Pi,E,X,D,V,R,H,C,P,N)$ be a
+$\BoundedVariationUp$ partition ledger in the sense of
+\autoref{def:bounded-variation-partition-ledger}. If $\Pi'$ is a displayed
+finite refinement of $\Pi$ whose endpoint, edge-observation, and finite-sum
+rows are recorded in $R$, then the variation read on $\Pi'$ is obtained by
+repacking the same finite edge-observation ledger through $H$ and $C$. The
+refinement comparison therefore cannot introduce a host supremum over all
+partitions or any unrecorded variation object.
+\end{theorem}
+\begin{proof}
+Project the ledger $L$. The only partition rows available to a consumer are the
+displayed partition $\Pi$ and the displayed refinement rows stored in $R$.
+
+Read the refinement edge by edge. Each refined edge obtains its endpoint names
+from $X$ and its dyadic observation from $D$ after the transports recorded in
+$H$ and the continuation routes recorded in $C$.
+
+The finite sum row for the refinement is therefore a repacking of visible edge
+observations. Since the packet has no row ranging over all partitions and no
+measure-valued coordinate, the refinement read is monotone only inside the
+displayed finite ledger surface.
+\end{proof}
+
+\begin{theorem}[BoundedVariation Cauchy consumer boundary]
+\label{thm:bounded-variation-cauchy-consumer-boundary}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of a $\BoundedVariationUp$ packet may
+read bounded variation only through finite partition ledgers of
+\autoref{def:bounded-variation-partition-ledger}. Such a consumer receives
+endpoint regular-name or real-name rows, $\DyadicRatCoreUp$ edge observations,
+displayed refinement rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ data; it receives no host supremum, variation
+measure, completed function-space carrier, quotient function, or hidden
+partition family.
+\end{theorem}
+\begin{proof}
+Start from a consumer request. The carrier of
+\autoref{def:bounded-variation-carrier} and the ledger of
+\autoref{def:bounded-variation-partition-ledger} expose only interval,
+partition, endpoint, dyadic observation, finite-sum, refinement, transport,
+route, provenance, and naming rows.
+
+If the consumer is a $\RegSeqRatUp$ consumer, it reads endpoint data through the
+regular-name rows in $X$ before any dyadic edge observation is formed. If the
+consumer is a $\RealUp$ consumer, it reads the same endpoint positions through
+the displayed real-name rows and then through the dyadic observation rows.
+
+Apply the refinement monotonicity row
+\autoref{thm:bounded-variation-partition-refinement-monotonicity}. Refinement
+access remains finite and displayed, so the consumer boundary is exhausted by
+partition ledgers and dyadic observations rather than by any absent host
+supremum or completed function object.
+\end{proof}
+
 \closureat{BoundedVariationUp}{seedStr}
 \closureat{BoundedVariationUp}{obligationStr}
+\closureat{BoundedVariationUp}{scopedStr}
 
 \begin{closurestatus}{\BoundedVariationUp}
   \constructivestory{A $\BoundedVariationUp$ packet is generated from an interval row, a finite ordered partition ledger, $\RealUp$ or $\RegSeqRatUp$ endpoint names, $\DyadicRatCoreUp$ edge observations, a finite dyadic variation-sum row, common-refinement rows, displayed transport, continuation, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The seed scope registers the carrier, classifier route, NameCert obligation surface, variation-ledger exactness, carrier transport sketch, and no-escape boundary for finite partition-variation packets.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:bounded-variation-partition-scope-binding}, \autoref{thm:bounded-variation-refinement-ledger-scope}, and \autoref{thm:bounded-variation-endpoint-transport-scope} bind finite partition variation, common-refinement comparison, endpoint transport, dyadic variation-sum ledger, and no-escape boundary to the displayed $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close completed function spaces, variation measures, host suprema over all partitions, quotient real-valued functions, hidden partition families, Jordan decomposition, or bridge checking.}
-  \upgradepath{Scoped closure requires naming the exact dependency scope for the finite partition-variation packet, common-refinement classifier, dyadic variation-sum ledger, endpoint transport, and no-escape boundary.}
+  \upgradepath{Public closure requires a public finite-variation consumer theorem over the same displayed partition and endpoint transport surface.}
 \end{closurestatus}

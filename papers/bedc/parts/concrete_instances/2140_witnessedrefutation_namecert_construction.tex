@@ -85,16 +85,66 @@ The boundary side is \autoref{thm:witnessed-refutation-forbidden-schema-separati
 Thus the certificate is a concrete NameCert realization of the permitted contradiction boundary: refutation is admitted exactly when its bottom witness and route are displayed in the ledger.
 \end{proof}
 
+\begin{theorem}[Witnessed refutation carrier admission obligation]
+\label{thm:witnessed-refutation-carrier-admission-obligation}
+For an accepted $\WitnessedRefutationUp$ packet, carrier admission is exactly the finite tuple
+$$
+W=(h,A,R,b,H,C,P,N)
+$$
+of \autoref{def:witnessed-refutation-carrier}. The admitted rows are the source $\Hist$ row $h$, attempted-witness packet $A$, displayed continuation/refutation packet $R$, produced bottom witness $b$, componentwise $\hsame$ ledger $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\WitnessedRefutationUp}$ row $N$. The AI single-carrier evidence is the checked TasteGate alignment marker attached to \autoref{def:witnessed-refutation-carrier}, so no second carrier coordinate is available.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the tuple of \autoref{def:witnessed-refutation-carrier}. Each admitted coordinate is named in that tuple and is read as a displayed $\BHist$ row or a finite ledger row.
+
+The TasteGate alignment fixes the AI surface to this one carrier inventory. Since the inventory contains only $h,A,R,b,H,C,P,N$, a consumer cannot admit a hidden witness source, an extra bottom row, or a second naming carrier.
+
+Thus carrier admission is exhausted by the concrete packet rows, with no route to excluded middle or to an unwitnessed contradiction schema.
+\end{proof}
+
+\begin{theorem}[Witnessed refutation route transport obligation]
+\label{thm:witnessed-refutation-refuter-route-transport-obligation}
+Classifier transport for $\WitnessedRefutationUp$ carries the displayed refuter route only through the rows of \autoref{def:witnessed-refutation-carrier}. If
+$$
+W=(h,A,R,b,H,C,P,N)
+$$
+and
+$$
+W'=(h',A',R',b',H',C',P',N')
+$$
+are classifier-related accepted packets, then the source history, attempted-witness packet, continuation/refutation packet, produced bottom row, provenance, and local naming row are transported by the stored $\hsame$ data and replayed through the displayed $\Cont$ routes. No transport step may replace the refuter route by a non-displayed proof by contradiction.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:witnessed-refutation-classifier}. It relates two packets by componentwise transport of the same source row, attempted-witness packet, refutation packet, bottom witness, provenance, and naming row.
+
+Read the refuter route through $R$ and $C$. The continuation rows execute the attempted witness route to the bottom witness, while $H$ transports the named coordinates between classified packets.
+
+Because the classifier has no coordinate beyond the displayed tuple, the transported route remains a $\Cont$ route over the same finite ledger. It cannot be replaced by an excluded-middle branch, a double-negation eliminator, or an existential conclusion without a witness row.
+\end{proof}
+
+\begin{theorem}[Witnessed refutation bottom-ledger non-escape obligation]
+\label{thm:witnessed-refutation-bottom-ledger-nonescape-obligation}
+Every bottom-ledger read of an accepted $\WitnessedRefutationUp$ packet factors through the source row $h$, attempted-witness packet $A$, continuation/refutation packet $R$, produced bottom witness $b$, $\hsame$ ledger $H$, $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Consequently the packet exports no excluded-middle branch, no double-negation eliminator for an undecided classifier, and no unwitnessed contradiction schema outside the displayed bottom route.
+\end{theorem}
+\begin{proof}
+Read the bottom row from the carrier. The coordinate $b$ is stored only with the source row, attempted-witness packet, refutation packet, transport ledger, continuation routes, provenance, and local naming row.
+
+Apply the forbidden-schema separation theorem. It already identifies the only negative conclusion available from the packet as the displayed route sending an admitted attempted witness through $R$ to $b$.
+
+The bottom ledger therefore has no escape row. A consumer may project the witnessed refutation route, but it cannot extract certificate-level excluded middle, undecided double-negation elimination, or an existential-by-contradiction rule.
+\end{proof}
+
 \closureat{WitnessedRefutationUp}{seedStr}
+\closureat{WitnessedRefutationUp}{obligationStr}
 
 \begin{closurestatus}{\WitnessedRefutationUp}
   \constructivestory{A $\WitnessedRefutationUp$ packet is generated from a source $\Hist$ row, an attempted-witness packet, a displayed $\Cont$ refutation route, the produced bottom witness, componentwise $\hsame$ transports, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:witnessed-refutation-carrier}, \autoref{def:witnessed-refutation-classifier}, \autoref{thm:witnessed-refutation-namecert-obligations}, \autoref{thm:witnessed-refutation-forbidden-schema-separation}, and \autoref{thm:witnessed-refutation-vision-concretization} bind the finite carrier, displayed classifier, witness-accountability obligations, and separation from unwitnessed contradiction schemas.}
-  \formalstatus{\theoremCheckedV}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:witnessed-refutation-carrier}, \autoref{def:witnessed-refutation-classifier}, \autoref{thm:witnessed-refutation-namecert-obligations}, \autoref{thm:witnessed-refutation-carrier-admission-obligation}, \autoref{thm:witnessed-refutation-refuter-route-transport-obligation}, \autoref{thm:witnessed-refutation-bottom-ledger-nonescape-obligation}, \autoref{thm:witnessed-refutation-forbidden-schema-separation}, and \autoref{thm:witnessed-refutation-vision-concretization} bind the finite carrier, displayed classifier, carrier admission, refuter-route transport, bottom-ledger non-escape, and separation from unwitnessed contradiction schemas.}
+  \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.WitnessedRefutationUp.WitnessedRefutationTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
+  \leanchecked{BEDC.Derived.WitnessedRefutationUp.taste\_gate}
   \notclaimed{This chapter does not close bridge status, excluded-middle branch, undecided double-negation eliminator, existential-by-contradiction rule, or predicate over the carrier of all naming certificates.}
-  \upgradepath{Obligation closure requires checked theorems for classifier transport, continuation locality, bottom-witness accountability, and separation from unwitnessed contradiction schemas.}
+  \upgradepath{Scoped closure requires a public consumer boundary for the witnessed refutation route together with bridge-grade non-escape.}
 \end{closurestatus}

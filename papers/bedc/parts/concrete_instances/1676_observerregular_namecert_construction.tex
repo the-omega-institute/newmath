@@ -128,6 +128,26 @@ It remains to account for tolerance and completion-facing reads. The ledger exac
 Thus the schedule row $S$ is locked to the same finite rows consumed by $\RealUp$ and $\CompletionUp$. It can name the intended schedule, but it cannot supply an independent tolerance or completion witness beyond the displayed observer ledger.
 \end{proof}
 
+\begin{theorem}[ObserverRegular schedule coherence]
+\label{thm:observerregular-schedule-coherence}
+For accepted $\ObserverRegularUp$ carriers
+$$
+O=(A,R,S,W,L,H,C,P,N)
+\quad\hbox{and}\quad
+O'=(A',R',S',W',L',H',C',P',N')
+$$
+whose schedule rows are classified together through the displayed $\hsame$ and $\Cont$ routes, every $\RealUp$ and $\CompletionUp$ consumer read reaches coherent $\StreamNameUp$ windows and $\RegSeqRatUp$ readback ledgers through $W,L,H,C,P,N$ and $W',L',H',C',P',N'$. The coherence is finite: it compares the displayed observer rows and exports no quotient stream, host sequence equality, selected limit, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with two accepted observer carriers whose schedule rows are related by the displayed transports and continuation routes. The TasteGate alignment attached to \autoref{def:observerregular-prefix-carrier} fixes the singleton carrier surface for the observer packet, so the comparison is made through the visible rows rather than through a host stream.
+
+Apply \autoref{thm:observerregular-resolving-window-ledger-exactness} to both carriers. It forces each tolerance and readback request to factor through the accepted prefix row, resolving-state row, window row, readback ledger, transports, continuations, provenance, and local naming row.
+
+Now use \autoref{thm:observerregular-schedule-lock-real-completion}. A $\RealUp$ or $\CompletionUp$ consumer can read the intended schedule only together with the corresponding finite window and readback ledger. Since the two schedule rows are already classified through the displayed $H,C$ and $H',C'$ routes, the consumer reaches coherent windows $W,W'$ and ledgers $L,L'$ through the two finite observer packets.
+
+The carrier inventory then gives non-escape. Neither packet contains a quotient stream, host sequence equality, selected limit, or ambient completeness coordinate, so schedule coherence remains a BEDC row comparison at the displayed observer boundary.
+\end{proof}
+
 \closureat{ObserverRegularUp}{obligationStr}
 \closureat{ObserverRegularUp}{scopedStr}
 

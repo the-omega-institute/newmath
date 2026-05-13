@@ -221,4 +221,37 @@ theorem DyadicSubdivisionSource_cell_ledger_transport [AskSetup] [PackageSetup]
       nameUnary', parentLevelCells, cellsMeshValidated, validatedProvenanceName,
       provenancePkg, namePkg⟩
 
+theorem DyadicSubdivisionPacket_refinement_composition [AskSetup] [PackageSetup]
+    {parent level cells mesh validation provenance name level' cells' mesh' validation'
+      provenance' name' level'' cells'' mesh'' validation'' provenance'' name'' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionPacket parent level cells mesh validation provenance name bundle pkg ->
+      hsame level level' -> hsame cells cells' -> hsame provenance provenance' ->
+        hsame name name' -> Cont level' cells' mesh' ->
+          Cont mesh' validation' provenance' -> PkgSig bundle provenance' pkg ->
+            hsame level' level'' -> hsame cells' cells'' -> hsame provenance' provenance'' ->
+              hsame name' name'' -> Cont level'' cells'' mesh'' ->
+                Cont mesh'' validation'' provenance'' -> PkgSig bundle provenance'' pkg ->
+                  DyadicSubdivisionPacket parent level'' cells'' mesh'' validation''
+                    provenance'' name'' bundle pkg ∧
+                    hsame mesh mesh'' ∧ hsame validation validation'' := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
+  intro packet levelSame cellsSame provenanceSame nameSame firstMesh firstValidation firstPkg
+    levelSame' cellsSame' provenanceSame' nameSame' secondMesh secondValidation secondPkg
+  have first :
+      DyadicSubdivisionPacket parent level' cells' mesh' validation' provenance' name'
+          bundle pkg ∧
+        hsame mesh mesh' ∧ hsame validation validation' :=
+    DyadicSubdivisionPacket_refinement_stability packet (hsame_refl parent) levelSame
+      cellsSame provenanceSame nameSame firstMesh firstValidation firstPkg
+  have second :
+      DyadicSubdivisionPacket parent level'' cells'' mesh'' validation'' provenance'' name''
+          bundle pkg ∧
+        hsame mesh' mesh'' ∧ hsame validation' validation'' :=
+    DyadicSubdivisionPacket_refinement_stability first.left (hsame_refl parent) levelSame'
+      cellsSame' provenanceSame' nameSame' secondMesh secondValidation secondPkg
+  exact
+    ⟨second.left, hsame_trans first.right.left second.right.left,
+      hsame_trans first.right.right second.right.right⟩
+
 end BEDC.Derived.DyadicSubdivisionUp

@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FableBranchWitnessUp$}
+\label{ch:concrete-instances-fablebranchwitness-namecert}
+\origin{ai}
+
+The $\FableBranchWitnessUp$ interface turns the local selector-step surface of \autoref{sec:efm-multi-branch} into a finite naming certificate. It isolates a single realized branch from the accumulated selector ledger: a consumer sees the source Hist row, selected mark, result Hist row, empty-boundary step, local admissibility certificate, transport rows, read routes, provenance, and local naming row, but it receives no global chooser and no completed branch policy.
+
+\begin{definition}[FableBranchWitness carrier]
+\label{def:fable-branch-witness-carrier}
+A $\FableBranchWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(h,m,r,E,A,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $h$ is the source $\Hist$ row at which the local branch read is made;
+\item $m$ is the selected $\mathit{Mark}$ exposed by the selector step;
+\item $r$ is the result $\Hist$ row produced by enacting $m$ at $h$;
+\item $E$ is the $\mathsf{EmptyStep}$ and $\Ext$ row recording the empty-boundary extension from $h$ through $m$ to $r$;
+\item $A$ is the local admissibility certificate for the displayed branch predicate at $(h,m,r)$;
+\item $H$ records componentwise $\hsame$ transport for the source, selected mark, result row, step row, admissibility row, continuation row, provenance row, and local naming row;
+\item $C$ records the finite $\Cont$ routes by which consumers read $h$, $m$, $r$, $E$, $A$, $H$, $P$, and $N$;
+\item $P$ records $\Pkg$ provenance over the Empty-fable selector-step surface, $\Hist$, $\mathit{Mark}$, $\Ext$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FableBranchWitnessUp}$ row.
+\end{enumerate}
+The carrier is finite and local. It contains no global selection function, no family of choices indexed by all branch predicates, no hidden mark selector, no infinite story ledger, and no truth oracle for admissibility.
+\end{definition}
+
+\begin{theorem}[FableBranchWitness NameCert obligations]
+\label{thm:fable-branch-witness-namecert-obligations}
+For the carrier of \autoref{def:fable-branch-witness-carrier}, the local $\NameCert_{\FableBranchWitnessUp}$ surface consists of five finite obligations: carrier admission for $W=(h,m,r,E,A,H,C,P,N)$; mark exposure for the selected row $m$; step exactness for the $\mathsf{EmptyStep}$ and $\Ext$ row $E$ from $h$ to $r$; admissibility exactness for the local certificate $A$; and non-escape for hidden choosers, global branch policies, infinite ledgers, and truth oracles.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the displayed tuple. The source Hist, selected mark, result Hist, step row, admissibility row, transport row, continuation routes, package provenance, and local naming row are all visible coordinates of the same packet.
+
+Mark exposure is the second coordinate $m$. Since the consumer reads $m$ directly through one of the routes in $C$, the selected branch is not reconstructed by an outside selector.
+
+Step exactness is supplied by $E$, which binds the source row $h$, the selected mark $m$, and the result row $r$ as one empty-boundary extension. Admissibility exactness is supplied by $A$ at the same triple.
+
+The non-escape clause follows from the carrier inventory. There is no coordinate for a global choice function, a branch policy over all Hist rows, an infinite ledger, or a truth oracle, so no local naming projection can export one.
+\end{proof}
+
+\begin{theorem}[FableBranchWitness selector exposure]
+\label{thm:fable-branch-witness-selector-exposure}
+Every accepted $\FableBranchWitnessUp$ carrier exposes the realized selector mark as the displayed row $m$ and routes every consumer read of the branch through the finite rows
+$$
+h,m,r,E,A,H,C,P,N.
+$$
+Consequently a downstream Empty-fable consumer may inspect the local witnessed branch, but it may not infer a global chooser, a selected branch for an unrelated Hist row, or an accumulated selector ledger beyond this single witnessed step.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the mark row $m$ and the route row $C$. These two rows give the consumer a displayed selector and the finite routes by which that selector is read.
+
+The rows $E$ and $A$ bind the selector to the same local branch: $E$ records the empty-boundary extension from $h$ through $m$ to $r$, and $A$ records admissibility for that displayed triple. The transport row $H$ preserves those coordinates componentwise.
+
+Finally apply the non-escape part of \autoref{thm:fable-branch-witness-namecert-obligations}. Since the packet has only the listed rows, it realizes local branch selection without exporting a global choice function or an accumulated ledger.
+\end{proof}
+
+\closureat{FableBranchWitnessUp}{seedStr}
+
+\begin{closurestatus}{\FableBranchWitnessUp}
+  \constructivestory{A $\FableBranchWitnessUp$ packet is generated from a source $\Hist$ row, selected mark, result $\Hist$ row, empty-boundary step and $\Ext$ row, local admissibility certificate, componentwise $\hsame$ transport, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fable-branch-witness-carrier}, \autoref{thm:fable-branch-witness-namecert-obligations}, and \autoref{thm:fable-branch-witness-selector-exposure} bind the local witnessed branch carrier, its selector exposure, step exactness, admissibility row, transport routes, provenance, and no-hidden-chooser boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, global choice, an accumulated selector ledger, branch determinacy for unrelated Hist rows, or a truth oracle for admissibility.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector exposure, empty-boundary step exactness, admissibility exactness, transport stability, provenance, and local naming for the same finite branch-witness packet.}
+\end{closurestatus}

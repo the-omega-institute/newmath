@@ -62,6 +62,27 @@ theorem CauchySequenceSpaceCommonWindowClassifierTransport [AskSetup] [PackageSe
       nUnary, endpointUnary', windowRoute, toleranceRoute, endpointRoute, pkgSig'⟩,
       qSame, endpointSame⟩
 
+theorem CauchySequenceSpaceCarrier_dyadic_tolerance_ledger_exactness [AskSetup] [PackageSetup]
+    {F sigma W epsilon Q H C P N endpoint toleranceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceSpaceCarrierSurface F sigma W epsilon Q H C P N endpoint bundle pkg ->
+      Cont W epsilon toleranceRead ->
+        UnaryHistory W ∧ UnaryHistory epsilon ∧ UnaryHistory toleranceRead ∧
+          hsame Q toleranceRead ∧ Cont W epsilon toleranceRead ∧
+            PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier toleranceRoute
+  obtain ⟨_fUnary, _sigmaUnary, wUnary, epsilonUnary, _qUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _endpointUnary, _windowRoute, storedToleranceRoute,
+    _endpointRoute, pkgSig⟩ := carrier
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed wUnary epsilonUnary toleranceRoute
+  have toleranceSame : hsame Q toleranceRead :=
+    cont_respects_hsame (hsame_refl W) (hsame_refl epsilon) storedToleranceRoute
+      toleranceRoute
+  exact
+    ⟨wUnary, epsilonUnary, toleranceReadUnary, toleranceSame, toleranceRoute, pkgSig⟩
+
 def CauchySequenceSpaceCarrier [AskSetup] [PackageSetup]
     (family schedule window tolerance completion transport route name : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

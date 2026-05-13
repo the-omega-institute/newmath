@@ -107,6 +107,32 @@ theorem ModelPredictiveControlPacket_receding_horizon_boundary [AskSetup] [Packa
       provenanceUnary, firstControlUnary, rolloutRow, provenanceRow, firstControlRow,
       sameFirstControl, provenancePkg, firstControlPkg⟩
 
+theorem ModelPredictiveControlPacket_finite_horizon_prefix_restriction
+    [AskSetup] [PackageSetup]
+    {state input horizon dynamics cost rollout provenance nameRow prefixHorizon prefixRollout
+      prefixProvenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelPredictiveControlPacket state input horizon dynamics cost rollout provenance nameRow
+        bundle pkg ->
+      UnaryHistory prefixHorizon ->
+        Cont state dynamics prefixRollout ->
+          Cont prefixRollout prefixHorizon prefixProvenance ->
+            PkgSig bundle prefixProvenance pkg ->
+              ModelPredictiveControlPacket state input prefixHorizon dynamics cost prefixRollout
+                  prefixProvenance nameRow bundle pkg ∧
+                UnaryHistory prefixRollout ∧ UnaryHistory prefixProvenance := by
+  intro packet prefixUnary stateDynamicsPrefix prefixRolloutPrefix prefixPkg
+  obtain ⟨stateUnary, inputUnary, _horizonUnary, dynamicsUnary, costUnary, nameRowUnary,
+    _packetRollout, _packetProvenance, _packetPkg⟩ := packet
+  have prefixRolloutUnary : UnaryHistory prefixRollout :=
+    unary_cont_closed stateUnary dynamicsUnary stateDynamicsPrefix
+  have prefixProvenanceUnary : UnaryHistory prefixProvenance :=
+    unary_cont_closed prefixRolloutUnary prefixUnary prefixRolloutPrefix
+  exact
+    ⟨⟨stateUnary, inputUnary, prefixUnary, dynamicsUnary, costUnary, nameRowUnary,
+      stateDynamicsPrefix, prefixRolloutPrefix, prefixPkg⟩,
+      prefixRolloutUnary, prefixProvenanceUnary⟩
+
 def ModelPredictiveControlConstraintLedger [AskSetup] [PackageSetup]
     (state input horizon dynamics cost rollout provenance nameRow constraintWindow terminal :
       BHist)

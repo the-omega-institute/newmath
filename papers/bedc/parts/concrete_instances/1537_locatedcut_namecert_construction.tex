@@ -226,13 +226,48 @@ route through quotient cuts, selected suprema, host real equality, or classical
 choice.
 \end{proof}
 
+\begin{theorem}[LocatedCut common-window refinement]
+\label{thm:located-cut-common-window-refinement}
+For any two visible unary precision windows of an accepted $\LocatedCutUp$
+packet, there is a displayed stronger window row whose lower and upper dyadic
+ledger reads refine both windows at once. The common row transports the paired
+ledger entry through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\LocatedCutUp}$ provenance, supplies one $\RegSeqRatUp$ handoff
+route, and reaches the $\RealUp$ seal only through the finite route
+$$
+(D^{-},D^{+}) \longrightarrow W \longrightarrow R \longrightarrow S .
+$$
+No quotient cut, selected supremum, host real equality, ambient completeness
+principle, or $\mathsf{Classical.choice}$ row is exposed by the refinement.
+\end{theorem}
+\begin{proof}
+Start with the two visible unary precision windows. By
+\autoref{thm:located-cut-located-window-exactness}, each window reads finite
+lower and upper dyadic entries from $D^{-}$ and $D^{+}$ inside the displayed
+stream-window ledger.
+
+Refine the two reads by taking the stronger visible window row already present
+in the accepted packet. Apply
+\autoref{thm:located-cut-ledger-pair-coherence}. The lower and upper endpoints
+remain a single paired ledger row, and the same $\hsame$ and $\Cont$ data
+transport that row for both original windows.
+
+Now apply \autoref{thm:located-cut-window-handoff-totality}. The common window
+feeds one $\RegSeqRatUp$ handoff route before any real-facing seal is read.
+
+Finally use \autoref{thm:located-cut-real-seal-non-escape}. The route can end
+at the displayed $\RealUp$ seal row only through the finite provenance chain,
+so quotient cuts, selected suprema, host equality, ambient completeness, and
+classical choice remain outside the packet.
+\end{proof}
+
 \begin{theorem}[LocatedCut Real seal factorization package]
 \label{thm:located-cut-real-seal-factorization-package}
 An accepted $\LocatedCutUp$ packet assembles a finite
 $\NameCert_{\LocatedCutUp}$ obligation package consisting of the carrier,
 classifier transport, paired dyadic ledger coherence, located-window exactness,
-window handoff totality, and real seal-boundary exactness. Consequently every
-$\RealUp$ seal-facing read factors through
+common-window refinement, window handoff totality, and real seal-boundary
+exactness. Consequently every $\RealUp$ seal-facing read factors through
 $$
 (D^{-},D^{+}) \longrightarrow W \longrightarrow R \longrightarrow S
 $$
@@ -251,10 +286,12 @@ Apply \autoref{thm:located-cut-classifier-transport} and
 to componentwise finite-row transport and keep the lower and upper ledgers as
 one located interval row.
 
-Next apply \autoref{thm:located-cut-located-window-exactness} and
+Next apply \autoref{thm:located-cut-located-window-exactness},
+\autoref{thm:located-cut-common-window-refinement}, and
 \autoref{thm:located-cut-window-handoff-totality}. Every visible unary
 precision window supplies the finite dyadic pair used by the $\RegSeqRatUp$
-handoff.
+handoff, and any pair of visible windows has a common finite refinement before
+the real seal is reached.
 
 Finally apply \autoref{thm:located-cut-seal-boundary-exactness}. The seal row
 is reached only through the displayed chain from dyadic ledgers to $W$, then to
@@ -315,6 +352,22 @@ Begin with \autoref{thm:located-cut-obligation-scope-package}. It packages the c
 Apply the seal factorization package of \autoref{thm:located-cut-real-seal-factorization-package}. It routes real-facing reads through the displayed chain from $(D^{-},D^{+})$ to $W$, then to $R$, and then to $S$ with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
 
 Finally use \autoref{thm:located-cut-scoped-kernel-route}. The public export is therefore a repacking of the scoped package and seal factorization rows, and it exposes no coordinate for quotient cuts, selected suprema, host real equality, ambient completeness, or classical choice.
+\end{proof}
+
+\begin{theorem}[LocatedCut window monotonic refinement]
+\label{thm:located-cut-window-monotonic-refinement}
+Let an accepted $\LocatedCutUp$ packet refine its $\StreamNameUp$ window to a narrower lower-upper dyadic interval inside the same located-cut ledger. The refined window preserves the $\RegSeqRatUp$ handoff row and the $\RealUp$ seal boundary through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance as the coarser window.
+
+In particular, narrowing the finite interval changes only the visible lower-upper dyadic window row. It does not introduce a quotient cut, selected supremum, host real equality, ambient completeness row, or classical choice datum.
+\end{theorem}
+\begin{proof}
+Begin with located-window exactness from \autoref{thm:located-cut-located-window-exactness}. It represents every visible precision as a finite lower-upper dyadic pair inside the displayed $\StreamNameUp$ window row.
+
+Dyadic interval exhaustion supplies the narrower window as another finite lower-upper pair in the same ledger. Ledger-pair coherence from \autoref{thm:located-cut-ledger-pair-coherence} keeps the lower and upper rows attached to the same packet under componentwise $\hsame$ transport.
+
+Apply common-window refinement from \autoref{thm:located-cut-common-window-refinement}. The refined and coarser windows route to the same $\RegSeqRatUp$ handoff row through the displayed $\Cont$ paths, with unchanged $\Pkg$ provenance and local $\NameCert$ row.
+
+Finally use seal-boundary exactness from \autoref{thm:located-cut-seal-boundary-exactness}. Since the real seal consumes the handoff row reached by the displayed finite route, the narrower window preserves the same $\RealUp$ boundary and adds no quotient, selected supremum, host equality, ambient completeness, or classical choice coordinate.
 \end{proof}
 
 \closureat{LocatedCutUp}{seedStr}

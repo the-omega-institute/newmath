@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\RuntimeCandidateBoundaryUp$}
+\label{ch:concrete-instances-runtimecandidateboundary-namecert}
+\origin{ai}
+
+The $\RuntimeCandidateBoundaryUp$ interface realizes the runtime-candidate boundary of \autoref{def:reflection-runtime-candidate} as a finite NameCert packet. It records object-level rows for coded $\mathrm{CIC}^{*}$ expressions, proof objects, states, transitions, accepted-result classification, stability transports, consumer routes, package provenance, and local naming, while leaving validation by the host checker outside the packet.
+
+\begin{definition}[Runtime-candidate boundary carrier]
+\label{def:runtime-candidate-boundary-carrier}
+A $\RuntimeCandidateBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,T,A,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source row of coded $\mathrm{CIC}^{*}$ expressions, proof objects, and states visible to the candidate;
+\item $T$ is the transition row recording the checking or evaluation steps claimed by the candidate on the source row $S$;
+\item $A$ is the accepted-result classifier row, grouping transition outputs that the candidate records as accepted results;
+\item $H$ stores componentwise $\hsame$ transports for the source, transition, accepted-result, package, and naming rows;
+\item $C$ stores the displayed $\Cont$ routes by which consumers read the source codes, transition rows, accepted-result classifier, transports, provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the structural $\mathrm{CIC}^{*}$ coding interface;
+\item $N$ is the local $\NameCert_{\RuntimeCandidateBoundaryUp}$ row.
+\end{enumerate}
+The local classifier relates two packets exactly when their displayed source, transition, accepted-result, transport, route, provenance, and naming rows compare through the rows $H$ and $C$. The carrier has no coordinate for the host judgment that the candidate is a valid BEDC checker.
+\end{definition}
+
+\begin{theorem}[Runtime-candidate validation non-entry]
+\label{thm:runtime-candidate-boundary-nonvalidation}
+For every accepted $\RuntimeCandidateBoundaryUp$ carrier $R=(S,T,A,H,C,P,N)$, validation of the candidate is not one of the packet rows corresponding to $\SourceSpec_R$, $\PatternSpec_R$, $\ClassifierSpec_R$, $\StabCert_R$, or $\LedgerPolicy_R$. It is therefore not obtainable as a source code in $S$, a transition pattern in $T$, an accepted-result classifier entry in $A$, a stability transport in $H$, or a ledger/provenance row in $P$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to its visible rows. The source field is exhausted by $S$: it contains coded $\mathrm{CIC}^{*}$ expressions, proof objects, and states, but no judgment that those codes form a correct checker for BEDC.
+
+The pattern and classifier fields are exhausted by $T$ and $A$. They record transition behavior and accepted-result grouping internal to the candidate. Reading either row can expose what the candidate claims for a coded input; it cannot certify that the candidate itself is the host validation act.
+
+The stability, route, and package fields are exhausted by $H,C,P,N$. These rows transport, read, name, and record provenance for the displayed finite packet. If validation were placed in any one of them, it would be another coded row of the same candidate and would again require validation as a certificate. Thus the carrier remains an object-level runtime candidate rather than a self-validating runtime.
+\end{proof}
+
+\begin{theorem}[Runtime-candidate boundary NameCert obligations]
+\label{thm:runtime-candidate-boundary-namecert-obligations}
+The local $\NameCert_{\RuntimeCandidateBoundaryUp}$ surface for the carrier of \autoref{def:runtime-candidate-boundary-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $R=(S,T,A,H,C,P,N)$;
+\item classifier transport by componentwise $\hsame$ and $\Cont$ on the source, transition, accepted-result, package, and local naming rows;
+\item runtime-result ledger exactness, requiring every accepted-result row to be exactly a displayed row of $A$ reached from a displayed transition row of $T$;
+\item validation non-escape, requiring every claim that the candidate is valid to remain outside $S,T,A,H,C,P,N$ rather than appearing as a hidden packet coordinate;
+\item reflection-boundary handoff, requiring the packet to cite the structural $\mathrm{CIC}^{*}$ interpretation of \autoref{thm:internal-cic-interpretation} and the runtime-candidate boundary of \autoref{thm:reflection-structure-existence-boundary} without promoting either citation to an internal host validator.
+\end{enumerate}
+Consequently the certificate names the object-level runtime-candidate interface and its finite result ledger, but it does not assert an internal truth predicate or a host checker inside BEDC.
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection. The packet $R=(S,T,A,H,C,P,N)$ is finite, and each displayed row is part of the same $\BHist$ carrier.
+
+Classifier transport is componentwise. The $\hsame$ row $H$ compares displayed source, transition, accepted-result, package, and naming rows, while the $\Cont$ row $C$ records exactly the reads available to a consumer.
+
+Runtime-result ledger exactness follows by reading $T$ before $A$. A row can count as an accepted result only when the carrier displays the transition claim in $T$ and the corresponding accepted-result classifier entry in $A$.
+
+Validation non-escape is the boundary clause. By \autoref{thm:runtime-candidate-boundary-nonvalidation}, validation is not one of the source, pattern, classifier, stability, or ledger rows. The final handoff is therefore only a citation to the structural $\mathrm{CIC}^{*}$ interpretation and to the runtime-candidate boundary, not an internal host validator.
+\end{proof}
+
+\closureat{RuntimeCandidateBoundaryUp}{seedStr}

@@ -45,6 +45,7 @@ The local $\NameCert_{\CompletionReflectionUp}$ surface consists of five finite 
 \item non-escape from quotient streams, selected host limits, host equality, and ambient completeness.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection of the finite packet. Each row required by the reflection boundary appears as a coordinate before any consumer can read it.
 
@@ -101,6 +102,7 @@ The same definition also states the exclusions. Since every carrier read is a pr
 \label{thm:completionreflection-classifier-scope}
 The $\CompletionReflectionUp$ classifier transports the scoped rows componentwise along the same $C,U,H,D,Q,A,S,T,K,P,N$ surface. It can compare construction, extension, separated-boundary, diagonal, regular-source, real-seal, transport, continuation, package, packet-provenance, and local naming rows, but it cannot add quotient streams, selected host limits, host real equality, or ambient completeness data.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_provenance\_route\_scope}
 \begin{proof}
 Apply \autoref{def:completion-reflection-classifier}. Its comparison clauses are exactly the rows already displayed in the carrier definition, with $\hsame$ and $\Cont$ supplying componentwise transport for the visible packet.
 
@@ -136,6 +138,22 @@ Next apply \autoref{thm:completionreflection-classifier-scope}. Public movement 
 Finally apply \autoref{thm:completionreflection-consumer-scope}. Every public consumer read factors through the real-seal row or the extension row over the same finite provenance surface, so the exported $\NameCert_{\CompletionReflectionUp}$ interface is exactly the displayed tuple and nothing outside it.
 \end{proof}
 \leanchecked{BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_public\_export}
+
+\begin{theorem}[CompletionReflection universal real-seal factorization]
+\label{thm:completionreflection-universal-real-seal-factorization}
+Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ carrier. Every universal-property extension route exported by $U$ factors through the displayed $\RealUp$ seal row $A$ before any completion-facing consumer can read it. The factorization uses the completion construction row $C$, diagonal row $D$, regular rational source row $Q$, Hausdorff boundary row $H$, componentwise $\hsame$ rows $S$, displayed $\Cont$ routes $T$, package provenance $K,P$, and local $\NameCert$ row $N$.
+
+No universal-property consumer can bypass the real-seal row by reading a quotient completion object, selected host limit, host equality of completed reals, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:completion-reflection-real-seal-boundary}. It identifies the $\RealUp$ seal row $A$ as the real-facing boundary through which completion data become consumable.
+
+Apply \autoref{thm:completion-reflection-extension-reflects}. Any extension route supplied by $U$ reflects back to the same construction row, diagonal row, regular source, real-seal row, separated boundary, and provenance surface.
+
+Use \autoref{thm:completionreflection-consumer-scope} to align the two reads. It states that real-facing and extension-facing consumers share the same finite rows, so the extension route cannot be consumed before the real-seal boundary is present.
+
+Finally apply \autoref{thm:completionreflection-public-export}. The public packet exposes exactly $C,U,H,D,Q,A,S,T,K,P,N$ and no quotient, selected limit, host equality, or ambient completeness coordinate, so the universal route factors through the displayed seal for every completion-facing consumer.
+\end{proof}
 
 \closureat{CompletionReflectionUp}{seedStr}
 \closureat{CompletionReflectionUp}{obligationStr}
