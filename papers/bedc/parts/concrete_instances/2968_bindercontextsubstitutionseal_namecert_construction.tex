@@ -65,6 +65,50 @@ Apply \autoref{thm:binder-context-substitution-seal-non-escape}. The handoff can
 The package rows $P,N$ bind that equality to the same \texttt{Term} and \texttt{ClosedAt} generator surface named by the self-compilation vision. Thus the consumer receives a finite substitution-seal packet, not a global evaluator correctness theorem or a hidden binder-context resource.
 \end{proof}
 
+\begin{theorem}[BinderContextSubstitutionSeal obligation rows]
+\label{thm:binder-context-substitution-seal-obligation-rows}
+For an accepted $\BinderContextSubstitutionSealUp$ packet
+$$
+S=(t,d,v,s,b,H,C,P,N),
+$$
+the obligation ledger consists of the following separate rows: carrier admission for $S$, \texttt{Term} readback for $t$, \texttt{ClosedAt} boundary readback for $b$, replay of $s=\texttt{substitute}(d,v,t)$, inertness equality $s=t$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local $\NameCert$ exposure through $N$.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:binder-context-substitution-seal-carrier}. Its coordinates list exactly the term, depth, payload, result, boundary witness, transport, route, provenance, and local naming rows.
+
+\autoref{thm:binder-context-substitution-seal-non-escape} identifies the boundary row as the only place where the payload route can be read. \autoref{thm:binder-context-substitution-seal-compiler-handoff} then exposes the same rows to compiler and evaluator consumers.
+
+Separating those coordinates gives the stated ledger rows. No additional obligation row can be projected because the carrier has no hidden binder-context coordinate.
+\end{proof}
+
+\begin{theorem}[BinderContextSubstitutionSeal closed-boundary exactness]
+\label{thm:binder-context-substitution-seal-closed-boundary-exactness}
+In every accepted $\BinderContextSubstitutionSealUp$ packet $S=(t,d,v,s,b,H,C,P,N)$, the \texttt{ClosedAt} boundary witness in $b$ forces the substitution result row to remain the original term row: the only exported result is $s=t$. The packet exports no payload insertion, no open-variable occurrence, and no binder capture route.
+\end{theorem}
+\begin{proof}
+Read the boundary witness through \autoref{def:binder-context-substitution-seal-carrier}. The witness $b$ carries both \texttt{ClosedAt} $d$ $t$ and the inertness equality for the replayed substitution row.
+
+Apply \autoref{thm:binder-context-substitution-seal-non-escape}. It states that the payload $v$ is visible only through the attempted route $s=\texttt{substitute}(d,v,t)$ and that the accepted result row is $s=t$.
+
+The compiler handoff of \autoref{thm:binder-context-substitution-seal-compiler-handoff} preserves this same equality for consumers. Hence the closed boundary is exact: the result row is the original term row, with no exported payload insertion route.
+\end{proof}
+
+\begin{theorem}[BinderContextSubstitutionSeal route determinacy]
+\label{thm:binder-context-substitution-seal-route-determinacy}
+Every compiler or evaluator handoff from $\BinderContextSubstitutionSealUp$ factors through the displayed packet
+$$
+S=(t,d,v,s,b,H,C,P,N).
+$$
+The route is determined by the term row, depth row, payload row, substitution replay row, boundary witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and local naming; it has no hidden binder context and no consumer-specific substitution channel outside $S$.
+\end{theorem}
+\begin{proof}
+Start from the compiler handoff theorem \autoref{thm:binder-context-substitution-seal-compiler-handoff}. It already states that compiler and evaluator consumers receive the finite boundary certificate over the rows of $S$.
+
+Use the carrier definition to identify those rows as the complete route data. Transport is exhausted by $H$, replay is exhausted by $C$, and provenance and naming are exhausted by $P,N$.
+
+Finally apply \autoref{thm:binder-context-substitution-seal-non-escape}. Since payload use is blocked at the displayed closed boundary, no hidden binder context or outside substitution channel can be read from an accepted handoff.
+\end{proof}
+
 \closureat{BinderContextSubstitutionSealUp}{seedStr}
 
 \begin{closurestatus}{\BinderContextSubstitutionSealUp}
