@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\StepIndexedTotalHostUp$}
+\label{ch:concrete-instances-step-indexed-total-host-namecert}
+\origin{ai}
+
+The $\StepIndexedTotalHostUp$ packet is the concrete NameCert object for the boundary between a total host and a universal substrate in \autoref{ch:visions-strong-normalization-vs-turing-completeness}. It sits beside the Turing-machine substrate of \autoref{ch:concrete-instances-turingmachine-namecert}, the bounded universal trace of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, the normal-form host packet of \autoref{ch:concrete-instances-znormal-namecert}, and the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}. Its distinguishing datum is the simultaneous presence of a total host row, a unary fuel row, a finite universal-substrate trace row, and a refusal ledger preventing an unbounded substrate run from being reread as host computation.
+
+\falsifiablePrediction{Deleting the fuel row permits an unbounded substrate trace to masquerade as host computation; the local classifier must reject that packet because the host-side read no longer passes through a displayed finite fuel index.}
+
+\independenceWitness{turingmachine, boundeduniversaltrace, znormal, closednormalconsistency: none is bijective because each sibling omits at least one of the fuel-indexed host boundary, the substrate trace, or the refusal ledger.}
+
+\begin{definition}[StepIndexedTotalHost carrier]
+\label{def:step-indexed-total-host-carrier}
+A $\StepIndexedTotalHostUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,F,R,N,Z,B,Hs,C,P,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the total host term or evaluator row, read as a BEDC host computation whose reduction is accepted only through finite data;
+\item $F$ is the unary fuel row naming the finite host-visible step index;
+\item $R$ is the finite substrate trace row, such as a Rule~110 row produced by \texttt{r110\_run\_n\_steps} or a Turing-machine trace row with the same displayed bound;
+\item $N$ is the host normal-form boundary row, read through the finite normal-form discipline of $\ZNormalUp$;
+\item $Z$ is the bounded universal trace witness row, read through $\BoundedUniversalTraceUp$ and tied to the same fuel row $F$;
+\item $B$ is the refusal ledger for halting transfer, partial evaluator transfer, missing fuel, detached substrate trace, and host-equality claims not carried by the packet;
+\item $Hs$ records componentwise $\hsame$ transports for $A,F,R,N,Z,B,P,K$;
+\item $C$ records displayed $\Cont$ routes from host row to fuel, from fuel to finite substrate trace, from trace to bounded readback, from bounded readback to normal-form boundary, and from each absent semantic claim to the refusal ledger;
+\item $P$ is the $\Pkg$ provenance over $\StepIndexedTotalHostUp$, $\TuringMachineUp$, $\BoundedUniversalTraceUp$, $\ZNormalUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $K$ is the local $\NameCert_{\StepIndexedTotalHostUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $A,F,R,N,Z,B,Hs,C,P,K$. It has no coordinate for unbounded halting, an infinite Rule~110 orbit, host evaluator equality, quotient behaviour, or a proof that substrate universality transfers to the total host.
+\end{definition}
+
+\begin{theorem}[StepIndexedTotalHost NameCert obligations]
+\label{thm:step-indexed-total-host-namecert-obligations}
+For the carrier of \autoref{def:step-indexed-total-host-carrier}, the local $\NameCert_{\StepIndexedTotalHostUp}$ surface consists exactly of carrier admission for
+$$
+H=(A,F,R,N,Z,B,Hs,C,P,K),
+$$
+total-host exposure through $A$, unary fuel exposure through $F$, finite substrate-trace exposure through $R$, host normal-form boundary exposure through $N$, bounded universal trace witness exposure through $Z$, refusal-ledger exactness through $B$, componentwise transport through $Hs$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:step-indexed-total-host-carrier}. Its visible rows are exactly $A,F,R,N,Z,B,Hs,C,P,K$, so every public read must be a projection from those rows or a route replaying them.
+
+The host-facing side is read through $A,F,N$. The row $A$ names the total host term or evaluator row, $F$ supplies the finite fuel index, and $N$ records the normal-form boundary available to the host.
+
+The substrate-facing side is read through $R,Z$. The trace row $R$ records a finite Rule~110 or Turing-machine prefix, while $Z$ ties that prefix to the bounded universal trace witness at the same fuel index.
+
+Finally $B,Hs,C,P,K$ bind the refusal and NameCert surface. Since the carrier has no coordinate for unbounded halting, infinite orbit data, host evaluator equality, quotient behaviour, or transfer of substrate universality to host totality, the listed rows exhaust the obligations.
+\end{proof}
+
+\begin{theorem}[StepIndexedTotalHost separation]
+\label{thm:step-indexed-total-host-separation}
+Every accepted $\StepIndexedTotalHostUp$ packet separates the total-host read from the universal-substrate run by the finite route
+$$
+A,F,R,Z,N,B,Hs,C,P,K .
+$$
+A consumer may read a host computation at fuel $F$, a finite substrate trace $R$, a bounded witness $Z$, and a normal-form boundary $N$. It may not read an unbounded substrate trace as host computation, transfer halting or partial evaluator behaviour across the boundary, or replace the refusal ledger $B$ by a semantic equality between the host and the substrate.
+\end{theorem}
+\begin{proof}
+Begin with the finite route row $C$. Its admissible paths pass from the host row $A$ to the fuel row $F$, then to the displayed substrate trace $R$ and bounded witness $Z$, and only then to the host normal-form boundary $N$.
+
+The fuel row is essential. If $F$ is absent, the packet still may display a substrate trace schema, but the host has no finite step index under which to read it as a total computation. The refusal ledger $B$ therefore rejects the packet rather than accepting an unbounded run as host data.
+
+The same ledger blocks semantic transfer. Halting transfer, partial evaluator transfer, infinite orbit claims, host evaluator equality, and quotient behaviour require coordinates absent from $A,F,R,N,Z,B,Hs,C,P,K$.
+
+Thus the packet preserves both sides of \autoref{ch:visions-strong-normalization-vs-turing-completeness}: the substrate may carry universal finite prefixes, while the host reads only fuel-indexed finite data.
+\end{proof}
+
+\begin{theorem}[StepIndexedTotalHost sibling boundary]
+\label{thm:step-indexed-total-host-sibling-boundary}
+The siblings $\TuringMachineUp$, $\BoundedUniversalTraceUp$, $\ZNormalUp$, and the closed-normal consistency boundary are comparison anchors for $\StepIndexedTotalHostUp$, but none is bijective to it. $\TuringMachineUp$ supplies machine substrate rows without the host normal-form boundary; $\BoundedUniversalTraceUp$ supplies a bounded trace without the full total-host refusal surface; $\ZNormalUp$ supplies host normality without the universal-substrate trace; and the closed-normal consistency boundary supplies a normal-form consistency node without the step-indexed substrate witness.
+\end{theorem}
+\begin{proof}
+Read the siblings one at a time. The Turing-machine surface names finite machine data, but it does not carry the host row $A$, the normal-form boundary $N$, or the refusal ledger $B$ for total-host transfer.
+
+The bounded universal trace supplies the rows closest to $F,R,Z$. It still lacks the full packet route from host term to normal-form boundary and the refusal ledger blocking host-substrate semantic identification.
+
+The normal-form and closed-normal consistency siblings point in the other direction. They account for finite normality and consistency-facing boundaries, but they do not carry the Rule~110 or Turing-machine substrate trace tied to the same fuel row.
+
+Consequently each sibling can be cited as a component or comparison anchor, while the $\StepIndexedTotalHostUp$ packet remains the concrete boundary object that stores all rows together.
+\end{proof}
+
+The Lean \texttt{TasteGate.lean} development for $\StepIndexedTotalHostUp$ must include explicit $\mathsf{Nontrivial}\ \StepIndexedTotalHostUp$ and $\mathsf{FieldFaithful}\ \StepIndexedTotalHostUp$ instances. These instances must preserve the total host row, unary fuel row, finite substrate trace, normal-form boundary, bounded universal trace witness, refusal ledger, componentwise transports, displayed routes, package provenance, and local naming row.
+
+\closureat{StepIndexedTotalHostUp}{seedStr}
+
+\begin{closurestatus}{\StepIndexedTotalHostUp}
+  \constructivestory{A $\StepIndexedTotalHostUp$ packet is generated from a total host term or evaluator row, unary fuel row, finite substrate trace row, normal-form boundary row, bounded universal trace witness row, refusal ledger, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:step-indexed-total-host-carrier}, \autoref{thm:step-indexed-total-host-namecert-obligations}, \autoref{thm:step-indexed-total-host-separation}, and \autoref{thm:step-indexed-total-host-sibling-boundary} specify the finite total-host and universal-substrate boundary packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, partial evaluator semantics, host evaluator equality, quotient behaviour, or transfer of substrate universality to the total host.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel-indexed trace exposure, host normal-form boundary exposure, bounded universal trace witness exactness, refusal-ledger exactness, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}

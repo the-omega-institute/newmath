@@ -130,6 +130,10 @@ def render_server(s: dict) -> str:
     ]
     for k, v in (s.get("agents") or {}).items():
         out.append(f"    busy {k}: task={v.get('task_id','?')} elapsed={v.get('elapsed','?')}s")
+    if s.get("zero_extraction_hang_agents"):
+        agents = ",".join(map(str, s.get("zero_extraction_hang_agents") or []))
+        seconds = s.get("zero_extraction_hang_seconds", "?")
+        out.append(f"  zero-extraction hang: {agents} >= {seconds}s with 0 extracted chars")
     url_tails = _zero_extraction_url_tails(s)
     if url_tails:
         out.append(f"  affected URL tail(s): {', '.join(url_tails)}")
