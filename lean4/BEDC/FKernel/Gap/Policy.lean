@@ -40,6 +40,7 @@ theorem gap_policy_fields {bundle : ProbeBundle ProbeName} {D : Domain} (policy 
     · exact policy.separation
     · exact policy.generation
 
+omit [AskSetup] [PackageSetup] G in
 theorem compression_requires_memory [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     GapPolicy bundle D ->
@@ -51,6 +52,7 @@ theorem compression_requires_memory [AskSetup] [PackageSetup] [DomainSetup]
   · exact policy.coverage
   · exact policy.generation
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_provenance_interface_fields [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
@@ -60,6 +62,7 @@ theorem gapPolicy_provenance_interface_fields [AskSetup] [PackageSetup] [DomainS
         ∃ s : BHist, TokIntro bundle s p) := by
   exact gap_policy_fields policy
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_provenance_coverage_generation_pair [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
@@ -71,6 +74,7 @@ theorem gapPolicy_provenance_coverage_generation_pair [AskSetup] [PackageSetup] 
   · intro p h hgap
     exact hgap.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_coverage_separation_generation [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
@@ -85,6 +89,7 @@ theorem gapPolicy_coverage_separation_generation [AskSetup] [PackageSetup] [Doma
     · intro p h hgap
       exact hgap.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem gap_policy_provenance_interface [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist}, InDom D h → ∃ p : Pkg, InGapSig bundle D p h) ∧
@@ -94,6 +99,7 @@ theorem gap_policy_provenance_interface [AskSetup] [PackageSetup] [DomainSetup]
         ∃ s : BHist, SigRel bundle h s ∧ TokIntro bundle s p) := by
   exact gapPolicy_coverage_separation_generation policy
 
+omit [AskSetup] [PackageSetup] G in
 theorem GapPolicy_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     GapPolicy bundle D <->
@@ -129,6 +135,7 @@ theorem GapPolicyInterface_iff_fields [AskSetup] [PackageSetup] [DomainSetup]
           ∃ s : BHist, TokIntro bundle s p)) := by
   exact GapPolicy_iff_fields
 
+omit [AskSetup] [PackageSetup] G in
 theorem globalization_has_three_layers [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} :
     AskPolicy (InDom D) → PackagePolicy bundle → GapPolicy bundle D →
@@ -140,6 +147,7 @@ theorem globalization_has_three_layers [AskSetup] [PackageSetup] [DomainSetup]
     · exact packagePolicy
     · exact gapPolicy
 
+omit [AskSetup] [PackageSetup] G in
 theorem gap_coverage_from_policy_layers [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} :
     AskPolicy (InDom D) -> PackagePolicy bundle -> GapPolicy bundle D -> InDom D h ->
@@ -147,6 +155,7 @@ theorem gap_coverage_from_policy_layers [AskSetup] [PackageSetup] [DomainSetup]
   intro _ _ gapPolicy hdom
   exact gapPolicy.coverage hdom
 
+omit [AskSetup] [PackageSetup] G in
 theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (policy : GapPolicy bundle D) :
@@ -154,18 +163,21 @@ theorem gap_generation_witness [AskSetup] [PackageSetup] [DomainSetup]
   intro hgap
   exact policy.generation hgap
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_generation_field [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {p : Pkg} {h : BHist}, InGapSig bundle D p h →
       ∃ s : BHist, TokIntro bundle s p) := by
   exact policy.generation
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_separation_field [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) :
     (∀ {h : BHist} {p q : Pkg}, InDom D h → InGapSig bundle D p h →
       InGapSig bundle D q h → psame bundle p q) := by
   exact policy.separation
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_separation_packed [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg} :
     GapPolicy bundle D → InDom D h → InGapSig bundle D p h ∧ InGapSig bundle D q h →
@@ -173,6 +185,7 @@ theorem gapPolicy_separation_packed [AskSetup] [PackageSetup] [DomainSetup]
   intro policy hdom hgap
   exact policy.separation hdom hgap.left hgap.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem policy_gap_separation_signature_token_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {h : BHist} {p q : Pkg}
     (policy : GapPolicy bundle D) :
@@ -195,6 +208,7 @@ theorem policy_gap_separation_signature_token_witnesses [AskSetup] [PackageSetup
                       (Exists.intro t
                         (And.intro psig (And.intro ptok (And.intro qsig qtok))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_signature_determination [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} {p : Pkg} {h : BHist}
     (_policy : GapPolicy bundle D) :
@@ -202,6 +216,7 @@ theorem gapPolicy_signature_determination [AskSetup] [PackageSetup] [DomainSetup
   intro hgap
   exact hgap.right
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_requires_ledger_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
     InDom D h -> ∃ p : Pkg, ∃ s : BHist, InGapSig bundle D p h ∧ TokIntro bundle s p := by
@@ -212,6 +227,7 @@ theorem gapPolicy_requires_ledger_witness [AskSetup] [PackageSetup] [DomainSetup
       | intro s htok =>
           exact Exists.intro p (Exists.intro s (And.intro hgap htok))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gap_ledgers_not_optional [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
     InDom D h → ∃ p : Pkg, ∃ s : BHist, InGapSig bundle D p h ∧ TokIntro bundle s p := by
@@ -222,6 +238,7 @@ theorem gap_ledgers_not_optional [AskSetup] [PackageSetup] [DomainSetup]
       | intro s htok =>
           exact Exists.intro p (Exists.intro s (And.intro hgap htok))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_requires_provenance_ledger [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
     InDom D h -> exists p : Pkg, exists s : BHist, InGapSig bundle D p h /\ TokIntro bundle s p := by
@@ -232,6 +249,7 @@ theorem gapPolicy_requires_provenance_ledger [AskSetup] [PackageSetup] [DomainSe
       | intro s htok =>
           exact Exists.intro p (Exists.intro s (And.intro hgap htok))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_coverage_signature_witness [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
     InDom D h -> exists p : Pkg, exists s : BHist,
@@ -246,6 +264,7 @@ theorem gapPolicy_coverage_signature_witness [AskSetup] [PackageSetup] [DomainSe
               exact Exists.intro p
                 (Exists.intro s (And.intro hgap (And.intro hsig htok)))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_coverage_full_witnesses [AskSetup] [PackageSetup] [DomainSetup]
     {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D) {h : BHist} :
     InDom D h → ∃ p : Pkg, ∃ s : BHist,
@@ -260,6 +279,7 @@ theorem gapPolicy_coverage_full_witnesses [AskSetup] [PackageSetup] [DomainSetup
               exact Exists.intro p
                 (Exists.intro s (And.intro hgap (And.intro hdom (And.intro hsig htok))))
 
+omit [AskSetup] [PackageSetup] G in
 theorem gapPolicy_provenance_signature_token_witnesses [AskSetup] [PackageSetup]
     [DomainSetup] {bundle : ProbeBundle ProbeName} {D : Domain} (policy : GapPolicy bundle D)
     {h : BHist} :
