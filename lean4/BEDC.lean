@@ -216,6 +216,7 @@ import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CofibrantReplacementUp
+import BEDC.Derived.CofinalRegularLimitBudgetUp.TasteGate
 import BEDC.Derived.CofinalSubsequenceUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuationMonadUp
