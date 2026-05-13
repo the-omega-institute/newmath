@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\RealDiagonalMeshBudgetUp$}
+\label{ch:concrete-instances-realdiagonalmeshbudget-namecert}
+\origin{human}
+
+The $\RealDiagonalMeshBudgetUp$ interface records the finite mesh-budget route by which a diagonal Real-completion consumer turns a precision request into a bounded family of inspected windows and then into a $\RealUp$ seal read. It refines the selected-window surface of $\RealDiagonalWindowCoverageUp$ by making the mesh bound, dyadic tolerance rows, and packet budget visible before the completion-facing handoff.
+
+\begin{definition}[Real diagonal mesh-budget carrier]
+\label{def:real-diagonal-mesh-budget-carrier}
+A $\RealDiagonalMeshBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+M=(q,b,\omega,\rho,\delta,\theta,e,h,c,p,n)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $q$ is the rational precision request read through the displayed $\RatUp$ and $\DyadicRatCoreUp$ tolerance rows;
+\item $b$ is the finite mesh budget, listing the inspected diagonal indices and the dyadic radii assigned to them;
+\item $\omega$ is the $\StreamNameUp$ window family selected by $b$;
+\item $\rho$ is the $\RegSeqRatUp$ readback family attached to those selected windows;
+\item $\delta$ is the $\DyadicRatCoreUp$ ledger recording the tolerance split, endpoint rows, radius comparisons, and mesh-bound checks;
+\item $\theta$ is the diagonal aggregation row stating that the finite windows in $\omega$ cover the requested diagonal packet under the budget $b$;
+\item $e$ is the $\RealUp$ seal row reached only after $q,b,\omega,\rho,\delta,\theta$ have been displayed;
+\item $h$ records componentwise $\hsame$ transports for the precision request, mesh budget, selected windows, readback family, dyadic ledger, aggregation row, seal row, provenance, and local name;
+\item $c$ records the displayed $\Cont$ routes from $q$ to $b$, from $b$ to $\omega$, from $\omega$ to $\rho$, from $\rho$ to $\delta$, from $\delta$ to $\theta$, and from $\theta$ to $e$;
+\item $p$ is the $\Pkg$ provenance over $\RatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealDiagonalWindowCoverageUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $n$ is the local $\NameCert_{\RealDiagonalMeshBudgetUp}$ row.
+\end{enumerate}
+The carrier contains no infinite mesh, no quotient stream, no host real equality, no ambient completeness theorem, no selected limiting representative, and no open-cover compactness row.
+\end{definition}
+
+\begin{theorem}[Real diagonal mesh-budget NameCert obligations]
+\label{thm:real-diagonal-mesh-budget-namecert-obligations}
+The local $\NameCert_{\RealDiagonalMeshBudgetUp}$ surface for \autoref{def:real-diagonal-mesh-budget-carrier} consists exactly of carrier admission for $M$, precision exposure through $q$, finite mesh-budget exposure through $b$, selected $\StreamNameUp$ window coverage through $\omega$, $\RegSeqRatUp$ readback through $\rho$, dyadic tolerance-ledger exactness through $\delta$, diagonal packet aggregation through $\theta$, $\RealUp$ seal handoff through $e$, componentwise $\hsame$ transport through $h$, displayed $\Cont$ route replay through $c$, $\Pkg$ provenance through $p$, and local naming through $n$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $M$. The rows $q,b,\omega,\rho,\delta,\theta,e,h,c,p,n$ list the precision request, finite mesh budget, selected windows, regular rational readbacks, dyadic tolerance ledger, aggregation row, real seal, transports, continuations, provenance, and local name.
+
+The mesh-budget obligations are finite. A consumer reads $q$, then reads the budget $b$, inspects only the window family $\omega$ selected by that budget, and then reads the rational family $\rho$ together with the dyadic ledger $\delta$.
+
+The aggregation row $\theta$ records that the displayed windows cover the requested diagonal packet before the seal row $e$ is exported. The rows $h,c,p,n$ account for transport, route replay, provenance, and local naming, so the local surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Real diagonal mesh-budget window coverage]
+\label{thm:real-diagonal-mesh-budget-window-coverage}
+Every diagonal observation exported from an accepted $\RealDiagonalMeshBudgetUp$ carrier factors through the finite mesh budget $b$, the selected $\StreamNameUp$ window family $\omega$, the $\RegSeqRatUp$ readback family $\rho$, the $\DyadicRatCoreUp$ tolerance ledger $\delta$, and the aggregation row $\theta$.
+
+No exported observation may range over an infinite mesh, inspect an unlisted stream window, use quotient equality of completed names, or appeal to ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $b,\omega,\rho,\delta,\theta$. The budget $b$ lists the inspected diagonal indices and radii, while $\omega$ and $\rho$ provide the selected windows and rational readbacks.
+
+Apply the NameCert obligations of \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}. They route every observation through the precision request, budget, selected-window family, readback family, dyadic ledger, and aggregation row before any seal-facing read is available.
+
+Since the carrier has no coordinate for an infinite mesh, unlisted stream window, quotient equality, or ambient completeness, a downstream diagonal observation can only use the displayed finite coverage route.
+\end{proof}
+
+\begin{theorem}[Real diagonal mesh-budget RealUp handoff]
+\label{thm:real-diagonal-mesh-budget-realup-handoff}
+Every $\RealUp$ completion or continuous-map consumer of an accepted $\RealDiagonalMeshBudgetUp$ carrier receives the seal row $e$ only through the displayed route
+$$
+q,b,\omega,\rho,\delta,\theta,h,c,p,n.
+$$
+Thus the handoff consumes a rational precision request, a finite mesh budget, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ tolerance ledger, a diagonal aggregation row, componentwise transport, route replay, package provenance, and local naming before the $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Start with the seal coordinate $e$. It is the only $\RealUp$ row in the carrier and is listed after the precision, mesh-budget, window, readback, dyadic-ledger, and aggregation rows.
+
+Use \autoref{thm:real-diagonal-mesh-budget-window-coverage}. It shows that the diagonal packet presented to a real-facing consumer has already been confined to the finite windows and dyadic tolerances selected by $b$.
+
+The rows $h$ and $c$ replay the displayed transports and continuations, while $p$ and $n$ provide provenance and local naming. Therefore the seal is reached exactly through the displayed route and not through a hidden completeness or quotient-equality coordinate.
+\end{proof}
+
+\begin{theorem}[Real diagonal mesh-budget non-escape]
+\label{thm:real-diagonal-mesh-budget-nonescape}
+Every downstream consumer of an accepted $\RealDiagonalMeshBudgetUp$ packet factors through the finite rows
+$$
+q,b,\omega,\rho,\delta,\theta,e,h,c,p,n.
+$$
+The consumer may read the rational precision request, finite mesh budget, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ ledger, diagonal aggregation row, $\RealUp$ seal, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row, and it cannot read infinite-mesh data, quotient streams, host real equality, ambient completeness, selected limits, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and the local NameCert surface. The rows $q,b,\omega,\rho,\delta,\theta,e,h,c,p,n$ are the complete displayed packet.
+
+Use the window-coverage theorem for observation-facing consumers. It confines every diagonal read to the finite mesh budget, selected windows, regular rational readbacks, dyadic tolerance ledger, and aggregation row.
+
+Use the RealUp handoff theorem for seal-facing consumers. It routes every completion or continuous-map read through $q,b,\omega,\rho,\delta,\theta,h,c,p,n$ before $e$ is consumed.
+
+No remaining carrier coordinate exists beyond those rows. Hence no downstream consumer can extract infinite-mesh data, quotient streams, host real equality, ambient completeness, selected limits, or open-cover compactness from the packet.
+\end{proof}
+
+\closureat{RealDiagonalMeshBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RealDiagonalMeshBudgetUp}
+  \constructivestory{A $\RealDiagonalMeshBudgetUp$ packet is generated from a rational precision request, a finite mesh budget, selected stream windows, regular rational readbacks, a dyadic tolerance ledger, a diagonal aggregation row, a real-seal row, componentwise transports, continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-diagonal-mesh-budget-carrier}, \autoref{thm:real-diagonal-mesh-budget-namecert-obligations}, \autoref{thm:real-diagonal-mesh-budget-window-coverage}, \autoref{thm:real-diagonal-mesh-budget-realup-handoff}, and \autoref{thm:real-diagonal-mesh-budget-nonescape} bind the finite mesh-budget route from precision request through selected diagonal windows to the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient equality of streams, host real equality, continuous-map theorems, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh-budget window coverage, RealUp handoff, and non-escape for the same finite diagonal packet.}
+\end{closurestatus}
