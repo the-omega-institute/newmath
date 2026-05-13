@@ -87,15 +87,28 @@ The frontier rows are $H,Q,P,N$. They provide transport, continuation replay, pr
 Apply obstruction exactness to the transported packet. Since the excluded rows are absent before the frontier route and are not created by transport, replay, provenance, or naming, unrestricted substitution still cannot escape the audit map.
 \end{proof}
 
-\closureat{SubstitutionAuditMapUp}{seedStr}
+\begin{theorem}[Substitution audit map obligation closure package]
+\label{thm:substitution-audit-map-obligation-closure-package}
+For the finite packet $A=(T,C,R,S,K,G,H,Q,P,N)$ of \autoref{def:substitution-audit-map-carrier}, the carrier definition, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, and \autoref{thm:substitutionauditmap-frontier-route-nonescape} jointly exhaust the $\SubstitutionAuditMapUp$ obligation surface. The package records exactly the closed term, closed-boundary, shift, substitute, closed-composition, generator-closure, transport, continuation, provenance, and local naming rows admitted by the TasteGate carrier alignment.
+\end{theorem}
+\begin{proof}
+The carrier definition supplies the row inventory, and the checked TasteGate alignment following \autoref{def:substitution-audit-map-carrier} fixes that inventory as the single finite carrier surface.
+
+Use the NameCert obligation theorem to read carrier admission, closed movement readback, closed-composition readback, classifier readback, transport, continuation, provenance, and naming from $T,C,R,S,K,G,H,Q,P,N$.
+
+The boundary non-escape, positive row coverage, obstruction row exactness, and frontier route non-escape theorems account for every remaining consumer question: which positive rows are available, which obstruction rows are absent, and how frontier reads remain inside the same packet. Therefore no further obligation is left outside the displayed finite surface.
+\end{proof}
+
+\closureat{SubstitutionAuditMapUp}{obligationStr}
 
 \begin{closurestatus}{\SubstitutionAuditMapUp}
   \constructivestory{A $\SubstitutionAuditMapUp$ packet is generated from a MetaCIC term row, a ClosedAt boundary, closed shift and substitution rows, closed-composition rows, generator-closure classifier rows, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, and \autoref{thm:substitutionauditmap-frontier-route-nonescape} bind the closed substitution audit map, its positive rows, its obstruction rows, and its frontier routes.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:substitution-audit-map-carrier}, \autoref{thm:substitution-audit-map-namecert-obligations}, \autoref{thm:substitution-audit-map-boundary-nonescape}, \autoref{thm:substitutionauditmap-positive-row-coverage}, \autoref{thm:substitutionauditmap-obstruction-row-exactness}, \autoref{thm:substitutionauditmap-frontier-route-nonescape}, and \autoref{thm:substitution-audit-map-obligation-closure-package} bind the closed substitution audit map, its positive rows, obstruction rows, frontier routes, and finite obligation package.}
+  \leanchecked{BEDC.Derived.SubstitutionAuditMapUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close unrestricted substitution, beta-substitution preservation, closed subject reduction, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, closed movement readback, closed-composition readback, classifier readback, transport, continuation, provenance, naming, and boundary non-escape for the same finite packet.}
+  \upgradepath{Scoped closure requires binding each closed movement, classifier, transport, continuation, provenance, naming, obstruction, and frontier-route obligation to its BEDC primitive source.}
 \end{closurestatus}
