@@ -140,6 +140,67 @@ Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility} for the
 Finally read the structural rows. The transports in $H$, the continuations in $C$, the provenance row $P$, and the local name $N$ authenticate the same $R,T,O,W,D,Q$ factorization and provide no separate readback service.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail-budget tail-threshold service exactness]
+\label{thm:regular-cauchy-tail-budget-tail-threshold-service-exactness}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. Every served tail read of $R$ is exposed only through the route
+$$
+R \longmapsto T \longmapsto O \longmapsto W \longmapsto D \longmapsto Q \longmapsto S.
+$$
+In particular, neither the finite window row $W$ nor the seal row $S$ can be read before the tail-threshold row $T$ has been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-budget-carrier}. The only source row is $R$, the only tail-threshold row attached to that source is $T$, and the service rows following it are $O,W,D,Q,S$.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-observation-gate}. It forces each served $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ read to pass through the displayed route from $R$ to $S$.
+
+Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility} for the middle service rows. The window and dyadic ledgers are admitted only after the same threshold and budget rows have been read.
+
+Finally apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization} and \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. The readback row factors through $T,O,W,D$, and the seal row consumes that displayed readback rather than opening an earlier window or seal-facing route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget observation-budget gate totality]
+\label{thm:regular-cauchy-tail-budget-observation-budget-gate-totality}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. Every consumer route landing in $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ passes through the same $\ObservationBudgetLimiterUp$ row $O$. Thus all window service, dyadic observation, regular readback, and seal handoff rows share the single budget gate
+$$
+R \longmapsto T \longmapsto O.
+$$
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The packet has one displayed observation-budget limiter row, namely $O$, and the continuation record $C$ routes the tail threshold to that row before any service body is available.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-observation-gate}. It covers the four consumer surfaces named in the statement and places each of them after $R,T,O$ in the finite route.
+
+Use \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility}. It identifies $O$ as the shared gate for $W$ and $D$, so the downstream readback row $Q$ cannot obtain its displayed observations from a second budget row.
+
+Now apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization} and \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. The readback and seal rows consume the same budgeted service route, and no quotient stream, selected host limit, host real equality, countable-choice selector, or ambient completeness row supplies an alternate consumer route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-budget RegSeqRat readback seal handoff]
+\label{thm:regular-cauchy-tail-budget-regseqrat-readback-seal-handoff}
+Let
+$$
+B=(R,T,O,W,D,Q,S,H,C,P,N)
+$$
+be an accepted $\RegularCauchyTailBudgetUp$ packet. The row $Q$ is the unique $\RegSeqRatUp$ readback surface for the displayed window row $W$ and dyadic ledger row $D$. The seal row $S$ may consume only this displayed readback surface together with the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:regular-cauchy-tail-budget-carrier}. The packet contains one regular source row $R$ and one regular readback row $Q$, while $W$ and $D$ are the only window-service and dyadic-observation rows feeding that readback.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-window-budget-compatibility}. It places both $W$ and $D$ under the same $T,O$ service route before any readback can be formed.
+
+Apply \autoref{thm:regular-cauchy-tail-budget-readback-factorization}. The row $Q$ is exactly the displayed factor through $R,T,O,W,D$, with $H,C,P,N$ authenticating the same chain.
+
+Finally use \autoref{thm:regular-cauchy-tail-budget-seal-nonescape}. Since $S$ is only a finite seal handoff after the displayed readback and no other analytic row is present, a seal-facing consumer can read $S$ only through $Q$ and the accompanying structural rows.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy tail-budget completion boundary]
 \label{thm:regular-cauchy-tail-budget-completion-boundary}
 Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyTailBudgetUp$ packet may read the seal row $S$ only as the finite budgeted readback boundary
