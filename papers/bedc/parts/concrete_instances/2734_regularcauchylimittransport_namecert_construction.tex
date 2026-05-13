@@ -284,6 +284,26 @@ Finally apply completion-boundary non-escape. Since the boundary theorem exclude
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyLimitTransportUp.RegularCauchyLimitTransportCarrier\_public\_export}
 
+\begin{theorem}[Regular Cauchy limit transport bridge packet]
+\label{thm:regular-cauchy-limit-transport-bridge-packet}
+For an accepted $\RegularCauchyLimitTransportUp$ carrier
+$$
+T=(R,W,D,S,H,C,P,N),
+$$
+the public export packet
+$$
+R \to W \to D \to S
+$$
+with provenance $H,C,P,N$ is exactly the bridge packet consumed by $\RealCompletenessUp$ finite-witness routes. The bridge preserves $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance while excluding quotient streams, host equality, selected external limits, trichotomy, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with public export, \autoref{thm:regular-cauchy-limit-transport-public-export}. It identifies the consumer-facing packet as the finite handoff $R \to W \to D \to S$ with provenance $H,C,P,N$.
+
+Apply the RealCompleteness consumer factorization theorem. A matching $\RealCompletenessUp$ diagonal-seal consumer must pass through the same rows $R,W,D,S,H,C,P,N$ before reading the $\RealUp$ seal.
+
+Finally use completion-boundary non-escape. The excluded quotient, host-equality, external-limit, trichotomy, and ambient-completeness objects have no coordinate in the transport packet or in the finite-witness consumer route. Therefore the public export is already the bridge packet read by the finite RealCompleteness route.
+\end{proof}
+
 \closureat{RegularCauchyLimitTransportUp}{seedStr}
 \closureat{RegularCauchyLimitTransportUp}{obligationStr}
 \closureat{RegularCauchyLimitTransportUp}{scopedStr}
