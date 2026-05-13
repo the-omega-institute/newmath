@@ -12,8 +12,7 @@ format:
         // Load BEDC paper preamble macros, then boot MathJax. Without these,
         // \CategoryUp / \AbGroupUp / \NameCert / etc. render as red errors.
         (function () {
-          var v = "?v=" + Date.now();
-          fetch("data/mathjax_macros.json" + v, { cache: "no-store" })
+          fetch("data/mathjax_macros.json")
             .then(function (r) { return r.ok ? r.json() : {}; })
             .catch(function () { return {}; })
             .then(function (macros) {
@@ -607,11 +606,10 @@ let STATUS = null, GLOSSARY = null, DEPS = null, CY = null;
 let CRIT_SET = new Set();
 
 async function loadData() {
-  const v = "?v=" + Date.now();
   const [s, g, d] = await Promise.all([
-    fetch("data/status.json" + v, { cache: "no-store" }).then(r => r.json()),
-    fetch("data/glossary.json" + v, { cache: "no-store" }).then(r => r.json()),
-    fetch("data/dependency.json" + v, { cache: "no-store" }).then(r => r.json()),
+    fetch("data/status.json").then(r => r.json()),
+    fetch("data/glossary.json").then(r => r.json()),
+    fetch("data/dependency.json").then(r => r.json()),
   ]);
   STATUS = s; GLOSSARY = g; DEPS = d;
   CRIT_SET = new Set((STATUS.critical_path || []).map(c => c.name));
