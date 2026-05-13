@@ -1,0 +1,248 @@
+\chapter{BEDC GroundCompiler module audit map}
+\label{ch:bedc-groundcompiler-audit-map}
+
+\section{The setup}
+\label{sec:bedc-groundcompiler-audit-map-setup}
+
+\texttt{BEDC.GroundCompiler} is the main Lean formalisation of the BEDC
+self-compilation path. It is parallel to \texttt{BEDC.MetaCIC} in project
+role, but not in subject matter. \texttt{BEDC.MetaCIC} formalises a closed CIC
+substrate: terms, reduction, typing-adjacent interfaces, and the consistency
+critical path. \texttt{BEDC.GroundCompiler} formalises the self-compile
+surface: event flows, source channels, generated recognizers, certificate
+gates, address analysis, cannot-claim ledgers, and streaming compiler
+discipline.
+
+The audit question is therefore different from the MetaCIC audit maps in
+\autoref{ch:audit-map-family-methodology}. The local issue is not whether CIC
+reduction has a global confluence or preservation theorem. The local issue is
+whether a compiler-facing artifact is allowed to count as a BEDC input,
+whether a displayed code channel is lossless at the event-flow layer, whether
+generated recognizers and certificate gates mediate exports, and whether
+reports or motifs can silently replace proof or certificate evidence.
+
+This chapter records the GroundCompiler module as an audit map. It is an
+inventory site. It cites checked Lean targets as variants, separates Prop
+statement cells from their proof theorems, names the open cells, and states
+the boundary of the self-compilation claim.
+
+\section{Submodule inventory}
+\label{sec:bedc-groundcompiler-audit-map-submodule-inventory}
+
+The GroundCompiler directory contains the following Lean sibling files.
+
+\begin{center}
+\begin{tabular}{p{0.31\linewidth}p{0.56\linewidth}}
+\textbf{File group} & \textbf{Audit role} \\
+\hline
+\texttt{EventFlow}, \texttt{SourceChannel}, \texttt{ChannelEncoding},
+\texttt{SourceNormalizer} &
+raw event-flow surface, source/channel separation, legal stream encoding, and
+normal-address discipline \\
+\texttt{PackageGenerated}, \texttt{NameCertGenerated},
+\texttt{DerivCertGenerated}, \texttt{TheoremGenerated},
+\texttt{ChapterFlow}, \texttt{ChapterManuscript} &
+generated package, name-certificate, derivation-certificate, theorem, and
+chapter recognizer layers \\
+\texttt{RecognizerFlows}, \texttt{SemanticMotif},
+\texttt{MotifReportPrototype}, \texttt{MotifReportCounts} &
+recognition evidence, motif occurrence, motif report structure, and
+non-evidence boundaries \\
+\texttt{MetricsFlow}, \texttt{MetricsP4Pipeline},
+\texttt{MetricsP4Adequacy}, \texttt{AnalysisPipeline} &
+metric reports, P4 adequacy surfaces, analysis stages, and report
+conservativity \\
+\texttt{SelfHostingCompilerFlow}, \texttt{SelfHostingLadder},
+\texttt{SelfHostingReports} &
+self-hosting compiler candidates, hierarchy coverage, bootstrap boundaries,
+and reporting layers \\
+\texttt{ImplementationInterface}, \texttt{ImplementationAdequacy},
+\texttt{ProgrammaticRealization}, \texttt{MinimalPrototype} &
+implementation-facing interfaces, adequacy wrappers, and prototype witnesses \\
+\texttt{CaseStudies}, \texttt{HigherCaseStudies},
+\texttt{PackageNameCertPrototype}, \texttt{TheoremProofPrototype},
+\texttt{DerivCertReports}, \texttt{SourceReport} &
+case-study and report surfaces used to calibrate what evidence may and may not
+license \\
+\texttt{MainTheorems} &
+top-level compiler audit statements and theorem wrappers over the checked
+submodules \\
+\end{tabular}
+\end{center}
+
+This split mirrors the methodology of the MetaCIC audit maps, but the exported
+facts are compiler-layer facts. The file tree is not a single theorem with
+hidden premises. It is a ledger of what the self-compilation path may treat as
+input, output, recognition evidence, certificate evidence, metric evidence,
+and explicit non-evidence.
+
+\section{Core statement defs}
+\label{sec:bedc-groundcompiler-audit-map-core-statement-defs}
+
+\texttt{MainTheorems.lean} exposes three top-level Prop statement cells.
+
+\begin{itemize}
+\item \leanvariant{BEDC.GroundCompiler.MainTheorems.GlobalConservativityStatement}
+records event-flow conservativity, legal encoding of flow images, exclusion of
+structural hidden inputs, metric conservativity, and the non-input status of
+host package, name-certificate, derivation-certificate, and closure-certificate
+data. It is paired with
+\leanvariant{BEDC.GroundCompiler.MainTheorems.global\_conservativity}.
+\item \leanvariant{BEDC.GroundCompiler.MainTheorems.CompilerLayerAddressAnalysisStatement}
+records channel round-trip, legal-stream completeness, code-not-proof,
+metric-not-certificate, and global conservativity content. It is paired with
+\leanvariant{BEDC.GroundCompiler.MainTheorems.compiler\_layer\_address\_analysis\_layer}.
+\item \leanvariant{BEDC.GroundCompiler.MainTheorems.NoHiddenInputStreamingCompilerStatement}
+records the streaming compiler surface: formal event-flow inputs, legal
+encoding and decoding, hidden host-structure exclusion, recognizer
+generatedness, certificate-mediated export, theorem-code and chapter-code
+bijections, classifier quotient limits, source-channel separation, metric
+conservativity, self-hosting removal of hidden compiler input, visible
+bootstrap boundary, and global conservativity. It is paired with
+\leanvariant{BEDC.GroundCompiler.MainTheorems.no\_hidden\_input\_streaming\_compiler}.
+\end{itemize}
+
+The important audit distinction is that these are not statement-only names
+covered by a vacuous theorem. Each Prop cell above has a companion theorem
+whose conclusion is the cell itself. The proof terms compose existing
+GroundCompiler lemmas and definitions. Thus the statement defs act as named
+aggregate interfaces, while the theorem names are the checked aggregate
+witnesses.
+
+Within the inspected top-level file, there is no unpaired
+\texttt{*Statement} Prop cell of the kind that would have to be cited only as a
+paper-side target. GroundCompiler still has many lower-layer definitions and
+interfaces, but the three named aggregate statements above are theorem-paired
+inside \texttt{MainTheorems.lean}.
+
+\section{Established theorems}
+\label{sec:bedc-groundcompiler-audit-map-established-theorems}
+
+The checked GroundCompiler surface has several core theorem families.
+
+\begin{itemize}
+\item The no-hidden-input and channel facts establish that structural hidden
+compiler data do not become formal input and that legal event-flow encoding is
+lossless at the channel layer:
+\leanvariant{BEDC.GroundCompiler.MainTheorems.no\_hidden\_input}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.channel\_bijection}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.channel\_code\_lossless}.
+\item The code/proof and source/channel facts prevent readable code,
+substrings, and source-carry transformations from being promoted into theorem
+or event evidence:
+\leanvariant{BEDC.GroundCompiler.MainTheorems.code\_not\_proof}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.source\_channel\_separation}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.carry\_not\_channel\_rewrite}.
+\item The generated-structure and recognizer facts keep packages,
+certificates, chapters, theorem identifiers, manifests, and host encodings
+outside the formal compiler input set unless mediated by generated recognition
+evidence:
+\leanvariant{BEDC.GroundCompiler.MainTheorems.structure\_emergence}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.recognizer\_generatedness}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.accepted\_export}.
+\item The theorem-code and chapter-code layers establish canonical code
+round-trips while refusing to identify proposition text with proof evidence or
+chapter topic with chapter code:
+\leanvariant{BEDC.GroundCompiler.MainTheorems.theorem\_code\_bijection}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.theorem\_code\_not\_proof}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.chapter\_code\_bijection}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.topic\_not\_chapter\_code}.
+\item The classifier, metric, motif, and bootstrap layers record the local
+limits of address analysis and reporting:
+\leanvariant{BEDC.GroundCompiler.MainTheorems.classifier\_quotient\_many\_to\_one}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.normal\_address\_requires\_ledger}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.metric\_conservativity}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.similarity\_not\_identity}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.declared\_bootstrap\_boundary}.
+\item The top-level aggregate theorems package the module-facing reading:
+\leanvariant{BEDC.GroundCompiler.MainTheorems.global\_conservativity}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.compiler\_layer\_address\_analysis\_layer}
+\leanvariant{BEDC.GroundCompiler.MainTheorems.no\_hidden\_input\_streaming\_compiler}.
+\end{itemize}
+
+These theorems make GroundCompiler a checked self-compilation audit layer. They
+do not make the compiler a source of new mathematical axioms. They show which
+event-flow, code, recognizer, certificate, metric, motif, and bootstrap claims
+are licensed inside the displayed compiler substrate.
+
+\concretizedIn{ch:concrete-instances-groundcompilereventflowaudit-namecert}{GroundCompiler event-flow audit packets make the lossless source/channel and no-hidden-input boundary a concrete NameCert surface.}
+
+\section{Relation to MetaCIC}
+\label{sec:bedc-groundcompiler-audit-map-relation-to-metacic}
+
+GroundCompiler and MetaCIC cooperate, but their audit maps must remain
+separate. GroundCompiler executes the BEDC self-compile route from source-like
+event flows to generated recognizers, code ledgers, certificate gates, and
+cannot-claim rows. MetaCIC formalises the closed CIC substrate in which
+reduction, normalisation, confluence, and consistency boundaries are studied.
+
+The relation is therefore complementary. GroundCompiler can say that a
+compiler-facing artifact is generated, encoded, decoded, ledgered, or excluded
+as a hidden input. MetaCIC can say that a closed term, reduction path, or
+candidate-mediated normalisation route has a particular meta-theoretic status.
+Neither side replaces the other. A GroundCompiler theorem about code not being
+proof is not a MetaCIC subject-reduction theorem. A MetaCIC confluence bridge
+is not a GroundCompiler certificate gate.
+
+This separation is the same discipline used by the audit-map family: each map
+exports its own local content and names its own frontier. Cross-reference is
+allowed; substitution of one module's theorem for another module's missing
+edge is not.
+
+\section{Open obligations and conditional statements}
+\label{sec:bedc-groundcompiler-audit-map-open-obligations}
+
+The visible open cells are compiler-layer cells, not closed-CIC proof cells.
+They include the distinction between self-hosting as a supplied compiler-flow
+condition and full removal of hidden compiler input; the distinction between a
+metric or motif report and certificate evidence; the distinction between a
+theorem code channel and a proof; and the distinction between a classifier
+quotient and raw event-flow identity.
+
+The theorem
+\leanvariant{BEDC.GroundCompiler.MainTheorems.self\_hosting\_removes\_hidden\_compiler}
+is conditional on a self-hosted compiler flow and hierarchy coverage. It is a
+valid route from those inputs to the no-hidden-compiler conclusion, but it does
+not assert that every candidate compiler already satisfies those inputs.
+Similarly,
+\leanvariant{BEDC.GroundCompiler.MainTheorems.cannot\_claim\_registry\_mandatory}
+requires registry adequacy before the listed cannot-claim ledger rows are
+available.
+
+Those conditions are useful precisely because they are explicit. They prevent
+the paper from reading reports as proof, motifs as mature objects, code as
+acceptance, source substrings as decoded events, or self-hosting prose as a
+discharged compiler tower.
+
+\section{Apophatic framing}
+\label{sec:bedc-groundcompiler-audit-map-apophatic-framing}
+
+The open cell for GroundCompiler is the \emph{compiler-layer evidence gap}.
+The module can check that event-flow code is legal and lossless, that hidden
+host structures are excluded from formal input, that generated recognizers
+mediate recognition evidence, and that certificate gates mediate accepted
+exports. It also says what those facts do not license.
+
+That is the apophatic role of this audit map. The chapter gives names to the
+non-claims: code is not proof, report is not evidence, motif similarity is not
+object identity, classifier quotient is not raw equality, and conditional
+self-hosting is not an unconditional compiler tower. These names prevent the
+self-compilation path from acquiring silent extra power through prose.
+
+\section{Boundary}
+\label{sec:bedc-groundcompiler-audit-map-boundary}
+
+This chapter does not solve the remaining GroundCompiler obligations. It does
+not prove that every compiler candidate is self-hosted. It does not turn metric
+reports, motif reports, theorem code, or chapter code into proof or
+certificate evidence. It does not collapse classifier equality into raw
+event-flow equality. It does not replace any MetaCIC audit map.
+
+The allowed reading is narrower and stronger: GroundCompiler supplies a
+checked compiler-layer audit surface for BEDC self-compilation, with explicit
+theorem witnesses for conservativity, address analysis, and no-hidden-input
+streaming compilation. Everything beyond that surface remains named at the
+boundary.
+
+\concretizedIn{ch:concrete-instances-groundcompilerauditverdict-namecert}{GroundCompiler verdict rows are realized as a finite NameCert packet rather than as host-side audit prose.}
+\concretizedIn{ch:concrete-instances-groundcompilerevidenceboundary-namecert}{GroundCompiler evidence boundaries are realized as finite BHist NameCert packets separating event-flow evidence, generated recognizers, compiler reports, code channels, and non-input ledgers.}
