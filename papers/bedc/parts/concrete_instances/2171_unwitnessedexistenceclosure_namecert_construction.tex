@@ -71,6 +71,42 @@ For a type-stratum consumer, project $Q$ and the classifier part of $H$. The rou
 For a proposition-stratum consumer, project $R$ and the implication part of $H$. The route selects one displayed implication direction from the bidirectional datum and composes ordinary proof functions; it never identifies propositions by an equality token. The axiom-purity boundary of \autoref{thm:unwitnessed-existence-closure-axiom-purity-boundary} then rules out any alternate oracle route.
 \end{proof}
 
+\begin{theorem}[UnwitnessedExistenceClosure replacement surface totality]
+\label{thm:unwitnessed-existence-closure-replacement-surface-totality}
+Every accepted $\UnwitnessedExistenceClosureUp$ carrier read chooses exactly one of the three displayed replacement surfaces: the term surface $T$ for positive existential data, the type surface $Q$ for quotient-facing classifier transport, or the proposition surface $R$ for implication transport. No accepted read lands in a host choice row, a host quotient row, a proposition-extensionality row, or any unlisted oracle coordinate.
+\end{theorem}
+\begin{proof}
+Project an accepted packet $U=(T,Q,R,C,S,L,H,E,P,N)$. Its consumer-facing logical rows are precisely $T$, $Q$, and $R$, while $C$, $S$, $L$, $H$, $E$, $P$, and $N$ only classify, transport, record non-export, route handoff, or store provenance for those rows.
+
+A term request is therefore read from $T$ and the term component of $H$. A quotient or classifier request is read from $Q$ together with $C$ and $S$. A proposition request is read from $R$ and the proposition component of $H$.
+
+The axiom-purity boundary of \autoref{thm:unwitnessed-existence-closure-axiom-purity-boundary} removes every alternate row named by $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. Thus the three displayed replacement surfaces are total for accepted reads and exclusive of host-oracle surfaces.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure stability transport]
+\label{thm:unwitnessed-existence-closure-stability-transport}
+Componentwise $\hsame$ and $\Cont$ transport of an accepted $\UnwitnessedExistenceClosureUp$ packet preserves the term, type, and proposition replacement strata $T,Q,R$, the classifier row $C$, the stability row $S$, the ledger row $L$, the handoff row $H$, and the provenance rows $E,P,N$.
+\end{theorem}
+\begin{proof}
+Use the displayed transport routes stored in $E$. They move each visible carrier coordinate componentwise, so the transported packet has corresponding rows $T,Q,R,C,S,L,H,E,P,N$ with the same row roles.
+
+The classifier row $C$ is preserved because it compares only the transported replacement strata. The stability row $S$ is preserved because its content is exactly the componentwise $\hsame$ and $\Cont$ closure condition for those strata.
+
+The ledger and handoff rows are transported as ledger and handoff rows, not recomputed through host principles. The provenance rows $E,P,N$ record the same finite route, package, and local naming evidence after transport, so no displayed obligation row is lost.
+\end{proof}
+
+\begin{theorem}[UnwitnessedExistenceClosure ledger handoff exhaustion]
+\label{thm:unwitnessed-existence-closure-ledger-handoff-exhaustion}
+The axiom-purity ledger row $L$ and the handoff row $H$ exhaust all downstream reads of an accepted $\UnwitnessedExistenceClosureUp$ packet through the explicit replacement-choice, replacement-quotient, and replacement-propext surfaces. A downstream consumer has no further route to an unwitnessed existential result, a quotient selector, or a proposition equality token.
+\end{theorem}
+\begin{proof}
+Begin with the effective handoff of \autoref{thm:unwitnessed-existence-closure-effective-replacement-handoff}. It sends each downstream consumer to the term recipe, the explicit classifier transport, or the selected implication map.
+
+The ledger row $L$ then blocks the three forbidden exits. It names $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$ only as non-exportable boundaries, and the carrier contains no coordinate storing their host-level outputs.
+
+Combining $H$ with $L$ accounts for every consumer-visible logical read. The remaining rows classify, stabilize, transport, package, or name the same replacement data, so they cannot create an additional downstream oracle route.
+\end{proof}
+
 \begin{theorem}[UnwitnessedExistenceClosure term replacement route]
 \label{thm:unwitnessed-existence-closure-term-replacement-route}
 Let $U=(T,Q,R,C,S,L,H,E,P,N)$ be an accepted $\UnwitnessedExistenceClosureUp$ packet. Every term-stratum read that asks for positive existential data is routed through the displayed row $T$, the handoff row $H$, and the replacement-choice surface of \autoref{def:three-axioms-replacement-choice}. The accepted packet therefore exposes a finite witness recipe and its membership evidence, not a global choice function and not an unwitnessed existential result.
