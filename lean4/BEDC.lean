@@ -85,6 +85,7 @@ import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.PolicyUp
@@ -152,6 +153,7 @@ import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
+import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.SupplySocketLedgerUp.TasteGate
@@ -395,6 +397,7 @@ import BEDC.Derived.PicardContractionUp
 import BEDC.Derived.PicardContractionUp.PublicExports
 import BEDC.Derived.PicardContractionUp.PublicIterateLedger
 import BEDC.Derived.PicardContractionUp.RootModulusConsumerLock
+import BEDC.Derived.PicardContractionUp.SourceWindow
 import BEDC.Derived.PicardContractionUp.RootSourceWindowHandoff
 import BEDC.Derived.PicardContractionUp.SourceReadback
 import BEDC.Derived.PolePlacementUp

@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\SubjectReductionObligationUp$}
+\label{ch:concrete-instances-subjectreductionobligation-namecert}
+\origin{human}
+
+The $\SubjectReductionObligationUp$ packet realizes the four MetaCIC subject-reduction discharge obligations of \autoref{ch:metacic-subject-reduction-obstruction} as a finite BEDC naming surface. It is downstream of the subject-reduction carrier of \autoref{ch:concrete-instances-subjectreduction-namecert}, the type-classifier membership route of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, and the continuation-trace packet of \autoref{ch:concrete-instances-continuationtrace-namecert}. Its role is to name the obligation packet that a subject-reduction consumer must supply; it does not turn the blocked closed subject-reduction statement of \autoref{prin:metacic-closed-subject-reduction-not-available} into a theorem.
+
+\begin{definition}[SubjectReductionObligation carrier]
+\label{def:subject-reduction-obligation-carrier}
+A $\SubjectReductionObligationUp$ carrier is a finite $\BHist$ packet
+$$
+O=(B,A,L,I,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\mathrm{BetaSubstitutionPreservation}$ row of \autoref{def:metacic-beta-substitution-preservation};
+\item $A$ is the $\mathrm{AppArgTypeStable}$ row of \autoref{def:metacic-app-arg-type-stable};
+\item $L$ is the $\mathrm{LamDomainSubjectReduction}$ row of \autoref{def:metacic-lam-domain-subject-reduction};
+\item $I$ is the $\mathrm{PiDomainSubjectReduction}$ row of \autoref{def:metacic-pi-domain-subject-reduction};
+\item $T$ is the parameterized MetaCIC subject-reduction consumption row, read only as a row that consumes $B,A,L,I$;
+\item $H$ records componentwise $\hsame$ transports for the four obligation rows, the consumption row, the route rows, provenance, and local naming row;
+\item $C$ records displayed $\Cont$ routes from subject-reduction consumers to the four obligation rows and to the parameterized consumption row;
+\item $P$ is the $\Pkg$ provenance over $\SubjectReductionUp$, $\TypeClassifierMembershipUp$, $\ContinuationTraceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SubjectReductionObligationUp}$ row.
+\end{enumerate}
+The carrier contains no closed subject-reduction theorem, no proof of any one of $B,A,L,I$, no hidden host conversion principle, no quotient equality of MetaCIC terms, and no route around the checked obstruction in \autoref{prin:metacic-closed-subject-reduction-not-available}.
+\end{definition}
+
+\begin{theorem}[SubjectReductionObligation NameCert obligations]
+\label{thm:subject-reduction-obligation-namecert-obligations}
+For the carrier of \autoref{def:subject-reduction-obligation-carrier}, the local $\NameCert_{\SubjectReductionObligationUp}$ surface consists exactly of carrier admission for
+$$
+O=(B,A,L,I,T,H,C,P,N),
+$$
+the four displayed MetaCIC discharge-obligation rows $B,A,L,I$, the parameterized consumption row $T$, componentwise $\hsame$ transport through $H$, displayed continuation reads through $C$, package provenance through $P$, and local naming through $N$.
+
+A subject-reduction consumer may cite this packet only as a finite obligation packet: $T$ consumes the four rows named in \autoref{sec:metacic-subject-reduction-four-obligations}, and the explicit obstruction of \autoref{sec:metacic-subject-reduction-explicit-obstruction} remains the answer to any request for closed subject reduction.
+\end{theorem}
+\begin{proof}
+Project the finite carrier $O$. The rows $B,A,L,I$ are precisely the four discharge slots, while $T$ is the row that records their simultaneous consumption by the parameterized subject-reduction interface.
+
+Next read the structural rows $H$ and $C$. They transport the same four rows componentwise and replay them through displayed continuation routes, so a consumer cannot replace one obligation row by an unrecorded host premise.
+
+Finally inspect $P$ and $N$. The provenance row ties the packet to the subject-reduction, type-classifier-membership, and continuation-trace chapters named above, and the local $\NameCert$ row packages no coordinate beyond the displayed carrier. Hence the NameCert surface is exactly the finite obligation packet.
+\end{proof}
+
+\begin{theorem}[SubjectReductionObligation non-escape]
+\label{thm:subject-reduction-obligation-nonescape}
+Every consumer read of an accepted $\SubjectReductionObligationUp$ packet factors through
+$$
+B,A,L,I,T,H,C,P,N.
+$$
+The consumer may read the beta-substitution, application-argument-stability, lambda-domain, and Pi-domain obligation rows, the parameterized consumption row, componentwise transports, displayed continuation routes, package provenance, and the local NameCert row. It cannot read a closed subject-reduction theorem, a proof of any one obligation, host conversion, quotient equality of MetaCIC terms, ambient reduction semantics, or an unrecorded discharge premise.
+\end{theorem}
+\begin{proof}
+Start with carrier projection. Since the accepted object is the finite packet $O$, every public read must choose one of the displayed rows.
+
+For a subject-reduction read, the only route to $T$ passes through the four obligation rows $B,A,L,I$ and their transports in $H$. The continuation row $C$ records this route as an obligation replay rather than as a closed theorem.
+
+For a closed subject-reduction request, the packet has no corresponding coordinate. The obstruction cited in \autoref{prin:metacic-closed-subject-reduction-not-available} therefore remains outside the packet as the boundary for that request, and no consumer can manufacture a closed theorem from the obligation rows alone.
+
+The provenance and local naming rows $P,N$ add only package identity and certificate identity. They do not add host conversion, quotient equality, ambient reduction semantics, or a hidden proof of any discharge row.
+\end{proof}
+
+\begin{theorem}[SubjectReductionObligation obstruction alignment]
+\label{thm:subject-reduction-obligation-obstruction-alignment}
+The $\SubjectReductionObligationUp$ packet is compatible with the explicit MetaCIC obstruction of \autoref{ch:metacic-subject-reduction-obstruction}. It exposes the four rows required by the parameterized subject-reduction theorem and preserves the negative boundary of \autoref{prin:metacic-closed-subject-reduction-not-available}: a consumer that lacks any one of $B,A,L,I$ receives an obligation packet, not a closed subject-reduction result.
+\end{theorem}
+\begin{proof}
+Read the four obligation definitions in \autoref{sec:metacic-subject-reduction-four-obligations}. They are represented one-for-one by $B,A,L,I$ in the carrier.
+
+Then read the consumption row $T$. It has no route that omits any of those four rows, because its only displayed subject-reduction inputs are the rows recorded in the same finite packet.
+
+The obstruction principle supplies the boundary for the unparameterized closed statement. Since $O$ has no closed-theorem coordinate and no hidden proof row, the accepted packet aligns with the obstruction rather than bypassing it.
+\end{proof}
+
+\closureat{SubjectReductionObligationUp}{seedStr}
+
+\begin{closurestatus}{\SubjectReductionObligationUp}
+  \constructivestory{A $\SubjectReductionObligationUp$ packet is generated from the beta-substitution, application-argument-stability, lambda-domain, and Pi-domain discharge rows, a parameterized subject-reduction consumption row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-obligation-carrier}, \autoref{thm:subject-reduction-obligation-namecert-obligations}, \autoref{thm:subject-reduction-obligation-nonescape}, and \autoref{thm:subject-reduction-obligation-obstruction-alignment} bind the finite four-obligation packet without closing the MetaCIC discharge rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, Lean verification, host conversion, quotient equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exact four-row consumption, obstruction alignment, route exhaustion, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}
