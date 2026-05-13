@@ -31,7 +31,12 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_gap $(TEST_DIR)/test_package \
                    $(TEST_DIR)/test_name_cert $(TEST_DIR)/test_settled \
                    $(TEST_DIR)/test_topology_up $(TEST_DIR)/test_fold_up \
-                   $(TEST_DIR)/test_circle_up $(TEST_DIR)/test_r110_round_trip
+                   $(TEST_DIR)/test_circle_up \
+                   $(TEST_DIR)/test_circle_up_audit \
+                   $(TEST_DIR)/test_fold_up_audit \
+                   $(TEST_DIR)/test_meta_cic_audit \
+                   $(TEST_DIR)/test_topology_up_audit \
+                   $(TEST_DIR)/test_r110_round_trip
 
 .PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-collision-audit test-scale regen-manifests clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
@@ -226,6 +231,22 @@ $(TEST_DIR)/test_circle_up: $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_ru
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -I$(TEST_DIR) -o $@ \
 	    $(TEST_DIR)/test_circle_up.c $(TEST_DIR)/manifest_runner.c \
 	    $(EVAL_DIR)/rule110.c $(EVAL_DIR)/cyclic_tag.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_circle_up_audit: $(TEST_DIR)/test_circle_up_audit.c $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_circle_up_audit.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_fold_up_audit: $(TEST_DIR)/test_fold_up_audit.c $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_fold_up_audit.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_meta_cic_audit: $(TEST_DIR)/test_meta_cic_audit.c $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_meta_cic_audit.c $(ENCODER_DIR)/groundcompiler_encoding.c
+
+$(TEST_DIR)/test_topology_up_audit: $(TEST_DIR)/test_topology_up_audit.c $(ENCODER_DIR)/groundcompiler_encoding.h
+	$(CC) $(CFLAGS) -I$(ENCODER_DIR) -o $@ \
+	    $(TEST_DIR)/test_topology_up_audit.c $(ENCODER_DIR)/groundcompiler_encoding.c
 
 $(TEST_DIR)/test_r110_round_trip: $(TEST_DIR)/test_r110_round_trip.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_decode.h $(ENCODER_DIR)/block_assembler.h $(ENCODER_DIR)/block_assembler.c $(ENCODER_DIR)/cook_blocks.h $(ENCODER_DIR)/cook_blocks.c $(ENCODER_DIR)/cook_construction.h $(ENCODER_DIR)/cook_construction.c
 	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
