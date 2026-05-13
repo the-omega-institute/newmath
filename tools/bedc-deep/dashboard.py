@@ -223,6 +223,18 @@ def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
         lines.append(f"  {label} current logic gate rejects: {top}{suffix}")
     elif stale_logic_rejections:
         lines.append(f"  {label} current logic gate rejects: none; stale={stale_logic_rejections}")
+    current_axis_reasons = data.get("current_forbidden_axis_reasons") or []
+    stale_axis_rejections = int(data.get("stale_forbidden_axis_rejections") or 0)
+    if current_axis_reasons:
+        top = ", ".join(
+            f"{r.get('reason')}={r.get('count')}" for r in current_axis_reasons[:5]
+        )
+        suffix = f"; stale={stale_axis_rejections}" if stale_axis_rejections else ""
+        lines.append(f"  {label} current forbidden-axis rejects: {top}{suffix}")
+    elif stale_axis_rejections:
+        lines.append(
+            f"  {label} current forbidden-axis rejects: none; stale={stale_axis_rejections}"
+        )
     return lines
 
 
