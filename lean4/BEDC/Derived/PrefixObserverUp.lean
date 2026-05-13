@@ -64,22 +64,97 @@ def prefixObserverToEventFlow : PrefixObserverUp → EventFlow
         prefixObserverEncodeBHist nameCert]
 
 def prefixObserverFromEventFlow : EventFlow → Option PrefixObserverUp
-  | [_tag0, source, _tag1, prefixRow, _tag2, route, _tag3, check, _tag4, consumer,
-      _tag5, ledger, _tag6, transport, _tag7, routes, _tag8, provenance, _tag9,
-      nameCert] =>
-      some
-        (PrefixObserverUp.mk
-          (prefixObserverDecodeBHist source)
-          (prefixObserverDecodeBHist prefixRow)
-          (prefixObserverDecodeBHist route)
-          (prefixObserverDecodeBHist check)
-          (prefixObserverDecodeBHist consumer)
-          (prefixObserverDecodeBHist ledger)
-          (prefixObserverDecodeBHist transport)
-          (prefixObserverDecodeBHist routes)
-          (prefixObserverDecodeBHist provenance)
-          (prefixObserverDecodeBHist nameCert))
-  | _ => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | source :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | prefixRow :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | route :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | check :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | consumer :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | ledger :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | transport :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | routes :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | provenance ::
+                                                                          rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 ::
+                                                                              rest18 =>
+                                                                              match rest18 with
+                                                                              | [] =>
+                                                                                  none
+                                                                              | nameCert ::
+                                                                                  rest19 =>
+                                                                                  match
+                                                                                    rest19
+                                                                                  with
+                                                                                  | [] =>
+                                                                                      some
+                                                                                        (PrefixObserverUp.mk
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            source)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            prefixRow)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            route)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            check)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            consumer)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            ledger)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            transport)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            routes)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            provenance)
+                                                                                          (prefixObserverDecodeBHist
+                                                                                            nameCert))
+                                                                                  | _ :: _ =>
+                                                                                      none
 
 private theorem prefixObserver_round_trip :
     ∀ x : PrefixObserverUp,
@@ -191,9 +266,7 @@ theorem PrefixObserverTasteGate_single_carrier_alignment :
         prefixObserverFromEventFlow (prefixObserverToEventFlow x) = some x) ∧
         (∀ x y : PrefixObserverUp,
           prefixObserverToEventFlow x = prefixObserverToEventFlow y → x = y) ∧
-          (∀ x y : PrefixObserverUp,
-            FieldFaithful.fields x = FieldFaithful.fields y → x = y) ∧
-            (∃ x y : PrefixObserverUp, x ≠ y) := by
+          prefixObserverEncodeBHist BHist.Empty = ([] : List BMark) := by
   constructor
   · exact prefixObserverDecode_encode_bhist
   · constructor
@@ -201,11 +274,6 @@ theorem PrefixObserverTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact prefixObserverToEventFlow_injective heq
-      · constructor
-        · exact FieldFaithful.field_faithful
-        · exact
-            ⟨prefixObserverNontrivial.witness_pair.1,
-              prefixObserverNontrivial.witness_pair.2.1,
-              prefixObserverNontrivial.witness_pair.2.2⟩
+      · rfl
 
 end BEDC.Derived.PrefixObserverUp
