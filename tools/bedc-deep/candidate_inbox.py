@@ -424,6 +424,7 @@ def stats(limit: int = 5000) -> dict[str, Any]:
     by_event: dict[str, int] = {}
     by_rejection_reason: dict[str, int] = {}
     by_logic_packet_reason: dict[str, int] = {}
+    seen_rejection_keys: set[tuple[str, str]] = set()
     for line in tail:
         try:
             rec = json.loads(line)
@@ -436,6 +437,11 @@ def stats(limit: int = 5000) -> dict[str, Any]:
         reason = str(rec.get("reason") or "").strip()
         if not reason:
             reason = "unspecified"
+        candidate_id = str(rec.get("candidate_id") or "").strip()
+        rejection_key = (candidate_id, reason) if candidate_id else (str(id(rec)), reason)
+        if rejection_key in seen_rejection_keys:
+            continue
+        seen_rejection_keys.add(rejection_key)
         by_rejection_reason[reason] = by_rejection_reason.get(reason, 0) + 1
         if reason.startswith("logic_packet_gate:"):
             payload = reason.split(":", 1)[1]
