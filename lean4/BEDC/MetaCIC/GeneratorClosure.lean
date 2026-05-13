@@ -65,4 +65,16 @@ def GeneratorClosureClassifier.union {α : Type u}
       | inl hg => exact h1.closure hg hclass
       | inr hg => exact h2.closure hg hclass }
 
+/-- Generator monotonicity: any sub-generator of a classifier-preserving generator
+    is itself classifier-preserving. -/
+def GeneratorClosureClassifier.weaken {α : Type u}
+    {Generator1 Generator2 : α → α → Prop}
+    {Classifier : α → Prop}
+    (hsub : ∀ x y, Generator1 x y → Generator2 x y)
+    (h2 : GeneratorClosureClassifier α Generator2 Classifier) :
+    GeneratorClosureClassifier α Generator1 Classifier :=
+  { closure := by
+      intro x y hgen hclass
+      exact h2.closure (hsub x y hgen) hclass }
+
 end BEDC.MetaCIC
