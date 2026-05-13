@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\SubstitutionContextAuditUp$}
+\label{ch:concrete-instances-substitutioncontextaudit-namecert}
+\origin{human}
+
+The $\SubstitutionContextAuditUp$ packet realizes the context-indexed rows of \autoref{ch:metacic-substitution-audit-map} as one finite NameCert carrier. It sits beside the binder seal of \autoref{ch:concrete-instances-bindercontextsubstitutionseal-namecert}, the closed-term boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, the beta-preservation packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, and the typed endpoint packet of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}. Its role is to keep shift, substitute, closed composition, generator closure, and subject-reduction handoff rows visible as finite context audit data without exporting an unrestricted substitution calculus.
+
+\begin{definition}[Substitution context audit carrier]
+\label{def:substitution-context-audit-carrier}
+A $\SubstitutionContextAuditUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,S,U,M,G,B,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the context row naming the source context, binder depth, and visible substitution window;
+\item $S$ is the shift row recording the context movement supplied by the substitution audit map;
+\item $U$ is the substitute row recording the context-indexed substitution readback;
+\item $M$ is the closed-composition row tying the shift and substitute reads to the same closed boundary;
+\item $G$ is the generator-closure row for the finite shift and substitution generators;
+\item $B$ is the binder-seal row read through \autoref{ch:concrete-instances-bindercontextsubstitutionseal-namecert};
+\item $E$ is the subject-reduction handoff row read through the beta-preservation and typed-normal-form boundary surfaces;
+\item $H$ records componentwise $\hsame$ transports for context rows, shift rows, substitution rows, composition rows, generator rows, binder rows, handoff rows, package rows, and local certificate rows;
+\item $K$ records the displayed $\Cont$ routes for reading the shift, substitute, closed-composition, generator-closure, binder-seal, and handoff rows;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:metacic-substitution-audit-map}, \autoref{ch:concrete-instances-bindercontextsubstitutionseal-namecert}, \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SubstitutionContextAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host substitution semantics, unrestricted substitution commutation, semantic equality of terms, closed subject reduction, or a hidden dependent-typing bridge.
+\end{definition}
+
+\begin{theorem}[Substitution context audit NameCert obligations]
+\label{thm:substitution-context-audit-namecert-obligations}
+For the carrier of \autoref{def:substitution-context-audit-carrier}, the local $\NameCert_{\SubstitutionContextAuditUp}$ surface consists exactly of carrier exposure for
+$$
+Q=(X,S,U,M,G,B,E,H,K,P,N),
+$$
+shift-row exposure, substitute-row exposure, closed-composition exposure, generator-closure exposure, binder-seal exposure, subject-reduction handoff exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and non-escape from host substitution semantics, unrestricted substitution commutation, semantic equality of terms, closed subject reduction, and hidden dependent-typing bridges.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:substitution-context-audit-carrier}. The finite packet lists exactly the rows $X,S,U,M,G,B,E,H,K,P,N$.
+
+The substitution-facing obligations are the rows $S,U,M,G$. They expose shift, substitution, closed composition, and generator closure as the context-indexed audit rows described in \autoref{ch:metacic-substitution-audit-map}.
+
+The sibling boundary obligations are the rows $B$ and $E$. The binder row reads through \autoref{ch:concrete-instances-bindercontextsubstitutionseal-namecert}, while the handoff row is bounded by \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert} and \autoref{ch:concrete-instances-typedreductionnormalform-namecert}.
+
+Transport, replay, provenance, and naming are confined to $H,K,P,N$. Since no remaining coordinate stores host substitution semantics, unrestricted commutation, semantic equality, closed subject reduction, or a dependent-typing bridge, the displayed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Substitution context audit binder route]
+\label{thm:substitution-context-audit-binder-route}
+Let $Q=(X,S,U,M,G,B,E,H,K,P,N)$ be an accepted $\SubstitutionContextAuditUp$ carrier. Every public read from the context-indexed shift and substitute rows into the binder boundary factors through the displayed context row $X$, the shift row $S$, the substitute row $U$, the closed-composition row $M$, the generator-closure row $G$, the binder-seal row $B$, and the replay route in $K$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The context source is $X$, and the substitution audit content is displayed by $S,U,M,G$.
+
+The binder-facing coordinate is $B$. Its provenance points to \autoref{ch:concrete-instances-bindercontextsubstitutionseal-namecert}, so the binder read is a sibling packet read rather than an implicit rule about all binders.
+
+The route row $K$ replays the context, substitution, closed-composition, generator, and binder reads. The componentwise transport and package rows $H$ and $P$ preserve that same finite route, so every binder-boundary access factors through the displayed rows.
+\end{proof}
+
+\begin{theorem}[Substitution context audit non-escape]
+\label{thm:substitution-context-audit-nonescape}
+Every accepted $\SubstitutionContextAuditUp$ carrier exports substitution audit information only through
+$$
+X,S,U,M,G,B,E,H,K,P,N.
+$$
+A consumer may read the context row, shift row, substitute row, closed-composition row, generator-closure row, binder-seal row, handoff row, componentwise transports, displayed continuation routes, package provenance, and local naming row. It cannot replace those rows by host substitution semantics, unrestricted substitution commutation, semantic equality of terms, closed subject reduction, or a hidden dependent-typing bridge.
+\end{theorem}
+\begin{proof}
+Begin with the packet inventory of \autoref{def:substitution-context-audit-carrier}. The rows $X,S,U,M,G$ give the context-indexed substitution audit surface.
+
+The rows $B$ and $E$ connect that audit surface to sibling packets. The binder route is bounded by \autoref{thm:substitution-context-audit-binder-route}, and the handoff row is recorded as finite packet data rather than as the closed subject-reduction theorem.
+
+The remaining rows $H,K,P,N$ transport, replay, package, and name the same finite carrier. No carrier coordinate names host substitution semantics, unrestricted commutation, semantic equality, closed subject reduction, or a hidden dependent-typing bridge, so those objects cannot be exported.
+\end{proof}
+
+\begin{theorem}[Substitution context audit ledger exactness]
+\label{thm:substitution-context-audit-ledger-exactness}
+For an accepted $\SubstitutionContextAuditUp$ carrier $Q=(X,S,U,M,G,B,E,H,K,P,N)$, the ledger exposed to downstream subject-reduction consumers is exactly the finite context audit packet over shift, substitute, closed composition, generator closure, binder seal, closed-boundary provenance, beta-preservation handoff, and typed-normal-form endpoint rows. The ledger does not identify these rows with host substitution semantics or with a closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Read the local obligations from \autoref{thm:substitution-context-audit-namecert-obligations}. They expose the carrier rows and require the shift, substitute, closed-composition, generator, binder, handoff, transport, replay, provenance, and naming surfaces to remain in one packet.
+
+The closed-boundary provenance is supplied by \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. The beta-preservation and typed endpoint rows are sibling surfaces from \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert} and \autoref{ch:concrete-instances-typedreductionnormalform-namecert}.
+
+The handoff row $E$ therefore exports a finite ledger to later subject-reduction consumers. By \autoref{thm:substitution-context-audit-nonescape}, the ledger has no route through host substitution semantics or closed subject reduction, so its exact content is the displayed packet.
+\end{proof}
+
+\closureat{SubstitutionContextAuditUp}{seedStr}
+
+\begin{closurestatus}{\SubstitutionContextAuditUp}
+  \constructivestory{A $\SubstitutionContextAuditUp$ packet is generated from a context row, shift row, substitute row, closed-composition row, generator-closure row, binder-seal row, subject-reduction handoff row, componentwise transports, continuation routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:substitution-context-audit-carrier}, \autoref{thm:substitution-context-audit-namecert-obligations}, \autoref{thm:substitution-context-audit-binder-route}, \autoref{thm:substitution-context-audit-nonescape}, and \autoref{thm:substitution-context-audit-ledger-exactness} bind the context-indexed substitution audit rows as a finite NameCert packet with sibling binder, closed-boundary, beta-preservation, and typed-normal-form handoff surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host substitution semantics, unrestricted substitution commutation, semantic equality of terms, closed subject reduction, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shift and substitute row exposure, closed-composition exactness, generator-closure exactness, binder-route replay, handoff ledger exactness, and non-escape for the same finite packet.}
+\end{closurestatus}
