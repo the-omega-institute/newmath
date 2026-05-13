@@ -201,6 +201,22 @@ only through the carried source distance, graph, rational bound, and visible
 certificate rows.
 \end{proof}
 
+\begin{theorem}[LipschitzMap public modulus export]
+\label{thm:lipschitz-map-public-modulus-export}
+For an accepted $\LipschitzMapUp$ packet
+$$
+L=(X,Y,B,G,M,H,C,P,N),
+$$
+the public $\UniformModulusUp$ row exported to any consumer is exactly $M$. It is induced from the rational $\RealUp$ bound ledger $B$ through the graph row $G$ and the source $\MetricSpaceUp$ row $X$. No consumer may replace $M$ by a host function modulus, a quotient of maps, or a target-space completeness principle.
+\end{theorem}
+\begin{proof}
+First read the packet rows from \autoref{thm:lipschitz-map-namecert-obligations}. The accepted carrier exposes $X,Y,B,G,M,H,C,P,N$ as the complete Lipschitz naming surface.
+
+Next apply bound transport from \autoref{thm:lipschitz-map-bound-transport}. The rational ledger $B$, graph row $G$, and induced modulus row $M$ are transported as displayed rows of the same packet, so a consumer cannot detach the modulus from its source metric and graph evidence.
+
+Finally use \autoref{thm:lipschitz-map-uniform-modulus-consumer-handoff}. The handoff routes every $\UniformModulusUp$ read through $X,G,B,M,H,C,P,N$, hence the public row exported to the consumer is the carried row $M$ and no host modulus, map quotient, or completeness principle is available.
+\end{proof}
+
 \begin{theorem}[LipschitzMap bound transport]
 \label{thm:lipschitz-map-bound-transport}
 Let
