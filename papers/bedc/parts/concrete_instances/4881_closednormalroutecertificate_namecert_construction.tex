@@ -38,6 +38,18 @@ The positive endpoint is $M$. The rows $E$ and $K$ supply the already-normal fal
 The structural rows $H,C,P,N$ transport, replay, package, and name only this route surface. Since no coordinate supplies closed subject reduction, unrestricted normalization, quotient proof conversion, host evaluation, or ambient consistency, the accepted packet certifies only the closed-normal endpoint route displayed by $R$.
 \end{proof}
 
+\begin{theorem}[Closed-normal route certificate nontrivial witness obligation]
+\label{thm:closed-normal-route-certificate-nontrivial-witness-obligation}
+The $\ClosedNormalRouteCertificateUp$ carrier has two visibly distinct packets: the packet whose rows $M,E,O,K,R,H,C,P,N$ are all $\emp$, and the packet whose first coordinate $M$ is $\mathsf{e0}(\emp)$ while $E,O,K,R,H,C,P,N$ remain $\emp$. The classifier and field-faithful readback must distinguish these packets through the first coordinate. This is the paper obligation consumed by the Lean follow-up \texttt{instance : Nontrivial ClosedNormalRouteCertificateUp}.
+\end{theorem}
+\begin{proof}
+Display the two finite tuples. They agree on $E,O,K,R,H,C,P,N$ and differ only at the first coordinate, where one tuple has $\emp$ and the other has $\mathsf{e0}(\emp)$.
+
+Constructor no-confusion for the finite tuple reduces equality of packets to equality of their displayed coordinates. The first-coordinate comparison would require the empty history constructor to coincide with the nonempty $\mathsf{e0}$ constructor, which is refused by the displayed history constructors.
+
+The classifier reads packets componentwise, so it cannot identify the two tuples while preserving the first coordinate. Field-faithful readback records the same first-coordinate distinction at the TasteGate-facing surface, giving the required non-vacuity witness for the later Lean instance.
+\end{proof}
+
 \closureat{ClosedNormalRouteCertificateUp}{seedStr}
 
 \begin{closurestatus}{\ClosedNormalRouteCertificateUp}

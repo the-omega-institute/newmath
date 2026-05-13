@@ -4,6 +4,8 @@
 
 The $\TransferOperatorUp$ packet is a BEDC-native finite certificate surface. It records the finite-window transfer-matrix reading of golden-mean paths as visible $\BHist$ rows, with no ambient Banach space, no analytic spectrum, and no imported external theorem.
 
+The packet consumes the finite symbolic source lattice of \autoref{ch:concrete-instances-golden-mean-shift-namecert}, \autoref{ch:concrete-instances-subshift-finite-type-namecert}, and \autoref{ch:concrete-instances-fibonaccicube-namecert}. $\GoldenMeanShiftUp$ supplies the no-adjacent-one window row, $\SubshiftOfFiniteTypeUp$ supplies the forbidden-pair classifier, and $\FibonacciCubeUp$ supplies the finite path-support row read by every accepted transfer-matrix entry.
+
 \begin{definition}[Transfer operator carrier]
 \label{def:transfer-operator-carrier}
 A $\TransferOperatorUp$ carrier is a finite $\BHist$ packet
@@ -46,6 +48,20 @@ Matrix-entry exactness projects $M$. An entry is accepted only when its source r
 Readback stability then projects $C$. Each route records where the matrix entry was read from, so returning along the route recovers the finite golden-mean window, the subshift forbidden-pair decision, and the Fibonacci-cube support row used by that entry.
 
 Non-escape follows from the carrier definition. Since no coordinate names an analytic operator, infinite spectrum, topological carrier, or external theorem, downstream consumers can cite only the finite rows and their recorded routes.
+\end{proof}
+
+\begin{theorem}[Transfer operator symbolic source lattice]
+\label{thm:transfer-operator-symbolic-source-lattice}
+Every accepted transfer-matrix entry of a $\TransferOperatorUp$ packet factors through the symbolic source lattice formed by the $\GoldenMeanShiftUp$ no-adjacent-one window row, the $\SubshiftOfFiniteTypeUp$ forbidden-pair classifier row, and the $\FibonacciCubeUp$ finite path-support row before it reaches the local matrix ledger $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier $T=(A,G,S,F,M,R,C,P,N)$. The matrix row $M$ is not an independent source coordinate; by \autoref{def:transfer-operator-carrier}, it is read only from the displayed adjacency row together with the support rows $G,S,F$.
+
+The row $G$ supplies the accepted golden-mean window, so an entry whose source-target pair is one-one has no route into $M$. The row $S$ supplies the finite forbidden-pair classifier, so the same acceptance decision is visible as a subshift row rather than as an external symbolic-dynamics theorem.
+
+The row $F$ supplies the finite path-support witness. Combining $G,S,F$ gives the complete symbolic source lattice for an accepted entry, and the continuation row $C$ records the route from that lattice into the local matrix ledger.
+
+Thus every accepted matrix entry factors through those three sibling rows before it can be read as a row of $M$. Since no coordinate bypasses $G,S,F$, the packet has no kernel-only matrix entry disconnected from its finite symbolic source.
 \end{proof}
 
 \begin{theorem}[Transfer operator golden-mean matrix boundary]
