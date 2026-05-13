@@ -185,12 +185,45 @@ Use \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary} to make $E$ 
 Finally apply \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, and \autoref{thm:regular-cauchy-selector-budget-verification-handoff}. The handoff surface is exhausted by the displayed packet, so RealCompleteness receives no additional completion principle or hidden real object from this chapter.
 \end{proof}
 
+\begin{definition}[RegularCauchySelectorBudget tail-precision source]
+\label{def:regular-cauchy-selector-budget-tail-precision-source}
+The tail-precision source of an accepted $\RegularCauchySelectorBudgetUp$ carrier is the finite row package
+$$
+\mathsf{TailPrec}(Q)=(\mu,W,S,R,D,E,H,C,P,N)
+$$
+where $\mu$ is the selector-modulus row, $W$ is the selected finite window budget, $S$ is the StreamName observation family, $R$ is the $\RegSeqRatUp$ witness row, $D$ is the $\DyadicRatCoreUp$ tolerance row requested by the tail consumer, $E$ is the $\RealUp$ seal, $H$ records componentwise $\hsame$ transports, $C$ records displayed $\Cont$ routes, $P$ records $\Pkg$ provenance, and $N$ is the local $\NameCert$ source.
+\end{definition}
+
+\begin{theorem}[RegularCauchySelectorBudget tail budget totality]
+\label{thm:regular-cauchy-selector-budget-tail-budget-totality}
+Every accepted $\RegularCauchySelectorBudgetUp$ packet exposes the requested tail precision and its selected finite window through the rows of \autoref{def:regular-cauchy-selector-budget-tail-precision-source}. A tail consumer may read the $\DyadicRatCoreUp$ tolerance row $D$, the selector modulus $\mu$, and the finite budget $W$, and may assemble the corresponding StreamName and $\RegSeqRatUp$ evidence only through $S,R,H,C,P,N$ before reaching the $\RealUp$ seal $E$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and its tail-precision source. The rows $\mu,W,D$ display the requested precision interface: $D$ names the tolerance row, $\mu$ names the selector modulus, and $W$ names the finite window selected for that tolerance.
+
+Use \autoref{thm:regular-cauchy-selector-budget-window-coverage}. It confines every StreamName observation in $S$ to the finite window budget $W$ selected by $\mu$.
+
+Use \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff} and \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}. The witness row $R$ and seal row $E$ are downstream of the same finite route, while $H,C,P,N$ provide transport, continuation, provenance, and local naming for the displayed precision source.
+\end{proof}
+
+\begin{theorem}[RegularCauchySelectorBudget precision-window non-escape]
+\label{thm:regular-cauchy-selector-budget-precision-window-nonescape}
+No $\RealUp$ consumer reading \autoref{def:regular-cauchy-selector-budget-tail-precision-source} can recover quotient streams, host equality of regular sequences, chosen limits, infinite tails, or ambient completeness. The packet exposes only the tolerance row $D$, selector modulus $\mu$, finite window budget $W$, StreamName observations $S$, $\RegSeqRatUp$ witness $R$, $\RealUp$ seal $E$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:regular-cauchy-selector-budget-tail-precision-source}. The listed rows are the whole tail-precision source, and none is a quotient stream, host equality proof, chosen limit, infinite tail, or ambient completeness object.
+
+Apply \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}. It makes every precision read pass through $D,\mu,W,S,R,E,H,C,P,N$ and keeps the selected observation window finite.
+
+Finally apply \autoref{thm:regular-cauchy-selector-budget-nonescape} and \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}. These boundaries already exclude quotient streams, host-selected limits, hidden window enlargement, and completion principles from the selector-budget packet, so the tail-precision source exports no stronger RealUp data.
+\end{proof}
+
 \closureat{RegularCauchySelectorBudgetUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchySelectorBudgetUp}
   \constructivestory{A $\RegularCauchySelectorBudgetUp$ packet is generated from a selector modulus, finite window budget, StreamName observation rows, a RegSeqRat witness, a RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, \autoref{thm:regular-cauchy-selector-budget-formal-target-surface}, \autoref{thm:regular-cauchy-selector-budget-verification-handoff}, \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-selector-compatibility}, and \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff} bind the finite selector-budget carrier and its local NameCert obligation surface.}
+  \scopeclosed{\autoref{def:regular-cauchy-selector-budget-carrier}, \autoref{thm:regular-cauchy-selector-budget-namecert-obligations}, \autoref{thm:regular-cauchy-selector-budget-window-coverage}, \autoref{thm:regular-cauchy-selector-budget-regseqrat-handoff}, \autoref{thm:regular-cauchy-selector-budget-real-seal-boundary}, \autoref{thm:regular-cauchy-selector-budget-nonescape}, \autoref{thm:regular-cauchy-selector-budget-obligation-closure}, \autoref{thm:regular-cauchy-selector-budget-formal-target-surface}, \autoref{thm:regular-cauchy-selector-budget-verification-handoff}, \autoref{thm:regular-cauchy-selector-budget-consumer-exactness}, \autoref{thm:regular-cauchy-selector-budget-tail-selector-compatibility}, \autoref{thm:regular-cauchy-selector-budget-real-completeness-handoff}, \autoref{def:regular-cauchy-selector-budget-tail-precision-source}, \autoref{thm:regular-cauchy-selector-budget-tail-budget-totality}, and \autoref{thm:regular-cauchy-selector-budget-precision-window-nonescape} bind the finite selector-budget carrier and its local NameCert obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
