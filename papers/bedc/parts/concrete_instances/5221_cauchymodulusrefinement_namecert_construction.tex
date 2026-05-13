@@ -65,3 +65,16 @@ If a packet presents the same seal row but omits the shared meet row, its displa
 \end{proof}
 
 The closest siblings are $\CauchyModulusComparisonUp$, $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, and $\RegularCauchyLimitTransportUp$. The packet is composite because it consumes their rows as coordinates rather than presenting an atomic independent carrier. A later Lean TasteGate module should still provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over the packet fields, since the finite carrier separates the comparison, meet, witness, budget, window, ledger, seal, transport, route, provenance, and local certificate coordinates.
+
+\closureat{CauchyModulusRefinementUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusRefinementUp}
+  \constructivestory{A $\CauchyModulusRefinementUp$ packet is generated from two source modulus schedules, a shared meet row, a refinement witness, a selector-budget row, selected finite windows, tolerance and readback ledgers, a $\RealUp$ seal, displayed transports, continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-refinement-carrier}, \autoref{thm:cauchy-modulus-refinement-namecert-obligations}, and \autoref{thm:cauchy-modulus-refinement-nonescape} bind the carrier, NameCert obligations, and non-escape theorem for the refinement route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close classifier stability in Lean, modulus exactness, a mature consumer bridge, quotient-stream completion, selected host limits, host real equality, or ambient completeness.}
+  \upgradepath{Obligation closure requires carrier, classifier, stability, exactness, and ledger rows for the refinement route.}
+\end{closurestatus}
