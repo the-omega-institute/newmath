@@ -98,4 +98,24 @@ theorem FiniteNetMinimumFoldPacket_nonempty_probe_exhaustion [AskSetup] [Package
     ⟨bundleRowUnary, radiusUnary, accumulatorUnary, consumedUnary, bundleRadiusConsumed,
       consumedAccumulatorLower, provenancePkg⟩
 
+theorem FiniteNetMinimumFoldPacket_lower_bound_certificate [AskSetup] [PackageSetup]
+    {bundleRow radius accumulator lower transport route provenance nameRow lowerExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteNetMinimumFoldPacket bundleRow radius accumulator lower transport route provenance
+        nameRow bundle pkg →
+      Cont accumulator lower lowerExport →
+        PkgSig bundle lowerExport pkg →
+          UnaryHistory accumulator ∧ UnaryHistory lower ∧ UnaryHistory lowerExport ∧
+            Cont accumulator lower lowerExport ∧ PkgSig bundle lowerExport pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg
+  intro packet accumulatorLowerExport lowerExportPkg
+  obtain ⟨_bundleRowUnary, _radiusUnary, accumulatorUnary, lowerUnary, _nameRowUnary,
+    _bundleRadiusAccumulator, _accumulatorLowerTransport, _transportNameProvenance,
+    _bundleRadiusTransport, _transportAccumulatorLower, _lowerRouteProvenance,
+    _provenancePkg⟩ := packet
+  have lowerExportUnary : UnaryHistory lowerExport :=
+    unary_cont_closed accumulatorUnary lowerUnary accumulatorLowerExport
+  exact
+    ⟨accumulatorUnary, lowerUnary, lowerExportUnary, accumulatorLowerExport, lowerExportPkg⟩
+
 end BEDC.Derived.FiniteNetMinimumFoldUp
