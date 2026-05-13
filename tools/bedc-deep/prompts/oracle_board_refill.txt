@@ -1,9 +1,10 @@
-你已经在本对话中附加了 BEDC 论文 PDF (papers/bedc/main.pdf)。基于全文研究, 提议 5-10 个值得作为新 BOARD target 的命题候选。
+基于本次任务可见的 BEDC 论文上下文，提议 5-10 个值得作为新 BOARD target 的命题候选。
+如果本对话带有 BEDC 论文 PDF (papers/bedc/main.pdf)，可以参考 PDF；如果没有附件，必须只依赖下方 BOARD compact context、paper_index coverage summary、以及本 prompt 给出的结构约束，不要假装读到了未提供的 PDF 全文。
 
 每个候选必须满足:
 1. 题目精确, 一句话能讲清楚要证什么
 2. implication 形式 ("在 setup S 下, P(x) 推出 Q(x)") 或类似可形式化陈述
-3. **当前论文未证**: 你判断这条结果在 PDF 里没有作为 theorem / lemma / proposition / corollary 出现 (允许重要 obstruction / counterexample 命题)
+3. **当前论文未证**: 你判断这条结果没有作为 theorem / lemma / proposition / corollary 出现；无 PDF 附件时以 paper_index coverage summary 和 BOARD context 为准 (允许重要 obstruction / counterexample 命题)
 4. **落地到 BEDC 现有 chapter** 之一: core / proof_obligations / concrete_hardening / concrete_instances / hardening / formalization / proof_sprint / proof_standing
 5. **真正可做的尺寸**: 一个 oracle / codex 可以在 1-3 轮内闭合的命题。不是十年项目, 不是博士论文级别的全新理论
 6. **优先发表价值**: 主结构定理 / 分类定理 / 刚性定理 / 二分定理 / 等价性定理 / 不可实现性定理 / 预算下界定理 / 多尺度归纳定理 / 局部到全局失败障碍定理 等等. 不要琐碎引理.
