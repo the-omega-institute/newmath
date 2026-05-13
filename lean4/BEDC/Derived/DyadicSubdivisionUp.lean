@@ -276,6 +276,72 @@ theorem DyadicSubdivisionPacket_refinement_composition [AskSetup] [PackageSetup]
     ⟨second.left, hsame_trans first.right.left second.right.left,
       hsame_trans first.right.right second.right.right⟩
 
+theorem DyadicSubdivisionSource_validated_enclosure_public_export [AskSetup] [PackageSetup]
+    {parent level cells mesh validated provenance name enclosureRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicSubdivisionSource parent level cells mesh validated provenance name bundle pkg ->
+      Cont validated name enclosureRead ->
+        Cont enclosureRead provenance consumerRead ->
+          PkgSig bundle enclosureRead pkg ->
+            PkgSig bundle consumerRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    DyadicSubdivisionSource parent level cells mesh validated provenance name
+                        bundle pkg ∧
+                      hsame row validated)
+                  (fun row : BHist =>
+                    DyadicSubdivisionSource parent level cells mesh validated provenance name
+                        bundle pkg ∧
+                      hsame row validated)
+                  (fun row : BHist =>
+                    DyadicSubdivisionSource parent level cells mesh validated provenance name
+                        bundle pkg ∧
+                      hsame row validated)
+                  hsame ∧
+                UnaryHistory parent ∧
+                UnaryHistory level ∧
+                UnaryHistory cells ∧
+                UnaryHistory mesh ∧
+                UnaryHistory validated ∧
+                UnaryHistory enclosureRead ∧
+                UnaryHistory consumerRead ∧
+                Cont parent level cells ∧
+                Cont cells mesh validated ∧
+                Cont validated name enclosureRead ∧
+                Cont enclosureRead provenance consumerRead ∧
+                PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg ∧
+                PkgSig bundle enclosureRead pkg ∧
+                PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro source validatedNameEnclosure enclosureProvenanceConsumer enclosurePkg consumerPkg
+  have certSurface :=
+    DyadicSubdivisionSource_namecert_obligations source
+  obtain ⟨parentUnary, levelUnary, cellsUnary, meshUnary, validatedUnary,
+    provenanceUnary, _nameUnary, parentLevelCells, cellsMeshValidated,
+    _validatedProvenanceName, provenancePkg, namePkg⟩ := source
+  have enclosureUnary : UnaryHistory enclosureRead :=
+    unary_cont_closed validatedUnary _nameUnary validatedNameEnclosure
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed enclosureUnary provenanceUnary enclosureProvenanceConsumer
+  exact
+    ⟨certSurface,
+      parentUnary,
+      levelUnary,
+      cellsUnary,
+      meshUnary,
+      validatedUnary,
+      enclosureUnary,
+      consumerUnary,
+      parentLevelCells,
+      cellsMeshValidated,
+      validatedNameEnclosure,
+      enclosureProvenanceConsumer,
+      provenancePkg,
+      namePkg,
+      enclosurePkg,
+      consumerPkg⟩
+
 theorem DyadicSubdivisionPacket_common_refinement_exhaustion [AskSetup] [PackageSetup]
     {parent level0 cells0 mesh0 validation0 provenance0 name0 level1 cells1 mesh1
       validation1 provenance1 name1 levelCommon cellsCommon meshCommon validationCommon
