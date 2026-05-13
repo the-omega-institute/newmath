@@ -153,6 +153,7 @@ import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
+import BEDC.Derived.KernelAcceptanceTraceUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
 import BEDC.Derived.TasteGateStabilityUp.TasteGate
