@@ -219,4 +219,38 @@ theorem ArchimedeanRealCarrier_bound_ledger_nonescape [AskSetup] [PackageSetup]
       fun sameProvenance =>
         unary_no_zero_extension (unary_transport provenanceUnary sameProvenance)⟩
 
+theorem ArchimedeanRealCarrier_scope_closure [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      Cont provenance localCert exportRow ->
+        PkgSig bundle exportRow pkg ->
+          UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+            UnaryHistory streamWindow ∧ UnaryHistory regseqHandoff ∧
+              UnaryHistory boundLedger ∧ UnaryHistory transport ∧ UnaryHistory routes ∧
+                UnaryHistory provenance ∧ UnaryHistory localCert ∧ UnaryHistory exportRow ∧
+                  Cont realName streamWindow regseqHandoff ∧
+                    Cont ratBound dyadicBound boundLedger ∧
+                      Cont regseqHandoff boundLedger transport ∧
+                        Cont transport routes provenance ∧
+                          Cont provenance localCert exportRow ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle localCert pkg ∧
+                              PkgSig bundle exportRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro carrier provenanceLocalExport exportPkg
+  obtain ⟨realNameUnary, ratBoundUnary, dyadicBoundUnary, streamWindowUnary,
+    regseqHandoffUnary, boundLedgerUnary, transportUnary, routesUnary, provenanceUnary,
+    localCertUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger, regseqLedgerTransport,
+    transportRoutesProvenance, provenancePkg, localCertPkg⟩ := carrier
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed provenanceUnary localCertUnary provenanceLocalExport
+  exact
+    ⟨realNameUnary, ratBoundUnary, dyadicBoundUnary, streamWindowUnary, regseqHandoffUnary,
+      boundLedgerUnary, transportUnary, routesUnary, provenanceUnary, localCertUnary,
+      exportUnary, realNameStreamWindowRegseq, ratDyadicBoundLedger, regseqLedgerTransport,
+      transportRoutesProvenance, provenanceLocalExport, provenancePkg, localCertPkg,
+      exportPkg⟩
+
 end BEDC.Derived.ArchimedeanRealUp

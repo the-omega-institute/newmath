@@ -118,16 +118,45 @@ Use \autoref{thm:classifiertyping-visible-answer-determinacy}. Any answer read a
 The exclusion clauses of the carrier and classifier rule out host typing semantics, erased derivations, semantic conversion, and normalization. Therefore the reduction-route ledger is exhausted by $T,E,R,S,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[ClassifierTyping kernel scope binding]
+\label{thm:classifiertyping-kernel-scope-binding}
+Every public $\ClassifierTypingUp$ typing read is scoped by the concrete rows
+$$
+T,E,R,S,H,C,P,N
+$$
+and by the kernel primitives $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$. The read may inspect the term row, membership row, reduction row, signature-answer row, componentwise transport, continuation routes, package provenance, and local naming ledger. It has no coordinate for a host type checker, erased derivation, normalization oracle, or semantic conversion relation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:classifier-typing-carrier}. The displayed packet lists exactly the rows $T,E,R,S,H,C,P,N$, with $E$ naming the $\Ext$ membership row, $R$ and $C$ naming the $\Cont$ reduction and read routes, and $S$ naming the $\mathsf{SigRel}$ answer row.
+
+Apply \autoref{def:classifier-typing-classifier}. Public comparison is restricted to the visible $\Ext$, $\mathsf{SigRel}$, and $\Cont$ rows under the recorded $\hsame$ transports, with $\Pkg$ and $\NameCert$ providing provenance and local naming.
+
+The excluded objects are not packet coordinates. Therefore every public typing read is bound to the displayed kernel rows and cannot appeal to a host type checker, erased derivation, normalization oracle, or semantic conversion relation.
+\end{proof}
+
+\begin{theorem}[ClassifierTyping Ext-Cont-SigRel scope exhaustion]
+\label{thm:classifiertyping-ext-cont-sigrel-scope-exhaustion}
+The membership stability of \autoref{thm:classifier-typing-membership-stability}, subject-reduction $\Cont$ stability of \autoref{thm:classifiertyping-subject-reduction-cont-stability}, signature-gap readback of \autoref{thm:classifier-typing-signature-gap-readback}, visible-answer determinacy of \autoref{thm:classifiertyping-visible-answer-determinacy}, and reduction-route ledger exhaustion of \autoref{thm:classifiertyping-reduction-route-ledger-exhaustion} together exhaust the scoped kernel surface for $\ClassifierTypingUp$ over $\Ext$, $\Cont$, $\mathsf{SigRel}$, $\hsame$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:classifiertyping-kernel-scope-binding}. It confines every public typing read to $T,E,R,S,H,C,P,N$ and to the named kernel primitives.
+
+Membership stability accounts for all reads of the $\Ext$ row. Subject-reduction $\Cont$ stability accounts for reduction-preservation reads, while signature-gap readback accounts for the $\mathsf{SigRel}$ answer row.
+
+Visible-answer determinacy prevents a second public answer route, and reduction-route ledger exhaustion prevents an extra preservation route. The five cited results therefore cover the whole scoped surface and leave no host type checker, erased derivation, normalization oracle, or semantic conversion relation to inspect.
+\end{proof}
+
 \closureat{ClassifierTypingUp}{seedStr}
 \closureat{ClassifierTypingUp}{obligationStr}
+\closureat{ClassifierTypingUp}{scopedStr}
 
 \begin{closurestatus}{\ClassifierTypingUp}
   \constructivestory{A $\ClassifierTypingUp$ packet is generated from a visible term row, an $\Ext$ membership row, a $\Cont$ reduction row, a $\mathsf{SigRel}$ typing-answer row, componentwise $\hsame$ transports, displayed $\Cont$ read routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:classifier-typing-carrier}, \autoref{def:classifier-typing-classifier}, \autoref{thm:classifier-typing-namecert-obligations}, \autoref{thm:classifier-typing-membership-stability}, \autoref{thm:classifier-typing-signature-gap-readback}, \autoref{thm:classifiertyping-subject-reduction-cont-stability}, \autoref{thm:classifiertyping-visible-answer-determinacy}, and \autoref{thm:classifiertyping-reduction-route-ledger-exhaustion} bind the carrier, classifier, NameCert obligations, membership stability, signature-gap readback, subject-reduction $\Cont$ stability, visible-answer determinacy, and reduction-route ledger exhaustion rows for the finite typing packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:classifier-typing-carrier}, \autoref{def:classifier-typing-classifier}, \autoref{thm:classifier-typing-namecert-obligations}, \autoref{thm:classifier-typing-membership-stability}, \autoref{thm:classifier-typing-signature-gap-readback}, \autoref{thm:classifiertyping-subject-reduction-cont-stability}, \autoref{thm:classifiertyping-visible-answer-determinacy}, \autoref{thm:classifiertyping-reduction-route-ledger-exhaustion}, \autoref{thm:classifiertyping-kernel-scope-binding}, and \autoref{thm:classifiertyping-ext-cont-sigrel-scope-exhaustion} bind the carrier, classifier, NameCert obligations, membership stability, signature-gap readback, subject-reduction $\Cont$ stability, visible-answer determinacy, reduction-route ledger exhaustion, kernel scope binding, and Ext-Cont-SigRel scope exhaustion rows for the finite typing packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host type checking, erased derivations, semantic conversion rules, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier, classifier, membership-stability, reduction-stability, and signature-gap readback rows for the same finite packet.}
+  \upgradepath{Public closure requires checked public-object consumers and Lean targets for the same scoped finite typing packet.}
 \end{closurestatus}
