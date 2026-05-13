@@ -25,6 +25,8 @@ REPO_ROOT = SCRIPT_DIR.parents[1]
 STATE_DIR = SCRIPT_DIR / "state"
 TARGETS_DIR = SCRIPT_DIR / "targets"
 SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
+SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
+BOARD_REFILL_LOG_DIR = STATE_DIR / "board_refill_logs"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
@@ -219,6 +221,133 @@ def render_candidate_inbox() -> str:
         return f"  unavailable: {exc}"
     lines = _render_candidate_stats(data, label="all")
     lines.extend(_render_candidate_stats(recent, label="last 6h"))
+    return "\n".join(lines)
+
+
+def _refill_stem(path: Path) -> str:
+    name = path.name
+    for suffix in (".prompt.txt", ".response.md", ".summary.json", ".log"):
+        if name.endswith(suffix):
+            return name[: -len(suffix)]
+    return path.stem
+
+
+def _read_text_prefix(path: Path, *, max_chars: int = 2000) -> str:
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+    if len(text) <= max_chars:
+        return text
+    return text[-max_chars:]
+
+
+def _response_failure_kind(text: str) -> str:
+    low = (text or "").strip().lower()
+    if low.startswith("error: response too short or empty"):
+        return "oracle_transport_empty_response"
+    if low.startswith("error: duplicate response"):
+        return "oracle_transport_duplicate_response"
+    if low.startswith("error:"):
+        return "oracle_transport_error_response"
+    if not low:
+        return "empty_response"
+    return "unparseable_or_unclassified_response"
+
+
+def _infer_refill_status(rec: dict) -> str:
+    summary_path = rec.get("summary")
+    if isinstance(summary_path, Path) and summary_path.exists():
+        try:
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return "summary_unreadable"
+        if summary.get("ok"):
+            accepted = summary.get("accepted", 0)
+            proposed = summary.get("candidates_proposed", 0)
+            return f"ok accepted={accepted} proposed={proposed}"
+        error = str(summary.get("error") or "not_ok")
+        accepted = summary.get("accepted", 0)
+        rejected = summary.get("rejected", 0)
+        response_len = summary.get("response_len")
+        suffix = f" accepted={accepted} rejected={rejected}"
+        if response_len not in (None, ""):
+            suffix += f" response_len={response_len}"
+        return f"{error}{suffix}"
+
+    response_path = rec.get("response")
+    if isinstance(response_path, Path) and response_path.exists():
+        text = _read_text_prefix(response_path, max_chars=1000)
+        return _response_failure_kind(text)
+
+    log_path = rec.get("log")
+    if isinstance(log_path, Path) and log_path.exists():
+        text = _read_text_prefix(log_path, max_chars=3000)
+        if "existing board-refill task is queued or active" in text:
+            return "skip_duplicate_refill"
+        if "no compatible BEDC Project tabs polling" in text:
+            return "skip_no_project_tab"
+        if "zero-extraction hang" in text:
+            return "waiting_zero_extraction_seen"
+        if "submitted task=" in text:
+            return "submitted_no_response_artifact_yet"
+        if "server unreachable" in text:
+            return "server_unreachable"
+        if text.strip():
+            return "log_only"
+
+    if rec.get("prompt"):
+        return "prompt_only"
+    return "unknown"
+
+
+def render_board_refill() -> str:
+    records: dict[str, dict] = {}
+    patterns = [
+        (BOARD_REFILL_LOG_DIR, "refill_*.prompt.txt", "prompt"),
+        (BOARD_REFILL_LOG_DIR, "refill_*.response.md", "response"),
+        (BOARD_REFILL_LOG_DIR, "refill_*.summary.json", "summary"),
+        (SUPERVISOR_LOG_DIR, "refill_*.log", "log"),
+    ]
+    for directory, pattern, kind in patterns:
+        if not directory.exists():
+            continue
+        for path in directory.glob(pattern):
+            stem = _refill_stem(path)
+            rec = records.setdefault(stem, {"stem": stem, "latest_mtime": 0.0})
+            rec[kind] = path
+            try:
+                rec["latest_mtime"] = max(float(rec["latest_mtime"]), path.stat().st_mtime)
+            except OSError:
+                pass
+
+    if not records:
+        return "  (no board refill artifacts)"
+
+    ordered = sorted(records.values(), key=lambda item: float(item["latest_mtime"]), reverse=True)
+    now = datetime.now(timezone.utc)
+    lines: list[str] = []
+    for rec in ordered[:6]:
+        mtime = float(rec.get("latest_mtime") or 0.0)
+        age = "?"
+        if mtime:
+            age = _fmt_age((now - datetime.fromtimestamp(mtime, tz=timezone.utc)).total_seconds())
+        artifacts = "+".join(
+            name for name in ("prompt", "response", "summary", "log") if rec.get(name)
+        )
+        status = _infer_refill_status(rec)
+        lines.append(
+            f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   {status}"
+        )
+
+    latest = ordered[0]
+    if latest.get("prompt") and not latest.get("response") and not latest.get("summary"):
+        status = _infer_refill_status(latest)
+        if status in {"prompt_only", "skip_duplicate_refill", "submitted_no_response_artifact_yet"}:
+            lines.append(
+                "  note: latest refill has no response/summary yet; use this to distinguish "
+                "transport stalls from logic-gate rejection."
+            )
     return "\n".join(lines)
 
 
@@ -468,6 +597,8 @@ def main() -> int:
     print(render_board())
     print(_section("Candidate Inbox"))
     print(render_candidate_inbox())
+    print(_section("Board Refill"))
+    print(render_board_refill())
     print(_section("Loning Assimilation"))
     print(render_loning_assimilation())
     print(_section("Target lifecycle"))
