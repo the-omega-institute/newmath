@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CrossPerspectiveAlignmentUp$}
+\label{ch:concrete-instances-crossperspectivealignment-namecert}
+\origin{ai}
+
+The $\CrossPerspectiveAlignmentUp$ surface turns the other-minds locality-cell commitment of \autoref{prin:hard-problems-other-minds-as-locality-cell} into a finite coordination packet. It aligns public observer commitments, locality-cell evidence, and inter-history coherence rows without exposing private $\mathsf{Self}$ coordinates or treating observer agreement as host-level identity.
+
+\begin{definition}[CrossPerspectiveAlignment carrier]
+\label{def:cross-perspective-alignment-carrier}
+A $\CrossPerspectiveAlignmentUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,B,L,O,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source-observer row issuing the alignment request;
+\item $B$ is the target-observer public row, read only as an other-minds commitment surface;
+\item $L$ is the locality-cell evidence row, recording the public $\LocalityCellUp$ evidence that makes the target row available for coordination;
+\item $O$ is the public $\OtherMindsCommitmentUp$ row tying $A$'s commitment to $B$ without direct target $\mathsf{Self}$ access;
+\item $M$ is the accepted $\MultiHistConfigUp$ row displaying the finite inter-Hist configuration in which the two observer histories are compared;
+\item $H$ records the componentwise $\hsame$ transports for the observer rows, locality-cell evidence, other-minds commitment, multi-Hist configuration, package row, and local naming row;
+\item $C$ records the $\Cont$ routes that let public consumers read the commitment row, locality-cell row, and inter-Hist coherence rows without entering private observer state;
+\item $P$ is the $\Pkg$ provenance over $\OtherMindsCommitmentUp$, $\LocalityCellUp$, $\MultiHistConfigUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CrossPerspectiveAlignmentUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through these displayed rows and their $\hsame$ and $\Cont$ transports.
+\end{definition}
+
+\begin{theorem}[CrossPerspectiveAlignment NameCert obligations]
+\label{thm:cross-perspective-alignment-namecert-obligations}
+The local $\NameCert_{\CrossPerspectiveAlignmentUp}$ surface has five finite obligations: carrier exposure by \autoref{def:cross-perspective-alignment-carrier}; public other-minds commitment through $O$; locality-cell evidence soundness through $L$; inter-Hist coherence through the $\MultiHistConfigUp$ row $M$ and the displayed $\hsame$ and $\Cont$ rows; and non-escape from private $\mathsf{Self}$ access, hidden observer histories, host observer equality, and unrecorded cross-perspective synchronization.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the finite packet $B=(A,B,L,O,M,H,C,P,N)$.
+
+The public commitment obligation is read from $O$. It uses $\OtherMindsCommitmentUp$ as a public certificate surface, so the target observer row is available only through visible commitment data.
+
+The locality and inter-Hist obligations are read next. The locality-cell evidence is the row $L$, while finite inter-Hist coherence is the row $M$ transported by $H$ and consumed through $C$.
+
+Finally inspect the coordinate list. There is no field for private target $\mathsf{Self}$ access, hidden observer history, host observer equality, or unrecorded synchronization, so none of those data can be exported by the packet.
+\end{proof}
+
+\begin{theorem}[CrossPerspectiveAlignment locality-cell soundness]
+\label{thm:cross-perspective-alignment-locality-cell-soundness}
+Every accepted $\CrossPerspectiveAlignmentUp$ packet aligns perspectives only after the public locality-cell evidence row $L$, the $\OtherMindsCommitmentUp$ row $O$, and the $\MultiHistConfigUp$ row $M$ are displayed in the same finite packet. A consumer may read $A,B,L,O,M,H,C,P,N$, but it cannot replace $L$ by private target-state access, a global observer frame, or an unlisted synchronization coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $B=(A,B,L,O,M,H,C,P,N)$. The locality-cell evidence available to the consumer is exactly the displayed coordinate $L$.
+
+The target public row is tied to the other-minds surface by $O$, and the inter-Hist comparison is tied to the finite configuration by $M$. The displayed transports $H$ and routes $C$ preserve those attachments as public certificate data.
+
+No coordinate names private target-state access, a global observer frame, or an unlisted synchronization row. Thus locality-cell soundness is a finite public-evidence condition, not an ambient identification of observer states.
+\end{proof}
+
+\begin{theorem}[CrossPerspectiveAlignment non-escape boundary]
+\label{thm:cross-perspective-alignment-nonescape}
+An accepted $\CrossPerspectiveAlignmentUp$ carrier exports only the source-observer row, target-observer public row, locality-cell evidence row, public other-minds commitment row, finite multi-Hist configuration row, displayed $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It exports no private $\mathsf{Self}$ access for the target observer, no hidden observer history, no host observer equality, no global frame, and no unrecorded cross-perspective synchronization.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates of \autoref{def:cross-perspective-alignment-carrier}. Every exported row is one of $A$, $B$, $L$, $O$, $M$, $H$, $C$, $P$, or $N$.
+
+The rows $L$, $O$, and $M$ are public certificate rows: locality-cell evidence, other-minds commitment, and finite multi-Hist configuration. The rows $H$ and $C$ only transport and route those displayed public rows.
+
+There is no remaining coordinate for target private $\mathsf{Self}$ access, hidden observer history, host observer equality, a global frame, or unrecorded synchronization. Hence the alignment packet cannot export any of those objects.
+\end{proof}
+
+\closureat{CrossPerspectiveAlignmentUp}{seedStr}
+
+\begin{closurestatus}{\CrossPerspectiveAlignmentUp}
+  \constructivestory{A $\CrossPerspectiveAlignmentUp$ packet is generated from a source observer row, a target public observer row, locality-cell evidence, a public $\OtherMindsCommitmentUp$ row, a finite $\MultiHistConfigUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cross-perspective-alignment-carrier}, \autoref{thm:cross-perspective-alignment-namecert-obligations}, \autoref{thm:cross-perspective-alignment-locality-cell-soundness}, and \autoref{thm:cross-perspective-alignment-nonescape} bind the finite public alignment surface over OtherMindsCommitment, LocalityCell, MultiHistConfig, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a Lean implementation, bridge status, private access to another observer's $\mathsf{Self}$, hidden observer histories, host observer equality, a global frame, or unrecorded synchronization.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for NameCert obligations, locality-cell soundness, and non-escape.}
+\end{closurestatus}
