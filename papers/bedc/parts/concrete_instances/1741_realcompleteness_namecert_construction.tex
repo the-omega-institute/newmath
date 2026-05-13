@@ -397,6 +397,40 @@ For downstream seal consumers, use \autoref{thm:real-completeness-scoped-finite-
 Finally apply \autoref{thm:real-completeness-nonescape-boundary}. The excluded objects are absent from the accepted packet, so no consumer can replace the displayed diagonal-seal route with a quotient stream, host equality, selected external limit, choice principle, or ambient completeness row.
 \end{proof}
 
+\begin{theorem}[RealCompleteness transport-tail-selector fusion]
+\label{thm:real-completeness-transport-tail-selector-fusion}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet. Let
+$$
+T=(q,s,r,d,e,w,H_T,C_T,P_T,N_T)
+$$
+be an accepted $\RegularCauchyTailSelectorUp$ packet whose selected-tail rows provide the same precision, $\StreamNameUp$ window, $\RegSeqRatUp$ regularity, $\DyadicRatCoreUp$ readback, and $\RealUp$ seal rows used by $\mu,\Delta,D,W,Q,S$. Let
+$$
+U=(R_U,W_U,D_U,S_U,H_U,C_U,P_U,N_U)
+$$
+be an accepted $\RegularCauchyLimitTransportUp$ packet transporting those rows to the same $R$ surface, and let
+$$
+F=(q_F,s_F,r_F,w_F,e_F,h_F,c_F,p_F,n_F)
+$$
+be an accepted $\FiniteTailDiagonalSealUp$ packet consuming the selected finite tail supplied by $T$ and transported by $U$. Then every completion-facing $\RealUp$ or $\CauchyLimitSealUp$ read of $R$ factors through exactly the finite route
+$$
+\mu,\Delta,D,W,Q,S,H,C,P,N
+$$
+together with the selected-tail witness row $w$, the transport packet rows $R_U,W_U,D_U,S_U,H_U,C_U,P_U,N_U$, and the finite-tail seal rows $q_F,s_F,r_F,w_F,e_F,h_F,c_F,p_F,n_F$. The fused route exports no quotient stream, host real equality, selected external limit, countable-choice selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+First expose the RealCompleteness side. Apply \autoref{thm:real-completeness-diagonal-witness-schedule} and \autoref{thm:real-completeness-tail-budget-stability}. They force each completion-facing precision request to read the displayed modulus, diagonal selector, dyadic ledger, stream windows, regular readback, seal row, transports, continuations, package provenance, and local naming row of $R$.
+
+Next attach the selected tail. By \autoref{thm:regular-cauchy-tail-selector-diagonal-admissibility}, the tail-selector packet supplies an admissible row $w$ for the same precision, window, regularity, dyadic, and seal reads. The row is finite before any $\RealUp$ or completion-facing consumer reaches the seal.
+
+Now transport the selected row into the RealCompleteness surface. Apply \autoref{thm:regular-cauchy-limit-transport-real-completeness-consumer-factorization}; since the transport packet presents the same selected-window, dyadic-ledger, and seal rows, every diagonal-seal consumer of $R$ factors through the displayed transport rows before reading $S$.
+
+Finally seal the finite tail. The handoff theorem \autoref{thm:finite-tail-diagonal-seal-real-handoff} routes the selected finite tail through $q_F,s_F,r_F,w_F,e_F,h_F,c_F,p_F,n_F$ before the real-facing row is consumed. Combine this handoff with \autoref{thm:real-completeness-diagonal-seal-totality} and \autoref{thm:real-completeness-nonescape-boundary}; because none of the packets has a coordinate for quotient streams, host real equality, selected external limits, countable-choice selection, or ambient completeness, the fused consumer route cannot escape the displayed finite rows.
+\end{proof}
+
 \begin{theorem}[RealCompleteness scoped consumer seal exhaustion]
 \label{thm:real-completeness-scoped-closure}
 Let
