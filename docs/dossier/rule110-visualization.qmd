@@ -1,6 +1,6 @@
 ---
-title: "Rule 110 Substrate"
-description: "Space-time diagrams of the rule110/ BEDC trust substrate: pure ether, glider catalog, audited Martinez collision, Cook packet structure, and the cook_encode scale frontier."
+title: "BEDC Operation Space-Time"
+description: "Interactive Rule 110 space-time diagrams for concrete BEDC operations."
 format:
   html:
     toc: false
@@ -8,125 +8,190 @@ format:
 ---
 
 <style>
-.rule110-section {
-  background: #f5f5f1;
-  border-top: 1px solid #deded8;
-  padding: 2rem 1.4rem 2.4rem;
+.bedc-space-section {
+  background: #f7f5ef;
+  border-top: 1px solid #ded8ca;
+  padding: 2rem 1.2rem 2.5rem;
 }
-.rule110-inner {
+.bedc-space-inner {
   max-width: 1180px;
   margin: 0 auto;
 }
-.rule110-kicker {
+.bedc-space-kicker {
+  color: #6d675b;
   font-size: 0.76rem;
-  text-transform: uppercase;
+  font-weight: 700;
   letter-spacing: 0.08em;
-  color: #6b6b63;
-  font-weight: 700;
   margin-bottom: 0.45rem;
+  text-transform: uppercase;
 }
-.rule110-section h2 {
+.bedc-space-title {
+  color: #1f1f1d;
+  font-size: 1.6rem;
+  line-height: 1.2;
   margin: 0;
-  font-size: 1.45rem;
+}
+.bedc-space-lede,
+.bedc-space-note {
+  color: #3f3d38;
+  line-height: 1.6;
+  max-width: 880px;
+}
+.bedc-space-lede {
+  margin: 0.7rem 0 0.8rem;
+}
+.bedc-space-note {
+  margin: 1rem 0 0;
+}
+.bedc-app {
+  margin-top: 1.25rem;
+}
+.bedc-controls {
+  align-items: end;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(220px, 1.2fr) auto minmax(220px, 1fr) minmax(180px, 0.7fr);
+  margin-bottom: 0.9rem;
+}
+.bedc-control {
+  display: grid;
+  gap: 0.3rem;
+}
+.bedc-control label,
+.bedc-step-readout {
+  color: #4d4942;
+  font-size: 0.82rem;
   font-weight: 700;
 }
-.rule110-lede {
-  max-width: 780px;
-  color: #444;
-  line-height: 1.58;
-  margin: 0.55rem 0 1.2rem;
-}
-.rule110-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-.rule110-figure {
-  margin: 0;
-  background: #fff;
-  border: 1px solid #d6d6d0;
-  border-radius: 6px;
-  overflow: hidden;
-}
-.rule110-figure.wide {
-  grid-column: 1 / -1;
-}
-.rule110-figure img {
-  display: block;
+.bedc-control select,
+.bedc-control input[type="range"],
+.bedc-play-button {
   width: 100%;
-  height: auto;
-  background: #fff;
 }
-.rule110-figure figcaption {
-  border-top: 1px solid #ecece6;
-  padding: 0.65rem 0.8rem 0.75rem;
-  color: #333;
-  font-size: 0.9rem;
-  line-height: 1.45;
+.bedc-control select {
+  background: #fffdf8;
+  border: 1px solid #c9c2b3;
+  border-radius: 6px;
+  color: #222;
+  font: inherit;
+  min-height: 2.35rem;
+  padding: 0.35rem 0.55rem;
 }
-.rule110-figure figcaption strong {
+.bedc-play-button {
+  background: #222;
+  border: 1px solid #222;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  min-height: 2.35rem;
+  padding: 0 0.85rem;
+}
+.bedc-canvas-shell {
+  background: #fffdf8;
+  border: 1px solid #c9c2b3;
+  border-radius: 6px;
+  overflow: auto;
+  padding: 0.75rem;
+}
+.bedc-canvas-shell canvas {
   display: block;
-  font-size: 0.92rem;
-  margin-bottom: 0.18rem;
+  image-rendering: pixelated;
+  max-width: none;
 }
-@media (max-width: 760px) {
-  .rule110-grid { grid-template-columns: 1fr; }
-  .rule110-section { padding: 1.4rem 0.8rem 1.8rem; }
+.bedc-meta {
+  display: grid;
+  gap: 0.35rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0.75rem 0;
+}
+.bedc-meta-row {
+  background: #fffdf8;
+  border: 1px solid #d8d0c0;
+  border-radius: 6px;
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+  padding: 0.55rem 0.65rem;
+}
+.bedc-meta-row span {
+  color: #6d675b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.bedc-meta-row code {
+  color: #222;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.bedc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.7rem;
+}
+.bedc-legend-item {
+  align-items: center;
+  color: #3f3d38;
+  display: inline-flex;
+  font-size: 0.82rem;
+  gap: 0.3rem;
+}
+.bedc-legend-swatch {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  height: 0.75rem;
+  width: 0.75rem;
+}
+@media (max-width: 900px) {
+  .bedc-controls,
+  .bedc-meta {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 
-<section class="rule110-section" aria-labelledby="rule110-substrate-title">
-<div class="rule110-inner">
-<div class="rule110-kicker">Rule 110 substrate visualization</div>
-<h2 id="rule110-substrate-title">Foundation → particles → physics → computation</h2>
-<p class="rule110-lede">
-These space-time diagrams read Rule 110 from the raw ether background up to
-Cook packet scale. Horizontal position is cell index, vertical position is
-time flowing downward, and black pixels are live cells.
-</p>
-<div class="rule110-grid">
-<figure class="rule110-figure">
-<img src="figures/rule110/ether_evolution.svg" alt="Pure Rule 110 ether evolved for 70 steps">
-<figcaption>
-<strong>Foundation: pure ether.</strong>
-The 14-cell ether pattern repeats over 140 cells and returns to the
-same displacement after each 7-step cycle.
-</figcaption>
-</figure>
-<figure class="rule110-figure">
-<img src="figures/rule110/glider_zoo.svg" alt="Six Rule 110 glider panels on ether">
-<figcaption>
-<strong>Particles: glider catalog.</strong>
-A, B, C1, Ebar, F, and G are placed as catalog phase-0 defects on the
-ether and evolved for three fundamental periods.
-</figcaption>
-</figure>
-<figure class="rule110-figure wide">
-<img src="figures/rule110/collision_example.svg" alt="Rule 110 A and Ebar collision evolving to Ebar and A">
-<figcaption>
-<strong>Physics: audited Martinez collision.</strong>
-The `A(f1_1) -4e- Ebar(A,f1_1) -> {Ebar, A}` row uses the same phase
-spacing as the local collision audit and marks the collision window.
-</figcaption>
-</figure>
-<figure class="rule110-figure wide">
-<img src="figures/rule110/cook_packet_structure.svg" alt="Cook packet initial row and 2048 step evolution">
-<figcaption>
-<strong>Computation: Cook packet structure.</strong>
-A two-production, two-tape-bit cyclic tag input is encoded with
-`cook_encode_phase_exact`; the initial row labels the left periodic
-blocks, central tape band, and right appendant blocks.
-</figcaption>
-</figure>
-<figure class="rule110-figure">
-<img src="figures/rule110/scale_frontier.svg" alt="Downsampled Rule 110 Cook packet frontier over 16384 steps">
-<figcaption>
-<strong>Scale frontier.</strong>
-The `scale_2p_16t_16384` case is evolved for 16384 steps and rendered
-with five density buckets (50/55/60/65/75% thresholds) over a 280×280
-viewport.
-</figcaption>
-</figure>
+::: {.bedc-space-section}
+::: {.bedc-space-inner}
+<div class="bedc-space-kicker">Rule 110 substrate</div>
+<h2 class="bedc-space-title">BEDC operations as executable space-time diagrams</h2>
+
+Cook 2004 and Martinez 2007 already give the standard Rule 110 ether, glider, and collision pictures. This page is aimed at a different object: concrete BEDC manifest cases such as `msame_refl`, `hsame_refl`, `ext_step`, and `cont_basic`, loaded into the Rule 110 substrate and evolved in the browser.
+
+The black-white field is the cellular automaton itself. The colored overlays are BEDC semantic regions: boundary padding, encoded input payload, event segments, and the decode window whose manifest verdict is shown below the diagram.
+
+```{=html}
+<div id="bedc-spacetime-app" class="bedc-app">
+  <div class="bedc-controls" aria-label="BEDC Rule 110 controls">
+    <div class="bedc-control">
+      <label for="bedc-operation-select">Operation</label>
+      <select id="bedc-operation-select"></select>
+    </div>
+    <div class="bedc-control">
+      <label>&nbsp;</label>
+      <button id="bedc-play-toggle" class="bedc-play-button" type="button">Play</button>
+    </div>
+    <div class="bedc-control">
+      <label for="bedc-step-scrubber">Step <span id="bedc-step-label" class="bedc-step-readout">0 / 0</span></label>
+      <input id="bedc-step-scrubber" type="range" min="0" max="0" step="1" value="0">
+    </div>
+    <div class="bedc-control">
+      <label for="bedc-speed-slider">Speed <span id="bedc-speed-label" class="bedc-step-readout">12 fps</span></label>
+      <input id="bedc-speed-slider" type="range" min="1" max="30" step="1" value="12">
+    </div>
+  </div>
+  <div class="bedc-canvas-shell">
+    <canvas id="bedc-spacetime-canvas" width="960" height="420" aria-label="Rule 110 space-time diagram"></canvas>
+  </div>
+  <div id="bedc-operation-meta" class="bedc-meta"></div>
+  <div id="bedc-layer-legend" class="bedc-legend"></div>
 </div>
-</div>
-</section>
+<script src="assets/rule110_evolve.js"></script>
+<script src="assets/bedc_spacetime.js"></script>
+```
+
+For the reflexive mark and history cases, the two encoded events occupy adjacent payload windows and the manifest checks equality. For `Ext Empty b0 (e0 Empty)`, the overlay separates source history, mark, and result history. For `Cont Empty Empty Empty`, the three history events show the append claim at the level where the direct carrier manifest is decoded.
+
+:::
+:::
