@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\TypedBetaCongruenceTriggerUp$}
+\label{ch:concrete-instances-typedbetacongruencetrigger-namecert}
+\origin{ai}
+
+The $\TypedBetaCongruenceTriggerUp$ packet realizes the congruence-trigger boundary isolated in \autoref{ch:metacic-beta-audit-map} as a finite MetaCIC NameCert surface. It sits next to the bounded comparison packet of \autoref{ch:concrete-instances-bounded-beta-comparison-namecert}, the beta-substitution preservation packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, and the discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. The packet records where a congruence constructor can enter the subject-reduction route, without turning that constructor into a global typing-preservation theorem.
+
+\begin{definition}[Typed beta congruence trigger carrier]
+\label{def:typed-beta-congruence-trigger-carrier}
+A $\TypedBetaCongruenceTriggerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(k,r,s,j,b,d,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $k$ is the congruence-constructor tag, one of application-function, application-argument, lambda-body, lambda-domain, Pi-codomain, or Pi-domain;
+\item $r$ is the local $\mathrm{BetaStep}$ row naming the syntactic trigger;
+\item $s$ is the displayed source term row before the congruence step;
+\item $j$ is the typing-boundary judgement row whose preservation is being handed to the relevant discharge surface;
+\item $b$ is the beta audit-map boundary row that records whether the constructor is direct substitution-facing, dependent-codomain-facing, or binder-domain-facing;
+\item $d$ is the sibling discharge row read from the substitution or subject-reduction discharge packet;
+\item $H$ records componentwise $\hsame$ transports for the constructor tag, beta-step row, source term, judgement boundary, audit boundary, discharge row, provenance, and local name;
+\item $C$ records the displayed $\Cont$ route from the constructor trigger to the discharge surface;
+\item $P$ is the $\Pkg$ provenance over $\mathrm{BetaStep}$, MetaCIC term syntax, typing-boundary rows, \autoref{ch:metacic-beta-audit-map}, \autoref{ch:concrete-instances-bounded-beta-comparison-namecert}, \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, \autoref{ch:concrete-instances-betasubstitutiondischarge-namecert}, and \autoref{ch:concrete-instances-subjectreductiondischarge-namecert};
+\item $N$ is the local $\NameCert_{\TypedBetaCongruenceTriggerUp}$ row.
+\end{enumerate}
+The carrier contains no conversion rule for typing, no full subject-reduction theorem, no fuel-erased normalisation theorem, and no quotient equality over represented terms.
+\end{definition}
+
+\begin{theorem}[Typed beta congruence trigger NameCert obligations]
+\label{thm:typed-beta-congruence-trigger-namecert-obligations}
+The local $\NameCert_{\TypedBetaCongruenceTriggerUp}$ surface for \autoref{def:typed-beta-congruence-trigger-carrier} has five finite obligations:
+\begin{enumerate}
+\item trigger admission, requiring $T=(k,r,s,j,b,d,H,C,P,N)$ to display a concrete $\mathrm{BetaStep}$ congruence constructor and its source term row;
+\item congruence-constructor classification, requiring $k$ to identify whether the step is application-function, application-argument, lambda-body, lambda-domain, Pi-codomain, or Pi-domain;
+\item typing-boundary preservation handoff, requiring the judgement boundary $j$ and audit row $b$ to point to the sibling substitution or subject-reduction discharge row $d$ rather than to an implicit typing rule;
+\item route non-escape, requiring every consumer to pass through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before it can read the discharge surface;
+\item ledger exactness, requiring the exported rows to be exactly $k,r,s,j,b,d,H,C,P,N$ and no hidden conversion, closed subject-reduction, or normalisation ledger.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite tuple in \autoref{def:typed-beta-congruence-trigger-carrier}. The constructor tag, beta-step row, source term, judgement boundary, audit row, discharge row, transport, route, provenance, and local name are all displayed coordinates.
+
+The congruence classification is rowwise. The beta audit map separates the direct beta constructor from the congruence constructors, and the carrier records only the congruence side through $k$ and $r$.
+
+The preservation handoff is therefore a route fact. The row $j$ is read together with $b$ and then handed to $d$, so the packet cites the substitution and subject-reduction discharge siblings instead of asserting a new typing-preservation rule.
+
+Finally inspect $H,C,P,N$. These rows provide the only transport, continuation, provenance, and naming paths. Since no coordinate contains conversion typing, full closed subject reduction, fuel-erased normalisation, or quotient equality, the exported ledger is exactly the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Typed beta congruence trigger audit-map fit]
+\label{thm:typed-beta-congruence-trigger-audit-map-fit}
+Every accepted $\TypedBetaCongruenceTriggerUp$ packet presents a concrete consumer surface for the congruence-trigger boundary of \autoref{sec:metacic-beta-audit-map-sr-connection}. The direct substitution-facing trigger is routed to the beta-substitution preservation and discharge siblings, while the dependent-codomain and binder-domain congruence triggers are routed to the subject-reduction discharge siblings. The packet exports no theorem beyond that finite routing surface.
+\end{theorem}
+\begin{proof}
+Read the audit-map section first. It separates the direct beta constructor from the application-argument and binder-domain congruence constructors, and it explains which typing boundary each constructor touches.
+
+Apply \autoref{thm:typed-beta-congruence-trigger-namecert-obligations}. The constructor tag and audit row classify the trigger, while the judgement boundary and discharge row give the only preservation handoff available to consumers.
+
+The sibling provenance row then confines the packet to the concrete BEDC surfaces cited in \autoref{def:typed-beta-congruence-trigger-carrier}. Since the carrier has no coordinate for a global typing rule, it can only expose the finite route from congruence constructor to discharge boundary.
+\end{proof}
+
+\closureat{TypedBetaCongruenceTriggerUp}{seedStr}
+
+\begin{closurestatus}{\TypedBetaCongruenceTriggerUp}
+  \constructivestory{A $\TypedBetaCongruenceTriggerUp$ packet is generated from a congruence-constructor tag, a concrete BetaStep trigger row, a source term row, a typing-boundary judgement row, a beta audit-map boundary row, a sibling discharge row, componentwise transports, continuation routes, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typed-beta-congruence-trigger-carrier}, \autoref{thm:typed-beta-congruence-trigger-namecert-obligations}, and \autoref{thm:typed-beta-congruence-trigger-audit-map-fit} bind the finite congruence-trigger carrier, classification, handoff, route, and exact-ledger surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close conversion typing, global closed subject reduction, fuel-erased normalisation, quotient equality over represented terms, or bridge checking.}
+  \upgradepath{Obligation closure requires checking trigger admission, constructor classification, typing-boundary handoff, route non-escape, and ledger exactness for the displayed packet.}
+\end{closurestatus}
