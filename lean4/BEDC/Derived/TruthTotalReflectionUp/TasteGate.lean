@@ -176,6 +176,9 @@ instance truthTotalReflectionChapterTasteGate : ChapterTasteGate TruthTotalRefle
     intro x y hxy heq
     exact hxy (truthTotalReflectionToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate TruthTotalReflectionUp :=
+  truthTotalReflectionChapterTasteGate
+
 theorem TruthTotalReflectionTasteGate_single_carrier_alignment :
     (∀ x : TruthTotalReflectionUp,
       truthTotalReflectionFromEventFlow (truthTotalReflectionToEventFlow x) = some x) ∧

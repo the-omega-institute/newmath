@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\PiApplicationAdequacyRouteUp$}
+\label{ch:concrete-instances-pi-application-adequacy-route-namecert}
+\origin{ai}
+
+The $\PiApplicationAdequacyRouteUp$ packet realizes the application-facing route in \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It refines the candidate-mediated surface of \autoref{ch:concrete-instances-candidate-evidence-sn-route-namecert} by separating Pi-candidate function evidence, domain-candidate argument evidence, and application-candidate handoff before a closed typed application may be read through \autoref{ch:concrete-instances-typedreductionnormalform-namecert}. The acceptance-facing replay is audited beside \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, so the route is a packet over displayed rows rather than an unconditional normalization theorem.
+
+\begin{definition}[Pi application adequacy route carrier]
+\label{def:pi-application-adequacy-route-carrier}
+A $\PiApplicationAdequacyRouteUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(F,A,P,D,K,S,C,N,R,H,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the Pi-candidate function evidence row, naming the function candidate and the Pi-head evidence consumed by the application route;
+\item $A$ is the domain-candidate argument evidence row, naming the argument, its domain candidate, and the candidate read used by the Pi body;
+\item $P$ is the application candidate row, recording the handoff from the Pi-head evidence and domain-candidate argument evidence to the candidate assigned to the application;
+\item $D$ is the closed typed application row, keeping the function, argument, application term, and typing ledger in one displayed packet;
+\item $K$ is the step-strong-normalization row read from the candidate evidence already displayed in $F,A,P,D$;
+\item $S$ is the no-infinite-reduction row projected from $K$ and not from an external evaluator;
+\item $C$ is the displayed $\Cont$ route from the Pi candidate and domain candidate rows through the application candidate row to the closed typed application row;
+\item $N$ is the local $\NameCert_{\PiApplicationAdequacyRouteUp}$ row;
+\item $R$ records $\Pkg$ provenance over \autoref{ch:metacic-normalization-audit-map}, \autoref{ch:concrete-instances-candidate-evidence-sn-route-namecert}, \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $H$ stores componentwise $\hsame$ transports for the Pi-head evidence, argument evidence, application candidate, typed application, step-SN, and no-infinite-reduction rows;
+\item $Q$ is the query boundary that records which application-normalization question is answered by this finite route and refuses any stronger global-normalization query.
+\end{enumerate}
+The carrier has no coordinate for evidence-free strong normalization, unrestricted application adequacy, quotient equality over reduction traces, a host evaluator, a selected normalization strategy, or ambient consistency.
+\end{definition}
+
+\begin{theorem}[Pi application adequacy route NameCert obligations]
+\label{thm:pi-application-adequacy-route-namecert-obligations}
+Every accepted $\PiApplicationAdequacyRouteUp$ packet binds exactly the obligation surface displayed in \autoref{def:pi-application-adequacy-route-carrier}: Pi-candidate function evidence through $F$, domain-candidate argument evidence through $A$, application candidate handoff through $P$, closed typed application through $D$, step strong normalization through $K$, no-infinite-reduction projection through $S$, displayed route through $C$, local naming through $N$, provenance through $R$, transport through $H$, and query boundary through $Q$.
+\end{theorem}
+\begin{proof}
+Project the carrier $Z=(F,A,P,D,K,S,C,N,R,H,Q)$. The positive application route begins with the Pi-candidate function row and the domain-candidate argument row, so a consumer cannot read the application candidate before both $F$ and $A$ have been exposed.
+
+The handoff row $P$ then supplies the application candidate used by the closed typed application row $D$. The strong-normalization and no-infinite-reduction rows $K,S$ are downstream from that candidate-mediated handoff, not independent termination assertions.
+
+The support rows preserve the same finite surface. The route row $C$, local NameCert row $N$, provenance row $R$, componentwise transport row $H$, and query boundary $Q$ name and restrict only the displayed coordinates, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Pi application adequacy route nonescape]
+\label{thm:pi-application-adequacy-route-nonescape}
+Every closed application strong-normalization read exported by an accepted $\PiApplicationAdequacyRouteUp$ packet factors through the displayed rows
+$$
+F,A,P,D,K,S,C,N,R,H,Q.
+$$
+The read may be consumed by the candidate-mediated route of \autoref{ch:concrete-instances-candidate-evidence-sn-route-namecert} and by the endpoint discipline of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, with acceptance replay bounded by \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}. It cannot be reread as evidence-free global strong normalization, unconditional application adequacy, quotient equality over reductions, host evaluation, or ambient consistency.
+\end{theorem}
+\begin{proof}
+Start from a closed application strong-normalization read. The only step-SN coordinate is $K$, and its route passes through $F,A,P,D$ before the no-infinite-reduction projection $S$ can be consumed.
+
+Use the continuation row $C$ and componentwise transport row $H$ to replay the same candidate-mediated path under accepted packet agreement. Provenance $R$ and the local NameCert row $N$ then present that route to the sibling candidate-evidence, typed-normal-form, and kernel-acceptance audit surfaces.
+
+Finally inspect the query boundary $Q$ and the absence of excluded coordinates. Since the packet stores no host evaluator, quotient trace equality, global-normalization row, unrestricted adequacy row, or ambient consistency row, no consumer can escape the displayed application route.
+\end{proof}
+
+\falsifiablePrediction{If the route is atomic, a consumer cannot derive closed application strong normalization from componentwise function and argument SN without the Pi-candidate and domain-candidate rows.}
+
+\independenceWitness{metacicnormalizationaudit, candidateevidencesnroute, typedreductionnormalform, subjectreduction, kernelacceptanceauditwitness: PiApplicationAdequacyRouteUp is not bijective to these because it carries both Pi-head evidence and application-candidate handoff rows, while each sibling lacks at least one of those route coordinates.}
+
+The Lean-side \texttt{TasteGate.lean} obligation surface for $\PiApplicationAdequacyRouteUp$ consists of \texttt{Nontrivial PiApplicationAdequacyRouteUp} and \texttt{FieldFaithful PiApplicationAdequacyRouteUp}, with explicit witness-pair and field projection proofs over the displayed carrier rows.
+
+\closureat{PiApplicationAdequacyRouteUp}{seedStr}
+
+\begin{closurestatus}{\PiApplicationAdequacyRouteUp}
+  \constructivestory{A $\PiApplicationAdequacyRouteUp$ packet is generated from Pi-candidate function evidence, domain-candidate argument evidence, application-candidate handoff rows, closed typed application rows, step-SN rows, no-infinite-reduction rows, displayed continuations, local naming, provenance, componentwise transport, and a query boundary.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pi-application-adequacy-route-carrier}, \autoref{thm:pi-application-adequacy-route-namecert-obligations}, and \autoref{thm:pi-application-adequacy-route-nonescape} bind the finite candidate-mediated application adequacy route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close evidence-free global strong normalization, unconditional application adequacy, quotient equality over reduction traces, host evaluation, ambient consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, application-candidate handoff exactness, no-infinite projection exactness, query-boundary refusal, provenance, and local NameCert rows.}
+\end{closurestatus}
