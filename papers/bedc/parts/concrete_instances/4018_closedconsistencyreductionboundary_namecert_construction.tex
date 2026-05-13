@@ -1,0 +1,146 @@
+\chapter{A Concrete Naming Certificate for $\ClosedConsistencyReductionBoundaryUp$}
+\label{ch:concrete-instances-closed-consistency-reduction-boundary-namecert}
+\origin{human}
+
+The $\ClosedConsistencyReductionBoundaryUp$ packet turns the frontier of
+\autoref{ch:closed-metacic-consistency-assembly} into a finite NameCert object.
+It is downstream of \autoref{ch:concrete-instances-subjectreduction-namecert}:
+the packet names the rows that would be consumed by a closed-consistency
+reduction path, while keeping the blocked subject-reduction discharge as a
+public obstruction row rather than as an available theorem.
+
+\begin{definition}[Closed-consistency reduction-boundary carrier]
+\label{def:closed-consistency-reduction-boundary-carrier}
+A $\ClosedConsistencyReductionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,Q,E,D,K,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the closed source proof row, naming the empty-context proof
+candidate and its displayed false type;
+\item $Q$ is the reduction-route row, recording the finite beta route from the
+source proof row toward a normal endpoint;
+\item $E$ is the normal endpoint row, naming the reached term together with its
+closedness and beta-strong normality data;
+\item $D$ is the subject-reduction discharge row, exposing the beta,
+application-argument, lambda-domain, and Pi-domain obligations required before
+the false type may be transported along $Q$;
+\item $K$ is the closed-normal consistency row consumed after the endpoint row
+has retained the displayed false type;
+\item $O$ is the obstruction ledger row, recording that the present packet does
+not contain the missing closed subject-reduction discharge;
+\item $H$ records componentwise $\hsame$ transports for the source, route,
+endpoint, discharge, closed-normal consistency, obstruction, package, and local
+naming rows;
+\item $C$ records the displayed $\Cont$ routes by which consistency consumers
+read $S,Q,E,D,K,O$ inside the finite packet;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, MetaCIC closed typing,
+beta-reduction routes, beta-strong normal endpoints, $\hsame$, $\Cont$, subject
+reduction, closed-normal consistency, obstruction rows, and local
+$\NameCert$ rows;
+\item $N$ is the local
+$\NameCert_{\ClosedConsistencyReductionBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no full closed consistency theorem, no unparameterized
+closed subject-reduction theorem, and no route that transports the displayed
+false type from $S$ to $E$ without the discharge row $D$.
+\end{definition}
+
+\begin{theorem}[Closed-consistency reduction-boundary NameCert obligations]
+\label{thm:closed-consistency-reduction-boundary-namecert-obligations}
+For the carrier of
+\autoref{def:closed-consistency-reduction-boundary-carrier}, the local
+$\NameCert_{\ClosedConsistencyReductionBoundaryUp}$ surface consists of five
+finite obligations:
+\begin{enumerate}
+\item source exposure: every accepted packet displays the closed source proof
+row $S$ together with the false type it claims to inhabit;
+\item route exposure: the beta route $Q$ and normal endpoint $E$ are public
+rows, not ambient normalization data;
+\item discharge exposure: the subject-reduction discharge row $D$ is the only
+row that may preserve the displayed false type along $Q$;
+\item normal-consistency handoff: the closed-normal consistency row $K$ is read
+only after the endpoint row $E$ has retained the displayed false type;
+\item obstruction accounting: the ledger row $O$ records the missing closed
+subject-reduction discharge and prevents $K$ from being repacked as full closed
+consistency.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the displayed packet $R$. The rows $S,Q,E,D,K,O,H,C,P,N$ are finite
+coordinates, so source exposure, route exposure, discharge exposure, normal
+handoff, and obstruction accounting are all read from the same carrier.
+
+The subject-reduction sibling
+\autoref{ch:concrete-instances-subjectreduction-namecert} supplies the
+discipline for reading preservation as a named row rather than as an ambient
+conversion principle. Here that row is $D$, and the packet gives no second
+coordinate that can preserve the false type along $Q$.
+
+The closed-normal consistency row $K$ is therefore downstream of $E$ only under
+the displayed discharge boundary. Since $O$ records the missing closed
+discharge, the local certificate exposes the reduction boundary without closing
+full closed consistency.
+\end{proof}
+
+\begin{theorem}[Closed-consistency reduction-boundary obstruction readback]
+\label{thm:closed-consistency-reduction-boundary-obstruction-readback}
+Every downstream read of an accepted
+$\ClosedConsistencyReductionBoundaryUp$ packet factors through
+$$
+S,Q,E,D,K,O,H,C,P,N.
+$$
+A consumer may inspect the source proof row, reduction route, normal endpoint,
+subject-reduction discharge row, closed-normal consistency row, obstruction
+ledger, transports, continuations, provenance, and local naming certificate.
+It cannot read full closed consistency, a closed subject-reduction theorem, an
+undisplayed false-type transport, or an endpoint consistency result detached
+from the discharge row.
+\end{theorem}
+\begin{proof}
+Use the classifier clause of
+\autoref{def:closed-consistency-reduction-boundary-carrier}. Public comparison
+and downstream reading are restricted to the displayed rows and their
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+The normal endpoint can be consumed by the closed-normal consistency row only
+through the route and discharge rows. Thus the readback exposes the precise
+place where arbitrary closed proof reduction would need subject reduction, and
+it does not supply that missing theorem.
+
+The non-readable objects are exactly absent from the carrier. Full closed
+consistency, a closed subject-reduction theorem, hidden false-type transport,
+and detached endpoint consistency have no coordinate in $R$ and no continuation
+route in $C$.
+\end{proof}
+
+\begin{theorem}[Closed-consistency reduction-boundary vision handoff]
+\label{thm:closed-consistency-reduction-boundary-vision-handoff}
+The $\ClosedConsistencyReductionBoundaryUp$ packet realizes the frontier of
+\autoref{ch:closed-metacic-consistency-assembly} as finite BEDC data. It
+connects the closed source proof row, beta route, normal endpoint,
+subject-reduction discharge boundary, closed-normal consistency row, and
+obstruction ledger without claiming that arbitrary closed proofs can already be
+transported to beta-strong normal endpoints of the same displayed false type.
+\end{theorem}
+\begin{proof}
+Read the frontier in
+\autoref{sec:closed-metacic-consistency-assembly-frontier}. Full closed
+consistency is blocked at the step where an arbitrary closed proof must retain
+its displayed false type along reduction to a beta-strong normal endpoint.
+
+The carrier of
+\autoref{def:closed-consistency-reduction-boundary-carrier} names exactly that
+interface. The source row $S$, route row $Q$, endpoint row $E$, discharge row
+$D$, closed-normal consistency row $K$, and obstruction row $O$ are separate
+finite coordinates with displayed transport, continuation, package, and naming
+data.
+
+Therefore the packet is a handoff from the vision frontier to the
+concrete-instance layer. It records the boundary that a later formal target may
+consume, while the obstruction ledger keeps the manuscript from citing the
+packet as a proof of full closed consistency.
+\end{proof}
+
+\closureat{ClosedConsistencyReductionBoundaryUp}{seedStr}
