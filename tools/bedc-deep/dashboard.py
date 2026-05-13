@@ -213,6 +213,28 @@ def _render_candidate_stats(data: dict, *, label: str) -> list[str]:
     if logic_reasons:
         top = ", ".join(f"{r.get('reason')}={r.get('count')}" for r in logic_reasons[:5])
         lines.append(f"  {label} logic gate rejects: {top}")
+    current_logic_reasons = data.get("current_logic_packet_gate_reasons") or []
+    stale_logic_rejections = int(data.get("stale_logic_packet_gate_rejections") or 0)
+    if current_logic_reasons:
+        top = ", ".join(
+            f"{r.get('reason')}={r.get('count')}" for r in current_logic_reasons[:5]
+        )
+        suffix = f"; stale={stale_logic_rejections}" if stale_logic_rejections else ""
+        lines.append(f"  {label} current logic gate rejects: {top}{suffix}")
+    elif stale_logic_rejections:
+        lines.append(f"  {label} current logic gate rejects: none; stale={stale_logic_rejections}")
+    current_axis_reasons = data.get("current_forbidden_axis_reasons") or []
+    stale_axis_rejections = int(data.get("stale_forbidden_axis_rejections") or 0)
+    if current_axis_reasons:
+        top = ", ".join(
+            f"{r.get('reason')}={r.get('count')}" for r in current_axis_reasons[:5]
+        )
+        suffix = f"; stale={stale_axis_rejections}" if stale_axis_rejections else ""
+        lines.append(f"  {label} current forbidden-axis rejects: {top}{suffix}")
+    elif stale_axis_rejections:
+        lines.append(
+            f"  {label} current forbidden-axis rejects: none; stale={stale_axis_rejections}"
+        )
     return lines
 
 
@@ -277,6 +299,9 @@ def _refill_wait_seconds(rec: dict) -> int | None:
     if not isinstance(log_path, Path) or not log_path.exists():
         return None
     text = _read_text_prefix(log_path, max_chars=12000)
+    submitted = list(re.finditer(r"\[board_refill\] submitted task=", text))
+    if submitted:
+        text = text[submitted[-1].start():]
     matches = re.findall(r"waiting\.\.\.\s+(\d+)s elapsed", text)
     if not matches:
         return None
@@ -346,9 +371,9 @@ def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
         rec for rec in items
         if rec.get("log") and not rec.get("prompt") and not rec.get("response") and not rec.get("summary")
     ]
-    prompt_records = [
+    artifact_records = [
         rec for rec in items
-        if rec.get("prompt") and not rec.get("log") and not rec.get("response") and not rec.get("summary")
+        if (rec.get("prompt") or rec.get("response") or rec.get("summary")) and not rec.get("log")
     ]
     for log_rec in log_records:
         if _infer_refill_status(log_rec) != "submitted_no_response_artifact_yet":
@@ -358,21 +383,24 @@ def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
             continue
         nearest: dict | None = None
         nearest_delta = 999999.0
-        for prompt_rec in prompt_records:
-            stem = str(prompt_rec.get("stem") or "")
+        for artifact_rec in artifact_records:
+            stem = str(artifact_rec.get("stem") or "")
             if stem in consumed:
                 continue
-            prompt_time = _refill_stem_time(stem)
-            if prompt_time is None:
+            artifact_time = _refill_stem_time(stem)
+            if artifact_time is None:
                 continue
-            delta = abs((prompt_time - log_time).total_seconds())
+            delta = abs((artifact_time - log_time).total_seconds())
             if delta <= 10.0 and delta < nearest_delta:
-                nearest = prompt_rec
+                nearest = artifact_rec
                 nearest_delta = delta
         if nearest is None:
             continue
-        log_rec["prompt"] = nearest.get("prompt")
-        log_rec["prompt_mtime"] = nearest.get("prompt_mtime")
+        for kind in ("prompt", "response", "summary"):
+            if nearest.get(kind):
+                log_rec[kind] = nearest.get(kind)
+            if nearest.get(f"{kind}_mtime"):
+                log_rec[f"{kind}_mtime"] = nearest.get(f"{kind}_mtime")
         log_rec["latest_mtime"] = max(
             float(log_rec.get("latest_mtime") or 0.0),
             float(nearest.get("latest_mtime") or 0.0),
@@ -438,6 +466,16 @@ def render_board_refill() -> str:
     latest = ordered[0]
     if latest.get("prompt") and not latest.get("response") and not latest.get("summary"):
         status = _infer_refill_status(latest)
+        wait_seconds = _refill_wait_seconds(latest)
+        if (
+            status == "submitted_no_response_artifact_yet"
+            and wait_seconds is not None
+            and wait_seconds >= 900
+        ):
+            lines.append(
+                "  alert: latest refill has waited >=15m with no response/summary; "
+                "confirm oracle status before deciding whether to refresh a tab."
+            )
         if status in {"prompt_only", "skip_duplicate_refill", "submitted_no_response_artifact_yet"}:
             lines.append(
                 "  note: latest refill has no response/summary yet; use this to distinguish "

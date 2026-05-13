@@ -118,5 +118,23 @@ supplies an unselected suffix, hidden observer source, private agency
 predicate, or raw host trace.
 \end{proof}
 
+\begin{theorem}[PrefixObserver StreamName schedule link]
+\label{thm:prefix-observer-streamname-schedule-link}
+Every accepted $\PrefixObserverUp$ prefix window $W$ may be read as a finite observation schedule row compatible with the $\StreamNameUp$ finite-window discipline before it is handed to $\InscriptionEventUp$. For
+$$
+P=(S,W,R,K,U,L,H,C,Q,N),
+$$
+the rows $S,W,R,K,U,L,H,C,Q,N$ expose the source, displayed prefix window, accepted route, check, consumer, ledger, transport, continuation, package, and local name needed for that finite schedule. The link exports no infinite stream, hidden suffix, unchecked route, private observer state, or host-level inspection oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:prefix-observer-carrier}. The displayed prefix window $W$ is a finite coordinate of the accepted packet, and the rows $R,K$ record the accepted route and check by which it is read from the source row $S$.
+
+Use finite-route non-escape from \autoref{thm:prefix-observer-finite-route-nonescape}. It confines every public prefix read to $S,W,R,K,U,L,H,C,Q,N$, so the schedule row cannot inspect an unbounded observation stream or an undisplayed suffix.
+
+Compare the finite schedule with the sibling discipline of \autoref{ch:concrete-instances-streamname-namecert}. The $\StreamNameUp$ chapter supplies the finite-window reading convention, and the $\PrefixObserverUp$ packet supplies the concrete prefix window and inscription-facing ledger that instantiate it.
+
+Finally apply the inscription handoff. The downstream $\InscriptionEventUp$ consumer receives only the displayed prefix, route, check, ledger, and certificate rows, so no unchecked route, private observer state, or host-level inspection oracle is exported.
+\end{proof}
+
 \falsifiablePrediction{If PrefixObserverUp is atomic, then every accepted inscription-facing prefix read factors through its displayed prefix and check rows before the InscriptionEventUp handoff.}
 \independenceWitness{Compare inscriptionevent, observersubjectboundary, observerhistidentity, finitewindowobserver, and streamname: PrefixObserverUp is not bijective to any one of them because it carries the accepted-prefix check and consumer handoff rows simultaneously.}

@@ -232,6 +232,22 @@ Finally read the TasteGate declaration through the surrounding \texttt{TasteGate
 \end{proof}
 \leanchecked{BEDC.Derived.ObserverLocalityCellUp.ObserverLocalityCellTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[ObserverLocalityCell sibling lattice link]
+\label{thm:observer-locality-cell-sibling-lattice-link}
+Every accepted $\ObserverLocalityCellUp$ packet consumes the two-observer identity surface of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, refines the finite local cell surface of \autoref{ch:concrete-instances-localitycell-namecert}, and exports its cross-history ledger route through \autoref{ch:concrete-instances-inter-hist-locality-ledger-namecert}. In particular, the packet is a concrete-instance lattice node rather than a kernel-only island.
+\end{theorem}
+\begin{proof}
+Project an accepted packet to its carrier rows
+$$
+O_0,O_1,R_0,R_1,G_0,G_1,H,C,P,N.
+$$
+The rows $O_0,O_1$ are the two observer-history identity slots, and $H$ is the componentwise transport that keeps those slots on the observer-history identity surface.
+
+The locality-cell refinement is carried by $R_0,R_1,G_0,G_1$. The two local event-description rows are read together with the paired $\Gap$ acknowledgement rows, so the accepted packet specializes the finite local cell surface without replacing it by a global observer frame.
+
+Finally the continuation row $C$, provenance row $P$, and local naming row $N$ give the route exported to the inter-history locality ledger. That ledger reads the same two-observer cell as a finite cross-history packet, so the chapter participates in the concrete-instance dependency lattice through observer identity, local cell refinement, and inter-history ledger export.
+\end{proof}
+
 \closureat{ObserverLocalityCellUp}{seedStr}
 \closureat{ObserverLocalityCellUp}{obligationStr}
 \closureat{ObserverLocalityCellUp}{scopedStr}[BEDC.Derived.ObserverLocalityCellUp.ObserverLocalityCellTasteGate\_single\_carrier\_alignment]
