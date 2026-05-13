@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\AxiomDependencyMapLedgerUp$}
+\label{ch:concrete-instances-axiomdependencymapledger-namecert}
+\origin{human}
+
+The $\AxiomDependencyMapLedgerUp$ packet realizes the map of \autoref{ch:bedc-axiom-dependency-map} as a finite ledger row that can be consumed by audit-map chapters. It sits beside the audit gate of \autoref{ch:concrete-instances-auditgateboundary-namecert}, the strict axiom-query ledger of \autoref{ch:concrete-instances-axiomqueryledger-namecert}, and the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}. Those siblings expose boundary, query, and concrete audit-map rows; this chapter records the Mode, Witness, and Required-Axiom-Set tuple as one named packet rather than as framing prose.
+
+\begin{definition}[AxiomDependencyMapLedger carrier]
+\label{def:axiom-dependency-map-ledger-carrier}
+An $\AxiomDependencyMapLedgerUp$ carrier is a finite $\BHist$ tuple
+$$
+L=(\Phi,M,W,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Phi$ is the claim row whose classical-looking assertion is being mapped against the BEDC substrate;
+\item $M$ is the mode row, carrying exactly Mode A, Mode B, or Mode C;
+\item $W$ is the witness row, carrying the proof, restricted proof, counterexample, refusal, or socket data appropriate to $M$;
+\item $A$ is the Required-Axiom-Set row, carrying empty supply, restricted-surface supply, or the named supply rows required by the witness;
+\item $H$ records componentwise $\hsame$ transport for the claim, mode, witness, required-supply, continuation, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer replays the claim read, mode read, witness readback, and required-supply readback;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:bedc-axiom-dependency-map}, \autoref{ch:concrete-instances-auditgateboundary-namecert}, \autoref{ch:concrete-instances-axiomqueryledger-namecert}, \autoref{ch:concrete-instances-substitutionauditmap-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AxiomDependencyMapLedgerUp}$ row.
+\end{enumerate}
+The classifier accepts the ledger only through this finite packet. It contains no ambient proof oracle, no hidden host axiom supply, no unrecorded query rerun, and no permission to treat a restricted or obstructed row as an unconditional BEDC theorem.
+\end{definition}
+
+\begin{theorem}[AxiomDependencyMapLedger surface]
+\label{thm:axiom-dependency-map-ledger-surface}
+For every accepted $\AxiomDependencyMapLedgerUp$ carrier
+$$
+L=(\Phi,M,W,A,H,C,P,N),
+$$
+the public $\NameCert_{\AxiomDependencyMapLedgerUp}$ surface is exactly the claim row, mode row, witness row, Required-Axiom-Set row, componentwise transport row, replay route row, provenance row, and local naming row. Every downstream audit-map read must factor through these eight rows and through the sibling boundary, query, or audit-map packets named in $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:axiom-dependency-map-ledger-carrier}. The rows $\Phi,M,W,A$ expose the mapped claim, its mode, its witness, and its required-supply entry.
+
+Read $H$ and $C$ next. Transport and replay preserve the same four visible map rows and do not create a second route to host proof ancestry.
+
+Finally inspect $P$ and $N$. Provenance points to \autoref{ch:bedc-axiom-dependency-map}, \autoref{ch:concrete-instances-auditgateboundary-namecert}, \autoref{ch:concrete-instances-axiomqueryledger-namecert}, and \autoref{ch:concrete-instances-substitutionauditmap-namecert}; the local name only packages this finite surface. Therefore every public read factors through the displayed ledger rows.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyMapLedger Mode A]
+\label{thm:axiom-dependency-map-ledger-mode-a}
+If an accepted $\AxiomDependencyMapLedgerUp$ carrier has Mode A in $M$, then $W$ is read as an unconditional substrate proof witness for $\Phi$ and $A$ is read as empty required supply. The rows $H,C,P,N$ may transport, replay, package, and name that reading, but they cannot add a hidden dependency row to the Mode A entry.
+\end{theorem}
+\begin{proof}
+Read the mode row $M$ from \autoref{def:axiom-dependency-map-ledger-carrier}. In the Mode A branch, the carrier definition fixes the witness row as an internal proof and fixes the Required-Axiom-Set row as empty supply.
+
+Use \autoref{thm:axiom-dependency-map-ledger-surface} to route every consumer through the same rows. The support rows $H,C,P,N$ preserve and expose the entry but do not add another source of proof supply.
+
+Thus Mode A remains a zero-supply ledger entry for the displayed claim, not a claim about unrecorded host proof ancestry.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyMapLedger Mode B]
+\label{thm:axiom-dependency-map-ledger-mode-b}
+If an accepted $\AxiomDependencyMapLedgerUp$ carrier has Mode B in $M$, then $W$ is read only as a restricted-proof witness and $A$ is read as the restricted-surface condition required for that witness. A consumer may not erase the restriction, replace it by an unrestricted proof, or read the restricted surface without the replay route carried by $C$.
+\end{theorem}
+\begin{proof}
+Project $M,W,A$ from the accepted carrier. The Mode B branch pairs the witness row with the restricted-surface row, so the witness is not exposed independently of that surface.
+
+Replay the entry through $C$ and transport it through $H$. The same restricted row remains attached to the witness after movement, while $P$ and $N$ package the entry as the local ledger surface.
+
+Because no carrier coordinate contains an unrestricted proof of $\Phi$, no downstream consumer can erase the restriction or convert the Mode B row into Mode A.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyMapLedger Mode C]
+\label{thm:axiom-dependency-map-ledger-mode-c}
+If an accepted $\AxiomDependencyMapLedgerUp$ carrier has Mode C in $M$, then $W$ is read as a counterexample, refusal, obstruction, or socket witness and $A$ is read as the named required-supply row. The carrier records the dependency boundary; it does not discharge the named supply or turn the obstruction into a substrate theorem.
+\end{theorem}
+\begin{proof}
+Read the Mode C branch of the carrier. The rows $W$ and $A$ are paired as obstruction data and named supply, not as a proof and empty dependency set.
+
+Use the public surface theorem to keep the read inside $L=(\Phi,M,W,A,H,C,P,N)$. The route row $C$ can replay the obstruction and the supply name, and the transport row $H$ preserves those coordinates componentwise.
+
+The provenance row points to the boundary, query, and audit-map siblings, where such supply must be inspected. Since the local ledger has no coordinate for discharging the named supply, Mode C remains a dependency record and not an internal BEDC proof.
+\end{proof}
+
+\closureat{AxiomDependencyMapLedgerUp}{seedStr}
+
+\begin{closurestatus}{\AxiomDependencyMapLedgerUp}
+  \constructivestory{An $\AxiomDependencyMapLedgerUp$ packet is generated from a claim row, a three-mode row, a witness row, a Required-Axiom-Set row, componentwise $\hsame$ transport, displayed $\Cont$ replay routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:axiom-dependency-map-ledger-carrier}, \autoref{thm:axiom-dependency-map-ledger-surface}, \autoref{thm:axiom-dependency-map-ledger-mode-a}, \autoref{thm:axiom-dependency-map-ledger-mode-b}, and \autoref{thm:axiom-dependency-map-ledger-mode-c} specify the finite Mode, Witness, Required-Axiom-Set ledger packet and its three mode readings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not enumerate all classical CIC claims, prove global dependency-map completeness, discharge named host supply, provide Lean verification, or bridge the ledger to an external schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, three-mode classification, witness exactness, Required-Axiom-Set exactness, replay locality, provenance, local naming, and non-escape for the same finite ledger packet.}
+\end{closurestatus}
