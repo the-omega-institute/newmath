@@ -152,6 +152,7 @@ import BEDC.Derived.ObserverRegularUp.TasteGate
 import BEDC.Derived.ObserverSubjectBoundaryUp.TasteGate
 import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
+import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
 import BEDC.Derived.ObserverLocalityCellUp
 import BEDC.Derived.ObserverLocalityCellUp.TasteGate
 import BEDC.Derived.ObserverPerspectiveCompositionUp.TasteGate
@@ -174,7 +175,7 @@ import BEDC.Derived.GeneratorFixedPointUp
 import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
-import BEDC.Derived.KernelObservationSieveUp.TasteGate
+import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.ForbiddenAxiomAncestryUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
@@ -184,6 +185,7 @@ import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceBuildReplayUp.TasteGate
 import BEDC.Derived.KernelAcceptanceWitnessUp
 import BEDC.Derived.KernelInductiveAcceptanceUp.TasteGate
+import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelMorphismUp
@@ -257,6 +259,7 @@ import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.ClosurePreservationAuditTraceUp.TasteGate
+import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.CrossHistCausalRouteUp.TasteGate
 import BEDC.Derived.CrossHistCausalUp.TasteGate
 import BEDC.Derived.CrossHistCausalRateUp.TasteGate
