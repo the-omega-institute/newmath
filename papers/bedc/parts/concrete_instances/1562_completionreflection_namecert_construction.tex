@@ -155,6 +155,22 @@ Use \autoref{thm:completionreflection-consumer-scope} to align the two reads. It
 Finally apply \autoref{thm:completionreflection-public-export}. The public packet exposes exactly $C,U,H,D,Q,A,S,T,K,P,N$ and no quotient, selected limit, host equality, or ambient completeness coordinate, so the universal route factors through the displayed seal for every completion-facing consumer.
 \end{proof}
 
+\begin{theorem}[CompletionReflection standard bridge boundary]
+\label{thm:completion-reflection-standard-bridge-boundary}
+Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ packet. If the carrier row, classifier row, local $\NameCert$ obligations, real-seal boundary, extension-reflection row, consumer scope, provenance-route scope, and public export of $R$ are displayed, then $R$ induces a standard bridge boundary read only through the finite rows already named by this chapter: $\RegSeqRatUp$, $\RealUp$, the real-seal row, classifier row, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row.
+
+The bridge boundary exports no quotient completion, no host equality of completed reals, no selected host limit, and no ambient completeness claim.
+\end{theorem}
+\begin{proof}
+First read the accepted packet through its displayed local obligations. Apply \autoref{thm:completion-reflection-namecert-obligations} to bind the completion construction, universal extension, separated boundary, diagonal reflection, regular rational source, real-seal, transport, continuation, package, provenance, and naming rows.
+
+Next route the real-facing and extension-facing reads. Apply \autoref{thm:completion-reflection-real-seal-boundary} for the $\RealUp$ seal row and \autoref{thm:completion-reflection-extension-reflects} for the universal-extension row; both routes return to the same displayed construction, regular-source, real-seal, classifier, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface.
+
+Now restrict the consumers and provenance routes. Apply \autoref{thm:completionreflection-consumer-scope} and \autoref{thm:completionreflection-classifier-scope} to ensure that every admitted read uses only the rows already visible in the chapter.
+
+Finally apply \autoref{thm:completionreflection-public-export}. The public export exposes exactly the finite completion-reflection tuple and excludes quotient completion objects, host equality, selected host limits, and ambient completeness. This is precisely the standard bridge boundary over the displayed rows, with no additional completion-side coordinate.
+\end{proof}
+
 \closureat{CompletionReflectionUp}{seedStr}
 \closureat{CompletionReflectionUp}{obligationStr}
 \closureat{CompletionReflectionUp}{scopedStr}[BEDC.Derived.CompletionReflectionUp.CompletionReflectionPacket\_real\_seal\_boundary]
