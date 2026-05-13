@@ -201,4 +201,31 @@ theorem SignedDigitRealPacket_obligation_transport_package [AskSetup] [PackageSe
     ⟨streamTUnary, windowTUnary, enclosureTUnary, locatedTUnary, sealRowTUnary,
       transportSeal, sameSeal, certSig⟩
 
+theorem SignedDigitRealPacket_exact_readback_boundary [AskSetup] [PackageSetup]
+    {stream window enclosure located sealRow transport route provenance cert normalized sealRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SignedDigitRealPacket stream window enclosure located sealRow transport route provenance cert
+        bundle pkg ->
+      Cont stream window normalized ->
+        hsame normalized enclosure ->
+          Cont enclosure located sealRead ->
+            hsame sealRead sealRow ->
+              UnaryHistory stream ∧ UnaryHistory window ∧ UnaryHistory normalized ∧
+                UnaryHistory enclosure ∧ UnaryHistory located ∧ UnaryHistory sealRow ∧
+                  UnaryHistory sealRead ∧ Cont stream window normalized ∧
+                    Cont enclosure located sealRead ∧ hsame normalized enclosure ∧
+                      hsame sealRead sealRow ∧ PkgSig bundle cert pkg := by
+  intro packet normalizationRoute normalizedSame sealReadRoute sealReadSame
+  obtain ⟨streamUnary, windowUnary, enclosureUnary, locatedUnary, sealRowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _certUnary, _sealRoute,
+    _provenanceRoute, certSig⟩ := packet
+  have normalizedUnary : UnaryHistory normalized :=
+    unary_cont_closed streamUnary windowUnary normalizationRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed enclosureUnary locatedUnary sealReadRoute
+  exact
+    ⟨streamUnary, windowUnary, normalizedUnary, enclosureUnary, locatedUnary, sealRowUnary,
+      sealReadUnary, normalizationRoute, sealReadRoute, normalizedSame, sealReadSame, certSig⟩
+
 end BEDC.Derived.SignedDigitRealUp

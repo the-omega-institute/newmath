@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\RealObservationBudgetUp$}
+\label{ch:concrete-instances-real-observation-budget-namecert}
+\origin{ai}
+
+The $\RealObservationBudgetUp$ interface records the finite observation packet that a completion-facing consumer may inspect before a $\RealUp$ seal is reached. It keeps the precision request, stream windows, dyadic readbacks and radii, regular-sequence handoff rows, real-seal rows, transports, routes, provenance, and local naming row inside one $\BHist$ surface. It does not export quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
+
+\begin{definition}[Real observation budget carrier]
+\label{def:real-observation-budget-carrier}
+A $\RealObservationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,W,D,R,S,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $E$ is the unary precision request row naming the finite tolerance level visible to the consumer;
+\item $W$ is the finite family of $\StreamNameUp$ window rows selected for that request;
+\item $D$ records the $\DyadicRatCoreUp$ readbacks together with the displayed dyadic radii attached to the windows in $W$;
+\item $R$ stores the $\RegSeqRatUp$ handoff rows that expose the regular rational sources feeding the observation budget;
+\item $S$ stores the $\RealUp$ seal rows that mark the boundary at which completion-facing consumers receive the finite packet;
+\item $H$ stores componentwise $\hsame$ transports for the precision request, windows, dyadic readbacks and radii, regular-sequence rows, seal rows, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ routes from $E$ to $W$, from $W$ to $D$, from $D$ to $R$, and from $R$ to $S$;
+\item $P$ records $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealObservationBudgetUp}$ row.
+\end{enumerate}
+The carrier is finite. It has no coordinate for quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
+\end{definition}
+
+\begin{theorem}[Real observation budget NameCert obligations]
+\label{thm:real-observation-budget-namecert-obligations}
+The local $\NameCert_{\RealObservationBudgetUp}$ surface for \autoref{def:real-observation-budget-carrier} consists exactly of carrier admission, unary precision exposure, finite $\StreamNameUp$ window coverage, $\DyadicRatCoreUp$ readback and radius exposure, $\RegSeqRatUp$ handoff routing, $\RealUp$ seal-boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $B$. The rows $E,W,D,R,S$ provide the precision request, finite windows, dyadic readbacks and radii, regular-sequence handoffs, and real-seal boundary.
+
+The window and dyadic obligations are read directly from $W$ and $D$. The regular-sequence handoff rows in $R$ expose only the rational-source data already routed through those finite observations.
+
+The remaining obligations are the transport, route, provenance, and naming rows $H,C,P,N$. Since the carrier has no coordinate for quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded schedule, the listed rows exhaust the local naming certificate.
+\end{proof}
+
+\begin{theorem}[Real observation budget window coverage]
+\label{thm:real-observation-budget-window-coverage}
+For an accepted $\RealObservationBudgetUp$ carrier, every dyadic readback and displayed radius exported by $D$ is covered by one of the finite $\StreamNameUp$ windows in $W$, and every such window is selected by the unary precision request row $E$ through the displayed routes in $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $B$ and read the precision row $E$, window family $W$, dyadic ledger $D$, transports $H$, and continuation routes $C$.
+
+The route from $E$ to $W$ selects the finite windows visible to the budget. The route from $W$ to $D$ is the only displayed path by which a dyadic readback or radius enters the packet.
+
+Transport rows in $H$ preserve the same precision, window, readback, and radius coordinates when the packet is repacked for a consumer. Therefore every exported dyadic observation is covered by $W$ and no observation can be imported from an unbounded stream schedule.
+\end{proof}
+
+\begin{theorem}[Real observation budget regular-sequence handoff]
+\label{thm:real-observation-budget-regseq-handoff}
+For an accepted $\RealObservationBudgetUp$ carrier, each $\RegSeqRatUp$ handoff row in $R$ is reached only after the unary precision request, finite stream windows, and dyadic readbacks and radii have been read. A downstream $\RegSeqRatUp$ or $\RealUp$ consumer receives the handoff through the finite route
+$$
+E,W,D,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The displayed order of the observation route places $R$ after the precision request, stream windows, and dyadic ledger.
+
+Use window coverage to bind every dyadic readback and radius to the finite windows selected from $E$. The continuation route from $D$ to $R$ then supplies the only path from the observation budget to the regular rational source rows.
+
+The transport and provenance rows repack the same route for consumers. No handoff row can bypass $E,W,D,H,C,P,N$ or appeal to quotient stream equality, hidden limit choice, or host real comparison.
+\end{proof}
+
+\begin{theorem}[Real observation budget seal boundary]
+\label{thm:real-observation-budget-real-seal-boundary}
+Every $\RealUp$ completion-facing consumer of an accepted $\RealObservationBudgetUp$ carrier factors through the seal rows $S$. The seal rows may read only the precision request $E$, finite windows $W$, dyadic readbacks and radii $D$, regular-sequence handoffs $R$, transports $H$, routes $C$, provenance $P$, and local naming row $N$ supplied by the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and inspect the consumer-facing coordinates. The carrier contains a single real-facing boundary coordinate, namely the seal family $S$.
+
+Apply the regular-sequence handoff theorem to force any route into $S$ through $E,W,D,R,H,C,P,N$. The seal rows therefore receive only the finite observations, their radii, the regular rational handoffs, and the bookkeeping rows displayed by the packet.
+
+Since $S$ is reached after those rows and no other real-facing coordinate exists, a completion consumer cannot read a selected completed real, a host equality test, an ambient completeness principle, or a hidden infinite schedule from the budget.
+\end{proof}
+
+\begin{theorem}[Real observation budget non-escape]
+\label{thm:real-observation-budget-nonescape}
+Every downstream consumer of an accepted $\RealObservationBudgetUp$ carrier factors through the finite rows
+$$
+E,W,D,R,S,H,C,P,N.
+$$
+The consumer may inspect exactly the unary precision request, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row. It cannot inspect quotient stream equality, host real equality, ambient completeness, hidden limit selection, or an unbounded observation schedule.
+\end{theorem}
+\begin{proof}
+Start from the finite carrier of \autoref{def:real-observation-budget-carrier}. The displayed rows of $B$ are exactly $E,W,D,R,S,H,C,P,N$.
+
+Apply the local NameCert obligations to identify those rows as the complete naming surface. Window coverage binds the dyadic readbacks and radii to the finite windows selected by the precision request.
+
+The regular-sequence handoff theorem routes source-facing access through the same finite observations. The seal-boundary theorem then routes every completion-facing consumer through $S$ without exposing any unlisted analytic object.
+
+Thus the observation budget is a finite BEDC packet. Its consumers can use the displayed rows, but the carrier gives them no route to quotient streams, host real equality, ambient completeness, hidden limit selection, or unbounded observation schedules.
+\end{proof}
+
+\closureat{RealObservationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\RealObservationBudgetUp}
+  \constructivestory{A $\RealObservationBudgetUp$ packet is generated from a unary precision request, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-observation-budget-carrier}, \autoref{thm:real-observation-budget-namecert-obligations}, \autoref{thm:real-observation-budget-window-coverage}, \autoref{thm:real-observation-budget-regseq-handoff}, \autoref{thm:real-observation-budget-real-seal-boundary}, and \autoref{thm:real-observation-budget-nonescape} bind the finite observation-budget carrier, precision-indexed windows, dyadic readbacks and radii, regular-sequence handoffs, and RealUp seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, ambient completeness, hidden limit selection, unbounded observation schedules, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window coverage, regular-sequence handoff routing, RealUp seal-boundary routing, and non-escape for the same finite observation budget.}
+\end{closurestatus}

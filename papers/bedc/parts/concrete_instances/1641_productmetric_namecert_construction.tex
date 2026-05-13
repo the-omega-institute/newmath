@@ -187,13 +187,26 @@ Use component distance transport to attach $d_X$ and $d_Y$ to those routes. The 
 Finally apply the distance-ledger triangle route and the scoped dependency package. The product-distance row $\delta$ is read after the component distances and is carried by the displayed package and naming provenance, so no external product metric proof can enter.
 \end{proof}
 
+\begin{theorem}[ProductMetric Real classifier bridge]
+\label{thm:productmetric-real-classifier-bridge}
+Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. If the first and second component distance rows are transported by their component $\MetricSpaceUp$ classifiers, then the product-distance ledger $\delta$ exports the same $\RealUp$ classifier row used by the downstream $\ProductMetricUp$ $\MetricSpaceUp$ anchor. The bridge is the finite route from the component classifier reads through $d_X$ and $d_Y$ to the product $\RealUp$ row carried by $\delta$.
+\end{theorem}
+\begin{proof}
+Start with the component transport. Apply \autoref{thm:productmetric-component-distance-transport} to move $d_X$ and $d_Y$ along the displayed component classifier rows and their $\hsame$ and $\Cont$ routes.
+
+Next read the real-valued consumer surface. Apply \autoref{thm:productmetric-realup-consumer-package}; it identifies the visible $\RealUp$ rows as exactly the two component distance witnesses, the product-distance ledger $\delta$, and the transport, continuation, provenance, and naming rows.
+
+Finally use the downstream anchor and scope theorem. By \autoref{thm:productmetric-metricspace-anchor}, the metric consumer reads the product distance only through $\Pi$, the component classifiers, and $\delta$; by \autoref{thm:productmetric-distance-ledger-scope}, $\delta$ is reached after the transported component distances. Therefore the product packet exports one $\RealUp$ classifier row for the product distance, with no host pair equality, quotient product, selected real limit, or external metric proof.
+\end{proof}
+
 \closureat{ProductMetricUp}{seedStr}
 \closureat{ProductMetricUp}{obligationStr}
+\closureat{ProductMetricUp}{scopedStr}
 
 \begin{closurestatus}{\ProductMetricUp}
   \constructivestory{A $\ProductMetricUp$ packet is generated from two $\MetricSpaceUp$ carrier and classifier rows, two $\RealUp$ distance witness rows, a $\ProdUp$ pairing row, a product-distance ledger, componentwise $\hsame$ transport, projection $\Cont$ routes, $\Pkg$ provenance, and a local naming row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope records the already listed carrier, classifier, projection, product-distance ledger, and downstream $\MetricSpaceUp$ anchor rows for the displayed product packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped rows are \autoref{thm:productmetric-scoped-dependency-package} and \autoref{thm:productmetric-distance-ledger-scope}: every product-distance read is bound to the displayed component metrics, pairing row, distance ledger, projection routes, package provenance, and local naming surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

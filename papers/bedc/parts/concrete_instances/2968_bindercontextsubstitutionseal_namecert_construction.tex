@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BinderContextSubstitutionSealUp$}
+\label{ch:concrete-instances-bindercontextsubstitutionseal-namecert}
+\origin{human}
+
+The $\BinderContextSubstitutionSealUp$ interface packages the closed-boundary substitution site used by the MetaCIC self-compilation account. It records a term, a binder depth, a substitution payload, the attempted substitution result, and the boundary certificate proving that the payload has no visible target inside the classified term.
+
+\begin{definition}[BinderContextSubstitutionSeal carrier]
+\label{def:binder-context-substitution-seal-carrier}
+A $\BinderContextSubstitutionSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(t,d,v,s,b,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $t$ is a \texttt{Term} row;
+\item $d$ is the displayed binder-depth row;
+\item $v$ is the substitution payload row;
+\item $s$ is the result row with readback $s=\texttt{substitute}(d,v,t)$;
+\item $b$ is the boundary witness carrying \texttt{ClosedAt} $d$ $t$ and the inertness equality $s=t$;
+\item $H$ records componentwise $\hsame$ transports for the term, depth, payload, result, boundary witness, provenance, and local naming rows;
+\item $C$ records the $\Cont$ routes for term readback, closedness readback, substitution replay, inertness readback, and certificate exposure;
+\item $P$ records $\Pkg$ provenance over \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute}, \texttt{shift}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BinderContextSubstitutionSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed \texttt{Term} row, the \texttt{ClosedAt} boundary witness, the substitution replay row, the inertness equality, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local naming row. It has no coordinate for an open-term semantics, a capture-avoiding metatheory outside \texttt{Term}, an ambient binder context beyond $d$, or a payload-use route absent from $b$.
+\end{definition}
+
+\begin{theorem}[BinderContextSubstitutionSeal NameCert obligations]
+\label{thm:binder-context-substitution-seal-namecert-obligations}
+For the carrier of \autoref{def:binder-context-substitution-seal-carrier}, the local $\NameCert_{\BinderContextSubstitutionSealUp}$ surface consists exactly of carrier admission for $S=(t,d,v,s,b,H,C,P,N)$, \texttt{Term} readback, \texttt{ClosedAt} boundary readback, replay of $s=\texttt{substitute}(d,v,t)$, inertness readback $s=t$, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $t,d,v,s$ expose the syntactic substitution attempt, while $b$ exposes the closed-boundary witness and the equality read from that witness.
+
+The boundary part of $b$ is supplied by the MetaCIC witnesses \texttt{substitute\_closed} and \texttt{closed\_under\_substitute\_classifier}. The matching binder-motion budget is the \texttt{shift\_closed} witness used by the surrounding self-compilation account, so the package names the same boundary where shifting and substitution are both inert on the classified slice.
+
+The rows $H,C,P,N$ then expose transport, continuation replay, package provenance, and local naming for exactly the same packet. Since the carrier has no further coordinate, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BinderContextSubstitutionSeal non-escape boundary]
+\label{thm:binder-context-substitution-seal-non-escape}
+Every accepted $\BinderContextSubstitutionSealUp$ packet exports the substitution payload $v$ only as an attempted route through $s=\texttt{substitute}(d,v,t)$ together with the boundary witness $b$. If $b$ carries \texttt{ClosedAt} $d$ $t$, then the exposed result row is $s=t$, and no consumer can read the packet as a payload insertion, an open-variable escape, a binder capture, or a depth borrowed from outside the displayed boundary.
+\end{theorem}
+\begin{proof}
+Read the substitution row from the carrier. The only route from $v$ to the accepted output is the displayed replay $s=\texttt{substitute}(d,v,t)$.
+
+Use \texttt{substitute\_closed} on the \texttt{ClosedAt} $d$ $t$ component of $b$. It identifies the replayed substitution result with the original term, so the payload is carried through the traversal but is never observed at a target variable inside $t$.
+
+The classifier row \texttt{closed\_under\_substitute\_classifier} records the same fact as a generator-closure boundary, and \texttt{shift\_closed} supplies the matching binder-budget law for moving the same closed term through the surrounding context. The visible routes therefore expose no open-term escape, capture route, or extra depth coordinate.
+\end{proof}
+
+\begin{theorem}[BinderContextSubstitutionSeal compiler handoff]
+\label{thm:binder-context-substitution-seal-compiler-handoff}
+An accepted $\BinderContextSubstitutionSealUp$ packet
+$$
+S=(t,d,v,s,b,H,C,P,N)
+$$
+hands the closed-term substitution site to a compiler or evaluator consumer as a finite boundary certificate over \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The consumer receives the inert result row $s=t$ and the same package provenance; it receives no semantic evaluator theorem, no global subject-reduction claim, and no unrecorded binder context.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows. The compiler-facing data are the term $t$, depth $d$, payload $v$, replayed result $s$, boundary witness $b$, and the transport and route rows $H,C$.
+
+Apply \autoref{thm:binder-context-substitution-seal-non-escape}. The handoff can use the substitution site only through the equality $s=t$ certified by \texttt{substitute\_closed} and exposed through the local boundary witness.
+
+The package rows $P,N$ bind that equality to the same \texttt{Term} and \texttt{ClosedAt} generator surface named by the self-compilation vision. Thus the consumer receives a finite substitution-seal packet, not a global evaluator correctness theorem or a hidden binder-context resource.
+\end{proof}
+
+\closureat{BinderContextSubstitutionSealUp}{seedStr}
+
+\begin{closurestatus}{\BinderContextSubstitutionSealUp}
+  \constructivestory{A $\BinderContextSubstitutionSealUp$ packet is generated from a \texttt{Term} row, a binder-depth row, a substitution payload, a replayed \texttt{substitute} result, a \texttt{ClosedAt} inertness witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, local naming obligations, non-escape boundary, and compiler handoff for closed-boundary substitution over MetaCIC terms.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close semantic substitution correctness for open terms, global evaluator correctness, subject reduction, a public compiler bridge, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-boundary substitution replay, inertness exactness, classifier transport, non-escape, and compiler handoff for the same finite packet.}
+\end{closurestatus}

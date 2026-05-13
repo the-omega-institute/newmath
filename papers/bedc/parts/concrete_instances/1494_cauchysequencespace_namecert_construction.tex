@@ -108,6 +108,7 @@ Finally use \autoref{thm:cauchysequence-space-regular-window-factorization}. It 
 \label{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness}
 Let $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$ be an accepted $\CauchySequenceSpaceUp$ packet. Every accepted comparison in the common-window classifier uses exactly the $\DyadicRatCoreUp$ tolerance row $\epsilon$ stored beside the $\RegSeqRatUp$ family $F$, $\StreamNameUp$ schedule $\sigma$, $\CauchyFilterUp$ or $\CauchyModulusUp$ ledger $W$, completion handoff $Q$, $\hsame$ row $H$, $\Cont$ row $C$, $\Pkg$ row $P$, and $\NameCert$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_dyadic\_tolerance\_ledger\_exactness}
 \begin{proof}
 The tolerance coordinate of the carrier is the single row $\epsilon$. There is no second dyadic ledger, host tolerance, quotient-name tolerance, or ambient completeness tolerance in \autoref{def:cauchysequence-space-carrier-surface}.
 
@@ -158,6 +159,28 @@ Next transport the classifier. Use \autoref{thm:cauchysequence-space-common-wind
 The schedule and tolerance rows now have no independent path. Apply \autoref{thm:cauchysequence-space-cofinal-schedule-stability} for $\sigma,\sigma',W,W'$ and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness} for $\epsilon,\epsilon'$. These two rows bind every tolerated comparison to the same shared finite window before any completion-facing handoff is read.
 
 Finally route the result to the terminal handoff through \autoref{thm:cauchysequence-space-limit-seal-factorization}. The carrier exposes no quotient stream, selected limit, host real equality, or ambient completeness coordinate, so the composed consumer cannot leave the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[CauchySequenceSpace shared-window completion consumer]
+\label{thm:cauchysequence-space-shared-window-completion-consumer}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+and
+$$
+S'=(F',\sigma',W',\epsilon',Q',H',C',P',N')
+$$
+be accepted $\CauchySequenceSpaceUp$ packets whose regular-family rows, schedules, cofinal-window rows, tolerance rows, and handoff rows classify together through the displayed local classifier. Any completion-facing consumer comparison factors through one shared finite Cauchy window before reading $Q$ or $Q'$. The route uses only $F,F'$, $\sigma,\sigma'$, $W,W'$, $\epsilon,\epsilon'$, $Q,Q'$, $H,H'$, $C,C'$, $P,P'$, and $N,N'$.
+\end{theorem}
+\begin{proof}
+First build the shared window surface. Apply \autoref{thm:cauchysequence-space-regular-window-factorization} to both packets, so every completion-facing read is already restricted to the displayed regular-family, schedule, cofinal-window, tolerance, handoff, transport, continuation, package, and local naming rows.
+
+Next transport the comparison through \autoref{thm:cauchysequence-space-common-window-classifier-transport}. The classifier reads the two packets only by their common finite Cauchy windows and the componentwise $\hsame$ and $\Cont$ rows already stored in the carriers.
+
+The schedule and tolerance rows then fix the consumer window. Use \autoref{thm:cauchysequence-space-cofinal-schedule-stability} for $\sigma,\sigma',W,W'$ and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness} for $\epsilon,\epsilon'$.
+
+Finally apply \autoref{thm:cauchysequence-space-two-stage-window-composition}. The comparison reaches $Q$ or $Q'$ only after the shared finite window has been read, and the displayed packet contains no quotient stream, selected limit, host real equality, or ambient completeness route.
 \end{proof}
 
 \begin{theorem}[CauchySequenceSpace completion handoff stability]
@@ -240,13 +263,29 @@ Then use \autoref{thm:cauchysequence-space-completion-handoff-stability} and \au
 Finally apply \autoref{thm:cauchysequence-space-diagonal-rate-compatibility} and \autoref{thm:cauchysequence-space-obligation-closure-package}. Diagonal finite-completion and effective-rate readers consume the same kernel-scoped surface, so quotient completion, selected representatives, host real equality, and ambient completeness have no row through which to enter.
 \end{proof}
 
+\begin{theorem}[CauchySequenceSpace UniformCauchyCriterion consumption]
+\label{thm:cauchysequence-space-uniformcriterion-consumption}
+Let $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$ be an accepted $\CauchySequenceSpaceUp$ packet. Suppose its common-window ledger $W$ is presented by an accepted $\UniformCauchyCriterionUp$ packet whose shared threshold and real-seal handoff read the same regular family, stream schedule, Cauchy-modulus row, dyadic tolerance row, and completion handoff. Then every completion-facing read of $S$ factors through the same $\RegSeqRatUp$ family $F$, $\StreamNameUp$ schedule $\sigma$, $\CauchyModulusUp$ row, $\DyadicRatCoreUp$ tolerance $\epsilon$, and $\RealCauchyCompletionUp$ handoff $Q$.
+
+The consumer route has no row for quotient streams, selected limits, host equality, or ambient completeness. The $\UniformCauchyCriterionUp$ presentation supplies only the shared-threshold ledger and real-seal handoff already consumed by the displayed $\CauchySequenceSpaceUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the accepted $\CauchySequenceSpaceUp$ carrier by \autoref{def:cauchysequence-space-carrier-surface}. The only completion-facing coordinates are the regular family $F$, schedule $\sigma$, common-window ledger $W$, dyadic tolerance row $\epsilon$, handoff $Q$, transports, continuations, provenance, and local naming row.
+
+Use \autoref{thm:cauchysequence-space-common-window-classifier-transport}, \autoref{thm:cauchysequence-space-cofinal-schedule-stability}, and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness}. These rows keep the common-window classifier, schedule, cofinal Cauchy-modulus evidence, and dyadic tolerance on the displayed packet before completion-facing data can be read.
+
+Now read the accepted $\UniformCauchyCriterionUp$ presentation through \autoref{thm:uniform-cauchy-criterion-shared-threshold-transport} and \autoref{thm:uniform-cauchy-criterion-real-seal-consumer-factorization}. The shared threshold and real-seal handoff are consumer routes over the same finite family, schedule, modulus, tolerance, and seal rows; they do not introduce an independent completion object.
+
+Finally apply \autoref{thm:cauchysequence-space-completion-handoff-stability} and \autoref{thm:cauchysequence-space-kernel-scope-packet}. The completion handoff stays on $F,\sigma,W,\epsilon,Q,H,C,P,N$, so the uniform-criterion ledger is consumed as a presentation of the same route rather than as quotient completion, a selected limit, host equality, or ambient completeness.
+\end{proof}
+
 \closureat{CauchySequenceSpaceUp}{seedStr}
 \closureat{CauchySequenceSpaceUp}{obligationStr}
 
 \begin{closurestatus}{\CauchySequenceSpaceUp}
   \constructivestory{A $\CauchySequenceSpaceUp$ packet is generated from a displayed family of regular rational names, a stream schedule, finite Cauchy-window evidence, dyadic tolerance data, a completion handoff, componentwise transport, displayed continuation routes, package provenance, and local naming.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation scope binds the displayed carrier surface, NameCert obligation surface, completion handoff, regular-window factorization, common-window classifier transport, dyadic tolerance ledger exactness, limit-seal factorization, two-stage window composition, completion handoff stability, regular family exhaustion, and diagonal-rate compatibility for finite spaces of Cauchy names.}
+  \scopeclosed{The obligation scope binds the displayed carrier surface, NameCert obligation surface, completion handoff, regular-window factorization, common-window classifier transport, dyadic tolerance ledger exactness, limit-seal factorization, two-stage window composition, completion handoff stability, regular family exhaustion, diagonal-rate compatibility, and UniformCauchyCriterion consumption for finite spaces of Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

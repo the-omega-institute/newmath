@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ObserverSubjectBoundaryUp$}
+\label{ch:concrete-instances-observersubjectboundary-namecert}
+\origin{ai}
+
+The $\ObserverSubjectBoundaryUp$ carrier records the finite observation packet at which an observer-facing consumer may inspect histories without receiving a separate subject carrier. Its rows are histories, transported history-sameness, displayed continuation routes, probe and signature readback, package provenance, and a local naming row. The boundary is therefore a finite BEDC packet over observation rows, not a substance slot behind those rows.
+
+\begin{definition}[ObserverSubjectBoundary carrier]
+\label{def:observer-subject-boundary-carrier}
+An $\ObserverSubjectBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+O=(R,H,C,B,S,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite observation-row ledger, whose entries are $\BHist$ records of the histories inspected by the observer-facing consumer;
+\item $H$ stores componentwise $\hsame$ transport for the observation rows and for the local naming row;
+\item $C$ stores the displayed $\Cont$ routes by which the consumer reads observation rows, transports, probe bundles, signature relations, provenance, and local naming;
+\item $B$ is the finite $\mathsf{ProbeBundle}$ readback row attached to the same observation ledger;
+\item $S$ is the $\mathsf{SigRel}$ readback row recording the signature events visible through $B$;
+\item $P$ is the $\Pkg$ provenance over $R,H,C,B,S$;
+\item $N$ is the local $\NameCert_{\ObserverSubjectBoundaryUp}$ row.
+\end{enumerate}
+There is no coordinate for an observer-substance type, subject identity carrier, hidden owner of the observation rows, or host equality principle outside $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\Pkg$, and $\NameCert$.
+\end{definition}
+
+\begin{theorem}[ObserverSubjectBoundary NameCert obligations]
+\label{thm:observer-subject-boundary-namecert-obligations}
+For the carrier of \autoref{def:observer-subject-boundary-carrier}, the local $\NameCert_{\ObserverSubjectBoundaryUp}$ surface consists exactly of carrier admission for $O$, observation-row stability, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\mathsf{ProbeBundle}$ and $\mathsf{SigRel}$ readback exactness, $\Pkg$ provenance, and local naming exactness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet $O$. The observation rows $R$, transports $H$, routes $C$, bundle row $B$, signature row $S$, package row $P$, and local name $N$ are the displayed coordinates of the carrier.
+
+The stability obligations are componentwise. Transport through $H$ preserves the observation rows and the local naming row, while the routes in $C$ replay only the listed reads.
+
+Bundle and signature exactness come from the readback rows $B$ and $S$. Since the carrier has no coordinate beyond $R,H,C,B,S,P,N$, the local naming certificate is exhausted by the stated finite obligations.
+\end{proof}
+
+\begin{theorem}[ObserverSubjectBoundary no extra subject]
+\label{thm:observer-subject-boundary-no-extra-subject}
+Every accepted $\ObserverSubjectBoundaryUp$ packet exposes an observer boundary only through its finite $\BHist$ observation rows, $\hsame$ transport, $\Cont$ routes, $\mathsf{ProbeBundle}$ readback, $\mathsf{SigRel}$ readback, $\Pkg$ provenance, and local $\NameCert$ row. No additional observer-substance carrier, subject identity row, hidden owner, or host equality coordinate is exported.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and inspect the coordinates of \autoref{def:observer-subject-boundary-carrier}. The only rows available to a consumer are $R,H,C,B,S,P,N$.
+
+Apply the NameCert obligations from \autoref{thm:observer-subject-boundary-namecert-obligations}. They identify transport, route replay, bundle readback, signature readback, package provenance, and local naming as the full certificate surface.
+
+A requested subject carrier would require a coordinate outside the displayed tuple. Because no such coordinate is part of the packet, the accepted boundary cannot export observer-substance, subject identity, hidden ownership, or host equality data.
+\end{proof}
+
+\begin{theorem}[ObserverSubjectBoundary ledger exactness]
+\label{thm:observer-subject-boundary-ledger-exactness}
+For an accepted $\ObserverSubjectBoundaryUp$ packet, every observer-facing read is accounted for by the finite ledger route
+$$
+R,H,C,B,S,P,N.
+$$
+The $\mathsf{ProbeBundle}$ readback and $\mathsf{SigRel}$ readback are attached to the same $\BHist$ observation rows, transported by the same $\hsame$ row, routed by the same $\Cont$ row, and recorded under the same $\Pkg$ and $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Start with the observation ledger $R$. The routes in $C$ read the ledger rows and then reach only the displayed bundle, signature, provenance, and local naming rows.
+
+Use componentwise transport through $H$ to keep the observation rows, bundle readback, and signature readback attached to the same finite packet. The package row $P$ records provenance over those transported rows.
+
+Finally apply the no-extra-subject theorem. Since no outside carrier is exported, every observer-facing read is exactly one of the displayed ledger reads and no hidden subject row can refine the ledger.
+\end{proof}
+
+\begin{theorem}[ObserverSubjectBoundary NameCert package]
+\label{thm:observer-subject-boundary-namecert-package}
+The carrier, NameCert obligations, no-extra-subject boundary, and ledger exactness assemble the $\NameCert_{\ObserverSubjectBoundaryUp}$ package as a finite observer-boundary packet over $\BHist$, $\hsame$, $\Cont$, $\mathsf{ProbeBundle}$, $\mathsf{SigRel}$, $\Pkg$, and local $\NameCert$ rows. Downstream observer-history consumers receive this package as a finite boundary certificate and not as a separate observer-substance object.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and obligation theorem. They provide the finite packet and identify the complete local naming surface.
+
+Next use ledger exactness to bind every observer-facing read to the displayed rows $R,H,C,B,S,P,N$. The readback rows for probes and signatures remain attached to the same observation ledger through the recorded transports and routes.
+
+Finally apply the no-extra-subject theorem. The package delivered to downstream consumers is therefore a finite BEDC boundary certificate, and the absence of an additional subject carrier is part of the package surface rather than an external convention.
+\end{proof}

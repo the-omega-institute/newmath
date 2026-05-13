@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\ClassifierMorphismUp$}
+\label{ch:concrete-instances-classifiermorphism-namecert}
+\origin{ai}
+
+The $\ClassifierMorphismUp$ surface records the classifier-preserving layer between type-checking membership packets and broader naming-certificate morphisms. It keeps the source and target classifier packets visible, stores the graph that moves source histories to target histories, and exposes preservation only through finite $\Ext$, $\mathsf{SigRel}$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows.
+
+\begin{definition}[ClassifierMorphism carrier]
+\label{def:classifiermorphism-carrier}
+A $\ClassifierMorphismUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,G,E,S,C,H,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ is the source classifier-membership packet, including its carrier, $\Ext$, $\mathsf{SigRel}$, $\Cont$, and local naming rows;
+\item $B$ is the target classifier-membership packet, including the corresponding target carrier, classifier, signature-answer, continuation, and naming rows;
+\item $G$ is the finite graph row relating source histories in $A$ to target histories in $B$;
+\item $E$ records $\Ext$ preservation along $G$, sending every accepted source membership row to an accepted target membership row;
+\item $S$ records $\mathsf{SigRel}$ preservation along $G$, sending every displayed source classifier answer to the corresponding target classifier answer;
+\item $C$ records $\Cont$ preservation, routing every source continuation edge through a target continuation edge over the same graph row;
+\item $H$ stores componentwise $\hsame$ preservation for source and target carrier rows, membership rows, signature rows, continuation rows, graph rows, and local certificate rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\Ext$, $\mathsf{SigRel}$, $\Cont$, $\hsame$, the two classifier packets, and the graph row;
+\item $N$ is the local $\NameCert_{\ClassifierMorphismUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host compiler function, quotient equality between source and target histories, semantic type interpretation, or any relation not named by $G,E,S,C,H,P,N$.
+\end{definition}
+
+\begin{definition}[ClassifierMorphism classifier]
+\label{def:classifiermorphism-classifier}
+For accepted $\ClassifierMorphismUp$ carriers $M=(A,B,G,E,S,C,H,P,N)$ and $M'=(A',B',G',E',S',C',H',P',N')$, the classifier compares exactly the displayed graph row and its preservation ledgers. It may inspect source and target packets only through their visible $\Ext$, $\mathsf{SigRel}$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ coordinates, and it accepts a comparison precisely when the preservation rows remain componentwise readable through the displayed $\hsame$ and $\Cont$ routes.
+
+Thus classifier morphisms are finite packets over classifier membership data. They do not identify source and target histories by host equality, and they do not collapse into the larger compiler-certificate surface unless a separate $\NameCertMorphismUp$ packet supplies the extra compiler boundary.
+\end{definition}
+
+\begin{theorem}[ClassifierMorphism NameCert obligation surface]
+\label{thm:classifiermorphism-namecert-obligation-surface}
+The local $\NameCert_{\ClassifierMorphismUp}$ surface consists of the carrier row of \autoref{def:classifiermorphism-carrier}, the classifier row of \autoref{def:classifiermorphism-classifier}, the $\Ext$ preservation row $E$, the $\mathsf{SigRel}$ preservation row $S$, the $\Cont$ preservation row $C$, the componentwise $\hsame$ preservation row $H$, the dependency package $P$, and the local naming row $N$.
+
+Every consumer-visible classifier-morphism read must therefore pass through the finite source packet $A$, target packet $B$, graph row $G$, and the preservation ledgers $E,S,C,H,P,N$. The packet exports no host compiler function, semantic typing model, quotient equality, or unrecorded relation between the source and target classifier memberships.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClassifierMorphismUp.ClassifierMorphismUp\_taste\_gate\_boundary}
+\begin{proof}
+Project the carrier tuple of \autoref{def:classifiermorphism-carrier}. The only rows available to the local certificate are the source packet, target packet, graph row, three preservation ledgers, transport ledger, provenance row, and local name.
+
+Use the classifier of \autoref{def:classifiermorphism-classifier}. It compares accepted morphism packets by reading those same rows componentwise, so a consumer cannot replace the displayed graph with a host-level function or a semantic relation.
+
+The local certificate is obtained by repacking $A,B,G,E,S,C,H,P,N$ as one $\NameCert_{\ClassifierMorphismUp}$ row. Since the carrier contains no other coordinate, the obligation surface is exhausted by those finite preservation packets.
+\end{proof}
+
+\begin{theorem}[ClassifierMorphism Ext and SigRel preservation]
+\label{thm:classifiermorphism-ext-sigrel-preservation}
+Let $M=(A,B,G,E,S,C,H,P,N)$ be an accepted $\ClassifierMorphismUp$ packet. If a source history is accepted by the source $\Ext$ row of $A$ and is related by the graph row $G$ to a target history in $B$, then every classifier-visible read of that target history factors through the target $\Ext$ preservation row $E$ and the target $\mathsf{SigRel}$ preservation row $S$, with the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ boundary $H,C,P,N$.
+
+Consequently the morphism preserves membership answers and signature-answer rows before any broader compiler certificate can consume the graph.
+\end{theorem}
+\begin{proof}
+Begin with the source membership read. The graph coordinate $G$ is the only row relating the source and target histories, and the preservation coordinate $E$ is the only row that turns source $\Ext$ membership into target $\Ext$ membership.
+
+Next read the signature answer. The row $S$ is attached to the same graph coordinate, so the target $\mathsf{SigRel}$ answer is reached through the same source and target classifier packets rather than through an independent typing semantics.
+
+Finally route both reads through $H,C,P,N$. These rows record componentwise sameness, continuation access, dependency provenance, and local naming for the same finite packet, so the classifier-visible preservation surface is fixed before any $\NameCertMorphismUp$ compiler boundary is applied.
+\end{proof}
+
+\begin{theorem}[ClassifierMorphism composition closure]
+\label{thm:classifiermorphism-composition-closure}
+Given accepted $\ClassifierMorphismUp$ packets from a classifier-membership packet $A$ to a packet $B$ and from $B$ to a packet $D$, their relational graph composite determines an accepted $\ClassifierMorphismUp$ packet from $A$ to $D$. The composed packet preserves $\Ext$, $\mathsf{SigRel}$, $\Cont$, and $\hsame$ by composing the displayed graph rows, preservation ledgers, continuation routes, dependency packages, and local naming rows of the two input packets.
+\end{theorem}
+\begin{proof}
+Project the first carrier to its source packet, middle packet, graph row, and preservation ledgers. Project the second carrier to the same kind of rows with the first target packet as its source-facing middle packet.
+
+Compose the graph rows relationally through the shared middle packet. For an accepted source membership row, apply the first $\Ext$ preservation ledger to reach the middle packet, then apply the second $\Ext$ preservation ledger to reach the final packet.
+
+The same concatenation applies to $\mathsf{SigRel}$ answers and $\Cont$ routes. Componentwise $\hsame$ rows compose through the shared middle packet, while the two $\Pkg$ and $\NameCert$ rows repack the resulting graph and preservation ledgers as one finite $\ClassifierMorphismUp$ carrier.
+\end{proof}
+
+\closureat{ClassifierMorphismUp}{seedStr}
+
+\begin{closurestatus}{\ClassifierMorphismUp}
+  \constructivestory{A $\ClassifierMorphismUp$ packet is generated from source and target classifier-membership packets, a finite graph row, $\Ext$, $\mathsf{SigRel}$, $\Cont$, and $\hsame$ preservation rows, package provenance, and a local naming row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:classifiermorphism-carrier}, \autoref{def:classifiermorphism-classifier}, \autoref{thm:classifiermorphism-namecert-obligation-surface}, \autoref{thm:classifiermorphism-ext-sigrel-preservation}, and \autoref{thm:classifiermorphism-composition-closure} bind the finite classifier-preservation packet between type-checking membership and naming-certificate morphism surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close host compiler semantics, quotient equality between source and target histories, semantic typing interpretation, or bridge checking.}
+  \upgradepath{Scoped closure requires checked preservation and non-escape rows for the same finite classifier-morphism packet.}
+\end{closurestatus}

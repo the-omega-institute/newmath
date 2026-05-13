@@ -83,4 +83,64 @@ theorem CauchyModulusMeetPacket_projection_stability [AskSetup] [PackageSetup]
       pkg'⟩,
       hsameMuFromRoutes⟩
 
+theorem CauchyModulusMeetPacket_shared_bound_transport [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n s0' s1' mu0' mu1' h' c' mu' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      hsame s0 s0' -> hsame s1 s1' -> hsame mu0 mu0' -> hsame mu1 mu1' ->
+        Cont s0' mu0' h' -> Cont s1' mu1' c' -> Cont h' c' mu' ->
+          UnaryHistory mu' ∧ hsame mu mu' := by
+  intro packet sameS0 sameS1 sameMu0 sameMu1 hRow' cRow' muRow'
+  have hRow : Cont s0 mu0 h :=
+    packet.right.right.right.right.right.right.right.right.right.left
+  have cRow : Cont s1 mu1 c :=
+    packet.right.right.right.right.right.right.right.right.right.right.left
+  have muRow : Cont h c mu :=
+    packet.right.right.right.right.right.right.right.right.right.right.right.left
+  have sameH : hsame h h' :=
+    cont_respects_hsame sameS0 sameMu0 hRow hRow'
+  have sameC : hsame c c' :=
+    cont_respects_hsame sameS1 sameMu1 cRow cRow'
+  have sameMu : hsame mu mu' :=
+    cont_respects_hsame sameH sameC muRow muRow'
+  exact ⟨unary_transport packet.right.right.right.right.left sameMu, sameMu⟩
+
+theorem CauchyModulusMeetPacket_swap_stability [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n hSw cSw : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ->
+      Cont s1 mu1 hSw -> Cont s0 mu0 cSw -> Cont hSw cSw mu ->
+        CauchyModulusMeetPacket s1 s0 mu1 mu0 mu hSw cSw p n bundle pkg ∧
+          hsame mu mu := by
+  intro packet hRowSw cRowSw muRowSw
+  have s0Unary : UnaryHistory s0 := packet.left
+  have s1Unary : UnaryHistory s1 := packet.right.left
+  have mu0Unary : UnaryHistory mu0 := packet.right.right.left
+  have mu1Unary : UnaryHistory mu1 := packet.right.right.right.left
+  have muUnary : UnaryHistory mu := packet.right.right.right.right.left
+  have pUnary : UnaryHistory p :=
+    packet.right.right.right.right.right.right.right.left
+  have nUnary : UnaryHistory n :=
+    packet.right.right.right.right.right.right.right.right.left
+  have hUnarySw : UnaryHistory hSw :=
+    unary_cont_closed s1Unary mu1Unary hRowSw
+  have cUnarySw : UnaryHistory cSw :=
+    unary_cont_closed s0Unary mu0Unary cRowSw
+  exact
+    ⟨⟨s1Unary,
+      s0Unary,
+      mu1Unary,
+      mu0Unary,
+      muUnary,
+      hUnarySw,
+      cUnarySw,
+      pUnary,
+      nUnary,
+      hRowSw,
+      cRowSw,
+      muRowSw,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right⟩,
+      hsame_refl mu⟩
+
 end BEDC.Derived.CauchyModulusMeetUp

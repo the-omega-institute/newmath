@@ -1,0 +1,23 @@
+\section{StreamName Finite-Window Regular Seal Non-Escape}
+\label{sec:streamname-finite-window-regular-seal-nonescape}
+
+\begin{theorem}[StreamName finite-window regularity Real seal non-escape]
+\label{thm:streamname-finite-window-regularity-real-seal-nonescape}
+Let $W$ be a finite public $\StreamNameUp$ window consumed by a $\RegSeqRat$ regularity row and then by a finite-window $\RealUp$ seal read. If the handoff uses the displayed $\mathsf{ProbeBundle}$ membership rows, certified unary observations, pointwise rational classifier rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local \NameCert{} rows, then the exported seal ledger consists only of the following finite data:
+\begin{enumerate}
+\item the displayed StreamName window $W$ and its $\mathsf{InBundle}$ membership rows;
+\item the $\DyadicRatCoreUp$ observation rows used by the rational endpoint reads;
+\item the $\RegSeqRat$ pointwise classifier row accepted over the same certified observations;
+\item the componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local \NameCert{} rows naming the packet.
+\end{enumerate}
+The exported ledger does not contain quotient stream equality, host sequence equality, a selected limit, metric completeness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First project the public finite-window interface of \autoref{thm:streamname-public-finite-window-interface}. It supplies exactly the displayed StreamName window, bundle membership, certified unary observations, pointwise rational classifier rows, transport rows, continuation routes, package provenance, and local certificate data.
+
+Next apply the pointwise handoff of \autoref{thm:streamname-regseqrat-pointwise-handoff}. The $\RegSeqRat$ consumer receives only the pointwise StreamName rows over the finite bundle, so the regularity row is read as downstream classifier data rather than as a quotient or host sequence equality.
+
+Finally use the seal boundary of \autoref{thm:streamname-real-seal-factorization-boundary}. It factors the finite-window $\RealUp$ read through the same StreamName, $\RegSeqRat$, $\hsame$, $\Cont$, $\Pkg$, and certificate rows.
+
+Repacking these three routes gives one finite ledger. Since none of the cited public routes has a coordinate for selected limits, metric completeness, quotient stream equality, host sequence equality, or ambient $\RealUp$ completeness, none of that data is exported by the seal.
+\end{proof}

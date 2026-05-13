@@ -98,6 +98,7 @@ The functoriality ledger $T$ is therefore the only public identity comparison ro
 \label{thm:completion-functor-composition-route-stability}
 For an accepted $\CompletionFunctorUp$ carrier $F=(M,U,R,Q,A,G,E,T,H,C,P,N)$ that displays composable dense $\ContinuousMapUp$ reads inside $G$ and their transported extension rows inside $E$, the completion route for the composite is classified by the composition clause of $T$. Componentwise transport through $H$ and consumer reads through $C$ preserve the same route through $M$, $U$, $R$, $Q$, $A$, $G$, $E$, $P$, and $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompletionFunctorUp.CompletionFunctorCarrier\_composition\_route\_stability}
 \begin{proof}
 Read the composable dense graph rows through the second paragraph of \autoref{thm:completion-functor-functoriality}. The carrier records the source read, first graph read, second graph read, extension read, and real-seal read as finite routes.
 
@@ -170,6 +171,26 @@ For extension reads, use \autoref{thm:completion-functor-extension-ledger-exactn
 For transported maps, combine \autoref{thm:completion-functor-functoriality}, \autoref{thm:completion-functor-identity-route-stability}, and \autoref{thm:completion-functor-composition-route-stability}. These theorems route identity and composition through $T$ using the same displayed carrier rows.
 
 Finally invoke \autoref{thm:completion-functor-completion-consumer-surface} and \autoref{thm:completion-functor-non-escape}. They exhaust the public consumer surface and rule out quotient completions, selected limits, hidden representatives, host function equality, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[CompletionFunctor Cauchy seal composition]
+\label{thm:completion-functor-cauchy-seal-composition}
+Let
+$$
+F_1=(M_1,U_1,R_1,Q_1,A_1,G_1,E_1,T_1,H_1,C_1,P_1,N_1)
+$$
+and
+$$
+F_2=(M_2,U_2,R_2,Q_2,A_2,G_2,E_2,T_2,H_2,C_2,P_2,N_2)
+$$
+be accepted $\CompletionFunctorUp$ carriers whose target seal row of $F_1$ matches the source seal row of $F_2$ through displayed $\hsame$ and $\Cont$ routes. Then their completion-extension packets compose to a single $\CompletionFunctorUp$ packet whose composed route preserves carrier membership, classifier equality, and extension-ledger exactness. The public surface of the composite reads the same $\RealUp$ seal boundary, the same completion-facing $\ContinuousMapUp$ classifier row, and the exact extension ledger exported by the composed packet.
+\end{theorem}
+\begin{proof}
+First build the composed route. Apply \autoref{thm:completion-functor-composition-route-stability} to the composable dense map rows and their transported extension rows; the matching seal hypothesis identifies the target read of $F_1$ with the source read of $F_2$ inside the displayed $\hsame$ and $\Cont$ routes.
+
+Next descend the ledger. Apply \autoref{thm:completion-functor-extension-ledger-exactness} to each packet and then to the composed carrier route. The only completion-facing extension reads available are the displayed ledgers $E_1$, $E_2$, and the composed ledger carried by the resulting packet.
+
+Finally export the consumer surface. Use \autoref{thm:completion-functor-public-extension-interface} to read the composed unit, seal, map-transport, and functoriality rows through the same package and naming provenance. This gives a single public $\CompletionFunctorUp$ packet without adding quotient completions, selected limits, host function equality, or ambient completeness.
 \end{proof}
 
 \closureat{CompletionFunctorUp}{seedStr}

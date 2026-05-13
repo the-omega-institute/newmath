@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\ClosedObservationSystemUp$}
+\label{ch:concrete-instances-closedobservationsystem-namecert}
+\origin{human}
+
+The $\ClosedObservationSystemUp$ carrier turns the closed-observation system of \autoref{def:transcendental-input-closed-system} into a finite BEDC packet. It records the current observation state, the finite observation-record ledger, the information-conservation order row, the explicit GAP socket, and the local transport, continuation, provenance, and naming rows needed for downstream inspection. The packet names closed observation as a local finite surface; it does not certify a universal future law or import host induction.
+
+\begin{definition}[ClosedObservationSystem carrier]
+\label{def:closed-observation-system-carrier}
+A $\ClosedObservationSystemUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(O,R,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the observation-state row naming the current finite state of the system;
+\item $R$ is the finite observation-record ledger accumulated at $O$;
+\item $G$ is the information-conservation order row, recording that later visible reads preserve the records already listed in $R$;
+\item $H$ stores the componentwise $\hsame$ transports for $O,R,G$ and the local naming rows;
+\item $C$ stores the displayed $\Cont$ routes by which consumers read the observation state, finite ledger, conservation row, GAP socket, package provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over the same finite observation-ledger packet;
+\item $N$ is the local $\NameCert_{\ClosedObservationSystemUp}$ row.
+\end{enumerate}
+The GAP socket is the boundary exposed by $C$ when a consumer asks for a universal quantifier, a substrate axiom, or a host induction rule not present in the finite ledger $R$.
+\end{definition}
+
+\begin{theorem}[ClosedObservationSystem NameCert obligations]
+\label{thm:closed-observation-system-namecert-obligations}
+For the carrier of \autoref{def:closed-observation-system-carrier}, the local $\NameCert_{\ClosedObservationSystemUp}$ surface consists of five finite rows: carrier admission for $Q$; classifier stability for the observation-state row $O$, record ledger $R$, and information-conservation row $G$; GAP-socket exactness for requests beyond the displayed finite records; $\Pkg$ provenance over $O,R,G,H,C$; and local naming exactness for $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite tuple $Q$. The observation state, finite ledger, conservation row, transport, continuation, package, and local naming rows are all visible coordinates of the same $\BHist$ packet.
+
+Classifier stability is componentwise. Transport through $H$ preserves the named state $O$, the finite records in $R$, and the conservation row $G$, while $C$ supplies only the displayed read routes.
+
+The GAP-socket row handles the remaining requests. A consumer asking for a universal quantifier, substrate axiom, or host induction rule leaves $O,R,G,H,C,P,N$, so the local naming row records non-escape rather than an added closure principle.
+\end{proof}
+
+\begin{theorem}[ClosedObservationSystem GAP socket non-escape]
+\label{thm:closed-observation-system-gap-socket-nonescape}
+Every accepted $\ClosedObservationSystemUp$ packet exports only the finite observation-state row $O$, finite observation-record ledger $R$, information-conservation row $G$, componentwise $\hsame$ transport $H$, displayed $\Cont$ routes $C$, package provenance $P$, and local naming row $N$. A read for universal quantifier closure, substrate axiom import, or host induction reaches the GAP socket and is not exported as an accepted observation record.
+\end{theorem}
+\begin{proof}
+Read the consumer request through the displayed $\Cont$ routes in \autoref{def:closed-observation-system-carrier}. If the request lands in $O,R,G,H,C,P,N$, the carrier supplies exactly the named finite coordinate.
+
+Apply the NameCert obligations of \autoref{thm:closed-observation-system-namecert-obligations}. GAP-socket exactness is part of the local surface, so a request outside the finite observation ledger is classified at the boundary rather than added to the ledger.
+
+Thus universal closure, axiom import, and host induction have no exported row in the packet. They remain GAP-facing requests, while the accepted carrier stays a finite observation-ledger surface.
+\end{proof}
+
+\closureat{ClosedObservationSystemUp}{seedStr}
+
+\begin{closurestatus}{\ClosedObservationSystemUp}
+  \constructivestory{A $\ClosedObservationSystemUp$ packet is generated from an observation-state row, a finite observation-record ledger, an information-conservation order row, a GAP socket, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-observation-system-carrier}, \autoref{thm:closed-observation-system-namecert-obligations}, and \autoref{thm:closed-observation-system-gap-socket-nonescape} name the finite carrier, local NameCert rows, and GAP non-escape boundary for closed observation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close universal quantifier closure, substrate axiom import, host induction, infinite observation tails, future-record selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, GAP-socket exactness, package provenance, and local naming for the same finite observation-ledger packet.}
+\end{closurestatus}

@@ -1,0 +1,115 @@
+\chapter{A Concrete Naming Certificate for $\ZeckendorfCarryNormalizationUp$}
+\label{ch:concrete-instances-zeckendorf-carry-normalization-namecert}
+\origin{human}
+
+The $\ZeckendorfCarryNormalizationUp$ interface packages the displayed
+Zeckendorf carry witness as a finite naming certificate. It records the
+source non-normal row, the target normal row, the Fibonacci-value ledger, the
+non-$\hsame$ boundary, displayed transports, continuation routes, package
+provenance, and a local naming row. The packet therefore separates
+normalization-by-carry from history sameness while keeping value preservation
+as an explicit ledger row.
+
+\begin{definition}[Zeckendorf carry-normalization carrier]
+\label{def:zeckendorf-carry-normalization-carrier}
+A $\ZeckendorfCarryNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(h,k,W,V,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $h$ is the displayed source history row with public carry window
+$\mathtt{word\_011}$;
+\item $k$ is the displayed target history row with public carry window
+$\mathtt{word\_100}$;
+\item $W$ is the Zeckendorf carry witness row, reading
+$\mathsf{ZCarry}(h,k)$ through the local generator;
+\item $V$ is the Fibonacci-value ledger row, recording that the value read
+from $h$ and the value read from $k$ are the same displayed Fibonacci sum;
+\item $H$ records the non-$\hsame$ boundary between $h$ and $k$ together with
+the componentwise $\hsame$ transports that preserve the source row, target
+row, carry witness, value ledger, package row, and local naming row;
+\item $C$ stores the finite $\Cont$ routes by which consumers read the source
+non-normal row, target normal row, carry row, value ledger, boundary row,
+package provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\ZeckendorfNormalUp$,
+$\ZCarryUp$, Fibonacci-value ledgers, $\hsame$, $\Cont$, and local
+$\NameCert$ rows;
+\item $N$ is the local
+$\NameCert_{\ZeckendorfCarryNormalizationUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed carry packet and its finite value
+ledger. It contains no source-target $\hsame$ proof, no global normalization
+algorithm, no arithmetic model outside the Fibonacci rows, and no kernel
+rewrite rule.
+\end{definition}
+
+\begin{theorem}[Zeckendorf carry-normalization NameCert obligations]
+\label{thm:zeckendorf-carry-normalization-namecert-obligations}
+The local $\NameCert_{\ZeckendorfCarryNormalizationUp}$ surface for
+\autoref{def:zeckendorf-carry-normalization-carrier} consists of five
+finite obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $Z=(h,k,W,V,H,C,P,N)$;
+\item source and target normality, stating that $h$ is rejected by the
+$\ZeckendorfNormalUp$ normal-form classifier and $k$ is accepted by it;
+\item value-ledger exactness, stating that $V$ is the unique public
+Fibonacci-value row exported by the packet;
+\item carry-is-not-$\hsame$ preservation, stating that the carry witness $W$
+does not supply $\hsame(h,k)$ and that all displayed transports preserve that
+boundary;
+\item local naming, stating that $P$ and $N$ name exactly the displayed
+carrier rows and no additional normalization object.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the tuple in
+\autoref{def:zeckendorf-carry-normalization-carrier}. The source row, target
+row, carry witness, value ledger, boundary-and-transport row, continuation
+routes, package provenance, and local naming row are all displayed
+coordinates of one finite $\BHist$ packet.
+
+The normality clause reads the source and target sides through $C$ and the
+normal-form rows named by $P$. The source window is the non-normal
+$\mathtt{word\_011}$ row, while the target window is the normal
+$\mathtt{word\_100}$ row.
+
+The value and boundary clauses are separate projections. The row $V$ records
+the Fibonacci-value equality of the two displayed sums, while $H$ records
+that the carry witness is not an $\hsame(h,k)$ proof and transports only the
+named components.
+
+Finally, the package and local naming rows repack the same finite surface.
+Since no coordinate names a global normalizer, source-target $\hsame$ proof,
+or kernel rewrite rule, the five obligations exhaust the local NameCert
+surface.
+\end{proof}
+
+\begin{theorem}[Zeckendorf carry-normalization value ledger]
+\label{thm:zeckendorf-carry-normalization-value-ledger}
+For an accepted $\ZeckendorfCarryNormalizationUp$ carrier
+$$
+Z=(h,k,W,V,H,C,P,N),
+$$
+every public claim that the source and target carry rows have the same
+Fibonacci value factors through the displayed ledger $V$. The ledger boundary
+is exact: $V$ may be used to read equality of the two Fibonacci sums, but it
+cannot be repacked as $\hsame(h,k)$, as a kernel rewrite, or as a global
+normalization procedure.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through the carrier definition. The only coordinate
+that mentions Fibonacci value is $V$, and the continuation routes in $C$
+expose that coordinate as a finite ledger row.
+
+The carry witness $W$ supplies the local $\mathsf{ZCarry}(h,k)$ edge, while
+the row $H$ keeps the non-$\hsame$ boundary visible under componentwise
+transport. Thus a consumer can combine $W$ and $V$ to read value-preserving
+carry normalization, but the consumer still lacks a source-target
+$\hsame(h,k)$ witness.
+
+The package provenance $P$ and local naming row $N$ name exactly this packet.
+They do not add a global normalizer or a kernel rewrite coordinate, so every
+public value-preservation read remains inside the displayed ledger boundary.
+\end{proof}
+

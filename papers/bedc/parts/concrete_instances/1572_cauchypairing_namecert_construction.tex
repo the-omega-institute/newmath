@@ -121,6 +121,7 @@ The carrier source is the finite packet of \autoref{def:cauchy-pairing-namecert-
 
 Finally, \autoref{thm:cauchy-pairing-synchronized-window-stability} shows that every inspected request follows the same synchronized finite-window route on matched packets. Since the packet has no coordinate for quotient equality, selected host limits, host real equality, or ambient completeness, the listed packet is the whole scoped dependency surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyPairingUp.CauchyPairingCarrier\_scoped\_dependency\_package}
 
 \begin{theorem}[Cauchy pairing public export certificate]
 \label{thm:cauchy-pairing-public-export-certificate}
@@ -134,6 +135,46 @@ Start with the packet $K$ of \autoref{def:cauchy-pairing-namecert-source}. Its d
 \autoref{thm:cauchy-pairing-synchronized-window-stability} gives the public stability condition for matched finite requests. \autoref{thm:cauchy-pairing-paired-seal-non-escape} prevents the paired seal from being read without its two source readbacks, and \autoref{thm:cauchy-pairing-classifier-transport-exactness} fixes the classifier boundary to the displayed $\hsame$ and $\Cont$ rows.
 
 Finally apply \autoref{thm:cauchy-pairing-scoped-dependency-package}. The scoped package lists exactly the BEDC rows named in the statement and contains no coordinate for quotient equality, selected host limits, host real equality, or ambient completeness, so the assembled public certificate exports only the displayed finite-row surface.
+\end{proof}
+
+\begin{theorem}[Cauchy pairing meet source]
+\label{thm:cauchy-pairing-meet-source}
+For the $\CauchyPairingUp$ packet
+$$
+K=(A,B,W_A,W_B,L_A,L_B,\mu_A,\mu_B,\mu,E_A,E_B,E,H,C,P,N)
+$$
+of \autoref{def:cauchy-pairing-namecert-source}, the side moduli $\mu_A,\mu_B$ together with the synchronized modulus $\mu$ determine a $\CauchyModulusMeetUp$ source row. The source row is read through the same side windows, dyadic ledgers, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ data already present in $K$.
+\end{theorem}
+\begin{proof}
+Start with the carrier packet of \autoref{def:cauchy-pairing-namecert-source}. Its displayed coordinates contain the two source names, the two side windows, the two dyadic ledgers, the side schedules $\mu_A,\mu_B$, and the synchronized schedule $\mu$.
+
+\autoref{thm:cauchy-pairing-synchronized-window-stability} forces every inspected request through $\mu$ before either side window is read. Thus the synchronized schedule supplies the shared meet row, while $\mu_A$ and $\mu_B$ remain the two source modulus rows.
+
+The classifier boundary and scoped package then provide the remaining rows. By \autoref{thm:cauchy-pairing-classifier-transport-exactness} and \autoref{thm:cauchy-pairing-scoped-dependency-package}, the meet source can use only the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already in $K$.
+\end{proof}
+
+\begin{theorem}[Cauchy pairing shared-bound consumer]
+\label{thm:cauchy-pairing-shared-bound-consumer}
+Every shared-bound consumer of an accepted $\CauchyPairingUp$ packet reads the common bound through the $\CauchyModulusMeetUp$ row determined in \autoref{thm:cauchy-pairing-meet-source}. In particular, the consumer first reads the synchronized modulus $\mu$, then the side schedules $\mu_A,\mu_B$, side windows $W_A,W_B$, dyadic ledgers $L_A,L_B$, componentwise transports, continuation routes, provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Let a shared-bound consumer be given. By \autoref{thm:cauchy-pairing-namecert-obligations}, synchronized-window exactness sends the request through $\mu$ before either source side can be inspected.
+
+The meet source theorem identifies the shared-bound row as the finite $\CauchyModulusMeetUp$ source determined by $\mu_A,\mu_B,\mu$ and the side ledger data. Hence the consumer cannot bypass the meet row while still reading a common bound.
+
+Finally apply \autoref{thm:cauchy-pairing-public-export-certificate}. The public certificate exposes only the side names, windows, dyadic ledgers, modulus rows, seal rows, transport routes, package provenance, and local naming row, so every shared-bound read factors through that displayed meet surface.
+\end{proof}
+
+\begin{theorem}[Cauchy pairing Real handoff non-escape]
+\label{thm:cauchy-pairing-real-handoff-non-escape}
+The $\RealUp$ handoff from an accepted $\CauchyPairingUp$ packet may consume the paired seal $E$ only after the shared $\CauchyModulusMeetUp$ source row, both source readbacks, both finite windows, both dyadic ledgers, componentwise transports, continuation routes, package provenance, and local naming row have been displayed. The handoff exports no quotient equality, selected host limit, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$ handoff route. By \autoref{thm:cauchy-pairing-paired-seal-non-escape}, the paired seal $E$ is downstream of both finite windows and both dyadic ledgers along the synchronized modulus route.
+
+\autoref{thm:cauchy-pairing-meet-source} places the side moduli and synchronized modulus into one shared $\CauchyModulusMeetUp$ source row. \autoref{thm:cauchy-pairing-shared-bound-consumer} then forces any shared-bound read used by the handoff through that meet row.
+
+The remaining exclusions follow from \autoref{thm:cauchy-pairing-public-export-certificate}. The public export surface has no coordinate for quotient equality, selected host limits, host real equality, or ambient completeness, so the $\RealUp$ handoff cannot export them.
 \end{proof}
 
 \closureat{CauchyPairingUp}{seedStr}

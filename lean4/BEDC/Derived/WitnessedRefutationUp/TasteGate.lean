@@ -190,6 +190,9 @@ instance witnessedRefutationChapterTasteGate : ChapterTasteGate WitnessedRefutat
     intro x y hxy heq
     exact hxy (witnessedRefutationToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate WitnessedRefutationUp :=
+  witnessedRefutationChapterTasteGate
+
 theorem WitnessedRefutationTasteGate_single_carrier_alignment :
     (forall h : BHist,
       witnessedRefutationDecodeBHist (witnessedRefutationEncodeBHist h) = h) /\

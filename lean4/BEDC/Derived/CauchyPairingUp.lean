@@ -237,4 +237,30 @@ theorem CauchyPairingCarrier_synchronized_window_stability [AskSetup] [PackageSe
   exact And.intro lAUnary'
     (And.intro lBUnary' (And.intro sameLA sameLB))
 
+theorem CauchyPairingCarrier_scoped_dependency_package [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
+      exportRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      Cont route provenance exportRow ->
+        PkgSig bundle exportRow pkg ->
+          UnaryHistory a ∧ UnaryHistory b ∧ UnaryHistory wA ∧ UnaryHistory wB ∧
+            UnaryHistory lA ∧ UnaryHistory lB ∧ UnaryHistory e ∧ UnaryHistory route ∧
+              UnaryHistory provenance ∧ UnaryHistory exportRow ∧ Cont mu wA lA ∧
+                Cont mu wB lB ∧ Cont lA lB e ∧ Cont route provenance exportRow ∧
+                  PkgSig bundle e pkg ∧ PkgSig bundle exportRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig
+  intro carrier routeProvenanceExport exportPkg
+  obtain ⟨aUnary, bUnary, wAUnary, wBUnary, lAUnary, lBUnary, _muAUnary, _muBUnary,
+    _muUnary, _eAUnary, _eBUnary, eUnary, _transportUnary, routeUnary, provenanceUnary,
+    _localCertUnary, muWARow, muWBRow, lAlBRow, _eProvenanceTransport,
+    _transportLocalRoute, ePkg⟩ := carrier
+  have exportUnary : UnaryHistory exportRow :=
+    unary_cont_closed routeUnary provenanceUnary routeProvenanceExport
+  exact
+    ⟨aUnary, bUnary, wAUnary, wBUnary, lAUnary, lBUnary, eUnary, routeUnary,
+      provenanceUnary, exportUnary, muWARow, muWBRow, lAlBRow, routeProvenanceExport,
+      ePkg, exportPkg⟩
+
 end BEDC.Derived.CauchyPairingUp

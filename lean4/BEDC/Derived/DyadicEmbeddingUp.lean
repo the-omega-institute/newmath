@@ -86,4 +86,24 @@ theorem DyadicEmbeddingCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact And.intro provenancePkg source.right
   }
 
+theorem DyadicEmbeddingCarrier_constant_stream_readback [AskSetup] [PackageSetup]
+    {dyadic stream readback realSeal transport route provenance nameCert station : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicEmbeddingCarrier dyadic stream readback realSeal transport route provenance nameCert
+        bundle pkg ->
+      Cont dyadic stream station ->
+        Cont station readback route ->
+          UnaryHistory dyadic ∧ UnaryHistory stream ∧ UnaryHistory station ∧
+            UnaryHistory readback ∧ Cont dyadic stream station ∧
+              Cont station readback route ∧ PkgSig bundle provenance pkg := by
+  intro carrier dyadicStreamStation stationReadbackRoute
+  obtain ⟨dyadicUnary, streamUnary, readbackUnary, _realSealUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _nameCertUnary, _dyadicStreamReadback,
+    _readbackRealSealRoute, _routeProvenanceNameCert, provenancePkg, _nameCertPkg⟩ :=
+    carrier
+  have stationUnary : UnaryHistory station :=
+    unary_cont_closed dyadicUnary streamUnary dyadicStreamStation
+  exact ⟨dyadicUnary, streamUnary, stationUnary, readbackUnary, dyadicStreamStation,
+    stationReadbackRoute, provenancePkg⟩
+
 end BEDC.Derived.DyadicEmbeddingUp

@@ -41,6 +41,7 @@ The remaining obligations are routing and naming obligations. The rows $H,C,P,N$
 \label{thm:dyadic-absolute-value-transport-stability}
 For accepted $\DyadicAbsoluteValueUp$ carriers whose displayed source, sign-split, mantissa, endpoint, tolerance-ledger, provenance, and naming rows are related componentwise by the stored $\hsame$ rows, the absolute-value endpoint and tolerance ledger remain readable after transport. The transported carrier computes the nonnegative endpoint from the transported $\DyadicRatCoreUp$ source through the transported common-exponent mantissa row.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicAbsoluteValueUp.DyadicAbsoluteValuePacket\_transport\_stability}
 \begin{proof}
 Project the two accepted carriers. The rows that determine the absolute-value read are exactly the source $D$, sign split $S$, common-exponent mantissa row $M$, endpoint $E$, and tolerance ledger $V$.
 
@@ -73,15 +74,127 @@ Apply \autoref{thm:dyadic-absolute-value-namecert-obligations} to bind every acc
 Finally apply \autoref{thm:dyadic-absolute-value-nonnegative-bridge}. Every completion-facing use factors through the same endpoint and tolerance ledger, so the ledger is exact for the displayed finite route and contains no unlisted analytic or host-normalization coordinate.
 \end{proof}
 
-\closureat{DyadicAbsoluteValueUp}{seedStr}
+\begin{theorem}[Dyadic absolute-value obligation closure package]
+\label{thm:dyadic-absolute-value-obligation-closure-package}
+The carrier, NameCert obligations, transport stability, nonnegative bridge, and ledger exactness of \autoref{def:dyadic-absolute-value-carrier}, \autoref{thm:dyadic-absolute-value-namecert-obligations}, \autoref{thm:dyadic-absolute-value-transport-stability}, \autoref{thm:dyadic-absolute-value-nonnegative-bridge}, and \autoref{thm:dyadic-absolute-value-ledger-exactness} assemble the finite $\DyadicAbsoluteValueUp$ obligation package over $\DyadicRatCoreUp$, the $\IntUp$ and $\RatUp$ sign rows, $\RegSeqRatUp$ and $\RealUp$ tolerance consumers, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exports only the displayed source, sign split, common-exponent mantissa, nonnegative endpoint, tolerance ledger, transport, continuation, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+The carrier theorem supplies the finite packet and lists exactly the rows available to the package. The NameCert obligations bind admission, sign-split exposure, common-exponent mantissa readback, endpoint construction, tolerance-ledger exposure, transport, continuation, provenance, and naming to those coordinates.
+
+Transport stability then shows that accepted reads remain inside the same displayed surface after componentwise $\hsame$ movement. The nonnegative bridge identifies the downstream endpoint read consumed by $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ routes.
+
+Ledger exactness supplies the final packaging boundary. It rules out any hidden coordinate for a host absolute value, trichotomy, quotient normalization, or analytic completeness, so the five cited rows form one finite $\DyadicAbsoluteValueUp$ obligation package rather than an appeal to an external absolute-value operation.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value endpoint determinacy]
+\label{thm:dyadic-absolute-value-endpoint-determinacy}
+Accepted $\DyadicAbsoluteValueUp$ carriers with the same transported $\DyadicRatCoreUp$ source row, sign-split row, and common-exponent mantissa row expose the same nonnegative endpoint row. The endpoint is determined by the displayed branch row $S$ and the mantissa row $M$, not by a host absolute-value operation or an external order oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted carriers through \autoref{def:dyadic-absolute-value-carrier}. The only rows that determine the endpoint are the source $D$, sign split $S$, common-exponent mantissa row $M$, and endpoint row $E$.
+
+Apply \autoref{thm:dyadic-absolute-value-transport-stability} to move the compared packets to the common displayed surface. On that surface the same sign-split row selects the same nonnegative branch of the same mantissa row.
+
+Finally apply \autoref{thm:dyadic-absolute-value-nonnegative-bridge}. The endpoint row is the repacking of that displayed branch with the visible dyadic provenance, so two accepted carriers with the same transported source, split, and mantissa rows expose the same endpoint row.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value tolerance-window handoff]
+\label{thm:dyadic-absolute-value-tolerance-window-handoff}
+Every $\CauchyModulusUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the absolute-value endpoint of an accepted $\DyadicAbsoluteValueUp$ carrier reads the displayed tolerance ledger $V$. No such consumer can bypass $V$ by reading a separate host absolute-value, trichotomy, quotient rational, selected real value, or completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with a downstream consumer route. By \autoref{thm:dyadic-absolute-value-nonnegative-bridge}, the consumer reaches the endpoint only through the displayed endpoint row $E$ together with the tolerance ledger $V$.
+
+The route from source to endpoint is fixed by the carrier and by \autoref{thm:dyadic-absolute-value-transport-stability}. It passes through $D,S,M,E$ and then through the continuation route from $E$ to $V$.
+
+Apply \autoref{thm:dyadic-absolute-value-ledger-exactness}. The finite ledger is exact for the route from source row through endpoint construction to completion-facing consumers, so the tolerance window $V$ is part of every accepted handoff.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value sign-split exclusion]
+\label{thm:dyadic-absolute-value-sign-split-exclusion}
+The $\DyadicAbsoluteValueUp$ packet excludes trichotomy and host integer normal forms. Its only sign data are the displayed branch row $S$, the common-exponent mantissa row $M$, the nonnegative endpoint row $E$, and the tolerance ledger $V$ routed by the finite carrier.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:dyadic-absolute-value-carrier}. The coordinate list includes the source row, sign-split row, mantissa row, endpoint row, tolerance ledger, transport, continuation, provenance, and local name, and it explicitly omits trichotomy and host integer normal forms.
+
+\autoref{thm:dyadic-absolute-value-namecert-obligations} binds the local naming surface to those displayed rows. Endpoint determinacy then shows that the endpoint is fixed by the displayed branch row and mantissa row rather than by any hidden order datum.
+
+The exclusion is stable for downstream use by \autoref{thm:dyadic-absolute-value-tolerance-window-handoff}. A consumer receives only the endpoint and tolerance ledger routed through the finite packet, so no trichotomy or host normalization row can be extracted from the certificate.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value scoped certificate boundary]
+\label{thm:dyadic-absolute-value-scoped-certificate-boundary}
+The $\DyadicAbsoluteValueUp$ scoped certificate boundary is exactly the package formed by the carrier, local obligation surface, transport stability, nonnegative bridge, ledger exactness, endpoint determinacy, tolerance-window handoff, and sign-split exclusion of \autoref{def:dyadic-absolute-value-carrier}, \autoref{thm:dyadic-absolute-value-namecert-obligations}, \autoref{thm:dyadic-absolute-value-transport-stability}, \autoref{thm:dyadic-absolute-value-nonnegative-bridge}, \autoref{thm:dyadic-absolute-value-ledger-exactness}, \autoref{thm:dyadic-absolute-value-endpoint-determinacy}, \autoref{thm:dyadic-absolute-value-tolerance-window-handoff}, and \autoref{thm:dyadic-absolute-value-sign-split-exclusion}. Every consumer read of $\DyadicAbsoluteValueUp$ is bound to the displayed rows
+$$
+D,S,M,E,V,H,C,P,N
+$$
+over $\DyadicRatCoreUp$, $\IntUp$, $\RatUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The boundary contains no quotient rational, selected real value, trichotomy witness, host integer normal form, external absolute-value operation, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First collect the visible inventory. The carrier lists exactly the rows $D,S,M,E,V,H,C,P,N$, and the local NameCert obligations identify those rows as the admitted source, sign-split, common-exponent mantissa, endpoint, tolerance ledger, transport, continuation, provenance, and naming surface.
+
+Next fix the route followed by every absolute-value read. Transport stability keeps accepted reads on the transported displayed surface, while endpoint determinacy forces the endpoint through the same sign-split row and common-exponent mantissa row. The nonnegative bridge and tolerance-window handoff then route every $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ consumer through the endpoint row $E$ and tolerance ledger $V$.
+
+Finally apply ledger exactness together with sign-split exclusion. Those theorems rule out quotient rationals, selected real values, trichotomy, host integer normal forms, external absolute-value rows, and $\RealUp$ completeness, so the scoped boundary is precisely the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value scoped public handoff]
+\label{thm:dyadic-absolute-value-scoped-closure-public-handoff}
+The scoped certificate boundary of $\DyadicAbsoluteValueUp$ exposes a public consumer surface for $\CauchyModulusUp$, $\RegSeqRatUp$, and $\RealUp$ consisting exactly of the rows
+$$
+D,S,M,E,V,H,C,P,N.
+$$
+Every accepted public handoff reads the nonnegative endpoint through $E$, reads tolerance information through $V$, and cites the scoped boundary before any completion-facing consumer can use the packet.
+\end{theorem}
+\begin{proof}
+Begin with the scoped certificate boundary. It binds every consumer read to the finite rows $D,S,M,E,V,H,C,P,N$ over the dyadic source, sign split, mantissa row, endpoint, tolerance ledger, transport, route, provenance, and local naming surface.
+
+Apply the nonnegative bridge and tolerance-window handoff. The bridge identifies the endpoint row $E$ as the only nonnegative dyadic endpoint exported to downstream consumers, and the handoff forces every completion-facing read to include the tolerance ledger $V$.
+
+Finally apply ledger exactness and sign-split exclusion. These results remove quotient rationals, selected real values, trichotomy, host integer normal forms, external absolute-value operations, and $\RealUp$ completeness from the public surface, so the cited handoff is exactly the scoped finite boundary.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value RegSeqRat consumer exhaustion]
+\label{thm:dyadic-absolute-value-regseqrat-consumer-exhaustion}
+Every $\RegSeqRatUp$ tolerance read of an accepted $\DyadicAbsoluteValueUp$ carrier factors through the displayed rows
+$$
+D,S,M,E,V,H,C,P,N.
+$$
+In particular, a regular-Cauchy consumer can inspect the source dyadic row, sign split, common-exponent mantissa, nonnegative endpoint, tolerance ledger, transports, routes, provenance, and local name, but it cannot inspect any absolute-value datum outside those rows.
+\end{theorem}
+\begin{proof}
+Take a $\RegSeqRatUp$ consumer route. By the tolerance-window handoff, the route reaches the absolute-value endpoint only through $E$ and then reads the tolerance window through $V$.
+
+The source of that endpoint is fixed by transport stability and endpoint determinacy. Together they force the endpoint to be the transported sign-split branch of the common-exponent mantissa row, so the consumer also factors through $D,S,M,H,C$.
+
+The remaining rows are packaging rows. The NameCert obligations and ledger exactness bind provenance and local naming to $P,N$ and rule out any extra host absolute-value row, quotient rational, selected real, trichotomy witness, host normal form, or completeness witness. Thus the regular-Cauchy consumer surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Dyadic absolute-value Real tolerance non-escape]
+\label{thm:dyadic-absolute-value-real-tolerance-non-escape}
+No $\RealUp$ tolerance read of an accepted $\DyadicAbsoluteValueUp$ carrier can export a selected real value, trichotomy witness, quotient rational, host integer normal form, or $\RealUp$ completeness row. The real-facing read is limited to the nonnegative dyadic endpoint $E$, the tolerance ledger $V$, and the transport, route, provenance, and local naming rows already present in
+$$
+D,S,M,E,V,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with a real-facing endpoint read. The nonnegative bridge routes the read through the displayed endpoint $E$, and the tolerance-window handoff requires the tolerance ledger $V$ before any $\RealUp$ consumer can use the endpoint.
+
+The sign data are already exhausted by the sign-split exclusion theorem. It permits only the branch row $S$, mantissa row $M$, endpoint row $E$, and tolerance row $V$, and it excludes trichotomy and host integer normal forms.
+
+Apply ledger exactness and the scoped certificate boundary. They rule out quotient rationals, selected real values, external absolute-value operations, and $\RealUp$ completeness rows, leaving only the displayed finite packet for the real tolerance read.
+\end{proof}
+
+\closureat{DyadicAbsoluteValueUp}{obligationStr}[BEDC.Derived.DyadicAbsoluteValueUp.DyadicAbsoluteValuePacket\_transport\_stability]
 
 \begin{closurestatus}{\DyadicAbsoluteValueUp}
   \constructivestory{A $\DyadicAbsoluteValueUp$ packet is generated from a $\DyadicRatCoreUp$ source row, a sign-split row, a common-exponent mantissa row, a nonnegative endpoint row, a tolerance and absolute-value ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:dyadic-absolute-value-carrier}, \autoref{thm:dyadic-absolute-value-namecert-obligations}, \autoref{thm:dyadic-absolute-value-transport-stability}, \autoref{thm:dyadic-absolute-value-nonnegative-bridge}, and \autoref{thm:dyadic-absolute-value-ledger-exactness} bind the finite dyadic absolute-value carrier, sign split, nonnegative endpoint, transport surface, and tolerance ledger.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DyadicAbsoluteValueUp.DyadicAbsoluteValuePacket\_transport\_stability}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient rationals, selected real values, trichotomy, host integer normal forms, $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, transport stability, nonnegative-endpoint handoff, and ledger exactness for the same finite packet.}
+  \upgradepath{Scoped closure requires binding these obligation rows to the $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ dependency scope.}
 \end{closurestatus}

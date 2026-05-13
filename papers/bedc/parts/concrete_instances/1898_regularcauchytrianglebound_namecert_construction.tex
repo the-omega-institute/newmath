@@ -52,12 +52,49 @@ D_m \longrightarrow I_m \longrightarrow I_n \longrightarrow D_n
 $$
 and the output tolerance is the dyadic sum recorded in $Q$ from the two regular endpoint bounds in $A$ and the middle Cauchy-modulus bound in $B$. Every $\RealUp$ diagonal-regularity consumer reads this finite route before receiving the bound.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTriangleBoundUp.RegularCauchyTriangleBoundCarrier\_diagonal\_regular\_route}
 \begin{proof}
 Read the accepted carrier and project the four observation rows. The continuation row $C$ supplies the route from $D_m$ to $I_m$, from $I_m$ to $I_n$, and from $I_n$ to $D_n$.
 
 The first and third legs are bounded by the two $\RegSeqRatUp$ regularity reads in $A$. The middle leg is bounded by the shared $\CauchyModulusMeetUp$ read in $B$, transported to the same intermediate surface by $H$.
 
 Finally read the dyadic ledger $Q$. It records the two endpoint tolerances and the summed output tolerance, so the consumer receives exactly the three-leg diagonal estimate and no separate completed-real object.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound endpoint-leg scope]
+\label{thm:regular-cauchy-triangle-bound-leg-scope}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$, the first comparison leg $D_m \longrightarrow I_m$ and the third comparison leg $I_n \longrightarrow D_n$ are exactly the two $\RegSeqRatUp$ regularity reads stored in row $A$. No additional endpoint estimate, quotient-stream comparison, selected limit, host real equality, or ambient completeness datum participates in either endpoint leg.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-triangle-bound-carrier}. Its row $A$ is defined as the pair of $\RegSeqRatUp$ regularity reads, one for the $m$ endpoint and one for the $n$ endpoint, while the surrounding rows only transport, route, add tolerances, record provenance, and name the packet.
+
+Apply the diagonal route of \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity}. The route reads the first triangle leg from $D_m$ to $I_m$ and the third triangle leg from $I_n$ to $D_n$ before the dyadic output bound is reported, so the only endpoint estimates available to that route are the two reads already displayed in $A$.
+
+The non-escape boundary of \autoref{thm:regular-cauchy-triangle-bound-nonescape} prevents any consumer-facing route from exporting quotient streams, selected limits, host real equality, ambient completeness, or completion witnesses. Thus the endpoint-leg scope is exactly row $A$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound middle-meet exactness]
+\label{thm:regular-cauchy-triangle-bound-middle-meet-exactness}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$, the middle comparison $I_m \longrightarrow I_n$ is exactly the $\CauchyModulusMeetUp$ read stored in row $B$, transported by the displayed $\hsame$ rows in $H$ to the common intermediate surface. No quotient stream, selected limit, host real equality, or ambient completeness datum supplies a second middle comparison.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-triangle-bound-carrier}. Row $B$ is the middle $\CauchyModulusMeetUp$ read, and row $H$ is the componentwise transport surface that aligns the intermediate observations and middle-modulus read.
+
+Use \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity} to inspect the route $D_m \longrightarrow I_m \longrightarrow I_n \longrightarrow D_n$. The central arrow is the only place in the route where the two intermediate rows are compared, and the theorem identifies that bound as the shared middle Cauchy-modulus read in $B$.
+
+By \autoref{thm:regular-cauchy-triangle-bound-nonescape}, every consumer-facing route is exhausted by the finite displayed rows. Since the carrier has no coordinate for quotient streams, selected limits, host real equality, or ambient completeness, row $B$ is the exact middle-meet obligation.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound tolerance-addition ledger]
+\label{thm:regular-cauchy-triangle-bound-tolerance-addition-ledger}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier $T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N)$, the output tolerance read by the diagonal-regularity consumer is precisely the $\DyadicRatCoreUp$ sum row in $Q$, formed from the two endpoint tolerances certified by $A$ and the middle tolerance certified by $B$. No selected limit, quotient-stream equality, host real equality, or ambient completeness datum changes the reported tolerance.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-triangle-bound-carrier}. Row $Q$ is the $\DyadicRatCoreUp$ tolerance ledger, row $A$ supplies the two endpoint regularity tolerances, and row $B$ supplies the middle Cauchy-modulus tolerance.
+
+The diagonal-regularity statement in \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity} reads the three legs in order and then reads the dyadic sum recorded in $Q$. Therefore the reported output tolerance is not recomputed by a hidden completion object; it is the displayed ledger row attached to the finite packet.
+
+The non-escape boundary of \autoref{thm:regular-cauchy-triangle-bound-nonescape} rules out exported quotient streams, selected limits, host real equality, ambient completeness proofs, and host completion witnesses. Hence the tolerance-addition obligation is precisely the $\DyadicRatCoreUp$ row $Q$.
 \end{proof}
 
 \begin{theorem}[RegularCauchyTriangleBound non-escape]
@@ -82,6 +119,26 @@ The dependency anchors in $P$ name the dyadic arithmetic, stream schedule, regul
 The handoff to $\RealUp$ is through the diagonal-regularity route of \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity}. That route first displays the three triangle legs and then reads the summed dyadic bound.
 
 No downstream row is available for a selected limit, quotient stream, host real equality, or ambient completeness object. Therefore the phase handoff is precisely the finite three-leg estimate surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyTriangleBound transported assembly]
+\label{thm:regular-cauchy-triangle-bound-transported-assembly}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier
+$$
+T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N),
+$$
+any transported consumer route over $T$ is exhausted by the endpoint-leg reads in $A$, the middle-meet read in $B$, the dyadic sum ledger $Q$, the transport and continuation routes $H,C$, and the package and naming rows $P,N$. The assembled route is the finite transported packet that a $\RealUp$ diagonal-regularity or completion-seal consumer receives; it is not a single-theorem variant of one leg obligation, because it combines both endpoint legs, the middle leg, tolerance addition, non-escape, and the Real-phase handoff into one consumer package.
+\end{theorem}
+\begin{proof}
+Start with diagonal regularity from \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity}. It fixes the visible route $D_m \longrightarrow I_m \longrightarrow I_n \longrightarrow D_n$ and makes the dyadic output bound a read from the same packet.
+
+Apply endpoint-leg scope from \autoref{thm:regular-cauchy-triangle-bound-leg-scope}. The first and third legs of the route are exactly the two $\RegSeqRatUp$ regularity reads stored in $A$ after the displayed transports.
+
+Next apply middle-meet exactness from \autoref{thm:regular-cauchy-triangle-bound-middle-meet-exactness}. The central comparison is exactly the $\CauchyModulusMeetUp$ read stored in $B$, transported by $H$ to the same intermediate surface.
+
+The tolerance-addition ledger of \autoref{thm:regular-cauchy-triangle-bound-tolerance-addition-ledger} supplies the summed dyadic output row $Q$. Non-escape from \autoref{thm:regular-cauchy-triangle-bound-nonescape} prevents quotient streams, selected limits, host real equality, ambient completeness, and completion witnesses from entering the transported route.
+
+Finally use the phase handoff of \autoref{thm:regular-cauchy-triangle-bound-phase-handoff}. The $\RealUp$ consumer receives the assembled finite packet through $H,C,P,N$, so the transported assembly is exactly the union of the three leg obligations, the dyadic ledger, and the Real-phase handoff.
 \end{proof}
 
 \closureat{RegularCauchyTriangleBoundUp}{seedStr}
