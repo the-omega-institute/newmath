@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -21,6 +23,41 @@ def CauchyModulusMeetPacket [AskSetup] [PackageSetup]
     UnaryHistory mu ∧ UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧ UnaryHistory n ∧
       Cont s0 mu0 h ∧ Cont s1 mu1 c ∧ Cont h c mu ∧ hsame p n ∧
         PkgSig bundle p pkg
+
+theorem CauchyModulusMeetPacket_namecert_obligations [AskSetup] [PackageSetup]
+    {s0 s1 mu0 mu1 mu h c p n : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          CauchyModulusMeetPacket s0 s1 mu0 mu1 mu h c p n bundle pkg ∧ hsame row mu)
+        (fun row : BHist => Cont s0 mu0 h ∧ Cont s1 mu1 c ∧ Cont h c row ∧
+          PkgSig bundle p pkg)
+        (fun _row : BHist =>
+          UnaryHistory s0 ∧ UnaryHistory s1 ∧ UnaryHistory mu0 ∧ UnaryHistory mu1 ∧
+            UnaryHistory mu ∧ UnaryHistory h ∧ UnaryHistory c ∧ UnaryHistory p ∧
+              UnaryHistory n)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg NameCert
+  intro packet
+  have packetWitness := packet
+  obtain ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, muUnary, hUnary, cUnary, pUnary,
+    nUnary, hRow, cRow, muRow, _samePN, endpointPkg⟩ := packet
+  constructor
+  · constructor
+    · exact Exists.intro mu ⟨packetWitness, hsame_refl mu⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro _row _other same
+      exact hsame_symm same
+    · intro _row _other _third sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro _row _other same source
+      exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+  · intro _row source
+    cases source.right
+    exact ⟨hRow, cRow, muRow, endpointPkg⟩
+  · intro _row _source
+    exact ⟨s0Unary, s1Unary, mu0Unary, mu1Unary, muUnary, hUnary, cUnary, pUnary, nUnary⟩
 
 theorem CauchyModulusMeetPacket_projection_stability [AskSetup] [PackageSetup]
     {s0 s1 mu0 mu1 mu h c p n s0' s1' mu0' mu1' mu' h' c' p' n' : BHist}
