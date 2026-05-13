@@ -47,11 +47,69 @@ static int round_up_ether_width(size_t in, size_t *out) {
 #define COOK_ENCODE_PHASE_SYMBOL_STRIDE_PERIODS 64
 #define COOK_ENCODE_PHASE_TRAILING_GUARD_PERIODS 64
 
+/* Cook 2009 §1.4: periodic left side is [A]^v B [A]^13 B [A]^11 B [A]^12 B. */
+#define COOK_LEFT_A_GAP_AFTER_FIRST_B 13
+/* Cook 2009 §1.4: periodic left side is [A]^v B [A]^13 B [A]^11 B [A]^12 B. */
+#define COOK_LEFT_A_GAP_AFTER_SECOND_B 11
+/* Cook 2009 §1.4: periodic left side is [A]^v B [A]^13 B [A]^11 B [A]^12 B. */
+#define COOK_LEFT_A_GAP_AFTER_THIRD_B 12
+/* Cook 2009 §1.4: v contributes 76 per Y in all appendants. */
+#define COOK_LEFT_V_Y_WEIGHT 76
+/* Cook 2009 §1.4: v contributes 80 per N in all appendants. */
+#define COOK_LEFT_V_N_WEIGHT 80
+/* Cook 2009 §1.4: v contributes 60 per nonempty appendant. */
+#define COOK_LEFT_V_NONEMPTY_WEIGHT 60
+/* Cook 2009 §1.4: v contributes 43 per empty appendant. */
+#define COOK_LEFT_V_EMPTY_WEIGHT 43
+/* Cook 2009 §1.4: each N in the central tape becomes ED. */
+#define COOK_CENTRAL_BLOCKS_PER_N 2
+/* Cook 2009 §1.4: each Y in the central tape becomes FD. */
+#define COOK_CENTRAL_BLOCKS_PER_Y 2
+/* Cook 2009 §1.4: each right-side Y appendant symbol becomes II. */
+#define COOK_RIGHT_BLOCKS_PER_Y 2
+/* Cook 2009 §1.4: each right-side N appendant symbol becomes IJ. */
+#define COOK_RIGHT_BLOCKS_PER_N 2
+/* Cook 2009 §1.5: v is twice the table-data height used for ossifier spacing. */
+#define COOK_LEDGER_GUARD_PERIODS_PER_SCALE 128
+
 #define COOK_ENCODE_PHASE_LEADER_WIDTH 704
 #define COOK_ENCODE_PHASE_OSSIFIER_WIDTH 234
 #define COOK_ENCODE_PHASE_DATA_BLOCK_WIDTH 867
-#define COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH 4096
+#define COOK_ENCODE_PHASE_LEDGER_SLOT_WIDTH 65536
 #define COOK_ENCODE_PHASE_LEDGER_PREFIX_SLOTS 3
+
+typedef struct {
+    const char *name;
+    size_t value;
+} CookSpacingConstant;
+
+static const CookSpacingConstant COOK_SPACING_CONSTANTS[] = {
+    {"left_A_gap_after_first_B", COOK_LEFT_A_GAP_AFTER_FIRST_B},
+    {"left_A_gap_after_second_B", COOK_LEFT_A_GAP_AFTER_SECOND_B},
+    {"left_A_gap_after_third_B", COOK_LEFT_A_GAP_AFTER_THIRD_B},
+    {"left_v_Y_weight", COOK_LEFT_V_Y_WEIGHT},
+    {"left_v_N_weight", COOK_LEFT_V_N_WEIGHT},
+    {"left_v_nonempty_weight", COOK_LEFT_V_NONEMPTY_WEIGHT},
+    {"left_v_empty_weight", COOK_LEFT_V_EMPTY_WEIGHT},
+    {"central_blocks_per_N", COOK_CENTRAL_BLOCKS_PER_N},
+    {"central_blocks_per_Y", COOK_CENTRAL_BLOCKS_PER_Y},
+    {"right_blocks_per_Y", COOK_RIGHT_BLOCKS_PER_Y},
+    {"right_blocks_per_N", COOK_RIGHT_BLOCKS_PER_N}
+};
+
+static size_t cook_spacing_constant_count(void) {
+    return sizeof(COOK_SPACING_CONSTANTS) / sizeof(COOK_SPACING_CONSTANTS[0]);
+}
+
+static size_t cook_spacing_constant_checksum(void) {
+    size_t sum = 0;
+
+    for (size_t i = 0; i < cook_spacing_constant_count(); i++) {
+        sum += COOK_SPACING_CONSTANTS[i].value;
+        sum += (unsigned char)COOK_SPACING_CONSTANTS[i].name[0];
+    }
+    return sum;
+}
 
 typedef struct {
     size_t total_cells;
@@ -120,8 +178,79 @@ static int cook_phase_cells_from_periods(size_t periods, size_t *out) {
     return cook_encode_mul_size(periods, (size_t)COOK_ETHER_WIDTH, out);
 }
 
+static int cook_encode_next_power_two(size_t in, size_t *out) {
+    size_t value = 1;
+
+    if (out == NULL) return 0;
+    while (value < in) {
+        if (value > ((size_t)-1) / 2u) return 0;
+        value *= 2u;
+    }
+    *out = value;
+    return 1;
+}
+
+static int cook_encode_spacing_stats(const CyclicTagInput *ct,
+                                     size_t *left_v_out,
+                                     size_t *scale_out) {
+    size_t ys = 0;
+    size_t ns = 0;
+    size_t nonempty = 0;
+    size_t empty = 0;
+    size_t left_v = 0;
+    size_t scale = 0;
+
+    if (ct == NULL || left_v_out == NULL || scale_out == NULL) return 0;
+    for (size_t i = 0; i < ct->num_productions; i++) {
+        if (ct->prod_lens[i] == 0) {
+            empty++;
+            continue;
+        }
+        nonempty++;
+        for (size_t j = 0; j < ct->prod_lens[i]; j++) {
+            if (ct->productions[i][j] == 0) {
+                ns++;
+            } else if (ct->productions[i][j] == 1) {
+                ys++;
+            } else {
+                return 0;
+            }
+        }
+    }
+    if (!cook_encode_mul_size(ys, COOK_LEFT_V_Y_WEIGHT, &left_v)) return 0;
+    if (!cook_encode_add_size(left_v,
+                              ns * (size_t)COOK_LEFT_V_N_WEIGHT,
+                              &left_v)) {
+        return 0;
+    }
+    if (!cook_encode_add_size(left_v,
+                              nonempty *
+                                  (size_t)COOK_LEFT_V_NONEMPTY_WEIGHT,
+                              &left_v)) {
+        return 0;
+    }
+    if (!cook_encode_add_size(left_v,
+                              empty * (size_t)COOK_LEFT_V_EMPTY_WEIGHT,
+                              &left_v)) {
+        return 0;
+    }
+
+    scale = ct->num_productions;
+    if (scale < ct->tape_len) scale = ct->tape_len;
+    if (scale < ys + ns) scale = ys + ns;
+    if (scale < 1) scale = 1;
+
+    *left_v_out = left_v;
+    *scale_out = scale;
+    return 1;
+}
+
 static int cook_phase_round_up_ether_width(size_t in, size_t *out) {
     return round_up_ether_width(in, out) == 0;
+}
+
+static size_t cook_phase_round_down_ether_width(size_t in) {
+    return in - (in % (size_t)COOK_ETHER_WIDTH);
 }
 
 static int cook_encode_ct_final(const CyclicTagInput *ct,
@@ -255,12 +384,34 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
     size_t final_len = 0;
     size_t ledger_width = 0;
     size_t ledger_pos = 0;
+    size_t left_v = 0;
+    size_t layout_scale = 0;
+    size_t guard_scale = 0;
+    size_t cook_guard_periods = 0;
 
     if (layout == NULL) return 0;
     if (!cook_encode_ct_final(ct, &final_bits, &final_len)) return 0;
+    if (cook_spacing_constant_checksum() == 0) return 0;
     if (!cook_encode_ledger_width(final_len, &ledger_width)) {
         free(final_bits);
         return 0;
+    }
+    if (!cook_encode_spacing_stats(ct, &left_v, &layout_scale)) {
+        free(final_bits);
+        return 0;
+    }
+    if (!cook_encode_next_power_two(layout_scale, &guard_scale)) {
+        free(final_bits);
+        return 0;
+    }
+    if (!cook_encode_mul_size(guard_scale,
+                              COOK_LEDGER_GUARD_PERIODS_PER_SCALE,
+                              &cook_guard_periods)) {
+        free(final_bits);
+        return 0;
+    }
+    if (cook_guard_periods < COOK_ENCODE_PHASE_TRAILING_GUARD_PERIODS) {
+        cook_guard_periods = COOK_ENCODE_PHASE_TRAILING_GUARD_PERIODS;
     }
     if (!cook_phase_cells_from_periods(COOK_ENCODE_PHASE_LEADING_GUARD_PERIODS,
                                        &leading_guard)) {
@@ -282,7 +433,7 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
                                        &data_symbol_stride)) {
         return 0;
     }
-    if (!cook_phase_cells_from_periods(COOK_ENCODE_PHASE_TRAILING_GUARD_PERIODS,
+    if (!cook_phase_cells_from_periods(cook_guard_periods,
                                        &trailing_guard)) {
         return 0;
     }
@@ -296,6 +447,16 @@ static int cook_encode_phase_exact_layout(const CyclicTagInput *ct,
             production_region_width = production_width;
         }
     }
+    if (left_v > 0 &&
+        !cook_phase_cells_from_periods(left_v +
+                                       COOK_LEFT_A_GAP_AFTER_FIRST_B +
+                                       COOK_LEFT_A_GAP_AFTER_SECOND_B +
+                                       COOK_LEFT_A_GAP_AFTER_THIRD_B,
+                                       &min_ossifier_stride)) {
+        free(final_bits);
+        return 0;
+    }
+
     ossifier_stride = min_ossifier_stride;
     if (production_region_width > ossifier_stride) {
         if (!cook_phase_round_up_ether_width(production_region_width,
@@ -465,6 +626,50 @@ static int cook_encode_phase_exact_compose(const CyclicTagInput *ct,
     }
     cook_encode_emit_ledger(out, layout->ledger_pos, final_bits, final_len);
     free(final_bits);
+
+    return COOK_ENCODE_PHASE_EXACT_OK;
+}
+
+static int cook_encode_phase_exact_compose_partial(const CyclicTagInput *ct,
+                                                   const CookPhaseExactLayout *layout,
+                                                   uint8_t *out) {
+    int rc = COOK_LEADER_PHASE_EXACT_CATALOG_MISSING;
+
+    if (layout->total_cells < (size_t)COOK_ETHER_WIDTH) {
+        return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
+    }
+    cook_ether_emit(out, layout->total_cells / (size_t)COOK_ETHER_WIDTH);
+
+    rc = cook_leader_emit_phase_exact(out,
+                                      layout->leader_pos,
+                                      layout->total_cells);
+    if (rc != COOK_LEADER_PHASE_EXACT_OK &&
+        layout->leader_pos < layout->total_cells) {
+        return COOK_ENCODE_PHASE_EXACT_CATALOG_MISSING;
+    }
+
+    for (size_t i = 0; i < ct->num_productions; i++) {
+        size_t pos = layout->first_ossifier_pos +
+            (i * layout->ossifier_stride);
+
+        if (pos >= layout->total_cells) continue;
+        (void)cook_ossifier_emit_phase_exact(out,
+                                             pos,
+                                             layout->total_cells,
+                                             ct->productions[i],
+                                             ct->prod_lens[i]);
+    }
+
+    for (size_t i = 0; i < ct->tape_len; i++) {
+        size_t pos = layout->data_pos + (i * layout->data_symbol_stride);
+
+        if (pos >= layout->total_cells) continue;
+        (void)cook_data_block_emit_phase_exact(out,
+                                               pos,
+                                               layout->total_cells,
+                                               ct->initial_tape + i,
+                                               1);
+    }
 
     return COOK_ENCODE_PHASE_EXACT_OK;
 }
@@ -690,8 +895,26 @@ int cook_encode_phase_exact(const CyclicTagInput *ct,
     }
     if (out_cap < layout.total_cells) {
         if (out_cap < layout.core_cells || out_cap == 0) {
-            *written_out = layout.total_cells;
-            return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
+            size_t partial_cells = cook_phase_round_down_ether_width(out_cap);
+
+            if (partial_cells == 0) {
+                *written_out = layout.total_cells;
+                return COOK_ENCODE_PHASE_EXACT_INSUFFICIENT_BUFFER;
+            }
+            layout.total_cells = partial_cells;
+            layout.ledger_len = 0;
+            {
+                int rc = cook_encode_phase_exact_compose_partial(ct,
+                                                                 &layout,
+                                                                 out);
+
+                if (rc == COOK_ENCODE_PHASE_EXACT_OK) {
+                    *written_out = layout.total_cells;
+                } else {
+                    *written_out = 0;
+                }
+                return rc;
+            }
         }
         layout.total_cells = layout.core_cells;
         layout.ledger_len = 0;
