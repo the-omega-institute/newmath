@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalConsistencyUp$}
+\label{ch:concrete-instances-closednormalconsistency-namecert}
+\origin{human}
+
+This chapter turns the closed-normal node of \autoref{ch:closed-metacic-consistency-assembly} into a concrete finite packet. It sits next to \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}: the present packet records the positive beta-strong normal fragment, while the sibling obstruction packet records why that fragment is not silently promoted to closed subject reduction.
+
+\begin{definition}[Closed-normal consistency packet]
+\label{def:closed-normal-consistency-packet}
+A $\ClosedNormalConsistencyUp$ packet is a finite $\BHist$ carrier
+$$
+Q=(T,F,S,K,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $T$ is the empty-context MetaCIC typing row for a closed proof candidate;
+\item $F$ is the internal false-type row named by the displayed typing certificate;
+\item $S$ is the beta-strong normality row used by the closed-normal theorem;
+\item $K$ is the checked closed-normal consistency row naming $\mathsf{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}$;
+\item $H$ records componentwise $\hsame$ transports for the typing, false-type, beta-strong, and theorem rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads those rows;
+\item $P$ is the $\Pkg$ provenance over MetaCIC typing, closedness, beta-strong normality, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedNormalConsistencyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host consistency, closed subject reduction, hidden normalization transport, or an ambient logical shortcut.
+\end{definition}
+
+\begin{definition}[Closed-normal consistency classifier]
+\label{def:closed-normal-consistency-classifier}
+The classifier for $\ClosedNormalConsistencyUp$ compares accepted packets only through the visible rows $T,F,S,K,H,C,P,N$. Two packets are classifier-equivalent exactly when the empty-context typing row, false row, beta-strong normality row, checked closed-normal theorem row, componentwise transports, displayed routes, package provenance, and local naming row agree through the displayed $\hsame$ data.
+\end{definition}
+
+\begin{theorem}[Closed-normal consistency normal-fragment boundary]
+\label{thm:closed-normal-consistency-normal-fragment-boundary}
+Every accepted $\ClosedNormalConsistencyUp$ packet exposes a positive consistency statement only for the beta-strong normal fragment. A consumer may read $T,F,S,K,H,C,P,N$ and conclude that a closed beta-strong proof candidate typed at the internal false row is impossible through the checked closed-normal row $K$. The packet does not assert that an arbitrary closed proof candidate reaches such a normal row while preserving its displayed type.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:closed-normal-consistency-packet}. Its theorem coordinate $K$ names the closed-normal assembly row, and the coordinates $T,F,S$ provide exactly the displayed typing, false-type, and beta-strong inputs read by that row.
+
+The structural rows $H,C,P,N$ keep the same finite evidence under componentwise transport, route replay, provenance, and local naming. They do not add a reduction sequence or a type-preservation theorem.
+
+Thus the consumer obtains the beta-strong normal contradiction and nothing outside that fragment. Host consistency, closed subject reduction, hidden normalization transport, and ambient logical shortcuts are absent from the carrier.
+\end{proof}
+
+\begin{theorem}[Closed-normal consistency subject-reduction frontier]
+\label{thm:closed-normal-consistency-subject-reduction-frontier}
+The $\ClosedNormalConsistencyUp$ packet is separate from the subject-reduction frontier recorded by \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. Agreement on $T,F,S,K,H,C,P,N$ does not supply the four MetaCIC subject-reduction discharge rows, a closed subject-reduction theorem, or a transport from arbitrary closed proofs to beta-strong normal inhabitants of the same displayed false type.
+\end{theorem}
+\begin{proof}
+Read the classifier in \autoref{def:closed-normal-consistency-classifier}. It fixes the positive normal-fragment packet by the rows $T,F,S,K,H,C,P,N$ and has no coordinates for the beta-substitution, application-argument, lambda-domain, or Pi-domain discharge rows.
+
+Compare this with the sibling obstruction packet in \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. That chapter names the missing subject-reduction surface as a different finite packet, so it cannot be recovered by reclassifying the closed-normal rows.
+
+Consequently the closed-normal packet cannot transport arbitrary closed proofs to the normal fragment. It keeps the positive theorem and the subject-reduction frontier as distinct BEDC objects.
+\end{proof}
+
+\begin{theorem}[Closed-normal consistency NameCert obligation surface]
+\label{thm:closed-normal-consistency-namecert-obligation-surface}
+The local $\NameCert_{\ClosedNormalConsistencyUp}$ obligation surface consists of carrier admission, classifier exactness, closed-normal theorem readback, beta-strong normal-fragment exposure, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and non-escape from host consistency, closed subject reduction, hidden normalization transport, and ambient logical shortcuts.
+\end{theorem}
+\begin{proof}
+Carrier admission and classifier exactness are supplied by \autoref{def:closed-normal-consistency-packet} and \autoref{def:closed-normal-consistency-classifier}. They restrict all visible data to $T,F,S,K,H,C,P,N$.
+
+The closed-normal theorem readback is the row $K$, consumed together with the typing row $T$, false row $F$, and beta-strong row $S$. The structural rows $H,C,P,N$ preserve that same finite surface through transport, route replay, provenance, and local naming.
+
+Non-escape follows by inspection of the packet. None of its rows names host consistency, closed subject reduction, hidden normalization transport, or an ambient logical shortcut, so the NameCert surface cannot export those claims.
+\end{proof}

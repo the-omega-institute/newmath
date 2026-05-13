@@ -15,16 +15,15 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def RegularCauchyLimitTransportCarrier [AskSetup] [PackageSetup]
-    (sourceRow windowRow dyadicRow sealRow transportRow routeRow provenanceRow localCertRow :
-      BHist)
+    (sourceRow windowRow dyadicRow sealRow transportRow routeRow provenanceRow localCertRow : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame
   UnaryHistory sourceRow ∧ UnaryHistory windowRow ∧ UnaryHistory dyadicRow ∧
     UnaryHistory sealRow ∧ UnaryHistory transportRow ∧ UnaryHistory routeRow ∧
       UnaryHistory provenanceRow ∧ UnaryHistory localCertRow ∧
         Cont sourceRow windowRow dyadicRow ∧ Cont dyadicRow sealRow routeRow ∧
-          Cont routeRow transportRow provenanceRow ∧ PkgSig bundle provenanceRow pkg ∧
-            PkgSig bundle localCertRow pkg
+          Cont routeRow transportRow provenanceRow ∧ Cont provenanceRow sealRow localCertRow ∧
+            hsame transportRow (append sourceRow sealRow) ∧ PkgSig bundle provenanceRow pkg ∧
+              PkgSig bundle localCertRow pkg
 
 theorem RegularCauchyLimitTransportCarrier_stability [AskSetup] [PackageSetup]
     {sourceRow windowRow dyadicRow sealRow transportRow routeRow provenanceRow localCertRow
@@ -48,7 +47,8 @@ theorem RegularCauchyLimitTransportCarrier_stability [AskSetup] [PackageSetup]
     routeTransportProvenance' provenancePkg'
   obtain ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, transportUnary, routeUnary,
     provenanceUnary, localCertUnary, sourceWindowDyadic, dyadicSealRoute,
-    routeTransportProvenance, _provenancePkg, localCertPkg⟩ := carrier
+    routeTransportProvenance, provenanceSealLocalCert, transportMatchesSeal,
+    _provenancePkg, localCertPkg⟩ := carrier
   have sameDyadic : hsame dyadicRow dyadicRow' :=
     cont_respects_hsame sameSource sameWindow sourceWindowDyadic sourceWindowDyadic'
   have sameRoute : hsame routeRow routeRow' :=
@@ -56,6 +56,14 @@ theorem RegularCauchyLimitTransportCarrier_stability [AskSetup] [PackageSetup]
   have sameProvenance : hsame provenanceRow provenanceRow' :=
     cont_respects_hsame sameRoute (hsame_refl transportRow) routeTransportProvenance
       routeTransportProvenance'
+  have provenanceSealLocalCert' : Cont provenanceRow' sealRow' localCertRow := by
+    cases sameProvenance
+    cases sameSeal
+    exact provenanceSealLocalCert
+  have transportMatchesSeal' : hsame transportRow (append sourceRow' sealRow') := by
+    cases sameSource
+    cases sameSeal
+    exact transportMatchesSeal
   have transported :
       RegularCauchyLimitTransportCarrier sourceRow' windowRow' dyadicRow' sealRow'
         transportRow routeRow' provenanceRow' localCertRow bundle pkg := by
@@ -64,7 +72,29 @@ theorem RegularCauchyLimitTransportCarrier_stability [AskSetup] [PackageSetup]
         unary_transport dyadicUnary sameDyadic, unary_transport sealUnary sameSeal,
         transportUnary, unary_transport routeUnary sameRoute,
         unary_transport provenanceUnary sameProvenance, localCertUnary, sourceWindowDyadic',
-        dyadicSealRoute', routeTransportProvenance', provenancePkg', localCertPkg⟩
+        dyadicSealRoute', routeTransportProvenance', provenanceSealLocalCert',
+        transportMatchesSeal', provenancePkg', localCertPkg⟩
   exact ⟨transported, sameDyadic, sameRoute, sameProvenance⟩
+
+theorem RegularCauchyLimitTransportCarrier_namecert_obligations [AskSetup]
+    [PackageSetup]
+    {source window dyadic sealRow transport routes provenance cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyLimitTransportCarrier source window dyadic sealRow transport routes provenance cert
+        bundle pkg ->
+      UnaryHistory source ∧ UnaryHistory window ∧ UnaryHistory dyadic ∧
+        UnaryHistory sealRow ∧ UnaryHistory routes ∧ Cont source window dyadic ∧
+          Cont dyadic sealRow routes ∧ hsame transport (append source sealRow) ∧
+            PkgSig bundle cert pkg := by
+  intro carrier
+  obtain ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, _transportUnary, _routesUnary,
+    _provenanceUnary, _certUnary, sourceWindowDyadic, dyadicSealRoutes,
+    _routesTransportProvenance, _provenanceSealCert, transportMatchesSeal,
+    _provenancePkg, certPkg⟩ := carrier
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed dyadicUnary sealUnary dyadicSealRoutes
+  exact
+    ⟨sourceUnary, windowUnary, dyadicUnary, sealUnary, routesUnary, sourceWindowDyadic,
+      dyadicSealRoutes, transportMatchesSeal, certPkg⟩
 
 end BEDC.Derived.RegularCauchyLimitTransportUp
