@@ -16,13 +16,13 @@ inductive NegativeCertificateBoundaryUp : Type where
       NegativeCertificateBoundaryUp
   deriving DecidableEq
 
-private def negativeCertificateBoundaryEncodeBHist : BHist → RawEvent
+def negativeCertificateBoundaryEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: negativeCertificateBoundaryEncodeBHist h
   | BHist.e1 h => BMark.b1 :: negativeCertificateBoundaryEncodeBHist h
 
-private def negativeCertificateBoundaryDecodeBHist : RawEvent → BHist
+def negativeCertificateBoundaryDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (negativeCertificateBoundaryDecodeBHist tail)
@@ -68,7 +68,7 @@ private theorem negativeCertificateBoundary_mk_congr
   cases hName
   rfl
 
-private def negativeCertificateBoundaryToEventFlow :
+def negativeCertificateBoundaryToEventFlow :
     NegativeCertificateBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | NegativeCertificateBoundaryUp.mk socket internalizer gapLedger auditReadback transport
@@ -91,7 +91,7 @@ private def negativeCertificateBoundaryToEventFlow :
           BMark.b0],
         negativeCertificateBoundaryEncodeBHist name]
 
-private def negativeCertificateBoundaryFromEventFlow :
+def negativeCertificateBoundaryFromEventFlow :
     EventFlow → Option NegativeCertificateBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
@@ -197,7 +197,7 @@ private theorem negativeCertificateBoundary_round_trip :
             (negativeCertificateBoundaryDecode_encode_bhist provenance)
             (negativeCertificateBoundaryDecode_encode_bhist name))
 
-private theorem negativeCertificateBoundaryToEventFlow_injective
+private theorem negativeCertificateBoundary_event_flow_injective
     {x y : NegativeCertificateBoundaryUp} :
     negativeCertificateBoundaryToEventFlow x =
       negativeCertificateBoundaryToEventFlow y → x = y := by
@@ -230,17 +230,27 @@ instance negativeCertificateBoundaryChapterTasteGate :
     exact negativeCertificateBoundary_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (negativeCertificateBoundaryToEventFlow_injective heq)
+    exact hxy (negativeCertificateBoundary_event_flow_injective heq)
 
 theorem NegativeCertificateBoundaryTasteGate_single_carrier_alignment :
-    negativeCertificateBoundaryFromEventFlow
-        (negativeCertificateBoundaryToEventFlow
-          (NegativeCertificateBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty)) =
-      some
-        (NegativeCertificateBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+    (∀ h : BHist,
+      negativeCertificateBoundaryDecodeBHist
+        (negativeCertificateBoundaryEncodeBHist h) = h) ∧
+      (∀ x : NegativeCertificateBoundaryUp,
+        negativeCertificateBoundaryFromEventFlow
+          (negativeCertificateBoundaryToEventFlow x) = some x) ∧
+        (∀ x y : NegativeCertificateBoundaryUp,
+          negativeCertificateBoundaryToEventFlow x =
+            negativeCertificateBoundaryToEventFlow y → x = y) ∧
+          negativeCertificateBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact negativeCertificateBoundary_round_trip _
+  constructor
+  · exact negativeCertificateBoundaryDecode_encode_bhist
+  · constructor
+    · exact negativeCertificateBoundary_round_trip
+    · constructor
+      · intro x y heq
+        exact negativeCertificateBoundary_event_flow_injective heq
+      · rfl
 
 end BEDC.Derived.NegativeCertificateBoundaryUp

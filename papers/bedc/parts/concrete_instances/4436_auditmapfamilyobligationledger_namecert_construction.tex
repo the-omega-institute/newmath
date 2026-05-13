@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapFamilyObligationLedgerUp$}
+\label{ch:concrete-instances-auditmapfamilyobligationledger-namecert}
+\origin{ai}
+
+The $\AuditMapFamilyObligationLedgerUp$ packet realizes the audit-map family methodology of \autoref{ch:visions-audit-map-family-methodology} as a finite obligation-ledger NameCert packet. It sits beside the closure-preservation audit seal of \autoref{ch:concrete-instances-closure-preservation-audit-seal-namecert}, the MetaCIC substitution audit packet of \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}, and the family ledger of \autoref{ch:concrete-instances-auditmapfamilyledger-namecert}: those chapters expose concrete audit rows, while this packet records the obligation classes that downstream consumers may inspect across the family.
+
+\begin{definition}[Audit-map family obligation ledger carrier]
+\label{def:audit-map-family-obligation-ledger-carrier}
+An $\AuditMapFamilyObligationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,P,Q,O,R,X,H,C,K,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the audit-map family tag naming the concrete module, its local audit row, and its sibling module coordinates;
+\item $P$ is the positive inventory of rows already closed by the named concrete packet;
+\item $Q$ is the conditional inventory of rows whose conclusion is available only after a displayed discharge route;
+\item $O$ is the obstruction inventory of rows that remain visible as blocked obligations;
+\item $R$ is the frontier inventory offered to downstream consumers without claiming its closure;
+\item $X$ is the cross-module use inventory recording which sibling packets may read the positive, conditional, obstruction, and frontier rows;
+\item $H$ records componentwise $\hsame$ transports for the family tag, all four inventories, cross-module use rows, continuation rows, package provenance, and the local naming row;
+\item $C$ records the displayed $\Cont$ routes by which consumers read each inventory class, the cross-module use row, provenance, and local name;
+\item $K$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-closure-preservation-audit-seal-namecert}, \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}, \autoref{ch:concrete-instances-auditmapfamilyledger-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\AuditMapFamilyObligationLedgerUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible coordinates are the family tag, positive inventory, conditional inventory, obstruction inventory, frontier inventory, cross-module use row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local NameCert. It exports no hidden discharge for $Q$, no proof of the obstruction rows $O$, no closure of the frontier rows $R$, and no global audit theorem outside the displayed packet.
+\end{definition}
+
+\begin{theorem}[Audit-map family obligation ledger NameCert obligations]
+\label{thm:audit-map-family-ledger-namecert-obligations}
+For the carrier of \autoref{def:audit-map-family-obligation-ledger-carrier}, the local $\NameCert_{\AuditMapFamilyObligationLedgerUp}$ surface consists exactly of carrier admission for
+$$
+F=(M,P,Q,O,R,X,H,C,K,N),
+$$
+family-tag readback through $M$, positive-inventory readback through $P$, conditional-inventory readback through $Q$, obstruction-inventory readback through $O$, frontier-inventory readback through $R$, cross-module use readback through $X$, componentwise transport through $H$, displayed continuation through $C$, package provenance through $K$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $F$. The row $M$ names the audit-map family coordinate before any obligation class is read.
+
+Read the four obligation inventories next. The positive row $P$, conditional row $Q$, obstruction row $O$, and frontier row $R$ are separate coordinates, so admission of one class does not discharge or close another.
+
+Finally inspect $X,H,C,K,N$. Cross-module use is displayed as a row rather than inferred from prose, transport and continuation replay the same inventory coordinates, provenance cites only the visible sibling packets, and the local name binds the packet. Hence the NameCert surface is exhausted by the displayed carrier inventory.
+\end{proof}
+
+\begin{theorem}[Audit-map family obligation ledger classifier stability]
+\label{thm:audit-map-family-ledger-classifier-stability}
+The $\AuditMapFamilyObligationLedgerUp$ classifier is stable under componentwise $\hsame$ transport of the family tag, positive inventory, conditional inventory, obstruction inventory, frontier inventory, cross-module use row, continuation routes, package provenance, and local NameCert row. Any transported accepted packet has the same displayed obligation classes and the same non-escape boundary.
+\end{theorem}
+\begin{proof}
+Start with two accepted packets related by the componentwise transport row $H$. The family tag and each inventory coordinate are transported separately, so the positive, conditional, obstruction, and frontier classes cannot be merged by transport.
+
+The cross-module row $X$ is transported along the same componentwise route. Thus a sibling consumer that was allowed to read an inventory class before transport reads the transported instance of that same class after transport.
+
+The continuation, provenance, and naming rows then replay the transported coordinates through $C,K,N$. Since no classifier coordinate is added or deleted, acceptance and the non-escape boundary are preserved.
+\end{proof}
+
+\begin{theorem}[Audit-map family obligation ledger exactness]
+\label{thm:audit-map-family-ledger-exactness}
+Every consumer read of an accepted $\AuditMapFamilyObligationLedgerUp$ packet factors through exactly one displayed inventory class or the displayed cross-module use row before reaching transport, continuation, provenance, and local naming. In particular, a read of $P$ cannot be reclassified as a discharged $Q$ row, a proof of an $O$ row, or a closure of an $R$ row.
+\end{theorem}
+\begin{proof}
+Use the carrier projection and the NameCert obligations. They list the only readable coordinates as $M,P,Q,O,R,X,H,C,K,N$ and assign each obligation class to its own row.
+
+If a consumer reads a row of the family ledger, the route first reaches $P$, $Q$, $O$, $R$, or $X$. The subsequent $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows transport and report that coordinate, but they do not introduce a new obligation class.
+
+Therefore the ledger is exact at the inventory boundary. Positive rows remain positive rows, conditional rows remain conditional rows, obstruction rows remain obstruction rows, frontier rows remain frontier rows, and cross-module use remains an explicit use row rather than a hidden closure principle.
+\end{proof}
+
+\begin{theorem}[Audit-map family obligation ledger methodology handoff]
+\label{thm:audit-map-family-ledger-methodology-handoff}
+The audit-map family methodology of \autoref{ch:visions-audit-map-family-methodology} is realized by the finite $\AuditMapFamilyObligationLedgerUp$ packet: positive inventory, conditional inventory, obstruction inventory, frontier inventory, cross-module use, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local NameCert are all carried as displayed BEDC rows. Downstream audit consumers may cite the packet only through those rows and the sibling anchors \autoref{ch:concrete-instances-closure-preservation-audit-seal-namecert} and \autoref{ch:concrete-instances-metacic-substitution-audit-packet-namecert}.
+\end{theorem}
+\begin{proof}
+First apply the carrier definition. It turns the methodology into the finite packet $F=(M,P,Q,O,R,X,H,C,K,N)$ with the four obligation inventories and the cross-module use row visible.
+
+Next apply classifier stability and ledger exactness. These keep the rows stable under $\hsame$ transport and force each consumer read to pass through the displayed inventory or use coordinate before any continuation or provenance read.
+
+Finally use the package provenance row $K$. It names the closure-preservation audit seal and MetaCIC substitution audit packet as sibling anchors, so the methodology handoff is a finite NameCert packet rather than an ambient global audit claim.
+\end{proof}
+
+\closureat{AuditMapFamilyObligationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapFamilyObligationLedgerUp}
+  \constructivestory{An $\AuditMapFamilyObligationLedgerUp$ packet is generated from an audit-map family tag, positive inventory, conditional inventory, obstruction inventory, frontier inventory, cross-module use rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-family-obligation-ledger-carrier}, \autoref{thm:audit-map-family-ledger-namecert-obligations}, \autoref{thm:audit-map-family-ledger-classifier-stability}, \autoref{thm:audit-map-family-ledger-exactness}, and \autoref{thm:audit-map-family-ledger-methodology-handoff} bind the finite obligation-ledger packet for audit-map family methodology.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global audit correctness, subject reduction, closure preservation, hidden discharge routes, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, inventory readback, cross-module use readback, classifier stability, ledger exactness, provenance, naming, and non-escape for the same finite packet.}
+\end{closurestatus}

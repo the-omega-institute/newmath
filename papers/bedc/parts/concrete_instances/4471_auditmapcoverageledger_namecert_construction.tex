@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\AuditMapCoverageLedgerUp$}
+\label{ch:concrete-instances-audit-map-coverage-ledger-namecert}
+\origin{human}
+
+The $\AuditMapCoverageLedgerUp$ packet realizes the audit-map family methodology of \autoref{ch:audit-map-family-methodology} as a finite coverage ledger. It sits beside the kernel acceptance audit witness of \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert}, the substitution audit map of \autoref{ch:concrete-instances-substitutionauditmap-namecert}, the MetaCIC confluence audit of \autoref{ch:concrete-instances-metacic-confluence-audit-namecert}, and the closure-preservation audit packet of \autoref{ch:concrete-instances-closure-preservation-audit-packet-namecert}. Those sibling chapters expose concrete audit rows; this packet records which rows are established, conditional, obstructed, frontier-facing, and cross-map dependent before any consumer reads the family as a covered surface.
+
+\begin{definition}[Audit-map coverage ledger carrier]
+\label{def:audit-map-coverage-ledger-carrier}
+An $\AuditMapCoverageLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,E,C,O,F,X,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the map-source row naming the audit-map chapter, Lean substrate module, and concrete sibling packet from which the coverage entry is read;
+\item $E$ is the established-inventory row for theorem or definition entries already exposed by the map source;
+\item $C$ is the conditional-inventory row for entries whose conclusion is available only through a displayed discharge route or local hypothesis row;
+\item $O$ is the obstruction-inventory row for blocked entries that the map must keep visible as blocked rather than silently discharged;
+\item $F$ is the frontier-inventory row for entries offered to downstream consumers as named boundaries without asserting family-level closure;
+\item $X$ is the cross-map dependency row recording exact links to kernel acceptance, substitution, confluence, closure-preservation, and other displayed audit packets;
+\item $H$ records componentwise $\hsame$ transports for the source, inventory, dependency, route, provenance, and local naming rows;
+\item $R$ records the displayed $\Cont$ routes by which a consumer may read established, conditional, obstruction, frontier, and cross-map dependency rows;
+\item $P$ is the $\Pkg$ provenance row over the concrete audit-map family, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data;
+\item $N$ is the local $\NameCert_{\AuditMapCoverageLedgerUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible rows are $M,E,C,O,F,X,H,R,P,N$. It contains no coordinate for family-level closure, hidden discharge, stronger MetaCIC result, host semantic equality, or unlisted proof source.
+\end{definition}
+
+\begin{theorem}[Audit-map coverage ledger NameCert obligations]
+\label{thm:audit-map-coverage-ledger-namecert-obligations}
+For the carrier of \autoref{def:audit-map-coverage-ledger-carrier}, the local $\NameCert_{\AuditMapCoverageLedgerUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the finite packet $L=(M,E,C,O,F,X,H,R,P,N)$;
+\item role-row coverage for the map source, established inventory, conditional inventory, obstruction inventory, frontier inventory, cross-map dependency, transport, route, provenance, and local naming rows;
+\item established, conditional, obstruction, and frontier separation, so no row class may be read as another row class;
+\item cross-map dependency exactness, so every dependency read through $X$ names a displayed sibling packet and route rather than an ambient family theorem;
+\item local naming, so all consumer-facing reads pass through the displayed $\NameCert_{\AuditMapCoverageLedgerUp}$ row $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The row $M$ names the map source, while $E,C,O,F$ partition the visible audit inventory into established, conditional, obstructed, and frontier-facing entries.
+
+Read the cross-map row next. The dependency row $X$ may cite only displayed sibling packets and the route row $R$ records how those citations are consumed.
+
+Finally inspect $H,P,N$. Componentwise transport preserves the same rows, provenance cites the concrete audit-map family, and the local NameCert row binds the consumer-facing packet. Hence the five obligations exhaust the naming surface.
+\end{proof}
+
+\begin{theorem}[Audit-map coverage ledger frontier non-escape]
+\label{thm:audit-map-coverage-ledger-frontier-nonescape}
+For every accepted $\AuditMapCoverageLedgerUp$ carrier $L=(M,E,C,O,F,X,H,R,P,N)$, no consumer may read family-level closure, hidden discharge, or a stronger MetaCIC result from the ledger unless the read is one of the displayed role rows $M,E,C,O,F,X,H,R,P,N$. In particular, an established row remains established, a conditional row remains routed through its displayed condition, an obstruction row remains blocked, and a frontier row remains a named boundary.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The only rows available to a consumer are the map source, four inventory rows, cross-map dependency row, transport row, continuation route row, provenance row, and local naming row.
+
+Use the NameCert obligations of \autoref{thm:audit-map-coverage-ledger-namecert-obligations}. They separate the established, conditional, obstruction, and frontier inventories and force every cross-map read through the displayed dependency and route rows.
+
+Since the classifier has no coordinate for family-level closure, hidden discharge, or a stronger MetaCIC theorem, those readings cannot be extracted from the ledger. A consumer may cite the frontier only as the displayed finite boundary.
+\end{proof}
+
+\closureat{AuditMapCoverageLedgerUp}{seedStr}
+
+\begin{closurestatus}{\AuditMapCoverageLedgerUp}
+  \constructivestory{An $\AuditMapCoverageLedgerUp$ packet is generated from a map-source row, established inventory, conditional inventory, obstruction inventory, frontier inventory, exact cross-map dependency row, componentwise transport, displayed continuation routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-map-coverage-ledger-carrier}, \autoref{thm:audit-map-coverage-ledger-namecert-obligations}, and \autoref{thm:audit-map-coverage-ledger-frontier-nonescape} bind the finite coverage ledger and its frontier boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close the audit-map family, discharge conditional rows, prove obstruction rows, strengthen MetaCIC results, provide Lean verification, or provide bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, row-class coverage, row-class separation, cross-map dependency exactness, local naming, and frontier non-escape for the same finite packet.}
+\end{closurestatus}
