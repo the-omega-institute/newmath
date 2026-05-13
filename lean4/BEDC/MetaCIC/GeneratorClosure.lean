@@ -50,4 +50,19 @@ def GeneratorClosureClassifier.comp {α : Type u}
       obtain ⟨z, hg1, hg2⟩ := hgen
       exact h2.closure hg2 (h1.closure hg1 hclass) }
 
+/-- Disjunctive union of two generators preserves any classifier that both preserve. -/
+def GeneratorClosureClassifier.union {α : Type u}
+    {Generator1 Generator2 : α → α → Prop}
+    {Classifier : α → Prop}
+    (h1 : GeneratorClosureClassifier α Generator1 Classifier)
+    (h2 : GeneratorClosureClassifier α Generator2 Classifier) :
+    GeneratorClosureClassifier α
+      (fun x y => Generator1 x y ∨ Generator2 x y)
+      Classifier :=
+  { closure := by
+      intro x y hgen hclass
+      cases hgen with
+      | inl hg => exact h1.closure hg hclass
+      | inr hg => exact h2.closure hg hclass }
+
 end BEDC.MetaCIC
