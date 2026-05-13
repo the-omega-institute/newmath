@@ -1,0 +1,161 @@
+---
+title: "MetaCIC: BEDC 第一个主结果"
+subtitle: "closed-normal consistency 定理, 它为什么工作, 以及 dependent-codomain 边界结构上在告诉我们什么"
+author: "The Omega Institute"
+date: 2026-05-14
+lang: zh-Hans
+description: "False 处的封闭 CIC 不被任何 closed、normal、beta-strong 项 inhabit. 这是 BEDC 第一个无条件主结果. 为什么 closed-codomain 情形能无条件结清, 为什么 dependent-codomain 情形要 park 在四条命名假设之后, 以及为什么这条边界是结构性而非偶然."
+---
+
+```{=html}
+<div class="lang-switch"><a href="metacic-first-main-result.qmd">English</a></div>
+```
+
+## 一个无条件一致性定理长什么样
+
+这种东西在数学里不多. 一致性定理说一个形式系统无法证出矛盾 — 没有任何闭项栖居类型 `False`. 对大多数根基系统来讲, 现有的一致性定理要么 (a) 是外部的 — 用一个更强的系统证出, 而那个更强的系统自己也需要一致性证明 — 要么 (b) 依赖原系统内部无法验证的重型语义工具.
+
+Goedel 证明了, 没有任何足够强的形式系统能无条件证出自己的一致性. 所以当我们说 BEDC 有一个「主一致性结果」时, 必须小心: 定理究竟说什么, 它预设什么, 它 *不* 主张什么. 我们必须界定范围.
+
+结果是这样:
+
+> **Closed-normal consistency.** 设 *t* 是 calculus of inductive constructions 的一个闭项, 在空 context 下被类型为 `False`, 并且 *t* 是 β-strong (任何归约序列都终止). 那么矛盾随之而出.
+
+定理在项目的 MetaCIC 形式化里, 路径 `lean4/BEDC/MetaCIC/`. Lean 目标是 `BEDC.MetaCIC.Conservativity.closed_normal_consistency`. 它在论文里被 `\leanchecked`, 通过 `axiom-purity --strict` 审计 (无 `Classical.choice`, 无 `Quot.sound`, 无 `propext`), 构建 exit 0.
+
+定理 *无条件*, 意思是它不假设任何外部归一化原则、任何模型论背景、任何元系统的一致性. 假设直接从项本身读出: *闭, 类型为 False, beta-strong*. 结论是由这种项导出的矛盾.
+
+这是本项目中「无条件」的意思. 它不意味着 *CIC 整体的一致性* — 那正是 Goedel 第二不完备定理排除掉的东西. 它意味着 *CIC 一个命名片段的一致性*, 假设条件由内核可检查地读出.
+
+## closed-codomain 情形为什么工作
+
+证明 — 极度简化 — 在闭归约项上做结构性归纳. 关键情形是:
+
+- **闭类型构造子应用到闭参数上.** 把义务往结果上推, 结果还是闭归约的.
+- **在闭 inductive 值上 match.** Goedel 式卡住: 对 `False` 的 match 至少要一个构造子, 但 `False` 一个都没有.
+- **closed-codomain 的 Pi 绑定.** 这是最干净的情形. 一个类型为 `False` 的闭项, 其类型构造子路径上 Pi 的 codomain *闭*, 归约一致地进行. subject reduction 不撞上依赖类型的复杂性.
+
+这些情形每一种都能通过对项构造子的直接结构性论证 discharge. 内核风格的不变量 — 良类型、β-strength、闭性 — 在每次归约步骤下都被保持.
+
+这些情形的审计是机械的. 项目对 31 个 obligation 目标 — closed-normal consistency 开发中的每个命名目标 — 跑 *穷举审计*:
+
+```text
+Exhaustiveness audit:
+  17 strict PASS  (Lean ∀-陈述字面匹配 manifest 枚举)
+  14 convention   (BEDC 有限见证约定桥接适用)
+  31 total
+```
+
+17 条 strict PASS 是「Lean 陈述字面就是一个 ∀-量化, 跟一个审计能直接比对决定的枚举匹配」的 obligation. 14 条 convention-bound 是「在项目陈述的有限见证约定下成立」的 obligation — 审计检查约定的前提满足. 两类都是机械验证的; 区别只是关于「验证如何连接到闭式陈述」的簿记.
+
+这就是 BEDC 所谓的 *closed-codomain 主结果*. 是项目无条件结清的最大一块元理论.
+
+## 证明在哪里停下
+
+证明并不按现写法扩展到 *dependent-codomain* 情形. 一个类型为 `False` 的闭项, 类型构造子路径上 Pi 的 codomain *依赖于绑定变量*, 引入了当前证明没有内部 discharge 的四条 subject-reduction 义务:
+
+1. **归约下 dependent codomain 的稳定性**: 若 codomain 依赖于一个本身可归约的子项, 归约必须在依赖关系下保持良类型.
+2. **Telescoping closure**: 链式 dependent codomain 在链被消耗时必须一致地闭合.
+3. **强消去相容性**: 返回类型依赖于 scrutinee 的 match 在消去任何构造子下必须保持 subject reduction.
+4. **inductive 参数协调**: 当 dependent codomain 提及被消去的 inductive 类型的某个参数时, 参数与消去在归约下必须一致.
+
+这些都是 *命名的结构性假设*. 在 BEDC 论文里它们以 `\leanstmt` (statement-only) 目标登记 — 被跟踪但不被断言为定理. 在 Lean 代码里它们躺在 `lean4/BEDC/MetaCIC/SubjectReduction/Hypotheses.lean`, 作为 `structure` 字段, 在某个 setup typeclass 上参数化. 项目 *不* 断言它们, 不把它们作为公理引入, 也不用更弱的结构性主张近似它们.
+
+这件事比表面看上去更重要. 这四条假设不是可选的工程细节. 它们是 CIC 的依赖类型机制跟归一化关系发生交互的结构性所在. 无条件 discharge 它们意味着无条件 discharge CIC 元理论的一个相当大的片段 — 而项目诚实地承认这一点目前没做.
+
+所以 MetaCIC 章节的 `\closurestatus` 块读起来是:
+
+```latex
+\theoryclosure{\scopedClosure}
+\scopeclosed{Closed-codomain CIC at False is consistent;
+            empty context; closed normal term;
+            beta-strong reduction.}
+\formalstatus{\theoremCheckedV}
+\leantarget{BEDC.MetaCIC.Conservativity.closed\_normal\_consistency}
+\notclaimed{Dependent-codomain case requires four named
+            subject-reduction hypotheses that are
+            currently registered as structure fields,
+            not theorems.}
+\upgradepath{Discharge the four hypotheses in
+            SubjectReduction/Hypotheses.lean as
+            theorems instead of structure fields.}
+```
+
+范围精确命名. 边界精确命名. 升级路径精确命名. 没有任何东西藏在更软的措辞下偷渡过去.
+
+## 为什么这是结构性诚实
+
+结果里有趣的动作 *不是* closed-codomain 情形的证明. 有趣的动作是 *拒绝* 用非正式挥手把证明扩展到 dependent-codomain 情形.
+
+MetaCIC 早期历史上, 项目反复出现把 dependent-codomain 情形「按显然扩展论证」或「mutatis mutandis 跟随 closed-codomain 证明」的草稿. 这些草稿被拒绝, 因为上面那四条义务不是小扩展 — 它们是 CIC 的依赖类型机制跟归约理论实质性交互的位置, 任何在那里的挥手就是 *会被 Goedel 第二不完备定理卡住* 的那种挥手.
+
+拒绝产出了目前的结构: closed-codomain 情形的无条件主结果, 加四条对 dependent-codomain 情形显式命名的假设, 假设自己不假装是定理.
+
+这就是项目所说的 *闭合诚实*. 证明工作时, 定理被断言. 证明停下时, 它停下的位置被登记为命名假设, *带着* 它的结构内容可见, *不被* 藏成「小技术引理」也不被藏成 `theorem foo : True := True.intro` 这种 stub.
+
+## 审计如何让诚实是机械的
+
+诚实不依赖作者的纪律. 它依赖审计 pipeline.
+
+相关审计是:
+
+```bash
+python3 tools/check-axioms.py
+# lean4/BEDC/ 中任何位置 0 个 axiom 关键字
+
+grep -r "sorry" lean4/BEDC --include="*.lean"
+# 0 个
+
+python3 lean4/scripts/bedc_ci.py audit
+# paper ↔ Lean drift = 0
+# 每条 \leanchecked{X} 的 X 都在 lean4/ 真存在
+
+python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+# 1837/1837 BEDC 定理在 #print axioms 下 pure
+# 无 Classical.choice, 无 Quot.sound, 无 propext
+
+python3 lean4/scripts/bedc_ci.py conservativity-audit
+# ai-proposed 章节不泄漏到 baseline import
+```
+
+`axiom-purity --strict` 审计最严. 它通过 `#print axioms` 追溯每条 BEDC 定理的完整传递依赖, 拒绝任何 Lean 标准库公理. closed-normal consistency 定理通过这个审计. 它的证明只用 `inductive` 定义、`def`、以及 CIC 基本的类型机制. 没有 `Classical.choice`. 没有 `propext`. 没有 `Quot.sound`. 没有任何能悄悄引入非构造性原则的东西.
+
+结果因此在精确意义上是 *Brouwer 构造的*. 一个愿意接受 CIC `inductive` 机制 (也就是 Lean 内核所是) 的构造性分析家可以接受这个证明. 不愿意接受 `inductive` 的构造性分析家根本不参与这个证明 — 这正是该给的回答.
+
+## 假设本身有什么值得注意
+
+那四条 subject-reduction discharge 假设, 在 Lean 里被编码为 `structure` 的字段, 而不是 `class`. 选择的原因有讲究.
+
+`class` 意味着项目承诺 *某个* 实现在某处存在 — 期望有 instance, typeclass 机制会去搜. `structure` 意味着项目承诺假设的 *形状* 而不承诺存在. 任何能造出一个该 structure 值的人 — 也就是能把四条假设作为定理交出来的人 — 都可以应用 dependent-codomain 闭合结果. 没有人被承诺这件事是可能的.
+
+`structure` 而非 `class` 这个选择, 是让结果诚实的因素之一. 假设不是「将来要找的缺失 instance」. 它们是关于 CIC 元理论的 *开放猜想*, 在源码里被如此标记.
+
+## 从结果之下看
+
+如果你从 `inductive BHist | Empty | e0 | e1` 跟四个内核动词 `Mark`、`Hist`、`Ext`、`Cont` 开始, 把其余一切 (1837 条定理量的数学) 建在它们之上, 你最终会想知道: *这个内核自己一致吗?* 你不能从内核内部证明它一致 — Goedel 第二不完备排除这件事. 但你可以证明一个元理论片段一致.
+
+closed-normal consistency 定理就是这个片段, 做成了无条件的. 它说: *元理论中你不靠 dependent-codomain 推理就能结清的那部分, 干净结清, 完全公理透明, 机械验证.*
+
+这在结构上就是一个根基系统的诚实无条件一致性结果应该是的样子. 命名的范围. 命名的边界假设. 显式审计. 跟踪的 17 + 14 = 31 obligation. pure 的 1837 定理. 依赖于 `inductive` 而仅此而已.
+
+这是 BEDC 根基元理论里第一块到达这个闭合级别的内容. 这也是元理论后续开发的稳定平台: 一旦 `closed_normal_consistency` 是定理, 任何下游元理论论证只要需要它就能引用一个 Lean 目标, 而不必靠非正式信任.
+
+## 这 *不是* 什么
+
+不是 CIC 一致性的证明. CIC 整体的一致性是证明论里的开放问题; 即便相信它成立, 证明也需要超出 CIC 自己的资源 (Goedel 第二不完备). 结果是 *CIC 一个命名片段的一致性*.
+
+不是 BEDC 完整元理论闭合的证明. 四条 dependent-codomain 假设是真边界; 进一步工作才能闭合它们, 而且不能保证在项目 mathlib-free 约束下闭合是可能的.
+
+不是对公理化方法的驳斥. 它演示了: 至少对元理论 *这* 一个片段, 结果能在不调用 Lean 标准库暴露的公理的情况下结清. 别的元理论结果或许需要那些公理; 项目不主张相反.
+
+它 *是* 什么: BEDC 项目的第一个无条件主结果, 范围精确命名, 机械验证传递公理纯净, 对它尚未跨越的边界做结构性诚实处理. dossier 后续文章会把 dependent-codomain 假设当工程目标看, 把元胞底层当作同一闭合纪律的并行展品.
+
+```{=html}
+<div class="cta-choices">
+  <a href="where-induction-comes-from.zh-CN.qmd"><strong>← 归纳法从哪里来</strong><br/>全称陈述的封闭边界 — 本文是它的元理论版本.</a>
+  <a href="goedel-boundary-as-data.zh-CN.qmd"><strong>Goedel 边界作为数据 →</strong><br/>一层是这四条假设; 另一层是 cook compile-frontier. 两者都是数, 不是墙.</a>
+  <a href="pattern-as-mark.zh-CN.qmd"><strong>图样作为标记 →</strong><br/>同一套分类器纪律下降一层, 作用在元胞自动机演化上.</a>
+</div>
+```
+
+— *The Omega Institute*
