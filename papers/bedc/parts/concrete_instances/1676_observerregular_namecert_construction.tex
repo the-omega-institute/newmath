@@ -6,6 +6,12 @@ The $\ObserverRegularUp$ chapter is a BEDC-native finite certificate surface. It
 
 The dependency anchors are concrete sibling rows, not background names: \autoref{ch:concrete-instances-streamname-namecert} supplies the finite windows, \autoref{ch:concrete-instances-regseqrat-namecert} supplies the regular-rational readback, \autoref{ch:concrete-instances-cauchymodulus-namecert} supplies the modulus schedule, \autoref{ch:concrete-instances-dyadicratcore-namecert} supplies the dyadic tolerance ledger, \autoref{ch:concrete-instances-real-namecert} supplies the $\RealUp$ seal consumers, and \autoref{ch:concrete-instances-completion-namecert} supplies the $\CompletionUp$ readback boundary. An $\ObserverRegularUp$ carrier consumes those sibling rows by resolving a finite prefix state before any $\RealUp$ or $\CompletionUp$ consumer can read a window or readback.
 
+\falsifiablePrediction{Removing the resolving-state row prevents any $\RealUp$ or $\CompletionUp$ consumer from distinguishing prefix observation from arbitrary $\StreamNameUp$ readback in the finite ledger.}
+
+\independenceWitness{Nearest siblings: streamname, regseqrat, cauchymodulus, real, completion. The ObserverRegular packet is not bijective with those siblings because it adds a resolving-state prefix row and schedule lock that none of them expose.}
+
+The proposed Lean follow-up contract for $\mathsf{lean4/BEDC/Derived/ObserverRegularUp/TasteGate.lean}$ must provide $\mathsf{Nontrivial}\ \ObserverRegularUp$ and $\mathsf{FieldFaithful}\ \ObserverRegularUp$ instances for the displayed observer packet.
+
 \begin{definition}[ObserverRegular prefix carrier]
 \label{def:observerregular-prefix-carrier}
 An $\ObserverRegularUp$ carrier is a finite $\BHist$ packet
