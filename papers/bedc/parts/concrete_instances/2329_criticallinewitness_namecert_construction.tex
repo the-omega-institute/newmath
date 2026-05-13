@@ -193,6 +193,80 @@ The modulus route $M,R,Q,H,C$ witnesses the critical-line read for that supplied
 The package and local name rows $P,N$ preserve this finite packet boundary. Since no global classifier or $\mathsf{RH}$ coordinate is present, the public read remains a local supplied-input witness.
 \end{proof}
 
+\begin{theorem}[Critical-line witness depth-request ledger]
+\label{thm:critical-line-witness-depth-request-ledger}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$,
+each Nat depth request for the critical-line modulus reads only the modulus
+row $M$, the $\RealUp$ real-part row $R$, the $\RatUp$ comparison ledger $Q$,
+and the displayed $\Cont$ route $C$, transported through $H$ and recorded by
+$P,N$. The request has no coordinate for a quotient representative, host real
+equality, hidden numeric oracle, global zero classifier, or ambient analytic
+completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The depth request can reach the modulus only
+through the displayed row $M$, and the carrier exposes no second modulus or
+external oracle row.
+
+Read the supporting rows for that request. The real-part row $R$ supplies the
+line-facing real coordinate, while $Q$ supplies the rational half-line and
+dyadic comparison ledger used by the request. The continuation row $C$
+records the route, and $H,P,N$ transport and name the same finite packet.
+
+Apply \autoref{thm:critical-line-witness-modulus-depth-routing} and
+\autoref{thm:critical-line-witness-ledger-exactness}. These results identify
+the public depth read with the displayed modulus and ledger rows, so the
+excluded host and global analytic coordinates have no source in the packet.
+\end{proof}
+
+\begin{theorem}[Critical-line witness strip-modulus route factorization]
+\label{thm:critical-line-witness-strip-modulus-route-factorization}
+For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$,
+the zero-strip rows $Z,S$ and the modulus route $M,R,Q$ factor through the
+same transported packet $H,C,P,N$. Thus the supplied zero row, supplied
+critical-strip row, real-part row, line-modulus row, and rational comparison
+ledger are one finite $\mathsf{BHist}$ surface, not separate host assertions.
+\end{theorem}
+\begin{proof}
+Start with the supplied zero and strip rows. Theorems
+\autoref{thm:critical-line-witness-critical-strip-origin} and
+\autoref{thm:critical-line-witness-zero-row-scope} keep $Z$ and $S$ on the
+same supplied-input history, transported through the displayed row $H$.
+
+Now attach the modulus route. Theorems
+\autoref{thm:critical-line-witness-realpart-modulus-stability} and
+\autoref{thm:critical-line-witness-rat-comparison-ledger-exactness} bind
+$M,R,Q$ to the same accepted packet and the same public read route.
+
+The continuation, provenance, and local naming rows $C,P,N$ are shared by
+both projections. Therefore the zero-strip input and modulus route factor
+through one transported packet, with no extra host equality or analytic
+completion coordinate.
+\end{proof}
+
+\begin{theorem}[Critical-line witness local RH boundary]
+\label{thm:critical-line-witness-local-rh-boundary}
+Every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$ remains
+a supplied-input witness for the displayed zero-in-strip rows $Z,S$. It can
+expose the local modulus route $M,R,Q,H,C,P,N$, but it cannot classify all
+zeta zeros, construct a zero, export $\mathsf{RH}$, or convert the local
+modulus route into an ambient analytic completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the witness surface through $Z,S,M,R,Q,H,C,P,N$. These are all finite
+rows of the accepted packet, and none is a global zero-set classifier or a
+zero-producing constructor.
+
+Use \autoref{thm:critical-line-witness-rh-nonclassification-boundary} and
+\autoref{thm:critical-line-witness-rh-nonproof-boundary}. The first theorem
+keeps the packet local to the supplied zero-in-strip input, and the second
+prevents the local witness from becoming a proof of $\mathsf{RH}$.
+
+The non-escape and ledger exactness results then close the boundary. Since
+the packet exports only the displayed witness rows and their route data, it
+cannot export a universal zero classifier or an ambient analytic theorem.
+\end{proof}
+
 \begin{theorem}[Critical-line witness obligation closure package]
 \label{thm:critical-line-witness-obligation-closure-package}
 For supplied zero-in-strip inputs, \autoref{def:critical-line-witness-carrier},
