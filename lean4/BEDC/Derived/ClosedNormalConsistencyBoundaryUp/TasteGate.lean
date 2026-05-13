@@ -230,6 +230,19 @@ instance closedNormalConsistencyBoundaryChapterTasteGate :
     intro x y hxy heq
     exact hxy (ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment_injective heq)
 
+theorem ClosedNormalConsistencyBoundaryUp_taste_gate_boundary :
+    ∃ x : ClosedNormalConsistencyBoundaryUp,
+      x =
+          ClosedNormalConsistencyBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty ∧
+        closedNormalConsistencyBoundaryFromEventFlow
+            (closedNormalConsistencyBoundaryToEventFlow x) =
+          some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨ClosedNormalConsistencyBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty, rfl, rfl⟩
+
 theorem ClosedNormalConsistencyBoundaryTasteGate_single_carrier_alignment :
     (forall h : BHist,
       closedNormalConsistencyBoundaryDecodeBHist
