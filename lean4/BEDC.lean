@@ -231,6 +231,7 @@ import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyLimitSealUp
+import BEDC.Derived.CauchyLimitSealUp.ChoiceFreeSelector
 import BEDC.Derived.CauchyLimitSealUp.RootFormalHandoff
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.MonotoneCauchyUp
