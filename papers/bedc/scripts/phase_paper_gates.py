@@ -322,12 +322,40 @@ _SIBLING_REF_RE = re.compile(
 _VISION_REF_RE = re.compile(
     r"\\autoref\{ch:visions-([a-z][a-z0-9\-]*?)\}"
 )
-_THM_DEF_REF_RE = re.compile(
-    r"\\autoref\{(?:thm|def|lem|cor|prop)[A-Za-z]*:([a-z][a-z0-9\-]*?)-[a-z0-9\-]+\}"
+# Capture the full label tail (greedy). Self-ref classification is done by
+# walking the dashed parts and joining prefixes; the lazy regex used before
+# matched just the first character as the slug, causing every self-ref to
+# look like a cross-ref. See `_label_is_self_ref` below.
+_LABEL_RE = re.compile(
+    r"\\autoref\{(?:thm|def|lem|cor|prop)[A-Za-z]*:([a-z][a-z0-9\-]*)\}"
 )
+# Allow underscores AND digits in slug (e.g.
+# `3939_metacic_subject_reduction_obstruction_namecert_construction.tex` was
+# silently skipped by the underscore-free regex, letting orphan chapters
+# slip past the gate).
 _NAMECERT_FILE_RE = re.compile(
-    r"^papers/bedc/parts/concrete_instances/(?:[^/]+/)?\d+_([a-z][a-z0-9]*?)_namecert_construction\.tex$"
+    r"^papers/bedc/parts/concrete_instances/(?:[^/]+/)?"
+    r"\d+_([a-z][a-z0-9_]*?)_namecert_construction\.tex$"
 )
+
+
+def _label_is_self_ref(label_tail: str, own_slug_compact: str) -> bool:
+    """Decide whether `label_tail` (dashed, e.g. "subject-reduction-discharge-carrier")
+    starts with this chapter's own slug.
+
+    `own_slug_compact` is the filename slug with underscores stripped (e.g.
+    "subjectreductiondischarge" from a filename of
+    `..._subject_reduction_discharge_namecert_construction.tex` or
+    `..._subjectreductiondischarge_namecert_construction.tex`). We split the
+    dashed label into parts and try every prefix concatenation against the
+    compact slug — if any prefix concat equals own_slug, the label resolves
+    to this chapter and counts as a self-ref.
+    """
+    parts = label_tail.split("-")
+    for i in range(len(parts), 0, -1):
+        if "".join(parts[:i]) == own_slug_compact:
+            return True
+    return False
 
 
 def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
@@ -367,7 +395,10 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
             # patterns (sub-files for one chapter) are not anchor chapters
             # and are not gated here.
             continue
-        own_slug = m.group(1)
+        # Slug from filename — may contain underscores; compact form is
+        # the underscore-stripped lowercase identifier used to match the
+        # dashed label prefixes via `_label_is_self_ref`.
+        own_slug_compact = m.group(1).replace("_", "")
         path = worktree / rel
         if not path.exists():
             continue
@@ -379,14 +410,13 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
         sibling_refs: set[str] = set()
         for slug in _SIBLING_REF_RE.findall(text):
             slug_norm = slug.replace("-", "")
-            if slug_norm and slug_norm != own_slug:
+            if slug_norm and slug_norm != own_slug_compact:
                 sibling_refs.add(slug_norm)
         vision_refs = {v for v in _VISION_REF_RE.findall(text)}
         thm_def_refs: set[str] = set()
-        for slug in _THM_DEF_REF_RE.findall(text):
-            slug_norm = slug.replace("-", "")
-            if slug_norm and slug_norm != own_slug:
-                thm_def_refs.add(slug_norm)
+        for label_tail in _LABEL_RE.findall(text):
+            if not _label_is_self_ref(label_tail, own_slug_compact):
+                thm_def_refs.add(label_tail)
 
         if not (sibling_refs or vision_refs or thm_def_refs):
             violations.append(
@@ -396,7 +426,7 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
                 f"<sibling>-namecert}}` (or `\\autoref{{ch:visions-<slug>}}` "
                 f"if vision-anchored, or `\\autoref{{thm:<sibling>-...}}` / "
                 f"`\\autoref{{def:<sibling>-...}}` resolving to a different "
-                f"slug than `{own_slug}`). Self-refs do not count."
+                f"slug than `{own_slug_compact}`). Self-refs do not count."
             )
     return violations
 
