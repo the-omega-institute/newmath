@@ -79,6 +79,7 @@
 - 当前所有 public theorem 都是真证明; 不得写新 `sorry` 占位
 - 如确实暂无证明, 用 `theorem T : True := True.intro` 占位 + `-- TODO:` 注释 (不污染审计)
 - 或者改写定理形式让证明在闭生成结构上自然成立
+- **禁止 statement-only 避 sorry 模式**: 不得在 lean4/ 写 `def Foo_Statement : Prop := ∀ ...` + `theorem Foo_well_formed : True := True.intro` 这类组合让 paper 端 `\leanchecked` 指向它, 同时用 `True.intro` stub 假装"被 Lean 接受". 这是隐藏 sorry 的等价物 — 把未证 hypothesis 包装成 named def, 但实质内容没被 kernel verify. 如果当前无法证某条 hypothesis, 选项: (a) 不在 lean4/ 登记该目标, 仅在 paper 端用 `\leanstmt` 描述 statement-only target; (b) 改写定理形式让 unconditional 证明可行; (c) 把它登记为 `class`/`structure` 字段 (Setup typeclass 路径, 让 carrier 实现去 discharge). 任何 `_Statement` 后缀 def + `_well_formed : True := True.intro` 这类 idiom 一律拒绝
 
 ## V. typeclass 设计纪律
 
