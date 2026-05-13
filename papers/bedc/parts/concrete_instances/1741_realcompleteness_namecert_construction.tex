@@ -473,20 +473,48 @@ Next use \autoref{thm:real-completeness-selector-readback-determinacy}. Since th
 The public classifier is then fixed by \autoref{thm:real-completeness-seal-classifier-stability}. Finally apply \autoref{thm:real-completeness-nonescape-boundary}; no external completion object or quotient stream is present to refine or split the displayed seal-ledger classification.
 \end{proof}
 
+\begin{theorem}[Real completeness LimitSelector handoff]
+\label{thm:real-completeness-limitselector-handoff}
+Let
+$$
+R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N)
+$$
+be an accepted $\RealCompletenessUp$ packet, and let
+$$
+L=(R_L,n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L)
+$$
+be an accepted $\LimitSelectorUp$ packet. Assume that the selected precision $n$, modulus $\mu_L$, selected index $k_L$, finite window $W_L$, dyadic readback $D_L$, and $\RealUp$ seal row $S$ agree through the displayed transports with the corresponding diagonal rows of $R$ along $\mu,\Delta,D,W,Q,S,H,C,P,N$. Then every $\RealUp$ or $\CauchyLimitSealUp$ consumer of $R$ whose route reads that selected diagonal observation factors through the $\LimitSelectorUp$ finite witness route
+$$
+n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L
+$$
+before reaching the same seal row $S$. The factorization contains no host-selected limit, quotient-stream equality, countable-choice selector, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+First project the selector packet. The local obligations of \autoref{thm:limit-selector-namecert-obligations} expose $R_L,n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L$, and \autoref{thm:limit-selector-finite-witness-route} makes every diagonal-limit read pass through the displayed selector, window, readback, seal, transport, continuation, provenance, and naming rows.
+
+Next compare this selector route with the $\RealCompletenessUp$ packet. The agreement assumptions identify the selected precision and modulus with the diagonal rows of $R$, while \autoref{thm:real-completeness-modulus-diagonal-exactness} pins the corresponding observation of $R$ to $\mu,\Delta,D,W,Q$.
+
+It remains to identify the endpoint. Apply \autoref{thm:real-completeness-diagonal-seal-totality} to route every $\RealUp$ and $\CauchyLimitSealUp$ consumer of the selected observation to the same seal row $S$, and apply \autoref{thm:real-completeness-limit-uniqueness-classifier} to keep the transported seal-ledger classifier fixed by the displayed rows.
+
+Finally use selector exhaustion and seal non-escape. By \autoref{thm:limit-selector-diagonal-consumer-exhaustion} and \autoref{thm:limit-selector-real-seal-nonescape}, the selected observation has no remaining route outside $n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L$. The boundary theorem \autoref{thm:real-completeness-nonescape-boundary} excludes host-selected limits, quotient streams, countable choice, and ambient completeness from the $\RealCompletenessUp$ side as well.
+\end{proof}
+
 \begin{theorem}[Real completeness limit handoff package]
 \label{thm:real-completeness-limit-handoff-package}
 For every accepted $\RealCompletenessUp$ packet
 $$
 R=(X,\mu,\Delta,D,W,Q,S,H,C,P,N),
 $$
-the concrete paper-side package corresponding to the vision-level limit target consists of the finite limit-existence witness of \autoref{thm:real-completeness-limit-existence-finite-witness}, the uniqueness classifier of \autoref{thm:real-completeness-limit-uniqueness-classifier}, the $\CauchySequenceSpaceUp$ shared-window handoff of \autoref{thm:real-completeness-cauchysequence-space-shared-window-handoff}, the diagonal seal totality of \autoref{thm:real-completeness-diagonal-seal-totality}, and the scoped consumer seal exhaustion of \autoref{thm:real-completeness-scoped-consumer-seal-exhaustion}. This package is a finite $\BHist$ handoff to $\RealUp$ and downstream seal consumers; it is not a theorem asserting $\RealUp$ completeness as a closed public result.
+the concrete paper-side package corresponding to the vision-level limit target consists of the finite limit-existence witness of \autoref{thm:real-completeness-limit-existence-finite-witness}, the uniqueness classifier of \autoref{thm:real-completeness-limit-uniqueness-classifier}, the $\LimitSelectorUp$ finite-route handoff of \autoref{thm:real-completeness-limitselector-handoff}, the $\CauchySequenceSpaceUp$ shared-window handoff of \autoref{thm:real-completeness-cauchysequence-space-shared-window-handoff}, the diagonal seal totality of \autoref{thm:real-completeness-diagonal-seal-totality}, and the scoped consumer seal exhaustion of \autoref{thm:real-completeness-scoped-consumer-seal-exhaustion}. This package is a finite $\BHist$ handoff to $\RealUp$ and downstream seal consumers; it is not a theorem asserting $\RealUp$ completeness as a closed public result.
 \end{theorem}
 \begin{proof}
 First assemble the existence side. Apply \autoref{thm:real-completeness-limit-existence-finite-witness}; it supplies the displayed precision-to-seal route through $\mu,\Delta,D,W,Q,S,H,C,P,N$.
 
 Next assemble the classifier side. Apply \autoref{thm:real-completeness-limit-uniqueness-classifier}; transported packets with the same public ledger export the same finite $\RealUp$ seal-ledger classifier.
 
-Now attach the downstream handoff. Use \autoref{thm:real-completeness-cauchysequence-space-shared-window-handoff} when the regular-family row is supplied through $\CauchySequenceSpaceUp$, and use \autoref{thm:real-completeness-diagonal-seal-totality} to keep every seal consumer on the same displayed route.
+Now attach the selector handoff. Apply \autoref{thm:real-completeness-limitselector-handoff}; every selected diagonal observation consumed by a $\RealUp$ or $\CauchyLimitSealUp$ route factors through the independent $\LimitSelectorUp$ finite witness route before it reaches $S$.
+
+Then attach the downstream handoff. Use \autoref{thm:real-completeness-cauchysequence-space-shared-window-handoff} when the regular-family row is supplied through $\CauchySequenceSpaceUp$, and use \autoref{thm:real-completeness-diagonal-seal-totality} to keep every seal consumer on the same displayed route.
 
 Finally apply \autoref{thm:real-completeness-scoped-consumer-seal-exhaustion}. The assembled package is exactly the scoped finite consumer surface. Since the chapter boundary excludes quotient streams, selected host limits, host equality, countable choice, and ambient completeness, the package does not close $\RealUp$ completeness as a public theorem.
 \end{proof}
