@@ -1,3 +1,4 @@
+import BEDC.FKernel.Hist
 import BEDC.GroundCompiler.EventFlow
 import BEDC.GroundCompiler.ChannelEncoding
 import BEDC.GroundCompiler.SourceChannel
@@ -30,6 +31,7 @@ from ground-compiler (conservativity, no_hidden_input).
 
 namespace BEDC.Meta.TasteGate
 
+open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.GroundCompiler.ChannelEncoding
@@ -115,5 +117,64 @@ instance groundCompilerChapterTasteGate : ChapterTasteGate EventFlow where
 /-- Public alias preserved for backward compatibility with paper markers. -/
 def groundCompilerSelfTasteGate : ChapterTasteGate EventFlow :=
   groundCompilerChapterTasteGate
+
+/-! ## FieldFaithful: encoding reflects carrier-field structure.
+
+`ChapterTasteGate.round_trip` + `layer_separation` together only force
+`toEventFlow` to be injective on inhabitants. They do NOT force the
+encoding to actually reflect the multi-field BHist structure of the
+carrier — a chapter with `XUp.mk a b c d e f g h i` (9 BHist fields)
+could conceivably encode only `(a, b)` and discard the remaining 7
+fields, still pass round_trip + layer_separation under a constructed
+`fromEventFlow` that reads them back from a hidden table.
+
+`FieldFaithful` closes this loophole: the chapter must declare a
+`fields : X → List BHist` projection that flattens every BHist
+sub-field of the carrier (the canonical `.mk` projection list), and
+prove `field_faithful`: two inhabitants with the same field list are
+equal. Combined with `BHistCarrier.toEventFlow` being a function of
+`fields` (chapters wire this via their own encode function), the
+encoding inherits faithfulness of every field, not just the
+projected ones.
+
+This is intentionally OPT-IN (separate class from `ChapterTasteGate`)
+so existing chapters compile unchanged. The Phase D paper-side gate
+enforces it for `\origin{ai}` chapters; `\origin{human}` chapters
+need not inhabit it (their nontriviality is attested by the external
+mathematical record). -/
+
+/-- Faithful field projection for a chapter carrier. The chapter must
+    name its BHist sub-fields and prove that two inhabitants agree iff
+    every field agrees. -/
+class FieldFaithful (X : Type) [BHistCarrier X] where
+  /-- Projection: list every BHist sub-field of a carrier inhabitant.
+      For `XUp.mk a b c ... i`, this is `[a, b, c, ..., i]`. -/
+  fields : X → List BHist
+
+  /-- Faithfulness: same field list ⇒ same inhabitant.
+
+      Combined with `BHistCarrier.toEventFlow` being a function of the
+      `fields` projection (the standard chapter pattern), this forces
+      the encoding to reflect every declared BHist sub-field. A chapter
+      cannot declare 9 sub-fields but encode only 2 of them, because
+      then `field_faithful` would witness two non-equal inhabitants
+      with the same field list, which contradicts the requirement. -/
+  field_faithful :
+    ∀ (x y : X), fields x = fields y → x = y
+
+/-! ## No reference FieldFaithful instance for `EventFlow`.
+
+    Unlike `ChapterTasteGate`, where the ground compiler trivially
+    inhabits via identity `toEventFlow`, `FieldFaithful` cannot be
+    inhabited for `EventFlow` because the carrier's `BHist` sub-field
+    list is genuinely empty (an `EventFlow` is a List of RawEvent,
+    not of `BHist`), so any `fields` projection that returns `[]`
+    forces `field_faithful` to assert `∀ x y : EventFlow, x = y` which
+    is false. This is correct: `FieldFaithful` is a chapter-side gate
+    for carriers built on top of `BHist`-shaped inductive `.mk`
+    constructors. The ground compiler `EventFlow` is the substrate,
+    not a chapter. Faithful chapters opt in by providing their own
+    `.mk`-derived `fields` projection and proving `field_faithful`
+    by case-analysis on `.mk`. -/
 
 end BEDC.Meta.TasteGate
