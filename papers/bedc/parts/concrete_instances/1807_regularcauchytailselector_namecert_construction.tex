@@ -138,6 +138,93 @@ Next apply \autoref{thm:regular-cauchy-tail-selector-transported-bound-preservat
 Finally use \autoref{thm:regular-cauchy-tail-selector-diagonal-admissibility}. The diagonal-limit, finite-window, and $\RealUp$ consumer routes read the assembled finite package through the admissible selected-tail row. The non-escape boundary of \autoref{thm:regular-cauchy-tail-selector-real-seal-nonescape} excludes any additional quotient, equality, infinite-tail, or completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail selector scope window]
+\label{thm:regular-cauchy-tail-selector-scope-window}
+For every accepted $\RegularCauchyTailSelectorUp$ packet
+$$
+T=(q,s,r,d,e,w,H,C,P,N),
+$$
+the selected-tail witness window is bound to the displayed $\BHist$ carrier,
+componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local
+$\NameCert$ row. A selector consumer can read the requested precision, starting
+index, finite suffix window, and dyadic bounds only through $w,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:regular-cauchy-tail-selector-carrier}. The
+only selected-tail coordinate is $w$, and the only structural rows exposing it
+are $H,C,P,N$.
+
+Use the obligation surface of
+\autoref{thm:regular-cauchy-tail-selector-namecert-obligations}. Its tail
+witness exactness clause identifies the requested precision, starting index,
+finite suffix window, and dyadic bounds as the complete content of $w$.
+
+Apply \autoref{thm:regular-cauchy-tail-selector-precision-window-exactness} to
+exclude a second selector ledger. The selected window is therefore scoped by the
+displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail selector RegSeqRat handoff]
+\label{thm:regular-cauchy-tail-selector-regseqrat-handoff}
+Every $\RegSeqRatUp$ handoff consumed by a $\RegularCauchyTailSelectorUp$ packet
+reads its dyadic bounds through the $\StreamNameUp$ source row and the
+$\DyadicRatCoreUp$ readback row before any $\RealUp$ seal is exposed. The
+handoff route is
+$$
+s,r,d,w,H,C,P,N \to e,
+$$
+where $s$ supplies the inspected stream windows, $r$ supplies the regularity
+ledger, $d$ supplies dyadic comparison, and $w$ records the selected finite
+tail window.
+\end{theorem}
+\begin{proof}
+Start from the regularity compatibility row in
+\autoref{thm:regular-cauchy-tail-selector-namecert-obligations}. It requires
+each selected-tail bound to be read through $r$ and $d$ before the seal row $e$
+is exposed.
+
+The witness window itself is fixed by
+\autoref{thm:regular-cauchy-tail-selector-precision-window-exactness}. Its
+finite suffix is a window of the $\StreamNameUp$ source row $s$, and its bounds
+are the dyadic comparisons supplied through $d$ against the regularity row $r$.
+
+Finally apply \autoref{thm:regular-cauchy-tail-selector-real-seal-nonescape}.
+The Real-facing consumer receives the finite selected-tail package after this
+route and cannot bypass the StreamName, RegSeqRat, or DyadicRatCore rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail selector Real consumer boundary]
+\label{thm:regular-cauchy-tail-selector-real-consumer-boundary}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyTailSelectorUp$ packet
+can read only the finite selector package
+$$
+q,s,r,d,w,H,C,P,N.
+$$
+It cannot obtain quotient equality of regular Cauchy streams, a selected
+infinite tail, host real equality, or ambient completeness from the selector
+packet.
+\end{theorem}
+\begin{proof}
+Use the diagonal admissibility theorem
+\autoref{thm:regular-cauchy-tail-selector-diagonal-admissibility}. It names the
+finite precision, stream, regularity, dyadic readback, selected-tail witness,
+transport, route, provenance, and local naming rows available to Real-facing
+consumers.
+
+Apply the scope-window theorem
+\autoref{thm:regular-cauchy-tail-selector-scope-window} and the RegSeqRat
+handoff theorem
+\autoref{thm:regular-cauchy-tail-selector-regseqrat-handoff}. Together they
+bind the witness window to the finite carrier and force the dyadic bounds
+through $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ before the seal
+is read.
+
+The non-escape theorem
+\autoref{thm:regular-cauchy-tail-selector-real-seal-nonescape} then rules out
+quotient equality, selected infinite tails, host real equality, and ambient
+completeness. No other carrier coordinate can supply those objects.
+\end{proof}
+
 \closureat{RegularCauchyTailSelectorUp}{seedStr}
 \closureat{RegularCauchyTailSelectorUp}{obligationStr}[BEDC.Derived.RegularCauchyTailSelectorUp.RegularCauchyTailSelectorPacket\_namecert\_obligation\_surface]
 
