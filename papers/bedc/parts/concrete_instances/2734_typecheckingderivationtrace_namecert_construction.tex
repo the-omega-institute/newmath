@@ -73,6 +73,18 @@ Use the subject-reduction surface next. It already routes the typed source row a
 The NameCert obligations then bind the readback to $H,P,N$. Componentwise $\hsame$ preserves the same classifier row, package provenance records the same $\BHist$ source, and local naming keeps the consumer at the $\TypeCheckingDerivationTraceUp$ certificate boundary.
 \end{proof}
 
+\begin{theorem}[Type-checking derivation trace classifier route]
+\label{thm:type-checking-derivation-trace-classifier-route}
+Every accepted classifier-facing read of a $\TypeCheckingDerivationTraceUp$ packet factors through the displayed $\Ext$ membership row $E$, derivation ledger $D$, componentwise $\hsame$ transports $H$, package provenance $P$, and local $\NameCert$ row $N$. It cannot be supplied by host type equality, hidden reductions, external proof objects, or a normalizer row.
+\end{theorem}
+\begin{proof}
+Project the carrier $Z=(T,E,C,D,H,R,P,N)$. The classifier-facing coordinate is $E$, and the ledger that accounts for its typing-rule reads is $D$.
+
+Apply \autoref{thm:type-checking-derivation-trace-classifier-membership-readback}. It already routes the $\TypeClassifierMembershipUp$ and $\ClassifierTypingUp$ reads through $E,D,H,P,N$ and rules out host typing judgments and unrecorded classifiers.
+
+For the non-escape clause, invoke \autoref{thm:type-checking-derivation-trace-normal-form-consumer-boundary}. That boundary states that the accepted packet contains no hidden normalizer, host term equality, unrecorded reduction step, or external proof object, so the classifier route remains the displayed finite row $E,D,H,P,N$.
+\end{proof}
+
 \begin{theorem}[Type-checking derivation trace subject-reduction transport]
 \label{thm:type-checking-derivation-trace-subject-reduction-transport}
 For every accepted $\TypeCheckingDerivationTraceUp$ carrier, the $\SubjectReductionUp$ row $R$ is transported only along the displayed $\Cont$ route $C$ and the componentwise $\hsame$ row $H$. The transported target typing judgment is therefore the one packaged by $P,N$ from the source classifier row $E$ and derivation ledger $D$.
