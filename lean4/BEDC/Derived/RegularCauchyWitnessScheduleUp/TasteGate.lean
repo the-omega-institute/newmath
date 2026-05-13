@@ -11,24 +11,24 @@ open BEDC.Meta.TasteGate
 
 inductive RegularCauchyWitnessScheduleUp : Type where
   | mk :
-      (family modulus window dyadic readback sealRow transport route provenance name : BHist) ->
-      RegularCauchyWitnessScheduleUp
+      (family modulus window dyadic readback sealRow transport route provenance name : BHist) →
+        RegularCauchyWitnessScheduleUp
   deriving DecidableEq
 
-def regularCauchyWitnessScheduleEncodeBHist : BHist -> RawEvent
+def regularCauchyWitnessScheduleEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: regularCauchyWitnessScheduleEncodeBHist h
   | BHist.e1 h => BMark.b1 :: regularCauchyWitnessScheduleEncodeBHist h
 
-def regularCauchyWitnessScheduleDecodeBHist : RawEvent -> BHist
+def regularCauchyWitnessScheduleDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (regularCauchyWitnessScheduleDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyWitnessScheduleDecodeBHist tail)
 
 private theorem regularCauchyWitnessScheduleDecode_encode_bhist :
-    forall h : BHist,
+    ∀ h : BHist,
       regularCauchyWitnessScheduleDecodeBHist
         (regularCauchyWitnessScheduleEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -42,7 +42,7 @@ private theorem regularCauchyWitnessScheduleDecode_encode_bhist :
       exact congrArg BHist.e1 ih
 
 def regularCauchyWitnessScheduleToEventFlow :
-    RegularCauchyWitnessScheduleUp -> EventFlow
+    RegularCauchyWitnessScheduleUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyWitnessScheduleUp.mk family modulus window dyadic readback sealRow
       transport route provenance name =>
@@ -71,7 +71,7 @@ def regularCauchyWitnessScheduleToEventFlow :
         regularCauchyWitnessScheduleEncodeBHist name]
 
 def regularCauchyWitnessScheduleFromEventFlow :
-    EventFlow -> Option RegularCauchyWitnessScheduleUp
+    EventFlow → Option RegularCauchyWitnessScheduleUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | _tag0 :: rest0 =>
@@ -134,11 +134,13 @@ def regularCauchyWitnessScheduleFromEventFlow :
                                                                               rest18 =>
                                                                               match
                                                                                 rest18 with
-                                                                              | [] => none
+                                                                              | [] =>
+                                                                                  none
                                                                               | name ::
                                                                                   rest19 =>
                                                                                   match
-                                                                                    rest19 with
+                                                                                    rest19
+                                                                                  with
                                                                                   | [] =>
                                                                                       some
                                                                                         (RegularCauchyWitnessScheduleUp.mk
@@ -162,11 +164,12 @@ def regularCauchyWitnessScheduleFromEventFlow :
                                                                                             provenance)
                                                                                           (regularCauchyWitnessScheduleDecodeBHist
                                                                                             name))
-                                                                                  | _ :: _ =>
+                                                                                  | _ ::
+                                                                                      _ =>
                                                                                       none
 
 private theorem regularCauchyWitnessSchedule_round_trip :
-    forall x : RegularCauchyWitnessScheduleUp,
+    ∀ x : RegularCauchyWitnessScheduleUp,
       regularCauchyWitnessScheduleFromEventFlow
         (regularCauchyWitnessScheduleToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -213,7 +216,7 @@ private theorem regularCauchyWitnessSchedule_round_trip :
 private theorem regularCauchyWitnessScheduleToEventFlow_injective
     {x y : RegularCauchyWitnessScheduleUp} :
     regularCauchyWitnessScheduleToEventFlow x =
-      regularCauchyWitnessScheduleToEventFlow y -> x = y := by
+      regularCauchyWitnessScheduleToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -246,14 +249,35 @@ instance regularCauchyWitnessScheduleChapterTasteGate :
     exact hxy (regularCauchyWitnessScheduleToEventFlow_injective heq)
 
 theorem RegularCauchyWitnessScheduleUp_taste_gate_boundary :
-    ChapterTasteGate RegularCauchyWitnessScheduleUp /\
-      (forall (x : RegularCauchyWitnessScheduleUp) (w : RawEvent) (m : DisplayAlphabet),
-        List.Mem w (BHistCarrier.toEventFlow x) ->
-          List.Mem m w -> m = BMark.b0 \/ m = BMark.b1) := by
+    ChapterTasteGate RegularCauchyWitnessScheduleUp ∧
+      (∀ (x : RegularCauchyWitnessScheduleUp) (w : RawEvent) (m : DisplayAlphabet),
+        List.Mem w (BHistCarrier.toEventFlow x) →
+          List.Mem m w → m = BMark.b0 ∨ m = BMark.b1) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact regularCauchyWitnessScheduleChapterTasteGate
   · intro x w m hw hm
     exact ChapterTasteGate.conservativity x w m hw hm
+
+theorem RegularCauchyWitnessScheduleTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyWitnessScheduleDecodeBHist
+        (regularCauchyWitnessScheduleEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyWitnessScheduleUp,
+        regularCauchyWitnessScheduleFromEventFlow
+          (regularCauchyWitnessScheduleToEventFlow x) = some x) ∧
+        (∀ x y : RegularCauchyWitnessScheduleUp,
+          regularCauchyWitnessScheduleToEventFlow x =
+            regularCauchyWitnessScheduleToEventFlow y → x = y) ∧
+          regularCauchyWitnessScheduleEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact regularCauchyWitnessScheduleDecode_encode_bhist
+  · constructor
+    · exact regularCauchyWitnessSchedule_round_trip
+    · constructor
+      · intro x y heq
+        exact regularCauchyWitnessScheduleToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.RegularCauchyWitnessScheduleUp
