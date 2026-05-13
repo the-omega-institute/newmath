@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\CrossHistCausalRouteUp$}
+\label{ch:concrete-instances-crosshistcausalroute-namecert}
+\origin{ai}
+
+The $\CrossHistCausalRouteUp$ interface realizes the route layer of the Inter-Hist Locality chain of \autoref{ch:visions-inter-hist-locality}. It sits after the observer-Hist identity surface of \autoref{ch:concrete-instances-observerhistidentity-namecert}, the causal witness surface of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the maximum-rate boundary of \autoref{ch:concrete-instances-maxcausalrate-namecert}, the invariant observer-gate surface of \autoref{ch:concrete-instances-interhistinvariant-namecert}, and the finite replay surface of \autoref{ch:concrete-instances-continuationtrace-namecert}. Its role is to bind those five siblings into one finite route certificate before a later causal-rate packet reads the maximum-rate row.
+
+\begin{definition}[Cross-Hist causal-route carrier]
+\label{def:cross-hist-causal-route-carrier}
+A $\CrossHistCausalRouteUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,B,D,M,S,G,T,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two observer-history slots, each admitted through $\ObserverHistIdentityUp$;
+\item $D$ is the displayed finite family of $\CrossHistCausalUp$ causal rows over the ordered observer slots and selected unary slot ledgers;
+\item $M$ is the $\MaxCausalRateUp$ row attached to exactly the causal family $D$;
+\item $S$ is the observer-symmetry gate, recording that the route family remains readable after swapping the two observer slots through the displayed transports;
+\item $G$ is the observer non-escape gate, refusing a global frame, synchronized clock, metric tensor, or host-valued speed for the route read;
+\item $T$ is the $\ContinuationTraceUp$ row that replays the accepted route from the observer slots through $D$, $M$, $S$, and $G$;
+\item $H$ records componentwise $\hsame$ transport for the observer slots, causal rows, maximum-rate row, observer gates, continuation trace, package row, and local naming row;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $A,B,D,M,S,G,T,H,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\CrossHistCausalRouteUp$, $\ObserverHistIdentityUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\InterHistInvariantUp$, $\ContinuationTraceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CrossHistCausalRouteUp}$ row.
+\end{enumerate}
+The carrier is a finite route packet. It contains no global observer frame, synchronized clock, metric tensor, host real-valued speed, detached maximum-rate read, or causal witness outside the displayed route family.
+\end{definition}
+
+\begin{theorem}[Cross-Hist causal-route NameCert obligations]
+\label{thm:cross-hist-causal-route-namecert-obligations}
+For the carrier of \autoref{def:cross-hist-causal-route-carrier}, the local $\NameCert_{\CrossHistCausalRouteUp}$ surface consists exactly of carrier admission for
+$$
+Q=(A,B,D,M,S,G,T,H,C,P,N),
+$$
+observer-slot admission, displayed causal-row replay, maximum-rate attachment to $D$, both observer-gate rows $S,G$, continuation-trace replay through $T$, componentwise $\hsame$ transport, displayed $\Cont$ access, package provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the finite tuple in \autoref{def:cross-hist-causal-route-carrier}. The rows $A,B,D,M,S,G,T,H,C,P,N$ are the complete public inventory of the route packet.
+
+The observer slots are read through $A$ and $B$, and the causal rows are exactly the displayed family $D$. The maximum-rate row $M$ is attached to that same family, so no consumer can read a detached maximum over unlisted causal data.
+
+The two observer gates are $S$ and $G$. The row $S$ supplies the observer-swap route, while $G$ refuses global synchronization, privileged frames, metric tensors, and host-valued speeds.
+
+The continuation trace $T$, transport row $H$, displayed routes $C$, provenance $P$, and local naming row $N$ replay and name the same finite route. Since the carrier has no coordinate outside those rows, the listed obligations exhaust the $\NameCert_{\CrossHistCausalRouteUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-route maximum-rate gate]
+\label{thm:cross-hist-causal-route-maximum-rate-gate}
+An accepted $\CrossHistCausalRouteUp$ packet cannot expose a maximum-rate read unless the displayed causal-route family $D$ and both observer-gate rows $S,G$ are present in the same carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:cross-hist-causal-route-carrier}. The only maximum-rate coordinate is $M$, and its definition attaches it to the displayed causal family $D$.
+
+Apply \autoref{thm:cross-hist-causal-route-namecert-obligations}. The local route obligations require the observer-symmetry gate $S$ and the observer non-escape gate $G$ before the maximum-rate row is exposed to a consumer.
+
+Therefore a read that omits $D$, $S$, or $G$ is not a read of the accepted route packet. The packet supplies no second rate row, hidden causal family, global frame, or synchronized clock through which such a read could be recovered.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-route sibling independence]
+\label{thm:cross-hist-causal-route-sibling-independence}
+The $\CrossHistCausalRouteUp$ packet stores all five sibling surfaces: $\ObserverHistIdentityUp$ for observer slots, $\CrossHistCausalUp$ for causal rows, $\MaxCausalRateUp$ for the bound row, $\InterHistInvariantUp$ for observer-gate reading, and $\ContinuationTraceUp$ for finite replay. It is not bijective to any one of those siblings, because deleting any one displayed surface removes a row required by \autoref{def:cross-hist-causal-route-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The rows $A,B$ carry the observer slots, $D$ carries the causal family, $M$ carries the maximum-rate row, $S,G$ carry the observer-gate boundary, and $T$ carries route replay.
+
+Each listed sibling supplies a different row kind consumed by the route packet. Removing the observer slots leaves no anchors for $D$; removing $D$ leaves no causal family for $M$; removing $M$ leaves no maximum-rate route; removing $S,G$ leaves no observer-gate boundary; removing $T$ leaves no finite replay.
+
+Thus the route packet is a finite product of the five displayed surfaces with transport, access, provenance, and naming rows. No projection to a single sibling can be inverted without recreating the deleted rows.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-route TasteGate surface]
+\label{thm:cross-hist-causal-route-tastegate-surface}
+The later Lean \texttt{TasteGate.lean} development for $\CrossHistCausalRouteUp$ must include explicit $\mathsf{Nontrivial}\ \CrossHistCausalRouteUp$ and $\mathsf{FieldFaithful}\ \CrossHistCausalRouteUp$ instances. These instances must preserve the observer slots, causal-route family, maximum-rate row, observer-gate rows, continuation trace, transport rows, displayed access routes, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+The nontriviality instance is forced by the carrier inventory: an admitted route packet must display at least the two observer slots, one route-family surface, the maximum-rate row, both observer gates, and the replay row.
+
+Field faithfulness is likewise rowwise. A gate-facing instance that forgets any of $A,B,D,M,S,G,T,H,C,P,N$ would permit a consumer read not backed by the local $\NameCert_{\CrossHistCausalRouteUp}$ obligations.
+
+Therefore the TasteGate surface must preserve exactly the finite packet named in \autoref{def:cross-hist-causal-route-carrier}.
+\end{proof}
+
+\falsifiablePrediction{An accepted route packet cannot expose a maximum-rate read unless the displayed causal-route family and both observer-gate rows are present.}
+
+\independenceWitness{observerhistidentity, crosshistcausal, maxcausalrate, interhistinvariant, continuationtrace: route packets store all five surfaces and are not bijective to any single sibling.}
+
+\closureat{CrossHistCausalRouteUp}{seedStr}
+
+\begin{closurestatus}{\CrossHistCausalRouteUp}
+  \constructivestory{A $\CrossHistCausalRouteUp$ packet is generated from two observer-history slots, finite causal-route rows, a maximum-rate row, two observer-gate rows, a continuation-trace row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cross-hist-causal-route-carrier}, \autoref{thm:cross-hist-causal-route-namecert-obligations}, \autoref{thm:cross-hist-causal-route-maximum-rate-gate}, \autoref{thm:cross-hist-causal-route-sibling-independence}, and \autoref{thm:cross-hist-causal-route-tastegate-surface} specify the finite route packet, its local obligations, its maximum-rate gate, its sibling dependence boundary, and its TasteGate instance surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not derive a numerical speed constant, Lorentz geometry, metric tensors, synchronized clocks, global frames, Lean verification, or bridge checking for $\CrossHistCausalRouteUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, route replay, maximum-rate attachment, observer-gate preservation, continuation-trace replay, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
