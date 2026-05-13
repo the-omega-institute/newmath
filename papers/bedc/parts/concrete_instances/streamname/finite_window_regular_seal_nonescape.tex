@@ -21,3 +21,51 @@ Finally use the seal boundary of \autoref{thm:streamname-real-seal-factorization
 
 Repacking these three routes gives one finite ledger. Since none of the cited public routes has a coordinate for selected limits, metric completeness, quotient stream equality, host sequence equality, or ambient $\RealUp$ completeness, none of that data is exported by the seal.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window Real seal route exhaustion]
+\label{thm:streamname-finite-window-real-seal-route-exhaustion}
+Let $W$ be an accepted finite public $\StreamNameUp$ window whose observations are consumed by a $\RegSeqRatUp$ pointwise row and then by a finite-window $\RealUp$ seal read. Then every public row visible to the Real seal consumer is exhausted by the StreamName window row, $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ membership rows, certified $\mathsf{UnaryHistory}$ observations, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ observation ledger, the $\RealUp$ seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The route has no coordinate for quotient stream equality, host sequence equality, a selected limit, metric completeness, ambient $\RealUp$ completeness, or an off-ledger seal source.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-finite-window-real-handoff-coverage}. It confines the accepted handoff to the displayed finite StreamName window, pointwise $\RegSeqRatUp$ rows, Real seal boundary, transports, continuations, provenance, and local names.
+
+Next apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The RegSeqRat readback and $\DyadicRatCoreUp$ ledger are read on the same finite pullback surface as the StreamName window and Real seal row.
+
+Use \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy} to pin the seal-facing consumer to that four-row surface. Then apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion} to project only the listed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Finally combine this exhaustion with \autoref{thm:streamname-finite-window-regularity-real-seal-nonescape}. The non-escape theorem already rules out quotient stream equality, host sequence equality, selected limits, metric completeness, and ambient $\RealUp$ completeness, so the composed route exports no additional seal source.
+\end{proof}
+
+\begin{theorem}[StreamName RegSeqRat Real budgeted common pullback]
+\label{thm:streamname-regseqrat-real-budgeted-common-pullback}
+Let $P$ and $Q$ be finite observation budgets for two accepted $\StreamNameUp$ windows consumed by $\RegSeqRatUp$ and then by finite-window $\RealUp$ seal reads. Suppose their certified common budget displays the same StreamName window row, the same $\RegSeqRatUp$ readback row, the same $\DyadicRatCoreUp$ observation ledger, and the same $\RealUp$ seal boundary on the overlap. Then both budgeted reads factor through one common finite pullback packet with only the displayed $\BHist$ observations, $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, certified unary observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+Consequently changing from $P$ to $Q$ on an accepted common window cannot expose quotient streams, host equality, selected limits, metric completeness, ambient $\RealUp$ completeness, or a second Real seal source.
+\end{theorem}
+\begin{proof}
+First read each budgeted handoff through \autoref{thm:streamname-finite-window-real-handoff-coverage}. Both sides are already finite StreamName-to-RegSeqRat-to-Real packets with the same kinds of transport, continuation, provenance, and naming rows.
+
+Apply \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback} on the certified overlap. The hypotheses identify the four visible sibling rows on the overlap: StreamName window, RegSeqRat readback, DyadicRatCore ledger, and Real seal boundary.
+
+Next use \autoref{thm:streamname-regseqrat-real-dyadic-pullback-seal-determinacy}. The two budgeted seal reads therefore reach the same finite seal-facing surface once the four rows agree.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion} and \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. The common packet contains only the displayed finite BEDC rows, so neither budget can contribute quotient streams, host equality, selected limits, metric completeness, ambient completeness, or an alternate seal source.
+\end{proof}
+
+\begin{theorem}[StreamName Real handoff completion non-escape]
+\label{thm:streamname-real-handoff-completion-nonescape}
+Every accepted finite-window $\RealUp$ seal read obtained from a $\StreamNameUp$ handoff through $\RegSeqRatUp$ and $\DyadicRatCoreUp$ completes at the level of the displayed pullback packet. Its public completion-facing data are exactly the accepted StreamName window, RegSeqRat readback, DyadicRatCore observation ledger, Real seal boundary, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+No completion consumer can read a quotient stream, host sequence equality, selected limit, metric completeness proof, ambient $\RealUp$ completeness principle, or independent completed-real carrier from that handoff.
+\end{theorem}
+\begin{proof}
+Start from the accepted finite-window Real seal read and apply \autoref{thm:streamname-finite-window-real-seal-route-exhaustion}. This gives the complete list of visible rows available to the seal consumer before any completion-facing interpretation is made.
+
+Now apply \autoref{thm:streamname-regseqrat-real-budgeted-common-pullback} to any two finite budgets presenting the same accepted common window. The common pullback packet is unchanged by the budget presentation, so a completion consumer has a single finite StreamName-RegSeqRat-DyadicRatCore-Real route to inspect.
+
+Use the seal boundary from \autoref{thm:streamname-real-seal-factorization-boundary}. The Real read repacks exactly the displayed StreamName point rows, accepted RegSeqRat rows, bundle rows, unary observations, continuations, transports, and provenance; the reverse packing does not introduce completion data.
+
+The non-escape conclusion follows from \autoref{thm:streamname-finite-window-regularity-real-seal-nonescape} and \autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}. Their coordinate lists omit quotient streams, host sequence equality, selected limits, metric completeness, ambient $\RealUp$ completeness, and independent completed-real carriers, so those objects cannot be read through the handoff.
+\end{proof}
