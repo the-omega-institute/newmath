@@ -279,6 +279,26 @@ Now read the accepted $\UniformCauchyCriterionUp$ presentation through \autoref{
 Finally apply \autoref{thm:cauchysequence-space-completion-handoff-stability} and \autoref{thm:cauchysequence-space-kernel-scope-packet}. The completion handoff stays on $F,\sigma,W,\epsilon,Q,H,C,P,N$, so the uniform-criterion ledger is consumed as a presentation of the same route rather than as quotient completion, a selected limit, host equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchySequenceSpace RealObservationBudget factorization]
+\label{thm:cauchysequence-space-real-observation-budget-factorization}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+be an accepted $\CauchySequenceSpaceUp$ packet. Suppose a $\RealObservationBudgetUp$ presentation records the same precision request, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ readbacks and radii, $\RegSeqRatUp$ handoff rows, and $\RealUp$ seal rows as the completion-facing request for $S$. Then that observation-budget presentation factors through the displayed CauchySequenceSpace rows before any completion-facing read of $Q$.
+
+The factorized route uses only the regular-family row $F$, schedule $\sigma$, common-window ledger $W$, dyadic tolerance row $\epsilon$, completion handoff $Q$, componentwise transports $H$, continuation routes $C$, provenance row $P$, and local naming row $N$. It cannot use quotient streams, host equality, hidden limit selection, unbounded schedules, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:cauchysequence-space-carrier-surface}. The visible packet rows are exactly the regular rational family, stream schedule, common-window ledger, dyadic tolerance row, completion handoff, transports, continuations, provenance, and local name.
+
+First bind the observation windows to the same CauchySequenceSpace route. Common-window classifier transport, cofinal schedule stability, and dyadic tolerance ledger exactness identify the precision-indexed windows, stream reads, dyadic readbacks, and displayed radii with $W$, $\sigma$, and $\epsilon$.
+
+Next route the source and seal consumers. Completion handoff stability keeps the $\RegSeqRatUp$ handoff and the $\RealUp$ seal boundary on the same $Q$ row, and the kernel scope packet prevents any completion-facing read from leaving $F,\sigma,W,\epsilon,Q,H,C,P,N$.
+
+Finally read the $\RealObservationBudgetUp$ carrier through \autoref{def:real-observation-budget-carrier}, \autoref{thm:real-observation-budget-window-coverage}, \autoref{thm:real-observation-budget-regseq-handoff}, \autoref{thm:real-observation-budget-real-seal-boundary}, and \autoref{thm:real-observation-budget-nonescape}. Those rows present the same finite observation route and exclude quotient streams, host equality, hidden limit selection, unbounded schedules, and ambient completeness.
+\end{proof}
+
 \closureat{CauchySequenceSpaceUp}{seedStr}
 \closureat{CauchySequenceSpaceUp}{obligationStr}
 
