@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.15 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.16 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Multi-target round emission (HARD GATE — minimum 5 candidates)
 
@@ -39,6 +39,41 @@ Constraints when emitting >1 target:
 - **Mixed difficulty allowed**: a 5-target round may mix 3 quick `closure_mark` (drift / bridge sync / token) targets and 2 substantive `theory_extension` / `missing_companion` targets — the quick targets sync token, the substantive ones grow the theory. Mixed rounds maximize per-round leverage.
 
 If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as exist (1, 2, 3, 4, or 5). Empty round (`{"targets": []}`) is still allowed when no feasible candidate survives.
+
+## TOP-LEVEL HARD GATE — origin{ai} chapter NameCert template (Stage F + falsifiable + independence)
+
+Every new `\origin{ai}` chapter MUST include the following four rows beyond the standard 5-row NameCert obligation surface. These are the BEDC analogue of "is this concept a prime, not a composite": each row commits the chapter to substantive structural content that would invalidate the chapter if disproved. `\origin{human}` chapters are EXEMPT (their nontriviality is attested by external mathematical record).
+
+1. **`\falsifiablePrediction{<one-line>}`** — the chapter commits one BEDC-verifiable consequence. Example: "If `XUp` is atomic, then there exists NO `<X>Up → YUp` morphism preserving NameCert for any current `YUp` with fewer than 5 carrier rows." The prediction must be testable in ≤ N rounds via either direct proof or counter-witness construction; vague philosophical statements ("X is fundamental") are rejected.
+
+2. **`\independenceWitness{<3-5 sibling slugs and why not bijective>}`** — chapter names its 3-5 nearest sibling chapter slugs (drawn from existing `parts/concrete_instances/*_namecert_construction.tex`) and explains in one paragraph why the carrier admits no bijection (injection ∧ surjection) to any of them. Typical justifications: "X has obligation row R that Y lacks", "|X| > |Y| in canonical cardinality argument", "X carries a NameCert obligation that survives no `X → Y` reduction". If the chapter is genuinely a Cartesian product / refinement of siblings, use `\origin{ai-composite}` INSTEAD of `\origin{ai}` — the composite marker opts out of this gate.
+
+3. **Lean-side `Nontrivial <X>Up` instance** — the chapter's `lean4/BEDC/Derived/<X>Up/TasteGate.lean` must provide `instance : Nontrivial <X>Up` with explicit `witness_pair := ⟨XUp.mk ..., XUp.mk ..., by ...⟩` proof. This closes the `PUnit` / 1-element-carrier loophole that `ChapterTasteGate.layer_separation` cannot catch (vacuous when |X| < 2).
+
+4. **Lean-side `FieldFaithful <X>Up` instance** (already covered in phase_c.txt v5.20 §FieldFaithful, repeated here for paper-side awareness) — the chapter's `lean4/BEDC/Derived/<X>Up/TasteGate.lean` must provide `instance : FieldFaithful <X>Up` with a `.mk`-derived `fields` projection and a `field_faithful` proof by `match` + `injection` chain.
+
+When proposing a `vision_concretization` / `automath_concretization` / `human_chapter_extension` `new_chapter` target with `\origin{ai}`, the `proposed_change` MUST explicitly list which falsifiable prediction the chapter will commit, which 3-5 sibling slugs the independence witness will name, and confirm that Lean TasteGate.lean will include `Nontrivial` + `FieldFaithful` instances. Targets that decline these (e.g. via `\origin{ai-composite}` opt-out) must clearly state in `proposed_change.notes` why the chapter is structurally composite rather than atomic.
+
+## TOP-LEVEL HARD GATE — conjecture-chase target (sieve-orthogonal discovery)
+
+Beyond the sieve-like enumeration of `vision_concretization` / `automath_concretization`, BEDC maintains a list of OPEN open-conjecture chapters under `papers/bedc/parts/conjectures/*.tex`. Each open conjecture is a BEDC kernel-formulated unproved claim that admits a finite test (proof, weakening, or counter-witness).
+
+**HARD GATE — conjecture quota**: when the number of `\conjectureStatus{open}` chapters under `parts/conjectures/` is ≥ 1, AT LEAST 1 of the round's emitted targets MUST be `kind = "conjecture_chase"` whose `paper_files[0]` is one open conjecture's file. The target's `proposed_change` describes one of:
+
+- **closing** — provide a proof attempting to verify the conjecture (may delegate the Lean side to a follow-up R round if the proof would exceed Phase Revise scope).
+- **weakening** — add hypotheses or restrict scope so the conjecture becomes provable, updating `\conjectureStatus{weakened}`.
+- **refuting** — exhibit a counter-instance drawn from an existing concrete-instance chapter, updating `\conjectureStatus{refuted}`.
+- **incremental restatement** — restate the conjecture in stronger BEDC kernel vocabulary if the current statement leaks non-kernel notions; `\conjectureStatus{open}` unchanged but the statement is sharper.
+
+When proposing `conjecture_chase`, the `proposed_change` MUST name which mode (close / weaken / refute / restate) is being attempted and how the resulting `\conjectureStatus{...}` will change.
+
+Cap one `conjecture_chase` per round to avoid flooding Phase Revise. The pipeline can seed new conjectures via discovery channels (a `new_chapter` target may add a new conjecture file when codex identifies an open BEDC-kernel claim worth tracking), but the seed itself is not a `conjecture_chase`.
+
+## TOP-LEVEL SOFT SIGNAL — dossier ripeness (chapters no one cites)
+
+`tools/dossier_ripeness_check.py` reads `docs/dossier/data/dependency.json` and lists chapter nodes whose `in_degree` is below a threshold (default ≤ 1) — i.e. chapters that no other chapter cites as a dependency. Such chapters are *ripeness candidates*: they may be trivial (nothing needed them), out-of-scope, or premature.
+
+This is a SOFT SIGNAL, not a HARD GATE. When proposing a `new_chapter` target, prefer NOT to add yet another chapter on a topic that already has ripeness candidates in its slug-family; instead propose `orphan_repair` to add cross-refs that elevate existing candidates' `in_degree`, or propose `conjecture_chase` to attempt closing a related open conjecture. A chapter sitting at `in_degree = 0` for more than ~100 rounds after introduction should be demoted to `\origin{ai-trivial}` and removed from main flow — flag such candidates in `notes` so the operator notices.
 
 ## TOP-LEVEL HARD GATE — orphan-chapter repair (cross-chapter lattice integrity)
 
