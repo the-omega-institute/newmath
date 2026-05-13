@@ -4,6 +4,8 @@
 
 The $\ObserverSubjectBoundaryUp$ carrier records the finite observation packet at which an observer-facing consumer may inspect histories without receiving a separate subject carrier. Its rows are histories, transported history-sameness, displayed continuation routes, probe and signature readback, package provenance, and a local naming row. The boundary is therefore a finite BEDC packet over observation rows, not a substance slot behind those rows.
 
+The downstream $\ObserverHistIdentityUp$ surface of \autoref{ch:concrete-instances-observerhistidentity-namecert} consumes this boundary before reading its $H,O,L,C,P,N$ packet. The dependency is the absence of any observer-substance coordinate, so observer-history identity is read as a finite history-and-name packet rather than as a cosmetic reference to a hidden subject.
+
 \begin{definition}[ObserverSubjectBoundary carrier]
 \label{def:observer-subject-boundary-carrier}
 An $\ObserverSubjectBoundaryUp$ carrier is a finite $\BHist$ packet

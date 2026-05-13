@@ -324,6 +324,48 @@ consumer-visible readback boundary, while quotient classes, host equality,
 arithmetic packages, order packages, and completeness rows remain absent.
 \end{proof}
 
+\begin{theorem}[RealUp RegSeqRat StreamName common-window seal fusion]
+\label{thm:real-regseqrat-streamname-seal-common-window-fusion}
+Let $S$ and $T$ be accepted finite $\RealUp$ seal handoffs. Suppose they share
+one displayed $\StreamNameUp$ finite window, the same componentwise
+$\RegSeqRatUp$ regularity-spine rows, the same transported $\DyadicRatCoreUp$
+observation rows, the same $\RealUp$ seal/readback provenance rows, and the
+same displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates.
+Then their consumer-visible $\RealUp$ seal reads fuse through one finite
+$\mathsf{BHist}$ route whose visible boundary consists exactly of those four
+faces.
+
+The fused route exports no quotient carrier, host equality, selected limit,
+real-completeness row, arithmetic package, order package, Classical-choice
+row, or metric-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project both accepted handoffs through
+\autoref{thm:realup-regseqrat-streamname-seal-handoff}. This reads the shared
+window as the same stream-name schedule together with the transported dyadic
+observations, the regular-rational spine, and the $\RealUp$ seal/readback
+provenance.
+
+Next use \autoref{thm:realup-open-phase-seal-exactness}. Exactness exposes
+the accepted handoffs as four open-phase faces over the displayed $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ coordinates, so no consumer-visible
+seal read has a fifth source row.
+
+Apply \autoref{thm:realup-open-phase-four-face-pullback} to the shared finite
+window and the matching component rows. The pullback identifies one finite
+$\mathsf{BHist}$ route carrying exactly the dyadic observation face, the
+stream-name finite-window face, the $\RegSeqRatUp$ regularity face, and the
+$\RealUp$ seal/readback provenance face.
+
+Finally use \autoref{thm:realup-finite-seal-source-uniqueness} and
+\autoref{thm:realup-regseqrat-seal-readback-determinacy}. Source uniqueness
+identifies the two accepted seal sources, and readback determinacy forces the
+consumer-visible reads to use the same finite route. Since each cited boundary
+has no carrier for quotient representatives, host equality, selected limits,
+real completeness, arithmetic or order packages, Classical choice, or metric
+completeness, the fused route exports none of those coordinates.
+\end{proof}
+
 \begin{theorem}[RealUp StreamName factorization pullback correspondence]
 \label{thm:realup-streamname-factorization-pullback-correspondence}
 Let $S$ be an accepted finite $\RealUp$ seal handoff. The

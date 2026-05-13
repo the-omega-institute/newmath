@@ -157,6 +157,24 @@ Use \autoref{thm:completionreflection-consumer-scope} to align the two reads. It
 Finally apply \autoref{thm:completionreflection-public-export}. The public packet exposes exactly $C,U,H,D,Q,A,S,T,K,P,N$ and no quotient, selected limit, host equality, or ambient completeness coordinate, so the universal route factors through the displayed seal for every completion-facing consumer.
 \end{proof}
 
+\begin{theorem}[CompletionReflection real-seal extension coherence]
+\label{thm:completionreflection-real-seal-extension-coherence}
+Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ packet. The public real-seal read through $A$ and the universal-property extension read through $U$ are coherent exactly when both reads factor through the same displayed rows
+$$
+C,D,Q,A,H,S,T,K,P,N.
+$$
+Neither read may replace those rows with a quotient stream, selected host limit, host equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+For the real-facing direction, apply \autoref{thm:completion-reflection-real-seal-boundary}. Every $\RealUp$ read is routed through the displayed construction, diagonal, regular-source, separated-boundary, transport, continuation, package, and naming rows before it reaches the seal row $A$.
+
+For the extension-facing direction, apply \autoref{thm:completion-reflection-extension-reflects}. The route exported by $U$ reflects back to $C,D,Q,A,H,S,T,K,P,N$, so the extension read cannot introduce a second completion surface.
+
+Now align the two readings by \autoref{thm:completionreflection-consumer-scope}. Its consumer boundary says that the real-facing read and the extension-facing read use the same finite packet surface, with $A$ and $U$ as the two visible public entries.
+
+Finally apply \autoref{thm:completionreflection-public-export}. Since the public export exposes only $C,U,H,D,Q,A,S,T,K,P,N$ and excludes quotient streams, selected host limits, host equality, and ambient completeness, coherence is exactly shared factorization through the displayed rows.
+\end{proof}
+
 \begin{theorem}[CompletionReflection standard bridge boundary]
 \label{thm:completion-reflection-standard-bridge-boundary}
 Let $R=(C,U,H,D,Q,A,S,T,K,P,N)$ be an accepted $\CompletionReflectionUp$ packet. If the carrier row, classifier row, local $\NameCert$ obligations, real-seal boundary, extension-reflection row, consumer scope, provenance-route scope, and public export of $R$ are displayed, then $R$ induces a standard bridge boundary read only through the finite rows already named by this chapter: $\RegSeqRatUp$, $\RealUp$, the real-seal row, classifier row, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row.
