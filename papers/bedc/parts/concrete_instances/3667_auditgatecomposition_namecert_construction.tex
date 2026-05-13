@@ -1,0 +1,154 @@
+\chapter{A Concrete Naming Certificate for $\AuditGateCompositionUp$}
+\label{ch:concrete-instances-auditgatecomposition-namecert}
+\origin{ai}
+
+The $\AuditGateCompositionUp$ packet names a finite composition surface for
+two audit gates that share a boundary row. It records the two gate rows, the
+boundary-content rows seen by each gate, the two refusal-result rows, and the
+composed refusal trace as one local $\NameCert$ packet. The packet is a
+composition certificate: it does not create a new audit policy, weaken either
+gate, or turn refusal into host-side permission.
+
+\begin{definition}[Audit-gate composition carrier]
+\label{def:audit-gate-composition-carrier}
+An $\AuditGateCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+C=(G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G_0$ and $G_1$ are the two audit-gate rows being composed;
+\item $B_0$ and $B_1$ are the boundary-content rows read by the two gates,
+with a displayed shared-boundary comparison between the exit surface of
+$G_0$ and the entry surface of $G_1$;
+\item $R_0$ and $R_1$ are the refusal-result rows produced by the two gates;
+\item $Q$ is the composed refusal trace, recording that the downstream
+consumer sees $R_0$ followed by $R_1$ through the shared boundary;
+\item $H$ stores componentwise $\hsame$ transports for gate rows,
+boundary-content rows, refusal-result rows, composed traces, provenance, and
+the local name;
+\item $K$ stores the $\Cont$ replay routes for reading $G_0$, reading
+$G_1$, transporting the shared boundary, replaying both refusal rows, and
+projecting the composed refusal trace;
+\item $P$ stores $\Pkg$ provenance naming $\AuditGateBoundaryUp$,
+$\OperationalMembraneUp$, $\AuditMembraneUp$, forbidden-ancestry audit rows,
+paper-Lean drift rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+source packets;
+\item $N$ is the local $\NameCert_{\AuditGateCompositionUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed gate rows, boundary rows, refusal rows,
+composed trace, transport, replay, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[Audit-gate composition NameCert obligations]
+\label{thm:audit-gate-composition-namecert-obligations}
+The local $\NameCert_{\AuditGateCompositionUp}$ surface for the carrier of
+\autoref{def:audit-gate-composition-carrier} consists of six finite
+obligations:
+\begin{enumerate}
+\item carrier admission for
+$C=(G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N)$;
+\item first-gate exposure for $G_0$, $B_0$, and $R_0$;
+\item second-gate exposure for $G_1$, $B_1$, and $R_1$;
+\item shared-boundary transport, requiring the exit content of the first gate
+and the entry content of the second gate to be compared only through the
+displayed $\hsame$ rows in $H$;
+\item composed refusal replay, requiring $Q$ to be read through the displayed
+$\Cont$ routes in $K$;
+\item consumer non-escape, requiring the composed packet to export no hidden
+permission row, no skipped gate, no host repair of a refused boundary, and no
+audit result outside the displayed finite trace.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:audit-gate-composition-carrier}. The two gate rows, two boundary
+rows, two refusal rows, composed trace, transport, replay, provenance, and
+local naming row are all displayed coordinates of the same finite packet.
+
+The first and second gate obligations are read separately from the tuple.
+Each gate keeps its own boundary-content row and refusal-result row, so
+composition cannot identify the two gates or erase one of the two refusal
+surfaces.
+
+Shared-boundary transport is confined to $H$. The only comparison between
+$B_0$ and $B_1$ is the displayed componentwise $\hsame$ comparison, and the
+only public replay of the composed trace passes through $K$.
+
+Finally $P$ and $N$ package the displayed rows as local NameCert data. Since
+the carrier has no coordinate for a hidden permission row, skipped gate, host
+repair, or unlisted audit result, the six obligations exhaust the public
+surface of the composition packet.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition refusal transitivity]
+\label{thm:audit-gate-composition-refusal-transitivity}
+Let $C=(G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N)$ be an accepted
+$\AuditGateCompositionUp$ carrier. If the first gate refuses the boundary
+content recorded in $R_0$ and the second gate refuses the transported
+boundary content recorded in $R_1$, then every public read of the composed
+surface factors through the ordered refusal trace $Q$. The read cannot
+replace either refusal by acceptance and cannot bypass the shared-boundary
+transport.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the two gate surfaces. The first refusal is
+the row $R_0$ attached to $G_0$ and $B_0$, and the second refusal is the row
+$R_1$ attached to $G_1$ and $B_1$.
+
+Use the shared-boundary rows in $H$ to transport the exit content of the
+first gate to the entry content of the second gate. This is the only bridge
+between the two refusal reads, so the second refusal remains tied to the
+transported boundary rather than to a new host-side boundary object.
+
+Replay the ordered route through $K$. The route reads $R_0$, crosses the
+displayed boundary comparison, reads $R_1$, and then exposes $Q$ as the
+composed refusal trace.
+
+Because $Q$ is built only from those displayed rows, a consumer has no
+coordinate for replacing either refusal by acceptance or for bypassing the
+shared-boundary transport.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition consumer non-escape]
+\label{thm:audit-gate-composition-consumer-nonescape}
+Every consumer read of an accepted $\AuditGateCompositionUp$ packet factors
+through
+$$
+G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N.
+$$
+The consumer receives a finite NameCert packet for composed gate surfaces,
+shared boundary rows, refusal transitivity, and consumer non-escape. It
+receives no general audit bypass, no external axiom-ancestry oracle, no
+paper-Lean marker repair, no operational-membrane override, and no host
+permission to treat a refused boundary as accepted.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. A consumer can project the two gate rows,
+two boundary-content rows, two refusal-result rows, composed trace,
+componentwise transport, replay route, provenance, and local name.
+
+The composed read is then determined by
+\autoref{thm:audit-gate-composition-namecert-obligations} and
+\autoref{thm:audit-gate-composition-refusal-transitivity}. The first theorem
+identifies the finite obligation surface, and the second theorem identifies
+the ordered refusal route through the shared boundary.
+
+The provenance row records the neighboring audit packets that the composition
+may cite, but it does not import their host-side policy space. Since the
+carrier has no bypass, marker-repair, membrane-override, or acceptance-after-
+refusal coordinate, none of those objects can escape to the consumer.
+\end{proof}
+
+\closureat{AuditGateCompositionUp}{seedStr}
+
+\begin{closurestatus}{\AuditGateCompositionUp}
+  \constructivestory{An $\AuditGateCompositionUp$ packet is generated from two audit-gate rows, two boundary-content rows, two refusal-result rows, a composed refusal trace, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:audit-gate-composition-carrier}, \autoref{thm:audit-gate-composition-namecert-obligations}, \autoref{thm:audit-gate-composition-refusal-transitivity}, and \autoref{thm:audit-gate-composition-consumer-nonescape} bind composed audit-gate surfaces as a finite NameCert packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, audit-policy completeness, external ancestry search, marker repair, operational-membrane override, or a public standard bridge.}
+  \upgradepath{Scoped closure requires checked carrier admission, shared-boundary transport, refusal-transitivity replay, and consumer non-escape for the same finite audit-gate composition packet.}
+\end{closurestatus}
