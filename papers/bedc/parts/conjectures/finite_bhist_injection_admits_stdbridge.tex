@@ -1,13 +1,13 @@
 \section{Finite-BHist-Injection Admits StdBridge}
 \label{sec:conjectures-finite-bhist-injection-admits-stdbridge}
 
-\begin{conjecture}[Finite EventFlow Enumeration Admits StdBridge]
+\begin{conjecture}[Finite BHist Tuple Route Admits StdBridge]
 \label{conj:finite-bhist-injection-admits-stdbridge}
-For every BEDC chapter $\langle X\rangle\mathsf{Up}$ equipped with a fixed finite-event-flow presentation that
+For every BEDC chapter $\langle X\rangle\mathsf{Up}$ equipped with a fixed finite $\BHist$ tuple presentation that
 \begin{enumerate}
-  \item displays a finite list $[e_0,e_1,\ldots,e_k]$ of $\EventFlow$ values;
-  \item supplies a $\toEventFlow$ image proof that every accepted carrier row maps into that list;
-  \item supplies a $\fromEventFlow$ readback row with $\fromEventFlow(e_i)=\mathsf{some}(b_i)$ for each listed value $e_i$;
+  \item displays a tuple carrier $(b_0,b_1,\ldots,b_k)$ of accepted $\BHist$ component rows;
+  \item supplies an image row showing that every accepted carrier row is one of the displayed tuple components;
+  \item supplies a readback row recovering the corresponding $\BHist$ component from each displayed image row;
   \item presents the chapter carrier as a fixed-arity $\BHist$ tuple $(b_0,b_1,\ldots,b_k)$ whose $\NameCert$ rows are transported componentwise along those readback rows;
   \item inhabits $\ChapterTasteGate$ for the displayed tuple presentation;
 \end{enumerate}
@@ -17,20 +17,27 @@ there exists a $\langle X\rangle\mathsf{UpStdBridge}$ theorem in $\BEDC.Derived.
 \conjectureStatus{weakened}
 
 \paragraph{Status notes.}
-The obligation is the fixed finite-event-flow route. The bridge follows by
-case analysis over $[e_0,e_1,\ldots,e_k]$, replaying the displayed
-$\fromEventFlow(e_i)=\mathsf{some}(b_i)$ readback for each listed value,
-and transporting the tuple carrier's $\NameCert$ rows component by
-component before packaging the finite family as the chapter's standard
-reflection bridge.
+The obligation is the fixed finite $\BHist$ tuple route. The bridge follows by case analysis over the displayed tuple carrier, replaying the image row and readback row for each component, and transporting the tuple carrier's $\NameCert$ rows component by component before packaging the finite family as the chapter's standard reflection bridge.
 
 The remaining open part is the general transport from arbitrary
 regular-language recognisers to $\BHist$ tuple presentations. That route
 would need a recogniser-to-carrier construction and a uniform component
-transport theorem not supplied by the fixed finite-event-flow test target.
+transport theorem not supplied by the fixed tuple test target.
+
+\begin{theorem}[Finite BHist injection fixed tuple route]
+\label{thm:finite-bhist-injection-fixed-tuple-route}
+In the fixed finite tuple case, every candidate $\StdBridge$ route must be a displayed $\BHist$ tuple route. The image row, readback row, tuple carrier, componentwise $\NameCert$ transport, and $\ChapterTasteGate$ row must all be present before the bridge is requested.
+\end{theorem}
+\begin{proof}
+Start with the displayed tuple carrier $(b_0,b_1,\ldots,b_k)$. The image row restricts every accepted carrier read to one of these finite $\BHist$ components, and the readback row returns the corresponding component as kernel data.
+
+Transport is then componentwise. Each $\NameCert$ obligation is replayed along the displayed readback row for its component, and the $\ChapterTasteGate$ row records that this tuple presentation is the one accepted by the chapter.
+
+This isolates only the fixed-tuple route. It does not construct a tuple carrier from an arbitrary regular-language recogniser, so the general recogniser-to-carrier problem remains open.
+\end{proof}
 
 \paragraph{Refutation route (if false).}
-Find a chapter satisfying the displayed finite-list, image, readback,
+Find a chapter satisfying the displayed finite tuple, image, readback,
 fixed-tuple, and $\ChapterTasteGate$ premises for which a
 $\langle X\rangle\mathsf{UpStdBridge}$ theorem demonstrably cannot exist
 (e.g. because the chapter's NameCert obligation requires a non-standard
