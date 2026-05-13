@@ -48,6 +48,46 @@ The selected-window obligation is finite. A consumer reads $q$ first, then uses 
 The remaining rows account for transport, route replay, provenance, and naming. Since no coordinate records quotient streams, host real equality, an unbounded diagonal stream, ambient completeness, or a selected external limit, the local $\NameCert$ obligation surface is exhausted by the displayed packet.
 \end{proof}
 
+\begin{theorem}[Real diagonal-window coverage carrier admission]
+\label{thm:real-diagonal-window-coverage-carrier-admission}
+An accepted $\RealDiagonalWindowCoverageUp$ packet exposes exactly the carrier rows
+$$
+q,w,r,d,e,h,c,p,n.
+$$
+These rows are, respectively, the precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read \autoref{def:real-diagonal-window-coverage-carrier}. Carrier admission is projection from the displayed tuple $G=(q,w,r,d,e,h,c,p,n)$.
+
+Apply the NameCert obligations of \autoref{thm:real-diagonal-window-coverage-namecert-obligations}. They name each coordinate as part of the local certificate surface and provide no additional row beyond the displayed tuple.
+
+The carrier definition excludes quotient streams, host real equality, unbounded diagonal streams, ambient completeness, and selected external limits, so the accepted packet exposes exactly the nine listed rows.
+\end{proof}
+
+\begin{theorem}[Real diagonal-window coverage classifier stability]
+\label{thm:real-diagonal-window-coverage-classifier-stability}
+For accepted $\RealDiagonalWindowCoverageUp$ packets, classifier comparison is stable under componentwise $\hsame$ transport of the precision request, selected $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation ledger, $\RealUp$ seal row, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Unfold the classifier in \autoref{def:real-diagonal-window-coverage-classifier}. Its comparison fields are exactly the displayed precision request, window, readback, dyadic ledger, seal row, transports, routes, provenance, and local name.
+
+Use the $h$ coordinate of the carrier to transport each component. The same rows are the rows exposed by carrier admission, so no comparison field is lost or replaced during transport.
+
+The RealUp handoff theorem keeps seal-facing comparisons on the displayed route through $q,w,r,d,h,c,p,n$. Hence classifier stability never appeals to host stream equality, quotient equality of completed reals, or an undisplayed completeness principle.
+\end{proof}
+
+\begin{theorem}[Real diagonal-window coverage selected-window coverage]
+\label{thm:real-diagonal-window-coverage-selected-window-coverage}
+Every $\RealUp$-facing read of an accepted $\RealDiagonalWindowCoverageUp$ packet reaches the seal row $e$ only after the selected $\StreamNameUp$ window $w$ and the $\DyadicRatCoreUp$ observation ledger $d$ have been displayed.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The $\RealUp$ seal row $e$ is listed after the precision request $q$, selected window $w$, $\RegSeqRatUp$ readback $r$, and dyadic ledger $d$.
+
+Apply \autoref{thm:real-diagonal-window-coverage-namecert-obligations}. The selected-window and dyadic observation-ledger obligations are part of the local certificate surface before any seal-facing consumer is exported.
+
+Now use \autoref{thm:real-diagonal-window-coverage-realup-handoff}. It routes every $\RealUp$ completion or continuous-map consumer through the displayed selected-window and dyadic-ledger rows before the seal row is read.
+\end{proof}
+
 \begin{theorem}[Real diagonal-window coverage RealUp handoff]
 \label{thm:real-diagonal-window-coverage-realup-handoff}
 Every $\RealUp$ completion or continuous-map consumer of an accepted $\RealDiagonalWindowCoverageUp$ carrier receives the seal row $e$ only through the displayed route
