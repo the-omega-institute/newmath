@@ -108,6 +108,17 @@ For each candidate, run the following audit:
     selected, include `chapter_worthiness` explaining those facts. If no such
     fit exists, reject the candidate rather than inflating it into a chapter.
 
+13. **Pre-TasteGate admission for every `new_chapter`**. A candidate may only
+    keep `landing_kind = new_chapter` if it supplies all of these fields with
+    BEDC-native content, not external paths or JSON metadata:
+    `carrier_surface`, `classifier_surface`, `nontrivial_witness_plan`,
+    `field_faithful_plan`, `structural_atomicity`,
+    `falsifiable_prediction`, `independence_witness`, and
+    `elimination_plan`. If any surface is missing, downgrade to the smallest
+    existing-chapter landing or reject. If it is mathematically promising but
+    not certificate-ready, return it as rejected with reason
+    `conjecture_fallback` rather than accepting a BOARD target.
+
 Acceptance thresholds:
 - fit_score ≥ 7
 - novelty ≥ 6
@@ -123,6 +134,17 @@ Return one JSON object on stdout:
       "chapter": "<existing BEDC chapter>",
       "landing_kind": "existing_chapter_lemma | existing_chapter_obligation | existing_chapter_ledger_row | new_chapter | reject",
       "chapter_worthiness": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "tastegate_mode": "<existing_chapter | new_chapter | conjecture_fallback>",
+      "carrier_surface": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "classifier_surface": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "nontrivial_witness_plan": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "field_faithful_plan": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "structural_atomicity": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "falsifiable_prediction": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "independence_witness": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "elimination_plan": "<required only when landing_kind is new_chapter; otherwise empty>",
+      "ripeness_risk": "<low | medium | high, with one short reason>",
+      "conjecture_fallback": "<empty unless the candidate should be kept out of BOARD and routed to conjecture review>",
       "fit_score": <integer 0-10>,
       "novelty": <integer 0-10>,
       "source": "codex" | "oracle" | "paper_review" | "both",
