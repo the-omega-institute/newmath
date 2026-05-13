@@ -175,4 +175,30 @@ theorem GeneratorClosurePacket_ledger_obligation [AskSetup] [PackageSetup]
       endpointPkg,
       exportedPkg⟩
 
+theorem GeneratorClosurePacket_gap_boundary_absorbs_unwitnessed_route [AskSetup]
+    [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      exported rejected : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg →
+      hsame endpoint exported →
+        Cont name exported routes →
+          PkgSig bundle exported pkg →
+            Cont constructors rejected routes →
+              UnaryHistory constructors ∧ UnaryHistory rejected ∧
+                Cont constructors rejected routes ∧ Cont name exported routes ∧
+                  PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint exportedRoute exportedPkg rejectedRoute
+  obtain ⟨_generatorUnary, constructorsUnary, _authorizedUnary, _classifierUnary,
+    _witnessesUnary, _transportUnary, _provenanceUnary, nameUnary, endpointUnary,
+    _generatorRoute, _classifierRoute, _endpointRoute, _endpointPkg⟩ := packet
+  cases sameEndpoint
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed nameUnary endpointUnary exportedRoute
+  have rejectedUnary : UnaryHistory rejected :=
+    unary_cont_right_factor rejectedRoute routesUnary
+  exact ⟨constructorsUnary, rejectedUnary, rejectedRoute, exportedRoute, exportedPkg⟩
+
 end BEDC.Derived.GeneratorClosureUp
