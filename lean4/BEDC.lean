@@ -189,6 +189,9 @@ import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
+import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
+import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
+import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.TasteGate
 import BEDC.Derived.ForbiddenAxiomAncestryUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
