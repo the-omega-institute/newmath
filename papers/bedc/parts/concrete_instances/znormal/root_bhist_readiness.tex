@@ -1,0 +1,49 @@
+\begin{theorem}[$\ZNormalUp$ root $\BHist$ source surface]
+\label{thm:znormal-root-bhist-source}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the root source rows are one finite $\BHist$ surface: typed endpoint $T$, finite fuel $F$, terminal normality $V$, finite sibling normal-word row $K$, terminal continuation read $R$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local $\NameCert_{\ZNormalUp}$ row $N$. A root consumer has no second source row outside this displayed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:znormal-carrier}. It displays $Z=(T,F,V,K,R,H,C,P,N)$ as the accepted packet and gives each root-facing row as part of the same finite carrier.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The local $\NameCert_{\ZNormalUp}$ surface reads carrier admission, typed endpoint, finite fuel, terminal normality, sibling normal-word evidence, terminal continuation read, transport, replay, provenance, and local naming from the same rows.
+
+Finally use \autoref{thm:znormal-route-transport} and \autoref{thm:znormal-root-namecert-readiness}. The route and root-readiness rows keep those coordinates inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, while the sibling chapters \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert} supply only the finite surfaces named by $K$ and $R$.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root classifier stability]
+\label{thm:znormal-root-classifier-stability}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the classifier-facing reads through $K$ and $R$ are transported only by the displayed $\hsame$ row $H$ and replayed only by the displayed $\Cont$ row $C$. The $K$ read may consume the ZeckendorfNormal and ZCarry sibling surfaces, and the $R$ read may consume the ContinuationTraceNormalForm sibling surface, but neither read may be transported or replayed by a host conversion, quotient computation, unrestricted evaluation, divergence detector, total host computation, or global normalizer.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:znormal-carrier} and \autoref{thm:znormal-namecert-obligations}. They place $K$ and $R$ inside the same accepted packet as $T,F,V,H,C,P,N$ and attach both reads to the local naming surface.
+
+Use \autoref{thm:znormal-route-transport}. It identifies $H$ as the only componentwise transport row and $C$ as the only displayed replay row available to routes from $T,F,V$ through $K$ and $R$.
+
+The sibling uses are then finite. The ZeckendorfNormal and ZCarry chapters bind the $K$ classifier read, while \autoref{ch:concrete-instances-continuationtracenormalform-namecert} binds the $R$ terminal read. Together with \autoref{thm:znormal-root-namecert-readiness}, these routes give classifier stability without adding any excluded host or global-normalization object.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root ledger exhaustion]
+\label{thm:znormal-root-ledger-exhaustion}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+every root consumer factors through the displayed $\Pkg$ row $P$ and the local $\NameCert_{\ZNormalUp}$ row $N$. The root ledger permits reads of $T,F,V,K,R,H,C$ only through that package-and-name boundary and cannot read host conversion, quotient computation, unrestricted evaluation, divergence, total host computation, or global normalization.
+\end{theorem}
+\begin{proof}
+First expose the packet by \autoref{def:znormal-carrier}. The only provenance and local naming rows are $P$ and $N$, and the root source rows are the displayed coordinates $T,F,V,K,R,H,C$.
+
+Apply \autoref{thm:znormal-namecert-obligations}. It binds those coordinates to the local $\NameCert_{\ZNormalUp}$ ledger and records $P$ as the provenance package for the same finite surface.
+
+Use \autoref{thm:znormal-route-transport} to keep transport and replay inside $H$ and $C$. Then apply \autoref{thm:znormal-root-namecert-readiness}: every root-readiness consumer reads the package through $P$ and the local name through $N$ before it can use the sibling surfaces of \autoref{ch:concrete-instances-zeckendorf-normal-namecert}, \autoref{ch:concrete-instances-zcarry-namecert}, and \autoref{ch:concrete-instances-continuationtracenormalform-namecert}.
+
+Since no carrier coordinate, transport row, replay row, package row, or local name supplies host conversion, quotient computation, unrestricted evaluation, divergence, total host computation, or global normalization, the ledger is exhausted by $P$ and $N$ over the displayed $\BHist$ packet.
+\end{proof}

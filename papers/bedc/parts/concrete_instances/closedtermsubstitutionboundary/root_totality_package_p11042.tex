@@ -1,0 +1,49 @@
+\begin{theorem}[Closed-term substitution boundary root closedness budget exhaustion]
+\label{thm:closed-term-substitution-boundary-root-closedness-budget-exhaustion}
+Every root consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must expose the source and value closedness witnesses $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ before any closed-shift row or substitute-closed row is exported. The root read is therefore budgeted over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+and not over host closedness, host substitution semantics, hidden evaluator state, or a subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start from the carrier and classifier of \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They expose the displayed term rows, depth row, closedness witnesses, operation rows, audit row, transports, continuation routes, package provenance, and local naming row as one finite packet.
+
+Use \autoref{thm:closed-term-substitution-boundary-namecert-obligations}. The $\NameCert$ obligations certify the closedness witnesses as packet coordinates before any exported operation boundary can be consumed.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, \autoref{thm:closed-term-substitution-boundary-shift-ledger-exhaustion}, and \autoref{thm:closed-term-substitution-boundary-substitution-ledger-exhaustion}. These rows force closed-shift and substitute-closed reads through the displayed closedness budget, so no root consumer can reach $Q$ or $R$ without first passing through $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root shift-substitution totality]
+\label{thm:closed-term-substitution-boundary-root-shift-substitution-totality}
+Every root-facing closed shift or substitute-closed request for an accepted $\ClosedTermSubstitutionBoundaryUp$ packet is accounted for by the displayed route
+$$
+Q,R,L,A,H,C,P,N.
+$$
+The route is total for root shift/substitution reads once the term rows, depth row, and closedness budget have been exposed.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:closed-term-substitution-boundary-root-closedness-budget-exhaustion}. It places every root read behind $T,V,d,C_{\mathsf{src}}$, and $C_{\mathsf{val}}$ before operation export.
+
+Next use \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. The shift row $Q$ and substitution row $R$ are consumed only through the ledger row $L$ and audit row $A$.
+
+The carrier transports, continuation routes, package provenance, and local naming row are then fixed by \autoref{thm:closed-term-substitution-boundary-namecert-export-totality} and \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. Together they repack every root shift/substitution read into the displayed $Q,R,L,A,H,C,P,N$ route and leave no remaining root operation request outside it.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root consumer NameCert separation]
+\label{thm:closed-term-substitution-boundary-root-consumer-namecert-separation}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the root $\NameCert$ route remains separate from subject reduction, host substitution semantics, host syntax quotients, hidden evaluator state, and hidden compiler state. A consumer may receive the finite route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+but receives no additional host-level substitution boundary from that certificate.
+\end{theorem}
+\begin{proof}
+Read the packet through the carrier, classifier, and $\NameCert$ obligations. They enumerate exactly the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows available to a root consumer.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-route-separation}. The ledger route does not export host substitution semantics, host equality, hidden compiler state, or subject reduction.
+
+Next combine \autoref{thm:closed-term-substitution-boundary-root-shift-substitution-totality} with \autoref{thm:closed-term-substitution-boundary-root-namecert-handoff}. The operation surface and the root handoff are the same finite certificate route.
+
+It remains to exclude additional host syntax or evaluator data. That exclusion is exactly the non-escape part of \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}, so the root $\NameCert$ route stays separate from all host-level substitution and reduction surfaces.
+\end{proof}

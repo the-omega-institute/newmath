@@ -362,6 +362,52 @@ The host-validation nonescape theorem, \autoref{thm:reflection-runtime-checkpoin
 
 \closureat{ReflectionRuntimeCheckpointUp}{obligationStr}
 
+\begin{theorem}[ReflectionRuntimeCheckpoint scoped source register]
+\label{thm:reflection-runtime-checkpoint-scope-source-register}
+For every accepted $\ReflectionRuntimeCheckpointUp$ carrier $K=(I,S,T,V,H,C,P,N)$, the scoped source register for validation-facing reads is exactly
+$$
+I,S,T,V.
+$$
+The rows $H,C,P,N$ are not additional source rows: $H$ transports the displayed checkpoint rows by $\hsame$, $C$ exposes their $\Cont$ routes, $P$ records the $\Pkg$ provenance through the runtime-candidate, finite-trace, finite-gap, and reflection-limit siblings, and $N$ names the local $\NameCert_{\ReflectionRuntimeCheckpointUp}$ surface.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:reflection-runtime-checkpoint-carrier}. Its first four rows are the admitted runtime-candidate input $I$, checkpoint state $S$, bounded trace evidence $T$, and validation-boundary row $V$.
+
+Apply \autoref{thm:reflection-runtime-checkpoint-validation-trace-scope-row}. It makes those four rows the validation-facing source route and prevents $H,C,P,N$ from acting as detached validation sources.
+
+Use \autoref{thm:reflection-runtime-checkpoint-provenance-consumer-row}. The remaining rows are transport, continuation, provenance, and local naming rows for the same finite packet, so the scoped source register is exactly $I,S,T,V$.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint route source totality]
+\label{thm:reflection-runtime-checkpoint-route-source-totality}
+Every validation-facing $\ReflectionRuntimeCheckpointUp$ consumer factors through the finite route
+$$
+I \longmapsto S \longmapsto T \longmapsto V \longmapsto H,C,P,N.
+$$
+If $V$ is absent from a consumer route, then the route can read only the runtime-candidate input, checkpoint state, bounded trace evidence, transport, continuation, provenance, and local naming rows; it cannot produce a host-valid runtime judgment, total truth predicate, or unbounded evaluator.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:reflection-runtime-checkpoint-validation-boundary-totality}. It states that every validation-facing route reaches $V$ after reading $I,S,T$ and before returning through $H,C,P,N$.
+
+Next apply \autoref{thm:reflection-runtime-checkpoint-scope-source-register}. The only scoped source rows are $I,S,T,V$, while $H,C,P,N$ carry the route and naming data for those rows.
+
+Finally use \autoref{thm:reflection-runtime-checkpoint-host-validation-nonescape}. Without the validation-boundary row $V$, the remaining packet has no coordinate from which a host-valid runtime judgment, total truth predicate, or unbounded evaluator can be exported.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint scoped closure export]
+\label{thm:reflection-runtime-checkpoint-scope-closure-export}
+The scoped paper surface of $\ReflectionRuntimeCheckpointUp$ is the finite package consisting of the carrier $K=(I,S,T,V,H,C,P,N)$, the local $\NameCert_{\ReflectionRuntimeCheckpointUp}$ obligations, input-state exposure, trace-boundary readback, validation non-escape, the scoped source register, route source totality, and the root-unblock package. This surface exports a downstream runtime-checkpoint route through $I,S,T,V,H,C,P,N$ and no host runtime validation, total truth row, unbounded evaluator, or detached validation coordinate.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:reflection-runtime-checkpoint-carrier} and \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}. They supply the finite packet and bind the local certificate obligations to $I,S,T,V,H,C,P,N$.
+
+Use input-state exposure and trace-boundary readback, \autoref{thm:reflection-runtime-checkpoint-input-state-exposure} and \autoref{thm:reflection-runtime-checkpoint-trace-boundary-readback}. These theorems force reads through $I,S$ and keep $T$ as bounded evidence routed through the finite trace siblings.
+
+Next apply validation non-escape, the scoped source register, and route source totality. Together they place every validation-facing read at $V$ after $I,S,T$ and make $H,C,P,N$ the transport, continuation, provenance, and naming rows rather than extra validation sources.
+
+Finish with \autoref{thm:reflection-runtime-checkpoint-root-unblock-package}. The downstream consumer receives the finite runtime-checkpoint package already displayed by the carrier, so the scoped paper surface exports no host runtime validation, total truth row, unbounded evaluator, or detached validation coordinate.
+\end{proof}
+
 \begin{closurestatus}{\ReflectionRuntimeCheckpointUp}
   \constructivestory{A $\ReflectionRuntimeCheckpointUp$ packet is generated from a runtime-candidate input row, checkpoint-state row, trace-evidence row, validation-boundary row, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}

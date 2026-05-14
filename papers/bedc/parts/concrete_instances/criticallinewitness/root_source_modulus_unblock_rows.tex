@@ -1,0 +1,35 @@
+\begin{theorem}[Critical-line witness root source-modulus admission]
+\label{thm:critical-line-witness-root-source-modulus-admission}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. A root consumer may admit a source-modulus read only after the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational comparison row $Q$, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are visible. The admitted route has no $\mathsf{RH}$ proof, zero-search oracle, global zero classifier, analytic-continuation certificate, quotient representative, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the source normalization interface of \autoref{thm:critical-line-witness-source-normalization-interface}. It exposes the supplied zero, strip, depth, rational-comparison, and real-part rows before any downstream boundary may request a modulus read.
+
+Next apply the modulus ledger interface of \autoref{thm:critical-line-witness-modulus-ledger-interface}. It places every modulus and comparison request on $M,R,Q,H,C,P,N$ after the supplied source rows have been exposed.
+
+Finally use the root non-escape package of \autoref{thm:critical-line-witness-root-nonescape-package}. The admitted source-modulus read is therefore exactly the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet route, with no analytic or host-level escape.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip budget factorization]
+\label{thm:critical-line-witness-zero-strip-budget-factorization}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every zero-strip budget request factors through the supplied $Z,S$ rows and the same modulus ledger $M,R,Q,H,C,P,N$. The factorized route reads the displayed $\BHist$ carrier rows, the componentwise $\hsame$ transport, the $\Cont$ replay route, the $\Pkg$ provenance row, and the local $\NameCert$ row, and it exports no external zeta-zero enumeration, zero-search route, quotient representative, host equality, analytic-continuation certificate, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use the zero-strip carrier totality theorem \autoref{thm:critical-line-witness-zero-strip-carrier-totality}. It identifies the root carrier exactly with $Z,S,M,R,Q,H,C,P,N$ and removes every non-displayed analytic or host coordinate from the packet.
+
+Apply the zero-strip classifier transport theorem \autoref{thm:critical-line-witness-zero-strip-classifier-transport}. Any replacement of the supplied zero-strip classifier pair must use the same $H,C,P,N$ route, so the budget request cannot bypass $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$.
+
+The root source-modulus admission theorem \autoref{thm:critical-line-witness-root-source-modulus-admission} then supplies the shared modulus side. Hence the zero-strip budget factors through the finite source and modulus rows rather than through an independent zeta or host-real interface.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zeta-continuation readback non-escape]
+\label{thm:critical-line-witness-zeta-continuation-readback-nonescape}
+Every zeta-continuation readback of an accepted $\CriticalLineWitnessUp$ root packet is exhausted by the displayed packet $Z,S,M,R,Q,H,C,P,N$ and by the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The readback may cite the sibling zeta-continuation boundary already named by the chapter, but it exports no proof of $\mathsf{RH}$, no analytic-continuation theorem, no global zero classifier, no quotient representative, no host equality, and no ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the zeta dependency lattice of \autoref{thm:critical-line-witness-zeta-link}. It places every zero-strip or critical-line read behind the existing $\ZetaZerosUp$ and RH-boundary surfaces before the local modulus witness is public.
+
+Next apply the downstream source package of \autoref{thm:critical-line-witness-downstream-source-package}. That package combines the local finite rows with the sibling $\ZetaContinuationWitnessUp$ source lock, while still exposing only $Z,S,M,R,Q,H,C,P,N$ to downstream consumers.
+
+Finally combine the zero-strip budget factorization of \autoref{thm:critical-line-witness-zero-strip-budget-factorization} with the RH refusal interface of \autoref{thm:critical-line-witness-rh-refusal-interface}. The readback remains a finite BEDC packet route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, so no analytic-continuation theorem or global zero certificate can escape from it.
+\end{proof}
