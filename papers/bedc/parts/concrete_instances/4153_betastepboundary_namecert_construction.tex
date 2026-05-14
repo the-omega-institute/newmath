@@ -97,3 +97,24 @@ displayed ledger.
   \notclaimed{This chapter does not close subject reduction, beta-substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, host conversion, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, beta-rule exactness, conversion-boundary readback, subject-reduction non-escalation, transport, route replay, provenance, and ledger non-escape for the same finite packet.}
 \end{closurestatus}
+
+\begin{lemma}[BetaStepBoundary obstruction-trigger enumeration]
+\label{lem:beta-step-boundary-obstruction-trigger-enumeration}
+Let $B=(R,C,O,H,K,P,N)$ be an accepted $\BetaStepBoundaryUp$ carrier. If a consumer reads a subject-reduction obstruction trigger from $B$ through the displayed obstruction slot, then the read trigger is one of exactly four rows:
+$$
+\mathrm{BetaSubstitutionPreservation},\quad
+\mathrm{AppArgTypeStable},\quad
+\mathrm{LamDomainSubjectReduction},\quad
+\mathrm{PiDomainSubjectReduction}.
+$$
+Conversely, each of these four rows is a displayed obstruction-trigger row of the same obstruction slot $O$.
+\end{lemma}
+\begin{proof}
+Project the accepted carrier through \autoref{def:beta-step-boundary-carrier}. The obstruction coordinate is the single row $O$, and that coordinate is displayed as the list of subject-reduction obstruction triggers: beta substitution, application-argument stability, lambda-domain preservation, and Pi-domain preservation.
+
+The NameCert obligation surface of \autoref{thm:beta-step-boundary-namecert-obligations} keeps this projection exact. Its subject-reduction non-escalation clause says that the entries in $O$ remain obligation rows, while its ledger non-escape clause says that $H,K,P,N$ supply only transport, continuation, provenance, and naming for the displayed rows. Thus a continuation read through $K$ can select an entry of $O$, and an $\hsame$ transport through $H$ can replay that selected entry, but neither operation creates another obstruction trigger.
+
+The four labels are also the four discharge obligations named in \autoref{sec:metacic-subject-reduction-four-obligations}, and \autoref{sec:metacic-beta-audit-map-sr-connection} identifies them as the beta-redex, application-argument, lambda-domain, and Pi-domain triggers born at the beta boundary. Since $R$ records beta-step constructors, $C$ records beta-conversion readback, and $P,N$ only record provenance and local naming, no subject-reduction obstruction trigger can be read from any coordinate other than $O$.
+
+Therefore every admissible obstruction-trigger read from an accepted $\BetaStepBoundaryUp$ packet is one of the four displayed rows, and the carrier definition supplies the reverse inclusion by listing all four rows inside $O$.
+\end{proof}

@@ -4,6 +4,8 @@
 
 The $\ApophaticGateQuestionUp$ packet realizes the name-to-gate correspondence as a finite question object. It starts from an apophatic socket name, records the gate question that audits the named outside-supply position, keeps the refusal ledger visible, and exposes only the readback rows needed by downstream audit gates.
 
+The socket row is consumed from \autoref{ch:concrete-instances-apophaticsocket-namecert}, and the named refusal row remains compatible with \autoref{ch:concrete-instances-apophaticname-namecert}. Thus the gate-question packet reads the same sibling socket-name surfaces before it exposes its audit-readback row.
+
 \begin{definition}[Apophatic gate question carrier]
 \label{def:apophatic-gate-question-carrier}
 An $\ApophaticGateQuestionUp$ carrier is a finite $\BHist$ packet
@@ -54,6 +56,18 @@ For the visible socket route, read $S$ and $Q$. The socket row names the outside
 For non-escape, read $R$ and $A$. The refusal ledger excludes hidden axiom channels, quotient collapse, proposition-extensionality collapse, unmarked selectors, and unrecorded inscription novelty; the audit-readback row prevents replacing the ledger answer by a host judgment.
 
 Finally route through $H,C,P,N$. These rows account for transport, continuation, provenance, and local naming, and the carrier contains no coordinate for the excluded objects. Hence the consumer surface remains the finite visible-socket gate question.
+\end{proof}
+
+\begin{theorem}[Apophatic gate question socket-name dependency]
+\label{thm:apophatic-gate-question-socket-name-dependency}
+Every accepted $\ApophaticGateQuestionUp$ packet reads its socket row through the sibling $\ApophaticSocketUp$ surface of \autoref{ch:concrete-instances-apophaticsocket-namecert} and keeps its named refusal row compatible with the $\ApophaticNameUp$ surface of \autoref{ch:concrete-instances-apophaticname-namecert} before the audit-readback row is available. The audit answer therefore depends on the visible socket-name route rather than on a hidden host predicate, unmarked selector, or detached outside-supply witness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:apophatic-gate-question-carrier}. Its first row $S$ is explicitly the visible $\ApophaticSocketUp$ or $\ApophaticNameUp$ row naming the external supply position, while $A$ is only the later audit-readback row.
+
+Apply \autoref{thm:apophatic-gate-question-visible-socket-nonescape}. Every consumer read of the packet factors through $S,Q,R,A,H,C,P,N$, and the visible socket route cannot be replaced by a hidden axiom, quotient equality, proposition-extensionality collapse, unmarked selector, or host-level gate answer.
+
+Consequently the socket-name dependency is read before audit readback. The sibling socket and name surfaces provide the visible rows that $S$ may reference, while $A$ records only the finite answer to the already displayed gate question.
 \end{proof}
 
 \closureat{ApophaticGateQuestionUp}{seedStr}
