@@ -42,6 +42,7 @@ STATE_DIR = SCRIPT_DIR / "state"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 STOP_FILE = SCRIPT_DIR / ".stop"
 NETWORK_RESUME_FILE = STATE_DIR / "network_resume.json"
+REQUIRED_BRANCH = "bedc-claim-packet-pipeline"
 
 ORACLE_SERVER_URL = "http://localhost:8767"
 SERVER_SCRIPT = SCRIPT_DIR / "bedc_oracle_server.py"
@@ -92,6 +93,23 @@ def supervisor_log(msg: str) -> None:
     print(line, flush=True)
     with open(SUPERVISOR_LOG_DIR / "supervisor.log", "a", encoding="utf-8") as f:
         f.write(line + "\n")
+
+
+def assert_required_branch() -> bool:
+    result = subprocess.run(
+        ["git", "branch", "--show-current"],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    branch = result.stdout.strip()
+    if result.returncode != 0 or branch != REQUIRED_BRANCH:
+        supervisor_log(
+            f"branch guard: refusing to run on {branch or '?'}; "
+            f"expected {REQUIRED_BRANCH}"
+        )
+        return False
+    return True
 
 
 def _write_network_resume_checkpoint(kind: str, branch: str, reason: str,
@@ -1145,6 +1163,8 @@ def main() -> int:
     if STOP_FILE.exists():
         supervisor_log(f"STOP_FILE present; supervisor not starting: {STOP_FILE}")
         return 0
+    if not assert_required_branch():
+        return 2
 
     dev_sync_enabled = bool(args.dev_sync) and not bool(args.no_dev_sync)
     no_dev_sync = not dev_sync_enabled
@@ -1191,6 +1211,8 @@ def main() -> int:
 
     try:
         while not STOP_FILE.exists():
+            if not assert_required_branch():
+                break
             ensure_server()
 
             cleaned = stale_cleanup()
