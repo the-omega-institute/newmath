@@ -58,6 +58,42 @@ The remaining rows $F,\sigma,D,L,R,H,C,P,N$ carry the public convergence handoff
 Thus every consumer route is exhausted by the displayed packet. A route that omits $W$ or $K$ has no access to the bounded witness or Cauchy criterion rows, and a route that asks for selected limits, quotient streams, host equality, ambient completeness, detached tail oracles, trichotomy, or compactness asks for data absent from the carrier.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal witness and criterion exposure]
+\label{thm:bounded-monotone-convergence-seal-witness-criterion-exposure}
+Every accepted $\BoundedMonotoneConvergenceSealUp$ packet $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$ exposes the bounded witness row $W$, then the public $\MonotoneCauchyUp$ row $M$, then the public $\CauchyCriterionUp$ row $K$ before any $\RealUp$ or completion-facing read can consume $R$ or any row downstream of $R$. Thus a consumer of the seal may not read the Real-facing boundary without first replaying the bounded monotone Cauchy witness, the public monotone tail-window certificate, and the public Cauchy criterion packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:bounded-monotone-convergence-seal-carrier}. The carrier orders the displayed packet as $W,M,K,F,\sigma,D,L,R,H,C,P,N$, and it gives no coordinate through which a Real-facing consumer can jump directly to $R$.
+
+The local obligation surface of \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations} names the same exposure rows: bounded witness exposure through $W$, monotone tail-window exposure through $M$, and Cauchy criterion exposure through $K$. The sibling witness route of \autoref{ch:concrete-instances-boundedmonotonecauchywitness-namecert} and \autoref{thm:bounded-monotone-witness-monotone-cauchy-criterion-bridge} supplies the public monotone and criterion reads before any Real-facing seal is visible.
+
+Finally apply \autoref{thm:bounded-monotone-convergence-seal-public-handoff}. Every completion-facing consumer factors through $W$, then $M$ and $K$, before reading the remaining displayed route. This proves the stated exposure order and excludes a direct Real or completion read.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal stream and dyadic handoff]
+\label{thm:bounded-monotone-convergence-seal-stream-dyadic-handoff}
+For every accepted $\BoundedMonotoneConvergenceSealUp$ packet $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$, the rows $F,\sigma,D$ are exactly the regular-rational handoff, finite stream-window ledger, and dyadic tolerance and upper-bound ledger exported to the seal route. The accepted packet has no readable detached tail oracle and no private tolerance row outside $F,\sigma,D$ and the public $\CauchyCriterionUp$ row $K$.
+\end{theorem}
+\begin{proof}
+Read the row list in \autoref{def:bounded-monotone-convergence-seal-carrier}. The entries $F$, $\sigma$, and $D$ are the displayed $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ rows, and the carrier explicitly omits detached tail oracles and any additional tolerance coordinate.
+
+The obligation statement in \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations} repeats this surface as regular-rational handoff through $F$, finite stream-window exposure through $\sigma$, and dyadic tolerance and upper-bound accounting through $D$. The bounded witness dependency package of \autoref{thm:bounded-monotone-cauchy-witness-scoped-dependency-package} keeps those rows tied to the same finite witness surface.
+
+By \autoref{thm:bounded-monotone-convergence-seal-public-handoff}, the consumer reads these rows only after $W,M,K$ and only as part of the displayed route to $L$ and $R$. Since the packet has no other tail or tolerance row, no detached tail oracle or private tolerance ledger is readable.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal limit compatibility route]
+\label{thm:bounded-monotone-convergence-seal-limit-compatibility-route}
+For every accepted $\BoundedMonotoneConvergenceSealUp$ packet $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$, the row $L$ is exactly the $\CauchyLimitSealUp$ compatibility boundary between the public criterion route through $K,F,\sigma,D$ and the $\RealUp$ row $R$. It carries no selected limit, quotient stream equality, host real equality, trichotomy row, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:bounded-monotone-convergence-seal-carrier}. The row $L$ is named only as the $\CauchyLimitSealUp$ compatibility row tying the witnessed Cauchy route to the completion-facing seal boundary, and $R$ is the $\RealUp$ convergence seal row reached after the prior displayed rows.
+
+The exact local obligations of \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations} place $L$ after the regular-rational, stream-window, and dyadic rows and before the Real seal handoff through $R$. This matches the Real and Completion handoff requested by \autoref{ch:visions-real-completeness} while retaining the finite bounded-witness route of \autoref{ch:concrete-instances-boundedmonotonecauchywitness-namecert}.
+
+Apply \autoref{thm:bounded-monotone-convergence-seal-public-handoff} for the non-escape clause. The public route exposes the compatibility boundary but excludes selected limits, quotient stream equality, host real equality, trichotomy, and ambient completeness, because none of those rows occurs in the accepted carrier.
+\end{proof}
+
 \falsifiablePrediction{Every accepted consumer of the convergence seal factors through BoundedMonotoneCauchyWitnessUp, MonotoneCauchyUp, CauchyCriterionUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp rows before it reads the Real convergence handoff.}
 
 \independenceWitness{boundedmonotonecauchywitness, monotonecauchy, cauchycriterion, cauchylimitseal, real: the bounded witness lacks the public convergence seal row, monotonecauchy lacks the bounded witness source packet, cauchycriterion lacks the monotone source ledger, cauchylimitseal lacks the bounded monotone witness and public criterion bridge, and real lacks the finite witness-to-seal route; therefore no bijection preserves all carrier rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$.}
