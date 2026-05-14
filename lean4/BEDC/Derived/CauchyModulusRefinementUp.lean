@@ -369,6 +369,29 @@ theorem CauchyModulusRefinementCarrier_root_source_binding [AskSetup] [PackageSe
     unary_cont_closed m0Unary uUnary rootRoute
   exact ⟨m0Unary, m1Unary, uUnary, rootUnary, m0m1u, rootRoute, pPkg, rootPkg, hn⟩
 
+theorem CauchyModulusRefinementCarrier_root_selector_readback [AskSetup] [PackageSetup]
+    {m0 m1 u v t w q e h c p n selected readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyModulusRefinementCarrier m0 m1 u v t w q e h c p n bundle pkg ->
+      Cont t w selected ->
+        Cont selected q readback ->
+          PkgSig bundle readback pkg ->
+            UnaryHistory selected /\ UnaryHistory readback /\ Cont m0 m1 u /\
+              Cont u v t /\ Cont t w selected /\ Cont selected q readback /\
+                PkgSig bundle p pkg /\ PkgSig bundle readback pkg /\ hsame h n := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame UnaryHistory
+  intro carrier tWSelected selectedQReadback readbackPkg
+  rcases carrier with
+    ⟨_m0Unary, _m1Unary, _uUnary, _vUnary, tUnary, wUnary, qUnary, _eUnary,
+      _hUnary, _cUnary, _pUnary, _nUnary, m0m1u, uvt, _twq, _qeh, pPkg, hn⟩
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed tUnary wUnary tWSelected
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed selectedUnary qUnary selectedQReadback
+  exact
+    ⟨selectedUnary, readbackUnary, m0m1u, uvt, tWSelected, selectedQReadback, pPkg,
+      readbackPkg, hn⟩
+
 theorem CauchyModulusRefinementCarrier_root_classifier_transport_exactness [AskSetup]
     [PackageSetup]
     {m0 m1 u v t w q e h c p n endpoint : BHist}
