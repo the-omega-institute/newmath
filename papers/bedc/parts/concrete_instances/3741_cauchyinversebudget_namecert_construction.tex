@@ -54,6 +54,20 @@ The dyadic reciprocal read $D$ depends on the apartness budget because the finit
 Thus a route omitting $A$ cannot pass to $R$ or $S$. The local naming row records such a route as boundary evidence rather than as a reciprocal candidate.
 \end{proof}
 
+\begin{theorem}[CauchyInverseBudget apartness transport]
+\label{thm:cauchy-inverse-budget-apartness-transport}
+Let $B=(X,A,M,W,D,R,S,H,C,P,N)$ and $B'=(X',A',M',W',D',R',S',H',C',P',N')$ be accepted $\CauchyInverseBudgetUp$ packets. If the displayed rows $H$ and $H'$ relate the source, apartness, modulus, window, dyadic, readback, and seal coordinates componentwise by $\hsame$, then any reciprocal-window route for $B$ that exposes $A$ before consuming $D$ and $R$ transports to a route for $B'$ that exposes $A'$ before consuming $D'$ and $R'$. The transported route still cannot export a reciprocal candidate when the apartness row is omitted.
+\end{theorem}
+\begin{proof}
+Carrier admission fixes the row lists of both packets as $X,A,M,W,D,R,S,H,C,P,N$ and $X',A',M',W',D',R',S',H',C',P',N'$. Thus the only source-side rows available before the dyadic read are the displayed source, apartness, and modulus rows.
+
+Apply \autoref{thm:cauchy-inverse-budget-apartness-exposure} to the route in $B$. It gives the ordering constraint that $A$ must be exposed before $D$ and $R$ can be consumed, and it records the omitted-apartness case as boundary evidence rather than as a reciprocal export.
+
+Use the componentwise $\hsame$ transports in $H$ and $H'$ to move the displayed rows $X,A,M,W,D,R,S$ to $X',A',M',W',D',R',S'$. Because the transported route has the same carrier order, the image of the original exposure step is the exposure of $A'$ before $D'$ and $R'$.
+
+The omitted-row exclusion is transported along the same displayed route. No extra coordinate is introduced by $\hsame$, so a route without the apartness row in $B'$ remains a boundary attempt and cannot export the reciprocal candidate through $R'$ or $S'$.
+\end{proof}
+
 \begin{theorem}[CauchyInverseBudget finite-window coverage]
 \label{thm:cauchy-inverse-budget-window-coverage}
 Every dyadic endpoint, radius, and reciprocal arithmetic read in $D$ is covered by the finite $\StreamNameUp$ window $W$ selected from $X$ by the modulus row $M$. Any $\RegSeqRatUp$ or $\RealUp$ consumer of the packet must first consume the route
@@ -107,10 +121,10 @@ The carrier contains no coordinate for a field structure, quotient real equality
 
 \begin{theorem}[CauchyInverseBudget NameCert obligations]
 \label{thm:cauchy-inverse-budget-namecert-obligations}
-The local $\NameCert_{\CauchyInverseBudgetUp}$ surface consists of carrier admission, apartness budget exposure, finite-window coverage, $\StreamNameUp$ window dependency, reciprocal readback routing, $\RealUp$ seal non-escape, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and the local naming row for the same finite packet $B=(X,A,M,W,D,R,S,H,C,P,N)$.
+The local $\NameCert_{\CauchyInverseBudgetUp}$ surface consists of carrier admission, apartness budget exposure, apartness-budget transport, finite-window coverage, $\StreamNameUp$ window dependency, reciprocal readback routing, $\RealUp$ seal non-escape, componentwise $\hsame$ stability, displayed $\Cont$ route stability, $\Pkg$ provenance, and the local naming row for the same finite packet $B=(X,A,M,W,D,R,S,H,C,P,N)$.
 \end{theorem}
 \begin{proof}
-Carrier admission is \autoref{thm:cauchy-inverse-budget-carrier-admission}. Apartness budget exposure is \autoref{thm:cauchy-inverse-budget-apartness-exposure}, finite-window coverage is \autoref{thm:cauchy-inverse-budget-window-coverage}, and the sibling window dependency is \autoref{thm:cauchy-inverse-budget-streamname-window-dependency}.
+Carrier admission is \autoref{thm:cauchy-inverse-budget-carrier-admission}. Apartness budget exposure is \autoref{thm:cauchy-inverse-budget-apartness-exposure}, apartness-budget transport is \autoref{thm:cauchy-inverse-budget-apartness-transport}, finite-window coverage is \autoref{thm:cauchy-inverse-budget-window-coverage}, and the sibling window dependency is \autoref{thm:cauchy-inverse-budget-streamname-window-dependency}.
 
 The analytic-facing route is supplied by \autoref{thm:cauchy-inverse-budget-reciprocal-readback-route} and \autoref{thm:cauchy-inverse-budget-real-seal-nonescape}. Together they keep the $\RegSeqRatUp$ and $\RealUp$ consumers inside $X,A,M,W,D,R,S$.
 
