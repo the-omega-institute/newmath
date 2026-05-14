@@ -150,4 +150,20 @@ theorem DyadicTailRadiusLedgerCarrier_tail_budget_coverage [AskSetup] [PackageSe
     ⟨precisionUnary, tailWindowUnary, streamWindowsUnary, dyadicReadbackUnary,
       precisionTailWindow, streamWindowsDyadicReadback, cert⟩
 
+theorem DyadicTailRadiusLedgerCarrier_regseq_real_handoff [AskSetup] (ps : PackageSetup)
+    {precision tailWindow streamWindows dyadicReadback regSeqHandoff realSeal transport routes
+      provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailRadiusLedgerCarrier precision tailWindow streamWindows dyadicReadback
+        regSeqHandoff realSeal transport routes provenance localName bundle pkg →
+      UnaryHistory regSeqHandoff ∧ UnaryHistory realSeal ∧
+        Cont routes regSeqHandoff realSeal ∧ Cont realSeal localName provenance := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont
+  intro carrier
+  obtain ⟨_precisionUnary, _tailWindowUnary, _streamWindowsUnary, _dyadicReadbackUnary,
+    regSeqHandoffUnary, realSealUnary, _routesUnary, _provenanceUnary, _localNameUnary,
+    _precisionTailWindow, _streamWindowsDyadicReadback, routesRegSeqHandoff,
+    realSealLocalName, _pkgSig⟩ := carrier
+  exact ⟨regSeqHandoffUnary, realSealUnary, routesRegSeqHandoff, realSealLocalName⟩
+
 end BEDC.Derived.DyadicTailRadiusLedgerUp
