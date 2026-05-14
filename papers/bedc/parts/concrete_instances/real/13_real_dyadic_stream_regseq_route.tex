@@ -117,15 +117,13 @@ terminal exit read.
 
 \begin{theorem}[Real completeness four-face exit certificate]
 \label{thm:real-completeness-four-face-exit-certificate}
-Every completion-facing public read of the current $\RealUp$ seal that
-satisfies the four-face route
+A completion-facing public read of the current $\RealUp$ seal is accepted if
+and only if its visible rows factor through the four-face route
 $$
 \DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
 $$
-is accepted exactly through the displayed $\BHist$, $\hsame$, $\Cont$,
-$\Pkg$, and $\NameCert$ rows on that route. Conversely, every accepted
-completion-facing public read of the current $\RealUp$ seal exposes only
-those rows on the displayed route.
+using exactly the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows on that route.
 
 Any purported completion-facing read that uses quotient stream equality,
 countable choice, host limits, metric completeness, ambient completion, host
@@ -133,10 +131,11 @@ real equality, or a direct $\RealUp$ seal bypass is rejected by the current
 Phase Real and Completion surface.
 \end{theorem}
 \begin{proof}
-Apply \autoref{thm:real-terminal-four-face-open-phase-exit}. Its forward
-direction sends every accepted terminal $\RealUp$ seal read to the ordered
-four-face route and restricts the visible coordinates to the displayed
-$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+For the forward direction, apply
+\autoref{thm:real-terminal-four-face-open-phase-exit}. It sends every accepted
+terminal $\RealUp$ seal read to the ordered four-face route and restricts the
+visible coordinates to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
 
 For the converse direction, use the same theorem in the reverse direction:
 visible rows on the ordered four-face route, with no extra coordinate, repack
@@ -157,4 +156,42 @@ purported read using quotient stream equality, countable choice, host limits,
 metric completeness, ambient completion, host real equality, or a direct Real
 seal bypass has no accepting coordinate on the current Phase Real and
 Completion surface.
+\end{proof}
+
+\begin{theorem}[Real four-face terminal cover pullback]
+\label{thm:real-four-face-terminal-cover-pullback}
+Let a finite family of current Phase Real and Completion terminal
+$\RealUp$ seal reads be displayed over one terminal cover. Suppose that on
+every pairwise overlap the visible rows agree on the $\DyadicRatCoreUp$
+observation rows, the $\StreamNameUp$ finite-window rows, the
+$\RegSeqRatUp$ regular-rational classifier rows, and the local $\RealUp$ seal
+rows, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ coordinates. Then the whole family pulls back to one ordered
+terminal four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp.
+$$
+The resulting terminal surface has no coordinate for quotient stream equality,
+host real equality, countable choice, ambient completion, metric-completeness
+rows, or a direct $\RealUp$ seal bypass.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-completeness-four-face-exit-certificate} to each
+member of the finite terminal cover. Each accepted seal read is therefore
+already presented by the ordered dyadic, stream, regular-rational, and local
+Real faces, with only the displayed structural rows available.
+
+On pairwise overlaps, use
+\autoref{thm:streamname-regseqrat-finite-window-cover-determinacy}. Agreement
+of the $\DyadicRatCoreUp$ observation rows and the $\StreamNameUp$
+finite-window rows identifies the same finite-window source for the
+$\RegSeqRatUp$ classifier rows on every overlap, so the local routes share one
+finite source surface.
+
+Finally apply
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The dependency
+lattice supplies no fifth route beside the four displayed faces, so the cover
+repackages as one terminal four-face surface and excludes quotient stream
+equality, host real equality, countable choice, ambient completion,
+metric-completeness rows, and direct seal bypasses.
 \end{proof}
