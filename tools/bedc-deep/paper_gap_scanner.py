@@ -29,6 +29,7 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 PAPER_PARTS = REPO_ROOT / "papers" / "bedc" / "parts"
+CANDIDATE_INBOX = SCRIPT_DIR / "state" / "candidate_inbox.jsonl"
 
 CONJECTURE_RE = re.compile(r"\\begin\{(conjecture|question)\}")
 THEOREM_RE = re.compile(r"\\begin\{(theorem|lemma|proposition|corollary)\}")
@@ -95,6 +96,7 @@ RATE_LIKE_RE = re.compile(
     r"convergence|converge|modulus|rate|tail|dyadic|regularization)\b",
     re.IGNORECASE,
 )
+ALREADY_IN_PAPER_RE = re.compile(r"^already_in_paper:([^;\s]+)")
 
 
 @dataclass(frozen=True)
@@ -464,6 +466,57 @@ def _namecert_surface_candidates() -> list[dict]:
     return candidates
 
 
+def _paper_label_set() -> set[str]:
+    try:
+        import paper_index
+
+        index = paper_index.load_or_build()
+    except Exception:
+        return set()
+    labels: set[str] = set()
+    for rec in index.get("labels") or []:
+        label = str(rec.get("label") or "").strip()
+        if label:
+            labels.add(label)
+    return labels
+
+
+def _known_paper_covered_titles(existing_labels: set[str]) -> set[str]:
+    """Return candidate titles already rejected against a live paper label.
+
+    `board_spawn` remains the authoritative intake gate. This only prevents the
+    deterministic fallback scanner from re-offering the same title after the
+    gate has already recorded a paper-coverage rejection and the cited label
+    still exists in the current paper index.
+    """
+    if not existing_labels or not CANDIDATE_INBOX.exists():
+        return set()
+    covered: set[str] = set()
+    try:
+        lines = CANDIDATE_INBOX.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return set()
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if rec.get("event") != "rejected":
+            continue
+        if rec.get("source") != "paper_review":
+            continue
+        reason = str(rec.get("reason") or "")
+        match = ALREADY_IN_PAPER_RE.match(reason)
+        if not match:
+            continue
+        if match.group(1) not in existing_labels:
+            continue
+        title = str(rec.get("title") or "").strip().lower()
+        if title:
+            covered.add(title)
+    return covered
+
+
 def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
     """Keep deterministic gap scans from turning structural prose into targets."""
     title = str(candidate.get("title") or "").strip()
@@ -553,17 +606,22 @@ def generate_candidates(
 ) -> list[dict]:
     hits = scan_all()
     existing_titles = _existing_board_titles()
+    paper_covered_titles = _known_paper_covered_titles(_paper_label_set())
     candidates = []
     for hit in hits:
         candidate = hit_to_candidate(hit)
         title_key = str(candidate.get("title") or "").strip().lower()
         if title_key in existing_titles:
             continue
+        if title_key in paper_covered_titles:
+            continue
         if _is_substantive_gap(hit, candidate):
             candidates.append(candidate)
     for candidate in _namecert_surface_candidates():
         title_key = str(candidate.get("title") or "").strip().lower()
         if title_key in existing_titles:
+            continue
+        if title_key in paper_covered_titles:
             continue
         candidates.append(candidate)
     candidates = [

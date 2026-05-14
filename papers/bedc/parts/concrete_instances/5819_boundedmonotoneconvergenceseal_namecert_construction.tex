@@ -220,6 +220,24 @@ Apply \autoref{thm:bounded-monotone-convergence-seal-witness-consumption}. It st
 Now use \autoref{thm:bounded-monotone-convergence-seal-checked-obligation-route}. The checked route is exactly $W \to (M,K) \to (F,\sigma,D,L) \to R \to (H,C,P,N)$, so every later row is downstream of the witness surface and no second witness entry point is exported.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal witness-scope public factorization]
+\label{thm:bounded-monotone-convergence-seal-witness-scope-public-factorization}
+Every accepted $\BoundedMonotoneConvergenceSealUp$ completion-facing consumer factors through the ordered public route
+$$
+W \to (M,K) \to (F,\sigma,D,L) \to R \to (H,C,P,N),
+$$
+where $W$ is supplied by $\BoundedMonotoneCauchyWitnessUp$, $M$ by $\MonotoneCauchyUp$, $K$ by $\CauchyCriterionUp$, $F$ by $\RegSeqRatUp$, $\sigma$ by $\StreamNameUp$, $D$ by $\DyadicRatCoreUp$, $L$ by $\CauchyLimitSealUp$, and $R$ by $\RealUp$. The route excludes selected limits, quotient stream equality, host real equality, trichotomy, detached tail oracle, open-cover compactness, and ambient completeness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:bounded-monotone-convergence-seal-witness-scope}. It makes $W$ the unique bounded-witness entry point into the public L10 chain and places every later row downstream of that witness surface.
+
+Next use \autoref{thm:bounded-monotone-convergence-seal-public-handoff} and \autoref{thm:bounded-monotone-convergence-seal-criterion-route}. These theorems force the completion-facing consumer from $W$ through the public monotone-tail row $M$, the Cauchy-criterion row $K$, and the finite route $F,\sigma,D,L$ before the Real-facing handoff can be read.
+
+Then apply \autoref{thm:bounded-monotone-convergence-seal-real-handoff}. It identifies $R$ as the terminal $\RealUp$ handoff after the displayed finite route, not as a selected limit, quotient stream equality, host real equality, or ambient completeness row.
+
+Finally use \autoref{thm:bounded-monotone-convergence-seal-checked-obligation-route} together with \autoref{thm:bounded-monotone-convergence-seal-provenance-local-naming}. The checked route appends exactly $H,C,P,N$ as transport, route replay, provenance, and local naming for the same packet, while provenance and naming cannot add trichotomy, detached tail oracles, open-cover compactness, selected limits, quotient stream equality, host real equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Bounded monotone convergence seal criterion scope]
 \label{thm:bounded-monotone-convergence-seal-criterion-scope}
 Within an accepted $\BoundedMonotoneConvergenceSealUp$ packet
