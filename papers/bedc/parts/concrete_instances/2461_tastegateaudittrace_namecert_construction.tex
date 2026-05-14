@@ -4,6 +4,8 @@
 
 The $\TasteGateAuditTraceUp$ packet is the concrete audit-trace surface for the theory-stability gate of \autoref{ch:visions-theory-stability-taste-gate}. It records an AI-origin chapter admission trace as a finite NameCert object whose rows display the four TasteGate obligations, replayable audit evidence, ground-compiler provenance, and a ledger preventing the trace from exporting hidden approval.
 
+The trace consumes the compiler-facing witness of \autoref{ch:concrete-instances-tastegatecompilerwitness-namecert} for its event-flow and compiler-provenance rows, and it consumes the audit-gate boundary of \autoref{ch:concrete-instances-auditgateboundary-namecert} for refusal and replay boundary rows. Those sibling surfaces supply the concrete routes reread by the audit trace rather than a detached kernel-only admission fact.
+
 \begin{definition}[TasteGate audit trace carrier]
 \label{def:taste-gate-audit-trace-carrier}
 A $\TasteGateAuditTraceUp$ carrier is a finite $\BHist$ packet
