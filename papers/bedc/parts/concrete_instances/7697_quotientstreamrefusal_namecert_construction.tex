@@ -54,6 +54,46 @@ The refusal row handles every off-route request. A quotient-stream equality requ
 Thus every accepted Real-completion read remains on the displayed finite route, while every non-escape boundary request is recorded without exporting quotient equality, selected limits, host real equality, hidden family limits, hidden tail oracles, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal route exposure]
+\label{thm:quotient-stream-refusal-route-exposure}
+Every accepted $\QuotientStreamRefusalUp$ consumer reads the displayed route rows in the order
+$$
+S \longmapsto R \longmapsto L \longmapsto E
+$$
+before any $\RealUp$-facing seal row is public. The structural rows $H,C,P,N$ may transport, replay, record provenance, and name that route, but they do not let a consumer expose $R$, $L$, or $E$ before the preceding row has been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quotient-stream-refusal-carrier}. The route coordinates are listed as the finite window row $S$, regular readback row $R$, limit-seal route row $L$, and Real seal row $E$.
+
+Apply \autoref{thm:quotient-stream-refusal-namecert-surface}. It identifies these four route obligations as the only accepted Real-completion exposure path before the refusal row is consulted.
+
+The structural rows $H,C,P,N$ are attached to the same displayed coordinates. They preserve and replay the route already exposed by $S,R,L,E$, so no structural projection can publish the $\RealUp$ seal before the ordered route has been read.
+\end{proof}
+
+\begin{theorem}[QuotientStreamRefusal ledger exactness]
+\label{thm:quotient-stream-refusal-ledger-exactness}
+Every request for quotient-stream equality, selected limits, host real equality, hidden family limits, hidden tail oracles, or ambient completeness terminates at the refusal row $F$. The rows $H,C,P,N$ only transport, route, package, and name that refusal; they do not turn the refusal ledger into any of the requested completion coordinates.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:quotient-stream-refusal-nonescape-route}. It sends each off-route completion request to $F$ and records that no quotient, selected-limit, host-equality, hidden-family, hidden-tail, or ambient-completeness coordinate is exported.
+
+Read the remaining rows through the carrier. The transport row $H$ can compare displayed rows componentwise, $C$ can route the request to $F$, $P$ can record package provenance, and $N$ can name the local packet.
+
+None of those rows is a completion coordinate. Therefore each listed request ends exactly at the refusal ledger, with structural rows recording the refusal rather than discharging it.
+\end{proof}
+
+\begin{theorem}[QuotientStreamRefusal TasteGate obligation surface]
+\label{thm:quotient-stream-refusal-tastegate-obligation-surface}
+The paper-side obligation surface for the $\QuotientStreamRefusalUp$ TasteGate consists of carrier admission for $Q=(S,R,L,E,F,H,C,P,N)$, route exposure through $S,R,L,E$, refusal-ledger exactness at $F$, componentwise field visibility for $S,R,L,E,F,H,C,P,N$, and the nontriviality and field-faithfulness commitments for those displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is \autoref{def:quotient-stream-refusal-carrier}. It gives the finite packet and names every row on the TasteGate-facing surface.
+
+Route exposure is \autoref{thm:quotient-stream-refusal-route-exposure}. Refusal-ledger exactness is \autoref{thm:quotient-stream-refusal-ledger-exactness}, together with the non-escape route of \autoref{thm:quotient-stream-refusal-nonescape-route}.
+
+The TasteGate paragraph below the independence witness states the remaining commitments: the Lean file will provide nontriviality and field faithfulness for the displayed rows $S,R,L,E,F,H,C,P,N$. Thus the obligation surface is exactly the finite carrier, ordered route, refusal ledger, componentwise field visibility, and the stated TasteGate commitments.
+\end{proof}
+
 \falsifiablePrediction{Any accepted Real-completion consumer that asks for quotient-stream equality is refused unless it first factors through the displayed StreamName, RegSeqRat, CauchyLimitSeal, and RealUp seal rows.}
 
 \independenceWitness{streamname, regseqrat, cauchylimitseal, realwindowsynchronizer, real: no sibling is bijective because none carries the refusal row together with all four route surfaces and the non-escape ledger.}

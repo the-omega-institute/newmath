@@ -670,6 +670,42 @@ Now use \autoref{thm:cross-hist-causal-rate-invariant-rate-ledger}. The invarian
 The exactness claim follows from \autoref{thm:cross-hist-causal-rate-root-consumer-exactness}. The accepted packet contains no remaining coordinate from which a $\MaxCausalRateUp$ or $\InterHistInvariantUp$ consumer could recover an alternate read of $M$.
 \end{proof}
 
+\begin{theorem}[Cross-Hist causal-rate observer identity dependence]
+\label{thm:cross-hist-causal-rate-observer-identity-dependence}
+For an accepted $\CrossHistCausalRateUp$ packet $R=(A,B,D,M,S,G,H,C,P,N)$, the observer slots $A$ and $B$ must be read through the $\ObserverHistIdentityUp$ identity surface before any route family $D$ is admissible. A route family detached from that identity read is not a valid causal-rate route.
+\end{theorem}
+\begin{proof}
+Apply the observer-slot route theorem \autoref{thm:cross-hist-causal-rate-observer-slot-route}. It makes the two observer histories the entrance to the displayed causal route family.
+
+Use \autoref{thm:cross-hist-causal-rate-root-observer-slot-totality} and \autoref{thm:cross-hist-causal-rate-root-dependence-route-exhaustion}. They place every admissible $D$ behind the same observer-slot read and prevent a hidden route outside $A,B,H,C,P,N$.
+
+The no-global-frame boundary, root consumer exactness, and consumer boundary of \autoref{thm:cross-hist-causal-rate-no-global-frame-boundary}, \autoref{thm:cross-hist-causal-rate-root-consumer-exactness}, and \autoref{thm:cross-hist-causal-rate-consumer-boundary} then keep the identity dependence inside the packet rather than in a host frame.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate MaxCausalRate dependence]
+\label{thm:cross-hist-causal-rate-maxcausalrate-dependence}
+The row $M$ of an accepted $\CrossHistCausalRateUp$ packet is a $\MaxCausalRateUp$ row only over the already displayed route family $D$. It is not a detached maximum, a host speed, or a rate read available before $D,S,G,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the maximum-row exactness theorem \autoref{thm:cross-hist-causal-rate-max-row-exactness}. It binds $M$ to the carrier route rather than to an ambient speed comparison.
+
+Apply \autoref{thm:cross-hist-causal-rate-root-route-rate-factorization}, \autoref{thm:cross-hist-causal-rate-max-observer-gate}, and \autoref{thm:cross-hist-causal-rate-invariant-rate-ledger}. These rows put the route family $D$ and the gates $S,G,H,C,P,N$ before any maximum-rate consumer reads $M$.
+
+The root consumer exactness and consumer boundary theorems finish the dependence claim by excluding every off-carrier source for a maximum-rate row.
+\end{proof}
+
+\begin{theorem}[Cross-Hist causal-rate InterHistInvariant dependence]
+\label{thm:cross-hist-causal-rate-interhist-invariant-dependence}
+An $\InterHistInvariantUp$ consumer of an accepted $\CrossHistCausalRateUp$ packet receives the maximum row $M$ only after the displayed route and structural rows $D,S,G,H,C,P,N$. Thus the invariant-facing read is downstream of observer identity, causal route exposure, observer symmetry, no-frame refusal, transport, continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Use the invariant boundary theorem \autoref{thm:cross-hist-causal-rate-invariant-boundary}. It already treats invariant consumption as downstream of the displayed Cross-Hist packet.
+
+Then apply \autoref{thm:cross-hist-causal-rate-root-max-invariant-handoff}, \autoref{thm:cross-hist-causal-rate-invariant-rate-ledger}, and \autoref{thm:cross-hist-causal-rate-consumer-boundary}. These force an invariant-facing consumer to pass through $D,S,G,H,C,P,N$ before $M$ is handed off.
+
+Finally, \autoref{thm:cross-hist-causal-rate-root-consumer-exactness} prevents a second invariant source, so the $\InterHistInvariantUp$ dependence is exactly the displayed packet route.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CrossHistCausalRateUp$ packet admits no maximum-rate read unless both observer-symmetry and no-global-sync rows are present.}
 
 \independenceWitness{interhistinvariant, observerhistidentity, histtimestream, continuationtrace, supplykindrouter: $\CrossHistCausalRateUp$ has two Hist slots, a causal-dependence route, a maximum-rate row, and no-global-frame refusal data; these rows are not bijective with invariant-only, identity-only, time-stream-only, trace-only, or socket-router packets.}
