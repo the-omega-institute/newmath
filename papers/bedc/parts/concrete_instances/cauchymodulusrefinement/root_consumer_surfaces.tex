@@ -148,6 +148,18 @@ Finally apply Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-rea
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinement\_selector\_budget\_regseqrat\_real\_seal\_determinacy}
 
+\begin{theorem}[Cauchy modulus refinement selector-seal two-step transport]
+\label{thm:cauchy-modulus-refinement-selector-seal-two-step-transport}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Suppose a second downstream route has selector row $V'$, selector-budget row $T'$, tolerance-readback row $Q'$, and seal row $E'$. If the displayed $\hsame$ rows identify $V$ with $V'$ and $E$ with $E'$, and the displayed $\Cont$ rows carry the source-meet route through $U,V',T'$ and then through $T',W,Q'$, then the two routes determine the same selector-budget row and the same $\RealUp$ seal consumer surface through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First apply selector-stability lock, \autoref{thm:cauchy-modulus-refinement-selector-stability-lock}. The $\hsame$ agreement on $V,V'$ and the continuation through $U,V',T'$ transport the selector route to the same selector-budget surface, so $T'$ cannot supply a detached selected-window ledger.
+
+Next apply selector-budget RegSeqRat Real-seal determinacy, \autoref{thm:cauchy-modulus-refinement-selector-budget-regseqrat-real-seal-determinacy}. With the selector-budget agreement in place, the continuation through $T',W,Q'$ places the transported readback on the same $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows, while the $\hsame$ agreement on $E,E'$ identifies the $\RealUp$ seal row.
+
+Finally use the non-escape clauses recorded by window-route factorization, \autoref{thm:cauchy-modulus-refinement-window-route-factorization}. The accepted packet has no hidden selector, quotient stream, selected host limit, second meet row, side-channel completion row, host real equality, or ambient completeness coordinate. Hence the two-step route from selector agreement to seal agreement exhausts the consumer surface through $H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[Cauchy modulus refinement window-route factorization]
 \label{thm:cauchy-modulus-refinement-window-route-factorization}
 Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet. Every Real-completion consumer route that exposes the selected $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance, $\RegSeqRatUp$ readback, and $\RealUp$ seal factors through the ordered subroute
