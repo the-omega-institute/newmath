@@ -7,6 +7,7 @@ namespace BEDC.Derived.InscriptionGapLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -246,6 +247,9 @@ instance inscriptionGapLedgerChapterTasteGate : ChapterTasteGate InscriptionGapL
     intro x y hxy heq
     exact hxy (inscriptionGapLedgerToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate InscriptionGapLedgerUp :=
+  inscriptionGapLedgerChapterTasteGate
+
 theorem InscriptionGapLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist, inscriptionGapLedgerDecodeBHist (inscriptionGapLedgerEncodeBHist h) = h) ∧
       (∀ x : InscriptionGapLedgerUp,
@@ -288,5 +292,38 @@ theorem InscriptionGapLedger_source_boundary :
       exact inscriptionGapLedger_round_trip
         (InscriptionGapLedgerUp.mk source name route check consumer residue transport
           continuation provenance localName)
+
+theorem InscriptionGapLedger_consumer_exhaustion :
+    ∀ source name route check consumer residue transport continuation provenance
+        localName : BHist,
+      let packet :=
+        InscriptionGapLedgerUp.mk source name route check consumer residue transport continuation
+          provenance localName
+      Cont consumer source (append consumer source) ∧
+        Cont consumer name (append consumer name) ∧
+          Cont consumer residue (append consumer residue) ∧
+            hsame transport transport ∧
+              BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow packet) = some packet := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro source name route check consumer residue transport continuation provenance localName
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · exact hsame_refl transport
+        · change
+            inscriptionGapLedgerFromEventFlow
+                (inscriptionGapLedgerToEventFlow
+                  (InscriptionGapLedgerUp.mk source name route check consumer residue transport
+                    continuation provenance localName)) =
+              some
+                (InscriptionGapLedgerUp.mk source name route check consumer residue transport
+                  continuation provenance localName)
+          exact inscriptionGapLedger_round_trip
+            (InscriptionGapLedgerUp.mk source name route check consumer residue transport
+              continuation provenance localName)
 
 end BEDC.Derived.InscriptionGapLedgerUp
