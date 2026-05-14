@@ -4,6 +4,8 @@
 
 The $\ObservationConservationLedgerUp$ interface names the finite monotone ledger packet that realises closed observation inside the BEDC kernel vocabulary. It binds observation states to displayed $\mathsf{BHist}$ records, uses $\hsame$ to transport old records into later states, routes every allowed read through $\Cont$, records provenance through $\Pkg$, and marks every non-recorded universal demand as a $\Gap$ row. The packet is a concrete NameCert carrier for the conservation side of closed observation; it is not an induction principle, not a universal quantifier over all future observations, and not an external oracle for unseen records.
 
+The ledger consumes the observer-history comparison surface of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}: old records are preserved only by transporting the displayed earlier record rows into the later observation state. That preservation row is the dependency edge read by the inscription-event packet of \autoref{ch:concrete-instances-inscriptionevent-namecert}, where an accepted inscription can cite the finite record that already survived the ledger transition rather than a host memory store or an unrecorded event.
+
 \begin{definition}[ObservationConservationLedger carrier]
 \label{def:observation-conservation-ledger-carrier}
 An $\ObservationConservationLedgerUp$ carrier is a finite $\mathsf{BHist}$ packet
