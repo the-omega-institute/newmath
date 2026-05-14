@@ -102,6 +102,24 @@ The nonescape and exhaustion results remove the possible branches. \autoref{thm:
 Thus two consumers preserving the displayed ledger rows have no coordinate at which to diverge. The shared route is determined as $I \longmapsto W \longmapsto M \longmapsto Q \longmapsto T \longmapsto E$, with all repacking confined to $H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[UniformCauchyCriterion finite-family seal overlap determinacy]
+\label{thm:uniform-cauchy-criterion-finite-family-seal-overlap-determinacy}
+Let
+$$
+U=(I,W,M,Q,T,E,H,C,P,N)
+$$
+be an accepted $\UniformCauchyCriterionUp$ packet carrying the finite-family seal obligation surface. If two finite-family overlap refinements preserve the displayed rows $I,W,M,Q,T,E,H,C,P,N$, then both refinements determine the same $\RegSeqRatUp$ tail row and $\RealUp$ seal handoff. Neither refinement can introduce a second $\StreamNameUp$ family, detached tail oracle, selected limit, quotient stream, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the finite-family seal obligation package. By \autoref{thm:uniform-cauchy-criterion-finite-family-seal-obligation-package}, the rows $I,W,M,Q,T,E,H,C,P,N$ are the complete seal-facing inventory for the accepted packet.
+
+Next use the RegSeqRat--Real handoff. \autoref{thm:uniform-cauchy-criterion-finite-family-regseq-real-handoff} routes every tail read and every seal read through the same path from the finite index ledger to the seal handoff.
+
+The shared seal-route determinacy theorem now compares the two refinements. Since both refinements preserve the displayed rows, \autoref{thm:uniform-cauchy-criterion-finite-family-shared-seal-route-determinacy} leaves them with the same route from $I$ through $E$ and with repacking only along $H,C,P,N$.
+
+Finally apply root seal pullback non-escape. \autoref{thm:uniform-cauchy-criterion-finite-family-root-seal-pullback-nonescape} removes selected limits, quotient streams, host real equality, detached tail oracles, and ambient completeness witnesses from the completion-facing surface. Thus the two overlap refinements determine the same tail row and seal handoff, with no second public route.
+\end{proof}
+
 \begin{theorem}[UniformCauchyCriterion root-threshold dependency inventory]
 \label{thm:uniform-cauchy-criterion-root-threshold-dependency-inventory}
 Let
