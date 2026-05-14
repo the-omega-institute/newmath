@@ -114,3 +114,47 @@ choice, host limits, metric completeness, ambient completion, host real
 equality, or a direct seal bypass, so none of those data can certify a
 terminal exit read.
 \end{proof}
+
+\begin{theorem}[Real completeness four-face exit certificate]
+\label{thm:real-completeness-four-face-exit-certificate}
+Every completion-facing public read of the current $\RealUp$ seal that
+satisfies the four-face route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp
+$$
+is accepted exactly through the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows on that route. Conversely, every accepted
+completion-facing public read of the current $\RealUp$ seal exposes only
+those rows on the displayed route.
+
+Any purported completion-facing read that uses quotient stream equality,
+countable choice, host limits, metric completeness, ambient completion, host
+real equality, or a direct $\RealUp$ seal bypass is rejected by the current
+Phase Real and Completion surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-terminal-four-face-open-phase-exit}. Its forward
+direction sends every accepted terminal $\RealUp$ seal read to the ordered
+four-face route and restricts the visible coordinates to the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For the converse direction, use the same theorem in the reverse direction:
+visible rows on the ordered four-face route, with no extra coordinate, repack
+as the current Phase Real and Completion terminal surface.
+
+Now apply \autoref{thm:real-dyadic-stream-regseq-route}. It identifies the
+route as the finite handoff from DyadicRatCore observations through
+StreamName finite windows and RegSeqRat regular readback to the local
+$\RealUp$ seal. Apply
+\autoref{thm:real-streamname-regseqrat-sibling-nonorphan-route} to record
+that the handoff is horizontal through the sibling surfaces, not a local Real
+self-reference and not a host-completion shortcut.
+
+Finally use
+\autoref{thm:real-l10-dependency-lattice-interface-totality}. The Real L10
+interface has no fifth public coordinate beyond the displayed faces. Hence a
+purported read using quotient stream equality, countable choice, host limits,
+metric completeness, ambient completion, host real equality, or a direct Real
+seal bypass has no accepting coordinate on the current Phase Real and
+Completion surface.
+\end{proof}
