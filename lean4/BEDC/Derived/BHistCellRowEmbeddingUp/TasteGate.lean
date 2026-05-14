@@ -2,10 +2,6 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-/-!
-# BHistCellRowEmbeddingUp TasteGate carrier.
--/
-
 namespace BEDC.Derived.BHistCellRowEmbeddingUp
 
 open BEDC.FKernel.Hist
@@ -13,9 +9,9 @@ open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
-/-- Finite cell-row embedding packet with the nine displayed BEDC rows. -/
 inductive BHistCellRowEmbeddingUp : Type where
-  | mk : (B I W O R H C P N : BHist) → BHistCellRowEmbeddingUp
+  | mk (source bitRow width orbitZero readback transports routes provenance name : BHist) :
+      BHistCellRowEmbeddingUp
   deriving DecidableEq
 
 def bhistCellRowEmbeddingEncodeBHist : BHist → RawEvent
@@ -30,9 +26,8 @@ def bhistCellRowEmbeddingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (bhistCellRowEmbeddingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (bhistCellRowEmbeddingDecodeBHist tail)
 
-private theorem bhistCellRowEmbeddingDecodeEncodeBHist :
-    ∀ h : BHist,
-      bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist h) = h := by
+private theorem bhistCellRowEmbeddingDecode_encode_bhist :
+    ∀ h : BHist, bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -43,33 +38,30 @@ private theorem bhistCellRowEmbeddingDecodeEncodeBHist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def bhistCellRowEmbeddingFields : BHistCellRowEmbeddingUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | BHistCellRowEmbeddingUp.mk B I W O R H C P N => [B, I, W, O, R, H, C, P, N]
-
 def bhistCellRowEmbeddingToEventFlow : BHistCellRowEmbeddingUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | BHistCellRowEmbeddingUp.mk B I W O R H C P N =>
+  | BHistCellRowEmbeddingUp.mk source bitRow width orbitZero readback transports routes
+      provenance name =>
       [[BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist B,
+        bhistCellRowEmbeddingEncodeBHist source,
         [BMark.b1, BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist I,
+        bhistCellRowEmbeddingEncodeBHist bitRow,
         [BMark.b1, BMark.b1, BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist W,
+        bhistCellRowEmbeddingEncodeBHist width,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist O,
+        bhistCellRowEmbeddingEncodeBHist orbitZero,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist R,
+        bhistCellRowEmbeddingEncodeBHist readback,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist H,
+        bhistCellRowEmbeddingEncodeBHist transports,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist C,
+        bhistCellRowEmbeddingEncodeBHist routes,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist P,
+        bhistCellRowEmbeddingEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        bhistCellRowEmbeddingEncodeBHist N]
+        bhistCellRowEmbeddingEncodeBHist name]
 
 def bhistCellRowEmbeddingFromEventFlow : EventFlow → Option BHistCellRowEmbeddingUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -77,111 +69,110 @@ def bhistCellRowEmbeddingFromEventFlow : EventFlow → Option BHistCellRowEmbedd
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | B :: rest1 =>
+      | source :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | I :: rest3 =>
+              | bitRow :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | W :: rest5 =>
+                      | width :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | O :: rest7 =>
+                              | orbitZero :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | R :: rest9 =>
+                                      | readback :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | H :: rest11 =>
+                                              | transports :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | C :: rest13 =>
+                                                      | routes :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | P :: rest15 =>
+                                                              | provenance :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | N :: rest17 =>
-                                                                          match rest17
-                                                                            with
+                                                                      | name :: rest17 =>
+                                                                          match rest17 with
                                                                           | [] =>
                                                                               some
                                                                                 (BHistCellRowEmbeddingUp.mk
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    B)
+                                                                                    source)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    I)
+                                                                                    bitRow)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    W)
+                                                                                    width)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    O)
+                                                                                    orbitZero)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    R)
+                                                                                    readback)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    H)
+                                                                                    transports)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    C)
+                                                                                    routes)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    P)
+                                                                                    provenance)
                                                                                   (bhistCellRowEmbeddingDecodeBHist
-                                                                                    N))
-                                                                          | _ :: _ =>
-                                                                              none
+                                                                                    name))
+                                                                          | _ :: _ => none
 
-private theorem bhistCellRowEmbeddingRoundTrip :
+private theorem bhistCellRowEmbedding_round_trip :
     ∀ x : BHistCellRowEmbeddingUp,
-      bhistCellRowEmbeddingFromEventFlow (bhistCellRowEmbeddingToEventFlow x) =
-        some x := by
+      bhistCellRowEmbeddingFromEventFlow (bhistCellRowEmbeddingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk B I W O R H C P N =>
+  | mk source bitRow width orbitZero readback transports routes provenance name =>
       change
         some
           (BHistCellRowEmbeddingUp.mk
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist B))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist I))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist W))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist O))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist R))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist H))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist C))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist P))
-            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist N))) =
-          some (BHistCellRowEmbeddingUp.mk B I W O R H C P N)
-      rw [bhistCellRowEmbeddingDecodeEncodeBHist B,
-        bhistCellRowEmbeddingDecodeEncodeBHist I,
-        bhistCellRowEmbeddingDecodeEncodeBHist W,
-        bhistCellRowEmbeddingDecodeEncodeBHist O,
-        bhistCellRowEmbeddingDecodeEncodeBHist R,
-        bhistCellRowEmbeddingDecodeEncodeBHist H,
-        bhistCellRowEmbeddingDecodeEncodeBHist C,
-        bhistCellRowEmbeddingDecodeEncodeBHist P,
-        bhistCellRowEmbeddingDecodeEncodeBHist N]
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist source))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist bitRow))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist width))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist orbitZero))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist readback))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist transports))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist routes))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist provenance))
+            (bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist name))) =
+          some
+            (BHistCellRowEmbeddingUp.mk source bitRow width orbitZero readback transports routes
+              provenance name)
+      rw [bhistCellRowEmbeddingDecode_encode_bhist source,
+        bhistCellRowEmbeddingDecode_encode_bhist bitRow,
+        bhistCellRowEmbeddingDecode_encode_bhist width,
+        bhistCellRowEmbeddingDecode_encode_bhist orbitZero,
+        bhistCellRowEmbeddingDecode_encode_bhist readback,
+        bhistCellRowEmbeddingDecode_encode_bhist transports,
+        bhistCellRowEmbeddingDecode_encode_bhist routes,
+        bhistCellRowEmbeddingDecode_encode_bhist provenance,
+        bhistCellRowEmbeddingDecode_encode_bhist name]
 
 private theorem bhistCellRowEmbeddingToEventFlow_injective {x y : BHistCellRowEmbeddingUp} :
     bhistCellRowEmbeddingToEventFlow x = bhistCellRowEmbeddingToEventFlow y → x = y := by
@@ -192,8 +183,8 @@ private theorem bhistCellRowEmbeddingToEventFlow_injective {x y : BHistCellRowEm
         bhistCellRowEmbeddingFromEventFlow (bhistCellRowEmbeddingToEventFlow y) :=
     congrArg bhistCellRowEmbeddingFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (bhistCellRowEmbeddingRoundTrip x).symm
-      (Eq.trans hread (bhistCellRowEmbeddingRoundTrip y)))
+    (Eq.trans (bhistCellRowEmbedding_round_trip x).symm
+      (Eq.trans hread (bhistCellRowEmbedding_round_trip y)))
 
 instance bhistCellRowEmbeddingBHistCarrier : BHistCarrier BHistCellRowEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -204,72 +195,43 @@ instance bhistCellRowEmbeddingChapterTasteGate : ChapterTasteGate BHistCellRowEm
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      bhistCellRowEmbeddingFromEventFlow (bhistCellRowEmbeddingToEventFlow x) = some x
-    exact bhistCellRowEmbeddingRoundTrip x
+    change bhistCellRowEmbeddingFromEventFlow (bhistCellRowEmbeddingToEventFlow x) = some x
+    exact bhistCellRowEmbedding_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (bhistCellRowEmbeddingToEventFlow_injective heq)
 
 instance bhistCellRowEmbeddingFieldFaithful : FieldFaithful BHistCellRowEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := bhistCellRowEmbeddingFields
+  fields := fun x =>
+    match x with
+    | BHistCellRowEmbeddingUp.mk source bitRow width orbitZero readback transports routes
+        provenance name =>
+        [source, bitRow, width, orbitZero, readback, transports, routes, provenance, name]
   field_faithful := by
     intro x y h
     cases x with
-    | mk B1 I1 W1 O1 R1 H1 C1 P1 N1 =>
+    | mk source₁ bitRow₁ width₁ orbitZero₁ readback₁ transports₁ routes₁ provenance₁ name₁ =>
         cases y with
-        | mk B2 I2 W2 O2 R2 H2 C2 P2 N2 =>
-            injection h with hB tail1
-            injection tail1 with hI tail2
-            injection tail2 with hW tail3
-            injection tail3 with hO tail4
-            injection tail4 with hR tail5
-            injection tail5 with hH tail6
-            injection tail6 with hC tail7
-            injection tail7 with hP tail8
-            injection tail8 with hN _
-            subst hB
-            subst hI
-            subst hW
-            subst hO
-            subst hR
-            subst hH
-            subst hC
-            subst hP
-            subst hN
+        | mk source₂ bitRow₂ width₂ orbitZero₂ readback₂ transports₂ routes₂ provenance₂
+            name₂ =>
+            simp only [] at h
+            cases h
             rfl
 
-instance bhistCellRowEmbeddingNontrivial : BEDC.Meta.TasteGate.Nontrivial
-    BHistCellRowEmbeddingUp where
+instance bhistCellRowEmbeddingNontrivial : Nontrivial BHistCellRowEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨BHistCellRowEmbeddingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨BHistCellRowEmbeddingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BHistCellRowEmbeddingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      BHistCellRowEmbeddingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
 
-theorem BHistCellRowEmbeddingTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      bhistCellRowEmbeddingDecodeBHist (bhistCellRowEmbeddingEncodeBHist h) = h) ∧
-      (∀ x : BHistCellRowEmbeddingUp,
-        bhistCellRowEmbeddingFromEventFlow (bhistCellRowEmbeddingToEventFlow x) =
-          some x) ∧
-        (∀ x y : BHistCellRowEmbeddingUp,
-          bhistCellRowEmbeddingToEventFlow x = bhistCellRowEmbeddingToEventFlow y →
-            x = y) ∧
-          bhistCellRowEmbeddingEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
-  constructor
-  · exact bhistCellRowEmbeddingDecodeEncodeBHist
-  · constructor
-    · exact bhistCellRowEmbeddingRoundTrip
-    · constructor
-      · intro x y heq
-        exact bhistCellRowEmbeddingToEventFlow_injective heq
-      · rfl
+def taste_gate : ChapterTasteGate BHistCellRowEmbeddingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  bhistCellRowEmbeddingChapterTasteGate
 
 end BEDC.Derived.BHistCellRowEmbeddingUp

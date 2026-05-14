@@ -120,4 +120,46 @@ theorem RealTailAgreementSealCarrier_root_window_budget_determinacy
     Eq.trans leftExact rightExact.symm
   exact ⟨readSame, leftExact, rightExact, rootLimiterRoute, tailSelectorRoute⟩
 
+theorem RealTailAgreementSealCarrier_root_selector_budget_compatibility
+    {R S W D A H C P N limiter tailBudget selectorBudget agreementRead finalRead : BHist} :
+    UnaryHistory R →
+      UnaryHistory limiter →
+        UnaryHistory selectorBudget →
+          UnaryHistory W →
+            UnaryHistory D →
+              UnaryHistory A →
+                Cont R limiter tailBudget →
+                  Cont tailBudget selectorBudget W →
+                    Cont W D agreementRead →
+                      Cont agreementRead A finalRead →
+                        (∃ packet : RealTailAgreementSealUp,
+                          packet = RealTailAgreementSealUp.mk R S W D A H C P N) →
+                          UnaryHistory tailBudget ∧ UnaryHistory agreementRead ∧
+                            UnaryHistory finalRead ∧ Cont R limiter tailBudget ∧
+                              Cont tailBudget selectorBudget W ∧ Cont W D agreementRead ∧
+                                Cont agreementRead A finalRead ∧
+                                  hsame agreementRead (append W D) ∧
+                                    hsame finalRead (append (append W D) A) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro rootUnary limiterUnary selectorUnary windowUnary dyadicUnary agreementUnary
+  intro rootLimiterRoute tailSelectorRoute windowDyadicRoute agreementFinalRoute packet
+  obtain ⟨_packet, packetEq⟩ := packet
+  cases packetEq
+  have tailBudgetUnary : UnaryHistory tailBudget :=
+    unary_cont_closed rootUnary limiterUnary rootLimiterRoute
+  have agreementReadUnary : UnaryHistory agreementRead :=
+    unary_cont_closed windowUnary dyadicUnary windowDyadicRoute
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed agreementReadUnary agreementUnary agreementFinalRoute
+  have agreementExact : hsame agreementRead (append W D) := by
+    cases windowDyadicRoute
+    rfl
+  have finalExact : hsame finalRead (append (append W D) A) := by
+    cases windowDyadicRoute
+    cases agreementFinalRoute
+    rfl
+  exact
+    ⟨tailBudgetUnary, agreementReadUnary, finalReadUnary, rootLimiterRoute,
+      tailSelectorRoute, windowDyadicRoute, agreementFinalRoute, agreementExact, finalExact⟩
+
 end BEDC.Derived.RealTailAgreementSealUp
