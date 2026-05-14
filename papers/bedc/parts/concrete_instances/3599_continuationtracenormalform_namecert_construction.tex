@@ -129,18 +129,36 @@ Finally use typed boundary nonescape from \autoref{thm:continuation-trace-normal
 
 This terminal-scope row is the paper obligation needed before Lean can formalize the continuation trace normal-form handoff.
 
+\begin{theorem}[ContinuationTraceNormalForm standard bridge surface]
+\label{thm:continuation-trace-normal-form-standard-bridge-surface}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the public terminal trace-normal-form packet bridges exactly from $\ContinuationTraceUp$, $\ContinuationBigStepUp$, and $\TypedReductionNormalFormUp$ through the displayed source, trace, terminal, terminal-read, typed-boundary, transport, route, provenance, and naming rows $S,T,R,Q,V,H,C,P,N$.
+
+The bridge surface reads no host conversion relation, quotient normalization datum, evaluator graph, global confluence theorem, or external normalizer. Its entire public object is the finite $\BHist$ route whose trace replay, terminal readback, typed boundary, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ row are already displayed in the carrier.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:continuation-trace-normal-form-namecert-obligations}. The local certificate surface is exactly the carrier admission, trace replay, terminal-read exposure, typed normal-form readback, componentwise transport, displayed continuation route, package provenance, and local naming row.
+
+Next use \autoref{thm:continuation-trace-normal-form-terminal-scope}. It orders the public route through $\ContinuationTraceUp$, then $\ContinuationBigStepUp$, then $\TypedReductionNormalFormUp$, all within the same displayed packet.
+
+Apply \autoref{thm:continuation-trace-normal-form-terminal-route-determinacy}. A consumer that reads the same trace row, typed boundary row, transport row, route row, provenance row, and local naming row obtains the same normal-form consumer surface.
+
+Finally use \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The excluded host conversion, quotient normalization, evaluator graph, global confluence, and external normalizer have no coordinate in $Z$, so the standard bridge surface is precisely the displayed finite route.
+\end{proof}
+
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
 \closureat{ContinuationTraceNormalFormUp}{obligationStr}
 \closureat{ContinuationTraceNormalFormUp}{scopedStr}
 \closureat{ContinuationTraceNormalFormUp}{publicStr}
+\closureat{ContinuationTraceNormalFormUp}{bridgedStr}
+\closureat{ContinuationTraceNormalFormUp}{matureStr}
 
 \begin{closurestatus}{\ContinuationTraceNormalFormUp}
   \constructivestory{A $\ContinuationTraceNormalFormUp$ packet is generated from a source history row, a finite $\ContinuationTraceUp$ ledger, a terminal row, a $\ContinuationBigStepUp$ terminal-read witness, a $\TypedReductionNormalFormUp$ row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, \autoref{thm:continuation-trace-normal-form-non-escape}, \autoref{thm:continuation-trace-normal-form-terminal-scope}, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}, and \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape} bind carrier admission, trace replay, terminal-read exposure, typed normal-form readback, non-escape, trace-ledger exhaustion, terminal readback lock, and typed-boundary nonescape to the displayed $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:continuation-trace-normal-form-carrier}, \autoref{thm:continuation-trace-normal-form-namecert-obligations}, \autoref{thm:continuation-trace-normal-form-non-escape}, \autoref{thm:continuation-trace-normal-form-terminal-scope}, \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}, \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}, \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}, and \autoref{thm:continuation-trace-normal-form-standard-bridge-surface} bind carrier admission, trace replay, terminal-read exposure, typed normal-form readback, non-escape, trace-ledger exhaustion, terminal readback lock, typed-boundary nonescape, and the standard bridge surface to the displayed $\BHist$, $\BMark$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close Lean verification, typed subject reduction, global confluence, host conversion, evaluator correctness, quotient behaviour, or a public standard bridge.}
-  \upgradepath{Bridge closure requires a standard bridge schema for the public terminal trace normal-form packet.}
+  \notclaimed{This chapter does not close Lean verification, typed subject reduction, global confluence, host conversion, evaluator correctness, quotient behaviour, or machine-checked bridge verification.}
+  \upgradepath{No further paper-side theory closure remains; Lean verification remains a separate formal-axis obligation.}
 \end{closurestatus}

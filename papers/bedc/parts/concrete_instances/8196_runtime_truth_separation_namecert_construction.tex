@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\RuntimeTruthSeparationUp$}
+\label{ch:concrete-instances-runtime-truth-separation-namecert}
+\origin{ai}
+
+The $\RuntimeTruthSeparationUp$ packet realizes the reflection-limit boundary of \autoref{ch:visions-reflection-and-limits} as a finite NameCert surface that keeps structural $\mathrm{CIC}^{*}$ self-description separate from host runtime and truth-validation requests. It sits beside the reflection-limit boundary of \autoref{ch:concrete-instances-reflectionlimitboundary-namecert}, the runtime-candidate boundary of \autoref{ch:concrete-instances-runtimecandidateboundary-namecert}, the finite trace evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, the ground-loop boundary of \autoref{ch:concrete-instances-groundloopboundary-namecert}, and the quotient-soundness boundary of \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}. Those siblings expose separate structural, runtime, evaluator, ground, and quotient boundaries; this packet binds the two refusal axes in one local carrier so that a downstream consumer can ask for structure while runtime execution and truth validation remain outside BEDC.
+
+\begin{definition}[Runtime/truth separation carrier]
+\label{def:runtime-truth-separation-carrier}
+A $\RuntimeTruthSeparationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,E,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the structural description row for the finite $\mathrm{CIC}^{*}$ self-description accepted by the reflection-limit packet;
+\item $E$ is the runtime-request row, recording a consumer request to execute, step, normalize, or validate the structural description by an external host runtime;
+\item $T$ is the truth-validation request row, recording a consumer request for a truth predicate, host validation oracle, global truth classifier, or semantic correctness judgment over the same structural description;
+\item $L$ is the refusal ledger, routing every request in $E$ or $T$ back to the finite packet unless the consumer reads only the structural row $S$ and its displayed bookkeeping;
+\item $H$ records componentwise $\hsame$ transport for the structural description, runtime-request, truth-validation request, refusal ledger, continuation, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ routes for reading $S,E,T,L,H,P,N$ without adding an evaluator, truth predicate, or validation oracle;
+\item $P$ is the $\Pkg$ provenance over $\ReflectionLimitBoundaryUp$, $\RuntimeCandidateBoundaryUp$, $\FiniteTraceEvaluatorUp$, $\GroundLoopBoundaryUp$, $\QuotientSoundnessBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RuntimeTruthSeparationUp}$ row.
+\end{enumerate}
+The carrier exports structural self-description and its refusal ledger only. It contains no runtime executor, no truth predicate, no host validation oracle, and no off-packet evaluator.
+\end{definition}
+\leanchecked{BEDC.Derived.RuntimeTruthSeparationUp.RuntimeTruthSeparationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Runtime/truth separation non-escape]
+\label{thm:runtime-truth-separation-nonescape}
+Every accepted $\RuntimeTruthSeparationUp$ packet $R=(S,E,T,L,H,C,P,N)$ exposes structural $\mathrm{CIC}^{*}$ data only through $S,H,C,P,N$ and routes runtime or truth-validation requests only through $E,T,L$. It exports no runtime executor, truth predicate, host validation oracle, or off-packet evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:runtime-truth-separation-carrier}. The row $S$ is the only structural self-description row, while $E$ and $T$ are request rows rather than execution or truth witnesses.
+
+The refusal ledger $L$ is the only row that consumes those requests. A runtime read must pass through $E$ and then $L$; a truth-validation read must pass through $T$ and then $L$.
+
+Finally inspect the bookkeeping rows. The transport row $H$, continuation row $C$, provenance row $P$, and local name $N$ preserve and route the displayed finite packet. Since none of these coordinates contains an executor, truth predicate, host validation oracle, or evaluator, every accepted consumer read remains inside the structural row or the refusal ledger.
+\end{proof}
+
+\falsifiablePrediction{Any accepted RuntimeTruthSeparationUp consumer requesting runtime execution or a truth predicate is routed to the refusal ledger unless it stays inside the displayed structural rows.}
+
+\independenceWitness{reflectionlimitboundary, runtimecandidateboundary, finitetraceevaluator, groundloopboundary, quotientsoundnessboundary: none is bijective because none carries both runtime-request and truth-validation refusal rows with the structural self-description row in one packet.}
+
+The Lean taste-gate file is \texttt{lean4/BEDC/Derived/RuntimeTruthSeparationUp/TasteGate.lean}. It must provide explicit \texttt{Nontrivial RuntimeTruthSeparationUp} and \texttt{FieldFaithful RuntimeTruthSeparationUp} instances for the same displayed carrier.
+
+\closureat{RuntimeTruthSeparationUp}{seedStr}
+
+\begin{closurestatus}{\RuntimeTruthSeparationUp}
+  \constructivestory{A $\RuntimeTruthSeparationUp$ packet is generated from structural description, runtime-request, truth-validation request, refusal-ledger, transport, continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:runtime-truth-separation-carrier} and \autoref{thm:runtime-truth-separation-nonescape} specify the finite carrier separating structural self-description from runtime execution and truth validation.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RuntimeTruthSeparationUp.RuntimeTruthSeparationTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not provide Lean verification, bridge checking, a runtime executor, a truth predicate, a host validation oracle, quotient soundness, or an off-packet evaluator.}
+  \upgradepath{Scoped closure requires checked carrier admission, refusal-ledger exactness, non-escape, nontriviality, and field faithfulness over the same packet.}
+\end{closurestatus}

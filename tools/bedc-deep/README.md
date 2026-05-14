@@ -135,6 +135,27 @@ python3 tools/bedc-deep/paper_gap_scanner.py --append   # shared intake gate, th
 python3 tools/bedc-deep/paper_gap_scanner.py --json     # machine-readable
 ```
 
+Codex research lane — candidate factory for a second machine or a lightweight
+local scout. It writes research packets and oracle-escalation suggestions under
+`tools/bedc-deep/state/` by default; it does not edit paper files or BOARD
+unless `--append` is passed, and even then it uses the shared
+`board_spawn` / `candidate_inbox` / `logic_packet_gate` intake:
+
+```bash
+python3 tools/bedc-deep/research_candidate_lane.py --limit 20
+python3 tools/bedc-deep/research_candidate_lane.py --json --limit 20
+python3 tools/bedc-deep/research_candidate_lane.py --append --limit 10
+```
+
+Vision and conjecture files are inspiration/review surfaces only. Candidate
+intake, discovery normalization, and Stage 2 writeback all reject
+`papers/bedc/parts/visions/` and `papers/bedc/parts/conjectures/` as executable
+BOARD/writeback landing paths. Quick guard:
+
+```bash
+python3 tools/bedc-deep/qa_vision_landing_gate.py
+```
+
 Active target discovery — codex proposes, claude gates, accepted candidates
 land on BOARD.md (same shape as Stage 1.5 fan-out):
 
@@ -161,7 +182,9 @@ without manual babysitting:
   startup for direct invocations)
 - when BOARD unfinished count drops below `--low-water`, triggers probe
 - after `COMPLETIONS_PER_CURATOR` (5) targets land, triggers curator
-- when `papers/bedc/parts/` or `BOARD.md` change, auto-commits and pushes
+- when `papers/bedc/parts/` or `BOARD.completed.md` change, auto-commits and pushes;
+  pure `BOARD.md` active-queue edits are kept local to avoid committing transient
+  dispatch state
 - alerts when `queue_waiting_for_browser_agent` stays stuck > 5 min
   (browser tabs probably went idle)
 - every `--claude-review-hours` (6h default), runs a `claude -p` progress

@@ -1,0 +1,29 @@
+\begin{theorem}[IntUp dyadic mantissa real route]
+\label{thm:int-dyadic-mantissa-real-route}
+Every Real-and-Completion read of an $\IntUp$ signed-pair coordinate used as a
+$\DyadicRatCoreUp$ mantissa first factors through
+\autoref{ch:concrete-instances-nat-namecert},
+\autoref{ch:concrete-instances-add-namecert},
+\autoref{ch:concrete-instances-rat-namecert}, and
+\autoref{ch:concrete-instances-dyadicratcore-namecert} before any
+$\RealUp$ seal route is read. The route exports the signed-pair mantissa as a
+BEDC lattice row, not as host integer equality, quotient representatives,
+primitive subtraction, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with the signed-pair additive lattice dependency of
+\autoref{thm:int-signed-pair-additive-lattice-dependency}. It makes the
+integer coordinate a Nat-and-Add balanced signed pair and gives the rational
+side a signed numerator row rather than an independent integer quotient.
+
+Next route that numerator through the existing rational and dyadic mantissa
+surfaces. The rational row supplies the denominator-facing arithmetic context,
+and the $\DyadicRatCoreUp$ row is the first place where the signed coordinate
+is read as a dyadic mantissa for the Real-and-Completion chain.
+
+Only after those four chapter surfaces have been crossed may a $\RealUp$ seal
+consumer read the route. Since none of the preceding rows exports host integer
+equality, quotient representatives, primitive subtraction, or ambient
+completeness, the real-side read inherits only the displayed BEDC lattice
+surface.
+\end{proof}

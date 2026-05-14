@@ -29,6 +29,7 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 PAPER_PARTS = REPO_ROOT / "papers" / "bedc" / "parts"
+CANDIDATE_INBOX = SCRIPT_DIR / "state" / "candidate_inbox.jsonl"
 
 CONJECTURE_RE = re.compile(r"\\begin\{(conjecture|question)\}")
 THEOREM_RE = re.compile(r"\\begin\{(theorem|lemma|proposition|corollary)\}")
@@ -95,6 +96,7 @@ RATE_LIKE_RE = re.compile(
     r"convergence|converge|modulus|rate|tail|dyadic|regularization)\b",
     re.IGNORECASE,
 )
+ALREADY_IN_PAPER_RE = re.compile(r"^already_in_paper:([^;\s]+)")
 
 
 @dataclass(frozen=True)
@@ -464,6 +466,57 @@ def _namecert_surface_candidates() -> list[dict]:
     return candidates
 
 
+def _paper_label_set() -> set[str]:
+    try:
+        import paper_index
+
+        index = paper_index.load_or_build()
+    except Exception:
+        return set()
+    labels: set[str] = set()
+    for rec in index.get("labels") or []:
+        label = str(rec.get("label") or "").strip()
+        if label:
+            labels.add(label)
+    return labels
+
+
+def _known_paper_covered_titles(existing_labels: set[str]) -> set[str]:
+    """Return candidate titles already rejected against a live paper label.
+
+    `board_spawn` remains the authoritative intake gate. This only prevents the
+    deterministic fallback scanner from re-offering the same title after the
+    gate has already recorded a paper-coverage rejection and the cited label
+    still exists in the current paper index.
+    """
+    if not existing_labels or not CANDIDATE_INBOX.exists():
+        return set()
+    covered: set[str] = set()
+    try:
+        lines = CANDIDATE_INBOX.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return set()
+    for line in reversed(lines):
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if rec.get("event") != "rejected":
+            continue
+        if rec.get("source") != "paper_review":
+            continue
+        reason = str(rec.get("reason") or "")
+        match = ALREADY_IN_PAPER_RE.match(reason)
+        if not match:
+            continue
+        if match.group(1) not in existing_labels:
+            continue
+        title = str(rec.get("title") or "").strip().lower()
+        if title:
+            covered.add(title)
+    return covered
+
+
 def _is_substantive_gap(hit: GapHit, candidate: dict) -> bool:
     """Keep deterministic gap scans from turning structural prose into targets."""
     title = str(candidate.get("title") or "").strip()
@@ -551,37 +604,86 @@ def generate_candidates(
     min_novelty: int = 6,
     limit: int = 0,
 ) -> list[dict]:
+    return generate_candidate_report(
+        min_fit=min_fit,
+        min_novelty=min_novelty,
+        limit=limit,
+    )["candidates"]
+
+
+def generate_candidate_report(
+    *,
+    min_fit: int = 7,
+    min_novelty: int = 6,
+    limit: int = 0,
+) -> dict[str, Any]:
     hits = scan_all()
     existing_titles = _existing_board_titles()
-    candidates = []
+    paper_covered_titles = _known_paper_covered_titles(_paper_label_set())
+    stats: dict[str, Any] = {
+        "gap_hits": len(hits),
+        "gap_hits_by_kind": {},
+        "raw_namecert_candidates": 0,
+        "skip_existing_board_or_archive_title": 0,
+        "skip_known_paper_covered_title": 0,
+        "skip_nonsubstantive_gap": 0,
+        "skip_below_threshold": 0,
+        "skip_duplicate_title_in_batch": 0,
+        "prelimit_candidates": 0,
+        "limit": limit,
+        "emitted_candidates": 0,
+    }
+    for hit in hits:
+        by_kind = stats["gap_hits_by_kind"]
+        by_kind[hit.kind] = by_kind.get(hit.kind, 0) + 1
+
+    candidates: list[dict] = []
     for hit in hits:
         candidate = hit_to_candidate(hit)
         title_key = str(candidate.get("title") or "").strip().lower()
         if title_key in existing_titles:
+            stats["skip_existing_board_or_archive_title"] += 1
+            continue
+        if title_key in paper_covered_titles:
+            stats["skip_known_paper_covered_title"] += 1
             continue
         if _is_substantive_gap(hit, candidate):
             candidates.append(candidate)
-    for candidate in _namecert_surface_candidates():
+        else:
+            stats["skip_nonsubstantive_gap"] += 1
+    namecert_candidates = _namecert_surface_candidates()
+    stats["raw_namecert_candidates"] = len(namecert_candidates)
+    for candidate in namecert_candidates:
         title_key = str(candidate.get("title") or "").strip().lower()
         if title_key in existing_titles:
+            stats["skip_existing_board_or_archive_title"] += 1
+            continue
+        if title_key in paper_covered_titles:
+            stats["skip_known_paper_covered_title"] += 1
             continue
         candidates.append(candidate)
-    candidates = [
-        c for c in candidates
-        if c["fit_score"] >= min_fit and c["novelty"] >= min_novelty
-    ]
+    thresholded: list[dict] = []
+    for candidate in candidates:
+        if candidate["fit_score"] >= min_fit and candidate["novelty"] >= min_novelty:
+            thresholded.append(candidate)
+        else:
+            stats["skip_below_threshold"] += 1
+    candidates = thresholded
     seen_titles: set[str] = set()
     deduped: list[dict] = []
     for candidate in candidates:
         title_key = str(candidate.get("title") or "").strip().lower()
         if title_key in seen_titles:
+            stats["skip_duplicate_title_in_batch"] += 1
             continue
         seen_titles.add(title_key)
         deduped.append(candidate)
     candidates = deduped
+    stats["prelimit_candidates"] = len(candidates)
     if limit > 0:
         candidates = candidates[:limit]
-    return candidates
+    stats["emitted_candidates"] = len(candidates)
+    return {"candidates": candidates, "scanner_stats": stats}
 
 
 def _existing_board_titles() -> set[str]:
@@ -601,14 +703,15 @@ def main() -> int:
     parser.add_argument("--json", action="store_true", help="Emit candidates as JSON")
     args = parser.parse_args()
 
-    candidates = generate_candidates(
+    report = generate_candidate_report(
         min_fit=args.min_fit,
         min_novelty=args.min_novelty,
         limit=args.limit,
     )
+    candidates = report["candidates"]
 
     if args.json:
-        print(json.dumps({"candidates": candidates}, ensure_ascii=False, indent=2))
+        print(json.dumps(report, ensure_ascii=False, indent=2))
 
     if args.append:
         if not candidates:

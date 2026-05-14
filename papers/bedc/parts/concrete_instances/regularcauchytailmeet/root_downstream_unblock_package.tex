@@ -184,6 +184,40 @@ selected limit, quotient stream, host equality, trichotomy row, independent tail
 oracle, or ambient completeness witness, none is exported by the handoff.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTailMeet budget window service lock]
+\label{thm:regular-cauchy-tail-meet-budget-window-service-lock}
+For an accepted $\RegularCauchyTailMeetUp$ packet, every
+$\FiniteObservationBudgetSelectorUp$, $\RegularCauchyTailSelectorUp$,
+$\RealUp$, or $\CompletionUp$ consumer that requests the TailMeet threshold must
+first read the paired $\StreamNameUp$ windows $W_0,W_1$, modulus rows
+$M_0,M_1$, shared threshold $\tau$, comparison row $Q$, transport rows $H,C$,
+ledger $L$, package row $\Pkg$, and local $\NameCert$ row $N$. The service is
+locked to this displayed finite route and cannot be replaced by an uncapped
+observation request, quotient stream, selected limit, host equality, trichotomy
+row, independent tail oracle, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with window exhaustion. Any threshold-facing consumer must expose the
+paired StreamName windows $W_0,W_1$ before $\tau$ is available, and the same
+source-window route keeps the request inside the accepted TailMeet packet.
+
+Apply threshold stability and the downstream unblock package. They attach the
+modulus rows $M_0,M_1$, the shared threshold $\tau$, the comparison row $Q$, the
+transport rows $H,C$, the ledger $L$, the package row $\Pkg$, and the local
+name row $N$ to the same finite consumer-facing route.
+
+Use the seal route for $\RealUp$ and $\CompletionUp$ consumers and the
+budget-selector handoff for $\FiniteObservationBudgetSelectorUp$ and
+$\RegularCauchyTailSelectorUp$ consumers. Both routes consume the displayed
+tuple before a threshold service is available.
+
+The remaining non-escape claim is ledger exhaustion for that tuple. Since the
+route contains only the displayed windows, modulus rows, threshold, comparison,
+transport, ledger, package, and local name, no uncapped observation request,
+quotient stream, selected limit, host equality, trichotomy row, independent tail
+oracle, or ambient completeness witness can replace the service.
+\end{proof}
+
 \begin{theorem}[RegularCauchyTailMeet quotient-refusal factorization]
 \label{thm:regular-cauchy-tail-meet-quotient-refusal-factorization}
 Every completion-facing consumer of an accepted $\RegularCauchyTailMeetUp$

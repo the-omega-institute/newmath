@@ -207,6 +207,34 @@ Next read the obstruction-facing package. \autoref{thm:halting-distinction-diago
 Finally apply \autoref{thm:halting-distinction-obstruction-sibling-route} and \autoref{thm:halting-distinction-obstruction-consumer-boundary}. They identify the downstream $\HaltingObstructionUp$ read as a consumer of the finite distinction boundary, not as a source of a total halting predicate, divergence oracle, global truth predicate, or host evaluator.
 \end{proof}
 
+\begin{theorem}[HaltingDistinction diagonal trace consumer totality]
+\label{thm:halting-distinction-diagonal-trace-consumer-totality}
+Every downstream obstruction-facing consumer of an accepted $\HaltingDistinctionUp$ packet reads only the finite rows
+$$
+Q,T,Z,H,C,P,N
+$$
+together with the named trace, inscription-event, trace-normal-form, and obstruction sibling routes before it sees the diagonal boundary. The consumer totality is finite: it does not supply a total halting predicate, divergence oracle, global truth predicate, or host evaluator.
+\end{theorem}
+\begin{proof}
+First read the finite trace surface. Apply \autoref{thm:halting-distinction-trace-readability} and \autoref{thm:halting-distinction-finite-trace-inversion}; any termination-facing consumer that reaches a displayed $\Cont$ step has already fixed $Q,T,Z,H,C,P,N$ when the diagonal branch is entered.
+
+Next read the certificate boundary. Use \autoref{thm:halting-distinction-provenance-purity-boundary} to keep $P,N$ as provenance and local naming rows, and use \autoref{thm:halting-distinction-normal-form-route-consumption} to force trace-normal-form access through the displayed finite route.
+
+Finally apply \autoref{thm:halting-distinction-inscription-event-boundary} and \autoref{thm:halting-distinction-downstream-obstruction-handoff}. These place the inscription-event and obstruction sibling routes before the downstream diagonal read. The cited non-escape clauses exclude total halting predicates, divergence oracles, global truth predicates, and host evaluators from the consumer surface.
+\end{proof}
+
+\begin{theorem}[HaltingDistinction finite obstruction ledger exhaustion]
+\label{thm:halting-distinction-finite-obstruction-ledger-exhaustion}
+For every accepted $\HaltingDistinctionUp$ packet, the obstruction ledger exposed to downstream consumers is exhausted by $Q,T,Z,H,C,P,N$ plus the trace, inscription-event, trace-normal-form, and $\HaltingObstructionUp$ sibling routes named in \autoref{thm:halting-distinction-downstream-obstruction-handoff}. No further coordinate is available for a total halting predicate, divergence oracle, global truth predicate, or host evaluator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:halting-distinction-diagonal-trace-consumer-totality}. It already identifies the complete finite consumer route before the diagonal boundary is exposed.
+
+Read the obstruction ledger through \autoref{thm:halting-distinction-downstream-obstruction-handoff}. The handoff sends each downstream obstruction-facing consumer through exactly the finite rows $Q,T,Z,H,C,P,N$ and through the named sibling routes.
+
+The exhaustion clause follows from \autoref{thm:halting-distinction-provenance-purity-boundary} together with \autoref{thm:halting-distinction-finite-trace-inversion}. Since the trace inversion reconstructs only the displayed finite packet and the provenance row cannot be reinterpreted as semantic evaluation data, the obstruction ledger has no coordinate for any total halting, divergence, truth, or host-evaluation object.
+\end{proof}
+
 \begin{theorem}[HaltingDistinction diagonal obstruction public package]
 \label{thm:halting-distinction-diagonal-obstruction-public-package}
 For every accepted $\HaltingDistinctionUp$ packet
@@ -675,14 +703,15 @@ Finally compose the downstream package of \autoref{thm:halting-distinction-root-
 \closureat{HaltingDistinctionUp}{obligationStr}
 \closureat{HaltingDistinctionUp}{scopedStr}
 \closureat{HaltingDistinctionUp}{publicStr}
+\closureat{HaltingDistinctionUp}{bridgedStr}
 
 \begin{closurestatus}{\HaltingDistinctionUp}
   \constructivestory{A $\HaltingDistinctionUp$ packet is generated from a certificate-history pair row, a finite $\Cont_P$ trace row, a diagonal self-reference row, componentwise $\hsame$ transports, displayed $\Cont$ read routes, package provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:halting-distinction-diagonal-obstruction-public-package}, \autoref{thm:halting-distinction-route-obstruction-triad}, \autoref{thm:halting-distinction-inscription-trace-gate}, and \autoref{thm:halting-distinction-consumer-boundary-package} export the public obstruction package and consumer boundary package over the finite packet $Q,T,Z,H,C,P,N$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:halting-distinction-diagonal-obstruction-public-package}, \autoref{thm:halting-distinction-route-obstruction-triad}, \autoref{thm:halting-distinction-inscription-trace-gate}, and \autoref{thm:halting-distinction-consumer-boundary-package} bind the mature paper-side surface: finite trace readability, diagonal boundary, consumer non-escape, and the bridge tuple package over $Q,T,Z,H,C,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close a total halting predicate, a global truth predicate over certificates, classical decidability of termination, divergence detection, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier and checked theorems for classifier transport, trace readability, diagonal boundary exactness, and consumer non-escape.}
+  \notclaimed{This chapter does not close a total halting predicate, a global truth predicate over certificates, classical decidability of termination, divergence detection, or the independent Lean verification axis.}
+  \upgradepath{The remaining work is Lean encoding of the carrier and checked theorems for classifier transport, trace readability, diagonal boundary exactness, consumer non-escape, and bridge tuple checking.}
 \end{closurestatus}

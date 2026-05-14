@@ -171,21 +171,64 @@ Apply \autoref{thm:cauchy-witness-ledger-namecert-obligations}. The accepted Nam
 Apply \autoref{thm:cauchy-witness-ledger-budget-factorization} and \autoref{thm:cauchy-witness-ledger-real-completion-handoff}. The Real-facing route factors through the finite BEDC rows before reaching the completion-seal classifier, and the handoff explicitly exports none of the listed external coordinates. Thus the exclusion is anchored in the carrier and its local certificate surface.
 \end{proof}
 
+\begin{theorem}[Cauchy witness ledger public export]
+\label{thm:cauchy-witness-ledger-public-export}
+Every public $\CauchyWitnessLedgerUp$ export to a $\RealUp$
+completion-facing consumer factors through the analytic route
+$$
+Q \longmapsto B \longmapsto S \longmapsto K
+$$
+together with the structural rows $H,C,P,N$. Here $Q$ is the diagonal-budget
+row of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, $B$ is
+the observation-budget row of
+\autoref{ch:concrete-instances-real-observation-budget-namecert}, $S$ is the
+seal-synchronizer row of
+\autoref{ch:concrete-instances-cauchy-seal-budget-synchronizer-namecert}, and
+$K$ is the completion-seal classifier row of
+\autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}.
+
+The public export contains no quotient stream equality, host real equality,
+selected external limit, countable-choice row, ambient completeness theorem, or
+second completion route outside the displayed finite ledger.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-witness-ledger-budget-factorization}. It fixes
+the analytic spine of any completion-facing read as
+$Q \longmapsto B \longmapsto S \longmapsto K$, with the four sibling chapters
+supplying the displayed budget, observation, synchronizer, and classifier rows.
+
+Use \autoref{thm:cauchy-witness-ledger-real-completion-handoff} to pass the
+same spine to a $\RealUp$ completion-facing consumer. The handoff reaches the
+completion-seal classifier only after the diagonal budget, observation budget,
+and seal synchronizer have been read.
+
+Apply \autoref{thm:cauchy-witness-ledger-route-determinacy}. Once the consumer
+agrees on the analytic spine and on $H,C,P,N$, the classifier read is fixed, so
+there is no independent completion route.
+
+Finally combine \autoref{thm:cauchy-witness-ledger-ledger-exhaustion} with
+\autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}. The ledger
+is exhausted by $Q,B,S,K,H,C,P,N$, and the excluded coordinates cannot be
+recovered from the public export.
+\end{proof}
+
 \falsifiablePrediction{If a CauchyWitnessLedgerUp packet is accepted, every RealUp completion-facing read factors through the displayed diagonal-budget, observation-budget, seal-synchronizer, and completion-seal rows; a counterexample is any admitted read bypassing one row.}
 
 \independenceWitness{Nearest siblings: cauchydiagonalbudget, realobservationbudget, cauchysealbudgetsynchronizer, realcompletionsealclassifier. None is bijective to CauchyWitnessLedgerUp because each sibling lacks at least one of the four ledger coordinates and the combined packet has a NameCert obligation requiring simultaneous factorization through all four.}
 
 \closureat{CauchyWitnessLedgerUp}{seedStr}
 \closureat{CauchyWitnessLedgerUp}{obligationStr}
+\closureat{CauchyWitnessLedgerUp}{scopedStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
+\closureat{CauchyWitnessLedgerUp}{publicStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\CauchyWitnessLedgerUp}
   \constructivestory{A $\CauchyWitnessLedgerUp$ packet is generated from a Cauchy diagonal budget, Real observation budget, Cauchy seal-budget synchronizer, Real completion-seal classifier, componentwise transports, displayed routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-witness-ledger-carrier}, \autoref{thm:cauchy-witness-ledger-namecert-obligations}, \autoref{thm:cauchy-witness-ledger-budget-factorization}, \autoref{thm:cauchy-witness-ledger-real-completion-handoff}, \autoref{thm:cauchy-witness-ledger-carrier-admission}, \autoref{thm:cauchy-witness-ledger-route-determinacy}, \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}, \autoref{thm:cauchy-witness-ledger-componentwise-transport}, \autoref{thm:cauchy-witness-ledger-route-replay-exactness}, and \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion} bind the finite witness ledger for the Real completeness route through the four displayed budget, observation, synchronizer, and classifier rows, the carrier-admission row, the route-determinacy row, the ledger-exhaustion row, the componentwise transport row, the replay row, and the forbidden-coordinate boundary.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:cauchy-witness-ledger-carrier}, \autoref{thm:cauchy-witness-ledger-namecert-obligations}, \autoref{thm:cauchy-witness-ledger-budget-factorization}, \autoref{thm:cauchy-witness-ledger-real-completion-handoff}, \autoref{thm:cauchy-witness-ledger-carrier-admission}, \autoref{thm:cauchy-witness-ledger-route-determinacy}, \autoref{thm:cauchy-witness-ledger-ledger-exhaustion}, \autoref{thm:cauchy-witness-ledger-componentwise-transport}, \autoref{thm:cauchy-witness-ledger-route-replay-exactness}, \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}, and \autoref{thm:cauchy-witness-ledger-public-export} bind the finite witness ledger for the Real completeness route; the Real-completion handoff theorem and forbidden-coordinate exclusion theorem form the public export surface together with the four displayed budget, observation, synchronizer, and classifier rows, the carrier-admission row, the route-determinacy row, the ledger-exhaustion row, the componentwise transport row, the replay row, and the public export route.}
+  \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Real completeness, quotient streams, host real equality, selected external limits, countable choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Lean verification requires checked carrier admission, route factorization, route determinacy, ledger exhaustion, completion handoff, and TasteGate nontriviality with field faithfulness for the same finite witness ledger.}
+  \upgradepath{Bridge closure requires a checked standard bridge for the same finite witness-ledger public surface; Lean verification of the witness-ledger rows remains a separate formal axis.}
 \end{closurestatus}
