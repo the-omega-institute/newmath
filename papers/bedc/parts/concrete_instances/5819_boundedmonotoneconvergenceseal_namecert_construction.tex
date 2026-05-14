@@ -529,6 +529,30 @@ Attach the sibling names to those coordinates. The criterion row is a $\CauchyCr
 Finally prepend $W,M$ and append $H,C,P,N$. The result is the same finite route named by \autoref{thm:bounded-monotone-convergence-seal-finite-limit-interface-obligations}, so all consumer-visible data are exhausted before any selected limit or ambient completion principle could be read.
 \end{proof}
 
+\begin{theorem}[Bounded monotone convergence seal route obligation closure]
+\label{thm:bounded-monotone-convergence-seal-route-obligation-closure}
+For an accepted $\BoundedMonotoneConvergenceSealUp$ packet $S=(W,M,K,F,\sigma,D,L,R,H,C,P,N)$, the displayed rows jointly close the paper-side route obligations for the bounded monotone convergence seal. The closed route is exactly the carrier, NameCert obligations, public handoff, criterion route, Real handoff, limit-seal compatibility, terminal budget exhaustion, and scoped handoff package over the rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:bounded-monotone-convergence-seal-carrier} and \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations}. They expose precisely the rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$ and state the admission, routing, stability, exactness, provenance, and naming obligations.
+
+Use public handoff, criterion routing, Real handoff, and limit-seal compatibility: \autoref{thm:bounded-monotone-convergence-seal-public-handoff}, \autoref{thm:bounded-monotone-convergence-seal-criterion-route}, \autoref{thm:bounded-monotone-convergence-seal-real-handoff}, and \autoref{thm:bounded-monotone-convergence-seal-limit-seal-compatibility}. These identify the public consumer path from bounded witness rows to the terminal Real handoff without inserting a selected limit or ambient completeness row.
+
+Finally apply terminal budget exhaustion and the scoped handoff package, \autoref{thm:bounded-monotone-convergence-seal-terminal-budget-exhaustion} and \autoref{thm:bounded-monotone-convergence-seal-scoped-handoff-package}. The same rows exhaust the route budget and package the resulting finite handoff, so the paper-side route obligations are closed at the displayed boundary.
+\end{proof}
+
+\begin{theorem}[Bounded monotone convergence seal TasteGate obligation boundary]
+\label{thm:bounded-monotone-convergence-seal-tastegate-obligation-boundary}
+Promotion beyond seed status for $\BoundedMonotoneConvergenceSealUp$ is read only through the displayed carrier rows together with this chapter's stated TasteGate nontriviality and field-faithfulness commitments. This changes the theory-closure ledger for the paper-side obligation surface, and it does not change the Lean verification-status row.
+\end{theorem}
+\begin{proof}
+Project the route obligation closure above. The paper-side boundary already binds the carrier rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$ to the NameCert and public handoff obligations.
+
+Now use the chapter's TasteGate statement for the same displayed carrier. Nontriviality and field faithfulness are read as obligations over the existing packet; they do not add a Lean theorem marker or a new formal-status target.
+
+Thus the closure ledger may record obligation-level theory closure while leaving the Lean verification grade unchanged. The two axes remain independent: the paper surface states the route and TasteGate obligations, while future Lean work must still encode and verify them.
+\end{proof}
+
 \falsifiablePrediction{Every accepted consumer of the convergence seal factors through BoundedMonotoneCauchyWitnessUp, MonotoneCauchyUp, CauchyCriterionUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp rows before it reads the Real convergence handoff.}
 
 \independenceWitness{boundedmonotonecauchywitness, monotonecauchy, cauchycriterion, cauchylimitseal, real: the bounded witness lacks the public convergence seal row, monotonecauchy lacks the bounded witness source packet, cauchycriterion lacks the monotone source ledger, cauchylimitseal lacks the bounded monotone witness and public criterion bridge, and real lacks the finite witness-to-seal route; therefore no bijection preserves all carrier rows $W,M,K,F,\sigma,D,L,R,H,C,P,N$.}
@@ -536,12 +560,14 @@ Finally prepend $W,M$ and append $H,C,P,N$. The result is the same finite route 
 The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived/BoundedMonotoneConvergenceSealUp/TasteGate.lean}. It must provide \texttt{Nontrivial BoundedMonotoneConvergenceSealUp} and \texttt{FieldFaithful BoundedMonotoneConvergenceSealUp} instances for the same displayed carrier.
 
 \closureat{BoundedMonotoneConvergenceSealUp}{seedStr}
+\closureat{BoundedMonotoneConvergenceSealUp}{obligationStr}
 
 \begin{closurestatus}{\BoundedMonotoneConvergenceSealUp}
   \constructivestory{A $\BoundedMonotoneConvergenceSealUp$ packet is generated from a bounded monotone Cauchy witness, public monotone Cauchy tail-window certificate, public Cauchy criterion packet, regular-rational handoff, stream-window ledger, dyadic tolerance ledger, CauchyLimitSeal compatibility row, Real convergence seal, componentwise transports, displayed continuations, provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:bounded-monotone-convergence-seal-carrier}, \autoref{thm:bounded-monotone-convergence-seal-namecert-obligations}, \autoref{thm:bounded-monotone-convergence-seal-carrier-admission}, \autoref{thm:bounded-monotone-convergence-seal-nontriviality}, and \autoref{thm:bounded-monotone-convergence-seal-field-faithfulness} specify the finite Real and Completion convergence-seal carrier, public handoff route, and obligation rows.}
   \formalstatus{\unformalizedV}
+  \leanchecked{BEDC.Derived.BoundedMonotoneConvergenceSealUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Real completeness, selected-limit existence, quotient stream equality, host real equality, Lean verification, or bridge checking for $\BoundedMonotoneConvergenceSealUp$.}
