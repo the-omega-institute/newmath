@@ -437,12 +437,17 @@ def main() -> int:
         )
     if args.append:
         result = append_ready(packets)
+        error_kind = str(getattr(result, "error_kind", "") or "")
+        error = str(getattr(result, "error", "") or "")
+        error_summary = " ".join(error.split())[:300]
         print(
             "board_spawn "
             f"ok={getattr(result, 'ok', False)} "
             f"accepted={len(getattr(result, 'accepted', []) or [])} "
             f"rejected={len(getattr(result, 'rejected', []) or [])} "
             f"appended={getattr(result, 'appended_ids', [])}"
+            + (f" error_kind={error_kind}" if error_kind else "")
+            + (f" error={error_summary}" if error_summary else "")
         )
         return 0 if getattr(result, "ok", False) else 1
     return 0
