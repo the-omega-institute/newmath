@@ -320,6 +320,123 @@ route, with no remaining coordinate from which an excluded object could be
 read.
 \end{proof}
 
+\begin{theorem}[Diagonal tail selector root budget route totality]
+\label{thm:diagonal-tail-selector-root-budget-route-totality}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Any root consumer that uses
+the admission row, the root budget handoff row, the cofinal budget replay row,
+and the terminal formal-target row consumes exactly the packet $G$ and the
+displayed L10 route through
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\CauchyLimitSealUp,\quad
+\RealUp.
+$$
+No additional root route, tail-selector coordinate, quotient stream, host
+limit selector, or ambient completeness witness is part of that consumer
+surface.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-tail-selector-root-cofinal-admission}. It fixes
+the admitted root inventory to the coordinates
+$R,n,\mu,k,W,D,T,S,H,C,P,N$ and to the named cofinal consumer chain.
+
+Next apply \autoref{thm:diagonal-tail-selector-root-budget-handoff}. The
+handoff row sends exactly that admitted inventory into the root budget route,
+so a root consumer has no separate budget coordinate before replay.
+
+Replay the budget by
+\autoref{thm:diagonal-tail-selector-cofinal-budget-replay}. The replay row
+keeps the same root coordinates and the same L10 route through
+$\LimitSelectorUp$, $\RegularCauchyTailSelectorUp$, $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$.
+
+Finally use
+\autoref{thm:diagonal-tail-selector-root-formal-target-surface}. Its
+formal-target inventory is exactly the displayed packet and route, and its
+negative clauses rule out any extra route or hidden selected-limit
+coordinate.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector root budget transport]
+\label{thm:diagonal-tail-selector-root-budget-transport}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Componentwise displayed
+$\hsame$ transports of the admission, handoff, replay, and terminal
+formal-target rows, together with matching $\Cont$ routes for the L10
+consumer chain, preserve the same cofinal budget route from $G$ through
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\CauchyLimitSealUp,\quad
+\RealUp.
+$$
+Such transports add no quotient stream, hidden selector, host real equality,
+or second budget ledger.
+\end{theorem}
+\begin{proof}
+Read the transport data from the root admission inventory of
+\autoref{thm:diagonal-tail-selector-root-cofinal-admission}. The only
+admitted transports are the displayed componentwise $\hsame$ rows and the
+matching $\Cont$ routes already recorded in $H$ and $C$.
+
+Use \autoref{thm:diagonal-tail-selector-root-budget-handoff} to identify the
+transported handoff with the same root budget coordinates. Then apply
+\autoref{thm:diagonal-tail-selector-cofinal-budget-replay} to replay the
+transported route without changing its L10 spine.
+
+The determinacy clauses in
+\autoref{thm:diagonal-tail-selector-terminal-budget-determinacy} identify
+any terminal read of the transported route with the replayed route. By
+\autoref{thm:diagonal-tail-selector-root-formal-target-surface}, the
+resulting formal-target surface still contains only $G$ and the displayed
+consumer chain, not a quotient stream, hidden selector, host equality row, or
+additional ledger.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector root budget ledger exactness]
+\label{thm:diagonal-tail-selector-root-budget-ledger-exactness}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. The coordinates $P$ and $N$
+account exactly for the admission, handoff, replay, and terminal
+formal-target rows of the root budget route. They cannot be read as selected
+limits, host real equality, ambient completeness, quotient-stream
+identification, or countable choice.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:diagonal-tail-selector-root-budget-route-totality}. It reduces
+every root consumer using the displayed rows to the single packet $G$ and the
+single L10 cofinal budget route.
+
+Apply \autoref{thm:diagonal-tail-selector-budget-readback-nonescape}. The
+budget readback permits $P$ and $N$ to certify provenance and local naming for
+the finite route, but it does not expose selected limits, host real equality,
+ambient completeness, quotient-stream identification, or countable choice.
+
+Finally use
+\autoref{thm:diagonal-tail-selector-terminal-cofinal-route-exhaustion}. Since
+terminal reads are exhausted by $G$ and the displayed route, the ledger
+coordinates have no remaining coordinate from which an excluded object or
+principle could be recovered.
+\end{proof}
+
 \begin{theorem}[Diagonal tail selector terminal cofinal route exhaustion]
 \label{thm:diagonal-tail-selector-terminal-cofinal-route-exhaustion}
 Let
@@ -369,4 +486,52 @@ every terminal $\RealUp$ or $\CompletionUp$ consumer with the same packet and
 route. Carrier-coordinate exhaustion therefore leaves exactly the displayed
 coordinates and no remaining carrier from which one of the excluded objects
 could be read.
+\end{proof}
+
+\begin{theorem}[Diagonal tail selector terminal cofinal route uniqueness]
+\label{thm:diagonal-tail-selector-terminal-cofinal-route-uniqueness}
+Let
+$$
+G=(R,n,\mu,k,W,D,T,S,H,C,P,N)
+$$
+be an accepted $\DiagonalTailSelectorUp$ packet. Suppose two terminal
+$\RealUp$ or $\CompletionUp$ consumers of $G$ both pass through the displayed
+L10 spine
+$$
+\LimitSelectorUp,\quad
+\RegularCauchyTailSelectorUp,\quad
+\StreamNameUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\CauchyLimitSealUp,\quad
+\RealUp.
+$$
+Then their terminal cofinal route is the same displayed packet-and-spine route,
+up to the $\hsame$ transports already carried by $G$. No second selector,
+quotient stream, hidden tail oracle, host-selected limit, or ambient
+completeness row can distinguish the two terminal consumers.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:diagonal-tail-selector-root-cofinal-admission} and
+\autoref{thm:diagonal-tail-selector-root-budget-handoff}. Both terminal
+consumers are admitted from the same accepted root packet, so their visible
+coordinates are the coordinates of the displayed $G$ and their transports are
+the $\hsame$ transports already present in that packet.
+
+Next apply \autoref{thm:diagonal-tail-selector-cofinal-budget-replay}. Since
+both consumers pass through the named L10 spine, the replay supplies the same
+finite cofinal budget at each listed selector, stream, dyadic, regular sequence,
+seal, and real-facing row.
+
+Now use \autoref{thm:diagonal-tail-selector-terminal-budget-determinacy} and
+\autoref{thm:diagonal-tail-selector-root-formal-target-surface}. These identify
+the terminal read of each consumer with the same public packet-and-spine route,
+leaving only the already displayed $\hsame$ transports as admissible
+coordinate changes.
+
+Finally invoke
+\autoref{thm:diagonal-tail-selector-terminal-cofinal-route-exhaustion}. The
+exhaustion theorem removes every non-displayed coordinate, so no second
+selector, quotient stream, hidden tail oracle, host-selected limit, or ambient
+completeness row remains available to distinguish the two terminal routes.
 \end{proof}

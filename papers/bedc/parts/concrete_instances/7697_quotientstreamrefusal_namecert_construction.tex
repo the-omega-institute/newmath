@@ -190,6 +190,18 @@ Apply the off-route refusal boundary of \autoref{thm:quotient-stream-refusal-off
 The only remaining use of the tail-fiber row is finite seal-route evidence feeding the displayed Real route. Hence a $\RegularCauchyTailFiberUp$ consumer can reach $\QuotientStreamRefusalUp$ through $S,R,L,E$, but it cannot turn the shared row into quotient equality or completeness data.
 \end{proof}
 
+\begin{theorem}[QuotientStreamRefusal regular-tail quotient refusal factorization]
+\label{thm:quotient-stream-refusal-regular-tail-factorization}
+Every $\RegularCauchyTailFiberUp$ or Real-completion consumer that asks to read the shared tail row as quotient-stream equality must first pass through the $\QuotientSoundnessBoundaryUp$ refusal-and-$\psame$-transport surface of \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}. After that boundary has consumed the requested-representative refusal rows and the classifier-respecting $\psame$ transport replacement, the request lands in the $\QuotientStreamRefusalUp$ refusal row $F$ unless the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ rows have been consumed in order.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and route ordering for $\QuotientStreamRefusalUp$. By \autoref{thm:quotient-stream-refusal-carrier-admission} and \autoref{thm:quotient-stream-refusal-route-ordering}, the only completion route exposed by the packet is $S \longmapsto R \longmapsto L \longmapsto E$, with $F$ reserved for refused quotient-style reads.
+
+Now consume the quotient-soundness boundary. The transport replacement theorem \autoref{thm:quotient-soundness-boundary-transport-replacement} routes any surviving representative-style request through displayed relation and $\psame$ transport rows, while \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion} and \autoref{thm:quotient-soundness-boundary-non-escape} leave no quotient carrier, representative selector, quotient equality eliminator, or $\mathsf{Quot.sound}$ dependency available to the downstream consumer.
+
+It remains to attach the regular-tail read to the Real-completion refusal packet. By \autoref{thm:quotient-stream-refusal-tail-fiber-boundary}, a shared tail-fiber row can only feed the displayed seal route. By \autoref{thm:quotient-stream-refusal-offroute-nonescape}, any attempt to read that row as quotient-stream equality is therefore routed to $F$ unless the consumer has already consumed $S,R,L,E$ as the finite completion route.
+\end{proof}
+
 \begin{theorem}[QuotientStreamRefusal obligation closure]
 \label{thm:quotient-stream-refusal-obligation-closure}
 The carrier, local $\NameCert_{\QuotientStreamRefusalUp}$ surface, route exposure, ledger exactness, terminal exhaustion, and tail-fiber boundary assemble the concrete obligation closure for $\QuotientStreamRefusalUp$ over $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every accepted completion-facing read is exhausted by the displayed packet
@@ -218,6 +230,7 @@ Q=(S,R,L,E,F,H,C,P,N),
 $$
 with $S \longmapsto R \longmapsto L \longmapsto E$ as the public completion route and $F$ as the refusal ledger for quotient-stream equality, selected limits, host real equality, hidden family limits, hidden tail data, and ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.QuotientStreamRefusalUp.taste\_gate}
 \begin{proof}
 Carrier admission gives the displayed packet $Q=(S,R,L,E,F,H,C,P,N)$ and states that no additional completion coordinate is admitted.
 
@@ -235,14 +248,15 @@ The displayed TasteGate commitment supplies the remaining two marker obligations
 The Lean file \texttt{Derived/QuotientStreamRefusalUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \QuotientStreamRefusalUp$ and $\mathsf{FieldFaithful}\ \QuotientStreamRefusalUp$ instances for the displayed rows $S,R,L,E,F,H,C,P,N$.
 
 \closureat{QuotientStreamRefusalUp}{seedStr}
+\closureat{QuotientStreamRefusalUp}{obligationStr}
 
 \begin{closurestatus}{\QuotientStreamRefusalUp}
-  \constructivestory{A $\QuotientStreamRefusalUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, CauchyLimitSeal route row, RealUp seal row, quotient-refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:quotient-stream-refusal-carrier}, \autoref{thm:quotient-stream-refusal-namecert-surface}, and \autoref{thm:quotient-stream-refusal-nonescape-route} display the finite Real-completion refusal packet and its non-escape route.}
+  \constructivestory{A $\QuotientStreamRefusalUp$ packet is generated from a StreamName finite-window row, RegSeqRat readback row, CauchyLimitSeal route row, RealUp seal row, quotient-refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming; the TasteGate row is recorded at BEDC.Derived.QuotientStreamRefusalUp.taste\_gate.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:quotient-stream-refusal-carrier}, \autoref{thm:quotient-stream-refusal-obligation-closure}, and \autoref{thm:quotient-stream-refusal-tastegate-marker-route} display the finite Real-completion refusal packet, obligation surface, and TasteGate marker route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not construct quotient streams, select limits, prove host real equality, close ambient completeness, or provide a checked Lean certificate.}
-  \upgradepath{Obligation closure requires checked carrier admission, route exposure, refusal-ledger exactness, non-escape, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{The next paper step is scoped closure over the displayed StreamName, RegSeqRat, CauchyLimitSeal, RealUp, BHist, hsame, Cont, Pkg, NameCert, TasteGate, Nontrivial, and FieldFaithful rows.}
 \end{closurestatus}
