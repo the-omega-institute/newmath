@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\CofinalDiagonalSealUp$}
+\label{ch:concrete-instances-cofinal-diagonal-seal-namecert}
+\origin{ai}
+
+The $\CofinalDiagonalSealUp$ packet realizes the cofinal-tail-to-diagonal $\RealUp$ seal route described in \autoref{ch:visions-real-completeness} and its transported-stationary-diagonal context. It sits after the cofinal-tail budget of \autoref{ch:concrete-instances-cofinal-tail-budget-namecert}, the diagonal selector budget of \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, the diagonal limit budget of \autoref{ch:concrete-instances-diagonal-limit-budget-namecert}, the regular-source handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite-window source of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite route seal, not a proof of Real completeness, quotient-stream equality, selected host limits, or ambient completion.
+
+\falsifiablePrediction{Removing the cofinal-tail row permits two diagonal routes with incompatible tail thresholds to classify as the same Real seal; removing the Real seal row leaves no terminal public handoff.}
+
+\independenceWitness{cofinaltailbudget, cauchydiagonalbudget, diagonallimitbudget, regularcauchytailschedule, realsealcomparison: no listed sibling is bijective to $\CofinalDiagonalSealUp$. The cofinal-tail budget stores the shared threshold without the diagonal selector and terminal seal; the Cauchy diagonal budget stores the selector without the cofinal threshold; the diagonal limit budget stores the limit-facing budget without the full cofinal route; the regular Cauchy tail schedule stores tail service without the diagonal handoff; and the real seal comparison stores the terminal comparison without the upstream budget lattice.}
+
+\begin{definition}[Cofinal diagonal seal carrier]
+\label{def:cofinal-diagonal-seal-carrier}
+A $\CofinalDiagonalSealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(\epsilon,T,D,L,R,W,Y,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\epsilon$ is the finite precision request served by the route;
+\item $T$ is the $\CofinalTailBudgetUp$ row fixing the cofinal tail threshold;
+\item $D$ is the $\CauchyDiagonalBudgetUp$ row fixing the diagonal selector budget;
+\item $L$ is the $\DiagonalLimitBudgetUp$ row naming the diagonal-limit-facing budget;
+\item $R$ is the $\RegSeqRatUp$ regular-source readback row consumed by the seal;
+\item $W$ is the $\StreamNameUp$ finite-window row through which the route is observed;
+\item $Y$ is the $\DyadicRatCoreUp$ tolerance and dyadic-readback ledger;
+\item $A$ is the terminal $\RealUp$ seal row made public by the route;
+\item $H$ records componentwise $\hsame$ transport for the precision, budget, readback, window, dyadic, seal, route, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ replay route from cofinal tail threshold through diagonal budget, diagonal limit budget, regular-source readback, finite window, dyadic ledger, and terminal Real seal;
+\item $P$ is the $\Pkg$ provenance over $\CofinalTailBudgetUp$, $\CauchyDiagonalBudgetUp$, $\DiagonalLimitBudgetUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CofinalDiagonalSealUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected host limits, hidden tail choice, ambient completeness, or a Real-facing handoff detached from the displayed route.
+\end{definition}
+
+\begin{theorem}[Cofinal diagonal seal NameCert obligations]
+\label{thm:cofinal-diagonal-seal-namecert-obligations}
+For the carrier of \autoref{def:cofinal-diagonal-seal-carrier}, the local $\NameCert_{\CofinalDiagonalSealUp}$ surface consists exactly of carrier admission for
+$$
+S=(\epsilon,T,D,L,R,W,Y,A,H,C,P,N),
+$$
+precision exposure through $\epsilon$, cofinal-tail budget exposure through $T$, diagonal selector exposure through $D$, diagonal-limit budget exposure through $L$, regular-source readback through $R$, finite-window exposure through $W$, dyadic tolerance exposure through $Y$, terminal Real seal exposure through $A$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The tuple exposes the precision request, cofinal-tail budget, diagonal budget, diagonal-limit budget, regular-source row, finite-window row, dyadic ledger, terminal seal, transport, replay, provenance, and local naming rows.
+
+Read the route in dependency order. The cofinal-tail row $T$ fixes the shared threshold, the diagonal budget row $D$ fixes the selector side, and the diagonal-limit budget row $L$ records the limit-facing budget before any regular-source or Real-facing read is available.
+
+The rows $R,W,Y,A$ then supply the observable route to the public seal: regular-source readback, finite StreamName window, dyadic tolerance ledger, and terminal $\RealUp$ seal. The transport, continuation, provenance, and local naming rows preserve that same route and add no hidden coordinate.
+
+Since quotient stream equality, selected host limits, hidden tail choice, ambient completeness, and detached Real handoffs are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cofinal diagonal seal route exhaustion]
+\label{thm:cofinal-diagonal-seal-route-exhaustion}
+Every accepted $\CofinalDiagonalSealUp$ consumer route to a public $\RealUp$ seal factors through the displayed finite sequence
+$$
+\epsilon,T,D,L,R,W,Y,A,H,C,P,N.
+$$
+No accepted route may replace the cofinal-tail budget by a diagonal selector alone, replace the diagonal budget by a tail threshold alone, or export a Real seal without the regular-source, finite-window, and dyadic ledger rows.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:cofinal-diagonal-seal-namecert-obligations}. They identify an accepted public route with the displayed rows of the carrier and give no second source of precision, tail, diagonal, regular-source, window, dyadic, or Real-seal data.
+
+The first half of the route binds the two budget sides. The cofinal-tail row $T$ prevents diagonal reads with incompatible thresholds from being classified as one seal, while the diagonal rows $D,L$ prevent a tail threshold from being read as a terminal diagonal route by itself.
+
+The second half binds the observable seal handoff. A consumer reaches $A$ only after reading the regular-source row $R$, finite-window row $W$, and dyadic ledger $Y$, with $H,C,P,N$ preserving and naming the route.
+
+Therefore every public Real seal exported by the packet factors through the displayed sequence and has no bypass through quotient streams, selected limits, hidden tail choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cofinal diagonal seal sibling scope]
+\label{thm:cofinal-diagonal-seal-sibling-scope}
+The $\CofinalDiagonalSealUp$ packet is scoped exactly by the sibling surfaces of \autoref{ch:concrete-instances-cofinal-tail-budget-namecert}, \autoref{ch:concrete-instances-cauchydiagonalbudget-namecert}, \autoref{ch:concrete-instances-diagonal-limit-budget-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. It consumes those rows in one finite NameCert packet and exports no independent Real completeness theorem or quotient-stream classifier.
+\end{theorem}
+\begin{proof}
+Project the carrier to the sibling rows $T,D,L,R,W,Y,A$. Each row is named by one of the cited sibling chapters and each is present before the local naming row $N$ accepts the seal.
+
+The route row $C$ records their order of use, while $H$ preserves componentwise transport and $P$ records provenance over the same siblings. Thus the local packet is a scoped assembly of sibling rows rather than a new ambient completion principle.
+
+The route-exhaustion theorem excludes every bypass to quotient streams, selected host limits, hidden tail choice, and ambient completeness. Hence the sibling scope is exactly the displayed cofinal-tail, diagonal-budget, diagonal-limit, RegSeqRat, StreamName, DyadicRatCore, and RealUp surface.
+\end{proof}
+
+The later Lean namespace \texttt{BEDC.Derived.CofinalDiagonalSealUp.TasteGate} must provide \texttt{Nontrivial CofinalDiagonalSealUp} and \texttt{FieldFaithful CofinalDiagonalSealUp} instances for the same displayed carrier.
+
+\closureat{CofinalDiagonalSealUp}{seedStr}
+
+\begin{closurestatus}{\CofinalDiagonalSealUp}
+  \constructivestory{A $\CofinalDiagonalSealUp$ packet is generated from a finite precision request, cofinal-tail budget row, Cauchy diagonal budget row, diagonal limit budget row, RegSeqRat readback row, StreamName window row, DyadicRatCore tolerance ledger, terminal RealUp seal row, componentwise transports, displayed continuation, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-diagonal-seal-carrier}, \autoref{thm:cofinal-diagonal-seal-namecert-obligations}, \autoref{thm:cofinal-diagonal-seal-route-exhaustion}, and \autoref{thm:cofinal-diagonal-seal-sibling-scope} specify the finite cofinal-tail-to-diagonal RealUp seal route and its sibling scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, hidden tail choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget exposure, regular-source readback, finite-window exposure, dyadic tolerance exposure, terminal Real seal exposure, nontriviality, and field faithfulness for the same packet.}
+\end{closurestatus}
