@@ -513,6 +513,24 @@ def _infer_refill_status(rec: dict) -> str:
     return "unknown"
 
 
+def _refill_status_bucket(status: str) -> str:
+    if status.startswith("local_gap_fallback_judge_unavailable"):
+        if "claude_not_logged_in" in status:
+            return "judge_unavailable:claude_not_logged_in"
+        return "judge_unavailable"
+    if status.startswith("local_gap_fallback accepted="):
+        return "local_gap_fallback_ok"
+    if status.startswith("stopped_before_response"):
+        return "oracle_transport_stopped"
+    if status.startswith("timeout_waiting_for_response"):
+        return "oracle_transport_timeout"
+    if status.startswith("oracle_transport_"):
+        return status.split()[0]
+    if status.startswith("ok "):
+        return "oracle_refill_ok"
+    return status.split()[0] if status else "unknown"
+
+
 def _coalesce_split_refill_records(records: dict[str, dict]) -> list[dict]:
     """Merge pre-run-id refill log/prompt artifacts that belong together.
 
@@ -622,6 +640,17 @@ def render_board_refill() -> str:
             f"  {rec.get('stem', '?')}: {age} ago   {artifacts or 'no_artifacts'}   "
             f"{status}{prompt_note}{wait_note}{merged_note}"
         )
+
+    buckets: dict[str, int] = {}
+    for rec in ordered[:12]:
+        bucket = _refill_status_bucket(_infer_refill_status(rec))
+        buckets[bucket] = buckets.get(bucket, 0) + 1
+    if buckets:
+        bucket_text = ", ".join(
+            f"{name}={count}"
+            for name, count in sorted(buckets.items(), key=lambda item: (-item[1], item[0]))
+        )
+        lines.append(f"  recent refill status buckets: {bucket_text}")
 
     lines.append(_next_refill_prompt_note())
 
