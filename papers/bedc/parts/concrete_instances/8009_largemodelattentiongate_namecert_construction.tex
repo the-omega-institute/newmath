@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\LargeModelAttentionGateUp$}
+\label{ch:concrete-instances-largemodelattentiongate-namecert}
+\origin{ai}
+
+The $\LargeModelAttentionGateUp$ packet realizes the attention-window boundary of \autoref{ch:visions-large-model-as-inscription-point} as finite BEDC data. It sits between the activation-orbit packet of \autoref{ch:concrete-instances-largemodelactivationorbit-namecert}, the context-audit packet of \autoref{ch:concrete-instances-largemodelcontextaudit-namecert}, the corpus-supply packet of \autoref{ch:concrete-instances-largemodelcorpussupply-namecert}, the audit channel of \autoref{ch:concrete-instances-largemodelauditchannel-namecert}, and the verified-output harness of \autoref{ch:concrete-instances-verifiedoutputharness-namecert}. Its role is not to introduce a new model semantic oracle; it records the finite gate through which an output-facing read must pass from trace and activation rows into context, corpus, audit, verified-output, transport, route, provenance, and local naming rows.
+
+\begin{definition}[LargeModelAttentionGate carrier]
+\label{def:large-model-attention-gate-carrier}
+A $\LargeModelAttentionGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,A,C,K,U,V,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the trace row, recording the finite model-trace read that supplies the emitted output-facing state;
+\item $A$ is the $\LargeModelActivationOrbitUp$ row naming the finite activation-window segment selected for the read;
+\item $C$ is the context-window row, carrying the bounded prompt and response boundary consumed by the gate;
+\item $K$ is the $\LargeModelCorpusSupplyUp$ row that records the corpus-supply and filter boundary available to this local selection;
+\item $U$ is the $\LargeModelAuditChannelUp$ row through which the selected output-facing read is routed to a public audit consumer;
+\item $V$ is the $\VerifiedOutputHarnessUp$ handoff row for the same output-facing record;
+\item $H$ records componentwise $\hsame$ transport for the trace, activation-window, context, corpus-supply, audit-channel, verified-output, replay, provenance, and naming rows;
+\item $R$ records the displayed $\Cont$ replay by which a consumer reads $T$, then $A,C,K$, then $U,V$, before reaching provenance and the local name;
+\item $P$ is the $\Pkg$ provenance over $\ModelTraceUp$, $\LargeModelActivationOrbitUp$, $\ContextWindowCommitmentUp$, $\LargeModelCorpusSupplyUp$, $\LargeModelAuditChannelUp$, $\VerifiedOutputHarnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\LargeModelAttentionGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden attention stream, unbounded context recovery, corpus-wide truth, unchecked output acceptance, model-side semantic proof, or private route bypassing the displayed activation and context rows.
+\end{definition}
+
+\begin{theorem}[LargeModelAttentionGate NameCert obligations]
+\label{thm:large-model-attention-gate-namecert-obligations}
+For the carrier of \autoref{def:large-model-attention-gate-carrier}, the local $\NameCert_{\LargeModelAttentionGateUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for $G=(T,A,C,K,U,V,H,R,P,N)$;
+\item activation-window readback through the displayed activation-orbit row $A$;
+\item corpus boundary exposure through the corpus-supply row $K$;
+\item audit-channel routing through $U$;
+\item verified-output handoff through $V$;
+\item componentwise transport through $H$;
+\item replay through the displayed $\Cont$ row $R$;
+\item provenance through $P$;
+\item local naming through $N$.
+\end{enumerate}
+Every accepted attention-gate consumer must display these rows before it can read the output-facing gate as a certified large-model packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:large-model-attention-gate-carrier}. The packet lists exactly $T,A,C,K,U,V,H,R,P,N$, so carrier admission supplies no additional hidden state.
+
+The activation and context rows are the entry surface. The trace row $T$ is only readable through the activation-window row $A$ and the bounded context row $C$, while $K$ keeps the corpus-supply boundary attached to the same local read.
+
+The output-facing rows are downstream. The audit-channel row $U$ and verified-output row $V$ are reached only after the displayed activation, context, and corpus rows have been consumed.
+
+Finally $H,R,P,N$ provide transport, replay, provenance, and local naming for the same packet. Since the carrier has no hidden attention stream, context-recovery oracle, corpus-truth predicate, unchecked acceptance row, or model-side semantic proof coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LargeModelAttentionGate finite-window soundness]
+\label{thm:large-model-attention-gate-finite-window-soundness}
+Every output-facing read of an accepted $\LargeModelAttentionGateUp$ packet factors through the finite activation and context window before it can reach an audit-channel or verified-output row. In the carrier
+$$
+G=(T,A,C,K,U,V,H,R,P,N),
+$$
+the read order is
+$$
+T \to (A,C,K) \to (U,V) \to (H,R,P,N).
+$$
+Thus an output-facing consumer cannot read $U$ or $V$ as a bare checker result, hidden evaluator state, unbounded attention stream, recovered context, corpus-wide truth predicate, or host semantic equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:large-model-attention-gate-namecert-obligations}. It requires activation-window readback through $A$ and context exposure through $C$ before audit-channel routing or verified-output handoff is part of the local surface.
+
+Use the sibling chapters to identify those rows. \autoref{ch:concrete-instances-largemodelactivationorbit-namecert} supplies the finite activation-orbit row, \autoref{ch:concrete-instances-largemodelcontextaudit-namecert} and \autoref{ch:concrete-instances-contextwindowcommitment-namecert} supply the bounded context route, and \autoref{ch:concrete-instances-largemodelcorpussupply-namecert} supplies the corpus boundary.
+
+Only after this finite window is displayed do \autoref{ch:concrete-instances-largemodelauditchannel-namecert} and \autoref{ch:concrete-instances-verifiedoutputharness-namecert} provide the audit and verified-output rows. The replay, provenance, and naming rows $R,P,N$ then certify that the same finite route was consumed.
+
+The exclusions follow from the carrier inventory. No coordinate stores a bare checker result, hidden evaluator, unbounded attention stream, recovered context, corpus-wide truth predicate, or host semantic equality, so no accepted read can bypass the finite activation and context window.
+\end{proof}
+
+\falsifiablePrediction{Every LargeModelAttentionGateUp verified-output read factors through a displayed activation-orbit row and context-window row before it can reach the audit-channel handoff.}
+
+\independenceWitness{largemodelinscriptionpoint, largemodelactivationorbit, largemodelcontextaudit, largemodelauditchannel, verifiedoutputharness: the attention-gate packet is not bijective with these siblings because inscription lacks the selected context gate, activation orbit lacks the audit and verified-output handoff, context audit lacks the activation-window selector as the classifier-bearing entry, audit channel lacks the finite activation/context window, and verified output harness lacks the corpus-supply gate attached to the same selection route.}
+
+The Lean follow-up must create \texttt{lean4/BEDC/Derived/LargeModelAttentionGateUp/TasteGate.lean} with \texttt{Nontrivial LargeModelAttentionGateUp} and \texttt{FieldFaithful LargeModelAttentionGateUp} instances for the same displayed carrier.
+
+\closureat{LargeModelAttentionGateUp}{seedStr}
+
+\begin{closurestatus}{\LargeModelAttentionGateUp}
+  \constructivestory{A $\LargeModelAttentionGateUp$ packet is generated from trace, activation-orbit, context-window, corpus-supply, audit-channel, verified-output, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:large-model-attention-gate-carrier}, \autoref{thm:large-model-attention-gate-namecert-obligations}, and \autoref{thm:large-model-attention-gate-finite-window-soundness} specify the finite activation-window and context-window attention-gate carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close hidden attention streams, unbounded context recovery, corpus truth, host semantic understanding, unchecked output acceptance, Lean verification, or bridge checking for $\LargeModelAttentionGateUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, activation-window readback, corpus-boundary exposure, audit-channel routing, verified-output handoff, componentwise transport, replay, provenance, local naming, nontriviality, and field faithfulness for the same carrier.}
+\end{closurestatus}
