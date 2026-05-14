@@ -84,6 +84,46 @@ repair, or unlisted audit result, the six obligations exhaust the public
 surface of the composition packet.
 \end{proof}
 
+\begin{theorem}[Audit-gate composition boundary obligation]
+\label{thm:audit-gate-composition-boundary-obligation}
+For an accepted $\AuditGateCompositionUp$ carrier
+$$
+C=(G_0,G_1,B_0,B_1,R_0,R_1,Q,H,K,P,N),
+$$
+the shared boundary rows $B_0$ and $B_1$ are the only boundary comparison surface. Every comparison between the exit content of $G_0$ and the entry content of $G_1$ must be read through the componentwise $\hsame$ transports in $H$ and the displayed $\Cont$ replay routes in $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-composition-carrier}. The only boundary-content coordinates are $B_0$ and $B_1$, and the only displayed comparison rows attached to them are the transports in $H$ and replay routes in $K$.
+
+Now apply \autoref{thm:audit-gate-composition-namecert-obligations}. Its shared-boundary transport obligation reads the exit content of the first gate and the entry content of the second gate only through the displayed $\hsame$ rows.
+
+Finally use \autoref{thm:audit-gate-composition-sibling-dependency-route}. The sibling route consumes the audit-gate boundary and membrane rows before $Q$ is public, so no ambient boundary object or host endpoint comparison can replace $B_0,B_1,H,K$.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition membrane obligation]
+\label{thm:audit-gate-composition-membrane-obligation}
+For an accepted $\AuditGateCompositionUp$ carrier, the audit-membrane and operational-membrane provenance rows enter only through the provenance coordinate $P$. They cannot create a bypass row, host permission row, detached membrane policy, or second route around the displayed refusal and boundary packet.
+\end{theorem}
+\begin{proof}
+Project the provenance coordinate in \autoref{def:audit-gate-composition-carrier}. The row $P$ names the $\AuditMembraneUp$ and $\OperationalMembraneUp$ sources together with the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packets; no separate membrane carrier is exported.
+
+Apply \autoref{thm:audit-gate-composition-namecert-obligations}. Its consumer non-escape obligation rules out hidden permission rows, skipped gates, host repair of refused boundaries, and unlisted audit results.
+
+Then use \autoref{thm:audit-gate-composition-sibling-dependency-route}. Since sibling membrane rows are consumed only as named provenance before the composed refusal trace is packaged, they cannot generate a bypass or host-side permission surface.
+\end{proof}
+
+\begin{theorem}[Audit-gate composition operational obligation]
+\label{thm:audit-gate-composition-operational-obligation}
+For an accepted $\AuditGateCompositionUp$ carrier, the composed refusal trace $Q$ is replayed only after the gate rows $G_0,G_1$, boundary rows $B_0,B_1$, and refusal rows $R_0,R_1$ have been consumed. No consumer can read $Q$ as an operational result before those six source rows have entered the displayed route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-gate-composition-carrier}. The trace coordinate $Q$ is displayed only after the two gate rows, two boundary rows, and two refusal-result rows in the tuple.
+
+Use \autoref{thm:audit-gate-composition-namecert-obligations}. Its first-gate, second-gate, shared-boundary transport, and composed-refusal replay obligations order the read through $G_0,G_1,B_0,B_1,R_0,R_1$ before $Q$ is projected.
+
+Finally apply \autoref{thm:audit-gate-composition-sibling-dependency-route}. The dependency route consumes the sibling gate and membrane rows before the local packet exports the composed trace, so $Q$ has no premature operational read outside the displayed finite carrier.
+\end{proof}
+
 \begin{theorem}[Audit-gate composition sibling dependency route]
 \label{thm:audit-gate-composition-sibling-dependency-route}
 Every composed refusal route of an accepted $\AuditGateCompositionUp$ packet first consumes the gate rows of \autoref{ch:concrete-instances-auditgateboundary-namecert} and the membrane boundary surface of \autoref{ch:concrete-instances-operationalmembrane-namecert} before the local packet

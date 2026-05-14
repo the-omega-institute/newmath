@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ObserverDirectionUp : Type where
-  | mk :
-      (observer target direction licensedComparison readback transport route provenance
-        localName : BHist) →
-      ObserverDirectionUp
+  | mk : (R T U L B H C P N : BHist) → ObserverDirectionUp
   deriving DecidableEq
 
 def observerDirectionEncodeBHist : BHist → RawEvent
@@ -37,38 +34,43 @@ private theorem observerDirectionDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def observerDirectionFields : ObserverDirectionUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | ObserverDirectionUp.mk observer target direction licensedComparison readback transport
-      route provenance localName =>
-      [observer, target, direction, licensedComparison, readback, transport, route,
-        provenance, localName]
-
 def observerDirectionToEventFlow : ObserverDirectionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | ObserverDirectionUp.mk observer target direction licensedComparison readback transport
-      route provenance localName =>
+  | ObserverDirectionUp.mk R T U L B H C P N =>
       [[BMark.b0],
-        observerDirectionEncodeBHist observer,
+        observerDirectionEncodeBHist R,
         [BMark.b1, BMark.b0],
-        observerDirectionEncodeBHist target,
+        observerDirectionEncodeBHist T,
         [BMark.b1, BMark.b1, BMark.b0],
-        observerDirectionEncodeBHist direction,
+        observerDirectionEncodeBHist U,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observerDirectionEncodeBHist licensedComparison,
+        observerDirectionEncodeBHist L,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observerDirectionEncodeBHist readback,
+        observerDirectionEncodeBHist B,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        observerDirectionEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+        observerDirectionEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        observerDirectionEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b0],
-        observerDirectionEncodeBHist route,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+        observerDirectionEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b0],
-        observerDirectionEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        observerDirectionEncodeBHist localName]
+        observerDirectionEncodeBHist N]
+
+private def observerDirectionDecodePacket
+    (R T U L B H C P N : RawEvent) : ObserverDirectionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  ObserverDirectionUp.mk
+    (observerDirectionDecodeBHist R)
+    (observerDirectionDecodeBHist T)
+    (observerDirectionDecodeBHist U)
+    (observerDirectionDecodeBHist L)
+    (observerDirectionDecodeBHist B)
+    (observerDirectionDecodeBHist H)
+    (observerDirectionDecodeBHist C)
+    (observerDirectionDecodeBHist P)
+    (observerDirectionDecodeBHist N)
 
 def observerDirectionFromEventFlow : EventFlow → Option ObserverDirectionUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -76,78 +78,60 @@ def observerDirectionFromEventFlow : EventFlow → Option ObserverDirectionUp
   | _tag0 :: rest0 =>
       match rest0 with
       | [] => none
-      | observer :: rest1 =>
+      | R :: rest1 =>
           match rest1 with
           | [] => none
           | _tag1 :: rest2 =>
               match rest2 with
               | [] => none
-              | target :: rest3 =>
+              | T :: rest3 =>
                   match rest3 with
                   | [] => none
                   | _tag2 :: rest4 =>
                       match rest4 with
                       | [] => none
-                      | direction :: rest5 =>
+                      | U :: rest5 =>
                           match rest5 with
                           | [] => none
                           | _tag3 :: rest6 =>
                               match rest6 with
                               | [] => none
-                              | licensedComparison :: rest7 =>
+                              | L :: rest7 =>
                                   match rest7 with
                                   | [] => none
                                   | _tag4 :: rest8 =>
                                       match rest8 with
                                       | [] => none
-                                      | readback :: rest9 =>
+                                      | B :: rest9 =>
                                           match rest9 with
                                           | [] => none
                                           | _tag5 :: rest10 =>
                                               match rest10 with
                                               | [] => none
-                                              | transport :: rest11 =>
+                                              | H :: rest11 =>
                                                   match rest11 with
                                                   | [] => none
                                                   | _tag6 :: rest12 =>
                                                       match rest12 with
                                                       | [] => none
-                                                      | route :: rest13 =>
+                                                      | C :: rest13 =>
                                                           match rest13 with
                                                           | [] => none
                                                           | _tag7 :: rest14 =>
                                                               match rest14 with
                                                               | [] => none
-                                                              | provenance :: rest15 =>
+                                                              | P :: rest15 =>
                                                                   match rest15 with
                                                                   | [] => none
                                                                   | _tag8 :: rest16 =>
                                                                       match rest16 with
                                                                       | [] => none
-                                                                      | localName ::
-                                                                          rest17 =>
+                                                                      | N :: rest17 =>
                                                                           match rest17 with
                                                                           | [] =>
                                                                               some
-                                                                                (ObserverDirectionUp.mk
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    observer)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    target)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    direction)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    licensedComparison)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    readback)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    transport)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    route)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    provenance)
-                                                                                  (observerDirectionDecodeBHist
-                                                                                    localName))
+                                                                                (observerDirectionDecodePacket
+                                                                                  R T U L B H C P N)
                                                                           | _ :: _ => none
 
 private theorem observerDirection_round_trip :
@@ -156,33 +140,30 @@ private theorem observerDirection_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk observer target direction licensedComparison readback transport route provenance
-      localName =>
+  | mk R T U L B H C P N =>
       change
         some
-          (ObserverDirectionUp.mk
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist observer))
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist target))
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist direction))
-            (observerDirectionDecodeBHist
-              (observerDirectionEncodeBHist licensedComparison))
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist readback))
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist transport))
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist route))
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist provenance))
-            (observerDirectionDecodeBHist (observerDirectionEncodeBHist localName))) =
-          some
-            (ObserverDirectionUp.mk observer target direction licensedComparison readback
-              transport route provenance localName)
-      rw [observerDirectionDecode_encode_bhist observer,
-        observerDirectionDecode_encode_bhist target,
-        observerDirectionDecode_encode_bhist direction,
-        observerDirectionDecode_encode_bhist licensedComparison,
-        observerDirectionDecode_encode_bhist readback,
-        observerDirectionDecode_encode_bhist transport,
-        observerDirectionDecode_encode_bhist route,
-        observerDirectionDecode_encode_bhist provenance,
-        observerDirectionDecode_encode_bhist localName]
+            (observerDirectionDecodePacket
+              (observerDirectionEncodeBHist R)
+              (observerDirectionEncodeBHist T)
+              (observerDirectionEncodeBHist U)
+              (observerDirectionEncodeBHist L)
+              (observerDirectionEncodeBHist B)
+              (observerDirectionEncodeBHist H)
+              (observerDirectionEncodeBHist C)
+              (observerDirectionEncodeBHist P)
+              (observerDirectionEncodeBHist N)) =
+          some (ObserverDirectionUp.mk R T U L B H C P N)
+      unfold observerDirectionDecodePacket
+      rw [observerDirectionDecode_encode_bhist R,
+        observerDirectionDecode_encode_bhist T,
+        observerDirectionDecode_encode_bhist U,
+        observerDirectionDecode_encode_bhist L,
+        observerDirectionDecode_encode_bhist B,
+        observerDirectionDecode_encode_bhist H,
+        observerDirectionDecode_encode_bhist C,
+        observerDirectionDecode_encode_bhist P,
+        observerDirectionDecode_encode_bhist N]
 
 private theorem observerDirectionToEventFlow_injective {x y : ObserverDirectionUp} :
     observerDirectionToEventFlow x = observerDirectionToEventFlow y → x = y := by
@@ -195,19 +176,6 @@ private theorem observerDirectionToEventFlow_injective {x y : ObserverDirectionU
   exact Option.some.inj
     (Eq.trans (observerDirection_round_trip x).symm
       (Eq.trans hread (observerDirection_round_trip y)))
-
-private theorem ObserverDirectionTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : ObserverDirectionUp, observerDirectionFields x = observerDirectionFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk observer target direction licensedComparison readback transport route provenance
-      localName =>
-      cases y with
-      | mk observer' target' direction' licensedComparison' readback' transport' route'
-          provenance' localName' =>
-          cases hfields
-          rfl
 
 instance observerDirectionBHistCarrier : BHistCarrier ObserverDirectionUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -226,8 +194,34 @@ instance observerDirectionChapterTasteGate : ChapterTasteGate ObserverDirectionU
 
 instance observerDirectionFieldFaithful : FieldFaithful ObserverDirectionUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := observerDirectionFields
-  field_faithful := ObserverDirectionTasteGate_single_carrier_alignment_field_faithful
+  fields := fun x =>
+    match x with
+    | ObserverDirectionUp.mk R T U L B H C P N => [R, T, U, L, B, H, C, P, N]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk R₁ T₁ U₁ L₁ B₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk R₂ T₂ U₂ L₂ B₂ H₂ C₂ P₂ N₂ =>
+            injection h with hR t1
+            injection t1 with hT t2
+            injection t2 with hU t3
+            injection t3 with hL t4
+            injection t4 with hB t5
+            injection t5 with hH t6
+            injection t6 with hC t7
+            injection t7 with hP t8
+            injection t8 with hN _
+            subst hR
+            subst hT
+            subst hU
+            subst hL
+            subst hB
+            subst hH
+            subst hC
+            subst hP
+            subst hN
+            rfl
 
 instance observerDirectionNontrivial : Nontrivial ObserverDirectionUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -244,18 +238,38 @@ def taste_gate : ChapterTasteGate ObserverDirectionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   observerDirectionChapterTasteGate
 
+theorem ObserverDirectionTasteGate_single_carrier_alignment :
+    (∀ h : BHist, observerDirectionDecodeBHist (observerDirectionEncodeBHist h) = h) ∧
+      (∀ x : ObserverDirectionUp,
+        observerDirectionFromEventFlow (observerDirectionToEventFlow x) = some x) ∧
+        (∀ x y : ObserverDirectionUp,
+          observerDirectionToEventFlow x = observerDirectionToEventFlow y → x = y) ∧
+          Nonempty (Nontrivial ObserverDirectionUp) ∧
+            Nonempty (FieldFaithful ObserverDirectionUp) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact observerDirectionDecode_encode_bhist
+  · constructor
+    · exact observerDirection_round_trip
+    · constructor
+      · intro x y heq
+        exact observerDirectionToEventFlow_injective heq
+      · constructor
+        · exact ⟨observerDirectionNontrivial⟩
+        · exact ⟨observerDirectionFieldFaithful⟩
+
 namespace TasteGate
 
 theorem ObserverDirectionTasteGate_single_carrier_alignment :
-    (forall h : BHist, observerDirectionDecodeBHist (observerDirectionEncodeBHist h) = h) /\
-      (forall x : ObserverDirectionUp,
-        observerDirectionFromEventFlow (observerDirectionToEventFlow x) = some x) /\
-      (forall x y : ObserverDirectionUp,
-        observerDirectionToEventFlow x = observerDirectionToEventFlow y -> x = y) /\
-      Nonempty (ChapterTasteGate ObserverDirectionUp) /\
-      Nonempty (FieldFaithful ObserverDirectionUp) /\
-      Nonempty (Nontrivial ObserverDirectionUp) /\
-      observerDirectionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist, observerDirectionDecodeBHist (observerDirectionEncodeBHist h) = h) ∧
+      (∀ x : ObserverDirectionUp,
+        observerDirectionFromEventFlow (observerDirectionToEventFlow x) = some x) ∧
+        (∀ x y : ObserverDirectionUp,
+          observerDirectionToEventFlow x = observerDirectionToEventFlow y → x = y) ∧
+          Nonempty (ChapterTasteGate ObserverDirectionUp) ∧
+            Nonempty (FieldFaithful ObserverDirectionUp) ∧
+              Nonempty (Nontrivial ObserverDirectionUp) ∧
+                observerDirectionEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact observerDirectionDecode_encode_bhist
