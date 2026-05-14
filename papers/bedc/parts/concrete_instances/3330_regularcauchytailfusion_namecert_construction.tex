@@ -59,6 +59,7 @@ Q,X,W,D,T,M,H,C,P,N.
 $$
 The $\RegularCauchyTailMeetUp$ row $M$ is the only shared-threshold surface available to the packet, so the handoff cannot replace it by a hidden tail oracle, quotient-stream comparison, selected limit, host real equality, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyTailFusionUp.RegularCauchyTailFusionCarrier\_tail\_meet\_handoff}
 \begin{proof}
 Read the carrier coordinates from \autoref{def:regular-cauchy-tail-fusion-carrier}. The only row that can merge tail witnesses into a common bound is $M$, and it appears after the precision request, regular-family row, finite windows, dyadic ledger, and tail-witness row.
 
@@ -295,6 +296,53 @@ The tail side is controlled by \autoref{thm:regular-cauchy-tail-fusion-tail-meet
 The completion-facing side is controlled by \autoref{thm:regular-cauchy-tail-fusion-real-limit-handoff} and \autoref{thm:regular-cauchy-tail-fusion-limit-transport-link}. They route the diagonal readback $R$ and the seal row $L$ through the same $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ boundary, with the checked TasteGate marker recorded in the closure block below identifying the same carrier surface.
 
 Repack these rows as the public export packet. Since each cited theorem excludes quotient streams, host real equality, selected limits, unbounded diagonal data, hidden tail oracles, and ambient completeness, the public export exposes only the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fusion selector-budget window lock]
+\label{thm:regular-cauchy-tail-fusion-selector-budget-window-lock}
+Every selector-budget read through an accepted $\RegularCauchyTailFusionUp$ public export packet must pass through the displayed $\StreamNameUp$ window row $W$ and $\DyadicRatCoreUp$ ledger row $D$ before it reaches the shared $\RegularCauchyTailMeetUp$ row $M$. The accepted read has no route to an unbounded selector, hidden budget oracle, independent tail threshold, quotient stream, selected limit, host convergence row, or ambient completeness row outside the finite packet
+$$
+Q,X,W,D,T,M,R,L,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with the public export packet of \autoref{thm:regular-cauchy-tail-fusion-public-export-packet}. It exposes exactly the finite rows $Q,X,W,D,T,M,R,L,H,C,P,N$, with $W$ and $D$ displayed before the tail-meet row $M$.
+
+Apply \autoref{thm:regular-cauchy-tail-fusion-window-monotone-handoff} and \autoref{thm:regular-cauchy-tail-fusion-shared-threshold-exhaustion}. These rows force any selector-budget request to read the scheduled $\StreamNameUp$ window and $\DyadicRatCoreUp$ ledger before the $\RegularCauchyTailMeetUp$ sibling named in \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}.
+
+Finally use \autoref{thm:regular-cauchy-tail-fusion-limit-transport-link} and the limit-transport sibling \autoref{ch:concrete-instances-regularcauchylimittransport-namecert}. Since the transport begins after the same window, ledger, and shared-threshold rows have been displayed, no selector or budget read can bypass $W,D,M$ on the way to the Real-facing rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fusion cofinal route totality]
+\label{thm:regular-cauchy-tail-fusion-cofinal-route-totality}
+Every cofinal route to the diagonal readback of an accepted $\RegularCauchyTailFusionUp$ packet is exhausted by the displayed rows
+$$
+Q,X,W,D,T,M,R,H,C,P,N.
+$$
+The route reaches $R$ only through the precision request, regular source, finite window, dyadic ledger, tail witnesses, shared tail-meet row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local $\NameCert$ row; it has no further cofinal selector, hidden threshold, quotient stream, host limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier through the public export packet. Before the seal row is read, the available diagonal route is the finite predecessor $Q,X,W,D,T,M,R,H,C,P,N$.
+
+Use \autoref{thm:regular-cauchy-tail-fusion-tail-meet-handoff} and \autoref{thm:regular-cauchy-tail-fusion-shared-threshold-exhaustion}. They place every cofinal witness behind the selected window, dyadic ledger, finite tail row, and the shared $\RegularCauchyTailMeetUp$ sibling row $M$.
+
+Apply \autoref{thm:regular-cauchy-tail-fusion-limit-transport-link} and the sibling rows for \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}, and \autoref{ch:concrete-instances-regularcauchylimittransport-namecert}. These rows account for the diagonal readback and its transports, so the listed route exhausts every cofinal path to $R$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail fusion Real seal factorization]
+\label{thm:regular-cauchy-tail-fusion-real-seal-factorization}
+Every $\RealUp$ seal consumer of an accepted $\RegularCauchyTailFusionUp$ packet factors through the same shared-threshold row $M$ and the same $\RegularCauchyLimitTransportUp$ sibling before it reads the seal row $L$. The consumer receives the seal only through
+$$
+Q,X,W,D,T,M,R,L,H,C,P,N,
+$$
+with $M$ supplied by \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} and the transport surface supplied by \autoref{ch:concrete-instances-regularcauchylimittransport-namecert}.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-tail-fusion-real-limit-handoff} and \autoref{thm:regular-cauchy-tail-fusion-public-export-packet}. Together they place the seal row $L$ after the diagonal readback row $R$ and keep both rows inside the displayed finite packet.
+
+Next apply \autoref{thm:regular-cauchy-tail-fusion-shared-threshold-exhaustion}. The route to $R$ must already have passed through the $\RegularCauchyTailMeetUp$ row $M$, so the seal consumer cannot read a separate threshold or hidden tail source.
+
+Finally use \autoref{thm:regular-cauchy-tail-fusion-limit-transport-link}. It identifies the seal-facing transport as the displayed $\RegularCauchyLimitTransportUp$ sibling route, after which the public export exclusions rule out quotient streams, selected limits, host convergence, ambient completeness, and independent Real-seal paths.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy tail fusion shared-source readback]
