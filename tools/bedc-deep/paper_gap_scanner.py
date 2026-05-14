@@ -75,6 +75,21 @@ NAMECERT_ROUTE_SURFACE_RE = re.compile(
     r"\b(?:consumer|downstream|route|readback|handoff|boundary)\b",
     re.IGNORECASE,
 )
+NAMECERT_MATURE_SURFACE_RE = re.compile(
+    r"\\closureat\{[^}]+\}\{(?:publicStr|bridgedStr|matureStr)\}|"
+    r"\\theoryclosure\{\\(?:public|bridged|mature)Closure\}",
+    re.IGNORECASE,
+)
+NAMECERT_COVERAGE_PROSE_RE = re.compile(
+    r"\b(?:standard bridge surface|standard reading|non[- ]escape|"
+    r"consumer-visible|readback boundary|factors through|cross-map routing|"
+    r"frontier non-closure|mode exhaustion|noncollapse|public standard bridge)\b",
+    re.IGNORECASE,
+)
+NAMECERT_META_SURFACE_RE = re.compile(
+    r"\b(?:audit|axiom|dependency|template|reexport|namespace|cellular pattern catalog)\b",
+    re.IGNORECASE,
+)
 RATE_LIKE_RE = re.compile(
     r"\b(cauchy|completion|complete|compact|continuity|continuous|limit|"
     r"convergence|converge|modulus|rate|tail|dyadic|regularization)\b",
@@ -292,6 +307,19 @@ def _budget_for_namecert_surface(obj: str, labels_text: str) -> tuple[str, str, 
     )
 
 
+def _covered_namecert_surface(text: str, theorem_surface: str) -> bool:
+    """Skip mature or already-covered NameCert route/readback chapters."""
+    if NAMECERT_MATURE_SURFACE_RE.search(text):
+        return True
+    if NAMECERT_COVERAGE_PROSE_RE.search(text):
+        return True
+    if NAMECERT_SURFACE_TERMS_RE.search(theorem_surface):
+        return True
+    if NAMECERT_ROUTE_SURFACE_RE.search(theorem_surface):
+        return True
+    return False
+
+
 def _namecert_surface_candidates() -> list[dict]:
     """Surface small existing-chapter NameCert route candidates.
 
@@ -319,6 +347,11 @@ def _namecert_surface_candidates() -> list[dict]:
             continue
         line_count = int(item.get("line_count") or 0)
         if line_count >= NAMECERT_SURFACE_LINE_CAP:
+            continue
+        text = _read(REPO_ROOT / rel)
+        if not text:
+            continue
+        if NAMECERT_META_SURFACE_RE.search(text):
             continue
         labels = item.get("theorem_like_labels") or item.get("labels") or []
         carrier = next(
@@ -358,10 +391,7 @@ def _namecert_surface_candidates() -> list[dict]:
             for rec in labels
             if str(rec.get("env") or "") in {"theorem", "lemma", "proposition"}
         )
-        if (
-            NAMECERT_SURFACE_TERMS_RE.search(theorem_surface)
-            or NAMECERT_ROUTE_SURFACE_RE.search(theorem_surface)
-        ):
+        if _covered_namecert_surface(text, theorem_surface):
             continue
 
         obj = _object_title_from_carrier(carrier, rel)
@@ -372,15 +402,15 @@ def _namecert_surface_candidates() -> list[dict]:
             str(obligation.get("label") or ""),
         ])
         budget, budget_reason, rate_surface = _budget_for_namecert_surface(obj, labels_text)
-        title = f"{obj} finite route readback determinacy"[:TITLE_MAX_CHARS]
+        title = f"{obj} local obligation row projection"[:TITLE_MAX_CHARS]
         carrier_label = str(carrier.get("label") or "")
         obligation_label = str(obligation.get("label") or "")
         claim = (
-            f"For an accepted {obj} carrier, every finite consumer bridge route "
-            "that reads the displayed packet rows is determined by projecting "
-            f"{carrier_label} and replaying the local NameCert obligation "
-            f"surface {obligation_label}; no additional host, global, or "
-            "unlisted source row is introduced."
+            f"For an accepted {obj} carrier, the local NameCert obligation "
+            f"surface {obligation_label} has a finite row projection obtained "
+            f"directly from {carrier_label}. The projection records only the "
+            "displayed carrier row and its local certificate row, with no "
+            "additional host, global, or unlisted source row."
         )
         dependency = (
             f"Depends only on {carrier_label}, {obligation_label}, and the "
@@ -406,14 +436,14 @@ def _namecert_surface_candidates() -> list[dict]:
             "budget_reason": budget_reason,
             "existence_mode": "constructive_witness",
             "witness_extractor": (
-                f"Project the accepted {obj} carrier rows and read the "
-                "consumer route through the displayed local NameCert "
-                "obligation surface."
+                f"Project {carrier_label} and select the named row of "
+                f"{obligation_label}; the witness is that displayed finite "
+                "carrier/certificate pair."
             ),
             "cut_rank": "1",
             "elimination_plan": (
-                "Eliminate the bridge by carrier projection, then replay the "
-                "displayed obligation rows and refuse any route requiring a "
+                "Eliminate the one-step bridge by carrier projection and the "
+                "named local certificate row; reject any use of a "
                 "host/global/unlisted coordinate."
             ),
             "equality_kind": "bisimilar",
@@ -426,7 +456,8 @@ def _namecert_surface_candidates() -> list[dict]:
                 "Deterministic NameCert surface scan found an existing carrier "
                 f"and obligation surface in {rel}: {carrier_label} with "
                 f"{obligation_label}. The proposed landing is a small "
-                "existing-chapter lemma over those displayed rows only."
+                "existing-chapter projection lemma over those displayed rows "
+                "only."
             ),
             "source": "paper_gap_scanner",
         })
