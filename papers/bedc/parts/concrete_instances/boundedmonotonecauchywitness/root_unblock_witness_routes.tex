@@ -8,6 +8,7 @@ Here $S$ is the displayed bounded monotone source, $F$ is the regular rational r
 
 Consequently the root consumer reads a finite witness packet. It does not read a selected limit, quotient real, host real equality, trichotomy, ambient completeness claim, open-cover compactness row, or choice-like tail selector.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_root\_extraction}
 \begin{proof}
 Project the carrier of \autoref{def:bounded-monotone-cauchy-witness-carrier}. Its visible coordinates are exactly $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$, and the local NameCert obligations force the source, witness, trap, seal, transport, continuation, provenance, and naming reads through those coordinates.
 
@@ -59,6 +60,8 @@ $$
 \MonotoneCauchyUp \longmapsto \CauchyCriterionUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \CauchyLimitSealUp \longmapsto \RealUp.
 $$
 Thus the root seal route is exhausted by the extraction, limit-seal handoff, monotone-bound route, and convergence-seal input package. It contains no selected limit, quotient real equality, host equality, trichotomy, compactness, ambient completeness, or choice-like tail selector.
+
+The sibling route is the concrete L10 chain of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-cauchylimitseal-namecert}, and \autoref{ch:concrete-instances-real-namecert}; the witness packet consumes their finite-window, dyadic-ledger, regular-source, limit-seal, and Real-seal rows before any convergence-seal consumer reads it.
 \end{theorem}
 \begin{proof}
 First apply \autoref{thm:bounded-monotone-cauchy-witness-root-extraction}. It projects the accepted carrier to the finite witness packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$ and rules out any root coordinate outside that packet.
@@ -115,4 +118,22 @@ Apply root extraction, then attach the limit-seal handoff. Root extraction suppl
 Now use the monotone-bound route and root tail-window totality. The monotone-bound route places the source and bound data before $F,\sigma,\mu,\lambda$, while \autoref{thm:bounded-monotone-cauchy-witness-root-tail-window-totality} makes the tail-window obligation unavoidable before any pre-seal or seal row is reached.
 
 Finally apply located-trap stability and root seal route exhaustion. The trap theorem fixes $I$ as the pre-seal enclosure, and the exhaustion theorem leaves the seal-facing suffix with no coordinate outside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Hence the $\RealUp$ threshold consumption is exhausted by the displayed root route and exports none of the excluded completion principles.
+\end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness root source-seal totality]
+\label{thm:bounded-monotone-cauchy-witness-root-source-seal-totality}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ carrier. Every root-facing consumer from the bounded monotone source to a $\RealUp$ seal factors through the displayed packet
+$$
+S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N.
+$$
+The route consumes the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyLimitSealUp$, and $\RealUp$ sibling rows, and it exports no selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector.
+\end{theorem}
+\begin{proof}
+Start with root extraction. \autoref{thm:bounded-monotone-cauchy-witness-root-extraction} confines every root read of $W$ to the displayed carrier rows, so no root-facing consumer can begin from an external completion object.
+
+Next attach the bounded monotone source and the seal handoff. The monotone-bound route places the source data before the scheduled tail, while the limit-seal handoff sends $\CauchyLimitSealUp$ and $\RealUp$ consumers through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+The tail-window and trap theorems close the middle of the route. Root tail-window totality forces consumption of $\sigma,\mu,\lambda$ before any seal-facing row is reached, and located-trap stability keeps $I$ as the pre-seal enclosure rather than replacing it by an ambient interval choice.
+
+Finally apply Real-seal threshold exhaustion. The threshold theorem consumes the seal row $Q$ only after the displayed source, tail, and trap rows, and root seal route exhaustion leaves no coordinate outside $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$. Therefore the full source-to-seal route is total on the finite packet and exports none of the excluded completion principles.
 \end{proof}
