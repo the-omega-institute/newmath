@@ -154,6 +154,20 @@ limit, unbounded schedule, or ambient completeness, so projecting the common
 finite rows gives the stated handoff.
 \end{proof}
 
+\begin{theorem}[CauchyLimitSeal consumer observation-budget readback]
+\label{thm:cauchy-limit-seal-consumer-observation-budget-readback}
+Any $\RealUp$ or completion-facing consumer of an accepted $\CauchyLimitSealUp$ packet that requests an observation-budget row must factor through the displayed $\RealObservationBudgetUp$ handoff, the finite tail selector, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The consumer cannot read an additional hidden budget, quotient stream, selected host limit, hidden family limit, unbounded schedule, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the observation-budget pullback of \autoref{thm:cauchy-limit-seal-observation-budget-pullback}. It routes every budget-mediated real or completion read into the accepted seal packet while preserving the displayed budget rows, seal rows, transports, continuations, provenance, and local naming rows.
+
+Apply the RealObservationBudget handoff of \autoref{thm:cauchy-limit-seal-real-observation-budget-handoff}. This identifies the $\RealUp$ endpoint with the shared finite budget and seal surface rather than with a detached completion object.
+
+For selector-mediated reads, use the finite-budget selector pullback of \autoref{thm:cauchy-limit-seal-finite-budget-selector-pullback}. It keeps the selected tail and real-seal rows on the same finite selector, budget, transport, route, provenance, and naming ledger.
+
+Finally apply the consumer uniform route lock of \autoref{thm:cauchy-limit-seal-consumer-uniform-route-lock}. Since the visible route is exhausted by the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, no hidden observation budget remains.
+\end{proof}
+
 \begin{theorem}[CauchyLimitSeal finite-budget selector pullback]
 \label{thm:cauchy-limit-seal-finite-budget-selector-pullback}
 Let $F$ be an accepted $\FiniteObservationBudgetSelectorUp$ route whose displayed route surface is read over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Suppose the $\RealUp$ seal row selected by $F$ is consumed by an accepted $\RealObservationBudgetUp$ packet, and that this budget packet is then consumed by an accepted $\CauchyLimitSealUp$ packet. Then the composite consumer route pulls back to one finite route over exactly the displayed selector, budget, and seal rows. The route exposes no quotient stream, selected host limit, host real equality, hidden family limit, countable choice, or ambient completeness principle.
