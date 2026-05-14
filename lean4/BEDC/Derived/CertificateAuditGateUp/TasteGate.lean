@@ -249,7 +249,8 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
           certificateAuditGateToEventFlow x = certificateAuditGateToEventFlow y -> x = y) /\
           Nonempty (ChapterTasteGate CertificateAuditGateUp) /\
             Nonempty (FieldFaithful CertificateAuditGateUp) /\
-              Nonempty (Nontrivial CertificateAuditGateUp) := by
+              Nonempty (Nontrivial CertificateAuditGateUp) /\
+                certificateAuditGateEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact certificateAuditGateDecode_encode_bhist
@@ -258,10 +259,13 @@ theorem CertificateAuditGateTasteGate_single_carrier_alignment :
     · constructor
       · intro x y heq
         exact certificateAuditGateToEventFlow_injective heq
-      · exact
-          ⟨⟨certificateAuditGateChapterTasteGate⟩,
-            ⟨certificateAuditGateFieldFaithful⟩,
-            ⟨certificateAuditGateNontrivial⟩⟩
+      · constructor
+        · exact ⟨certificateAuditGateChapterTasteGate⟩
+        · constructor
+          · exact ⟨certificateAuditGateFieldFaithful⟩
+          · constructor
+            · exact ⟨certificateAuditGateNontrivial⟩
+            · rfl
 
 end BEDC.Derived.CertificateAuditGateUp.TasteGate
 
