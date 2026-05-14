@@ -414,6 +414,9 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
     ready = [p for p in packets if p.get("status") == "ready"]
     blocked = [p for p in packets if p.get("status") != "ready"]
     oracle = [p for p in packets if p.get("oracle_recommended")]
+    ready_budget = _count_field(ready, "axiom_budget")
+    ready_difficulty = _count_field(ready, "difficulty")
+    ready_oracle_mode = _count_field(ready, "oracle_mode")
     lines = [
         "# research candidate lane latest",
         "",
@@ -422,6 +425,9 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
         f"- ready: {len(ready)}",
         f"- blocked: {len(blocked)}",
         f"- oracle_recommended: {len(oracle)}",
+        f"- ready_budget: {_render_counts(ready_budget)}",
+        f"- ready_difficulty: {_render_counts(ready_difficulty)}",
+        f"- ready_oracle_mode: {_render_counts(ready_oracle_mode)}",
         "",
         "## Ready",
         "",
@@ -436,6 +442,23 @@ def render_latest(packets: list[dict[str, Any]]) -> str:
         c = packet["candidate"]
         lines.append(f"- {c.get('title')}: {'; '.join(packet.get('reasons') or [])}")
     return "\n".join(lines).rstrip() + "\n"
+
+
+def _count_field(packets: list[dict[str, Any]], field: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for packet in packets:
+        candidate = packet.get("candidate")
+        if not isinstance(candidate, dict):
+            continue
+        value = str(candidate.get(field) or "unspecified").strip() or "unspecified"
+        counts[value] = counts.get(value, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _render_counts(counts: dict[str, int]) -> str:
+    if not counts:
+        return "none"
+    return ", ".join(f"{key}={value}" for key, value in counts.items())
 
 
 def append_ready(packets: list[dict[str, Any]]) -> object:

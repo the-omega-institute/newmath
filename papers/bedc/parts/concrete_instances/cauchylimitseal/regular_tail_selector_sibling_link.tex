@@ -38,3 +38,15 @@ Use the selector package theorem \autoref{thm:regular-cauchy-tail-selector-diago
 
 Finally apply \autoref{thm:cauchy-limit-seal-selector-budget-transport} and \autoref{thm:cauchy-limit-seal-tail-budget-meet}. Transport preserves the finite route, and the meet adds no hidden completion coordinate. The named non-escape objects therefore cannot be exported after the selector route has been read.
 \end{proof}
+
+\begin{theorem}[CauchyLimitSeal tail-selector window support determinacy]
+\label{thm:cauchy-limit-seal-tail-selector-window-support-determinacy}
+Every compatible $\CauchyLimitSealUp$ route that factors through the accepted $\RegularCauchyTailSelectorUp$ packet reads the same selected-tail witness, $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal, and $\RealObservationBudgetUp$ meet across the selector route, observation-budget route, and completion-facing route. Thus selector-facing, budget-facing, and completion-facing consumers share one finite support packet rather than three independent reads.
+\end{theorem}
+\begin{proof}
+First apply the sibling link of \autoref{thm:cauchy-limit-seal-regular-tail-selector-sibling-link}. It routes every compatible seal read through the accepted regular tail-selector packet before the selected-tail witness, StreamName window, DyadicRatCore ledger, RegSeqRat handoff, Real seal, and observation-budget meet are consumed.
+
+Next use budget compatibility from \autoref{thm:cauchy-limit-seal-regular-tail-selector-budget-compatibility}. The selector route, observation-budget route, and completion-facing route are all factored through the same accepted packet and the same tail-budget meet, so their support rows are not independently chosen.
+
+Finally apply the non-escape theorem \autoref{thm:cauchy-limit-seal-regular-tail-selector-nonescape}. Since no quotient stream identity, host real equality, choice-selected limit, hidden family limit, or ambient completeness coordinate is available, the three reads cannot diverge outside the displayed finite support. Their selected-tail witness, window, ledger, handoff, seal, and meet are therefore determined by the same packet.
+\end{proof}
