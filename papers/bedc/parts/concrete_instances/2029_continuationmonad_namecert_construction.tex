@@ -360,6 +360,42 @@ Apply \autoref{thm:continuation-monad-scoped-route-dependencies} to restrict eve
 Finally use \autoref{thm:continuation-monad-downstream-unblock-surface} and \autoref{thm:continuation-monad-public-route-bridge-totality}. They show that downstream consumers receive the complete bridge package and no quotient Kleisli arrow, host function composition, or host monad equality.
 \end{proof}
 
+\begin{theorem}[ContinuationMonad bind-route coverage]
+\label{thm:continuation-monad-bind-route-coverage}
+Every accepted bind read of a $\ContinuationMonadUp$ packet factors through the displayed source $\BHist$ row, the continuation route row, the Kleisli composite row, the componentwise $\hsame$ transport, the $\Pkg$ provenance row, and the local $\NameCert$ row. Thus a bind consumer can inspect only the rows $A,B,C,f,g,u,H,K,L,N$ named by the bridge package, where $A,B,C$ are the $\BHist$ sources, $K$ is the $\Cont$ route, $L$ is the composite ledger, $H$ is the $\hsame$ transport, and $N$ is the local $\NameCert$ certificate with $\Pkg$ provenance.
+\end{theorem}
+\begin{proof}
+Begin with the unit laws and associativity rows. They identify the accepted bind read as a replay of the displayed unit tail and the two-step Kleisli composite rather than as a host monad operation.
+
+Next use the scoped route dependencies. The only histories visible to the read are the $\BHist$ rows $A,B,C$, and the only continuation data are the displayed $\Cont$ route $K$ and ledger $L$.
+
+Transport is then forced through the componentwise $\hsame$ row $H$. The route bridge boundary and bridge package attach the same read to $\Pkg$ provenance and the local $\NameCert$ row $N$, so no hidden evaluator, quotient Kleisli arrow, or host function can supply an additional bind route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad Kleisli ledger associativity]
+\label{thm:continuation-monad-kleisli-ledger-associativity}
+Two nested Kleisli composites in an accepted $\ContinuationMonadUp$ packet have the same consumer-visible ledger exactly when both composites are replayed through the existing associativity row and the same scoped-route dependencies over $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$. The comparison is a ledger comparison inside $L$, not an equality supplied by a hidden evaluator or by host-side monad laws.
+\end{theorem}
+\begin{proof}
+For the forward direction, read the common consumer-visible ledger through the bridge package. The package exposes the source $\BHist$ rows, the $\Cont$ route row, the $\hsame$ transport, the $\Pkg$ provenance row, and the local $\NameCert$ row, so the common ledger must be the displayed row $L$.
+
+Apply the associativity row to replay the two nested composites against that same row $L$. The scoped route dependencies keep both replays inside the route rows $A,B,C,f,g,u,H,K,L,N$.
+
+For the reverse direction, assume both nested composites replay through associativity and the scoped-route dependencies. Since the route bridge boundary exports only the displayed ledger and no host evaluator, the two consumer-visible ledgers coincide exactly as reads of $L$.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad downstream consumer exhaustion]
+\label{thm:continuation-monad-downstream-consumer-exhaustion}
+Any downstream CategoryUp or generator-closure consumer of the $\ContinuationMonadUp$ bridge package can inspect only the unit, bind, route, ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already displayed in this chapter. In particular, every such consumer is exhausted by the rows $u,f,g,K,L,H,N$ over the source $\BHist$ rows $A,B,C$ with $\Pkg$ provenance and receives no quotient Kleisli category, ambient evaluator, host function composition, or extra monad law.
+\end{theorem}
+\begin{proof}
+First expose the consumer through the bridge package. The package has already bound the standard-looking route to the displayed $\BHist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ rows.
+
+Next apply the unit laws, associativity, scoped route dependencies, and route bridge boundary. These rows supply the unit read, bind read, route replay, and ledger comparison by finite continuation data.
+
+The downstream CategoryUp and generator-closure consumers therefore have no remaining coordinate to inspect. Any extra evaluator, quotient Kleisli category, host function composition, or independent monad law would have to be a row outside $A,B,C,f,g,u,H,K,L,N$ and the $\Pkg$ provenance surface, which the bridge package does not export.
+\end{proof}
+
 \closureat{ContinuationMonadUp}{seedStr}
 \closureat{ContinuationMonadUp}{obligationStr}
 \closureat{ContinuationMonadUp}{scopedStr}
