@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\CellularLocalUpdateRuleUp$}
+\label{ch:concrete-instances-cellularlocalupdaterule-namecert}
+\origin{ai}
+
+The $\CellularLocalUpdateRuleUp$ surface isolates the local transition-table row named by the cellular-carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative}. It sits beside the whole-rule and orbit carrier of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the substrate packet of \autoref{ch:concrete-instances-cellularsubstrate-namecert}, and the classifier-facing comparison of \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}. Its role is narrower than each sibling: it names only the displayed neighbourhood window, the selected rule-table row, and the visible next-row cell certified by that row.
+
+\falsifiablePrediction{Every accepted $\CellularLocalUpdateRuleUp$ packet determines a visible next-row cell only from its displayed neighbourhood window and rule-table row; no consumer can read a global orbit, hidden boundary condition, or host evaluator from the packet.}
+
+\independenceWitness{cellularautomaton, cellularsubstrate, cellularrowclassifier, cellularcarrierencoding, cellularsubstrateclassifier: none is bijective because those siblings package whole automata, substrates, row classifiers, or encodings while $\CellularLocalUpdateRuleUp$ packages only the local update rule surface.}
+
+\begin{definition}[CellularLocalUpdateRule carrier]
+\label{def:cellular-local-update-rule-carrier}
+A $\CellularLocalUpdateRuleUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,W,U,S',H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the displayed current cell-state row;
+\item $W$ is the finite neighbourhood-window row surrounding the cell whose successor is being read;
+\item $U$ is the selected local rule-table row, containing exactly the displayed window pattern and its displayed output cell;
+\item $S'$ is the visible next-row cell determined by $W$ and $U$;
+\item $H$ records componentwise $\hsame$ transports among the state row, window row, rule-table row, output cell, continuation route, package provenance, and local name;
+\item $C$ records the displayed $\Cont$ route by which a consumer reads $S,W,U,S'$;
+\item $P$ is the $\Pkg$ provenance over $\CellularLocalUpdateRuleUp$, $\CellularAutomatonUp$, $\CellularSubstrateUp$, $\CellularRowClassifierUp$, $\CellularCarrierEncodingUp$, $\CellularSubstrateClassifierUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CellularLocalUpdateRuleUp}$ row.
+\end{enumerate}
+The classifier for $U$ reads only the displayed neighbourhood window, the displayed rule-table row, the resulting next-row cell, the componentwise transport row, the continuation route, the package provenance, and the local name. It has no coordinate for a global orbit, a hidden boundary condition, or a host cellular evaluator.
+\end{definition}
+
+\begin{theorem}[CellularLocalUpdateRule NameCert obligations]
+\label{thm:cellular-local-update-rule-namecert-obligations}
+For the carrier of \autoref{def:cellular-local-update-rule-carrier}, the local $\NameCert_{\CellularLocalUpdateRuleUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the packet $U=(S,W,U,S',H,C,P,N)$;
+\item neighbourhood visibility for the finite window row $W$;
+\item rule-row accountability for the displayed table row $U$ and its visible output cell $S'$;
+\item componentwise stability and replay through $H,C,P,N$;
+\item non-escape from global orbit reads, hidden boundary conditions, host evaluators, and rule entries absent from $U$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-local-update-rule-carrier}. The packet displays the current state row, finite neighbourhood window, selected rule-table row, visible next-row cell, transport row, continuation route, provenance row, and local naming row before a consumer can read the local update.
+
+Neighbourhood visibility and rule-row accountability are the two local coordinates of the carrier. The window row $W$ supplies the only input pattern, while $U$ supplies the only rule-table row and output cell available to the classifier.
+
+The stability and replay rows are $H,C,P,N$. The $\hsame$ row transports corresponding displayed rows, the $\Cont$ row records the read route, and the package and local-name rows expose the certificate as a public NameCert object.
+
+No remaining coordinate is present. A global orbit, hidden boundary condition, host evaluator, or absent rule entry therefore cannot be exported by the local $\NameCert_{\CellularLocalUpdateRuleUp}$ surface.
+\end{proof}
+\leanchecked{BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate.CellularLocalUpdateRuleTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CellularLocalUpdateRule falsifiable boundary]
+\label{thm:cellular-local-update-rule-falsifiable-boundary}
+Every accepted $\CellularLocalUpdateRuleUp$ packet determines its visible next-row cell by the finite route
+$$
+W,U \longrightarrow S' \longrightarrow H,C,P,N.
+$$
+If a consumer obtains the next-row cell from a global orbit ledger, a hidden boundary condition, a host cellular evaluator, or a rule-table entry not displayed in $U$, then the consumer has left the accepted $\CellularLocalUpdateRuleUp$ packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:cellular-local-update-rule-namecert-obligations}. The only neighbourhood input is $W$, and the only rule information is the displayed rule-table row $U$.
+
+The output row $S'$ is then read along $H,C,P,N$. These rows transport, replay, package, and name the displayed local rule surface; they do not add an orbit ledger or evaluator.
+
+Thus a read that depends on a global orbit ledger, hidden boundary condition, host evaluator, or absent table row is not a read through $W,U,S',H,C,P,N$. It is outside the accepted packet.
+\end{proof}
+
+The Lean TasteGate namespace $\mathsf{BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate}$ provides $\mathsf{Nontrivial}\ \CellularLocalUpdateRuleUp$ and $\mathsf{FieldFaithful}\ \CellularLocalUpdateRuleUp$ instances for the displayed carrier.
+
+\closureat{CellularLocalUpdateRuleUp}{seedStr}
+\closureat{CellularLocalUpdateRuleUp}{obligationStr}[BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate.CellularLocalUpdateRuleTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\CellularLocalUpdateRuleUp}
+  \constructivestory{A $\CellularLocalUpdateRuleUp$ packet is generated from a displayed current cell-state row, finite neighbourhood-window row, selected local rule-table row, visible next-row cell, componentwise hsame transports, displayed Cont route, package provenance, and local NameCert row.}
+  \leanchecked{BEDC.Derived.CellularLocalUpdateRuleUp.taste\_gate}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cellular-local-update-rule-carrier}, \autoref{thm:cellular-local-update-rule-namecert-obligations}, and \autoref{thm:cellular-local-update-rule-falsifiable-boundary} specify the finite local update rule carrier, its NameCert obligation rows, and its non-escape boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate.CellularLocalUpdateRuleTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global cellular orbits, hidden boundary conditions, host evaluator correctness, substrate universality, or bridge checking for $\CellularLocalUpdateRuleUp$.}
+  \upgradepath{Scoped closure requires downstream cellular consumers to bind their local-rule reads through this displayed packet rather than through whole-orbit or host-evaluator rows.}
+\end{closurestatus}
