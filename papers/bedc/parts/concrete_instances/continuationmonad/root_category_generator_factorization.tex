@@ -1,0 +1,85 @@
+\begin{theorem}[ContinuationMonad root category-generator factorization]
+\label{thm:continuation-monad-root-category-generator-factorization}
+For every accepted $\ContinuationMonadUp$ packet
+$Z=(A,B,C,f,g,u,H,K,L,N)$, the displayed continuation tails factor every root
+category-generator read through one finite surface. The
+$\mathsf{CategoryHomCarrier}$ and $\mathsf{ContinuationMorphism}$ rows are
+read from $f,g,u,K,L,H,N$, while the $\GeneratorClosureUp$ refusal surface
+accepts no unit, bind, or continuation generator outside the same packet.
+
+Thus a downstream root consumer may combine the category face and the
+generator face only by reading $A,B,C,f,g,u,H,K,L,N$ over $\BHist$, $\Cont$,
+$\hsame$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-monad-generator-category-triad}. It
+ties the $\CategoryUp$ hom-carrier surface and the generator-boundary refusal
+surface to the same source histories, continuation tails, unit tail, and
+structural rows.
+
+Next use \autoref{thm:continuation-monad-generator-hom-route-exhaustion}. The
+exhaustion theorem identifies every generator-facing or
+$\mathsf{CategoryHomCarrier}$-facing read with the displayed continuation
+tails and rejects independent hom carriers, ambient hom sets, host functions,
+and quotient Kleisli arrows.
+
+Finally apply \autoref{thm:continuation-monad-root-generator-category-lock}.
+The lock prevents a downstream consumer from separating the generator refusal
+ledger from the $\mathsf{CategoryHomCarrier}$ and
+$\mathsf{ContinuationMorphism}$ rows, so the factorization is exactly the
+finite packet surface stated above.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root bind-unit boundary]
+\label{thm:continuation-monad-root-bind-unit-boundary}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$,
+every public unit read and every public bind read requires the displayed rows
+$u,f,g,H,K,L,N$ together with the source histories $A,B,C$. The unit and bind
+boundary has no coordinate for host function composition, host monad
+equality, quotient Kleisli arrows, or external evaluator rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-unit-bind-exhaustion}. It
+exhausts every root unit read and root bind read by $u,f,g,K,L,H,N$ together
+with $A,B,C$.
+
+Use \autoref{thm:continuation-monad-finite-bind-readback-package} to package
+the bind side as finite BEDC data. The package records the histories,
+continuation rows, route row, ledger row, transport row, provenance, and
+local certificate, not a host-side bind operation.
+
+Finally use \autoref{thm:continuation-monad-unit-route-nonescape}. The unit
+side also stays inside the displayed continuation route, so public unit and
+bind reads both require the same finite packet rows and cannot be supplied by
+host or quotient structure.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root downstream surface exactness]
+\label{thm:continuation-monad-root-downstream-surface-exactness}
+The downstream root surface of an accepted $\ContinuationMonadUp$ packet is
+exactly the finite package assembled from the category row, generator refusal
+row, carrier rows, classifier stability, ledger exactness, package
+provenance, and local $\NameCert$ row over $A,B,C,f,g,u,H,K,L,N$. It exports
+no host function composition, quotient Kleisli arrow, ambient hom set,
+independent category carrier, or unlisted continuation generator.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:continuation-monad-root-downstream-unblock-package} to
+identify the downstream surface with the root unit-bind exhaustion and the
+root generator-category lock.
+
+Add the factorization theorem above. It supplies the category-generator side
+through $\mathsf{CategoryHomCarrier}$, $\mathsf{ContinuationMorphism}$, and
+the $\GeneratorClosureUp$ refusal surface on the same finite rows.
+
+Add the bind-unit boundary above. It supplies the public unit and bind side
+through $u,f,g,H,K,L,N$ and the source histories $A,B,C$.
+
+The carrier, classifier, and ledger rows are already exact by
+\autoref{thm:continuation-monad-carrier-obligation},
+\autoref{thm:continuation-monad-classifier-stability}, and
+\autoref{thm:continuation-monad-ledger-exactness}. Repacking these rows with
+$\Pkg$ provenance and the local $\NameCert$ row leaves no exported coordinate
+for host function composition, quotient Kleisli arrows, ambient hom sets,
+independent category carriers, or unlisted generators.
+\end{proof}
