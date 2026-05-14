@@ -86,6 +86,46 @@ None of these rows has the type or role of a quotient carrier, representative se
 Therefore a downstream consumer cannot project any excluded object from the packet. It may either use the displayed $\psame$ transport route or supply a separate certificate whose boundary is audited independently.
 \end{proof}
 
+\begin{theorem}[QuotientSoundnessBoundary refusal locality]
+\label{thm:quotient-soundness-boundary-refusal-locality}
+For every accepted $\QuotientSoundnessBoundaryUp$ carrier
+$$
+Q=(E,A,T,V,H,C,P,N),
+$$
+every representative-selection demand is localized to the requested-representative rows $A$ and the refusal verdict rows $V$ before any transport replacement is consumed. No downstream consumer may treat $T$, $H$, $C$, $P$, or $N$ as evidence that a representative selector, quotient equality eliminator, erased derivation recovery map, or $\mathsf{Quot.sound}$ dependency has been admitted.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quotient-soundness-boundary-carrier}. The only rows that record a demand for a canonical representative, quotient equality token, section, or erased derivation tree are the rows $A$.
+
+The verdict rows $V$ attach the refusal to those displayed demands. Thus the blocked request is not a global prohibition detached from the packet; it is a local row pair $A,V$ that can be audited before the replacement route is used.
+
+Apply \autoref{thm:quotient-soundness-boundary-transport-replacement}. The positive route after refusal is the classifier-respecting $\psame$ transport through $T$, stabilized and routed by $H$ and $C$ and named by $P,N$. Since \autoref{thm:quotient-soundness-boundary-non-escape} excludes the quotient-side objects, the replacement rows cannot be reread as hidden representative selection.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary psame transport exhaustion]
+\label{thm:quotient-soundness-boundary-psame-transport-exhaustion}
+Every surviving quotient-style operation accepted by a $\QuotientSoundnessBoundaryUp$ packet is exhausted by the displayed route through the source relation rows $E$, the classifier-respecting $\psame$ transport row $T$, the componentwise stability row $H$, the continuation row $C$, the package provenance row $P$, and the local naming row $N$. After the refusal pair $A,V$ has been read, no second route remains through a quotient carrier, representative selector, quotient equality eliminator, erased derivation recovery map, unrestricted quotient-recursion principle, host-level class selector, or $\mathsf{Quot.sound}$ dependency.
+\end{theorem}
+\begin{proof}
+Begin with a surviving operation. By \autoref{thm:quotient-soundness-boundary-refusal-locality}, its representative-selection demand has already been localized to $A,V$ and refused before any positive transport is consumed.
+
+The carrier then exposes only the source relation rows $E$ and the replacement row $T$ as the operation-facing data. The row $T$ is explicitly a classifier-respecting $\psame$ route on named source rows, not an operation on quotient classes.
+
+The rows $H,C,P,N$ provide stability, locality, provenance, and naming for that same route. Apply \autoref{thm:quotient-soundness-boundary-non-escape} to remove the excluded quotient objects from the exported surface. Therefore the displayed $E,T,H,C,P,N$ route exhausts the surviving operation.
+\end{proof}
+
+\begin{theorem}[QuotientSoundnessBoundary downstream audit package]
+\label{thm:quotient-soundness-boundary-downstream-audit-package}
+The refusal locality theorem, the $\psame$ transport exhaustion theorem, and the non-escape theorem assemble a downstream audit package for quotient-like BEDC chapters. A downstream chapter may consume the refusal verdict $A,V$ and the transport route $E,T,H,C,P,N$ as an auditable refusal-and-transport surface, but it receives no quotient carrier, representative selector, quotient equality eliminator, erased derivation recovery map, unrestricted quotient-recursion principle, host-level class selector, or $\mathsf{Quot.sound}$ dependency from $\QuotientSoundnessBoundaryUp$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:quotient-soundness-boundary-refusal-locality} to bind the negative part of the package. It says every representative-selection demand is visible as $A$ and refused by $V$ before replacement.
+
+Use \autoref{thm:quotient-soundness-boundary-psame-transport-exhaustion} for the positive part. It identifies the only surviving operation route as $E,T,H,C,P,N$, with $\psame$ transport carried by $T$ and stabilized through $H,C$.
+
+Finally apply \autoref{thm:quotient-soundness-boundary-non-escape}. The excluded quotient primitives cannot be projected from the packet, so downstream quotient-like chapters receive an audit surface consisting of refusal plus displayed transport, not a quotient kernel extension.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary fixed classifier]
 \label{thm:quotient-soundness-boundary-fixed-classifier}
 For an accepted $\QuotientSoundnessBoundaryUp$ carrier $Q=(E,A,T,V,H,C,P,N)$, every accepted comparison is exhausted by the relation rows $E$, requested representative rows $A$, replacement row $T$, refusal verdict $V$, and the displayed transport rows $H,C$. No comparison may consult a quotient carrier, canonical representative, quotient equality eliminator, erased derivation recovery map, or $\mathsf{Quot.sound}$ dependency.
@@ -125,3 +165,16 @@ The transport replacement theorem supplies the positive operation available to d
 
 The negative-refusal dependency and kernel non-escape theorems complete the ledger. They record the blocked quotient-soundness demand as a negative boundary request and keep every exported consumer inside $E,A,T,V,H,C,P,N$, so the local naming certificate contains exactly the quotient-boundary obligations listed in \autoref{thm:quotient-soundness-boundary-namecert-obligations}.
 \end{proof}
+
+\closureat{QuotientSoundnessBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\QuotientSoundnessBoundaryUp}
+  \constructivestory{A $\QuotientSoundnessBoundaryUp$ packet is generated from relation rows, requested representative rows, classifier-respecting $\psame$ transport, refusal verdicts, componentwise transports, displayed continuations, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:quotient-soundness-boundary-carrier}, \autoref{thm:quotient-soundness-boundary-namecert-obligations}, \autoref{thm:quotient-soundness-boundary-transport-replacement}, and \autoref{thm:quotient-soundness-boundary-kernel-nonescape} display the finite refusal-and-transport boundary for quotient-style requests.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not construct quotient carriers, representative selectors, quotient equality eliminators, erased derivation recovery maps, or any dependency on $\mathsf{Quot.sound}$.}
+  \upgradepath{Obligation closure requires checked carrier admission, requested-representative refusal, classifier-respecting $\psame$ transport, locality, provenance, and non-escape for the same refusal-and-transport packet.}
+\end{closurestatus}

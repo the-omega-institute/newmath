@@ -366,6 +366,43 @@ For unsupported closure requests, apply root ledger routing. The same consumers 
 Finally use the existing independence witness together with root structural exhaustion. The listed siblings package distinct application faces, while the shared root packet contains exactly the common request, source, refusal, transport, route, provenance, and naming rows consumed by all of them.
 \end{proof}
 
+\begin{theorem}[GapClosureBoundary source-consumer uniformity]\label{thm:gap-closure-boundary-source-consumer-uniformity}
+For an accepted $\GapClosureBoundaryUp$ packet, every supported root read consumed by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ factors through the same displayed source route
+$$
+G \longrightarrow S
+$$
+and through the same structural rows $H,C,P,N$. No listed consumer receives a private source route, hidden closure coordinate, or consumer-specific row outside $G,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First expose the common root packet by \autoref{thm:gap-closure-boundary-root-source-exposure}. The supported read begins with the displayed GAP request row $G$, reaches the source row $S$, and is transported, routed, packaged, and named by $H,C,P,N$.
+
+Then apply consumer coverage, \autoref{thm:gap-closure-boundary-root-consumer-coverage}. The causal, refutation, other-minds, aspect, and solipsism consumers all read the same root-facing packet, so a supported consumer route cannot add a separate source coordinate.
+
+The conclusion follows because the only supported route visible to any listed consumer is the displayed route $G \longrightarrow S$ together with $H,C,P,N$. The excluded hidden closure and private rows are absent from the exposed packet.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal-consumer uniformity]\label{thm:gap-closure-boundary-refusal-consumer-uniformity}
+For an accepted $\GapClosureBoundaryUp$ packet, every unsupported root read requested by $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, or $\SolipsismGapRefusalUp$ is routed to the refusal ledger $R$ through the same structural rows $H,C,P,N$. The routed refusal exports no hidden closure row, supply row, private-access row, causal-necessity row, aspect-reduction row, or off-packet continuation.
+\end{theorem}
+\begin{proof}
+Start with root ledger routing, \autoref{thm:gap-closure-boundary-root-ledger-routing}. An unsupported request has no accepted source route, so it is sent to the displayed refusal ledger $R$ and remains transported, routed, packaged, and named by $H,C,P,N$.
+
+Now use root consumer coverage, \autoref{thm:gap-closure-boundary-root-consumer-coverage}. Each listed downstream consumer receives either the supported source route or the refusal route from the same root-facing packet.
+
+Since the request is unsupported, only the refusal branch remains. The non-escape content already carried by ledger routing prevents the consumer from rereading $H,C,P,N$ as hidden closure, supply, private access, causal necessity, direct aspect reduction, or an off-packet continuation.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary root unblock package]\label{thm:gap-closure-boundary-root-unblock-package}
+The $\GapClosureBoundaryUp$ root obligation surface consists of three displayed rows of use: carrier exposure by $G,S,R,H,C,P,N$, supported source consumption through $G \longrightarrow S$ with $H,C,P,N$, and unsupported refusal consumption through $R$ with $H,C,P,N$. Together with refusal non-escape and TasteGate readiness, these rows form the downstream root-unblock package for $\CausalCommitmentUp$, $\FiniteWitnessedRefutationUp$, $\OtherMindsCommitmentUp$, $\AspectChainUp$, and $\SolipsismGapRefusalUp$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is supplied by \autoref{thm:gap-closure-boundary-root-source-exposure}. It fixes the root-facing inventory as the finite rows $G,S,R,H,C,P,N$ and excludes hidden closure, supply, private access, causal necessity, direct aspect reduction, and off-packet continuation rows.
+
+Supported source consumption is supplied by \autoref{thm:gap-closure-boundary-source-consumer-uniformity}. Unsupported refusal consumption is supplied by \autoref{thm:gap-closure-boundary-refusal-consumer-uniformity}. These two theorems give the positive and negative consumer routes over the same structural rows.
+
+Finally combine refusal non-escape with the TasteGate readiness package already displayed in this chapter. The result is a three-row root obligation surface: expose the carrier, route supported reads through the source, and route unsupported reads to refusal without importing any hidden closure principle.
+\end{proof}
+
 \closureat{GapClosureBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\GapClosureBoundaryUp}
