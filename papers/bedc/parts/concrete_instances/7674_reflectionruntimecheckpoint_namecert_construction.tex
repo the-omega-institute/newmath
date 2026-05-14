@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ReflectionRuntimeCheckpointUp$}
+\label{ch:concrete-instances-reflection-runtime-checkpoint-namecert}
+\origin{ai}
+
+The $\ReflectionRuntimeCheckpointUp$ packet realizes the reflection-limit validation boundary of \autoref{ch:visions-reflection-and-limits} as a finite runtime checkpoint. It sits beside the runtime-candidate boundary of \autoref{ch:concrete-instances-runtimecandidateboundary-namecert}, the finite trace evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, the finite trace gap socket of \autoref{ch:concrete-instances-finite-trace-gap-socket-namecert}, and the reflection-limit boundary of \autoref{ch:concrete-instances-reflectionlimitboundary-namecert}. Those siblings expose candidate rows, bounded evaluator rows, finite gap rows, and open meta-boundary rows; the present packet records a checkpoint state together with the validation-boundary row that a runtime-facing consumer must read before making any host-valid claim.
+
+\begin{definition}[ReflectionRuntimeCheckpoint carrier]
+\label{def:reflection-runtime-checkpoint-carrier}
+A $\ReflectionRuntimeCheckpointUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,S,T,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the admitted runtime-candidate input row, recording the coded $\mathrm{CIC}^{*}$ expression, proof-object, or state being checkpointed;
+\item $S$ is the displayed checkpoint-state row, recording the finite state reached by the candidate before any host validation is asserted;
+\item $T$ is the trace-evidence row, listing the bounded evaluator or gap-socket observations used to justify the checkpoint state;
+\item $V$ is the validation-boundary row, recording that host validation of the checkpoint is not itself a packet coordinate and cannot be replaced by the checkpoint state;
+\item $H$ records componentwise $\hsame$ transport for input, checkpoint state, trace evidence, validation boundary, provenance, and local naming;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads $I$, reaches $S$, replays $T$, inspects $V$, and returns through transport and naming;
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:visions-reflection-and-limits}, \autoref{ch:concrete-instances-runtimecandidateboundary-namecert}, \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, \autoref{ch:concrete-instances-finite-trace-gap-socket-namecert}, \autoref{ch:concrete-instances-reflectionlimitboundary-namecert}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ReflectionRuntimeCheckpointUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-valid runtime judgment, a total truth row, an unbounded evaluator, or a validation act detached from $V$.
+\end{definition}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint NameCert obligations]
+\label{thm:reflection-runtime-checkpoint-namecert-obligations}
+For the carrier of \autoref{def:reflection-runtime-checkpoint-carrier}, the local $\NameCert_{\ReflectionRuntimeCheckpointUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed checkpoint packet $K=(I,S,T,V,H,C,P,N)$;
+\item runtime-candidate exposure, requiring every checkpointed input read to factor through $I$;
+\item checkpoint-state and trace exactness, requiring every displayed checkpoint state to be read through $S$ and every supporting bounded observation to be read through $T$;
+\item validation-boundary non-escape, requiring every host-validation-facing consumer to pass through $V$ and preventing $I,S,T,H,C,P,N$ from exporting host validation or total truth;
+\item transport, route, provenance, and naming closure, requiring all componentwise comparisons, consumer continuations, package dependencies, and local naming to be exactly the displayed rows $H,C,P,N$.
+\end{enumerate}
+Thus a consumer may inspect a finite checkpoint state and its bounded trace evidence, but it cannot turn that checkpoint into a host-valid runtime judgment or a total truth row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:reflection-runtime-checkpoint-carrier}. The packet lists $I,S,T,V,H,C,P,N$ as the complete surface available to a consumer.
+
+Runtime-candidate exposure begins at $I$. The checkpoint state is not a free-standing state; it is the state of the admitted runtime-candidate input named by the first row.
+
+Checkpoint-state and trace exactness then read $S$ and $T$. The state row records the displayed checkpoint, and the trace-evidence row records only bounded evaluator or gap-socket observations supplied by the finite siblings.
+
+Validation-boundary non-escape is the separate row $V$. By the reflection-limit boundary in \autoref{ch:visions-reflection-and-limits} and by the object-level runtime surfaces of \autoref{ch:concrete-instances-runtimecandidateboundary-namecert}, \autoref{ch:concrete-instances-finitetraceevaluator-namecert}, and \autoref{ch:concrete-instances-finite-trace-gap-socket-namecert}, host validation is not a packet coordinate. Therefore no read of $I,S,T,H,C,P,N$ can export host validation, total truth, or an unbounded evaluator.
+
+Finally $H,C,P,N$ transport, route, cite, and name the same finite checkpoint packet. Since those rows add no further runtime or truth coordinate, the listed five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ReflectionRuntimeCheckpoint TasteGate obligation]
+\label{thm:reflection-runtime-checkpoint-tastegate-obligation}
+The Lean \texttt{TasteGate.lean} development for $\ReflectionRuntimeCheckpointUp$ provides explicit $\mathsf{Nontrivial}\ \ReflectionRuntimeCheckpointUp$ and $\mathsf{FieldFaithful}\ \ReflectionRuntimeCheckpointUp$ instances preserving the runtime input row, checkpoint-state row, trace-evidence row, validation-boundary row, componentwise transport, continuation routes, package provenance, and local naming row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+The carrier has at least two distinguishable checkpoint packets, obtained by varying the displayed input row while holding the remaining rows fixed. This witnesses nontriviality.
+
+Field faithfulness is the componentwise reading of $K=(I,S,T,V,H,C,P,N)$. If two packets have the same displayed field list, then each of their eight $\BHist$ coordinates agrees, and constructor equality identifies the packets. The Lean TasteGate surface records these two facts as the required instances.
+\end{proof}
+
+\falsifiablePrediction{A checkpoint consumer that omits the validation-boundary row cannot export a host-valid runtime judgment or total truth row.}
+
+\independenceWitness{RuntimeCandidateBoundary, FiniteTraceEvaluator, FiniteTraceGapSocket, ReflectionLimitBoundary: the checkpoint carrier has a displayed checkpoint state and validation-boundary pair not bijective to candidate-only, evaluator-only, gap-socket, or pure boundary packets.}
+
+\closureat{ReflectionRuntimeCheckpointUp}{seedStr}
+
+\begin{closurestatus}{\ReflectionRuntimeCheckpointUp}
+  \constructivestory{A $\ReflectionRuntimeCheckpointUp$ packet is generated from a runtime-candidate input row, checkpoint-state row, trace-evidence row, validation-boundary row, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reflection-runtime-checkpoint-carrier}, \autoref{thm:reflection-runtime-checkpoint-namecert-obligations}, and \autoref{thm:reflection-runtime-checkpoint-tastegate-obligation} specify the finite runtime checkpoint packet for reflection-limit validation boundaries.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ReflectionRuntimeCheckpointUp.ReflectionRuntimeCheckpointTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not provide host runtime validation, a total truth predicate, an unbounded evaluator, or bridge checking for $\ReflectionRuntimeCheckpointUp$.}
+  \upgradepath{Bridge closure requires a checked standard bridge connecting the checkpoint packet to the public bridge schema.}
+\end{closurestatus}
