@@ -147,6 +147,15 @@ python3 tools/bedc-deep/research_candidate_lane.py --json --limit 20
 python3 tools/bedc-deep/research_candidate_lane.py --append --limit 10
 ```
 
+Vision and conjecture files are inspiration/review surfaces only. Candidate
+intake, discovery normalization, and Stage 2 writeback all reject
+`papers/bedc/parts/visions/` and `papers/bedc/parts/conjectures/` as executable
+BOARD/writeback landing paths. Quick guard:
+
+```bash
+python3 tools/bedc-deep/qa_vision_landing_gate.py
+```
+
 Active target discovery — codex proposes, claude gates, accepted candidates
 land on BOARD.md (same shape as Stage 1.5 fan-out):
 

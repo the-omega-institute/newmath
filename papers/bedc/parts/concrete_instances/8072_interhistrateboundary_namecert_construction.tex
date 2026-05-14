@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\InterHistRateBoundaryUp$}
+\label{ch:concrete-instances-inter-hist-rate-boundary-namecert}
+\origin{ai}
+
+The $\InterHistRateBoundaryUp$ packet realizes the inter-Hist maximum-rate boundary of \autoref{ch:visions-inter-hist-locality} as finite BEDC data. It binds the cross-history rate surface of \autoref{ch:concrete-instances-crosshistcausalrate-namecert}, the read gate of \autoref{ch:concrete-instances-maxratereadgate-namecert}, and the refusal surface of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert} into one local naming carrier, so downstream consumers receive a gated route rather than a host speed, metric row, clock, or global frame.
+
+\falsifiablePrediction{An accepted rate-boundary consumer that reads a maximum-rate row without both observer-symmetry and no-global-frame refusal rows refutes the packet.}
+
+\independenceWitness{crosshistcausalrate, maxratereadgate, noglobalsyncboundary, interhistinvariant, crosshistcausalroute: the boundary packet is not bijective to any one sibling because it carries the shared gate plus route plus refusal surface.}
+
+\begin{definition}[InterHistRateBoundary carrier]
+\label{def:inter-hist-rate-boundary-carrier}
+An $\InterHistRateBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,D,G,R,S,F,I,H,Q,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the paired observer-history boundary row that supplies the two displayed inter-Hist sides;
+\item $D$ is the causal-route row, read through $\CrossHistCausalRouteUp$ and $\CrossHistCausalRateUp$ rather than through an ambient spacetime path;
+\item $G$ is the accepted $\MaxRateReadGateUp$ row binding the rate read to the gate surface of \autoref{ch:concrete-instances-maxratereadgate-namecert};
+\item $R$ is the maximum-rate row tied to $\MaxCausalRateUp$ as in \autoref{ch:concrete-instances-maxcausalrate-namecert};
+\item $S$ is the observer-symmetry row for the displayed histories;
+\item $F$ is the no-global-frame refusal row, with the same refusal discipline as \autoref{ch:concrete-instances-noglobalsyncboundary-namecert};
+\item $I$ is the inter-Hist invariant readback row, recording that the boundary is stable as an inter-Hist packet rather than a single-history rate;
+\item $H$ records componentwise $\hsame$ transport for the displayed rows;
+\item $Q$ records $\psame$ stability for the probes used by $D,G,R,S,F,I$;
+\item $C$ records displayed $\Cont$ routes from the causal route and gate into the local naming row;
+\item $P$ is the $\Pkg$ provenance over $\InterHistRateBoundaryUp$, $\CrossHistCausalRateUp$, $\MaxRateReadGateUp$, $\InterHistInvariantUp$, $\NoGlobalSyncBoundaryUp$, $\CrossHistCausalRouteUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\InterHistRateBoundaryUp}$ row.
+\end{enumerate}
+The carrier exports a finite maximum-rate boundary for inter-Hist consumers. It exports no host-side speed, global time coordinate, metric tensor, Lorentz frame, selected synchronization map, or detached rate primitive.
+\end{definition}
+
+\begin{theorem}[InterHistRateBoundary NameCert obligations]
+\label{thm:inter-hist-rate-boundary-namecert-obligations}
+For the carrier of \autoref{def:inter-hist-rate-boundary-carrier}, the local $\NameCert_{\InterHistRateBoundaryUp}$ surface consists exactly of seven finite obligations:
+\begin{enumerate}
+\item carrier admission for $B=(A,D,G,R,S,F,I,H,Q,C,P,N)$;
+\item causal-route exactness, requiring $D$ to be read through the displayed $\CrossHistCausalRouteUp$ and $\CrossHistCausalRateUp$ rows;
+\item maximum-rate gate exactness, requiring $G$ to bind $R,S,F$ before any consumer reads the rate row;
+\item observer-symmetry exactness through $S$ after componentwise transport;
+\item no-global-frame refusal through $F$ before any boundary read is public;
+\item invariant readback through $I$, keeping the packet on the inter-Hist surface;
+\item transport, probe, route, provenance, and local-name stability through $H,Q,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite tuple in \autoref{def:inter-hist-rate-boundary-carrier}. The rows $A,D,G,R,S,F,I,H,Q,C,P,N$ display the observer boundary, causal route, rate gate, maximum-rate row, symmetry row, refusal row, invariant row, transports, probe stability, routes, provenance, and local name.
+
+Apply the causal-rate surface from \autoref{ch:concrete-instances-crosshistcausalrate-namecert}. It supplies the route discipline for $D$ and prevents the boundary from reading a rate before the cross-history causal route is displayed.
+
+Apply the max-rate read gate from \autoref{ch:concrete-instances-maxratereadgate-namecert}. The gate binds $R$ to $S$ and $F$, so the maximum-rate row is not public until both observer symmetry and no-global-frame refusal have been read.
+
+Finally use the invariant and refusal rows. The invariant row keeps the packet on the inter-Hist surface, while the refusal row excludes global frames, clocks, metric tensors, Lorentz frames, synchronized coordinates, and detached host speeds. The remaining rows $H,Q,C,P,N$ transport, route, package, and name the same finite packet.
+\end{proof}
+
+\begin{theorem}[InterHistRateBoundary gated consumer]
+\label{thm:inter-hist-rate-boundary-gated-consumer}
+Every $\CrossHistCausalRateUp$, $\LorentzFrameRateUp$, $\MinkowskiRateGeometryUp$, or inter-Hist locality consumer of an accepted $\InterHistRateBoundaryUp$ packet may read the maximum-rate row $R$ only through the displayed boundary rows
+$$
+A,D,G,R,S,F,I,H,Q,C,P,N.
+$$
+In particular, the read of $R$ passes through the causal route $D$, the gate row $G$, the observer-symmetry row $S$, the no-global-frame refusal row $F$, and the invariant row $I$ before it reaches any downstream consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted boundary carrier. The only maximum-rate row is $R$, and the only displayed path to it is through the route and gate rows $D$ and $G$.
+
+Use \autoref{thm:inter-hist-rate-boundary-namecert-obligations}. The obligations make causal-route exactness, gate exactness, symmetry, refusal, and invariant readback part of one local naming surface.
+
+The max-rate gate of \autoref{ch:concrete-instances-maxratereadgate-namecert} supplies the public lock for $R,S,F$. The causal-rate packet of \autoref{ch:concrete-instances-crosshistcausalrate-namecert} supplies the cross-history route read before the rate row is inspected.
+
+Thus a downstream consumer receives a finite boundary packet rather than a free maximum-rate primitive. Any read that bypasses $D$, $G$, $S$, $F$, or $I$ is outside the accepted $\InterHistRateBoundaryUp$ carrier.
+\end{proof}
+
+\begin{theorem}[InterHistRateBoundary nonescape]
+\label{thm:inter-hist-rate-boundary-nonescape}
+An accepted $\InterHistRateBoundaryUp$ packet has no admissible export of a host speed, global time coordinate, synchronized observer frame, metric tensor, Lorentz frame, selected synchronization map, or detached maximum-rate row. Its public surface is exhausted by $A,D,G,R,S,F,I,H,Q,C,P,N$ and the local $\NameCert_{\InterHistRateBoundaryUp}$ obligations over those rows.
+\end{theorem}
+\begin{proof}
+Start from the gated consumer theorem. Every rate read factors through the displayed route, gate, symmetry, refusal, and invariant rows.
+
+The no-global-frame refusal row $F$ is read with the boundary discipline of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}. It blocks any interpretation of the packet as a global synchronization surface or privileged frame.
+
+The carrier inventory then completes the non-escape argument. Since the tuple contains no coordinate for host speed, global time, metric geometry, Lorentz-frame data, selected synchronization, or detached rate values, no local NameCert projection can export one.
+\end{proof}
+
+\begin{theorem}[InterHistRateBoundary NameCert package]
+\label{thm:inter-hist-rate-boundary-namecert-package}
+The carrier, local NameCert obligations, gated consumer theorem, and non-escape theorem assemble the concrete $\NameCert_{\InterHistRateBoundaryUp}$ package over $\CrossHistCausalRateUp$, $\MaxRateReadGateUp$, $\InterHistInvariantUp$, $\NoGlobalSyncBoundaryUp$, $\CrossHistCausalRouteUp$, $\MaxCausalRateUp$, $\BHist$, $\hsame$, $\psame$, $\Cont$, $\Pkg$, and $\NameCert$. The Lean carrier surface is realized by \texttt{Nontrivial InterHistRateBoundaryUp} and \texttt{FieldFaithful InterHistRateBoundaryUp} instances in \texttt{lean4/BEDC/Derived/InterHistRateBoundaryUp/TasteGate.lean}, with the canonical declaration surface at \texttt{BEDC.Derived.InterHistRateBoundaryUp.taste\_gate}.
+\end{theorem}
+\begin{proof}
+Combine the carrier definition with the NameCert obligations. They fix the twelve displayed rows and bind route, gate, symmetry, refusal, invariant readback, transport, probe stability, continuation, provenance, and local naming.
+
+The gated consumer theorem identifies how downstream rate and geometry consumers may read the packet. The non-escape theorem identifies what they cannot read.
+
+The cited Lean TasteGate carrier supplies the finite event-flow presentation, round-trip readback, nontriviality, and field faithfulness for the same row surface. Therefore the paper package and the Lean carrier use the same finite BEDC data rather than a host metric or global-frame primitive.
+\end{proof}
+\leanchecked{BEDC.Derived.InterHistRateBoundaryUp.InterHistRateBoundaryTasteGate\_single\_carrier\_alignment}
