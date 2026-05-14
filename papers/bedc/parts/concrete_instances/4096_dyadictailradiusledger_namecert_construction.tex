@@ -194,6 +194,24 @@ Apply \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, \autoref{thm
 Then use \autoref{thm:cauchycriterion-tail-bound-real-seal}. A CauchyCriterion carrier sharing those rows can expose its Real seal only after the same finite tail-budget route has been consumed, so the dyadic ledger is the upstream handoff for the criterion route.
 \end{proof}
 
+\begin{theorem}[Dyadic tail-radius ledger CauchyCriterion TailBudgetCoherence pullback]
+\label{thm:dyadic-tail-radius-ledger-cauchycriterion-tailbudgetcoherence-pullback}
+Let $L=(E,T,W,D,R,S,H,C,P,N)$ be an accepted $\DyadicTailRadiusLedgerUp$ carrier, and let $K$ be an accepted $\CauchyCriterionUp$ carrier sharing the same precision request, $\StreamNameUp$ windows, dyadic readback, $\RegSeqRatUp$ handoff, and $\RealUp$ seal rows. Any $\TailBudgetCoherenceUp$ consumer of the Cauchy route for $K$ must factor through the displayed finite pullback route
+$$
+E \longmapsto T \longmapsto W \longmapsto D \longmapsto R \longmapsto S,
+$$
+then through the CauchyCriterion rows $M,Q,T,W,E$, and then through the TailBudgetCoherence rows at the Real-completion boundary. This route exports no quotient streams, selected limits, host real equality, detached tail oracle, metric-completeness theorem, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+First apply tail-budget coverage from \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}. It places the precision request, tail window, StreamName windows, and dyadic readback on the finite segment $E \longmapsto T \longmapsto W \longmapsto D$.
+
+Next apply the CauchyCriterion handoff of \autoref{thm:dyadic-tail-radius-ledger-cauchycriterion-handoff}. Since $K$ shares the same precision, StreamName, dyadic readback, RegSeqRat, and Real seal rows, the route must continue through $R$ and $S$ before the CauchyCriterion carrier exposes its seal-facing rows.
+
+Now use the budgeted shared-tail seal compatibility of \autoref{thm:cauchycriterion-budgeted-shared-tail-seal-compatibility}. It identifies the displayed CauchyCriterion rows $M,Q,T,W,E$ as the shared-tail seal route over the same dyadic ledger coverage row.
+
+Finally apply \autoref{thm:cauchy-criterion-tail-budget-coherence-consumption}. The TailBudgetCoherence consumer attaches only after the Cauchy route has displayed its threshold, budget, window, tolerance, readback, transport, continuation, package, and local naming rows. Non-escape and provenance exhaustion then rule out quotient streams, selected limits, host real equality, detached tail oracles, metric completeness, and ambient Real completeness as possible exits from the pullback route.
+\end{proof}
+
 \begin{theorem}[Dyadic tail-radius ledger scoped route package]
 \label{thm:dyadic-tail-radius-ledger-scoped-route-package}
 For an accepted $\DyadicTailRadiusLedgerUp$ carrier
