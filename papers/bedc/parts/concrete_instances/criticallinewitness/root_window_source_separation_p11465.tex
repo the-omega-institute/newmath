@@ -1,0 +1,77 @@
+\begin{definition}[CriticalLineWitness root source window]
+\label{def:critical-line-witness-window-source}
+For an accepted $\CriticalLineWitnessUp$ root read, the root source window is
+the finite $\BHist$ packet
+$$
+W_{\mathrm{src}}=(Z,S,M,H,C,P,N).
+$$
+Here $Z$ is the zero-strip source row, $S$ is the critical-line strip row, $M$
+is the finite modulus and readback row, $H$ records the componentwise $\hsame$
+transports, $C$ records the displayed $\Cont$ routes, $P$ records $\Pkg$
+provenance over $\BHist$, $\hsame$, $\Cont$, and $\NameCert$, and $N$ is the
+local $\NameCert_{\CriticalLineWitnessUp}$ row. A read is accepted by the
+window only when every consumer-facing coordinate factors through these seven
+rows before it reaches the full packet of \autoref{def:critical-line-witness-carrier}.
+\end{definition}
+
+\begin{theorem}[CriticalLineWitness zero-strip source separation]
+\label{thm:critical-line-witness-zero-strip-separation}
+Every accepted root source window
+$W_{\mathrm{src}}=(Z,S,M,H,C,P,N)$ separates zero-strip source reads from
+$\mathsf{RH}$ predicates, non-trivial-zero locators, global zero classifiers,
+and completed $\GammaUp$ certificates. The only positive source reads exposed
+by the window are the finite $\BHist$ rows $Z,S,M$, their componentwise
+$\hsame$ transports $H$, their displayed $\Cont$ routes $C$, their $\Pkg$
+provenance $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted read through
+\autoref{def:critical-line-witness-window-source}. The projection exposes
+only the seven displayed rows $Z,S,M,H,C,P,N$, so the zero-strip source side is
+already a finite $\BHist$ packet before any downstream request is considered.
+
+Next apply the source-route and zero-strip surfaces already present in
+\autoref{thm:critical-line-witness-source-route-totality} and
+\autoref{thm:critical-line-witness-zero-strip-source-totality}. These rows
+force the supplied source, critical strip, modulus, transport, route,
+provenance, and local naming coordinates to be read together.
+
+Finally use the refusal and readback boundaries
+\autoref{thm:critical-line-witness-rh-refusal-readback-totality} and
+\autoref{thm:critical-line-witness-rh-boundary-refusal-totality}. They remove
+the $\mathsf{RH}$ predicate, non-trivial-zero locator, global zero classifier,
+and completed $\GammaUp$ certificate from the root window, leaving only the
+finite source packet claimed above.
+\end{proof}
+
+\begin{theorem}[CriticalLineWitness continuation route coverage]
+\label{thm:critical-line-witness-continuation-route-coverage}
+Every downstream critical-strip consumer of an accepted
+$\CriticalLineWitnessUp$ root source window must read the zero-strip source row
+$Z$, the critical-line strip row $S$, the finite modulus row $M$, the
+componentwise $\hsame$ transport row $H$, the displayed $\Cont$ route $C$, the
+$\Pkg$ provenance row $P$, and the local $\NameCert_{\CriticalLineWitnessUp}$
+row $N$ before consuming the witness. No downstream critical-strip read has a
+coordinate outside
+$$
+Z,S,M,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Start with coordinate exhaustion for the root source window. By
+\autoref{def:critical-line-witness-window-source}, an accepted window contains
+only $Z,S,M,H,C,P,N$, and any consumer-facing coordinate must factor through
+one of those rows before reaching the full carrier.
+
+Read the critical-strip side through
+\autoref{thm:critical-line-witness-modulus-strip-source-totality}. It places
+the source row, fixed strip row, rational modulus data, transport, route,
+provenance, and naming row before an $\mathsf{RH}$-refusal consumer can
+inspect the witness.
+
+It remains to account for route locality. The $\Cont$ component is displayed
+as $C$ and is tied to the same packet by the source-route totality and local
+NameCert obligations. Hence a downstream consumer cannot bypass $H,C,P,N$ or
+replace them by an ambient continuation theorem; every route into the witness
+is covered by the finite window rows.
+\end{proof}
