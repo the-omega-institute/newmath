@@ -533,6 +533,39 @@ def _shallow_completed_candidate() -> dict:
     return candidates[0][1]
 
 
+def _recent_deepen_rejections(
+    recent_cycles: list[dict],
+    target_id: object,
+    *,
+    threshold: int = 3,
+) -> int:
+    """Count recent gauntlet rejections for the shallow-completed heuristic."""
+    tid = str(target_id or "").strip()
+    if not tid:
+        return 0
+    count = 0
+    for cycle in reversed(recent_cycles):
+        if not isinstance(cycle, dict):
+            continue
+        for rec in cycle.get("gauntlet_results") or []:
+            if not isinstance(rec, dict):
+                continue
+            action = rec.get("action") if isinstance(rec.get("action"), dict) else {}
+            if (action.get("action") or "").strip() != "request_deepen_target":
+                continue
+            if action.get("source") != "pi_agent_v1_shallow_completed_heuristic":
+                continue
+            args = action.get("args") if isinstance(action.get("args"), dict) else {}
+            if str(args.get("target_id") or "").strip() != tid:
+                continue
+            if rec.get("pass_all"):
+                return 0
+            count += 1
+            if count >= threshold:
+                return count
+    return count
+
+
 def _snapshot_has_active_refill(snapshot: dict) -> bool:
     server = snapshot.get("server") or {}
     for task in (server.get("agents") or {}).values():
@@ -1284,7 +1317,22 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
             for a in autonomous_actions
             if isinstance(a, dict)
         )
-        if shallow and not has_deepen and not _snapshot_has_active_refill(snapshot):
+        recent_deepen_rejections = _recent_deepen_rejections(
+            recent_pi_cycles,
+            shallow.get("target_id") if isinstance(shallow, dict) else "",
+        )
+        if shallow and recent_deepen_rejections >= 3:
+            inbox.append(
+                "**suppressed autonomous action** (request_deepen_target) — "
+                f"{shallow.get('target_id')} was rejected by the gauntlet "
+                f"{recent_deepen_rejections} recent cycles"
+            )
+        if (
+            shallow
+            and not has_deepen
+            and recent_deepen_rejections < 3
+            and not _snapshot_has_active_refill(snapshot)
+        ):
             autonomous_actions.append({
                 "action": "request_deepen_target",
                 "args": {

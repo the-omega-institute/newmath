@@ -47,6 +47,50 @@ Read the sibling normal-form rows next. The row $K$ may cite the finite word dis
 Finally inspect $H,C,P,N$. They transport, replay, package, and name the same finite surface. Since no carrier coordinate names divergence, quotient computation, host conversion, or an unrestricted evaluator, the listed obligations exhaust the packet.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ carry normalization obligation]
+\label{thm:znormal-carry-normalization-obligation}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the row $K$ is obligated to expose finite normal-word evidence through the $\ZeckendorfNormalUp$ surface of \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and the local carry evidence of \autoref{ch:concrete-instances-zcarry-namecert}. The exposure is a $\BHist$ row transported by $\hsame$, replayed by $\Cont$, packaged by $\Pkg$, and named by $\NameCert_{\ZNormalUp}$; it is not a host conversion row, quotient computation, unrestricted evaluator, or global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The only finite normal-word comparison coordinate is $K$, and it is listed beside the typed endpoint, fuel, terminal-normality, and continuation rows rather than outside the packet.
+
+Use the NameCert obligation surface of \autoref{thm:znormal-namecert-obligations}. It binds $K$ to the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local naming rows as the rest of the accepted packet.
+
+The sibling evidence is then read through the Zeckendorf and carry-facing chapters named in the carrier. Since the carrier has no coordinate for host conversion, quotient computation, unrestricted evaluation, or global normalization, the $K$ obligation is exactly finite normal-word and carry evidence.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ continuation terminal route]
+\label{thm:znormal-continuation-terminal-route}
+For every accepted $\ZNormalUp$ packet, the continuation row $R$ is reached only after the typed endpoint $T$, finite fuel $F$, and terminal-normality row $V$ have been displayed. Its consumer route is the $\ContinuationTraceNormalFormUp$ terminal-read surface of \autoref{ch:concrete-instances-continuationtracenormalform-namecert} transported through $H$, replayed through $C$, packaged through $P$, and named through $N$.
+\end{theorem}
+\begin{proof}
+Start from the finite packet $Z=(T,F,V,K,R,H,C,P,N)$. The row order places $R$ after $T,F,V$ and makes it a continuation terminal-read row, not a source of unbounded evaluation.
+
+Apply \autoref{thm:znormal-namecert-obligations}. The theorem exposes typed endpoint readback, finite fuel, terminal normality, continuation terminal-read, and the structural rows in one local $\NameCert_{\ZNormalUp}$ surface.
+
+Now read the sibling terminal trace through \autoref{ch:concrete-instances-continuationtracenormalform-namecert}. The transport, continuation, package, and naming rows are $H,C,P,N$, so no host conversion, quotient computation, unrestricted evaluator, or global normalizer can replace the terminal continuation route.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ typed boundary exhaustion]
+\label{thm:znormal-typed-boundary-exhaustion}
+Every consumer of the displayed $\ZNormalUp$ rows
+$$
+T,F,V,K,R,H,C,P,N
+$$
+must factor through the typed endpoint of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the finite normal-word and carry row of \autoref{thm:znormal-carry-normalization-obligation}, the continuation terminal route of \autoref{thm:znormal-continuation-terminal-route}, and the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The boundary exports no host conversion, quotient computation, unrestricted evaluator, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+First expose the typed side. The carrier definition and \autoref{thm:znormal-namecert-obligations} make $T,F,V$ the displayed route from typed endpoint through finite fuel to terminal normality.
+
+Next expose the two downstream rows. The carry-normalization obligation fixes $K$ as finite Zeckendorf and carry evidence, while the continuation-terminal theorem fixes $R$ as the terminal read through the displayed continuation trace.
+
+Finally collect $H,C,P,N$. These rows provide the only componentwise transport, replay, provenance, and local naming surface for all consumer reads. Since none of the cited rows contains host conversion, quotient computation, unrestricted evaluation, divergence detection, or global normalization, the typed boundary is exhausted by the displayed packet.
+\end{proof}
+
 \begin{theorem}[$\ZNormalUp$ fuel normality non-escape]
 \label{thm:znormal-fuel-normality-nonescape}
 Every accepted $\ZNormalUp$ packet exposes its terminal normal-form claim only through the finite route
@@ -224,7 +268,7 @@ The follow-up Lean TasteGate.lean contract for this chapter must provide \texttt
 \begin{closurestatus}{\ZNormalUp}
   \constructivestory{A $\ZNormalUp$ packet is generated from a typed reduction normal-form row, finite fuel row, terminal-normality row, finite Zeckendorf and carry-facing comparison row, continuation terminal-read row, componentwise transports, displayed continuations, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-total-host-boundary}, \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, \autoref{thm:znormal-obligation-closure-package}, \autoref{thm:znormal-route-transport}, \autoref{thm:znormal-normal-output-boundary}, and \autoref{thm:znormal-consumer-nonescape} bind the finite normal-form packet, terminal readback, sibling handoff, route transport, public normal-output boundary, consumer non-escape, and host-side total-language boundary.}
+  \scopeclosed{\autoref{def:znormal-carrier}, \autoref{thm:znormal-namecert-obligations}, \autoref{thm:znormal-carry-normalization-obligation}, \autoref{thm:znormal-continuation-terminal-route}, \autoref{thm:znormal-typed-boundary-exhaustion}, \autoref{thm:znormal-fuel-normality-nonescape}, \autoref{thm:znormal-total-host-boundary}, \autoref{thm:znormal-terminal-readback-exactness}, \autoref{thm:znormal-sibling-normalword-handoff}, \autoref{thm:znormal-obligation-closure-package}, \autoref{thm:znormal-route-transport}, \autoref{thm:znormal-normal-output-boundary}, and \autoref{thm:znormal-consumer-nonescape} bind the finite normal-form packet, carry normalization obligation, continuation terminal route, typed boundary exhaustion, terminal readback, sibling handoff, route transport, public normal-output boundary, consumer non-escape, and host-side total-language boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
