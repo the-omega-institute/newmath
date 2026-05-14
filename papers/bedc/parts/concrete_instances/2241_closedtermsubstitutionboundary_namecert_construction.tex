@@ -682,6 +682,54 @@ Next apply \autoref{thm:closed-term-substitution-boundary-shift-substitution-led
 Finally apply \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}. The local certificate exports exactly the displayed finite rows, so every audit-visible consumer factors through that boundary and no host substitution surface is added.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary root audit totality]
+\label{thm:closed-term-substitution-boundary-root-audit-totality}
+Every root audit consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet factors through the finite route over
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+
+The root audit surface is therefore exhausted by the displayed term rows, closed-value rows, depth row, closedness rows, closed shift and substitution rows, ledger rows, audit row, componentwise transports, continuation routes, package provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-audit-route-coverage}. It identifies every audit-visible closed shift or substitute-closed read with the finite carrier, classifier, closedness rows, transport rows, route rows, package row, and naming row of the accepted packet.
+
+Next use \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}. The local $\NameCert$ exports exactly $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ and has no additional coordinate for host substitution semantics, host equality, hidden compiler state, or ambient subject reduction.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. Since every audit-visible consumer factors through the same carrier and export boundary, every root audit consumer is total over the displayed route and nowhere else.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root compiler non-escape]
+\label{thm:closed-term-substitution-boundary-root-compiler-nonescape}
+Any compiler-facing root read may cite $\ClosedTermSubstitutionCompilerUp$ only after the accepted $\ClosedTermSubstitutionBoundaryUp$ packet has exposed the displayed boundary rows
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+
+The citation exports no subject reduction theorem, host syntax quotient, hidden evaluator, hidden compiler state, or host substitution semantics beyond the displayed closed shift and closed substitution boundary rows.
+\end{theorem}
+\begin{proof}
+Read the compiler-facing consumer through \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. It allows a downstream consumer to see closed shift and substitute-closed rows only through the accepted finite packet.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. Together they force the operation boundary through $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, $L$, and $A$ before any compiler-facing citation can be formed.
+
+The remaining coordinates are closed by \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. The compiler citation is therefore a read of the boundary packet, not an exported subject-reduction proof, host syntax quotient, hidden evaluator, hidden compiler state, or host substitution semantics.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root NameCert handoff]
+\label{thm:closed-term-substitution-boundary-root-namecert-handoff}
+The root audit totality row of \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, the root compiler non-escape row of \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}, and the scoped closure surface of $\ClosedTermSubstitutionBoundaryUp$ form the root-unblock handoff for downstream self-compilation consumers. The handoff is the displayed finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, not a host substitution semantics or hidden compiler object.
+\end{theorem}
+\begin{proof}
+First package the audit side. By \autoref{thm:closed-term-substitution-boundary-root-audit-totality}, every root audit consumer factors through $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$.
+
+Next package the compiler side. By \autoref{thm:closed-term-substitution-boundary-root-compiler-nonescape}, a compiler-facing root read can cite the compiler only after the same closed shift and substitution boundary rows are visible.
+
+Finally combine these rows with the scoped closure packet recorded below. The downstream self-compilation consumer receives one finite handoff over the displayed carrier, classifier, ledger, audit, transport, route, provenance, and local naming rows; no subject reduction theorem, host syntax quotient, hidden evaluator, or hidden compiler state is exported.
+\end{proof}
+
 \closureat{ClosedTermSubstitutionBoundaryUp}{seedStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{obligationStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{scopedStr}

@@ -1,0 +1,41 @@
+\begin{theorem}[ContinuationMonad root public consumer totality]
+\label{thm:continuation-monad-root-public-consumer-totality}
+Every public $\ContinuationMonadUp$ consumer of an accepted packet $Z=(A,B,C,f,g,u,H,K,L,N)$ must pass through the $\CategoryUp$ hom row, the $\GeneratorClosureUp$ source row, the unit row, the bind row, the Kleisli composite row, the componentwise $\hsame$ transport, the $\Cont$ replay, the $\Pkg$ provenance, and the local $\NameCert$ row before it receives the public continuation-monad surface. It exports no host evaluator, quotient Kleisli category, ambient category completion, unlisted continuation generator, or monad law outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Begin with the root public obligation triad \autoref{thm:continuation-monad-root-public-obligation-triad}. It fixes the public source histories, continuation tails, and NameCert rows of $Z$ before any downstream consumer reads the monad-facing surface.
+
+Use the root public generator boundary \autoref{thm:continuation-monad-root-public-generator-boundary} and the root category-generator factorization \autoref{thm:continuation-monad-root-category-generator-factorization}. These place the $\CategoryUp$ hom row and $\GeneratorClosureUp$ source row on the same displayed route as the source histories, routes, provenance, and local name.
+
+Apply the root public Kleisli readback \autoref{thm:continuation-monad-root-public-kleisli-readback}. It routes the unit row, bind row, Kleisli composite row, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row through the same finite packet.
+
+The exclusions follow by row exhaustion. Since the public consumer has only the displayed rows of $Z$, host evaluators, quotient Kleisli categories, ambient completions, unlisted generators, and external monad-law objects remain outside the carrier.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root category-generator NameCert source lock]
+\label{thm:continuation-monad-root-category-generator-namecert-source-lock}
+The $\CategoryUp$ and $\GeneratorClosureUp$ rows of an accepted $\ContinuationMonadUp$ packet are source locks for the public Kleisli readback: before a consumer reads the unit, bind, or Kleisli composite surface, it must preserve the same source histories $A,B,C$, continuation tails $f,g,u$, transport row $H$, route row $K$, provenance row $L$, and local $\NameCert$ row $N$. A route that changes either source lock is not a public $\ContinuationMonadUp$ consumer route.
+\end{theorem}
+\begin{proof}
+First read the root category-generator factorization. It identifies the $\CategoryUp$ hom row and $\GeneratorClosureUp$ source row as two faces of the same finite source route over $A,B,C,f,g,u,H,K,L,N$.
+
+Next apply the root public generator boundary. Generator-facing consumers must remain behind the displayed continuation tails, route row, provenance, and local name, so the generator source cannot be swapped after the category row is public.
+
+Use the root public Kleisli readback to reach the monad-facing rows. The unit, bind, and Kleisli composite surface is read only after the same source, transport, route, package, and naming rows have been preserved.
+
+Therefore the Category and generator rows are source locks for the public readback. Any route changing one of them no longer follows the displayed packet and cannot be a public $\ContinuationMonadUp$ route.
+\end{proof}
+
+\begin{theorem}[ContinuationMonad root Kleisli formal target package]
+\label{thm:continuation-monad-root-kleisli-formal-target-package}
+The formal target surface for root $\ContinuationMonadUp$ consumers is the finite package consisting of the unit row, bind row, Kleisli associativity row, public consumer row, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, $\CategoryUp$ hom row, $\GeneratorClosureUp$ source row, and local $\NameCert$ row carried by $Z=(A,B,C,f,g,u,H,K,L,N)$. This package has no coordinate for host composition, quotient Kleisli arrows, ambient category completion, external continuation evaluation, or an unlisted generator.
+\end{theorem}
+\begin{proof}
+Start with the root Kleisli associativity surface \autoref{thm:continuation-monad-root-kleisli-associativity-surface}. It reads unit, bind, and associativity as finite rows over the displayed packet rather than as host monad equations.
+
+Combine it with the root public consumer totality above. The public consumer row is forced through the Category hom, generator source, transport, replay, provenance, and local naming rows before any downstream read is available.
+
+Finally use the category-generator source lock above. It keeps the Category and generator faces tied to the same $A,B,C,f,g,u,H,K,L,N$ packet, so the formal target surface is exactly the finite package listed in the statement.
+
+Row exhaustion gives the negative clauses. There is no displayed coordinate for host composition, quotient Kleisli arrows, ambient completion, external evaluation, or an unlisted generator.
+\end{proof}

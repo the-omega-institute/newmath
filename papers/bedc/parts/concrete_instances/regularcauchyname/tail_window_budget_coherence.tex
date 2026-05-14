@@ -57,3 +57,31 @@ Next compare the certified budget row. The radius ledger monotone readback theor
 
 Finally apply tail-window consumer factorization. By \autoref{thm:regularcauchyname-tail-window-consumer-factorization}, both terminal reads reach the $\RegSeqRatUp$ classifier and the $\RealUp$ seal only through that shared finite window, dyadic observation row, ledger row, and provenance surface. Since the factorization exposes no coordinate for a quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness premise, the common budget row is coherent for both accepted consumers.
 \end{proof}
+
+\begin{theorem}[RegularCauchyName shared budget triple pullback]
+\label{thm:regularcauchyname-shared-budget-triple-pullback}
+Let $R$ be an accepted $\RegularCauchyNameUp$ packet, and let $U$, $V$, and $W$ be three accepted tail-window consumer reads of $R$ whose requested precisions share one certified budget row in the dyadic-radius ledger. Then $U$, $V$, and $W$ factor through one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one dyadic-radius ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row. The common pullback is displayed only through the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ provenance, and it exports no quotient stream, host sequence, selected limit, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+First read the three scheduled sources. The scheduled observation source totality theorem \autoref{thm:regularcauchyname-scheduled-observation-source-totality} supplies the certified $\RationalStreamUp/\StreamNameUp$ observation source for each of $U$, $V$, and $W$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$ rows.
+
+Next pull all three precision requests back to the shared budget row. The radius ledger monotone readback theorem \autoref{thm:regularcauchyname-radius-ledger-monotone-readback} keeps each accepted request inside the same dyadic tolerance surface, and the synchronized precision pullback theorem \autoref{thm:regularcauchyname-synchronized-precision-pullback} identifies the finite window route attached to that certified row.
+
+Apply the pairwise budget coherence theorem \autoref{thm:regularcauchyname-tail-window-budget-coherence} first to $U$ and $V$, and then to $U$ and $W$. The first application gives a common finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ observation row, dyadic-radius ledger row, $\RegSeqRatUp$ classifier row, and $\RealUp$ seal row for $U$ and $V$. The second application gives the same kind of route for $U$ and $W$.
+
+Finally compare the two pairwise routes at the shared budget row. Since both routes contain the $U$ consumer read and the same certified ledger row, they identify the same normalized finite-window readback and therefore the same downstream $\RegSeqRatUp$ classifier and $\RealUp$ seal. Tail-window consumer factorization \autoref{thm:regularcauchyname-tail-window-consumer-factorization} keeps all three terminal reads inside this displayed provenance surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName shared budget finite intersection]
+\label{thm:regularcauchyname-shared-budget-finite-intersection}
+Let $R$ be an accepted $\RegularCauchyNameUp$ packet, and let $\mathcal{F}$ be a finite nonempty family of accepted tail-window consumer reads of $R$ whose requested precisions share one certified budget row in the dyadic-radius ledger. Then all reads in $\mathcal{F}$ factor through one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one dyadic-radius ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row. The common intersection is displayed only through the packet's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RegularCauchyNameUp}$ provenance, with no quotient stream, selected limit, host sequence equality, independent real carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Induct over the finite family $\mathcal{F}$ after choosing one accepted read as the anchor. The one-read case is the tail-window consumer factorization of \autoref{thm:regularcauchyname-tail-window-consumer-factorization}; the first nontrivial two-read case is exactly the shared budget coherence theorem \autoref{thm:regularcauchyname-tail-window-budget-coherence}.
+
+For the three-read stage, apply the triple pullback theorem \autoref{thm:regularcauchyname-shared-budget-triple-pullback}. It identifies one finite $\StreamNameUp$ window, one $\DyadicRatCoreUp$ observation row, one ledger row, one $\RegSeqRatUp$ classifier row, and one $\RealUp$ seal row for the anchor and the two additional reads at the displayed shared budget.
+
+For the induction step, assume the retained finite subfamily already factors through one displayed route. Compare that common route with the next accepted read at the same certified budget row. The pair theorem \autoref{thm:regularcauchyname-tail-window-budget-coherence} applies to the anchor read inside the common route and to the next read, so the next read is pulled back to the same finite window, dyadic observation row, ledger row, classifier row, and seal row.
+
+Finally use tail-window consumer factorization again to close the boundary condition. Since every retained route is read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\RegularCauchyNameUp}$, the finite intersection has no coordinate for quotient streams, selected limits, host sequence equality, independent real carriers, or ambient completeness.
+\end{proof}

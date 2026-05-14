@@ -137,6 +137,18 @@ $\NameCert_{\LyapunovUp}$.
 \end{proof}
 \leanchecked{BEDC.Derived.LyapunovUp.LyapunovPacket\_consumer\_boundary}
 
+\begin{theorem}[Lyapunov DynSystem sibling route]
+\label{thm:lyapunov-dynsystem-sibling-route}
+Every accepted $\LyapunovUp$ stability read consumes the $\DynSystemUp$ state-and-transition surface of \autoref{ch:concrete-instances-dynsystem-namecert} before the quadratic row, positive-definite row, and decrease ledger can be read. The route remains finite through $X,T,Q,P,D,H,C,G,N$ and does not export a basin computation, infinite trajectory, differentiable flow, or solver semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lyapunov-bhist-carrier}. The state row $X$ and transition row $T$ are the entry surface of the packet, and both are named through the displayed $\DynSystemUp$ dependency before any quadratic read is available.
+
+The decrease ledger of \autoref{thm:lyapunov-decrease-ledger} then reads $Q,P,D$ only along the continuation routes $C$ and package row $G$. The consumer boundary of \autoref{thm:lyapunov-consumer-boundary} confirms that a downstream stability consumer receives exactly these finite rows.
+
+Thus the substantive sibling dependency is the transition row supplied by \autoref{ch:concrete-instances-dynsystem-namecert}. Since the route is exhausted by $X,T,Q,P,D,H,C,G,N$, no basin computation, infinite trajectory, differentiable flow, or solver semantics is exported.
+\end{proof}
+
 \begin{theorem}[Lyapunov stability transport]
 \label{thm:lyapunov-stability-transport}
 Let $L=(X,T,Q,P,D,H,C,G,N)$ be an accepted $\LyapunovUp$ carrier and let
