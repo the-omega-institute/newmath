@@ -116,6 +116,20 @@ Thus the exported seal has a restricted readback scope: it is a real-facing boun
 \end{proof}
 \leanchecked{BEDC.Derived.RealCauchyCompletionUp.RealCauchyCompletionCarrier\_real\_seal\_readback\_scope}
 
+\begin{theorem}[RealCauchyCompletion stream-regseq-tail seal factorization]
+\label{thm:real-cauchy-completion-stream-regseq-tail-seal-factorization}
+Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier. Every $\RealUp$-and-completion consumer read of the exported seal factors through a finite $\StreamNameUp$ window, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ observation ledger, the diagonal packet $D$, and then the $\RealUp$ seal row $E$.
+
+The exported route is exactly the displayed completion chain carried by $C$. It exports no quotient of regular streams, no host real equality, no selected limit, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:real-cauchy-completion-carrier}. The coordinates $X$ and $\mu$ supply the visible regular-family input and the finite precision request that selects the relevant stream window.
+
+Apply the diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-handoff}. The selected request reaches the diagonal packet $D$ only through the $\StreamNameUp$ window, the $\RegSeqRatUp$ readback row, and the $\DyadicRatCoreUp$ observation ledger already recorded in the carrier route.
+
+Finally use \autoref{thm:real-cauchy-completion-non-escape-boundary} and \autoref{thm:real-cauchy-completion-real-seal-readback-scope}. These rows identify $E$ as the only exported $\RealUp$ seal reached by the route, while excluding quotient stream equality, host real equality, choice of a selected limit, and ambient completeness from the consumer surface.
+\end{proof}
+
 \begin{theorem}[RealCauchyCompletion ProbeBundle window coverage]
 \label{thm:real-cauchy-completion-probebundle-window-coverage}
 Let $C=(X,\mu,D,E,P,N)$ be an accepted $\RealCauchyCompletionUp$ carrier, and let $Q$ be a finite $\mathsf{ProbeBundle}$ of unary precision requests. For every request $n$ bundled in $Q$, the consumer read factors through the displayed row $\mu(n)$, the associated $\RealDiagonalCompletionUp$ packet, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, and the corresponding $\DyadicRatCoreUp$ observation ledger.
@@ -251,6 +265,20 @@ Apply \autoref{thm:real-cauchy-completion-probebundle-window-coverage} to the fi
 Use \autoref{thm:real-cauchy-completion-carrier-transport-stability} to transport the same rows through the displayed $\hsame$ comparisons and $\Cont$ routes. Package provenance and the local naming row stay attached to the consumer-facing surface throughout the transport.
 
 Finally, \autoref{thm:real-cauchy-completion-real-seal-readback-scope} identifies the exported endpoint as the $\RealUp$ seal reached through that route. The non-escape boundary of \autoref{thm:real-cauchy-completion-non-escape-boundary} excludes quotient streams, selected host limits, host real equality, and ambient completeness from the downstream handoff.
+\end{proof}
+
+\begin{theorem}[RealCauchyCompletion CauchyLimitSeal route]
+\label{thm:real-cauchy-completion-cauchy-limit-seal-route}
+An accepted $\RealCauchyCompletionUp$ carrier and an accepted $\CauchyLimitSealUp$ packet determine the same public finite seal route exactly when both reads factor through the displayed $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, $\RealDiagonalCompletionUp$ packet, $\RealUp$ seal, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. This is the sibling seal route recorded by \autoref{ch:concrete-instances-cauchylimitseal-namecert}; it is not a quotient-stream equality, a selected host-limit principle, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the $\RealCauchyCompletionUp$ carrier by \autoref{def:real-cauchy-completion-carrier}. Its visible coordinates supply the regular-family row, unary modulus, diagonal packet, real seal, package provenance, and local certificate row.
+
+Apply the diagonal handoff of \autoref{thm:real-cauchy-completion-diagonal-handoff} and the public real-name export of \autoref{thm:real-cauchy-completion-public-real-name-export}. These rows force every completion read through the displayed finite stream window, regular-rational readback, dyadic ledger, diagonal packet, real seal, $\BHist$ surface, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row.
+
+Compare this route with the $\CauchyLimitSealUp$ consumer handoff of \autoref{ch:concrete-instances-cauchy-limit-seal-namecert}. The sibling packet reaches its public seal through the same displayed windows, readbacks, dyadic observations, diagonal completion packet, seal row, transports, route records, provenance, and naming rows.
+
+Since both public reads reach the seal only along this common finite surface, the two routes agree exactly on that surface. The non-escape boundary from \autoref{thm:real-cauchy-completion-non-escape-boundary} keeps quotient streams, selected host limits, host real equality, and ambient completeness outside the conclusion.
 \end{proof}
 
 \begin{theorem}[RealCauchyCompletion finite request fusion]
