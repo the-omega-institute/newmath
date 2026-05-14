@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyWindowIntersectionUp$}
+\label{ch:concrete-instances-regular-cauchy-window-intersection-namecert}
+\origin{ai}
+
+The $\RegularCauchyWindowIntersectionUp$ packet records the common finite-window intersection used when two regular-Cauchy routes share one tail-meet row before the Real or Completion consumer reads a tail-agreement seal. It consumes the threshold service of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert} and the agreement handoff of \autoref{ch:concrete-instances-realtailagreementseal-namecert}, while keeping the two selected windows visible as separate rows until the shared intersection packet has been named.
+
+\begin{definition}[Regular-Cauchy window-intersection carrier]
+\label{def:regular-cauchy-window-intersection-carrier}
+A $\RegularCauchyWindowIntersectionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(X,Y,W_X,W_Y,D,M,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two selected $\RegSeqRatUp$ regular-Cauchy source rows;
+\item $W_X$ and $W_Y$ are the selected finite $\StreamNameUp$ windows for those source rows;
+\item $D$ is the common $\DyadicRatCoreUp$ tolerance and readback ledger visible to both windows;
+\item $M$ is the accepted $\RegularCauchyTailMeetUp$ row supplying the common tail-meet threshold;
+\item $T$ is the $\RealTailAgreementSealUp$ handoff row exposed only after $W_X,W_Y,D,M$ are displayed together;
+\item $H$ records componentwise $\hsame$ transports for the two source rows, the two window rows, the dyadic ledger, the tail-meet row, the agreement handoff, provenance, and the local naming row;
+\item $C$ records displayed $\Cont$ routes from the two source rows to the selected windows, from those windows to the common dyadic ledger, from the ledger to the tail meet, and from the tail meet to the agreement handoff;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailMeetUp$, $\RealTailAgreementSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RegularCauchyWindowIntersectionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected host limits, independent tail thresholds, unshared window services, ambient completeness, or a RealTailAgreementSeal handoff that bypasses the displayed intersection packet.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy window-intersection NameCert obligations]
+\label{thm:regular-cauchy-window-intersection-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-window-intersection-carrier}, the local $\NameCert_{\RegularCauchyWindowIntersectionUp}$ surface consists exactly of carrier admission for
+$$
+I=(X,Y,W_X,W_Y,D,M,T,H,C,P,N),
+$$
+the two regular-Cauchy source rows $X,Y$, the selected window rows $W_X,W_Y$, the common dyadic ledger $D$, the common tail-meet row $M$, the RealTailAgreementSeal handoff row $T$, componentwise transport through $H$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $I$. Its coordinates are exactly the two sources, two selected windows, common dyadic ledger, tail-meet row, agreement handoff, transport, replay, provenance, and local name.
+
+The tail-meet coordinate is consumed through \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The agreement handoff is consumed through \autoref{ch:concrete-instances-realtailagreementseal-namecert} only after both selected windows and the common dyadic ledger have been displayed.
+
+No remaining carrier coordinate can expose quotient stream equality, a selected host limit, an independent threshold, an unshared window service, ambient completeness, or another route to the agreement handoff. The listed rows therefore exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy window-intersection falsifiable boundary]
+\label{thm:regular-cauchy-window-intersection-falsifiable-boundary}
+Any accepted $\RegularCauchyWindowIntersectionUp$ consumer that presents two selected regular-Cauchy windows with a common tail-meet row must expose the same $\RealTailAgreementSealUp$ handoff row $T$. If the two windows present different handoff rows after the same $D,M,H,C,P,N$ coordinates are fixed, the packet is rejected by the local NameCert ledger.
+\end{theorem}
+\begin{proof}
+The carrier places $T$ after the two selected windows, the common dyadic ledger, and the common tail-meet row. Thus a consumer can reach a RealTailAgreementSeal handoff only through the displayed route recorded by $C$.
+
+Fixing $D,M,H,C,P,N$ fixes the common ledger, the tail-meet threshold, componentwise transport, replay route, provenance, and local name. There is no second handoff coordinate in the packet.
+
+Hence an accepted packet exposes one handoff row for the shared intersection. A presentation with two different handoff rows is not a carrier of \autoref{def:regular-cauchy-window-intersection-carrier}.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy window-intersection sibling independence]
+\label{thm:regular-cauchy-window-intersection-sibling-independence}
+The carrier of \autoref{def:regular-cauchy-window-intersection-carrier} is not bijective to the regularcauchywitnessschedule, regular-cauchy-tail-meet, realtailagreementseal, finiteobservationbudgetselector, or cauchylimitseal sibling packets. Each sibling supplies a schedule, a threshold meet, a seal row, a selector route, or a limit seal, while this carrier records the common intersection packet binding both selected windows before the seal.
+\end{theorem}
+\begin{proof}
+Inspect the displayed rows of $I$. The packet contains two selected windows, one common dyadic ledger, one tail-meet row, and one agreement handoff in the same finite carrier.
+
+The witness-schedule sibling supplies a schedule but not the paired intersection carrier. The tail-meet sibling supplies a threshold meet but not the stored pair of selected windows before the handoff. The RealTailAgreementSeal sibling supplies the seal row but not the common intersection packet binding both windows before that seal.
+
+The selector and limit-seal siblings likewise expose a selector route or a limit seal without the full pair of selected windows, shared ledger, tail meet, and agreement handoff. No bijection can preserve the complete NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy window-intersection ledger exhaustion]
+\label{thm:regular-cauchy-window-intersection-ledger-exhaustion}
+Every Real or Completion diagonal-route consumer of an accepted $\RegularCauchyWindowIntersectionUp$ packet reads only
+$$
+X,Y,W_X,W_Y,D,M,T,H,C,P,N.
+$$
+The consumer receives the two source rows, two selected windows, common dyadic ledger, common tail meet, RealTailAgreementSeal handoff, componentwise transports, displayed continuations, provenance, and local name; it receives no quotient stream equality, selected host limit, independent threshold, unshared window service, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligation theorem. It identifies the complete public ledger with the rows of the displayed packet.
+
+Apply the falsifiable boundary theorem to the handoff row. The RealTailAgreementSeal handoff is reachable only as the single row $T$ after the two windows and common tail meet have been displayed.
+
+Use sibling independence for the remaining exclusions. None of the nearest sibling packets supplies an additional coordinate that could be imported into this carrier. The consumer is therefore exhausted by the displayed ledger.
+\end{proof}
+
+\falsifiablePrediction{Any accepted RegularCauchyWindowIntersectionUp consumer that presents two selected regular-Cauchy windows with a common tail-meet row must expose the same RealTailAgreementSealUp handoff row; otherwise the packet is rejected by the local NameCert ledger.}
+
+\independenceWitness{regularcauchywitnessschedule, regular-cauchy-tail-meet, realtailagreementseal, finiteobservationbudgetselector, cauchylimitseal: none is bijective because each sibling supplies a single schedule, a threshold meet, a seal row, a selector route, or a limit seal, while this carrier records the common intersection packet binding both windows before the seal.}
+
+The Lean boundary must provide \texttt{Derived/RegularCauchyWindowIntersectionUp/TasteGate.lean} with explicit \texttt{Nontrivial} and \texttt{FieldFaithful} instances, so the intersection is represented by an inhabited, field-faithful carrier rather than by a vacuous seal route.
+
+\closureat{RegularCauchyWindowIntersectionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyWindowIntersectionUp}
+  \constructivestory{A $\RegularCauchyWindowIntersectionUp$ packet is generated from two regular-Cauchy source rows, two selected StreamName windows, a common DyadicRatCore ledger, a RegularCauchyTailMeet row, a RealTailAgreementSeal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-window-intersection-carrier}, \autoref{thm:regular-cauchy-window-intersection-namecert-obligations}, \autoref{thm:regular-cauchy-window-intersection-falsifiable-boundary}, \autoref{thm:regular-cauchy-window-intersection-sibling-independence}, and \autoref{thm:regular-cauchy-window-intersection-ledger-exhaustion} bind the finite shared-window intersection packet and its RealTailAgreementSeal handoff boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, selected host limits, independent tail thresholds, unshared window services, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-window intersection obligations, handoff determinacy, sibling independence, and consumer ledger exhaustion for the same packet.}
+\end{closurestatus}

@@ -23,7 +23,7 @@ WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ASSIM_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LATEST_PATH = STATE_DIR / "loning_assimilation_latest.md"
 
-VERSION = "loning-assimilation-v1"
+VERSION = "loning-assimilation-v2"
 
 
 PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
@@ -35,6 +35,9 @@ PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("board_surface", re.compile(r"tools/bedc-deep/BOARD|board_spawn|oracle_board_refill|candidate_inbox", re.I)),
     ("over_chapterization_risk", re.compile(r"main\.tex|preamble\.tex|parts/concrete_instances/.+_namecert_construction|concretize|NameCert surface|carrier", re.I)),
     ("resource_witness_obligation", re.compile(r"witness|budget|obligation|certificate|dependency|tail|threshold|modulus|finite", re.I)),
+    ("prompt_candidate_pool", re.compile(r"candidate_pool|selection_rank|minimum candidate|emit .*targets|never empty|dedup empty", re.I)),
+    ("prompt_quality_score", re.compile(r"quality_score|hardest feasible|difficulty|verifiability|downstream_use|line_cap_safety|cross_chapter", re.I)),
+    ("prompt_landing_safety", re.compile(r"line[-_ ]?cap|hub[-_ ]?file|hub file|near[-_ ]?line|wc -l|paper_files", re.I)),
 )
 
 
@@ -133,6 +136,12 @@ def build_advice(counts: dict[str, int]) -> list[str]:
         advice.append("Prefer candidates that expose witness, budget, tail bound, modulus, or finite threshold surfaces over abstract carrier field transport.")
     if counts.get("board_surface"):
         advice.append("When loning changes BOARD-like surfaces, import only the gate discipline; do not replay its accepted targets directly.")
+    if counts.get("prompt_candidate_pool"):
+        advice.append("Treat upstream proposals as a candidate pool, not a FIFO queue: enumerate alternatives, preserve selection_rank when present, and prefer the best evidenced candidate rather than the first plausible one.")
+    if counts.get("prompt_quality_score"):
+        advice.append("Require visible quality signals when available: verifiability, locality, downstream_use, line_cap_safety, nontriviality, cross_chapter_unification, and difficulty. Reject inflated difficulty or total quality below the gate threshold.")
+    if counts.get("prompt_landing_safety"):
+        advice.append("Run landing safety before BOARD admission: reject hub-file appends, near-line-cap targets, and inspiration-only paths; route such evidence into rationale rather than executable local_inputs.")
     if not advice:
         advice.append("No new actionable loning gate signal was detected; keep current BEDC refill discipline.")
     return advice
