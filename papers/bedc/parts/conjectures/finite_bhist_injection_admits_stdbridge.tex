@@ -71,6 +71,18 @@ that boundary; it does not construct the bridge or solve the recognizer-to-tuple
 transport problem.
 \end{proof}
 
+\begin{theorem}[Finite BHist injection regular recognizer weakening]
+\label{thm:finite-bhist-injection-regular-recognizer-weakening}
+A regular recognizer input is admissible for the fixed tuple $\StdBridge$ route only after it exposes a recognizer acceptance row, a finite tuple extraction row, a $\BHist$ component readback row, componentwise $\NameCert$ transport, and a $\ChapterTasteGate$ row. These rows place the recognizer-derived input on the same obligation surface as the fixed tuple route, but they do not construct the recognizer-to-carrier map.
+\end{theorem}
+\begin{proof}
+Apply the fixed tuple route. It requires the displayed tuple carrier, image row, readback row, componentwise naming transport, and $\ChapterTasteGate$ row before the bridge route is requested.
+
+Use the fixed tuple obligation surface to identify those rows as the public preconditions for the route. A regular recognizer input must therefore expose its acceptance row and finite tuple extraction row before it can be compared with the fixed tuple surface.
+
+Finally apply the recognizer boundary theorem. It already separates the required boundary rows from the construction of tuple carriers from arbitrary regular recognizers, so this theorem records admissibility only after the boundary is displayed and does not construct the recognizer-to-carrier map.
+\end{proof}
+
 \begin{theorem}[Finite tuple StdBridge refutation candidate]
 \label{thm:finite-tuple-stdbridge-refutation-candidate}
 A valid counter-instance to \autoref{conj:finite-bhist-injection-admits-stdbridge} in the fixed finite tuple case must display all five fixed-tuple rows: the tuple carrier $(b_0,b_1,\ldots,b_k)$, the image row, the readback row, the componentwise $\NameCert$ transport rows, and the $\ChapterTasteGate$ row. It must also display a reflection-axis requirement for the same chapter that is incompatible with the standard reflection schema consumed by $\StdBridge$.
