@@ -4,6 +4,8 @@
 
 The $\TasteGateCompilerWitnessUp$ packet is the finite compiler-facing NameCert surface for a chapter-level taste gate. It records the candidate chapter token, the $\ChapterTasteGate$ row, the displayed event-flow conservativity row, the no-hidden-input, round-trip, and layer-separation rows, the dependency ledger, the audit result row, transport and replay routes, package provenance, and local naming data in one visible certificate.
 
+The $\TasteGateCompilerWitnessUp$ packet consumes the candidate-admission packet of \autoref{ch:concrete-instances-tastegateadmission-namecert} and the endpoint and route packaging discipline of \autoref{ch:concrete-instances-certificatecompiler-namecert}. The witness is narrower than either sibling: it certifies only the displayed compiler-facing TasteGate evidence row and audit-result route, not arbitrary admission or compiler correctness.
+
 \begin{definition}[TasteGateCompilerWitness carrier]
 \label{def:taste-gate-compiler-witness-carrier}
 A $\TasteGateCompilerWitnessUp$ carrier is a finite $\BHist$ packet
