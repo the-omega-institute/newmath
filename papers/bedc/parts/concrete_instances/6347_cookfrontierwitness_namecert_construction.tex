@@ -60,3 +60,25 @@ Since no coordinate remains for a total halting decision, host compiler equality
 Lean \texttt{BEDC/Derived/CookFrontierWitnessUp/TasteGate.lean} will provide explicit $\mathsf{Nontrivial}\ \CookFrontierWitnessUp$ and $\mathsf{FieldFaithful}\ \CookFrontierWitnessUp$ instances. Those instances must preserve the frontier-coordinate row, the three compile-stage rows, the halted-target row, the replay-audit row, the obstruction ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
 
 \closureat{CookFrontierWitnessUp}{seedStr}
+
+\begin{lemma}[Cook frontier replay-audit route determinacy]
+\label{lem:cook-frontier-witness-replay-audit-route-determinacy}
+Let
+$$
+W=(F,M,Y,R,T,A,O,H,C,P,N)
+\quad\text{and}\quad
+W'=(F,M,Y,R,T,A,O,H,C,P,N)
+$$
+be two accepted $\CookFrontierWitnessUp$ carriers whose displayed rows agree component by component: the frontier-coordinate row $F$, the TM-to-tag row $M$, the tag-to-cyclic row $Y$, the cyclic-to-Rule-110 row $R$, the halted-target row $T$, the replay-audit row $A$, the obstruction boundary row $O$, the componentwise transport row $H$, the continuation row $C$, the provenance row $P$, and the local naming row $N$ are the same rows in both packets. If $u$ is a frontier-coordinate read exposed by $W$ and $u'$ is a frontier-coordinate read exposed by $W'$, then the common replay-audit route through $A$ and the common componentwise transport row $H$ identify the two reads:
+$$
+u \hsame u'.
+$$
+Equivalently, duplicate accepted $\CookFrontierWitnessUp$ packets with the same finite replay route cannot expose two non-$\hsame$ frontier-coordinate reads.
+\end{lemma}
+\begin{proof}
+Project the two accepted carriers by \autoref{def:cook-frontier-witness-carrier}. The first coordinate of each packet is the same frontier-coordinate row $F$, and the replay side of each packet is the same finite route: the row $A$ replays the Rule~110 trace back through $R$, then $Y$, then $M$, and finally to the halted-target row $T$.
+
+By \autoref{thm:cook-frontier-witness-obligation-surface}, an accepted consumer may report a Cook frontier coordinate only through the displayed rows $F,M,Y,R,T,A,O,H,C,P,N$. Thus the read $u$ from $W$ and the read $u'$ from $W'$ both factor through the same frontier-coordinate row $F$ and the same replay-audit row $A$.
+
+The componentwise transport row $H$ records the $\hsame$ transports for $F,M,Y,R,T,A,O,P,N$. Applying its frontier-coordinate component to the two factorizations through the common row $F$ gives the displayed identification of the two frontier-coordinate reads. The continuation row $C$, provenance row $P$, and naming row $N$ are also common, so no second route remains through which either packet could expose a different frontier-coordinate read. Therefore $u\hsame u'$ under the same finite replay route.
+\end{proof}

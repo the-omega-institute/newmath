@@ -448,6 +448,56 @@ Apply \autoref{thm:znormal-root-carrier-total-host-readiness} to make the carrie
 The same carrier exhaustion proves the exclusion clause. No displayed coordinate names host conversion, a quotient normalizer, a divergence oracle, or a global normalization procedure, so the local NameCert readiness surface cannot export one.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ frontier carry readback totality]
+\label{thm:znormal-frontier-carry-readback-totality}
+Every accepted $\ZNormalUp$ packet that exposes normal-word evidence is a $\BHist$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+whose finite word row $K$ reads $\ZeckendorfNormalUp$ and $\ZCarryUp$ before the local $K$ row is consumed by any root-facing normal-form reader. The readback route is transported by $H$, replayed by $C$, packaged by $P$, and named by $N$; it exports no host conversion, quotient normalizer, unrestricted evaluator, divergence oracle, or global normalizer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The only coordinate that can expose finite normal-word evidence is $K$, and the carrier text binds that row to $\ZeckendorfNormalUp$ and $\ZCarryUp$ where a finite word boundary is present.
+
+Apply \autoref{thm:znormal-carry-normalization-obligation} and \autoref{thm:znormal-sibling-normalword-handoff}. These force the normal-word evidence to be read through the Zeckendorf and carry sibling surfaces before a root-facing consumer uses the local $K$ row.
+
+Finally use \autoref{thm:znormal-root-namecert-readiness}. The structural rows $H,C,P,N$ transport, replay, package, and name the same evidence, while carrier exhaustion excludes host conversion, quotient normalization, unrestricted evaluation, divergence, and global normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ continuation normal-word pullback]
+\label{thm:znormal-continuation-normal-word-pullback}
+For every accepted $\ZNormalUp$ packet, the continuation terminal route and the normal-word row form one finite pullback through
+$$
+H,C,P,N.
+$$
+Thus a consumer that reads the terminal continuation row $R$ and the finite normal-word row $K$ receives them as one transported, replayed, packaged, and named $\BHist$ packet over $T,F,V,K,R$, not as a terminal route detached from the Zeckendorf and carry-facing evidence.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-continuation-terminal-route}. It places $R$ after the typed endpoint $T$, finite fuel $F$, and terminal-normality row $V$.
+
+Next apply \autoref{thm:znormal-frontier-carry-readback-totality}. The normal-word row $K$ is already tied to $\ZeckendorfNormalUp$ and $\ZCarryUp$ before any root-facing readback consumes it.
+
+Use \autoref{thm:znormal-route-transport} to bind both routes through $H$ and $C$, then use \autoref{thm:znormal-root-namecert-readiness} to package and name the shared surface through $P$ and $N$. The result is one finite pullback packet through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total-host refusal exhaustion]
+\label{thm:znormal-total-host-refusal-exhaustion}
+Every accepted $\ZNormalUp$ packet exports no host conversion, quotient normalizer, unrestricted evaluator, divergence oracle, or global normalizer. Any total-host consumer must factor through the displayed $\BHist$ packet
+$$
+T,F,V,K,R,H,C,P,N
+$$
+together with the finite sibling surfaces cited by $K$ and $R$.
+\end{theorem}
+\begin{proof}
+Project the root carrier from \autoref{def:znormal-carrier}. The displayed rows give typed endpoint, finite fuel, terminal normality, normal-word evidence, terminal continuation read, transport, replay, package provenance, and local naming, with no host conversion or global-normalization coordinate.
+
+Apply \autoref{thm:znormal-root-carrier-total-host-readiness}. It places all total-host reads inside the finite root package before any public normal-form consumer receives the packet.
+
+Now combine \autoref{thm:znormal-continuation-normal-word-pullback} with \autoref{thm:znormal-root-unblock-nonescape-ledger}. The pullback keeps $K$ and $R$ in the same transported packet, and the non-escape ledger exhausts all downstream reads through the listed rows.
+
+Therefore the refused objects remain absent from the export surface. A consumer asking for host conversion, a quotient normalizer, an unrestricted evaluator, a divergence oracle, or a global normalizer asks for data outside the accepted $\ZNormalUp$ packet.
+\end{proof}
+
 \closureat{ZNormalUp}{seedStr}
 
 \begin{closurestatus}{\ZNormalUp}
