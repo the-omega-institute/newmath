@@ -1,0 +1,144 @@
+\chapter{A Concrete Naming Certificate for $\InscriptionRouteAuditUp$}
+\label{ch:concrete-instances-inscription-route-audit-namecert}
+\origin{ai}
+
+The $\InscriptionRouteAuditUp$ packet gives the inscription-event vision of
+\autoref{ch:visions-inscription-event-as-concrete-instance} a public route
+audit from visible gap to accepted checker row and downstream consumer. It
+sits beside the local inscription point of
+\autoref{ch:concrete-instances-inscriptionpoint-namecert}, the full audit
+trace of \autoref{ch:concrete-instances-inscriptionaudittrace-namecert}, and
+the finite witness route of
+\autoref{ch:concrete-instances-finitewitnessroute-namecert}. Those siblings
+respectively expose the supply socket, the broad inscription trace, and a
+finite consumer route; the present packet isolates the route by which a
+visible gap becomes a named accepted checker row before a public consumer may
+read it.
+
+\begin{definition}[Inscription route-audit carrier]
+\label{def:inscription-route-audit-carrier}
+An $\InscriptionRouteAuditUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,G,R,A,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the prior source-scope row containing the records visible before the route is accepted;
+\item $G$ is the visible gap row whose public residue asks for a route;
+\item $R$ is the named route row proposed to connect the visible gap to a reusable checker surface;
+\item $A$ is the accepted checker row, recording the finite check by which $R$ is admitted as public record data;
+\item $D$ is the downstream consumer row that may read the accepted route only after $A$ is visible;
+\item $H$ records componentwise $\hsame$ transports for $S,G,R,A,D$ together with continuation, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ routes by which a consumer reads source scope, visible gap, named route, accepted checker, and downstream consumer rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\InscriptionPointUp$, $\InscriptionAuditTraceUp$, $\InscriptionCommitmentSealUp$, $\FiniteWitnessRouteUp$, and $\ProofTermErasureAuditRouteUp$ rows;
+\item $N$ is the local $\NameCert_{\InscriptionRouteAuditUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets with these nine displayed rows. It has
+no coordinate for a private motive, hidden checker, unchecked route, downstream
+right outside $D$, host process trace, or consumer path that bypasses the
+accepted checker row.
+\end{definition}
+
+\begin{theorem}[InscriptionRouteAudit NameCert obligations]
+\label{thm:inscription-route-audit-namecert-obligations}
+For the carrier of \autoref{def:inscription-route-audit-carrier}, the local
+$\NameCert_{\InscriptionRouteAuditUp}$ surface consists exactly of five finite
+obligations:
+\begin{enumerate}
+\item carrier exposure for $Q=(S,G,R,A,D,H,C,P,N)$;
+\item visible-gap locality: every route read begins at the prior source scope $S$ and the displayed gap row $G$;
+\item accepted-route exactness: the named route $R$ becomes public only through the accepted checker row $A$;
+\item downstream consumer accountability: every public consumer row $D$ factors through $A$ before the consumer read is visible;
+\item provenance and local naming exhaustion through $H,C,P,N$, with no private motive, hidden checker, unchecked route, or off-packet consumer right.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed packet. The rows
+$S,G,R,A,D,H,C,P,N$ are the full inventory available to an audit reader.
+
+The gap-facing route begins with $S$ and $G$. These rows identify the prior
+records and the public gap residue; without them the named route has no
+visible socket to answer.
+
+The checker-facing route then reads $R$ through $A$. The accepted checker row
+is the only place where the proposed route is admitted as public record data,
+so no hidden checker or unchecked replay can replace it.
+
+Finally, $D,H,C,P,N$ bind downstream consumption, transport, continuation,
+provenance, and local naming to the same finite packet. Since the carrier has
+no private motive, host trace, or off-packet consumer coordinate, the five
+obligations exhaust the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{If the route-audit carrier is atomic, every public downstream use must factor through the accepted checker row before the consumer row is visible.}
+
+\begin{theorem}[InscriptionRouteAudit falsifiable prediction]
+\label{thm:inscription-route-audit-falsifiable-prediction}
+Every public downstream read of an accepted $\InscriptionRouteAuditUp$ carrier
+$Q=(S,G,R,A,D,H,C,P,N)$ factors through the accepted checker row $A$ before the
+consumer row $D$ is visible. A purported public use that reaches $D$ while
+bypassing $A$ is outside the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-route-audit-carrier}. The only
+consumer-facing row is $D$, and the definition places it after the named route
+and accepted checker rows $R,A$.
+
+Apply the accepted-route exactness and downstream consumer accountability
+clauses of \autoref{thm:inscription-route-audit-namecert-obligations}. They
+make $A$ the public admission point for $R$ and require every downstream read
+through $D$ to factor through that checker row.
+
+The transport, continuation, provenance, and local naming rows preserve this
+same route. Hence a consumer path that reaches $D$ without first exposing $A$
+would require an additional carrier coordinate, which the packet does not
+contain.
+\end{proof}
+
+\independenceWitness{inscriptionaudittrace, inscriptioncommitmentseal, inscriptionpoint, finitewitnessroute, prooftermerasureauditroute: the route-audit carrier has both accepted-checker and downstream-gap rows, while these siblings respectively lack the full route from visible gap to public consumer; hence no carrier bijection preserves all NameCert rows.}
+
+\begin{theorem}[InscriptionRouteAudit independence witness]
+\label{thm:inscription-route-audit-independence-witness}
+The $\InscriptionRouteAuditUp$ carrier is not bijective, under NameCert-row
+preservation, with $\InscriptionAuditTraceUp$, $\InscriptionCommitmentSealUp$,
+$\InscriptionPointUp$, $\FiniteWitnessRouteUp$, or
+$\ProofTermErasureAuditRouteUp$. It uniquely binds the visible gap row $G$,
+the named route row $R$, the accepted checker row $A$, and the public consumer
+row $D$ as one route-audit packet.
+\end{theorem}
+\begin{proof}
+Compare the displayed coordinates. The present carrier has the paired
+gap-to-checker and checker-to-consumer route
+$$
+G \to R \to A \to D.
+$$
+
+The inscription audit trace supplies a broader trace packet, while the
+commitment seal isolates a commitment row rather than the visible
+gap-to-checker route. The inscription point supplies the local socket and
+actuality rows, not the public consumer route from $G$ through $A$.
+
+The finite witness route supplies a Real-and-Completion consumer path, and the
+proof-term erasure audit route supplies erasure-facing audit rows. Neither
+contains this chapter's simultaneous visible gap, named route, accepted
+checker, and downstream public consumer rows. Thus no carrier bijection can
+preserve all local NameCert obligations.
+\end{proof}
+
+The Lean target family $BEDC.Derived.InscriptionRouteAuditUp$ should provide a
+$\mathsf{Nontrivial}$ instance by exhibiting two distinct finite packets with
+different accepted checker rows, and a $\mathsf{FieldFaithful}$ instance whose
+projections recover $S,G,R,A,D,H,C,P,N$ from the carrier.
+
+\closureat{InscriptionRouteAuditUp}{seedStr}
+
+\begin{closurestatus}{\InscriptionRouteAuditUp}
+  \constructivestory{An $\InscriptionRouteAuditUp$ packet is generated from prior source scope, a visible gap, a named route, an accepted checker row, a downstream consumer row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inscription-route-audit-carrier}, \autoref{thm:inscription-route-audit-namecert-obligations}, \autoref{thm:inscription-route-audit-falsifiable-prediction}, and \autoref{thm:inscription-route-audit-independence-witness} bind the visible gap-to-accepted-route audit packet and its downstream consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, private agency, host process traces, unchecked routes, downstream rights outside the displayed consumer row, or a completed ontology of inscription events.}
+  \upgradepath{Obligation closure requires Lean encoding of the carrier, explicit nontrivial witnesses, field-faithful projections, accepted-checker factorization, consumer non-escape, and independence from the named sibling packets.}
+\end{closurestatus}
