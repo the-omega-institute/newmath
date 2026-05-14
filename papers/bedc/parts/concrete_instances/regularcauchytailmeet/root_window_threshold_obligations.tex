@@ -183,3 +183,23 @@ Now attach the limiter stage. By \autoref{thm:regular-cauchy-tail-meet-observati
 
 Finally apply the budgeted refinement seal factorization, \autoref{thm:regular-cauchy-tail-meet-budgeted-refinement-seal-factorization}. It places $\CauchyModulusRefinementUp$ and $\CauchyLimitSealUp$ after the displayed TailMeet rows, finite observation-budget entrance, and capped limiter service, leaving no excluded analytic coordinate from which a Real or Completion seal can be read earlier.
 \end{proof}
+
+\begin{theorem}[RegularCauchyTailMeet limit seal window pullback]
+\label{thm:regular-cauchy-tail-meet-limit-seal-window-pullback}
+For an accepted $\RegularCauchyTailMeetUp$ packet whose root threshold route is exported to an accepted $\CauchyLimitSealUp$ packet and an accepted $\RealObservationBudgetUp$ packet over the same finite $\StreamNameUp$ window, every seal-facing read pulls back to the same displayed TailMeet rows
+$$
+R_0,R_1,W_0,W_1,M_0,M_1,\tau,Q,H,C,L,N.
+$$
+The same pullback then reaches the $\StreamNameUp$ finite-window lattice meet and the displayed $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Conversely, those displayed rows repack into one consumer route for the $\CauchyLimitSealUp$ seal row and the $\RealObservationBudgetUp$ entrance. The route contains no quotient stream, selected limit, host real equality, trichotomy row, hidden selector, unbounded schedule, separate completion carrier, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First place the root route on the TailMeet packet. By \autoref{thm:regular-cauchy-tail-meet-root-budget-limiter-factorization}, any route exported toward $\RealObservationBudgetUp$, $\CauchyModulusRefinementUp$, or $\CauchyLimitSealUp$ must read the displayed TailMeet rows, finite observation-budget entrance, and capped limiter service before a seal is available.
+
+Next move from the finite budget route to the seal read. Apply \autoref{thm:regular-cauchy-tail-meet-budgeted-refinement-seal-factorization} and \autoref{thm:regular-cauchy-tail-meet-root-seal-budget-synchronization}. These place every $\CauchyLimitSealUp$ or $\RealObservationBudgetUp$ consumer after the same finite threshold route and synchronize the seal-facing read with the finite budget entrance.
+
+Now identify the shared $\StreamNameUp$ window. The finite-window lattice dependency of \autoref{thm:cauchy-limit-seal-finite-window-lattice-dependency} forces the seal-facing route through the $\StreamNameUp$ finite-window meet, and the tail-budget meet of \autoref{thm:cauchy-limit-seal-tail-budget-meet} identifies that meet with the displayed regular source, dyadic ledger, real seal, transport, continuation, provenance, and local naming rows.
+
+For the converse direction, start with exactly those displayed TailMeet, stream-window, regular-source, dyadic, real, transport, continuation, package, and naming rows. The cited finite-window and tail-budget meet theorems repack them as the $\CauchyLimitSealUp$ seal row together with the $\RealObservationBudgetUp$ entrance, while the TailMeet budget-limiter factorization supplies the root consumer route.
+
+Finally use \autoref{thm:regular-cauchy-tail-meet-root-threshold-readback-determinacy}. It identifies all readbacks along the displayed route with the same threshold row $\tau$, so the forward pullback and the reverse repacking describe one deterministic route and none of the excluded analytic rows has a coordinate from which to enter it.
+\end{proof}
