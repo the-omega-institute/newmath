@@ -47,3 +47,62 @@ of the composed carriers has a coordinate for quotient stream equality, host
 real equality, selected external limits, countable choice, or ambient
 completeness, the composed Real dependency route exports none of them.
 \end{proof}
+
+\begin{theorem}[Real dyadic tail-radius seal determinacy]
+\label{thm:real-dyadic-tail-radius-seal-determinacy}
+Let two accepted $\RealUp$ seal-facing consumers use the dyadic tail-radius
+route. If they expose the same $\DyadicRatCoreUp$ endpoint and radius rows,
+the same $\StreamNameUp$ finite-window rows, the same $\RegSeqRatUp$ handoff
+rows, the same $\DyadicTailRadiusLedgerUp$ route, the same
+$\CauchyWitnessLedgerUp$ witness row whenever the read is completion-facing,
+and the same displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$
+support rows, then they determine the same finite $\RealUp$ seal boundary.
+
+Conversely, every admitted $\RealUp$ seal boundary that uses this dyadic
+tail-radius route is read through exactly those rows: dyadic endpoint and
+radius data, finite StreamName windows, regular-rational handoff, tail-radius
+ledger route, the completion-facing witness row when present, and the displayed
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. The statement
+does not assert $\RealUp$ completeness, quotient-stream equality, host real
+equality, selected external limits, countable choice, or metric-completion
+equality.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-dyadic-tail-radius-ledger-dependency}. It fixes
+the ordered dependency route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp
+\to \DyadicTailRadiusLedgerUp \to \CauchyWitnessLedgerUp \to \RealUp
+$$
+with the witness-ledger row present only for completion-facing reads. Thus two
+accepted consumers with the same displayed rows have the same ordered route to
+the Real seal.
+
+Next use \autoref{thm:real-dyadic-stream-regseq-route}. The initial segment of
+the route is already determined by the dyadic observations, finite StreamName
+windows, RegSeqRat regular readback, and the structural $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows. Hence the two consumers cannot differ
+before the tail-radius ledger is reached.
+
+Now apply \autoref{thm:dyadic-tail-radius-ledger-scoped-route-package} together
+with \autoref{thm:dyadic-tail-radius-ledger-nonescape}. The package fixes the
+finite tail-radius packet on the route, and non-escape prevents an additional
+quotient, host-equality, selected-limit, unbounded-search, independent-ledger,
+or ambient-completeness coordinate from entering the seal boundary.
+
+For completion-facing reads, apply
+\autoref{thm:cauchy-witness-ledger-budget-factorization},
+\autoref{thm:cauchy-witness-ledger-real-completion-handoff}, and
+\autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}. These
+place the witness row behind the finite budget route, hand it to the Real
+completion-facing consumer through the displayed support rows, and exclude
+quotient streams, host Real equality, selected external limits, countable
+choice, and ambient completeness from the read.
+
+The forward determinacy follows because every row on the seal-facing route has
+been fixed componentwise. The converse follows by reading any admitted boundary
+through the same factorization and non-escape results: there is no public
+coordinate outside the listed finite dyadic, StreamName, RegSeqRat,
+tail-radius, witness-ledger, and structural support rows, so the listed rows
+are exactly the finite $\RealUp$ seal boundary for this route.
+\end{proof}
