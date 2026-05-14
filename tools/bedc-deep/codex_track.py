@@ -194,7 +194,7 @@ def _codex_corrective_attempt(
         target_id=_safe(target.target_id),
         target_title=_safe(target.title),
         round_idx=round_idx,
-        original_content=_safe(original_content),
+        original_content=original_content,
         rejection_reasons=_safe(reasons_block),
         cycle_history=_safe(history_blob),
     )
