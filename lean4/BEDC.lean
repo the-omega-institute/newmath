@@ -165,6 +165,7 @@ import BEDC.Derived.DyadicApproximationUp.TerminalTailBudgetRealCompletionRoute
 import BEDC.Derived.DyadicApproximationUp.L10RealCompletionSiblingRoute
 import BEDC.Derived.ApophaticSocketUp
 import BEDC.Derived.ApophaticFixedPointFiberUp.TasteGate
+import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
 import BEDC.Derived.DyadicCoverUp
 import BEDC.Derived.RealCompletionSealClassifierUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
@@ -186,6 +187,7 @@ import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
+import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.ObserverFilterUp
 import BEDC.Derived.ObserverFilterBudgetSelectorUp.TasteGate
@@ -621,6 +623,7 @@ import BEDC.Derived.UniformCauchyCriterionUp.TailMeetRootExport
 import BEDC.Derived.UniformCauchyCriterionUp.TailLedger
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
+import BEDC.Derived.MetaCICDischargeObstructionLatticeUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformModulusUp
