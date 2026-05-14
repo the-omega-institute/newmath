@@ -313,4 +313,73 @@ theorem ContinuationMonadCarrier_root_continuation_rule_coverage
       exact ⟨unary_transport unaryL (hsame_symm source.right), sameEndpoint, pkgSig⟩
   }
 
+theorem ContinuationMonadCarrier_root_ledger_formal_boundary
+    [AskSetup] [PackageSetup]
+    {A B C f g u H K L N ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationMonadCarrier A B C f g u H K L N ->
+      Cont L N ledgerRead ->
+        PkgSig bundle ledgerRead pkg ->
+          UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory f ∧
+            UnaryHistory g ∧ UnaryHistory u ∧ UnaryHistory K ∧ UnaryHistory L ∧
+              UnaryHistory N ∧ UnaryHistory ledgerRead ∧ Cont A f B ∧ Cont B g C ∧
+                Cont f g K ∧ Cont K u L ∧ Cont L N ledgerRead ∧ hsame N L ∧
+                  PkgSig bundle ledgerRead pkg ∧
+                    SemanticNameCert
+                      (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+                      (fun row : BHist => hsame row ledgerRead)
+                      (fun row : BHist => hsame row ledgerRead ∧ PkgSig bundle ledgerRead pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
+  intro carrier ledgerRoute ledgerPkg
+  obtain ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+    sameEndpoint⟩ := carrier
+  have unaryB : UnaryHistory B :=
+    unary_cont_closed unaryA unaryF routeB
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryB unaryG routeC
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryF unaryG routeK
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryK unaryU routeL
+  have unaryN : UnaryHistory N :=
+    unary_transport unaryL (hsame_symm sameEndpoint)
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed unaryL unaryN ledgerRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+        (fun row : BHist => hsame row ledgerRead)
+        (fun row : BHist => hsame row ledgerRead ∧ PkgSig bundle ledgerRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro ledgerRead (And.intro (hsame_refl ledgerRead) ledgerUnary)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact source.left
+      ledger_sound := by
+        intro _row source
+        exact And.intro source.left ledgerPkg
+    }
+  exact
+    ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, unaryK, unaryL, unaryN,
+      ledgerUnary, routeB, routeC, routeK, routeL, ledgerRoute, sameEndpoint, ledgerPkg,
+      cert⟩
+
 end BEDC.Derived.ContinuationMonadUp
