@@ -4,6 +4,8 @@
 
 The $\BoundedSearchRefutationUp$ surface packages a finite refutation search as BEDC naming data. It records the proposition being inspected, a displayed depth budget, the finite frontier reached by that budget, a refutation witness when one is found or a $\Gap$ row when the budget is exhausted, and the provenance rows through which a consumer may replay the bounded search. The packet is not a global proof-search oracle: every accepted read is bounded by the displayed depth row and remains inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 
+It consumes the finite contrary-record surface of \autoref{ch:concrete-instances-finitewitnessedrefutation-namecert} when a bounded frontier displays an explicit witness row: the bounded search packet supplies the depth and frontier ledger, while the witnessed-refutation packet supplies the contrary record and decision ledger consumed by the refutation branch.
+
 \begin{definition}[BoundedSearchRefutation carrier]
 \label{def:bounded-search-refutation-carrier}
 A $\BoundedSearchRefutationUp$ carrier is a finite $\BHist$ packet
