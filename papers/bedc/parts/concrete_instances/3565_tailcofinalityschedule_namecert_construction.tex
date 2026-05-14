@@ -189,6 +189,42 @@ Finally combine \autoref{thm:tail-cofinality-schedule-regular-cauchy-completion-
 The sibling completion chapter \autoref{ch:concrete-instances-real-cauchy-completion-namecert} supplies the corresponding completion-facing diagonal route. Since the schedule carrier and the completion route contain no coordinate for quotient-stream equality, selected host limits, countable choice, host real equality, ambient completeness, hidden tail oracles, unbounded schedules, or a second budget source, the public seal can be reached only through the displayed BEDC rows.
 \end{proof}
 
+\begin{theorem}[Tail cofinality schedule diagonal-tail-selector factorization]
+\label{thm:tail-cofinality-schedule-diagonal-tail-selector-factorization}
+Every accepted $\TailCofinalityScheduleUp$ packet consumed by an accepted
+$\DiagonalTailSelectorUp$ public budget source factors through the same finite
+route
+$$
+E \longmapsto W \longmapsto D \longmapsto R \longmapsto L.
+$$
+The selector rows supply only the displayed public budget source,
+$\ProbeBundle$ and $\Pkg$ support, $\hsame$ transport, and $\Cont$ replay.
+The factorization exposes no quotient stream, selected host limit, countable
+choice, ambient completeness, hidden tail oracle, or second budget source.
+\end{theorem}
+\begin{proof}
+Start with the schedule route from
+\autoref{thm:tail-cofinality-schedule-real-completion-diagonal-route}. It
+places every completion-facing diagonal read of the accepted schedule packet
+on the ordered path from the finite-window row $W$ through the dyadic ledger
+$D$, the regular readback row $R$, and the public $\RealUp$ seal row $L$.
+
+Next apply
+\autoref{thm:diagonal-tail-selector-tail-cofinality-factorization}. The
+accepted selector consumes the same tail-cofinality packet only as a public
+budget source, with the selector rows contributing the displayed
+$\ProbeBundle$ support, $\Pkg$ provenance, $\hsame$ transport, and $\Cont$
+replay.
+
+Finally use
+\autoref{thm:diagonal-tail-selector-real-seal-budget-nonescape}. The selector
+budget cannot escape through a second source before the $\RealUp$ seal is
+read. Since neither carrier contains coordinates for quotient streams,
+selected host limits, countable choice, ambient completeness, hidden tail
+oracles, or another budget source, the joint consumer path is exactly the
+displayed schedule route.
+\end{proof}
+
 \closureat{TailCofinalityScheduleUp}{seedStr}
 \closureat{TailCofinalityScheduleUp}{obligationStr}
 \closureat{TailCofinalityScheduleUp}{scopedStr}
