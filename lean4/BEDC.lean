@@ -616,6 +616,7 @@ import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
+import BEDC.Derived.TailBudgetCoherenceUp
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
