@@ -57,6 +57,39 @@ Classifier admission reads only the rows $q_0,F,T,B$. The row $B$ classifies beh
 Stability is componentwise through $H$, while exactness is \autoref{thm:continuationautomaton-step-continuation-correspondence}. The remaining ledgers $C,P,N$ route, record provenance, and name the packet. No carrier coordinate can introduce a separate operational semantics, so the five displayed rows exhaust the NameCert surface.
 \end{proof}
 
+\begin{theorem}[ContinuationAutomaton transition determinacy]\label{thm:continuation-automaton-transition-determinacy}
+Let $A=(Q,q_0,F,T,B,H,C,P,N)$ be an accepted $\ContinuationAutomatonUp$ carrier. If two displayed transition rows of $T$ have the same source state $q$, the same mark $m$, and the same target state $q'$, then their transition readings are identified by the stored $\Cont(q,m,q')$ witness and by the corresponding componentwise $\hsame$ transport row in $H$. Thus determinacy is a finite row equality inside the packet, not a claim about an external evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier and read both transition rows from the same finite table $T$. Each row exposes only $q$, $m$, $q'$, and a displayed continuation witness.
+
+The checked single-carrier alignment marker attached to \autoref{thm:continuationautomaton-step-continuation-correspondence}, named \texttt{ContinuationAutomatonTasteGate\_single\_carrier\_alignment}, identifies transition evidence with the carrier field that stores it. Componentwise transport through $H$ therefore compares the two rows by their displayed endpoints and their stored $\Cont(q,m,q')$ witnesses.
+
+No host transition function is available in the carrier. Hence the determinacy statement is exactly the equality of the displayed transition row data under the packet's own $\hsame$ transport.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton trace exhaustion]\label{thm:continuation-automaton-trace-exhaustion}
+For an accepted $\ContinuationAutomatonUp$ carrier $A=(Q,q_0,F,T,B,H,C,P,N)$, every accepted finite behaviour trace is a finite list of rows from $T$ replayed through the displayed continuation routes in $C$ and transported through the componentwise rows in $H$. The trace exports no quotient of traces, host run relation, or unlisted transition rule.
+\end{theorem}
+\begin{proof}
+Read the behaviour classifier $B$ through the carrier. Its accepted behaviours are licensed only by the initial row $q_0$, accepting membership in $F$, and transition rows already present in $T$.
+
+Replay a finite trace by listing its transition rows in order and composing the corresponding displayed routes through $C$. At each endpoint comparison, use the componentwise transport rows in $H$ to move between representatives of the same displayed state row.
+
+The single-carrier alignment marker cited above prevents a trace step from being replaced by a host operational step outside $T$. Therefore the finite list of transition rows, together with $C$ and $H$, exhausts the accepted trace surface.
+\end{proof}
+
+\begin{theorem}[ContinuationAutomaton NameCert obligation pack]\label{thm:continuation-automaton-namecert-obligation-pack}
+For an accepted $\ContinuationAutomatonUp$ carrier, carrier admission, classifier stability, transition exactness, trace exhaustion, $\Pkg$ provenance, and local naming form the finite obligation package consumed by \autoref{ch:concrete-instances-unary-continuation-category-namecert} and \autoref{ch:concrete-instances-continuationmonad-namecert}. These consumers receive only the displayed automaton rows $Q,q_0,F,T,B,H,C,P,N$ and no external state space or evaluator.
+\end{theorem}
+\begin{proof}
+Carrier admission and classifier stability are the first three rows of \autoref{thm:continuationautomaton-namecert-obligations}. Transition exactness is \autoref{thm:continuationautomaton-step-continuation-correspondence}, with the checked single-carrier alignment marker ensuring that the transition row is the stored continuation evidence.
+
+Trace exhaustion is \autoref{thm:continuation-automaton-trace-exhaustion}. It supplies the finite list-of-transition-rows surface that categorical and monadic consumers can replay through $C$ and transport through $H$.
+
+Finally $P$ records the package provenance and $N$ records the local naming row. Repacking these rows gives unary-continuation-category and continuationmonad their object, hom, unit, composition, and associativity inputs without granting any unlisted operational semantics.
+\end{proof}
+
 \closureat{ContinuationAutomatonUp}{seedStr}
 
 \begin{closurestatus}{\ContinuationAutomatonUp}
