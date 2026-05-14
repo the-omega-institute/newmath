@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\NoGlobalSyncBoundaryUp$}
+\label{ch:concrete-instances-noglobalsyncboundary-namecert}
+\origin{ai}
+
+The $\NoGlobalSyncBoundaryUp$ packet makes the no-global-synchronization row of \autoref{def:no-global-sync} into a concrete finite carrier. It is not a multi-Hist configuration, an observer-frame packet, a coupling ledger, an invariant value, or a causal-rate route. It stores the refusal row itself, together with the displayed histories, locality rows, $\hsame$ transport, $\Cont$ routes, package provenance, and local naming data that let downstream consumers cite the boundary without treating it as prose.
+
+\begin{definition}[NoGlobalSyncBoundary carrier]
+\label{def:no-global-sync-boundary-carrier}
+A $\NoGlobalSyncBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(H,L,R,S,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H=(H_1,\ldots,H_n)$ is the finite row of displayed observer histories;
+\item $L=(L_1,\ldots,L_n)$ is the locality ledger, with $L_i$ naming the local rows of $H_i$ available to consumers;
+\item $R$ is the refusal row, recording that the packet admits no privileged shared clock, global observer frame, total observer order, or selected synchronization map;
+\item $S$ records the displayed $\hsame$ transports for the observer-history, locality-ledger, refusal, route, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ routes for reading the histories, locality ledgers, refusal row, transport rows, package provenance, and local naming row;
+\item $P$ is the $\Pkg$ provenance over $\NoGlobalSyncBoundaryUp$, $\FiniteMultiHistPacketUp$, $\ObserverFrameRefusalUp$, $\ObservationCouplingUp$, $\InterHistInvariantUp$, $\CrossHistCausalRateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\NoGlobalSyncBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a shared clock, privileged frame, host-side observer order, synchronization selector, causal relation, invariant value, maximum-rate witness, metric row, or quotient of histories.
+\end{definition}
+
+\begin{theorem}[NoGlobalSyncBoundary NameCert obligations]
+\label{thm:no-global-sync-boundary-namecert-obligations}
+For the carrier of \autoref{def:no-global-sync-boundary-carrier}, the local $\NameCert_{\NoGlobalSyncBoundaryUp}$ surface consists exactly of carrier admission for
+$$
+G=(H,L,R,S,C,P,N),
+$$
+displayed observer-history rows through $H$, locality-ledger exactness through $L$, explicit refusal of shared clocks, privileged frames, total observer orders, and synchronization selectors through $R$, componentwise $\hsame$ transport through $S$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:no-global-sync-boundary-carrier}. The rows $H,L,R,S,C,P,N$ account for the observer histories, locality ledgers, refusal ledger, transport table, continuation routes, provenance, and local naming surface.
+
+The positive rows $H$ and $L$ say which histories and locality rows may be read. The negative row $R$ says which global synchronization data are refused. The structural rows $S,C,P,N$ transport, replay, name, and record provenance for exactly those displayed rows.
+
+No further row is available in the carrier. Thus every local NameCert obligation is either a projection from one of the displayed rows or the boundary clause that the missing global clock, frame, order, and selector are not admitted coordinates.
+\end{proof}
+
+\begin{theorem}[NoGlobalSyncBoundary frame-refusal handoff]
+\label{thm:no-global-sync-boundary-frame-refusal-handoff}
+Every accepted $\NoGlobalSyncBoundaryUp$ packet supplies the refusal row needed by an $\ObserverFrameRefusalUp$ consumer. The consumer may read the displayed histories $H$, locality ledgers $L$, refusal row $R$, transport rows $S$, routes $C$, provenance $P$, and local naming row $N$, but it may not promote any of them to a shared clock, privileged observer frame, total observer order, or selected synchronization map.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates from \autoref{def:no-global-sync-boundary-carrier}. The refusal row $R$ is explicitly part of the packet, and the rows $S,C,P,N$ give the transport, route, provenance, and naming data by which an observer-frame consumer can cite it.
+
+Apply \autoref{thm:no-global-sync-boundary-namecert-obligations}. The same local NameCert surface that admits $R$ also records the refusal of shared clocks, privileged frames, total observer orders, and synchronization selectors.
+
+The handoff therefore carries negative boundary data, not an admitted global frame. Any accepted $\ObserverFrameRefusalUp$ use can consume $R$ as the displayed refusal row, while the missing synchronization objects remain outside the public packet.
+\end{proof}
+
+\begin{theorem}[NoGlobalSyncBoundary finite-packet non-escape]
+\label{thm:no-global-sync-boundary-finite-packet-nonescape}
+Every accepted $\NoGlobalSyncBoundaryUp$ consumer route factors through the finite rows
+$$
+H,L,R,S,C,P,N.
+$$
+A consumer that exports a shared clock, privileged frame, total observer order, selected synchronization map, causal-rate route, invariant value, coupling ledger, metric row, or quotient of histories without displaying it as refused data has left the packet.
+\end{theorem}
+\begin{proof}
+The carrier in \autoref{def:no-global-sync-boundary-carrier} is finite and lists exactly seven rows. The rows $H$ and $L$ provide local history and locality access, $R$ provides the refusal boundary, and $S,C,P,N$ provide transport, replay, provenance, and naming.
+
+No coordinate of this tuple is a shared clock, privileged frame, total observer order, selected synchronization map, causal-rate route, invariant value, coupling ledger, metric row, or quotient of histories. These objects cannot be projected from the accepted packet as admitted data.
+
+It remains only the refusal case. If such an object is mentioned by an accepted consumer, it must be mentioned through $R$ as excluded boundary data and replayed through the displayed routes in $C$. Otherwise the consumer has introduced a row that is not part of $G=(H,L,R,S,C,P,N)$.
+\end{proof}
+
+\begin{theorem}[NoGlobalSyncBoundary TasteGate obligation]
+\label{thm:no-global-sync-boundary-tastegate-obligation}
+The later Lean site \texttt{lean4/BEDC/Derived/NoGlobalSyncBoundaryUp/TasteGate.lean} will provide explicit $\mathsf{Nontrivial}\ \NoGlobalSyncBoundaryUp$ and $\mathsf{FieldFaithful}\ \NoGlobalSyncBoundaryUp$ instances. These instances must keep the displayed histories, locality rows, refusal row, $\hsame$ transport, $\Cont$ routes, package provenance, and local naming row as distinguishable fields.
+\end{theorem}
+\begin{proof}
+The carrier separates positive locality data from the negative refusal row. A singleton collapse would identify a displayed history, a locality ledger, and the refusal of global synchronization, erasing the boundary that the packet is designed to expose.
+
+Field faithfulness is the projection discipline for the displayed tuple. Each row of $G=(H,L,R,S,C,P,N)$ has a distinct consumer role, and the refusal row $R$ must remain distinguishable from the finite multi-Hist rows and observer-frame handoff data.
+\end{proof}
+
+\falsifiablePrediction{Any accepted NoGlobalSyncBoundaryUp consumer that exports a shared clock, privileged frame, total observer order, or selected synchronization map without a displayed refusal row refutes the packet.}
+
+\independenceWitness{finitemulthistpacket, observerframerefusal, observationcoupling, interhistinvariant, crosshistcausalrate: none is bijective because NoGlobalSyncBoundaryUp stores the refusal row itself rather than a configuration, observer-frame packet, coupling ledger, invariant value, or causal-rate route.}
+
+\closureat{NoGlobalSyncBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\NoGlobalSyncBoundaryUp}
+  \constructivestory{A $\NoGlobalSyncBoundaryUp$ packet is generated from displayed observer histories, locality ledgers, a no-global-synchronization refusal row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:no-global-sync-boundary-carrier}, \autoref{thm:no-global-sync-boundary-namecert-obligations}, \autoref{thm:no-global-sync-boundary-frame-refusal-handoff}, and \autoref{thm:no-global-sync-boundary-finite-packet-nonescape} specify the finite refusal boundary for no-global-synchronization consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not construct a shared clock, privileged frame, total observer order, synchronization map, causal-rate route, invariant value, Lean proof, or bridge checking for $\NoGlobalSyncBoundaryUp$.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding, checked NameCert obligation theorem, finite non-escape theorem, frame-refusal handoff theorem, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
