@@ -134,4 +134,42 @@ theorem BoundedMonotoneCauchyWitnessCarrier_convergence_seal_source [AskSetup]
       provenanceUnary, convergenceUnary, sourceScheduleRegular, regularWitnessTrap, trapSealRoute,
       convergenceRoute, provenancePkg, convergencePkg⟩
 
+theorem BoundedMonotoneCauchyWitnessCarrier_completion_consumer_nonescape [AskSetup]
+    [PackageSetup]
+    {source regular schedule witness ledger trap sealRow transport route provenance localCert
+      envelopeRead finiteRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedMonotoneCauchyWitnessCarrier source regular schedule witness ledger trap sealRow
+        transport route provenance localCert bundle pkg →
+      Cont source schedule envelopeRead →
+        Cont envelopeRead regular finiteRead →
+          Cont finiteRead sealRow completionRead →
+            PkgSig bundle completionRead pkg →
+              UnaryHistory source ∧ UnaryHistory regular ∧ UnaryHistory schedule ∧
+                UnaryHistory witness ∧ UnaryHistory ledger ∧ UnaryHistory trap ∧
+                  UnaryHistory sealRow ∧ UnaryHistory provenance ∧ UnaryHistory envelopeRead ∧
+                    UnaryHistory finiteRead ∧ UnaryHistory completionRead ∧
+                      Cont source schedule envelopeRead ∧
+                        Cont envelopeRead regular finiteRead ∧
+                          Cont finiteRead sealRow completionRead ∧
+                            Cont source schedule regular ∧ Cont regular witness trap ∧
+                              Cont trap sealRow route ∧ PkgSig bundle provenance pkg ∧
+                                PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier envelopeRoute finiteRoute completionRoute completionPkg
+  obtain ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary,
+    sealUnary, provenanceUnary, sourceScheduleRegular, regularWitnessTrap, trapSealRoute,
+    _transportLocalCertRoute, _routeProvenanceSeal, provenancePkg⟩ := carrier
+  have envelopeUnary : UnaryHistory envelopeRead :=
+    unary_cont_closed sourceUnary scheduleUnary envelopeRoute
+  have finiteUnary : UnaryHistory finiteRead :=
+    unary_cont_closed envelopeUnary regularUnary finiteRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed finiteUnary sealUnary completionRoute
+  exact
+    ⟨sourceUnary, regularUnary, scheduleUnary, witnessUnary, ledgerUnary, trapUnary, sealUnary,
+      provenanceUnary, envelopeUnary, finiteUnary, completionUnary, envelopeRoute, finiteRoute,
+      completionRoute, sourceScheduleRegular, regularWitnessTrap, trapSealRoute, provenancePkg,
+      completionPkg⟩
+
 end BEDC.Derived.BoundedMonotoneCauchyWitnessUp
