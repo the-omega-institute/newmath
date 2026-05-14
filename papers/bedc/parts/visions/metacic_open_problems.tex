@@ -276,3 +276,22 @@ Lean and paper audit maps place it.
 \concretizedIn{ch:concrete-instances-metacicopenproblemledger-namecert}{MetaCIC open problems are realized as a finite NameCert ledger for remaining subject-reduction, confluence, normalization, substitution, decidability, typed-example, and blocker rows.}
 \concretizedIn{ch:concrete-instances-dependentcodomaininversionboundary-namecert}{The dependent-codomain barrier is realized as a finite NameCert packet for codomain readback, discharge handoff, and obstruction-boundary rows.}
 \concretizedIn{ch:concrete-instances-metacicnormalizationfrontier-namecert}{The normalization frontier is realized as a finite NameCert packet separating candidate evidence, finished-normal evidence, closed-normal use, and subject-reduction obstruction rows.}
+
+\begin{proposition}[Lambda-domain setup row is mandatory]\label{prop:metacic-lam-domain-setup-row-mandatory}
+Consider a MetaCIC subject-reduction discharge route at either public interface of \autoref{ch:sr-discharge-routes}: the explicit bundle route $\SubjectReductionDischargeBundle$ or the typeclass route $\SubjectReductionSetup$. If that route is used to make the parameterised subject-reduction theorem available for the represented reduction relation, then its finite discharge packet contains a distinct row $LD$ satisfying $\mathrm{LamDomainSubjectReduction}$. This row is the lambda-domain congruence obligation of \autoref{def:metacic-lam-domain-subject-reduction}; it cannot be supplied by the beta-substitution row, the application-argument row, the Pi-domain row, transport, continuation replay, package provenance, or local naming.
+\end{proposition}
+\begin{proof}
+The four-obligation audit of \autoref{sec:metacic-subject-reduction-four-obligations} separates the reduction shapes consumed by the parameterised subject-reduction theorem. The lambda-domain shape is named by \autoref{def:metacic-lam-domain-subject-reduction}: if $\lambda d.\,b$ has type $A$ in $\Gamma$ and $d$ steps to $d'$, the target lambda $\lambda d'.\,b$ must still have type $A$ in the same context. This is a binder-annotation preservation requirement, not a beta-redex substitution requirement and not an application-codomain stability requirement.
+
+Read the explicit bundle route from \autoref{subsec:sr-discharge-routes-bundle-definition}. The bundle has four discharge fields, and one of them is the lambda-domain field. Therefore any use of the bundle route carries the lambda-domain row as a named component of the finite packet.
+
+Read the typeclass route from \autoref{subsec:sr-discharge-routes-typeclass-definition} and its conversion in \autoref{subsec:sr-discharge-routes-conversion-to-bundle}. A $\SubjectReductionSetup$ instance has the same four fields, including the lambda-domain field, and $\mathsf{SubjectReductionSetup.toBundle}$ copies those fields into the bundle shape. Thus the setup route does not remove the lambda-domain obligation; it exposes the same row through instance fields and then through the bundle projection.
+
+The finite ledger form gives the same conclusion at the BEDC packet surface. In \autoref{def:subject-reduction-discharge-ledger-carrier} an accepted $\SubjectReductionDischargeLedgerUp$ carrier is displayed as
+$$
+L=(B,A,LD,PD,R,H,C,P,N),
+$$
+where $LD$ is the lambda-domain subject-reduction row and $R$ is the route that consumes exactly $B,A,LD,PD$. The handoff theorem \autoref{thm:subject-reduction-discharge-ledger-subjectreduction-handoff} confines subject-reduction consumption to those four obligation rows through $R$, and the non-escape theorem \autoref{thm:subject-reduction-discharge-ledger-nonescape} confines downstream reads to the displayed packet. Hence $H,C,P,N$ can transport, replay, authenticate, and name the route, but none of them can create or replace the missing lambda-domain preservation row.
+
+Consequently, whenever the MetaCIC subject-reduction discharge interface is used, $\mathrm{LamDomainSubjectReduction}$ is a required finite setup obligation row. Supplying the other rows without $LD$ leaves the discharge interface incomplete for the lambda-domain congruence case.
+\end{proof}
