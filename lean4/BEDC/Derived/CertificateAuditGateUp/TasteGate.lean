@@ -52,20 +52,47 @@ def certificateAuditGateToEventFlow : CertificateAuditGateUp -> EventFlow
         certificateAuditGateEncodeBHist name]
 
 def certificateAuditGateFromEventFlow : EventFlow -> Option CertificateAuditGateUp
-  | gateInput :: checkedSurface :: refusal :: drift :: axiomPurity :: transport ::
-      continuation :: provenance :: name :: [] =>
-      some
-        (CertificateAuditGateUp.mk
-          (certificateAuditGateDecodeBHist gateInput)
-          (certificateAuditGateDecodeBHist checkedSurface)
-          (certificateAuditGateDecodeBHist refusal)
-          (certificateAuditGateDecodeBHist drift)
-          (certificateAuditGateDecodeBHist axiomPurity)
-          (certificateAuditGateDecodeBHist transport)
-          (certificateAuditGateDecodeBHist continuation)
-          (certificateAuditGateDecodeBHist provenance)
-          (certificateAuditGateDecodeBHist name))
-  | _ => none
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | gateInput :: rest0 =>
+      match rest0 with
+      | [] => none
+      | checkedSurface :: rest1 =>
+          match rest1 with
+          | [] => none
+          | refusal :: rest2 =>
+              match rest2 with
+              | [] => none
+              | drift :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | axiomPurity :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | transport :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | continuation :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | provenance :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | name :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (CertificateAuditGateUp.mk
+                                              (certificateAuditGateDecodeBHist gateInput)
+                                              (certificateAuditGateDecodeBHist checkedSurface)
+                                              (certificateAuditGateDecodeBHist refusal)
+                                              (certificateAuditGateDecodeBHist drift)
+                                              (certificateAuditGateDecodeBHist axiomPurity)
+                                              (certificateAuditGateDecodeBHist transport)
+                                              (certificateAuditGateDecodeBHist continuation)
+                                              (certificateAuditGateDecodeBHist provenance)
+                                              (certificateAuditGateDecodeBHist name))
+                                      | _ :: _ => none
 
 private theorem certificateAuditGate_round_trip :
     forall x : CertificateAuditGateUp,
