@@ -150,6 +150,24 @@ Pole requests land in $P$, Gamma-boundary requests land in $G$, and trivial-zero
 Consequently every exported application fact is a read of the finite packet. The missing objects remain outside the certificate surface rather than becoming hidden application outputs.
 \end{proof}
 
+\begin{theorem}[ZetaContinuationApplication primitive scope package]
+\label{thm:zeta-continuation-application-primitive-scope-package}
+Every accepted $\ZetaContinuationApplicationUp$ packet reads the $\GammaUp$, analytic-operation, and $\ZetaBasicUp$ sibling rows only through the displayed carrier
+$$
+Z=(E,F,P,T,G,A,H,C,Q,N)
+$$
+and through the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In particular, the packet exposes the Gamma horizon by $G$, the analytic-operation route by $A$, the zeta source by $E$, componentwise transport by $H$, replay by $C$, package provenance by $Q$, and local naming by $N$, without importing analytic continuation as an external theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier admission of \autoref{thm:zeta-continuation-application-carrier-admission}. It fixes the visible packet as the finite $\BHist$ carrier $Z=(E,F,P,T,G,A,H,C,Q,N)$ and identifies the Gamma, analytic-operation, and zeta-source rows as sibling inputs to that carrier.
+
+Use componentwise stability from \autoref{thm:zeta-continuation-application-componentwise-stability}. The $\hsame$ row $H$ preserves $E,F,P,T,G,A$ separately, so no sibling row can be exchanged for a different continuation source during transport.
+
+Now apply the source-lock theorems. The Gamma eta handoff of \autoref{thm:zeta-continuation-application-gamma-eta-handoff} routes Gamma-facing reads through $G$; the analytic-operation boundary of \autoref{thm:zeta-continuation-application-analytic-operation-boundary} routes operation reads through $A$; and the ZetaBasic source lock of \autoref{thm:zeta-continuation-application-zeta-basic-source-lock} routes zeta-source reads through $E$.
+
+Finally use non-escape from \autoref{thm:zeta-continuation-application-non-escape}. Since every downstream consumer factors through $E,F,P,T,G,A,H,C,Q,N$, the only remaining public structure is $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, and the local $\NameCert$ row $N$ over the same $\BHist$ packet.
+\end{proof}
+
 \closureat{ZetaContinuationApplicationUp}{seedStr}
 \closureat{ZetaContinuationApplicationUp}{obligationStr}
 
