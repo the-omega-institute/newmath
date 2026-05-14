@@ -141,6 +141,82 @@ internal witness, selector, quotient representative, proposition equality
 token, or supplied-content theorem.
 \end{proof}
 
+\begin{theorem}[ExternalSupplyBoundary carrier admission]
+\label{thm:external-supply-boundary-carrier-admission}
+Every accepted $\ExternalSupplyBoundaryUp$ boundary read is admitted only by the
+finite $\BHist$ carrier
+$$
+E=(B,R,I,A,G,Q,H,C,P,N).
+$$
+The local $\NameCert_{\ExternalSupplyBoundaryUp}$ row $N$ projects exactly this
+tuple: boundary name $B$, requested-supply shape $R$, non-internalization row
+$I$, accepted-boundary-form row $A$, $\mathsf{GAP}$ ledger $G$, gate question
+$Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$,
+package provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The packet is displayed as the ten-coordinate
+finite history $E=(B,R,I,A,G,Q,H,C,P,N)$, and every coordinate is named before
+the local certificate row is read.
+
+Use \autoref{thm:external-supply-boundary-namecert-obligations}. Carrier
+admission is the first obligation of the local NameCert surface, and the later
+obligations are all projections from the same displayed packet.
+
+Thus an accepted boundary read has no second carrier and no unlisted coordinate.
+It is admitted exactly through the finite $\BHist$ tuple named by $N$.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyBoundary GAP ledger exposure]
+\label{thm:external-supply-boundary-gap-ledger-exposure}
+Every accepted $\ExternalSupplyBoundaryUp$ read exposes requested-supply
+pressure factors only through the $\mathsf{GAP}$ ledger row $G$, while the
+non-internalization row $I$ records that the same request is not available as
+internal substrate content. The exposure is therefore a ledger read of boundary
+pressure, not a supply witness.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{thm:external-supply-boundary-carrier-admission}.
+The rows $I$ and $G$ are coordinates of the same finite carrier, so a consumer
+cannot separate ledger pressure from the non-internalization status that names
+the request as external.
+
+Apply \autoref{thm:external-supply-boundary-namecert-obligations}. The local
+surface lists non-internalization exactness through $I$ and
+$\mathsf{GAP}$-ledger readback through $G$ as distinct obligations over the same
+boundary packet.
+
+Finally use \autoref{thm:external-supply-boundary-non-internalization}. Since no
+coordinate supplies the requested content, the $G$ read exposes only residue or
+socket pressure for the request named by $R$ and refused by $I$.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyBoundary socket readback]
+\label{thm:external-supply-boundary-socket-readback}
+Every sibling boundary read through $\SupplySocketLedgerUp$,
+$\ApophaticSocketUp$, $\AuditGateBoundaryUp$, and
+$\ApophaticGateQuestionUp$ must pass through the displayed rows
+$A,G,Q,H,C,P,N$ of the same accepted $\ExternalSupplyBoundaryUp$ packet. The
+readback may expose accepted boundary form, socket or residue ledger, gate
+question, transport, replay, provenance, and local naming, but it may not bypass
+those rows to obtain requested supply content.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:external-supply-boundary-sibling-compatibility}. The sibling
+surfaces named there consume the provenance row $P$ together with the accepted
+form $A$, ledger $G$, and gate question $Q$.
+
+Use \autoref{thm:external-supply-boundary-carrier-admission} to place those rows
+inside the single finite carrier. The transport row $H$, replay row $C$,
+provenance row $P$, and naming row $N$ keep the sibling read attached to that
+carrier rather than to an external socket convention.
+
+Apply \autoref{thm:external-supply-boundary-gap-ledger-exposure} and
+\autoref{thm:external-supply-boundary-non-internalization}. The readback can
+carry socket pressure and the audit question, but the requested supply remains
+external to the packet.
+\end{proof}
+
 \falsifiablePrediction{A boundary packet that omits either the non-internalization row or the GAP-ledger row cannot satisfy the non-internalization theorem.}
 
 \independenceWitness{Compare SupplySocketLedger, ApophaticSocket, AuditGateBoundary, and ApophaticGateQuestion: none is bijective to ExternalSupplyBoundary, because each lacks at least one of the requested-supply shape, accepted boundary form, GAP ledger, or gate-question rows required by the packet.}
@@ -152,11 +228,12 @@ The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \ExternalSupplyBo
 
 \begin{closurestatus}{\ExternalSupplyBoundaryUp}
   \constructivestory{An $\ExternalSupplyBoundaryUp$ packet is generated from a boundary-name row, requested-supply-shape row, non-internalization row, accepted-boundary-form row, $\mathsf{GAP}$ ledger row, gate-question row, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:external-supply-boundary-carrier}, \autoref{thm:external-supply-boundary-namecert-obligations}, \autoref{thm:external-supply-boundary-non-internalization}, the falsifiable prediction, the independence witness, and the sibling socket and audit rows bind the visible external-supply boundary surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:external-supply-boundary-carrier}, \autoref{thm:external-supply-boundary-namecert-obligations}, \autoref{thm:external-supply-boundary-non-internalization}, \autoref{thm:external-supply-boundary-carrier-admission}, \autoref{thm:external-supply-boundary-gap-ledger-exposure}, \autoref{thm:external-supply-boundary-socket-readback}, the accepted-form and gate-question rows, the falsifiable prediction, and the independence witness bind the visible external-supply boundary obligation surface.}
+  \leanchecked{BEDC.Derived.ExternalSupplyBoundaryUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close internal witnesses, selectors, quotient representatives, supplied-content theorems, Lean TasteGate verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, boundary-shape exactness, non-internalization, accepted-form readback, GAP-ledger exposure, gate-question readback, and sibling socket and audit compatibility for the same finite boundary packet.}
+  \upgradepath{Scoped closure requires checked carrier admission, boundary-shape exactness, non-internalization, accepted-form readback, GAP-ledger exposure, gate-question readback, and sibling socket-readback rows for the same finite boundary packet.}
 \end{closurestatus}
