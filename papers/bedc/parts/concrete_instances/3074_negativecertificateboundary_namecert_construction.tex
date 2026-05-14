@@ -6,6 +6,8 @@ The $\NegativeCertificateBoundaryUp$ packet realizes apophatic refusal as a fini
 
 The packet is a boundary certificate. It does not prove that the external supply is absent from every possible context, and it does not turn absence into a positive object. It records that the named socket has no admitted internalizer inside the displayed BEDC packet.
 
+$\NegativeCertificateBoundaryUp$ specializes the apophatic-name surface of \autoref{ch:concrete-instances-apophaticname-namecert} by adding the refused-internalizer row, the $\mathsf{GAP}$ ledger row, and the audit-gate readback row. $\ApophaticNameUp$ supplies the named externality and refusal discipline; $\NegativeCertificateBoundaryUp$ packages the concrete socket, refusal, ledger, and audit surface that downstream checks can read without converting the refused content into substrate data.
+
 \begin{definition}[NegativeCertificateBoundary carrier]
 \label{def:negative-certificate-boundary-carrier}
 A $\NegativeCertificateBoundaryUp$ carrier is a finite $\BHist$ packet
@@ -68,12 +70,28 @@ Use the continuation routes in $C$ to order the read. A consumer first reaches t
 The transport and provenance rows preserve the same surface. Since the tuple has no coordinate for a positive supply object, the audit surface is exhausted by the displayed rows.
 \end{proof}
 
+\begin{theorem}[NegativeCertificateBoundary apophatic sibling route]
+\label{thm:negative-certificate-boundary-apophatic-sibling-route}
+Every accepted $\NegativeCertificateBoundaryUp$ packet reads its socket row through \autoref{ch:concrete-instances-apophaticname-namecert} and \autoref{ch:concrete-instances-apophaticsocket-namecert}, and reads its refused-internalizer and audit-gate route through \autoref{ch:concrete-instances-apophaticgatequestion-namecert} before exposing the local $\mathsf{GAP}$ ledger.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as
+$$
+B=(S,R,G,A,H,C,P,N).
+$$
+The row $S$ is the named apophatic socket: it is the place where the requested external supply is named without being admitted as substrate content.
+
+The rows $R,G,A$ give the refusal and audit route. The refused internalizer $R$ is attached to the socket, the ledger row $G$ records the finite $\mathsf{GAP}$ entry for that refusal, and the audit row $A$ is the downstream readback surface.
+
+Thus the packet first inherits the apophatic-name and apophatic-socket sibling route, then passes through the apophatic-gate question route for the refused internalizer and audit readback. The exposed boundary is therefore a downstream finite refusal boundary, not an isolated kernel-only object.
+\end{proof}
+
 \closureat{NegativeCertificateBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\NegativeCertificateBoundaryUp}
   \constructivestory{A $\NegativeCertificateBoundaryUp$ packet is generated from a named socket row, a refused internalizer row, a GAP ledger row, an audit-gate readback row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:negative-certificate-boundary-carrier}, \autoref{thm:negative-certificate-boundary-namecert-obligations}, and \autoref{thm:negative-certificate-boundary-audit-surface} bind the finite refusal-boundary carrier, local NameCert obligations, GAP ledger exactness, audit handoff, and non-internalization surface.}
+  \scopeclosed{\autoref{def:negative-certificate-boundary-carrier}, \autoref{thm:negative-certificate-boundary-namecert-obligations}, \autoref{thm:negative-certificate-boundary-audit-surface}, and \autoref{thm:negative-certificate-boundary-apophatic-sibling-route} bind the finite refusal-boundary carrier, local NameCert obligations, GAP ledger exactness, audit handoff, non-internalization surface, and apophatic sibling route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

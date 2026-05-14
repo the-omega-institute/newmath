@@ -158,6 +158,7 @@ import BEDC.Derived.RealTailAgreementSealUp.TasteGate
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
+import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
@@ -173,6 +174,7 @@ import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
+import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
@@ -336,6 +338,7 @@ import BEDC.Derived.CauchyLimitSealUp.SourceScheduleLedger
 import BEDC.Derived.CauchyLimitSealUp.StreamNameDependency
 import BEDC.Derived.CauchyLimitSealUp.StreamNameLatticeOrphanLink
 import BEDC.Derived.CauchyLimitSealUp.StreamNameRegularNameLattice
+import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
