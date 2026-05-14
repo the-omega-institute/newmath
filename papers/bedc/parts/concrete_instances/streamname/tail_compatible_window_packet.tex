@@ -117,3 +117,41 @@ equality, host sequence equality, selected limits, metric-completeness data,
 countable choice, standard bridges, or ambient completeness. Hence the
 tail-compatible packet has no escaping coordinate of the listed kinds.
 \end{proof}
+
+\begin{theorem}[StreamName tail-compatible window terminality]
+\label{thm:streamname-tail-compatible-window-terminality}
+Every accepted finite-window handoff from $\StreamNameUp$ to a $\RegSeqRatUp$
+readback or to a finite-window $\RealUp$ seal factors terminally through the
+request rows of \autoref{thm:streamname-tail-compatible-window-request} and
+the support rows of \autoref{thm:streamname-tail-compatible-window-coverage}.
+
+If two accepted finite-window consumers expose the same finite observation,
+tail-selector route, budget surface, pointwise handoff, and support rows, then
+they classify through the same tail-compatible window route. The terminal
+packet exports no quotient stream equality, selected limit, host real equality,
+metric-completeness datum, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the request theorem. By
+\autoref{thm:streamname-tail-compatible-window-request}, the finite-window
+request is determined by the certified observation row, the tail-selector
+route, the finite-window budget surface, and the pointwise $\RegSeqRatUp$
+handoff row.
+
+Next add the shared support. Apply
+\autoref{thm:streamname-tail-compatible-window-coverage}; every accepted
+handoff to a $\RegSeqRatUp$ readback or finite-window $\RealUp$ seal factors
+through the same request together with the displayed $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Now compare two consumers with the same visible inventory. The request rows
+agree by the first step, and the support rows agree by the second step, so the
+two consumers replay the same finite StreamName window route into the
+downstream readback or seal.
+
+Finally use \autoref{thm:streamname-tail-compatible-window-nonescape}. It
+excludes quotient stream equality, selected limits, host real equality,
+metric-completeness data, and ambient $\RealUp$ completeness from the packet.
+Thus the displayed request and support rows are terminal for finite-window
+consumers.
+\end{proof}
