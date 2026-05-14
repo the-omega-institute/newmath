@@ -59,4 +59,40 @@ theorem ObservationBudgetLimiter_seal_ordering
                       · exact cDR
                       · exact cRS
 
+theorem ObservationBudgetLimiter_window_readback_exactness
+    {K W D R KW WD DR K' W' D' R' KW' WD' DR' : BHist} :
+    UnaryHistory K →
+      UnaryHistory W →
+        UnaryHistory D →
+          UnaryHistory R →
+            Cont K W KW →
+              Cont KW D WD →
+                Cont WD R DR →
+                  hsame K K' →
+                    hsame W W' →
+                      hsame D D' →
+                        hsame R R' →
+                          Cont K' W' KW' →
+                            Cont KW' D' WD' →
+                              Cont WD' R' DR' →
+                                UnaryHistory KW ∧ UnaryHistory WD ∧ UnaryHistory DR ∧
+                                  UnaryHistory KW' ∧ UnaryHistory WD' ∧ UnaryHistory DR' ∧
+                                    hsame KW KW' ∧ hsame WD WD' ∧ hsame DR DR' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro uK uW uD uR cKW cWD cDR sameK sameW sameD sameR cKW' cWD' cDR'
+  have uK' : UnaryHistory K' := unary_transport uK sameK
+  have uW' : UnaryHistory W' := unary_transport uW sameW
+  have uD' : UnaryHistory D' := unary_transport uD sameD
+  have uR' : UnaryHistory R' := unary_transport uR sameR
+  have uKW : UnaryHistory KW := unary_cont_closed uK uW cKW
+  have uWD : UnaryHistory WD := unary_cont_closed uKW uD cWD
+  have uDR : UnaryHistory DR := unary_cont_closed uWD uR cDR
+  have uKW' : UnaryHistory KW' := unary_cont_closed uK' uW' cKW'
+  have uWD' : UnaryHistory WD' := unary_cont_closed uKW' uD' cWD'
+  have uDR' : UnaryHistory DR' := unary_cont_closed uWD' uR' cDR'
+  have sameKW : hsame KW KW' := cont_respects_hsame sameK sameW cKW cKW'
+  have sameWD : hsame WD WD' := cont_respects_hsame sameKW sameD cWD cWD'
+  have sameDR : hsame DR DR' := cont_respects_hsame sameWD sameR cDR cDR'
+  exact ⟨uKW, uWD, uDR, uKW', uWD', uDR', sameKW, sameWD, sameDR⟩
+
 end BEDC.Derived.ObservationBudgetLimiterUp
