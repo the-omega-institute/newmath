@@ -364,6 +364,50 @@ Use closedness ledger coverage and operation row determinacy. They make $C_{\mat
 Finally invoke the kernel scope package of \autoref{thm:closed-term-substitution-boundary-kernel-scope-package}. Since no host substitution semantics or ambient compiler-correctness theorem is present in the scoped primitive list, downstream citation of closed shift and closed substitution must pass through the displayed witnesses and ledger.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary compiler consumer lock]
+\label{thm:closed-term-substitution-boundary-compiler-consumer-lock}
+Every $\ClosedTermSubstitutionCompilerUp$ consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must pass through the displayed rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The compiler consumer may cite the compiler-side sibling surface of \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert} only after these boundary rows have been displayed; it cannot replace them by a host substitution semantics, ambient compiler-correctness theorem, or detached compiler carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted boundary carrier. The projection exposes the term row $T$, value row $V$, depth row $d$, source and value closedness witnesses, operation rows $Q,R$, ledger row $L$, audit row $A$, transport row $H$, route row $C$, provenance row $P$, and local naming row $N$ as one finite packet.
+
+Route the consumer through the local $\NameCert$ obligations. They make the closed shift and closed substitution rows readable only through the displayed closedness witnesses and ledger, so a compiler consumer cannot detach $Q$ or $R$ from $C_{\mathsf{src}},C_{\mathsf{val}}$, and $L$.
+
+Finally compare with the sibling compiler chapter. The route into \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert} is a consumer route out of the displayed boundary packet, not a replacement source for the packet, because no host substitution semantics or ambient compiler-correctness theorem is present among the boundary rows.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary binder-budget depth lock]
+\label{thm:closed-term-substitution-boundary-binder-budget-depth-lock}
+In every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the inspected depth row $d$ and the source/value closedness witnesses $C_{\mathsf{src}},C_{\mathsf{val}}$ lock the binder-budget surface before either operation row $Q$ or $R$ can be consumed. The resulting budget route cites the sibling binder-budget surface of \autoref{ch:concrete-instances-binderbudgetseal-namecert} only through the displayed boundary rows.
+\end{theorem}
+\begin{proof}
+Read the depth and closedness coordinates from the carrier. The row $d$ is not a free ambient natural-number budget; it is the displayed depth coordinate paired with $T,V,C_{\mathsf{src}}$, and $C_{\mathsf{val}}$ inside the accepted packet.
+
+Use operation-row routing. The shift row $Q$ consumes the source closedness witness at the displayed depth, and the substitution row $R$ consumes both the source and value closedness witnesses before producing any closedness-preserving operation read.
+
+The binder-budget sibling is therefore reached only after this local projection. A consumer may compare the resulting budget surface with \autoref{ch:concrete-instances-binderbudgetseal-namecert}, but the comparison is routed through $d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ and supplies no hidden binder depth or host substitution step.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary recursor-generator scope lock]
+\label{thm:closed-term-substitution-boundary-recursor-generator-scope-lock}
+Every $\RecursorGeneratorUp$ consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet may use the substitution boundary only after the closedness ledger and operation rows $Q,R,L$ have been displayed with
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},A,H,C,P,N.
+$$
+The sibling recursor-generator surface of \autoref{ch:concrete-instances-recursorgenerator-namecert} is therefore a downstream scope consumer, not a host recursion principle or external substitution semantics.
+\end{theorem}
+\begin{proof}
+Start from the closedness consumer export. It already forces downstream citation of closed shift and closed substitution through $C_{\mathsf{src}},C_{\mathsf{val}},Q,R$, and $L$.
+
+Add the audit and route rows. The audit row $A$, componentwise transport row $H$, continuation row $C$, package row $P$, and naming row $N$ keep the operation read inside the same finite boundary packet.
+
+Only then may a recursor-generator consumer cite \autoref{ch:concrete-instances-recursorgenerator-namecert}. Since the boundary packet contains no host recursion principle, external substitution semantics, or detached generator carrier, that sibling citation is a scoped consumer route over the displayed ledger and operation rows.
+\end{proof}
+
 \closureat{ClosedTermSubstitutionBoundaryUp}{seedStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{obligationStr}
 \closureat{ClosedTermSubstitutionBoundaryUp}{scopedStr}
