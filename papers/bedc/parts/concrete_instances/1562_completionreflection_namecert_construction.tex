@@ -6,6 +6,24 @@ Following Bishop and Bridges, \emph{Constructive Analysis}, the completion refle
 
 The reflection packet consumes the completion construction of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, the universal-property extension row from \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, the separated boundary row from \autoref{ch:concrete-instances-hausdorffcompletion-namecert}, the regular-rational source row from \autoref{ch:concrete-instances-regseqrat-namecert}, and the real seal row from \autoref{ch:concrete-instances-real-namecert}. These sibling rows are the source of $C,U,H,Q,A$ in the carrier tuple, and the $\CompletionReflectionUp$ packet only repackages their finite routes through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 
+\begin{theorem}[CompletionReflection StreamName-RegSeqRat-Real factorization]
+\label{thm:completion-reflection-stream-regseq-real-factor}
+Every accepted $\CompletionReflectionUp$ read factors through the $\StreamNameUp$ finite-window surface, the $\RegSeqRatUp$ readback row, the $\RealUp$ seal row, and the local reflection rows
+$$
+C,U,H,Q,A
+$$
+before any completion-facing consumer can use the reflected object. The factorization is the finite route supplied by \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, and \autoref{ch:concrete-instances-hausdorffcompletion-namecert}.
+\end{theorem}
+\begin{proof}
+Project the dependency paragraph and the carrier rows. The completion construction row $C$, universal-property row $U$, Hausdorff boundary row $H$, regular-rational source row $Q$, and Real seal row $A$ are exactly the local reflection rows available before transport and provenance are read.
+
+Use the RegSeqRat and Real sibling rows to identify the finite source route. The StreamName finite-window surface feeds the regular rational readback, and the regular readback is the finite row through which the Real seal is consumed.
+
+Now compose the completion-construction, universal-property, and Hausdorff-completion sibling rows. They allow the reflected object to be used only after the same finite $C,U,H,Q,A$ route has been transported, replayed, cited, and named.
+
+Thus a completion-facing consumer receives a reflected finite route, not a quotient stream, selected host limit, host real equality principle, or ambient completeness theorem.
+\end{proof}
+
 \begin{definition}[CompletionReflection carrier]
 \label{def:completion-reflection-carrier}
 A $\CompletionReflectionUp$ carrier is a finite $\mathsf{BHist}$ packet

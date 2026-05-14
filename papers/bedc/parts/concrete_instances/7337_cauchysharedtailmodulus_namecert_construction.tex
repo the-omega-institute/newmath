@@ -331,6 +331,24 @@ Use dyadic ledger exactness to keep $D$ as the common tolerance witness for both
 Finally apply the Real seal handoff and completion-consumer non-escape theorems. They place $E$ downstream of $M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1$ and exclude any public Real seal detached from those rows.
 \end{proof}
 
+\begin{theorem}[Cauchy shared-tail modulus downstream consumer factorization]
+\label{thm:cauchy-shared-tail-modulus-downstream-consumer-factorization}
+Any downstream Real-completion, $\CauchyLimitSealUp$, or $\RealCompletenessUp$ consumer of an accepted $\CauchySharedTailModulusUp$ packet factors through the displayed route
+$$
+M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1,E,H,C,P,N.
+$$
+The $\CauchyLimitSealUp$ side is the sibling limit-seal route of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the $\RealCompletenessUp$ side is the completion-facing seal route of \autoref{ch:concrete-instances-realcompleteness-namecert}, and the finite source of both routes is the $\StreamNameUp$ and $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. No selected limit, quotient stream, host real equality, countable choice rule, or ambient completeness coordinate is exposed by this factorization.
+\end{theorem}
+\begin{proof}
+Begin with tail synchronization. It places the two extracted modulus rows and the single shared threshold row on the same dyadic ledger before either finite window can be consumed.
+
+Next use the Real seal handoff and the Real seal obligation gate. They force every completion-facing read of $E$ to pass through the paired windows and paired regular readbacks over the common route $M_0,M_1,\tau,D,W_0,W_1,Q_0,Q_1$.
+
+Now apply completion-consumer non-escape. A downstream limit-seal or completeness consumer can only receive the rows already displayed by the carrier, transported by $H$, replayed by $C$, cited by $P$, and named by $N$.
+
+The sibling chapters named in the statement provide the consumer-side vocabulary for those finite rows. Since none of the source, seal, transport, replay, provenance, or naming rows contains a selected limit, quotient stream, host equality, countable-choice selector, or ambient completeness coordinate, the factorization exposes no such object.
+\end{proof}
+
 The Lean TasteGate surface records $\mathsf{Nontrivial}\ \CauchySharedTailModulusUp$ and $\mathsf{FieldFaithful}\ \CauchySharedTailModulusUp$ instances for the displayed carrier.
 
 \closureat{CauchySharedTailModulusUp}{seedStr}
