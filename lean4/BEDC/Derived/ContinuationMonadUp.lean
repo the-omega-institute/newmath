@@ -313,6 +313,41 @@ theorem ContinuationMonadCarrier_root_continuation_rule_coverage
       exact ⟨unary_transport unaryL (hsame_symm source.right), sameEndpoint, pkgSig⟩
   }
 
+theorem ContinuationMonadCarrier_category_generator_exactness
+    [AskSetup] [PackageSetup]
+    {A B C f g u H K L N category generator : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationMonadCarrier A B C f g u H K L N →
+      Cont L N category →
+        Cont category N generator →
+          PkgSig bundle generator pkg →
+            UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory C ∧ UnaryHistory f ∧
+              UnaryHistory g ∧ UnaryHistory u ∧ UnaryHistory K ∧ UnaryHistory L ∧
+                UnaryHistory category ∧ UnaryHistory generator ∧ Cont L N category ∧
+                  Cont category N generator ∧ hsame N L ∧
+                    PkgSig bundle generator pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier categoryRoute generatorRoute generatorPkg
+  obtain ⟨unaryA, unaryF, unaryG, unaryU, routeB, routeC, routeK, routeL,
+    sameEndpoint⟩ := carrier
+  have unaryB : UnaryHistory B :=
+    unary_cont_closed unaryA unaryF routeB
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryB unaryG routeC
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryF unaryG routeK
+  have unaryL : UnaryHistory L :=
+    unary_cont_closed unaryK unaryU routeL
+  have unaryN : UnaryHistory N :=
+    unary_transport unaryL (hsame_symm sameEndpoint)
+  have unaryCategory : UnaryHistory category :=
+    unary_cont_closed unaryL unaryN categoryRoute
+  have unaryGenerator : UnaryHistory generator :=
+    unary_cont_closed unaryCategory unaryN generatorRoute
+  exact
+    ⟨unaryA, unaryB, unaryC, unaryF, unaryG, unaryU, unaryK, unaryL, unaryCategory,
+      unaryGenerator, categoryRoute, generatorRoute, sameEndpoint, generatorPkg⟩
+
 theorem ContinuationMonadCarrier_root_ledger_formal_boundary
     [AskSetup] [PackageSetup]
     {A B C f g u H K L N ledgerRead : BHist}

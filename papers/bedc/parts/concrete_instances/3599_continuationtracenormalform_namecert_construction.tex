@@ -393,6 +393,42 @@ Next apply \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. 
 Finally apply \autoref{thm:continuation-trace-normal-form-standard-bridge-surface} and \autoref{thm:continuation-trace-normal-form-non-escape}. The standard bridge surface is the public consumer object, and the non-escape clause rules out hidden evaluator state, quotient trace equality, external normalization, host conversion, global confluence, and unbounded fuel.
 \end{proof}
 
+\begin{theorem}[ContinuationTraceNormalForm prefix splice lock]
+\label{thm:continuation-trace-normal-form-prefix-splice-lock}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, every prefix splice used by a downstream normal-form consumer is locked to the displayed $\ContinuationTraceUp$ row $T$ and to the displayed $\Cont$ route $C$. The splice cannot be supplied by a second trace ledger, host evaluator prefix, quotient trace representative, global confluence proof, or external normalizer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:continuation-trace-normal-form-carrier}. The only trace ledger available to the packet is the displayed row $T$, and the only replay route available to a consumer is the displayed $\Cont$ row $C$.
+
+Apply \autoref{thm:continuation-trace-normal-form-trace-ledger-exhaustion}. It exhausts exported trace reads by the finite $\ContinuationTraceUp$ ledger and prevents a second prefix source from entering the public surface.
+
+Finally use \autoref{thm:continuation-trace-normal-form-consumer-readback-envelope}. The consumer envelope routes terminal readback through the same $S,T,R,Q,V,H,C,P,N$ packet, so host prefixes, quotient representatives, global confluence, and external normalization have no splice coordinate.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm terminal prefix transport]
+\label{thm:continuation-trace-normal-form-terminal-prefix-transport}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, terminal prefix transport moves the terminal row $R$, the $\ContinuationBigStepUp$ terminal-read row $Q$, and the $\TypedReductionNormalFormUp$ boundary row $V$ only through $H,C,P,N$. No consumer may transport $R,Q,V$ through host conversion, evaluator graphs, quotient normalization, global confluence, or an external normalizer.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:continuation-trace-normal-form-terminal-readback-lock}. It places terminal readback behind the displayed trace, terminal-read, transport, continuation, provenance, and local naming rows.
+
+Use \autoref{thm:continuation-trace-normal-form-typed-boundary-nonescape}. The typed boundary is read as a row of the same packet, so $V$ travels with the displayed $\hsame$ transport and $\Cont$ route rather than with a host conversion relation.
+
+Apply \autoref{thm:continuation-trace-normal-form-consumer-readback-envelope}. The envelope exposes $R,Q,V$ only inside $S,T,R,Q,V,H,C,P,N$, and the excluded evaluator, quotient, confluence, and external-normalizer coordinates are absent from that carrier.
+\end{proof}
+
+\begin{theorem}[ContinuationTraceNormalForm normal-boundary consumer totality]
+\label{thm:continuation-trace-normal-form-normal-boundary-consumer-totality}
+For every accepted $\ContinuationTraceNormalFormUp$ packet $Z=(S,T,R,Q,V,H,C,P,N)$, the normal-boundary consumer surface is exhausted by $S,T,R,Q,V,H,C,P,N$. The consumer cannot use host conversion, quotient normalization, evaluator graphs, global confluence, or an external normalizer as an additional terminal route.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:continuation-trace-normal-form-normal-boundary-exhaustion}. It identifies the typed normal-form boundary with the displayed continuation trace, terminal-read, typed-boundary, transport, route, provenance, and naming rows.
+
+Next combine the prefix splice lock with terminal prefix transport. The splice is tied to $T$ and $C$, while the terminal rows $R,Q,V$ move only through $H,C,P,N$.
+
+Finally apply \autoref{thm:continuation-trace-normal-form-non-escape}. Since the accepted carrier has no host conversion, quotient-normalization, evaluator-graph, global-confluence, or external-normalizer coordinate, the displayed rows exhaust every normal-boundary consumer read.
+\end{proof}
+
 \closureat{ContinuationTraceNormalFormUp}{seedStr}
 \closureat{ContinuationTraceNormalFormUp}{obligationStr}
 \closureat{ContinuationTraceNormalFormUp}{scopedStr}
