@@ -84,6 +84,55 @@ row in the route just assembled, so the two seal consumers are locked to one
 finite source route.
 \end{proof}
 
+\begin{theorem}[RegSeqRat StreamName Dyadic Real source-seal correspondence]
+\label{thm:regseqrat-streamname-dyadic-real-source-seal-correspondence}
+For an accepted $\RegSeqRatUp$ carrier read through displayed
+$\StreamNameUp$ schedules and $\DyadicRatCoreUp$ endpoint and radius ledgers,
+the public $\RealUp$ seal route is equivalent, as a finite BEDC route, to the
+four-stage route
+\begin{enumerate}
+\item $\StreamNameUp$ finite-window rows selecting the scheduled observations;
+\item $\DyadicRatCoreUp$ endpoint, radius, and dyadic-distance rows read from
+those windows;
+\item $\RegSeqRatUp$ classifier and regularity rows over the same finite
+dyadic observations;
+\item the $\RealUp$ seal row that consumes that classifier surface.
+\end{enumerate}
+The correspondence is bidirectional at the level of displayed rows: every
+public seal read factors through the four-stage route, and every such
+four-stage route determines the same public seal read for the accepted
+carrier. It introduces no quotient stream, host real equality, selected limit,
+ambient completeness datum, or hidden seal coordinate.
+\end{theorem}
+\begin{proof}
+For the forward direction, apply
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. A public
+$\RealUp$ seal read is routed through StreamName schedules, DyadicRatCore
+endpoint and radius ledgers, RegSeqRat classifier rows, and the public seal,
+while preserving the displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and
+$\NameCert$ rows.
+
+Next lock the source by
+\autoref{thm:regseqrat-streamname-dyadic-real-handoff-single-source-lock}. The
+same accepted carrier supplies one finite source packet for all public seal
+reads, so the route cannot branch into a second completion object or an
+unstated equality of streams.
+
+For the reverse direction, read the four displayed stages through the
+Lean-facing anchors
+\texttt{RatStreamNameFiniteWindowClassifier\_singleton\_diagonal\_handoff},
+\texttt{DyadicRatCoreCarrier\_regseqrat\_bridge\_handoff\_exactness}, and
+\texttt{RegSeqRatStreamCarrier\_real\_seal\_handoff}. These anchors match the
+paper route from finite window rows to dyadic radius rows, from dyadic ledgers
+to the RegSeqRat classifier, and from that classifier to the public Real seal.
+
+The two directions have the same displayed coordinates. Since neither the
+paper handoff theorems nor the Lean-facing handoff anchors expose quotient
+streams, host real equality, selected limits, ambient completeness, or hidden
+seal data, the correspondence is exactly the finite source-seal route stated
+above.
+\end{proof}
+
 \begin{theorem}[RegSeqRat common dyadic tail ledger]
 \label{thm:regseqrat-common-dyadic-tail-ledger}
 Let $P$ be an accepted $\RegSeqRatUp$ carrier. Suppose two finite
