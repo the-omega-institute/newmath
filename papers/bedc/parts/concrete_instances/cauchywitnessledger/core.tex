@@ -610,6 +610,7 @@ stream coordinate, hidden tail oracle, quotient stream, selected limit,
 countable-choice row, or ambient completeness theorem can supply a second
 window source for the ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyWitnessLedgerUp.CauchyWitnessLedgerCarrier\_streamname\_window\_source\_lock}
 \begin{proof}
 Start from the carrier definition \autoref{def:cauchy-witness-ledger-carrier}.
 It lists exactly the rows $Q,B,S,K,H,C,P,N$ and gives no coordinate for a
@@ -735,6 +736,8 @@ an alternate $\RealUp$ completion route.
 \falsifiablePrediction{If a CauchyWitnessLedgerUp packet is accepted, every RealUp completion-facing read factors through the displayed diagonal-budget, observation-budget, seal-synchronizer, and completion-seal rows; a counterexample is any admitted read bypassing one row.}
 
 \independenceWitness{Nearest siblings: cauchydiagonalbudget, realobservationbudget, cauchysealbudgetsynchronizer, realcompletionsealclassifier. None is bijective to CauchyWitnessLedgerUp because each sibling lacks at least one of the four ledger coordinates and the combined packet has a NameCert obligation requiring simultaneous factorization through all four.}
+
+\input{parts/concrete_instances/cauchywitnessledger/source_sibling_readback}
 
 \closureat{CauchyWitnessLedgerUp}{seedStr}
 \closureat{CauchyWitnessLedgerUp}{obligationStr}

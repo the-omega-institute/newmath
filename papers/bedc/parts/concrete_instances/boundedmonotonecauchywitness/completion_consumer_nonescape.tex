@@ -112,3 +112,23 @@ The pre-seal order is fixed by the apartness-budget theorem. Theorem~\ref{thm:bo
 
 Finally use the completion observation route. Theorem~\ref{thm:bounded-monotone-cauchy-witness-completion-observation-route} binds the observation route to the same envelope, budget, handoff, trap, and seal order. Its non-escape conclusion rules out selected limits, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, and choice-like selectors from the exported surface.
 \end{proof}
+
+\begin{theorem}[Bounded monotone Cauchy witness completion envelope determinacy]
+\label{thm:bounded-monotone-cauchy-witness-completion-envelope-determinacy}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet. If two completion-facing observation routes for $W$ agree on the scheduled envelope rows
+$$
+S,F,\sigma,\mu,\lambda,I,H,C,P,N
+$$
+before the $\RealUp$ seal row $Q$ is read, then they determine the same accepted completion-facing envelope.
+
+The two routes cannot differ by selected limit, quotient real equality, host equality, trichotomy, ambient completeness, open-cover compactness, or choice-like selector. The only accepted pre-seal completion surface is the displayed scheduled envelope.
+\end{theorem}
+\begin{proof}
+First identify the pre-seal rows. The public export theorem \autoref{thm:bounded-monotone-cauchy-witness-tail-envelope-public-export} presents $S,F,\sigma,\mu,\lambda,I,H,C,P,N$ as the scheduled tail envelope read before $Q$.
+
+Next force both routes through that envelope. By \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape}, any completion-facing observation of $W$ must pass through the public envelope, the finite observation route, the regular handoff, and the located trap before it reaches the seal row.
+
+The finite order is fixed by the apartness-budget theorem. \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-apartness-budget} places $\sigma,\mu,\lambda,I$ before $Q$, so the agreed pre-seal rows cannot be bypassed by a later seal read.
+
+Finally use envelope uniqueness. \autoref{thm:bounded-monotone-cauchy-witness-envelope-uniqueness} rules out a second pre-seal route for the same packet, and \autoref{thm:bounded-monotone-cauchy-witness-completion-observation-route} keeps the completion-facing read on the finite observation surface. Hence the two routes determine the same accepted envelope and cannot differ by any of the excluded completion or equality principles.
+\end{proof}

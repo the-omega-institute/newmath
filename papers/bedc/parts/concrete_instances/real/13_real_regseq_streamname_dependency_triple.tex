@@ -516,3 +516,47 @@ quotient streams, host equality, selected limits, ambient completeness,
 arithmetic and order packages, and metric-completeness rows, the Real L10
 comparison route is exactly the four-face route stated above.
 \end{proof}
+
+\begin{theorem}[Real RegSeqRat StreamName terminal common-source lock]
+\label{thm:real-regseq-streamname-terminal-common-source-lock}
+Let
+$$
+X=(S,Q,D,R,H,C,P,N)
+\quad\text{and}\quad
+Y=(S',Q',D',R',H',C',P',N')
+$$
+be accepted $\RealUp$ RegSeqRat StreamName dependency triples. Suppose the
+$\StreamNameUp$ finite-window faces $S,S'$, the $\RegSeqRatUp$ readback faces
+$Q,Q'$, the $\DyadicRatCoreUp$ ledger faces $D,D'$, the $\RealUp$ seal faces
+$R,R'$, and the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$
+rows $H,H'$, $C,C'$, $P,P'$, and $N,N'$ agree componentwise.
+
+Then every terminal $\RealUp$ endpoint consumer comparison between $X$ and
+$Y$ factors through the same common source packet
+$$
+(S,Q,D,R,H,C,P,N)\simeq(S',Q',D',R',H',C',P',N').
+$$
+No such terminal comparison can branch through a quotient stream, selected
+host limit, host equality, ambient completeness principle, arithmetic
+package, order package, or metric-completeness row hidden behind the endpoint.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:real-l10-four-face-route-lock}. It identifies every
+current Phase Real and Completion consumer comparison with the displayed
+four-face route through the $\DyadicRatCoreUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, and $\RealUp$ faces and their structural rows.
+
+Next apply
+\autoref{thm:real-regseq-streamname-finite-window-pullback-classifier}. The
+componentwise agreement assumptions are precisely the pullback classifier
+coordinates for the accepted dependency triples, so the two endpoint packets
+share the same source packet rather than merely matching at the final seal.
+
+Finally apply
+\autoref{thm:real-regseq-streamname-dyadic-window-lock}. The shared finite
+window lock is already the common source for completion-facing comparisons.
+Together with the exclusion clauses in the dependency triple, this prevents a
+terminal endpoint comparison from branching through quotient streams, selected
+host limits, host equality, ambient completeness, arithmetic or order
+packages, or metric-completeness rows.
+\end{proof}
