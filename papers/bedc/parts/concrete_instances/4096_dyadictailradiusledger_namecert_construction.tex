@@ -88,12 +88,32 @@ Apply the RegSeqRat and Real handoff theorem to any source-facing or completion-
 Because the excluded objects are not coordinates of the carrier and are not produced by the displayed continuations, no downstream consumer can recover them from the packet.
 \end{proof}
 
+\begin{theorem}[Dyadic tail-radius ledger shared-tail service boundary]
+\label{thm:dyadic-tail-radius-ledger-shared-tail-service-boundary}
+For an accepted $\DyadicTailRadiusLedgerUp$ carrier
+$$
+L=(E,T,W,D,R,S,H,C,P,N),
+$$
+any shared-tail or completion-facing consumer that asks for a common dyadic threshold must read the finite route
+$$
+E \longmapsto T \longmapsto W \longmapsto D \longmapsto R \longmapsto S.
+$$
+This is the service boundary consumed by $\CauchySharedTailModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The boundary exports no hidden threshold, quotient stream, selected limit, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+The tail-budget coverage theorem first places any threshold request inside the finite rows $E,T,W,D$. Thus the requested tolerance, tail window, StreamName windows, and dyadic radius readback are all displayed before the consumer can ask for a common dyadic threshold.
+
+The RegSeqRat and Real handoff theorem then extends the same displayed route through $R$ and $S$. Hence completion-facing reads do not bypass the ledger; they consume the same route used by the sibling $\CauchySharedTailModulusUp$ certificate of \autoref{ch:concrete-instances-cauchy-shared-tail-modulus-namecert}.
+
+Finally apply the non-escape theorem. Since hidden thresholds, quotient streams, selected limits, host real equalities, and ambient completeness data are not coordinates of $L$ and are not produced by its displayed continuations, they cannot be exported through this boundary.
+\end{proof}
+
 \closureat{DyadicTailRadiusLedgerUp}{seedStr}
 
 \begin{closurestatus}{\DyadicTailRadiusLedgerUp}
   \constructivestory{A $\DyadicTailRadiusLedgerUp$ packet is generated from a unary precision request, finite tail-window radius ledger, finite StreamName windows, DyadicRatCore readback rows, RegSeqRat handoff rows, RealUp seal rows, componentwise hsame transports, displayed Cont routes, package provenance, and a local naming row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-tail-radius-ledger-carrier}, \autoref{thm:dyadic-tail-radius-ledger-namecert-obligations}, \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}, and \autoref{thm:dyadic-tail-radius-ledger-nonescape} bind the finite tail-radius ledger carrier and its local NameCert obligation surface.}
+  \scopeclosed{\autoref{def:dyadic-tail-radius-ledger-carrier}, \autoref{thm:dyadic-tail-radius-ledger-namecert-obligations}, \autoref{thm:dyadic-tail-radius-ledger-tail-budget-coverage}, \autoref{thm:dyadic-tail-radius-ledger-regseq-real-handoff}, \autoref{thm:dyadic-tail-radius-ledger-nonescape}, and \autoref{thm:dyadic-tail-radius-ledger-shared-tail-service-boundary} bind the finite tail-radius ledger carrier, its local NameCert obligation surface, and its shared-tail service boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
