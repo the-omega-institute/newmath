@@ -33,3 +33,21 @@ Real-consumer coverage, \autoref{thm:cauchy-modulus-refinement-real-consumer-cov
 
 The resulting Real and Completion handoff surfaces are therefore the same public surface up to the displayed $\hsame$ transport in $H$.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus refinement bridge consumer route exhaustion]
+\label{thm:cauchy-modulus-refinement-bridge-consumer-route-exhaustion}
+Every standard bridge consumer of an accepted $\CauchyModulusRefinementUp$ packet whose incoming route is supplied by the $\RegularCauchyTailMeetUp$ root budget-seal package must first pass through the displayed TailMeet rows, then the finite observation-budget and limiter surfaces, and then the $\CauchyModulusRefinementUp$ route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N
+$$
+before any $\RealUp$ or $\CompletionUp$ seal read is exported. The exported bridge surface contains no quotient stream, selected limit, host real equality, hidden selector, independent completion carrier, or ambient completeness principle outside that route.
+\end{theorem}
+\begin{proof}
+Apply the downstream budget-seal package of \autoref{thm:regular-cauchy-tail-meet-root-downstream-budget-seal-package}. It supplies the incoming $\RegularCauchyTailMeetUp$ route through the displayed TailMeet rows, the finite observation budget, and the limiter surfaces before any downstream seal consumer can read the packet.
+
+The root seal exactness theorem, \autoref{thm:regular-cauchy-tail-meet-root-seal-exactness}, fixes that incoming route as the budgeted seal interface. Thus a bridge consumer entering from the TailMeet package has no separate Real or Completion channel before the named budget rows have been consumed.
+
+Now apply the local bridged-route surface and determinacy theorems, \autoref{thm:cauchy-modulus-refinement-bridged-route-surface} and \autoref{thm:cauchy-modulus-refinement-bridged-route-determinacy}. They force the accepted $\CauchyModulusRefinementUp$ packet onto the displayed $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ route and make that route the unique public refinement handoff for standard bridge consumers.
+
+Finally use the non-escape clauses in the bridge-surface proof. Those clauses exclude hidden selectors, quotient streams, selected host limits, host real equalities, second meet rows, side-channel completion objects, and ambient completeness coordinates. Combining the incoming TailMeet budget route with the local refinement route therefore exhausts every standard bridge consumer before any $\RealUp$ or $\CompletionUp$ seal read is exported.
+\end{proof}
