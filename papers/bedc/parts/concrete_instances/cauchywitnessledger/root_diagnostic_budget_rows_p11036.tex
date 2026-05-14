@@ -37,3 +37,21 @@ Use \autoref{thm:cauchy-witness-ledger-budget-factorization} to locate every com
 
 Finish with \autoref{thm:cauchy-witness-ledger-forbidden-coordinate-exclusion}. That theorem rules out the forbidden coordinates for the ledger surface, and the present root packet exposes no additional row on which such a coordinate could be introduced.
 \end{proof}
+
+\begin{theorem}[Cauchy witness ledger root terminal route exhaustion]
+\label{thm:cauchy-witness-ledger-root-terminal-route-exhaustion}
+Every terminal root diagnostic or completion-facing read of an accepted $\CauchyWitnessLedgerUp$ packet $L=(Q,B,S,K,H,C,P,N)$ is exhausted by the displayed route $Q,B,S,K,H,C,P,N$. The classifier row $K$ is available only after the route
+$$
+Q \longmapsto B \longmapsto S
+$$
+has been displayed, and the structural rows $H,C,P,N$ transport, replay, package, and name that same route.
+
+No terminal read exports quotient stream equality, host real equality, a selected external limit, a countable-choice row, an ambient completeness coordinate, or a detached classifier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-witness-ledger-root-diagnostic-budget-totality}. It places every root diagnostic read on the packet rows $Q,B,S,K,H,C,P,N$, with the budget and synchronizer rows present before the terminal read can complete.
+
+Next use \autoref{thm:cauchy-witness-ledger-root-seal-classifier-lock}. The classifier $K$ is not a detached object: it is read only after $Q \longmapsto B \longmapsto S$ and remains tied to the same local packet.
+
+Finally apply \autoref{thm:cauchy-witness-ledger-root-forbidden-coordinate-exclusion-packet}. Since quotient stream equality, host real equality, selected external limits, countable choice, ambient completeness, and detached classifiers are not root coordinates, the terminal route is exactly the displayed finite ledger surface.
+\end{proof}

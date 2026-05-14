@@ -376,4 +376,74 @@ theorem GeneratorClosurePacket_namecert_obligations [AskSetup] [PackageSetup]
         exact source
     }
 
+theorem GeneratorClosurePacket_public_bridge_schema_handoff [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg ->
+      hsame endpoint bridge ->
+        Cont name bridge routes ->
+          PkgSig bundle bridge pkg ->
+            UnaryHistory generator ∧ UnaryHistory constructors ∧ UnaryHistory authorized ∧
+              UnaryHistory classifier ∧ UnaryHistory witnesses ∧ UnaryHistory transport ∧
+                UnaryHistory provenance ∧ UnaryHistory name ∧ UnaryHistory endpoint ∧
+                  UnaryHistory bridge ∧ Cont generator constructors authorized ∧
+                    Cont authorized classifier witnesses ∧ Cont name endpoint routes ∧
+                      Cont name bridge routes ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle bridge pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint bridgeRoute bridgePkg
+  obtain ⟨generatorUnary, constructorsUnary, authorizedUnary, classifierUnary, witnessesUnary,
+    transportUnary, provenanceUnary, nameUnary, endpointUnary, generatorRoute, classifierRoute,
+    endpointRoute, endpointPkg⟩ := packet
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_transport endpointUnary sameEndpoint
+  exact
+    ⟨generatorUnary, constructorsUnary, authorizedUnary, classifierUnary, witnessesUnary,
+      transportUnary, provenanceUnary, nameUnary, endpointUnary, bridgeUnary, generatorRoute,
+      classifierRoute, endpointRoute, bridgeRoute, endpointPkg, bridgePkg⟩
+
+theorem GeneratorClosurePacket_fixedpoint_consumer_route_determinacy [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      exported fixed consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg ->
+      hsame endpoint exported ->
+        Cont name exported routes ->
+          PkgSig bundle exported pkg ->
+            Cont exported witnesses fixed ->
+              Cont fixed name consumer ->
+                PkgSig bundle consumer pkg ->
+                  UnaryHistory generator ∧ UnaryHistory constructors ∧ UnaryHistory witnesses ∧
+                    UnaryHistory exported ∧ UnaryHistory fixed ∧ UnaryHistory consumer ∧
+                      Cont generator constructors authorized ∧ Cont authorized classifier witnesses ∧
+                        Cont name exported routes ∧ Cont exported witnesses fixed ∧
+                          Cont fixed name consumer ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint exportedRoute _exportedPkg fixedRoute consumerRoute consumerPkg
+  obtain ⟨generatorUnary, constructorsUnary, _authorizedUnary, _classifierUnary, witnessesUnary,
+    _transportUnary, _provenanceUnary, nameUnary, endpointUnary, generatorRoute,
+    classifierRoute, _endpointRoute, _endpointPkg⟩ := packet
+  have exportedUnary : UnaryHistory exported :=
+    unary_transport endpointUnary sameEndpoint
+  have fixedUnary : UnaryHistory fixed :=
+    unary_cont_closed exportedUnary witnessesUnary fixedRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed fixedUnary nameUnary consumerRoute
+  exact
+    ⟨generatorUnary,
+      constructorsUnary,
+      witnessesUnary,
+      exportedUnary,
+      fixedUnary,
+      consumerUnary,
+      generatorRoute,
+      classifierRoute,
+      exportedRoute,
+      fixedRoute,
+      consumerRoute,
+      consumerPkg⟩
+
 end BEDC.Derived.GeneratorClosureUp

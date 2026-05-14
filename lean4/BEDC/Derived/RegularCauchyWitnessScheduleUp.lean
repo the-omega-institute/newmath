@@ -74,4 +74,24 @@ theorem RegularCauchyWitnessScheduleCarrier_window_modulus_alignment
     ⟨windowDyadicReadback, hsame_symm (cont_deterministic modulusWindowRoute scheduledWindowRead),
       sealReadback⟩
 
+theorem RegularCauchyWitnessScheduleCarrier_diagonal_readback_lock
+    {family modulus window dyadic readback sealRow transport route provenance name scheduledWindow
+      scheduledRead : BHist} :
+    RegularCauchyWitnessScheduleCarrier family modulus window dyadic readback sealRow transport
+        route provenance name ->
+      Cont modulus window scheduledWindow ->
+        Cont window dyadic scheduledRead ->
+          hsame scheduledWindow route ∧ hsame scheduledRead readback ∧
+            hsame sealRow scheduledRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont RegularCauchyWitnessScheduleCarrier
+  intro carrier scheduledWindowRead scheduledReadRoute
+  obtain ⟨modulusWindowRoute, windowDyadicReadback, sealReadback, _nameSame⟩ := carrier
+  have scheduledWindowRoute : hsame scheduledWindow route :=
+    hsame_symm (cont_deterministic modulusWindowRoute scheduledWindowRead)
+  have scheduledReadReadback : hsame scheduledRead readback :=
+    hsame_symm (cont_deterministic windowDyadicReadback scheduledReadRoute)
+  have sealScheduledRead : hsame sealRow scheduledRead :=
+    hsame_trans sealReadback (hsame_symm scheduledReadReadback)
+  exact ⟨scheduledWindowRoute, scheduledReadReadback, sealScheduledRead⟩
+
 end BEDC.Derived.RegularCauchyWitnessScheduleUp

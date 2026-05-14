@@ -273,4 +273,55 @@ theorem CauchyDiagonalBudget_mesh_comparison_exactness [AskSetup] [PackageSetup]
       exact ⟨unary_transport kUnary (hsame_symm source.right), pPkg⟩
   }
 
+theorem CauchyDiagonalBudgetCarrier_seal_boundary_factorization [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name sealEndpoint boundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg →
+      Cont k s sealEndpoint →
+        Cont h c boundary →
+          PkgSig bundle boundary pkg →
+            UnaryHistory epsilon ∧ UnaryHistory m ∧ UnaryHistory w ∧ UnaryHistory d ∧
+              UnaryHistory k ∧ UnaryHistory s ∧ UnaryHistory sealEndpoint ∧
+                UnaryHistory boundary ∧ Cont epsilon m w ∧ Cont w d k ∧
+                  Cont k s sealEndpoint ∧ Cont h c boundary ∧ PkgSig bundle p pkg ∧
+                    PkgSig bundle boundary pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier sealRoute boundaryRoute boundaryPkg
+  rcases carrier with
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, cUnary, _pUnary,
+      _nameUnary, epsilonMW, wDK, _kSH, _hCP, _cPName, pPkg⟩
+  have sealUnary : UnaryHistory sealEndpoint :=
+    unary_cont_closed kUnary sUnary sealRoute
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed hUnary cUnary boundaryRoute
+  exact
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, sealUnary, boundaryUnary,
+      epsilonMW, wDK, sealRoute, boundaryRoute, pPkg, boundaryPkg⟩
+
+theorem CauchyDiagonalBudgetCarrier_seal_consumer_coverage [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name route sealRow finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg →
+      Cont epsilon m route →
+        Cont k s sealRow →
+          Cont sealRow h finalRead →
+            UnaryHistory epsilon ∧ UnaryHistory m ∧ UnaryHistory w ∧ UnaryHistory d ∧
+              UnaryHistory k ∧ UnaryHistory s ∧ UnaryHistory h ∧ UnaryHistory route ∧
+                UnaryHistory sealRow ∧ UnaryHistory finalRead ∧ Cont epsilon m route ∧
+                  Cont k s sealRow ∧ Cont sealRow h finalRead ∧ PkgSig bundle p pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier routeStep sealRoute finalRoute
+  rcases carrier with
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, _cUnary, _pUnary,
+      _nameUnary, _epsilonMW, _wDK, _kSH, _hCP, _cPName, pPkg⟩
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed epsilonUnary mUnary routeStep
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed kUnary sUnary sealRoute
+  have finalUnary : UnaryHistory finalRead :=
+    unary_cont_closed sealUnary hUnary finalRoute
+  exact
+    ⟨epsilonUnary, mUnary, wUnary, dUnary, kUnary, sUnary, hUnary, routeUnary, sealUnary,
+      finalUnary, routeStep, sealRoute, finalRoute, pPkg⟩
+
 end BEDC.Derived.CauchyDiagonalBudgetUp

@@ -217,6 +217,7 @@ Ledger exactness closes the refusal. Since \autoref{thm:continuation-monad-namec
 \label{thm:continuation-monad-cont-route-ledger-totality}
 Every unit or bind consumer of an accepted $\ContinuationMonadUp$ packet factors through the displayed $\Cont$ route row $K$, the componentwise $\hsame$ transport row $H$, the ledger row $L$, and the local $\NameCert_{\ContinuationMonadUp}$ row $N$. The total route is the finite read of $A,B,C,f,g,u,H,K,L,N$; it is not host monad evaluation, quotient Kleisli composition, or an unrecorded continuation evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_cont\_route\_ledger\_totality}
 \begin{proof}
 First use the unit and bind rows already exposed in this chapter. \autoref{thm:continuation-monad-unit-laws} places the unit tail inside the displayed route, and \autoref{thm:continuation-monad-bind-route-classifier-stability} keeps bind reads stable under the $H$ transports.
 
@@ -467,6 +468,7 @@ Apply \autoref{thm:continuation-monad-scoped-route-dependencies} to restrict eve
 
 Finally use \autoref{thm:continuation-monad-downstream-unblock-surface} and \autoref{thm:continuation-monad-public-route-bridge-totality}. They show that downstream consumers receive the complete bridge package and no quotient Kleisli arrow, host function composition, or host monad equality.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_bridge\_package}
 
 \begin{theorem}[ContinuationMonad bind-route coverage]
 \label{thm:continuation-monad-bind-route-coverage}
