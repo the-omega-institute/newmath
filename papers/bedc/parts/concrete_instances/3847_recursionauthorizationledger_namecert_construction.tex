@@ -45,6 +45,22 @@ Branch completeness and structural descent are read from $B$ and $D$. The branch
 The output and audit obligations are the remaining rows. Consumers reach $O$ only along $C$, transport it only through $H$, and cite only the provenance in $P$ and $N$. The source gate, build gate, and purity-audit boundary named by $P$ exclude axiom channels and forbidden host principles from the ledger surface.
 \end{proof}
 
+\begin{theorem}[RecursionAuthorizationLedger generator-closure sibling route]
+\label{thm:recursion-authorization-ledger-generator-closure-sibling-route}
+For an accepted $\RecursionAuthorizationLedgerUp$ packet
+$$
+L=(I,R,M,B,D,O,H,C,P,N),
+$$
+the accepted signature row $I$, emitted eliminator row $R$, branch package $B$, and structural descent ledger $D$ are the finite authorization ledger consumed by \autoref{ch:concrete-instances-generatorclosure-namecert} and \autoref{ch:concrete-instances-generatorinductionseal-namecert}. The consumer route also transports, exposes, packages, and names that ledger through $H,C,P,N$, but it exports no unrestricted recursion principle and no eliminator outside the accepted signature.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $L=(I,R,M,B,D,O,H,C,P,N)$ from \autoref{def:recursion-authorization-ledger-carrier}. The rows $I,R,B,D$ are the signature, emitted eliminator, branch package, and structural descent data that authorize the generated output row.
+
+Use \autoref{thm:recursion-authorization-ledger-namecert-obligations}. Kernel acceptance, emitted-eliminator exactness, branch completeness, and structural descent exactness are obligations of the same finite packet, so a generator-closure consumer reads only those rows before inspecting the output route.
+
+Finally route the sibling consumers through the displayed structural rows $H,C,P,N$. These rows transport, expose, package, and name the same finite ledger for \autoref{ch:concrete-instances-generatorclosure-namecert} and \autoref{ch:concrete-instances-generatorinductionseal-namecert}; they do not add an unrestricted recursion principle or a second eliminator.
+\end{proof}
+
 \begin{theorem}[RecursionAuthorizationLedger signature acceptance]
 \label{thm:recursion-authorization-ledger-signature-acceptance}
 In an accepted $\RecursionAuthorizationLedgerUp$ packet
