@@ -75,7 +75,19 @@ Audit method (execute thoroughly — many tool calls expected, take your time):
 5. Filter lane-mismatches. Drop marker-only, `closurestatus`, Lean
    verification, parameter-echo, hub-file, and near-line-cap candidates.
 
-6. Output a single JSON object on stdout, no prose, no markdown fences:
+6. Build a private candidate pool before emitting. Consider at least 5
+   distinct candidates when that many plausible gaps exist; if fewer exist,
+   record why in `selection_notes`. Score every considered candidate with the
+   `quality_score` object below. Prefer the hardest feasible candidate pool,
+   not the first easy theorem found.
+
+7. Separate evidence from landing. `papers/bedc/parts/visions/` and
+   `papers/bedc/parts/conjectures/` may be read as inspiration, but they are
+   not executable `local_inputs` and must not be proposed as writeback
+   landings. Put such paths in `rationale`, `dependency_trace`, or
+   `resource_trace` only.
+
+8. Output a single JSON object on stdout, no prose, no markdown fences:
 
 {{
   "candidates": [
@@ -98,6 +110,16 @@ Audit method (execute thoroughly — many tool calls expected, take your time):
       "dependency_trace": "<specific paper dependencies consumed by the candidate>",
       "rate_modulus_surface": "<required for limit/completion/compactness/continuity/Cauchy claims; otherwise empty>",
       "oracle_mode": "<candidate_generation | proof_search | witness_synthesis | failure_diagnosis | rewrite_to_packet | continuation_refill | forbid>",
+      "difficulty": "<low | medium | high>",
+      "quality_score": {{
+        "verifiability": <0-3>,
+        "locality": <0-2>,
+        "downstream_use": <0-2>,
+        "line_cap_safety": <0-2>,
+        "nontriviality": <0-2>,
+        "cross_chapter_unification": <0-2>
+      }},
+      "selection_rank": <1 for best feasible candidate, then 2, ...>,
       "rationale": "<one paragraph including SPECIFIC evidence: file:line citations of definitions / obligations the candidate builds on, grep counts showing the gap (e.g. \"grep \\\\begin{{theorem}} returned 0 in chapter X\\\"), why the gap is genuine and not just hidden under a different name>"
     }}
   ],
@@ -106,15 +128,21 @@ Audit method (execute thoroughly — many tool calls expected, take your time):
       "concept": "<short title of concept I considered>",
       "reason": "<which existing label / marker / theorem covers it, with file:line evidence>"
     }}
-  ]
+  ],
+  "selection_notes": "<how many candidates were considered, why the selected ranks are the hardest feasible ones, and why any harder candidate was rejected>"
 }}
 
 Constraints:
 - Each `local_inputs` path MUST exist in the repository (verify with Read or ls).
 - `local_inputs` is the BOARD landing/readback surface and MUST contain only
-  concrete paper paths under `papers/bedc/parts/`. You may read `lean4/BEDC/...`
-  as evidence, but put Lean evidence in `rationale`, `dependency_trace`, or
-  `resource_trace`, never in `local_inputs`.
+  concrete paper paths under `papers/bedc/parts/`, excluding
+  `parts/visions/` and `parts/conjectures/`. You may read `lean4/BEDC/...`,
+  `parts/visions/...`, and `parts/conjectures/...` as evidence, but put that
+  evidence in `rationale`, `dependency_trace`, or `resource_trace`, never in
+  `local_inputs`.
+- Reject any candidate whose total quality score is below 9, whose
+  `verifiability` is 0, whose `downstream_use` is 0, or whose
+  `line_cap_safety` is 0.
 - Every kept candidate must include the Logic packet fields above. Use `none`
   only when the field is genuinely not triggered by the claim. Do not use
   `B5_impredicative_or_choice_like` unless the target is explicitly a boundary,
