@@ -65,15 +65,50 @@ The classifier and derivation obligations are read from $M,D,S$. The row $M$ is 
 The subject-reduction handoff is read from $R$ and replayed through $C$. Because every exported row is packaged with $H,P,N$, no host type equality, global normalization theorem, proof irrelevance principle, quotient syntax, conversion oracle, or external proof-term equality can be recovered from the certificate surface.
 \end{proof}
 
+\begin{theorem}[TypeCheckingMembershipTrace route coverage]
+\label{thm:typechecking-membership-trace-route-coverage}
+Every accepted $\TypeCheckingMembershipTraceUp$ packet
+$$
+T=(M,D,R,S,H,C,P,N)
+$$
+exposes the membership row $M$, the derivation route $D$, the subject-reduction handoff $R$, the $\SigRel$ readback $S$, the $\hsame$ transport row $H$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\TypeCheckingMembershipTraceUp}$ row $N$ before any consumer may cite type-checking membership from the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:typechecking-membership-trace-carrier}. The carrier definition lists exactly the eight displayed coordinates, so a consumer has no membership citation until the row $M$ and its companion rows $D,R,S,H,C,P,N$ have been exposed.
+
+Apply \autoref{thm:typechecking-membership-trace-classifier-stability} to transport the displayed classifier read through $H$ and $C$. Apply \autoref{thm:typechecking-membership-trace-namecert-obligations} to require the local naming row before the packet is used as type-checking membership evidence.
+\end{proof}
+
+\begin{theorem}[TypeCheckingMembershipTrace non-escape]
+\label{thm:typechecking-membership-trace-nonescape}
+No accepted $\TypeCheckingMembershipTraceUp$ consumer can export host type equality, global normalization, proof irrelevance, quotient syntax, a conversion oracle, or proof-term equality outside the displayed coordinates $M,D,R,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The carrier has no coordinate for host type equality, global normalization, proof irrelevance, quotient syntax, a conversion oracle, or proof-term equality. Projection from $T$ therefore reaches only $M,D,R,S,H,C,P,N$.
+
+The final row of \autoref{thm:typechecking-membership-trace-namecert-obligations} is the non-escape ledger for this packet. It binds every exported consumer to the finite rows already displayed, so no additional equality or conversion principle can be recovered from the certificate surface.
+\end{proof}
+
+\begin{theorem}[TypeCheckingMembershipTrace obligation assembly]
+\label{thm:typechecking-membership-trace-obligation-assembly}
+The carrier of \autoref{def:typechecking-membership-trace-carrier}, the classifier stability of \autoref{thm:typechecking-membership-trace-classifier-stability}, the route coverage of \autoref{thm:typechecking-membership-trace-route-coverage}, and the non-escape ledger of \autoref{thm:typechecking-membership-trace-nonescape} assemble the paper-side $\obligationClosure$ surface for $\TypeCheckingMembershipTraceUp$. This assembly leaves the verification axis at $\unformalizedV$.
+\end{theorem}
+\begin{proof}
+The carrier fixes the finite packet shape, and classifier stability fixes how the displayed classifier rows persist under $\hsame$ transport and $\Cont$ replay. Route coverage then states which rows must be exposed before the packet is cited by a consumer.
+
+The non-escape theorem supplies the refusal side of the local ledger. Together with the NameCert obligations in \autoref{thm:typechecking-membership-trace-namecert-obligations}, these rows specify the complete paper-side obligation surface while making no Lean-side verification claim.
+\end{proof}
+
 \closureat{TypeCheckingMembershipTraceUp}{seedStr}
+\closureat{TypeCheckingMembershipTraceUp}{obligationStr}
 
 \begin{closurestatus}{\TypeCheckingMembershipTraceUp}
   \constructivestory{A $\TypeCheckingMembershipTraceUp$ packet is generated from finite Ext-membership, derivation-route, subject-reduction, SigRel readback, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:typechecking-membership-trace-carrier}, \autoref{thm:typechecking-membership-trace-classifier-stability}, and \autoref{thm:typechecking-membership-trace-namecert-obligations} define the finite membership-trace surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:typechecking-membership-trace-obligation-assembly} binds the carrier, classifier stability, route coverage, and non-escape rows as the finite membership-trace obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host type equality, global normalization, proof irrelevance, quotient syntax, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires the displayed membership, derivation, subject-reduction, readback, transport, replay, package, and naming rows to be bound to a checked local certificate.}
+  \upgradepath{Scoped closure requires paper proofs that discharge the displayed membership, derivation, subject-reduction, readback, transport, replay, package, and naming obligations inside the local certificate.}
 \end{closurestatus}
