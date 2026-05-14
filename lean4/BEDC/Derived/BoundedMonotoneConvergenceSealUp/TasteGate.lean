@@ -10,43 +10,36 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive BoundedMonotoneConvergenceSealUp : Type where
-  | mk :
-      (witness monotone criterion regSeq stream dyadic limitSeal realSeal transport route
-        provenance nameCert : BHist) →
-        BoundedMonotoneConvergenceSealUp
+  | mk
+      (witness monotone criterion regular stream dyadic limitSeal realSeal transport route
+        provenance name : BHist) :
+      BoundedMonotoneConvergenceSealUp
   deriving DecidableEq
 
 def boundedMonotoneConvergenceSealEncodeBHist : BHist → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: boundedMonotoneConvergenceSealEncodeBHist h
   | BHist.e1 h => BMark.b1 :: boundedMonotoneConvergenceSealEncodeBHist h
 
 def boundedMonotoneConvergenceSealDecodeBHist : RawEvent → BHist
-  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (boundedMonotoneConvergenceSealDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (boundedMonotoneConvergenceSealDecodeBHist tail)
 
-private theorem boundedMonotoneConvergenceSeal_decode_encode_bhist :
+private theorem boundedMonotoneConvergenceSealDecode_encode_bhist :
     ∀ h : BHist,
       boundedMonotoneConvergenceSealDecodeBHist
         (boundedMonotoneConvergenceSealEncodeBHist h) = h := by
-  -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def boundedMonotoneConvergenceSealToEventFlow :
     BoundedMonotoneConvergenceSealUp → EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regSeq stream dyadic
-      limitSeal realSeal transport route provenance nameCert =>
+  | BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream dyadic
+      limitSeal realSeal transport route provenance name =>
       [[BMark.b0],
         boundedMonotoneConvergenceSealEncodeBHist witness,
         [BMark.b1, BMark.b0],
@@ -54,7 +47,7 @@ def boundedMonotoneConvergenceSealToEventFlow :
         [BMark.b1, BMark.b1, BMark.b0],
         boundedMonotoneConvergenceSealEncodeBHist criterion,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        boundedMonotoneConvergenceSealEncodeBHist regSeq,
+        boundedMonotoneConvergenceSealEncodeBHist regular,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         boundedMonotoneConvergenceSealEncodeBHist stream,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
@@ -75,113 +68,186 @@ def boundedMonotoneConvergenceSealToEventFlow :
         boundedMonotoneConvergenceSealEncodeBHist provenance,
         [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        boundedMonotoneConvergenceSealEncodeBHist nameCert]
+        boundedMonotoneConvergenceSealEncodeBHist name]
 
-private def boundedMonotoneConvergenceSealRawAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => boundedMonotoneConvergenceSealRawAt n rest
-
-private def boundedMonotoneConvergenceSealLengthEq : Nat → EventFlow → Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => boundedMonotoneConvergenceSealLengthEq n rest
+private def boundedMonotoneConvergenceSealDecodePacket
+    (witness monotone criterion regular stream dyadic limitSeal realSeal transport route
+      provenance name : RawEvent) :
+    BoundedMonotoneConvergenceSealUp :=
+  BoundedMonotoneConvergenceSealUp.mk
+    (boundedMonotoneConvergenceSealDecodeBHist witness)
+    (boundedMonotoneConvergenceSealDecodeBHist monotone)
+    (boundedMonotoneConvergenceSealDecodeBHist criterion)
+    (boundedMonotoneConvergenceSealDecodeBHist regular)
+    (boundedMonotoneConvergenceSealDecodeBHist stream)
+    (boundedMonotoneConvergenceSealDecodeBHist dyadic)
+    (boundedMonotoneConvergenceSealDecodeBHist limitSeal)
+    (boundedMonotoneConvergenceSealDecodeBHist realSeal)
+    (boundedMonotoneConvergenceSealDecodeBHist transport)
+    (boundedMonotoneConvergenceSealDecodeBHist route)
+    (boundedMonotoneConvergenceSealDecodeBHist provenance)
+    (boundedMonotoneConvergenceSealDecodeBHist name)
 
 def boundedMonotoneConvergenceSealFromEventFlow :
     EventFlow → Option BoundedMonotoneConvergenceSealUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match boundedMonotoneConvergenceSealLengthEq 24 flow with
-      | true =>
-          some
-            (BoundedMonotoneConvergenceSealUp.mk
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 1 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 3 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 5 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 7 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 9 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 11 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 13 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 15 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 17 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 19 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 21 flow))
-              (boundedMonotoneConvergenceSealDecodeBHist
-                (boundedMonotoneConvergenceSealRawAt 23 flow)))
-      | false => none
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | witness :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | monotone :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | criterion :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | regular :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | stream :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | dyadic :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | limitSeal :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | realSeal :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | transport ::
+                                                                          rest17 =>
+                                                                          match rest17 with
+                                                                          | [] => none
+                                                                          | _tag9 ::
+                                                                              rest18 =>
+                                                                              match
+                                                                                rest18
+                                                                              with
+                                                                              | [] =>
+                                                                                  none
+                                                                              | route ::
+                                                                                  rest19 =>
+                                                                                  match
+                                                                                    rest19
+                                                                                  with
+                                                                                  | [] =>
+                                                                                      none
+                                                                                  | _tag10 ::
+                                                                                      rest20 =>
+                                                                                      match
+                                                                                        rest20
+                                                                                      with
+                                                                                      | [] =>
+                                                                                          none
+                                                                                      | provenance ::
+                                                                                          rest21 =>
+                                                                                          match
+                                                                                            rest21
+                                                                                          with
+                                                                                          | [] =>
+                                                                                              none
+                                                                                          | _tag11 ::
+                                                                                              rest22 =>
+                                                                                              match
+                                                                                                rest22
+                                                                                              with
+                                                                                              | [] =>
+                                                                                                  none
+                                                                                              | name ::
+                                                                                                  rest23 =>
+                                                                                                  match
+                                                                                                    rest23
+                                                                                                  with
+                                                                                                  | [] =>
+                                                                                                      some
+                                                                                                        (boundedMonotoneConvergenceSealDecodePacket
+                                                                                                          witness
+                                                                                                          monotone
+                                                                                                          criterion
+                                                                                                          regular
+                                                                                                          stream
+                                                                                                          dyadic
+                                                                                                          limitSeal
+                                                                                                          realSeal
+                                                                                                          transport
+                                                                                                          route
+                                                                                                          provenance
+                                                                                                          name)
+                                                                                                  | _ :: _ =>
+                                                                                                      none
 
 private theorem boundedMonotoneConvergenceSeal_round_trip :
     ∀ x : BoundedMonotoneConvergenceSealUp,
       boundedMonotoneConvergenceSealFromEventFlow
         (boundedMonotoneConvergenceSealToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk witness monotone criterion regSeq stream dyadic limitSeal realSeal transport route
-      provenance nameCert =>
+  | mk witness monotone criterion regular stream dyadic limitSeal realSeal transport route
+      provenance name =>
       change
         some
-          (BoundedMonotoneConvergenceSealUp.mk
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist witness))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist monotone))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist criterion))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist regSeq))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist stream))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist dyadic))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist limitSeal))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist realSeal))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist transport))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist route))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist provenance))
-            (boundedMonotoneConvergenceSealDecodeBHist
-              (boundedMonotoneConvergenceSealEncodeBHist nameCert))) =
+            (boundedMonotoneConvergenceSealDecodePacket
+              (boundedMonotoneConvergenceSealEncodeBHist witness)
+              (boundedMonotoneConvergenceSealEncodeBHist monotone)
+              (boundedMonotoneConvergenceSealEncodeBHist criterion)
+              (boundedMonotoneConvergenceSealEncodeBHist regular)
+              (boundedMonotoneConvergenceSealEncodeBHist stream)
+              (boundedMonotoneConvergenceSealEncodeBHist dyadic)
+              (boundedMonotoneConvergenceSealEncodeBHist limitSeal)
+              (boundedMonotoneConvergenceSealEncodeBHist realSeal)
+              (boundedMonotoneConvergenceSealEncodeBHist transport)
+              (boundedMonotoneConvergenceSealEncodeBHist route)
+              (boundedMonotoneConvergenceSealEncodeBHist provenance)
+              (boundedMonotoneConvergenceSealEncodeBHist name)) =
           some
-            (BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regSeq stream
-              dyadic limitSeal realSeal transport route provenance nameCert)
-      rw [boundedMonotoneConvergenceSeal_decode_encode_bhist witness,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist monotone,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist criterion,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist regSeq,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist stream,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist dyadic,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist limitSeal,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist realSeal,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist transport,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist route,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist provenance,
-        boundedMonotoneConvergenceSeal_decode_encode_bhist nameCert]
+            (BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream dyadic
+              limitSeal realSeal transport route provenance name)
+      unfold boundedMonotoneConvergenceSealDecodePacket
+      rw [boundedMonotoneConvergenceSealDecode_encode_bhist witness,
+        boundedMonotoneConvergenceSealDecode_encode_bhist monotone,
+        boundedMonotoneConvergenceSealDecode_encode_bhist criterion,
+        boundedMonotoneConvergenceSealDecode_encode_bhist regular,
+        boundedMonotoneConvergenceSealDecode_encode_bhist stream,
+        boundedMonotoneConvergenceSealDecode_encode_bhist dyadic,
+        boundedMonotoneConvergenceSealDecode_encode_bhist limitSeal,
+        boundedMonotoneConvergenceSealDecode_encode_bhist realSeal,
+        boundedMonotoneConvergenceSealDecode_encode_bhist transport,
+        boundedMonotoneConvergenceSealDecode_encode_bhist route,
+        boundedMonotoneConvergenceSealDecode_encode_bhist provenance,
+        boundedMonotoneConvergenceSealDecode_encode_bhist name]
 
 private theorem boundedMonotoneConvergenceSealToEventFlow_injective
     {x y : BoundedMonotoneConvergenceSealUp} :
     boundedMonotoneConvergenceSealToEventFlow x =
       boundedMonotoneConvergenceSealToEventFlow y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
       boundedMonotoneConvergenceSealFromEventFlow
@@ -193,15 +259,57 @@ private theorem boundedMonotoneConvergenceSealToEventFlow_injective
     (Eq.trans (boundedMonotoneConvergenceSeal_round_trip x).symm
       (Eq.trans hread (boundedMonotoneConvergenceSeal_round_trip y)))
 
+def boundedMonotoneConvergenceSealFields :
+    BoundedMonotoneConvergenceSealUp → List BHist
+  | BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regular stream dyadic
+      limitSeal realSeal transport route provenance name =>
+      [witness, monotone, criterion, regular, stream, dyadic, limitSeal, realSeal,
+        transport, route, provenance, name]
+
+private theorem boundedMonotoneConvergenceSeal_fields_faithful :
+    ∀ x y : BoundedMonotoneConvergenceSealUp,
+      boundedMonotoneConvergenceSealFields x =
+        boundedMonotoneConvergenceSealFields y → x = y := by
+  intro x y hfields
+  cases x with
+  | mk witness₁ monotone₁ criterion₁ regular₁ stream₁ dyadic₁ limitSeal₁ realSeal₁
+      transport₁ route₁ provenance₁ name₁ =>
+      cases y with
+      | mk witness₂ monotone₂ criterion₂ regular₂ stream₂ dyadic₂ limitSeal₂ realSeal₂
+          transport₂ route₂ provenance₂ name₂ =>
+          injection hfields with hWitness tail0
+          injection tail0 with hMonotone tail1
+          injection tail1 with hCriterion tail2
+          injection tail2 with hRegular tail3
+          injection tail3 with hStream tail4
+          injection tail4 with hDyadic tail5
+          injection tail5 with hLimitSeal tail6
+          injection tail6 with hRealSeal tail7
+          injection tail7 with hTransport tail8
+          injection tail8 with hRoute tail9
+          injection tail9 with hProvenance tail10
+          injection tail10 with hName _
+          subst hWitness
+          subst hMonotone
+          subst hCriterion
+          subst hRegular
+          subst hStream
+          subst hDyadic
+          subst hLimitSeal
+          subst hRealSeal
+          subst hTransport
+          subst hRoute
+          subst hProvenance
+          subst hName
+          rfl
+
 instance boundedMonotoneConvergenceSealBHistCarrier :
     BHistCarrier BoundedMonotoneConvergenceSealUp where
-  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := boundedMonotoneConvergenceSealToEventFlow
   fromEventFlow := boundedMonotoneConvergenceSealFromEventFlow
 
 instance boundedMonotoneConvergenceSealChapterTasteGate :
     ChapterTasteGate BoundedMonotoneConvergenceSealUp where
-  -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
@@ -212,29 +320,16 @@ instance boundedMonotoneConvergenceSealChapterTasteGate :
     intro x y hxy heq
     exact hxy (boundedMonotoneConvergenceSealToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate BoundedMonotoneConvergenceSealUp :=
+  boundedMonotoneConvergenceSealChapterTasteGate
+
 instance boundedMonotoneConvergenceSealFieldFaithful :
     FieldFaithful BoundedMonotoneConvergenceSealUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := fun x =>
-    match x with
-    | BoundedMonotoneConvergenceSealUp.mk witness monotone criterion regSeq stream dyadic
-        limitSeal realSeal transport route provenance nameCert =>
-        [witness, monotone, criterion, regSeq, stream, dyadic, limitSeal, realSeal,
-          transport, route, provenance, nameCert]
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk witness1 monotone1 criterion1 regSeq1 stream1 dyadic1 limitSeal1 realSeal1
-        transport1 route1 provenance1 nameCert1 =>
-        cases y with
-        | mk witness2 monotone2 criterion2 regSeq2 stream2 dyadic2 limitSeal2 realSeal2
-            transport2 route2 provenance2 nameCert2 =>
-            cases h
-            rfl
+  fields := boundedMonotoneConvergenceSealFields
+  field_faithful := boundedMonotoneConvergenceSeal_fields_faithful
 
 instance boundedMonotoneConvergenceSealNontrivial :
     Nontrivial BoundedMonotoneConvergenceSealUp where
-  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨BoundedMonotoneConvergenceSealUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -245,10 +340,6 @@ instance boundedMonotoneConvergenceSealNontrivial :
       by
         intro h
         cases h⟩
-
-def taste_gate : ChapterTasteGate BoundedMonotoneConvergenceSealUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  boundedMonotoneConvergenceSealChapterTasteGate
 
 theorem BoundedMonotoneConvergenceSealTasteGate_single_carrier_alignment :
     (∀ h : BHist,
@@ -261,13 +352,13 @@ theorem BoundedMonotoneConvergenceSealTasteGate_single_carrier_alignment :
           boundedMonotoneConvergenceSealToEventFlow x =
             boundedMonotoneConvergenceSealToEventFlow y → x = y) ∧
           boundedMonotoneConvergenceSealEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨boundedMonotoneConvergenceSeal_decode_encode_bhist,
-      boundedMonotoneConvergenceSeal_round_trip,
-      by
-        intro x y heq
-        exact boundedMonotoneConvergenceSealToEventFlow_injective heq,
-      rfl⟩
+  constructor
+  · exact boundedMonotoneConvergenceSealDecode_encode_bhist
+  · constructor
+    · exact boundedMonotoneConvergenceSeal_round_trip
+    · constructor
+      · intro x y heq
+        exact boundedMonotoneConvergenceSealToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.BoundedMonotoneConvergenceSealUp

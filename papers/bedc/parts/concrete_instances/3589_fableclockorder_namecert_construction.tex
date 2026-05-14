@@ -4,6 +4,8 @@
 
 The $\FableClockOrderUp$ packet realizes the Empty-fable machine's local clock-order surface as finite certificate data. It records selector-ledger rows, local fable-clock ticks, adjacent step-order witnesses, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row. The packet is local to the displayed fable trace and has no coordinate for a synchronized clock shared across unrelated histories.
 
+The selector-ledger row $S$ and the hidden-chooser refusal are read through \autoref{ch:concrete-instances-emptyboundaryselector-namecert}, which supplies the empty-boundary selector discipline consumed by the local fable-clock order packet.
+
 \begin{definition}[FableClockOrder carrier]
 \label{def:fable-clock-order-carrier}
 A $\FableClockOrderUp$ carrier is a finite $\BHist$ packet
@@ -82,6 +84,18 @@ Inspect the carrier inventory. The only time-like row is the local tick row $T$,
 Use the local step-order theorem to delimit consumer access. Any read of order passes through the displayed transport, continuation, provenance, and naming rows attached to the same packet.
 
 The excluded clock objects have no coordinate in the carrier and no clause in the classifier. Therefore no projection from an accepted packet can produce a synchronized clock, host-time parameter, global trace order, or hidden selector for steps outside $S$.
+\end{proof}
+
+\begin{theorem}[FableClockOrder Empty-fable sibling route]
+\label{thm:fable-clock-order-empty-fable-sibling-route}
+Every accepted $\FableClockOrderUp$ packet reads its selector-ledger and local tick rows through the Empty-fable sibling route: \autoref{ch:concrete-instances-empty-fable-ledger-namecert} supplies the generated ledger, \autoref{ch:concrete-instances-selectorledger-namecert} supplies the finite selector spine, and \autoref{ch:concrete-instances-emptyboundaryselector-namecert} supplies the enacted-mark witness. The $\FableClockOrderUp$ carrier adds local order over those rows without adding global time, host synchronization, or hidden selector choice.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $F=(H,S,T,E,W,L,C,P,N)$. The selector ledger $S$ and local tick row $T$ are displayed coordinates of the packet, and the adjacent rows $E,W$ attach the local order witness to the same trace.
+
+Read the sibling route horizontally. The Empty-fable ledger supplies the generated trace ledger, the selector-ledger chapter supplies the finite selector spine, and the empty-boundary selector supplies the enacted mark that each local step records.
+
+Apply the local step-order and no-global-clock theorems above. They show that $\FableClockOrderUp$ only orders the displayed sibling rows through $L,C,P,N$, so the packet exports no synchronized host clock and no hidden selector for a step outside $S$.
 \end{proof}
 
 \closureat{FableClockOrderUp}{seedStr}
