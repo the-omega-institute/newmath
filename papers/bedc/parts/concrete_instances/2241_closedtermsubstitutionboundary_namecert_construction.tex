@@ -74,6 +74,54 @@ Use the NameCert obligations of \autoref{thm:closed-term-substitution-boundary-n
 The exclusions follow from absence of coordinates. A free-variable leak, hidden host equality witness, unchecked compiler state, or ambient subject-reduction theorem is not among the packet rows and cannot be reconstructed by $\hsame$ transport or a $\Cont$ read.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary shift-ledger exhaustion]
+\label{thm:closed-term-substitution-boundary-shift-ledger-exhaustion}
+Every shift read consumed through an accepted $\ClosedTermSubstitutionBoundaryUp$ packet is exhausted by the finite rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,L,A,H,C,P,N.
+$$
+The shift boundary row $Q$ may be read only after the term rows, inspected depth, source and value closedness witnesses, ledger row, audit row, transports, continuation routes, package provenance, and local $\NameCert$ row have been displayed. It exports no unregistered free variable, host equality witness, unchecked compiler state, subject-reduction theorem, or host shift semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. The displayed rows include the two terms, inspected depth, source and value closedness witnesses, shift row, ledger, audit row, transports, continuation routes, package provenance, and local name.
+
+Apply the classifier and NameCert obligations. The classifier permits only componentwise $\hsame$ transport and recorded $\Cont$ reads of those rows, while the shift boundary exactness clause requires the closedness witness and ledger entry before $Q$ is consumed.
+
+Finally use ledger non-escape. Since no row carries an unregistered free variable, host equality witness, unchecked compiler state, subject-reduction theorem, or host shift semantics, every shift read is exhausted by the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary substitution-ledger exhaustion]
+\label{thm:closed-term-substitution-boundary-substitution-ledger-exhaustion}
+Every substitution read consumed through an accepted $\ClosedTermSubstitutionBoundaryUp$ packet is exhausted by the finite rows
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The substitution boundary row $R$ may be read only after the source and value closedness witnesses, the shift boundary row, the ledger row, and the audit row are visible inside the same carrier. It exports no unregistered free variable, hidden host equality, unchecked compiler state, subject-reduction theorem, or host substitution semantics.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier. The local packet displays the substitution row $R$ only as part of the same finite surface as $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,L,A,H,C,P,N$, and the classifier admits only recorded transport of that surface.
+
+Use the NameCert obligations for substitution boundary exactness. They require the source and value closedness witnesses to be displayed, and the ledger $L$ records the closedness and operation reads before the substitution row can be consumed.
+
+Apply ledger non-escape for the audit boundary. The audit row $A$ rules out a free-variable leak, hidden host equality, unchecked compiler state, subject-reduction theorem, or host substitution semantics; none of these can be reconstructed from $\hsame$ transport or a $\Cont$ route.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary self-compile route]
+\label{thm:closed-term-substitution-boundary-self-compile-route}
+A self-compilation consumer may use an accepted $\ClosedTermSubstitutionBoundaryUp$ packet only as the finite closed-boundary route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The consumer may replay the packet through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, but it cannot import subject reduction, compiler correctness, host substitution semantics, host syntax quotients, or an unchecked semantic model.
+\end{theorem}
+\begin{proof}
+Begin with the shift-ledger and substitution-ledger exhaustion rows. They identify the only finite routes by which the consumer may read closed shift and closed substitution through the packet.
+
+Use the carrier, classifier, and NameCert obligations to repack those routes as a single closed-boundary service. The rows $Q$ and $R$ are both guarded by the displayed closedness witnesses, ledger, audit row, transports, continuations, package provenance, and local name.
+
+Finally apply ledger non-escape. Subject reduction, compiler correctness, host substitution semantics, host syntax quotients, and unchecked semantic models have no coordinate in the packet, so a self-compilation consumer receives only the finite closed-boundary route.
+\end{proof}
+
 \begin{theorem}[Closed-term substitution boundary consumer boundary]
 \label{thm:closed-term-substitution-boundary-consumer-boundary}
 A self-compilation consumer may use an accepted $\ClosedTermSubstitutionBoundaryUp$ packet only as the finite boundary surface for closed $\mathsf{shift}$ and $\mathsf{substitute}$ reads. The consumer must factor through the displayed $\mathsf{Term}$ rows, $\mathsf{ClosedAt}$ witnesses, depth row, operation rows, closedness ledger, audit-visible non-escape row, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row.
