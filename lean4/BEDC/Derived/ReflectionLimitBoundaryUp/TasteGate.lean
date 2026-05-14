@@ -217,6 +217,9 @@ instance reflectionLimitBoundaryChapterTasteGate : ChapterTasteGate ReflectionLi
     intro x y hxy heq
     exact hxy (ReflectionLimitBoundaryTasteGate_single_carrier_alignment_injective heq)
 
+def taste_gate : ChapterTasteGate ReflectionLimitBoundaryUp :=
+  reflectionLimitBoundaryChapterTasteGate
+
 theorem ReflectionLimitBoundaryTasteGate_single_carrier_alignment :
     (forall h : BHist,
       reflectionLimitBoundaryDecodeBHist (reflectionLimitBoundaryEncodeBHist h) = h) /\
