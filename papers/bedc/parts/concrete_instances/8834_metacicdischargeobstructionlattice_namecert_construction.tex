@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDischargeObstructionLatticeUp$}
+\label{ch:concrete-instances-metacicdischargeobstructionlattice-namecert}
+\origin{ai}
+
+The $\MetaCICDischargeObstructionLatticeUp$ packet realizes the critical path of \autoref{ch:metacic-audit-synthesis} as a finite discharge-obstruction lattice. It sits beside the audit-synthesis packet of \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, the discharge-obligation packet of \autoref{ch:concrete-instances-metacic-discharge-obligation-namecert}, the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, the decidable audit packet of \autoref{ch:concrete-instances-metacicdecidableauditpacket-namecert}, and the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}. Those siblings expose available, blocked, and required MetaCIC audit rows; the present packet records their finite lattice order without turning the blocked subject-reduction edge into a closed consistency theorem.
+
+\begin{definition}[MetaCIC discharge-obstruction lattice carrier]
+\label{def:metacic-discharge-obstruction-lattice-carrier}
+A $\MetaCICDischargeObstructionLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+L=(N,D,C,O,Q,T,R,P,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the closed-normal consistency row, reading the available normal endpoint through \autoref{ch:concrete-instances-metacicauditsynthesis-namecert};
+\item $D$ is the decidable checker row, reading local typing and bounded-normal comparison through \autoref{ch:concrete-instances-metacicdecidableauditpacket-namecert};
+\item $C$ is the confluence-status row, reading conditional bridges and closed-normal fragments through \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert};
+\item $O$ is the subject-reduction obstruction row, reading the checked blocked edge through \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert};
+\item $Q$ is the discharge-obligation row, reading the four required subject-reduction inputs through \autoref{ch:concrete-instances-metacic-discharge-obligation-namecert};
+\item $T$ records componentwise $\hsame$ transports for the closed-normal, checker, confluence, obstruction, obligation, package, and naming rows;
+\item $R$ records displayed $\Cont$ routes by which a consumer reads available rows before blocked rows and required rows before any attempted closed-consistency export;
+\item $P$ is the $\Pkg$ provenance over the MetaCIC audit synthesis, discharge-obligation, subject-reduction obstruction, decidable checker, confluence audit, $\BHist$, $\hsame$, $\Cont$, and \NameCert{} rows;
+\item $K$ is the local $\NameCert_{\MetaCICDischargeObstructionLatticeUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for unconditional closed consistency, no coordinate erasing the discharge-obligation row, and no coordinate replacing the obstruction row by a closed subject-reduction theorem.
+\end{definition}
+\leandef{BEDC.Derived.MetaCICDischargeObstructionLatticeUp.MetaCICDischargeObstructionLatticeUp}
+
+\begin{theorem}[MetaCIC discharge-obstruction lattice NameCert obligations]
+\label{thm:metacic-discharge-obstruction-lattice-namecert-obligations}
+For the carrier of \autoref{def:metacic-discharge-obstruction-lattice-carrier}, the local $\NameCert_{\MetaCICDischargeObstructionLatticeUp}$ surface consists exactly of carrier admission for $L=(N,D,C,O,Q,T,R,P,K)$, closed-normal consistency exposure, decidable-checker exposure, confluence-status exposure, subject-reduction obstruction exposure, discharge-obligation exposure, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $N,D,C,O,Q,T,R,P,K$ are the complete finite packet, so carrier admission and local naming are direct projections.
+
+Read the available branch through $N,D,C$. These rows expose closed-normal consistency, local checker evidence, and confluence status as separate sibling reads, matching the available entries of \autoref{ch:metacic-audit-synthesis}.
+
+Read the blocked and required branch through $O$ and $Q$. The obstruction row keeps the subject-reduction edge unavailable, while the discharge-obligation row lists the required inputs that a later consumer must supply before that edge can be used.
+
+Finally read $T,R,P,K$. Transport, route replay, provenance, and local naming preserve the same row order, and the carrier has no additional coordinate from which a hidden closed-consistency theorem could be exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC discharge-obstruction lattice falsifiable nonescape]
+\label{thm:metacic-discharge-obstruction-lattice-falsifiable-nonescape}
+Any accepted consumer of a $\MetaCICDischargeObstructionLatticeUp$ carrier cannot export unconditional closed consistency unless the discharge-obligation row $Q$ is filled and the obstruction row $O$ is discharged. A consumer that reads only $N,D,C,T,R,P,K$, or reads $O$ merely as an obstruction, remains confined to closed-normal consistency, local checker evidence, confluence status, and the recorded blocked edge.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-discharge-obstruction-lattice-namecert-obligations}. It places the closed-normal, decidable, and confluence rows on the available side, and it keeps the obstruction and obligation rows visible as separate coordinates.
+
+The falsifiable test is row-local. If a claimed consumer exports unconditional closed consistency, its route must show where $Q$ supplies the required subject-reduction inputs and where $O$ ceases to be the blocked subject-reduction edge.
+
+When either row is absent in that role, route replay through $R$ stops at the closed-normal branch and the recorded blocked edge. Provenance through $P$ and naming through $K$ preserve the same boundary, so the claimed export has no accepted carrier coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC discharge-obstruction lattice independence witness]
+\label{thm:metacic-discharge-obstruction-lattice-independence-witness}
+The siblings \autoref{ch:concrete-instances-metacicauditsynthesis-namecert}, \autoref{ch:concrete-instances-metacic-discharge-obligation-namecert}, \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, \autoref{ch:concrete-instances-metacicdecidableauditpacket-namecert}, and \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert} are independent witnesses for the $\MetaCICDischargeObstructionLatticeUp$ lattice. None is bijective with the lattice carrier, because each lacks at least one of the available, blocked, or required edge rows displayed by $N,D,C,O,Q,T,R,P,K$.
+\end{theorem}
+\begin{proof}
+Compare the audit-synthesis sibling first. It names the combined critical path, but it does not by itself separate every available, blocked, and required edge row as the lattice carrier does.
+
+Compare the discharge-obligation and subject-reduction obstruction siblings next. The former displays the required inputs, while the latter displays the blocked edge; neither alone carries the closed-normal, decidable, confluence, obstruction, and obligation rows as one ordered packet.
+
+Finally compare the decidable and confluence audit siblings. They provide available checker and confluence rows, but they do not contain the discharge-obligation row and the subject-reduction obstruction row together. Hence none of the five siblings is bijective with $L$, and together they witness the lattice as a genuine finite assembly rather than a renamed copy of one sibling.
+\end{proof}
+
+The Lean-side handoff for this packet is the finite object $\mathrm{Nontrivial}\ \MetaCICDischargeObstructionLatticeUp$, witnessed by an explicit pair separating an available-row projection from a blocked-row projection, together with $\mathrm{FieldFaithful}\ \MetaCICDischargeObstructionLatticeUp$ by constructor-field projection and injection over $N,D,C,O,Q,T,R,P,K$.
+
+\closureat{MetaCICDischargeObstructionLatticeUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDischargeObstructionLatticeUp}
+  \constructivestory{A $\MetaCICDischargeObstructionLatticeUp$ packet is generated from closed-normal consistency, decidable-checker, confluence-status, subject-reduction obstruction, discharge-obligation, transport, route, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-discharge-obstruction-lattice-carrier}, \autoref{thm:metacic-discharge-obstruction-lattice-namecert-obligations}, \autoref{thm:metacic-discharge-obstruction-lattice-falsifiable-nonescape}, and \autoref{thm:metacic-discharge-obstruction-lattice-independence-witness} bind the MetaCIC audit critical path as a finite discharge-obstruction lattice.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not prove closed subject reduction, unconditional closed consistency, arbitrary closed Church--Rosser, global decidability, checked Lean certificate coverage, or a public standard bridge.}
+  \upgradepath{Formal closure requires checked carrier admission, field-faithful projections, nontrivial available-blocked witnesses, route replay, provenance, and non-escape for the same finite lattice rows.}
+\end{closurestatus}

@@ -1,0 +1,177 @@
+---
+title: "Boundary, Not Axiom"
+subtitle: "Why BEDC refuses anonymous externality, and what the seven non-axiom boundary forms are"
+author: "The Omega Institute"
+date: 2026-05-14
+description: "Every formal system reaches a point where the next step needs supply the substrate didn't generate. The default move is to add an axiom. BEDC refuses. This is the discipline of seven boundary forms that lets BEDC hit 0 axiom 0 sorry while still discussing induction, consciousness, and the universe."
+---
+
+```{=html}
+<div class="lang-switch"><a href="boundary-not-axiom.zh-CN.qmd">中文</a></div>
+```
+
+## The default move is wrong
+
+You are formalising a theorem. Halfway through, the proof needs a fact you can't derive from the substrate. The default move, the move every formal system permits and most encourage, is:
+
+```lean
+axiom ThatFact : Whatever
+```
+
+This is wrong. Not stylistically wrong, not "frowned upon" wrong — structurally wrong, the way using a borrowed selector and calling it your own construction is wrong. The axiom statement asserts content as available inside the formal environment, with no derivation, no constructor, no setup field. The substrate now classifies this content as substrate-internal. The original source of the fact — wherever it actually came from, whoever you actually borrowed it from — has disappeared.
+
+From the audit point of view, this is not a harmless shortcut. It is source erasure.
+
+```{=html}
+<span class="elim-mark">✗ "Every formal system has to start with axioms eventually."</span>
+```
+
+The premise is right; the conclusion is wrong. *Something* must be accepted as a starting point — for BEDC, that something is the Calculus of Inductive Constructions and Lean's `inductive` mechanism. Once you accept that, the question is what to do with each subsequent piece of content. BEDC's answer is: never add an axiom on top. Expose the boundary instead.
+
+This essay is the discipline that lets that answer hold up across 1837 theorems.
+
+## What "exposing the boundary" actually means
+
+BEDC reaches boundary positions all the time. Mathematical induction over an arbitrary domain. Quotient representatives. Proposition equality from bidirectional implication. Term-level selectors. Global synchronization between observers. The maximum cross-observer causal rate. Whether the universe is computable.
+
+These are real pressures. BEDC does not pretend they don't exist. What BEDC refuses is to dispose of them by axiom. Each pressure must be exposed as one of seven boundary forms:
+
+::: {.evidence}
+**The seven non-axiom boundary forms.**
+
+1. `inductive` — a closed generator, with constructors visible.
+2. `def` — a computable or definitional compression of earlier material.
+3. structure or class field — a parametric setup input, supplied by the caller.
+4. `NameCert` row — a licensed public name with source, classifier, stability, and ledger.
+5. `GAP` ledger — compression residue or a missing conservation row, kept auditable.
+6. bridge slot — an external semantic correspondence, kept separate from the internal proof.
+7. apophatic socket — a named external supply position the substrate explicitly does not internalize.
+:::
+
+These are not seven different styles. They are seven mutually exclusive answers to the same question: where does this content's source-channel live? The first four say "inside the substrate, displayed." The fifth and sixth say "outside, but ledgered." The seventh says "outside, and the substrate refuses to claim what is on the other side."
+
+An axiom does none of these. An axiom says "this content is simply available," and that statement is itself the source erasure.
+
+## The admission decision
+
+Every piece of content proposed for BEDC passes through a decision tree. Closed grammar? `inductive`. Computed from earlier rows? `def`. Parametric interface input? setup field. Mature public name? `NameCert`. Compression residue? `GAP`. External semantic correspondence? bridge slot. Unsupported forward supply? apophatic socket. None of the above? The interface has not identified its boundary; redesign rather than accept as axiom.
+
+```{=html}
+<span class="role-tag discovery">⊕ Discipline rule</span>
+```
+
+The decision is non-negotiable. "Redesign rather than accept as axiom" sounds harsh until you watch what happens when one project softens it: a single accepted axiom becomes a foundation other axioms depend on, and within a few months the axiom set carries the project's actual content, while the proofs become routing arguments.
+
+```{=html}
+<span class="elim-mark">✗ "Surely a single 'temporary' axiom is fine until the proper construction lands."</span>
+```
+
+Empirically, temporary axioms outlive their authors. The discipline rule treats them as load-bearing from the moment they enter the substrate. The redesign cost is the up-front toll BEDC pays for an audit surface that doesn't accumulate quiet debt.
+
+## The forbidden phrasings table
+
+The discipline acquires its bite when written out as a replacement table. Each row replaces a phrasing the formal vocabulary tempts you toward with a BEDC phrasing that exposes the same content as boundary.
+
+| Forbidden phrasing | BEDC replacement |
+| --- | --- |
+| `axiom ExternalInput` | `T`-socket or apophatic boundary |
+| `axiom MathematicalInduction` | generator-local eliminator or induction socket |
+| `axiom InformationConservation` | `GAP` ledger + provenance conservation gates |
+| `axiom ObserverChoice` | `SelStep` witness and selector ledger |
+| `axiom GlobalClock` | extension carrier with synchronization certificate |
+| `axiom LightSpeedConstancy` | `MaxCausalRate` `NameCert` target |
+| `axiom QuotientCollapse` | classifier transport and `GAP` provenance |
+| `axiom PropositionEquality` | directional `hsame` / `psame` transport |
+| `axiom StandardModelBridge` | restricted bridge slot with explicit fields |
+| `axiom RuntimeCorrectness` | host delegation marked as audit / socket boundary |
+
+The table is not stylistic. Each replacement preserves information that the forbidden phrasing erases: source, witness, classifier, residue, caller obligation, or boundary status. Read top to bottom, the table is a phenomenological survey of every place a formal mathematics project tries to smuggle external supply inside.
+
+## The four gates that enforce this in code
+
+The discipline is not metaphysical. It is enforced by audit scripts that fail the build:
+
+::: {.evidence}
+**`tools/check-axioms.py` — refuses substrate-internal axioms.**
+A scan over `lean4/BEDC/` for any `axiom` declaration. The boundary content: substrate truth must be generated, defined, parameterized at an explicit setup boundary, or socketed. It may not appear as an internal oracle.
+
+```bash
+$ python3 tools/check-axioms.py
+Axiom audit: 0 axioms in lean4/BEDC/. Project invariant holds.
+```
+:::
+
+::: {.evidence}
+**`bedc_ci.py axiom-purity --strict` — refuses host axiom propagation.**
+For every public BEDC theorem, runs Lean's `#print axioms` and inspects the transitive proof ancestry. Rejects any dependency on `Classical.choice`, `Quot.sound`, or `propext`. The boundary content: Lean's CIC kernel may verify generated BEDC proofs, but its forbidden commitments may not become BEDC theorem content.
+
+```bash
+$ python3 lean4/scripts/bedc_ci.py axiom-purity --strict
+[bedc-ci] axiom-purity: theorems=1837 pure=1837 impure=0
+forbidden=['Classical.choice', 'Quot.sound', 'propext']
+```
+:::
+
+::: {.evidence}
+**`bedc_ci.py conservativity-audit` — refuses baseline import pollution.**
+Scans the Lean module import graph. Refuses baseline modules from importing modules owned by AI-originated chapters. The boundary content: recognized or compressed surfaces cannot alter the baseline substrate by hidden import.
+:::
+
+::: {.evidence}
+**`bedc_ci.py audit` — refuses paper-Lean name drift.**
+Scans every `\leanchecked`, `\leanvariant`, `\leandef`, `\leanstmt`, `\leantarget` in the paper. Refuses any marker whose Lean declaration is absent, ambiguous, or duplicated. The boundary content: a paper-side formal name is a certificate only if the declaration exists in the Lean inventory.
+:::
+
+```{=html}
+<span class="elim-mark">✗ "These are just lint scripts."</span>
+```
+
+Surface scan, yes. Boundary content, no. Each script enforces one face of the externality discipline. Together they constitute the operational membrane between substrate-internal content and external supply.
+
+## The schema theorem
+
+The chapter-level statement of this discipline is a schematic theorem, paper-side rather than Lean-side, because the precise form depends on the surrounding interface:
+
+> **Non-axiom boundary preservation schema.** Let `X` be a proposed BEDC dependency. Suppose `X` is consumed by a public theorem, certificate, or interface. If every use of `X` factors through one of the seven non-axiom boundary forms, and every corresponding gate reports that the boundary form remains visible, then `X` has not been internalized as a substrate axiom.
+
+The proof goes case-by-case across the seven forms. An `inductive` generator supplies constructors and eliminators; the source is displayed. A `def` unfolds; the source is computationally traceable. A setup field remains a field of the interface; the caller supplies it. A `NameCert` row exposes source, pattern, classifier, stability, and ledger. A `GAP` ledger records compression residue. A bridge slot is interpretive. An apophatic socket names an external dependency without supplying content as theorem. In each case, the use of `X` is source-channel visible.
+
+Two corollaries follow:
+
+**Axiom-free does not mean dependence-free.** BEDC has dependencies. It just refuses to make them substrate-internal sources of truth.
+
+```{=html}
+<span class="elim-mark">✗ "If BEDC has no axioms, it must have nothing outside its kernel."</span>
+```
+
+It has plenty outside its kernel. The seven boundary forms are exactly the audit-visible way of saying so.
+
+**Socketed content is not a theorem.** A socketed dependency is not an internally proved fact. The manuscript may reason about the socket's role, audit surface, and required supply shape, but it may not consume the socket as if the supplied content had been generated by the substrate.
+
+## The final rule
+
+The discipline compresses to one sentence:
+
+> Do not add an axiom. Expose the boundary.
+
+Every piece of formal infrastructure in BEDC — the seven boundary forms, the four gates, the schema theorem, the replacement table — is a way of making that rule operational. The reason this rule is not a stylistic preference is what the next two essays in this triptych are about: there is a structural fact about the boundary itself that makes the rule load-bearing rather than ornamental.
+
+```{=html}
+<div class="cta-choices">
+  <a href="one-far-end.qmd"><strong>One Far End for All Sockets</strong><br/>If you expose every socket as a boundary, what is on the other side? BEDC's answer is unexpectedly clean: not many things — one.</a>
+  <a href="hash-like-reading.qmd"><strong>A Hash-like Reading of the Universe</strong><br/>The third in this triptych: why the universe is not a global digest, and why the unique apophatic far end behaves like the common fiber far end of every local hash.</a>
+</div>
+```
+
+### Related reading
+
+```{=html}
+<div class="cta-choices">
+  <a href="distinction-as-foundation.qmd"><strong>Distinction as Foundation</strong><br/>The smallest `inductive` — the boundary form that lets BEDC start without smuggling in sets or types.</a>
+  <a href="formalization-routes.qmd"><strong>Formalization Routes</strong><br/>Where the seven boundary forms come from inside BEDC's `NameCert` discipline.</a>
+  <a href="zero-information-debt.qmd"><strong>Zero Information Debt</strong><br/>Why the `GAP` ledger role of the discipline matters: compression without source memory is unledgered quotient collapse.</a>
+</div>
+```
+
+— *The Omega Institute*
+*newmath / BEDC, May 2026*

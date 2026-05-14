@@ -710,35 +710,9 @@ completion request is refused at the forbidden-coordinate boundary.
 \closureat{CauchyWitnessLedgerUp}{bridgedStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
 \closureat{CauchyWitnessLedgerUp}{matureStr}[BEDC.Derived.CauchyWitnessLedgerUp.taste\_gate]
 
-\begin{theorem}[Cauchy witness ledger budget Real route totality]
-\label{thm:cauchy-witness-ledger-budget-real-route-totality}
-Let $L=(Q,B,S,K,H,C,P,N)$ be an accepted $\CauchyWitnessLedgerUp$ packet. Every budget read, $\StreamNameUp$ window read, $\RegSeqRatUp$ readback, and $\RealUp$ completion-facing read of $L$ routes through the finite rows $Q,B,S,K,H,C,P,N$. The route is the displayed diagonal-budget, observation-budget, synchronizer, and completion-seal path, with no completion choice, quotient representative, host limit, detached rational readback, or second stream source.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:cauchy-witness-ledger-budget-factorization}. It orders the budget-facing route through $Q \longmapsto B \longmapsto S \longmapsto K$, while the carrier and NameCert rows supply only $H,C,P,N$ as structural coordinates.
-
-Use \autoref{thm:cauchy-witness-ledger-streamname-window-source-lock}, \autoref{thm:cauchy-witness-ledger-regseqrat-readback-totality}, and \autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. These rows identify the StreamName source, the RegSeqRat readback, and the off-route Real refusal boundary with the same finite ledger. Hence every admitted read is exhausted by $Q,B,S,K,H,C,P,N$.
-\end{proof}
-
-\begin{theorem}[Cauchy witness ledger StreamName RegSeq factorization]
-\label{thm:cauchy-witness-ledger-streamname-regseq-factorization}
-For an accepted $\CauchyWitnessLedgerUp$ packet $L=(Q,B,S,K,H,C,P,N)$, the $\StreamNameUp$ window source and every $\RegSeqRatUp$ readback factor through the same $Q \longmapsto B$ budget source before $S$ or $K$ is public. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve this source without adding a tail oracle, detached dyadic completion, or host Real limit.
-\end{theorem}
-\begin{proof}
-Read \autoref{thm:cauchy-witness-ledger-streamname-window-source-lock}. The stream window is fixed by the diagonal-budget and observation-budget rows, then transported through $H,C,P,N$.
-
-Now apply \autoref{thm:cauchy-witness-ledger-regseqrat-readback-totality}. The regular-rational readback is supplied by the same finite $\StreamNameUp$ and $\DyadicRatCoreUp$ route already displayed by $Q$ and $B$. The synchronizer-classifier lock keeps $S$ and $K$ attached to that source, so no independent rational or Real-completion coordinate is introduced.
-\end{proof}
-
-\begin{theorem}[Cauchy witness ledger Real completion nonescape]
-\label{thm:cauchy-witness-ledger-real-completion-nonescape}
-Let $L=(Q,B,S,K,H,C,P,N)$ be accepted. Any $\RealUp$ completion read admitted by $L$ reaches the classifier row $K$ only through the finite route $Q \longmapsto B \longmapsto S \longmapsto K$ and the structural rows $H,C,P,N$. Reads outside that route fall under the Real seal refusal boundary and export no selected limit, quotient stream, host equality, countable-choice row, ambient completeness theorem, hidden tail oracle, or alternate seal.
-\end{theorem}
-\begin{proof}
-Start with \autoref{thm:cauchy-witness-ledger-real-completion-handoff} and \autoref{thm:cauchy-witness-ledger-root-seal-readback}. They place every completion-facing read behind the diagonal budget, observation budget, synchronizer, and completion-seal classifier.
-
-Finally use \autoref{thm:cauchy-witness-ledger-real-seal-refusal-boundary}. A request outside the displayed route has no carrier coordinate in $\BHist$, no accepted $\hsame$ or $\Cont$ replay, and no $\Pkg$ or $\NameCert$ witness. Thus the read remains finite and cannot escape to an external completion principle.
-\end{proof}
+\input{parts/concrete_instances/cauchywitnessledger/formal_target_surface}
+\input{parts/concrete_instances/cauchywitnessledger/root_budget_source_lock}
+\input{parts/concrete_instances/cauchywitnessledger/root_diagnostic_budget_rows_p11036}
 
 \begin{closurestatus}{\CauchyWitnessLedgerUp}
   \constructivestory{A $\CauchyWitnessLedgerUp$ packet is generated from a Cauchy diagonal budget, Real observation budget, Cauchy seal-budget synchronizer, Real completion-seal classifier, componentwise transports, displayed routes, package provenance, and a local NameCert row.}

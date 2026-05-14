@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\ExternalSupplyFailureWitnessUp$}
+\label{ch:concrete-instances-external-supply-failure-witness-namecert}
+\origin{ai}
+
+The $\ExternalSupplyFailureWitnessUp$ packet realizes the diagnostic side of \autoref{ch:visions-external-supply-without-axioms} as a finite NameCert object. It sits beside the boundary packet of \autoref{ch:concrete-instances-external-supply-boundary-namecert}, the failed audit-gate witness of \autoref{ch:concrete-instances-auditgatefailurewitness-namecert}, the composed gate surface of \autoref{ch:concrete-instances-auditgatecomposition-namecert}, the socket classifier of \autoref{ch:concrete-instances-socketkindclassifier-namecert}, and the gate-question packet of \autoref{ch:concrete-instances-apophaticgatequestion-namecert}. Those siblings expose the boundary, failed gate, composed refusal route, socket kind, or question row; this packet records the finite row at which an unsupported external-supply route fails.
+
+\begin{definition}[ExternalSupplyFailureWitness carrier]
+\label{def:external-supply-failure-witness-carrier}
+An $\ExternalSupplyFailureWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(B,R,F,D,T,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the boundary-name row naming the external-supply site;
+\item $R$ is the requested-supply row recording the demanded supply shape;
+\item $F$ is the failed-item row naming the unsupported item whose route was rejected;
+\item $D$ is the diagnostic row exposed to public consumers;
+\item $T$ is the refusal-target row naming the theorem, witness, selector, quotient, host equality, or completion route that the failure refuses to supply;
+\item $G$ is the gate row through which the failed route is audited;
+\item $H$ records componentwise $\hsame$ transport for $B,R,F,D,T,G$;
+\item $C$ records displayed $\Cont$ replay through the same diagnostic route;
+\item $P$ is the $\Pkg$ provenance over $\ExternalSupplyBoundaryUp$, $\AuditGateFailureWitnessUp$, $\AuditGateCompositionUp$, $\SocketKindClassifierUp$, $\ApophaticGateQuestionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ExternalSupplyFailureWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a supplied theorem, hidden selector, quotient equality, host-level equality, or direct route from the boundary name to the requested content.
+\end{definition}
+
+\begin{theorem}[ExternalSupplyFailureWitness NameCert obligations]
+\label{thm:external-supply-failure-witness-namecert-obligations}
+For the carrier of \autoref{def:external-supply-failure-witness-carrier}, the local $\NameCert_{\ExternalSupplyFailureWitnessUp}$ surface consists exactly of carrier admission for $W=(B,R,F,D,T,G,H,C,P,N)$, boundary-name exposure through $B$, requested-supply exactness through $R$, failed-item exactness through $F$, diagnostic exposure through $D$, refusal-target attachment through $T$, gate-row locality through $G$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Equivalently, an accepted packet lets a consumer cite the visible boundary, request, failed item, diagnostic, refusal target, gate, transport, replay, provenance, and certificate rows, but it supplies no refused content beyond those rows.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The definition lists $B,R,F,D,T,G,H,C,P,N$, so the local certificate has one boundary-name row, one requested-supply row, one failed item, one diagnostic row, one refusal target, one gate row, and the structural rows that transport, replay, package, and name them.
+
+Use \autoref{ch:concrete-instances-external-supply-boundary-namecert} to identify $B$ and $R$ as boundary-facing rows rather than content rows. Use \autoref{ch:concrete-instances-auditgatefailurewitness-namecert} to read $F,D,T$ as the failed item, diagnostic, and refusal attachment exposed by a failed gate.
+
+Next use \autoref{ch:concrete-instances-auditgatecomposition-namecert} and \autoref{ch:concrete-instances-socketkindclassifier-namecert}. The composition chapter keeps the refusal route gate-local, while the classifier chapter keeps the requested supply in its socket-kind row instead of turning it into content.
+
+Finally use \autoref{ch:concrete-instances-apophaticgatequestion-namecert}. The question row explains why the consumer must read the gate before the diagnostic answer is available. Since $H,C,P,N$ only preserve the same displayed packet, the NameCert obligations are exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[ExternalSupplyFailureWitness diagnostic nonescape]
+\label{thm:external-supply-failure-witness-diagnostic-nonescape}
+Every public consumer of an accepted $\ExternalSupplyFailureWitnessUp$ packet reaches the diagnostic row $D$ before any refusal target $T$ is usable. A direct route from the boundary name $B$ to theorem content, witness content, selector output, quotient equality, host equality, or completion output is not a route of the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:external-supply-failure-witness-carrier}. The only content-facing coordinates are $F,D,T,G$; none stores the refused theorem, witness, selector, quotient, host equality, or completion output.
+
+Apply the boundary discipline from \autoref{ch:concrete-instances-external-supply-boundary-namecert}. The boundary name $B$ and requested-supply row $R$ identify the site and demanded shape, but the boundary packet does not internalize the requested supply.
+
+Now apply the failed-gate and composition siblings from \autoref{ch:concrete-instances-auditgatefailurewitness-namecert} and \autoref{ch:concrete-instances-auditgatecomposition-namecert}. The failed item $F$ is attached to a diagnostic row $D$, and the composed refusal route reads that diagnostic before a refusal target is handed to a consumer.
+
+Use \autoref{ch:concrete-instances-socketkindclassifier-namecert} and \autoref{ch:concrete-instances-apophaticgatequestion-namecert} to keep the route visible. The socket classifier names the supply kind, and the gate question forces a gate read before the answer is exposed. Therefore any route skipping $D$ or connecting $B$ directly to refused content has no carrier coordinate and refutes the packet.
+\end{proof}
+
+\falsifiablePrediction{If an accepted ExternalSupplyFailureWitnessUp packet is public, every consumer reaches the diagnostic row before any refusal target; a direct route from boundary name to theorem content refutes the packet.}
+
+\independenceWitness{ExternalSupplyBoundaryUp exposes the boundary but not the failed item; AuditGateFailureWitnessUp exposes a failed gate but not the external-supply boundary name; AuditGateCompositionUp composes refusal routes but does not store the primitive requested supply; SocketKindClassifierUp classifies the socket kind but not the diagnostic row; ApophaticGateQuestionUp asks the gate question but does not attach the failed item to a refusal target. The row separation prevents a row-preserving bijection between any sibling and ExternalSupplyFailureWitnessUp.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \ExternalSupplyFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \ExternalSupplyFailureWitnessUp$ instances in $\mathsf{lean4/BEDC/Derived/ExternalSupplyFailureWitnessUp/TasteGate.lean}$ before the chapter can claim a checked taste-gate target.
+
+\closureat{ExternalSupplyFailureWitnessUp}{seedStr}
+\closureat{ExternalSupplyFailureWitnessUp}{obligationStr}
