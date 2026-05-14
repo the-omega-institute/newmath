@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CellularVerbRealignmentUp$}
+\label{ch:concrete-instances-cellular-verb-realignment-namecert}
+\origin{ai}
+
+The $\CellularVerbRealignmentUp$ packet realizes the kernel-verb realignment direction of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as a finite comparison surface. It sits beside the finite orbit packet of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert} and the BHist cell-row embedding packet of \autoref{ch:concrete-instances-bhist-cell-row-embedding-namecert}. Those siblings expose orbit and embedding rows; this carrier stores the comparison row that keeps the original $\BHist$ verbs and the cellular-orbit verbs visible at the same public boundary.
+
+\falsifiablePrediction{Removing the verb-comparison row makes the packet unable to distinguish BHist Cont from cellular orbit continuation.}
+
+\independenceWitness{cellularorbitsubstrate, bhistcellrowembedding, cellularautomaton, kernelcategory: none is bijective because this packet stores the verb-realignment comparison row rather than only orbit, embedding, automaton, or categorical hom rows.}
+
+\begin{definition}[Cellular verb realignment carrier]
+\label{def:cellular-verb-realignment-carrier}
+A $\CellularVerbRealignmentUp$ carrier is a finite $\BHist$ packet
+$$
+V=(B,O,M,H,E,K,L,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\BHist$ verb row, displaying the finite Mark, Hist, Ext, and Cont reads being compared.
+\item $O$ is the cellular orbit row, displaying the finite cell-row segment, orbit window, local update route, and accepted continuation read.
+\item $M$ is the verb-comparison row, pairing each $\BHist$ kernel verb read with its cellular-orbit classifier read.
+\item $H$ is the componentwise $\hsame$ transport row for source histories, cell rows, comparison entries, embedding data, package data, and local names.
+\item $E$ is the embedding and readback row, citing the $\BHistCellRowEmbeddingUp$ surface that keeps the source $\BHist$ row and the cellular row in one packet.
+\item $K$ is the kernel-commitment row, recording that the public BEDC carrier remains the displayed $\BHist$ row rather than the cellular orbit itself.
+\item $L$ is the local obligation ledger for carrier admission, verb comparison, NameCert exposure, non-escape, and TasteGate field projection.
+\item $C$ records displayed $\Cont$ routes through the $\BHist$ verb row, the cellular orbit row, the comparison row, the embedding row, the kernel-commitment row, the ledger, the package row, and the local naming row.
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\CellularOrbitSubstrateUp$, $\BHistCellRowEmbeddingUp$, $\CellularAutomatonUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CellularVerbRealignmentUp}$ row.
+\end{enumerate}
+The carrier compares verb rows only through $B,O,M,H,E,K,L,C,P,N$. It has no coordinate for replacing the $\BHist$ kernel carrier, quotienting orbit segments, reading an unbounded cellular trace, or treating a cellular classifier as a host-level definition of Mark, Hist, Ext, or Cont.
+\end{definition}
+
+\begin{theorem}[Cellular verb realignment NameCert obligations]
+\label{thm:cellular-verb-realignment-namecert-obligations}
+For the carrier of \autoref{def:cellular-verb-realignment-carrier}, the local $\NameCert_{\CellularVerbRealignmentUp}$ surface consists exactly of carrier admission for $V=(B,O,M,H,E,K,L,C,P,N)$, $\BHist$ verb exposure through $B$, cellular orbit exposure through $O$, verb-comparison accountability through $M$, componentwise transport through $H$, embedding and readback accountability through $E$, kernel-carrier commitment through $K$, ledger exactness through $L$, displayed route replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-verb-realignment-carrier}. The packet displays the $\BHist$ verb row, cellular orbit row, comparison row, transports, embedding row, kernel-commitment row, local ledger, continuation routes, package row, and local name as its only coordinates.
+
+The sibling packets account for the two sides of the comparison. Use \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert} to read the finite cellular orbit row, and use \autoref{ch:concrete-instances-bhist-cell-row-embedding-namecert} to keep the cellular row tied to the source $\BHist$ row.
+
+The row $M$ is the additional obligation surface. It records which Mark, Hist, Ext, and Cont reads are being compared, so the NameCert cannot be discharged by orbit exposure alone or by embedding exposure alone.
+
+The rows $K,L,C,P,N$ close the certificate. The kernel-carrier row preserves the BEDC $\BHist$ commitment, while the ledger, route, provenance, and naming rows expose no replacement carrier, quotient orbit, unbounded trace, or host definition of the verbs.
+\end{proof}
+
+\begin{theorem}[Cellular verb realignment non-escape boundary]
+\label{thm:cellular-verb-realignment-non-escape-boundary}
+Every accepted $\CellularVerbRealignmentUp$ public read factors through the finite route
+$$
+B,O,M,H,E,K,L,C,P,N.
+$$
+The route may compare $\BHist$ Mark, Hist, Ext, and Cont reads with displayed cellular row, orbit-segment, row-extension, and orbit-continuation reads. It cannot replace the BEDC kernel carrier, identify orbit segments by quotient equality, import an unbounded cellular trace, or make the cellular classifier the definition of the kernel verbs.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation theorem \autoref{thm:cellular-verb-realignment-namecert-obligations}. Every public read reaches the local name only after the source verb row, cellular orbit row, comparison row, transport row, embedding row, kernel-commitment row, ledger, route, and package rows have been displayed.
+
+The comparison row $M$ separates the four verb families. Mark and Hist comparisons read displayed carrier and orbit rows, while Ext and Cont comparisons read displayed extension and continuation routes.
+
+The embedding row $E$ and kernel-commitment row $K$ keep the source carrier fixed as $\BHist$. They permit a cellular-orbit comparison but do not turn the cellular carrier into the BEDC kernel carrier.
+
+Since the carrier lacks coordinates for quotient orbit equality, unbounded cellular traces, host evaluators, and replacement verb definitions, the accepted public read remains the finite comparison surface stated above.
+\end{proof}
+
+The Lean follow-up must provide \texttt{Nontrivial CellularVerbRealignmentUp} and \texttt{FieldFaithful CellularVerbRealignmentUp} instances in \texttt{lean4/BEDC/Derived/CellularVerbRealignmentUp/TasteGate.lean}, with the expected alignment surface at \texttt{BEDC.Derived.CellularVerbRealignmentUp.TasteGate.CellularVerbRealignmentTasteGate\_single\_carrier\_alignment}.
+
+\closureat{CellularVerbRealignmentUp}{seedStr}
+
+\begin{closurestatus}{\CellularVerbRealignmentUp}
+  \constructivestory{A $\CellularVerbRealignmentUp$ packet is generated from a BHist verb row, a cellular orbit row, a verb-comparison row, componentwise hsame transports, an embedding and readback row, a kernel-carrier commitment row, a local obligation ledger, displayed continuation routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-verb-realignment-carrier}, \autoref{thm:cellular-verb-realignment-namecert-obligations}, and \autoref{thm:cellular-verb-realignment-non-escape-boundary} bind the finite BHist and cellular-orbit verb comparison surface without replacing the kernel carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close a carrier switch, quotient orbit equality, unbounded cellular trace, host evaluator correctness, Lean implementation, or standard bridge.}
+  \upgradepath{Checked closure requires Lean encoding of the carrier plus Nontrivial and FieldFaithful TasteGate instances preserving the BHist verb row, cellular orbit row, comparison row, embedding row, kernel-commitment row, ledger, route, provenance, and local naming projections.}
+\end{closurestatus}
