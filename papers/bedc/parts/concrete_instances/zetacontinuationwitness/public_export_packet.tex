@@ -75,3 +75,47 @@ Apply \autoref{thm:zeta-continuation-witness-contour-route}. Any contour-facing 
 
 Close with \autoref{thm:zeta-continuation-witness-no-rh-nonescape} and \autoref{thm:zeta-continuation-witness-critical-strip-consumer-scope}. They keep the public read inside $B,E,A,P,F,T,G,H,C,R,N$ and exclude RH proof data or zero-location data from the Gamma-facing boundary.
 \end{proof}
+
+\begin{theorem}[ZetaContinuationWitness public zero-route factorization]
+\label{thm:zeta-continuation-witness-public-zero-route-factorization}
+Every public zero-facing read of an accepted $\ZetaContinuationWitnessUp$ packet factors through the displayed rows
+$$
+B,E,A,P,F,T,G,H,C,R,N.
+$$
+The factorization may expose the source row, eta route, analytic-continuation row, pole ledger, functional-equation route, trivial-zero ledger, Gamma boundary, transports, continuations, provenance, and local name, but it exposes no RH predicate, non-trivial-zero locator, global zero classifier, off-packet analytic branch, or completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:zeta-continuation-witness-public-export}. It assembles the carrier row, contour route, Gamma ledger, critical-strip scope, provenance, and local $\NameCert$ rows into one public export.
+
+Apply \autoref{thm:zeta-continuation-witness-zero-route-input-package}. The zero-facing input package is exactly the displayed tuple $B,E,A,P,F,T,G,H,C,R,N$ together with its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structure.
+
+Finally use \autoref{thm:zeta-continuation-witness-public-export-factorization} and \autoref{thm:zeta-continuation-witness-critical-strip-public-refusal}. They keep the public export inside the same rows and remove RH predicates, non-trivial-zero locators, global zero classifiers, completed Gamma certificates, and off-packet analytic branches from the zero-facing handoff.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness public contour-Gamma separation]
+\label{thm:zeta-continuation-witness-public-contour-gamma-separation}
+Every public contour-facing read of an accepted $\ZetaContinuationWitnessUp$ packet that reaches Gamma data separates into the contour route through $B,E,A,P,F,H,C,R,N$ and the Gamma boundary row $G$, unless the requested Gamma datum is already displayed as part of the functional-equation route $F$. No such read exports an RH predicate, non-trivial-zero locator, global zero classifier, off-packet analytic branch, or completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:zeta-continuation-witness-gamma-boundary-public-nonescape}. It forces every Gamma-facing public read to land at $G$ unless the same datum is already displayed inside $F$.
+
+Use \autoref{thm:zeta-continuation-witness-public-export-factorization}. The contour-facing public export still factors through $B,E,A,P,F,T,G,H,C,R,N$, so the Gamma side cannot introduce a row outside the witness packet.
+
+Close with \autoref{thm:zeta-continuation-witness-critical-strip-public-refusal}. The same public boundary excludes RH predicates, zero locators, global zero classifiers, completed Gamma certificates, and off-packet analytic branches from the contour-Gamma handoff.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationWitness public source-lock handoff]
+\label{thm:zeta-continuation-witness-public-source-lock-handoff}
+Every public critical-strip, zero-facing, or contour-facing consumer of an accepted $\ZetaContinuationWitnessUp$ packet must receive the source-locked rows
+$$
+B,E,A,P,F,T,G,H,C,R,N
+$$
+before using the packet as continuation evidence. The handoff is therefore a finite source-lock export over the displayed rows and their BEDC structure, not an RH predicate, non-trivial-zero locator, global zero classifier, off-packet analytic branch, or completed Gamma certificate.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:zeta-continuation-witness-public-export}. It supplies the public witness export as a finite packet, including the carrier, contour route, Gamma boundary, provenance, and local name.
+
+Next apply \autoref{thm:zeta-continuation-witness-zero-route-input-package}. Zero-facing and critical-strip consumers read the packet only through $B,E,A,P,F,T,G,H,C,R,N$.
+
+Finally combine \autoref{thm:zeta-continuation-witness-gamma-boundary-public-nonescape}, \autoref{thm:zeta-continuation-witness-public-export-factorization}, and \autoref{thm:zeta-continuation-witness-critical-strip-public-refusal}. These rows keep Gamma-facing and contour-facing reads source-locked inside the same packet and rule out RH predicates, zero locators, global zero classifiers, off-packet analytic branches, and completed Gamma certificates.
+\end{proof}
