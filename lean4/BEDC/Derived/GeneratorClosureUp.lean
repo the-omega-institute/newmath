@@ -376,4 +376,32 @@ theorem GeneratorClosurePacket_namecert_obligations [AskSetup] [PackageSetup]
         exact source
     }
 
+theorem GeneratorClosurePacket_public_bridge_schema_handoff [AskSetup] [PackageSetup]
+    {generator constructors authorized classifier witnesses transport routes provenance name endpoint
+      bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GeneratorClosurePacket generator constructors authorized classifier witnesses transport routes
+        provenance name endpoint bundle pkg ->
+      hsame endpoint bridge ->
+        Cont name bridge routes ->
+          PkgSig bundle bridge pkg ->
+            UnaryHistory generator ∧ UnaryHistory constructors ∧ UnaryHistory authorized ∧
+              UnaryHistory classifier ∧ UnaryHistory witnesses ∧ UnaryHistory transport ∧
+                UnaryHistory provenance ∧ UnaryHistory name ∧ UnaryHistory endpoint ∧
+                  UnaryHistory bridge ∧ Cont generator constructors authorized ∧
+                    Cont authorized classifier witnesses ∧ Cont name endpoint routes ∧
+                      Cont name bridge routes ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle bridge pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packet sameEndpoint bridgeRoute bridgePkg
+  obtain ⟨generatorUnary, constructorsUnary, authorizedUnary, classifierUnary, witnessesUnary,
+    transportUnary, provenanceUnary, nameUnary, endpointUnary, generatorRoute, classifierRoute,
+    endpointRoute, endpointPkg⟩ := packet
+  have bridgeUnary : UnaryHistory bridge :=
+    unary_transport endpointUnary sameEndpoint
+  exact
+    ⟨generatorUnary, constructorsUnary, authorizedUnary, classifierUnary, witnessesUnary,
+      transportUnary, provenanceUnary, nameUnary, endpointUnary, bridgeUnary, generatorRoute,
+      classifierRoute, endpointRoute, bridgeRoute, endpointPkg, bridgePkg⟩
+
 end BEDC.Derived.GeneratorClosureUp
