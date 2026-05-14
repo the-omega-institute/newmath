@@ -119,6 +119,26 @@ Transport through $H$ preserves $M,X,U,B$ componentwise, while $Q$ preserves the
 Finally replay the reads through $C$ and bind them by $P,N$. The carrier has no coordinate for an unlisted cross-Hist witness, a second bound row, or a comparison detached from $M$, so witness-family stability is exhausted by the displayed finite packet.
 \end{proof}
 
+\begin{theorem}[MaxCausalRate bridge readback]
+\label{thm:max-causal-rate-bridge-readback}
+Every consumer-facing bridge read of an accepted $\MaxCausalRateUp$ packet is exactly the tuple
+$$
+M,X,U,B,H,Q,C,P,N.
+$$
+Here $M$ is the $\MultiHistConfigUp$ row, $X$ is the displayed $\CrossHistCausalUp$ witness family, $U$ is the shared unary bound, $B$ is the comparison ledger, $H$ is componentwise transport, $Q$ is the probe-stability row, $C$ is the continuation route surface, $P$ is provenance, and $N$ is the local name.
+
+The readback exports no global frame, synchronized clock, metric tensor, Lorentz geometry, or real-valued speed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and local obligations from \autoref{thm:max-causal-rate-namecert-obligations}. The carrier rows visible to a consumer are exactly $M,X,U,B,H,Q,C,P,N$.
+
+Apply \autoref{thm:max-causal-rate-crosshist-handoff}. It identifies the displayed witness family $X$ as the $\CrossHistCausalUp$ handoff over the multi-Hist configuration row $M$.
+
+Next use \autoref{thm:max-causal-rate-bound-comparison-totality} and \autoref{thm:max-causal-rate-witness-family-stability}. These keep the shared unary bound $U$, the comparison ledger $B$, and the transported witness family tied to $H,Q,C$.
+
+The rows $P$ and $N$ then package and name the same surface. Since none of the cited rows contains a global frame, synchronized clock, metric tensor, Lorentz geometry, or real-valued speed coordinate, the bridge readback is exactly the displayed tuple.
+\end{proof}
+
 \begin{theorem}[MaxCausalRate unary-bound non-escape]
 \label{thm:max-causal-rate-unary-bound-nonescape}
 For an accepted $\MaxCausalRateUp$ carrier
