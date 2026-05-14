@@ -274,6 +274,41 @@ theorem DiagonalTailSelectorCarrier_root_cofinal_admission [AskSetup] [PackageSe
       cUnary, pUnary, nameUnary, admissionUnary, nMuK, kWD, pNameAdmission,
       carrierPkg⟩
 
+theorem DiagonalTailSelectorCarrier_cofinal_budget_replay [AskSetup] [PackageSetup]
+    {r n mu k w d t s h c p name admissionRead consumer replay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalTailSelectorCarrier r n mu k w d t s h c p name bundle pkg ->
+      Cont p name admissionRead ->
+        Cont w d t ->
+          Cont t s consumer ->
+            Cont consumer admissionRead replay ->
+              PkgSig bundle consumer pkg ->
+                PkgSig bundle replay pkg ->
+                  UnaryHistory r ∧ UnaryHistory n ∧ UnaryHistory mu ∧ UnaryHistory k ∧
+                    UnaryHistory w ∧ UnaryHistory d ∧ UnaryHistory t ∧ UnaryHistory s ∧
+                      UnaryHistory admissionRead ∧ UnaryHistory consumer ∧
+                        UnaryHistory replay ∧ Cont n mu k ∧ Cont k w d ∧
+                          Cont p name admissionRead ∧ Cont w d t ∧
+                            Cont t s consumer ∧ Cont consumer admissionRead replay ∧
+                              PkgSig bundle p pkg ∧ PkgSig bundle consumer pkg ∧
+                                PkgSig bundle replay pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier pNameAdmission wDT tSConsumer consumerAdmissionReplay consumerPkg replayPkg
+  obtain ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, _tUnary, sUnary,
+    _hUnary, _cUnary, pUnary, nameUnary, nMuK, kWD, pPkg⟩ := carrier
+  have admissionUnary : UnaryHistory admissionRead :=
+    unary_cont_closed pUnary nameUnary pNameAdmission
+  have tUnaryFromRoute : UnaryHistory t :=
+    unary_cont_closed wUnary dUnary wDT
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed tUnaryFromRoute sUnary tSConsumer
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed consumerUnary admissionUnary consumerAdmissionReplay
+  exact
+    ⟨rUnary, nUnary, muUnary, kUnary, wUnary, dUnary, tUnaryFromRoute, sUnary,
+      admissionUnary, consumerUnary, replayUnary, nMuK, kWD, pNameAdmission, wDT,
+      tSConsumer, consumerAdmissionReplay, pPkg, consumerPkg, replayPkg⟩
+
 theorem DiagonalTailSelectorRootBudgetHandoff [AskSetup] [PackageSetup]
     {r n mu k w d t s h c p name budgetRead sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
