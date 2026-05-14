@@ -646,6 +646,56 @@ Apply \autoref{thm:compact-net-modulus-selector-nonescape} and \autoref{thm:comp
 Finally use \autoref{thm:compact-net-modulus-selector-selected-precision-exactness} and \autoref{thm:compact-net-modulus-selector-primitive-scope-closure}. The selected precision is determined by the visible finite-net, radius, pointwise-modulus, fold, transport, route, provenance, and naming rows, leaving no coordinate for open-cover compactness, host minima, choice-selected centers, quotient point equality, sequential compactness, or external modulus functions.
 \end{proof}
 
+\begin{theorem}[Compact net modulus selector cover-radius synchronization]
+\label{thm:compact-net-modulus-selector-cover-radius-synchronization}
+For every accepted root-ready $\CompactNetModulusSelectorUp$ packet
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N),
+$$
+the compact cover rows $C$ and the positive $\RatUp$ radius rows $R$ are synchronized over the same finite probe spine $\mathcal{P}$. A cover read through $C$ cannot be consumed without the corresponding positive radius ledger $R$, and a radius read through $R$ cannot be consumed without the compact-net cover rows $C$ over the source metric row $X$.
+\end{theorem}
+\begin{proof}
+Project $S$ through \autoref{def:compact-net-modulus-selector-root-readiness}. The displayed carrier stores $X,\mathcal{P},C,R$ as the compact finite-net input and makes $R$ the subordinate positive-radius ledger attached to that same probe spine.
+
+Use \autoref{thm:compact-net-modulus-selector-finite-net-exposure}. It exposes the compact coverage rows and the positive radius rows together, with no separate coordinate for a detached cover row or a detached radius row.
+
+Finally apply \autoref{thm:compact-net-modulus-selector-consumer-nonescape}. Since every downstream read factors through the displayed tuple, a consumer cannot separate $C$ from $R$ while remaining inside the accepted selector surface.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector fold-output positivity]
+\label{thm:compact-net-modulus-selector-fold-output-positivity}
+For every accepted root-ready $\CompactNetModulusSelectorUp$ packet
+$$
+S=(X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N),
+$$
+the fold output row $D$ is a positive precision row only through the positive $\RatUp$ radius ledger $R$, the pointwise-modulus rows $M$, and the finite lower-bound fold row $F$. No consumer may treat $D$ as a host minimum, a nonpositive bound, or a choice-selected external modulus value.
+\end{theorem}
+\begin{proof}
+Read $D$ through \autoref{thm:compact-net-modulus-selector-fold-soundness}. The finite fold row $F$ computes the selected lower-bound precision from the positive radius and pointwise-modulus rows already present in the carrier.
+
+Use \autoref{thm:compact-net-modulus-selector-selected-precision-exactness}. It fixes the precision row by the visible compact-net, radius, pointwise-modulus, fold, transport, route, provenance, and naming rows, so positivity is inherited from the $\RatUp$ radius ledger and the admitted fold route.
+
+\autoref{thm:compact-net-modulus-selector-consumer-nonescape} excludes host minima, choice-selected centers, quotient point equality, and external modulus functions. Thus the only public interpretation of $D$ is the positive fold output carried by $R,M,F$ inside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Compact net modulus selector request-to-precision factorization]
+\label{thm:compact-net-modulus-selector-request-to-precision-factorization}
+Every tolerance request $E$ accepted by a root-ready $\CompactNetModulusSelectorUp$ packet factors to the selected precision row $D$ through
+$$
+X,Y,E,\mathcal{P},C,R,M,F,D,H,Q,P,N.
+$$
+The handoff first reads compact coverage through $X,\mathcal{P},C$, then positive subordinate radii through $R$, then pointwise-modulus rows through $M$, then the finite fold output through $F,D$, and finally the transport, route, provenance, and local certificate rows $H,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:compact-net-modulus-selector-root-readiness}. The tolerance row $E$ is displayed with the source and target metric rows, the compact finite-net input, the pointwise-modulus rows, and the selected fold output.
+
+Apply \autoref{thm:compact-net-modulus-selector-cover-radius-synchronization}. It forces every compact cover read to carry the matching positive radius ledger, so the request cannot bypass $X,\mathcal{P},C,R$.
+
+Next apply \autoref{thm:compact-net-modulus-selector-fold-output-positivity}. The fold output $D$ is admitted only through $R,M,F$, and therefore the tolerance request reaches a precision row only through the finite selector fold.
+
+Finally use \autoref{thm:compact-net-modulus-selector-consumer-nonescape}. The displayed transport, route, provenance, and local naming rows $H,Q,P,N$ are the only remaining public coordinates, so the request-to-precision handoff factors through exactly the root-ready carrier.
+\end{proof}
+
 \begin{theorem}[Compact net modulus selector root-budget admission]
 \label{thm:compact-net-modulus-selector-root-budget-admission}
 For every accepted root-ready $\CompactNetModulusSelectorUp$ packet
@@ -698,15 +748,17 @@ Finally apply \autoref{thm:compact-net-modulus-selector-consumer-nonescape}. Sin
 
 \closureat{CompactNetModulusSelectorUp}{seedStr}
 \closureat{CompactNetModulusSelectorUp}{obligationStr}[BEDC.Derived.CompactNetModulusSelectorUp.CompactNetModulusSelectorTasteGate\_single\_carrier\_alignment]
+\closureat{CompactNetModulusSelectorUp}{scopedStr}[BEDC.Derived.CompactNetModulusSelectorUp.CompactNetModulusSelectorTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\CompactNetModulusSelectorUp}
   \constructivestory{A $\CompactNetModulusSelectorUp$ packet is generated from a compact metric finite-net row, a target metric row, a positive tolerance history, a nonempty $\mathsf{ProbeBundle}$ of centers, positive subordinate radius rows, pointwise-modulus rows at the bundled centers, a finite lower-bound fold, selected precision, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.CompactNetModulusSelectorUp.taste\_gate}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:compact-net-modulus-selector-carrier}, \autoref{thm:compact-net-modulus-selector-namecert-obligations}, \autoref{thm:compact-net-modulus-selector-fold-soundness}, \autoref{thm:compact-net-modulus-selector-nonescape}, and \autoref{thm:compact-net-modulus-selector-independence-boundary} specify the finite compact-net selector packet, its local NameCert obligations, fold soundness, non-escape boundary, and sibling independence boundary.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:compact-net-modulus-selector-carrier}, \autoref{thm:compact-net-modulus-selector-namecert-obligations}, \autoref{thm:compact-net-modulus-selector-cover-radius-synchronization}, \autoref{thm:compact-net-modulus-selector-fold-output-positivity}, \autoref{thm:compact-net-modulus-selector-request-to-precision-factorization}, \autoref{thm:compact-net-modulus-selector-fold-soundness}, \autoref{thm:compact-net-modulus-selector-nonescape}, and \autoref{thm:compact-net-modulus-selector-independence-boundary} bind the finite compact-net selector packet, its local NameCert obligations, cover-radius synchronization, fold-output positivity, request-to-precision factorization, fold soundness, non-escape boundary, and sibling independence boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CompactNetModulusSelectorUp.CompactNetModulusSelectorTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, sequential compactness, a host minimum, a choice-selected center, quotient point equality, or an external modulus function for $\CompactNetModulusSelectorUp$.}
-  \upgradepath{Scoped closure requires binding the primitive route for $\CompactUp$, $\ContinuousFunctionUp$, $\MetricSpaceUp$, $\RatUp$, $\FiniteNetMinimumFoldUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \notclaimed{This chapter does not close bridge checking, open-cover compactness, sequential compactness, a host minimum, a choice-selected center, quotient point equality, or an external modulus function for $\CompactNetModulusSelectorUp$.}
+  \upgradepath{Public closure requires a public-object surface for the compact-net selector beyond the scoped finite selector carrier.}
 \end{closurestatus}
