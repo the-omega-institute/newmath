@@ -75,6 +75,9 @@ DEFAULT_POLL_INTERVAL = 30
 DEFAULT_TRANSPORT_RETRIES = 1
 ZERO_EXTRACTION_HANG_SECONDS = 900
 ZERO_EXTRACTION_MIN_PAGE_CHARS = 1000
+REFILL_BOARD_CONTEXT_MAX_CHARS = 9000
+REFILL_PAPER_SUMMARY_MAX_CHARS = 8000
+REFILL_RECENT_COMPLETED_LIMIT = 12
 
 
 # ---------------------------------------------------------------------------
@@ -261,7 +264,13 @@ def _write_failure_summary(ts: str, *, error: str, response_len: int = 0) -> Non
 
 
 def _board_content() -> str:
-    return board_context.build_board_prompt_context()
+    # Refill is a candidate-generation lane. Full title dedup, paper coverage,
+    # and schema checks run deterministically after response parsing, so the
+    # oracle prompt only needs enough context to avoid obvious repeats.
+    return board_context.build_board_prompt_context(
+        max_chars=REFILL_BOARD_CONTEXT_MAX_CHARS,
+        recent_completed_limit=REFILL_RECENT_COMPLETED_LIMIT,
+    )
 
 
 def _extract_json_object(text: str) -> Optional[dict]:
@@ -314,7 +323,9 @@ def _extract_json_object(text: str) -> Optional[dict]:
 def build_refill_prompt() -> str:
     template = (PROMPTS_DIR / "oracle_board_refill.txt").read_text(encoding="utf-8")
     board = _board_content()
-    paper_coverage = paper_index.render_prompt_summary(max_chars=12000)
+    paper_coverage = paper_index.render_prompt_summary(
+        max_chars=REFILL_PAPER_SUMMARY_MAX_CHARS,
+    )
     discipline = render_prompt_block(
         context="BEDC board refill; oracle may generate candidate targets only, while dedup, schema checks, paper coverage, and deterministic obligation splitting stay local.",
     )
