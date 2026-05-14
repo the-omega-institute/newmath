@@ -147,4 +147,38 @@ theorem CauchyDiagonalBudget_route_factorization [AskSetup] [PackageSetup]
       exact ⟨unary_transport endpointUnary (hsame_symm source.right), endpointPkg⟩
   }
 
+theorem CauchyDiagonalBudgetCarrier_transported_selector_naturality [AskSetup] [PackageSetup]
+    {epsilon m w d k s h c p name epsilon' m' w' d' k' s' h' c' p' name' route route'
+      sealRow sealRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyDiagonalBudgetCarrier epsilon m w d k s h c p name bundle pkg →
+      CauchyDiagonalBudgetCarrier epsilon' m' w' d' k' s' h' c' p' name' bundle pkg →
+        hsame epsilon epsilon' →
+          hsame m m' →
+            hsame k k' →
+              hsame s s' →
+                Cont epsilon m route →
+                  Cont epsilon' m' route' →
+                    Cont k s sealRow →
+                      Cont k' s' sealRow' →
+                        hsame route route' ∧ hsame sealRow sealRow' ∧
+                          UnaryHistory route' ∧ UnaryHistory sealRow' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier transported sameEpsilon sameM sameK sameS routeStep transportedRoute sealStep
+    transportedSeal
+  obtain ⟨epsilonUnary, mUnary, _wUnary, _dUnary, kUnary, sUnary, _hUnary, _cUnary,
+    _pUnary, _nameUnary, _epsilonMW, _wDK, _kSH, _hCP, _cPName, _pPkg⟩ := carrier
+  obtain ⟨epsilonUnary', mUnary', _wUnary', _dUnary', kUnary', sUnary', _hUnary', _cUnary',
+    _pUnary', _nameUnary', _epsilonMW', _wDK', _kSH', _hCP', _cPName', _pPkg'⟩ :=
+      transported
+  have routeSame : hsame route route' :=
+    cont_respects_hsame sameEpsilon sameM routeStep transportedRoute
+  have sealSame : hsame sealRow sealRow' :=
+    cont_respects_hsame sameK sameS sealStep transportedSeal
+  have transportedRouteUnary : UnaryHistory route' :=
+    unary_cont_closed epsilonUnary' mUnary' transportedRoute
+  have transportedSealUnary : UnaryHistory sealRow' :=
+    unary_cont_closed kUnary' sUnary' transportedSeal
+  exact ⟨routeSame, sealSame, transportedRouteUnary, transportedSealUnary⟩
+
 end BEDC.Derived.CauchyDiagonalBudgetUp
