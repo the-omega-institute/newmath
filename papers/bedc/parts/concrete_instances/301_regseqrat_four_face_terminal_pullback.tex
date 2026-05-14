@@ -126,3 +126,42 @@ The remaining route is exactly the displayed $\BHist$, $\hsame$, $\Cont$,
 $\mathsf{Pkg}$, and local $\NameCert$ route, so the two terminal reads classify
 together.
 \end{proof}
+
+\begin{theorem}[RegSeqRat four-face terminal classifier completeness]
+\label{thm:regseqrat-four-face-terminal-classifier-completeness}
+The $\RegSeqRatUp$ terminal classifier is complete for accepted terminal reads
+exactly at the four visible faces: the $\DyadicRatCoreUp$ endpoint, radius,
+and distance ledgers; the $\StreamNameUp$ schedules; the $\RegSeqRatUp$
+regularity, classifier, and provenance rows; and the terminal $\RealUp$ seal.
+
+Thus two accepted terminal reads classify together precisely when these four
+faces agree through the displayed $\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$,
+and local $\NameCert$ rows. No quotient stream equality, host sequence
+equality, selected limit, host real equality, metric-completion point,
+ambient completeness datum, or standard bridge row is part of the classifier
+completion surface.
+\end{theorem}
+\begin{proof}
+First assemble the classifier surface. Apply
+\autoref{thm:regseqrat-four-face-terminal-pullback}; every accepted terminal
+read factors through one finite pullback whose visible faces are exactly the
+DyadicRatCore ledger face, StreamName schedule face, RegSeqRat
+regularity/classifier/provenance face, and terminal $\RealUp$ seal face.
+
+Next use route uniqueness. By
+\autoref{thm:regseqrat-four-face-terminal-route-uniqueness}, agreement on
+those four faces forces the two terminal routes to classify through the same
+displayed $\hsame$, $\Cont$, $\mathsf{Pkg}$, and local $\NameCert$ rows.
+
+For the converse, apply
+\autoref{thm:regseqrat-terminal-four-face-correspondence}. If two accepted
+terminal reads classify together, their visible four-face inventories agree,
+and if the four visible faces agree, the accepted terminal reads classify
+together.
+
+The exclusions in the cited pullback and correspondence statements remove
+quotient stream equality, host sequence equality, selected limits, host real
+equality, metric-completion points, ambient completeness, and standard bridge
+rows from the terminal classifier. Hence the four-face surface is complete for
+accepted terminal reads.
+\end{proof}
