@@ -188,6 +188,24 @@ Use the StreamName handoff and schedule lock for the consumer boundary. These fo
 Finally apply schedule coherence. Since coherent consumer reads are compared through the displayed rows and the TasteGate carrier marker, no quotient stream, host sequence equality, selected limit, ambient completeness principle, or choice-selected completion witness can be supplied by the bridge-ready surface.
 \end{proof}
 
+\begin{theorem}[ObserverRegular formal-target boundary]
+\label{thm:observerregular-formal-target-boundary}
+The Lean-facing formal target for $\ObserverRegularUp$ is exactly the finite packet
+$$
+O=(A,R,S,W,L,H,C,P,N),
+$$
+the resolving-window soundness row of \autoref{thm:observerregular-resolving-window-soundness}, prefix-resolution totality from \autoref{thm:observerregular-prefix-resolution-totality}, finite-ledger non-escape from \autoref{thm:observerregular-finite-ledger-non-escape}, the schedule lock for $\RealUp$ and $\CompletionUp$ consumers from \autoref{thm:observerregular-schedule-lock-real-completion}, schedule coherence from \autoref{thm:observerregular-schedule-coherence}, and the bridged consumer surface of \autoref{thm:observerregular-bridged-consumer-surface}. The target excludes quotient streams, host sequence equality, selected limits, ambient completeness, completion bridges, and any proof not routed through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CompletionUp$.
+\end{theorem}
+\begin{proof}
+The target begins with the carrier of \autoref{def:observerregular-prefix-carrier}. Its finite rows are the only data admitted to the proof surface: prefix and resolving-state data, schedule data, stream windows, regular-rational readbacks, transports, continuations, provenance, and the local name.
+
+The soundness and totality clauses are the first route constraints. They force every accepted prefix either to stop before a consumer-readable row or to pass through the displayed resolving state before reaching a stream window and readback.
+
+The non-escape, schedule-lock, and schedule-coherence clauses then define the consumer boundary. They keep every $\RealUp$ and $\CompletionUp$ read inside the displayed observer ledger and compare schedules only through the stored $\hsame$ and $\Cont$ rows.
+
+The final exclusion is coordinate exhaustion. Since the target contains no quotient stream coordinate, host sequence equality coordinate, selected-limit coordinate, ambient-completeness coordinate, or completion-bridge coordinate, any proof using such data is outside the stated Lean-facing boundary.
+\end{proof}
+
 \closureat{ObserverRegularUp}{obligationStr}
 \closureat{ObserverRegularUp}{scopedStr}
 \closureat{ObserverRegularUp}{publicStr}[BEDC.Derived.ObserverRegularUp.taste\_gate]

@@ -194,7 +194,7 @@ def _codex_corrective_attempt(
         target_id=_safe(target.target_id),
         target_title=_safe(target.title),
         round_idx=round_idx,
-        original_content=_safe(original_content),
+        original_content=original_content,
         rejection_reasons=_safe(reasons_block),
         cycle_history=_safe(history_blob),
     )
@@ -324,8 +324,8 @@ def _redline_check(
         target_title=_safe(target.title),
         codex_verdict=_safe(str(codex_payload.get("verdict", ""))),
         audit_score=int(codex_payload.get("audit_score", 0)),
-        content=_safe(str(codex_payload.get("content", ""))),
-        field_citations=_safe(field_citations_blob),
+        content=str(codex_payload.get("content", "")),
+        field_citations=field_citations_blob,
     )
     log_tag = f"codex_redline_{target.target_id}"
     ok, stdout, rc = _claude_exec(prompt, timeout=DEFAULT_REDLINE_TIMEOUT, log_tag=log_tag)
