@@ -28,6 +28,8 @@ SUPERVISOR_LOG = STATE_DIR / "supervisor_logs" / "supervisor.log"
 SUPERVISOR_LOG_DIR = STATE_DIR / "supervisor_logs"
 BOARD_REFILL_LOG_DIR = STATE_DIR / "board_refill_logs"
 DISCOVERY_LOG_DIR = STATE_DIR / "discovery_logs"
+RESEARCH_CANDIDATES_LATEST = STATE_DIR / "research_candidates_latest.md"
+RESEARCH_BOARD_SPAWN_LATEST = STATE_DIR / "research_board_spawn_latest.json"
 LONING_ASSIMILATION_JOURNAL = STATE_DIR / "loning_assimilation.jsonl"
 LONING_WATCH_JOURNAL = STATE_DIR / "loning_watch.jsonl"
 ORACLE_SERVER_URL = "http://localhost:8767"
@@ -902,6 +904,64 @@ def render_discovery_lane() -> str:
     return "\n".join(lines)
 
 
+def _read_research_latest_counts() -> dict[str, int]:
+    counts = {"packets": 0, "ready": 0, "blocked": 0, "oracle_recommended": 0}
+    if not RESEARCH_CANDIDATES_LATEST.exists():
+        return counts
+    try:
+        lines = RESEARCH_CANDIDATES_LATEST.read_text(
+            encoding="utf-8",
+            errors="replace",
+        ).splitlines()
+    except OSError:
+        return counts
+    for line in lines:
+        match = re.match(r"-\s+([a-z_]+):\s+(\d+)\s*$", line.strip())
+        if not match:
+            continue
+        key, value = match.groups()
+        if key in counts:
+            counts[key] = int(value)
+    return counts
+
+
+def render_research_candidate_lane() -> str:
+    counts = _read_research_latest_counts()
+    lines = [
+        (
+            f"  latest packets={counts['packets']} ready={counts['ready']} "
+            f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
+        )
+    ]
+    if not RESEARCH_BOARD_SPAWN_LATEST.exists():
+        lines.append("  append status: no research board_spawn attempt recorded")
+        return "\n".join(lines)
+    try:
+        data = json.loads(RESEARCH_BOARD_SPAWN_LATEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        lines.append("  append status: unreadable research board_spawn status")
+        return "\n".join(lines)
+    ts = _parse_iso(data.get("ts"))
+    age = _fmt_age((datetime.now(timezone.utc) - ts).total_seconds()) if ts else "?"
+    appended = data.get("appended_ids") if isinstance(data.get("appended_ids"), list) else []
+    lines.append(
+        (
+            f"  last append: {age} ago ok={data.get('ok')} ready={data.get('ready_count')} "
+            f"accepted={data.get('accepted')} rejected={data.get('rejected')} "
+            f"appended={len(appended)}"
+        )
+    )
+    error_kind = str(data.get("error_kind") or "")
+    if error_kind:
+        lines.append(f"  last append error_kind: {error_kind}")
+    if "board_judge_unavailable" in error_kind:
+        lines.append(
+            "  alert: research ready packets reached board_spawn, but judge/fallback is CLI-side unavailable; "
+            "refreshing BEDC oracle tabs will not fix this."
+        )
+    return "\n".join(lines)
+
+
 def _latest_jsonl_ts(path: Path) -> datetime | None:
     if not path.exists():
         return None
@@ -1217,6 +1277,8 @@ def main() -> int:
     print(render_board_refill())
     print(_section("Discovery Lane"))
     print(render_discovery_lane())
+    print(_section("Research Candidate Lane"))
+    print(render_research_candidate_lane())
     print(_section("Loning Assimilation"))
     print(render_loning_assimilation())
     print(_section("Target lifecycle"))
