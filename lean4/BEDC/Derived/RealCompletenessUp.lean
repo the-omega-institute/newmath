@@ -336,6 +336,37 @@ theorem RealCompletenessBHistCarrier_consumer_route_totality [AskSetup] [Package
       windowsUnary, witnessUnary, sealUnary, endpointUnary', consumerUnary, modulusSelector,
       requestDyadic, diagonalWindows, witnessSeal, endpointConsumer, endpointPkg, consumerPkg⟩
 
+theorem RealCompletenessBHistCarrier_witness_extractor_public_obligation [AskSetup]
+    [PackageSetup]
+    {family modulus selector dyadic windows readback sealRow transport route provenance cert
+      endpoint witness publicEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCompletenessBHistCarrier family modulus selector dyadic windows readback sealRow transport
+        route provenance cert endpoint bundle pkg →
+      Cont selector dyadic witness →
+        Cont witness sealRow publicEndpoint →
+          hsame publicEndpoint endpoint →
+            PkgSig bundle publicEndpoint pkg →
+              UnaryHistory selector ∧ UnaryHistory dyadic ∧ UnaryHistory witness ∧
+                UnaryHistory sealRow ∧ UnaryHistory cert ∧ UnaryHistory endpoint ∧
+                  UnaryHistory publicEndpoint ∧ hsame publicEndpoint endpoint ∧
+                    Cont selector dyadic witness ∧ Cont witness sealRow publicEndpoint ∧
+                      Cont transport route endpoint ∧ PkgSig bundle endpoint pkg ∧
+                        PkgSig bundle publicEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro carrier selectorDyadic witnessSeal publicEndpointEndpoint publicEndpointPkg
+  obtain ⟨_familyUnary, _modulusUnary, selectorUnary, dyadicUnary, _windowsUnary,
+    _readbackUnary, sealUnary, _transportUnary, _routeUnary, _provenanceUnary, certUnary,
+    endpointUnary, endpointRoute, endpointPkg⟩ := carrier
+  have witnessUnary : UnaryHistory witness :=
+    unary_cont_closed selectorUnary dyadicUnary selectorDyadic
+  have publicEndpointUnary : UnaryHistory publicEndpoint :=
+    unary_cont_closed witnessUnary sealUnary witnessSeal
+  exact
+    ⟨selectorUnary, dyadicUnary, witnessUnary, sealUnary, certUnary, endpointUnary,
+      publicEndpointUnary, publicEndpointEndpoint, selectorDyadic, witnessSeal, endpointRoute,
+      endpointPkg, publicEndpointPkg⟩
+
 theorem RealCompletenessBHistCarrier_public_seal_export [AskSetup] [PackageSetup]
     {family modulus selector dyadic windows readback sealRow transport route provenance cert
       endpoint publicRead : BHist}
