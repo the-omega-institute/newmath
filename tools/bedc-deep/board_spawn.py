@@ -37,10 +37,12 @@ import board_context
 import candidate_inbox
 import paper_index
 import logic_packet_gate
+import loning_assimilator
 
 
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "state" / "board_spawn_logs"
+LATEST_STATUS_PATH = SCRIPT_DIR / "state" / "board_spawn_latest.json"
 
 CLAUDE_PATH = shutil.which("claude") or "/opt/homebrew/bin/claude"
 DEFAULT_JUDGE_TIMEOUT = 600
@@ -306,6 +308,41 @@ def classify_judge_error(error: str) -> str:
     return "board_judge_failed"
 
 
+def _now_iso() -> str:
+    return datetime.now().astimezone().isoformat(timespec="seconds")
+
+
+def _write_latest_status(
+    *,
+    result: BoardSpawnResult,
+    codex_input: int,
+    oracle_input: int,
+    codex_alive: int,
+    oracle_alive: int,
+    cheap_drop_count: int,
+) -> None:
+    LATEST_STATUS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    error = " ".join(str(result.error or "").split())[:500]
+    record = {
+        "ts": _now_iso(),
+        "ok": result.ok,
+        "codex_input": codex_input,
+        "oracle_input": oracle_input,
+        "codex_alive": codex_alive,
+        "oracle_alive": oracle_alive,
+        "cheap_drop_count": cheap_drop_count,
+        "accepted_count": len(result.accepted),
+        "rejected_count": len(result.rejected),
+        "appended_ids": result.appended_ids,
+        "error_kind": result.error_kind,
+        "error": error,
+    }
+    LATEST_STATUS_PATH.write_text(
+        json.dumps(record, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+
 def _judge_candidates(
     *,
     codex_candidates: list[dict],
@@ -318,6 +355,12 @@ def _judge_candidates(
     template = (PROMPTS_DIR / "board_judge.txt").read_text(encoding="utf-8")
     board_content = board_context.build_board_prompt_context()
     paper_coverage_blob = paper_index.render_prompt_summary(max_chars=12000)
+    try:
+        loning_block = loning_assimilator.latest_prompt_block()
+    except Exception:
+        loning_block = ""
+    if loning_block:
+        template = template.rstrip() + "\n\n" + loning_block + "\n"
 
     codex_blob = json.dumps(codex_candidates, ensure_ascii=False, indent=2)
     oracle_blob = json.dumps(oracle_candidates, ensure_ascii=False, indent=2)
@@ -576,6 +619,8 @@ def spawn_from_candidates(
 
     Returns BoardSpawnResult with accepted/rejected/appended_ids.
     """
+    codex_input = len(codex_candidates)
+    oracle_input = len(oracle_candidates)
     if not codex_candidates and not oracle_candidates:
         return BoardSpawnResult(ok=True)
 
@@ -603,7 +648,16 @@ def spawn_from_candidates(
             f"candidates dedup'd against existing BOARD titles",
             flush=True,
         )
-        return BoardSpawnResult(ok=True, rejected=cheap_drops)
+        result = BoardSpawnResult(ok=True, rejected=cheap_drops)
+        _write_latest_status(
+            result=result,
+            codex_input=codex_input,
+            oracle_input=oracle_input,
+            codex_alive=0,
+            oracle_alive=0,
+            cheap_drop_count=len(cheap_drops),
+        )
+        return result
 
     # Step 2: claude judge (with codex+oracle source signals + paper coverage).
     print(
@@ -616,12 +670,21 @@ def spawn_from_candidates(
     )
     rejected = _hydrate_judge_rejections(rejected, codex_alive + oracle_alive)
     if err:
-        return BoardSpawnResult(
+        result = BoardSpawnResult(
             ok=False,
             error=err,
             error_kind=classify_judge_error(err),
             rejected=cheap_drops + rejected,
         )
+        _write_latest_status(
+            result=result,
+            codex_input=codex_input,
+            oracle_input=oracle_input,
+            codex_alive=len(codex_alive),
+            oracle_alive=len(oracle_alive),
+            cheap_drop_count=len(cheap_drops),
+        )
+        return result
 
     # Step 3: enforce thresholds (judge may have already, double-check defensively).
     final_accepted: list[dict] = []
@@ -666,12 +729,21 @@ def spawn_from_candidates(
     )
     all_rejected = cheap_drops + rejected + threshold_drops
     candidate_inbox.record_rejections(all_rejected, mode="board_spawn")
-    return BoardSpawnResult(
+    result = BoardSpawnResult(
         ok=True,
         accepted=final_accepted,
         rejected=all_rejected,
         appended_ids=appended_ids,
     )
+    _write_latest_status(
+        result=result,
+        codex_input=codex_input,
+        oracle_input=oracle_input,
+        codex_alive=len(codex_alive),
+        oracle_alive=len(oracle_alive),
+        cheap_drop_count=len(cheap_drops),
+    )
+    return result
 
 
 # ---------------------------------------------------------------------------

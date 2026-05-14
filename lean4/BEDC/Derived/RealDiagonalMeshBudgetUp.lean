@@ -199,4 +199,34 @@ theorem RealDiagonalMeshBudgetCarrier_nonescape
       sealUnary, downstreamUnary, qbRoute, budgetWindowRoute, omegaReadbackRoute,
       readbackLedgerRoute, sealRoute, downstreamRoute, provenanceSame, nameSame⟩
 
+theorem RealDiagonalMeshBudgetCarrier_common_refinement_seal
+    {q b omega rho delta theta e h c p n sealConsumer sharedThreshold sharedRoute
+      diagonalRoute : BHist} :
+    RealDiagonalMeshBudgetCarrier q b omega rho delta theta e h c p n ->
+      Cont theta e sealConsumer ->
+        Cont omega delta sharedThreshold ->
+          Cont sharedThreshold e sharedRoute ->
+            Cont theta sharedThreshold diagonalRoute ->
+              UnaryHistory sealConsumer ∧ UnaryHistory sharedThreshold ∧
+                UnaryHistory sharedRoute ∧ UnaryHistory diagonalRoute ∧
+                  Cont theta e sealConsumer ∧ Cont omega delta sharedThreshold ∧
+                    Cont sharedThreshold e sharedRoute ∧
+                      Cont theta sharedThreshold diagonalRoute ∧ hsame p p ∧ hsame n n := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro carrier sealRoute thresholdRoute sharedSealRoute diagonalThresholdRoute
+  obtain ⟨_qUnary, _bUnary, omegaUnary, _rhoUnary, deltaUnary, thetaUnary, eUnary,
+    _qbRoute, _budgetWindowRoute, _omegaReadbackRoute, _readbackLedgerRoute,
+    _provenanceUnary, provenanceSame, nameSame⟩ := carrier
+  have sealUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed thetaUnary eUnary sealRoute
+  have thresholdUnary : UnaryHistory sharedThreshold :=
+    unary_cont_closed omegaUnary deltaUnary thresholdRoute
+  have sharedRouteUnary : UnaryHistory sharedRoute :=
+    unary_cont_closed thresholdUnary eUnary sharedSealRoute
+  have diagonalRouteUnary : UnaryHistory diagonalRoute :=
+    unary_cont_closed thetaUnary thresholdUnary diagonalThresholdRoute
+  exact
+    ⟨sealUnary, thresholdUnary, sharedRouteUnary, diagonalRouteUnary, sealRoute,
+      thresholdRoute, sharedSealRoute, diagonalThresholdRoute, provenanceSame, nameSame⟩
+
 end BEDC.Derived.RealDiagonalMeshBudgetUp
