@@ -47,6 +47,74 @@ When $S$ is present, the consumer remains a reader of the finite source row and 
 When $S$ is absent, the only available continuation is the refusal route into $R$. The refusal row is a ledger entry rather than a supply witness, so the excluded closure, access, necessity, reduction, hidden-source, and off-packet continuation coordinates cannot be exported.
 \end{proof}
 
+\begin{theorem}[GapClosureBoundary source route exactness]
+\label{thm:gap-closure-boundary-source-route-exactness}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, any
+consumer of $B$ that reads a displayed source observation or socket row must
+route the $\mathsf{GAP}$ request row $G$ through $S$ before any application
+sibling consumes the boundary packet. The source route is the only admissible
+pre-consumption route for causal commitment, finite witnessed refutation,
+other-minds commitment, aspect-chain, and solipsism-refusal consumers.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gap-closure-boundary-carrier}. The only
+source-facing rows available to a consumer are the $\mathsf{GAP}$ request row
+$G$ and the displayed source observation or socket row $S$.
+
+Use the obligation summary of
+\autoref{thm:gap-closure-boundary-namecert-obligations}. Its source-route
+clause requires an accepted boundary consumer to exhibit $S$ before any
+application sibling may consume the packet.
+
+The refusal non-escape row of
+\autoref{thm:gap-closure-boundary-refusal-nonescape} rules out bypassing $S$ by
+turning $G$ into internal closure. Thus every accepted source-reading consumer
+uses the displayed route $G \longrightarrow S$ first.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary refusal ledger routing]
+\label{thm:gap-closure-boundary-refusal-ledger-routing}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, any
+off-source closure request is routed to the refusal ledger $R$. Such a request
+cannot export internal closure, a hidden $\mathsf{T}$ supply, or any
+continuation that bypasses the displayed source row $S$.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:gap-closure-boundary-carrier}. It contains one
+request row $G$, one displayed source row $S$, one refusal ledger $R$, and the
+structural rows $H,C,P,N$.
+
+Apply \autoref{thm:gap-closure-boundary-namecert-obligations}. Its
+refusal-ledger clause sends every closure read without the displayed source
+route to $R$ rather than to a substrate-internal closure coordinate.
+
+Now invoke \autoref{thm:gap-closure-boundary-refusal-nonescape}. The refusal
+row is a ledger endpoint, not a supply row, so it exports neither internal
+closure nor hidden $\mathsf{T}$ data.
+\end{proof}
+
+\begin{theorem}[GapClosureBoundary structural exhaustion]
+\label{thm:gap-closure-boundary-structural-exhaustion}
+For every accepted $\GapClosureBoundaryUp$ carrier $B=(G,S,R,H,C,P,N)$, the
+rows $H,C,P,N$ only transport, route, package, and locally name the same
+seven-row packet. They add no further source, refusal, closure, or hidden
+$\mathsf{T}$ coordinate.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The packet inventory is exactly
+$G,S,R,H,C,P,N$, with $H$ assigned to componentwise $\hsame$ transport, $C$ to
+displayed $\Cont$ routes, $P$ to $\Pkg$ provenance, and $N$ to the local
+$\NameCert_{\GapClosureBoundaryUp}$ row.
+
+The obligation summary identifies structural exhaustion as one of the four
+local certificate duties. Therefore the structural rows can only preserve and
+repackage the already displayed request, source, and refusal rows.
+
+Finally use refusal non-escape. Since off-source closure is routed to $R$ and
+$R$ exports no hidden supply, the structural rows have no coordinate from which
+to generate a second source, internal closure, or hidden $\mathsf{T}$ row.
+\end{proof}
+
 \falsifiablePrediction{Any accepted GapClosureBoundaryUp consumer that tries to convert a GAP request into internal closure is routed to the refusal row unless a displayed source route is present.}
 
 \independenceWitness{causalcommitment, finitewitnessedrefutation, othermindscommitment, aspectchain, solipsismgaprefusal: none is bijective to GapClosureBoundaryUp because each sibling packages one application face while this carrier contains the common GAP request plus refusal ledger consumed by all faces.}
