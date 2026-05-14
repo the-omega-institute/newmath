@@ -234,6 +234,10 @@ be an accepted $\RegularCauchyTailFiberUp$ packet whose paired windows and dyadi
 $$
 \mu,\Delta,D,W,Q,S,H,C,P,N,
 $$
+on the $\LimitSelectorUp$ side it reads
+$$
+R_L,n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L,
+$$
 and on the tail-fiber side it reads
 $$
 R_0,R_1,W_0,W_1,D_0,D_1,T,A,H_F,C_F,P_F,N_F.
@@ -241,11 +245,13 @@ $$
 The compatibility exports no quotient stream, host real equality, countable-choice selector, selected host limit, or ambient completeness theorem.
 \end{theorem}
 \begin{proof}
-First route the selected diagonal observation from the $\RealCompletenessUp$ side. Apply \autoref{thm:real-completeness-selector-route-coverage}, \autoref{thm:real-completeness-modulus-selector-factorization}, and \autoref{thm:real-completeness-selector-window-seal-factorization} to force the read through $\mu,\Delta,D,W,Q,S,H,C,P,N$.
+First route the selected diagonal observation through the $\LimitSelectorUp$ packet. Apply \autoref{thm:limit-selector-namecert-obligations} and \autoref{thm:limit-selector-finite-witness-route} to expose $R_L,n,\mu_L,k_L,W_L,D_L,S,H_L,C_L,P_L,N_L$, then use \autoref{thm:real-completeness-limitselector-handoff} to identify that selector read with the displayed diagonal rows of $R$.
 
-Next use the terminal export theorem. By \autoref{thm:real-completeness-selector-window-terminal-export}, a completion-facing consumer cannot leave the displayed selector-window-seal packet after that route has been exposed.
+Next route the same observation from the $\RealCompletenessUp$ side. Apply \autoref{thm:real-completeness-selector-route-coverage}, \autoref{thm:real-completeness-modulus-selector-factorization}, and \autoref{thm:real-completeness-selector-window-seal-factorization} to force the read through $\mu,\Delta,D,W,Q,S,H,C,P,N$.
+
+Use the terminal export theorem. By \autoref{thm:real-completeness-selector-window-terminal-export}, a completion-facing consumer cannot leave the displayed selector-window-seal packet after that route has been exposed.
 
 Now compare the shared-tail presentation. Theorem~\ref{thm:regular-cauchy-tail-fiber-shared-seal-factorization} makes the $\RegularCauchyTailMeetUp$ route and the $\RealTailAgreementSealUp$ route share the row $T$ before the seal row $A$ is read, while \autoref{thm:regular-cauchy-tail-fiber-paired-window-exactness} fixes their common support to $R_0,R_1,W_0,W_1,D_0,D_1,T$.
 
-Finally exhaust both consumer surfaces. Apply \autoref{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion} to keep every tail-fiber consumer inside $R_0,R_1,W_0,W_1,D_0,D_1,T,A,H_F,C_F,P_F,N_F$, then apply \autoref{thm:real-completeness-nonescape-boundary} and \autoref{thm:regular-cauchy-tail-fiber-nonescape}. The two non-escape boundaries exclude quotient streams, host real equality, countable-choice selectors, selected host limits, and ambient completeness, so the combined presentation has exactly the two displayed finite routes and no external completion object.
+Finally exhaust all consumer surfaces. Apply \autoref{thm:regular-cauchy-tail-fiber-seal-consumer-exhaustion} to keep every tail-fiber consumer inside $R_0,R_1,W_0,W_1,D_0,D_1,T,A,H_F,C_F,P_F,N_F$, then apply \autoref{thm:real-completeness-nonescape-boundary} and \autoref{thm:regular-cauchy-tail-fiber-nonescape}. The two non-escape boundaries exclude quotient streams, host real equality, countable-choice selectors, selected host limits, and ambient completeness, so the combined presentation has exactly three displayed finite routes: $\RealCompletenessUp$, $\LimitSelectorUp$, and $\RegularCauchyTailFiberUp$.
 \end{proof}
