@@ -970,8 +970,46 @@ def _discovery_status(data: dict) -> str:
     return suffix
 
 
+def _latest_supervisor_discovery_run() -> tuple[float, Path, str] | None:
+    if not SUPERVISOR_LOG_DIR.exists():
+        return None
+    paths: list[Path] = []
+    for pattern in ("probe_*.log", "curriculum_*.log", "paper_review_*.log", "curator_*.log"):
+        paths.extend(SUPERVISOR_LOG_DIR.glob(pattern))
+    latest: tuple[float, Path, str] | None = None
+    for path in paths:
+        try:
+            mtime = path.stat().st_mtime
+            lines = [
+                line.strip()
+                for line in path.read_text(encoding="utf-8", errors="replace").splitlines()
+                if line.strip()
+            ]
+        except OSError:
+            continue
+        detail = lines[-1] if lines else "(no log output yet)"
+        item = (mtime, path, detail)
+        if latest is None or item[0] > latest[0]:
+            latest = item
+    return latest
+
+
 def render_discovery_lane() -> str:
+    supervisor_run = _latest_supervisor_discovery_run()
     if not DISCOVERY_LOG_DIR.exists():
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            age = _fmt_age(
+                (
+                    datetime.now(timezone.utc)
+                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
+                ).total_seconds()
+            )
+            return (
+                "  (no discovery artifacts)\n"
+                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
         return "  (no discovery artifacts)"
     records: list[tuple[float, Path, dict]] = []
     for path in DISCOVERY_LOG_DIR.glob("*.json"):
@@ -985,6 +1023,19 @@ def render_discovery_lane() -> str:
         data["_mode"] = path.name.split("_", 1)[0]
         records.append((mtime, path, data))
     if not records:
+        if supervisor_run:
+            mtime, path, detail = supervisor_run
+            age = _fmt_age(
+                (
+                    datetime.now(timezone.utc)
+                    - datetime.fromtimestamp(mtime, tz=timezone.utc)
+                ).total_seconds()
+            )
+            return (
+                "  (no parseable discovery artifacts)\n"
+                f"  pending/no-artifact: supervisor {path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
         return "  (no parseable discovery artifacts)"
     records.sort(key=lambda item: item[0], reverse=True)
     now = datetime.now(timezone.utc)
@@ -1008,6 +1059,17 @@ def render_discovery_lane() -> str:
             "  note: a recent discovery maker/checker outage was Claude/Codex CLI-side; "
             "it is not a BEDC oracle tab-refresh signal."
         )
+    if supervisor_run:
+        run_mtime, run_path, detail = supervisor_run
+        latest_artifact_mtime = records[0][0]
+        if run_mtime > latest_artifact_mtime:
+            age = _fmt_age(
+                (now - datetime.fromtimestamp(run_mtime, tz=timezone.utc)).total_seconds()
+            )
+            lines.append(
+                f"  pending/no-artifact: supervisor {run_path.stem} log updated {age} ago; "
+                f"last line: {detail[:120]}"
+            )
     return "\n".join(lines)
 
 
