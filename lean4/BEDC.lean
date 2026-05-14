@@ -241,9 +241,11 @@ import BEDC.Derived.ConsciousObserverStateUp
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
+import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
 import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
+import BEDC.Derived.LargeModelActivationOrbitUp.TasteGate
 import BEDC.Derived.PromptResponseTraceUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
@@ -979,6 +981,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetCarrierRow
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetObligationRows
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootBudgetTriadExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteTerminalTotality
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootSealPackage
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootWindowRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRequestSelectorExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootSelectorLock
