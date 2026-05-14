@@ -92,6 +92,22 @@ classes, selected limits, host real equality, and ambient completion outside
 the accepted handoff.
 \end{proof}
 
+\begin{theorem}[StreamName tail-compatible window packet]
+\label{thm:streamname-tail-compatible-window-packet}
+The tail-compatible finite-window packet is exactly the tuple consisting of the unary index row, the bundle-membership row, the tail-selector route, the finite-window budget surface, the pointwise $\RegSeqRatUp$ handoff, and the support rows
+$$
+\hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Any accepted downstream $\RegSeqRatUp$ readback or finite-window $\RealUp$ seal read is classified by equality of these displayed rows and by no additional stream-level coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-tail-compatible-window-request}. It identifies the request by the certified unary observation, membership in the finite bundle, the selected tail route, the finite-window budget surface, and the pointwise $\RegSeqRatUp$ handoff.
+
+Apply \autoref{thm:streamname-tail-compatible-window-coverage}. Every admitted downstream finite-window consumer route factors through that request together with the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+
+Finally use the pointwise transport and budget handoff rows, \autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness} and \autoref{thm:streamname-real-regseq-finite-window-budget-handoff}. These rows leave no second stream source, quotient stream class, selected limit, host real equality, metric-completeness datum, or ambient completion coordinate, so equality of the displayed tuple is exactly packet equality for downstream reads.
+\end{proof}
+
 \begin{theorem}[StreamName tail-compatible window nonescape]
 \label{thm:streamname-tail-compatible-window-nonescape}
 The tail-compatible finite-window packet exported from $\StreamNameUp$ to
