@@ -66,6 +66,46 @@ Apply \autoref{thm:cellular-substrate-namecert-obligations}. The read must use t
 The route has no coordinate for host cellular automaton equality, infinite grid data, hidden scheduler state, or an unbounded update oracle. Thus every accepted read remains a finite cellular-substrate carrier read.
 \end{proof}
 
+\begin{theorem}[Cellular substrate window exposure obligation]
+\label{thm:cellular-substrate-window-exposure-obligation}
+Every accepted $\CellularSubstrateUp$ carrier exposes the neighbourhood-window row $N$ before any accepted local update route $U$ can be replayed. Equivalently, a local-update read of
+$$
+Q=(S,N,U,G,H,C,P,L)
+$$
+must pass through the displayed $\BHist$ window row, the local $\hsame$ transport row, the displayed $\Cont$ route, the $\Pkg$ provenance, and the local $\NameCert_{\CellularSubstrateUp}$ row before it cites $U$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cellular-substrate-carrier}. The tuple displays $N$ as a separate neighbourhood-window row and $U$ as the local update route, so the update route has no independent host-side source.
+
+Apply \autoref{thm:cellular-substrate-namecert-obligations}. Its carrier-exposure and classifier-accountability rows require accepted reads to name the displayed neighbourhood window before they name the displayed transition route.
+
+Finally use \autoref{thm:cellular-substrate-local-update-nonescape}. The only replay route is the finite path through $S,N,U,G,H,C,P,L$, hence a local update cannot bypass $N$ or acquire an infinite-grid, scheduler, or host evaluator coordinate.
+\end{proof}
+
+\begin{theorem}[Cellular substrate classifier stability obligation]
+\label{thm:cellular-substrate-classifier-stability-obligation}
+Componentwise $\hsame$ transport in the row $H$ preserves the $\CellularSubstrateUp$ classifier on the cell-state row $S$, neighbourhood-window row $N$, local update route $U$, global-step ledger $G$, continuation row $C$, provenance row $P$, and local $\NameCert_{\CellularSubstrateUp}$ row $L$. No transported read can replace these rows by host cellular automaton equality, an infinite grid, a hidden scheduler, or an unbounded update oracle.
+\end{theorem}
+\begin{proof}
+Project $Q=(S,N,U,G,H,C,P,L)$ through \autoref{def:cellular-substrate-carrier}. The transport coordinate $H$ is declared componentwise for exactly the displayed cell-state, neighbourhood, update, ledger, continuation, provenance, and naming rows.
+
+Use \autoref{thm:cellular-substrate-namecert-obligations}. Its stability row is local to those same displayed coordinates and therefore transports the classifier without creating another equality surface.
+
+The non-escape theorem \autoref{thm:cellular-substrate-local-update-nonescape} rules out every hidden host evaluator, infinite grid, scheduler, and unbounded update oracle after transport. Thus classifier stability remains a $\BHist/\hsame/\Cont/\Pkg/\NameCert$ statement about the packet rows.
+\end{proof}
+
+\begin{theorem}[Cellular substrate ledger replay obligation]
+\label{thm:cellular-substrate-ledger-replay-obligation}
+Audit-route replay through the global-step ledger $G$, continuation row $C$, provenance row $P$, and local naming row $L$ exhausts all accepted $\CellularSubstrateUp$ reads. The replay exports only the finite cellular-substrate packet and never exports a hidden host evaluator, infinite grid, scheduler, or unbounded update oracle.
+\end{theorem}
+\begin{proof}
+Start with an accepted cellular-substrate read and project the carrier by \autoref{def:cellular-substrate-carrier}. The only ledgered route available after the local update row is $G,C,P,L$.
+
+Apply \autoref{thm:cellular-substrate-namecert-obligations}. Its exactness and ledger-provenance rows state that accepted reads replay the finite global-step ledger through the displayed continuation and package rows before entering the local NameCert row.
+
+Now cite \autoref{thm:cellular-substrate-local-update-nonescape}. Since the complete route already factors through $S,N,U,G,H,C,P,L$, the audit replay has no coordinate from which to export a hidden evaluator, infinite grid, scheduler, or unbounded oracle.
+\end{proof}
+
 The Lean file \texttt{Derived/CellularSubstrateUp/TasteGate.lean} must later include \texttt{Nontrivial CellularSubstrateUp} and \texttt{FieldFaithful CellularSubstrateUp} instances for the displayed carrier.
 
 \closureat{CellularSubstrateUp}{seedStr}
