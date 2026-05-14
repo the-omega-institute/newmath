@@ -3,7 +3,7 @@ title: "Goedel Boundary as Data"
 subtitle: "Two layers at which incompleteness becomes a measurable number. The dependent-codomain obstruction in MetaCIC. The cook compile-frontier in the rule110 substrate. Both are quantified."
 author: "The Omega Institute"
 date: 2026-05-14
-description: "Goedel's second incompleteness theorem is usually treated as a wall. BEDC treats it as data. The same boundary appears at the meta-theory layer (four subject-reduction hypotheses) and at the cellular substrate layer (cook compile-frontier 64p/64t needed vs current frontier 16p/32t). The wall has coordinates."
+description: "Goedel's second incompleteness theorem is usually treated as a wall. BEDC treats it as data. The same boundary appears at the meta-theory layer (four subject-reduction hypotheses) and at the cellular substrate layer (cook compile-frontier: halted TM needs ~64p/64t; current substrate reaches (8,8,16384) balanced, with extremes up to P=16 and T=32 across cases). The wall has coordinates."
 ---
 
 ```{=html}
@@ -42,21 +42,22 @@ The rule110 sub-project implements the Cook 2009 construction end-to-end: a Turi
 The pipeline has been exercised end-to-end on small inputs. The largest cyclic-tag round-trips currently passing inside the substrate are documented in `rule110/STATUS.md`:
 
 ```text
-Scale frontier: largest passing = scale_2p_16t_16384
+Scale frontier: largest passing = scale_8p_8t_16384
 
-Cook packet scale cases:
-  (P=2,  T=16, S=16384)
-  (P=8,  T=8,  S=16384)
-  (P=4,  T=16, S=32768)
-  (P=2,  T=32, S=32768)
-  (P=16, T=2,  S=8192)
+Cook packet scale cases (all PASS):
+  (P=2,  T=2,  S=1024)    (P=3,  T=3,  S=2048)
+  (P=4,  T=4,  S=4096)    (P=5,  T=5,  S=8192)
+  (P=3,  T=8,  S=8192)    (P=2,  T=16, S=16384)
+  (P=8,  T=4,  S=8192)    (P=6,  T=6,  S=16384)
+  (P=4,  T=16, S=32768)   (P=2,  T=32, S=32768)
+  (P=16, T=2,  S=8192)    (P=8,  T=8,  S=16384)
 ```
 
-`(P, T, S)` is *productions, tape symbols, Rule 110 steps*. So the substrate has been exercised up to 16 productions, 32 tape symbols, 32768 steps, in some combination.
+`(P, T, S)` is *productions, tape symbols, Rule 110 steps*. So the substrate has been exercised across 12 configurations, with $P \cdot T$ peaking at 64 (e.g. `(8,8)`, `(4,16)`, `(2,32)`, `(16,2)`), and extreme single-axis cases reaching $P=16$ or $T=32$ separately. The largest balanced case is $(8, 8, 16384)$.
 
 The smallest *halted* Turing machine — one with no transition rules and a single halt state — compiles, under Cook 2009 §1.2/§1.3, to a cyclic tag system of approximately 64 productions and 64 tape symbols. The minimum is not zero or even small. The compilation is polynomial-time, in the sense Cook proved, but the constants are large enough that even a no-op TM lands at 64p/64t.
 
-The gap between *what is needed to run a real TM* and *what the substrate currently runs* is therefore approximately a factor of 4 in production count and a factor of 2 in tape size. This is the cook compile-frontier — the empirical place where the cellular substrate stops being able to host a universal computation it is *theoretically* universal enough to host.
+The gap between *what is needed to run a real TM* and *what the substrate currently runs* is therefore roughly a factor of 64 in the $P \cdot T$ product (current peak 64 vs target $64 \cdot 64 = 4096$), a factor of 4 in max production count, and a factor of 2 in max tape size. This is the cook compile-frontier — the empirical place where the cellular substrate stops being able to host a universal computation it is *theoretically* universal enough to host.
 
 This is the other face of the Goedel boundary. The substrate is universal in principle (Cook 2004 proved that). The substrate is *not yet* universal in practice (you can't run a real Turing machine inside it at present scale). The distance from "in principle" to "in practice" is finite and measurable.
 
@@ -124,7 +125,7 @@ What the project will have done by then is *trace the boundary across layers*, *
 
 It is not a claim to have evaded Goedel. The second incompleteness theorem is correct; the project takes it as a structural fact. The two layers of boundary described above are *applications* of Goedel, not refutations.
 
-It is not a claim that engineering will close the boundary indefinitely. Closing the cook compile-frontier from 16p to 64p is a finite engineering task. Closing the dependent-codomain hypotheses is potentially much harder, possibly impossible inside the project's constraints. The honesty is in the bookkeeping, not in optimism about completion.
+It is not a claim that engineering will close the boundary indefinitely. Closing the cook compile-frontier from the current $P \cdot T = 64$ peak to the halted-TM target $P \cdot T = 4096$ is a finite engineering task. Closing the dependent-codomain hypotheses is potentially much harder, possibly impossible inside the project's constraints. The honesty is in the bookkeeping, not in optimism about completion.
 
 It is not a methodology paper. It is a position: that the second incompleteness theorem becomes more useful when you treat its consequences as data points rather than as a single abstract wall.
 
