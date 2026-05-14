@@ -152,3 +152,19 @@ Now route the bounded consumer through \autoref{thm:streamname-real-observation-
 
 Finally apply \autoref{thm:streamname-regseqrat-realup-terminal-source-lock}. The terminal lock identifies the common source surface with the lock packet of \autoref{def:streamname-regseqrat-realup-terminal-source-lock}: the finite $\BHist$ window, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows together with the accepted $\RegSeqRat$ and induced $\RealUp$ seal rows. Since none of the cited routes carries quotient streams, host sequence equality, selected limits, ambient completeness, an independent Real carrier, or metric-completeness data, none is exported by the terminal factorization.
 \end{proof}
+
+\begin{theorem}[StreamName Real terminal quotient refusal]
+\label{thm:streamname-real-terminal-quotient-refusal}
+Any finite-window $\StreamNameUp$ packet consumed by $\RegSeqRatUp$, sealed as $\RealUp$, and then read by a $\QuotientStreamRefusalUp$ consumer factors first through the terminal source lock of \autoref{def:streamname-regseqrat-realup-terminal-source-lock} and then through the refusal ledger of the $\QuotientStreamRefusalUp$ route. The source-facing part of the read is exactly the finite $\BHist$ window, accepted $\RegSeqRat$ pointwise row, induced $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row already locked by the terminal source packet.
+
+Requests for quotient stream equality, host sequence equality, selected limits, hidden tail oracles, ambient completeness, or metric-completeness rows are routed to refusal rather than exported as completion coordinates.
+\end{theorem}
+\begin{proof}
+Start with the terminal factorization. By \autoref{thm:streamname-real-terminal-factorization}, every Real-facing read of the finite StreamName-to-RegSeqRat-to-Real packet has the common source surface consisting only of the finite window, accepted pointwise row, induced seal row, componentwise transport, displayed continuation, provenance, and local naming rows.
+
+Identify that source surface with the explicit lock packet of \autoref{def:streamname-regseqrat-realup-terminal-source-lock}. The lock contains no quotient stream, host sequence equality, selected limit, hidden tail oracle, ambient completeness row, independent Real carrier, or metric-completeness coordinate, so none of those objects is available before the refusal consumer is consulted.
+
+Now pass the locked packet to the $\QuotientStreamRefusalUp$ consumer. Apply \autoref{thm:quotient-stream-refusal-nonescape-route}: a completion-facing request that leaves the displayed finite route is sent to the refusal row and exports no completion coordinate.
+
+Finally use \autoref{thm:quotient-stream-refusal-terminal-route-exhaustion}. The terminal refusal route exhausts the accepted read by the displayed route and refusal rows, with transport, replay, provenance, and naming attached to that route. Thus the StreamName terminal packet reaches the refusal ledger, while quotient equality, host equality, selected limits, hidden tail data, ambient completeness, and metric-completeness rows remain refused rather than exported.
+\end{proof}

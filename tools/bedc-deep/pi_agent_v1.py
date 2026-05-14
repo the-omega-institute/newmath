@@ -282,16 +282,18 @@ def _codex_exec(prompt: str, *, timeout: int, log_tag: str) -> tuple[bool, str, 
         raw = output_file.read_text(encoding="utf-8", errors="replace")
     if not raw:
         raw = stdout
+    if not raw and rc != 0:
+        raw = stderr
     return (rc == 0, raw, rc)
 
 
-def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
+def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str, str]:
     ok, stdout, rc = _claude_exec(prompt, timeout=PI_TIMEOUT_S, log_tag="pi_v1_review")
     if ok:
         parsed = _extract_json_object(stdout)
         if parsed:
             parsed.setdefault("_review_source", "claude")
-            return (True, parsed, "claude", stdout)
+            return (True, parsed, "claude", stdout, "")
         claude_error = "claude output was not JSON"
     else:
         claude_error = f"claude unavailable rc={rc}: {stdout[:500]}"
@@ -310,13 +312,56 @@ def _run_pi_planner(prompt: str) -> tuple[bool, dict | None, str, str]:
         log_tag="pi_v1_review_codex_fallback",
     )
     if not ok:
-        return (False, None, "codex_fallback", raw)
+        return (
+            False,
+            None,
+            "codex_fallback",
+            raw,
+            _planner_error_kind(raw, rc=rc, claude_error=claude_error),
+        )
     parsed = _extract_json_object(raw)
     if not parsed:
-        return (False, None, "codex_fallback", raw)
+        return (
+            False,
+            None,
+            "codex_fallback",
+            raw,
+            _planner_error_kind(raw, rc=rc, claude_error=claude_error),
+        )
     parsed.setdefault("_review_source", "codex_fallback")
     parsed.setdefault("_fallback_reason", claude_error[:500])
-    return (True, parsed, "codex_fallback", raw)
+    return (True, parsed, "codex_fallback", raw, "")
+
+
+def _planner_error_kind(raw: str, *, rc: int, claude_error: str = "") -> str:
+    text = " ".join(str(raw or "").split()).lower()
+    claude_text = str(claude_error or "").lower()
+    claude_kind = ""
+    if "not logged in" in claude_text or "please run /login" in claude_text:
+        claude_kind = "claude_not_logged_in"
+    elif "claude output was not json" in claude_text:
+        claude_kind = "claude_non_json"
+    elif "claude unavailable" in claude_text:
+        claude_kind = "claude_unavailable"
+
+    codex_kind = ""
+    if "failed to initialize in-process app-server client" in text:
+        codex_kind = "codex_sandbox_init_failed"
+    elif "operation not permitted" in text:
+        codex_kind = "codex_operation_not_permitted"
+    elif "timed out" in text:
+        codex_kind = "codex_timeout"
+    if claude_kind or codex_kind:
+        return "planner_unavailable:" + "+".join(
+            part for part in (claude_kind, codex_kind) if part
+        )
+    if rc != 0:
+        if not text:
+            return f"planner_fallback_empty_rc:{rc}"
+        return f"planner_fallback_failed_rc:{rc}"
+    if not text:
+        return "planner_fallback_empty_output"
+    return "planner_fallback_non_json_output"
 
 
 # ---------------------------------------------------------------------------
@@ -1471,7 +1516,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
     template = PI_V1_PROMPT_PATH.read_text(encoding="utf-8")
     snapshot_blob = json.dumps(snapshot, ensure_ascii=False, indent=2)
     prompt = template.format(snapshot=_safe(snapshot_blob[:30000]))
-    ok, plan, review_source, stdout = _run_pi_planner(prompt)
+    ok, plan, review_source, stdout, error_kind = _run_pi_planner(prompt)
 
     applied: list[dict] = []
     inbox: list[str] = []
@@ -1585,6 +1630,7 @@ def run_review(supervisor_callbacks: dict | None = None) -> dict | None:
         "ts": _now_iso(),
         "ok": ok,
         "review_source": review_source,
+        "error_kind": error_kind,
         "snapshot_summary": {
             "branch": snapshot.get("current_branch"),
             "completion_rates": snapshot.get("completion_rates"),
