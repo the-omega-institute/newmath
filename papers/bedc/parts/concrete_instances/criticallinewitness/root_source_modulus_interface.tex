@@ -1,0 +1,43 @@
+\begin{theorem}[Critical-line witness source normalization interface]
+\label{thm:critical-line-witness-source-normalization-interface}
+Every accepted $\CriticalLineWitnessUp$ packet first exposes the supplied zero row from $\ZetaZerosUp$, the critical-strip row from $\CritStripUp$, the depth row from $\NatUp$, the rational comparison row from $\RatUp$, and the real-part row from $\RealUp$ through the finite surface
+$$
+Z,S,M,R,Q,H,C,P,N.
+$$
+No downstream RH-boundary consumer may read a modulus, comparison, or naming row before this supplied source surface is visible.
+\end{theorem}
+\begin{proof}
+Start with the local NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations}. They make the accepted carrier and its naming row a finite packet over $Z,S,M,R,Q,H,C,P,N$.
+
+Apply the root-unblock source triad of \autoref{thm:critical-line-witness-root-unblock-source-triad}. It exposes the supplied zero row, critical-strip row, and source-facing comparison row before downstream use.
+
+Finally use the terminal zero-source totality of \autoref{thm:critical-line-witness-terminal-zero-source-totality}. The terminal source route begins at the displayed $\ZetaZerosUp$ and $\CritStripUp$ rows and reaches the $\NatUp$, $\RatUp$, and $\RealUp$ reads only through the same structural rows $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness modulus ledger interface]
+\label{thm:critical-line-witness-modulus-ledger-interface}
+For every accepted $\CriticalLineWitnessUp$ packet, all modulus and comparison reads factor through
+$$
+M,R,Q,H,C,P,N
+$$
+after the supplied zero and strip rows $Z,S$ have been exposed. The modulus row $M$ answers only displayed $\NatUp$ depth requests, the real-part row $R$ supplies the $\RealUp$ read, and the rational ledger $Q$ supplies the $\RatUp$ comparison boundary.
+\end{theorem}
+\begin{proof}
+First expose the source rows by \autoref{thm:critical-line-witness-source-normalization-interface}. This places every modulus request downstream of the supplied $\ZetaZerosUp$ zero row and $\CritStripUp$ strip row.
+
+Apply the NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations}. The modulus-discipline and ledger-exactness rows attach $M$ to the displayed depth request and attach $R,Q$ to the real-part and rational comparison reads.
+
+Then use \autoref{thm:critical-line-witness-terminal-zero-source-totality}. It keeps terminal consumers on the same route rows $H,C,P,N$, so the modulus and comparison interface cannot bypass the supplied zero-strip rows.
+\end{proof}
+
+\begin{theorem}[Critical-line witness RH refusal interface]
+\label{thm:critical-line-witness-rh-refusal-interface}
+The combined critical-line witness interface over $Z,S,M,R,Q,H,C,P,N$ refuses $\mathsf{RH}$ proof content, global zero classification, zero search, host equality, quotient representatives, analytic continuation, and ambient completeness. It exports only the supplied zero-strip rows, modulus row, real-part row, rational comparison ledger, transports, continuations, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:critical-line-witness-source-normalization-interface} and \autoref{thm:critical-line-witness-modulus-ledger-interface} to assemble the source and comparison sides of the finite packet. Together they expose exactly $Z,S,M,R,Q,H,C,P,N$.
+
+Apply the terminal RH-refusal exactness of \autoref{thm:critical-line-witness-terminal-rh-refusal-exactness}. It identifies the RH-facing terminal boundary with the finite packet and excludes proof content, global classification, search, quotient representatives, analytic continuation, and completeness.
+
+The same exclusion also removes host equality as a source for the packet rows. Hence downstream RH-boundary consumers receive a refusal interface rather than an analytic or global-zero certificate.
+\end{proof}

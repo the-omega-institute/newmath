@@ -106,6 +106,7 @@ import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
 import BEDC.Derived.CauchyDiagonalBudgetUp
+import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.PiApplicationAdequacyRouteUp.TasteGate
 import BEDC.Derived.PolicyUp
