@@ -1,0 +1,22 @@
+\section{StreamName Open-Phase Dependency Lattice}
+\label{sec:streamname-open-phase-dependency-lattice}
+
+\begin{theorem}[StreamName RegSeqRat Real open-phase dependency lattice]
+\label{thm:streamname-regseqrat-real-open-phase-dependency-lattice}
+Every Phase Real and Completion consumer of an accepted finite $\StreamNameUp$ window whose route reaches the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert} and the $\RealUp$ seal surface of \autoref{ch:concrete-instances-real-namecert} factors through the ordered finite route
+$$
+\StreamNameUp\text{ window}\longrightarrow \RegSeqRatUp\text{ readback}\longrightarrow \DyadicRatCoreUp\text{ ledger}\longrightarrow \RealUp\text{ seal}.
+$$
+The $\DyadicRatCoreUp$ ledger is the observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. Along the route the only public coordinates available to the consumer are displayed $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows attached to the four finite surfaces.
+
+Thus the open-phase lattice exposes a finite BEDC route from StreamName windows into RegSeqRat readback, DyadicRatCore ledger data, and the Real seal. It exports no quotient stream, no host sequence equality, no selected limit, no ambient $\RealUp$ completeness row, no metric-completeness datum, and no standard bridge row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-open-phase-terminal-route}. It places the Phase Real and Completion consumer on the accepted terminal finite packet and names the StreamName window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal row, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next use \autoref{thm:streamname-open-phase-four-face-lock}. The terminal packet is read as the ordered four-face route from the StreamName window through RegSeqRat readback and the DyadicRatCore ledger into the Real seal. This removes any interpretation in which those faces are independent carrier routes.
+
+Now invoke \autoref{thm:streamname-regseqrat-real-dyadic-window-pullback}. The four faces occupy one finite pullback surface, so a consumer reaching the RegSeqRat and Real surfaces must pass through the same finite StreamName-to-RegSeqRat-to-DyadicRatCore-to-Real packet.
+
+Finally apply \autoref{thm:streamname-regseqrat-real-dyadic-pullback-consumer-exhaustion}. The consumer can project only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows on that pullback. Since those rows contain no coordinate for quotient streams, host sequence equality, selected limits, ambient Real completeness, metric-completeness data, or standard bridge rows, none of those objects is exported by the open-phase lattice.
+\end{proof}
