@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObservationBudgetLimiterUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -318,5 +330,71 @@ theorem ObservationBudgetLimiterTasteGate_single_carrier_alignment :
       · intro x y heq
         exact observationBudgetLimiterToEventFlow_injective heq
       · rfl
+
+def ObservationBudgetLimiterCarrier [AskSetup] [PackageSetup]
+    (E B K W D R S H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  UnaryHistory E ∧ UnaryHistory B ∧ UnaryHistory K ∧ UnaryHistory W ∧
+    UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory H ∧
+      UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧ Cont E B K ∧
+        Cont K W D ∧ Cont W D R ∧ Cont R S C ∧ PkgSig bundle P pkg
+
+theorem ObservationBudgetLimiterCarrier_cap_admission [AskSetup] [PackageSetup]
+    {E B K W D R S H C P N consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObservationBudgetLimiterCarrier E B K W D R S H C P N bundle pkg →
+      Cont C S consumer →
+      PkgSig bundle consumer pkg →
+        UnaryHistory consumer ∧ Cont E B K ∧ Cont K W D ∧ Cont W D R ∧
+          Cont R S C ∧ Cont C S consumer ∧ PkgSig bundle P pkg ∧
+            PkgSig bundle consumer pkg ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row P ∧ UnaryHistory row)
+                (fun row : BHist => hsame row P)
+                (fun row : BHist => hsame row P ∧ PkgSig bundle P pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨_eUnary, _bUnary, _kUnary, _wUnary, _dUnary, _rUnary, sUnary,
+    _hUnary, cUnary, pUnary, _nUnary, ebRoute, kwRoute, wdRoute, rsRoute,
+    pPkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed cUnary sUnary consumerRoute
+  have sourceP : (fun row : BHist => hsame row P ∧ UnaryHistory row) P := by
+    exact And.intro (hsame_refl P) pUnary
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row P ∧ UnaryHistory row)
+        (fun row : BHist => hsame row P)
+        (fun row : BHist => hsame row P ∧ PkgSig bundle P pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro P sourceP
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other same source
+          exact And.intro (hsame_trans (hsame_symm same) source.left)
+            (unary_transport source.right same)
+      }
+      pattern_sound := by
+        intro _row source
+        exact source.left
+      ledger_sound := by
+        intro _row source
+        exact And.intro source.left pPkg
+    }
+  exact
+    ⟨consumerUnary, ebRoute, kwRoute, wdRoute, rsRoute, consumerRoute, pPkg,
+      consumerPkg, cert⟩
 
 end BEDC.Derived.ObservationBudgetLimiterUp
