@@ -1,0 +1,98 @@
+\begin{theorem}[$\ZNormalUp$ terminal row constructor exhaustion]
+\label{thm:znormal-terminal-row-constructor-exhaustion}
+For every accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the terminal row constructor surface is exhausted by typed endpoint $T$,
+finite fuel $F$, terminal-normality $V$, sibling normal-word evidence $K$,
+terminal readback $R$, componentwise $\hsame$ transport $H$, displayed
+$\Cont$ replay $C$, package provenance $P$, and local
+$\NameCert_{\ZNormalUp}$ row $N$. It constructs no host conversion, quotient
+normalization, unrestricted evaluation, divergence detection, or global
+normalization row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:znormal-carrier}. The accepted packet
+lists exactly $T,F,V,K,R,H,C,P,N$ as the root terminal constructor inventory.
+
+Apply \autoref{thm:znormal-namecert-obligations}. Carrier admission, typed
+endpoint readback, finite fuel, terminal normality, sibling normal-word
+evidence, continuation readback, transport, replay, provenance, and local
+naming are the displayed NameCert obligations for the same packet.
+
+Use \autoref{thm:znormal-terminal-readback-exactness} and
+\autoref{thm:znormal-sibling-normalword-handoff}. Terminal readback is routed
+through the finite terminal rows, and $K$ is only the finite sibling
+normal-word handoff.
+
+Finally apply \autoref{thm:znormal-root-tastegate-field-surface}. The
+TasteGate-facing field surface is the same packet surface, so no constructor
+row can be reinterpreted as host conversion, quotient normalization,
+unrestricted evaluation, divergence detection, or global normalization.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ fuel replay nondivergence boundary]
+\label{thm:znormal-fuel-replay-nondivergence-boundary}
+For an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N),
+$$
+the fuel replay boundary is the finite path from $T$ through $F$ to $V$ and
+$R$, transported and replayed by $H,C,P,N$, with $K$ available only as finite
+sibling normal-word evidence. This boundary records nondivergence of the
+displayed replay route without exporting divergence detection, unrestricted
+evaluation, host conversion, quotient normalization, or global normalization.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:znormal-carrier} and
+\autoref{thm:znormal-namecert-obligations}. Together they expose the finite
+fuel row $F$ beside the typed endpoint, terminal-normality, continuation,
+transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:znormal-terminal-readback-exactness}. The replayed terminal
+read is the displayed route through $T,F,V,R,H,C,P,N$, not a host evaluator.
+
+Attach the sibling side by
+\autoref{thm:znormal-sibling-normalword-handoff}. The row $K$ remains finite
+normal-word evidence and does not become a quotient normalizer or a global
+normalizer.
+
+Finally apply \autoref{thm:znormal-root-tastegate-field-surface}. Since the
+TasteGate-facing packet has exactly the rows $T,F,V,K,R,H,C,P,N$, the fuel
+replay boundary can certify only the displayed nondivergence route and cannot
+decide arbitrary divergence or unrestricted evaluation.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ total host consumer factorization]
+\label{thm:znormal-total-host-consumer-factorization}
+Every total-host consumer of an accepted $\ZNormalUp$ packet factors through
+the finite packet
+$$
+Z=(T,F,V,K,R,H,C,P,N).
+$$
+The factorization first reads typed endpoint, fuel, terminal-normality,
+sibling normal-word, and terminal readback rows, and then moves only through
+$H,C,P,N$. It has no route to host conversion, quotient normalization,
+unrestricted evaluation, divergence detection, or global normalization.
+\end{theorem}
+\begin{proof}
+Project the carrier and local NameCert surface using
+\autoref{def:znormal-carrier} and
+\autoref{thm:znormal-namecert-obligations}. These rows give the complete
+consumer inventory and bind it to one local naming certificate.
+
+Apply \autoref{thm:znormal-terminal-readback-exactness}. Any terminal read of
+the consumer must pass through the finite terminal route, including $R$ and
+the structural rows $H,C,P,N$.
+
+Use \autoref{thm:znormal-sibling-normalword-handoff} to account for $K$. The
+normal-word component is the sibling handoff surface, not an additional host
+normalization channel.
+
+Finally use \autoref{thm:znormal-root-tastegate-field-surface}. The
+TasteGate-facing field surface is already the same tuple, so a total-host
+consumer factors through the packet and cannot extract host conversion,
+quotient normalization, unrestricted evaluation, divergence detection, or
+global normalization.
+\end{proof}

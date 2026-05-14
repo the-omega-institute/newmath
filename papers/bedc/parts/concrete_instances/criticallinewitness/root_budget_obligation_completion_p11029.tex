@@ -1,0 +1,37 @@
+\begin{theorem}[Critical-line witness root budget obligation]
+\label{thm:critical-line-witness-root-budget-obligation}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. The root budget read of $W$ is exhausted by the supplied zero row $Z$, critical-strip row $S$, modulus row $M$, real-part row $R$, rational comparison ledger $Q$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\CriticalLineWitnessUp}$ row $N$.
+
+Every downstream read of the root budget factors through the existing root source triad, root comparison ledger, and RH-refusal non-escape rows. It receives no $\mathsf{RH}$ proof data, global zero classifier, quotient representative, analytic-continuation certificate, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the root source triad of \autoref{thm:critical-line-witness-root-source-triad}. It displays the supplied zero row, critical-strip row, and rational comparison ledger as the source side of the accepted packet.
+
+Use the root comparison ledger of \autoref{thm:critical-line-witness-root-comparison-ledger}. The comparison read is routed through $M,R,Q,H,C,P,N$, so the root budget cannot branch into a host zero classifier or quotient representative.
+
+Finally apply the RH-refusal non-escape surface, including \autoref{thm:critical-line-witness-rh-refusal-ledger}. The refused proof, analytic-continuation, host-equality, and ambient-completeness reads are absent from the displayed packet, so the root budget is exhausted by $Z,S,M,R,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Critical-line witness zero-strip budget transport]
+\label{thm:critical-line-witness-zero-strip-budget-transport}
+For an accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, the zero-strip budget transported from the supplied zero row $Z$ to the downstream comparison surface is exactly the finite route through $S,M,R,Q,H,C,P,N$. The transport may cite the root source triad, the root comparison ledger, and the RH-refusal non-escape rows, but it exports no $\mathsf{RH}$ proof data, global zero classifier, quotient representative, analytic-continuation certificate, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the zero-strip source from \autoref{thm:critical-line-witness-root-source-triad}. The rows $Z$ and $S$ are displayed before any downstream comparison reads the packet.
+
+Attach the comparison side by \autoref{thm:critical-line-witness-root-comparison-ledger}. The modulus, real-part, and rational comparison rows are carried by $M,R,Q$ and stabilized by $H,C,P,N$.
+
+Use the RH-refusal non-escape rows to close the transport. Since the refusal ledger has no analytic continuation, host equality, quotient representative, global zero classifier, ambient completeness, or $\mathsf{RH}$ proof coordinate, the zero-strip budget remains the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Critical-line witness root refusal budget exhaustion]
+\label{thm:critical-line-witness-root-refusal-budget-exhaustion}
+Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet. Every root refusal budget for downstream $\mathsf{RH}$-facing, zero-strip-facing, or comparison-facing reads is exhausted by the same finite carrier rows $Z,S,M,R,Q,H,C,P,N$. The refusal budget records absence of $\mathsf{RH}$ proof data, global zero classifiers, quotient representatives, analytic-continuation certificates, host equality, and ambient completeness; it does not turn any refused object into a proof row.
+\end{theorem}
+\begin{proof}
+Begin with the root budget obligation above. It identifies the finite root budget available to downstream consumers and leaves no hidden branch outside $Z,S,M,R,Q,H,C,P,N$.
+
+Transport the zero-strip side by \autoref{thm:critical-line-witness-zero-strip-budget-transport}. The zero row, strip row, modulus row, real-part row, and rational ledger remain one displayed route under $H,C,P,N$.
+
+Finally apply the RH-refusal non-escape rows, especially \autoref{thm:critical-line-witness-rh-refusal-ledger} and \autoref{thm:critical-line-witness-root-rh-boundary-refusal}. They record the refused analytic and host-level demands as absent coordinates, so the refusal budget is exhausted by the packet rather than by an external proof surface.
+\end{proof}
